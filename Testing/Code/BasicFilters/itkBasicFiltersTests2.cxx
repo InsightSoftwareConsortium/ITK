@@ -28,5 +28,8 @@ void RegisterTests()
 {
   REGISTER_TEST(itkBasicFiltersPrintTest );
   REGISTER_TEST(itkBasicFiltersPrintTest2 );
+  REGISTER_TEST(itkXorImageFilterTest );
+  REGISTER_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest );
+  REGISTER_TEST(itkZeroCrossingImageFilterTest );
 }
 

@@ -194,9 +194,9 @@ ADD_TEST(itkWarpImageFilterTest ${BASIC_FILTERS_TESTS} itkWarpImageFilterTest)
 ADD_TEST(itkWarpVectorImageFilterTest ${BASIC_FILTERS_TESTS} itkWarpVectorImageFilterTest)
 ADD_TEST(itkWeightedAddImageFilterTest ${BASIC_FILTERS_TESTS} itkWeightedAddImageFilterTest)
 ADD_TEST(itkWrapPadImageTest ${BASIC_FILTERS_TESTS} itkWrapPadImageTest)
-ADD_TEST(itkXorImageFilterTest ${BASIC_FILTERS_TESTS} itkXorImageFilterTest)
-ADD_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS} itkZeroCrossingBasedEdgeDetectionImageFilterTest)
-ADD_TEST(itkZeroCrossingImageFilterTest ${BASIC_FILTERS_TESTS} itkZeroCrossingImageFilterTest)
+ADD_TEST(itkXorImageFilterTest ${BASIC_FILTERS_TESTS2} itkXorImageFilterTest)
+ADD_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS2} itkZeroCrossingBasedEdgeDetectionImageFilterTest)
+ADD_TEST(itkZeroCrossingImageFilterTest ${BASIC_FILTERS_TESTS2} itkZeroCrossingImageFilterTest)
 
 ADD_TEST(itkOrientImageFilterTest ${BASIC_FILTERS_TESTS} itkOrientImageFilterTest)
 
@@ -666,9 +666,6 @@ itkWarpImageFilterTest.cxx
 itkWarpVectorImageFilterTest.cxx
 itkWeightedAddImageFilterTest.cxx
 itkWrapPadImageTest.cxx
-itkXorImageFilterTest.cxx
-itkZeroCrossingBasedEdgeDetectionImageFilterTest.cxx
-itkZeroCrossingImageFilterTest.cxx
 
 itkNarrowBandTest.cxx
 itkNarrowBandImageFilterBaseTest.cxx
@@ -678,6 +675,9 @@ itkNarrowBandImageFilterBaseTest.cxx
 SET(BasicFilters2_SRCS
 itkBasicFiltersPrintTest.cxx
 itkBasicFiltersPrintTest2.cxx
+itkXorImageFilterTest.cxx
+itkZeroCrossingBasedEdgeDetectionImageFilterTest.cxx
+itkZeroCrossingImageFilterTest.cxx
 )
 
 
