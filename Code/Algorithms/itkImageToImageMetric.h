@@ -21,6 +21,7 @@
 #include "itkTransform.h"
 #include "itkInterpolateImageFunction.h"
 #include "itkSingleValuedCostFunction.h"
+#include "itkExceptionObject.h"
 
 namespace itk
 {
@@ -84,7 +85,10 @@ public:
   typedef typename TransformType::JacobianType       TransformJacobianType;
 
   /**  Type of the Interpolator Base class */
-  typedef InterpolateImageFunction<MovingImageType>  InterpolatorType;
+  typedef InterpolateImageFunction<
+                      MovingImageType,
+                      CoordinateRepresentationType > InterpolatorType;
+
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
 
   /**  Type of the measure. */
@@ -131,6 +135,14 @@ public:
 
   /** Set the parameters defining the Transform. */
   void SetTransformParameters( const ParametersType & parameters );
+
+  /** Return the number of parameters required by the Transform */
+  unsigned int GetNumberOfParameters(void) const 
+    { return m_Transform->GetNumberOfParameters(); }
+
+  /** Initialize the Metric by making sure that all the components
+   *  are present and plugged together correctly     */
+  void Initialize(void) throw ( ExceptionObject );
 
 protected:
   ImageToImageMetric();

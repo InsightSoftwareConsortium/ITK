@@ -19,7 +19,6 @@
 
 
 #include "itkImageToImageMetric.h"
-#include "itkNearestNeighborInterpolateImageFunction.h"
 
 
 namespace itk
@@ -32,13 +31,10 @@ template <class TFixedImage, class TMovingImage>
 ImageToImageMetric<TFixedImage,TMovingImage>
 ::ImageToImageMetric()
 {
-  m_FixedImage   = FixedImageType::New();
-  m_MovingImage  = MovingImageType::New();
-  m_Transform    = TransformType::New();
-
-  m_Interpolator = 
-      NearestNeighborInterpolateImageFunction<
-                                     TMovingImage>::New();
+  m_FixedImage   = 0; // has to be provided by the user.
+  m_MovingImage  = 0; // has to be provided by the user.
+  m_Transform    = 0; // has to be provided by the user.
+  m_Interpolator = 0; // has to be provided by the user.
 }
 
 
@@ -50,11 +46,48 @@ void
 ImageToImageMetric<TFixedImage,TMovingImage>
 ::SetTransformParameters( const ParametersType & parameters )
 {
+  if( !m_Transform )
+    {
+    itkExceptionMacro(<<"Transform has not been assigned");
+    }
   m_Transform->SetParameters( parameters );
 }
 
 
 
+/**
+ * PrintSelf
+ */
+template <class TFixedImage, class TMovingImage> 
+void
+ImageToImageMetric<TFixedImage,TMovingImage>
+::Initialize(void) throw ( ExceptionObject )
+{
+
+  if( !m_Transform )
+    {
+    itkExceptionMacro(<<"Transform is not present");
+    }
+
+  if( !m_Interpolator )
+    {
+    itkExceptionMacro(<<"Interpolator is not present");
+    }
+
+  if( !m_MovingImage )
+    {
+    itkExceptionMacro(<<"MovingImage is not present");
+    }
+
+  if( !m_FixedImage )
+    {
+    itkExceptionMacro(<<"FixedImage is not present");
+    }
+
+  m_Interpolator->SetInputImage( m_MovingImage );
+ 
+}
+ 
 
 /**
  * PrintSelf
