@@ -80,7 +80,7 @@ public:
   virtual ~FloodFilledFunctionConditionalIterator() {};
 
   /** Compute whether the index of interest should be included in the flood */
-  virtual bool IsPixelIncluded(IndexType index) = 0;
+  virtual bool IsPixelIncluded(const IndexType & index) const = 0;
   
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */

@@ -24,7 +24,7 @@ namespace itk
 template<class TImage, class TFunction>
 bool
 FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
-::IsPixelIncluded(IndexType index)
+::IsPixelIncluded(const IndexType & index) const
 {
   FunctionInputType position;
 

@@ -80,7 +80,7 @@ public:
   virtual ~FloodFilledFunctionConditionalConstIterator() {};
 
   /** Compute whether the index of interest should be included in the flood */
-  virtual bool IsPixelIncluded(IndexType index) = 0;
+  virtual bool IsPixelIncluded(const IndexType & index) const = 0;
   
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
@@ -104,7 +104,7 @@ public:
   /** Get the pixel value */
   const PixelType & Get(void) const
     { return m_Image->GetPixel(m_IndexStack.top() ); }
-  
+ 
   /** Is the iterator at the end of the region? */
   bool IsAtEnd()
     { return m_IsAtEnd; };

@@ -69,7 +69,7 @@ public:
   virtual ~FloodFilledSpatialFunctionConditionalIterator() {};
 
   /** Compute whether the index of interest should be included in the flood */
-  bool IsPixelIncluded(IndexType index);
+  bool IsPixelIncluded(const IndexType & index) const;
   
 protected: //made protected so other iterators can access 
 
