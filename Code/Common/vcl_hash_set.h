@@ -71,7 +71,9 @@ namespace std {
 
 #else
 // added for itk compatability
+#ifndef vcl_identity
 #define vcl_identity std::identity
+#endif
 #endif
 
 // The following are added for itk compatability:
