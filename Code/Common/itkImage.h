@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,14 +29,14 @@ namespace itk
 
 /** \class Image
  *  \brief Templated n-dimensional image class.
- * 
+ *
  * Images are templated over a pixel type (modeling the dependent
  * variables), and a dimension (number of independent variables).  The
  * container for the pixel data is the ImportImageContainer.
- * 
+ *
  * Within the pixel container, images are modeled as arrays, defined by a
  * start index and a size.
- * 
+ *
  * There are three sets of meta-data describing an image. These are "Region"
  * objects that define a portion of an image via a starting index for the image
  * array and a size. The ivar LargestPossibleRegion defines the size and
@@ -45,15 +45,15 @@ namespace itk
  * memory is defined by the "BufferedRegion". The Buffer is a contiguous block
  * of memory.  The third set of meta-data defines a region of interest, called
  * the "RequestedRegion". The RequestedRegion is used by the pipeline
- * execution model to define what a filter is requested to produce. 
- * 
+ * execution model to define what a filter is requested to produce.
+ *
  * [RegionIndex, RegionSize] C [BufferIndex, BufferSize]
  *                           C [ImageIndex, ImageSize]
- * 
+ *
  * Pixels can be accessed direcly using the SetPixel() and GetPixel()
  * methods or can be accessed via iterators.  Begin() creates
  * an iterator that can walk a specified region of a buffer.
- * 
+ *
  * The pixel type may be one of the native types; a Insight-defined
  * class type such as Vector; or a user-defined type. Note that
  * depending on the type of pixel that you use, the process objects
@@ -63,7 +63,7 @@ namespace itk
  *
  * The data in an image is arranged in a 1D array as [][][][slice][row][col]
  * with the column index varying most rapidly.  The Index type reverses
- * the order so that with Index[0] = col, Index[1] = row, Index[2] = slice, 
+ * the order so that with Index[0] = col, Index[1] = row, Index[2] = slice,
  * ...
  *
  * \sa ImageContainerInterface
@@ -84,9 +84,9 @@ public:
   typedef ImageBase<VImageDimension>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
+
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Image, ImageBase);
@@ -100,7 +100,7 @@ public:
 
   /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
-   * representation of data while showing a different external 
+   * representation of data while showing a different external
    * representation. */
   typedef TPixel InternalPixelType;
 
@@ -113,7 +113,7 @@ public:
    * and dimension) when they need compile time access to the dimension of
    * the image. */
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
-  
+
   /** Container used to store pixels in the image. */
   typedef ImportImageContainer<unsigned long, PixelType> PixelContainer;
 
@@ -128,11 +128,11 @@ public:
 
   /** Region typedef support. A region is used to specify a subset of an image. */
   typedef ImageRegion<VImageDimension>  RegionType;
-  
+
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
-  /** Allocate the image memory. The size of the image must 
+  /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */
   void Allocate();
 
@@ -161,9 +161,9 @@ public:
   /** Fill the image buffer with a value.  Be sure to call Allocate()
    * first. */
   void FillBuffer (const TPixel& value);
-  
+
   /** \brief Set a pixel value.
-   * 
+   *
    * Allocate() needs to have been called first -- for efficiency,
    * this function does not check that the image has actually been
    * allocated yet. */
@@ -172,9 +172,9 @@ public:
     typename Superclass::OffsetValueType offset = this->ComputeOffset(index);
     (*m_Buffer)[offset] = value;
     }
-  
+
   /** \brief Get a pixel (read only version).
-   * 
+   *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   const TPixel& GetPixel(const IndexType &index) const
@@ -184,7 +184,7 @@ public:
   }
 
   /** \brief Get a reference to a pixel (e.g. for editing).
-   * 
+   *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   TPixel& GetPixel(const IndexType &index)
@@ -192,16 +192,16 @@ public:
     typename Superclass::OffsetValueType offset = this->ComputeOffset(index);
     return ( (*m_Buffer)[offset] );
     }
-    
+
   /** \brief Access a pixel. This version can be an lvalue.
-   * 
+   *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   TPixel & operator[](const IndexType &index)
      { return this->GetPixel(index); }
-  
+
   /** \brief Access a pixel. This version can only be an rvalue.
-   * 
+   *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   const TPixel& operator[](const IndexType &index) const
@@ -213,7 +213,7 @@ public:
     { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
   const TPixel *GetBufferPointer() const
     { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
-  
+
   /** Return a pointer to the container. */
   PixelContainer* GetPixelContainer()
     { return m_Buffer.GetPointer(); }
@@ -221,11 +221,11 @@ public:
   /** Set the container to use. Note that this does not cause the
    * DataObject to be modified. */
   void SetPixelContainer( PixelContainer *container );
-  
+
   /** Return the Pixel Accessor object */
-  AccessorType GetPixelAccessor( void ) 
+  AccessorType GetPixelAccessor( void )
     { return AccessorType(); }
-    
+
   /** Return the Pixel Accesor object */
   const AccessorType GetPixelAccessor( void ) const
     { return AccessorType(); }
@@ -248,19 +248,19 @@ public:
    *
    * Returns true if the resulting index is within the image, false otherwise.
    * \sa Transform */
-  template<class TCoordRep> 
+  template<class TCoordRep>
   bool TransformPhysicalPointToContinuousIndex(
-              const Point<TCoordRep, VImageDimension>& point, 
+              const Point<TCoordRep, VImageDimension>& point,
               ContinuousIndex<TCoordRep, VImageDimension>& index   ) const
     {
     // Update the output index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
-      { 
+      {
       index[i] = static_cast<TCoordRep>( (point[i]- m_Origin[i]) / m_Spacing[i] );
       }
-    
+
     // Now, check to see if the index is within allowed bounds
-    const bool isInside = 
+    const bool isInside =
       this->GetLargestPossibleRegion().IsInside( index );
 
     return isInside;
@@ -270,33 +270,33 @@ public:
    * Floating point index results are truncated to integers.
    * Returns true if the resulting index is within the image, false otherwise
    * \sa Transform */
-  template<class TCoordRep> 
+  template<class TCoordRep>
   bool TransformPhysicalPointToIndex(
-            const Point<TCoordRep, VImageDimension>& point, 
+            const Point<TCoordRep, VImageDimension>& point,
             IndexType & index                                ) const
     {
     typedef typename IndexType::IndexValueType IndexValueType;
 
     // Update the output index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
-      { 
+      {
       index[i] = static_cast<IndexValueType>( (point[i]- m_Origin[i]) / m_Spacing[i] );
       }
-    
+
     // Now, check to see if the index is within allowed bounds
-    const bool isInside = 
+    const bool isInside =
       this->GetLargestPossibleRegion().IsInside( index );
 
     return isInside;
     }
 
-  /** Get a physical point (in the space which 
-   * the origin and spacing infomation comes from) 
-   * from a continuous index (in the index space) 
+  /** Get a physical point (in the space which
+   * the origin and spacing infomation comes from)
+   * from a continuous index (in the index space)
    * \sa Transform */
-  template<class TCoordRep> 
-  void TransformContinuousIndexToPhysicalPoint( 
-            const ContinuousIndex<TCoordRep, VImageDimension>& index, 
+  template<class TCoordRep>
+  void TransformContinuousIndexToPhysicalPoint(
+            const ContinuousIndex<TCoordRep, VImageDimension>& index,
             Point<TCoordRep, VImageDimension>& point        ) const
     {
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
@@ -305,24 +305,24 @@ public:
       }
     }
 
-  /** Get a physical point (in the space which 
-   * the origin and spacing infomation comes from) 
-   * from a discrete index (in the index space) 
+  /** Get a physical point (in the space which
+   * the origin and spacing infomation comes from)
+   * from a discrete index (in the index space)
    *
    * \sa Transform */
-  template<class TCoordRep> 
-  void TransformIndexToPhysicalPoint(  
-                      const IndexType & index, 
-                      Point<TCoordRep, VImageDimension>& point ) const 
+  template<class TCoordRep>
+  void TransformIndexToPhysicalPoint(
+                      const IndexType & index,
+                      Point<TCoordRep, VImageDimension>& point ) const
     {
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       {
-      point[i] = static_cast<TCoordRep>( m_Spacing[i] * 
+      point[i] = static_cast<TCoordRep>( m_Spacing[i] *
         static_cast<double>( index[i] ) + m_Origin[i] );
       }
     }
 
-  /** \brief Copy information from the specified data set.  
+  /** \brief Copy information from the specified data set.
    *
    * This method is part of the pipeline execution model. By default,
    * a ProcessObject will copy meta-data from the first input to all
@@ -351,9 +351,25 @@ private:
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;
 };
-
+#ifndef ITK_NOEXPLICIT_INSTANTIATION
+   extern template class Image<float         ,2>;
+   extern template class Image<double        ,2>;
+   extern template class Image<unsigned char ,2>;
+   extern template class Image<unsigned short,2>;
+   extern template class Image<unsigned int  ,2>;
+   extern template class Image<signed char   ,2>;
+   extern template class Image<signed short  ,2>;
+   extern template class Image<signed int    ,2>;
+   extern template class Image<float         ,3>;
+   extern template class Image<double        ,3>;
+   extern template class Image<unsigned char ,3>;
+   extern template class Image<unsigned short,3>;
+   extern template class Image<unsigned int  ,3>;
+   extern template class Image<signed char   ,3>;
+   extern template class Image<signed short  ,3>;
+   extern template class Image<signed int    ,3>;
+#endif
 } // end namespace itk
-  
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImage.txx"
 #endif

@@ -20,6 +20,7 @@
 #ifndef __itkImageToImageFilter_h
 #define __itkImageToImageFilter_h
 
+#include "itkImage.h"
 #include "itkImageSource.h"
 #include "itkConceptChecking.h"
 #include "itkImageToImageFilterDetail.h"

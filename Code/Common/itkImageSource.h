@@ -21,6 +21,7 @@
 #define __itkImageSource_h
 
 #include "itkProcessObject.h"
+#include "itkImage.h"
 
 namespace itk
 {
@@ -271,6 +272,24 @@ private:
   void operator=(const Self&); //purposely not implemented
 
 };
+#ifndef ITK_NOEXPLICIT_INSTANTIATION
+   extern template class ImageSource<Image<float         ,2> >;
+   extern template class ImageSource<Image<double        ,2> >;
+   extern template class ImageSource<Image<unsigned char ,2> >;
+   extern template class ImageSource<Image<unsigned short,2> >;
+   extern template class ImageSource<Image<unsigned int  ,2> >;
+   extern template class ImageSource<Image<signed char   ,2> >;
+   extern template class ImageSource<Image<signed short  ,2> >;
+   extern template class ImageSource<Image<signed int    ,2> >;
+   extern template class ImageSource<Image<float         ,3> >;
+   extern template class ImageSource<Image<double        ,3> >;
+   extern template class ImageSource<Image<unsigned char ,3> >;
+   extern template class ImageSource<Image<unsigned short,3> >;
+   extern template class ImageSource<Image<unsigned int  ,3> >;
+   extern template class ImageSource<Image<signed char   ,3> >;
+   extern template class ImageSource<Image<signed short  ,3> >;
+   extern template class ImageSource<Image<signed int    ,3> >;
+#endif
 
 } // end namespace itk
 

@@ -300,6 +300,10 @@ private:
   RegionType          m_BufferedRegion;
 };
 
+#ifndef ITK_NOEXPLICIT_INSTANTIATION
+   extern template class ImageBase<2>;
+   extern template class ImageBase<3>;
+#endif
 
 } // end namespace itk
 
