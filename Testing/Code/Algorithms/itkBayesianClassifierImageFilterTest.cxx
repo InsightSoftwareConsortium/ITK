@@ -69,6 +69,23 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
   filter->SetInput( reader->GetOutput() );
 
 
+  typedef ClassifierFilterType::MembershipFunctionType    MembershipFunctionType;
+
+  MembershipFunctionType::Pointer gaussian1 =  MembershipFunctionType::New();
+  MembershipFunctionType::Pointer gaussian2 =  MembershipFunctionType::New();
+  MembershipFunctionType::Pointer gaussian3 =  MembershipFunctionType::New();
+  MembershipFunctionType::Pointer gaussian4 =  MembershipFunctionType::New();
+
+  filter->AddMembershipFunction( gaussian1 );
+  filter->AddMembershipFunction( gaussian2 );
+  filter->AddMembershipFunction( gaussian3 );
+  filter->AddMembershipFunction( gaussian4 );
+
+  filter->Update();
+
+
+
+  filter->Print( std::cout );
 
 
 
