@@ -72,7 +72,6 @@ CABLE_WRAP_TCL(ITKAlgorithmsTestTcl2
   "itk::ImageToImageAffineNormalizedCorrelationGradientDescentRegistration<$Image3D,$Image3D>"
   "itk::ImageToImageAffineNormalizedCorrelationRegularStepGradientDescentRegistration<$Image3D,$Image3D>"
   "itk::ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration<$Image3D,$Image3D>"
-  "itk::ImageToImageMomentsAlignmentCalculator<$Image3D,$Image3D>"
   "itk::ImageToImageTranslationMeanSquaresGradientDescentRegistration<$Image3D,$Image3D>"
   "itk::ImageToImageTranslationMeanSquaresRegularStepGradientDescentRegistration<$Image3D,$Image3D>"
   "itk::ImageToImageTranslationNormalizedCorrelationGradientDescentRegistration<$Image3D,$Image3D>"
