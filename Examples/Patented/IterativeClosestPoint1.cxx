@@ -22,7 +22,7 @@
 //
 // This example illustrates how to perform Iterative Closest Point (ICP) 
 // registration in ITK. The main class featured in this section is the 
-// \doxygen{IterativeClosestPointMetric}.
+// \doxygen{EuclideanDistancePointMetric}.
 //
 // Software Guide : EndLatex 
 
@@ -30,7 +30,7 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkTranslationTransform.h"
-#include "itkIterativeClosestPointMetric.h"
+#include "itkEuclideanDistancePointMetric.h"
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "itkPointSet.h"
 #include "itkPointSetToPointSetRegistrationMethod.h"
@@ -114,7 +114,7 @@ int main(int argc, char * argv[] )
 //-----------------------------------------------------------
 // Set up  the Metric
 //-----------------------------------------------------------
-  typedef itk::IterativeClosestPointMetric<  
+  typedef itk::EuclideanDistancePointMetric<  
                                     PointSetType, 
                                     PointSetType>
                                                     MetricType;

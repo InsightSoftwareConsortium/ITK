@@ -29,7 +29,7 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkEuler3DTransform.h"
-#include "itkIterativeClosestPointMetric.h"
+#include "itkEuclideanDistancePointMetric.h"
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "itkPointSet.h"
 #include "itkPointSetToPointSetRegistrationMethod.h"
@@ -113,7 +113,7 @@ int main(int argc, char * argv[] )
 //-----------------------------------------------------------
 // Set up  the Metric
 //-----------------------------------------------------------
-  typedef itk::IterativeClosestPointMetric<  
+  typedef itk::EuclideanDistancePointMetric<  
                                     PointSetType, 
                                     PointSetType>
                                                     MetricType;

@@ -27,7 +27,7 @@
 // iterative computaion of the point to point distances. It is then necessary
 // in practice to ponder both factors.
 //
-// \doxygen{IterativeClosestPointMetric}.
+// \doxygen{EuclideanDistancePointMetric}.
 //
 // Software Guide : EndLatex 
 
@@ -35,7 +35,7 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkTranslationTransform.h"
-#include "itkIterativeClosestPointMetric.h"
+#include "itkEuclideanDistancePointMetric.h"
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "itkPointSet.h"
 #include "itkPointSetToPointSetRegistrationMethod.h"
@@ -121,7 +121,7 @@ int main(int argc, char * argv[] )
 //-----------------------------------------------------------
 // Set up  the Metric
 //-----------------------------------------------------------
-  typedef itk::IterativeClosestPointMetric<  
+  typedef itk::EuclideanDistancePointMetric<  
                                     PointSetType, 
                                     PointSetType>
                                                     MetricType;

@@ -80,7 +80,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkIsoContourDistanceImageFilter.txx"
 #include "itkIsolatedWatershedImageFilter.txx"
 #include "itkIsotropicFourthOrderLevelSetImageFilter.txx"
-#include "itkIterativeClosestPointMetric.txx"
+#include "itkEuclideanDistancePointMetric.txx"
 #include "itkKLMRegionGrowImageFilter.txx"
 #include "itkKalmanLinearEstimator.h"
 #include "itkKullbackLeiblerCompareHistogramImageToImageMetric.txx"

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkIterativeClosestPointMetric.txx
+  Module:    itkEuclideanDistancePointMetric.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,10 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkIterativeClosestPointMetric_txx
-#define _itkIterativeClosestPointMetric_txx
+#ifndef _itkEuclideanDistancePointMetric_txx
+#define _itkEuclideanDistancePointMetric_txx
 
-#include "itkIterativeClosestPointMetric.h"
+#include "itkEuclideanDistancePointMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk
@@ -25,17 +25,20 @@ namespace itk
 
 /** Constructor */
 template <class TFixedPointSet, class TMovingPointSet, class TDistanceMap> 
-IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
-::IterativeClosestPointMetric()
+EuclideanDistancePointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
+::EuclideanDistancePointMetric()
 {
   m_DistanceMap = 0;
-  m_ComputeSquaredDistance = true; // for computation speed
+  
+  // when set to true it will be a bit faster, but it will result in minimizing
+  // the sum of distances^4 instead of the sum of distances^2
+  m_ComputeSquaredDistance = false; 
 }
 
 /** Return the number of values, i.e the number of points in the moving set */
 template <class TFixedPointSet, class TMovingPointSet, class TDistanceMap>  
 unsigned int
-IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>  
+EuclideanDistancePointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>  
 ::GetNumberOfValues() const
 {
  MovingPointSetConstPointer movingPointSet = this->GetMovingPointSet();
@@ -51,8 +54,8 @@ IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 
 /** Get the match Measure */
 template <class TFixedPointSet, class TMovingPointSet, class TDistanceMap>  
-typename IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>::MeasureType
-IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
+typename EuclideanDistancePointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>::MeasureType
+EuclideanDistancePointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 ::GetValue( const TransformParametersType & parameters ) const
 {
   FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
@@ -139,7 +142,7 @@ IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 /** Get the Derivative Measure */
 template <class TFixedPointSet, class TMovingPointSet, class TDistanceMap>
 void
-IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
+EuclideanDistancePointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 ::GetDerivative( const TransformParametersType & itkNotUsed(parameters),
                  DerivativeType & itkNotUsed(derivative) ) const
 {
@@ -149,7 +152,7 @@ IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 /** Get both the match Measure and theDerivative Measure  */
 template <class TFixedPointSet, class TMovingPointSet, class TDistanceMap>  
 void
-IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
+EuclideanDistancePointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 ::GetValueAndDerivative(const TransformParametersType & parameters, 
                         MeasureType & value, DerivativeType  & derivative) const
 {
@@ -160,7 +163,7 @@ IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 /** PrintSelf method */
 template <class TFixedPointSet, class TMovingPointSet, class TDistanceMap>  
 void
-IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
+EuclideanDistancePointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);

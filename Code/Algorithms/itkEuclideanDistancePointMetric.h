@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkIterativeClosestPointMetric.h
+  Module:    itkEuclideanDistancePointMetric.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkIterativeClosestPointMetric_h
-#define __itkIterativeClosestPointMetric_h
+#ifndef __itkEuclideanDistancePointMetric_h
+#define __itkEuclideanDistancePointMetric_h
 
 #include "itkPointSetToPointSetMetric.h"
 #include "itkCovariantVector.h"
@@ -25,7 +25,7 @@
 
 namespace itk
 {
-/** \class IterativeClosestPointMetric
+/** \class EuclideanDistancePointMetric
  * \brief Computes the minimum distance between a moving point-set
  *  and a fixed point-set. A vector of minimum closest point distance is
  *  created for each point in the moving point-set.
@@ -42,13 +42,13 @@ namespace itk
  */
 template < class TFixedPointSet, class TMovingPointSet, 
 class TDistanceMap = ::itk::Image<unsigned short,::itk::GetPointSetDimension<TMovingPointSet>::PointDimension> >
-class ITK_EXPORT IterativeClosestPointMetric : 
+class ITK_EXPORT EuclideanDistancePointMetric : 
     public PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef IterativeClosestPointMetric    Self;
+  typedef EuclideanDistancePointMetric    Self;
   typedef PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet >  Superclass;
 
   typedef SmartPointer<Self>         Pointer;
@@ -58,7 +58,7 @@ public:
   itkNewMacro(Self);
  
   /** Run-time type information (and related methods). */
-  itkTypeMacro(IterativeClosestPointMetric, Object);
+  itkTypeMacro(EuclideanDistancePointMetric, Object);
  
   /** Types transferred from the base class */
   typedef typename Superclass::TransformType              TransformType;
@@ -103,14 +103,14 @@ public:
   itkGetMacro(ComputeSquaredDistance,bool);
 
 protected:
-  IterativeClosestPointMetric();
-  virtual ~IterativeClosestPointMetric() {};
+  EuclideanDistancePointMetric();
+  virtual ~EuclideanDistancePointMetric() {};
 
   /** PrintSelf funtion */
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  IterativeClosestPointMetric(const Self&); //purposely not implemented
+  EuclideanDistancePointMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   DistanceMapPointer m_DistanceMap;
@@ -121,7 +121,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkIterativeClosestPointMetric.txx"
+#include "itkEuclideanDistancePointMetric.txx"
 #endif
 
 #endif
