@@ -71,7 +71,7 @@ class NonUniformBSpline
   itkNewMacro( Self );
 
   /** Method for creation through the object factory. */
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( NonUniformBSpline, Object );
 
   /**
   Set points which the spline will attempt to interpolate.

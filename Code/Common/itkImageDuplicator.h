@@ -39,7 +39,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Self, Object);
+  itkTypeMacro(ImageDuplicator, Object);
 
   /** Type definitions for the input image. */
   typedef TInputImage  ImageType;
