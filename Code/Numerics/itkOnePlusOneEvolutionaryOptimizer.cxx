@@ -38,6 +38,7 @@ OnePlusOneEvolutionaryOptimizer
   m_Stop = false ;
   m_CurrentCost = 0;
   m_CurrentIteration = 0;
+  m_FrobeniusNorm = 0.0;
 }
 
 OnePlusOneEvolutionaryOptimizer
@@ -188,9 +189,9 @@ OnePlusOneEvolutionaryOptimizer
     // convergence criterion: f-norm of A < epsilon_A
     // Compute double precision sum of absolute values of 
     // a single precision vector
-    double fro_norm = A.fro_norm() ;
-    itkDebugMacro(<< "A f-norm:" << fro_norm);
-    if (fro_norm <= m_Epsilon) 
+    m_FrobeniusNorm = A.fro_norm() ;
+    itkDebugMacro(<< "A f-norm:" << m_FrobeniusNorm);
+    if (m_FrobeniusNorm <= m_Epsilon) 
       {
       itkDebugMacro(<< "converges at iteration = " << iter) ;
       break ;
@@ -252,6 +253,7 @@ OnePlusOneEvolutionaryOptimizer
   os << indent << "Initialized       " << m_Initialized      << std::endl;
   os << indent << "Current Cost      " << m_CurrentCost      << std::endl;
   os << indent << "Current Iteration " << m_CurrentIteration << std::endl;
+  os << indent << "Frobenius Norm    " << m_FrobeniusNorm    << std::endl;
   os << indent << "Maximize On/Off   " << m_Maximize         << std::endl;
 
 }

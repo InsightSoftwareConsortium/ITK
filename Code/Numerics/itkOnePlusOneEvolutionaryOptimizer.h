@@ -114,6 +114,9 @@ public:
   itkSetMacro( Epsilon, double );   
   itkGetConstReferenceMacro( Epsilon, double );   
 
+  /** Get the current Frobenius norm of covariance matrix */
+  itkGetConstReferenceMacro( FrobeniusNorm, double );   
+
   void SetNormalVariateGenerator(NormalVariateGeneratorType* generator) ;
 
   /** Initializes the optimizer.
@@ -181,11 +184,16 @@ private:
   /** Internal storage for the value type / used as a cache  */
   MeasureType       m_CurrentCost;
 
-  /** this is user-settable flag to stop optimization.
+  /** This is user-settable flag to stop optimization.
    * when users call StartOptimization, this value will be set false.
    * By calling StopOptimization, this flag will be set true, and 
    * optimization will stop at the next iteration. */
   bool m_Stop ;
+
+  /** Cache variable for reporting the Frobenius Norm
+   */
+  double m_FrobeniusNorm;
+  
 } ; // end of class
 
 } // end of namespace itk
