@@ -99,8 +99,8 @@ int main()
     point[0] = radius * sin( angle );
     point[1] = radius * cos( angle );
     point[2] = 1.0;   // flat on the Z plane
-    tangent[0] =  sin(angle);
-    tangent[1] = -cos(angle);
+    tangent[0] =  cos(angle);
+    tangent[1] = -sin(angle);
     tangent[2] = 0.0;  // flat on the Z plane
     pointSet->SetPoint( pointId, point );   
     pointSet->SetPointData( pointId, tangent );   
@@ -114,13 +114,13 @@ int main()
   //
   //  We can now visit all the points and use the vector on the pixel values to
   //  apply a displacement on the points. This is along the spirit of what a
-  //  deformable model could do at each one of its iterations.
+  //  deformable model could do at each one of its iterations. 
   //
   //  Software Guide : EndLatex 
 
 
   // Software Guide : BeginCodeSnippet
-  typedef  PointSetType::PointDataContainer::Iterator PointDataIterator;
+  typedef  PointSetType::PointDataContainer::ConstIterator PointDataIterator;
   PointDataIterator pixelIterator = pointSet->GetPointData()->Begin();
   PointDataIterator pixelEnd      = pointSet->GetPointData()->End();
 
@@ -134,6 +134,15 @@ int main()
     ++pointIterator;
     }
   // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Note that the \code{ConstIterator} was used here instead of the normal
+  //  \code{Iterator} since the pixel values are only intended to be read and
+  //  not modified. ITK support const-correctness at the API level.
+  //
+  //  Software Guide : EndLatex 
 
 
 
