@@ -150,6 +150,10 @@ public:
   ConstIterator End() const
     { return m_Deque.end(); }
 
+  /** Clears the Deque completely */
+  void Clear()
+  { m_Deque.clear(); }
+  
   /** Helper method for debugging.   */
   //  void PrintDeque();
 protected:

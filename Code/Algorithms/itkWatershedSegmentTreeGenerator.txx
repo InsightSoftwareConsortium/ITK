@@ -68,8 +68,10 @@ template <class TScalarType>
 void SegmentTreeGenerator<TScalarType>
 ::GenerateData()
 {
+  //Reset persistant ivars.
   m_MergedSegmentsTable->Clear();
-
+  this->GetOutputSegmentTree()->Clear();
+  
   typename SegmentTableType::Pointer input = this->GetInputSegmentTable();
   typename SegmentTreeType::Pointer mergeList   = SegmentTreeType::New();
   typename SegmentTableType::Pointer seg = SegmentTableType::New();
@@ -422,7 +424,7 @@ void SegmentTreeGenerator<TScalarType>
 
   if (from_seg == 0 || to_seg == 0)
     {
-    itkGenericExceptionMacro ( << "MergeSegments:: An unexpected and fatal error has occurred.");
+    itkGenericExceptionMacro ( << "itk::watershed::SegmentTreeGenerator::MergeSegments:: An unexpected and fatal error has occurred. This is probably the result of overthresholding of the input image.");
     }
 
   // Compare the minimum values.

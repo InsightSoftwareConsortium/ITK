@@ -53,6 +53,11 @@ void Segmenter<TInputImage>::GenerateData()
   unsigned int i;
 
   this->UpdateProgress(0.0);
+  if (m_DoBoundaryAnalysis == false)
+    {
+      this->GetSegmentTable()->Clear();
+      this->SetCurrentLabel(1);
+    }
   
   flat_region_table_t flatRegions;
 
