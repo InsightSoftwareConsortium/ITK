@@ -12,9 +12,9 @@ int sggsvd_(char const *jobu, char const *jobv, char const *jobq, int *m, int *n
 
 int main() {
   //float A[9]={2./3, -1.36/3, .2/3,   2.8/3, .4/3, 1./3,   1, .16, -.2};
-  float AA[9]={2./3, -1.36/3, .2/3,   2.8/3, .4/3, 1./3,   1, .16, -.2};
+  float AA[9]={(float)(2./3), (float)(-1.36/3), (float)(.2/3),   (float)(2.8/3), (float)(.4/3), (float)(1./3),   (float) 1., (float).16, (float) -.2};
   //float B[9]={.16, -.224, -.768,   .8, .36, -.48,  1.12, -.168, -.576};
-  float BB[9]={.16, -.224, -.768,   .8, .36, -.48,  1.12, -.168, -.576};
+  float BB[9]={(float).16, (float)-.224, (float)-.768,  (float) .8, (float).36, (float)-.48,  (float)1.12, (float)-.168, (float)-.576};
   float U[9], V[9], Q[9], Alpha[3], Beta[3], Work[12];
   int m=3, n=3, p=3, k, l, Iwork[3], info, tests_failed=0, tests_succeeded=0;
 
