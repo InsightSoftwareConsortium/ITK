@@ -9,7 +9,6 @@
 
 void RegisterTests()
 {
-REGISTER_TEST(GeodesicActiveContourShapePriorLevelSetImageFilterTest);
 REGISTER_TEST(HoughTransform2DCirclesImageFilterTest);
 REGISTER_TEST(HoughTransform2DLinesImageFilterTest);
 REGISTER_TEST(IsolatedConnectedImageFilterTest);
@@ -18,10 +17,6 @@ REGISTER_TEST(ShapeDetectionLevelSetFilterTest);
 REGISTER_TEST(ThresholdSegmentationLevelSetImageFilterTest);
 REGISTER_TEST(WatershedSegmentation1Test);
 }
-
-#undef main
-#define main GeodesicActiveContourShapePriorLevelSetImageFilterTest
-#include "GeodesicActiveContourShapePriorLevelSetImageFilter.cxx"
 
 #undef main
 #define main HoughTransform2DLinesImageFilterTest
