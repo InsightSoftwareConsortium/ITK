@@ -27,7 +27,7 @@ template <class TLevelSet>
 CurvatureFlow<TLevelSet>
 ::CurvatureFlow()
 {
-  m_DebugOn = true;
+  m_DebugOn = false;
 
 }
 

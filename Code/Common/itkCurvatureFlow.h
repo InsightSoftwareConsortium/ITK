@@ -92,6 +92,11 @@ public:
    */
   typedef Index<LevelSetType::SetDimension> IndexType;
 
+  /**
+   * Set the debugging mode
+   */
+  itkSetMacro( DebugOn, bool );
+
 protected:
   CurvatureFlow();
   ~CurvatureFlow(){};
