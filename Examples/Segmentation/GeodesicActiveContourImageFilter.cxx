@@ -87,6 +87,28 @@
 
 
 
+
+//  Software Guide : BeginLatex
+//  
+//  One of the main differences between the
+//  \doxygen{GeodesicActiveContourImageFilter} and the
+//  \doxygen{ShapDetectionImageFilter} is that the the former uses the
+//  derivatives of the edge image map in order to improve convergence of the
+//  contour. It is then necessary to compute such derivatives and pass them as
+//  input to the filter. In this example we use the
+//  \doxygen{GradientRecursiveGaussianImageFilter} for computing the
+//  derivatives of the edge potential.
+//
+//  Software Guide : EndLatex 
+
+//  Software Guide : BeginCodeSnippet
+#include "itkGradientRecursiveGaussianImageFilter.h"
+//  Software Guide : EndCodeSnippet 
+
+
+
+
+
 //  Software Guide : BeginLatex
 //  
 //  The LevelSet resulting from the \doxygen{GeodesicActiveContourImageFilter} will
@@ -152,12 +174,39 @@ int main( int argc, char **argv )
   // Software Guide : EndCodeSnippet
 
 
+  //  Software Guide : BeginLatex
+  //  
+  //  The \doxygen{GeodesicActiveContourImageFilter} requires as input the
+  //  derivative of the Edge Potential map. We declare in the following lines
+  //  the type of the derivative image.
+  //
+  //  Software Guide : EndLatex 
 
+  //  Software Guide : BeginCodeSnippet
+  typedef itk::CovariantVector< float, Dimension >  DerivativePixelType;
+
+  typedef itk::Image< DerivativePixelType, Dimension > DerivativeImageType;  
+  //  Software Guide : EndCodeSnippet 
 
 
   //  Software Guide : BeginLatex
   //  
-  //  The output image, on the other hand, is selected to be binary.
+  //  With this derivative image type we can instantiate the type of a
+  //  \doxygen{GradientRecursiveGaussianImageFilter} that will compute the
+  //  gradient of the edge map image.
+  //
+  //  Software Guide : EndLatex 
+  
+  //  Software Guide : BeginCodeSnippet
+  typedef itk::GradientRecursiveGaussianImageFilter< 
+                                     InternalImageType, 
+                                     DerivativeImageType >  DerivativeFilterType;
+  //  Software Guide : EndCodeSnippet 
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The output image of the thresholding, on the other hand, is selected to be binary.
   //
   //  Software Guide : EndLatex 
 
@@ -349,6 +398,46 @@ int main( int argc, char **argv )
 
 
 
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  It is now time for creating the derivative filter that will compute the
+  //  gradient of the edge potential image. Note that this filter is different
+  //  from the \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} used as
+  //  intermediate step in the computation of the actual edge potential. The
+  //  current filter produce as output an image of \doxygen{CovariantVector}s.
+  //
+  //  Software Guide : EndLatex 
+
+  //  Software Guide : BeginCodeSnippet
+  DerivativeFilterType::Pointer derivativeFilter  = DerivativeFilterType::New();
+  //  Software Guide : EndCodeSnippet 
+
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  We connect the edge potential image as input of the derivative filter.
+  //  The output will be passed later to the
+  //  \doxygen{GeodesicActiveContourImageFilter}. We also define the sigma to
+  //  be used in the Gaussian derivative operator. we do not need to blurr much
+  //  this image since it has already been blurred when the gradient magnitude
+  //  was computed.
+  //
+  //  Software Guide : EndLatex 
+
+  //  Software Guide : BeginCodeSnippet
+  derivativeFilter->SetInput( sigmoid->GetOutput() ); 
+  
+  derivativeFilter->SetSigma( 1.0 );
+  //  Software Guide : EndCodeSnippet 
+
+
+
+
+  
   //  Software Guide : BeginLatex
   //  
   //  In the following lines we instantiate the type of the
@@ -361,10 +450,10 @@ int main( int argc, char **argv )
   typedef  itk::GeodesicActiveContourImageFilter< 
                               InternalImageType, 
                               InternalImageType,
-                              InternalImageType
-                              >    GeodesicActiveContourFilterType;
+                              DerivativeImageType
+                                       >    GeodesicActiveContourFilterType;
 
-  GeodesicActiveContourFilterType::Pointer shapeDetection = GeodesicActiveContourFilterType::New();                              
+  GeodesicActiveContourFilterType::Pointer geodesicActiveContour = GeodesicActiveContourFilterType::New();                              
   // Software Guide : EndCodeSnippet
 
 
@@ -385,11 +474,11 @@ int main( int argc, char **argv )
 
   sigmoid->SetInput( gradientMagnitude->GetOutput() );
 
-  
-  shapeDetection->SetInput( fastMarching->GetOutput() );
-  shapeDetection->SetEdgeImage( sigmoid->GetOutput() );
+  geodesicActiveContour->SetInput(           fastMarching->GetOutput()     );
+  geodesicActiveContour->SetEdgeImage(       sigmoid->GetOutput()          );
+  geodesicActiveContour->SetDerivativeImage( derivativeFilter->GetOutput() );
 
-  thresholder->SetInput( shapeDetection->GetOutput() );
+  thresholder->SetInput( geodesicActiveContour->GetOutput() );
 
   writer->SetInput( thresholder->GetOutput() );
   // Software Guide : EndCodeSnippet
@@ -661,9 +750,9 @@ int main( int argc, char **argv )
 
   const unsigned int numberOfIterations = atoi( argv[ 9] ); 
   //  Software Guide : BeginCodeSnippet
-  shapeDetection->SetNumberOfIterations(  numberOfIterations );
+  geodesicActiveContour->SetNumberOfIterations(  numberOfIterations );
 
-  shapeDetection->SetTimeStepSize( 0.25 ); 
+  geodesicActiveContour->SetTimeStepSize( 0.25 ); 
   //  Software Guide : EndCodeSnippet 
 
 
@@ -680,9 +769,11 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   //  Software Guide : BeginCodeSnippet
-  shapeDetection->NarrowBandingOn();
+  geodesicActiveContour->NarrowBandingOn();
   //  Software Guide : EndCodeSnippet 
 
+
+  derivativeFilter->Update();
 
   
   //  Software Guide : BeginLatex
@@ -750,7 +841,8 @@ int main( int argc, char **argv )
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|c|c|c|}
   //  \hline
-  //  Structure    & Seed Index & Distance & $\sigma$ & $\alpha$ & $\beta$ & Iterations & Output Image \\
+  //  Structure    & Seed Index &  Distance   &   $\sigma$  &     
+  //  $\alpha$     &  $\beta$   & Iterations  & Output Image \\   
   //  \hline
   //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 150 & First  in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
   //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 150 & Second in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
