@@ -139,13 +139,6 @@ ELSE(USE_VTK)
   SET(HAS_VTK 0)
 ENDIF(USE_VTK)
 
-
-# Look for OpenGL
-INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindOpenGL.cmake)
-  
-# Look for GLUT and if found build the simple image viewer
-INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindGLUT.cmake)
-
 # Add an option to use or not use FLTK (http://www.fltk.org)
 OPTION(USE_FLTK "Use FLTK (The Fast Light Toolkit) for GUI (some examples need this)" 0)
 IF(USE_FLTK)
