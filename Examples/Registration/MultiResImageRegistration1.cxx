@@ -14,7 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 // Software Guide : BeginLatex
 //
 // \index{itk::ImageRegistrationMethod!Multi-Resolution|textbf}
@@ -27,7 +26,7 @@
 // a transform, a metric, an interpolator and an optimizer, the
 // multi-resolution framework also require two image pyramids for creating
 // the sequence of downsampled images.  To begin the example, we include the
-// headers of the registration components we will use.  
+// headers of the registration components we will use.
 //
 // Software Guide : EndLatex
 
@@ -88,7 +87,7 @@
 // \code{itk::IterationEvent}. The registration components can be changed by
 // implementing an \doxygen{Command} which is registered to respond to the
 // event. A brief description the interaction between events and commands was
-// previously presented in section \ref{sec:MonitoringImageRegistration}.
+// previously presented in Section \ref{sec:MonitoringImageRegistration}.
 //
 // We will illustrate this mechanism by changing the parameters of the
 // optimizer between each resolution level by way of a simple interface
@@ -249,22 +248,22 @@ public:
   typedef   const OptimizerType   *           OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
-  {
-    Execute( (const itk::Object *)caller, event);
-  }
+    {
+      Execute( (const itk::Object *)caller, event);
+    }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
-  {
-    OptimizerPointer optimizer = 
-                      dynamic_cast< OptimizerPointer >( object );
-    if( typeid( event ) != typeid( itk::IterationEvent ) )
-      {
-      return;
-      }
+    {
+      OptimizerPointer optimizer = 
+        dynamic_cast< OptimizerPointer >( object );
+      if( typeid( event ) != typeid( itk::IterationEvent ) )
+        {
+        return;
+        }
       std::cout << optimizer->GetCurrentIteration() << "   ";
       std::cout << optimizer->GetValue() << "   ";
       std::cout << optimizer->GetCurrentPosition() << std::endl;
-  }
+    }
 };
 
 
@@ -479,7 +478,7 @@ int main( int argc, char *argv[] )
   
   double bestValue = optimizer->GetValue();
 
-  //
+
   // Print out results
   //
   std::cout << "Result = " << std::endl;
@@ -591,7 +590,7 @@ int main( int argc, char *argv[] )
   //  aggressive optimization parameters we get quite close to the optimal
   //  value within 4 iterations with the remaining iterations just doing fine
   //  adjustments. It is interesting to compare these results with the ones
-  //  of the single resolution example in section
+  //  of the single resolution example in Section
   //  \ref{sec:MultiModalityRegistrationMattes} where 24 iterations were
   //  required as more conservative optimization parameters had to be used.
   //

@@ -107,9 +107,9 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The order of the derivative is selected with the SetOrder()
+  //  The order of the derivative is selected with the \code{SetOrder()}
   //  method.  The direction along which the derivative will be computed is
-  //  selected with the SetDirection() method.
+  //  selected with the \code{SetDirection()} method.
   //
   //  \index{itk::DerivativeImageFilter!SetOrder()}
   //  \index{itk::DerivativeImageFilter!SetDirection()}

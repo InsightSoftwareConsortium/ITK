@@ -388,10 +388,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The optimizer can be queried for the actual number of iterations
-  //  performed to reach convergence.  The \code{GetCurrentIteration()} method
-  //  returns this value. A large number of iterations may be an indication that
-  //  the maximum step length has been set too small, which is undesirable
-  //  since it results in long computational times.
+  //  performed to reach convergence.  The \code{GetCurrentIteration()}
+  //  method returns this value. A large number of iterations may be an
+  //  indication that the maximum step length has been set too small, which
+  //  is undesirable since it results in long computational times.
   //
   //  \index{itk::RegularStepGradientDescentOptimizer!GetCurrentIteration()}
   //
@@ -480,8 +480,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  A transform of the same type used in the registration process should be
-  //  created and initialized with the parameters resulting from the registration 
-  //  process. 
+  //  created and initialized with the parameters resulting from the
+  //  registration process.
   //
   //  \index{itk::ImageRegistrationMethod!Resampling image}
   //
@@ -492,7 +492,6 @@ int main( int argc, char *argv[] )
   finalTransform->SetParameters( finalParameters );
   // Software Guide : EndCodeSnippet
 
-  
 
   //  Software Guide : BeginLatex
   //  
@@ -503,7 +502,6 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
-
   resample->SetTransform( finalTransform );
   resample->SetInput( movingImageReader->GetOutput() );
   // Software Guide : EndCodeSnippet

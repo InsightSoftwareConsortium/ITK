@@ -60,7 +60,6 @@ int main( int argc, char * argv[] )
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
   typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
 
-
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
@@ -170,7 +169,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  In a second step, the rotation is specified using the method
-  //  Rotate2D().
+  //  \code{Rotate2D()}.
   //  
   //  \index{itk::AffineTransform!Rotate2D()}
   //

@@ -243,6 +243,8 @@ int main()
   //  Neither \code{SetCellData()} or \code{GetCellData()} are efficient ways
   //  to access cell data. Efficient access to cell data can be achieved
   //  by using the Iterators built into the CellDataContainer. 
+  //
+  //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellDataContainer::ConstIterator CellDataIterator;

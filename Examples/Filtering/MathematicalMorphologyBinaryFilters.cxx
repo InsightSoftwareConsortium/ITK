@@ -133,7 +133,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The filters can now be created by invoking the New() method and
+  //  The filters can now be created by invoking the \code{New()} method and
   //  assigning the result to \doxygen{SmartPointer}s.
   //
   //  \index{itk::BinaryDilateImageFilter!New()}
@@ -151,12 +151,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The structuring element is not a reference counted class. Thus it is
-  //  created as a C++ stack object instead of using New() and
+  //  created as a C++ stack object instead of using \code{New()} and
   //  SmartPointers. The radius of the neighborhood associated with the
-  //  structuring element is defined with the SetRadius() method and the
-  //  CreateStructuringElement() method is invoked in order to
+  //  structuring element is defined with the \code{SetRadius()} method and the
+  //  \code{CreateStructuringElement()} method is invoked in order to
   //  initialize the operator.  The resulting structuring element is passed to
-  //  the mathematical morphology filter through the SetKernel() method,
+  //  the mathematical morphology filter through the \code{SetKernel()} method,
   //  as illustrated below.
   //
   //  \index{itk::BinaryBallStructuringElement!SetRadius()}
@@ -222,8 +222,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  It is necessary to define what could be considered objects on the binary
-  //  images. This is specified with the methods SetErodeValue() and
-  //  SetDilateValue(). The value passed to these methods will be
+  //  images. This is specified with the methods \code{SetErodeValue()} and
+  //  \code{SetDilateValue()}. The value passed to these methods will be
   //  considered the value over which the dilation and erosion rules will
   //  apply.
   //
@@ -243,7 +243,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The execution of the filter can be triggered by the invocation of the
-  //  Update() method on the filter or on other downstream filter, for
+  //  \code{Update()} method on the filter or on other downstream filter, for
   //  example a writer.
   //
   //  \index{itk::BinaryDilateImageFilter!Update()}

@@ -77,7 +77,8 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Points can now be defined using the \code{PointType} trait from the PointSet.
+  //  Points can now be defined using the \code{PointType} trait from the
+  //  PointSet.
   //
   //  Software Guide : EndLatex 
 
@@ -94,9 +95,9 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The created points can be inserted in the PointsContainer using the generic
-  //  method \code{InsertElement()} which requires an identifier to be provided
-  //  for each point.
+  //  The created points can be inserted in the PointsContainer using the
+  //  generic method \code{InsertElement()} which requires an identifier to
+  //  be provided for each point.
   //
   //  \index{PointsContainer!InsertElement()}
   //  \index{PointsContainer!InsertElement()}

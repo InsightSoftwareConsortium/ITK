@@ -296,7 +296,7 @@ int main()
         break;
         } 
      }
-      ++cellIterator;
+    ++cellIterator;
     }
   // Software Guide : EndCodeSnippet
 

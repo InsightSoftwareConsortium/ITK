@@ -200,7 +200,7 @@ int main( int argc, char * argv[] )
   //  Given that some pixels of the output image may end up being mapped
   //  outside the extent of the input image it is necessary to decide what
   //  values to assign to them. This is done by invoking the
-  //  SetDefaultPixelValue() method.
+  //  \code{SetDefaultPixelValue()} method.
   //
   //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
   //
@@ -239,7 +239,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The extent of the sampling grid on the output image is defined by a
-  //  \code{SizeType} and is set using the SetSize() method.
+  //  \code{SizeType} and is set using the \code{SetSize()} method.
   //
   //  \index{itk::ResampleImageFilter!SetSize()}
   //

@@ -101,9 +101,9 @@ int main( int argc, char * argv[] )
   //
   //  The input image can be obtained from the output of another filter. Here,
   //  an image reader is used as source. The number of repetitions is set with
-  //  the SetRepetitions() method. Computation time will
+  //  the \code{SetRepetitions()} method. Computation time will
   //  increase linearly with the number of repetitions selected. Finally, the
-  //  filter can be executed by calling the Update() method.
+  //  filter can be executed by calling the \code{Update()} method.
   //
   //  \index{itk::BinomialBlurImageFilter!Update()}
   //  \index{itk::BinomialBlurImageFilter!SetInput()}

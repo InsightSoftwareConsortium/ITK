@@ -128,7 +128,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The filters requires the user to provide a value for the variance
-  //  associated with the Gaussian kernel. The method SetVariance() is
+  //  associated with the Gaussian kernel. The method \code{SetVariance()} is
   //  used for this purpose. The Gaussian is discretized over the pixels of a
   //  convolution kernel. The maximum value of the kernel size can be set by
   //  the user. Note that the combination of variance and kernel-size values
@@ -148,7 +148,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally the filter is executed by invoking the Update() method.
+  //  Finally the filter is executed by invoking the \code{Update()} method.
   //
   //  \index{itk::DiscreteGaussianImageFilter!Update()}
   //

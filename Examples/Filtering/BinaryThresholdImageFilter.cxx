@@ -129,7 +129,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Both the filter and the reader are created by invoking their New()
+  //  Both the filter and the reader are created by invoking their \code{New()}
   //  methods and assigning the result to \doxygen{SmartPointer}s.
   //
   //  Software Guide : EndLatex 
@@ -161,9 +161,9 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The method SetOutsideValue() defines the intensity value to be
+  //  The method \code{SetOutsideValue()} defines the intensity value to be
   //  assigned to those pixels whose intensities are outside the range defined
-  //  by the lower and upper thresholds. The method SetInsideValue()
+  //  by the lower and upper thresholds. The method \code{SetInsideValue()}
   //  define the intensity value to be assigned to pixels with intensities
   //  falling inside the threshold range.
   //  
@@ -185,7 +185,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The methods SetLowerThreshold() and SetUpperThreshold()
+  //  The methods \code{SetLowerThreshold()} and \code{SetUpperThreshold()}
   //  define the range of the input image intensities that will be transformed
   //  into the \code{InsideValue}. Note that the lower and upper thresholds are
   //  values of the type of the input image pixels, while the inside and
@@ -204,9 +204,9 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The execution of the filter is triggered by invoking the Update()
+  //  The execution of the filter is triggered by invoking the \code{Update()}
   //  method. If the filter's output has been passed as input to subsequent
-  //  filters, the Update() call on any of the posterior filters in the
+  //  filters, the \code{Update()} call on any of the posterior filters in the
   //  pipeline will indirectly trigger the update of this filter too.
   //
   //  Software Guide : EndLatex 

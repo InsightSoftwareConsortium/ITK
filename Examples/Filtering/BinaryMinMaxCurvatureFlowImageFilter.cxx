@@ -109,7 +109,7 @@ int main( int argc, char * argv[] )
   //
   //  The BinaryMinMaxCurvatureFlow filter type is now instantiated using both the
   //  input image and the output image types. The filter is then created using
-  //  the New() method.
+  //  the \code{New()} method.
   //
   //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!instantiation}
   //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!New()}
@@ -157,8 +157,8 @@ int main( int argc, char * argv[] )
   //  The \doxygen{BinaryMinMaxCurvatureFlowImageFilter} requires the same
   //  parameters of the MinMaxCurvatureFlowImageFilter plus the value of the
   //  threshold against which the neighborhood average will be compared. The
-  //  threshold is passed using the SetThreshold() method. Then the
-  //  filter can be executed by invoking Update().
+  //  threshold is passed using the \code{SetThreshold()} method. Then the
+  //  filter can be executed by invoking \code{Update()}.
   //
   //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!Update()}
   //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!SetTimeStep()}
@@ -219,8 +219,6 @@ int main( int argc, char * argv[] )
   rescaler->SetInput( filter->GetOutput() );
   writer->SetInput( rescaler->GetOutput() );
   writer->Update();
-
-  
 
 
   //  Software Guide : BeginLatex

@@ -121,7 +121,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  A filter object is created by invoking the New() method and
+  //  A filter object is created by invoking the \code{New()} method and
   //  assigning the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::CurvatureFlowImageFilter!New()}
@@ -155,8 +155,8 @@ int main( int argc, char * argv[] )
   //  The CurvatureFlow filter requires two parameters, the number of
   //  iterations to be performed and the time step used in the computation of
   //  the level set evolution. These two parameters are set using the methods
-  //  SetNumberOfIterations() and SetTimeStep() respectively.
-  //  Then the filter can be executed by invoking Update().
+  //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.
+  //  Then the filter can be executed by invoking \code{Update()}.
   //
   //  \index{itk::CurvatureFlowImageFilter!Update()}
   //  \index{itk::CurvatureFlowImageFilter!SetTimeStep()}

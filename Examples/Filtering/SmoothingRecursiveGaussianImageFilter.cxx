@@ -111,10 +111,10 @@ int main( int argc, char * argv[] )
   //
   //  This filter applies the approximation of the convolution along a single
   //  dimension. It is then necessary to concatenate several of these filters
-  //  in order to produce smoothing in all directions. We create then a pair of
-  //  filters since we have a $2D$ image to process here. The filters are
-  //  created by invoking the New() method and assigning the result to a
-  //  \doxygen{SmartPointer}.
+  //  in order to produce smoothing in all directions. We create then a pair
+  //  of filters since we have a $2D$ image to process here. The filters are
+  //  created by invoking the \code{New()} method and assigning the result to
+  //  a \doxygen{SmartPointer}.
   //
   //  \index{itk::RecursiveGaussianImageFilter!New()}
   //  \index{itk::RecursiveGaussianImageFilter!Pointer}
@@ -130,7 +130,7 @@ int main( int argc, char * argv[] )
   //
   //  Since each one of the newly created filters has the potential to perform
   //  filtering along any dimension, we have to restrict each one to a
-  //  particular direction. This is done with the SetDirection() method.
+  //  particular direction. This is done with the \code{SetDirection()} method.
   //
   //  \index{RecursiveGaussianImageFilter!SetDirection()}
   //
@@ -147,8 +147,8 @@ int main( int argc, char * argv[] )
   //  The \doxygen{RecursiveGaussianImageFilter} can approximate the
   //  convolution with the Gaussian or with its first and second
   //  derivatives. We should hence select here one of these options by using
-  //  the SetOrder() method. Note that the argument is an \code{enum} whose
-  //  values can be \code{ZeroOrder}, \code{FirstOrder} and
+  //  the \code{SetOrder()} method. Note that the argument is an \code{enum}
+  //  whose values can be \code{ZeroOrder}, \code{FirstOrder} and
   //  \code{SecondOrder}. For example, for computing the derivative along $X$
   //  we should select \code{FirstOrder} along $X$ and \code{ZeroOrder} along
   //  $Y$. Here we want to smooth in $X$ and $Y$ so we select
@@ -186,10 +186,11 @@ int main( int argc, char * argv[] )
   //
   //  The \doxygen{RecursiveGaussianImageFilter} has a boolean flag that
   //  allows users to select between both normalization options. This is done
-  //  with the method SetNormalizeAcrossScale(). For analyzing an image
-  //  across scale-space you want to enable this flag. In current example it
-  //  doesn't have any impact since we are actually renormalizing the output
-  //  to the dynamic range of the reader, so we simply disable the flag here.
+  //  with the method \code{SetNormalizeAcrossScale()}. For analyzing an
+  //  image across scale-space you want to enable this flag. In current
+  //  example it doesn't have any impact since we are actually renormalizing
+  //  the output to the dynamic range of the reader, so we simply disable the
+  //  flag here.
   //
   //  \index{RecursiveGaussianImageFilter!SetNormalizeAcrossScale()}
   //
@@ -244,7 +245,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally the pipeline is executed by invoking the Update() method.
+  //  Finally the pipeline is executed by invoking the \code{Update()} method.
   //
   //  \index{itk::RecursiveGaussianImageFilter!Update()}
   //

@@ -103,7 +103,6 @@ int main( int argc, char * argv[] )
   typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
   // Software Guide : EndCodeSnippet
 
-
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
@@ -128,7 +127,6 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::SigmoidImageFilter<
                InputImageType, OutputImageType >  SigmoidFilterType;
-
   SigmoidFilterType::Pointer sigmoidFilter = SigmoidFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -136,7 +134,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The minimum and maximum values desired at the output are defined with the
-  //  methods SetOutputMinimum() and SetOutputMaximum(). 
+  //  methods \code{SetOutputMinimum()} and \code{SetOutputMaximum()}. 
   //
   //  \index{itk::SigmoidImageFilter!SetOutputMaximum()}
   //  \index{itk::SigmoidImageFilter!SetOutputMinimum()}
@@ -155,7 +153,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The coefficients $\alpha$ and $\beta$ are passed with the methods
-  //  SetAlpha() and SetBeta().  Note that $\alpha$ is not
+  //  \code{SetAlpha()} and \code{SetBeta()}.  Note that $\alpha$ is not
   //  exactly the width of the input intensity window but it is proportional to
   //  it. As a rule of thumb we may say that the actual window is the interval
   //  $[-3\alpha, 3\alpha]$, with the remark that the intensity window ends are

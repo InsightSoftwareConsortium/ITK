@@ -68,7 +68,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   unsigned int dataId =  0;
   PixelType value     = 79;
-
   pointSet->SetPointData( dataId++, value );   
   // Software Guide : EndCodeSnippet
 
@@ -231,11 +230,11 @@ int main()
   //
   //  The \code{++} operator on the iterator can be used to advance from one
   //  data point to the next. The actual value of the PixelType to which the
-  //  iterator is pointing can be obtained with the \code{Value()} method. The
-  //  loop for walking through all the point data can be controlled by comparing
-  //  the current iterator with the iterator returned by the \code{End()}
-  //  method of the PointsContainer. The following lines illustrate the typical
-  //  loop for walking through the point data.
+  //  iterator is pointing can be obtained with the \code{Value()}
+  //  method. The loop for walking through all the point data can be
+  //  controlled by comparing the current iterator with the iterator returned
+  //  by the \code{End()} method of the PointsContainer. The following lines
+  //  illustrate the typical loop for walking through the point data.
   //
   //  \index{PointDataContainer!End()}
   //  \index{PointDataContainer!increment ++}

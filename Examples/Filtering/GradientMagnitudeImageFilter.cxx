@@ -121,7 +121,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  A filter object is created by invoking the New() method and
+  //  A filter object is created by invoking the \code{New()} method and
   //  assigning the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::GradientMagnitudeImageFilter!New()}
@@ -148,7 +148,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally the filter is executed by invoking the Update() method.
+  //  Finally the filter is executed by invoking the \code{Update()} method.
   //
   //  \index{itk::GradientMagnitudeImageFilter!Update()}
   //

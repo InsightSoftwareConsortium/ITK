@@ -97,7 +97,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The filter type is now instantiated and a filter object is created by the
-  //  New() method.
+  //  \code{New()} method.
   //
   //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!instantiation}
   //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!New()}
@@ -136,8 +136,8 @@ int main( int argc, char * argv[] )
   //  This filter requires two parameters, the number of iterations to be
   //  performed and the time step used in the computation of the level set
   //  evolution. These parameters are set using the methods
-  //  SetNumberOfIterations() and SetTimeStep() respectively.  The filter can
-  //  be executed by invoking Update().
+  //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.  The filter can
+  //  be executed by invoking \code{Update()}.
   //
   //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!Update()}
   //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!SetTimeStep()}

@@ -78,7 +78,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The filter type can be instantiated using the input and output image
-  //  types defined above. A filter object is created with the New()
+  //  types defined above. A filter object is created with the \code{New()}
   //  method.
   //
   //  \index{itk::DanielssonDistanceMapImageFilter!instantiation}
@@ -178,7 +178,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The Voronoi map is obtained with the GetVoronoiMap() method. In
+  //  The Voronoi map is obtained with the \code{GetVoronoiMap()} method. In
   //  the lines below we connect this output to the intensity rescaler and
   //  save the result in a file.
   //
@@ -238,7 +238,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //  
   //  Execution of the writer is triggered by the invocation of the
-  //  Update() method. Since this method can potentially throw
+  //  \code{Update()} method. Since this method can potentially throw
   //  exceptions it must be placed in a \code{try/catch} block.
   //
   //  Software Guide : EndLatex 

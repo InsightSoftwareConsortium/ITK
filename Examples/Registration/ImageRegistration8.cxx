@@ -18,12 +18,13 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{VersorRigid3DTransform}
-// for performing registration. The code of this example is for the most part
-// identical to the one presented in section~\ref{sec:RigidRegistrationIn2D}.
+// class for performing registration. The example code is for the most part
+// identical to the code presented in
+// Section~\ref{sec:RigidRegistrationIn2D}.
 //
-// The major difference is that this current example is done in $3D$. The class
-// \doxygen{CenteredTransformInitializer} is used again here to initialize the
-// center and translation of the transform.
+// The major difference is that this example is done in $3D$. The class
+// \doxygen{CenteredTransformInitializer} is used to initialize
+// the center and translation of the transform.
 //
 // \index{itk::VersorRigid3DTransform}
 // \index{itk::CenteredTransformInitializer!In 3D}
@@ -38,10 +39,9 @@
 #include "itkImage.h"
 
 
-
 //  Software Guide : BeginLatex
 //  
-//  The following are the most relevant headers in this example.
+//  The following are the most relevant headers to this example.
 //
 //  \index{itk::CenteredRigid2DTransform!header}
 // 
@@ -53,8 +53,6 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -63,9 +61,6 @@
 #include "itkSquaredDifferenceImageFilter.h"
 
 
-
-
-//
 //  The following section of code implements a Command observer
 //  that will monitor the evolution of the registration process.
 //
@@ -84,34 +79,27 @@ public:
   typedef   const OptimizerType   *    OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
-  {
-    Execute( (const itk::Object *)caller, event);
-  }
+    {
+      Execute( (const itk::Object *)caller, event);
+    }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
-  {
-    OptimizerPointer optimizer = 
-                      dynamic_cast< OptimizerPointer >( object );
-    if( typeid( event ) != typeid( itk::IterationEvent ) )
-      {
-      return;
-      }
+    {
+      OptimizerPointer optimizer = 
+        dynamic_cast< OptimizerPointer >( object );
+      if( typeid( event ) != typeid( itk::IterationEvent ) )
+        {
+        return;
+        }
       std::cout << optimizer->GetCurrentIteration() << "   ";
       std::cout << optimizer->GetValue() << "   ";
       std::cout << optimizer->GetCurrentPosition() << std::endl;
-  }
+    }
 };
-
-
-
-
-
 
 
 int main( int argc, char *argv[] )
 {
-
-
   if( argc < 4 )
     {
     std::cerr << "Missing Parameters " << std::endl;
@@ -131,9 +119,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The Transform type is instantiated using the code below. The only
-  //  template parameter of this class is the representation type of the space
-  //  coordinates.
+  //  The Transform class is instantiated using the code below. The only
+  //  template parameter to this class is the representation type of the
+  //  space coordinates.
   //
   //  \index{itk::CenteredRigid2DTransform!Instantiation}
   //
@@ -146,7 +134,6 @@ int main( int argc, char *argv[] )
 
 
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-
   typedef itk::MeanSquaresImageToImageMetric< 
                                     FixedImageType, 
                                     MovingImageType >    MetricType;
@@ -170,8 +157,6 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The transform object is constructed below and passed to the registration
@@ -185,7 +170,6 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transform = TransformType::New();
-
   registration->SetTransform( transform );
   // Software Guide : EndCodeSnippet
 
@@ -198,17 +182,12 @@ int main( int argc, char *argv[] )
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
 
-
-
-
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
   fixedImageReader->Update();
 
   registration->SetFixedImageRegion( 
      fixedImageReader->GetOutput()->GetBufferedRegion() );
-
-
 
 
   //  Software Guide : BeginLatex
@@ -229,15 +208,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CenteredTransformInitializer< 
-                                    TransformType, 
-                                    FixedImageType, 
-                                    MovingImageType >  TransformInitializerType;
-
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+  typedef itk::CenteredTransformInitializer< TransformType, FixedImageType, 
+    MovingImageType >  TransformInitializerType;
+  TransformInitializerType::Pointer initializer = 
+    TransformInitializerType::New();
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -250,7 +225,6 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   initializer->SetTransform(   transform );
-
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
   // Software Guide : EndCodeSnippet
@@ -271,12 +245,11 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  Finally, the computation of the center and translation is triggered by the
-  //  \code{InitializeTransform()} method. The resulting values will be passed
-  //  directly to the transform.
+  //  Finally, the computation of the center and translation is triggered by
+  //  the \code{InitializeTransform()} method. The resulting values will be
+  //  passed directly to the transform.
   //
   //  Software Guide : EndLatex 
 
@@ -284,9 +257,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   initializer->InitializeTransform();
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -303,11 +273,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef TransformType::VersorType  VersorType;
-
   typedef VersorType::VectorType     VectorType;
-  
   VersorType     rotation;
-
   VectorType     axis;
   
   axis[0] = 0.0;
@@ -315,36 +282,25 @@ int main( int argc, char *argv[] )
   axis[2] = 1.0;
 
   const double angle = 0;
-
   rotation.Set(  axis, angle  );
-
   transform->SetRotation( rotation );
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //  
-  //  We pass now the parameters of the current transform as the initial
+  //  We now pass the parameters of the current transform as the initial
   //  parameters to be used when the registration process starts. 
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  registration->SetInitialTransformParameters( 
-                                 transform->GetParameters() );
+  registration->SetInitialTransformParameters( transform->GetParameters() );
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   typedef OptimizerType::ScalesType       OptimizerScalesType;
-
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
-
   const double translationScale = 1.0 / 1000.0;
 
   optimizerScales[0] = 1.0;
@@ -365,15 +321,10 @@ int main( int argc, char *argv[] )
   optimizer->SetNumberOfIterations( 200 );
 
 
-
-
-
-  //
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
-
 
 
   try 
@@ -405,7 +356,7 @@ int main( int argc, char *argv[] )
 
   const double bestValue = optimizer->GetValue();
 
-  //
+
   // Print out results
   //
   std::cout << "Result = " << std::endl;
@@ -434,7 +385,7 @@ int main( int argc, char *argv[] )
   //
   //  The second image is the result of intentionally rotating the first image
   //  by $10$ degrees and shifting it $15mm$ in $Y$.  The registration takes
-  //  $47$ iterations and produce as result the parameters:
+  //  $47$ iterations and produces:
   //
   //  \begin{center}
   //  \begin{verbatim}
@@ -453,12 +404,12 @@ int main( int argc, char *argv[] )
   // 
   //  Note that the reported translation is not the translation of $(13,17)$
   //  that we may naively expecting. The reason is that the $5$ parameters of
-  //  the \doxygen{CenteredRigid2DTransform} are redundant. The actual movement in
-  //  space is described by only $3$ parameters. This means that there are
-  //  infinite combinations of rotation center and translations that will
-  //  represent the same actual movement in space. It it more illustrative in
-  //  this case to take a look at the actual rotation matrix and offset
-  //  resulting form the $5$ parameters.
+  //  the \doxygen{CenteredRigid2DTransform} are redundant. The actual
+  //  movement in space is described by only $3$ parameters. This means that
+  //  there are infinite combinations of rotation center and translations
+  //  that will represent the same actual movement in space. It it more
+  //  illustrative in this case to take a look at the actual rotation matrix
+  //  and offset resulting form the $5$ parameters.
   //
   //  Software Guide : EndLatex 
 
@@ -486,14 +437,14 @@ int main( int argc, char *argv[] )
   //     36.9848  -1.22857
   //  \end{verbatim}
   //
-  //  This output illustrates how counter intuitive could be the mix of center
-  //  of rotation and translations. Figure
+  //  This output illustrates how counter intuitive is the mix of center of
+  //  rotation and translations. Figure
   //  \ref{fig:TranslationAndRotationCenter} will clarify this situation. The
-  //  figures shows at left an original image. A rotation of $10^{\circ}$ around
-  //  the center of the image is shown in the middle. The same rotation
-  //  performed around the origin of coordinates is shown at right. It can be
-  //  seen here that changing the center of rotation introduced additional
-  //  translations.
+  //  figures shows at left an original image. A rotation of $10^{\circ}$
+  //  around the center of the image is shown in the middle. The same
+  //  rotation performed around the origin of coordinates is shown at
+  //  right. It can be seen here that changing the center of rotation
+  //  introduced additional translations.
   //
   //  Let's analyze what happens to the center of the image that we just
   //  registered. Under the point of view of rotating $10^{\circ}$ around the
@@ -504,15 +455,16 @@ int main( int argc, char *argv[] )
   //  passed unchanged. Then with the  $(13mm,17mm)$ translation it is mapped
   //  to $(123.5,145.5)$ which becomes its final position.
   //
-  //  The matrix and offset that we obtained at the end of the registration say
-  //  that this should be equivalent to a rotation of $10^{\circ}$ around the
-  //  origin, followed by a translations of $(36.98,-1.22)$. Let's compute this
-  //  in detail. First the rotation of the image center by $10^{\circ}$ around the
-  //  origin will move the point to $(86.52,147.97)$. Now, applying a
-  //  translation of $(36.98,-1.22)$ maps this point to $(123.5,146.75)$. Which
-  //  is pretty close to the result of our previous computation.
+  //  The matrix and offset that we obtained at the end of the registration
+  //  indicates that this should be equivalent to a rotation of $10^{\circ}$
+  //  around the origin, followed by a translations of $(36.98,-1.22)$. Let's
+  //  compute this in detail. First the rotation of the image center by
+  //  $10^{\circ}$ around the origin will move the point to
+  //  $(86.52,147.97)$. Now, applying a translation of $(36.98,-1.22)$ maps
+  //  this point to $(123.5,146.75)$. Which is pretty close to the result of
+  //  our previous computation.
   //
-  //  It is unlikely that we could have choosen such tranlation as an initial
+  //  It is unlikely that we could have choosen such translation as an initial
   //  guess, since we tend to think about image in a coordinate system whose
   //  origin is in the center of the image.
   // 
@@ -530,13 +482,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  You may be wondering why if the actual movement is represented by three
-  //  parameters we take the long way of using five. In particular when that
-  //  results in having to deal with a $5$-dimensional space for the optimizer
-  //  instead of a $3$-dimensional one. The answer is that by using 5
-  //  parameters we have a much simpler way of initializing the transform with
-  //  an appropriate rotation matrix and offset. Using the minimum three
-  //  parameters is not obvious how to find what the rotation and translations
-  //  should be.
+  //  parameters this example uses five instead. The answer is that by using
+  //  five parameters it is easier to initialize the transform with an
+  //  appropriate rotation matrix and offset. Using the minimum three
+  //  parameters is not obvious how to find what the rotation and
+  //  translations should be.
   //
   //  Software Guide : EndLatex 
 
@@ -547,7 +497,7 @@ int main( int argc, char *argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17.eps}
-  // \itkcaption[CenteredTransformInitializer input images]{Fixed and Moving image
+  // \itkcaption[CenteredTransformInitializer input images]{Fixed and moving image
   // provided as input to the registration method using
   // CenteredTransformInitializer.}
   // \label{fig:FixedMovingImageRegistration6}
@@ -567,7 +517,7 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   // Figure \ref{fig:ImageRegistration6Outputs} shows the output of the
-  // registration. The right most image of this Figure shows the squared
+  // registration. The right most image of this figure shows the squared
   // magnitude of pixel differences between the fixed image and the resampled
   // moving image. 
   //
@@ -576,7 +526,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[height=0.32\textwidth]{ImageRegistration6TraceMetric.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration6TraceAngle.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration6TraceTranslations.eps} 
-  // \itkcaption[CenteredTransformInitializer output plots]{Plots of the Metric,
+  // \itkcaption[CenteredTransformInitializer output plots]{Plots of the metric,
   // rotation angle, center of rotation and translations during the
   // registration using CenteredTransformInitializer.}
   // \label{fig:ImageRegistration6Plots}
@@ -590,10 +540,9 @@ int main( int argc, char *argv[] )
   //  used in the transform, not the atctual total translation that gets used
   //  in the offset of the transform. We could modify the Observer in order to
   //  print the total offset instead of printing the array of parameters. Let's
-  //  call that an exercise for the reader !.
+  //  call that an exercise for the reader!
   //
   //  Software Guide : EndLatex 
-
 
 
   typedef itk::ResampleImageFilter< 
@@ -631,9 +580,7 @@ int main( int argc, char *argv[] )
   CastFilterType::Pointer  caster =  CastFilterType::New();
 
 
-
   writer->SetFileName( argv[3] );
-  
 
 
   caster->SetInput( resample->GetOutput() );
@@ -674,8 +621,6 @@ int main( int argc, char *argv[] )
     }
 
 
-
   return 0;
-
 }
 

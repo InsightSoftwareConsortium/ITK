@@ -117,7 +117,7 @@ int main( int argc, char * argv[] )
   //
   //  The \doxygen{MinMaxCurvatureFlowImageFilter} type is now instantiated
   //  using both the input image and the output image types. The filter is
-  //  then created using the New() method.
+  //  then created using the \code{New()} method.
   //
   //  \index{itk::MinMaxCurvatureFlowImageFilter!instantiation}
   //  \index{itk::MinMaxCurvatureFlowImageFilter!New()}
@@ -160,10 +160,10 @@ int main( int argc, char * argv[] )
   //  performed and the time step used in the computation of the level set
   //  evolution. In addition to them, the radius of the neighborhood is also
   //  required. This last parameter is passed using the
-  //  SetStencilRadius() method. Note that the radius is provided as an
+  //  \code{SetStencilRadius()} method. Note that the radius is provided as an
   //  integer number since it is refering to a number of pixels from the center
   //  to the border of the neighborhood. Then the filter can be executed by
-  //  invoking Update().
+  //  invoking \code{Update()}.
   //
   //  \index{itk::MinMaxCurvatureFlowImageFilter!Update()}
   //  \index{itk::MinMaxCurvatureFlowImageFilter!SetTimeStep()}

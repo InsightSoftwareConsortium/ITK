@@ -94,7 +94,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The filter type is now instantiated using both the input image and the
-  //  output image types. The filter object is created by the New()
+  //  output image types. The filter object is created by the \code{New()}
   //  method.
   //
   //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!instantiation}
@@ -138,8 +138,8 @@ int main( int argc, char * argv[] )
   //  This filter requires two parameters, the number of iterations to be
   //  performed and the time step used in the computation of the level set
   //  evolution. These parameters are set using the methods
-  //  SetNumberOfIterations() and SetTimeStep() respectively.  The filter can
-  //  be executed by invoking Update().
+  //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.
+  //  The filter can be executed by invoking \code{Update()}.
   //
   //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!Update()}
   //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!SetTimeStep()}

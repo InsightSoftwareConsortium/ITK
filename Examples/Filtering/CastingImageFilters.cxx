@@ -159,7 +159,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Object filters are created by invoking the New() operator and
+  //  Object filters are created by invoking the \code{New()} operator and
   //  assigning the result to \doxygen{SmartPointer}s.
   //
   //  \index{itk::ShiftScaleImageFilter!New()}
@@ -213,7 +213,7 @@ int main( int argc, char * argv[] )
   //  require any parameters. The \doxygen{RescaleIntensityImageFilter}, on
   //  the other hand, requires the user to provide the desired minimum and
   //  maximum pixel values of the output image. This is done by using the
-  //  SetOutputMinimum() and SetOutputMaximum() methods as
+  //  \code{SetOutputMinimum()} and \code{SetOutputMaximum()} methods as
   //  illustrated below.
   //
   //  \index{itk::RescaleIntensityImageFilter!SetOutputMinimum()}
@@ -233,8 +233,8 @@ int main( int argc, char * argv[] )
   //
   //  The \doxygen{ShiftScaleImageFilter} requires the user to provide a
   //  factor to multiply all the pixels values and an additional value to be
-  //  added after the multiplication. The methods SetShift() and
-  //  SetScale() are used for this purpose.
+  //  added after the multiplication. The methods \code{SetShift()} and
+  //  \code{SetScale()} are used for this purpose.
   //
   //  \index{itk::ShiftScaleImageFilter!SetShift()}
   //  \index{itk::ShiftScaleImageFilter!SetScale()}
@@ -252,7 +252,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  Finally, the execution of the filters can be triggered by invoking the
-  //  Update() method.
+  //  \code{Update()} method.
   //
   //  \index{itk::ShiftScaleImageFilter!Update()}
   //  \index{itk::RescaleIntensityImageFilter!Update()}

@@ -204,8 +204,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The output of the filter is connected here to a intensity rescaler
-  //  filter and then to a writer. Invoking Update() on the writer triggers
-  //  the execution of both filters.
+  //  filter and then to a writer. Invoking \code{Update()} on the writer
+  //  triggers the execution of both filters.
   //
   //  Software Guide : EndLatex 
 

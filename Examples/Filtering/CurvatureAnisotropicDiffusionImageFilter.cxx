@@ -103,7 +103,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The filter type is now instantiated using both the input image and the
-  //  output image types. The filter object is created by the New()
+  //  output image types. The filter object is created by the \code{New()}
   //  method.
   //
   //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!instantiation}
@@ -146,8 +146,9 @@ int main( int argc, char * argv[] )
   //  This filter requires three parameters, the number of iterations to be
   //  performed, the time step used in the computation of the level set
   //  evolution and the value of conductance. These parameters are set using
-  //  the methods SetNumberOfIterations(), SetTimeStep() and SetConductance
-  //  respectively.  The filter can be executed by invoking Update().
+  //  the methods \code{SetNumberOfIterations()}, \code{SetTimeStep()} and
+  //  \code{SetConductance()} respectively.  The filter can be executed by
+  //  invoking \code{Update()}.
   //
   //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!Update()}
   //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!SetTimeStep()}

@@ -108,7 +108,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  Now a single filter is enough for smoothing the image along all the
-  //  dimensions.  The filter is created by invoking the New() method
+  //  dimensions.  The filter is created by invoking the \code{New()} method
   //  and assigning the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::SmoothingRecursiveGaussianImageFilter!New()}
@@ -124,7 +124,7 @@ int main( int argc, char * argv[] )
   //
   //  As in the previous examples we should decide what type of normalization
   //  to use during the computation of the Gaussians. The method   
-  //  SetNormalizeAcrossScale() serves this purpose. 
+  //  \code{SetNormalizeAcrossScale()} serves this purpose. 
   //  \index{SmoothingRecursiveGaussianImageFilter!SetNormalizeAcrossScale()}
   //
   //  Software Guide : EndLatex 
@@ -169,7 +169,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally the pipeline is executed by invoking the Update() method.
+  //  Finally the pipeline is executed by invoking the \code{Update()} method.
   //
   //  \index{itk::SmoothingRecursiveGaussianImageFilter!Update()}
   //

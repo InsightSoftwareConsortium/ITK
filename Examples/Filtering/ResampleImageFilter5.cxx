@@ -62,7 +62,6 @@ int main( int argc, char * argv[] )
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
   typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
 
-
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
@@ -97,8 +96,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  A transform object is constructed by calling New() and passing the
-  //  result to a \doxygen{SmartPointer}.
+  //  A transform object is constructed by calling \code{New()} and passing
+  //  the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::Similarity2DTransform!New()}
   //  \index{itk::Similarity2DTransform!Pointer}
@@ -160,7 +159,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The rotation is specified with the method SetAngle()
+  //  The rotation is specified with the method \code{SetAngle()}.
   //  
   //  \index{itk::Similarity2DTransform!SetAngle()}
   //
@@ -175,7 +174,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The scale change is defined using the method SetScale(). 
+  //  The scale change is defined using the method \code{SetScale()}. 
   //  \index{itk::Similarity2DTransform!SetScale()}
   //
   //  Software Guide : EndLatex 
@@ -188,7 +187,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  A translation to be applied after the rotation and scaling can be
-  //  specified with the method SetTranslation().
+  //  specified with the method \code{SetTranslation()}.
   //
   //  \index{itk::AffineTransform!Translate()}
   //
