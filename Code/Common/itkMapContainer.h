@@ -154,39 +154,75 @@ public:
   /**
    * The non-const iterator type for the map.
    */
-  class Iterator: public MapIterator
+  class Iterator
   {
   public:
-    Iterator(const MapIterator& i): MapIterator(i) {}
+    Iterator() {}
+    Iterator( const MapIterator& i ): m_Iter(i) {}
+    
     Iterator& operator* ()    { return *this; }
     Iterator* operator-> ()   { return this; }
+    Iterator& operator++ ()   { ++m_Iter; return *this; }
+    Iterator operator++ (int) { Iterator temp(*this);  ++m_Iter; return temp; }
+    Iterator& operator-- ()   { --m_Iter; return *this; }
+    Iterator operator-- (int) { Iterator temp(*this); --m_Iter; return temp; }
+
+    bool operator == (const Iterator& r) const { return m_Iter == r.m_Iter; }
+    bool operator != (const Iterator& r) const { return m_Iter != r.m_Iter; }
+    bool operator == (const ConstIterator& r) const { return m_Iter == r.m_Iter; }
+    bool operator != (const ConstIterator& r) const { return m_Iter != r.m_Iter; }
+ 
     /**
      * Get the index into the MapContainer associated with this iterator.
      */
-    ElementIdentifier Index(void) const { return (*this)->first; }
+    ElementIdentifier Index(void) const { return m_Iter->first; }
+
     /**
      * Get the value at this iterator's location in the MapContainer.
      */
-    Element& Value(void) { return (*this)->second; }
+    Element& Value(void) { return m_Iter->second; }
+  private:
+    MapIterator      m_Iter;
+    friend class     ConstIterator;
   };
   
   /**
    * The const iterator type for the map.
    */
-  class ConstIterator: public MapConstIterator
+  class ConstIterator
   {
   public:
-    ConstIterator(const MapConstIterator& ci): MapConstIterator(ci) {}
+    ConstIterator() {}
+    ConstIterator(const MapConstIterator& ci): m_Iter(ci) {}
+    ConstIterator(const Iterator& r) { m_Iter = r.m_Iter; }
+
+    
     ConstIterator& operator* ()    { return *this; }
     ConstIterator* operator-> ()   { return this; }
+    ConstIterator& operator++ ()   { ++m_Iter; return *this; }
+    ConstIterator operator++ (int) { ConstIterator temp(*this);  ++m_Iter; return temp; }
+    ConstIterator& operator-- ()   { --m_Iter; return *this; }
+    ConstIterator operator-- (int) { ConstIterator temp(*this); --m_Iter; return temp; }
+
+    bool operator == (const Iterator& r) const { return m_Iter == r.m_Iter; }
+    bool operator != (const Iterator& r) const { return m_Iter != r.m_Iter; }
+    bool operator == (const ConstIterator& r) const { return m_Iter == r.m_Iter; }
+    bool operator != (const ConstIterator& r) const { return m_Iter != r.m_Iter; }
+ 
+
+    
     /**
      * Get the index into the MapContainer associated with this iterator.
      */
-    ElementIdentifier Index(void) const { return (*this)->first; }
+    ElementIdentifier Index(void) const { return m_Iter->first; }
     /**
      * Get the value at this iterator's location in the MapContainer.
      */
-    const Element& Value(void) const { return (*this)->second; }
+    const Element& Value(void) const { return m_Iter->second; }
+
+  private:
+    MapConstIterator m_Iter;
+    friend class Iterator;
   };
   
   /**
