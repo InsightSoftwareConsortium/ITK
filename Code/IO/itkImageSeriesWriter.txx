@@ -203,6 +203,9 @@ ImageSeriesWriter<TInputImage,TOutputImage>
       ++ot;
       }
 
+    // Mark the image as 'Modified'
+    outputImage->Modified();
+
     typename WriterType::Pointer writer = WriterType::New();
     writer->SetInput(outputImage);
     if (m_ImageIO)
