@@ -74,28 +74,6 @@ namespace itpack {
 
 
 
-
-/*
- * Functions that are called within itpack
- * They are all declared inline, to speed things up a bit.
- */
-inline double pow_dd(doublereal *ap, doublereal *bp);
-inline double pow_di(doublereal *ap, integer *bp);
-inline double d_lg10(doublereal *x);
-inline double sqrt(doublereal x);
-inline double log(doublereal x);
-inline double d_sign(doublereal *a, doublereal *b);
-inline integer i_sign(integer *a, integer *b);
-
-inline integer do_fio(ftnint *number, char *ptr, ftnlen len);
-inline integer e_wsfe(void);
-inline integer s_wsfe(cilist *a);
-inline doublereal etime_(float *tarray);
-
-inline double getDoublePrecision();
-
-
-
 /*
  * Definitions of above functions
  */
