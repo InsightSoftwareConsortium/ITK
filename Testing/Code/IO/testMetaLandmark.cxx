@@ -6,6 +6,7 @@ int testMetaLandmark(int , char * [])
 {
 
   std::cout << "Creating test file ..." << std::endl;
+  MetaLandmark Landmark0;
   MetaLandmark Landmark(3);
   Landmark.ID(0);
   LandmarkPnt* pnt;
@@ -29,6 +30,12 @@ int testMetaLandmark(int , char * [])
  
   std::cout << "Reading test file ..." << std::endl;
   Landmark.Read("Landmarks.meta"); 
+  MetaLandmark landmarkRead("Landmarks.meta"); 
+  MetaLandmark landmarkCopy(&landmarkRead);
+
+  std::cout << "PointDim = " << landmarkCopy.PointDim() << std::endl;
+  std::cout << "NPoints = "  << landmarkCopy.NPoints() << std::endl;
+  std::cout << "ElementType = " << landmarkCopy.ElementType() << std::endl;
 
   std::cout << "  done" << std::endl;
 
