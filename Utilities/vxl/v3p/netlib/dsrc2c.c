@@ -85,16 +85,6 @@ doublereal etime_(float *tarray)
 
 
 
-/*
- * Required macros for for code obtained with f2c
- */
-#define TRUE_ (1)
-#define FALSE_ (0)
-
-#define max(a,b) ((a) >= (b) ? (a) : (b))
-#define min(a,b) ((a) <= (b) ? (a) : (b))
-#define abs(x) ((x) >= 0 ? (x) : -(x))
-
 
 /*****   END OF ITK ADDITIONS ****/
 
