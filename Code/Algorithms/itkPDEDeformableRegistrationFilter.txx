@@ -262,7 +262,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   this->Superclass::GenerateOutputInformation();
 
   }
- else if( this->GetInput(2) )
+ else if( this->GetFixedImage() )
   {
   // Initial deforamtion field is not set. 
   // Copy information from the fixed image.
@@ -272,7 +272,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
     output = this->GetOutput(idx);
     if (output)
       {
-      output->CopyInformation(this->GetInput(2));
+      output->CopyInformation(this->GetFixedImage());
       }  
     }
 

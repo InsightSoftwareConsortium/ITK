@@ -67,7 +67,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
 ::SetMovingImage(
 const MovingImageType * ptr )
 {
-  this->ProcessObject::SetNthInput( 1, const_cast< MovingImageType * >( ptr ) );
+  this->ProcessObject::SetNthInput( 2, const_cast< MovingImageType * >( ptr ) );
 }
 
 
@@ -81,7 +81,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
 ::GetMovingImage(void)
 {
   return dynamic_cast< const MovingImageType * >
-    ( this->ProcessObject::GetInput( 1 ).GetPointer() );
+    ( this->ProcessObject::GetInput( 2 ).GetPointer() );
 }
 
 
@@ -94,7 +94,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
 ::SetFixedImage(
 const FixedImageType * ptr )
 {
-  this->ProcessObject::SetNthInput( 2, const_cast< FixedImageType * >( ptr ) );
+  this->ProcessObject::SetNthInput( 1, const_cast< FixedImageType * >( ptr ) );
 }
 
 
@@ -108,7 +108,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
 ::GetFixedImage(void)
 {
   return dynamic_cast< const FixedImageType * >
-    ( this->ProcessObject::GetInput( 2 ).GetPointer() );
+    ( this->ProcessObject::GetInput( 1 ).GetPointer() );
 }
 
 
@@ -271,8 +271,8 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
 
       }
 
-    this->UpdateProgress( (float) m_CurrentLevel / 
-      (float) m_NumberOfLevels );
+    // Invoke an iteration event.
+    this->InvokeEvent( IterationEvent() );
 
     // setup registration filter and pyramids 
     m_RegistrationFilter->SetMovingImage( m_MovingImagePyramid->GetOutput(movingLevel) );
@@ -352,7 +352,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
   this->Superclass::GenerateOutputInformation();
 
   }
- else if( this->GetInput(2) )
+ else if( this->GetFixedImage() )
   {
   // Initial deforamtion field is not set. 
   // Copy information from the fixed image.
@@ -362,7 +362,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
     output = this->GetOutput(idx);
     if (output)
       {
-      output->CopyInformation(this->GetInput(2));
+      output->CopyInformation(this->GetFixedImage());
       }  
     }
 
@@ -380,8 +380,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
   // call the superclass's implementation
   Superclass::GenerateInputRequestedRegion();
 
-  // request the largest possible region for the fixed, 
-  // moving and initial deformation field
+  // request the largest possible region for the moving image
   MovingImagePointer movingPtr = 
     const_cast< MovingImageType * >( this->GetMovingImage().GetPointer() );
   if( movingPtr )
@@ -389,18 +388,22 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
     movingPtr->SetRequestedRegionToLargestPossibleRegion();
     }
   
-  FixedImagePointer fixedPtr = 
-    const_cast< FixedImageType * >( this->GetFixedImage().GetPointer() );
-  if( fixedPtr )
-    {
-    fixedPtr->SetRequestedRegionToLargestPossibleRegion();
-    }
-
+  // just propagate up the output requested region for
+  // the fixed image and initial deformation field.
   DeformationFieldPointer inputPtr = 
-    const_cast< DeformationFieldType * >( this->GetInput().GetPointer() );
+      const_cast< DeformationFieldType * >( this->GetInput().GetPointer() );
+  DeformationFieldPointer outputPtr = this->GetOutput();
+  FixedImagePointer fixedPtr = 
+        const_cast< FixedImageType *>( this->GetFixedImage().GetPointer() );
+
   if( inputPtr )
     {
-    inputPtr->SetRequestedRegionToLargestPossibleRegion();
+    inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+    }
+
+  if( fixedPtr )
+    {
+    fixedPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
     }
 
 }

@@ -43,6 +43,10 @@ public:
     std::cout <<  m_Prefix ;
     std::cout << "Progress " << m_Process->GetProgress() << std::endl;
     }
+  void ShowIteration()
+    {
+    std::cout << "New Level" << std::endl;
+    }
   itk::ProcessObject::Pointer m_Process;
   std::string m_Prefix;
 };
@@ -147,17 +151,17 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char**)
   region.SetSize( size );
   region.SetIndex( index );
   
-  ImageType::Pointer reference = ImageType::New();
-  ImageType::Pointer target = ImageType::New();
+  ImageType::Pointer moving = ImageType::New();
+  ImageType::Pointer fixed = ImageType::New();
   FieldType::Pointer initField = FieldType::New();
 
-  reference->SetLargestPossibleRegion( region );
-  reference->SetBufferedRegion( region );
-  reference->Allocate();
+  moving->SetLargestPossibleRegion( region );
+  moving->SetBufferedRegion( region );
+  moving->Allocate();
 
-  target->SetLargestPossibleRegion( region );
-  target->SetBufferedRegion( region );
-  target->Allocate();
+  fixed->SetLargestPossibleRegion( region );
+  fixed->SetBufferedRegion( region );
+  fixed->Allocate();
   
   initField->SetLargestPossibleRegion( region );
   initField->SetBufferedRegion( region );
@@ -168,13 +172,13 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char**)
   PixelType fgnd = 250;
   PixelType bgnd = 15;
 
-  // fill reference with circle 
+  // fill moving with circle 
   center[0] = 128; center[1] = 128; radius = 60;
-  FillWithCircle<ImageType>( reference, center, radius, fgnd, bgnd );
+  FillWithCircle<ImageType>( moving, center, radius, fgnd, bgnd );
 
-  // fill target with circle
+  // fill fixed with circle
   center[0] = 115; center[1] = 120; radius = 65;
-  FillWithCircle<ImageType>( target, center, radius, fgnd, bgnd );
+  FillWithCircle<ImageType>( fixed, center, radius, fgnd, bgnd );
 
   // fill initial deformation with zero vectors
   VectorType zeroVec;
@@ -189,8 +193,8 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char**)
 
   RegistrationType::Pointer registrator = RegistrationType::New();
 
-  registrator->SetMovingImage( reference );
-  registrator->SetFixedImage( target );
+  registrator->SetMovingImage( moving );
+  registrator->SetFixedImage( fixed );
  
   unsigned int numLevel = 5;
   unsigned int numIterations[10];
@@ -212,8 +216,8 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char**)
   ShowProgressPDEObject progressWatch(registrator);
   CommandType::Pointer command = CommandType::New();
   command->SetCallbackFunction(&progressWatch,
-                               &ShowProgressPDEObject::ShowProgress);
-  registrator->AddObserver(itk::ProgressEvent(), command);
+                               &ShowProgressPDEObject::ShowIteration);
+  registrator->AddObserver(itk::IterationEvent(), command);
 
   ShowProgressPDEObject innerWatch(registrator->GetRegistrationFilter() );
   innerWatch.m_Prefix = "    ";
@@ -227,7 +231,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char**)
 
  
   // -------------------------------------------------------
-  std::cout << "Warp reference image" << std::endl;
+  std::cout << "Warp moving image" << std::endl;
 
   typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
   WarperType::Pointer warper = WarperType::New();
@@ -238,11 +242,11 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char**)
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   
 
-  warper->SetInput( reference );
+  warper->SetInput( moving );
   warper->SetDeformationField( registrator->GetOutput() );
   warper->SetInterpolator( interpolator );
-  warper->SetOutputSpacing( target->GetSpacing() );
-  warper->SetOutputOrigin( target->GetOrigin() );
+  warper->SetOutputSpacing( fixed->GetSpacing() );
+  warper->SetOutputOrigin( fixed->GetOrigin() );
 
   warper->Update();
 
@@ -256,12 +260,12 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char**)
 
   writer->SetFileTypeToBinary();
   
-  writer->SetInput( reference );
-  writer->SetFileName( "reference.raw" );
+  writer->SetInput( moving );
+  writer->SetFileName( "moving.raw" );
   writer->Write();
 
-  writer->SetInput( target );
-  writer->SetFileName( "target.raw" );
+  writer->SetInput( fixed );
+  writer->SetFileName( "fixed.raw" );
   writer->Write();
 
   writer->SetInput( warper->GetOutput() );
@@ -270,23 +274,23 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char**)
 */
  
   // ---------------------------------------------------------
-  std::cout << "Compare warped reference and target." << std::endl;
+  std::cout << "Compare warped moving and fixed." << std::endl;
 
-  // compare the warp and target images
-  itk::ImageRegionIterator<ImageType> targetIter( target,
-      target->GetBufferedRegion() );
+  // compare the warp and fixed images
+  itk::ImageRegionIterator<ImageType> fixedIter( fixed,
+      fixed->GetBufferedRegion() );
   itk::ImageRegionIterator<ImageType> warpedIter( warper->GetOutput(),
       warper->GetOutput()->GetBufferedRegion() );
 
   unsigned int numPixelsDifferent = 0;
-  while( !targetIter.IsAtEnd() )
+  while( !fixedIter.IsAtEnd() )
     {
-    if( vnl_math_abs( targetIter.Get() - warpedIter.Get() ) > 
+    if( vnl_math_abs( fixedIter.Get() - warpedIter.Get() ) > 
         0.1 * vnl_math_abs( fgnd - bgnd ) )
       {
       numPixelsDifferent++;
       }
-    ++targetIter;
+    ++fixedIter;
     ++warpedIter;
     }
 
@@ -311,9 +315,9 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char**)
   registrator->Update();
 
   if( registrator->GetOutput()->GetBufferedRegion() != 
-   target->GetBufferedRegion() )
+   fixed->GetBufferedRegion() )
     {
-    std::cout << "Deformation field should be the same size as target";
+    std::cout << "Deformation field should be the same size as fixed";
     std::cout << std::endl;
     return EXIT_FAILURE; 
     }

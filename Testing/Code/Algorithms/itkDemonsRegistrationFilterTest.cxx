@@ -136,17 +136,17 @@ int itkDemonsRegistrationFilterTest(int, char**)
   region.SetSize( size );
   region.SetIndex( index );
   
-  ImageType::Pointer reference = ImageType::New();
-  ImageType::Pointer target = ImageType::New();
+  ImageType::Pointer moving = ImageType::New();
+  ImageType::Pointer fixed = ImageType::New();
   FieldType::Pointer initField = FieldType::New();
 
-  reference->SetLargestPossibleRegion( region );
-  reference->SetBufferedRegion( region );
-  reference->Allocate();
+  moving->SetLargestPossibleRegion( region );
+  moving->SetBufferedRegion( region );
+  moving->Allocate();
 
-  target->SetLargestPossibleRegion( region );
-  target->SetBufferedRegion( region );
-  target->Allocate();
+  fixed->SetLargestPossibleRegion( region );
+  fixed->SetBufferedRegion( region );
+  fixed->Allocate();
   
   initField->SetLargestPossibleRegion( region );
   initField->SetBufferedRegion( region );
@@ -157,13 +157,13 @@ int itkDemonsRegistrationFilterTest(int, char**)
   PixelType fgnd = 250;
   PixelType bgnd = 15;
 
-  // fill reference with circle 
+  // fill moving with circle 
   center[0] = 64; center[1] = 64; radius = 30;
-  FillWithCircle<ImageType>( reference, center, radius, fgnd, bgnd );
+  FillWithCircle<ImageType>( moving, center, radius, fgnd, bgnd );
 
-  // fill target with circle
+  // fill fixed with circle
   center[0] = 62; center[1] = 64; radius = 32;
-  FillWithCircle<ImageType>( target, center, radius, fgnd, bgnd );
+  FillWithCircle<ImageType>( fixed, center, radius, fgnd, bgnd );
 
   // fill initial deformation with zero vectors
   VectorType zeroVec;
@@ -171,15 +171,15 @@ int itkDemonsRegistrationFilterTest(int, char**)
   FillImage<FieldType>( initField, zeroVec );
 
   //-------------------------------------------------------------
-  std::cout << "Run registration and warp reference" << std::endl;
+  std::cout << "Run registration and warp moving" << std::endl;
 
   typedef itk::DemonsRegistrationFilter<ImageType,ImageType,FieldType> 
     RegistrationType;
   RegistrationType::Pointer registrator = RegistrationType::New();
 
   registrator->SetInitialDeformationField( initField );
-  registrator->SetMovingImage( reference );
-  registrator->SetFixedImage( target );
+  registrator->SetMovingImage( moving );
+  registrator->SetFixedImage( fixed );
   registrator->SetNumberOfIterations( 150 );
   registrator->SetStandardDeviations( 1.0 );
   registrator->Print( std::cout );
@@ -199,7 +199,7 @@ int itkDemonsRegistrationFilterTest(int, char**)
  
   registrator->Update();
 
-  // warp reference image
+  // warp moving image
   typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
   WarperType::Pointer warper = WarperType::New();
 
@@ -209,33 +209,33 @@ int itkDemonsRegistrationFilterTest(int, char**)
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   
 
-  warper->SetInput( reference );
+  warper->SetInput( moving );
   warper->SetDeformationField( registrator->GetOutput() );
   warper->SetInterpolator( interpolator );
-  warper->SetOutputSpacing( target->GetSpacing() );
-  warper->SetOutputOrigin( target->GetOrigin() );
+  warper->SetOutputSpacing( fixed->GetSpacing() );
+  warper->SetOutputOrigin( fixed->GetOrigin() );
 
   warper->Print( std::cout );
 
   warper->Update();
  
   // ---------------------------------------------------------
-  std::cout << "Compare warped reference and target." << std::endl;
+  std::cout << "Compare warped moving and fixed." << std::endl;
 
-  // compare the warp and target images
-  itk::ImageRegionIterator<ImageType> targetIter( target,
-      target->GetBufferedRegion() );
+  // compare the warp and fixed images
+  itk::ImageRegionIterator<ImageType> fixedIter( fixed,
+      fixed->GetBufferedRegion() );
   itk::ImageRegionIterator<ImageType> warpedIter( warper->GetOutput(),
-      target->GetBufferedRegion() );
+      fixed->GetBufferedRegion() );
 
   unsigned int numPixelsDifferent = 0;
-  while( !targetIter.IsAtEnd() )
+  while( !fixedIter.IsAtEnd() )
     {
-    if( targetIter.Get() != warpedIter.Get() )
+    if( fixedIter.Get() != warpedIter.Get() )
       {
       numPixelsDifferent++;
       }
-    ++targetIter;
+    ++fixedIter;
     ++warpedIter;
     }
 

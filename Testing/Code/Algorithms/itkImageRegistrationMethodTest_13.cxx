@@ -48,7 +48,7 @@ double F( itk::Vector<double,3> & v );
  * Notes:
  * =======
  * This example performs an affine registration
- * between a moving (source) and target (fixed) image using mutual information.
+ * between a moving (source) and fixed (target) image using mutual information.
  * It uses the optimization method of Viola and Wells to find the
  * best affine transform to register the moving image onto the fixed
  * image. 
