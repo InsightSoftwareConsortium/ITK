@@ -222,6 +222,20 @@ bool IOCommon
     return true;
     }
 }
+// return size of file; also returns zero if no file exists
+unsigned long IOCommon
+::FileLength(const char* filename)
+{
+  struct stat fs;
+  if (stat(filename, &fs) != 0) 
+    {
+      return 0;
+    }
+  else
+    {
+      return fs.st_size;
+    }
+}
 
 
 } // namespace itk

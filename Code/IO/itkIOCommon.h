@@ -97,6 +97,15 @@ public:
   /** Given a filename determine whether it exists and 
    * return true if it does. */
   static bool FileExists(const char* filename);
+
+  /** Given a filename determine how large it is
+   * \author Kent Williams
+   * \param filename The name of the file to check
+   * \return Returns the size of the file in bytes
+   * \ it will return zero for non-existant files as well;
+   * \ so it's important to check existence separately
+   */
+  static unsigned long FileLength(const char* filename);
 };
   
 
