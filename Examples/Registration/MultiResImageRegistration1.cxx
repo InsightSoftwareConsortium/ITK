@@ -22,6 +22,17 @@
 // \index{itk::ImageRegistrationMethod!Multi-Resolution|textbf}
 // \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
 //
+// \begin{figure}
+// \center
+// \includegraphics[width=14cm]{MultiResRegistrationComponents.eps}
+// \caption{Components of the Multi-Resolution registration framework.}
+// \label{fig:MultiResRegistrationComponents}
+// \end{figure}
+//
+// Figure \ref{fig:MultiResRegistrationComponents} illustrates the main
+// components of the multi-resolution registration framework implemented in
+// ITK.
+//
 // The following headers declare the basic components of 
 // the registration method.
 //
@@ -369,18 +380,17 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  Let's execute this example using the same multi-modality images
-  //  as before.
-  //  The registration converged after 24 iterations and produce as result the
-  //  parameters:
+  //  Let's execute this example using the same multi-modality images as
+  //  before.  The registration converged after 24 iterations and produce as
+  //  result the parameters:
   //
   //  \begin{verbatim}
-  //  Translation X = 13.1719
-  //  Translation Y = 16.9006
+  //  Translation X = 13.10
+  //  Translation Y = 17.19
   //  \end{verbatim}
   // 
-  //  These values are very close match to 
-  //  the true misaligment introduced in the moving image.
+  //  These values are very close match to the true misaligment introduced in
+  //  the moving image.
   //
   //  Software Guide : EndLatex 
 
@@ -434,16 +444,16 @@ int main( int argc, char **argv )
   // 
   // \begin{figure}
   // \center
-  // \includegraphics[width=5cm]{ImageRegistration4Output.eps}
-  // \includegraphics[width=5cm]{ImageRegistration4CheckerboardBefore.eps}
-  // \includegraphics[width=5cm]{ImageRegistration4CheckerboardAfter.eps}
+  // \includegraphics[width=5cm]{MultiResImageRegistration1Output.eps}
+  // \includegraphics[width=5cm]{MultiResImageRegistration1CheckerboardBefore.eps}
+  // \includegraphics[width=5cm]{MultiResImageRegistration1CheckerboardAfter.eps}
   // \caption{Mapped moving image (left) and composition of fixed and moving
   // images before (center) and after (right) registration.}
-  // \label{fig:ImageRegistration4Output}
+  // \label{fig:MultiResImageRegistration1Output}
   // \end{figure}
   //
   //  The result of the resampling the moving image is presented in the left
-  //  side of Figure \ref{fig:ImageRegistration4Output}. The center and right
+  //  side of Figure \ref{fig:MultiResImageRegistration1Output}. The center and right
   //  parts of the figure present a checkerboard composite of the fixed and
   //  moving images before and after registration.
   //
@@ -453,13 +463,13 @@ int main( int argc, char **argv )
   //  
   // \begin{figure}
   // \center
-  // \includegraphics[height=6cm]{ImageRegistration4TraceTranslations.eps}
-  // \includegraphics[height=6cm]{ImageRegistration4TraceMetric.eps}
+  // \includegraphics[height=6cm]{MultiResImageRegistration1TraceTranslations.eps}
+  // \includegraphics[height=6cm]{MultiResImageRegistration1TraceMetric.eps}
   // \caption{Sequence of translations and metric values at each iteration of the optimizer.}
-  // \label{fig:ImageRegistration4TraceTranslations}
+  // \label{fig:MultiResImageRegistration1Trace}
   // \end{figure}
   //
-  //  Figure \ref{fig:ImageRegistration4TraceTranslations} (left) presents the
+  //  Figure \ref{fig:MultiResImageRegistration1Trace} (left) presents the
   //  sequence of translations followed by the optimizer as it searched the
   //  parameter space. The right side of the same figure shows the sequence of
   //  metric values computed as the optimizer searched the parameter space.
