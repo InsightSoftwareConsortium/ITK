@@ -90,6 +90,9 @@ public:
    * or other operations. */
   typedef TPixel PixelType;
 
+  /** Typedef alias for PixelType */
+  typedef TPixel ValueType ;
+
   /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
    * representation of data while showing a different external 
