@@ -46,7 +46,7 @@ namespace itk
  * \ingroup PathObjects
  */
 template <unsigned int VDimension>
-class ITK_EXPORT ChainCodePath : public
+class ITKCommon_EXPORT ChainCodePath : public
 Path< unsigned int, Offset< VDimension >, VDimension >
 {
 public:
