@@ -46,7 +46,7 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char** argv)
       return EXIT_FAILURE;
     }
 
-  int i ;
+  unsigned int i, j ;
   char* dataFileName = argv[1] ;
   double minStandardDeviation =28.54746 ;
 
@@ -57,7 +57,7 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char** argv)
   trueParams[3] = 200.1 ;
   trueParams[4] = 201.3 ;
   trueParams[5] = 29.32210 ;
-  
+    
   std::vector< double > initialParams(6) ;
   initialParams[0] = 90.0 ;
   initialParams[1] = 90.0 ;
@@ -72,10 +72,7 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char** argv)
   int maxIteration = 400 ;
   int dataSize = 2000 ;
   double histogramOverlap = 0.75 ;
-  double histogramExtent = 1.5 ;
-  double histogramUseEquiProbableBins = true ;
-  float minimumGoodnessOfFitValue = -40 ;
-  int numberOfClasses = 2 ;
+  unsigned int numberOfClasses = 2 ;
 
   /* Loading point data */
   typedef itk::PointSet< double, 2 > PointSetType ;
@@ -161,7 +158,7 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char** argv)
   unsigned int paramSize = costFunction->GetNumberOfParameters() ;
   CostFunctionType::ParametersType params(paramSize) ;
 
-  for ( int i = 0 ; i < paramSize ; i++ )
+  for ( i = 0 ; i < paramSize ; i++ )
     {
       params[i] = initialParams[i] ;
     }
@@ -171,7 +168,7 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char** argv)
   double shrink = pow(grow, -0.25) ;
   OptimizerType::ScalesType scales(paramSize) ;
   scales.Fill(1.0) ;
-  for ( int i = 0 ; i < paramSize ; i++)
+  for ( i = 0 ; i < paramSize ; i++)
     {
       if ( i % (NO_OF_DIMENSIONS + 1) == 2 )
         {
@@ -197,13 +194,13 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char** argv)
   bool passed = true ;
   double displacement ;
   int paramIndex = 0 ;
-  for (unsigned int i = 0 ; i < numberOfClasses ; i++)
+  for ( i = 0 ; i < numberOfClasses ; i++)
     {
       std::cout << "Cluster[" << i << "]" << std::endl ;
       std::cout << "    Parameters:" << std::endl ;
       std::cout << "         " << (components[i])->GetFullParameters() << std::endl ;
       displacement = 0.0 ;
-      for (unsigned int j = 0 ; j < DataSampleType::MeasurementVectorSize ;
+      for ( j = 0 ; j < DataSampleType::MeasurementVectorSize ;
            j++)
         {
           temp = (components[i])->GetFullParameters()[j] - trueParams[paramIndex] ;
