@@ -135,6 +135,12 @@ int itkMeanSquaresImageMetricTest(int, char**)
   metric->SetInterpolator( interpolator.GetPointer() );
 
 
+//------------------------------------------------------------
+// Define the region over which the metric will be computed
+//------------------------------------------------------------
+   metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
+  
+ 
   std::cout << metric << std::endl;
 
 
