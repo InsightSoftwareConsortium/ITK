@@ -32,6 +32,8 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::MorphologyImageFilter()
   : m_Kernel()
 {
+  m_DefaultBoundaryCondition.SetConstant( NumericTraits<PixelType>::Zero );
+  m_BoundaryCondition = &m_DefaultBoundaryCondition;
 }
   
 template <class TInputImage, class TOutputImage, class TKernel>
@@ -92,10 +94,6 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId) 
 {
-  // Is this the right boundary condition for all morphology operations?
-  ConstantBoundaryCondition<TInputImage> BC;
-  BC.SetConstant( NumericTraits<PixelType>::Zero );
-
   // Neighborhood iterators
   NeighborhoodIteratorType b_iter;
 
@@ -122,7 +120,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
                                       this->GetInput(), *fit);
     
     o_iter = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);
-    b_iter.OverrideBoundaryCondition(&BC);
+    b_iter.OverrideBoundaryCondition(m_BoundaryCondition);
     b_iter.GoToBegin();
 
     while ( ! o_iter.IsAtEnd() )

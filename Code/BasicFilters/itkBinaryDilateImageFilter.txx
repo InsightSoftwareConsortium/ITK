@@ -27,6 +27,9 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
 {
   m_DilateValue = NumericTraits<PixelType>::max();
   m_KernelCenterPixelOn = false;
+
+  m_DilateBoundaryCondition.SetConstant( NumericTraits<PixelType>::NonpositiveMin() );
+  this->OverrideBoundaryCondition( &m_DilateBoundaryCondition );
 }
 
 

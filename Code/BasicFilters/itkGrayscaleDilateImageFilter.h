@@ -73,8 +73,11 @@ public:
   /** Kernel typedef. */
   typedef typename Superclass::KernelType KernelType;
 
+  /** Default boundary condition type */
+  typedef typename Superclass::DefaultBoundaryConditionType DefaultBoundaryConditionType;
+
 protected:
-  GrayscaleDilateImageFilter() {};
+  GrayscaleDilateImageFilter();
   ~GrayscaleDilateImageFilter() {};
 
   /** Evaluate image neighborhood with kernel to find the new value 
@@ -90,6 +93,11 @@ protected:
 private:
   GrayscaleDilateImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  // Default boundary condition for dilation filter, defaults to
+  // NumericTraits<PixelType>::NonpositiveMin()
+  DefaultBoundaryConditionType m_DilateBoundaryCondition;
+
 } ; // end of class
 
 } // end namespace itk

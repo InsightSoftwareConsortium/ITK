@@ -96,6 +96,9 @@ public:
   /** Kernel (structuring element) iterator */
   typedef typename KernelType::ConstIterator KernelIteratorType ;
  
+  /** Default boundary condition type */
+  typedef typename Superclass::DefaultBoundaryConditionType DefaultBoundaryConditionType;
+
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. */
   itkSetMacro(DilateValue, PixelType);
@@ -135,6 +138,9 @@ private:
   // optimization).
   bool m_KernelCenterPixelOn;
 
+  // Default boundary condition for dilation filter, defaults to
+  // NumericTraits<PixelType>::NonpositiveMin()
+  DefaultBoundaryConditionType m_DilateBoundaryCondition;
 } ; // end of class
 
 } // end namespace itk

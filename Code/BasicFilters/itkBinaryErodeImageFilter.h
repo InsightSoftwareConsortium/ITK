@@ -86,6 +86,9 @@ public:
   /** Kernel (structuring element) iterator. */
   typedef typename KernelType::ConstIterator KernelIteratorType ;
   
+  /** Default boundary condition type */
+  typedef typename Superclass::DefaultBoundaryConditionType DefaultBoundaryConditionType;
+
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. */
   itkSetMacro(ErodeValue, PixelType);
@@ -124,6 +127,10 @@ private:
   // optimization).
   bool m_KernelCenterPixelOn;
 
+  // Default boundary condition for erosion filter, defaults to
+  // NumericTraits<PixelType>::max()
+  DefaultBoundaryConditionType m_ErodeBoundaryCondition;
+  
 } ; // end of class
 
 } // end namespace itk

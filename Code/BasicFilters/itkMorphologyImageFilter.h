@@ -23,6 +23,7 @@
 #include "itkNeighborhood.h"
 #include "itkConstSliceIterator.h"
 #include "itkImageBoundaryCondition.h"
+#include "itkConstantBoundaryCondition.h"
 #include "itkImageRegionIterator.h"
 
 namespace itk {
@@ -94,7 +95,13 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Neighborhood iterator type. */
+  /** Typedef for boundary conditions. */
+  typedef ImageBoundaryCondition<InputImageType> *ImageBoundaryConditionPointerType;
+  typedef ImageBoundaryCondition<InputImageType> const *ImageBoundaryConditionConstPointerType;
+  typedef ConstantBoundaryCondition<InputImageType> DefaultBoundaryConditionType;
+  
+
+/** Neighborhood iterator type. */
   typedef ConstNeighborhoodIterator<TInputImage> 
   NeighborhoodIteratorType ;
 
@@ -120,6 +127,21 @@ public:
    * the request is cropped by the LargestPossibleRegion. */
   void GenerateInputRequestedRegion() ;
 
+  /** Allows a user to override the internal boundary condition. Care should be
+   * be taken to ensure that the overriding boundary condition is a persistent
+   * object during the time it is referenced.  The overriding condition
+   * can be of a different type than the default type as long as it is
+   * a subclass of ImageBoundaryCondition. */
+  void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
+    { m_BoundaryCondition = i; }
+
+  /** Rest the boundary condition to the default */
+  void ResetBoundaryCondition()
+    { m_BoundaryCondition = &m_DefaultBoundaryCondition; }
+  
+  /** Get the current boundary condition. */
+  itkGetMacro(BoundaryCondition, ImageBoundaryConditionPointerType);
+  
 protected:
   MorphologyImageFilter();
   ~MorphologyImageFilter() {};
@@ -143,6 +165,13 @@ private:
   /** kernel or structuring element to use. */
   KernelType m_Kernel ;
 
+  /** Pointer to a persistent boundary condition object used
+   * for the image iterator. */
+  ImageBoundaryConditionPointerType m_BoundaryCondition;
+
+  /** Default boundary condition */
+  DefaultBoundaryConditionType m_DefaultBoundaryCondition;
+  
 } ; // end of class
 
 } // end namespace itk

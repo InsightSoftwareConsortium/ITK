@@ -22,6 +22,14 @@
 namespace itk {
 
 template<class TInputImage, class TOutputImage, class TKernel>
+GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
+::GrayscaleErodeImageFilter()
+{
+  m_ErodeBoundaryCondition.SetConstant( NumericTraits<PixelType>::max() );
+  this->OverrideBoundaryCondition( &m_ErodeBoundaryCondition );
+}
+
+template<class TInputImage, class TOutputImage, class TKernel>
 typename GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
 ::Evaluate(const NeighborhoodIteratorType &nit,

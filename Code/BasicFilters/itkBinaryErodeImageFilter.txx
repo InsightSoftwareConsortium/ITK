@@ -27,6 +27,9 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
 {
   m_ErodeValue = NumericTraits<PixelType>::NonpositiveMin();
   m_KernelCenterPixelOn = false;
+
+  m_ErodeBoundaryCondition.SetConstant( NumericTraits<PixelType>::max() );
+  this->OverrideBoundaryCondition( &m_ErodeBoundaryCondition );
 }
 
 template<class TInputImage, class TOutputImage, class TKernel>
