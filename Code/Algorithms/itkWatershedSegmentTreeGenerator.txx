@@ -59,8 +59,7 @@ void SegmentTreeGenerator<TScalarType>
   // the flood level does not require re-execution of the filter.
   if ( m_HighestCalculatedFloodLevel < m_FloodLevel )
     {
-    this->SetHighestCalculatedFloodLevel( m_FloodLevel );
-    this->Modified(); // redundant
+    this->Modified(); 
     }
 }
   
@@ -68,6 +67,7 @@ template <class TScalarType>
 void SegmentTreeGenerator<TScalarType>
 ::GenerateData()
 {
+
   //Reset persistant ivars.
   m_MergedSegmentsTable->Clear();
   this->GetOutputSegmentTree()->Clear();
@@ -79,7 +79,9 @@ void SegmentTreeGenerator<TScalarType>
     {
     input->Modified();
     input->SortEdgeLists();
+
     if (m_Merge == true)   {      this->MergeEquivalencies();    }
+
     this->CompileMergeList(input, mergeList);
     this->ExtractMergeHierarchy(input, mergeList);
     }
@@ -92,6 +94,12 @@ void SegmentTreeGenerator<TScalarType>
     this->ExtractMergeHierarchy(seg, mergeList);
     }
   this->UpdateProgress(1.0);
+
+  // Keep track of the highest flood level we calculated
+  if (m_FloodLevel > m_HighestCalculatedFloodLevel)
+    {
+    m_HighestCalculatedFloodLevel = m_FloodLevel;
+    }
 }
 
 template <class TScalarType>

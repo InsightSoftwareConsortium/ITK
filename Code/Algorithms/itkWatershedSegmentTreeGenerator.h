@@ -96,25 +96,38 @@ public:
   /** Typedefs to avoid internal compiler error bug on Microsoft VC++ */
   typedef typename SegmentTableType::Pointer SegmentTableTypePointer;
   typedef typename OneWayEquivalencyTableType::Pointer
-  OneWayEquivalencyTableTypePointer;
+          OneWayEquivalencyTableTypePointer;
   typedef typename SegmentTreeType::Pointer SegmentTreeTypePointer;
   
 
   /** Get/Set the input table of segments to process */
-  SegmentTableType * GetInputSegmentTable()
-  { return static_cast<SegmentTableType *>
-      (this->ProcessObject::GetInput(0)); }
-  EquivalencyTableType * GetInputEquivalencyTable()
-  { return static_cast<EquivalencyTableType *>
-      (this->ProcessObject::GetInput(1)); }
+  SegmentTableType* GetInputSegmentTable()
+    {
+      return static_cast<SegmentTableType *>(this->ProcessObject::GetInput(0));
+    }
+  void SetInputSegmentTable(SegmentTableType *st)
+    {
+      // Reset the highest calculated flood level if we are given a
+      // different input image.
+      if (st != this->GetInput(0))
+        {
+        m_HighestCalculatedFloodLevel = 0.0;
+        }
+      this->ProcessObject::SetNthInput(0, st);
+    }
 
   /** Get/Set input table of equivalencies to pre-merge before
    * running the tree generator algorithm.  Only useful for
    * streaming applications */
   void SetInputEquivalencyTable(EquivalencyTableType *eq)
-  { this->ProcessObject::SetNthInput(1, eq); }
-  void SetInputSegmentTable(SegmentTableType *st)
-  { this->ProcessObject::SetNthInput(0, st); }
+    {
+      this->ProcessObject::SetNthInput(1, eq);
+    }
+  EquivalencyTableType* GetInputEquivalencyTable()
+    {
+      return
+        static_cast<EquivalencyTableType *>(this->ProcessObject::GetInput(1));
+    }
 
   /** Get/Set the output data */
   SegmentTreeType * GetOutputSegmentTree()
@@ -140,15 +153,16 @@ public:
   itkGetMacro(FloodLevel, double);
 
   /** Get/Set HighestCalculatedFloodLevel.  HighestCalculatedFloodLevel keeps
-   * track of the highest level this filter has been asked to compute.  It is
+   * track of the highest level this filter has computed.  It is
    * used to prevent unneccessary re-execution of the filter. */
   itkSetMacro(HighestCalculatedFloodLevel, double);
   itkGetMacro(HighestCalculatedFloodLevel, double);
 
-  /** Get/Set a flag that prevents the filter from copying its input segment
-   * table before executing.  This can be enabled to conserve memory, especially 
-   * in streaming applications where memory is a concern. If enabled, the input 
-   * to this filter must always be re-executed on updates. Default is false.*/
+  /** Get/Set a flag that prevents the filter from copying its input
+   * segment table before executing.  This can be enabled to conserve
+   * memory, especially in streaming applications where memory is a
+   * concern. If enabled, the input to this filter must always be
+   * re-executed on updates. Default is false.*/
   itkSetMacro(ConsumeInput, bool);
   itkGetMacro(ConsumeInput, bool);
 
@@ -197,9 +211,10 @@ private:
   bool m_ConsumeInput;
   OneWayEquivalencyTableType::Pointer m_MergedSegmentsTable;
   
-  /** This value keeps track of the highest level this filter has been asked to 
-   *  calculate.  m_FloodLevel can be manipulated anywhere below this level
-   *  without re-executing the filter, preventing unneccesary updates. */
+  /** This value keeps track of the highest level this filter has been
+   *  calculated.  m_FloodLevel can be manipulated anywhere below this
+   *  level without re-executing the filter, preventing unneccesary
+   *  updates. */
   double m_HighestCalculatedFloodLevel;
 };
   
