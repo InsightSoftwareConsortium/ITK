@@ -333,6 +333,46 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
+template < typename TFixedImage, typename TMovingImage >
+void 
+ImageRegistrationMethod<TFixedImage,TMovingImage>
+::SetFixedImage( const FixedImageType * fixedImage )
+{
+  itkDebugMacro("setting Fixed Image to " << fixedImage ); 
+
+  if (this->m_FixedImage.GetPointer() != fixedImage ) 
+    { 
+    this->m_FixedImage = fixedImage;
+
+    // Process object is not const-correct so the const_cast is required here
+    this->ProcessObject::SetNthInput(0, 
+                                   const_cast< FixedImageType *>( fixedImage ) );
+    
+    this->Modified(); 
+    } 
+}
+
+
+
+template < typename TFixedImage, typename TMovingImage >
+void 
+ImageRegistrationMethod<TFixedImage,TMovingImage>
+::SetMovingImage( const MovingImageType * movingImage )
+{
+  itkDebugMacro("setting Moving Image to " << movingImage ); 
+
+  if (this->m_MovingImage.GetPointer() != movingImage ) 
+    { 
+    this->m_MovingImage = movingImage;
+
+    // Process object is not const-correct so the const_cast is required here
+    this->ProcessObject::SetNthInput(1, 
+                                   const_cast< MovingImageType *>( movingImage ) );
+    
+    this->Modified(); 
+    } 
+}
+
 
 
 } // end namespace itk

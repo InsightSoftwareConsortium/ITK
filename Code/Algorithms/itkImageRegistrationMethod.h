@@ -117,11 +117,11 @@ public:
   void StartRegistration(void);
 
   /** Set/Get the Fixed image. */
-  itkSetConstObjectMacro( FixedImage, FixedImageType );
+  void SetFixedImage( const FixedImageType * fixedImage );
   itkGetConstObjectMacro( FixedImage, FixedImageType ); 
 
   /** Set/Get the Moving image. */
-  itkSetConstObjectMacro( MovingImage, MovingImageType );
+  void SetMovingImage( const MovingImageType * movingImage );
   itkGetConstObjectMacro( MovingImage, MovingImageType );
 
   /** Set/Get the Optimizer. */
