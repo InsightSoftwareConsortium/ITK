@@ -300,8 +300,9 @@ int main( int argc, char * argv[] )
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition3.eps}
-  // \caption{ResampleImageFilter. Effect of selecting the origin of the input image}
-  // \label{fig:ResampleImageFilterTransformComposition3}
+  // \caption[ResampleImageFilter selecting the origin of the input
+  // image]{ResampleImageFilter. Effect of selecting the origin of the input
+  // image} \label{fig:ResampleImageFilterTransformComposition3}
   // \end{figure}
   //
   //  The pixel with index $I=(56,120)$ on the output image has coordinates

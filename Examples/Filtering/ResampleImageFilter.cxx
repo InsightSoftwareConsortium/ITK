@@ -318,7 +318,8 @@ int main( int argc, char * argv[] )
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ResampleImageFilterOutput1Analysis.eps}
-  // \caption{Analysis of the resample image done in a common coordinate system.}
+  // \caption[Analysis of resampling in common coordinate system]{Analysis of
+  // the resample image done in a common coordinate system.}
   // \label{fig:ResampleImageFilterOutput1Analysis}
   // \end{figure}
   //
@@ -435,7 +436,9 @@ int main( int argc, char * argv[] )
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ResampleImageFilterOutput3Analysis.eps}
-  // \caption{ResampleImageFilter highlighting image borders with SetDefaultPixelValue().}
+  // \caption[ResampleImageFilter highlighting image
+  // borders]{ResampleImageFilter highlighting image borders with
+  // SetDefaultPixelValue().}
   // \label{fig:ResampleImageFilterOutput3Analysis}
   // \end{figure}
   //

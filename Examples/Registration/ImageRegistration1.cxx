@@ -470,7 +470,8 @@ int main( int argc, char *argv[] )
   // \center
   // \includegraphics[width=6cm]{BrainProtonDensitySliceBorder20.eps}
   // \includegraphics[width=6cm]{BrainProtonDensitySliceShifted13x17y.eps}
-  // \caption{Fixed and Moving image provided as input to the registration method.}
+  // \caption[Fixed and Moving images in registration framework]{Fixed and
+  // Moving image provided as input to the registration method.}
   // \label{fig:FixedMovingImageRegistration1}
   // \end{figure}
   //
@@ -715,7 +716,8 @@ int main( int argc, char *argv[] )
   // \center
   // \includegraphics[height=6cm]{ImageRegistration1TraceTranslations.eps}
   // \includegraphics[height=6cm]{ImageRegistration1TraceMetric.eps}
-  // \caption{Sequence of translations and metric values at each iteration of the optimizer.}
+  // \caption[Trace of translations and metrics during registration]{Sequence
+  // of translations and metric values at each iteration of the optimizer.}
   // \label{fig:ImageRegistration1Trace}
   // \end{figure}
   //

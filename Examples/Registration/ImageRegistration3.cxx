@@ -401,7 +401,8 @@ int main( int argc, char *argv[] )
   // \begin{figure}
   // \center
   // \includegraphics[width=14cm]{ImageRegistration3Observer.eps}
-  // \caption{Interaction between the Command/Observer and the Registration Method.}
+  // \caption[Command/Observer and the Registration Framework]{Interaction
+  // between the Command/Observer and the Registration Method.}
   // \label{fig:ImageRegistration3Observer}
   // \end{figure}
   //

@@ -332,9 +332,8 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput1.eps}
   // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput2.eps}
   // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput3.eps}
-  // \caption[Segmentation results of the
-  // NeighborhoodConnectedImageFilter]{Segmentation results of the
-  // NeighborhoodConnectedImageFilter for various seed points.}
+  // \caption[NeighborhoodConnected segmentation results ]{Segmentation results
+  // of the NeighborhoodConnectedImageFilter for various seed points.}
   // \label{fig:NeighborhoodConnectedImageFilterOutput}
   // \end{figure}
   //

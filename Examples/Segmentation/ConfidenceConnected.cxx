@@ -394,7 +394,8 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.24\textwidth]{ConfidenceConnectedOutput1.eps}
   // \includegraphics[width=0.24\textwidth]{ConfidenceConnectedOutput2.eps}
   // \includegraphics[width=0.24\textwidth]{ConfidenceConnectedOutput3.eps}
-  // \caption{Segmentation results of the ConfidenceConnected filter for various seed points.}
+  // \caption[ConfidenceConnected segmentation results]{Segmentation results of
+  // the ConfidenceConnected filter for various seed points.}
   // \label{fig:ConfidenceConnectedOutput}
   // \end{figure}
   //

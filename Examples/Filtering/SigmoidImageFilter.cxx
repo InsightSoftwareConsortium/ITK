@@ -223,8 +223,8 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{SigmoidImageFilterOutput.eps}
-  // \caption{Effect of the Sigmoid filter on a slice from a MRI
-  // Proton Density brain image.}
+  // \caption[Effect of the Sigmoid filter]{Effect of the Sigmoid filter on a
+  // slice from a MRI Proton Density brain image.}
   // \label{fig:SigmoidImageFilterOutput}
   // \end{figure}
   //

@@ -181,8 +181,8 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{MedianImageFilterOutput.eps}
-  // \caption{Effect of the Median filter on a slice from a MRI
-  // Proton Density brain image.}
+  // \caption[Effect of the Median filter]{Effect of the Median filter on a
+  // slice from a MRI Proton Density brain image.}
   // \label{fig:MedianImageFilterOutput}
   // \end{figure}
   //

@@ -338,7 +338,8 @@ int main( int argc, char *argv[])
   // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput1.eps}
   // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput2.eps}
   // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput3.eps}
-  // \caption{Segmentation results of the ConnectedThreshold filter for various seed points.}
+  // \caption[ConnectedThreshold segmentation results]{Segmentation results of
+  // the ConnectedThreshold filter for various seed points.}
   // \label{fig:ConnectedThresholdOutput}
   // \end{figure}
   //
