@@ -1,0 +1,26 @@
+ADD_TEST(itkFEMBar2DTest itkFEMTests itkFEMBar2DTest)
+
+
+SOURCE_FILES(FEMTests_SRCS
+  itkFEMBar2DTest
+)
+
+
+INCLUDE_DIRECTORIES(
+${ITK_SOURCE_DIR}/Code/Numerics/FEM
+${ITK_SOURCE_DIR}/Code/Common
+)
+
+LINK_DIRECTORIES(
+${ITK_BINARY_DIR}/Code/Numerics/FEM
+${ITK_BINARY_DIR}/Code/Common
+)
+
+
+LINK_LIBRARIES (
+  VXLNumerics
+  FEM
+  ITKCommon
+)
+
+ADD_EXECUTABLE(itkFEMTests itkFEMTests.cxx FEMTests_SRCS)
