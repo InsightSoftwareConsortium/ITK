@@ -53,7 +53,9 @@ bool operator<(const ObjectFactoryBase::OverrideInformation& rhs,
 }
 
 
-/**
+/** \class StringOverMap
+ * \brief Internal implementation class for ObjectFactorBase.
+ *
  * Create a sub class to shrink the size of the symbols
  * Also, so a forward reference can be put in ObjectFactoryBase.h
  * and a pointer member can be used.  This avoids other
@@ -61,11 +63,13 @@ bool operator<(const ObjectFactoryBase::OverrideInformation& rhs,
  */
 typedef std::multimap<std::string, ObjectFactoryBase::OverrideInformation> StringOverMap;
 
+/** \class OverRideMap
+ * \brief Internal implementation class for ObjectFactorBase.
+ */
 class OverRideMap : public StringOverMap
 {
 public:
 };
-
 
 /**
  * Initialize static list of factories.

@@ -7,13 +7,23 @@
   Version:   $Revision$
 
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
 
-See COPYRIGHT.txt for copyright details.
+  See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/** 
+#ifndef __itkSmartPointer_h
+#define __itkSmartPointer_h
+
+#include <iostream>
+
+namespace itk
+{
+
+/** \class SmartPointer
+ * \brief Implements reansparent reference counting.
+ *
  * SmartPointer implements reference counting by overloading
  * operator -> (and *) among others. This allows natural interface
  * to the class referred to by the pointer without having to invoke
@@ -24,15 +34,6 @@ See COPYRIGHT.txt for copyright details.
  * linux:   c++ SmartPointerTest.cxx ./a.out
  * other:   CCcompiler SmartPointerTest.cxx  ./a.out
  */
-
-#ifndef __itkSmartPointer_h
-#define __itkSmartPointer_h
-
-#include <iostream>
-
-namespace itk
-{
-
 template <class T>
 class SmartPointer 
 {

@@ -155,6 +155,18 @@ public:
    * This returns the path to a dynamically loaded factory.
    */
   const char* GetLibraryPath();
+
+  /** \class OverrideInformation
+   * \brief Internal implementation class for ObjectFactorBase.
+   */
+  struct OverrideInformation
+  {
+    std::string m_Description;
+    std::string m_OverrideWithName;
+    bool m_EnabledFlag;
+    CreateObjectFunctionBase::Pointer m_CreateObject;
+  };
+
 protected:
   virtual void PrintSelf(std::ostream& os, Indent indent);
 
@@ -178,15 +190,7 @@ protected:
   ~ObjectFactoryBase();
   ObjectFactoryBase(const ObjectFactoryBase&) {};
   void operator=(const ObjectFactoryBase&) {};
-public:
-  struct OverrideInformation
-  {
-    std::string m_Description;
-    std::string m_OverrideWithName;
-    bool m_EnabledFlag;
-    CreateObjectFunctionBase::Pointer m_CreateObject;
-  };
-protected:
+
   OverRideMap* m_OverrideMap;
 
 private:
