@@ -42,14 +42,17 @@ ProgressAccumulator
 ::RegisterInternalFilter(GenericFilterType *filter,float weight)
 {
   // Observe the filter
-  unsigned long tag = 
+  unsigned long progressTag = 
     filter->AddObserver(ProgressEvent(), m_CallbackCommand);
+  unsigned long iterationTag = 
+    filter->AddObserver(IterationEvent(), m_CallbackCommand);
   
   // Create a record for the filter
   struct FilterRecord record;
   record.Filter = filter;
   record.Weight = weight;
-  record.ObserverTag = tag;
+  record.ProgressObserverTag = progressTag;
+  record.IterationObserverTag = iterationTag;
   record.Progress = 0.0f;
 
   // Add the record to the list
@@ -64,7 +67,8 @@ ProgressAccumulator
   FilterRecordVector::iterator it;
   for(it = m_FilterRecord.begin();it!=m_FilterRecord.end();++it)
     {
-    it->Filter->RemoveObserver(it->ObserverTag);
+    it->Filter->RemoveObserver(it->ProgressObserverTag);
+    it->Filter->RemoveObserver(it->IterationObserverTag);
     }
 
   // Clear the filter array
@@ -93,8 +97,9 @@ void
 ProgressAccumulator
 ::ReportProgress(Object *, const EventObject &event)
 {
-  ProgressEvent p;
-  if( typeid( event ) == typeid( p ) )
+  ProgressEvent pe;
+  ProgressEvent ie;
+  if( typeid( event ) == typeid( pe ) )
     {
     // Add up the progress from different filters
     m_AccumulatedProgress = 0.0f;
@@ -107,6 +112,9 @@ ProgressAccumulator
 
     // Update the progress of the client mini-pipeline filter
     m_MiniPipelineFilter->UpdateProgress(m_AccumulatedProgress);
+    }
+  else if (typeid( event ) == typeid ( ie ) )
+    {
     }
 }
 

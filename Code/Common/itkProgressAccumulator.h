@@ -103,8 +103,9 @@ private:
     // The weight of the filter in total progress of the mini-pipeline
     float                Weight;
 
-    // The tag for adding/removing observers to mini-pipeline filter
-    unsigned long        ObserverTag;
+    // The tags for adding/removing observers to mini-pipeline filter
+    unsigned long        ProgressObserverTag;
+    unsigned long        IterationObserverTag;
 
     // The progress accumulated by the filter since last Reset()
     float                Progress;
