@@ -267,7 +267,7 @@ protected:
    * Notice that ThreadedHalt is only called by the multithreaded filters, so you
    * still should implement Halt, just in case a non-threaded filter is used.
    */
-  virtual bool ThreadedHalt(void *threadInfo) { return this->Halt(); }
+  virtual bool ThreadedHalt(void *itkNotUsed(threadInfo)) { return this->Halt(); }
 
   /** This method is optionally defined by a subclass and is called before
    * the loop of iterations of calculate_change & upate. It does the global
