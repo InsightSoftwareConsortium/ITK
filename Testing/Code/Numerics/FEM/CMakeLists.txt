@@ -10,6 +10,7 @@ SET(FEM_TESTS ${CXX_TEST_PATH}/itkFEMTests)
 
 SET(FEM_SRCS
 itkFEMElementTest.cxx
+itkFEMExceptionTest.cxx
 itkFEMLinearSystemWrapperItpackTest.cxx
 itkFEMLinearSystemWrapperVNLTest.cxx
 itkFEMLinearSystemWrapperDenseVNLTest.cxx
@@ -41,13 +42,18 @@ ADD_TEST(itkFEMLinearSystemWrapperItpackTest  ${FEM_TESTS} itkFEMLinearSystemWra
 ADD_TEST(itkFEMLinearSystemWrapperVNLTest  ${FEM_TESTS} itkFEMLinearSystemWrapperVNLTest)
 ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  ${FEM_TESTS} itkFEMLinearSystemWrapperDenseVNLTest)
 
+ADD_TEST(itkFEMExceptionTest ${FEM_TESTS} itkFEMExceptionTest)
+
 #ADD_TEST(itkFEMBar2DTest ${FEM_TESTS} itkFEMBar2DTest)
 
 # NOTE: the two commands below are mutually exclusive!  Do not
 # uncomment both at the same time!
 
 # To run the FEM input menu-based test locally, uncomment the line below
-# ADD_EXECUTABLE(itkFEMElementTestMenu itkFEMElementTestMenu)
+#ADD_EXECUTABLE(itkFEMElementTestMenu itkFEMElementTest.cxx)
+#ADD_EXECUTABLE(itkFEMExceptionTest itkFEMExceptionTest.cxx)
+#TARGET_LINK_LIBRARIES(itkFEMElementTestMenu ITKCommon ITKNumerics ITKFEM)
+#TARGET_LINK_LIBRARIES(itkFEMExceptionTest ITKCommon ITKFEM)
 
 # To create the standard ITK test program, uncomment the line below
 ADD_EXECUTABLE(itkFEMTests itkFEMTests.cxx ${FEM_SRCS})
