@@ -46,9 +46,6 @@ namespace fem {
  *                    an element.
  *
  *   NodeClass - class of Node objects that the element uses.
- *
- *   NumberOfNodes - number of nodes in an element. Defaults to number
- *                   of points.
  */
 template<unsigned int VNumberOfPoints,unsigned int VNumberOfDegreesOfFreedomPerNode, class TNodeClass>
 class ElementStandard : public Element
