@@ -31,7 +31,7 @@
 //  custom image type. In order to use the \doxygen{RGBPixel} class, it is
 //  necessary to include its header file.
 //
-//  \index{itk::RGBPixel|textbf}
+//  \index{itk::RGBPixel}
 //  \index{itk::RGBPixel!Image}
 //  \index{itk::RGBPixel!header}
 //
