@@ -19,7 +19,7 @@
 
 #include "itkAnisotropicDiffusionImageFilter.h"
 #include "itkCurvatureNDAnisotropicDiffusionFunction.h"
-
+#include "itkMacro.h"
 namespace itk {
 
 /**
@@ -74,6 +74,22 @@ protected:
     }
   ~CurvatureAnisotropicDiffusionImageFilter() {}
 
+  virtual void InitializeIteration()
+  {
+    Superclass::InitializeIteration();
+    if (this->GetTimeStep() >  0.5 / pow(2.0, static_cast<double>(ImageDimension))  )
+      {
+        AnisotropicDiffusionFunction<UpdateBufferType> *f = 
+          dynamic_cast<AnisotropicDiffusionFunction<UpdateBufferType> *>
+          (this->GetDifferenceFunction().GetPointer());
+        if (! f)
+          {  throw ExceptionObject(__FILE__, __LINE__);    }
+        
+        f->SetTimeStep(0.5 / pow(2.0, static_cast<double>(ImageDimension))); 
+        itkWarningMacro(<< "Anisotropic diffusion has attempted to use a time step which may introduce instability into the solution.  The time step has been automatically reduced to " << f->GetTimeStep() );
+      }
+  }
+  
 private:
   CurvatureAnisotropicDiffusionImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
