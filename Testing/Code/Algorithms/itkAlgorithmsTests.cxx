@@ -103,3 +103,6 @@ REGISTER_TEST(itkUnsharpMaskLevelSetImageFilterTest );
 REGISTER_TEST(itkThresholdSegmentationLevelSetImageFilterTest );
 }
 
+// WARNING: Do not add any more tests to this program. Add new tests
+// to itkAlgorithmsTests2.cxx. This file has become too large for the
+// Borland linker.
