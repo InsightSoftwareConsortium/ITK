@@ -164,10 +164,6 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
   BloxIterator bloxItB = BloxIterator(m_CoreAtomImageB,
                                       m_CoreAtomImageB->GetRequestedRegion() );
 
-  // Pointer for accessing pixels.
-  MedialNodeType* pPixelA = 0;
-  MedialNodeType* pPixelB = 0;
-
   int counterA = 0;
   int counterB = 0;
   double MetricValue;
@@ -205,7 +201,7 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
   // Iterate through nodes in m_CoreAtomImageA (rows).
   for ( bloxItA.GoToBegin(); !bloxItA.IsAtEnd(); ++bloxItA)
     {
-    pPixelA = &bloxItA.Value();
+    MedialNodeType* pPixelA = &bloxItA.Value();
 
     if( pPixelA->empty() )
       continue;
@@ -213,7 +209,7 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
     // Iterate through nodes in m_CoreAtomImageB (columns)
     for ( bloxItB.GoToBegin(); !bloxItB.IsAtEnd(); ++bloxItB) //iterate through nodes in m_MedialWindowA
       {
-      pPixelB = &bloxItB.Value();
+      MedialNodeType* pPixelB = &bloxItB.Value();
 
       if( pPixelB->empty() )
         continue;
@@ -231,7 +227,8 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
 
       if(m_OutputPNG)
         {
-        CorrespondenceImage->SetPixel(pixelIndex, 100*m_CorrespondenceMatrix->get(counterA,counterB) );
+        CorrespondenceImage->SetPixel(pixelIndex, 
+                  static_cast<CorrespondencePixelType>(100*m_CorrespondenceMatrix->get(counterA,counterB)) );
         }
 
       counterB++;
