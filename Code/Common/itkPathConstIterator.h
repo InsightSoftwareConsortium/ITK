@@ -102,8 +102,7 @@ public:
   typedef typename PathType::OutputType       PathOutputType;
   
   /** Run-time type information (and related methods). */
-  // DO I LEAVE THE PARENT CLASS NAME BLANK FOR THE MACRO?
-  itkTypeMacro(PathConstIterator, );
+  itkTypeMacro(PathConstIterator, None);
   
   /** Get the dimension (size) of the index. */
   static unsigned int GetImageIteratorDimension() 
