@@ -107,6 +107,8 @@ public:
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  typedef typename Superclass::RegionType RegionType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
