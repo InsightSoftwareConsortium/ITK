@@ -28,6 +28,7 @@ ADD_TEST(itkBSplineInterpolationWeightFunctionTest ${COMMON_TESTS} itkBSplineInt
 ADD_TEST(itkBSplineKernelFunctionTest ${COMMON_TESTS} itkBSplineKernelFunctionTest)
 ADD_TEST(itkByteSwapTest ${COMMON_TESTS} itkByteSwapTest)
 ADD_TEST(itkConstNeighborhoodIteratorTest ${COMMON_TESTS} itkConstNeighborhoodIteratorTest)
+ADD_TEST(itkConstShapedNeighborhoodIteratorTest ${COMMON_TESTS} itkConstShapedNeighborhoodIteratorTest)
 ADD_TEST(itkCovariantVectorGeometryTest ${COMMON_TESTS} itkCovariantVectorGeometryTest)
 ADD_TEST(itkDataTypeTest ${COMMON_TESTS} itkDataTypeTest)
 ADD_TEST(itkDynamicMeshTest ${COMMON_TESTS} itkDynamicMeshTest)
@@ -65,6 +66,7 @@ ADD_TEST(itkRGBInterpolateImageFunctionTest ${COMMON_TESTS} itkRGBInterpolateIma
 ADD_TEST(itkRigid2DTransformTest ${COMMON_TESTS} itkRigid2DTransformTest)
 ADD_TEST(itkRigid3DTransformTest ${COMMON_TESTS} itkRigid3DTransformTest)
 ADD_TEST(itkRigid3DPerspectiveTransformTest ${COMMON_TESTS} itkRigid3DPerspectiveTransformTest)
+ADD_TEST(itkShapedNeighborhoodIteratorTest ${COMMON_TESTS} itkShapedNeighborhoodIteratorTest)
 ADD_TEST(itkSliceIteratorTest ${COMMON_TESTS} itkSliceIteratorTest)
 ADD_TEST(itkSpatialFunctionTest ${COMMON_TESTS} itkSpatialFunctionTest)
 ADD_TEST(itkSmartPointerTest ${COMMON_TESTS} itkSmartPointerTest)
@@ -100,6 +102,7 @@ itkBSplineInterpolationWeightFunctionTest.cxx
 itkBSplineKernelFunctionTest.cxx
 itkByteSwapTest.cxx
 itkConstNeighborhoodIteratorTest.cxx
+itkConstShapedNeighborhoodIteratorTest.cxx
 itkCovariantVectorGeometryTest.cxx
 itkDataTypeTest.cxx
 itkDynamicMeshTest.cxx
@@ -138,6 +141,7 @@ itkRigid3DPerspectiveTransformTest.cxx
 itkRGBPixelTest.cxx
 itkRGBInterpolateImageFunctionTest.cxx
 itkScaleTransformTest.cxx
+itkShapedNeighborhoodIteratorTest.cxx
 itkSliceIteratorTest.cxx
 itkSmartPointerTest.cxx
 itkSTLContainerAdaptorTest.cxx
