@@ -26,7 +26,6 @@ template < class TMeasurementVector >
 GaussianDensityFunction< TMeasurementVector >
 ::GaussianDensityFunction()
 {
-  m_TempExponential.resize(1, 1) ;
 }
 
 template < class TMeasurementVector >
@@ -51,9 +50,6 @@ GaussianDensityFunction< TMeasurementVector >
 ::SetCovariance(vnl_matrix<double> cov)
 {
   m_VectorSize = cov.rows() ;
-  m_TempVector.resize(m_VectorSize) ;
-  m_TempVector2.resize(m_VectorSize) ;
-//    m_TempDifference.resize(m_VectorSize) ;
 //    m_Covariance.resize(m_VectorSize, m_VectorSize) ;
   m_Covariance = cov; 
 
@@ -67,7 +63,10 @@ GaussianDensityFunction< TMeasurementVector >
  
   // calculate coefficient C of multivariate gaussian
   // p(x) = C exp(-0.5 * (x-u) * inv(covariance) * (x-u)')
-  m_PreFactor = double(1.0) / pow( pow(2.0*PI, double(m_VectorSize)), 1/2.0)*sqrt(fabs(det) );
+  m_PreFactor = double(1.0) / pow( pow(2.0 * vnl_math::pi, 
+                                       double(m_VectorSize)), 
+                                   0.5 ) * 
+    sqrt(fabs(det) );
 }
 
 template < class TMeasurementVector >
@@ -81,20 +80,18 @@ GaussianDensityFunction< TMeasurementVector >
 template < class TMeasurementVector >
 inline double
 GaussianDensityFunction< TMeasurementVector >
-::Evaluate(MeasurementVectorType &measurement)
+::Evaluate(const MeasurementVectorType &measurement) const
 { 
 
   double temp ;
   int i, j ;
-  //    for (i = 0 ; i < m_VectorSize ; i++)
-  //      {
-  //        m_TempDifference[0][i] = measurement[i] - m_Mean[i] ;
-  //      }
+  vnl_vector< double > tempVector(m_VectorSize) ;
+  vnl_vector< double > tempVector2(m_VectorSize) ;
 
   // Compute |y - mean | 
   for (i = 0 ; i < m_VectorSize ; i++)
     {
-      m_TempVector[i] = measurement[i] - m_Mean[i] ;
+      tempVector[i] = measurement[i] - m_Mean[i] ;
     }
 
   // Compute |y - mean | * inverse(cov) 
@@ -103,19 +100,19 @@ GaussianDensityFunction< TMeasurementVector >
       temp = 0 ;
       for (j = 0 ; j < m_VectorSize ; j++)
         {
-          temp += m_TempVector[j] * m_InverseCovariance.get(j, i) ;
+          temp += tempVector[j] * m_InverseCovariance.get(j, i) ;
         }
-      m_TempVector2[i] = temp ;
+      tempVector2[i] = temp ;
     }
 
   // Compute |y - mean | * inverse(cov) * |y - mean|^T 
   temp = 0 ;
   for (i = 0 ; i < m_VectorSize ; i++)
     {
-      temp += m_TempVector2[i] * m_TempVector[i] ;
+      temp += tempVector2[i] * tempVector[i] ;
     }
 
-  return  m_PreFactor * exp( double(-0.5) * temp ) ;
+  return  m_PreFactor * exp( -0.5 * temp ) ;
 }
   
 template < class TMeasurementVector >

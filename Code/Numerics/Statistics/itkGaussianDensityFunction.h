@@ -17,15 +17,13 @@
 #ifndef __itkGaussianDensityFunction_h
 #define __itkGaussianDensityFunction_h
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/algo/vnl_matrix_inverse.h>
-#include <vnl/algo/vnl_determinant.h>
-
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_matrix.h"
+#include "vnl/algo/vnl_matrix_inverse.h"
+#include "vnl/algo/vnl_determinant.h"
+#include "vnl/vnl_math.h"
 
 #include "itkDensityFunction.h"
-
-#define PI 3.141592
 
 namespace itk{ 
   namespace Statistics{
@@ -35,8 +33,7 @@ namespace itk{
  *
  * This class keeps parameter to define Gaussian Density Function  and has
  * method to return the probability density 
- * of an instance.  MeasurementVectorSize is the dimension of measurement space.
- * double is type of measurement. 
+ * of an instance (pattern) .  
  */
 
 template< class TMeasurementVector >
@@ -65,8 +62,7 @@ public:
   /** Method to get mean */
   vnl_vector<double> GetMean() ;
 
-  /**
-   * Method to set covariance matrix
+  /** Method to set covariance matrix
    * Also, this function calculates inverse covariance and pre factor of 
    * Gaussian Distribution to speed up GetProbability */
   void SetCovariance(vnl_matrix<double> cov); 
@@ -74,10 +70,9 @@ public:
   /** Method to get covariance matrix */
   vnl_matrix<double> GetCovariance() ;
     
-  /**
-   * Method to get probability of an instance. The return value is the
+  /**y Method to get probability of an instance. The return value is the
    * value of the density function, not probability. */
-  double Evaluate(MeasurementVectorType &measurement);
+  double Evaluate(const MeasurementVectorType &measurement) const ;
   
 protected:
   GaussianDensityFunction(void) ;
@@ -85,8 +80,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  typedef vnl_matrix_fixed< double, 1, VectorDimension > ColumnVectorType ;
-
   vnl_vector< double >  m_Mean;              // mean
   vnl_matrix< double >  m_Covariance;         // covariance matrix
 
@@ -99,11 +92,6 @@ private:
   double m_PreFactor;
   
   unsigned int m_VectorSize ;
-
-  ColumnVectorType m_TempDifference ;
-  vnl_vector< double > m_TempVector ;
-  vnl_vector< double > m_TempVector2 ;
-  ColumnVectorType m_TempExponential ;
 };
 
   } // end of namespace Statistics
