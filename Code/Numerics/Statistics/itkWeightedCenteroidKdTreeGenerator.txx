@@ -62,7 +62,7 @@ WeightedCenteroidKdTreeGenerator< TSample >
   for (i = beginIndex ; i < endIndex ; i++)
     {
       tempVector = subsample->GetMeasurementVectorByIndex(i) ;
-      for(j = 0 ; j < MeasurementVectorSize ; j++)
+      for(j = 0 ; j < (int)MeasurementVectorSize ; j++)
         {
           weightedCenteroid[j] += tempVector[j] ;
         }
@@ -75,7 +75,7 @@ WeightedCenteroidKdTreeGenerator< TSample >
                                           m_TempMean) ;
 
   maxSpread = NumericTraits< MeasurementType >::min() ;
-  for (i = 0 ; i < MeasurementVectorSize ; i++)
+  for (i = 0 ; i < (int)MeasurementVectorSize ; i++)
     {
       spread = m_TempUpperBound[i] - m_TempLowerBound[i] ;
       if (spread >= maxSpread)
