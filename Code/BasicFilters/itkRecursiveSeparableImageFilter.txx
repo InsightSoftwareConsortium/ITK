@@ -54,7 +54,7 @@ template <class TInputImage, class TOutputImage, class TComputation>
 RecursiveSeparableImageFilter<TInputImage,TOutputImage,TComputation>
 ::RecursiveSeparableImageFilter()
 {
-  this->SetDirection( 0 );
+  m_Direction = 0;
   this->SetNumberOfRequiredOutputs( 1 );
   this->SetNumberOfRequiredInputs( 1 );
 }
