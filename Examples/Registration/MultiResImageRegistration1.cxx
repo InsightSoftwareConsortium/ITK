@@ -20,11 +20,11 @@
 // \index{itk::ImageRegistrationMethod!Multi-Modality}
 // \index{itk::Multi\-Resolution\-Image\-Registration\-Method}
 //
-// This example illustrates the use of
+// This example illustrates the use of the
 // \doxygen{MultiResolutionImageRegistrationMethod} to solve a simple
 // multi-modality registration problem. In addition to the two input images,
 // a transform, a metric, an interpolator and an optimizer, the
-// multi-resolution framework also require two image pyramids for creating
+// multi-resolution framework also requires two image pyramids for creating
 // the sequence of downsampled images.  To begin the example, we include the
 // headers of the registration components we will use.
 //
@@ -50,12 +50,12 @@
 
 // Software Guide : BeginLatex
 //
-// \doxygen{MultiResolutionImageRegistrationMethod} solves a registration
+// The MultiResolutionImageRegistrationMethod solves a registration
 // problem in a coarse to fine manner as illustrated in Figure
 // \ref{fig:MultiResRegistrationConcept}. The registration is first performed
-// at the coarsest level using the images of the first level of the fixed and
+// at the coarsest level using the images at the first level of the fixed and
 // moving image pyramids. The transform parameters determined by the
-// registration are then used to initialize registration at the next finer
+// registration are then used to initialize the registration at the next finer
 // level using images from the second level of the pyramids. This process is
 // repeated as we work up to the finest level of image resolution.
 //
@@ -83,15 +83,15 @@
 // Tweaking the components between resolution levels can be done using ITK's
 // implementation of the \emph{Command/Observer} design pattern. Before
 // beginning registration at each resolution level,
-// \doxygen{MultiResolutionImageRegistrationMethod} invokes a
-// \code{itk::IterationEvent}. The registration components can be changed by
-// implementing an \doxygen{Command} which is registered to respond to the
+// MultiResolutionImageRegistrationMethod invokes an
+// IterationEvent. The registration components can be changed by
+// implementing a Command which responds to the
 // event. A brief description the interaction between events and commands was
 // previously presented in Section \ref{sec:MonitoringImageRegistration}.
 //
 // We will illustrate this mechanism by changing the parameters of the
 // optimizer between each resolution level by way of a simple interface
-// command. First, we include the header file of the \doxygen{Command} class.
+// command. First, we include the header file of the Command class.
 //
 // Software Guide : EndLatex 
 
@@ -102,8 +102,8 @@
 // Software Guide : BeginLatex
 //
 // Our new interface command class is called 
-// \code{RegistrationInterfaceCommand}. It derives from the 
-// \doxygen{Command} class and is templated over the 
+// \code{RegistrationInterfaceCommand}. It derives from 
+// Command and is templated over the 
 // multi-resolution registration type.
 //
 // Software Guide : EndLatex
@@ -117,7 +117,7 @@ class RegistrationInterfaceCommand : public itk::Command
 // Software Guide : BeginLatex
 //
 // We then define \code{Self}, \code{Superclass}, \code{Pointer},
-// \code{New()} and a constructor in a similar fashion to
+// \code{New()} and a constructor in a similar fashion to the
 // \code{CommandIterationUpdate} class in Section 
 // \ref{sec:MonitoringImageRegistration}.
 //
@@ -173,7 +173,7 @@ public:
 
 // Software Guide : BeginLatex
 //
-// We then convert the input object pointer to a \code{RegistrationPointer}.
+// We then convert the input object pointer to a RegistrationPointer.
 // Note that no error checking is done here to verify if the 
 // \code{dynamic\_cast} was successful since we know the actual object
 // is a multi-resolution registration method. 
@@ -190,7 +190,7 @@ public:
 // (representing the first step size) and the minimum step length (representing
 // the convergence criterion) to large values.  At each subsequent resolution
 // level, we will reduce the minimum step length by a factor of 10 in order to
-// allow the optimizer to focus in progressively smaller regions. The maximum
+// allow the optimizer to focus on progressively smaller regions. The maximum
 // step length is set up to the current step length. In this way, when the
 // optimizer is reinitialized at the beginning of the registration process for
 // the next level, the step length will simply start with the last value used
@@ -286,7 +286,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The fixed and moving image type are defined similar to previous
+  //  The fixed and moving image types are defined as in previous
   //  examples.  Due to the recursive nature of the process by which the
   //  downsampled images are computed by the image pyramids, the output
   //  images are required to have real pixel types. We declare this internal
@@ -324,7 +324,7 @@ int main( int argc, char *argv[] )
   // \doxygen{MultiResolutionPyramidImageFilter} is used to create a pyramid
   // of downsampled images. The size of each downsampled image is specified
   // by the user in the form of a schedule of shrink factors. A description
-  // of the filter and the format of the schedules are described in detail in
+  // of the filter and the format of the schedules are found in
   // Section \ref{sec:ImagePyramids}. For this example, we will simply use
   // the default schedules.
   // 
@@ -373,9 +373,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The fixed and moving images are read in from a file. Before connecting
+  //  The fixed and moving images are read from a file. Before connecting
   //  these images to the registration we need to cast them to the internal
-  //  image type using \doxygen{CastImageFilter}s.
+  //  image type using CastImageFilters.
   //
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
@@ -502,7 +502,7 @@ int main( int argc, char *argv[] )
   //  Translation Y = 17.19
   //  \end{verbatim}
   //
-  //  These values are a close match to the true misaligment introduced in
+  //  These values are a close match to the true misaligment of $(13,17)$ introduced in
   //  the moving image.
   //
   //  Software Guide : EndLatex 
@@ -564,9 +564,9 @@ int main( int argc, char *argv[] )
   // \label{fig:MultiResImageRegistration1Output}
   // \end{figure}
   //
-  //  The result of resampling the moving image is presented in the left side
+  //  The result of resampling the moving image is presented in the left image
   //  of Figure \ref{fig:MultiResImageRegistration1Output}. The center and
-  //  right parts of the figure present a checkerboard composite of the fixed
+  //  right images of the figure depict a checkerboard composite of the fixed
   //  and moving images before and after registration.
   //
   //  Software Guide : EndLatex 
@@ -582,7 +582,7 @@ int main( int argc, char *argv[] )
   // \label{fig:MultiResImageRegistration1Trace}
   // \end{figure}
   //
-  //  The left side of Figure \ref{fig:MultiResImageRegistration1Trace} shows
+  //  Figure \ref{fig:MultiResImageRegistration1Trace} (left) shows
   //  the sequence of translations followed by the optimizer as it searched
   //  the parameter space. The right side of the same figure shows the
   //  sequence of metric values computed as the optimizer searched the
@@ -591,7 +591,7 @@ int main( int argc, char *argv[] )
   //  value within 4 iterations with the remaining iterations just doing fine
   //  adjustments. It is interesting to compare these results with the ones
   //  of the single resolution example in Section
-  //  \ref{sec:MultiModalityRegistrationMattes} where 24 iterations were
+  //  \ref{sec:MultiModalityRegistrationMattes}, where 24 iterations were
   //  required as more conservative optimization parameters had to be used.
   //
   //  Software Guide : EndLatex 

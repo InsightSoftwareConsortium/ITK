@@ -18,11 +18,11 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{CenteredAffineTransform}
-// for performing registration in $2D$. The example code is for the most part
-// identical to the one presented in
+// for performing registration in $2D$. The example code is, for the most part,
+// identical to that in
 // \ref{sec:InitializingRegistrationWithMoments}.  The main difference is the
-// use of the \doxygen{CenteredAffineTransform} here instead of the
-// \doxygen{CenteredRigid2DTransform}. We will focus then in the most
+// use of the CenteredAffineTransform here instead of the
+// CenteredRigid2DTransform. We will focus on the most
 // relevant changes in the current code and skip the basic elements already
 // explained in previous examples.
 //
@@ -43,8 +43,7 @@
 
 //  Software Guide : BeginLatex
 //  
-//  Let's start by including the header file of the
-//  \doxygen{CenteredAffineTransform}.
+//  Let's start by including the header file of the CenteredAffineTransform.
 //
 //  \index{itk::CenteredAffineTransform!header}
 // 
@@ -202,11 +201,11 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  In this example, we use again the helper class
-  //  \doxygen{CenteredTransformInitializer} in order to compute a reasonable
+  //  In this example, we again use the 
+  //  CenteredTransformInitializer helper class in order to compute a reasonable
   //  value for the initial center of rotation and the translation. The
   //  initializer is set to use the center of mass of each image as the
-  //  initial correspondance correction.
+  //  initial correspondence correction.
   //
   //  Software Guide : EndLatex 
 
@@ -231,7 +230,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Now we pass the parameter of the current transform as the initial
+  //  Now we pass the parameters of the current transform as the initial
   //  parameters to be used when the registration process starts.
   //
   //  Software Guide : EndLatex 
@@ -247,7 +246,7 @@ int main( int argc, char *argv[] )
   //  Keeping in mind that the scale of units in scaling, rotation and
   //  translation are quite different, we take advantage of the scaling
   //  functionality provided by the optimizers. We know that the first $N
-  //  \times N$ elements of the parameters array corresponds to the rotation
+  //  \times N$ elements of the parameters array correspond to the rotation
   //  matrix factor, the next $N$ correspond to the rotation center, and the
   //  last $N$ are the components of the translation to be applied after
   //  multiplication with the matrix is performed.
@@ -283,7 +282,7 @@ int main( int argc, char *argv[] )
   //  
   //  We also set the usual parameters of the optimization method. In this
   //  case we are using an
-  //  \doxygen{RegularStepGradientDescentOptimizer}. Below, we define the
+  //  RegularStepGradientDescentOptimizer. Below, we define the
   //  optimization parameters like initial step length, minimal step length
   //  and number of iterations. These last two act as stopping criteria for
   //  the optimization.
@@ -358,7 +357,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Once the optimization converges, we recover the parameters from the
-  //  registratino method. This is done through the
+  //  registration method. This is done with the
   //  \code{GetLastTransformParameters()} method. We can also recover the
   //  final value of the metric with the \code{GetValue()} method and the
   //  final number of iterations with the \code{GetCurrentIteration()}
@@ -397,8 +396,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Let's execute this example over some of the images provided in
-  //  \code{Examples/Data}, for example:
+  //  Let's execute this example over two of the images provided in
+  //  \code{Examples/Data}:
   //  
   //  \begin{itemize}
   //  \item \code{BrainProtonDensitySliceBorder20.png} 
@@ -409,9 +408,9 @@ int main( int argc, char *argv[] )
   //  image by $10$ degrees and then translating by $(-13,-17)$.  Both images
   //  have unit-spacing and are shown in Figure
   //  \ref{fig:FixedMovingImageRegistration9}. We execute the code using the
-  //  following parameters: steplenght=1.0, translationScale= 0.0001 and
+  //  following parameters: step length=1.0, translation scale= 0.0001 and
   //  maximum number of iterations = 300. With these images and parameters
-  //  the registration takes $240$ iterations and produces:
+  //  the registration takes $240$ iterations and produces
   //
   //  \begin{center}
   //  \begin{verbatim}
@@ -421,7 +420,7 @@ int main( int argc, char *argv[] )
   //  \end{verbatim}
   //  \end{center}
   //
-  //  That are interpreted as
+  //  These results are interpreted as
   //
   //  \begin{itemize}
   //  \item Iterations   = 239
@@ -431,17 +430,16 @@ int main( int argc, char *argv[] )
   //  \end{itemize}
   //  
   //  The second component of the matrix values is usually associated with
-  //  $\sin{\theta}$. In this case the value $0.1729$ that a rotation
-  //  of $9.95$ degrees. Which is approximately the theoretical value of
-  //  $10.0$ degrees of the mis-registered image.
+  //  $\sin{\theta}$. In this case the value $0.1729$ corresponds to a rotation 
+  //  of $9.95$ degrees, which is approximately the intentional misalignment of 
+  //  $10.0$ degrees.
   //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17S12.eps}
-  // \itkcaption[CenteredAffineTransform registration]{Fixed and moving image
-  // provided as input to the registration method using CenteredAffineTransform
-  // transform.}
+  // \itkcaption[CenteredAffineTransform registration]{Fixed and moving images
+  // provided as input to the registration method using the CenteredAffineTransform.}
   // \label{fig:FixedMovingImageRegistration9}
   // \end{figure}
   //
@@ -451,8 +449,8 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9Output.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceBefore.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceAfter.eps} 
-  // \itkcaption[CenteredAffineTransform ouput images]{Resampled moving image
-  // (left). Differences between the fixed and moving images, before (center) 
+  // \itkcaption[CenteredAffineTransform ouput images]{The resampled moving image
+  // (left), and the difference between the fixed and moving images before (center) 
   // and after (right) registration with the 
   // CenteredAffineTransform transform.}
   // \label{fig:ImageRegistration9Outputs}
@@ -460,7 +458,7 @@ int main( int argc, char *argv[] )
   //
   // Figure \ref{fig:ImageRegistration9Outputs} shows the output of the
   // registration. The right most image of this figure shows the squared
-  // magnitude of pixel differences between the fixed image and the resampled
+  // magnitude difference between the fixed image and the resampled
   // moving image. 
   //
   // \begin{figure}
@@ -468,17 +466,17 @@ int main( int argc, char *argv[] )
   // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceMetric.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceAngle.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceTranslations.eps} 
-  // \itkcaption[CenteredAffineTransform output plots]{Plots of the Metric,
-  // rotation angle and translations during the registration using
+  // \itkcaption[CenteredAffineTransform output plots]{Metric values,
+  // rotation angle and translations during the registration using the 
   // CenteredAffineTransform transform.}
   // \label{fig:ImageRegistration9Plots}
   // \end{figure}
   //
   //  Figure \ref{fig:ImageRegistration9Plots} shows the plots of the main
   //  output parameters of the registration process. The metric values at every
-  //  iteration are shown on the top. The angle values are shown in the plot at
-  //  left while the translation components of the registration are presented
-  //  in the plot at right. Note that the final total offset of the transform
+  //  iteration are shown on the top plot. The angle values are shown on the bottom left plot,
+  //  while the translation components of the registration are presented
+  //  on the bottom right plot. Note that the final total offset of the transform
   //  is to be computed as a combination of the shift due rotation plus the
   //  explicit translation set on the transform.
   //
