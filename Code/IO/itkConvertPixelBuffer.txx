@@ -188,7 +188,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   // 2 components assumed intensity and alpha
   if(inputNumberOfComponents == 2)
     {
-    InputPixelType* endInput = inputData + size;
+    InputPixelType* endInput = inputData + size * 2;
     while(inputData != endInput)
       {
       OutputComponentType val = 
@@ -328,7 +328,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   // assume intensity alpha
   if(inputNumberOfComponents == 2)
     {
-    InputPixelType* endInput = inputData + size;
+    InputPixelType* endInput = inputData + size * 2;
     while(inputData != endInput)
       {
       OutputComponentType val =  
@@ -347,8 +347,8 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   // just skip the rest of the data
   else
     {
-    int diff = inputNumberOfComponents - 4;
-    InputPixelType* endInput = inputData + size;
+    int diff = inputNumberOfComponents - 3;
+    InputPixelType* endInput = inputData + size * inputNumberOfComponents;
     while(inputData != endInput)
       {
       OutputConvertTraits
@@ -414,7 +414,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertRGBToRGBA(InputPixelType* inputData, 
                    OutputPixelType* outputData , int size)
 {
-  InputPixelType* endInput = inputData + size * 4;
+  InputPixelType* endInput = inputData + size * 3;
   while(inputData != endInput)
     {
     OutputConvertTraits
@@ -486,7 +486,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   // equal weights for 2 components??
   if(inputNumberOfComponents == 2)
     {
-    InputPixelType* endInput = inputData + size;
+    InputPixelType* endInput = inputData + size * 2;
     while(inputData != endInput)
       { 
       OutputComponentType val = 
@@ -507,7 +507,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   else
     {
     int diff = inputNumberOfComponents - 4;
-    InputPixelType* endInput = inputData + size;
+    InputPixelType* endInput = inputData + size * inputNumberOfComponents;
     while(inputData != endInput)
       {
       OutputConvertTraits
