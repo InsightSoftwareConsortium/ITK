@@ -32,9 +32,6 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
   const unsigned int N = 3;
   
   const double focal   = 100.0;
-  const double width   = 100.0;
-  const double height  = 100.0;
-
 
   bool Ok = true;
 
@@ -43,8 +40,6 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
   {
     TransformType::Pointer  identityTransform = TransformType::New();
     identityTransform->SetFocalDistance(  focal );
-    identityTransform->SetHeight( height );
-    identityTransform->SetWidth(  width );
 
     TransformType::OffsetType offset = identityTransform->GetOffset();
     std::cout << "Vector from instantiating an identity transform:  ";
@@ -71,8 +66,6 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
   {
     TransformType::Pointer  translation = TransformType::New();
     translation->SetFocalDistance( focal );
-    translation->SetHeight( height );
-    translation->SetWidth(  width );
 
     TransformType::OffsetType ioffset;
     ioffset.Fill(0.0);
@@ -135,8 +128,6 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
   {
     TransformType::Pointer  rigid = TransformType::New();
     rigid->SetFocalDistance( focal );
-    rigid->SetHeight( height );
-    rigid->SetWidth(  width );
 
     TransformType::OffsetType ioffset;
     ioffset.Fill(0.0);
