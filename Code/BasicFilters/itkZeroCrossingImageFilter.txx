@@ -38,10 +38,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-
 #ifndef _itkZeroCrossingImageFilter_txx
 #define _itkZeroCrossingImageFilter_txx
-
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkConstSmartNeighborhoodIterator.h"
@@ -53,8 +51,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-
-
 
 template <class TInputImage, class TOutputImage>
 void 
@@ -74,7 +70,6 @@ ZeroCrossingImageFilter<TInputImage,TOutputImage>
     }
 
   // Build an operator so that we can determine the kernel size
-
   unsigned long radius = 1;
   
   // get a copy of the input requested region (should equal the output
@@ -111,59 +106,55 @@ ZeroCrossingImageFilter<TInputImage,TOutputImage>
     }
 }
 
-
 template< class TInputImage, class TOutputImage >
 void
 ZeroCrossingImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-
   unsigned int i;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
   ConstNeighborhoodIterator<TInputImage> nit;
   ConstSmartNeighborhoodIterator<TInputImage> bit;
   ImageRegionIterator<TOutputImage> it;
-
-  // Allocate output
+  
   typename OutputImageType::Pointer output = this->GetOutput();
   typename  InputImageType::Pointer input  = this->GetInput();
   
-
   // Calculate iterator radius
   Size<ImageDimension> radius;
-  for (i = 0; i < ImageDimension; ++i) radius[i]  = 1;
-
+  for (i = 0; i < ImageDimension; ++i)
+    { radius[i]  = 1; }
+  
   // Find the data-set boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
     FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage> bC;
   faceList = bC(input, outputRegionForThread, radius);
-
+  
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
     FaceListType::iterator fit;
   fit = faceList.begin();
-
+  
   // support progress methods/callbacks
   unsigned long ii = 0;
   unsigned long updateVisits = 0;
   unsigned long totalPixels = 0;
   if ( threadId == 0 )
     {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
+      totalPixels = outputRegionForThread.GetNumberOfPixels();
+      updateVisits = totalPixels / 10;
+      if( updateVisits < 1 ) updateVisits = 1;
     }
-
+  
   // Process non-boundary face
   nit = ConstNeighborhoodIterator<TInputImage>(radius, input, *fit);
   it  = ImageRegionIterator<TOutputImage>(output, *fit);
-
+  
   nit.GoToBegin();
   it.GoToBegin();
-
-
+  
   InputImagePixelType this_one, that, abs_this_one, abs_that;
   InputImagePixelType zero = NumericTraits<InputImagePixelType>::Zero;
   OutputImagePixelType one = NumericTraits<OutputImagePixelType>::One;
@@ -171,14 +162,15 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   unsigned long center;
   Array<unsigned long, 2 * ImageDimension> offset;
 
-  //set offset of neighbors to the center pixel
+  //Set the offset of the neighbors to the center pixel.
   for ( i = 0 ; i < 2 * ImageDimension; i+= 2)
     {
       offset[i] = - nit.GetStride(i/2);
       offset[i+1] = nit.GetStride(i/2);
     }
-
+  
   // Now Process the non-boundary region.
+  center = nit.Size()/2;
   while( ! nit.IsAtEnd() )
     {
       if ( threadId == 0 && !(ii % updateVisits ) )
@@ -186,14 +178,12 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
           this->UpdateProgress((float)ii++ / (float)totalPixels);
         }
       
-      center = nit.Size()/2;
       this_one = nit.GetPixel(center);
       
       for( i = 0; i< ImageDimension * 2; i++)
         {
-          
           that = nit.GetPixel(center + offset[i]);
-
+          
           if( ((this_one < zero) && (that > zero))
               || ((this_one > zero) && (that < zero)) 
               || ((this_one == zero) && (that != zero))
@@ -208,7 +198,6 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
                 }
             }
         }
-
       ++nit;
       ++it;
     }
@@ -217,48 +206,43 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   // the edge of the buffer.
   for (++fit; fit != faceList.end(); ++fit)
     { 
-    if ( threadId == 0 && !(ii % updateVisits ) )
-      {
-      this->UpdateProgress((float)ii++ / (float)totalPixels);
-      }
-
-    bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
-                                                         input, *fit);
-    it = ImageRegionIterator<OutputImageType>(output, *fit);
-    bit.OverrideBoundaryCondition(&nbc);
-    bit.GoToBegin();
-    
-    while ( ! bit.IsAtEnd() )
-      {
-
-        center = bit.Size()/2;
-        this_one = nit.GetPixel(center);
-        
-        for( i = 0; i< ImageDimension * 2; i++)
-          {
-        
-            that = nit.GetPixel(center + offset[i]);
-            if( ((this_one < zero) && (that > zero))
-                || ((this_one > zero) && (that < zero)) 
-                || ((this_one == zero) && (that != zero))
-                || ((this_one != zero) && (that == zero))  )
-              {
-                abs_this_one =  ::abs(this_one);
-                abs_that = ::abs(that);
-                if(abs_this_one < abs_that)
-                  {
-                    it.Value() = one;
-                    break;
-                  }
-              }
-          }
-        ++bit;
-        ++it;
-      }
-    
+      if ( threadId == 0 && !(ii % updateVisits ) )
+        {
+          this->UpdateProgress((float)ii++ / (float)totalPixels);
+        }
+      
+      bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
+                                                           input, *fit);
+      it = ImageRegionIterator<OutputImageType>(output, *fit);
+      bit.OverrideBoundaryCondition(&nbc);
+      bit.GoToBegin();
+      
+      center = bit.Size()/2;
+      while ( ! bit.IsAtEnd() )
+        {
+          this_one = nit.GetPixel(center);
+          
+          for( i = 0; i< ImageDimension * 2; i++)
+            {
+              that = nit.GetPixel(center + offset[i]);
+              if( ((this_one < zero) && (that > zero))
+                  || ((this_one > zero) && (that < zero)) 
+                  || ((this_one == zero) && (that != zero))
+                  || ((this_one != zero) && (that == zero))  )
+                {
+                  abs_this_one =  ::abs(this_one);
+                  abs_that = ::abs(that);
+                  if(abs_this_one < abs_that)
+                    {
+                      it.Value() = one;
+                      break;
+                    }
+                }
+            }
+          ++bit;
+          ++it;
+        }    
     }
-
-  
 }
 
 }//end of itk namespace
