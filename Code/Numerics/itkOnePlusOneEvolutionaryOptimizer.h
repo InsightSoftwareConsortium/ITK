@@ -80,7 +80,7 @@ public:
  
   /** Run-time type information (and related methods). */
   itkTypeMacro(OnePlusOneEvolutionaryOptimizer, SingleValuedNonLinearOptimizer );
- 
+  
   /** Type of the Cost Function   */
   typedef  SingleValuedCostFunction         CostFunctionType;
   typedef  CostFunctionType::Pointer        CostFunctionPointer;
@@ -147,7 +147,7 @@ protected:
 private:
   
   /** Smart pointer to the normal random variate generator. */
-  NormalVariateGeneratorType* m_RandomGenerator ;
+  NormalVariateGeneratorType::Pointer m_RandomGenerator ;
 
   /** Maximum iteration limit. */
   unsigned int m_MaximumIteration ;

@@ -61,7 +61,6 @@ void
 OnePlusOneEvolutionaryOptimizer
 ::Initialize(double initialRadius, double grow, double shrink) 
 {
-  m_MaximumIteration = 20 ;
   m_InitialRadius = initialRadius ;
 
   if (grow == -1)
@@ -88,25 +87,16 @@ OnePlusOneEvolutionaryOptimizer
   this->InvokeEvent( StartEvent() );
   m_Stop = false ;
 
-  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
-
-  vnl_matrix<double> A(spaceDimension, spaceDimension, 0);
+  unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
+  vnl_matrix<double> A(spaceDimension, spaceDimension) ;
   vnl_vector<double> parent(this->GetInitialPosition()); 
-
   vnl_vector<double> f_norm(spaceDimension);
   vnl_vector<double> child(spaceDimension);
   vnl_vector<double> delta(spaceDimension);
-  
-  vnl_vector<double> scaledDelta(spaceDimension) ;
-
-  ScalesType scales = this->GetScales() ;
-
-  for(unsigned int i = 0  ; i < spaceDimension ; i++) 
-    {
-    A(i,i) = m_InitialRadius / scales[i] ;
-    }
 
   ParametersType parentPosition( spaceDimension );
+  ParametersType childPosition(spaceDimension) ;
+
   for( unsigned int i=0; i<spaceDimension; i++)
     {
     parentPosition[i] = parent[i];
@@ -115,7 +105,14 @@ OnePlusOneEvolutionaryOptimizer
   itkDebugMacro(<< ": initial position: " << parentPosition) ; 
   double pvalue = m_CostFunction->GetValue(parentPosition);
   this->SetCurrentPosition(parentPosition) ;
+  const Optimizer::ScalesType& scales = this->GetScales() ;
+  A.set_identity() ;
+  for(unsigned int i = 0  ; i < spaceDimension ; i++) 
+    {
+    A(i,i) = m_InitialRadius / scales[i] ;
+    }
   m_CurrentIteration = 0 ;
+
   for (unsigned int iter = 0 ; iter < m_MaximumIteration ; iter++) 
     {
     if ( m_Stop )
@@ -131,14 +128,13 @@ OnePlusOneEvolutionaryOptimizer
       }
 
     delta  = A * f_norm ;
-
     child  = parent + delta ;
 
-    ParametersType childPosition( spaceDimension );
     for( unsigned int i=0; i<spaceDimension; i++)
       {
       childPosition[i] = child[i];
       }
+
     double cvalue = m_CostFunction->GetValue(childPosition);
 
     itkDebugMacro(<< iter << ": parent: " << pvalue 
