@@ -138,7 +138,7 @@ Transform(const VnlVectorType &vect) const
 template<class ScalarType, unsigned int NDimensions>
 TranslationTransform<ScalarType, NDimensions>::CovariantVectorType
 TranslationTransform<ScalarType, NDimensions>::
-Transform(const CovariantVectorType &vec) const 
+Transform(const CovariantVectorType &vect) const 
 {
   return  vect;
 }
