@@ -38,7 +38,9 @@ MACRO(GCCXML_CREATE_XML_FILE Source Bin Input Output Library)
    IF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
      IF(EXISTS ${Bin}/${Output}.depend)
      ELSE(EXISTS ${Bin}/${Output}.depend)
-        WRITE_FILE(${Bin}/${Output}.depend "")
+       CONFIGURE_FILE(
+         ${ITK_SOURCE_DIR}/Wrapping/CSwig/empty.depend.in
+         ${Bin}/${Output}.depend @ONLY IMMEDIATE)
      ENDIF(EXISTS ${Bin}/${Output}.depend)
      INCLUDE(${Bin}/${Output}.depend)
    ELSE(${CMAKE_MAKE_PROGRAM} MATCHES "make")
