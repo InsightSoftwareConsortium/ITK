@@ -29,5 +29,14 @@ BEGIN MAKE VERBATIM
 Dashboard:
 	$(MAKE) -C Testing/HTML/TestingResults/Dashboard Dashboard
 
+DashboardBuild:
+	$(TCLSH) Testing/Utilities/Build.tcl
+
+DashboardTest:
+	$(TCLSH) Testing/Utilities/Test.tcl
+
+DashboardSubmission:
+	$(TCLSH) Testing/Utilities/Submit.tcl
+
 END MAKE VERBATIM
 
