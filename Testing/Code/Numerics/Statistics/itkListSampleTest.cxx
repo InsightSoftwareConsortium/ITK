@@ -76,6 +76,9 @@ int itkListSampleTest(int, char* [] )
       whereFail = "Iterator: End()" ;
     }
 
+  SampleType::SearchResultVectorType searchResult ;
+  sample->Search(sample->GetMeasurementVector(25), 0.01, searchResult) ;
+
   if( !pass )
     {
       std::cout << "Test failed in " << whereFail << "." << std::endl;
