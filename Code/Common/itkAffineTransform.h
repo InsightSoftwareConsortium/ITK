@@ -84,6 +84,15 @@ namespace itk
  *
  * NDimensions   The number of dimensions of the vector space.
  *
+ * This class provides several methods for setting the matrix and vector
+ * defining the transform. To support the registration framework, the 
+ * transform parameters can also be set as an Array<double> of size
+ * (NDimension + 1) * NDimension using method SetParameters(). 
+ * The first (NDimension x NDimension) parameters defines the matrix in 
+ * column-major order (where the column index) varies the fastest). 
+ * The last NDimension parameters defines the translation or offest 
+ * in each dimensions.
+ *
  * \ingroup Transforms
  *
  *
@@ -211,9 +220,9 @@ public:
   void SetMatrix(const MatrixType &matrix)
       { m_Matrix = matrix; RecomputeInverse(); this->Modified(); return; }
 
-  /** Set the transformation from a container of parameters
-   *
-   * This is typically used by optimizers. **/
+  /** Set the transformation from a container of parameters.
+   * The first (NDimension x NDimension) parameters define the
+   * matrix and the last NDimension parameters the translation. */
   void SetParameters( const ParametersType & parameters );
 
   /** Get the Transformation Parameters. */

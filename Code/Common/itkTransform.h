@@ -43,6 +43,12 @@ namespace itk
  * class provide the methods for back transfromation. Derived classes that
  * implement non-invertible transformation should throw exceptions when
  * appropriate.
+ * 
+ * Typically a Transform class have several methods for setting its 
+ * parameters. For use in the registration framework, the parameters must
+ * also be represented by a flat array of doubles to allow communication
+ * with generic optimizers. The flat array of parameters is set using
+ * the SetParameters() method.
  *
  * \ingroup Transforms
  *

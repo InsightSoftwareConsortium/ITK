@@ -83,13 +83,13 @@ public:
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
    * There are 3 parameters. The first one represents the
-   * rotation and the last two represents the offset. */
+   * angle of rotation in radians and the last two represents the offset. */
   void SetParameters( const ParametersType & parameters );
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
    * There are 3 parameters. The first one represents the
-   * rotation and the last two represents the offset. */
+   * angle or rotation in radians and the last two represents the offset. */
   const ParametersType & GetParameters( void ) const;
 
 
