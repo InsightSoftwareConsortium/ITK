@@ -6,6 +6,7 @@ avants:Brian Avants:avants@gradient.cis.upenn.edu
 aylward:Stephen Stephen:aylward@unc.edu
 blezek:Dan Blezek:blezek@crd.ge.com
 blue:Rusty Blue:blue@crd.ge.com
+bwyman@insightful.com
 cates:Josh Cates:cates@cs.utah.edu
 celina:Celina  Imielinska:ci42@columbia.edu
 chandra:Parag Chandra:chandra@cs.unc.edu
