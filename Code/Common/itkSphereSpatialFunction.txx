@@ -23,7 +23,8 @@ namespace itk
 {
 
 template <unsigned int VImageDimension,typename TInput>
-SphereSpatialFunction<VImageDimension,TInput>::SphereSpatialFunction()
+SphereSpatialFunction<VImageDimension,TInput>
+::SphereSpatialFunction()
 {
   m_Radius = 1.0;
 
@@ -31,7 +32,8 @@ SphereSpatialFunction<VImageDimension,TInput>::SphereSpatialFunction()
 }
 
 template <unsigned int VImageDimension,typename TInput>
-SphereSpatialFunction<VImageDimension,TInput>::~SphereSpatialFunction()
+SphereSpatialFunction<VImageDimension,TInput>
+::~SphereSpatialFunction()
 {
 
 }

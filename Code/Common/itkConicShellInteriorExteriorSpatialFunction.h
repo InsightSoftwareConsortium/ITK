@@ -53,8 +53,9 @@ namespace itk
  *
  * */
 
-template <unsigned int VImageDimension=3>
-class ITK_EXPORT ConicShellInteriorExteriorSpatialFunction : public InteriorExteriorSpatialFunction<VImageDimension>
+template <unsigned int VImageDimension=3, typename TInput=Point<double,3> >
+class ITK_EXPORT ConicShellInteriorExteriorSpatialFunction
+  :public InteriorExteriorSpatialFunction<VImageDimension, TInput>
 {
 public:
 

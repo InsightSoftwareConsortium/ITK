@@ -34,8 +34,9 @@ namespace itk
  * Specifically, this class deals with the case where (n - m) = 1 and
  * the ellipsoid's major axis is oriented along a singles orientation vector.
  */
-template <class T, unsigned int VImageDimension=3>
-class ITK_EXPORT SymmetricEllipsoidInteriorExteriorSpatialFunction : public InteriorExteriorSpatialFunction<VImageDimension>
+template <unsigned int VImageDimension=3,typename TInput=Point<double,VImageDimension> >
+class ITK_EXPORT SymmetricEllipsoidInteriorExteriorSpatialFunction
+: public InteriorExteriorSpatialFunction<VImageDimension>
 {
 public:
   /** Standard class typedefs. */
@@ -59,16 +60,13 @@ public:
   /** Evaluates the function at a given position. */
   OutputType Evaluate(const InputType& position) const;
 
-  /** Vector typedef. */
-  typedef T VectorType;
-
   /** Get and set the center of the ellipsoid. */
   itkGetMacro(Center, InputType);
   itkSetMacro(Center, InputType);
   
   /** Set the orientation vector of the ellipsoid's unique axis and axes lengths.
    * Must be normalized!!!!! */
-  void SetOrientation(Vector<VectorType> orientation, VectorType uniqueAxis, VectorType symmetricAxes);
+  void SetOrientation(Vector<double> orientation, double uniqueAxis, double symmetricAxes);
      
 protected:
   SymmetricEllipsoidInteriorExteriorSpatialFunction();
@@ -84,16 +82,16 @@ private:
   InputType m_Center;
 
   /** The unique axis length of the ellipsoid. */
-  VectorType m_UniqueAxis;
+  double m_UniqueAxis;
   
   /** The symmetric axes lengths of the ellipsoid. */
-  VectorType m_SymmetricAxes;
+  double m_SymmetricAxes;
 
   /** The orientation vector of the ellipsoid's unique axis. */  
-  Vector<VectorType, VImageDimension> m_Orientation;
+  Vector<double, VImageDimension> m_Orientation;
 
   /** The vector ratio. */  
-  VectorType m_VectorRatio;
+  double m_VectorRatio;
 
 };
 

@@ -23,8 +23,8 @@
 namespace itk
 {
 
-template <class T, unsigned int VImageDimension>
-SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+template <unsigned int VImageDimension, typename TInput>
+SymmetricEllipsoidInteriorExteriorSpatialFunction<VImageDimension,TInput>
 ::SymmetricEllipsoidInteriorExteriorSpatialFunction()
 {
   m_Center.Fill(0.0); // Origin of ellipsoid
@@ -33,22 +33,22 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
   m_SymmetricAxes = 5; // Length of symmetric axes
 }
 
-template <class T, unsigned int VImageDimension>
-SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+template <unsigned int VImageDimension, typename TInput>
+SymmetricEllipsoidInteriorExteriorSpatialFunction<VImageDimension,TInput>
 ::~SymmetricEllipsoidInteriorExteriorSpatialFunction()
 {
 
 }
 
-template <class T, unsigned int VImageDimension>
-SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::OutputType 
-SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+template <unsigned int VImageDimension,typename TInput>
+SymmetricEllipsoidInteriorExteriorSpatialFunction<VImageDimension, TInput>::OutputType 
+SymmetricEllipsoidInteriorExteriorSpatialFunction<VImageDimension, TInput>
 ::Evaluate(const InputType& position) const
 {
   double uniqueTerm = 0;  // Term in ellipsoid equation for unique axis    
   double symmetricTerm = 0;  // Term in ellipsoid equation for symmetric axes  
-  Vector<VectorType, VImageDimension> pointVector;
-  Vector<VectorType, VImageDimension> symmetricVector;
+  Vector<double, VImageDimension> pointVector;
+  Vector<double, VImageDimension> symmetricVector;
   
   // Project the position onto the major axis, normalize by axis length, 
   // and determine whether position is inside ellipsoid.
@@ -69,8 +69,8 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
     return 0; // Outside the ellipsoid.
 }
 
-template <class T, unsigned int VImageDimension>
-void SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+template <unsigned int VImageDimension,typename TInput>
+void SymmetricEllipsoidInteriorExteriorSpatialFunction<VImageDimension,TInput>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -85,9 +85,9 @@ void SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
   os << m_SymmetricAxes << std::endl;
 }
 
-template <class T, unsigned int VImageDimension>
-void SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
-::SetOrientation(itk::Vector<VectorType> orientation, VectorType uniqueAxis, VectorType symmetricAxes)
+template <unsigned int VImageDimension,typename TInput>
+void SymmetricEllipsoidInteriorExteriorSpatialFunction<VImageDimension, TInput>
+::SetOrientation(itk::Vector<double> orientation, double uniqueAxis, double symmetricAxes)
 {
   m_Orientation = orientation;  // Orientation of unique axis of ellipsoid
   m_SymmetricAxes = symmetricAxes;  // Length of symmetric axes

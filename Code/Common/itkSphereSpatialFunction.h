@@ -32,8 +32,8 @@ namespace itk
  * \ingroup SpatialFunctions
  */
 template <unsigned int VImageDimension=3,typename TInput=Point<double,3> >
-class ITK_EXPORT SphereSpatialFunction : 
-            public InteriorExteriorSpatialFunction<VImageDimension,TInput>
+class ITK_EXPORT SphereSpatialFunction
+: public InteriorExteriorSpatialFunction<VImageDimension,TInput>
 {
 public:
   /** Standard class typedefs. */

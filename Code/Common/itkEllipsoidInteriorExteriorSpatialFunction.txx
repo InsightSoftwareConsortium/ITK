@@ -23,16 +23,18 @@
 namespace itk
 {
 
-template <class T, unsigned int VImageDimension>
-EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::EllipsoidInteriorExteriorSpatialFunction()
+template <unsigned int VImageDimension, typename TInput>
+EllipsoidInteriorExteriorSpatialFunction<VImageDimension, TInput>
+::EllipsoidInteriorExteriorSpatialFunction()
 {
   m_Orientations = NULL;
   m_Axes.Fill(1.0);   // Lengths of ellipsoid axes.
   m_Center.Fill(0.0); // Origin of ellipsoid
 }
 
-template <class T, unsigned int VImageDimension>
-EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::~EllipsoidInteriorExteriorSpatialFunction()
+template <unsigned int VImageDimension, typename TInput >
+EllipsoidInteriorExteriorSpatialFunction<VImageDimension, TInput>
+::~EllipsoidInteriorExteriorSpatialFunction()
 {
   unsigned int i;
   if (m_Orientations)
@@ -45,14 +47,14 @@ EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::~EllipsoidInterior
     }
 }
 
-template <class T, unsigned int VImageDimension>
-EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::OutputType
-EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+template <unsigned int VImageDimension, typename TInput>
+EllipsoidInteriorExteriorSpatialFunction<VImageDimension, TInput>::OutputType
+EllipsoidInteriorExteriorSpatialFunction<VImageDimension, TInput>
 ::Evaluate(const InputType& position) const
 {  
   double distanceSquared = 0; 
-  Vector<VectorType, VImageDimension> orientationVector;
-  Vector<VectorType, VImageDimension> pointVector;
+  Vector<double, VImageDimension> orientationVector;
+  Vector<double, VImageDimension> pointVector;
 
   // Project the position onto each of the axes, normalize by axis length, 
   // and determine whether position is inside ellipsoid. The length of axis0,
@@ -79,9 +81,9 @@ EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
     return 0; // Outside the ellipsoid.
 }
 
-template <class T, unsigned int VImageDimension>
-void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
-::SetOrientations(vnl_matrix<VectorType> orientations)
+template <unsigned int VImageDimension, typename TInput>
+void EllipsoidInteriorExteriorSpatialFunction<VImageDimension, TInput>
+::SetOrientations(vnl_matrix<double> orientations)
 {
   unsigned int i, j;
   // Initialize orientation vectors.
@@ -93,10 +95,10 @@ void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
       }
     delete []m_Orientations;
     }
-  m_Orientations = new VectorType * [VImageDimension];
+  m_Orientations = new double * [VImageDimension];
   for(i = 0; i < VImageDimension; i++)
     {
-    m_Orientations[i] = new VectorType[VImageDimension];
+    m_Orientations[i] = new double[VImageDimension];
     }
 
   // Set orientation vectors (must be orthogonal).
@@ -109,8 +111,8 @@ void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
     }
 }
 
-template <class T, unsigned int VImageDimension>
-void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+template <unsigned int VImageDimension, typename TInput>
+void EllipsoidInteriorExteriorSpatialFunction<VImageDimension, TInput>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   unsigned int i, j;

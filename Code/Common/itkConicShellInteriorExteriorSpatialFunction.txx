@@ -22,8 +22,9 @@
 namespace itk
 {
 
-template <unsigned int VImageDimension>
-ConicShellInteriorExteriorSpatialFunction<VImageDimension>::ConicShellInteriorExteriorSpatialFunction()
+template <unsigned int VImageDimension, typename TInput>
+ConicShellInteriorExteriorSpatialFunction<VImageDimension, TInput>
+::ConicShellInteriorExteriorSpatialFunction()
 {
   m_Origin.Fill(0.0);
   m_OriginGradient.Fill(0.0);
@@ -34,15 +35,16 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>::ConicShellInteriorEx
   m_Epsilon = 0;
 }
 
-template <unsigned int VImageDimension>
-ConicShellInteriorExteriorSpatialFunction<VImageDimension>::~ConicShellInteriorExteriorSpatialFunction()
+template <unsigned int VImageDimension, typename TInput>
+ConicShellInteriorExteriorSpatialFunction<VImageDimension, TInput>
+::~ConicShellInteriorExteriorSpatialFunction()
 {
 
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int VImageDimension, typename TInput>
 void
-ConicShellInteriorExteriorSpatialFunction<VImageDimension>
+ConicShellInteriorExteriorSpatialFunction<VImageDimension, TInput>
 ::SetOriginGradient(TGradientType grad)
 {
   m_OriginGradient = grad;
@@ -51,9 +53,9 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>
   m_OriginGradient.Get_vnl_vector().normalize();
 }
 
-template <unsigned int VImageDimension>
-ConicShellInteriorExteriorSpatialFunction<VImageDimension>::OutputType
-ConicShellInteriorExteriorSpatialFunction<VImageDimension>
+template <unsigned int VImageDimension, typename TInput>
+ConicShellInteriorExteriorSpatialFunction<VImageDimension, TInput>::OutputType
+ConicShellInteriorExteriorSpatialFunction<VImageDimension, TInput>
 ::Evaluate(const InputType& position) const
 {
   // As from the header...
@@ -125,9 +127,9 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>
 
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int VImageDimension, typename TInput>
 void
-ConicShellInteriorExteriorSpatialFunction<VImageDimension>
+ConicShellInteriorExteriorSpatialFunction<VImageDimension, TInput>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
