@@ -82,7 +82,7 @@ namespace itk
 	/* FIXME:  Find or write an iterator that does this in n-D */
 	double pix;
 	Index<3> index;
-	long coord[3];
+	unsigned long coord[3];
 
 	for (unsigned long z = 0; z < nslices; z++) {
 	    coord[0] = z;
