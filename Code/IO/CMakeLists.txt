@@ -49,6 +49,8 @@ SET(ITKIO_SRCS
   itkStimulateImageIOFactory.cxx
   itkTIFFImageIO.cxx
   itkTIFFImageIOFactory.cxx
+  itkTransformFileReader.cxx
+  itkTransformFileWriter.cxx
   itkVTKImageIO.cxx
   itkVTKImageIOFactory.cxx
 )
