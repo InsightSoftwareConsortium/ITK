@@ -167,7 +167,7 @@ public:
   itkSetMacro( FixedImageRegion, FixedImageRegionType );
 
   /** Get the region over which the metric will be computed */
-  itkGetConstMacro( FixedImageRegion, FixedImageRegionType );
+  itkGetConstReferenceMacro( FixedImageRegion, FixedImageRegionType );
  
   /** Set/Get the moving image mask. */
   itkSetObjectMacro( MovingImageMask, MovingImageMaskType );
