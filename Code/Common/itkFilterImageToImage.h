@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageToImageFilter.h
+  Module:    itkFilterImageToImage.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,22 +14,22 @@
 
 =========================================================================*/
 /**
- * itkImageToImageFilter is the base class for all process objects that output
+ * itkFilterImageToImage is the base class for all process objects that output
  * image data, and require image data as input.
  */
-#ifndef __itkImageToImageFilter_h
-#define __itkImageToImageFilter_h
+#ifndef __itkFilterImageToImage_h
+#define __itkFilterImageToImage_h
 
 #include "itkImageSource.h"
 
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT itkImageToImageFilter : public itkImageSource<TOutputImage>
+class ITK_EXPORT itkFilterImageToImage : public itkImageSource<TOutputImage>
 {
 public:
   /** 
    * Smart pointer typedef support 
    */
-  typedef itkSmartPointer< itkImageToImageFilter<TInputImage,TOutputImage> >
+  typedef itkSmartPointer< itkFilterImageToImage<TInputImage,TOutputImage> >
     Pointer;
 
   /** 
@@ -40,7 +40,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkImageToImageFilter,itkImageSource);
+  itkTypeMacro(itkFilterImageToImage,itkImageSource);
 
   /** 
    * Set the image input of this process object. 
@@ -55,16 +55,16 @@ public:
     {return (TInputImage *) this->itkProcessObject::GetInput(idx);}
 
 protected:
-  itkImageToImageFilter();
-  ~itkImageToImageFilter() {};
-  itkImageToImageFilter(const itkImageToImageFilter&) {};
-  void operator=(const itkImageToImageFilter&) {};
+  itkFilterImageToImage();
+  ~itkFilterImageToImage() {};
+  itkFilterImageToImage(const itkFilterImageToImage&) {};
+  void operator=(const itkFilterImageToImage&) {};
   void PrintSelf(std::ostream& os, itkIndent indent);
   
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToImageFilter.cxx"
+#include "itkFilterImageToImage.cxx"
 #endif
 
 #endif

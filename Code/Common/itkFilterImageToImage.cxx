@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageToImageFilter.cxx
+  Module:    itkFilterImageToImage.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,28 +13,28 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkImageToImageFilter.h"
+#include "itkFilterImageToImage.h"
 #include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
-itkImageToImageFilter<TInputImage,TOutputImage>::Pointer 
-itkImageToImageFilter<TInputImage,TOutputImage>
+itkFilterImageToImage<TInputImage,TOutputImage>::Pointer 
+itkFilterImageToImage<TInputImage,TOutputImage>
 ::New()
 {
-  itkImageToImageFilter<TInputImage,TOutputImage>* ret = 
-    itkObjectFactory< itkImageToImageFilter<TInputImage,TOutputImage> >::Create();
+  itkFilterImageToImage<TInputImage,TOutputImage>* ret = 
+    itkObjectFactory< itkFilterImageToImage<TInputImage,TOutputImage> >::Create();
   if ( ret )
     {
     return ret;
     }
-  return new itkImageToImageFilter<TInputImage, TOutputImage>);
+  return new itkFilterImageToImage<TInputImage, TOutputImage>);
 }
 
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
-itkImageToImageFilter<TInputImage,TOutputImage>
-::itkImageToImageFilter()
+itkFilterImageToImage<TInputImage,TOutputImage>
+::itkFilterImageToImage()
 {
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(1);
@@ -44,7 +44,7 @@ itkImageToImageFilter<TInputImage,TOutputImage>
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
 void 
-itkImageToImageFilter<TInputImage,TOutputImage>
+itkFilterImageToImage<TInputImage,TOutputImage>
 ::SetInput(TInputImage *input)
 {
   this->itkProcessObject::SetNthInput(0, input);
@@ -53,7 +53,7 @@ itkImageToImageFilter<TInputImage,TOutputImage>
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
 TInputImage *
-itkImageToImageFilter<TInputImage,TOutputImage>
+itkFilterImageToImage<TInputImage,TOutputImage>
 ::GetInput()
 {
   if (this->NumberOfInputs < 1)
@@ -67,7 +67,7 @@ itkImageToImageFilter<TInputImage,TOutputImage>
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
 void 
-itkImageToImageFilter<TInputImage,TOutputImage>
+itkFilterImageToImage<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkImageSource<TOutputImage>::PrintSelf(os,indent);

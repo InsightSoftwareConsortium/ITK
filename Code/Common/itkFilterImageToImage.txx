@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageToImageFilter.txx
+  Module:    itkFilterImageToImage.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
