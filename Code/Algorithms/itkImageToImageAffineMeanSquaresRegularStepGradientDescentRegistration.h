@@ -85,7 +85,7 @@ public:
 	/**
    *  Type of the parameters
    */
-   typedef TransformationType::ParametersType  ParametersType;
+   typedef typename TransformationType::ParametersType  ParametersType;
 
 
   /**
