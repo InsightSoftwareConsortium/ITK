@@ -57,7 +57,7 @@ template <class TLevelSet, class TEdgeImage>
 ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 ::ShapeDetectionLevelSetFilter()
 {
-  m_EdgeImage = NULL;
+  this->ProcessObject::SetNumberOfRequiredInputs( 2 );
   m_LengthPenaltyStrength = 0.05;
 
   m_OutputNarrowBand = NULL;
@@ -76,7 +76,6 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Edge image: " << m_EdgeImage.GetPointer() << std::endl;
   os << indent << "Length penalty strength: ";
   os << m_LengthPenaltyStrength << std::endl;
   os << indent << "Propagate outwards: " << m_PropagateOutwards << std::endl;
@@ -92,10 +91,26 @@ void
 ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 ::SetEdgeImage(TEdgeImage * ptr)
 {
-  if( !ptr ) return;
-
-  m_EdgeImage = ptr;
   this->ProcessObject::SetNthInput( 1, ptr );
+}
+
+
+/**
+ *
+ */
+template <class TLevelSet, class TEdgeImage>
+ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
+::EdgeImagePointer
+ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
+::GetEdgeImage()
+{
+  if ( this->GetNumberOfInputs() < 2 )
+    {
+    return NULL;
+    }
+
+  return static_cast<TEdgeImage *>(
+    this->ProcessObject::GetInput(1).GetPointer() );
 
 }
 
@@ -130,7 +145,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 
   // this filter requires all of the input image to
   // be in the buffer
-  m_EdgeImage->SetRequestedRegionToLargestPossibleRegion();
+  this->GetEdgeImage()->SetRequestedRegionToLargestPossibleRegion();
 
 }
 
@@ -143,16 +158,8 @@ void
 ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 ::GenerateData()
 {
-  if ( !m_EdgeImage )
-    {
-    throw ExceptionObject(__FILE__, __LINE__);
-    }
 
   LevelSetPointer inputPtr = this->GetInput();
-  if ( !inputPtr )
-    {
-    throw ExceptionObject(__FILE__, __LINE__);
-    }
 
   this->AllocateOutput();
 
@@ -185,16 +192,21 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
   unsigned int numberOfIterations = this->GetNumberOfIterations();
   double timeStepSize = this->GetTimeStepSize();
 
+
   for( unsigned int k = 0; k < numberOfIterations; k++ )
     {
-    
-    itkDebugMacro(<< "iteration: " << k);
+
+    // Update progress.
+    if ( numberOfIterations < 100 || !(k % 10) )
+      {
+      this->UpdateProgress( (float) k / (float) numberOfIterations );
+      }
 
     LevelSetPointer inputBuffer = this->GetInputBuffer();
     LevelSetPointer outputBuffer = this->GetOutputBuffer();
 
     // Setup the extender
-    m_Extender->SetInputVelocityImage( m_EdgeImage );
+    m_Extender->SetInputVelocityImage( this->GetEdgeImage() );
     m_Extender->SetInput( inputBuffer );
     m_Extender->Update();
     typename TEdgeImage::Pointer extVelPtr = m_Extender->GetOutputVelocityImage();
@@ -305,7 +317,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
     }
 
   // Setup the extender
-  m_Extender->SetInputVelocityImage( m_EdgeImage );
+  m_Extender->SetInputVelocityImage( this->GetEdgeImage() );
   m_Extender->NarrowBandingOn();
   m_Extender->SetNarrowBandwidth( narrowBandwidth );
 
@@ -316,7 +328,11 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
   for( unsigned int k = 0; k < numberOfIterations; k++ )
     {
 
-    itkDebugMacro(<< "iteration: " << k);
+    // Update progress.
+    if ( numberOfIterations < 100 || !(k % 10) )
+      {
+      this->UpdateProgress( (float) k / (float) numberOfIterations );
+      }
 
     m_Extender->SetInput( outputPtr );
     m_Extender->SetInputNarrowBand( inputNarrowBand );

@@ -80,7 +80,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 AuxImageType * ptr,
 unsigned int idx )
 {
-  if( !ptr || idx >= VAuxDimension )
+  if( idx >= VAuxDimension )
     {
     return;
     }
@@ -100,7 +100,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::GetInputVelocityImage( unsigned int idx )
 {
 
-  if ( idx >= VAuxDimension || this->GetNumberOfInputs() < idx )
+  if ( idx >= VAuxDimension || this->GetNumberOfInputs() < idx + 2 )
     {
     return NULL;
     }
@@ -121,7 +121,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::GetOutputVelocityImage( unsigned int idx )
 {
 
-  if ( idx >= VAuxDimension || this->GetNumberOfOutputs() < idx )
+  if ( idx >= VAuxDimension || this->GetNumberOfOutputs() < idx + 2 )
     {
     return NULL;
     }

@@ -98,6 +98,9 @@ namespace itk
  * number of iterations before reinitialization.
  * - Add support to detect convergence.
  *
+ * Note: this filter will eventually be re-implemented as part of
+ * the Finite Difference Solver framework.
+ *
  * \ingroup LevelSetSegmentation 
  */
 template <class TLevelSet, class TEdgeImage>
@@ -134,8 +137,7 @@ public:
 
   /** Set/Get the edge image. */
   void SetEdgeImage( EdgeImageType * ptr );
-  EdgeImagePointer GetEdgeImage() const
-    { return m_EdgeImage; };
+  EdgeImagePointer GetEdgeImage();
 
   /** Set/Get the length penalty strength. This parameter can be viewed as
    * the weighting given to length of the front in an energy functional. The
@@ -180,7 +182,6 @@ private:
   typedef ExtensionVelocitiesImageFilter<TLevelSet,EdgePixelType,1> 
       ExtenderType;
 
-  EdgeImagePointer                      m_EdgeImage;
   double                                m_LengthPenaltyStrength;
   bool                                  m_PropagateOutwards;
   typename ExtenderType::Pointer        m_Extender;

@@ -40,6 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkLevelSetNeighborhoodExtractor_h
 #define _itkLevelSetNeighborhoodExtractor_h
 
+#include "itkLightProcessObject.h"
 #include "itkLevelSet.h"
 #include "itkIndex.h"
 
@@ -76,12 +77,12 @@ namespace itk
  */
 template <class TLevelSet>
 class ITK_EXPORT LevelSetNeighborhoodExtractor :
-  public Object
+  public LightProcessObject
 {
 public:
   /** Standard class typdedefs. */
   typedef LevelSetNeighborhoodExtractor Self;
-  typedef Object Superclass;
+  typedef LightProcessObject Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

@@ -100,6 +100,9 @@ namespace itk
  *
  * - Add support to detect convergence.
  *
+ * Note: this filter will eventually be re-implemented as part of
+ * the Finite Difference Solver framework.
+ *
  * \ingroup LevelSetSegmentation 
  */
 template <
@@ -162,6 +165,9 @@ public:
   /** Set the input derivative images. */
   void SetDerivativeImage( TDerivImage *ptr, unsigned int idx=0 );
 
+  /** Get the input derivative images. */
+  DerivImagePointer GetDerivativeImage( unsigned int idx );
+
 protected:
   GeodesicActiveContourImageFilter();
   ~GeodesicActiveContourImageFilter(){};
@@ -180,7 +186,6 @@ private:
   typedef typename TDerivImage::PixelType DerivPixelType;
   
   typename ExtenderType::Pointer    m_Extender;
-  typename TDerivImage::Pointer     m_DerivImages[SetDimension];
   double                            m_InflationStrength;
 
 };

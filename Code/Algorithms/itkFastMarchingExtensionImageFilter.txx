@@ -95,7 +95,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::GetAuxiliaryImage( unsigned int idx )
 {
 
- if ( idx >= AuxDimension || this->GetNumberOfOutputs() < idx  )
+ if ( idx >= AuxDimension || this->GetNumberOfOutputs() < idx + 2 )
    {
    return NULL;
    }

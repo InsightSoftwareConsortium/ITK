@@ -189,8 +189,21 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 
   IndexType inputIndex;
 
-  for( inIt = inIt.Begin(); !inIt.IsAtEnd(); ++inIt )
+  unsigned long totalPixels  = 
+    m_InputLevelSet->GetBufferedRegion().GetNumberOfPixels();
+  unsigned long updateVisits = totalPixels / 10;
+  if ( updateVisits < 1) { updateVisits = 1; }
+
+  
+  unsigned long i;
+  for ( i = 0; !inIt.IsAtEnd(); ++inIt, ++i )
     {
+    // update progress
+    if ( !(i % updateVisits) )
+      {
+      this->UpdateProgress( (float) i/ (float) totalPixels );
+      }
+
     inputIndex = inIt.GetIndex();
     this->CalculateDistance( inputIndex );
     }
@@ -205,7 +218,7 @@ void
 LevelSetNeighborhoodExtractor<TLevelSet>
 ::GenerateDataNarrowBand()
 {
-  if( !m_InputNarrowBand )
+  if ( !m_InputNarrowBand )
     {
     ExceptionObject err(__FILE__, __LINE__);
     err.SetLocation("GenerateDataNarrowBand");
@@ -221,10 +234,24 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   NodeType node;
   double maxValue = m_NarrowBandwidth / 2.0;
 
-  for( ; pointsIter != pointsEnd; ++pointsIter )
+
+  unsigned long totalPixels  = m_InputNarrowBand->Size();
+  unsigned long updateVisits = totalPixels / 10;
+  if ( updateVisits < 1) { updateVisits = 1; }
+
+
+  unsigned int i;
+  for ( i = 0; pointsIter != pointsEnd; ++pointsIter, ++i )
     {
+
+    // update progress
+    if ( !(i % updateVisits) )
+      {
+      this->UpdateProgress( (float) i/ (float) totalPixels );
+      }
+
     node = pointsIter.Value();
-    if( vnl_math_abs( node.GetValue() ) <= maxValue )
+    if ( vnl_math_abs( node.GetValue() ) <= maxValue )
       {
       this->CalculateDistance( node.GetIndex() );
       }

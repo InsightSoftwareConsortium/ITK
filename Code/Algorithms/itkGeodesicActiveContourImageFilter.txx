@@ -58,13 +58,9 @@ template <class TLevelSet, class TEdgeImage, class TDerivImage>
 GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 ::GeodesicActiveContourImageFilter()
 {
+
+  this->ProcessObject::SetNumberOfRequiredInputs( SetDimension + 2 );
   m_Extender = ExtenderType::New();
-
-  for( unsigned int j = 0; j < SetDimension; j++ )
-    {
-    m_DerivImages[j] = NULL;  
-    }
-
   m_InflationStrength = 0.0;
 
 }
@@ -81,14 +77,6 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   Superclass::PrintSelf(os,indent);
   os << indent << "Inflation strength: " << m_InflationStrength;
   os << std::endl;
-  os << indent << "Edge image derivatives: [";
-  int j;
-  for ( j = 0; j < SetDimension - 1; j++ )
-    {
-    os << m_DerivImages[j].GetPointer() << ", ";
-    }
-  os << m_DerivImages[j].GetPointer() << "]" << std::endl;
-
 }
 
 /**
@@ -101,10 +89,27 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 TDerivImage * ptr,
 unsigned int dim )
 {
-  if( !ptr || dim > SetDimension - 1) return;
+  if ( dim >= SetDimension ) { return; }
+  this->ProcessObject::SetNthInput( dim+2, ptr );
+}
 
-  m_DerivImages[dim] = ptr;
-  this->ProcessObject::SetNthInput( dim+1, ptr );
+
+/**
+ *
+ */
+template <class TLevelSet, class TEdgeImage, class TDerivImage>
+GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
+::DerivImagePointer
+GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
+::GetDerivativeImage( unsigned int dim )
+{
+  if ( dim >= SetDimension || this->GetNumberOfInputs() < dim + 3 )
+    {
+    return NULL;
+    }
+
+  return static_cast<TDerivImage *>(
+    this->ProcessObject::GetInput( dim+2 ).GetPointer() );
 
 }
 
@@ -124,8 +129,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   // be in the buffer
   for( unsigned int k = 0; k < SetDimension; k++ )
     {
-    DerivImagePointer ptr = this->GetInput( k+1 );
-    ptr->SetRequestedRegionToLargestPossibleRegion();
+    this->GetDerivativeImage(k)->SetRequestedRegionToLargestPossibleRegion();
     }
 
 }
@@ -140,14 +144,6 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 ::GenerateDataFull()
 {
   
-  for( unsigned int j = 0; j < SetDimension; j++ )
-    {
-    if ( !m_DerivImages[j] )
-      {
-        throw ExceptionObject(__FILE__, __LINE__);
-      }
-    }
-
   this->AllocateBuffers();
   this->CopyInputToInputBuffer();
 
@@ -184,7 +180,11 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   for( unsigned int k = 0; k < numberOfIterations; k++ )
     {
       
-    itkDebugMacro(<< "iteration: " << k);
+    // Update progress.
+    if ( numberOfIterations < 100 || !(k % 10) )
+      {
+      this->UpdateProgress( (float) k / (float) numberOfIterations );
+      }
 
     LevelSetPointer inputBuffer = this->GetInputBuffer();
     LevelSetPointer outputBuffer = this->GetOutputBuffer();
@@ -218,8 +218,8 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 
     for( unsigned int j = 0; j < SetDimension; j++ )
       {
-      derivIt[j] = DerivIteratorType( m_DerivImages[j], 
-        m_DerivImages[j]->GetBufferedRegion() );
+      derivIt[j] = DerivIteratorType( this->GetDerivativeImage(j), 
+        this->GetDerivativeImage(j)->GetBufferedRegion() );
       }
 
     IndexType index;
@@ -300,19 +300,18 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 ::GenerateDataNarrowBand()
 {
 
-  for( unsigned int j = 0; j < SetDimension; j++ )
-    {
-    if ( !m_DerivImages[j] )
-      {
-        throw ExceptionObject(__FILE__, __LINE__);
-      }
-    }
-
   this->AllocateBuffers(true);
   
   LevelSetPointer outputPtr = this->GetOutputBuffer();
   LevelSetPointer inputPtr = this->GetInput();
   EdgeImagePointer edgeImage = this->GetEdgeImage();
+
+  DerivImagePointer derivImages[SetDimension];
+  for ( int j = 0; j < SetDimension; j++ )
+    {
+    derivImages[j] = this->GetDerivativeImage(j);
+    }
+
 
   // copy input to output
   typedef
@@ -367,7 +366,11 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   for( unsigned int k = 0; k < numberOfIterations; k++ )
     {
 
-    itkDebugMacro(<< "iteration: " << k);
+    // Update progress.
+    if ( numberOfIterations < 100 || !(k % 10) )
+      {
+      this->UpdateProgress( (float) k / (float) numberOfIterations );
+      }
 
     m_Extender->SetInput( outputPtr );
     m_Extender->SetInputNarrowBand( inputNarrowBand );
@@ -422,7 +425,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
         for( unsigned int j = 0; j < SetDimension; j++ )
           {
           typedef typename TDerivImage::PixelType DerivPixelType;
-          deriv = (double) m_DerivImages[j]->GetPixel( node.GetIndex() );
+          deriv = (double) derivImages[j]->GetPixel( node.GetIndex() );
 
           inUpwind->SetSpeed( -1.0 * deriv );
           

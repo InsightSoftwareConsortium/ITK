@@ -42,6 +42,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkShapeDetectionLevelSetFilter.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
+#include "itkCommand.h"
+
+// The following classe is used to support callbacks
+// on the filter in the pipeline that follows later
+class ShowProgressObject
+{
+public:
+  ShowProgressObject(itk::ProcessObject* o)
+    {m_Process = o;}
+  void ShowProgress()
+    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+  itk::ProcessObject::Pointer m_Process;
+};
+
 
 int main()
 {
@@ -109,6 +123,7 @@ int main()
     edgeIter.Set( 1.0 );
     }
 
+
   /* -----------------------------------------------
    * Create a shape detection object
    */
@@ -117,6 +132,15 @@ int main()
     ShapeDetectorType;
 
   ShapeDetectorType::Pointer detector = ShapeDetectorType::New();
+
+  // create progress observer
+  ShowProgressObject progressWatch( detector );
+  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
+  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  command->SetCallbackFunction(&progressWatch,
+                               &ShowProgressObject::ShowProgress);
+  detector->AddObserver( itk::ProgressEvent(), command);
+  
 
   detector->SetInput( levelSet );
   detector->SetEdgeImage( edgeImg );
