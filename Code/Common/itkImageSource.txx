@@ -163,7 +163,7 @@ ImageSource<TOutputImage>
   int maxThreadIdUsed = (int)ceil(range/(double)valuesPerThread) - 1;
 
   // Split the region
-  if (num < maxThreadIdUsed)
+  if (i < maxThreadIdUsed)
     {
     splitIndex[splitAxis] += i*valuesPerThread;
     splitSize[splitAxis] = valuesPerThread;
