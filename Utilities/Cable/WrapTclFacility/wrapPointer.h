@@ -28,6 +28,8 @@ class Pointer
 {
 public:
   Pointer(): m_Object(NULL), m_Type(NULL) {}
+  Pointer(const Pointer& p):
+    m_Object(p.m_Object), m_Type(p.m_Type) {}
   Pointer(void* object, const CvQualifiedType& type):
     m_Object(object), m_Type(type) {}
   
@@ -64,8 +66,8 @@ _wrap_EXPORT int Tcl_GetPointerFromObj(Tcl_Interp*, Tcl_Obj*, Pointer*);
 _wrap_EXPORT void Tcl_SetPointerObj(Tcl_Obj*, const Pointer&);
 _wrap_EXPORT Tcl_Obj* Tcl_NewPointerObj(const Pointer&);
 
-_wrap_EXPORT bool TclObjectTypeIsReference(Tcl_Obj*);
-_wrap_EXPORT bool StringRepIsReference(const String&);
+_wrap_EXPORT bool TclObjectTypeIsPointer(Tcl_Obj*);
+_wrap_EXPORT bool StringRepIsPointer(const String&);
 
 } // namespace _wrap_
 
