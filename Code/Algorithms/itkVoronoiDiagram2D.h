@@ -259,7 +259,7 @@ public:
   void AddCellNeighbor(EdgeInfo x){ 
      m_CellNeighborsID[x[0]].push_back(x[1]);
 	   m_CellNeighborsID[x[1]].push_back(x[0]);};
-  void ClearRegion(int i){ VoronoiRegions[i]->clearPoints();};	
+  void ClearRegion(int i){ VoronoiRegions[i]->ClearPoints();};	
   void VoronoiRegionAddPointId(int id, int x){VoronoiRegions[id]->AddPointId(x);};
   void BuildEdge(int id){ VoronoiRegions[id]->BuildEdges();};
 
