@@ -165,6 +165,20 @@ main(
     std::cout << "Back transform a vector :" << std::endl
               << v3[0] << " , " << v3[1] << std::endl;
 
+    /* Transform a Covariant vector */
+    itk::Vector<double, 2> u4, v4;
+    u4[0] = 3;
+    u4[1] = 5;
+    v4 = aff2.Transform(u4);
+    std::cout << "Transform a Covariant vector:" << std::endl
+              << v4[0] << " , " << v4[1] << std::endl;
+
+    /* Back transform a vector */
+    v4 = aff2.BackTransform(u4);
+    std::cout << "Back transform a vector :" << std::endl
+              << v4[0] << " , " << v4[1] << std::endl;
+
+
 
     /* Create a 3D transform and rotate in 3D */
     itk::AffineTransform<double,3> aff3;
