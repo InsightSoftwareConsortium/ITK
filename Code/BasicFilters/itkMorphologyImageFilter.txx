@@ -139,11 +139,6 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   // edge of the buffer
   for (++fit; fit != faceList.end(); ++fit)
     { 
-    if ( threadId == 0 && !(++ii % updateVisits ) )
-      {
-      this->UpdateProgress((float)ii / (float)totalPixels);
-      }
-    
     b_iter = SmartNeighborhoodIteratorType(m_Kernel.GetRadius(),
                                            this->GetInput(), *fit);
     
@@ -153,6 +148,11 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     
     while ( ! b_iter.IsAtEnd() )
       {
+      if ( threadId == 0 && !(++ii % updateVisits ) )
+        {
+        this->UpdateProgress((float)ii / (float)totalPixels);
+        }
+    
       o_iter.Set( this->Evaluate(b_iter, m_Kernel) );
       ++b_iter;
       ++o_iter;
