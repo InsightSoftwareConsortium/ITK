@@ -662,13 +662,19 @@ std::string Util::GetMACAddress()
    // 3 OS: Win32, SunOS and 'real' POSIX
    // http://groups-beta.google.com/group/comp.unix.solaris/msg/ad36929d783d63be
    // http://bdn.borland.com/article/0,1410,26040,00.html
-   union dual { uint64_t n; unsigned char addr[6];  };
+   unsigned char addr[6];
+   uint64_t n = 0;
  
-   // zero-initialize the whole thing first:
-   dual d = { 0 };
-   int stat = GetMacAddrSys(d.addr);
+   int stat = GetMacAddrSys(addr);
    if (stat == 0)
    {
+      // Horner evaluation
+      for(int i=0; i<6; i++)
+      {
+         n *= 256;
+         n += addr[i];
+      }
+
       // we fit on 15 bytes maximum < 256^6.
 #if defined(_MSC_VER) || defined(__BORLANDC__)
       return Format("%I64u", d.n);
