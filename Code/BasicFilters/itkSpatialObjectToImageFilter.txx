@@ -31,6 +31,17 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   this->SetNumberOfRequiredInputs(1);
   m_ChildrenDepth = 1;
   m_Size.Fill(0);
+  
+  m_Spacing[0] = 1.0;
+  m_Spacing[1] = 1.0;
+  m_Spacing[2] = 1.0;
+
+  m_Origin[0] = 0;
+  m_Origin[1] = 0;
+  m_Origin[2] = 0;
+
+  m_InsideValue = 0;
+  m_OutsideValue = 0;
 }
 
 /** Destructor */
@@ -230,20 +241,40 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   index.Fill(0);
   typename OutputImageType::RegionType region;
   
-  if(m_Size[0] == 0)
-  {
-    region.SetSize( size );
-  }
-  else
+  // If the size of the output has been explicitly specified, the filter
+  // will set the output size to the explicit size, otherwise the size from the spatial
+  // object's bounding box will be used as default.
+
+  if(   m_Size[0] != 0
+    ||  m_Size[1] != 0
+    ||  m_Size[2] != 0 )
   {
     region.SetSize( m_Size );
   }
+  else
+  {
+    region.SetSize( size );
+  }
   region.SetIndex( index );
 
-  OutputImage->SetLargestPossibleRegion( region);// 
-  OutputImage->SetBufferedRegion( region );  // set the region 
-  OutputImage->SetRequestedRegion( region );         //                                                                       
-  OutputImage->SetSpacing(InputObject->GetIndexToObjectTransform()->GetScaleComponent());   // set spacing
+  OutputImage->SetLargestPossibleRegion( region);     // 
+  OutputImage->SetBufferedRegion( region );           // set the region 
+  OutputImage->SetRequestedRegion( region );          //                                                                       
+  
+  // If the spacing has been explicitly specified, the filter
+  // will set the output spacing to that explicit spacing, otherwise the spacing from
+  // the spatial object is used as default.
+  
+  if(   m_Spacing[0] != 1.0
+    ||  m_Spacing[1] != 1.0
+    ||  m_Spacing[2] != 1.0 )
+    {
+    OutputImage->SetSpacing(this->m_Spacing);         // set spacing
+    }
+  else
+    {
+    OutputImage->SetSpacing(InputObject->GetIndexToObjectTransform()->GetScaleComponent());   // set spacing
+    }
   OutputImage->SetOrigin(origin);   //   and origin
   OutputImage->Allocate();   // allocate the image                            
 
@@ -261,7 +292,22 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
     }
     double val =0;
     InputObject->ValueAt(point,val,99999);
-    it.Set(val);
+    if(   m_InsideValue != 0 
+      ||  m_OutsideValue != 0 )
+    {
+      if( val )
+      {
+        it.Set(m_InsideValue);
+      }
+      else
+      {
+        it.Set(m_OutsideValue);
+      }
+    }
+    else
+    {
+      it.Set(val);
+    }
     ++it;
   }
   

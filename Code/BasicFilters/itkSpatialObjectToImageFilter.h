@@ -43,6 +43,7 @@ public:
   typedef typename TOutputImage::SizeType   SizeType;
   typedef TOutputImage  OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef OutputImageType::ValueType  ValueType;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -71,9 +72,6 @@ public:
   const InputSpatialObjectType * GetInput(void);
   const InputSpatialObjectType * GetInput(unsigned int idx);
 
-  virtual void GenerateOutputInformation() {}; // do nothing
-  virtual void GenerateData() ; // do nothing
-
   /** Spacing (size of a pixel) of the output image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
@@ -81,6 +79,24 @@ public:
   virtual void SetSpacing( const double spacing[OutputImageDimension] );
   virtual void SetSpacing( const float spacing[OutputImageDimension] );
   virtual const double* GetSpacing() const;
+
+  /** Set/Get the value for pixels inside the spatial object. 
+  * By default, this filter will return an image
+  * that contains values from the spatial object specified as input. 
+  * If this "inside" value is changed to a non-null value,
+  * the output produced by this filter will be a mask with inside/outside values 
+  * specified by the user. */
+  itkSetMacro(InsideValue, ValueType);
+  itkGetMacro(InsideValue, ValueType);
+
+  /** Set/Get the value for pixels outside the spatial object.
+  * By default, this filter will return an image
+  * that contains values from the spatial object specified as input. 
+  * If this "outside" value is changed to a non-null value,
+  * the output produced by this filter will be a mask with inside/outside values
+  * specified by the user. */
+  itkSetMacro(OutsideValue, ValueType);
+  itkGetMacro(OutsideValue, ValueType);
 
   /** The origin of the output image. The origin is the geometric
    * coordinates of the index (0,0,...,0).  It is stored internally
@@ -105,10 +121,17 @@ protected:
   SpatialObjectToImageFilter();
   ~SpatialObjectToImageFilter();
 
+  virtual void GenerateOutputInformation(){}; // do nothing
+  virtual void GenerateData();
+
+
   SizeType     m_Size;
   double       m_Spacing[OutputImageDimension];
   double       m_Origin[OutputImageDimension];
   unsigned int m_ChildrenDepth;
+  ValueType    m_InsideValue;
+  ValueType    m_OutsideValue;
+
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
