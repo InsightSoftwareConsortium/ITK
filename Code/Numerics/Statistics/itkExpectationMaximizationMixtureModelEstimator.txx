@@ -57,7 +57,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 template< class TSample >
 void
 ExpectationMaximizationMixtureModelEstimator< TSample >
-::SetInitialProportions(ProportionVectorType* proportions) 
+::SetInitialProportions(ProportionVectorType &proportions) 
 {
   m_InitialProportions = proportions ;
 }
@@ -92,7 +92,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 ::AddComponent(ComponentPointer component)
 {
   m_ComponentVector.push_back(component) ;
-  component->SetSample(m_Sample) ;
+  //component->SetSample(m_Sample) ;
 }
 
 template< class TSample >
@@ -140,37 +140,57 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
       return false ;
     }
 
-  long measurementVectorIndex ;
-  int componentIndex ;
-  double density ;
-  double densitySum ;
-  typename TSample::Iterator iter = m_Sample->Begin() ;
-  typename TSample::Iterator last = m_Sample->End() ;
-  measurementVectorIndex = 0 ;
   double temp ;
   int numberOfComponents = m_ComponentVector.size() ;
+  std::vector< double > tempWeights(numberOfComponents) ;
 
+  typename TSample::Iterator iter = m_Sample->Begin() ;
+  typename TSample::Iterator last = m_Sample->End() ;
+
+  int componentIndex ;
+
+  typename TSample::FrequencyType frequency ;
+  typename TSample::FrequencyType zeroFrequency =
+    NumericTraits< typename TSample::FrequencyType >::Zero ;
+  typename TSample::MeasurementVectorType mvector ;
+  double density ;
+  double densitySum ;
+  double minDouble = NumericTraits< double >::min() ;
+
+  long measurementVectorIndex = 0 ;
   while (iter != last)
     {
+      mvector = iter.GetMeasurementVector() ;
+      frequency = iter.GetFrequency() ;
       densitySum = 0.0 ;
-      for (componentIndex = 0 ; componentIndex < numberOfComponents ; 
-           componentIndex++)
+      if ( frequency > zeroFrequency )
         {
-          density = m_Proportions[componentIndex] *
-            m_ComponentVector[componentIndex]->Evaluate(iter.GetMeasurementVector()) ;
-          m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex,
-                                                       density) ;
-          densitySum += density ;
+          for (componentIndex = 0 ; componentIndex < numberOfComponents ; 
+               componentIndex++)
+            {
+              density = m_Proportions[componentIndex] *
+                m_ComponentVector[componentIndex]->Evaluate(mvector) ;
+              tempWeights[componentIndex] = density ;
+              densitySum += density ;
+            }
+          
+          for (componentIndex = 0 ; componentIndex < numberOfComponents ; 
+               componentIndex++)
+            {
+              temp = tempWeights[componentIndex] ;
+              temp /= densitySum ;
+              m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex,
+                                                           temp) ; 
+            }
         }
-      
-      for (componentIndex = 0 ; componentIndex < numberOfComponents ; 
-           componentIndex++)
+      else
         {
-          temp = m_ComponentVector[componentIndex]->
-            GetWeight(measurementVectorIndex) ;
-          temp /= densitySum ;
-          m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex,
-                                                       temp) ; 
+          for (componentIndex = 0 ; componentIndex < numberOfComponents ; 
+               componentIndex++)
+            {
+              m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex,
+                                                           minDouble) ; 
+            }
         }
 
       ++iter ;
@@ -237,7 +257,8 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 ::UpdateProportions()
 {
   int numberOfComponents = m_ComponentVector.size() ;
-  double sampleSize = m_Sample->Size() ;
+  long sampleSize = m_Sample->Size() ;
+  double totalFrequency = (double) (m_Sample->GetTotalFrequency(0)) ;
   long i, j ;
   double tempSum ;
   bool updated = false ;
@@ -247,14 +268,16 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
       tempSum = 0.0 ;
       for (j = 0 ; j < sampleSize ; j++)
         {
-          tempSum += m_ComponentVector[i]->GetWeight(j) ;
+          tempSum += 
+            (m_ComponentVector[i]->GetWeight(j) * 
+             m_Sample->GetFrequency(j)) ;
         }
 
-      tempSum /= sampleSize ;
+      tempSum /= totalFrequency ;
 
       if (tempSum != m_Proportions[i])
         {
-          m_Proportions[i] = tempSum ;
+          m_Proportions[i] = tempSum ; 
           updated = true ;
         }
     }
@@ -267,12 +290,13 @@ void
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GenerateData() 
 {
-  m_Proportions = *m_InitialProportions ;
+  m_Proportions = m_InitialProportions ;   
 
   int iteration = 0 ;
-
+  m_CurrentIteration = 0 ;
   while (iteration < m_MaxIteration)
     {
+      m_CurrentIteration = iteration ;
       if (this->CalculateDensities())
         {
           this->UpdateComponentParameters() ;
