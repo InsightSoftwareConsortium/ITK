@@ -94,11 +94,6 @@ public:
 
 
   /**
-   *  Type of the Mapper Excepction
-   */
-  typedef typename TMapper::ExceptionType		  			MapperException;
- 
-  /**
    *  Type of the Target
    */
   typedef TTarget							TargetType;

@@ -75,7 +75,6 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
 
   m_MatchMeasure = 0;
   
-  bool insidePoint; 
 
   unsigned int  count = 0;
 
@@ -91,20 +90,9 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
     point       = pt.Value();
     TargetValue = vl.Value();
 
-    insidePoint = true;
-
-    try {
-     ReferenceValue = mapper->Evaluate( point );
-    }
-
-    //If the Mapped Voxel is outside the image
-    catch (MapperException) 
-    {  
-      insidePoint = false;
-    }
-
-    if(insidePoint) 
+    if( mapper->IsInside( point ) )
     {
+      ReferenceValue = mapper->Evaluate();
       count++;
       sab  += ReferenceValue  *  TargetValue;
       saa  += ReferenceValue  *  ReferenceValue;
