@@ -15,7 +15,7 @@
 #ifndef _itkExtensionVelocitiesImageFilter_h
 #define _itkExtensionVelocitiesImageFilter_h
 
-#include "itkLevelSetNeighborhoodExtractor.h"
+#include "itkLevelSetVelocityNeighborhoodExtractor.h"
 #include "itkFastMarchingExtensionImageFilter.h"
 #include "itkReinitializeLevelSetImageFilter.h"
 
@@ -123,7 +123,7 @@ protected:
 
 private:
 
-  typedef LevelSetNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension> 
+  typedef LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension> 
     LocatorType;
   typedef FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension> 
     FastMarchingImageFilterType;
