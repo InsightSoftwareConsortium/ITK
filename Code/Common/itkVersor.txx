@@ -162,6 +162,19 @@ Versor<T>
 template<class T>
 bool
 Versor<T>
+::operator!=( const Self & v) const
+{
+  return !(*this == v);
+}
+
+
+
+/**
+ * Comparision operator
+ */
+template<class T>
+bool
+Versor<T>
 ::operator==( const Self & v) const
 {
 

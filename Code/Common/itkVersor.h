@@ -181,6 +181,14 @@ public:
   bool operator==(const Self &vec) const;
 
 
+  /**
+   * Versor operator!=  Performs the comparison between two versors.
+   * this operation uses and arbitrary threshold for the comparison. 
+   */
+  bool operator!=(const Self &vec) const;
+
+
+
 
   /**
    * Returns the Scalar part
