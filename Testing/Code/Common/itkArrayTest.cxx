@@ -102,20 +102,6 @@ int itkArrayTest(int, char**)
   itk::FixedArray<int, 3>::ConstReference cref3 = c_Array2;
   Print_ArrayConstReference(cref3, std::cout);
   
-  // Test range selection.
-  itk::FixedArray<int, 5> array5;
-  array5.Fill(0);
-  array5[itk::Range<1,3>()] = ref2;
-  Print_Array5(array5, std::cout);
-  
-  Print_Array(array5[itk::Range<2,4>()], std::cout);
-  
-  const itk::FixedArray<int, 5>::Reference ref4 = array5;
-  Print_Array(ref4[itk::Range<1,3>()], std::cout);
-  
-  itk::FixedArray<int, 4>::ConstReference ref5 = array5[itk::Range<1,4>()];
-  Print_Array(ref5[itk::Range<1,3>()], std::cout);
-  
   // Test operator!= and operator==
   if ( array4 != array4 ) return 1; //should be equal
   if ( array4 != ref1 ) return 1; //should be equal

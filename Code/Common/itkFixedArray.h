@@ -22,16 +22,6 @@
 namespace itk
 {
 
-/** \brief Utility class for static range indexing support. */
-template <unsigned long VFirst, unsigned long VLast>
-class Range
-{
-public:
-  enum { First = VFirst };
-  enum { Last = VLast };
-  enum { Length = Last-First+1 };
-};
-  
 /** \class FixedArray
  *  \brief Simulate a standard C array with copy semnatics.
  *
@@ -182,26 +172,6 @@ public:
   SizeType      Size() const;
   void Fill(const ValueType&);
     
-  /** Return a reference to a sub-range of the FixedArray, specified by the
-   * template parameters. */
-  template <SizeType VFirst, SizeType VLast>
-  typename FixedArray<ValueType, (VLast-VFirst+1)>::Reference
-  operator[](Range<VFirst, VLast>)
-    {
-    return FixedArray<ValueType, (VLast-VFirst+1)>
-      ::Reference(m_InternalArray+VFirst);
-    }
-
-  /** Return a reference to a sub-range of the FixedArray, specified by the
-   * template parameters. */
-  template <SizeType VFirst, SizeType VLast>
-  typename FixedArray<ValueType, (VLast-VFirst+1)>::ConstReference
-  operator[](Range<VFirst, VLast>) const
-    {
-    return FixedArray<ValueType, (VLast-VFirst+1)>
-      ::ConstReference(m_InternalArray+VFirst);
-    }
-  
 private:
   /** Internal C array representation. */
   CArray  m_InternalArray;
@@ -313,26 +283,6 @@ public:
     void Fill(const ValueType& value)
       { for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = value; }
     
-    /** Return a reference to a sub-range of the FixedArray, specified by the
-     * template parameters.   */
-    template <SizeType VFirst, SizeType VLast>
-    typename FixedArray<ValueType, (VLast-VFirst+1)>::Reference
-    operator[](Range<VFirst, VLast>)
-      {
-      return FixedArray<ValueType, (VLast-VFirst+1)>
-        ::Reference(m_InternalArray+VFirst);
-      }    
-    
-    /** Return a reference to a sub-range of the FixedArray, specified by the
-     * template parameters.   */
-    template <SizeType VFirst, SizeType VLast>
-    typename FixedArray<ValueType, (VLast-VFirst+1)>::ConstReference
-    operator[](Range<VFirst, VLast>) const
-      {
-      return FixedArray<ValueType, (VLast-VFirst+1)>
-        ::ConstReference(m_InternalArray+VFirst);
-      }
-    
   private:
     /** Store a pointer to the real memory.   */
     ValueType * const m_InternalArray;
@@ -385,16 +335,6 @@ public:
     /** Get the size of the FixedArray.   */
     SizeType       Size() const
       { return Length; }
-
-    /** Return a reference to a sub-range of the FixedArray, specified by the
-     * template parameters.   */
-    template <SizeType VFirst, SizeType VLast>
-    typename FixedArray<ValueType, (VLast-VFirst+1)>::ConstReference
-    operator[](Range<VFirst, VLast>) const
-      {
-      return FixedArray<ValueType, (VLast-VFirst+1)>
-        ::ConstReference(m_InternalArray+VFirst);
-      }
 
   private:
     /** Store a pointer to the real memory.   */
