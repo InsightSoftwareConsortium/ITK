@@ -110,7 +110,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro( AffineTransform, Transform );
+  itkTypeMacro( KernelTransform, Transform );
 
 
   /** 
@@ -271,7 +271,7 @@ protected:
    *    Thin plate spline
    *    Volume spline
    */
-  virtual GMatrixType ComputeG(const InputVectorType & x) const = 0;
+  virtual GMatrixType ComputeG(const InputVectorType & landmarkVector) const;
   
   
   /**
