@@ -173,7 +173,7 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType& parameters )
 {
 
-  std::cout << "GetValue( " << parameters << " ) = ";
+  itkDebugMacro(<< "GetValue( " << parameters << " ) = ");
 
   TargetConstPointer target = GetTarget();
   MapperPointer mapper = GetMapper();
@@ -251,7 +251,7 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
   m_MatchMeasure /= nsamp;
   m_MatchMeasure += log( nsamp );
 
-  std::cout << m_MatchMeasure << std::endl;
+  itkDebugMacro(<< m_MatchMeasure);
 
   return m_MatchMeasure;
 
@@ -269,7 +269,7 @@ const ParametersType& parameters,
 MeasureType& value,
 DerivativeType& derivative)
 {
-  std::cout << "GetValueAndDerivative( " << parameters << " ) = ";
+  itkDebugMacro(<< "GetValueAndDerivative( " << parameters << " ) = ");
 
   // reset the derivatives all to zero
   m_MatchMeasureDerivatives.Fill(0);
@@ -409,7 +409,7 @@ DerivativeType& derivative)
   m_MatchMeasureDerivatives /= nsamp;
   m_MatchMeasureDerivatives /= vnl_math_sqr( m_ReferenceStandardDeviation );
 
-  std::cout << m_MatchMeasure << std::endl;
+  itkDebugMacro(<< m_MatchMeasure);
 
   value = m_MatchMeasure;
   derivative =  m_MatchMeasureDerivatives;
