@@ -429,27 +429,10 @@ public:
    *  information.  (Note, this follows the Visitor Design Pattern.) */
   virtual void Accept(CellMultiVisitorType* mv);
 
-  /** Methods that support streaming. */
-  virtual void UpdateOutputInformation();
-  virtual void SetRequestedRegionToLargestPossibleRegion();
-  virtual void CopyInformation(const DataObject *data);
-  virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
-  virtual bool VerifyRequestedRegion();
-
   /** Get the maximum number of regions that this data can be
    *  separated into. */
   int GetMaximumNumberOfRegions() const
     {return m_MaximumNumberOfRegions;}
-
-  /** Set the requested region from this data object to match the requested
-   *  region of the data object passed in as a parameter.  This method 
-   *  implements the API from DataObject. The data object parameter must be
-   *  castable to a Mesh. */
-  virtual void SetRequestedRegion(DataObject *data);
-
-  /** Set/Get the Requested region */
-  virtual void SetRequestedRegion( const RegionType & region );
-  itkGetMacro( RequestedRegion, RegionType );
 
   /** Set/Get the identification of the method used to allocate cells
       \warning Failure to call this method correctly will lead to memory leaks
