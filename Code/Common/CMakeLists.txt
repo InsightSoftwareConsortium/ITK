@@ -32,6 +32,7 @@ SET(ITKCommon_SRCS
   itkObject.cxx 
   itkObjectFactoryBase.cxx  
   itkOneWayEquivalencyTable.cxx
+  itkOrthogonallyCorrected2DParametricPath.cxx
   itkOutputWindow.cxx  
   itkProcessObject.cxx  
   itkProgressReporter.cxx  
