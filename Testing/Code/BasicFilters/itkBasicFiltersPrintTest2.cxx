@@ -23,80 +23,6 @@
 #include "itkVector.h"
 #include "itkPoint.h"
 #include "itkMesh.h"
-#include "itkBinaryBallStructuringElement.h"
-#include "itkAcosImageFilter.h"
-#include "itkAddImageFilter.h"
-#include "itkAsinImageFilter.h"
-#include "itkAtan2ImageFilter.h"
-#include "itkAtanImageFilter.h"
-#include "itkBSplineCenteredResampleImageFilterBase.h"
-#include "itkBSplineDecompositionImageFilter.h"
-#include "itkBSplineDownsampleImageFilter.h"
-#include "itkBSplineInterpolateImageFunction.h"
-#include "itkBSplineResampleImageFunction.h"
-#include "itkBSplineUpsampleImageFilter.h"
-#include "itkBilateralImageFilter.h"
-#include "itkBinaryDilateImageFilter.h"
-#include "itkBinaryErodeImageFilter.h"
-#include "itkBinaryMagnitudeImageFilter.h"
-#include "itkBinaryMedianImageFilter.h"
-#include "itkBinaryThresholdImageFilter.h"
-#include "itkBinomialBlurImageFilter.h"
-#include "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.h"
-#include "itkBloxBoundaryPointToCoreAtomImageFilter.h"
-#include "itkCannyEdgeDetectionImageFilter.h"
-#include "itkCastImageFilter.h"
-#include "itkChangeInformationImageFilter.h"
-#include "itkComposeRGBImageFilter.h"
-#include "itkConfidenceConnectedImageFilter.h"
-#include "itkConnectedThresholdImageFilter.h"
-#include "itkConstantPadImageFilter.h"
-#include "itkCosImageFilter.h"
-#include "itkCropImageFilter.h"
-#include "itkCurvatureAnisotropicDiffusionImageFilter.h"
-#include "itkCurvatureNDAnisotropicDiffusionFunction.h"
-#include "itkDanielssonDistanceMapImageFilter.h"
-#include "itkDerivativeImageFilter.h"
-#include "itkDifferenceOfGaussiansGradientImageFilter.h"
-#include "itkDilateObjectMorphologyImageFilter.h"
-#include "itkDirectedHausdorffDistanceImageFilter.h"
-#include "itkDiscreteGaussianImageFilter.h"
-#include "itkDivideImageFilter.h"
-#include "itkEdgePotentialImageFilter.h"
-#include "itkEigenAnalysis2DImageFilter.h"
-#include "itkErodeObjectMorphologyImageFilter.h"
-#include "itkExpImageFilter.h"
-#include "itkExpNegativeImageFilter.h"
-#include "itkExpandImageFilter.h"
-#include "itkExtractImageFilter.h"
-#include "itkFlipImageFilter.h"
-#include "itkGaussianImageSource.h"
-#include "itkGradientAnisotropicDiffusionImageFilter.h"
-#include "itkGradientImageFilter.h"
-#include "itkGradientImageToBloxBoundaryPointImageFilter.h"
-#include "itkGradientMagnitudeImageFilter.h"
-#include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
-#include "itkGradientNDAnisotropicDiffusionFunction.h"
-#include "itkGradientRecursiveGaussianImageFilter.h"
-#include "itkGradientToMagnitudeImageFilter.h"
-#include "itkGrayscaleDilateImageFilter.h"
-#include "itkGrayscaleErodeImageFilter.h"
-#include "itkGrayscaleFunctionDilateImageFilter.h"
-#include "itkGrayscaleFunctionErodeImageFilter.h"
-#include "itkHardConnectedComponentImageFilter.h"
-#include "itkHausdorffDistanceImageFilter.h"
-#include "itkImageToParametricSpaceFilter.h"
-#include "itkImportImageFilter.h"
-#include "itkIntensityWindowingImageFilter.h"
-#include "itkInteriorExteriorMeshFilter.h"
-#include "itkInterpolateImageFilter.h"
-#include "itkInterpolateImagePointsFilter.h"
-#include "itkIsolatedConnectedImageFilter.h"
-#include "itkJoinImageFilter.h"
-#include "itkLaplacianImageFilter.h"
-#include "itkLaplacianRecursiveGaussianImageFilter.h"
-#include "itkLog10ImageFilter.h"
-#include "itkLogImageFilter.h"
 #include "itkMaskImageFilter.h"
 #include "itkMaximumImageFilter.h"
 #include "itkMeanImageFilter.h"
@@ -196,12 +122,6 @@ int itkBasicFiltersPrintTest2(int , char* [])
   typedef itk::CovariantVector<float,2> CovariantVectorType;
   typedef itk::Image<CovariantVectorType,2> CovariantVectorImageType;
 
-  //typedef itk::Neighborhood<unsigned short,2> KernelType;
-  typedef itk::BinaryBallStructuringElement<unsigned short,2> KernelType;
-
-  // Used for MaskImageFilter
-  typedef itk::Image<unsigned short,2> MaskImageType;
-
   // Used for TransformMeshFilter
   typedef itk::AffineTransform<float,3> AffineTransformType;
 
@@ -213,10 +133,8 @@ int itkBasicFiltersPrintTest2(int , char* [])
   // Used for SpatialFunctionImageEvaluator
   typedef itk::GaussianSpatialFunction<char,2> GaussianSpatialFunctionType;
 
-  // Used for GradientImageToBloxBoundaryPointImageFilter
-  typedef itk::DifferenceOfGaussiansGradientImageFilter<CharType3D,
-    double> DOGFilterType;
-
+  // Used for MaskImageFilter
+  typedef itk::Image<unsigned char,2> MaskImageType;
 
   itk::MaskImageFilter<InputType,MaskImageType,OutputType>::Pointer MaskImageFilterObj =
     itk::MaskImageFilter<InputType,MaskImageType,OutputType>::New();
