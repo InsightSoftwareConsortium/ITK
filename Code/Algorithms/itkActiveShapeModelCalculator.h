@@ -232,9 +232,9 @@ protected:
     m_Tolerance           = 2.0;  // default value
     m_PruneIteration      = 3;    // default value
     m_NumberOfTrainingImages = 0;
-    m_EigenVectors.resize(0,0);
-    m_EigenValues.resize(0);
-    m_Means.resize(0);
+    m_EigenVectors.set_size(0,0);
+    m_EigenValues.set_size(0);
+    m_Means.set_size(0);
     m_Valid = false;
     m_Image = NULL;
   }

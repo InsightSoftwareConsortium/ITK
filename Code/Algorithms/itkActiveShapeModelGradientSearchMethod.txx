@@ -79,16 +79,16 @@ ActiveShapeModelGradientSearchMethod<TImage>
   VectorType v;
   typename VectorType::iterator p6;
 
-  m_NewShape.resize( 2*numberOfLandmarks );
+  m_NewShape.set_size( 2*numberOfLandmarks );
   m_NewShape.fill(0);
 
-  m_DiffVector.resize( 2*numberOfLandmarks );
+  m_DiffVector.set_size( 2*numberOfLandmarks );
   m_DiffVector.fill(0);
 
-  m_Db.resize( numberOfEigenValues );
+  m_Db.set_size( numberOfEigenValues );
   m_Db.fill(0);
 
-  m_Blimit.resize( numberOfEigenValues );
+  m_Blimit.set_size( numberOfEigenValues );
   m_Blimit.fill(0);
 
 
@@ -226,16 +226,16 @@ ActiveShapeModelGradientSearchMethod<TImage>
 
          for(unsigned int j = 0; j < numberOfEigenValues; j++)
            {
-             m_Blimit[j] = 2 * sqrt(m_EigenValues[j]);
+           m_Blimit[j] = 2 * sqrt(m_EigenValues[j]);
            }
 
          for(unsigned int j = 0; j < numberOfEigenValues; j++)
            {
-             if(abs(m_Db[j]) >  m_Blimit[j])
-           {
-         m_Db[j] = (m_Db[j]/abs(m_Db[j])) * m_Blimit[j];
-     }
-    }
+           if(fabs(m_Db[j]) >  m_Blimit[j])
+             {
+             m_Db[j] = ( m_Db[j] / fabs(m_Db[j]) ) * m_Blimit[j];
+             }
+           }
 
     m_NewShape = m_MeanShape + m_EigenVectors * m_Db;
 

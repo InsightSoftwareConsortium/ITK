@@ -160,13 +160,13 @@ protected:
   ActiveShapeModelGradientSearchMethod(): m_LenghtOfProfile(3)
   {
     m_NumberOfIteration = 1;     // default value
-    m_EigenVectors.resize(0,0);
-    m_EigenValues.resize(0);
-    m_MeanShape.resize(0);
-    m_NewShape.resize( 0);
-    m_DiffVector.resize( 0 );
-    m_Db.resize( 0 );
-    m_Blimit.resize( 0 );
+    m_EigenVectors.set_size(0,0);
+    m_EigenValues.set_size(0);
+    m_MeanShape.set_size(0);
+    m_NewShape.set_size( 0);
+    m_DiffVector.set_size( 0 );
+    m_Db.set_size( 0 );
+    m_Blimit.set_size( 0 );
     m_Valid = false;
     m_Image = NULL;
   }

@@ -418,7 +418,7 @@ ActiveShapeModelCalculator<TImage>
   typename VectorType::iterator p6;
   MatrixOfIntegerType coordLandmarks( 2*numberOfLandmarks, slices );
   coordLandmarks.fill(0);
-  m_Means.resize( 2*numberOfLandmarks );
+  m_Means.set_size( 2*numberOfLandmarks );
   m_Means.fill(0);
   MatrixOfDoubleType covarianceMatrix( 2*numberOfLandmarks, 2*numberOfLandmarks );
   covarianceMatrix.fill(0);
@@ -624,9 +624,9 @@ ActiveShapeModelCalculator<TImage>
     temp += eigenValuesFull[count];
     count++;
   }
-  m_EigenVectors.resize(eigenVectorsFull.rows(),count);
+  m_EigenVectors.set_size(eigenVectorsFull.rows(),count);
   m_EigenVectors = eigenVectorsFull.extract (eigenVectorsFull.rows(),count, 0, 0);
-  m_EigenValues.resize(count);
+  m_EigenValues.set_size(count);
   m_EigenValues = eigenValuesFull.extract(count,0);
 
   /* *
