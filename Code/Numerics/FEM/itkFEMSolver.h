@@ -220,7 +220,7 @@ public:
    * Performs any initialization needed for LinearSystemWrapper
    * object i.e. sets the maximum number of matrices and vectors.
    */
-  virtual void Solver::InitializeLinearSystemWrapper(void);
+  virtual void InitializeLinearSystemWrapper(void);
 
 protected:
 
