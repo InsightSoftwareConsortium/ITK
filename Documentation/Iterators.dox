@@ -33,8 +33,7 @@
 
   \code
 
-  ForAllThePixels  p   in   image
-       do   p = 100
+  ForAllThePixels  p   in   image Do   p = 100
 
   \endcode
 
@@ -98,23 +97,54 @@
   
   "You only pay for what you use"
   
-  Here is a list of the different ImageIterators implemented in ITK:
+  Here is a list of some of the different ImageIterators implemented in ITK:
 
   - itk::ImageRegionIterator
   - itk::ImageRegionReverseIterator
-  - itk::SimpleImageRegionIterator
-  - itk::ImageLinearIterator
-  - itk::ImageSliceIterator 
 
-  A second group of iterators support a moving neighborhood. Here the 
+  Region iterators don't define any specific order to walk over the pixels on
+  the image. The user can be sure though, that all the pixels inside the region
+  will be visited.
+
+  The following iterators allow to walk the image in specific directions 
+
+  - itk::ImageLinearIteratorWithIndex   Along lines
+  - itk::ImageSliceIteratorWithIndex    Along lines, then along planes
+
+  Iterators in general can have <B>Read/Write</B> access to image pixels.
+  A family of iterators provides <B>Read Only</B> access, in order to
+  preserve the image content. These iterators are equivalent to "C" 
+  const pointers :
+
+  \code
+  const * PixelType iterator;
+  \endcode
+
+  or to STL const_iterators:
+
+  \code
+  vector<PixelType>::const_iterator  it;
+  \endcode
+  
+  The class name of the iterator makes clears if it provides const access
+  or not. Some of the <TT>const</TT> iterators available are
+
+  -  itk::ImageConstIterator.h
+  -  itk::ImageConstIteratorWithIndex.h
+  -  itk::ImageLinearConstIteratorWithIndex.h
+  -  itk::ImageRegionConstIteratorWithIndex.h
+  -  itk::ImageSliceConstIteratorWithIndex.h
+
+  \subsection NeighbohoodIteratorType  Other Types of Iterators
+
+  Another group of iterators support a moving neighborhood. Here the 
   neighborhood can "iterate" over an image and a calculation can iterate
   over the neighborhood.  This allows N-dimensional implementations of 
   convolution and finite differences to be implemented succintly.  
   This class of iterators is described in detail on the page 
   \ref NeighborhoodIteratorsPage.
 
-  \section ImageIteratorConcepts ImageIterator Concepts
-
+  
   \subsection STL ImageIterators vs. STL Iterators
 
   Given the breadth and complexity of ImageIterators, they are designed to 
@@ -171,9 +201,11 @@
   region that is within the image. Iterator methods Begin() and End()
   are defined relative to the region.  See below.
 
+  \section IteratorAPI Iterator API
+
   \subsection IteratorsPositioning Position
 
-  \subsection Intervals Half Open Intervals - Begin/End
+  \subsection IteratorsIntervals Half Open Intervals - Begin/End
   Like most iterator implementations, ImageIterators walk a half-open
   interval.  Begin is defined as the first pixel in the region. End is
   defined as one pixel past the last pixel in the region (one pixel
@@ -182,9 +214,35 @@
 
   \subsection IteratorsDereferencing Dereferencing
 
-  \section IteratorAPI Iterator API
+  In order to get access to the image data pointed by the iterator, 
+  dereferencing is required. This is equivalent to the classical
+  "C" dereferencing code :
+
+  \code
+  PixelType * p;    // creation of the pointer
+  *p = 100;         // write access to a data 
+  PixelType a = *p; // read access to data
+  \endcode
+
+  Iterators dereference data using <TT>Set()</TT> and <TT>Get()</TT>
+
+  \code 
+  imageIterator.Set( 100 );
+  PixelType a = imageIterator.Get();
+  \endcode
+
+
   \subsection IteratorsOperatorPlusPlus operator++
+
+  The ++ operator will move the image iterator to the next pixel,
+  according to the particular order in which this iterator walks
+  the imaage.
+
   \subsection IteratorsOperatorMinusMinus operator--
+
+  The -- operator will move the image iterator to the previous pixel,
+  according to the particular order in which this iterator walks
+  the imaage.
 
   \subsection IteratorsIteratorsBegin Begin()
   Begin() returns an iterator for the same image and region as the current
@@ -227,10 +285,17 @@
   \endcode
   
 
-  \subsection ImageRegionIterator ImageRegionIterator 
-  \subsection ImageRegionReverseIterator ImageRegionReverseIterator
-  \subsection SimpleImageRegionIterator SimpleImageRegionIterator
-  \subsection ImageLinearIterator ImageLinearIterator
-  \subsection ImageSliceIterator ImageSliceIterator
+  \section IteratorFinalComment Final Comments
+
+  In general, iterators are not the kind of objects that users of the
+  toolkit would need to use. They are rather designed to be used by
+  code developers that add new components to the toolkit, like writting
+  a new Image filter, for example.
+
+  Before starting to write code that use iterators, users should consider
+  to verify if the particular operation they intend to apply to the image
+  is not already defined in the form of an existing image filter.
+
 
 */
+
