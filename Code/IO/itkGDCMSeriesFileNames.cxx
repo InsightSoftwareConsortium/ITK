@@ -49,7 +49,7 @@ const std::vector<std::string> &GDCMSeriesFileNames::GetInputFileNames()
     {
     itkDebugMacro(<<"No files were found");
     }
-  //delete helper;
+  delete helper;
 
   return m_InputFileNames;
 }

@@ -185,7 +185,10 @@ void GDCMImageIO::Read(void* buffer)
                       << file.gcount() << " bytes.");
     }
 
-  m_GdcmHeader = new gdcmHeader( m_FileName.c_str() );
+  if( !m_GdcmHeader )
+    {
+    m_GdcmHeader = new gdcmHeader( m_FileName.c_str() );
+    }
 
   gdcmFile GdcmFile(m_FileName);
   size_t size = GdcmFile.GetImageDataSize();
