@@ -27,8 +27,6 @@ ADD_TEST(itkBSplineInterpolationWeightFunctionTest ${COMMON_TESTS} itkBSplineInt
 ADD_TEST(itkBSplineKernelFunctionTest ${COMMON_TESTS} itkBSplineKernelFunctionTest)
 ADD_TEST(itkByteSwapTest ${COMMON_TESTS} itkByteSwapTest)
 ADD_TEST(itkConstNeighborhoodIteratorTest ${COMMON_TESTS} itkConstNeighborhoodIteratorTest)
-ADD_TEST(itkConstSmartNeighborhoodIteratorTest ${COMMON_TESTS} itkConstSmartNeighborhoodIteratorTest)
-ADD_TEST(itkConstRandomAccessNeighborhoodIteratorTest ${COMMON_TESTS} itkConstRandomAccessNeighborhoodIteratorTest)
 ADD_TEST(itkCovariantVectorGeometryTest ${COMMON_TESTS} itkCovariantVectorGeometryTest)
 ADD_TEST(itkDataTypeTest ${COMMON_TESTS} itkDataTypeTest)
 ADD_TEST(itkDynamicMeshTest ${COMMON_TESTS} itkDynamicMeshTest)
@@ -61,7 +59,6 @@ ADD_TEST(itkNeighborhoodOperatorTest ${COMMON_TESTS} itkNeighborhoodOperatorTest
 ADD_TEST(itkPixelAccessTest ${COMMON_TESTS} itkPixelAccessTest)
 ADD_TEST(itkPointGeometryTest ${COMMON_TESTS} itkPointGeometryTest)
 ADD_TEST(itkPointSetTest ${COMMON_TESTS} itkPointSetTest)
-ADD_TEST(itkRandomAccessNeighborhoodIteratorTest ${COMMON_TESTS} itkRandomAccessNeighborhoodIteratorTest)
 ADD_TEST(itkRGBPixelTest ${COMMON_TESTS} itkRGBPixelTest)
 ADD_TEST(itkRGBInterpolateImageFunctionTest ${COMMON_TESTS} itkRGBInterpolateImageFunctionTest)
 ADD_TEST(itkRigid2DTransformTest ${COMMON_TESTS} itkRigid2DTransformTest)
@@ -101,8 +98,6 @@ itkBSplineInterpolationWeightFunctionTest.cxx
 itkBSplineKernelFunctionTest.cxx
 itkByteSwapTest.cxx
 itkConstNeighborhoodIteratorTest.cxx
-itkConstRandomAccessNeighborhoodIteratorTest.cxx
-itkConstSmartNeighborhoodIteratorTest.cxx
 itkCovariantVectorGeometryTest.cxx
 itkDataTypeTest.cxx
 itkDynamicMeshTest.cxx
@@ -138,12 +133,10 @@ itkPointSetTest.cxx
 itkRigid2DTransformTest.cxx
 itkRigid3DTransformTest.cxx
 itkRigid3DPerspectiveTransformTest.cxx
-itkRandomAccessNeighborhoodIteratorTest.cxx
 itkRGBPixelTest.cxx
 itkRGBInterpolateImageFunctionTest.cxx
 itkScaleTransformTest.cxx
 itkSliceIteratorTest.cxx
-itkSmartNeighborhoodIteratorTest.cxx
 itkSmartPointerTest.cxx
 itkSTLContainerAdaptorTest.cxx
 itkSpatialFunctionTest.cxx
