@@ -329,10 +329,10 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 			}
 
 	for(i = 0;i<3;i++)
-		Histogram[i].resize(m_HomoMaxDiff[i]);
+		Histogram[i].resize(m_HomoMaxDiff[i]+1);
 
 	for(i = 0;i<3;i++)
-		for(j = 0;j<m_HomoMaxDiff[i];j++)
+		for(j = 0;j<=m_HomoMaxDiff[i];j++)
 			Histogram[i][j] = 0;
 
 	for(i = 0;i<pslices ;i++)
@@ -394,14 +394,14 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	for( i =0;i<3; i++)
 	{
 		Hist_sum[i] = 0;
-		for(j = 0;j<m_HomoMaxDiff[i];j++)
+		for(j = 0;j<=m_HomoMaxDiff[i];j++)
 			Hist_sum[i] = Hist_sum[i] + Histogram[i][j];
 	}
 
 
      for(i = 0;i<3;i++)
 	 {
-	  for(j=0;j<m_HomoMaxDiff[i];j++)
+	  for(j=0;j<=m_HomoMaxDiff[i];j++)
 	    {
 	      tti1 = 0;
 	      m_FeaturesThreshold[i] = (double)j;
@@ -686,7 +686,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 						temp[j] = abs( value1[j] - mean[j]);
 						tti1 = tti1 + temp[j]*m_PowerValue[j];
 
-						if(temp[j]>m_FeaturesThreshold[j])
+						if(temp[j]>=m_FeaturesThreshold[j])
 							edge_flag = 1;
 					}
 
@@ -1117,6 +1117,8 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 						  index1[1] = y;
 						  index1[0] = x;
 
+
+
 					      if (x >= 0 && y >= 0 && z >= 0 
 						  && x < pcol && y < prow && z < pslices)
 							{
@@ -1129,15 +1131,19 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
 					}
 
+				  int edge_flag = 0;
 				  tti1 = 0;
 				  for(j=0;j<3;j++)
 				    {
 				      temp[j] = (int)abs(temp[j]/count - m_ObjectsMean[object][j]);
 				      if (temp[j] > m_ObjectsMaxDiff[object][j])
-							temp[j] = m_ObjectsMaxDiff[object][j];
+							edge_flag = 1;
 				      tti1 = tti1 + temp[j]*ObjectsOffset[object][j];
 				    }
-				  material[object] = m_ObjectsMap[object][tti1] ;
+				  if(edge_flag ==1)
+					material[object] = 0;
+				  else
+					material[object] = m_ObjectsMap[object][tti1] ;
 				  
 				}
 
