@@ -98,7 +98,7 @@ public:
 
 
 
-private:  
+protected:  
   /** 
    * 3D rigid transformation representing the current position of 3D points
    * in space.
@@ -217,6 +217,7 @@ private:
    *
    */
   unsigned int maxNumberOfIterations;
+
   
   /** 
    * Real number of iterations used in the registration process
@@ -226,6 +227,7 @@ private:
    */
   unsigned int numberOfIterations;
 
+
   /** 
    * Differential correction of the pose (extrinsic) parameter. This six
    * dimensional vector contains the translation along the orthognal axis and
@@ -233,6 +235,7 @@ private:
    *
    */
 	vnl_vector_fixed<double,6> Delta;
+
 
   /** 
    * Uncertainty in the values corresponding to pose parameters.
@@ -245,24 +248,7 @@ private:
    */
 	vnl_vector_fixed<double,6> Uncertain;
 
-  /** 
-   * The Jacobian contains the dependencies between the registration
-   * parameters and the 2D coordinates of points
-   *
-   */
-  vnl_matrix<double> * Jacobian; 
-  
 
-  /** 
-   * PlanarError is the vector containing the differences of 2D coordinates
-   * between the 2D points and the projections of 3D points.
-   *
-   */
-  vnl_vector<double> * PlanarError; 
- 
-
-
-private: 
   /**
    * Set of associated pairs of 3D/2D points to register 
    * 
@@ -283,22 +269,15 @@ public:
   /**
    * Destructor of a registrator object
    */
-  ~itkRegistrator3D2D();
+  virtual ~itkRegistrator3D2D();
 
   /**
    * Initialize the registration process
    */
-  void PerformRegistration( void );
+  virtual void PerformRegistration( void ) = 0;
 
-  /**
-   * This method computes the Jacobian that relates the 2D coordinates of a 3D
-   * point projection with the parameters of a rigid transformation. These
-   * parameteres are represented as translations along the 3 orthogonal axis
-   * and rotations around the 3 orthogonal axis. 
-   */
-  void ComputeJacobian(void);
 
-  /**
+   /**
    * This method set a bool flag that stops the iterative process of
    * registration. 
    */
@@ -415,28 +394,13 @@ public:
    * Set the list of associated pairs of 3D point and 2D points.
    * \sa AssociatedPoints
    */
-  void LoadAssociatedPoints( const vector<PairPoint3D2D> & externalList );
+  virtual void LoadAssociatedPoints( const vector<PairPoint3D2D> & externalList );
 
   /**
    * Set cumulatedCorrectionMatrix to an identity matrix. This method is useful when
    * the registration doesn't converges and needs to be reinitialized
    */ 
   void ResetRegistration( void );
-
-
-private:  
-  /**
-   * Allocate memory for internal arrays containg data used for solving the
-   * least square problem
-   */
-  void Allocate(void);
-
-  /**
-   * This method solve the Least Square Problem using Levenberg-Marquard
-   * method.
-   */
-  void LeastSquareSolution(void); 
-
 
 
 };
