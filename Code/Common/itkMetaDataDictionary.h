@@ -24,6 +24,7 @@ PURPOSE.  See the above copyright notices for more information.
 #pragma warning ( disable : 4786 )
 #endif
 
+#include <vector>
 #include <string>
 #include "itkMetaDataObjectBase.h"
 
@@ -60,11 +61,11 @@ namespace itk
         // Destructor
         virtual ~MetaDataDictionary();
 
-        /** Returns a const pointer to the internal key/value map structure. */
-        const MetaDataDictionaryMapType *GetMap() const
-        {
-          return m_Dictionary;
-        }
+        /** Returns a vector of keys to the key/value entries in the
+            dictionary.  Iterate through the dictionary using these keys.
+        */
+      std::vector<std::string> GetKeys() const;
+      
         // Implement map's api. On some Micorsoft compilers, stl containers
         // cannot be exported. This causes problems when building DLL's.
         // Here we inherit privately from std::map and provide a simple

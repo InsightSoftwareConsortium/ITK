@@ -80,4 +80,22 @@ MetaDataDictionary
 {
   return m_Dictionary->find(key) != m_Dictionary->end();
 }
+
+std::vector<std::string>
+MetaDataDictionary
+::GetKeys() const
+{
+  typedef std::vector<std::string> VectorType;
+  VectorType ans;
+
+  for (MetaDataDictionaryMapType::const_iterator it = m_Dictionary->begin();
+       it != m_Dictionary->end(); ++it)
+    {
+    ans.push_back( (*it).first );
+    }
+
+  return ans;
+}
+
 }; // namespace
+
