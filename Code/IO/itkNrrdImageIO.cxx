@@ -492,6 +492,8 @@ NrrdImageIO
   
   // Release the nrrd struct memory.  Do not free nrrd.data.
   nrrdNix(nrrd);
+  nrrdIoStateNix(nio);
+
 }
  
 } // end namespace itk
