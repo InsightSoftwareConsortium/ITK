@@ -31,7 +31,7 @@ MapContainer< TElementIdentifier , TElement >
 ::ElementAt(ElementIdentifier id)
 {
   this->Modified();
-  return this->Map::operator[](id);
+  return this->MapType::operator[](id);
 }
 
 
@@ -48,7 +48,7 @@ MapContainer< TElementIdentifier , TElement >
 ::CreateElementAt(ElementIdentifier id)
 {
   this->Modified();
-  return this->Map::operator[](id);
+  return this->MapType::operator[](id);
 }
 
 
@@ -61,7 +61,7 @@ MapContainer< TElementIdentifier , TElement >::Element
 MapContainer< TElementIdentifier , TElement >
 ::GetElement(ElementIdentifier id) const
 {
-  return this->Map::find(id)->second;
+  return this->MapType::find(id)->second;
 }
 
 
@@ -88,7 +88,7 @@ void
 MapContainer< TElementIdentifier , TElement >
 ::InsertElement(ElementIdentifier id, Element element)
 {
-  this->Map::operator[](id) = element;
+  this->MapType::operator[](id) = element;
   this->Modified();
 }
 
@@ -102,7 +102,7 @@ bool
 MapContainer< TElementIdentifier , TElement >
 ::IndexExists(ElementIdentifier id) const
 {
-  return (this->Map::count(id) > 0);
+  return (this->MapType::count(id) > 0);
 }
 
 
@@ -116,11 +116,11 @@ bool
 MapContainer< TElementIdentifier , TElement >
 ::GetElementIfIndexExists(ElementIdentifier id, Element* element) const
 {
-  if(this->Map::count(id) > 0)
+  if(this->MapType::count(id) > 0)
     {
     if( element )
       {
-      *element = this->Map::find(id)->second;
+      *element = this->MapType::find(id)->second;
       }
     return true;
     }
@@ -138,7 +138,7 @@ void
 MapContainer< TElementIdentifier , TElement >
 ::CreateIndex(ElementIdentifier id)
 {
-  this->Map::operator[](id) = Element();
+  this->MapType::operator[](id) = Element();
   this->Modified();
 }
 
@@ -152,7 +152,7 @@ void
 MapContainer< TElementIdentifier , TElement >
 ::DeleteIndex(ElementIdentifier id)
 {
-  this->Map::erase(id);
+  this->MapType::erase(id);
   this->Modified();
 }
 
@@ -165,7 +165,7 @@ MapContainer< TElementIdentifier , TElement >::ConstIterator
 MapContainer< TElementIdentifier , TElement >
 ::Begin(void) const
 {
-  return ConstIterator(this->Map::begin());
+  return ConstIterator(this->MapType::begin());
 }
 
 
@@ -177,7 +177,7 @@ MapContainer< TElementIdentifier , TElement >::ConstIterator
 MapContainer< TElementIdentifier , TElement >
 ::End(void) const
 {
-  return ConstIterator(this->Map::end());
+  return ConstIterator(this->MapType::end());
 }
 
 
@@ -189,7 +189,7 @@ MapContainer< TElementIdentifier , TElement >::Iterator
 MapContainer< TElementIdentifier , TElement >
 ::Begin(void) 
 {
-  return Iterator(this->Map::begin());
+  return Iterator(this->MapType::begin());
 }
 
 
@@ -201,7 +201,7 @@ MapContainer< TElementIdentifier , TElement >::Iterator
 MapContainer< TElementIdentifier , TElement >
 ::End(void) 
 {
-  return Iterator(this->Map::end());
+  return Iterator(this->MapType::end());
 }
 
 
@@ -213,7 +213,7 @@ unsigned long
 MapContainer< TElementIdentifier , TElement >
 ::Size(void) const
 {
-  return this->Map::size();
+  return this->MapType::size();
 }
 
 /**

@@ -70,10 +70,10 @@ private:
   /**
    * Quick access to the STL map type that was inherited.
    */
-  typedef std::map<ElementIdentifier, Element> Map;
-  typedef typename Map::iterator               MapIterator;
-  typedef typename Map::const_iterator         MapConstIterator;
-  typedef typename Map::key_compare            MapKeyCompare;
+  typedef std::map<ElementIdentifier, Element>     MapType;
+  typedef typename MapType::iterator               MapIterator;
+  typedef typename MapType::const_iterator         MapConstIterator;
+  typedef typename MapType::key_compare            MapKeyCompareType;
   
 protected:
   /**
@@ -86,34 +86,34 @@ protected:
    *
    */
   MapContainer():
-    Map() {}
+    MapType() {}
 
   /**
    *
    */
-  MapContainer(const MapKeyCompare& comp):
-    Map(comp) {}
+  MapContainer(const MapKeyCompareType& comp):
+    MapType(comp) {}
 
   /**
    *
    */
   MapContainer(const Self& r):
-    Map(r) {}
+    MapType(r) {}
   
   /**
    *
    */
   template <typename InputIterator>
   MapContainer(InputIterator first, InputIterator last):
-    Map(first, last) {}
+    MapType(first, last) {}
 
   /**
    *
    */
   template <typename InputIterator>
   MapContainer(InputIterator first, InputIterator last,
-		  const MapKeyCompare& comp):
-    Map(first, last, comp) {}  
+		  const MapKeyCompareType& comp):
+    MapType(first, last, comp) {}  
   
 public:
   /**
