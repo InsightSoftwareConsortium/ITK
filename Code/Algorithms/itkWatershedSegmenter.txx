@@ -40,6 +40,22 @@ short Segmenter<TInputImage>::NULL_FLOW = -1;
   Algorithm methods
   ----------------------------------------------------------------------------
 */
+
+
+template <class TInputImage>
+Segmenter<TInputImage>::~Segmenter()
+  {
+  if (m_Connectivity.index != 0) 
+    {
+    delete[] m_Connectivity.index;
+    }
+  if (m_Connectivity.direction !=0 ) 
+    {
+    delete[] m_Connectivity.direction;
+    }
+  }
+
+
 template <class TInputImage>
 void Segmenter<TInputImage>::GenerateData()
 {
@@ -461,11 +477,17 @@ void Segmenter<TInputImage>
       searchIt.GoToBegin();
       labelIt.GoToBegin();
           
-      if ((idx).second == 0) // Low face
+      if ((idx).second == 0)
+        {
+        // Low face
         cPos = m_Connectivity.index[(idx).first];
-      else                   // High face
+        }
+      else
+        {
+        // High face
         cPos = m_Connectivity.index[(ImageDimension - 1)
                                     + (ImageDimension - (idx).first)];
+        }
 
       while ( ! searchIt.IsAtEnd() )
         {
@@ -623,11 +645,7 @@ void Segmenter<TInputImage>
   nSize   = it.Size();
   nCenter = nSize >> 1;
   
-  m_Connectivity.size = 2 * ImageDimension;
-  m_Connectivity.index = new unsigned int[m_Connectivity.size];
-  m_Connectivity.direction
-    = new typename InputImageType::OffsetType[m_Connectivity.size];
-  
+ 
   for (i =0; i < m_Connectivity.size; i++) // initialize move list
     {
     for (j =0; j < ImageDimension; j++)  m_Connectivity.direction[i][j] = 0;
@@ -1435,7 +1453,9 @@ void Segmenter<TInputImage>::GenerateInputRequestedRegion()
 }
 
 template <class TInputImage>
-void Segmenter<TInputImage>::GenerateOutputRequestedRegion(DataObject *output)
+void 
+Segmenter<TInputImage>
+::GenerateOutputRequestedRegion(DataObject *output)
 {
   // Only the Image output need to be propagated through.
   // No choice but to use RTTI here.
@@ -1481,6 +1501,12 @@ Segmenter<TInputImage>
   this->ProcessObject::SetNthOutput(0, img.GetPointer());
   this->ProcessObject::SetNthOutput(1, st.GetPointer());
   this->ProcessObject::SetNthOutput(2, bd.GetPointer());
+
+  // Allocate memory for connectivity 
+  m_Connectivity.size = 2 * ImageDimension;
+  m_Connectivity.index = new unsigned int[m_Connectivity.size];
+  m_Connectivity.direction
+    = new typename InputImageType::OffsetType[m_Connectivity.size];
 }
 
 template<class TInputImage>

@@ -251,11 +251,7 @@ protected:
   
   Segmenter();
   Segmenter(const Self&) {}
-  virtual ~Segmenter()
-  {
-    if (m_Connectivity.index != 0)     delete[] m_Connectivity.index;
-    if (m_Connectivity.direction !=0 ) delete[] m_Connectivity.direction;
-  }
+  virtual ~Segmenter();
   void PrintSelf(std::ostream& os, Indent indent) const;
   void operator=(const Self&) {}
   
