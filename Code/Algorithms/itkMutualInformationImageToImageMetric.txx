@@ -60,8 +60,11 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 SpatialSampleContainer& samples )
 {
 
+  typename TargetType::Pointer target = GetTarget();
+  typename MapperType::Pointer mapper = GetMapper();
+
   double range =
-   double( m_Target->GetBufferedRegion().GetNumberOfPixels() ) - 1.0;
+   double( target->GetBufferedRegion().GetNumberOfPixels() ) - 1.0;
 
   typename SpatialSampleContainer::iterator iter;
   typename SpatialSampleContainer::const_iterator end = samples.end();
@@ -72,10 +75,10 @@ SpatialSampleContainer& samples )
     unsigned long offset = (unsigned long) vnl_sample_uniform( 0.0, range );
 
     // translate offset to index in the target domain
-    TargetIndexType index = m_Target->ComputeIndex( offset );
+    TargetIndexType index = target->ComputeIndex( offset );
 
     // get target image value
-    (*iter).TargetValue = m_Target->GetPixel( index );
+    (*iter).TargetValue = target->GetPixel( index );
 
     // get reference image value
     for( unsigned int j = 0; j < TargetImageDimension; j++ )
@@ -84,7 +87,7 @@ SpatialSampleContainer& samples )
       }
     try
       {
-      (*iter).ReferenceValue = m_Mapper->Evaluate( (*iter).TargetPointValue );
+      (*iter).ReferenceValue = mapper->Evaluate( (*iter).TargetPointValue );
       }
     catch ( MapperException )
       {
@@ -105,14 +108,19 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType& parameters )
 {
 
-  if( !m_Target || !m_Mapper )
+  std::cout << "GetValue( " << parameters << " ) ";
+
+  typename TargetType::Pointer target = GetTarget();
+  typename MapperType::Pointer mapper = GetMapper();
+
+  if( !target || !mapper )
     {
     m_MatchMeasure = 0;
     return m_MatchMeasure;
     }
 
   // make sure the mapper has the current parameters
-  m_Mapper->GetTransformation()->SetParameters( parameters );
+  mapper->GetTransformation()->SetParameters( parameters );
 
   // collect sample set A
   this->SampleTargetDomain( m_SampleA );
@@ -177,6 +185,8 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 
   m_MatchMeasure = dLogSumTarget + dLogSumRef - dLogSumJoint;
 
+  std::cout << m_MatchMeasure << std::endl;
+
   return m_MatchMeasure;
 
 }
@@ -198,8 +208,11 @@ DerivativeType& derivative)
   m_MatchMeasureDerivatives.Fill(0);
   m_MatchMeasure = 0;
 
+  typename MapperType::Pointer mapper = GetMapper();
+  typename TargetType::Pointer target = GetTarget();
+
   // check if target and mapper are valid
-  if( !m_Target || !m_Mapper )
+  if( !target || !mapper )
     {
     value = m_MatchMeasure;
     derivative = m_MatchMeasureDerivatives;
@@ -207,10 +220,10 @@ DerivativeType& derivative)
     }
 
   // make sure the mapper has the current parameters
-  m_Mapper->GetTransformation()->SetParameters( parameters );
+  mapper->GetTransformation()->SetParameters( parameters );
 
   // set the DerivativeCalculator
-  m_DerivativeCalculator->SetInputImage( m_Mapper->GetDomain() );
+  m_DerivativeCalculator->SetInputImage( mapper->GetDomain() );
 
   // collect sample set A
   this->SampleTargetDomain( m_SampleA );
@@ -364,7 +377,9 @@ DerivativeType& derivatives )
   TargetPointType refPoint;
   TargetIndexType refIndex;
 
-  refPoint = m_Mapper->GetTransformation()->Transform( point );
+  typename MapperType::Pointer mapper = GetMapper();
+
+  refPoint = mapper->GetTransformation()->Transform( point );
 
   for( unsigned int j = 0; j < TargetImageDimension; j++ )
     {
@@ -377,7 +392,7 @@ DerivativeType& derivatives )
     imageDerivatives[j] = m_DerivativeCalculator->Evaluate( refIndex, j );
     }
 
-  derivatives.Set_vnl_vector( m_Mapper->GetTransformation()->
+  derivatives.Set_vnl_vector( mapper->GetTransformation()->
    GetJacobian( point ).GetTranspose() * imageDerivatives.Get_vnl_vector() );
 
 }
