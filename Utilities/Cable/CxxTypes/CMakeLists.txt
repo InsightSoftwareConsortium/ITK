@@ -3,7 +3,7 @@ LIBRARY(CxxTypes)
 SOURCE_FILES(
 cxxArrayType
 cxxClassType
-cxxConversionSequence
+cxxConversions
 cxxCvQualifiedType
 cxxFunctionType
 cxxFundamentalType
