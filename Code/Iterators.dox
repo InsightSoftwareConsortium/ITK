@@ -110,27 +110,27 @@
   This class of iterators is described in detail on the page 
   \ref NeighborhoodIterators.
 
-  \section ImageIterator Concepts
-  \subsection Regions
-  \subsection Positioning
-  \subsection Half Open Intervals - Begin/End
-  \subsection Dereferencing
+  \section ImageIteratorConcepts ImageIterator Concepts
+  \subsection Regions Regions
+  \subsection Positioning Position
+  \subsection Intervals Half Open Intervals - Begin/End
+  \subsection Dereferencing Dereferencing
 
-  \section Iterator API
-  \subsection operator++
-  \subsection operator--
-  \subsection Begin()
-  \subsection End()
-  \subsection GotoBegin()
-  \subsection GotoEnd()
-  \subsection IsAtBegin()
-  \subsection IsAtEnd()
+  \section IteratorAPI Iterator API
+  \subsection OperatorPlusPlus operator++
+  \subsection OperatorMinusMinus operator--
+  \subsection Begin Begin()
+  \subsection End End()
+  \subsection GotoBegin GotoBegin()
+  \subsection GotoEnd GotoEnd()
+  \subsection IsAtBegin IsAtBegin()
+  \subsection IsAtEnd IsAtEnd()
   
 
-  \subsection ImageRegionIterator
-  \subsection ImageRegionReverseIterator
-  \subsection SimpleImageRegionIterator
-  \subsection ImageLinearIterator
-  \subsection ImageSliceIterator
+  \subsection ImageRegionIterator ImageRegionIterator 
+  \subsection ImageRegionReverseIterator ImageRegionReverseIterator
+  \subsection SimpleImageRegionIterator SimpleImageRegionIterator
+  \subsection ImageLinearIterator ImageLinearIterator
+  \subsection ImageSliceIterator ImageSliceIterator
 
 */
