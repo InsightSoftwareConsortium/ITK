@@ -292,6 +292,62 @@ VTKImageImport<TOutputImage>
     }
 }
 
+template <typename TOutputImage>
+void 
+VTKImageImport<TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  if (m_DataExtentCallback)
+    {
+    std::cout << "DataExtentCallback: " << m_DataExtentCallback << std::end;
+    }
+  if (m_WholeExtentCallback)
+    {
+    std::cout << "WholeExtentCallback: " << m_WholeExtentCallback << std::end;
+    }
+  if (m_BufferPointerCallback)
+    {
+    std::cout << "BufferPointerCallback: " << m_BufferPointerCallback << std::end;
+    }
+  if (m_UpdateDataCallback)
+    {
+    std::cout << "UpdateDataCallback: " << m_UpdateDataCallback << std::endl;
+    }
+  if (m_PipelineModifiedCallback)
+    {
+    std::cout << "PipelineModifiedCallback: " << m_PipelineModifiedCallback << std::endl;
+    }
+  if (m_NumberOfComponentsCallback)
+    {
+    std::cout << "NumberOfComponentsCallback: " << m_NumberOfComponentsCallback << std::endl;
+    }
+  if (m_SpacingCallback)
+    {
+    std::cout << "SpacingCallback: " << m_SpacingCallback << std::endl;
+    }
+  if (m_OriginCallback)
+    {
+      std::cout << "OriginCallback: " << m_OriginCallback << std::endl;
+    }
+  if (m_UpdateInformationCallback)
+    {
+    std::cout << "UpdateInformationCallback: " << m_UpdateInformationCallback << std::endl;
+    }
+  if (m_ScalarTypeCallback)
+    {
+    std::cout << "ScalarTypeCallback: " << m_ScalarTypeCallback << std::end;
+    }
+  if (m_PropagateUpdateExtentCallback)
+    {
+    std::cout << "PropagateUpdateExtentCallback: " << m_PropagateUpdateExtentCallback << std::endl;
+    }
+  if (m_CallbackUserData)
+    {
+    std::cout << "CallbackUserData: " << m_CallbackUserData << std::endl;
+    }
+}
+
 } // namespace itk
 
 #endif

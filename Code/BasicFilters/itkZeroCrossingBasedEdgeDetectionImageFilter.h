@@ -168,6 +168,7 @@ protected:
     }
   ~ZeroCrossingBasedEdgeDetectionImageFilter(){}
   ZeroCrossingBasedEdgeDetectionImageFilter(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
   /**
    * Standard pipeline method. While this class does not implement a
@@ -177,20 +178,6 @@ protected:
    * filters are multithreaded, this filter is multithreaded by default.
    */
   void GenerateData();
-  
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-      Superclass::PrintSelf(os,indent);
-      os << indent << "Variance: [";
-      for (unsigned i = 0; i < ImageDimension; ++i)
-        { os << m_Variance[i] << " "; }
-      os << "]" << std::endl;
-
-      os << indent << "MaximumError: [";
-      for (unsigned i = 0; i < ImageDimension; ++i)
-        { os << m_MaximumError[i] << " "; }
-      os << "]" << std::endl;
-    }
   
 private:
   /**

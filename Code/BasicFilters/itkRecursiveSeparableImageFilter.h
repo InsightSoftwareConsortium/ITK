@@ -93,6 +93,7 @@ public:
 protected:
   RecursiveSeparableImageFilter();
   virtual ~RecursiveSeparableImageFilter() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** GenerateData (apply) the filter. */   
   void GenerateData(void);

@@ -77,7 +77,8 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-
+  
+  std::cout << "DefaultPixelValue: " << m_DefaultPixelValue << std::endl;
   return;
 }
 

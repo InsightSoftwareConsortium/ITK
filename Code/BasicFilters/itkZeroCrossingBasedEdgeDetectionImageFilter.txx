@@ -148,13 +148,26 @@ ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
 }
 
+template< class TInputImage, class TOutputImage >
+void
+ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << indent << "Variance: [";
+  for (unsigned i = 0; i < ImageDimension; ++i)
+    {
+    os << m_Variance[i] << " ";
+    }
+  os << "]" << std::endl;
 
-
-  
-
-
-
-
+  os << indent << "MaximumError: [";
+  for (unsigned i = 0; i < ImageDimension; ++i)
+    {
+    os << m_MaximumError[i] << " ";
+    }
+  os << "]" << std::endl;
+}
 
 }//end of itk namespace
 

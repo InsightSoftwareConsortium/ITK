@@ -166,6 +166,7 @@ public:
 protected:
   VTKImageImport();
   ~VTKImageImport() {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void PropagateRequestedRegion(DataObject*);  
   virtual void UpdateOutputInformation();

@@ -317,11 +317,15 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
 
 }
 
+template <class TInputImage, class TOutputImage, class TComputation>
+void
+RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
 
-
-
-
-
+  os << indent << "Direction: " << m_Direction << std::endl;
+}
 } // end namespace itk
 
 #endif
