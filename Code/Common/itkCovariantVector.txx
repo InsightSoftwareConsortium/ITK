@@ -240,12 +240,12 @@ typename CovariantVector<T, TCovariantVectorDimension>::ValueType
 CovariantVector<T, TCovariantVectorDimension>
 ::operator*( const Self & other ) const
 {
-  T value = NumericTraits<T>::Zero;
+  NumericTraits<T>::AccumulateType value = NumericTraits<T>::Zero;
   for( unsigned int i=0; i<TCovariantVectorDimension; i++) 
   {
     value += (*this)[i] * other[i];
   }
-  return value;
+  return static_cast< ValueType >( value );
 }
 
 
@@ -257,7 +257,7 @@ typename CovariantVector<T, TCovariantVectorDimension>::ValueType
 CovariantVector<T, TCovariantVectorDimension>
 ::operator*( const Vector<T,TCovariantVectorDimension> & other ) const
 {
-  T value = NumericTraits<T>::Zero;
+  NumericTraits<T>::AccumulateType value = NumericTraits<T>::Zero;
   for( unsigned int i=0; i<TCovariantVectorDimension; i++) 
   {
     value += (*this)[i] * other[i];
@@ -275,7 +275,7 @@ T
 CovariantVector<T, TCovariantVectorDimension>
 ::GetSquaredNorm( void ) const
 {
-  T sum = 0;  // consider a trait for null here ?
+  NumericTraits<T>::AccumulateType sum = NumericTraits<T>::Zero;
   for( unsigned int i=0; i<TCovariantVectorDimension; i++) 
   {
     const T value = (*this)[i];
