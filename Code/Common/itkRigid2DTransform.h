@@ -20,7 +20,6 @@
 #include <iostream>
 #include "itkTransform.h"
 #include "itkExceptionObject.h"
-#include "vnl/vnl_quaternion.h"
 #include "itkMatrix.h"
 
 namespace itk
