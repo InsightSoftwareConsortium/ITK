@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkLevelSetFunctionWithRefitTerm.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+     =========================================================================*/
 #ifndef __itkLevelSetFunctionWithRefitTerm_h_
 #define __itkLevelSetFunctionWithRefitTerm_h_
 
@@ -68,32 +84,32 @@ public:
   typedef typename NodeType::NodeDataType NormalVectorType;
 
   /** Set the relative weight of the refitting term. */
-  void SetRefitWeight (const ScalarValueType w)
+  void SetRefitWeight( const ScalarValueType w )
   {
     m_RefitWeight = w;
   }
 
   /** This is the weight for propagation terms (other than refitting)
    * that can be defined by subclasses. */
-  void SetOtherPropagationWeight (const ScalarValueType w)
+  void SetOtherPropagationWeight( const ScalarValueType w )
   {
     m_OtherPropagationWeight = w;
   }
 
   /** Sets the sparse image which has nodes containing the member variable
       m_Curvature used in refitting. */
-  void SetSparseTargetImage (SparseImageType *im)
+  void SetSparseTargetImage( SparseImageType *im )
   { m_SparseTargetImage = im; }
 
   /** Returns the sparse image. */ 
-  SparseImageType* GetSparseTargetImage () const
+  SparseImageType* GetSparseTargetImage() const
   { return m_SparseTargetImage; }
 
   /** Computes the time step for an update given a global data structure.
    * This calls the ComputeGlobalTimeStep method defined in LevelSetFunction
    * and then imposes our own restrictions for the refitting term on the
    * returned value. */
-  virtual TimeStepType ComputeGlobalTimeStep (void *GlobalData) const;
+  virtual TimeStepType ComputeGlobalTimeStep( void *GlobalData ) const;
   
 protected:
   /** The weight for the refitting term. */
@@ -108,7 +124,7 @@ protected:
 
   /** Computes the curvature of a level set neighbothood in a way that matches
       the curvature computation from normal vectors. */
-  ScalarValueType ComputeCurvature (const NeighborhoodType &) const;
+  ScalarValueType ComputeCurvature( const NeighborhoodType & ) const;
 
   /** Defines the virtual function in LevelSetFunction to add the refitting
    * term. This function also calls OtherPropagationSpeed to provide a
