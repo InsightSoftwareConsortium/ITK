@@ -123,7 +123,7 @@ public:
   /** This method is called prior to each iteration of the solver. */
   virtual void InitializeIteration()
     {
-      m_k = this->GetAverageGradientMagnitudeSquared() *
+      m_K = this->GetAverageGradientMagnitudeSquared() *
         this->GetConductanceParameter() * -1.0f;
     }
   
@@ -149,7 +149,7 @@ protected:
   DerivativeOperator<PixelType, ImageDimension> dx_op;
 
   /** Modified global average gradient magnitude term. */
-  PixelType m_k;
+  PixelType m_K;
 
   unsigned long m_Center;
   unsigned long m_Stride[ImageDimension];

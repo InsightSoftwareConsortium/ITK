@@ -144,8 +144,8 @@ GradientNDAnisotropicDiffusionFunction<TImage>
             }
         }
       
-      Cx = exp(( vnl_math_sqr( dx_forward ) + accum)  / m_k );
-      Cxd= exp(( vnl_math_sqr( dx_backward) + accum_d)/ m_k );
+      Cx = exp(( vnl_math_sqr( dx_forward ) + accum)  / m_K );
+      Cxd= exp(( vnl_math_sqr( dx_backward) + accum_d)/ m_K );
 
       // Conductance modified first order derivatives.
       dx_forward  *= Cx;
@@ -209,8 +209,8 @@ GradientNDAnisotropicDiffusionFunction<TImage>
             }
         }
       
-      Cx = exp(( vnl_math_sqr( dx_forward ) + accum)  / m_k );
-      Cxd= exp(( vnl_math_sqr( dx_backward) + accum_d)/ m_k );
+      Cx = exp(( vnl_math_sqr( dx_forward ) + accum)  / m_K );
+      Cxd= exp(( vnl_math_sqr( dx_backward) + accum_d)/ m_K );
 
       // Conductance modified first order derivatives.
       dx_forward  *= Cx;
