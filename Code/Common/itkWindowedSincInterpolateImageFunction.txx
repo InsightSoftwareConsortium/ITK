@@ -139,6 +139,7 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
   // Compute the offset tables (we ignore all the zero indices
   // in the neighborhood)
   unsigned int iOffset = 0;
+  int empty = VRadius;
   for(unsigned int iPos = 0; iPos < m_Neighborhood.Size(); iPos++)
     {
     // Get the offset (index)
@@ -148,7 +149,7 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
     bool nonzero = true;
     for(dim = 0; dim < ImageDimension; dim++)
       {
-      if(off[dim] == -VRadius) 
+      if(off[dim] == -empty) 
         {
         nonzero = false;
         break;
@@ -253,14 +254,14 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
     // pixel boundary, the weights form a delta function.
     if(x == 0.0)
       {
-      for( int i = 0; i < m_WindowSize; i++)
+      for( unsigned int i = 0; i < m_WindowSize; i++)
         xWeight[dim][i] = 
-          i == VRadius - 1 ? 1 : 0;
+          static_cast<int>(i) == VRadius - 1 ? 1 : 0;
       }
     else
       {
       // i is the relative offset in dimension dim.
-      for( int i = 0; i < m_WindowSize; i++)
+      for( unsigned int i = 0; i < m_WindowSize; i++)
         {
         // Increment the offset, taking it through the range
         // (dist + rad - 1, ..., dist - rad), i.e. all x

@@ -201,7 +201,8 @@ template<unsigned int VOffsetDimension>
 std::ostream & operator<<(std::ostream &os, const Offset<VOffsetDimension> &ind)
 {
   os << "[";
-  for (unsigned int i=0; i < VOffsetDimension - 1; ++i)
+  unsigned int dimlim = VOffsetDimension - 1;
+  for (unsigned int i=0; i < dimlim; ++i)
     {
     os << ind[i] << ", ";
     }

@@ -91,7 +91,7 @@ TetrahedronCell< TCellInterface >
                                 double* minDist2,
                                 InterpolationWeightType* weights)
 {
-  int i;
+  unsigned int i;
   double rhs[PointDimension], c1[PointDimension], c2[PointDimension], c3[PointDimension];
   double det, p4;
 
