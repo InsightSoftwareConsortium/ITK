@@ -169,8 +169,6 @@ int itkLaplacianSegmentationLevelSetImageFilterTest(int, char **)
   // Target surface is a sphere VERY NEAR to the starting surface.  The
   // laplacian segmentation is not a region growing type segmenation, but is
   // better for refinement of existing approximate segmentations.
-  float val;
-  unsigned int i;
 
   LSIFTN::evaluate_float_function(inputImage, LSIFTN::sphere2);
 
@@ -195,11 +193,11 @@ int itkLaplacianSegmentationLevelSetImageFilterTest(int, char **)
     filter->Update();
     std::cout << "Done first trial" << std::endl;
     // Repeat to make sure that the filter is reinitialized properly
-        filter->SetMaximumIterations(900);
+        filter->SetMaximumIterations(100);
         filter->Update();
         std::cout << "Done second trial" << std::endl;
     // Repeat once more just for fun
-        filter->SetMaximumIterations(800);
+        filter->SetMaximumIterations(99);
         filter->Update();
         std::cout << "Done third trial" << std::endl;
     
