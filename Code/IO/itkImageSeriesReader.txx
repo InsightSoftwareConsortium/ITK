@@ -258,9 +258,12 @@ void ImageSeriesReader<TOutputImage>
     reader->UpdateLargestPossibleRegion();
 
     // Deep copy the MetaDataDictionary into the array
-    DictionaryRawPointer  newDictionary = new DictionaryType;
-    *newDictionary = m_ImageIO->GetMetaDataDictionary();
-    m_MetaDataDictionaryArray.push_back( newDictionary );
+    if (m_ImageIO)
+      {
+      DictionaryRawPointer newDictionary = new DictionaryType;
+      *newDictionary = m_ImageIO->GetMetaDataDictionary();
+      m_MetaDataDictionaryArray.push_back( newDictionary );
+      }
 
     if (reader->GetOutput()->GetRequestedRegion().GetSize() != validSize)
       {
