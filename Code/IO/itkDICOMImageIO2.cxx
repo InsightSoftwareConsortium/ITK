@@ -286,8 +286,6 @@ DICOMImageIO2
   m_AppHelper->GetPatientSex(sex);
 }
 
-
-
 void 
 DICOMImageIO2
 ::GetPatientAge(char* age)
@@ -295,7 +293,41 @@ DICOMImageIO2
   m_AppHelper->GetPatientAge(age);
 }
 
+void 
+DICOMImageIO2
+::GetPatientDOB(char* dob)
+{
+  m_AppHelper->GetPatientDOB(dob);
+}
 
+void 
+DICOMImageIO2
+::GetStudyID(char* id)
+{
+  m_AppHelper->GetStudyID(id);
+}
+
+
+void 
+DICOMImageIO2
+::GetStudyDescription(char* desc)
+{
+  m_AppHelper->GetStudyDescription(desc);
+}
+
+void 
+DICOMImageIO2
+::GetBodyPart(char* part)
+{
+  m_AppHelper->GetBodyPart(part);
+}
+
+void 
+DICOMImageIO2
+::GetNumberOfStudyRelatedSeries(char* series)
+{
+  m_AppHelper->GetNumberOfStudyRelatedSeries(series);
+}
 
 void 
 DICOMImageIO2
@@ -303,8 +335,6 @@ DICOMImageIO2
 {
   m_AppHelper->GetStudyDate(date);
 }
-
-
 
 void 
 DICOMImageIO2

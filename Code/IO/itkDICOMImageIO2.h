@@ -80,6 +80,11 @@ public:
   void GetPatientID(char* id);
   void GetPatientSex(char* sex);
   void GetPatientAge(char* age);
+  void GetStudyID(char* id);
+  void GetPatientDOB(char* dob);
+  void GetStudyDescription(char* desc);
+  void GetBodyPart(char* part);
+  void GetNumberOfStudyRelatedSeries(char* series);
   void GetStudyDate(char* date);
   void GetModality(char* modality);
   void GetManufacturer(char* manu);

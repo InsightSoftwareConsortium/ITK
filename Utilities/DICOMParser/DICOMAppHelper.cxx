@@ -166,6 +166,11 @@ DICOMAppHelper::DICOMAppHelper()
   this->PatientIDCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->PatientSexCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->PatientAgeCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->PatientDOBCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->StudyIDCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->StudyDescriptionCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->BodyPartCB  = new DICOMMemberCallback<DICOMAppHelper>;
+  this->NumberOfStudyRelatedSeriesCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->StudyDateCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->ModalityCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->ManufacturerCB = new DICOMMemberCallback<DICOMAppHelper>;
@@ -226,6 +231,11 @@ DICOMAppHelper::~DICOMAppHelper()
   delete this->PatientIDCB;
   delete this->PatientSexCB;
   delete this->PatientAgeCB;
+  delete  this->PatientDOBCB;
+  delete  this->StudyIDCB;
+  delete  this->StudyDescriptionCB;
+  delete  this->BodyPartCB;
+  delete  this->NumberOfStudyRelatedSeriesCB;
   delete this->StudyDateCB;
   delete this->ModalityCB;
   delete this->ManufacturerCB;
@@ -331,6 +341,21 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
 
   PatientAgeCB->SetCallbackFunction(this, &DICOMAppHelper::PatientAgeCallback);
   parser->AddDICOMTagCallback(0x0010, 0x1010, DICOMParser::VR_AS, PatientAgeCB);
+ 
+  PatientDOBCB->SetCallbackFunction(this, &DICOMAppHelper::PatientDOBCallback);
+  parser->AddDICOMTagCallback(0x0010, 0x0030, DICOMParser::VR_DA, PatientDOBCB);
+
+  StudyIDCB->SetCallbackFunction(this, &DICOMAppHelper::StudyIDCallback);
+  parser->AddDICOMTagCallback(0x0020, 0x0010, DICOMParser::VR_SH, StudyIDCB);
+
+  StudyDescriptionCB->SetCallbackFunction(this, &DICOMAppHelper::StudyDescriptionCallback);
+  parser->AddDICOMTagCallback(0x0008, 0x1030, DICOMParser::VR_LO, StudyDescriptionCB);
+
+  BodyPartCB->SetCallbackFunction(this, &DICOMAppHelper::BodyPartCallback);
+  parser->AddDICOMTagCallback(0x0018, 0x0015, DICOMParser::VR_CS, BodyPartCB);
+
+  NumberOfStudyRelatedSeriesCB->SetCallbackFunction(this, &DICOMAppHelper::NumberOfStudyRelatedSeriesCallback);
+  parser->AddDICOMTagCallback(0x0020, 0x1206, DICOMParser::VR_IS, NumberOfStudyRelatedSeriesCB);
 
   StudyDateCB->SetCallbackFunction(this, &DICOMAppHelper::StudyDateCallback);
   parser->AddDICOMTagCallback(0x0008, 0x0020, DICOMParser::VR_DA, StudyDateCB);
@@ -368,6 +393,11 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     {0x0010, 0x0020, DICOMParser::VR_LO, "Patient ID"},
     {0x0010, 0x0040, DICOMParser::VR_CS, "Patient sex"},
     {0x0010, 0x1010, DICOMParser::VR_AS, "Patient age"},
+    {0x0010, 0x0030, DICOMParser::VR_DA, "Patient Date of birth"},
+    {0x0020, 0x0010, DICOMParser::VR_SH, "Study ID"},
+    {0x0008, 0x1030, DICOMParser::VR_LO, "Study Description"},
+    {0x0018, 0x0015, DICOMParser::VR_CS, "Body Part"},
+    {0x0020, 0x1206, DICOMParser::VR_IS, "Number of study related series"},
     {0x0018, 0x0050, DICOMParser::VR_FL, "slice thickness"},
     {0x0018, 0x0060, DICOMParser::VR_FL, "kV"},
     {0x0018, 0x0088, DICOMParser::VR_FL, "slice spacing"},
@@ -1611,6 +1641,93 @@ void DICOMAppHelper::PatientAgeCallback(DICOMParser *,
     m_PatientAge[0] = '\0';
     }
 }
+
+void DICOMAppHelper::PatientDOBCallback(DICOMParser *,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte len)
+{
+  if (val)
+    {
+    strncpy(m_PatientDOB, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_PatientDOB[0] = '\0';
+    }
+}
+
+
+void DICOMAppHelper::StudyIDCallback(DICOMParser *,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte len)
+{
+  if (val)
+    {
+    strncpy(m_StudyID, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_StudyID[0] = '\0';
+    }
+}
+
+
+void DICOMAppHelper::StudyDescriptionCallback(DICOMParser *,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte len)
+{
+  if (val)
+    {
+    strncpy(m_StudyDescription, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_StudyDescription[0] = '\0';
+    }
+}
+
+void DICOMAppHelper::BodyPartCallback(DICOMParser *,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte len)
+{
+  if (val)
+    {
+    strncpy(m_BodyPart, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_BodyPart[0] = '\0';
+    }
+} 
+  
+void DICOMAppHelper::NumberOfStudyRelatedSeriesCallback(DICOMParser *,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte len)
+{
+  if (val)
+    {
+    strncpy(m_NumberOfStudyRelatedSeries, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_NumberOfStudyRelatedSeries[0] = '\0';
+    }
+} 
 
 void DICOMAppHelper::StudyDateCallback(DICOMParser *,
                                    doublebyte,

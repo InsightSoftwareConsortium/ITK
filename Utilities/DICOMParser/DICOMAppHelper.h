@@ -319,6 +319,40 @@ public:
                                       DICOMParser::VRTypes,
                                       unsigned char* val,
                                       quadbyte);
+  virtual void PatientDOBCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+
+   virtual void StudyIDCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+
+   virtual void StudyDescriptionCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+  
+   virtual void BodyPartCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+   
+   virtual void NumberOfStudyRelatedSeriesCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
 
   virtual void StudyDateCallback( DICOMParser *parser,
                                       doublebyte,
@@ -526,6 +560,41 @@ public:
     strcpy(age, m_PatientAge);
     }
 
+  /** Get the patient date of birth processed by the
+      DICOMParser. */
+  void GetPatientDOB(char* dob)
+    {
+    strcpy(dob, m_PatientDOB);
+    }
+
+ /** Get the study ID processed by the
+      DICOMParser. */
+  void GetStudyID(char* id)
+    {
+    strcpy(id, m_StudyID);
+    }
+
+ /** Get the description of the study processed by the
+      DICOMParser. */
+  void GetStudyDescription(char* desc)
+    {
+    strcpy(desc, m_StudyDescription);
+    }
+
+ /** Get the body part processed by the
+      DICOMParser. */
+  void GetBodyPart(char* part)
+    {
+    strcpy(part, m_BodyPart);
+    }
+
+ /** Get the number of study related series processed by the
+      DICOMParser. */
+  void GetNumberOfStudyRelatedSeries(char* number)
+    {
+    strcpy(number, m_NumberOfStudyRelatedSeries);
+    }
+
   /** Get the study date processed by the
       DICOMParser. */
   void GetStudyDate(char* date)
@@ -643,6 +712,11 @@ public:
 
   char m_PatientName[512];
   char m_PatientID[512];
+  char m_PatientDOB[512];
+  char m_StudyID[512];   
+  char m_StudyDescription[512];
+  char m_BodyPart[512];
+  char m_NumberOfStudyRelatedSeries[512];
   char m_PatientSex[512];
   char m_PatientAge[512];
   char m_StudyDate[512];
@@ -705,7 +779,12 @@ public:
   DICOMMemberCallback<DICOMAppHelper>* ManufacturerCB;
   DICOMMemberCallback<DICOMAppHelper>* InstitutionCB;
   DICOMMemberCallback<DICOMAppHelper>* ModelCB;
-  
+  DICOMMemberCallback<DICOMAppHelper>* PatientDOBCB;
+  DICOMMemberCallback<DICOMAppHelper>* StudyIDCB;
+  DICOMMemberCallback<DICOMAppHelper>* StudyDescriptionCB;
+  DICOMMemberCallback<DICOMAppHelper>* BodyPartCB;
+  DICOMMemberCallback<DICOMAppHelper>* NumberOfStudyRelatedSeriesCB;
+
 
   //
   // Implementation contains stl templated classes that 
