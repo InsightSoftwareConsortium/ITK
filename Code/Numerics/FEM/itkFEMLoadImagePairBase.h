@@ -83,9 +83,9 @@ public:
   typedef LoadGrav::Float Float;
 
   typedef TReference ReferenceType;
-  typedef typename ReferenceType*  ReferencePointer;
+  typedef ReferenceType*  ReferencePointer;
   typedef TTarget       TargetType;
-  typedef typename TargetType*  TargetPointer;
+  typedef TargetType*  TargetPointer;
   /** Inherit some enums and typedefs from template */
   enum{ ImageDimension = TReference::ImageDimension };
   typedef ImageRegionIteratorWithIndex<ReferenceType> RefRegionIteratorType; 
@@ -144,10 +144,10 @@ public:
 
 protected:
  
-  typename CovariantVectorImageType::Pointer          m_DerivativeImage;
+  typedef typename CovariantVectorImageType::Pointer  m_DerivativeImage;
   
-  typename ReferencePointer                           m_RefImage;
-  typename TargetPointer                              m_TarImage;
+  typedef ReferencePointer                            m_RefImage;
+  typedef TargetPointer                               m_TarImage;
   ReferenceRadiusType                                 m_RefRadius; /** used by the neighborhood iterator */
   TargetRadiusType                                    m_TarRadius; /** used by the metric to set region size for fixed image*/ 
   typename ReferenceType::SizeType                    m_RefSize;
