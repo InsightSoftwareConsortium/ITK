@@ -29,7 +29,7 @@
 //  transformation applied pixel-wise by this filter.  
 //
 //  \begin{equation}
-//  I' = (Max-Min)\cdot \frac{1}{\left(1+e^{-(\alpha \cdot I+\beta)} \right)} + Min
+//  I' = (Max-Min)\cdot \frac{1}{\left(1+e^{-(\frac{ I - \beta }{\alpha } \right)} \right)} + Min
 //  \end{equation}
 //  
 //  Where $I$ is the intensity of the input pixel, $I'$ the intensity of the
@@ -37,13 +37,15 @@
 //  image, $\alpha$ defines the width of the intensity range to be accepted at
 //  the input and $\beta$ defines the intensity around which the range is
 //  centered. The significance of each one of these parameters can be
-//  appreciated in Figure~\ref{fig:SigmoidParameters}
+//  better appreciated in Figure~\ref{fig:SigmoidParameters}
 //
 // \begin{figure}
 // \center
 // \includegraphics[width=8cm]{SigmoidParameterAlpha.eps}
-// \includegraphics[width=8cm]{SigmoidParameterBeta.eps}
-// \caption[Sigmoid Parameters]{Effect of various parameters in the Sigmoid.}
+// \includegraphics[width=8cm]{SigmoidParameterBeta.eps} 
+// \caption[Sigmoid Parameters]{Effect of various parameters in the Sigmoid.
+// The alpha parameter is associated with the width of intensity window while
+// the beta parameter is associated with the center of such intensity window.}
 // \label{fig:SigmoidParameters}
 // \end{figure}
 //
@@ -86,7 +88,7 @@ int main( int argc, char ** argv )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile   outputImageFile";
-    std::cerr << " OutputMin OutputMax Alpha Beta" << std::endl;
+    std::cerr << " OutputMin OutputMax SigmoidAlpha SigmoidBeta" << std::endl;
     return 1;
     }
 
@@ -151,8 +153,8 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex 
 
-  const OutputPixelType outputMaximum = atoi( argv[3] );
-  const OutputPixelType outputMinimum = atoi( argv[4] );
+  const OutputPixelType outputMinimum = atoi( argv[3] );
+  const OutputPixelType outputMaximum = atoi( argv[4] );
 
   // Software Guide : BeginCodeSnippet
   sigmoidFilter->SetOutputMinimum(   outputMinimum  );
@@ -223,10 +225,10 @@ int main( int argc, char ** argv )
   //  filter on a slice of MRI brain image using the following parameters
   //
   //  \begin{itemize}
-  //  \item Minimum = 30
-  //  \item Maximum = 80
-  //  \item Alpha   =  2
-  //  \item Beta    = 40
+  //  \item Minimum =  10
+  //  \item Maximum = 240
+  //  \item Alpha   =  10
+  //  \item Beta    = 170
   //  \end{itemize}
   //
   //  Note that both $\alpha$ and $\beta$ can be positive and negative. A
