@@ -588,6 +588,8 @@ public:
 
   bool ParseQualifiedName(const String&, QualifiersInserter) const;
   
+  Named* LookupName(const String&) const;
+  Class* LookupClass(const String&) const;
   virtual Named* LookupName(QualifiersConstIterator,QualifiersConstIterator) const;
 protected:
   Context(const String& name): Named(name) {}
@@ -926,7 +928,6 @@ public:
   typedef Context::QualifiersConstIterator QualifiersConstIterator;
   typedef Context::QualifiersInserter QualifiersInserter;  
   
-  Class* LookupClass(const String&) const;
   virtual Named* LookupName(QualifiersConstIterator,QualifiersConstIterator) const;
 protected:
   Namespace(const String& name): Context(name) {}
@@ -1131,8 +1132,6 @@ public:
   typedef Context::QualifiersInserter QualifiersInserter;  
   
   const cxx::ClassType* GetCxxClassType(const Namespace* gns) const;
-  
-  virtual Named* LookupName(QualifiersConstIterator,QualifiersConstIterator) const;
 protected:  
   Class(const String& name, Access access): Context(name), m_Access(access) {}
   Class(const Self&): Context("") {}
@@ -1270,10 +1269,7 @@ public:
 
   String GetQualifiedName() const { return m_QualifiedName->Get(); }
   
-  bool HaveClass() const { return (m_Class != NULL); }
-  
-  Class::Pointer GetClass() { return m_Class; }
-  Class::ConstPointer GetClass() const { return m_Class.RealPointer(); }
+  Class::Pointer GetClass(const Namespace*);
 
   Access GetAccess() const { return m_Access; }
   
@@ -1287,7 +1283,6 @@ protected:
   
 private:
   QualifiedName::Pointer m_QualifiedName;
-  Class::Pointer         m_Class;
   Access                 m_Access;
 };
 

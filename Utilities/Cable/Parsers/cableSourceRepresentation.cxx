@@ -531,6 +531,16 @@ Context
 
 
 /**
+ * Given the global namespace, lookup the Class representation for this
+ * BaseClass.
+ */
+Class::Pointer BaseClass::GetClass(const Namespace* gns)
+{
+  return gns->LookupClass(m_QualifiedName->Get());
+}
+
+
+/**
  * Get the fully qualified name of this context.
  */
 String
@@ -563,7 +573,7 @@ cxx::CvQualifiedType NamedType::GetCxxType(const Namespace* gns) const
       return CxxTypes::GetFundamentalType(cxx::FundamentalType::UnsignedChar,
                                           isConst, isVolatile);
       }
-    else if(name == "unsigned short")
+    else if((name == "unsigned short") || (name == "short unsigned int"))
       {
       return CxxTypes::GetFundamentalType(cxx::FundamentalType::UnsignedShortInt,
                                           isConst, isVolatile);
@@ -721,7 +731,11 @@ const cxx::ClassType* Class::GetCxxClassType(const Namespace* gns) const
   for(BaseClassContainer::const_iterator base = m_BaseClasses.begin();
       base != m_BaseClasses.end(); ++base)
     {
-    baseTypes.push_back((*base)->GetClass()->GetCxxClassType(gns));
+    Class* c = (*base)->GetClass(this->GetGlobalNamespace());
+    if(c)
+      {
+      baseTypes.push_back(c->GetCxxClassType(gns));
+      }
     }
   return CxxTypes::typeSystem.GetClassType(this->GetQualifiedName(), baseTypes);
 }
@@ -801,11 +815,11 @@ Context
 
 
 /**
- * Lookup the given class starting in this namespace's scope.
+ * Lookup the given qualified name starting in this context.
  */
-Class*
-Namespace
-::LookupClass(const String& name) const
+Named*
+Context
+::LookupName(const String& name) const
 {
   // Parse the name into its qualifiers.
   Qualifiers qualifierList;
@@ -820,26 +834,7 @@ Namespace
       {
       ++qBegin;
       }
-    Named* result = this->LookupName(qBegin, qualifierList.end());
-    if(result)
-      {
-      TypeOfObject resultType = result->GetTypeOfObject();
-      if((resultType == Class_id) || (resultType == Struct_id) || (resultType == Union_id))
-        {
-        return dynamic_cast<Class*>(result);
-        }
-      else if(resultType == Typedef_id)
-        {
-        return dynamic_cast<Typedef*>(result)->GetClass(this->GetGlobalNamespace());
-        }
-      }
-    std::cout << "Couldn't find class with qualified name:" << std::endl;
-    for(Qualifiers::const_iterator q = qBegin;
-        q != qualifierList.end(); ++q)
-      {
-      std::cout << "\"" << *q << "\"" << std::endl;
-      }
-    return NULL;
+    return this->LookupName(qBegin, qualifierList.end());
     }
   else
     {
@@ -847,6 +842,31 @@ Namespace
     // The name was invalid, and failed to parse.
     return NULL;
     }
+}
+
+
+/**
+ * Lookup the given class starting in this context's scope.
+ */
+Class*
+Context
+::LookupClass(const String& name) const
+{
+  Named* result = this->LookupName(name);
+  if(result)
+    {
+    TypeOfObject resultType = result->GetTypeOfObject();
+    if((resultType == Class_id) || (resultType == Struct_id) || (resultType == Union_id))
+      {
+      return dynamic_cast<Class*>(result);
+      }
+    else if(resultType == Typedef_id)
+      {
+      return dynamic_cast<Typedef*>(result)->GetClass(this->GetGlobalNamespace());
+      }
+    }
+  std::cout << "Couldn't find class with qualified name:" << name.c_str() << std::endl;
+  return NULL;
 }
 
 
@@ -967,6 +987,7 @@ Namespace
 }
 
 
+#if 0
 /**
  * Lookup the given name starting in this class's scope.
  *
@@ -1010,6 +1031,7 @@ Class
   // Didn't find the first qualifier in our scope.
   return NULL;
 }
+#endif
 
 
 /**
