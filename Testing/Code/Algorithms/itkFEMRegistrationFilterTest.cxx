@@ -266,6 +266,9 @@ int itkFEMRegistrationFilterTest(int, char* [] )
     //    std::cout << err << std::endl;
     //throw err;
     }
+  delete e1;
+  delete m;
+
   }
 
   /*
@@ -303,6 +306,7 @@ int itkFEMRegistrationFilterTest(int, char* [] )
   
   std::cout << "Test passed" << std::endl;
   */
+
   return EXIT_SUCCESS;
   
 
