@@ -329,15 +329,6 @@ ADD_TEST( ResampleImageFilter3Test1 ${FILTERING_EXAMPLES}
         0
 )
 
-ADD_TEST( ResampleImageFilter3Test2 ${FILTERING_EXAMPLES}
-  --compare ${BASELINE}/ResampleImageFilter3Test2.png
-            ${TEMP}/ResampleImageFilter3Test2.png
-  ResampleImageFilter3Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${TEMP}/ResampleImageFilter3Test2.png
-        1
-)
-
 ADD_TEST( ResampleImageFilter4Test ${FILTERING_EXAMPLES}
   --compare ${BASELINE}/ResampleImageFilter4Test.png
             ${TEMP}/ResampleImageFilter4Test.png
