@@ -29,25 +29,15 @@ ClassType
   return ClassType_id;
 }
 
-
-/**
- * Add a public superclass to this class.
- */
-void
-ClassType
-::AddParent(const ClassType* p)
-{
-  m_Parents.push_back(p);
-}
-
-
 /**
  * Constructor for ClassType just takes the name of the class.  This name
  * may include template parameters of an instantiation.
  */
 ClassType
-::ClassType(const String& in_name):
-  m_Name(in_name)
+::ClassType(const String& name,
+            const ClassTypes& parents):
+  m_Name(name),
+  m_Parents(parents)
 {
 }
 

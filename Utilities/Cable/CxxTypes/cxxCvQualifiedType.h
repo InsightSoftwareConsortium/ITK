@@ -18,7 +18,7 @@
 
 #include "cxxType.h"
 
-#include <list>
+#include <vector>
 
 namespace _cxx_
 {
@@ -62,10 +62,10 @@ private:
 };
 
 /**
- * A list of cv-qualified types.
+ * A vector of CvQualifiedType instances.
  */
-typedef std::list<CvQualifiedType>  CvQualifiedTypeList;
-
+typedef std::vector<CvQualifiedType> CvQualifiedTypes;
+  
 } // namespace _cxx_
 
 

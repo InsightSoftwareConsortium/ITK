@@ -14,9 +14,12 @@
 
 =========================================================================*/
 
-#include "wrapDllAllocator.h"
+#include "cxxDllAllocator.h"
 
 #include <stdlib.h>
+
+namespace _cxx_
+{
 
 /**
  * Allocate "length" bytes of memory, and return a pointer to it.
@@ -35,3 +38,4 @@ void DllDeallocate(void* buffer, size_t)
   delete [] ((char*)buffer);
 }
   
+} // namespace _cxx_

@@ -18,15 +18,17 @@
 
 #include "cxxCvQualifiedType.h"
 
+#include <vector>
+
 namespace _cxx_
 {
 
 class ClassType;
 
 /**
- * A list of ClassType s.
+ * A vector of ClassType pointers.
  */
-typedef std::list<const ClassType*> ClassTypeList;
+typedef std::vector<const ClassType*> ClassTypes;
 
 /**
  * Represents a C++ class type.  This could have been produced by a
@@ -40,10 +42,8 @@ public:
   
   virtual RepresentationType GetRepresentationType() const;
 
-  void AddParent(const ClassType*);
-  
 protected:
-  ClassType(const String&);
+  ClassType(const String&, const ClassTypes&);
   ClassType(const Self&) {}
   void operator=(const Self&) {}
   virtual ~ClassType() {}
@@ -59,18 +59,18 @@ private:
    * A pointer or reference ot this class can be cast up to these
    * types.
    */
-  ClassTypeList m_Parents;
+  ClassTypes m_Parents;
   
   /**
    * The list of types from which this class can construct.
    */
-  CvQualifiedTypeList m_ConversionByConstructor;
+  CvQualifiedTypes m_ConversionByConstructor;
   
   /**
    * The list of types to which this class can convert by type conversion
    * operator.
    */
-  CvQualifiedTypeList m_ConversionOperators;
+  CvQualifiedTypes m_ConversionOperators;
   
   friend TypeSystem;
 };

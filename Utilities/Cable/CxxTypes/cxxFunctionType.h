@@ -18,6 +18,8 @@
 
 #include "cxxCvQualifiedType.h"
 
+#include <vector>
+
 namespace _cxx_
 {
 
@@ -34,7 +36,8 @@ public:
   virtual RepresentationType GetRepresentationType() const;
 
 protected:
-  FunctionType(const CvQualifiedType&);
+  FunctionType(const CvQualifiedType& returnType,
+               const CvQualifiedTypes& arguments);
   FunctionType(const Self&): m_ReturnType(NULL) {}
   void operator=(const Self&) {}
   virtual ~FunctionType() {}
@@ -48,7 +51,7 @@ private:
   /**
    * The function's argument types.
    */
-  CvQualifiedTypeList m_ArgumentList;
+  CvQualifiedTypes m_Arguments;
   
   friend TypeSystem;
 };

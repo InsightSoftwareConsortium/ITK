@@ -34,8 +34,10 @@ public:
 
   const ArrayType*           GetArrayType(const CvQualifiedType&,
                                           unsigned long);
-  ClassType*                 GetClassType(const String&);
-  const FunctionType*        GetFunctionType(const CvQualifiedType&);
+  ClassType*                 GetClassType(const String&,
+                                          const ClassTypes&);
+  const FunctionType*        GetFunctionType(const CvQualifiedType&,
+                                             const CvQualifiedTypes&);
   const FundamentalType*     GetFundamentalType(FundamentalType::Id);
   const PointerType*         GetPointerType(const CvQualifiedType&);
   const PointerToMemberType* GetPointerToMemberType(const CvQualifiedType&,
@@ -74,6 +76,22 @@ private:
    * Store all the ClassType instances that have been allocated.
    */
   ClassTypeMap m_ClassTypeMap;
+
+  /**
+   * The key type for the FunctionTypeMap.
+   */
+  typedef std::pair<CvQualifiedType, CvQualifiedTypes>  FunctionTypeKey;
+  
+  /**
+   * Map from a function's return type and argument types to its
+   * FunctionType representation.
+   */
+  typedef std::map<FunctionTypeKey, FunctionType*> FunctionTypeMap;
+
+  /**
+   * Store all the FunctionType instances that have been allocated.
+   */
+  FunctionTypeMap m_FunctionTypeMap;
   
   /**
    * The key type for the FundamentalTypeMap.

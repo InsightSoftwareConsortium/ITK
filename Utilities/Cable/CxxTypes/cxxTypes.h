@@ -16,15 +16,10 @@
 #ifndef _cxxTypes_h
 #define _cxxTypes_h
 
-#include <string>
+#include "cxxUtils.h"
 
 namespace _cxx_
 {
-
-/**
- * A convenient string type.
- */
-typedef std::string String;
 
 /**
  * Enumeration of identifiers for representation types.

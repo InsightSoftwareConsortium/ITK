@@ -13,10 +13,13 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef _wrapDllAllocator_h
-#define _wrapDllAllocator_h
+#ifndef _cxxDllAllocator_h
+#define _cxxDllAllocator_h
 
 #include <memory>
+
+namespace _cxx_
+{
 
 template <typename T>
 class DllAllocator;
@@ -76,4 +79,6 @@ public:
     }
 };
 
+} // namespace _cxx_
+  
 #endif

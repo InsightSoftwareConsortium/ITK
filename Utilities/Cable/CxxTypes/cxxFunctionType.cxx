@@ -33,8 +33,10 @@ FunctionType
  * Constructor takes the return type of the function.
  */
 FunctionType
-::FunctionType(const CvQualifiedType& in_type):
-  m_ReturnType(in_type)
+::FunctionType(const CvQualifiedType& returnType,
+               const CvQualifiedTypes& arguments):
+  m_ReturnType(returnType),
+  m_Arguments(arguments)
 {
 }
 

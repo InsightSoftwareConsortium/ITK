@@ -50,17 +50,19 @@ TypeSystem
 
 
 /**
- * Get the type representation for a ClassType with the given name.
+ * Get the type representation for a ClassType with the given name
+ * and superclasses.
  * If one does not exist, it will be created.
- * We allow the pointer to a non-const ClassType so that parent and
+ * We allow the pointer to a non-const ClassType so that
  * conversion constructor/operator information can be added.
  */
 ClassType*
 TypeSystem
-::GetClassType(const String& in_name)
+::GetClassType(const String& name,
+               const ClassTypes& parents)
 {
   // Look for an existing copy of this type.
-  ClassTypeMap::const_iterator i = m_ClassTypeMap.find(in_name);
+  ClassTypeMap::const_iterator i = m_ClassTypeMap.find(name);
   
   if(i != m_ClassTypeMap.end())
     {
@@ -70,21 +72,41 @@ TypeSystem
   else
     {
     // This is a new type.  Generate an entry and return it.
-    ClassType* newClassType = new ClassType(in_name);
-    m_ClassTypeMap[in_name] = newClassType;
+    ClassType* newClassType = new ClassType(name, parents);
+    m_ClassTypeMap[name] = newClassType;
     return newClassType;
     }
 }
 
 
 /**
- * IMPLEMENT ME
+ * Get the type representation for a FunctionType with the given return
+ * type and argument types.
  */
 const FunctionType*
 TypeSystem
-::GetFunctionType(const CvQualifiedType& in_type)
+::GetFunctionType(const CvQualifiedType& returnType,
+                  const CvQualifiedTypes& arguments)
 {
-  return new FunctionType(in_type);
+  // Create a key to identify this type in the map.
+  FunctionTypeKey key(returnType, arguments);
+  
+  // Look for an existing copy of this type.
+  FunctionTypeMap::const_iterator i = m_FunctionTypeMap.find(key);
+  
+  if(i != m_FunctionTypeMap.end())
+    {
+    // An existing copy was found, return it.
+    return i->second;
+    }
+  else
+    {
+    // This is a new type.  Generate an entry and return it.
+    FunctionType* newFunctionType =
+      new FunctionType(returnType, arguments);
+    m_FunctionTypeMap[key] = newFunctionType;
+    return newFunctionType;
+    }  
 }
 
 
@@ -205,48 +227,41 @@ TypeSystem
 TypeSystem
 ::~TypeSystem()
 {
-  {
   for(ArrayTypeMap::iterator i = m_ArrayTypeMap.begin();
       i != m_ArrayTypeMap.end(); ++i)
     {
     delete i->second;
     }
-  }
-  {
   for(ClassTypeMap::iterator i = m_ClassTypeMap.begin();
       i != m_ClassTypeMap.end(); ++i)
     {
     delete i->second;
     }
-  }
-  {
+  for(FunctionTypeMap::iterator i = m_FunctionTypeMap.begin();
+      i != m_FunctionTypeMap.end(); ++i)
+    {
+    delete i->second;
+    }
   for(FundamentalTypeMap::iterator i = m_FundamentalTypeMap.begin();
       i != m_FundamentalTypeMap.end(); ++i)
     {
     delete i->second;
     }
-  }
-  {
   for(PointerTypeMap::iterator i = m_PointerTypeMap.begin();
       i != m_PointerTypeMap.end(); ++i)
     {
     delete i->second;
     }
-  }
-  {
   for(PointerToMemberTypeMap::iterator i = m_PointerToMemberTypeMap.begin();
       i != m_PointerToMemberTypeMap.end(); ++i)
     {
     delete i->second;
     }
-  }
-  {
   for(ReferenceTypeMap::iterator i = m_ReferenceTypeMap.begin();
       i != m_ReferenceTypeMap.end(); ++i)
     {
     delete i->second;
     }
-  }
 }
 
 
