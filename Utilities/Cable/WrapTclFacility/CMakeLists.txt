@@ -19,8 +19,9 @@ wrapWrapperFacility
 
 ADD_LIBRARY(WrapTclFacility WrapTclFacility_SRCS)
 
-LINK_LIBRARIES(
+TARGET_LINK_LIBRARIES(WrapTclFacility
 CxxTypes
+${TCL_LIBRARY}
 )
 
 IF(WIN32)
