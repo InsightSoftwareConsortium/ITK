@@ -59,7 +59,7 @@ template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 void
 BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
-::SetPoints(PointsContainer* points)
+::SetPoints(const PointsContainer* points)
 {
   itkDebugMacro("setting Points container to " << points);
   if(m_PointsContainer.GetPointer() != points)
@@ -74,13 +74,13 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
  */
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >::PointsContainer *
+const BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >::PointsContainer *
 BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
-::GetPoints(void)
+::GetPoints(void) const
 {
   itkDebugMacro("returning Points container of " << m_PointsContainer );
 
-  return m_PointsContainer;
+  return m_PointsContainer.GetPointer();
 }
 
 /******************************************************************************
@@ -135,7 +135,7 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
     //use a const iterator to grab the points and compute
     //the bounding box.
     Point< TCoordRep, VPointDimension>   point;
-    for ( PointsContainerIterator ci = m_PointsContainer->Begin();
+    for ( PointsContainerConstIterator ci = m_PointsContainer->Begin();
           ci != m_PointsContainer->End(); ++ci )
       {
       point = ci->Value();     //point value

@@ -80,6 +80,7 @@ public:
   typedef TCoordRep CoordRepType;
   typedef TPointsContainer PointsContainer;
   typedef typename PointsContainer::Pointer PointsContainerPointer;
+  typedef typename PointsContainer::ConstPointer PointsContainerConstPointer;
   typedef Point< CoordRepType, VPointDimension >  PointType;
   
   /** Hold on to the dimensions specified by the template parameters. */
@@ -94,8 +95,8 @@ public:
   /** Set/Get the points from which the bounding box should be computed. The 
    * bounding box is cached and is not recomputed if the points are not 
    * changed. */
-  void SetPoints(PointsContainer *);
-  PointsContainer * GetPoints(void);
+  void SetPoints(const PointsContainer *);
+  const PointsContainer * GetPoints(void) const;
   
   /** Method that actually computes bounding box. */
   bool ComputeBoundingBox(void);
@@ -154,7 +155,7 @@ private:
   BoundingBox(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  PointsContainerPointer m_PointsContainer;
+  PointsContainerConstPointer m_PointsContainer;
   CoordRepType *m_Bounds;
   TimeStamp m_BoundsMTime; //The last time the bounds were computed.
 
