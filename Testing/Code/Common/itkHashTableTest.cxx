@@ -37,7 +37,7 @@ void lookup(const vcl_hash_set<const char*, vcl_hash<const char*>, eqstr>& Set,
 {
   vcl_hash_set<const char*, vcl_hash<const char*>, eqstr>::const_iterator it
     = Set.find(word);
-  cout << word << ": "
+  std::cout << word << ": "
        << (it != Set.end() ? "present" : "not present")
        << std::endl;
 }
@@ -86,7 +86,8 @@ int main()
   HashSetType::const_iterator hst_const_it = Set.end();  
   HashSetType SetCopy;
   SetCopy = Set;
-  SetCopy == Set;
+  //  SetCopy == Set; -- Removed until I can track down why the IRIX compiler
+  //                     does not find this during link phase. cates 3/20/01
   
   
   println("Testing vcl_hash_map");
@@ -126,7 +127,8 @@ int main()
   HashMapType::const_iterator map_const_it = months.end();  
   HashMapType MapCopy;
   MapCopy = months;
-  MapCopy == months;
+  //  MapCopy == months;  -- Removed until I can track down why IRIX compiler
+  //                         does not find this during link phase. cates 3/20/01
 
   
   return 1;
