@@ -15,7 +15,7 @@
 =========================================================================*/
 #ifndef _itkImageSource_txx
 #define _itkImageSource_txx
-// #include "itkImageSource.h"
+#include "itkImageSource.h"
 
 #include "vnl/vnl_math.h"
 
