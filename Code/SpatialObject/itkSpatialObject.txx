@@ -194,26 +194,10 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >  
 void 
 SpatialObject< NDimensions, TTransform, PipelineDimension>
-::SetParent( const Self * parent )
+::SetParent( const Superclass * parent )
 {
-  m_Parent = parent;
+  m_Parent = dynamic_cast<const Self*>(parent);
   RebuildAllTransformLists();
-}
-
-/** Return if the object has a parent */
-template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
-bool
-SpatialObject< NDimensions, TTransform, PipelineDimension>
-::HasParent( void ) const
-{
-  if( m_Parent )
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
 }
 
 /** Print self */
@@ -357,7 +341,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 
   if( HasParent() )
   {
-    m_Parent->BuildLocalToGlobalTransformList(list,true);
+    dynamic_cast<const Self*>(m_Parent.GetPointer())->BuildLocalToGlobalTransformList(list,true);
   }
 }
 
@@ -371,7 +355,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 
   if( HasParent() )
   {
-    m_Parent->BuildGlobalToLocalTransformList(list,true);
+    dynamic_cast<const Self*>(m_Parent.GetPointer())->BuildGlobalToLocalTransformList(list,true);
   }
 }
 

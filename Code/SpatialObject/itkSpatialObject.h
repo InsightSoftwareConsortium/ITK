@@ -122,11 +122,7 @@ public:
 
   /** Set the pointer to the parent object in the tree hierarchy
    *  used for the spatial object patter. */
-  void SetParent( const Self * parent );
-
-  /** Return true if the object has a parent object. Basically, only
-   *  the root object , or some isolated objects should return false. */
-  bool HasParent( void ) const;
+  void SetParent( const Superclass * parent );
 
   /** Return the n-th order derivative value at the specified point. */
   virtual void DerivativeAt( const PointType & point, short unsigned int order, OutputVectorType & value );
@@ -196,7 +192,7 @@ public:
 protected: 
 
   BoundingBoxPointer m_Bounds; 
-  ConstPointer m_Parent; 
+//  ConstPointer m_Parent; 
   TimeStamp m_BoundsMTime;
 
   TransformListPointer m_LocalToGlobalTransformList;
