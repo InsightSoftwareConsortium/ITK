@@ -187,7 +187,10 @@ case $system in
 	fi
 	;;
     CYGWIN_NT*)
-        DL_LIBS="-lgdi32"
+        SHLIB_CFLAGS=""
+        DL_LIBS="-lgdi32" 
+        SHLIB_SUFFIX=".dll"
+        CMAKE_SHLIB_LINK_FLAGS="-shared"
         ;;
     MP-RAS-02*)
 	SHLIB_CFLAGS="-K PIC"
@@ -319,6 +322,12 @@ export SHLIB_SUFFIX
 if test "$CC" = "gcc" -o `$CC -v 2>&1 | grep -c gcc` != "0" ; then
   SHLIB_CFLAGS="-fPIC"
 fi
+# if running on cygwin remove -fPIC flag
+case $system in 
+  CYGWIN_NT*)
+    SHLIB_CFLAGS=""
+    ;;
+esac
 
 if test "$CMAKE_shared_ok" = "yes"; then
     CMAKE_SHLIB_CFLAGS="${SHLIB_CFLAGS}"
@@ -566,54 +575,6 @@ AC_SUBST(EXTRA_GCC_FLAG)
 AC_CONFIG_SUBDIRS(Code/Numerics/vxl)
 AC_CONFIG_SUBDIRS(Code/Numerics/vxl/vcl)
 
-# *****************************************
-# 
-#  This next section extracts the sub-directories from 
-#  the CMakeLists.txt file in the current directory,
-#  and any sub directories recursivley 
-#
-
-echo "Searching CMakeLists.txt files for all sub directories"
-# the result of a the directories found is stored in allDirs
-allDirs=
-# start looking in the current directory .
-searchDirs=$srcdir
-# loop until the flag dirHasListsFile is set to falls
-dirHasListsFile=:
-while $dirHasListsFile; do
-    # reset the varible used to store the full paths to the directory
-    # outside the for loop
-    fullPathDirs=
-    # loop over all directorirs in the current searchDirs varible
-    for currentDir in $searchDirs;do
-	# look for a CMakeLists.txt file in the current directory
-	if test -e$currentDir/CMakeLists.txt; then
-	    # extract the SUBDIRS varible from the CMakeLists.txt file
-	    dirsInListsFile=`cat $currentDir/CMakeLists.txt | sed -e :a -e '/SUBDIRS.*\\\\$/N; s/\\\\\\n//; ta' | grep SUBDIRS | sed -e "s/SUBDIRS//g; s/(//g;s/)//g" `
-	    # add the current directory to any sub dirs found
-	    # in the above search of CMakeLists.txt
-	    for subdir in $dirsInListsFile;do
-		fullPathDirs="$fullPathDirs $currentDir/$subdir"
-		allDirs="$allDirs $currentDir/$subdir"
-	    done
-	fi
-    done
-    # now get ready to search any directories found in the above for loop
-    searchDirs=$fullPathDirs
-    # check to see if searchDirs is emtpy
-    if test "x$searchDirs" = x; then
-	dirHasListsFile=false
-    fi
-done  # continue while loop until dirHasListsFile=false
-
-if test "x$srcdir" = x.; then
-    allDirs=`echo $allDirs | sed -e "s|\./||g"`
-else
-    allDirs=`echo $allDirs | sed -e "s|$srcdir/||g"`
-fi
-SUBDIR_MAKEFILES=`echo $allDirs | sed -e 's|\\([[A-Za-z0-9_/]][[A-Za-z0-9_/]]*\\)|\1/Makefile:CMake/CMakeMakefileTemplate.in|g'`
-
-SUBDIR_CMAKE_TARGETS=`echo $allDirs | sed -e 's|\\([[A-Za-z0-9_/]][[A-Za-z0-9_/]]*\\)|\1/CMakeTargets.make:CMake/CMakeTargets.make.in|g'`
 
 #
 # *****************************************
@@ -703,6 +664,8 @@ AC_SUBST(JAVACOMMAND)
 # AC_PROG_JAVAC
 # AC_PROG_JAR
 
+# generate output files.
+# create mkdir files just to make some of the directories
 
 AC_OUTPUT(
 Makefile:CMake/CMakeTopMakefileTemplate.in
@@ -713,9 +676,11 @@ CMake/CMakeVariables.make
 CMake/CMakeRules.make 
 CMake/Source/CMakeTargets.make:CMake/dummy.in 
 CMake/Source/Makefile
-$SUBDIR_MAKEFILES
-$SUBDIR_CMAKE_TARGETS
 Code/doxygen.config
+Code/Numerics/mkdir:CMake/dummy.in
+Code/Numerics/vxl/mkdir:CMake/dummy.in
+Code/Numerics/vxl/vcl/mkdir:CMake/dummy.in
+Testing/mkdir:CMake/dummy.in
 Testing/Utilities/Build.tcl
 Testing/Utilities/Doxygen.tcl
 Testing/Utilities/Utility.conf
@@ -726,6 +691,9 @@ Testing/Utilities/Purify.tcl
 Testing/Utilities/Submit.tcl
 Testing/Utilities/Coverage.tcl
 Testing/Utilities/ftp.tcl
+Testing/HTML/mkdir:CMake/dummy.in
+Testing/HTML/TestingResults/mkdir:CMake/dummy.in
+Testing/HTML/TestingResults/Sites/mkdir:CMake/dummy.in
 )
 
 
