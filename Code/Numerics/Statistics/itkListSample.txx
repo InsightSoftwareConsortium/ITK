@@ -30,7 +30,7 @@ ListSample< TMeasurementVector >
 
 
 template< class TMeasurementVector >
-typename ListSample< TMeasurementVector >::MeasurementVectorType& 
+typename ListSample< TMeasurementVector >::MeasurementVectorType 
 ListSample< TMeasurementVector >
 ::GetMeasurementVector(const InstanceIdentifier &id)
 {

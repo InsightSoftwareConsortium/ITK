@@ -24,6 +24,8 @@
 #include "itkListSampleBase.h"
 #include "itkSmartPointer.h"
 #include "itkImageRegionIterator.h"
+#include "itkFixedArray.h"
+#include "itkMacro.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -57,9 +59,11 @@ namespace Statistics{
  * \sa Sample, ListSampleBase
  */
 
-template < class TImage >
+template < class TImage,
+           class TMeasurementVector = 
+           ITK_TYPENAME TImage::PixelType >
 class ITK_EXPORT ImageToListAdaptor : 
-    public ListSampleBase< typename TImage::PixelType >
+    public ListSampleBase< TMeasurementVector >
 {
 public:
   /** Standard class typedefs */
@@ -93,9 +97,9 @@ public:
   /** Superclass typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */
   typedef typename PixelTraitsType::ValueType MeasurementType ;
-  typedef PixelType MeasurementVectorType;
-  typedef MeasurementVectorType ValueType ;
   typedef typename Superclass::FrequencyType FrequencyType ;
+  typedef TMeasurementVector MeasurementVectorType ;
+  typedef MeasurementVectorType ValueType ;
 
   /** Method to set the image */
   void SetImage(ImagePointer image) ;
@@ -106,14 +110,7 @@ public:
   /** returns the number of measurement vectors in this container*/
   unsigned int Size() const ;
 
-  void SetMeasurementVector(const InstanceIdentifier id,
-                            const MeasurementVectorType &measurementVector) ;
-  
-  MeasurementVectorType& GetMeasurementVector(const InstanceIdentifier &id) ;
-
-  void SetMeasurement(const InstanceIdentifier &id, 
-                      const unsigned int &dim,
-                      const MeasurementType &value) ;
+  virtual MeasurementVectorType GetMeasurementVector(const InstanceIdentifier &id) ;
 
   FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
 
@@ -147,7 +144,7 @@ public:
     FrequencyType GetFrequency() const
     { return 1 ;}
 
-    MeasurementVectorType& GetMeasurementVector()
+    MeasurementVectorType GetMeasurementVector()
     { return m_Container->GetMeasurementVector(m_Id) ;} 
 
     InstanceIdentifier GetInstanceIdentifier() const
@@ -202,13 +199,14 @@ protected:
   virtual ~ImageToListAdaptor() {}
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
+  PixelContainerPointer m_PixelContainer ;
+  bool m_UseBuffer ;
+
 private:
   ImageToListAdaptor(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
 
   ImagePointer m_Image ;
-  PixelContainerPointer m_PixelContainer ;
-  bool m_UseBuffer ;
 } ; // end of class ImageToListAdaptor
 
 } // end of namespace Statistics

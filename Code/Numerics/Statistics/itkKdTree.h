@@ -462,7 +462,7 @@ public:
 
   /** Returns the measurement vector identified by the instance
    * identifier that is an identifier defiend for the input sample */
-  MeasurementVectorType& GetMeasurementVector(InstanceIdentifier id)
+  MeasurementVectorType GetMeasurementVector(InstanceIdentifier id)
   { return m_Sample->GetMeasurementVector(id) ; }
 
   /** Get the pointer to the distance metric. */

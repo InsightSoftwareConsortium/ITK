@@ -122,11 +122,11 @@ public:
    * by lower and upper bound. If users want to assign bin's min and
    * max values along each dimension use SetBinMin() and SetBinMax()
    * functions*/
-  void Initialize(const SizeType &size, MeasurementVectorType lowerBound,
-                  MeasurementVectorType upperBound) ;
+  void Initialize(const SizeType &size, MeasurementVectorType& lowerBound,
+                  MeasurementVectorType& upperBound) ;
 
   /** returns the index of histogram corresponding to measurement value */
-  IndexType& GetIndex(const MeasurementVectorType &measurement) ;
+  IndexType& GetIndex(const MeasurementVectorType& measurement) ;
   
   /** returns the index that is uniquely labelled by an instance identifier
    * The corresponding id is the offset of the index 
@@ -255,10 +255,10 @@ public:
                          const FrequencyType value) ;
   
   /** Method to get measurement from the histogram using an instance identifier */
-  MeasurementVectorType& GetMeasurementVector(const InstanceIdentifier &id) ;
+  MeasurementVectorType GetMeasurementVector(const InstanceIdentifier &id) ;
   
   /** Method to get measurement from the histogram */
-  MeasurementVectorType& GetMeasurementVector(const IndexType &index) ;
+  MeasurementVectorType GetMeasurementVector(const IndexType &index) ;
   
   /** Method to get measurement from the histogram */
   MeasurementType GetMeasurement(const unsigned long n,
@@ -331,7 +331,7 @@ public:
     InstanceIdentifier GetInstanceIdentifier() const
     { return m_Id ; }
 
-    MeasurementVectorType& GetMeasurementVector() const
+    MeasurementVectorType GetMeasurementVector() const
     { 
       return m_Histogram->GetMeasurementVector(m_Id) ;
     } 

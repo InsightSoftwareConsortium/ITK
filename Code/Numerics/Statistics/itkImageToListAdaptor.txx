@@ -20,20 +20,21 @@
 namespace itk{ 
 namespace Statistics{
 
-template < class TImage >
+template < class TImage, class TMeasurementVector >
 void
-ImageToListAdaptor< TImage >
+ImageToListAdaptor< TImage, TMeasurementVector >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Image: " << m_Image << std::endl;
-  //  os << indent << "Accesor: " << m_Accessor << std::endl;
+  os << indent << "PixelContainer: " << m_PixelContainer << std::endl;
+  os << indent << "Use buffer: " << m_UseBuffer << std::endl;
 }
 
-template < class TImage >
+template < class TImage, class TMeasurementVector >
 void
-ImageToListAdaptor< TImage >
+ImageToListAdaptor< TImage, TMeasurementVector >
 ::SetImage(ImagePointer image) 
 { 
   m_Image = image ; 
@@ -48,59 +49,52 @@ ImageToListAdaptor< TImage >
     }
 }
 
-template < class TImage >
-typename ImageToListAdaptor< TImage >::ImagePointer
-ImageToListAdaptor< TImage >
+template < class TImage, class TMeasurementVector >
+typename ImageToListAdaptor< 
+  TImage, 
+  TMeasurementVector >::ImagePointer
+ImageToListAdaptor< TImage, TMeasurementVector >
 ::GetImage() 
 {
   return m_Image ; 
 }  
 
 /** returns the number of measurement vectors in this container*/
-template < class TImage >
+template < class TImage, class TMeasurementVector >
 inline unsigned int
-ImageToListAdaptor< TImage >
+ImageToListAdaptor< TImage, TMeasurementVector >
 ::Size() const
 {
   return m_PixelContainer->Size() ;
 }
 
-template < class TImage >
-inline void
-ImageToListAdaptor< TImage >
-::SetMeasurementVector(const InstanceIdentifier id,
-                       const MeasurementVectorType &measurementVector) 
-{ 
-  (*m_PixelContainer)[id] = measurementVector ;
-}
-
-
-template < class TImage >
-inline typename ImageToListAdaptor< TImage >::MeasurementVectorType&
-ImageToListAdaptor< TImage >
+template < class TImage, class TMeasurementVector >
+TMeasurementVector
+ImageToListAdaptor< TImage, TMeasurementVector >
 ::GetMeasurementVector(const InstanceIdentifier &id)
 {
   if ( m_UseBuffer )
     {
-    return (*m_PixelContainer)[id] ;
+    return *( reinterpret_cast< MeasurementVectorType* >(&(*m_PixelContainer)[id]) ) ;
     }
   else
     {
-    return m_Image->GetPixel( m_Image->ComputeIndex( id ) ) ;
+    return *(reinterpret_cast< MeasurementVectorType* >
+             ( &(m_Image->GetPixel( m_Image->ComputeIndex( id ) ) ) ) ) ;
     }
 }
 
-template < class TImage >
-inline typename ImageToListAdaptor< TImage >::FrequencyType
-ImageToListAdaptor< TImage >
+template < class TImage, class TMeasurementVector >
+inline typename ImageToListAdaptor< TImage, TMeasurementVector >::FrequencyType
+ImageToListAdaptor< TImage, TMeasurementVector >
 ::GetFrequency(const InstanceIdentifier &) const 
 {
   return NumericTraits< FrequencyType >::One ;
 }
 
-template < class TImage >
-typename ImageToListAdaptor< TImage >::FrequencyType
-ImageToListAdaptor< TImage >
+template < class TImage, class TMeasurementVector >
+typename ImageToListAdaptor< TImage, TMeasurementVector >::FrequencyType
+ImageToListAdaptor< TImage, TMeasurementVector >
 ::GetTotalFrequency() const
 { 
   return this->Size() ; 

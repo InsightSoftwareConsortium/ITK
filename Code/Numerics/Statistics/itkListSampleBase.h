@@ -41,7 +41,7 @@ class ITK_EXPORT ListSampleBase : public Sample< TMeasurementVector >
 public:
   /** Standard class typedef. */
   typedef ListSampleBase  Self;
-  typedef Sample< TMeasurementVector > Superclass;
+  typedef typename Sample< TMeasurementVector > Superclass;
 
   /** Standard macros */
   itkTypeMacro(ListSampleBase, Sample);
