@@ -43,11 +43,13 @@ int main( int argc, char **argv )
 {
 
 
-  if( argc < 7 )
+  if( argc < 9 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage  outputImage seedX seedY estimateMean estimateVariance [meanTolerance varTolerance]" << std::endl;
+    std::cerr << " inputImage  outputImage seedX seedY ";
+    std::cerr << " estimateMean estimateStandardDeviation ";
+    std::cerr << "  meanTolerance stdTolerance" << std::endl;
     return 1;
     }
 
@@ -63,7 +65,7 @@ int main( int argc, char **argv )
 
   // Software Guide : BeginCodeSnippet
   typedef  unsigned char     InputPixelType;
-  const    unsigned int       Dimension = 2;
+  const    unsigned int      Dimension = 2;
   
   typedef itk::Image< InputPixelType, Dimension >  InputImageType;
   // Software Guide : EndCodeSnippet
@@ -170,8 +172,8 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //
   // \begin{figure} \center
-  // \includegraphics[width=6cm]{BrainT1Slice.eps}
-  // \includegraphics[width=6cm]{HybridSegmentationFuzzyVoronoiOutput.eps}
+  // \includegraphics[width=7cm]{BrainT1Slice.eps}
+  // \includegraphics[width=7cm]{HybridSegmentationFuzzyVoronoiOutput.eps}
   // \caption{Segmentation results for the hybrid segmentation approach.}
   // \label{fig:HybridSegmentationFuzzyVoronoiOutput}
   // \end{figure}
@@ -181,8 +183,8 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //
   // \begin{figure} \center
-  // \includegraphics[width=6cm]{FatMRISlice.eps}
-  // \includegraphics[width=6cm]{HybridSegmentationFuzzyVoronoiOutput2.eps}
+  // \includegraphics[width=7cm]{FatMRISlice.eps}
+  // \includegraphics[width=7cm]{HybridSegmentationFuzzyVoronoiOutput2.eps}
   // \caption{Another segmentation results for the hybrid segmentation approach.}
   // \label{fig:HybridSegmentationFuzzyVoronoiOutput2}
   // \end{figure}
@@ -224,22 +226,18 @@ int main( int argc, char **argv )
   index[1] = atoi(argv[4]);
 
 
-  const float  mean     = atof(argv[5]);
-  const float  variance = atof(argv[6]);
-  float meantol = 0.2;
-  float vartol = 2.0;
-  if (argc == 9){
-    meantol=atof(argv[7]);
-    vartol=atof(argv[8]);
-  }
-  
+  const float  mean              = atof(argv[5]);
+  const float  standardDeviation = atof(argv[6]);
+
+  const float  meanTolerance     = atof( argv[7] );
+  const float  stdTolerance      = atof( argv[8] );
 
 
   //  Software Guide : BeginLatex
   //  
   //  The parameters of the FuzzySegmentationFilter are defined here. A seed
   //  point is provided in order to initialize the region to be grown.
-  //  Estimated values for the mean and variance of the object intensities are
+  //  Estimated values for the mean and standard deviation of the object intensities are
   //  also provided, a threshold value for generate the binary object is preset.
   //
   //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetObjectsSeed()}
@@ -252,7 +250,7 @@ int main( int argc, char **argv )
   // Software Guide : BeginCodeSnippet
   fuzzysegmenter->SetObjectsSeed( index );
   fuzzysegmenter->SetMean( mean );
-  fuzzysegmenter->SetVariance( variance );
+  fuzzysegmenter->SetVariance( standardDeviation * standardDeviation );
   fuzzysegmenter->SetThreshold(0.5);
   // Software Guide : EndCodeSnippet
 
@@ -282,23 +280,56 @@ int main( int argc, char **argv )
   //  \index{itk::VoronoiSegmentationImageFilter!SetInput()}
   //  \index{itk::VoronoiSegmentationImageFilter!TakeAPrior()}
   //
-  //  The tolerence level for testing mean and STD,as well as the "resolution" of segmentation
-  //  need to be set.
-  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  voronoisegmenter->SetInput( reader->GetOutput() );
+  voronoisegmenter->TakeAPrior( fuzzysegmenter->GetOutput());
+  // Software Guide : EndCodeSnippet
+
+
+
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The tolerance levels for testing the mean and standard deviation are set
+  //  with the methods \code{SetMeanPercentError()} and
+  //  \code{SetSTDPercentError()}, 
+  //  
   //  \index{itk::VoronoiSegmentationImageFilter!SetMeanPercentError()}
   //  \index{itk::VoronoiSegmentationImageFilter!SetSTDPercentError()}
+  //
+  //  Software Guide : EndLatex 
+ 
+  // Software Guide : BeginCodeSnippet
+  voronoisegmenter->SetMeanPercentError( meanTolerance );
+  voronoisegmenter->SetSTDPercentError(  stdTolerance );
+  // Software Guide : EndCodeSnippet
+
+
+
+
+
+
+  //  Software Guide : BeginLatex
+  // 
+  //  The \emph{resolution} of the segmentation can be choosen with the method
+  //  \code{SetMinRegion()}. 
+  //
   //  \index{itk::VoronoiSegmentationImageFilter!SetMinRegion()}
   //
   //  Software Guide : EndLatex 
 
   
   // Software Guide : BeginCodeSnippet
-  voronoisegmenter->SetMeanPercentError(meantol);
-  voronoisegmenter->SetSTDPercentError(vartol);
   voronoisegmenter->SetMinRegion(5);
-  voronoisegmenter->SetInput( reader->GetOutput() );
-  voronoisegmenter->TakeAPrior( fuzzysegmenter->GetOutput());
   // Software Guide : EndCodeSnippet
+
+
+
+
 
   //  Software Guide : BeginLatex
   //  
@@ -355,6 +386,8 @@ int main( int argc, char **argv )
   // Software Guide : EndCodeSnippet
 
 
+
+
   //  Software Guide : BeginLatex
   //
   //  Let's execute this program on the image \code{BrainT1Slice.png} available
@@ -362,22 +395,27 @@ int main( int argc, char **argv )
   //  should be passed to the command line:
   // 
   //  \begin{verbatim}
-  //  HybridSegmentationFuzzyVoronoi BrainT1Slice.png Output.png 140 125 140 25
+  //  HybridSegmentationFuzzyVoronoi BrainT1Slice.png Output.png 140 125 140 25 0.2 2.0
   //  \end{verbatim}
   //
-  //  Figure \ref{fig:HybridSegmentationFuzzyVoronoiOutput} shows the input
-  //  image and the binary mask resulting from the segmentation.
+  //  Where $(140,125)$ is the index position of a seed point in the image,
+  //  $140$ and $25$ are the estimated mean and standard deviation of the
+  //  object to be segmented, and finally $0.2$ and $2.0$ are the tolerace for
+  //  the mean and standard deviation.  Figure
+  //  \ref{fig:HybridSegmentationFuzzyVoronoiOutput} shows the input image and
+  //  the binary mask resulting from the segmentation.
   //
-  //  We used a default Mean and Variance tolerence level in the previous example data,
-  //  for some other data, you might have to define another set of parameter in order to generate
-  //  reasonable segmentation.
+  //  You might have to play with the parameters in order to generate
+  //  reasonable segmentations for other input images. For example, when
+  //  segmenting the input image \code{FatMRISlice.png} we apply the following
+  //  parameters.
   // 
   //  \begin{verbatim}
   //  HybridSegmentationFuzzyVoronoi FatMRISlice.png Output.png 80 200 140 300 0.3 3.0
   //  \end{verbatim}
   //
   //  Figure \ref{fig:HybridSegmentationFuzzyVoronoiOutput2} shows the input
-  //  image and the binary mask resulting from the segmentation.
+  //  image and the binary mask resulting from this segmentation.
   //
   //  Software Guide : EndLatex 
 
