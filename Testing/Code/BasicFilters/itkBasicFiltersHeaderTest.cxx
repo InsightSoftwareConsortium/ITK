@@ -42,6 +42,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkGradientNDAnisotropicDiffusionEquation.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkGradientToMagnitudeImageFilter.h"
+#include "itkImageFileReader.h"
 #include "itkImageWriter.h"
 #include "itkImportImageFilter.h"
 #include "itkImportPhysicalImageFilter.h"
