@@ -20,7 +20,7 @@
 
 #include <list>
 
-#include "itkSpatialObject.h"
+#include "itkPointBasedSpatialObject.h"
 #include "itkSpatialObjectPoint.h"
 
 namespace itk 
@@ -37,18 +37,19 @@ namespace itk
 
 template < unsigned int TDimension = 3 >
 class LandmarkSpatialObject 
-  :public SpatialObject<  TDimension >
+  :public PointBasedSpatialObject<  TDimension >
 {
 
 public:
 
   typedef LandmarkSpatialObject                       Self;
-  typedef SpatialObject< TDimension>                  Superclass;
+  typedef PointBasedSpatialObject< TDimension>        Superclass;
   typedef SmartPointer < Self >                       Pointer;
   typedef SmartPointer < const Self >                 ConstPointer;
   typedef double                                      ScalarType;
   typedef SpatialObjectPoint< TDimension >            LandmarkPointType; 
   typedef std::vector < LandmarkPointType >           PointListType;
+  typedef typename Superclass::SpatialObjectPointType SpatialObjectPointType;
   typedef typename Superclass::PointType              PointType;
   typedef typename Superclass::TransformType          TransformType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
@@ -68,6 +69,13 @@ public:
 
   /** Set the list of Landmark points.*/
   void SetPoints( PointListType & newPoints );
+
+  
+  /** Return a point in the list given the index */
+  const SpatialObjectPointType* GetPoint(unsigned long id) const {return &(m_Points[id]);}
+  
+  /** Return the number of points in the list */
+  unsigned long GetNumberOfPoints(void) const {return m_Points.size();}
 
   /** Returns true if the Landmark is evaluable at the requested point, 
    *  false otherwise. */

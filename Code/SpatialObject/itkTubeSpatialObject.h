@@ -20,7 +20,7 @@
 
 #include <list>
 
-#include "itkSpatialObject.h"
+#include "itkPointBasedSpatialObject.h"
 #include "itkTubeSpatialObjectPoint.h"
 
 namespace itk 
@@ -40,21 +40,22 @@ namespace itk
 
 template < unsigned int TDimension = 3 >
 class TubeSpatialObject 
-  :public SpatialObject< TDimension >
+  :public PointBasedSpatialObject< TDimension >
 {
 
 public:
 
   typedef TubeSpatialObject                            Self;
-  typedef SpatialObject< TDimension >                  Superclass;
+  typedef PointBasedSpatialObject< TDimension >        Superclass;
   typedef SmartPointer < Self >                        Pointer;
   typedef SmartPointer < const Self >                  ConstPointer;
   typedef double                                       ScalarType;
   typedef itk::TubeSpatialObjectPoint< TDimension >    TubePointType;
-  typedef std::list < TubePointType >                  PointListType;
+  typedef std::vector< TubePointType >                 PointListType;
   typedef PointListType *                              PointListPointer;
   typedef typename Superclass::PointType               PointType;
   typedef typename Superclass::TransformType           TransformType;
+  typedef typename Superclass::SpatialObjectPointType  SpatialObjectPointType;
   typedef VectorContainer<unsigned long,PointType>     PointContainerType;
   typedef SmartPointer<PointContainerType>             PointContainerPointer;
   typedef typename Superclass::VectorType              VectorType;
@@ -73,8 +74,13 @@ public:
   const PointListType & GetPoints( void ) const;
 
   /** Set the list of tube points.*/
-  //void SetPoints( PointListPointer newPoints );
   void SetPoints( PointListType & newPoints );
+
+  /** Return a point in the list given the index */
+  const SpatialObjectPointType* GetPoint(unsigned long id) const {return &(m_Points[id]);}
+  
+  /** Return the number of points in the list */
+  unsigned long GetNumberOfPoints(void) const {return m_Points.size();}
 
   /** Remove the list of tube points */
   void Clear( void );

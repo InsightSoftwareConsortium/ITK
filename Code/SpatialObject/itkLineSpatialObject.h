@@ -20,7 +20,7 @@
 
 #include <list>
 
-#include "itkSpatialObject.h"
+#include "itkPointBasedSpatialObject.h"
 #include "itkLineSpatialObjectPoint.h"
 
 namespace itk 
@@ -37,18 +37,19 @@ namespace itk
 
 template < unsigned int TDimension = 3 >
 class LineSpatialObject 
-  :public SpatialObject<  TDimension >
+  :public PointBasedSpatialObject<  TDimension >
 {
 
 public:
 
   typedef LineSpatialObject                           Self;
-  typedef SpatialObject< TDimension >                 Superclass;
+  typedef PointBasedSpatialObject< TDimension >       Superclass;
   typedef SmartPointer < Self >                       Pointer;
   typedef SmartPointer < const Self >                 ConstPointer;
   typedef double                                      ScalarType;
   typedef LineSpatialObjectPoint< TDimension >        LinePointType;
-  typedef std::list < LinePointType >                 PointListType;
+  typedef std::vector< LinePointType >                PointListType;
+  typedef typename Superclass::SpatialObjectPointType SpatialObjectPointType;
   typedef typename Superclass::PointType              PointType;
   typedef typename Superclass::TransformType          TransformType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
@@ -65,6 +66,12 @@ public:
 
   /** Set the list of line points. */
   void SetPoints( PointListType & newPoints );
+
+  /** Return a point in the list given the index */
+  const SpatialObjectPointType* GetPoint(unsigned long id) const {return &(m_Points[id]);}
+  
+  /** Return the number of points in the list */
+  unsigned long GetNumberOfPoints(void) const {return m_Points.size();}
 
   /** Returns true if the line is evaluable at the requested point, 
    *  false otherwise. */

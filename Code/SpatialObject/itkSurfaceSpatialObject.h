@@ -20,7 +20,7 @@
 
 #include <list>
 
-#include "itkSpatialObject.h"
+#include "itkPointBasedSpatialObject.h"
 #include "itkSurfaceSpatialObjectPoint.h"
 
 namespace itk 
@@ -37,18 +37,19 @@ namespace itk
 
 template < unsigned int TDimension = 3 >
 class SurfaceSpatialObject 
-  :public SpatialObject<  TDimension >
+  :public PointBasedSpatialObject<  TDimension >
 {
 
 public:
 
   typedef SurfaceSpatialObject                          Self;
-  typedef SpatialObject< TDimension >                   Superclass;
+  typedef PointBasedSpatialObject< TDimension >         Superclass;
   typedef SmartPointer < Self >                         Pointer;
   typedef SmartPointer < const Self >                   ConstPointer;
   typedef double                                        ScalarType;
   typedef SurfaceSpatialObjectPoint< TDimension >       SurfacePointType;
-  typedef std::list < SurfacePointType >                PointListType;
+  typedef std::vector< SurfacePointType >                PointListType;
+  typedef typename Superclass::SpatialObjectPointType   SpatialObjectPointType;
   typedef typename Superclass::PointType                PointType;
   typedef typename Superclass::TransformType            TransformType;
   typedef VectorContainer<unsigned long,PointType>      PointContainerType;
@@ -62,6 +63,12 @@ public:
   
   /** Returns a reference to the list of the Surface points. */
   PointListType & GetPoints( void );
+  
+  /** Return a point in the list given the index */
+  const SpatialObjectPointType* GetPoint(unsigned long id) const {return &(m_Points[id]);}
+  
+  /** Return the number of points in the list */
+  unsigned long GetNumberOfPoints(void) const {return m_Points.size();}
 
   /** Set the list of Surface points. */
   void SetPoints( PointListType & newPoints );
