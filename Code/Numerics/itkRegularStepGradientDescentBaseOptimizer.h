@@ -145,6 +145,7 @@ public:
 protected:
   RegularStepGradientDescentBaseOptimizer();
   virtual ~RegularStepGradientDescentBaseOptimizer() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Advance one step following the gradient direction
    * This method verifies if a change in direction is required
