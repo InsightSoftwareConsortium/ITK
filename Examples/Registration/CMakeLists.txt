@@ -37,8 +37,11 @@ TARGET_LINK_LIBRARIES(ImageRegistration11 ITKStatistics ITKNumerics ITKIO)
 ADD_EXECUTABLE(ImageRegistration12 ImageRegistration12.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration12 ITKStatistics ITKNumerics ITKIO)
 
+IF(${CMAKE_CXX_COMPILER} MATCHES "bcc32")
+ELSE(${CMAKE_CXX_COMPILER} MATCHES "bcc32")
 ADD_EXECUTABLE(ImageRegistration13 ImageRegistration13.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration13 ITKStatistics ITKNumerics ITKIO)
+ENDIF(${CMAKE_CXX_COMPILER} MATCHES "bcc32")
 
 ADD_EXECUTABLE(ImageRegistration14 ImageRegistration14.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration14 ITKStatistics ITKNumerics ITKIO)
