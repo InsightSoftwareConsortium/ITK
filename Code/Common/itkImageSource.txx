@@ -243,7 +243,7 @@ ImageSource<TOutputImage>
   typename TOutputImage::RegionType splitRegion;
   total = str->Filter->SplitRequestedRegion(threadId, threadCount,
                                             splitRegion);
-  
+
   if (threadId < total)
     {
     str->Filter->ThreadedGenerateData(splitRegion, threadId);

@@ -120,15 +120,15 @@ public:
   /**
    * Lock access.
    */
-  void Lock( void );
+  void Lock( void ) const;
 
   /**
    * Unlock access.
    */
-  void Unlock( void );
+  void Unlock( void ) const;
 
 protected:
-  FastMutexType   m_FastMutexLock;
+  mutable FastMutexType   m_FastMutexLock;
 };
 
 /** \class FastMutexLock

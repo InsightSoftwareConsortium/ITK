@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkLightObject.h"
 #include "itkObjectFactory.h"
 #include "itkCommand.h"
+#include "itkFastMutexLock.h"
 #include <list>
 #include <memory>
 
@@ -285,7 +286,9 @@ void
 LightObject
 ::Register() const
 {
+  m_ReferenceCountLock->Lock();
   m_ReferenceCount++;
+  m_ReferenceCountLock->Unlock();
 }
 
 
@@ -296,7 +299,13 @@ void
 LightObject
 ::UnRegister() const
 {
-  if(--m_ReferenceCount <= 0)
+  m_ReferenceCountLock->Lock();
+  m_ReferenceCount--;
+  m_ReferenceCountLock->Unlock();
+
+  // ReferenceCount in now unlocked.  We may have a race condition to
+  // to delete the object.
+  if(m_ReferenceCount <= 0)
     {
     /**
      * If there is a delete method, invoke it.
@@ -314,7 +323,12 @@ void
 LightObject
 ::SetReferenceCount(int ref)
 {
+  m_ReferenceCountLock->Lock();
   m_ReferenceCount = ref;
+  m_ReferenceCountLock->Unlock();
+
+  // ReferenceCount in now unlocked.  We may have a race condition to
+  // to delete the object.
   if(m_ReferenceCount <= 0)
     {
     /**
@@ -338,6 +352,7 @@ LightObject
   m_ReferenceCount(1),
   m_SubjectImplementation(0)
 {
+  m_ReferenceCountLock = new SimpleFastMutexLock;;
 }
 
 
@@ -353,6 +368,7 @@ LightObject
     itkErrorMacro(<< "Trying to delete object with non-zero reference count.");
     }
   delete m_SubjectImplementation;
+  delete m_ReferenceCountLock;
 }
 
 

@@ -54,6 +54,7 @@ namespace itk
 {
 class SubjectImplementation;
 class Command;
+class SimpleFastMutexLock;
   
 /** \class LightObject
  * \brief Light weight base class for most itk classes.
@@ -229,6 +230,11 @@ protected:
    * Number of uses of this object by other objects.
    */
   mutable int m_ReferenceCount;
+
+  /**
+   * Mutex lock to protect modification to the reference count
+   */
+  mutable SimpleFastMutexLock *m_ReferenceCountLock;
   
   /**
    * Implementation class for Subject/Observer Pattern.

@@ -79,7 +79,7 @@ SimpleFastMutexLock::~SimpleFastMutexLock()
 }
 
 // Lock the FastMutexLock
-void SimpleFastMutexLock::Lock()
+void SimpleFastMutexLock::Lock() const
 {
 #ifdef ITK_USE_SPROC
   spin_lock( &m_FastMutexLock );
@@ -96,7 +96,7 @@ void SimpleFastMutexLock::Lock()
 }
 
 // Unlock the FastMutexLock
-void SimpleFastMutexLock::Unlock()
+void SimpleFastMutexLock::Unlock() const
 {
 #ifdef ITK_USE_SPROC
   release_lock( &m_FastMutexLock );

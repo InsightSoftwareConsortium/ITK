@@ -140,7 +140,7 @@ public:
    * This is useful for tracing back in the pipeline to construct
    * graphs etc. 
    */
-  DataObjectPointerArray GetInputs() 
+  DataObjectPointerArray& GetInputs() 
     {return m_Inputs;}
   unsigned int GetNumberOfInputs() const
     {return m_Inputs.size();}
@@ -150,7 +150,7 @@ public:
    * This is useful for tracing forward in the pipeline to contruct
    * graphs etc. 
    */
-  DataObjectPointerArray GetOutputs()
+  DataObjectPointerArray& GetOutputs()
     { return m_Outputs; }
   unsigned int GetNumberOfOutputs() const
     {return m_Outputs.size();}

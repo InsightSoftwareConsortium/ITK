@@ -211,7 +211,7 @@ protected:
    */
   struct ThreadStruct
   {
-    ImageSource *Filter;
+   Pointer Filter;
   };
   
 private:
