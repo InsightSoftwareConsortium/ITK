@@ -188,88 +188,90 @@ int itkFEMRegistrationFilterTest(int, char* [] )
   }
   
   for (int met=0; met<6; met++)
-  {
+    {
 
-  typedef itk::fem::FEMRegistrationFilter<testImageType,testImageType> RegistrationType;
-  RegistrationType::Pointer registrator = RegistrationType::New();
-  registrator->SetFixedImage( fixed );
-  registrator->SetMovingImage( moving );
+    typedef itk::fem::FEMRegistrationFilter<testImageType,testImageType> RegistrationType;
+    RegistrationType::Pointer registrator = RegistrationType::New();
+    registrator->SetFixedImage( fixed );
+    registrator->SetMovingImage( moving );
   
-  registrator->DoMultiRes(true);
-  registrator->SetNumLevels(1);
-  registrator->SetMaxLevel(1); 
-  registrator->SetMovingImage( moving );
-  registrator->SetFixedImage( fixed );
+    registrator->DoMultiRes(true);
+    registrator->SetNumLevels(1);
+    registrator->SetMaxLevel(1); 
+    registrator->SetMovingImage( moving );
+    registrator->SetFixedImage( fixed );
 //  registrator->SetTemp(1.0);
-  registrator->ChooseMetric((float)met);
-  unsigned int maxiters=5;  
-  float e=1.e6;
-  float p=1.e5;
+    registrator->ChooseMetric((float)met);
+    unsigned int maxiters=5;  
+    float e=1.e6;
+    float p=1.e5;
 //  std::cout << " input num iters, e, p: ";  std::cin >> maxiters >> e >> p;
-  registrator->SetElasticity(e,0);
-  registrator->SetRho(p,0);
-  registrator->SetGamma(1.,0);
-  registrator->SetAlpha(1.);
-  registrator->SetMaximumIterations( maxiters,0 );
-  registrator->SetMeshPixelsPerElementAtEachResolution(4,0);
-  registrator->SetWidthOfMetricRegion(0 ,0);
-  if ( met == 0 || met == 5) 
+    registrator->SetElasticity(e,0);
+    registrator->SetRho(p,0);
+    registrator->SetGamma(1.,0);
+    registrator->SetAlpha(1.);
+    registrator->SetMaximumIterations( maxiters,0 );
+    registrator->SetMeshPixelsPerElementAtEachResolution(4,0);
     registrator->SetWidthOfMetricRegion(0 ,0);
-  else 
-    registrator->SetWidthOfMetricRegion(1 ,0);
-  registrator->SetNumberOfIntegrationPoints(2,0);
-  registrator->SetDescentDirectionMinimize();
-  registrator->SetDescentDirectionMaximize();
-  registrator->DoLineSearch(false);
-  registrator->SetTimeStep(1.);
-  if (met == 0)   
-  { 
-    registrator->DoLineSearch((int)2);
-    registrator->EmployRegridding(true);
-  }
-  else 
-  {
-    registrator->DoLineSearch((int)0);
-    registrator->EmployRegridding(false);
-  }
-  registrator->UseLandmarks(false);
+    if ( met == 0 || met == 5) 
+      registrator->SetWidthOfMetricRegion(0 ,0);
+    else 
+      registrator->SetWidthOfMetricRegion(1 ,0);
+    registrator->SetNumberOfIntegrationPoints(2,0);
+    registrator->SetDescentDirectionMinimize();
+    registrator->SetDescentDirectionMaximize();
+    registrator->DoLineSearch(false);
+    registrator->SetTimeStep(1.);
+    if (met == 0)   
+      { 
+      registrator->DoLineSearch((int)2);
+      registrator->EmployRegridding(true);
+      }
+    else 
+      {
+      registrator->DoLineSearch((int)0);
+      registrator->EmployRegridding(false);
+      }
+    registrator->UseLandmarks(false);
   
-  itk::fem::MaterialLinearElasticity::Pointer m;
-  m=itk::fem::MaterialLinearElasticity::New();
-  m->GN=0;       // Global number of the material ///
-  m->E=registrator->GetElasticity();  // Young modulus -- used in the membrane ///
-  m->A=1.0;     // Crossection area ///
-  m->h=1.0;     // Crossection area ///
-  m->I=1.0;    // Moment of inertia ///
-  m->nu=0.; //.0;    // poissons -- DONT CHOOSE 1.0!!///
-  m->RhoC=1.0;
+    itk::fem::MaterialLinearElasticity::Pointer m;
+    m=itk::fem::MaterialLinearElasticity::New();
+    m->GN=0;       // Global number of the material ///
+    m->E=registrator->GetElasticity();  // Young modulus -- used in the membrane ///
+    m->A=1.0;     // Crossection area ///
+    m->h=1.0;     // Crossection area ///
+    m->I=1.0;    // Moment of inertia ///
+    m->nu=0.; //.0;    // poissons -- DONT CHOOSE 1.0!!///
+    m->RhoC=1.0;
   
-  // Create the element type 
-  ElementType::Pointer e1=ElementType::New();
-  e1->m_mat=dynamic_cast<itk::fem::MaterialLinearElasticity*>( m );
-  registrator->SetElement(e1);
-  registrator->SetMaterial(m);
+    // Create the element type 
+    ElementType::Pointer e1 = ElementType::New();
+    e1->m_mat=dynamic_cast<itk::fem::MaterialLinearElasticity*>( m );
+    registrator->SetElement(e1);
+    registrator->SetMaterial(m);
 
-  registrator->Print( std::cout );
+    registrator->Print( std::cout );
 
   
-  try
-    {
-    // Register the images 
-    registrator->RunRegistration();
-    }
-  catch(... )
-    {
+    try
+      {
+      // Register the images 
+      registrator->RunRegistration();
+      }
+    catch(... )
+      {
       //fixme - changes to femparray cause it to fail : old version works
-    std::cout << "Caught an exception: " << std::endl;
-    return EXIT_FAILURE;
-    //    std::cout << err << std::endl;
-    //throw err;
+      std::cout << "Caught an exception: " << std::endl;
+      delete e1;
+      delete m;
+      return EXIT_FAILURE;
+      //    std::cout << err << std::endl;
+      //throw err;
+      }
+    delete e1;
+    delete m;
+    
     }
-  delete e1;
-  delete m;
-
-  }
 
   /*
   // get warped reference image
