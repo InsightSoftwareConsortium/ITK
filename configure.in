@@ -60,10 +60,6 @@ AC_ARG_WITH(shared,
          [  --with-shared           create shared libraries],
          [CMAKE_shared_ok=$withval], [CMAKE_shared_ok=no])
 
-INSTALL_TARGET="install"
-
-AC_SUBST(CMAKE_INSTALL_TARGET)
-
 
 # the following is an excerpt from the tcl7.5b2 configure.in
 #--------------------------------------------------------------------
@@ -328,8 +324,7 @@ AC_SUBST(CMAKE_SHLIB_SUFFIX)
 ##			##
 ##########################
 # initialize thread vars
-THREAD_LIBS=""
-THREAD_FLAGS=""
+CMAKE_THREAD_LIBS=""
 use_sproc=no
 CMAKE_USE_SPROC=0
 CMAKE_USE_PTHREADS=0
@@ -369,14 +364,14 @@ use_pthreads=no
 AC_CHECK_HEADERS(pthread.h, [use_pthreads=yes])
 if test "$use_pthreads" = "yes"; then
   if test "$use_sproc" = "no"; then
-    AC_CHECK_LIB(pthreads, pthread_create, THREAD_LIBS="-lpthreads")
-    AC_CHECK_LIB(pthread, pthread_create, THREAD_LIBS="-lpthread")
+    AC_CHECK_LIB(pthreads, pthread_create, CMAKE_THREAD_LIBS="-lpthreads")
+    AC_CHECK_LIB(pthread, pthread_create, CMAKE_THREAD_LIBS="-lpthread")
 # Work around Solaris 5.6 and 5.7 bug:
     if test "`uname -s -r`" = "SunOS 5.6"; then
-      AC_CHECK_LIB(thread, thr_create, THREAD_LIBS="$THREAD_LIBS -lthread")
+      AC_CHECK_LIB(thread, thr_create, CMAKE_THREAD_LIBS="$CMAKE_THREAD_LIBS -lthread")
     fi
     if test "`uname -s -r`" = "SunOS 5.7"; then
-      AC_CHECK_LIB(thread, thr_create, THREAD_LIBS="$THREAD_LIBS -lthread")
+      AC_CHECK_LIB(thread, thr_create, CMAKE_THREAD_LIBS="$CMAKE_THREAD_LIBS -lthread")
     fi
 	CMAKE_USE_PTHREADS=1
   fi
@@ -387,17 +382,17 @@ fi
 if test "$use_pthreads" = "yes"; then
 case $system in
     HP-UX-*.10.*)
-	THREAD_LIBS="-lcma"
+	CMAKE_THREAD_LIBS="-lcma"
 	CMAKE_USE_PTHREADS=1 
 	CMAKE_HP_PTHREADS=1
 	;;
     OSF1-V*)
 	CMAKE_USE_PTHREADS=0
-        THREAD_LIBS=""
+        CMAKE_THREAD_LIBS=""
         ;;
     FreeBSD*)
 	CMAKE_USE_PTHREADS=0
-	THREAD_LIBS=""
+	CMAKE_THREAD_LIBS=""
 	;;
 esac
 fi
@@ -493,8 +488,8 @@ fi
 
 if test -f $CMAKE_CONFIG_DIR/CMakeLocal.make.in; then
    echo "create CMakeLocal.make from $CMAKE_CONFIG_DIR/CMakeLocal.make.in"
-   rm -f local.make
-   cp $CMAKE_CONFIG_DIR/local.make.in local.make
+   rm -f CMakeLocal.make
+   cp $CMAKE_CONFIG_DIR/CMakeLocal.make.in CMakeLocal.make
 else
    echo "no $CMAKE_CONFIG_DIR/CMakeLocal.make.in creating an empty CMakeLocal.make file"
    rm -f CMakeLocal.make

@@ -3,6 +3,11 @@ INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c).*$")
 SOURCE_GROUP("XML Files" "\.xml$")
 
 SUBDIRS(Utilities Code Testing Examples)
+OPTION(BUILD_UNSUPPORTED "Build the unsupported directory")
+IF(BUILD_UNSUPPORTED)
+SUBDIRS(Unsupported)
+ENDIF(BUILD_UNSUPPORTED)
+
 
 INCLUDE_DIRECTORIES(
 ${ITK_BINARY_DIR} 
