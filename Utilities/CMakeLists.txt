@@ -22,7 +22,7 @@ SUBDIRS(gdcm)
 # log4cxx, an experimental Utility package
 
 # For testing, ignore this option
-SUBDIRS(log4cxx)
+SET(USE_LOG4CXX ON)
 
 OPTION(USE_LOG4CXX "Build log4cxx" OFF)
 MARK_AS_ADVANCED(USE_LOG4CXX)
