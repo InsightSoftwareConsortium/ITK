@@ -74,7 +74,7 @@ typedef  unsigned int   uint32_t;
 #endif
 
 #include <string>
-#include <cassert>
+#include <assert.h>
 
 namespace gdcm
 {
