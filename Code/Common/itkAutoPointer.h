@@ -27,17 +27,16 @@ namespace itk
  * \brief Implements an Automatic Pointer to an object.
  *
  * AutoPointer is intended to facilitate the construction of 
- * objects on-the-fly for those objects that are not to be shared.
- * An AutopOinter destroys its object when it goes out of scope.
+ * objects on the fly for those objects that are not to be shared.
+ * An AutoPointer destroys its object when it goes out of scope.
  * Ownership of the object is transferred from one AutoPointer
  * to another AutoPointer when the assignement operator is used.
- * AutoPointers can release the ownership of the object they
- * hold
+ * An AutoPointer can release ownership of the object it holds.
  *
- * This class follows the design of the std::auto_ptr class, the 
- * main reason for not using the std version is to avoid the use
- * of templated methods which greately difficult wrapping for
- * Tcl, Python and Java.
+ * This class follows the design of the std::auto_ptr class. The main
+ * reason for not using the std version is to avoid templated methods,
+ * which greatly increase the difficulty of wrapping for Tcl, Python
+ * and Java.
  *
  * \ingroup ITKSystemObjects
  * \ingroup DataAccess
@@ -99,11 +98,11 @@ public:
     }
 
 
-  /** Set explicitly the Ownership */
+  /** Explicitly set the ownership */
   void TakeOwnership(void) 
     { m_IsOwner = true; }
 
-  /** Set explicitly the Ownership */
+  /** Explicitly set the ownership */
   void TakeOwnership(ObjectType * objectptr) 
     { 
     if( m_IsOwner && m_Pointer ) 
@@ -114,7 +113,7 @@ public:
     m_IsOwner = true;
     }
 
-  /** Reject explicitly the Ownership */
+  /** Explicitly reject ownership */
   void TakeNoOwnership(ObjectType * objectptr) 
     { 
     if( m_IsOwner && m_Pointer ) 
