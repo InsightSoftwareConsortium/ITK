@@ -65,6 +65,10 @@ public:
   typedef typename OutputMeshType::CellTraits CellTraits;
   typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
   typedef typename OutputMeshType::PointsContainer   PointsContainer;
+  typedef typename OutputMeshType::CellsContainerPointer CellsContainerPointer;
+  typedef typename OutputMeshType::CellsContainer   CellsContainer;
+  typedef typename OutputMeshType::CellDataContainerPointer CellDataContainerPointer;
+  typedef typename OutputMeshType::CellDataContainer   CellDataContainer;
   
   /** Define the triangular cell types which forms the surface of the model
    * and will be used in FEM application. */
