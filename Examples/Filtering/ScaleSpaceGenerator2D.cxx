@@ -59,7 +59,7 @@ int main( int argc, char * argv[] )
 
   FilterType::Pointer laplacian = FilterType::New();
 
-  laplacian->SetNormalizeAcrossScale( false );
+  laplacian->SetNormalizeAcrossScale( true );
 
   laplacian->SetInput( reader->GetOutput() );
 
