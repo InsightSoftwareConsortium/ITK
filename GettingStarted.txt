@@ -2,7 +2,7 @@
 Welcome to the Insight Registration and Segmentation Toolkit (ITK)
 -----------------------------------------------------------------
 
-This is the third public release of ITK (Release-1-0). The ITK developer
+This is the fourth public release of ITK (Release-1-2). The ITK developer
 community appreciates any feedback that you may have regarding this
 software. Join the ITK user mailing list (instructions later) and post your
 feedback there. Warning: since the software is young, and this is an early
@@ -24,7 +24,7 @@ Insight/Documentation/InsightStart.pdf is highly recommended.
      cvs -d :pserver:anonymous@www.itk.org:/cvsroot/Insight login
          (respond with password "insight")
      cvs -d :pserver:anonymous@www.itk.org:/cvsroot/Insight co \
-            -r Release-1-0 Insight
+            -r Release-1-2 Insight
 
    The current development version of ITK is available using the following
    process. Please realize that the development version is inherently less
@@ -84,11 +84,24 @@ Insight/Documentation/InsightStart.pdf is highly recommended.
    mail to minimize traffic.
 
 
-4) Learn the system. Start by looking at the examples in
-   http://www.itk.org/HTML/Examples.htm. The source code is found in the
-   Insight/Examples source code directory. (To build the examples, make sure
-   the CMake flag "BUILD_EXAMPLES" is on.) You may also wish to peruse the
-   many tests found in Insight/Testing/Code.
+4) Learn the system. Start by looking at the examples found in the
+   Insight/Examples directory. Note that this code is heavily
+   commented and works with the ITK Software Guide (found at
+   http://www.itk.org/ItkSoftwareGuide.pdf).  (To build the examples,
+   make sure the CMake flag "BUILD_EXAMPLES" is on.) You may also wish
+   to peruse the many tests found in Insight/Testing/Code.
+
+   If you would like to be more ambitious, a separate checkout of ITK
+   applications is available. Please do not attempt this until ITK and
+   its examples are building correctly (as described previously). The
+   InsightApplications may be difficult to build because of their
+   dependency on external packages like VTK, FLTK, and Qt.
+
+   TO obtain the InsightApplications checkout via CVS:
+
+     cvs -d :pserver:anonymous@www.itk.org:/cvsroot/InsightApplications co \
+           -r Release-1-2 InsightApplications
+
 
 ITK resources are available at the following locations.
   + http://www.itk.org - main web page
@@ -96,6 +109,7 @@ ITK resources are available at the following locations.
   + Insight/README.html - in the source code distribution
   + Insight/Documentation/InsightStart.pdf - oriented towards developers
     but contains useful information about compiling and building ITK.
+  + http://www.cmake.org - the CMake build environment
   + http://public.kitware.com/dashboard.php?name=itk - the ITK software
     quality dashboard
   + http://public.kitware.com/Dart - what manages the testing process in ITK
