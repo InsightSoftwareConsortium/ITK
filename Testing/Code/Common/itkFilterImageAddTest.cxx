@@ -69,10 +69,12 @@ int main()
   myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
 
   // Initialize the content of Image A
+  std::cout << "First operand " << std::endl;
   it1.Begin();
   while( !it1.IsAtEnd() ) 
   {
     it1.Set( 2.0 );
+    std::cout << it1.Get() << std::endl;
     ++it1;
   }
 
@@ -80,10 +82,12 @@ int main()
   myIteratorType2 it2( inputImageB, inputImageB->GetBufferedRegion() );
 
   // Initialize the content of Image B
+  std::cout << "Second operand " << std::endl;
   it2.Begin();
   while( !it2.IsAtEnd() ) 
   {
     it2.Set( 3.0 );
+    std::cout << it2.Get() << std::endl;
     ++it2;
   }
 
@@ -104,16 +108,8 @@ int main()
 
   // Get the Smart Pointer to the Filter Output 
   myImageType3::Pointer outputImage = filter->GetOutput();
-  
-  outputImage->SetLargestPossibleRegion(
-      inputImageA->GetLargestPossibleRegion() );
-  
 
-  outputImage->SetBufferedRegion(  inputImageA->GetBufferedRegion() );
-  outputImage->SetRequestedRegion( outputImage->GetLargestPossibleRegion() );
-  outputImage->Allocate();
   
-
   // Execute the filter
   filter->Update();
 
@@ -121,6 +117,7 @@ int main()
   myIteratorType3 it3(outputImage, outputImage->GetBufferedRegion());
   
   //  Print the content of the result image
+  std::cout << " Result " << std::endl;
   it3.Begin();
   while( !it3.IsAtEnd() ) 
   {
