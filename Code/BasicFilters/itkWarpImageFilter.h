@@ -136,6 +136,18 @@ public:
   itkNewMacro(Self);
 
   /**
+   * Inherit some types from the superclass.
+   */
+  typedef typename Superclass::InputImageType        InputImageType;
+  typedef typename Superclass::InputImagePointer     InputImagePointer;
+  typedef typename Superclass::OutputImageType       OutputImageType;
+  typedef typename Superclass::OutputImagePointer    OutputImagePointer;
+  typedef typename OutputImageType::IndexType        IndexType;
+  typedef typename OutputImageType::SizeType         SizeType;
+  typedef typename OutputImageType::PixelType        PixelType;
+  enum { ImageDimension = OutputImageType::ImageDimension };
+
+  /**
    * Deformation field typedef support.
    */
   typedef TDeformationField    DeformationFieldType;
@@ -151,28 +163,6 @@ public:
     DefaultInterpolatorType;
 
   /**
-   * Set the interpolator function.
-   */
-  itkSetObjectMacro( Interpolator, InterpolatorType );
-
-  /**
-   * Get a pointer to the interpolator function.
-   */
-  itkGetObjectMacro( Interpolator, InterpolatorType );
-
-  /**
-   * Inherit some types from the superclass.
-   */
-  typedef typename Superclass::InputImageType        InputImageType;
-  typedef typename Superclass::InputImagePointer     InputImagePointer;
-  typedef typename Superclass::OutputImageType       OutputImageType;
-  typedef typename Superclass::OutputImagePointer    OutputImagePointer;
-  typedef typename OutputImageType::IndexType        IndexType;
-  typedef typename OutputImageType::SizeType         SizeType;
-  typedef typename OutputImageType::PixelType        PixelType;
-  enum { ImageDimension = OutputImageType::ImageDimension };
-
-  /**
    * Point type
    */
   typedef Point<double,ImageDimension> PointType;
@@ -186,6 +176,16 @@ public:
    * Get a pointer the deformation field.
    */
   DeformationFieldPointer GetDeformationField();
+
+  /**
+   * Set the interpolator function.
+   */
+  itkSetObjectMacro( Interpolator, InterpolatorType );
+
+  /**
+   * Get a pointer to the interpolator function.
+   */
+  itkGetObjectMacro( Interpolator, InterpolatorType );
 
   /**
    * Set the output image spacing.
