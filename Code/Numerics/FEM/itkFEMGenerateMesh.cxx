@@ -71,10 +71,10 @@ void Generate2DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver& S, vn
     for(unsigned int i=0; i<Ni; i++)
     {
       e=dynamic_cast<Element2DC0LinearQuadrilateral*>(e0->Clone());
-      e->SetNode(0,S.node.Find( i+  (Ni+1)*j     ));
-      e->SetNode(1,S.node.Find( i+1+(Ni+1)*j     ));
-      e->SetNode(2,S.node.Find( i+1+(Ni+1)*(j+1) ));
-      e->SetNode(3,S.node.Find( i+  (Ni+1)*(j+1) ));
+      e->SetNode(0,S.node.Find((unsigned int) (i+  (Ni+1)*j)     ));
+      e->SetNode(1,S.node.Find((unsigned int) (i+1+(Ni+1)*j)     ));
+      e->SetNode(2,S.node.Find((unsigned int) (i+1+(Ni+1)*(j+1)) ));
+      e->SetNode(3,S.node.Find((unsigned int) (i+  (Ni+1)*(j+1)) ));
       e->GN=gn;
       gn++;
       S.el.push_back(FEMP<Element>(e));
@@ -140,14 +140,14 @@ void Generate3DRectilinearMesh
       for(unsigned int i=0; i<Ni; i++)
       {
         e=dynamic_cast<Element3DC0LinearHexahedron*>(e0->Clone());
-        e->SetNode(0,S.node.Find( i+  (Ni+1)*(j  +(Nj+1)*k) ));
-        e->SetNode(1,S.node.Find( i+1+(Ni+1)*(j  +(Nj+1)*k) ));
-        e->SetNode(2,S.node.Find( i+1+(Ni+1)*(j+1+(Nj+1)*k) ));
-        e->SetNode(3,S.node.Find( i+  (Ni+1)*(j+1+(Nj+1)*k) ));
-        e->SetNode(4,S.node.Find( i+  (Ni+1)*(j  +(Nj+1)*(k+1)) ));
-        e->SetNode(5,S.node.Find( i+1+(Ni+1)*(j  +(Nj+1)*(k+1)) ));
-        e->SetNode(6,S.node.Find( i+1+(Ni+1)*(j+1+(Nj+1)*(k+1)) ));
-        e->SetNode(7,S.node.Find( i+  (Ni+1)*(j+1+(Nj+1)*(k+1)) ));
+        e->SetNode(0,S.node.Find((unsigned int) (i+  (Ni+1)*(j  +(Nj+1)*k) )));
+        e->SetNode(1,S.node.Find((unsigned int) (i+1+(Ni+1)*(j  +(Nj+1)*k) )));
+        e->SetNode(2,S.node.Find((unsigned int) (i+1+(Ni+1)*(j+1+(Nj+1)*k) )));
+        e->SetNode(3,S.node.Find((unsigned int) (i+  (Ni+1)*(j+1+(Nj+1)*k) )));
+        e->SetNode(4,S.node.Find((unsigned int) (i+  (Ni+1)*(j  +(Nj+1)*(k+1)) )));
+        e->SetNode(5,S.node.Find((unsigned int) (i+1+(Ni+1)*(j  +(Nj+1)*(k+1)) )));
+        e->SetNode(6,S.node.Find((unsigned int) (i+1+(Ni+1)*(j+1+(Nj+1)*(k+1)) )));
+        e->SetNode(7,S.node.Find((unsigned int) (i+  (Ni+1)*(j+1+(Nj+1)*(k+1)) )));
 
         e->GN=gn;
         gn++;
