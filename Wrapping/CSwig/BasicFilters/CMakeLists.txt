@@ -8,12 +8,15 @@ SET(WRAP_SOURCES
   wrap_itkChangeInformationImageFilter
   wrap_itkConnectedThresholdImageFilter
   wrap_itkCurvatureAnisotropicDiffusionImageFilter
-  wrap_itkFlipImageFilter
+  wrap_itkCurvatureFlowImageFilter
   wrap_itkExpImageFilter
   wrap_itkExpNegativeImageFilter
   wrap_itkExtractImageFilter
+  wrap_itkFastMarchingImageFilter
+  wrap_itkFlipImageFilter
   wrap_itkGradientAnisotropicDiffusionImageFilter
   wrap_itkGradientRecursiveGaussianImageFilter
+  wrap_itkGradientMagnitudeImageFilter
   wrap_itkGradientMagnitudeRecursiveGaussianImageFilter
   wrap_itkDanielssonDistanceMapImageFilter
   wrap_itkIsolatedConnectedImageFilter
@@ -21,7 +24,9 @@ SET(WRAP_SOURCES
   wrap_itkMeanImageFilter
   wrap_itkMedianImageFilter
   wrap_itkMinimumMaximumImageCalculator
+  wrap_itkMinMaxCurvatureFlowImageFilter
   wrap_itkNaryAddImageFilter
+  wrap_itkNeighborhoodConnectedImageFilter
   wrap_itkNormalizeImageFilter
   wrap_itkPermuteAxesImageFilter
   wrap_itkRandomImageSource
@@ -37,8 +42,9 @@ SET(WRAP_SOURCES
   wrap_itkTernaryMagnitudeImageFilter
   wrap_itkThresholdImageFilter
   wrap_itkVTKImageExport
-  wrap_itkVTKImageImport  
+  wrap_itkVTKImageImport
 )
+
 
 # loop over cable config files creating two lists:
 # WRAP_TCL_SOURCES: list of generated files

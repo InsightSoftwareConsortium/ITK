@@ -20,6 +20,7 @@ SET(WRAP_SOURCES
   wrap_itkIdentityTransform
   wrap_itkImage
   wrap_itkIndex
+  wrap_itkLevelSet
   wrap_itkPoint
   wrap_itkSize
   wrap_itkScaleTransform

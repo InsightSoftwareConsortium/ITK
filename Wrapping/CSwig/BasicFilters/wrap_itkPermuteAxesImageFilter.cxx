@@ -28,8 +28,27 @@ namespace _cable_
   {
     ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::F2, itkPermuteAxesImageFilterF2);
     ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::F3, itkPermuteAxesImageFilterF3);
+
+    ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::D2, itkPermuteAxesImageFilterD2);
+    ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::D3, itkPermuteAxesImageFilterD3);
+
+    ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::UC2, itkPermuteAxesImageFilterUC2);
+    ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::UC3, itkPermuteAxesImageFilterUC3);
+
     ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::US2, itkPermuteAxesImageFilterUS2);
     ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::US3, itkPermuteAxesImageFilterUS3);
+
+    ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::UI2, itkPermuteAxesImageFilterUI2);
+    ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::UI3, itkPermuteAxesImageFilterUI3);
+
+    ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::SC2, itkPermuteAxesImageFilterSC2);
+    ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::SC3, itkPermuteAxesImageFilterSC3);
+
+    ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::SS2, itkPermuteAxesImageFilterSS2);
+    ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::SS3, itkPermuteAxesImageFilterSS3);
+
+    ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::SI2, itkPermuteAxesImageFilterSI2);
+    ITK_WRAP_OBJECT1(PermuteAxesImageFilter, image::SI3, itkPermuteAxesImageFilterSI3);
   }
 }
 

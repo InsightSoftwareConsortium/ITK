@@ -29,20 +29,25 @@ namespace _cable_
     ITK_WRAP_GROUP(itkConfidenceConnectedImageFilter),
     ITK_WRAP_GROUP(itkConnectedThresholdImageFilter),
     ITK_WRAP_GROUP(itkCurvatureAnisotropicDiffusionImageFilter),
+    ITK_WRAP_GROUP(itkCurvatureFlowImageFilter),
     ITK_WRAP_GROUP(itkDanielssonDistanceMapImageFilter),
     ITK_WRAP_GROUP(itkExpImageFilter),
     ITK_WRAP_GROUP(itkExpNegativeImageFilter),
     ITK_WRAP_GROUP(itkExtractImageFilter),
+    ITK_WRAP_GROUP(itkFastMarchingImageFilter),
     ITK_WRAP_GROUP(itkFlipImageFilter),
     ITK_WRAP_GROUP(itkGradientAnisotropicDiffusionImageFilter),
     ITK_WRAP_GROUP(itkGradientRecursiveGaussianImageFilter),
     ITK_WRAP_GROUP(itkGradientMagnitudeRecursiveGaussianImageFilter),
+    ITK_WRAP_GROUP(itkGradientMagnitudeImageFilter),
     ITK_WRAP_GROUP(itkIsolatedConnectedImageFilter),
     ITK_WRAP_GROUP(itkLaplacianImageFilter),
     ITK_WRAP_GROUP(itkMeanImageFilter),
     ITK_WRAP_GROUP(itkMedianImageFilter),
     ITK_WRAP_GROUP(itkMinimumMaximumImageCalculator),
+    ITK_WRAP_GROUP(itkMinMaxCurvatureFlowImageFilter),
     ITK_WRAP_GROUP(itkNaryAddImageFilter),
+    ITK_WRAP_GROUP(itkNeighborhoodConnectedImageFilter),
     ITK_WRAP_GROUP(itkNormalizeImageFilter),
     ITK_WRAP_GROUP(itkPermuteAxesImageFilter),
     ITK_WRAP_GROUP(itkRandomImageSource),
@@ -58,7 +63,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkTernaryMagnitudeImageFilter),
     ITK_WRAP_GROUP(itkThresholdImageFilter),
     ITK_WRAP_GROUP(itkVTKImageExport),
-    ITK_WRAP_GROUP(itkVTKImageImport)              
+    ITK_WRAP_GROUP(itkVTKImageImport)
   };
 }
 #endif

@@ -29,20 +29,38 @@ namespace _cable_
     ITK_WRAP_OBJECT1(ImageBase, 3, itkImageBase3);
     ITK_WRAP_OBJECT2(Image, float, 2, itkImageF2);
     ITK_WRAP_OBJECT2(Image, float, 3, itkImageF3);
-    ITK_WRAP_OBJECT2(Image, unsigned short, 2, itkImageUS2);
-    ITK_WRAP_OBJECT2(Image, unsigned short, 3, itkImageUS3);
+    ITK_WRAP_OBJECT2(Image, double, 2, itkImageD2);
+    ITK_WRAP_OBJECT2(Image, double, 3, itkImageD3);
     ITK_WRAP_OBJECT2(Image, unsigned char, 2, itkImageUC2);
     ITK_WRAP_OBJECT2(Image, unsigned char, 3, itkImageUC3);
-    
-    typedef image::F2::PixelContainer::Self itkImageF_PixelContainer;
-    typedef image::US2::PixelContainer::Self itkImageUS_PixelContainer;
-    typedef image::UC2::PixelContainer::Self itkImageUC_PixelContainer;
-    typedef itkImageF_PixelContainer::Pointer::SmartPointer 
-    itkImageF_PixelContainer_Pointer;
-    typedef itkImageUS_PixelContainer::Pointer::SmartPointer 
-    itkImageUS_PixelContainer_Pointer;
-    typedef itkImageUC_PixelContainer::Pointer::SmartPointer 
-    itkImageUC_PixelContainer_Pointer;
+    ITK_WRAP_OBJECT2(Image, unsigned short, 2, itkImageUS2);
+    ITK_WRAP_OBJECT2(Image, unsigned short, 3, itkImageUS3);
+    ITK_WRAP_OBJECT2(Image, unsigned int, 2, itkImageUI2);
+    ITK_WRAP_OBJECT2(Image, unsigned int, 3, itkImageUI3);
+    ITK_WRAP_OBJECT2(Image, signed char, 2, itkImageSC2);
+    ITK_WRAP_OBJECT2(Image, signed char, 3, itkImageSC3);
+    ITK_WRAP_OBJECT2(Image, signed short, 2, itkImageSS2);
+    ITK_WRAP_OBJECT2(Image, signed short, 3, itkImageSS3);
+    ITK_WRAP_OBJECT2(Image, signed int, 2, itkImageSI2);
+    ITK_WRAP_OBJECT2(Image, signed int, 3, itkImageSI3);
+
+//    typedef image::F2::PixelContainer::Self itkImageF_PixelContainer;
+//    typedef image::D2::PixelContainer::Self itkImageD_PixelContainer;
+//    typedef image::UC2::PixelContainer::Self itkImageUC_PixelContainer;
+//    typedef image::US2::PixelContainer::Self itkImageUS_PixelContainer;
+//    typedef image::UI2::PixelContainer::Self itkImageUI_PixelContainer;
+//    typedef image::SC2::PixelContainer::Self itkImageSC_PixelContainer;
+//    typedef image::SS2::PixelContainer::Self itkImageSS_PixelContainer;
+//    typedef image::SI2::PixelContainer::Self itkImageSI_PixelContainer;
+
+//    typedef itkImageF_PixelContainer::Pointer::SmartPointer itkImageF_PixelContainer_Pointer;
+//    typedef itkImageD_PixelContainer::Pointer::SmartPointer itkImageD_PixelContainer_Pointer;
+//    typedef itkImageUC_PixelContainer::Pointer::SmartPointer itkImageUC_PixelContainer_Pointer;
+//    typedef itkImageUS_PixelContainer::Pointer::SmartPointer itkImageUS_PixelContainer_Pointer;
+//    typedef itkImageUI_PixelContainer::Pointer::SmartPointer itkImageUI_PixelContainer_Pointer;
+//    typedef itkImageSC_PixelContainer::Pointer::SmartPointer itkImageSC_PixelContainer_Pointer;
+//    typedef itkImageSS_PixelContainer::Pointer::SmartPointer itkImageSS_PixelContainer_Pointer;
+//    typedef itkImageSI_PixelContainer::Pointer::SmartPointer itkImageSI_PixelContainer_Pointer;
   }
 }
 
