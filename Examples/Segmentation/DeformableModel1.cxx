@@ -14,7 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
+// Disable warning for long symbol names in this file only
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
 
 // Software Guide : BeginLatex
 //
