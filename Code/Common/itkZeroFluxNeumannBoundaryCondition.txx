@@ -25,14 +25,11 @@ ZeroFluxNeumannBoundaryCondition<TImage>
              const NeighborhoodType *data) const
 {
   int linear_index = 0;
-  
-  // Return the value of the pixel at the closest boundary point.
-  int index[ImageDimension];
 
+  // Return the value of the pixel at the closest boundary point.
   for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      index[i] = point_index[i] + boundary_offset[i];
-      linear_index += index[i] * data->GetStride(i);
+      linear_index += (point_index[i] + boundary_offset[i]) * data->GetStride(i);
     }
 
   return *(data->operator[](linear_index));
