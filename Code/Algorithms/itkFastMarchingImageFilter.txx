@@ -181,14 +181,12 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
 
   // process input alive points
-  typename NodeContainer::ConstIterator pointsIter;
-  typename NodeContainer::ConstIterator pointsEnd;
   NodeType node;
 
   if ( m_AlivePoints ) 
     {
-    pointsIter = m_AlivePoints->Begin();
-    pointsEnd = m_AlivePoints->End();
+    typename NodeContainer::ConstIterator pointsIter = m_AlivePoints->Begin();
+    typename NodeContainer::ConstIterator pointsEnd = m_AlivePoints->End();
 
     for ( ; pointsIter != pointsEnd; ++pointsIter )
       {
@@ -228,8 +226,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   // process the input trial points
   if ( m_TrialPoints )
     {
-    pointsIter = m_TrialPoints->Begin();
-    pointsEnd = m_TrialPoints->End();
+    typename NodeContainer::ConstIterator pointsIter = m_TrialPoints->Begin();
+    typename NodeContainer::ConstIterator pointsEnd = m_TrialPoints->End();
 
     for ( ; pointsIter != pointsEnd; ++pointsIter )
       {

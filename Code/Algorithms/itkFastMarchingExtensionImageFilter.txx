@@ -204,20 +204,15 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
     } 
   
   // set all alive points to alive
-  typename NodeContainer::ConstIterator pointsIter;
-  typename NodeContainer::ConstIterator pointsEnd;
   typename Superclass::NodeType node;
-
-  typename AuxValueContainer::ConstIterator auxIter;
 
   AuxValueVectorType auxVec;
 
   if ( m_AuxAliveValues )
     { 
-    auxIter = m_AuxAliveValues->Begin();
-
-    pointsIter = (this->GetAlivePoints())->Begin();
-    pointsEnd = (this->GetAlivePoints())->End();
+    typename AuxValueContainer::ConstIterator auxIter = m_AuxAliveValues->Begin();
+    typename NodeContainer::ConstIterator pointsIter = (this->GetAlivePoints())->Begin();
+    typename NodeContainer::ConstIterator pointsEnd = (this->GetAlivePoints())->End();
 
     for ( ; pointsIter != pointsEnd; ++pointsIter, ++auxIter )
       {
@@ -246,9 +241,9 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 
   if ( m_AuxTrialValues )
     { 
-    auxIter = m_AuxTrialValues->Begin();
-    pointsIter = (this->GetTrialPoints())->Begin();
-    pointsEnd = (this->GetTrialPoints())->End();
+    typename AuxValueContainer::ConstIterator auxIter = m_AuxTrialValues->Begin();
+    typename NodeContainer::ConstIterator pointsIter = (this->GetTrialPoints())->Begin();
+    typename NodeContainer::ConstIterator pointsEnd = (this->GetTrialPoints())->End();
 
     for ( ; pointsIter != pointsEnd; ++pointsIter, ++auxIter )
       {
