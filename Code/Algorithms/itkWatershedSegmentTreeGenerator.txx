@@ -40,7 +40,7 @@ SegmentTreeGenerator<TScalarType>
 template <class TScalarType>
 typename SegmentTreeGenerator<TScalarType>::DataObjectPointer
 SegmentTreeGenerator<TScalarType>
-::MakeOutput(unsigned int idx)
+::MakeOutput(unsigned int itkNotUsed(idx))
 {
   return static_cast<DataObject*>(SegmentTreeType::New().GetPointer());
 }
@@ -537,7 +537,7 @@ void SegmentTreeGenerator<TScalarType>
 
 template <class TScalarType>  
 void SegmentTreeGenerator<TScalarType>
-::GenerateOutputRequestedRegion(DataObject *output)
+::GenerateOutputRequestedRegion(DataObject *itkNotUsed(output))
 {
 }
 

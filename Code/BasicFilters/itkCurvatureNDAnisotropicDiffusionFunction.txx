@@ -72,8 +72,8 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
 template<class TImage>
 typename CurvatureNDAnisotropicDiffusionFunction<TImage>::PixelType
 CurvatureNDAnisotropicDiffusionFunction<TImage>
-::ComputeUpdate(const NeighborhoodType &it, void *globalData,
-                const FloatOffsetType& offset) const
+::ComputeUpdate(const NeighborhoodType &it, void *itkNotUsed(globalData),
+                const FloatOffsetType& itkNotUsed(offset)) const
 {
   unsigned int i, j;
   double speed, dx_forward_Cn, dx_backward_Cn, propagation_gradient;
@@ -157,8 +157,9 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
 template<class TImage>
 typename CurvatureNDAnisotropicDiffusionFunction<TImage>::PixelType
 CurvatureNDAnisotropicDiffusionFunction<TImage>
-::ComputeUpdate(const BoundaryNeighborhoodType &it, void *globalData,
-                const FloatOffsetType& offset) const
+::ComputeUpdate(const BoundaryNeighborhoodType &it,
+                void *itkNotUsed(globalData),
+                const FloatOffsetType& itkNotUsed(offset)) const
 {
   unsigned int i, j;
   double speed, dx_forward_Cn, dx_backward_Cn, propagation_gradient;

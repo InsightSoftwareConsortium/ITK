@@ -599,22 +599,23 @@ void Segmenter<TInputImage>
     = new typename InputImageType::OffsetType[m_Connectivity.size];
   
   for (i =0; i < m_Connectivity.size; i++) // initialize move list
-    {  for (j =0; j < ImageDimension; j++)  m_Connectivity.direction[i][j] = 0; }
+    {
+    for (j =0; j < ImageDimension; j++)  m_Connectivity.direction[i][j] = 0;
+    }
   i = 0;
-  j = 0;
   for (d = ImageDimension-1; d >=0; d--)
     {
-      stride = it.GetStride(d);
-      m_Connectivity.index[i] = nCenter - stride;
-      m_Connectivity.direction[i][d] = -1;
-      i++;
+    stride = it.GetStride(d);
+    m_Connectivity.index[i] = nCenter - stride;
+    m_Connectivity.direction[i][d] = -1;
+    i++;
     }
   for (d = 0; d < static_cast<int>(ImageDimension); d++)
     {
-      stride = it.GetStride(d);
-      m_Connectivity.index[i] = nCenter + stride;
-      m_Connectivity.direction[i][d] = 1;
-      i++;
+    stride = it.GetStride(d);
+    m_Connectivity.index[i] = nCenter + stride;
+    m_Connectivity.direction[i][d] = 1;
+    i++;
     }
 }
   
