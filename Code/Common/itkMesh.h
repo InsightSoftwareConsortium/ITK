@@ -337,10 +337,20 @@ public:
   Cell::Pointer GetCellBoundaryFeature(int dimension, CellIdentifier,
 				       CellFeatureIdentifier);
   
+
+  /**
+   * Mesh-level operation interface.
+   */
+//  unsigned long GetNumBoundaryFeatureNeighbors(
+//    int dimension, CellIdentifier, CellFeatureIdentifier);
+//  unsigned long GetBoundaryFeatureNeighbors(
+//    int dimension, CellIdentifier, CellFeatureIdentifier,
+//    Cell::Pointer* cellList);
+  
   /**
    * Standard part of itkObject class.  Used for debugging output.
    */
-  virtual const char *GetClassName() const { return "itkMesh"; }
+  itkTypeMacro(itkMesh, itkObject);
 
   /**
    * Define some internal utility methods.

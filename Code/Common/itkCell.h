@@ -86,6 +86,16 @@ public:
   typedef CellFeatureIdentifier CellFeatureCount;  
 
   /**
+   * The set of cells that have been assigned to use this cell as a boundary.
+   * Top-level cells in the mesh always have an empty set of using cells, so
+   * an actual "cell" type does not have any data member storing them.  The
+   * inherited "boundary" type corresponding to each cell type adds this
+   * data member.  We need the interface to be defined here to allow all
+   * boundary types to have the same interface to their UsingCells.
+   */
+  typedef std::set< CellIdentifier >  UsingCellsContainer;
+  
+  /**
    * Public interface routines.
    */
   
@@ -109,13 +119,33 @@ public:
    * ptList points to an array of PointIdentifier values of length equal to
    * the number of points needed to define the cell.
    */
-  virtual void SetCellPoints(PointIdentifier *ptList)=0;
+  virtual void SetCellPoints(const PointIdentifier *ptList)=0;
+  
+  /**
+   * Set the point list used by the cell.  It is assumed that the range
+   * of iterators [first, last) contains the correct number of points needed to
+   * define the cell.  The position *last is NOT referenced, so it can safely
+   * be one beyond the end of an array.
+   */
+  virtual void SetCellPoints(const PointIdentifier* first,
+			     const PointIdentifier* last);
   
   /**
    * Set the point identifier for a given spot in the point list for the cell.
    */
   virtual void SetCellPoint(int localId, PointIdentifier ptId);
-
+  
+  /**
+   * Interface to the boundary form of the cell to set/get UsingCells.
+   */
+  virtual bool IsBoundary(void);
+  virtual void AddUsingCell(CellIdentifier);
+  virtual void RemoveUsingCell(CellIdentifier);
+  virtual bool IsUsingCell(CellIdentifier);
+  virtual int GetNumUsingCells(void);
+  virtual UsingCellsContainer::iterator UsingCellsBegin(void);
+  virtual UsingCellsContainer::iterator UsingCellsEnd(void);
+  
   /**
    * Standard part of itkObject class.  Used for debugging output.
    */
@@ -131,13 +161,6 @@ protected:
   PointIdentifierContainer  m_PointIds;
   
   /**
-   * The set of cells that have been assigned to use this cell as a boundary.
-   * Top-level cells in the mesh always have an empty set of parent cells.
-   */
-  typedef std::set< CellIdentifier >  ParentCellContainer;
-  ParentCellContainer  m_ParentCells;
-  
-  /**
    * Cell internal utility routines.
    */
 
@@ -150,7 +173,7 @@ protected:
   /**
    * Get the geometrical position of a point.
    */
-  Point GetPointPosition(Mesh* mesh, int localId);
+  bool GetPointPosition(Mesh* mesh, int localId, Point*);
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION

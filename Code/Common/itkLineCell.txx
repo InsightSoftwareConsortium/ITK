@@ -79,7 +79,7 @@ itkLineCell< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 void
 itkLineCell< TPixelType , TMeshType >
-::SetCellPoints(PointIdentifier *ptList)
+::SetCellPoints(const PointIdentifier *ptList)
 {
   for(int i=0; i < NumberOfPoints ; ++i)
     m_PointIds[i] = ptList[i];

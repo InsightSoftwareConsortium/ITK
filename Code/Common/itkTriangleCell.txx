@@ -81,7 +81,7 @@ itkTriangleCell< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 void
 itkTriangleCell< TPixelType , TMeshType >
-::SetCellPoints(PointIdentifier *ptList)
+::SetCellPoints(const PointIdentifier *ptList)
 {
   for(int i=0; i < NumberOfPoints ; ++i)
     m_PointIds[i] = ptList[i];
@@ -141,8 +141,8 @@ itkTriangleCell< TPixelType , TMeshType >
 {
   Edge::Pointer edge(Edge::New());
   
-  edge->SetCellPoint(0, m_PointIds[ m_Edges[edgeId][0] ]);
-  edge->SetCellPoint(1, m_PointIds[ m_Edges[edgeId][1] ]);
+  for(int i=0; i < Edge::NumberOfPoints; ++i)
+    edge->SetCellPoint(i, m_PointIds[ m_Edges[edgeId][i] ]);
   
   return edge;
 }

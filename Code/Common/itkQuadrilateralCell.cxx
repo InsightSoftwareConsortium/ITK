@@ -81,7 +81,7 @@ itkQuadrilateralCell< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 void
 itkQuadrilateralCell< TPixelType , TMeshType >
-::SetCellPoints(PointIdentifier *ptList)
+::SetCellPoints(const PointIdentifier *ptList)
 {
   for(int i=0; i < NumberOfPoints ; ++i)
     m_PointIds[i] = ptList[i];

@@ -17,6 +17,7 @@
 #define __itkTetrahedronCell_h
 
 #include "itkCell.h"
+#include "itkCellBoundary.h"
 #include "itkTriangleCell.h"
 
 /**
@@ -47,9 +48,9 @@ public:
   /**
    * The type of cells for this tetrahedron's vertices, edges, and faces.
    */
-  typedef itkVertexCell< TPixelType , TMeshType >    Vertex;
-  typedef itkLineCell< TPixelType , TMeshType >      Edge;
-  typedef itkTriangleCell< TPixelType , TMeshType >  Face;
+  typedef itkVertexBoundary< TPixelType , TMeshType >    Vertex;
+  typedef itkLineBoundary< TPixelType , TMeshType >      Edge;
+  typedef itkTriangleBoundary< TPixelType , TMeshType >  Face;
   
   /**
    * Tetrahedron-specific topology numbers.
@@ -67,7 +68,7 @@ public:
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
   virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
-  virtual void SetCellPoints(PointIdentifier *ptList);
+  virtual void SetCellPoints(const PointIdentifier *ptList);
 
   /**
    * Tetrahedron-specific interface.
@@ -112,6 +113,15 @@ protected:
   static const int m_Edges[6][2];
   static const int m_Faces[4][3];
 };
+
+
+/**
+ * Create the boundary-wrapped version of this cell type.
+ */
+template <typename TPixelType, typename TMeshType = itkMeshTypeDefault>
+class itkTetrahedronBoundary:
+  public itkCellBoundary< itkTetrahedronCell< TPixelType , TMeshType > >
+{};
 
 
 #ifndef ITK_MANUAL_INSTANTIATION

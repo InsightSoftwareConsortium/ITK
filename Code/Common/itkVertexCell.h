@@ -17,6 +17,7 @@
 #define __itkVertexCell_h
 
 #include "itkCell.h"
+#include "itkCellBoundary.h"
 
 /**
  * itkVertexCell represents a single vertex for itkMesh.
@@ -68,7 +69,7 @@ public:
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
   virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
-  virtual void SetCellPoints(PointIdentifier *ptList);
+  virtual void SetCellPoints(const PointIdentifier *ptList);
   
   /**
    * Vertex-specific interface.
@@ -86,6 +87,16 @@ protected:
    */
   itkVertexCell(): Cell(NumberOfPoints) {}
 };
+
+
+/**
+ * Create the boundary-wrapped version of this cell type.
+ */
+template <typename TPixelType, typename TMeshType = itkMeshTypeDefault>
+class itkVertexBoundary:
+  public itkCellBoundary< itkVertexCell< TPixelType , TMeshType > >
+{};
+
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVertexCell.cxx"

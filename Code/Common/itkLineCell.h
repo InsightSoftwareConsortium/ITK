@@ -17,6 +17,7 @@
 #define __itkLineCell_h
 
 #include "itkCell.h"
+#include "itkCellBoundary.h"
 #include "itkVertexCell.h"
 
 /**
@@ -47,7 +48,7 @@ public:
   /**
    * The type of cells for this lines's vertices.
    */
-  typedef itkVertexCell< TPixelType , TMeshType >  Vertex;
+  typedef itkVertexBoundary< TPixelType , TMeshType >  Vertex;
   
   /**
    * Line-specific topology numbers.
@@ -63,7 +64,7 @@ public:
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
   virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
-  virtual void SetCellPoints(PointIdentifier *ptList);
+  virtual void SetCellPoints(const PointIdentifier *ptList);
 
   /**
    * Line-specific interface.
@@ -82,6 +83,16 @@ protected:
    */
   itkLineCell(): Cell(NumberOfPoints) {}  
 };
+
+
+/**
+ * Create the boundary-wrapped version of this cell type.
+ */
+template <typename TPixelType, typename TMeshType = itkMeshTypeDefault>
+class itkLineBoundary:
+  public itkCellBoundary< itkLineCell< TPixelType , TMeshType > >
+{};
+
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkLineCell.cxx"
