@@ -54,7 +54,6 @@ PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Parameters: "       << m_Parameters  << std::endl;
   os << indent << "Offset: "       << m_Offset   << std::endl;
   os << indent << "Rotation: "     << m_Versor << std::endl;
   os << indent << "FocalDistance: "<< m_FocalDistance << std::endl;
