@@ -99,6 +99,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkReflectImageFilter.txx"
 #include "itkReflectiveImageRegionIterator.txx"
 #include "itkResampleImageFilter.txx"
+#include "itkRescaleIntensityImageFilter.txx"
 #include "itkScalarAnisotropicDiffusionFunction.txx"
 #include "itkShiftScaleImageFilter.txx"
 #include "itkShrinkImageFilter.txx"
