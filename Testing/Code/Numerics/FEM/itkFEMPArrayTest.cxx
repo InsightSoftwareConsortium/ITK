@@ -120,6 +120,15 @@ int itkFEMPArrayTest(int, char*[])
       }
 
 
+    // Use the node in order to avoid warning for unused variable
+    ElementType::VectorType coordinates = node->GetCoordinates();
+
+    std::cout << "Coordinates = " << std::endl;
+    for( unsigned int c=0; c<coordinates.size(); c++)
+      {
+      std::cout << coordinates[c] << "  " << std::endl; 
+      }
+
     std::cout << "Test PASSED!\n";
     return EXIT_SUCCESS;
 }
