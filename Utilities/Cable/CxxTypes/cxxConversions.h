@@ -28,6 +28,11 @@ namespace _cxx_
 class _cxx_EXPORT Conversions
 {
 public:
+  static bool CanConvert(const CvQualifiedType& from,
+                         const CvQualifiedType& to);
+private:
+  static bool ReferenceBinding(const CvQualifiedType& from,
+                               const CvQualifiedType& to);
 };
 
 } // namespace _cxx_
