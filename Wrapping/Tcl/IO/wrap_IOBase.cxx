@@ -15,6 +15,7 @@
 
 =========================================================================*/
 #include "itkRawImageIO.h"
+#include "itkImageIOBase.h"
 #include "itkPNGImageIO.h"
 #include "itkMetaImageIO.h"
 #include "itkPNGImageIOFactory.h"
@@ -25,6 +26,7 @@
 #include "wrap_ITKIO.h"
 
 ITK_WRAP_CONFIG_GROUP(IOBase);
+ITK_WRAP_OBJECT(ImageIOBase);
 ITK_WRAP_OBJECT(PNGImageIO);
 ITK_WRAP_OBJECT(MetaImageIO);
 ITK_WRAP_OBJECT(PNGImageIOFactory);
