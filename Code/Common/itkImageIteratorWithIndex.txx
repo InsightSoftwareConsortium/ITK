@@ -33,7 +33,7 @@ ImageIteratorWithIndex<TImage>
   m_Position  = 0;
   m_Begin     = 0;
   m_End       = 0;
-  m_Remaining = true;
+  m_Remaining = false;
 }
 
 
@@ -153,8 +153,11 @@ ImageIteratorWithIndex<TImage>
 
   m_Position       = m_Begin;
   m_PositionIndex  = m_BeginIndex;
-  m_Remaining      = true;
+
 }
+
+
+
 
 
 } // end namespace itk
