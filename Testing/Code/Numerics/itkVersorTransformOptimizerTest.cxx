@@ -256,7 +256,9 @@ int main()
 
   VersorType::VectorType trueAxis;
   VersorType::ValueType  trueAngle;
-  trueAxis  = 1.0f, 0.0f, 0.0f;
+  trueAxis[0]  = 1.0f;
+  trueAxis[1]  = 0.0f;
+  trueAxis[2]  = 0.0f;
   trueAngle = 2.0 * atan( 1.0f );
   VersorType trueRotation;
   trueRotation.Set( trueAxis, trueAngle );
