@@ -9,8 +9,8 @@
   Copyright (c) 2002 Insight Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,7 @@
 namespace itk
 {
 
-  
+
 /** Default constructor. Needed since we provide a cast constructor. */
 template<class TImage>
 ImageRandomConstIteratorWithIndex<TImage>
@@ -36,7 +36,7 @@ ImageRandomConstIteratorWithIndex<TImage>
 
 
 
-  
+
 /** Constructor establishes an iterator to walk a particular image and a
  * particular region of that image. */
 template<class TImage>
@@ -85,7 +85,7 @@ ImageRandomConstIteratorWithIndex<TImage>
 
 /**  Set the number of samples to extract from the region */
 template<class TImage>
-unsigned long 
+unsigned long
 ImageRandomConstIteratorWithIndex<TImage>
 ::GetNumberOfSamples( void ) const
 {
@@ -95,12 +95,12 @@ ImageRandomConstIteratorWithIndex<TImage>
 
 /**  Execute an acrobatic random jump forward */
 template<class TImage>
-ImageRandomConstIteratorWithIndex<TImage>  & 
+ImageRandomConstIteratorWithIndex<TImage>  &
 ImageRandomConstIteratorWithIndex<TImage>
 ::operator++()
 {
-  const double normalizationFactor = 
-      static_cast<double>( m_NumberOfPixelsInRegion ) / RAND_MAX;
+  const double normalizationFactor =
+      static_cast<double>( m_NumberOfPixelsInRegion - 1 ) / RAND_MAX;
 
   const unsigned long randomPosition =
      static_cast<unsigned long> (
@@ -124,10 +124,10 @@ ImageRandomConstIteratorWithIndex<TImage>
 }
 
 
-/**  Execute an acrobatic random jump  backwards, 
+/**  Execute an acrobatic random jump  backwards,
      ...but actually is the same code */
 template<class TImage>
-ImageRandomConstIteratorWithIndex<TImage>  & 
+ImageRandomConstIteratorWithIndex<TImage>  &
 ImageRandomConstIteratorWithIndex<TImage>
 ::operator--()
 {
