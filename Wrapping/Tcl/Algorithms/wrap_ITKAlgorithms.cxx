@@ -22,14 +22,15 @@ namespace _cable_
   const char* const package_version = ITK_WRAP_PACKAGE_VERSION;
   const char* const groups[] =
   {
+    ITK_WRAP_GROUP(itkCurvatureFlowImageFilter),
+    ITK_WRAP_GROUP(itkImageRegistrationMethod),
     ITK_WRAP_GROUP(itkImageToImageMetric),
     ITK_WRAP_GROUP(itkMeanSquaresImageToImageMetric),
     ITK_WRAP_GROUP(itkMutualInformationImageToImageMetric),
     ITK_WRAP_GROUP(itkNormalizedCorrelationImageToImageMetric),
     ITK_WRAP_GROUP(itkPatternIntensityImageToImageMetric),
     ITK_WRAP_GROUP(itkSimpleFuzzyConnectednessImageFilterBase),
-    ITK_WRAP_GROUP(itkSimpleFuzzyConnectednessScalarImageFilter),
-    ITK_WRAP_GROUP(itkCurvatureFlowImageFilter)
+    ITK_WRAP_GROUP(itkSimpleFuzzyConnectednessScalarImageFilter)
   };
 }
 #endif

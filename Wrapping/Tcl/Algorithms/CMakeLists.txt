@@ -6,6 +6,8 @@ ADD_LIBRARY(ITKAlgorithmsTcl)
 
 ITK_WRAP_TCL(ITKAlgorithmsTcl
   wrap_ITKAlgorithms.cxx
+  wrap_itkCurvatureFlowImageFilter.cxx
+  wrap_itkImageRegistrationMethod.cxx
   wrap_itkImageToImageMetric.cxx
   wrap_itkMeanSquaresImageToImageMetric.cxx
   wrap_itkMutualInformationImageToImageMetric.cxx
@@ -13,15 +15,11 @@ ITK_WRAP_TCL(ITKAlgorithmsTcl
   wrap_itkPatternIntensityImageToImageMetric.cxx
   wrap_itkSimpleFuzzyConnectednessImageFilterBase.cxx
   wrap_itkSimpleFuzzyConnectednessScalarImageFilter.cxx
-  wrap_itkCurvatureFlowImageFilter.cxx
 )
 
 TARGET_LINK_LIBRARIES(ITKAlgorithmsTcl
-  ITKCommon
   ITKIO
   ITKBasicFilters
-  ITKNumerics
-  VXLNumerics
   ${CABLE_TCL_LIBRARY}
 )
 
