@@ -284,7 +284,7 @@ TInterpolator * interpolator )
   std::cout << "No. of histogram bin used = " <<
     metric->GetNumberOfHistogramBins() << std::endl;
 
-  std::cout << metric;
+  metric->Print(std::cout);
 
   return EXIT_SUCCESS;
 
