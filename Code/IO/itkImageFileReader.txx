@@ -161,13 +161,19 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
 {
   typename TOutputImage::Pointer out = dynamic_cast<TOutputImage*>(output);
 
-  if (out)
+  // the ImageIO object cannot stream, then set the RequestedRegion to the
+  // LargestPossibleRegion
+  if (!m_ImageIO->CanStreamRead())
     {
-    out->SetRequestedRegion( out->GetLargestPossibleRegion() );
-    }
-  else
-    {
-    throw ImageFileReaderException(__FILE__, __LINE__, "Invalid output object type");
+    if (out)
+      {
+      out->SetRequestedRegion( out->GetLargestPossibleRegion() );
+      }
+    else
+      {
+      throw ImageFileReaderException(__FILE__, __LINE__,
+                                     "Invalid output object type");
+      }
     }
 }
 
