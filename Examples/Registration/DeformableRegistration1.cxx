@@ -74,13 +74,13 @@ typedef itk::fem::Element2DC0LinearTriangularMembrane      ElementType2;
 
 
 //  SoftwareGuide : BeginCodeSnippet
-typedef itk::Image< unsigned char, 3 >                  fileImageType;
+typedef itk::Image< unsigned char, 3 >                  fileImage3DType;
 
-typedef itk::Image< float, 3 >                          ImageType;
+typedef itk::Image< float, 3 >                          Image3DType;
 
-typedef itk::fem::Element3DC0LinearHexahedronMembrane   ElementType;
+typedef itk::fem::Element3DC0LinearHexahedronMembrane   Element3DType;
 
-typedef itk::fem::Element3DC0LinearTetrahedronMembrane  ElementType2;
+typedef itk::fem::Element3DC0LinearTetrahedronMembrane  Element3DType2;
 //  Software Guide : EndCodeSnippet
 
 
