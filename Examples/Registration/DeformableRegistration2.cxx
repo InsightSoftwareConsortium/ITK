@@ -14,6 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+//  Software Guide : BeginCommandLineArgs
+//    RatLungSlice1.mha RatLungSlice2.mha DeformableRegistration2Output.mha 
+//    DeformableRegistration2Field.mha
+//  Software Guide : EndCommandLineArgs
+
 
 #include "itkImageFileReader.h" 
 #include "itkImageFileWriter.h" 
