@@ -7,6 +7,7 @@ CABLE_CLASS_SET(Dimension 2)
 CABLE_CLASS_SET(Dimension3 3)
 CABLE_CLASS_SET(Image "itk::Image<$Float,$Dimension>")
 CABLE_CLASS_SET(ImageUS "itk::Image<$UShort,$Dimension>")
+CABLE_CLASS_SET(ImageUS3 "itk::Image<$UShort,$Dimension3>")
 CABLE_CLASS_SET(Image3D "itkImage_float_3:itk::Image<float, 3>")
 CABLE_CLASS_SET(CovariantVector "itk::CovariantVector<$Float,$Dimension>")
 CABLE_CLASS_SET(Mesh "itk::Mesh<$Float>")
@@ -57,7 +58,7 @@ CABLE_WRAP_TCL(ITKAlgorithmsTestTcl1
   "itk::GaussianSupervisedClassifier<$VecImage,$Image>"
   "itk::GeodesicActiveContourImageFilter<$Image,$Image,$Image>"
   "itk::GibbsPriorFilter<$VecImage3D,$Image3D>"
-  "itk::HybridFilter<$ImageUS,$ImageUS,$Mesh,$Mesh>"
+  "itk::HybridFilter<$ImageUS3,$ImageUS3,$Mesh,$Mesh>"
 )
 ADD_LIBRARY(ITKAlgorithmsTestTcl2)
 
