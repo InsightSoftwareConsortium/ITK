@@ -4,6 +4,9 @@
 # Experimental testing targets for main ITK and nested projects.
 SET(DART_EXPERIMENTAL_USE_PROJECT_NAME 1)
 
+# Build jpeg first because tiff needs it
+SUBDIRS(itkjpeg)
+
 #------------------------------------------------------------------------------
 # Build third-party utilities.
 ITK_THIRD_PARTY_SUBDIR(ZLIB zlib)
@@ -14,7 +17,6 @@ ITK_THIRD_PARTY_SUBDIR(TIFF tiff)
 SUBDIRS(MetaIO)
 SUBDIRS(NrrdIO)
 SUBDIRS(expat)
-SUBDIRS(itkjpeg)
 IF(USE_GDCM)
   SUBDIRS(gdcm)
 ENDIF(USE_GDCM)
