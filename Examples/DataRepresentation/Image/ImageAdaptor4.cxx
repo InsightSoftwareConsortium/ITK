@@ -139,7 +139,7 @@ int main( int argc, char *argv[] )
 //
 //  The threshold value is set from the command line. A threshold
 //  pixel accessor is created and connected to the image adaptor
-//  in the same manner as the previous example.
+//  in the same manner as in the previous example.
 //
 //  Software Guide : EndLatex 
 
@@ -207,7 +207,7 @@ int main( int argc, char *argv[] )
 //  applying the thresholding adaptor to a typical gray scale image using two
 //  different threshold values. Note that the same effect could have been
 //  achieved by using the \doxygen{BinaryThresholdImageFilter} but at the
-//  price of holding and extra copy of the image in memory.
+//  price of holding an extra copy of the image in memory.
 //
 //  Software Guide : EndLatex 
 

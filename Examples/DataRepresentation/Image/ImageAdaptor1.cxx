@@ -99,7 +99,7 @@ int main( int argc, char *argv[] )
 //  Software Guide : BeginLatex
 //
 //  The CastPixelAccessor class simply applies a
-//  \code{static\_cast} to the pixel values. We use now this pixel accessor
+//  \code{static\_cast} to the pixel values. We now use this pixel accessor
 //  to define the image adaptor type and create an instance using
 //  the standard \code{New()} method.
 //
@@ -177,8 +177,8 @@ std::cout << "Sum of pixels is: " << sum << std::endl;
 //
 // Although in this example, we are just performing a simple summation, the key 
 // concept is that access to pixels is performed as if the pixel is of type
-//  \code{float}. Additionally, it should be noted that the adaptor is use 
-// as if it was an actual image and not as a filter. ImageAdaptors conforms 
+//  \code{float}. Additionally, it should be noted that the adaptor is used 
+// as if it was an actual image and not as a filter. ImageAdaptors conform 
 // to the same API as the  \doxygen{Image} class.
 //
 //  Software Guide : EndLatex 

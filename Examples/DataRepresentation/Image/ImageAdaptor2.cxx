@@ -138,7 +138,7 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  We create a \doxygen{RescaleIntensityImageFilter} and a
+//  We create an \doxygen{RescaleIntensityImageFilter} and an
 //  \doxygen{ImageFileWriter} to rescale the dynamic range of the pixel values
 //  and send the extracted channel to an image file. Note that the image type
 //  used for the rescaling filter is the \code{ImageAdaptorType} itself. That
