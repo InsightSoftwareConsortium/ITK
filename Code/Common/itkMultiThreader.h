@@ -54,10 +54,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-  /** \class vtkMultiThreader
+  /** \class MultiThreader
    * \brief A class for performing multithreaded execution
    *
-   * vtkMultithreader is a class that provides support for multithreaded
+   * Multithreader is a class that provides support for multithreaded
    * execution using sproc() on an SGI, or pthread_create on any platform
    * supporting POSIX threads.  This class can be used to execute a single
    * method on multiple threads, or to specify a method per thread.

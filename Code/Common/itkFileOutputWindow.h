@@ -111,7 +111,7 @@ public:
   /**
    * Setting append will cause the log file to be 
    * opened in append mode.  Otherwise, if the log file exists,
-   * it will be overwritten each time the vtkFileOutputWindow 
+   * it will be overwritten each time the FileOutputWindow 
    * is created.
    */
   itkSetMacro(Append, bool);

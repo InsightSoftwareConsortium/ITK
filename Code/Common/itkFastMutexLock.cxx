@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-// Construct a new vtkMutexLock 
+// Construct a new SimpleMutexLock 
 SimpleFastMutexLock::SimpleFastMutexLock()
 {
 #ifdef ITK_USE_SPROC
@@ -65,7 +65,7 @@ SimpleFastMutexLock::SimpleFastMutexLock()
 
 }
 
-// Destruct the vtkMutexVariable
+// Destruct the SimpleMutexVariable
 SimpleFastMutexLock::~SimpleFastMutexLock()
 {
 #if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
