@@ -75,6 +75,14 @@ public:
   bool operator< ( const Self& node ) const
     { return value < node.value; }
 
+  /** Operator <=. A LevelSetNode is sorted by its value field. */
+  bool operator<= ( const Self& node ) const
+    { return value <= node.value; }
+
+  /** Operator >=. A LevelSetNode is sorted by its value field. */
+  bool operator>= ( const Self& node ) const
+    { return value >= node.value; }
+
   /** Operator =. Two nodes are equal if both their value and index fields
    * are the same. */
   Self& operator= ( const Self& rhs )
