@@ -142,8 +142,8 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
       grad_mag_d = ::sqrt(m_MIN_NORM + grad_mag_sq_d);
 
       // Conductance Terms
-      Cx  = ::exp( grad_mag_sq   / m_k );
-      Cxd = ::exp( grad_mag_sq_d / m_k );
+      Cx  = ::exp( grad_mag_sq   / m_K );
+      Cxd = ::exp( grad_mag_sq_d / m_K );
 
       // First order normalized finite-difference conductance products
       dx_forward_Cn  = (dx_forward[i]  / grad_mag) * Cx;
@@ -227,8 +227,8 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
       grad_mag_d = ::sqrt(m_MIN_NORM + grad_mag_sq_d);
 
       // Conductance Terms
-      Cx  = ::exp( grad_mag_sq   / m_k );
-      Cxd = ::exp( grad_mag_sq_d / m_k );
+      Cx  = ::exp( grad_mag_sq   / m_K );
+      Cxd = ::exp( grad_mag_sq_d / m_K );
 
       // First order normalized finite-difference conductance products
       dx_forward_Cn  = (dx_forward[i]  / grad_mag) * Cx;
