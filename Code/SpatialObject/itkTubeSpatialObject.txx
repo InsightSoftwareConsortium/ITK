@@ -110,8 +110,8 @@ TubeSpatialObject< TDimension >
   os << indent << "TubeSpatialObject(" << this << ")" << std::endl; 
   os << indent << "ID: " << m_Id << std::endl; 
   os << indent << "nb of points: "<< static_cast<unsigned long>( m_Points.size() )<< std::endl;
-  os << indent << "Parent Point : " << m_ParentPoint << std::endl; 
   os << indent << "End Type : " << m_EndType << std::endl;
+  os << indent << "Parent Point : " << m_ParentPoint << std::endl; 
   Superclass::PrintSelf( os, indent ); 
 } 
  
@@ -119,47 +119,42 @@ TubeSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool 
 TubeSpatialObject< TDimension >  
-::ComputeBoundingBox() const
+::ComputeLocalBoundingBox() const
 { 
   itkDebugMacro( "Computing tube bounding box" );
-  bool ret = false;
 
-  if( (this->GetMTime() > m_BoundsMTime) || (m_BoundsMTime==0) )
+  if( m_BoundingBoxChildrenName.empty() 
+    || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
     {
-    ret = Superclass::ComputeBoundingBox();
+    typename PointListType::const_iterator it  = m_Points.begin();
+    typename PointListType::const_iterator end = m_Points.end();
 
-    if( m_BoundingBoxChildrenName.empty() 
-        || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
+    if(it == end)
       {
-      typename PointListType::const_iterator it  = m_Points.begin();
-      typename PointListType::const_iterator end = m_Points.end();
-
-      if(it == end)
-        {
-        return ret;
-        }
-      else
-        {
-        if(!ret)
-          {
-          m_Bounds->SetMinimum((*it).GetPosition()-(*it).GetRadius());
-          m_Bounds->SetMaximum((*it).GetPosition()+(*it).GetRadius());
-          it++;
-          }
-        while(it!= end) 
-          {     
-          m_Bounds->ConsiderPoint((*it).GetPosition()-(*it).GetRadius());
-          m_Bounds->ConsiderPoint((*it).GetPosition()+(*it).GetRadius());
-          it++;
-          }
-        ret = true;
+      return false;
+      }
+    else
+      {
+      PointType ptMin = (*it).GetPosition()-(*it).GetRadius();
+      ptMin = this->GetIndexToWorldTransform()->TransformPoint(ptMin);
+      PointType ptMax = (*it).GetPosition()+(*it).GetRadius();
+      ptMax = this->GetIndexToWorldTransform()->TransformPoint(ptMax);
+      m_Bounds->SetMinimum(ptMin);
+      m_Bounds->SetMaximum(ptMax);
+      it++;
+      while(it!= end) 
+       {
+        PointType ptMin = (*it).GetPosition()-(*it).GetRadius();
+        ptMin = this->GetIndexToWorldTransform()->TransformPoint(ptMin);
+        PointType ptMax = (*it).GetPosition()+(*it).GetRadius();
+        ptMax = this->GetIndexToWorldTransform()->TransformPoint(ptMax);
+        m_Bounds->ConsiderPoint(ptMin);
+        m_Bounds->ConsiderPoint(ptMax);
+        it++;
         }
       }
-
-    m_BoundsMTime = this->GetMTime();
     }
-
-  return ret;
+  return true;
 } 
 
 /** Return true if the given point is inside the tube */
@@ -168,7 +163,7 @@ bool
 TubeSpatialObject< TDimension >  
 ::IsInside( const PointType & point, unsigned int depth, char * name) const
 {
- itkDebugMacro( "Checking the point [" << point << "] is inside the tube" );
+  itkDebugMacro( "Checking the point [" << point << "] is inside the tube" );
 
   // find the closest point, and get the radius at that point...
   // if the distance is shorter than the radius, then the point is
@@ -188,11 +183,12 @@ TubeSpatialObject< TDimension >
   
     const TransformType * giT = GetWorldToIndexTransform();
     PointType transformedPoint = giT->TransformPoint(point);      
+    this->ComputeLocalBoundingBox();
 
     if(m_EndType == 0) // flat end-type
       {
       it2++; // next point
-      if( m_Bounds->IsInside(transformedPoint) )
+      if( m_Bounds->IsInside(point) )
         {
         while(it2!= end)
           {
@@ -240,7 +236,7 @@ TubeSpatialObject< TDimension >
       }
     else if(m_EndType == 1) // rounded end-type
       {
-      if( m_Bounds->IsInside(transformedPoint) )
+      if( m_Bounds->IsInside(point) )
          {
          while(it!= end)
            {
@@ -274,9 +270,8 @@ TubeSpatialObject< TDimension >
 ::RemoveDuplicatePoints(unsigned int step)
 {
   unsigned int nPoints = 0;
-  typename PointListType::iterator it, previt,end; 
+  typename PointListType::iterator it, previt; 
   it = m_Points.begin(); 
-  end = m_Points.end();
   
   previt = it;
   unsigned long size = m_Points.size();

@@ -112,7 +112,7 @@ public:
                  unsigned int depth=0, char * name=NULL ) const;
 
   /** Compute the boundaries of the tube. */
-  bool ComputeBoundingBox( ) const;
+  bool ComputeLocalBoundingBox( ) const;
 
   /** Set/Get the parent point which corresponds to the 
    *  position of the point in the parent's points list */
