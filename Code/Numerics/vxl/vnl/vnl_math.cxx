@@ -14,6 +14,10 @@ extern "C" {
 // # define isnan _isnan
 # define finite _finite
 
+#elif defined(__BORLANDC__)
+# include <float.h>
+# define finite _finite
+
 #elif VXL_IEEEFP_HAS_FINITE
 # include <ieeefp.h>
 
