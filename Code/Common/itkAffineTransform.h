@@ -307,11 +307,11 @@ public:
      * given point or vector, returning the transformed point or
      * vector.
      **/
-    inline PointType           Transform(const PointType  &point ) const;
-    inline VectorType          Transform(const VectorType &vector) const;
-    inline VnlVectorType       Transform(const VnlVectorType &vector) const;
+    PointType           Transform(const PointType  &point ) const;
+    VectorType          Transform(const VectorType &vector) const;
+    VnlVectorType       Transform(const VnlVectorType &vector) const;
 
-    inline CovariantVectorType Transform(
+    CovariantVectorType Transform(
                                    const CovariantVectorType &vector) const;
 
     /**
