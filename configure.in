@@ -436,6 +436,9 @@ case $system in
 esac
 fi
 
+AC_SUBST(THREAD_LIBS)
+AC_SUBST(CMAKE_USE_PTHREADS)
+
 
 # on hp use -Aa for ansi
 if test $ac_cv_prog_gxx = no; then
@@ -565,7 +568,7 @@ AC_ARG_WITH(buildname,
 
 # Determine the site (domain) name
 AC_PATH_PROG(HOSTNAME, hostname, hostname)
-AC_PATH_PROG(NSLOOKUP, nslookup, nslookup)
+AC_PATH_PROG(NSLOOKUP, nslookup, nslookup, $PATH:/usr/bin:/usr/sbin:/usr/local/bin)
 myhostname=`$HOSTNAME`
 SITE=`$NSLOOKUP $myhostname | grep \^Name: | cut -d. -f2- | tr [A-Z] [a-z]`
 if test ! "$site_specified" = none; then
