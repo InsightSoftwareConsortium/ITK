@@ -20,6 +20,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRandomImageSource.h"
 #include "itkShrinkImage.h"
 #include "itkWriteVTKImage.h"
+#include "itkWriteRawImage.h"
 #include "itkReadVTKImage.h"
 #include "itkCommand.h"
 #include "itkOutputWindow.h"
@@ -181,10 +182,19 @@ int main()
   itk::WriteVTKImage<FloatImage2DType>::Pointer writer;
   writer = itk::WriteVTKImage<FloatImage2DType>::New();
   writer->SetInput(shrink->GetOutput());
-  writer->SetFileName("junkImage.vtk");
+  writer->SetFileName("BasicArchitectureImage.vtk");
   writer->SetFileTypeToASCII();
   writer->DebugOn();
   writer->Write();
+
+  itk::WriteRawImage<FloatImage2DType>::Pointer rawWriter;
+  rawWriter = itk::WriteRawImage<FloatImage2DType>::New();
+  rawWriter->SetInput(shrink->GetOutput());
+  rawWriter->SetFileName("BasicArchitectureImage.dat");
+  rawWriter->SetFileTypeToBinary();
+  rawWriter->SetByteOrderToBigEndian();
+  rawWriter->DebugOn();
+  rawWriter->Write();
 
   return EXIT_SUCCESS;
 }
