@@ -22,6 +22,8 @@
 
 #include "itkImage.h"
 #include "itkRayCastInterpolateImageFunction.h"
+#include "itkTranslationTransform.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 
 int 
@@ -69,26 +71,83 @@ itkRayCastInterpolateImageFunctionTest(
 
     /* Initialize the image contents */
     IndexType index;
-    for (int slice = 0; slice < 80; slice++) {
-        index[2] = slice;
-        for (int row = 0; row < 40; row++) {
-            index[1] = row;
-            for (int col = 0; col < 20; col++) {
-                index[0] = col;
-                image->SetPixel(index, slice+row+col);
-            }
+    for (int slice = 0; slice < size[2]; slice++) 
+      {
+      index[2] = slice;
+      for (int row = 0; row < size[1]; row++) 
+        {
+        index[1] = row;
+        for (int col = 0; col < size[0]; col++) 
+          {
+          index[0] = col;
+          PixelType value = (PixelType)(slice+row+col);
+          image->SetPixel(index,value);
+          }
         }
-    }
+      }
 
     typedef itk::RayCastInterpolateImageFunction<
-                      ImageType,double> InterpolatorType;
+                      ImageType,double> RayCastInterpolatorType;
 
     /* Create and initialize the interpolator */
-    InterpolatorType::Pointer interp = InterpolatorType::New();
+    RayCastInterpolatorType::Pointer interp = RayCastInterpolatorType::New();
     interp->SetInputImage(image);
     interp->Print( std::cout );
 
+    PointType focus;
+    focus[0] =  15.0;
+    focus[1] =  15.0;
+    focus[2] = 100.0;
    
+    interp->SetFocalPoint( focus );
+
+
+    /* Create the transform */
+    typedef itk::TranslationTransform<
+                    double,ImageDimension>  TransformType;
+
+    TransformType::Pointer transform = TransformType::New();
+    interp->SetTransform( transform );
+
+    /* Create the auxiliary interpolator */
+    typedef itk::LinearInterpolateImageFunction< 
+                    ImageType, double > InterpolatorType;
+
+    InterpolatorType::Pointer auxInterpolator = InterpolatorType::New();
+    
+    interp->SetInterpolator( auxInterpolator );
+
+
+
+    /* Exercise the SetThreshold() method */
+    interp->SetThreshold( 1.0 );
+
+
+    /* Define the ray to cast on the volume */
+    RayCastInterpolatorType::DirectionType      rayDirection;
+    RayCastInterpolatorType::OutputPointType    rayPosition;
+    
+    /* start the ray in the middle of the volume */
+    rayPosition[0] =   15.0;
+    rayPosition[1] =   15.0;
+    rayPosition[2] =   15.0;
+
+    rayDirection[0] = 0.0;
+    rayDirection[1] = 0.0;
+    rayDirection[2] = 1.0;
+
+    interp->SetRay( rayPosition, rayDirection );
+      
+
+    /* Go to the start of the Ray */
+    interp->Reset();
+
+    double integral = 0.0;
+
+    interp->Integrate( integral );
+
+    std::cout << "Integral = " << integral << std::endl;
+
     return EXIT_SUCCESS;
 }
 
