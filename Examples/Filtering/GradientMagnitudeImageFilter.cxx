@@ -48,6 +48,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkRescaleIntensityImageFilter.h"
 
 //  Software Guide : BeginLatex
 //
@@ -97,8 +98,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< InputPixelType,  3 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 3 >   OutputImageType;
+  typedef itk::Image< InputPixelType,  2 >   InputImageType;
+  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
   // Software Guide : EndCodeSnippet
 
 
@@ -182,15 +183,28 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex 
 
+  typedef unsigned char WritePixelType;
 
-  typedef itk::ImageFileWriter< InputImageType >  WriterType;
+  typedef itk::Image< WritePixelType, 2 > WriteImageType;
+
+  typedef itk::RescaleIntensityImageFilter< 
+               OutputImageType, WriteImageType > RescaleFilterType;
+
+  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+
+  rescaler->SetOutputMinimum(   0 );
+  rescaler->SetOutputMaximum( 255 );
+  
+
+  typedef itk::ImageFileWriter< WriteImageType >  WriterType;
 
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[2] );
  
   // Software Guide : BeginCodeSnippet
-  writer->SetInput( filter->GetOutput() );
+  rescaler->SetInput( filter->GetOutput() );
+  writer->SetInput( rescaler->GetOutput() );
   writer->Update();
   // Software Guide : EndCodeSnippet
   
