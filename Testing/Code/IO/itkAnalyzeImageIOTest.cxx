@@ -21,6 +21,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkImageRegionIterator.h"
 #include <iostream>
+#include <fstream>
 
 #include "itkLaplacianImageFilter.h"
 #include "itkImageFileWriter.h"
@@ -49,6 +50,96 @@ const unsigned char LEFT=128;      /*Bit pattern 1 0 0  00000*/
 const unsigned char ANTERIOR=64;   /*Bit pattern 0 1 0  00000*/
 const unsigned char SUPERIOR=32;   /*Bit pattern 0 0 1  00000*/
 
+int WriteTestFiles()
+{
+#include "LittleEndian_hdr.h"
+#include "LittleEndian_img.h"
+#include "BigEndian_hdr.h"
+#include "BigEndian_img.h"
+  std::ofstream little_hdr("LittleEndian.hdr", std::ofstream::binary);
+  if(!little_hdr.is_open())
+    return -1;
+  little_hdr.write(LittleEndian_hdr,sizeof(LittleEndian_hdr));
+  little_hdr.close();
+  std::ofstream little_img("LittleEndian.img", std::ofstream::binary);
+  if(!little_img.is_open())
+    return -1;
+  little_img.write(LittleEndian_img,sizeof(LittleEndian_img));
+  little_img.close();
+  std::ofstream big_hdr("BigEndian.hdr", std::ofstream::binary);
+  if(!big_hdr.is_open())
+    return -1;
+  big_hdr.write(BigEndian_hdr,sizeof(BigEndian_hdr));
+  big_hdr.close();
+  std::ofstream big_img("BigEndian.img", std::ofstream::binary);
+  if(!big_img.is_open())
+    return -1;
+  big_img.write(BigEndian_img,sizeof(BigEndian_img));
+  big_img.close();
+  return 0;
+}
+void RemoveByteSwapTestFiles()
+{
+  Remove("LittleEndian.hdr");
+  Remove("LittleEndian.img");
+  Remove("BigEndian.hdr");
+  Remove("BigEndian.img");
+}
+
+int TestByteSwap()
+{
+  int rval;
+  typedef itk::Image<double, 3> ImageType ;
+  typedef itk::ImageFileReader< ImageType > ImageReaderType ;
+  if(WriteTestFiles() == -1)
+    return -1;
+
+  ImageType::Pointer little;
+  ImageType::Pointer big;
+
+  itk::ImageFileReader<ImageType>::Pointer imageReader =
+    itk::ImageFileReader<ImageType>::New();
+  try
+    {
+      imageReader->SetFileName("LittleEndian.hdr") ;
+      imageReader->Update() ;
+      little = imageReader->GetOutput() ;
+      imageReader->SetFileName("BigEndian.hdr") ;
+      imageReader->Update() ;
+      big = imageReader->GetOutput();
+    }
+  catch (itk::ExceptionObject e) 
+    {
+      e.Print(std::cerr) ;
+      RemoveByteSwapTestFiles();
+      return -1;
+    }
+  rval = 0;
+  try
+    {
+      itk::ImageRegionConstIterator<ImageType> littleIter(little,
+                                                          little->GetLargestPossibleRegion());
+      itk::ImageRegionConstIterator<ImageType> bigIter(big,
+                                                       big->GetLargestPossibleRegion());
+      while(!littleIter.IsAtEnd())
+        {
+          if(littleIter.Get() != bigIter.Get())
+            break;
+          ++littleIter;
+          ++bigIter;
+        }
+      if(!littleIter.IsAtEnd() || !bigIter.IsAtEnd())
+        rval = -1;
+    }
+  catch ( itk::ExceptionObject & ex )
+    {
+      std::cerr << "Error filling array" << ex.GetDescription() << std::endl;
+      rval= -1;
+    }
+
+  RemoveByteSwapTestFiles();
+  return rval;
+}
 
 template <typename T> int MakeImage()
 {
@@ -175,7 +266,7 @@ template <typename T> int MakeImage()
 
 //template int MakeImage<char>();
 
-int itkAnalyzeImageIOTest(int ac, char* av[] )
+int itkAnalyzeImageIOTest(int ac, char** av)
 {
   int rval = 0;
   int cur_return;
@@ -229,5 +320,7 @@ int itkAnalyzeImageIOTest(int ac, char* av[] )
     } 
   else
     rval += cur_return;
+  rval += TestByteSwap();
   return rval;
+
 }
