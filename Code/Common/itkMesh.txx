@@ -1250,6 +1250,31 @@ Mesh<TPixelType,TMeshType>
 
 //----------------------------------------------------------------------------
 template <typename TPixelType, typename TMeshType>
+void 
+Mesh<TPixelType,TMeshType>
+::SetRequestedRegion(DataObject *data)
+{
+  Mesh *mesh;
+  
+  mesh = dynamic_cast<Mesh*>(data);
+
+  if (mesh)
+    {
+    m_RequestedRegion = mesh->m_RequestedRegion;
+    m_RequestedNumberOfRegions = mesh->m_NumberOfRequestedRegions;
+    }
+  else
+    {
+    // pointer could not be cast back down
+    std::cerr << "itk::Mesh::SetRequestedRegion(DataObject*) cannot cast "
+              << typeid(data).name() << " to "
+              << typeid(Mesh*).name() << std::endl;
+    }
+}
+
+
+//----------------------------------------------------------------------------
+template <typename TPixelType, typename TMeshType>
 bool 
 Mesh<TPixelType,TMeshType>
 ::RequestedRegionIsOutsideOfTheBufferedRegion()

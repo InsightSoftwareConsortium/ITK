@@ -174,6 +174,14 @@ public:
   virtual void SetRequestedRegion(const RegionType &region);
 
   /**
+   * Set the requested region from this data object to match the requested
+   * region of the data object passed in as a parameter.  This method 
+   * implements the API from DataObject. The data object parameter must be
+   * castable to an ImageBase.
+   */
+  virtual void SetRequestedRegion(DataObject *data);
+
+  /**
    * Get the region object that defines the size and starting index
    * for the region of the image requested (i.e., the region of the
    * image to be operated on by a filter).

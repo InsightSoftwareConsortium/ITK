@@ -60,12 +60,12 @@ namespace itk
  * deletion of the output data once the downstream process object finishes
  * processing the data (please see text).
  *
- * Subclasses of ProcessObject may override 3 of the methods of this class
+ * Subclasses of ProcessObject may override 4 of the methods of this class
  * to control how a given filter may interact with the pipeline (dataflow).
  * These methods are: UpdateOutputInformation(),
- * EnlargeOutputRequestedRegion(), GenerateInputRequestedRegion(). By
- * overriding these methods, a filter deviate from the base assumptions
- * of the pipeline execution model.
+ * EnlargeOutputRequestedRegion(), GenerateInputRequestedRegion(), and
+ * GenerateOutputRequestedRegion(). By overriding these methods, a filter
+ * can deviate from the base assumptions of the pipeline execution model.
  *       
  */
 class ITK_EXPORT ProcessObject : public Object
@@ -249,6 +249,17 @@ public:
    */
   virtual void GenerateInputRequestedRegion();
   
+  /**
+   * Given one output whose requested region has been set, how should
+   * the requested regions for the remaining outputs of the process object
+   * be set?  By default, all the outputs are set to the same requested
+   * region.  If a filter needs to produce different requested regions
+   * for each output, for instance an image processing filter producing
+   * several outputs are different resolutions, then that filter may
+   * override this method and set the requested regions appropriatedly.
+   */
+  virtual void GenerateOutputRequestedRegion(DataObject *output);
+
   /** 
    * Turn on/off flag to control whether this object's data is released
    * after being used by a source. 

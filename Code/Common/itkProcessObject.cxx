@@ -538,6 +538,15 @@ ProcessObject
   this->EnlargeOutputRequestedRegion( output );
 
   /**
+   * Give the subclass a chance to define how to set the requested
+   * regions for each of its outputs, given this output's requested
+   * region.  The default implementation is to make all the output
+   * requested regions the same.  A subclass may need to override this
+   * method if each output is a different resolution.
+   */
+  this->GenerateOutputRequestedRegion( output );
+  
+  /**
    * Give the subclass a chance to request a larger requested region on 
    * the inputs. This is necessary when, for example, a filter
    * requires more data at the "internal" boundaries to 
@@ -579,6 +588,24 @@ ProcessObject
     if (m_Inputs[idx])
       {
       m_Inputs[idx]->SetRequestedRegionToLargestPossibleRegion();
+      }
+    }  
+}
+
+
+/**
+ * By default we set all the output requested regions to be the same.
+ */
+void 
+ProcessObject
+::GenerateOutputRequestedRegion(DataObject *output)
+{
+  std::vector<DataObjectPointer>::size_type idx;
+  for (idx = 0; idx < m_Outputs.size(); ++idx)
+    {
+    if (m_Outputs[idx] && m_Outputs[idx] != output)
+      {
+      m_Outputs[idx]->SetRequestedRegion(output);
       }
     }  
 }

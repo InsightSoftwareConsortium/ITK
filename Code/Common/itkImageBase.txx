@@ -262,6 +262,9 @@ ImageBase<VImageDimension>
     }
 }
 
+
+
+
 //----------------------------------------------------------------------------
 template<unsigned int VImageDimension>
 bool 
@@ -345,6 +348,29 @@ ImageBase<VImageDimension>
   if (m_RequestedRegion != region)
     {
     m_RequestedRegion = region;
+    }
+}
+
+//----------------------------------------------------------------------------
+template<unsigned int VImageDimension>
+void 
+ImageBase<VImageDimension>
+::SetRequestedRegion(DataObject *data)
+{
+  ImageBase *imgData;
+  
+  imgData = dynamic_cast<ImageBase*>(data);
+
+  if (imgData)
+    {
+    m_RequestedRegion = imgData->GetRequestedRegion();
+    }
+  else
+    {
+    // pointer could not be cast back down
+    std::cerr << "itk::ImageBase::SetRequestedRegion(DataObject*) cannot cast "
+              << typeid(data).name() << " to "
+              << typeid(ImageBase*).name() << std::endl;
     }
 }
 

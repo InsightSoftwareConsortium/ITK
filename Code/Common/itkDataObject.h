@@ -160,6 +160,13 @@ public:
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion() = 0;
   virtual bool VerifyRequestedRegion() = 0;
 
+  /**
+   * Set the requested region from this data object to match the requested
+   * region of the data object passed in as a parameter.  This method is
+   * implemented in the concrete subclasses of DataObject.
+   */
+  virtual void SetRequestedRegion(DataObject *data) = 0;
+  
   /** 
    * Handle the process object/data object reference-counting loop. 
    */

@@ -499,6 +499,14 @@ public:
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
   virtual bool VerifyRequestedRegion();
 
+  /**
+   * Set the requested region from this data object to match the requested
+   * region of the data object passed in as a parameter.  This method 
+   * implements the API from DataObject. The data object parameter must be
+   * castable to a Mesh.
+   */
+  virtual void SetRequestedRegion(DataObject *data);
+
 protected:
   /**
    * Constructor for use by New() method.
