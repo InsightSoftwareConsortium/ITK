@@ -27,7 +27,8 @@ namespace itk
  *
  * LinearInterpolateImageFunction linearly interpolates image intensity at
  * a non-integer pixel position. This class is templated
- * over the input image type.
+ * over the input image type and the coordinate representation type 
+ * (e.g. float or double).
  *
  * This function works for N-dimensional images.
  *
@@ -38,14 +39,14 @@ namespace itk
  *
  * \ingroup ImageFunctions
  */
-template <class TInputImage>
+template <class TInputImage, class TCoordRep = float>
 class ITK_EXPORT LinearInterpolateImageFunction : 
-  public InterpolateImageFunction<TInputImage> 
+  public InterpolateImageFunction<TInputImage,TCoordRep> 
 {
 public:
   /** Standard class typedefs. */
   typedef LinearInterpolateImageFunction Self;
-  typedef InterpolateImageFunction<TInputImage> Superclass;
+  typedef InterpolateImageFunction<TInputImage,TCoordRep> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

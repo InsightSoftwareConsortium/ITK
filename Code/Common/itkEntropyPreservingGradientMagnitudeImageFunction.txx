@@ -26,9 +26,9 @@ namespace itk
 /**
  *
  */
-template <class TInputImage>
+template <class TInputImage, class TCoordRep>
 void
-EntropyPreservingGradientMagnitudeImageFunction<TInputImage>
+EntropyPreservingGradientMagnitudeImageFunction<TInputImage,TCoordRep>
 ::SetInputImage( const InputImageType * ptr )
 {
   if( !ptr ) return;
@@ -57,9 +57,9 @@ EntropyPreservingGradientMagnitudeImageFunction<TInputImage>
 /**
  *
  */
-template<class TInputImage>
+template <class TInputImage, class TCoordRep>
 void
-EntropyPreservingGradientMagnitudeImageFunction<TInputImage>
+EntropyPreservingGradientMagnitudeImageFunction<TInputImage,TCoordRep>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
@@ -70,9 +70,9 @@ EntropyPreservingGradientMagnitudeImageFunction<TInputImage>
 /**
  *
  */
-template <class TInputImage>
+template <class TInputImage, class TCoordRep>
 double
-EntropyPreservingGradientMagnitudeImageFunction<TInputImage>
+EntropyPreservingGradientMagnitudeImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(
 const IndexType& index ) const
 {

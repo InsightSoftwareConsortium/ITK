@@ -64,6 +64,9 @@ public:
 
    /** Typedef of transformation parameters. */
    typedef typename TTransformation::ParametersType   ParametersType;
+ 
+  /** Typedef of the transformation coordinate representation. */
+  typedef typename TTransformation::ScalarType CoordRepType;
 
   /**  Pointer type for the reference.  */
   typedef typename Superclass::DomainPointer DomainPointer;
@@ -87,7 +90,7 @@ public:
   typedef  typename   TImage::SizeType   SizeType;
   
   /** Type of the interpolation function. */
-  typedef LinearInterpolateImageFunction<ImageType>  InterpolatorType;
+  typedef LinearInterpolateImageFunction<ImageType,CoordRepType>  InterpolatorType;
 
   /** Type of the interpolation function */
   typedef typename  InterpolatorType::Pointer  InterpolatorPointer;

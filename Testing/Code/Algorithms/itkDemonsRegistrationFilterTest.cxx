@@ -198,12 +198,14 @@ int main()
   registrator->Update();
 
   // warp reference image
-  typedef itk::NearestNeighborInterpolateImageFunction<ImageType>
+  typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
+  WarperType::Pointer warper = WarperType::New();
+
+  typedef WarperType::CoordRepType CoordRepType;
+  typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
     InterpolatorType;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   
-  typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
-  WarperType::Pointer warper = WarperType::New();
 
   warper->SetInput( reference );
   warper->SetDeformationField( registrator->GetOutput() );

@@ -100,10 +100,11 @@ public:
   typedef typename OutputImageType::PixelType  OutputPixelType;
 
   /** Typedef support for the interpolation function. */
-  typedef InterpolateImageFunction<InputImageType> 
+  typedef double CoordRepType;
+  typedef InterpolateImageFunction<InputImageType,CoordRepType> 
     InterpolatorType;
   typedef typename InterpolatorType::Pointer InterpolatorPointer;
-  typedef LinearInterpolateImageFunction<InputImageType> 
+  typedef LinearInterpolateImageFunction<InputImageType,CoordRepType> 
     DefaultInterpolatorType;
 
   /** Set the interpolator function. */

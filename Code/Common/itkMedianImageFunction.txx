@@ -29,8 +29,8 @@ namespace itk
 /**
  * Constructor
  */
-template <class TInputImage>
-MedianImageFunction<TInputImage>
+template <class TInputImage, class TCoordRep>
+MedianImageFunction<TInputImage,TCoordRep>
 ::MedianImageFunction()
 {
 }
@@ -39,9 +39,9 @@ MedianImageFunction<TInputImage>
 /**
  *
  */
-template<class TInputImage>
+template <class TInputImage, class TCoordRep>
 void
-MedianImageFunction<TInputImage>
+MedianImageFunction<TInputImage,TCoordRep>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
@@ -51,9 +51,10 @@ MedianImageFunction<TInputImage>
 /**
  *
  */
-template <class TInputImage>
-MedianImageFunction<TInputImage>::OutputType
-MedianImageFunction<TInputImage>
+template <class TInputImage, class TCoordRep>
+MedianImageFunction<TInputImage,TCoordRep>
+::OutputType
+MedianImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(const IndexType& index) const
 {
   int i;

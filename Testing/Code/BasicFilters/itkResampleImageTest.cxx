@@ -33,8 +33,9 @@ typedef ImageType::IndexType                ImageIndexType;
 typedef ImageType::Pointer                  ImagePointerType;
 typedef ImageType::RegionType               ImageRegionType;
 typedef ImageType::SizeType                 ImageSizeType;
-typedef ImageType::AffineTransformType      AffineTransformType;
-typedef itk::LinearInterpolateImageFunction<ImageType>  InterpolatorType;
+typedef double                  CoordRepType;
+typedef itk::AffineTransform<CoordRepType,NDimensions>   AffineTransformType;
+typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>  InterpolatorType;
 
 
 int main()

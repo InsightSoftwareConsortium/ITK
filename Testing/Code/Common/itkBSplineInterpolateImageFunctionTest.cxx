@@ -28,6 +28,7 @@
 #include "vnl/vnl_math.h"
 
   typedef double InputPixelType;
+  typedef double CoordRepType;
 
 // Set up for 1D Images
   enum { ImageDimension1D = 1 };
@@ -35,7 +36,7 @@
   typedef itk::Image< InputPixelType, ImageDimension1D > ImageType1D;
   typedef ImageType1D::Pointer ImageTypePtr1D;
   typedef ImageType1D::SizeType SizeType1D;
-  typedef itk::BSplineInterpolateImageFunction<ImageType1D> InterpolatorType1D;
+  typedef itk::BSplineInterpolateImageFunction<ImageType1D,CoordRepType> InterpolatorType1D;
   typedef InterpolatorType1D::IndexType                 IndexType1D;
   typedef InterpolatorType1D::PointType                 PointType1D;
   typedef InterpolatorType1D::ContinuousIndexType       ContinuousIndexType1D;
@@ -48,7 +49,7 @@
   typedef itk::Image< InputPixelType, ImageDimension2D > ImageType2D;
   typedef ImageType2D::Pointer ImageTypePtr2D;
   typedef ImageType2D::SizeType SizeType2D;
-  typedef itk::BSplineInterpolateImageFunction<ImageType2D> InterpolatorType2D;
+  typedef itk::BSplineInterpolateImageFunction<ImageType2D,CoordRepType> InterpolatorType2D;
   typedef InterpolatorType2D::IndexType                 IndexType2D;
   typedef InterpolatorType2D::PointType                 PointType2D;
   typedef InterpolatorType2D::ContinuousIndexType       ContinuousIndexType2D;
@@ -61,7 +62,7 @@
   typedef itk::Image< InputPixelType, ImageDimension3D > ImageType3D;
   typedef ImageType3D::Pointer ImageTypePtr3D;
   typedef ImageType3D::SizeType SizeType3D;
-  typedef itk::BSplineInterpolateImageFunction<ImageType3D> InterpolatorType3D;
+  typedef itk::BSplineInterpolateImageFunction<ImageType3D,CoordRepType> InterpolatorType3D;
   typedef InterpolatorType3D::IndexType                 IndexType3D;
   typedef InterpolatorType3D::PointType                 PointType3D;
   typedef InterpolatorType3D::ContinuousIndexType       ContinuousIndexType3D;

@@ -32,18 +32,19 @@ namespace itk
  * If called with a ContinuousIndex or Point, the calculation is performed
  * at the nearest neighbor.
  *
- * This class is templated over the input image type.
+ * This class is templated over the input image type and the coordinate
+ * representation type (e.g. float or double).
  *
  * \ingroup ImageFunctions
  */
-template <class TInputImage >
+template <class TInputImage, class TCoordRep = float >
 class ITK_EXPORT NeighborhoodBinaryThresholdImageFunction :
-  public BinaryThresholdImageFunction< TInputImage >
+  public BinaryThresholdImageFunction< TInputImage, TCoordRep >
 {
 public:
   /** Standard class typedefs. */
   typedef NeighborhoodBinaryThresholdImageFunction Self;
-  typedef BinaryThresholdImageFunction<TInputImage> Superclass;
+  typedef BinaryThresholdImageFunction<TInputImage,TCoordRep> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

@@ -25,17 +25,17 @@ namespace itk
 /**
  * Define the number of neighbors
  */
-template<class TInputImage>
+template<class TInputImage, class TCoordRep>
 const unsigned long
-VectorLinearInterpolateImageFunction< TInputImage >
+VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::m_Neighbors = 1 << TInputImage::ImageDimension;
 
 
 /**
  * Constructor
  */
-template<class TInputImage>
-VectorLinearInterpolateImageFunction<TInputImage>
+template<class TInputImage, class TCoordRep>
+VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::VectorLinearInterpolateImageFunction()
 {
 
@@ -45,9 +45,9 @@ VectorLinearInterpolateImageFunction<TInputImage>
 /**
  * PrintSelf
  */
-template<class TInputImage>
+template<class TInputImage, class TCoordRep>
 void
-VectorLinearInterpolateImageFunction<TInputImage>
+VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
@@ -57,10 +57,10 @@ VectorLinearInterpolateImageFunction<TInputImage>
 /**
  * Evaluate at image index position
  */
-template<class TInputImage>
-VectorLinearInterpolateImageFunction<TInputImage>
+template<class TInputImage, class TCoordRep>
+VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
-VectorLinearInterpolateImageFunction<TInputImage>
+VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtContinuousIndex(
 const ContinuousIndexType& index) const
 {

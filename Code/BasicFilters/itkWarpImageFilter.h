@@ -117,13 +117,14 @@ public:
   typedef typename DeformationFieldType::PixelType DisplacementType;
 
   /** Interpolator typedef support. */
-  typedef InterpolateImageFunction<InputImageType>   InterpolatorType;
+  typedef double CoordRepType;
+  typedef InterpolateImageFunction<InputImageType,CoordRepType>   InterpolatorType;
   typedef typename InterpolatorType::Pointer   InterpolatorPointer;
-  typedef LinearInterpolateImageFunction<InputImageType>
+  typedef LinearInterpolateImageFunction<InputImageType,CoordRepType>
     DefaultInterpolatorType;
 
   /** Point type */
-  typedef Point<double,ImageDimension> PointType;
+  typedef Point<CoordRepType,ImageDimension> PointType;
 
   /** Set the deformation field. */
   void SetDeformationField( DeformationFieldType * field );

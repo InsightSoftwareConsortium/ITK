@@ -26,8 +26,8 @@ namespace itk
 /**
  * Constructor
  */
-template <class TInputImage>
-VarianceImageFunction<TInputImage>
+template <class TInputImage, class TCoordRep>
+VarianceImageFunction<TInputImage,TCoordRep>
 ::VarianceImageFunction()
 {
 }
@@ -36,9 +36,9 @@ VarianceImageFunction<TInputImage>
 /**
  *
  */
-template<class TInputImage>
+template <class TInputImage, class TCoordRep>
 void
-VarianceImageFunction<TInputImage>
+VarianceImageFunction<TInputImage,TCoordRep>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
@@ -48,9 +48,10 @@ VarianceImageFunction<TInputImage>
 /**
  *
  */
-template <class TInputImage>
-VarianceImageFunction<TInputImage>::RealType
-VarianceImageFunction<TInputImage>
+template <class TInputImage, class TCoordRep>
+VarianceImageFunction<TInputImage,TCoordRep>
+::RealType
+VarianceImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(const IndexType& index) const
 {
   int i;

@@ -23,9 +23,9 @@ namespace itk
 /**
  *
  */
-template <class TInputImage>
+template <class TInputImage, class TCoordRep>
 void
-UpwindDerivativeImageFunction<TInputImage>
+UpwindDerivativeImageFunction<TInputImage,TCoordRep>
 ::SetInputImage( const InputImageType * ptr )
 {
   this->Superclass::SetInputImage( ptr );
@@ -45,9 +45,9 @@ UpwindDerivativeImageFunction<TInputImage>
 /**
  *
  */
-template<class TInputImage>
+template <class TInputImage, class TCoordRep>
 void
-UpwindDerivativeImageFunction<TInputImage>
+UpwindDerivativeImageFunction<TInputImage,TCoordRep>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
@@ -58,9 +58,9 @@ UpwindDerivativeImageFunction<TInputImage>
 /**
  *
  */
-template <class TInputImage>
+template <class TInputImage, class TCoordRep>
 double
-UpwindDerivativeImageFunction<TInputImage>
+UpwindDerivativeImageFunction<TInputImage,TCoordRep>
 ::EvaluateNthDerivativeAtIndex(
 const IndexType& index,
 unsigned int dim ) const

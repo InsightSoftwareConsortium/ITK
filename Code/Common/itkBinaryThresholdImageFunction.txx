@@ -22,8 +22,8 @@
 namespace itk
 {
 
-template <class TInputImage>
-BinaryThresholdImageFunction<TInputImage>
+template <class TInputImage, class TCoordRep>
+BinaryThresholdImageFunction<TInputImage,TCoordRep>
 ::BinaryThresholdImageFunction()
 {
   m_Lower = NumericTraits<PixelType>::NonpositiveMin();
@@ -33,9 +33,9 @@ BinaryThresholdImageFunction<TInputImage>
 /**
  * Values greater than or equal to the value are inside
  */
-template <class TInputImage>
+template <class TInputImage, class TCoordRep>
 void 
-BinaryThresholdImageFunction<TInputImage>
+BinaryThresholdImageFunction<TInputImage,TCoordRep>
 ::ThresholdAbove(PixelType thresh)
 {
   if (m_Lower != thresh
@@ -50,9 +50,9 @@ BinaryThresholdImageFunction<TInputImage>
 /**
  * The values less than or equal to the value are inside
  */
-template <class TInputImage>
+template <class TInputImage, class TCoordRep>
 void 
-BinaryThresholdImageFunction<TInputImage>
+BinaryThresholdImageFunction<TInputImage,TCoordRep>
 ::ThresholdBelow(PixelType thresh)
 {
   if (m_Lower != NumericTraits<PixelType>::NonpositiveMin()
@@ -67,9 +67,9 @@ BinaryThresholdImageFunction<TInputImage>
 /**
  * The values less than or equal to the value are inside
  */
-template <class TInputImage>
+template <class TInputImage, class TCoordRep>
 void 
-BinaryThresholdImageFunction<TInputImage>
+BinaryThresholdImageFunction<TInputImage,TCoordRep>
 ::ThresholdBetween(PixelType lower, PixelType upper)
 {
   if (m_Lower != lower
@@ -81,9 +81,9 @@ BinaryThresholdImageFunction<TInputImage>
     }
 }
 
-template <class TInputImage>
+template <class TInputImage, class TCoordRep>
 void 
-BinaryThresholdImageFunction<TInputImage>
+BinaryThresholdImageFunction<TInputImage,TCoordRep>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );

@@ -33,18 +33,21 @@ namespace itk
  * If called with a ContinuousIndex or Point, the calculation is performed
  * at the nearest neighbor.
  *
- * This class is templated over the input image type.
+ * This class is templated over the input image type and the 
+ * coordinate representation type (e.g. float or double ).
  *
  * \ingroup ImageFunctions
  */
-template <class TInputImage >
+template <class TInputImage, class TCoordRep = float >
 class ITK_EXPORT MedianImageFunction :
-  public ImageFunction< TInputImage, ITK_TYPENAME TInputImage::PixelType >
+  public ImageFunction< TInputImage, ITK_TYPENAME TInputImage::PixelType,
+    TCoordRep >
 {
 public:
   /** Standard class typedefs. */
   typedef MedianImageFunction Self;
-  typedef ImageFunction<TInputImage, ITK_TYPENAME TInputImage::PixelType> Superclass;
+  typedef ImageFunction<TInputImage, ITK_TYPENAME TInputImage::PixelType,
+    TCoordRep > Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

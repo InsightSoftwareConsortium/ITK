@@ -40,7 +40,7 @@ namespace itk {
  * interpolators via method SetReferenceInterpolator. Note that the input
  * interpolator must derive from baseclass InterpolateImageFunction.
  *
- * This class is templated over the Reference image type, Target image type
+ * This class is templated over the Reference image type, Target image type,
  * and the deformation field type.
  *
  * \warning This filter assumes that the reference type, target type
@@ -97,10 +97,11 @@ public:
   typedef typename Superclass::TimeStepType TimeStepType;
 
   /** Interpolator type. */
-  typedef InterpolateImageFunction<ReferenceType> InterpolatorType;
+  typedef double CoordRepType;
+  typedef InterpolateImageFunction<ReferenceType,CoordRepType> InterpolatorType;
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
   typedef typename InterpolatorType::PointType       PointType;
-  typedef LinearInterpolateImageFunction<ReferenceType>
+  typedef LinearInterpolateImageFunction<ReferenceType,CoordRepType>
     DefaultInterpolatorType;
 
   /** Covariant vector type. */

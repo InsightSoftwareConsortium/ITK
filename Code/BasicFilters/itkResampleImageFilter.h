@@ -53,7 +53,7 @@ template <
     class TInputImage,
     class TOutputImage,
     class TTransform=AffineTransform<double, TInputImage::ImageDimension>,
-    class TInterpolator=LinearInterpolateImageFunction<TInputImage>
+    class TInterpolator=LinearInterpolateImageFunction<TInputImage,double>
     >
 class ITK_EXPORT ResampleImageFilter:
     public ImageToImageFilter<TInputImage, TOutputImage>

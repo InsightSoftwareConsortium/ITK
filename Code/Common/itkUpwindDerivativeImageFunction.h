@@ -33,7 +33,8 @@ namespace itk
  * used. If speed is negative, the forward difference operator is
  * used.
  *
- * This class is templated over the input image type.
+ * This class is templated over the input image type and the
+ * coordinate representation type (e.g. float or double).
  *
  * Reference:
  * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
@@ -44,14 +45,14 @@ namespace itk
  *
  * \ingroup ImageFunctions
  */
-template <class TInputImage >
+template <class TInputImage, class TCoordRep = float >
 class ITK_EXPORT UpwindDerivativeImageFunction :
-  public ImageFunction< TInputImage, double >
+  public ImageFunction< TInputImage, double, TCoordRep >
 {
 public:
   /** Standard class typedefs. */
   typedef UpwindDerivativeImageFunction Self;
-  typedef ImageFunction<TInputImage, double> Superclass;
+  typedef ImageFunction<TInputImage, double,TCoordRep> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

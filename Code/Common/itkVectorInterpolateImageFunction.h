@@ -28,7 +28,10 @@ namespace itk
  *
  * VectorInterpolateImageFunction is the base for all ImageFunctions that
  * interpolates image with vector pixel types. This function outputs
- * a of type Vector<double,VectorDimension>
+ * a return value of type Vector<double,VectorDimension>.
+ *
+ * This class is templated input image type and the coordinate
+ * representation type.
  *
  * \warning This heirarchy of functions work only for images 
  * with Vector-based pixel types. For scalar images use 
@@ -39,18 +42,20 @@ namespace itk
  */
 template <
 class TInputImage,
+class TCoordRep = float,
 class TPixelType = typename TInputImage::PixelType
 >
 class ITK_EXPORT VectorInterpolateImageFunction : 
   public ImageFunction<
     TInputImage, 
-    Vector<double, TPixelType::VectorDimension> > 
+    Vector<double, TPixelType::VectorDimension>,
+    TCoordRep > 
 {
 public:
   /** Standard class typedefs. */
   typedef VectorInterpolateImageFunction Self;
   typedef ImageFunction<TInputImage,
-    Vector<double, TPixelType::VectorDimension> > Superclass;
+    Vector<double, TPixelType::VectorDimension>, TCoordRep > Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -79,6 +84,9 @@ public:
 
   /** Output type is Vector<double,VectorDimension>. */
   typedef typename Superclass::OutputType OutputType;
+
+  /** CoordRep typedef support. */
+  typedef TCoordRep CoordRepType;
 
   /** Returns the interpolated image intensity at a 
    * specified point position. No bounds checking is done.

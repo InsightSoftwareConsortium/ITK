@@ -26,9 +26,9 @@ namespace itk
 /**
  *
  */
-template<class TInputImage>
+template<class TInputImage, class TCoordRep>
 void
-LevelSetCurvatureFunction<TInputImage>
+LevelSetCurvatureFunction<TInputImage,TCoordRep>
 ::SetInputImage( const InputImageType * ptr )
 {
   this->Superclass::SetInputImage( ptr );
@@ -70,9 +70,9 @@ LevelSetCurvatureFunction<TInputImage>
 /**
  *
  */
-template<class TInputImage>
+template<class TInputImage, class TCoordRep>
 void
-LevelSetCurvatureFunction<TInputImage>
+LevelSetCurvatureFunction<TInputImage,TCoordRep>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
@@ -83,9 +83,9 @@ LevelSetCurvatureFunction<TInputImage>
 /**
  *
  */
-template<class TInputImage>
+template<class TInputImage, class TCoordRep>
 double
-LevelSetCurvatureFunction<TInputImage>
+LevelSetCurvatureFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(
 const IndexType& index ) const
 { 
@@ -108,9 +108,9 @@ const IndexType& index ) const
 /**
  *
  */
-template<class TInputImage>
+template<class TInputImage, class TCoordRep>
 void
-LevelSetCurvatureFunction<TInputImage>
+LevelSetCurvatureFunction<TInputImage,TCoordRep>
 ::CalculateDerivatives( 
 const IndexType& index ) const
 {
@@ -214,9 +214,9 @@ const IndexType& index ) const
 /**
  *
  */
-template<class TInputImage>
+template<class TInputImage, class TCoordRep>
 void
-LevelSetCurvatureFunction<TInputImage>
+LevelSetCurvatureFunction<TInputImage,TCoordRep>
 ::CalculateCurvature( ) const
 {
 
@@ -239,9 +239,9 @@ LevelSetCurvatureFunction<TInputImage>
 /**
  *
  */
-template<class TInputImage>
+template<class TInputImage, class TCoordRep>
 void
-LevelSetCurvatureFunction<TInputImage>
+LevelSetCurvatureFunction<TInputImage,TCoordRep>
 ::CalculateCurvature2D( ) const
 {
 
@@ -267,9 +267,9 @@ LevelSetCurvatureFunction<TInputImage>
 /**
  *
  */
-template<class TInputImage>
+template<class TInputImage, class TCoordRep>
 void
-LevelSetCurvatureFunction<TInputImage>
+LevelSetCurvatureFunction<TInputImage,TCoordRep>
 ::CalculateCurvature3D( ) const
 {
 

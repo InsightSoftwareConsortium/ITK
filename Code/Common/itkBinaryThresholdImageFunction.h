@@ -37,14 +37,14 @@ and continuous image index.
  * \ingroup ImageFunctions
  * 
  * */
-template <class TInputImage>
+template <class TInputImage, class TCoordRep = float>
 class ITK_EXPORT BinaryThresholdImageFunction : 
-  public ImageFunction<TInputImage,bool> 
+  public ImageFunction<TInputImage,bool,TCoordRep> 
 {
 public:
   /** Standard class typedefs. */
   typedef BinaryThresholdImageFunction Self;
-  typedef ImageFunction<TInputImage,bool> Superclass;
+  typedef ImageFunction<TInputImage,bool,TCoordRep> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

@@ -26,8 +26,8 @@ namespace itk
 /**
  * Constructor
  */
-template <class TInputImage>
-NeighborhoodBinaryThresholdImageFunction<TInputImage>
+template <class TInputImage, class TCoordRep>
+NeighborhoodBinaryThresholdImageFunction<TInputImage,TCoordRep>
 ::NeighborhoodBinaryThresholdImageFunction()
 {
   m_Radius.Fill(1);
@@ -37,9 +37,9 @@ NeighborhoodBinaryThresholdImageFunction<TInputImage>
 /**
  *
  */
-template<class TInputImage>
+template <class TInputImage, class TCoordRep>
 void
-NeighborhoodBinaryThresholdImageFunction<TInputImage>
+NeighborhoodBinaryThresholdImageFunction<TInputImage,TCoordRep>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
@@ -51,9 +51,9 @@ NeighborhoodBinaryThresholdImageFunction<TInputImage>
 /**
  *
  */
-template <class TInputImage>
+template <class TInputImage, class TCoordRep>
 bool
-NeighborhoodBinaryThresholdImageFunction<TInputImage>
+NeighborhoodBinaryThresholdImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(const IndexType& index) const
 {
   int i;

@@ -57,14 +57,14 @@ namespace itk
  *
  * \ingroup 
  */
-template <class TImageType>
+template <class TImageType, class TCoordRep = float>
 class ITK_EXPORT BSplineInterpolateImageFunction : 
-  public InterpolateImageFunction<TImageType> 
+  public InterpolateImageFunction<TImageType,TCoordRep> 
 {
 public:
   /** Standard class typedefs. */
   typedef BSplineInterpolateImageFunction       Self;
-  typedef InterpolateImageFunction<TImageType>  Superclass;
+  typedef InterpolateImageFunction<TImageType,TCoordRep>  Superclass;
   typedef SmartPointer<Self>                    Pointer;
   typedef SmartPointer<const Self>              ConstPointer;
 

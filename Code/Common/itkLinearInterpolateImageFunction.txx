@@ -25,17 +25,17 @@ namespace itk
 /**
  * Define the number of neighbors
  */
-template<class TInputImage>
+template<class TInputImage, class TCoordRep>
 const unsigned long
-LinearInterpolateImageFunction< TInputImage >
+LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::m_Neighbors = 1 << TInputImage::ImageDimension;
 
 
 /**
  * Constructor
  */
-template<class TInputImage>
-LinearInterpolateImageFunction<TInputImage>
+template<class TInputImage, class TCoordRep>
+LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::LinearInterpolateImageFunction()
 {
 
@@ -45,9 +45,9 @@ LinearInterpolateImageFunction<TInputImage>
 /**
  * PrintSelf
  */
-template<class TInputImage>
+template<class TInputImage, class TCoordRep>
 void
-LinearInterpolateImageFunction<TInputImage>
+LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
@@ -57,9 +57,9 @@ LinearInterpolateImageFunction<TInputImage>
 /**
  * Evaluate at image index position
  */
-template<class TInputImage>
+template<class TInputImage, class TCoordRep>
 double
-LinearInterpolateImageFunction<TInputImage>
+LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtContinuousIndex(
 const ContinuousIndexType& index) const
 {

@@ -27,7 +27,8 @@ namespace itk
  *
  * InterpolateImageFunction is the base for all ImageFunctions that
  * interpolates image intensity at a non-integer pixel position. 
- * This class is templated over the input image type.
+ * This class is templated over the input image type and the 
+ * coordinate representation type (e.g. float or double ).
  *
  * \warning This heirarchy of functions work only for images 
  * with scalar pixel types. For images of vector pixel types
@@ -37,14 +38,14 @@ namespace itk
  * \ingroup ImageFunctions
  * 
  * */
-template <class TInputImage>
+template <class TInputImage, class TCoordRep = float>
 class ITK_EXPORT InterpolateImageFunction : 
-  public ImageFunction<TInputImage,double> 
+  public ImageFunction<TInputImage,double,TCoordRep> 
 {
 public:
   /** Standard class typedefs. */
   typedef InterpolateImageFunction Self;
-  typedef ImageFunction<TInputImage,double> Superclass;
+  typedef ImageFunction<TInputImage,double,TCoordRep> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

@@ -27,8 +27,8 @@ namespace itk
 /**
  * Constructor
  */
-template <class TImageType>
-BSplineInterpolateImageFunction<TImageType>
+template <class TImageType, class TCoordRep>
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::BSplineInterpolateImageFunction()
 {
   m_SplineOrder = 0;
@@ -42,9 +42,9 @@ BSplineInterpolateImageFunction<TImageType>
 /**
  * Standard "PrintSelf" method
  */
-template <class TImageType>
+template <class TImageType, class TCoordRep>
 void
-BSplineInterpolateImageFunction<TImageType>
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::PrintSelf(
 std::ostream& os, 
 Indent indent) const
@@ -55,8 +55,9 @@ Indent indent) const
 }
 
 
-template <class TImageType>
-void BSplineInterpolateImageFunction<TImageType>
+template <class TImageType, class TCoordRep>
+void 
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::SetInputImage(const TImageType * inputData)
 {
   Superclass::SetInputImage(inputData);
@@ -83,8 +84,9 @@ void BSplineInterpolateImageFunction<TImageType>
 
 
 
-template <class TImageType>
-bool BSplineInterpolateImageFunction< TImageType>
+template <class TImageType, class TCoordRep>
+bool 
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::DataToCoefficients1D()
   { 
 
@@ -133,8 +135,9 @@ bool BSplineInterpolateImageFunction< TImageType>
   return true;
 }
 
-template < class TImageType>
-void BSplineInterpolateImageFunction<TImageType>
+template <class TImageType, class TCoordRep>
+void 
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::SetSplineOrder(int SplineOrder)
 {
   if (SplineOrder == m_SplineOrder)
@@ -151,8 +154,9 @@ void BSplineInterpolateImageFunction<TImageType>
   this->GeneratePointsToIndex( );
 }
 
-template < class TImageType>
-void BSplineInterpolateImageFunction< TImageType>
+template <class TImageType, class TCoordRep>
+void 
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::SetPoles()
 {
   /* See Unser, 1997. Part II, Table I for Pole values */
@@ -196,8 +200,9 @@ void BSplineInterpolateImageFunction< TImageType>
     }
 }
 
-template < class TImageType>
-void BSplineInterpolateImageFunction< TImageType>
+template <class TImageType, class TCoordRep>
+void 
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::SetInitialCausalCoefficient(double z)
 {
   /* begining InitialCausalCoefficient */
@@ -239,8 +244,9 @@ void BSplineInterpolateImageFunction< TImageType>
   }
 }
 
-template <class TImageType>
-void BSplineInterpolateImageFunction<TImageType>
+template <class TImageType, class TCoordRep>
+void 
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::SetInitialAntiCausalCoefficient(double z)
 {
   // this initialization corresponds to mirror boundaries 
@@ -251,8 +257,9 @@ void BSplineInterpolateImageFunction<TImageType>
     (z * m_Scratch[m_DataLength[m_IteratorDirection] - 2] + m_Scratch[m_DataLength[m_IteratorDirection] - 1]);
 }
 
-template <class TImageType>
-void BSplineInterpolateImageFunction< TImageType>
+template <class TImageType, class TCoordRep>
+void 
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::DataToCoefficientsND()
   {
   // Initilize coeffient array
@@ -286,8 +293,9 @@ void BSplineInterpolateImageFunction< TImageType>
 
   }
 
-template < class TImageType>
-void BSplineInterpolateImageFunction< TImageType>
+template <class TImageType, class TCoordRep>
+void 
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::CopyImageToImage(const TImageType * input, TImageType * output )
 {
 
@@ -318,8 +326,9 @@ void BSplineInterpolateImageFunction< TImageType>
  
 }
 
-template < class TImageType>
-void BSplineInterpolateImageFunction<TImageType>
+template <class TImageType, class TCoordRep>
+void 
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::CopyScratchToCoefficients(Iterator & Iter)
   {
   unsigned long j = 0;
@@ -332,8 +341,9 @@ void BSplineInterpolateImageFunction<TImageType>
 
   }
 
-template <class TImageType>
-void BSplineInterpolateImageFunction<TImageType>
+template <class TImageType, class TCoordRep>
+void 
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::CopyCoefficientsToScratch(Iterator & Iter)
   {
   unsigned long j = 0;
@@ -346,8 +356,9 @@ void BSplineInterpolateImageFunction<TImageType>
   }
 
 
-template <class TImageType>
-double BSplineInterpolateImageFunction<TImageType>
+template <class TImageType, class TCoordRep>
+double 
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::EvaluateAtContinuousIndex( const ContinuousIndexType & x ) const
 {
   long indx;
@@ -434,8 +445,9 @@ double BSplineInterpolateImageFunction<TImageType>
 }
 
 
-template < class TImageType>
-void BSplineInterpolateImageFunction< TImageType>
+template <class TImageType, class TCoordRep>
+void 
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::SetInterpolationWeights( const ContinuousIndexType & x, const vnl_matrix<long> & EvaluateIndex, vnl_matrix<double> & weights ) const
 {
   // For speed improvements we could make each case a separate function and use
@@ -517,9 +529,9 @@ void BSplineInterpolateImageFunction< TImageType>
 
 
 // Generates m_PointsToIndex;
-template <class TImageType>
+template <class TImageType, class TCoordRep>
 void
-BSplineInterpolateImageFunction <TImageType>
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::GeneratePointsToIndex( )
   {
   // m_PointsToIndex is used to convert a sequential location to an N-dimension

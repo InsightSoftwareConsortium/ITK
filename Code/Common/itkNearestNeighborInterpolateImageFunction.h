@@ -25,19 +25,22 @@ namespace itk
 /** \class NearestNeighborInterpolateImageFunction
  * \brief Nearest neighbor interpolation of a scalar image.
  *
- * \warning This function work only for images with scalar pixel
- * types.
+ * NearestNeighborInterpolateImageFunction interpolates image intensity at
+ * a non-integer pixel position by copying the intensity for the nearest
+ * neighbor. This class is templated
+ * over the input image type and the coordinate representation type 
+ * (e.g. float or double).
  *
  * \ingroup ImageFunctions
  */
-template <class TInputImage>
+template <class TInputImage, class TCoordRep = float>
 class ITK_EXPORT NearestNeighborInterpolateImageFunction : 
-  public InterpolateImageFunction<TInputImage> 
+  public InterpolateImageFunction<TInputImage,TCoordRep> 
 {
 public:
   /** Standard class typedefs. */
   typedef NearestNeighborInterpolateImageFunction Self;
-  typedef InterpolateImageFunction<TInputImage> Superclass;
+  typedef InterpolateImageFunction<TInputImage,TCoordRep> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -62,7 +65,7 @@ public:
 
   /** Evaluate the function at a ContinuousIndex position
    *
-   * Returns the linearly interpolated image intensity at a 
+   * Returns the interpolated image intensity at a 
    * specified point position. No bounds checking is done.
    * The point is assume to lie within the image buffer.
    *

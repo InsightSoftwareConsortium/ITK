@@ -28,7 +28,7 @@ namespace itk
  *
  * VectorLinearInterpolateImageFunction linearly interpolates a vector
  * image intensity non-integer pixel position. This class is templated
- * over the input image type.
+ * over the input image type and the coordinate representation type.
  *
  * This function works for N-dimensional images.
  *
@@ -38,14 +38,14 @@ namespace itk
  * \ingroup ImageFunctions
  * 
  */
-template <class TInputImage>
+template <class TInputImage, class TCoordRep = float>
 class ITK_EXPORT VectorLinearInterpolateImageFunction : 
-  public VectorInterpolateImageFunction<TInputImage> 
+  public VectorInterpolateImageFunction<TInputImage,TCoordRep> 
 {
 public:
   /** Standard class typedefs. */
   typedef VectorLinearInterpolateImageFunction Self;
-  typedef VectorInterpolateImageFunction<TInputImage> Superclass;
+  typedef VectorInterpolateImageFunction<TInputImage,TCoordRep> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

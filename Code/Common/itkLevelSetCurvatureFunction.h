@@ -30,7 +30,7 @@ namespace itk
  *
  * LevelSetCurvatureFunction calculates the mean curvature of a level set
  * at a specified index. This class is templated over the input
- * image type.
+ * image type and the coordinate representation type (e.g. float or double).
  *
  * Reference:
  * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
@@ -41,14 +41,14 @@ namespace itk
  *
  * \ingroup ImageFunctions
  */
-template <class TInputImage >
+template <class TInputImage, class TCoordRep = float >
 class ITK_EXPORT LevelSetCurvatureFunction :
-  public ImageFunction<TInputImage,double>
+  public ImageFunction<TInputImage,double,TCoordRep>
 {
 public:
   /** Standard class typedefs. */
   typedef LevelSetCurvatureFunction Self;
-  typedef ImageFunction<TInputImage,double> Superclass;
+  typedef ImageFunction<TInputImage,double,TCoordRep> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

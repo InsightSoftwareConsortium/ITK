@@ -25,9 +25,10 @@ namespace itk
 /** \class EntropyPreservingGradientMagnitudeImageFunction
  * \brief Calculate an entropy satisfying gradient magnitude.
  *
- * EntropyPreservingGradientMagnitudeImageFunction calculates an entropy satisfying image
- * gradient magnitude. This is class is templated over the
- * input image type.
+ * EntropyPreservingGradientMagnitudeImageFunction calculates an entropy 
+ * satisfying image gradient magnitude. This is class is templated over the
+ * input image type and the coordinate representation type 
+ * (e.g. float or double).
  *
  * In level set methods, the propagating front can form corners
  * as it evolves. At these singularities, the front is no longer
@@ -51,14 +52,14 @@ namespace itk
  *
  * \ingroup ImageFunctions
  */
-template < class TInputImage >
+template < class TInputImage, class TCoordRep = float >
 class ITK_EXPORT EntropyPreservingGradientMagnitudeImageFunction :
-  public ImageFunction< TInputImage, double >
+  public ImageFunction< TInputImage, double, TCoordRep >
 {
 public:
   /** Standard class typedefs. */
   typedef EntropyPreservingGradientMagnitudeImageFunction Self;
-  typedef ImageFunction<TInputImage, double> Superclass;
+  typedef ImageFunction<TInputImage, double, TCoordRep> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

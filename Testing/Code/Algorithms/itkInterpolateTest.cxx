@@ -27,12 +27,13 @@
 
 typedef itk::Size<3>                               SizeType;
 typedef itk::Image<unsigned short, 3>              ImageType;
-typedef itk::LinearInterpolateImageFunction<ImageType>  InterpolatorType;
+typedef double                                     CoordRepType;
+typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>  InterpolatorType;
 typedef InterpolatorType::IndexType                 IndexType;
 typedef InterpolatorType::PointType                 PointType;
 typedef InterpolatorType::ContinuousIndexType       ContinuousIndexType;
 
-typedef itk::NearestNeighborInterpolateImageFunction<ImageType>
+typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
   NNInterpolatorType;
 
 /* Define the image size and physical coordinates */

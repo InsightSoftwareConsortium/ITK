@@ -26,21 +26,22 @@ namespace itk
  * \class CentralDifferenceImageFunction
  * \brief Calculate the derivative by central differencing.
  *
- * This class is templated over the input image type.
+ * This class is templated over the input image type and
+ * the coordinate representation type (e.g. float or double).
  *
  * Possible improvements:
  * - the use of Neighborhood operators may improve efficiency.
  *
  * \ingroup ImageFunctions
  */
-template <class TInputImage >
+template <class TInputImage, class TCoordRep = float >
 class ITK_EXPORT CentralDifferenceImageFunction :
-  public ImageFunction< TInputImage, double >
+  public ImageFunction< TInputImage, double, TCoordRep >
 {
 public:
   /** Standard class typedefs. */
   typedef CentralDifferenceImageFunction Self;
-  typedef ImageFunction<TInputImage, double > Superclass;
+  typedef ImageFunction<TInputImage, double, TCoordRep> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

@@ -27,8 +27,8 @@ namespace itk
 /**
  * Constructor
  */
-template <class TInputImage, class TOutput>
-ImageFunction<TInputImage, TOutput>
+template <class TInputImage, class TOutput, class TCoordRep>
+ImageFunction<TInputImage, TOutput, TCoordRep>
 ::ImageFunction()
 {
   m_Image = NULL;
@@ -38,9 +38,9 @@ ImageFunction<TInputImage, TOutput>
 /**
  * Standard "PrintSelf" method
  */
-template <class TInputImage, class TOutput>
+template <class TInputImage, class TOutput, class TCoordRep>
 void
-ImageFunction<TInputImage, TOutput>
+ImageFunction<TInputImage, TOutput, TCoordRep>
 ::PrintSelf(
 std::ostream& os, 
 Indent indent) const
@@ -54,9 +54,9 @@ Indent indent) const
 /**
  * Initialize by setting the input image
  */
-template <class TInputImage, class TOutput>
+template <class TInputImage, class TOutput, class TCoordRep>
 void
-ImageFunction<TInputImage, TOutput>
+ImageFunction<TInputImage, TOutput, TCoordRep>
 ::SetInputImage(
 const InputImageType * ptr )
 {
@@ -89,9 +89,9 @@ const InputImageType * ptr )
 /**
  * Check if an index is inside the image buffer
  */
-template <class TInputImage, class TOutput>
+template <class TInputImage, class TOutput, class TCoordRep>
 bool
-ImageFunction<TInputImage, TOutput>
+ImageFunction<TInputImage, TOutput, TCoordRep>
 ::IsInsideBuffer(
 const IndexType& index ) const
 {
@@ -110,9 +110,9 @@ const IndexType& index ) const
 /**
  * Check if a continuous index is inside the image buffer
  */
-template <class TInputImage, class TOutput>
+template <class TInputImage, class TOutput, class TCoordRep>
 bool
-ImageFunction<TInputImage, TOutput>
+ImageFunction<TInputImage, TOutput, TCoordRep>
 ::IsInsideBuffer(
 const ContinuousIndexType& index ) const
 {
@@ -131,9 +131,9 @@ const ContinuousIndexType& index ) const
 /**
  * Check if a point is inside the image buffer
  */
-template <class TInputImage, class TOutput>
+template <class TInputImage, class TOutput, class TCoordRep>
 bool
-ImageFunction<TInputImage, TOutput>
+ImageFunction<TInputImage, TOutput, TCoordRep>
 ::IsInsideBuffer(
 const PointType& point ) const
 {
@@ -152,9 +152,9 @@ const PointType& point ) const
 /**
  * Convert a point to a continuous index
  */
-template <class TInputImage, class TOutput>
+template <class TInputImage, class TOutput, class TCoordRep>
 void
-ImageFunction<TInputImage, TOutput>
+ImageFunction<TInputImage, TOutput, TCoordRep>
 ::ConvertPointToContinuousIndex(
 const PointType& point,
 ContinuousIndexType& index ) const
@@ -169,9 +169,9 @@ ContinuousIndexType& index ) const
 /**
  * Convert a continuous index to a point
  */
-template <class TInputImage, class TOutput>
+template <class TInputImage, class TOutput, class TCoordRep>
 void
-ImageFunction<TInputImage, TOutput>
+ImageFunction<TInputImage, TOutput, TCoordRep>
 ::ConvertContinuousIndexToPoint(
 const ContinuousIndexType& index,
 PointType& point ) const
@@ -186,9 +186,9 @@ PointType& point ) const
 /**
  * Convert a index to a point
  */
-template <class TInputImage, class TOutput>
+template <class TInputImage, class TOutput, class TCoordRep>
 void
-ImageFunction<TInputImage, TOutput>
+ImageFunction<TInputImage, TOutput, TCoordRep>
 ::ConvertIndexToPoint(
 const IndexType& index,
 PointType& point ) const
@@ -203,9 +203,9 @@ PointType& point ) const
 /**
  * Convert a point to a nearest index
  */
-template <class TInputImage, class TOutput>
+template <class TInputImage, class TOutput, class TCoordRep>
 void
-ImageFunction<TInputImage, TOutput>
+ImageFunction<TInputImage, TOutput, TCoordRep>
 ::ConvertPointToNearestIndex(
 const PointType& point,
 IndexType& index ) const
@@ -220,9 +220,9 @@ IndexType& index ) const
 /**
  * Convert a continuous index to a nearest index
  */
-template <class TInputImage, class TOutput>
+template <class TInputImage, class TOutput, class TCoordRep>
 void
-ImageFunction<TInputImage, TOutput>
+ImageFunction<TInputImage, TOutput, TCoordRep>
 ::ConvertContinuousIndexToNearestIndex(
 const ContinuousIndexType& cindex,
 IndexType& index ) const

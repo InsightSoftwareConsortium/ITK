@@ -113,10 +113,11 @@ public:
   enum { VectorDimension = InputPixelType::VectorDimension };
 
   /** Typedef support for the interpolation function */
-  typedef VectorInterpolateImageFunction<InputImageType> 
+  typedef double CoordRepType;
+  typedef VectorInterpolateImageFunction<InputImageType,CoordRepType> 
     InterpolatorType;
   typedef typename InterpolatorType::Pointer InterpolatorPointer;
-  typedef VectorLinearInterpolateImageFunction<InputImageType> 
+  typedef VectorLinearInterpolateImageFunction<InputImageType,CoordRepType> 
     DefaultInterpolatorType;
 
   /** Set the interpolator function. */

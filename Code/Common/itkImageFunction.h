@@ -30,8 +30,9 @@ namespace itk
  *
  * ImageFunction is a baseclass for all objects that evaluates
  * a function of an image at index, continuous index or point.
- * This class is templated over the input image type and the type 
- * of the function output.
+ * This class is templated over the input image type, the type 
+ * of the function output and the coordinate representation type
+ * (e.g. float or double).
  *
  * The input image is set via method SetInputImage().
  * Methods Evaluate, EvaluateAtIndex and EvaluateAtContinuousIndex
@@ -51,16 +52,17 @@ namespace itk
  */
 template <
 class TInputImage, 
-class TOutput 
+class TOutput,
+class TCoordRep = float 
 >
 class ITK_EXPORT ImageFunction : 
-  public FunctionBase< Point<double,TInputImage::ImageDimension>, 
+  public FunctionBase< Point<TCoordRep,TInputImage::ImageDimension>, 
                        TOutput > 
 {
 public:
   /** Standard class typedefs. */
   typedef ImageFunction Self;
-  typedef FunctionBase< Point<double,TInputImage::ImageDimension>,
+  typedef FunctionBase< Point<TCoordRep,TInputImage::ImageDimension>,
             TOutput > Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -83,14 +85,17 @@ public:
   /** OutputType typedef support. */
   typedef TOutput OutputType;
 
+  /** CoordRepType typedef support. */
+  typedef TCoordRep CoordRepType;
+
   /** Index Type. */
   typedef typename InputImageType::IndexType IndexType;
 
   /** ContinuousIndex Type. */
-  typedef ContinuousIndex<double,ImageDimension> ContinuousIndexType;
+  typedef ContinuousIndex<TCoordRep,ImageDimension> ContinuousIndexType;
 
   /** Point Type. */
-  typedef Point<double,ImageDimension> PointType;
+  typedef Point<TCoordRep,ImageDimension> PointType;
 
   /** Set the input image.
    * \warning this method caches BufferedRegion information.
