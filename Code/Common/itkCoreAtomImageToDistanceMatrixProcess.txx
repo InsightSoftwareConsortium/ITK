@@ -130,8 +130,8 @@ CoreAtomImageToDistanceMatrixProcess< TSourceImage >
                                       m_CoreAtomImage->GetRequestedRegion() );
 
   // Pointer for accessing pixel.
-  MedialNodeType* pPixel1 = 0;
-  MedialNodeType* pPixel2 = 0;
+  MedialNodeType* pPixel1;
+  MedialNodeType* pPixel2;
 
   // Local variables.
   PositionType DistanceVector;
