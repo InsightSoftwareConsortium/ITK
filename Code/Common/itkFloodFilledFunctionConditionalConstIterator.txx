@@ -18,6 +18,7 @@
 #define _itkFloodFilledFunctionConditionalConstIterator_txx
 
 #include "itkFloodFilledFunctionConditionalConstIterator.h"
+#include "itkImageRegionIterator.h"
 
 namespace itk
 {
@@ -90,7 +91,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 ::FindSeedPixel()
 {
  // Create an iterator that will walk the input image
-  typedef itk::ImageRegionIterator<TImage> IRIType;
+  typedef typename itk::ImageRegionIterator<TImage> IRIType;
   IRIType it = IRIType(m_Image, m_Image->GetLargestPossibleRegion() );
   
   // Now we search the input image for the first pixel which is inside
