@@ -94,7 +94,6 @@
 #include "itkPointLocator.h"
 #include "itkPointSet.h"
 #include "itkQuaternionRigidTransform.h"
-#include "itkQuaternionSimilarityTransform.h"
 #include "itkRGBToVectorImageAdaptor.h"
 #include "itkRigid2DTransform.h"
 #include "itkRigid3DPerspectiveTransform.h"
@@ -422,10 +421,6 @@ int itkCommonPrintTest(int , char* [])
     itk::QuaternionRigidTransform<foo>::Pointer QuaternionRigidTransformObj =
       itk::QuaternionRigidTransform<foo>::New();
     std::cout << "------------QuaternionRigidTransform" << QuaternionRigidTransformObj;
-
-    itk::QuaternionSimilarityTransform<foo>::Pointer QuaternionSimilarityTransformObj =
-      itk::QuaternionSimilarityTransform<foo>::New();
-    std::cout << "------------QuaternionSimilarityTransform" << QuaternionSimilarityTransformObj;
 
     itk::RGBToVectorImageAdaptor<foo>::Pointer RGBToVectorImageAdaptorObj =
       itk::RGBToVectorImageAdaptor<foo>::New();
