@@ -26,28 +26,25 @@
 
 // Software Guide : BeginLatex
 //
-// This example takes advantage of the random access capabilities of the
-// neighborhood iterators to move through an image in a non-predetermined path.
-// Previously, we have been using the neighborhood iterator to visit each pixel
-// in a region, in turn, without regard to its location in the image.  For some
-// algorithms, however, it may be desirable to move through an image in a path
-// that is determined by some metric on the local neighborhood, that is, go to
-// the next neighborhood position based on the values at the current position.
-// Algorithms that fit this model include connected component analysis and
-// flood-fill algorithms.  This example will use a neighborhood iterator to
-// find a local minimum.
+// Some image processing routines do not need to visit every pixel in an
+// image. Flood-fill and connected-component algorithms, for example, only
+// visit pixels that are locally connected to one another.  Algorithms
+// such as these can be efficiently written using the random access capabilities
+// of the neighborhood iterator.
 //
-// Given a seed point, we can search the neighborhood of that point and pick
-// the smallest value $m$.  While $m$ is not at the center of our
-// current neighborhood, we move in the direction of $m$ and repeat the analysis.
-// Eventually we discover a local minimum and stop.  This algorithm is made
-// trivially simple in ND using an ITK neighborhood iterator.
+// The following example finds local minima.  Given a seed point, we can search
+// the neighborhood of that point and pick the smallest value $m$.  While $m$
+// is not at the center of our current neighborhood, we move in the direction
+// of $m$ and repeat the analysis.  Eventually we discover a local minimum and
+// stop.  This algorithm is made trivially simple in ND using an ITK
+// neighborhood iterator.
 //
 // To illustrate the process, we create an image that descends everywhere to a
-// single minimum, a distance transform from a point.  The details of creating
-// this distance transform are not relevant to the discussion of neighborhood
-// iterators, but can be found in the source code of this example. Some noise
-// has been added to the distance transform image for additional interest.
+// single minimum, a positive distance transform to a point.  The details of
+// creating the distance transform are not relevant to the discussion of
+// neighborhood iterators, but can be found in the source code of this
+// example. Some noise has been added to the distance transform image for
+// additional interest.
 // 
 // Software Guide : EndLatex
 
@@ -125,13 +122,10 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// Once the distance transform has been created, we proceed directly to the
-// local minimum algorithm.  The variable \code{input} is now the pointer to
-// the distance transform image.
-//
-// The first step is to define a seed point based on command line arguments.
+// The variable \code{input} is the pointer to the distance transform image.
+// The local minimum algorithm is initialized with a seed point read from the
+// command line.
 // Software Guide : EndLatex
-
 
 // Software Guide : BeginCodeSnippet
   ImageType::IndexType index;
@@ -191,16 +185,17 @@ int main( int argc, char ** argv )
     
 // Software Guide : BeginLatex
 //
-// Figure~\ref{fig:NeighborhoodExample6} records the results of the algorithm
-// for several seed points.  The effect of the additive noise is visible in
-// the perturbations of the descent paths.
+// Figure~\ref{fig:NeighborhoodExample6} shows the results of the algorithm
+// for several seed points.  The white line is the path of the iterator from
+// the seed point to the minimum in the center of the image.  The effect of the
+// additive noise is visible as the small perturbations in the paths.
 //
 // \begin{figure} \centering
 // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6a.eps}
 // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6b.eps}
 // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6c.eps}
 // \itkcaption[Finding local minima]{Paths traversed by the neighborhood
-// iterator to find the local miminim in the image from several different seed
+// iterator to find the local minimum in the image from several different seed
 // points.  The minimum is at the center of the image.  The effects of noise in
 // the image are seen as small perturbations in the paths.}
 // \protect\label{fig:NeighborhoodExample6}
