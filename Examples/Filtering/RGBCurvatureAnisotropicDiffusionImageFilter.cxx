@@ -18,18 +18,15 @@
 //  Software Guide : BeginLatex
 //
 //  The vector anisotropic diffusion approach can equally well be applied to
-//  color images. As in the vector case, each component is diffused
-//  independently
+//  color images. As in the vector case, each RGB component is diffused
+//  independently. The following example illustrates the use of the Vector
+//  curvature anisotropic diffusion filter on an image with RGB pixel type.
 //
 //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter|RGB Images}
 //
 //  Software Guide : EndLatex 
 
 
-#include "itkRGBPixel.h"
-#include "itkImage.h"
-#include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
 
 
 //  Software Guide : BeginLatex
@@ -44,6 +41,41 @@
 #include "itkVectorCurvatureAnisotropicDiffusionImageFilter.h"
 // Software Guide : EndCodeSnippet
 
+
+
+
+
+//  Software Guide : BeginLatex
+//
+//  Also the headers for \code{Image} and \code{RGBPixel} type are required.
+//
+//  Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+#include "itkRGBPixel.h"
+#include "itkImage.h"
+// Software Guide : EndCodeSnippet
+
+
+
+
+
+//  Software Guide : BeginLatex
+//
+//  It is desirable to perform the computation on the RGB image using
+//  \code{float} representation. However for input and output purposes
+//  \code{unsigned char} RGB components are commonly used. It is then necessary
+//  to cast the type of color components along the pipeline before writing them
+//  to a file. The \code{itk::VectorCastImageFilter} is used to achieve this
+//  goal.
+//
+//  Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
+#include "itkVectorCastImageFilter.h"
+// Software Guide : EndCodeSnippet
 
 
 
@@ -62,24 +94,17 @@ int main( int argc, char ** argv )
   
   //  Software Guide : BeginLatex
   //
-  //  Types should be choosen for the pixels of the input and output images.
-  //  The image types are defined using the pixel type and the dimension.
+  //  The image type is defined using the pixel type and the dimension.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef   itk::RGBPixel< float >     InputPixelType;
 
-
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
   // Software Guide : EndCodeSnippet
 
 
-
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
-
-  ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
 
 
 
@@ -104,6 +129,7 @@ int main( int argc, char ** argv )
 
 
 
+
   //  Software Guide : BeginLatex
   //
   //  The input image can be obtained from the output of another filter. Here,
@@ -112,6 +138,11 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
+  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( argv[1] );
+
   filter->SetInput( reader->GetOutput() );
   // Software Guide : EndCodeSnippet
 
@@ -146,34 +177,50 @@ int main( int argc, char ** argv )
   filter->Update();
   // Software Guide : EndCodeSnippet
 
-
+  //  Software Guide : BeginLatex
   //
-  //  If the output of this filter has been connected to other filters down the
-  //  pipeline, updating any of the downstream filters would have triggered the
-  //  execution of this one. For example, a writer filter could have been used
-  //  after the curvatur flow filter.
+  //  The filter output is now casted to \code{unsigned char} RGB components by
+  //  using the \code{VectorCastImageFilter}
   //
-  typedef    itk::RGBPixel< float >   WritePixelType;
+  //  \index{itk::VectorCastImageFilter!instantiation}
+  //  \index{itk::VectorCastImageFilter!New()}
+  //  \index{itk::VectorCastImageFilter!Pointer}
+  //
+  //  Software Guide : EndLatex 
 
-  typedef itk::Image< WritePixelType, 2 > WriteImageType;
+  // Software Guide : BeginCodeSnippet
+  typedef itk::RGBPixel< unsigned char >   WritePixelType;
+  typedef itk::Image< WritePixelType, 2 >  WriteImageType;
 
+  typedef itk::VectorCastImageFilter< 
+                InputImageType, WriteImageType >  CasterType;
+
+  CasterType::Pointer caster = CasterType::New();
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //
+  //  Finally, the writer type can be instantiated. One writer is created and
+  //  connected to the output of the caster.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
 
   WriterType::Pointer writer = WriterType::New();
 
-
-  writer->SetInput( filter->GetOutput() );
-
-
+  caster->SetInput( filter->GetOutput() );
+  writer->SetInput( caster->GetOutput() );
   writer->SetFileName( argv[2] );
   writer->Update();
-
+  // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //  
   // \begin{figure} \center
-  // \includegraphics[width=6cm]{RGBCurvatureAnisotropicDiffusionImageFilterInput.eps}
+  // \includegraphics[width=6cm]{VisibleWomanHeadSlice.eps}
   // \includegraphics[width=6cm]{RGBCurvatureAnisotropicDiffusionImageFilterOutput.eps}
   // \caption{Effect of the VectorCurvatureAnisotropicDiffusionImageFilter on
   // a RGB image from a cryogenic section of the Visible Woman data set.}
@@ -184,7 +231,8 @@ int main( int argc, char ** argv )
   //  \ref{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a RGB image from a cryogenic
   //  section of the Visible Woman data set.  In this example the filter was
-  //  run with a time step of 0.25, and 5 iterations.  
+  //  run with a time step of 0.25, and 5 iterations.  The input image has
+  //  570x670 pixels and the processing took 4 minutes on a Pentium 4 2Ghz. 
   //
   //  Software Guide : EndLatex 
 
