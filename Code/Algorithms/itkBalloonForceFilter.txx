@@ -838,7 +838,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 ::ComputeOutput() 
 {
   int i;
-  TriCell::CellAutoPointer insertCell;
+  typename TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
   const unsigned long *tp;
   double x;

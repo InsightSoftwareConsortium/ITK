@@ -251,7 +251,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "DomainSigma: ";
-  for ( int i = 0; i < ImageDimension; i++ )
+  for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
     os << m_DomainSigma[i] << " ";
     }

@@ -66,6 +66,9 @@ protected:
 
   VectorType m_Normal;
   
+  /** Destructor. */ 
+  virtual ~SurfaceSpatialObjectPoint(); 
+
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 };

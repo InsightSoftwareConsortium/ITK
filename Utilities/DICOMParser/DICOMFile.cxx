@@ -126,7 +126,7 @@ quadbyte DICOMFile::ReadQuadByte()
 
 quadbyte DICOMFile::ReadNBytes(int len) 
 {
-  quadbyte ret;
+  quadbyte ret = -1;
   switch (len) 
     {
     case 1:

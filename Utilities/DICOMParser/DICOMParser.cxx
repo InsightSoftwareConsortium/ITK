@@ -368,7 +368,7 @@ int DICOMParser::CheckMagic(char* magic_number)
           );
 }
 
-void DICOMParser::DumpTag(doublebyte group, doublebyte element, VRTypes datatype, unsigned char* tempdata, quadbyte length)
+void DICOMParser::DumpTag(doublebyte group, doublebyte element, VRTypes, unsigned char* tempdata, quadbyte length)
 {
   if (group == 0x7FE0 && element == 0x0010)
     {
@@ -388,7 +388,7 @@ void DICOMParser::DumpTag(doublebyte group, doublebyte element, VRTypes datatype
     }
 }
 
-void DICOMParser::ModalityTag(doublebyte group, doublebyte element, VRTypes datatype, unsigned char* tempdata, quadbyte length)
+void DICOMParser::ModalityTag(doublebyte group, doublebyte element, VRTypes, unsigned char* tempdata, quadbyte length)
 {
   if (!strcmp( (char*)tempdata, "MR"))
     {

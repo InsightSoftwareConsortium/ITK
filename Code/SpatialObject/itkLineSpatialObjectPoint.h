@@ -65,6 +65,9 @@ protected:
 
   NormalArrayType m_NormalArray;
 
+  /** Destructor. */ 
+  virtual ~LineSpatialObjectPoint(); 
+
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 };
