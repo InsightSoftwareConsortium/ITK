@@ -51,6 +51,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageKmeansModelEstimator.txx"
 #include "itkImageModelEstimatorBase.txx"
 #include "itkImageMomentsCalculator.txx"
+#include "itkImagePCAShapeModelEstimatorTest.cxx"
 #include "itkImageRegistrationMethod.txx"
 #include "itkImageToImageMetric.txx"
 #include "itkImageToSpatialObjectMetric.txx"

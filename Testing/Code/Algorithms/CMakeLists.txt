@@ -28,6 +28,7 @@ ADD_TEST(itkGradientVectorFlowImageFilterTest ${ALGORITHMS_TESTS} itkGradientVec
 ADD_TEST(itkSimpleFuzzyConnectednessScalarImageFilterTest ${ALGORITHMS_TESTS} itkSimpleFuzzyConnectednessScalarImageFilterTest)
 ADD_TEST(itkHistogramMatchingImageFilterTest ${ALGORITHMS_TESTS} itkHistogramMatchingImageFilterTest)
 ADD_TEST(itkImageMomentsTest ${ALGORITHMS_TESTS} itkImageMomentsTest)
+ADD_TEST(itkImagePCAShapeModelEstimatorTest ${ALGORITHMS_TESTS} itkImagePCAShapeModelEstimatorTest)
 ADD_TEST(itkImageRegistrationMethodTest ${ALGORITHMS_TESTS}   itkImageRegistrationMethodTest  )
 ADD_TEST(itkImageRegistrationMethodTest_1 ${ALGORITHMS_TESTS} itkImageRegistrationMethodTest_1)
 ADD_TEST(itkImageRegistrationMethodTest_2 ${ALGORITHMS_TESTS} itkImageRegistrationMethodTest_2)
@@ -111,6 +112,7 @@ itkSimpleFuzzyConnectednessScalarImageFilterTest.cxx
 itkHistogramMatchingImageFilterTest.cxx
 itkImageMomentsTest.cxx
 itkSphereMeshSourceTest.cxx
+itkImagePCAShapeModelEstimatorTest.cxx
 itkImageRegistrationMethodTest.cxx
 itkImageRegistrationMethodTest_1.cxx
 itkImageRegistrationMethodTest_2.cxx
