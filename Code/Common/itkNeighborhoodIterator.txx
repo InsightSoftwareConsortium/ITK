@@ -43,253 +43,30 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 template<class TImage>
-NeighborhoodIterator<TImage>::OffsetType
-NeighborhoodIterator<TImage>
-::ComputeInternalIndex(unsigned int n) const
-{
-  OffsetType ans;
-  long D = (long)Dimension;
-  unsigned long r;
-  r = (unsigned long)n;
-  for (long i = D-1; i >= 0 ; --i)
-    {
-      ans[i] = r / m_StrideTable[i];
-      r = r % m_StrideTable[i];
-    }
-  return ans;
-}
- 
-template<class TImage>
 void
 NeighborhoodIterator<TImage>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   unsigned int i;
   os << indent;
-  os << "NeighborhoodIterator {this= " << this;
-  os << ", m_Region = { Start = {";
-  for (i=0; i < Dimension; ++i) os << m_Region.GetIndex()[i] << " ";
-  os << "}, Size = { ";
-  for (i=0; i < Dimension; ++i) os << m_Region.GetSize()[i] << " ";
-  os << "} }";
-  os << ", m_StartIndex = { ";
-  for (i=0; i < Dimension; ++i) os << m_StartIndex[i] << " ";
-  os << ", m_Loop = { ";
-  for (i=0; i < Dimension; ++i) os << m_Loop[i] << " ";
-  os << "}, m_Bound = { ";
-  for (i=0; i < Dimension; ++i) os << m_Bound[i] << " ";
-  os << "}, m_WrapOffset = { ";
-  for (i=0; i < Dimension; ++i) os << m_WrapOffset[i] << " ";
-  os << "}, m_OutputWrapOffsetModifier = { ";
-  for (i=0; i < Dimension; ++i) os << m_OutputWrapOffsetModifier[i] << " ";
-  os << "}, m_OutputBuffer = " << m_OutputBuffer;
-  //  os << ", m_Image = " << m_Image;
-  os << ", m_Buffer = " << m_Buffer;
-  os << ", m_EndPointer = " << m_EndPointer;
-  os << "}"  << std::endl;
+  os << "NeighborhoodIterator {this= " << this << "}" << std::endl;
   Superclass::PrintSelf(os, indent.GetNextIndent());
 }
 
 template<class TImage>
-void 
+void
 NeighborhoodIterator<TImage>
-::SetOutputWrapOffsetModifier(const OffsetType &o)
+::SetNeighborhood(const NeighborhoodType &N)
 {
-  for (unsigned int i = 0; i < Dimension; ++i)
-    {      m_OutputWrapOffsetModifier[i] = o[i];    }
-}
-
-template<class TImage>
-NeighborhoodIterator<TImage>
-::NeighborhoodIterator()
-: m_OutputBuffer(0)
-{
-  m_OutputWrapOffsetModifier.Fill(0);
-  m_WrapOffset.Fill(0);
-  m_Loop.Fill(0);
-  m_StartIndex.Fill(0);
-  m_Bound.Fill(0);
-  m_EndPointer = 0;
-}
-
-template<class TImage>
-NeighborhoodIterator<TImage> &
-NeighborhoodIterator<TImage>
-::operator=(const Self& orig)
-{
-  Superclass::operator=(orig);
+  Iterator this_it;
+  const Iterator _end = Superclass::End();
+  typename NeighborhoodType::ConstIterator N_it;
+  N_it = N.Begin();
   
-  m_WrapOffset = orig.m_WrapOffset;
-  m_Bound      = orig.m_Bound;
-  m_Loop       = orig.m_Loop;
-  m_OutputBuffer = orig.m_OutputBuffer;
-  m_Image      = orig.m_Image;
-  m_Buffer     = orig.m_Buffer;
-  m_StartIndex = orig.m_StartIndex;
-  m_EndPointer = orig.m_EndPointer;
-  for (unsigned int i = 0; i < Dimension; ++i)
-    m_StrideTable[i] = orig.m_StrideTable[i];
-  return *this;
-}
-
-template<class TImage>
-NeighborhoodIterator<TImage>
-::NeighborhoodIterator(const Self& orig)
-  : Neighborhood<InternalPixelType *, Dimension>(orig)
-{
-  m_WrapOffset = orig.m_WrapOffset;
-  m_Bound      = orig.m_Bound;
-  m_Loop       = orig.m_Loop;
-  m_OutputBuffer = orig.m_OutputBuffer;
-  m_Image      = orig.m_Image;
-  m_Buffer     = orig.m_Buffer;
-  m_StartIndex = orig.m_StartIndex;
-  m_EndPointer = orig.m_EndPointer;
-  for (unsigned int i = 0; i < Dimension; ++i)
-    m_StrideTable[i] = orig.m_StrideTable[i];
-}
-  
-template<class TImage>
-void NeighborhoodIterator<TImage>
-::Initialize(const SizeType &radius, ImageType *ptr, const RegionType &region)
-{
-  m_Region = region;
-  m_OutputBuffer = 0;
-  m_OutputWrapOffsetModifier.Fill(0);
-  this->SetRadius(radius);
-  m_Image = ptr;
-  m_Buffer = m_Image->GetBufferPointer();
-  this->SetStartIndex(region.GetIndex());
-  this->SetLocation(region.GetIndex());
-  this->SetBound(region.GetSize());
-  this->SetEnd();
-  this->ComputeStrideTable();
-}
-
-template<class TImage>
-void NeighborhoodIterator<TImage>
-::SetPixelPointers(const IndexType &pos)
-{
-  const Iterator _end = this->end();
-  unsigned int i;
-  Iterator Nit;
-  InternalPixelType * Iit;
-  SizeType loop;
-  for (i=0; i<Dimension; ++i) loop[i]=0;
-  const SizeType size = this->GetSize();
-  const unsigned long *OffsetTable = m_Image->GetOffsetTable();
-  const SizeType radius = this->GetRadius();
-  
-  // Find first "upper-left-corner"  pixel address of neighborhood
-  Iit = m_Buffer + m_Image->ComputeOffset(pos);
-  
-  for (i = 0; i<Dimension; ++i)
+  for (this_it = Superclass::Begin(); this_it < _end; this_it++, N_it++)
     {
-      Iit -= radius[i] * OffsetTable[i];
+      **this_it = *N_it;
     }
-
-  // Compute the rest of the pixel addresses
-  for (Nit = this->begin(); Nit != _end; ++Nit)
-    {
-      *Nit = Iit;
-      ++Iit;
-      for (i = 0; i <Dimension; ++i)
-        {
-          loop[i]++;
-          if ( loop[i] == size[i] )
-            {
-              if (i==Dimension-1) break;
-              Iit +=  OffsetTable[i+1] - OffsetTable[i] * size[i];
-              loop[i]= 0;
-            }
-          else break;
-        }
-    }
-}
-  
-template<class TImage>
-const NeighborhoodIterator<TImage> &
-NeighborhoodIterator<TImage>
-::operator++()
-{
-  unsigned int i;
-  Iterator it;
-  const Iterator _end = this->end();
-  
-  // Increment pointers.
-  for (it = this->begin(); it < _end; ++it)
-    {
-      (*it)++;
-    }
-  if (m_OutputBuffer)
-    {
-      ++m_OutputBuffer;
-    }
-  
-  // Check loop bounds, wrap & add pointer offsets if needed.
-  for (i=0; i<Dimension; ++i)
-    {
-      m_Loop[i]++;
-      if ( m_Loop[i] == m_Bound[i] )
-        {
-          m_Loop[i] = m_StartIndex[i];
-          for (it = this->begin(); it < _end; ++it)
-            {
-              (*it) += m_WrapOffset[i];
-            }
-          if (m_OutputBuffer)
-            {
-              m_OutputBuffer += m_WrapOffset[i]
-                + m_OutputWrapOffsetModifier[i];
-            }
-        }        
-      else break;
-    }
-  return *this;
-}
-
-template<class TImage>
-const NeighborhoodIterator<TImage> &
-NeighborhoodIterator<TImage>
-::operator--()
-{
-  unsigned int i;
-  Iterator it;
-  const Iterator _end = this->end();
-  
-  // Decrement pointers.
-  for (it = this->begin(); it < _end; ++it)
-    {
-      (*it)--;
-    }
-  if (m_OutputBuffer)
-    {
-      --m_OutputBuffer;
-    }
-  
-  // Check loop bounds, wrap & add pointer offsets if needed.
-  for (i=0; i<Dimension; ++i)
-    {
-      if (m_Loop[i] == m_StartIndex[i])
-        {
-          m_Loop[i]= m_Bound[i] - 1;
-          for (it = this->begin(); it < _end; ++it)
-            {
-              (*it) -= m_WrapOffset[i];
-            }
-          if (m_OutputBuffer)
-            {
-              m_OutputBuffer -= m_WrapOffset[i]
-                + m_OutputWrapOffsetModifier[i];
-            }
-        }        
-      else
-        {
-          m_Loop[i]--;
-          break;
-        }
-    }
-  return *this;
 }
 
 } // namespace itk
