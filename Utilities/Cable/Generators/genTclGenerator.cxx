@@ -154,7 +154,8 @@ TclGenerator
     else if(wrapper->IsWrapperSet())
       {
       this->GenerateWrapperSet(wrapperStream,
-                               dynamic_cast<const configuration::WrapperSet*>(wrapper));
+                               dynamic_cast<const configuration::WrapperSet*>(wrapper),
+                               ns);
       }
     }
 
@@ -163,17 +164,22 @@ TclGenerator
 void
 TclGenerator
 ::GenerateWrapperSet(std::ostream& wrapperStream,
-                     const configuration::WrapperSet* wrapperSet)
+                     const configuration::WrapperSet* wrapperSet,
+                     const configuration::PackageNamespace* ns)
 {
   for(configuration::WrapperSet::ConstIterator wrapper = wrapperSet->Begin();
       wrapper != wrapperSet->End(); ++wrapper)
     {
-    source::Class* c = m_GlobalNamespace->LookupClass(wrapper->second);
-    if(!c)
+    String qualifedName = ns->GetQualifiedName()+"::"+wrapper->second;
+    source::Class* c = m_GlobalNamespace->LookupClass(qualifedName);
+    if(c)
       {
-      wrapperStream << "// Couldn't find type " << wrapper->second << std::endl;
+      this->GenerateClassWrapper(wrapperStream, c);
       }
-    this->GenerateClassWrapper(wrapperStream, c);
+    else
+      {
+      wrapperStream << "// Couldn't find type " << qualifedName << std::endl;
+      }
     }
 }
 
@@ -182,6 +188,7 @@ TclGenerator
 ::GenerateClassWrapper(std::ostream& wrapperStream,
                        const source::Class* c)
 {
+  const source::Namespace* gns = c->GetGlobalNamespace();
   typedef std::vector<source::Method*> Methods;
   Methods methods;
   for(source::MethodsIterator methodItr = c->GetMethods().begin();
@@ -262,7 +269,7 @@ TclGenerator
         "  " << implicit.c_str() << "& instance = ArgumentAsReferenceTo< " << implicit.c_str() << " >::Get(implicit, this);\n";
       
       if(methods[m]->GetReturns() && methods[m]->GetReturns()->GetType()
-         && methods[m]->GetReturns()->GetType()->GetName() != "void")
+         && methods[m]->GetReturns()->GetType()->GetCxxType(gns).GetName() != "void")
         {
         const source::Type* t = methods[m]->GetReturns()->GetType();
         if(t->IsPointerType())
@@ -270,19 +277,19 @@ TclGenerator
           const source::PointerType* pt = dynamic_cast<const source::PointerType*>(t);
           t = pt->GetPointedToType();
           wrapperStream <<
-            "  ReturnPointerTo< " << t->GetName() << " >::From(\n";
+            "  ReturnPointerTo< " << t->GetCxxType(gns).GetName() << " >::From(\n";
           }
         else if(t->IsReferenceType())
           {
           const source::ReferenceType* rt = dynamic_cast<const source::ReferenceType*>(t);
           t = rt->GetReferencedType();
           wrapperStream <<
-            "  ReturnReferenceTo< " << t->GetName() << " >::From(\n";
+            "  ReturnReferenceTo< " << t->GetCxxType(gns).GetName() << " >::From(\n";
           }
         else
           {
           wrapperStream <<
-            "  Return< " << t->GetName() << " >::From(\n";
+            "  Return< " << t->GetCxxType(gns).GetName() << " >::From(\n";
           }
         }
 
@@ -302,17 +309,17 @@ TclGenerator
           const source::ReferenceType* rt = dynamic_cast<const source::ReferenceType*>(t);
           t = rt->GetReferencedType();
           wrapperStream <<
-            "    ArgumentAsReferenceTo< " << t->GetName() << " >::Get(arguments[" << argCount++ << "], this)";
+            "    ArgumentAsReferenceTo< " << t->GetCxxType(gns).GetName() << " >::Get(arguments[" << argCount++ << "], this)";
           }
         else
           {
           wrapperStream <<
-            "    ArgumentAs< " << t->GetName() << " >::Get(arguments[" << argCount++ << "], this)";
+            "    ArgumentAs< " << t->GetCxxType(gns).GetName() << " >::Get(arguments[" << argCount++ << "], this)";
           }
         }
       
       if(methods[m]->GetReturns() && methods[m]->GetReturns()->GetType()
-         && methods[m]->GetReturns()->GetType()->GetName() != "void")
+         && methods[m]->GetReturns()->GetType()->GetCxxType(gns).GetName() != "void")
         {
         wrapperStream << "), this);\n";
         }
@@ -348,12 +355,12 @@ TclGenerator
             const source::ReferenceType* rt = dynamic_cast<const source::ReferenceType*>(t);
             t = rt->GetReferencedType();
             wrapperStream <<
-              "    ArgumentAsReferenceTo< " << t->GetName() << " >::Get(arguments[" << argCount++ << "], this)";
+              "    ArgumentAsReferenceTo< " << t->GetCxxType(gns).GetName() << " >::Get(arguments[" << argCount++ << "], this)";
             }
           else
             {
             wrapperStream <<
-              "    ArgumentAs< " << t->GetName() << " >::Get(arguments[" << argCount++ << "], this)";
+              "    ArgumentAs< " << t->GetCxxType(gns).GetName() << " >::Get(arguments[" << argCount++ << "], this)";
             }
           }
         
@@ -382,7 +389,7 @@ TclGenerator
         {
         const source::Type* t = (*a)->GetType();
         wrapperStream <<
-          "  parameterTypes.push_back(CvType< " << t->GetName() << " >::type.GetType());\n";
+          "  parameterTypes.push_back(CvType< " << t->GetCxxType(gns).GetName() << " >::type.GetType());\n";
         }
       }
 
@@ -394,7 +401,7 @@ TclGenerator
       String returnTypeName = "void";
       if(methods[m]->GetReturns() && methods[m]->GetReturns()->GetType())
         {
-        returnTypeName = methods[m]->GetReturns()->GetType()->GetName();
+        returnTypeName = methods[m]->GetReturns()->GetType()->GetCxxType(gns).GetName();
         }
       wrapperStream <<
         "    new Method(this, &Wrapper::Method_" << m << "_" << methods[m]->GetName() << ",\n"

@@ -68,7 +68,8 @@ private:
   void GenerateIncludes(std::ostream&, const configuration::Headers*);  
   void GenerateNamespace(std::ostream&,
                          const configuration::PackageNamespace*);
-  void GenerateWrapperSet(std::ostream&, const configuration::WrapperSet*);
+  void GenerateWrapperSet(std::ostream&, const configuration::WrapperSet*,
+                          const configuration::PackageNamespace*);
   void GenerateClassWrapper(std::ostream&, const source::Class*);
 
   /**
