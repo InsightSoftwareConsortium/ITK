@@ -243,7 +243,9 @@ M_Read(void)
 
   int pntDim;
   char** pntVal = NULL;
-  MET_StringToWordArray(m_PointDim, &pntDim, &pntVal); 
+  MET_StringToWordArray(m_PointDim, &pntDim, &pntVal);
+  
+  delete [] pntVal;
 
   float v[16];
 
