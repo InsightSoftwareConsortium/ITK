@@ -221,7 +221,7 @@ int itkShapeDetectionLevelSetImageFilterTest(int, char* [] )
     writer->SetFileName( "initialLevelSet.png" );
     writer->Update();
 */
-
+    // Check of overlap is above threshold
     if ( overlap->GetSimilarityIndex() > 0.90 )
       {
       std::cout << "Overlap exceed threshold." << std::endl;

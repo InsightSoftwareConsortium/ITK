@@ -68,7 +68,8 @@ namespace itk {
  *
  * The smoothness of the resulting contour/surface can be adjusted using a combination
  * of PropagationScaling and CurvatureScaling parameters. The larger the CurvatureScaling 
- * parameter, the smoother the resulting contour. 
+ * parameter, the smoother the resulting contour. The CurvatureScaling parameter should
+ * be non-negative for proper operation of this algorithm.
  * To follow the implementation in Malladi et al paper,
  * set the PropagtionScaling to \f$\pm 1.0\f$ and CurvatureScaling to \f$ \epsilon \f$.
  *
@@ -77,8 +78,8 @@ namespace itk {
  *
  * \par OUTPUTS
  * The filter outputs a single, scalar, real-valued image.
- * Negative values in the output image represent the inside the segmentated region
- * and positive values in the image represent outside of the inside region.  The
+ * Negative values in the output image represent the inside of the segmentated region
+ * and positive values in the image represent the outside of the segmented region.  The
  * zero crossings of the image correspond to the position of the propagating
  * front.
  *
@@ -92,7 +93,6 @@ namespace itk {
  *    R. Malladi, J. A. Sethian and B. C. Vermuri.
  *    IEEE Trans. on Pattern Analysis and Machine Intelligence,
  *    Vol 17, No. 2, pp 158-174, February 1995
- *
  *
  * \sa SegmentationLevelSetImageFilter
  * \sa ShapeDetectionLevelSetFunction

@@ -31,9 +31,6 @@ GeodesicActiveContourLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType
 
   this->SetSegmentationFunction( m_GeodesicActiveContourFunction );
 
-  /* Use negative features by default. */
-  this->SetUseNegativeFeatures( true );
-
   /* Turn off interpolation. */
   this->InterpolateSurfaceLocationOff();
 }
@@ -47,6 +44,27 @@ GeodesicActiveContourLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType
   os << "GeodesicActiveContourFunction: " << m_GeodesicActiveContourFunction.GetPointer();
 }
 
+
+template <class TInputImage, class TFeatureImage, class TOutputType>
+void
+GeodesicActiveContourLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
+::GenerateData()
+{
+
+  // Make sure the SpeedImage is setup for the case when PropagationScaling
+  // is zero while CurvatureScaling is non-zero
+  if ( this->GetSegmentationFunction() && 
+       this->GetSegmentationFunction()->GetCurvatureWeight() != 0 &&
+       this->GetSegmentationFunction()->GetPropagationWeight() == 0 )
+    {
+    this->GetSegmentationFunction()->AllocateSpeedImage();
+    this->GetSegmentationFunction()->CalculateSpeedImage();
+    }
+
+  // Continue with Superclass implementation
+  Superclass::GenerateData();
+
+}
 
 }// end namespace itk
 

@@ -24,11 +24,11 @@ namespace itk {
 /** \class ShapeDetectionLevelSetFunction
  *    
  * \brief This function is used in the ShapeDetectionLevelSetImageFilter to
- * segment structures in image based on a user supplied edge potential map.
+ * segment structures in an image based on a user supplied edge potential map.
  *
  * \par IMPORTANT
  * The LevelSetFunction class contain additional information necessary
- * to gain full understanding of how to use this filter.
+ * to gain full understanding of how to use this function.
  *
  * ShapeDetectionLevelSetFunction is a subclass of the generic LevelSetFunction.
  * It is used to segment structures in an image based on a user supplied

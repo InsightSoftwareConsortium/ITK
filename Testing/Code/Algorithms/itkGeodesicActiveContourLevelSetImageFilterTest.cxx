@@ -183,21 +183,10 @@ int itkGeodesicActiveContourLevelSetImageFilterTest(int, char* [] )
   std::cout << "RMS change: " << shapeDetection->GetRMSChange() << std::endl;
   std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
 
-  if ( overlap->GetSimilarityIndex() > 0.90 )
-    {
-    std::cout << "Overlap exceed threshold." << std::endl;
-    }
-  else
-    {
-    std::cout << "Overlap below threshold." << std::endl;
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-    }
-
   /** 
    * Uncomment to write out image files.
    */
-  /*
+/*
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
 
@@ -220,14 +209,33 @@ int itkGeodesicActiveContourLevelSetImageFilterTest(int, char* [] )
   writer->SetFileName( "edgePotential.png" );
   writer->Update();
 
-  rescaler->SetInput( fastMarching->GetOutput() );
-  writer->SetFileName( "initialLevelSet.png" );
-  writer->Update();
-
   writer->SetInput( thresholder->GetOutput() );
   writer->SetFileName( "outputLevelSet.png" );
   writer->Update();
-  */
+
+  thresholder->SetInput( fastMarching->GetOutput() );
+  writer->SetInput( thresholder->GetOutput() );
+  writer->SetFileName( "initialLevelSet.png" );
+  writer->Update();
+*/
+
+  // Check if overlap is above threshold
+  if ( overlap->GetSimilarityIndex() > 0.90 )
+    {
+    std::cout << "Overlap exceed threshold." << std::endl;
+    }
+  else
+    {
+    std::cout << "Overlap below threshold." << std::endl;
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Test case when PropagationScaling and AdvectionScaling are zero
+  shapeDetection->SetPropagationScaling( 0.0 );
+  shapeDetection->SetCurvatureScaling( 1.0 );
+  shapeDetection->SetAdvectionScaling( 0.0 );
+  shapeDetection->Update();
 
   std::cout << "Test Passed. " << std::endl;
   return EXIT_SUCCESS;

@@ -24,10 +24,15 @@ namespace itk {
 /** \class GeodesicActiveContourLevelSetFunction
  *    
  * \brief This function is used in GeodesicActiveContourLevelSetImageFilter to
- * segment structures in images based on user supplied edge potential map.
+ * segment structures in an image based on a user supplied edge potential map.
  *
- * \par GeodesicActiveContourLevelSetFunction is a subclass of the generic LevelSetFunction.
- * It is useful for segmentations based on a user supplied edge potential map which
+ * \par IMPORTANT
+ * The LevelSetFunction class contain additional information necessary
+ * to gain full understanding of how to use this function.
+ *
+ * GeodesicActiveContourLevelSetFunction is a subclass of the generic LevelSetFunction.
+ * It is used to segment structures in an image based on a user supplied 
+ * edge potential map \f$ g(I) \f$, which
  * has values close to zero in regions near edges (or high image gradient) and values
  * close to one in regions with relatively constant intensity. Typically, the edge
  * potential map is a function of the gradient, for example:
@@ -38,14 +43,23 @@ namespace itk {
  * where \f$ I \f$ is image intensity and
  * \f$ (\nabla * G) \f$ is the derivative of Gaussian operator. 
  *
- * \par In this function both the propagation term \f$ P(\mathbf{x}) \f$
- * and the curvature spatial modifier term \f$ Z(\mathbf{x}) \f$ are taken directly
- * from the edge potential image. The edge potential image is set via the
- * SetFeatureImage() method. An advection term \f$ A(\mathbf{x}) \f$ is constructed
- * from the negative gradient of the edge potential image. This term behaves like
- * a doublet attracting the contour to the edges.
+ * The edge potential image is set via the SetFeatureImage() method.
  *
- * \par This implementation is based on:
+ * In this function both the propagation term \f$ P(\mathbf{x}) \f$
+ * and the curvature spatial modifier term \f$ Z(\mathbf{x}) \f$ are taken directly
+ * from the edge potential image such that:
+ *
+ * \f[ P(\mathbf{x}) = g(\mathbf{x}) \f]
+ * \f[ Z(\mathbf{x}) = g(\mathbf{x}) \f]
+ *
+ * An advection term \f$ \mathbf{A}(\mathbf{x}) \f$ is constructed
+ * from the negative gradient of the edge potential image. 
+ *
+ * \f[ \mathbf{A}(\matbf{x}) = -\nabla g(\mathbf{x}) \f]
+ *
+ * This term behaves like a doublet attracting the contour to the edges.
+ * 
+ * This implementation is based on:
  * "Geodesic Active Contours",
  * V. Caselles, R. Kimmel and G. Sapiro.
  * International Journal on Computer Vision,
