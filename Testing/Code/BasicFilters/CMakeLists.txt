@@ -81,6 +81,7 @@ ADD_TEST(itkReflectImageFilterTest ${BASIC_FILTERS_TESTS} itkReflectImageFilterT
 ADD_TEST(itkResampleImageTest ${BASIC_FILTERS_TESTS} itkResampleImageTest)
 ADD_TEST(itkRescaleIntensityImageFilterTest ${BASIC_FILTERS_TESTS} itkRescaleIntensityImageFilterTest)
 ADD_TEST(itkSimilarityIndexImageFilterTest ${BASIC_FILTERS_TESTS} itkSimilarityIndexImageFilterTest)
+ADD_TEST(itkSigmoidImageFilterTest ${BASIC_FILTERS_TESTS} itkSigmoidImageFilterTest)
 ADD_TEST(itkShiftScaleImageFilterTest ${BASIC_FILTERS_TESTS} itkShiftScaleImageFilterTest)
 ADD_TEST(itkShrinkImageTest ${BASIC_FILTERS_TESTS} itkShrinkImageTest)
 ADD_TEST(itkStatisticsImageFilterTest ${BASIC_FILTERS_TESTS} itkStatisticsImageFilterTest)
@@ -203,6 +204,7 @@ itkReflectiveImageRegionIteratorTest.cxx
 itkResampleImageTest.cxx
 itkRescaleIntensityImageFilterTest.cxx
 itkSimilarityIndexImageFilterTest.cxx
+itkSigmoidImageFilterTest.cxx
 itkShiftScaleImageFilterTest.cxx
 itkShrinkImageTest.cxx
 itkSparseFieldLayerTest.cxx
