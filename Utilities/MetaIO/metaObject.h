@@ -57,7 +57,7 @@ class MetaObject
       bool  m_BinaryDataByteOrderMSB;
 
       float m_CompressedDataSize;
-
+      bool m_WriteCompressedDataSize; // Used internally to set if the dataSize should be written
       bool m_CompressedData;
       
       virtual void M_Destroy(void);

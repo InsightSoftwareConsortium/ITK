@@ -899,6 +899,7 @@ Clear(void)
   m_BinaryDataByteOrderMSB = MET_SystemByteOrderMSB();
   m_CompressedDataSize = 0;
   m_CompressedData = false;
+  m_WriteCompressedDataSize = true;
 
   if(META_DEBUG) 
     {
@@ -1147,7 +1148,7 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  if(m_CompressedDataSize>0)
+  if((m_CompressedDataSize>0) && (m_WriteCompressedDataSize))
     {
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "CompressedDataSize", MET_FLOAT, m_CompressedDataSize);
