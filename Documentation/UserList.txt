@@ -19,6 +19,7 @@ ibanez:Luis Ibanez:ibanez@cs.unc.edu
 jin:Yinpeng Jin:yj76@columbia.edu
 jjomier
 jrgold
+jisung:Jisung Kim:bahrahm@yahoo.com
 king:Brad King:brad.king@kitware.com
 lawcc:Charles Law:charles.law@kitware.com
 lng:Lydia Ng:lng@insightful.com
