@@ -107,15 +107,15 @@ public:
   /**
    * Get/Set the extent of the data on disk.  
    */
-  itkSetVectorMacro(DataExtent,unsigned long,6);
-  itkGetVectorMacro(DataExtent,const unsigned long,6);
+  itkSetVectorMacro(ImageExtent,unsigned long,6);
+  itkGetVectorMacro(ImageExtent,const unsigned long,6);
   
   /**
    * Set/get the data VOI. You can limit the reader to only
    * read a subset of the data. 
    */
-  itkSetVectorMacro(DataVOI,unsigned long,6);
-  itkGetVectorMacro(DataVOI,const unsigned long,6);
+  itkSetVectorMacro(ImageVOI,unsigned long,6);
+  itkGetVectorMacro(ImageVOI,const unsigned long,6);
   
   /** 
    * The number of dimensions stored in a file. This defaults to two.
@@ -138,10 +138,10 @@ public:
   /**
    * Set/Get the Data mask.
    */
-  itkGetConstMacro(DataMask,unsigned short);
-  void SetDataMask(unsigned long val) 
-    {if (val == m_DataMask) { return; }
-    m_DataMask = ((unsigned short)(val)); this->Modified();}
+  itkGetConstMacro(ImageMask,unsigned short);
+  void SetImageMask(unsigned long val) 
+    {if (val == m_ImageMask) { return; }
+    m_ImageMask = ((unsigned short)(val)); this->Modified();}
   
   /**
    * These methods indicate the byte ordering of the file you are trying
@@ -152,15 +152,15 @@ public:
    * the same file on a LittleEndian machine will result in swapping.
    * Note: most UNIX machines are BigEndian while PC's
    * and VAX's are LittleEndian. So if the file you are reading
-   * in was generated on a VAX or PC, SetDataByteOrderToLittleEndian 
-   * otherwise SetDataByteOrderToBigEndian. 
+   * in was generated on a VAX or PC, SetImageByteOrderToLittleEndian 
+   * otherwise SetImageByteOrderToBigEndian. 
    */
-  ByteOrder GetDataByteOrder();
-  void SetDataByteOrder(ByteOrder);
-  void SetDataByteOrderToBigEndian()
-    { this->SetDataByteOrder(Superclass::BigEndian); }
-  void SetDataByteOrderToLittleEndian()
-    { this->SetDataByteOrder(Superclass::LittleEndian); }
+  itkSetMacro(ImageByteOrder,ByteOrder);
+  itkGetConstMacro(ImageByteOrder,ByteOrder);
+  void SetImageByteOrderToBigEndian()
+    { this->SetImageByteOrder(Superclass::BigEndian); }
+  void SetImageByteOrderToLittleEndian()
+    { this->SetImageByteOrder(Superclass::LittleEndian); }
 
   //---------------------------------------------------------------------
   // The following methods satisfy the ImageIO abstract API
@@ -244,15 +244,13 @@ private:
   std::string m_FilePrefix;
   std::string m_FilePattern;
   std::string m_InternalFileName;
-  unsigned long m_DataExtent[6];
-  unsigned long m_DataVOI[6];
+  unsigned long m_ImageExtent[6];
+  unsigned long m_ImageVOI[6];
   unsigned long m_FileDimensionality;
   bool m_ManualHeaderSize;
   unsigned long m_HeaderSize;
-  ByteOrder m_SwapBytes;
-  unsigned short m_DataMask;
-  
-  
+  ByteOrder m_ImageByteOrder;
+  unsigned short m_ImageMask;
 };
 
 template <class TPixel>
