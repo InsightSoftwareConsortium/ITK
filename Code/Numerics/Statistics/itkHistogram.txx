@@ -439,7 +439,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer>
 inline typename Histogram< TMeasurement, VMeasurementVectorSize, 
-                           TFrequencyContainer >::MeasurementType&
+                           TFrequencyContainer >::MeasurementType
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetMeasurement(const unsigned long n, const unsigned int dimension) const
 {

@@ -261,7 +261,7 @@ public:
   MeasurementVectorType& GetMeasurementVector(const IndexType &index) ;
   
   /** Method to get measurement from the histogram */
-  MeasurementType& GetMeasurement(const unsigned long n,
+  MeasurementType GetMeasurement(const unsigned long n,
                                   const unsigned int dimension) const ;
 
   /** returns the total frequency*/
