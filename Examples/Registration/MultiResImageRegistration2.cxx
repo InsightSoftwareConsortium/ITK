@@ -495,17 +495,13 @@ int main( int argc, char *argv[] )
   //  M = 
   //  \left[ 
   //  \begin{array}{cc}
-  //  1.00164 & 0.0014 \\ 
-  //  0.00168 & 1.0027 \\  
-  //  \end{array}
+  //  1.00164 & 0.0014 \\ 0.00168 & 1.0027 \\  \end{array}
   //  \right]
   //  \mbox{ and }
   //  T =
   //  \left[ 
   //  \begin{array}{c}
-  //  12.6296  \\ 
-  //  16.4768  \\  
-  //  \end{array} 
+  //  12.6296  \\  16.4768  \\  \end{array} 
   //  \right] 
   //  \end{equation}
   //
