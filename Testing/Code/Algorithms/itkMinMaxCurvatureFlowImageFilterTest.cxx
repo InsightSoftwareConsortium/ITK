@@ -102,6 +102,10 @@ int main()
   int err4D = testMinMaxCurvatureFlow( size4D, radius, numberOfRuns,
     niter, radii );
 
+  std::cout << "2D Test passed: " << !err2D << std::endl;
+  std::cout << "3D Test passed: " << !err3D << std::endl;
+  std::cout << "4D Test passed: " << !err4D << std::endl;
+
   if ( err2D /*|| err3D || err4D*/ )
     {
     return EXIT_FAILURE;
