@@ -267,7 +267,7 @@ public:
       }
     if (v != m_SegmentationFunction->GetAdvectionWeight())
       {
-      this->SetAdvectionScalaing(v);
+      this->SetAdvectionScaling(v);
       }
   }
 
