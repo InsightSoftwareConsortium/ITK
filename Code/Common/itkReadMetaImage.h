@@ -59,6 +59,16 @@ public:
    */
   itkNewMacro(Self);  
 
+  /**
+   * typedef for Size.
+   */
+  typedef Size<TOutputImage::ImageDimension>  Size;
+
+  /**
+   * typedef for Region.
+   */
+  typedef ImageRegion<TOutputImage::ImageDimension>  Region;
+
   /** 
    * Specify the name of the input file.
    */

@@ -58,23 +58,26 @@ ReadMetaImage<TOutputImage>
 
   m_OutputImage->SetSpacing( m_MetaImage.ElemSize() );
 
-  unsigned long dimSize[ TOutputImage::ImageDimension ];
+  Size dimSize;
 
   for(unsigned int i=0; i<TOutputImage::ImageDimension; i++) 
   {
     dimSize[i] = m_MetaImage.DimSize(i);
   }
 
-  m_OutputImage->SetImageSize( dimSize );
-  m_OutputImage->SetBufferSize( dimSize );
-  m_OutputImage->Allocate();
-
   const long startPosition[] = { 0, 0, 0 };
   typename TOutputImage::Index start;
   start.SetIndex( startPosition );
-     
-  m_OutputImage->SetImageStartIndex( start );
-  m_OutputImage->SetBufferStartIndex( start );
+
+  Region region;
+  
+  region.SetSize( dimSize );
+  region.SetIndex( start );
+
+  m_OutputImage->SetLargestPossibleRegion( region );
+  m_OutputImage->SetBufferedRegion( region );
+  m_OutputImage->Allocate();
+    
 
   typedef typename TOutputImage::PixelType  PixelType;
 
@@ -82,8 +85,7 @@ ReadMetaImage<TOutputImage>
                   TOutputImage::ImageDimension> IteratorType;
   
   IteratorType it(m_OutputImage,
-                  m_OutputImage->GetBufferStartIndex(),
-                  m_OutputImage->GetBufferSize() );
+                  m_OutputImage->GetLargestPossibleRegion() );
 
   PixelType * source = (PixelType *)m_MetaImage.Get();
 
