@@ -42,7 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include <fstream>
-#include <cmath>
 #include <iostream>
 #include <stdio.h>
 using namespace std;
