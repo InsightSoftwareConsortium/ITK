@@ -83,16 +83,39 @@ int main()
 
 
   // Test for vnl interface
+
+  // Test the no const version that returns an vnl_vector_ref
   vnl_vector_ref< ValueType > vnlVector = va.Get_vnl_vector();
   {
-    std::cout << "vnl_vector = va ";
+    std::cout << "vnl_vector_ref = va ";
     for( unsigned int i=0; i<N; i++ )
     {
       std::cout << vnlVector[i] << ", ";
     }
     std::cout << std::endl;
+
+    std::cout << "vnl_vector_ref.begin() = va.Begin()";
+    std::cout << std::endl;
+    std::cout << vnlVector.begin() << " = ";
+    std::cout << va.Begin() << std::endl;
   }
 
+  // Test the const version that returns an vnl_vector
+  const VectorType vf(va);
+  vnl_vector<ValueType> vnlVector2 = vf.Get_vnl_vector();
+  {
+    std::cout << "vnl_vector = va ";
+    for( unsigned int i=0; i<N; i++ )
+    {
+      std::cout << vnlVector2[i] << ", ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "vnl_vector.begin() != vf.Begin()";
+    std::cout << std::endl;
+    std::cout << vnlVector2.begin() << " = ";
+    std::cout << vf.Begin() << std::endl;
+  }
 
 
   return 0;
