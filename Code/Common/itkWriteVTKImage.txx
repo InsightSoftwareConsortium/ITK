@@ -78,7 +78,7 @@ WriteVTKImage<TInputImage>
     }
   *fptr << std::endl;
 
-  const float *spacing = input->GetSpacing();
+  const double *spacing = input->GetSpacing();
   *fptr << "SPACING";
   for (i=0; i < TInputImage::ImageDimension; i++)
     {
@@ -90,7 +90,7 @@ WriteVTKImage<TInputImage>
     }
   *fptr << std::endl;
 
-  const float *origin = input->GetOrigin();
+  const double *origin = input->GetOrigin();
   *fptr << "ORIGIN";
   for (i=0; i < TInputImage::ImageDimension; i++)
     {

@@ -29,8 +29,8 @@ void main()
   typedef itk::Image<itk::Scalar<unsigned short>, 3> ScalarImage;
   ScalarImage::Pointer  o3 = ScalarImage::New();
 
-  float origin3D[3] = { 5, 2.1, 8.1};
-  float spacing3D[3] = { 1.5, 2.1, 1};
+  double origin3D[3] = { 5, 2.1, 8.1};
+  double spacing3D[3] = { 1.5, 2.1, 1};
 
   ScalarImage::SizeType imageSize3D = { 200, 200, 200 };
   ScalarImage::SizeType bufferSize3D = { 200, 200, 200 };

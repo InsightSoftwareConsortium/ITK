@@ -288,30 +288,37 @@ public:
   /** 
    * Set the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
+   * It is stored internally as double, but may be set from
+   * float.
    * \sa GetSpacing()
    */
-  itkSetVectorMacro(Spacing, const float, VImageDimension);
+  itkSetVectorMacro(Spacing, const double, VImageDimension);
+  itkSetVectorMacro(Spacing, const float , VImageDimension);
 
   /** 
    * Get the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
+   * The value returned is a pointer to a double array.
    * \sa SetSpacing()
    */
-  itkGetVectorMacro(Spacing, const float, VImageDimension);
+  itkGetVectorMacro(Spacing, const double, VImageDimension);
   
   /** 
    * Set the origin of the image. The origin is the geometric
-   * coordinates of the image origin.
+   * coordinates of the image origin.  It is stored internally
+   * as double but may be set from float.
    * \sa GetOrigin()
    */
-  itkSetVectorMacro(Origin, const float, VImageDimension);
+  itkSetVectorMacro(Origin, const double, VImageDimension);
+  itkSetVectorMacro(Origin, const float , VImageDimension);
 
   /** 
    * Get the origin of the image. The origin is the geometric
-   * coordinates of the image origin.
+   * coordinates of the image origin.  The value returned is
+   * a pointer to a double array.
    * \sa SetOrigin()
    */
-  itkGetVectorMacro(Origin, const float, VImageDimension);
+  itkGetVectorMacro(Origin, const double, VImageDimension);
 
   /**
    * Return a pointer to the beginning of the buffer.  This is used by
@@ -411,8 +418,8 @@ private:
   RegionType          m_RequestedRegion;
   RegionType          m_BufferedRegion;
 
-  float           m_Spacing[VImageDimension];
-  float           m_Origin[VImageDimension];
+  double              m_Spacing[VImageDimension];
+  double              m_Origin[VImageDimension];
 };
 
   
