@@ -392,7 +392,7 @@ void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
   out.Set( static_cast<OutputImagePixelType> ( out.Get() / 2.0 ) );
    
   // TODO: Temporary fix for itkImageLinearIteratorWithIndex::NextLine() not setting m_Position correctly
-  out.GoToReverseBeginOfLine();
+  out.GoToEndOfLine();
     
   
 }
