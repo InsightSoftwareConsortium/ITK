@@ -75,15 +75,22 @@ private:
   void GenerateWrapperSet(std::ostream&, const configuration::WrapperSet*,
                           const configuration::PackageNamespace*);
   void GenerateClassWrapper(std::ostream&, const source::Class*);
+  bool ReturnsVoid(const source::Function*) const;
   void WriteWrapperClassDefinition(std::ostream&, const source::Class*,
                                    const Methods&) const;
+  void WriteImplicitArgument(std::ostream&, const source::Class*,
+                             const source::Method*) const;
+  void WriteArgumentList(std::ostream&, const source::ArgumentContainer&) const;
   void WriteArgumentAs(std::ostream&, const cxx::CvQualifiedType&,
                        unsigned int) const;
+  void WriteReturnBegin(std::ostream&, const source::Function*) const;
+  void WriteReturnEnd(std::ostream&, const source::Function*) const;
   void FindCvTypes(const configuration::PackageNamespace*);
   void FindCvTypes(const configuration::WrapperSet*,
                    const configuration::PackageNamespace*);
   void FindCvTypes(const source::Class*);
-  void FindCvTypes(const source::Method*, const source::Namespace*);
+  void FindCvTypes(const source::Method*);
+  cxx::CvQualifiedType GetCxxType(const source::Type*) const;
 
   /**
    * The global namespace that was parsed from the source file.

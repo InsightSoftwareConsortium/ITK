@@ -97,7 +97,8 @@ void TclGenerator::GeneratePackage(const configuration::Package* package)
     "// Include standard wrapper header.\n"
     "#include \"wrapCalls.h\"\n"
     "\n"
-    "// Include headers needed for wrapped types.\n";
+    "// Include headers needed for wrapped types.\n"
+    "#include \"Cxx/" << package->GetName().c_str() << "_cxx.h\"\n";
   
   // Be sure to include needed headers.
   this->GenerateIncludes(wrapperStream, package->GetHeaders());
@@ -133,7 +134,7 @@ void TclGenerator::GeneratePackage(const configuration::Package* package)
   wrapperStream <<
     "}\n"
     "\n"
-    "void " << package->GetName().c_str() << "_Wrapper_0_Initialize(Tcl_Interp* interp)\n"
+    "void " << package->GetName().c_str() << "_Wrapper_Initialize(Tcl_Interp* interp)\n"
     "{\n"
     "  Initialize();\n";
   
@@ -143,11 +144,43 @@ void TclGenerator::GeneratePackage(const configuration::Package* package)
     wrapperStream <<
       "  Wrapper< " << w->c_str() << " >::GetForInterpreter(interp);\n";
     }
+
+  std::string tclName = package->GetName();
+  std::string::iterator c = tclName.begin();
+  if(c != tclName.end())
+    {
+    for(++c; c != tclName.end(); ++c)
+      {
+      char ch = *c;
+      if((ch >= 'A') && (ch <= 'Z'))
+        {
+        *c = (ch+('a'-'A'));
+        }
+      }
+    }
   
   wrapperStream <<
     "}\n"
     "\n"
-    "} // namespace _wrap_\n";
+    "} // namespace _wrap_\n"
+    "\n"
+    "extern \"C\" { WRAPPER_EXPORT int " << tclName.c_str() << "tcl_Init(Tcl_Interp* interp); }\n"
+    "extern \"C\" { _wrap_EXPORT int Wrap_Init(Tcl_Interp* interp); }\n"
+    "\n"
+    "int " << tclName.c_str() << "tcl_Init(Tcl_Interp* interp)\n"
+    "{\n"
+    "  // Make sure the wrapper facility has been initialized for this interpreter.\n"
+    "  int result = Wrap_Init(interp);\n"
+    "  if(result != TCL_OK)\n"
+    "    {\n"
+    "    return result;\n"
+    "    }\n"
+    "  \n"
+    "  // Initialized the types in this package.\n"
+    "  _wrap_::" << package->GetName().c_str() << "_Wrapper_Initialize(interp);\n"
+    "  \n"
+    "  return TCL_OK;\n"
+    "}\n";
   
   // Output file is complete.
   wrapperStream.close();
@@ -242,9 +275,9 @@ TclGenerator
 ::GenerateClassWrapper(std::ostream& wrapperStream,
                        const source::Class* c)
 {
-  const source::Namespace* gns = c->GetGlobalNamespace();
+  std::string cName = c->GetQualifiedName();
   
-  m_WrapperList.push_back(c->GetName());
+  m_WrapperList.push_back(cName);
   
   // Make a list of the methods in this class that will be wrapped.
   Methods methods;
@@ -254,7 +287,9 @@ TclGenerator
     source::Method* method = *methodItr;
     if(method->GetAccess() == source::Public)
       {
-      if(method->IsMethod() || method->IsConstructor())
+      if(method->IsMethod()
+         || method->IsConstructor()
+         || method->IsOperatorMethod())
         {
         methods.push_back(method);
         }
@@ -276,69 +311,43 @@ TclGenerator
       {
       wrapperStream <<
         "void\n"
-        "Wrapper< " << c->GetName().c_str() << " >\n"
+        "Wrapper< " << cName.c_str() << " >\n"
         "::Method_" << m << "_" << methods[m]->GetName().c_str() << "(const Argument& implicit, const Arguments& arguments) const\n"
         "{\n";
       
-      String implicit = c->GetName();
-      if(methods[m]->IsConst())
-        {
-        implicit = "const "+implicit;
-        }
-      wrapperStream <<
-        "  " << implicit.c_str() << "& instance = ArgumentAsReferenceTo< " << implicit.c_str() << " >::Get(implicit, this);\n";
+      this->WriteImplicitArgument(wrapperStream, c, methods[m]);
+      this->WriteReturnBegin(wrapperStream, methods[m]);
       
-      if(methods[m]->GetReturns() && methods[m]->GetReturns()->GetType()
-         && methods[m]->GetReturns()->GetType()->GetCxxType(gns).GetName() != "void")
-        {
-        const source::Type* t = methods[m]->GetReturns()->GetType();
-        if(t->IsPointerType())
-          {
-          const source::PointerType* pt = dynamic_cast<const source::PointerType*>(t);
-          t = pt->GetPointedToType();
-          wrapperStream <<
-            "  ReturnPointerTo< " << t->GetCxxType(gns).GetName() << " >::From(\n";
-          }
-        else if(t->IsReferenceType())
-          {
-          const source::ReferenceType* rt = dynamic_cast<const source::ReferenceType*>(t);
-          t = rt->GetReferencedType();
-          wrapperStream <<
-            "  ReturnReferenceTo< " << t->GetCxxType(gns).GetName() << " >::From(\n";
-          }
-        else
-          {
-          wrapperStream <<
-            "  Return< " << t->GetCxxType(gns).GetName() << " >::From(\n";
-          }
-        }
-
       wrapperStream <<
         "  instance." << methods[m]->GetName() << "(";
       
-      unsigned int argCount = 0;
-      for(source::ArgumentsIterator a = methods[m]->GetArguments().begin();
-          a != methods[m]->GetArguments().end(); ++a)
-        {
-        if(a != methods[m]->GetArguments().begin())
-          wrapperStream << ",";
-        wrapperStream << "\n";
-        this->WriteArgumentAs(wrapperStream,
-                              (*a)->GetType()->GetCxxType(gns), argCount++);
-        }
+      this->WriteArgumentList(wrapperStream, methods[m]->GetArguments());
+
+      this->WriteReturnEnd(wrapperStream, methods[m]);
       
-      if(methods[m]->GetReturns() && methods[m]->GetReturns()->GetType()
-         && methods[m]->GetReturns()->GetType()->GetCxxType(gns).GetName() != "void")
-        {
-        wrapperStream << "), this);\n";
-        }
-      else
-        {
-        wrapperStream << ");\n"
-          "  Return<void>::From(this);\n";
-        }
+      wrapperStream << ");\n"
+        "}\n"
+        "\n";
+      }
+    else if(methods[m]->IsOperatorMethod())
+      {
+      wrapperStream <<
+        "void\n"
+        "Wrapper< " << cName.c_str() << " >\n"
+        "::Operator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str() << "(const Argument& implicit, const Arguments& arguments) const\n"
+        "{\n";
+      
+      this->WriteImplicitArgument(wrapperStream, c, methods[m]);
+      this->WriteReturnBegin(wrapperStream, methods[m]);
       
       wrapperStream <<
+        "  instance.operator" << methods[m]->GetName() << "(";
+      
+      this->WriteArgumentList(wrapperStream, methods[m]->GetArguments());
+
+      this->WriteReturnEnd(wrapperStream, methods[m]);
+      
+      wrapperStream << ");\n"
         "}\n"
         "\n";
       }
@@ -346,21 +355,12 @@ TclGenerator
       {
         wrapperStream <<
           "void*\n"
-          "Wrapper< " << c->GetName().c_str() << " >\n"
+          "Wrapper< " << cName.c_str() << " >\n"
           "::Constructor_" << m << "(const Arguments& arguments) const\n"
           "{\n"
-          "  return new " << c->GetName().c_str() << "(";
+          "  return new " << cName.c_str() << "(";
         
-        unsigned int argCount = 0;
-        for(source::ArgumentsIterator a = methods[m]->GetArguments().begin();
-            a != methods[m]->GetArguments().end(); ++a)
-          {
-          if(a != methods[m]->GetArguments().begin())
-            wrapperStream << ",";
-          wrapperStream << "\n";
-          this->WriteArgumentAs(wrapperStream,
-                                (*a)->GetType()->GetCxxType(gns), argCount++);
-          }
+        this->WriteArgumentList(wrapperStream, methods[m]->GetArguments());
         
         wrapperStream << ");\n"
           "}\n"
@@ -371,7 +371,7 @@ TclGenerator
   wrapperStream <<
     "\n"
     "void\n"
-    "Wrapper< " << c->GetName().c_str() << " >\n"
+    "Wrapper< " << cName.c_str() << " >\n"
     "::RegisterMethodWrappers()\n"
     "{\n";
 
@@ -387,7 +387,7 @@ TclGenerator
         {
         const source::Type* t = (*a)->GetType();
         wrapperStream <<
-          "  parameterTypes.push_back(CvType< " << t->GetCxxType(gns).GetName() << " >::type.GetType());\n";
+          "  parameterTypes.push_back(CvType< " << this->GetCxxType(t).GetName() << " >::type.GetType());\n";
         }
       }
 
@@ -399,10 +399,22 @@ TclGenerator
       String returnTypeName = "void";
       if(methods[m]->GetReturns() && methods[m]->GetReturns()->GetType())
         {
-        returnTypeName = methods[m]->GetReturns()->GetType()->GetCxxType(gns).GetName();
+        returnTypeName = this->GetCxxType(methods[m]->GetReturns()->GetType()).GetName();
         }
       wrapperStream <<
         "    new Method(this, &Wrapper::Method_" << m << "_" << methods[m]->GetName() << ",\n"
+        "               \"" << methods[m]->GetName() << "\", " << (methods[m]->IsConst() ? "true":"false") << ",\n"
+        "               CvType< " << returnTypeName.c_str() << " >::type";
+      }
+    else if(methods[m]->IsOperatorMethod())
+      {
+      String returnTypeName = "void";
+      if(methods[m]->GetReturns() && methods[m]->GetReturns()->GetType())
+        {
+        returnTypeName = this->GetCxxType(methods[m]->GetReturns()->GetType()).GetName();
+        }
+      wrapperStream <<
+        "    new Method(this, &Wrapper::Operator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str() << ",\n"
         "               \"" << methods[m]->GetName() << "\", " << (methods[m]->IsConst() ? "true":"false") << ",\n"
         "               CvType< " << returnTypeName.c_str() << " >::type";
       }
@@ -410,7 +422,7 @@ TclGenerator
       {
       wrapperStream <<
         "    new Constructor(this, &Wrapper::Constructor_" << m << ",\n"
-        "                    \"" << c->GetName() << "\"";
+        "                    \"" << cName << "\"";
       
       }
     
@@ -435,19 +447,35 @@ TclGenerator
     "\n";
 }
 
+bool TclGenerator::ReturnsVoid(const source::Function* f) const
+{      
+  if(!f->GetReturns() || !f->GetReturns()->GetType())
+    { return true; }
+  else
+    {
+    const cxx::Type* rt = this->GetCxxType(f->GetReturns()->GetType()).GetType();
+    if(rt->IsFundamentalType())
+      {
+      return cxx::FundamentalType::SafeDownCast(rt)->IsVoid();
+      }
+    }
+  return false;
+}
+
 void TclGenerator::WriteWrapperClassDefinition(std::ostream& wrapperStream,
                                                const source::Class* c,
                                                const Methods& methods) const
 {
+  std::string cName = c->GetQualifiedName();
   wrapperStream <<
     "//--------------------------------------------------------------------\n"
     "// Class wrapper definition for\n"
-    "//   " <<  c->GetName().c_str() << "\n"
+    "//   " <<  cName.c_str() << "\n"
     "//--------------------------------------------------------------------\n"
     "\n"
     "// These macros will control creation of the Wrapper class.\n"
-    "#define _wrap_WRAPPED_TYPE " << c->GetName().c_str() << "\n"
-    "#define _wrap_WRAPPED_TYPE_NAME \"" << c->GetName().c_str() << "\"\n"
+    "#define _wrap_WRAPPED_TYPE " << cName.c_str() << "\n"
+    "#define _wrap_WRAPPED_TYPE_NAME \"" << cName.c_str() << "\"\n"
     "#define _wrap_METHOD_WRAPPER_PROTOTYPES \\\n";
   
   if(!methods.empty())
@@ -458,6 +486,11 @@ void TclGenerator::WriteWrapperClassDefinition(std::ostream& wrapperStream,
         {
         wrapperStream <<
           "  void Method_" << m << "_" << methods[m]->GetName().c_str() << "(const Argument&, const Arguments&) const";
+        }
+      if(methods[m]->IsOperatorMethod())
+        {
+        wrapperStream <<
+          "  void Operator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str() << "(const Argument&, const Arguments&) const";
         }
       else if(methods[m]->IsConstructor())
         {
@@ -488,6 +521,83 @@ void TclGenerator::WriteWrapperClassDefinition(std::ostream& wrapperStream,
     "#undef _wrap_WRAPPED_TYPE_NAME\n"
     "#undef _wrap_WRAPPED_TYPE\n"
     "\n";
+}
+
+void TclGenerator::WriteImplicitArgument(std::ostream& wrapperStream,
+                                         const source::Class* c, const source::Method* m) const
+{
+  String implicit = c->GetQualifiedName();
+  if(m->IsConst())
+    {
+    implicit = "const "+implicit;
+    }
+  wrapperStream <<
+    "  " << implicit.c_str() << "& instance = ArgumentAsReferenceTo< " << implicit.c_str() << " >::Get(implicit, this);\n";
+}
+
+void TclGenerator::WriteReturnBegin(std::ostream& wrapperStream,
+                                    const source::Function* f) const
+{
+  if(!this->ReturnsVoid(f))
+    {
+    const source::Type* t = f->GetReturns()->GetType();
+    if(t->IsPointerType())
+      {
+      const source::PointerType* pt = dynamic_cast<const source::PointerType*>(t);
+      t = pt->GetPointedToType();
+      wrapperStream <<
+        "  ReturnPointerTo< " << this->GetCxxType(t).GetName() << " >::From(\n";
+      }
+    else if(t->IsReferenceType())
+      {
+      const source::ReferenceType* rt = dynamic_cast<const source::ReferenceType*>(t);
+      t = rt->GetReferencedType();
+      wrapperStream <<
+        "  ReturnReferenceTo< " << this->GetCxxType(t).GetName() << " >::From(\n";
+      }
+    else
+      {
+      wrapperStream <<
+        "  Return< " << this->GetCxxType(t).GetName() << " >::From(\n";
+      }
+    }
+}
+
+void TclGenerator::WriteReturnEnd(std::ostream& wrapperStream,
+                                  const source::Function* f) const
+{      
+  if(this->ReturnsVoid(f))
+    {
+    wrapperStream << ");\n"
+      "  Return<void>::From(this";
+    }
+  else
+    {
+    wrapperStream << "), this";
+    }
+}
+
+/**
+ * Write the code to convert and pass a list of arguments to wrapped method
+ * in its method wrapper's actual call to it.
+ */
+void TclGenerator::WriteArgumentList(std::ostream& wrapperStream,
+                                     const source::ArgumentContainer& arguments) const
+{
+  unsigned int argCount = 0;
+  source::ArgumentsIterator a = arguments.begin();
+  if(a != arguments.end())
+    {
+    wrapperStream << "\n";
+    this->WriteArgumentAs(wrapperStream,
+                          this->GetCxxType((*a)->GetType()), argCount++);
+    for(++a;a != arguments.end(); ++a)
+      {
+      wrapperStream << ",\n";
+      this->WriteArgumentAs(wrapperStream,
+                            this->GetCxxType((*a)->GetType()), argCount++);
+      }
+    }
 }
 
 
@@ -562,7 +672,13 @@ TclGenerator
 
 void TclGenerator::FindCvTypes(const source::Class* c)
 {
-  const source::Namespace* gns = c->GetGlobalNamespace();
+  cxx::CvQualifiedType classCvType = c->GetCxxClassType(m_GlobalNamespace);
+  cxx::CvQualifiedType constClassCvType = classCvType.GetMoreQualifiedType(true, false);
+  m_CvTypeGenerator.Add(classCvType);
+  m_CvTypeGenerator.Add(constClassCvType);
+  m_CvTypeGenerator.Add(source::CxxTypes::GetReferenceType(classCvType));
+  m_CvTypeGenerator.Add(source::CxxTypes::GetReferenceType(constClassCvType));
+  
   for(source::MethodsIterator methodItr = c->GetMethods().begin();
       methodItr != c->GetMethods().end(); ++methodItr)
     {
@@ -570,27 +686,31 @@ void TclGenerator::FindCvTypes(const source::Class* c)
     if(method->GetAccess() == source::Public)
       {
       if(method->IsMethod()
-         || method->IsConstructor())
+         || method->IsConstructor()
+         || method->IsOperatorMethod())
         {
-        this->FindCvTypes(method, gns);
+        this->FindCvTypes(method);
         }
       }
     }
 }
   
-void TclGenerator::FindCvTypes(const source::Method* method,
-                               const source::Namespace* gns)
+void TclGenerator::FindCvTypes(const source::Method* method)
 {
   if(method->GetReturns() && method->GetReturns()->GetType())
     {
-    m_CvTypeGenerator.Add(method->GetReturns()->GetType()->GetCxxType(gns));
+    m_CvTypeGenerator.Add(this->GetCxxType(method->GetReturns()->GetType()));
     }
   for(source::ArgumentsIterator a = method->GetArguments().begin();
       a != method->GetArguments().end(); ++a)
     {
-    m_CvTypeGenerator.Add((*a)->GetType()->GetCxxType(gns));
+    m_CvTypeGenerator.Add(this->GetCxxType((*a)->GetType()));
     }
 }
 
+cxx::CvQualifiedType TclGenerator::GetCxxType(const source::Type* t) const
+{
+  return t->GetCxxType(m_GlobalNamespace);
+}
 
 } // namespace gen
