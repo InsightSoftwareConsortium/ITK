@@ -289,8 +289,8 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
     // Fill the rest of the covairance matrix and make it symmetric
     if(m_NumberOfSamples[classIndex][0] > 0)
       {
-      const unsigned int lastInX = (unsigned int)(VectorDimension - 1);
-      const unsigned int upperY = (unsigned int)VectorDimension;
+      unsigned int lastInX = (unsigned int)(VectorDimension - 1);
+      unsigned int upperY = (unsigned int)VectorDimension;
       for(unsigned int band_x = 0; band_x < lastInX; band_x++)
         {
         for(unsigned int band_y=band_x+1; band_y < upperY; band_y++)

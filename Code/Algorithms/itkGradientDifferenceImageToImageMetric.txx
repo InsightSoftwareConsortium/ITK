@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGradientDifferenceImageToImageMetric.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkGradientDifferenceImageToImageMetric.txx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) 2002 Insight Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef _itkGradientDifferenceImageToImageMetric_txx
@@ -25,22 +25,6 @@
 #include <stdio.h>
 
 
-//#define DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-//#define DEEP_DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-  
-#ifdef DEEP_DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-#define DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-#endif
-
-#ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-
-int nSaved = 0;
-#include "itkImageFileWriter.h"
-
-#endif
-
-
-
 namespace itk
 {
 
@@ -51,7 +35,7 @@ template <class TFixedImage, class TMovingImage>
 GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 ::GradientDifferenceImageToImageMetric()
 {
-  int iDimension;
+  unsigned int iDimension;
 
   m_TransformMovingImageFilter = 0;
 
@@ -79,13 +63,13 @@ void
 GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 ::Initialize(void) throw ( ExceptionObject )
 {
+  unsigned int iFilter;  // Index of Sobel filters for each dimension
 
-  int iFilter;                        // Index of Sobel filters for each dimension
 
-
-  if ( ! m_ComputeGradient ) {
-     itkExceptionMacro(<<"Gradients must be calculated");
-  }
+  if ( ! m_ComputeGradient )
+    {
+    itkExceptionMacro(<<"Gradients must be calculated");
+    }
 
   // Initialise the base class
 
@@ -190,7 +174,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     {
 
     typedef itk::ImageRegionConstIteratorWithIndex< 
-                            MovedGradientImageType > IteratorType;
+      MovedGradientImageType > IteratorType;
 
     IteratorType iterate( m_MovedSobelFilters[iDimension]->GetOutput(),
                           this->GetFixedImageRegion() );
@@ -219,14 +203,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
       ++iterate;
       }
     }
-
-#ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-  std::cout << "Moved image range: ";
-  for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
-    std::cout << " " << m_MinMovedGradient[iDimension] 
-         << ":" << m_MaxMovedGradient[iDimension];
-  std::cout << std::endl;
-#endif
 }
 
 
@@ -248,7 +224,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     {
 
     typedef itk::ImageRegionConstIteratorWithIndex< 
-                                       FixedGradientImageType > IteratorType;
+      FixedGradientImageType > IteratorType;
 
     IteratorType iterate( m_FixedSobelFilters[iDimension]->GetOutput(),
                           this->GetFixedImageRegion() );
@@ -308,24 +284,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
     m_Variance[iDimension] /= nPixels;
 
-  }
-
-#ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-  std::cout << "Fixed image range: ";
-  for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
-    std::cout << " " << m_MinFixedGradient[iDimension] << ":" << m_MaxFixedGradient[iDimension];
-  std::cout << std::endl;
-  
-  std::cout << "Mean: ";
-  for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
-    std::cout << " " << mean[iDimension];
-  std::cout << std::endl;
-  
-  std::cout << "Variance: ";
-  for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
-    std::cout << " " << m_Variance[iDimension];
-  std::cout << std::endl;
-#endif
+    }
 }
 
 
@@ -340,17 +299,15 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 {
   unsigned int iDimension;
 
-
   this->SetTransformParameters( parameters );
   MeasureType measure = NumericTraits< MeasureType >::Zero;
 
-
   for (iDimension=0; iDimension<FixedImageDimension; iDimension++) 
     {
-
-      if (m_Variance[iDimension] == NumericTraits< MovedGradientPixelType >::Zero)
-        continue;
-
+    if (m_Variance[iDimension] == NumericTraits< MovedGradientPixelType >::Zero)
+      {
+      continue;
+      }
     // Iterate over the fixed and moving gradient images
     // calculating the similarity measure
 
@@ -360,13 +317,13 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     MovedGradientPixelType diff;
 
     typedef  itk::ImageRegionConstIteratorWithIndex< FixedGradientImageType > 
-                                                                FixedIteratorType;
+      FixedIteratorType;
 
     FixedIteratorType fixedIterator( m_FixedSobelFilters[iDimension]->GetOutput(),
                                      this->GetFixedImageRegion() );
 
     typedef  itk::ImageRegionConstIteratorWithIndex< MovedGradientImageType > 
-                                                                MovedIteratorType;
+      MovedIteratorType;
 
     MovedIteratorType movedIterator( m_MovedSobelFilters[iDimension]->GetOutput(),
                                      this->GetFixedImageRegion() );
@@ -379,37 +336,21 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     while ( ! fixedIterator.IsAtEnd() ) 
       {
 
-        // Get the moving and fixed image gradients
+      // Get the moving and fixed image gradients
   
-        movedGradient = movedIterator.Get();
-        fixedGradient  = fixedIterator.Get();
+      movedGradient = movedIterator.Get();
+      fixedGradient  = fixedIterator.Get();
 
-        // And calculate the gradient difference
+      // And calculate the gradient difference
 
-        diff = fixedGradient - subtractionFactor[iDimension]*movedGradient; 
+      diff = fixedGradient - subtractionFactor[iDimension]*movedGradient; 
         
-        measure += m_Variance[iDimension] 
-          / ( m_Variance[iDimension] + diff*diff ); 
+      measure += m_Variance[iDimension] 
+        / ( m_Variance[iDimension] + diff*diff ); 
 
-    
-#ifdef DEEP_DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-        std::cout << std::setw(8) << "Dim " << iDimension << ": " 
-             << std::setw(8) << diff << " = " 
-             << std::setw(8) << fixedGradient << " - " 
-             << std::setw(8) << subtractionFactor[iDimension] << "*" 
-             << std::setw(8) << movedGradient << "; Measure = "
-             << std::setw(8) << measure << std::endl; 
-#endif
-
-        ++fixedIterator;
-        ++movedIterator;
+      ++fixedIterator;
+      ++movedIterator;
       }
-
-#ifdef DEEP_DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-        std::cout << std::setw(8) << "Dim " << iDimension 
-             << ", Subtraction factor: " << std::setw(8) << subtractionFactor[iDimension]
-             << " Measure = " << std::setw(8) << measure << std::endl; 
-#endif
     }
   
   return measure;
@@ -424,15 +365,10 @@ typename GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>::Measure
 GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValue( const TransformParametersType & parameters ) const
 {
-  int iFilter;                        // Index of Sobel filters for each dimension
+  unsigned int iFilter;                        // Index of Sobel filters for each dimension
   bool maximumFound = false;
   bool firstIteration = true;
   unsigned int iDimension;
-
-#ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-  unsigned int nIterations = 0;
-  std::cout << "GradientDifferenceImageToImageMetric::GetValue Parameters: " << parameters << std::endl;
-#endif
 
   this->SetTransformParameters( parameters );
   m_TransformMovingImageFilter->Update();
@@ -441,76 +377,15 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   typedef itk::CastImageFilter< MovedGradientImageType, SobelOutputImageType > CastSobelImageFilterType;
   typename CastSobelImageFilterType::Pointer castImage = CastSobelImageFilterType::New();
 
-  
-#ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-
-  // Write the "moved" (projection) image to a file
-
-  typedef  short  OutputPixelType;
-  typedef itk::Image< OutputPixelType, 3 > OutputImageType;
-  typedef itk::CastImageFilter< MovingImageType, OutputImageType > CastFilterType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
-
-  typename WriterType::Pointer writer = WriterType::New();
-  typename CastFilterType::Pointer  caster =  CastFilterType::New();
-
-  char filename[256];
-  sprintf(filename, "moved_%03d.gipl", nSaved);
-  writer->SetFileName( filename );
-  caster->SetInput( m_TransformMovingImageFilter->GetOutput() );
-  writer->SetInput( caster->GetOutput()   );
-
-  try { 
-    std::cout << "Writing image: " << filename << std::endl;
-    writer->Update();
-  } 
-  catch( itk::ExceptionObject & err ) { 
-    
-    std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
-  } 
-
-#endif
-
-
   // Update the gradient images
 
   for (iFilter=0; iFilter<MovedImageDimension; iFilter++) 
     {
-      m_MovedSobelFilters[iFilter]->Update();
+    m_MovedSobelFilters[iFilter]->Update();
 
-      // Cast the image to short
+    // Cast the image to short
 
-#ifdef DEEP_DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-      castImage->SetInput( m_MovedSobelFilters[iFilter]->GetOutput() );
-      castImage->Update();
-
-      // Write the "moved" gradient images to files
-  
-      typedef itk::ImageFileWriter< SobelOutputImageType >  WriterType;
-      typename WriterType::Pointer writer = WriterType::New();
-
-      char filename[256];
-      sprintf(filename, "movedSobel_%03d%03d.gipl", nSaved, iFilter );
-      writer->SetFileName( filename );
-      writer->SetInput( castImage->GetOutput() );
-      
-      try { 
-        std::cout << "Writing image: " << filename << std::endl;
-        //m_MovedSobelFilters[iFilter]->Print(std::cout);
-        writer->Update();
-      } 
-      catch( itk::ExceptionObject & err ) { 
-        
-        std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
-        std::cerr << err << std::endl; 
-      } 
-#endif
     }
-
-#ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-  nSaved++;
-#endif
 
   // Compute the range of the moved image gradients
   // NB: Ideally this should be a filter as the computation is only 
@@ -526,15 +401,15 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
   for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
     {
-      if (m_MaxMovedGradient[iDimension] != m_MinMovedGradient[iDimension])
+    if (m_MaxMovedGradient[iDimension] != m_MinMovedGradient[iDimension])
       {
-          stepSize[iDimension] = 
-            ((m_MaxFixedGradient[iDimension] - m_MinFixedGradient[iDimension])
-             / (m_MaxMovedGradient[iDimension] - m_MinMovedGradient[iDimension]))/50.;
+      stepSize[iDimension] = 
+        ((m_MaxFixedGradient[iDimension] - m_MinFixedGradient[iDimension])
+         / (m_MaxMovedGradient[iDimension] - m_MinMovedGradient[iDimension]))/50.;
       }
-      else
+    else
       {
-          stepSize[iDimension] = 0;
+      stepSize[iDimension] = 0;
       }
     }
   
@@ -551,10 +426,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
   while (! maximumFound) 
     {
-#ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-    nIterations++;
-#endif
-
     if (! firstIteration) 
       {
       for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
@@ -568,10 +439,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     // Compute the new value of the measure for this subtraction factor
 
     currentMeasure = ComputeMeasure( parameters, subtractionFactor );
-
-#ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-    std::cout << std::setw(4) << nIterations << " " << currentMeasure << std::endl;
-#endif
 
     if (firstIteration)
       {
@@ -597,15 +464,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
       }
     }
 
-#ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-  std::cout << "No. of iterations: " << nIterations << std::endl;
-
-  std::cout << "Subtraction factor: ";
-  for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
-    std::cout << " " << subtractionFactor[iDimension];
-  std::cout << std::endl;
-#endif
-
   return maxMeasure;
 }
 
@@ -618,7 +476,7 @@ template < class TFixedImage, class TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 ::GetDerivative( const TransformParametersType & parameters, 
-                       DerivativeType & derivative           ) const
+                 DerivativeType & derivative           ) const
 {
 
   const double delta = 0.001;

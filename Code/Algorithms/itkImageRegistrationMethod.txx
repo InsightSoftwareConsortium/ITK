@@ -329,6 +329,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
       break;
     default:
       itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");
+      return 0;
     }
 }
 
