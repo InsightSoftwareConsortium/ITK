@@ -29,6 +29,7 @@ Euler2DTransform<TScalarType>
 ::Euler2DTransform()
 {
   m_Parameters.resize(ParametersDimension);
+  m_Angle = 0.0;
 }
 
 // Copy Constructor

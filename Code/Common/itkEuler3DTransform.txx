@@ -29,7 +29,7 @@ Euler3DTransform<TScalarType>
 ::Euler3DTransform()
 {
   m_ComputeZYX = false;
-
+  m_AngleX = m_AngleY = m_AngleZ = 0.0;
 }
 
 // Copy Constructor

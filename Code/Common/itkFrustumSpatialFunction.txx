@@ -25,6 +25,15 @@ namespace itk
 template <unsigned int VImageDimension,typename TInput>
 FrustumSpatialFunction<VImageDimension,TInput>::FrustumSpatialFunction()
 {
+  for (unsigned int i = 0; i < m_Apex.GetPointDimension(); i++)
+    {
+    m_Apex[i] = 0.0;
+    }
+  m_AngleZ = 0.0;
+  m_ApertureAngleX = 0.0;
+  m_ApertureAngleY = 0.0;
+  m_TopPlane = 0.0;
+  m_BottomPlane = 0.0;
 
 }
 
