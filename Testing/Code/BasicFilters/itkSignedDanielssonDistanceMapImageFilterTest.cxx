@@ -28,6 +28,7 @@ void test(int);
 int itkSignedDanielssonDistanceMapImageFilterTest(int, char* [] ) 
 {
   
+  std::cout << "Test ITK Signed Danielsson Distance Map" << std::endl << std::endl;
   test(1);  // Test with a 9x9 square, with a 5x5 subsquare in the middle ON
   test(0);  // Test with 2 points.. same test and results as 
             // DanielssonDistanceMap
@@ -38,11 +39,6 @@ int itkSignedDanielssonDistanceMapImageFilterTest(int, char* [] )
 
 void test(int testIdx)
 {
-  std::cout << "Test ITK Signed Danielsson Distance Map" << std::endl << std::endl;
-
-  std::cout << "Compute the distance map of a 9x9 image" << std::endl;
-  std::cout << "with a point at (4,4) (value=1)" << std::endl << std::endl;
-  std::cout << "with a point at (1,6) (value=2)" << std::endl << std::endl;
 
   typedef itk::Image<float, 2>  myImageType2D1;
   typedef itk::Image<float, 2>  myImageType2D2;
@@ -79,6 +75,8 @@ void test(int testIdx)
   {  
     std::cout 
       << "Compute with a 9x9 image, pixels (4,4) and (1,6) set to ON." 
+      << " This subtest is the same as the DanielssonDistanceMapTest "
+      << "and should yield the same results."
       << std::endl << std::endl;
     /* Set pixel (4,4) with the value 1 
      * and pixel (1,6) with the value 2 
