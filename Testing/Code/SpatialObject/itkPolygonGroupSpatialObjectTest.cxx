@@ -14,7 +14,10 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkPolygonGroupSpatialObject.h"
+#include "itkPolygonGroupSpatialObject.h"#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itkPolygonSpatialObject.h"
 #include <iostream>
 

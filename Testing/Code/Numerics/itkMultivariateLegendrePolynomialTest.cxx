@@ -14,7 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include <iostream>
+#include <iostream>#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 
 #include "itkMultivariateLegendrePolynomial.h"
 

@@ -14,7 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkImage.h"
+#include "itkImage.h"#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itkJoinSeriesImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkStreamingImageFilter.h"

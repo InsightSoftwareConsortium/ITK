@@ -15,7 +15,10 @@
 
 
 =========================================================================*/
-#include "itkImage.h"
+#include "itkImage.h"#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itkImageRegionIterator.h"
 
 
