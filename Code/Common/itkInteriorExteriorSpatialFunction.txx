@@ -22,23 +22,23 @@
 namespace itk
 {
 
-template <unsigned int VImageDimension,typename TInput>
-InteriorExteriorSpatialFunction<VImageDimension,TInput>
+template <unsigned int VDimension,typename TInput>
+InteriorExteriorSpatialFunction<VDimension,TInput>
 ::InteriorExteriorSpatialFunction()
 {
 
 }
 
-template <unsigned int VImageDimension,typename TInput>
-InteriorExteriorSpatialFunction<VImageDimension,TInput>
+template <unsigned int VDimension,typename TInput>
+InteriorExteriorSpatialFunction<VDimension,TInput>
 ::~InteriorExteriorSpatialFunction()
 {
 
 }
 
-template <unsigned int VImageDimension,typename TInput>
+template <unsigned int VDimension,typename TInput>
 void
-InteriorExteriorSpatialFunction<VImageDimension,TInput>
+InteriorExteriorSpatialFunction<VDimension,TInput>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);

@@ -34,13 +34,13 @@ namespace itk
  *
  **/
 
-template <class T, unsigned int VImageDimension=3>
-class ITK_EXPORT EllipsoidInteriorExteriorSpatialFunction : public InteriorExteriorSpatialFunction<VImageDimension>
+template <class T, unsigned int VDimension=3>
+class ITK_EXPORT EllipsoidInteriorExteriorSpatialFunction : public InteriorExteriorSpatialFunction<VDimension>
 {
 public:
   /** Standard class typedefs. */
   typedef EllipsoidInteriorExteriorSpatialFunction Self;
-  typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
+  typedef InteriorExteriorSpatialFunction<VDimension> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer; 
       

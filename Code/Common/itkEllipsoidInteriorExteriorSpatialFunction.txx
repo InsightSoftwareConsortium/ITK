@@ -23,21 +23,21 @@
 namespace itk
 {
 
-template <class T, unsigned int VImageDimension>
-EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::EllipsoidInteriorExteriorSpatialFunction()
+template <class T, unsigned int VDimension>
+EllipsoidInteriorExteriorSpatialFunction<T, VDimension>::EllipsoidInteriorExteriorSpatialFunction()
 {
   m_Orientations = NULL;
   m_Axes.Fill(1.0);   // Lengths of ellipsoid axes.
   m_Center.Fill(0.0); // Origin of ellipsoid
 }
 
-template <class T, unsigned int VImageDimension>
-EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::~EllipsoidInteriorExteriorSpatialFunction()
+template <class T, unsigned int VDimension>
+EllipsoidInteriorExteriorSpatialFunction<T, VDimension>::~EllipsoidInteriorExteriorSpatialFunction()
 {
   unsigned int i;
   if (m_Orientations)
     {
-    for(i = 0; i < VImageDimension; i++)
+    for(i = 0; i < VDimension; i++)
       {
       delete []m_Orientations[i];
       }
@@ -45,26 +45,26 @@ EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::~EllipsoidInterior
     }
 }
 
-template <class T, unsigned int VImageDimension>
-EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::OutputType
-EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+template <class T, unsigned int VDimension>
+EllipsoidInteriorExteriorSpatialFunction<T, VDimension>::OutputType
+EllipsoidInteriorExteriorSpatialFunction<T, VDimension>
 ::Evaluate(const InputType& position) const
 {  
   double distanceSquared = 0; 
-  Vector<VectorType, VImageDimension> orientationVector;
-  Vector<VectorType, VImageDimension> pointVector;
+  Vector<VectorType, VDimension> orientationVector;
+  Vector<VectorType, VDimension> pointVector;
 
   // Project the position onto each of the axes, normalize by axis length, 
   // and determine whether position is inside ellipsoid. The length of axis0,
   // m_Axis[0] is orientated in the direction of m_Orientations[0].
-  for(unsigned int i = 0; i < VImageDimension; i++)
+  for(unsigned int i = 0; i < VDimension; i++)
   {
     pointVector[i] = position[i] - m_Center[i];
   }
 
-  for(unsigned int i = 0; i < VImageDimension; i++)
+  for(unsigned int i = 0; i < VDimension; i++)
     {  
-    for(unsigned int j = 0; j < VImageDimension; j++)
+    for(unsigned int j = 0; j < VDimension; j++)
       {      
       orientationVector[j] = m_Orientations[i][j];
       }
@@ -79,38 +79,38 @@ EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
     return 0; // Outside the ellipsoid.
 }
 
-template <class T, unsigned int VImageDimension>
-void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+template <class T, unsigned int VDimension>
+void EllipsoidInteriorExteriorSpatialFunction<T, VDimension>
 ::SetOrientations(vnl_matrix<VectorType> orientations)
 {
   unsigned int i, j;
   // Initialize orientation vectors.
   if (m_Orientations)
     {
-    for(i = 0; i < VImageDimension; i++)
+    for(i = 0; i < VDimension; i++)
       {
       delete []m_Orientations[i];
       }
     delete []m_Orientations;
     }
-  m_Orientations = new VectorType * [VImageDimension];
-  for(i = 0; i < VImageDimension; i++)
+  m_Orientations = new VectorType * [VDimension];
+  for(i = 0; i < VDimension; i++)
     {
-    m_Orientations[i] = new VectorType[VImageDimension];
+    m_Orientations[i] = new VectorType[VDimension];
     }
 
   // Set orientation vectors (must be orthogonal).
-  for(i = 0; i < VImageDimension; i++)
+  for(i = 0; i < VDimension; i++)
     {
-    for(j = 0; j < VImageDimension; j++)
+    for(j = 0; j < VDimension; j++)
       {
       m_Orientations[i][j] = orientations[i][j];
       }
     }
 }
 
-template <class T, unsigned int VImageDimension>
-void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+template <class T, unsigned int VDimension>
+void EllipsoidInteriorExteriorSpatialFunction<T, VDimension>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   unsigned int i, j;
@@ -122,9 +122,9 @@ void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
   if (m_Orientations)
     {
       os << indent << "Orientations: " << std::endl;
-    for (i = 0; i < VImageDimension; i++)
+    for (i = 0; i < VDimension; i++)
       {
-      for (j = 0; j < VImageDimension; j++)
+      for (j = 0; j < VDimension; j++)
         {
         os << indent << indent <<  m_Orientations[i][j] << " ";
         }

@@ -44,14 +44,14 @@ namespace itk
  * \ingroup SpatialFunctions
  */
 
-template <unsigned int VImageDimension=3,typename TInput=Point<double,VImageDimension> >
+template <unsigned int VDimension=3,typename TInput=Point<double,VDimension> >
 class ITK_EXPORT InteriorExteriorSpatialFunction : public
-  SpatialFunction<bool, VImageDimension, TInput >
+  SpatialFunction<bool, VDimension, TInput >
 {
 public:
   /** Standard class typedefs. */
   typedef InteriorExteriorSpatialFunction Self;
-  typedef SpatialFunction<bool, VImageDimension,TInput> Superclass;
+  typedef SpatialFunction<bool, VDimension,TInput> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

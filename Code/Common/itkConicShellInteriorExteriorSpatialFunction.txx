@@ -22,8 +22,8 @@
 namespace itk
 {
 
-template <unsigned int VImageDimension>
-ConicShellInteriorExteriorSpatialFunction<VImageDimension>::ConicShellInteriorExteriorSpatialFunction()
+template <unsigned int VDimension>
+ConicShellInteriorExteriorSpatialFunction<VDimension>::ConicShellInteriorExteriorSpatialFunction()
 {
   m_Origin.Fill(0.0);
   m_OriginGradient.Fill(0.0);
@@ -34,15 +34,15 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>::ConicShellInteriorEx
   m_Epsilon = 0;
 }
 
-template <unsigned int VImageDimension>
-ConicShellInteriorExteriorSpatialFunction<VImageDimension>::~ConicShellInteriorExteriorSpatialFunction()
+template <unsigned int VDimension>
+ConicShellInteriorExteriorSpatialFunction<VDimension>::~ConicShellInteriorExteriorSpatialFunction()
 {
 
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int VDimension>
 void
-ConicShellInteriorExteriorSpatialFunction<VImageDimension>
+ConicShellInteriorExteriorSpatialFunction<VDimension>
 ::SetOriginGradient(TGradientType grad)
 {
   m_OriginGradient = grad;
@@ -51,9 +51,9 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>
   m_OriginGradient.Get_vnl_vector().normalize();
 }
 
-template <unsigned int VImageDimension>
-ConicShellInteriorExteriorSpatialFunction<VImageDimension>::OutputType
-ConicShellInteriorExteriorSpatialFunction<VImageDimension>
+template <unsigned int VDimension>
+ConicShellInteriorExteriorSpatialFunction<VDimension>::OutputType
+ConicShellInteriorExteriorSpatialFunction<VDimension>
 ::Evaluate(const InputType& position) const
 {
   // As from the header...
@@ -81,7 +81,7 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>
   // O means the direction that the gradient is pointing,
   // 1 means the opposite direction
 
-  typedef Vector<double, VImageDimension> TVectorType;
+  typedef Vector<double, VDimension> TVectorType;
 
   // Compute the vector from the origin to the point we're testing
   TVectorType vecOriginToTest = position - m_Origin;
@@ -125,23 +125,23 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>
 
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int VDimension>
 void
-ConicShellInteriorExteriorSpatialFunction<VImageDimension>
+ConicShellInteriorExteriorSpatialFunction<VDimension>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 
   unsigned int i;
   os << indent << "Origin: [";
-  for (i=0; i < VImageDimension - 1; i++)
+  for (i=0; i < VDimension - 1; i++)
     {
     os << m_Origin[i] << ", ";
     }
   os << "]" << std::endl;
 
   os << indent << "Gradient at origin: [";
-  for (i=0; i < VImageDimension - 1; i++)
+  for (i=0; i < VDimension - 1; i++)
     {
     os << m_OriginGradient[i] << ", ";
     }

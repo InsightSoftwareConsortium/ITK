@@ -53,14 +53,14 @@ namespace itk
  *
  * */
 
-template <unsigned int VImageDimension=3>
-class ITK_EXPORT ConicShellInteriorExteriorSpatialFunction : public InteriorExteriorSpatialFunction<VImageDimension>
+template <unsigned int VDimension=3>
+class ITK_EXPORT ConicShellInteriorExteriorSpatialFunction : public InteriorExteriorSpatialFunction<VDimension>
 {
 public:
 
   /** Standard class typedefs. */
   typedef ConicShellInteriorExteriorSpatialFunction Self;
-  typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
+  typedef InteriorExteriorSpatialFunction<VDimension> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
     
@@ -77,7 +77,7 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** The type of vector used to store the gradient info. */
-  typedef CovariantVector<double, VImageDimension> TGradientType;
+  typedef CovariantVector<double, VDimension> TGradientType;
   
   /** Evaluates the function at a given position */
   OutputType Evaluate(const InputType& position) const;

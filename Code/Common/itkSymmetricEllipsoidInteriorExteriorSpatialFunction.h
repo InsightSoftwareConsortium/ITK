@@ -34,13 +34,13 @@ namespace itk
  * Specifically, this class deals with the case where (n - m) = 1 and
  * the ellipsoid's major axis is oriented along a singles orientation vector.
  */
-template <class T, unsigned int VImageDimension=3>
-class ITK_EXPORT SymmetricEllipsoidInteriorExteriorSpatialFunction : public InteriorExteriorSpatialFunction<VImageDimension>
+template <class T, unsigned int VDimension=3>
+class ITK_EXPORT SymmetricEllipsoidInteriorExteriorSpatialFunction : public InteriorExteriorSpatialFunction<VDimension>
 {
 public:
   /** Standard class typedefs. */
   typedef SymmetricEllipsoidInteriorExteriorSpatialFunction Self;
-  typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
+  typedef InteriorExteriorSpatialFunction<VDimension> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer; 
       
@@ -90,7 +90,7 @@ private:
   VectorType m_SymmetricAxes;
 
   /** The orientation vector of the ellipsoid's unique axis. */  
-  Vector<VectorType, VImageDimension> m_Orientation;
+  Vector<VectorType, VDimension> m_Orientation;
 
   /** The vector ratio. */  
   VectorType m_VectorRatio;
