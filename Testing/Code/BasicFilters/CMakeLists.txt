@@ -10,6 +10,7 @@ SET(BASIC_FILTERS_TESTS ${CXX_TEST_PATH}/itkBasicFiltersTests)
 SET(BASIC_FILTERS_HEADER_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderTest)
 
 ADD_TEST(itkBasicFiltersPrintTest ${BASIC_FILTERS_TESTS} itkBasicFiltersPrintTest)
+ADD_TEST(itkBasicFiltersPrintTest2 ${BASIC_FILTERS_TESTS} itkBasicFiltersPrintTest2)
 
 ADD_TEST(itkAcosImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAcosImageFilterAndAdaptorTest)
 ADD_TEST(itkAdaptImageFilterTest ${BASIC_FILTERS_TESTS} itkAdaptImageFilterTest)
@@ -73,6 +74,7 @@ ADD_TEST(itkJoinImageFilterTest ${BASIC_FILTERS_TESTS} itkJoinImageFilterTest)
 ADD_TEST(itkLaplacianImageFilterTest ${BASIC_FILTERS_TESTS} itkLaplacianImageFilterTest)
 ADD_TEST(itkLog10ImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkLog10ImageFilterAndAdaptorTest)
 ADD_TEST(itkLogImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkLogImageFilterAndAdaptorTest)
+
 ADD_TEST(itkMaskImageFilterTest ${BASIC_FILTERS_TESTS} itkMaskImageFilterTest)
 ADD_TEST(itkMathematicalMorphologyImageFilterTest ${BASIC_FILTERS_TESTS} itkMathematicalMorphologyImageFilterTest)
 ADD_TEST(itkMaximumImageFilterTest ${BASIC_FILTERS_TESTS} itkMaximumImageFilterTest)
@@ -177,6 +179,7 @@ ADD_TEST(itkLaplacianRecursiveGaussianImageFilterTest ${BASIC_FILTERS_TESTS}
              ${ITK_DATA_ROOT}/Input/cthead1.png
              ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png)
 
+
 ADD_TEST(itkNeighborhoodConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/NeighborhoodConnectedImageFilterTest.png
              ${ITK_TEST_OUTPUT_DIR}/NeighborhoodConnectedImageFilterTest.png
@@ -227,6 +230,7 @@ ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
 itkBasicFiltersPrintTest.cxx
+itkBasicFiltersPrintTest2.cxx
 itkAcosImageFilterAndAdaptorTest.cxx
 itkAdaptImageFilterTest.cxx
 itkAdaptImageFilterTest2.cxx
