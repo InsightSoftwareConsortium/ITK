@@ -86,6 +86,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkKernelTransform.h"
 #include "itkLevelSetCurvatureFunction.h"
 #include "itkLightObject.h"
+#include "itkLightProcessObject.h"
 #include "itkLineCell.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkLog10ImageAdaptor.h"
