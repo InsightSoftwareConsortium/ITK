@@ -63,6 +63,8 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
   m_OutputNarrowBand = NULL;
   m_Extender = ExtenderType::New();
 
+  m_PropagateOutwards = true;
+
   m_DebugOn = false;
 
 }

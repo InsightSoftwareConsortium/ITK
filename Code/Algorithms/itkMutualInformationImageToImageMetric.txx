@@ -57,13 +57,14 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 ::MutualInformationImageToImageMetric()
 {
 
+  m_NumberOfSpatialSamples = 0;
   this->SetNumberOfSpatialSamples( 50 );
 
   m_KernelFunction  = dynamic_cast<KernelFunction*>(
     GaussianKernelFunction::New().GetPointer() );
 
-  this->SetTargetStandardDeviation( 0.1 );
-  this->SetReferenceStandardDeviation( 0.1 );
+  m_TargetStandardDeviation = 0.1;
+  m_ReferenceStandardDeviation = 0.1;
 
   //
   // Following initialization is related to

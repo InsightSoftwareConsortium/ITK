@@ -65,6 +65,8 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
     m_DerivImages[j] = NULL;  
     }
 
+  m_InflationStrength = 0.0;
+
   m_DebugOn = false;
 
 }
