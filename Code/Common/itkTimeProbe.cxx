@@ -23,9 +23,10 @@ namespace itk
 TimeProbe
 ::TimeProbe()
 {
-  m_TotalTicks    = 0;
-  m_Start         = 0;
-  m_NumberOfCalls = 0;
+  m_TotalTicks      = 0;
+  m_Start           = 0;
+  m_NumberOfStarts  = 0;
+  m_NumberOfStops   = 0;
 }
 
 
@@ -40,7 +41,7 @@ void
 TimeProbe
 ::Start(void)
 {
-  m_NumberOfCalls++;
+  m_NumberOfStarts++;
   m_Start = clock();
 }
  
@@ -51,6 +52,7 @@ TimeProbe
 ::Stop(void)
 {
   m_TotalTicks += clock() - m_Start;
+  m_NumberOfStops++;
 }
 
 
@@ -58,9 +60,18 @@ TimeProbe
 
 TimeProbe::CountType
 TimeProbe
-::GetNumberOfCalls(void) const
+::GetNumberOfStarts(void) const
 {
-  return m_NumberOfCalls;
+  return m_NumberOfStarts;
+}
+
+    
+
+TimeProbe::CountType
+TimeProbe
+::GetNumberOfStops(void) const
+{
+  return m_NumberOfStops;
 }
 
 
@@ -73,8 +84,15 @@ TimeProbe
         static_cast<double>(m_TotalTicks) /
         static_cast<double>(CLOCKS_PER_SEC);
 
-  const double meanTime = seconds / m_NumberOfCalls;
+  double meanTime = 0.0f;
+
+  if( m_NumberOfStops )
+    {
+    meanTime = seconds / m_NumberOfStops;
+    }
+
   return meanTime;
+
 }
 
 

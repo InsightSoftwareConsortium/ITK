@@ -38,14 +38,16 @@ public:
   void Start(void);
   void Stop(void);
 
-  CountType GetNumberOfCalls(void) const;
+  CountType GetNumberOfStarts(void) const;
+  CountType GetNumberOfStops(void) const;
   double    GetMeanTime(void) const;
 
 private:
 
     ClickType   m_Start;
     ClickType   m_TotalTicks;
-    CountType   m_NumberOfCalls;
+    CountType   m_NumberOfStarts;
+    CountType   m_NumberOfStops;
 
 };
 

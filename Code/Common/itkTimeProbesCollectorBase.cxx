@@ -75,13 +75,31 @@ TimeProbesCollectorBase
 {
   MapType::const_iterator probe = m_Probes.begin();
   MapType::const_iterator end   = m_Probes.end();
+
+  std::cout.width(20);
+  std::cout <<  " Probe Tag ";
+  std::cout.width(10);
+  std::cout <<  " Starts ";
+  std::cout.width(10);
+  std::cout <<  " Stops  ";
+  std::cout.width(15);
+  std::cout <<  "  Time  ";
+  std::cout << std::endl;
+  
   while( probe != end )
   {
-    std::cout << "Probe: " << probe->first << std::endl;
-    std::cout << "Calls: " << probe->second.GetNumberOfCalls() << std::endl;
-    std::cout << "Time:  " << probe->second.GetMeanTime() << std::endl;
+    std::cout.width(20);
+    std::cout <<  probe->first.c_str() << "  ";
+    std::cout.width(10);
+    std::cout <<  probe->second.GetNumberOfStarts() <<  "   ";
+    std::cout.width(10);
+    std::cout <<  probe->second.GetNumberOfStops() <<  "   ";
+    std::cout.width(15);
+    std::cout <<  probe->second.GetMeanTime();
+    std::cout << std::endl;
     probe++;
   }
+
 }
     
    
