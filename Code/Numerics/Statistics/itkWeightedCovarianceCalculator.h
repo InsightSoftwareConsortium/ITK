@@ -82,18 +82,10 @@ public:
   WeightFunctionType* GetWeightFunction() ;
   
   /** Sets the mean (input) */
-  void SetMean(MeanType* mean)
-  {
-    if ( m_Mean != mean )
-      {
-        m_Mean = mean ;
-        this->Modified() ;
-      }
-  }
+  void SetMean(MeanType* mean) ;
 
   /** Gets the mean */
-  void GetMean()
-  { return m_Mean ; }
+  MeanType* GetMean() ;
 
   /** Returns the covariance matrix of the target sample data */ 
   OutputType* GetOutput() ;
@@ -106,9 +98,14 @@ protected:
   /** Calculates the covariance and save it */
   void GenerateData() ;
 
+  void ComputeCovarianceWithGivenMean() ;
+  
+  void ComputeCovarianceWithoutGivenMean() ;
+
 private:
   OutputType* m_Output ;
   MeanType* m_Mean ;
+  MeanType* m_InternalMean ;
   WeightArrayType* m_Weights ;
   WeightFunctionType* m_WeightFunction ;
 } ; // end of class
