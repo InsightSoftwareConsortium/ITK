@@ -1,6 +1,10 @@
 #ifndef METADTITube_H
 #define METADTITube_H
 
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include <metaTypes.h>
 #include <metaUtils.h>
 #include <metaObject.h>
@@ -22,40 +26,41 @@ class DTITubePnt
 {
 public:
 
+  typedef std::pair<std::string,float>  FieldType;
+  typedef std::vector<FieldType>        FieldListType;
+
+  const FieldListType & GetExtraFields() const {return m_ExtraFields;}
+  void AddField(const char* name, float value)
+    {
+    FieldType field(name,value);
+    m_ExtraFields.push_back(field);
+    }
+  float GetField(const char* name) const
+    {
+    FieldListType::const_iterator it = m_ExtraFields.begin();
+    while(it != m_ExtraFields.end())
+      {
+      if(!strcmp((*it).first.c_str(),name))
+        {
+        return (*it).second;
+        }
+      ++it;
+      }
+    return -1;
+    }
+
   DTITubePnt(int dim)
   { 
     m_Dim = dim;
     m_X = new float[m_Dim];
-    m_T = new float[m_Dim];
-    m_V1= new float[m_Dim];
-    m_V2= new float[m_Dim];
-    m_MinEV = new float[3];
-    m_MedEV = new float[3];
-    m_MaxEV = new float[3];
-    m_MRI = new float[5];
     m_TensorMatrix = new float[6];
   
     unsigned int i=0;
     for(i=0;i<m_Dim;i++)
       {
       m_X[i] = 0;
-      m_V1[i]= 0;
-      m_V2[i]= 0;
-      m_T[i]= 0;
       }
- 
-    for(i=0;i<3;i++)
-      {
-      m_MinEV[i] = 0;
-      m_MedEV[i] = 0;
-      m_MaxEV[i] = 0;
-      }
-
-    for(i=0;i<5;i++)
-      {
-      m_MRI[i] = 0;
-      }
-  
+    
     // Initialize the tensor matrix to identity
     for(i=0;i<6;i++)
       {
@@ -64,57 +69,20 @@ public:
     m_TensorMatrix[0] = 1;
     m_TensorMatrix[3] = 1;
     m_TensorMatrix[5] = 1;
-
-    m_R=0;
-    m_FA=0;
-    m_ADC=0;
-    m_GA = 0;
-    m_Interpolation=0;
-    m_Lambda1=0;
-    m_Lambda2=0;
-    m_Lambda3=0;
-
-    //Color is red by default
-    m_Color[0]=1.0;
-    m_Color[1]=0.0;
-    m_Color[2]=0.0;
-    m_Color[3]=1.0;
-    m_ID = -1;
   }
 
   ~DTITubePnt()
   {
     delete m_X;
-    delete m_V1;
-    delete m_V2;
-    delete m_T;
-    delete m_MinEV;
-    delete m_MedEV;
-    delete m_MaxEV;
-    delete m_MRI;
     delete m_TensorMatrix;
+    m_ExtraFields.clear();
   };
   
   unsigned int m_Dim;
-  float* m_V1;
-  float* m_V2;
   float* m_X;
-  float* m_T;
-  float m_R;
-  float m_Color[4];
-  int   m_ID;
-  float m_FA;
-  float m_ADC;
-  float m_GA;
-  float m_Lambda1;
-  float m_Lambda2;
-  float m_Lambda3;
-  float* m_MinEV;
-  float* m_MedEV;
-  float* m_MaxEV;
-  float* m_MRI;
   float* m_TensorMatrix;
-  int   m_Interpolation;
+
+  FieldListType m_ExtraFields;
 };
 
 
@@ -131,7 +99,9 @@ class MetaDTITube : public MetaObject
   public:
 
    typedef std::list<DTITubePnt*> PointListType;
-    ////
+   typedef std::pair<std::string,unsigned int> PositionType;
+
+   ////
     //
     // Constructors & Destructor
     //
@@ -208,10 +178,13 @@ class MetaDTITube : public MetaObject
 
     int m_NPoints;      // "NPoints = "         0
 
-    char m_PointDim[255]; // "PointDim = "       "x y z r"
+    std::string m_PointDim; // "PointDim = "       "x y z r"
 
     PointListType m_PointList;
     MET_ValueEnumType m_ElementType;
+    std::vector<PositionType> m_Positions;
+
+    int GetPosition(const char*) const;
   };
 
 
