@@ -77,8 +77,13 @@ ImageToImageAffineMeanSquaresGradientDescentRegistration<TReference, TTarget>
     m_Parameters[ k++ ] = 0.0;
   }
 
+  const unsigned int numberOfParameters = 
+            this->GetMetric()->GetTransform()->GetNumberOfParameters();
 
-  typename OptimizerType::TransformType::ParametersType  parametersScale;
+  typedef typename OptimizerType::TransformType::ParametersType  
+                                                        ParametersType;
+
+  ParametersType parametersScale(numberOfParameters);
   parametersScale.Fill( 1.0 );
   for(unsigned int trans=ImageDimension*ImageDimension; 
       trans<ImageDimension*(ImageDimension+1); trans++)
@@ -91,7 +96,7 @@ ImageToImageAffineMeanSquaresGradientDescentRegistration<TReference, TTarget>
 
   optimizer->SetCostFunction( this->GetMetric() );
   optimizer->MinimizeOn();
-  optimizer->GetTransform()->SetScale( parametersScale );
+  optimizer->GetTransform()->SetParameters( parametersScale );
 
   optimizer->SetInitialPosition( m_Parameters );
   optimizer->StartOptimization();
