@@ -22,11 +22,11 @@ SET(DICOM_DATA_DICTIONARY "")
 FOREACH(line ${ENT})
   STRING(REGEX REPLACE
     "^([0-9a-f][0-9a-f][0-9a-f][0-9a-f]) ([0-9a-f][0-9a-f][0-9a-f][0-9a-f]) ([A-Z]+) ([A-Z?]+) (.*)$"
-    "   0x\\1, 0x\\2, \"\\3\" , \"\\4\" , \"\\5\", " nline "${line}")
+    "   {0x\\1, 0x\\2, \"\\3\" , \"\\4\" , \"\\5\"}, " nline "${line}")
   SET(DICOM_DATA_DICTIONARY "${DICOM_DATA_DICTIONARY}\n${nline}")
 ENDFOREACH(line)
 
-SET(DICOM_DATA_DICTIONARY "${DICOM_DATA_DICTIONARY} \n 0,0,0,0,0")
+SET(DICOM_DATA_DICTIONARY "${DICOM_DATA_DICTIONARY} \n {0,0,0,0,0}")
 
 FILE(READ "dicomTS.dic" ENT_TS)
 STRING(REGEX REPLACE "\n" ";" ENT_TS "${ENT_TS}")
@@ -60,11 +60,11 @@ SET(DICOM_DIR_DICTIONARY "")
 FOREACH(line ${ENT_DIR})
   STRING(REGEX REPLACE
     "^(metaElem|patientElem|studyElem|serieElem|imageElem) *([a-f0-9]+) ([a-f0-9]+) [\"](.*)[\"](.*)$"
-    "  \"\\1\" , 0x\\2 , 0x\\3 , \"\\4\", \\5" nline "${line}")
+    "  {\"\\1\" , 0x\\2 , 0x\\3 , \"\\4\"}, \\5" nline "${line}")
   SET(DICOM_DIR_DICTIONARY "${DICOM_DIR_DICTIONARY}\n${nline}")
 ENDFOREACH(line)
 
-SET(DICOM_DIR_DICTIONARY "${DICOM_DIR_DICTIONARY} \n 0,0,0,0")
+SET(DICOM_DIR_DICTIONARY "${DICOM_DIR_DICTIONARY} \n {0,0,0,0}")
 
 # See above
 FOREACH(file dicomV3.dic  dicomTS.dic dicomVR.dic DicomDir.dic)
