@@ -6,7 +6,7 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
      This software is distributed WITHOUT ANY WARRANTY; without even 
@@ -116,51 +116,77 @@ bool
 Element3DC0LinearTetrahedron
 ::GetLocalFromGlobalCoordinates( const VectorType& globalPt , VectorType& localPt ) const
 {
+  Float x = globalPt[0];
+  Float y = globalPt[1];
+  Float z = globalPt[2];
 
-//   Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
-//         A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
+  Float x0, x1, x2, x3;
+  Float y0, y1, y2, y3;
+  Float z0, z1, z2, z3;
+  Float A;
 
-  localPt=globalPt;
   localPt.set_size(3);
   localPt.fill(0.0);
 
-  // FIXME!
+  x0 = this->m_node[0]->GetCoordinates()[0];   
+  y0 = this->m_node[0]->GetCoordinates()[1];
+  z0 = this->m_node[0]->GetCoordinates()[2];
 
-//   x1 = this->m_node[0]->GetCoordinates()[0];   y1 = this->m_node[0]->GetCoordinates()[1];
-//   x2 = this->m_node[1]->GetCoordinates()[0];   y2 = this->m_node[1]->GetCoordinates()[1];
-//   x3 = this->m_node[2]->GetCoordinates()[0];   y3 = this->m_node[2]->GetCoordinates()[1];
-//   x4 = this->m_node[3]->GetCoordinates()[0];   y4 = this->m_node[3]->GetCoordinates()[1];
+  x1 = this->m_node[1]->GetCoordinates()[0];   
+  y1 = this->m_node[1]->GetCoordinates()[1];
+  z1 = this->m_node[1]->GetCoordinates()[2];
 
-//   xb = x1 - x2 + x3 - x4;
-//   yb = y1 - y2 + y3 - y4;
+  x2 = this->m_node[2]->GetCoordinates()[0];   
+  y2 = this->m_node[2]->GetCoordinates()[1];
+  z2 = this->m_node[2]->GetCoordinates()[2];
 
-//   xce = x1 + x2 - x3 - x4;
-//   yce = y1 + y2 - y3 - y4;
+  x3 = this->m_node[3]->GetCoordinates()[0];   
+  y3 = this->m_node[3]->GetCoordinates()[1];
+  z3 = this->m_node[3]->GetCoordinates()[2];
 
-//   xcn = x1 - x2 - x3 + x4;
-//   ycn = y1 - y2 - y3 + y4;
+  A = (x1-x0) * ((y2-y0)*(z3-z0)-(z2-z0)*(y3-y0))
+    - (x2-x0) * ((y1-y0)*(z3-z0)-(z1-z0)*(y3-y0))
+    + (x3-x0) * ((y1-y0)*(z2-z0)-(z1-z0)*(y2-y0));
 
-//   A  = 0.5 * (((x3 - x1) * (y4 - y2)) - ((x4 - x2) * (y3 - y1)));
-//   J1 = ((x3 - x4) * (y1 - y2)) - ((x1 - x2) * (y3 - y4));
-//   J2 = ((x2 - x3) * (y1 - y4)) - ((x1 - x4) * (y2 - y3));
+  localPt[0] = 1/A *
+    (
+       (x-x0)*((y2-y0)*(z3-z0)-(z2-z0)*(y3-y0))
+     - (y-y0)*((x2-x0)*(z3-z0)-(z2-z0)*(x3-x0))
+     + (z-z0)*((x2-x0)*(y3-y0)-(y2-y0)*(x3-x0))
+    );
+  
+  localPt[1] = 1/A *
+    (
+     - (x-x0)*((y1-y0)*(z3-z0)-(z1-z0)*(y3-y0))
+     + (y-y0)*((x1-x0)*(z3-z0)-(z1-z0)*(x3-x0))
+     - (z-z0)*((x1-x0)*(y3-y0)-(y1-y0)*(x3-x0))
+    );
+  
+  localPt[2] = 1/A *
+    (
+       (x-x0)*((y1-y0)*(z2-z0)-(z1-z0)*(y2-y0))
+     - (y-y0)*((x1-x0)*(z2-z0)-(z1-z0)*(x2-x0))
+     + (z-z0)*((x1-x0)*(y2-y0)-(y1-y0)*(x2-x0))
+    );
+  
+  const double FEM_TETRA_EPSILON = 1e-5;
 
-//   x0 = 0.25 * (x1 + x2 + x3 + x4);
-//   y0 = 0.25 * (y1 + y2 + y3 + y4);
-
-//   dx = globalPt[0] - x0;
-//   dy = globalPt[1] - y0;
-
-//   be =  A - (dx * yb) + (dy * xb);
-//   bn = -A - (dx * yb) + (dy * xb);
-//   ce = (dx * yce) - (dy * xce);
-//   cn = (dx * ycn) - (dy * xcn);
-
-//   localPt[0] = (2 * ce) / (-sqrt((be * be) - (2 * J1 * ce)) - be);
-//   localPt[1] = (2 * cn) / ( sqrt((bn * bn) + (2 * J2 * cn)) - bn);
-
-  bool IsInside=false;
-
-  return IsInside;
+  if (localPt[0] < (0.0 - FEM_TETRA_EPSILON)
+      || localPt[0] > (1.0 + FEM_TETRA_EPSILON)
+      || localPt[1] < (0.0 - FEM_TETRA_EPSILON)
+      || localPt[1] > (1.0 + FEM_TETRA_EPSILON)
+      || localPt[2] < (0.0 - FEM_TETRA_EPSILON)
+      || localPt[2] > (1.0 + FEM_TETRA_EPSILON)
+      || ( (localPt[0]+localPt[1]+localPt[2]) > (1.0 + FEM_TETRA_EPSILON) ) 
+      )
+  {
+    return false;
+  }
+  else
+  {
+    return true;
+  }
+  
 }
 
 

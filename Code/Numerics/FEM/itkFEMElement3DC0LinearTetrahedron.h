@@ -6,7 +6,7 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
      This software is distributed WITHOUT ANY WARRANTY; without even 
@@ -18,7 +18,11 @@
 #ifndef __itkFEMElement3DC0LinearTetrahedron_h
 #define __itkFEMElement3DC0LinearTetrahedron_h
 
+
 #include "itkFEMElementStd.h"
+//to make some checks in GetLocalFromGlobalCoordinates
+#include <vnl/vnl_matrix.h>
+#include <vnl/algo/vnl_matrix_inverse.h>
 
 namespace itk {
 namespace fem {
