@@ -174,7 +174,7 @@ public:
   /**
    * Prints some debugging info.  Formats the output data logically.
    */
-  void PrintData();
+  void PrintScalarData();
 
   /**
    * Calculates the inner product with a valarray (and therefore also any
