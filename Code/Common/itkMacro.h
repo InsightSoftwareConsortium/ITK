@@ -44,8 +44,8 @@ namespace itk
  */
 namespace itk
 {
-const int BoundsError=10;
-const int InvalidDimension=11;
+  const int BoundsError=10;
+  const int InvalidDimension=11;
 } // end namespace itk
 
 
@@ -100,7 +100,8 @@ const int InvalidDimension=11;
 
 /**
  * Set character string.  Creates member Set"name"() 
- * (e.g., SetFilename(char *));
+ * (e.g., SetFilename(char *)). The macro assumes that
+ * the class member (name) is declared a type std::string.
  */
 #define itkSetStringMacro(name) \
   virtual void Set##name (const char* _arg) \
@@ -120,7 +121,8 @@ const int InvalidDimension=11;
 
 /**
  * Get character string.  Creates member Get"name"() 
- * (e.g., char *GetFilename());
+ * (e.g., SetFilename(char *)). The macro assumes that
+ * the class member (name) is declared a type std::string.
  */
 #define itkGetStringMacro(name) \
   virtual const char* Get##name () const \
@@ -149,7 +151,9 @@ const int InvalidDimension=11;
 
 /**
  * Set pointer to object; uses Object reference counting methodology.
- * Creates method Set"name"() (e.g., SetPoints()).
+ * Creates method Set"name"() (e.g., SetPoints()). Note that using
+ * smart pointers requires using real pointers when setting input,
+ * but returning smart pointers on output.
  */
 #define itkSetObjectMacro(name,type) \
   virtual void Set##name (type* _arg) \
@@ -167,10 +171,11 @@ const int InvalidDimension=11;
 
 
 /**
- * Get pointer to object.  Creates member Get"name" (e.g., GetPoints()).
+ * Get a smart pointer to an object.  Creates the member 
+ * Get"name"() (e.g., GetPoints()).
  */
 #define itkGetObjectMacro(name,type) \
-  virtual type *Get##name () \
+  virtual type::Pointer *Get##name () \
   { \
     itkDebugMacro(<< this->GetClassName() << " (" << this \
                   << "): returning " #name " address " << this->m_##name ); \
@@ -183,7 +188,7 @@ const int InvalidDimension=11;
  * Set method must be defined to use this macro.
  */
 #define itkBooleanMacro(name) \
-  virtual void name##On () { this->Set##name(true);}; \
+  virtual void name##On () { this->Set##name(true);} \
   virtual void name##Off () { this->Set##name(false);}
 
 /**

@@ -128,6 +128,17 @@ DataObject
     } 
 }
 
+//----------------------------------------------------------------------------
+
+SmartPointer<ProcessObject>
+DataObject
+::GetSource()
+{
+  itkDebugMacro(<< this->GetClassName() << " (" << this
+                << "): returning Source address " << this->m_Source );
+  return this->m_Source; \
+}
+
 
 //----------------------------------------------------------------------------
 void 

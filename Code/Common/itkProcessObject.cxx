@@ -213,7 +213,8 @@ ProcessObject
     }
   if (output)
     {
-    ProcessObject::Pointer newOutputOldSource = output->GetSource();
+//    ProcessObject::Pointer newOutputOldSource = output->GetSource();
+    SmartPointer<ProcessObject> newOutputOldSource = output->GetSource();
 
     /**
      * disconnect second existing source-output relationship

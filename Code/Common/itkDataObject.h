@@ -27,9 +27,10 @@ class ProcessObject;
 /** \class DataObject
  * This is the base class for all data objects in the Insight
  * data processing pipeline. A data object is an object that represents
- * and provides access to data. ProcessObjects operate on data object,
- * producing new data objects as output. ProcessObject and DataObject
- * can be connected together into data flow pipelines.
+ * and provides access to data. ProcessObjects (i.e., filters) operate 
+ * on input data objects, producing new data objects as output. 
+ * ProcessObject and DataObject are connected together into data flow 
+ * pipelines.
  * 
  * \sa ProcessObject
  * \sa ImageBase
@@ -59,14 +60,19 @@ public:
   itkTypeMacro(DataObject,Object);
 
   /** 
-   * Set the source object creating this data object. 
+   * Set the process object creating this data object. 
    */
   void SetSource(ProcessObject *s);
   
   /** 
-   * Get the source object creating this data object. 
+   * Get the process object that generated this data object.
+   * If there is no process object, then the data object has
+   * been disconnected from the pipeline, or the data object
+   * was created manually. (Note: we cannot use the GetObjectMacro()
+   * defined in itkMacro because the mutual dependency of
+   * DataObject and ProcessObject causes compile problems.)
    */
-  itkGetObjectMacro(Source,ProcessObject);
+  SmartPointer<ProcessObject> GetSource();
   
   /** 
    * Restore the data object to its initial state. This means releasing
@@ -90,9 +96,9 @@ public:
   static void SetGlobalReleaseDataFlag(const bool val);
   static bool GetGlobalReleaseDataFlag();
   void GlobalReleaseDataFlagOn() 
-    {this->SetGlobalReleaseDataFlag(true);};
+    {this->SetGlobalReleaseDataFlag(true);}
   void GlobalReleaseDataFlagOff() 
-    {this->SetGlobalReleaseDataFlag(false);};
+    {this->SetGlobalReleaseDataFlag(false);}
 
   /** 
    * Release data back to system to conserve memory resource. Used during
@@ -133,7 +139,7 @@ public:
    * More internal methods to update the pipeline.
    */
   void SetPipelineMTime(unsigned long time) 
-    {m_PipelineMTime = time; }
+    {m_PipelineMTime = time;}
   itkGetMacro(PipelineMTime,unsigned long);
 
   virtual void PrepareForNewData() 
