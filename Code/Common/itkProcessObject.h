@@ -17,12 +17,11 @@
 #define __itkProcessObject_h
 
 #include "itkObject.h"
+#include "itkDataObject.h"
 #include "itkObjectFactory.h"
 
 namespace itk
 {
-
-class DataObject;
 
 /** \class ProcessObject
  * \brief ProcessObject is the base class for all process objects (source,
@@ -80,11 +79,16 @@ public:
   itkTypeMacro(ProcessObject,Object);
 
   /** 
+   * Smart Pointer type to a DataObject.
+   */
+  typedef DataObject::Pointer DataObjectPointer;
+
+  /** 
    * Return an array with all the inputs of this process object.
    * This is useful for tracing back in the pipeline to construct
    * graphs etc. 
    */
-  DataObject **GetInputs() 
+  DataObjectPointer *GetInputs() 
     {return m_Inputs;};
   int GetNumberOfInputs() const
     {return m_NumberOfInputs;}
@@ -94,7 +98,7 @@ public:
    * This is useful for tracing back in the pipeline to contruct
    * graphs etc. 
    */
-  DataObject **GetOutputs();
+  DataObjectPointer **GetOutputs();
   int GetNumberOfOutputs() const
     {return m_NumberOfOutputs;}
     
@@ -330,14 +334,14 @@ private:
   /**
    * An Array of the inputs to the filter
    */
-  DataObject **m_Inputs;
+  DataObjectPointer *m_Inputs;
   unsigned int m_NumberOfInputs;
   unsigned int m_NumberOfRequiredInputs;
 
   /**
    * An Array of the outputs to the filter
    */
-  DataObject **m_Outputs;
+  DataObjectPointer *m_Outputs;
   unsigned int m_NumberOfOutputs;
   unsigned int m_NumberOfRequiredOutputs;
 

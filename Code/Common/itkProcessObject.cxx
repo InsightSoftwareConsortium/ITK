@@ -433,7 +433,7 @@ ProcessObject
 ::SetNumberOfOutputs(unsigned int num)
 {
   unsigned int idx;
-  DataObject **outputs;
+  DataObjectPointer *outputs;
 
   /**
    * in case nothing has changed.
@@ -446,7 +446,7 @@ ProcessObject
   /**
    * Allocate new arrays.
    */
-  outputs = new DataObject *[num];
+  outputs = new DataObjectPointer [num];
 
   /**
    * Initialize with NULLs.
