@@ -525,20 +525,38 @@ ExcuteSegment(void){
 template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
+BeforeNextStep(void){ 
+  m_WorkingVD->AddSeeds(m_NumberOfSeedsToAdded, m_SeedsToAdded.begin()); 
+  m_LastStepSeeds = m_NumberOfSeeds; 
+  m_NumberOfSeeds += m_NumberOfSeedsToAdded; 
+} 
+
+
+template <class TInputImage, class TOutputImage>
+void
+VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
 MakeSegmentBoundary(void)
 {
+
+  RegionType region = m_InputImage->GetRequestedRegion(); 
+  itk::SimpleImageRegionIterator <OutputImageType> oit(m_OutputImage, region); 
+  oit.Begin(); 
+  while( !oit.IsAtEnd()) {     
+  oit.Set(0); 
+  ++oit; 
+  }
 
   NeighborIdIterator nit;
   NeighborIdIterator nitend;
   for(int i=0;i<m_NumberOfSeeds;i++){
     if(m_Label[i] == 2){
       nitend = m_WorkingVD->NeighborIdsEnd(i);
-	  for(nit=m_WorkingVD->NeighborIdsBegin(i);nit!=nitend;++nit){
-	    if(((*nit)>i)&&(m_Label[*nit]==2)){
-		  drawLine(m_WorkingVD->getSeed(i),m_WorkingVD->getSeed(*nit));
-		  i=i;
+	    for(nit=m_WorkingVD->NeighborIdsBegin(i);nit!=nitend;++nit){
+	      if(((*nit)>i)&&(m_Label[*nit]==2)){
+		      drawLine(m_WorkingVD->getSeed(i),m_WorkingVD->getSeed(*nit));
+		      i=i;
+	      }
 	    }
-	  }
     }
   }
 }
@@ -675,7 +693,91 @@ TakeAPrior(BinaryObjectImage* aprior)
   }
 }
 
+
+template <class TInputImage, class TOutputImage> 
+void 
+VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>:: 
+DrawDiagram(VDImagePointer result,unsigned char incolor, 
+    unsigned char outcolor,unsigned char boundcolor) 
+{ 
+  
+  RegionType region = m_InputImage->GetRequestedRegion(); 
+  itk::SimpleImageRegionIterator <VDImage> vdit(result, region); 
+  vdit.Begin(); 
+  while( !vdit.IsAtEnd()) {     
+    vdit.Set(0); 
+    ++vdit; 
+  } 
+      
+  EdgeIterator eit; 
+  EdgeIterator eitend = m_WorkingVD->EdgeEnd();   
+  PointType adds; 
+  Point<int,2> seeds; 
+  for(eit = m_WorkingVD->EdgeBegin();eit != eitend; ++eit){ 
+    seeds = m_WorkingVD->GetSeedsIDAroundEdge(eit); 
+    if((m_Label[seeds[0]]==2)||(m_Label[seeds[1]]==2)){ 
+      drawVDline(result,eit->m_left,eit->m_right,boundcolor); 
+    } 
+    else if(m_Label[seeds[0]]){ 
+      drawVDline(result,eit->m_left,eit->m_right,incolor); 
+    } 
+    else { 
+      drawVDline(result,eit->m_left,eit->m_right,outcolor); 
+    } 
+  } 
+    
+} 
+    
+template <class TInputImage, class TOutputImage> 
+void 
+VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>:: 
+drawVDline(VDImagePointer result,PointType p1,PointType p2, unsigned char color) 
+{ 
+  int x1=(int)(p1[0]+0.5); 
+  int x2=(int)(p2[0]+0.5); 
+  int y1=(int)(p1[1]+0.5); 
+  int y2=(int)(p2[1]+0.5); 
+  int dx=x1-x2; 
+  int adx=(dx>0)?dx:-dx; 
+  int dy=y1-y2; 
+  int ady=(dy>0)?dy:-dy; 
+  int save; 
+  float curr; 
+  IndexType idx; 
+  if (adx > ady){ 
+    if(x1>x2){ 
+      save=x1; x1=x2; x2=save; 
+      save=y1; y1=y2; y2=save; 
+    } 
+    curr=(float)y1; 
+    float offset=(float)dy/dx; 
+    for(int i=x1;i<=x2;i++){ 
+      idx[0]=i; 
+      idx[1]=y1; 
+      result->SetPixel(idx,color); 
+      curr += offset; 
+      y1=(int)(curr+0.5); 
+    } 
+  } 
+  else {  
+    if(y1>y2){ 
+      save=x1; x1=x2; x2=save; 
+      save=y1; y1=y2; y2=save; 
+    } 
+    curr=(float)x1; 
+    float offset=(float)dx/dy; 
+    for(int i=y1;i<=y2;i++){ 
+      idx[0]=x1; 
+      idx[1]=i; 
+      result->SetPixel(idx,color); 
+      curr += offset; 
+      x1=(int)(curr+0.5); 
+    } 
+  } 
+} 
+
 } //end namespace
 
-
 #endif
+
+
