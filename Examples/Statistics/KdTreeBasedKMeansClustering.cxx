@@ -55,7 +55,10 @@
 // we can reduce the computational cost of the distance calculation
 // and means. Instead of calculating each measurement vectors and k
 // means, we can simply compare each node of the k-d tree and the k
-// means.
+// means. This idea of utilizing a k-d tree can be found in multiple
+// articles \cite{Alsabti1998} \cite{Pelleg1999}
+// \cite{Kanungo2000}. Our implementation of this scheme follows the
+// article by the Kanungo et al \cite{Kanungo2000}.
 //
 // We use the \subdoxygen{Statistics}{ListSample} as the input sample, the
 // \doxygen{Vector} as the measurement vector. The following code

@@ -65,6 +65,10 @@ int main()
   // \code{centeroidTreeGenerator} has additional information such as
   // the number of children under each node and the vector sum of the
   // measurement vectors belong to every child nodes belong to a node.
+  // 
+  // The \subdoxygen{Statistics}{WeightedCenteroidKdTreeGenerator} and
+  // the resulting k-d tree struction were implemented based on the
+  // description in the paper by Kanungo et al \cite{Kanungo2000}.
   //
   // The instantiation and input variables are exactly same for both
   // tree generators. Using the \code{SetSample} method we plug-in the
