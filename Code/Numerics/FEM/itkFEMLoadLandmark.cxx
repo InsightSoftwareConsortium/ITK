@@ -55,34 +55,32 @@ void LoadLandmark::Read( std::istream& f, void* info )
   // Read the dimensions of the deformed point and set the size of the point accordingly
   SkipWhiteSpace(f); f>>n2; if(!f) goto out;
   pd.resize(n2);
-
+  m_force.resize(n2);
+  
   // read the deformed point in global coordinates
   SkipWhiteSpace(f); f>>pd; if(!f) goto out;
+
+  m_source = pd;
+  m_pt     = pd;
   m_target = pu;
+  m_force  = pu-pd;
 
   // read the square root of the variance associated with this landmark
   SkipWhiteSpace(f); f>>eta; if(!f) goto out;
 
   // Verify that the undeformed and deformed points are of the same size.
-  if (n1 != n2) { goto out; } else { this->F.resize(n2); }
+  if (n1 != n2) { goto out; } 
 
-  // Calculate and save the initial force imposed by this landmark
-  this->F = ( (pu - pd) / (this->eta * this->eta) );
+  this->el.resize(1);
 
   // Compute & store the local coordinates of the undeformed point and
   // the pointer to the element
-  for (Element::ArrayType::const_iterator n = elements->begin(); n!=elements->end() && !isFound; n++) {
+  /*  for (Element::ArrayType::const_iterator n = elements->begin(); n!=elements->end() && !isFound; n++) {
     if ( (*n)->GetLocalFromGlobalCoordinates(pd, this->m_pt) ) { 
       isFound = true; 
       this->el.push_back( ( &**n ) );
-    }
-  }
-
-  // If the corresponding local coordinates aren't found, complain
-  if (!isFound) {
-    throw FEMException(__FILE__,__LINE__,"LoadLandmark() - error in global to local conversion!");
-  }
-
+    }    
+    }*/
 out:
 
   if( !f )
@@ -110,8 +108,6 @@ void LoadLandmark::Write( std::ostream& f ) const
   /** Write the point coordinates in the undeformed state */
   f<<"\t"<<m_pt.size()<<" "<<m_pt<<"\t%Point (local) coordinates, undeformed state"<<"\n";
 
-  /** Write the force vector */
-  f<<"\t"<<F.size()<<" "<<F<<"\t%Force vector"<<"\n";
 
   /** check for errors */
   if (!f)
