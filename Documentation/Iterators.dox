@@ -1,8 +1,8 @@
 /**
 
-  \page  ImageIterators Image Iterators
+  \page  ImageIteratorsPage Image Iterators
  
-  \section IteratorsIntroduction Introduction
+  \section ImageIteratorsIntroduction Introduction
 
   ImageIterators are the mechanism used in ITK for walking through the image
   data. 
@@ -13,11 +13,14 @@
 
   \code
 
-  ImageType image(100,100);
+  const int nx = 200;
+  const int ny = 100;
+
+  ImageType image(nx,ny);
   
-  for(int x=0; x<nx; x++) // Columns
+  for(int x=0; x<nx; x++) // for all Columns
   {
-    for(int y=0; y<ny; y++) // Rows
+    for(int y=0; y<ny; y++) // for all Rows
     {
       image(x,y) = 10;
     }
@@ -97,18 +100,18 @@
   
   Here is a list of the different ImageIterators implemented in ITK:
 
-  - ImageRegionIterator
-  - ImageRegionReverseIterator
-  - SimpleImageRegionIterator
-  - ImageLinearIterator
-  - ImageSliceIterator 
+  - itk::ImageRegionIterator
+  - itk::ImageRegionReverseIterator
+  - itk::SimpleImageRegionIterator
+  - itk::ImageLinearIterator
+  - itk::ImageSliceIterator 
 
   A second group of iterators support a moving neighborhood. Here the 
   neighborhood can "iterate" over an image and a calculation can iterate
   over the neighborhood.  This allows N-dimensional implementations of 
   convolution and finite differences to be implemented succintly.  
   This class of iterators is described in detail on the page 
-  \ref NeighborhoodIterators.
+  \ref NeighborhoodIteratorsPage.
 
   \section ImageIteratorConcepts ImageIterator Concepts
 
