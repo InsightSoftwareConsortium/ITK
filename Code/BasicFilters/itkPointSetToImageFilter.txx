@@ -19,6 +19,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkPointSetToImageFilter.h"
 #include <itkImageRegionIteratorWithIndex.h>
+#include <itkNumericTraits.h>
 
 namespace itk
 {
@@ -246,8 +247,13 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
   os << indent << "Size : " << m_Size << std::endl;
   os << indent << "Origin: " << m_Origin << std::endl;
   os << indent << "Spacing: " << m_Spacing << std::endl;
-  os << indent << "Inside Value : " << m_InsideValue << std::endl;
-  os << indent << "Outside Value : " << m_OutsideValue << std::endl;
+  os << indent << "Inside Value : "
+     << static_cast<typename NumericTraits<ValueType>::PrintType>(m_InsideValue)
+     << std::endl;
+  os << indent << "Outside Value : "
+     << static_cast<typename NumericTraits<ValueType>::PrintType>(m_OutsideValue)
+     << std::endl;
+
 }
 
 
