@@ -13,6 +13,8 @@ itkVOLImageIOFactory
 itkVOLImageIO
 itkVTKImageIOFactory
 itkVTKImageIO
+itkDicomImageIOFactory
+itkDicomImageIO
 )
 
 IF(WIN32)
