@@ -4,4 +4,7 @@
 # Sets CABLE_USE_FILE to the "UseCABLE.cmake".
 #
 
-FIND_PATH(CABLE_USE_FILE UseCABLE.cmake ../lib/Cable)
+FIND_PATH(CABLE_USE_FILE UseCABLE.cmake
+  /usr/local/lib/Cable
+  /usr/lib/Cable
+)
