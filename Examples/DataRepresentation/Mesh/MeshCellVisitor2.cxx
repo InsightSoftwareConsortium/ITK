@@ -394,7 +394,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  // Looking carefully you will noticed that the \code{SetMesh()} method is
+  // Looking carefully you will notice that the \code{SetMesh()} method is
   // declared in \code{CustomLineVisitor} but we are invoking it on
   // \code{LineVisitorInterfaceType}. This is possible thanks to the way in
   // which the VisitorInterfaceImplementation is defined. This class derives
