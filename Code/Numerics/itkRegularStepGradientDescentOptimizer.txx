@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkRegularStepGradientDescentOptimizer_txx
 
 #include "itkRegularStepGradientDescentOptimizer.h"
+#include "itkCommand.h"
 
 namespace itk
 {
@@ -102,6 +103,8 @@ RegularStepGradientDescentOptimizer<TCostFunction>
   
   m_Stop = false;
 
+  InvokeEvent( Command::StartEvent );
+
   while( !m_Stop ) 
   {
 
@@ -156,7 +159,10 @@ RegularStepGradientDescentOptimizer<TCostFunction>
 ::StopOptimization( void )
 {
   m_Stop = true;
+  InvokeEvent( Command::EndEvent );
 }
+
+
 
 
 /**
@@ -227,6 +233,8 @@ RegularStepGradientDescentOptimizer<TCostFunction>
   }
 
   SetCurrentPosition( newPosition );
+
+  InvokeEvent( Command::IterationEvent );
 
 }
 
