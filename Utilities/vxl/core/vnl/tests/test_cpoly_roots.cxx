@@ -1,11 +1,14 @@
 #include <vnl/vnl_real_polynomial.h>
 #include <vnl/algo/vnl_cpoly_roots.h>
+#include <vnl/vnl_sample.h>
 
 #include <testlib/testlib_test.h>
 
 void test_cpoly_roots()
 {
   const double coeffs[] = {6, 5, 4, 3, 2, 1};
+  
+  vnl_sample_reseed(0x1234abcd);
   vnl_vector<double> a(coeffs, 6);
 
   vnl_vector<double> monic( (a/a[0]).extract(a.size()-1,1) );
