@@ -155,7 +155,7 @@ int main()
   registrationMethod->GetOptimizer()->SetMaximumStepLength( 10.0  );
   registrationMethod->GetOptimizer()->SetMinimumStepLength( 1e-3 );
   registrationMethod->GetOptimizer()->SetGradientMagnitudeTolerance( 1e-8 );
-  registrationMethod->GetOptimizer()->SetNumberOfIterations( 200 );
+  registrationMethod->GetOptimizer()->SetNumberOfIterations( 100 );
 
   registrationMethod->StartRegistration();
 

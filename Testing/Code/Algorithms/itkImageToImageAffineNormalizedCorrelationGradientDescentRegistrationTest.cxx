@@ -154,7 +154,7 @@ int main()
   registrationMethod->SetTarget(imgTarget);
   registrationMethod->SetTranslationScale( translationScale );
 
-  registrationMethod->GetOptimizer()->SetLearningRate(0.02);
+  registrationMethod->GetOptimizer()->SetLearningRate(1e-4);
   registrationMethod->GetOptimizer()->SetNumberOfIterations(200);
 
   registrationMethod->StartRegistration();
