@@ -35,6 +35,10 @@ namespace itk
  * Offset is a templated class to represent a multi-dimensional offset,
  * i.e. (i,j,k,...). Offset is templated over the dimension of the space.  
  *
+ * For the sake of efficiency, Size does not define a default constructor, a
+ * copy constructor, or an operator=. We rely on the compiler to provide
+ * efficient bitwise copies.
+ *
  * \sa Index
  * \ingroup ImageAccess
  */
@@ -82,6 +86,15 @@ public:
     return *this;
     }
 
+  /** Decrement index by a size.  */
+  const Self &
+  operator-=(const Size<VOffsetDimension> &size)
+    {
+    for (unsigned int i=0; i < VOffsetDimension; i++)
+      { m_Offset[i] -= size[i]; }
+    return *this;
+    }
+
   /** Subtract two offsets. */
   const Self
   operator-(const Self &vec)
@@ -90,6 +103,15 @@ public:
     for (unsigned int i=0; i < VOffsetDimension; i++)
       { result[i] = m_Offset[i] - vec.m_Offset[i]; }
     return result;
+    }
+
+  /** Increment offset by an offset.  */
+  const Self &
+  operator+=(const Self &vec)
+    {
+    for (unsigned int i=0; i < VOffsetDimension; i++)
+      { m_Offset[i] += vec.m_Offset[i]; }
+    return *this;
     }
 
   /** Decrement offset by an offset.  */
