@@ -24,7 +24,7 @@
     This test computes the mean squared differences between the pixels in the
     two images.
 */
-int itkMeanSquaresHistogramImageToImageMetricTest(int argc, char* argv[])
+int itkMeanSquaresHistogramImageToImageMetricTest(int , char* [])
 {
   try {
     // Create two simple images.
