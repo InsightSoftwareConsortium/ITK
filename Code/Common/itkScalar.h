@@ -129,7 +129,7 @@ private:
  * ambiguities.
  */
 template <typename T>
-ostream& operator << (ostream& os, const Scalar<T>& s)
+std::ostream& operator << (std::ostream& os, const Scalar<T>& s)
 {
   os << s.GetScalar();
 }
