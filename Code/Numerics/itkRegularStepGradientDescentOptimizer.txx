@@ -66,6 +66,9 @@ RegularStepGradientDescentOptimizer<TCostFunction>
 
   while( !m_Stop ) 
   {
+    std::cout << "Current Position = ";
+    std::cout << GetCurrentPosition() << std::endl;
+
     m_Value = m_CostFunction->GetValue( GetCurrentPosition() );
 
     if( m_Stop )
@@ -75,7 +78,13 @@ RegularStepGradientDescentOptimizer<TCostFunction>
 
     m_PreviousRegularStepGradient = m_Gradient;
   
-    m_Gradient = m_CostFunction->GetDerivative( GetCurrentPosition() );
+    CostFunctionType::DerivativeType derivative =
+            m_CostFunction->GetDerivative( GetCurrentPosition() );
+
+    for( unsigned int i=0; i<CostFunctionType::SpaceDimension; i++)
+    {
+      m_Gradient[i] = derivative[i];
+    }
 
     if( m_Stop )
     {
