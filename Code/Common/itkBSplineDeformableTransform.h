@@ -181,6 +181,7 @@ public:
    *
    */
   void SetParameters(const ParametersType & parameters);
+  void SetIdentity();
 
   /** Get the Transformation Parameters. */
   virtual const ParametersType& GetParameters(void) const;

@@ -222,6 +222,18 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::SetIdentity()
+{
+   ParametersType parameters = this->GetParameters();
+   parameters.Fill( 0.0 );
+   this->SetParameters( parameters );
+}
+
+
+// Set the parameters
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+void
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::SetParameters( const ParametersType & parameters )
 {
 
