@@ -41,7 +41,7 @@ namespace Function {
     ~Atan2() {};
     inline TOutput operator()( const TInput1 & A, const TInput2 & B)
     {
-      return (TOutput)atan2(A,B);
+      return (TOutput)atan2((double) A,(double) B);
     }
   }; 
 

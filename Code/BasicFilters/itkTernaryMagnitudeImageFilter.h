@@ -42,7 +42,7 @@ namespace Function {
                                const TInput2 & B,
                                const TInput3 & C)
     {
-      return (TOutput) sqrt( (TOutput)(A*A + B*B + C*C) );
+      return (TOutput) sqrt( (double)(A*A + B*B + C*C) );
     }
   }; 
 
