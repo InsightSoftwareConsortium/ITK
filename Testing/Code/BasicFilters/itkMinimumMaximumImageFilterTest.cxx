@@ -19,7 +19,7 @@
 #include "itkSize.h"
 
 typedef itk::Size<3>                                  SizeType;
-typedef itk::Image<short, 3>                  ImageType;
+typedef itk::Image<float, 3>                  ImageType;
 typedef itk::MinimumMaximumImageFilter<ImageType>  MinMaxFilterType;
 
 /* Define the image size and physical coordinates */
@@ -47,8 +47,8 @@ itkMinimumMaximumImageFilterTest(int , char *[] )
     image->SetOrigin(origin);
     image->SetSpacing(spacing);
 
-    short minimum = -52;
-    short maximum = 103;
+    float minimum = -52;
+    float maximum = -10;
 
 
     // Initialize the image contents with the minimum value
@@ -76,7 +76,7 @@ itkMinimumMaximumImageFilterTest(int , char *[] )
     filter->Update();
 
     // Return minimum of intensity
-    short minimumResult = filter->GetMinimum();
+    float minimumResult = filter->GetMinimum();
     std::cout << "The Minimum intensity value is : " << minimumResult << std::endl;
 
     if(minimumResult != minimum)
@@ -87,7 +87,7 @@ itkMinimumMaximumImageFilterTest(int , char *[] )
     }
   
     // Return maximum of intensity
-    short maximumResult = filter->GetMaximum();
+    float maximumResult = filter->GetMaximum();
     std::cout << "The Maximum intensity value is : " << maximumResult << std::endl;
 
     if(maximumResult != maximum)
