@@ -81,6 +81,13 @@ public:
       return (m_ElementNumber != accessor.m_ElementNumber);
     }
 
+  /** Assignment operator */
+  NthElementPixelAccessor & operator=( const NthElementPixelAccessor & accessor )
+    {
+    m_ElementNumber = accessor.m_ElementNumber;
+    return *this;
+    }
+  
   /** Constructor */
   NthElementPixelAccessor()
     {
