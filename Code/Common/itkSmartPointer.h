@@ -75,6 +75,14 @@ public:
     }
 
   /** 
+    * Return pointer to object.
+    */
+   operator T * () const 
+     { 
+     return m_Pointer; 
+     }
+
+  /** 
    * Access funtion to pointer 
    */
   T *GetPointer () const 
