@@ -70,7 +70,7 @@ UnaryImageFilter<TInputImage,TOutputImage,TFunction>
 
   outputImage->Allocate();
 
-  TOutputImage::RegionType region  = outputImage->GetRequestedRegion();
+  typename TOutputImage::RegionType region  = outputImage->GetRequestedRegion();
 
   SimpleImageRegionIterator< TInputImage >  it( inputImage,  region );
   SimpleImageRegionIterator< TOutputImage > ot( outputImage, region );

@@ -112,7 +112,7 @@ TernaryImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction
   outputImage->Allocate();
 
 
-  TOutputImage::RegionType region = outputImage->GetRequestedRegion();
+  typename TOutputImage::RegionType region = outputImage->GetRequestedRegion();
 
   SimpleImageRegionIterator< TInputImage1 > it1( inputImage1, region );
   SimpleImageRegionIterator< TInputImage2 > it2( inputImage2, region );
