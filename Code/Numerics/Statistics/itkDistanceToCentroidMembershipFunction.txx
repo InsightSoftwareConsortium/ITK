@@ -71,10 +71,11 @@ void
 DistanceToCentroidMembershipFunction< TVector >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
+  unsigned int i;
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Centroid: [" ;
-  for (unsigned int i=0; i+1 < VectorDimension; i++)
+  for (i=0; i+1 < VectorDimension; i++)
     {
     os << m_Centroid[i] << ", ";
     }
