@@ -134,7 +134,7 @@ ADD_TEST(MultiResImageRegistration2Test ${REGISTRATION_EXAMPLES2}
   MultiResImageRegistration2Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/MultiResImageRegistration2Test.png
+        ${TEMP}/MultiResImageRegistration2Test.png  0
 )
 
 ADD_EXECUTABLE(RegistrationExamples RegistrationExamples.cxx )

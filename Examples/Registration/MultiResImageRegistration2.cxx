@@ -164,7 +164,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << " outputImagefile"     << std::endl;
+    std::cerr << " outputImagefile [backgroundGrayLevel]"     << std::endl;
     return 1;
     }
   
@@ -536,10 +536,16 @@ int main( int argc, char *argv[] )
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
+  PixelType backgroundGrayLevel = 100;
+  if( argc > 3 )
+    {
+    backgroundGrayLevel = atoi( argv[4] );
+    }
+
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
   resample->SetOutputOrigin(  fixedImage->GetOrigin() );
   resample->SetOutputSpacing( fixedImage->GetSpacing() );
-  resample->SetDefaultPixelValue( 100 );
+  resample->SetDefaultPixelValue( backgroundGrayLevel );
 
 
   typedef  unsigned char  OutputPixelType;
