@@ -57,6 +57,7 @@ ADD_TEST(itkRigid3DPerspectiveTransformTest itkCommonTests itkRigid3DPerspective
 ADD_TEST(itkSliceIteratorTest itkCommonTests itkSliceIteratorTest)
 ADD_TEST(itkSpatialFunctionTest itkCommonTests itkSpatialFunctionTest)
 ADD_TEST(itkSmartPointerTest itkCommonTests itkSmartPointerTest)
+ADD_TEST(itkTimeProbesTest itkCommonTests itkTimeProbesTest)
 ADD_TEST(itkTransformTest itkCommonTests itkTransformTest)
 ADD_TEST(itkThreadDefsTest itkCommonTests itkThreadDefsTest)
 ADD_TEST(itkTranslationTransformTest itkCommonTests itkTranslationTransformTest)
@@ -119,6 +120,7 @@ itkSmartPointerTest
 itkSpatialFunctionTest 
 itkSplineKernelTransformTest 
 itkThreadDefsTest 
+itkTimeProbesTest 
 itkTransformTest 
 itkTranslationTransformTest 
 itkVectorGeometryTest 
