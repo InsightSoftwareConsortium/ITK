@@ -447,7 +447,6 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 {
   LabelledImageIndexType offsetIndex3D = {0, 0, 0};
 
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
   int frame = m_imgWidth * m_imgHeight;
   int rowsize = m_imgWidth;
 
@@ -807,7 +806,6 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
 
   int frame = m_imgWidth * m_imgHeight;
-  int rowsize = m_imgWidth;
 
   LabelledImageIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
