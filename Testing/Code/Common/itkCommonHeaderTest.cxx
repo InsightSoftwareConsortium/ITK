@@ -56,6 +56,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCellBoundary.txx"
 #include "itkCellInterface.txx"
 #include "itkCellInterfaceVisitor.h"
+#include "itkCenteredRigid2DTransform.txx"
 #include "itkCentralDifferenceImageFunction.txx"
 #include "itkColorTable.txx"
 #include "itkCommand.h"
