@@ -68,7 +68,7 @@ public:
   /**
    *  Type of the Reference
    */
-  typedef MapperType::DomainType     ReferenceType;
+  typedef typename MapperType::DomainType     ReferenceType;
 
 
   /**
