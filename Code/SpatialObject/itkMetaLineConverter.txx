@@ -42,7 +42,6 @@ MetaLineConverter<NDimensions>
   typename LineSpatialObjectType::Pointer line = LineSpatialObjectType::New();
   
   double spacing[NDimensions];
-  line->SetReferenceCount(2);
  
   unsigned int ndims = Line->NDims();
   for(unsigned int i=0;i<ndims;i++)

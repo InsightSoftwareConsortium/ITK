@@ -44,7 +44,6 @@ MetaLandmarkConverter<NDimensions>
   
   //typedef LandmarkSpatialObjectType::VectorType VectorType;
   typedef vnl_vector<double> VectorType;
-  landmark->SetReferenceCount(2);
 
   unsigned int ndims = Landmark->NDims();
   double spacing[NDimensions];

@@ -43,7 +43,6 @@ MetaBlobConverter<NDimensions>
   
   //typedef BlobSpatialObjectType::VectorType VectorType;
   typedef vnl_vector<double> VectorType;
-  blob->SetReferenceCount(2);
 
   unsigned int ndims = Blob->NDims();
   double spacing[NDimensions];

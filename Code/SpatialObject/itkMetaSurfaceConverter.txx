@@ -42,8 +42,7 @@ MetaSurfaceConverter<NDimensions>
   typename SurfaceSpatialObjectType::Pointer surface = SurfaceSpatialObjectType::New();
 
   double spacing[NDimensions];
-  surface->SetReferenceCount(2);
- 
+  
   unsigned int ndims = Surface->NDims();
   for(unsigned int i=0;i<ndims;i++)
   {

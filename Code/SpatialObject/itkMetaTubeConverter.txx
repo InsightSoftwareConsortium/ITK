@@ -42,8 +42,6 @@ MetaTubeConverter<NDimensions>
   typename TubeSpatialObjectType::Pointer tub = TubeSpatialObjectType::New();
   double spacing[NDimensions];
 
-  tub->SetReferenceCount(2);
-
   unsigned int ndims = tube->NDims();
   for(unsigned int i=0;i<ndims;i++)
   {
