@@ -61,7 +61,6 @@ SceneSpatialObject<SpaceDimension>
     {
     if( *it == pointer )
       {
-      (*it)->SetReferenceCount((*it)->GetReferenceCount()-1);
       m_Objects.erase( it );
       this->Modified();
       }
