@@ -48,7 +48,7 @@ BlobSpatialObject< TDimension >
 { 
 } 
  
-/** Get the list of points which are defining the blob */
+/** Get the list of points that defines the blob */
 template< unsigned int TDimension >
 typename BlobSpatialObject< TDimension > ::PointListType &  
 BlobSpatialObject< TDimension > 
@@ -168,7 +168,8 @@ BlobSpatialObject< TDimension >
       {
       while(it != itEnd)
         {
-        if((*it).GetPosition() == transformedPoint)
+        PointType::VectorType difference = transformedPoint - it->GetPosition();
+        if(difference[0] <= 0.5 || difference[1] <= 0.5 || difference[2] <= 0.5)
           {
           return true;
           }
