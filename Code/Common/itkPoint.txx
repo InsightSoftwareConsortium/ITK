@@ -251,10 +251,9 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 void
 Point<T, TPointDimension>
-::SetToMedian( const Point<T, TPointDimension> & A,
+::SetToMidPoint( const Point<T, TPointDimension> & A,
                const Point<T, TPointDimension> & B )  
 {
-  ValueType sum = NumericTraits<ValueType>::Zero; 
   for( unsigned int i=0; i<TPointDimension; i++) 
   {
     (*this)[i] = ( A[i] + B[i] ) /2.0;
@@ -277,7 +276,6 @@ Point<T, TPointDimension>
 {
   const double wa = alpha;
   const double wb = 1.0 - alpha;
-  ValueType sum = NumericTraits<ValueType>::Zero; 
   for( unsigned int i=0; i<TPointDimension; i++) 
   {
     (*this)[i] =  wa * A[i] + wb * B[i];
@@ -299,11 +297,86 @@ Point<T, TPointDimension>
                                double weightForB  )
 {
   const double weightForC = 1.0 - weightForA - weightForB;
-  ValueType sum = NumericTraits<ValueType>::Zero; 
   for( unsigned int i=0; i<TPointDimension; i++) 
   {
     (*this)[i] =  weightForA * A[i] + weightForB * B[i] + weightForC * C[i];
   }
+}
+
+
+
+/*
+ * Set the point to the barycentric combination of N points
+ */
+template<class T, unsigned int TPointDimension>
+void
+Point<T, TPointDimension>
+::SetToBarycentricCombination( const Point<T, TPointDimension> * P,
+                               const double * weights, unsigned int N )
+{
+  Fill( NumericTraits<T>::Zero ); // put this point to null
+  double weightSum = 0.0;
+  for( unsigned int j=0; j<N-1; j++) 
+  {
+    const double weight = weights[j];
+    weightSum += weight;
+    for( unsigned int i=0; i<TPointDimension; i++) 
+    {
+      (*this)[i] +=  weight * P[j][i];
+    }
+  }
+  const double weight = ( 1.0 - weightSum );
+  for( unsigned int i=0; i<TPointDimension; i++) 
+  {
+    (*this)[i] +=  weight * P[N-1][i];
+  }
+
+}
+
+
+
+
+/*
+ * Set the point to the barycentric combination of N points in a Container
+ */
+template< class TPointContainer, class TWeightContainer >
+typename TPointContainer::Element 
+BarycentricCombination<TPointContainer,TWeightContainer>
+::Evaluate( const typename TPointContainer::Pointer & points, const TWeightContainer & weights ) 
+{
+  
+  typedef typename TPointContainer::Element   PointType;
+  typedef typename PointType::ValueType       ValueType;
+  PointType barycentre;
+  barycentre.Fill( NumericTraits< ValueType >::Zero ); // set to null
+
+  typename TPointContainer::Iterator point = points->Begin();
+  typename TPointContainer::Iterator final = points->End();
+  final--; // move to the Nth point
+  
+  double weightSum = 0.0;
+
+  const unsigned int PointDimension = PointType::PointDimension;
+  unsigned int j = 0;
+
+  while( point != final )
+  {
+    const double weight = weights[j++];
+    weightSum += weight;
+    for( unsigned int i=0; i<PointDimension; i++) 
+    {
+      barycentre[i] +=  weight * (point->Value())[i];
+    }
+    point++;
+  }
+  const double weight = ( 1.0 - weightSum );
+  for( unsigned int i=0; i<PointDimension; i++) 
+  {
+    barycentre[i] +=  weight * (point->Value())[i];
+  }
+
+  return barycentre;
+
 }
 
 

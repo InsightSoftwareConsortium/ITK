@@ -225,7 +225,7 @@ public:
    * using the two Points given as arguments, and store the result in 
    * the Point on which the method is invoked.
    */
-  void SetToMedian( const Point &, const Point &  );
+  void SetToMidPoint( const Point &, const Point &  );
 
 
   /**
@@ -279,6 +279,27 @@ public:
   void SetToBarycentricCombination( const Point & A, const Point & B, const Point & C, 
                                     double weightA,  double weightB );
  
+
+
+
+  /**
+   * Set the current point to a barycentric combination of an array of N points
+   * An array of (N-1) values is expected to weight the contribution of the 
+   * first (N-1) points, the weight of the Nth point is computed to ensure that 
+   * the N weights sum 1.
+   *
+   * This method computes:
+   *
+   * \f[
+   *   \overrightarrow{P}=    \sum_{i=1}^{N-1} w_i * \overrightarrow{P}_i 
+          +   \left(1- \sum_{i=1}^{N-1} w_i\right) * \overrightarrow{P}_N 
+   * \f]
+   *
+   * 
+   */
+  void SetToBarycentricCombination( const Point * P, const double * weights, unsigned int N);
+ 
+
 };
 
   
@@ -291,8 +312,41 @@ template< class T, unsigned int TPointDimension >
 ITK_EXPORT std::istream& operator>>(std::istream& is, 
                                     Point<T,TPointDimension> & v); 
 
-} // end namespace itk
+
+/**
+ * Class that computes the barycentric combination of an array of N points
+ *
+ * An array of (N-1) values is expected to weight the contribution of the 
+ * first (N-1) points, the weight of the Nth point is computed to ensure that 
+ * the N weights sum 1.
+ *
+ * This method computes:
+ *
+ * \f[
+ *   \overrightarrow{P}=    \sum_{i=1}^{N-1} w_i * \overrightarrow{P}_i 
+ *      +   \left(1- \sum_{i=1}^{N-1} w_i\right) * \overrightarrow{P}_N 
+ * \f]
+ *
+ * The points are expected to be stored in an itkContainer class like 
+ * itk::VectorContainer, responding to the Begin(), End(), Value() API.
+ *
+ * The weights are expected to be stored in any array-like container
+ * having a operator[i].
+ * 
+ */
+template< class TPointContainer, class TWeightContainer >
+ITK_EXPORT class BarycentricCombination  
+{
+
+public:
+  BarycentricCombination() {}; 
+  ~BarycentricCombination() {};
+  static typename TPointContainer::Element Evaluate( 
+                      const typename TPointContainer::Pointer & points, 
+                      const TWeightContainer & weights );
+};
   
+};  // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPoint.txx"
