@@ -28,4 +28,5 @@
 #include "itkFEMLoadPoint.h"
 #include "itkFEMLoadGrav.h"
 #include "itkFEMLoadEdge.h"
+#include "itkFEMLoadImagePairBase.h"
 
