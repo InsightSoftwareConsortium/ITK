@@ -20,7 +20,7 @@
 // object and use it.
 //
 // \index{itk::Sample!Histogram|textbf}
-// we call an instance in a \code{Histogram} object a bin.  The
+// we call an instance in a \code{Histogram} object a ``\emph{bin}''.  The
 // \code{Histogram} differs from the
 // \subdoxygen{Statistics}{ListSample},
 // \subdoxygen{Statistics}{ImageToListAdaptor}, or
@@ -30,7 +30,7 @@
 // have a fixed value (one) for all measurement vectors in them. Also
 // those array-type containers can have multiple instances (data
 // elements) that have identical measurement vector values. However,
-// in a \code{Histogram} object, there is one unique instance.for any
+// in a \code{Histogram} object, there is one unique instance for any
 // given measurement vector value.
 //
 // \begin{figure}
@@ -82,7 +82,7 @@ int main()
   // \begin{itemize}
   //   \item using instance identifiers - just like any other
   // \code{Sample} object
-  //   \item using n-dimensional indexes - just like an \doxygen{Image} object
+  //   \item using n-dimensional indices - just like an \doxygen{Image} object
   //   \item using an iterator - just like any other \code{Sample}
   // object.
   // \end{itemize}
@@ -162,10 +162,15 @@ int main()
             << std::endl ;
   // Software Guide : EndCodeSnippet
 
+
+
+
   // Software Guide : BeginLatex
-  // If we want check if an index is valid one, we use 
+  //
+  // If we want to check if an index is a valid one, we use the method
   // \code{IsIndexOutOfBounds(index)}. The following code snippet fills
   // the index variable with (100, 100). It is obviously not a valid index.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -177,9 +182,14 @@ int main()
     }
   // Software Guide : EndCodeSnippet
 
+
+
+
   // Software Guide : BeginLatex
+  //
   // From the following code snippets, it is clear that the return
   // values from the \code{Size()} and \code{GetSize()} methods.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -188,11 +198,16 @@ int main()
             << " Dimension sizes = " << histogram->GetSize() << std::endl ;
   // Software Guide : EndCodeSnippet
 
+
+
+
   // Software Guide : BeginLatex
+  //
   // The \code{Histogram} class has a quantile calculation method,
   // \code{Quantile(dimension, percent)}. The following code returns 50th
   // percentile along the first dimension. Note that the quatile calculation
   // considers only one dimension.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet

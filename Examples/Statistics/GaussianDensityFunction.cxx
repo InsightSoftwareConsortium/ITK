@@ -39,7 +39,7 @@
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-typedef itk::Vector< float, 2 > MeasurementVectorType ;
+typedef itk::Vector< float, 2 > MeasurementVectorType;
 // Software Guide : EndCodeSnippet
 
 int main()
@@ -51,9 +51,11 @@ int main()
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::GaussianDensityFunction< MeasurementVectorType > 
-    DensityFunctionType ;
-  DensityFunctionType::Pointer densityFunction = DensityFunctionType::New() ;
+  typedef itk::Statistics::GaussianDensityFunction< 
+                                            MeasurementVectorType 
+                                                        > DensityFunctionType;
+
+  DensityFunctionType::Pointer densityFunction = DensityFunctionType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -70,21 +72,21 @@ int main()
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  DensityFunctionType::MeanType mean ;
-  mean.Fill( 0.0 ) ;
+  DensityFunctionType::MeanType mean;
+  mean.Fill( 0.0 );
 
-  DensityFunctionType::CovarianceType cov ;
-  cov.SetIdentity() ;
-  cov *= 4 ;
+  DensityFunctionType::CovarianceType cov;
+  cov.SetIdentity();
+  cov *= 4;
 
-  densityFunction->SetMean( &mean ) ;
-  densityFunction->SetCovariance( &cov ) ;
+  densityFunction->SetMean( &mean );
+  densityFunction->SetCovariance( &cov );
   
-  MeasurementVectorType mv ;
-  mv.Fill( 0 ) ;
+  MeasurementVectorType mv;
+  mv.Fill( 0 );
 
-  std::cout << densityFunction->Evaluate( mv ) << std::endl ;
+  std::cout << densityFunction->Evaluate( mv ) << std::endl;
   // Software Guide : EndCodeSnippet
 
-  return 0 ;
+  return 0;
 }

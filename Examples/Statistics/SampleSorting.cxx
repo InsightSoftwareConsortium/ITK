@@ -30,12 +30,12 @@
 // \index{itk::Statistics::IntrospectiveSort|textbf}
 // \index{itk::Statistics::QuickSelect|textbf}
 //
-// Sometimes, we want to sort the measurement vectors in a sample. The
-// sorted sample might reveal some characteristics of the sample. In
-// Insight, we have the insert sort, the heap sort, the introspective
-// sort algorithms \cite{Musser1997} implemented. To learn pros and
-// cons of each algorihtm, please refer to \cite{Duda2000}. We
-// also have the quick select algorithm.
+// Sometimes, we want to sort the measurement vectors in a sample. The sorted
+// sample might reveal some characteristics of the sample.  The \emph{insert
+// sort}, the \emph{heap sort}, and the \emph{introspective sort} algorithms
+// \cite{Musser1997} are implemented in Insight. To learn pros and cons of each
+// algorihtm, please refer to \cite{Duda2000}. Insight also offers the
+// \emph{quick select} algorithm.
 //
 // Among the subclasses of the \subdoxygen{Statistics}{Sample}, only the
 // \subdoxygen{Statistics}{Subsample} allows users to change the order
@@ -75,10 +75,10 @@
 #include "itkVector.h"
 // Software Guide : EndCodeSnippet
 
-typedef int MeasurementType ;
-typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType ;
-typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
-typedef itk::Statistics::Subsample< SampleType > SubsampleType ;
+typedef int MeasurementType;
+typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType;
+typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+typedef itk::Statistics::Subsample< SampleType > SubsampleType;
 
 // Software Guide : BeginLatex
 // We define two functions for convenience. The first one clears the
@@ -89,9 +89,9 @@ typedef itk::Statistics::Subsample< SampleType > SubsampleType ;
 // Software Guide : BeginCodeSnippet
 void initializeSubsample(SubsampleType* subsample, SampleType* sample)
 {
-  subsample->Clear() ;
-  subsample->SetSample(sample) ;
-  subsample->InitializeWithAllInstances() ;
+  subsample->Clear();
+  subsample->SetSample(sample);
+  subsample->InitializeWithAllInstances();
 }
 // Software Guide : EndCodeSnippet
 
@@ -103,16 +103,16 @@ void initializeSubsample(SubsampleType* subsample, SampleType* sample)
 // Software Guide : BeginCodeSnippet
 void printSubsample(SubsampleType* subsample, const char* header)
 {
-  std::cout << std::endl ;
-  std::cout << header << std::endl ;
-  SubsampleType::Iterator iter = subsample->Begin() ;
+  std::cout << std::endl;
+  std::cout << header << std::endl;
+  SubsampleType::Iterator iter = subsample->Begin();
   while ( iter != subsample->End() )
     {
     std::cout << "instance identifier = " << iter.GetInstanceIdentifier() 
               << "\t measurement vector = " 
               << iter.GetMeasurementVector() 
-              << std::endl ;
-    ++iter ;
+              << std::endl;
+    ++iter;
     }
 }
 // Software Guide : EndCodeSnippet
@@ -127,18 +127,18 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  SampleType::Pointer sample = SampleType::New() ;
+  SampleType::Pointer sample = SampleType::New();
 
-  MeasurementVectorType mv ;
+  MeasurementVectorType mv;
   for ( unsigned int i = 5 ; i > 0 ; --i )
     {
     for (unsigned int j = 0 ; j < 2 ; j++ )
       {
-      mv[j] = ( MeasurementType ) i ;
+      mv[j] = ( MeasurementType ) i;
       }
     for ( unsigned int j = 0 ; j < i ; j++ )
       {
-      sample->PushBack(mv) ;
+      sample->PushBack(mv);
       }
     }
   // Software Guide : EndCodeSnippet
@@ -148,10 +148,10 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  SubsampleType::Pointer subsample = SubsampleType::New() ;
-  subsample->SetSample(sample) ;
-  initializeSubsample(subsample, sample) ;
-  printSubsample(subsample, "Unsorted") ;
+  SubsampleType::Pointer subsample = SubsampleType::New();
+  subsample->SetSample(sample);
+  initializeSubsample(subsample, sample);
+  printSubsample(subsample, "Unsorted");
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -175,57 +175,73 @@ int main()
   // Software Guide : BeginCodeSnippet
   int activeDimension = 0 ; 
 
-  itk::Statistics::InsertSort< SubsampleType >( subsample, activeDimension,
-                                                0, subsample->Size() ) ;
-  printSubsample(subsample, "InsertSort") ;
+  itk::Statistics::InsertSort< SubsampleType >( subsample, 
+                                                activeDimension,
+                                                0, subsample->Size() );
+  printSubsample(subsample, "InsertSort");
   // Software Guide : EndCodeSnippet
 
+
+
   // Software Guide : BeginLatex
+  //
   // We sort the \code{subsample} using the heap sort algorithm. The
   // arguments are identical to those of the insert sort.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  initializeSubsample(subsample, sample) ;
+  initializeSubsample(subsample, sample);
   itk::Statistics::HeapSort< SubsampleType >( subsample, activeDimension,
-                                              0, subsample->Size() ) ;
-  printSubsample(subsample, "HeapSort") ;
+                                              0, subsample->Size() );
+  printSubsample(subsample, "HeapSort");
   // Software Guide : EndCodeSnippet
 
+
+
   // Software Guide : BeginLatex
-  // The introspective sort needs an additional argument that specifies
-  // when to stop sort introspective sort loop and sort the fragment of
-  // the sample using the heap sort algorithm. Since we set the
-  // threshold value as \code{16}, when the sort loop reach the point
-  // where the number of measurement vectors in a sort loop is not
-  // greater than 16, it will sort that fragment using the insert sort
-  // algorithm.
+  //
+  // The introspective sort algorithm needs an additional argument that
+  // specifies when to stop the introspective sort loop and sort the fragment
+  // of the sample using the heap sort algorithm. Since we set the threshold
+  // value as \code{16}, when the sort loop reach the point where the number of
+  // measurement vectors in a sort loop is not greater than \code{16}, it will
+  // sort that fragment using the insert sort algorithm.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  initializeSubsample(subsample, sample) ;
+  initializeSubsample(subsample, sample);
+
   itk::Statistics::IntrospectiveSort< SubsampleType >
-    ( subsample, activeDimension, 0, subsample->Size(), 16 ) ;
-  printSubsample(subsample, "IntrospectiveSort") ;
+                      ( subsample, activeDimension, 0, subsample->Size(), 16 );
+
+  printSubsample(subsample, "IntrospectiveSort");
   // Software Guide : EndCodeSnippet
 
+
+
+
   // Software Guide : BeginLatex
+  //
   // We query the median of the measurements along the
   // \code{activeDimension}. The last argument tells the algorithm that
   // we want to get the \code{subsample->Size()/2}-th element along the
   // \code{activeDimension}. The quick select algorithm changes the
   // order of the measurment vectors.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  initializeSubsample(subsample, sample) ;
+  initializeSubsample(subsample, sample);
   SubsampleType::MeasurementType median = 
-    itk::Statistics::QuickSelect< SubsampleType >( subsample, activeDimension, 
-                                                   0, subsample->Size(),
-                                                   subsample->Size()/2 ) ;
-  std::cout << std::endl ;
-  std::cout << "Quick Select: median = " << median << std::endl ;
+          itk::Statistics::QuickSelect< SubsampleType >( subsample, 
+                                                         activeDimension, 
+                                                         0, subsample->Size(),
+                                                         subsample->Size()/2 );
+  std::cout << std::endl;
+  std::cout << "Quick Select: median = " << median << std::endl;
   // Software Guide : EndCodeSnippet
 
-  return 0 ;
+  return 0;
 }

@@ -16,13 +16,15 @@
 =========================================================================*/
 
 // Software Guide : BeginLatex
+//
 // \index{itk::Statistics::KdTree|textbf}
 // \index{itk::Statistics::KdTreeGenerator|textbf}
 // \index{itk::Statistics::WeightedCentroidKdTreeGenerator|textbf}
 //
-// kd-tree is a tree that separates a $k$-dimension space
-// for the \code{std::vector} class that will be the container for
-// the measurement vectors from a sample.
+// A kd-tree is a tree that separates samples in a $k$-dimension space.  The
+// \code{std::vector} class is used here as the container for the measurement
+// vectors from a sample.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -64,18 +66,18 @@ int main()
   // set of information (partition dimension, partition value, and pointers
   // to the left and right child nodes). The second tree from the
   // \code{centroidTreeGenerator} has additional information such as
-  // the number of children under each node and the vector sum of the
-  // measurement vectors belong to every child nodes belong to a node.
+  // the number of children under each node, and the vector sum of the
+  // measurement vectors belonging to children of a particular node.
   // 
   // The \subdoxygen{Statistics}{WeightedCentroidKdTreeGenerator} and
-  // the resulting k-d tree struction were implemented based on the
-  // description in the paper by Kanungo et al \cite{Kanungo2000}.
+  // the resulting k-d tree structure were implemented based on the
+  // description given in the paper by Kanungo et al \cite{Kanungo2000}.
   //
-  // The instantiation and input variables are exactly same for both
+  // The instantiation and input variables are exactly the same for both
   // tree generators. Using the \code{SetSample} method we plug-in the
   // source sample. The bucket size input specifies the limit on the
   // maximum number of measurement vectors that can be stored in a
-  // terminal (leaf) node. Bigger bucket size results in less number of
+  // terminal (leaf) node. A bigger bucket size results in a smaller number of
   // nodes in a tree. It also affects the efficiency of search. With
   // many small leaf nodes, we might experience slower search
   // performance because of excessive boundary comparisons.
@@ -102,16 +104,18 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // After the generation step, we can get the pointer to the kd-tree
   // from the generator by calling the \code{GetOutput()} method. To
-  // traverse a kd-tree, we have use the \code{GetRoot()} method. The
+  // traverse a kd-tree, we have to use the \code{GetRoot()} method. The
   // method will return the root node of the tree. Every node in a tree
   // can have its left and/or right child node. To get the child node,
   // we call the \code{Left()} or the \code{Right()} method of a node
-  // (this methods are not part of the kd-tree).
+  // (these methods do not belong to the kd-tree but to the nodes).
   //
-  // We can get other information about a node calling the method listed
+  // We can get other information about a node by calling the methods listed
   // below in addition to the child node pointers.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -161,16 +165,30 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // In the following code snippet, we query the three nearest neighbors
-  // of the \code{queryPoint} on the two tree. The results and
-  // procedures are exacly same for both.
+  //
+  // In the following code snippet, we query the three nearest neighbors of the
+  // \code{queryPoint} on the two tree. The results and procedures are exacly
+  // the same for both. First we define the point from which distances will be
+  // measured.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   MeasurementVectorType queryPoint;
   queryPoint[0] = 10.0;
   queryPoint[1] = 7.0;
+  // Software Guide : EndCodeSnippet
 
+
+
+  // Software Guide : BeginLatex
+  //
+  // Then we instantiate the type of a distance metric, create an object of
+  // this type and set the origin of coordinates for measuring distances.
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::EuclideanDistance< 
                                 MeasurementVectorType 
                                                 > DistanceMetricType;
@@ -183,7 +201,18 @@ int main()
     origin[i] = queryPoint[i];
     }
   distanceMetric->SetOrigin( origin );
+  // Software Guide : EndCodeSnippet
 
+
+
+  // Software Guide : BeginLatex
+  //
+  // We can now set the number of neighbors to be located and the point
+  // coordinates to be used as reference system.
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   unsigned int numberOfNeighbors = 3;
   TreeType::InstanceIdentifierVectorType neighbors;
   tree->Search( queryPoint, numberOfNeighbors, neighbors ) ; 
@@ -200,7 +229,19 @@ int main()
                   tree->GetMeasurementVector( neighbors[i] )) 
               << std::endl;
     }
+  // Software Guide : EndCodeSnippet
 
+
+
+
+  // Software Guide : BeginLatex
+  //
+  // As we already said, the interface for finding nearest neighbors in the
+  // centroid tree is very similar.
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   centroidTree->Search( queryPoint, numberOfNeighbors, neighbors ) ; 
   std::cout << "weighted centroid kd-tree knn search result:" << std::endl 
             << "query point = [" << queryPoint << "]" << std::endl
@@ -216,9 +257,14 @@ int main()
     }
   // Software Guide : EndCodeSnippet
 
+
+
   // Software Guide : BeginLatex
-  // KdTree also supports searching points within a hyperspherical
-  // kernel. We specify the radius and call the \code{Search} method.
+  //
+  // KdTree also supports searching points within a hyper-spherical
+  // kernel. We specify the radius and call the \code{Search()} method.  In the
+  // case of the KdTree, this is done with the following lines of code.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -238,7 +284,17 @@ int main()
                   tree->GetMeasurementVector( neighbors[i])) 
               << std::endl;
     }
+  // Software Guide : EndCodeSnippet
 
+
+  // Software Guide : BeginLatex
+  //
+  // In the case of the centroid KdTree, the \code{Search} is used as
+  // illustrated by the following code.
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   centroidTree->Search( queryPoint, radius, neighbors ) ; 
   std::cout << "weighted centroid kd-tree radius search result:" << std::endl
             << "query point = [" << queryPoint << "]" << std::endl

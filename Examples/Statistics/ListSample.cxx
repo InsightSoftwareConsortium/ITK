@@ -116,7 +116,7 @@ int main()
   // Now that we have seen how to create an
   // \subdoxygen{Statistics}{ListSample} object and store measurement
   // vectors using \subdoxygen{Statistics}{ListSample}-specific
-  // interface. The following codes show the common interface of the
+  // interface. The following code shows the common interface of the
   // \subdoxygen{Statistics}{Sample}. The \code{Size} method returns
   // the number of measurement vectors in the sample.  The primary
   // data stored in an \subdoxygen{Statistics}{Sample} subclasses are
@@ -172,8 +172,8 @@ int main()
   // the \code{GetTotalFrequency(void)} method that returns the sum of
   // frequency values associated with every measurement vector in a
   // container.  In the case of \subdoxygen{Statistics}{ListSample}
-  // and the adaptor classes, the return value should be exactly same
-  // as that of \code{Size()} method, because the frequency values are
+  // and the adaptor classes, the return value should be exactly the same
+  // as that of the \code{Size()} method, because the frequency values are
   // always one for each measurement vector. However, for the
   // \subdoxygen{Statistics}{Histogram}, the frequency values can
   // vary.  Therefore, if we want to develop a general algorithm to

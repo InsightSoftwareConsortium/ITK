@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 // \index{itk::Statistics::MaximumRatioDecisionRule|textbf}
 //
-// The \code{Evaluate} method of the \doxygen{MaximumRatioDecisionRule}
+// The \code{Evaluate()} method of the \doxygen{MaximumRatioDecisionRule}
 // returns the index, $i$ if 
 // \begin{equation}
 //   \frac{f_{i}(\overrightarrow{x})}{f_{j}(\overrightarrow{x})} >
@@ -47,9 +47,13 @@ int main()
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MaximumRatioDecisionRule DecisionRuleType ;
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New() ;
+  typedef itk::MaximumRatioDecisionRule DecisionRuleType;
+
+  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
+
+
+
 
   // Software Guide : BeginLatex
   // We create the discriminant score vector and fill it with three
@@ -59,21 +63,21 @@ int main()
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  std::vector< double > discriminantScores ;
-  discriminantScores.push_back( 0.1 ) ;
-  discriminantScores.push_back( 0.3 ) ;
-  discriminantScores.push_back( 0.6 ) ;
+  std::vector< double > discriminantScores;
+  discriminantScores.push_back( 0.1 );
+  discriminantScores.push_back( 0.3 );
+  discriminantScores.push_back( 0.6 );
 
-  DecisionRuleType::APrioriVectorType aPrioris ;
-  aPrioris.push_back( 0.1 ) ;
-  aPrioris.push_back( 0.8 ) ;
-  aPrioris.push_back( 0.1 ) ;
+  DecisionRuleType::APrioriVectorType aPrioris;
+  aPrioris.push_back( 0.1 );
+  aPrioris.push_back( 0.8 );
+  aPrioris.push_back( 0.1 );
 
-  decisionRule->SetAPriori( aPrioris ) ;
+  decisionRule->SetAPriori( aPrioris );
   std::cout << "MaximumRatioDecisionRule: The index of the chosen = " 
             << decisionRule->Evaluate( discriminantScores )
-            << std::endl ;
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
-  return 0 ;
+  return 0;
 }

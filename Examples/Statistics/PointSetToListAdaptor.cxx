@@ -26,7 +26,7 @@
 // the type of input \doxygen{PointSet} object. The \doxygen{PointSet}
 // class is an associative data container. Each point in a
 // \code{PointSet} object can have an associated data value
-// optionally. For the statistics subsystem, current implementation of
+// optionally. For the statistics subsystem, the current implementation of
 // \code{PointSetToListAdaptor} takes only the point part into
 // consideration. In other words, the measurement vectors from a
 // \code{PointSetToListAdaptor} object are points from the
@@ -56,34 +56,40 @@ int main()
 {
   // Software Guide : BeginLatex
   //
-  // We assume you already know how to create an \doxygen{PointSet} object. The
-  // following code snippet will create a \code{PointSet} object. that 
-  // stores points (its coordinate value type is float) in 3D space.
+  // We assume you already know how to create an \doxygen{PointSet} object (see
+  // section~\ref{sec:CreatingAPointSet} otherwise). The following code snippet
+  // will create a \code{PointSet} object. that stores points (its coordinate
+  // value type is float) in 3D space.
   // 
   // Software Guide :EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::PointSet< short > PointSetType ;
-  PointSetType::Pointer pointSet = PointSetType::New() ;
+  typedef itk::PointSet< short > PointSetType;
+  PointSetType::Pointer pointSet = PointSetType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // If we want to change the type of Point in terms of the coordinate value
-  // and/or dimension, we have to modify the \code{TMeshTraits} (one of
-  // the optional template arguments for the \code{PointSet} class. The easiest
-  // way of having a custom mesh traits instance is specialization of the
-  // existing \doxygen{DefaultStaticMeshTraits}. Among the template arguments 
-  // of the \code{DefaultStaticMeshTraits}, by specifying the TCoordRep 
-  // template argument, we can change the coordinate value type of a point.
-  // By specifying the VPointDimension template argument, we can change the 
-  // dimension of the point. As mentioned earlier, a 
-  // \code{PointSetToListAdaptor} object cares only about the points, and 
-  // the type of measurement vectors is the type of points. Therefore, we
-  // can define the measurment vector type as in the following code snippet.
+  //
+  // Note that the \code{short} type used in the declaration of
+  // \code{PointSetType} pertains to the pixel type associated with every
+  // point, not to the type used to represent point coordinates.  If we want to
+  // change the type of Point in terms of the coordinate value and/or
+  // dimension, we have to modify the \code{TMeshTraits} (one of the optional
+  // template arguments for the \code{PointSet} class. The easiest way of
+  // having a custom mesh traits instance is specialization of the existing
+  // \doxygen{DefaultStaticMeshTraits}. Among the template arguments of the
+  // \code{DefaultStaticMeshTraits}, by specifying the TCoordRep template
+  // argument, we can change the coordinate value type of a point.  By
+  // specifying the VPointDimension template argument, we can change the
+  // dimension of the point. As mentioned earlier, a
+  // \code{PointSetToListAdaptor} object cares only about the points, and the
+  // type of measurement vectors is the type of points. Therefore, we can
+  // define the measurment vector type as in the following code snippet.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef PointSetType::PointType MeasurementVectorType ;
+  typedef PointSetType::PointType MeasurementVectorType;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -92,18 +98,18 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  PointSetType::PointType point ;
-  point[0] = 1.0 ;
-  point[1] = 2.0 ;
-  point[2] = 3.0 ;
+  PointSetType::PointType point;
+  point[0] = 1.0;
+  point[1] = 2.0;
+  point[2] = 3.0;
 
-  pointSet->SetPoint( 0UL, point) ;
+  pointSet->SetPoint( 0UL, point);
 
-  point[0] = 2.0 ;
-  point[1] = 4.0 ;
-  point[2] = 6.0 ;
+  point[0] = 2.0;
+  point[1] = 4.0;
+  point[2] = 6.0;
 
-  pointSet->SetPoint( 1UL, point ) ;
+  pointSet->SetPoint( 1UL, point );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -114,21 +120,21 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::PointSetToListAdaptor< PointSetType > SampleType ;
-  SampleType::Pointer sample = SampleType::New() ;
+  typedef itk::Statistics::PointSetToListAdaptor< PointSetType > SampleType;
+  SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   // Second, just as we did with \code{ImageToListAdaptor} example in
-  // section \ref{sec:ImageToListAdaptor}, all we have to is to
+  // section \ref{sec:ImageToListAdaptor}, all we have to do is to
   // plug in the \code{PointSet} object to the adaptor.  After that,
   // we can use the common methods and iterator interfaces shown in
   // the section \ref{sec:SampleInterface}.
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  sample->SetPointSet( pointSet ) ;
+  sample->SetPointSet( pointSet );
   // Software Guide : EndCodeSnippet
 
-  return 0 ;
+  return 0;
 }

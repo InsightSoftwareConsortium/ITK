@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 //
 // This example shows how to instantiate an 
-// \subdoxygen{Statistics}{ImageToListAdaptor} object and plug-in 
+// \subdoxygen{Statistics}{ImageToListAdaptor} object and plug-in an 
 // \doxygen{Image} object as the data source for the adaptor.
 //
 // \index{itk::Statistics::ImageToListAdaptor|textbf}
@@ -45,7 +45,7 @@
 // \doxygen{Image} class.  For illustration, we use the
 // \doxygen{RandomImageSource} that generates an \doxygen{Image}
 // object with random pixel values. So, we need to include the header
-// file for that.  Another convenient filter is the
+// file for this class.  Another convenient filter is the
 // \doxygen{ScalarToArrayCastImageFilter} which creates an
 // \doxygen{Image} object with pixels of array type from one or more
 // input \doxygen{Image} objects that has pixels of scalar type.
@@ -73,26 +73,29 @@ int main()
 {
   // Software Guide : BeginLatex
   //
-  // We assume you already know how to create an \doxygen{Image} object. The
-  // following code snippet will create a 2D image of float pixels filled
-  // with random values.
+  // We assume you already know how to create an \doxygen{Image} object (see
+  // section \ref{sec:CreatingAnImageSection} otherwise. The following code
+  // snippet will create a 2D image of float pixels filled with random values.
   // 
   // Software Guide :EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image<float,2> FloatImage2DType ;
+  typedef itk::Image<float,2> FloatImage2DType;
 
-  itk::RandomImageSource<FloatImage2DType>::Pointer random ;
-  random = itk::RandomImageSource<FloatImage2DType>::New() ;
-  random->SetMin(0.0) ;
-  random->SetMax(1000.0) ;
+  itk::RandomImageSource<FloatImage2DType>::Pointer random;
+  random = itk::RandomImageSource<FloatImage2DType>::New();
+
+  random->SetMin(    0.0 );
+  random->SetMax( 1000.0 );
   
-  unsigned long size[2] = {20, 20} ;
-  random->SetSize(size) ;
-  float spacing[2] = {0.7, 2.1} ;
-  random->SetSpacing( spacing ) ;
-  float origin[2] = {15, 400} ;
-  random->SetOrigin( origin ) ;
+  unsigned long size[2] = {20, 20};
+  random->SetSize( size );
+
+  float spacing[2] = {0.7, 2.1};
+  random->SetSpacing( spacing );
+
+  float origin[2] = {15, 400};
+  random->SetOrigin( origin );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -109,26 +112,29 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::FixedArray< float, 1 > MeasurementVectorType ;
-  typedef itk::Image< MeasurementVectorType, 2 > ArrayImageType ;
-  typedef itk::ScalarToArrayCastImageFilter< FloatImage2DType, 
-    ArrayImageType > CasterType ;
+  typedef itk::FixedArray< float, 1 > MeasurementVectorType;
+  typedef itk::Image< MeasurementVectorType, 2 > ArrayImageType;
+  typedef itk::ScalarToArrayCastImageFilter< 
+                                      FloatImage2DType, 
+                                      ArrayImageType >    CasterType;
 
-  CasterType::Pointer caster = CasterType::New() ;
-  caster->SetInput( random->GetOutput() ) ;
-  caster->Update() ;
+  CasterType::Pointer caster = CasterType::New();
+  caster->SetInput( random->GetOutput() );
+  caster->Update();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // Up to now, we have spent most of time to prepare an
-  // \doxygen{Image} object suitable for the adaptor. Actually, the
-  // hard part of this example is done. Now, we must define an adaptor
-  // with the image type and instantiate an object.
+  //
+  // Up to now, we have spent most of our time preparing an \doxygen{Image}
+  // object suitable for the adaptor. Actually, the hard part of this example
+  // is done. Now, we just define an adaptor with the image type and
+  // instantiate an object.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ImageToListAdaptor< ArrayImageType > SampleType ;
-  SampleType::Pointer sample = SampleType::New() ;
+  typedef itk::Statistics::ImageToListAdaptor< ArrayImageType > SampleType;
+  SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -138,7 +144,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  sample->SetImage( caster->GetOutput() ) ;
+  sample->SetImage( caster->GetOutput() );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -154,7 +160,7 @@ int main()
   // class. With that class, when we call the
   // \code{GetMeasurementVector} method, the returned measurement
   // vector is composed of the physical coordinates and pixel
-  // values. The usage is almost same as with
+  // values. The usage is almost the same as with
   // \code{ImageToListAdaptor}. One important difference between the
   // \code{JointDomainImageToListAdaptor} and the other two image
   // adaptors is that the \code{JointDomainImageToListAdaptor} has the
@@ -164,5 +170,5 @@ int main()
   // normalization factors.
   // Software Guide : EndLatex
 
-  return 0 ;
+  return 0;
 }

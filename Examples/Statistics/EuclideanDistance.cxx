@@ -18,16 +18,14 @@
 // Software Guide : BeginLatex
 // \index{itk::Statistics::EuclideanDistance|textbf}
 //
-// The Euclidean distance function
-// (\subdoxygen{Statistics}{EuclideanDinstance} requires one
-// template argument, the type of the measurement vector. We can use this
-// function for any subclass objects of the \doxygen{FixedArray}. As a
-// subclass of the \subdoxygen{Statistics}{DistanceMetric}, it has two
-// basic methods, the \code{SetOrigin(measurement vector)} and the
-// \code{Evaluate(mesaurement vector)}. The \code{Evaluate} method returns
-// the distance between the argument (a measurement vector) of the
-// \code{Evaluate} method and the measurement vector set by the
-// \code{SetOrigin} method.
+// The Euclidean distance function (\subdoxygen{Statistics}{EuclideanDinstance}
+// requires as template parameter the type of the measurement vector. We can
+// use this function for any subclass of the \doxygen{FixedArray}. As a
+// subclass of the \subdoxygen{Statistics}{DistanceMetric}, it has two basic
+// methods, the \code{SetOrigin(measurement vector)} and the
+// \code{Evaluate(mesaurement vector)}. The \code{Evaluate()} method returns
+// the distance between its argument (a measurement vector) and the measurement
+// vector set by the \code{SetOrigin} method.
 //
 // In addition to the two methods, \code{EuclideanDistance} has two more
 // methods that return the distance of two measurements -
@@ -51,7 +49,7 @@
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-typedef itk::Vector< float, 2 > MeasurementVectorType ;
+typedef itk::Vector< float, 2 > MeasurementVectorType;
 // Software Guide : EndCodeSnippet
 
 int main()
@@ -63,9 +61,11 @@ int main()
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > 
-    DistanceMetricType ;
-  DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New() ;
+  typedef itk::Statistics::EuclideanDistance< 
+                                        MeasurementVectorType 
+                                                         > DistanceMetricType;
+
+  DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -78,40 +78,44 @@ int main()
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  DistanceMetricType::OriginType originPoint ;
-  MeasurementVectorType queryPointA ;
-  MeasurementVectorType queryPointB ;
+  DistanceMetricType::OriginType originPoint;
+  MeasurementVectorType queryPointA;
+  MeasurementVectorType queryPointB;
 
-  originPoint[0] = 0 ;
-  originPoint[1] = 0 ;
+  originPoint[0] = 0;
+  originPoint[1] = 0;
 
-  queryPointA[0] = 2 ;
-  queryPointA[1] = 2 ;
+  queryPointA[0] = 2;
+  queryPointA[1] = 2;
 
-  queryPointB[0] = 3 ;
-  queryPointB[1] = 3 ;
+  queryPointB[0] = 3;
+  queryPointB[1] = 3;
   // Software Guide : EndCodeSnippet 
 
+
+
   // Software Guide : BeginLatex 
-  // In the following code snippet, we show the three different
-  // \code{Evaluate} methods' use.  
+  //
+  // In the following code snippet, we show the uses of the three different
+  // \code{Evaluate} methods.  
+  //
   // Software Guide : EndLatex 
   
   // Software Guide : BeginCodeSnippet 
-  distanceMetric->SetOrigin( originPoint ) ;
+  distanceMetric->SetOrigin( originPoint );
   std::cout << "Euclidean distance between the origin and the query point A = " 
             << distanceMetric->Evaluate( queryPointA ) 
-            << std::endl ;
+            << std::endl;
   
   std::cout << "Euclidean distance between the two query points (A and B) = " 
             << distanceMetric->Evaluate( queryPointA, queryPointB ) 
-            << std::endl ;
+            << std::endl;
   
   std::cout << "Coordinate disntace between " 
             << "the first components of the two query points = "
             << distanceMetric->Evaluate( queryPointA[0], queryPointB[0] ) 
-            << std::endl ;
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
-  return 0 ;
+  return 0;
 }

@@ -62,56 +62,60 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef int MeasurementType ;
-  typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType ;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > ListSampleType ;
+  typedef int MeasurementType;
+  typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType;
+  typedef itk::Statistics::ListSample< MeasurementVectorType > ListSampleType;
 
-  ListSampleType::Pointer listSample = ListSampleType::New() ;
+  ListSampleType::Pointer listSample = ListSampleType::New();
 
-  MeasurementVectorType mv ;
+  MeasurementVectorType mv;
   for ( unsigned int i = 1 ; i < 6 ; i++ )
     {
-    for (unsigned int j = 0 ; j < 2 ; j++ )
+    for ( unsigned int j = 0 ; j < 2 ; j++ )
       {
-      mv[j] = ( MeasurementType ) i ;
+      mv[j] = ( MeasurementType ) i;
       }
     for ( unsigned int j = 0 ; j < i ; j++ )
       {
-      listSample->PushBack(mv) ;
+      listSample->PushBack(mv);
       }
     }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // The \code{generator} will find the lower bound and upper bound
   // from the input sample and create equal interval bins. Since a
   // \code{Histogram} object does not include the upper bound value
   // and we want to include [5,5] measurement vector, we increase the
   // upper-bound by the calculated bin interval / 10.0 (divider). The
   // divider is set by the \code{SetMarginalScale(float)} method. If
-  // you want to create an notunifrom histogram, you should use the
+  // you want to create a non-uniform histogram, you should use the
   // \subdoxygen{Statistics}{ListSampleToHistogramFilter} (see section
   // \ref{sec:ListSampleToHistogramFilter}). The filter is not
   // creating a \code{Histogram} object. Instead, users should create
-  // an \code{Histogram} object with varying intervals and use the
+  // a \code{Histogram} object with varying intervals and use the
   // filter to fill the \code{Histogram} objects with the measurement
   // vectors from a \code{ListSample} object.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float HistogramMeasurementType ;
-  typedef itk::Statistics::ListSampleToHistogramGenerator< ListSampleType, 
-    HistogramMeasurementType > GeneratorType ;
+  typedef float HistogramMeasurementType;
+  typedef itk::Statistics::ListSampleToHistogramGenerator< 
+                                                ListSampleType, 
+                                                HistogramMeasurementType 
+                                                                > GeneratorType;
   
-  GeneratorType::Pointer generator = GeneratorType::New() ;
+  GeneratorType::Pointer generator = GeneratorType::New();
 
-  GeneratorType::HistogramType::SizeType size ;
-  size.Fill(5) ;
+  GeneratorType::HistogramType::SizeType size;
+  size.Fill(5);
 
-  generator->SetListSample( listSample ) ;
-  generator->SetNumberOfBins(size) ;
-  generator->SetMarginalScale( 10.0 ) ;
-  generator->Update() ;
+  generator->SetListSample( listSample );
+  generator->SetNumberOfBins( size );
+  generator->SetMarginalScale( 10.0 );
+  generator->Update();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -120,19 +124,19 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GeneratorType::HistogramType::Pointer histogram = generator->GetOutput() ;
-  GeneratorType::HistogramType::Iterator iter = histogram->Begin() ;
+  GeneratorType::HistogramType::Pointer histogram = generator->GetOutput();
+  GeneratorType::HistogramType::Iterator iter = histogram->Begin();
   while ( iter != histogram->End() )
     {
     std::cout << "Measurement vectors = " << iter.GetMeasurementVector()
-              << " frequency = " << iter.GetFrequency() << std::endl ;
-    ++iter ;
+              << " frequency = " << iter.GetFrequency() << std::endl;
+    ++iter;
     }
 
-  std::cout << "Size = " << histogram->Size() << std::endl ;
+  std::cout << "Size = " << histogram->Size() << std::endl;
   std::cout << "Total frequency = " 
-            << histogram->GetTotalFrequency() << std::endl ;
+            << histogram->GetTotalFrequency() << std::endl;
   // Software Guide : EndCodeSnippet
 
-  return 0 ;
+  return 0;
 }

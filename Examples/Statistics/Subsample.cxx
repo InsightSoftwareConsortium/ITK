@@ -21,8 +21,8 @@
 //
 // The \subdoxygen{Statistics}{Subsample} is a derived sample. In
 // other words, it needs another \code{Sample} object for storing
-// measurment vectors. A \code{Subsample} object stores subset of
-// instance identifiersis of another \code{Sample} object.
+// measurement vectors. A \code{Subsample} object stores a subset of
+// instance identifiers from another \code{Sample} object.
 // \textbf{Any} \code{Sample}'s subclass can be the source
 // \code{Sample} object. You can create a \code{Subsample} object out
 // of another \code{Subsample} object. The \code{Subsample} class is
@@ -67,32 +67,32 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Vector< float, 3 > MeasurementVectorType ;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
-  SampleType::Pointer sample = SampleType::New() ;
-  MeasurementVectorType mv ;
-  mv[0] = 1.0 ;
-  mv[1] = 2.0 ;
-  mv[2] = 4.0 ;
+  typedef itk::Vector< float, 3 > MeasurementVectorType;
+  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  SampleType::Pointer sample = SampleType::New();
+  MeasurementVectorType mv;
+  mv[0] = 1.0;
+  mv[1] = 2.0;
+  mv[2] = 4.0;
   
-  sample->PushBack(mv) ;
+  sample->PushBack(mv);
 
-  mv[0] = 2.0 ;
-  mv[1] = 4.0 ;
-  mv[2] = 5.0 ;
-  sample->PushBack(mv) ;
+  mv[0] = 2.0;
+  mv[1] = 4.0;
+  mv[2] = 5.0;
+  sample->PushBack(mv);
   
-  mv[0] = 3.0 ;
-  mv[1] = 8.0 ;
-  mv[2] = 6.0 ;
-  sample->PushBack(mv) ;
+  mv[0] = 3.0;
+  mv[1] = 8.0;
+  mv[2] = 6.0;
+  sample->PushBack(mv);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   // To create a \code{Subsample} instance, we define the type of the
   // \code{Subsample} with the source sample type, in this case, the
   // previously defined \code{SampleType}. As usual, after that, we
-  // call the \code{New()} method to instantiate an instance. We must
+  // call the \code{New()} method to create an instance. We must
   // plug in the source sample, \code{sample}, using the
   // \code{SetSample} method. However, with regard to data elements,
   // the \code{subsample} is empty. We specify which data elements,
@@ -115,12 +115,12 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::Subsample< SampleType > SubsampleType ;
-  SubsampleType::Pointer subsample = SubsampleType::New() ;
-  subsample->SetSample( sample ) ;
+  typedef itk::Statistics::Subsample< SampleType > SubsampleType;
+  SubsampleType::Pointer subsample = SubsampleType::New();
+  subsample->SetSample( sample );
   
-  subsample->AddInstance( 0UL ) ;
-  subsample->AddInstance( 2UL ) ;
+  subsample->AddInstance( 0UL );
+  subsample->AddInstance( 2UL );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -129,7 +129,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  SubsampleType::Iterator iter = subsample->Begin() ;
+  SubsampleType::Iterator iter = subsample->Begin();
   while ( iter != subsample->End() )
     {
     std::cout << "instance identifier = " << iter.GetInstanceIdentifier() 
@@ -137,8 +137,8 @@ int main()
               << iter.GetMeasurementVector() 
               << "\t frequency = " 
               << iter.GetFrequency()
-              << std::endl ;
-    ++iter ;
+              << std::endl;
+    ++iter;
     }
   // Software Guide : EndCodeSnippet
 
@@ -149,9 +149,9 @@ int main()
   // \code{Sample}. For this purpose, the \code{Subsample} provides an
   // additional instance indexing scheme. The indexing scheme is just
   // like the instance identifiers for the \code{Sample}. The index is
-  // an integer value starts at 0, and the last value is one less than
+  // an integer value starting at 0, and the last value is one less than
   // the number of all instances in a \code{Subsample}. The
-  // \code{Swap(0, 1)} method, for instasnce, swaps two instance
+  // \code{Swap(0, 1)} method, for example, swaps two instance
   // identifiers of the first data element and the second element in
   // the \code{subsample}. Internally, the \code{Swap} function
   // changes the instance identifiers in the first and second
@@ -165,7 +165,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  subsample->Swap(0, 1) ;
+  subsample->Swap(0, 1);
 
   for ( int index = 0 ; index < subsample->Size() ; ++index )
     {
@@ -173,7 +173,7 @@ int main()
               << subsample->GetInstanceIdentifier(index) 
               << "\t measurement vector = " 
               << subsample->GetMeasurementVectorByIndex(index) 
-              << std::endl ;
+              << std::endl;
     }
   // Software Guide : EndCodeSnippet
   
@@ -187,9 +187,9 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::cout << "Size = " << subsample->Size() << std::endl ;
+  std::cout << "Size = " << subsample->Size() << std::endl;
   std::cout << "Total frequency = " 
-            << subsample->GetTotalFrequency() << std::endl ;
+            << subsample->GetTotalFrequency() << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -200,11 +200,11 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  subsample->Clear() ;
-  std::cout << "Size = " << subsample->Size() << std::endl ;
+  subsample->Clear();
+  std::cout << "Size = " << subsample->Size() << std::endl;
   std::cout << "Total frequency = " 
-            << subsample->GetTotalFrequency() << std::endl ;
+            << subsample->GetTotalFrequency() << std::endl;
   // Software Guide : EndCodeSnippet
   
-  return 0 ;
+  return 0;
 }

@@ -19,14 +19,14 @@
 //
 // \index{itk::Statistics::MembershipSample|textbf}
 //
-// The \subdoxygen{Statistics}{MembershipSample} is derived from the
+// The \subdoxygen{Statistics}{MembershipSample} is derived from the class
 // \subdoxygen{Statistics}{Sample} that associates a class label with
-// ech measurment vectors. It needs another \code{Sample} object for
-// storing measurment vectors. A \code{MembershipSample} object stores
-// subset of instance identifiersis of another \code{Sample} object.
+// each measurement vectors. It needs another \code{Sample} object for
+// storing measurement vectors. A \code{MembershipSample} object stores
+// a subset of instance identifiers from another \code{Sample} object.
 // \textbf{Any} \code{Sample}'s subclass can be the source
 // \code{Sample} object.  The \code{MembershipSample} class is useful
-// for storing classification result from a test \code{Sample}
+// for storing classification results from a test \code{Sample}
 // object. The \code{MembershipSample} class can be considered as an
 // associative container that stores measurement vectors, frequency
 // values, and \textbf{class labels}.
@@ -55,32 +55,32 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Vector< float, 3 > MeasurementVectorType ;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
-  SampleType::Pointer sample = SampleType::New() ;
-  MeasurementVectorType mv ;
-  mv[0] = 1.0 ;
-  mv[1] = 2.0 ;
-  mv[2] = 4.0 ;
+  typedef itk::Vector< float, 3 > MeasurementVectorType;
+  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  SampleType::Pointer sample = SampleType::New();
+  MeasurementVectorType mv;
+  mv[0] = 1.0;
+  mv[1] = 2.0;
+  mv[2] = 4.0;
   
-  sample->PushBack(mv) ;
+  sample->PushBack(mv);
 
-  mv[0] = 2.0 ;
-  mv[1] = 4.0 ;
-  mv[2] = 5.0 ;
-  sample->PushBack(mv) ;
+  mv[0] = 2.0;
+  mv[1] = 4.0;
+  mv[2] = 5.0;
+  sample->PushBack(mv);
   
-  mv[0] = 3.0 ;
-  mv[1] = 8.0 ;
-  mv[2] = 6.0 ;
-  sample->PushBack(mv) ;
+  mv[0] = 3.0;
+  mv[1] = 8.0;
+  mv[2] = 6.0;
+  sample->PushBack(mv);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   // To create a \code{MembershipSample} instance, we define the type
-  // of the \code{MembershipSample} with the source sample type, in
-  // this case, previously defined \code{SampleType}. As usual, after
-  // that, we call the \code{New()} method to instantiate an
+  // of the \code{MembershipSample} with the source sample type, that in
+  // this case, is the previously defined \code{SampleType}. As usual, after
+  // that, we call the \code{New()} method to create an
   // instance. We must plug in the source sample, \code{sample}, using
   // the \code{SetSample(source sample)} method. However, in regard of
   // \textbf{class labels}, the \code{membershipSample} is empty. We
@@ -101,17 +101,17 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::MembershipSample< SampleType >
-    MembershipSampleType ;
+    MembershipSampleType;
   
   MembershipSampleType::Pointer membershipSample = 
-    MembershipSampleType::New() ;
+    MembershipSampleType::New();
 
-  membershipSample->SetSample(sample) ;
-  membershipSample->SetNumberOfClasses(2) ;
+  membershipSample->SetSample(sample);
+  membershipSample->SetNumberOfClasses(2);
   
-  membershipSample->AddInstance(0U, 0UL ) ;
-  membershipSample->AddInstance(0U, 1UL ) ;
-  membershipSample->AddInstance(1U, 2UL ) ;
+  membershipSample->AddInstance(0U, 0UL );
+  membershipSample->AddInstance(0U, 1UL );
+  membershipSample->AddInstance(1U, 2UL );
   // Software Guide : EndCodeSnippet
 
 
@@ -121,9 +121,9 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::cout << "Size = " << membershipSample->Size() << std::endl ;
+  std::cout << "Size = " << membershipSample->Size() << std::endl;
   std::cout << "Total frequency = " 
-            << membershipSample->GetTotalFrequency() << std::endl ;
+            << membershipSample->GetTotalFrequency() << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -134,7 +134,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MembershipSampleType::Iterator iter = membershipSample->Begin() ;
+  MembershipSampleType::Iterator iter = membershipSample->Begin();
   while ( iter != membershipSample->End() )
     {
     std::cout << "instance identifier = " << iter.GetInstanceIdentifier() 
@@ -144,8 +144,8 @@ int main()
               << iter.GetFrequency()
               << "\t class label = " 
               << iter.GetClassLabel()
-              << std::endl ;
-    ++iter ;
+              << std::endl;
+    ++iter;
     }
   // Software Guide : EndCodeSnippet
 
@@ -157,37 +157,41 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   std::cout << "class label = 0 sample size = " 
-            << membershipSample->GetClassSampleSize(0) << std::endl ;
+            << membershipSample->GetClassSampleSize(0) << std::endl;
   std::cout << "class label = 1 sample size = " 
-            << membershipSample->GetClassSampleSize(0) << std::endl ;
+            << membershipSample->GetClassSampleSize(0) << std::endl;
   // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginLatex
+  //
   // We call the \code{GetClassSample(class label)} method to get the
   // class subsample in the \code{membershipSample}. The
   // \code{MembershipSampleType::ClassSampleType} is actually a
   // specialization of the \subdoxygen{Statistics}{Subsample}. We print
   // out the instance identifiers, measurement vectors, and frequency
   // values that are part of the class. The output will be two lines for
-  // the two instances that belongs to the class \textbf{0}.
+  // the two instances that belong to the class \textbf{0}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   MembershipSampleType::ClassSampleType::Pointer classSample = 
-    membershipSample->GetClassSample(0) ;
+                                  membershipSample->GetClassSample( 0 );
+
   MembershipSampleType::ClassSampleType::Iterator c_iter = 
-    classSample->Begin() ;
+                                                    classSample->Begin();
+
   while ( c_iter != classSample->End() )
     {
     std::cout << "instance identifier = " << c_iter.GetInstanceIdentifier() 
               << "\t measurement vector = " 
               << c_iter.GetMeasurementVector() 
               << "\t frequency = " 
-              << c_iter.GetFrequency() << std::endl ;
-    ++c_iter ;
+              << c_iter.GetFrequency() << std::endl;
+    ++c_iter;
     }
   // Software Guide : EndCodeSnippet
   
-  return 0 ;
+  return 0;
 }

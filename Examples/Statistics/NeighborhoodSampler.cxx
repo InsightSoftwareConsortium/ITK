@@ -20,11 +20,11 @@
 // \index{Statistics!Sampling mesurement vectors using radius|textbf}
 // \index{itk::Statistics::NeighborhoodSampler|textbf}
 //
-// When we want to create a \subdoxygen{Statistics}{Subsample} object
-// that includes only the measurement vectors within a radius from a
-// center in a sample, we can use the
-// \subdoxygen{Statistics}{NeighborhoodSampler}. As the input sample, we
-// will use the \subdoxygen{Statistics}{ListSample} in this example.
+// When we want to create an \subdoxygen{Statistics}{Subsample} object that
+// includes only the measurement vectors within a radius from a center in a
+// sample, we can use the \subdoxygen{Statistics}{NeighborhoodSampler}. In this
+// example, we will use the \subdoxygen{Statistics}{ListSample} as the input
+// sample.
 //
 // We include the header files for the \code{ListSample} and the
 // \code{NeighborhoodSample} classes.
@@ -37,9 +37,10 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// We need another header for measurement vectors. We are going to use
-// the \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}
-// in this example. 
+//  
+// We need another header for measurement vectors. We are going to use the
+// \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}.
+//  
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -56,53 +57,54 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef int MeasurementType ;
-  typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType ;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
+  typedef int MeasurementType;
+  typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType;
+  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
 
-  SampleType::Pointer sample = SampleType::New() ;
+  SampleType::Pointer sample = SampleType::New();
 
-  MeasurementVectorType mv ;
+  MeasurementVectorType mv;
   for ( unsigned int i = 1 ; i < 6 ; i++ )
     {
-    for (unsigned int j = 0 ; j < 2 ; j++ )
+    for ( unsigned int j = 0 ; j < 2 ; j++ )
       {
-      mv[j] = ( MeasurementType ) i ;
+      mv[j] = ( MeasurementType ) i;
       }
     for ( unsigned int j = 0 ; j < i ; j++ )
       {
-      sample->PushBack(mv) ;
+      sample->PushBack(mv);
       }
     }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // We plug-in the sample to the \code{sampler} using the
   // \code{SetInputSample(sample*)}. The two required inputs for the
-  // \code{sampler} are a center and a radius. We set two inputs using
-  // the \code{SetCenter(center vector*)} and the
-  // \code{SetRadius(double*)} respectively. And then we call the
-  // \code{Update()} method to generate the \code{Subsample}
-  // object. This sampling procedure subsamples measurement vectors
-  // whithin a hyper-spherical kernel that is centered at the \code{center}
-  // and has the radius, \code{radius}.
+  // \code{sampler} are a center and a radius. We set these two inputs using
+  // the \code{SetCenter(center vector*)} and the \code{SetRadius(double*)}
+  // methods respectively. And then we call the \code{Update()} method to
+  // generate the \code{Subsample} object. This sampling procedure subsamples
+  // measurement vectors within a hyper-spherical kernel that is centered at
+  // the \code{center} and has the radius, \code{radius}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::NeighborhoodSampler< SampleType > SamplerType ;
+  typedef itk::Statistics::NeighborhoodSampler< SampleType > SamplerType;
   
-  SamplerType::Pointer sampler = SamplerType::New() ;
+  SamplerType::Pointer sampler = SamplerType::New();
 
-  sampler->SetInputSample( sample ) ;
-  SamplerType::CenterType center ;
-  center[0] = 3 ;
-  center[1] = 3 ;
-  double radius = 1.5 ;
-  sampler->SetCenter( &center ) ;
-  sampler->SetRadius( &radius ) ;
-  sampler->Update() ;
+  sampler->SetInputSample( sample );
+  SamplerType::CenterType center;
+  center[0] = 3;
+  center[1] = 3;
+  double radius = 1.5;
+  sampler->SetCenter( &center );
+  sampler->SetRadius( &radius );
+  sampler->Update();
 
-  SamplerType::OutputType::Pointer output = sampler->GetOutput() ;
+  SamplerType::OutputType::Pointer output = sampler->GetOutput();
   // Software Guide : EndCodeSnippet
 
   
@@ -113,17 +115,17 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  SamplerType::OutputType::Iterator iter = output->Begin() ;
+  SamplerType::OutputType::Iterator iter = output->Begin();
   while ( iter != output->End() )
     {
     std::cout << "instance identifier = " << iter.GetInstanceIdentifier() 
               << "\t measurement vector = " 
               << iter.GetMeasurementVector() 
               << "\t frequency = " 
-              << iter.GetFrequency() << std::endl ;
-    ++iter ;
+              << iter.GetFrequency() << std::endl;
+    ++iter;
     }
   // Software Guide : EndCodeSnippet
 
-  return 0 ;
+  return 0;
 }

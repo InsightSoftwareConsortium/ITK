@@ -38,22 +38,25 @@
 int main()
 {
   // Software Guide : BeginLatex
-  // The \code{NormalVariateGenerator} is not templated. We simply call
-  // the \code{New} method to create an instance. Then we provide the
-  // seed value using the \code{Initialize(seed value)}.
+  //
+  // The \code{NormalVariateGenerator} is a non-templated class. We simply call
+  // the \code{New} method to create an instance. Then, we provide the seed
+  // value using the \code{Initialize(seed value)}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::NormalVariateGenerator GeneratorType ;
-  GeneratorType::Pointer generator = GeneratorType::New() ;
+  typedef itk::Statistics::NormalVariateGenerator GeneratorType;
 
-  generator->Initialize( (int) 2003 ) ;
+  GeneratorType::Pointer generator = GeneratorType::New();
+
+  generator->Initialize( (int) 2003 );
 
   for ( unsigned int i = 0 ; i < 50 ; ++i )
     {
-    std::cout << i << " : \t" << generator->GetVariate() << std::endl ;
+    std::cout << i << " : \t" << generator->GetVariate() << std::endl;
     }
   // Software Guide : EndCodeSnippet
 
-  return 0 ;
+  return 0;
 }

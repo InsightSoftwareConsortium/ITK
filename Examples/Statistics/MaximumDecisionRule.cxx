@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 // \index{itk::Statistics::MaximumDecisionRule|textbf}
 //
-// The (\doxygen{MaximumDecisionRule} returns the index of the largest
+// The \doxygen{MaximumDecisionRule} returns the index of the largest
 // disciminant score among the discriminant scores in the vector of
 // discriminat scores that is the input argument of the \code{Evaluate}
 // method.
@@ -38,31 +38,38 @@ int main()
 {
 
   // Software Guide : BeginLatex
+  //
   // The instantiation of the function is done through the usual
   // \code{New()} method and a smart pointer.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MaximumDecisionRule DecisionRuleType ;
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New() ;
+  typedef itk::MaximumDecisionRule DecisionRuleType;
+
+  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
 
+
+
   // Software Guide : BeginLatex
+  //
   // We create the discriminant score vector and fill it with three
   // values. The \code{Evaluate( discriminantScores )} will return 2
   // because the third value is the largest value.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  std::vector< double > discriminantScores ;
-  discriminantScores.push_back( 0.1 ) ;
-  discriminantScores.push_back( 0.3 ) ;
-  discriminantScores.push_back( 0.6 ) ;
+  std::vector< double > discriminantScores;
+  discriminantScores.push_back( 0.1 );
+  discriminantScores.push_back( 0.3 );
+  discriminantScores.push_back( 0.6 );
 
   std::cout << "MaximumDecisionRule: The index of the chosen = " 
             << decisionRule->Evaluate( discriminantScores )
-            << std::endl ;
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
-  return 0 ;
+  return 0;
 }

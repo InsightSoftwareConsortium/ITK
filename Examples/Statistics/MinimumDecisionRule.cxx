@@ -18,15 +18,15 @@
 // Software Guide : BeginLatex
 // \index{itk::Statistics::MinimumDecisionRule|textbf}
 //
-// The \code{Eavaluate} method of the \doxygen{MinimumDecisionRule}
+// The \code{Eavaluate()} method of the \doxygen{MinimumDecisionRule}
 // returns the index of the smallest disciminant score among the
-// discriminant scores in the vector of discriminat scores that is the
-// input argument of the \code{Evaluate} method.
+// vector of discriminant scores that it receives as input.
 //
 // We include the header files for the class and the
 // \doxygen{MinimumDecisionRule}. We also include the header file for
-// thte \code{std::vector} class that will be the container for the
+// the \code{std::vector} class that will be the container for the
 // discriminant scores.
+//
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -43,26 +43,30 @@ int main()
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MinimumDecisionRule DecisionRuleType ;
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New() ;
+  typedef itk::MinimumDecisionRule DecisionRuleType;
+  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
 
+
+
   // Software Guide : BeginLatex
+  //
   // We create the discriminant score vector and fill it with three
-  // values. The \code{Evaluate( discriminantScores )} will return 0
+  // values. The call \code{Evaluate( discriminantScores )} will return 0
   // because the first value is the smallest value.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  std::vector< double > discriminantScores ;
-  discriminantScores.push_back( 0.1 ) ;
-  discriminantScores.push_back( 0.3 ) ;
-  discriminantScores.push_back( 0.6 ) ;
+  std::vector< double > discriminantScores;
+  discriminantScores.push_back( 0.1 );
+  discriminantScores.push_back( 0.3 );
+  discriminantScores.push_back( 0.6 );
 
   std::cout << "MinimumDecisionRule: The index of the chosen = " 
             << decisionRule->Evaluate( discriminantScores )
-            << std::endl ;
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
-  return 0 ;
+  return 0;
 }

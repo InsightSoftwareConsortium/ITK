@@ -71,13 +71,15 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// Since our k-means algorithm requires a \code{KdTree} object as an
-// input, we include the \code{KdTree} class header file. As mentioned
-// above, we need a k-d tree with the vector sum and the number of
+//
+// Since our k-means algorithm requires a \subdoxygen{Statistics}{KdTree}
+// object as an input, we include the \code{KdTree} class header file. As
+// mentioned above, we need a k-d tree with the vector sum and the number of
 // measurement vectors. Therefore we uses the
-// \subdoxygen{Statistics}{WeightedCentroidKdTreeGenerator} instead of
-// the \subdoxygen{Statistics}{KdTreeGenerator} that generate a k-d tree
-// without such additional information. 
+// \subdoxygen{Statistics}{WeightedCentroidKdTreeGenerator} instead of the
+// \subdoxygen{Statistics}{KdTreeGenerator} that generate a k-d tree without
+// such additional information. 
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -128,10 +130,10 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Vector< double, 1 > MeasurementVectorType ;
+  typedef itk::Vector< double, 1 > MeasurementVectorType;
   
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
-  SampleType::Pointer sample = SampleType::New() ;
+  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -161,43 +163,50 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType ;
-  NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New() ;
+  typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType;
+  NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
 
-  normalGenerator->Initialize( 101 ) ;
+  normalGenerator->Initialize( 101 );
 
-  MeasurementVectorType mv ;
-  double mean = 100 ;
-  double standardDeviation = 30 ;
+  MeasurementVectorType mv;
+  double mean = 100;
+  double standardDeviation = 30;
   for ( unsigned int i = 0 ; i < 100 ; ++i )
     {
-    mv = ( normalGenerator->GetVariate() * standardDeviation ) + mean ;
-    sample->PushBack( mv ) ;
+    mv = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
+    sample->PushBack( mv );
     }
 
-  normalGenerator->Initialize( 3024 ) ;
-  mean = 200 ;
-  standardDeviation = 30 ;
+  normalGenerator->Initialize( 3024 );
+  mean = 200;
+  standardDeviation = 30;
   for ( unsigned int i = 0 ; i < 100 ; ++i )
     {
-    mv = ( normalGenerator->GetVariate() * standardDeviation ) + mean ;
-    sample->PushBack( mv ) ;
+    mv = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
+    sample->PushBack( mv );
     }
   // Software Guide : EndCodeSnippet
 
+
+
+
   // Software Guide : BeginLatex
-  // We create a k-d tree. To see the details on the k-d tree
-  // generation, see the section \ref{sec:KdTree}.
+  //
+  // We create a k-d tree. To see the details on the k-d tree generation, see
+  // the section \ref{sec:KdTree}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType > 
-    TreeGeneratorType ;
-  TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New() ;
+  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< 
+                                                      SampleType  
+                                                            > TreeGeneratorType;
+
+  TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
   
-  treeGenerator->SetSample( sample ) ;
-  treeGenerator->SetBucketSize( 16 ) ;
-  treeGenerator->Update() ;
+  treeGenerator->SetSample( sample );
+  treeGenerator->SetBucketSize( 16 );
+  treeGenerator->Update();
   // Software Guide : EndCodeSnippet
 
 
@@ -205,7 +214,7 @@ int main()
   // Once we have the k-d tree, it is a simple procedure to produce k
   // mean estimates. 
   //
-  // We create the \code{KdTreeBasedKemansEstimator}. Then, we
+  // We create the \code{KdTreeBasedKmeansEstimator}. Then, we
   // provide the initial mean values using the \code{SetParameters(
   // array of mean values )}. Since we are dealing with two normal
   // distribution in a 1-D space, the size of the mean value array is
@@ -215,8 +224,8 @@ int main()
   // two components of the first normal distribution's mean vector. We
   // plug-in the k-d tree using the \code{SetKdTree( k-d tree * )}.
   //
-  // The rest two methods specify the termination condition. The
-  // estimation process stops when the nubmer of iteration reaches the
+  // The remining two methods specify the termination condition. The
+  // estimation process stops when the number of iterations reaches the
   // maximum iteration value set by the \code{SetMaximumIteration(
   // unsigned int)}, or the distances between the newly calculated mean
   // (centroid) values and previous ones are within the threshold set
@@ -228,32 +237,37 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef TreeGeneratorType::KdTreeType TreeType ;
-  typedef itk::Statistics::KdTreeBasedKmeansEstimator< TreeType > 
-    EstimatorType ;
-  EstimatorType::Pointer estimator = EstimatorType::New() ;
+  typedef TreeGeneratorType::KdTreeType TreeType;
 
-  EstimatorType::ParametersType initialMeans(2) ;
-  initialMeans[0] = 0.0 ;
-  initialMeans[1] = 0.0 ;
+  typedef itk::Statistics::KdTreeBasedKmeansEstimator< 
+                                                TreeType > EstimatorType;
 
-  estimator->SetParameters( initialMeans ) ;
-  estimator->SetKdTree( treeGenerator->GetOutput() ) ;
-  estimator->SetMaximumIteration( 200 ) ;
-  estimator->SetCentroidPositionChangesThreshold(0.0) ;
-  estimator->StartOptimization() ;
+  EstimatorType::Pointer estimator = EstimatorType::New();
 
-  EstimatorType::ParametersType estimatedMeans = estimator->GetParameters() ;
+  EstimatorType::ParametersType initialMeans(2);
+  initialMeans[0] = 0.0;
+  initialMeans[1] = 0.0;
+
+  estimator->SetParameters( initialMeans );
+  estimator->SetKdTree( treeGenerator->GetOutput() );
+  estimator->SetMaximumIteration( 200 );
+  estimator->SetCentroidPositionChangesThreshold(0.0);
+  estimator->StartOptimization();
+
+  EstimatorType::ParametersType estimatedMeans = estimator->GetParameters();
 
   for ( unsigned int i = 0 ; i < 2 ; ++i )
     {
-    std::cout << "cluster[" << i << "] " << std::endl ;
+    std::cout << "cluster[" << i << "] " << std::endl;
     std::cout << "    estimated mean : " 
-              << estimatedMeans[i] << std::endl ;
+              << estimatedMeans[i] << std::endl;
     }
   // Software Guide : EndCodeSnippet
   
+
+
   // Software Guide : BeginLatex
+  //
   // If we are only interested in finding the mean estimates, we might
   // stop. However, to illustrate how a classifier can be formed using
   // the statistical classification framework. We go a little bit
@@ -261,7 +275,7 @@ int main()
   //
   // Since the k-means algorithm is an minimum distance classifier using
   // the estimated k means and the measurement vectors. We use the
-  // \code{EuclideanDistance} class as membership functions. Our choide
+  // \code{EuclideanDistance} class as membership functions. Our choice
   // for the decision rule is the
   // \subdoxygen{Statistics}{MinimumDecisionRule} which returns the
   // index of the membership functions that have the smallest value for
@@ -274,31 +288,36 @@ int main()
   // the \code{SetNumberOfClasses(unsigned int)} method. 
   //
   // The rest of the following code snippet shows how to use
-  // user-specififed class labels. The classification result will be
+  // user-specified class labels. The classification result will be
   // stored in a \code{MembershipSample} object, and for each
   // measurement vector, its class label will be one of the two class
   // labels, 100 and 200 (\code{unsigned int}).
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType >
-    MembershipFunctionType ;
+  typedef itk::Statistics::EuclideanDistance< 
+                                       MeasurementVectorType 
+                                                      > MembershipFunctionType;
   
-  typedef itk::MinimumDecisionRule DecisionRuleType ;
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New() ;
+  typedef itk::MinimumDecisionRule DecisionRuleType;
+
+  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   
-  typedef itk::Statistics::SampleClassifier< SampleType > ClassifierType ;
-  ClassifierType::Pointer classifier = ClassifierType::New() ;
+  typedef itk::Statistics::SampleClassifier< SampleType > ClassifierType;
 
-  classifier->SetDecisionRule( (itk::DecisionRuleBase::Pointer) decisionRule) ;
-  classifier->SetSample( sample ) ;
-  classifier->SetNumberOfClasses( 2 ) ;
+  ClassifierType::Pointer classifier = ClassifierType::New();
 
-  std::vector< unsigned int > classLabels ;
-  classLabels.resize( 2 ) ;
-  classLabels[0] = 100 ;
-  classLabels[1] = 200 ;
-  classifier->SetMembershipFunctionClassLabels(classLabels) ;
+  classifier->SetDecisionRule( (itk::DecisionRuleBase::Pointer) decisionRule);
+  classifier->SetSample( sample );
+  classifier->SetNumberOfClasses( 2 );
+
+  std::vector< unsigned int > classLabels;
+  classLabels.resize( 2 );
+  classLabels[0] = 100;
+  classLabels[1] = 200;
+
+  classifier->SetMembershipFunctionClassLabels( classLabels );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -310,47 +329,47 @@ int main()
   // distance funtions. The distance function (model) has only one
   // parameter, its mean (centroid) set by the \code{SetOrigin}
   // method. To plug-in two distance functions, we call the
-  // \code{AddMembershipFunction} method. Then the \code{update()}
+  // \code{AddMembershipFunction} method. Then the \code{Update()}
   // method call will do the classification.
   // 
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::vector< MembershipFunctionType::Pointer > membershipFunctions ;
-  MembershipFunctionType::OriginType origin ;
-  int index = 0 ;
+  std::vector< MembershipFunctionType::Pointer > membershipFunctions;
+  MembershipFunctionType::OriginType origin;
+  int index = 0;
   for ( unsigned int i = 0 ; i < 2 ; i++ ) 
     {
-    membershipFunctions.push_back(MembershipFunctionType::New()) ;
+    membershipFunctions.push_back( MembershipFunctionType::New() );
     for ( unsigned int j = 0 ; j < SampleType::MeasurementVectorSize ; j++ )
       {
-      origin[j] = estimatedMeans[index++] ;
+      origin[j] = estimatedMeans[index++];
       }
-    membershipFunctions[i]->SetOrigin(origin) ;
-    classifier->AddMembershipFunction(membershipFunctions[i].GetPointer()) ;
+    membershipFunctions[i]->SetOrigin( origin );
+    classifier->AddMembershipFunction( membershipFunctions[i].GetPointer() );
     }
 
-  classifier->Update() ;
+  classifier->Update();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   // The following code snippet prints out the measurement vectors and
-  // thier class labels in the \code{sample}.
+  // their class labels in the \code{sample}.
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ClassifierType::OutputType* membershipSample = classifier->GetOutput() ;
-  ClassifierType::OutputType::Iterator iter = membershipSample->Begin() ;
+  ClassifierType::OutputType* membershipSample = classifier->GetOutput();
+  ClassifierType::OutputType::Iterator iter = membershipSample->Begin();
 
   while ( iter != membershipSample->End() )
     {
     std::cout << "measurement vector = " << iter.GetMeasurementVector()
               << "class label = " << iter.GetClassLabel()
-              << std::endl ;
-    ++iter ;
+              << std::endl;
+    ++iter;
     }
   // Software Guide : EndCodeSnippet
-  return 0 ;
+  return 0;
 }
 
 

@@ -20,15 +20,14 @@
 // \index{Statistics!Projecting mesurement vectors to 1-D histogram|textbf}
 // \index{itk::Statistics::SampleToHistogramProjectionFilter|textbf}
 //
-// This filter projects measurement vectors of a sample onto a vector
-// and fills up a 1-D \subdoxygen{Statistics}{Histogram}. The histram
-// will be formed around the mean value set by the \code{SetMean}
-// method. The histogram's measurement values are the distance
-// between the mean and the projected measurement vectors normalized
-// by the standard deviation set by the \code{SetStandardDeviation}.
-// Such histogram can be used to analyze the multi-dimensional
-// distribution or examine the goodness-of-fit of a projected
-// distribution (histogram) with its expected distribution.
+// This filter projects measurement vectors of a sample onto a vector and fills
+// up a 1-D \subdoxygen{Statistics}{Histogram}. The histram will be formed
+// around the mean value set by the \code{SetMean} method. The histogram's
+// measurement values are the distance between the mean and the projected
+// measurement vectors normalized by the standard deviation set by the
+// \code{SetStandardDeviation()} method.  Such histogram can be used to analyze
+// the multi-dimensional distribution or examine the \emph{goodness-of-fit} of a
+// projected distribution (histogram) with its expected distribution.
 //
 // We will use the \code{ListSample} as the input sample.
 //
@@ -41,9 +40,10 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//  
 // We need another header for measurement vectors. We are going to use
-// the \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}
-// in this example. 
+// the \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}.
+//  
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -60,22 +60,22 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef int MeasurementType ;
-  typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType ;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
+  typedef int MeasurementType;
+  typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType;
+  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
 
-  SampleType::Pointer sample = SampleType::New() ;
+  SampleType::Pointer sample = SampleType::New();
 
-  MeasurementVectorType mv ;
+  MeasurementVectorType mv;
   for ( unsigned int i = 1 ; i < 6 ; i++ )
     {
-      for (unsigned int j = 0 ; j < 2 ; j++ )
+      for ( unsigned int j = 0 ; j < 2 ; j++ )
         {
-          mv[j] = ( MeasurementType ) i ;
+          mv[j] = ( MeasurementType ) i;
         }
       for ( unsigned int j = 0 ; j < i ; j++ )
         {
-          sample->PushBack(mv) ;
+          sample->PushBack(mv);
         }
     }
   // Software Guide : EndCodeSnippet
@@ -92,18 +92,18 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::Histogram< float, 1 > HistogramType ;
+  typedef itk::Statistics::Histogram< float, 1 > HistogramType;
 
-  HistogramType::Pointer histogram = HistogramType::New() ;
+  HistogramType::Pointer histogram = HistogramType::New();
 
-  HistogramType::SizeType size ;
-  size.Fill(6) ;
-  HistogramType::MeasurementVectorType lowerBound ;
-  HistogramType::MeasurementVectorType upperBound ;
-  lowerBound[0] = -2 ;
-  upperBound[0] = 2 ;
+  HistogramType::SizeType size;
+  size.Fill(6);
+  HistogramType::MeasurementVectorType lowerBound;
+  HistogramType::MeasurementVectorType upperBound;
+  lowerBound[0] = -2;
+  upperBound[0] = 2;
 
-  histogram->Initialize( size, lowerBound, upperBound ) ;
+  histogram->Initialize( size, lowerBound, upperBound );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -114,14 +114,17 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::SampleToHistogramProjectionFilter<
-    SampleType, float > ProjectorType ;
+                                                      SampleType, float 
+                                                               > ProjectorType;
   
-  ProjectorType::Pointer projector = ProjectorType::New() ;
-  projector->SetInputSample( sample ) ;
-  projector->SetHistogram( histogram ) ;
+  ProjectorType::Pointer projector = ProjectorType::New();
+
+  projector->SetInputSample( sample );
+  projector->SetHistogram( histogram );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // As mentioned above, this class projects measurement vectors onto the
   // projection axis with normalization using the mean and standard
   // deviation. 
@@ -131,57 +134,63 @@ int main()
   // where, y is the projected value, $x$ is the $i$th component of the
   // measurement vector, $\mu_{i}$ is the $i$th component of the mean vector,
   // $\alpha_{i}$ is the $i$th component of the projection axis (a
-  // vector), and the $\sigma$ is the standard deviation. 
+  // vector), and $\sigma$ is the standard deviation. 
   //
-  // If the bin overlap value is set by the SetHistogramBinOverlap method and 
-  // greater than 0.001, the frequency will be weighted based on its closeness
-  // of the bin boundaries. In other words, even if a measurment
-  // vector falls into a bin, depending on its closeness to the
-  // adjacent bins, the frequencies of the adjacent bins will be also
-  // updated with weights. If we do not want to use the bin overlapping
-  // function, we do not call the \code{SetHistogramBinOverlap(double)}
-  // method. The defalut value for the histogram bin overlap is zero, so
-  // without calling the method, the filter will not use bin
-  // overlapping \cite{Aylward1997a} \cite{Aylward1997b}.
+  // If the bin overlap value is set by the \code{SetHistogramBinOverlap()}
+  // method and it is greater than 0.001, the frequency will be weighted based
+  // on its closeness of the bin boundaries. In other words, even if a
+  // measurment vector falls into a bin, depending on its closeness to the
+  // adjacent bins, the frequencies of the adjacent bins will be also updated
+  // with weights. If we do not want to use the bin overlapping function, we do
+  // not call the \code{SetHistogramBinOverlap(double)} method. The defalut
+  // value for the histogram bin overlap is zero, so without calling the
+  // method, the filter will not use bin overlapping \cite{Aylward1997a}
+  // \cite{Aylward1997b}.
+  //
   // Software Guide : EndLatex
   
   // Software Guide : BeginCodeSnippet
-  ProjectorType::MeanType mean ;
-  mean[0] = 3.66667 ;
-  mean[1] = 3.66667 ;
+  ProjectorType::MeanType mean;
+  mean[0] = 3.66667;
+  mean[1] = 3.66667;
 
-  double standardDeviation = 3 ;
+  double standardDeviation = 3;
 
-  ProjectorType::ArrayType projectionAxis ;
+  ProjectorType::ArrayType projectionAxis;
   projectionAxis[0] = 1;
-  projectionAxis[1] = 1 ;
+  projectionAxis[1] = 1;
 
-  projector->SetMean( &mean ) ;
-  projector->SetStandardDeviation( &standardDeviation ) ;
-  projector->SetProjectionAxis( &projectionAxis ) ;
-  projector->SetHistogramBinOverlap( 0.25 ) ;
-  projector->Update() ;
+  projector->SetMean( &mean );
+  projector->SetStandardDeviation( &standardDeviation );
+  projector->SetProjectionAxis( &projectionAxis );
+  projector->SetHistogramBinOverlap( 0.25 );
+  projector->Update();
   // Software Guide : EndCodeSnippet
 
+
+
+
   // Software Guide : BeginLatex
+  //
   // We print out the updated histogram after the projection.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  float fSum = 0.0 ;
-  HistogramType::Iterator iter = histogram->Begin() ;
+  float fSum = 0.0;
+  HistogramType::Iterator iter = histogram->Begin();
   while ( iter != histogram->End() )
     {
     std::cout << "instance identifier = " << iter.GetInstanceIdentifier() 
               << "\t measurement vector = " 
               << iter.GetMeasurementVector() 
               << "\t frequency = " 
-              << iter.GetFrequency() << std::endl ;
-    fSum += iter.GetFrequency() ;
-    ++iter ;
+              << iter.GetFrequency() << std::endl;
+    fSum += iter.GetFrequency();
+    ++iter;
     }
-  std::cout << " sum of frequency = " << fSum << std::endl ;
+  std::cout << " sum of frequency = " << fSum << std::endl;
   // Software Guide : EndCodeSnippet
 
-  return 0 ;
+  return 0;
 }

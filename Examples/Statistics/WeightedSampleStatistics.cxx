@@ -48,7 +48,7 @@
 #include "itkWeightedCovarianceCalculator.h"
 // Software Guide : EndCodeSnippet
 
-typedef itk::Vector< float, 3 > MeasurementVectorType ;
+typedef itk::Vector< float, 3 > MeasurementVectorType;
 
 class ExampleWeightFunction :
   public itk::FunctionBase< MeasurementVectorType, double >
@@ -62,7 +62,7 @@ public:
   
   /** Standard macros. */
   itkTypeMacro(ExampleWeightFunction, FunctionBase);
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** Input type */
   typedef MeasurementVectorType InputType;
@@ -75,11 +75,11 @@ public:
   {
     if ( input[0] < 3.0 )
       {
-      return 0.5 ;
+      return 0.5;
       }
     else
       {
-      return 0.01 ;
+      return 0.01;
       }
   }
 
@@ -92,39 +92,39 @@ int main()
 {
   // Software Guide : BeginLatex
   // The following code snippet will create a \code{ListSample} object
-  // with three-component float measurement vectors and put three
+  // with three-component float measurement vectors and put five
   // measurement vectors in tht \code{ListSample} object.
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
-  SampleType::Pointer sample = SampleType::New() ;
-  MeasurementVectorType mv ;
-  mv[0] = 1.0 ;
-  mv[1] = 2.0 ;
-  mv[2] = 4.0 ;
+  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  SampleType::Pointer sample = SampleType::New();
+  MeasurementVectorType mv;
+  mv[0] = 1.0;
+  mv[1] = 2.0;
+  mv[2] = 4.0;
   
-  sample->PushBack( mv ) ;
+  sample->PushBack( mv );
 
-  mv[0] = 2.0 ;
-  mv[1] = 4.0 ;
-  mv[2] = 5.0 ;
-  sample->PushBack( mv ) ;
+  mv[0] = 2.0;
+  mv[1] = 4.0;
+  mv[2] = 5.0;
+  sample->PushBack( mv );
   
-  mv[0] = 3.0 ;
-  mv[1] = 8.0 ;
-  mv[2] = 6.0 ;
-  sample->PushBack( mv ) ;
+  mv[0] = 3.0;
+  mv[1] = 8.0;
+  mv[2] = 6.0;
+  sample->PushBack( mv );
 
-  mv[0] = 2.0 ;
-  mv[1] = 7.0 ;
-  mv[2] = 4.0 ;
-  sample->PushBack( mv ) ;
+  mv[0] = 2.0;
+  mv[1] = 7.0;
+  mv[2] = 4.0;
+  sample->PushBack( mv );
 
-  mv[0] = 3.0 ;
-  mv[1] = 2.0 ;
-  mv[2] = 7.0 ;
-  sample->PushBack( mv ) ;
+  mv[0] = 3.0;
+  mv[1] = 2.0;
+  mv[2] = 7.0;
+  sample->PushBack( mv );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -141,80 +141,81 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::WeightedMeanCalculator< SampleType >
-    WeightedMeanAlgorithmType ;
+                                                    WeightedMeanAlgorithmType;
 
-  WeightedMeanAlgorithmType::WeightArrayType weightArray( sample->Size() ) ;
-  weightArray.Fill( 0.5 ) ;
-  weightArray[2] = 0.01 ;
-  weightArray[4] = 0.01 ;
+  WeightedMeanAlgorithmType::WeightArrayType weightArray( sample->Size() );
+  weightArray.Fill( 0.5 );
+  weightArray[2] = 0.01;
+  weightArray[4] = 0.01;
 
   WeightedMeanAlgorithmType::Pointer weightedMeanAlgorithm = 
-    WeightedMeanAlgorithmType::New() ;
+                                              WeightedMeanAlgorithmType::New();
 
-  weightedMeanAlgorithm->SetInputSample( sample ) ;
-  weightedMeanAlgorithm->SetWeights( &weightArray ) ;
-  weightedMeanAlgorithm->Update() ;
+  weightedMeanAlgorithm->SetInputSample( sample );
+  weightedMeanAlgorithm->SetWeights( &weightArray );
+  weightedMeanAlgorithm->Update();
 
   std::cout << "Sample weighted mean = " 
-            << *(weightedMeanAlgorithm->GetOutput()) << std::endl ;
+            << *(weightedMeanAlgorithm->GetOutput()) << std::endl;
 
   typedef itk::Statistics::WeightedCovarianceCalculator< SampleType >
-    WeightedCovarianceAlgorithmType ;
+                                              WeightedCovarianceAlgorithmType;
   
   WeightedCovarianceAlgorithmType::Pointer weightedCovarianceAlgorithm = 
-    WeightedCovarianceAlgorithmType::New() ;
+                                        WeightedCovarianceAlgorithmType::New();
 
-  weightedCovarianceAlgorithm->SetInputSample( sample ) ;
-  weightedCovarianceAlgorithm->SetMean( weightedMeanAlgorithm->GetOutput() ) ;
-  weightedCovarianceAlgorithm->SetWeights( &weightArray ) ;
-  weightedCovarianceAlgorithm->Update() ;
+  weightedCovarianceAlgorithm->SetInputSample( sample );
+  weightedCovarianceAlgorithm->SetMean( weightedMeanAlgorithm->GetOutput() );
+  weightedCovarianceAlgorithm->SetWeights( &weightArray );
+  weightedCovarianceAlgorithm->Update();
 
   std::cout << "Sample weighted covariance = " << std::endl ; 
-  std::cout << *(weightedCovarianceAlgorithm->GetOutput()) << std::endl ;
+  std::cout << *(weightedCovarianceAlgorithm->GetOutput()) << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // The second method is to plug-in a function that returns a weight
-  // value that is usually a function of each measurement
-  // vector. Since the \code{weightedMeanAlgorithm} and
+  //
+  // The second method for computing weighted statistics is to plug-in a
+  // function that returns a weight value that is usually a function of each
+  // measurement vector. Since the \code{weightedMeanAlgorithm} and
   // \code{weightedCovarianceAlgorithm} already have the input sample
-  // plugged in, we need call only the \code{SetWeightFunction(weight
+  // plugged in, we only need to call the \code{SetWeightFunction(weight
   // function*)} method. For the \code{weightedCovarianceAlgorithm},
   // we replace the mean vector input with the output from the
   // \code{weightedMeanAlgorithm}. If we do not provide the mean
-  // vector using the \code{SetMean} method or if we pass a null
+  // vector using the \code{SetMean()} method or if we pass a null
   // pointer as the mean vector as in this example, the
   // \code{weightedCovarianceAlgorithm} will perform the one pass
   // algorithm to generate the mean vector and the covariance matrix.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ExampleWeightFunction::Pointer weightFunction =
-    ExampleWeightFunction::New() ;
+  ExampleWeightFunction::Pointer weightFunction = ExampleWeightFunction::New();
 
-  weightedMeanAlgorithm->SetWeightFunction( weightFunction ) ;
-  weightedMeanAlgorithm->Update() ;
-
-  std::cout << "Sample weighted mean = " 
-            << *(weightedMeanAlgorithm->GetOutput()) << std::endl ;
-
-  weightedCovarianceAlgorithm->SetMean( weightedMeanAlgorithm->GetOutput() ) ;
-  weightedCovarianceAlgorithm->SetWeightFunction( weightFunction ) ;
-  weightedCovarianceAlgorithm->Update() ;
-
-  std::cout << "Sample weighted covariance = " << std::endl ; 
-  std::cout << *(weightedCovarianceAlgorithm->GetOutput()) << std::endl ;
-
-  weightedCovarianceAlgorithm->SetMean( 0 ) ;
-  weightedCovarianceAlgorithm->SetWeightFunction( weightFunction ) ;
-  weightedCovarianceAlgorithm->Update() ;
-
-  std::cout << "Using the one pass algorithm:" << std::endl ;
-  std::cout << "Sample weighted covariance = " << std::endl ; 
-  std::cout << *(weightedCovarianceAlgorithm->GetOutput()) << std::endl ;
+  weightedMeanAlgorithm->SetWeightFunction( weightFunction );
+  weightedMeanAlgorithm->Update();
 
   std::cout << "Sample weighted mean = " 
-            << *(weightedCovarianceAlgorithm->GetMean()) << std::endl ;
+            << *(weightedMeanAlgorithm->GetOutput()) << std::endl;
+
+  weightedCovarianceAlgorithm->SetMean( weightedMeanAlgorithm->GetOutput() );
+  weightedCovarianceAlgorithm->SetWeightFunction( weightFunction );
+  weightedCovarianceAlgorithm->Update();
+
+  std::cout << "Sample weighted covariance = " << std::endl ; 
+  std::cout << *(weightedCovarianceAlgorithm->GetOutput()) << std::endl;
+
+  weightedCovarianceAlgorithm->SetMean( 0 );
+  weightedCovarianceAlgorithm->SetWeightFunction( weightFunction );
+  weightedCovarianceAlgorithm->Update();
+
+  std::cout << "Using the one pass algorithm:" << std::endl;
+  std::cout << "Sample weighted covariance = " << std::endl ; 
+  std::cout << *(weightedCovarianceAlgorithm->GetOutput()) << std::endl;
+
+  std::cout << "Sample weighted mean = " 
+            << *(weightedCovarianceAlgorithm->GetMean()) << std::endl;
   // Software Guide : EndCodeSnippet
-  return 0 ;
+  return 0;
 }

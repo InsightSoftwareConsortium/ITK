@@ -121,18 +121,18 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // The following code snippet creates a \code{NormalVaraiteGenerator}
-  // object. Since the random variable generator returns values
-  // according to the standard normal distribution (The mean is zero,
-  // and the standard deviation is one), before pushing random values
-  // into the \code{sample}, we change the mean and standard
-  // deviation. We want two normal (Gaussian) distribution data. We have
-  // two for loops. Each for loop uses different mean and standard
-  // deviation. Before we fill the \code{sample} with the second
-  // distribution data, we call \code{Initialize( random seed )} method,
-  // to recreates the pool of random variables in the
-  // \code{normalGenerator}. In the two for loop, we fill the two class
-  // samples with measurement vectors using the \code{AddInstance} method.
+  //
+  // The following code snippet creates a \code{NormalVariateGenerator} object.
+  // Since the random variable generator returns values according to the
+  // standard normal distribution (The mean is zero, and the standard deviation
+  // is one), before pushing random values into the \code{sample}, we change
+  // the mean and standard deviation. We want two normal (Gaussian)
+  // distribution data. We have two for loops. Each for loop uses different
+  // mean and standard deviation. Before we fill the \code{sample} with the
+  // second distribution data, we call \code{Initialize( random seed )} method,
+  // to recreate the pool of random variables in the \code{normalGenerator}. In
+  // the two for loop, we fill the two class samples with measurement vectors
+  // using the \code{AddInstance} method.
   //
   // To see the probability density plots from the two distribution,
   // refer to the figure \ref{fig:TwoNormalDensityFunctionPlot}.
@@ -185,8 +185,9 @@ int main()
   params[1] = 850.0;
   initialParameters[1] = params;
 
-  typedef itk::Statistics::GaussianMixtureModelComponent< SampleType > 
-    ComponentType;
+  typedef itk::Statistics::GaussianMixtureModelComponent< 
+                                                     SampleType > ComponentType;
+
   std::vector< ComponentType::Pointer > components;
   for ( unsigned int i = 0 ; i < numberOfClasses ; i++ )
     {
