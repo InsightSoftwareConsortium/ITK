@@ -71,6 +71,7 @@ ADD_TEST(itkHoughTransform2DLinesImageTest ${BASIC_FILTERS_TESTS} itkHoughTransf
 ADD_TEST(itkImageAdaptorNthElementTest ${BASIC_FILTERS_TESTS} itkImageAdaptorNthElementTest)
 ADD_TEST(itkImageAdaptorPipeLineTest ${BASIC_FILTERS_TESTS} itkImageAdaptorPipeLineTest)
 ADD_TEST(itkImageToParametricSpaceFilterTest ${BASIC_FILTERS_TESTS} itkImageToParametricSpaceFilterTest)
+ADD_TEST(itkImageToMeshFilterTest ${BASIC_FILTERS_TESTS} itkImageToMeshFilterTest)
 ADD_TEST(itkImportImageTest ${BASIC_FILTERS_TESTS} itkImportImageTest)
 ADD_TEST(itkIntensityWindowingImageFilterTest ${BASIC_FILTERS_TESTS} itkIntensityWindowingImageFilterTest )
 ADD_TEST(itkInteriorExteriorMeshFilterTest ${BASIC_FILTERS_TESTS} itkInteriorExteriorMeshFilterTest )
@@ -421,6 +422,7 @@ itkHoughTransform2DLinesImageTest.cxx
 itkImageAdaptorNthElementTest.cxx
 itkImageAdaptorPipeLineTest.cxx
 itkImageToParametricSpaceFilterTest.cxx
+itkImageToMeshFilterTest.cxx 
 itkImportImageTest.cxx
 itkIntensityWindowingImageFilterTest.cxx
 itkInteriorExteriorMeshFilterTest.cxx

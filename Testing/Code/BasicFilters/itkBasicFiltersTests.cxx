@@ -100,6 +100,7 @@ void RegisterTests()
   REGISTER_TEST(itkImageAdaptorNthElementTest );
   REGISTER_TEST(itkImageAdaptorPipeLineTest );
   REGISTER_TEST(itkImageToParametricSpaceFilterTest );
+  REGISTER_TEST(itkImageToMeshFilterTest );
   REGISTER_TEST(itkImportImageTest );
   REGISTER_TEST(itkIntensityWindowingImageFilterTest );
   REGISTER_TEST(itkInteriorExteriorMeshFilterTest  );
