@@ -154,8 +154,9 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageAdaptor<  VectorImageType, VectorPixelAccessor > 
-    ImageAdaptorType;
+  typedef itk::ImageAdaptor<  VectorImageType, 
+                              VectorPixelAccessor > ImageAdaptorType;
+
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 // Software Guide : EndCodeSnippet
 
