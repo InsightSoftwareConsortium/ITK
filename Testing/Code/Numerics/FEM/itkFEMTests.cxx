@@ -18,7 +18,10 @@ void RegisterTests()
   REGISTER_TEST(itkFEMElementTest);
   REGISTER_TEST(itkFEMExceptionTest);
   REGISTER_TEST(itkFEMGenerateMeshTest);
-//  REGISTER_TEST(itkFEMLandmarkLoadImplementationTest);
+  REGISTER_TEST(itkFEMElement2DMembraneTest);
+  REGISTER_TEST(itkFEMElement3DMembraneTest);
+  REGISTER_TEST(itkFEMElement2DStrainTest);
+  REGISTER_TEST(itkFEMElement2DQuadraticTriangularTest);
   REGISTER_TEST(itkFEMLinearSystemWrapperItpackTest);
   REGISTER_TEST(itkFEMLinearSystemWrapperVNLTest);
   REGISTER_TEST(itkFEMLinearSystemWrapperDenseVNLTest);
