@@ -209,12 +209,12 @@ namespace itk {
 template<class TImage, class TBoundaryCondition
                        = ZeroFluxNeumannBoundaryCondition<TImage> >
 class ITK_EXPORT NeighborhoodIterator
-  :  public ConstNeighborhoodIterator<TImage>
+  :  public ConstNeighborhoodIterator<TImage,TBoundaryCondition>
 {
 public:
   /** Standard class typedefs. */
   typedef NeighborhoodIterator Self;
-  typedef ConstNeighborhoodIterator<TImage> Superclass;
+  typedef ConstNeighborhoodIterator<TImage,TBoundaryCondition> Superclass;
   
   /** Extract typedefs from superclass. */
   typedef typename Superclass::InternalPixelType InternalPixelType;
