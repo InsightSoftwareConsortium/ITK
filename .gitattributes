@@ -12,5 +12,7 @@ cvsrmvend        crlf=input
 install-sh       crlf=input
 itktcl           crlf=input
 itkwish          crlf=input
+newalpha         crlf=input
+newversion       crlf=input
 vxl_doxy.pl      crlf=input
 zap.pl           crlf=input
