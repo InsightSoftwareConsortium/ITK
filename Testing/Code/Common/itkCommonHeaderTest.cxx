@@ -53,7 +53,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBluePixelAccessor.h"
 #include "itkBoundingBox.txx"
 #include "itkByteSwapper.txx"
-#include "itkCellBoundary.txx"
 #include "itkCellInterface.txx"
 #include "itkCellInterfaceVisitor.h"
 #include "itkCenteredAffineTransform.txx"
