@@ -84,8 +84,8 @@ int main()
   }
 
   // Create an affine transformation
-  AffineTransformType aff;
-  aff.Scale(0.5);
+  AffineTransformType::Pointer aff = AffineTransformType::New();
+  aff->Scale(0.5);
 
   // Create a linear interpolation image function
   InterpolatorType::Pointer interp = InterpolatorType::New();
@@ -96,7 +96,7 @@ int main()
   resample = itk::ResampleImageFilter< ImageType, ImageType >::New();
   resample->SetInput(image);
   resample->SetSize(size);
-  resample->SetTransform(&aff);
+  resample->SetTransform(aff);
   resample->SetInterpolator(interp);
 
   // Run the resampling filter
