@@ -120,7 +120,7 @@ ImageBase<VImageDimension>
   // requested region was not set yet, (or has been set to something 
   // invalid - with no data in it ) then set it to the largest possible
   // region.
-  if ( ! m_RequestedRegionInitialized)
+  if ( m_RequestedRegion.GetNumberOfPixels() == 0)
     {
     this->SetRequestedRegionToLargestPossibleRegion();
     }
@@ -134,7 +134,6 @@ ImageBase<VImageDimension>
 ::SetRequestedRegionToLargestPossibleRegion()
 {
   m_RequestedRegion = m_LargestPossibleRegion;
-  m_RequestedRegionInitialized = true;
 }
 
 //----------------------------------------------------------------------------
@@ -257,7 +256,6 @@ ImageBase<VImageDimension>
   if (m_RequestedRegion != region)
     {
     m_RequestedRegion = region;
-    m_RequestedRegionInitialized = true;
     }
 }
 
@@ -274,7 +272,6 @@ ImageBase<VImageDimension>
   if (imgData)
     {
     m_RequestedRegion = imgData->GetRequestedRegion();
-    m_RequestedRegionInitialized = true;
     }
   else
     {
