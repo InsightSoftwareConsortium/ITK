@@ -3,6 +3,7 @@
 
 /*
 
+
 This header file mangles all symbols exported from the tiff library.
 It is included in all files while building the tiff library.  Due to
 namespace pollution, no tiff headers should be included in .h files in
