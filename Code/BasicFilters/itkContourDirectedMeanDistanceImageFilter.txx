@@ -36,7 +36,7 @@ namespace itk {
 
 template<class TInputImage1, class TInputImage2>
 ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
-::ContourDirectedMeanDistanceImageFilter(): m_MeanDistance(1)
+::ContourDirectedMeanDistanceImageFilter(): m_MeanDistance(1),m_Count(1)
 {
 
   // this filter requires two input images
@@ -126,10 +126,12 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
   int numberOfThreads = this->GetNumberOfThreads();
 
   // Resize the thread temporaries
-  m_MeanDistance.SetSize(numberOfThreads); 
+  m_MeanDistance.SetSize(numberOfThreads);
+  m_Count.SetSize(numberOfThreads);
   
   // Initialize the temporaries
   m_MeanDistance.Fill(NumericTraits<RealType>::Zero);
+  m_Count.Fill(NumericTraits<RealType>::Zero);
 
   // Compute Danielsson distance from non-zero pixels in the second image
   typedef itk::DanielssonDistanceMapImageFilter<InputImage2Type,DistanceMapType>
@@ -154,16 +156,22 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
     
   int numberOfThreads = this->GetNumberOfThreads();
 
-  m_ContourDirectedMeanDistance = NumericTraits<RealType>::Zero;
-
  // find mean over all threads
+  int count = 0;
+  RealType sum = NumericTraits<RealType>::Zero;
   for( i = 0; i < numberOfThreads; i++)
     {
-     m_ContourDirectedMeanDistance += m_MeanDistance[i];   
-     
+    sum += m_MeanDistance[i];
+    count += m_Count[i];
     }
-  m_ContourDirectedMeanDistance= m_ContourDirectedMeanDistance/numberOfThreads;
-
+  if (count != 0)
+    {
+    m_ContourDirectedMeanDistance= sum/static_cast<RealType>(count);
+    }
+  else
+    {
+    m_ContourDirectedMeanDistance = NumericTraits<RealType>::Zero;
+    }
 }
 
 
@@ -174,8 +182,6 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
 ::ThreadedGenerateData(const RegionType& outputRegionForThread,
                        int threadId) 
 {
-  double countOfRegion = NumericTraits<double>::Zero;
-
   unsigned int i;
   ZeroFluxNeumannBoundaryCondition<InputImage1Type> nbc;
     
@@ -199,12 +205,12 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
     
 
-  ImageRegionConstIterator<DistanceMapType> it2 (m_DistanceMap, outputRegionForThread);
         
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
+    ImageRegionConstIterator<DistanceMapType> it2 (m_DistanceMap, *fit);
     bit = ConstNeighborhoodIterator<InputImage1Type>(radius, input, *fit);
     unsigned int neighborhoodSize = bit.Size();
 
@@ -234,22 +240,18 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
             }
           }
           
-        // set pixel center pixel value weither it is or not on contour
+        // set pixel center pixel value whether it is or not on contour
         if( bIsOnContour )
           {
-          countOfRegion++;
           m_MeanDistance[threadId] += it2.Get();
+          m_Count[threadId]++;
           }
         }
-        
       ++bit;
       ++it2;
       progress.CompletedPixel();
       }
-      
-      
     }
-    m_MeanDistance[ threadId ] = m_MeanDistance[ threadId ] / countOfRegion;
 }
 
 

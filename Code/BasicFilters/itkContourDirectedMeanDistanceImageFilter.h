@@ -149,6 +149,7 @@ private:
   
   typename DistanceMapType::Pointer   m_DistanceMap;
   Array<RealType>                     m_MeanDistance;
+  Array<int>                          m_Count;
   RealType                            m_ContourDirectedMeanDistance;
 
 } ; // end of class
