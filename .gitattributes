@@ -1,5 +1,4 @@
 .git*            export-ignore
 
-*.dsw           -crlf
 configure        crlf=input
 install-sh       crlf=input

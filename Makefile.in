@@ -1,7 +1,5 @@
-
 srcdir        = @srcdir@
 VPATH         = @srcdir@
-
 
 SUBDIRS = \
 Code/tools \
@@ -11,9 +9,8 @@ Testing/Code/Common \
 Testing/Code/Insight3DParty/vxl/vnl/tests
 
 
-ME = ITK
 topall:
 	cd . ;  ${MAKE} -${MAKEFLAGS} CMakeTargets.make
 	cd . ;  ${MAKE} -${MAKEFLAGS} all
 
-@MAKEINCLUDE@ @MAKEQUOTE@@CMAKE_OBJ_DIR@/CMake/CMakeMaster.make@MAKEQUOTE@
+@MAKEINCLUDE@ @MAKEQUOTE@@CMAKE_CONFIG_DIR@/CMake/CMakeMaster.make@MAKEQUOTE@
