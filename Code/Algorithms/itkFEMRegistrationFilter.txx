@@ -975,7 +975,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::IterativeSolve(SolverType&
    //mySolver.PrintDisplacements(0);
   
 
-   Float mint=1.0; //,ImageSimilarity=0.0;
+   Float mint; //,ImageSimilarity=0.0;
    
    //#ifdef USEIMAGEMETRIC
    //LastE=EvaluateResidual(*mySolver,mint);
@@ -1187,7 +1187,7 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::InterpolateVectorField(SolverTy
         Float solval,posval;
         bool inimage=true;
 
-        float interperror=0.0;
+//        float interperror=0.0;
   
         for(unsigned int f=0; f<ImageDimension; f++)
         {
@@ -1207,11 +1207,11 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::InterpolateVectorField(SolverTy
           if (x !=0) temp=(long int) ((x)+0.5); else temp=0;// round 
           rindex[f]=temp;
           disp[f] =(Float) 1.0*Sol[f];
-          interperror+= ((Float)temp-x)*((Float)temp-x);
+//          interperror+= ((Float)temp-x)*((Float)temp-x);
           if ( temp < 0 || temp > (long int) m_FieldSize[f]-1)  inimage=false;
 
         }
-        interperror=sqrt(interperror);
+//        interperror=sqrt(interperror);
 //        std::cout << " rindex " << rindex << " inimage " << inimage << std::endl;
         //if (inimage && interperror < 0.25) 
         if (inimage) field->SetPixel(rindex, disp );
@@ -2158,6 +2158,14 @@ PrintSelf(std::ostream& os, Indent indent) const
   else
     {
     os << indent << "Load = " << "(None)" << std::endl;
+    }
+  if (m_Iterpolator)
+    {
+    os << indent << "Iterpolator = " << m_Iterpolator;
+    }
+  else
+    {
+    os << indent << "Iterpolator = " << "(None)" << std::endl;
     }
 }
 
