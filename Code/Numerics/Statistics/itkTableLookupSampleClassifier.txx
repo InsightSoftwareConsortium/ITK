@@ -6,55 +6,33 @@
   Date:      $Date$
   Version:   $Revision$
 
-Copyright (c) 2001 Insight Consortium
-All rights reserved.
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
- * Redistributions of source code must retain the above copyright notice,
-   this list of conditions and the following disclaimer.
-
- * Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
- * The name of the Insight Consortium, nor the names of any consortium members,
-   nor of any contributors, may be used to endorse or promote products derived
-   from this software without specific prior written permission.
-
-  * Modified source versions must be plainly marked as such, and must not be
-    misrepresented as being the original software.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS ``AS IS''
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkTableLookupSampleClassifier_txx
 #define __itkTableLookupSampleClassifier_txx
 
+#include "itkTableLookupSampleClassifier.h"
+#include "itkDecisionRuleBase.h"
 
 namespace itk{ 
   namespace Statistics{
 
-template< class TSample, class TMembershipCalculator, class TDecisionRule >
-TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
+template< class TSample >
+TableLookupSampleClassifier< TSample >
 ::TableLookupSampleClassifier()
 {
   m_LookupTable = 0 ;
 }
 
-template< class TSample, class TMembershipCalculator, class TDecisionRule >
+template< class TSample >
 void
-TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
+TableLookupSampleClassifier< TSample >
 ::SetLookupTableLowerBound(MeasurementVectorType lower)
 {
   for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
@@ -63,9 +41,9 @@ TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
     }
 }
 
-template< class TSample, class TMembershipCalculator, class TDecisionRule >
+template< class TSample >
 void
-TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
+TableLookupSampleClassifier< TSample >
 ::SetLookupTableUpperBound(MeasurementVectorType upper)
 {
   for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
@@ -74,9 +52,9 @@ TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
     }
 }
 
-template< class TSample, class TMembershipCalculator, class TDecisionRule >
+template< class TSample >
 void
-TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
+TableLookupSampleClassifier< TSample >
 ::PrepareLookupTable()
 {
   int i ;
@@ -101,10 +79,11 @@ TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
 
   CachedMeasurementVectorType cachedMeasurementVector ;
   MeasurementVectorType measurementVector ;
-  DecisionRulePointer rule = GetDecisionRule() ;
-  MembershipCalculatorVectorType membershipCalculators = 
-    GetMembershipCalculatorVector() ;
+  DecisionRuleBase::Pointer rule = this->GetDecisionRule() ;
+  typename Superclass::MembershipFunctionPointerVector mf = 
+    this->GetMembershipFunctions() ;
   LookupTableIteratorType iter(m_LookupTable, region) ;
+
   while (!iter.IsAtEnd())
     {
       cachedMeasurementVector = iter.GetIndex() ;
@@ -115,7 +94,7 @@ TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
 
       for (i = 0 ; i < numberOfClasses ; i++)
         {
-          discriminantScores[i] = (membershipCalculators[i])->Evaluate(measurementVector) ;
+          discriminantScores[i] = (mf[i])->Evaluate(measurementVector) ;
         }
 
       iter.Set(rule->Evaluate(discriminantScores)) ;
@@ -123,9 +102,9 @@ TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
     }
 }
 
-template< class TSample, class TMembershipCalculator, class TDecisionRule >
+template< class TSample >
 void
-TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
+TableLookupSampleClassifier< TSample >
 ::GenerateData()
 {
   if (m_LookupTable == 0)
@@ -136,7 +115,7 @@ TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
   typename TSample::Iterator iter = GetSample()->Begin() ;
   typename TSample::Iterator end = GetSample()->End() ;
   typename TSample::MeasurementVectorType measurements ;
-  unsigned int numberOfClasses = GetMembershipCalculatorVector().size() ;
+  unsigned int numberOfClasses = this->GetNumberOfClasses() ;
   CachedMeasurementVectorType temp ;
   OutputPointer output = GetOutput() ;
   unsigned int classLabel ;
@@ -154,9 +133,9 @@ TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
     }
 }
 
-template< class TSample, class TMembershipCalculator, class TDecisionRule >
+template< class TSample >
 void
-TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
+TableLookupSampleClassifier< TSample >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);

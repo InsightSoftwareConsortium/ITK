@@ -6,36 +6,12 @@
   Date:      $Date$
   Version:   $Revision$
 
-Copyright (c) 2001 Insight Consortium
-All rights reserved.
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
- * Redistributions of source code must retain the above copyright notice,
-   this list of conditions and the following disclaimer.
-
- * Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
- * The name of the Insight Consortium, nor the names of any consortium members,
-   nor of any contributors, may be used to endorse or promote products derived
-   from this software without specific prior written permission.
-
-  * Modified source versions must be plainly marked as such, and must not be
-    misrepresented as being the original software.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS ``AS IS''
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkTableLookupSampleClassifier_h
@@ -94,14 +70,14 @@ namespace Statistics{
  * The classification result is a MembershipSample.
  */
 
-template< class TSample, class TMembershipCalculator, class TDecisionRule >
+template< class TSample >
 class ITK_EXPORT TableLookupSampleClassifier : 
-    public SampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
+    public SampleClassifier< TSample >
 {
 public:
   /** Standard class typedef*/
   typedef TableLookupSampleClassifier Self;
-  typedef SampleClassifier< TSample, TMembershipCalculator, TDecisionRule > Superclass;
+  typedef SampleClassifier< TSample > Superclass;
   typedef SmartPointer<Self> Pointer;
 
   /** Standard macros */
@@ -111,13 +87,6 @@ public:
   /** Common typedefs for classifiers which are Inherited from SampleClassifier class */
   typedef typename Superclass::SampleType SampleType ;
   typedef typename Superclass::SamplePointer SamplePointer ;
-  typedef typename Superclass::MembershipCalculatorType MembershipCalculatorType ;
-  typedef typename Superclass::MembershipCalculatorPointer MembershipCalculatorPointer ;
-  typedef typename Superclass::DecisionRuleType DecisionRuleType ;
-  typedef typename Superclass::DecisionRulePointer DecisionRulePointer ;
-  typedef typename Superclass::OutputType OutputType ;
-  typedef typename Superclass::OutputPointer OutputPointer ;
-  typedef typename Superclass::MembershipCalculatorVectorType MembershipCalculatorVectorType ;
   typedef typename Superclass::MeasurementType MeasurementType ;
   typedef typename Superclass::MeasurementVectorType measurementVectorType ;
 
@@ -137,15 +106,15 @@ public:
   /** sets the upper boundary for the lookup table construction */
   void SetLookupTableUpperBound(MeasurementVectorType upper) ;
 
-  /** Starts the classification process */
-  void GenerateData() ;
-
 protected:
   TableLookupSampleClassifier() ;
   virtual ~TableLookupSampleClassifier() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   void PrepareLookupTable() ;
+
+  /** Starts the classification process */
+  void GenerateData() ;
 
 private:
   LookupTablePointer m_LookupTable ;
