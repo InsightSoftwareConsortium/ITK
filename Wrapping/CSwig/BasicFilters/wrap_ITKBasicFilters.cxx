@@ -23,6 +23,8 @@ namespace _cable_
   {
     ITK_WRAP_GROUP(itkAnisotropicDiffusionImageFilter),
     ITK_WRAP_GROUP(itkBinaryThresholdImageFilter),
+    ITK_WRAP_GROUP(itkBinaryDilateImageFilter),
+    ITK_WRAP_GROUP(itkBinaryErodeImageFilter),
     ITK_WRAP_GROUP(itkCannyEdgeDetectionImageFilter),
     ITK_WRAP_GROUP(itkCastImageFilter_2D),
     ITK_WRAP_GROUP(itkCastImageFilter_3D),
