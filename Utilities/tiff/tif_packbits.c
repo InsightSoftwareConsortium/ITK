@@ -188,7 +188,7 @@ PackBitsEncode(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
 static int
 PackBitsEncodeChunk(TIFF* tif, tidata_t bp, tsize_t cc, tsample_t s)
 {
-    tsize_t rowsize = (tsize_t) tif->tif_data;
+    tsize_t rowsize = (tsize_t) (unsigned long)tif->tif_data;
 
     assert(rowsize > 0);
     
@@ -198,7 +198,7 @@ PackBitsEncodeChunk(TIFF* tif, tidata_t bp, tsize_t cc, tsample_t s)
      * might as well encode the whole tile/strip as one chunk.
      */
     if( tif->tif_dir.td_photometric == PHOTOMETRIC_YCBCR )
-        rowsize = (tsize_t) tif->tif_data;
+        rowsize = (tsize_t) (unsigned long)tif->tif_data;
 #endif
 
     while ((long)cc > 0) {
