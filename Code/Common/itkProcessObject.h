@@ -111,7 +111,7 @@ public:
    * graphs etc. 
    */
   DataObjectPointerArray GetInputs() 
-    {return m_Inputs;};
+    {return m_Inputs;}
   int GetNumberOfInputs() const
     {return m_Inputs.size();}
 
@@ -287,7 +287,8 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent);
   
   /**
-   * protected methods for setting inputs.
+   * Protected methods for setting inputs.
+   * Subclasses make use of them for setting input.
    */
   virtual void SetNthInput(unsigned int num, DataObject *input);
   virtual void AddInput(DataObject *input);
@@ -296,7 +297,8 @@ protected:
   itkGetMacro(NumberOfRequiredInputs,unsigned int);
 
   /**
-   * protected methods for setting outputs.
+   * Protected methods for setting outputs.
+   * Subclasses make use of them for getting output.
    */
   virtual void SetNthOutput(unsigned int num, DataObject *output);
   virtual void AddOutput(DataObject *output);
@@ -315,7 +317,7 @@ protected:
   void SetNumberOfInputs(unsigned int num);
 
   /**
-   * method used internally for getting an input.
+   * Method used internally for getting an input.
    */
   DataObjectPointer GetInput(unsigned int idx);
 
@@ -325,7 +327,7 @@ protected:
   void SetNumberOfOutputs(unsigned int num);
 
   /**
-   * method used internally for getting an output.
+   * Method used internally for getting an output.
    */
   DataObjectPointer GetOutput(unsigned int idx);
 
@@ -337,19 +339,20 @@ protected:
 
 private:
   /**
-   * An Array of the inputs to the filter
+   * An array of the inputs to the filter.
    */
   std::vector<DataObjectPointer> m_Inputs;
   unsigned int m_NumberOfRequiredInputs;
 
   /**
-   * An Array of the outputs to the filter
+   * An array of the outputs to the filter.
    */
   std::vector<DataObjectPointer> m_Outputs;
   unsigned int m_NumberOfRequiredOutputs;
 
   /**
-   * This flag indicates when the pipeline is executing
+   * This flag indicates when the pipeline is executing.
+   * It prevents infinite recursion when pipelines have loops.
    */
   bool m_Updating;
 
@@ -359,7 +362,7 @@ private:
   TimeStamp m_InformationTime;
 
   /**
-   * These support the progress method and aborting filter execution
+   * These support the progress method and aborting filter execution.
    */
   bool  m_AbortGenerateData;
   float m_Progress;
