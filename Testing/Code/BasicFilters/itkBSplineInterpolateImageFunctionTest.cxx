@@ -78,12 +78,12 @@
   void set3DDerivativeData(ImageType3D::Pointer);
 
 template<class TImage>
-void set3DInterpData(TImage::Pointer imgPtr)
+void set3DInterpData(typename TImage::Pointer imgPtr)
 {
   SizeType3D size = {{80,40,30}};
 
   /* Allocate a simple test image */
-  TImage::RegionType region;
+  typename TImage::RegionType region;
   region.SetSize( size );
 
   imgPtr->SetLargestPossibleRegion( region );
