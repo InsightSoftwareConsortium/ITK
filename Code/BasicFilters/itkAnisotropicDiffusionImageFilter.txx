@@ -32,6 +32,7 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
   m_NumberOfIterations = 0;
   m_ConductanceParameter = 1.0;
   m_ConductanceScalingParameter = 1.0;
+  m_ConductanceScalingUpdateInterval = 0.0;
   m_TimeStep = 0.5 / pow(2.0, static_cast<double>(ImageDimension));
   m_FixedAverageGradientMagnitude = 0.0;
   m_GradientMagnitudeIsFixed = false;
