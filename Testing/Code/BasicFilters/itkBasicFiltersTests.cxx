@@ -120,6 +120,8 @@ void RegisterTests()
   REGISTER_TEST(itkMirrorPadImageTest );
   REGISTER_TEST(itkMultiplyImageFilterTest );
   REGISTER_TEST(itkNaryAddImageFilterTest );
+  REGISTER_TEST(itkNarrowBandImageFilterBaseTest );
+  REGISTER_TEST(itkNarrowBandTest );
   REGISTER_TEST(itkNeighborhoodConnectedImageFilterTest  );
   REGISTER_TEST(itkNeighborhoodOperatorImageFilterTest );
   REGISTER_TEST(itkNormalizeImageFilterTest  );
