@@ -936,7 +936,7 @@ void AnalyzeImageIO::ReadImageInformation()
   //Get Dictionary Information
   //Insert Orientation.
   {
-  char temp[348];
+//  char temp[348];
   //Important hk fields.
   itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   std::string classname(this->GetNameOfClass());
