@@ -67,27 +67,12 @@ public:
   itkNewMacro(Self) ;
 
   
-  unsigned int Evaluate(std::vector< double > discriminantScores)
-  {
-    double max = discriminantScores[0] ;
-    unsigned int maxIndex = 0 ;
-    unsigned int i ;
-    for (i = 0 ; i < discriminantScores.size() ; i++)
-      {
-        if (discriminantScores[i] > max) 
-          {
-            max = discriminantScores[i] ;
-            maxIndex = i ;
-          }
-      }
-    return maxIndex ;
-  }
+  unsigned int Evaluate(std::vector< double > discriminantScores) ;
 
 protected:
   MaxDecisionRule() {}
   virtual ~MaxDecisionRule() {}
-  void PrintSelf(std::ostream& os, Indent indent) const 
-  { Superclass::PrintSelf(os, indent) ; } 
+  void PrintSelf(std::ostream& os, Indent indent) const ;
 } ; // end of class
 
 
