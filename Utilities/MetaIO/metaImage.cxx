@@ -1204,6 +1204,7 @@ M_SetupWriteFields(void)
     }
 
   mF = new MET_FieldRecordType;
+
   MET_TypeToString(m_ElementType, s);
   MET_InitWriteField(mF, "ElementType", MET_STRING, strlen(s), s);
   m_Fields.push_back(mF);
@@ -1226,8 +1227,8 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
 
   if(m_HeaderSize>(int)0)
     {
-    _fstream->seekg(m_HeaderSize, std::ios::cur);
-    if((int)_fstream->gcount() != m_HeaderSize)
+    _fstream->seekg(m_HeaderSize, std::ios::beg);
+    if(!_fstream->good())
       {
       std::cout << "MetaImage: Read: header not read correctly" << std::endl;
       return false;
