@@ -48,7 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/* constructor: seting the default value of the parameters */
+/* Constructor: setting the default parameter values. */
 template <class TInputImage, class TOutputImage>
 VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 ::VoronoiSegmentationImageFilterBase()
@@ -62,7 +62,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   m_OutputBoundary = 0;
 }
 
-/* destructor */
+/* Destructor. */
 template <class TInputImage, class TOutputImage>
 VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 ::~VoronoiSegmentationImageFilterBase()
