@@ -84,12 +84,12 @@ public:
   /** 
    * Turn debugging output on. 
    */
-  virtual void DebugOn();
+  virtual void DebugOn() const;
 
   /** 
    * Turn debugging output off. 
    */
-  virtual void DebugOff();
+  virtual void DebugOff() const;
   
   /** 
    * Get the value of the debug flag. 
@@ -99,7 +99,7 @@ public:
   /** 
    * Set the value of the debug flag. A non-zero value turns debugging on.
    */
-  void SetDebug(bool debugFlag);
+  void SetDebug(bool debugFlag) const;
   
   /** 
    * Return this objects modified time. 
@@ -157,7 +157,7 @@ private:
   /**
    * Enable/Disable debug messages.
    */
-  bool m_Debug;
+  mutable bool m_Debug;
   
   /**
    * Keep track of modification time.

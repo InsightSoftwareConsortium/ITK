@@ -66,7 +66,7 @@ Object
  */
 void 
 Object
-::DebugOn()
+::DebugOn() const
 {
   m_Debug = true;
 }
@@ -77,7 +77,7 @@ Object
  */
 void 
 Object
-::DebugOff()
+::DebugOff() const
 {
   m_Debug = false;
 }
@@ -99,7 +99,7 @@ Object
  */
 void 
 Object
-::SetDebug(bool debugFlag)
+::SetDebug(bool debugFlag) const
 {
   m_Debug = debugFlag;
 }
