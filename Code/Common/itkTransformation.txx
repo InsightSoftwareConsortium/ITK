@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTransform.txx
+  Module:    $RCSfile: 
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,9 +13,11 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef _itkTransform_txx
-#define _itkTransform_txx
 
+#ifndef _itkTransformation_txx
+#define _itkTransformation_txx
+
+#include "itkTransformation.h"
 
 namespace itk
 {
@@ -23,20 +25,20 @@ namespace itk
 /**
  * Constructor
  */
-template <class TParameters>
-Transform<TParameters>
-::Transform()
+template <class TScalarType,int NDimensions>
+Transformation<TScalarType,NDimensions>
+::Transformation()
 {
-  m_Parameters = ParametersType::New();
+ 
 }
 
 
 /**
  * Constructor
  */
-template <class TParameters>
-Transform<TParameters>
-::Transform( const Self & other )
+template <class TScalarType,int NDimensions>
+Transformation<TScalarType,NDimensions>
+::Transformation( const Self & other )
 {
 }
 
@@ -44,9 +46,9 @@ Transform<TParameters>
 /**
  * Assignment Operator
  */
-template <class TParameters>
-const Transform<TParameters> &
-Transform<TParameters>
+template <class TScalarType,int NDimensions>
+const Transformation<TScalarType,NDimensions> &
+Transformation<TScalarType,NDimensions>
 ::operator=( const Self & other )
 {
   return *this;
@@ -55,5 +57,6 @@ Transform<TParameters>
 
 
 } // end namespace itk
+
 
 #endif
