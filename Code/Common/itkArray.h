@@ -98,7 +98,7 @@ public:
   
   typedef unsigned long   SizeType;
 
-private:
+protected:
   friend class Reference;
   /** \class ArrayCommaListCopier
    * Allows an Array to be assigned to a comma-separated list.
@@ -141,6 +141,7 @@ public:
   
   Array& operator= (const Array& r);
   Array& operator= (const Reference& r);
+  Array& operator= (const ConstReference& r);
   Array& operator= (const ValueType r[Length]);
   ArrayCommaListCopier operator= (const ValueType& r);
   
@@ -164,7 +165,7 @@ public:
   const_reference operator[](unsigned long index) const  { return m_InternalArray[index]; }
   //@}
 
-  operator ValueType* () 
+  operator ValueType* ()
     { return m_InternalArray; }
   operator const ValueType* () const
     { return m_InternalArray; }
@@ -179,8 +180,6 @@ public:
    */
   ::vnl_vector_ref<ValueType> Get_vnl_vector()
     {return ::vnl_vector_ref<ValueType>(Length, m_InternalArray);}
-  ::vnl_vector_ref<const ValueType> Get_vnl_vector() const
-    {return ::vnl_vector_ref<const ValueType>(Length, m_InternalArray);}
   
 private:
   /**
@@ -223,6 +222,15 @@ public:
       for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
       return *this;
     }
+    
+    Reference& operator= (const ConstReference& r)
+    {
+      if(r.Begin() == m_InternalArray) return *this;
+      ConstIterator input = r.Begin();
+      for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
+      return *this;
+    }
+    
     Reference& operator= (const ValueType r[Length])
     {
       if(r == m_InternalArray) return *this;
@@ -298,8 +306,6 @@ public:
      */
     ::vnl_vector_ref<ValueType> Get_vnl_vector()
       {return ::vnl_vector_ref<ValueType>(Length, m_InternalArray);}
-    ::vnl_vector_ref<const ValueType> Get_vnl_vector() const
-      {return ::vnl_vector_ref<const ValueType>(Length, m_InternalArray);}
     
   private:
     /**
@@ -356,12 +362,6 @@ public:
     SizeType       Size() const
       {return Length;}
 
-    /**
-     * Get a reference to the array that can be treated as a vnl vector.
-     */
-    ::vnl_vector_ref<const ValueType> Get_vnl_vector() const
-      {return ::vnl_vector_ref<const ValueType>(Length, m_InternalArray);}
-    
   private:
     /**
      * Store a pointer to the real memory.

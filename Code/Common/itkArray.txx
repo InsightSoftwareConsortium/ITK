@@ -113,6 +113,23 @@ Array<TValueType, VLength>
 
 
 /**
+ * Assignment operator copies all Array values.
+ * Values are copied individually instead of with a binary copy.  This
+ * allows the ValueType's assignment operator to be executed.
+ */
+template <typename TValueType, unsigned long VLength>
+Array<TValueType, VLength>&
+Array<TValueType, VLength>
+::operator= (const ConstReference& r)
+{
+  if(r.Begin() == m_InternalArray) return *this;
+  ConstIterator input = r.Begin();
+  for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
+  return *this;
+}
+
+
+/**
  * Assignment operator assumes input points to array of correct size.
  * Values are copied individually instead of with a binary copy.  This
  * allows the ValueType's assignment operator to be executed.
