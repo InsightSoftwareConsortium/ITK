@@ -26,7 +26,7 @@ namespace itk {
  * \brief Binary erosion of an image
  *
  * Erode an image using binary morphology. Gray scale images can be
- * processed as binary images by selecting a "ErodeValue".  Pixel values
+ * processed as binary images by selecting an "ErodeValue".  Pixel values
  * matching the erode value are considered the "foreground" and all other
  * pixels are "background". This is useful in processing segmented images
  * where all pixels in segment #1 have value 1 and pixels in segment #2
@@ -43,7 +43,8 @@ namespace itk {
  * The structuring element is assumed to be composed of binary values
  * (zero or one). Only elements of the structuring element having
  * values > 0 ("on" values) are candidates for affecting the center
- * pixel.
+ * pixel.  A reasonable choice of structuring element is 
+ * itk::BinaryBallStructuringElement.
  *
  * 
  * For the each input image pixel, 

@@ -22,7 +22,7 @@
 namespace itk {
 
 /** \class BinaryDilateImageFilter
- * \brief binary dilation of an image
+ * \brief Binary dilation of an image
  *
  * Dilate an image using binary morphology. Gray scale images can be
  * processed as binary images by selecting a "DilateValue".  Pixel values
@@ -36,9 +36,11 @@ namespace itk {
  * pixels in the image under the structuring element have a value of
  * "DilateValue" and that structuring element value is greater than 0.
  *
- * The structuring element is assumed to be composed of binary
- * values (zero or one). Only elements of the structuring element
- * having values > 0 are candidates for affecting the center pixel.
+ * The structuring element is assumed to be composed of binary values
+ * (zero or one). Only elements of the structuring element having
+ * values > 0 are candidates for affecting the center pixel.  A
+ * reasonable choice of structuring element is
+ * itk::BinaryBallStructuringElement.
  *
  * If none of the pixels under the structuring element have
  * DilateValue, the pixel under the center pixel value of the
