@@ -165,12 +165,26 @@ int main()
   for( unsigned int j = 0; j < 4; j++ )
     {
     if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.02 )
+      {
+      std::cout << j << " ";
+      std::cout << solution[j] << " ";
+      std::cout << trueParameters[j] << " ";
+      std::cout << vnl_math_abs( solution[j] - trueParameters[j] ) << " ";
+      std::cout << std::endl;
       pass = false;
+      }
     }
   for( unsigned int j = 4; j < 6; j++ )
     {
     if( vnl_math_abs( solution[j] - trueParameters[j] ) > 1.0 )
+      {
+      std::cout << j << " ";
+      std::cout << solution[j] << " ";
+      std::cout << trueParameters[j] << " ";
+      std::cout << vnl_math_abs( solution[j] - trueParameters[j] ) << " ";
+      std::cout << std::endl;
       pass = false;
+      }
     }
 
   if( !pass )
