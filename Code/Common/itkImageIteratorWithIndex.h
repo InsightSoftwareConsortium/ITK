@@ -320,7 +320,7 @@ public:
    */
   bool IsAtBegin()
     {
-    return (m_Position == m_Begin);
+      return !m_Remaining;
     }
 
   /**
