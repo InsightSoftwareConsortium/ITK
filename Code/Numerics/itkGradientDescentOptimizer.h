@@ -69,7 +69,7 @@ public:
   } StopConditionType;
 
   /** Methods to configure the cost function. */
-  itkGetMacro( Maximize, bool );
+  itkGetConstMacro( Maximize, bool );
   itkSetMacro( Maximize, bool );
   itkBooleanMacro( Maximize );
   bool GetMinimize( ) const

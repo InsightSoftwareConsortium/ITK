@@ -56,7 +56,7 @@ public:
 
   /** Specify whether to minimize or maximize the cost function. */
   itkSetMacro( Maximize, bool );
-  itkGetMacro( Maximize, bool );
+  itkGetConstMacro( Maximize, bool );
   itkBooleanMacro( Maximize );
   bool GetMinimize( ) const
   { return !m_Maximize; }
