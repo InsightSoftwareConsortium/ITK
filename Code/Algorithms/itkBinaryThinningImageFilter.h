@@ -17,6 +17,7 @@
 #ifndef __itkBinaryThinningImageFilter_h
 #define __itkBinaryThinningImageFilter_h
 
+#include <itkNeighborhoodIterator.h>
 #include <itkImageToImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
 
