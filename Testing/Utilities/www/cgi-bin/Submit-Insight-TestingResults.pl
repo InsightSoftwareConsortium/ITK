@@ -1,7 +1,15 @@
 #!/usr/bin/perl -ws
 #
-# Script that will move Insight testing results from /ftp/incoming to the 
+# Script that will move testing results from /ftp/incoming to the 
 # appropriate location for dashboard summarization.  
+#
+# Installation:
+#    Place this script in your cgi-bin area. 
+#    Change the name of the script to match the "TriggerSite" that Build.tcl.in
+#        uses.  This is currently defined in a toplevel CMakeLists.txt file.
+#    Change the variables "dropLocation" and "destination" to match your 
+#        installation. "destination" probably needs to end in 
+#        "Testing/HTML/TestingResults/Sites" for the XSLT scripts to run.
 #
 ###
 
@@ -11,9 +19,16 @@ use File::Copy;
 use File::Path;
 
 
+#
+# Change these two variables to suit your own installation
+#
 $dropLocation = "/ftp/incoming";
 $destination = "/insight/TestingTree/Insight-TestingResults/Testing/HTML/TestingResults/Sites";
 
+
+#
+# Nothing should need to be changed below this point
+#
 $query = CGI::new();
 $xmlfile = $query->param("xmlfile");
 $xmlfile =~ s/%(..)/sprintf("%c", hex($1))/g;   # unquote %-quoted
