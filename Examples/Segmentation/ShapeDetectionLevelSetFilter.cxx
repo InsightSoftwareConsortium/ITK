@@ -693,6 +693,8 @@ int main( int argc, char **argv )
   //
   //  \index{itk::ShapeDetectionLevelSetImageFilter!SetMaximumRMSError()}
   //  \index{itk::ShapeDetectionLevelSetImageFilter!SetMaximumIterations()}
+  //  \index{itk::SegmentationLevelSetImageFilter!SetMaximumRMSError()}
+  //  \index{itk::SegmentationLevelSetImageFilter!SetMaximumIterations()}
   //
   //  Software Guide : EndLatex 
 

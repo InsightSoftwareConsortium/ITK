@@ -20,7 +20,7 @@
 // The following example illustrates the use of the
 // \doxygen{GeodesicActiveContourLevelSetImageFilter}.  The implementation of this
 // filter in ITK is based on the paper by Caselles \cite{Caselles1997}.  
-// This implementation extends the funtionality of \doxygen{ShapeDetectionLevelSetFilter}
+// This implementation extends the funtionality of \doxygen{ShapeDetectionLevelSetImageFilter}
 // by the addition of a third avection term which attracts the level set to
 // the object boundaries.
 //
@@ -31,7 +31,7 @@
 // \doxygen{ShapeDetectionLevelSetImageFilter} discussed in
 // section~\ref{sec:ShapeDetectionLevelSetFilter}.  The configuration of this
 // example is quite similar to the example on the use of the
-// \doxygen{ShapeDetectionLevelSetFilter}. We omit most of the redundant
+// \doxygen{ShapeDetectionLevelSetImageFilter}. We omit most of the redundant
 // description. A look at the code will reveal the large similarity between
 // both examples.
 //
@@ -47,7 +47,7 @@
 // components involved in the application of the
 // \doxygen{GeodesicActiveContourLevelSetImageFilter} to a segmentation task.
 // This pipeline is quite similar to the one used by the
-// \doxygen{ShapeDetectionLevelSetFilter} in
+// \doxygen{ShapeDetectionLevelSetImageFilter} in
 // section~\ref{sec:ShapeDetectionLevelSetFilter}.
 //
 // The pipeline involves a first stage of smoothing using the
@@ -609,7 +609,7 @@ int main( int argc, char **argv )
   // 
   //  Segmentations of the main brain structures are presented in Figure
   //  ~\ref{fig:GeodesicActiveContourImageFilterOutput2}. The Results are quite
-  //  similar to those obtained with the \doxygen{ShapeDetectionLevelSetFilter}
+  //  similar to those obtained with the \doxygen{ShapeDetectionLevelSetImageFilter}
   //  in section~\ref{sec:ShapeDetectionLevelSetFilter}.
   //
   //  Note that a relatively larger propagation scaling value was required to segment the 
