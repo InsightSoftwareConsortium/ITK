@@ -20,7 +20,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 
-int itkPNGImageIOTest(int argc, char **argv)
+int itkPNGImageIOTest(int argc, char * argv[])
 {
   // This test is usually run with the data file
   // Insight/Testing/Data/Input/cthead1.png

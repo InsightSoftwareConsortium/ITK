@@ -21,7 +21,7 @@
 #include "itkImageFileReader.h"
 #include "itkVTKImageIO.h"
 
-int itkVTKImageIOTest(int, char**)
+int itkVTKImageIOTest(int, char* [] )
 {
   typedef itk::Image<float,2> FloatImageType;
 

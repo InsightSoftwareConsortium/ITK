@@ -22,7 +22,7 @@
 #include "itkImage.h"
 
 
-int itkRawImageIOTest2(int argc, char **argv)
+int itkRawImageIOTest2(int argc, char * argv [])
 {
 
   if ( argc < 2 )

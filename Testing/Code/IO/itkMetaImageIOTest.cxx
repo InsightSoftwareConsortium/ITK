@@ -21,7 +21,7 @@
 #include "itkMetaImageIOFactory.h"
 
 
-int itkMetaImageIOTest(int ac, char** av)
+int itkMetaImageIOTest(int ac, char* av[])
 {
   if(ac < 2)
     {

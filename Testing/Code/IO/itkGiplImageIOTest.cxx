@@ -20,7 +20,7 @@
 #include "itkGiplImageIOFactory.h"
 
 
-int itkGiplImageIOTest(int ac, char** av)
+int itkGiplImageIOTest( int ac, char* av[] )
 {
 
  if(ac < 2)

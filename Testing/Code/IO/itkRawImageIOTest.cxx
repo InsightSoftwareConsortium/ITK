@@ -22,7 +22,7 @@
 #include "itkRawImageIO.h"
 #include "itkImageRegionConstIterator.h"
 
-int itkRawImageIOTest(int, char**)
+int itkRawImageIOTest(int, char* [])
 {
   typedef itk::Image<unsigned short,2>    ImageType;
   typedef ImageType::PixelType            PixelType;

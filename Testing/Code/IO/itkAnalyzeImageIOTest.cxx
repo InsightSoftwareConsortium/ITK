@@ -175,7 +175,7 @@ template <typename T> int MakeImage()
 
 //template int MakeImage<char>();
 
-int itkAnalyzeImageIOTest(int ac, char** av)
+int itkAnalyzeImageIOTest(int ac, char* av[] )
 {
   int rval = 0;
   int cur_return;

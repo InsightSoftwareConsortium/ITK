@@ -19,7 +19,7 @@
 #include "itkVOLImageIOFactory.h"
 #include "itkImage.h"
 
-int itkVOLImageIOTest(int ac, char** av)
+int itkVOLImageIOTest(int ac, char* av[])
 {
 
   if(ac < 2)

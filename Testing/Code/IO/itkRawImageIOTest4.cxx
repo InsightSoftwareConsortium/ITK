@@ -109,7 +109,7 @@ int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )
 
 
 
-int itkRawImageIOTest4(int, char**)
+int itkRawImageIOTest4(int, char*[])
 {
 
   typedef unsigned short PixelType;

@@ -20,7 +20,7 @@
 #include "itkImage.h"
 #include "itkDicomImageIOFactory.h"
 
-int itkDicomImageIOTest(int ac, char** av)
+int itkDicomImageIOTest(int ac, char* av[])
 {
 
   if(ac < 2)
