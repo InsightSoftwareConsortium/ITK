@@ -6,6 +6,7 @@
 
 void RegisterTests()
 {
+  REGISTER_TEST(itkBasicFiltersPrintTest );
   REGISTER_TEST(itkAcosImageFilterAndAdaptorTest );
   REGISTER_TEST(itkAdaptImageFilterTest );
   REGISTER_TEST(itkAdaptImageFilterTest2 );
