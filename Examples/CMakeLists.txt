@@ -1,5 +1,4 @@
 SUBDIRS( 
-  Installation
   DataRepresentation
   Filtering
   IO
