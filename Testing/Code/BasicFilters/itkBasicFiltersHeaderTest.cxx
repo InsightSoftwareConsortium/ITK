@@ -150,6 +150,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVectorExpandImageFilter.txx"
 #include "itkVectorGradientAnisotropicDiffusionImageFilter.h"
 #include "itkVectorGradientNDAnisotropicDiffusionFunction.txx"
+#include "itkVectorIndexSelectionCastImageFilter.h"
 #include "itkVectorNeighborhoodOperatorImageFilter.txx"
 #include "itkWarpImageFilter.txx"
 #include "itkWrapPadImageFilter.txx"
