@@ -160,11 +160,6 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
   double dLogSumRef    = 0.0;
   double dLogSumJoint  = 0.0;
 
-  double nsamp          = double( m_NumberOfSpatialSamples );
-  double targetDenom    = nsamp * m_TargetStandardDeviation;
-  double referenceDenom = nsamp * m_ReferenceStandardDeviation;
-  double jointDenom     =
-    nsamp * m_TargetStandardDeviation * m_ReferenceStandardDeviation;
 
   typename SpatialSampleContainer::const_iterator aiter;
   typename SpatialSampleContainer::const_iterator aend = m_SampleA.end();
@@ -196,21 +191,17 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 
       } // end of sample A loop
 
-    dSumTarget /= targetDenom;
-    dSumRef    /= referenceDenom;
-    dSumJoint  /= jointDenom;
-
     dLogSumTarget -= log( dSumTarget );
     dLogSumRef    -= log( dSumRef );
     dLogSumJoint  -= log( dSumJoint );
 
     } // end of sample B loop
 
-  dLogSumTarget /= nsamp;
-  dLogSumRef    /= nsamp;
-  dLogSumJoint  /= nsamp;
+  double nsamp   = double( m_NumberOfSpatialSamples );
 
   m_MatchMeasure = dLogSumTarget + dLogSumRef - dLogSumJoint;
+  m_MatchMeasure /= nsamp;
+  m_MatchMeasure += log( nsamp );
 
   std::cout << m_MatchMeasure << std::endl;
 
@@ -266,12 +257,6 @@ DerivativeType& derivative)
   double dLogSumRef    = 0.0;
   double dLogSumJoint  = 0.0;
 
-  double nsamp          = double( m_NumberOfSpatialSamples );
-  double targetDenom    = nsamp * m_TargetStandardDeviation;
-  double referenceDenom = nsamp * m_ReferenceStandardDeviation;
-  double jointDenom     =
-    nsamp * m_TargetStandardDeviation * m_ReferenceStandardDeviation;
-
   typename SpatialSampleContainer::iterator aiter;
   typename SpatialSampleContainer::const_iterator aend = m_SampleA.end();
   typename SpatialSampleContainer::iterator biter;
@@ -318,9 +303,9 @@ DerivativeType& derivative)
 
       } // end of sample A loop
 
-    dLogSumTarget -= log( dSumTarget / targetDenom );
-    dLogSumRef -= log( dDenominatorRef / referenceDenom );
-    dLogSumJoint -= log( dDenominatorJoint / jointDenom );
+    dLogSumTarget -= log( dSumTarget );
+    dLogSumRef    -= log( dDenominatorRef );
+    dLogSumJoint  -= log( dDenominatorJoint );
 
     // get the image derivative for this B sample
     this->CalculateDerivatives( (*biter).TargetPointValue, derivB );
@@ -345,7 +330,7 @@ DerivativeType& derivative)
       weightRef = valueRef / dDenominatorRef;
       weightJoint = valueRef * valueTarget / dDenominatorJoint;
 
-      weight = ( weightRef - weightJoint ) / m_ReferenceStandardDeviation;
+      weight = ( weightRef - weightJoint );
       weight *= (*biter).ReferenceValue - (*aiter).ReferenceValue;
 
       m_MatchMeasureDerivatives += ( derivB - (*aditer) ) * weight;
@@ -354,13 +339,15 @@ DerivativeType& derivative)
 
     } // end of sample B loop
 
-  dLogSumTarget /= nsamp;
-  dLogSumRef /= nsamp;
-  dLogSumJoint /= nsamp;
 
-  m_MatchMeasure = dLogSumTarget + dLogSumRef - dLogSumJoint;
+  double nsamp    = double( m_NumberOfSpatialSamples );
+
+  m_MatchMeasure  = dLogSumTarget + dLogSumRef - dLogSumJoint;
+  m_MatchMeasure /= nsamp;
+  m_MatchMeasure += log( nsamp );
 
   m_MatchMeasureDerivatives /= nsamp;
+  m_MatchMeasureDerivatives /= vnl_math_sqr( m_ReferenceStandardDeviation );
 
   std::cout << m_MatchMeasure << std::endl;
 
@@ -409,14 +396,14 @@ DerivativeType& derivatives )
   TargetIndexType refIndex;
 
   typename MapperType::Pointer mapper = GetMapper();
-  typename TargetType::Pointer target = GetTarget();
+  typename TargetType::Pointer reference = mapper->GetDomain();
 
   refPoint = mapper->GetTransformation()->Transform( point );
 
   for( unsigned int j = 0; j < TargetImageDimension; j++ )
     {
     refIndex[j] = (long) vnl_math_rnd( refPoint[j] /
-      target->GetSpacing()[j] );
+      reference->GetSpacing()[j] );
     }
 
   Vector<double, TargetImageDimension> imageDerivatives;
