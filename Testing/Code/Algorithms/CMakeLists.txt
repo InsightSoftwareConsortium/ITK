@@ -12,6 +12,7 @@ SET(ALGORITHMS_HEADER_TESTS ${CXX_TEST_PATH}/itkAlgorithmsHeaderTest)
 ADD_TEST(itkAlgorithmsPrintTest ${ALGORITHMS_TESTS} itkAlgorithmsPrintTest)
 ADD_TEST(itkAlgorithmsPrintTest2 ${ALGORITHMS_TESTS} itkAlgorithmsPrintTest2)
 ADD_TEST(itkAntiAliasBinaryImageFilterTest ${ALGORITHMS_TESTS} itkAntiAliasBinaryImageFilterTest)
+ADD_TEST(itkAutomaticTopologyMeshSourceTest ${ALGORITHMS_TESTS} itkAutomaticTopologyMeshSourceTest)
 ADD_TEST(itkBinaryMinMaxCurvatureFlowImageFilterTest ${ALGORITHMS_TESTS} itkBinaryMinMaxCurvatureFlowImageFilterTest )
 ADD_TEST(itkBinaryMask3DMeshSourceTest ${ALGORITHMS_TESTS} itkBinaryMask3DMeshSourceTest )
 ADD_TEST(itkCannySegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkCannySegmentationLevelSetImageFilterTest)
@@ -89,6 +90,7 @@ SET(AlgorithmsTest_SRCS
 itkAlgorithmsPrintTest.cxx
 itkAlgorithmsPrintTest2.cxx
 itkAntiAliasBinaryImageFilterTest.cxx
+itkAutomaticTopologyMeshSourceTest.cxx
 itkBinaryMinMaxCurvatureFlowImageFilterTest.cxx
 itkBinaryMask3DMeshSourceTest.cxx
 itkCannySegmentationLevelSetImageFilterTest.cxx
