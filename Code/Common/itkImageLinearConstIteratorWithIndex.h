@@ -149,19 +149,23 @@ public:
     { this->ImageConstIteratorWithIndex<TImage>::operator=(it); }
 
   /** Go to the next line.
-   * \sa operator++  \sa operator-- \sa EndOfLine \sa PreviousLine \sa End */
+   * \sa operator++  \sa operator-- \sa IsAtEndOfLine \sa PreviousLine \sa End */
   inline void NextLine(void);
 
   /** Go to the previous line.
-   * \sa operator++ \sa operator-- \sa EndOfLine \sa NextLine \sa End */
+   * \sa operator++ \sa operator-- \sa IsAtEndOfLine \sa NextLine \sa End */
   inline void PreviousLine(void);
 
   /** Go to the beginning pixel of the current line.
-   * \sa GoToReverseBeginOfLine \sa operator++ \sa operator-- \sa NextLine \sa EndOfLine */
+   * \sa GoToReverseBeginOfLine \sa operator++ \sa operator-- \sa NextLine \sa IsAtEndOfLine */
   void GoToBeginOfLine(void);
 
+  /** Go to the beginning pixel of the current line.
+   * \sa GoToBeginOfLine \sa operator++ \sa operator-- \sa NextLine \sa IsAtEndOfLine */
+  void GoToReverseBeginOfLine(void);
+
   /** Go to the past end pixel of the current line.
-   * \sa GoToBeginOfLine \sa operator++ \sa operator-- \sa NextLine \sa EndOfLine */
+   * \sa GoToBeginOfLine \sa operator++ \sa operator-- \sa NextLine \sa IsAtEndOfLine */
   void GoToEndOfLine(void);
 
   /** Test if the index is at the end of line */

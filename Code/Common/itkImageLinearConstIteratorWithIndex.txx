@@ -123,6 +123,20 @@ ImageLinearConstIteratorWithIndex<TImage>
 }
 
 
+//----------------------------------------------------------------------
+//  Go to the last pixel of the current line
+//----------------------------------------------------------------------
+template<class TImage>
+void 
+ImageLinearConstIteratorWithIndex<TImage>
+::GoToReverseBeginOfLine(void)
+{
+  long distanceToEnd = 
+    m_EndIndex[ m_Direction ] - m_PositionIndex[ m_Direction ] - 1;
+  m_Position += m_Jump * distanceToEnd; 
+  m_PositionIndex[m_Direction] = m_EndIndex[m_Direction];
+}
+
 
 
 //----------------------------------------------------------------------
