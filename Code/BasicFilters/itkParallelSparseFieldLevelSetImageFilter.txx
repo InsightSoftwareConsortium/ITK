@@ -63,7 +63,7 @@ ParallelSparseFieldCityBlockNeighborList<TNeighborhoodType>
     m_ArrayIndex.push_back( nCenter - it.GetStride(d) );
     m_NeighborhoodOffset[i][d] = -1;
     }
-  for (d = 0; d < Dimension; ++d, ++i)
+  for (d = 0; d < (int) Dimension; ++d, ++i)
     {
     m_ArrayIndex.push_back( nCenter + it.GetStride(d) );
     m_NeighborhoodOffset[i][d] = 1;
@@ -203,7 +203,7 @@ void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::Initialize()
 {
-  int i;
+  unsigned int i;
 
   // A node pool used during initialization of the level set.
   m_LayerNodeStore = LayerNodeStorageType::New();
@@ -370,7 +370,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       center_index = outputIt.GetIndex();
       statusIt.SetLocation( center_index );
       
-      for(int j = 0; j < ImageDimension; j++)
+      for(unsigned int j = 0; j < ImageDimension; j++)
         {
         if(center_index[j] <= startIndex[j] || center_index[j]
            >= startIndex[j]+ regionSize[j]-1)
@@ -398,7 +398,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         
         // Search the neighborhood pixels for first inside & outside layer
         // members.  Construct these lists and set status list values. 
-        for (int i = 0; i < m_NeighborList.GetSize(); ++i)
+        for (unsigned int i = 0; i < m_NeighborList.GetSize(); ++i)
           {
           offset_index = center_index + m_NeighborList.GetNeighborhoodOffset(i);
           
@@ -450,7 +450,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     // boundary will be ignored.
     statusIt.SetLocation( fromIt->m_Index );
     
-    for (int i = 0; i < m_NeighborList.GetSize(); ++i)
+    for (unsigned int i = 0; i < m_NeighborList.GetSize(); ++i)
       {
       if ( statusIt.GetPixel( m_NeighborList.GetArrayIndex(i) ) == m_StatusNull )
         {
@@ -492,7 +492,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     shiftedIt.SetLocation( activeIt->m_Index );
     
     length = m_ValueZero;
-    for (int i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
       {
       stride = shiftedIt.GetStride(i);
       
@@ -539,7 +539,7 @@ void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::PropagateLayerValues(StatusType from, StatusType to, StatusType promote, int InOrOut)
 {
-  int i;
+  unsigned int i;
   ValueType value, value_temp, delta;
   bool found_neighbor_flag;
   LayerNodeType* node;
@@ -770,7 +770,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::ThreadedAllocateData (int ThreadId)
 {
   static const float SAFETY_FACTOR = 4.0;
-  int i, j;
+  unsigned int i, j;
   // create semaphores
   m_Data[ThreadId].m_Semaphore[0] = Semaphore::New ();
   m_Data[ThreadId].m_Semaphore[1] = Semaphore::New ();
