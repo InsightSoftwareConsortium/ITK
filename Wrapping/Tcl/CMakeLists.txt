@@ -1,6 +1,11 @@
-INCLUDE_DIRECTORIES(${TCL_INCLUDE_PATH}
-                    ${CABLE_INCLUDE_DIR})
+INCLUDE(${CMAKE_ROOT}/Modules/FindTCL.cmake)
 
-SUBDIRS(Common)
+INCLUDE_DIRECTORIES(${TCL_INCLUDE_PATH}
+                    ${CABLE_INCLUDE_DIR}
+                    ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/doc
+                    ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vnl)
+
+SUBDIRS(Common BasicFilters Algorithms)
 
 INCLUDE(${ITK_SOURCE_DIR}/Wrapping/Tcl/itkConfigureTclPackages.cmake)
+
