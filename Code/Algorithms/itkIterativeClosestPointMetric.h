@@ -94,8 +94,13 @@ public:
   void GetValueAndDerivative( const TransformParametersType & parameters,
                               MeasureType& Value, DerivativeType& Derivative ) const;
 
+  /** Set/Get the distance map */
   itkSetObjectMacro(DistanceMap,DistanceMapType);
   itkGetConstObjectMacro(DistanceMap,DistanceMapType);
+
+  /** Set/Get if the distance should be squared. Default is not for computation speed */
+  itkSetMacro(ComputeSquaredDistance,bool);
+  itkGetMacro(ComputeSquaredDistance,bool);
 
 protected:
   IterativeClosestPointMetric();
@@ -109,6 +114,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   DistanceMapPointer m_DistanceMap;
+  bool               m_ComputeSquaredDistance;
 
 };
 
