@@ -18,7 +18,7 @@ NightlyDashboardStamp := $(shell date -u +%Y%m%d)-Nightly
 Dashboards = $(sort $(wildcard 20*))
 LatestDashboard = $(wordlist $(words $(Dashboards)),$(words $(Dashboards)), $(Dashboards))
 
-
+PreviousDashboards = $(wildcard 20*)
 
 MAKEFILES = $(CMAKE_CONFIG_DIR)/CMake/CMakeVariables.make $(CMAKE_CONFIG_DIR)/Testing/Utilities/CMakeTestingDashboardRules.make 
 
