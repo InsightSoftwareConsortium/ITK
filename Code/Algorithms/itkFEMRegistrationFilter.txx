@@ -1349,7 +1349,6 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sig
     }
 
     cpix=field->GetPixel(rindex);
-    Float dV;
     for(row=0; row< ImageDimension;row++)
       {
       difIndex[row][0]=rindex;
