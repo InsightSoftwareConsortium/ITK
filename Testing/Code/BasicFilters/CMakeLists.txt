@@ -182,7 +182,7 @@ ADD_TEST(itkThresholdImageFilterTest ${BASIC_FILTERS_TESTS} itkThresholdImageFil
 ADD_TEST(itkThresholdLabelerImageFilterTest ${BASIC_FILTERS_TESTS} itkThresholdLabelerImageFilterTest)
 ADD_TEST(itkTransformMeshFilterTest ${BASIC_FILTERS_TESTS} itkTransformMeshFilterTest)
 ADD_TEST(itkTriangleMeshToSimplexMeshFilterTest ${BASIC_FILTERS_TESTS} itkTriangleMeshToSimplexMeshFilterTest)
-
+ADD_TEST(itkTriangleMeshToSimplexMeshFilter2Test ${BASIC_FILTERS_TESTS} itkTriangleMeshToSimplexMeshFilter2Test)
 ADD_TEST(itkTwoOutputExampleImageFilterTest ${BASIC_FILTERS_TESTS} itkTwoOutputExampleImageFilterTest)
 ADD_TEST(itkVectorAnisotropicDiffusionImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorAnisotropicDiffusionImageFilterTest)
 ADD_TEST(itkVectorExpandImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorExpandImageFilterTest)
@@ -625,6 +625,7 @@ itkThresholdLabelerImageFilterTest.cxx
 itkTobogganImageFilterTest.cxx
 itkTransformMeshFilterTest.cxx
 itkTriangleMeshToSimplexMeshFilterTest.cxx
+itkTriangleMeshToSimplexMeshFilter2Test.cxx
 itkTwoOutputExampleImageFilterTest.cxx
 itkVectorAnisotropicDiffusionImageFilterTest.cxx
 itkVectorExpandImageFilterTest.cxx

@@ -193,6 +193,7 @@ void RegisterTests()
   REGISTER_TEST(itkTobogganImageFilterTest );
   REGISTER_TEST(itkTransformMeshFilterTest );
   REGISTER_TEST(itkTriangleMeshToSimplexMeshFilterTest);
+  REGISTER_TEST(itkTriangleMeshToSimplexMeshFilter2Test);
   REGISTER_TEST(itkTwoOutputExampleImageFilterTest );
   REGISTER_TEST(itkVectorAnisotropicDiffusionImageFilterTest );
   REGISTER_TEST(itkVectorExpandImageFilterTest );
