@@ -92,6 +92,7 @@ const unsigned short TestingImage [400]={
 };
 
 int itkGibbsTest(int, char**)
+//int main() 
 {
 std::cout<< "Gibbs Prior Test Begins: " << std::endl;
 
