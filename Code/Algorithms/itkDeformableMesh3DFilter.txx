@@ -25,15 +25,56 @@ namespace itk
 template <typename TInputMesh, typename TOutputMesh>
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::DeformableMesh3DFilter()
+  : m_Forces(0),
+    m_Normals(0),
+    m_Displacements(0),
+    m_Derives(0),
+    m_Locations(0),
+    m_Input(0),
+    m_Output(0),
+    NStiffness(),
+    SStiffness(),
+    CStiffness(),
+    K(0),
+    m_StiffnessV(0.00001),
+    m_StiffnessH(0.04),
+    m_TimeStep(0.001),
+    m_XResolution(10),
+    m_YResolution(10),
+    m_ZResolution(10),
+    m_Center (IndexType::ZeroIndex),
+    m_MiniT(0.0),
+    m_Step(0),
+    m_NumNodes(0),
+    m_NumCells(0),
+    m_NumNewNodes(0),
+    m_GapLocations(0),
+    m_NewNode(0),
+    m_NewNodesExisted(0),
+    m_NewNodeLimit(0),
+    m_ImageWidth(0),
+    m_ImageHeight(0),
+    m_ImageDepth(0),
+    m_ModelXUpLimit(0),
+    m_ModelXDownLimit(0),
+    m_ModelYUpLimit(0),
+    m_ModelYDownLimit(0),
+    m_ModelZUpLimit(0),
+    m_ModelZDownLimit(0),
+    m_ACD(0),
+    m_ModelRestart(0),
+    m_StepThreshold(100),
+    m_FirstSlice(0),
+    m_NeighborRadius(5),
+    m_ObjectLabel(1),
+    m_ZDistance(1.0),
+    m_ModelDistanceToBoundaryThreshold(0.0),
+    m_ModelDistanceToBoundary(5.0),
+    m_SliceDistanceThreshold(1.0),
+    m_Potential(0),
+    m_Gradient(0),
+    m_ImageOutput(0)
 {
-  m_Step = 0;
-  m_FirstSlice = 0;
-  m_NewNode = 0;
-  m_ZDistance = 1;
-  m_ModelDistanceToBoundary = 5.0;
-  typename TOutputMesh::Pointer output = TOutputMesh::New();
-  this->ProcessObject::SetNumberOfRequiredOutputs(1);
-  this->ProcessObject::SetNthOutput(0, output.GetPointer());
 }
 
 
