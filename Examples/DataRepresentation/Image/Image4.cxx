@@ -14,6 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
 // Software Guide : BeginLatex
 //
 // Even though \href{http://www.itk.org}{ITK} can be used to perform
