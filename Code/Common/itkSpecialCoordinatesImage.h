@@ -268,7 +268,7 @@ public:
   virtual void SetSpacing( const SpacingType _arg ) {}
   virtual void SetSpacing( const double [VImageDimension] ) {}
   virtual void SetSpacing( const float [VImageDimension] ) {}
-  virtual void SetOrigin( PointType _arg ) {}
+  virtual void SetOrigin( PointType ) {}
   virtual void SetOrigin( const double [VImageDimension] ) {}
   virtual void SetOrigin( const float [VImageDimension] ) {}
   
@@ -282,7 +282,7 @@ public:
   
   template<class TCoordRep>
   virtual bool TransformPhysicalPointToIndex(
-            const Point<TCoordRep, VImageDimension>& point,
+            const Point<TCoordRep, VImageDimension>&,
             IndexType & index                                ) const = 0;
 
   template<class TCoordRep>
