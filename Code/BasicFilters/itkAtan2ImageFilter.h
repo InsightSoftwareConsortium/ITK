@@ -58,7 +58,7 @@ namespace itk
  * used as parameters of \c atan2(). The resulting \c double value
  * is casted to the output pixel type.
  *
- * \ingroup IntensityImageFilters
+ * \ingroup IntensityImageFilters Multithreaded
  *
  *
  */
