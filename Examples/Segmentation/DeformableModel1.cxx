@@ -374,7 +374,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The output of the image reader is connected as input to the gradient
-  //  magnitude filter. Then the value of sigma used to blurr the image is
+  //  magnitude filter. Then the value of sigma used to blur the image is
   //  selected using the method \code{SetSigma()}. 
   //
   //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!SetInput()}
