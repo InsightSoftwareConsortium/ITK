@@ -8,11 +8,13 @@ ${ITK_SOURCE_DIR}/Code/Numerics/Statistics
 )
 
 LINK_DIRECTORIES(
+${ITK_BINARY_DIR}/Code/Algorithms
 ${ITK_BINARY_DIR}/Code/BasicFilters
 )
 
 LINK_LIBRARIES (
 ITKIO
+ITKAlgorithms
 ITKBasicFilters
 ITKCommon
 ITKNumerics
