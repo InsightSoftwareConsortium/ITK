@@ -89,7 +89,7 @@ double NormalVariateGenerator::FastNorm(void)
   int q;
   int r;
   int s;
-  int t = 0;
+  int t;
   int *pa = 0;
   int *pb = 0;
   int *pc = 0;
