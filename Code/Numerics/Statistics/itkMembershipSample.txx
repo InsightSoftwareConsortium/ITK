@@ -33,7 +33,6 @@ MembershipSample< TSample >
 ::SetSample(TSample* sample)
 {
   m_Sample = sample ; 
-  m_ClassLabelHolder.resize(m_Sample->Size()) ;
 }
 
 template< class TSample >
@@ -99,7 +98,7 @@ inline unsigned int
 MembershipSample< TSample >
 ::GetClassLabel(const InstanceIdentifier &id) const
 {
-  return m_ClassLabelHolder[id] ;
+  return (*(m_ClassLabelHolder.find(id))).second ;
 }
 
 template< class TSample >

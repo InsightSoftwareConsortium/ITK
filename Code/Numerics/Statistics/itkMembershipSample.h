@@ -17,9 +17,7 @@
 #ifndef __itkMembershipSample_h
 #define __itkMembershipSample_h
 
-#include <map>
-#include <set>
-
+#include "itk_hash_map.h"
 #include "itkSample.h"
 #include "itkSubsample.h"
 
@@ -82,7 +80,7 @@ public:
 
   /** Typedef for the storage that holds a class label for each instance.
    * The relationship between instances and class label is one-to-one */
-  typedef std::vector< unsigned int > ClassLabelHolderType ;
+  typedef itk::hash_map< InstanceIdentifier, unsigned int> ClassLabelHolderType ;
   
   /** Typedef for each subsample that stores instance identifers of instances
    * that belong to a class */
@@ -132,7 +130,12 @@ public:
   
   /** returns the total frequency for the 'd' dimension */
   FrequencyType GetTotalFrequency(const unsigned int &d) const ;
-  
+
+  void Resize(unsigned int n) 
+  {
+    m_ClassLabelHolder.resize(n) ;
+  }
+
   class Iterator;
   friend class Iterator;
   
