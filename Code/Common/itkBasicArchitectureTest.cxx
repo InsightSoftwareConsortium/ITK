@@ -20,6 +20,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRandomImage.h"
 #include "itkShrinkImage.h"
 #include "itkVTKImageWriter.h"
+#include "itkVTKImageReader.h"
 
 template <class T, unsigned int TImageDimension>
 int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim = 0)
@@ -117,6 +118,11 @@ int main()
 {
   // Begin by creating a simple pipeline
   //
+  // Create another source
+  itkVTKImageReader< itkImage<itkScalar<float>,2> >::Pointer reader;
+  reader = itkVTKImageReader< itkImage<itkScalar<float>,2> >::New();
+  reader->SetFileName("junkInput.vtk");
+
   // Create a source
   itkRandomImage< itkImage<itkScalar<float>,2> >::Pointer random;
   random = itkRandomImage< itkImage<itkScalar<float>,2> >::New();

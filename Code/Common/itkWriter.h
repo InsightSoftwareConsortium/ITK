@@ -43,7 +43,7 @@ public:
   /** 
    * Get the name of the output file.
    */
-  const char *GetFileName() 
+  const char *GetFileName() const
     {itkGetStringMacro(m_FileName);}
   
   /** 
@@ -55,17 +55,20 @@ public:
   /** 
    * Get the file type.
    */
-  int GetFileType() {itkGetMacro(m_FileType);}
+  int GetFileType() const
+    {itkGetMacro(m_FileType);}
   
   /** 
    * Specify the output file type as ASCII (the default).
    */
-  void SetFileTypeToASCII() {this->SetFileType(ITK_ASCII);}
+  void SetFileTypeToASCII() 
+    {this->SetFileType(ITK_ASCII);}
 
   /** 
    * Specify the output file type to binary.
    */
-  void SetFileTypeToBinary() {this->SetFileType(ITK_BINARY);}
+  void SetFileTypeToBinary() 
+    {this->SetFileType(ITK_BINARY);}
 
   /** 
    * A special version of the Update() method for writers.
