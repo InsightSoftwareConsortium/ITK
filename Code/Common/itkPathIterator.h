@@ -113,7 +113,7 @@ public:
     // However, we don't want a warning about m_Image being a ConstPointer
     // in the Superclass.
     const_cast<ImageType *>(this->m_Image.GetPointer())->
-      SetPixel(this->GetCurrentImageIndex(),value);
+      SetPixel(this->m_CurrentImageIndex,value);
     }
 
   /** Return a reference to the pixel 
@@ -121,7 +121,7 @@ public:
    * data, but it will NOT support ImageAdaptors. */
   PixelType & Value(void) 
     {
-    return this->GetImage()->GetPixel(this->GetCurrentImageIndex());
+    return this->GetImage()->GetPixel(this->m_ImageIndex);
     }
 
   /** operator= is provided to make sure the handles to the image and path are

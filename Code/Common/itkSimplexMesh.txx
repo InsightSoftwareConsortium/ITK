@@ -89,7 +89,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 
   if (mesh)
     {
-    this->SetMaximumNumberOfRegions( mesh->GetMaximumNumberOfRegions() );
+    this->m_MaximumNumberOfRegions = mesh->GetMaximumNumberOfRegions();
     }
   else
     {
