@@ -60,9 +60,9 @@ int main()
   spatialFunc->SetRadius( 5 );
 
   TFunctionPositionType center;
-  center[0]=10;
-  center[1]=10;
-  center[2]=10;
+  center[0]=0;
+  center[1]=0;
+  center[2]=0;
   spatialFunc->SetCenter(center);
 
   std::cout << "Sphere spatial function created\n";
