@@ -75,6 +75,7 @@ public:
     EndPickEvent,
     AbortCheckEvent,
     ExitEvent,
+    ModifiedEvent,
     AnyEvent,
     UserEvent = 1000
   };
