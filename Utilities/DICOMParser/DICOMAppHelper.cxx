@@ -67,11 +67,11 @@ DICOMAppHelper::~DICOMAppHelper()
     }
   if (this->TransferSyntaxUID)
     {
-    delete [] this->TransferSyntaxUID;
+    delete this->TransferSyntaxUID;
     }
   if (this->PhotometricInterpretation)
     {
-    delete [] this->PhotometricInterpretation;
+    delete this->PhotometricInterpretation;
     }
 
   delete this->SeriesUIDCB;
@@ -430,9 +430,6 @@ void DICOMAppHelper::TransferSyntaxCallback(doublebyte,
   static char* TRANSFER_UID_EXPLICIT_BIG_ENDIAN = "1.2.840.10008.1.2.2";
 
 
-  //
-  // HERE?
-  // 
   DICOMMemberCallback<DICOMAppHelper>* cb = new DICOMMemberCallback<DICOMAppHelper>;
   cb->SetCallbackFunction(this, &DICOMAppHelper::ToggleSwapBytesCallback);
 
@@ -447,7 +444,7 @@ void DICOMAppHelper::TransferSyntaxCallback(doublebyte,
   
   if (this->TransferSyntaxUID)
     {
-    delete [] this->TransferSyntaxUID;
+    delete this->TransferSyntaxUID;
     }
   this->TransferSyntaxUID = new std::string((char*) val);
 
@@ -478,7 +475,6 @@ void DICOMAppHelper::ToggleSwapBytesCallback(doublebyte,
                                              quadbyte len) 
 {
   delete [] val;
-  std::cout << "ToggleSwapBytesCallback" << std::endl;
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "ToggleSwapBytesCallback" << std::endl;
 #endif
@@ -574,7 +570,7 @@ void DICOMAppHelper::PhotometricInterpretationCallback( doublebyte,
 #endif
   if (this->PhotometricInterpretation)
     {
-    delete [] this->PhotometricInterpretation;
+    delete this->PhotometricInterpretation;
     }
 
   this->PhotometricInterpretation = new std::string((char*) val);
