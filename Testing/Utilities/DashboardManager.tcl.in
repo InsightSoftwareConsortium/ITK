@@ -189,17 +189,13 @@ foreach Command $Commands \
       {
 	Nig* \
 	{
-	  set Status [catch {
-	    set NightlyBuilds [glob [file join $TestingBaseDir Sites * * ${NightlyDateStamp}*]]
-	  } Result]
-	  if { $Status } { puts $Result }
+	  # Get both the nightlies and the experimentals...
+	  set NightlyBuilds [glob -nocomplain -- [file join $TestingBaseDir Sites * * ${NightlyDateStamp}-Nightly] [file join $TestingBaseDir Sites * * ${NightlyDateStamp}????] ]
+	  # lappend NightlyBuilds [glob -nocomplain -- [file join $TestingBaseDir Sites * * ${NightlyDateStamp}????] ]
 	}
 	Exp* \
 	{
-	  set Status [catch {
-	    set NightlyBuilds [glob [file join $TestingBaseDir Sites * * [MakeDateStamp]*]]
-	  } Result]
-	  if { $Status } { puts $Result }p
+	  set NightlyBuilds [glob -nocomplain -- [file join $TestingBaseDir Sites * * [MakeDateStamp]*]]
 	}
       }
 	  
