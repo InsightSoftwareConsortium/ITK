@@ -153,9 +153,9 @@ struct ImageJointDomainTraits
                       PixelTraitsType::Dimension ) ;
   typedef itk::JoinTraits<
     TCoordRep, 
-    PixelTraitsType::ValueType > JoinTraitsType ;
+    typename PixelTraitsType::ValueType > JoinTraitsType ;
 
-  typedef JoinTraitsType::ValueType MeasurementType ;
+  typedef typename JoinTraitsType::ValueType MeasurementType ;
 
   typedef itk::FixedArray< MeasurementType, itkGetStaticConstMacro(Size) >
   MeasurementVectorType ;
@@ -164,13 +164,13 @@ struct ImageJointDomainTraits
 template < class TImage, class TCoordRep >
 class ITK_EXPORT DummyJointDomainImageToListAdaptor : 
   public DummyImageToListAdaptor< TImage,
-                                  ImageJointDomainTraits< 
+                                  typename ImageJointDomainTraits< 
   TImage, TCoordRep >::MeasurementVectorType >
 {
 public:
   typedef DummyJointDomainImageToListAdaptor Self ;
   typedef DummyImageToListAdaptor< TImage,
-                                   ImageJointDomainTraits< TImage, TCoordRep >::MeasurementVectorType > 
+                                   typename ImageJointDomainTraits< TImage, TCoordRep >::MeasurementVectorType > 
   Superclass ;
   
   typedef itk::SmartPointer< Self > Pointer ;
