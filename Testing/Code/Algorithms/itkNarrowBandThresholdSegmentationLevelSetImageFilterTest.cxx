@@ -73,27 +73,25 @@ void evaluate_function(itk::Image<char, 3> *im,
 
 namespace itk {
 
-class RMSCommand : public Command
+class NBRMSCommand : public Command
 {
 public:
   /** Smart pointer declaration methods */
-  typedef RMSCommand Self;
+  typedef NBRMSCommand Self;
   typedef Command Superclass;
   typedef itk::SmartPointer<Self>  Pointer;
   typedef itk::SmartPointer<const Self>  ConstPointer;
-  itkTypeMacro( RMSCommand, Command );
+  itkTypeMacro( NBRMSCommand, Command );
   itkNewMacro(Self);
 
   /** Standard Command virtual methods */
   void Execute(Object *caller, const EventObject &)
   {
-    //std::cout <<
-      //(dynamic_cast<SparseFieldLevelSetImageFilter< ::NBTS::SeedImageType, ::NBTS::ImageType> *>(caller))->GetRMSChange()
-      //        << std::endl;
     std::cout <<
-      (dynamic_cast<NarrowBandLevelSetImageFilter< ::NBTS::SeedImageType, ::NBTS::ImageType> *>(caller))->GetSegmentationFunction()->GetPropagationWeight()
+      (dynamic_cast<NarrowBandLevelSetImageFilter< ::NBTS::SeedImageType,
+       ::NBTS::ImageType> *>(caller))->GetSegmentationFunction()->GetPropagationWeight()
               << std::endl;
-   
+    
   }
   void Execute(const Object *, const EventObject &)
   {
@@ -102,8 +100,8 @@ public:
   }
 
 protected:
-  RMSCommand()  {}
-  virtual ~RMSCommand() {}
+  NBRMSCommand()  {}
+  virtual ~NBRMSCommand() {}
 };
 
 }
@@ -111,8 +109,6 @@ protected:
 
 int itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
 {
-  std::cout << "Last modified 11/08/02" << std::endl;
-  
   NBTS::ImageType::RegionType reg;
   NBTS::ImageType::RegionType::SizeType sz;
   NBTS::ImageType::RegionType::IndexType idx;
@@ -162,7 +158,7 @@ int itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
                                       // function so that negative values result in
                                       // surface growth.
   
-  itk::RMSCommand::Pointer c = itk::RMSCommand::New();
+  itk::NBRMSCommand::Pointer c = itk::NBRMSCommand::New();
   filter->AddObserver(itk::IterationEvent(), c); 
   filter->SetIsoSurfaceValue(0.5);  //<--- IMPORTANT!  Default is zero.
   
