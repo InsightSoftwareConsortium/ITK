@@ -253,10 +253,6 @@ private:
   // if the LargestPossibleRegion were updated.
   unsigned long m_EstimatedWholeMemorySize;
 
-  // How many upstream filters are local to the process.
-  // This supports distributed processing (i.e., asynchronous updates).
-  float m_Locality;  
-  
   // Static member that controls global data release after use by filter.
   //
   static bool m_GlobalReleaseDataFlag;
