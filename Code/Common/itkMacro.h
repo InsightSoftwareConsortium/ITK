@@ -83,6 +83,9 @@ namespace itk
 #if defined(__SUNPRO_CC) && (__SUNPRO_CC <= 0x520)
 #   define ITK_NO_INCLASS_MEMBER_INITIALIZATION
 #endif
+#if defined(__SVR4) && !defined(__SUNPRO_CC)
+#   define ITK_NO_INCLASS_MEMBER_INITIALIZATION
+#endif
 
 #if defined(_MSC_VER) && (_MSC_VER <= 1300) 
 #define ITK_NO_SELF_AS_TRAIT_IN_TEMPLATE_ARGUMENTS
