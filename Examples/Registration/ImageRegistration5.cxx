@@ -370,11 +370,10 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  We set also the normal parameters of the optimization method. In this
-  //  case we are using 
-  //  A \code{RegularStepGradientDescentOptimizer} is used in this case. Below,
-  //  we define the optimization parameters like initial step length, minimal
-  //  step length and number of iterations. These last two act as stopping
-  //  criteria for the optimization.
+  //  case we are using A \code{RegularStepGradientDescentOptimizer}. Below, we
+  //  define the optimization parameters like initial step length, minimal step
+  //  length and number of iterations. These last two act as stopping criteria
+  //  for the optimization.
   //
   //  Software Guide : EndLatex 
 
@@ -448,21 +447,21 @@ int main( int argc, char **argv )
   //
   //  The second image is the result of intentionally rotating the first image
   //  by $10$ degrees. Both images have unit-spacing and are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration5}. The registration takes $13$
+  //  \ref{fig:FixedMovingImageRegistration5}. The registration takes $16$
   //  iterations and produce as result the parameters:
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [0.175342, 110.498, 128.499, 0.00630779, 0.00103069]
+  //  [0.177491, 110.487, 128.489, 0.0111713, 0.00250842]
   //  \end{verbatim}
   //  \end{center}
   //
   //  That are interpreted as
   //
   //  \begin{itemize}
-  //  \item Angle         =                     $0.175342$   radians
-  //  \item Center        = $( 110.498     , 128.499      )$ millimeters
-  //  \item Translation   = $(   0.00630779,   0.00103069 )$ millimeters
+  //  \item Angle         =                     $0.177491$   radians
+  //  \item Center        = $( 110.487     , 128.489      )$ millimeters
+  //  \item Translation   = $(   0.0111713,   0.00250842 )$ millimeters
   //  \end{itemize}
   //  
   // 
@@ -491,12 +490,27 @@ int main( int argc, char **argv )
   // \label{fig:ImageRegistration5Outputs}
   // \end{figure}
   //
-
   // Figure \ref{fig:ImageRegistration5Outputs} shows the output of the
   // registration. The right most image of this Figure shows the squared
   // magnitude of pixel differences between the fixed image and the resampled
   // moving image. It can be seen on the difference image that the rotational
   // component was solved but a centering miss-registration persists.
+  //
+  // \begin{figure}
+  // \center
+  // \includegraphics[height=5cm]{ImageRegistration5TraceMetric.eps}
+  // \includegraphics[height=5cm]{ImageRegistration5TraceAngle.eps}
+  // \includegraphics[height=5cm]{ImageRegistration5TraceTranslations.eps} 
+  // \caption{Plots of the Metric, rotation angle and translations during the registration using 
+  // CenteredRigid2D transform.}
+  // \label{fig:ImageRegistration5Plots}
+  // \end{figure}
+  //
+  //  Figure \ref{fig:ImageRegistration5Plots} shows the plots of the main
+  //  output parameters of the registration process. The metric values at every
+  //  iteration are shown on the top. The angle values are shown in the plot at
+  //  left while the translation components of the registration are presented
+  //  in the plot at right.
   //
   //  Software Guide : EndLatex 
 
@@ -597,18 +611,10 @@ int main( int argc, char **argv )
   //  convergence it is convenient here to use a larger step length. For
   //  example, with the following change:
   //
-  //  Software Guide : EndLatex 
-
-
-  // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( 1.0 );
-  // Software Guide : EndCodeSnippet
-
-
-  //  Software Guide : BeginLatex
+  //  \code{optimizer->SetMaximumStepLength( 1.0 );}
   //
-  //  The registration takes this time $96$ iterations and produce as result
-  //  the parameters:
+  //  The registration takes now $96$ iterations and produce as result the
+  //  parameters:
   //
   //  \begin{center}
   //  \begin{verbatim}
@@ -628,7 +634,7 @@ int main( int argc, char **argv )
   //  These values reasonably match the miss-registration intentionally
   //  introduced in the moving image. Since $10$ degrees is about $0.174532$
   //  radians. The horizontal translation is well resolved while the vertical
-  //  translation ends up being off by a bit more thatn one millimeter.
+  //  translation ends up being off by a bit more than one millimeter.
   //
   // \begin{figure}
   // \center
@@ -651,12 +657,28 @@ int main( int argc, char **argv )
   // \label{fig:ImageRegistration5Outputs2}
   // \end{figure}
   //
-
   // Figure \ref{fig:ImageRegistration5Outputs2} shows the output of the
   // registration. The right most image of this Figure shows the squared
   // magnitude of pixel differences between the fixed image and the resampled
   // moving image. 
   //
+  // \begin{figure}
+  // \center
+  // \includegraphics[height=5cm]{ImageRegistration5TraceMetric2.eps}
+  // \includegraphics[height=5cm]{ImageRegistration5TraceAngle2.eps}
+  // \includegraphics[height=5cm]{ImageRegistration5TraceTranslations2.eps} 
+  // \caption{Plots of the Metric, rotation angle and translations during the registration using 
+  // CenteredRigid2D transform on an image with rotation and translation miss-registration.}
+  // \label{fig:ImageRegistration5Plots2}
+  // \end{figure}
+  //
+  //  Figure \ref{fig:ImageRegistration5Plotss} shows the plots of the main
+  //  output parameters of the registration process for the rotation and
+  //  translations combined. The metric values at every iteration are shown on
+  //  the top. The angle values are shown in the plot at left while the
+  //  translation components of the registration are presented in the plot at
+  //  right.
+ //
   //  Software Guide : EndLatex 
 
 
