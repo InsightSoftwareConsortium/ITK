@@ -15,7 +15,7 @@
 
 =========================================================================*/
 #include "itkGrayscaleDilateImageFilter.h"
-#include "itkGrayscaleBallStructuringElement.h"
+#include "itkBinaryBallStructuringElement.h"
 #include "itkImage.h"
 
 #ifdef CABLE_CONFIGURATION
@@ -29,12 +29,12 @@ namespace _cable_
   {
     namespace structuringElement 
     {
-      typedef itk::GrayscaleBallStructuringElement<float, 2 >::Self             F2;
-      typedef itk::GrayscaleBallStructuringElement<float, 3 >::Self             F3;
-      typedef itk::GrayscaleBallStructuringElement<unsigned char, 2 >::Self     UC2;
-      typedef itk::GrayscaleBallStructuringElement<unsigned char, 3 >::Self     UC3;
-      typedef itk::GrayscaleBallStructuringElement<unsigned short, 2 >::Self    US2;
-      typedef itk::GrayscaleBallStructuringElement<unsigned short, 3 >::Self    US3;
+      typedef itk::BinaryBallStructuringElement<float, 2 >::Self             F2;
+      typedef itk::BinaryBallStructuringElement<float, 3 >::Self             F3;
+      typedef itk::BinaryBallStructuringElement<unsigned char, 2 >::Self     UC2;
+      typedef itk::BinaryBallStructuringElement<unsigned char, 3 >::Self     UC3;
+      typedef itk::BinaryBallStructuringElement<unsigned short, 2 >::Self    US2;
+      typedef itk::BinaryBallStructuringElement<unsigned short, 3 >::Self    US3;
     }
 
     //===========2D Wrapped Filters==============
