@@ -696,3 +696,8 @@ BIN_ABSPATH           = /usr/bin/
 # the documentation for these projects as well. 
 
 EXT_DOC_PATHS         = 
+
+# The DISTRIBUTE_GROUP_DOC is used to distribute documentation in a group
+# to all members of the group. 
+
+DISTRIBUTE_GROUP_DOC  = YES
