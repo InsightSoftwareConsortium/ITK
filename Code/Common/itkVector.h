@@ -15,28 +15,21 @@
 #ifndef __itkVector_h
 #define __itkVector_h
 
-#include "itkMacro.h"
-#include "vnl/vnl_vector.txx"
-#include "vnl/vnl_vector_fixed.txx"
-#include "vnl/vnl_c_vector.txx"
 
-#include <memory.h>
+#include "itkArray.h"
 
 namespace itk
 {
 
 /** \class Vector
- * \brief A templated class holding a n vector values and responding to
- *        the GetVector() method.
+ * \brief A templated class holding a n-Dimensional vector.
  * 
  * Vector is a templated class that holds a single vector (i.e., an array
  * of values).  Vector can be used as the data type held at each pixel in
  * an Image or at each vertex of an Mesh. The template parameter T can
  * be any data type that behaves like a primitive (or atomic) data type (int,
  * short, float, complex).  The TVectorDimension defines the number of
- * components in the vector array. itk filters that rely on vector data
- * assume the data type held at each pixel or each vertex responds to
- * GetVector()/SetVector() methods. If not, a compile time error will occur.
+ * components in the vector array. 
  *
  * Vector is not a dynamically extendible array like std::vector. It is
  * intended to be used like a mathematical vector.
@@ -49,12 +42,14 @@ namespace itk
  * 
  * \sa Image
  * \sa Mesh
- * \sa Vector
- * \sa ScalarVector 
+ * \sa Point
+ * \sa CovariantVector
+ * \sa Matrix
+ *
  */
 
 template<class T, unsigned int TVectorDimension=3>
-class Vector {
+class Vector : public Array<T,TVectorDimension> {
  public:
   /**
    * Standard "Self" typedef.
@@ -68,16 +63,9 @@ class Vector {
   typedef T ValueType;
 
   /**
-   * VectorValueType can be used to declare a variable that is the same type
-   * as a data element held in an Vector.  
+   * Dimension of the Space
    */
-  typedef T VectorValueType;
-  
-  /**
-   * VectorType can be used to declare a variable that is the same type
-   * as the internal vector.  
-   */
-  typedef vnl_vector_fixed<T, TVectorDimension> VectorType;
+  enum { VectorDimension = TVectorDimension };
 
   /**
    * Get the dimension (size) of the vector.
@@ -85,160 +73,78 @@ class Vector {
   static unsigned int GetVectorDimension() 
     { return TVectorDimension; }
   
-  /**
-   * Get the vector. This provides a read only reference to the vector.
-   * \sa SetVector
-   */
-  const VectorType &GetVector() const 
-    { return m_Vector; }
-
-  /**
-   * Get the vector. This provides a read/write reference to the vector.
-   * \sa SetVector
-   */
-  VectorType &GetVector()  
-    { return m_Vector; }
   
-  /**
-   * Set the vector. 
-   * \sa GetVector
-   */
-  void SetVector(const VectorType &vec)
-    { m_Vector = vec; }
-
-
   /**
    * Operator=.  Assign a vector to a vector.
    */
-  Self& operator=(const Self& vec)
-  { m_Vector = vec.m_Vector; return *this; }
+  const Self& operator=(const Self& vec);
 
-  Self& operator=(const VectorType &vec)
-  { m_Vector = vec; return *this; }
 
-  /**
-   * Scalar operator=.  Sets all elements of the vector to the same value.
-   */
-  Self& operator=(const VectorValueType &value)
-  { m_Vector = value; return *this; }
-
-  /**
-   * Scalar operator+=.  Adds a scalar to all elements.
-   */
-  Self& operator+=(const VectorValueType &value)
-  { m_Vector += value; return *this; };
-
-  /**
-   * Scalar operator-=.  Subtracts a scalar to all elements.
-   */
-  Self& operator-=(const VectorValueType &value)
-  { m_Vector -= value; return *this; };
-  
   /**
    * Scalar operator*=.  Scales elements by a scalar.
    */
-  Self& operator*=(const VectorValueType &value)
-  { m_Vector *= value; return *this; };
+  const Self& operator*=(const ValueType &value);
+
 
   /**
    * Scalar operator/=.  Scales (divides) elements by a scalar.
    */
-  Self& operator/=(const VectorValueType &value)
-  { m_Vector /= value; return *this; };
-
+  const Self& operator/=(const ValueType &value);
 
 
   /**
    * Vector operator+=.  Adds a vectors to the current vector.
    */
-  Self& operator+=(const Self &vec)
-  { m_Vector += vec.m_Vector; return *this; };
+  const Self& operator+=(const Self &vec);
 
-  Self& operator+=(const VectorType &vec)
-  { m_Vector += vec; return *this; };
 
   /**
    * Vector operator-=.  Subtracts a vector from a current vector.
    */
-  Self& operator-=(const Self &vec)
-  { m_Vector -= vec.m_Vector; return *this; };
-
-  Self& operator-=(const VectorType &vec)
-  { m_Vector -= vec; return *this; };
-  
+  const Self& operator-=(const Self &vec);
 
 
   /**
    * Vector negation.  Negate all the elements of a vector. Return a new vector
    */
-  Self operator-() const
-  { Self vec(*this); vec *= -1; return vec; }
+  Self operator-() const;
   
+
   /**
    * Vector addition. Add two vectors. Return a new vector.
    */
-  Self operator+(const Self &vec) const
-  { Self result(*this); result.m_Vector += vec.m_Vector; return result; }
+  Self operator+(const Self &vec) const;
   
-  Self operator+(const VectorType &vec) const
-  { Self result(*this); result.m_Vector += vec; return result; }
 
-  /**
+   /**
    * Vector subtraction. Subtract two vectors. Return a new vector.
    */
-  Self operator-(const Self &vec) const
-  { Self result(*this); result.m_Vector -= vec.m_Vector; return result; }
+  Self operator-(const Self &vec) const;
   
-  Self operator-(const VectorType &vec) const
-  { Self result(*this); result.m_Vector -= vec; return result; }
-  
-  /**
-   * Scalar operator+. Add a scalar to all elements of a vector. Return
-   * a new vector.
-   */
-  Self operator+(const VectorValueType& val) const
-  { Self result(*this); result.m_Vector += val; return result; }
-    
-  /**
-   * Scalar operator-. Subtract a scalar from all elements of a vector.
-   * Return a new vector.
-   */
-  Self operator-(const VectorValueType& val) const
-  { Self result(*this); result.m_Vector -= val; return result; }
 
   /**
    * Scalar operator*. Scale the elements of a vector by a scalar.
    * Return a new vector.
    */
-  Self operator*(const VectorValueType& val) const
-  { Self result(*this); result.m_Vector *= val; return result; }
+  Self operator*(const ValueType& val) const;
   
+
   /**
    * Scalar operator/. Scale (divide) the elements of a vector by a scalar.
    * Return a new vector.
    */
-  Self operator/(const VectorValueType& val) const
-  { Self result(*this); result.m_Vector /= val; return result; }
+  Self operator/(const ValueType& val) const;
   
 
-  /**
-   * Access an element of a vector. This version can be used as an lvalue.
-   */
-  VectorValueType& operator[] (unsigned int i)
-  { return m_Vector[i]; }
-
-  /**
-   * Access an element of a vector. This version can only a rvalue.
-   */
-  VectorValueType operator[] (unsigned int i) const
-  { return m_Vector[i]; }
-
-  
-  private:
-    VectorType       m_Vector;
 };
 
   
 } // end namespace itk
+  
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkVector.txx"
+#endif
+
 
 #endif 
