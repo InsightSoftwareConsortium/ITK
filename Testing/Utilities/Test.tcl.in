@@ -98,6 +98,9 @@ proc CheckFile { Filename } \
 
 # For each test, cd to the directory, and run it.
 puts "\tRunning Tests"
+set ReportPassed 0
+set ReportFailed 0
+set ReportNotRun 0
 foreach Test $TestList \
 {
   cd [file dirname $Test]
@@ -136,6 +139,12 @@ foreach Test $TestList \
   {
     set Status failed
   }
+  switch $Status \
+  {
+    notrun { incr ReportNotRun }
+    passed { incr ReportPassed }
+    failed { incr ReportFailed }
+  }
   
   puts $Out "\t<Test Status=\"$Status\">"
   puts $Out "\t\t<Name>[XMLSafeString $Filename]</Name>"
@@ -157,6 +166,9 @@ puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
 puts $Out "</Testing>"
 puts $Out "</Site>"
 puts "\tTesting completed"
+puts "\t$ReportNotRun Tests Not Run"
+puts "\t$ReportFailed Tests Failed"
+puts "\t$ReportPassed Tests Passed"
 
 close $Out
 exit
