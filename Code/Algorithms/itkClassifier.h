@@ -80,10 +80,12 @@ public:
   typedef typename TInputImage::PixelType InputImageVectorType;
 
   /** Type definitions for the training image pixel type. */
-  typedef typename TClassifiedImage::Pointer ClassifiedImageType;   
+  typedef          TClassifiedImage              ClassifiedImageType;      
+  typedef typename ClassifiedImageType::Pointer  ClassifiedImagePointer;      
   
   /** Type definitions for the training image pixel type. */
-  typedef typename TClassifiedImage::Pointer TrainingImageType;      
+  typedef          TClassifiedImage             TrainingImageType;
+  typedef typename TrainingImageType::Pointer   TrainingImagePointer;
         
   /** Type definitions for the vector holding
    * training image pixel type. */
@@ -97,10 +99,10 @@ public:
   itkGetConstObjectMacro(InputImage,InputImageType);
 
   /** Set the classified image. */
-  itkSetMacro(ClassifiedImage,ClassifiedImageType);
+  itkSetObjectMacro(ClassifiedImage,ClassifiedImageType);
 
   /** Get the classified image. */
-  itkGetMacro(ClassifiedImage,ClassifiedImageType);
+  itkGetObjectMacro(ClassifiedImage,ClassifiedImageType);
 
   /** Set the number of classes. */
   itkSetMacro(NumberOfClasses, unsigned int);
@@ -130,7 +132,7 @@ public:
     double * results )=0;
 
   /** Set a training image (for supervised classifier). */
-  virtual void SetTrainingImage( TrainingImageType image ) {};
+  virtual void SetTrainingImage( TrainingImageType * image ) {};
 
 protected:
   Classifier();
@@ -146,7 +148,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   InputImageConstPointer      m_InputImage;
-  ClassifiedImageType         m_ClassifiedImage;
+  ClassifiedImagePointer      m_ClassifiedImage;
 
 }; // class Classifier
 
