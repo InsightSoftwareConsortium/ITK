@@ -139,7 +139,20 @@ class Point : public Array< TCoordRep, TPointDimension > {
    * Access an element of a point. This version can be used as an lvalue.
    */
   VectorType GetVectorFromOrigin( void ) const;
+
+
+  /**
+   * Returns Euclidean distance between two points
+   */
+  TCoordRep EuclideanDistanceTo( const Point &  ) const;
+
   
+  /**
+   * Returns Squared Euclidean distance between two points
+   */
+  TCoordRep SquaredEuclideanDistanceTo( const Point &  ) const;
+  
+
   /**
    * Get a vnl_vector_ref referencing the same memory block
    */
