@@ -29,7 +29,6 @@ int itkComposeRGBImageFilterTest(int argc, char * argv[] )
 
   typedef itk::ComposeRGBImageFilter< InputImageType >  FilterType;
 
-
   typedef InputImageType::RegionType RegionType;
   typedef InputImageType::SizeType   SizeType;
   typedef InputImageType::IndexType  IndexType;
@@ -65,6 +64,8 @@ int itkComposeRGBImageFilterTest(int argc, char * argv[] )
   blueImage->FillBuffer( 83 );
 
   filter->SetInput1( redImage );
+  filter->SetInput2( greenImage );
+  filter->SetInput3( blueImage );
 
   try
     {
@@ -74,6 +75,7 @@ int itkComposeRGBImageFilterTest(int argc, char * argv[] )
    {
    std::cerr << "Exception caught !" << std::endl;
    std::cerr << excp << std::endl;
+   return EXIT_FAILURE;
    }
 
   typedef FilterType::OutputImageType  OutputImageType;
