@@ -75,7 +75,7 @@ GoodnessOfFitMixtureModelCostFunction< TInputSample >
 {
   unsigned int size = 0 ;
   ComponentType* component ;
-  for ( int componentIndex = 0 ; componentIndex < m_Components.size() ;
+  for ( unsigned int componentIndex = 0 ; componentIndex < m_Components.size() ;
         componentIndex++ )
     {
       component = m_Components[componentIndex] ;
