@@ -10,7 +10,7 @@
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for detail.
 
      This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -700,7 +700,7 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
             l1=LoadBC::New();
             // now we get the element from the node -- we assume we need fix the dof only once
             // even if more than one element shares it.
-            l1->m_element=( *((*node)->m_elements.begin())); 
+            l1->m_element= (*elt);  // Fixed bug TS 1/17/03 ( *((*node)->m_elements.begin())); 
             unsigned int localdof=whichnode*ndofpernode+jj;
             l1->m_dof=localdof; // FIXME should be correct for each element
             l1->m_value=vnl_vector<double>(1,0.0);
