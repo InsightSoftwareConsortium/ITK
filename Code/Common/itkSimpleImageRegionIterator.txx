@@ -46,6 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
   
+  
 //----------------------------------------------------------------------
 //  Advance along the line
 //----------------------------------------------------------------------
@@ -70,6 +71,44 @@ SimpleImageRegionIterator<TImage>
       m_Position -= m_OffsetTable[ in ] * ( m_Region.GetSize()[in]-1 );
       m_PositionIndex[ in ] = m_BeginIndex[ in ]; 
     }
+  }
+
+  if( !m_Remaining ) // It will not advance here otherwise
+  {
+    m_Position = m_End;
+  }
+
+  return *this;
+}
+
+
+//----------------------------------------------------------------------
+//  Advance along the line in reverse direction
+//----------------------------------------------------------------------
+template<class TImage>
+SimpleImageRegionIterator<TImage> &
+SimpleImageRegionIterator<TImage>
+::operator--()
+{
+  
+  m_Remaining = false;
+  for( unsigned int in=0; in<TImage::ImageDimension; in++ )
+  {
+      
+      if( m_PositionIndex[ in ] > m_BeginIndex[ in ] )
+      {
+        m_PositionIndex[ in  ]--;
+        m_Position -= m_OffsetTable[in];
+        m_Remaining = true;
+        break;
+      }
+      else 
+      {
+        m_PositionIndex[ in  ]--;
+        m_Position -= m_OffsetTable[ in ] * ( m_Region.GetSize()[in]-1 );
+        m_PositionIndex[ in ] = m_BeginIndex[ in ]; 
+      }
+
   }
 
   if( !m_Remaining ) // It will not advance here otherwise

@@ -161,6 +161,18 @@ public:
    * \sa operator++(int)
    */
   Self & operator++();
+ 
+
+  /**
+   * Decrement (prefix) the fastest moving dimension of the iterator's index.
+   * This operator will constrain the iterator within the region (i.e. the
+   * iterator will automatically wrap from the beginning of the row of the region
+   * to the end of the next row of the region) up until the iterator
+   * tries to moves past the first pixel of the region.  Here, the iterator
+   * will be set to be one pixel past the beginning of the region.
+   * \sa operator--(int)
+   */
+  Self & operator--();
 
 };
 
