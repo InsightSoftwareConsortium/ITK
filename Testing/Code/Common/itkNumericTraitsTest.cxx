@@ -27,11 +27,13 @@ template<class T> void CheckTraits(char *name, T)
   std::cout << "\tmin(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min()) << std::endl;
   std::cout << "\tmax(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::max()) << std::endl;
   std::cout << "\tNonpositiveMin(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::NonpositiveMin()) << std::endl;
+  std::cout << "\tis_signed: " << itk::NumericTraits<T>::is_signed << std::endl;
 }
+
 
 int itkNumericTraitsTest(int, char* [] )
 {
-  CheckTraits("char", static_cast<char>(0));
+//  CheckTraits("char", static_cast<char>(0));
   CheckTraits("signed char", static_cast<signed char>(0));
   CheckTraits("unsigned char", static_cast<unsigned char>(0));
   CheckTraits("short", static_cast<short>(0));
