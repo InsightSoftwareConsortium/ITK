@@ -24,6 +24,7 @@
 
 #include "itkFEMLoadNode.h"
 #include "itkFEMLoadElementBase.h"
+#include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"
 
 #include "itkFEMUtility.h"
@@ -34,13 +35,44 @@ namespace fem {
 
 
 
+
 /**
+ * Default constructor for Solver class
+ */
+Solver::Solver()
+{
+  SetLinearSystemWrapper(&m_lsVNL);
+}
+
+
+
+
+/**
+ * Change the LinearSystemWrapper object used to solve
+ * system of equations.
+ */
+void Solver::SetLinearSystemWrapper(LinearSystemWrapper::Pointer ls)
+{ 
+  m_ls=ls; // update the pointer to LinearSystemWrapper object
+
+  // set the maximum number of matrices and vectors that
+  // we will need to store inside.
+  m_ls->SetNumberOfMatrices(1);
+  m_ls->SetNumberOfVectors(2);
+  m_ls->SetNumberOfSolutions(1);
+
+}
+
+
+
+
+/*
  * Read any object from stream
  */
 FEMLightObject::Pointer Solver::ReadAnyObjectFromStream(std::istream& f)
 {
 
-/** local variables */
+/* local variables */
 std::streampos l;
 char buf[256];
 std::string s;
@@ -65,7 +97,7 @@ start:
   s=s.substr(b,e-b);
   if ( s=="END" )
   {
-    /** 
+    /*
      * We can ignore this token. Start again by reading the next object.
      */
     goto start;
@@ -77,13 +109,13 @@ start:
   a=FEMObjectFactory<FEMLightObject>::Create(clID);
   if (!a) goto out;    // error creating new object of the derived class
 
-  /**
+  /*
    * now we have to read additional data, which is
    * specific to the class of object we just created
    */
   try {
 
-    /**
+    /*
      * Since we may have to provide addditional data to the
      * read function defined within the class, we use the
      * dynamic_cast operator to check for the object type
@@ -95,24 +127,24 @@ start:
 
     if (dynamic_cast<Element*>(&*a))
     {
-      /** Element classes... */
+      /* Element classes... */
       Element::ReadInfoType info(&node,&mat);
       a->Read(f,&info);
     }
     else if (dynamic_cast<Load*>(&*a))
     {
-      /** Load classes... */
+      /* Load classes... */
       Load::ReadInfoType info(&node,&el);
       a->Read(f,&info);
     }
     else
     {
-      /** All other classes (Nodes and Materials) require no additional info */
+      /* All other classes (Nodes and Materials) require no additional info */
       a->Read(f,0);
     }
 
   }
-  /**
+  /*
    * Catch possible exceptions while 
    * reading object's data from stream
    */
@@ -124,7 +156,7 @@ start:
     throw;    // rethrow the same exception
   }
 
-  /**
+  /*
    * Return a pointer to a newly created object if all was OK
    * Technically everithing should be fine here (a!=0), but we
    * check again, just in case.
@@ -133,13 +165,13 @@ start:
 
 out:
 
-  /**
+  /*
    * Something went wrong.
    * Reset the stream position to where it was before reading the object.
    */
   f.seekg(l);
 
-  /**
+  /*
    * Throw an IO exception
    */
   throw FEMExceptionIO(__FILE__,__LINE__,"Solver::ReadAnyObjectFromStream()","Error reading FEM problem stream!");
@@ -154,24 +186,24 @@ out:
  */
 void Solver::Read(std::istream& f) {
 
-  /** clear all arrays */
+  /* clear all arrays */
   el.clear();
   node.clear();
   mat.clear();
   load.clear();
 
   FEMLightObject::Pointer o=0;
-  /** then we start reading objects from stream */
+  /* then we start reading objects from stream */
   do
   {
     o=ReadAnyObjectFromStream(f);
-    /**
+    /*
      * If ReadAnyObjectFromStream returned 0, we're ok.
      * Just continue reading... and exit the do loop.
      */
     if (!o) { continue; }
 
-    /**
+    /*
      * Find out what kind of object did we read from stream
      * and store it in the appropriate array
      */
@@ -196,17 +228,17 @@ void Solver::Read(std::istream& f) {
       continue;
     }
 
-    /**
+    /*
      * If we got here something strange was in the file...
      */
 
-    /** first we delete the allocated object */
+    /* first we delete the allocated object */
     #ifndef FEM_USE_SMART_POINTERS
     delete o;
     #endif
     o=0;
 
-    /** then we throw an exception */
+    /* then we throw an exception */
     throw FEMExceptionIO(__FILE__,__LINE__,"Solver::Read()","Error reading FEM problem stream!");
 
   } while ( o );
@@ -301,59 +333,55 @@ void Solver::GenerateGFN() {
 /**
  * Assemble the master stiffness matrix (also apply the MFCs to K)
  */  
-void Solver::AssembleK() {
+void Solver::AssembleK()
+{
 
   // if no DOFs exist in a system, we have nothing to do
   if (NGFN<=0) return;
 
-  NMFC=0;  // number of MFC in a system
+  NMFC=0;  // reset number of MFC in a system
 
-  // temporary storage for pointers to LoadBCMFC objects
-  typedef std::vector<LoadBCMFC::Pointer> MFCArray;
-  MFCArray mfcLoads;
-
-  /**
+  /*
    * Before we can start the assembly procedure, we need to know,
-   * how many boundary conditions (MFCs) are there in a system.
+   * how many boundary conditions if form of MFCs are there in a system.
    */
-  mfcLoads.clear();
+
   // search for MFC's in Loads array, because they affect the master stiffness matrix
-  for(LoadArray::iterator l=load.begin(); l!=load.end(); l++) {
+  for(LoadArray::iterator l=load.begin(); l!=load.end(); l++)
+  {
     if ( LoadBCMFC::Pointer l1=dynamic_cast<LoadBCMFC*>( &(*(*l))) ) {
       // store the index of an LoadBCMFC object for later
       l1->Index=NMFC;
-      // store the pointer to a LoadBCMFC object for later
-      mfcLoads.push_back(l1);
       // increase the number of MFC
       NMFC++;
     }
   }
 
-  /**
-   * Now we can assemble the master stiffness matrix
-   * from element stiffness matrices. We use LinearSystemWrapper
+  /*
+   * Now we can assemble the master stiffness matrix from
+   * element stiffness matrices. We use LinearSystemWrapper
    * object, to store the K matrix.
    */
 
-  /**
+  /*
    * Since we're using the Lagrange multiplier method to apply the MFC,
    * each constraint adds a new global DOF.
    */
   m_ls->SetSystemOrder(NGFN+NMFC);
   m_ls->InitializeMatrix();
 
-  /**
+  /*
    * Step over all elements
    */
   for(ElementArray::iterator e=el.begin(); e!=el.end(); e++)
   {
-    vnl_matrix<Float> Ke=(*e)->Ke();  /** Copy the element stiffness matrix for faster access. */
-    int Ne=(*e)->GetNumberOfDegreesOfFreedom();          /** ... same for element DOF */
+    vnl_matrix<Float> Ke=(*e)->Ke();             /* Copy the element stiffness matrix for faster access. */
+    int Ne=(*e)->GetNumberOfDegreesOfFreedom();  /* ... same for element DOF */
     
-    /** step over all rows in in element matrix */
+    /* step over all rows in element matrix */
     for(int j=0; j<Ne; j++)
     {
-      /** step over all columns in in element matrix */
+      /* step over all columns in element matrix */
       for(int k=0; k<Ne; k++) 
       {
         /* error checking. all GFN should be =>0 and <NGFN */
@@ -380,32 +408,9 @@ void Solver::AssembleK() {
 
   }
 
-  /**
-   * When K is assembled, we add the multi freedom constraints
-   * contribution to the master stiffness matrix using the lagrange multipliers.
-   * Basically we only change the last couple of rows and columns in K.
-   */
-
-  /** step over all MFCs */
-  for(MFCArray::iterator c=mfcLoads.begin(); c!=mfcLoads.end(); c++)
-  {  
-    /** step over all DOFs in MFC */
-    for(LoadBCMFC::LhsType::iterator q=(*c)->lhs.begin(); q!=(*c)->lhs.end(); q++) {
-      
-      /** obtain the GFN of DOF that is in the MFC */
-      Element::DegreeOfFreedomIDType gfn=q->m_element->GetDegreeOfFreedom(q->dof);
-
-      /** error checking. all GFN should be =>0 and <NGFN */
-      if ( gfn>=NGFN )
-      {
-        throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleK()","Illegal GFN!");
-      }
-
-      m_ls->SetMatrixValue(gfn, NGFN+(*c)->Index, q->value);
-      m_ls->SetMatrixValue(NGFN+(*c)->Index, gfn, q->value);  // this is a symetric matrix...
-
-    }
-  }
+  // Apply the boundary conditions to the K matrix
+  // FIXME: maybe this should be called from outside
+  this->ApplyBC();
 
 }
 
@@ -417,19 +422,24 @@ void Solver::AssembleK() {
  */
 void Solver::AssembleF(int dim) {
 
-  /** if no DOFs exist in a system, we have nothing to do */
+  // Type that stores IDs of fixed DOF together with the values to
+  // which they were fixed.
+  typedef std::map<Float,Element::DegreeOfFreedomIDType> BCTermType;
+  BCTermType bcterm;
+
+  /* if no DOFs exist in a system, we have nothing to do */
   if (NGFN<=0) return;
   
-  /** Initialize the master force vector */
+  /* Initialize the master force vector */
   m_ls->InitializeVector();
 
-  /**
+  /*
    * Convert the external loads to the nodal loads and
    * add them to the master force vector F.
    */
   for(LoadArray::iterator l=load.begin(); l!=load.end(); l++) {
 
-    /**
+    /*
      * Store a temporary pointer to load object for later,
      * so that we don't have to access it via the iterator
      */
@@ -440,7 +450,7 @@ void Solver::AssembleF(int dim) {
      */
     l0->SetSolution(m_ls);
 
-    /**
+    /*
      * Here we only handle Nodal loads
      */
     if ( LoadNode::Pointer l1=dynamic_cast<LoadNode*>(&*l0) ) {
@@ -461,7 +471,7 @@ void Solver::AssembleF(int dim) {
           throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
         }
 
-        /**
+        /*
          * If using the extra dim parameter, we can apply the force to different isotropic dimension.
          *
          * FIXME: We assume that the implementation of force vector inside the LoadNode class is correct for given
@@ -475,7 +485,7 @@ void Solver::AssembleF(int dim) {
     }
 
 
-    /**
+    /*
      * Element loads...
      */
     if ( LoadElement::Pointer l1=dynamic_cast<LoadElement*>(&*l0) )
@@ -483,7 +493,7 @@ void Solver::AssembleF(int dim) {
 
       if ( !(l1->el.empty()) )
       {
-        /**
+        /*
          * If array of element pointers is not empty,
          * we apply the load to all elements in that array
          */
@@ -510,7 +520,7 @@ void Solver::AssembleF(int dim) {
       
       } else {
         
-        /**
+        /*
          * If the list of element pointers in load object is empty,
          * we apply the load to all elements in a system.
          */
@@ -539,24 +549,59 @@ void Solver::AssembleF(int dim) {
       continue;
     }
 
-    /**
-     * Boundary conditions in form of MFC loads are handled next.
+    /*
+     * Handle boundary conditions in form of MFC loads are handled next.
      */
-    if ( LoadBCMFC::Pointer l1=dynamic_cast<LoadBCMFC*>(&*l0) ) {
-
+    if ( LoadBCMFC::Pointer l1=dynamic_cast<LoadBCMFC*>(&*l0) )
+    {
       m_ls->SetVectorValue(NGFN+l1->Index , l1->rhs[dim]);
 
       // skip to next load in an array
       continue;
     }
 
-    /**
-     * If we got here a we were unable to handle that class of Load object.
+    /*
+     * Handle essential boundary conditions.
+     */
+    if ( LoadBC::Pointer l1=dynamic_cast<LoadBC*>(&*l0) )
+    {
+
+      // Here we just store the values of fixed DOFs. We can't set it here, because
+      // it may be changed by other loads that are applied later.
+      bcterm[ l1->m_element->GetDegreeOfFreedom(l1->m_dof) ]=l1->m_value[dim];
+
+       // skip to the next load in an array
+      continue;
+    }
+
+    /*
+     * If we got here, we were unable to handle that class of Load object.
      * We do nothing...
      */
 
 
   }  // for(LoadArray::iterator l ... )
+
+  /*
+   * Adjust the master force vector for essential boundary
+   * conditions as required.
+   */
+  if ( m_ls->IsVectorInitialized(1) )
+  {
+    // Add the vector generated by ApplyBC to the solution vector
+    const unsigned int totGFN=NGFN+NMFC;
+    for( int i=0; i<totGFN; i++ )
+    {
+      m_ls->AddVectorValue(i,m_ls->GetVectorValue(i,1));
+    }
+
+  }
+
+  // Set the fixed DOFs to proper values
+  for( BCTermType::iterator q=bcterm.begin(); q!=bcterm.end(); q++)
+  {
+    m_ls->SetVectorValue(q->first,q->second);
+  }
 
 
 }
@@ -592,6 +637,111 @@ void Solver::Solve()
  */  
 void Solver::UpdateDisplacements()
 {
+
+}
+
+
+
+
+/**
+ * Apply the boundary conditions to the system.
+ */
+void Solver::ApplyBC(int dim)
+{
+
+  m_ls->DestroyVector(1);
+
+  /* Step over all Loads */
+  for(LoadArray::iterator l=load.begin(); l!=load.end(); l++)
+  {
+
+    /*
+     * Store a temporary pointer to load object for later,
+     * so that we don't have to access it via the iterator
+     */
+    Load::Pointer l0=*l;
+
+
+    
+    /*
+     * Apply boundary conditions in form of MFC loads.
+     *
+     * We add the multi freedom constraints contribution to the master
+     * stiffness matrix using the lagrange multipliers. Basically we only
+     * change the last couple of rows and columns in K.
+     */
+    if ( LoadBCMFC::Pointer c=dynamic_cast<LoadBCMFC*>(&*l0) )
+    {
+      /* step over all DOFs in MFC */
+      for(LoadBCMFC::LhsType::iterator q=c->lhs.begin(); q!=c->lhs.end(); q++) {
+      
+        /* obtain the GFN of DOF that is in the MFC */
+        Element::DegreeOfFreedomIDType gfn=q->m_element->GetDegreeOfFreedom(q->dof);
+
+        /* error checking. all GFN should be =>0 and <NGFN */
+        if ( gfn>=NGFN )
+        {
+          throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleK()","Illegal GFN!");
+        }
+
+        /* set the proper values in matster stiffnes matrix */
+        this->m_ls->SetMatrixValue(gfn, NGFN+c->Index, q->value);
+        this->m_ls->SetMatrixValue(NGFN+c->Index, gfn, q->value);  // this is a symetric matrix...
+
+      }
+
+      // skip to next load in an array
+      continue;
+    }
+
+
+
+    /*
+     * Apply essential boundary conditions
+     */
+    if ( LoadBC::Pointer c=dynamic_cast<LoadBC*>(&*l0) )
+    {
+      Element::DegreeOfFreedomIDType fdof = c->m_element->GetDegreeOfFreedom(c->m_dof);
+      Float fixedvalue=c->m_value[dim];
+
+      // Force vector changes only if DOF is not fixed to 0.0.
+      const bool is_force_vector_affected = (fixedvalue!=0.0);
+
+      // Initialize the master force correction vector as required
+      if ( !this->m_ls->IsVectorInitialized(1) && is_force_vector_affected )
+      {
+        this->m_ls->InitializeVector(1);
+      }
+      
+      // Copy the corresponding column of the matrix to the vector that will
+      // be later added to master force vector.
+      const unsigned int totGFN=NGFN+NMFC;
+      for(unsigned int i=0; i<totGFN; i++)
+      {
+        Float d=this->m_ls->GetMatrixValue(fdof,i);
+
+        // Store the appropriate value in bc correction vector (-K12*u2)
+        //
+        // See http://titan.colorado.edu/courses.d/IFEM.d/IFEM.Ch04.d/IFEM.Ch04.pdf
+        // chapter 4.1.3 (Matrix Forms of DBC Application Methods) for more info.
+        if( is_force_vector_affected )
+        {
+          this->m_ls->AddVectorValue(i,-d*fixedvalue,1);
+        }
+
+        this->m_ls->SetMatrixValue(fdof,i,0.0); // Clear that column and row in master matrix.
+        this->m_ls->SetMatrixValue(i,fdof,0.0); // this is a symetric matrix
+      }
+      this->m_ls->SetMatrixValue(fdof,fdof,1.0); // Set the diagonal element to one
+
+
+      // skip to next load in an array
+      continue;
+    }
+
+
+  } // end for LoadArray::iterator l
+
 
 }
 

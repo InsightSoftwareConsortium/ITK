@@ -100,11 +100,22 @@ public:
   void AssembleK();            
 
   /**
+   * Apply the boundary conditions to the system.
+   *
+   * \note This fucntion must be called after AssembleK().
+   *
+   * \param dim This is a parameter that can be passed to the function and is
+   *            normally used with isotropic elements to specify the
+   *            dimension in which the DOF is fixed.
+   */
+  void ApplyBC(int dim=0);
+  
+  /**
    * Assemble the master force vector.
    *
    * \param dim This is a parameter that can be passed to the function and is
-                normally used with isotropic elements to specify the
-                dimension for which the master force vector should be assembled.
+   *            normally used with isotropic elements to specify the
+   *            dimension for which the master force vector should be assembled.
    */
   void AssembleF(int dim=0);
 
@@ -150,7 +161,7 @@ public:
    * Default constructor sets Solver to use VNL linear system .
    * \sa Solver::SetLinearSystemWrapper
    */
-  Solver() : m_ls(&m_lsVNL) {}
+  Solver();
 
   /**
    * Destructor
@@ -171,7 +182,7 @@ public:
    *       should also be destroyed outside. Solver class will not destroy it
    *       when the Solver object is destroyed.
    */
-  void SetLinearSystemWrapper(LinearSystemWrapper::Pointer ls) { m_ls=ls; }
+  void SetLinearSystemWrapper(LinearSystemWrapper::Pointer ls);
 
   /**
    * Gets the LinearSystemWrapper object.
