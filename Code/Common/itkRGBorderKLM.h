@@ -23,19 +23,12 @@
 namespace itk
 {
 
-/** \class RGBorderKLM
- * \brief Base class for RGBorderKLM object
- * 
- * itkRGBorderKLM is the base class for the RGBorderKLM objects. It provides
- * the basic function definitons that are inherent to a RGBorderKLM objects.
+/** \class DynamicBorderArrayKLM
+ * \brief  Object maintaining a reference to a list of border associated 
+ * with a region.
  *
- * This class implements the border object that is used in particular with 
- * the KLM algorithm (see also itkRegionGrowKLM). The border is defined by 
- * the adjacency of two regions. The parameter Lambda acertains the importance
- * of the border in defining the regions. The higher the values of lambda
- * the more dominant is its presence in the a region. In case of removal
- * of a border during the region growing process the one with least lambda
- * value is eliminated.
+ * This is a tiny class similar to smart pointers that maintains a reference
+ * to a list of borders pointed by a region. 
  * 
  */
 
