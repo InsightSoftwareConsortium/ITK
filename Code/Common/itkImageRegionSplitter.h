@@ -80,6 +80,10 @@ namespace itk
  * more uniform shaped regions instead of slabs.
  *
  * \sa ImageRegionMultidimensionalSplitter
+ *
+ * \ingroup ITKSystemObjects
+ * \ingroup DataProcessing
+ * 
  */
 
 template <unsigned int VImageDimension>
