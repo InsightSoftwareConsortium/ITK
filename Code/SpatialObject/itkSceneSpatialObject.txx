@@ -342,7 +342,6 @@ SceneSpatialObject<SpaceDimension>
   typename ObjectListType::iterator it = m_Objects.begin();
   typename ObjectListType::iterator itEnd = m_Objects.end();
 
-  bool ret = true;
   while( it != itEnd)
     {
     // For every object in the scene we check the ID validity
@@ -377,7 +376,6 @@ SceneSpatialObject<SpaceDimension>
   typename ObjectListType::iterator it = m_Objects.begin();
   typename ObjectListType::iterator itEnd = m_Objects.end();
 
-  bool ret = true;
   while( it != itEnd)
     {
     typename ObjectType::ChildrenListType* children = (*it)->GetChildren();
@@ -394,9 +392,7 @@ SceneSpatialObject<SpaceDimension>
     delete children;
     it++;
     }
-
   return Id;
-
 }
 
 
