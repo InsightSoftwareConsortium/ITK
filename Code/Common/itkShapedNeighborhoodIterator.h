@@ -178,15 +178,12 @@ public:
   /** Virtual destructor */
   virtual ~ShapedNeighborhoodIterator() {}
 
-   /** Copy constructor */
-  ShapedNeighborhoodIterator( const ShapedNeighborhoodIterator & );
-
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
   ShapedNeighborhoodIterator(const SizeType &radius,
                        const ImageType * ptr,
                        const RegionType &region
-                                  ) : Superclass (radius, const_cast<ImageType*>(ptr),
+                                  ) : Superclass(radius, const_cast<ImageType*>(ptr),
                                                   region)
   {
     m_BeginIterator = Iterator(this);
@@ -202,8 +199,10 @@ public:
   Self &operator=(const Self& orig)
   {
     Superclass::operator=(orig);
-    m_EndIterator = orig.m_EndIterator;
-    m_BeginIterator = orig.m_BeginIterator;
+
+    // Reset begin and end pointer locations
+    m_BeginIterator.GoToBegin();
+    m_EndIterator.GoToEnd();
     return *this;
   }
 
@@ -213,7 +212,7 @@ public:
   /** Returns a const iterator for the neighborhood which points to the first
    * pixel in the neighborhood. */
   Iterator &Begin() {    return m_BeginIterator;  }
-  Iterator &End() {   return m_EndIterator; }
+  Iterator &End()   {   return m_EndIterator;     }
 
   /** Returns a const iterator for the neighborhood which points to the last
    * pixel in the neighborhood. */
@@ -228,6 +227,12 @@ public:
   }
   
 protected:
+
+   /** Copy constructor */
+  ShapedNeighborhoodIterator( const ShapedNeighborhoodIterator & o);
+  // purposely not implemented
+
+
   void ActivateIndex(const unsigned int n)
   {
     Superclass::ActivateIndex(n);

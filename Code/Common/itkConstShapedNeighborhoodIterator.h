@@ -179,9 +179,6 @@ public:
   /** Virtual destructor */
   virtual ~ConstShapedNeighborhoodIterator()  { }
 
-   /** Copy constructor */
-  ConstShapedNeighborhoodIterator( const ConstShapedNeighborhoodIterator & );
-
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
   ConstShapedNeighborhoodIterator(const SizeType &radius,
@@ -232,9 +229,11 @@ public:
   {
     Superclass::operator=(orig);
     m_ActiveIndexList = orig.m_ActiveIndexList;
-    m_ConstEndIterator = orig.m_ConstEndIterator;
-    m_ConstBeginIterator = orig.m_ConstBeginIterator;
     m_CenterIsActive = orig.m_CenterIsActive;
+
+    // Reset begin and end pointers
+    m_ConstBeginIterator.GoToBegin();
+    m_ConstEndIterator.GoToBegin();
     return *this;
   }
 
@@ -288,12 +287,16 @@ public:
   // must be found.
   Superclass::SetPixel;
 protected:
+   /** Copy constructor */
+  ConstShapedNeighborhoodIterator( const ConstShapedNeighborhoodIterator & );
+  // purposely not implemented
+
   friend struct ConstIterator;
   
   /** Class is protected here so that it is not publicly accessible, but can be
    * accessed by subclasses.. */
   //  Superclass::SetPixel;
-    
+
   /** Add/Remove a neighborhood index to/from the active.  Locations in the
       active list are the only accessible elements in the neighborhood. The
       argument is an index location calculated as an offset into a linear
