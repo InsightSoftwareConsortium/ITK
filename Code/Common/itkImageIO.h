@@ -125,7 +125,7 @@ public:
   itkSetMacro(NumberOfComponents,unsigned int);
   itkGetConstMacro(NumberOfComponents,unsigned int);
   
-  /**  /**
+  /**
    * The guts of this class. Returns FileData, which holds the raw
    * pixels of the image read from disk.
    */
