@@ -19,6 +19,7 @@
 
 #include "itkNonLinearOptimizer.h"
 #include "itkArray2D.h"
+#include "itkMultipleValuedCostFunction.h"
 
 namespace itk
 {
@@ -39,6 +40,11 @@ public:
   typedef SmartPointer<Self>                Pointer;
   typedef SmartPointer<const Self>          ConstPointer;
   
+   /** Type of the Cost Function   */
+  typedef  MultipleValuedCostFunction       CostFunctionType;
+  typedef  CostFunctionType::Pointer        CostFunctionPointer;
+
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
@@ -58,15 +64,22 @@ public:
    *  It defines a type used to return the cost function derivative. 
    *  Here a bidimensional Array is used for Multivalued funcitions   */
   typedef Array2D<double>                   DerivativeType;
+ 
+  /** Set the cost function. */
+  virtual void SetCostFunction( CostFunctionType * costFunction );
 
 protected:
   MultipleValuedNonLinearOptimizer();
-  virtual ~MultipleValuedNonLinearOptimizer() {};
+  virtual ~MultipleValuedNonLinearOptimizer() {}; 
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
+  CostFunctionPointer           m_CostFunction;
 
 private:
   MultipleValuedNonLinearOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
+
 };
 
 } // end namespace itk
