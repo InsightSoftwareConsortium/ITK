@@ -510,6 +510,12 @@ BMPImageIO
     throw exception;
     }
 
+  if(this->GetComponentType() != UCHAR)
+    {
+    itkExceptionMacro(<<"BMPImageIO supports unsigned char only");
+    }
+  
+
 #ifdef __sgi
   // Create the file. This is required on some older sgi's
   std::ofstream tFile(m_FileName.c_str(),std::ios::out);
