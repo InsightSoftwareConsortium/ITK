@@ -57,7 +57,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <itkMutualInformationImageToImageMetric.h>
 #include <itkMeanSquaresImageToImageMetric.h>
 #include <itkNormalizedCorrelationImageToImageMetric.h>
-#include <itkPatternIntensityImageToImageMetric.h>
+#include <itkMeanReciprocalSquareDifferenceImageToImageMetric.h>
 
 
 namespace itk 
@@ -153,11 +153,11 @@ public:
 
   typedef   NormalizedCorrelationImageToImageMetric< ReferenceType, TargetType  > NormalizedCorrelationMetricType;
 
-  typedef   PatternIntensityImageToImageMetric<  ReferenceType, TargetType   > PatternIntensityMetricType;
+  typedef   MeanReciprocalSquareDifferenceImageToImageMetric<  ReferenceType, TargetType   > MeanReciprocalSquaresMetricType;
 
 //  typedef  MutualInformationMetricType             DefaultMetricType;
 //  typedef  NormalizedCorrelationMetricType             DefaultMetricType;
-//  typedef  PatternIntensityMetricType             DefaultMetricType;
+//  typedef  MeanReciprocalSquaresMetricType             DefaultMetricType;
   typedef  MeanSquaresMetricType             DefaultMetricType;
   typedef typename DefaultTransformType::ParametersType         ParametersType;
   typedef typename DefaultTransformType::JacobianType           JacobianType;
