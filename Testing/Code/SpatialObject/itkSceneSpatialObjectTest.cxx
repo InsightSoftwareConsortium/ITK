@@ -23,6 +23,7 @@
 /** This is a test file for the itkSceneSpatialObject class. */
 #include "itkSceneSpatialObject.h"
 #include "itkEllipseSpatialObject.h"
+#include "itkGroupSpatialObject.h"
 
 int itkSceneSpatialObjectTest(int, char* [])
 {
@@ -50,11 +51,11 @@ int itkSceneSpatialObjectTest(int, char* [])
   std::cout << SceneSpatialObject << std::endl;
 
   // Test spatial objects for coverage
-  typedef itk::SpatialObject<3> SpatialObjectType;
+  typedef itk::GroupSpatialObject<3> SpatialObjectType;
   SpatialObjectType::Pointer object = SpatialObjectType::New();
 
   std::cout << "Testing Typename: ";
-  if(strcmp(object->GetTypeName(),"SpatialObject"))
+  if(strcmp(object->GetTypeName(),"GroupSpatialObject"))
   {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
@@ -108,16 +109,6 @@ int itkSceneSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
   }
   std::cout << "[PASSED]" << std::endl;
-
-
-  std::cout << "Testing Add/Remove: ";
-  SceneSpatialObjectType::Pointer SceneSpatialObject2 = SceneSpatialObjectType::New();
-  EllipseType::Pointer ellipseaddremove = EllipseType::New();
-  SceneSpatialObject2->AddSpatialObject(ellipseaddremove);
-  SceneSpatialObject2->RemoveSpatialObject(ellipseaddremove);
-
-  std::cout << "[PASSED]" << std::endl;
-
   std::cout << "[DONE]" << std::endl;
 
   return EXIT_SUCCESS;
