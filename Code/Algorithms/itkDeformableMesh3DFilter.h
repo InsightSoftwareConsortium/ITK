@@ -136,15 +136,15 @@ public:
   typedef typename InputMeshType::CellTraits        CellTraits;
   typedef typename InputMeshType::PointType         InputPointType;
   typedef typename InputMeshType::PixelType         PixelType;
-  typedef itk::TriangleCell<PixelType, CellTraits>  TriCell;
+  typedef TriangleCell<PixelType, CellTraits>  TriCell;
 
-  typedef itk::CovariantVector<PixelType, 3>        GradientType;
-  typedef itk::Image<GradientType, 3>               GradientImageType;
+  typedef CovariantVector<PixelType, 3>        GradientType;
+  typedef Image<GradientType, 3>               GradientImageType;
 
-  typedef typename itk::Image<unsigned short, 3>    ImageType;
+  typedef Image<unsigned short, 3>             ImageType;
 
-  typedef itk::SimpleImageRegionIterator<ImageType> ImageIterator;
-  typedef itk::SimpleImageRegionIterator<GradientImageType> GradientIterator;
+  typedef SimpleImageRegionIterator<ImageType> ImageIterator;
+  typedef SimpleImageRegionIterator<GradientImageType> GradientIterator;
 
   typedef typename InputMeshType::Pointer   InputMeshPointer;
   typedef typename OutputMeshType::Pointer  OutputMeshPointer;
