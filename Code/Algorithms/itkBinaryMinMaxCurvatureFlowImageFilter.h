@@ -34,9 +34,9 @@ namespace itk {
   * \f[  I_t = F_{\mbox{minmax}} |\nabla I| \f]
   *
   * where \f$ F_{\mbox{minmax}} = \min(\kappa,0) \f$ if 
-  * \f$ \Avg_{\mbox{stencil}}(x) \f$ is less than or equal to \f$ T_{thresold} \f$ and
-  * \f$ \max{\kappa,0} \f$, otherwise. \f$ \kappa \f$ is the curvature of the image
-  * intensity at point \f$ x =\f$.
+  * \f$ \mbox{Avg}_{\mbox{stencil}}(x) \f$ is less than or equal to \f$ T_{thresold} \f$ 
+  * and \f$ \max{\kappa,0} \f$, otherwise. \f$ \kappa \f$ is the curvature of the image
+  * intensity at point \f$ x \f$.
   *
   * In min/max curvature flow, curvature flow is turned on or off depending
   * on the scale of the noise one wants to remove. Switching depends on
