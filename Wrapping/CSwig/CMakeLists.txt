@@ -460,7 +460,7 @@ IF(ITK_CSWIG_TCL)
   SUBDIRS(Tcl)
 ENDIF(ITK_CSWIG_TCL)
 
-IF(UNIX)
+IF(ITK_CSWIG_PYTHON)
   SET(ITK_OLD_CMAKE_INSTALL 0)
   IF(${CMAKE_MAJOR_VERSION} LESS 2)
     IF(${CMAKE_MINOR_VERSION} LESS 9)
@@ -469,14 +469,16 @@ IF(UNIX)
   ENDIF(${CMAKE_MAJOR_VERSION} LESS 2)
 
   IF(ITK_OLD_CMAKE_INSTALL)
-    # Ultra-hackery to install the generated python files.  This is not
-    # officially supported by cmake and abuses the implementation of
-    # make install.  Good luck figuring out how this works.
-    CONFIGURE_FILE(${WrapITK_SOURCE_DIR}/pythonfiles.sh.in
-      ${WrapITK_BINARY_DIR}/pythonfiles.sh @ONLY IMMEDIATE)
-    EXEC_PROGRAM(chmod ${WrapITK_BINARY_DIR} ARGS 755 pythonfiles.sh
-      OUTPUT_VARIABLE ITK_EXEC_PLEASE_BE_QUIET)
-    INSTALL_FILES(/lib/InsightToolkit FILES "`${WrapITK_BINARY_DIR}/pythonfiles.sh`")
+    IF(UNIX)
+      # Ultra-hackery to install the generated python files.  This is not
+      # officially supported by cmake and abuses the implementation of
+      # make install.  Good luck figuring out how this works.
+      CONFIGURE_FILE(${WrapITK_SOURCE_DIR}/pythonfiles.sh.in
+        ${WrapITK_BINARY_DIR}/pythonfiles.sh @ONLY IMMEDIATE)
+      EXEC_PROGRAM(chmod ${WrapITK_BINARY_DIR} ARGS 755 pythonfiles.sh
+        OUTPUT_VARIABLE ITK_EXEC_PLEASE_BE_QUIET)
+      INSTALL_FILES(/lib/InsightToolkit FILES "`${WrapITK_BINARY_DIR}/pythonfiles.sh`")
+    ENDIF(UNIX)
   ELSE(ITK_OLD_CMAKE_INSTALL)
     CONFIGURE_FILE(
       "${WrapITK_SOURCE_DIR}/pythonfiles_install.cmake.in"
@@ -501,7 +503,7 @@ IF(UNIX)
                  @ONLY IMMEDIATE)
   INSTALL_FILES(/lib/InsightToolkit/python FILES
     "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/InstallOnly/itkbase.py")
-ENDIF(UNIX)
+ENDIF(ITK_CSWIG_PYTHON)
 
 
 MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_SOURCES ITK_LINK_LIBRARIES)
