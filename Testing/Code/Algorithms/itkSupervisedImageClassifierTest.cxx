@@ -257,12 +257,11 @@ int itkSupervisedImageClassifierTest(int, char**)
   typedef std::vector< MembershipFunctionPointer > 
     MembershipFunctionPointerVector;
 
-
   //----------------------------------------------------------------------
   //Set the image model estimator
   //----------------------------------------------------------------------
   typedef itk::ImageGaussianModelEstimator<VecImageType,
-    ClassImageType, MembershipFunctionType> 
+    MembershipFunctionType, ClassImageType> 
     ImageGaussianModelEstimatorType;
   
   ImageGaussianModelEstimatorType::Pointer 
@@ -399,6 +398,6 @@ int itkSupervisedImageClassifierTest(int, char**)
     {
     std::cout<< "Supervised Classifier Test failed" << std::endl;
     }
- /**/
+
   return 0;
 }

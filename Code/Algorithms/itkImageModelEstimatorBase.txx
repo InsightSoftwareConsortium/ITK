@@ -24,10 +24,8 @@ namespace itk
 {
 
 template <class TInputImage, 
-          class TTrainingImage, 
           class TMembershipFunction>
-ImageModelEstimatorBase<TInputImage, 
-TTrainingImage, TMembershipFunction>
+ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 ::ImageModelEstimatorBase(void):
   m_NumberOfModels( 0 )
 {
@@ -35,21 +33,17 @@ TTrainingImage, TMembershipFunction>
 }
 
 template <class TInputImage, 
-          class TTrainingImage, 
           class TMembershipFunction>
-ImageModelEstimatorBase<TInputImage, 
-TTrainingImage, TMembershipFunction>
+ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 ::~ImageModelEstimatorBase()
 {
 
 }
 
 template <class TInputImage, 
-          class TTrainingImage, 
           class TMembershipFunction>
 void
-ImageModelEstimatorBase<TInputImage, 
-TTrainingImage, TMembershipFunction>
+ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 ::GenerateData()
 {
   this->EstimateModels();
@@ -59,11 +53,9 @@ TTrainingImage, TMembershipFunction>
  * PrintSelf
  */
 template <class TInputImage, 
-          class TTrainingImage, 
           class TMembershipFunction>
 void
-ImageModelEstimatorBase<TInputImage, 
-TTrainingImage, TMembershipFunction>
+ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
@@ -85,8 +77,7 @@ TTrainingImage, TMembershipFunction>
 
   os << indent << "InputImage: ";
   os << m_InputImage.GetPointer() << std::endl;
-  os << indent << "TrainingImage: " ;
-  os << m_TrainingImage.GetPointer() << std::endl;
+
 
 }// end PrintSelf
 
@@ -95,11 +86,9 @@ TTrainingImage, TMembershipFunction>
 //------------------------------------------------------------------
 
 template <class TInputImage, 
-          class TTrainingImage, 
           class TMembershipFunction>
 unsigned int 
-ImageModelEstimatorBase<TInputImage, 
-TTrainingImage, TMembershipFunction>
+ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 ::AddMembershipFunction(MembershipFunctionPointer function)
 {
   m_MembershipFunctions.push_back(function) ;

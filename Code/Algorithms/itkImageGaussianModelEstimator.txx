@@ -22,9 +22,9 @@ namespace itk
 {
 
 template<class TInputImage, 
-         class TTrainingImage,
-         class TMembershipFunction>
-ImageGaussianModelEstimator<TInputImage, TTrainingImage, TMembershipFunction>
+         class TMembershipFunction,
+         class TTrainingImage>
+ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
 ::ImageGaussianModelEstimator(void):
   m_Covariance( NULL )
 {
@@ -32,9 +32,9 @@ ImageGaussianModelEstimator<TInputImage, TTrainingImage, TMembershipFunction>
 }
 
 template<class TInputImage, 
-         class TTrainingImage, 
-         class TMembershipFunction>
-ImageGaussianModelEstimator<TInputImage, TTrainingImage, TMembershipFunction>
+         class TMembershipFunction,
+         class TTrainingImage>
+ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
 ::~ImageGaussianModelEstimator(void)
 {
   if ( m_Covariance )    delete [] m_Covariance;
@@ -43,16 +43,18 @@ ImageGaussianModelEstimator<TInputImage, TTrainingImage, TMembershipFunction>
 /*
  * PrintSelf
  */
-template <class TInputImage, 
-          class TTrainingImage,
-          class TMembershipFunction>
+template<class TInputImage, 
+         class TMembershipFunction,
+         class TTrainingImage>
 void
-ImageGaussianModelEstimator<TInputImage, TTrainingImage, TMembershipFunction>
+ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {  
 
   os << indent << "                   " << std::endl;
   os << indent << "Gaussian Models generated from the training data." << std::endl;
+  os << indent << "TrainingImage: " ;
+  os << m_TrainingImage.GetPointer() << std::endl;
   os << indent << "Results printed in the superclass " << std::endl;
   os << indent << "                   " << std::endl;
 
@@ -65,10 +67,10 @@ ImageGaussianModelEstimator<TInputImage, TTrainingImage, TMembershipFunction>
 // training set.
 
 template<class TInputImage, 
-         class TTrainingImage, 
-         class TMembershipFunction>
+         class TMembershipFunction,
+         class TTrainingImage>
 void 
-ImageGaussianModelEstimator<TInputImage, TTrainingImage, TMembershipFunction>
+ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
 ::EstimateModels()
 {
 
@@ -139,10 +141,10 @@ ImageGaussianModelEstimator<TInputImage, TTrainingImage, TMembershipFunction>
 }// end train classifier 
 
 template<class TInputImage, 
-         class TTrainingImage, 
-         class TMembershipFunction>
+         class TMembershipFunction,
+         class TTrainingImage>
 void 
-ImageGaussianModelEstimator<TInputImage, TTrainingImage, TMembershipFunction>
+ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
 ::EstimateGaussianModelPrameters()
 {
 

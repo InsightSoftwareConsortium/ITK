@@ -61,9 +61,8 @@ namespace itk
  * \ingroup ClassificationFilters 
  */
 template <class TInputImage,
-          class TTrainingImage,
           class TMembershipFunction>
-class ITK_EXPORT ImageModelEstimatorBase : public LightProcessObject
+class ITK_EXPORT ImageModelEstimatorBase: public LightProcessObject
 {
 public:
   /** Standard class typedefs. */
@@ -91,7 +90,7 @@ public:
   typedef typename TInputImage::Pointer InputImagePointer;
 
   /** Type definitions for the training image. */
-  typedef typename TTrainingImage::Pointer TrainingImagePointer;
+  //typedef typename TTrainingImage::Pointer TrainingImagePointer;
 
   /** Set the input image. */
   itkSetMacro(InputImage,InputImagePointer);
@@ -99,12 +98,6 @@ public:
   /** Get the input image. */
   itkGetMacro(InputImage,InputImagePointer);
 
-  /** Set the training image. */
-  itkSetMacro(TrainingImage,TrainingImagePointer);
-
-  /** Get the training image. */
-  itkGetMacro(TrainingImage,TrainingImagePointer);
-  
   /** Set the classified image. */
   void SetMembershipFunctions(MembershipFunctionPointerVector 
     membershipFunctions)
@@ -127,8 +120,7 @@ public:
   /** Stores a MembershipCalculator of a class in its internal vector */
   unsigned int AddMembershipFunction(MembershipFunctionPointer function);
 
-  /** Define a virtual function to perform clustering of input data
-   */
+  /** Define a virtual function to perform clustering of input data */
   virtual void EstimateModels() = 0;
 
 protected:
@@ -146,13 +138,10 @@ private:
   unsigned int                    m_NumberOfModels;
 
   /** Container to hold the membership functions */
-  MembershipFunctionPointerVector m_MembershipFunctions ;
+  MembershipFunctionPointerVector m_MembershipFunctions;
 
   /**Container for holding the training image */
   InputImagePointer               m_InputImage;
-
-  /**Container for holding the training image */
-  TrainingImagePointer            m_TrainingImage;
 
 }; // class ImageModelEstimator
 

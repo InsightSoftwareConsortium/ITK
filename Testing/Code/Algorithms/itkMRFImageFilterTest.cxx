@@ -297,7 +297,7 @@ int itkMRFImageFilterTest(int, char**)
   // Set the image model estimator (train the class models)
   //----------------------------------------------------------------------
   typedef itk::ImageGaussianModelEstimator<VecImageType,
-    ClassImageType, MembershipFunctionType> 
+    MembershipFunctionType, ClassImageType> 
     ImageGaussianModelEstimatorType;
   
   ImageGaussianModelEstimatorType::Pointer 

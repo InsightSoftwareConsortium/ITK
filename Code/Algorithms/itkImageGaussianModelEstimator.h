@@ -29,9 +29,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkExceptionObject.h"
 
-//#include "itkGaussianMembershipFunction.h"
 #include "itkImageModelEstimatorBase.h"
-
 
 namespace itk
 {
@@ -76,15 +74,15 @@ namespace itk
  * \ingroup ClassificationFilters 
  */
 template <class TInputImage, 
-          class TTrainingImage,
-          class TMembershipFunction>
+          class TMembershipFunction,
+          class TTrainingImage>
 class ITK_EXPORT ImageGaussianModelEstimator: 
-public ImageModelEstimatorBase<TInputImage, TTrainingImage, TMembershipFunction>
+public ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 {
 public:
   /** Standard class typedefs. */
   typedef ImageGaussianModelEstimator   Self;
-  typedef ImageModelEstimatorBase<TInputImage,TTrainingImage,TMembershipFunction> Superclass;
+  typedef ImageModelEstimatorBase<TInputImage,TMembershipFunction> Superclass;
 
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -118,6 +116,12 @@ public:
   /** Type definitions for the membership function . */
   typedef typename TMembershipFunction::Pointer MembershipFunctionPointer ;
 
+  /** Set the training image. */
+  itkSetMacro(TrainingImage,TrainingImagePointer);
+
+  /** Get the training image. */
+  itkGetMacro(TrainingImage,TrainingImagePointer);
+
   /** A function that generates the 
    * model based on the training input data
    * Achieves the goal of training the classifier. */
@@ -145,10 +149,11 @@ private:
   MatrixType            m_Means;
   MatrixType            *m_Covariance;  
 
+  TrainingImagePointer  m_TrainingImage;
+
   void EstimateGaussianModelPrameters();
 
 }; // class ImageGaussianModelEstimator
-
 
 } // namespace itk
 
