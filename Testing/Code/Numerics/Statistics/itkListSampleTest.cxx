@@ -17,7 +17,7 @@
 #include "itkVector.h"
 #include "itkListSample.h"
 
-int itkListSampleTest(int, char**) 
+int itkListSampleTest(int, char* [] ) 
 {
   std::cout << "ListSample Test \n \n"; 
   bool pass = true;

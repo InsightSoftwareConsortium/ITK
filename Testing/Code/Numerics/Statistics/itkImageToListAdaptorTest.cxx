@@ -20,7 +20,7 @@
 #include "itkScalarToArrayCastImageFilter.h"
 #include "itkFixedArray.h"
 
-int itkImageToListAdaptorTest(int, char**) 
+int itkImageToListAdaptorTest(int, char* [] ) 
 {
   std::cout << "ImageToListAdaptor Test \n \n"; 
   bool pass = true;

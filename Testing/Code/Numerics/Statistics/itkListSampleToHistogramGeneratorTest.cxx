@@ -18,7 +18,7 @@
 #include "itkListSample.h"
 #include "itkListSampleToHistogramGenerator.h"
 
-int itkListSampleToHistogramGeneratorTest(int, char**) 
+int itkListSampleToHistogramGeneratorTest(int, char* [] ) 
 {
   std::cout << "ListSampleToHistogramGenerator Test \n \n"; 
   bool pass = true;

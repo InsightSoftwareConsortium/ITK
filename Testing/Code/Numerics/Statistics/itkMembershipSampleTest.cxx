@@ -21,7 +21,7 @@
 #include "itkScalarToArrayCastImageFilter.h"
 #include "itkFixedArray.h"
 
-int itkMembershipSampleTest(int, char**) 
+int itkMembershipSampleTest(int, char* [] ) 
 {
   std::cout << "MembershipSample Test \n \n"; 
   bool pass = true;

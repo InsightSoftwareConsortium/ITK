@@ -31,7 +31,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkMinimumDecisionRule.h"
 #include "itkSampleClassifier.h"
 
-int itkSampleClassifierTest(int argc, char** argv)
+int itkSampleClassifierTest(int argc, char* argv[] )
 {
   namespace stat = itk::Statistics ;
  

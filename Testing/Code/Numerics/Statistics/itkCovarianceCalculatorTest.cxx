@@ -23,7 +23,7 @@
 #include "itkVector.h"
 #include "itkMeanCalculator.h"
 
-int itkCovarianceCalculatorTest(int, char**) 
+int itkCovarianceCalculatorTest(int, char* [] ) 
 {
   std::cout << "CovarianceCalculator Test \n \n"; 
   bool pass = true;

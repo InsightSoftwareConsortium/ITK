@@ -23,7 +23,7 @@
 #include "itkFixedArray.h"
 #include "itkVector.h"
 
-int itkMeanCalculatorTest(int, char**) 
+int itkMeanCalculatorTest(int, char* [] ) 
 {
   std::cout << "MeanCalculator Test \n \n"; 
   bool pass = true;

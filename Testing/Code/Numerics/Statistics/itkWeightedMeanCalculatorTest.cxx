@@ -72,7 +72,7 @@ protected:
   ~WeightedMeanCalculatorTestWeightFunction() {}
 } ; // end of class
 
-int itkWeightedMeanCalculatorTest(int, char**) 
+int itkWeightedMeanCalculatorTest(int, char* [] ) 
 {
   std::cout << "WeightedMeanCalculator Test \n \n"; 
   bool pass = true;

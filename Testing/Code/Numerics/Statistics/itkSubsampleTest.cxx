@@ -21,7 +21,7 @@
 #include "itkScalarToArrayCastImageFilter.h"
 #include "itkFixedArray.h"
 
-int itkSubsampleTest(int, char**) 
+int itkSubsampleTest(int, char* [] ) 
 {
   std::cout << "Subsample Test \n \n"; 
   bool pass = true;

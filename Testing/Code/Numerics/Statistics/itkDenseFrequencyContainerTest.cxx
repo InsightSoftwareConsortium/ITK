@@ -20,7 +20,7 @@
 
 
 
-int itkDenseFrequencyContainerTest(int, char**) 
+int itkDenseFrequencyContainerTest(int, char* [] ) 
 {
   std::cout << "DenseFrequencyContainer Test \n \n"; 
   

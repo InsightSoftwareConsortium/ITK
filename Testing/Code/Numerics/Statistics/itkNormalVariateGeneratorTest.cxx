@@ -17,7 +17,7 @@
 #include "itkNormalVariateGenerator.h"
 #include "vnl/vnl_math.h"
 
-int itkNormalVariateGeneratorTest(int, char**) 
+int itkNormalVariateGeneratorTest(int, char* [] ) 
 {
   std::cout << "NormalVariateGenerator Test \n \n"; 
   

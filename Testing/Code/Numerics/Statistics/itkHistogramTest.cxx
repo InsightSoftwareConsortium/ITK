@@ -16,7 +16,7 @@
 =========================================================================*/
 #include "itkHistogram.h"
 
-int itkHistogramTest(int, char**) 
+int itkHistogramTest(int, char* [] ) 
 {
   std::cout << "Histogram Test \n \n"; 
   bool pass = true;

@@ -95,7 +95,7 @@ bool isSortedOrderCorrect(std::vector<int> &ref,
 }
 
 
-int itkStatisticsAlgorithmTest(int, char**)
+int itkStatisticsAlgorithmTest(int, char* [] )
 {
   std::cout << "Statistics Algorithm Test \n \n"; 
   bool pass = true;

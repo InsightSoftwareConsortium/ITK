@@ -32,7 +32,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkWeightedCenteroidKdTreeGenerator.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
 
-int itkKdTreeBasedKmeansEstimatorTest(int argc, char** argv)
+int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
 {
   namespace stat = itk::Statistics ;
  
