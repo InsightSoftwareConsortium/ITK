@@ -29,6 +29,7 @@ SET(ITKCommon_SRCS
   itkMultiThreader.cxx
   itkMutexLock.cxx
   itkNumericTraits.cxx
+  itkNumericTraitsRGBPixel.cxx
   itkObject.cxx
   itkObjectFactoryBase.cxx
   itkOneWayEquivalencyTable.cxx
