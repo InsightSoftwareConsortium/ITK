@@ -381,7 +381,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 
   for (int i = 0; i < 3; i++)
     {
-    if (data->neighborIndices[i] == ((unsigned long)NumericTraits<unsigned long>::max ))
+    if (data->neighborIndices[i] == ((unsigned long)NumericTraits<unsigned long>::max() ))
       {
       data->neighborIndices[i] = neighborIdx;
       break;
