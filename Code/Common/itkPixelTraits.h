@@ -17,6 +17,7 @@
 #define __itkPixelTraits_h
 
 #include "itkNumericTraits.h"
+#include "itkRGB.h"
 
 namespace itk
 {
@@ -228,6 +229,45 @@ public:
   static void SetScalar(double& data, ScalarValueType const& v) {data = v;}
 };
 
+/** \class ScalarTraits<RGB<float>>
+ * \brief Define (pixel) scalar traits for type <RGB<float>.
+ */
+template <>
+class ScalarTraits< RGB<float> > {
+public:
+  typedef  RGB<float>  ValueType;
+  typedef  RGB<float>  ScalarValueType;
+  static ScalarValueType& GetScalar( RGB<float> & v) {return v;}
+  static void SetScalar( RGB<float> & data, ScalarValueType const& v) {data = v;}
+};
+
+
+/** \class ScalarTraits<RGB<double>>
+ * \brief Define (pixel) scalar traits for type <RGB<double>.
+ */
+template <>
+class ScalarTraits< RGB<double> > {
+public:
+  typedef  RGB<double>  ValueType;
+  typedef  RGB<double>  ScalarValueType;
+  static ScalarValueType& GetScalar( RGB<double> & v) {return v;}
+  static void SetScalar( RGB<double> & data, ScalarValueType const& v) {data = v;}
+};
+
+
+/** \class ScalarTraits<RGB<unsigned short>>
+ * \brief Define (pixel) scalar traits for type <RGB<unsigned short>.
+ */
+template <>
+class ScalarTraits< RGB<unsigned short> > {
+public:
+  typedef  RGB<unsigned short>  ValueType;
+  typedef  RGB<unsigned short>  ScalarValueType;
+  static ScalarValueType& GetScalar( RGB<unsigned short> & v) {return v;}
+  static void SetScalar( RGB<unsigned short> & data, ScalarValueType const& v) {data = v;}
+};
+
+
 /**
  * The following are specializations of the VectorTraits for the native
  * types.
@@ -364,6 +404,48 @@ public:
   static VectorValueType& GetVector(double& v) {return v;}
   static void SetVector(double& data, VectorValueType const& v) {data = v;}
 };
+
+
+/** \class VectorTraits<RGB<float>>
+ * \brief Define (pixel) vector traits for type RGB<float>.
+ */
+template <>
+class VectorTraits< RGB<float> > {
+public:
+  typedef RGB<float> ValueType;
+  typedef RGB<float> VectorValueType;
+  static VectorValueType& GetVector(RGB<float>& v) {return v;}
+  static void SetVector(RGB<float>& data, VectorValueType const & v) {data = v;}
+};
+
+
+/** \class VectorTraits<RGB<double>>
+ * \brief Define (pixel) vector traits for type RGB<double>.
+ */
+template <>
+class VectorTraits< RGB<double> > {
+public:
+  typedef RGB<double> ValueType;
+  typedef RGB<double> VectorValueType;
+  static VectorValueType& GetVector(RGB<double>& v) {return v;}
+  static void SetVector(RGB<double>& data, VectorValueType const & v) {data = v;}
+};
+
+
+/** \class VectorTraits<RGB<unsigned short>>
+ * \brief Define (pixel) vector traits for type RGB<unsigned short>.
+ */
+template <>
+class VectorTraits< RGB<unsigned short> > {
+public:
+  typedef RGB<unsigned short> ValueType;
+  typedef RGB<unsigned short> VectorValueType;
+  static VectorValueType& GetVector(RGB<unsigned short>& v) {return v;}
+  static void SetVector(RGB<unsigned short>& data, VectorValueType const & v) {data = v;}
+};
+
+
+
 
 } // end namespace itk
 
