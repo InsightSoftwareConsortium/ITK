@@ -276,7 +276,7 @@ SetTranslation( const OutputVectorType & translation )
 
 
 
-// Get parameters
+// Compute Offset
 template<class TScalarType, unsigned int NDimensions>
 void
 CenteredAffineTransform<TScalarType, NDimensions>::
