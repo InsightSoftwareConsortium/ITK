@@ -51,6 +51,8 @@ void RegisterTests()
   REGISTER_TEST(itkLog10ImageFilterAndAdaptorTest );
   REGISTER_TEST(itkLogImageFilterAndAdaptorTest );
   REGISTER_TEST(itkMaskImageFilterTest );
+  REGISTER_TEST(itkMaximumImageFilterTest );
+  REGISTER_TEST(itkMinimumImageFilterTest );
   REGISTER_TEST(itkMeanImageFilterTest );
   REGISTER_TEST(itkMedianImageFilterTest );
   REGISTER_TEST(itkMultiplyImageFilterTest );
