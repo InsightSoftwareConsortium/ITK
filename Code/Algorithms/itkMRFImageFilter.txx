@@ -39,6 +39,7 @@ MRFImageFilter<TInputImage,TClassifiedImage>
   if( (int)InputImageDimension != (int)ClassifiedImageDimension )
     throw ExceptionObject(__FILE__, __LINE__);
 
+  m_InputImageNeighborhoodRadius.Fill(0);
   m_MRFNeighborhoodWeight.resize(0);
   m_NeighborInfluence.resize(0);
   SetMRFNeighborhoodWeight( 0 );
@@ -66,7 +67,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   os << indent <<" Maximum number of iterations: " << 
     m_MaximumNumberOfIterations << std::endl;
 
-  os << indent <<" Error tollerance for convergence: " << 
+  os << indent <<" Error tolerance for convergence: " << 
     m_ErrorTolerance << std::endl;
 
   os << indent <<" Size of the MRF neighborhood radius:" << 

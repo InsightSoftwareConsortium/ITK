@@ -59,7 +59,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     m_CliqueWeight_5(0.0),
     m_CliqueWeight_6(0.0)
 {
-  m_StartPoint[0] = m_StartPoint[1] = m_StartPoint[2] = 0;
+  m_StartPoint.Fill(0);
 }
 
 template <typename TInputImage, typename TClassifiedImage>

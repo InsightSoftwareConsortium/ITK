@@ -1396,7 +1396,8 @@ Segmenter<TInputImage>
   m_CurrentLabel = 1;
   m_DoBoundaryAnalysis = false;
   m_SortEdgeLists = true;
-  
+  m_Minimum = 0;
+  m_Maximum = 0;  
   m_Connectivity.direction = 0;
   m_Connectivity.index = 0;
   typename OutputImageType::Pointer img
