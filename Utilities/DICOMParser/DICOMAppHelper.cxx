@@ -46,6 +46,18 @@ public:
   typedef dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr> SeriesUIDToInstanceUIDMapType;
   SeriesUIDToInstanceUIDMapType SeriesUIDToInstanceUIDMap;
 
+  // map from a series Description to an instance UID 
+  typedef dicom_stl::map<dicom_stl::string, dicom_stl::string, ltstdstr> SeriesUIDToSeriesDescriptionMapType;
+  SeriesUIDToSeriesDescriptionMapType SeriesUIDToSeriesDescriptionMap;
+
+  // map from a series body part to an instance UID 
+  typedef dicom_stl::map<dicom_stl::string, dicom_stl::string, ltstdstr> SeriesUIDToBodyPartMapType;
+  SeriesUIDToBodyPartMapType  SeriesUIDToBodyPartMap;
+
+  // map from a series scan option to an instance UID 
+  typedef dicom_stl::map<dicom_stl::string, dicom_stl::string, ltstdstr> SeriesUIDToScanOptionsMapType;
+  SeriesUIDToScanOptionsMapType  SeriesUIDToScanOptionsMap;
+
   // map from an instance UID to a series UID
   typedef dicom_stl::map<dicom_stl::string, dicom_stl::string, ltstdstr> InstanceUIDToSeriesUIDMapType;
   InstanceUIDToSeriesUIDMapType InstanceUIDToSeriesUIDMap;
@@ -139,6 +151,7 @@ DICOMAppHelper::DICOMAppHelper()
   this->ImageDataLengthInBytes = 0;
 
   this->SeriesUIDCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->SeriesDescriptionCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->InstanceUIDCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->SliceNumberCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->SliceLocationCB = new DICOMMemberCallback<DICOMAppHelper>;
@@ -177,6 +190,7 @@ DICOMAppHelper::DICOMAppHelper()
   this->ManufacturerCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->InstitutionCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->ModelCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->ScanOptionsCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->DefaultCB = new DICOMMemberCallback<DICOMAppHelper>;
   
   this->Implementation = new DICOMAppHelperImplementation;
@@ -205,6 +219,7 @@ DICOMAppHelper::~DICOMAppHelper()
     }
 
   delete this->SeriesUIDCB;
+  delete this->SeriesDescriptionCB;
   delete this->InstanceUIDCB;
   delete this->SliceNumberCB;
   delete this->SliceLocationCB;
@@ -243,6 +258,7 @@ DICOMAppHelper::~DICOMAppHelper()
   delete this->ManufacturerCB;
   delete this->InstitutionCB;
   delete this->ModelCB;
+  delete this->ScanOptionsCB;
 
   delete this->DefaultCB;
 
@@ -269,6 +285,9 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
 
   InstanceUIDCB->SetCallbackFunction(this, &DICOMAppHelper::InstanceUIDCallback);
   parser->AddDICOMTagCallback(0x0008, 0x0018, DICOMParser::VR_UI, InstanceUIDCB);
+  
+  SeriesDescriptionCB->SetCallbackFunction(this, &DICOMAppHelper::SeriesDescriptionCallback);
+  parser->AddDICOMTagCallback(0x0008, 0x103e, DICOMParser::VR_LO, SeriesDescriptionCB);
 
   SliceNumberCB->SetCallbackFunction(this, &DICOMAppHelper::SliceNumberCallback);
   parser->AddDICOMTagCallback(0x0020, 0x0013, DICOMParser::VR_IS, SliceNumberCB);
@@ -378,6 +397,9 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
   ModelCB->SetCallbackFunction(this, &DICOMAppHelper::ModelCallback);
   parser->AddDICOMTagCallback(0x0008, 0x1090, DICOMParser::VR_LO, ModelCB);
 
+  ScanOptionsCB->SetCallbackFunction(this, &DICOMAppHelper::ScanOptionsCallback);
+  parser->AddDICOMTagCallback(0x0018, 0x0022, DICOMParser::VR_CS, ScanOptionsCB);
+
   // Add in default callbacks for tags we need to see but not cache
   //parser->AddDICOMTagCallback(0x3006, 0x0012, DICOMParser::VR_DS, DefaultCB);
   DICOMTagInfo dicom_tags[] = {
@@ -393,6 +415,7 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     {0x0008, 0x0080, DICOMParser::VR_LO, "Institution"},
     {0x0008, 0x1060, DICOMParser::VR_SH, "Physician"},
     {0x0008, 0x1090, DICOMParser::VR_LO, "Model"},
+    {0x0008, 0x103E, DICOMParser::VR_LO, "Series description"},
     {0x0010, 0x0010, DICOMParser::VR_PN, "Patient name"},
     {0x0010, 0x0020, DICOMParser::VR_LO, "Patient ID"},
     {0x0010, 0x0040, DICOMParser::VR_CS, "Patient sex"},
@@ -403,6 +426,7 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     {0x0018, 0x0015, DICOMParser::VR_CS, "Body Part"},
     {0x0020, 0x1000, DICOMParser::VR_IS, "Number of series in study"},
     {0x0020, 0x1206, DICOMParser::VR_IS, "Number of study related series"},
+    {0x0018, 0x0022, DICOMParser::VR_FL, "Scan options"},  
     {0x0018, 0x0050, DICOMParser::VR_FL, "slice thickness"},
     {0x0018, 0x0060, DICOMParser::VR_FL, "kV"},
     {0x0018, 0x0088, DICOMParser::VR_FL, "slice spacing"},
@@ -627,6 +651,29 @@ void DICOMAppHelper::SeriesUIDCallback(DICOMParser *,
 }
 
 
+void DICOMAppHelper::SeriesDescriptionCallback(DICOMParser *,
+                                       doublebyte,
+                                       doublebyte,
+                                       DICOMParser::VRTypes,
+                                       unsigned char* val,
+                                       quadbyte len) 
+{
+  char* newString = (char*) val;
+  dicom_stl::string newStdString(newString);
+
+#ifdef DEBUG_DICOM_APP_HELPER  
+  dicom_stream::cout << "Series Description: " << newStdString << dicom_stream::endl;
+#endif
+  // Put the series description into the internal database mapping series UIDs
+  // to InstanceUIDs
+  DICOMAppHelperImplementation::SeriesUIDToSeriesDescriptionMapType::iterator iiter = this->Implementation->SeriesUIDToSeriesDescriptionMap.find(this->CurrentSeriesUID);
+  if ( iiter == this->Implementation->SeriesUIDToSeriesDescriptionMap.end()) // if not found we insert
+    {
+    this->Implementation->SeriesUIDToSeriesDescriptionMap.insert(dicom_stl::pair<const dicom_stl::string, dicom_stl::string> (this->CurrentSeriesUID, newStdString));
+    }
+  this->CurrentSeriesDescription = newStdString;
+}
+
 void DICOMAppHelper::OutputSeries()
 {
   dicom_stream::cout << dicom_stream::endl << dicom_stream::endl;
@@ -665,6 +712,9 @@ void DICOMAppHelper::OutputSeries()
                 
     }
 }
+
+
+
 
 
 void DICOMAppHelper::ArrayCallback(DICOMParser *parser,
@@ -1709,12 +1759,28 @@ void DICOMAppHelper::BodyPartCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_BodyPart, (const char*)val, len < 512 ? len : 511);
+    strncpy(m_BodyPart, (const char*)val, len < 512 ? len : 511);  
     }
   else
     {
     m_BodyPart[0] = '\0';
+    return;
     }
+
+  char* newString = (char*) val;
+  dicom_stl::string newStdString(newString);
+
+#ifdef DEBUG_DICOM_APP_HELPER  
+  dicom_stream::cout << "Body Part: " << newStdString << dicom_stream::endl;
+#endif
+  // Put the series description into the internal database mapping series UIDs
+  // to InstanceUIDs
+  DICOMAppHelperImplementation::SeriesUIDToBodyPartMapType::iterator iiter = this->Implementation->SeriesUIDToBodyPartMap.find(this->CurrentSeriesUID);
+  if ( iiter == this->Implementation->SeriesUIDToBodyPartMap.end()) // if not found we insert
+    {
+    this->Implementation->SeriesUIDToBodyPartMap.insert(dicom_stl::pair<const dicom_stl::string, dicom_stl::string> (this->CurrentSeriesUID, newStdString));
+    }
+  this->CurrentBodyPart = newStdString;
 } 
 
 
@@ -1733,7 +1799,7 @@ void DICOMAppHelper::NumberOfSeriesInStudyCallback(DICOMParser *,
     {
     m_NumberOfSeriesInStudy[0] = '\0';
     }
-} 
+}
 
 void DICOMAppHelper::NumberOfStudyRelatedSeriesCallback(DICOMParser *,
                                    doublebyte,
@@ -1835,6 +1901,40 @@ void DICOMAppHelper::ModelCallback(DICOMParser *,
     {
     m_Model[0] = '\0';
     }
+}
+
+
+void DICOMAppHelper::ScanOptionsCallback(DICOMParser *,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte len)
+{
+  if (val)
+    {
+    strncpy(m_ScanOptions, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_ScanOptions[0] = '\0';
+    return;
+    }
+
+  char* newString = (char*) val;
+  dicom_stl::string newStdString(newString);
+
+#ifdef DEBUG_DICOM_APP_HELPER  
+  dicom_stream::cout << "Scan Options: " << newStdString << dicom_stream::endl;
+#endif
+  // Put the series description into the internal database mapping series UIDs
+  // to InstanceUIDs
+  DICOMAppHelperImplementation::SeriesUIDToScanOptionsMapType::iterator iiter = this->Implementation->SeriesUIDToScanOptionsMap.find(this->CurrentSeriesUID);
+  if ( iiter == this->Implementation->SeriesUIDToScanOptionsMap.end()) // if not found we insert
+    {
+    this->Implementation->SeriesUIDToScanOptionsMap.insert(dicom_stl::pair<const dicom_stl::string, dicom_stl::string> (this->CurrentSeriesUID, newStdString));
+    }
+  this->CurrentScanOptions = newStdString;
 }
 
 bool DICOMAppHelper::RescaledImageDataIsFloat()
@@ -2154,13 +2254,88 @@ void DICOMAppHelper::GetSeriesUIDs(dicom_stl::vector<dicom_stl::string> &v)
     }
 }
 
+void DICOMAppHelper::GetSeriesDescriptions(dicom_stl::vector<dicom_stl::string> &v)
+{
+  v.clear();
+
+  DICOMAppHelperImplementation::SeriesUIDToInstanceUIDMapType::iterator miter;
+
+  for (miter = this->Implementation->SeriesUIDToInstanceUIDMap.begin(); miter != this->Implementation->SeriesUIDToInstanceUIDMap.end();
+       ++miter)
+    {
+    DICOMAppHelperImplementation::SeriesUIDToSeriesDescriptionMapType::iterator iiter = this->Implementation->SeriesUIDToSeriesDescriptionMap.find((*miter).first);
+    if ( iiter != this->Implementation->SeriesUIDToSeriesDescriptionMap.end()) // if found we insert
+      {
+      v.push_back( (*iiter).second ); 
+      }
+    else
+      {
+      dicom_stl::string value = "";
+      v.push_back( value );
+      }
+   }
+}
+
+
+void DICOMAppHelper::GetBodyParts(dicom_stl::vector<dicom_stl::string> &v)
+{
+  v.clear();
+
+  DICOMAppHelperImplementation::SeriesUIDToInstanceUIDMapType::iterator miter;
+
+  for (miter = this->Implementation->SeriesUIDToInstanceUIDMap.begin(); miter != this->Implementation->SeriesUIDToInstanceUIDMap.end();
+       ++miter)
+    {
+    DICOMAppHelperImplementation::SeriesUIDToBodyPartMapType::iterator iiter = this->Implementation->SeriesUIDToBodyPartMap.find((*miter).first);
+    if ( iiter != this->Implementation->SeriesUIDToBodyPartMap.end()) // if found we insert
+      {
+      v.push_back( (*iiter).second ); 
+      }
+    else
+      {
+      dicom_stl::string value = "";
+      v.push_back( value );
+      }
+   }
+}
+
+
+void DICOMAppHelper::GetScanOptions(dicom_stl::vector<dicom_stl::string> &v)
+{
+  v.clear();
+
+  DICOMAppHelperImplementation::SeriesUIDToInstanceUIDMapType::iterator miter;
+
+  for (miter = this->Implementation->SeriesUIDToInstanceUIDMap.begin(); miter != this->Implementation->SeriesUIDToInstanceUIDMap.end();
+       ++miter)
+    {
+    DICOMAppHelperImplementation::SeriesUIDToScanOptionsMapType::iterator iiter = this->Implementation->SeriesUIDToScanOptionsMap.find((*miter).first);
+    if ( iiter != this->Implementation->SeriesUIDToScanOptionsMap.end()) // if found we insert
+      {
+      v.push_back( (*iiter).second ); 
+      }
+    else
+      {
+      dicom_stl::string value = "";
+      v.push_back( value );
+      }
+   }
+}
+
+
+
 void DICOMAppHelper::Clear()
 { 
   this->Implementation->InstanceUIDToSeriesUIDMap.clear();
   this->Implementation->InstanceUIDToSliceOrderingMap.clear();
   this->Implementation->SeriesUIDToInstanceUIDMap.clear();
+  this->Implementation->SeriesUIDToSeriesDescriptionMap.clear();
   this->Implementation->SeriesUIDToContoursMap.clear();
+  this->Implementation->SeriesUIDToBodyPartMap.clear();
+  this->Implementation->SeriesUIDToScanOptionsMap.clear();
+
   this->CurrentSeriesUID = "";
+  this->CurrentSeriesDescription = "";
   this->InstanceUID = "";
 }
 }

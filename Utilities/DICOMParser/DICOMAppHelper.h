@@ -166,6 +166,14 @@ public:
                                  unsigned char* val,
                                  quadbyte len) ;
   
+  virtual void SeriesDescriptionCallback(DICOMParser *parser,
+                                 doublebyte group,
+                                 doublebyte element,
+                                 DICOMParser::VRTypes type,
+                                 unsigned char* val,
+                                 quadbyte len) ;
+
+
   virtual void InstanceUIDCallback(DICOMParser *parser,
                                    doublebyte group,
                                    doublebyte element,
@@ -395,7 +403,14 @@ public:
                                       DICOMParser::VRTypes,
                                       unsigned char* val,
                                       quadbyte);
-  
+   
+  virtual void ScanOptionsCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+
   virtual void DefaultCallback( DICOMParser *parser,
                                 doublebyte,
                                 doublebyte,
@@ -539,6 +554,9 @@ public:
   /** Get the series UID for the current file. */
   std::string GetSeriesUID() { return this->CurrentSeriesUID; }
 
+  /** Get the series description for the current file. */
+  std::string GetSeriesDescription() { return this->CurrentSeriesDescription; }
+
   /** Get the patient name processed by the
       DICOMParser. */
   void GetPatientName(char* name)
@@ -638,11 +656,18 @@ public:
     strcpy(ins, m_Institution);
     }
 
-  /** Get the patient name processed by the
+  /** Get the model processed by the
       DICOMParser. */
   void GetModel(char* model)
     {
     strcpy(model, m_Model);
+    }
+
+  /** Get the scan options name processed by the
+      DICOMParser. */
+  void GetScanOptions(char* options)
+    {
+    strcpy(options, m_ScanOptions);
     }
 
   /** Clear the internal databases. This will reset the internal
@@ -653,7 +678,19 @@ public:
   /** Get the series UIDs for the files processed since the last
    * clearing of the cache. */
   void GetSeriesUIDs(dicom_stl::vector<dicom_stl::string> &v); 
-  
+
+  /** Get the series Descriptions for the files processed since the last
+   * clearing of the cache. */
+  void GetSeriesDescriptions(dicom_stl::vector<dicom_stl::string> &v); 
+
+  /** Get the body parts for the files processed since the last
+   * clearing of the cache. */
+  void GetBodyParts(dicom_stl::vector<dicom_stl::string> &v); 
+
+  /** Get the scane options for the files processed since the last
+   * clearing of the cache. */
+  void GetScanOptions(dicom_stl::vector<dicom_stl::string> &v); 
+
   /** Get the filenames for a series ordered by slice number. */
   void GetSliceNumberFilenamePairs(const dicom_stl::string &seriesUID,
                               dicom_stl::vector<dicom_stl::pair<int, dicom_stl::string> > &v,
@@ -740,6 +777,7 @@ public:
   char m_Manufacturer[512];
   char m_Institution[512];
   char m_Model[512];
+  char m_ScanOptions[512];
 
   typedef dicom_stl::map<dicom_stl::pair<doublebyte, doublebyte>, DICOMTagInfo> TagMapType;
   // TagMapType TagMap;
@@ -752,6 +790,9 @@ public:
   dicom_stl::string* PhotometricInterpretation;
   dicom_stl::string* TransferSyntaxUID;
   dicom_stl::string CurrentSeriesUID;
+  dicom_stl::string CurrentSeriesDescription;
+  dicom_stl::string CurrentBodyPart;
+  dicom_stl::string CurrentScanOptions;
   dicom_stl::string InstanceUID;
   
   float RescaleOffset;
@@ -761,6 +802,7 @@ public:
   unsigned long ImageDataLengthInBytes;
 
   DICOMMemberCallback<DICOMAppHelper>* SeriesUIDCB;
+  DICOMMemberCallback<DICOMAppHelper>* SeriesDescriptionCB;
   DICOMMemberCallback<DICOMAppHelper>* InstanceUIDCB;
   DICOMMemberCallback<DICOMAppHelper>* SliceNumberCB;
   DICOMMemberCallback<DICOMAppHelper>* SliceLocationCB;
@@ -795,6 +837,7 @@ public:
   DICOMMemberCallback<DICOMAppHelper>* ManufacturerCB;
   DICOMMemberCallback<DICOMAppHelper>* InstitutionCB;
   DICOMMemberCallback<DICOMAppHelper>* ModelCB;
+  DICOMMemberCallback<DICOMAppHelper>* ScanOptionsCB;
   DICOMMemberCallback<DICOMAppHelper>* PatientDOBCB;
   DICOMMemberCallback<DICOMAppHelper>* StudyIDCB;
   DICOMMemberCallback<DICOMAppHelper>* StudyDescriptionCB;
