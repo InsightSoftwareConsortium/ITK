@@ -123,8 +123,8 @@ public:
      */
 //    typedef Point<TScalarType, SpaceDimension> InputPointType;
 //    typedef Point<TScalarType, SpaceDimension> OutputPointType;
-    typedef    Superclass::InputPointType     InputPointType;
-    typedef    Superclass::OutputPointType    OutputPointType;
+    typedef  typename Superclass::InputPointType     InputPointType;
+    typedef  typename Superclass::OutputPointType    OutputPointType;
 
     
     /**
