@@ -28,6 +28,7 @@
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -193,6 +194,8 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
   MapType count;
   MapType::iterator itMap;
   
+  ProgressReporter progress(this,0,output->GetRequestedRegion().GetNumberOfPixels());
+
   // Process each faces.  These are N-d regions which border
   // the edge of the buffer.
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
@@ -269,6 +272,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
       // move the neighborhood
       ++bit;
       ++itOut;
+      progress.CompletedPixel();
       }
     }
     
