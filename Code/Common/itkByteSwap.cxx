@@ -21,7 +21,7 @@ namespace itk
 {
 
 // Swap four byte word.
-#ifdef ITK_WORDS_BIGENDIAN
+#ifdef CMAKE_WORDS_BIGENDIAN
 void 
 ByteSwap
 ::Swap4BE(void *){}
@@ -44,7 +44,7 @@ ByteSwap
 #endif
 
 // Swap bunch of bytes. Num is the number of four byte words to swap.
-#ifdef ITK_WORDS_BIGENDIAN
+#ifdef CMAKE_WORDS_BIGENDIAN
 void 
 ByteSwap
 ::Swap4BERange(void *, int){}
@@ -78,7 +78,7 @@ void
 ByteSwap
 ::SwapWrite4BERange(void *ptr, int num, std::ostream *fp)
 {
-#ifndef ITK_WORDS_BIGENDIAN
+#ifndef CMAKE_WORDS_BIGENDIAN
   char one_byte;
   char *pos;
   int i;
@@ -124,7 +124,7 @@ ByteSwap
 }
 
 // Swap 2 byte word.
-#ifdef ITK_WORDS_BIGENDIAN
+#ifdef CMAKE_WORDS_BIGENDIAN
 void 
 ByteSwap
 ::Swap2LE(void *p)
@@ -143,7 +143,7 @@ ByteSwap
 #endif
 
 // Swap four byte word.
-#ifdef ITK_WORDS_BIGENDIAN
+#ifdef CMAKE_WORDS_BIGENDIAN
 void 
 ByteSwap
 ::Swap4LE(void *p)
@@ -165,7 +165,7 @@ ByteSwap
 #endif
 
 // Swap bunch of bytes. Num is the number of four byte words to swap.
-#ifdef ITK_WORDS_BIGENDIAN
+#ifdef CMAKE_WORDS_BIGENDIAN
 void 
 ByteSwap
 ::Swap4LERange(void *p, int num)
@@ -196,7 +196,7 @@ ByteSwap
 #endif
 
 // Swap 2 byte word.
-#ifdef ITK_WORDS_BIGENDIAN
+#ifdef CMAKE_WORDS_BIGENDIAN
 void 
 ByteSwap
 ::Swap2BE(void *) {}
@@ -216,7 +216,7 @@ ByteSwap
 #endif
 
 // Swap bunch of bytes. Num is the number of two byte words to swap.
-#ifdef ITK_WORDS_BIGENDIAN
+#ifdef CMAKE_WORDS_BIGENDIAN
 void 
 ByteSwap
 ::Swap2BERange(void *, int) {}
@@ -241,7 +241,7 @@ ByteSwap
 #endif
 
 // Swap bunch of bytes. Num is the number of two byte words to swap.
-#ifdef ITK_WORDS_BIGENDIAN
+#ifdef CMAKE_WORDS_BIGENDIAN
 void 
 ByteSwap
 ::Swap2LERange(void *p, int num)
@@ -273,7 +273,7 @@ void
 ByteSwap
 ::SwapWrite2BERange(void *ptr, int num, std::ostream *fp)
 {
-#ifndef ITK_WORDS_BIGENDIAN
+#ifndef CMAKE_WORDS_BIGENDIAN
   char one_byte;
   char *pos;
   int i;
