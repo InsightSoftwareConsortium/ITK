@@ -175,6 +175,9 @@ private:  // everything that follows from here is private by default (like in th
     /** Virtual function to access the class ID */ \
     virtual int ClassID() const              \
       { return CLID; }                       \
+    /** Object creation in an itk compatible way */ \
+    static Self::Pointer New()               \
+      { return new Self(); }                 \
   private:  // everything that follows from here is private by default (like in the beginning of class)
 #else
   #define FEM_CLASS(thisClass,parentClass)   \
