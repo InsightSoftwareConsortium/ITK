@@ -55,9 +55,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "vnl/vnl_math.h"
 
 #include <itkMutualInformationImageToImageMetric.h>
+#include <itkMattesMutualInformationImageToImageMetric.h>
 #include <itkMeanSquaresImageToImageMetric.h>
 #include <itkNormalizedCorrelationImageToImageMetric.h>
-#include <itkMeanReciprocalSquareDifferenceImageToImageMetric.h>
+//#include <itkMeanReciprocalSquareDifferenceImageToImageMetric.h>
 
 
 namespace itk 
@@ -83,12 +84,12 @@ namespace fem
  * the translation parameters as provided by the vector field at p.
  * The metrics return both a scalar similarity value and vector-valued derivative.  
  * The derivative is what gives us the force to drive the FEM registration.
- * These values are computed with respect to some region in the Target image.
+ * These values are computed with respect to some region in the Fixed image.
  * This region size may be set by the user by calling SetMetricRadius.
  * As the metric derivative computation evolves, performance should improve
  * and more functionality will be available (such as scale selection).
  */ 
-template<class TReference,class TTarget> 
+template<class TMoving,class TFixed> 
 class ImageMetricLoad : public LoadElement
 {
 FEM_CLASS(ImageMetricLoad,LoadElement)
@@ -97,36 +98,38 @@ public:
 // Necessary typedefs for dealing with images BEGIN
   typedef typename LoadElement::Float Float;
 
-  typedef TReference ReferenceType;
-  typedef typename ReferenceType::ConstPointer  ReferenceConstPointer;
-  typedef ReferenceType*  ReferencePointer;
-  typedef TTarget       TargetType;
-  typedef TargetType*  TargetPointer;
-  typedef typename TargetType::ConstPointer  TargetConstPointer;
+  typedef TMoving MovingType;
+  typedef typename MovingType::ConstPointer  MovingConstPointer;
+  typedef MovingType*  MovingPointer;
+  typedef TFixed       FixedType;
+  typedef FixedType*  FixedPointer;
+  typedef typename FixedType::ConstPointer  FixedConstPointer;
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      ReferenceType::ImageDimension);
+                      MovingType::ImageDimension);
 
-  typedef ImageRegionIteratorWithIndex<ReferenceType> RefRegionIteratorType; 
-  typedef ImageRegionIteratorWithIndex<TargetType>    TarRegionIteratorType; 
+  typedef ImageRegionIteratorWithIndex<MovingType> RefRegionIteratorType; 
+  typedef ImageRegionIteratorWithIndex<FixedType>    TarRegionIteratorType; 
   
-  typedef NeighborhoodIterator<ReferenceType> 
-                                     ReferenceNeighborhoodIteratorType; 
-  typedef typename ReferenceNeighborhoodIteratorType::IndexType  
-                                     ReferenceNeighborhoodIndexType;
-  typedef typename ReferenceNeighborhoodIteratorType::RadiusType 
-                                     ReferenceRadiusType;
-  typedef NeighborhoodIterator<TargetType> 
-                                     TargetNeighborhoodIteratorType; 
-  typedef typename TargetNeighborhoodIteratorType::IndexType  
-                                     TargetNeighborhoodIndexType;
-  typedef typename TargetNeighborhoodIteratorType::RadiusType 
-                                     TargetRadiusType;
+
+  typedef NeighborhoodIterator<MovingType> 
+                                     MovingNeighborhoodIteratorType; 
+  typedef typename MovingNeighborhoodIteratorType::IndexType  
+                                     MovingNeighborhoodIndexType;
+  typedef typename MovingNeighborhoodIteratorType::RadiusType 
+                                     MovingRadiusType;
+  typedef NeighborhoodIterator<FixedType> 
+                                     FixedNeighborhoodIteratorType; 
+  typedef typename FixedNeighborhoodIteratorType::IndexType  
+                                     FixedNeighborhoodIndexType;
+  typedef typename FixedNeighborhoodIteratorType::RadiusType 
+                                     FixedRadiusType;
+
 
 // IMAGE DATA
-  typedef   typename  ReferenceType::PixelType RefPixelType;
-  typedef   typename  TargetType::PixelType    TarPixelType;
+  typedef   typename  MovingType::PixelType RefPixelType;
+  typedef   typename  FixedType::PixelType    TarPixelType;
   typedef   Float PixelType;
   typedef   Float ComputationType;
   typedef   Image< RefPixelType, itkGetStaticConstMacro(ImageDimension) >       RefImageType;
@@ -144,16 +147,16 @@ public:
   typedef TranslationTransform<CoordinateRepresentationType,  itkGetStaticConstMacro(ImageDimension) >  DefaultTransformType;
 
  /**  Type of supported metrics. */
-  typedef   ImageToImageMetric<TargetType,ReferenceType > MetricBaseType;
+  typedef   ImageToImageMetric<FixedType,MovingType > MetricBaseType;
   typedef typename MetricBaseType::Pointer             MetricBaseTypePointer;
 
-  typedef   MutualInformationImageToImageMetric<  ReferenceType, TargetType   > MutualInformationMetricType;
+  typedef   MutualInformationImageToImageMetric<  MovingType, FixedType   > MutualInformationMetricType;
 
-  typedef   MeanSquaresImageToImageMetric< ReferenceType, TargetType   > MeanSquaresMetricType;
+  typedef   MeanSquaresImageToImageMetric< MovingType, FixedType   > MeanSquaresMetricType;
 
-  typedef   NormalizedCorrelationImageToImageMetric< ReferenceType, TargetType  > NormalizedCorrelationMetricType;
+  typedef   NormalizedCorrelationImageToImageMetric< MovingType, FixedType  > NormalizedCorrelationMetricType;
 
-  typedef   MeanReciprocalSquareDifferenceImageToImageMetric<  ReferenceType, TargetType   > MeanReciprocalSquaresMetricType;
+//  typedef   MeanReciprocalSquareDifferenceImageToImageMetric<  ReferenceType, TargetType   > MeanReciprocalSquaresMetricType;
 
 //  typedef  MutualInformationMetricType             DefaultMetricType;
 //  typedef  NormalizedCorrelationMetricType             DefaultMetricType;
@@ -166,7 +169,7 @@ public:
 //------------------------------------------------------------
 // Set up an Interpolator
 //------------------------------------------------------------
-  typedef LinearInterpolateImageFunction< ReferenceType, double > InterpolatorType;
+  typedef LinearInterpolateImageFunction< MovingType, double > InterpolatorType;
 
   /** Gradient filtering */
   typedef float RealType;
@@ -187,38 +190,38 @@ public:
   void SetMetric(MetricBaseTypePointer MP) { m_Metric=MP; }; 
   
  /** Define the reference (moving) image. */
-  void SetReferenceImage(ReferenceType* R)
+  void SetMovingImage(MovingType* R)
   { 
     m_RefImage = R; 
     m_RefSize=m_RefImage->GetLargestPossibleRegion().GetSize();
   };
 
-  void SetMetricReferenceImage(ReferenceType* R)  
+  void SetMetricMovingImage(MovingType* R)  
   { 
     m_Metric->SetMovingImage( R ); 
     m_RefSize=R->GetLargestPossibleRegion().GetSize(); 
   };
 
   /** Define the target (fixed) image. */ 
-  void SetTargetImage(TargetType* T)
+  void SetFixedImage(FixedType* T)
   { 
      m_TarImage=T; 
      m_TarSize=T->GetLargestPossibleRegion().GetSize(); 
   };
-  void SetMetricTargetImage(TargetType* T)  
+  void SetMetricFixedImage(FixedType* T)  
   { 
     m_Metric->SetFixedImage( T ) ; 
     m_TarSize=T->GetLargestPossibleRegion().GetSize(); 
   };
 
 
-  ReferencePointer GetReferenceImage() { return m_RefImage; };
-  TargetPointer GetTargetImage() { return m_TarImage; };
+  MovingPointer GetMovingImage() { return m_RefImage; };
+  FixedPointer GetFixedImage() { return m_TarImage; };
 
   /** Define the metric region size. */ 
-  void SetMetricRadius(ReferenceRadiusType T) {m_MetricRadius  = T; };    
+  void SetMetricRadius(MovingRadiusType T) {m_MetricRadius  = T; };    
   /** Get the metric region size. */ 
-  ReferenceRadiusType GetMetricRadius() { return m_MetricRadius; };       
+  MovingRadiusType GetMetricRadius() { return m_MetricRadius; };       
   
   /** Set/Get methods for the number of integration points to use 
     * in each 1-dimensional line integral when evaluating the load.
@@ -279,16 +282,20 @@ public:
   GradientImageType* GetMetricGradientImage() { return  m_MetricGradientImage;}
 
 
+  void PrintCurrentEnergy(){ std:: cout << " energy " << m_Energy << std::endl;}
+  double GetCurrentEnergy() { return m_Energy; }
+  void  SetCurrentEnergy( double e ) { m_Energy=e; }
+
 protected:
 
 
 private:
   GradientImageType*                                  m_MetricGradientImage;
-  ReferencePointer                                    m_RefImage;
-  TargetPointer                                       m_TarImage;
-  ReferenceRadiusType                                 m_MetricRadius; /** used by the metric to set region size for fixed image*/ 
-  typename ReferenceType::SizeType                    m_RefSize;
-  typename TargetType::SizeType                       m_TarSize;
+  MovingPointer                                    m_RefImage;
+  FixedPointer                                       m_TarImage;
+  MovingRadiusType                                 m_MetricRadius; /** used by the metric to set region size for fixed image*/ 
+  typename MovingType::SizeType                    m_RefSize;
+  typename FixedType::SizeType                       m_TarSize;
   unsigned int                                        m_NumberOfIntegrationPoints;
   unsigned int                                        m_SolutionIndex;
   unsigned int                                        m_SolutionIndex2;
@@ -301,6 +308,7 @@ private:
   typename TransformBaseType::Pointer                 m_Transform;
   typename InterpolatorType::Pointer                  m_Interpolator;
 
+  mutable double                  m_Energy;
 private:
   /** Dummy static int that enables automatic registration
       with FEMObjectFactory. */
