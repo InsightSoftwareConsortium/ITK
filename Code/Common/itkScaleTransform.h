@@ -142,6 +142,12 @@ public:
    * an exception is thrown. */
   ScaleTransform::Pointer Inverse(void) const;
 
+  /** Set the transformation to an Identity
+   *
+   * This sets all the scales to 1.0 */
+  void SetIdentity( void )
+    { m_Scale.Fill( 1.0 ); }
+
 protected:
   /** Construct an ScaleTransform object. */
   ScaleTransform();
