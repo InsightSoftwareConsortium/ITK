@@ -62,6 +62,7 @@ int main(int argc, char *argv[])
         filter =
         itk::ZeroCrossingImageFilter<ImageType, ImageType>::New();
 
+      std::cout << "filter: " << filter;
       // Run Test
       itk::Size<2> sz;
       sz[0] = 100 ; //atoi(argv[1]);

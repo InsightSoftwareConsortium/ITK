@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
         itk::CannyEdgeDetectionImageFilter<ImageType, ImageType>::New();
       filter->SetVariance(1.0f);
       filter->SetMaximumError(.01f);
+      std::cout << "filter: " << filter;
       
       // Run Test
       itk::Size<2> sz;
