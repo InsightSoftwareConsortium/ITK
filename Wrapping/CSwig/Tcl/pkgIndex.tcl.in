@@ -52,7 +52,8 @@ namespace eval itk {
     "
 
     package ifneeded itkcommon $version "
-      package require itkcommontcl $version
+      package require itkcommonatcl $version
+      package require itkcommonbtcl $version
       package provide itkcommon $version
     "
 
