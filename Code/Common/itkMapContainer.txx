@@ -30,12 +30,33 @@ itkMapContainer< TElementIdentifier , TElement >
 /**
  * Get a reference to the element at the given index.
  * If the index does not exist, it is created automatically.
+ *
+ * It is assumed that the value of the element is modified through the
+ * reference.
  */
 template <typename TElementIdentifier, typename TElement>
 itkMapContainer< TElementIdentifier , TElement >::Element&
 itkMapContainer< TElementIdentifier , TElement >
 ::ElementAt(ElementIdentifier id)
 {
+  this->Modified();
+  return this->Map::operator[](id);
+}
+
+
+/**
+ * Get a reference to the element at the given index.
+ * If the index does not exist, it is created automatically.
+ *
+ * It is assumed that the value of the element is modified through the
+ * reference.
+ */
+template <typename TElementIdentifier, typename TElement>
+itkMapContainer< TElementIdentifier , TElement >::Element&
+itkMapContainer< TElementIdentifier , TElement >
+::CreateElementAt(ElementIdentifier id)
+{
+  this->Modified();
   return this->Map::operator[](id);
 }
 
@@ -61,6 +82,20 @@ template <typename TElementIdentifier, typename TElement>
 void
 itkMapContainer< TElementIdentifier , TElement >
 ::SetElement(ElementIdentifier id, Element element)
+{
+  Map::operator[](id) = element;
+  this->Modified();
+}
+
+
+/**
+ * Set the given index value to the given element.  If the index doesn't
+ * exist, it is automatically created.
+ */
+template <typename TElementIdentifier, typename TElement>
+void
+itkMapContainer< TElementIdentifier , TElement >
+::InsertElement(ElementIdentifier id, Element element)
 {
   Map::operator[](id) = element;
   this->Modified();

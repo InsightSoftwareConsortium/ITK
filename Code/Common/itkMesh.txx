@@ -316,7 +316,7 @@ itkMesh< TPixelType , TMeshType >
   /**
    * Insert the point into the container with the given identifier.
    */
-  m_Points->SetElement(ptId, point);
+  m_Points->InsertElement(ptId, point);
 }
 
 
@@ -366,7 +366,7 @@ itkMesh< TPixelType , TMeshType >
   /**
    * Insert the point data into the container with the given identifier.
    */
-  m_PointData->SetElement(ptId, data);
+  m_PointData->InsertElement(ptId, data);
 }
 
 
@@ -416,7 +416,7 @@ itkMesh< TPixelType , TMeshType >
   /**
    * Insert the cell into the container with the given identifier.
    */
-  m_Cells->SetElement(cellId, cell);
+  m_Cells->InsertElement(cellId, cell);
 }
 
 
@@ -466,7 +466,7 @@ itkMesh< TPixelType , TMeshType >
   /**
    * Insert the cell data into the container with the given identifier.
    */
-  m_CellData->SetElement(cellId, data);
+  m_CellData->InsertElement(cellId, data);
 }
 
 
@@ -516,7 +516,7 @@ itkMesh< TPixelType , TMeshType >
   /**
    * Insert the boundary into the container with the given identifier.
    */
-  m_Boundaries[dimension]->SetElement(boundaryId, boundary);
+  m_Boundaries[dimension]->InsertElement(boundaryId, boundary);
 }
 
 
@@ -568,7 +568,7 @@ itkMesh< TPixelType , TMeshType >
   /**
    * Insert the boundary data into the container with the given identifier.
    */
-  m_BoundaryData[dimension]->SetElement(boundaryId, data);
+  m_BoundaryData[dimension]->InsertElement(boundaryId, data);
 }
 
 
@@ -624,7 +624,7 @@ itkMesh< TPixelType , TMeshType >
    * Insert the boundary assignment into the container with the given
    * assignment identifier in the given dimension.
    */
-  m_BoundaryAssignments[dimension]->SetElement(assignId, boundaryId);
+  m_BoundaryAssignments[dimension]->InsertElement(assignId, boundaryId);
 }
 
 
@@ -855,17 +855,17 @@ itkMesh< TPixelType , TMeshType >
     /**
      * Perform the intersection.
      */
-    set_intersection(m_CellLinks->ElementAt(*pointId).begin(),
-		     m_CellLinks->ElementAt(*pointId).end(),
-		     currentCells->begin(),
-		     currentCells->end(),
-		     inserter(*tempCells, tempCells->begin()));
+    std::set_intersection(m_CellLinks->CreateElementAt(*pointId).begin(),
+			  m_CellLinks->CreateElementAt(*pointId).end(),
+			  currentCells->begin(),
+			  currentCells->end(),
+			  std::inserter(*tempCells, tempCells->begin()));
     
     /**
      * Switch the cell set pointers to make the intersection result the
      * current set.
      */
-    swap(currentCells, tempCells);
+    std::swap(currentCells, tempCells);
     
     /**
      * Move on to the next point.
@@ -986,7 +986,7 @@ itkMesh< TPixelType , TMeshType >
     for(Cell::PointConstIterator pointId = cell->PointIdsBegin() ;
 	pointId != cell->PointIdsEnd() ; ++pointId)
       {
-      (m_CellLinks->ElementAt(*pointId)).insert(cellId);
+      (m_CellLinks->CreateElementAt(*pointId)).insert(cellId);
       }
     }
 }

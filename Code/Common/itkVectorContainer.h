@@ -120,8 +120,10 @@ public:
    */
   static Pointer New(void);
   Element& ElementAt(ElementIdentifier);
+  Element& CreateElementAt(ElementIdentifier);
   Element GetElement(ElementIdentifier) const;
   void SetElement(ElementIdentifier, Element);
+  void InsertElement(ElementIdentifier, Element);
   bool IndexExists(ElementIdentifier) const;
   bool GetElementIfIndexExists(ElementIdentifier, Element*) const;
   void CreateIndex(ElementIdentifier);

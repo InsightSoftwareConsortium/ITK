@@ -41,9 +41,45 @@ public:
   /**
    * This is an "indexed" container, so we provide the indexing methods.
    */
+  
+  /*
+   * Get a reference to an existing element.
+   * It is NOT guaranteed that the element will or will not be created if it
+   * doesn't exist.  This behavior is implementation-specific.
+   *
+   * It is assumed that the value of the element is modified through the
+   * reference.
+   */
   virtual Element& ElementAt(ElementIdentifier)=0;
+
+  /*
+   * Get a reference to an existing element.
+   * It is guaranteed that the element will be inserted with a default
+   * value if it does not exist.
+   *
+   * It is assumed that the value of the element is modified through the
+   * reference.
+   */
+  virtual Element& CreateElementAt(ElementIdentifier)=0;
+  
+  /**
+   * Get a copy of an element without range checking.
+   */
   virtual Element GetElement(ElementIdentifier) const =0;
+  
+  /**
+   * Set the value of an element.
+   * It is NOT guaranteed whether a spot for the element will be created
+   * automatically.  This is implementation-defined.
+   */
   virtual void SetElement(ElementIdentifier, Element)=0;
+  
+  /**
+   * Set the value of an element.
+   * It is guaranteed that a spot for the element will be created if it
+   * doesn't exist.
+   */
+  virtual void InsertElement(ElementIdentifier, Element)=0;
   
   /**
    * Test if there is an entry in the container corresponding to the given

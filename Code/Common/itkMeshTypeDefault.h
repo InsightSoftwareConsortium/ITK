@@ -17,7 +17,7 @@
 #define __itkMeshTypeDefault_h
 
 #include <set>
-#include "itkAutoVectorContainer.h"
+#include "itkVectorContainer.h"
 
 /**
  * itkMeshTypeDefault is a simple structure that holds type information for a mesh
@@ -85,7 +85,7 @@ public:
    * Define the container type that will be used to store points.
    */
   typedef itkPoint< PointDimension , CoordRep >              Point;
-  typedef itkAutoVectorContainer< PointIdentifier , Point >  PointsContainer;
+  typedef itkVectorContainer< PointIdentifier , Point >  PointsContainer;
 
   /**
    * Define the container type that will be used to store boundary links
@@ -104,13 +104,13 @@ public:
    * Define the container types that will be used to store:
    * Cells, CellLinks, PointData, CellData, Boundaries, and BoundaryData.
    */
-  typedef itkAutoVectorContainer< CellIdentifier , Cell::Pointer >             CellsContainer;
+  typedef itkVectorContainer< CellIdentifier , Cell::Pointer >             CellsContainer;
   typedef std::set< CellIdentifier >                                           PointCellLinksContainer;
-  typedef itkAutoVectorContainer< PointIdentifier , PointCellLinksContainer >  CellLinksContainer;
-  typedef itkAutoVectorContainer< PointIdentifier , PixelType >                PointDataContainer;
-  typedef itkAutoVectorContainer< CellIdentifier , PixelType >                 CellDataContainer;
-  typedef itkAutoVectorContainer< BoundaryIdentifier , Cell::Pointer >         BoundariesContainer;
-  typedef itkAutoVectorContainer< BoundaryIdentifier , PixelType >             BoundaryDataContainer;
+  typedef itkVectorContainer< PointIdentifier , PointCellLinksContainer >  CellLinksContainer;
+  typedef itkVectorContainer< PointIdentifier , PixelType >                PointDataContainer;
+  typedef itkVectorContainer< CellIdentifier , PixelType >                 CellDataContainer;
+  typedef itkVectorContainer< BoundaryIdentifier , Cell::Pointer >         BoundariesContainer;
+  typedef itkVectorContainer< BoundaryIdentifier , PixelType >             BoundaryDataContainer;
 };
 
 

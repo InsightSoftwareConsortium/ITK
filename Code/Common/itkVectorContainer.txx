@@ -30,13 +30,40 @@ itkVectorContainer< TElementIdentifier , TElement >
 
 /**
  * Get a reference to the element at the given index.
- * It is assumed that the index exists.
+ * It is assumed that the index exists, and it will not automatically
+ * be created.
+ *
+ * It is assumed that the value of the element is modified through the
+ * reference.
  */
 template <typename TElementIdentifier, typename TElement>
 itkVectorContainer< TElementIdentifier , TElement >::Element&
 itkVectorContainer< TElementIdentifier , TElement >
 ::ElementAt(ElementIdentifier id)
 {
+  this->Modified();
+  return this->Vector::operator[](id);
+}
+
+
+/**
+ * Get a reference to the element at the given index.
+ * If the element location does not exist, it will be created with a
+ * default element value.
+ *
+ * It is assumed that the value of the element is modified through the
+ * reference.
+ */
+template <typename TElementIdentifier, typename TElement>
+itkVectorContainer< TElementIdentifier , TElement >::Element&
+itkVectorContainer< TElementIdentifier , TElement >
+::CreateElementAt(ElementIdentifier id)
+{
+  if(id >= this->Vector::size())
+    {
+    this->CreateIndex(id);
+    }
+  this->Modified();
   return this->Vector::operator[](id);
 }
 
@@ -63,6 +90,25 @@ void
 itkVectorContainer< TElementIdentifier , TElement >
 ::SetElement(ElementIdentifier id, Element element)
 {
+  this->Vector::operator[](id) = element;
+  this->Modified();
+}
+
+
+/**
+ * Set the element value at the given index.
+ * If the element location does not exist, it will be created with a
+ * default element value.
+ */
+template <typename TElementIdentifier, typename TElement>
+void
+itkVectorContainer< TElementIdentifier , TElement >
+::InsertElement(ElementIdentifier id, Element element)
+{
+  if(id >= this->Vector::size())
+    {
+    this->CreateIndex(id);
+    }
   this->Vector::operator[](id) = element;
   this->Modified();
 }
