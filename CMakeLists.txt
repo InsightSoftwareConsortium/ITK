@@ -4,7 +4,7 @@ PROJECT(ITK)
 INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c|ce).*$")
 
 SET(ITK_VERSION_MAJOR "1")
-SET(ITK_VERSION_MINOR "0")
+SET(ITK_VERSION_MINOR "1")
 SET(ITK_VERSION_PATCH "0")
 
 # Version string should not include patch level.  The major.minor is
