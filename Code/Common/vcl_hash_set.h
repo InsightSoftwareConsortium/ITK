@@ -68,10 +68,9 @@ namespace std {
   struct select1st : public vcl_Select1st<_Pair> { };
   template <class _Pair> struct select2nd : public vcl_Select2nd<_Pair> { };
 };
-# endif
 
+#else
 // added for itk compatability
-#ifndef vcl_identity
 #define vcl_identity std::identity
 #endif
 
