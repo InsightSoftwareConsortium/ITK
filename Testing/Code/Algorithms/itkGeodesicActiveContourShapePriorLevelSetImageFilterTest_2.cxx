@@ -68,13 +68,13 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   typedef itk::Image<InternalPixelType,ImageDimension> InternalImageType;
 
   typedef itk::GeodesicActiveContourShapePriorLevelSetImageFilter<InternalImageType,InternalImageType> FilterType;
-  typedef itk::PCAShapeSignedDistanceFunction<float,ImageDimension> ShapeFunctionType;
+  typedef itk::PCAShapeSignedDistanceFunction<double,ImageDimension> ShapeFunctionType;
   typedef itk::ShapePriorMAPCostFunction<InternalImageType,InternalPixelType> CostFunctionType;
   typedef itk::AmoebaOptimizer OptimizerType;
   typedef FilterType::ParametersType ParametersType;
 
  
-  typedef itk::SphereSignedDistanceFunction<float,ImageDimension> SphereFunctionType;
+  typedef itk::SphereSignedDistanceFunction<double,ImageDimension> SphereFunctionType;
 
   FilterType::Pointer  filter            = FilterType::New();
   ShapeFunctionType::Pointer shape       = ShapeFunctionType::New();
@@ -272,7 +272,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   // 
   // Set up a translation transform
   //
-  typedef itk::TranslationTransform<float,ImageDimension> TransformType;
+  typedef itk::TranslationTransform<double,ImageDimension> TransformType;
   TransformType::Pointer transform = TransformType::New();
 
   //

@@ -99,6 +99,13 @@ public:
   itkSetMacro( ShapeParameterStandardDeviations, ArrayType );
   itkGetMacro( ShapeParameterStandardDeviations, ArrayType );
 
+  /** Set/Get the weights for each term. Default is a vector of all ones. 
+   * The weights are applied to terms in the following order:
+   * LogInsideTerm, LogGradientTerm, LogShapePriorTerm and LogPosePriorTerm.*/
+  typedef FixedArray<double,4> WeightsType;
+  itkSetMacro( Weights, WeightsType );
+  itkGetMacro( Weights, WeightsType );  
+
   /** Compute the inside term component of the MAP cost function. 
    * In particular, the method sums the number of pixels inside
    * the current contour (defined by nodes of the active region 
@@ -140,6 +147,7 @@ private:
 
   ArrayType      m_ShapeParameterMeans;
   ArrayType      m_ShapeParameterStandardDeviations;
+  WeightsType    m_Weights;
 
   typename GaussianKernelFunction::Pointer  m_GaussianFunction;
 

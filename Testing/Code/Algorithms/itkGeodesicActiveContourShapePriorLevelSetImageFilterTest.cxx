@@ -67,7 +67,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest( int, char *[])
   typedef itk::Image<InternalPixelType,ImageDimension> InternalImageType;
 
   typedef itk::GeodesicActiveContourShapePriorLevelSetImageFilter<InternalImageType,InternalImageType> FilterType;
-  typedef itk::SphereSignedDistanceFunction<float,ImageDimension> ShapeFunctionType;
+  typedef itk::SphereSignedDistanceFunction<double,ImageDimension> ShapeFunctionType;
   typedef itk::ShapePriorMAPCostFunction<InternalImageType,InternalPixelType> CostFunctionType;
   typedef itk::AmoebaOptimizer OptimizerType;
   typedef FilterType::ParametersType ParametersType;

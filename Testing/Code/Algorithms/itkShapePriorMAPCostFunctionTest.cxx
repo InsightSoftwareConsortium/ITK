@@ -45,7 +45,7 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
   /**
    * Set up the shape signed distance function
    */
-  typedef itk::SphereSignedDistanceFunction<float,Dimension> ShapeFunctionType;
+  typedef itk::SphereSignedDistanceFunction<double,Dimension> ShapeFunctionType;
   ShapeFunctionType::Pointer shape = ShapeFunctionType::New();
   shape->Initialize();
 
@@ -148,6 +148,11 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
   costFunction->SetShapeParameterMeans( shapeMean );
   costFunction->SetShapeParameterStandardDeviations( shapeStdDev );
 
+  CostFunctionType::WeightsType weights;
+  weights.Fill( 1.5 );
+
+  costFunction->SetWeights( weights );
+
 
   // Initialize cost function before use
   try
@@ -168,6 +173,8 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
   std::cout << costFunction->GetShapeParameterMeans() << std::endl;
   std::cout << "ShapeStandardDeviations: ";
   std::cout << costFunction->GetShapeParameterStandardDeviations() << std::endl;
+  std::cout << "Weights: ";
+  std::cout << costFunction->GetWeights() << std::endl;
   std::cout << "ShapeFunction: ";
   std::cout << costFunction->GetShapeFunction() << std::endl;
   std::cout << "ActiveRegion: ";
@@ -187,8 +194,8 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
   optimizer->SetCostFunction( costFunction );
   optimizer->SetInitialPosition( mean );
  
-  optimizer->SetFunctionConvergenceTolerance( 0.1 );
-  optimizer->SetParametersConvergenceTolerance( 0.5 );
+  optimizer->SetFunctionConvergenceTolerance( 0.01 );
+  optimizer->SetParametersConvergenceTolerance( 0.05 );
   optimizer->GetOptimizer()->verbose = true;
   
   try

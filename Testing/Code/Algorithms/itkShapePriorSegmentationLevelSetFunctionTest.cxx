@@ -108,7 +108,7 @@ int itkShapePriorSegmentationLevelSetFunctionTest( int, char *[])
   input->SetRegions( region );
   input->Allocate();
 
-  typedef itk::SphereSignedDistanceFunction<float,Dimension> ShapeFunctionType;
+  typedef itk::SphereSignedDistanceFunction<double,Dimension> ShapeFunctionType;
   ShapeFunctionType::Pointer shape = ShapeFunctionType::New();
   shape->Initialize();
 

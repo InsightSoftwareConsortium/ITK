@@ -85,7 +85,7 @@ public:
                       Superclass::ImageDimension);
 
   /** ShapeFunction typedef support. */
-  typedef ShapeSignedDistanceFunction<float,
+  typedef ShapeSignedDistanceFunction<double,
                                       itkGetStaticConstMacro(ImageDimension)> ShapeFunctionType;
   typedef typename ShapeFunctionType::ConstPointer           ShapeFunctionPointer;
 

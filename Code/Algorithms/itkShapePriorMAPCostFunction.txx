@@ -33,6 +33,7 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
   m_ShapeParameterMeans.Fill( 0.0 );
   m_ShapeParameterStandardDeviations = ArrayType( 1 );
   m_ShapeParameterStandardDeviations.Fill( 0.0 );
+  m_Weights.Fill( 1.0 );
 }
 
 
@@ -48,6 +49,7 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
   os << indent << "ShapeParameterMeans: " << m_ShapeParameterMeans << std::endl;
   os << indent << "ShapeParameterStandardDeviations:  ";
   os << m_ShapeParameterStandardDeviations  << std::endl;
+  os << indent << "Weights: " << m_Weights << std::endl;
 }
 
 
@@ -82,7 +84,10 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
     ++iter;
     }
 
-  return static_cast<MeasureType>( counter );
+  MeasureType output = static_cast<MeasureType>( counter ) * m_Weights[0];
+
+//  std::cout << output << " ";
+  return output;
 
 }
 
@@ -102,7 +107,9 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
     measure += vnl_math_sqr( ( parameters[j] - m_ShapeParameterMeans[j] ) / 
       m_ShapeParameterStandardDeviations[j] );
     }
+  measure *= m_Weights[2];
 
+//  std::cout << measure << " " << std::endl;
   return measure;
 
 }
@@ -140,7 +147,9 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
     ++iter;
     }
   
-  return static_cast<MeasureType>( sum );
+  sum *= m_Weights[1];
+//  std::cout << sum << " ";
+  return sum;
 
 }
 

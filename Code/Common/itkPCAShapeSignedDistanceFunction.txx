@@ -28,8 +28,8 @@ namespace itk
 
 
 // Constructor with default arguments
-template<typename TCoordRep, unsigned int VSpaceDimension>
-PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
+template<typename TCoordRep, unsigned int VSpaceDimension, typename TImage>
+PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
 ::PCAShapeSignedDistanceFunction()
 {
   m_NumberOfPrincipalComponents = 0;
@@ -51,9 +51,9 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
     
 
 // Set the number of principal components
-template<typename TCoordRep, unsigned int VSpaceDimension>
+template<typename TCoordRep, unsigned int VSpaceDimension, typename TImage>
 void
-PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
+PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
 ::SetNumberOfPrincipalComponents(unsigned int n)
 {
   m_NumberOfPrincipalComponents = n;
@@ -66,9 +66,9 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
 
 
 // Set the parameters
-template<typename TCoordRep, unsigned int VSpaceDimension>
+template<typename TCoordRep, unsigned int VSpaceDimension, typename TImage>
 void
-PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
+PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
 ::SetParameters( const ParametersType & parameters )
 {
   m_Parameters = parameters;
@@ -93,9 +93,9 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
 
 
 // Print self
-template<typename TCoordRep, unsigned int VSpaceDimension>
+template<typename TCoordRep, unsigned int VSpaceDimension, typename TImage>
 void
-PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
+PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -118,9 +118,9 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
 
 
 // Initialize the function
-template<typename TCoordRep, unsigned int VSpaceDimension>
+template<typename TCoordRep, unsigned int VSpaceDimension, typename TImage>
 void
-PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
+PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
 ::Initialize() throw ( ExceptionObject )
 {
   // verify mean image
@@ -187,10 +187,10 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
 
 
 // Evaluate the signed distance
-template<typename TCoordRep, unsigned int VSpaceDimension>
-typename PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
+template<typename TCoordRep, unsigned int VSpaceDimension, typename TImage>
+typename PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
 ::OutputType
-PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
+PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
 ::Evaluate( const PointType& point ) const
 {
   // transform the point into the shape model space

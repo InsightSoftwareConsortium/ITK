@@ -65,7 +65,7 @@ const FloatOffsetType& offset )
   if ( m_ShapeFunction && m_ShapePriorWeight != NumericTraits<ScalarValueType>::Zero )
     {
     IndexType idx = neighborhood.GetIndex();
-    ContinuousIndexType cdx;
+    ContinuousIndex<double,ImageDimension> cdx;
     for( unsigned int i = 0; i < ImageDimension; ++i )
       {
       cdx[i] = static_cast<double>( idx[i] ) - offset[i];

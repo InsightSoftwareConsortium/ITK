@@ -87,7 +87,7 @@ public:
   typedef typename NodeContainerType::ConstPointer  NodeContainerPointer;
 
   /** Type of the shape signed distance function. */
-  typedef ShapeSignedDistanceFunction<float,
+  typedef ShapeSignedDistanceFunction<double,
                                       itkGetStaticConstMacro(ImageDimension)> ShapeFunctionType;
   typedef typename ShapeFunctionType::Pointer            ShapeFunctionPointer;
 
