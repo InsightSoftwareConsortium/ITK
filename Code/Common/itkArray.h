@@ -88,7 +88,7 @@ public:
 
 private:
 
-  bool m_Array_Own_Data;
+  bool m_ArrayOwnData;
   
 };
 
