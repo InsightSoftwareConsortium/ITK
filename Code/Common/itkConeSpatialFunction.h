@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkConeSpatialFunction_h
 
 #include "vnl/vnl_vector_fixed.h"
-#include "itkSpatialFunction.h"
+#include "itkInteriorExteriorSpatialFunction.h"
 
 namespace itk
 {
@@ -56,7 +56,7 @@ namespace itk
  * */
 
 template <unsigned int VImageDimension=3>
-class ITK_EXPORT ConeSpatialFunction : public InteriorExteriorSpatialFunction<VImageDimension>
+class ITK_EXPORT ConeSpatialFunction : public InteriorExteriorSpatialFunction< VImageDimension >
 {
 public:
 
@@ -64,6 +64,8 @@ public:
    * Standard "Self" typedef.
    */
   typedef ConeSpatialFunction Self;
+
+  enum { ImageDimension = VImageDimension };
 
   /**
    * Standard "Superclass" typedef.
