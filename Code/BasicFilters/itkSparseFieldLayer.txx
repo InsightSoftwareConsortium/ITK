@@ -18,7 +18,6 @@
 #define __itkSparseFieldLayer_txx
 #include "itkSparseFieldLayer.h"
 
-#include <math.h>
 namespace itk {
 
 template<class TNodeType>
@@ -28,6 +27,7 @@ SparseFieldLayer<TNodeType>
   m_HeadNode = new NodeType;
   m_HeadNode->Next = m_HeadNode;
   m_HeadNode->Previous = m_HeadNode;
+  m_Size = 0;
 }
 
 template<class TNodeType>
@@ -53,11 +53,7 @@ unsigned int
 SparseFieldLayer<TNodeType>
 ::Size() const
 {
-  unsigned int counter = 0;
-
-  for (NodeType *it = m_HeadNode; it->Next != m_HeadNode; it = it->Next)
-    { counter++; }
-  return counter;
+  return m_Size;
 }
 
 template<class TNodeType>
@@ -74,17 +70,17 @@ SparseFieldLayer<TNodeType>
   
   for (int i=0;i<num;i++) 
     {
-    unsigned int j=0;
-    RegionType region;
-    region.first=position;
-    while ((j<regionsize)&&(position!=last)) 
-      {
-      j++;
-      ++position;
-      }
-    region.last=position;
-    regionlist.push_back(region);
-    }
+      unsigned int j=0;
+      RegionType region;
+      region.first=position;
+      while ((j<regionsize)&&(position!=last)) 
+        {
+          j++;
+          ++position;
+        }
+      region.last=position;
+      regionlist.push_back(region);
+   }
   
   return regionlist;
 }

@@ -31,7 +31,7 @@ namespace itk {
 template <class TNodeType>
 class ConstSparseFieldLayerIterator
 {
-public:
+ public:
   const TNodeType& operator*() const
   { return *m_Pointer; }
 
@@ -144,7 +144,7 @@ public:
  */
 template <class TNodeType>
 class ITK_EXPORT SparseFieldLayer
-  : public Object
+    : public Object
 {
 public:
   /** Standard typedefs. */
@@ -156,7 +156,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+   /** Run-time type information (and related methods). */
   itkTypeMacro(SparseFieldLayer, Object);
 
   /** Type of node stored in the linked list. */
@@ -194,8 +194,9 @@ public:
   {
     m_HeadNode->Next = m_HeadNode->Next->Next;
     m_HeadNode->Next->Previous = m_HeadNode;
+    m_Size -= 1;
   }
-
+  
   /** Links a node into the front of the list. Constant time. */
   void PushFront(NodeType *n)
   {
@@ -203,13 +204,15 @@ public:
     n->Previous = m_HeadNode;
     m_HeadNode->Next->Previous = n;
     m_HeadNode->Next = n;
+    m_Size += 1;
   }
-
+  
   /** Unlinks a node from the list */
   void Unlink(NodeType *n)
   {
     n->Previous->Next = n->Next;
     n->Next->Previous = n->Previous;
+    m_Size -= 1;
   }
   
   /** Returns an iterator pointing to the first node in the list. */
@@ -235,11 +238,9 @@ public:
     if (m_HeadNode->Next == m_HeadNode) return true;
     else return false;
   }
-
-  /** Returns the number of elements in the list.  The usual STL warning
-   *  applies here: There are no guarantees that Size() executes in constant
-   *  time; the implementation may be order N time.  To test for an empty
-   *  list, use Empty() instead of Size()==0. */
+  
+  /** Returns the number of elements in the list. Size() executes in constant
+   *  time. */
   unsigned int Size() const;
   
   /** Returns pointers to first and last+1 elements of num partitions of 
@@ -261,7 +262,8 @@ private:
   
   /** The anchor node of the list.  m_HeadNode->Next is the first node in the
    *  list. If m_HeadNode->Next == m_HeadNode, then the list is empty. */
-  NodeType *m_HeadNode; 
+  NodeType *m_HeadNode;
+  unsigned int m_Size;
 };
 
 
