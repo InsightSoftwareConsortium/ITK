@@ -446,7 +446,9 @@ public:
 
   /** Returns a list of pointer to the children affiliated to this object. 
    * A depth of 0 returns the immediate childred. A depth of 1 returns the
-   * children and those children's children. */ 
+   * children and those children's children.
+   * \warning User is responsible for freeing the list, but not the elements of
+   * the list. */
   virtual ChildrenListType * GetChildren( unsigned int depth=0, 
                                           char * name=NULL ) const;
 
