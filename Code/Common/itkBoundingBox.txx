@@ -241,6 +241,33 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
   return dist2;
 }
 
+
+
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+bool
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::IsInside( const PointType & point )
+{
+  unsigned int j = 0; 
+  unsigned int i = 0;
+  while( i<PointDimension )
+    {
+    if( point[i] < m_Bounds[j++] )
+      {
+      return false;
+      }
+    if( point[i] > m_Bounds[j++] )
+      {
+      return false;
+      }
+    i++;
+    }
+  return true;
+}
+
+
+
 } // end namespace itk
 
 #endif

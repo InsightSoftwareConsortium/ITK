@@ -136,6 +136,9 @@ public:
   typedef typename NumericTraits<CoordRepType>::AccumulateType AccumulateType;
   AccumulateType GetDiagonalLength2(void);
   
+  /** Method that checks if a point is inside the bounding box. */
+  bool IsInside( const PointType & );
+
 #if 0
   /**
    * Intersect this bounding box (bounds[PointDimension*2]) with a line
