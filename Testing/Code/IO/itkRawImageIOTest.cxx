@@ -20,11 +20,14 @@
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 #include "itkRawImageIO.h"
+#include "itkImageRegionConstIterator.h"
 
 int itkRawImageIOTest(int, char**)
 {
-  typedef itk::Image<unsigned short,2> ImageType;
-
+  typedef itk::Image<unsigned short,2>    ImageType;
+  typedef ImageType::PixelType            PixelType;
+  typedef itk::ImageRegionConstIterator< 
+                                  ImageType > ImageIteratorType;
   // Create a source object (in this case a random image generator).
   // The source object is templated on the output type.
   //
@@ -59,11 +62,39 @@ int itkRawImageIOTest(int, char**)
   reader->SetFileName("junk.raw");
   reader->Update();
 
+  // Compare pixel by pixel in memory
+
+
+  ImageIteratorType it( reader->GetOutput(), 
+                        reader->GetOutput()->GetBufferedRegion() );
+
+  ImageIteratorType ot( random->GetOutput(), 
+                        random->GetOutput()->GetBufferedRegion() );
+
+  it.GoToBegin();
+  ot.GoToBegin();
+  while( !it.IsAtEnd() )
+    {
+    const PixelType iv = it.Get();
+    const PixelType ov = ot.Get();
+    if( iv != ov ) 
+      {
+      std::cerr << "Error in read/write of pixel " << it.GetIndex() << std::endl;
+      std::cerr << "Read value  is : " << iv << std::endl;
+      std::cerr << "it should be   : " << ov << std::endl;
+      std::cerr << "Test FAILED ! " << std::endl;
+      return EXIT_FAILURE;
+      }
+    ++it;
+    ++ot;
+    }
+
   writer->SetInput(reader->GetOutput());
   writer->SetFileName("junk2.raw");
   writer->SetInput(reader->GetOutput());
   writer->Write();
 
+  std::cerr << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 }
 
