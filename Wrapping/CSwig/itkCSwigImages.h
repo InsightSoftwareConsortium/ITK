@@ -1,3 +1,7 @@
+#include "itkImage.h"
+#include "itkVector.h"
+#include "itkCovariantVector.h"
+
 namespace image
 {
   //typedef itk::Image<bool, 2> B2;
