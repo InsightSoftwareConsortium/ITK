@@ -118,7 +118,7 @@ protected:
 private:
 
   TranslationTransformType      m_TranslationTransform;
-  ParametersType::Pointer       m_Parameters;
+  typename ParametersType::Pointer       m_Parameters;
 
 };
 
