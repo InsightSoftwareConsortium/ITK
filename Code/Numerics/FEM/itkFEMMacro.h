@@ -241,12 +241,13 @@ private:  // everything that follows from here is private by default (like in th
 
 
 
-
+namespace itk {
+namespace fem {
 /**
  * \brief Class that is used in #FEM_CLASS_INIT macro.
  */
 struct INITClass { INITClass(int) {} };
-
+}} // end namespace itk::fem
 
 
 
