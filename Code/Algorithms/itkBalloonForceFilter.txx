@@ -51,7 +51,6 @@ template <typename TInputMesh, typename TOutputMesh>
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::~BalloonForceFilter()
 {
-#if 0
   if (m_NewNodes)
     {
     for (unsigned int i = 0; i < m_NewNodeLimit; i++)
@@ -59,11 +58,12 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       if (m_NewNodes[i])
         {
         free(m_NewNodes[i]);
+        m_NewNodes[i] = 0;
         }
       }
     free(m_NewNodes);
+    m_NewNodes = 0;
     }
-#endif
 
   if (m_K)
     {
@@ -1139,6 +1139,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   if (m_NumNewNodes > m_NewNodeLimit)
     {
+    std::cout << "Reallocing " << m_NewNodeLimit * 2 << " nodes" << std::endl;
     realloc( m_NewNodes, m_NewNodeLimit*sizeof(float*)*2 );
     for (int i = m_NewNodeLimit; i < 2*m_NewNodeLimit; i++)
       {
