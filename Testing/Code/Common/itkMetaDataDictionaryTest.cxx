@@ -1,3 +1,6 @@
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
 #include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 #include <iostream>
@@ -67,7 +70,8 @@ int itkMetaDataDictionaryTest(int argc, char * argv[])
   dynamic_cast<itk::MetaDataObject<std::string>::Pointer>(MyDictionary["AnSTLString"])->SetMetaDataObjectValue("This is a std::string");
   std::cout << dynamic_cast<itk::MetaDataObject<std::string>::Pointer>(MyDictionary["AnSTLString"])->GetMetaDataObjectValue() << std::endl;
 
-  for(std::map<std::string, itk::MetaDataObjectBase::Pointer>::iterator it=MyDictionary.begin();
+  std::map<std::string, itk::MetaDataObjectBase::Pointer>::iterator it;
+  for(it=MyDictionary.begin();
       it != MyDictionary.end();
       it++)
   {
@@ -88,7 +92,7 @@ int itkMetaDataDictionaryTest(int argc, char * argv[])
   std::cout << (dynamic_cast<itk::MetaDataObject<char const * const>::Pointer>(NewDictionary["char const * const = tempvar"])->GetMetaDataObjectValue()) << std::endl;
   std::cout << dynamic_cast<itk::MetaDataObject<std::string>::Pointer>(NewDictionary["AnSTLString"])->GetMetaDataObjectValue() << std::endl;
 
-  for(std::map<std::string, itk::MetaDataObjectBase::Pointer>::iterator it=NewDictionary.begin();
+  for(it=NewDictionary.begin();
       it != NewDictionary.end();
       it++)
   {
