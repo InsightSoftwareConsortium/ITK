@@ -145,7 +145,6 @@ itkBinaryMask3DMeshSourceTest.cxx
 itkBioGeneTest.cxx
 itkBioGeneNetworkTest.cxx
 itkCannySegmentationLevelSetImageFilterTest.cxx
-itkCompareHistogramImageToImageMetricTest.cxx
 itkCorrelationCoefficientHistogramImageToImageMetricTest.cxx
 itkCurvatureFlowTest.cxx
 itkDemonsRegistrationFilterTest.cxx
@@ -236,7 +235,7 @@ SET(AlgorithmsTest2_SRCS
 itkAlgorithmsPrintTest.cxx
 itkAlgorithmsPrintTest2.cxx
 itkAlgorithmsPrintTest3.cxx
-itkCompareHistogramImageToImageMetricTest
+itkCompareHistogramImageToImageMetricTest.cxx
 itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
 itkMIRegistrationFunctionTest.cxx
 itkOtsuMultipleThresholdsCalculatorTest.cxx
