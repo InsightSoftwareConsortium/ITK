@@ -162,12 +162,16 @@ void
 ImageSource<TOutputImage>
 ::GenerateData()
 {
-  // Get the output pointers
-  OutputImagePointer outputPtr = this->GetOutput();
+  int i;
+  OutputImagePointer outputPtr;
 
   // Allocate the output memory
-  outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
-  outputPtr->Allocate();
+  for (i=0; i < this->GetNumberOfOutputs(); i++)
+    {
+    outputPtr = this->GetOutput(i);
+    outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
+    outputPtr->Allocate();
+    }
 
   // Set up the multithreaded processing
   ThreadStruct str;
