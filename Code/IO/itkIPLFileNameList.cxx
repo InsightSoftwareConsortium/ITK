@@ -115,10 +115,14 @@ void
 IPLFileNameList::
 sortImageListAscend ()
 {
+#if 0
   IPLFileSortInfo_ascend_compare comp;
   //  qsort (fnList->Info, fnList->numImageInfoStructs, sizeof (IPLFileSortInfo),
   //         qsort_IPLFileSortInfo_ascend_compar);
   m_List.sort<IPLFileSortInfo_ascend_compare>(comp);
+#else
+  m_List.sort( IPLFileSortInfo_ascend_compare() );
+#endif
   return;
 }
 
@@ -128,8 +132,12 @@ sortImageListDescend ()
 {
   //  qsort (fnList->Info, fnList->numImageInfoStructs, sizeof (IPLFileSortInfo),
   //     qsort_IPLFileSortInfo_descend_compar);
+#if 0
   IPLFileSortInfo_descend_compare comp;
   m_List.sort<IPLFileSortInfo_descend_compare>(comp);
+#else
+  m_List.sort( IPLFileSortInfo_descend_compare() );
+#endif
   return;
 }
 
