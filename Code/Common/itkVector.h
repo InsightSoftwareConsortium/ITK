@@ -191,18 +191,7 @@ class Vector : public Array<T,TVectorDimension> {
   /**
    * Returns vector's Squared Euclidean Norm 
    */
-  ValueType GetSquaredNorm( void ) const;
- 
-
-
-
-protected:
-  /**
-   * Print content
-   */
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
-
+  ValueType GetSquaredNorm( void ) const; 
 };
 
 template< class T, unsigned int TVectorDimension >  

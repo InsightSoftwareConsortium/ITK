@@ -163,16 +163,6 @@ class Point : public Array< TCoordRep, TPointDimension > {
    * Get a vnl_vector_ref referencing the same memory block
    */
   vnl_vector_ref<TCoordRep> Get_vnl_vector( void );
-
-
-
-  /**
-   * Print content
-   */
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
-
- 
 };
 
   

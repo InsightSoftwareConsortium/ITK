@@ -202,26 +202,6 @@ Point<T, TPointDimension>
 }
  
 
- 
-/**
- * Print content
- */
-template<class T, unsigned int TPointDimension>
-void
-Point<T, TPointDimension>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf( os, indent );
-  os << indent;
-  for( unsigned int i=0; i<TPointDimension; i++)
-  {
-    os <<  (*this)[i] << ", ";
-  }
-  os << std::endl;
-}
-
-
-
 /**
  * Print content to an ostream
  */
