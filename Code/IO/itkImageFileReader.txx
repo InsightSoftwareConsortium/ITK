@@ -149,6 +149,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   output->SetOrigin( origin );     // Set the image origin
   //Copy MetaDataDictionary from instantiated reader to output image.
   output->SetMetaDataDictionary(m_ImageIO->GetMetaDataDictionary());
+  this->SetMetaDataDictionary(m_ImageIO->GetMetaDataDictionary());
 
   typedef typename TOutputImage::IndexType   IndexType;
 

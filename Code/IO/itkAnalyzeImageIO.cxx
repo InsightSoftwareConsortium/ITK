@@ -923,7 +923,6 @@ void AnalyzeImageIO::ReadImageInformation()
   std::string classname(this->GetNameOfClass());
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName, classname);
 
-  itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(this->m_hdr.hk.data_type,10));
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_ImageFileBaseName,std::string(this->m_hdr.hk.db_name,18));
 
   //Important dime fields
@@ -935,6 +934,47 @@ void AnalyzeImageIO::ReadImageInformation()
   itk::EncapsulateMetaData<float>(thisDic,ANALYZE_CAL_MIN,this->m_hdr.dime.cal_min);
   itk::EncapsulateMetaData<int>(thisDic,ANALYZE_GLMAX,this->m_hdr.dime.glmax);
   itk::EncapsulateMetaData<int>(thisDic,ANALYZE_GLMIN,this->m_hdr.dime.glmin);
+
+  for (dim=this->GetNumberOfDimensions(); dim>0; dim--)
+  {
+      if (m_hdr.dime.dim[dim] != 1)
+          break;
+  }
+  itk::EncapsulateMetaData<int>(thisDic,ITK_NumberOfDimensions,dim);
+
+  switch( this->m_hdr.dime.datatype)
+    {
+    case ANALYZE_DT_BINARY:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(char).name()));
+      break;
+    case ANALYZE_DT_UNSIGNED_CHAR:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned char).name()));
+      break;
+    case ANALYZE_DT_SIGNED_SHORT:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(short).name()));
+      break;
+    case SPMANALYZE_DT_UNSIGNED_SHORT:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned short).name()));
+      break;
+    case ANALYZE_DT_SIGNED_INT:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(long).name()));
+      break;
+    case SPMANALYZE_DT_UNSIGNED_INT:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned long).name()));
+      break;
+    case ANALYZE_DT_FLOAT:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(float).name()));
+      break;
+    case ANALYZE_DT_DOUBLE:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(double).name()));
+      break;
+    case ANALYZE_DT_RGB:
+      // DEBUG -- Assuming this is a triple, not quad
+      //image.setDataType( uiig::DATA_RGBQUAD );
+      break;
+    default:
+      break;
+    }
 
   //Important hist fields
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileNotes,std::string(this->m_hdr.hist.descrip,80));
@@ -1006,6 +1046,78 @@ AnalyzeImageIO
   std::string temp;
   //Important hk fields.
   itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
+
+  switch( this->m_hdr.dime.datatype)
+    {
+    case ANALYZE_DT_BINARY:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(char).name()));
+      break;
+    case ANALYZE_DT_UNSIGNED_CHAR:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned char).name()));
+      break;
+    case ANALYZE_DT_SIGNED_SHORT:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(short).name()));
+      break;
+    case SPMANALYZE_DT_UNSIGNED_SHORT:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned short).name()));
+      break;
+    case ANALYZE_DT_SIGNED_INT:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(long).name()));
+      break;
+    case SPMANALYZE_DT_UNSIGNED_INT:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned long).name()));
+      break;
+    case ANALYZE_DT_FLOAT:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(float).name()));
+      break;
+    case ANALYZE_DT_DOUBLE:
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(double).name()));
+      break;
+    case ANALYZE_DT_RGB:
+      // DEBUG -- Assuming this is a triple, not quad
+      //image.setDataType( uiig::DATA_RGBQUAD );
+      break;
+    default:
+      break;
+    }
+
+  itk::ExposeMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,temp);
+  if (temp==std::string(typeid(char).name()))
+  {
+      strncpy(this->m_hdr.hk.data_type,"BINARY",10);
+  }
+  else if (temp==std::string(typeid(unsigned char).name()))
+  {
+      strncpy(this->m_hdr.hk.data_type,"CHAR",10);
+  }
+  else if (temp==std::string(typeid(short).name()))
+  {
+      strncpy(this->m_hdr.hk.data_type,"SHORT",10);
+  }
+  else if (temp==std::string(typeid(unsigned short).name()))
+  {
+      strncpy(this->m_hdr.hk.data_type,"USHORT",10);
+  }
+  else if (temp==std::string(typeid(long).name()))
+  {
+      strncpy(this->m_hdr.hk.data_type,"INT",10);
+  }
+  else if (temp==std::string(typeid(unsigned long).name()))
+  {
+      strncpy(this->m_hdr.hk.data_type,"UINT",10);
+  }
+  else if (temp==std::string(typeid(float).name()))
+  {
+      strncpy(this->m_hdr.hk.data_type,"FLOAT",10);
+  }
+  else if (temp==std::string(typeid(double).name()))
+  {
+      strncpy(this->m_hdr.hk.data_type,"DOUBLE",10);
+  }
+  else
+  {
+      strncpy(this->m_hdr.hk.data_type,"UNKNOWN",10);
+  }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,temp))
     {
