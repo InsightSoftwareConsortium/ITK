@@ -140,6 +140,7 @@ itkEventMacro( ProgressEvent      , AnyEvent );
 itkEventMacro( ExitEvent          , AnyEvent );
 itkEventMacro( AbortEvent         , AnyEvent );
 itkEventMacro( ModifiedEvent      , AnyEvent );
+itkEventMacro( InitializeEvent     , AnyEvent );
 itkEventMacro( IterationEvent     , AnyEvent );
 itkEventMacro( PickEvent          , AnyEvent );
 itkEventMacro( StartPickEvent     , PickEvent   );

@@ -140,7 +140,9 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 
     }
 
-
+  // If there are any observers on the metric, call them to give the
+  // user code a chance to set parameters on the metric
+  this->InvokeEvent( InitializeEvent() );
 }
  
 
