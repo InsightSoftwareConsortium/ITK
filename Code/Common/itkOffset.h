@@ -51,11 +51,6 @@ public:
   static unsigned int GetOffsetDimension() { return VOffsetDimension; }
 
   /**
-   * Define the zero index for convenience.
-   */
-  static const Self ZeroOffset;
-  
-  /**
    * Compatible Offset typedef
    */
   typedef   Offset<VOffsetDimension>  OfficeType;
@@ -180,6 +175,13 @@ public:
   static Self GetBasisOffset(unsigned int dim); 
 
   /**
+   * Set one value for the offset in all dimensions.  Useful for initializing
+   * an offset to zero.
+   */
+  void Fill(long value)
+    { for(unsigned int i=0;i < VOffsetDimension; ++i) m_Offset[i] = value; }
+  
+  /**
    * Offset is an "aggregate" class.  Its data is public (m_Offset)
    * allowing for fast and convienent instantiations/assignments.
    *
@@ -221,13 +223,6 @@ std::ostream & operator<<(std::ostream &os, const Offset<VOffsetDimension> &ind)
   os << "]" << std::endl;
   return os;
 }
-
-// Set the const definition of the ZeroOffset. This uses the aggregate
-// initialization shortcut to assign all the data in the aggregate to zero.
-template<unsigned int VOffsetDimension>
-const Offset<VOffsetDimension>
-Offset<VOffsetDimension>
-::ZeroOffset = {{0}};
 
 } // end namespace itk
 
