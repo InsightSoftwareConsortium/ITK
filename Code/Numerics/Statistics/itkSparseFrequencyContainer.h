@@ -63,8 +63,7 @@ public:
   void Initialize(unsigned long length) ;
 
   /** Method to set the frequency of histogram using instance identifier */
-  void SetFrequency(const InstanceIdentifier id, const FrequencyType value)
-  { m_FrequencyContainer[id] = value ; }
+  void SetFrequency(const InstanceIdentifier id, const FrequencyType value) ;
 
   /** Method to increase the frequency by one.  This function is convinent
    * to create histogram. */
@@ -74,8 +73,11 @@ public:
   /** Method to get the frequency of a bin from the histogram */
   FrequencyType GetFrequency(const InstanceIdentifier id) const ;
 
+  FrequencyType GetTotalFrequency()
+  { return m_TotalFrequency ; }
+
 protected:
-  SparseFrequencyContainer() {}
+  SparseFrequencyContainer() ;
   virtual ~SparseFrequencyContainer() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -85,6 +87,7 @@ private:
 
   // Container of histogram
   FrequencyContainerType m_FrequencyContainer ;
+  FrequencyType  m_TotalFrequency ;
 } ; // end of class
 
   } // end of namespace Statistics

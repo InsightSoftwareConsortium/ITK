@@ -23,10 +23,27 @@ namespace itk{
   namespace Statistics{
 
 template< class TFrequencyValue >
+SparseFrequencyContainer< TFrequencyValue >
+::SparseFrequencyContainer()
+{
+  m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
+}
+
+template< class TFrequencyValue >
 void
 SparseFrequencyContainer< TFrequencyValue >
 ::Initialize(unsigned long length) 
 {   
+}
+
+template< class TFrequencyValue >
+void
+SparseFrequencyContainer< TFrequencyValue >
+::SetFrequency(const InstanceIdentifier id, const FrequencyType value)
+{ 
+  FrequencyType frequency = this->GetFrequency(id) ;
+  m_FrequencyContainer[id] = value ; 
+  m_TotalFrequency += (value - frequency) ;
 }
 
 template< class TFrequencyValue >
@@ -49,10 +66,9 @@ void
 SparseFrequencyContainer< TFrequencyValue >
 ::IncreaseFrequency(const InstanceIdentifier id, const FrequencyType value)
 {
-  FrequencyType frequency;
-  frequency = this->GetFrequency(id);
-  frequency = frequency + value;
-  this->SetFrequency(id, frequency);
+  FrequencyType frequency = this->GetFrequency(id) ;
+  m_FrequencyContainer[id] = frequency + value ; 
+  m_TotalFrequency += value ;
 }
 
 template< class TFrequencyValue >
