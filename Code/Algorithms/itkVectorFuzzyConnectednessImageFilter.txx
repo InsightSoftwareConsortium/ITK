@@ -1286,7 +1286,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
 template <class TInputImage, class TOutputImage>
 void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
-::DoFuzzySegmentation()
+::GenerateData()
 {
 
   int pslices,prow,pcol;

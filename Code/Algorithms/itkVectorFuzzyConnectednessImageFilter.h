@@ -119,14 +119,15 @@ public:
    */
   void Initialization();
  
-  /**
-   * Perform the segmentation.
-   */
-  void DoFuzzySegmentation();	
 
 protected:
   VectorFuzzyConnectednessImageFilter();
   ~VectorFuzzyConnectednessImageFilter();
+
+  /**
+   * Standard pipeline method.
+   */
+	void GenerateData();
 
 private:
 

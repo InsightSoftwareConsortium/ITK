@@ -13,6 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#include "itkImage.h"
 #include "itkVectorFuzzyConnectednessImageFilter.h"
 
 
@@ -40,11 +41,11 @@ double object_cov2[3][3] =
 		{-21.27,  132.14, 100.63},
 	};
 
-itk::Image<itk::Vector<int,3>,3>::IndexValueType Seed1[1][3] = 
+long Seed1[1][3] = 
 	{
 		{5, 15,0},
 	};
-itk::Image<itk::Vector<int,3>,3>::IndexValueType Seed2[1][3] = 
+long Seed2[1][3] = 
 	{
 		{15,5, 0},
 	};
@@ -103,12 +104,9 @@ int main()
 	typedef itk::Image<IntVector,3> VectorImage3D;
 	typedef itk::VectorFuzzyConnectednessImageFilter<VectorImage3D,BinaryImage3D> FuzzyImage;
 
-	itk::Size<3> size;
-  size[0] = WIDTH;
-  size[1] = HEIGHT;
-  size[2] = LENGTH;
-
+	itk::Size<3> size = {WIDTH, HEIGHT, LENGTH};
 	double spacing[3] = { 0.33,  0.33, 1.0};
+
 	
 	FuzzyImage::Pointer testFuzzy=FuzzyImage::New();
 	VectorImage3D::Pointer inputimg=VectorImage3D::New();
@@ -137,6 +135,7 @@ int main()
 	fread(data,1,DEEP*HEIGHT*WIDTH*3,fin);
 */
 	itk::ImageRegionIteratorWithIndex <VectorImage3D> it(inputimg, region);
+	//it.Begin();
 
 	int k=0;
 	IntVector value;
@@ -181,11 +180,9 @@ int main()
 			testFuzzy->SetObjectsSeed(index,1);
     }
 	
-	testFuzzy->DoFuzzySegmentation();
+	testFuzzy->Update();
 
 	itk::ImageRegionIteratorWithIndex <BinaryImage3D> ot(testFuzzy->GetOutput(), region);
-
-	ot.GoToBegin();
 
 	for(int i = 0;i < LENGTH*HEIGHT*WIDTH; i++)
 		{
@@ -195,5 +192,5 @@ int main()
 			++ot;
 		}
 
-	return 0;
+	return 1;
 }
