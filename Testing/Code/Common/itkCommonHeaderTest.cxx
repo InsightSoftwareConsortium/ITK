@@ -31,7 +31,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCellBoundary.h"
 #include "itkCellInterface.h"
 #include "itkCellInterfaceVisitor.h"
-#include "itkCenteredAffineRegistrationTransform.h"
 #include "itkCentralDerivativeImageFunction.h"
 #include "itkColorTable.h"
 #include "itkCommand.h"

@@ -165,7 +165,7 @@ public:
  * the target image type.
  *
  * \sa MutualInformationImageToImageMetric
- * \sa CenteredAffineRegistrationTransform
+ * \sa AffineRegistrationTransform
  *
  */
 template <class TReference, class TTarget>

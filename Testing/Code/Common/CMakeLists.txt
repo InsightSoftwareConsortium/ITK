@@ -89,7 +89,6 @@ itkBoundingBox
 itkByteSwapper
 itkCellBoundary
 itkCellInterface
-itkCenteredAffineRegistrationTransform
 itkCentralDerivativeImageFunction
 itkCosImageAdaptor
 itkCovariantVector
@@ -201,6 +200,5 @@ CABLE_OPEN_NAMESPACE(itk)
     "UpwindDerivativeImageFunction<$PhysicalImageType >"
     "LevelSetCurvatureFunction<$ImageType >"
     "LevelSetCurvatureFunction<$PhysicalImageType >"
-    "CenteredAffineRegistrationTransform<float, $Dimension, $PointType >"
   )
 CABLE_CLOSE_NAMESPACE(itk)
