@@ -94,7 +94,7 @@ ImageConstIteratorWithIndex<TImage>
   for (unsigned int i=0; i < ImageDimension; ++i)
     {
       unsigned int size = region.GetSize()[i];
-      if( size >= 0 )
+      if( size > 0 )
       {
         m_Remaining = true;
       }
