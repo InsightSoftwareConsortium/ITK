@@ -163,6 +163,11 @@ Euler2DTransform<TScalarType>
 {
   m_Angle = acos(m_RotationMatrix[0][0]); 
 
+  if(m_RotationMatrix[1][0]<0.0)
+    {
+    m_Angle = -m_Angle;
+    }
+
   if(m_RotationMatrix[1][0]-sin(m_Angle) > 0.000001)
     {
     std::cout << "Bad Rotation Matrix" << std::endl;
