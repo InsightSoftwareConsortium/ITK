@@ -33,6 +33,12 @@ ITKNumerics
 FEM
 )
 
+IF(UNIX)
+  LINK_LIBRARIES (
+  -lm
+  )
+ENDIF(UNIX)
+
 ADD_TEST(itkFEMElementTestMenu itkFEMTests itkFEMElementTestMenu)
 ADD_TEST(itkFEMElementTest itkFEMTests itkFEMElementTest)
 ADD_TEST(itkFEMBar2DTest itkFEMTests itkFEMBar2DTest)
