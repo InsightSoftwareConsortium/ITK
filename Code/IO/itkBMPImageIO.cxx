@@ -315,6 +315,7 @@ void BMPImageIO::ReadImageInformation()
     // read the offset
     m_Ifstream.read((char*)&tmp,4);
     m_BitMapOffset = tmp;
+    ByteSwapper<long>::SwapFromSystemToLittleEndian(&m_BitMapOffset);
     }
   else
     {
@@ -324,6 +325,7 @@ void BMPImageIO::ReadImageInformation()
     // read the offset
     m_Ifstream.read((char*)&itmp,4);
     m_BitMapOffset = static_cast<long>(itmp);
+    ByteSwapper<long>::SwapFromSystemToLittleEndian(&m_BitMapOffset);
     }
 
   // get size of header
