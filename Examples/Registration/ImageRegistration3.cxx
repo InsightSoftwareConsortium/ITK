@@ -17,11 +17,11 @@
 
 // Software Guide : BeginLatex
 //
-// Given the numerous parameters involved in tunning a registration method for
+// Given the numerous parameters involved in tuning a registration method for
 // a particular application it is common to be faced with  a registration
 // process that runs for several minutes and ends up with a usless result.  In
 // order to avoid this situation it is quite helpful to track the evolution of
-// the registration as it progress. The following section illustrates the
+// the registration as it progresses. The following section illustrates the
 // mechanisms provided in ITK for monitoring the activity of the
 // \code{ImageRegistrationMethod} class.
 //
@@ -36,15 +36,15 @@
 // the hierarchy of the \code{itk::Event} class. Typical events are
 // \code{Start}, \code{End}, \code{Progress} and \code{Iteration}.
 //
-// Registration is controled by an \code{itk::Optimizer} which in general
+// Registration is controlled by an \code{itk::Optimizer} which in general
 // executes an iterative process. Most \code{Optimizer} invoke an
 // \code{itk::IterationEvent} at the end of each iteration. When an event is
 // invoked by an object, this object goes through its list of registered
 // observers (\code{itk::Command}s) and checks whether any one of them declared
 // to be interested in the current event type. Whenever such an observer is
 // found, its corresponding \code{Execute()} method is invoked.  In this
-// context \code{Execute()} methods should be considered as \emph{callbacks}.
-// As such, some of the common-sense rules of callbacks should be respected.
+// context, \code{Execute()} methods should be considered as \emph{callbacks}.
+// As such, some of the common sense rules of callbacks should be respected.
 // For example, \code{Execute()} methods should not perform heavy computational
 // tasks.  They are supposed to execute rapid and short pieces of code like
 // printing out a message or updating a value in a GUI.
@@ -92,7 +92,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  Our custom command class is called here \code{CommandIterationUpdate}. It
+//  Our custom command class is called \code{CommandIterationUpdate}. It
 //  derives from the \code{itk::Command} class and declares for convenience the
 //  types \code{Self} and \code{Superclass}. This facilitate to standarize some
 //  further code in macros.
@@ -126,7 +126,7 @@ public:
   //
   //  The \code{itkNewMacro} takes care of defining all the necessary code for
   //  the \code{New()} method. Those of curious minds are invited to see the
-  //  details of the macro in the file \code{itkMacro.h} on the
+  //  details of the macro in the file \code{itkMacro.h} in the
   //  \code{Insight/Code/Common} directory. 
   //
   //  Software Guide : EndLatex 
@@ -157,8 +157,8 @@ public:
 
   //  Software Guide : BeginLatex
   //
-  //  Since this \code{Command} object will be observing the Optimizer, the
-  //  following typedefs are useful for converting pointers when the Execute
+  //  Since this \code{Command} object will be observing the optimizer, the
+  //  following typedefs are useful for converting pointers when the \code{Execute()}
   //  method is invoked.  Note the use of \code{const} on the declaration of
   //  \code{OptimizerPointer}.  This is relevant since, in this case, the
   //  observer is not intended to modify the optimizer in any way. A
@@ -184,7 +184,7 @@ public:
   //  of both \code{Execute()} methods could be quite different. For example,
   //  you could imagine a \code{non-const} interaction in which the observer
   //  decides to stop the optimizer as a response to a divergent behavior. A
-  //  similar case could happen when a user is controling the registration
+  //  similar case could happen when a user is controlling the registration
   //  process from a GUI.
   //
   //  Software Guide : EndLatex 
@@ -215,7 +215,7 @@ public:
 
   //  Software Guide : BeginLatex
   //
-  //  Note that the first argument is a pointer to \code{itk::Object} even
+  //  Note that the first argument is a pointer to an \code{itk::Object} even
   //  though the actual object invoking the event is probably a subclass of
   //  \code{itk::Object}. In our case we know that the actual object is an
   //  optimizer. We have then good reasons to risk a \code{dynamic\_cast} to the
@@ -258,7 +258,7 @@ public:
   //  number of iterations, the current value of the cost function and the
   //  current position on the parameter space. All of these values are printed
   //  out to the standard output. You could imagine more elaborate actions like
-  //  updating a GUI and probably refreshing a visualization pipeline.
+  //  updating a GUI or refreshing a visualization pipeline.
   //
   //  Software Guide : EndLatex 
 
@@ -412,7 +412,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The newly created command is registered as observer on the Optimizer. The
+  //  The newly created command is registered as observer on the optimizer. The
   //  method \code{AddObserver()} is used to that end. Note that the event type
   //  is provided as the first argument to this method. In order for the RTTI
   //  mechanism to work correctly a newly created event of the desired type can
@@ -455,7 +455,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The execution of the registration process on the images 
+  //  The execution of the registration process on images: 
   //  
   //  \begin{itemize}
   //  \item \code{BrainProtonDensitySliceBorder20.png} 
@@ -484,7 +484,7 @@ int main( int argc, char **argv )
   //   16 = 0.003495 : [12.9872, 17.0012]
   //  \end{verbatim}
   //
-  //  As you can verify from the code in the \code{Execute()} method, the first
+  //  You can verify from the code in the \code{Execute()} method, the first
   //  column is the iteration number, the second column is the metric value and
   //  the third and fourth columns are the parameters of the transform, which
   //  is a $2D$ translation transform in this case. By tracking these values as

@@ -30,14 +30,11 @@
 // images is not necessary as the metric rescales internally when
 // building up the discrete density functions. 
 // Other differences between
-// the two mutual information implementation is described in detail
-// in Section \ref{sec:MutualInformationMetric}.
+// the two mutual information implementation are described in detail
+// in section \ref{sec:MutualInformationMetric}. First, we include the
+// header files of the components used in this example:
 //
 // \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
-//
-// The following headers declare the basic components of 
-// the registration method.
-//
 // Software Guide : EndLatex 
 
 
@@ -130,8 +127,8 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  In this example the image types and all registration components
-  //  apart from the metric is declared as in section 
+  //  In this example the image types and all registration components,
+  //  except the metric, are declared as in section 
   //  \ref{sec:IntroductionImageRegistration}.
   //  The Mattes mutual information metric type is 
   //  instantiated using the image types.
@@ -228,7 +225,7 @@ int main( int argc, char **argv )
   //  Another significant difference in the metric is that it
   //  computes the negative mutual information and hence we
   //  need to minimize the cost function in this case. In this
-  //  example we will use the same optimizer parameters as in
+  //  example we will use the same optimization parameters as in
   //  section \ref{sec:IntroductionImageRegistration}.
   //
   //  Software Guide : EndLatex 
@@ -381,7 +378,7 @@ int main( int argc, char **argv )
   //  Comparing these trace plot with Figures 
   //  \ref{fig:ImageRegistration2TraceTranslations} and 
   //  \ref{fig:ImageRegistration2TraceMetric} we can see that the measures
-  //  produce by \code{MattesMutualInformationImageToImageMetric} is smoother
+  //  produced by \code{MattesMutualInformationImageToImageMetric} is smoother
   //  than that of \code{MutualInformationImageToImageMetric}. This smoothness
   //  allows the use of more sophisticated optimizers such as
   //  the \code{RegularStepGradientDescentOptimizer} which efficiently zones

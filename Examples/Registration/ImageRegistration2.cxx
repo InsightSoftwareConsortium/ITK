@@ -27,7 +27,7 @@
 // \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
 //
 // The following example illustrates in a minimal program how multiple imaging
-// modalities can be registered using Insight components. The first remarkable
+// modalities can be registered using Insight components. The first
 // difference is the use of \code{MutualInformationImageToImageMetric} as the
 // cost-function to be optimized and the second difference is the use
 // of \code{GradientDescentOptimizer}. Due to the stochastic nature of
@@ -235,14 +235,13 @@ int main( int argc, char **argv )
   //  The metric requires a number of parameters to be selected. Among them,
   //  the standard deviation of the Gaussian kernel for the fixed image
   //  density estimate, the standard deviation of the kernel for the moving
-  //  image density estimate and the number of samples use to compute the
-  //  density estimates and entropy. Details on the concept behind 
+  //  image density and the number of samples use to compute the
+  //  densities and entropy values. Details on the concept behind 
   //  the computation of the metric can be found in section 
   //  \ref{sec:MutualInformationMetric}. Our experience with the toolkit
   //  has found that a kernel standard deviation of 0.4 works well for images 
-  //  which has normalized to intensity mean of zero and intensity 
-  //  standard deviation of one. We will follow this empricial rule in
-  //  this example.
+  //  which has normalized to mean of zero and unit variance. 
+  //  We will follow this empricial rule in this example.
   //
   //  \index{itk::MutualInformationImageToImageMetric!SetFixedImageStandardDeviation()}
   //  \index{itk::MutualInformationImageToImageMetric!SetMovingImageStandardDeviation()}
@@ -411,7 +410,7 @@ int main( int argc, char **argv )
   // 
   //  The second image is the result of intentionally translating the image
   //  \code{BrainProtonDensitySliceBorder20.png} by $(13,17)$ millimeters. Both
-  //  images having unit-spacing. These images are shown in Figure
+  //  images have unit-spacing and are shown in Figure
   //  \ref{fig:FixedMovingImageRegistration2}. The registration has been
   //  stopped at 200 iterations and produce as result the
   //  parameters:
@@ -508,7 +507,7 @@ int main( int argc, char **argv )
   //  right figure zooms into iterations $150$ to $200$. The area covered by
   //  the right figure has been highlighted by a rectangle in the left image.
   //  It can be seen that after a certain number of iterations the optimizer
-  //  oscillates within a one or two pixels of the true solution. 
+  //  oscillates within one or two pixels of the true solution. 
   //  At this point it is
   //  clear that more iterations will not help. Instead it is time to modify
   //  some of the parameters of the registration process. For example, 
@@ -531,7 +530,7 @@ int main( int argc, char **argv )
   //  The fluctuations in the measure value is due to the stochastic
   //  nature in which the measure is computed. At each call of 
   //  \code{GetValue()}, two new sets of intensity samples is randomly 
-  //  taken from the image to compute the density and entrophy estimates.
+  //  taken from the image to compute the density and entropy estimates.
   //  Even with the fluctuations, overall the measure initially increases
   //  with the number of iterations.
   //  After about 150 iterations the metric value oscillates
@@ -542,9 +541,9 @@ int main( int argc, char **argv )
   //  convergence and limits the use of more sophisticated optimizations
   //  methods. As explained above,
   //  the reduction of the learning rate as the registration progresses
-  //  is very important to get precise results.
+  //  is very important in order to get precise results.
   //
-  //  This example highlight the importance of tracking the evolution of the
+  //  This example shows the importance of tracking the evolution of the
   //  registration method in order to get some insight on the characteristics
   //  of the particular problem at hand and the components being used. 
   //  The behavior revealed by these plots
