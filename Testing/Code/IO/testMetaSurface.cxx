@@ -78,13 +78,13 @@ int testMetaSurface(int , char * [])
   std::cout << "Writing Binary test file ...";
   surface->BinaryData(true);
   surface->ElementType(MET_FLOAT);
-  surface->Write("mySurface.meta");
+  surface->Write("mySurface2.meta");
 
   std::cout << "done" << std::endl;
   std::cout << "Reading Binary test file ...";
 
   surface->Clear();
-  surface->Read("mySurface.meta");
+  surface->Read("mySurface2.meta");
   surface->PrintInfo();
   
   MetaSurface::PointListType list2 =  surface->GetPoints();
