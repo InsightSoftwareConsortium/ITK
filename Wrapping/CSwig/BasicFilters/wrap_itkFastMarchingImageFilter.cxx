@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkFastMarchingImageFilter.h"
 #include "itkImage.h"
+#include "itkFastMarchingImageFilter.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"

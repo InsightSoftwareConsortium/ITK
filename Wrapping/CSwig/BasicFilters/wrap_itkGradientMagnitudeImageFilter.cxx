@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkGradientMagnitudeImageFilter.h"
 #include "itkImage.h"
+#include "itkGradientMagnitudeImageFilter.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"

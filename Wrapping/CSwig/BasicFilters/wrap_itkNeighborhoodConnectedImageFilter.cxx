@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkNeighborhoodConnectedImageFilter.h"
 #include "itkImage.h"
+#include "itkNeighborhoodConnectedImageFilter.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"

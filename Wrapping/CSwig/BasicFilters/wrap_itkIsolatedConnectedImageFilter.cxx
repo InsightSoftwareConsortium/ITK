@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkIsolatedConnectedImageFilter.h"
 #include "itkImage.h"
+#include "itkIsolatedConnectedImageFilter.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"

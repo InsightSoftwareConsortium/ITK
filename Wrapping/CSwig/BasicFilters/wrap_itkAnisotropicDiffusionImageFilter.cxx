@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkAnisotropicDiffusionImageFilter.h"
 #include "itkImage.h"
+#include "itkAnisotropicDiffusionImageFilter.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"

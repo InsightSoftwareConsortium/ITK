@@ -30,6 +30,7 @@ SET(WRAP_SOURCES
   wrap_itkRandomImageSource
   wrap_itkRecursiveGaussianImageFilter
   wrap_itkRecursiveSeparableImageFilter
+  wrap_itkRegionOfInterestImageFilter
   wrap_itkResampleImageFilter
   wrap_itkRescaleIntensityImageFilter
   wrap_itkShiftScaleImageFilter
