@@ -137,6 +137,10 @@ protected:
   /** Standard pipeline method.*/
   void GenerateData();
 
+private:
+  SimpleFuzzyConnectednessImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   double m_Weight;
   double m_Threshold;
   IndexType m_Seed;
