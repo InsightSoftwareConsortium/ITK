@@ -90,63 +90,64 @@ WeightedCovarianceCalculator< TSample >
   // fills the lower triangle and the diagonal cells in the covariance matrix
   if (m_WeightFunction != 0) 
     {
-      while (iter != end)
+    while (iter != end)
+      {
+      measurements = iter.GetMeasurementVector() ;
+      weight = 
+        iter.GetFrequency() * m_WeightFunction->Evaluate(measurements) ;
+      totalWeight += weight ;
+      for (i = 0 ; i < MeasurementVectorSize ; i++)
         {
-          measurements = iter.GetMeasurementVector() ;
-          weight = 
-            iter.GetFrequency() * m_WeightFunction->Evaluate(measurements) ;
-          totalWeight += weight ;
-          for (i = 0 ; i < MeasurementVectorSize ; i++)
-            {
-              diff[i] = measurements[i] - (*m_Mean)[i] ;
-            }
-          
-          for ( row = 0; row < MeasurementVectorSize ; row++)
-            {
-              for ( col = 0; col < row + 1 ; col++)
-                {
-                  m_Output->GetVnlMatrix()(row,col) += 
-                    weight * diff[row] * diff[col] ;
-                }
-            }
-          ++iter ;
+        diff[i] = measurements[i] - (*m_Mean)[i] ;
         }
+          
+      for ( row = 0; row < MeasurementVectorSize ; row++)
+        {
+        for ( col = 0; col < row + 1 ; col++)
+          {
+          m_Output->GetVnlMatrix()(row,col) += 
+            weight * diff[row] * diff[col] ;
+          }
+        }
+      ++iter ;
+      }
     }
   else
     {
-      while (iter != end)
+    while (iter != end)
+      {
+      weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex] ;
+      totalWeight += weight ;
+      measurements = iter.GetMeasurementVector() ;
+      for (i = 0 ; i < MeasurementVectorSize ; i++)
         {
-          weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex] ;
-          totalWeight += weight ;
-          measurements = iter.GetMeasurementVector() ;
-          for (i = 0 ; i < MeasurementVectorSize ; i++)
-            {
-              diff[i] = measurements[i] - (*m_Mean)[i] ;
-            }
-          
-          for ( row = 0; row < MeasurementVectorSize ; row++)
-            {
-              for ( col = 0; col < row + 1 ; col++)
-                {
-                  m_Output->GetVnlMatrix()(row,col) += 
-                    weight * diff[row] * diff[col] ;
-                }
-            }
-          ++iter ;
+        diff[i] = measurements[i] - (*m_Mean)[i] ;
         }
+          
+      for ( row = 0; row < MeasurementVectorSize ; row++)
+        {
+        for ( col = 0; col < row + 1 ; col++)
+          {
+          m_Output->GetVnlMatrix()(row,col) += 
+            weight * diff[row] * diff[col] ;
+          }
+        }
+      ++measurementVectorIndex ;
+      ++iter ;
+      }
     }
 
   // fills the upper triangle using the lower triangle  
   for (row = 1 ; row < MeasurementVectorSize ; row++)
     {
-      for (col = 0 ; col < row ; col++)
-        {
-          m_Output->GetVnlMatrix()(col, row) = 
-            m_Output->GetVnlMatrix()(row, col) ;
-        } 
+    for (col = 0 ; col < row ; col++)
+      {
+      m_Output->GetVnlMatrix()(col, row) = 
+        m_Output->GetVnlMatrix()(row, col) ;
+      } 
     }
   
-  m_Output->GetVnlMatrix() /= totalWeight ;
+  m_Output->GetVnlMatrix() /= (1 - totalWeight * totalWeight) ;
 }
 
 template< class TSample >
