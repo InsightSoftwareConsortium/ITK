@@ -30,7 +30,7 @@ public:
   /**
    * Standard Superclass typedef
    */
-  typedef Object Superclass;
+  typedef KernelTransform<TScalarType, NDimensions> Superclass;
   /**
    * Run-time type information (and related methods).
    */
@@ -39,8 +39,30 @@ public:
    * Method for creation through the object factory
    */
   itkNewMacro(Self);
+	/**
+	 * These (rather redundant) typedefs are needed because on SGI, typedefs
+	 * are not inherited
+	 */
+  typedef typename Superclass::IMatrixType IMatrixType;
+	typedef typename Superclass::PointType PointType;
+	typedef typename Superclass::VectorType VectorType;
+	typedef typename Superclass::PointListType PointListType;
+	typedef typename Superclass::VectorListType VectorListType;
 
 protected:
+	/**
+	 * These (rather redundant) typedefs are needed because on SGI, typedefs
+	 * are not inherited
+	 */
+	typedef typename Superclass::GMatrixType GMatrixType;
+	typedef typename Superclass::LMatrixType LMatrixType;
+	typedef typename Superclass::KMatrixType KMatrixType;
+	typedef typename Superclass::PMatrixType PMatrixType;
+	typedef typename Superclass::YMatrixType YMatrixType;
+	typedef typename Superclass::WMatrixType WMatrixType;
+	typedef typename Superclass::RowMatrixType RowMatrixType;
+	typedef typename Superclass::ColumnMatrixType ColumnMatrixType;
+
   /**
    * Compute G(x)
    * For the thin plate spline, this is:
