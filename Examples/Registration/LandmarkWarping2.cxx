@@ -77,6 +77,18 @@ int main( int argc, char * argv[] )
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
   fixedReader->SetFileName( argv[2] );
 
+  try
+    {
+    fixedReader->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Exception thrown " << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
   MovingReaderType::Pointer movingReader = MovingReaderType::New();
   MovingWriterType::Pointer movingWriter = MovingWriterType::New();
 
