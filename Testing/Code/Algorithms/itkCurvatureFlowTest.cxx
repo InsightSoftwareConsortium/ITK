@@ -69,7 +69,7 @@ int itkCurvatureFlowTest(int, char**)
   DenoiserType::Pointer denoiser = DenoiserType::New();
 
   denoiser->SetInput( source->GetOutput() );
-  denoiser->SetTimeStep( 0.15 );
+  denoiser->SetTimeStep( 0.05 );
   denoiser->SetNumberOfIterations( 8 );
 
   ShowProgressObject progressWatch(denoiser);

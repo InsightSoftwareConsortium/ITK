@@ -57,6 +57,7 @@ public:
   /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::RadiusType RadiusType;
+  typedef PixelType  ScalarValueType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
@@ -65,19 +66,36 @@ public:
   /** Extract superclass dimension. */
   enum { ImageDimension = Superclass::ImageDimension };  
 
-  /** Returns the time step supplied by the user.  We don't need to use the
-   * global data supplied since we are returning a fixed value. */
-  virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const
-    { return this->GetTimeStep(); }
+ /** Computes the time step for an update given a global data structure.
+   * The data used in the computation may take different forms depending on
+   * the nature of the equations.  This global data cannot be kept in the
+   * instance of the equation object itself since the equation object must
+   * remain stateless for thread safety.  The global data is therefore managed
+   * for each thread by the finite difference solver filters. 
+   *
+   * Currently, this function returns the user specified constant time step. 
+   * \todo compute timestep based on CFL condition.
+   **/
+  virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const;
 
-  /** This class does not use this particular parameter
-   * so it's safe to return a null value. */
+  /** Returns a pointer to a global data structure that is passed to this
+   * object from the solver at each calculation.  The idea is that the solver
+   * holds the state of any global values needed to calculate the time step,
+   * while the equation object performs the actual calculations.  The global
+   * data should also be initialized in this method. */
   virtual void *GetGlobalDataPointer() const
-    {  return 0; }
+    {  
+      GlobalDataStruct *ans = new GlobalDataStruct();
+      ans->m_MaxChange   = NumericTraits<ScalarValueType>::Zero;
+      return ans; 
+    }
 
-  /** Does nothing.  No global data is used in this class of equations. */
+  /** When the finite difference solver filter has finished using a global
+   * data pointer, it passes it to this method, which frees the memory.
+   * The solver cannot free the memory because it does not know the type
+   * to which the pointer points. */
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const
-    { /* do nothing */ }
+    { delete (GlobalDataStruct *) GlobalData; }
 
   /** Set the time step parameter */
   void SetTimeStep( const TimeStepType & t )
@@ -102,6 +120,20 @@ public:
                                   ) const;
 
 protected:
+
+  /** A global data type for this class of equations.  Used to store
+   * values that are needed in calculating the time step. */
+  struct GlobalDataStruct
+  {
+    GlobalDataStruct()
+    {
+      m_MaxChange = NumericTraits<ScalarValueType>::Zero;
+    }
+    ~GlobalDataStruct() {}
+    
+    ScalarValueType m_MaxChange;
+  };
+
   CurvatureFlowFunction();
   ~CurvatureFlowFunction() {}
 

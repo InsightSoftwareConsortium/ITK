@@ -32,7 +32,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 {
 
   m_NumberOfIterations = 0;
-  m_TimeStep   = 0.125f;
+  m_TimeStep   = 0.05f;
 
   typename CurvatureFlowFunctionType::Pointer cffp;
   cffp = CurvatureFlowFunctionType::New();

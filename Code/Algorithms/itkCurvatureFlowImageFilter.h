@@ -45,6 +45,13 @@ namespace itk {
   *
   * This filter has two parameters: the number of update iterations to 
   * be performed and the timestep between each update.
+  * 
+  * The timestep should be "small enough" to ensure numerical stability. 
+  * Stability is guarantee when the timestep meets the CFL 
+  * (Courant-Friedrichs-Levy) condition. Broadly speaking, this condition
+  * ensures that each contour does not move more than one grid position
+  * at each timestep. In the literature, the timestep is typically user
+  * specified and have to manually tuned to the application. 
   *
   * This filter make use of the multi-threaded finite difference solver
   * hierarchy.  Updates are computed using a CurvatureFlowFunction object. A

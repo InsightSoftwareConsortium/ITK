@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef __itkCurvatureFlowFunction_txx_
 #define __itkCurvatureFlowFunction_txx_
+#include "itkCurvatureFlowFunction.h"
 
 #include "vnl/vnl_math.h"
 
@@ -38,7 +39,39 @@ CurvatureFlowFunction<TImage>
 
   this->SetRadius(r);
 
-  m_TimeStep  = 0.125f;
+  m_TimeStep  = 0.05f;
+
+}
+
+
+/*
+ * Compute the global time step
+ */
+template<class TImage>
+CurvatureFlowFunction<TImage>::TimeStepType
+CurvatureFlowFunction<TImage>
+::ComputeGlobalTimeStep( void *gd ) const
+{
+
+  return this->GetTimeStep();
+
+
+  // \todo compute timestep based on CFL condition
+/*
+  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  TimeStepType dt;
+
+  if ( globalData->m_MaxChange > 0.0 )
+    {
+    dt = 1.0 / globalData->m_MaxChange;
+    }
+  else
+    {
+    dt = 0.0;
+    }
+
+  return dt;
+*/
 
 }
 
@@ -50,7 +83,7 @@ CurvatureFlowFunction<TImage>
 template<class TImage>
 CurvatureFlowFunction<TImage>::PixelType
 CurvatureFlowFunction<TImage>
-::ComputeUpdate(const NeighborhoodType &it, void * globalData,
+::ComputeUpdate(const NeighborhoodType &it, void * gd,
                 const FloatOffsetType& offset) const
 {
   
@@ -61,6 +94,7 @@ CurvatureFlowFunction<TImage>
   unsigned long stride[ImageDimension];
   int i,j;
 
+
   // get the center pixel position
   center = it.Size() / 2;
 
@@ -70,7 +104,7 @@ CurvatureFlowFunction<TImage>
     stride[i] = it.GetStride( (unsigned long) i );
     }
 
-  PixelType magnitude = 0.0;
+  PixelType magnitudeSqr = 0.0;
   for( i = 0; i < ImageDimension; i++ )
     {
 
@@ -79,7 +113,7 @@ CurvatureFlowFunction<TImage>
       it.GetPixel(center - stride[i]) );
 
     // compute second order derivatives
-    secderiv[i] = 0.5 * ( it.GetPixel(center + stride[i]) - 
+    secderiv[i] = ( it.GetPixel(center + stride[i]) - 
       2 * it.GetPixel(center) + it.GetPixel( center - stride[i] ) );
 
     // compute cross derivatives
@@ -92,14 +126,12 @@ CurvatureFlowFunction<TImage>
          + it.GetPixel( center + stride[i] + stride[j] ) );
       }
 
-    // accumlate the gradient magnitude
-    magnitude += vnl_math_sqr( firstderiv[i] );
+    // accumlate the gradient magnitude squared
+    magnitudeSqr += vnl_math_sqr( firstderiv[i] );
 
     }
 
-  // compute the magnitude
-  magnitude = vnl_math_sqrt( (double)magnitude );
-  if ( magnitude < 1e-9 )
+  if ( magnitudeSqr < 1e-9 )
     {
     return NumericTraits<PixelType>::Zero; 
     }
@@ -131,7 +163,14 @@ CurvatureFlowFunction<TImage>
       }
     }
    
-  update /= vnl_math_sqr( magnitude );
+  update /= magnitudeSqr;
+
+  // \todo compute timestep based on CFL condition
+/*
+  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  globalData->m_MaxChange =
+    vnl_math_max( globalData->m_MaxChange, vnl_math_abs(update) );
+*/
 
   return update;
 
@@ -144,7 +183,7 @@ CurvatureFlowFunction<TImage>
 template<class TImage>
 CurvatureFlowFunction<TImage>::PixelType
 CurvatureFlowFunction<TImage>
-::ComputeUpdate(const BoundaryNeighborhoodType &it, void * globalData,
+::ComputeUpdate(const BoundaryNeighborhoodType &it, void * gd,
                 const FloatOffsetType& offset) const
 {
 
@@ -164,7 +203,7 @@ CurvatureFlowFunction<TImage>
     stride[i] = it.GetStride( (unsigned long) i );
     }
 
-  PixelType magnitude = 0.0;
+  PixelType magnitudeSqr = 0.0;
   for( i = 0; i < ImageDimension; i++ )
     {
 
@@ -173,7 +212,7 @@ CurvatureFlowFunction<TImage>
       it.GetPixel(center - stride[i]) );
 
     // compute second order derivatives
-    secderiv[i] = 0.5 * ( it.GetPixel(center + stride[i]) - 
+    secderiv[i] = ( it.GetPixel(center + stride[i]) - 
       2 * it.GetPixel(center) + it.GetPixel( center - stride[i] ) );
 
     // compute cross derivatives
@@ -186,14 +225,12 @@ CurvatureFlowFunction<TImage>
          + it.GetPixel( center + stride[i] + stride[j] ) );
       }
 
-    // accumlate the gradient magnitude
-    magnitude += vnl_math_sqr( firstderiv[i] );
+    // accumlate the gradient magnitude squared
+    magnitudeSqr += vnl_math_sqr( firstderiv[i] );
 
     }
 
-  // compute the magnitude
-  magnitude = vnl_math_sqrt( (double)magnitude );
-  if ( magnitude < 1e-9 )
+  if ( magnitudeSqr < 1e-9 )
     {
     return NumericTraits<PixelType>::Zero; 
     }
@@ -225,8 +262,14 @@ CurvatureFlowFunction<TImage>
       }
     }
    
-  update /= vnl_math_sqr( magnitude );
+  update /= magnitudeSqr;
 
+  // \todo compute timestep based on CFL condition
+/*
+  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  globalData->m_MaxChange =
+    vnl_math_max( globalData->m_MaxChange, vnl_math_abs(update) );
+*/
   return update;
 
 }

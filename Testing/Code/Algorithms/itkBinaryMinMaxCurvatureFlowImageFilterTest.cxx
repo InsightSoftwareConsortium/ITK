@@ -167,7 +167,7 @@ int testBinaryMinMaxCurvatureFlow(
   std::cout << "Run BinaryMinMaxCurvatureFlowImageFiler.." << std::endl;
 
   // set other denoiser parameters here
-  denoiser->SetTimeStep( 0.15 );
+  denoiser->SetTimeStep( 0.05 );
   denoiser->SetThreshold( threshold );
 
   // attach a progress watcher to the denoiser

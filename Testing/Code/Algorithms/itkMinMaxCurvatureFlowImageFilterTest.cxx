@@ -197,7 +197,7 @@ int testMinMaxCurvatureFlow(
   std::cout << "Run MinMaxCurvatureFlowImageFiler.." << std::endl;
 
   // set other denoiser parameters here
-  denoiser->SetTimeStep( 0.15 );
+  denoiser->SetTimeStep( 0.05 );
 
   // attach a progress watcher to the denoiser
   ShowProgressObject progressWatch(denoiser);
