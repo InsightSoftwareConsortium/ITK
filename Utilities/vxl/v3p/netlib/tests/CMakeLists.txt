@@ -10,5 +10,5 @@ IF(BUILD_TESTING)
   ADD_TEST( netlib_lsqr_test ${CXX_TEST_PATH}/netlib_lsqr_test )
   # test
 #  ADD_EXECUTABLE( netlib_tricall tricall.c )
-  ADD_TEST( netlib_tricall ${CXX_TEST_PATH}/netlib_tricall )
+#  ADD_TEST( netlib_tricall ${CXX_TEST_PATH}/netlib_tricall )
 ENDIF(BUILD_TESTING)
