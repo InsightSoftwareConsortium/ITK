@@ -7,10 +7,11 @@ SET(ITKIO_SRCS
   itkBrains2MaskHeaderInfo.cxx
   itkBrains2MaskImageIO.cxx
   itkBrains2MaskImageIOFactory.cxx
-   itkDICOMImageIO2.cxx
+  itkDICOMImageIO2.cxx
   itkDICOMImageIO2Factory.cxx
   itkDicomImageIO.cxx
   itkDicomImageIOFactory.cxx
+  itkDICOMSeriesFileNames.cxx
   itkFileIteratorBase.cxx
   itkGE4ImageIO.cxx
   itkGE4ImageIOFactory.cxx
@@ -18,6 +19,7 @@ SET(ITKIO_SRCS
   itkGE5ImageIOFactory.cxx
   itkGEAdwImageIO.cxx
   itkGEAdwImageIOFactory.cxx
+  itkRegularExpressionSeriesFileNames.cxx
   itkSiemensVisionImageIO.cxx
   itkSiemensVisionImageIOFactory.cxx
   itkGiplImageIO.cxx
@@ -28,7 +30,7 @@ SET(ITKIO_SRCS
   itkImageIOFactory.cxx
   itkMetaImageIO.cxx
   itkMetaImageIOFactory.cxx
-  itkNumericSeriesFileIterator.cxx
+  itkNumericSeriesFileNames.cxx
   itkPNGImageIO.cxx
   itkPNGImageIOFactory.cxx
   itkStimulateImageIO.cxx

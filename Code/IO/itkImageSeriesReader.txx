@@ -18,246 +18,139 @@
 #define _itkImageSeriesReader_txx
 #include "itkImageSeriesReader.h"
 
-#include "itkObjectFactory.h"
-#include "itkImageIOFactory.h"
-#include "itkConvertPixelBuffer.h"
+#include "itkImageFileReader.h"
 #include "itkImageRegion.h"
+#include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
+#include "itkExceptionObject.h"
 
+#include "itkProgressReporter.h"
 
 namespace itk
 {
 
-template <class TOutputImage, class ConvertPixelTraits>
-ImageSeriesReader<TOutputImage, ConvertPixelTraits>
-::ImageSeriesReader() :
-  m_ImageIO(0), m_UserSpecifiedImageIO(false), 
-  m_FileIterator(0)
-{
-}
-
-template <class TOutputImage, class ConvertPixelTraits>
-ImageSeriesReader<TOutputImage, ConvertPixelTraits>::~ImageSeriesReader()
-{
-}
-
-template <class TOutputImage, class ConvertPixelTraits>
-void ImageSeriesReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream& os, Indent indent) const
+template <class TOutputImage>
+void ImageSeriesReader<TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  if (m_ImageIO)
-    {       
-    os << indent << "m_ImageIO: " << m_ImageIO << "\n";
-    }
-  else
-    {
-    os << indent << "m_ImageIO: (none)" << "\n";
-    }
-
-  os << indent << "File Iterator: ";
-  if ( m_FileIterator == 0 )
-    {
-    os << "(none)\n";
-    }
-  else
-    {
-    os << m_FileIterator << "\n";
-    }
+  os << indent << "ReverseOrder: " << m_ReverseOrder << std::endl;
 }
 
-template <class TOutputImage, class ConvertPixelTraits>
-void ImageSeriesReader<TOutputImage, ConvertPixelTraits>
+template <class TOutputImage>
+void ImageSeriesReader<TOutputImage>
 ::GenerateOutputInformation(void)
 {
   typename TOutputImage::Pointer output = this->GetOutput();
-  itkDebugMacro(<<"Reading series for GenerateOutputInformation()");
-  
-  // Okay, set up the FileIterator and ImageIO
-  //
-  if ( m_FileIterator.IsNull() )
+  typedef ImageFileReader<TOutputImage> ReaderType;
+
+  // Read the first (or last) file and use its size.
+  if (m_FileNames.size() > 0)
     {
-    if ( m_ImageIO.IsNull() )
+    ReaderType::Pointer reader = ReaderType::New();
+    try
       {
-      itkExceptionMacro(<< "Either a file iterator or ImageIO must be set");
+      reader->SetFileName (m_FileNames[(m_ReverseOrder ? (m_FileNames.size()-1): 0)].c_str());
+      reader->Update();
       }
-    else
+    catch (ExceptionObject &e)
       {
-      m_FileIterator = m_ImageIO->NewFileIterator();
+      throw e;
       }
-    }
+    
+    SizeType dimSize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
+    dimSize[TOutputImage::ImageDimension - 1] = m_FileNames.size();
 
-  else //have a FileIterator, may have to create ImageIO
-    {
-    const char *format = (m_FileIterator->Begin()).c_str();
-    if ( m_ImageIO.IsNull() ) //try creating via factory
-      {
-      itkDebugMacro(<<"Attempting factory creation of ImageIO" << format);
-      m_ImageIO = ImageIOFactory::CreateImageIO( format,
-                                                 ImageIOFactory::ReadMode );
-      }
-    else
-      {
-      if( !m_ImageIO->CanReadFile( format ) )
-        {
-        itkDebugMacro(<<"ImageIO exists but doesn't know how to read: "
-                      << format );
-        itkDebugMacro(<<"Attempting factory creation of ImageIO:" << format);
-        m_ImageIO = ImageIOFactory::CreateImageIO( format,
-                                                   ImageIOFactory::ReadMode );
-        }
-      }
-    }
+    const double *spacing = reader->GetOutput()->GetSpacing();
+    const double *origin =  reader->GetOutput()->GetOrigin();
 
-  if ( m_ImageIO.IsNull() || m_FileIterator.IsNull() )
-    {
-    itkExceptionMacro(<<"Cannot determine what type of files to create.");
-    }
+    output->SetSpacing( spacing );   // Set the image spacing
+    output->SetOrigin( origin );     // Set the image origin
 
-  // Got to allocate space for the image. Determine the characteristics of
-  // the image.
-  //
-//  m_ImageIO->SetFileName(m_FileName.c_str());
-  m_ImageIO->ReadImageInformation();
+    typedef typename TOutputImage::IndexType   IndexType;
 
-  SizeType dimSize;
-  double spacing[ TOutputImage::ImageDimension ];
-  double origin[ TOutputImage::ImageDimension ];
+    IndexType start;
+    start.Fill(0);
 
-  for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
-    {
-    if ( i < m_ImageIO->GetNumberOfDimensions() )
-      {
-      dimSize[i] = m_ImageIO->GetDimensions(i);
-      spacing[i] = m_ImageIO->GetSpacing(i);
-      origin[i]  = m_ImageIO->GetOrigin(i);
-      }
-    else
-      {
-      // Number of dimensions in the output is more than number of dimensions
-      // in the ImageIO object (the file).  Use default values for the size,
-      // spacing, and origin for the final (degenerate) dimensions.
-      dimSize[i] = 1;  
-      spacing[i] = 1.0;
-      origin[i] = 0.0;
-      }
-    }
-
-  output->SetSpacing( spacing );   // Set the image spacing
-  output->SetOrigin( origin );     // Set the image origin
-
-  typedef typename TOutputImage::IndexType   IndexType;
-
-  IndexType start;
-  start.Fill(0);
-
-  ImageRegionType region;
-  region.SetSize(dimSize);
-  region.SetIndex(start);
+    ImageRegionType region;
+    region.SetSize(dimSize);
+    region.SetIndex(start);
  
-  output->SetLargestPossibleRegion(region);
-}
-
-
-template <class TOutputImage, class ConvertPixelTraits>
-void
-ImageSeriesReader<TOutputImage, ConvertPixelTraits>
-::EnlargeOutputRequestedRegion(DataObject *output)
-{
-  typename TOutputImage::Pointer out = dynamic_cast<TOutputImage*>(output);
-
-  if (out)
-    {
-    out->SetRequestedRegion( out->GetLargestPossibleRegion() );
+    output->SetLargestPossibleRegion(region);
     }
   else
     {
-    throw ImageSeriesReaderException(__FILE__, __LINE__, "Invalid output object type");
+    itkExceptionMacro(<< "No FileNames provided." );
     }
 }
 
 
-template <class TOutputImage, class ConvertPixelTraits>
-void ImageSeriesReader<TOutputImage, ConvertPixelTraits>
+template <class TOutputImage>
+void
+ImageSeriesReader<TOutputImage>
+::EnlargeOutputRequestedRegion(DataObject *output)
+{
+  typename TOutputImage::Pointer out = dynamic_cast<TOutputImage*>(output);
+  out->SetRequestedRegion( out->GetLargestPossibleRegion() );
+}
+
+
+template <class TOutputImage>
+void ImageSeriesReader<TOutputImage>
 ::GenerateData()
 {
+  typedef ImageFileReader<TOutputImage> ReaderType;
 
   typename TOutputImage::Pointer output = this->GetOutput();
 
-  // allocate the output buffer
+  // Each file must have the same size.
+  SizeType validSize = output->GetRequestedRegion().GetSize();
+  validSize[TOutputImage::ImageDimension - 1] = 1;
+
+  // Allocate the output buffer
   output->SetBufferedRegion( output->GetRequestedRegion() );
   output->Allocate();
 
-}
+  ProgressReporter progress(this, 0, 
+                            m_FileNames.size(),
+                            m_FileNames.size());
 
+  ImageRegionIterator<TOutputImage> ot (output, output->GetRequestedRegion() );
 
-
-
-template <class TOutputImage, class ConvertPixelTraits>
-void 
-ImageSeriesReader<TOutputImage, ConvertPixelTraits>
-::DoConvertBuffer(void* inputData,
-                  unsigned long numberOfPixels)
-{
-  // get the pointer to the destination buffer
-  OutputImagePixelType *outputData =
-    this->GetOutput()->GetPixelContainer()->GetBufferPointer();
-
-// Create a macro as this code is a bit lengthy and repetitive
-// if the ImageIO pixel type is typeid(type) then use the ConvertPixelBuffer
-// class to convert the data block to TOutputImage's pixel type
-// see DefaultConvertPixelTraits and ConvertPixelBuffer
-#define ITK_CONVERT_BUFFER_IF_BLOCK(type)               \
- else if( m_ImageIO->GetPixelType() == typeid(type) )   \
-    {                                                   \
-    ConvertPixelBuffer<                                 \
-      type,                                             \
-      OutputImagePixelType,                             \
-      ConvertPixelTraits                                \
-      >                                                 \
-      ::Convert(                                        \
-        static_cast<type*>(inputData),                  \
-        m_ImageIO->GetNumberOfComponents(),             \
-        outputData,                                     \
-        numberOfPixels);                                \
-    }
-  if(0)
+  for (int i = (m_ReverseOrder ? m_FileNames.size() - 1 : 0);
+       i != (m_ReverseOrder ? -1 : m_FileNames.size() - 1);
+       i += (m_ReverseOrder ? -1 : 1))
     {
-    }
-  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned char)
-    ITK_CONVERT_BUFFER_IF_BLOCK(char)
-    ITK_CONVERT_BUFFER_IF_BLOCK(unsigned short)
-    ITK_CONVERT_BUFFER_IF_BLOCK( short)
-    ITK_CONVERT_BUFFER_IF_BLOCK(unsigned int)
-    ITK_CONVERT_BUFFER_IF_BLOCK( int)
-    ITK_CONVERT_BUFFER_IF_BLOCK(unsigned long)
-    ITK_CONVERT_BUFFER_IF_BLOCK( long)
-    ITK_CONVERT_BUFFER_IF_BLOCK(float)
-    ITK_CONVERT_BUFFER_IF_BLOCK( double)
-    else
-      {
-      ImageSeriesReaderException e(__FILE__, __LINE__);
-      OStringStream msg;
-      msg <<"Couldn't convert pixel type: "
-          << std::endl << "    " << m_ImageIO->GetPixelType().name()
-          << std::endl << "to one of: "
-          << std::endl << "    " << typeid(unsigned char).name()
-          << std::endl << "    " << typeid(char).name()
-          << std::endl << "    " << typeid(unsigned short).name()
-          << std::endl << "    " << typeid(short).name()
-          << std::endl << "    " << typeid(unsigned int).name()
-          << std::endl << "    " << typeid(int).name()
-          << std::endl << "    " << typeid(unsigned long).name()
-          << std::endl << "    " << typeid(long).name()
-          << std::endl << "    " << typeid(float).name()
-          << std::endl << "    " << typeid(double).name()
-          << std::endl;
-      e.SetDescription(msg.str().c_str());
-      throw e;
-      return;
-      }
-#undef ITK_CONVERT_BUFFER_IF_BLOCK
-}
+    
+    std::cout << m_FileNames[i] << std::endl;
+    ReaderType::Pointer reader = ReaderType::New();
+    reader->SetFileName(m_FileNames[i].c_str());
+    reader->UpdateLargestPossibleRegion();
 
+    if (reader->GetOutput()->GetRequestedRegion().GetSize() != validSize)
+      {
+      itkExceptionMacro(<< "Size mismatch! The size of  " 
+                        << m_FileNames[i].c_str()
+                        << " is " 
+                        << reader->GetOutput()->GetRequestedRegion().GetSize()
+                        << " and does not match the required size "
+                        << validSize
+                        << " from file " 
+                        << m_FileNames[m_ReverseOrder ? m_FileNames.size()-1 : 0].c_str());
+      }
+
+    ImageRegionConstIterator<TOutputImage> it (reader->GetOutput(),
+                                               reader->GetOutput()->GetLargestPossibleRegion());
+    while (!it.IsAtEnd())
+      {
+      ot.Set(it.Get());
+      ++it;
+      ++ot;
+      }
+    progress.CompletedPixel();
+    }
+}
 
 } //namespace ITK
 

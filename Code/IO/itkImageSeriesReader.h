@@ -17,76 +17,31 @@
 #ifndef __itkImageSeriesReader_h
 #define __itkImageSeriesReader_h
 
-#include "itkImageIOBase.h"
 #include "itkImageSource.h"
 #include "itkExceptionObject.h"
 #include "itkSize.h"
 #include "itkImageRegion.h"
-#include "itkDefaultConvertPixelTraits.h"
+#include <vector>
+#include <string>
 
 namespace itk
 {
 
-/** \brief Base exception class for IO conflicts. */
-class ImageSeriesReaderException : public ExceptionObject 
-{
-public:
-  /** Run-time information. */
-  itkTypeMacro( ImageSeriesReaderException, ExceptionObject );
-
-  /** Constructor. */
-  ImageSeriesReaderException(char *file, unsigned int line, 
-                             const char* message = "Error in IO") : 
-    ExceptionObject(file, line)
-  {
-    SetDescription(message);
-  }
-
-  /** Constructor. */
-  ImageSeriesReaderException(const std::string &file, unsigned int line, 
-                             const char* message = "Error in IO") : 
-    ExceptionObject(file, line)
-  {
-    SetDescription(message);
-  }
-};
-
-
 /** \brief Data source that reads image data from a series of disk files.
  *
- * This source object is a general filter that reads image data from a
- * variety of file formats and assumes that the data is stored in a
- * series of files (the series can be one file long). It works with
- * the ImageIOBase class to actually do the reading of the
- * data. Object factory machinery can be used to automatically create
- * the ImageIOBase, or the ImageIOBase can be manually created and
- * set. The format of the series is controlled with a FileIteratorBase.
- * This class typically works in conjunction with the ImageIO class
- * (ImageIO provides an instance of FileIteratorBase to use for determing
- * the names of files in a series; however the FileIterator subclass can
- * also be manually set). 
+ * This class builds an n-dimension image from multiple n-1
+ * dimension image files. The files stored in a vector of strings
+ * are read using the ImageFileReader. File format may vary between
+ * the files, but the image data must have the same Size for all
+ * dimensions. 
  *
- * TOutputImage is the type expected by the external users of the
- * filter. If data stored in the file is stored in a different format
- * then specified by TOutputImage, than this filter converts data 
- * between the file type and the external expected type.  The 
- * ConvertTraits template argument is used to do the conversion.
- *
- * A Pluggable factory pattern is used this allows different kinds of readers
- * to be registered (even at run time) without having to modify the
- * code in this class.
- *
- * \sa ImageFileReader
- * \sa ImageIOBase
- * \sa FileIteratorBase
- * \sa ImageSeriesWriter
- *
+ * \sa DICOMSeriesFileNames
+ * \sa NumericSeriesFileNames
  * \ingroup IOFilters
  *
  */
-template <class TOutputImage,
-          class ConvertPixelTraits = 
-          DefaultConvertPixelTraits< ITK_TYPENAME TOutputImage::PixelType> >
+
+template <class TOutputImage>
 class ITK_EXPORT ImageSeriesReader : public ImageSource<TOutputImage>
 {
 public:
@@ -110,20 +65,42 @@ public:
   /** The pixel type of the output image. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
   
-  /** The naming of the input files is controlled by using a subclass of 
-   * FileIteratorBase (e.g., NumericSeriesFileIterator). */
-  itkSetObjectMacro(FileIterator,FileIteratorBase);
-  itkGetObjectMacro(FileIterator,FileIteratorBase);
-  
-  /** Set/Get the ImageIO helper class. Often this is created via the object
-   * factory mechanism that determines whether a particular ImageIO can
-   * read a certain file. This method provides a way to get the ImageIO 
-   * instance that is created. Or you can directly specify the ImageIO
-   * to use to read a particular file in case the factory mechanism will
-   * not work properly (e.g., unknown or unusual extension). */
-  itkSetObjectMacro(ImageIO,ImageIOBase);
-  itkGetObjectMacro(ImageIO,ImageIOBase);
-  
+  /** Set the vector of strings that contains the file names. Files
+   * are processed in sequential order. */
+  void SetFileNames (const std::vector<std::string> &name)
+  {
+    if ( m_FileNames != name)
+      {
+      m_FileNames = name;
+      this->Modified();        
+      }
+  };
+  const std::vector<std::string> & GetFileNames()
+  {
+    return m_FileNames;
+  }
+
+  /** Set the first file name to be processed. This deletes previous
+   * filenames. */
+  void SetFileName (std::string &name)
+  {
+    m_FileNames.clear();
+    m_FileNames.push_back(name);
+  }
+
+  /** Add a single filename to the list of files. To add a vector of
+   * filenames, use the AddFileNames method. */
+  void AddFileName (std::string &name)
+  {
+    m_FileNames.push_back(name);
+  }
+
+  /** ReverseOrderOn changes the order of travesal of the file names
+   * from last to first */
+  itkSetMacro(ReverseOrder,bool);
+  itkGetMacro(ReverseOrder,bool);
+  itkBooleanMacro(ReverseOrder);
+
   /** Prepare the allocation of the output image during the first back
    * propagation of the pipeline. */
   virtual void GenerateOutputInformation(void);
@@ -136,22 +113,18 @@ public:
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
   
 protected:
-  ImageSeriesReader();
-  ~ImageSeriesReader();
+  ImageSeriesReader() : m_ReverseOrder(false) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   
-  /** Convert a block of pixels from one type to another. */
-  void DoConvertBuffer(void* buffer, unsigned long numberOfPixels);
-
   /** Does the real work. */
   virtual void GenerateData();
 
-  ImageIOBase::Pointer m_ImageIO;
-  bool m_UserSpecifiedImageIO; //track whether the ImageIO is user specified
+  /** Select the traversal order. */
+  bool m_ReverseOrder;
 
-  /** Used to produce the names of the files in the series. */
-  FileIteratorBase::Pointer m_FileIterator;
-  
+  /** A list of filenames to be processed. */
+  std::vector<std::string> m_FileNames;
+
 private:
   ImageSeriesReader(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
