@@ -33,13 +33,17 @@ String GetValid_C_Identifier(const String& in_name)
       {
       case ' ': name << '_'; break;
       case ',': break;
+      case '/': name << 'd'; break;
       case ':': name << 'c'; break;
+      case '(': name << "lp"; break;
+      case ')': name << "rp"; break;
       case '<': name << "la"; break;
       case '>': name << "ra"; break;
       case '[': name << "ls"; break;
       case ']': name << "rs"; break;
       case '*': name << "p"; break;
       case '&': name << "r"; break;
+      case '=': name << "e"; break;
       default:  name << *ch; break;
       }
     }
