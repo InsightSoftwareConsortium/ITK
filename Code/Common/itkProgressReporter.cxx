@@ -15,6 +15,7 @@
 
 =========================================================================*/
 #include "itkProgressReporter.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -24,28 +25,41 @@ ProgressReporter::ProgressReporter(ProcessObject* filter, int threadId,
                                    unsigned long numberOfPixels,
                                    unsigned long numberOfUpdates):
   m_Filter(filter),
-  m_ThreadId(threadId)
+  m_ThreadId(threadId),
+  m_CurrentPixel(0)
 {
   // Only thread 0 should update progress.
   if(m_ThreadId == 0)
     {
-    // Make sure we have at least one pixel.
-    if(numberOfPixels == 0)
-      {
-      numberOfPixels = 1;
-      }
-    m_NumberOfUpdates = ((numberOfUpdates < numberOfPixels)?
-                         numberOfUpdates : numberOfPixels);
     float numPixels = numberOfPixels;
-    float numUpdates = m_NumberOfUpdates;
-    m_InverseNumberOfPixels = 1.0 / numPixels;
+    float numUpdates = numberOfUpdates;
+    
+    // Make sure we have at least one pixel.
+    if(numPixels < 1)
+      {
+      numPixels = 1;
+      }
+    
+    // We cannot update more times than there are pixels.
+    if(numUpdates > numPixels)
+      {
+      numUpdates = numPixels;
+      }
+    
+    // Calculate the interval for updates.
     m_PixelsPerUpdate = static_cast<unsigned long>(numPixels/numUpdates);
-    m_PixelsBeforeUpdate = m_PixelsPerUpdate;
-    m_CurrentPixel = 0;
+    m_InverseNumberOfPixels = 1.0 / numPixels;
     
     // Set the progress to 0.  The filter is just starting.
     m_Filter->UpdateProgress(0);
     }
+  else
+    {
+    // Threads other than 0 should never report progress.
+    m_PixelsPerUpdate = NumericTraits<unsigned long>::max();
+    m_InverseNumberOfPixels = 0;
+    }
+  m_PixelsBeforeUpdate = m_PixelsPerUpdate;
 }
 
 //----------------------------------------------------------------------------

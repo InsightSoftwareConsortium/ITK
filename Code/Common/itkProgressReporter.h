@@ -60,9 +60,11 @@ public:
   /** Called by a filter once per pixel.  */
   void CompletedPixel()
     {
-    // Inline implementation for efficiency.  We don't want to add a
-    // method call per pixel.
-    if((m_ThreadId == 0) && (--m_PixelsBeforeUpdate == 0))
+    // Inline implementation for efficiency.
+    // We don't need to test for thread id 0 here because the
+    // constructor sets m_PixelsBeforeUpdate to a value larger than
+    // the number of pixels for threads other than 0.
+    if(--m_PixelsBeforeUpdate == 0)
       {
       m_PixelsBeforeUpdate = m_PixelsPerUpdate;
       m_CurrentPixel += m_PixelsPerUpdate;
@@ -73,7 +75,6 @@ protected:
   ProcessObject* m_Filter;
   int m_ThreadId;
   float m_InverseNumberOfPixels;
-  unsigned long m_NumberOfUpdates;
   unsigned long m_CurrentPixel;
   unsigned long m_PixelsPerUpdate;
   unsigned long m_PixelsBeforeUpdate;
