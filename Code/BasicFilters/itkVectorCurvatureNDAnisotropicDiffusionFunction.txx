@@ -76,12 +76,16 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
                 const FloatOffsetType&)
 {
   unsigned int i, j, k;
-  double speed, dx_forward_Cn[ImageDimension][VectorDimension],
-    dx_backward_Cn[ImageDimension][VectorDimension], 
-    propagation_gradient;
-  double grad_mag_sq[VectorDimension], grad_mag_sq_d[VectorDimension], 
-    grad_mag[ImageDimension], grad_mag_d[ImageDimension];
-  double Cx[ImageDimension], Cxd[ImageDimension];
+  double speed;
+  double dx_forward_Cn[ImageDimension][VectorDimension];
+  double dx_backward_Cn[ImageDimension][VectorDimension];
+  double propagation_gradient;
+  double grad_mag_sq[VectorDimension];
+  double grad_mag_sq_d[VectorDimension];
+  double grad_mag[VectorDimension];
+  double grad_mag_d[VectorDimension];
+  double Cx[ImageDimension];
+  double Cxd[ImageDimension];
 
   const ScalarValueType ScalarValueTypeZero = NumericTraits<ScalarValueType>::Zero;
   
