@@ -17,22 +17,28 @@
 
 //  Software Guide : BeginLatex
 //
-//  \itkpiccaption[DiscreteGaussianImageFilter gaussian diagram]{Discretized
+//  \itkpiccaption[DiscreteGaussianImageFilter gaussian diagram.]{Discretized
 //  Gaussian.\label{fig:DiscretizedGaussian}}
 //  \parpic(7cm,4cm)[r]{\includegraphics[width=6cm]{DiscreteGaussian.eps}}
 //
-//  The \doxygen{DiscreteGaussianImageFilter} computes the convolution
-//  of the input image with a Gaussian kernel by taking advantage of
-//  its separability.  A one-dimensional Gaussian function is
-//  discretized on a convolution kernel.  The size of the kernel is
-//  extended until there are enough discrete points in the Gaussian to
-//  ensure that a user-provided maximum error is not exceeded.  Since
-//  the size of the kernel is unkown a priori it is necesary to impose
-//  a limit to its growth. The user can thus provide a value to be the
-//  maximum admissible size of the kernel. The discretization errror
-//  is defined as the difference between the area under the discrete
-//  Gaussian curve (which has finite support) and the area under the
-//  continuous Gaussian.
+//  The \doxygen{DiscreteGaussianImageFilter} computes the convolution of the
+//  input image with a Gaussian kernel.  This is done in $ND$ by taking
+//  advantage of the separability of the Gaussian kernel.  A one-dimensional
+//  Gaussian function is discretized on a convolution kernel.  The size of the
+//  kernel is extended until there are enough discrete points in the Gaussian
+//  to ensure that a user-provided maximum error is not exceeded.  Since the
+//  size of the kernel is unknown a priori, it is necessary to impose a limit to
+//  its growth. The user can thus provide a value to be the maximum admissible
+//  size of the kernel. Discretization error is defined as the difference
+//  between the area under the discrete Gaussian curve (which has finite
+//  support) and the area under the continuous Gaussian.
+//
+//  Gaussian kernels in ITK are constructed according to the theory of Tony
+//  Lindeberg \cite{Lindeberg1994} so that smoothing and derivative operations
+//  commute before and after discretization.  In other words, finite difference
+//  derivatives on an image $I$ that has been smoothed by convolution with the
+//  Gaussian are equivalent to finite differences computed on $I$ by convolving
+//  with a derivative of the Gaussian.
 //
 //  \index{itk::DiscreteGaussianImageFilter}
 //
@@ -69,7 +75,7 @@ int main( int argc, char * argv[] )
   
   //  Software Guide : BeginLatex
   //
-  //  Types should be choosen for the pixels of the input and output images.
+  //  Types should be chosen for the pixels of the input and output images.
   //  Image types can be instantiated using the pixel type and dimension.
   //
   //  Software Guide : EndLatex 
@@ -88,8 +94,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The discrete Gaussian filter type is now instantiated using both the
-  //  input image and the output image types. Then a filter object is created.
+  //  The discrete Gaussian filter type is instantiated using the
+  //  input and output image types.  A corresponding filter object is created.
   //
   //  \index{itk::DiscreteGaussianImageFilter!instantiation}
   //  \index{itk::DiscreteGaussianImageFilter!New()}
@@ -127,12 +133,12 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The filters requires the user to provide a value for the variance
+  //  The filter requires the user to provide a value for the variance
   //  associated with the Gaussian kernel. The method \code{SetVariance()} is
-  //  used for this purpose. The Gaussian is discretized over the pixels of a
-  //  convolution kernel. The maximum value of the kernel size can be set by
-  //  the user. Note that the combination of variance and kernel-size values
-  //  may result in truncating the borders of the discretized Gaussian kernel.
+  //  used for this purpose. The discrete Gaussian is constructed as a
+  //  convolution kernel.  The maximum kernel size can be set by the user. Note
+  //  that the combination of variance and kernel-size values may result in a
+  //  truncated Gaussian kernel.
   //
   //  \index{itk::DiscreteGaussianImageFilter!SetVariance()}
   //  \index{itk::DiscreteGaussianImageFilter!SetMaximumKernelWidth()}
@@ -148,7 +154,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally the filter is executed by invoking the \code{Update()} method.
+  //  Finally, the filter is executed by invoking the \code{Update()} method.
   //
   //  \index{itk::DiscreteGaussianImageFilter!Update()}
   //
@@ -196,21 +202,20 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{DiscreteGaussianImageFilterOutput.eps}
   // \itkcaption[DiscreteGaussianImageFilter output]{Effect of the
-  // DiscreteGaussianImageFilter on a slice from a MRI proton density image  of
+  // DiscreteGaussianImageFilter on a slice from a MRI proton density image of
   // the brain.}
   // \label{fig:DiscreteGaussianImageFilterInputOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:DiscreteGaussianImageFilterInputOutput} illustrates the
+  //  Figure~\ref{fig:DiscreteGaussianImageFilterInputOutput} illustrates the
   //  effect of this filter on a MRI proton density image of the brain. 
   //  
-  //  Since this filter actually computes the convolution with the Gaussian
-  //  kernel, it is not desirable to use large values of the variance since the
-  //  appropriate approximation will require large kernels resulting in
-  //  prohibitive computational times.
-  //
+  //  Note that large Gaussian variances will produce large convolution kernels
+  //  and correspondingly slower computation times.  Unless a high degree of
+  //  accuracy is required, it may be more desirable to use the approximating
+  //  \doxygen{RecursiveGaussianImageFilter} with large variances.
+  // 
   //  Software Guide : EndLatex 
-
 
   return 0;
 }
