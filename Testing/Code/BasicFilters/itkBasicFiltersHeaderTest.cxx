@@ -73,6 +73,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCurvatureAnisotropicDiffusionImageFilter.h"
 #include "itkCurvatureNDAnisotropicDiffusionFunction.txx"
 #include "itkDanielssonDistanceMapImageFilter.txx"
+#include "itkSignedDanielssonDistanceMapImageFilter.txx"
 #include "itkDeformationFieldSource.txx"
 #include "itkDerivativeImageFilter.txx"
 #include "itkDifferenceOfGaussiansGradientImageFilter.txx"

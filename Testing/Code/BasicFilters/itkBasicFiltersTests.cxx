@@ -73,6 +73,7 @@ void RegisterTests()
   REGISTER_TEST(itkCurvatureAnisotropicDiffusionImageFilterTest );
   REGISTER_TEST(itkCyclicReferences );
   REGISTER_TEST(itkDanielssonDistanceMapImageFilterTest );
+  REGISTER_TEST(itkSignedDanielssonDistanceMapImageFilterTest );
   REGISTER_TEST(itkDerivativeImageFilterTest );
   REGISTER_TEST(itkDeformationFieldSourceTest );
   REGISTER_TEST(itkDifferenceOfGaussiansGradientTest );

@@ -57,6 +57,7 @@
 #include "itkCurvatureAnisotropicDiffusionImageFilter.h"
 #include "itkCurvatureNDAnisotropicDiffusionFunction.h"
 #include "itkDanielssonDistanceMapImageFilter.h"
+#include "itkSignedDanielssonDistanceMapImageFilter.h"
 #include "itkDerivativeImageFilter.h"
 #include "itkDifferenceOfGaussiansGradientImageFilter.h"
 #include "itkDilateObjectMorphologyImageFilter.h"
@@ -353,6 +354,10 @@ int itkBasicFiltersPrintTest(int , char* [])
   itk::DanielssonDistanceMapImageFilter<InputType,OutputType>::Pointer DanielssonDistanceMapImageFilterObj =
     itk::DanielssonDistanceMapImageFilter<InputType,OutputType>::New();
   std::cout << "-------------DanielssonDistanceMapImageFilter" << DanielssonDistanceMapImageFilterObj;
+
+  itk::SignedDanielssonDistanceMapImageFilter<InputType,OutputType>::Pointer SignedDanielssonDistanceMapImageFilterObj =
+    itk::SignedDanielssonDistanceMapImageFilter<InputType,OutputType>::New();
+  std::cout << "-------------SignedDanielssonDistanceMapImageFilter" << SignedDanielssonDistanceMapImageFilterObj;
 
   itk::DerivativeImageFilter<InputType,OutputType>::Pointer DerivativeImageFilterObj =
     itk::DerivativeImageFilter<InputType,OutputType>::New();
