@@ -156,6 +156,18 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
   const typename TInputImage::ConstPointer   inputImage( this->GetInput() );
 
+  const typename TInputImage::RegionType region = inputImage->GetRequestedRegion();
+  const typename TInputImage::SizeType   size   = region.GetSize();
+ 
+  for( unsigned int d=0; d < ImageDimension; d++)
+    {
+    if( size[d] < 4 )
+      {
+      itkExceptionMacro("The number of pixels along dimension " << d << " is less than 4. This filter requires a minimum of four pixels along the dimension to be processed.");
+      }
+    }
+
+
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
