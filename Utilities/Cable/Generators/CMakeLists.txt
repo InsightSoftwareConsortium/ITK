@@ -2,6 +2,7 @@ LIBRARY(CableGenerators)
 
 SOURCE_FILES(
 genCxxGenerator
+genGeneratorBase
 )
 
 INCLUDE_DIRECTORIES(

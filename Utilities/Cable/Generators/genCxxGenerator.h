@@ -16,40 +16,22 @@
 #ifndef _genCxxGenerator_h
 #define _genCxxGenerator_h
 
-#include "configRep.h"
+#include "genGeneratorBase.h"
 
 namespace gen
 {
 
-typedef std::string String;
-
-/**
- * Class to simplify indentation printing.
- */
-class Indent
-{
-public:
-  Indent(int indent): m_Indent(indent) {}
-  void Print(std::ostream& os) const;
-  Indent Next() const { return Indent(m_Indent+2); }
-  Indent Previous() const { return Indent(m_Indent-2); }
-private:
-  int m_Indent;
-};
-
-std::ostream& operator<<(std::ostream&, const Indent&);
-
 /**
  * Generation class for C++ wrappers.
  */
-class CxxGenerator
+class CxxGenerator: public GeneratorBase
 {
 public:
   CxxGenerator(const configuration::CableConfiguration* in_config):
-    m_CableConfiguration(in_config) {}
-  ~CxxGenerator() {}
+    GeneratorBase(in_config) {}
+  virtual ~CxxGenerator() {}
   
-  void Generate();
+  virtual void Generate();
 private:
   void GeneratePackage(const configuration::Package*);  
   void GenerateIncludes(std::ostream&, std::ostream&,
@@ -67,13 +49,6 @@ private:
                        Indent, const configuration::Namespace*) const;
   Indent CloseNamespace(std::ostream&, std::ostream&,
                         Indent, const configuration::Namespace*) const;
-  
-  bool MakeDirectory(const char*);
-
-  /**
-   * The configuration that controls generation.
-   */
-  configuration::CableConfiguration::ConstPointer m_CableConfiguration;
 };
 
 } // namespace gen
