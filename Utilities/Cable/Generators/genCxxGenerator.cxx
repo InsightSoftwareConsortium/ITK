@@ -234,7 +234,7 @@ CxxGenerator
       wrapper != wrapperSet->End(); ++wrapper)
     {
     // Only display the wrapper's typedef if the names are different.
-    if(wrapper->first != wrapper->second)
+    if((wrapper->first != "") && (wrapper->first != wrapper->second))
       {
       wrapperStream << indent << "typedef " << wrapper->second << " "
                     << wrapper->first << ";" << std::endl;
