@@ -56,6 +56,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
+  /** OutputType typedef support. */
+  typedef typename Superclass::OutputType OutputType;
+
   /** InputImageType typedef support. */
   typedef typename Superclass::InputImageType InputImageType;
 
@@ -76,7 +79,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual double EvaluateAtContinuousIndex( 
+  virtual OutputType EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const;
 
 protected:

@@ -40,7 +40,8 @@ namespace itk
  * */
 template <class TInputImage, class TCoordRep = float>
 class ITK_EXPORT InterpolateImageFunction : 
-  public ImageFunction<TInputImage,double,TCoordRep> 
+  public ImageFunction< TInputImage, 
+    ITK_TYPENAME NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep > 
 {
 public:
   /** Standard class typedefs. */
@@ -51,6 +52,9 @@ public:
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(InterpolateImageFunction, ImageFunction);
+
+  /** OutputType typedef support. */
+  typedef typename Superclass::OutputType OutputType;
 
   /** InputImageType typedef support. */
   typedef typename Superclass::InputImageType InputImageType;
@@ -67,6 +71,9 @@ public:
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
+  /** RealType typedef support. */
+  typedef typename NumericTraits<typename TInputImage::PixelType>::RealType RealType;
+
   /** Interpolate the image at a point position
    *
    * Returns the interpolated image intensity at a 
@@ -75,7 +82,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual double Evaluate( const PointType& point ) const
+  virtual OutputType Evaluate( const PointType& point ) const
     {
     ContinuousIndexType index;
     this->ConvertPointToContinuousIndex( point, index );
@@ -92,7 +99,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual double EvaluateAtContinuousIndex( 
+  virtual OutputType EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const = 0;
 
   /** Interpolate the image at an index position.
@@ -103,9 +110,9 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual double EvaluateAtIndex( const IndexType & index ) const
+  virtual OutputType EvaluateAtIndex( const IndexType & index ) const
     {
-    return ( static_cast<double>( m_Image->GetPixel( index ) ) );
+    return ( static_cast<RealType>( m_Image->GetPixel( index ) ) );
     }
 
 protected:

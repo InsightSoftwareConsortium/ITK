@@ -51,6 +51,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
+  /** OutputType typedef support. */
+  typedef typename Superclass::OutputType OutputType;
+
   /** InputImageType typedef support. */
   typedef typename Superclass::InputImageType InputImageType;
 
@@ -71,12 +74,12 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual double EvaluateAtContinuousIndex( 
+  virtual OutputType EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const
   {
    IndexType nindex;
    this->ConvertContinuousIndexToNearestIndex(index, nindex);
-   return static_cast<double>( m_Image->GetPixel( nindex ) );
+   return static_cast<OutputType>( m_Image->GetPixel( nindex ) );
   }
 
 protected:

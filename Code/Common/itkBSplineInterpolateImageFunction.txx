@@ -360,7 +360,8 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
 
 
 template <class TImageType, class TCoordRep>
-double 
+BSplineInterpolateImageFunction<TImageType,TCoordRep>
+::OutputType
 BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::EvaluateAtContinuousIndex( const ContinuousIndexType & x ) const
 {

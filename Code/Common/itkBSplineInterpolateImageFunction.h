@@ -75,6 +75,9 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
+  /** OutputType typedef support. */
+  typedef typename Superclass::OutputType OutputType;
+
   /** InputImageType typedef support. */
   typedef typename Superclass::InputImageType InputImageType;
 
@@ -98,7 +101,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual double EvaluateAtContinuousIndex( 
+  virtual OutputType EvaluateAtContinuousIndex( 
       const ContinuousIndexType & index ) const; 
 
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
