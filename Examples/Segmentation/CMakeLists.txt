@@ -28,4 +28,5 @@ TARGET_LINK_LIBRARIES(ShapeDetectionLevelSetFilter ITKCommon ITKNumerics VXLNume
 ADD_EXECUTABLE(GeodesicActiveContourImageFilter GeodesicActiveContourImageFilter.cxx )
 TARGET_LINK_LIBRARIES(GeodesicActiveContourImageFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
 
-
+ADD_EXECUTABLE(WatershedSegmentation1 WatershedSegmentation1.cxx )
+TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKCommon ITKNumerics VXLNumerics ITKIO)
