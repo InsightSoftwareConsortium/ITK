@@ -84,18 +84,13 @@ TubeNetworkSpatialObject< TDimension , PipelineDimension >
   while(childrenListIt != m_Children.end())
   {    
     // Check if the child is really a tube or a tube network
-    if( (!strncmp(typeid(**childrenListIt).name(),"class itk::TubeSpatialObject",26))
-       || (!strncmp(typeid(**childrenListIt).name(),"class itk::TubeNetworkSpatialObject",28))
-      )
+    if( (!strncmp(typeid(**childrenListIt).name(),"class itk::TubeSpatialObject",26)))
     {
-      if(typeid(*this) != typeid(**childrenListIt))
-      {
-        tubes->push_back(dynamic_cast<TubeSpatialObject<TDimension>*>(*childrenListIt));
-      }
-      else if( (currentDepth < maximumDepth-1) || (maximumDepth == 0) )
+      tubes->push_back(dynamic_cast<TubeSpatialObject<TDimension>*>(*childrenListIt)); // add the tube 
+      if( (currentDepth < maximumDepth-1) || (maximumDepth == 0) ) // check for other possible children
       {
         currentDepth++;
-        tubes->merge(*dynamic_cast<TubeNetworkSpatialObject<TDimension>*>((*childrenListIt))->GetTubes(maximumDepth,currentDepth));
+        tubes->merge(*dynamic_cast<TubeSpatialObject<TDimension>*>((*childrenListIt))->GetTubes(maximumDepth,currentDepth));
       }
     }
     childrenListIt++;
