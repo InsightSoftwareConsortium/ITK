@@ -645,7 +645,9 @@ SpatialObject< TDimension >
       }
     if( depth > 0 )
       {
-      children->merge(*((**childrenListIt).GetChildren(depth-1, name)));
+      ChildrenListType * nextchildren = (**childrenListIt).GetChildren(depth-1, name);  
+      children->merge(*nextchildren);
+      delete nextchildren;
       }
     childrenListIt++;
     }
