@@ -27,7 +27,7 @@
 namespace itk
 {
 
-template<class TImage>
+template<class TInputImage, class TOutputImage>
 struct ITK_EXPORT UpdateStrategyVector: public UpdateStrategy
 {
   UpdateStrategyVector() {}
@@ -38,7 +38,7 @@ template<class TImage>
 struct ITK_EXPORT AvgGradMagSquaredVector
 {
   typedef typename TImage::PixelType PixelType;
-  typedef typename TImage::VectorValueType VectorValueType;
+  typedef typename VectorTraits<PixelType>::ValueType VectorValueType;
   enum { ImageDimension  = TImage::ImageDimension };
   enum { VectorDimension = PixelType::VectorDimension };
   
@@ -46,7 +46,7 @@ struct ITK_EXPORT AvgGradMagSquaredVector
   float operator() (TImage *, const ImageRegion<ImageDimension> &) const;
 };
 
-template<class TImage>
+template<class TInputImage, class TOutputImage>
 struct ITK_EXPORT CopyStrategyVector: public CopyStrategy
 {
   CopyStrategyVector() {};
@@ -56,10 +56,12 @@ struct ITK_EXPORT CopyStrategyVector: public CopyStrategy
 template <class TInnerProduct, class TIterator>
 struct ITK_EXPORT AnisoDiffuseVector2D : public DiffusionStrategy
 {
+  /**
+   * Extract image and pixel information from the iterator type.
+   */
   typedef typename TIterator::ImageType ImageType;
-  typedef typename ImageType::ScalarValueType ScalarValueType;
-  typedef typename ImageType::VectorValueType VectorValueType;
   typedef typename ImageType::PixelType PixelType;
+  typedef typename VectorTraits<PixelType>::ValueType VectorValueType;
   enum { ImageDimension = ImageType::ImageDimension };
   enum { VectorDimension = PixelType::VectorDimension };
   
@@ -71,10 +73,12 @@ struct ITK_EXPORT AnisoDiffuseVector2D : public DiffusionStrategy
 template <class TInnerProduct, class TIterator>
 struct ITK_EXPORT AnisoDiffuseVectorND : public DiffusionStrategy
 {
+  /**
+   * Extract image and pixel information from the iterator type
+   */
   typedef typename TIterator::ImageType ImageType;
-  typedef typename ImageType::ScalarValueType ScalarValueType;
-  typedef typename ImageType::VectorValueType VectorValueType;
   typedef typename ImageType::PixelType PixelType;
+  typedef typename VectorTraits<PixelType>::ValueType VectorValueType;
   enum { ImageDimension = ImageType::ImageDimension };
   enum { VectorDimension = PixelType::VectorDimension };
   
@@ -87,20 +91,36 @@ struct ITK_EXPORT AnisoDiffuseVectorND : public DiffusionStrategy
  * \class VectorAnisotropicDiffusionImageFilter
  *
  */
-template <class TPixel, unsigned int VDimension=2>
+template <class TInputImage, class TOutputImage>
 class ITK_EXPORT VectorAnisotropicDiffusionImageFilter :
-    public AnisotropicDiffusionImageFilter< TPixel, VDimension>
+    public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage>
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard "Self" & Superclass typedef.
    */
   typedef VectorAnisotropicDiffusionImageFilter Self;
-
+  typedef AnisotropicDiffusionImageFilter<TInputImage, TOutputImage> Superclass;
+  
   /**
-   * Standard Superclass typedef support.
+   * Extract some information from the image types.  Dimensionality
+   * of the two images is assumed to be the same.
    */
-  typedef AnisotropicDiffusionImageFilter<TPixel, VDimension> Superclass;
+  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
+  typedef typename VectorTraits<OutputPixelType>
+                                    ::ValueType OutputVectorValueType;
+  typedef typename  TInputImage::PixelType InputPixelType;
+  typedef typename  TInputImage::InternalPixelType InputInternalPixelType;
+  typedef typename VectorTraits<InputPixelType>
+                                    ::ValueType InputVectorValueType;
+  enum { ImageDimension = TOutputImage::ImageDimension };
+  
+  /**
+   * Image typedef support
+   */
+  typedef TInputImage InputImageType;
+  typedef TOutputImage OutputImageType;
 
   /** 
    * Smart pointer typedef support 
@@ -126,23 +146,20 @@ protected:
   void operator=(const Self&) {}
 
   virtual UpdateStrategy *GetUpdateStrategy()
-  {
-    return new UpdateStrategyVector<ImageType>;
-  }
+  {  return new UpdateStrategyVector<OutputImageType, OutputImageType>;  }
 
   virtual DiffusionStrategy *GetDiffusionStrategy()
   {
-    typedef typename VectorTraits<TPixel>::VectorValueType VectorValueType;
-    typedef RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension> RNI;
-    typedef RegionBoundaryNeighborhoodIterator<TPixel, VDimension> RBI;
+    typedef RegionNonBoundaryNeighborhoodIterator<OutputImageType> RNI;
+    typedef RegionBoundaryNeighborhoodIterator<OutputImageType> RBI;
     typedef NeighborhoodAlgorithm
       ::VectorComponentIteratorInnerProduct<RNI,
-      NeighborhoodOperator<VectorValueType, VDimension> > SNIP;
+      NeighborhoodOperator<OutputVectorValueType, ImageDimension> > SNIP;
     typedef NeighborhoodAlgorithm
       ::BoundsCheckingVectorComponentIteratorInnerProduct<RBI,
-      NeighborhoodOperator<VectorValueType, VDimension> > SBIP;
+      NeighborhoodOperator<OutputVectorValueType, ImageDimension> > SBIP;
 
-    if (VDimension == 2)
+    if (ImageDimension == 2)
       {
         return new CompositeDiffusionStrategy(
                                           new AnisoDiffuseVector2D<SNIP,RNI>(),
@@ -159,9 +176,7 @@ protected:
   }
 
   virtual CopyStrategy *GetCopyStrategy()
-  {
-    return new CopyStrategyVector<ImageType>;
-  }
+  { return new CopyStrategyVector<InputImageType, OutputImageType>;  }
     
 };
   

@@ -22,6 +22,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRegionNonBoundaryNeighborhoodIterator.h"
 #include "itkRandomAccessNeighborhoodIterator.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
+#include "itkSmartRegionNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
 #include <iostream>
 
@@ -128,11 +129,11 @@ int main()
    szN[2] = 1;
    szN[3] = 1;
 
-  itk::RegionNeighborhoodIterator<float, 2,itk::NeighborhoodAllocator<float *>,
+  itk::RegionNeighborhoodIterator<ImageType2D,itk::NeighborhoodAllocator<float *>,
     vnl_vector<float> > rni2D(sz2, image2D, image2D->GetRequestedRegion());
-  itk::RegionNeighborhoodIterator<float, 3> rni3D(sz3, image3D,
+  itk::RegionNeighborhoodIterator<ImageType3D> rni3D(sz3, image3D,
                                             image3D->GetRequestedRegion());
-  itk::RegionNeighborhoodIterator<float, 4> rniND(szN, imageND,
+  itk::RegionNeighborhoodIterator<ImageTypeND> rniND(szN, imageND,
                                             imageND->GetRequestedRegion());
 
   rni2D.Print(std::cout);
@@ -156,11 +157,11 @@ int main()
     { ++i; }
   std::cout << i << std::endl;
 
+
   println("Testing RandomAccessNeighborhoodIterator");
-  itk::RandomAccessNeighborhoodIterator<float, 3,
+  itk::RandomAccessNeighborhoodIterator<ImageType3D,
     itk::NeighborhoodAllocator<float *>,
     vnl_vector<float> > rri3D(sz3, image3D, image3D->GetRequestedRegion());
-
 
   println("Testing forward iteration");
   i =0; 
@@ -190,30 +191,27 @@ int main()
 
   println("Testing iterator subtraction (distance between iterators)");
   std::cout << (rri3D - rri3D.Begin()) << std::endl;
-
-
+ 
   println("Testing RegionNonBoundaryNeighborhoodIterator");
-  itk::RegionNonBoundaryNeighborhoodIterator<float, 3,
+  itk::RegionNonBoundaryNeighborhoodIterator<ImageType3D,
     itk::NeighborhoodAllocator<float *>,
     vnl_vector<float> > rnbi3D(sz3, image3D, image3D->GetRequestedRegion());
 
   rnbi3D.Print(std::cout);
-
+ 
   println("Testing SmartRegionNeighborhoodIterator");
-  itk::SmartRegionNeighborhoodIterator<float, 3,
+  itk::SmartRegionNeighborhoodIterator<ImageType3D,
         itk::NeighborhoodAllocator<float *>,
     vnl_vector<float> > rsbi3D(sz3, image3D,
                                image3D->GetRequestedRegion());
   rsbi3D.Print(std::cout);
 
-
   println("Testing RegionBoundaryNeighborhoodIterator");
-  itk::RegionBoundaryNeighborhoodIterator<float, 3,
+  itk::RegionBoundaryNeighborhoodIterator<ImageType3D,
     itk::NeighborhoodAllocator<float *>,
     vnl_vector<float> > rbni3D
     (sz3, image3D, image3D->GetRequestedRegion() );
   rbni3D.Print(std::cout);
-  
   
   return 0;
 }

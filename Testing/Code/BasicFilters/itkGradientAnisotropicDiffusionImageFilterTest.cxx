@@ -26,10 +26,13 @@ int main(int argc, char *argv[])
 {
   try
     {
+      typedef itk::Image<float, 2> ImageType;
+      
       // Set up filter
-      itk::GradientAnisotropicDiffusionImageFilter<float, 2>::Pointer
-        filter = itk::GradientAnisotropicDiffusionImageFilter<float,
-        2>::New();
+      itk::GradientAnisotropicDiffusionImageFilter<ImageType, ImageType>
+        ::Pointer filter
+        = itk::GradientAnisotropicDiffusionImageFilter<ImageType, ImageType>
+        ::New();
       filter->SetIterations(1);
       filter->SetConductanceParameter(3.0f);
       filter->SetTimeStep(0.125f);
@@ -38,8 +41,7 @@ int main(int argc, char *argv[])
       itk::Size<2> sz;
       sz[0] = 250;
       sz[1] = 250;
-      itk::NullImageToImageFilterDriver< itk::Image<float, 2>,
-        itk::Image<float, 2> > test1;
+      itk::NullImageToImageFilterDriver< ImageType,ImageType > test1;
       test1.SetImageSize(sz);
       test1.SetFilter(filter.GetPointer());
       test1.Execute();

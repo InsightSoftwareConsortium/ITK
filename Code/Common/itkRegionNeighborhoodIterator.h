@@ -43,19 +43,28 @@ namespace itk {
  * \sa NeighborhoodAlgorithm
  */
  
-template<class TPixel, unsigned int VDimension =2,
-  class TAllocator = NeighborhoodAllocator<TPixel *>,
-  class TDerefAllocator = NeighborhoodAllocator<TPixel> >
+template<class TImage,
+  class TAllocator =
+   NeighborhoodAllocator<ImageTraits<TImage>::InternalPixelType *>,
+  class TDerefAllocator =
+   NeighborhoodAllocator<ImageTraits<TImage>::PixelType>
+  >
 class ITK_EXPORT RegionNeighborhoodIterator
- : public NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+ : public NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 {
 public:
   /** 
    * Standard "Self" & Superclass typedef support.
    */
   typedef RegionNeighborhoodIterator Self;
-  typedef NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
-    Superclass;  
+  typedef NeighborhoodIterator<TImage, TAllocator, TDerefAllocator> Superclass;
+
+  /**
+   * Extract image type information.
+   */
+  typedef typename Superclass::InternalPixelType InternalPixelType;
+  typedef typename Superclass::PixelType PixelType;
+  enum {Dimension = Superclass::Dimension };
   
   /**
    * Some common itk object typedefs
@@ -64,6 +73,7 @@ public:
   typedef typename Superclass::RegionType RegionType;
   typedef typename Superclass::SizeType SizeType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::IndexType IndexType;
 
   /**
    * Scalar data type typedef support
@@ -126,8 +136,7 @@ public:
    * Copy constructor
    */
   RegionNeighborhoodIterator( const Self& other)
-    : NeighborhoodIterator<TPixel, VDimension, TAllocator,
-    TDerefAllocator>(other)
+    : NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>(other)
   {  }
 
   /**

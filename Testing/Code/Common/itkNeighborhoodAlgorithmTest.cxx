@@ -140,11 +140,11 @@ int main()
   szN[2] = 1;
   szN[3] = 1;
 
-  itk::RegionNeighborhoodIterator<float, 2> rni2D(sz2, image2D,
+  itk::RegionNeighborhoodIterator<ImageType2D> rni2D(sz2, image2D,
                                            image2D->GetRequestedRegion());
-  itk::RegionNeighborhoodIterator<float, 3> rni3D(sz3, image3D,
+  itk::RegionNeighborhoodIterator<ImageType3D> rni3D(sz3, image3D,
                                            image3D->GetRequestedRegion());
-  itk::RegionNeighborhoodIterator<float, 4> rniND(szN, imageND,
+  itk::RegionNeighborhoodIterator<ImageTypeND> rniND(szN, imageND,
                                            imageND->GetRequestedRegion());
 
   // Test convolution
@@ -182,16 +182,16 @@ int main()
   d3D.CreateDirectional();
   dND.CreateDirectional();
   
-  itk::SmartRegionNeighborhoodIterator<float, 2>
+  itk::SmartRegionNeighborhoodIterator<ImageType2D>
     rni2Dd(d2D.GetRadius(), image2D, image2D->GetRequestedRegion());
-  itk::SmartRegionNeighborhoodIterator<float, 3>
+  itk::SmartRegionNeighborhoodIterator<ImageType3D>
     rni3Dd(d3D.GetRadius(), image3D, image3D->GetRequestedRegion());
-  itk::SmartRegionNeighborhoodIterator<float, 4>
+  itk::SmartRegionNeighborhoodIterator<ImageTypeND>
     rniNDd(dND.GetRadius(), imageND, imageND->GetRequestedRegion());
 
   println("A");
   itk::NeighborhoodAlgorithm
-    ::IteratorInnerProduct<itk::NeighborhoodIterator<float, 2>,
+    ::IteratorInnerProduct<itk::NeighborhoodIterator<ImageType2D>,
     itk::Neighborhood<float, 2> > ipi2D;
   ipi2D(rni2Dd, d2D);
 
@@ -204,7 +204,7 @@ int main()
 
   println("C");
   itk::NeighborhoodAlgorithm
-    ::IteratorInnerProduct<itk::NeighborhoodIterator<float, 3>,
+    ::IteratorInnerProduct<itk::NeighborhoodIterator<ImageType3D>,
     itk::Neighborhood<float, 3> > ipi3D;
   ipi3D(rni3Dd, d3D);
 
@@ -217,7 +217,7 @@ int main()
 
   println("E");
   itk::NeighborhoodAlgorithm
-    ::IteratorInnerProduct<itk::NeighborhoodIterator<float, 4>,
+    ::IteratorInnerProduct<itk::NeighborhoodIterator<ImageTypeND>,
     itk::Neighborhood<float, 4> > ipiND;
   ipiND(rniNDd, dND);
 
@@ -231,7 +231,7 @@ int main()
   println("G");
   itk::NeighborhoodAlgorithm
     ::BoundsCheckingIteratorInnerProduct<itk::
-    SmartRegionNeighborhoodIterator<float, 4>,
+    SmartRegionNeighborhoodIterator<ImageTypeND>,
     itk::Neighborhood<float, 4> > ipibND;
   ipibND(rniNDd, dND);
 

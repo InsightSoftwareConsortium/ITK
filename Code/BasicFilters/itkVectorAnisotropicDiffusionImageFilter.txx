@@ -14,7 +14,7 @@
 
   =========================================================================*/
 #include "itkDerivativeOperator.h"
-#include "itkImageRegionIterator.h"
+#include "itkSimpleImageRegionIterator.h"
 
 namespace itk
 {
@@ -23,12 +23,10 @@ template<class TImage>
 float AvgGradMagSquaredVector<TImage>
 ::operator()(TImage *ip, const ImageRegion<ImageDimension> &ir ) const 
 {
-  typedef
-    RegionNonBoundaryNeighborhoodIterator<PixelType, ImageDimension> RNI_type;
+  typedef RegionNonBoundaryNeighborhoodIterator<TImage> RNI_type;
   
-  VectorValueType accumulator, val;
+  VectorValueType accumulator, val, counter;
   float ans;
-  unsigned long counter;
   unsigned int i, k;
   NeighborhoodAlgorithm::VectorComponentIteratorInnerProduct<RNI_type,
     NeighborhoodOperator<VectorValueType, ImageDimension> > IP;
@@ -51,11 +49,12 @@ float AvgGradMagSquaredVector<TImage>
     {
       IP.SetVisibleComponent(k);
       accumulator = NumericTraits<VectorValueType>::Zero;
-      counter     = 0;
+      counter     = NumericTraits<VectorValueType>::Zero;
       for ( i = 0; i < ImageDimension; ++i ) it[i] = it[i].Begin();
 
-      for ( ; !it[0].IsAtEnd(); ++counter )
+      for ( ; !it[0].IsAtEnd(); )
         {
+          counter += NumericTraits<VectorValueType>::One;
           for (i = 0; i < ImageDimension; ++i)
             {
               val = IP(it[i], op[i]);
@@ -71,25 +70,27 @@ float AvgGradMagSquaredVector<TImage>
   return ans;
 };
   
-template<class TImage>
-void UpdateStrategyVector<TImage>
+template<class TInputImage, class TOutputImage>
+void UpdateStrategyVector<TInputImage, TOutputImage>
 ::operator() (void *d1, void *d2) const
 {
-  typedef typename TImage::PixelType PixelType;
+  typedef typename TOutputImage::PixelType PixelType;
+  enum { VectorDimension = PixelType::VectorDimension };
+  enum { ImageDimension = TOutputImage::ImageDimension };
   
-  TImage *ip = static_cast<TImage *>(d1);
-  TImage *op = static_cast<TImage *>(d2);
-  ImageRegionIterator<PixelType, TImage::ImageDimension>
-    in(ip,op->GetRequestedRegion()); 
-  ImageRegionIterator<PixelType, TImage::ImageDimension>
+  TInputImage *ip = static_cast<TInputImage *>(d1);
+  TOutputImage *op = static_cast<TOutputImage *>(d2);
+  ImageRegionIterator<PixelType, ImageDimension>
+    in(ip,op->GetRequestedRegion());
+  ImageRegionIterator<PixelType, ImageDimension>
     out(op, op->GetRequestedRegion());
-  in = in.Begin();
-  out = out.Begin();
-  
+
+  in.Begin();
+  out.Begin();
   // Update each component of the output
   while (! in.IsAtEnd() )
     {
-      for (unsigned int i = 0; i < PixelType::VectorDimension; ++i)
+      for (unsigned int i = 0; i < VectorDimension; ++i)
         {
           (*out)[i] += (*in)[i] * m_Multiplier;
         }
@@ -99,17 +100,19 @@ void UpdateStrategyVector<TImage>
   
 }
 
-template<class TImage>
-void CopyStrategyVector<TImage>
+template<class TInputImage, class TOutputImage>
+void CopyStrategyVector<TInputImage, TOutputImage>
 ::operator() (void *d1, void *d2) const
 {
-  typedef typename TImage::PixelType PixelType;
-  
-  TImage *ip = static_cast<TImage *>(d1);
-  TImage *op = static_cast<TImage *>(d2);
-  ImageRegionIterator<PixelType, TImage::ImageDimension>
+  typedef typename TOutputImage::PixelType PixelType;
+  enum { VectorDimension = PixelType::VectorDimension };
+  enum { ImageDimension = TOutputImage::ImageDimension };
+    
+  TInputImage *ip = static_cast<TInputImage *>(d1);
+  TOutputImage *op = static_cast<TOutputImage *>(d2);
+  ImageRegionIterator<PixelType, ImageDimension>
     in(ip,op->GetRequestedRegion()); 
-  ImageRegionIterator<PixelType, TImage::ImageDimension>
+  ImageRegionIterator<PixelType, ImageDimension>
     out(op, op->GetRequestedRegion());
   in = in.Begin();
   out = out.Begin();
@@ -117,14 +120,13 @@ void CopyStrategyVector<TImage>
   // Update each component of the output
   while (! in.IsAtEnd() )
     {
-      for (unsigned int i = 0; i < PixelType::VectorDimension; ++i)
+      for (unsigned int i = 0; i < VectorDimension; ++i)
         {
           (*out)[i] = (*in)[i];
         }
       ++out;
       ++in;
     }
-  
 }
   
 template<class TInnerProduct,  class TIterator >
@@ -134,7 +136,7 @@ void AnisoDiffuseVector2D<TInnerProduct, TIterator>
   enum { X=0, Y=1 };
   const unsigned int N = VectorDimension;
   unsigned int j;
-  
+
   typename ImageType::Pointer input = static_cast<ImageType*>(d1);
   typename ImageType::Pointer output= static_cast<ImageType*>(d2);
 
@@ -243,7 +245,7 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
   
   typename ImageType::Pointer input = static_cast<ImageType*>(d1);
   typename ImageType::Pointer output= static_cast<ImageType*>(d2);
-
+  
   TInnerProduct IP;
   AvgGradMagSquaredVector<ImageType> GradMagFunction;
 
@@ -259,7 +261,7 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
   it.SetOutputBuffer(output->GetBufferPointer()
                      + output->ComputeOffset(it.GetStartIndex()));
   
-  ScalarValueType GradMag[D], GradMag_d[D], delta[N];
+  VectorValueType GradMag[D], GradMag_d[D], delta[N];
 
   VectorValueType Cx[D];
   VectorValueType Cxd[D];
@@ -308,8 +310,8 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
         }
       for (unsigned int i = 0; i < D; ++i) // approximate gradient magnitudes
         {
-          GradMag[i]   = NumericTraits<ScalarValueType>::Zero;
-          GradMag_d[i] = NumericTraits<ScalarValueType>::Zero;
+          GradMag[i]   = NumericTraits<VectorValueType>::Zero;
+          GradMag_d[i] = NumericTraits<VectorValueType>::Zero;
 
           for (unsigned int j = 0; j < N; ++j)
             {

@@ -56,7 +56,7 @@ struct ITK_EXPORT ScalarOperation
   /**
    * Defines the operation for a slice of the container.
    */
-  virtual ScalarType operator()(std::slice &, TContainer &, TArray &) const= 0;  
+  virtual ScalarType operator()(std::slice &, TContainer &, TArray &) const= 0;
 };
 
 /**

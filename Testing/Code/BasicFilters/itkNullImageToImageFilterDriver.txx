@@ -88,7 +88,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
   typename TOutputImage::IndexType index;
   typename TOutputImage::RegionType region;
   
-  for (int i = 0; i < ImageDimension; ++i) index[i] = 0;
+  for (unsigned int i = 0; i < ImageDimension; ++i) index[i] = 0;
   region.SetSize( m_ImageSize );
   region.SetIndex( index);
   op->SetLargestPossibleRegion( region );

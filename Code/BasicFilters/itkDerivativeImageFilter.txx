@@ -18,25 +18,27 @@
 namespace itk
 {
 
-template< class TPixel, unsigned int VDimension>
+template< class TInputImage, class TOutputImage >
 void
-DerivativeImageFilter<TPixel, VDimension>
+DerivativeImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   // Filter
-  DerivativeOperator<TPixel, VDimension> oper;
-  oper.SetDirection(m_Direction);
-  oper.SetOrder(m_Order);
-  oper.CreateDirectional();
-  
-  NeighborhoodOperatorImageFilter<TPixel, VDimension>::Pointer filter =
-    NeighborhoodOperatorImageFilter<TPixel, VDimension>::New();;
+  DerivativeOperator<OutputPixelType, ImageDimension> oper;
+   oper.SetDirection(m_Direction);
+   oper.SetOrder(m_Order);
+   oper.CreateDirectional();
+
+  NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
+    ::Pointer filter =
+    NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
+    ::New();
+
   filter->SetOperator(oper);
   filter->SetInput(this->GetInput());
   filter->SetOutput(this->GetOutput());
-  filter->Update();
-    
-  filter->Delete();
+  filter->Update();  
+  //  filter->Delete();
 }
 
 } // end namespace itk

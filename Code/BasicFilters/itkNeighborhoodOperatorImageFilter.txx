@@ -19,26 +19,24 @@
 namespace itk
 {
 
-template< class TPixel, unsigned int VDimension>
+template< class TInputImage, class TOutputImage>
 void
-NeighborhoodOperatorImageFilter<TPixel, VDimension>
+NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  typedef Image<TPixel, VDimension> ImageType;
-  typedef RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension> RNI;
-  typedef RegionBoundaryNeighborhoodIterator<TPixel, VDimension>    RBI;
-  typedef NeighborhoodAlgorithm
-    ::IteratorInnerProduct<RNI, Neighborhood<TPixel, VDimension> > SNIP;
-  typedef NeighborhoodAlgorithm
-    ::BoundsCheckingIteratorInnerProduct<RBI, Neighborhood<TPixel, VDimension>
-    > SBIP;
+  typedef RegionNonBoundaryNeighborhoodIterator<OutputImageType> RNI;
+  typedef RegionBoundaryNeighborhoodIterator<OutputImageType>  RBI;
+  typedef NeighborhoodAlgorithm::IteratorInnerProduct<RNI,
+    Neighborhood<OutputPixelType, ImageDimension> > SNIP;
+  typedef NeighborhoodAlgorithm::BoundsCheckingIteratorInnerProduct<RBI,
+    Neighborhood<OutputPixelType, ImageDimension> > SBIP;
 
   NeighborhoodAlgorithm::ApplyOperatorToEach<SNIP, RNI> f1;
   NeighborhoodAlgorithm::ApplyOperatorToEach<SBIP, RBI> f2;
   
   // Allocate output
-  ImageType *output = this->GetOutput();
-  ImageType *input  = this->GetInput();
+  OutputImageType *output = this->GetOutput();
+  InputImageType *input  = this->GetInput();
  
   // Need to allocate output buffer memory.
   output->SetBufferedRegion(output->GetRequestedRegion());

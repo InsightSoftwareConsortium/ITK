@@ -33,33 +33,38 @@ namespace itk
  * \sa NeighborhoodIterator
  */
 
-template <class TPixel, unsigned int VDimension=2>
+template <class TInputImage, class TOutputImage>
 class ITK_EXPORT DerivativeImageFilter :
-    public ImageToImageFilter< Image<TPixel, VDimension>,
-                               Image<TPixel, VDimension> > 
+    public ImageToImageFilter< TInputImage, TOutputImage > 
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard "Self" & Superclass typedef.
    */
   typedef DerivativeImageFilter Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
 
   /**
-   * Standard super class typedef support.
+   * Extract some information from the image types.  Dimensionality
+   * of the two images is assumed to be the same.
    */
-  typedef ImageToImageFilter< Image<TPixel, VDimension>,
-    Image<TPixel, VDimension> > Superclass;
+  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
+  typedef typename TInputImage::PixelType InputPixelType;
+  typedef typename TInputImage::InternalPixelType InputInternalPixelType;
+  enum { ImageDimension = TOutputImage::ImageDimension };
   
+  /**
+   * Image typedef support
+   */
+  typedef TInputImage  InputImageType;
+  typedef TOutputImage OutputImageType;
+
   /** 
    * Smart pointer typedef support 
    */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Image type typedef support
-   */
-  typedef Image<TPixel, VDimension> ImageType;
   
   /**
    * Run-time type information (and related methods)

@@ -16,7 +16,6 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkRegionNeighborhoodIterator.h"
 #include "itkDerivativeOperator.h"
-#include "itkImageRegionIterator.h"
 #include "itkRegionNonBoundaryNeighborhoodIterator.h"
 
 namespace itk
@@ -27,7 +26,7 @@ void AnisoDiffuseGrad2D<TInnerProduct, TIterator>
 ::operator()(void *d1, void *d2)
 {
   typedef typename TIterator::ImageType ImageType;
-  typedef typename ImageType::ScalarValueType ScalarValueType;
+  typedef typename ImageType::PixelType ScalarValueType;
   enum { ImageDimension = ImageType::ImageDimension };
   enum { X=0, Y=1 };
 
@@ -36,7 +35,7 @@ void AnisoDiffuseGrad2D<TInnerProduct, TIterator>
 
   TInnerProduct IP;
   
-  AvgGradMagSquared<ScalarValueType, ImageDimension> GradMag;
+  AvgGradMagSquared<ImageType> GradMag;
   const float k = GradMag(input, input->GetRequestedRegion())
     * this->m_ConductanceTerm * -1.0f;
   
@@ -125,7 +124,7 @@ void AnisoDiffuseGradND<TInnerProduct, TIterator>
 
   TInnerProduct IP;
   
-  AvgGradMagSquared<ScalarValueType, ImageDimension> GradMag;
+  AvgGradMagSquared<ImageType> GradMag;
   const float k = GradMag(input, input->GetRequestedRegion())
     * this->m_ConductanceTerm * -1.0f;
   

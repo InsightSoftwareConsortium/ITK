@@ -15,22 +15,18 @@
   =========================================================================*/
 namespace itk {
 
-template<class TPixel, unsigned int VDimension, class TAllocator, class
-TDerefAllocator>
+template<class TImage, class TAllocator, class TDerefAllocator>
 void
-RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 ::SetBound(const SizeType& size)
 {
   Superclass::SetBound(size);
   m_InnerStride = (m_Bound[0] - m_StartIndex[0]) - 2*this->GetRadius(0);
 }
 
-template<class TPixel, unsigned int VDimension, class TAllocator, class
-TDerefAllocator>
-const NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator> &
-RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator>
+template<class TImage, class TAllocator, class TDerefAllocator>
+const NeighborhoodIterator<TImage, TAllocator, TDerefAllocator> &
+RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 ::operator++()
 {
   unsigned int i;
@@ -39,8 +35,7 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
 
   if (! this->InBounds())
     {
-      NeighborhoodIterator<TPixel, VDimension, TAllocator,
-        TDerefAllocator>::operator++();
+      NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>::operator++();
     }
 
   while(this->InBounds())
@@ -56,7 +51,7 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
         }
       
       // Check loop bounds, wrap & add pointer offsets if needed.
-      for (i=0; i < VDimension; ++i)
+      for (i=0; i < Dimension; ++i)
         {
           if (i==0)
             {
@@ -86,11 +81,9 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
   return *this; 
 }
 
-template<class TPixel, unsigned int VDimension, class TAllocator, class
-TDerefAllocator>
-const NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator> &
-RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator>
+template<class TImage, class TAllocator, class TDerefAllocator>
+const NeighborhoodIterator<TImage, TAllocator, TDerefAllocator> &
+RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 ::operator--()
 {
   unsigned int i;
@@ -99,7 +92,7 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
 
   if (! this->InBounds())
     {
-      NeighborhoodIterator<TPixel, VDimension, TAllocator,
+      NeighborhoodIterator<TImage, TAllocator,
         TDerefAllocator>::operator--();
     }
 
@@ -116,7 +109,7 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
         }
       
       // Check loop bounds, wrap & add pointer offsets if needed.
-      for (i=0; i < VDimension; ++i)
+      for (i=0; i < Dimension; ++i)
         {
           if (i==0)
             {
@@ -146,12 +139,9 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
   return *this; 
 }
 
-template<class TPixel, unsigned int VDimension, class TAllocator, class
-TDerefAllocator>
-RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator>
-RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator>
+template<class TImage, class TAllocator, class TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 ::Begin() const
 {
   //Copy the current iterator
@@ -163,12 +153,9 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
   return it;
 }
 
-template<class TPixel, unsigned int VDimension, class TAllocator, class
-TDerefAllocator>
-RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator>
-RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator>
+template<class TImage, class TAllocator, class TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 ::End() const
 {
   IndexType endIndex;
@@ -177,7 +164,7 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
   Self it( *this );
 
   // Calculate the end index
-  for (unsigned int i = 0; i< VDimension; ++i)
+  for (unsigned int i = 0; i< Dimension; ++i)
     {
       endIndex.m_Index[i] = m_Bound[i] -1;
     }

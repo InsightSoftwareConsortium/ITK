@@ -38,21 +38,30 @@ namespace itk {
  * ways of guaranteeing spatial fidelity between input and output.
  *
  */
-template<class TPixel, unsigned int VDimension = 2,
-  class TAllocator = NeighborhoodAllocator<TPixel *>,
-  class TDerefAllocator = NeighborhoodAllocator<TPixel> >
+template<class TImage,
+  class TAllocator
+   = NeighborhoodAllocator<ImageTraits<TImage>::InternalPixelType *>,
+  class TDerefAllocator
+   = NeighborhoodAllocator<ImageTraits<TImage>::PixelType>
+  >
 class ITK_EXPORT RegionBoundaryNeighborhoodIterator
-  :  public SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator>
+  :  public SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 {
 public:
   /** 
    * Standard "Self" & Superclass typedef support.
    */
   typedef RegionBoundaryNeighborhoodIterator Self;
-  typedef SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  typedef SmartRegionNeighborhoodIterator<TImage, TAllocator,
     TDerefAllocator> Superclass;
 
+  /**
+   * Extract image type information.
+   */
+  typedef typename Superclass::InternalPixelType InternalPixelType;
+  typedef typename Superclass::PixelType PixelType;
+  enum {Dimension = Superclass::Dimension };
+  
  /**
    * Some common itk object typedefs
    */
@@ -75,8 +84,7 @@ public:
    * Copy constructor
    */
   RegionBoundaryNeighborhoodIterator(const Self& other)
-    : SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
-    TDerefAllocator>(other)
+    : SmartRegionNeighborhoodIterator<TImage,TAllocator,TDerefAllocator>(other)
   {    m_InnerStride = other.m_InnerStride;  }
 
   /**
@@ -103,14 +111,14 @@ public:
    * Overridden from itkNeighborhoodPointerBase because this
    * iterator follows a different path across a region.
    */ 
-  const NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+  const NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   &operator++();  
 
   /**
    * Overridden from itkNeighborhoodPointerBase because this
    * iterator follows a different path across a region.
    */ 
-  const NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+  const NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   &operator--();  
 
   /**

@@ -30,12 +30,12 @@ int main(int argc, char *argv[])
 {
   try
     {
+      typedef itk::Image<itk::Vector<float, 3>, 2> ImageType;
+      
       // Set up filter
-      itk::VectorAnisotropicDiffusionImageFilter<itk::Vector<float, 3>,
-        2>::Pointer 
+      itk::VectorAnisotropicDiffusionImageFilter<ImageType, ImageType>::Pointer 
         filter =
-        itk::VectorAnisotropicDiffusionImageFilter<itk::Vector<float, 3>, 
-        2>::New();
+        itk::VectorAnisotropicDiffusionImageFilter<ImageType, ImageType>::New();
       filter->SetIterations(1);
       filter->SetConductanceParameter(3.0f);
       filter->SetTimeStep(0.125f);
@@ -46,9 +46,7 @@ int main(int argc, char *argv[])
       sz[1] = 100 ; // atoi(argv[2]);
       //      sz[2] = 10;//atoi(argv[3]);
       //      sz[3] = 5;//atoi(argv[4]);
-      itk::NullImageToImageFilterDriver< itk::Image<itk::Vector<float, 3>, 2>,
-                                        itk::Image<itk::Vector<float, 3>, 2> >
-        test1;
+      itk::NullImageToImageFilterDriver< ImageType, ImageType > test1;
       test1.SetImageSize(sz);
       test1.SetFilter(filter.GetPointer());
       test1.Execute();

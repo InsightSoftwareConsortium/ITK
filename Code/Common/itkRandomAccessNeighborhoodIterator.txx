@@ -15,10 +15,9 @@
   =========================================================================*/
 namespace itk {
   
-template<class TPixel, unsigned int VDimension, class TAccessor,
-    class TDerefAccessor>
-RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
-RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
+template<class TImage, class TAccessor, class TDerefAccessor>
+RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
+RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
 ::Begin() const
 {
   //Copy the current iterator
@@ -30,10 +29,9 @@ RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
   return it;
 }
 
-template<class TPixel, unsigned int VDimension, class TAccessor,
-    class TDerefAccessor>
-RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
-RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
+template<class TImage, class TAccessor, class TDerefAccessor>
+RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
+RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
 ::End() const 
 {
   IndexType endIndex;
@@ -42,7 +40,7 @@ RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
   Self it( *this );
 
   // Calculate the end index
-  for (unsigned int i = 0; i< VDimension; ++i)
+  for (unsigned int i = 0; i< Dimension; ++i)
     {
       endIndex.m_Index[i] = m_Bound[i] -1;
     }
@@ -54,11 +52,10 @@ RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
 }
 
 
-template<class TPixel, unsigned int VDimension, class TAccessor,
-  class TDerefAccessor>
-RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor> &
-RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
-::operator+=(const Index<VDimension> & idx)
+template<class TImage, class TAccessor, class TDerefAccessor>
+RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> &
+RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
+::operator+=(const Index<Dimension> & idx)
 {
   unsigned int i;
   Iterator it;
@@ -74,7 +71,7 @@ RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
   // Because the image offset table is based on its buffer size and not its
   // requested region size, we don't have to worry about adding in the wrapping
   // offsets. 
-  for (i = 1; i< VDimension; ++i)
+  for (i = 1; i< Dimension; ++i)
     {
       accumulator += idx[i] * stride[i];
     }
@@ -90,7 +87,7 @@ RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
     }
 
   // Update loop counter values
-  for (i=0; i<VDimension; ++i)
+  for (i=0; i<Dimension; ++i)
     {
       m_Loop[i]+= idx[i];
     }
@@ -98,12 +95,10 @@ RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
   return *this;
 }
 
-template<class TPixel, unsigned int VDimension, class TAccessor,
-  class TDerefAccessor>
-RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor,
-  TDerefAccessor> &
-RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor> 
-::operator-=(const Index<VDimension> & idx)
+template<class TImage, class TAccessor, class TDerefAccessor>
+RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> &
+RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> 
+::operator-=(const Index<Dimension> & idx)
 {
   unsigned int i;
   Iterator it;
@@ -119,7 +114,7 @@ RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
   // Because the image offset table is based on its buffer size and not its
   // requested region size, we don't have to worry about adding in the wrapping
   // offsets. 
-  for (i = 1; i< VDimension; ++i)
+  for (i = 1; i< Dimension; ++i)
     {
       accumulator += idx[i] * stride[i];
     }
@@ -135,7 +130,7 @@ RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
     }
 
   // Update loop counter values
-  for (i=0; i<VDimension; ++i)
+  for (i=0; i<Dimension; ++i)
     {
       m_Loop[i]-= idx[i];
     }

@@ -18,6 +18,7 @@
 
 #include "itkNeighborhoodOperator.h"
 #include "itkImage.h"
+#include "itkImageTraits.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkAnisotropicDiffusionImageFilter.h"
 
@@ -44,20 +45,32 @@ struct ITK_EXPORT AnisoDiffuseGradND : public DiffusionStrategy
  * \class GradientAnisotropicDiffusionImageFilter
  *
  */
-template <class TPixel, unsigned int VDimension=2>
+template <class TInputImage, class TOutputImage>
 class ITK_EXPORT GradientAnisotropicDiffusionImageFilter :
-    public AnisotropicDiffusionImageFilter< TPixel, VDimension>
+    public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard "Self" & Superclass typedef.
    */
   typedef GradientAnisotropicDiffusionImageFilter Self;
+  typedef AnisotropicDiffusionImageFilter<TInputImage, TOutputImage> Superclass;
 
-  /**
-   * Standard Superclass typedef support.
+ /**
+   * Extract some information from the image types.  Dimensionality
+   * of the two images is assumed to be the same.
    */
-  typedef AnisotropicDiffusionImageFilter<TPixel, VDimension> Superclass;
+  typedef typename Superclass::OutputPixelType OutputPixelType;
+  typedef typename Superclass::OutputInternalPixelType OutputInternalPixelType;
+  typedef typename Superclass::InputPixelType InputPixelType;
+  typedef typename Superclass::InputInternalPixelType InputInternalPixelType;
+  enum { ImageDimension = Superclass::ImageDimension };
+  
+  /**
+   * Image typedef support
+   */
+  typedef Superclass::InputImageType  InputImageType;
+  typedef Superclass::OutputImageType OutputImageType;
 
   /** 
    * Smart pointer typedef support 
@@ -83,19 +96,18 @@ protected:
   void operator=(const Self&) {}
 
   virtual UpdateStrategy *GetUpdateStrategy()
-  {
-    return new UpdateStrategyScalar<ImageType>;
-  }
+  { return new UpdateStrategyScalar<OutputImageType, OutputImageType>; }
+  
   virtual DiffusionStrategy *GetDiffusionStrategy()
   {
-    typedef RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension> RNI;
-    typedef RegionBoundaryNeighborhoodIterator<TPixel, VDimension> RBI;
+    typedef RegionNonBoundaryNeighborhoodIterator<OutputImageType> RNI;
+    typedef RegionBoundaryNeighborhoodIterator<OutputImageType> RBI;
     typedef NeighborhoodAlgorithm::IteratorInnerProduct<RNI,
-      NeighborhoodOperator<TPixel, VDimension> > SNIP;
+      NeighborhoodOperator<OutputPixelType, ImageDimension> > SNIP;
     typedef NeighborhoodAlgorithm::BoundsCheckingIteratorInnerProduct<RBI,
-      NeighborhoodOperator<TPixel, VDimension> > SBIP;
+      NeighborhoodOperator<OutputPixelType, ImageDimension> > SBIP;
     
-    if (VDimension == 2)
+    if (ImageDimension == 2)
       {
         return new CompositeDiffusionStrategy(
                                            new AnisoDiffuseGrad2D<SNIP, RNI>(),
@@ -112,9 +124,7 @@ protected:
                                           
   }
   virtual CopyStrategy *GetCopyStrategy()
-  {
-    return new CopyStrategyScalar<ImageType>;
-  }
+  { return new CopyStrategyScalar<InputImageType, OutputImageType>; }
 
 };
   

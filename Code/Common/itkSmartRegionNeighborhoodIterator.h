@@ -40,20 +40,30 @@ namespace itk {
  * \sa NeighborhoodIterator
  * \sa Neighborhood
  */
-template<class TPixel, unsigned int VDimension = 2,
-  class TAllocator = NeighborhoodAllocator<TPixel *>,
-  class TDerefAllocator = NeighborhoodAllocator<TPixel> >
+template<class TImage,
+  class TAllocator =
+    NeighborhoodAllocator<ImageTraits<TImage>::InternalPixelType *>,
+  class TDerefAllocator =
+    NeighborhoodAllocator<ImageTraits<TImage>::PixelType>
+  >
 class ITK_EXPORT SmartRegionNeighborhoodIterator
-  :  public NeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator>
+  :  public NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 {
 public:
   /** 
    * Standard "Self" & Superclass typdef.
    */
   typedef SmartRegionNeighborhoodIterator Self;
-  typedef NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+  typedef NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   Superclass;
+
+
+ /**
+   * Extract image type information.
+   */
+  typedef typename Superclass::InternalPixelType InternalPixelType;
+  typedef typename Superclass::PixelType PixelType;
+  enum {Dimension = Superclass::Dimension };
 
   /**
    * Some common itk object typedefs
@@ -62,6 +72,7 @@ public:
   typedef typename Superclass::RegionType RegionType;
   typedef typename Superclass::SizeType SizeType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::IndexType IndexType;
 
   /**
    * Scalar data type typedef support
@@ -77,14 +88,13 @@ public:
    * Copy constructor
    */
   SmartRegionNeighborhoodIterator(const Self& orig)
-    : NeighborhoodIterator<TPixel, VDimension, TAllocator,
-    TDerefAllocator>(orig)
+    : NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>(orig)
   {
     memcpy(m_InnerBoundsLow, orig.m_InnerBoundsLow, sizeof(long int) *
-           VDimension);
+           Dimension);
     memcpy(m_InnerBoundsHigh, orig.m_InnerBoundsHigh, sizeof(long int) *
-           VDimension);
-    memcpy(m_InBounds, orig.m_InBounds, sizeof(bool) * VDimension);
+           Dimension);
+    memcpy(m_InBounds, orig.m_InBounds, sizeof(bool) * Dimension);
   }
   
   /**
@@ -94,10 +104,10 @@ public:
   {
     Superclass::operator=(orig);
     memcpy(m_InnerBoundsLow, orig.m_InnerBoundsLow, sizeof(long int) *
-           VDimension);
+           Dimension);
     memcpy(m_InnerBoundsHigh, orig.m_InnerBoundsHigh, sizeof(long int) *
-           VDimension);
-    memcpy(m_InBounds, orig.m_InBounds, sizeof(bool) * VDimension);
+           Dimension);
+    memcpy(m_InBounds, orig.m_InBounds, sizeof(bool) * Dimension);
     return *this;
   }
  
@@ -141,7 +151,7 @@ public:
   /**
    * Returns the pixel value referenced by a linear array location.
    */
-  virtual TPixel GetPixel(unsigned long i)
+  virtual PixelType GetPixel(unsigned long i)
   {
     if (this->InBounds())
       {
@@ -181,18 +191,18 @@ protected:
   /**
    * Lower threshold of in-bounds loop counter values.
    */
-  unsigned long int m_InnerBoundsLow[VDimension];
+  unsigned long int m_InnerBoundsLow[Dimension];
   
   /**
    * Upper threshold of in-bounds loop counter values.
    */
-  unsigned long int m_InnerBoundsHigh[VDimension];
+  unsigned long int m_InnerBoundsHigh[Dimension];
   
   /**
    * Denotes which of the iterators dimensional sides spill outside
    * region of interest boundaries.
    */
-  bool m_InBounds[VDimension];
+  bool m_InBounds[Dimension];
 
 };
 

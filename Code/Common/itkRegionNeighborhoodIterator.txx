@@ -15,12 +15,11 @@
   =========================================================================*/
 namespace itk {
   
-template<class TPixel, unsigned int VDimension, class TAllocator,
-    class TDerefAllocator> 
+template<class TImage, class TAllocator, class TDerefAllocator> 
 typename 
-RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, 
+RegionNeighborhoodIterator<TImage, TAllocator, 
   TDerefAllocator>::NeighborhoodType
-RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 ::GetNeighborhood()
 {
   NeighborhoodType ans;
@@ -39,10 +38,9 @@ RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
   return ans;
 }
 
-template<class TPixel, unsigned int VDimension, class TAllocator,
-    class TDerefAllocator>
+template<class TImage, class TAllocator, class TDerefAllocator>
 void
-RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 ::SetNeighborhood(NeighborhoodType &N)
 {
   Iterator this_it;
@@ -57,17 +55,15 @@ RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
 
 }
     
-template<class TPixel, unsigned int VDimension, class TAllocator,
-  class TDerefAllocator>
-void RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator>
+template<class TImage, class TAllocator, class TDerefAllocator>
+void RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 ::SetBound(const SizeType& size)
 {
   const unsigned long *offset     = m_Image->GetOffsetTable();
   SizeType bufferSize = m_Image->GetBufferedRegion().GetSize();
 
   // Set the bounds and the wrapping offsets
-  for (unsigned int i=0; i<VDimension; ++i)
+  for (unsigned int i=0; i<Dimension; ++i)
     {
       m_Bound[i]      = m_StartIndex[i]+size[i];
       m_WrapOffset[i] = (bufferSize[i] - (m_Bound[i] - m_StartIndex[i]))
@@ -75,10 +71,9 @@ void RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
     }  
 }
 
-template<class TPixel, unsigned int VDimension, class TAllocator,
-  class TDerefAllocator>
-RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator> 
-RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator> 
+template<class TImage, class TAllocator, class TDerefAllocator>
+RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator> 
+RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator> 
 ::Begin() const
 {
   //Copy the current iterator
@@ -90,10 +85,9 @@ RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
   return it;
 }
 
-template<class TPixel, unsigned int VDimension, class TAllocator,
-  class TDerefAllocator>
-RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
-RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+template<class TImage, class TAllocator, class TDerefAllocator>
+RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 ::End() const
 {
   IndexType endIndex;
@@ -102,7 +96,7 @@ RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
   RegionNeighborhoodIterator it( *this );
 
   // Calculate the end index
-  for (unsigned int i = 0; i< VDimension; ++i)
+  for (unsigned int i = 0; i< Dimension; ++i)
     {
       endIndex.m_Index[i] = m_Bound[i] -1;
     }

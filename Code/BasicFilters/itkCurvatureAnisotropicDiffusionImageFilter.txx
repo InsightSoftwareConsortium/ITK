@@ -28,7 +28,7 @@ void AnisoDiffuseCurve2D<TInnerProduct, TIterator>
 ::operator()(void *d1, void *d2)
 {
   typedef typename TIterator::ImageType ImageType;
-  typedef typename ImageType::ScalarValueType ScalarValueType;
+  typedef typename ImageType::PixelType ScalarValueType;
   enum { ImageDimension = ImageType::ImageDimension };
   enum { X=0, Y=1 };
   TInnerProduct IP;
@@ -36,7 +36,7 @@ void AnisoDiffuseCurve2D<TInnerProduct, TIterator>
   typename ImageType::Pointer input = static_cast<ImageType*>(d1);
   typename ImageType::Pointer output= static_cast<ImageType*>(d2);
 
-  AvgGradMagSquared<ScalarValueType, ImageDimension> GradMag;
+  AvgGradMagSquared<ImageType> GradMag;
   const float k = GradMag(input, input->GetRequestedRegion())
     * this->m_ConductanceTerm * -1.0f;
 
@@ -156,7 +156,7 @@ void AnisoDiffuseCurveND<TInnerProduct, TIterator>
 
   TInnerProduct IP;
   
-  AvgGradMagSquared<ScalarValueType, ImageDimension> GradMag;
+  AvgGradMagSquared<ImageType> GradMag;
   const float k = GradMag(input, input->GetRequestedRegion())
     * this->m_ConductanceTerm * -1.0f;
   

@@ -17,66 +17,64 @@
 #include "itkRegionNonBoundaryNeighborhoodIterator.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkDerivativeOperator.h"
-#include "itkImageRegionIterator.h"
+#include "itkSimpleImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 namespace itk
 {
 
-template<class TImage>
-void UpdateStrategyScalar<TImage>
+template<class TInputImage, class TOutputImage>
+void UpdateStrategyScalar<TInputImage, TOutputImage>
 ::operator()(void *d1, void *d2) const 
 {
-  TImage *ip = static_cast<TImage *>(d1);
-  TImage *op = static_cast<TImage *>(d2);
-  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType,
-    ImageTraits<TImage>::ImageDimension> in(ip, op->GetRequestedRegion());
-  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType,
-    ImageTraits<TImage>::ImageDimension>  out(op, op->GetRequestedRegion());
-  in = in.Begin();
-  out = out.Begin();
+  TInputImage *ip = static_cast<TInputImage *>(d1);
+  TOutputImage *op = static_cast<TOutputImage *>(d2);
+  SimpleImageRegionIterator<TInputImage> in(ip, op->GetRequestedRegion());
+  SimpleImageRegionIterator<TOutputImage> out(op, op->GetRequestedRegion());
+  in.Begin();
+  out.Begin();
 
   while (! in.IsAtEnd() )
-    {
-      *out += *in * m_Multiplier;
+    { // *out += *in * m_Multiplier
+      out.Set( out.Get() + ( in.Get() * m_Multiplier ) );
       ++out;
       ++in;
     }
 }
 
-template <class TImage>
-void CopyStrategyScalar<TImage>::operator()(void *d1, void *d2) const
+template <class TInputImage, class TOutputImage>
+void CopyStrategyScalar<TInputImage, TOutputImage>
+::operator()(void *d1, void *d2) const
 {
-  TImage *ip = static_cast<TImage *>(d1);
-  TImage *op = static_cast<TImage *>(d2);
-  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType,
-    ImageTraits<TImage>::ImageDimension>  in(ip, op->GetRequestedRegion());
-  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType,
-    ImageTraits<TImage>::ImageDimension>  out(op, op->GetRequestedRegion());
-  in = in.Begin();
-  out = out.Begin();
+  TInputImage *ip  = static_cast<TInputImage *>(d1);
+  TOutputImage *op = static_cast<TOutputImage *>(d2);
+  SimpleImageRegionIterator<TInputImage>  in(ip, op->GetRequestedRegion());
+  SimpleImageRegionIterator<TOutputImage> out(op, op->GetRequestedRegion());
+  in.Begin();
+  out.Begin();
 
   while (! in.IsAtEnd() )
     {
-      *out = *in;
+      // *out = *in;
+      out.Set( in.Get() );
       ++out;
       ++in;
     }
 }
    
-template<class TPixel, unsigned int VDimension>
+template<class TInputImage, class TOutputImage>
 void
-AnisotropicDiffusionImageFilter<TPixel, VDimension>
+AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  typedef RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension> RNI;
-  typedef RegionBoundaryNeighborhoodIterator<TPixel, VDimension>    RBI;
+  typedef RegionNonBoundaryNeighborhoodIterator<TOutputImage> RNI;
+  typedef RegionBoundaryNeighborhoodIterator<TOutputImage>    RBI;
 
   DiffusionStrategy *a = this->GetDiffusionStrategy();
   UpdateStrategy    *u = this->GetUpdateStrategy();
   CopyStrategy      *c = this->GetCopyStrategy();
 
-  ImageType::Pointer output = this->GetOutput();
-  ImageType::Pointer input  = this->GetInput();
+  typename TOutputImage::Pointer output = this->GetOutput();
+  typename TInputImage::Pointer  input  = this->GetInput();
   
   // Allocate output buffer memory.
   output->SetBufferedRegion(output->GetRequestedRegion());
@@ -86,7 +84,7 @@ AnisotropicDiffusionImageFilter<TPixel, VDimension>
   c->operator()(input, output);
 
   // Temp image
-  ImageType::Pointer delta = ImageType::New();
+  typename TOutputImage::Pointer delta = TOutputImage::New();
   delta->SetLargestPossibleRegion(output->GetLargestPossibleRegion());
   delta->SetRequestedRegion(output->GetRequestedRegion());
   delta->SetBufferedRegion(output->GetBufferedRegion());
@@ -106,24 +104,28 @@ AnisotropicDiffusionImageFilter<TPixel, VDimension>
   //delta->Delete();
 }
 
-template<class TPixel, unsigned long VDimension>
-TPixel AvgGradMagSquared<TPixel, VDimension>
-::operator()(Image<TPixel, VDimension> *ip,
-             const ImageRegion<VDimension> &region)
+template<class TImageType>
+AvgGradMagSquared<TImageType>::PixelType
+AvgGradMagSquared<TImageType>
+::operator()(TImageType *ip,
+             const ImageTraits<TImageType>::RegionType &region)
   const
 {
-  TPixel accumulator;
-  TPixel val;
-  unsigned long counter;
-  typedef RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension> RNI_type;
+  PixelType accumulator;
+  PixelType val;
+  PixelType counter;
+  typedef RegionNonBoundaryNeighborhoodIterator<TImageType> RNI_type;
   NeighborhoodAlgorithm::IteratorInnerProduct<RNI_type,
-    NeighborhoodOperator<TPixel, VDimension> > IP;
+    NeighborhoodOperator<PixelType, ImageDimension> > IP;
   
-  RNI_type iterator_list[VDimension];
-  DerivativeOperator<TPixel, VDimension> operator_list[VDimension];
+  RNI_type iterator_list[ImageDimension];
+  DerivativeOperator<PixelType, ImageDimension> operator_list[ImageDimension];
   
-  // Set up the derivative operators and their iterators
-  for (unsigned int i = 0; i < VDimension; ++i)
+  // Set up the derivative operators and their iterators.
+  // Instead of maintaining a single N-d neighborhood of pointers,
+  // we maintain a list of 1-d neighborhoods along each axial direction.
+  // This is more efficient for higher dimensions.
+  for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       operator_list[i].SetOrder(1);
       operator_list[i].SetDirection(i);
@@ -134,13 +136,14 @@ TPixel AvgGradMagSquared<TPixel, VDimension>
     }
 
   // Now do the actual processing
-  accumulator = NumericTraits<TPixel>::Zero;
-  counter     = 0;
+  accumulator = NumericTraits<PixelType>::Zero;
+  counter     = NumericTraits<PixelType>::Zero;
   const RNI_type iterator_end = iterator_list[0].End();
   for (iterator_list[0] = iterator_list[0].Begin();
-       !iterator_list[0].IsAtEnd(); ++counter)
+       !iterator_list[0].IsAtEnd(); )
     {
-      for (unsigned int i = 0; i < VDimension; ++i)
+      counter += NumericTraits<PixelType>::One;
+      for (unsigned int i = 0; i < ImageDimension; ++i)
         {
           val = IP(iterator_list[i], operator_list[i]);     
           accumulator += val * val;
@@ -148,10 +151,7 @@ TPixel AvgGradMagSquared<TPixel, VDimension>
         }
     }
 
-  return ( (TPixel) (accumulator / ((TPixel)counter)) );
+  return ( (PixelType) (accumulator / counter) );
 }
-
-  
-
 
 } // end namespace itk

@@ -159,7 +159,8 @@ int main()
       FillRegionSequential<int, 2>(ip);
       PrintRegion<int,2>(ip);
       
-      itk::SmartRegionNeighborhoodIterator<int,2> it(hoodRadius, ip, reg);
+      itk::SmartRegionNeighborhoodIterator<itk::Image<int,2> >
+        it(hoodRadius, ip, reg);
       
       for (it = it.Begin(); !it.IsAtEnd(); ++it)
         {

@@ -15,17 +15,16 @@
   =========================================================================*/
 namespace itk {
 
-template< class TPixel, unsigned int VDimension, class TAllocator,
-    class TDerefAllocator>
-RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
+template< class TImage, class TAllocator, class TDerefAllocator>
+RegionNonBoundaryNeighborhoodIterator<TImage, TAllocator,
   TDerefAllocator>
 ::RegionNonBoundaryNeighborhoodIterator(const SizeType &radius, ImageType *ptr,
                                         const RegionType &region)
 {
   RegionType cropped;
   SizeType szc;
-  Index<VDimension> idxc;
-  for (unsigned int i = 0; i< VDimension; ++i)
+  Index<Dimension> idxc;
+  for (unsigned int i = 0; i< Dimension; ++i)
     {
       szc[i] = ptr->GetRequestedRegion().GetSize()[i] - radius[i]*2;
       idxc[i]= ptr->GetRequestedRegion().GetIndex()[i]+ radius[i];
@@ -36,12 +35,9 @@ RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
   this->Initialize(radius, ptr, cropped);
 }
 
-template<class TPixel, unsigned int VDimension, class TAllocator,
-    class TDerefAllocator>
-RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator>
-RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator>
+template<class TImage, class TAllocator, class TDerefAllocator>
+RegionNonBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+RegionNonBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 ::Begin() const
 {
   //Copy the current iterator
@@ -53,12 +49,9 @@ RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
   return it;
 }
 
-template<class TPixel, unsigned int VDimension, class TAllocator,
-  class TDerefAllocator>
-RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator>
-RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator>
+template<class TImage, class TAllocator,  class TDerefAllocator>
+RegionNonBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+RegionNonBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 ::End() const
 {
   IndexType endIndex;
@@ -67,7 +60,7 @@ RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
   RegionNonBoundaryNeighborhoodIterator it( *this );
 
   // Calculate the end index
-  for (unsigned int i = 0; i< VDimension; ++i)
+  for (unsigned int i = 0; i< Dimension; ++i)
     {
       endIndex.m_Index[i] = m_Bound[i] -1;
     }

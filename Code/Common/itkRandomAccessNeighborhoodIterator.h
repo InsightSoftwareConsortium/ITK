@@ -45,21 +45,30 @@ namespace itk {
  * \sa Neighborhood
  * \sa NeighborhoodAlgorithm
  */
-template<class TPixel, unsigned int VDimension = 2,
-  class TAllocator = NeighborhoodAllocator<TPixel *>,
-  class TDerefAllocator = NeighborhoodAllocator<TPixel> >
+template<class TImage,
+  class TAllocator =
+    NeighborhoodAllocator<ImageTraits<TImage>::InternalPixelType *>,
+  class TDerefAllocator =
+    NeighborhoodAllocator<ImageTraits<TImage>::PixelType>
+  >
 class RandomAccessNeighborhoodIterator
-  :  public RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
-  TDerefAllocator> 
+  :  public RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator> 
 {
 public:
   /** 
    * Standard "Self" & Superclass typedef support.
    */
   typedef RandomAccessNeighborhoodIterator Self;
-  typedef RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
-    TDerefAllocator> Superclass;
-  
+  typedef RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+   Superclass;
+
+ /**
+   * Extract image type information.
+   */
+  typedef typename Superclass::InternalPixelType InternalPixelType;
+  typedef typename Superclass::PixelType PixelType;
+  enum {Dimension = Superclass::Dimension };
+
   /**
    * Some common itk object typedefs
    */
@@ -67,7 +76,8 @@ public:
   typedef typename Superclass::RegionType RegionType;
   typedef typename Superclass::SizeType SizeType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-
+  typedef typename Superclass::IndexType IndexType;
+  
   /**
    * Scalar data type typedef support
    */
@@ -86,8 +96,8 @@ public:
   RandomAccessNeighborhoodIterator(const SizeType &radius,
                              ImageType *ptr,
                              const RegionType &region)
-    : RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
-    TDerefAllocator>(radius, ptr, region) { }
+    : RegionNeighborhoodIterator<TImage, TAllocator,
+              TDerefAllocator>(radius, ptr, region) { }
 
   /**
    * Return an iterator for the beginning of the region.
@@ -116,8 +126,7 @@ public:
    * Copy constructor
    */
   RandomAccessNeighborhoodIterator( const Self &other)
-    : RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
-    TDerefAllocator>(other)
+    : RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>(other)
    { }
   
   /**
@@ -132,20 +141,20 @@ public:
   /**
    * Addition of an itk::Index
    */
-  Self &operator+=(const Index<VDimension> &);
+  Self &operator+=(const Index<Dimension> &);
 
   /**
    * Subtraction of an itk::Index
    */
-  Self &operator-=(const Index<VDimension> &);
+  Self &operator-=(const Index<Dimension> &);
 
   /**
    * Distance between two iterators
    */
-  Index<VDimension> operator-(const Self& b)
+  Index<Dimension> operator-(const Self& b)
   {
-    Index<VDimension> idx;
-    for (unsigned int i = 0; i < VDimension; ++i)
+    Index<Dimension> idx;
+    for (unsigned int i = 0; i < Dimension; ++i)
       idx[i] = m_Loop[i] - b.m_Loop[i]; 
     return idx;
   }
@@ -160,39 +169,36 @@ public:
   }
 };
 
-template<class TPixel, unsigned int VDimension, class TAccessor,
-    class TDerefAccessor>
-inline RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor,
-  TDerefAccessor>
-operator+(const RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, 
-          TDerefAccessor> &it, const Index<VDimension> &ind)
+template<class TImage, class TAccessor, class TDerefAccessor>
+inline RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
+operator+(const RandomAccessNeighborhoodIterator<TImage, TAccessor, 
+          TDerefAccessor> &it,
+          const RandomAccessNeighborhoodIterator<TImage, TAccessor,
+          TDerefAccessor>::IndexType &ind)
 {
-  RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor,
-    TDerefAccessor> ret;
+  RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> ret;
   ret = it;
   ret += ind;
   return ret;
 }
 
-template<class TPixel, unsigned int VDimension, class TAccessor,
-  class TDerefAccessor>
-inline RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor,
-  TDerefAccessor>
-operator+(const Index<VDimension> &ind,
-          const RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, 
+template<class TImage, class TAccessor, class TDerefAccessor>
+inline RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
+operator+(const RandomAccessNeighborhoodIterator<TImage, TAccessor,
+          TDerefAccessor>::IndexType &ind,
+          const RandomAccessNeighborhoodIterator<TImage, TAccessor, 
           TDerefAccessor> &it)
 {  return (it + ind); }
 
-template<class TPixel, unsigned int VDimension, class TAccessor,
-  class TDerefAccessor>
-inline RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor,
+template<class TImage, class TAccessor, class TDerefAccessor>
+inline RandomAccessNeighborhoodIterator<TImage, TAccessor,
   TDerefAccessor>
-operator-(const RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, 
+operator-(const RandomAccessNeighborhoodIterator<TImage, TAccessor, 
           TDerefAccessor> &it,
-          const Index<VDimension> &ind)
+          const RandomAccessNeighborhoodIterator<TImage, TAccessor,
+          TDerefAccessor>::IndexType &ind)
 {
-  RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor,
-    TDerefAccessor> ret;
+  RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> ret;
   ret = it;
   ret -= ind;
   return ret;

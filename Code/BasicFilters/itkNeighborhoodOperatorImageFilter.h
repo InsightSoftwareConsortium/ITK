@@ -42,33 +42,38 @@ namespace itk
  * \sa NeighborhoodIterator
  */
 
-template <class TPixel, unsigned int VDimension=2>
+template <class TInputImage, class TOutputImage>
 class ITK_EXPORT NeighborhoodOperatorImageFilter :
-    public ImageToImageFilter< Image<TPixel, VDimension>,
-                               Image<TPixel, VDimension> > 
+    public ImageToImageFilter< TInputImage, TOutputImage > 
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard "Self" & Superclass typedef.
    */
   typedef NeighborhoodOperatorImageFilter Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
 
-  /**
-   * Standard super class typedef support.
+ /**
+   * Extract some information from the image types.  Dimensionality
+   * of the two images is assumed to be the same.
    */
-  typedef ImageToImageFilter< Image<TPixel, VDimension>,
-    Image<TPixel, VDimension> > Superclass;
+  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
+  typedef typename TInputImage::PixelType InputPixelType;
+  typedef typename TInputImage::InternalPixelType InputInternalPixelType;
+  enum { ImageDimension = TOutputImage::ImageDimension };
+  
+  /**
+   * Image typedef support
+   */
+  typedef TInputImage  InputImageType;
+  typedef TOutputImage OutputImageType;
   
   /** 
    * Smart pointer typedef support 
    */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Image typedef support
-   */
-  typedef Image<TPixel, VDimension> ImageType;
 
   /**
    * Run-time type information (and related methods)
@@ -85,7 +90,7 @@ public:
    * that the operator is stored as an internal COPY (it
    * is not part of the pipeline).
    */
-  void SetOperator(const Neighborhood<TPixel, VDimension> &p)
+  void SetOperator(const Neighborhood<OutputPixelType, ImageDimension> &p)
   {
     m_Operator = p;
     this->Modified();
@@ -103,7 +108,7 @@ private:
   /**
    * Pointer to the internal operator used to filter the image.
    */
-  Neighborhood<TPixel, VDimension> m_Operator;
+  Neighborhood<OutputPixelType, ImageDimension> m_Operator;
 
 };
   

@@ -17,6 +17,7 @@
 #define __itkAnisotropicDiffusionImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkImageTraits.h"
 
 namespace itk
 {
@@ -27,12 +28,15 @@ namespace itk
  * AnisotropicDiffusionImageFilter.
  *
  */
-template <class TPixel, unsigned long VDimension>
+template <class TImageType>
 struct ITK_EXPORT AvgGradMagSquared
 {
+  typedef ImageTraits<TImageType>::PixelType PixelType;
+  enum { ImageDimension = ImageTraits<TImageType>::ImageDimension };
+
   AvgGradMagSquared() {}
-  TPixel operator() (Image<TPixel, VDimension> *,
-                     const ImageRegion<VDimension> &) const;
+  PixelType operator() (TImageType *,
+                     const ImageTraits<TImageType>::RegionType &) const;
 };
 
 struct ITK_EXPORT CopyStrategy
@@ -41,7 +45,7 @@ struct ITK_EXPORT CopyStrategy
   virtual void operator()(void *, void *) const = 0;
 };
 
-template <class TPixel>
+template <class TInputImage, class TOutputImage>
 struct ITK_EXPORT CopyStrategyScalar : public CopyStrategy
 {
   CopyStrategyScalar() {}
@@ -89,7 +93,7 @@ struct ITK_EXPORT UpdateStrategy
   float m_Multiplier;
 };
 
-template<class TImage>
+template<class TInputImage, class TOutputImage>
 struct ITK_EXPORT UpdateStrategyScalar : public UpdateStrategy
 {
   UpdateStrategyScalar() {} 
@@ -103,38 +107,38 @@ struct ITK_EXPORT UpdateStrategyScalar : public UpdateStrategy
  * that perform anisotropic diffusion.  It defines a common interface and
  * several default method implementations.
  */
-template <class TPixel, unsigned int VDimension=2>
+template <class TInputImage, class TOutputImage>
 class ITK_EXPORT AnisotropicDiffusionImageFilter :
-    public ImageToImageFilter< Image<TPixel, VDimension>,
-                               Image<TPixel, VDimension> > 
+    public ImageToImageFilter< TInputImage, TOutputImage > 
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard "Self" & Superclass typedef.
    */
   typedef AnisotropicDiffusionImageFilter Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
 
   /**
-   * Standard Superclass typedef support.
+   * Extract some information from the image types.  Dimensionality
+   * of the two images is assumed to be the same.
    */
-  typedef ImageToImageFilter< Image<TPixel, VDimension>,
-    Image<TPixel, VDimension> > Superclass;
+  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
+  typedef typename  TInputImage::PixelType InputPixelType;
+  typedef typename  TInputImage::InternalPixelType InputInternalPixelType;
+  enum { ImageDimension = TOutputImage::ImageDimension };
+  
+  /**
+   * Image typedef support
+   */
+  typedef TInputImage InputImageType;
+  typedef TOutputImage OutputImageType;
 
   /** 
    * Smart pointer typedef support 
    */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Image typedef support
-   */
-  typedef Image<TPixel, VDimension> ImageType;
-
-  /**
-   * Scalar value type support
-   */
-  typedef typename ImageType::ScalarValueType ScalarValueType;
 
   /**
    * Run-time type information (and related methods)

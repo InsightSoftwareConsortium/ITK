@@ -27,7 +27,7 @@ void
 GradientMagnitudeStrategy<TInnerProduct, TIterator>
 ::operator()(ImageType *in, ImageType *out) const
 {
-  int i;
+  unsigned int i;
   ScalarValueType a, g;
   TInnerProduct IP;
   NeighborhoodAlgorithm::CalculateOutputWrapOffsetModifiers<ImageType> OM;
@@ -74,24 +74,24 @@ GradientMagnitudeStrategy<TInnerProduct, TIterator>
     }
 }
  
-template< class TPixel, unsigned int VDimension>
+template< class TInputImage, class TOutputImage >
 void
-GradientMagnitudeImageFilter<TPixel, VDimension>
+GradientMagnitudeImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  typedef RegionBoundaryNeighborhoodIterator<TPixel, VDimension>    RBI;
-  typedef RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension> RNI;
+  typedef RegionBoundaryNeighborhoodIterator<TOutputImage>    RBI;
+  typedef RegionNonBoundaryNeighborhoodIterator<TOutputImage> RNI;
   typedef NeighborhoodAlgorithm::IteratorInnerProduct<RNI,
-    NeighborhoodOperator<TPixel, VDimension> > SNIP;
+    NeighborhoodOperator<OutputPixelType, ImageDimension> > SNIP;
   typedef NeighborhoodAlgorithm::BoundsCheckingIteratorInnerProduct<RBI,
-    NeighborhoodOperator<TPixel, VDimension> > SBIP;
+    NeighborhoodOperator<OutputPixelType, ImageDimension> > SBIP;
   
   GradientMagnitudeStrategy<SNIP, RNI> f1;
   GradientMagnitudeStrategy<SBIP, RBI> f2;
   
   // Allocate output
-  typename ImageType::Pointer output = this->GetOutput();
-  typename ImageType::Pointer input  = this->GetInput();
+  typename OutputImageType::Pointer output = this->GetOutput();
+  typename InputImageType::Pointer input  = this->GetInput();
 
   // Need to allocate output buffer memory.
   output->SetBufferedRegion(output->GetRequestedRegion());
