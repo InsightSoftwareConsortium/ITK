@@ -159,6 +159,24 @@ class CovariantVector : public Array<T,TCovariantVectorDimension> {
 
 };
 
+/** \function CovariantVectorCast
+ * \brief A templated function for casting CovariantVectors from one representation type to another.
+ *
+ * \warning This function does not test if the two covariant vectors are of equal dimension. 
+ * \ingroup Geometry
+ * \ingroup DataRepresentation
+ * 
+ */
+template <typename TCovariantVectorA, typename TCovariantVectorB >
+ITK_EXPORT void CovariantVectorCast( const TCovariantVectorA & pa, TCovariantVectorB & pb  ) 
+{
+for(unsigned int i=0; i<TCovariantVectorA::CovariantVectorDimension; i++)
+  {
+  pb[i] = static_cast< typename TCovariantVectorB::ValueType >( pa[i] );
+  }
+ }
+
+
 
 } // end namespace itk
   
