@@ -24,10 +24,10 @@
 
 
 //-------------------------------------
-//     Typedefs for convinience
+//     Typedefs for convenience
 //-------------------------------------
 typedef itk::Image< itk::RGB<float>,   2 > myImageType;
-
+ 
 
 typedef itk::DataAccessorRGBtoRed<float> myRedAccessorType;
 
