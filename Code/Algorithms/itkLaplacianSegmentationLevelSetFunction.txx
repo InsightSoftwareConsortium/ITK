@@ -36,8 +36,26 @@ void LaplacianSegmentationLevelSetFunction<TImageType, TFeatureImageType>
 
   caster->SetInput(this->GetFeatureImage());
   filter->SetInput(caster->GetOutput());
+
+  // make the laplacian filter use the pixel container from the speed image
   filter->GraftOutput(this->GetSpeedImage());
+
   filter->Update();
+
+  // move the meta information (mostly the spacing and origin) back to
+  // the speed image.
+  //
+  // unfortunately functions are not filters so we can't graft back
+  this->GetSpeedImage()->CopyInformation( filter->GetOutput() );
+  this->GetSpeedImage()
+    ->SetPixelContainer( filter->GetOutput()->GetPixelContainer() );
+  this->GetSpeedImage()
+    ->SetRequestedRegion( filter->GetOutput()->GetRequestedRegion() );
+  this->GetSpeedImage()
+    ->SetBufferedRegion( filter->GetOutput()->GetBufferedRegion() );
+  this->GetSpeedImage()
+    ->SetLargestPossibleRegion( filter->GetOutput()
+                                ->GetLargestPossibleRegion() );
 }
 
 } // end namespace itk
