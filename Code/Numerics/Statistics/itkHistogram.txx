@@ -314,7 +314,7 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer >
-inline typename Histogram<TMeasurement, VMeasurementVectorSize, 
+inline const typename Histogram<TMeasurement, VMeasurementVectorSize, 
                           TFrequencyContainer>::MeasurementType&
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::GetBinMinFromValue(const unsigned int dimension, const float value ) const
@@ -345,7 +345,7 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
-inline typename Histogram< TMeasurement, VMeasurementVectorSize, 
+inline const typename Histogram< TMeasurement, VMeasurementVectorSize, 
                            TFrequencyContainer >::MeasurementType&
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetBinMaxFromValue(const unsigned int dimension, const float value ) const

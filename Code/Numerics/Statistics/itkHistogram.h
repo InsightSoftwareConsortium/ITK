@@ -188,28 +188,28 @@ public:
   
   /** Method to get the minimum of the bin corresponding to the gray level of 
    * dimension d. */
-  MeasurementType& GetBinMinFromValue(const unsigned int dimension, 
+  const MeasurementType& GetBinMinFromValue(const unsigned int dimension, 
                                       const float value ) const  ;
   
   /** Method to get the maximum of the bin corresponding to the gray level of 
    * dimension d. */
-  MeasurementType& GetBinMaxFromValue(const unsigned int dimension, 
+  const MeasurementType& GetBinMaxFromValue(const unsigned int dimension, 
                                       const float value ) const ;
   
   /** Method to get the minimum vector of a dimension  */
-  BinMinVectorType& GetDimensionMins(const unsigned int dimension) const
+  const BinMinVectorType& GetDimensionMins(const unsigned int dimension) const
   { return m_Min[dimension] ; }
   
   /** Method to get the maximum vector of a dimension  */
-  BinMaxVectorType& GetDimensionMaxs(const unsigned int dimension) const
+  const BinMaxVectorType& GetDimensionMaxs(const unsigned int dimension) const
   {  return m_Max[dimension] ; }
   
   /** Method to get the minimum vector  */
-  BinMinContainerType& GetMins() const
+  const BinMinContainerType& GetMins() const
   { return m_Min ; }
   
   /** Method to get the maximum vector  */
-  BinMaxContainerType& GetMaxs() const
+  const BinMaxContainerType& GetMaxs() const
   { return m_Max ; }
   
   /** Method to get mins of each dimension for a measurement in the histogram */
