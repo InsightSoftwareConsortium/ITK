@@ -54,8 +54,8 @@ bool DoRegistration ()
 
   // ImageSource
   typedef itk::testhelper::ImageRegistrationMethodImageSource<
-                                  typename FixedImageType::PixelType,
-                                  typename MovingImageType::PixelType,
+                                  FixedImageType::PixelType,
+                                  MovingImageType::PixelType,
                                   dimension >         ImageSourceType;
   // Transform Type
   typedef itk::AffineTransform< double, dimension > TransformType;
@@ -90,7 +90,7 @@ bool DoRegistration ()
   typename InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   typename RegistrationType::Pointer   registration  = RegistrationType::New();
 
-  ImageSourceType::Pointer    imageSource   = ImageSourceType::New();
+  typename ImageSourceType::Pointer    imageSource   = ImageSourceType::New();
 
   SizeType size;
   size[0] = 100;
@@ -98,8 +98,8 @@ bool DoRegistration ()
   
   imageSource->GenerateImages( size );
 
-  FixedImageType::ConstPointer     fixedImage    = imageSource->GetFixedImage();
-  MovingImageType::ConstPointer    movingImage   = imageSource->GetMovingImage();
+  typename FixedImageType::ConstPointer     fixedImage    = imageSource->GetFixedImage();
+  typename MovingImageType::ConstPointer    movingImage   = imageSource->GetMovingImage();
 
   //
   // Connect all the components required for Registratio
