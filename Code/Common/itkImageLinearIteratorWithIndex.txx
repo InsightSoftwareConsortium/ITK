@@ -145,11 +145,11 @@ ImageLinearIteratorWithIndex<TImage>
 {
 
   long distanceToBegin = 
-                m_PositionIndex[ m_Direction ] - m_Begin[ m_Direction ];
+                m_PositionIndex[ m_Direction ] - m_BeginIndex[ m_Direction ];
 
   m_Position -= m_Jump * distanceToBegin; 
 
-  m_PositionIndex[m_Direction] = m_Begin[m_Direction];   
+  m_PositionIndex[m_Direction] = m_BeginIndex[m_Direction];   
   
 }
 
