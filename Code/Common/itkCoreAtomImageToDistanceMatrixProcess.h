@@ -71,10 +71,10 @@ public:
   typedef typename DistanceMatrixType::Pointer DistanceMatrixPointer;
 
   //MedialNode typedef
-  typedef BloxCoreAtomPixel<NDimensions> MedialNodeType;
+  typedef BloxCoreAtomPixel<itkGetStaticConstMacro(NDimensions)> MedialNodeType;
 
   /** The type used to store the position of the BloxPixel. */
-  typedef Point<double, NDimensions> PositionType;
+  typedef Point<double, itkGetStaticConstMacro(NDimensions)> PositionType;
 
   /** Get the image output of this process object.  */
   DistanceMatrixType * GetOutput(void);
