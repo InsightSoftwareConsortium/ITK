@@ -237,6 +237,36 @@ ADD_TEST( SmoothingRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES}
         3
 )
 
+ADD_TEST( ThresholdAboveImageFilterTest ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/ThresholdAboveImageFilter.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/ThresholdAboveImageFilter.png
+  ThresholdImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/ThresholdBelowImageFilter.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/ThresholdAboveImageFilter.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/ThresholdOutsideImageFilter.png
+)
+
+ADD_TEST( ThresholdBelowImageFilterTest ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/ThresholdBelowImageFilter.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/ThresholdBelowImageFilter.png
+  ThresholdImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/ThresholdBelowImageFilter.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/ThresholdAboveImageFilter.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/ThresholdOutsideImageFilter.png
+)
+
+ADD_TEST( ThresholdOutsideImageFilterTest ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/ThresholdOutsideImageFilter.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/ThresholdOutsideImageFilter.png
+  ThresholdImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/ThresholdBelowImageFilter.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/ThresholdAboveImageFilter.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/ThresholdOutsideImageFilter.png
+)
+
 ADD_TEST( VectorGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/VectorGradientAnisotropicDiffusionImageFilter.png
             ${ITK_BINARY_DIR}/Testing/Temporary/VectorGradientAnisotropicDiffusionImageFilter.png
