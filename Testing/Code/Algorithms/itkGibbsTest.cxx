@@ -23,7 +23,6 @@
 
 //using namespace itk;
 
-//time_t btime,etime;
 const unsigned short TestingImage [400]={
 297,277,317,289,300,312,306,283,282,308,308,342,335,325,315,300,304,318,307,308,
 
@@ -68,19 +67,6 @@ const unsigned short TestingImage [400]={
 
 int main(){
 std::cout<< "Gibbs Prior Test Begins: " << std::endl;
-  time(&btime);
-
-// for local testing on image files (256*256*1 RGB)
-//  unsigned char TestImage[65536*3];
-//  unsigned short outImage[400];
-//  FILE *input;
-
-//  FILE *output=fopen("../../../../insight/local_copy/Jaw_gibbs_uint8.raw", "wb");
-/*
-  input = fopen("../../../../insight/local_copy/Jaw_top_uint8.raw", "rb");
-  fread(TestImage, 3, 65536, input);
-  fclose(input);
-*/  
   typedef itk::Image<itk::Vector<unsigned short,NUMBANDS>,NDIMENSION> VecImageType; 
 
   VecImageType::Pointer vecImage = VecImageType::New();
@@ -217,9 +203,6 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   //Since a suvervised classifier is used, it requires a training image
   applyGibbsImageFilter->SetTrainingImage(classImage);  
 
-  time(&etime);
-
-  std::cout<<"Ininialization done in: "<<etime-btime<<" seconds."<<std::endl;  
   //Kick off the Gibbs labeller function
   applyGibbsImageFilter->Update();
 
