@@ -24,9 +24,6 @@
 
 int itkFixedCenterOfRotationAffineTransformTest(int, char *[])
 {
-    
-  int any = 0;       // Any errors detected in testing?
-
   typedef itk::FixedCenterOfRotationAffineTransform<double,2> FCoRAffine2DType;
   typedef itk::AffineTransform<double,2>    FAffine2DType;
   FCoRAffine2DType::MatrixType              matrix2;
