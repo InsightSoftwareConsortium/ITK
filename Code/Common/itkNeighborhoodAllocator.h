@@ -85,6 +85,12 @@ public:
     return *this;
   }
 
+  /** Comparison operator. */
+  bool operator==(const Self& other) const
+  {
+    return (m_Data == other.m_Data);
+  }
+
   /** Not Equal operator. */
   bool operator!=(const Self& other) const
   {
