@@ -337,7 +337,6 @@ public:
 protected:
   AutomaticTopologyMeshSource();
   ~AutomaticTopologyMeshSource();
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
   // void GenerateData();
 

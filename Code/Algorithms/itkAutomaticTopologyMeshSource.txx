@@ -639,7 +639,7 @@ typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddLine( const PointType& p0, const PointType& p1 )
 {
-  Array<IdentifierType> pointIDs( 8 );
+  Array<IdentifierType> pointIDs( 2 );
   pointIDs[ 0 ] = AddPoint( p0 );
   pointIDs[ 1 ] = AddPoint( p1 );
   return AddLine( pointIDs );
@@ -651,7 +651,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
 ::AddTriangle( const PointType& p0, const PointType& p1,
                const PointType& p2 )
 {
-  Array<IdentifierType> pointIDs( 8 );
+  Array<IdentifierType> pointIDs( 3 );
   pointIDs[ 0 ] = AddPoint( p0 );
   pointIDs[ 1 ] = AddPoint( p1 );
   pointIDs[ 2 ] = AddPoint( p2 );
@@ -664,7 +664,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
 ::AddQuadrilateral( const PointType& p0, const PointType& p1,
                     const PointType& p2, const PointType& p3 )
 {
-  Array<IdentifierType> pointIDs( 8 );
+  Array<IdentifierType> pointIDs( 4 );
   pointIDs[ 0 ] = AddPoint( p0 );
   pointIDs[ 1 ] = AddPoint( p1 );
   pointIDs[ 2 ] = AddPoint( p2 );
@@ -678,7 +678,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
 ::AddTetrahedron( const PointType& p0, const PointType& p1,
                   const PointType& p2, const PointType& p3 )
 {
-  Array<IdentifierType> pointIDs( 8 );
+  Array<IdentifierType> pointIDs( 4 );
   pointIDs[ 0 ] = AddPoint( p0 );
   pointIDs[ 1 ] = AddPoint( p1 );
   pointIDs[ 2 ] = AddPoint( p2 );
@@ -796,14 +796,6 @@ AutomaticTopologyMeshSource< TOutputMesh >
   pointIDs[ 6 ] = AddPoint( p6 );
   pointIDs[ 7 ] = AddPoint( p7 );
   return AddHexahedron( pointIDs );
-}
-
-template<class TOutputMesh>
-void
-AutomaticTopologyMeshSource<TOutputMesh>
-::PrintSelf( std::ostream& os, Indent indent ) const
-{
-  Superclass::PrintSelf(os, indent);
 }
 
 } /** end namespace itk. */
