@@ -13,6 +13,7 @@
 #include <metaTypes.h>
 #include <metaUtils.h>
 
+#include <stdlib.h>
 
 char MET_SeperatorChar = '=';
 
