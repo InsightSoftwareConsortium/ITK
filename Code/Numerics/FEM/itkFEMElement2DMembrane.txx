@@ -45,7 +45,7 @@ Element2DMembrane<TBaseClass>
 {
   unsigned int p;
   unsigned int Nn=this->GetNumberOfNodes();
-  B.resize(2,2*Nn); // note minor difference from linear elasticity
+  B.resize(4,2.*Nn); // note minor difference from linear elasticity
   
   // Copy the shape function derivatives to the B matrix.
   for (unsigned int i=0; i<Nn; i++) {
@@ -54,9 +54,13 @@ Element2DMembrane<TBaseClass>
 
     // Compute B elements
     B[0][p]   = shapeDgl[0][i];
-    B[0][p+1] = 0;
-    B[1][p]   = 0;
-    B[1][p+1] = shapeDgl[1][i];
+    B[0][p+1] = 0.0;
+    B[1][p]   = 0.0;
+    B[1][p+1] = shapeDgl[0][i];
+    B[2][p]   = shapeDgl[1][i];
+    B[2][p+1] = 0.0;
+    B[3][p]   = 0.0;
+    B[3][p+1] = shapeDgl[1][i];
   }
 }
 
@@ -84,19 +88,17 @@ void
 Element2DMembrane<TBaseClass>
 ::GetMaterialMatrix(MatrixType& D) const
 {
-  D.resize(2,2);
+  unsigned int d=4;
+  D.resize(d,d);
 
+  D.fill(0.0);
 
   // This is the main difference from the linear elasticity problem.
   /* Material properties matrix.  Simpler than linear elasticity. */
   Float disot = m_mat->E;
     
-  D[0][0] = disot;
-  D[0][1] = 0.0;
+  for (int i=0; i<d; i++) D[i][i] = disot;
 
-  D[1][0] = 0.0;
-  D[1][1] = disot;
- 
 }
 
 
