@@ -33,6 +33,8 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkAnalyzeImageIOFactory.h"
 #include "itkAnalyzeImageIO.h"
 #include <stdio.h>
+#include "itkMetaDataObject.h"
+#include "itkIOCommon.h"
 
 #if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
 #include <stdlib.h>
@@ -109,6 +111,20 @@ int TestByteSwap(void)
       imageReader->SetFileName("BigEndian.hdr") ;
       imageReader->Update() ;
       big = imageReader->GetOutput();
+        {
+        std::cout << "Input Image Dictionary Size: " <<big->GetMetaDataDictionary().size() << std::endl;
+        for(itk::MetaDataDictionary::iterator iri=big->GetMetaDataDictionary().begin();
+           iri != big->GetMetaDataDictionary().end();
+          iri++)
+        {
+          std::cout << iri->first << "  ";
+          iri->second->PrintSelf(std::cout , 0);
+        }
+        std::cout << "Orientation Key Value is: " << 
+          dynamic_cast<itk::MetaDataObject<itk::IOCommon::ValidOrientationFlags>::Pointer>(big->GetMetaDataDictionary()["ITK_Orientation"])->GetMetaDataObjectValue() << std::endl;
+        }
+        std::cout << "Printing Dictionary" << std::endl;
+        big->GetMetaDataDictionary().PrintSelf(std::cout , 4);
     }
   catch (itk::ExceptionObject e)
     {
