@@ -17,12 +17,12 @@
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkDirectory.h"
-#include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <string.h>
 #include <limits.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <vector>
 #include <string>
 
