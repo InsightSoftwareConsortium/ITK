@@ -39,7 +39,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 
-
+// Disable warning for long symbol names in this file only
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
 
 
 #include "itkImage.h"
