@@ -69,13 +69,13 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       InputImageType::ImageDimension);
   
-  typedef GaussianOperator<InputPixelType,
+  typedef GaussianOperator<TOutput,
                            itkGetStaticConstMacro(ImageDimension)> 
                                                       GaussianOperatorType;
-  typedef Neighborhood<InputPixelType, itkGetStaticConstMacro(ImageDimension)> NeighborhoodType;
+  typedef Neighborhood<TOutput, itkGetStaticConstMacro(ImageDimension)> NeighborhoodType;
   typedef FixedArray<NeighborhoodType,itkGetStaticConstMacro(ImageDimension)> OperatorArrayType;
   
-  typedef GaussianSpatialFunction<double,1>  GaussianFunctionType;
+  typedef GaussianSpatialFunction<TOutput,1>  GaussianFunctionType;
   typedef typename GaussianFunctionType::Pointer GaussianFunctionPointer;
 
   /** Point typedef support. */
