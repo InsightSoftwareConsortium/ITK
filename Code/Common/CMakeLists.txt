@@ -33,6 +33,7 @@ SET(ITKCommon_SRCS
   itkQuadraticTriangleCellTopology.cxx
   itkQuadrilateralCellTopology.cxx
   itkRegion.cxx 
+  itkProgressAccumulator.cxx
   itkSegmentationBorder.cxx 
   itkSegmentationRegion.cxx  
   itkSimpleFastMutexLock.cxx 
