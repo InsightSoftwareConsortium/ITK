@@ -10,4 +10,6 @@ TARGET_LINK_LIBRARIES(itktcl
   ITKCommonTcl
   ITKCommon
   VXLNumerics
+  ${CABLE_TCL_LIBRARY}
+  ${TCL_LIBRARY}
 )
