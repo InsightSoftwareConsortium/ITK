@@ -98,9 +98,9 @@ protected:
    /** Make protected the methods SetBirthThreshold() and
     * SetSurvivalThreshold() so users of this filter do not have access to
     * them. */
-  void SetBirthThreshold( InputPixelType value ) 
+  void SetBirthThreshold( const InputPixelType value ) 
             { this->Superclass::SetBirthThreshold( value );  }
-  void SetSurvivalThreshold( InputPixelType value ) 
+  void SetSurvivalThreshold( const InputPixelType value ) 
             { this->Superclass::SetSurvivalThreshold( value );  }
 
 
