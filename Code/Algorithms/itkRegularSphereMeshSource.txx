@@ -285,7 +285,6 @@ RegularSphereMeshSource<TOutputMesh>
     testCell.TakeOwnership( new TriCellType );
     testCell->SetPointIds(pointIds);
     mesh->SetCell(idx, testCell );
-    mesh->SetCellData(idx, (PixelType)3.0);
   }
 
 
