@@ -6,7 +6,8 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include <strstream>
+
+
 #include <string>
 
 #include "DICOMFile.h"
@@ -174,7 +175,12 @@ float DICOMFile::ReadAsciiFloat(int len)
   char* val2 = new char[len2];
   strncpy(val2, (char*) val, len2);
 
-  std::istrstream data(val2);
+  #if defined(ITK_NO_ANSI_STRING_STREAM)
+    std::istrstream data(val2);
+  #else
+    std::istringstream data(val2);
+  #endif
+
   data >> ret;
 
   std::cout << "Read ASCII float: " << ret << std::endl;
@@ -203,7 +209,12 @@ int DICOMFile::ReadAsciiInt(int len)
   char* val2 = new char[len2];
   strncpy(val2, (char*) val, len2);
 
-  std::istrstream data(val2);
+  #if defined(ITK_NO_ANSI_STRING_STREAM)
+    std::istrstream data(val2);
+  #else
+    std::istringstream data(val2);
+  #endif
+
   data >> ret;
 
   std::cout << "Read ASCII int: " << ret << std::endl;

@@ -7,7 +7,18 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
-#include <strstream>
+
+// Determine type of string stream to use.
+#if !defined(CMAKE_NO_ANSI_STRING_STREAM)
+#  include <sstream>
+#elif !defined(CMAKE_NO_ANSI_STREAM_HEADERS)
+#  include <strstream>
+#  define ITK_NO_ANSI_STRING_STREAM
+#else
+#  include <strstream.h>
+#  define ITK_NO_ANSI_STRING_STREAM
+#endif
+
 #include <string>
 
 #include "DICOMTypes.h"
@@ -142,7 +153,11 @@ class DICOMFile
   {
     unsigned char* data2 = data;
 
-    std::istrstream in_string((char*) data2);
+    #if defined(ITK_NO_ANSI_STRING_STREAM)
+      std::istrstream in_string((char*) data2);
+    #else
+      std::istringstream in_string((char*) data2);
+    #endif
     int val = 0;
     in_string >> val;
     return val;
