@@ -267,9 +267,9 @@ int itkImageRegistrationMethodTest_15(int, char**)
   /***********************************************************
    * Run the registration
    ************************************************************/
-  const unsigned int numberOfLoops = 1;
-  unsigned int iter[numberOfLoops] = { 200 };
-  double      rates[numberOfLoops] = { 1e-3 };
+  const unsigned int numberOfLoops = 2;
+  unsigned int iter[numberOfLoops] = { 200, 100 };
+  double      rates[numberOfLoops] = { 1e-3, 5e-4 };
 
 
   for ( j = 0; j < numberOfLoops; j++ )
