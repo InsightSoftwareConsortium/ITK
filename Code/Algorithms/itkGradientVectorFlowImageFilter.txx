@@ -18,12 +18,19 @@
 #define _itkGradientVectorFlowImageFilter_txx
 #include "itkGradientVectorFlowImageFilter.h"
 
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
+
 namespace itk
 {
 template <class TInputImage, class TOutputImage>
 GradientVectorFlowImageFilter<TInputImage, TOutputImage>
 ::GradientVectorFlowImageFilter()
 {
+  m_TimeStep = 0.001;
+  m_NoiseLevel = 200;
+  m_IterationNum = 2;
   for (int i=0; i<ImageDimension; i++) m_Steps[i] = 1.0;
 }
 
@@ -42,11 +49,11 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
 
   InitInterImage();
 
-  m_TimeStep = 0.002/m_NoiseLevel; 
+  m_TimeStep = 0.2/m_NoiseLevel; 
 
   int i=0;
 
-  while ( i < 100 ) {
+  while ( i < m_IterationNum ) {
     UpdatePixels();
     UpdateInterImage();
     i++;
@@ -60,6 +67,8 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
 ::InitInterImage()
 {
   int i;
+  double b;
+  PixelType c_vec, m_vec;
 
   m_IntermediateImage = TInputImage::New();
   m_IntermediateImage->SetLargestPossibleRegion( this->GetInput()->GetLargestPossibleRegion() );
@@ -75,28 +84,67 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
     m_InternalImages[i]->Allocate();
   }
 
+  m_BImage = InternalImageType::New() ;
+  m_BImage->SetLargestPossibleRegion( this->GetInput()->GetLargestPossibleRegion() );
+  m_BImage->SetRequestedRegionToLargestPossibleRegion();
+  m_BImage->SetBufferedRegion( m_BImage->GetRequestedRegion() );
+  m_BImage->Allocate();
+
+  m_CImage = InputImageType::New() ;
+  m_CImage->SetLargestPossibleRegion( this->GetInput()->GetLargestPossibleRegion() );
+  m_CImage->SetRequestedRegionToLargestPossibleRegion();
+  m_CImage->SetBufferedRegion( m_BImage->GetRequestedRegion() );
+  m_CImage->Allocate();
+
   InputImageConstIterator  inputIt(this->GetInput(), 
                                    this->GetInput()->GetBufferedRegion() );
 
-  InputImageIterator        interIt(m_IntermediateImage, 
+  InputImageIterator  intermediateIt(m_IntermediateImage, 
                                     m_IntermediateImage->GetBufferedRegion() );
 
   for (i=0; i<ImageDimension; i++) {
-    InternalImageIterator  intIt(m_InternalImages[i], 
+    InternalImageIterator  internalIt(m_InternalImages[i], 
                                     m_InternalImages[i]->GetBufferedRegion() );
-    intIt.GoToBegin();
+    internalIt.GoToBegin();
 
     inputIt.GoToBegin();
-    interIt.GoToBegin();
+    intermediateIt.GoToBegin();
 
     while ( !inputIt.IsAtEnd() ) {
-      interIt.Set(inputIt.Get());
-      intIt.Set(inputIt.Get()[i]);
-      ++intIt;
-      ++interIt;
+      intermediateIt.Set(inputIt.Get());
+      internalIt.Set(inputIt.Get()[i]);
+      ++internalIt;
+      ++intermediateIt;
       ++inputIt;
     }
   }
+
+  InternalImageIterator  BIt(m_BImage, 
+                                    m_BImage->GetBufferedRegion() );
+  InputImageIterator  CIt(m_CImage, 
+                                   m_CImage->GetBufferedRegion() );
+
+  BIt.GoToBegin();
+  CIt.GoToBegin();
+  inputIt.GoToBegin();
+
+  while ( !inputIt.IsAtEnd() ) {
+    b = 0.0;
+    m_vec = inputIt.Get();
+    for (i=0; i<ImageDimension; i++) {
+      b = b + m_vec[i]*m_vec[i];
+    }
+    for (i=0; i<ImageDimension; i++) {
+      c_vec[i] =  b * m_vec[i];
+    }
+    BIt.Set(b);
+    CIt.Set(c_vec);
+
+    ++CIt;
+    ++BIt;
+    ++inputIt;
+  }
+
 }
 
 template <class TInputImage, class TOutputImage>
@@ -105,27 +153,20 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
 ::UpdateInterImage()
 {
   int i;
-
-  OutputImageIterator  outputIt(this->GetOutput(), 
-                                   this->GetOutput()->GetBufferedRegion() );
-
-  InputImageIterator    interIt(m_IntermediateImage, 
+  InputImageIterator  intermediateIt(m_IntermediateImage, 
                                     m_IntermediateImage->GetBufferedRegion() );
 
   for (i=0; i<ImageDimension; i++) {
-    InternalImageIterator  intIt(m_InternalImages[i], 
+    InternalImageIterator  internalIt(m_InternalImages[i], 
                                     m_InternalImages[i]->GetBufferedRegion() );
-    intIt.GoToBegin();
-  
-    outputIt.GoToBegin();
-    interIt.GoToBegin();
 
-    while ( !outputIt.IsAtEnd() ) {
-      interIt.Set(outputIt.Get());
-      intIt.Set(interIt.Get()[i]);
-      ++intIt;
-      ++interIt;
-      ++outputIt;
+    internalIt.GoToBegin();
+    intermediateIt.GoToBegin();
+
+    while ( !intermediateIt.IsAtEnd() ) {
+      internalIt.Set(intermediateIt.Get()[i]);
+      ++internalIt;
+      ++intermediateIt;
     }
   }
 }
@@ -139,55 +180,60 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
   OutputImageIterator  outputIt(this->GetOutput(), 
                                    this->GetOutput()->GetBufferedRegion() );
 
-  InputImageConstIterator  interIt(m_IntermediateImage, 
+  InputImageIterator  intermediateIt(m_IntermediateImage, 
                                     m_IntermediateImage->GetBufferedRegion() );
 
-  InputImageConstIterator  inputIt(this->GetInput(), 
-                                    this->GetInput()->GetBufferedRegion() );
+  InputImageIterator  CIt(m_CImage, 
+                                    m_CImage->GetBufferedRegion() );
+
+  InternalImageIterator  BIt(m_BImage, 
+                                    m_BImage->GetBufferedRegion() );
   
-  PixelType m_vec;
+  PixelType m_vec, c_vec;
 
   int i, j;
 
   double b, c[ImageDimension], r;
 
   outputIt.GoToBegin();
-  interIt.GoToBegin();
-  inputIt.GoToBegin();
+  intermediateIt.GoToBegin();
+  BIt.GoToBegin();
+  CIt.GoToBegin();
 
   while ( !outputIt.IsAtEnd() ) {
-    b = 0.0;
+    b = BIt.Get();
+    c_vec = CIt.Get();
+    
     for (i=0; i<ImageDimension; i++) {
-      b = b + inputIt.Get()[i]*inputIt.Get()[i];
-      c[i] = inputIt.Get()[i];
-    }
-    for (i=0; i<ImageDimension; i++) {
-      m_vec[i] = (1 - b*m_TimeStep)*interIt.Get()[i] + c[i]*m_TimeStep;
+      m_vec[i] = (1 - b*m_TimeStep)*intermediateIt.Get()[i] + c_vec[i]*m_TimeStep;
     }
     outputIt.Set(m_vec);
-    ++interIt;
+    ++intermediateIt;
     ++outputIt;
-    ++inputIt;
+    ++CIt;
+    ++BIt;
   }
   
   for ( i=0; i<ImageDimension; i++ ) {
     m_LaplacianFilter->SetInput(m_InternalImages[i]);
     m_LaplacianFilter->UpdateLargestPossibleRegion();
     
-    InternalImageIterator  intIt(m_LaplacianFilter->GetOutput(), 
+    InternalImageIterator  internalIt(m_LaplacianFilter->GetOutput(), 
                                     m_LaplacianFilter->GetOutput()->GetBufferedRegion() );
 
-    intIt.GoToBegin();
+    internalIt.GoToBegin();
     outputIt.GoToBegin();
+    intermediateIt.GoToBegin();
 
     r = m_NoiseLevel*m_TimeStep;
     for (j=0; j<ImageDimension; j++) r = r/m_Steps[j];
 
     while ( !outputIt.IsAtEnd() ) {
       m_vec = outputIt.Get();
-      m_vec[i] = m_vec[i] + r*intIt.Get();
+      m_vec[i] = m_vec[i] + r*internalIt.Get();
       outputIt.Set(m_vec);
-      ++intIt;
+      intermediateIt.Set(m_vec);
+      ++internalIt;
       ++outputIt; 
     }
   }
