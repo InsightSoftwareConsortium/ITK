@@ -2,16 +2,23 @@ from InsightToolkit import *
 from sys            import argv
 from os             import path
 from shutil         import *
+from os             import environ
 
 name = path.basename( argv[0] );
 dir  = "Algorithms"
+
+testInput  = environ['ITK_TEST_INPUT']
+testOutput = environ['ITK_TEST_OUTPUT']
+baseLine   = environ['ITK_TEST_BASELINE']
+
 
 print name
 print dir
 
 
 reader = itkImageFileReaderF2_New()
-reader.SetFileName("${ITK_TEST_OUTPUT}/cthead1.png")
+reader.SetFileName( testInput+"/cthead1.png")
+
 
 cf     = itkCurvatureFlowImageFilterF2F2_New()
 cf.SetInput( reader.GetOutput() )
@@ -26,7 +33,7 @@ cfss.SetScale( 0.9 )
 
 
 valid  = itkImageFileReaderUS2_New()
-valid.SetFileName("${ITK_TEST_BASELINE}/$dir/$name.png")
+valid.SetFileName( baseLine+"/"+dir+"/"+name+".png")
 
 
 diff =  itkDifferenceImageFilterUS2_New()
@@ -69,15 +76,15 @@ if ( meanDiff > 0.1 ) :
   writer.SetImageIO( io )
   writer.SetInput(  convert.GetOutput() )
 
-  writer.SetFileName( "${ITK_TEST_OUTPUT}/$name.test.png" )
+  writer.SetFileName( testOutput+"/"+name+".test.png" )
   convert.SetInput( cfss.GetOutput() )
   writer.Write()
 
-  writer.SetFileName( "${ITK_TEST_OUTPUT}/$name.diff.png" )
+  writer.SetFileName( testOutput+"/"+name+".diff.png" )
   writer.SetInput( rescale.GetOutput() )
   writer.Write()
 
-  shutil.copyfile( "${ITK_TEST_BASELINE}/$dir/$name.png", "${ITK_TEST_OUTPUT}/$name.valid.png" )
+  shutil.copyfile( baseLine+"/"+dir+"/"+name+".png", testOutput+"/"+name+".valid.png" )
 
   print "<DartMeasurementFile name=\"TestImage\" type=\"image/png\">${ITK_TEST_OUTPUT}/$name.test.png</DartMeasurementFile>"
   print "<DartMeasurementFile name=\"DifferenceImage\" type=\"image/png\">${ITK_TEST_OUTPUT}/$name.diff.png</DartMeasurementFile>"
