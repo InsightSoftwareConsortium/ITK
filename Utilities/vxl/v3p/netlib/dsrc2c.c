@@ -104,19 +104,19 @@ extern "C" {
 
 /* Common Block Declarations */
 
-struct {
+static struct {
     integer in, is, isym, itmax, level, nout;
 } itcom1_;
 
 #define itcom1_1 itcom1_
 
-struct {
+static struct {
     logical adapt, betadt, caseii, halt, partad;
 } itcom2_;
 
 #define itcom2_1 itcom2_
 
-struct {
+static struct {
     doublereal bdelnm, betab, cme, delnnm, delsnm, ff, gamma, omega, qa, qt, 
       rho, rrr, sige, sme, specr, spr, drelpr, stptst, udnm, zeta;
 } itcom3_;
