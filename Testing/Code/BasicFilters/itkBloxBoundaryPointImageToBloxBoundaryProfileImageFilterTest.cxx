@@ -12,7 +12,7 @@
 #include "itkBloxBoundaryPointPixel.h"
 #include "itkBloxBoundaryPointImage.h"
 #include "itkGradientImageToBloxBoundaryPointImageFilter.h"
-#include "itkBloxProfileImageFilter.h"
+#include "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.h"
 
 // Spatial function stuff
 #include "itkSphereSpatialFunction.h"
@@ -161,7 +161,7 @@ int main(int, char**)
 
   //------------------------Blox Profile Analysis---------------------------------
 
-  typedef itk::itkBloxProfileImageFilter< TImageType > TProfileFilter;
+  typedef itk::itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TImageType > TProfileFilter;
   typedef itk::BloxBoundaryProfileImage< dim > TBloxProfileImageType;
 
   TProfileFilter::Pointer profileFilter = TProfileFilter::New();
@@ -196,7 +196,7 @@ int main(int, char**)
   double rad = spatialFunc->GetRadius();
   bool passed = true;
 
-    //-------------------Pull boundary points out of the image----------------------
+    //-------------------Pull boundary profiles out of the image----------------------
 
   // Create an iterator that will walk the blox image
   typedef itk::ImageRegionIterator<TBloxProfileImageType> BloxIterator;
