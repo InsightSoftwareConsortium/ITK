@@ -243,7 +243,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   // It should use the InsertNarrowBandNode function, which takes care of 
   // memory management issues, to create the desired narrow band. 
   
-  m_RegionList=m_NarrowBand->SplitBand(this->GetNumberOfThreads());
+  m_RegionList=m_NarrowBand->SplitBand(this->GetMultiThreader()->GetNumberOfThreads());
   
   // The narrow band is split into multi-threading regions once here for
   // computationally efficiency. Later GetSplitRegions is used to access these
@@ -254,8 +254,8 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   
   // Allocation of flag variable to check if a given thread touch the outer part
   // of the narrowband. If this part is touched, band should be reinitialized.
-  m_TouchedForThread = new bool[this->GetNumberOfThreads()];
-  for (int i = 0; i < this->GetNumberOfThreads(); i++)
+  m_TouchedForThread = new bool[this->GetMultiThreader()->GetNumberOfThreads()];
+  for (int i = 0; i < this->GetMultiThreader()->GetNumberOfThreads(); i++)
     {
     m_TouchedForThread[i] = false;
     } 
