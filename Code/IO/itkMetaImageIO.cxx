@@ -162,7 +162,7 @@ void MetaImageIO::ReadImageInformation()
   this->SetNumberOfDimensions(m_MetaImage.NDims());
 
   int i;
-  for(i=0; i<m_NumberOfDimensions; i++)
+  for(i=0; i<(int)m_NumberOfDimensions; i++)
     {
     this->SetDimensions(i, m_MetaImage.DimSize(i));
     this->SetSpacing(i, m_MetaImage.ElementSpacing(i));
