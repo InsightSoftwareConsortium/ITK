@@ -14,7 +14,7 @@
 #include <vnl/algo/vnl_generalized_eigensystem.h>
 
 
-int test_generalized_eigensystem()
+void test_generalized_eigensystem()
 {
   double Sdata[36] = {
    30.0000,   -3.4273,   13.9254,   13.7049,   -2.4446,   20.2380,
@@ -45,7 +45,6 @@ int test_generalized_eigensystem()
   vcl_cout << "Recomposition residual = " << err << vcl_endl;
 
   vnl_test_assert("Recomposition residual < 1e-12", err < 1e-12);
-  return 0;
 }
 
 TESTMAIN(test_generalized_eigensystem);

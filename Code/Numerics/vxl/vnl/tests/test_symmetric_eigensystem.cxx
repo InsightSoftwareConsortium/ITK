@@ -13,7 +13,7 @@
 #include <vnl/vnl_test.h>
 #include <vnl/algo/vnl_symmetric_eigensystem.h>
 
-int test_symmetric_eigensystem()
+void test_symmetric_eigensystem()
 {
   double Sdata[36] = {
    30.0000,   -3.4273,   13.9254,   13.7049,   -2.4446,   20.2380,
@@ -51,7 +51,6 @@ int test_symmetric_eigensystem()
     vcl_cout << "residual = " << res.fro_norm() << vcl_endl;
     vnl_test_assert("recompose residual", res.fro_norm() < 1e-12);
   }
-  return 0;
 }
 
 TESTMAIN(test_symmetric_eigensystem);

@@ -2,7 +2,7 @@
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_complex.h>
 
-int test_math(int,char**) {
+int test_math(int,char* [] ) {
   vcl_complex<double> z(1,2);
   
   vcl_cout << "z=" << z << vcl_endl;

@@ -10,7 +10,7 @@
 #include <vnl/vnl_rotation_matrix.h>
 #include <vnl/vnl_cross_product_matrix.h>
 
-int test_matrix_exp(int, char **)
+int test_matrix_exp(int, char * [] )
 {
   vnl_vector<double> v(3);
   v[0] =  1.233;

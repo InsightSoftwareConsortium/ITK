@@ -10,7 +10,7 @@ int sggsvd_(char const *jobu, char const *jobv, char const *jobq, int *m, int *n
             int *ldv, float *q, int *ldq, float *work, int *iwork,
             int *info);
 
-int test_qsvd(int, char**) {
+int test_qsvd(int, char* [] ) {
   //float A[9]={2./3, -1.36/3, .2/3,   2.8/3, .4/3, 1./3,   1, .16, -.2};
   float AA[9]={(float)(2./3), (float)(-1.36/3), (float)(.2/3),   (float)(2.8/3), (float)(.4/3), (float)(1./3),   (float) 1., (float).16, (float) -.2};
   //float B[9]={.16, -.224, -.768,   .8, .36, -.48,  1.12, -.168, -.576};

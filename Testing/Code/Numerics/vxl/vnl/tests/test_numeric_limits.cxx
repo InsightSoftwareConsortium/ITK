@@ -1,7 +1,7 @@
 #include <vcl_iostream.h>
 #include <vnl/vnl_numeric_limits.h>
 
-int test_numeric_limits(int, char**)
+int test_numeric_limits(int, char* [] )
 {
   vcl_cout << "dmax  = " << vnl_numeric_limits<double>::max() << vcl_endl;
   vcl_cout << "dmin  = " << vnl_numeric_limits<double>::min() << vcl_endl;
