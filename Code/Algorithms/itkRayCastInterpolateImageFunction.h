@@ -66,7 +66,7 @@ public:
 
   typedef typename TInputImage::SizeType             SizeType;
 
-  typedef itk::Vector<double, 3>                     DirectionType;
+  typedef itk::Vector<TCoordRep, 3>                     DirectionType;
 
   /**  Type of the Interpolator Base class */
   typedef InterpolateImageFunction<TInputImage,TCoordRep> InterpolatorType;
