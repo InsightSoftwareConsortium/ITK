@@ -100,7 +100,7 @@ PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration<TRe
   optimizer->SetGradientMagnitudeTolerance( 1e-6 );
   optimizer->SetMaximumStepLength( 30.0 );
   optimizer->SetMinimumStepLength( 1e-6 );
-  optimizer->SetMaximumNumberOfIterations( 900 );
+  optimizer->SetNumberOfIterations( 900 );
 
   optimizer->SetInitialPosition( m_Parameters );
   optimizer->StartOptimization();
