@@ -77,6 +77,16 @@ public:
   typedef ElasticBodySplineKernelTransform<TScalarType, NDimensions> Self;
 
 
+
+  /**
+   * Standard Superclass typedef
+   */
+  typedef KernelTransform<  TScalarType, 
+                            NDimensions,
+                            vnl_vector<TScalarType>, 
+                            vnl_matrix<TScalarType>      > Superclass;
+
+
   /**
    * Scalar Type
    */
@@ -93,16 +103,6 @@ public:
    * Jacobian Type
    */
   typedef typename Superclass::JacobianType  JacobianType;
-
-
-
-  /**
-   * Standard Superclass typedef
-   */
-  typedef KernelTransform<  TScalarType, 
-                            NDimensions,
-                            vnl_vector<TScalarType>, 
-                            vnl_matrix<TScalarType>      > Superclass;
 
                             
   /// Dimension of the domain space
