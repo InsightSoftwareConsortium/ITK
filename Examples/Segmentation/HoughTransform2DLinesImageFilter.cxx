@@ -14,14 +14,26 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkImage.h"
+
+// Software Guide : BeginLatex
+//
+// This example illustrates the use of the \doxygen{HoughTransform2DLinesImageFilter}
+// to find straight lines in a 2-dimensional image.
+//
+// First, we include the header files of the filter.
+//
+// Software Guide : EndLatex 
+
+
+// Software Guide : BeginCodeSnippet
 #include "itkHoughTransform2DLinesImageFilter.h"
+// Software Guide : EndCodeSnippet
+
+#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
@@ -31,13 +43,6 @@
 #include <itkDiscreteGaussianImageFilter.h>
 #include <list>
 #include "itkCastImageFilter.h"
-
-/** Hough Point structure */
-struct houghPoint
-{
-  double radius;
-  double angle;
-};
 
 int main( int argc, char *argv[] )
 {
@@ -54,30 +59,33 @@ int main( int argc, char *argv[] )
     return 1;
     }
 
+  //  Software Guide : BeginLatex
+  //  
+  //  Next, we declare the pixel type and image dimension and 
+  //  specify the image type to be used as input. We also specify the image type
+  //  of the accumulator used in the HoughTransform filter
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   typedef   unsigned char   PixelType;
   typedef   float           AccumulatorPixelType;
   const     unsigned int    Dimension = 2;
   typedef itk::Image< PixelType, Dimension >  ImageType;
+  ImageType::IndexType m_Index;
   typedef itk::Image< AccumulatorPixelType, Dimension > AccumulatorImageType;  
+  // Software Guide : EndCodeSnippet
 
-  typedef  unsigned char    OutputPixelType;
-  typedef  itk::Image< OutputPixelType, Dimension > OutputImageType;  
+  //  Software Guide : BeginLatex
+  //  
+  //  We setup a reader to load the input image.
+  //
+  //  Software Guide : EndLatex 
+  // Software Guide : BeginCodeSnippet
   typedef  itk::ImageFileReader< ImageType > ReaderType;
-  typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
-
   ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
-
   reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
-
-  typedef itk::CastImageFilter< 
-                        ImageType, 
-                        AccumulatorImageType    >    CastingFilterType;
-  
-  CastingFilterType::Pointer caster = CastingFilterType::New();
-
-   try
+  try
     {
       reader->Update();
     }
@@ -88,8 +96,103 @@ int main( int argc, char *argv[] )
     }
 
   ImageType::Pointer m_Image = reader->GetOutput();
+  // Software Guide : EndCodeSnippet
 
-  /** Allocate output */
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Once the image is loaded, we apply a \doxygen{GradientMagnitudeImageFilter} to segment edges.
+  //  This needs to cast the input image using a \doxygen{CastImageFilter}.
+  //
+  //  Software Guide : EndLatex 
+  // Software Guide : BeginCodeSnippet
+  typedef itk::CastImageFilter< 
+                        ImageType, 
+                        AccumulatorImageType    >    CastingFilterType;
+  
+  CastingFilterType::Pointer caster = CastingFilterType::New();
+
+  std::cout << "Applying gradient magnitude filter" << std::endl;
+  typedef itk::GradientMagnitudeImageFilter<AccumulatorImageType,
+                                            AccumulatorImageType> GradientFilterType;
+  GradientFilterType::Pointer gradFilter =  GradientFilterType::New();
+  caster->SetInput(m_Image);
+  gradFilter->SetInput(caster->GetOutput());
+  gradFilter->Update();
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The next step is to apply a threshold filter on the gradient magnitude image to keep only
+  //  bright values. Only pixels with a high value will be used by the HoughTransformFilter.
+  //
+  //  Software Guide : EndLatex 
+  // Software Guide : BeginCodeSnippet
+  std::cout << "Thresholding" << std::endl;
+  typedef itk::ThresholdImageFilter<AccumulatorImageType> ThresholdFilterType;
+  ThresholdFilterType::Pointer threshFilter = ThresholdFilterType::New();
+  threshFilter->SetInput( gradFilter->GetOutput());
+  threshFilter->SetOutsideValue(0);
+  unsigned char thresh_below = 0;
+  unsigned char thresh_above = 255;
+  threshFilter->ThresholdOutside(thresh_below,thresh_above);
+  threshFilter->Update();
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //  
+  //  We create the HoughTransform2DLinesImageFilter based on the pixel type of the input image 
+  //  (the resulting image from the ThresholdImageFilter).
+  //
+  //  Software Guide : EndLatex 
+  // Software Guide : BeginCodeSnippet
+  std::cout << "Computing Hough Map" << std::endl;
+  typedef itk::HoughTransform2DLinesImageFilter<AccumulatorPixelType,
+                                                AccumulatorPixelType>   HoughTransformFilterType;
+  HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //  
+  //  We set the input of the filter to be the resulting image of the ThresholdImageFilter
+  //  We set also the number of lines we are looking.
+  //  Basically, the filter computes the Hough map, blur it using a certain variance and find maxima
+  //  in the Hough map. After a maximum is found, the local neighborhood, a circle, is removed from the 
+  //  Hough map. SetDiscRadius() defines the radius of this disc.
+  //  
+  //  The output of the filter is the accumulator.
+  //
+  //  Software Guide : EndLatex 
+  // Software Guide : BeginCodeSnippet
+  houghFilter->SetInput(threshFilter->GetOutput());
+  houghFilter->SetNumberOfLines(atoi(argv[3]));
+  houghFilter->SetVariance(atof(argv[4]));
+  houghFilter->SetDiscRadius(atof(argv[5]));
+  houghFilter->Update();
+  AccumulatorImageType::Pointer m_Accumulator = houghFilter->GetOutput();   
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //  
+  //  We can also get the lines as \doxygen{LineSpatialObject}. The GetLines() function
+  //  return a list of those.
+  //
+  //  Software Guide : EndLatex 
+  // Software Guide : BeginCodeSnippet
+  HoughTransformFilterType::LinesListType lines;
+  lines = houghFilter->GetLines(atoi(argv[3]));
+  std::cout << "Found " << lines.size() << " line(s)." << std::endl;
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //  
+  //  We can then allocate an image to draw the resulting lines as binary objects.
+  //
+  //  Software Guide : EndLatex 
+  // Software Guide : BeginCodeSnippet
+  typedef  unsigned char    OutputPixelType;
+  typedef  itk::Image< OutputPixelType, Dimension > OutputImageType;  
+
   OutputImageType::Pointer  m_OutputImage = OutputImageType::New();
 
   OutputImageType::RegionType region;
@@ -100,55 +203,30 @@ int main( int argc, char *argv[] )
   m_OutputImage->SetSpacing(m_Image->GetSpacing());
   m_OutputImage->Allocate();
   m_OutputImage->FillBuffer(0);
+  // Software Guide : EndCodeSnippet
 
-  /** Aplly gradient filter to the input image */
-  std::cout << "Applying gradient magnitude filter" << std::endl;
-  typedef itk::GradientMagnitudeImageFilter<AccumulatorImageType,
-                                            AccumulatorImageType> GradientFilterType;
-  GradientFilterType::Pointer gradFilter =  GradientFilterType::New();
-  caster->SetInput(m_Image);
-  gradFilter->SetInput(caster->GetOutput());
-  gradFilter->Update();
- 
-  /** Apply a threshold to the Grad(InputImage) */
-  std::cout << "Thresholding" << std::endl;
-  typedef itk::ThresholdImageFilter<AccumulatorImageType> ThresholdFilterType;
-  ThresholdFilterType::Pointer threshFilter = ThresholdFilterType::New();
-  threshFilter->SetInput( gradFilter->GetOutput());
-  threshFilter->SetOutsideValue(0);
-  unsigned char thresh_below = 0;
-  unsigned char thresh_above = 255;
-  threshFilter->ThresholdOutside(thresh_below,thresh_above);
-  threshFilter->Update();
-   
-  /** Define the HoughTransform filter */
-  std::cout << "Computing Hough Map" << std::endl;
-  typedef itk::HoughTransform2DLinesImageFilter<AccumulatorPixelType,
-                                                AccumulatorPixelType>   HoughTransformFilterType;
-  HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
-  houghFilter->SetInput(threshFilter->GetOutput());
-  houghFilter->Update();
-  AccumulatorImageType::Pointer m_Accumulator = houghFilter->GetOutput();
-  houghFilter->SetNumberOfLines(atoi(argv[3]));
-  houghFilter->SetVariance(atof(argv[4]));
-  houghFilter->SetDiscRadius(atof(argv[5]));
-  HoughTransformFilterType::LinesListType lines = houghFilter->GetLines(2);
-  lines = houghFilter->GetLines(atoi(argv[3]));
-  std::cout << "Found " << lines.size() << " line(s)." << std::endl;
 
-  itk::Index<2> m_Index;
-  /** Draw the resulting lines */
+  //  Software Guide : BeginLatex
+  //  
+  //  We iterate through the list of lines and we draw them.
+  //
+  //  Software Guide : EndLatex 
+  // Software Guide : BeginCodeSnippet
   HoughTransformFilterType::LinesListType::const_iterator it_lines = lines.begin();
   while(it_lines != lines.end())
-  {
-    // Draw the lines
+  {  
+  // Software Guide : EndCodeSnippet
+  //  Software Guide : BeginLatex
+  //  
+  //  We get the list of points which consists of two points to represent a straight line.
+  //  Then, from these two points, we compute a fixed point $u$ and a unit 
+  //  vector \vec{v} to parameterize the line.
+  //
+  //  Software Guide : EndLatex 
+  // Software Guide : BeginCodeSnippet
     HoughTransformFilterType::LineType::PointListType points_list = (*it_lines)->GetPoints();
     HoughTransformFilterType::LineType::PointListType::const_iterator it_points = points_list.begin();
     
-    itk::Size<2> size = m_OutputImage->GetLargestPossibleRegion().GetSize();
-    float diag = sqrt((float)(size[0]*size[0]+size[1]*size[1]));
-
-   
     double u[2];
     u[0] = (*it_points).GetPosition()[0];
     u[1] = (*it_points).GetPosition()[1];
@@ -160,7 +238,15 @@ int main( int argc, char *argv[] )
     double norm = sqrt(v[0]*v[0]+v[1]*v[1]);
     v[0]/=norm;
     v[1]/=norm;
-
+  // Software Guide : EndCodeSnippet
+  //  Software Guide : BeginLatex
+  //  
+  //  We draw a white pixel in the Output image to represent the line.
+  //
+  //  Software Guide : EndLatex 
+  // Software Guide : BeginCodeSnippet
+    itk::Size<2> size = m_OutputImage->GetLargestPossibleRegion().GetSize();
+    float diag = sqrt((float)(size[0]*size[0]+size[1]*size[1]));
     for(int i=static_cast<int>(-diag);i<static_cast<int>(diag);i++)
     {
       m_Index[0]=(long int)(u[0]+i*v[0]);
@@ -172,11 +258,19 @@ int main( int argc, char *argv[] )
         m_OutputImage->SetPixel(m_Index,255);
       }
     }
-    
     it_lines++;
   }
+  // Software Guide : EndCodeSnippet
 
-
+  //  Software Guide : BeginLatex
+  //  
+  //  We setup a writer to write out the binary image created.
+  //
+  //  Software Guide : EndLatex 
+  // Software Guide : BeginCodeSnippet
+  typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( argv[2] );
   writer->SetInput(m_OutputImage);
 
   try
@@ -188,6 +282,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
     }
+  // Software Guide : EndCodeSnippet
 
   return 0;
 }
