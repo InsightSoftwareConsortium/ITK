@@ -22,6 +22,7 @@ ADD_LIBRARY(ITKNumerics
   itkSingleValuedNonLinearVnlOptimizer.cxx
   itkSingleValuedVnlCostFunctionAdaptor.cxx
   itkVersorTransformOptimizer.cxx
+  itkVersorRigid3DTransformOptimizer.cxx
   itkCumulativeGaussianOptimizer.cxx
   itkCumulativeGaussianCostFunction.cxx
 )
