@@ -44,7 +44,7 @@ SingleValuedVnlCostFunctionAdaptor
 /**  Delegate computation of the value to the CostFunction. */
 SingleValuedVnlCostFunctionAdaptor::InternalMeasureType 
 SingleValuedVnlCostFunctionAdaptor
-::f( const InternalParametersType & inparameters ) 
+::f( const InternalParametersType & inparameters ) const
 {
   if( !m_CostFunction )
     {

@@ -68,7 +68,7 @@ public:
   { return m_CostFunction; }
     
   /**  Delegate computation of the value to the CostFunction. */
-  virtual InternalMeasureType f( const InternalParametersType & inparameters );
+  virtual InternalMeasureType f( const InternalParametersType & inparameters ) const;
     
   /**  Delegate computation of the gradient to the costFunction.  */
   virtual void gradf(const InternalParametersType   & inparameters,

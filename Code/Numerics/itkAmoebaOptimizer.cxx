@@ -75,7 +75,8 @@ AmoebaOptimizer::MeasureType
 AmoebaOptimizer
 ::GetValue() const
 {
-  return this->GetCostFunctionAdaptor()->f(this->GetCurrentPosition());
+  const ParametersType & parameters = this->GetCurrentPosition();
+  return this->GetCostFunctionAdaptor()->f( parameters );
 }
 
 /**
