@@ -247,7 +247,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     }
 
 
-  // process the input trail points
+  // process the input trial points
   if ( m_TrialPoints )
     {
     pointsIter = m_TrialPoints->Begin();
@@ -256,7 +256,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     for ( ; pointsIter != pointsEnd; ++pointsIter )
       {
       
-      // get node from trail points container
+      // get node from trial points container
       node = pointsIter.Value();
 
       // check if node index is within the output level set
@@ -271,7 +271,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       }
       if ( !inRange ) continue;
 
-      // make this a trail point
+      // make this a trial point
       m_LabelImage->SetPixel( node.GetIndex(), TrialPoint );
 
       outputPixel = node.GetValue();
