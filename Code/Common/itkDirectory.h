@@ -13,13 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * itkDirectory provides a portable way of finding the names of the files
- * in a system directory.
- *
- * itkDirectory works with windows and unix only.
- */
-
 #ifndef __itkDirectory_h
 #define __itkDirectory_h
 
@@ -31,11 +24,27 @@
 
 namespace itk
 {
+/** \class Directory
+ * \brief Portable directory/filename traversal.
+ * 
+ * itkDirectory provides a portable way of finding the names of the files
+ * in a system directory.
+ *
+ * itkDirectory works with windows and unix only.
+ */
+
 
 class ITK_EXPORT Directory : public Object
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
   typedef Directory           Self;
+
+  /**
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer<Self>  Pointer;
   
   /**
@@ -75,7 +84,7 @@ protected:
 private:
   std::vector<std::string> m_Files; // Array of Files
   std::string m_Path;               // Path to Open'ed directory
-};
+}; // End Class: Directory
 
 } // namespace itk
   
