@@ -575,7 +575,7 @@ int GetMacAddrSys ( unsigned char *addr )
 
 
 // implementation for POSIX system
-#ifdef __sun
+#if defined(__sun) && !defined(__GNUC__)
    //The POSIX version is broken anyway on Solaris, plus would require full
    //root power
    struct  arpreq          parpreq;
