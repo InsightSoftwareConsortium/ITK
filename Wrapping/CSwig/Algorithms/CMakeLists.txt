@@ -36,7 +36,7 @@ ENDIF(ITK_CSWIG_TCL)
 
 IF(ITK_CSWIG_PYTHON)
   ADD_LIBRARY(_ITKAlgorithmsPython MODULE ${WRAP_PYTHON_SOURCES})
-  ADD_DEPENDENCIES(_ITKAlgorithmsPython _ITKNumericsPython _ITKCommonPython)
+  ADD_DEPENDENCIES(_ITKAlgorithmsPython _ITKNumericsPython _ITKCommonPython _ITKBasicFiltersPython )
   SET_TARGET_PROPERTIES( _ITKAlgorithmsPython PROPERTIES PREFIX "")
   TARGET_LINK_LIBRARIES(_ITKAlgorithmsPython ITKAlgorithms SwigRuntimePython ${PYTHON_LIBRARY})
 ENDIF(ITK_CSWIG_PYTHON)
