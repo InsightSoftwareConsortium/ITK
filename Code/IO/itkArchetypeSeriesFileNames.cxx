@@ -124,8 +124,8 @@ ArchetypeSeriesFileNames
   std::vector < int > numGroupStart;
   std::vector < int > numGroupLength;
   int sIndex;
-  std::string::iterator sit = fileName.begin();
-  for (sit == fileName.begin(); sit < fileName.end(); sit++)
+  std::string::iterator sit;
+  for (sit = fileName.begin(); sit < fileName.end(); sit++)
     {
     // If the element is a number, find its starting index and length.
     if ((*sit) >= '0' && (*sit) <= '9')
@@ -158,9 +158,8 @@ ArchetypeSeriesFileNames
 
   // Use a RegularExpressionSeriesFileNames to find the files to return
   std::vector<std::string> names;
-  std::vector<std::string>::iterator nit;
 
-  for (unsigned int i = 0; i < regExpFileNameVector.size(); i++)
+  for (int i = 0; i < regExpFileNameVector.size(); i++)
     {
     itk::RegularExpressionSeriesFileNames::Pointer fit = itk::RegularExpressionSeriesFileNames::New();
     fit->SetDirectory( fileNamePath.c_str() );
