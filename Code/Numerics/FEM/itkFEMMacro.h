@@ -124,36 +124,37 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * \param thisClass Name of the class that is being declared.
  * \param parentClass Name of the class from which the current class is
- *        being derived.
+ *        being derived. If this is the base class that is not derived from 
+ *        anything, let parentClass=thisClass.
  *
  * \note Use this macro only for abstract classes that can't be instantiated.
  *       Otherwise use #FEM_CLASS macro.
  */
 #ifndef FEM_USE_SMART_POINTERS
 
-#define FEM_CLASS_SP(thisClass,parentClass)  \
-public:                                      \
-  /* Standard "Self" typedef.*/              \
-  typedef thisClass Self;                    \
-  /* Standard "Superclass" typedef. */       \
-  typedef parentClass Superclass;            \
-  /*  Pointer to an object. */               \
-  typedef Self* Pointer;                     \
-  /*  Const pointer to an object. */         \
-  typedef const Self* ConstPointer;          \
+#define FEM_CLASS_SP(thisClass,parentClass)           \
+public:                                               \
+  /** Standard "Self" typedef.*/                      \
+  typedef thisClass Self;                             \
+  /** Standard "Superclass" typedef. */               \
+  typedef parentClass Superclass;                     \
+  /**  Pointer or SmartPointer to an object. */       \
+  typedef Self* Pointer;                              \
+  /**  Const pointer or SmartPointer to an object. */ \
+  typedef const Self* ConstPointer;                   \
 private:  // everything that follows from here is private by default (like in the beginning of class)
 
 #else
 
 #define FEM_CLASS_SP(thisClass,parentClass)  \
 public:                                      \
-  /* Standard "Self" typedef.*/              \
+  /** Standard "Self" typedef.*/             \
   typedef thisClass Self;                    \
-  /* Standard "Superclass" typedef. */       \
+  /** Standard "Superclass" typedef. */      \
   typedef parentClass Superclass;            \
-  /* SmartPointer to an object. */           \
+  /** SmartPointer to an object. */          \
   typedef SmartPointer<Self> Pointer;        \
-  /* const SmartPointer to an object. */     \
+  /** const SmartPointer to an object. */    \
   typedef SmartPointer<const Self> ConstPointer;  \
   itkTypeMacro(thisClass,parentClass)        \
 private:  // everything that follows from here is private by default (like in the beginning of class)
@@ -184,10 +185,10 @@ private:  // everything that follows from here is private by default (like in th
     /*  Pointers.... */                      \
     FEM_CLASS_SP(thisClass,parentClass)      \
   public:                                    \
-    /* Create a new object from the existing one  */ \
-     virtual Baseclass::Pointer Clone() const \
+    /** Create a new object from the existing one  */ \
+    virtual Baseclass::Pointer Clone() const \
       { return new Self(*this); }            \
-    /* Class ID for FEM object factory */    \
+    /** Class ID for FEM object factory */   \
     static const int OFID;                   \
   private:  // everything that follows from here is private by default (like in the beginning of class)
 #else
@@ -195,14 +196,14 @@ private:  // everything that follows from here is private by default (like in th
     /*  Pointers.... */                      \
     FEM_CLASS_SP(thisClass,parentClass)      \
   public:                                    \
-    /* Create a new object from the existing one */  \
+    /** Create a new object from the existing one */  \
     virtual Baseclass::Pointer Clone() const \
       {  Self::Pointer o=new Self(*this);    \
         o->SetReferenceCount(1);             \
         return o; }                          \
-    /* Class ID for FEMObjectFactory */      \
+    /** Class ID for FEMObjectFactory */     \
     static const int OFID;                   \
-    /* Object creation through itk's objectfactory  */ \
+    /** Object creation through itk's objectfactory  */ \
     itkNewMacro(Self)                        \
   private:  // everything that follows from here is private by default (like in the beginning of class)
 #endif
@@ -253,7 +254,8 @@ private:  // everything that follows from here is private by default (like in th
  *       within itk::fem namespace.
  */
 #define FEM_CLASS_INIT(thisClass) \
-static const int& OFID_##thisClass = thisClass::OFID;
+  /** Globaly accesible const reference to class ID */ \
+  static const int& OFID_##thisClass = thisClass::OFID;
 
 
 
