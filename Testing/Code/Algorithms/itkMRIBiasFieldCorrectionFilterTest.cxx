@@ -34,7 +34,7 @@
 int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
 {
   typedef itk::Image< float, 3 > ImageType ;
-  typedef itk::Image< unsigned char, 3 > MaskType ;
+  typedef itk::Image< float, 3 > MaskType ;
   typedef itk::ImageRegionIteratorWithIndex< ImageType > ImageIteratorType ;
 
   bool SaveImages = false ;
@@ -144,7 +144,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   // set the imageWithBias pixel values with imageSource pixel value +
   // bias.
   ImageIteratorType ib_iter( imageWithBias, 
-                            imageWithBias->GetLargestPossibleRegion() ) ;
+                             imageWithBias->GetLargestPossibleRegion() ) ;
 
   BiasFieldType::SimpleForwardIterator b_iter( &bias ) ;
   i_iter.GoToBegin() ;
@@ -179,8 +179,12 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   filter->SetUsingInterSliceIntensityCorrection( true ) ;
   filter->SetInterSliceCorrectionMaximumIteration( 200 ) ;
   filter->SetUsingSlabIdentification( true ) ;
+  filter->SetSlabBackgroundMinimumThreshold( 0 ) ; // default value
+  filter->SetSlabNumberOfSamples( 10 ) ; // default value 
+  filter->SetSlabTolerance(0.0) ; // default value
   filter->SetSlicingDirection( 2 ) ;
-  filter->SetSlabTolerance(0.0) ;
+  filter->SetUsingBiasFieldCorrection( true ) ; // default value
+  filter->SetGeneratingOutput( true ) ; // default value
   filter->Update() ;
 
   double sumOfError = 0.0 ;
@@ -228,9 +232,64 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
     writer4->Update() ;
     }
 
-  std::cout << "Avg. error = " 
+  std::cout << "Avg. error without input and output mask = " 
             << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) 
             << std::endl ;
+
+  filter->SetInput( imageWithBias.GetPointer() ) ;
+  filter->SetInputMask( image.GetPointer() ) ;
+  filter->SetOutputMask( image.GetPointer() ) ;
+  filter->Update() ;
+
+  sumOfError = 0.0 ;
+  ImageIteratorType o2_iter( filter->GetOutput(), 
+                             filter->GetOutput()->GetLargestPossibleRegion() );
+  i_iter.GoToBegin() ;
+  while ( !i_iter.IsAtEnd() )
+    {
+    sumOfError += vnl_math_abs( o2_iter.Get() - i_iter.Get() ) ;
+    ++i_iter ;
+    ++o2_iter ;
+    }
+
+  b_iter.Begin() ;
+  ImageIteratorType bias2_iter( biasImage.GetPointer(), imageRegion ) ;
+  while ( !b_iter.IsAtEnd() )
+    {
+    bias2_iter.Set( b_iter.Get() + 2 ) ;
+    ++b_iter ;
+    ++bias2_iter ;
+    }
+
+  std::cout << "Avg. error with input and output mask = " 
+            << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) 
+            << std::endl ;
+
+
+  std::cout << "Using slab identification: " 
+            << filter->GetUsingSlabIdentification() << std::endl ;
+  std::cout << "Slab identification background minimum intensity threshold: "
+            << filter->GetSlabBackgroundMinimumThreshold() << std::endl ;
+  std::cout << "Slab number of samples per slice: " 
+            << filter->GetSlabNumberOfSamples() << std::endl ;
+  std::cout << "Slab identification tolerance: "
+            << filter->GetSlabTolerance() << std::endl ;
+  std::cout << "Using bias field correction: "
+            << filter->GetUsingBiasFieldCorrection() << std::endl ;
+  std::cout << "Generating output: "
+            << filter->GetGeneratingOutput() << std::endl ;
+  std::cout << "Bias field degree: "
+            << filter->GetBiasFieldDegree() << std::endl ;
+  std::cout << "Volume bias field correction iterations: "
+            << filter->GetVolumeCorrectionMaximumIteration() << std::endl ;
+  std::cout << "Interslice bias field correction iterations: "
+            << filter->GetInterSliceCorrectionMaximumIteration() << std::endl ;
+  std::cout << "Optimizer initial radius: "
+            << filter->GetOptimizerInitialRadius() << std::endl ;
+  std::cout << "Optimizer growth factor: "
+            << filter->GetOptimizerGrowthFactor() << std::endl ;
+  std::cout << "Optimizer shrink factor: "
+            << filter->GetOptimizerShrinkFactor() << std::endl ;
 
   return EXIT_SUCCESS ;
 }
