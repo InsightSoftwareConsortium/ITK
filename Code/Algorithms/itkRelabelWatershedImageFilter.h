@@ -84,9 +84,8 @@ public:
   itkGetMacro(Level, float);
 
   /**
-   * Overridden get and set input methods
+   * Get and set input methods
    */
-  virtual
   typename WatershedSegmentBasicOutput<TInputImage, TOutputImage>::Pointer
   GetInput()
   {
@@ -94,7 +93,6 @@ public:
       TOutputImage>*>(this->ProcessObject::GetInput(0).GetPointer());
   }
 
-  virtual
   void SetInput(WatershedSegmentBasicOutput<TInputImage, TOutputImage>* input)
   {
     this->ProcessObject::SetNthInput(0, input);

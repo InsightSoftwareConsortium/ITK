@@ -37,6 +37,8 @@ namespace itk
  * Consists of a labeled image and a heirarchy of merges
  * of labeled segments.  This structure encapsulates all the information needed
  * to examine the segmented image at any arbitrary level.
+ *
+ * The pixels must support the operators <, ==
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT WatershedSegmentBasicOutput : public TOutputImage
@@ -107,15 +109,11 @@ public:
    * Standard get, set methods for member variables.
    */
   void SetMergeList(const MergeListType &m)
-  {
-    m_MergeHeirarchy = m;
-    this->Update();
-  }
+  { m_MergeHeirarchy = m;
+    this->Update();  }
   
   MergeListType GetMergeList() const
-  {
-    return m_MergeHeirarchy;
-  }
+  {    return m_MergeHeirarchy;  }
   
 private:
   MergeListType m_MergeHeirarchy;
@@ -223,32 +221,20 @@ public:
   typename WatershedSegmentBasicOutput<InputImageType, OutputImageType>::Pointer
   GetBasicOutput()
   {
-    return static_cast<WatershedSegmentBasicOutput<InputImageType, OutputImageType>*
-      >(this->ProcessObject::GetOutput(1).GetPointer());
+    return static_cast<WatershedSegmentBasicOutput<InputImageType,
+      OutputImageType>* >(this->ProcessObject::GetOutput(1).GetPointer());
   }
 
-  void SetBasicOutput(WatershedSegmentBasicOutput<InputImageType, OutputImageType>
-                      *output)
-  {
-    this->ProcessObject::SetNthOutput(1, output);
-  }
+  void SetBasicOutput(WatershedSegmentBasicOutput<InputImageType,
+                      OutputImageType>  *output)
+  {    this->ProcessObject::SetNthOutput(1, output);  }
 
-
-  virtual void Update()
-  {
-    if (this->GetOutput(0))
-      {
-        this->GetOutput(0)->Update();
-      }
-  }
-  
 protected:
   WatershedImageFilter() :  m_Level(0.0f), m_Threshold(0.0f)
   {
     WatershedSegmentBasicOutput<InputImageType, OutputImageType>::Pointer
       output = WatershedSegmentBasicOutput<InputImageType, OutputImageType>::New();
-    output->SetSource(this);
-    this->ProcessObject::SetNumberOfOutputs(2);
+    this->ProcessObject::SetNumberOfRequiredOutputs(2);
     this->ProcessObject::SetNthOutput(1,output.GetPointer());
   }
   virtual ~WatershedImageFilter() {}
@@ -353,8 +339,8 @@ protected:
   /**
    * List for storing sequences of segment merges.
    */
-  typedef typename WatershedSegmentBasicOutput<InputImageType, OutputImageType>::MergeListType
-  MergeListType;
+  typedef typename WatershedSegmentBasicOutput<InputImageType, OutputImageType>
+  ::MergeListType  MergeListType;
   
   /**
    * Creates the basic segmentation from a thresholded copy of the input
@@ -507,7 +493,7 @@ private:
   MergeListType m_MergeHeirarchy;
   
   /**
-   * The percentage of the maximum pixle value in the input image to which
+   * The percentage of the maximum pixel value in the input image to which
    * flooding of the image will occur.
    */
   float m_Level;

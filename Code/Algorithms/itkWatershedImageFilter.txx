@@ -65,6 +65,7 @@ void
 WatershedImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
+  std::cout << "IN GENERATE DATA" << std::endl;
   WatershedSegmentBasicOutput<TInputImage, TOutputImage>::Pointer basic_output
     = this->GetBasicOutput();
   typename TInputImage::Pointer  thresholded_input = TInputImage::New();
@@ -120,7 +121,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
   maxImageValue += NumericTraits<InputScalarType>::One;
   for (bni = bni.Begin(); bni < bni.End(); ++bni)
     {
-      *bni = maxImageValue;
+      *(bni.CenterPointer()) = maxImageValue;
     }
   thresholded_input->SetRequestedRegion(tempRegion);
 
@@ -405,8 +406,8 @@ WatershedImageFilter<TInputImage, TOutputImage>
   RegionNeighborhoodIterator<OutputImageType> searchIt(hoodRadius, input, output->GetRequestedRegion());
   RegionNeighborhoodIterator<OutputImageType> labelIt(hoodRadius, output, output->GetRequestedRegion());
 
-  unsigned long hoodCenter = searchIt.size() >> 1;
-  unsigned long hoodSize   = searchIt.size();
+  unsigned long hoodCenter = searchIt.Size() >> 1;
+  unsigned long hoodSize   = searchIt.Size();
   
   for (searchIt.SetToBegin(), labelIt.SetToBegin(); ! searchIt.IsAtEnd();
        ++searchIt, ++labelIt)
@@ -579,7 +580,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
 
   std::stack< OutputScalarType * > updateStack;
 
-  unsigned int hoodSize   = valueIt.size();
+  unsigned int hoodSize   = valueIt.Size();
   unsigned int hoodCenter = hoodSize >> 1;
 
   // Set up a table of directional movement indicies for each 8-neighbor
@@ -622,7 +623,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
                 }
               valueIt += moveIndex;
               labelIt += moveIndex;
-              newLabel = *labelIt;
+              newLabel = *(labelIt.CenterPointer());
             }
         }
 
@@ -662,7 +663,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
   RegionNeighborhoodIterator<InputImageType> searchIt ( hoodRadius, input, input->GetRequestedRegion());
   RegionNeighborhoodIterator<OutputImageType> labelIt ( hoodRadius, output, input->GetRequestedRegion());
   
-  unsigned int hoodSize   = searchIt.size();
+  unsigned int hoodSize   = searchIt.Size();
   unsigned int hoodCenter = hoodSize >> 1;
   
   for (searchIt.SetToBegin(), labelIt.SetToBegin(); ! searchIt.IsAtEnd();
@@ -737,7 +738,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
         }
       else if (foundSinglePixelMinimum)
         {
-          *labelIt = labelCounter;
+          *(labelIt.CenterPointer()) = labelCounter;
           labelCounter = labelCounter + NumericTraits<OutputScalarType>::One;
         } 
     }
