@@ -6,6 +6,8 @@
   <xsl:variable name="Red">#ffcc66</xsl:variable>
   <xsl:variable name="Green">#00ff7f</xsl:variable>
   <xsl:variable name="Yellow">#ffff99</xsl:variable>
+  <xsl:variable name="CVSWebURL">http://public.kitware.com/cgi-bin/itkcvsweb.cgi/Insight/</xsl:variable>
+  <xsl:variable name="DoxygenURL">http://public.kitware.com/Insight/Doxygen/html/</xsl:variable>
 
   <xsl:template name="InsightFooter">
     <xsl:text disable-output-escaping="yes">
@@ -38,9 +40,10 @@
         &lt;table border="4" cellpading="0" cellspacing="2" width="100%">
           &lt;tr>
             &lt;td width="140">
+      &lt;a href="</xsl:text><xsl:value-of select="$DashboardDir"/><xsl:text disable-output-escaping="yes">Dashboard.html">
               &lt;img src="</xsl:text>
     <xsl:value-of select="$IconDir"/>
-    <xsl:text disable-output-escaping="yes">/Logo.gif" border="0">&lt;/img>
+    <xsl:text disable-output-escaping="yes">/Logo.gif" border="0">&lt;/img>&lt;/a>
             &lt;/td>
             &lt;td valign="top">
     &lt;h2></xsl:text><xsl:value-of select="$Title"/><xsl:text disable-output-escaping="yes">&lt;/h2>&lt;h3></xsl:text><xsl:value-of select="$DashboardDate"/><xsl:text disable-output-escaping="yes">&lt;/h3>
