@@ -11,6 +11,8 @@ TARGETS = Build.html Test.html Coverage.html BuildSummary.xml TestSummary.xml Su
 # BuildStampRules
 all: $(TARGETS) 
 
+Update: all
+
 clean:
 	$(RM) $(TARGETS)
 

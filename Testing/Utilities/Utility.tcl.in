@@ -8,6 +8,12 @@ proc MakeDateStamp {} \
   return [clock format [clock seconds] -format %Y%m%d -gmt 1]
 }
 
+proc MakeNightlyDateStamp {} \
+{
+  # Return a DateStamp for yesterday...
+  return [clock format [expr [clock seconds] - 24 * 60 * 60] -format %Y%m%d -gmt 1]
+}
+
 proc FileMap { Queue PatternList Map } \
 {
   while { [llength $Queue] != 0 } \
@@ -35,16 +41,35 @@ proc FileMap { Queue PatternList Map } \
 }
 
 
-proc GetLastBuildDirectory {} \
+proc GetLastBuildDirectory { {Model Experimental} } \
 {
   global Site BuildName
   set HTMLDir [file join Testing HTML]
   set SiteDir [file join $HTMLDir TestingResults Sites $Site]
   set BuildNameDir [file join $SiteDir $BuildName]
 
+  set GlobString *
+  if { $Model == "Nightly" } \
+  {
+    set GlobString *-Nightly
+  }
   set BuildStampDirs ""
-  catch { set BuildStampDirs [glob [file join $BuildNameDir *]] }
+  catch { set BuildStampDirs [glob [file join $BuildNameDir $GlobString]] }
   return [lindex [lsort $BuildStampDirs] end]
+}  
+
+proc GetLastDashboardDirectory { {Model Experimental} } \
+{
+  global Site BuildName
+
+  set GlobString *
+  if { $Model == "Nightly" } \
+  {
+    set GlobString *-Nightly
+  }
+  set DashboardDirs ""
+  catch { set DashboardDirs [glob [file join Testing HTML TestingResults Dashboard $GlobString]] }
+  return [lindex [lsort $DashboardDirs] end]
 }  
 
 
@@ -292,16 +317,32 @@ proc lremove { l item } \
 }
 
       
-proc Grep { match file } \
+proc Grep { match file { Exceptions {} } } \
 {
   set result ""
   foreach line [split $file "\n"] \
   {
     if { [regexp $match $line] } \
     {
-      lappend result $line
+      set E 1
+      foreach Exception $Exceptions \
+      {
+	if { [regexp $Exception $line] } \
+	{
+	  set E 0
+	  break
+	}
+      }
+      if { $E } \
+      {
+	lappend result $line
+      }
     }
   }
   return $result
 }
 
+proc Match { match file { Exceptions {} } } \
+{
+  return [expr [llength [Grep $match $file $Exceptions]] > 0 ]
+}

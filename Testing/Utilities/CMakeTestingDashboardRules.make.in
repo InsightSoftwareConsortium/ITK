@@ -21,6 +21,16 @@ clean:
 	$(MAKE) -C $(dir) clean; \
 	)
 
+UpdateBuildStamps:
+	$(foreach dir, $(BuildStamps), \
+	$(MAKE) -C $(dir) Update; \
+	)
+	
+
+UpdateDashboard: UpdateBuildStamps DashboardItems
+
+DashboardItems: $(BuildStamps) $(DashboardDependancies) Update.html UpdateSummary.xml
+
 Update.xml:
 	echo '$(XMLHEADER)' > Update.xml
 	echo '<Update></Update>' >> Update.xml	
@@ -36,7 +46,7 @@ Update.html: Update.xml
 Dashboard: EndDashboard
 
 
-EndDashboard: $(BuildStamps) $(DashboardDependancies) Update.html UpdateSummary.xml
+EndDashboard: DashboardItems
 	@echo '$(XMLHEADER)' > Dashboard.xml
 	@echo '$(XMLHEADER)' > DashboardByTest.xml
 	@echo '<Dashboard>' >> Dashboard.xml

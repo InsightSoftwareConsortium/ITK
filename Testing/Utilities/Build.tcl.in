@@ -6,20 +6,33 @@
 
 # Must be run from root directory of Insight build, only by make
 
+set Model Experimental
+if { $argc > 0 } \
+{
+  set Model [lindex $argv 0]
+}
+
 set UtilityDir [file join Testing Utilities]
 
 
 source [file join $UtilityDir Utility.conf]
 source [file join $UtilityDir Utility.tcl]
 
-set BuildStamp [MakeDateTimeStamp]
-
 set HTMLDir [file join Testing HTML]
 set BuildTempDir [file join Testing Temporary]
 set SiteDir [file join $HTMLDir TestingResults Sites $Site]
 set BuildNameDir [file join $SiteDir $BuildName]
-set BuildStampDir [file join $BuildNameDir $BuildStamp]
+
+set BuildStampDir [GetLastBuildDirectory $Model]
+if { $BuildStampDir == "" } \
+{
+  puts stderr "Could not find a BuildStamp in $BuildNameDir"
+  exit 1
+}
+set BuildStamp [file tail $BuildStampDir]
 set XMLDir [file join $BuildStampDir XML]
+
+puts "Doing build in $BuildStampDir for BuildStamp $BuildStamp"
 
 # We can assume that Testing/HTML/TestingResults/@SITE@ is built
 file mkdir $HTMLDir $SiteDir $BuildNameDir $BuildStampDir $BuildTempDir $XMLDir
@@ -51,14 +64,17 @@ set ErrorList(Buffer) ""
 set PostContextCount 5
 set BufferLength 5
 
+set Exceptions [list "has modification time" "Clock slew" "vnl/vnl_error.o" {^gmake} ]
 set Line 0
 while { ![eof $Build] } \
 {
   # Get a line and write it out
   set LogLine [gets $Build]
 
-  set hasError [regexp -nocase ".*error.*" $LogLine]
-  set hasWarning [regexp -nocase ".*warning.*" $LogLine]
+  set hasError [Match {.*[Ee][Rr][Rr][Oo][Rr].*} $LogLine $Exceptions]
+  set hasWarning [Match {.*[Ww[Aa][Rr][Nn][Ii][Nn][Gg].*} $LogLine $Exceptions]
+  # set hasError [regexp -nocase ".*error.*" $LogLine]
+  # set hasWarning [regexp -nocase ".*warning.*" $LogLine]
 
   if { $hasError } \
   {

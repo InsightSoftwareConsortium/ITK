@@ -5,7 +5,18 @@
 
 
 # Cheat, source in some utilities.  No actual substitutions happen.
-source Testing/Utilities/Utility.tcl.in
+source [file join Testing Utilities Utility.tcl.in]
+
+set Model Experimental
+set DateStamp ""
+if { $argc == 2 } \
+{
+  set Model [lindex $argv 0]
+  set DateStamp [lindex $argv 1]
+  set Year [string range $DateStamp 0 3]
+  set Month [string range $DateStamp 4 5]
+  set Day [string range $DateStamp 6 7]
+}
 
 # Begin the XML output
 set Out stdout
@@ -28,6 +39,12 @@ proc GetLog { File } \
 # clock format [clock scan today] -format "%Y-%m-%d 23:00 %Z" -gmt 1
 
 set UpdateCommand "$cvs update -d -P -A"
+
+if { $DateStamp != "" } \
+{
+  set UpdateCommand "$UpdateCommand -D $Year-$Month-$Day 23:00 GMT"
+}
+  
 set UpdateStatus [catch { eval exec $UpdateCommand >& update.tmp } result]
 
 puts $Out "\t<UpdateCommand>$UpdateCommand</UpdateCommand>"

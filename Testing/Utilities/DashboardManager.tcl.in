@@ -1,0 +1,111 @@
+#
+# DashboardManager.tcl <Model> <Command1> [Command2]...
+#
+# Models:
+#
+# Experimental  -- Developer driven testing
+# Nightly       -- Nightly build in lockstep with all other nightly builds
+# Dashboard     -- Dashboard mode, builds the the nightly rollup
+#
+# Commands:
+#
+# Start         -- Creates the proper directory
+# Update        -- Perform a cvs update for a nightly to the proper version of the code
+#                  Report on local changes for Experimental builds
+# Build         -- Do the build and report in the proper results directory
+# Test          -- Do the testing and report in the proper results directory
+# Coverage      -- Summerize coverage information
+# End           -- Build the HTML pages
+#
+
+
+if { $argc < 2 } \
+{
+  puts stderr {usage: $argv0 <Model> <Command1> [Command2]...}
+  exit 1
+}
+
+source [file join Testing Utilities Utility.tcl]
+source [file join Testing Utilities Utility.conf]
+
+set Model [lindex $argv 0]
+set Commands [lrange $argv 1 end]
+
+# Must be run in build directory
+set BuildStampBase [file join Testing HTML TestingResults Sites $Site $BuildName]
+set UtilitiesDir [file join Testing Utilities]
+
+set DateTimeStamp [MakeDateTimeStamp]
+set NightlyDateStamp [MakeNightlyDateStamp]
+
+
+switch -glob -- $Model \
+{
+  Dash* \
+  {
+  }
+  Exp* \
+  {
+    set BuildStampDir [file join $BuildStampBase $DateTimeStamp]
+    set DashboardDir [file join Testing HTML TestingResults Dashboard $DateTimeStamp]
+  }
+  Nig* \
+  {
+    set BuildStampDir [file join $BuildStampBase ${NightlyDateStamp}-Nightly]
+    set DashboardDir [file join Testing HTML TestingResults Dashboard ${NightlyDateStamp}-Nightly]
+  }
+  default \
+  {
+    puts stderr "Unknown Model: $Model"
+    exit 1
+  }
+}
+
+set XMLDir [file join $BuildStampDir XML]
+
+foreach Command $Commands \
+{
+  switch $Command \
+  {
+    Start \
+    {
+      file mkdir $BuildStampDir $XMLDir
+    }
+    Build - \
+    Test - \
+    Coverage \
+    {
+      # puts "Running $Command in $Model model"
+      exec $TclshCommand [file join $UtilitiesDir $Command.tcl ] $Model
+    }
+    End \
+    {
+      # Go into the directory and do the proper XML thing...
+      
+    }
+    DashboardStart \
+    {
+      file mkdir $DashboardDir
+      set Dir [pwd]
+      cd $SourceDirectory
+      exec $TclshCommand [file join $UtilitiesDir Update.tcl ] $Model $NightlyDateStamp > [file join $DashboardDir Update.xml]
+      cd $Dir
+
+      
+      
+    }
+    DashboardEnd \
+    {
+      # Collect all the latest BuildStamps, and any from today's Nightlies
+      # Find latest dashboard
+      set DashboardDir [GetLastDashboardDirectory]
+      if { $DashboardDir == "" } \
+      {
+	puts stderr "Did not find a dashboard to end"
+	exit 1
+      }
+
+      # Collect last Dashboards
+    }
+  }
+}
