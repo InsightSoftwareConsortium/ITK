@@ -42,7 +42,7 @@ int itkSimplexMeshTest(int , char *[] )
   SimplexMeshType::Pointer simplexMesh = SimplexMeshType::New();
 
   typedef  SimplexMeshType::NeighborListType              NeighborsListType;
-  NeighborsListType* neighbors;
+  NeighborsListType* neighbors = 0;
   
   for (int i=0; i < 9; i++)
     {  
