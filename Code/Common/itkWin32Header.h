@@ -48,6 +48,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // sure stray #define names don't mess up itk code.
 #undef GetClassName
 
+#if defined(__CYGWIN__)
+#ifndef WIN32
+#define WIN32 1
+#endif
+#ifndef _WIN32
+#define _WIN32 1
+#endif
+#endif
+
 //
 // Disable some common warnings in MS VC++
 //

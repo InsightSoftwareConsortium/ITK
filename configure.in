@@ -576,93 +576,10 @@ AC_CONFIG_SUBDIRS(Code/Numerics/vxl)
 AC_CONFIG_SUBDIRS(Code/Numerics/vxl/vcl)
 
 
-#
-# *****************************************
-#  end of extract SUBDIRS out of CMakeLists.txt files
-# 
 
-#
-# Build two variables (SITE, INSTANCE) used for setting up testing
-#
+# find make to use to build cmake, prefer gmake
+AC_PATH_PROGS(RUNMAKE, gmake make)
 
-AC_ARG_WITH(site,
-         [  --with-site             sitename used for testing],
-         [site_specified=$withval], [site_specified=none])
-
-AC_ARG_WITH(buildname,
-         [  --with-buildname        name of build used for testing],
-         [buildname_specified=$withval], [buildname_specified=none])
-
-AC_ARG_WITH(buildname-prefix,
-         [  --with-buildname-prefix        prefix to the name of build used for testing],
-         [buildnameprefix_specified=$withval], [buildnameprefix_specified=none])
-
-AC_ARG_WITH(buildname-suffix,
-         [  --with-buildname-suffix        suffix to the name of build used for testing],
-         [buildnamesuffix_specified=$withval], [buildnamesuffix_specified=none])
-
-# Determine the site (domain) name
-AC_PATH_PROG(HOSTNAME, hostname, hostname, $PATH:/usr/bsd:/usr/sbin:/usr/bin:/bin:/sbin)
-AC_PATH_PROG(NSLOOKUP, nslookup, nslookup, $PATH:/usr/bin:/usr/sbin:/usr/local/bin)
-# Fallback site
-myhostname=`$HOSTNAME`
-SITE=`$NSLOOKUP $myhostname | grep \^Name: | cut -d. -f2- | tr [A-Z] [a-z]`
-if test ! "$site_specified" = none; then
-	SITE=$site_specified
-fi
-if test -z "$SITE"; then
-	SITE=nosite
-fi
-AC_SUBST(SITE)
-
-# Setup the instance name (OS, Revision, Compiler, and someday Compiler Revision)
-COMPILER=`echo $CXX | cut -d ' ' -f1`
-COMPILER=`basename $COMPILER`
-BUILDNAME=$system-$COMPILER
-BUILDNAME=`echo $BUILDNAME | tr [\(\/] _ | tr -d \)`
-if test ! "$buildname_specified" = none; then
-	BUILDNAME=$buildname_specified
-fi
-if test ! "$buildnamesuffix_specified" = none; then
-	BUILDNAME=$BUILDNAME$buildnamesuffix_specified
-fi
-if test ! "$buildnameprefix_specified" = none; then
-	BUILDNAME=$buildnameprefix_specified$BUILDNAME
-fi
-
-AC_SUBST(BUILDNAME)
-
-
-# output to the top level Makefile, which must be present
-# create the toplevel CMakeTargets.make file
-# Create all the make file fragments in CMake
-# Create the Makefile in CMake/Source
-# Create all the Makefiles and CMakeTargets.make files for
-# sub directories found in CMakeLists.txt files
-
-
-# Testing system configuration
-AC_PATH_PROGS(MAKECOMMAND, gmake make)
-AC_PATH_PROGS(CVSCOMMAND, cvs )
-AC_PATH_PROGS(GREPCOMMAND, grep )
-AC_PATH_PROGS(COMPRESSIONCOMMAND, gzip compress zip )
-AC_PATH_PROGS(TCLSHCOMMAND, cygtclsh80 tclsh tclsh82 tclsh8.2 tclsh80 tclsh8.2 )
-AC_PATH_PROGS(GUNZIPCOMMAND, gunzip )
-
-AC_SUBST(MAKECOMMAND)
-AC_SUBST(CVSCOMMAND)
-AC_SUBST(GREPCOMMAND)
-AC_SUBST(GUNZIPCOMMAND)
-AC_SUBST(COMPRESSIONCOMMAND)
-AC_SUBST(TCLSHCOMMAND)
-
-# Make java optional
-AC_PATH_PROGS(JAVACOMMAND, java, jre )
-AC_SUBST(JAVACOMMAND)
-
-# AC_PROG_JAVA
-# AC_PROG_JAVAC
-# AC_PROG_JAR
 
 # generate output files.
 # create mkdir files just to make some of the directories
@@ -681,17 +598,6 @@ Code/doxygen.config
 Code/Numerics/mkdir:CMake/dummy.in
 Code/Numerics/vxl/mkdir:CMake/dummy.in
 Code/Numerics/vxl/vcl/mkdir:CMake/dummy.in
-Testing/mkdir:CMake/dummy.in
-Testing/Utilities/Build.tcl
-Testing/Utilities/Doxygen.tcl
-Testing/Utilities/Utility.conf
-Testing/Utilities/Utility.tcl
-Testing/Utilities/DashboardManager.tcl
-Testing/Utilities/Test.tcl
-Testing/Utilities/Purify.tcl
-Testing/Utilities/Submit.tcl
-Testing/Utilities/Coverage.tcl
-Testing/Utilities/ftp.tcl
 Testing/HTML/mkdir:CMake/dummy.in
 Testing/HTML/TestingResults/mkdir:CMake/dummy.in
 Testing/HTML/TestingResults/Sites/mkdir:CMake/dummy.in
@@ -710,7 +616,7 @@ fi
 
 
 # build the CMakeBuildTargets program
-(cd CMake/Source; $MAKECOMMAND CMakeBuildTargets)
+(cd CMake/Source; $RUNMAKE CMakeBuildTargets)
 
 # run CMakeBuildTargets in make cache mode so the
 # cache file can have the most recent changes from configure

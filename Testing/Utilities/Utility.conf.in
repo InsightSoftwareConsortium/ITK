@@ -1,24 +1,11 @@
 # Automatically configured options for Build/Test process
 
-if {$tcl_platform(platform) == "windows" && [regexp cygtclsh [info nameofexecutable]] == 0} {
-  source [file join Testing Utilities WindowsUtility.conf]
-} 
-
 
 proc SetConfiguration { variable { value INSIGHTINVALIDVALUE } } \
 {
   global TestingUtility
   global tcl_platform
   upvar \#0 $variable myvariable
-
-  # Hack for Windows where variables @foo@ are defined in WindowsUtility.conf
-  # instead of being substituted by configure
-  if {$tcl_platform(platform) == "windows" && [regexp cygtclsh [info nameofexecutable]] == 0} {
-    global $value
-    if {[info exists $value]} {
-      set value [set $value]
-    }
-  }
 
   if { ![info exists TestingUtility(Valid)] } \
   {
@@ -54,7 +41,7 @@ SetConfiguration GrepCommand [list @GREPCOMMAND@ ]
 SetConfiguration TclshCommand [list @TCLSHCOMMAND@ ]
 SetConfiguration JavaCommand [list @JAVACOMMAND@ ]
 
-SetConfiguration SourceDirectory [list @fullSrcDir@ ]
+SetConfiguration SourceDirectory [list @ITK_SOURCE_DIR@ ]
 
 SetConfiguration Site [list @SITE@ ]
 SetConfiguration BuildName [list @BUILDNAME@ ]
@@ -64,7 +51,7 @@ SetConfiguration PurifyHome /wvp/purify-4.1-irix6/
 SetConfiguration PurifyCommand /wvp/purify-4.1-irix6/purify
 
 
-SetConfiguration Xalan [list [file join @fullSrcDir@ Testing Utilities xalan xalan.jar]]
+SetConfiguration Xalan [list [file join @ITK_SOURCE_DIR@ Testing Utilities xalan xalan.jar]]
 
 set XMLHeader {<?xml version="1.0" encoding="UTF-8"?>}
 set HTMLDir [file join Testing HTML]

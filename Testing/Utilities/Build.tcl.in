@@ -92,12 +92,11 @@ puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
 
 # Do the build
 puts "\tStarting Build"
-set MakeArgs ""
-if { [string match "*make" $MakeCommand] } \
-{
-  set MakeArgs -k
+set BuildStatus [ catch {eval exec $MakeCommand  >& $BuildLogFilename} ]
+if { [glob -nocomplain $BuildLogFilename] == "" } {
+        puts "$MakeCommand produced no output at all, most likely failed to exec."
+        exit 1
 }
-set BuildStatus [catch { eval exec $MakeCommand $MakeArgs >& $BuildLogFilename } ]
 puts "\tBuild finished with status: $BuildStatus"
 puts "\tStarting XML generation"
 set Build [open $BuildLogFilename r]

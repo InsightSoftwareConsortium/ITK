@@ -1,4 +1,8 @@
+OPTION(BUILD_TESTING "Build the testing tree for Insight." "On")
+
+IF(BUILD_TESTING)
 SUBDIRS( Code HTML )
+ENDIF(BUILD_TESTING)
 
 LINK_LIBRARIES (
 VXLNumerics
