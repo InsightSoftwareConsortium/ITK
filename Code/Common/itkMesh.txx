@@ -603,9 +603,12 @@ itkMesh< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 void
 itkMesh< TPixelType , TMeshType >
-::SetBoundaryAssignment(int dimension, BoundaryAssignmentIdentifier assignId,
+::SetBoundaryAssignment(int dimension, CellIdentifier cellId,
+			CellFeatureIdentifier featureId,
 			BoundaryIdentifier boundaryId)
 {
+  BoundaryAssignmentIdentifier assignId(cellId, featureId);
+    
   /**
    * Make sure a boundary assignment container exists for the given dimension.
    */
@@ -629,9 +632,12 @@ itkMesh< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 bool
 itkMesh< TPixelType , TMeshType >
-::GetBoundaryAssignment(int dimension, BoundaryAssignmentIdentifier assignId,
+::GetBoundaryAssignment(int dimension, CellIdentifier cellId,
+			CellFeatureIdentifier featureId,
 			BoundaryIdentifier* boundaryId) const
 {
+  BoundaryAssignmentIdentifier assignId(cellId, featureId);  
+
   /**
    * If the boundary assignments container for the given dimension doesn't
    * exist, then the boundary assignment doesn't either.
@@ -642,43 +648,8 @@ itkMesh< TPixelType , TMeshType >
   /**
    * Ask the container if the boundary assignment exists.
    */
-  return m_BoundaryAssignments[dimension]->GetElementIfIndexExists(assignId, boundaryId);
-}
-
-
-/**
- * Define a front-end to the SetBoundaryAssignment() function that does not
- * require a BoundaryAssignmentIdentifier, but instead takes its indivudal components
- * as parameters.
- */
-template <typename TPixelType, typename TMeshType>
-void
-itkMesh< TPixelType , TMeshType >
-::SetBoundaryAssignment(int dimension, CellIdentifier cellId,
-			CellFeatureIdentifier featureId,
-			BoundaryIdentifier boundaryId)
-{
-  this->SetBoundaryAssignment(dimension, 
-			      BoundaryAssignmentIdentifier(cellId, featureId),
-			      boundaryId);
-}
-
-
-/**
- * Define a front-end to the GetBoundaryAssignment() function that does not
- * require a BoundaryAssignmentIdentifier, but instead takes its indivudal components
- * as parameters.
- */
-template <typename TPixelType, typename TMeshType>
-bool
-itkMesh< TPixelType , TMeshType >
-::GetBoundaryAssignment(int dimension, CellIdentifier cellId,
-			CellFeatureIdentifier featureId,
-			BoundaryIdentifier* boundaryId) const
-{
-  return this->GetBoundaryAssignment(dimension,
-				     BoundaryAssignmentIdentifier(cellId, featureId),
-				     boundaryId);
+  return m_BoundaryAssignments[dimension]->
+    GetElementIfIndexExists(assignId, boundaryId);
 }
 
 
@@ -689,8 +660,11 @@ itkMesh< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 bool
 itkMesh< TPixelType , TMeshType >
-::RemoveBoundaryAssignment(int dimension, BoundaryAssignmentIdentifier assignId)
+::RemoveBoundaryAssignment(int dimension, CellIdentifier cellId,
+			   CellFeatureIdentifier featureId)
 {
+  BoundaryAssignmentIdentifier assignId(cellId, featureId);
+
   /**
    * If the boundary assignments container for the given dimension doesn't
    * exist, then the boundary assignment doesn't either.
@@ -712,29 +686,13 @@ itkMesh< TPixelType , TMeshType >
 
 
 /**
- * Define a front-end to the RemoveBoundaryAssignment() function that does not
- * require a BoundaryAssignmentIdentifier, but instead takes its indivudal components
- * as parameters.
- */
-template <typename TPixelType, typename TMeshType>
-bool
-itkMesh< TPixelType , TMeshType >
-::RemoveBoundaryAssignment(int dimension, CellIdentifier cellId,
-			   CellFeatureIdentifier featureId)
-{
-  return this->RemoveBoundaryAssignment(dimension,
-    BoundaryAssignmentIdentifier(cellId, featureId));
-}
-
-
-/**
  * Get the number of cell boundary features of the given topological dimension
  * on the cell with the given identifier.
  */
 template <typename TPixelType, typename TMeshType>
 itkMesh< TPixelType , TMeshType >::CellFeatureCount
 itkMesh< TPixelType , TMeshType >
-::GetNumberOfCellBoundaryFeatures(int dimension, CellIdentifier cellId)
+::GetNumberOfCellBoundaryFeatures(int dimension, CellIdentifier cellId) const
 {
   /**
    * Make sure the cell container exists and contains the given cell Id.
@@ -754,44 +712,162 @@ itkMesh< TPixelType , TMeshType >
  * corresponding to the given feature identifier.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::Cell::Pointer
+itkMesh< TPixelType , TMeshType >::Boundary::Pointer
 itkMesh< TPixelType , TMeshType >
 ::GetCellBoundaryFeature(int dimension, CellIdentifier cellId,
-			 CellFeatureIdentifier featureId)
+			 CellFeatureIdentifier featureId) const
 {
   /**
    * First check if the boundary has been explicitly assigned.
    */
-  if((m_BoundaryAssignments[dimension] != NULL) &&
-     (m_Boundaries[dimension] != NULL))
+  Boundary::Pointer boundary;
+  if(GetAssignedBoundaryIfOneExists(dimension, cellId, featureId, &boundary))
     {
-    BoundaryAssignmentIdentifier assignId(cellId, featureId);
-    BoundaryIdentifier boundaryId;
-    
-    if(m_BoundaryAssignments[dimension]->GetElementIfIndexExists(assignId, &boundaryId))
-      {
-      if(m_Boundaries[dimension]->IndexExists(boundaryId))
-	{
-	return m_Boundaries[dimension]->GetElement(boundaryId);
-	}
-      }
+    return boundary;
     }
   
   /**
    * It was not explicitly assigned, so ask the cell to construct it.
    */
-  if(m_Cells != NULL)
+  if((m_Cells != NULL) && m_Cells->IndexExists(cellId))
     {
-    if(m_Cells->IndexExists(cellId))
-      {
-      return m_Cells->GetElement(cellId)->GetBoundaryFeature(dimension, featureId);
-      }
+    return m_Cells->GetElement(cellId)->
+      GetBoundaryFeature(dimension, featureId);
     }
   
   /**
    * The cell did not exist, so just give up.
    */
   return Cell::Pointer(NULL);
+}
+
+
+/**
+ * Get the set of cells neighboring the given cell across the given boundary
+ * feature.  Returns the number of neighbors found.  If cellList is not
+ * NULL, the list of cell pointers is filled in with identifiers of the
+ * neighboring cells.
+ */
+template <typename TPixelType, typename TMeshType>
+unsigned long
+itkMesh< TPixelType , TMeshType >
+::GetBoundaryFeatureNeighbors(int dimension, CellIdentifier cellId,
+			      CellFeatureIdentifier featureId,
+			      list<CellIdentifier>* cellList)
+{
+  /**
+   * Sanity check on mesh status.
+   */
+  if((m_Points == NULL) || (m_Cells == NULL))
+    {
+    /**
+     * TODO: Throw EXCEPTION here.
+     */
+    return 0;
+    }
+  
+  /**
+   * First check if the boundary has been explicitly assigned.
+   */
+  Boundary::Pointer boundary;
+  if(this->GetAssignedBoundaryIfOneExists(
+    dimension, cellId, featureId, &boundary))
+    {
+    /**
+     * Explicitly assigned boundary found.  Loop through its "UsingCells"
+     * and put every one but the requested cell itself in the output
+     * cell list.
+     */
+    if(cellList != NULL)
+      {
+      for(Boundary::UsingCellsContainer::iterator usingCell = 
+	    boundary->UsingCellsBegin() ;
+	  usingCell != boundary->UsingCellsEnd() ; ++usingCell)
+	{
+	if((*usingCell) != cellId)
+	  {
+	  cellList->push_back(*usingCell);
+	  }
+	}
+      }
+    /**
+     * The number of neighboring cells is the number of cells using the
+     * boundary less one for the cell through which the request was made.
+     */
+    return (boundary->GetNumUsingCells()-1);
+    }
+  
+  /**
+   * An explicit assignment for the boundary was not found.  We use set
+   * operations through point neighboring information to get the neighbors.
+   * This requires that the CellLinks be built.
+   */
+  if(m_CellLinks == NULL)
+    {
+    this->BuildCellLinks();
+    }
+  else if((m_Points->GetMTime() > m_CellLinks->GetMTime()) ||
+	  (m_Cells->GetMTime()  > m_CellLinks->GetMTime()))
+    {
+    this->BuildCellLinks();
+    }
+  /**
+   * Cell links are up to date....
+   */
+}
+
+
+/**
+ * Check if there is an explicitly assigned boundary feature for the
+ * given dimension and cell- and cell-feature-identifiers.  If there is,
+ * a pointer to it is given back through "boundary" (if it isn't NULL) and
+ * true is returned.  Otherwise, false is returned.
+ */
+template <typename TPixelType, typename TMeshType>
+bool
+itkMesh< TPixelType , TMeshType >
+::GetAssignedBoundaryIfOneExists(int dimension, CellIdentifier cellId,
+				 CellFeatureIdentifier featureId,
+				 Boundary::Pointer* boundary) const
+{
+  if((m_BoundaryAssignments[dimension] != NULL) &&
+     (m_Boundaries[dimension] != NULL))
+    {
+    BoundaryAssignmentIdentifier assignId(cellId, featureId);
+    BoundaryIdentifier boundaryId;
+    
+    if(m_BoundaryAssignments[dimension]->
+       GetElementIfIndexExists(assignId, &boundaryId))
+      {
+      return m_Boundaries[dimension]->
+	GetElementIfIndexExists(boundaryId, boundary);
+      }
+    }
+  
+  /**
+   * An explicitly assigned boundary was not found.
+   */
+  return false;
+}
+
+
+/**
+ * Dynamically build the links from points back to their using cells.  This
+ * information is stored in the cell links container, not in the points.
+ */
+template <typename TPixelType, typename TMeshType>
+void
+itkMesh< TPixelType , TMeshType >
+::BuildCellLinks(void)
+{
+  /**
+   * Make sure the cell links container exists.
+   */
+  if(m_CellLinks == NULL)
+    {
+    m_CellLinks = this->ConstructDefaultCellLinks();
+    }
+  
 }
 
 
@@ -824,8 +900,8 @@ itkMesh< TPixelType , TMeshType >
 #define DefaultPointsContainerForNonIntegralIdentifiers       itkMapContainer< PointIdentifier , Point >
 #define DefaultPointDataContainerForIntegralIdentifiers       itkAutoVectorContainer< PointIdentifier , PixelType >
 #define DefaultPointDataContainerForNonIntegralIdentifiers    itkMapContainer< PointIdentifier , PixelType >
-#define DefaultCellLinksContainerForIntegralIdentifiers       itkAutoVectorContainer< PointIdentifier , PointCellLinksContainerPointer >
-#define DefaultCellLinksContainerForNonIntegralIdentifiers    itkMapContainer< PointIdentifier , PointCellLinksContainerPointer >
+#define DefaultCellLinksContainerForIntegralIdentifiers       itkAutoVectorContainer< PointIdentifier , PointCellLinksContainer >
+#define DefaultCellLinksContainerForNonIntegralIdentifiers    itkMapContainer< PointIdentifier , PointCellLinksContainer >
 #define DefaultCellsContainerForIntegralIdentifiers           itkAutoVectorContainer< CellIdentifier , Cell::Pointer >
 #define DefaultCellsContainerForNonIntegralIdentifiers        itkMapContainer< CellIdentifier , Cell::Pointer >
 #define DefaultCellDataContainerForIntegralIdentifiers        itkAutoVectorContainer< CellIdentifier , PixelType >
@@ -953,3 +1029,22 @@ itkMesh< TPixelType , TMeshType >
   return BoundaryAssignmentsContainer::Pointer(DefaultBoundaryAssignmentsContainer::New());
 }
 
+
+/**
+ * Don't need the default containers anymore.
+ */
+#undef DefaultPointsContainerForIntegralIdentifiers
+#undef DefaultPointsContainerForNonIntegralIdentifiers
+#undef DefaultPointDataContainerForIntegralIdentifiers
+#undef DefaultPointDataContainerForNonIntegralIdentifiers
+#undef DefaultCellLinksContainerForIntegralIdentifiers
+#undef DefaultCellLinksContainerForNonIntegralIdentifiers
+#undef DefaultCellsContainerForIntegralIdentifiers
+#undef DefaultCellsContainerForNonIntegralIdentifiers
+#undef DefaultCellDataContainerForIntegralIdentifiers
+#undef DefaultCellDataContainerForNonIntegralIdentifiers
+#undef DefaultBoundariesContainerForIntegralIdentifiers
+#undef DefaultBoundariesContainerForNonIntegralIdentifiers
+#undef DefaultBoundaryDataContainerForIntegralIdentifiers
+#undef DefaultBoundaryDataContainerForNonIntegralIdentifiers
+#undef DefaultBoundaryAssignmentsContainer 

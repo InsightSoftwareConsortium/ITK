@@ -16,8 +16,6 @@
 #ifndef __itkMeshType_h
 #define __itkMeshType_h
 
-#include "itkSetContainer.h"
-
 /**
  * itkMeshType is a simple structure that holds type information for a mesh
  * and its cells.
@@ -62,16 +60,7 @@ template <
    * the cells.  Since this will probably be an index into a static array,
    * this will probably never change from an integer setting.
    */
-  typename TCellFeatureIdentifier = unsigned long,
-
-  /**
-   * The container for use in storing the cell identifiers of those cells
-   * which use a point.  An instance of this container will exist for every
-   * point for which cell links have been constructed.
-   *
-   * This type must conform to an STL "set"-style interface.
-   */
-  typename TPointCellLinksContainer = itkSetContainer< TCellIdentifier >
+  typename TCellFeatureIdentifier = unsigned long
   >
 class itkMeshType
 {
@@ -86,7 +75,6 @@ public:
   typedef TPointIdentifier     	    PointIdentifier;
   typedef TBoundaryIdentifier  	    BoundaryIdentifier;
   typedef TCellFeatureIdentifier    CellFeatureIdentifier;
-  typedef TPointCellLinksContainer  PointCellLinksContainer;
 };
 
 typedef itkMeshType<> itkMeshTypeDefault;

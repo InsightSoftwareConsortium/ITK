@@ -55,6 +55,7 @@ itkAutoVectorContainer< TElementIdentifier , TElement >
 {
   if(id >= this->Vector::size()) CreateIndex(id);
   this->Vector::operator[](id) = element;
+  this->Modified();
 }
 
 
@@ -114,6 +115,7 @@ itkAutoVectorContainer< TElementIdentifier , TElement >
       this->Vector::resize(2*this->Vector::size());
     else
       this->Vector::resize(id+1);
+    this->Modified();
     }
   else if(id >= 0)
     {
@@ -122,6 +124,7 @@ itkAutoVectorContainer< TElementIdentifier , TElement >
      * the default element.
      */
     this->Vector::operator[](id) = Element();
+    this->Modified();
     }
 }
 
@@ -136,4 +139,6 @@ itkAutoVectorContainer< TElementIdentifier , TElement >
 ::DeleteIndex(ElementIdentifier id)
 {
   this->Vector::operator[](id) = Element();
+  this->Modified();
 }
+

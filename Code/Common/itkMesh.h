@@ -17,11 +17,12 @@
 #define __itkMesh_h
 
 #include <vector>
+#include <list>
 
 #include "itkObject.h"
 #include "itkSmartPointer.h"
 #include "itkSetGet.h"
-#include "itkContainerInterfaces.h"
+#include "itkIndexedContainer.h"
 #include "itkPoint.h"
 #include "itkCell.h"
 #include "itkMeshType.h"
@@ -66,7 +67,6 @@ public:
   typedef typename MeshType::PointIdentifier          PointIdentifier;
   typedef typename MeshType::BoundaryIdentifier       BoundaryIdentifier;
   typedef typename MeshType::CellFeatureIdentifier    CellFeatureIdentifier;
-  typedef typename MeshType::PointCellLinksContainer  PointCellLinksContainer;
 
   /**
    * A useful rename.
@@ -84,13 +84,6 @@ public:
    */
   typedef itkCell< PixelType , MeshType >  Cell;
   typedef Cell                             Boundary;
-  
-  /**
-   * Define a type that points to the container of cell links stored for
-   * each point in the cell links container.
-   */
-  typedef typename PointCellLinksContainer::Pointer
-        PointCellLinksContainerPointer;
   
   /**
    * An explicit cell boundary assignment can be accessed through the cell
@@ -111,7 +104,8 @@ public:
      * defaults to their individual default values.
      */
     BoundaryAssignmentIdentifier() {}
-    BoundaryAssignmentIdentifier(CellIdentifier cellId, CellFeatureIdentifier featureId):
+    BoundaryAssignmentIdentifier(CellIdentifier cellId,
+				 CellFeatureIdentifier featureId):
       m_CellId(cellId), m_FeatureId(featureId) {}    
     
     /**
@@ -168,7 +162,8 @@ protected:
    * can be used by multiple cells, each point identifier accesses another
    * container which holds the cell identifiers
    */
-  typedef itkIndexedContainer< PointIdentifier , PointCellLinksContainerPointer >
+  typedef std::set< CellIdentifier >  PointCellLinksContainer;
+  typedef itkIndexedContainer< PointIdentifier , PointCellLinksContainer >
         CellLinksContainer;
   CellLinksContainer::Pointer  m_CellLinks;
   
@@ -315,17 +310,12 @@ public:
    * Access routines to fill the BoundaryAssignments container, and get
    * information from it.
    */
-  void SetBoundaryAssignment(int dimension, BoundaryAssignmentIdentifier,
-			     BoundaryIdentifier);
-  bool GetBoundaryAssignment(int dimension, BoundaryAssignmentIdentifier,
-			     BoundaryIdentifier*) const;
   void SetBoundaryAssignment(int dimension, CellIdentifier cellId,
 			     CellFeatureIdentifier featureId,
 			     BoundaryIdentifier);
   bool GetBoundaryAssignment(int dimension, CellIdentifier cellId,
 			     CellFeatureIdentifier featureId,
 			     BoundaryIdentifier*) const;
-  bool RemoveBoundaryAssignment(int dimension, BoundaryAssignmentIdentifier);
   bool RemoveBoundaryAssignment(int dimension, CellIdentifier cellId,
 				CellFeatureIdentifier featureId);
 
@@ -333,19 +323,24 @@ public:
    * Interface to cells.
    */
   CellFeatureCount GetNumberOfCellBoundaryFeatures(int dimension,
-						   CellIdentifier);
-  Cell::Pointer GetCellBoundaryFeature(int dimension, CellIdentifier,
-				       CellFeatureIdentifier);
+						   CellIdentifier) const;
+  Boundary::Pointer GetCellBoundaryFeature(int dimension, CellIdentifier,
+					   CellFeatureIdentifier) const;
   
 
   /**
    * Mesh-level operation interface.
    */
-//  unsigned long GetNumBoundaryFeatureNeighbors(
-//    int dimension, CellIdentifier, CellFeatureIdentifier);
-//  unsigned long GetBoundaryFeatureNeighbors(
-//    int dimension, CellIdentifier, CellFeatureIdentifier,
-//    Cell::Pointer* cellList);
+
+  unsigned long GetBoundaryFeatureNeighbors(
+    int dimension, CellIdentifier, CellFeatureIdentifier,
+    list<CellIdentifier>* cellList);
+
+  bool GetAssignedBoundaryIfOneExists(int dimension, CellIdentifier,
+				      CellFeatureIdentifier,
+				      Boundary::Pointer*) const;
+
+  void BuildCellLinks(void);
   
   /**
    * Standard part of itkObject class.  Used for debugging output.
@@ -383,7 +378,7 @@ protected:
   BoundariesContainer::Pointer ConstructDefaultBoundaries(void);
   BoundaryDataContainer::Pointer ConstructDefaultBoundaryData(void);
   BoundaryAssignmentsContainer::Pointer ConstructDefaultBoundaryAssignments(void);
-  
+
   friend class itkCell< PixelType , MeshType >;
 }; // End Class: itkMesh
 

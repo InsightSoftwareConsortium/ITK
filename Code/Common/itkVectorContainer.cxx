@@ -51,6 +51,7 @@ itkVectorContainer< TElementIdentifier , TElement >
 ::SetElement(ElementIdentifier id, Element element)
 {
   this->Vector::operator[](id) = element;
+  this->Modified();
 }
 
 
@@ -110,6 +111,7 @@ itkVectorContainer< TElementIdentifier , TElement >
       this->Vector::resize(2*this->Vector::size());
     else
       this->Vector::resize(id+1);
+    this->Modified();
     }
   else if(id >= 0)
     {
@@ -118,6 +120,7 @@ itkVectorContainer< TElementIdentifier , TElement >
      * the default element.
      */
     this->Vector::operator[](id) = Element();
+    this->Modified();
     }
 }
 
@@ -132,4 +135,5 @@ itkVectorContainer< TElementIdentifier , TElement >
 ::DeleteIndex(ElementIdentifier id)
 {
   this->Vector::operator[](id) = Element();
+  this->Modified();
 }

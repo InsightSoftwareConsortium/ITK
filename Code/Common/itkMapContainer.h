@@ -16,7 +16,7 @@
 #ifndef __itkMapContainer_h
 #define __itkMapContainer_h
 
-#include "itkContainerInterfaces.h"
+#include "itkIndexedContainer.h"
 #include <map>
 
 /**

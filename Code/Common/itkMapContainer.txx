@@ -50,6 +50,7 @@ itkMapContainer< TElementIdentifier , TElement >
 ::SetElement(ElementIdentifier id, Element element)
 {
   Map::operator[](id) = element;
+  this->Modified();
 }
 
 
@@ -99,6 +100,7 @@ itkMapContainer< TElementIdentifier , TElement >
 ::CreateIndex(ElementIdentifier id)
 {
   this->Map::operator[](id) = Element();
+  this->Modified();
 }
 
 
@@ -112,4 +114,5 @@ itkMapContainer< TElementIdentifier , TElement >
 ::DeleteIndex(ElementIdentifier id)
 {
   this->Map::erase(id);
+  this->Modified();
 }

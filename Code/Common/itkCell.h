@@ -22,9 +22,8 @@
 #include "itkObject.h"
 #include "itkSmartPointer.h"
 #include "itkMeshType.h"
-#include "itkContainerInterfaces.h"
+#include "itkIndexedContainer.h"
 #include "itkVectorContainer.h"
-#include "itkSetContainer.h"
 
 /**
  * itkCell defines the data that are stored in a Cell.  It is derived from

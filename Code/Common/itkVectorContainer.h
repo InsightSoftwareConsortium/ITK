@@ -16,7 +16,7 @@
 #ifndef __itkVectorContainer_h
 #define __itkVectorContainer_h
 
-#include "itkContainerInterfaces.h"
+#include "itkIndexedContainer.h"
 #include <vector>
 
 /**
