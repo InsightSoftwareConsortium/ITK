@@ -112,7 +112,7 @@ DataObject
 //
 void 
 DataObject
-::SetSource(ProcessObject *arg)
+::SetSource(ProcessObject *arg) const
 {
   itkDebugMacro( << this->GetClassName() << " (" 
                  << this << "): setting Source to " << arg ); 
@@ -128,7 +128,7 @@ DataObject
 
 SmartPointerForwardReference<ProcessObject>
 DataObject
-::GetSource()
+::GetSource() const
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
                 << "): returning Source address " << m_Source );
@@ -319,7 +319,7 @@ DataObject
 //----------------------------------------------------------------------------
 void 
 DataObject
-::UnRegister()
+::UnRegister() const
 {
   // Determine the number of external references to the expected reference
   // count cycle between the process objects and its outputs.

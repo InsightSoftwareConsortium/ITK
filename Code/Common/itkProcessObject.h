@@ -273,7 +273,7 @@ public:
   /** 
    * Handle the process object/data object reference-counting loop. 
    */
-  virtual void UnRegister();
+  virtual void UnRegister() const;
 
   /** 
    * Get the net reference count. This is the number of

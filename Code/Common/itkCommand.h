@@ -176,6 +176,13 @@ public:
       m_MemberFunction = memberFunction;
     }
 
+  void SetCallbackFunction(T* object,  
+                           TConstMemberFunctionPointer memberFunction)
+    {
+      m_This = object;
+      m_ConstMemberFunction = memberFunction;
+    }
+
   /**
    *  Invoke the member function.
    */

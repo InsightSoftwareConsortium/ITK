@@ -64,7 +64,7 @@ public:
   /** 
    * Set the process object creating this data object. 
    */
-  void SetSource(ProcessObject *s);
+  void SetSource(ProcessObject *s) const;
   
   /** 
    * Get the process object that generated this data object.
@@ -76,7 +76,7 @@ public:
    * a forward reference smart pointer is returned, not a smart pointer, 
    * because of the circular dependency between the process and data object.)
    */
-  SmartPointerForwardReference<ProcessObject> GetSource();
+  SmartPointerForwardReference<ProcessObject> GetSource() const;
   
   /** 
    * Restore the data object to its initial state. This means releasing
@@ -163,7 +163,7 @@ public:
   /** 
    * Handle the process object/data object reference-counting loop. 
    */
-  virtual void UnRegister();
+  virtual void UnRegister() const;
 
   /** 
    * Get the net reference count. This is the number of
@@ -180,7 +180,7 @@ public:
    * process object during construction to avoid nasty
    * reference counting behavior.
    */
-  void UnderConstructionOn()
+  void UnderConstructionOn() const
     {m_UnderConstruction = true;}
   
 protected:
@@ -198,12 +198,14 @@ protected:
   bool m_RequestedRegionInitialized;  
 
 private:
-  SmartPointerForwardReference<ProcessObject> m_Source; ///Who generates this data?
+  //Who generated this data?
+  mutable SmartPointerForwardReference<ProcessObject> m_Source; 
 
-  TimeStamp m_UpdateTime;  ///When was this data last generated?
+  //When was this data last generated?
+  TimeStamp m_UpdateTime;  
 
-  bool m_ReleaseDataFlag; ///Data will release after use by a filter if on
-  bool m_DataReleased; ///Keep track of data release during network execution
+  bool m_ReleaseDataFlag; //Data will release after use by a filter if on
+  bool m_DataReleased; //Keep track of data release during network execution
 
   // The Maximum MTime of all upstream filters and data objects.
   // This does not include the MTime of this data object.
@@ -219,7 +221,7 @@ private:
   
   // Special ivar used during construction by data objects to prevent
   // nasty cyclic reference counting behavior.
-  bool m_UnderConstruction;
+  mutable bool m_UnderConstruction;
 
   // Static member that controls global data release after use by filter.
   //

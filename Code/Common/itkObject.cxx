@@ -96,7 +96,7 @@ Object
  */
 void 
 Object
-::Modified()
+::Modified() const
 {
   m_MTime.Modified();
 }
@@ -107,7 +107,7 @@ Object
  */
 void 
 Object
-::Register()
+::Register() const
 {
   m_ReferenceCount++;
   itkDebugMacro(<< "Registered, "
@@ -125,7 +125,7 @@ Object
  */
 void 
 Object
-::UnRegister()
+::UnRegister() const
 {
   itkDebugMacro(<< this << "UnRegistered, "
   << "ReferenceCount = " << (m_ReferenceCount-1));

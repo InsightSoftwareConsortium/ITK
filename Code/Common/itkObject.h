@@ -88,17 +88,17 @@ public:
    * Update the modification time for this object. Many filters rely on the
    * modification time to determine if they need to recompute their data. 
    */
-  virtual void Modified();
+  virtual void Modified() const;
   
   /** 
    * Increase the reference count (mark as used by another object). 
    */
-  virtual void Register();
+  virtual void Register() const;
 
   /** 
    * Decrease the reference count (release by another object). 
    */
-  virtual void UnRegister();
+  virtual void UnRegister() const;
 
   /** 
    * Sets the reference count (use with care) 
@@ -142,7 +142,7 @@ private:
   /**
    * Keep track of modification time.
    */
-  TimeStamp m_MTime;
+  mutable TimeStamp m_MTime;
   
   /**
    * Global object debug flag.

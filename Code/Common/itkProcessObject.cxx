@@ -936,7 +936,7 @@ ProcessObject
 //----------------------------------------------------------------------------
 void 
 ProcessObject
-::UnRegister()
+::UnRegister() const
 {
   // Determine the number of external references to the expected reference
   // count cycle between the process objects and its outputs.
@@ -954,7 +954,7 @@ ProcessObject
     Superclass::Register();
 
     // Break reference count cycle to output
-	std::vector<DataObjectPointer>::size_type idx;
+    std::vector<DataObjectPointer>::size_type idx;
     for (idx = 0; idx < m_Outputs.size(); ++idx)
       {
       if ( m_Outputs[idx] )

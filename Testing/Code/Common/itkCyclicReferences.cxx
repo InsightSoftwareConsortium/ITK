@@ -38,7 +38,7 @@ public:
 class DeleteEvent
 {
 public:
-  void Delete(itk::LightObject *caller, unsigned long event) 
+  void Delete(const itk::LightObject *caller, unsigned long event) 
     {std::cout << "Deleting: " << caller->GetClassName() << std::endl;}
 };
 
