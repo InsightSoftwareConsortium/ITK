@@ -90,7 +90,7 @@ ImageMaskSpatialObject< TDimension>
       return true;
       }
     }
-  return Superclass::IsInside(point, depth, name);
+  return SpatialObject<TDimension>::IsInside(point, depth, name);
 }
 
 /** Print the object */
