@@ -45,89 +45,86 @@ int itkNumericsPrintTest(int , char* [])
   itk::AmoebaOptimizer::Pointer AmoebaOptimizerObj =
     itk::AmoebaOptimizer::New();
   std::cout << "----------AmoebaOptimizer " << AmoebaOptimizerObj;
-
 #if 0
-  itk::CacheableScalarFunction<foo>::Pointer CacheableScalarFunctionObj =
-    itk::CacheableScalarFunction<foo>::New();
+  itk::CacheableScalarFunction::Pointer CacheableScalarFunctionObj =
+    itk::CacheableScalarFunction::New();
   std::cout << "----------CacheableScalarFunction " << CacheableScalarFunctionObj;
 
-  itk::CompositeValleyFunction<foo>::Pointer CompositeValleyFunctionObj =
-    itk::CompositeValleyFunction<foo>::New();
+  itk::CompositeValleyFunction::Pointer CompositeValleyFunctionObj =
+    itk::CompositeValleyFunction::New();
   std::cout << "----------CompositeValleyFunction " << CompositeValleyFunctionObj;
-
-  itk::ConjugateGradientOptimizer<foo>::Pointer ConjugateGradientOptimizerObj =
-    itk::ConjugateGradientOptimizer<foo>::New();
+#endif
+  itk::ConjugateGradientOptimizer::Pointer ConjugateGradientOptimizerObj =
+    itk::ConjugateGradientOptimizer::New();
   std::cout << "----------ConjugateGradientOptimizer " << ConjugateGradientOptimizerObj;
-
-  itk::CostFunction<foo>::Pointer CostFunctionObj =
-    itk::CostFunction<foo>::New();
+#if 0
+  itk::CostFunction::Pointer CostFunctionObj =
+    itk::CostFunction::New();
   std::cout << "----------CostFunction " << CostFunctionObj;
-
-  itk::GradientDescentOptimizer<foo>::Pointer GradientDescentOptimizerObj =
-    itk::GradientDescentOptimizer<foo>::New();
+#endif
+  itk::GradientDescentOptimizer::Pointer GradientDescentOptimizerObj =
+    itk::GradientDescentOptimizer::New();
   std::cout << "----------GradientDescentOptimizer " << GradientDescentOptimizerObj;
 
-  itk::LBFGSOptimizer<foo>::Pointer LBFGSOptimizerObj =
-    itk::LBFGSOptimizer<foo>::New();
+  itk::LBFGSOptimizer::Pointer LBFGSOptimizerObj =
+    itk::LBFGSOptimizer::New();
   std::cout << "----------LBFGSOptimizer " << LBFGSOptimizerObj;
 
-  itk::LevenbergMarquardtOptimizer<foo>::Pointer LevenbergMarquardtOptimizerObj =
-    itk::LevenbergMarquardtOptimizer<foo>::New();
+  itk::LevenbergMarquardtOptimizer::Pointer LevenbergMarquardtOptimizerObj =
+    itk::LevenbergMarquardtOptimizer::New();
   std::cout << "----------LevenbergMarquardtOptimizer " << LevenbergMarquardtOptimizerObj;
 
-  itk::MultipleValuedNonLinearOptimizer<foo>::Pointer MultipleValuedNonLinearOptimizerObj =
-    itk::MultipleValuedNonLinearOptimizer<foo>::New();
+  itk::MultipleValuedNonLinearOptimizer::Pointer MultipleValuedNonLinearOptimizerObj =
+    itk::MultipleValuedNonLinearOptimizer::New();
   std::cout << "----------MultipleValuedNonLinearOptimizer " << MultipleValuedNonLinearOptimizerObj;
-
-  itk::MultipleValuedNonLinearVnlOptimizer<foo>::Pointer MultipleValuedNonLinearVnlOptimizerObj =
-    itk::MultipleValuedNonLinearVnlOptimizer<foo>::New();
+#if 0
+  itk::MultipleValuedNonLinearVnlOptimizer::Pointer MultipleValuedNonLinearVnlOptimizerObj =
+    itk::MultipleValuedNonLinearVnlOptimizer::New();
   std::cout << "----------MultipleValuedNonLinearVnlOptimizer " << MultipleValuedNonLinearVnlOptimizerObj;
 
-  itk::MultipleValuedVnlCostFunctionAdaptor<foo>::Pointer MultipleValuedVnlCostFunctionAdaptorObj =
-    itk::MultipleValuedVnlCostFunctionAdaptor<foo>::New();
+  itk::MultipleValuedVnlCostFunctionAdaptor::Pointer MultipleValuedVnlCostFunctionAdaptorObj =
+    itk::MultipleValuedVnlCostFunctionAdaptor::New();
   std::cout << "----------MultipleValuedVnlCostFunctionAdaptor " << MultipleValuedVnlCostFunctionAdaptorObj;
 
-  itk::MultivariateLegendrePolynomial<foo>::Pointer MultivariateLegendrePolynomialObj =
-    itk::MultivariateLegendrePolynomial<foo>::New();
+  itk::MultivariateLegendrePolynomial::Pointer MultivariateLegendrePolynomialObj =
+    itk::MultivariateLegendrePolynomial::New();
   std::cout << "----------MultivariateLegendrePolynomial " << MultivariateLegendrePolynomialObj;
-
-  itk::OnePlusOneEvolutionaryOptimizer<foo>::Pointer OnePlusOneEvolutionaryOptimizerObj =
-    itk::OnePlusOneEvolutionaryOptimizer<foo>::New();
+#endif  
+  itk::OnePlusOneEvolutionaryOptimizer::Pointer OnePlusOneEvolutionaryOptimizerObj =
+    itk::OnePlusOneEvolutionaryOptimizer::New();
   std::cout << "----------OnePlusOneEvolutionaryOptimizer " << OnePlusOneEvolutionaryOptimizerObj;
 
-  itk::Optimizer<foo>::Pointer OptimizerObj =
-    itk::Optimizer<foo>::New();
+  itk::Optimizer::Pointer OptimizerObj =
+    itk::Optimizer::New();
   std::cout << "----------Optimizer " << OptimizerObj;
 
-  itk::QuaternionRigidTransformGradientDescentOptimizer<foo>::Pointer QuaternionRigidTransformGradientDescentOptimizerObj =
-    itk::QuaternionRigidTransformGradientDescentOptimizer<foo>::New();
+  itk::QuaternionRigidTransformGradientDescentOptimizer::Pointer QuaternionRigidTransformGradientDescentOptimizerObj =
+    itk::QuaternionRigidTransformGradientDescentOptimizer::New();
   std::cout << "----------QuaternionRigidTransformGradientDescentOptimizer " << QuaternionRigidTransformGradientDescentOptimizerObj;
 
-  itk::RegularStepGradientDescentBaseOptimizer<foo>::Pointer RegularStepGradientDescentBaseOptimizerObj =
-    itk::RegularStepGradientDescentBaseOptimizer<foo>::New();
+  itk::RegularStepGradientDescentBaseOptimizer::Pointer RegularStepGradientDescentBaseOptimizerObj =
+    itk::RegularStepGradientDescentBaseOptimizer::New();
   std::cout << "----------RegularStepGradientDescentBaseOptimizer " << RegularStepGradientDescentBaseOptimizerObj;
 
-  itk::RegularStepGradientDescentOptimizer<foo>::Pointer RegularStepGradientDescentOptimizerObj =
-    itk::RegularStepGradientDescentOptimizer<foo>::New();
+  itk::RegularStepGradientDescentOptimizer::Pointer RegularStepGradientDescentOptimizerObj =
+    itk::RegularStepGradientDescentOptimizer::New();
   std::cout << "----------RegularStepGradientDescentOptimizer " << RegularStepGradientDescentOptimizerObj;
 
-  itk::SingleValuedNonLinearOptimizer<foo>::Pointer SingleValuedNonLinearOptimizerObj =
-    itk::SingleValuedNonLinearOptimizer<foo>::New();
+  itk::SingleValuedNonLinearOptimizer::Pointer SingleValuedNonLinearOptimizerObj =
+    itk::SingleValuedNonLinearOptimizer::New();
   std::cout << "----------SingleValuedNonLinearOptimizer " << SingleValuedNonLinearOptimizerObj;
-
-  itk::SingleValuedNonLinearVnlOptimizer<foo>::Pointer SingleValuedNonLinearVnlOptimizerObj =
-    itk::SingleValuedNonLinearVnlOptimizer<foo>::New();
+#if 0
+  itk::SingleValuedNonLinearVnlOptimizer::Pointer SingleValuedNonLinearVnlOptimizerObj =
+    itk::SingleValuedNonLinearVnlOptimizer::New();
   std::cout << "----------SingleValuedNonLinearVnlOptimizer " << SingleValuedNonLinearVnlOptimizerObj;
 
-  itk::SingleValuedVnlCostFunctionAdaptor<foo>::Pointer SingleValuedVnlCostFunctionAdaptorObj =
-    itk::SingleValuedVnlCostFunctionAdaptor<foo>::New();
+  itk::SingleValuedVnlCostFunctionAdaptor::Pointer SingleValuedVnlCostFunctionAdaptorObj =
+    itk::SingleValuedVnlCostFunctionAdaptor::New();
   std::cout << "----------SingleValuedVnlCostFunctionAdaptor " << SingleValuedVnlCostFunctionAdaptorObj;
-
-  itk::VersorTransformOptimizer<foo>::Pointer VersorTransformOptimizerObj =
-    itk::VersorTransformOptimizer<foo>::New();
-  std::cout << "----------VersorTransformOptimizer " << VersorTransformOptimizerObj;
-
 #endif
+  itk::VersorTransformOptimizer::Pointer VersorTransformOptimizerObj =
+    itk::VersorTransformOptimizer::New();
+  std::cout << "----------VersorTransformOptimizer " << VersorTransformOptimizerObj;
 
   return 0;
 }
