@@ -19,12 +19,12 @@
 #include "itkVoronoiDiagram2DGenerator.h"
 #include <stdio.h>
 
-const double HEI=400;
-const double WID=400;
-const int NUMSEEDS=20;
-
 
 int itkVoronoiDiagram2DTest(int, char**){
+  const double HEI=400;
+  const double WID=400;
+  const int NUMSEEDS=20;
+
   typedef itk::VoronoiDiagram2D<double> Vor;
   typedef itk::VoronoiDiagram2DGenerator<double> VorGenerator;
 
