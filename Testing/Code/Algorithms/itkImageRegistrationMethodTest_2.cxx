@@ -165,6 +165,7 @@ int itkImageRegistrationMethodTest_2(int argc, char** argv)
   optimizer->SetMinimumStepLength( minimumStepLenght );
   optimizer->SetMaximumStepLength( maximumStepLenght );
   optimizer->SetGradientMagnitudeTolerance( gradientTolerance );
+  optimizer->MinimizeOn();
 
   // Start from an Identity transform (in a normal case, the user 
   // can probably provide a better guess than the identity...

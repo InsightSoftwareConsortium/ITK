@@ -150,6 +150,7 @@ int itkImageRegistrationMethodTest_1(int argc, char** argv)
   optimizer->SetScales( scales );
   optimizer->SetLearningRate( learningRate );
   optimizer->SetNumberOfIterations( numberOfIterations );
+  optimizer->MinimizeOn();
 
   // Start from an Identity transform (in a normal case, the user 
   // can probably provide a better guess than the identity...
