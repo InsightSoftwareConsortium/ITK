@@ -59,6 +59,8 @@
 #define VCL_CXX_HAS_HEADER_LIMITS     @VCL_CXX_HAS_HEADER_LIMITS@
 #define VCL_CXX_HAS_HEADER_STRSTREAM  @VCL_CXX_HAS_HEADER_STRSTREAM@
 
+#define VCL_CXX_HAS_HEADER_ISO646_H   @VCL_CXX_HAS_HEADER_ISO646_H@
+
 //--------------------------------------------------------------------------------
 
 #endif // vcl_config_headers_h_

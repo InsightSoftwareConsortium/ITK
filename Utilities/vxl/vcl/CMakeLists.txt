@@ -200,6 +200,7 @@ SET( vcl_sources
   emulation/vcl_algobase.h
   emulation/vcl_bool.h
   emulation/vcl_bvector.h
+  emulation/vcl_ciso646.h
   emulation/vcl_defalloc.h
   emulation/vcl_functionx.h
   emulation/vcl_hash_set.h
@@ -304,7 +305,6 @@ SET( vcl_sources
   win32-vc70/vcl_cstdlib.h
 
   borland55/vcl_cfloat.h
-  borland55/vcl_ciso646.h
   borland56/vcl_complex.h
 
   mwerks/vcl_cmath.h

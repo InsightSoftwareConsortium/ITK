@@ -1,8 +1,5 @@
-#ifndef vcl_borland55_ciso646_h_
-#define vcl_borland55_ciso646_h_
-
-// Borland C++ 5.5 does not provide iso646.h at all.
-// We implement it here.  - Brad King
+#ifndef vcl_emulation_ciso646_h_
+#define vcl_emulation_ciso646_h_
 
 #define and    &&
 #define and_eq &=
@@ -16,4 +13,4 @@
 #define xor    ^
 #define xor_eq ^=
 
-#endif // vcl_borland55_ciso646_h_
+#endif // vcl_emulation_ciso646_h_
