@@ -61,6 +61,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPNGImageIOFactory.h"
 #include "itkRawImageIO.txx"
 #include "itkRawImageWriter.txx"
+#include "itkSiemensVisionImageIO.h"
+#include "itkSiemensVisionImageIOFactory.h"
 #include "itkStimulateImageIO.h"
 #include "itkStimulateImageIOFactory.h"
 #include "itkVOLImageIO.h"

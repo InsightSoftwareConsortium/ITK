@@ -122,6 +122,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkObjectMorphologyImageFilter.txx"
 #include "itkPadImageFilter.txx"
 #include "itkParametricSpaceToImageSpaceMeshFilter.txx"
+#include "itkPasteImageFilter.txx"
 #include "itkPermuteAxesImageFilter.txx"
 #include "itkPlaheImageFilter.txx"
 #include "itkRandomImageSource.txx"
