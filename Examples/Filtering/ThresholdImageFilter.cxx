@@ -125,7 +125,7 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< PixelType,  3 >   ImageType;
+  typedef itk::Image< PixelType,  2 >   ImageType;
   // Software Guide : EndCodeSnippet
 
 
