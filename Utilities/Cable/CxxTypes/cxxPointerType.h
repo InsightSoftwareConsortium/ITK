@@ -59,8 +59,7 @@ public:
   static PointerType* SafeDownCast(Type*);
   static const PointerType* SafeDownCast(const Type*);
   
-  virtual String GenerateName(const String& indirection,
-                              bool isConst, bool isVolatile) const;
+  virtual String GenerateName(const String&, bool, bool) const;
   
   const CvQualifiedType& GetPointedToType() const;
   

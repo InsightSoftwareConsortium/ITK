@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _cxxTypedefType_h
 #define _cxxTypedefType_h
 
-#include "cxxTypes.h"
+#include "cxxCvQualifiedType.h"
 
 namespace _cxx_
 {

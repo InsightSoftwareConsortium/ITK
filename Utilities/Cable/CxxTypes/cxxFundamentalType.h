@@ -66,10 +66,11 @@ public:
   static FundamentalType* SafeDownCast(Type*);
   static const FundamentalType* SafeDownCast(const Type*);
   
-  virtual String GenerateName(const String& indirection,
-                              bool isConst, bool isVolatile) const;
+  virtual String GenerateName(const String&, bool, bool) const;
 
-  /*@{
+  const Id& GetId() const { return m_Id; }
+  
+ /*@{
    * Test the id of this FundamentalType.
    */
   bool IsUnsignedChar() const     { return (m_Id == UnsignedChar); }

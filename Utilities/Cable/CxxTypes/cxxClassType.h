@@ -44,16 +44,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cxxCvQualifiedType.h"
 
 #include <vector>
+#include <set>
 
 namespace _cxx_
 {
-
 class _cxx_EXPORT ClassType;
 
 /**
  * A vector of ClassType pointers.
  */
 typedef std::vector<const ClassType*> ClassTypes;
+
+/**
+ * A set of ClassType pointers.
+ */
+typedef std::set<const ClassType*> ClassTypeSet;
 
 /**
  * Represents a C++ class type.  This could have been produced by a
@@ -74,10 +79,10 @@ public:
   String GetName() const;
   ClassTypes::const_iterator ParentsBegin() const;
   ClassTypes::const_iterator ParentsEnd() const;
+  ClassTypeSet GetAllSuperclasses() const;
   bool IsSubclassOf(const ClassType*) const;
   
-  virtual String GenerateName(const String& indirection,
-                              bool isConst, bool isVolatile) const;
+  virtual String GenerateName(const String&, bool, bool) const;
 protected:
   ClassType(const String&, bool isAbstract, const ClassTypes&);
   ClassType(const Self&) {}

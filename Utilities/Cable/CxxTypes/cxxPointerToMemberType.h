@@ -46,6 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace _cxx_
 {
 
+class ClassType;
 
 /**
  * Represents a C++ pointer-to-member type.
@@ -59,8 +60,7 @@ public:
   static PointerToMemberType* SafeDownCast(Type*);
   static const PointerToMemberType* SafeDownCast(const Type*);
   
-  virtual String GenerateName(const String& indirection,
-                              bool isConst, bool isVolatile) const;
+  virtual String GenerateName(const String&, bool, bool) const;
   
   const ClassType* GetClassType() const;
 protected:

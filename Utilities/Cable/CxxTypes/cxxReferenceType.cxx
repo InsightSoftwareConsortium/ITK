@@ -38,7 +38,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "cxxTypes.h"
+#include "cxxReferenceType.h"
 
 namespace _cxx_
 {
@@ -79,10 +79,11 @@ const ReferenceType* ReferenceType::SafeDownCast(const Type* t)
 }
 
 
-// Can't have indirection or cv qualifiers.
-String ReferenceType::GenerateName(const String&, bool, bool) const
+// Can't have cv qualifiers.
+String ReferenceType::GenerateName(const String& outerType, bool, bool) const
 {
-  return m_ReferencedType.GenerateName("&");
+  String outerString = "& "+outerType;
+  return m_ReferencedType.GenerateName(outerString);
 }
 
 

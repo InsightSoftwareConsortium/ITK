@@ -67,9 +67,11 @@ public:
   const CvQualifiedTypes& GetArgumentTypes() const
     { return m_Arguments; }
   
-  virtual String GenerateName(const String& indirection,
-                              bool isConst, bool isVolatile) const;
+  virtual String GenerateName(const String&, bool, bool) const;
+  virtual String GenerateDeclaration(const String&, bool, bool) const;
 protected:
+  String GenerateArgumentString() const;
+  
   FunctionType(const CvQualifiedType& returnType,
                const CvQualifiedTypes& arguments);
   FunctionType(const Self&): m_ReturnType(NULL) {}

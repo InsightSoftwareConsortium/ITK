@@ -65,12 +65,12 @@ public:
   bool IsConst() const    { return m_Const; }
   bool IsVolatile() const { return m_Volatile; }
   
-  String GetName() const { return this->GenerateName(""); }
+  String GetName() const { return this->GenerateDeclaration(""); }
   const Type* GetType() const { return m_Type; }
   CvQualifiedType GetMoreQualifiedType(bool isConst, bool isVolatile) const;
   bool IsEquallyOrMoreCvQualifiedThan(const CvQualifiedType&) const;
-  String GenerateName(const String& indirection,
-                      bool isConst = false, bool isVolatile = false) const;
+  String GenerateName(const String&, bool = false, bool = false) const;
+  String GenerateDeclaration(const String&, bool = false, bool = false) const;
   
   bool operator== (const Self&) const;
   bool operator< (const Self&) const;
@@ -82,6 +82,7 @@ public:
    */     
   bool IsArrayType() const           { return m_Type->IsArrayType(); }
   bool IsClassType() const           { return m_Type->IsClassType(); }
+  bool IsEnumerationType() const     { return m_Type->IsEnumerationType(); }
   bool IsFunctionType() const        { return m_Type->IsFunctionType(); }
   bool IsFundamentalType() const     { return m_Type->IsFundamentalType(); }
   bool IsPointerType() const         { return m_Type->IsPointerType(); }

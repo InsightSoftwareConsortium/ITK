@@ -11,7 +11,6 @@ cxxPointerType
 cxxReferenceType
 cxxType
 cxxTypeSystem
-cxxTypedefType
 )
 
 IF (WIN32)

@@ -38,7 +38,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "cxxTypes.h"
+#include "cxxEnumerationType.h"
 
 namespace _cxx_
 {
@@ -88,11 +88,11 @@ String EnumerationType::GetName() const
 }
 
 
-String EnumerationType::GenerateName(const String& indirection,
+String EnumerationType::GenerateName(const String& outerType,
                                      bool isConst, bool isVolatile) const
 {
   String cv = this->GetLeftCvString(isConst, isVolatile);
-  return cv+m_Name+indirection;
+  return cv+m_Name+this->PrepareOuterStringForPostfix(outerType);
 }
 
 

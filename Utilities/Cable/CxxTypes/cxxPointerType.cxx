@@ -38,7 +38,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "cxxTypes.h"
+#include "cxxPointerType.h"
 
 namespace _cxx_
 {
@@ -79,16 +79,12 @@ const PointerType* PointerType::SafeDownCast(const Type* t)
 }
 
 
-String PointerType::GenerateName(const String& indirection,
+String PointerType::GenerateName(const String& outerType,
                                  bool isConst, bool isVolatile) const
 {
   String cv = this->GetRightCvString(isConst, isVolatile);
-  String indirect = "*"+cv;
-  if(indirection != "")
-    {
-    indirect += " "+indirection;
-    }
-  return m_PointedToType.GenerateName(indirect);
+  String outerString = "*"+cv+this->PrepareOuterStringForPostfix(outerType);
+  return m_PointedToType.GenerateName(outerString);
 }
 
 

@@ -38,7 +38,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "cxxTypes.h"
+#include "cxxFunctionType.h"
 
 namespace _cxx_
 {
@@ -78,11 +78,34 @@ const FunctionType* FunctionType::SafeDownCast(const Type* t)
 }
 
 
-String FunctionType::GenerateName(const String& indirection,
+String FunctionType::GenerateName(const String& outerType,
                                   bool isConst, bool) const
 {
-  String returns = m_ReturnType.GetName();
-  
+  String arguments = this->GenerateArgumentString();
+  String outerString = "("+outerType+")( "+arguments+" )"+this->GetRightCvString(isConst, false);
+  return m_ReturnType.GenerateName(outerString);
+}
+
+
+/**
+ * Get the name of the type as it would be used in a declaration with the
+ * given name.
+ */
+String FunctionType::GenerateDeclaration(const String& name,
+                                         bool isConst, bool) const
+{
+  String arguments = this->GenerateArgumentString();
+  String outerString = "("+name+"( "+arguments+" ))";
+  return m_ReturnType.GenerateName(outerString);
+}
+
+
+/**
+ * Called by GenerateName and GenerateDeclaration to prepare a string
+ * holding the function type's arguments.
+ */
+String FunctionType::GenerateArgumentString() const
+{
   String arguments = "";
   CvQualifiedTypes::const_iterator arg = m_Arguments.begin();
   if(arg != m_Arguments.end())
@@ -93,18 +116,10 @@ String FunctionType::GenerateName(const String& indirection,
       arguments += ", "+arg->GetName();
       }
     }
-  String cv = this->GetRightCvString(isConst, false);
-  if(indirection.length() > 0)
-    {
-    return returns + "(" + indirection + ")( " + arguments + " )" + cv;
-    }
-  else
-    {
-    return returns + "(( " + arguments + " ))" + cv;
-    }
+  return arguments;
 }
 
-  
+
 /**
  * Constructor takes the return type of the function.
  */

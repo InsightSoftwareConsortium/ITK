@@ -65,9 +65,11 @@ public:
   unsigned long GetLength() const
     { return m_Length; }
   
-  virtual String GenerateName(const String& indirection,
-                              bool isConst, bool isVolatile) const;
+  virtual String GenerateName(const String&, bool, bool) const;
+  virtual String GenerateDeclaration(const String&, bool, bool) const;
 protected:
+  String GenerateLengthString() const;
+  
   ArrayType(const CvQualifiedType&, unsigned long);
   ArrayType(const Self&): m_ElementType(NULL), m_Length(0) {}
   void operator=(const Self&) {}

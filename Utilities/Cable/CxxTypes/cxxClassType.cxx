@@ -38,7 +38,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "cxxTypes.h"
+#include "cxxClassType.h"
 
 namespace _cxx_
 {
@@ -116,6 +116,30 @@ ClassTypes::const_iterator ClassType::ParentsEnd() const
 
 
 /**
+ * Find all the superclasses through any inheritance chain.
+ */
+ClassTypeSet ClassType::GetAllSuperclasses() const
+{
+  ClassTypeSet result;
+  for(ClassTypes::const_iterator parent = m_Parents.begin();
+      parent != m_Parents.end(); ++parent)
+    {
+    // Insert our immediate parent.
+    result.insert(*parent);
+    
+    // Insert our parent's superclasses.
+    ClassTypeSet parentResult = (*parent)->GetAllSuperclasses();
+    for(ClassTypeSet::const_iterator c = parentResult.begin();
+        c != parentResult.end(); ++c)
+      {
+      result.insert(*c);
+      }
+    }
+  return result;
+}
+
+
+/**
  * Determine whether this ClassType is a subclass of the given ClassType
  * through any chain of inheritance.
  */
@@ -146,11 +170,11 @@ bool ClassType::IsSubclassOf(const ClassType* superclass) const
 }
 
 
-String ClassType::GenerateName(const String& indirection,
+String ClassType::GenerateName(const String& outerType,
                                bool isConst, bool isVolatile) const
 {
   String cv = this->GetLeftCvString(isConst, isVolatile);
-  return cv+m_Name+indirection;
+  return cv+m_Name+this->PrepareOuterStringForPostfix(outerType);
 }
 
 

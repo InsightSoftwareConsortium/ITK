@@ -38,7 +38,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "cxxTypes.h"
+#include "cxxCvQualifiedType.h"
 
 namespace _cxx_
 {
@@ -95,9 +95,32 @@ Type::Name() const
 String
 Type::CvName(bool isConst, bool isVolatile) const
 {
-  return this->GetCvQualifiedType(isConst, isVolatile).GenerateName("");
+  return this->GetCvQualifiedType(isConst, isVolatile).GenerateDeclaration("");
 }
 
+
+/**
+ * Get the name of the type as it would be used in a declaration with the
+ * given name.
+ */
+String
+Type::GenerateDeclaration(const String& name) const
+{
+  return this->GenerateDeclaration(name, false, false);
+}
+
+
+/**
+ * Get the name of the type as it would be used in a declaration with the
+ * given name.
+ */
+String
+Type::GenerateDeclaration(const String& name,
+                          bool isConst, bool isVolatile) const
+{
+  return this->GenerateName(name, isConst, isVolatile);
+}
+  
 
 /**
  * Get a cv-qualifier string that can be conactenated on the left end
@@ -146,6 +169,28 @@ String Type::GetRightCvString(bool isConst, bool isVolatile) const
     {
     return "";
     }
+}
+
+
+/**
+ * Prepare a string holding the "outer" type for concatenation to the right
+ * of a named type.  This basically adds a space if the first character
+ * is alphanumeric or a colon.
+ */
+String Type::PrepareOuterStringForPostfix(const String& outer) const
+{
+  if(outer.length() > 0)
+    {
+    char first = outer[0];
+    if(((first >= 'A') && (first <= 'Z'))
+       || ((first >= 'a') && (first <= 'z'))
+       || ((first >= '0') && (first <= '9'))
+       || first == ':')
+      {
+      return " "+outer;
+      }
+    }
+  return outer;
 }
 
 

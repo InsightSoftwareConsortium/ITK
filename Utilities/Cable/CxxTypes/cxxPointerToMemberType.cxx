@@ -38,7 +38,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "cxxTypes.h"
+#include "cxxPointerToMemberType.h"
+#include "cxxClassType.h"
 
 namespace _cxx_
 {
@@ -78,17 +79,13 @@ const PointerToMemberType* PointerToMemberType::SafeDownCast(const Type* t)
 }
 
 
-String PointerToMemberType::GenerateName(const String& indirection,
+String PointerToMemberType::GenerateName(const String& outerType,
                                          bool isConst, bool isVolatile) const
 {
   String cv = this->GetRightCvString(isConst, isVolatile);
-  String indirect = indirection;
-  if(indirect != "")
-    {
-    indirect += " ";
-    }
-  indirect += m_ClassType->GetName() + "::*" + cv;
-  return m_PointedToType.GenerateName(indirect);
+  String outerString = m_ClassType->GetName()+"::*"+cv
+    +this->PrepareOuterStringForPostfix(outerType);
+  return m_PointedToType.GenerateName(outerString);
 }
 
 

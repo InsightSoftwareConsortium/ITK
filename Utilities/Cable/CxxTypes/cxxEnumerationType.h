@@ -59,8 +59,7 @@ public:
   static const EnumerationType* SafeDownCast(const Type*);
 
   String GetName() const;
-  virtual String GenerateName(const String& indirection,
-                              bool isConst, bool isVolatile) const;
+  virtual String GenerateName(const String&, bool, bool) const;
 protected:
   EnumerationType(const String&);
   EnumerationType(const Self&) {}

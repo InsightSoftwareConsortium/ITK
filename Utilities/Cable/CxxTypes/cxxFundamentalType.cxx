@@ -38,7 +38,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "cxxTypes.h"
+#include "cxxFundamentalType.h"
 
 namespace _cxx_
 {
@@ -78,11 +78,11 @@ const FundamentalType* FundamentalType::SafeDownCast(const Type* t)
 }
 
 
-String FundamentalType::GenerateName(const String& indirection,
+String FundamentalType::GenerateName(const String& outerType,
                                      bool isConst, bool isVolatile) const
 {
   String cv = this->GetLeftCvString(isConst, isVolatile);
-  return cv+fundamentalTypeNames[m_Id]+indirection;
+  return cv+fundamentalTypeNames[m_Id]+this->PrepareOuterStringForPostfix(outerType);
 }
 
 

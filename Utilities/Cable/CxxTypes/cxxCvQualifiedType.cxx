@@ -38,7 +38,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "cxxTypes.h"
+#include "cxxCvQualifiedType.h"
 
 namespace _cxx_
 {
@@ -122,13 +122,28 @@ CvQualifiedType
 /**
  * Return the type name with its cv-qualifiers.
  */
-String CvQualifiedType::GenerateName(const String& indirection,
+String CvQualifiedType::GenerateName(const String& outerType,
                                      bool isConst, bool isVolatile) const
 {
   bool isc = isConst || m_Const;
   bool isv = isVolatile || m_Volatile;
   
-  return m_Type->GenerateName(indirection, isc, isv);
+  return m_Type->GenerateName(outerType, isc, isv);
+}
+
+
+/**
+ * Get the name of the type as it would be used in a declaration with the
+ * given name.
+ *
+ */
+String CvQualifiedType::GenerateDeclaration(const String& name,
+                                            bool isConst, bool isVolatile) const
+{
+  bool isc = isConst || m_Const;
+  bool isv = isVolatile || m_Volatile;
+  
+  return m_Type->GenerateDeclaration(name, isc, isv);
 }
 
 

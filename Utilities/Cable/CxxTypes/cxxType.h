@@ -41,12 +41,25 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _cxxType_h
 #define _cxxType_h
 
-#include "cxxTypes.h"
+#include "cxxUtils.h"
 
 namespace _cxx_
 {
 
+/**
+ * Enumeration of identifiers for representation types.
+ */
+enum RepresentationType
+{
+  Undefined_id=0,
+  
+  ArrayType_id, ClassType_id, EnumerationType_id, PointerType_id,
+  PointerToMemberType_id, ReferenceType_id, FundamentalType_id,
+  FunctionType_id
+};
+
 class CvQualifiedType;
+class TypeSystem;
 
 /**
  * Abstract interface to a C++ type representation.
@@ -65,6 +78,7 @@ public:
    */     
   bool IsArrayType() const           { return this->GetRepresentationType() == ArrayType_id; }
   bool IsClassType() const           { return this->GetRepresentationType() == ClassType_id; } 
+  bool IsEnumerationType() const     { return this->GetRepresentationType() == EnumerationType_id; }
   bool IsFunctionType() const        { return this->GetRepresentationType() == FunctionType_id; }
   bool IsFundamentalType() const     { return this->GetRepresentationType() == FundamentalType_id; }
   bool IsPointerType() const         { return this->GetRepresentationType() == PointerType_id; }
@@ -82,14 +96,19 @@ public:
   String Name() const;
   String CvName(bool isConst, bool isVolatile) const;
 
-  virtual String GenerateName(const String& indirection,
+  virtual String GenerateName(const String& outerType,
                               bool isConst, bool isVolatile) const =0;
+
+  String GenerateDeclaration(const String& name) const;  
+  virtual String GenerateDeclaration(const String& name,
+                                     bool isConst, bool isVolatile) const;
   
 protected:
   Type() {}
   virtual ~Type() {}
   String GetLeftCvString(bool isConst, bool isVolatile) const;
   String GetRightCvString(bool isConst, bool isVolatile) const;
+  String PrepareOuterStringForPostfix(const String&) const;
 };
 
 
