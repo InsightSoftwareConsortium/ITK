@@ -144,6 +144,10 @@ public:
   */
   virtual void RebuildGlobalToLocalTransformList( void ) const;
 
+  /** Get/Set the ParentID */
+  void SetParentId(int parentid) {m_ParentId=parentid;}
+  int  GetParentId(void) {return m_ParentId;}
+
 protected: 
 
   /**
@@ -165,6 +169,9 @@ protected:
   * Print the object informations in a stream.
   */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const; 
+
+  /** Parent ID : default = -1 */
+  int m_ParentId;
 }; 
 
 } // end of namespace itk
