@@ -264,4 +264,11 @@ Win32OutputWindow
   msg.rdbuf()->freeze(0);
 }
 
+Win32OutputWindow* 
+Win32OutputWindow
+::New()
+{ 
+  return new Win32OutputWindow;
+}
+
 } // end namespace itk

@@ -31,6 +31,13 @@ RandomImageSource<TOutputImage>
   m_Size = new unsigned long [TOutputImage::GetImageDimension()];
   m_Spacing = new float [TOutputImage::GetImageDimension()];
   m_Origin = new float [TOutputImage::GetImageDimension()];  
+
+  for (int i=0; i<TOutputImage::GetImageDimension(); i++)
+    {
+    m_Size[i] = 64;
+    m_Spacing[i] = 1.0;
+    m_Origin[i] = 0.0;
+    }
 }
 
 
@@ -72,6 +79,9 @@ RandomImageSource<TOutputImage>
   typedef typename TOutputImage::ScalarValueType scalarType;
 
   TOutputImage *image=this->GetOutput(0);
+//  image->SetImageSize(this->GetSize());
+  image->SetBufferSize(this->GetSize());
+  image->Allocate();
 
   scalarType min = NumericTraits<scalarType>::min();
   scalarType max = NumericTraits<scalarType>::max();
@@ -81,10 +91,10 @@ RandomImageSource<TOutputImage>
 
   itkDebugMacro(<<"Generating a random image of scalars");
 
-  for ( ; !scalarIterator.IsAtEnd(); ++scalarIterator)
-    {
-    *scalarIterator = (min + max) / 2.0;
-    }
+//  for ( ; !scalarIterator.IsAtEnd(); ++scalarIterator)
+//    {
+//    *scalarIterator = (min + max) / 2.0;
+//    }
 }
 
 } // end namespace itk

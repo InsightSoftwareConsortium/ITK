@@ -53,7 +53,7 @@ public:
   /**
    * Method for creation through the object factory.
    */
-  itkNewMacro(Self);  
+  static Win32OutputWindow* New();
 
   /** 
    * Put the text into the display window.
