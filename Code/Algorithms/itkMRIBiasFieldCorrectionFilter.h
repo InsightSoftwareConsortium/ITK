@@ -271,7 +271,7 @@ namespace itk
     /**
      * Regions of the MRI slab identifier return 
      */
-    typedef MRASlabIdentifier<InputImageType>::SlabRegionVectorType 
+    typedef typename MRASlabIdentifier<InputImageType>::SlabRegionVectorType 
     SlabRegionVectorType ;
 
     /** 
