@@ -89,4 +89,5 @@ REGISTER_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest );
 REGISTER_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest );
 REGISTER_TEST(itkSystemInformationTest );
 REGISTER_TEST(itkMetaDataDictionaryTest );
+REGISTER_TEST(itkSTLThreadTest );
 }

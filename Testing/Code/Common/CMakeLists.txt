@@ -92,6 +92,7 @@ ADD_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkElli
 ADD_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest)
 ADD_TEST(itkSystemInformationTest ${COMMON_TESTS} itkSystemInformationTest "${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Sites/${SITE}/${BUILDNAME}/BuildNameNotes.xml")
 ADD_TEST(itkMetaDataDictionaryTest ${COMMON_TESTS} itkMetaDataDictionaryTest)
+ADD_TEST(itkSTLThreadTest ${COMMON_TESTS} itkSTLThreadTest)
 
 SET(BasicTests_SRCS
 itkModifiedTimeTest.cxx
@@ -177,6 +178,7 @@ itkEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkSystemInformationTest.cxx
 itkMetaDataDictionaryTest.cxx
+itkSTLThreadTest.cxx
 )
 
 CONFIGURE_FILE(${ITKTesting_SOURCE_DIR}/Code/Common/itkSystemInformationTest.h.in
