@@ -108,12 +108,14 @@ int main()
 
   RegistrationType::Pointer registrationMethod = RegistrationType::New();
 
+  const double translationScale = 1e4;
+
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(imgTarget);
-  registrationMethod->SetTranslationScale( 1e4 );
+  registrationMethod->SetTranslationScale( translationScale );
 
   registrationMethod->GetOptimizer()->SetLearningRate(0.01);
-  registrationMethod->GetOptimizer()->SetNumberOfIterations(20);
+  registrationMethod->GetOptimizer()->SetNumberOfIterations(50);
 
   registrationMethod->StartRegistration();
 
@@ -135,7 +137,7 @@ int main()
     }
   for( unsigned int j = 4; j < 6; j++ )
     {
-    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 1.0 )
+    if( vnl_math_abs( solution[j] * translationScale - trueParameters[j] ) > 1.0 )
       pass = false;
     }
 
