@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAffineTransform.h
+  Module:    itkAffineRegistrationTransform.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,21 +13,21 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkAffineTransform_h
-#define __itkAffineTransform_h
+#ifndef __itkAffineRegistrationTransform_h
+#define __itkAffineRegistrationTransform_h
 
 #include "itkObject.h"
 #include "itkTransform.h"
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkVectorContainer.h"
-#include "itkAffineTransform.h"
+#include "itkAffineRegistrationTransform.h"
 
 
 namespace itk
 {
   
-/** \class AffineTransform
+/** \class AffineRegistrationTransform
  * \brief Generic Affine Transformation for a registration method
  *
  * This Class define the generic interface for an Affine Transformation 
@@ -37,7 +37,7 @@ namespace itk
  */
 
 template <unsigned int NDimensions>
-class ITK_EXPORT  AffineTransform : 
+class ITK_EXPORT  AffineRegistrationTransform : 
         public Transform<
                   VectorContainer<unsigned int,double> >
 
@@ -46,14 +46,13 @@ public:
   /**
    * Standard "Self" typedef.
    */
-  typedef AffineTransform  Self;
+  typedef AffineRegistrationTransform  Self;
 
 
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Transform< 
-                       VectorContainer< unsigned int, double> > Superclass;
+  typedef Transform< VectorContainer< unsigned int, double> > Superclass;
 
 
   /** 
@@ -96,7 +95,7 @@ public:
  /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(AffineTransform, Transform);
+  itkTypeMacro(AffineRegistrationTransform, Transform);
 
 
   /**
@@ -139,15 +138,15 @@ public:
 
 protected:
 
-  AffineTransform();
-  virtual ~AffineTransform() {};
-  AffineTransform(const Self&);
+  AffineRegistrationTransform();
+  virtual ~AffineRegistrationTransform() {};
+  AffineRegistrationTransform(const Self&);
   const Self & operator=(const Self&);
 
 
 private:
 
-  AffineTransformType      m_AffineTransform;
+  AffineTransformType           m_AffineTransform;
   ParametersType::Pointer       m_Parameters;
 
 };
@@ -155,7 +154,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAffineTransform.txx"
+#include "itkAffineRegistrationTransform.txx"
 #endif
 
 #endif

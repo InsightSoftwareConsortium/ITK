@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAffineTransform.txx
+  Module:    itkAffineRegistrationTransform.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -23,8 +23,8 @@ namespace itk
  * Constructor
  */
 template <unsigned int NDimensions>
-AffineTransform<NDimensions>
-::AffineTransform()
+AffineRegistrationTransform<NDimensions>
+::AffineRegistrationTransform()
 {
   m_Parameters->Reserve( NDimensions * ( NDimensions + 1 ) );
 }
@@ -34,8 +34,8 @@ AffineTransform<NDimensions>
  * Constructor
  */
 template <unsigned int NDimensions>
-AffineTransform<NDimensions>
-::AffineTransform( const Self & other )
+AffineRegistrationTransform<NDimensions>
+::AffineRegistrationTransform( const Self & other )
 {
   m_AffineTransform = other.m_AffineTransform;
 }
@@ -45,8 +45,8 @@ AffineTransform<NDimensions>
  * Assignment Operator
  */
 template <unsigned int NDimensions>
-const AffineTransform<NDimensions> &
-AffineTransform<NDimensions>
+const AffineRegistrationTransform<NDimensions> &
+AffineRegistrationTransform<NDimensions>
 ::operator=( const Self & other )
 {
   m_AffineTransform = other.m_AffineTransform;
@@ -58,8 +58,8 @@ AffineTransform<NDimensions>
  * Transform a Point
  */
 template <unsigned int NDimensions>
-AffineTransform<NDimensions>::PointType
-AffineTransform<NDimensions>
+AffineRegistrationTransform<NDimensions>::PointType
+AffineRegistrationTransform<NDimensions>
 ::Transform(const PointType & point )
 {
   return m_AffineTransform.TransformPoint ( point );
@@ -72,8 +72,8 @@ AffineTransform<NDimensions>
  * Transform a Vector
  */
 template <unsigned int NDimensions>
-AffineTransform<NDimensions>::VectorType
-AffineTransform<NDimensions>
+AffineRegistrationTransform<NDimensions>::VectorType
+AffineRegistrationTransform<NDimensions>
 ::Transform(const VectorType & vector )
 {
   return m_AffineTransform.TransformVector( vector );
@@ -84,8 +84,8 @@ AffineTransform<NDimensions>
  * Inverse Transform a Point
  */
 template <unsigned int NDimensions>
-AffineTransform<NDimensions>::PointType
-AffineTransform<NDimensions>
+AffineRegistrationTransform<NDimensions>::PointType
+AffineRegistrationTransform<NDimensions>
 ::InverseTransform(const PointType & point )
 {
   return m_AffineTransform.BackTransformPoint( point );
@@ -97,8 +97,8 @@ AffineTransform<NDimensions>
  * Inverse Transform a Vector
  */
 template <unsigned int NDimensions>
-AffineTransform<NDimensions>::VectorType
-AffineTransform<NDimensions>
+AffineRegistrationTransform<NDimensions>::VectorType
+AffineRegistrationTransform<NDimensions>
 ::InverseTransform(const VectorType & vector )
 {
   return m_AffineTransform.BackTransformVector( vector );
@@ -112,7 +112,7 @@ AffineTransform<NDimensions>
  */
 template <unsigned int NDimensions>
 void
-AffineTransform<NDimensions>
+AffineRegistrationTransform<NDimensions>
 ::SetParameters(const ParametersType * parameters )
 {
 
