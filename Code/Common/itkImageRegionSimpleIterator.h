@@ -26,9 +26,8 @@ namespace itk
  * 
  * ImageRegionSimpleIterator is a templated class to represent a
  * multi-dimensional iterator. ImageRegionSimpleIterator is templated
- * over the image type.
- * ImageRegionSimpleIterator is constrained to walk only within
- * the specified region.
+ * over the image type.  ImageRegionSimpleIterator is constrained to
+ * walk only within the specified region.
  *
  * ImageRegionSimpleIterator is a multi-dimensional iterator,
  * requiring more information be specified before the iterator can be
@@ -86,6 +85,14 @@ public:
    */
   typedef TImage Image;
 
+  /** 
+   * PixelContainer typedef support. Used to refer to the container for
+   * the pixel data. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc.
+   */
+  typedef typename Image::PixelContainer PixelContainer;
+  typedef typename PixelContainer::Pointer PixelContainerPointer;
+
   /**
    * Region typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
@@ -103,7 +110,7 @@ public:
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
-  ImageRegionSimpleIterator(const SmartPointer<TImage> &ptr,
+  ImageRegionSimpleIterator(const TImage *ptr,
                             const Region& region)
     : ImageIteratorWithIndex<TImage>(ptr, region) {}
 
