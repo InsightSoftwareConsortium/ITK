@@ -204,6 +204,10 @@ SET(ITK_INCLUDE_DIRS
   "${ITK_SOURCE_DIR}/Utilities/MetaIO"
   "${ITK_SOURCE_DIR}/Utilities/png"
   "${ITK_SOURCE_DIR}/Utilities/zlib"
+  "${ITK_SOURCE_DIR}/Auxiliary/FltkImageViewer"
+  "${ITK_BINARY_DIR}/Auxiliary/FltkImageViewer"
+  "${ITK_SOURCE_DIR}/Auxiliary/VtkFltk"
+  "${ITK_BINARY_DIR}/Auxiliary/VtkFltk"
 )
 IF(NOT ITK_USE_SYSTEM_STDLIB)
   SET(ITK_INCLUDE_DIRS ${ITK_INCLUDE_DIRS} "${ITK_SOURCE_DIR}/Utilities/stdlib")
@@ -236,6 +240,8 @@ SET(ITK_INCLUDE_DIRS
   "${ITK_INSTALL_INCLUDE_DIR}/Utilities/MetaIO"
   "${ITK_INSTALL_INCLUDE_DIR}/Utilities/png"
   "${ITK_INSTALL_INCLUDE_DIR}/Utilities/zlib"
+  "${ITK_INSTALL_INCLUDE_DIR}/Auxiliary/FltkImageViewer"
+  "${ITK_INSTALL_INCLUDE_DIR}/Auxiliary/VtkFltk"
 )
 IF(NOT ITK_USE_SYSTEM_STDLIB)
   SET(ITK_INCLUDE_DIRS ${ITK_INCLUDE_DIRS} "${ITK_INSTALL_INCLUDE_DIR}/Utilities/stdlib")
