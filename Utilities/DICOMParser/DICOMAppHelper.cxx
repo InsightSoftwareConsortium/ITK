@@ -1378,9 +1378,16 @@ void DICOMAppHelper::PatientNameCallback(DICOMParser *,
                                    doublebyte,
                                    DICOMParser::VRTypes,
                                    unsigned char* val,
-                                   quadbyte)
+                                   quadbyte len)
 {
-  strcpy(m_PatientName, (const char*)val);
+  if (val)
+    {
+    strncpy(m_PatientName, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_PatientName[0] = '\0';
+    }
 }
 
 void DICOMAppHelper::PatientIDCallback(DICOMParser *,
@@ -1388,9 +1395,16 @@ void DICOMAppHelper::PatientIDCallback(DICOMParser *,
                                    doublebyte,
                                    DICOMParser::VRTypes,
                                    unsigned char* val,
-                                   quadbyte)
+                                   quadbyte len)
 {
-  strcpy(m_PatientID, (const char*)val);
+  if (val)
+    {
+    strncpy(m_PatientID, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_PatientID[0] = '\0';
+    }
 }
 
 void DICOMAppHelper::PatientSexCallback(DICOMParser *,
@@ -1398,9 +1412,16 @@ void DICOMAppHelper::PatientSexCallback(DICOMParser *,
                                    doublebyte,
                                    DICOMParser::VRTypes,
                                    unsigned char* val,
-                                   quadbyte)
+                                   quadbyte len)
 {
-  strcpy(m_PatientSex, (const char*)val);
+  if (val)
+    {
+    strncpy(m_PatientSex, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_PatientSex[0] = '\0';
+    }
 }
 
 void DICOMAppHelper::PatientAgeCallback(DICOMParser *,
@@ -1408,9 +1429,16 @@ void DICOMAppHelper::PatientAgeCallback(DICOMParser *,
                                    doublebyte,
                                    DICOMParser::VRTypes,
                                    unsigned char* val,
-                                   quadbyte)
+                                   quadbyte len)
 {
-  strcpy(m_PatientAge, (const char*)val);
+  if (val)
+    {
+    strncpy(m_PatientAge, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_PatientAge[0] = '\0';
+    }
 }
 
 void DICOMAppHelper::StudyDateCallback(DICOMParser *,
@@ -1418,9 +1446,16 @@ void DICOMAppHelper::StudyDateCallback(DICOMParser *,
                                    doublebyte,
                                    DICOMParser::VRTypes,
                                    unsigned char* val,
-                                   quadbyte)
+                                   quadbyte len)
 {
-  strcpy(m_StudyDate, (const char*)val);
+  if (val)
+    {
+    strncpy(m_StudyDate, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_StudyDate[0] = '\0';
+    }
 }
 
 void DICOMAppHelper::ModalityCallback(DICOMParser *,
@@ -1428,9 +1463,16 @@ void DICOMAppHelper::ModalityCallback(DICOMParser *,
                                    doublebyte,
                                    DICOMParser::VRTypes,
                                    unsigned char* val,
-                                   quadbyte)
+                                   quadbyte len)
 {
-  strcpy(m_Modality, (const char*)val);
+  if (val)
+    {
+    strncpy(m_Modality, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_Modality[0] = '\0';
+    }
 }
 
 void DICOMAppHelper::ManufacturerCallback(DICOMParser *,
@@ -1438,9 +1480,16 @@ void DICOMAppHelper::ManufacturerCallback(DICOMParser *,
                                    doublebyte,
                                    DICOMParser::VRTypes,
                                    unsigned char* val,
-                                   quadbyte)
+                                   quadbyte len)
 {
-  strcpy(m_Manufacturer, (const char*)val);
+  if (val)
+    {
+    strncpy(m_Manufacturer, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_Manufacturer[0] = '\0';
+    }
 }
 
 void DICOMAppHelper::InstitutionCallback(DICOMParser *,
@@ -1448,9 +1497,16 @@ void DICOMAppHelper::InstitutionCallback(DICOMParser *,
                                    doublebyte,
                                    DICOMParser::VRTypes,
                                    unsigned char* val,
-                                   quadbyte)
+                                   quadbyte len)
 {
-  strcpy(m_Institution, (const char*)val);
+  if (val)
+    {
+    strncpy(m_Institution, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_Institution[0] = '\0';
+    }
 }
 
 void DICOMAppHelper::ModelCallback(DICOMParser *,
@@ -1458,9 +1514,16 @@ void DICOMAppHelper::ModelCallback(DICOMParser *,
                                    doublebyte,
                                    DICOMParser::VRTypes,
                                    unsigned char* val,
-                                   quadbyte)
+                                   quadbyte len)
 {
-  strcpy(m_Model, (const char*)val);
+  if (val)
+    {
+    strncpy(m_Model, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_Model[0] = '\0';
+    }
 }
 
 bool DICOMAppHelper::RescaledImageDataIsFloat()
