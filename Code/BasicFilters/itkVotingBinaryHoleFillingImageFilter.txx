@@ -68,7 +68,7 @@ VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage>
 
   this->m_NumberOfPixelsChanged = 0;
 
-  int numberOfThreads = this->GetNumberOfThreads();
+  unsigned int numberOfThreads = this->GetNumberOfThreads();
   this->m_Count.SetSize(numberOfThreads);
   for(unsigned int i=0; i<numberOfThreads; i++)
     {
@@ -166,7 +166,7 @@ VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage>
 ::AfterThreadedGenerateData()
 {
   this->m_NumberOfPixelsChanged = 0;
-  int numberOfThreads = this->GetNumberOfThreads();
+  unsigned int numberOfThreads = this->GetNumberOfThreads();
   this->m_Count.SetSize(numberOfThreads);
   for(unsigned int t=0; t<numberOfThreads; t++)
     {
