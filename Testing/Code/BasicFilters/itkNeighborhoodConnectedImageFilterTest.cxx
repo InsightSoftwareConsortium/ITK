@@ -45,7 +45,7 @@ int main(int ac, char** av)
 
   FilterType::IndexType seed;
 
-    seed[0] = 146; seed[1] = 167;
+  seed[0] = 146; seed[1] = 88;
     filter->SetSeed(seed);
 
     filter->SetLower (0);

@@ -45,12 +45,12 @@ int main(int ac, char** av)
 
   FilterType::IndexType seed1;
 
-    seed1[0] = 146; seed1[1] = 167;
-    seed1[0] = 115; seed1[1] = 85;
+    seed1[0] = 146; seed1[1] = 88;
+    seed1[0] = 115; seed1[1] = 170;
     filter->SetSeed1(seed1);
 
     seed1[0] = 156; seed1[1] = 97;
-    seed1[0] = 107; seed1[1] = 110;
+    seed1[0] = 107; seed1[1] = 145;
     filter->SetSeed2(seed1);
 
     filter->SetLower(0);

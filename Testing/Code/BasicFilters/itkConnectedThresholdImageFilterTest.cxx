@@ -43,7 +43,7 @@ int main(int ac, char** av)
   FilterType::Pointer filter = FilterType::New();
     filter->SetInput(input->GetOutput());
 
-  FilterType::IndexType seed; seed[0] = 165; seed[1] = 165;
+    FilterType::IndexType seed; seed[0] = 165; seed[1] = 90;
     filter->SetSeed(seed);
 
     filter->SetLower(0);

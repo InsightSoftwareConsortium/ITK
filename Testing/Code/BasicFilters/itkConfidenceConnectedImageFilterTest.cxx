@@ -59,14 +59,13 @@ int main(int ac, char** av)
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(input->GetOutput());
 
-  FilterType::IndexType seed; seed[0] = 165; seed[1] = 165;
+  FilterType::IndexType seed; seed[0] = 165; seed[1] = 90;
   //  FilterType::IndexType seed; seed[0] = 56; seed[1] = 90;
   //  FilterType::IndexType seed; seed[0] = 96; seed[1] = 214;
   filter->SetSeed(seed);
   filter->SetMultiplier(2.5);
   filter->SetReplaceValue(255);
   filter->SetNumberOfIterations(10);
-  filter->DebugOn();
   try
     {
     input->Update();
