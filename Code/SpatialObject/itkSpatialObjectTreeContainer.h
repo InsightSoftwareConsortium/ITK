@@ -64,11 +64,12 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SpatialObjectTreeContainer, DataObject);
+  itkTypeMacro(SpatialObjectTreeContainer, TreeContainer);
 
   /** Set the root */
   bool SetRoot(const SpatialObjectPointer element);
-  bool SetRoot(TreeNodeType* node);
+  bool SetRoot(typename Superclass::TreeNodeType* node)
+    {return Superclass::SetRoot(node);}
 
 protected:
   
