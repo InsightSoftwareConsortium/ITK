@@ -68,6 +68,8 @@ ComputeMoments( const ImageType * image)
   m_m0 = 0.0;
   m_m1.Fill( 0.0 );
   m_m2.Fill( 0.0 );
+  m_cg.Fill( 0.0 );
+  m_cm.Fill( 0.0 );
 
   typedef typename ImageType::IndexType IndexType;
     
@@ -116,20 +118,57 @@ ComputeMoments( const ImageType * image)
     ++it;
   }
 
+  // Normalize using the total mass
   for(unsigned int i=0; i<ImageDimension; i++)
   {
     m_cg[i] /= m_m0;
     m_m1[i] /= m_m0;
     for(unsigned int j=i; j<ImageDimension; j++)
     {
-      m_cm[i][j] /= m_m0;
       m_m2[i][j] /= m_m0;
+      m_cm[i][j] /= m_m0;
     }
   }
 
 
+  // Center the second order moments
+  for(unsigned int i=0; i<ImageDimension; i++)
+  {
+    for(unsigned int j=i; j<ImageDimension; j++)
+    {
+      m_m2[i][j] -= m_m1[i] * m_m1[j];
+      m_cm[i][j] -= m_cg[i] * m_cg[j];
+    }
+  }
+
+  // Compute principal moments and axes
+  vnl_symmetric_eigensystem<double> eigen( m_cm.GetVnlMatrix() );
+  vnl_diag_matrix<double> pm = eigen.D;
+  for(unsigned int i=0; i<ImageDimension; i++)
+  {
+    m_pm[i] = pm(i,i);
+  }
+  m_pa = eigen.V.transpose();
+
+  // Add a final reflection if needed for a proper rotation,
+  // by multiplying the last row by the determinant
+  vnl_real_eigensystem eigenrot( m_pa.GetVnlMatrix() );
+  vnl_diag_matrix< vnl_double_complex> eigenval = eigenrot.D;
+  vnl_double_complex det( 1.0, 0.0 );
+
+  for(unsigned int i=0; i<ImageDimension; i++)
+  {
+    det *= eigenval( i, i );
+  }
+
+  for(unsigned int i=0; i<ImageDimension; i++)
+  {
+    m_pa[ ImageDimension-1 ][i] *= std::real( det );
+  }
+  
   /* Remember that the moments are valid */
   m_valid = 1;
+
 }
 
 
@@ -199,6 +238,8 @@ GetPrincipalMoments()
   return m_pm;
 }
 
+
+
 //--------------------------------------------------------------------
 // Get principal axes, in physical coordinates
 template<class TImage>
@@ -210,6 +251,8 @@ GetPrincipalAxes()
   return m_pa;
 }
 
+
+
 //--------------------------------------------------------------------
 // Get principal axes to physical axes transform
 template<class TImage>
@@ -219,10 +262,13 @@ GetPrincipalAxesToPhysicalAxesTransform(void) const
 {
     AffineTransformType::MatrixType matrix;
     AffineTransformType::VectorType offset;
-    for (int i = 0; i < ImageDimension; i++) {
-        for (int j = 0; j < ImageDimension; j++)
-            matrix[j][i] = m_pa[i][j];    // Note the transposition
-        offset[i]    = m_cg [i];
+    for (unsigned int i = 0; i < ImageDimension; i++) 
+    {
+      offset[i]  = m_cg [i];
+      for (unsigned int j = 0; j < ImageDimension; j++)
+      {
+        matrix[j][i] = m_pa[i][j];    // Note the transposition
+      }
     }
 
     AffineTransformType result(matrix, offset);
@@ -243,10 +289,13 @@ GetPhysicalAxesToPrincipalAxesTransform(void) const
 {
     AffineTransformType::MatrixType matrix;
     AffineTransformType::VectorType offset;
-    for (int i = 0; i < ImageDimension; i++) {
-        for (int j = 0; j < ImageDimension; j++)
-            matrix[j][i] = m_pa[i][j];    // Note the transposition
-        offset[i]    = m_cg [i];
+    for (unsigned int i = 0; i < ImageDimension; i++) 
+    {
+      offset[i]    = m_cg [i];
+      for (unsigned int j = 0; j < ImageDimension; j++)
+      {
+        matrix[j][i] = m_pa[i][j];    // Note the transposition
+      }
     }
 
     AffineTransformType result(matrix, offset);
