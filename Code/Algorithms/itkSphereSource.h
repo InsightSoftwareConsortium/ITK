@@ -32,7 +32,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef MeshSource<TMeshSource>  Superclass;
+  typedef MeshSource<TOutputMesh>  Superclass;
 
   /** 
    * Smart pointer typedef support.
@@ -55,7 +55,7 @@ public:
   /** 
    * Hold on to the type information specified by the template parameters.
    */
-  typedef typename OutputMeshType;::MeshTraits	OMeshTraits;
+  typedef typename OutputMeshType::MeshTraits	OMeshTraits;
   typedef typename OMeshTraits::PixelType		PixelType;  
 
   /** 
