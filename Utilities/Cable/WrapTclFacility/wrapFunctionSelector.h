@@ -60,7 +60,8 @@ class StaticMethod;
 class _wrap_EXPORT FunctionSelector
 {
 public:
-  FunctionSelector(const WrapperBase* wrapper, int objc, Tcl_Obj*CONST objv[]);
+  FunctionSelector(const WrapperBase* wrapper, int objc, Tcl_Obj*CONST objv[],
+                   unsigned int argumentCount);
   virtual ~FunctionSelector();
   
   CvQualifiedTypes GetArgumentTypes() const;
@@ -70,17 +71,22 @@ protected:
   typedef std::vector<FunctionBase*> CandidateFunctions;
   void SetImplicitArgument(bool staticOnly);
   void GuessArguments();
+  void AddCandidate(FunctionBase*);
   FunctionBase* ResolveOverload();
+  FunctionBase* ResolveOverloadWithSeparateArguments();
+  bool CandidateIsViable(unsigned int candidateIndex,
+                         const Arguments& arguments);
   bool CxxConversionPossible(const CvQualifiedType& from,
                              const Type* to) const;
-
   
   const WrapperBase* m_Wrapper;  
   int m_Objc;
   Tcl_Obj*CONST* m_Objv;
+  unsigned int m_ArgumentCount;
   
   CandidateFunctions m_Candidates;
   std::vector< std::vector<bool> >  m_MatchedArguments;
+  std::vector< Arguments >  m_CandidateArguments;
   Arguments m_Arguments;
 };
 
@@ -103,6 +109,9 @@ public:
   
   void AddCandidate(Method*);
   Method* Select(bool);
+private:
+  bool TryMagic(int candidateIndex);
+  bool TryMagic(int candidateIndex, int parameterIndex);  
 };
 
 

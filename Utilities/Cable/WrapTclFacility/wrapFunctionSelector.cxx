@@ -47,6 +47,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "wrapStaticMethod.h"
 #include "wrapWrapperBase.h"
 
+#include <iostream>
+
 namespace _wrap_
 {
 
@@ -54,10 +56,12 @@ namespace _wrap_
  *
  */
 FunctionSelector::FunctionSelector(const WrapperBase* wrapper,
-                                   int objc, Tcl_Obj*CONST objv[]):
+                                   int objc, Tcl_Obj*CONST objv[],
+                                   unsigned int argumentCount):
   m_Wrapper(wrapper),
   m_Objc(objc),
-  m_Objv(objv)
+  m_Objv(objv),
+  m_ArgumentCount(argumentCount)
 {
 }
 
@@ -126,6 +130,17 @@ void FunctionSelector::GuessArguments()
 }
 
 
+void FunctionSelector::AddCandidate(FunctionBase* candidate)
+{
+  // 13.3.2/2
+  // First, to be a viable function, a candidate function shall have enough
+  // parameters to agree in number with the arguments in the list.
+  if(candidate->GetNumberOfParameters() == m_ArgumentCount)
+    {
+    m_Candidates.push_back(candidate);
+    m_MatchedArguments.push_back(std::vector<bool>(m_ArgumentCount));
+    }
+}
 
 /**
  * THIS IS A HACK VERSION!  It should be reimplemented to do full
@@ -133,65 +148,81 @@ void FunctionSelector::GuessArguments()
  */
 FunctionBase* FunctionSelector::ResolveOverload()
 {
-  // Construct a set of viable functions from the set of candidates.
-  std::vector<unsigned int> viableFunctions;
-  
-  // 13.3.2 Viable Functions
   for(unsigned int candidateIndex = 0; candidateIndex < m_Candidates.size();
       ++candidateIndex)
     {
-    bool viable = true;
-    
-    // 13.3.2/3
-    // Second, for F to be a viable function, there shall exist for each
-    // argument an implicit conversion sequence (13.3.3.1) that converts
-    // that argument to the corresponding parameter of F.
-    const FunctionBase::ParameterTypes& parameterTypes =
-      m_Candidates[candidateIndex]->GetParameterTypes();
-    
-    unsigned int parameterIndex = 0;
-    for(Arguments::const_iterator argument = m_Arguments.begin();
-        argument != m_Arguments.end(); ++argument, ++parameterIndex)
+    if(this->CandidateIsViable(candidateIndex, m_Arguments))
       {
-      CvQualifiedType from = argument->GetType();
-      const Type* to = parameterTypes[parameterIndex];
-      if(this->CxxConversionPossible(from, to))
+      return m_Candidates[candidateIndex];
+      }
+    }
+  return NULL;
+}
+
+
+/**
+ * THIS IS A HACK VERSION!  It should be reimplemented to do full
+ * overload resolution.
+ */
+FunctionBase* FunctionSelector::ResolveOverloadWithSeparateArguments()
+{
+  for(unsigned int candidateIndex = 0; candidateIndex < m_Candidates.size();
+      ++candidateIndex)
+    {
+    if(this->CandidateIsViable(candidateIndex,
+                               m_CandidateArguments[candidateIndex]))
+      {
+      m_Arguments = m_CandidateArguments[candidateIndex];
+      return m_Candidates[candidateIndex];
+      }
+    }
+  return NULL;
+}
+
+
+/**
+ * 13.3.2 Viable Functions
+ */
+bool FunctionSelector::CandidateIsViable(unsigned int candidateIndex,
+                                         const Arguments& arguments)
+{
+  bool viable = true;
+  
+  // 13.3.2/3
+  // Second, for F to be a viable function, there shall exist for each
+  // argument an implicit conversion sequence (13.3.3.1) that converts
+  // that argument to the corresponding parameter of F.
+  const FunctionBase::ParameterTypes& parameterTypes =
+    m_Candidates[candidateIndex]->GetParameterTypes();
+  
+  unsigned int parameterIndex = 0;
+  for(Arguments::const_iterator argument = arguments.begin();
+      argument != arguments.end(); ++argument, ++parameterIndex)
+    {
+    CvQualifiedType from = argument->GetType();
+    const Type* to = parameterTypes[parameterIndex];
+    if(this->CxxConversionPossible(from, to))
+      {
+      m_MatchedArguments[candidateIndex][parameterIndex] = true;
+      }
+    else
+      {        
+      // If the "to" type is void and this is the first argument,
+      // assume that it matches.  THIS IS A HACK for static methods to match
+      // the implicit object parameter to any object (13.3.1/4).
+      if((parameterIndex == 0) && to->IsFundamentalType()
+         && FundamentalType::SafeDownCast(to)->IsVoid())
         {
         m_MatchedArguments[candidateIndex][parameterIndex] = true;
         }
       else
-        {        
-        // If the "to" type is void and this is the first argument,
-        // assume that it matches.  THIS IS A HACK for static methods to match
-        // the implicit object parameter to any object (13.3.1/4).
-        if((parameterIndex == 0) && to->IsFundamentalType()
-           && FundamentalType::SafeDownCast(to)->IsVoid())
-          {
-          m_MatchedArguments[candidateIndex][parameterIndex] = true;
-          }
-        else
-          {
-          m_MatchedArguments[candidateIndex][parameterIndex] = false;
-          viable = false;
-          }
+        {
+        m_MatchedArguments[candidateIndex][parameterIndex] = false;
+        viable = false;
         }
       }
-
-    if(viable)
-      {
-      viableFunctions.push_back(candidateIndex);
-      }
     }
-  
-  // If no viable functions remain, return NULL.
-  if(viableFunctions.empty())
-    {
-    return NULL;
-    }
-  
-  // Skip the rest of overload resolution.  Just take the first viable
-  // function.  
-  return m_Candidates[viableFunctions[0]];
+  return viable;
 }
 
 
@@ -255,7 +286,7 @@ bool FunctionSelector::CxxConversionPossible(const CvQualifiedType& from,
  */
 ConstructorSelector::ConstructorSelector(const WrapperBase* wrapper,
                                          int objc, Tcl_Obj*CONST objv[]):
-  FunctionSelector(wrapper, objc, objv)
+  FunctionSelector(wrapper, objc, objv, objc-2)
 {
 }
 
@@ -269,14 +300,7 @@ ConstructorSelector::~ConstructorSelector()
 
 void ConstructorSelector::AddCandidate(Constructor* candidate)
 {
-  // 13.3.2/2
-  // First, to be a viable function, a candidate function shall have enough
-  // parameters to agree in number with the arguments in the list.
-  if(candidate->GetNumberOfParameters() == (m_Objc-2))
-    {
-    m_Candidates.push_back(candidate);
-    m_MatchedArguments.push_back(std::vector<bool>(m_Objc-2));
-    }
+  this->FunctionSelector::AddCandidate(candidate);
 }
 
 Constructor* ConstructorSelector::Select()
@@ -291,7 +315,7 @@ Constructor* ConstructorSelector::Select()
  */
 MethodSelector::MethodSelector(const WrapperBase* wrapper,
                                int objc, Tcl_Obj*CONST objv[]):
-  FunctionSelector(wrapper, objc, objv)
+  FunctionSelector(wrapper, objc, objv, objc-1)
 {
 }
 
@@ -306,14 +330,7 @@ MethodSelector::~MethodSelector()
 
 void MethodSelector::AddCandidate(Method* candidate)
 {
-  // 13.3.2/2
-  // First, to be a viable function, a candidate function shall have enough
-  // parameters to agree in number with the arguments in the list.
-  if(candidate->GetNumberOfParameters() == (m_Objc-1))
-    {
-    m_Candidates.push_back(candidate);
-    m_MatchedArguments.push_back(std::vector<bool>(m_Objc-1));
-    }
+  this->FunctionSelector::AddCandidate(candidate);
 }
 
 
@@ -324,7 +341,59 @@ Method* MethodSelector::Select(bool staticOnly)
   this->SetImplicitArgument(staticOnly);
   this->GuessArguments();
   FunctionBase* method = this->ResolveOverload();
-  return dynamic_cast<Method*>(method);
+  // If a method was selected, return it.
+  if(method)
+    {
+    return dynamic_cast<Method*>(method);
+    }
+  // No methods matched.  Try some magic.
+  for(unsigned int candidateIndex = 0;
+      candidateIndex != m_Candidates.size(); ++candidateIndex)
+    {
+    m_CandidateArguments.push_back(m_Arguments);
+    this->TryMagic(candidateIndex);
+    }
+  return dynamic_cast<Method*>(this->ResolveOverloadWithSeparateArguments());
+}
+
+bool MethodSelector::TryMagic(int candidateIndex)
+{
+  for(unsigned int parameterIndex = 0;
+      parameterIndex != m_Arguments.size(); ++parameterIndex)
+    {
+    if(!m_MatchedArguments[candidateIndex][parameterIndex])
+      {
+      if(!this->TryMagic(candidateIndex, parameterIndex))
+        {
+        return false;
+        }
+      }
+    }
+  return true;
+}
+
+bool MethodSelector::TryMagic(int candidateIndex, int parameterIndex)
+{
+  const FunctionBase::ParameterTypes&
+    parameterTypes = m_Candidates[candidateIndex]->GetParameterTypes();
+  
+  CvQualifiedType from = m_Arguments[parameterIndex].GetType();
+  const Type* to = parameterTypes[parameterIndex];
+
+  if(to->IsReferenceType() && from.IsPointerType())
+    {
+    const ReferenceType* toRef = ReferenceType::SafeDownCast(to);
+    CvQualifiedType fromObj = PointerType::SafeDownCast(from.GetType())->GetPointedToType();
+    
+    if(Conversions::ReferenceCanBindAsIdentity(fromObj, toRef)
+       || Conversions::ReferenceCanBindAsDerivedToBase(fromObj, toRef))
+      {
+      m_CandidateArguments[candidateIndex][parameterIndex].SetType(fromObj);
+      return true;
+      }
+    }
+  
+  return false;
 }
 
 } // namespace _wrap_
