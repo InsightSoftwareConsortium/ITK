@@ -562,6 +562,7 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(double ElementsPerSid
     }   
     // now scale the mesh to the current scale
     Element::VectorType coord;  
+    Node::ArrayType* nodes = &(mySolver.node);
     for(  Node::ArrayType::iterator node=nodes->begin(); node!=nodes->end(); node++) 
     {
       coord=(*node)->GetCoordinates();    
@@ -820,6 +821,61 @@ void FEMRegistrationFilter<TReference,TTarget>::GetVectorField(SolverType& mySol
   FieldIterator m_FieldIter( m_Field, m_FieldRegion );
   m_FieldIter.GoToBegin();
   typename ImageType::IndexType rindex = m_FieldIter.GetIndex();
+  
+  Element::Pointer eltp;
+
+  m_FieldIter.GoToBegin();
+  for( ; !m_FieldIter.IsAtEnd(); ++m_FieldIter )
+  {
+    VectorType disp;  
+// get element pointer from the solver elt pointer image
+    
+    rindex = m_FieldIter.GetIndex();
+//    eltp=GetElementAtPoint(VectorType pt)
+    
+    unsigned int Nnodes= eltp->GetNumberOfNodes();
+    typename Element::VectorType shapef(Nnodes);
+
+    if (ImageDimension == 3) {
+Float r,s,t;
+#define FASTHEX
+#ifdef FASTHEX
+//FIXME temporarily using hexahedron shape f for speed
+  shapef[0] = (1 - r) * (1 - s) * (1 - t) * 0.125;
+  shapef[1] = (1 + r) * (1 - s) * (1 - t) * 0.125;
+  shapef[2] = (1 + r) * (1 + s) * (1 - t) * 0.125;
+  shapef[3] = (1 - r) * (1 + s) * (1 - t) * 0.125;
+  shapef[4] = (1 - r) * (1 - s) * (1 + t) * 0.125;
+  shapef[5] = (1 + r) * (1 - s) * (1 + t) * 0.125;
+  shapef[6] = (1 + r) * (1 + s) * (1 + t) * 0.125;
+  shapef[7] = (1 - r) * (1 + s) * (1 + t) * 0.125;
+#else
+        shapef = eltp->ShapeFunctions(Pos);
+#endif
+    } else shapef = eltp->ShapeFunctions(Pos);
+    Float solval;
+    bool inimage=true;
+    for(unsigned int f=0; f<ImageDimension; f++)
+    {
+      solval=0.0;
+      for(unsigned int n=0; n<Nnodes; n++)
+      {
+        solval+=shapef[n] * mySolver.GetLS()->GetSolutionValue( eltp->GetNode(n)->GetDegreeOfFreedom(f) , mySolver.TotalSolutionIndex);
+      }
+      Sol[f]=solval;
+
+      Float x=(Float) rindex[f];
+      long int temp;
+      if (x !=0) temp=(long int) ((x)*(Float)m_ImageScaling[f]+0.5); else temp=0;// round after scaling
+      rindex[f]=temp;
+      disp[f] =(Float) 1.0*Sol[f]*((Float)m_ImageScaling[f]); 
+      if ( temp < 0 || temp > m_FieldSize[f]-1)  inimage=false;
+    }
+    if (inimage) m_Field->SetPixel(rindex, disp );
+  }
+
+
+/*  
   for(  Element::ArrayType::iterator elt=el->begin(); elt!=el->end(); elt++) 
   {
   
