@@ -66,7 +66,7 @@ void EquivalencyTable::Flatten()
 unsigned long EquivalencyTable::RecursiveLookup(const unsigned a) const
 {
   unsigned long ans = a;
-  unsigned long last_ans;
+  unsigned long last_ans=a;
   while ( this->IsEntry(ans) )
     {
       ans = this->Lookup(ans);
