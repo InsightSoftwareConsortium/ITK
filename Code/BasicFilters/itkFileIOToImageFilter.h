@@ -144,6 +144,7 @@ public:
 protected:
   FileIOToImageFilter();
   ~FileIOToImageFilter() {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   void GenerateData();
 

@@ -154,6 +154,29 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
   
 }
 
+template <class TOutputImage>
+void FileIOToImageFilter<TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  if (m_FilePrefix)
+    {
+    std::cout << "FilePrefix: " << m_FilePrefix << std::endl;
+    }
+  if (m_FilePattern)
+    {
+    std::cout << "FilePattern: " << m_FilePattern << std::endl;
+    }
+  if (m_FileName)
+    {
+    std::cout << "FileName: " << m_FileName << std::endl;
+    }
+  if (m_IO)
+    {
+    std::cout << "IO: " << m_IO << std::endl;
+    }
+}
 
 } //namespace ITK
 

@@ -191,23 +191,24 @@ template<class TInputImage, class TOutputImage>
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
 
-  protected:
-    CannyEdgeDetectionImageFilter()
-      {
-        this->SetVariance(0.0f);
-        this->SetMaximumError(0.01f);
-        m_Threshold = (OutputImagePixelType) 0;
-        m_UpdateBuffer = OutputImageType::New();
-        m_UpdateBuffer1 = OutputImageType::New();
-      }
-    ~CannyEdgeDetectionImageFilter(){}
-    CannyEdgeDetectionImageFilter(const Self&) {}
+protected:
+  CannyEdgeDetectionImageFilter()
+    {
+    this->SetVariance(0.0f);
+    this->SetMaximumError(0.01f);
+    m_Threshold = (OutputImagePixelType) 0;
+    m_UpdateBuffer = OutputImageType::New();
+    m_UpdateBuffer1 = OutputImageType::New();
+    }
+  CannyEdgeDetectionImageFilter(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
-    void GenerateData();
-
+  void GenerateData();
 
 private:
-   /**
+  virtual ~CannyEdgeDetectionImageFilter(){};
+
+  /**
    * The variance of the Gaussian Filter used in this filter
    */
   float m_Variance[ImageDimension];

@@ -144,6 +144,17 @@ DerivativeImageFilter< TInputImage, TOutputImage >
   this->GraftOutput(filter->GetOutput());
 }
 
+template< class TInputImage, class TOutputImage >
+void
+DerivativeImageFilter< TInputImage, TOutputImage >::
+PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Order: " << m_Order << std::endl;
+  os << indent << "Direction: " << m_Direction << std::endl;
+}
+
 } // end namespace itk
 
 #endif

@@ -165,6 +165,17 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   delete oper;
 }
 
+template< class TInputImage, class TOutputImage >
+void
+DiscreteGaussianImageFilter<TInputImage, TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+  {
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Variance: " << m_Variance << std::endl;
+  os << indent << "MaximumError: " << m_MaximumError << std::endl;
+}
+
 } // end namespace itk
 
 #endif

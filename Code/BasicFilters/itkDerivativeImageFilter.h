@@ -108,6 +108,7 @@ public:
 protected:
   DerivativeImageFilter() {}
   virtual ~DerivativeImageFilter() {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all

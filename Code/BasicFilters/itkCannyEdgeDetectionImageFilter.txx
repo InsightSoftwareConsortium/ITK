@@ -758,13 +758,16 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>
   return ITK_THREAD_RETURN_VALUE;
 }
 
+template <class TInputImage, class TOutputImage>
+void 
+CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
 
-
-
-
+  std::cout << "Variance: " << m_Variance << std::endl;
+  std::cout << "MaximumError: " << m_MaximumError << std::endl;
+}
 
 }//end of itk namespace
-
-
-
 #endif
