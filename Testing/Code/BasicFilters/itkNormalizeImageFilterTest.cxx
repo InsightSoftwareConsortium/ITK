@@ -29,7 +29,6 @@ int itkNormalizeImageFilterTest(int, char**)
 {
   std::cout << "itkNormalizeImageFilterTest Start" << std::endl;
 
-  int status = 0;
   typedef itk::Image<short,3> ShortImage;
   typedef itk::Image<float,3> FloatImage;
 
