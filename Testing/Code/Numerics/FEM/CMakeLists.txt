@@ -1,14 +1,12 @@
-IF (TCL_TCLSH)
-ADD_TEST(PrintSelf-Statistics ${TCL_TCLSH}
-         ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
-         ${ITK_SOURCE_DIR}/Code/Numerics/Statistics)
-ENDIF (TCL_TCLSH)
+IF(ITK_BINARY_DIR)
+  IF(TCL_TCLSH)
+    ADD_TEST(PrintSelf-Statistics ${TCL_TCLSH}
+             ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+             ${ITK_SOURCE_DIR}/Code/Numerics/Statistics)
+  ENDIF(TCL_TCLSH)
+ENDIF(ITK_BINARY_DIR)
 
-IF( CXX_TEST_PATH )
-  SET(FEM_TESTS ${CXX_TEST_PATH}/itkFEMTests)
-ELSE( CXX_TEST_PATH )
-  SET(FEM_TESTS itkFEMTests)
-ENDIF( CXX_TEST_PATH )
+SET(FEM_TESTS ${CXX_TEST_PATH}/itkFEMTests)
 
 SET(FEM_SRCS
 itkFEMElementTest.cxx

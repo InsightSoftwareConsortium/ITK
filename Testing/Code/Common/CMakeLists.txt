@@ -1,17 +1,13 @@
-IF (TCL_TCLSH)
-ADD_TEST(PrintSelf-Common ${TCL_TCLSH}
-         ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
-         ${ITK_SOURCE_DIR}/Code/Common)
-ENDIF (TCL_TCLSH)
+IF(ITK_BINARY_DIR)
+  IF(TCL_TCLSH)
+    ADD_TEST(PrintSelf-Common ${TCL_TCLSH}
+             ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+             ${ITK_SOURCE_DIR}/Code/Common)
+  ENDIF(TCL_TCLSH)
+ENDIF(ITK_BINARY_DIR)
 
-IF( CXX_TEST_PATH )
-  SET(COMMON_TESTS ${CXX_TEST_PATH}/itkCommonTests)
-  SET(COMMON_HEADER_TEST ${CXX_TEST_PATH}/itkCommonHeaderTest)
-ELSE( CXX_TEST_PATH )
-  SET(COMMON_TESTS itkCommonTests)
-  SET(COMMON_HEADER_TEST itkCommonHeaderTest)
-ENDIF( CXX_TEST_PATH )
-
+SET(COMMON_TESTS ${CXX_TEST_PATH}/itkCommonTests)
+SET(COMMON_HEADER_TEST ${CXX_TEST_PATH}/itkCommonHeaderTest)
 
 ADD_TEST(itkModifiedTimeTest ${COMMON_TESTS} itkModifiedTimeTest)
 ADD_TEST(itkAdaptorComparisonTest ${COMMON_TESTS} itkAdaptorComparisonTest)

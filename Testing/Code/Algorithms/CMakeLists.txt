@@ -1,16 +1,13 @@
-IF (TCL_TCLSH)
-ADD_TEST(PrintSelf-Algorithms ${TCL_TCLSH}
-         ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
-         ${ITK_SOURCE_DIR}/Code/Algorithms)
-ENDIF (TCL_TCLSH)
+IF(ITK_BINARY_DIR)
+  IF(TCL_TCLSH)
+    ADD_TEST(PrintSelf-Algorithms ${TCL_TCLSH}
+             ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+             ${ITK_SOURCE_DIR}/Code/Algorithms)
+  ENDIF(TCL_TCLSH)
+ENDIF(ITK_BINARY_DIR)
 
-IF( CXX_TEST_PATH )
-  SET(ALGORITHMS_TESTS ${CXX_TEST_PATH}/itkAlgorithmsTests)
-  SET(ALGORITHMS_HEADER_TESTS ${CXX_TEST_PATH}/itkAlgorithmsHeaderTest)
-ELSE( CXX_TEST_PATH )
-  SET(ALGORITHMS_TESTS itkAlgorithmsTests)
-  SET(ALGORITHMS_HEADER_TESTS itkAlgorithmsHeaderTest)
-ENDIF( CXX_TEST_PATH )
+SET(ALGORITHMS_TESTS ${CXX_TEST_PATH}/itkAlgorithmsTests)
+SET(ALGORITHMS_HEADER_TESTS ${CXX_TEST_PATH}/itkAlgorithmsHeaderTest)
 
 ADD_TEST(itkAntiAliasBinaryImageFilterTest ${ALGORITHMS_TESTS} itkAntiAliasBinaryImageFilterTest)
 ADD_TEST(itkBinaryMinMaxCurvatureFlowImageFilterTest ${ALGORITHMS_TESTS} itkBinaryMinMaxCurvatureFlowImageFilterTest )
@@ -157,5 +154,5 @@ TARGET_LINK_LIBRARIES(itkAlgorithmsTests ITKAlgorithms ITKIO ITKBasicFilters ITK
 
 IF(ITK_WRAP_TCL)
   ADD_TEST(itkCurvatureFlowTestTcl ${ITKTCL_EXECUTABLE}
-           ${ITK_SOURCE_DIR}/Testing/Code/Algorithms/itkCurvatureFlowTestTcl.tcl)
+           ${ITKTesting_SOURCE_DIR}/Code/Algorithms/itkCurvatureFlowTestTcl.tcl)
 ENDIF(ITK_WRAP_TCL)

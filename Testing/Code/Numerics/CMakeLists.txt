@@ -3,19 +3,16 @@ SUBDIRS(Statistics)
 
 SUBDIRS(FEM)
 
-IF (TCL_TCLSH)
-ADD_TEST(PrintSelf-Numerics ${TCL_TCLSH}
-         ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
-         ${ITK_SOURCE_DIR}/Code/Numerics)
-ENDIF (TCL_TCLSH)
+IF(ITK_BINARY_DIR)
+  IF(TCL_TCLSH)
+    ADD_TEST(PrintSelf-Numerics ${TCL_TCLSH}
+             ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+             ${ITK_SOURCE_DIR}/Code/Numerics)
+  ENDIF(TCL_TCLSH)
+ENDIF(ITK_BINARY_DIR)
 
-IF( CXX_TEST_PATH )
-  SET(NUMERICS_TESTS ${CXX_TEST_PATH}/itkNumericsTests)
-  SET(NUMERICS_HEADER_TEST ${CXX_TEST_PATH}/itkNumericsHeaderTest)
-ELSE( CXX_TEST_PATH )
-  SET(NUMERICS_TESTS itkNumericsTests)
-  SET(NUMERICS_HEADER_TEST itkNumericsHeaderTest)
-ENDIF( CXX_TEST_PATH )
+SET(NUMERICS_TESTS ${CXX_TEST_PATH}/itkNumericsTests)
+SET(NUMERICS_HEADER_TEST ${CXX_TEST_PATH}/itkNumericsHeaderTest)
 
 ADD_TEST(itkAmoebaOptimizerTest ${NUMERICS_TESTS} itkAmoebaOptimizerTest)
 ADD_TEST(itkConjugateGradientOptimizerTest ${NUMERICS_TESTS} itkConjugateGradientOptimizerTest)

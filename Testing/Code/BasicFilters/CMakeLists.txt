@@ -1,16 +1,13 @@
-IF (TCL_TCLSH)
-ADD_TEST(PrintSelf-BasicFilters ${TCL_TCLSH}
-         ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
-         ${ITK_SOURCE_DIR}/Code/BasicFilters)
-ENDIF (TCL_TCLSH)
+IF(ITK_BINARY_DIR)
+  IF(TCL_TCLSH)
+    ADD_TEST(PrintSelf-BasicFilters ${TCL_TCLSH}
+             ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+             ${ITK_SOURCE_DIR}/Code/BasicFilters)
+  ENDIF(TCL_TCLSH)
+ENDIF(ITK_BINARY_DIR)
 
-IF( CXX_TEST_PATH )
-  SET(BASIC_FILTERS_TESTS ${CXX_TEST_PATH}/itkBasicFiltersTests)
-  SET(BASIC_FILTERS_HEADER_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderTest)
-ELSE( CXX_TEST_PATH )
-  SET(BASIC_FILTERS_TESTS itkBasicFiltersTests)
-  SET(BASIC_FILTERS_HEADER_TEST itkBasicFiltersHeaderTest)
-ENDIF( CXX_TEST_PATH )
+SET(BASIC_FILTERS_TESTS ${CXX_TEST_PATH}/itkBasicFiltersTests)
+SET(BASIC_FILTERS_HEADER_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderTest)
 
 ADD_TEST(itkAsinImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAsinImageFilterAndAdaptorTest)
 ADD_TEST(itkAcosImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAcosImageFilterAndAdaptorTest)
