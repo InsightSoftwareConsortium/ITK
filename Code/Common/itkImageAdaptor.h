@@ -96,17 +96,6 @@ public:
    *  an image. */
   typedef ImageRegion<itkGetStaticConstMacro(ImageDimension)> RegionType;
 
-  /** Typedef for associated AffineTransform
-   *
-   * This is used specifically as the type of the index-to-physical and
-   * physical-to-index transforms associated with the origin and spacing
-   * for the image, and more generally as any affine transformation of
-   * the image. */
-  typedef AffineTransform<double, itkGetStaticConstMacro(ImageDimension)> AffineTransformType;
-
-  /** Definition of the Point type used for settin the origin */
-  typedef typename AffineTransformType::OffsetType OriginOffsetType;
-
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
    * is used in determining how much memory would be needed to load an
