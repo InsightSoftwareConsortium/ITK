@@ -131,7 +131,22 @@ class FiniteDifferenceImageFilter
    * Get the number of elapsed iterations of the filter.
    */
   itkGetConstMacro(ElapsedIterations, unsigned int);
-    
+
+  /**
+   * This method returns a pointer to a FiniteDifferenceEquation object that
+   * will be used by the filter to calculate updates at image pixels.
+   * \returns A FiniteDifferenceObject pointer.
+   */
+  itkGetConstReferenceObjectMacro(DifferenceEquation,
+                                  FiniteDifferenceEquationType );
+
+  /**
+   * This method sets the pointer to a FiniteDifferenceEquation object that
+   * will be used by the filter to calculate updates at image pixels.
+   * \returns A FiniteDifferenceObject pointer.
+   */
+  itkSetObjectMacro(DifferenceEquation, FiniteDifferenceEquationType );
+
 protected:
   FiniteDifferenceImageFilter() : m_ElapsedIterations(0) {}
   ~FiniteDifferenceImageFilter() {}
@@ -168,27 +183,25 @@ protected:
   void CopyInputToOutput();
   
   /**
-   * This method returns a pointer to a FiniteDifferenceEquation object that
-   * will be used by the filter to calculate updates at image pixels.
-   * \returns A FiniteDifferenceObject pointer.
-   */
-  itkGetConstReferenceObjectMacro(DifferenceEquation,
-                                  FiniteDifferenceEquationType );
-
-  /**
-   * This method sets the pointer to a FiniteDifferenceEquation object that
-   * will be used by the filter to calculate updates at image pixels.
-   * \returns A FiniteDifferenceObject pointer.
-   */
-  itkSetObjectMacro(DifferenceEquation, FiniteDifferenceEquationType );
-
-  /**
    * This is the default, high-level algorithm for calculating finite
    * difference solutions.  It calls virtual methods in its subclasses
    * to implement the major steps of the algorithm.
    */
   virtual void GenerateData();
 
+  /**
+   * FiniteDifferenceImageFilter needs a larger input requested region than
+   * the output requested region.  As such, we need to provide
+   * an implementation for GenerateInputRequestedRegion() in order to inform
+   * the pipeline execution model.
+   *
+   * The filter will ask for a padded region to perform its neighborhood
+   * calculations.
+   *
+   * \sa ProcessObject::GenerateInputRequestedRegion()
+   */
+  virtual void GenerateInputRequestedRegion();
+  
   /**
    * This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving.  Defined by a subclass.
