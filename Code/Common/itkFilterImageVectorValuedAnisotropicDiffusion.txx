@@ -77,7 +77,7 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
       // image component's gradient magnitude's.
       grad_mag_avg = 0;
       VectorValueType vo;
-      for (nsigned int j = 0; j < VectorLength; ++j)
+      for (unsigned int j = 0; j < VectorLength; ++j)
         {
           accessor.SetVisibleComponent(j);
           vo=  NeighborhoodAlgorithm::AverageGradientMagnitudeSquared
@@ -111,7 +111,7 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
         }
       
       // Update each component of the output
-      for (int j = 0; j < VectorLength; ++j)
+      for (unsigned int j = 0; j < VectorLength; ++j)
         {
           accessor.SetVisibleComponent(j);
           this->UpdateOutputScalar(delta, this->GetTimeStep(), accessor);
