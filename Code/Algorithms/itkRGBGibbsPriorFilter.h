@@ -178,11 +178,7 @@ private:
   InputImageType      m_MediumImage;
   TrainingImageType   m_TrainingImage;
   LabelledImageType   m_LabelledImage;
-  unsigned int m_NumberOfClasses;
-  unsigned int m_MaximumNumberOfIterations;
-  typename ClassifierType::Pointer m_ClassifierPtr;
-  unsigned int m_BoundaryGradient;
-  int m_GibbsNeighborsThreshold; 
+
   float m_BoundaryWt; 
   float m_GibbsPriorWt; 
   int   m_StartRadius;
@@ -190,6 +186,10 @@ private:
   int   m_Temp;
   IndexType m_StartPoint; 
   int m_StartModelSize; 
+  int m_GibbsNeighborsThreshold; 
+  int m_BoundaryGradient;
+  int m_RecursiveNum;
+  unsigned int      *m_LabelStatus;
 
   int         m_imgWidth;
   int         m_imgHeight;
@@ -201,13 +201,13 @@ private:
   unsigned int      m_MaximumNumberOfIterations;
   InputPixelType    m_LowPoint;
 
-  unsigned short *m_Region;
-  unsigned short *m_RegionCount;
+  unsigned short    *m_Region;
+  unsigned short    *m_RegionCount;
 
   void  GibbsTotalEnergy(int i);
   float GibbsEnergy(int i, int k, int k1);
-  int   Sim(int a, int b);
-  int   LabelRegion(int i, int l, int change);
+  int Sim(int a, int b);
+  int LabelRegion(int i, int l, int change);
   void  RegionEraser();
   void  GenerateMediumImage();
   void  GreyScalarBoundary(LabelledImageIndexType Index3D); 
