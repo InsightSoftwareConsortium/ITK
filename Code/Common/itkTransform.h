@@ -32,23 +32,30 @@ namespace itk
 {
   
 /** \class Transform
- * \brief Generic concept of transformation methods
+ * \brief Transform points and vector from an input space to an output space.
  *
- * This Abstract Class define the generic interface for a geometrical 
+ * This abstract class define the generic interface for a geometrical 
  * transformation from one space to another. The class provides methods
- * for mapping points from the input space to the output space, it also
- * maps vectors and covariant vectors. 
+ * for mapping points, vectors and covariant vectors from the input space 
+ * to the output space. 
  *
  * Given that transformation are not necesarily invertible, this basic
- * class provide the methods for back transfromation. Derived classes that
- * implement non-invertible transformation should throw exceptions when
- * appropriate.
+ * class does not provide the methods for back transfromation. Back transform
+ * methods are implemented in derived classes where appropriate.
  * 
+ * \par Registration Framework Support
  * Typically a Transform class have several methods for setting its 
  * parameters. For use in the registration framework, the parameters must
- * also be represented by a flat array of doubles to allow communication
- * with generic optimizers. The flat array of parameters is set using
+ * also be represented by an array of doubles to allow communication
+ * with generic optimizers. The Array of transformation parameters is set using
  * the SetParameters() method.
+ *
+ * Another requirement of the registration framework is the computation
+ * of the transform Jacobian. In general, a ImageToImageMetric requires
+ * the knowledge of the Jacobian in order to compute the metric derivatives.
+ * The Jacobian is a matrix whose element are the partial derivatives
+ * of the output point with respect to the array of parameters that defines
+ * the transform.
  *
  * \ingroup Transforms
  *
@@ -75,7 +82,7 @@ public:
   itkStaticConstMacro(InputSpaceDimension, unsigned int, NInputDimensions);
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, NOutputDimensions);
 
-  /** Type of the input parameters. */
+  /** Type of the scalar representing coordinate and vector elements. */
   typedef  TScalarType     ScalarType;
 
   /** Type of the input parameters. */
@@ -117,22 +124,21 @@ public:
     const InputCovariantVectorType &) const
     { return OutputCovariantVectorType(); } 
 
-  /** Set the Transformation Parameters
-   * and update the internal transformation. */
-  virtual void SetParameters(const ParametersType &) {};
+  /** Set the transformation parameters and update internal transformation. */
+  virtual void SetParameters( const ParametersType & ) 
+    { itkExceptionMacro( << "Subclasses should override this method" ) };
 
   /** Get the Transformation Parameters. */
   virtual const ParametersType& GetParameters(void) const
-    { return m_Parameters; }
+    { itkExceptionMacro( << "Subclasses should override this method" ) };
 
   /** Compute the Jacobian of the transformation
    *
-   * This method computes the Jacobian matrix of the transformation.
-   * given point or vector, returning the transformed point or
-   * vector. The rank of the Jacobian will also indicate if the transform
-   * is invertible at this point.
+   * This method computes the Jacobian matrix of the transformation
+   * at a given input point. The rank of the Jacobian will also indicate 
+   * if the transform is invertible at this point.
    *
-   * The Jacobian can be expressed as a set of partial derivatives of the
+   * The Jacobian is be expressed as a matrix of partial derivatives of the
    * output point components with respect to the parameters that defined
    * the transform:
    *
@@ -140,26 +146,21 @@ public:
    *
       J=\left[ \begin{array}{cccc}
       \frac{\partial x_{1}}{\partial p_{1}} & 
-      \frac{\partial x_{2}}{\partial p_{1}} & 
-      \cdots  & \frac{\partial x_{n}}{\partial p_{1}}\\
       \frac{\partial x_{1}}{\partial p_{2}} & 
+      \cdots  & \frac{\partial x_{1}}{\partial p_{m}}\\
+      \frac{\partial x_{2}}{\partial p_{1}} & 
       \frac{\partial x_{2}}{\partial p_{2}} & 
-      \cdots  & \frac{\partial x_{n}}{\partial p_{2}}\\
+      \cdots  & \frac{\partial x_{2}}{\partial p_{m}}\\
       \vdots  & \vdots  & \ddots  & \vdots \\
-      \frac{\partial x_{1}}{\partial p_{m}} & 
-      \frac{\partial x_{2}}{\partial p_{m}} & 
+      \frac{\partial x_{n}}{\partial p_{1}} & 
+      \frac{\partial x_{n}}{\partial p_{2}} & 
       \cdots  & \frac{\partial x_{n}}{\partial p_{m}}
       \end{array}\right] 
    *
    * \f]
    * **/
   virtual const JacobianType & GetJacobian(const InputPointType  &) const
-    { 
-    std::cout << "This message should never show up" << std::endl;
-    m_Jacobian = JacobianType(NInputDimensions,1); 
-    m_Jacobian.Fill(0.0); 
-    return m_Jacobian;
-    }
+    { itkExceptionMacro( << "Subclass should override this method" ) }; 
 
 
   /** Return the number of parameters that completely define the Transfom  */
@@ -174,7 +175,6 @@ protected:
 
 
   mutable ParametersType     m_Parameters;
-
   mutable JacobianType       m_Jacobian;
 
 private:
