@@ -176,7 +176,7 @@ ImageMetricLoad<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
         InVec[ii]=Gpt[ii];
         InVec[ii+ImageDimension]=Sol[ii];
       }
-      energy+=w*abs(GetMetric(InVec));
+      energy+=w*fabs(GetMetric(InVec));
     }  
   }
    
