@@ -89,3 +89,16 @@ TARGET_LINK_LIBRARIES(ResampleImageFilter5 ITKCommon ITKBasicFilters ITKIO)
 
 ADD_EXECUTABLE(LaplacianImageFilter LaplacianImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianImageFilter ITKCommon ITKBasicFilters ITKIO)
+
+SET(FILTERING_EXAMPLES ${CXX_TEST_PATH}/FilteringExamples)
+
+ADD_TEST(BilateralImageFilter ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/BilateralImageFilter.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilter.png
+  BilateralImageFilter
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilter.png
+        6.0 5.0
+)
+ADD_EXECUTABLE(FilteringExamples FilteringExamples.cxx ${FilteringExamples_SRCS})
+TARGET_LINK_LIBRARIES(FilteringExamples ITKIO ITKBasicFilters ITKCommon)

@@ -22,7 +22,7 @@
 #include "itkCastImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
   if( argc < 3)
     {
