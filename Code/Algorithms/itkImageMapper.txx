@@ -38,18 +38,18 @@ ImageMapper<TImage,TTransformation>
 template <class TImage, class TTransformation> 
 void
 ImageMapper<TImage,TTransformation>
-::SetDomain(DomainPointer & domain)
+::SetDomain(DomainType *  domain)
 {
-  m_Domain = DomainType::New();
-  m_Domain = domain;
+  Superclass::SetDomain( domain );
 
-  m_Spacing  = m_Domain->GetSpacing();
-  RegionType region = m_Domain->GetRequestedRegion();
+  m_Spacing  = domain->GetSpacing();
+  RegionType region = domain->GetRequestedRegion();
+
   m_Start  = region.GetIndex();
   m_Size   = region.GetSize();
 
   m_Interpolator = InterpolatorType::New();
-  m_Interpolator->SetInputImage(m_Domain);
+  m_Interpolator->SetInputImage( domain );
 
 }
 
@@ -65,7 +65,12 @@ ImageMapper<TImage,TTransformation>
 ::Evaluate( PointType & point )
 { 
 
-  PointType mappedPoint = m_Transformation->Transform( point );
+  typename Superclass::TransformationType::Pointer transformation;
+
+  transformation = GetTransformation();
+
+  PointType mappedPoint = transformation->Transform( point );
+
   double index[TImage::ImageDimension];
 
   for( unsigned int j = 0; j < TImage::ImageDimension; j++ )

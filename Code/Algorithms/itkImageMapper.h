@@ -133,15 +133,17 @@ public:
    */
   itkTypeMacro(ImageMapper, RegistrationMapper);
 
-  /**
-   * Connect the Domain
-   */
-  void SetDomain(DomainPointer &);
 
   /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
+
+
+  /**
+   * Set Domain
+   */
+  void SetDomain( DomainType * domain );
 
 
 
