@@ -138,6 +138,39 @@ LandmarkSpatialObject< TDimension >
   return true;
 } 
 
+
+/** Test whether a point is inside or outside the object 
+ *  For computational speed purposes, it is faster if the method does not
+ *  check the name of the class and the current depth */ 
+template< unsigned int TDimension >
+bool 
+LandmarkSpatialObject< TDimension >
+::IsInside( const PointType & point) const
+{
+  typename PointListType::const_iterator it = m_Points.begin();
+  typename PointListType::const_iterator itEnd = m_Points.end();
+    
+  if(!GetIndexToWorldTransform()->GetInverse(m_InternalInverseTransform))
+    {
+    return false;
+    }
+
+  PointType transformedPoint = m_InternalInverseTransform->TransformPoint(point);
+
+  if( m_Bounds->IsInside(transformedPoint) )
+    {
+    while(it != itEnd)
+      {
+      if((*it).GetPosition() == transformedPoint)
+        {
+        return true;
+        }
+      it++;
+      }
+    }
+  return false;
+}
+
 /** Test if the given point is inside the blob
  *  Note: ComputeBoundingBox should be called before. */
 template< unsigned int TDimension >
@@ -146,33 +179,22 @@ LandmarkSpatialObject< TDimension >
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking the point [" << point << "] is inside the blob" );
-
-  if( name == NULL || strstr(typeid(Self).name(), name) )
+ 
+  if(name == NULL)
     {
-    typename PointListType::const_iterator it = m_Points.begin();
-    typename PointListType::const_iterator itEnd = m_Points.end();
-    
-    typename TransformType::Pointer inverse = TransformType::New();
-    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    if(IsInside(point))
       {
-      return false;
-      }
-
-    PointType transformedPoint = inverse->TransformPoint(point);
-
-    if( m_Bounds->IsInside(transformedPoint) )
-      {
-      while(it != itEnd)
-        {
-        if((*it).GetPosition() == transformedPoint)
-          {
-          return true;
-          }
-        it++;
-        }
+      return true;
       }
     }
-
+  else if(strstr(typeid(Self).name(), name))
+    {
+    if(IsInside(point))
+      {
+      return true;
+      }
+    }
+  
   return Superclass::IsInside(point, depth, name);
 } 
 

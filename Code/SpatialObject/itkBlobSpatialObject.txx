@@ -136,6 +136,45 @@ BlobSpatialObject< TDimension >
   return true;
 } 
 
+
+/** Test whether a point is inside or outside the object 
+ *  For computational speed purposes, it is faster if the method does not
+ *  check the name of the class and the current depth */ 
+template< unsigned int TDimension >
+bool 
+BlobSpatialObject< TDimension >
+::IsInside( const PointType & point) const
+{
+  typename PointListType::const_iterator it = m_Points.begin();
+  typename PointListType::const_iterator itEnd = m_Points.end();
+    
+  if(!GetIndexToWorldTransform()->GetInverse(m_InternalInverseTransform))
+    {
+    return false;
+    }
+
+  PointType transformedPoint = m_InternalInverseTransform->TransformPoint(point);
+  
+  if( m_Bounds->IsInside(transformedPoint) )
+    {
+    while(it != itEnd)
+      {
+      typename PointType::VectorType difference = 
+        transformedPoint - it->GetPosition();
+      if(fabs(difference[0]) <= 0.5 && 
+         fabs(difference[1]) <= 0.5 && 
+         fabs(difference[2]) <= 0.5)
+        {
+        return true;
+        }
+      it++;
+      }
+    }
+  return false;
+}
+
+
+
 /** Test if the given point is inside the blob
  *  Note: ComputeBoundingBox should be called before. */
 template< unsigned int TDimension >
@@ -143,35 +182,19 @@ bool
 BlobSpatialObject< TDimension > 
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
-  itkDebugMacro( "Checking the point [" << point << "] is inside the blob" );
-
-  if( name == NULL || strstr(typeid(Self).name(), name) )
+  itkDebugMacro( "Checking the point [" << point << "] is inside the blob" );    
+  if(name == NULL)
     {
-    typename PointListType::const_iterator it = m_Points.begin();
-    typename PointListType::const_iterator itEnd = m_Points.end();
-    
-    typename TransformType::Pointer inverse = TransformType::New();
-    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    if(IsInside(point))
       {
-      return false;
+      return true;
       }
-
-    PointType transformedPoint = inverse->TransformPoint(point);
-  
-    if( m_Bounds->IsInside(transformedPoint) )
+    }
+  else if(strstr(typeid(Self).name(), name))
+    {
+    if(IsInside(point))
       {
-      while(it != itEnd)
-        {
-        typename PointType::VectorType difference = 
-          transformedPoint - it->GetPosition();
-        if(fabs(difference[0]) <= 0.5 && 
-           fabs(difference[1]) <= 0.5 && 
-           fabs(difference[2]) <= 0.5)
-          {
-          return true;
-          }
-        it++;
-        }
+      return true;
       }
     }
 

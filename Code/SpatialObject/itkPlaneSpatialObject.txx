@@ -41,6 +41,42 @@ PlaneSpatialObject<TDimension >
   
 }
 
+
+/** Test whether a point is inside or outside the object 
+ *  For computational speed purposes, it is faster if the method does not
+ *  check the name of the class and the current depth */ 
+template< unsigned int TDimension >
+bool 
+PlaneSpatialObject< TDimension >
+::IsInside( const PointType & point) const
+{
+  typename TransformType::Pointer inverse = TransformType::New();
+  if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    {
+    return false;
+    }
+
+  PointType transformedPoint = inverse->TransformPoint(point);
+    
+  bool inside = true;
+  for(unsigned int i=0;i<TDimension;i++)
+    {
+    if((transformedPoint[i] > m_UpperPoint[i] ) 
+       || (transformedPoint[i] < m_LowerPoint[i] ))
+      {
+      inside = false;
+      break;
+      }
+    }
+
+  if(inside)
+    {
+    return true;
+    } 
+  return false;
+}
+
+
 /** Test if the given point is inside the blob */
 template< unsigned int TDimension >
 bool 
@@ -49,28 +85,16 @@ PlaneSpatialObject< TDimension >
 {
   itkDebugMacro( "Checking the point [" << point << "is inside the plane" );
     
-  if(name == NULL || strstr(typeid(Self).name(), name) )
+  if(name == NULL)
     {
-    typename TransformType::Pointer inverse = TransformType::New();
-    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    if(IsInside(point))
       {
-      return false;
+      return true;
       }
-
-    PointType transformedPoint = inverse->TransformPoint(point);
-    
-    bool inside = true;
-    for(unsigned int i=0;i<TDimension;i++)
-      {
-      if((transformedPoint[i] > m_UpperPoint[i] ) 
-         || (transformedPoint[i] < m_LowerPoint[i] ))
-        {
-        inside = false;
-        break;
-        }
-      }
-
-    if(inside)
+    }
+  else if(strstr(typeid(Self).name(), name))
+    {
+    if(IsInside(point))
       {
       return true;
       }

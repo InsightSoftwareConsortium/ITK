@@ -59,23 +59,46 @@ ImageSpatialObject< TDimension,  PixelType >
   return IsInside(point, depth, name);
 }
 
+/** Test whether a point is inside or outside the object 
+ *  For computational speed purposes, it is faster if the method does not
+ *  check the name of the class and the current depth */ 
+template< unsigned int TDimension, class PixelType >
+bool 
+ImageSpatialObject< TDimension,  PixelType >
+::IsInside( const PointType & point) const
+{
+  if(!GetIndexToWorldTransform()->GetInverse(m_InternalInverseTransform))
+    {
+    return false;
+    }
+
+  PointType p = m_InternalInverseTransform->TransformPoint(point);
+
+  if(m_Bounds->IsInside( p))
+    {
+    return true;
+    }
+
+  return false;
+}
+
+
 /** Return true if the given point is inside the image */
 template< unsigned int TDimension, class PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
-  if( name == NULL || strstr(typeid(Self).name(), name) )
+  if(name == NULL)
     {
-    typename TransformType::Pointer inverse = TransformType::New();
-    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    if(IsInside(point))
       {
-      return false;
+      return true;
       }
-
-    PointType p = inverse->TransformPoint(point);
-
-    if(m_Bounds->IsInside( p))
+    }
+  else if(strstr(typeid(Self).name(), name))
+    {
+    if(IsInside(point))
       {
       return true;
       }

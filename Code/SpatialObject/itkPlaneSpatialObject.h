@@ -37,6 +37,7 @@ class PlaneSpatialObject
 
 public:
 
+  /** Standard typedefs */
   typedef PlaneSpatialObject Self;
   typedef double ScalarType;
   typedef SmartPointer < Self > Pointer;
@@ -67,7 +68,12 @@ public:
 
   /** Test whether a point is inside or outside the object */ 
   virtual bool IsInside( const PointType & point,
-                         unsigned int depth=0, char * name=NULL) const;
+                         unsigned int depth, char * name) const;
+
+  /** Test whether a point is inside or outside the object 
+   *  For computational speed purposes, it is faster if the method does not
+   *  check the name of the class and the current depth */ 
+  virtual bool IsInside( const PointType & point) const;
 
   /** provide a method to get the boundaries of 
   *  a specific object. Basically, this function need to be called

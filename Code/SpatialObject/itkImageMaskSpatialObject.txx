@@ -39,34 +39,57 @@ ImageMaskSpatialObject< TDimension>
 {
 }
 
+
+/** Test whether a point is inside or outside the object 
+ *  For computational speed purposes, it is faster if the method does not
+ *  check the name of the class and the current depth */ 
+template< unsigned int TDimension >
+bool 
+ImageMaskSpatialObject< TDimension >
+::IsInside( const PointType & point) const
+{
+  if(!GetIndexToWorldTransform()->GetInverse(m_InternalInverseTransform))
+    {
+    return false;
+    }
+
+  PointType p = m_InternalInverseTransform->TransformPoint(point);
+  
+  if(m_Bounds->IsInside( p))
+    {
+    IndexType index;
+    for(unsigned int i=0; i<TDimension; i++)
+      {
+      index[i] = static_cast<int>( p[i] );
+      }
+    bool inside = ( m_Image->GetPixel(index) != NumericTraits<PixelType>::Zero );
+    return inside;
+    }
+
+  return false;
+}
+
+
 /** Return true if the given point is inside the image */
 template< unsigned int TDimension>
 bool
 ImageMaskSpatialObject< TDimension>
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
-  if( name == NULL || strstr(typeid(Self).name(), name) )
+  if(name == NULL)
     {
-    typename TransformType::Pointer inverse = TransformType::New();
-    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    if(IsInside(point))
       {
-      return false;
-      }
-
-    PointType p = inverse->TransformPoint(point);
-    
-    if(m_Bounds->IsInside( p))
-      {
-      IndexType index;
-      for(unsigned int i=0; i<TDimension; i++)
-        {
-        index[i] = static_cast<int>( p[i] );
-        }
-      bool inside = ( m_Image->GetPixel(index) != NumericTraits<PixelType>::Zero );
-      return inside;
+      return true;
       }
     }
-
+  else if(strstr(typeid(Self).name(), name))
+    {
+    if(IsInside(point))
+      {
+      return true;
+      }
+    }
   return Superclass::IsInside(point, depth, name);
 }
 

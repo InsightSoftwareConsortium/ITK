@@ -51,45 +51,65 @@ MeshSpatialObject< TMesh >
   return IsInside(point, depth, name);
 }
 
+/** Test whether a point is inside or outside the object 
+ *  For computational speed purposes, it is faster if the method does not
+ *  check the name of the class and the current depth */ 
+template <class TMesh>
+bool
+MeshSpatialObject< TMesh >
+::IsInside( const PointType & point) const
+{
+  if(!GetIndexToWorldTransform()->GetInverse(m_InternalInverseTransform))
+    {
+    return false;
+    }
+
+  PointType transformedPoint = m_InternalInverseTransform->TransformPoint(point);
+
+  if(m_Bounds->IsInside(transformedPoint))
+    {     
+    typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
+    typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
+    while(it!=cells->End())
+      {
+      typename MeshType::CoordRepType position[itkGetStaticConstMacro(Dimension)];
+      for(unsigned int i=0;i<itkGetStaticConstMacro(Dimension);i++)
+        {
+        position[i] = transformedPoint[i];
+        }
+
+      if(!it.Value()->EvaluatePosition(position,m_Mesh->GetPoints(),NULL,NULL,NULL,NULL))
+        {
+        return false;
+        }
+      it++;
+      }
+    return true;
+    }
+  return false;
+}
+
+
 /** Return true if the given point is inside the Mesh */
 template <class TMesh>
 bool
 MeshSpatialObject< TMesh >
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
-  if( name == NULL || strstr(typeid(Self).name(), name) )
+  if(name == NULL)
     {
-    typename TransformType::Pointer inverse = TransformType::New();
-    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    if(IsInside(point))
       {
-      return false;
-      }
-
-    PointType transformedPoint = inverse->TransformPoint(point);
-
-    if(m_Bounds->IsInside(transformedPoint))
-      {
-      
-      typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
-      typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
-      while(it!=cells->End())
-        {
-        typename MeshType::CoordRepType position[itkGetStaticConstMacro(Dimension)];
-        for(unsigned int i=0;i<itkGetStaticConstMacro(Dimension);i++)
-          {
-          position[i] = transformedPoint[i];
-          }
-
-        if(!it.Value()->EvaluatePosition(position,m_Mesh->GetPoints(),NULL,NULL,NULL,NULL))
-          {
-          return false;
-          }
-        it++;
-        }
       return true;
       }
     }
-
+  else if(strstr(typeid(Self).name(), name))
+    {
+    if(IsInside(point))
+      {
+      return true;
+      }
+    }
   return Superclass::IsInside(point, depth, name);
 }
 

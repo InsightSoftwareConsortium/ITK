@@ -126,6 +126,40 @@ SurfaceSpatialObject< TDimension >
   return true;
 } 
 
+/** Test whether a point is inside or outside the object 
+ *  For computational speed purposes, it is faster if the method does not
+ *  check the name of the class and the current depth */ 
+template< unsigned int TDimension >
+bool 
+SurfaceSpatialObject< TDimension >
+::IsInside( const PointType & point) const
+{ 
+  typename PointListType::const_iterator it = m_Points.begin();
+  typename PointListType::const_iterator itEnd = m_Points.end();
+    
+  typename TransformType::Pointer inverse = TransformType::New();
+  if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    {
+    return false;
+    }
+
+  PointType transformedPoint = inverse->TransformPoint(point);
+  
+  if( m_Bounds->IsInside(transformedPoint) )
+    {
+    while(it != itEnd)
+      {
+      if((*it).GetPosition() == transformedPoint)
+        {
+        return true;
+        }
+      it++;
+      }
+    }
+  return false;
+}
+
+
 /** Return true is the given point is on the surface */
 template< unsigned int TDimension >
 bool 
@@ -134,32 +168,21 @@ SurfaceSpatialObject< TDimension >
 {
   itkDebugMacro( "Checking the point [" << point << "is on the surface" );
 
-  if(name == NULL || strstr(typeid(Self).name(), name) )
+  if(name == NULL)
     {
-    typename PointListType::const_iterator it = m_Points.begin();
-    typename PointListType::const_iterator itEnd = m_Points.end();
-    
-    typename TransformType::Pointer inverse = TransformType::New();
-    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    if(IsInside(point))
       {
-      return false;
-      }
-
-    PointType transformedPoint = inverse->TransformPoint(point);
-  
-    if( m_Bounds->IsInside(transformedPoint) )
-      {
-      while(it != itEnd)
-        {
-        if((*it).GetPosition() == transformedPoint)
-          {
-          return true;
-          }
-        it++;
-        }
+      return true;
       }
     }
-
+  else if(strstr(typeid(Self).name(), name))
+    {
+    if(IsInside(point))
+      {
+      return true;
+      }
+    }
+  
   return Superclass::IsInside(point, depth, name);
 } 
 

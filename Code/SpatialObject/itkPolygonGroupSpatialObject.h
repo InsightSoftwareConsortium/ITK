@@ -68,36 +68,37 @@ public:
   itkTypeMacro( Self, Superclass );
   
   /** Return true if the given PolygonSpatialObject is successfully
-     * added to the PolygonGroup.
-     */
+   *  added to the PolygonGroup. */
   bool AddStrand(PolygonSpatialObject<TDimension> *toAdd);
 
   /** Return true if the given PolygonSpatialObject is successfully
-     * removed from the PolygonGroup
-     */
+   *  removed from the PolygonGroup */
   bool DeleteStrand(PolygonSpatialObject<TDimension> *toDelete);
 
   /** Return true if the given PolygonSpatialObject successfully
-     * replaces the Polygon given in toReplace. This will fail if
-     * toReplace is not a strand in the PolygonGroupObject.
-     */
+   *  replaces the Polygon given in toReplace. This will fail if
+   *  toReplace is not a strand in the PolygonGroupObject. */
   bool ReplaceStrand(PolygonSpatialObject<TDimension> *toReplace,
                      PolygonSpatialObject<TDimension> *replacement);
 
   /** Return true if all constituent Polygons are closed. */
   bool IsClosed();
+
   /** returns the number of Polygons in this PolygonGroup */
   unsigned int NumberOfStrands();
+
   /** Volume of this PolygonGroup, which is the sum of the volume of all
-     * its constituent Polygons
-     */
+   *  its constituent Polygons */
   double Volume();
+
   /** Same as Volume, above.*/
   double MeasureVolume();
+
   /** Test whether a point is inside or outside the object. */ 
   virtual bool IsInside( const PointType & point,
                          unsigned int depth=0,
-                         char * name = NULL) const;
+                         char * name=NULL) const;
+
 };
 }
 #ifndef ITK_MANUAL_INSTANTIATION 

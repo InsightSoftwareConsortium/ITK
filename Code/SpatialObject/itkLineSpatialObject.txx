@@ -126,7 +126,42 @@ LineSpatialObject< TDimension >
       }
 
   return true;
-} 
+}
+
+
+/** Test whether a point is inside or outside the object 
+ *  For computational speed purposes, it is faster if the method does not
+ *  check the name of the class and the current depth */ 
+template< unsigned int TDimension >
+bool 
+LineSpatialObject< TDimension >
+::IsInside( const PointType & point) const
+{
+  typename PointListType::const_iterator it = m_Points.begin();
+  typename PointListType::const_iterator itEnd = m_Points.end();
+    
+  if(!GetIndexToWorldTransform()->GetInverse(m_InternalInverseTransform))
+    {
+    return false;
+    }
+
+  PointType transformedPoint = m_InternalInverseTransform->TransformPoint(point);
+  
+  if( m_Bounds->IsInside(transformedPoint) )
+    {
+    while(it != itEnd)
+      {
+      if((*it).GetPosition() == transformedPoint)
+        {
+        return true;
+        }
+      it++;
+      }
+    }
+
+  return false;
+}
+
 
 /** Check if a given point is inside a line
  *  return True only if the point is in the point list */
@@ -136,30 +171,19 @@ LineSpatialObject< TDimension >
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking the point [" << point << "] is on the Line" );
-
-  if(name == NULL || strstr(typeid(Self).name(), name) )
+ 
+  if(name == NULL)
     {
-    typename PointListType::const_iterator it = m_Points.begin();
-    typename PointListType::const_iterator itEnd = m_Points.end();
-    
-    typename TransformType::Pointer inverse = TransformType::New();
-    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    if(IsInside(point))
       {
-      return false;
+      return true;
       }
-
-    PointType transformedPoint = inverse->TransformPoint(point);
-  
-    if( m_Bounds->IsInside(transformedPoint) )
+    }
+  else if(strstr(typeid(Self).name(), name))
+    {
+    if(IsInside(point))
       {
-      while(it != itEnd)
-        {
-        if((*it).GetPosition() == transformedPoint)
-          {
-          return true;
-          }
-        it++;
-        }
+      return true;
       }
     }
   

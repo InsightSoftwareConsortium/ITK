@@ -52,6 +52,43 @@ EllipseSpatialObject< TDimension >
     }
 }
 
+/** Test whether a point is inside or outside the object 
+ *  For computational speed purposes, it is faster if the method does not
+ *  check the name of the class and the current depth */ 
+template< unsigned int TDimension >
+bool 
+EllipseSpatialObject< TDimension >
+::IsInside( const PointType & point) const
+{
+  if(!GetIndexToWorldTransform()->GetInverse(m_InternalInverseTransform))
+    {
+    return false;
+    }
+
+  PointType transformedPoint = m_InternalInverseTransform->TransformPoint(point);  
+  double r = 0;
+  for(unsigned int i=0;i<TDimension;i++)
+    {
+    if(m_Radius[i]!=0.0)
+      {
+      r += (transformedPoint[i]*transformedPoint[i])/(m_Radius[i]*m_Radius[i]);
+      }
+    else if(transformedPoint[i]>0.0)  // Degenerate ellipse
+      {
+      r = 2; // Keeps function from returning true here 
+     break;
+      }
+    }
+  
+  if(r<1)
+    {
+    return true;
+    }
+  return false;
+}
+
+
+
 /** Test if the given point is inside the ellipse */
 template< unsigned int TDimension >
 bool 
@@ -60,30 +97,16 @@ EllipseSpatialObject< TDimension >
 {
   itkDebugMacro( "Checking the point [" << point << "] is inside the Ellipse" );
     
-  if(name == NULL || strstr(typeid(Self).name(), name) )
+  if(name == NULL)
     {
-    typename TransformType::Pointer inverse = TransformType::New();
-    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    if(IsInside(point))
       {
-      return false;
+      return true;
       }
-
-    PointType transformedPoint = inverse->TransformPoint(point);  
-    double r = 0;
-    for(unsigned int i=0;i<TDimension;i++)
-      {
-      if(m_Radius[i]!=0.0)
-        {
-        r += (transformedPoint[i]*transformedPoint[i])/(m_Radius[i]*m_Radius[i]);
-        }
-      else if(transformedPoint[i]>0.0)  // Degenerate ellipse
-        {
-        r = 2; // Keeps function from returning true here 
-        break;
-        }
-      }
-  
-    if(r<1)
+    }
+  else if(strstr(typeid(Self).name(), name))
+    {
+    if(IsInside(point))
       {
       return true;
       }

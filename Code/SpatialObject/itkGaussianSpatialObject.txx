@@ -66,6 +66,22 @@ GaussianSpatialObject< TDimension >
   return r;
 }
 
+/** Test whether a point is inside or outside the object 
+ *  For computational speed purposes, it is faster if the method does not
+ *  check the name of the class and the current depth */ 
+template< unsigned int TDimension >
+bool 
+GaussianSpatialObject< TDimension >
+::IsInside( const PointType & point) const
+{
+  if ( SquaredZScore( point ) < m_Radius * m_Radius )
+    {
+    return true;
+    }
+  return false;
+}
+
+
 /** Test if the given point is inside the boundary of the spatial
  * object */
 template< unsigned int TDimension >
@@ -76,9 +92,16 @@ GaussianSpatialObject< TDimension >
   itkDebugMacro( "Checking whether the point ["
                  << point << "] is inside the Gaussian" );
 
-  if(name == NULL || strstr(typeid(Self).name(), name) )
+  if(name == NULL)
     {
-    if ( SquaredZScore( point ) < m_Radius * m_Radius )
+    if(IsInside(point))
+      {
+      return true;
+      }
+    }
+  else if(strstr(typeid(Self).name(), name))
+    {
+    if(IsInside(point))
       {
       return true;
       }

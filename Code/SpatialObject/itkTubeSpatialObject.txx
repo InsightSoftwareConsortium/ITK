@@ -157,6 +157,107 @@ TubeSpatialObject< TDimension >
   return true;
 } 
 
+/** Test whether a point is inside or outside the object 
+ *  For computational speed purposes, it is faster if the method does not
+ *  check the name of the class and the current depth */ 
+template< unsigned int TDimension >
+bool 
+TubeSpatialObject< TDimension >
+::IsInside( const PointType & point) const
+{
+  double minSquareDist=999999.0;
+  double tempSquareDist;
+  typename PointListType::const_iterator it = m_Points.begin();
+  typename PointListType::const_iterator it2 = m_Points.begin();
+  typename PointListType::const_iterator end = m_Points.end(); 
+  typename PointListType::const_iterator min;
+  
+  typename TransformType::Pointer inverse = TransformType::New();
+  if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    {
+    return false;
+    }
+
+  PointType transformedPoint = inverse->TransformPoint(point);
+       
+  this->ComputeLocalBoundingBox();
+
+  if(m_EndType == 0) // flat end-type
+    {
+    it2++; // next point
+    if( m_Bounds->IsInside(point) )
+      {
+      while(it2!= end)
+        {
+        // Check if the point is on the normal plane
+        PointType a = (*it).GetPosition();
+        PointType b = (*it2).GetPosition();
+      
+        double A = 0;
+        double B = 0;
+
+        for(unsigned int i = 0;i<TDimension;i++)
+          {
+          A += (b[i]-a[i])*(transformedPoint[i]-a[i]);
+          B += (b[i]-a[i])*(b[i]-a[i]);
+          }
+
+        double lambda = A/B;
+
+        if( ((it != m_Points.begin()) && 
+            (lambda>-((*it).GetRadius()/(2*sqrt(B))))
+            && (lambda<0))
+            || ((lambda <= 1.0) && (lambda >= 0.0))       
+          )
+          {
+          PointType p;
+
+          for(unsigned int i = 0;i<TDimension;i++)
+            {
+            p[i] = a[i]+lambda*(b[i]-a[i]);
+            }
+
+          tempSquareDist=transformedPoint.EuclideanDistanceTo(p);
+
+          double R =  (*it).GetRadius()+lambda*((*it2).GetRadius()-(*it).GetRadius());
+
+          if(tempSquareDist <= R)
+            {
+            return true;
+            }
+          }
+        it++;
+        it2++;
+        }
+      }
+    }
+  else if(m_EndType == 1) // rounded end-type
+    {
+    if( m_Bounds->IsInside(point) )
+       {
+       while(it!= end)
+         {
+         tempSquareDist=transformedPoint.SquaredEuclideanDistanceTo(
+           (*it).GetPosition());
+         if(tempSquareDist <= minSquareDist) 
+           {
+           minSquareDist = tempSquareDist;
+           min = it;
+           }
+         it++;
+         }
+
+       double dist = sqrt(minSquareDist);
+       if( dist <= ((*min).GetRadius()) ) 
+         {
+         return true;
+         }
+       }
+     }
+  return false;
+}
+
+
 /** Return true if the given point is inside the tube */
 template< unsigned int TDimension >
 bool 
@@ -164,105 +265,20 @@ TubeSpatialObject< TDimension >
 ::IsInside( const PointType & point, unsigned int depth, char * name) const
 {
   itkDebugMacro( "Checking the point [" << point << "] is inside the tube" );
-
-  // find the closest point, and get the radius at that point...
-  // if the distance is shorter than the radius, then the point is
-  // inside, else it is outside :)))
-  // think about using an interpolation between the closest point and
-  // its next, and previous neighbor, in order to be more accurate during 
-  // the selection process.
-
-  if(name == NULL || strstr(typeid(Self).name(), name) )
+ 
+  if(name == NULL)
     {
-    double minSquareDist=999999.0;
-    double tempSquareDist;
-    typename PointListType::const_iterator it = m_Points.begin();
-    typename PointListType::const_iterator it2 = m_Points.begin();
-    typename PointListType::const_iterator end = m_Points.end(); 
-    typename PointListType::const_iterator min;
-  
-    typename TransformType::Pointer inverse = TransformType::New();
-    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    if(IsInside(point))
       {
-      return false;
+      return true;
       }
-
-    PointType transformedPoint = inverse->TransformPoint(point);
-       
-    this->ComputeLocalBoundingBox();
-
-    if(m_EndType == 0) // flat end-type
+    }
+  else if(strstr(typeid(Self).name(), name))
+    {
+    if(IsInside(point))
       {
-      it2++; // next point
-      if( m_Bounds->IsInside(point) )
-        {
-        while(it2!= end)
-          {
-          // Check if the point is on the normal plane
-          PointType a = (*it).GetPosition();
-          PointType b = (*it2).GetPosition();
-        
-          double A = 0;
-          double B = 0;
-
-          for(unsigned int i = 0;i<TDimension;i++)
-            {
-            A += (b[i]-a[i])*(transformedPoint[i]-a[i]);
-            B += (b[i]-a[i])*(b[i]-a[i]);
-            }
-
-          double lambda = A/B;
-
-          if( ((it != m_Points.begin()) && 
-              (lambda>-((*it).GetRadius()/(2*sqrt(B))))
-              && (lambda<0))
-              || ((lambda <= 1.0) && (lambda >= 0.0))       
-            )
-            {
-            PointType p;
-
-            for(unsigned int i = 0;i<TDimension;i++)
-              {
-              p[i] = a[i]+lambda*(b[i]-a[i]);
-              }
-
-            tempSquareDist=transformedPoint.EuclideanDistanceTo(p);
-
-            double R =  (*it).GetRadius()+lambda*((*it2).GetRadius()-(*it).GetRadius());
-
-            if(tempSquareDist <= R)
-              {
-              return true;
-              }
-            }
-          it++;
-          it2++;
-          }
-        }
+      return true;
       }
-    else if(m_EndType == 1) // rounded end-type
-      {
-      if( m_Bounds->IsInside(point) )
-         {
-         while(it!= end)
-           {
-           tempSquareDist=transformedPoint.SquaredEuclideanDistanceTo(
-             (*it).GetPosition());
-           if(tempSquareDist <= minSquareDist) 
-             {
-             minSquareDist = tempSquareDist;
-             min = it;
-             }
-           it++;
-           }
-
-         double dist = sqrt(minSquareDist);
-         if( dist <= ((*min).GetRadius()) ) 
-           {
-           return true;
-           }
-         }
-       }
     }
   
   return Superclass::IsInside(point, depth, name);
