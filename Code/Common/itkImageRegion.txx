@@ -171,7 +171,7 @@ ImageRegion<VImageDimension>
 
 
 template<unsigned int VImageDimension>
-ImageRegion<VImageDimension>::SliceRegion
+typename ImageRegion<VImageDimension>::SliceRegion
 ImageRegion<VImageDimension>
 ::Slice(const unsigned long dim) const
 {

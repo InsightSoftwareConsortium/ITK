@@ -275,7 +275,7 @@ Image<TPixel, VImageDimension>
   // WARNING this will throw an exception if the 
   // actual Transform stored in the image is not an
   // Affine Transform !!
-  AffineTransformType::Pointer affineTransform =
+  typename AffineTransformType::Pointer affineTransform =
            dynamic_cast< AffineTransformType * >( 
                m_IndexToPhysicalTransform.GetPointer() );
 

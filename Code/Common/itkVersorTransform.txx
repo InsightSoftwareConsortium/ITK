@@ -129,7 +129,7 @@ VersorTransform<TScalarType>
 
 // Set parameters
 template<class TScalarType>
-const VersorTransform<TScalarType>::JacobianType &
+const typename VersorTransform<TScalarType>::JacobianType &
 VersorTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {
