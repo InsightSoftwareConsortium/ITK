@@ -133,22 +133,22 @@ SpatialObjectPoint< TPointDimension >
 }
 
 /** Get a reference to the point */
-template< unsigned int TPointDimension >
+/*template< unsigned int TPointDimension >
 typename SpatialObjectPoint< TPointDimension >::Self & 
 SpatialObjectPoint< TPointDimension >
 ::GetReference( void )
 {
   return *this;
-}
+}*/
 
 /** Get a pointer to the point */
-template< unsigned int TPointDimension >
+/*template< unsigned int TPointDimension >
 typename SpatialObjectPoint< TPointDimension >::Pointer 
 SpatialObjectPoint< TPointDimension >
 ::GetPointer( void )
 {
   return this;
-}
+}*/
     
 /** Set the Identification number of a point */
 template< unsigned int TPointDimension >

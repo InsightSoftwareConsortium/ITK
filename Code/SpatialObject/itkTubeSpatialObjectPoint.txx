@@ -28,12 +28,12 @@ TubeSpatialObjectPoint< TPointDimension >
 ::TubeSpatialObjectPoint( void ) 
 { 
   m_NumDimensions = TPointDimension;
-  m_T = new VectorType(m_NumDimensions);
-  m_V1 = new VectorType(m_NumDimensions);
-  m_V2 = new VectorType(m_NumDimensions);
-  m_T->fill(0);
-  m_V1->fill(0);
-  m_V2->fill(0);
+  //m_T = new VectorType(m_NumDimensions);
+  //m_V1 = new VectorType(m_NumDimensions);
+  //m_V2 = new VectorType(m_NumDimensions);
+  m_T.Fill(0);
+  m_V1.Fill(0);
+  m_V2.Fill(0);
   m_ID = 0;
   m_R = 0;
   m_Medialness = 0;
@@ -50,9 +50,9 @@ template< unsigned int TPointDimension >
 TubeSpatialObjectPoint< TPointDimension >
 ::~TubeSpatialObjectPoint( void ) 
 {
-  delete m_T;
-  delete m_V1;
-  delete m_V2;
+  //delete m_T;
+  //delete m_V1;
+  //delete m_V2;
 }
 
 /** Get the radius */
@@ -139,9 +139,9 @@ TubeSpatialObjectPoint< TPointDimension >
 
 
 template< unsigned int TPointDimension >
-typename TubeSpatialObjectPoint< TPointDimension >::VectorPointer 
+const typename TubeSpatialObjectPoint< TPointDimension >::VectorType & 
 TubeSpatialObjectPoint< TPointDimension >
-::GetTangent( void ) 
+::GetTangent( void ) const
 {
   return m_T;
 }
@@ -152,7 +152,7 @@ void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetTangent( const VectorType & newT ) 
 {
-  *m_T = newT;
+  m_T = newT;
 }
 
 // 3-D case
@@ -161,9 +161,9 @@ void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetTangent( const double t0, const double t1, const double t2 ) 
 {
-  (* m_T) (0) = t0;
-  (* m_T) (1) = t1;
-  (* m_T) (2) = t2;
+  m_T[0] = t0;
+  m_T[1] = t1;
+  m_T[2] = t2;
 }
 
 // 2-D case
@@ -172,14 +172,14 @@ void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetTangent( const double t0, const double t1 ) 
 {
-  (* m_T) (0) = t0;
-  (* m_T) (1) = t1;
+  m_T[0] = t0;
+  m_T[1] = t1;
 }
 
 template< unsigned int TPointDimension >
-typename TubeSpatialObjectPoint< TPointDimension >::VectorPointer
+const typename TubeSpatialObjectPoint< TPointDimension >::VectorType &
 TubeSpatialObjectPoint< TPointDimension >
-::GetV1() 
+::GetV1() const
 {
   return m_V1;
 }
@@ -188,10 +188,9 @@ TubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 void 
 TubeSpatialObjectPoint< TPointDimension >
-//::SetV1( const TubeSpatialObjectPoint::VectorType & newV1 ) 
 ::SetV1( const VectorType & newV1 ) 
 {
-  *m_V1 = newV1;
+  m_V1 = newV1;
 }
 
 // 3-D case
@@ -200,9 +199,9 @@ void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetV1( const double v10, const double v11, const double v12 ) 
 {
-  (* m_V1) (0) = v10;
-  (* m_V1) (1) = v11;
-  (* m_V1) (2) = v12;
+  m_V1[0] = v10;
+  m_V1[1] = v11;
+  m_V1[2] = v12;
 }
 
 // 2-D case
@@ -211,14 +210,14 @@ void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetV1( const double v10, const double v11 ) 
 {
-  (* m_V1) (0) = v10;
-  (* m_V1) (1) = v11;
+  m_V1[0] = v10;
+  m_V1[1] = v11;
 }
 
 template< unsigned int TPointDimension >
-typename TubeSpatialObjectPoint< TPointDimension >::VectorPointer 
+const typename TubeSpatialObjectPoint< TPointDimension >::VectorType &
 TubeSpatialObjectPoint< TPointDimension >
-::GetV2() 
+::GetV2() const
 {
   return m_V2;
 }
@@ -229,7 +228,7 @@ void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetV2( const VectorType & newV2 ) 
 {
-  *m_V2 = newV2;
+  m_V2 = newV2;
 }
 
 // 3-D case
@@ -238,9 +237,9 @@ void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetV2( const double v20, const double v21, const double v22 ) 
 {
-  (* m_V2) (0) = v20;
-  (* m_V2) (1) = v21;
-  (* m_V2) (2) = v22;
+  m_V2[0] = v20;
+  m_V2[1] = v21;
+  m_V2[2] = v22;
 }
 
 // 2-D case
@@ -249,8 +248,8 @@ void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetV2( const double v20, const double v21 ) 
 {
-  (* m_V2) (0) = v20;
-  (* m_V2) (1) = v21;
+  m_V2[0] = v20;
+  m_V2[1] = v21;
 }
 
 template< unsigned int TPointDimension >
@@ -315,7 +314,7 @@ TubeSpatialObjectPoint< TPointDimension >
   os << "Ridgeness: " << m_Ridgeness << " ";
   os << "Mark: " << m_Mark << std::endl;
   os << "X: " << m_X << "";
-  os << "T: " << *(m_T);
+  os << "T: " << m_T;
 }
 
 
@@ -332,7 +331,7 @@ TubeSpatialObjectPoint< TPointDimension >
   m_Mark = rhs.m_Mark;
   m_NumDimensions = rhs.m_NumDimensions;
   m_X = rhs.m_X;
-  * m_T = * (rhs.m_T);
+  m_T = rhs.m_T;
   return * this;
 }
 

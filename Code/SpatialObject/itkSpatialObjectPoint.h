@@ -19,7 +19,6 @@
 #define __itkSpatialObjectPoint_h
 
 #include "itkPoint.h"
-#include "itkLightObject.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "itkRGBAPixel.h"
 
@@ -34,39 +33,27 @@ namespace itk
 * \also TubeSpatialObjectPoint SurfaceSpatialObjectPoint
 */ 
 template < unsigned int TPointDimension = 3 >
-class ITK_EXPORT SpatialObjectPoint 
-: public LightObject
+class SpatialObjectPoint 
 {
 
 public:
 
+  /** Constructor. This one defines the # of dimensions in the SpatialObjectPoint */
+  SpatialObjectPoint( void );
+
+  /** Default destructor. */
+  ~SpatialObjectPoint( void );
+
   typedef SpatialObjectPoint                Self;
-  typedef LightObject                       Superclass;
-  typedef SmartPointer<Self>                Pointer;
-  typedef const SmartPointer< const Self >  ConstPointer;
   typedef Point< double, TPointDimension >  PointType;
   typedef vnl_vector< double >              VectorType;
-  typedef VectorType *                      VectorPointer;
   typedef RGBAPixel< float >                PixelType;
-
-  itkNewMacro( SpatialObjectPoint );
-
-  itkTypeMacro( SpatialObjectPoint, LightObject );
 
   /** Get the SpatialObjectPoint Id. */
   unsigned int GetId( void );
 
   /** Set the SpatialObjectPoint Id.*/
   void SetId(const unsigned int newID);
-
-  /** Returns a reference to self. */
-  Self & GetReference( void );
-
-  /** Returns a pointer to self. */
-  Pointer GetPointer( void );
-  
-  /** Returns a const pointer to self. */
-  ConstPointer GetConstPointer( void ) {return this;}
 
   /** Return a pointer to the point object.*/
   PointType GetPosition( void ) const;
@@ -103,12 +90,6 @@ public:
   float GetAlpha( void ) const;
 
 protected:
-
-  /** Constructor. This one defines the # of dimensions in the SpatialObjectPoint */
-  SpatialObjectPoint( void );
-
-  /** Default destructor. */
-  ~SpatialObjectPoint( void );
 
   /** PrintSelf method */
   void PrintSelf(std::ostream &os, Indent indent) const;  

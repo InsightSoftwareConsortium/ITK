@@ -33,7 +33,7 @@ namespace itk
 * \also TubeSpatialObject TubeNetworkSpatialObject
 */ 
 template < unsigned int TPointDimension = 3 >
-class ITK_EXPORT TubeSpatialObjectPoint 
+class TubeSpatialObjectPoint 
 : public SpatialObjectPoint<TPointDimension>
 {
 
@@ -41,18 +41,17 @@ public:
 
   typedef TubeSpatialObjectPoint              Self;
   typedef SpatialObjectPoint<TPointDimension> Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef const SmartPointer< const Self >    ConstPointer;
   typedef Point< double, TPointDimension >    PointType;
-  typedef vnl_vector< double >                VectorType;
-  typedef VectorType *                        VectorPointer;
+  typedef Vector<double, TPointDimension >    VectorType;
+ 
+  /** Constructor. This one defines the # of dimensions in the TubeSpatialObjectPoint */
+  TubeSpatialObjectPoint( void );
 
-  itkNewMacro( TubeSpatialObjectPoint );
-
-  itkTypeMacro( TubeSpatialObjectPoint, SpatialObjectPoint );
+  /** Default destructor. */
+  ~TubeSpatialObjectPoint( void );
 
   /** Get the tangent */
-  VectorPointer GetTangent( void );
+  const VectorType & GetTangent( void ) const;
 
   /** Set T. Couldn't use macros for these methods */
   void SetTangent(const VectorType & newT);
@@ -60,7 +59,7 @@ public:
   void SetTangent(const double t0, const double t1, const double t2);
 
   /** Get V1 */
-  VectorPointer GetV1( void );
+  const VectorType & GetV1( void ) const;
 
   /** Set V1 */
   void SetV1(const VectorType & newV1);
@@ -68,7 +67,7 @@ public:
   void SetV1(const double v10, const double v11, const double v12);
 
   /** Get V2 */
-  VectorPointer GetV2( void );
+   const VectorType & GetV2( void ) const;
 
   /** Set V2 */
   void SetV2(const VectorType & newV2);
@@ -131,18 +130,12 @@ public:
 
 protected:
 
-  /** Constructor. This one defines the # of dimensions in the TubeSpatialObjectPoint */
-  TubeSpatialObjectPoint( void );
-
-  /** Default destructor. */
-  ~TubeSpatialObjectPoint( void );
-
   /** A unique ID assigned to this TubeSpatialObjectPoint */
   unsigned int m_ID;
 
-  VectorType * m_T;
-  VectorType * m_V1;
-  VectorType * m_V2;
+  VectorType m_T;
+  VectorType m_V1;
+  VectorType m_V2;
 
   /** First of 3 alpha values */
   float m_Alpha1;

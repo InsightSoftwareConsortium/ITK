@@ -34,7 +34,7 @@ namespace itk
 * \also SpatialObjectPoint 
 */ 
 template < unsigned int TPointDimension = 3 >
-class ITK_EXPORT SurfaceSpatialObjectPoint 
+class SurfaceSpatialObjectPoint 
 : public SpatialObjectPoint<TPointDimension>
 {
 
@@ -42,18 +42,17 @@ public:
 
   typedef SurfaceSpatialObjectPoint                Self;
   typedef SpatialObjectPoint<TPointDimension>      Superclass;
-  typedef SmartPointer<Self>                       Pointer;
-  typedef const SmartPointer< const Self >         ConstPointer;
   typedef Point< double, TPointDimension >         PointType;
   typedef CovariantVector<double,TPointDimension>  VectorType;
-  typedef VectorType *                             VectorPointer;
 
-  itkNewMacro( SurfaceSpatialObjectPoint );
+  /** Constructor. This one defines the # of dimensions in the SurfaceSpatialObjectPoint */
+  SurfaceSpatialObjectPoint( void );
 
-  itkTypeMacro( SurfaceSpatialObjectPoint, SpatialObjectPoint );
+  /** Default destructor. */
+  ~SurfaceSpatialObjectPoint( void );
 
   /** Get Normal */
-  VectorPointer GetNormal( void );
+  const VectorType & GetNormal( void ) const;
 
   /** Set Normal */
   void SetNormal(const VectorType & normal);
@@ -64,12 +63,6 @@ public:
   Self & operator=(const SurfaceSpatialObjectPoint & rhs);
 
 protected:
-
-  /** Constructor. This one defines the # of dimensions in the SurfaceSpatialObjectPoint */
-  SurfaceSpatialObjectPoint( void );
-
-  /** Default destructor. */
-  ~SurfaceSpatialObjectPoint( void );
 
   VectorType m_Normal;
   

@@ -70,11 +70,11 @@ SurfaceSpatialObjectPoint< TPointDimension >
 
 /** Get the normal at one point */
 template< unsigned int TPointDimension >
-typename SurfaceSpatialObjectPoint< TPointDimension >::VectorPointer
+const typename SurfaceSpatialObjectPoint< TPointDimension >::VectorType &
 SurfaceSpatialObjectPoint< TPointDimension >
-::GetNormal() 
+::GetNormal( void ) const
 {
-  return &m_Normal;
+  return m_Normal;
 }
   
 /** Print the object */
