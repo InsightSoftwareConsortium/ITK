@@ -34,6 +34,12 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   m_Step = 0;
   m_PotentialOn = 0;
   K = 0;
+  m_Scale.Fill( 1.0 );
+  m_Center.Fill( 0.0 );
+  m_Resolution.Fill( 1.0 );
+  m_Stiffness.Fill( 0.1 );
+  m_TimeStep = 0.01;
+  m_PotentialMagnitude = 1.0;
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
