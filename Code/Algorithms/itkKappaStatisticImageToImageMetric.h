@@ -109,7 +109,7 @@ public:
 
   /** Set/Get whether this metric returns 2*|A&B|/(|A|+|B|) 
    * (ComplementOff, the default) or 1.0 - 2*|A&B|/(|A|+|B|) 
-   * (ComplementOn). When using an optimizer than minimizes
+   * (ComplementOn). When using an optimizer that minimizes
    * metric values use ComplementOn().  */
   itkSetMacro(Complement, bool);
   itkBooleanMacro(Complement);
