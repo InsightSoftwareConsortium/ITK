@@ -8,3 +8,4 @@ itkWatershedMiniPipelineProgressCommand.cxx
 ADD_LIBRARY(ITKAlgorithms ${ITKAlgorithms_SRCS})
 TARGET_LINK_LIBRARIES(ITKAlgorithms ITKCommon ITKNumerics)
 
+INSTALL_TARGETS(/lib/InsightToolkit ITKAlgorithms)

@@ -34,3 +34,5 @@ ENDIF(BUILD_FEM_CODE)
 ADD_LIBRARY(ITKNumerics ${ITKNumerics_SRCS})
 
 TARGET_LINK_LIBRARIES (ITKNumerics ITKCommon VXLNumerics)
+
+INSTALL_TARGETS(/lib/InsightToolkit ITKNumerics)

@@ -278,3 +278,4 @@ IF(UNIX)
   TARGET_LINK_LIBRARIES(VXLNumerics -lm)
 ENDIF(UNIX)
 
+INSTALL_TARGETS(/lib/InsightToolkit VXLNumerics)
