@@ -20,7 +20,7 @@
 #include "itkCSwigMacros.h"
 namespace _cable_
 {
-  const char* const group = ITK_WRAP_GROUP(itkEventObject);
+  const char* const group = ITK_WRAP_GROUP(itkEventObjectGroup);
   namespace wrappers
   {
     typedef itk::EventObject itkEventObject;
