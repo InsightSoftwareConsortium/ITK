@@ -27,6 +27,7 @@ ADD_TEST(itkBilateralImageFilterTest ${BASIC_FILTERS_TESTS} itkBilateralImageFil
 ADD_TEST(itkBinaryDilateImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryDilateImageFilterTest)
 ADD_TEST(itkBinaryErodeImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryErodeImageFilterTest)
 ADD_TEST(itkBinaryMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryMagnitudeImageFilterTest)
+ADD_TEST(itkBinaryMaskToNarrowBandPointSetFilterTest ${BASIC_FILTERS_TESTS} itkBinaryMaskToNarrowBandPointSetFilterTest)
 ADD_TEST(itkBinaryMedianImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryMedianImageFilterTest)
 ADD_TEST(itkBinaryThresholdImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryThresholdImageFilterTest)
 ADD_TEST(itkBloxBoundaryPointImageTest ${BASIC_FILTERS_TESTS} itkBloxBoundaryPointImageTest)
@@ -343,6 +344,7 @@ itkBilateralImageFilterTest3.cxx
 itkBinaryDilateImageFilterTest.cxx
 itkBinaryErodeImageFilterTest.cxx
 itkBinaryMagnitudeImageFilterTest.cxx
+itkBinaryMaskToNarrowBandPointSetFilterTest.cxx
 itkBinaryMedianImageFilterTest.cxx
 itkBinaryThresholdImageFilterTest.cxx
 itkBloxBoundaryPointImageTest.cxx
