@@ -46,6 +46,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 #ifdef _WIN32
 #include "itkWindows.h"
+// when we start using _beginthreadex() instead of CreateThread we'll need
+// this include file
+//#include <process.h>
 #endif
 // These are the includes necessary for multithreaded rendering on an SGI
 // using the sproc() call
@@ -156,7 +159,7 @@ MultiThreader::MultiThreader()
     m_MultipleMethod[i]                     = NULL;
     m_MultipleData[i]                       = NULL;
     m_SpawnedThreadActiveFlag[i]            = 0;
-    m_SpawnedThreadActiveFlagLock[i]        = NULL;
+    m_SpawnedThreadActiveFlagLock[i]        = 0;
     m_SpawnedThreadInfoArray[i].ThreadID    = i;
     }
 
@@ -250,7 +253,16 @@ void MultiThreader::SingleMethodExecute()
     m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
     process_id[thread_loop] = 
       CreateThread(NULL, 0, m_SingleMethod, 
-	     ((void *)(&m_ThreadInfoArray[thread_loop])), 0, &threadId);
+                   ((void *)(&m_ThreadInfoArray[thread_loop])), 0, &threadId);
+// Found an article that said we should not use CreateThread but should
+// _beginthreadex() so that the CRT and exceptions are handled properly.
+// Not quite ready to try this.
+//    
+//     process_id[thread_loop] = (void *)
+//       _beginthreadex(NULL, 0,
+//                      (unsigned int (__stdcall *)(void *))m_SingleMethod, 
+//                      ((void *)(&m_ThreadInfoArray[thread_loop])), 0,
+//                      (unsigned int *)&threadId);
     if (process_id == NULL)
       {
       itkErrorMacro("Error in thread creation !!!");
@@ -667,7 +679,7 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
   // There is no multi threading, so there is only one thread.
   // This won't work - so give an error message.
   itkErrorMacro( << "Cannot spawn thread in a single threaded environment!" );
-  m_SpawnedThreadActiveFlagLock[id]->Delete();
+  m_SpawnedThreadActiveFlagLock[id] = 0;
   id = -1;
 #endif
 #endif
@@ -713,7 +725,7 @@ void MultiThreader::TerminateThread( int ThreadID )
 #endif
 #endif
 
-  m_SpawnedThreadActiveFlagLock[ThreadID]->Delete();
+  m_SpawnedThreadActiveFlagLock[ThreadID] = 0;
   m_SpawnedThreadActiveFlagLock[ThreadID] = NULL;
 
 }
