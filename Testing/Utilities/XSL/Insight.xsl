@@ -37,7 +37,7 @@
       &lt;/head>
       &lt;body bgcolor="#ffffff">
         &lt;font face="Arial,Helvetica">
-        &lt;table border="4" cellpading="0" cellspacing="2" width="100%">
+        &lt;table border="0" cellpading="0" cellspacing="2" width="100%">
           &lt;tr>
             &lt;td width="140">
       &lt;a href="</xsl:text><xsl:value-of select="$DashboardDir"/><xsl:text disable-output-escaping="yes">Dashboard.html">
