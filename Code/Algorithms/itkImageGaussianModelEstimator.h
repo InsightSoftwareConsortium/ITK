@@ -49,7 +49,7 @@ namespace itk
  * training data has class labels associated with each pixel. However, only
  * a subset of the data need to be labelled. Unlabelled data could be 
  * represented by a non zero, non positive number. The training data are 
- * anaysed for identifying the classes. Any non zero, non negative value is 
+ * analysed for identifying the classes. Any non zero, non negative value is 
  * considered a valid label. It is important that the maximum value of the 
  * training label be equal to N, where N is the number of classes represented
  * by the maximum label value in the training data set. The pixels 

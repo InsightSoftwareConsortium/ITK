@@ -39,7 +39,7 @@ namespace itk
  * to register two images by computing the deformation field which will 
  * map a moving image onto a fixed image.
  *
- * A deformation field is represented as a image whose pixel type is some
+ * A deformation field is represented as an image whose pixel type is some
  * vector type with at least N elements, where N is the dimension of
  * the fixed image. The vector type must support element access via operator
  * []. It is assumed that the vector elements behave like floating point
@@ -57,8 +57,8 @@ namespace itk
  * and moving images. A VectorExpandImageFilter is used to upsample
  * the deformation as we move from a coarse to fine solution.
  *
- * This class is templated over the fixed image type, moving image type,
- * the Deformation Field type.
+ * This class is templated over the fixed image type, the moving image type,
+ * and the Deformation Field type.
  *
  * \warning This class assumes that the fixed, moving and deformation
  * field image types all have the same number of dimensions.

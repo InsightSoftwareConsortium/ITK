@@ -30,10 +30,10 @@ namespace itk
 /** \class SphereMeshSource
  * \brief 
  *
- * Input the center and resolutions in 2 direction(verizon and horizon)
+ * Input the center and resolutions in 2 directions(verizon and horizon)
  * to create a sphere-like deformable model. The cell on the surface is
  * in the shape of triangular. 
- * More parameters are added to make the sphere mesh has global and local
+ * More parameters are added to make the sphere mesh have global and local
  * deform ability.
  */
 template <class TOutputMesh>

@@ -25,7 +25,7 @@ namespace itk
 /** \class RegistrationMethod
  * \brief Base class for Registration Methods
  *
- * This Class define the generic interface for a registration method.
+ * This class defines the generic interface for a registration method.
  * The basic elements of a registration method are defined in a Traits
  * class
  * \deprecated This class has been replaced by the less templated ImageRegistrationMethod class

@@ -45,7 +45,7 @@ namespace itk
  *
  * itkImageKmeansModelEstimator generated the kmeans model (cluster centers).  
  * This object performs clustering of data sets into different clusters
- * either using a user provided seed points as initial guess or generates
+ * either using user provided seed points as initial guess or generating
  * the clusters using a recursive approach when the user provides the
  * number of desired clusters. Each cluster is represented by its cluster
  * center. The two algorithms used are the generalized Lloyd

@@ -31,7 +31,7 @@ namespace itk
  * This metric computes the correlation between point values in the fixed
  * point-set and pixel values in the moving image. The correlation is
  * normalized by the autocorrelation values of both the point-set and the
- * moving image. The spatial correspondance between the point-set and the image
+ * moving image. The spatial correspondence between the point-set and the image
  * is established through a Transform. Pixel values are taken from the fixed
  * point-set. Their positions are mapped to the moving image and result in
  * general in non-grid position on it.  Values at these non-grid position of
