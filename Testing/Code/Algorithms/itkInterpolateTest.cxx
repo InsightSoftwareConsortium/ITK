@@ -74,14 +74,44 @@ main(
     // FIXME: Add trial evaluations near the border and outside the image
 
     /* Test evaluation at integer coordinates */
-    std::cout << "Evaluate at integer coordinates: ";
+    std::cout << "Evaluate at integer coordinates: " << std::endl;
     IndexType idx = {{10, 20,40}};
     double value1 = interp->Evaluate(idx);
-    std::cout << value1 << std::endl;
+    std::cout << idx << value1 << std::endl;
     if (value1 != 70)  {
         std::cout << "*** Error: correct value is 70" << std::endl;
         flag = 1;
     }
+
+    /* Test evaluation at image border */
+    idx[0] = 0;
+    value1 = interp->Evaluate(idx);
+    std::cout << idx << value1 << std::endl;
+    if (value1 != 60) 
+      {
+      std::cout << "*** Error: correct value is 60" << std::endl;
+      flag = 1;
+      }
+
+    idx[0] = 19;
+    value1 = interp->Evaluate(idx);
+    std::cout << idx << value1 << std::endl;
+    if (value1 != 79) 
+      {
+      std::cout << "*** Error: correct value is 79" << std::endl;
+      flag = 1;
+      }
+   
+    /* Test evaluation outside the image */
+    idx[0] = 20;
+    value1 = interp->Evaluate(idx);
+    std::cout << idx << value1 << std::endl;
+    if (value1 != 0) 
+      {
+      std::cout << "*** Error: correct value is 0" << std::endl;
+      flag = 1;
+      }
+    
 
     /* Test evaluation at non-integer coordinates */
     std::cout << "Evaluate at non-integer coordinates: ";
