@@ -107,7 +107,7 @@ BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>
     if ( threadId == 0 && !(i % updateVisits ) )
       {
       this->UpdateProgress( static_cast<float>( i ) / 
-                            static_cast<float>(updateVisits)*numberOfUpdates );
+                            ( static_cast<float>(updateVisits)*numberOfUpdates ) );
       }
 
     outputIt.Set( m_Functor( inputIt1.Get(), inputIt2.Get() ) );
