@@ -26,13 +26,15 @@ int itkDICOMSeriesFileNamesTest(int ac, char* av[])
     return EXIT_FAILURE;
   }
 
+  std::vector<std::string> names;
+  std::vector<std::string>::iterator nit;
 
   itk::DICOMSeriesFileNames::Pointer fit = itk::DICOMSeriesFileNames::New();
   fit->SetDirectory(av[1]);
-  
-  std::vector<std::string> names = fit->GetFileNames();
-  std::vector<std::string>::iterator nit;
+  fit->SetFileNameSortingOrderToSortByImageNumber();
 
+  std::cout << "Files sorted by image number" << std::endl;
+  names = fit->GetFileNames();
   for (nit = names.begin();
        nit != names.end();
        nit++)
@@ -40,6 +42,30 @@ int itkDICOMSeriesFileNamesTest(int ac, char* av[])
     std::cout << "File: " << (*nit).c_str() << std::endl;
     }
 
+
+  fit->SetFileNameSortingOrderToSortBySliceLocation();
+
+  std::cout << "Files sorted by slice location" << std::endl;
+  names = fit->GetFileNames();
+  for (nit = names.begin();
+       nit != names.end();
+       nit++)
+    {
+    std::cout << "File: " << (*nit).c_str() << std::endl;
+    }
+
+  
+  fit->SetFileNameSortingOrderToSortByImagePositionPatient();
+
+  std::cout << "Files sorted by ImagePositionPatient" << std::endl;
+  names = fit->GetFileNames();
+  for (nit = names.begin();
+       nit != names.end();
+       nit++)
+    {
+    std::cout << "File: " << (*nit).c_str() << std::endl;
+    }
+  
   return EXIT_SUCCESS;
 
 }
