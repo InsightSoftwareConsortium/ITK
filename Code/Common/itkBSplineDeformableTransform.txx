@@ -224,9 +224,11 @@ void
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::SetIdentity()
 {
-   ParametersType parameters = this->GetParameters();
-   parameters.Fill( 0.0 );
-   this->SetParameters( parameters );
+   if( m_InputParametersPointer )
+     {
+     ParametersType * parameters = const_cast<ParametersType *>( m_InputParametersPointer );
+     parameters->Fill( 0.0 );
+     }
 }
 
 
