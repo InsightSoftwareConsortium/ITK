@@ -195,7 +195,10 @@ public:
   
   /** Assignment operator */
   Self &operator=(const Self& orig)
-  { return Superclass::operator=(orig); }
+  {
+    Superclass::operator=(orig);
+    return *this;
+  }
 
   /** Standard itk print method */
   virtual void PrintSelf(std::ostream &, Indent) const;
