@@ -346,6 +346,25 @@ void GDCMImageIO::Write(const void* buffer)
        m_GdcmHeader->GetPubDict()->GetDictEntryByName(*it);
     //m_GdcmHeader->ReplaceOrCreateByNumber( temp,dictEntry->GetGroup(), dictEntry->GetElement());
   }
+  
+  /* we should use iterator on map since it is faster and avoid duplicating data
+  // Using real iterators (instead of the GetKeys() method)
+  //const itk::MetaDataDictionary & MyConstDictionary = MyDictionary;
+  itk::MetaDataDictionary::ConstIterator itr = dico.Begin();
+  itk::MetaDataDictionary::ConstIterator end = dico.End();
+
+  while( itr != end )
+    {
+    std::string temp;
+    ExposeMetaData<std::string>(dico, itr->first, temp);
+
+    // Convert DICOM name to DICOM (group,element)
+    gdcmDictEntry *dictEntry =
+       m_GdcmHeader->GetPubDict()->GetDictEntryByName( itr->first );
+    
+    m_GdcmHeader->ReplaceOrCreateByNumber( temp,dictEntry->GetGroup(), dictEntry->GetElement());
+    ++itr;
+    } */
 
   gdcmFile *myGdcmFile = new gdcmFile( m_GdcmHeader );
   myGdcmFile->GetImageData();  //API problem
