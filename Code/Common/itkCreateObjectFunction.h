@@ -73,7 +73,7 @@ public:
   static Pointer New() { return new Self;}
   LightObject::Pointer CreateObject()
     {
-    return T::New();
+    return LightObject::Pointer(T::New());
     }
 };
 
