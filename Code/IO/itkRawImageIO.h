@@ -64,11 +64,6 @@ public:
   void SetHeaderSize(unsigned long size);
   unsigned long GetHeaderSize();
   
-  /** Get the number of independent variables (dimensions) in the image
-   * being read. */
-  unsigned int GetNumberOfDimensions() const
-    {return VImageDimension;};
-
   /** Get the type of the pixel.  */
   virtual const std::type_info& GetPixelType() const
     {return typeid(PixelType);}

@@ -55,11 +55,12 @@ RawImageIO<TPixel,VImageDimension>::RawImageIO()
   m_FilePattern = "%s.%d";
   
   this->SetNumberOfComponents(1);
+  this->SetNumberOfDimensions(VImageDimension);
   
   for (int idx = 0; idx < VImageDimension; ++idx)
     {
     m_Spacing.insert(m_Spacing.begin()+idx,1.0);
-    m_Origin.insert(m_Spacing.begin(+ids),0.0);
+    m_Origin.insert(m_Origin.begin()+idx,0.0);
     }
   
   m_HeaderSize = 0;
