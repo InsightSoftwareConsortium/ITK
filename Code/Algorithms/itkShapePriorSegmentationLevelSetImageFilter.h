@@ -71,8 +71,7 @@ template <class TInputImage,
           class TOutputPixelType = float >
 class ITK_EXPORT ShapePriorSegmentationLevelSetImageFilter
   : public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, 
-                                            TOutputPixelType, Image<TOutputPixelType, 
-                                            ::itk::GetImageDimension<TInputImage>::ImageDimension> >
+                                            TOutputPixelType>
 {
 public:
 
@@ -82,8 +81,7 @@ public:
 
   /** Standard class typedefs */
   typedef ShapePriorSegmentationLevelSetImageFilter Self;
-  typedef SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, 
-        Image<TOutputPixelType, itkGetStaticConstMacro(ImageDimension)> > Superclass;
+  typedef SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
