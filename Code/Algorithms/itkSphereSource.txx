@@ -169,15 +169,15 @@ SphereSource<TOutputMesh>
       tripoints[1] = tripoints[0]-j+jn; 
       tripoints[2] = tripoints[0]+m_Resolution[1]; 
 	  testCell->SetPointIds(tripoints);
-	  SetCell(p, testCell);
-	  SetCellData(p, (PixelType)3.0);
+	  this->GetOutput()->SetCell(p, testCell);
+	  this->GetOutput()->SetCellData(p, (PixelType)3.0);
 	  p++;
 	  testCell = TriCell::New();
       tripoints[0] = tripoints[1]; 
       tripoints[1] = tripoints[0]+m_Resolution[1]; 
 	  testCell->SetPointIds(tripoints);
-	  SetCell(p, testCell);
-	  SetCellData(p, (PixelType)3.0);
+	  this->GetOutput()->SetCell(p, testCell);
+	  this->GetOutput()->SetCellData(p, (PixelType)3.0);
 	  p++;
 	  testCell = TriCell::New();
 	}
@@ -190,8 +190,8 @@ SphereSource<TOutputMesh>
     tripoints[1] = jn; 
     tripoints[2] = j; 
 	testCell->SetPointIds(tripoints);
-	SetCell(p, testCell);
-	SetCellData(p, (PixelType)1.0);
+	this->GetOutput()->SetCell(p, testCell);
+	this->GetOutput()->SetCellData(p, (PixelType)1.0);
 	p++;
 	testCell = TriCell::New();
   }
@@ -203,8 +203,8 @@ SphereSource<TOutputMesh>
 	tripoints[1] = numpts-1; 
     tripoints[0] = tripoints[2]-j+jn; 
 	testCell->SetPointIds(tripoints);
-	SetCell(p, testCell);
-	SetCellData(p, (PixelType)2.0);
+	this->GetOutput()->SetCell(p, testCell);
+	this->GetOutput()->SetCellData(p, (PixelType)2.0);
 	p++;
 	testCell = TriCell::New();
   }

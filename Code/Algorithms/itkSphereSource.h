@@ -63,6 +63,9 @@ public:
    */
   typedef typename OutputMeshType::Pointer OutputMeshPointer;
   typedef typename OutputMeshType::CellTraits CellTraits;
+  typedef typename OutputMeshType::PointsContainerPointer	PointsContainerPointer;
+  typedef typename OutputMeshType::PointsContainer	PointsContainer;
+  typedef typename OutputMeshType::PointType	PointType;
   
 /**
  * Define the triangular cell types which forms the surface of the model
