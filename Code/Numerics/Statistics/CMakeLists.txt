@@ -1,5 +1,6 @@
-# Sources of non-templated classes.
-
-PROJECT(StatLib)
-ADD_EXECUTABLE(SampleTest itkStatSampleTest)
-
+# Sources for ITKStatistics library
+SOURCE_FILES(ITKStatistics_SRCS    
+itkFastRandomUnitNormalVariateGenerator   
+)   
+  
+ADD_LIBRARY(ITKStatistics ITKStatistics_SRCS)
