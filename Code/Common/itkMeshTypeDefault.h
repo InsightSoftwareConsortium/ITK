@@ -137,8 +137,7 @@ public:
    * The CellLinks container should be a container of PointCellLinksContainer,
    * which should be a container conforming to the STL "set" interface.
    */
-  typedef std::set< CellIdentifier >
-        PointCellLinksContainer;
+  typedef std::set< CellIdentifier >     PointCellLinksContainer;
 
   /**
    * The container type for use in storing point links back to cells.

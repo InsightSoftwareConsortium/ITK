@@ -91,7 +91,7 @@ public:
    */
   typedef BoundingBox<PointIdentifier,PointDimension,
                       CoordRep,PointsContainer> BoundingBoxType;
-  typedef BoundingBoxType::Pointer   BoundingBoxPointer;
+  typedef typename BoundingBoxType::Pointer   BoundingBoxPointer;
 
   /**
    * Set the number of divisions in each axis direction.

@@ -114,7 +114,8 @@ public:
    * Get the length squared of the diagonal of the bounding box.
    * Returns zero bounding box cannot be computed.
    */
-  NumericTraits<CoordRep>::AccumulateType GetDiagonalLength2(void);
+  typedef typename NumericTraits<CoordRep>::AccumulateType AccumulateType;
+  AccumulateType GetDiagonalLength2(void);
 
 #if 0
   /**

@@ -66,6 +66,8 @@ private:
    * Quick access to the STL map type that was inherited.
    */
   typedef std::map<ElementIdentifier, Element> Map;
+  typedef typename Map::iterator               MapIterator;
+  typedef typename Map::const_iterator         MapConstIterator;
   
 protected:
   /**

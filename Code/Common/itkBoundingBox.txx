@@ -135,6 +135,8 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
     for ( PointsContainerIterator ci = m_PointsContainer->Begin();
           ci != m_PointsContainer->End(); ++ci )
       {
+      coords = ci->Value().GetCoords();
+      PointIdentifier index = ci->Index();
 
       coords = (*ci).Value().GetCoords(); //point value
 	  for (int i=0; i<PointDimension; i++)
@@ -199,7 +201,7 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-NumericTraits<BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::CoordRep>::AccumulateType 
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::AccumulateType 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::GetDiagonalLength2(void)
 {

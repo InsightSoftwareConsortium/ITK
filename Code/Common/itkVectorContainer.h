@@ -65,12 +65,16 @@ public:
   typedef TElementIdentifier  ElementIdentifier;
   typedef TElement            Element;
   
+
 private:
   /**
    * Quick access to the STL vector type that was inherited.
    */
   typedef std::vector<Element>  Vector;
-  typedef Vector::size_type     size_type;  
+  typedef typename Vector::size_type     size_type;  
+  typedef typename Vector::iterator           VectorIterator;
+  typedef typename Vector::const_iterator     VectorConstIterator;
+  
   
 protected:
   /**
@@ -130,7 +134,7 @@ public:
   {
   public:
     Iterator() {}
-    Iterator(size_type d, const Vector::iterator& i): m_Pos(d), m_Iter(i) {}
+    Iterator(size_type d, const VectorIterator& i): m_Pos(d), m_Iter(i) {}
     
     Iterator& operator* ()    { return *this; }
     Iterator* operator-> ()   { return this; }
