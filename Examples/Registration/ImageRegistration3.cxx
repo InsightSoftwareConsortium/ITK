@@ -131,7 +131,7 @@ public:
 
   //  Software Guide : BeginLatex
   //
-  //  In order to insure that the \code{New()} method is used to instantiate
+  //  In order to ensure that the \code{New()} method is used to instantiate
   //  the class (and not the C++ \code{new} operator), the constructor is
   //  declared \code{protected}. 
   //
@@ -151,7 +151,7 @@ public:
   //  \code{Execute()} method is invoked.  Note the use of \code{const} on
   //  the declaration of \code{OptimizerPointer}.  This is relevant since, in
   //  this case, the observer is not intending to modify the optimizer in any
-  //  way. A \code{const} interface insures that all operations invoked on the
+  //  way. A \code{const} interface ensures that all operations invoked on the
   //  optimizer are read-only.
   //
   //  Software Guide : EndLatex 
