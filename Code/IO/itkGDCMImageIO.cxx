@@ -192,8 +192,6 @@ void GDCMImageIO::Read(void* buffer)
   //== this->GetImageSizeInComponents()
   unsigned char *Source = (unsigned char*)GdcmFile.GetImageData();
   memcpy((void*)buffer, (void*)Source, size);
-  
-  foobar = GdcmFile.GetImageDataSize();
 
   //closing files:
   file.close();
