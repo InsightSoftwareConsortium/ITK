@@ -31,27 +31,6 @@ namespace itk
 {
 
 template <typename TInputImage, typename TRealType, typename TOutputImage>
-void
-DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  unsigned i;
-  Superclass::PrintSelf(os,indent);
-  os << indent << "m_UseImageSpacing = "          << m_UseImageSpacing
-     << std::endl;
-  os << indent << "m_RequestedNumberOfThreads = " << m_RequestedNumberOfThreads
-     << std::endl;
-  os << indent << "m_DerivativeWeights = ";
-  for (i = 0; i < ImageDimension; i++)
-    { os << m_DerivativeWeights[i] << " "; }
-  os << std::endl;
-  os << indent << "m_NeighborhoodRadius = "          << m_NeighborhoodRadius
-     << std::endl;
-  os << indent << "m_RealValuedInputImage = "          << m_RealValuedInputImage.GetPointer()
-     << std::endl;
-}
-  
-template <typename TInputImage, typename TRealType, typename TOutputImage>
 DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
 ::DeformationFieldJacobianDeterminantFilter()
 {
@@ -71,7 +50,7 @@ DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
 {
   m_UseImageSpacing = false;
 
-  for (unsigned i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
     {
     if (m_DerivativeWeights[i] != data[i])
       {
@@ -86,13 +65,16 @@ void
 DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
 ::SetUseImageSpacing(bool f)
 {
-  if (m_UseImageSpacing == f) { return; }
+  if (m_UseImageSpacing == f)
+    {
+    return;
+    }
 
   // Only reset the weights if they were previously set to the image spacing,
   // otherwise, the user may have provided their own weightings.
   if (f == false && m_UseImageSpacing == true)
     {
-    for (unsigned i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
       {
       m_DerivativeWeights[i] = static_cast<TRealType>(1.0);
       }
@@ -166,7 +148,7 @@ DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
   if (m_UseImageSpacing == true)
     {
 
-    for (unsigned i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; i++)
       {
       if (static_cast<TRealType>(this->GetInput()->GetSpacing()[i]) == 0.0)
         {
@@ -244,6 +226,27 @@ DeformationFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage 
     }
 }
 
+template <typename TInputImage, typename TRealType, typename TOutputImage>
+void
+DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  unsigned int i;
+  Superclass::PrintSelf(os,indent);
+  os << indent << "m_UseImageSpacing = "          << m_UseImageSpacing
+     << std::endl;
+  os << indent << "m_RequestedNumberOfThreads = " << m_RequestedNumberOfThreads
+     << std::endl;
+  os << indent << "m_DerivativeWeights = ";
+  for (i = 0; i < ImageDimension; i++)
+    { os << m_DerivativeWeights[i] << " "; }
+  os << std::endl;
+  os << indent << "m_NeighborhoodRadius = "          << m_NeighborhoodRadius
+     << std::endl;
+  os << indent << "m_RealValuedInputImage = "          << m_RealValuedInputImage.GetPointer()
+     << std::endl;
+}
+  
 } // end namespace itk
 
 #endif

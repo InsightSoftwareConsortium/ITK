@@ -64,8 +64,8 @@ typename SignedDanielssonDistanceMapImageFilter<
 SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 ::GetDistanceMap(void)
 {
-    return  dynamic_cast< OutputImageType * >(
-      this->ProcessObject::GetOutput(0) );
+  return  dynamic_cast< OutputImageType * >(
+    this->ProcessObject::GetOutput(0) );
 }
 
 
@@ -79,7 +79,7 @@ SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 ::GetVoronoiMap(void)
 {
   return  dynamic_cast< OutputImageType * >(
-          this->ProcessObject::GetOutput(1) );
+    this->ProcessObject::GetOutput(1) );
 }
 
 
@@ -92,8 +92,8 @@ typename SignedDanielssonDistanceMapImageFilter<
 SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 ::GetVectorDistanceMap(void)
 {
-    return  dynamic_cast< VectorImageType * >(
-      this->ProcessObject::GetOutput(2) );
+  return  dynamic_cast< VectorImageType * >(
+    this->ProcessObject::GetOutput(2) );
 }
 
 
@@ -110,7 +110,7 @@ void SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   progress->SetMiniPipelineFilter(this);  
   
   typedef DanielssonDistanceMapImageFilter<
-               InputImageType, OutputImageType >  FilterType;
+    InputImageType, OutputImageType >  FilterType;
   typename FilterType::Pointer filter1= FilterType::New();
   typename FilterType::Pointer filter2= FilterType::New();
 
@@ -125,7 +125,7 @@ void SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   typedef typename InputImageType::PixelType InputPixelType;
   typedef UnaryFunctorImageFilter< InputImageType, InputImageType,
     InvertIntensityFunctor<InputPixelType> > 
-      InverterType;
+    InverterType;
   typename InverterType::Pointer inverter = InverterType::New();
   inverter->SetInput(this->GetInput());
  
@@ -133,9 +133,9 @@ void SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   //as the univerted input.
   
   typedef BinaryBallStructuringElement< InputPixelType, 
-        2  > StructuringElementType;  
+    2  > StructuringElementType;  
   typedef BinaryDilateImageFilter< InputImageType, InputImageType, 
-        StructuringElementType > DilatorType; 
+    StructuringElementType > DilatorType; 
   typename DilatorType::Pointer dilator = DilatorType::New();
 
   StructuringElementType  structuringElement;
@@ -150,7 +150,7 @@ void SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   //Subtract Distance maps results of the two Danielsson filters
   typedef SubtractImageFilter< OutputImageType, OutputImageType, 
-          OutputImageType > SubtracterType;
+    OutputImageType > SubtracterType;
 
   typename SubtracterType::Pointer subtracter = SubtracterType::New();
 
