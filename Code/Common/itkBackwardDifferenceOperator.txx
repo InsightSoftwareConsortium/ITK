@@ -16,9 +16,10 @@
 namespace itk
 {
 
-template <class TPixel, unsigned int VDimension>
-typename BackwardDifferenceOperator<TPixel, VDimension>::CoefficientVector
-BackwardDifferenceOperator<TPixel, VDimension>
+template <class TPixel, unsigned int VDimension, class TAllocator>
+typename BackwardDifferenceOperator<TPixel, VDimension, TAllocator>
+::CoefficientVector
+BackwardDifferenceOperator<TPixel, VDimension, TAllocator>
 ::GenerateCoefficients()
 {
   CoefficientVector coeff(3);

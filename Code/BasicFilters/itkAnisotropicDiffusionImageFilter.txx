@@ -28,10 +28,10 @@ void UpdateStrategyScalar<TImage>
 {
   TImage *ip = static_cast<TImage *>(d1);
   TImage *op = static_cast<TImage *>(d2);
-  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType, ImageTraits<TImage>::ImageDimension>
-    in(ip, op->GetRequestedRegion());
-  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType, ImageTraits<TImage>::ImageDimension>
-    out(op, op->GetRequestedRegion());
+  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType,
+    ImageTraits<TImage>::ImageDimension> in(ip, op->GetRequestedRegion());
+  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType,
+    ImageTraits<TImage>::ImageDimension>  out(op, op->GetRequestedRegion());
   in = in.Begin();
   out = out.Begin();
 
@@ -48,10 +48,10 @@ void CopyStrategyScalar<TImage>::operator()(void *d1, void *d2) const
 {
   TImage *ip = static_cast<TImage *>(d1);
   TImage *op = static_cast<TImage *>(d2);
-  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType, ImageTraits<TImage>::ImageDimension>
-    in(ip, op->GetRequestedRegion());
-  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType, ImageTraits<TImage>::ImageDimension>
-    out(op, op->GetRequestedRegion());
+  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType,
+    ImageTraits<TImage>::ImageDimension>  in(ip, op->GetRequestedRegion());
+  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType,
+    ImageTraits<TImage>::ImageDimension>  out(op, op->GetRequestedRegion());
   in = in.Begin();
   out = out.Begin();
 
@@ -116,7 +116,8 @@ TPixel AvgGradMagSquared<TPixel, VDimension>
   TPixel val;
   unsigned long counter;
   typedef RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension> RNI_type;
-  NeighborhoodAlgorithm::IteratorInnerProduct<RNI_type > IP;
+  NeighborhoodAlgorithm::IteratorInnerProduct<RNI_type,
+    NeighborhoodOperator<TPixel, VDimension> > IP;
   
   RNI_type iterator_list[VDimension];
   DerivativeOperator<TPixel, VDimension> operator_list[VDimension];

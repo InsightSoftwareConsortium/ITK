@@ -91,8 +91,10 @@ protected:
   {
     typedef RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension> RNI;
     typedef RegionBoundaryNeighborhoodIterator<TPixel, VDimension> RBI;
-    typedef NeighborhoodAlgorithm::IteratorInnerProduct<RNI> SNIP;
-    typedef NeighborhoodAlgorithm::BoundsCheckingIteratorInnerProduct<RBI> SBIP;
+    typedef NeighborhoodAlgorithm::IteratorInnerProduct<RNI,
+      NeighborhoodOperator<TPixel, VDimension> > SNIP;
+    typedef NeighborhoodAlgorithm::BoundsCheckingIteratorInnerProduct<RBI,
+      NeighborhoodOperator<TPixel, VDimension> > SBIP;
     
     if (VDimension == 2)
       {

@@ -16,9 +16,10 @@
 namespace itk
 {
 
-template <class TPixel, unsigned int VDimension>
-typename DerivativeOperator<TPixel, VDimension>::CoefficientVector
-DerivativeOperator<TPixel, VDimension>
+template <class TPixel, unsigned int VDimension, class TAllocator>
+typename DerivativeOperator<TPixel, VDimension, TAllocator>
+::CoefficientVector
+DerivativeOperator<TPixel, VDimension, TAllocator>
 ::GenerateCoefficients()
 {
   unsigned int i;

@@ -15,9 +15,11 @@
   =========================================================================*/
 namespace itk {
 
-template<class TPixel, unsigned int VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+    class TDerefAllocator>
 bool
-SmartRegionNeighborhoodIterator<TPixel, VDimension>
+SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 ::InBounds()
 {
   bool ans = true;
@@ -31,14 +33,17 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
   return ans;
 }
 
-template<class TPixel, unsigned int VDimension>
-Neighborhood<TPixel, VDimension>
-SmartRegionNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+    class TDerefAllocator>
+typename SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>::NeighborhoodType
+SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 ::GetNeighborhood()
 {
   const Iterator _end = this->end();
   NeighborhoodType ans;
-  NeighborhoodType::Iterator ans_it;
+  typename NeighborhoodType::Iterator ans_it;
   Iterator this_it;
 
   ans.SetRadius( this->GetRadius() );
@@ -107,9 +112,11 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
   
 }
 
-template<class TPixel, unsigned int VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+  class TDerefAllocator>
 void
-SmartRegionNeighborhoodIterator<TPixel, VDimension>
+SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 ::SetNeighborhood(NeighborhoodType &N)
 {
   const Iterator _end = this->end();
@@ -173,38 +180,26 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
 
 }
 
-template<class TPixel, unsigned int VDimension>
-void SmartRegionNeighborhoodIterator<TPixel, VDimension>
-::PrintSelf()
+template<class TPixel, unsigned int VDimension, class TAllocator,
+  class TDerefAllocator>
+void SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
+::PrintSelf(std::ostream &os, Indent indent) const
 {
   unsigned int i;
-  //NeighborhoodBase<TPixel, VDimension>::PrintSelf();
-  std::cout << "SmartRegionNeighborhoodIterator" << std::endl;
-  std::cout << "        this = " << this << std::endl;
-  std::cout << "this->size() = " << this->size() << std::endl;
-  std::cout << "    m_Bound = { ";
-  for (i = 0; i<VDimension; i++) std::cout << m_Bound[i] << " ";
-  std::cout << "}" << std::endl;
-  std::cout << "    m_InnerBoundsLow = { ";
-  for (i = 0; i<VDimension; i++) std::cout << m_InnerBoundsLow[i] << " ";
-  std::cout << "}" << std::endl;
-  std::cout << "    m_InnerBoundsHigh = { ";
-  for (i = 0; i<VDimension; i++) std::cout << m_InnerBoundsHigh[i] << " ";
-  std::cout << "}" << std::endl;
-  std::cout << "     m_Loop = { ";
-  for (i = 0; i<VDimension; i++) std::cout << m_Loop[i] << " ";
-  std::cout << "}" << std::endl;
-  std::cout << "   m_WrapOffset = { ";
-  for (i = 0; i<VDimension; i++) std::cout << m_WrapOffset[i] << " ";
-  std::cout << "}" << std::endl;
-   std::cout << "   m_StartIndex = { ";
-  for (i = 0; i<VDimension; i++) std::cout << m_StartIndex[i] << " ";
-  std::cout << "}" << std::endl;
-  
+  os << indent << "SmartRegionNeighborhoodIterator { this = " << this
+     << ", m_InnerBoundsLow = { ";
+  for (i = 0; i<VDimension; i++) os << m_InnerBoundsLow[i] << " ";
+  os << "}, m_InnerBoundsHigh = { ";
+  for (i = 0; i<VDimension; i++) os << m_InnerBoundsHigh[i] << " ";
+  os << "} }" << std::endl;
+  Superclass::PrintSelf(os, indent.GetNextIndent());
 }
 
-template<class TPixel, unsigned int VDimension>
-void SmartRegionNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+  class TDerefAllocator>
+void SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 ::SetBound(const SizeType& size)
 {
   Size<VDimension> radius  = this->GetRadius();
@@ -226,9 +221,12 @@ void SmartRegionNeighborhoodIterator<TPixel, VDimension>
     }
 }
 
-template<class TPixel, unsigned int VDimension>
-SmartRegionNeighborhoodIterator<TPixel, VDimension>
-SmartRegionNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+  class TDerefAllocator>
+SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator> 
+SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator> 
 ::Begin() const 
 {
   //Copy the current iterator
@@ -240,9 +238,12 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
   return it;
 }
 
-template<class TPixel, unsigned int VDimension>
-SmartRegionNeighborhoodIterator<TPixel, VDimension>
-SmartRegionNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+  class TDerefAllocator>
+SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator> 
+SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator> 
 ::End() const
 {
   IndexType endIndex;

@@ -96,7 +96,13 @@ struct ITK_EXPORT UpdateStrategyScalar : public UpdateStrategy
   virtual void operator()(void *, void *) const;
 };
 
-  
+
+/**
+ * \class AnisotropicDiffusionImageFilter
+ * This class is the base class for a set of non-linear diffusion filters
+ * that perform anisotropic diffusion.  It defines a common interface and
+ * several default method implementations.
+ */
 template <class TPixel, unsigned int VDimension=2>
 class ITK_EXPORT AnisotropicDiffusionImageFilter :
     public ImageToImageFilter< Image<TPixel, VDimension>,

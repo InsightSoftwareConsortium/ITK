@@ -16,6 +16,7 @@
 #ifndef __itkBackwardDifferenceOperator_h
 #define __itkBackwardDifferenceOperator_h
 
+#include "itkPixelTraits.h"
 #include "itkNeighborhoodOperator.h"
 #include "itkExceptionObject.h"
 
@@ -33,9 +34,10 @@ namespace itk {
  * inner product. 
  *
  */
-template<class TPixel, unsigned int VDimension=2>
+template<class TPixel, unsigned int VDimension=2,
+  class TAllocator = NeighborhoodAllocator<TPixel> >
 class ITK_EXPORT BackwardDifferenceOperator
-  : public NeighborhoodOperator<TPixel, VDimension>
+  : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
 public:
   /**
@@ -47,19 +49,43 @@ public:
    * Standard "Self" typedef support.
    */
   typedef BackwardDifferenceOperator Self;
-
-  /**
-   * NeighborhoodOperator typedef support.
-   */
-  typedef NeighborhoodOperator<TPixel, VDimension> NeighborhoodOperator;
   
   /**
-   *  Constructor.
+   * Standard Superclass typedef support
+   */
+  typedef NeighborhoodOperator<TPixel, VDimension, TAllocator> Superclass;
+  
+  /**
+   * External support for coefficient type
+   */
+  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
+  
+  /**
+   * Constructor.
    */
   BackwardDifferenceOperator() {}
 
+  /**
+   * Copy constructor
+   */
+  BackwardDifferenceOperator(const Self& other)
+    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
+  {  }
+
+  /**
+   * Assignment operator
+   */
+  Self &operator=(const Self& other)
+  {
+    Superclass::operator=(other);
+    return *this;
+  }
+
 protected:
-  typedef std::vector<TPixel> CoefficientVector;
+  /**
+   * Necessary to work around a compiler bug in VC++.
+   */
+  typedef typename Superclass::CoefficientVector CoefficientVector;
 
   /**
    * Calculates operator coefficients.
@@ -70,9 +96,7 @@ protected:
    * Arranges coefficients spatially in the memory buffer.
    */
   void Fill(const CoefficientVector &coeff)
-  {
-    this->FillCenteredDirectional(coeff);
-  }
+  {    this->FillCenteredDirectional(coeff);  }
   
 };
 

@@ -43,46 +43,33 @@ namespace itk {
  * \sa NeighborhoodAlgorithm
  */
  
-template<class TPixel, unsigned int VDimension =2>
+template<class TPixel, unsigned int VDimension =2,
+  class TAllocator = NeighborhoodAllocator<TPixel *>,
+  class TDerefAllocator = NeighborhoodAllocator<TPixel> >
 class ITK_EXPORT RegionNeighborhoodIterator
- : public NeighborhoodIterator<TPixel, VDimension>
+ : public NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
 {
 public:
   /** 
-   * Standard "Self" typedef support.
+   * Standard "Self" & Superclass typedef support.
    */
   typedef RegionNeighborhoodIterator Self;
+  typedef NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+    Superclass;  
   
   /**
-   * Standard Superclass typedef
+   * Some common itk object typedefs
    */
-  typedef NeighborhoodIterator<TPixel, VDimension> Superclass;
-  
-  /**
-   * Image typedef support.
-   */
-  typedef Image<TPixel, VDimension> ImageType;
-
-  /**
-   * Region typedef support.
-   */
-  typedef ImageRegion<VDimension> RegionType;
-  
-  /**
-   * Size object typedef support
-   */
-  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
+  typedef typename Superclass::ImageType ImageType;
+  typedef typename Superclass::RegionType RegionType;
+  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
 
   /**
    * Scalar data type typedef support
    */
-  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
+  typedef typename Superclass::ScalarValueType ScalarValueType;
 
-  /**
-   * itk::Neighborhood typedef support
-   */
-  typedef Neighborhood<TPixel, VDimension> NeighborhoodType;
-  
   /** 
    * Run-time type information (and related methods).
    */
@@ -101,9 +88,7 @@ public:
   RegionNeighborhoodIterator(const SizeType &radius,
                              ImageType *ptr,
                              const RegionType &region)
-  {
-    this->Initialize(radius, ptr, region);
-  }
+  {  this->Initialize(radius, ptr, region);   }
 
   /**
    * Return an iterator for the beginning of the region.
@@ -118,18 +103,14 @@ public:
   /**
    * 
    */
-  void SetEnd()
-  {
-    m_EndPointer = this->End().operator[](this->size()>>1);
-  }
+  void SetEnd()    
+  {  m_EndPointer = this->End().operator[](this->Size()>>1);  }
   
   /**
    *
    */
   void SetToBegin()
-  {
-    *this = this->Begin();
-  }
+  {  *this = this->Begin();  }
   
   /**
    * Returns a Neighborhood object with values of the image pixels that
@@ -137,7 +118,7 @@ public:
    * \sa SetPixelValues
    * \sa Neighborhood
    */
-  Neighborhood<TPixel, VDimension> GetNeighborhood();
+  NeighborhoodType GetNeighborhood();
 
   /**
    * Sets the values in the referenced image to the values contained in
@@ -147,18 +128,29 @@ public:
   void SetNeighborhood(NeighborhoodType &);
 
   /**
-   * Prints information about the neighborhood pointer structure to
-   * std::cout for debugging purposes.
+   * Copy constructor
    */
-  void PrintSelf();
+  RegionNeighborhoodIterator( const Self& other)
+    : NeighborhoodIterator<TPixel, VDimension, TAllocator,
+    TDerefAllocator>(other)
+  {  }
 
   /**
    * Assignment operator
    */
   Self &operator=(const Self& orig)
   {
-    NeighborhoodIterator<TPixel, VDimension>::operator=(orig);
+    Superclass::operator=(orig);
     return *this;
+  }
+
+  /**
+   * Standard print method.
+   */
+  virtual void PrintSelf(ostream &os, Indent i) const
+  {
+    os << i << "RegionNeighborhoodIterator" << std::endl;
+    Superclass::PrintSelf(os, i.GetNextIndent());
   }
   
 protected:

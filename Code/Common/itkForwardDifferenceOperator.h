@@ -16,6 +16,7 @@
 #ifndef __itkForwardDifferenceOperator_h
 #define __itkForwardDifferenceOperator_h
 
+#include "itkPixelTraits.h"
 #include "itkNeighborhoodOperator.h"
 #include "itkExceptionObject.h"
 
@@ -32,9 +33,10 @@ namespace itk {
  * NeighborhoodOperator that should be applied to a Neighborhood using the
  * inner product. 
  */
-template<class TPixel, unsigned int VDimension=2>
+template<class TPixel, unsigned int VDimension=2,
+  class TAllocator = NeighborhoodAllocator<TPixel> >
 class ITK_EXPORT ForwardDifferenceOperator
-  : public NeighborhoodOperator<TPixel, VDimension>
+  : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
 public:
   /**
@@ -48,17 +50,42 @@ public:
   typedef ForwardDifferenceOperator Self;
 
   /**
-   * NeighborhoodOperator typedef support.
+   * Standard superclass typedef support
    */
-  typedef NeighborhoodOperator<TPixel, VDimension> NeighborhoodOperator;
+  typedef NeighborhoodOperator<TPixel, VDimension, TAllocator> Superclass;
 
+  /**
+   * External support for scalar value type of the coefficient vector.
+   */
+  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
+  
   /**
    * Constructor.
    */
   ForwardDifferenceOperator() {}
 
+  /**
+   * Copy constructor
+   */
+  ForwardDifferenceOperator(const Self& other)
+    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
+  {  }
+
+  /**
+   * Assignment operator
+   */
+  Self &operator=(const Self& other)
+  {
+    Superclass::operator=(other);
+    return *this;
+  }
+  
 protected:
-  typedef std::vector<TPixel> CoefficientVector;
+  /**
+   * Necessary to work around VC++ compiler bug.
+   */
+  typedef typename Superclass::CoefficientVector CoefficientVector;
+  
   /**
    * Calculates operator coefficients.
    */
@@ -68,9 +95,7 @@ protected:
    * Arranges coefficients spatially in the memory buffer.
    */
   void Fill(const CoefficientVector &coeff)
-  {
-    this->FillCenteredDirectional(coeff);
-  }
+  {    this->FillCenteredDirectional(coeff);   }
 
 };
   

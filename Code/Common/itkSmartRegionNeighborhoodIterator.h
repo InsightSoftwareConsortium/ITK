@@ -40,20 +40,33 @@ namespace itk {
  * \sa NeighborhoodIterator
  * \sa Neighborhood
  */
-template<class TPixel, unsigned int VDimension = 2>
+template<class TPixel, unsigned int VDimension = 2,
+  class TAllocator = NeighborhoodAllocator<TPixel *>,
+  class TDerefAllocator = NeighborhoodAllocator<TPixel> >
 class ITK_EXPORT SmartRegionNeighborhoodIterator
-  :  public NeighborhoodIterator<TPixel, VDimension>
+  :  public NeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 {
 public:
   /** 
-   * Standard "Self" typdef.
+   * Standard "Self" & Superclass typdef.
    */
-  typedef SmartRegionNeighborhoodIterator  Self;
+  typedef SmartRegionNeighborhoodIterator Self;
+  typedef NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+  Superclass;
 
   /**
-   *
+   * Some common itk object typedefs
    */
-  typedef NeighborhoodIterator<TPixel, VDimension>  Superclass;
+  typedef typename Superclass::ImageType ImageType;
+  typedef typename Superclass::RegionType RegionType;
+  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+
+  /**
+   * Scalar data type typedef support
+   */
+  typedef typename Superclass::ScalarValueType ScalarValueType;
   
   /** 
    * Run-time type information (and related methods).
@@ -64,32 +77,35 @@ public:
    * Default constructor.
    */
   SmartRegionNeighborhoodIterator() {};
-  
-  /**
-   * itk::Image typedef support.
-   */
-  typedef Image<TPixel, VDimension> ImageType;
 
   /**
-   * Region typedef support.
+   * Copy constructor
    */
-  typedef ImageRegion<VDimension> RegionType;
+  SmartRegionNeighborhoodIterator(const Self& orig)
+    : NeighborhoodIterator<TPixel, VDimension, TAllocator,
+    TDerefAllocator>(orig)
+  {
+    memcpy(m_InnerBoundsLow, orig.m_InnerBoundsLow, sizeof(long int) *
+           VDimension);
+    memcpy(m_InnerBoundsHigh, orig.m_InnerBoundsHigh, sizeof(long int) *
+           VDimension);
+    memcpy(m_InBounds, orig.m_InBounds, sizeof(bool) * VDimension);
+  }
   
   /**
-   * Size object typedef support
+   * Assignment operator
    */
-  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
-
-  /**
-   * itk::Neighborhood typedef support
-   */
-  typedef Neighborhood<TPixel, VDimension> NeighborhoodType;
-  
-  /**
-   * Scalar data type typedef support
-   */
-  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
-
+  Self &operator=(const Self& orig)
+  {
+    Superclass::operator=(orig);
+    memcpy(m_InnerBoundsLow, orig.m_InnerBoundsLow, sizeof(long int) *
+           VDimension);
+    memcpy(m_InnerBoundsHigh, orig.m_InnerBoundsHigh, sizeof(long int) *
+           VDimension);
+    memcpy(m_InBounds, orig.m_InBounds, sizeof(bool) * VDimension);
+    return *this;
+  }
+ 
   /**
    * Constructor establishes a neighborhood of iterators of a specified
    * dimension to walk a particular image and a particular region of
@@ -98,9 +114,7 @@ public:
   SmartRegionNeighborhoodIterator(const SizeType& radius,
                                   ImageType *ptr,
                                   const RegionType& region)
-  {
-    this->Initialize(radius, ptr, region);
-  }
+  {  this->Initialize(radius, ptr, region);  }
 
   /**
    * Return an iterator for the beginning of the region.
@@ -116,22 +130,18 @@ public:
    * 
    */
   virtual void SetEnd()
-  {
-    m_EndPointer = this->End().operator[](this->size()>>1);
-  }
+  {    m_EndPointer = this->End().operator[](this->Size()>>1);  }
   /**
    *
    */
   virtual void SetToBegin()
-  {
-    *this = this->Begin();
-  }
+  {    *this = this->Begin();  }
 
   /**
    * "Dereferences" the iterator. Returns the Neighborhood of values in the
    * itk::Image at the position of the iterator.
    */
-  Neighborhood<TPixel, VDimension> GetNeighborhood();
+  NeighborhoodType GetNeighborhood();
 
   /**
    * Returns the pixel value referenced by a linear array location.
@@ -158,21 +168,7 @@ public:
    * Prints information about the neighborhood pointer structure to
    * std::cout for debugging purposes.
    */
-  void PrintSelf();
-
-  /**
-   * Assignment operator
-   */
-  Self &operator=(const Self& orig)
-  {
-    Superclass::operator=(orig);
-    memcpy(m_InnerBoundsLow, orig.m_InnerBoundsLow, sizeof(long int) *
-           VDimension);
-    memcpy(m_InnerBoundsHigh, orig.m_InnerBoundsHigh, sizeof(long int) *
-           VDimension);
-    memcpy(m_InBounds, orig.m_InBounds, sizeof(bool) * VDimension);
-    return *this;
-  }
+  virtual void PrintSelf(std::ostream &, Indent) const;
 
   /**
    * Returns false if the iterator overlaps region boundaries, true

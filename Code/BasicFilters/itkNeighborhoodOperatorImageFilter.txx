@@ -27,8 +27,11 @@ NeighborhoodOperatorImageFilter<TPixel, VDimension>
   typedef Image<TPixel, VDimension> ImageType;
   typedef RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension> RNI;
   typedef RegionBoundaryNeighborhoodIterator<TPixel, VDimension>    RBI;
-  typedef NeighborhoodAlgorithm::IteratorInnerProduct<RNI> SNIP;
-  typedef NeighborhoodAlgorithm::BoundsCheckingIteratorInnerProduct<RBI> SBIP;
+  typedef NeighborhoodAlgorithm
+    ::IteratorInnerProduct<RNI, Neighborhood<TPixel, VDimension> > SNIP;
+  typedef NeighborhoodAlgorithm
+    ::BoundsCheckingIteratorInnerProduct<RBI, Neighborhood<TPixel, VDimension>
+    > SBIP;
 
   NeighborhoodAlgorithm::ApplyOperatorToEach<SNIP, RNI> f1;
   NeighborhoodAlgorithm::ApplyOperatorToEach<SBIP, RBI> f2;

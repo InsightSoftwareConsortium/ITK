@@ -132,12 +132,15 @@ protected:
 
   virtual DiffusionStrategy *GetDiffusionStrategy()
   {
+    typedef typename VectorTraits<TPixel>::VectorValueType VectorValueType;
     typedef RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension> RNI;
     typedef RegionBoundaryNeighborhoodIterator<TPixel, VDimension> RBI;
     typedef NeighborhoodAlgorithm
-      ::VectorComponentIteratorInnerProduct<RNI> SNIP;
+      ::VectorComponentIteratorInnerProduct<RNI,
+      NeighborhoodOperator<VectorValueType, VDimension> > SNIP;
     typedef NeighborhoodAlgorithm
-      ::BoundsCheckingVectorComponentIteratorInnerProduct<RBI> SBIP;
+      ::BoundsCheckingVectorComponentIteratorInnerProduct<RBI,
+      NeighborhoodOperator<VectorValueType, VDimension> > SBIP;
 
     if (VDimension == 2)
       {

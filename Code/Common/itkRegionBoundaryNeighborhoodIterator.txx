@@ -15,18 +15,22 @@
   =========================================================================*/
 namespace itk {
 
-template<class TPixel, unsigned int VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator, class
+TDerefAllocator>
 void
-RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
+RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 ::SetBound(const SizeType& size)
 {
-  SmartRegionNeighborhoodIterator<TPixel, VDimension>::SetBound(size);
+  Superclass::SetBound(size);
   m_InnerStride = (m_Bound[0] - m_StartIndex[0]) - 2*this->GetRadius(0);
 }
 
-template<class TPixel, unsigned int VDimension>
-const NeighborhoodIterator<TPixel, VDimension> &
-RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator, class
+TDerefAllocator>
+const NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator> &
+RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 ::operator++()
 {
   unsigned int i;
@@ -35,7 +39,8 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
 
   if (! this->InBounds())
     {
-      NeighborhoodIterator<TPixel, VDimension>::operator++();
+      NeighborhoodIterator<TPixel, VDimension, TAllocator,
+        TDerefAllocator>::operator++();
     }
 
   while(this->InBounds())
@@ -81,9 +86,11 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
   return *this; 
 }
 
-template<class TPixel, unsigned int VDimension>
-const NeighborhoodIterator<TPixel, VDimension> &
-RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator, class
+TDerefAllocator>
+const NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator> &
+RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 ::operator--()
 {
   unsigned int i;
@@ -92,7 +99,8 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
 
   if (! this->InBounds())
     {
-      NeighborhoodIterator<TPixel, VDimension>::operator--();
+      NeighborhoodIterator<TPixel, VDimension, TAllocator,
+        TDerefAllocator>::operator--();
     }
 
   while(this->InBounds())
@@ -138,9 +146,12 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
   return *this; 
 }
 
-template<class TPixel, unsigned int VDimension>
-RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
-RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator, class
+TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 ::Begin() const
 {
   //Copy the current iterator
@@ -152,9 +163,12 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
   return it;
 }
 
-template<class TPixel, unsigned int VDimension>
-RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
-RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator, class
+TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 ::End() const
 {
   IndexType endIndex;
@@ -172,16 +186,6 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
   ++it;
 
   return it;
-}
-
-template<class TPixel, unsigned int VDimension>
-void RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
-::PrintSelf()   // -- Note: this method is for developmental/
-{           //          debugging purposes and should be
-            //          removed at some point.
-  std::cout << "RegionBoundaryNeighborhoodIterator" << std::endl;
-  std::cout << "\tm_InnerStride = " << m_InnerStride << std::endl;
-  SmartRegionNeighborhoodIterator<TPixel, VDimension>::PrintSelf();
 }
 
 } // namespace itk

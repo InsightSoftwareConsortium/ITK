@@ -45,56 +45,43 @@ namespace itk {
  * \sa Neighborhood
  * \sa NeighborhoodAlgorithm
  */
-template<class TPixel, unsigned int VDimension = 2>
+template<class TPixel, unsigned int VDimension = 2,
+  class TAllocator = NeighborhoodAllocator<TPixel *>,
+  class TDerefAllocator = NeighborhoodAllocator<TPixel> >
 class RandomAccessNeighborhoodIterator
-  :  public RegionNeighborhoodIterator<TPixel, VDimension>
+  :  public RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator> 
 {
 public:
   /** 
-   * Standard "Self" typedef support.
+   * Standard "Self" & Superclass typedef support.
    */
   typedef RandomAccessNeighborhoodIterator Self;
-
-  /**
-   * Standard Superclass typedef
-   */
-  typedef RegionNeighborhoodIterator<TPixel, VDimension> Superclass;
-  
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(RandomAccessNeighborhoodIterator, RegionNeighborhoodIterator);
-
-  /**
-   * Image typedef support.
-   */
-  typedef Image<TPixel, VDimension> ImageType;
-
-  /**
-   * Region typedef support.
-   */
-  typedef ImageRegion<VDimension> RegionType;
+  typedef RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+    TDerefAllocator> Superclass;
   
   /**
-   * Size object typedef support
+   * Some common itk object typedefs
    */
-  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
+  typedef typename Superclass::ImageType ImageType;
+  typedef typename Superclass::RegionType RegionType;
+  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
 
   /**
    * Scalar data type typedef support
    */
-  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
+  typedef typename Superclass::ScalarValueType ScalarValueType;
 
-  /**
-   * itk::Neighborhood typedef support
+  /** 
+   * Run-time type information (and related methods).
    */
-  typedef Neighborhood<TPixel, VDimension> NeighborhoodType;
+  itkTypeMacro(RandomAccessNeighborhoodIterator, RegionNeighborhoodIterator);
   
-  /**
+    /**
    * Default constructor
    */
-  RandomAccessNeighborhoodIterator()
-    : RegionNeighborhoodIterator<TPixel, VDimension>() {};
+  RandomAccessNeighborhoodIterator() {};
   
   /**
   * Constructor establishes a neighborhood of iterators of a specified
@@ -104,34 +91,40 @@ public:
   RandomAccessNeighborhoodIterator(const SizeType &radius,
                              ImageType *ptr,
                              const RegionType &region)
-    : RegionNeighborhoodIterator<TPixel, VDimension>(radius, ptr, region) { }
+    : RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+    TDerefAllocator>(radius, ptr, region) { }
 
   /**
    * Return an iterator for the beginning of the region.
    */
-  Self Begin();
+  Self Begin() const;
 
   /**
    * Return an iterator for the end of the region.
    */
-  Self End();
+  Self End() const;
 
  /**
    * 
    */
   virtual void SetEnd()
-  {
-    m_EndPointer = this->End().operator[](this->size()>>1);
-  }
+  {    m_EndPointer = this->End().operator[](this->Size()>>1);  }
   
   /**
    *
    */
   virtual void SetToBegin()
-  {
-    *this = this->Begin();
-  }
- 
+  {    *this = this->Begin();  }
+
+
+  /**
+   * Copy constructor
+   */
+  RandomAccessNeighborhoodIterator( const Self &other)
+    : RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+    TDerefAllocator>(other)
+   { }
+  
   /**
    * Assignment operator
    */
@@ -161,47 +154,54 @@ public:
     return idx;
   }
   
+  /**
+   * Standard print method.
+   */
+  virtual void PrintSelf(ostream &os, Indent i) const
+  {
+    os << i << "RandomAccessNeighborhoodIterator" << std::endl;
+    Superclass::PrintSelf(os, i.GetNextIndent());
+  }
 };
 
-template<class TPixel, unsigned int VDimension>
-inline RandomAccessNeighborhoodIterator<TPixel, VDimension>
-operator+(const RandomAccessNeighborhoodIterator<TPixel, VDimension> &it,
-          const Index<VDimension> &ind)
+template<class TPixel, unsigned int VDimension, class TAccessor,
+    class TDerefAccessor>
+inline RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor,
+  TDerefAccessor>
+operator+(const RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, 
+          TDerefAccessor> &it, const Index<VDimension> &ind)
 {
-  RandomAccessNeighborhoodIterator<TPixel, VDimension> ret;
+  RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor,
+    TDerefAccessor> ret;
   ret = it;
   ret += ind;
   return ret;
 }
 
-template<class TPixel, unsigned int VDimension>
-inline RandomAccessNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAccessor,
+  class TDerefAccessor>
+inline RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor,
+  TDerefAccessor>
 operator+(const Index<VDimension> &ind,
-          const RandomAccessNeighborhoodIterator<TPixel, VDimension> &it)
-{
-  return (it + n);
-}
+          const RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, 
+          TDerefAccessor> &it)
+{  return (it + ind); }
 
-template<class TPixel, unsigned int VDimension>
-inline RandomAccessNeighborhoodIterator<TPixel, VDimension>
-operator-(const RandomAccessNeighborhoodIterator<TPixel, VDimension> &it,
+template<class TPixel, unsigned int VDimension, class TAccessor,
+  class TDerefAccessor>
+inline RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor,
+  TDerefAccessor>
+operator-(const RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, 
+          TDerefAccessor> &it,
           const Index<VDimension> &ind)
 {
-  RandomAccessNeighborhoodIterator<TPixel, VDimension> ret;
+  RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor,
+    TDerefAccessor> ret;
   ret = it;
   ret -= ind;
   return ret;
 }
 
-template<class TPixel, unsigned int VDimension>
-inline RandomAccessNeighborhoodIterator<TPixel, VDimension>
-operator-(const Index<VDimension> &ind,
-          const RandomAccessNeighborhoodIterator<TPixel, VDimension> &it)
-{
-  return (it - n);
-}
-
-  
 } // namespace itk
 
 

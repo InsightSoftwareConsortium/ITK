@@ -39,35 +39,34 @@ namespace itk {
  * \sa NeighborhoodAlgorithm
  */
  
-template<class TPixel, unsigned int VDimension =2>
+template<class TPixel, unsigned int VDimension =2,
+  class TAllocator = NeighborhoodAllocator<TPixel *>,
+  class TDerefAllocator = NeighborhoodAllocator<TPixel> >
 class ITK_EXPORT RegionNonBoundaryNeighborhoodIterator
- : public RegionNeighborhoodIterator<TPixel, VDimension>
+  : public RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 {
 public:
+
   /** 
-   * Standard "Self" typedef support.
+   * Standard "Self" & Superclass typedef support.
    */
   typedef RegionNonBoundaryNeighborhoodIterator Self;
-  
-  /**
-   * Standard Superclass typedef
-   */
-  typedef RegionNeighborhoodIterator<TPixel, VDimension> Superclass;
+  typedef RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+    TDerefAllocator> Superclass;
 
   /**
-   * Image typedef support.
+   * Some common itk object typedefs
    */
-  typedef Image<TPixel, VDimension> ImageType;
+  typedef typename Superclass::ImageType ImageType;
+  typedef typename Superclass::RegionType RegionType;
+  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
 
   /**
-   * Region typedef support.
+   * Scalar data type typedef support
    */
-  typedef ImageRegion<VDimension> RegionType;
-  
-  /**
-   * Size object typedef support
-   */
-  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
+  typedef typename Superclass::ScalarValueType ScalarValueType;
 
   /** 
    * Run-time type information (and related methods).
@@ -79,6 +78,23 @@ public:
    */
   RegionNonBoundaryNeighborhoodIterator() {};
 
+  /**
+   * Copy constructor
+   */
+  RegionNonBoundaryNeighborhoodIterator(const Self& other)
+    : RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+    TDerefAllocator>(other)
+  {}
+  
+  /**
+   * Assignment operator
+   */
+  Self &operator=(const Self& orig)
+  {
+    Superclass::operator=(orig);
+    return *this;
+  }
+  
   /**
   * Constructor establishes a neighborhood of iterators of a specified
   * dimension to walk a particular image and a particular region of
@@ -101,28 +117,14 @@ public:
    * 
    */
   void SetEnd()
-  {
-    m_EndPointer = this->End().operator[](this->size()>>1);
-  }
+  {    m_EndPointer = this->End().operator[](this->Size()>>1);  }
   
   /**
    *
    */
   void SetToBegin()
-  {
-    *this = this->Begin();
-  }
+  {    *this = this->Begin();  }
 
-  /**
-   * Assignment operator
-   */
-  Self &operator=(const Self& orig)
-  {
-    Superclass::operator=(orig);
-    return *this;
-  }
-  
-  
 };
   
 } // namespace itk

@@ -18,6 +18,7 @@
 
 #include "itkMacro.h"
 #include "itkExceptionObject.h"
+#include <std/slice.h>
 
 namespace itk {
 
@@ -166,5 +167,3 @@ private:
 } // end namespace itk
 
 #endif
-
-  

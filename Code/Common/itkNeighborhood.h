@@ -16,110 +16,260 @@
 #ifndef __itkNeighborhood_h
 #define __itkNeighborhood_h
 
-#include <string.h>
-#include <valarray>
-#include "itkMacro.h"
-#include "itkNeighborhoodBase.h"
+#include <iostream>
+#include "itkNeighborhoodAllocator.h"
+#include "itkSize.h"
+#include "itkIndent.h"
+#include "itkSliceIterator.h"
+#include "vnl/vnl_vector.h"
 
 namespace itk {
-
+  
 /**
  * \class Neighborhood
- * \brief A light-weight object for holding and manipulating a neighborhood
- *  of values.
+ * \brief 
  *
- *  Neighborhood is a light-weight object for holding and manipulating
- *  a neighborhood of values.  A Neighborhood is usually obtained by
- *  dereferencing a NeighborhoodIterator, but it can be constructed as
- *  a NeighborhoodOperator, or as a product of an operation on one or more
- *  existing Neighborhood objects.
  *
- *  Neighborhood provides a basic set of mathematical operations on its
- *  values, including convolution and inner product with other Neighborhoods.
- *  These operations are building blocks for constructing higher-level
- *  filtering operations on itk::Image data.
- *
- * \sa NeighborhoodPointer
- * \sa NeighborhoodOperator
- * \sa NeighborhoodBase
- * \sa NeighborhoodAlgorithm
- */  
+ * \sa Neighborhood
+ * \sa NeighborhoodIterator
+ */
 
-
-template<class TPixel, unsigned int VDimension = 2>
-class ITK_EXPORT Neighborhood : public NeighborhoodBase<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension = 2,
+         class TAllocator = NeighborhoodAllocator<TPixel> >
+class ITK_EXPORT Neighborhood 
 {
 public:
-
   /**
-   * Standard "Self" typedef.
+   * Standard "Self" typedef
    */
   typedef Neighborhood Self;
 
   /**
-   * Standard Superclass typedef
+   * External support for allocator type
    */
-  typedef NeighborhoodBase<TPixel, VDimension> Superclass;
+  typedef TAllocator AllocatorType;
+
+  /**
+   * External support for dimensionality
+   */
+  enum { NeighborhoodDimension = VDimension };
+  
+  /**
+   * External support for pixel type
+   */
+  typedef TPixel PixelType;
+  
+  /**
+   * Iterator typedef support.
+   */
+  typedef typename AllocatorType::iterator Iterator;
+  typedef typename AllocatorType::const_iterator ConstIterator;
+
+  /**
+   * Size typedef support
+   */
+  typedef Size<VDimension> SizeType;
+
+  /**
+   * External slice iterator type typedef support
+   */
+  typedef SliceIterator<TPixel, Self> SliceIteratorType;
+  
+  /**
+   * Default constructor.
+   */
+  Neighborhood() {}
+    
+  /**
+   * Copy constructor
+   */
+  Neighborhood(const Self& other)
+  {
+    m_Radius     = other.m_Radius;
+    m_Size       = other.m_Size;
+    m_DataBuffer = other.m_DataBuffer;
+  }
+
+  /**
+   * Assignment operator
+   */
+  Self &operator=(const Self& other)
+  {
+    m_Radius     = other.m_Radius;
+    m_Size       = other.m_Size;
+    m_DataBuffer = other.m_DataBuffer;
+    return *this;
+  }
   
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(Neighborhood, NeighborhoodBase);
+  itkTypeMacro(Neighborhood, );
 
   /**
-   * Support for underlying scalar value type of the pixel type.
+   * Returns the radius of the neighborhood.
    */
-  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
+  const SizeType GetRadius() const
+  {    return m_Radius;   }
+
+  /**
+   * Returns the radius of the neighborhood along a specified
+   * dimension.
+   */
+  unsigned long GetRadius(const unsigned long n) const
+  { return m_Radius[n]; }
+
+  /**
+   * Returns the size (total length) of the neighborhood along
+   * a specified dimension.
+   */
+  unsigned long GetSize(const unsigned long n) const
+  { return m_Size[n]; }
+
+  /**
+   * Returns the size (total length of sides) of the neighborhood.
+   */
+  const SizeType GetSize() const
+  { return m_Size; }
   
   /**
-   * Default constructor method.
-   */ 
-  Neighborhood() {}
+   * Returns the stride length for the specified dimension. Stride
+   * length is the number of pixels between adjacent pixels along the
+   * given dimension.
+   */
+  unsigned long GetStride(const unsigned long) const;
   
   /**
-   * Assignment operator.
+   * STL-style iterator support.
    */
-  Self &operator=( const Self &orig )
+  Iterator End()
+  { return m_DataBuffer.end(); }
+
+  Iterator Begin()
+  { return m_DataBuffer.begin(); }
+  
+  const ConstIterator End() const
+  { return m_DataBuffer.end(); }
+
+  const ConstIterator Begin() const
+  { return m_DataBuffer.begin(); }
+
+  /**
+   * More STL-style support
+   */
+  unsigned int Size() const
+  { return m_DataBuffer.size(); }
+  
+  /**
+   * Pass-through data access methods to the buffer.
+   */
+  TPixel &operator[](unsigned int i)
+  { return m_DataBuffer[i]; }
+
+  const TPixel &operator[](unsigned int i) const
+  { return m_DataBuffer[i]; }
+  
+  /**
+   * Sets the radius for the neighborhood, calculates size from the
+   * radius, and allocates storage.
+   */
+  void SetRadius(const SizeType &);
+
+  /**
+   * Sets the radius for the neighborhood. Overloaded to support an unsigned
+   * long array.
+   */
+  void SetRadius(const unsigned long *rad)
   {
-    Superclass::operator=(orig);
-    return *this;
+    SizeType s;
+    memcpy(s.m_Size, rad, sizeof(unsigned long) * VDimension);
+    this->SetRadius(s);
   }
+  
+  /**
+   * Overloads SetRadius to allow a single long integer argument
+   * that is used as the radius of all the dimensions of the
+   * Neighborhood (resulting in a "square" neighborhood).
+   */
+  void SetRadius(const unsigned long);
 
   /**
-   * Sets all of the scalar values in this neighborhood to a pixel value..
+   * Standard itk object method.
    */
-  Self &operator=( const TPixel v )
+  void Print(std::ostream& os)
+  { this->PrintSelf(os, Indent(0));  }
+
+  /**
+   * Returns a reference to the data buffer structure.
+   */
+  AllocatorType &GetBufferReference()
+  { return m_DataBuffer; }
+  
+  const AllocatorType &GetBufferReference() const
+  { return m_DataBuffer; }
+
+  /**
+   * Begin and end methods to be used internally to access data buffers.
+   * These are needed internally by iterators that subclass the neighborhood
+   * container to distinguish from their own End() and Begin() methods which
+   * have a different function.
+   */
+  Iterator end()
+  { return m_DataBuffer.end(); }
+
+  Iterator begin()
+  { return m_DataBuffer.begin(); }
+  
+  const ConstIterator end() const
+  { return m_DataBuffer.end(); }
+
+  const ConstIterator begin() const
+  { return m_DataBuffer.begin(); }
+  
+protected:
+  /**
+   * Sets the length along each dimension.
+   */
+  void SetSize()
   {
-    for (Iterator it = this->Begin(); it < this->End(); ++it)
+    for (int i=0; i<VDimension; ++i)
       {
-        *it = v;
+        m_Size[i] = m_Radius[i]*2+1;
       }
-    return *this;
   }
 
   /**
-   * Prints some debugging info.
+   * Allocates the neighborhood's memory buffer.
+   *
    */
-  void PrintSelf();
+  virtual void Allocate(unsigned int i)
+  { m_DataBuffer.resize(i); }
 
   /**
-   * Prints some debugging info.  Formats the output data logically.
+   * Standard itk object method.
    */
-  void PrintScalarData();
+  virtual void PrintSelf(std::ostream&, Indent) const;
+  
+private:
+  /**
+   * Number of neighbors to include (symmetrically) along each axis.
+   * A neighborhood will always have odd-length axes (m_Radius[n]*2+1).
+   */
+  SizeType m_Radius;
+
+   /**
+   * Actual length of each dimension, calculated from m_Radius.
+   * A neighborhood will always have odd-length axes (m_Radius[n]*2+1).
+   */
+  SizeType m_Size;
 
   /**
-   * Returns the value of the center pixel in a Neighborhood.
+   * The buffer in which data is stored.
    */
-  TPixel Center() const
-  {
-    return this->operator[]((this->size())>>1);
-  }
-
+  AllocatorType m_DataBuffer;
 };
 
-  
 } // namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkNeighborhood.txx"

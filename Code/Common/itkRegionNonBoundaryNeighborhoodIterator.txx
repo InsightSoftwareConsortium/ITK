@@ -15,13 +15,15 @@
   =========================================================================*/
 namespace itk {
 
-template< class TPixel, unsigned int VDimension>
-RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension>
+template< class TPixel, unsigned int VDimension, class TAllocator,
+    class TDerefAllocator>
+RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 ::RegionNonBoundaryNeighborhoodIterator(const SizeType &radius, ImageType *ptr,
                                         const RegionType &region)
 {
-  ImageRegion<VDimension> cropped;
-  Size<VDimension> szc;
+  RegionType cropped;
+  SizeType szc;
   Index<VDimension> idxc;
   for (unsigned int i = 0; i< VDimension; ++i)
     {
@@ -34,10 +36,12 @@ RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension>
   this->Initialize(radius, ptr, cropped);
 }
 
-
-template<class TPixel, unsigned int VDimension>
-RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension>
-RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+    class TDerefAllocator>
+RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
+RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 ::Begin() const
 {
   //Copy the current iterator
@@ -49,9 +53,12 @@ RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension>
   return it;
 }
 
-template<class TPixel, unsigned int VDimension>
-RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension>
-RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+  class TDerefAllocator>
+RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
+RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 ::End() const
 {
   IndexType endIndex;

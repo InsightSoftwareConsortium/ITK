@@ -16,10 +16,10 @@
 #ifndef __itkNeighborhoodOperator_h
 #define __itkNeighborhoodOperator_h
 
+#include "itkPixelTraits.h"
 #include "itkNeighborhood.h"
 #include "itkExceptionObject.h"
 #include <vector>
-
 
 namespace itk {
 /**
@@ -58,8 +58,10 @@ namespace itk {
  * successive neighborhoods across a region of interest in an image.
  *
  */
-template< class TPixel, unsigned int VDimension >
-class ITK_EXPORT NeighborhoodOperator : public Neighborhood<TPixel, VDimension>
+template< class TPixel, unsigned int VDimension,
+  class TAllocator = NeighborhoodAllocator<TPixel> >
+class ITK_EXPORT NeighborhoodOperator
+  : public Neighborhood<TPixel, VDimension, TAllocator>
 {
 public:
   /**
@@ -70,28 +72,35 @@ public:
   /**
    * Standard Superclass typedef
    */
-  typedef Neighborhood<TPixel, VDimension> Superclass;
+  typedef Neighborhood<TPixel, VDimension, TAllocator> Superclass;
+
+  /**
+   * Size object typedef support
+   */
+  typedef typename Superclass::SizeType SizeType;
+
+  /**
+   * External scalar type support
+   */
+  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
   
   /**
-   *  Neighborhood typedef support.
+   * Slice iterator typedef support
    */
-  typedef Neighborhood<TPixel, VDimension> NeighborhoodType;
-
+  typedef SliceIterator<TPixel, Self> SliceIteratorType;
+ 
   /**
    * Constructor.
    */
   NeighborhoodOperator()
-  {
-    m_Direction = 0;
-  }
+  {  m_Direction = 0;  }
 
   /**
    * Copy constructor
    */
-  NeighborhoodOperator( const Self &orig)
-  {
-    *this = orig;
-  }
+  NeighborhoodOperator(const Self &orig)
+    : Neighborhood<TPixel, VDimension>(orig) 
+  {   m_Direction = orig.m_Direction;   }
   
  /**
    * Assignment operator.
@@ -99,29 +108,21 @@ public:
   Self &operator=( const Self &orig )
   {
     Superclass::operator=(orig);
+    m_Direction = orig.m_Direction;
     return *this;
   }
   
   /**
-   * Size object typedef support
-   */
-  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
-
-  /**
    * Sets the dimensional direction of a directional operator.
    */
   void SetDirection(const unsigned long &direction)
-  {
-    m_Direction = direction;
-  }
+  {  m_Direction = direction;   }
 
   /**
    * Returns the direction (dimension number) of a directional operator.
    */
   unsigned long GetDirection() const
-  {
-    return m_Direction;
-  }
+  {  return m_Direction;  }
   
   /**
    * Creates the operator with length only in the specified direction.
@@ -155,14 +156,18 @@ public:
   /**
    * Prints some debugging information.
    */
-  void PrintSelf()
+  virtual void PrintSelf(std::ostream& os, Indent i) const
   {
-    Superclass::PrintSelf(); 
-    std::cout << "NeighborhoodOperator" << std::endl;
-    std::cout << "\t Direction = " << m_Direction << std::endl;
+    os << i << "NeighborhoodOperator { this=" << this
+       << " Direction = " << m_Direction << " }" << std::endl;
+    Superclass::PrintSelf( os, i.GetNextIndent() );
   }
 
 protected:
+  /**
+   * Typedef support  for coefficient vector type.  Necessary
+   * to fix bug in the microsoft VC++ compiler.
+   */
   typedef std::vector<TPixel>  CoefficientVector;
 
   /**
@@ -185,6 +190,17 @@ protected:
    * neighborhood.
    */
   virtual void FillCenteredDirectional(const CoefficientVector &);
+
+  /**
+   * Initializes all the coefficients in the neighborhood to zero values
+   */
+  void InitializeToZero()
+  {
+    for (int i = 0; i< this->Size(); ++i)
+      {
+        this->operator[](i) = NumericTraits<ScalarValueType>::Zero;
+      }
+  }
   
 private:
   /**

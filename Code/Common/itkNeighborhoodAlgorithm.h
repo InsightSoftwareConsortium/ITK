@@ -18,6 +18,7 @@
 #define __itkNeighborhoodAlgorithm_h
 
 #include "itkImage.h"
+#include "itkNeighborhood.h"
 #include "itkNeighborhoodOperator.h"
 #include "itkExceptionObject.h"
 
@@ -41,41 +42,35 @@ namespace NeighborhoodAlgorithm
  * applied only to the elements centered along a dimensional axis of the
  * neighborhood.
  */
-template<class TContainer>
+template<class TContainer, class TArray>
 struct ITK_EXPORT ScalarOperation
 {
   typedef typename TContainer::PixelType InternalType;
-  typedef typename TContainer::ScalarValueType ScalarType;
-
-
+  typedef typename TArray::PixelType ScalarType;
+  
   /**
    * Defines the operation on the container.
    */
-  virtual ScalarType operator()(TContainer &,
-                                     std::valarray<ScalarType>&) const= 0;
+  virtual ScalarType operator()(TContainer &, TArray &) const= 0;
   
   /**
    * Defines the operation for a slice of the container.
    */
-  virtual ScalarType operator()(std::slice &, TContainer &, 
-                                     std::valarray<ScalarType>&) const= 0;
-  
+  virtual ScalarType operator()(std::slice &, TContainer &, TArray &) const= 0;  
 };
-
 
 /**
  * \class InnerProduct
  * Inner product operation between a scalar itkNeighborhood and an array of
  * coefficients.
  */
-template<class TContainer>
-struct ITK_EXPORT InnerProduct : public ScalarOperation<TContainer>
+template<class TContainer, class TArray>
+struct ITK_EXPORT InnerProduct : public ScalarOperation<TContainer, TArray>
 {
-  typedef typename TContainer::ScalarValueType ScalarType;
-  virtual ScalarType operator()(TContainer &,
-                                     std::valarray<ScalarType>& ) const;
-  virtual ScalarType operator()(std::slice &, TContainer &,
-                                     std::valarray<ScalarType>&)  const;
+  typedef ScalarOperation<TContainer, TArray> Superclass;
+  typedef typename Superclass::ScalarType ScalarType;
+  virtual ScalarType operator()(TContainer &, TArray &) const;
+  virtual ScalarType operator()(std::slice &, TContainer &, TArray &) const;
 };
 
 /**
@@ -86,11 +81,12 @@ struct ITK_EXPORT InnerProduct : public ScalarOperation<TContainer>
  * as the scalar data ("visible" by the algorithm) is specified by the
  * m_VisibleComponent member variable. 
  */
-template<class TContainer>
+template<class TContainer, class TArray>
 struct ITK_EXPORT VectorComponentInnerProduct
-  : public ScalarOperation<TContainer>
+  : public ScalarOperation<TContainer, TArray>
 {
-  typedef typename TContainer::ScalarValueType ScalarType;
+  typedef ScalarOperation<TContainer, TArray> Superclass;
+  typedef typename Superclass::ScalarType ScalarType;
   typedef typename TContainer::PixelType VectorType;
   enum { VectorDimension = VectorType::VectorDimension };
 
@@ -100,10 +96,8 @@ struct ITK_EXPORT VectorComponentInnerProduct
    */
   VectorComponentInnerProduct() : m_VisibleComponent(0) {}
   
-  virtual ScalarType operator()(TContainer &,
-                                     std::valarray<ScalarType>& ) const;
-  virtual ScalarType operator()(std::slice &, TContainer &,
-                                     std::valarray<ScalarType>&)  const;
+  virtual ScalarType operator()(TContainer &, TArray &) const;
+  virtual ScalarType operator()(std::slice &, TContainer &, TArray &)  const;
 
   /**
    * The element number of the vector-valued data that is visible to the
@@ -127,14 +121,14 @@ struct ITK_EXPORT VectorComponentInnerProduct
  *
  * This algorithm does no bounds checking.
  */
-template<class TIterator>
-struct ITK_EXPORT IteratorInnerProduct : public ScalarOperation<TIterator>
+template<class TIterator, class TArray>
+struct ITK_EXPORT IteratorInnerProduct : public ScalarOperation<TIterator, TArray>
 {
-  typedef typename TIterator::ScalarValueType ScalarType;
-  virtual ScalarType operator()(TIterator &,
-                                     std::valarray<ScalarType>& ) const;
-  virtual ScalarType operator()(std::slice &, TIterator &,
-                                     std::valarray<ScalarType>&)  const;
+
+  typedef ScalarOperation<TIterator, TArray> Superclass;
+  typedef typename Superclass::ScalarType ScalarType;
+  virtual ScalarType operator()(TIterator &, TArray &) const;
+  virtual ScalarType operator()(std::slice &, TIterator &, TArray &) const;
 };
 
 /**
@@ -155,19 +149,18 @@ struct ITK_EXPORT IteratorInnerProduct : public ScalarOperation<TIterator>
  *   Neighborhood GetNeighborhood()
  *
  */
-template<class TIterator>
+template<class TIterator, class TArray>
 struct ITK_EXPORT BoundsCheckingIteratorInnerProduct
-  : public ScalarOperation<TIterator>
+  : public ScalarOperation<TIterator, TArray>
 {
-  typedef typename TIterator::ScalarValueType ScalarType;
+  typedef ScalarOperation<TIterator, TArray> Superclass;
+  typedef typename Superclass::ScalarType ScalarType;
   typedef typename TIterator::ImageType ImageType;
   typedef typename ImageType::PixelType PixelType;
   enum { Dimension = ImageType::ImageDimension };
   
-  virtual ScalarType operator()(TIterator &,
-                                     std::valarray<ScalarType>& ) const;
-  virtual ScalarType operator()(std::slice &, TIterator &,
-                                     std::valarray<ScalarType>&)  const;
+  virtual ScalarType operator()(TIterator &, TArray &) const;
+  virtual ScalarType operator()(std::slice &, TIterator &, TArray &) const;
 };
 
 /**
@@ -183,21 +176,20 @@ struct ITK_EXPORT BoundsCheckingIteratorInnerProduct
  * algorithms that iterate neighborhoods over many pixels in an image.
  *
  */
-template<class TIterator>
+template<class TIterator, class TArray>
 struct ITK_EXPORT VectorComponentIteratorInnerProduct
-  : public ScalarOperation<TIterator>
+  : public ScalarOperation<TIterator, TArray>
 {
-  typedef typename TIterator::ScalarValueType ScalarType;
+  typedef ScalarOperation<TIterator, TArray> Superclass;
+  typedef typename Superclass::ScalarType ScalarType;
   typedef typename TIterator::ImageType ImageType;
   typedef typename ImageType::PixelType VectorType;
   enum { VectorDimension = VectorType::VectorDimension };
 
   VectorComponentIteratorInnerProduct() : m_VisibleComponent(0) {}
   
-  virtual ScalarType operator()(TIterator &,
-                                     std::valarray<ScalarType>& ) const;
-  virtual ScalarType operator()(std::slice &, TIterator &,
-                                     std::valarray<ScalarType>&)  const;
+  virtual ScalarType operator()(TIterator &, TArray &) const;
+  virtual ScalarType operator()(std::slice &, TIterator &, TArray &) const;
 
   unsigned int m_VisibleComponent;
   void SetVisibleComponent(unsigned int v) { m_VisibleComponent = v; }
@@ -224,18 +216,17 @@ struct ITK_EXPORT VectorComponentIteratorInnerProduct
  * and
  *   Neighborhood GetNeighborhood()
  */
-template<class TIterator>
+template<class TIterator, class TArray>
 struct ITK_EXPORT BoundsCheckingVectorComponentIteratorInnerProduct
-  : public VectorComponentIteratorInnerProduct<TIterator>
+  : public VectorComponentIteratorInnerProduct<TIterator, TArray>
 {
-  typedef typename TIterator::ScalarValueType ScalarType;
+  typedef ScalarOperation<TIterator, TArray> Superclass;
+  typedef typename Superclass::ScalarType ScalarType;
   typedef typename TIterator::ImageType ImageType;
   enum { Dimension = ImageType::ImageDimension };
 
-  virtual ScalarType operator()(TIterator &,
-                                     std::valarray<ScalarType>& ) const;
-  virtual ScalarType operator()(std::slice &, TIterator &,
-                                     std::valarray<ScalarType>&)  const;
+  virtual ScalarType operator()(TIterator &, TArray &) const;
+  virtual ScalarType operator()(std::slice &, TIterator &, TArray &) const;
 };
 
 /**
@@ -286,10 +277,10 @@ struct ITK_EXPORT CalculateOutputWrapOffsetModifiers
  *  Neighborhood::Convolve function so that convolution is automatically
  *  specialized for the dimensionality of the neighborhood. 
  */
-template<class TPixel, unsigned int VDimension>
-Neighborhood<TPixel, VDimension>
-ConvolveND(Neighborhood<TPixel, VDimension>&,
-         Neighborhood<TPixel, VDimension>&, int);  
+template<class TPixel, unsigned int VDimension, class TAllocator>
+Neighborhood<TPixel, VDimension, TAllocator>
+ConvolveND(Neighborhood<TPixel, VDimension, TAllocator>&,
+         Neighborhood<TPixel, VDimension, TAllocator>&, int);  
 
 /**
  *  Templated function for convolving two neighborhoods, each of three
@@ -303,10 +294,10 @@ ConvolveND(Neighborhood<TPixel, VDimension>&,
  *  Neighborhood::Convolve function so that convolution is automatically
  *  specialized for the dimensionality of the neighborhood. 
  */
-template<class TPixel, unsigned int VDimension>
-Neighborhood<TPixel, VDimension>
-Convolve3D(Neighborhood<TPixel, VDimension> &,
-           Neighborhood<TPixel, VDimension> &, int);
+template<class TPixel, unsigned int VDimension, class TAllocator >
+Neighborhood<TPixel, VDimension, TAllocator>
+Convolve3D(Neighborhood<TPixel, VDimension, TAllocator> &,
+           Neighborhood<TPixel, VDimension, TAllocator> &, int);
 
 
 /**
@@ -321,10 +312,10 @@ Convolve3D(Neighborhood<TPixel, VDimension> &,
  *  Neighborhood::Convolve function so that convolution is automatically
  *  specialized for the dimensionality of the neighborhood. 
  */
-template<class TPixel, unsigned int VDimension>
-Neighborhood<TPixel, VDimension>
-Convolve2D(Neighborhood<TPixel, VDimension> &,
-           Neighborhood<TPixel, VDimension> &, int);
+template<class TPixel, unsigned int VDimension, class TAllocator >
+Neighborhood<TPixel, VDimension, TAllocator>
+Convolve2D(Neighborhood<TPixel, VDimension, TAllocator> &,
+           Neighborhood<TPixel, VDimension, TAllocator> &, int);
 
 /**
  *  Templated function for convolving two neighborhoods, each of one
@@ -338,10 +329,10 @@ Convolve2D(Neighborhood<TPixel, VDimension> &,
  *  Neighborhood::Convolve function so that convolution is automatically
  *  specialized for the dimensionality of the neighborhood.
  */
-template<class TPixel, unsigned int VDimension>
-Neighborhood<TPixel, VDimension>
-Convolve1D(Neighborhood<TPixel, VDimension> &,
-           Neighborhood<TPixel, VDimension> &, int);  
+template<class TPixel, unsigned int VDimension,  class TAllocator>
+Neighborhood<TPixel, VDimension, TAllocator>
+Convolve1D(Neighborhood<TPixel, VDimension, TAllocator> &,
+           Neighborhood<TPixel, VDimension, TAllocator> &, int);  
 
 
 } // end namespace NeighborhoodAlgorithm

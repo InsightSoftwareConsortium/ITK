@@ -15,10 +15,11 @@
   =========================================================================*/
 namespace itk {
   
-template<class TPixel, unsigned int VDimension>
-RandomAccessNeighborhoodIterator<TPixel, VDimension>
-RandomAccessNeighborhoodIterator<TPixel, VDimension>
-::Begin()
+template<class TPixel, unsigned int VDimension, class TAccessor,
+    class TDerefAccessor>
+RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
+RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
+::Begin() const
 {
   //Copy the current iterator
   Self it( *this );
@@ -29,10 +30,11 @@ RandomAccessNeighborhoodIterator<TPixel, VDimension>
   return it;
 }
 
-template<class TPixel, unsigned int VDimension>
-RandomAccessNeighborhoodIterator<TPixel, VDimension>
-RandomAccessNeighborhoodIterator<TPixel, VDimension>
-::End()
+template<class TPixel, unsigned int VDimension, class TAccessor,
+    class TDerefAccessor>
+RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
+RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
+::End() const 
 {
   IndexType endIndex;
   
@@ -52,9 +54,10 @@ RandomAccessNeighborhoodIterator<TPixel, VDimension>
 }
 
 
-template<class TPixel, unsigned int VDimension>
-RandomAccessNeighborhoodIterator<TPixel, VDimension> &
-RandomAccessNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAccessor,
+  class TDerefAccessor>
+RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor> &
+RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
 ::operator+=(const Index<VDimension> & idx)
 {
   int i;
@@ -95,9 +98,11 @@ RandomAccessNeighborhoodIterator<TPixel, VDimension>
   return *this;
 }
 
-template<class TPixel, unsigned int VDimension>
-RandomAccessNeighborhoodIterator<TPixel, VDimension> &
-RandomAccessNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAccessor,
+  class TDerefAccessor>
+RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor,
+  TDerefAccessor> &
+RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor> 
 ::operator-=(const Index<VDimension> & idx)
 {
   int i;

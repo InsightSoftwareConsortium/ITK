@@ -16,16 +16,16 @@
 namespace itk
 {
 
-template <class TPixel, unsigned int VDimension>
+template <class TPixel, unsigned int VDimension, class TAllocator>
 void
-NeighborhoodOperator<TPixel, VDimension>
+NeighborhoodOperator<TPixel, VDimension, TAllocator>
 ::CreateDirectional()
 {
   unsigned long k[VDimension];
   CoefficientVector coefficients;
 
   coefficients = this->GenerateCoefficients();
-  for (unsigned int i = 0; i<VDimension; ++i)
+  for (int i = 0; i<VDimension; ++i)
     {
       if (i == this->GetDirection())
         {
@@ -40,9 +40,9 @@ NeighborhoodOperator<TPixel, VDimension>
   this->Fill(coefficients);
 }
   
-template <class TPixel, unsigned int VDimension>
+template <class TPixel, unsigned int VDimension, class TAllocator>
 void
-NeighborhoodOperator<TPixel, VDimension>
+NeighborhoodOperator<TPixel, VDimension, TAllocator>
 ::CreateToRadius(const SizeType &sz)
 {
   CoefficientVector coefficients;
@@ -51,29 +51,32 @@ NeighborhoodOperator<TPixel, VDimension>
   this->Fill(coefficients);
 }
 
-template <class TPixel, unsigned int VDimension>
+template <class TPixel, unsigned int VDimension, class TAllocator>
 void
-NeighborhoodOperator<TPixel, VDimension>
+NeighborhoodOperator<TPixel, VDimension, TAllocator>
 ::CreateToRadius(const unsigned long sz)
 {
   SizeType k;
-  for (unsigned int i = 0; i< VDimension; i++)
+  for (int i = 0; i< VDimension; i++)
     {
       k[i] = sz;
     }
   this->CreateToRadius(k);
 }
 
-template <class TPixel, unsigned int VDimension>
+template <class TPixel, unsigned int VDimension, class TAllocator>
 void
-NeighborhoodOperator<TPixel, VDimension>
+NeighborhoodOperator<TPixel, VDimension, TAllocator>
 ::FillCenteredDirectional(const CoefficientVector &coeff)
 {
-  unsigned int i;
+  int i;
   unsigned long start;
   std::slice* temp_slice;
   CoefficientVector::const_iterator it;
 
+  // Initialize all coefficients to zero
+  this->InitializeToZero();
+  
   // Collect slice information
   const unsigned long stride = this->GetStride(m_Direction);
   const unsigned long size   = this->GetSize(m_Direction);
@@ -100,7 +103,8 @@ NeighborhoodOperator<TPixel, VDimension>
       temp_slice = new std::slice(start, size, stride);
       it = coeff.begin() - sizediff;
     }
-  typename Self::SliceIteratorType data(this, *temp_slice);
+
+  Self::SliceIteratorType data(this, *temp_slice);
   delete temp_slice;
 
   // Copy the coefficients into the neighborhood, truncating them if there

@@ -17,6 +17,7 @@
 #define __itkGaussianOperator_h
 
 #include "itkNeighborhoodOperator.h"
+#include <math.h>
 namespace itk {
 
 /**
@@ -53,9 +54,10 @@ namespace itk {
  * \sa Neighborhood
  *
  */
-template<unsigned int VDimension=2>
+template<unsigned int VDimension=2,
+  class TAllocator = NeighborhoodAllocator<float> >
 class ITK_EXPORT GaussianOperator
-  : public NeighborhoodOperator<float, VDimension>
+  : public NeighborhoodOperator<float, VDimension, TAllocator>
 {
 public:
   /**
@@ -71,12 +73,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef NeighborhoodOperator<float, VDimension>  Superclass;
-
-  /**
-   * NeighborhoodOperator typedef support.
-   */
-  typedef NeighborhoodOperator<float, VDimension> NeighborhoodOperator;
+  typedef NeighborhoodOperator<float, VDimension, TAllocator>  Superclass;
 
   /**
    * Constructor.
@@ -84,12 +81,31 @@ public:
   GaussianOperator() : m_Variance(1), m_MaximumError(.01) { }
 
   /**
+   * Copy constructor
+   */
+  GaussianOperator(const Self &other)
+    : NeighborhoodOperator<float, VDimension, TAllocator>(other)
+  {
+    m_Variance = other.m_Variance;
+    m_MaximumError = other.m_MaximumError;
+  }
+
+  /**
+   * Assignment operator
+   */
+  Self &operator=(const Self &other)
+  {
+    Superclass::operator=(other);
+    m_Variance = other.m_Variance;
+    m_MaximumError = other.m_MaximumError;
+    return *this;
+  }
+  
+  /**
    * Sets the desired variance of the Gaussian kernel.
    */
   void SetVariance(const float &variance)
-  {
-    m_Variance = variance;
-  }
+  {  m_Variance = variance;  }
 
   /**
    * Sets the desired maximum error of the gaussian approximation.  Maximum
@@ -99,7 +115,6 @@ public:
    */
   void SetMaximumError(const float &max_error)
   {
-    // --- FIX EXCEPTION HANDLING ---
     if (m_MaximumError >= 1 || m_MaximumError <= 0)
       {
         throw ExceptionObject();
@@ -112,9 +127,7 @@ public:
    * Returns the variance of the Gaussian (scale) for the operator.
    */
   float GetVariance()
-  {
-    return m_Variance;
-  }
+  {  return m_Variance;  }
 
   /**
    * Returns the maximum error of the gaussian approximation.  Maximum error is 
@@ -123,20 +136,18 @@ public:
    * operator size.
    */
   float GetMaximumError()
-  {
-    return m_MaximumError;
-  }
+  {    return m_MaximumError;  }
 
   /**
    * Prints some debugging information.
    */
-  void PrintSelf()                // Note: This method is for debugging/devel
-  {                           //  purposes and should probably be removed
-                              // at some point.  jc 10-06-00
-    Superclass::PrintSelf();
-    std::cout << "GaussianOperator" << std::endl;
-    std::cout << "\t Variance = " << m_Variance << std::endl;
-    std::cout << "\t MaximumError = " << m_MaximumError << std::endl;
+  virtual void PrintSelf(ostream &os, Indent i) const
+  {
+    os << i << "GaussianOperator { this=" << this
+       << ", m_Variance = " << m_Variance
+       << ", m_MaximumError = " << m_MaximumError
+       << "} "  << std::endl;
+    Superclass::PrintSelf(os, i.GetNextIndent());
   }
   
 protected:
@@ -168,9 +179,7 @@ protected:
    * Arranges coefficients spatially in the memory buffer.
    */
   void Fill(const CoefficientVector& coeff)
-  {
-    this->FillCenteredDirectional(coeff);
-  }
+  {    this->FillCenteredDirectional(coeff);  }
 
 private:
   /**

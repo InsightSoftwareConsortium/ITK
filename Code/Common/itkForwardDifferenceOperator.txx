@@ -16,9 +16,10 @@
 namespace itk
 {
 
-template <class TPixel, unsigned int VDimension>
-typename ForwardDifferenceOperator<TPixel, VDimension>::CoefficientVector
-ForwardDifferenceOperator<TPixel, VDimension>
+template <class TPixel, unsigned int VDimension, class TAllocator>
+typename ForwardDifferenceOperator<TPixel, VDimension, TAllocator>
+::CoefficientVector
+ForwardDifferenceOperator<TPixel, VDimension, TAllocator>
 ::GenerateCoefficients()
 {
   CoefficientVector coeff(3);

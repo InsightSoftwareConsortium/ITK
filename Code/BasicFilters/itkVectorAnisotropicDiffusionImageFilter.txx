@@ -30,7 +30,8 @@ float AvgGradMagSquaredVector<TImage>
   float ans;
   unsigned long counter;
   unsigned int i, k;
-  NeighborhoodAlgorithm::VectorComponentIteratorInnerProduct<RNI_type> IP;
+  NeighborhoodAlgorithm::VectorComponentIteratorInnerProduct<RNI_type,
+    NeighborhoodOperator<VectorValueType, ImageDimension> > IP;
   RNI_type it[ImageDimension];
   DerivativeOperator<VectorValueType, ImageDimension> op[ImageDimension];
 
@@ -275,7 +276,7 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
    
   // slice the neighborhood
    unsigned long stride[D];
-   const unsigned long center =  it.size() / 2;
+   const unsigned long center =  it.Size() / 2;
    std::slice x_slice[D];
    std::slice xa_slice[D];
    std::slice xd_slice[D];

@@ -15,9 +15,12 @@
   =========================================================================*/
 namespace itk {
   
-template<class TPixel, unsigned int VDimension>
-Neighborhood<TPixel, VDimension>
-RegionNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+    class TDerefAllocator> 
+typename 
+RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, 
+  TDerefAllocator>::NeighborhoodType
+RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
 ::GetNeighborhood()
 {
   NeighborhoodType ans;
@@ -36,9 +39,10 @@ RegionNeighborhoodIterator<TPixel, VDimension>
   return ans;
 }
 
-template<class TPixel, unsigned int VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+    class TDerefAllocator>
 void
-RegionNeighborhoodIterator<TPixel, VDimension>
+RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
 ::SetNeighborhood(NeighborhoodType &N)
 {
   Iterator this_it;
@@ -51,26 +55,11 @@ RegionNeighborhoodIterator<TPixel, VDimension>
     }
 
 }
-  
-template<class TPixel, unsigned int VDimension>
-void RegionNeighborhoodIterator<TPixel, VDimension>
-::PrintSelf()  
-{          
-  unsigned int i;   
-  //NeighborhoodBase<TPixel, VDimension>::PrintSelf();
-  std::cout << "RegionNeighborhoodIterator" << std::endl;
-  std::cout << "        this = " << this << std::endl;
-  std::cout << "this->size() = " << this->size() << std::endl;
-  std::cout << "    m_Bound = { ";
-  for (i = 0; i<VDimension; i++) std::cout << m_Bound[i] << " ";
-  std::cout << "}" << std::endl;
-  std::cout << "     m_Loop = { ";
-  for (i = 0; i<VDimension; i++) std::cout << m_Loop[i] << " ";
-  std::cout << "}" << std::endl;
-}
-  
-template<class TPixel, unsigned int VDimension>
-void RegionNeighborhoodIterator<TPixel, VDimension>
+    
+template<class TPixel, unsigned int VDimension, class TAllocator,
+  class TDerefAllocator>
+void RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 ::SetBound(const SizeType& size)
 {
   const unsigned long *offset     = m_Image->GetOffsetTable();
@@ -85,9 +74,10 @@ void RegionNeighborhoodIterator<TPixel, VDimension>
     }  
 }
 
-template<class TPixel, unsigned int VDimension>
-RegionNeighborhoodIterator<TPixel, VDimension>
-RegionNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+  class TDerefAllocator>
+RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator> 
+RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator> 
 ::Begin() const
 {
   //Copy the current iterator
@@ -99,9 +89,10 @@ RegionNeighborhoodIterator<TPixel, VDimension>
   return it;
 }
 
-template<class TPixel, unsigned int VDimension>
-RegionNeighborhoodIterator<TPixel, VDimension>
-RegionNeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+  class TDerefAllocator>
+RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
 ::End() const
 {
   IndexType endIndex;

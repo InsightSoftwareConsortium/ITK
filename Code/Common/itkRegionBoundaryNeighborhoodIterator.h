@@ -38,16 +38,34 @@ namespace itk {
  * ways of guaranteeing spatial fidelity between input and output.
  *
  */
-template<class TPixel, unsigned int VDimension = 2>
+template<class TPixel, unsigned int VDimension = 2,
+  class TAllocator = NeighborhoodAllocator<TPixel *>,
+  class TDerefAllocator = NeighborhoodAllocator<TPixel> >
 class ITK_EXPORT RegionBoundaryNeighborhoodIterator
-  :  public SmartRegionNeighborhoodIterator<TPixel, VDimension>
+  :  public SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+  TDerefAllocator>
 {
 public:
   /** 
-   * Standard "Self" typedef support.
+   * Standard "Self" & Superclass typedef support.
    */
   typedef RegionBoundaryNeighborhoodIterator Self;
+  typedef SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+    TDerefAllocator> Superclass;
 
+ /**
+   * Some common itk object typedefs
+   */
+  typedef typename Superclass::ImageType ImageType;
+  typedef typename Superclass::RegionType RegionType;
+  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+
+  /**
+   * Scalar data type typedef support
+   */
+  typedef typename Superclass::ScalarValueType ScalarValueType;
+  
   /** 
    * Run-time type information (and related methods).
    */
@@ -58,22 +76,25 @@ public:
    * Default constructor.
    */
   RegionBoundaryNeighborhoodIterator() {};
-  
-  /**
-   * itk::Image typedef support.
-   */
-  typedef Image<TPixel, VDimension> ImageType;
-  
-  /**
-   * Region typedef support.
-   */
-  typedef ImageRegion<VDimension> RegionType;
-  
-  /**
-   * Size object typedef support
-   */
-  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
 
+  /**
+   * Copy constructor
+   */
+  RegionBoundaryNeighborhoodIterator(const Self& other)
+    : SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
+    TDerefAllocator>(other)
+  {    m_InnerStride = other.m_InnerStride;  }
+
+  /**
+   * Assignment operator
+   */
+  Self &operator=(const Self& orig)
+  {
+    Superclass::operator=(orig);
+    m_InnerStride = orig.m_InnerStride;
+    return *this;
+  }
+  
   /**
    * Constructor establishes a neighborhood of iterators of a specified
    * dimension to walk a particular image and a particular region of
@@ -82,21 +103,21 @@ public:
   RegionBoundaryNeighborhoodIterator(const SizeType& radius,
                                      ImageType * ptr,
                                      const RegionType& region)
-  {
-    this->Initialize(radius, ptr, region);
-  }
+  {    this->Initialize(radius, ptr, region);  }
 
   /**
    * Overridden from itkNeighborhoodPointerBase because this
    * iterator follows a different path across a region.
    */ 
-  const NeighborhoodIterator<TPixel, VDimension> &operator++();  
+  const NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+  &operator++();  
 
   /**
    * Overridden from itkNeighborhoodPointerBase because this
    * iterator follows a different path across a region.
    */ 
-  const NeighborhoodIterator<TPixel, VDimension> &operator--();  
+  const NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+  &operator--();  
 
   /**
    * Return an iterator for the beginning of the region.
@@ -112,33 +133,23 @@ public:
    * 
    */
   virtual void SetEnd()
-  {
-    m_EndPointer = this->End().operator[](this->size()>>1);
-  }
+  {    m_EndPointer = this->End().operator[](this->Size()>>1);  }
   
   /**
    *
    */
   virtual void SetToBegin()
-  {
-    *this = this->Begin();
-  }
+  {    *this = this->Begin();  }
 
   /**
    * Print some debugging information.
    */
-  void PrintSelf();
-
-  /**
-   * Assignment operator
-   */
-  Self &operator=(const Self& orig)
+  virtual void PrintSelf(std::ostream &os, Indent indent) const
   {
-    Superclass::operator=(orig);
-    m_InnerStride = orig.m_InnerStride;
-    return *this;
+    os << indent << "RegionBoundaryNeighborhoodIterator" << std::endl;
+    Superclass::PrintSelf(os, indent.GetNextIndent());
   }
-  
+
 protected:
   /**
    * Sets the loop boundaries for iteration.

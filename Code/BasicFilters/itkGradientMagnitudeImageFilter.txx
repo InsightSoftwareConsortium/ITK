@@ -54,7 +54,7 @@ GradientMagnitudeStrategy<TInnerProduct, TIterator>
   
   // Slice the iterator
   std::slice x_slice[ImageDimension];
-  const unsigned long center = it.size() / 2;
+  const unsigned long center = it.Size() / 2;
   for (i = 0; i < ImageDimension; ++i)
     {
       x_slice[i] = std::slice( center - it.GetStride(i) * radius[i],
@@ -81,8 +81,10 @@ GradientMagnitudeImageFilter<TPixel, VDimension>
 {
   typedef RegionBoundaryNeighborhoodIterator<TPixel, VDimension>    RBI;
   typedef RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension> RNI;
-  typedef NeighborhoodAlgorithm::IteratorInnerProduct<RNI> SNIP;
-  typedef NeighborhoodAlgorithm::BoundsCheckingIteratorInnerProduct<RBI> SBIP;
+  typedef NeighborhoodAlgorithm::IteratorInnerProduct<RNI,
+    NeighborhoodOperator<TPixel, VDimension> > SNIP;
+  typedef NeighborhoodAlgorithm::BoundsCheckingIteratorInnerProduct<RBI,
+    NeighborhoodOperator<TPixel, VDimension> > SBIP;
   
   GradientMagnitudeStrategy<SNIP, RNI> f1;
   GradientMagnitudeStrategy<SBIP, RBI> f2;

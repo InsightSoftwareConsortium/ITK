@@ -14,9 +14,95 @@
 
   =========================================================================*/
 namespace itk {
+
+template<class TPixel, unsigned int VDimension, class TAllocator,
+    class TDerefAllocator>
+void
+NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+::PrintSelf(ostream &os, Indent indent) const
+{
+  int i;
+  os << indent;
+  os << "NeighborhoodIterator {this= " << this;
+  os << ", m_Region = { Start = {";
+  for (i=0; i < VDimension; ++i) os << m_Region.GetIndex()[i] << " ";
+  os << "}, Size = { ";
+  for (i=0; i < VDimension; ++i) os << m_Region.GetSize()[i] << " ";
+  os << "} }";
+  os << ", m_StartIndex = { ";
+  for (i=0; i < VDimension; ++i) os << m_StartIndex[i] << " ";
+  os << ", m_Loop = { ";
+  for (i=0; i < VDimension; ++i) os << m_Loop[i] << " ";
+  os << "}, m_Bound = { ";
+  for (i=0; i < VDimension; ++i) os << m_Bound[i] << " ";
+  os << "}, m_WrapOffset = { ";
+  for (i=0; i < VDimension; ++i) os << m_WrapOffset[i] << " ";
+  os << "}, m_OutputWrapOffsetModifier = { ";
+  for (i=0; i < VDimension; ++i) os << m_OutputWrapOffsetModifier[i] << " ";
+  os << "}, m_OutputBuffer = " << m_OutputBuffer;
+  //  os << ", m_Image = " << m_Image;
+  os << ", m_Buffer = " << m_Buffer;
+  os << ", m_EndPointer = " << m_EndPointer;
+  os << "}"  << std::endl;
+  Superclass::PrintSelf(os, indent.GetNextIndent());
+}
+
+template<class TPixel, unsigned int VDimension, class TAllocator,
+    class TDerefAllocator>
+NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator> &
+NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+::operator=(const Self& orig)
+{
+  Superclass::operator=(orig);
+  memcpy(m_WrapOffset, orig.m_WrapOffset, sizeof(unsigned long) *
+         VDimension);
+  memcpy(m_Bound, orig.m_Bound, sizeof(unsigned long) * VDimension);
+  memcpy(m_Loop, orig.m_Loop, sizeof(unsigned long) * VDimension);
+  m_OutputBuffer = orig.m_OutputBuffer;
+  m_Image = orig.m_Image;
+  m_Buffer = orig.m_Buffer;
+  m_StartIndex = orig.m_StartIndex;
+  m_EndPointer = orig.m_EndPointer;
+  return *this;
+}
+
+template<class TPixel, unsigned int VDimension, class TAllocator,
+  class TDerefAllocator>
+NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+::NeighborhoodIterator(const Self& orig)
+  : Neighborhood<TPixel *, VDimension, TAllocator>(orig)
+{
+  memcpy(m_WrapOffset, orig.m_WrapOffset, sizeof(unsigned long) *
+         VDimension);
+  memcpy(m_Bound, orig.m_Bound, sizeof(unsigned long) * VDimension);
+  memcpy(m_Loop, orig.m_Loop, sizeof(unsigned long) * VDimension);
+  m_OutputBuffer = orig.m_OutputBuffer;
+  m_Image = orig.m_Image;
+  m_Buffer = orig.m_Buffer;
+  m_StartIndex = orig.m_StartIndex;
+  m_EndPointer = orig.m_EndPointer;
+}
   
-template<class TPixel, unsigned int VDimension>
-void NeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+  class TDerefAllocator>
+void NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
+::Initialize(const SizeType &radius, ImageType *ptr, const RegionType &region)
+{
+  m_Region = region;
+  m_OutputBuffer = 0;
+  memset(m_OutputWrapOffsetModifier, 0, sizeof(long) * VDimension);
+  this->SetRadius(radius);
+  m_Image = ptr;
+  m_Buffer = m_Image->GetBufferPointer();
+  this->SetStartIndex(region.GetIndex());
+  this->SetLocation(region.GetIndex());
+  this->SetBound(region.GetSize());
+  this->SetEnd();
+}
+
+template<class TPixel, unsigned int VDimension, class TAllocator,
+  class TDerefAllocator>
+void NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
 ::SetPixelPointers(const IndexType &offset)
 {
   const Iterator _end = this->end();
@@ -56,9 +142,10 @@ void NeighborhoodIterator<TPixel, VDimension>
     }
 }
   
-template<class TPixel, unsigned int VDimension>
-const NeighborhoodIterator<TPixel, VDimension> &
-NeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+  class TDerefAllocator>
+const NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator> &
+NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
 ::operator++()
 {
   unsigned int i;
@@ -97,9 +184,10 @@ NeighborhoodIterator<TPixel, VDimension>
   return *this;
 }
 
-template<class TPixel, unsigned int VDimension>
-const NeighborhoodIterator<TPixel, VDimension> &
-NeighborhoodIterator<TPixel, VDimension>
+template<class TPixel, unsigned int VDimension, class TAllocator,
+  class TDerefAllocator>
+const NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator> &
+NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
 ::operator--()
 {
   unsigned int i;
