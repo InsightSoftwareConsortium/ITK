@@ -27,6 +27,7 @@ ADD_TEST(itkBSplineDeformableTransformTest ${COMMON_TESTS} itkBSplineDeformableT
 ADD_TEST(itkBSplineInterpolationWeightFunctionTest ${COMMON_TESTS} itkBSplineInterpolationWeightFunctionTest)
 ADD_TEST(itkBSplineKernelFunctionTest ${COMMON_TESTS} itkBSplineKernelFunctionTest)
 ADD_TEST(itkByteSwapTest ${COMMON_TESTS} itkByteSwapTest)
+ADD_TEST(itkCenteredRigid2DTransformTest ${COMMON_TESTS} itkCenteredRigid2DTransformTest)
 ADD_TEST(itkConstNeighborhoodIteratorTest ${COMMON_TESTS} itkConstNeighborhoodIteratorTest)
 ADD_TEST(itkConstShapedNeighborhoodIteratorTest ${COMMON_TESTS} itkConstShapedNeighborhoodIteratorTest)
 ADD_TEST(itkCovariantVectorGeometryTest ${COMMON_TESTS} itkCovariantVectorGeometryTest)
@@ -101,6 +102,7 @@ itkBSplineDeformableTransformTest.cxx
 itkBSplineInterpolationWeightFunctionTest.cxx
 itkBSplineKernelFunctionTest.cxx
 itkByteSwapTest.cxx
+itkCenteredRigid2DTransformTest.cxx
 itkConstNeighborhoodIteratorTest.cxx
 itkConstShapedNeighborhoodIteratorTest.cxx
 itkCovariantVectorGeometryTest.cxx
