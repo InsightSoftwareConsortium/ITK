@@ -35,7 +35,7 @@ namespace itk {
  * to compute the output deformation field which will map a moving image onto a
  * a fixed image.
  *
- * This class was contributed by Corinne Mattman, ETH Zurich, Switzerland.
+ * This class was contributed by Corinne Mattmann, ETH Zurich, Switzerland.
  * based on a variation of the DemonsRegistrationFunction. The basic modification
  * is to use equation (5) from Thirion's paper along with the modification for
  * avoiding large deformations when gradients have small values.

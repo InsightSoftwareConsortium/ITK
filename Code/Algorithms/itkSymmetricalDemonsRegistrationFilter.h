@@ -25,7 +25,7 @@ namespace itk {
 /** \class SymmetricalDemonsRegistrationFilter
  * \brief Deformably register two images using the demons algorithm.
  *
- * This class was contributed by Corinne Mattman, ETH Zurich, Switzerland.
+ * This class was contributed by Corinne Mattmann, ETH Zurich, Switzerland.
  * based on a variation of the DemonsRegistrationFilter. The basic modification
  * is to use equation (5) from Thirion's paper along with the modification for
  * avoiding large deformations when gradients have small values.
