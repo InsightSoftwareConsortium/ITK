@@ -271,7 +271,14 @@ int
 DynamicLoader
 ::CloseLibrary(LibHandle lib)
 {
-  return (int)dlclose(lib);
+  if (lib)
+    {
+    return (int)dlclose(lib);
+    }
+  else
+    {
+    return 0;
+    }
 }
 
 //----------------------------------------------------------------------------
