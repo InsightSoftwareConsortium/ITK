@@ -192,7 +192,7 @@ main(
     /* Create and initialize the interpolator */
     InterpolatorType::Pointer interp = InterpolatorType::New();
     interp->SetInputImage(image);
-
+    interp->Print( std::cout );
 
     /* Test evaluation at continuous indices and corresponding
        gemetric points */
