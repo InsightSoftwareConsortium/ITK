@@ -434,7 +434,7 @@ protected:
 
 } // namespace itk
   
-#ifr ,  ITK_MANUAL_INSTANTIATION
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMesh.txx"
 #endif
   
