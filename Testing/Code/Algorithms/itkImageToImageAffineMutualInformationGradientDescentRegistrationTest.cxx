@@ -153,8 +153,17 @@ int main()
 
 
   // set translation scale
-  const double transScale = 100;
-  registrationMethod->SetTranslationScale( transScale );
+  typedef RegistrationType::OptimizerType OptimizerType;
+  typedef OptimizerType::TransformType::ParametersType ScaleType;
+
+  ScaleType scales;
+  scales.Fill( 1.0 );
+  for( unsigned j = 4; j < 6; j++ )
+    {
+    scales[j] = 0.0001;
+    }
+
+  registrationMethod->GetOptimizer()->GetTransform()->SetScale( scales );
 
   // set metric related parameters
   registrationMethod->GetMetric()->SetTargetStandardDeviation( 5.0 );
@@ -232,7 +241,7 @@ int main()
     }
   for( unsigned int j = 4; j < 6; j++ )
     {
-    if( vnl_math_abs( solution[j] * transScale - trueParameters[j] ) > 1.0 )
+    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 1.0 )
       {
       pass = false;
       }

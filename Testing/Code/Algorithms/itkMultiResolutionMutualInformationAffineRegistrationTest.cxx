@@ -181,16 +181,13 @@ int main()
 // This set of parameters can recover thirty percent dilation
 //  unsigned int niter[4] = { 500, 3000, 3000 };
 //  double rates[4] = { 5e-4, 1e-4, 2e-5 };
-//  double scales[4] = { 100, 100, 100 };
 
 // This set of parameters can recover twenty percent dilation
   unsigned int niter[4] = { 100, 300, 550 };
   double rates[4] = { 5e-4, 1e-4, 5e-5 };
-  double scales[4] = { 100, 100, 100 };
 
   registrator->SetNumberOfIterations( niter );
   registrator->SetLearningRates( rates );
-  registrator->SetTranslationScales( scales );
 
 
   MRRegistrationType::RegistrationPointer method = 
@@ -207,7 +204,6 @@ int main()
   method->GetOptimizer()->AddObserver( itk::Command::IterationEvent,
                                                    iterationCommand ); 
 
-
   // set metric related parameters
   method->GetMetric()->SetTargetStandardDeviation( 5.0 );
   method->GetMetric()->SetReferenceStandardDeviation( 5.0 );
@@ -218,6 +214,19 @@ int main()
 
   std::cout << "Reference schedule: " << std::endl;
   std::cout << registrator->GetReferencePyramid()->GetSchedule() << std::endl;
+
+  // set optimizer related parameters
+  typedef InternalRegistrationType::OptimizerType OptimizerType;
+  typedef OptimizerType::TransformType::ParametersType ScaleType;
+
+  ScaleType scales;
+  scales.Fill( 1.0 );
+  for( unsigned j = 9; j < 12; j++ )
+    {
+    scales[j] = 0.0001;
+    }
+
+  method->GetOptimizer()->GetTransform()->SetScale( scales );
 
   /**
    * Do the registration
