@@ -154,7 +154,16 @@ public:
 
   /** Const iterator type for the list.*/
   typedef ConstSparseFieldLayerIterator<NodeType> ConstIterator;
-        
+
+  /** Regions used for multithreading */
+  struct RegionType 
+  {
+    ConstIterator first;
+    ConstIterator last;  // this is one past the actual last element
+  };   
+  
+  typedef std::vector<RegionType> RegionListType;
+
   /** Returns a pointer to the first node in the list.  Constant time.*/ 
   NodeType *Front()
   { return m_HeadNode->Next; }
@@ -215,6 +224,10 @@ public:
    *  time; the implementation may be order N time.  To test for an empty
    *  list, use Empty() instead of Size()==0. */
   unsigned int Size() const;
+  
+  /** Returns pointers to first and last+1 elements of num partitions of 
+      the itkSparseFieldLayer */
+  RegionListType SplitRegions(int num) const;
 
   /** Splices the contents of another SparseFieldLayer into this one, combining
       the two lists.*/
