@@ -24,7 +24,7 @@ T norm(vcl_complex<T> const &z)
 { return z.real()*z.real() + z.imag()*z.imag(); }
 template <class T> inline
 T abs(vcl_complex<T> const &z)
-{ return sqrt(norm(z)); }
+{ return sqrt(::norm(z)); }
 
 template <class T> 
 inline  vcl_complex<T> sqrt(vcl_complex<T> const &x)
