@@ -8,6 +8,7 @@
 void RegisterTests()
 {
   vnl_sample_reseed(8775070);
+  REGISTER_TEST(itkMIRegistrationFunctionTest );
   REGISTER_TEST(itkVectorFuzzyConnectednessImageFilterTest );
   REGISTER_TEST(itkVoronoiDiagram2DTest );
   REGISTER_TEST(itkVoronoiSegmentationImageFilterTest );
