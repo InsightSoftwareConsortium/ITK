@@ -66,6 +66,16 @@ public:
    */
   itkNewMacro(Self);  
 
+  /**
+   * InputImageType typedef support.
+   */
+  typedef TInputImage InputImageType;
+
+  /**
+   * Index typedef support.
+   */
+  typedef Index<InputImageType::ImageDimension> IndexType;
+
   /** 
    * Set the input image.
    */
@@ -124,7 +134,7 @@ protected:
   double                  m_Derivative;
 
 private:
-  Size<ImageDimension>    m_ImageSize;
+  Size<InputImageType::ImageDimension>    m_ImageSize;
   bool                    m_ImageSizeOK;
 
   IndexType               m_NeighIndex;
@@ -140,3 +150,4 @@ private:
 #endif
 
 #endif
+

@@ -124,7 +124,7 @@ public:
   /**
    * Get the narrow band width.
    */
-  itkGetConstMacro( NarrowBandwidth, double );
+  itkGetMacro( NarrowBandwidth, double );
 
   /**
    * Set the narrowbanding flag.
@@ -134,7 +134,7 @@ public:
   /**
    * Get the narrowbanding flag.
    */
-  itkGetConstMacro( NarrowBanding, bool );
+  itkGetMacro( NarrowBanding, bool );
   itkBooleanMacro( NarrowBanding );
 
   /**

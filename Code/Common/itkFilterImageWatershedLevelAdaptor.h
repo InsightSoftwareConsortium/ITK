@@ -86,7 +86,7 @@ public:
    * Overridden get and set input methods
    */
   virtual
-  WatershedSegmentBasicOutput<TInputImage, TOutputImage>::Pointer
+  typename WatershedSegmentBasicOutput<TInputImage, TOutputImage>::Pointer
   GetInput()
   {
     return static_cast<WatershedSegmentBasicOutput<TInputImage,

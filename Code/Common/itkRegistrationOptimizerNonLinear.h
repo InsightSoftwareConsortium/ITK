@@ -64,6 +64,16 @@ public:
   
 
   /**
+   *  Type of the Reference
+   */
+  typedef TMetric             MetricType;
+
+  /**
+   *  Pointer type for the Metric 
+   */
+  typedef typename MetricType::Pointer    MetricPointer;
+
+  /**
    * Method for setting the Metric
    */
   void SetMetric( TMetric * metric );

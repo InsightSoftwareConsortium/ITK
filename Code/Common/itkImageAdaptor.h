@@ -297,12 +297,13 @@ private:
   typename TImage::Pointer   m_Image;
 
 };
+  
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageAdaptor.txx"
 #endif
   
-} // end namespace itk
   
 
 #endif

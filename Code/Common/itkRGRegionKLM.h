@@ -158,7 +158,7 @@ public:
   /**
    * Type definition for the region border vector iterators to be used.
    */
-  typedef RegionBorderVecType::iterator RegionBorderVecIterator;
+  typedef typename RegionBorderVecType::iterator RegionBorderVecIterator;
 
   /**
    * Set the region with parameter values

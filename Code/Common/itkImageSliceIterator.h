@@ -57,6 +57,11 @@ public:
   typedef TImage ImageType;
 
   /** 
+   * Region typedef support.
+   */
+  typedef typename TImage::RegionType   RegionType;
+
+  /** 
    * PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.

@@ -172,7 +172,7 @@ public:
   /**
    * Pointer to the classifier to be used for the MRF lavbelling.
    */
-  ClassifierType::Pointer m_ClassifierPtr;
+  typename ClassifierType::Pointer m_ClassifierPtr;
 
   typedef typename TInputImage::PixelType      InputImagePixelType;
   typedef typename TClassifiedImage::PixelType TrainingImagePixelType;
@@ -211,7 +211,7 @@ public:
   /**
    * Set the pointer to the classifer being used.
    */
-  void SetClassifier( ClassifierType::Pointer ptrToClassifier );
+  void SetClassifier( typename ClassifierType::Pointer ptrToClassifier );
 
   /**
    * Set the Number of class macro

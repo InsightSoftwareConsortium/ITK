@@ -81,6 +81,7 @@ public:
    * Although already defined in the superclass, needed here for gcc 2.95.2-5
    * to compile.
    */
+  typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
   enum { SetDimension = LevelSetType::SetDimension};
 
   /**

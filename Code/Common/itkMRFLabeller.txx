@@ -160,7 +160,7 @@ MRFLabeller<TInputImage, TClassifiedImage>
 template<class TInputImage, class TClassifiedImage>
 void
 MRFLabeller<TInputImage, TClassifiedImage>
-::SetClassifier( ClassifierType::Pointer ptrToClassifier )
+::SetClassifier( typename ClassifierType::Pointer ptrToClassifier )
 {
   if( ( ptrToClassifier == NULL ) || (m_NumClasses <= NULL) )
     throw ExceptionObject();

@@ -60,7 +60,7 @@ public:
   typedef NeighborhoodIterator<TPixel, VDimension> Superclass;
   
   /**
-   * itk::Image typedef support.
+   * Image typedef support.
    */
   typedef Image<TPixel, VDimension> ImageType;
 

@@ -96,7 +96,7 @@ public:
   /**
    * Get the value of the level set to be located.
    */
-  itkGetConstMacro( LevelSetValue, double );
+  itkGetMacro( LevelSetValue, double );
 
   /**
    * Set the narrowbanding flag. By default, narrowbanding is switched
@@ -107,7 +107,7 @@ public:
   /**
    * Get the narrowbanding flag
    */
-  itkGetConstMacro( NarrowBanding, bool );
+  itkGetMacro( NarrowBanding, bool );
   itkBooleanMacro( NarrowBanding );
 
   /**
@@ -119,7 +119,7 @@ public:
   /**
    * Get the input narrow bandwidth.
    */
-  itkGetConstMacro( InputNarrowBandwidth, double );
+  itkGetMacro( InputNarrowBandwidth, double );
 
   /**
    * Set the output narrow bandwidth. The default value is 12.
@@ -130,7 +130,7 @@ public:
   /**
    * Get the output narrow bandwidth.
    */
-  itkGetConstMacro( OutputNarrowBandwidth, double );
+  itkGetMacro( OutputNarrowBandwidth, double );
 
   /**
    * Set the bandwidth for both the input and output narrowband,

@@ -86,6 +86,7 @@ public:
    * Although already defined in the superclass, needed here for gcc 2.95.2-5
    * to compile.
    */
+  typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
   enum { SetDimension = LevelSetType::SetDimension};
 
   /**
@@ -97,6 +98,11 @@ public:
   typedef typename AuxVarType::AuxValueContainer AuxValueContainer;
   typedef typename AuxVarType::AuxImageType AuxImageType;
   typedef typename AuxVarType::AuxImagePointer AuxImagePointer;
+
+  /**
+   * Index typedef support.
+   */
+  typedef Index<SetDimension> IndexType;
 
   /**
    * Get one of the extended auxiliary variable image.

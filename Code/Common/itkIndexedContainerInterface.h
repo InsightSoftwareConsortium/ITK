@@ -180,12 +180,12 @@ public:
   /**
    * Get a begin const iterator for the container.
    */  
-  virtual ConstIterator Begin()=0;
+  virtual ConstIterator BeginConst()=0;
   
   /**
    * Get an end const iterator for the container.
    */
-  virtual ConstIterator End()=0;
+  virtual ConstIterator EndConst()=0;
 
   /**
    * Get the number of elements currently stored in the container.

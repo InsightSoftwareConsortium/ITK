@@ -196,7 +196,7 @@ public:
     memcpy(m_Radius.m_Size, orig.m_Radius.m_Size,
            sizeof(unsigned long) * VDimension);
     memcpy(m_Size.m_Size, orig.m_Size.m_Size,
-           sizeof(unsigned long) * VDimension); 
+           sizeof(unsigned long) * VDimension);
   }
 protected:
   /**

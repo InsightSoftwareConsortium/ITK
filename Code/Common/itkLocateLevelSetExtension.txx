@@ -84,7 +84,6 @@ Index& index)
   pixelValue -= this->GetLevelSetValue();
 
   bool inside = ( pixelValue <= 0.0 );
-
   double centerValue[VAuxDimension];
   AuxValueType auxPixel;
   AuxValueVectorType auxVector;

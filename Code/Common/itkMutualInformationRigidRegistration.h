@@ -183,7 +183,7 @@ public:
   /**
    * Get the best mutual information value visited.
    */
-  itkGetConstMacro( BestMutualInformation, double );
+  itkGetMacro( BestMutualInformation, double );
 
   /** 
    * Maximize the mutual information.

@@ -55,6 +55,16 @@ public:
    */
   typedef ImageFunction<TInputImage,double> Superclass;
 
+  /**
+   * InputImageType typedef support.
+   */
+  typedef TInputImage InputImageType;
+
+  /**
+   * Index typedef support.
+   */
+  typedef Index<InputImageType::ImageDimension> IndexType;
+
   /** 
    * Smart pointer typedef support.
    */
@@ -113,7 +123,7 @@ protected:
 
 private:
 
-  Size<ImageDimension>                                      m_ImageSize;
+  Size<InputImageType::ImageDimension>                      m_ImageSize;
   bool                                                      m_ImageSizeOK;
 
   double                                                    m_Curvature;
@@ -121,8 +131,8 @@ private:
   double                                                    m_EpsilonMagnitude;
   bool                                                      m_BorderPixel;
 
-  vnl_vector_fixed<double,ImageDimension>                   m_FirstDerivative;
-  vnl_matrix_fixed<double,ImageDimension,ImageDimension>
+  vnl_vector_fixed<double,InputImageType::ImageDimension>                   m_FirstDerivative;
+  vnl_matrix_fixed<double,InputImageType::ImageDimension,InputImageType::ImageDimension>
                                                             m_SecondDerivative;
 
   IndexType                                                 m_NeighIndex;
@@ -131,7 +141,7 @@ private:
   double                                                    m_CenterValue;
   double                                                    m_DiffValue;
 
-  vnl_matrix_fixed<unsigned int,ImageDimension,ImageDimension>
+  vnl_matrix_fixed<unsigned int,InputImageType::ImageDimension,InputImageType::ImageDimension>
                                                             m_Variable;
 
   void CalculateDerivatives( const IndexType& index );

@@ -189,7 +189,7 @@ public:
   /**
    * Set and get basic output methods.
    */
-  WatershedSegmentBasicOutput<TInputImage, TOutputImage>::Pointer
+  typename WatershedSegmentBasicOutput<TInputImage, TOutputImage>::Pointer
   GetBasicOutput()
   {
     return static_cast<WatershedSegmentBasicOutput<TInputImage, TOutputImage>*
@@ -273,14 +273,14 @@ protected:
   /**
    * Structure storing information about a segment merge.
    */
-  typedef WatershedSegmentBasicOutput<TInputImage, TOutputImage>
+  typedef typename WatershedSegmentBasicOutput<TInputImage, TOutputImage>
   ::MergeType MergeType;
 
 
   /**
    * Boolean comparison functor for use in sorting functions.
    */
-  struct merge_comp : public binary_function<bool, const MergeType&,
+  struct merge_comp : public std::binary_function<bool, const MergeType&,
                       const MergeType& >
   {
     bool operator()(const MergeType &a, const MergeType &b)
@@ -292,7 +292,7 @@ protected:
   /**
    * Boolean comparison functor for use in sorting functions.
    */
-  struct sort_comp : public binary_function<bool, const MergeType&,
+  struct sort_comp : public std::binary_function<bool, const MergeType&,
                       const MergeType& >
   {
     bool operator()(const MergeType &a, const MergeType &b)
@@ -322,7 +322,7 @@ protected:
   /**
    * List for storing sequences of segment merges.
    */
-  typedef WatershedSegmentBasicOutput<TInputImage, TOutputImage>::MergeListType
+  typedef typename WatershedSegmentBasicOutput<TInputImage, TOutputImage>::MergeListType
   MergeListType;
   
   /**

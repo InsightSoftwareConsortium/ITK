@@ -75,6 +75,16 @@ public:
    */
   itkNewMacro(Self);  
 
+  /**
+   * InputImageType typedef support.
+   */
+  typedef TInputImage InputImageType;
+
+  /**
+   * Index typedef support.
+   */
+  typedef Index<InputImageType::ImageDimension> IndexType;
+
   /** 
    * Set the input image.
    */
@@ -113,7 +123,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent);
 
 private:
-  Size<ImageDimension>    m_ImageSize;
+  Size<InputImageType::ImageDimension>    m_ImageSize;
   bool                    m_ImageSizeOK;
 
   double                  m_Speed;

@@ -17,7 +17,6 @@
 #define __itkFilterImageTernaryModulus_h
 
 #include "itkFilterImageTernary.h"
-#include <cmath>
 
 namespace itk
 {

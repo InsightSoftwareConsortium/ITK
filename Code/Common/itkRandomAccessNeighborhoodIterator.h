@@ -67,6 +67,31 @@ public:
   itkTypeMacro(RandomAccessNeighborhoodIterator, RegionNeighborhoodIterator);
 
   /**
+   * Image typedef support.
+   */
+  typedef Image<TPixel, VDimension> ImageType;
+
+  /**
+   * Region typedef support.
+   */
+  typedef ImageRegion<VDimension> RegionType;
+  
+  /**
+   * Size object typedef support
+   */
+  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
+
+  /**
+   * Scalar data type typedef support
+   */
+  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
+
+  /**
+   * itk::Neighborhood typedef support
+   */
+  typedef Neighborhood<TPixel, VDimension> NeighborhoodType;
+  
+  /**
    * Default constructor
    */
   RandomAccessNeighborhoodIterator()

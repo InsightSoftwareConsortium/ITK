@@ -155,7 +155,7 @@ public:
   /**
    * Get the number of spatial samples.
    */
-  itkGetConstMacro( NumberOfSamples, unsigned int );
+  itkGetMacro( NumberOfSamples, unsigned int );
 
   /**
    * Set the reference image intensitiy standard deviation. This

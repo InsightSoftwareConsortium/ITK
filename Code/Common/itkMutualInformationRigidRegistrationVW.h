@@ -241,7 +241,7 @@ public:
   /**
    * Get the number of iterations.
    */
-  itkGetConstMacro( NumberOfIterations, unsigned int );
+  itkGetMacro( NumberOfIterations, unsigned int );
 
   /** 
    * Maximize the mutual information using a steepest descent 

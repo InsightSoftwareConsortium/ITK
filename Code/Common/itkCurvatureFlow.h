@@ -89,7 +89,7 @@ public:
   /**
    * Index typedef support
    */
-  typedef Index<SetDimension> IndexType;
+  typedef Index<LevelSetType::SetDimension> IndexType;
 
 protected:
   CurvatureFlow();

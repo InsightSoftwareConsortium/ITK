@@ -114,7 +114,7 @@ public:
   /** 
    * Get the mutual information value from the last calculation.
    */
-  itkGetConstMacro( MutualInformation, double );
+  itkGetMacro( MutualInformation, double );
 
   /**
    * Calculate the mutual information between the reference image 

@@ -147,6 +147,13 @@ public:
       TrainingImageIterator;
 
   /**
+   * Type definition for the vector associated with
+   * input image pixel type.
+   */     
+  typedef typename TInputImage::PixelType::VectorType    
+    InputImageVectorType;
+
+  /**
    * Train multivariate Gaussian classifier. 
    *
    * Given a set of labeled training samples, estimate the mean and 

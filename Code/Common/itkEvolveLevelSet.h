@@ -103,7 +103,7 @@ public:
   /**
    * Get the evolution time step size.
    */
-  itkGetConstMacro( TimeStepSize, double );
+  itkGetMacro( TimeStepSize, double );
 
   /**
    * Set the narrowbanding flag. If NarrowBanding is turned on, only the
@@ -119,7 +119,7 @@ public:
   /**
    * Get the narrowbading flag.
    */
-  itkGetConstMacro( NarrowBanding, bool );
+  itkGetMacro( NarrowBanding, bool );
 
   /**
    * Set the narrow bandwidth. Default is 12.
@@ -130,7 +130,7 @@ public:
   /**
    * Get the narrow bandwidth
    */
-  itkGetConstMacro( NarrowBandwidth, double );
+  itkGetMacro( NarrowBandwidth, double );
 
   /**
    * Get the number of pixels in the narrowband.

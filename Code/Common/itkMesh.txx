@@ -1251,8 +1251,6 @@ bool
 Mesh<TPixelType,TMeshType>
 ::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
-  unsigned int i;
-
   if ( m_RequestedRegion != m_BufferedRegion ||
        m_RequestedNumberOfRegions != m_NumberOfRegions )
     {
@@ -1268,7 +1266,6 @@ Mesh<TPixelType,TMeshType>
 ::VerifyRequestedRegion()
 {
   bool retval = true;
-  unsigned int i;
 
   // Are we asking for more regions than we can get?
   if ( m_RequestedNumberOfRegions > m_MaximumNumberOfRegions )
