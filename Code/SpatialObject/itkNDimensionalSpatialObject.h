@@ -85,7 +85,7 @@ public:
   virtual bool HasParent( void ) const;
 
   /** Get the typename of the SpatialObject */
-  virtual const char* GetTypeName(void) {return m_TypeName;}
+  virtual const char* GetTypeName(void) const {return m_TypeName;}
 
   /** Get the dimension of the SpatialObject */
   unsigned int GetDimension(void) const {return m_Dimension;}
