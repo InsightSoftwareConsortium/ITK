@@ -107,6 +107,11 @@ public:
    * provide a copy constructor. */
   ImageIteratorWithIndex();
 
+
+  /** Default Destructor */
+  virtual ~ImageIteratorWithIndex() {};
+
+
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
   ImageIteratorWithIndex(const Self& it);
@@ -219,17 +224,17 @@ public:
  
   /** Move an iterator to the beginning of the region.
    * \deprecated Use GoToBegin() instead */
-  Self Begin(void) const;
+  virtual Self Begin(void) const;
 
   /** Move an iterator to the beginning of the region. */
-  void GoToBegin(void);
+  virtual void GoToBegin(void);
 
   /** Move an iterator to the End of the region.
    * \deprecated Use GoToEnd() instead */
-  Self End(void) const;
+  virtual Self End(void) const;
 
   /** Move an iterator to the End of the region. */
-  void GoToEnd(void);
+  virtual void GoToEnd(void);
 
   /** Is the iterator at the beginning of the region? */
   bool IsAtBegin(void) const
