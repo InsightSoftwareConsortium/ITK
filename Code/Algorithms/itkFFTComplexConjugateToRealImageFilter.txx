@@ -30,7 +30,13 @@ GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
-  
+   //
+  // If this implementation returns a full result
+  // instead of a 'half-complex' matrix, then none of this
+  // is necessary
+  if(this->FullMatrix())
+    return;
+ 
   // get pointers to the input and output
   typename TInputImageType::ConstPointer  inputPtr  = this->GetInput();
   typename TOutputImageType::Pointer      outputPtr = this->GetOutput();
