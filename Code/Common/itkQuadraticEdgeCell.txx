@@ -29,7 +29,7 @@ void
 QuadraticEdgeCell< TCellInterface >
 ::MakeCopy(CellAutoPointer & cellPointer) const
 {
-  cellPointer = new Self;
+  cellPointer.TakeOwnership( new Self );
   cellPointer->SetPointIds(this->GetPointIds());
 }
 
@@ -247,8 +247,7 @@ QuadraticEdgeCell< TCellInterface >
 {
   VertexType * vert = new VertexType;
   vert->SetPointId(0, m_PointIds[vertexId]);
-  vertexPointer = vert;
-  vertexPointer.TakeOwnership();
+  vertexPointer.TakeOwnership( vert );
   return true;  
 }
 

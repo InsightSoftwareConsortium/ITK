@@ -67,9 +67,9 @@ public:
   /** Define the triangular cell types which forms the surface of the model
    * and will be used in FEM application. */
   typedef CellInterface<OPixelType, CellTraits>   CellInterfaceType;
-  typedef TriangleCell<CellInterfaceType>         TriCell;
-  typedef typename TriCell::SelfAutoPointer       TriCellAutoPointer;
-  typedef typename TriCell::CellAutoPointer       CellAutoPointer;
+  typedef TriangleCell<CellInterfaceType>         TriCellType;
+  typedef typename TriCellType::SelfAutoPointer       TriCellAutoPointer;
+  typedef typename TriCellType::CellAutoPointer       CellAutoPointer;
 
   /** All these parameter setting function are public temporarily to make the
    * test easier */

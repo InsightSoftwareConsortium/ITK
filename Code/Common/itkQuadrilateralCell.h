@@ -94,9 +94,7 @@ public:
 
   /** Constructor and destructor */
   QuadrilateralCell() {};
-  ~QuadrilateralCell() {
-     std::cout << "QuadrilateralCell " << this << " being destroyed" << std::endl;
-    };
+  ~QuadrilateralCell() {};
 
 protected:
   /** Store the number of points needed for a quadrilateral. */

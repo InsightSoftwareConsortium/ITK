@@ -29,7 +29,7 @@ void
 TetrahedronCell< TCellInterface >
 ::MakeCopy(CellAutoPointer & cellPointer) const
 {
-  cellPointer = new Self;
+  cellPointer.TakeOwnership( new Self );
   cellPointer->SetPointIds(this->GetPointIds());
 }
 
@@ -307,8 +307,7 @@ TetrahedronCell< TCellInterface >
 {
   VertexType * vert = new VertexType;
   vert->SetPointId(0, m_PointIds[vertexId]);
-  vertexPointer = vert;
-  vertexPointer.TakeOwnership(); 
+  vertexPointer.TakeOwnership( vert ); 
   return true;
 }
 
@@ -328,8 +327,7 @@ TetrahedronCell< TCellInterface >
     {
     edge->SetPointId(i, m_PointIds[ m_Edges[edgeId][i] ]);
     }
-  edgePointer = edge;
-  edgePointer.TakeOwnership(); 
+  edgePointer.TakeOwnership( edge ); 
   return true;
 }
 
@@ -350,8 +348,7 @@ TetrahedronCell< TCellInterface >
     {
     face->SetPointId(i, m_PointIds[ m_Faces[faceId][i] ]);
     }
-  facePointer = face;
-  facePointer.TakeOwnership(); 
+  facePointer.TakeOwnership( face ); 
   return true;
 }
 

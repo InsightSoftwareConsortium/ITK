@@ -29,7 +29,7 @@ void
 TriangleCell< TCellInterface >
 ::MakeCopy(CellAutoPointer & cellPointer) const
 {
-  cellPointer = new Self;
+  cellPointer.TakeOwnership( new Self );
   cellPointer->SetPointIds(this->GetPointIds());
 }
 
@@ -278,7 +278,7 @@ TriangleCell< TCellInterface >
 {
   VertexType * vert = new VertexType;
   vert->SetPointId(0, m_PointIds[vertexId]);
-  vertexPointer = vert;
+  vertexPointer.TakeOwnership( vert );
   return true;  
 }
 
@@ -297,7 +297,7 @@ TriangleCell< TCellInterface >
     {
     edge->SetPointId(i, m_PointIds[ m_Edges[edgeId][i] ]);
     }
-  edgePointer = edge;
+  edgePointer.TakeOwnership( edge );
   return true;
 }
 

@@ -33,7 +33,7 @@ void
 PolygonCell< TCellInterface >
 ::MakeCopy(CellAutoPointer & cellPointer) const
 {
-  cellPointer = new Self;
+  cellPointer.TakeOwnership( new Self );
   cellPointer->SetPointIds(this->GetPointIds());
 }
 
@@ -344,8 +344,7 @@ PolygonCell< TCellInterface >
 {
   VertexType * vert = new VertexType;
   vert->SetPointId(0, m_PointIds[vertexId]);
-  vertexPointer = vert;
-  vertexPointer.TakeOwnership();
+  vertexPointer.TakeOwnership( vert );
   return true;  
 }
 
@@ -369,8 +368,7 @@ PolygonCell< TCellInterface >
     edge->SetPointId(0, m_PointIds[max_pointId] );
     edge->SetPointId(1, m_PointIds[0] );
   }
-  edgePointer = edge;
-  edgePointer.TakeOwnership(); 
+  edgePointer.TakeOwnership( edge ); 
   return true;
 }
 

@@ -75,6 +75,8 @@ SphereSource<TOutputMesh>
 
   outputMesh->GetPoints()->Reserve(numpts);
 
+  outputMesh->SetCellsAllocationMethod( OutputMeshType::CellsAllocatedDynamicallyCellByCell );
+
   PointsContainerPointer  myPoints = outputMesh->GetPoints();
   typename PointsContainer::Iterator   point = myPoints->Begin();
 
@@ -171,12 +173,12 @@ SphereSource<TOutputMesh>
       tripoints[0] = i*m_ResolutionY+j; 
       tripoints[1] = tripoints[0]-j+jn; 
       tripoints[2] = tripoints[0]+m_ResolutionY; 
-      testCell.TakeOwnership( new TriCell );
+      testCell.TakeOwnership( new TriCellType );
       testCell->SetPointIds(tripoints);
       outputMesh->SetCell(p, testCell );
       outputMesh->SetCellData(p, (OPixelType)3.0);
       p++;
-      testCell.TakeOwnership( new TriCell );
+      testCell.TakeOwnership( new TriCellType );
       tripoints[0] = tripoints[1]; 
       tripoints[1] = tripoints[0]+m_ResolutionY; 
       testCell->SetPointIds(tripoints);
@@ -193,7 +195,7 @@ SphereSource<TOutputMesh>
     tripoints[0] = numpts-2; 
     tripoints[1] = jn; 
     tripoints[2] = j; 
-    testCell.TakeOwnership( new TriCell );
+    testCell.TakeOwnership( new TriCellType );
     testCell->SetPointIds(tripoints);
     outputMesh->SetCell(p, testCell );
     outputMesh->SetCellData(p, (OPixelType)1.0);
@@ -207,16 +209,13 @@ SphereSource<TOutputMesh>
     tripoints[2] = (m_ResolutionX-1)*m_ResolutionY+j; 
     tripoints[1] = numpts-1; 
     tripoints[0] = tripoints[2]-j+jn; 
-    testCell.TakeOwnership( new TriCell );
+    testCell.TakeOwnership( new TriCellType );
     testCell->SetPointIds(tripoints);
     outputMesh->SetCell(p, testCell );
     outputMesh->SetCellData(p, (OPixelType)2.0);
     p++;
     }
 
-  // Provide a hint about the method used for Cell allocation
-  outputMesh->SetCellsAllocationMethod( 
-         OutputMeshType::CellsAllocatedDynamicallyCellByCell );
 
 }
 

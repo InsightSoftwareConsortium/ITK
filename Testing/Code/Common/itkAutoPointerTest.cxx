@@ -34,16 +34,29 @@ int itkAutoPointerTest(int, char**)
 {
 
   TestObject * obj = new TestObject;
+
   TestObject::AutoPointer ptr1;
-  ptr1 = obj;
+  ptr1.TakeOwnership( obj );
+
+  std::cout << "after assignment from raw pointer" << std::endl;
+  std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << std::endl;
 
   std::cout << ptr1->GetClassName() << std::endl;
 
   TestObject::AutoPointer ptr2( ptr1 );
 
-  ptr2.Reset();
+  std::cout << "after copy constructor " << std::endl;
+  std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << std::endl;
+  std::cout << "ptr2 IsOwner = " << ptr2.IsOwner() << std::endl;
 
-  ptr1 = new TestObject;
+  ptr2.Reset();
+  std::cout << "after Reset " << std::endl;
+  std::cout << "ptr2 IsOwner = " << ptr2.IsOwner() << std::endl;
+
+  ptr1.TakeOwnership( new TestObject );
+  std::cout << "after assignment from raw pointer" << std::endl;
+  std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << std::endl;
+
 
   
   // The following test excercise the methods but don't validate the results
@@ -61,7 +74,8 @@ int itkAutoPointerTest(int, char**)
     }
 
   
-  TestObject::ConstAutoPointer cptr1( new TestObject );
+  TestObject::ConstAutoPointer cptr1;
+  cptr1.TakeOwnership( new TestObject );
 
   
   TestObject::ConstAutoPointer cptr2( cptr1 );

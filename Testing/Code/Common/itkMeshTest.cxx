@@ -97,7 +97,7 @@ int itkMeshTest(int, char**)
   /**
    * Create the mesh through its object factory.
    */
-  MeshType::Pointer mesh(MeshType::New());  
+  MeshType::Pointer mesh = MeshType::New();  
 
   /**
    * Add our test points to the mesh.
@@ -110,13 +110,18 @@ int itkMeshTest(int, char**)
     mesh->SetPoint(i, PointType(testPointCoords[i]));
     }
 
+  /** 
+   * Specify the method used for allocating cells
+   */
+   mesh->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
+
   /**
    * Create the test cell. Note that testCell is a generici auto
    * pointer to a cell; in this example it ends up pointing to
    * different types of cells.
    */
-  CellAutoPointer testCell(  new TetraCellType ); // polymorphism
-  testCell.TakeOwnership();
+  CellAutoPointer testCell; 
+  testCell.TakeOwnership(  new TetraCellType ); // polymorphism
 
   /**
    * Assign the points to the tetrahedron through their identifiers.
@@ -128,12 +133,13 @@ int itkMeshTest(int, char**)
    * mesh->SetCell(cellId, cell)
    */
   mesh->SetCell(0, testCell ); // Transfer ownership to the mesh
+  std::cout << "TetrahedronCell pointer = " << (void*)testCell.GetPointer() << std::endl;
+  std::cout << "TetrahedronCell Owner   = " << testCell.IsOwner() << std::endl;
   
   /**
    * Create another test cell.
    */
-  testCell = new HexaCellType; // polymorphism
-  testCell.TakeOwnership();
+  testCell.TakeOwnership( new HexaCellType ); // polymorphism
   testCell->SetPointIds(hexaPoints);
   mesh->SetCell(1, testCell ); // Internally transfers ownership to the mesh
 
@@ -195,8 +201,8 @@ int itkMeshTest(int, char**)
   /**
    * Allocate an explicity boundary line.
    */
-  BoundaryAutoPointer boundLine(  new LineBoundaryType ); // polymorphism
-  boundLine.TakeOwnership();  // take the responsibility for memory release
+  BoundaryAutoPointer boundLine; 
+  boundLine.TakeOwnership(  new LineBoundaryType ); // polymorphism
   
   /**
    * We don't want the hexahedron to consider the tetrahedron a neighbor
@@ -264,7 +270,8 @@ int itkMeshTest(int, char**)
       }
     std::cout << std::endl;
     }
-  
+ 
+
   /**
    * Try getting the tetrahedrons's neighbor through its fourth edge.
    * This should be the test hexahedron. The boundaries are implicit
@@ -292,8 +299,7 @@ int itkMeshTest(int, char**)
    * Create a higher order  test cell.
    */
   { // Create a local scope
-    testCell = new QuadraticEdgeCellType; // polymorphism
-    testCell.TakeOwnership();
+    testCell.TakeOwnership( new QuadraticEdgeCellType ); // polymorphism
     unsigned long quadraticEdgePoints[3] = {0,1,2};
     testCell->SetPointIds(quadraticEdgePoints);
     mesh->SetCell(2, testCell ); // Internally transfers ownership to the mesh
@@ -358,8 +364,7 @@ int itkMeshTest(int, char**)
    * Create a higher order triangular test cell.
    */
   { // Create a local scope
-    testCell = new QuadraticTriangleCellType; // polymorphism
-    testCell.TakeOwnership();
+    testCell.TakeOwnership(new QuadraticTriangleCellType); // polymorphism;
     unsigned long quadraticTrianglePoints[3] = {0,1,2};
     testCell->SetPointIds(quadraticTrianglePoints);
     mesh->SetCell(2, testCell ); // Internally transfers ownership to the mesh

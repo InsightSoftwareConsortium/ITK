@@ -292,8 +292,7 @@ HexahedronCell< TCellInterface >
 {
   VertexType * vert = new VertexType;
   vert->SetPointId(0, m_PointIds[vertexId]);
-  vertexPointer = vert;
-  vertexPointer.TakeOwnership();
+  vertexPointer.TakeOwnership( vert );
   return true;  
 }
 
@@ -312,8 +311,7 @@ HexahedronCell< TCellInterface >
     {
     edge->SetPointId(i, m_PointIds[ m_Edges[edgeId][i] ]);
     }
-  edgePointer = edge;
-  edgePointer.TakeOwnership(); 
+  edgePointer.TakeOwnership( edge ); 
   return true;
 }
 
@@ -333,8 +331,7 @@ HexahedronCell< TCellInterface >
     {
     face->SetPointId(i, m_PointIds[ m_Faces[faceId][i] ]);
     }
-  facePointer = face;
-  facePointer.TakeOwnership(); 
+  facePointer.TakeOwnership( face ); 
   return true;
 }
 

@@ -65,11 +65,12 @@ public:
 
 
   /** Constructor to pointer p.  */
-  explicit AutoPointer ( ObjectType * p):
+  explicit AutoPointer ( ObjectType * p, bool takeOwnership ):
                     m_Pointer(p),
-                    m_IsOwner(false) // ownership not assumed by default
+                    m_IsOwner(takeOwnership)
       { }
-  
+
+
   /** Destructor.  */
   ~AutoPointer ()
     { 
@@ -113,6 +114,16 @@ public:
     m_IsOwner = true;
     }
 
+  /** Reject explicitly the Ownership */
+  void TakeNoOwnership(ObjectType * objectptr) 
+    { 
+    if( m_IsOwner && m_Pointer ) 
+      { 
+      delete m_Pointer; // remove the current one
+      }
+    m_Pointer = objectptr;
+    m_IsOwner = false;
+    }
 
   /** Query for the ownership */
   bool IsOwner(void) const
@@ -173,18 +184,6 @@ public:
     return *this;
     }
   
-  /** Overload operator assignment.  */
-  AutoPointer &operator = (ObjectType *r)
-    {
-    if( m_IsOwner && m_Pointer ) 
-      { 
-      delete m_Pointer; // remove the current one
-      }
-    m_Pointer = r; 
-    m_IsOwner = false; // by default Ownership is not assumed.
-    return *this;
-    }
-  
   /** Function to print object pointed to.  */
   ObjectType *Print (std::ostream& os) const 
     { 
@@ -226,7 +225,7 @@ template <typename TAutoPointerBase, typename TAutoPointerDerived>
 void
 ITK_EXPORT TransferAutoPointer(TAutoPointerBase & pa, TAutoPointerDerived & pb)
 {
-  pa = pb.GetPointer();      // give a chance to natural polymorphism
+  pa.TakeNoOwnership( pb.GetPointer() ); // give a chance to natural polymorphism
   if( pb.IsOwner() )
     {
     pa.TakeOwnership();      // pa Take Ownership

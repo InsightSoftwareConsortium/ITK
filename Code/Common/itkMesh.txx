@@ -308,7 +308,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   const bool found = m_CellsContainer->GetElementIfIndexExists(cellId, &cellptr);
   if( found )
     {
-    cellPointer = cellptr;
+    cellPointer.TakeNoOwnership( cellptr );
     }
   else
     {
@@ -920,7 +920,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
       BoundaryType * boundaryptr;
       const bool found = m_BoundariesContainers[dimension]->
         GetElementIfIndexExists(boundaryId, &boundaryptr);
-      boundary = boundaryptr;
+      boundary.TakeNoOwnership( boundaryptr );
       return found;
       }
     }

@@ -62,10 +62,14 @@ SphereMeshSource<TOutputMesh>
   /* The temporary container of nodes connectedness. */
   unsigned long tripoints[3] = {0,1,2};
   
-  /* Memory allocation for nodes. */
-  this->GetOutput()->GetPoints()->Reserve(numpts);
+  OutputMeshPointer outputMesh = this->GetOutput().GetPointer();
 
-  PointsContainerPointer  myPoints = this->GetOutput()->GetPoints();
+  outputMesh->SetCellsAllocationMethod( 
+                OutputMeshType::CellsAllocatedDynamicallyCellByCell );
+
+  /* Memory allocation for nodes. */
+  PointsContainerPointer  myPoints = outputMesh->GetPoints();
+  myPoints->Reserve(numpts);
   typename PointsContainer::Iterator   point = myPoints->Begin();
 
   OPointType p1;
@@ -120,15 +124,16 @@ SphereMeshSource<TOutputMesh>
   /* Cells container allocation. */
   CellsContainerPointer cells = CellsContainer::New();
   cells->Reserve( numcells );
-  this->GetOutput()->SetCells( cells );
+  outputMesh->SetCells( cells );
 
   /* Cell data container allocation. */
   CellDataContainerPointer celldata = CellDataContainer::New();
   celldata->Reserve( numcells );
-  this->GetOutput()->SetCellData( celldata );
+  outputMesh->SetCellData( celldata );
 
   p = 0;
-  TriCellPointer testCell(TriCell::New());
+  TriCellPointer testCell;
+  testCell.TakeOwnership( new TriCellType );
 
   /* Store all regular cells. */
   for(unsigned int i=0; i+1 < m_ResolutionX ; i++) {
@@ -141,14 +146,14 @@ SphereMeshSource<TOutputMesh>
       cells->SetElement(p, testCell);
       celldata->SetElement(p, (OPixelType)3.0);
       p++;
-      testCell = TriCell::New();
+      testCell.TakeOwnership( new TriCellType );
       tripoints[0] = tripoints[1]; 
       tripoints[1] = tripoints[0]+m_ResolutionY; 
       testCell->SetPointIds(tripoints);
       cells->SetElement(p, testCell);
       celldata->SetElement(p, (OPixelType)3.0);
       p++;
-      testCell = TriCell::New();
+      testCell.TakeOwnership( new TriCellType );
     }
   }
  
@@ -162,7 +167,7 @@ SphereMeshSource<TOutputMesh>
     cells->SetElement(p, testCell);
     celldata->SetElement(p, (OPixelType)1.0);
     p++;
-    testCell = TriCell::New();
+    testCell.TakeOwnership( new TriCellType );
   }
 
   /* Store cells containing the north pole nodes. */
@@ -175,7 +180,7 @@ SphereMeshSource<TOutputMesh>
     cells->SetElement(p, testCell);
     celldata->SetElement(p, (OPixelType)2.0);
     p++;
-    testCell = TriCell::New();
+    testCell.TakeOwnership( new TriCellType );
   }
 }
 

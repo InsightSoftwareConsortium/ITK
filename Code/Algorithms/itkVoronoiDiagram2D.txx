@@ -96,7 +96,7 @@ void
 VoronoiDiagram2D<TCoordRepType>::
 GetCellId(CellIdentifier cellId, CellAutoPointer & cellPtr )
 {
-  cellPtr = m_VoronoiRegions[cellId];
+  cellPtr.TakeNoOwnership( m_VoronoiRegions[cellId] );
 }
 
 template <typename TCoordRepType>

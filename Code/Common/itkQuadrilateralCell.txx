@@ -29,7 +29,7 @@ void
 QuadrilateralCell< TCellInterface >
 ::MakeCopy(CellAutoPointer & cellPointer) const
 {
-  cellPointer = new Self;
+  cellPointer.TakeOwnership( new Self );
   cellPointer->SetPointIds(this->GetPointIds());
 }
 
@@ -273,8 +273,7 @@ QuadrilateralCell< TCellInterface >
 {
   VertexType * vert = new VertexType;
   vert->SetPointId(0, m_PointIds[vertexId]);
-  vertexPointer = vert;
-  vertexPointer.TakeOwnership();
+  vertexPointer.TakeOwnership( vert );
   return true;  
 }
 
@@ -293,8 +292,7 @@ QuadrilateralCell< TCellInterface >
     {
     edge->SetPointId(i, m_PointIds[ m_Edges[edgeId][i] ]);
     }
-  edgePointer = edge;
-  edgePointer.TakeOwnership(); 
+  edgePointer.TakeOwnership( edge ); 
   return true;
 }
 
