@@ -1854,6 +1854,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::MultiResSolve()
         unsigned int scale=m_ImageScaling[jj]/(unsigned int)pow(2.0,(double)ii);
         unsigned int nextscale = m_ImageScaling[jj]/(unsigned int)pow(2.0,(double)(ii+1));
         if (scale < 1) scale=1;
+        if (nextscale < 1) nextscale=1;
         SizeReductionMoving[0][jj]=scale;
         SizeReductionFixed[0][jj]=scale;
         nextLevelSize[jj]=(long int) ( (float) m_FullImageSize[jj] / (float) nextscale );
