@@ -356,7 +356,7 @@ public:
     // Check to see if the index is valid
     for (unsigned int ii = 0; ii < VImageDimension; ++ii)
       {
-      if( (index[ii] < 0) || (index[ii] >= mySize[ii]) )
+      if( (index[ii] < 0) || (index[ii] >= static_cast<long>(mySize[ii])) )
         { return false; }
       }
     
