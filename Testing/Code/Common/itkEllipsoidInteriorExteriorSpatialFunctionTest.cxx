@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 int main()
 {
-  std::cerr << "itkEllipsoidInteriorExteriorSpatialFunction test start" << std::endl;
+  std::cout << "itkEllipsoidInteriorExteriorSpatialFunction test start" << std::endl;
 
   // Test will create an ellipsoid (3-dimensional)
   const unsigned int dimension = 3;
@@ -125,7 +125,7 @@ int main()
   // This should actually be some function of the image/ellipsoid size.
   if(volumeError <= 5 && functionValue == 1)
     {
-    std::cerr << "calculated ellipsoid volume = " << volume << std::endl
+    std::cout << "calculated ellipsoid volume = " << volume << std::endl
               << "measured ellipsoid volume = " << interiorPixelCounter << std::endl
               << "volume error = " << volumeError << "%" << std::endl
               << "function value = " << functionValue << std::endl
