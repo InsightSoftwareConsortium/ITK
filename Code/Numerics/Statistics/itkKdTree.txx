@@ -148,7 +148,7 @@ KdTree< TSample >
 
   for (unsigned int d = 0 ; d < MeasurementVectorSize ; d++)
     {
-      lowerBound[d] = NumericTraits< MeasurementType >::min() ;
+      lowerBound[d] = NumericTraits< MeasurementType >::NonpositiveMin() ;
       upperBound[d] = NumericTraits< MeasurementType >::max() ;
     }
 

@@ -32,7 +32,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
   m_OrthoMargin = 0.5 ;
   m_ProjectionAxis = 0 ;
   m_HistogramBinOverlap = 0.0 ;
-  m_MinimumFrequency = NumericTraits< FrequencyType >::min() ;
+  m_MinimumFrequency = NumericTraits< FrequencyType >::NonpositiveMin() ;
 }
 
 template< class TInputSample, class THistogramMeasurement >

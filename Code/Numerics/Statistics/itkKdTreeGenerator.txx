@@ -79,7 +79,7 @@ KdTreeGenerator< TSample >
 
   for(unsigned int d = 0 ; d < MeasurementVectorSize ; d++)
     {
-      lowerBound[d] = NumericTraits< MeasurementType >::min() ;
+      lowerBound[d] = NumericTraits< MeasurementType >::NonpositiveMin() ;
       upperBound[d] = NumericTraits< MeasurementType >::max() ;
     }
 
@@ -127,7 +127,7 @@ KdTreeGenerator< TSample >
                                           m_TempLowerBound, m_TempUpperBound,
                                           m_TempMean) ;
 
-  maxSpread = NumericTraits< MeasurementType >::min() ;
+  maxSpread = NumericTraits< MeasurementType >::NonpositiveMin() ;
   for (i = 0 ; i < MeasurementVectorSize ; i++)
     {
       spread = m_TempUpperBound[i] - m_TempLowerBound[i] ;

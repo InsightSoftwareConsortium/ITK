@@ -240,7 +240,7 @@ QuickSelect(TSubsample* sample,
   int cut ;
   MeasurementType tempMedian ;
 
-  if (medianGuess != NumericTraits< MeasurementType >::min())
+  if (medianGuess != NumericTraits< MeasurementType >::NonpositiveMin())
     {
       tempMedian = medianGuess ;
     }
@@ -308,7 +308,7 @@ QuickSelect(TSubsample* sample,
             int kth)
 {
   typedef typename TSubsample::MeasurementType MeasurementType ;
-  MeasurementType medianGuess = NumericTraits< MeasurementType >::min() ;
+  MeasurementType medianGuess = NumericTraits< MeasurementType >::NonpositiveMin() ;
   return QuickSelect< TSubsample >(sample, activeDimension, beginIndex, 
                      endIndex, kth, medianGuess) ;
 }

@@ -155,7 +155,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   typename TSample::MeasurementVectorType mvector ;
   double density ;
   double densitySum ;
-  double minDouble = NumericTraits< double >::min() ;
+  double minDouble = NumericTraits< double >::NonpositiveMin() ;
 
   long measurementVectorIndex = 0 ;
   while (iter != last)

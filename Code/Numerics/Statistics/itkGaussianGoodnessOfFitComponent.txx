@@ -160,7 +160,7 @@ GaussianGoodnessOfFitComponent< TInputSample >
     m_ProjectionAxisCalculator->GetEigenValues() ;
 
   m_LongestAxisIndex = 0 ;
-  m_LargestEigenValue = NumericTraits< double >::min() ;
+  m_LargestEigenValue = NumericTraits< double >::NonpositiveMin() ;
   for ( i = 0 ; i < MeasurementVectorSize ; i++ )
     {
       if ( (*eigenValues)[i] > m_LargestEigenValue )

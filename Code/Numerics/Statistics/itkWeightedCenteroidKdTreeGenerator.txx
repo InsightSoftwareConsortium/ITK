@@ -75,7 +75,7 @@ WeightedCenteroidKdTreeGenerator< TSample >
                                           m_TempLowerBound, m_TempUpperBound,
                                           m_TempMean) ;
 
-  maxSpread = NumericTraits< MeasurementType >::min() ;
+  maxSpread = NumericTraits< MeasurementType >::NonpositiveMin() ;
   for (i = 0 ; i < (int)MeasurementVectorSize ; i++)
     {
       spread = m_TempUpperBound[i] - m_TempLowerBound[i] ;
