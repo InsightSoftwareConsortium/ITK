@@ -17,7 +17,7 @@
 
 // Software Guide : BeginLatex
 //
-// Some of the most challenging cases of image registration are when images
+// Some of the most challenging cases of image registration arise when images
 // of different modalities are involved. In such cases, metrics based on
 // direct comparison of gray levels are not applicable. It has been
 // extensively shown that metrics based on the evaluation of mutual
@@ -28,14 +28,14 @@
 //
 // The following simple example illustrates how multiple imaging modalities
 // can be registered using the ITK registration framework. The first
-// difference is the use of \doxygen{MutualInformationImageToImageMetric} as
+// difference is the use of the \doxygen{MutualInformationImageToImageMetric} as
 // the cost-function to be optimized and the second difference is the use of
-// \doxygen{GradientDescentOptimizer}. Due to the stochastic nature of the
-// way the metric measure is computed, the values are too noisy to work
-// successfully with \doxygen{RegularStepGradientDescentOptimizer}.
-// Therefore we will use the simpler \doxygen{GradientDescentOptimizer} with
+// the \doxygen{GradientDescentOptimizer}. Due to the stochastic nature of the
+// metric computation, the values are too noisy to work
+// successfully with the \doxygen{RegularStepGradientDescentOptimizer}.
+// Therefore, we will use the simpler \doxygen{GradientDescentOptimizer} with
 // a user defined learning rate.  The following headers declare the basic
-// components of the registration method.
+// components of this registration method.
 //
 // Software Guide : EndLatex 
 
@@ -54,10 +54,10 @@
 //  
 //  One way to simplify the computation of the mutual information is
 //  to normalize the statistical distribution of the two input images. The
-//  filter \doxygen{NormalizeImageFilter} is the perfect tool for this task.
+//  \doxygen{NormalizeImageFilter} is the perfect tool for this task.
 //  It rescales the intensities of the input images in order to produce an
 //  output image with zero mean and unit variance. This filter has been
-//  discussed on section \ref{sec:CastingImageFilters}.
+//  discussed in Section \ref{sec:CastingImageFilters}.
 //
 //  Software Guide : EndLatex 
 
@@ -67,10 +67,10 @@
 
 //  Software Guide : BeginLatex
 //  
-//  Additionally, low pass filtering of the images to be registered will also
+//  Additionally, low-pass filtering of the images to be registered will also
 //  increase robustness against noise. In this example, we will use the
-//  \doxygen{DiscreteGaussianImageFilter} filter for the purpose. The
-//  characteristics of this filter has been discussed in section
+//  \doxygen{DiscreteGaussianImageFilter} for the purpose. The
+//  characteristics of this filter have been discussed in Section
 //  \ref{sec:BlurringFilters}.
 //
 //  Software Guide : EndLatex 
@@ -167,7 +167,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The rest of the image registration components are instantiated as
-  //  illustrated in section \ref{sec:IntroductionImageRegistration} with
+  //  illustrated in Section \ref{sec:IntroductionImageRegistration} with
   //  the use of the \code{InternalImageType}.
   //
   //  Software Guide : EndLatex 
@@ -224,14 +224,14 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The metric requires a number of parameters to be selected. Among them,
+  //  The metric requires a number of parameters to be selected, including
   //  the standard deviation of the Gaussian kernel for the fixed image
   //  density estimate, the standard deviation of the kernel for the moving
   //  image density and the number of samples use to compute the densities
   //  and entropy values. Details on the concepts behind the computation of
-  //  the metric can be found in section
-  //  \ref{sec:MutualInformationMetric}. Our experience with the toolkit has
-  //  found that a kernel standard deviation of $0.4$ works well for images
+  //  the metric can be found in Section
+  //  \ref{sec:MutualInformationMetric}.  Experience has
+  //  shown that a kernel standard deviation of $0.4$ works well for images
   //  which have been normalized to a mean of zero and unit variance.  We
   //  will follow this empirical rule in this example.
   //
@@ -306,10 +306,10 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The output of the readers are connected as inputs to the normalization
-  //  filters. The outputs of the normalization filters are connected as
-  //  inputs to the blurring filters. The inputs to the registration method
-  //  are taken from the blurring filters.
+  //  The output of the readers becomes the input to the normalization
+  //  filters. The outputs of the normalization filters is connected as
+  //  input to the blurring filters. The input to the registration method
+  //  is taken from the blurring filters.
   //
   //  Software Guide : EndLatex 
 
@@ -340,7 +340,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Since larger values of mutual information indicates better matches than
+  //  Since larger values of mutual information indicate better matches than
   //  smaller values, we need to maximize the cost function in this example.
   //  By default the \doxygen{GradientDescentOptimizer} is set to minimize the
   //  value of the cost-function. It is therefore necessary to modify its
@@ -399,8 +399,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Let's execute this example over some of the images provided in
-  //  \code{Examples/Data}, for example:
+  //  Let's execute this example over two of the images provided in
+  //  \code{Examples/Data}:
   //  
   //  \begin{itemize}
   //  \item \code{BrainT1SliceBorder20.png} 
@@ -411,15 +411,15 @@ int main( int argc, char *argv[] )
   //  \center
   //  \includegraphics[width=0.44\textwidth]{BrainT1SliceBorder20.eps}
   //  \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceShifted13x17y.eps}
-  //  \itkcaption[Multi-Modality Registration Inputs]{T1 MRI (fixed image) and Proton
-  //  Density MRI (moving image) provided as input to the registration method.}
+  //  \itkcaption[Multi-Modality Registration Inputs]{A T1 MRI (fixed image) and a proton
+  //  density MRI (moving image) are provided as input to the registration method.}
   //  \label{fig:FixedMovingImageRegistration2}
   //  \end{figure}
   // 
   //  The second image is the result of intentionally translating the image
   //  \code{BrainProtonDensitySliceBorder20.png} by $(13,17)$ millimeters. Both
   //  images have unit-spacing and are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration2}. The registration has been
+  //  \ref{fig:FixedMovingImageRegistration2}. The registration is
   //  stopped at 200 iterations and produces as result the
   //  parameters:
   //
@@ -427,7 +427,7 @@ int main( int argc, char *argv[] )
   //  Translation X = 12.8804
   //  Translation Y = 16.7718
   //  \end{verbatim}
-  //  These values are approximatedly within a half pixel of 
+  //  These values are approximately within half a pixel of 
   //  the true misaligment introduced in the moving image.
   //
   //  Software Guide : EndLatex 
@@ -489,7 +489,7 @@ int main( int argc, char *argv[] )
   // \label{fig:ImageRegistration2Output}
   // \end{figure}
   //
-  //  As a result of the resampling the moving image is presented in the left
+  //  The moving image after resampling is presented on the left
   //  side of Figure \ref{fig:ImageRegistration2Output}. The center and right
   //  figures present a checkerboard composite of the fixed and
   //  moving images before and after registration.
@@ -503,8 +503,8 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceTranslations.eps}
   // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceTranslations2.eps}
   // \itkcaption[Multi-Modality Registration plot of translations]{Sequence of
-  // translations during the registration process. Left, iterations form 0 to
-  // 200. Right iterations from 150 to 200.}
+  // translations during the registration process. On the left are iterations 0 to
+  // 200. On the right are iterations 150 to 200.}
   // \label{fig:ImageRegistration2TraceTranslations}
   // \end{figure}
   //
@@ -516,7 +516,7 @@ int main( int argc, char *argv[] )
   //  can be seen that after a certain number of iterations the optimizer
   //  oscillates within one or two pixels of the true solution.  At this
   //  point it is clear that more iterations will not help. Instead it is
-  //  time to modify some of the parameters of the registration process. For
+  //  time to modify some of the parameters of the registration process, for
   //  example, reducing the learning rate of the optimizer and continuing the
   //  registration so that smaller steps are taken.
   //
@@ -524,9 +524,9 @@ int main( int argc, char *argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceMetric.eps}
   // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceMetric2.eps}
-  // \itkcaption[Multi-Modality Registration plot of metrics]{Sequence of metric
-  // values during the registration process. Left, iterations form 0 to 200.
-  // Right, iterations from 100 to 200.}
+  // \itkcaption[Multi-Modality Registration plot of metrics]{The sequence of metric
+  // values produced during the registration process. On the left are iterations 0 to 200.
+  // On the right are iterations 100 to 200.}
   // \label{fig:ImageRegistration2TraceMetric}
   // \end{figure}
   //
@@ -534,17 +534,17 @@ int main( int argc, char *argv[] )
   //  metric values computed as the optimizer searched the parameter space.
   //  The left plot shows values when iterations are extended from $0$ to
   //  $200$ while the right figure zooms into iterations $100$ to $200$.  The
-  //  fluctuations in the measure value is due to the stochastic nature in
+  //  fluctuations in the metric value are due to the stochastic nature in
   //  which the measure is computed. At each call of \code{GetValue()}, two
-  //  new sets of intensity samples is randomly taken from the image to
+  //  new sets of intensity samples are randomly taken from the image to
   //  compute the density and entropy estimates.  Even with the fluctuations,
-  //  overall the measure initially increases with the number of iterations.
-  //  After about 150 iterations the metric value oscillates without further
+  //  the measure initially increases overall with the number of iterations.
+  //  After about 150 iterations, the metric value merely oscillates without further
   //  noticeable convergence.  The trace plots in Figure
-  //  \ref{fig:ImageRegistration2TraceMetric} highlights one of the
-  //  difficulties with using this particular metric: the stochastic
-  //  oscillations makes it difficult to determine convergence and limits the
-  //  use of more sophisticated optimizations methods. As explained above,
+  //  \ref{fig:ImageRegistration2TraceMetric} highlight one of the
+  //  difficulties associated with this particular metric: the stochastic
+  //  oscillations make it difficult to determine convergence and limit the
+  //  use of more sophisticated optimization methods. As explained above,
   //  the reduction of the learning rate as the registration progresses is
   //  very important in order to get precise results.
   //
