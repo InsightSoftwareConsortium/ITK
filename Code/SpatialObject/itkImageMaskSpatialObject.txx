@@ -48,15 +48,14 @@ bool
 ImageMaskSpatialObject< TDimension >
 ::IsInside( const PointType & point) const
 {
-  if(!GetIndexToWorldTransform()->GetInverse(m_InternalInverseTransform))
+  if(m_Bounds->IsInside(point))
     {
-    return false;
-    }
+    if(!GetIndexToWorldTransform()->GetInverse(m_InternalInverseTransform))
+      {
+      return false;
+      }
+    PointType p = m_InternalInverseTransform->TransformPoint(point);
 
-  PointType p = m_InternalInverseTransform->TransformPoint(point);
-  
-  if(m_Bounds->IsInside( p))
-    {
     IndexType index;
     for(unsigned int i=0; i<TDimension; i++)
       {
