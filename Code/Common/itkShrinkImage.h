@@ -39,7 +39,7 @@ public:
   /**
    *
    */
-  static const char *GetClassName() 
+  const char *GetClassName() const
     {return "itkShrinkImage";}
 
   /** 

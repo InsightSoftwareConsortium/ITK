@@ -126,7 +126,7 @@ bool itkDirectory::Load(const char* name)
 #include <dirent.h>
 
 //----------------------------------------------------------------------------
-int itkDirectory::Open(const char* name)
+bool itkDirectory::Load(const char* name)
 {
   DIR* dir = opendir(name);
   if ( !dir ) 

@@ -61,7 +61,7 @@ public:
    * messages.
    */
   void SetPromptUser(bool flag) {itkSetMacro(m_PromptUser,flag);}
-  const bool GetPromptUser() {itkGetMacro(m_PromptUser);}
+  bool GetPromptUser() const {itkGetMacro(m_PromptUser);}
   void PromptUserOn() {this->SetPromptUser(true);}
   void PromptUserOff() {this->SetPromptUser(false);}
 

@@ -256,7 +256,7 @@ protected:
   virtual void AddInput(itkDataObject *input);
   virtual void RemoveInput(itkDataObject *input);
   void SetNumberOfRequiredInputs(unsigned int num)
-    {itkSetClampMacro(m_NumberOfRequiredInputs,num,0,ITK_LARGE_INTEGER);}
+    {itkSetMacro(m_NumberOfRequiredInputs,num);}
   unsigned int GetNumberOfRequiredInputs()
     {itkGetMacro(m_NumberOfRequiredInputs);}
 
@@ -265,7 +265,7 @@ protected:
   virtual void AddOutput(itkDataObject *output);
   virtual void RemoveOutput(itkDataObject *output);
   void SetNumberOfRequiredOutputs(unsigned int num)
-    {itkSetClampMacro(m_NumberOfRequiredOutputs,num,0,ITK_LARGE_INTEGER);}
+    {itkSetMacro(m_NumberOfRequiredOutputs,num);}
   unsigned int GetNumberOfRequiredOutputs()
     {itkGetMacro(m_NumberOfRequiredOutputs);}
 
