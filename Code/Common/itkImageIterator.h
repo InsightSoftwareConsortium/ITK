@@ -101,8 +101,8 @@ public:
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
   ImageIterator()
-    : m_PixelAccessor(),
-      m_Region()
+    : m_Region(),
+      m_PixelAccessor()
   {
     m_Image = 0;
     m_Buffer = 0;
