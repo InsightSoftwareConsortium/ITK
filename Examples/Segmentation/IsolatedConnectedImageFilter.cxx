@@ -284,17 +284,23 @@ int main( int argc, char *argv[] )
   //  structures are difficult to separate. Selecting one seed in one structure
   //  and the other seed in the adjacent structure creates the appropriate
   //  setup for computing the threshold that will separate both structures.
-  //  The following table presents the parameters used to obtain the images
-  //  shown in Figure~\ref{fig:IsolatedConnectedImageFilterOutput}.
+  //  Table~\ref{tab:IsolatedConnectedImageFilterOutput} presents the
+  //  parameters used to obtain the images shown in
+  //  Figure~\ref{fig:IsolatedConnectedImageFilterOutput}.
   //
+  //  \begin{table}
   //  \begin{center}
-  //  \begin{tabular}{|l|c|c|c|c|c|}
+  //  \begin{tabular}{|l|c|c|c|c|}
   //  \hline
-  //  Adjacent Structures & Seed1 & Seed2 & Lower & Isolated value found & Output Image \\ \hline \\ \hline
-  //  Gray matter vs White matter & $(61,140)$ & $(63,43)$ & $150$ & $183.31$ & 
-  //  Third from left in Figure \ref{fig:IsolatedConnectedImageFilterOutput} \\ \hline
+  //  Adjacent Structures & Seed1 & Seed2 & Lower & Isolated value found       \\ \hline 
+  //  Gray matter vs White matter & $(61,140)$ & $(63,43)$ & $150$ & $183.31$  \\ \hline
   //  \end{tabular}
   //  \end{center}
+  //  \itkcaption[IsolatedConnectedImageFilter example parameters]{Parameters
+  //  used for separating white matter from gray matter in
+  //  Figure~\ref{fig:IsolatedConnectedImageFilterOutput} using the
+  //  \doxygen{IsolatedConnectedImageFilter}.\label{tab:IsolatedConnectedImageFilterOutput}}
+  //  \end{table}
   //
   // \begin{figure} \center
   // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}

@@ -321,17 +321,26 @@ int main( int argc, char *argv[])
   //  \code{BrainProtonDensitySlice.png} provided in the directory
   //  \code{Insight/Examples/Data}. We can easily segment the major anatomical
   //  structures by providing seeds in the appropriate locations and defining
-  //  values for the lower and upper thresholds. For example,
+  //  values for the lower and upper thresholds.
+  //  Figure~\ref{fig:ConnectedThresholdOutput} illustrates several examples of
+  //  segmentation. The parameters used are presented in
+  //  Table~\ref{tab:ConnectedThresholdOutput}.
   //
+  //  \begin{table}
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|}
   //  \hline
-  //  Structure & Seed Index & Lower & Upper & Output Image \\ \hline \\ \hline
+  //  Structure & Seed Index & Lower & Upper & Output Image \\ \hline 
   //  White matter & $(60,116)$ & 150 & 180 & Second from left in Figure \ref{fig:ConnectedThresholdOutput} \\ \hline
   //  Ventricle    & $(81,112)$ & 210 & 250 & Third  from left in Figure \ref{fig:ConnectedThresholdOutput} \\ \hline
   //  Gray matter  & $(107,69)$ & 180 & 210 & Fourth from left in Figure \ref{fig:ConnectedThresholdOutput} \\ \hline
   //  \end{tabular}
   //  \end{center}
+  //  \itkcaption[ConnectedThreshold example parameters]{Parameters used for
+  //  segmenting some brain structures shown in
+  //  Figure~\ref{fig:ConnectedThresholdOutput} using the filter
+  //  \doxygen{ConnectedThresholdImageFilter}.\label{tab:ConnectedThresholdOutput}}
+  //  \end{table}
   //
   // \begin{figure} \center
   // \includegraphics[width=0.24\textwidth]{BrainProtonDensitySlice.eps}
