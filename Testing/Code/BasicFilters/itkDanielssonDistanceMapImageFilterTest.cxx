@@ -71,10 +71,10 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
  
   index2D[0] = 4;
   index2D[1] = 4;
-  inputImage2D->GetPixel( index2D ) = 1;
+  inputImage2D->SetPixel( index2D, 1);
   index2D[0] = 1;
   index2D[1] = 6;
-  inputImage2D->GetPixel( index2D ) = 2;
+  inputImage2D->SetPixel( index2D, 2);
 
   /* Create Danielsson Distance Map filter */
   typedef itk::DanielssonDistanceMapImageFilter< 
@@ -99,6 +99,7 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
                                 outputDistance2D,
                                 outputDistance2D->GetRequestedRegion() );
 
+  it2D2.GoToBegin();
   it2D2.SetFirstDirection ( 0 );
   it2D2.SetSecondDirection( 1 );
 
@@ -212,6 +213,47 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
     }
     it2D2.NextSlice();
   }
+
+
+  /* Test for images with anisotropic spacing */
+  myImageType2D1::SpacingType anisotropicSpacing;
+
+  anisotropicSpacing[0] = 1.0;
+  anisotropicSpacing[1] = 5.0;
+
+  inputImage2D->SetSpacing( anisotropicSpacing );
+
+  inputImage2D->FillBuffer( 0 );
+
+  index2D[0] = 4;
+  index2D[1] = 4;
+  inputImage2D->SetPixel( index2D, 1);
+
+  filter2D->SetInput( inputImage2D ); 
+  filter2D->SetInputIsBinary(true); 
+  filter2D->Update();
+
+  
+  it2D2.GoToBegin();
+  it2D2.SetFirstDirection ( 0 );
+  it2D2.SetSecondDirection( 1 );
+
+  while( !it2D2.IsAtEnd() ) 
+  {
+    while( !it2D2.IsAtEndOfSlice() ) 
+    {
+      while( !it2D2.IsAtEndOfLine() ) 
+      {
+        std::cout.width(5);
+        std::cout << it2D2.Get() << "\t";
+        ++it2D2;
+      }
+      std::cout << std::endl;
+      it2D2.NextLine();
+    }
+    it2D2.NextSlice();
+  }
+
 
 
   return EXIT_SUCCESS;

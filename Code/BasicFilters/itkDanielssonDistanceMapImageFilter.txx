@@ -49,7 +49,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   m_SquaredDistance     = false;
   m_InputIsBinary       = false;
-
+  m_UseSpacing = false;
 }
 
 
@@ -264,6 +264,8 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   ImageRegionIteratorWithIndex< VectorImageType >  ct( distanceComponents,  region );
   ImageRegionIteratorWithIndex< OutputImageType >  dt( distanceMap,         region );
 
+  typename InputImageType::SpacingType spacing = Self::GetInput()->GetSpacing();
+
   itkDebugMacro( << "ComputeVoronoiMap Region: " << region);
   ot.GoToBegin();
   ct.GoToBegin();
@@ -278,10 +280,22 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
     OffsetType distanceVector = ct.Get();
     double distance = 0.0;
-    for(unsigned int i=0; i<InputImageDimension; i++)
+    if (m_UseSpacing)
       {
-      distance += distanceVector[i] * distanceVector[i];
+      for(unsigned int i=0; i<InputImageDimension; i++)
+        {
+        double spacingComponent = static_cast< double >(spacing[i]);
+        distance += distanceVector[i] * distanceVector[i] * spacingComponent * spacingComponent;
+        }
       }
+    else
+      {
+      for(unsigned int i=0; i<InputImageDimension; i++)
+        {
+        distance += distanceVector[i] * distanceVector[i];
+        }
+      }
+
     dt.Set( static_cast<typename OutputImageType::PixelType>(sqrt( distance )) );
     ++ot;
     ++ct;
@@ -304,12 +318,22 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage>
   OffsetType offsetValueHere  = components->GetPixel( here  );
   OffsetType offsetValueThere = components->GetPixel( there ) + offset;
 
+  typename InputImageType::SpacingType spacing = Self::GetInput()->GetSpacing();
+
   double norm1 = 0.0;
   double norm2 = 0.0;
   for( unsigned int i=0; i<InputImageDimension; i++ )
     {
-    const double v1 = static_cast< double >(  offsetValueHere[ i]  );
-    const double v2 = static_cast< double >(  offsetValueThere[i] );
+    double v1 = static_cast< double >(  offsetValueHere[ i]  );
+    double v2 = static_cast< double >(  offsetValueThere[i] );
+    
+    if (m_UseSpacing)
+      {
+      double spacingComponent = static_cast< double >(spacing[i]);
+      v1 *= spacingComponent;
+      v2 *= spacingComponent;
+      }
+
     norm1 +=  v1 * v1;
     norm2 +=  v2 * v2;
     }

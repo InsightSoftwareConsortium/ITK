@@ -130,6 +130,15 @@ public:
   /** Set On/Off if the input is binary.  See SetInputIsBinary(). */
   itkBooleanMacro( InputIsBinary );
 
+  /** Set if image spacing should be used in computing distances. */
+  itkSetMacro( UseSpacing, bool );
+
+  /** Get whether spacing is used. */
+  itkGetConstReferenceMacro( UseSpacing, bool );
+
+  /** Set On/Off whether spacing is used. */
+  itkBooleanMacro( UseSpacing );
+
   /** Get Voronoi Map
    * This map shows for each pixel what object is closest to it. 
    * Each object should be labeled by a number (larger than 0), 
@@ -175,6 +184,7 @@ private:
 
   bool                  m_SquaredDistance;
   bool                  m_InputIsBinary;
+  bool                  m_UseSpacing;
 
 }; // end of DanielssonDistanceMapImageFilter class
 
