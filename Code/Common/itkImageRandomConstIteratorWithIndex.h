@@ -76,7 +76,7 @@ namespace itk
  * while( !it.IsAtBegin() )
  * {
  *   it.Get();
- *   ++it;  // here it jumps to another random position inside the region
+ *   --it;  // here it jumps to another random position inside the region
  *  } 
  *
  *  \endcode
