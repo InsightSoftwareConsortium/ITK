@@ -120,7 +120,7 @@ Compose(const Self * other, bool pre )
 template<class TScalarType>
 void
 Rigid3DTransform<TScalarType>::
-Translate(const OffsetType &offset, bool pre)
+Translate(const OffsetType &offset, bool)
 {
   m_Offset += offset;
   return;

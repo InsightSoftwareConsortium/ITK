@@ -258,9 +258,6 @@ GetJacobian( const InputPointType & p ) const
   const double cx = m_Center[0];
   const double cy = m_Center[1];
 
-  const double tx = m_Translation[0];
-  const double ty = m_Translation[1];
-
   // derivatives with respect to the angle
   m_Jacobian[0][0] = -sa * ( p[0] - cx ) - ca * ( p[1] - cy );
   m_Jacobian[1][0] =  ca * ( p[0] - cx ) - sa * ( p[1] - cy ); 

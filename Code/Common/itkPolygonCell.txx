@@ -194,7 +194,7 @@ PolygonCell< TCellInterface >
 template <typename TCellInterface>
 void
 PolygonCell< TCellInterface >
-::SetPointIds(PointIdConstIterator first)
+::SetPointIds(PointIdConstIterator)
 {
 }
 

@@ -146,7 +146,7 @@ public:
 
   /** Take a prior from other segmentation node. This should be a
    * binary object. */
-  virtual void TakeAPrior(BinaryObjectImage* aprior){};
+  virtual void TakeAPrior(BinaryObjectImage*){};
   
   /** Perform the segmentation. */
   void RunSegment(void);
@@ -224,7 +224,7 @@ protected:
   
   // Compute the statistics of the pixels inside the cell.
   void GetPixelIndexFromPolygon(PointTypeDeque VertList, IndexList *PixelPool);
-  virtual bool TestHomogeneity(IndexList &Plist){return 1;};
+  virtual bool TestHomogeneity(IndexList&){return 1;}
   
   void FillPolygon(PointTypeDeque vertlist);
   

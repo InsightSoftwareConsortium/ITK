@@ -38,9 +38,7 @@ void PrintVector( const VectorType & v )
 }
 
 
-int itkCenteredAffineTransformTest(
-    int argc,
-    char *argv[] )
+int itkCenteredAffineTransformTest(int, char *[])
 {
 
 

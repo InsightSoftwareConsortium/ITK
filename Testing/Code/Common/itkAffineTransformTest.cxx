@@ -38,7 +38,7 @@ void PrintVector( const VectorType & v )
 }
 
 
-int itkAffineTransformTest( int argc, char *argv [])
+int itkAffineTransformTest(int, char *[])
 {
 
 

@@ -22,7 +22,7 @@
 #include "itkVector.h"
 
 
-int itkEuler3DTransformTest(int argc,char * argv[] )
+int itkEuler3DTransformTest(int,char *[] )
 {
 
   std::cout << "==================================" << std::endl;

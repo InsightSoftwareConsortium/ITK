@@ -235,7 +235,7 @@ public:
   virtual const JacobianType& GetJacobian(const InputPointType  &point ) const;
 
   /** Return the number of parameters that completely define the Transfom */
-  unsigned int virtual GetNumberOfParameters(void) const;
+  virtual unsigned int GetNumberOfParameters(void) const;
 
   /** Return the number of parameters per dimension */
   unsigned int GetNumberOfParametersPerDimension(void) const;

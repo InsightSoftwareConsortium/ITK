@@ -72,8 +72,8 @@ VectorGradientNDAnisotropicDiffusionFunction<TImage>
 template<class TImage>
 typename VectorGradientNDAnisotropicDiffusionFunction<TImage>::PixelType
 VectorGradientNDAnisotropicDiffusionFunction<TImage>
-::ComputeUpdate(const NeighborhoodType &it, void * itkNotUsed(globalData),
-                const FloatOffsetType& offset) const
+::ComputeUpdate(const NeighborhoodType &it, void *,
+                const FloatOffsetType&) const
 {
   unsigned int i, j, k;
   PixelType delta;

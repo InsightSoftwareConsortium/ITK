@@ -128,7 +128,7 @@ protected:
   void PushNeighbors(const IndexType &center);
 
   /** Define the fuzzy affinity function between two pixels. */
-  virtual double FuzzyAffinity(const PixelType f1, const PixelType f2)
+  virtual double FuzzyAffinity(const PixelType, const PixelType)
     { return 0; }
 
   double FindStrongPath(const IndexType &center);

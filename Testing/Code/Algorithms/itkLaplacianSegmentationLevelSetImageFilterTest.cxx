@@ -122,7 +122,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard Command virtual methods */
-  void Execute(Object *caller, const EventObject &event)
+  void Execute(Object *caller, const EventObject &)
   {
     std::cout <<
       (dynamic_cast<SparseFieldLevelSetImageFilter< ::LSIFTN::SeedImageType, ::LSIFTN::ImageType> *>(caller))->GetRMSChange()
@@ -132,7 +132,7 @@ public:
               << std::endl;
    
   }
-  void Execute(const Object *caller, const EventObject &event)
+  void Execute(const Object *, const EventObject &)
   {
     std::cout << "ack" << std::endl;
 

@@ -122,7 +122,7 @@ Compose(const Self * other, bool pre )
 template<class TScalarType>
 void
 Rigid2DTransform<TScalarType>::
-Translate(const OffsetType &offset, bool pre)
+Translate(const OffsetType &offset, bool)
 {
   m_Offset += offset;
   return;
@@ -245,7 +245,7 @@ SetIdentity( void )
 template<class TScalarType >
 const typename Rigid2DTransform<TScalarType>::JacobianType & 
 Rigid2DTransform< TScalarType >::
-GetJacobian( const InputPointType & p ) const
+GetJacobian( const InputPointType & ) const
 {
   
   m_Jacobian.Fill( NumericTraits< ITK_TYPENAME JacobianType::ValueType >::Zero );

@@ -163,7 +163,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
-::GenerateOutputImage(unsigned int imgWidth, unsigned int imgHeight)
+::GenerateOutputImage(unsigned int, unsigned int)
 {
   //Get the pointer to the output image
   OutputImagePointer outputImage = this->GetOutput(); 
@@ -2103,8 +2103,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
-::ResolveRegionLabels(unsigned int imgWidth, 
-                      unsigned int imgHeight)
+::ResolveRegionLabels(unsigned int, unsigned int)
 {
   //---------------------------------------------------------------------
   //Calculate the initial number of regions 
@@ -2238,9 +2237,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
-::ResolveRegionLabels(unsigned int imgWidth, 
-                      unsigned int imgHeight,
-                      unsigned int imgDepth)
+::ResolveRegionLabels(unsigned int, 
+                      unsigned int,
+                      unsigned int)
 {
   //---------------------------------------------------------------------
   //Calculate the initial number of regions 
@@ -2413,7 +2412,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
-::PrintAlgorithmBorderStats(bool smartBorderPointerUseFlag)
+::PrintAlgorithmBorderStats(bool)
 {
 
   //Print the stats associated with all the regions

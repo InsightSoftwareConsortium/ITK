@@ -27,7 +27,7 @@
 class DeleteEvent
 {
 public:
-  void Delete(const itk::Object *caller, const itk::EventObject & event) 
+  void Delete(const itk::Object *caller, const itk::EventObject &) 
     {std::cout << "Deleting: " << caller->GetNameOfClass() << std::endl;}
 };
 

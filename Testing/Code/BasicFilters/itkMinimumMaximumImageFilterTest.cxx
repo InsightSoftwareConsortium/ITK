@@ -28,7 +28,7 @@ double origin [3] = { 0.0, 0.0, 0.0};
 double spacing[3] = { 1, 1 , 1};
 
 int 
-itkMinimumMaximumImageFilterTest(int argc, char *argv[] )
+itkMinimumMaximumImageFilterTest(int , char *[] )
 {
     int flag = 0;           /* Did this test program work? */
 

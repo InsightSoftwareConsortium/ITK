@@ -22,7 +22,7 @@
 #include "itkVector.h"
 
 
-int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
+int itkCenteredRigid2DTransformTest(int ,char *[] )
 {
 
   std::cout << "==================================" << std::endl;

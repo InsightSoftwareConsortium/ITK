@@ -177,7 +177,7 @@ protected:
       this->SetDifferenceFunction(p);
       m_Iterations = 0;
     }
-  MorphFilter(const Self &) {}
+  MorphFilter(const Self &); // purposely not implemented
   
 private:
   unsigned int m_Iterations; 

@@ -148,10 +148,10 @@ template <typename T> int MakeImage()
   const char *filename = "test.hdr";
   //Allocate Images
   enum { ImageDimension = ImageType::ImageDimension };
-  ImageType::Pointer img;
-  const ImageType::SizeType size = {{10,10,10}};
-  const ImageType::IndexType index = {{0,0,0}};
-  ImageType::RegionType region;
+  typename ImageType::Pointer img;
+  const typename ImageType::SizeType size = {{10,10,10}};
+  const typename ImageType::IndexType index = {{0,0,0}};
+  typename ImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
 
@@ -178,9 +178,9 @@ template <typename T> int MakeImage()
       }
   }
   { //Fill in left half
-      const ImageType::IndexType RPIindex = {{0,0,0}};
-      const ImageType::SizeType RPIsize = {{5,10,10}};
-      ImageType::RegionType RPIregion;
+      const typename ImageType::IndexType RPIindex = {{0,0,0}};
+      const typename ImageType::SizeType RPIsize = {{5,10,10}};
+      typename ImageType::RegionType RPIregion;
       RPIregion.SetSize( RPIsize );
       RPIregion.SetIndex( RPIindex );
       itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
@@ -191,9 +191,9 @@ template <typename T> int MakeImage()
       }
   }
   { //Fill in anterior half
-      const ImageType::IndexType RPIindex = {{0,5,0}};
-      const ImageType::SizeType RPIsize = {{10,5,10}};
-      ImageType::RegionType RPIregion;
+      const typename ImageType::IndexType RPIindex = {{0,5,0}};
+      const typename ImageType::SizeType RPIsize = {{10,5,10}};
+      typename ImageType::RegionType RPIregion;
       RPIregion.SetSize( RPIsize );
       RPIregion.SetIndex( RPIindex );
       itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
@@ -204,9 +204,9 @@ template <typename T> int MakeImage()
       }
   }
   { //Fill in superior half
-      const ImageType::IndexType RPIindex = {{0,0,5}};
-      const ImageType::SizeType RPIsize = {{10,10,5}};
-      ImageType::RegionType RPIregion;
+      const typename ImageType::IndexType RPIindex = {{0,0,5}};
+      const typename ImageType::SizeType RPIsize = {{10,10,5}};
+      typename ImageType::RegionType RPIregion;
       RPIregion.SetSize( RPIsize );
       RPIregion.SetIndex( RPIindex );
       itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
@@ -217,7 +217,7 @@ template <typename T> int MakeImage()
       }
   }
   typedef itk::ImageFileWriter< ImageType >      ImageWriterType;
-  itk::ImageFileWriter< ImageType >::Pointer ImageWriterPointer = 
+  typename ImageWriterType::Pointer ImageWriterPointer = 
     ImageWriterType::New();
 
     //Set the output filename
@@ -245,8 +245,8 @@ template <typename T> int MakeImage()
     }
 
   //typedef itk::ImageFileReader< ImageType > ImageReaderType ;
-  ImageType::Pointer input;
-  itk::ImageFileReader<ImageType>::Pointer imageReader =
+  typename ImageType::Pointer input;
+  typename itk::ImageFileReader<ImageType>::Pointer imageReader =
     itk::ImageFileReader<ImageType>::New();
   try
     {
@@ -266,7 +266,7 @@ template <typename T> int MakeImage()
 
 //template int MakeImage<char>();
 
-int itkAnalyzeImageIOTest(int ac, char** av)
+int itkAnalyzeImageIOTest(int, char**)
 {
   int rval = 0;
   int cur_return;

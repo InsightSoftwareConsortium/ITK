@@ -24,7 +24,7 @@ struct TestObject
   int counter; 
 };
 
-int itkObjectStoreTest( int argc, char * argv[] )
+int itkObjectStoreTest( int , char * [] )
 {
   unsigned i, j;
   itk::ObjectStore<TestObject>::Pointer store

@@ -29,7 +29,7 @@
 
 using namespace itk;
 
-int itkSplineKernelTransformTest(int argc, char* argv[] )
+int itkSplineKernelTransformTest(int , char* [] )
 {
 
   const double epsilon = 1e-12;

@@ -76,7 +76,7 @@ void evaluate_function(itk::Image<char, 3> *im,
   
 } // end namespace
 
-int itkAntiAliasBinaryImageFilterTest(int argc, char *argv [] )
+int itkAntiAliasBinaryImageFilterTest(int , char * [] )
 {
   typedef char InputDataType;
   typedef itk::Image<InputDataType, 3> BinaryImageType;

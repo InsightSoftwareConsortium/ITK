@@ -167,7 +167,7 @@ public:
   }
 
   void GetDerivative( const ParametersType & parameters,
-                            DerivativeType  & derivative ) const
+                            DerivativeType  &) const
   {
     // double a = parameters[0];  not used
     double b = parameters[1];

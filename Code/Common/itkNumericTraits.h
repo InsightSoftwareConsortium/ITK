@@ -273,8 +273,8 @@ public:
   static unsigned long NonpositiveMin() { return min(); }
   static bool IsPositive(unsigned long val) { return val != Zero; }
   static bool IsNonpositive(unsigned long val) { return val == Zero; }
-  static bool IsNegative(unsigned long val) { return false; }
-  static bool IsNonnegative(unsigned long val) {return true; }
+  static bool IsNegative(unsigned long) { return false; }
+  static bool IsNonnegative(unsigned long) {return true; }
 };
 
 /** \class NumericTraits<float>

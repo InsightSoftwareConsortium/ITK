@@ -24,7 +24,7 @@
 
 
 
-int itkScaleTransformTest(int argc,char *argv [] )
+int itkScaleTransformTest(int ,char * [] )
 {
 
 

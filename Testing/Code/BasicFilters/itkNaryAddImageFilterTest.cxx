@@ -92,7 +92,7 @@ void InitializeImage( myInputImageType * image, double value   )
 
 
 // Function for image printing
-void PrintImage( myInputImageType * image, const char *text )
+void PrintImage( myInputImageType * image, const char *)
 {
   // Create an iterator for going through the image
   myImageIteratorType it( image, 

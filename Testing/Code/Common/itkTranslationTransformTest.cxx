@@ -37,7 +37,7 @@ void PrintVector( const VectorType & v )
 }
 
 
-int itkTranslationTransformTest(int argc,char *argv[] )
+int itkTranslationTransformTest(int ,char *[] )
 {
   int any = 0;       // Any errors detected in testing?
 

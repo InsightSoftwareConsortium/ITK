@@ -117,7 +117,7 @@ public:
     }
     
   /** Read a file's header to determine image dimensions, etc. */
-  virtual void ReadHeader (const std::string fileName="") {};
+  virtual void ReadHeader (const std::string = std::string()) {}
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 

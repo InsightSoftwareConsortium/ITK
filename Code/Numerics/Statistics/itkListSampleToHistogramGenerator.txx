@@ -84,7 +84,7 @@ ListSampleToHistogramGenerator< TListSample,
   typename HistogramType::IndexType index ;
   typename TListSample::MeasurementVectorType lvector ;
   typename HistogramType::MeasurementVectorType hvector ;
-  int i ;
+  unsigned int i;
   while (iter != last)
     {
       lvector = iter.GetMeasurementVector() ;

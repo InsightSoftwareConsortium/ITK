@@ -162,7 +162,7 @@ private:
     }
 
   /** Unimplemented spline order */
-  inline double Evaluate ( const DispatchBase&, const double& u) const
+  inline double Evaluate ( const DispatchBase&, const double&) const
     {
     itkExceptionMacro("Evaluate not implemented for spline order " << SplineOrder);
     }

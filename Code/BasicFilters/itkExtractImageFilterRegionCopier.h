@@ -36,7 +36,7 @@ namespace ImageToImageFilterDetail
                   BinaryUnsignedIntDispatch<D1, D2>::FirstEqualsSecondType &firstEqualsSecond,
                   ImageRegion<D1> &destRegion,
                   const ImageRegion<D2> &srcRegion,
-                  const ImageRegion<D1> &totalInputExtractionRegion)
+                  const ImageRegion<D1> &)
   {
     ImageToImageFilterDefaultCopyRegion<D1, D2>(firstEqualsSecond, destRegion, srcRegion);
   }

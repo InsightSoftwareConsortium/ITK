@@ -19,7 +19,7 @@
 #include "itkDerivativeImageFilter.h"
 #include "itkNullImageToImageFilterDriver.txx"
 
-int itkDerivativeImageFilterTest(int argc, char * argv[] )
+int itkDerivativeImageFilterTest(int , char * [] )
 {
   //  try
     {

@@ -38,6 +38,7 @@ ListSample< TMeasurementVector >
     {
       return m_InternalContainer[id] ;
     }
+  throw ExceptionObject(__FILE__,__LINE__);  
 }
 
 template< class TMeasurementVector >
@@ -87,8 +88,8 @@ ListSample< TMeasurementVector >
 {
   Superclass::PrintSelf(os,indent);
 
-  std::cout << indent << "Internal Data Container: " 
-            << &m_InternalContainer << std::endl ;
+  os << indent << "Internal Data Container: "
+     << &m_InternalContainer << std::endl;
 }
 } // end of namespace Statistics
 } // end of namespace itk 

@@ -55,7 +55,7 @@ ImageToMeshFilter<TInputImage,TOutputMesh>
 template <class TInputImage, class TOutputMesh>
 DataObject::Pointer
 ImageToMeshFilter<TInputImage,TOutputMesh>
-::MakeOutput(unsigned int idx)
+::MakeOutput(unsigned int)
 {
   OutputMeshPointer  outputMesh = OutputMeshType::New();
   return dynamic_cast< DataObject *>( outputMesh.GetPointer() );

@@ -21,7 +21,7 @@
 #include "itkNullImageToImageFilterDriver.txx"
 #include "itkVector.h"
 
-int itkZeroCrossingBasedEdgeDetectionImageFilterTest(int argc, char * argv[])
+int itkZeroCrossingBasedEdgeDetectionImageFilterTest(int , char * [])
 {
   try
     {

@@ -473,9 +473,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
   PixelType max, extends[3], t, xs, ys, zs;
   typename TInputMesh::PointType vec_for, vec_nor, vec_p, vec_1, vec_2;
-  int i, p, label, l=0; 
-  ImageIndexType coord = {0, 0, 0};
-  ImageIndexType extend = {0, 0, 0};
+  int i, p, label;
+  ImageIndexType coord = {{0, 0, 0}};
+  ImageIndexType extend = {{0, 0, 0}};
   int flag=0; 
 
   InputPointsContainerPointer     Points = m_Locations->GetPoints();
@@ -486,8 +486,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
   InputPointsContainerPointer     myNormals = m_Normals->GetPoints();
   InputPointsContainerIterator      normals = myNormals->Begin();
-
-  double d=0.0, f1=0.0;
 
   i = 0;
 
@@ -568,13 +566,13 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   vec_nor = normals.Value();
 
   p = -1;
-  max = abs(vec_nor[0]);
+  max = vcl_abs(vec_nor[0]);
 
   //---------------------------------------------------------------------
   // all the movement in z direction is now disabled for further test
   //---------------------------------------------------------------------  
-  if ( abs(vec_nor[1]) > max ) max = abs(vec_nor[1]);
-  if ( abs(vec_nor[2]) > max ) max = abs(vec_nor[2]);
+  if ( vcl_abs(vec_nor[1]) > max ) max = vcl_abs(vec_nor[1]);
+  if ( vcl_abs(vec_nor[2]) > max ) max = vcl_abs(vec_nor[2]);
   if ( flag ) {
     vec_1[0] = -1*vec_nor[0]/max;
     vec_1[1] = -1*vec_nor[1]/max;

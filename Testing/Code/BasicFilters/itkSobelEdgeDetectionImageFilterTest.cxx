@@ -27,7 +27,7 @@ inline std::ostream& operator<<(std::ostream &o, const itk::Vector<float, 3> &v)
   return o;
 }
 
-int itkSobelEdgeDetectionImageFilterTest(int argc, char *argv[] )
+int itkSobelEdgeDetectionImageFilterTest(int , char *[] )
 {
   try
     {

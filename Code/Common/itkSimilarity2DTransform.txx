@@ -197,8 +197,6 @@ GetJacobian( const InputPointType & p ) const
   const double cy = center[1];
 
   const OutputVectorType translation = this->GetTranslation();
-  const double tx = translation[0];
-  const double ty = translation[1];
 
   // derivatives with respect to the scale
   m_Jacobian[0][0] =    ca * ( p[0] - cx ) - sa * ( p[1] - cy );

@@ -88,7 +88,7 @@ public:
    * The size of each dimension in any subclass of ListSampleBase
    * doen't vary. However, the dimension's size of histogram can be
    * different from other dimensions */
-  unsigned int Size(const unsigned int &dimension) const
+  unsigned int Size(const unsigned int &) const
   { return static_cast<unsigned int>( m_InternalContainer.size() ); }
 
   /** returns the number of measurement vectors int this container */
@@ -114,7 +114,7 @@ public:
   FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
 
   /** returns the size of this container */
-  FrequencyType GetTotalFrequency(const unsigned int &dimension) const
+  FrequencyType GetTotalFrequency(const unsigned int &) const
   { return static_cast<FrequencyType>( m_InternalContainer.size() ); }
 
   /** iterator support */

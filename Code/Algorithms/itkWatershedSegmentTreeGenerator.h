@@ -154,14 +154,14 @@ public:
 
   /** Performs a merge of two segments in a SegmentTable according
    * to criteria specific to this algorithm.   */
-  void static MergeSegments(SegmentTableTypePointer,
+  static void MergeSegments(SegmentTableTypePointer,
                             OneWayEquivalencyTableTypePointer,
                             const unsigned long,
                             const unsigned long);
 
   /** This method should not be used.  It will be removed in future versions
    * of this filter. */
-  void static PruneMergeSegments(SegmentTableTypePointer,
+  static void PruneMergeSegments(SegmentTableTypePointer,
                                  OneWayEquivalencyTableTypePointer,
                                  const unsigned long,
                                  const unsigned long,

@@ -22,7 +22,7 @@
 #include "itkVector.h"
 
 
-int itkSimilarity2DTransformTest(int argc,char *argv[] )
+int itkSimilarity2DTransformTest(int ,char *[] )
 {
 
   std::cout << "==================================" << std::endl;

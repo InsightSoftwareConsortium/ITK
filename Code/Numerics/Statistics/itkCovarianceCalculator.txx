@@ -31,12 +31,12 @@ void
 CovarianceCalculator< TSample >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  int i ;
+  unsigned int i;
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Output: " << m_Output << std::endl;
   os << indent << "Mean: [" ;
-  for (i=0; i < MeasurementVectorSize - 1; i++)
+  for (i=0; i+1 < MeasurementVectorSize; i++)
     {
       os << m_Mean[i] << ", ";
     }

@@ -19,7 +19,7 @@
 #include "itkSize.h"
 
 int 
-itkMinimumMaximumImageCalculatorTest(int argc,char *argv[] )
+itkMinimumMaximumImageCalculatorTest(int ,char *[] )
 {
 
     typedef itk::Size<3>                                SizeType;

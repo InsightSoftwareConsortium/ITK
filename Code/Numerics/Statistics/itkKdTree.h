@@ -97,10 +97,10 @@ struct KdTreeNonterminalNode: public KdTreeNode< TSample >
   unsigned int Size()
   { return 0 ; }
 
-  void GetWeightedCenteroid(CenteroidType &centeroid)
+  void GetWeightedCenteroid(CenteroidType &)
   { /* do nothing */ } 
 
-  void GetCenteroid(CenteroidType &centeroid)
+  void GetCenteroid(CenteroidType &)
   { /* do nothing */ }
 
   InstanceIdentifier GetInstanceIdentifier(size_t)
@@ -152,10 +152,10 @@ struct KdTreeWeightedCenteroidNonterminalNode: public KdTreeNode< TSample >
   void GetCenteroid(CenteroidType &centeroid)
   { centeroid = m_Centeroid ; }
 
-  InstanceIdentifier GetInstanceIdentifier(size_t index)
+  InstanceIdentifier GetInstanceIdentifier(size_t)
   { return 0 ; }
 
-  void AddInstanceIdentifier(InstanceIdentifier id) {}
+  void AddInstanceIdentifier(InstanceIdentifier) {}
 
 private:
   unsigned int m_PartitionDimension ;

@@ -17,7 +17,7 @@
 #include <iostream>
 #include "itkBoundingBox.h"
 
-int itkBoundingBoxTest ( int argc, char* argv[] )
+int itkBoundingBoxTest (int, char*[])
 {
   // Test out the bounding box code
 

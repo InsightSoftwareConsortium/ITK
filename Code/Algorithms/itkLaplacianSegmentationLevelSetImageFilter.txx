@@ -35,7 +35,7 @@ template <class TInputImage, class TFeatureImage, class TOutputPixelType>
 void
 LaplacianSegmentationLevelSetImageFilter<TInputImage, TFeatureImage,
                                          TOutputPixelType>
-::PrintSelf(std::ostream &os, Indent indent) const
+::PrintSelf(std::ostream &, Indent) const
 {
   //   Superclass::PrintSelf(os, indent);
 }

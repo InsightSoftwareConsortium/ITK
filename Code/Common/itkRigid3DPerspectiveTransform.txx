@@ -179,7 +179,7 @@ ComputeMatrix(void)
 template<class TScalarType >
 const typename Rigid3DPerspectiveTransform<TScalarType>::JacobianType & 
 Rigid3DPerspectiveTransform< TScalarType >::
-GetJacobian( const InputPointType & p ) const
+GetJacobian( const InputPointType &) const
 {
   
 

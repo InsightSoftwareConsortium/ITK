@@ -309,9 +309,7 @@ int itk2DDeformableTest(int, char* [] )
   m_dfilter->Update();
   
   DMesh::PointsContainerPointer     points;
-  DMesh::PointsContainer::Iterator  pointsit;
   DMesh::CellsContainerPointer      cells;
-  DMesh::CellsContainer::Iterator   cellsit;
   DMesh::PointType                  node;
 
   ///////////////////////////////////////////////////////////////////////

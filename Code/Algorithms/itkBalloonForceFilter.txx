@@ -428,12 +428,12 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   f = normals.Value();
 
-  max = abs(f[0]);
+  max = vcl_abs(f[0]);
 
   //---------------------------------------------------------------------
   // all the movement in z direction is now disabled for further test
   //---------------------------------------------------------------------  
-  if ( abs(f[1]) > max ) max = abs(f[1]);
+  if ( vcl_abs(f[1]) > max ) max = vcl_abs(f[1]);
   n[0] = f[0]/max;
   n[1] = f[1]/max;
 

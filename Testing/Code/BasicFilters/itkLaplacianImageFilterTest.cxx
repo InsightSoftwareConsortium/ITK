@@ -27,7 +27,7 @@ inline std::ostream& operator<<(std::ostream &o, const itk::Vector<float, 3> &v)
   return o;
 }
 
-int itkLaplacianImageFilterTest(int argc, char * argv[] )
+int itkLaplacianImageFilterTest(int , char * [] )
 {
   try
     {

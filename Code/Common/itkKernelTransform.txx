@@ -63,7 +63,7 @@ KernelTransform<TScalarType, NDimensions>::
 template <class TScalarType, unsigned int NDimensions>
 const typename KernelTransform<TScalarType, NDimensions>::GMatrixType &
 KernelTransform<TScalarType, NDimensions>::
-ComputeG( const InputVectorType & vect ) const
+ComputeG( const InputVectorType & ) const
 {
   //
   // Should an Exception be thrown here  ?
@@ -392,7 +392,7 @@ KernelTransform<TScalarType, NDimensions>
 template <class TScalarType, unsigned int NDimensions>
 const typename KernelTransform<TScalarType,NDimensions>::JacobianType & 
 KernelTransform< TScalarType,NDimensions>::
-GetJacobian( const InputPointType & p ) const
+GetJacobian( const InputPointType & ) const
 {
   
 

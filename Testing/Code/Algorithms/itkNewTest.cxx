@@ -88,13 +88,13 @@
 //     void Register() {};
 //     void UnRegister() {};
 
-    float operator() ( double d, double d2 ) { return (float) d; };
+    float operator() ( double d, double ) { return (float) d; };
     void Visit ( int, Bogus* ) {};
     int GetCellTopologyId() { return 1; };
     int GetTopologyId() { return 1; };
   };
 
-int itkNewTest ( int argc, char* argv[] )
+int itkNewTest ( int , char* [] )
 {
   // Call New and Print on as many classes as possible
 

@@ -25,8 +25,8 @@ int itkArray2DTest(int, char* [] )
 
   typedef vnl_matrix<double> VnlMatrixType;
   
-  const int rows = 3;
-  const int cols = 4;
+  const unsigned int rows = 3;
+  const unsigned int cols = 4;
   
   ArrayType a( rows, cols);
   VnlMatrixType vm( rows, cols ); 

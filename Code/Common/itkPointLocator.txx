@@ -28,7 +28,7 @@ template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 void 
 PointLocator<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
-::InitPointInsertion(PointsContainer *newPts, PointLocator<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::BoundingBoxPointer bbox)
+::InitPointInsertion(PointsContainer *newPts, PointLocator<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::BoundingBoxPointer)
 {
   // Check the input
   m_Points = newPts;
