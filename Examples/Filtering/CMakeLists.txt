@@ -73,6 +73,9 @@ TARGET_LINK_LIBRARIES(ResampleImageFilter ITKCommon ITKBasicFilters ITKIO ITKMet
 ADD_EXECUTABLE(ResampleImageFilter2 ResampleImageFilter2.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter2 ITKCommon ITKBasicFilters ITKIO ITKMetaIO itkzlib itkpng)
 
+ADD_EXECUTABLE(ResampleImageFilter3 ResampleImageFilter3.cxx )
+TARGET_LINK_LIBRARIES(ResampleImageFilter3 ITKCommon ITKBasicFilters ITKIO ITKMetaIO itkzlib itkpng)
+
 
 
 
