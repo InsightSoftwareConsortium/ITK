@@ -172,7 +172,7 @@ LevelSetFunction< TImageType >
         }
     }
 
-  gradMag = 1.0e-6;
+  gradMag = MIN_NORM;
   for (i = 0; i < ImageDimension; i++)
     {
       
@@ -337,7 +337,7 @@ LevelSetFunction< TImageType >
         }
     }
 
-  gradMag = 1.0e-6;
+  gradMag = MIN_NORM;
   for (i = 0; i < ImageDimension; i++)
     {
       
