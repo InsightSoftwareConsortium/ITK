@@ -205,8 +205,10 @@ protected:
     m_NarrowBand->SetTotalRadius(3);
     m_NarrowBand->SetInnerRadius(1);
     m_ReinitializationFrequency = 6;
+    m_IsoSurfaceValue = 0.0;
     m_Step    = 0;
     m_Touched = false;
+    m_CheckFrequency = 1;
   }
   
   virtual ~NarrowBandImageFilterBase() {}
