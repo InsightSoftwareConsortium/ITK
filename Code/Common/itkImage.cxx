@@ -162,7 +162,7 @@ itkImage<TPixel, TImageDimension>
 {
   Iterator ind;
   long indexOrigin[TImageDimension];
-  unsigned long *size = this->GetSize();
+  const unsigned long *size = this->GetSize();
 
   memset(indexOrigin, 0, TImageDimension*sizeof(long));
   
@@ -176,7 +176,7 @@ itkImage<TPixel, TImageDimension>
 
   // set the default i,j,k of the index for the iterator
   Iterator::Index index;
-  for (int i=0; i < TImageDimension; i++)
+  for (unsigned int i=0; i < TImageDimension; i++)
     {
     indexOrigin[i] = indexOrigin[i] + size[i] - 1;
     }
