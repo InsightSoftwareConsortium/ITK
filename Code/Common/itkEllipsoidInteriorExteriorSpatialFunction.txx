@@ -72,14 +72,14 @@ EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
   // Project the position onto each of the axes, normalize by axis length, 
   // and determine whether position is inside ellipsoid. The length of axis0,
   // m_Axis[0] is orientated in the direction of m_orientations[0].
-  for(int i = 0; i < VImageDimension; i++)
+  for(unsigned int i = 0; i < VImageDimension; i++)
   {
     pointVector[i] = position[i] - m_Center[i];
   }
 
-  for(int i = 0; i < VImageDimension; i++)
+  for(unsigned int i = 0; i < VImageDimension; i++)
   {  
-    for(int j = 0; j < VImageDimension; j++)
+    for(unsigned int j = 0; j < VImageDimension; j++)
     {      
       orientationVector[j] = m_orientations[i][j];
     }
@@ -100,15 +100,15 @@ void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::SetOrientatio
 {
   // Initialize orientation vectors.
   m_orientations = new VectorType * [VImageDimension];
-  for(int i = 0; i < VImageDimension; i++)
+  for(unsigned int i = 0; i < VImageDimension; i++)
   {
     m_orientations[i] = new VectorType[VImageDimension];
   }
 
   // Set orientation vectors (must be orthogonal).
-  for(int i = 0; i < VImageDimension; i++)
+  for(unsigned int i = 0; i < VImageDimension; i++)
   {
-    for(int j = 0; j < VImageDimension; j++)
+    for(unsigned int j = 0; j < VImageDimension; j++)
     {
       m_orientations[i][j] = orientations[i][j];
     }
