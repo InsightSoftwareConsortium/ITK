@@ -60,7 +60,10 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TO
   m_SegmentationFunction = s; 
   
   typename SegmentationFunctionType::RadiusType r;
-  for (i = 0; i < ImageDimension; ++i)  r[i] = 1;
+  for (i = 0; i < ImageDimension; ++i)
+    {
+    r[i] = 1;
+    }
   
   m_SegmentationFunction->Initialize(r);
   this->SetDifferenceFunction(m_SegmentationFunction);
@@ -73,7 +76,9 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TO
 ::GenerateData()
 {
   if (m_SegmentationFunction == 0)
-    {itkExceptionMacro("No finite difference function was specified.");}  
+    {
+    itkExceptionMacro("No finite difference function was specified.");
+    }  
 
   // A positive speed value causes surface expansion, the opposite of the
   // default.  Flip the sign of the propagation and advection weights.
