@@ -76,25 +76,22 @@ typedef int SemaphoreType;
 /** \class Semaphore
  * \brief The semaphore class is used to synchronize execution between threads.
  *
- * Semaphores contain a value that is incremented and decremented by calls to
- * Up() and Down().  If Down() is called when the value of the semaphore is
- * zero, the calling thread will block until the semaphore value goes above
- * zero again, then the count will be decremented and the calling thread will
- * unblock.  The Initialize method initializes the Semaphore counter to the
- * value of the method's integer argument.  The Remove method destroys the
- * Semaphore.
+ * Semaphores hold a counter value that can be incremented and decremented by
+ * calls to Up() and Down().  If Down() is called when the value of the
+ * semaphore is zero, the calling thread will block until the semaphore value
+ * goes above zero again. Semaphores are commonly used in cases where several
+ * threads must share a limited pool of resources.
+ *
+ * The Up() and Down() operations are standard as defined by E.W. Dijkstra.
+ * The Initialize( num ) operation creates the system semaphore object with an
+ * initial counter value of num.  Initialize must be called before the
+ * Semaphore can be used.  The Remove() method destroys the system semaphore
+ * object.  It is not necessary to call Remove() unless you want to
+ * re-Initialize() the object.
  *  
- * On unix systems 3 kinds of semaphores are supported in this class They are,
- * namely, 1. Unix IPC Semaphores (specified by the compile-time variable
- * ITK_USE_UNIX_IPC_SEMAPHORES) 2. POSIX semaphores (used with the pthread
- * library) (specified by the compile-time variable ITK_USE_PTHREADS) 3. IRIX
- * semaphores (used on the SGI) (specified by the compile-time variable
- * ITK_USE_SPROC) Also semaphores on WIN32 systems are supported.  To use the
- * semaphores the Initialize() method must be called which creates a semaphore
- * in the system and initializes it's value. The operations Up() and Down() are
- * the standard operations as defined by E. W. Dijkstra. A call must be made to
- * Remove() before the semaphore object is deleted. The Remove() method frees
- * the system semaphore variable.
+ * This class supports 3 types of semaphores on Unix systems, POSIX semaphores,
+ * IPC semaphores, and IRIX semaphores from the SGI Sproc library.  On Windows
+ * systems, POSIX semaphores and WIN32 thread library semaphores are supported.
  *
 */
 class ITK_EXPORT Semaphore : public LightObject
