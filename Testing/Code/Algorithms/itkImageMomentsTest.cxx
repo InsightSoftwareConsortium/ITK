@@ -66,10 +66,14 @@ main( int argc, char *argv[] )
     };
 
     VectorType tcg;
-    tcg = 1.5,   1.5, 1.5;    // Center of gravity
+    tcg[0] = 1.5;
+    tcg[1] = 1.5;
+    tcg[2] = 1.5;
 
     VectorType tpm;
-    tpm = 0.125, 0.5, 2.0;    // Principal moments
+    tpm[0] = 0.125;
+    tpm[1] = 0.5;
+    tpm[2] = 2.0;    // Principal moments
 
     MatrixType tpa;
     tpa.GetVnlMatrix().set((double *)pad);
@@ -87,6 +91,7 @@ main( int argc, char *argv[] )
     image->SetOrigin(origin);
     image->SetSpacing(spacing);
     image->Allocate();
+    image->RebuildTransforms();
     
     image->FillBuffer( itk::NumericTraits<PixelType>::Zero );
 
@@ -193,9 +198,29 @@ main( int argc, char *argv[] )
         tmerr > maxerr || cgerr > maxerr ||
         pmerr > maxerr || paerr > maxerr ||
         trerr > maxerr;
+
+    std::cout << std::endl;
+    bool pass = false; 
     if (stat)
-        std::cout << "\n*** Errors are larger than defined maximum value.\n";
+      {
+      std::cout << "Errors are larger than defined maximum value." << std::endl;
+      std::cout << "Test FAILED !" << std::endl;
+      pass = false;
+      }
     else
-        std::cout << "\n*** Errors are acceptable.\n";
-    return stat;
+      {
+      std::cout << "Errors are acceptable" << std::endl;
+      std::cout << "Test PASSED !" << std::endl;
+      pass = true;
+      }
+
+    if( !pass )
+      {
+      return EXIT_FAILURE;
+      }
+
+    return EXIT_SUCCESS;
+
 }
+
+
