@@ -128,14 +128,14 @@ public:
    * \warning This method will throw an exception is the matrix
    * provided as argument is not orthogonal.
    **/
-  void SetRotationMatrix(const MatrixType &matrix);
+  virtual void SetRotationMatrix(const MatrixType &matrix);
 
 
   /**
    * Compose with another Rigid3DTransform
    *
    **/
-  void Compose(const Self *other, bool pre=false);
+  virtual void Compose(const Self *other, bool pre=false);
 
 
   /**
