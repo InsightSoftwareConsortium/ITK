@@ -122,8 +122,7 @@ ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
 
   if( this->GetMTime() > m_BoundsMTime )
     { 
-    bool ret = false;
-    ret = Superclass::ComputeBoundingBox(includeChildren);
+    bool ret = Superclass::ComputeBoundingBox(includeChildren);
 
     typename ImageType::RegionType region = m_Image->GetLargestPossibleRegion();
     itk::Size<NDimensions> size = region.GetSize();

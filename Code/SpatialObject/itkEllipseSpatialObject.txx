@@ -90,8 +90,6 @@ EllipseSpatialObject< NDimensions, PipelineDimension >
   PointType transformedPoint = point;
   TransformPointToLocalCoordinate(transformedPoint);
 
-  bool inside = true;
-  
   double r = 0;
   for(unsigned int i=0;i<NDimensions-1;i++)
     {
@@ -115,11 +113,10 @@ EllipseSpatialObject<NDimensions, PipelineDimension >
 ::ComputeBoundingBox( bool includeChildren ) 
 { 
   itkDebugMacro( "Computing tube bounding box" );
-  bool ret = false;
 
   if( this->GetMTime() > m_BoundsMTime )
     { 
-    ret = Superclass::ComputeBoundingBox(includeChildren);
+    bool ret = Superclass::ComputeBoundingBox(includeChildren);
 
     PointType pnt;
     PointType pnt2;
