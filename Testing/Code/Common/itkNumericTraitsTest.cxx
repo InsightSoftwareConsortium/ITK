@@ -29,6 +29,7 @@ template<class T> void CheckTraits(char *name, T)
 int itkNumericTraitsTest(int, char* [] )
 {
   CheckTraits("char", static_cast<char>(0));
+  CheckTraits("signed char", static_cast<signed char>(0));
   CheckTraits("unsigned char", static_cast<unsigned char>(0));
   CheckTraits("short", static_cast<short>(0));
   CheckTraits("unsigned short", static_cast<unsigned short>(0));
