@@ -343,6 +343,7 @@ void
 SpatialObject< NDimensions, PipelineDimension>
 ::RemoveSpatialObject( Self * pointer )
 {
+  bool found = false;
   typename ChildrenListType::iterator it;
   it = std::find(m_Children.begin(),m_Children.end(),pointer);
 
@@ -350,8 +351,9 @@ SpatialObject< NDimensions, PipelineDimension>
   {
     if( *it == pointer )
     {
-    (*it)->SetParent(NULL);
-    m_Children.erase( it );
+      (*it)->SetParent(NULL);
+      m_Children.erase( it );
+      found =true;
     }
     this->Modified();
   }
@@ -369,8 +371,9 @@ SpatialObject< NDimensions, PipelineDimension>
   {
     if( *it_NDim == pointer )
     {
-    (*it_NDim)->SetParent(NULL);
-    m_NDimensionalChildrenList.erase( it_NDim );
+      (*it_NDim)->SetParent(NULL);
+      m_NDimensionalChildrenList.erase( it_NDim );
+      found = true;
     }
     this->Modified();
   }
@@ -378,6 +381,11 @@ SpatialObject< NDimensions, PipelineDimension>
   { 
     //throw an exception object to let user know that he tried to remove an object
     // which is not in the list of the children.
+  }
+
+  if(found)
+  {
+    (pointer)->UnRegister();
   }
 
 }
@@ -637,6 +645,8 @@ SpatialObject< NDimensions, PipelineDimension>
   
   for(; it != end; it++ )
   {
+    (*it)->Register(); // increase the reference count
+    m_NDimensionalChildrenList.push_back(*it);
     (*it)->SetParent( this );  
   }
 }
