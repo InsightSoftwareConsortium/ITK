@@ -2,8 +2,10 @@
 
 *.dsp           -crlf
 *.jpg           -crlf
+*.mha           -crlf
 *.pdf           -crlf
 *.png           -crlf
+*.raw           -crlf
 *.sh             crlf=input
 configure        crlf=input
 cvsrmvend        crlf=input

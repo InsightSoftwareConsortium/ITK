@@ -1,0 +1,10 @@
+ObjectType = Image
+NDims = 2
+BinaryData = True
+BinaryDataByteOrderMSB = False
+Color = 1 0 0 1
+ElementSpacing = 0.5 0.75
+Position = 60.0 70.0
+DimSize = 280 240
+ElementType = MET_UCHAR
+ElementDataFile = ResampleImageFilterInput2x3b.raw
