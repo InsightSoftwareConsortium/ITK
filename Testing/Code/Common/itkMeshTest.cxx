@@ -58,6 +58,11 @@ typedef Cell        Boundary;
  */
 typedef Mesh::Point  Point;
 
+/**
+ * The mesh that is created consists of a single hexahedron and a single
+ * tetrahedron. (The tetra is inside of the hex.)
+ */
+
 int main(void)
 {
   /**
@@ -156,15 +161,15 @@ int main(void)
    * explicit assignment which removes this.
    */
   std::set<Mesh::CellIdentifier>  neighborSet;
+  std::set<Mesh::CellIdentifier>::iterator cell;
   mesh->GetCellBoundaryFeatureNeighbors(
     1,              // Topological dimension of feature.
     1,              // CellIdentifier
     0,              // CellFeatureIdentifier
     &neighborSet); // Where to put result.
 
-  std::cout << "Neighbors:" << std::endl;
-  for(std::set<Mesh::CellIdentifier>::iterator cell = neighborSet.begin() ;
-      cell != neighborSet.end() ; ++cell)
+  std::cout << "Neighbors (hex edge 0):" << std::endl;
+  for(cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
     {
     std::cout << "Id " << *cell << ": ";
     if(mesh->GetCell(*cell, &testCell))
@@ -185,21 +190,42 @@ int main(void)
   mesh->GetCellBoundaryFeatureNeighbors(
     1,              // Topological dimension of feature.
     1,              // CellIdentifier
-    0,              // CellFeatureIdentifier
+    1,              // CellFeatureIdentifier
     &neighborSet); // Where to put result.
 
-
+  std::cout << "Neighbors (hex edge 1):" << std::endl;
+  for(cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
+    {
+    std::cout << "Id " << *cell << ": ";
+    if(mesh->GetCell(*cell, &testCell))
+      {
+      std::cout << testCell->GetClassName();
+      }
+    std::cout << std::endl;
+    }
+  
   /**
-   * Try getting the tetrahedrons's neighbor through its xxx edge.
+   * Try getting the tetrahedrons's neighbor through its fourth edge.
    * This should be the test hexahedron. The boundaries are implicit
    * as in the previous example.
    */
   mesh->GetCellBoundaryFeatureNeighbors(
     1,              // Topological dimension of feature.
     0,              // CellIdentifier
-    0,              // CellFeatureIdentifier
+    3,              // CellFeatureIdentifier
     &neighborSet); // Where to put result.
 
+  std::cout << "Neighbors (tet edge 3):" << std::endl;
+  for(cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
+    {
+    std::cout << "Id " << *cell << ": ";
+    if(mesh->GetCell(*cell, &testCell))
+      {
+      std::cout << testCell->GetClassName();
+      }
+    std::cout << std::endl;
+    }
+  
 
   /**
    * Perform some geometric operations (coordinate transformations)
