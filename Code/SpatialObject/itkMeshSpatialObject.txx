@@ -78,13 +78,12 @@ MeshSpatialObject< TMesh >
         position[i] = transformedPoint[i];
         }
 
-      if(!it.Value()->EvaluatePosition(position,m_Mesh->GetPoints(),NULL,NULL,NULL,NULL))
+      if(it.Value()->EvaluatePosition(position,m_Mesh->GetPoints(),NULL,NULL,NULL,NULL))
         {
-        return false;
+        return true;
         }
       it++;
       }
-    return true;
     }
   return false;
 }
