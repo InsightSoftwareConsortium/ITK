@@ -127,59 +127,43 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
       {
       numBP++;
 
+      // Get the index of the boundary pixel
       sourceIndex = sourceIt.GetIndex();
 
-      // Figure out the location of the pixel is
-      // IMPORTANT: We deduce pixel location by the following
-      // For an origin of 0 along any axis, and a spacing of 1.0, pixel 0 spans
-      // the distance from 0 to 1.0 along that axis, and has a center of 0.5
+      TSourceImage::AffineTransformType::Pointer imageTrans = m_SourceImage->GetIndexToPhysicalTransform();
+      
+      // Convert the normal index to a continuous index
+      typedef ContinuousIndex<double, NDimensions> ContinuousIndexType;
+      ContinuousIndexType contSourceIndex;
+
       for (int ii = 0; ii < NDimensions; ++ii)
-        sourcePosition[ii] = sourceIndex[ii] * m_SourceSpacing[ii] + m_SourceOrigin[ii] - (m_SourceSpacing[ii]/2);
+        contSourceIndex[ii] = sourceIndex[ii];
 
-      // Figure out which blox it belongs in
-      if( this->ConvertPhysicalToDataCoords(sourcePosition, bloxIndex) )
-        {
-        // Create a new boundary point item and set its parameters
-        BloxBoundaryPointItem<NDimensions>* pItem = new BloxBoundaryPointItem<NDimensions>;
-        pItem->SetPhysicalPosition(sourcePosition);
-        pItem->SetGradient( sourceIt.Get() );
+      // Now do the transform, resulting in sourcePosition containing the physical location
+      // of the boundary point in the source image
+      m_SourceImage->TransformContinuousIndexToPhysicalPoint(contSourceIndex, sourcePosition);
 
-        this->GetPixel(bloxIndex).push_back(pItem);
-        numBPadded++;
-        }
+      // Transform the physical location to a continuous blox index
+      ContinuousIndexType contBloxIndex;
+      this->TransformPhysicalPointToContinuousIndex(sourcePosition, contBloxIndex);
+
+      // Convert the continuous index to a normal index
+      for (int ii = 0; ii < NDimensions; ++ii)
+        bloxIndex[ii] = contBloxIndex[ii];
+
+      // Create a new boundary point item and set its parameters
+      BloxBoundaryPointItem<NDimensions>* pItem = new BloxBoundaryPointItem<NDimensions>;
+      pItem->SetPhysicalPosition(sourcePosition);
+      pItem->SetGradient( sourceIt.Get() );
+
+      this->GetPixel(bloxIndex).push_back(pItem);
+      numBPadded++;
       }
     }
  
   std::cout << "Finished looking for boundary points\n";
   std::cout << "I found " << numBP << " points\n";
   std::cout << "I added " << numBPadded << " points\n";
-}
-
-template<class TSourceImage, class TImageTraits>
-bool
-BloxBoundaryPointImage<TSourceImage, TImageTraits>
-::ConvertPhysicalToDataCoords(TPositionType physicalCoords, IndexType& dataCoords)
-{
-  // How big is this blox image in pixels?
-  SizeType bloxSizeObject = this->GetLargestPossibleRegion().GetSize();
-  const unsigned long* mySize = bloxSizeObject.GetSize();
-  const double* myOrigin = this->GetOrigin();
-  const double* mySpacing = this->GetSpacing();
-
-  // Position in data space along the dimension of interest
-  long int dimPosition;
-
-  // Convert to data coordinates, abort if it's outside allowed data space bounds
-  for (int ii = 0; ii < NDimensions; ++ii)
-    {
-    dimPosition = (long int) ( (physicalCoords[ii]/mySpacing[ii]) - myOrigin[ii]);
-    if( (dimPosition < 0)||(dimPosition>=static_cast<long>(mySize[ii])) )
-      return false;
-    else
-      dataCoords.m_Index[ii] = dimPosition;
-    }
-  
-  return true;
 }
 
 } // end namespace itk

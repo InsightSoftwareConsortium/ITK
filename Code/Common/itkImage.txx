@@ -62,6 +62,8 @@ Image<TPixel, VImageDimension, TImageTraits>
     m_Spacing[i] = 1.0;
     m_Origin[i] = 0.0;
     }
+  m_IndexToPhysicalTransform = NULL;
+  m_PhysicalToIndexTransform = NULL;
 }
 
 
@@ -142,7 +144,9 @@ Image<TPixel, VImageDimension, TImageTraits>
       {
       m_Spacing[i] = spacing[i];
       }
-    } 
+    }
+
+  this->RebuildTransforms();
 }
 
 //----------------------------------------------------------------------------
@@ -166,7 +170,9 @@ Image<TPixel, VImageDimension, TImageTraits>
       {
       m_Spacing[i] = spacing[i];
       }
-    } 
+    }
+
+  this->RebuildTransforms();
 }
 
 
@@ -204,7 +210,9 @@ Image<TPixel, VImageDimension, TImageTraits>
       {
       m_Origin[i] = origin[i];
       }
-    } 
+    }
+
+  this->RebuildTransforms();
 }
 
 
@@ -229,7 +237,9 @@ Image<TPixel, VImageDimension, TImageTraits>
       {
       m_Origin[i] = origin[i];
       }
-    } 
+    }
+
+  this->RebuildTransforms();
 }
 
 
@@ -254,7 +264,9 @@ Image<TPixel, VImageDimension, TImageTraits>
       {
       m_Origin[i] = origin[i];
       }
-    } 
+    }
+     
+  this->RebuildTransforms();
 }
 
 
@@ -269,12 +281,13 @@ Image<TPixel, VImageDimension, TImageTraits>
 
 //---------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension, class TImageTraits>
-typename Image<TPixel, VImageDimension, TImageTraits>::AffineTransformPointer
+void 
 Image<TPixel, VImageDimension, TImageTraits>
-::GetIndexToPhysicalTransform(void) const
+::RebuildTransforms()
 {
   typename AffineTransformType::MatrixType matrix;
   typename AffineTransformType::OffsetType offset;
+
   for (unsigned int i = 0; i < VImageDimension; i++)
     {
     for (unsigned int j = 0; j < VImageDimension; j++)
@@ -285,24 +298,12 @@ Image<TPixel, VImageDimension, TImageTraits>
     offset[i]    = m_Origin [i];
     }
 
-  AffineTransformPointer result = AffineTransformType::New();
-  
-  result->SetMatrix(matrix);
-  result->SetOffset(offset);
+  // Create a new transform if one doesn't already exist
+  if (m_IndexToPhysicalTransform == NULL)
+    m_IndexToPhysicalTransform = AffineTransformType::New();
 
-  return result;
-
-}
-
-
-//---------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
-typename Image<TPixel, VImageDimension, TImageTraits>::AffineTransformPointer
-Image<TPixel, VImageDimension, TImageTraits>
-::GetPhysicalToIndexTransform(void) const
-{
-  typename AffineTransformType::MatrixType matrix;
-  typename AffineTransformType::OffsetType offset;
+  m_IndexToPhysicalTransform->SetMatrix(matrix);
+  m_IndexToPhysicalTransform->SetOffset(offset);
 
   for (unsigned int i = 0; i < VImageDimension; i++)
     {
@@ -314,12 +315,40 @@ Image<TPixel, VImageDimension, TImageTraits>
     offset[i]    = -m_Origin[i] / m_Spacing[i];
     }
 
-  AffineTransformPointer result = AffineTransformType::New();
+  // Create a new transform if one doesn't already exist
+  if(m_PhysicalToIndexTransform == NULL)
+    m_PhysicalToIndexTransform = AffineTransformType::New();
+  
+  m_PhysicalToIndexTransform->SetMatrix(matrix);
+  m_PhysicalToIndexTransform->SetOffset(offset);
+}
 
-  result->SetMatrix(matrix);
-  result->SetOffset(offset);
 
-  return result;
+//---------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+typename Image<TPixel, VImageDimension, TImageTraits>::AffineTransformPointer
+Image<TPixel, VImageDimension, TImageTraits>
+::GetIndexToPhysicalTransform(void)
+{
+  
+  if (m_IndexToPhysicalTransform == NULL)
+    RebuildTransforms();
+      
+  return m_IndexToPhysicalTransform;
+}
+
+
+//---------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+typename Image<TPixel, VImageDimension, TImageTraits>::AffineTransformPointer
+Image<TPixel, VImageDimension, TImageTraits>
+::GetPhysicalToIndexTransform(void)
+{
+
+  if (m_PhysicalToIndexTransform == NULL)
+    RebuildTransforms();
+
+  return m_PhysicalToIndexTransform;
 }
 
 //----------------------------------------------------------------------------

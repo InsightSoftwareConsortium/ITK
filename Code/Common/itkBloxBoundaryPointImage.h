@@ -162,14 +162,6 @@ public:
   void FindBoundaryPoints();
 
   /**
-   * Method to convert physical coordinates to Blox coordinates
-   * Returns TRUE if the specified location lies within the image,
-   * otherwise FALSE. If FALSE, the index value is unmodified
-   */
-  bool ConvertPhysicalToDataCoords(TPositionType physicalCoords,
-                                   IndexType& dataCoords);
-
-  /**
    * Method to set the threshold for detecting boundary points
    */
   itkSetMacro(Threshold, double);

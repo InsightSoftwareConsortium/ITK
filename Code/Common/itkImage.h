@@ -343,7 +343,7 @@ public:
    * transformation from index coordinates to physical coordinates
    * determined by the origin and spacing of this image.
    */
-  AffineTransformPointer GetIndexToPhysicalTransform(void) const;
+  AffineTransformPointer GetIndexToPhysicalTransform(void);
 
   /** 
    * Get the physical-to-index coordinate transformation
@@ -352,7 +352,18 @@ public:
    * transformation from physical coordinates to index coordinates
    * determined by the origin and spacing of this image.
    */
-  AffineTransformPointer GetPhysicalToIndexTransform(void) const;
+  AffineTransformPointer GetPhysicalToIndexTransform(void);
+
+  /*
+   * Gets and sets for affine transforms
+   */
+  itkSetMacro(IndexToPhysicalTransform, AffineTransformPointer);
+  itkSetMacro(PhysicalToIndexTransform, AffineTransformPointer);
+  
+  /**
+   * Rebuild affine transforms based on origin and spacing
+   */
+  void RebuildTransforms();
 
   /**
    * Get the continuous index from a physical point
@@ -368,32 +379,18 @@ public:
    * \sa AffineTransform */
   template<class TCoordRep> 
   void TransformPhysicalPointToContinuousIndex(Point<TCoordRep, VImageDimension>& point, 
-   ContinuousIndex<TCoordRep, VImageDimension>& index)
-  {
-    typedef AffineTransform<TCoordRep, VImageDimension> TransformType ;
-    typedef TransformType::InputPointType InputPointType ;
-    typedef TransformType::OutputPointType OutputPointType ;
-    
-    TransformType::MatrixType matrix;
-    TransformType::OffsetType offset;
-    for (unsigned int i = 0; i < VImageDimension; i++)
-      {
-        for (unsigned int j = 0; j < VImageDimension; j++)
-          {
-            matrix[i][j] = 0.0;
-          }
-        matrix[i][i] = m_Spacing[i];
-        offset[i]    = m_Origin [i];
-      }
-    
-    TransformType transform(matrix, offset);
-    
-    InputPointType inputPoint = transform.BackTransform(point) ;
+    ContinuousIndex<TCoordRep, VImageDimension>& index)
+    {
+
+    if (m_PhysicalToIndexTransform == NULL)
+      this->RebuildTransforms();
+
+
+    AffineTransformType::InputPointType inputPoint = m_PhysicalToIndexTransform->TransformPoint(point) ;
 
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       index[i] = inputPoint[i] ;
-  }
-
+    }
 
   /**
    * Get a physical point (in the space which 
@@ -410,36 +407,20 @@ public:
    * \sa AffineTransform */
   template<class TCoordRep> 
   void TransformContinuousIndexToPhysicalPoint(ContinuousIndex<TCoordRep, VImageDimension>& index, 
-   Point<TCoordRep, VImageDimension>& point)
-  {
-    typedef AffineTransform<TCoordRep, VImageDimension> TransformType ;
-    typedef TransformType::InputPointType InputPointType ;
-    typedef TransformType::OutputPointType OutputPointType ;
+    Point<TCoordRep, VImageDimension>& point)
+    {
+    if (m_IndexToPhysicalTransform == NULL)
+      this->RebuildTransforms();
     
-    TransformType::MatrixType matrix;
-    TransformType::OffsetType offset;
-    
-    for (unsigned int i = 0; i < VImageDimension; i++)
-      {
-        for (unsigned int j = 0; j < VImageDimension; j++)
-          {
-            matrix[i][j] = 0.0;
-          }
-        matrix[i][i] = m_Spacing[i] ;
-        offset[i]    = m_Origin[i] ;
-      }
-    
-    TransformType transform(matrix, offset);
-    InputPointType inputPoint ;
+    AffineTransformType::InputPointType inputPoint;
+
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       inputPoint[i] = index[i] ;
 
-    OutputPointType outputPoint = transform.TransformPoint(inputPoint) ;
-    
-    //for (unsigned int i = 0 ; i < VImageDimension ; i++)
-    //point[i] = outputPoint[i] ;
-    point = outputPoint ;
-  }
+    AffineTransformType::OutputPointType outputPoint = m_IndexToPhysicalTransform->TransformPoint(inputPoint) ;
+  
+    point = outputPoint;
+    }
 
   /**
    * Copy information from the specified data set.  
@@ -480,6 +461,10 @@ private:
   // Origin and spacing of physical coordinates
   double                m_Spacing[ImageDimension];
   double                m_Origin[ImageDimension];
+
+  // Affine transforms used to convert between data and physical space
+  AffineTransformPointer m_IndexToPhysicalTransform;
+  AffineTransformPointer m_PhysicalToIndexTransform;
 };
 
   
