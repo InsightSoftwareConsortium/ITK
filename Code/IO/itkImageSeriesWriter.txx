@@ -33,9 +33,9 @@ namespace itk
 template <class TInputImage,class TOutputImage>
 ImageSeriesWriter<TInputImage,TOutputImage>
 ::ImageSeriesWriter():
-  m_StartIndex(1), m_IncrementIndex(1),
+  m_ImageIO(0), m_UserSpecifiedImageIO(false),
   m_SeriesFormat("%d"),
-  m_ImageIO(0), m_UserSpecifiedImageIO(false)
+  m_StartIndex(1), m_IncrementIndex(1)
 {
 }
 
@@ -138,7 +138,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
 
   // The size of the output will match the input sizes, up to the
   // dimension of the input.
-  for ( int i=0; i < TOutputImage::ImageDimension; i++ )
+  for ( unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
     {
     outRegion.SetSize(i,inputImage->GetRequestedRegion().GetSize()[i]);
     }
@@ -152,7 +152,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
   // Set the origin and spacing of the output
   double spacing[TOutputImage::ImageDimension];
   double origin[TOutputImage::ImageDimension];
-  for ( int i=0; i < TOutputImage::ImageDimension; i++ )
+  for ( unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
     {
     origin[i] = inputImage->GetOrigin()[i];
     spacing[i] = inputImage->GetSpacing()[i];
@@ -171,7 +171,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
 
   // Compute the number of files to be generated
   unsigned int numberOfFiles = 1;
-  for (int n = TOutputImage::ImageDimension;
+  for (unsigned int n = TOutputImage::ImageDimension;
        n < TInputImage::ImageDimension;
        n++)
     {
@@ -186,7 +186,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
   // build a filename and write the file.
 
   typename InputImageType::OffsetValueType offset = 0;
-  for (int slice=0; slice < numberOfFiles; slice++)
+  for (unsigned int slice=0; slice < numberOfFiles; slice++)
     {
     // Select a "slice" of the image. 
     inIndex = inputImage->ComputeIndex(offset);
