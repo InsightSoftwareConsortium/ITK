@@ -134,7 +134,7 @@ ImageToImageFilter<TInputImage,TOutputImage>
 
       // If not an image, skip it, and let a subclass of
       // ImageToImageFilter handle this input.
-      if (constInput == 0)
+      if (constInput.IsNull() )
         {
         continue;
         }
