@@ -108,7 +108,7 @@ class DICOM_EXPORT DICOMFile
   static long ReturnAsSignedLong(unsigned char* data, bool )
   {
     unsigned char* data2 = data;
-    return atol((char*) data2);
+    return *((quadbyte*) data2);
   }
   
   
@@ -118,7 +118,7 @@ class DICOM_EXPORT DICOMFile
   static ulong ReturnAsUnsignedLong(unsigned char* data, bool )
   {
     unsigned char* data2 = data;
-    return atol((char*) data2);
+    return *((ulong*) data2);
   }
   
   //
