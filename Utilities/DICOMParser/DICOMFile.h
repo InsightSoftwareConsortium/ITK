@@ -27,7 +27,7 @@ class DICOMFile
   // that is true if the file is successfully
   // opened.
   //
-  bool Open(const char* filename);
+  bool Open(const std::string& filename);
   
   //
   // Close a file.
