@@ -73,6 +73,7 @@ public:
   {
     m_Image = it.m_Image;     // copy the smart pointer
     m_Region = it.m_Region;   // copy the region
+    return *this;
   }
   
   /** Get the dimension (size) of the index. */
