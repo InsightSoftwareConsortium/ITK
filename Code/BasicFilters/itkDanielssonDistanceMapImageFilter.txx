@@ -218,7 +218,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   }
 
   ot.Begin();
-	ct.Begin();
+  ct.Begin();
   while( !ot.IsAtEnd() )
   {
     if( ot.Get() )
@@ -268,13 +268,13 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
       ot.Set( voronoiMap->GetPixel( index ) );
     }
 
-	IndexType distanceVector = ct.Get();
-	double distance = 0.0;
-	for(unsigned int i=0; i<InputImageType::ImageDimension; i++)
-	{
-	  distance += distanceVector[i] * distanceVector[i];
-	}
-	dt.Set( sqrt( distance ) );
+  OffsetType distanceVector = ct.Get();
+  double distance = 0.0;
+  for(unsigned int i=0; i<InputImageType::ImageDimension; i++)
+  {
+    distance += distanceVector[i] * distanceVector[i];
+  }
+  dt.Set( sqrt( distance ) );
   ++ot;
   ++ct;
   ++dt;
@@ -292,20 +292,20 @@ void
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 ::UpdateLocalDistance( 
  DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>::VectorImagePointer & components,\
-          const IndexType & here,
-          const IndexType & offset )
+          const IndexType  & here,
+          const OffsetType & offset )
 {
 
-  IndexType there      = here + offset;
-  IndexType valueHere  = components->GetPixel( here  );
-  IndexType valueThere = components->GetPixel( there );
+  IndexType  there            = here + offset;
+  OffsetType offsetValueHere  = components->GetPixel( here  );
+  OffsetType offsetValueThere = components->GetPixel( there );
 
   double norm1 = 0.0;
   double norm2 = 0.0;
   for( unsigned int i=0; i<InputImageType::ImageDimension; i++ )
   {
-    const double v1 = static_cast< double >(  valueHere[i]  );
-    const double v2 = static_cast< double >(  valueThere[i] );
+    const double v1 = static_cast< double >(  offsetValueHere[ i]  );
+    const double v2 = static_cast< double >(  offsetValueThere[i] );
     norm1 +=  v1 * v1;
     norm2 +=  v2 * v2;
   }
@@ -313,7 +313,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   if( norm1 > norm2 ) 
   {
-     components->GetPixel( here ) = valueThere + offset;
+     components->GetPixel( here ) = offsetValueThere + offset;
   }
 
 }
@@ -333,21 +333,21 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   PrepareData();
  
-	
+  
   InputImagePointer     voronoiMap             =  GetVoronoiMap();
   VectorImagePointer    distanceComponents     =  GetVectorDistanceMap();
   
   typename InputImageType::RegionType region  = voronoiMap->GetRequestedRegion();
 
-  IndexType  start   = region.GetIndex();
-  SizeType   size    = region.GetSize();
-  IndexType  offset;
+  IndexType   start   = region.GetIndex();
+  SizeType    size    = region.GetSize();
+  OffsetType  offset;
 
   for(unsigned int dim=0; dim<InputImageType::ImageDimension; dim++)
   {
     start [ dim ] += 1;
     size  [ dim ] -= 2;
-	offset[ dim ] = 0;
+    offset[ dim ] = 0;
   }
 
   region.SetIndex( start );
@@ -362,21 +362,21 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   {
     IndexType here = it.GetIndex();
     for(unsigned int dim=0; dim <VectorImageType::ImageDimension; dim++)
-	{
+    {
       if( it.IsReflected(dim) ) 
-	  {
-	    offset[dim]++;
-	    UpdateLocalDistance( distanceComponents, here, offset );
-		offset[dim]=0;
-	  }
+      {
+        offset[dim]++;
+        UpdateLocalDistance( distanceComponents, here, offset );
+        offset[dim]=0;
+      }
       else
-	  {
-		offset[dim]--;
-	    UpdateLocalDistance( distanceComponents, here, offset );
-	    offset[dim]=0;
-	  }
-	}
-	++it;
+      {
+        offset[dim]--;
+        UpdateLocalDistance( distanceComponents, here, offset );
+        offset[dim]=0;
+      }
+    }
+    ++it;
   }
   
   ComputeVoronoiMap();

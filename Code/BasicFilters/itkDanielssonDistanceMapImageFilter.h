@@ -97,6 +97,12 @@ public:
 
 
   /**
+   * Type for the index of the input image
+   */
+  typedef typename InputImageType::OffsetType  OffsetType;
+
+
+  /**
    * Type for the size of the input image
    */
   typedef typename RegionType::SizeType   SizeType;
@@ -106,7 +112,7 @@ public:
   /**
    * Pointer Type for the vector distance image
    */
-  typedef Image< IndexType, TInputImage::ImageDimension > VectorImageType;
+  typedef Image< OffsetType, TInputImage::ImageDimension > VectorImageType;
 
 
   /**
@@ -212,7 +218,9 @@ protected:
   /**
    * Update distance map locally
    */
-  void UpdateLocalDistance(VectorImagePointer &, const IndexType &, const IndexType &);  
+  void UpdateLocalDistance( VectorImagePointer &, 
+                            const IndexType &, 
+                            const OffsetType &    );  
 
   /**
    *  Compute Voronoi Map
