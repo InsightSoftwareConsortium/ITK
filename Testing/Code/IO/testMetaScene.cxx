@@ -74,12 +74,11 @@ int testMetaScene(int argc, char *argv[])
     {
     std::cout << "Number of obejcts: " << s->NObjects()
               << " != 1...[FAILED]" << std::endl;
+    delete s;
     return 1;
     }
 
+  delete s;
   std::cout << "[OK]" << std::endl;
-
-  // (*(s->GetObjectList()->begin()))->PrintInfo();
-
   return 0;
 }

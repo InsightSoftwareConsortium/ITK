@@ -85,6 +85,7 @@ int testMetaSurface(int argc, char *argv[])
     it++;
   }
   
+  delete surface;
   std::cout << "done" << std::endl;
   return 0;
 }
