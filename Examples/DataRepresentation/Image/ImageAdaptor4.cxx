@@ -63,7 +63,7 @@
 
       ExternalType Get( const InternalType & input ) const 
         {
-        return (input > m_Threshold) ? 0 : 1;
+        return (input > m_Threshold) ? 1 : 0;
         }
       void SetThreshold( const InternalType threshold )
         {
@@ -105,7 +105,7 @@ int main( int argc, char *argv[] )
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << "ImageAdaptor1   inputFileName outputBinaryFileName ";
+    std::cerr << "ImageAdaptor4   inputFileName outputBinaryFileName ";
     std::cerr << " thresholdValue" << std::endl;
     return -1;
     }
@@ -175,8 +175,7 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  We create a reader that will load an image and then we connect it to the
-//  \doxygen{ImageAdaptor}.
+//  We create a reader and load the input image.
 //
 //  Software Guide : EndLatex 
 
@@ -185,23 +184,25 @@ int main( int argc, char *argv[] )
   typedef itk::ImageFileReader< ImageType >   ReaderType;
   ReaderType::Pointer reader = ReaderType::New();  
 
-  adaptor->SetImage( reader->GetOutput() );
+  reader->SetFileName( argv[1] );
+
+  reader->Update();
 // Software Guide : EndCodeSnippet
+
+
 
 
 //  Software Guide : BeginLatex
 //
-//  The filename to be read is passed to the reader and we proceed to update
-//  the reader.
+//  The newly read image is set as the internal image of the image adaptor.
 //
 //  Software Guide : EndLatex 
 
-
 //  Software Guide : BeginCodeSnippet
-  reader->SetFileName( argv[1] );
-
-  reader->Update();
+  adaptor->SetImage( reader->GetOutput() );
 //  Software Guide : EndCodeSnippet 
+
+
 
 
 //  Software Guide : BeginLatex
@@ -261,14 +262,16 @@ int main( int argc, char *argv[] )
 // \itkcaption[Image Adaptor for performing computations]{Illustration on the
 // use of \doxygen{ImageAdaptor} for performing simple image computation. An
 // \doxygen{ImageAdaptor} is used here for performing binary thresholding on
-// the input image at left. The center image used a threshold of 100, while the
-// image at right used a threshold of 200.}
+// the input image at left. The center image used a threshold of 180, while the
+// image at right used a threshold of 220.}
 // \label{fig:ImageAdaptorThresholding}
 // \end{figure}
 //
 //  Figure~\ref{fig:ImageAdaptorThresholding} illustrates the result of
 //  applying the current code for computing thresholding of typical gray scale
-//  image at two different levels.
+//  image at two different levels. Note that the same effect could have been
+//  achieved by using the \doxygen{BinaryThresholdImageFilter} but at the price
+//  of holding and extra copy of the image in memory.
 //
 //  Software Guide : EndLatex 
 
