@@ -20,6 +20,7 @@
 #include "itkConnectedThresholdImageFilter.h"
 #include "itkBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -84,7 +85,8 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
   OutputImagePointer outputImage = this->GetOutput();
 
   // Zero the output
-  outputImage->SetBufferedRegion( outputImage->GetRequestedRegion() );
+  OutputImageRegionType region =  outputImage->GetRequestedRegion();
+  outputImage->SetBufferedRegion( region );
   outputImage->Allocate();
   outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
   
@@ -95,13 +97,30 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
     function->SetInputImage ( inputImage );
     function->ThresholdBetween ( m_Lower, m_Upper );
 
+  ProgressReporter progress(this, 0, region.GetNumberOfPixels());
+
   IteratorType it ( outputImage, function, m_SeedList );
   it.GoToBegin();
 
-  while( !it.IsAtEnd())
+  try  // this try is intended to catch an eventual AbortException.
     {
-    it.Set(m_ReplaceValue);
-    ++it;
+
+    while( !it.IsAtEnd())
+      {
+      it.Set(m_ReplaceValue);
+      ++it;
+      progress.CompletedPixel();  // potential exception thrown here
+      }
+
+    }
+  catch( ProcessAborted  & except )
+    {
+    // User aborted filter excecution. Here we catch an exception thrown by the
+    // progress reporter and rethrow it with the correct line number and file
+    // name. We also invoke AbortEvent in case some observer was interested on
+    // it.
+    this->InvokeEvent( AbortEvent() );
+    throw ProcessAborted(__FILE__,__LINE__);
     }
 }
 

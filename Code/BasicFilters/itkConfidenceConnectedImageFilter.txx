@@ -26,6 +26,7 @@
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkFloodFilledImageFunctionConditionalConstIterator.h"
 #include "itkNumericTraits.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -106,7 +107,8 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
 
   // Zero the output
-  outputImage->SetBufferedRegion( outputImage->GetRequestedRegion() );
+  OutputImageRegionType region = outputImage->GetRequestedRegion();
+  outputImage->SetBufferedRegion( region );
   outputImage->Allocate();
   outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
 
@@ -172,6 +174,8 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     it.Set(m_ReplaceValue);
     ++it;
     }
+
+  ProgressReporter progress(this, 0, region.GetNumberOfPixels() * m_NumberOfIterations );
 
   for (loop = 0; loop < m_NumberOfIterations; ++loop)
     {
@@ -239,6 +243,8 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << mean << ", variance = " << variance << " , sqrt(variance) = " << sqrt(variance));
     itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnum = " << num);
     
+
+
     // Rerun the segmentation, the iterator walks the output image,
     // starting at the seed point.  As the iterator walks, if the
     // corresponding pixel in the input image (accessed via the
@@ -249,22 +255,28 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
     IteratorType thirdIt = IteratorType ( outputImage, function, m_Seed );
     thirdIt.GoToBegin();
-    while( !thirdIt.IsAtEnd())
+    try
       {
-      thirdIt.Set(m_ReplaceValue);
-      ++thirdIt;
-      }
+      while( !thirdIt.IsAtEnd())
+        {
+        thirdIt.Set(m_ReplaceValue);
+        ++thirdIt;
+        progress.CompletedPixel();  // potential exception thrown here
+        }
 
-    this->UpdateProgress( static_cast<float>(         loop         ) /
-                          static_cast<float>( m_NumberOfIterations )   );
+      } 
+    catch( ProcessAborted & excp )
+      {
+      break; // interrupt the iterations loop
+      }
+    
+    }  // end iteration loop
 
     if( this->GetAbortGenerateData() )
       {
-      throw ProcessAborted( __FILE__, __LINE__ );
+      this->InvokeEvent( AbortEvent() );
+      throw ProcessAborted(__FILE__,__LINE__);
       }
-
-    }
-
 }
 
 
