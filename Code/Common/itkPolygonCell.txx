@@ -150,7 +150,7 @@ PolygonCell< TCellInterface >
 template <typename TCellInterface>
 void
 PolygonCell< TCellInterface >
-::SetPointIds(int dummy, int num, PointIdConstIterator first)
+::SetPointIds(int itkNotUsed(dummy), int num, PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
   m_PointIds.clear();
