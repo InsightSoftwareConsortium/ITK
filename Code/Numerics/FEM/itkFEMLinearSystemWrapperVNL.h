@@ -58,11 +58,14 @@ public:
   virtual ~LinearSystemWrapperVNL();
 
   /* memory management routines */
-  virtual void  InitializeMatrix(unsigned int MatrixIndex);  
+  virtual void  InitializeMatrix(unsigned int MatrixIndex);
+  virtual bool  IsMatrixInitialized(unsigned int matrixIndex);
   virtual void  DestroyMatrix(unsigned int MatrixIndex);
   virtual void  InitializeVector(unsigned int VectorIndex);
+  virtual bool  IsVectorInitialized(unsigned int vectorIndex);
   virtual void  DestroyVector(unsigned int MatrixIndex);
   virtual void  InitializeSolution(unsigned int SolutionIndex);
+  virtual bool  IsSolutionInitialized(unsigned int solutionIndex);
   virtual void  DestroySolution(unsigned int SolutionIndex);
   virtual void  SetMaximumNonZeroValuesInMatrix(unsigned int matrixIndex, unsigned int maxNonZeros) {}
 

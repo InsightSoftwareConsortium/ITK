@@ -39,6 +39,13 @@ void LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
 
 }
 
+bool LinearSystemWrapperVNL::IsMatrixInitialized(unsigned int matrixIndex)
+{
+  if (!m_Matrices) return false;
+  if ( !((*m_Matrices)[matrixIndex]) ) return false;
+
+  return true;
+}
 
 void LinearSystemWrapperVNL::DestroyMatrix(unsigned int matrixIndex)
 {
@@ -69,6 +76,14 @@ void LinearSystemWrapperVNL::InitializeVector(unsigned int vectorIndex)
 
 }
 
+bool LinearSystemWrapperVNL::IsVectorInitialized(unsigned int vectorIndex)
+{
+  if (!m_Vectors) return false;
+  if ( !(*m_Vectors)[vectorIndex] ) return false;
+
+  return true;
+}
+
 
 void LinearSystemWrapperVNL::DestroyVector(unsigned int vectorIndex)
 {
@@ -95,6 +110,14 @@ void LinearSystemWrapperVNL::InitializeSolution(unsigned int solutionIndex)
 
   (*m_Solutions)[solutionIndex] = new vnl_vector<Float>(this->GetSystemOrder());
   (*m_Solutions)[solutionIndex]->fill(0.0);
+}
+
+bool LinearSystemWrapperVNL::IsSolutionInitialized(unsigned int solutionIndex)
+{
+  if (!m_Solutions) return false;
+  if ( !(*m_Solutions)[solutionIndex] ) return false;
+
+  return true;
 }
 
 

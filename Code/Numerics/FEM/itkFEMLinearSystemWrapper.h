@@ -133,7 +133,7 @@ public:
    */
   virtual void InitializeMatrix(unsigned int matrixIndex = 0) = 0;
 
-  /* virtual void IsMatrixInitialized(unsigned int matrixIndex = 0) = 0; */
+  virtual bool IsMatrixInitialized(unsigned int matrixIndex = 0) = 0;
 
   /**
    * Free the memory from a matrix
@@ -149,6 +149,8 @@ public:
    */
   virtual void InitializeVector(unsigned int vectorIndex = 0) = 0;
 
+  virtual bool IsVectorInitialized(unsigned int vectorIndex = 0) = 0;
+
   /**
    * Free the memory from a vector
    * \param VectorIndex index of vector to destroy
@@ -162,6 +164,8 @@ public:
    * \param SolutionIndex index of solution vector to initialize
    */
   virtual void InitializeSolution(unsigned int solutionIndex = 0) = 0;
+
+  virtual bool IsSolutionInitialized(unsigned int solutionIndex = 0) = 0;
 
   /** Free teh mememory from a solution vector
    * \param SolutionIndex index of solution vector to destroy

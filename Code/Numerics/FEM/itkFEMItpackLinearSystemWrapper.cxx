@@ -87,6 +87,17 @@ void ItpackLinearSystemWrapper::InitializeMatrix(unsigned int matrixIndex)
 }
 
 
+bool ItpackLinearSystemWrapper::IsMatrixInitialized(unsigned int matrixIndex)
+{
+  if (!m_Matrices) return false;
+  if ( !(*m_Matrices)[matrixIndex].GetOrder() ) return false;
+  if ( !(*m_Matrices)[matrixIndex].GetMaxNonZeroValues() ) return false;
+
+
+  return true;
+}
+
+
 void ItpackLinearSystemWrapper::InitializeVector(unsigned int vectorIndex)
 {
 
@@ -114,6 +125,15 @@ void ItpackLinearSystemWrapper::InitializeVector(unsigned int vectorIndex)
     (*m_Vectors)[vectorIndex][i] = 0.0;
   }
 
+}
+
+
+bool ItpackLinearSystemWrapper::IsVectorInitialized(unsigned int vectorIndex)
+{
+  if (!m_Vectors) return false;
+  if ( !(*m_Vectors)[vectorIndex] ) return false;
+
+  return true;
 }
 
 
@@ -146,6 +166,14 @@ void ItpackLinearSystemWrapper::InitializeSolution(unsigned int solutionIndex)
 
 }
 
+
+bool ItpackLinearSystemWrapper::IsSolutionInitialized(unsigned int solutionIndex)
+{
+  if (!m_Solutions) return false;
+  if ( !(*m_Solutions)[solutionIndex] ) return false;
+
+  return true;
+}
 
 void ItpackLinearSystemWrapper::DestroyMatrix(unsigned int matrixIndex)
 {
