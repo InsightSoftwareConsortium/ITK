@@ -148,11 +148,11 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
       break;
       }
 
-    denom += 1.0 / vnl_math_sqr( neighNode.GetValue() );
+    denom += 1.0 / vnl_math_sqr( (double)neighNode.GetValue() );
     for( unsigned int k = 0; k < VAuxDimension; k++ )
       {
       auxPixel = m_AuxImage[k]->GetPixel( neighNode.GetIndex() );
-      numer[k] += (double) ( auxPixel ) / vnl_math_sqr( neighNode.GetValue() );
+      numer[k] += (double) ( auxPixel ) / vnl_math_sqr( (double)neighNode.GetValue() );
       }
 
     }
