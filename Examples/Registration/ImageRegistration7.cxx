@@ -434,7 +434,7 @@ int main( int argc, char *argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17S12.eps}
-  // \caption{Fixed and Moving image provided as input to the registration
+  // \itkcaption{Fixed and Moving image provided as input to the registration
   // method using Similarity2D transform.}
   // \label{fig:FixedMovingImageRegistration7}
   // \end{figure}
@@ -445,7 +445,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{ImageRegistration7Output.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceBefore.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceAfter.eps} 
-  // \caption{Resampled moving image (left). Differences between fixed and
+  // \itkcaption{Resampled moving image (left). Differences between fixed and
   // moving images, before (center) and after (right) registration with the
   // Similarity2D transform.}
   // \label{fig:ImageRegistration7Outputs}
@@ -461,7 +461,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceMetric.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceAngle.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceTranslations.eps} 
-  // \caption{Plots of the Metric, rotation angle and translations during the registration using 
+  // \itkcaption{Plots of the Metric, rotation angle and translations during the registration using 
   // Similarity2D transform.}
   // \label{fig:ImageRegistration7Plots}
   // \end{figure}

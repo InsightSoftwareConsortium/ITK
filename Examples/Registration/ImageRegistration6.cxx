@@ -511,7 +511,7 @@ int main( int argc, char *argv[] )
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{TranslationAndRotationCenter.eps}
-  // \caption{Effect of changing the center of rotation.}
+  // \itkcaption{Effect of changing the center of rotation.}
   // \label{fig:TranslationAndRotationCenter}
   // \end{figure}
   //
@@ -538,7 +538,7 @@ int main( int argc, char *argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17.eps}
-  // \caption[CenteredTransformInitializer input images]{Fixed and Moving image
+  // \itkcaption[CenteredTransformInitializer input images]{Fixed and Moving image
   // provided as input to the registration method using
   // CenteredTransformInitializer.}
   // \label{fig:FixedMovingImageRegistration6}
@@ -550,7 +550,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{ImageRegistration6Output.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration6DifferenceBefore.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration6DifferenceAfter.eps} 
-  // \caption[CenteredTransformInitializer output images]{Resampled moving
+  // \itkcaption[CenteredTransformInitializer output images]{Resampled moving
   // image (left). Differences between fixed and moving images, before (center)
   // and after (right) registration with the
   // CenteredTransformInitializer.}
@@ -567,7 +567,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[height=0.32\textwidth]{ImageRegistration6TraceMetric.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration6TraceAngle.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration6TraceTranslations.eps} 
-  // \caption[CenteredTransformInitializer output plots]{Plots of the Metric,
+  // \itkcaption[CenteredTransformInitializer output plots]{Plots of the Metric,
   // rotation angle, center of rotation and translations during the
   // registration using CenteredTransformInitializer.}
   // \label{fig:ImageRegistration6Plots}

@@ -136,7 +136,7 @@ int main( int argc, char *argv[] )
 // & 46.7 & 47.5 & 47.4 & 47.6  \\ \code{BrainT1Slice.png} 
 // & 47.2 & 64.1 & 68.0 & 67.8  \\ \end{tabular}
 // \protect\label{fig:ImageRandomConstIteratorWithIndexExample}
-// \caption[ImageRandomConstIteratorWithIndex usage]{Estimates of mean image pixel
+// \itkcaption[ImageRandomConstIteratorWithIndex usage]{Estimates of mean image pixel
 // value using the ImageRandomConstIteratorWithIndex at different sample
 // sizes.}
 // \end{center}

@@ -470,7 +470,7 @@ int main( int argc, char *argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceShifted13x17y.eps}
-  // \caption[Fixed and Moving images in registration framework]{Fixed and
+  // \itkcaption[Fixed and Moving images in registration framework]{Fixed and
   // Moving image provided as input to the registration method.}
   // \label{fig:FixedMovingImageRegistration1}
   // \end{figure}
@@ -562,7 +562,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{ImageRegistration1Output.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration1DifferenceBefore.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration1DifferenceAfter.eps}
-  // \caption[HelloWorld registration output images]{Mapped moving image and its
+  // \itkcaption[HelloWorld registration output images]{Mapped moving image and its
   // difference with the fixed image before and after registration}
   // \label{fig:ImageRegistration1Output}
   // \end{figure}
@@ -636,7 +636,7 @@ int main( int argc, char *argv[] )
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ImageRegistration1Pipeline.eps}
-  // \caption{Pipeline structure of the registration example.}
+  // \itkcaption{Pipeline structure of the registration example.}
   // \label{fig:ImageRegistration1Pipeline}
   // \end{figure}
   //
@@ -716,7 +716,7 @@ int main( int argc, char *argv[] )
   // \center
   // \includegraphics[height=0.44\textwidth]{ImageRegistration1TraceTranslations.eps}
   // \includegraphics[height=0.44\textwidth]{ImageRegistration1TraceMetric.eps}
-  // \caption[Trace of translations and metrics during registration]{Sequence
+  // \itkcaption[Trace of translations and metrics during registration]{Sequence
   // of translations and metric values at each iteration of the optimizer.}
   // \label{fig:ImageRegistration1Trace}
   // \end{figure}

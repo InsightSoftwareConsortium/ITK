@@ -18,7 +18,7 @@
 //  Software Guide : BeginLatex
 //
 //
-//  \piccaption[MinMaxCurvatureFlow computation]{Elements involved in the
+//  \itkpiccaption[MinMaxCurvatureFlow computation]{Elements involved in the
 //  computation of MinMax curvature flow.
 //  \label{fig:MinMaxCurvatureFlowFunctionDiagram}}
 //  \parpic(7cm,6cm)[r]{\includegraphics[width=6cm]{MinMaxCurvatureFlowFunctionDiagram.eps}}

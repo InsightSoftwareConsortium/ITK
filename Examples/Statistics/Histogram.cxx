@@ -36,7 +36,7 @@
 // \begin{figure}
 // \centering
 // \includegraphics[width=0.4\textwidth]{Histogram.eps}
-// \caption[Histogram]{Conceptual histogram data structure}
+// \itkcaption[Histogram]{Conceptual histogram data structure}
 // \protect\label{fig:StatHistogram}
 // \end{figure}
 // Software Guide : EndLatex 

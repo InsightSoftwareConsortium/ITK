@@ -353,7 +353,7 @@ int main( int argc, char *argv[] )
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{DeformableRegistration2CheckerboardBefore.eps}
   // \includegraphics[width=0.44\textwidth]{DeformableRegistration2CheckerboardAfter.eps}
-  // \caption[Demon's deformable registration output]{Checkerboard comparisons
+  // \itkcaption[Demon's deformable registration output]{Checkerboard comparisons
   // before and after demons-based deformable registration.}
   // \label{fig:DeformableRegistration2Output}
   // \end{figure}

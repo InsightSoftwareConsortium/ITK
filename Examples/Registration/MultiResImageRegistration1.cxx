@@ -63,7 +63,7 @@
 // \begin{figure}
 // \center
 // \includegraphics[width=\textwidth]{MultiResRegistrationConcept.eps}
-// \caption{Conceptual representation of Multi-Resolution registration.}
+// \itkcaption{Conceptual representation of Multi-Resolution registration.}
 // \label{fig:MultiResRegistrationConcept}
 // \end{figure}
 //
@@ -573,7 +573,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration1Output.eps}
   // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration1CheckerboardBefore.eps}
   // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration1CheckerboardAfter.eps}
-  // \caption[Multi-Resolution registration input images]{Mapped moving image
+  // \itkcaption[Multi-Resolution registration input images]{Mapped moving image
   // (left) and composition of fixed and moving images before (center) and
   // after (right) registration.}
   // \label{fig:MultiResImageRegistration1Output}
@@ -592,7 +592,7 @@ int main( int argc, char *argv[] )
   // \center
   // \includegraphics[height=0.44\textwidth]{MultiResImageRegistration1TraceTranslations.eps}
   // \includegraphics[height=0.44\textwidth]{MultiResImageRegistration1TraceMetric.eps}
-  // \caption[Multi-Resolution registration output images]{Sequence of
+  // \itkcaption[Multi-Resolution registration output images]{Sequence of
   // translations and metric values at each iteration of the optimizer.}
   // \label{fig:MultiResImageRegistration1Trace}
   // \end{figure}

@@ -436,7 +436,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  \piccaption[ResampleImageFilter naive viewers]{Input image with $2 \times
+  //  \itkpiccaption[ResampleImageFilter naive viewers]{Input image with $2 \times
   //  3 \mbox{mm}$ spacing as seen with a naive viewer (left) and a correct
   //  viewer (right).\label{fig:ResampleImageFilterInput2}} 
   //  \parpic(12cm,6cm)[r]{
