@@ -21,6 +21,8 @@
 #define _itkImage_txx
 #include "itkImage.h"
 #include "itkProcessObject.h"
+#include "itkAffineTransform.h"
+
 namespace itk
 {
 
@@ -39,8 +41,12 @@ Image<TPixel, VImageDimension>
     m_Spacing[i] = 1.0;
     m_Origin[i] = 0.0;
     }
-  m_IndexToPhysicalTransform = 0;
-  m_PhysicalToIndexTransform = 0;
+
+  typedef AffineTransform< double,  VImageDimension > AffineTransformType;
+
+  m_IndexToPhysicalTransform = AffineTransformType::New();
+  m_PhysicalToIndexTransform = AffineTransformType::New();
+
 }
 
 
@@ -234,12 +240,16 @@ Image<TPixel, VImageDimension>
   return m_Origin;
 }
 
+
+
 //---------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension>
 void 
 Image<TPixel, VImageDimension>
-::RebuildTransforms()
+::RebuildTransforms() throw ( std::exception )
 {
+  typedef AffineTransform< double, VImageDimension > AffineTransformType;
+
   typename AffineTransformType::MatrixType matrix;
   typename AffineTransformType::OffsetType offset;
 
@@ -256,13 +266,16 @@ Image<TPixel, VImageDimension>
   // Create a new transform if one doesn't already exist
   if ( !m_IndexToPhysicalTransform )
     {
-    AffineTransformPointer affineTransform = AffineTransformType::New();
-    m_IndexToPhysicalTransform = affineTransform.GetPointer();
+    m_IndexToPhysicalTransform = 
+                AffineTransformType::New().GetPointer();
     }
 
-  AffineTransformPointer affineTransform =
-                            dynamic_cast< AffineTransformType * >( 
-                                    m_IndexToPhysicalTransform.GetPointer() );
+  // WARNING this will throw an exception if the 
+  // actual Transform stored in the image is not an
+  // Affine Transform !!
+  AffineTransformType::Pointer affineTransform =
+           dynamic_cast< AffineTransformType * >( 
+               m_IndexToPhysicalTransform.GetPointer() );
 
   affineTransform->SetMatrix(matrix);
   affineTransform->SetOffset(offset);
@@ -280,8 +293,8 @@ Image<TPixel, VImageDimension>
   // Create a new transform if one doesn't already exist
   if( !m_PhysicalToIndexTransform  )
     {
-    AffineTransformPointer affineTransform = AffineTransformType::New();
-    m_PhysicalToIndexTransform = affineTransform.GetPointer();
+    m_PhysicalToIndexTransform = 
+                AffineTransformType::New().GetPointer();
     }
   
 
