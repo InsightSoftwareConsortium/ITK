@@ -82,32 +82,7 @@ int itkNeighborhoodTest(int, char**)
   s.SetRadius(rad);
   s.Print(std::cout);
   
-  println("Testing stride lengths");
-  itk::Neighborhood<float , 2> stride_2d;
-  stride_2d.SetRadius(1);
-  stride_2d.Print(std::cout);
-
-  println("3d");
-  itk::Neighborhood<float, 3> stride_3d;
-  stride_3d.SetRadius(1);
-  stride_3d.Print(std::cout);
-
-  println("Printing the indicies of the 8 neighbors");
-  std::cout << stride_3d.GetOffset(4) << std::endl;
-  std::cout << stride_3d.GetOffset(10)  << std::endl;
-  std::cout << stride_3d.GetOffset(12)  << std::endl;
-  std::cout << stride_3d.GetOffset(13)  << std::endl;
-  std::cout << stride_3d.GetOffset(14)  << std::endl;
-  std::cout << stride_3d.GetOffset(16)  << std::endl;
-  std::cout << stride_3d.GetOffset(22)  << std::endl;
-
-
-  println("ANOTHER TEST");
-  itk::Neighborhood<float, 2> q2;
-  q2.SetRadius(3);
-  q2.Print(std::cout);
-
-
+  
   
   return 0;
 }
