@@ -60,6 +60,17 @@ SpatialObjectProperty< TComponentType >
 }
 
 template< class TComponentType >
+void 
+SpatialObjectProperty< TComponentType >
+::SetColor( TComponentType r, TComponentType g ,TComponentType b)
+{
+  m_Color.SetRed(r); 
+  m_Color.SetGreen(g); 
+  m_Color.SetBlue(b); 
+  this->Modified();
+}
+
+template< class TComponentType >
 void
 SpatialObjectProperty< TComponentType >
 ::SetRed( TComponentType r )

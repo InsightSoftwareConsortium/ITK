@@ -50,6 +50,7 @@ public:
 
   const PixelType & GetColor( void ) const;
   void SetColor(const PixelType & color );
+  void SetColor( TComponentType r, TComponentType g ,TComponentType b);
 
   void SetRed( TComponentType r );
   TComponentType GetRed( void ) const;
