@@ -130,7 +130,9 @@ ITK_THREAD_RETURN_TYPE Runner(void* infoIn)
   int tnum = info->ThreadID;
   int* results = static_cast<int*>(info->UserData);
   results[tnum] = itkSTLThreadTestImpl::Thread(tnum);
+#ifndef ITK_USE_SPROC
   return 0;
+#endif
 }
 
 int Thread(int tnum)
