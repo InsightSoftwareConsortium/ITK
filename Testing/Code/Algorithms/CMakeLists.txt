@@ -20,7 +20,7 @@ VXLNumerics
 )
 
 IF(ITK_WRAP_TCL)
-  INCLUDE(${ITK_SOURCE_DIR}/Testing/Code/Algorithms/CMakeListsTcl.txt)
+#  INCLUDE(${ITK_SOURCE_DIR}/Testing/Code/Algorithms/CMakeListsTcl.txt)
 ENDIF(ITK_WRAP_TCL)
 
 
