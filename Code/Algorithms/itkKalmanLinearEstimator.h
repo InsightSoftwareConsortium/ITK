@@ -71,24 +71,24 @@ public:
 
   /**  Vector type defines a generic vector type that is used
    *  for the matricial operations performed during estimation. */
-  typedef vnl_vector_fixed<T,VEstimatorDimension> Vector;
+  typedef vnl_vector_fixed<T,VEstimatorDimension> VectorType;
 
   /**  Matrix type defines a generic matrix type that is used
    *  for the matricial operations performed during estimation. */
-  typedef vnl_matrix_fixed<T,VEstimatorDimension,VEstimatorDimension> Matrix;
+  typedef vnl_matrix_fixed<T,VEstimatorDimension,VEstimatorDimension> MatrixType;
 
   /** Type is the type associated with the parameters to be estimated.
    * All the parameters are of the same type. Natural choices could be
    * floats and doubles, because Type also is used for all the internal
    * computations. */
-  typedef T Type;
+  typedef T ValueType;
 
   /** Update the estimation using the information provided by a new measure
    * along with a new line of the linear predictor. This method is the one
    * that should be called iteratively in order to estimate the parameter's
    * vector. It internally updates the covariance matrix. */
-  void UpdateWithNewMeasure(  const T & newMeasure,
-                              const Vector & newPredictor );
+  void UpdateWithNewMeasure(  const ValueType & newMeasure,
+                              const VectorType & newPredictor );
 
   /** This method resets the estimator. It set all the parameters to null.
    * The covariance matrix is not changed.
@@ -109,7 +109,7 @@ public:
    * \sa Estimator
    * \sa Variance
    * \sa ClearEstimation */
-  void SetVariance(const T & var = 1.0) 
+  void SetVariance(const ValueType & var = 1.0) 
     {
     m_Variance.set_identity();
     m_Variance *= var;
@@ -120,17 +120,17 @@ public:
    * distribution of the parameters.  It can also be used to resume the
    * operation of a previously used estimator using it last known state.
    * \sa Estimator \sa Variance \sa ClearEstimation */
-  void SetVariance(const Matrix & m)
+  void SetVariance(const MatrixType & m)
     { m_Variance = m; }
   
   /** This method returns the vector of estimated parameters
    * \sa Estimator */ 
-  const Vector& GetEstimator(void) const
+  const VectorType & GetEstimator(void) const
     { return m_Estimator; }
 
   /** This method returns the covariance matrix of the estimated parameters
    * \sa Variance */
-  const Matrix & GetVariance(void) const
+  const MatrixType  & GetVariance(void) const
     { return m_Variance; }
 
 private:  
@@ -138,11 +138,11 @@ private:
    * It is called by updateWithNewMeasure() method. Users are not expected to
    * call this method directly.
    * \sa updateWithNewMeasure */
-  void UpdateVariance( const Vector & );
+  void UpdateVariance( const VectorType  & );
 
   /** Vector of parameters to estimate.
    * \sa GetEstimator */
-  Vector m_Estimator;
+  VectorType  m_Estimator;
 
   /** Estimation of the parameter's covariance matrix. This matrix contains
    * the information about the estate of the estimator. It holds all the
@@ -150,20 +150,22 @@ private:
    * estimator. The initialization of this matrix is critical to the behavior
    * of the estimator, at least to ensure a short trasient period for
    * estabilizing the estimation.  \sa SetVariance \sa GetVariance */
-  Matrix m_Variance;
+  MatrixType m_Variance;
+
 };
 
 
 template <class T, unsigned int VEstimatorDimension>
 void
 KalmanLinearEstimator<T,VEstimatorDimension>
-::UpdateWithNewMeasure(const T & newMeasure, const Vector & newPredictor )
+::UpdateWithNewMeasure( const ValueType  & newMeasure, 
+                        const VectorType & newPredictor   )
 {
-  T measurePrediction      = dot_product( newPredictor , m_Estimator );
+  ValueType measurePrediction = dot_product( newPredictor , m_Estimator );
   
-  T errorMeasurePrediction = newMeasure - measurePrediction;
+  ValueType errorMeasurePrediction = newMeasure - measurePrediction;
 
-  Vector Corrector = m_Variance * newPredictor;
+  VectorType Corrector = m_Variance * newPredictor;
 
   for( unsigned int j=0; j<VEstimatorDimension; j++) 
     {
@@ -171,17 +173,18 @@ KalmanLinearEstimator<T,VEstimatorDimension>
     }
   
   UpdateVariance( newPredictor );
+
 }
 
 
 template <class T, unsigned int VEstimatorDimension>
 void
 KalmanLinearEstimator<T,VEstimatorDimension>
-::UpdateVariance( const Vector & newPredictor )
+::UpdateVariance( const VectorType & newPredictor )
 {  
-  Vector aux =  m_Variance * newPredictor;
+  VectorType aux =  m_Variance * newPredictor;
 
-  T denominator = 1.0/(1.0 +  dot_product( aux , newPredictor ) );
+  ValueType denominator = 1.0/(1.0 +  dot_product( aux , newPredictor ) );
 
   unsigned pos = 0;
   for( unsigned int col=0; col<VEstimatorDimension; col++) 
