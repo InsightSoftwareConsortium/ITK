@@ -540,12 +540,18 @@ void DICOMParser::InitTypeMap()
                               {0x0002, 0x0003, DICOMParser::VR_UI}, // Media storage SOP inst uid
                               {0x0002, 0x0010, DICOMParser::VR_UI}, // Transfer syntax uid
                               {0x0002, 0x0012, DICOMParser::VR_UI}, // Implementation class uid
-                              {0x0008, 0x0018, DICOMParser::VR_UI}, // SOP Instance uid
+                              {0x0008, 0x0018, DICOMParser::VR_UI}, // Image UID
                               {0x0008, 0x0020, DICOMParser::VR_DA}, // Series date
                               {0x0008, 0x0030, DICOMParser::VR_TM}, // Series time
                               {0x0008, 0x0060, DICOMParser::VR_SH}, // Modality
                               {0x0008, 0x0070, DICOMParser::VR_SH}, // Manufacturer
+                              {0x0008, 0x0080, DICOMParser::VR_LO}, // Institution
                               {0x0008, 0x1060, DICOMParser::VR_SH}, // Physician
+                              {0x0008, 0x1090, DICOMParser::VR_LO}, // Model
+                              {0x0010, 0x0010, DICOMParser::VR_PN}, // Patient name                    
+                              {0x0010, 0x0020, DICOMParser::VR_LO}, // Patient ID
+                              {0x0010, 0x0040, DICOMParser::VR_CS}, // Patient sex                    
+                              {0x0010, 0x1010, DICOMParser::VR_AS}, // Patient age
                               {0x0018, 0x0050, DICOMParser::VR_FL}, // slice thickness
                               {0x0018, 0x0060, DICOMParser::VR_FL}, // kV
                               {0x0018, 0x0088, DICOMParser::VR_FL}, // slice spacing

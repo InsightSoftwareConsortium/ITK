@@ -139,6 +139,15 @@ DICOMAppHelper::DICOMAppHelper()
   this->NumberOfContourPointsCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->ContourGeometricTypeCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->ReferencedInstanceUIDCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->PatientNameCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->PatientIDCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->PatientSexCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->PatientAgeCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->StudyDateCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->ModalityCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->ManufacturerCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->InstitutionCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->ModelCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->DefaultCB = new DICOMMemberCallback<DICOMAppHelper>;
   
   this->Implementation = new DICOMAppHelperImplementation;
@@ -190,6 +199,15 @@ DICOMAppHelper::~DICOMAppHelper()
   delete this->NumberOfContourPointsCB;
   delete this->ContourGeometricTypeCB;
   delete this->ReferencedInstanceUIDCB;
+  delete this->PatientNameCB;
+  delete this->PatientIDCB;
+  delete this->PatientSexCB;
+  delete this->PatientAgeCB;
+  delete this->StudyDateCB;
+  delete this->ModalityCB;
+  delete this->ManufacturerCB;
+  delete this->InstitutionCB;
+  delete this->ModelCB;
   delete this->DefaultCB;
 
   delete this->Implementation;
@@ -279,7 +297,33 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
   ReferencedInstanceUIDCB->SetCallbackFunction(this, &DICOMAppHelper::ReferencedInstanceUIDCallback);
   parser->AddDICOMTagCallback(0x0008, 0x1155, DICOMParser::VR_UI, ReferencedInstanceUIDCB);
 
-  
+  PatientNameCB->SetCallbackFunction(this, &DICOMAppHelper::PatientNameCallback);
+  parser->AddDICOMTagCallback(0x0010, 0x0010, DICOMParser::VR_PN, PatientNameCB);
+
+  PatientIDCB->SetCallbackFunction(this, &DICOMAppHelper::PatientIDCallback);
+  parser->AddDICOMTagCallback(0x0010, 0x0020, DICOMParser::VR_LO, PatientIDCB);
+
+  PatientSexCB->SetCallbackFunction(this, &DICOMAppHelper::PatientSexCallback);
+  parser->AddDICOMTagCallback(0x0010, 0x0040, DICOMParser::VR_CS, PatientSexCB);
+
+  PatientAgeCB->SetCallbackFunction(this, &DICOMAppHelper::PatientAgeCallback);
+  parser->AddDICOMTagCallback(0x0010, 0x1010, DICOMParser::VR_AS, PatientAgeCB);
+
+  StudyDateCB->SetCallbackFunction(this, &DICOMAppHelper::StudyDateCallback);
+  parser->AddDICOMTagCallback(0x0008, 0x0020, DICOMParser::VR_DA, StudyDateCB);
+
+  ModalityCB->SetCallbackFunction(this, &DICOMAppHelper::ModalityCallback);
+  parser->AddDICOMTagCallback(0x0008, 0x0060, DICOMParser::VR_CS, ModalityCB);
+
+  ManufacturerCB->SetCallbackFunction(this, &DICOMAppHelper::ManufacturerCallback);
+  parser->AddDICOMTagCallback(0x0008, 0x0070, DICOMParser::VR_LO, ManufacturerCB);
+
+  InstitutionCB->SetCallbackFunction(this, &DICOMAppHelper::InstitutionCallback);
+  parser->AddDICOMTagCallback(0x0008, 0x0080, DICOMParser::VR_LO, InstitutionCB);
+
+  ModelCB->SetCallbackFunction(this, &DICOMAppHelper::ModelCallback);
+  parser->AddDICOMTagCallback(0x0008, 0x1090, DICOMParser::VR_LO, ModelCB);
+
   // Add in default callbacks for tags we need to see but not cache
   //parser->AddDICOMTagCallback(0x3006, 0x0012, DICOMParser::VR_DS, DefaultCB);
   
@@ -294,8 +338,13 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     {0x0008, 0x0030, DICOMParser::VR_TM, "Series time"},
     {0x0008, 0x0060, DICOMParser::VR_SH, "Modality"},
     {0x0008, 0x0070, DICOMParser::VR_SH, "Manufacturer"},
+    {0x0008, 0x0080, DICOMParser::VR_LO, "Institution"},
     {0x0008, 0x1060, DICOMParser::VR_SH, "Physician"},
+    {0x0008, 0x1090, DICOMParser::VR_LO, "Model"},
     {0x0010, 0x0010, DICOMParser::VR_PN, "Patient name"},
+    {0x0010, 0x0020, DICOMParser::VR_LO, "Patient ID"},
+    {0x0010, 0x0040, DICOMParser::VR_CS, "Patient sex"},
+    {0x0010, 0x1010, DICOMParser::VR_AS, "Patient age"},
     {0x0018, 0x0050, DICOMParser::VR_FL, "slice thickness"},
     {0x0018, 0x0060, DICOMParser::VR_FL, "kV"},
     {0x0018, 0x0088, DICOMParser::VR_FL, "slice spacing"},
@@ -1322,6 +1371,96 @@ void DICOMAppHelper::RescaleSlopeCallback(DICOMParser *parser,
   dicom_stream::cout << "Rescale slope: " << fval << dicom_stream::endl;
 #endif
   this->RescaleSlope = fval;
+}
+
+void DICOMAppHelper::PatientNameCallback(DICOMParser *parser,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte)
+{
+  strcpy(m_PatientName, (const char*)val);
+}
+
+void DICOMAppHelper::PatientIDCallback(DICOMParser *parser,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte)
+{
+  strcpy(m_PatientID, (const char*)val);
+}
+
+void DICOMAppHelper::PatientSexCallback(DICOMParser *parser,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte)
+{
+  strcpy(m_PatientSex, (const char*)val);
+}
+
+void DICOMAppHelper::PatientAgeCallback(DICOMParser *parser,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte)
+{
+  strcpy(m_PatientAge, (const char*)val);
+}
+
+void DICOMAppHelper::StudyDateCallback(DICOMParser *parser,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte)
+{
+  strcpy(m_StudyDate, (const char*)val);
+}
+
+void DICOMAppHelper::ModalityCallback(DICOMParser *parser,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte)
+{
+  strcpy(m_Modality, (const char*)val);
+}
+
+void DICOMAppHelper::ManufacturerCallback(DICOMParser *parser,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte)
+{
+  strcpy(m_Manufacturer, (const char*)val);
+}
+
+void DICOMAppHelper::InstitutionCallback(DICOMParser *parser,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte)
+{
+  strcpy(m_Institution, (const char*)val);
+}
+
+void DICOMAppHelper::ModelCallback(DICOMParser *parser,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte)
+{
+  strcpy(m_Model, (const char*)val);
 }
 
 bool DICOMAppHelper::RescaledImageDataIsFloat()

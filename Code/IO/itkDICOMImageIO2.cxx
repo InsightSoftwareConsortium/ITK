@@ -239,6 +239,85 @@ void DICOMImageIO2::PrintSelf(std::ostream& os, Indent indent) const
   os << " )" << std::endl; 
 }
 
+
+void 
+DICOMImageIO2
+::GetPatientName(char* name)
+{
+  m_AppHelper->GetPatientName(name);
+}
+
+
+void 
+DICOMImageIO2
+::GetPatientID(char* id)
+{
+  m_AppHelper->GetPatientID(id);
+}
+
+
+
+void 
+DICOMImageIO2
+::GetPatientSex(char* sex)
+{
+  m_AppHelper->GetPatientSex(sex);
+}
+
+
+
+void 
+DICOMImageIO2
+::GetPatientAge(char* age)
+{
+  m_AppHelper->GetPatientAge(age);
+}
+
+
+
+void 
+DICOMImageIO2
+::GetStudyDate(char* date)
+{
+  m_AppHelper->GetStudyDate(date);
+}
+
+
+
+void 
+DICOMImageIO2
+::GetModality(char* modality)
+{
+  m_AppHelper->GetModality(modality);
+}
+
+
+
+void 
+DICOMImageIO2
+::GetManufacturer(char* manu)
+{
+  m_AppHelper->GetManufacturer(manu);
+}
+
+
+
+void 
+DICOMImageIO2
+::GetInstitution(char* ins)
+{
+  m_AppHelper->GetInstitution(ins);
+}
+
+
+
+void 
+DICOMImageIO2
+::GetModel(char* model)
+{
+  m_AppHelper->GetModel(model);
+}
+
+
+
 } // end namespace itk
-
-

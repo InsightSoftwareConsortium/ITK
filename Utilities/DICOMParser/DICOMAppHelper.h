@@ -290,6 +290,69 @@ public:
                                               unsigned char* val,
                                               quadbyte);
 
+  virtual void PatientNameCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+
+  virtual void PatientIDCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+
+  virtual void PatientSexCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+
+  virtual void PatientAgeCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+
+  virtual void StudyDateCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+
+  virtual void ModalityCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+
+  virtual void ManufacturerCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+
+  virtual void InstitutionCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+
+  virtual void ModelCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+
   virtual void DefaultCallback( DICOMParser *parser,
                                 doublebyte,
                                 doublebyte,
@@ -433,6 +496,69 @@ public:
   /** Get the series UID for the current file. */
   std::string GetSeriesUID() { return this->CurrentSeriesUID; }
 
+  /** Get the patient name processed by the
+      DICOMParser. */
+  void GetPatientName(char* name)
+    {
+    strcpy(name, m_PatientName);
+    }
+
+  /** Get the patient ID processed by the
+      DICOMParser. */
+  void GetPatientID(char* id)
+    {
+    strcpy(id, m_PatientID);
+    }
+
+  /** Get the patient sex processed by the
+      DICOMParser. */
+  void GetPatientSex(char* sex)
+    {
+    strcpy(sex, m_PatientSex);
+    }
+
+  /** Get the patient age processed by the
+      DICOMParser. */
+  void GetPatientAge(char* age)
+    {
+    strcpy(age, m_PatientAge);
+    }
+
+  /** Get the study date processed by the
+      DICOMParser. */
+  void GetStudyDate(char* date)
+    {
+    strcpy(date, m_StudyDate);
+    }
+
+  /** Get the modality processed by the
+      DICOMParser. */
+  void GetModality(char* modality)
+    {
+    strcpy(modality, m_Modality);
+    }
+
+  /** Get the manufacturer processed by the
+      DICOMParser. */
+  void GetManufacturer(char* manu)
+    {
+    strcpy(manu, m_Manufacturer);
+    }
+
+  /** Get the institution processed by the
+      DICOMParser. */
+  void GetInstitution(char* ins)
+    {
+    strcpy(ins, m_Institution);
+    }
+
+  /** Get the patient name processed by the
+      DICOMParser. */
+  void GetModel(char* model)
+    {
+    strcpy(model, m_Model);
+    }
+
   /** Clear the internal databases. This will reset the internal
    * databases that are grouping filenames based on SeriesUID's and
    * ordering filenames based on image locations. */
@@ -507,6 +633,16 @@ public:
   long VolumeVoxelCount;
   long VolumeSegmentCount;
 
+  char m_PatientName[512];
+  char m_PatientID[512];
+  char m_PatientSex[512];
+  char m_PatientAge[512];
+  char m_StudyDate[512];
+  char m_Modality[512];
+  char m_Manufacturer[512];
+  char m_Institution[512];
+  char m_Model[512];
+
   typedef dicom_stl::map<dicom_stl::pair<doublebyte, doublebyte>, DICOMTagInfo> TagMapType;
   // TagMapType TagMap;
 
@@ -551,6 +687,16 @@ public:
   DICOMMemberCallback<DICOMAppHelper>* ContourImageSequenceCB;
   DICOMMemberCallback<DICOMAppHelper>* ReferencedInstanceUIDCB;
   DICOMMemberCallback<DICOMAppHelper>* DefaultCB;
+
+  DICOMMemberCallback<DICOMAppHelper>* PatientNameCB;
+  DICOMMemberCallback<DICOMAppHelper>* PatientIDCB;
+  DICOMMemberCallback<DICOMAppHelper>* PatientSexCB;
+  DICOMMemberCallback<DICOMAppHelper>* PatientAgeCB;
+  DICOMMemberCallback<DICOMAppHelper>* StudyDateCB;
+  DICOMMemberCallback<DICOMAppHelper>* ModalityCB;
+  DICOMMemberCallback<DICOMAppHelper>* ManufacturerCB;
+  DICOMMemberCallback<DICOMAppHelper>* InstitutionCB;
+  DICOMMemberCallback<DICOMAppHelper>* ModelCB;
   
 
   //

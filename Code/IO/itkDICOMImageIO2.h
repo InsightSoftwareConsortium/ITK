@@ -1,4 +1,3 @@
-
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
@@ -75,6 +74,17 @@ public:
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
   virtual void Write(const void*) {}
+
+  /** Get methods to query patient information and scanner information */
+  void GetPatientName(char* name);
+  void GetPatientID(char* id);
+  void GetPatientSex(char* sex);
+  void GetPatientAge(char* age);
+  void GetStudyDate(char* date);
+  void GetModality(char* modality);
+  void GetManufacturer(char* manu);
+  void GetInstitution(char* ins);
+  void GetModel(char* model);
 
 
 protected:

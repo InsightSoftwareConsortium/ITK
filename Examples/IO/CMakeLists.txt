@@ -39,3 +39,6 @@ TARGET_LINK_LIBRARIES(ImageReadImageSeriesWrite ITKCommon ITKIO)
 ADD_EXECUTABLE(DicomSeriesReadImageWrite DicomSeriesReadImageWrite.cxx )
 TARGET_LINK_LIBRARIES(DicomSeriesReadImageWrite ITKCommon ITKIO)
 
+ADD_EXECUTABLE(DicomPrintPatientInformation DicomPrintPatientInformation.cxx )
+TARGET_LINK_LIBRARIES(DicomPrintPatientInformation ITKCommon ITKIO)
+
