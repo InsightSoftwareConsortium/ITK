@@ -45,7 +45,7 @@ int main(void)
   
   // Pass the mesh through the filter in a variety of ways.
   //
-  Connect::Pointer connect;
+  Connect::Pointer connect(Connect::New());
   connect->SetInput(inMesh);
 
   return 0;  
