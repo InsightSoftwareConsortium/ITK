@@ -95,9 +95,6 @@ int main( int , char *[] )
     p.SetNormal2(normal2);
     p.SetColor(1,0,0,1);
   
-    p.SetRidgeness(1.0);
-    p.SetMedialness(1.0);
-    p.SetBranchness(1.0);
     list.push_back(p);
     }
 // Software Guide : EndCodeSnippet
@@ -159,9 +156,6 @@ int main( int , char *[] )
     std::cout << "Tube #" << i << std::endl;
     std::cout << "Position: " << (*it).GetPosition() << std::endl;
     std::cout << "Radius: " << (*it).GetRadius() << std::endl;
-    std::cout << "Ridgeness: " << (*it).GetRidgeness() << std::endl;
-    std::cout << "Medialness: " << (*it).GetMedialness() << std::endl;
-    std::cout << "Branchness: " << (*it).GetBranchness() << std::endl;
     std::cout << "Tangent: " << (*it).GetTangent() << std::endl;
     std::cout << "First Normal: " << (*it).GetNormal1() << std::endl;
     std::cout << "Second Normal: " << (*it).GetNormal2() << std::endl;
