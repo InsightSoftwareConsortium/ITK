@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 
-#include "xmlConfigurationParser.h"
-#include "xmlSourceParser.h"
+#include "configurationParser.h"
+#include "sourceParser.h"
 
 typedef std::string String;
 typedef source::Namespace       Namespace;
