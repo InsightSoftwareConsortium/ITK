@@ -27,6 +27,11 @@
 namespace itk
 {
 
+/** \brief ImageIO class for reading VTK images
+ *
+ * \ingroup IOFilters
+ *
+ */
 class ITK_EXPORT VTKImageIO : public ImageIOBase
 {
 public:

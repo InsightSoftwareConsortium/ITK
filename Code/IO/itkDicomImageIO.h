@@ -23,7 +23,12 @@
 namespace itk
 {
 
-/** \brief Read DicomImage file format. */
+/** \brief Read DicomImage file format.
+ *
+ *
+ * \ingroup IOFilters
+ *
+ */
 class ITK_EXPORT DicomImageIO : public ImageIOBase
 {
 public:

@@ -47,6 +47,9 @@ PURPOSE.  See the above copyright notices for more information.
  *  \par Determine how to specifiy other format information, for example, how do you write out in all the
  *       different possible orientations. Currently, all images are output in an assumed orientation of
  *       transverse unflipped.
+ *
+ *  \ingroup IOFilters
+ *
  */
 
 #ifndef __itkAnalyzeImageIO_h

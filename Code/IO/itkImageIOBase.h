@@ -40,6 +40,9 @@ namespace itk
  *
  * \sa ImageFileWriter
  * \sa ImageFileReader
+ *
+ *  \ingroup IOFilters
+ *
  */
 class ITK_EXPORT ImageIOBase : public LightProcessObject
 {

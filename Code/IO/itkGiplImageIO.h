@@ -24,7 +24,11 @@
 namespace itk
 {
 
-/** \brief Read GiplImage file format. */
+/** \brief Read GiplImage file format. 
+ *
+ *  \ingroup IOFilters
+ *
+ */
 class ITK_EXPORT GiplImageIO : public ImageIOBase
 {
 public:
