@@ -1,0 +1,109 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkSpatialObjectPoint.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
+#ifndef __itkSpatialObjectPoint_h
+#define __itkSpatialObjectPoint_h
+
+#include "itkPoint.h"
+#include "itkLightObject.h"
+#include "vnl/vnl_vector_fixed.h"
+
+namespace itk 
+{
+
+/** \class SpatialObjectPoint
+* \brief Point used for spatial objets
+*
+* This class contains all the functions necessary to define a point
+*
+* \also TubeSpatialObjectPoint SurfaceSpatialObjectPoint
+*/ 
+template < unsigned int TPointDimension = 3 >
+class ITK_EXPORT SpatialObjectPoint 
+: public LightObject
+{
+
+public:
+
+  typedef SpatialObjectPoint                         Self;
+  typedef LightObject                       Superclass;
+  typedef SmartPointer<Self>                Pointer;
+  typedef const SmartPointer< const Self >  ConstPointer;
+  typedef Point< double, TPointDimension >  PointType;
+  typedef vnl_vector< double >              VectorType;
+  typedef VectorType *                      VectorPointer;
+
+  itkNewMacro( SpatialObjectPoint );
+
+  itkTypeMacro( SpatialObjectPoint, LightObject );
+
+  /** Get the SpatialObjectPoint Id. */
+  unsigned int GetId( void );
+
+  /** Set the SpatialObjectPoint Id.*/
+  void SetId(const unsigned int newID);
+
+  /** Returns a reference to self. */
+  Self & GetReference( void );
+
+  /** Returns a pointer to self. */
+  Pointer GetPointer( void );
+  
+  /** Returns a const pointer to self. */
+  ConstPointer GetConstPointer( void );
+
+  /** Return a pointer to the point object.*/
+  PointType GetPosition( void ) const;
+
+  /** Set the point object. Couldn't use macros for these methods. */
+  void SetPosition(const PointType & newX);
+  void SetPosition(const double x0, const double x1);
+  void SetPosition(const double x0, const double x1, const double x2);
+
+  /** Get # of dimensions */
+  unsigned short int GetNumDimensions( void ) const;
+
+  /** Copy one SpatialObjectPoint to another */
+  Self & operator=(const SpatialObjectPoint & rhs);
+
+protected:
+
+  /** Constructor. This one defines the # of dimensions in the SpatialObjectPoint */
+  SpatialObjectPoint( void );
+
+  /** Default destructor. */
+  ~SpatialObjectPoint( void );
+
+  /** A unique ID assigned to this SpatialObjectPoint */
+  unsigned int m_ID;
+
+  PointType m_X;
+
+  /** # of dimensions */
+  unsigned short int m_NumDimensions;
+
+  /**  Initialization of the common variables */
+  void CommonConstruction( void );
+};
+
+} // end of namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+  #include "itkSpatialObjectPoint.txx"
+#endif
+
+#endif // __itkSpatialObjectPoint_h
