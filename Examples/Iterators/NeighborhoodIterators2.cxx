@@ -151,7 +151,8 @@ int main( int argc, char ** argv )
 //
 // The output is rescaled and written as in the previous example.  Applying
 // this example in the $x$ and $y$ directions produces the images at the center
-// and right of Figure~\ref{fig:NeighborhoodExamples1}.
+// and right of Figure~\ref{fig:NeighborhoodExamples1}. Note that x-direction 
+// operator produces the same output image as in the previous example.
 // 
 // Software Guide : EndLatex
 
