@@ -18,6 +18,7 @@
 #define __itkExpectationMaximizationMixtureModelEstimator_txx
 
 #include "itkExpectationMaximizationMixtureModelEstimator.h"
+#include "itkNumericTraits.h"
 
 namespace itk{ 
 namespace Statistics{
