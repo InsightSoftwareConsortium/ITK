@@ -85,8 +85,9 @@ KdTree< TSample >
     new KdTreeTerminalNode< TSample >() ;
 
   m_DistanceMetric = DistanceMetricType::New() ;
-
+  m_Sample = 0 ;
   m_Root = 0 ;
+  m_BucketSize = 16 ;
 }
 
 template< class TSample >
@@ -108,7 +109,16 @@ KdTree< TSample >
 {
   Superclass::PrintSelf(os,indent);
   
-  os << indent << "Source Sample: " << m_Sample << std::endl ;
+  os << indent << "Input Sample: " ;
+  if ( m_Sample != 0 )
+    {
+    os << m_Sample << std::endl ;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
   os << indent << "Bucket Size: " << m_BucketSize << std::endl ;
   os << indent << "Root Node: " ;
   if ( m_Root != 0 )
