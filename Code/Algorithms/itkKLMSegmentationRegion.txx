@@ -220,7 +220,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
             (*regionBorderVecIt)->GetRegion2()->GetRegionLabel() ) )
       {
         //Insert region border at the head of the list
-        if(index = 0)
+        if(index == 0)
         {
           m_RegionBorderVec.insert(regionBorderVecIt,pBorderCandidate);
         }
