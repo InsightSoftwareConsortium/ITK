@@ -57,6 +57,8 @@ public:
    * returns the value. \todo Needs renaming. */
   TPixel  color(int c, char rgb);
   char *  colorName(int c);
+
+  unsigned int GetClosestColorTableId(TPixel r, TPixel g, TPixel b);
    
 protected:
   ColorTable();

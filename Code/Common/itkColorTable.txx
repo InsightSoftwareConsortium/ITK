@@ -199,6 +199,30 @@ ColorTable<TPixel>
     return NULL;
 }
 
+template<class TPixel>
+unsigned int 
+ColorTable<TPixel>
+::GetClosestColorTableId(TPixel r, TPixel g, TPixel b)
+  {
+  double match = 0;
+  double bestMatch = 0; 
+  unsigned int bestMatchColor = 0;
+  for(int i=0; i<m_NumberOfColors; i++)
+    {
+    match = (r - (double)m_Color[i].GetRed()) 
+            * (r - (double)m_Color[i].GetRed());
+    match += (g - (double)m_Color[i].GetGreen()) 
+            * (g - (double)m_Color[i].GetGreen());
+    match += (b - (double)m_Color[i].GetGreen()) 
+            * (b - (double)m_Color[i].GetBlue());
+    if(i == 0 || match < bestMatch)
+      {
+      bestMatch = match;
+      bestMatchColor = i;
+      }
+    }
+  return bestMatchColor;
+  }
 
 } // namespace itk
 
