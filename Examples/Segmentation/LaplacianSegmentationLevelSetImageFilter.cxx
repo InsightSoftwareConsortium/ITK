@@ -147,7 +147,7 @@ int main( int argc, char *argv[] )
     InternalImageType> DiffusionFilterType;
   DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
   diffusion->SetNumberOfIterations( atoi(argv[4]) );
-  diffusion->SetTimeStep(0.20);
+  diffusion->SetTimeStep(0.125);
   diffusion->SetConductanceParameter( atof(argv[5]) );
   // Software Guide : EndCodeSnippet
   
