@@ -87,7 +87,7 @@ void SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension,TInput>
 
 template <unsigned int VDimension,typename TInput>
 void SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
-::SetOrientation(itk::Vector<double,VDimension> orientation, double uniqueAxis, double symmetricAxes)
+::SetOrientation(VectorType orientation, double uniqueAxis, double symmetricAxes)
 {
   m_Orientation = orientation;  // Orientation of unique axis of ellipsoid
   m_SymmetricAxes = symmetricAxes;  // Length of symmetric axes

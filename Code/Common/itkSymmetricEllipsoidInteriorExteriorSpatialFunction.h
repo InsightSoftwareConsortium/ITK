@@ -44,7 +44,8 @@ public:
   typedef SymmetricEllipsoidInteriorExteriorSpatialFunction Self;
   typedef InteriorExteriorSpatialFunction<VDimension> Superclass;
   typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer; 
+  typedef SmartPointer<const Self>  ConstPointer;
+  typedef Vector<double,VDimension> VectorType;
       
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -67,7 +68,7 @@ public:
   
   /** Set the orientation vector of the ellipsoid's unique axis and axes lengths.
    * Must be normalized!!!!! */
-  void SetOrientation(Vector<double,VDimension> orientation, double uniqueAxis, double symmetricAxes);
+  void SetOrientation(VectorType orientation, double uniqueAxis, double symmetricAxes);
      
 protected:
   SymmetricEllipsoidInteriorExteriorSpatialFunction();
