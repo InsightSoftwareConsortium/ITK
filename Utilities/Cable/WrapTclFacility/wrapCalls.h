@@ -171,146 +171,89 @@ struct ReturnReferenceTo
 
 
 /**
- * Get the wrapper's conversion function from the given type to T.
+ * Convert the given Argument to an object of T.
+ * Get the wrapper's conversion function from the Argument's type to T.
  * If none exists, an exception is thrown.
  */
 template <typename T>
-struct ConversionFunctionTo
+struct ArgumentAs
 {
-  static ConversionFunction From(const CvQualifiedType& from,
-                                 const WrapperBase* wrapper)
+  static T Get(const WrapperBase::Argument& argument,
+                      const WrapperBase* wrapper)
     {
     // 8.3.5/3 Top level cv-qualifiers on target type never matter for
     // conversions.  They only affect the parameter inside the function body.
     const Type* to = CvType<T>::type.GetType();
     
+    // Get the argument's type from which we must convert.
+    CvQualifiedType from = argument.GetType();
+    
+    // A pointer to the conversion function.
+    ConversionFunction cf = NULL;
+    
     // If the types are the same, use the identity conversion function.
     if(to->Id() == from.GetType()->Id())
       {
-      return Converter::ObjectIdentity<T>::GetConversionFunction();
+      cf = Converter::ObjectIdentity<T>::GetConversionFunction();
+      }    
+    else
+      {
+      // We don't have a trivial conversion.  Try to lookup the
+      // conversion function.
+      cf = wrapper->GetConversionFunction(from, to);
+      // If not, we don't know how to do the conversion.
+      if(!cf)
+        {
+        throw _wrap_UnknownConversionException(from.GetName(), to->Name());
+        }
       }
     
-    // See if this conversion has been registered.
-    ConversionFunction cf = wrapper->GetConversionFunction(from, to);
-
-    // If not, we don't know how to do the conversion.
-    if(!cf)
-      {
-      throw _wrap_UnknownConversionException(from.GetName(), to->Name());
-      }
-    return cf;
+    // Perform the conversion and return the result.
+    return ConvertTo<T>::From(argument.GetValue(), cf);
     }
 };
 
 
 /**
- * Determine whether the given Tcl object can be passed as a T parameter.
+ * Convert the given Argument to a reference to T.
  */
 template <typename T>
-struct ObjectCanBe
+struct ArgumentAsReferenceTo
 {
-  static bool Test(Tcl_Obj* obj, const WrapperBase* wrapper)
+  static T& Get(const WrapperBase::Argument& argument,
+                const WrapperBase* wrapper)
     {
-    //    return Conversions::CanConvert(wrapper->GetObjectType(obj),
-    //                                   wrapper->GetType(CvType<T>::name));
-    return ConversionFunctionTo<T>::From(wrapper->GetObjectType(obj),
-                                         wrapper) != NULL;
-    }
-};
-
-
-/**
- * Convert the given Tcl object to an object that can be passed as a T
- * parameter.
- */
-template <typename T>
-struct ObjectAs
-{
-  static T Get(Tcl_Obj* obj, const WrapperBase* wrapper)
-    {
-    Tcl_Interp* interp = wrapper->GetInterpreter();
-    // First, see if Tcl has given us the type information.
-    if(TclObjectTypeIsPointer(obj))
+    // 8.3.5/3 Top level cv-qualifiers on target type never matter for
+    // conversions.  They only affect the parameter inside the function body.
+    const ReferenceType* to =
+      dynamic_cast<const ReferenceType*>(CvType<T&>::type.GetType());
+    
+    // Get the argument's type from which we must convert.
+    CvQualifiedType from = argument.GetType();
+    
+    // A pointer to the conversion function.
+    ConversionFunction cf = NULL;
+    
+    // If the "to" type exactly references the "from" type, use the
+    // reference identity conversion function.
+    if(to->GetReferencedType() == from)
       {
-      // The Tcl object stores a Pointer.
-      Pointer p;
-      Tcl_GetPointerFromObj(interp, obj, &p);
-      CvQualifiedType type = p.GetCvQualifiedType();
-      ConversionFunction cf = ConversionFunctionTo<T>::From(type, wrapper);
-      // When the conversion function dereferences its pointer, it must
-      // get a pointer, not the object.
-      void* pointer = p.GetObject();
-      return ConvertTo<T>::From(&pointer, cf);
-      }
-    else if(TclObjectTypeIsReference(obj))
-      {
-      // The Tcl object stores a Reference.
-      Reference r;
-      Tcl_GetReferenceFromObj(interp, obj, &r);
-      CvQualifiedType type = r.GetCvQualifiedType();
-      ConversionFunction cf = ConversionFunctionTo<T>::From(type, wrapper);
-      // When the conversion function dereferences its pointer, it must
-      // get the object referenced.
-      return ConvertTo<T>::From(r.GetObject(), cf);
-      }
-    else if(TclObjectTypeIsBoolean(obj))
-      {
-      // The Tcl object stores a boolean.
-      int i;
-      Tcl_GetBooleanFromObj(interp, obj, &i);
-      bool b = (i!=0);
-      ConversionFunction cf = ConversionFunctionTo<T>::From(CvType<bool>::type, wrapper);
-      // When the conversion function dereferences its pointer, it must
-      // get the bool object.
-      return ConvertTo<T>::From(&b, cf);
-      }
-    else if(TclObjectTypeIsInt(obj))
-      {
-      // The Tcl object stores an integer.
-      int i;
-      Tcl_GetIntFromObj(interp, obj, &i);
-      ConversionFunction cf = ConversionFunctionTo<T>::From(CvType<int>::type, wrapper);
-      // When the conversion function dereferences its pointer, it must
-      // get the int object.
-      return ConvertTo<T>::From(&i, cf);
-      }
-    else if(TclObjectTypeIsDouble(obj))
-      {
-      // The Tcl object stores a double.
-      double d;
-      Tcl_GetDoubleFromObj(interp, obj, &d);
-      ConversionFunction cf = ConversionFunctionTo<T>::From(CvType<double>::type, wrapper);
-      // When the conversion function dereferences its pointer, it must
-      // get the double object.
-      return ConvertTo<T>::From(&d, cf);
+      cf = Converter::ReferenceIdentity<T>::GetConversionFunction();
       }
     else
       {
-      // Tcl has not given us the type information.  The object cannot be
-      // a Pointer or Reference because it would have been converted to one
-      // by the ObjectCanBe<T>::From() test from the string representation.
-      // It must be either the name of an instance, or just a string.
-
-      // See if it the name of an instance.
-      String objectName = Tcl_GetString(obj);
-      if(wrapper->InstanceExists(objectName))
-        {        
-        CvQualifiedType type = wrapper->GetInstanceType(objectName);
-        ConversionFunction cf = ConversionFunctionTo<T>::From(type, wrapper);
-        // When the conversion function dereferences its pointer, it must
-        // get the object.
-        return ConvertTo<T>::From(wrapper->GetInstanceObject(objectName), cf);
-        }
-      else
+      // We don't have a trivial conversion.  Try to lookup the
+      // conversion function.
+      cf = wrapper->GetConversionFunction(from, to);
+      // If not, we don't know how to do the conversion.
+      if(!cf)
         {
-        // Can't identify the object type.  We will have to assume char*.
-        ConversionFunction cf = ConversionFunctionTo<T>::From(CvType<char*>::type, wrapper); 
-        // When the conversion function dereferences its pointer, it must
-        // get a pointer to char, not a char.
-        void* pointer = Tcl_GetString(obj);
-        return ConvertTo<T>::From(&pointer, cf);
+        throw _wrap_UnknownConversionException(from.GetName(), to->Name());
         }
-      }    
+      }
+    
+    // Perform the conversion and return the result.
+    return ConvertTo<T&>::From(argument.GetValue(), cf);
     }
 };
 
