@@ -68,8 +68,6 @@ public:
                                    void*,
                                    const FloatOffsetType&)
   {
-    // if this casting doesn't work for vector pixel type, push this definition
-    // of ComputeUpdate to itkNormalVectorFunctionBase
     return static_cast<PixelType>(0);
   }
 

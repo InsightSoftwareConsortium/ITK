@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkSparseImage.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #ifndef __itkSparseImage_h_
 #define __itkSparseImage_h_
 
@@ -63,7 +79,7 @@ class ITK_EXPORT SparseImage : public Image <TNode*, VImageDimension>
 
   /** This function should be used to allocate memory for a variable at the
       desired pixel location. */
-  NodeType *AddNode (const IndexType &index)
+  NodeType *AddNode(const IndexType &index)
   {
     m_NodeList->PushFront(m_NodeStore->Borrow());
     NodeType *node = m_NodeList->Front();
@@ -74,7 +90,7 @@ class ITK_EXPORT SparseImage : public Image <TNode*, VImageDimension>
 
   /** This function returns the allocated node list which can be used to
       iterate through the valid nodes. */
-  NodeListType* GetNodeList () 
+  NodeListType* GetNodeList() 
   {
    return m_NodeList;
   }
@@ -84,8 +100,8 @@ class ITK_EXPORT SparseImage : public Image <TNode*, VImageDimension>
   virtual void Initialize();
   
 protected:
-  SparseImage ();
-  ~SparseImage ();
+  SparseImage();
+  ~SparseImage();
   
   void PrintSelf(std::ostream& os, Indent indent) const;
   
