@@ -7,10 +7,10 @@
 //-------------------------------------------
 
 
-#include <itkImage.h>
+#include <itkPhysicalImage.h>
 #include <itkIndex.h>
 #include <itkSimpleImageRegionIterator.h>
-#include <itkImageAdaptor.h>
+#include <itkPhysicalImageAdaptor.h>
 #include <itkRedDataAccessor.h>
 #include <itkAddImageFilter.h>
 
@@ -24,7 +24,7 @@ int main()
 
   // Float Image typedefs
   typedef   float                                    myFloatPixelType;
-  typedef   itk::Image<myFloatPixelType, 3>          myFloatImageType;
+  typedef   itk::PhysicalImage<myFloatPixelType, 3>          myFloatImageType;
 
   typedef   myFloatImageType::SizeType               mySizeType;
   typedef   myFloatImageType::IndexType              myIndexType;
@@ -33,13 +33,13 @@ int main()
 
   // RGBPixel Image typedefs
   typedef   itk::RGBPixel<myFloatPixelType>               myRGBPixelPixelType;
-  typedef   itk::Image<myRGBPixelPixelType, 3>            myRGBPixelImageType;
+  typedef   itk::PhysicalImage<myRGBPixelPixelType, 3>            myRGBPixelImageType;
 
 
 
   typedef   itk::RedDataAccessor<myFloatPixelType> myAccessorType;
 
-  typedef   itk::ImageAdaptor<myRGBPixelImageType,
+  typedef   itk::PhysicalImageAdaptor<myRGBPixelImageType,
                               myAccessorType>        myAdaptorType;
 
   typedef itk::SimpleImageRegionIterator< 
