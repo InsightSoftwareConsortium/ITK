@@ -209,7 +209,7 @@ void DICOMAppHelper::SeriesUIDCallback(doublebyte,
     {
     std::vector<char*>* newVector = new std::vector<char*>;
    
-    int len = strlen(this->FileName);
+    ::size_t len = strlen(this->FileName);
     char* filename = new char[len + 1];
     strcpy(filename, this->FileName);
 
@@ -218,7 +218,7 @@ void DICOMAppHelper::SeriesUIDCallback(doublebyte,
     }
   else
     {
-    int len = strlen(this->FileName);
+    ::size_t len = strlen(this->FileName);
     char* filename = new char[len + 1];
     strcpy(filename, this->FileName);
 
@@ -266,7 +266,7 @@ void DICOMAppHelper::SetFileName(const char* filename)
     delete [] this->FileName;
     }
 
-  int len = strlen(filename);
+  ::size_t len = strlen(filename);
   this->FileName = new char[len + 1];
   strcpy(this->FileName, filename);
 
@@ -404,7 +404,7 @@ void DICOMAppHelper::SliceNumberCallback(doublebyte,
   std::cout << "Slice number: " << this->SliceNumber << std::endl;
 #endif
 
-  int len = strlen(this->FileName);
+  ::size_t len = strlen(this->FileName);
   char* filename = new char[len + 1];
   strcpy(filename, this->FileName);
 
@@ -800,8 +800,8 @@ bool DICOMAppHelper::RescaledImageDataIsFloat()
   float sf = float(s);
   float of = float(o);
 
-  float d1 = fabs(sf - this->RescaleSlope);
-  float d2 = fabs(of - this->RescaleOffset);
+  double d1 = fabs(sf - this->RescaleSlope);
+  double d2 = fabs(of - this->RescaleOffset);
 
   if (d1 > 0.0 || d2 > 0.0)
     {
