@@ -758,7 +758,9 @@ void Solver::DecomposeK()
  */  
 void Solver::Solve()
 {
+  std::cout<<"Initializing the solution vector\n";
   m_ls->InitializeSolution();
+  std::cout<<"Solving the system of linear equations\n";
   m_ls->Solve();
 }
 
