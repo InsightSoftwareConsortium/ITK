@@ -38,21 +38,36 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   typedef itk::IsolatedConnectedImageFilter<myImage,myImage> FilterType;
 
   FilterType::Pointer filter = FilterType::New();
-    filter->SetInput(input->GetOutput());
-
+  filter->SetInput(input->GetOutput());
+  
   FilterType::IndexType seed1;
+  
+  seed1[0] = 146; seed1[1] = 88;
+  seed1[0] = 115; seed1[1] = 170;
+  filter->SetSeed1(seed1);
+  
+  seed1[0] = 156; seed1[1] = 97;
+  seed1[0] = 107; seed1[1] = 145;
+  filter->SetSeed2(seed1);
+  
+  filter->SetLower(0);
+  filter->SetReplaceValue(255);
+  filter->SetUpperValueLimit(250);
+    
+  // Test SetMacro
+  filter->SetIsolatedValueTolerance(1);
+  
+  // Test GetMacros
+  PixelType lower = filter->GetLower();
+  std::cout << "filter->GetLower(): " << lower << std::endl;
+  PixelType isolatedValueTolerance = filter->GetIsolatedValueTolerance();
+  std::cout << "filter->GetIsolatedValueTolerance(): " << isolatedValueTolerance << std::endl;
+  PixelType upperValueLimit = filter->GetUpperValueLimit();
+  std::cout << "filter->GetUpperValueLimit(): " << upperValueLimit << std::endl;
+  PixelType replaceValue = filter->GetReplaceValue();
+  std::cout << "filter->GetReplaceValue(): " << replaceValue << std::endl;
+  
 
-    seed1[0] = 146; seed1[1] = 88;
-    seed1[0] = 115; seed1[1] = 170;
-    filter->SetSeed1(seed1);
-
-    seed1[0] = 156; seed1[1] = 97;
-    seed1[0] = 107; seed1[1] = 145;
-    filter->SetSeed2(seed1);
-
-    filter->SetLower(0);
-    filter->SetReplaceValue(255);
-    filter->SetUpperValueLimit(250);
   try
     {
     input->Update();

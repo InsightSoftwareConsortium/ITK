@@ -38,20 +38,35 @@ int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
   typedef itk::NeighborhoodConnectedImageFilter<myImage,myImage> FilterType;
 
   FilterType::Pointer filter = FilterType::New();
-    filter->SetInput(input->GetOutput());
-
+  filter->SetInput(input->GetOutput());
+  
   FilterType::IndexType seed;
-
+  
   seed[0] = 146; seed[1] = 88;
-    filter->SetSeed(seed);
+  filter->SetSeed(seed);
+  
+  filter->SetLower (0);
+  filter->SetUpper (210);
+  typedef FilterType::InputImageSizeType SizeType;
+  SizeType radius;
+  radius.Fill(5);
+  
+  filter->SetRadius(radius);
+  filter->SetReplaceValue(255);
+  
+  // Test GetMacros
+  PixelType lower = filter->GetLower();
+  std::cout << "filter->GetLower(): " << lower << std::endl;
+  PixelType upper  = filter->GetUpper();
+  std::cout << "filter->GetUpper(): " << upper << std::endl;
+  PixelType replaceValue = filter->GetReplaceValue();
+  std::cout << "filter->GetReplaceValue(): " << replaceValue << std::endl;
+  
+  // Test GetConstReferenceMacro
+  const SizeType & radius2 = filter->GetRadius();
+  std::cout << "filter->GetRadius(): " << radius2 << std::endl;
 
-    filter->SetLower (0);
-    filter->SetUpper (210);
-    FilterType::InputImageSizeType radius;
-    radius.Fill(5);
 
-    filter->SetRadius(radius);
-    filter->SetReplaceValue(255);
   try
     {
     input->Update();
