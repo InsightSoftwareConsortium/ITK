@@ -63,17 +63,17 @@ namespace fem {
  * Derive this class to create new finite element classes.
  * All derived classes must define:
  *
- *    N():    function that returns the number of degrees of freedom in element
- *    Ke():    function to calculate the element stiffness matrix in global coordinate system
- *    Fe():    function to calculate the element force vector in global coordinate system
- *    uDOF(i):  provides a pointer to storage of i-th DOF displacement in the element
- *    Clone():  function that creates a duplicate of current element and returns a pointer to it
+ *    - N():     Function that returns the number of degrees of freedom in element.
+ *    - Ke():    Function to calculate the element stiffness matrix in global coordinate system.
+ *    - Fe():    Function to calculate the element force vector in global coordinate system.
+ *    - uDOF():  Provide a pointer to storage of i-th DOF displacement in the element.
+ *    - Clone(): Function that creates a duplicate of current element and returns a pointer to it.
  *
- *  optionally (if required):
- *    Read(f):  reads element data from the stream f. assume that the stream position is
- *          already where the element data starts. take care of the error checking
- *    Write(f):  writes element data to the stream.
- *    Draw(pDC):  draws the elemenet on the provided device context (Windows only)
+ * and optionally (if required):
+ *    - Read():  Reads element data from the stream f. assume that the stream position is
+ *               already where the element data starts. Take care of the error checking.
+ *    - Write(): Writes element data to the stream.
+ *    - Draw():  Draws the element on the device context (Windows only).
  *
  * The storage of element parameters (geometry...) can't be implemented here, since we don't know yet, 
  * how much memory each element needs. Instead each derived class should take care of the memory 
@@ -81,7 +81,7 @@ namespace fem {
  * to these parameters (like nodes, materials...).
  */
 
-/** We need forward declaration of the LoadElement base class. */
+/* We need forward declaration of the LoadElement base class. */
 class LoadElement;
 
 class Element : public FEMLightObject
@@ -94,9 +94,10 @@ public:
   typedef Node::Float Float;
 
   /**
-   * Class type used in Node and derived classes to specify displacements
+   * Class type used in Node and derived classes to specify
+   * displacements is redefined here for easier access.
    */
-  typedef Node::Displacement Disp;
+  typedef Node::Displacement Displacement;
 
   /**
    * Array class that holds special pointers to the Element objects
@@ -166,7 +167,8 @@ public:
   /**
    * Pure virtual function that returns a pointer to an allocated memory that stores displacement
    * of i-th degree of freedom (DOF) of this element.
-   * Number of different pointers in a whole system determines global number of DOF. if two
+   *
+   * Number of different pointers in a whole system determines global number of DOF. If two
    * pointers in two different elements point to the same location, this means that those two
    * elements share that DOF and are connected together.
    *
@@ -175,7 +177,7 @@ public:
    * (when i is out of range for example), derived function should call
    * implementation in base class (this one).
    */
-  virtual Disp* uDOF(int i) const = 0;
+  virtual Displacement* uDOF(int i) const = 0;
 
   /**
    * \class ReadInfoType

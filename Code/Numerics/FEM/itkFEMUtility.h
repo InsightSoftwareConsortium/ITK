@@ -52,6 +52,15 @@ namespace fem {
 
 
 /**
+ * \file itkFEMUtility.h
+ * \brief Includes various helper classes and functions used 
+          througout the FEM code.
+ */
+
+
+
+
+/**
  * Function that skips all the whitespace and comments in an input stream.
  */
 void SkipWhiteSpace(std::istream& f);

@@ -85,7 +85,7 @@ public:
    * Pointers to DOF displacements, which are stored
    * in node classes
    */
-  Disp* uDOF(int i) const {
+  Displacement* uDOF(int i) const {
     switch ( i ) {
       case 0:
         return &m_node1->uX;

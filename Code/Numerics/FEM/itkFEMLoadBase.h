@@ -65,18 +65,23 @@ class Load : public FEMLightObject
 FEM_CLASS_SP(Load,FEMLightObject)
 public:
 
-  /** array class that holds special pointers to the load objects */
+  /** Array class that holds special pointers to the load objects */
   typedef FEMPArray<Self> ArrayType;
 
   /**
+   * \class ReadInfoType
+   * \brief Additional information that is required when reading load
+            objects from stream.
+   *
    * When the load object is to be read from the input stream, we must provide
    * pointers to the array of nodes and elements. Construct this class and
    * pass a pointer to it when calling the Read member function for loads.
    */
   class ReadInfoType {
   public:
-    Node::ArrayType::ConstPointer m_node;   /** We need pointer to an array nodes */
-    Element::ArrayType::ConstPointer m_el;  /** We also need pointer to array of elements */
+    Node::ArrayType::ConstPointer m_node;   /**< Pointer to an array nodes */
+    Element::ArrayType::ConstPointer m_el;  /**< Pointer to an array of elements */
+    /** Constructor for simple object creation. */
     ReadInfoType(  Node::ArrayType::ConstPointer node_,
             Element::ArrayType::ConstPointer el_) :
       m_node(node_), m_el(el_) {}

@@ -101,7 +101,7 @@ public:
   /**
    * Look up table for mapping between global freedom number and pointers to DOF displacements
    */
-  typedef std::vector<Element::Disp*> GFN2DispMapType;
+  typedef std::vector<Element::Displacement*> GFN2DispMapType;
   GFN2DispMapType GFN2Disp;
 
   /**

@@ -126,9 +126,9 @@ public:
 
   /* Windows visualization */
   #ifdef FEM_BUILD_VISUALIZATION
-    /* draws the node on the DC */
+    /** Draws the node on the DC */
     virtual void Draw(CDC* pDC) const {}
-    /* global scale for drawing on the DC */
+    /** Global scale for drawing on the DC */
     static double DC_Scale;
   #endif
 

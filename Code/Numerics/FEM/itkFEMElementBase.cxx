@@ -52,7 +52,7 @@ namespace fem {
 
 
 
-Element::Disp* Element::uDOF(int i) const
+Element::Displacement* Element::uDOF(int i) const
 {
   /**
    * If we got here we throw an exception. This means that some
