@@ -133,9 +133,9 @@ CovariantVector<T, TCovariantVectorDimension>
  *
  */
 template<class T, unsigned int TCovariantVectorDimension>
-const CovariantVector<T, TCovariantVectorDimension> &
+const CovariantVector<T, TCovariantVectorDimension>::Self &
 CovariantVector<T, TCovariantVectorDimension>
-::operator+=( const CovariantVector<T, TCovariantVectorDimension> & vec )
+::operator+=( const Self & vec )
 {
   for( unsigned int i=0; i<TCovariantVectorDimension; i++) 
   {
@@ -149,9 +149,9 @@ CovariantVector<T, TCovariantVectorDimension>
  *
  */
 template<class T, unsigned int TCovariantVectorDimension>
-const CovariantVector<T, TCovariantVectorDimension> &
+const CovariantVector<T, TCovariantVectorDimension>::Self &
 CovariantVector<T, TCovariantVectorDimension>
-::operator-=( const CovariantVector<T, TCovariantVectorDimension> & vec )
+::operator-=( const Self & vec )
 {
   for( unsigned int i=0; i<TCovariantVectorDimension; i++) 
   {
@@ -183,9 +183,9 @@ CovariantVector<T, TCovariantVectorDimension>
  * Returns a temporary copy of a vector
  */
 template<class T, unsigned int TCovariantVectorDimension>
-CovariantVector<T, TCovariantVectorDimension> 
+CovariantVector<T, TCovariantVectorDimension>::Self
 CovariantVector<T, TCovariantVectorDimension>
-::operator+( const CovariantVector<T, TCovariantVectorDimension> & vec ) const
+::operator+( const Self & vec ) const
 {
   Self result;
   for( unsigned int i=0; i<TCovariantVectorDimension; i++) 
@@ -201,9 +201,9 @@ CovariantVector<T, TCovariantVectorDimension>
  * Returns a temporary copy of a vector
  */
 template<class T, unsigned int TCovariantVectorDimension>
-CovariantVector<T, TCovariantVectorDimension> 
+CovariantVector<T, TCovariantVectorDimension>::Self 
 CovariantVector<T, TCovariantVectorDimension>
-::operator-( const CovariantVector<T, TCovariantVectorDimension> & vec )  const
+::operator-( const Self & vec )  const
 {
   Self result;
   for( unsigned int i=0; i<TCovariantVectorDimension; i++) 
