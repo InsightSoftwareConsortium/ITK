@@ -162,11 +162,11 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
 
     if( count > medianPosition )
       {
-      it.Set( m_ForegroundValue );
+      it.Set( static_cast<OutputPixelType>( m_ForegroundValue ) );
       }
     else 
       {
-      it.Set( m_BackgroundValue );
+      it.Set( static_cast<OutputPixelType>( m_BackgroundValue ) );
       }
 
     ++nit;
@@ -203,11 +203,11 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
 
       if( count > medianPosition )
         {
-        it.Set( m_ForegroundValue );
+        it.Set( static_cast<OutputPixelType>( m_ForegroundValue ) );
         }
       else 
         {
-        it.Set( m_BackgroundValue );
+        it.Set( static_cast<OutputPixelType>( m_BackgroundValue ) );
         }
        
       ++bit;
