@@ -62,7 +62,7 @@ int itkFEMLandmarkLoadImplementationTest(int, char*[])
 
     S.node.Renumber();
 
-    cout << "Nodes\n";
+    std::cout << "Nodes\n";
 
     MaterialLinearElasticity::Pointer m;
     m=MaterialLinearElasticity::New();
@@ -72,7 +72,7 @@ int itkFEMLandmarkLoadImplementationTest(int, char*[])
     m->I=0.004;
     S.mat.push_back( FEMP<Material>(&*m) );
 
-    cout << "Material\n";
+    std::cout << "Material\n";
 
     Element2DC0LinearQuadrilateralMembrane::Pointer e0 = Element2DC0LinearQuadrilateralMembrane::New();
 
@@ -83,7 +83,7 @@ int itkFEMLandmarkLoadImplementationTest(int, char*[])
     e0->SetNode(3, &*S.node.Find(3));
     e0->m_mat=dynamic_cast<MaterialLinearElasticity*>(&*S.mat.Find(0));
 
-    cout << "Element\n";
+    std::cout << "Element\n";
 
     LoadBC::Pointer l1 = LoadBC::New();
     l1->m_element = &*e0;
@@ -91,7 +91,7 @@ int itkFEMLandmarkLoadImplementationTest(int, char*[])
     l1->m_value = vnl_vector<double>(1,0.0);
     S.load.push_back(FEMP<Load>(*&l1));
 
-    cout << "BC\n";
+    std::cout << "BC\n";
 
     LoadLandmark::Pointer lm0 = LoadLandmark::New();
     lm0->eta = 0.01;
@@ -101,20 +101,24 @@ int itkFEMLandmarkLoadImplementationTest(int, char*[])
     lm0->el.push_back(&*e0);
     S.load.push_back(FEMP<Load>(&*lm0));
 
-    cout << "Landmark\n";
+    std::cout << "Landmark\n";
 
     S.GenerateGFN();
     S.AssembleK();
     S.DecomposeK();
     S.AssembleF();
 
-    cout << "Assembled\n";
+    std::cout << "Assembled\n";
 
-    try { S.Solve(); }
-    catch (ExceptionObject &e) {
-      cout << "Exception caught: " << e << "\n";
+    try 
+      { 
+      S.Solve();
+      }
+    catch (ExceptionObject &e) 
+      {
+      std::cerr << "Exception caught: " << e << "\n";
       return EXIT_FAILURE;
-    }
+      }
 
     std::cout << "Test PASSED!\n";
     return EXIT_SUCCESS;
