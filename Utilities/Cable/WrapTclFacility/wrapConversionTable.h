@@ -235,6 +235,23 @@ struct PointerDerivedToBase
 };
 
 
+/**
+ * A conversion function for pointers to functions.
+ */
+template <typename To>
+struct FunctionPointer
+{
+  static To Convert(Anything in)
+    {
+    return reinterpret_cast<To>(in.function);
+    }
+  inline static ConversionFunction GetConversionFunction()
+    {
+    return reinterpret_cast<ConversionFunction>(&FunctionPointer::Convert);
+    }
+};
+
+
 // Conversion functions returning references:
 
 /**
