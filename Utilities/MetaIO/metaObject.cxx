@@ -668,7 +668,6 @@ Clear(void)
     {
     if(META_DEBUG) std::cout << "field = " << (*fieldIter)->name << std::endl;
     MET_FieldRecordType* field = *fieldIter;
-    fieldIter++;
     delete field;
     if(META_DEBUG) std::cout << " has been deleted." << std::endl;
     }
