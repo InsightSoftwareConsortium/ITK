@@ -40,6 +40,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #include "cableSourceRepresentation.h"
 
+#include <iostream>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <strstream>
@@ -51,7 +53,100 @@ namespace source
  * A singe instance of the TypeSystem will be used to register all
  * cxx type representations.  This is it.
  */
-cxx::TypeSystem typeSystem;
+cxx::TypeSystem CxxTypes::typeSystem;
+
+/**
+ * Register an ArrayType having the given element type and size.
+ */
+cxx::CvQualifiedType
+CxxTypes::GetArrayType(const cxx::CvQualifiedType& elementType,
+                       unsigned long size)
+{
+  return typeSystem.GetArrayType(elementType, size)
+    ->GetCvQualifiedType(false, false);
+}
+
+
+/**
+ * Register a ClassType having the given name, cv-qualifiers, and
+ * (optionally) parents.
+ */
+cxx::CvQualifiedType
+CxxTypes::GetClassType(const String& name,
+                       bool isConst, bool isVolatile,
+                       const cxx::ClassTypes& parents)
+{
+  return typeSystem.GetClassType(name, parents)
+    ->GetCvQualifiedType(isConst, isVolatile);
+}
+
+
+/**
+ * Register a FunctionType having the given return type, argument types,
+ * and cv-qualifiers.
+ */
+cxx::CvQualifiedType
+CxxTypes::GetFunctionType(const cxx::CvQualifiedType& returnType,
+                          const cxx::CvQualifiedTypes& argumentTypes,
+                          bool isConst, bool isVolatile)
+{
+  return typeSystem.GetFunctionType(returnType, argumentTypes)
+    ->GetCvQualifiedType(isConst, isVolatile);
+}
+
+
+/**
+ * Register a FundamentalType having the given type id and cv-qualifiers.
+ */
+cxx::CvQualifiedType
+CxxTypes::GetFundamentalType(cxx::FundamentalType::Id id,
+                             bool isConst, bool isVolatile)
+{
+//#ifdef _wrap_NO_WCHAR_T
+//  if(id == FundamentalType::WChar_t) { id = FundamentalType::UnsignedShortInt; }
+//#endif
+  return typeSystem.GetFundamentalType(id)
+    ->GetCvQualifiedType(isConst, isVolatile);
+}
+
+
+/**
+ * Register a PointerType pointing to the given type and having the
+ * given cv-qualifiers.
+ */
+cxx::CvQualifiedType
+CxxTypes::GetPointerType(const cxx::CvQualifiedType& referencedType,
+                         bool isConst, bool isVolatile)
+{
+  return typeSystem.GetPointerType(referencedType)
+    ->GetCvQualifiedType(isConst, isVolatile);
+}
+
+
+/**
+ * Register a PointerToMemberType pointing to the given type inside the
+ * given ClassType and having the given cv-qualifiers.
+ */
+cxx::CvQualifiedType
+CxxTypes::GetPointerToMemberType(const cxx::CvQualifiedType& referencedType,
+                                 const cxx::ClassType* classScope,
+                                 bool isConst, bool isVolatile)
+{
+  return typeSystem.GetPointerToMemberType(referencedType, classScope)
+    ->GetCvQualifiedType(isConst, isVolatile);
+}
+
+
+/**
+ * Register a ReferenceType referencing the given type.
+ */
+cxx::CvQualifiedType
+CxxTypes::GetReferenceType(const cxx::CvQualifiedType& referencedType)
+{
+  return typeSystem.GetReferenceType(referencedType)
+    ->GetCvQualifiedType(false, false);
+}
+
 
 /**
  * Convert the given string to a valid C identifier.
@@ -223,6 +318,17 @@ ArrayType
 ::New(int min, int max)
 {
   return new ArrayType(min, max);
+}
+
+
+/**
+ * Construct a new Typedef and return a smart pointer to it.
+ */
+Typedef::Pointer
+Typedef
+::New(const String& name)
+{
+  return new Typedef(name);
 }
 
 
@@ -413,494 +519,15 @@ UnimplementedNameHolder
 }
 
 
-/**
- * Get the string representation of the cv-qualifiers.
- */
-String
-CvQualifiers
-::GetString() const
+const Namespace*
+Context
+::GetGlobalNamespace() const
 {
-  String qualifiers = "";
-  if(m_Const)
-    {
-    if(qualifiers.length() > 0) qualifiers += " ";
-    qualifiers = "const";
-    }
-  if(m_Volatile)
-    {
-    if(qualifiers.length() > 0) qualifiers += " ";
-    qualifiers += "volatile";
-    }
-  if(m_Restrict)
-    {
-    if(qualifiers.length() > 0) qualifiers += " ";
-    qualifiers += "restrict";
-    }
-  return qualifiers;
-}
-
-
-/**
- * Get the string representation of the argument.
- */
-String
-Argument
-::GetStringWithCV() const
-{
-  this->AssertComplete(__FILE__, __LINE__);  
-  String defaultArg = "";
-  if(m_Default.length() > 0)
-    {
-    defaultArg = "="+m_Default;
-    }
-
-  if((this->GetName().length() > 0) || (defaultArg.length() > 0))
-    {
-    return (m_Type->GetNameWithCV() + " " + this->GetName() + defaultArg);
-    }
+  if(m_Context)
+    { return m_Context->GetGlobalNamespace(); }
   else
-    {
-    return m_Type->GetNameWithCV();
-    }
-}
-
-
-/**
- * Get the string representation of the argument without a cv-qualified type.
- */
-String
-Argument
-::GetStringWithoutCV() const
-{
-  this->AssertComplete(__FILE__, __LINE__);  
-  String defaultArg = "";
-  if(m_Default.length() > 0)
-    {
-    defaultArg = "="+m_Default;
-    }
-  
-  if((this->GetName().length() > 0) || (defaultArg.length() > 0))
-    {
-    return (m_Type->GetNameWithoutCV() + " " + this->GetName() + defaultArg);
-    }
-  else
-    {
-    return m_Type->GetNameWithoutCV();
-    }
-}
-
-
-/**
- * Get the name of the type with cv-qualifiers.
- */
-String
-NamedType
-::GetNameWithCV(const Type* indirect) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  String indirectStr = "";
-  if(indirect)
-    {
-    indirectStr = indirect->GetIndirectionWithCV();
-    }
-  if(this->GetCV().length() > 0)
-    {
-    return (this->GetCV()+" "+m_QualifiedName->Get()+indirectStr);
-    }
-  else
-    {
-    return (m_QualifiedName->Get()+indirectStr);
-    }
-}
-
-
-/**
- * Get the name of the type without cv-qualifiers.
- */
-String
-NamedType
-::GetNameWithoutCV(const Type* indirect) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  if(indirect)
-    {
-    return (m_QualifiedName->Get()+indirect->GetIndirectionWithoutCV());
-    }
-  else
-    {
-    return (m_QualifiedName->Get());
-    }
-}
-
-
-/**
- * Get the name of the pointer type with cv qualifiers.
- */
-String
-PointerType
-::GetNameWithCV(const Type* indirect) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  if(indirect)
-    {
-    return (m_PointedToType->GetNameWithCV(this)
-            + indirect->GetIndirectionWithCV());
-    }
-  else
-    {
-    return (m_PointedToType->GetNameWithCV(this));
-    }
-}
-
-
-/**
- * Get the name of the pointer type without cv qualifiers.
- */
-String
-PointerType
-::GetNameWithoutCV(const Type* indirect) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  if(indirect)
-    {
-    return (m_PointedToType->GetNameWithoutCV(this));
-    }
-  else
-    {
-    return (m_PointedToType->GetNameWithoutCV(this)
-            + indirect->GetIndirectionWithoutCV());
-    }
-}
-
-
-/**
- * Get the indirection string for the pointer with cv-qualifiers.
- */
-String
-PointerType
-::GetIndirectionWithCV() const
-{
-  return ("*"+this->GetCV());
-}
-
-
-/**
- * Get the indirection string for the pointer without cv-qualifiers.
- */
-String
-PointerType
-::GetIndirectionWithoutCV() const
-{
-  return ("*");
-}
-
-
-/**
- * Get the name of the reference type with cv-qualifiers.
- */
-String
-ReferenceType
-::GetNameWithCV(const Type* indirect) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  if(indirect)
-    {
-    throw IndirectionOnReferenceException;
-    return "";
-    }
-  else
-    {
-    return (m_ReferencedType->GetNameWithCV(this));
-    }
-}
-
-
-/**
- * Get the name of the reference type without cv-qualifiers.
- */
-String
-ReferenceType
-::GetNameWithoutCV(const Type* indirect) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  if(indirect)
-    {
-    throw IndirectionOnReferenceException;
-    return "";
-    }
-  else
-    {
-    return (m_ReferencedType->GetNameWithoutCV(this));
-    }
-}
-
-
-/**
- * Get the indirection string for the reference with cv-qualifiers.
- */
-String
-ReferenceType
-::GetIndirectionWithCV() const
-{
-  return ("&"+this->GetCV());
-}
-
-
-/**
- * Get the indirection string for the reference without cv-qualifiers.
- */
-String
-ReferenceType
-::GetIndirectionWithoutCV() const
-{
-  return ("&");
-}
-
-
-/**
- * Get the name of the function type.  The following format is used:
- * <return type>? ( <indirection/qualifiers>? ) ( <arguments> ) <qualifiers>?
- */
-String
-FunctionType
-::GetNameWithCV(const Type* indirect) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  String indirectionString = "";
-  if(indirect) indirectionString = indirect->GetIndirectionWithCV();
-  
-  String returns = "";
-  if(this->GetReturns())
-    {
-    returns = this->GetReturns()->GetType()->GetNameWithCV() + " ";
-    }
-  
-  String arguments = "";
-  int numArgs = this->GetArgumentCount();
-  for(int arg = 0; arg < numArgs-1 ; ++arg)
-    {
-    arguments += this->GetArgument(arg)->GetStringWithCV() + " , ";
-    }
-  if(numArgs > 0)
-    {
-    arguments += this->GetArgument(numArgs-1)->GetStringWithCV();
-    }
-  
-  return (returns + "(" + indirectionString + ")( " + arguments + " )"
-          + this->GetCV());
-}
-
-
-/**
- * Get the name of the function type.  The following format is used:
- * <return type>? ( <indirection>? ) ( <arguments> )
- */
-String
-FunctionType
-::GetNameWithoutCV(const Type* indirect) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  String indirectionString = "";
-  if(indirect) indirectionString = indirect->GetIndirectionWithoutCV();
-  
-  String returns = "";
-  if(this->GetReturns())
-    {
-    returns = this->GetReturns()->GetType()->GetNameWithCV() + " ";
-    }
-  
-  String arguments = "";
-  int numArgs = this->GetArgumentCount();
-  for(int arg = 0; arg < numArgs-1 ; ++arg)
-    {
-    arguments += this->GetArgument(arg)->GetStringWithoutCV() + " , ";
-    }
-  if(numArgs > 0)
-    {
-    arguments += this->GetArgument(numArgs-1)->GetStringWithoutCV();
-    }
-  
-  return (returns + "(" + indirectionString + ")( " + arguments + " )");
-}
-
-
-/**
- * Get the name of the method type.  The following format is used:
- * <return type>? ( <base type>:: <indirection/qualifiers>? )
- *                                            ( <arguments> ) <qualifiers>?
- */
-String
-MethodType
-::GetNameWithCV(const Type* indirect) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  String indirectionString = "";
-  if(indirect) indirectionString = indirect->GetIndirectionWithCV();
-  
-  String returns = "";
-  if(this->GetReturns())
-    {
-    returns = this->GetReturns()->GetType()->GetNameWithCV() + " ";
-    }
-  
-  String arguments = "";
-  int numArgs = this->GetArgumentCount();
-  for(int arg = 0; arg < numArgs-1 ; ++arg)
-    {
-    arguments += this->GetArgument(arg)->GetStringWithCV() + " , ";
-    }
-  if(numArgs > 0)
-    {
-    arguments += this->GetArgument(numArgs-1)->GetStringWithCV();
-    }
-  
-  return (returns + "(" + m_BaseType->GetQualifiedName() + "::" + indirectionString
-          + ")( " + arguments + " )" + this->GetCV());
-}
-
-
-/**
- * Get the name of the method type.  The following format is used:
- * <return type>? ( <base type>:: <indirection>? ) ( <arguments> )
- */
-String
-MethodType
-::GetNameWithoutCV(const Type* indirect) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  String indirectionString = "";
-  if(indirect) indirectionString = indirect->GetIndirectionWithoutCV();
-  
-  String returns = "";
-  if(this->GetReturns())
-    {
-    returns = this->GetReturns()->GetType()->GetNameWithCV() + " ";
-    }
-  
-  String arguments = "";
-  int numArgs = this->GetArgumentCount();
-  for(int arg = 0; arg < numArgs-1 ; ++arg)
-    {
-    arguments += this->GetArgument(arg)->GetStringWithoutCV() + " , ";
-    }
-  if(numArgs > 0)
-    {
-    arguments += this->GetArgument(numArgs-1)->GetStringWithoutCV();
-    }
-  
-  return (returns + "(" + m_BaseType->GetQualifiedName() + "::" + indirectionString
-          + ")( " + arguments + " )");
-}
-
-
-
-/**
- * Get the name of the offset type (pointer to member) with cv-qualifiers.
- */
-String
-OffsetType
-::GetNameWithCV(const Type* indirect) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  if(indirect)
-    {
-    return (m_MemberType->GetNameWithCV()+" "+m_BaseType->GetQualifiedName()+"::"
-            +indirect->GetIndirectionWithCV());
-    }
-  else
-    {
-    return (m_MemberType->GetNameWithCV()+" "+m_BaseType->GetQualifiedName()+"::");
-    }
-}
-
-
-/**
- * Get the name of the offset type (pointer to member) without cv-qualifiers.
- */
-String
-OffsetType
-::GetNameWithoutCV(const Type* indirect) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  if(indirect)
-    {
-    return (m_MemberType->GetNameWithoutCV()+" "+m_BaseType->GetQualifiedName()+"::"
-            +indirect->GetIndirectionWithoutCV());
-    }
-  else
-    {
-    return (m_MemberType->GetNameWithoutCV()+" "+m_BaseType->GetQualifiedName()+"::");
-    }
-}
-
-
-/**
- * Get the name of the array type with cv-qualifiers.
- */
-String
-ArrayType
-::GetNameWithCV(const Type* indirect) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  char sizeStr[sizeof(m_Size)*3+2];
-  
-  sprintf(sizeStr,"%d", m_Size);
-  
-  if(indirect)
-    {
-    return (m_ElementType->GetNameWithCV()+"["+String(sizeStr)+"]"
-            +indirect->GetIndirectionWithCV());
-    }
-  else
-    {
-    return (m_ElementType->GetNameWithCV()+"["+String(sizeStr)+"]");
-    }
-}
-
-
-/**
- * Get the name of the array type without cv-qualifiers.
- */
-String
-ArrayType
-::GetNameWithoutCV(const Type* indirect) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  char sizeStr[sizeof(m_Size)*3+2];
-  
-  sprintf(sizeStr,"%d", m_Size);
-  
-  if(indirect)
-    {
-    return (m_ElementType->GetNameWithoutCV()+"["+String(sizeStr)+"]"
-            +indirect->GetIndirectionWithoutCV());
-    }
-  else
-    {
-    return (m_ElementType->GetNameWithoutCV()+"["+String(sizeStr)+"]");
-    }
-}
-
-
-#define XML_NESTED_INDENT 2
-
-/**
- * Print "indent" spaces to file "file".
- */
-static void PrintIndent(FILE* file, unsigned int indent)
-{
-  unsigned int count = indent;
-  while(count >= 10)
-    {
-    fprintf(file, "          ");
-    count -= 10;
-    }
-  while(count > 0)
-    {
-    fprintf(file, " ");
-    --count;
-    }
-}
+    { return dynamic_cast<const Namespace*>(this); }
+}  
 
 
 /**
@@ -922,587 +549,182 @@ Context
 }
 
 
-/**
- * Print out a location tag.
- */
-void
-Location
-::Print(FILE* file, unsigned int indent) const
+cxx::CvQualifiedType NamedType::GetCxxType(const Namespace* gns) const
 {
-  PrintIndent(file, indent);
-  fprintf(file, "<Location file=\"%s\" line=\"%d\"/>\n",
-          m_File.c_str(), m_Line);
+  // Try looking up the name as a class type.
+  String name = m_QualifiedName->Get();
+  bool isConst = this->IsConst();
+  bool isVolatile = this->IsVolatile();
+  // If the type has no qualifiers, it may be a fundamental type.
+  if(m_QualifiedName->GetTypeOfObject() == QualifiedName_id)
+    {
+    if(name == "unsigned char")
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::UnsignedChar,
+                                          isConst, isVolatile);
+      }
+    else if(name == "unsigned short")
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::UnsignedShortInt,
+                                          isConst, isVolatile);
+      }
+    else if(name == "unsigned int")
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::UnsignedInt,
+                                          isConst, isVolatile);
+      }
+    else if((name == "unsigned long") || (name == "long unsigned int"))
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::UnsignedLongInt,
+                                          isConst, isVolatile);
+      }
+    else if(name == "signed char")
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::SignedChar,
+                                          isConst, isVolatile);
+      }
+    else if(name == "char")
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::Char,
+                                          isConst, isVolatile);
+      }
+    else if((name == "short") || (name == "signed short"))
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::ShortInt,
+                                          isConst, isVolatile);
+      }
+    else if((name == "int") || (name == "signed int"))
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::Int,
+                                          isConst, isVolatile);
+      }
+    else if((name == "long") || (name == "signed long") || (name == "long int"))
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::LongInt,
+                                          isConst, isVolatile);
+      }
+    else if(name == "wchar_t")
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::WChar_t,
+                                          isConst, isVolatile);
+      }
+    else if(name == "bool")
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::Bool,
+                                          isConst, isVolatile);
+      }
+    else if(name == "float")
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::Float,
+                                          isConst, isVolatile);
+      }
+    else if(name == "double")
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::Double,
+                                          isConst, isVolatile);
+      }
+    else if(name == "long double")
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::LongDouble,
+                                          isConst, isVolatile);
+      }
+    else if(name == "void")
+      {
+      return CxxTypes::GetFundamentalType(cxx::FundamentalType::Void,
+                                          isConst, isVolatile);
+      }
+    }
+  const Class* c = gns->LookupClass(name);
+  if(c)
+    {
+    const cxx::ClassType* classType = c->GetCxxClassType(gns);
+    return classType->GetCvQualifiedType(isConst, isVolatile);
+    }
+  // Couldn't identify the type.
+  std::cerr << "NamedType::GetCxxType()" << std::endl
+            << "  ERROR: Couldn't identify type \"" << name.c_str() << "\"" << std::endl;
+  return cxx::CvQualifiedType();
 }
 
-
-/**
- * Print out the classes in this context.
- */
-void
-Context
-::PrintClasses(FILE* file, unsigned int indent) const
+cxx::CvQualifiedType PointerType::GetCxxType(const Namespace* gns) const
 {
-  for(ClassesIterator c = m_Classes.begin() ; c != m_Classes.end() ; ++c)
+  if(m_PointedToType->IsMethodType())
     {
-    (*c)->Print(file, indent);
+    return m_PointedToType->GetCxxType(gns);
+    }
+  else if(m_PointedToType->IsOffsetType())
+    {
+    return m_PointedToType->GetCxxType(gns);
+    }
+  else
+    {
+    cxx::CvQualifiedType pointedToType = m_PointedToType->GetCxxType(gns);
+    return CxxTypes::GetPointerType(pointedToType,
+                                    this->IsConst(),
+                                    this->IsVolatile());
     }
 }
 
-
-/**
- * Print the namespace.
- */
-void
-Namespace
-::Print(FILE* file, unsigned int indent) const
+cxx::CvQualifiedType ReferenceType::GetCxxType(const Namespace* gns) const
 {
-  String name = this->GetName();
-  String context = "";
-  
-  if(this->GetContext())
+  cxx::CvQualifiedType referencedType = m_ReferencedType->GetCxxType(gns);
+  return CxxTypes::GetReferenceType(referencedType);
+}
+
+cxx::CvQualifiedType FunctionType::GetCxxType(const Namespace* gns) const
+{
+  cxx::CvQualifiedType returnType;
+  cxx::CvQualifiedTypes argumentTypes;
+  if(m_Returns && m_Returns->GetType())
     {
-    context = this->GetContext()->GetQualifiedName();
+    returnType = m_Returns->GetType()->GetCxxType(gns);
     }
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "<Namespace name=\"%s\" context=\"%s\">\n",
-          name.c_str(), context.c_str());
-  
-  this->PrintClasses(file, indent+XML_NESTED_INDENT);
-
-  PrintIndent(file, indent);
-  fprintf(file,
-          "</Namespace>\n");
-}
-
-
-/**
- * Print the base classes for this class.
- */
-void
-Class
-::PrintBaseClasses(FILE* file, unsigned int indent) const
-{
-  for(BaseClassesIterator bc = m_BaseClasses.begin();
-      bc != m_BaseClasses.end(); ++bc)
+  else
     {
-    (*bc)->Print(file, indent);
+    returnType = CxxTypes::GetFundamentalType(cxx::FundamentalType::Void,
+                                              false, false);
     }
-}
-
-
-/**
- * Print the class.
- */
-void
-Class
-::Print(FILE* file, unsigned int indent) const
-{
-  String name = this->GetName();
-  String context = "";
-  
-  if(this->GetContext())
+  for(ArgumentContainer::const_iterator arg = m_Arguments.begin();
+      arg != m_Arguments.end(); ++arg)
     {
-    context = this->GetContext()->GetQualifiedName();
+    argumentTypes.push_back((*arg)->GetType()->GetCxxType(gns));
     }
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "<Class name=\"%s\" context=\"%s\">\n",
-          name.c_str(), context.c_str());
-  
-  this->GetLocation()->Print(file, indent+XML_NESTED_INDENT);
-  this->PrintClasses(file, indent+XML_NESTED_INDENT);
-  this->PrintMethods(file, indent+XML_NESTED_INDENT);
-  this->PrintBaseClasses(file, indent+XML_NESTED_INDENT);
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "</Class>\n");
+  return CxxTypes::GetFunctionType(returnType, argumentTypes, false, false);
+}
+
+cxx::CvQualifiedType MethodType::GetCxxType(const Namespace* gns) const
+{
+  cxx::CvQualifiedType functionType = this->FunctionType::GetCxxType(gns);
+  const cxx::ClassType* classType = gns->LookupClass(m_BaseType->GetQualifiedName())->GetCxxClassType(gns);
+  return CxxTypes::GetPointerToMemberType(functionType, classType,
+                                          this->IsConst(), this->IsVolatile());
+}
+
+cxx::CvQualifiedType OffsetType::GetCxxType(const Namespace* gns) const
+{
+  cxx::CvQualifiedType memberType = m_MemberType->GetCxxType(gns);
+  const cxx::ClassType* classType = gns->LookupClass(m_BaseType->GetQualifiedName())->GetCxxClassType(gns);
+  return CxxTypes::GetPointerToMemberType(memberType, classType,
+                                          this->IsConst(), this->IsVolatile());
+}
+
+cxx::CvQualifiedType ArrayType::GetCxxType(const Namespace* gns) const
+{
+  cxx::CvQualifiedType elementType = m_ElementType->GetCxxType(gns);
+  return CxxTypes::GetArrayType(elementType, m_Size);
 }
 
 
-/**
- * Print the methods in this class.
- */
-void
-Class
-::PrintMethods(FILE* file, unsigned int indent) const
+const cxx::ClassType* Class::GetCxxClassType(const Namespace* gns) const
 {
-  for(MethodsIterator m = m_Methods.begin() ; m != m_Methods.end() ; ++m)
+  cxx::ClassTypes baseTypes;
+  for(BaseClassContainer::const_iterator base = m_BaseClasses.begin();
+      base != m_BaseClasses.end(); ++base)
     {
-    (*m)->Print(file, indent);
-    }  
-}
-
-
-/**
- * Print the struct.
- */
-void
-Struct
-::Print(FILE* file, unsigned int indent) const
-{
-  String name = this->GetName();
-  String context = "";
-  
-  if(this->GetContext())
-    {
-    context = this->GetContext()->GetQualifiedName();
+    baseTypes.push_back((*base)->GetClass()->GetCxxClassType(gns));
     }
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "<Struct name=\"%s\" context=\"%s\">\n",
-          name.c_str(), context.c_str());
-
-  this->GetLocation()->Print(file, indent+XML_NESTED_INDENT);
-  this->PrintClasses(file, indent+XML_NESTED_INDENT);  
-  this->PrintMethods(file, indent+XML_NESTED_INDENT);
-  this->PrintBaseClasses(file, indent+XML_NESTED_INDENT);
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "</Struct>\n");
+  return CxxTypes::typeSystem.GetClassType(this->GetQualifiedName(), baseTypes);
 }
-
-
-/**
- * Print the union.
- */
-void
-Union
-::Print(FILE* file, unsigned int indent) const
-{
-  String name = this->GetName();
-  String context = "";
-  
-  if(this->GetContext())
-    {
-    context = this->GetContext()->GetQualifiedName();
-    }
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "<Union name=\"%s\" context=\"%s\">\n",
-          name.c_str(), context.c_str());
-  
-  this->GetLocation()->Print(file, indent+XML_NESTED_INDENT);
-  this->PrintClasses(file, indent+XML_NESTED_INDENT);
-  this->PrintMethods(file, indent+XML_NESTED_INDENT);
-  this->PrintBaseClasses(file, indent+XML_NESTED_INDENT);
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "</Union>\n");
-}
-
-
-/**
- * Print the CV qualifiers.
- */
-void CvQualifiers::Print(FILE* file, unsigned int indent) const
-{
-  int is_const = m_Const? 1:0;
-  int is_volatile = m_Volatile? 1:0;
-  int is_restrict = m_Restrict? 1:0;
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "<CvQualifiers const=\"%d\" volatile=\"%d\" restrict=\"%d\"/>\n",
-          is_const, is_volatile, is_restrict);
-}
-
-
-/**
- * Print the CV qualifiers for this type.
- */
-void Type::PrintCvQualifiers(FILE* file, unsigned int indent) const
-{
-  if(m_CvQualifiers)
-    {
-    m_CvQualifiers->Print(file, indent);
-    }
-}
-
-
-/**
- * Print the name of this type.
- */
-void Type::PrintName(FILE* file, unsigned int indent) const
-{
-  PrintIndent(file, indent);
-  fprintf(file, "%s\n", this->GetName().c_str());
-}
-
-
-/**
- * Print out this NamedType.
- */
-void NamedType::Print(FILE* file, unsigned int indent) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  PrintIndent(file, indent);
-  fprintf(file, "<Type name=\"%s\">\n",
-          this->m_QualifiedName->Get().c_str());
-  this->PrintCvQualifiers(file, indent+XML_NESTED_INDENT);
-  PrintIndent(file, indent);
-  fprintf(file, "</Type>\n");
-  this->PrintName(file, indent);
-}
-
-
-/**
- * Print out this PointerType.
- */
-void PointerType::Print(FILE* file, unsigned int indent) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  PrintIndent(file, indent);
-  fprintf(file, "<PointerType>\n");  
-  m_PointedToType->Print(file, indent+XML_NESTED_INDENT);
-  PrintIndent(file, indent);
-  fprintf(file, "</PointerType>\n");
-  this->PrintName(file, indent);
-}
-
-
-/**
- * Print out this ReferenceType.
- */
-void ReferenceType::Print(FILE* file, unsigned int indent) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  PrintIndent(file, indent);
-  fprintf(file, "<ReferenceType>\n");
-  m_ReferencedType->Print(file, indent+XML_NESTED_INDENT);
-  PrintIndent(file, indent);
-  fprintf(file, "</ReferenceType>\n");
-  this->PrintName(file, indent);
-}
-
-
-/**
- * Print out this FunctionType.
- */
-void FunctionType::Print(FILE* file, unsigned int indent) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  PrintIndent(file, indent);
-  fprintf(file, "<FunctionType>\n");
-
-  if(m_Returns)
-    {
-    m_Returns->Print(file, indent+XML_NESTED_INDENT);
-    }
-  for(ArgumentsIterator a = m_Arguments.begin() ; a != m_Arguments.end() ; ++a)
-    {
-    (*a)->Print(file, indent+XML_NESTED_INDENT);
-    }
-  if(m_Ellipsis)
-    {
-    PrintIndent(file, indent+XML_NESTED_INDENT);
-    fprintf(file, "<Ellipsis/>\n");
-    }
-  
-  PrintIndent(file, indent);
-  fprintf(file, "</FunctionType>\n");
-  this->PrintName(file, indent);
-}
-
-
-/**
- * Print out this MethodType.
- */
-void MethodType::Print(FILE* file, unsigned int indent) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  PrintIndent(file, indent);
-  fprintf(file, "<MethodType basetype=\"??\">\n");
-
-  this->GetReturns()->Print(file, indent+XML_NESTED_INDENT);
-  for(ArgumentsIterator a = this->GetArguments().begin() ;
-      a != this->GetArguments().end() ; ++a)
-    {
-    (*a)->Print(file, indent+XML_NESTED_INDENT);
-    }
-  
-  if(this->GetEllipsis())
-    {
-    PrintIndent(file, indent+XML_NESTED_INDENT);
-    fprintf(file, "<Ellipsis/>\n");
-    }
-  
-  PrintIndent(file, indent);
-  fprintf(file, "</MethodType>\n");
-  this->PrintName(file, indent);
-}
-
-
-/**
- * Print out this OffsetType.
- */
-void OffsetType::Print(FILE* file, unsigned int indent) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  PrintIndent(file, indent);
-  fprintf(file, "<OffsetType>\n");
-  m_MemberType->Print(file, indent+XML_NESTED_INDENT);
-  PrintIndent(file, indent);
-  fprintf(file, "</OffsetType>\n");
-  this->PrintName(file, indent);
-}
-
-
-/**
- * Print out this ArrayType.
- */
-void ArrayType::Print(FILE* file, unsigned int indent) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  PrintIndent(file, indent);
-  fprintf(file, "<ArrayType>\n");
-  m_ElementType->Print(file, indent+XML_NESTED_INDENT);
-  PrintIndent(file, indent);
-  fprintf(file, "</ArrayType>\n");
-  this->PrintName(file, indent);
-}
-
-
-/**
- * Print the information for an argument.
- */
-void Argument::Print(FILE* file, unsigned int indent) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  PrintIndent(file, indent);
-  fprintf(file, "<Argument>\n");
-  m_Type->Print(file, indent+XML_NESTED_INDENT);
-  PrintIndent(file, indent);
-  fprintf(file, "</Argument>\n");
-}
-
-
-/**
- * Print the information for a function return type.
- */
-void Returns::Print(FILE* file, unsigned int indent) const
-{
-  this->AssertComplete(__FILE__, __LINE__);
-  PrintIndent(file, indent);
-  fprintf(file, "<Returns>\n");
-  m_Type->Print(file, indent+XML_NESTED_INDENT);
-  PrintIndent(file, indent);
-  fprintf(file, "</Returns>\n");
-}
-
-
-/**
- * Print the function prototype information.  This consists of
- * the arguments, return type, and cv-qualifiers.
- */
-void
-Function
-::PrintFunctionPrototypeInfo(FILE* file, unsigned int indent) const
-{
-  if(m_Returns)
-    {
-    m_Returns->Print(file, indent);
-    }
-  for(ArgumentsIterator a = m_Arguments.begin() ; a != m_Arguments.end() ; ++a)
-    {
-    (*a)->Print(file, indent);
-    }
-  if(m_Ellipsis)
-    {
-    PrintIndent(file, indent);
-    fprintf(file, "<Ellipsis/>\n");
-    }
-}
-
-
-/**
- * Print the function.
- */
-void Function::Print(FILE* file, unsigned int indent) const
-{
-  String name = this->GetName();
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "<Function name=\"%s\">\n",
-          name.c_str());
-
-  this->GetLocation()->Print(file, indent+XML_NESTED_INDENT);
-  this->PrintFunctionPrototypeInfo(file, indent+XML_NESTED_INDENT);
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "</Function>\n");
-}
-
-
-/**
- * Print the method.
- */
-void
-Method
-::Print(FILE* file, unsigned int indent) const
-{
-  String name = this->GetName();
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "<Method name=\"%s\">\n",
-          name.c_str());
-
-  this->GetLocation()->Print(file, indent+XML_NESTED_INDENT);
-  this->PrintFunctionPrototypeInfo(file, indent+XML_NESTED_INDENT);
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "</Method>\n");
-}
-
-
-/**
- * Print the constructor.
- */
-void
-Constructor
-::Print(FILE* file, unsigned int indent) const
-{
-  String name = this->GetName();
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "<Constructor>\n");
-
-  this->GetLocation()->Print(file, indent+XML_NESTED_INDENT);
-  this->PrintFunctionPrototypeInfo(file, indent+XML_NESTED_INDENT);
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "</Constructor>\n");
-}
-
-
-/**
- * Print the destructor.
- */
-void
-Destructor
-::Print(FILE* file, unsigned int indent) const
-{
-  String name = this->GetName();
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "<Destructor>\n");
-
-  this->GetLocation()->Print(file, indent+XML_NESTED_INDENT);
-  this->PrintFunctionPrototypeInfo(file, indent+XML_NESTED_INDENT);
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "</Destructor>\n");
-}
-
-
-/**
- * Print the converter.
- */
-void
-Converter
-::Print(FILE* file, unsigned int indent) const
-{
-  String name = this->GetName();
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "<Converter>\n");
-
-  this->GetLocation()->Print(file, indent+XML_NESTED_INDENT);
-  this->PrintFunctionPrototypeInfo(file, indent+XML_NESTED_INDENT);
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "</Converter>\n");
-}
-
-
-/**
- * Print the operator method.
- */
-void
-OperatorMethod
-::Print(FILE* file, unsigned int indent) const
-{
-  String name = this->GetName();
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "<OperatorMethod name=\"%s\">\n",
-          name.c_str());
-
-  this->GetLocation()->Print(file, indent+XML_NESTED_INDENT);
-  this->PrintFunctionPrototypeInfo(file, indent+XML_NESTED_INDENT);
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "</OperatorMethod>\n");
-}
-
-
-/**
- * Print the operator function.
- */
-void
-OperatorFunction
-::Print(FILE* file, unsigned int indent) const
-{
-  String name = this->GetName();
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "<OperatorFunction name=\"%s\">\n",
-          name.c_str());
-
-  this->GetLocation()->Print(file, indent+XML_NESTED_INDENT);
-  this->PrintFunctionPrototypeInfo(file, indent+XML_NESTED_INDENT);
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "</OperatorFunction>\n");
-}
-
-
-/**
- * Print the information for this base class.
- */
-void
-BaseClass
-::Print(FILE* file, unsigned int indent) const
-{
-  String access;
-  
-  if(m_Access == Private) access = "private";
-  else if(m_Access == Protected) access = "protected";
-  else access = "public";
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "<BaseClass access=\"%s\">\n",
-          access.c_str());
-
-  // TODO: Print qualified name.
-  
-  PrintIndent(file, indent);
-  fprintf(file,
-          "</BaseClass>\n");
-}
-
 
 /**
  * Parse a ::-separated qualified name into its components.  Write each
@@ -1591,18 +813,37 @@ Namespace
   if(this->ParseQualifiedName(name, std::back_inserter(qualifierList)))
     {
     // The name was valid, but may or may not exist.  Try to look it up.
-    Context* result = this->LookupName(qualifierList.begin(), qualifierList.end());
-    if(result->IsClass() || result->IsStruct() || result->IsUnion())
+    QualifiersConstIterator qBegin = qualifierList.begin();
+    // Skip over empty starting qualifier if it exists and we are in the
+    // global namespace.
+    if((m_Context == NULL) && (qBegin != qualifierList.end()) && (qBegin->length() == 0))
       {
-      return dynamic_cast<Class*>(result);
+      ++qBegin;
       }
-    else
+    Named* result = this->LookupName(qBegin, qualifierList.end());
+    if(result)
       {
-      return NULL;
+      TypeOfObject resultType = result->GetTypeOfObject();
+      if((resultType == Class_id) || (resultType == Struct_id) || (resultType == Union_id))
+        {
+        return dynamic_cast<Class*>(result);
+        }
+      else if(resultType == Typedef_id)
+        {
+        return dynamic_cast<Typedef*>(result)->GetClass(this->GetGlobalNamespace());
+        }
       }
+    std::cout << "Couldn't find class with qualified name:" << std::endl;
+    for(Qualifiers::const_iterator q = qBegin;
+        q != qualifierList.end(); ++q)
+      {
+      std::cout << "\"" << *q << "\"" << std::endl;
+      }
+    return NULL;
     }
   else
     {
+    std::cout << "Couldn't parse qualified name: " << name << std::endl;
     // The name was invalid, and failed to parse.
     return NULL;
     }
@@ -1615,8 +856,8 @@ Namespace
  * This internal version takes iterators into a Qualifiers describing
  * the name.
  */
-Context*
-Namespace
+Named*
+Context
 ::LookupName(QualifiersConstIterator first,
              QualifiersConstIterator last) const
 {
@@ -1629,28 +870,7 @@ Namespace
   // Get an iterator to the second member of the list (may be the end).
   QualifiersConstIterator second = first; ++second;
   
-  // Try to look up the highest level qualifier in this namespace.
-  Namespace::Pointer nsKey = Namespace::New(*first);
-  
-  NamespaceContainer::const_iterator namespaceIter = m_Namespaces.find(nsKey);
-  if(namespaceIter != m_Namespaces.end())
-    {
-    // We have found a nested namespace.
-    Namespace* ns = namespaceIter->RealPointer();
-    if(second == last)
-      {
-      // This was the last qualifier.  This is the target.
-      return ns;
-      }
-    else
-      {
-      // Lookup the rest of the name in the nested namespace.
-      return ns->LookupName(second, last);
-      }
-    }
-  
-  // There was no namespace with the given name.  Try looking up
-  // a class with that name.
+  // Try looking up a class with that name.
   Class::Pointer classKey = Class::New(*first, Public);
   ClassContainer::const_iterator classIter = m_Classes.find(classKey);
   if(classIter != m_Classes.end())
@@ -1668,11 +888,83 @@ Namespace
       return c->LookupName(second, last);
       }
     }
-  
+
+  // Try looking up a typedef with that name.
+  Typedef::Pointer typedefKey = Typedef::New(*first);
+  TypedefsIterator typedefIter = m_Typedefs.find(typedefKey);
+  if(typedefIter != m_Typedefs.end())
+    {
+    // We have found a typedef.
+    Typedef* t = typedefIter->RealPointer();
+    if(second == last)
+      {
+      // This was the last qualifier.  This is the target.
+      return t;
+      }
+    else
+      {
+      // Lookup the rest of the name in the resulting type.
+      Class* c = t->GetClass(this->GetGlobalNamespace());
+      if(c)
+        {
+        return c->LookupName(second, last);
+        }
+      else
+        {
+        return NULL;
+        }
+      }
+    }
+
   // Didn't find the first qualifier in our scope.
   return NULL;
 }
 
+
+/**
+ * Lookup the given name starting in this namespace's scope.
+ *
+ * This internal version takes iterators into a Qualifiers describing
+ * the name.
+ */
+Named*
+Namespace
+::LookupName(QualifiersConstIterator first,
+             QualifiersConstIterator last) const
+{
+  // If there is no name, we cannot look it up.
+  if(first == last)
+    {
+    return NULL;
+    }
+  
+  // Get an iterator to the second member of the list (may be the end).
+  QualifiersConstIterator second = first; ++second;
+  
+  // Try to look up the highest level qualifier in this namespace.
+  Namespace::Pointer nsKey = Namespace::New(*first);
+
+  NamespaceContainer::const_iterator namespaceIter = m_Namespaces.find(nsKey);
+  if(namespaceIter != m_Namespaces.end())
+    {
+    // We have found a nested namespace.
+    Namespace* ns = namespaceIter->RealPointer();
+    if(second == last)
+      {
+      // This was the last qualifier.  This is the target.
+      return ns;
+      }
+    else
+      {
+      // Lookup the rest of the name in the nested namespace.
+      return ns->LookupName(second, last);
+      }
+    }
+  
+  // There was no namespace with the given name.  Chain up to the general
+  // Context lookup function.
+  return this->Context::LookupName(first, last);
+}
 
 
 /**
@@ -1717,6 +1009,23 @@ Class
   
   // Didn't find the first qualifier in our scope.
   return NULL;
+}
+
+
+/**
+ * If the typedef refers to a class, struct, or union type, this returns
+ * a pointer to its representation.  Otherwise, NULL is returned.
+ */
+Class::Pointer
+Typedef
+::GetClass(const Namespace* gns)
+{
+  if(!m_Type || (m_Type->GetTypeOfObject() != NamedType_id))
+    {
+    return NULL;
+    }
+  NamedType* nt = dynamic_cast<NamedType*>(m_Type.RealPointer());
+  return gns->LookupClass(nt->GetQualifiedName()->Get());
 }
 
 
