@@ -22,9 +22,9 @@ DerivativeHalfBackwardOperator<TPixel, VDimension>
 ::GenerateCoefficients()
 {
   std::vector<TPixel> coeff(3);
-  coeff[0] = -1.0f *  NumericTraits<TPixelScalarValueType>::One;
-  coeff[1] =  NumericTraits<TPixelScalarValueType>::One;
-  coeff[2] =  NumericTraits<TPixelScalarValueType>::Zero;
+  coeff[0] = -1.0f *  NumericTraits<ScalarValueType>::One;
+  coeff[1] =  NumericTraits<ScalarValueType>::One;
+  coeff[2] =  NumericTraits<ScalarValueType>::Zero;
 
   return coeff;
 }
