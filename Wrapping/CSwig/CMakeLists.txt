@@ -136,6 +136,26 @@ MACRO(CSWIG_CREATE_PYTHON_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx 
      )
 ENDMACRO(CSWIG_CREATE_PYTHON_CXX_FILE)
 
+
+MACRO(CSWIG_CREATE_JAVA_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Library LibraryIndexFiles)
+   SET(CINDEX)
+   FOREACH(MIDX ${MasterIdx})
+     SET(CINDEX ${CINDEX} -Cindex "${MIDX}")
+   ENDFOREACH(MIDX)
+   ADD_CUSTOM_COMMAND(
+     COMMENT "${OutputTclCxx} from "
+     SOURCE ${Bin}/${InputIdx}
+     COMMAND ${CSWIG} 
+     ARGS -c ${CINDEX} ${IGNORE_WARNINGS}
+          -bindir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}" 
+          -o ${Bin}/${OutputTclCxx} -java -c++ ${Bin}/${InputXml}
+     TARGET ${Library}
+     OUTPUTS ${Bin}/${OutputTclCxx}
+     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml}
+     )
+ENDMACRO(CSWIG_CREATE_JAVA_CXX_FILE)
+
+
 # macro to create .xml, .idx and Tcl.cxx files
 MACRO(WRAP_TCL_SOURCES Source Bin BaseName LibraryName MasterIdx LibraryIndexFiles)
    GCCXML_CREATE_XML_FILE(${Source} ${Bin} ${BaseName}.cxx ${BaseName}.xml ${LibraryName})
@@ -151,6 +171,14 @@ MACRO(WRAP_PYTHON_SOURCES Source Bin BaseName LibraryName MasterIdx LibraryIndex
    CSWIG_CREATE_PYTHON_CXX_FILE(${Bin} "${MasterIdx}" ${BaseName}.idx ${BaseName}.xml
                              ${BaseName}Python.cxx ${LibraryName} "${LibraryIndexFiles}")
 ENDMACRO(WRAP_PYTHON_SOURCES)
+
+# macro to create .xml, .idx and Python.cxx files
+MACRO(WRAP_JAVA_SOURCES Source Bin BaseName LibraryName MasterIdx LibraryIndexFiles)
+   GCCXML_CREATE_XML_FILE(${Source} ${Bin} ${BaseName}.cxx ${BaseName}.xml ${LibraryName})
+   CINDEX_CREATE_IDX_FILE(${Bin} ${BaseName}.xml  ${BaseName}.idx ${LibraryName})
+   CSWIG_CREATE_JAVA_CXX_FILE(${Bin} "${MasterIdx}" ${BaseName}.idx ${BaseName}.xml
+                             ${BaseName}Java.cxx ${LibraryName} "${LibraryIndexFiles}")
+ENDMACRO(WRAP_JAVA_SOURCES)
 
 
 # make sure required stuff is set

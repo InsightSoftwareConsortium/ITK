@@ -19,14 +19,16 @@ SET(WRAP_SOURCES
 FOREACH(Source ${WRAP_SOURCES})
    SET(WRAP_TCL_SOURCES ${WRAP_TCL_SOURCES} ${Source}Tcl.cxx)
    SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} ${Source}Python.cxx)
+   SET(WRAP_JAVA_SOURCES ${WRAP_JAVA_SOURCES} ${Source}Java.cxx )
    SET(ALL_IDX_FILES ${ALL_IDX_FILES} ${WrapITK_BINARY_DIR}/VXLNumerics/${Source}.idx )
    SET(INDEX_FILE_CONTENT "${INDEX_FILE_CONTENT}${WrapITK_BINARY_DIR}/VXLNumerics/${Source}.idx\n")
 ENDFOREACH(Source)
 SET(WRAP_TCL_SOURCES ${WRAP_TCL_SOURCES} wrap_VXLNumericsTclTcl.cxx)
 SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} wrap_VXLNumericsPythonPython.cxx)
+SET(WRAP_JAVA_SOURCES ${WRAP_JAVA_SOURCES} wrap_VXLNumericsJavaJava.cxx)
 
 # set the generated sources as generated
-SET_SOURCE_FILES_PROPERTIES(${WRAP_TCL_SOURCES} ${WRAP_PYTHON_SOURCES} GENERATED )
+SET_SOURCE_FILES_PROPERTIES(${WRAP_TCL_SOURCES} ${WRAP_PYTHON_SOURCES} ${WRAP_JAVA_SOURCES} GENERATED )
 # add the tcl and python libraries
 
 IF(ITK_CSWIG_TCL)
@@ -40,6 +42,10 @@ IF(ITK_CSWIG_PYTHON)
   TARGET_LINK_LIBRARIES(_VXLNumericsPython itkvnl itkvnl_algo  SwigRuntimePython ${PYTHON_LIBRARY})
 ENDIF(ITK_CSWIG_PYTHON)
 
+IF(ITK_CSWIG_JAVA)
+  ADD_LIBRARY(VXLNumericsJava MODULE ${WRAP_JAVA_SOURCES})
+  TARGET_LINK_LIBRARIES(VXLNumericsJava itkvnl itkvnl_algo  SwigRuntimeJava ${JAVA_LIBRARY})
+ENDIF(ITK_CSWIG_JAVA)
 
 CONFIGURE_FILE( 
 ${WrapITK_SOURCE_DIR}/Master.mdx.in
@@ -60,6 +66,12 @@ FOREACH(Source ${WRAP_SOURCES})
     WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/VXLNumerics ${WrapITK_BINARY_DIR}/VXLNumerics
                      ${Source} _VXLNumericsPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
   ENDIF(ITK_CSWIG_PYTHON)
+
+  # java 
+  IF(ITK_CSWIG_JAVA)
+    WRAP_JAVA_SOURCES(${ITK_TOP}/Wrapping/CSwig/VXLNumerics ${WrapITK_BINARY_DIR}/VXLNumerics
+                     ${Source} VXLNumericsJava "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+  ENDIF(ITK_CSWIG_JAVA)
 ENDFOREACH(Source)
 
 # add package wrappers for tcl and python
@@ -73,3 +85,8 @@ IF(ITK_CSWIG_PYTHON)
    WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/VXLNumerics ${WrapITK_BINARY_DIR}/VXLNumerics
                      wrap_VXLNumericsPython _VXLNumericsPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
 ENDIF(ITK_CSWIG_PYTHON)
+
+IF(ITK_CSWIG_JAVA)
+   WRAP_JAVA_SOURCES(${ITK_TOP}/Wrapping/CSwig/VXLNumerics ${WrapITK_BINARY_DIR}/VXLNumerics
+                     wrap_VXLNumericsJava VXLNumericsJava "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+ENDIF(ITK_CSWIG_JAVA)
