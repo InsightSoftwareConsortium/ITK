@@ -88,9 +88,9 @@ public:
   typedef TMeasurement MeasurementType ;
 
   /** Common sample class typedefs */
-  typedef Superclass::MeasurementVectorType MeasurementVectorType ;
-  typedef Superclass::SizeType SizeType ;
-  typedef Superclass::InstanceIdentifier InstanceIdentifier ;
+  typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
+  typedef typename Superclass::SizeType SizeType ;
+  typedef typename Superclass::InstanceIdentifier InstanceIdentifier ;
 
   /** frequency container typedef */
   typedef TFrequencyContainer FrequencyContainerType ;

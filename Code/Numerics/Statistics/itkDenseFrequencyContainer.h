@@ -58,7 +58,7 @@ public:
   /** Histogram typedef support */
   typedef ValarrayImageContainer< InstanceIdentifier, FrequencyType > 
   FrequencyContainerType ;
-  typedef FrequencyContainerType::Pointer FrequencyContainerPointer ;
+  typedef typename FrequencyContainerType::Pointer FrequencyContainerPointer ;
 
   /** calls the Initialize method of superclass to generate the offset table
    * and prepare the frequency container */

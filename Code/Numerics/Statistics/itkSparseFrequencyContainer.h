@@ -56,7 +56,8 @@ public:
   FrequencyContainerType ;
 
   /** Iterator typedef support */
-  typedef FrequencyContainerType::iterator FrequencyContainerIterator;   
+  typedef typename FrequencyContainerType::iterator 
+  FrequencyContainerIterator ;   
 
   /** prepares the frequency container */
   void Initialize(unsigned long length) ;
