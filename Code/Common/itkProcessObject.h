@@ -296,6 +296,10 @@ public:
    * is a function of the pixels in a neighborhood of an input pixel, then
    * the input requested region will need to be larger than the output
    * requested region (to avoid introducing artificial boundary conditions).
+   * This function should never request an input region that is outside the
+   * the input largest possible region (i.e. implementations of this method
+   * should crop the input requested region at the boundaries of the input
+   * largest possible region).
    */
   virtual void GenerateInputRequestedRegion();
   
