@@ -170,6 +170,16 @@ ADD_TEST(MultiResImageRegistration2Test ${REGISTRATION_EXAMPLES2}
         ${TEMP}/MultiResImageRegistration2Test.png  0
 )
 
+ADD_TEST(DeformableRegistration4Test ${REGISTRATION_EXAMPLES3}
+  --compare ${BASELINE}/DeformableRegistration4Test.png
+            ${TEMP}/DeformableRegistration4Test.png
+  DeformableRegistration4Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
+        ${TEMP}/DeformableRegistration4Test.png
+)
+
+
 ADD_EXECUTABLE(RegistrationExamples RegistrationExamples.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
 
