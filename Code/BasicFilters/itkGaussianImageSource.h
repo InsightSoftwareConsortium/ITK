@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkGaussianImageSource_h
 
 #include "itkImageSource.h"
+#include "itkArray.h"
 
 namespace itk
 {

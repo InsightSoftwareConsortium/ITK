@@ -44,6 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include <math.h>
 #include "itkDifferenceOfGaussiansGradientImageFilter.h"
+#include "itkImageRegionIterator.h"
 
 namespace itk
 {
