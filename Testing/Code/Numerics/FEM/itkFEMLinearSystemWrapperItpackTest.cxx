@@ -293,8 +293,8 @@ int itkFEMLinearSystemWrapperItpackTest( int , char * [] )
 
   
   
-  integer    integerPass = 1;
-  doublereal doublePass  = 1.0;
+  int        integerPass = 1;
+  double     doublePass  = 1.0;
  
   cout << "Test itpack parameter setting..." << endl;
 
