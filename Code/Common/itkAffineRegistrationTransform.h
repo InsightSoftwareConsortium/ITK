@@ -32,11 +32,8 @@ namespace itk
  *
  */
 
-template <class TScalarType,unsigned int NDimensions,
-          class TParameters=Point<TScalarType,NDimensions*(NDimensions+1)> >
-class ITK_EXPORT  AffineRegistrationTransform : 
-            public Transformation<TScalarType,NDimensions>
-				
+template <class TScalarType,unsigned int NDimensions, class TParameters>
+class ITK_EXPORT  AffineRegistrationTransform : public Object
 {
 public:
   /**

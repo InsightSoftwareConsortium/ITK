@@ -26,8 +26,8 @@ namespace itk
 /**
  * Constructor
  */
-template <class TScalarType,unsigned int NDimensions>
-AffineRegistrationTransform<TScalarType,NDimensions>
+template <class TScalarType,unsigned int NDimensions, class TParameters>
+AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::AffineRegistrationTransform()
 { 
 
@@ -37,8 +37,8 @@ AffineRegistrationTransform<TScalarType,NDimensions>
 /**
  * Constructor
  */
-template <class TScalarType,unsigned int NDimensions>
-AffineRegistrationTransform<TScalarType,NDimensions>
+template <class TScalarType,unsigned int NDimensions, class TParameters>
+AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::AffineRegistrationTransform( const Self & other )
 {
   m_AffineTransform = other.m_AffineTransform;
@@ -48,9 +48,9 @@ AffineRegistrationTransform<TScalarType,NDimensions>
 /**
  * Assignment Operator
  */
-template <class TScalarType,unsigned int NDimensions>
-const AffineRegistrationTransform<TScalarType,NDimensions> &
-AffineRegistrationTransform<TScalarType,NDimensions>
+template <class TScalarType,unsigned int NDimensions, class TParameters>
+const AffineRegistrationTransform<TScalarType,NDimensions,TParameters> &
+AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::operator=( const Self & other )
 {
   m_AffineTransformation = other.m_AffineTransformation;
@@ -61,9 +61,9 @@ AffineRegistrationTransform<TScalarType,NDimensions>
 /**
  * Transform a Point
  */
-template <class TScalarType,unsigned int NDimensions>
-AffineRegistrationTransform<TScalarType,NDimensions>::PointType
-AffineRegistrationTransform<TScalarType,NDimensions>
+template <class TScalarType,unsigned int NDimensions, class TParameters>
+AffineRegistrationTransform<TScalarType,NDimensions,TParameters>::PointType
+AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::Transform( const PointType & point ) const
 {
   return m_AffineTransform.Transform( point );
@@ -74,9 +74,9 @@ AffineRegistrationTransform<TScalarType,NDimensions>
 /**
  * Set the transformation parameters
  */
-template <class TScalarType,unsigned int NDimensions>
+template <class TScalarType,unsigned int NDimensions, class TParameters>
 void
-AffineRegistrationTransform<TScalarType,NDimensions>
+AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::SetParameters(const ParametersType & parameters )
 {
 
@@ -114,9 +114,9 @@ AffineRegistrationTransform<TScalarType,NDimensions>
 
 // Compute the Jacobian of the transformation
 // It follows the same order of Parameters vector 
-template<class ScalarType, int NDimensions>
-const AffineRegistrationTransform<ScalarType, NDimensions>::JacobianType &
-AffineRegistrationTransform<ScalarType, NDimensions>::
+template<class ScalarType, int NDimensions, class TParameters>
+const AffineRegistrationTransform<ScalarType, NDimensions,TParameters>::JacobianType &
+AffineRegistrationTransform<ScalarType, NDimensions,TParameters>::
 GetJacobian( const PointType & p ) const
 {
   
