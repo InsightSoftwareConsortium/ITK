@@ -49,8 +49,6 @@ void itkImageBase::Initialize()
 //-------------------------------------------------------------------------
 void itkImageBase::SetDimension(unsigned int dim)
 {
-  dim = (dim < 0 ? 0 : dim);
-
   if ( dim != this->GetDimension() )
     {
     this->Initialize();

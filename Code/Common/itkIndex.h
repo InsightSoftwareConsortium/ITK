@@ -68,7 +68,7 @@ class itkIndex {
   const itkIndex<TIndexDimension>
   operator-(const itkIndex<TIndexDimension> &vec)
     {
-    itkIndex<T, TIndexDimension> result;
+    itkIndex<TIndexDimension> result;
     for (unsigned int i=0; i < TIndexDimension; i++)
       { result[i] = m_Index[i] - vec.m_Index[i]; }
     return result;
@@ -109,14 +109,15 @@ class itkIndex {
    */
   static itkIndex<TIndexDimension> GetBasisIndex(unsigned int dim); 
 
+ public:
+  template<unsigned int TIndexDim> friend 
+    std::ostream& operator<<(std::ostream& os,
+			     const itkIndex<TIndexDim> &ind);
  private:
-  friend std::ostream& operator<<(std::ostream& os,
-				  const itkIndex<TIndexDimension> &ind);
-
   long m_Index[TIndexDimension];
 };
 
-template<int TIndexDimension>
+template<unsigned int TIndexDimension>
 std::ostream& operator<<(std::ostream& os,
 			 const itkIndex<TIndexDimension> &ind)
 {

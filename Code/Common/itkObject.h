@@ -40,7 +40,7 @@ public:
    * Create an object with Debug turned off, modified time initialized to
    * zero, and reference count set to 1. 
    */
-  static itkObject::Pointer New();
+  static Pointer New();
 
   /** 
    * Delete an itk object.  This method should always be used to delete an
@@ -136,7 +136,7 @@ public:
   /** 
    * Gets the reference count (use with care) 
    */
-  int GetReferenceCount() {return m_ReferenceCount;}
+  int GetReferenceCount() const {return m_ReferenceCount;}
 
   /** 
    * Sets the reference count (use with care) 

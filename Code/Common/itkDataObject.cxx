@@ -79,7 +79,7 @@ void itkDataObject::SetGlobalReleaseDataFlag(bool val)
 }
 
 //----------------------------------------------------------------------------
-const bool itkDataObject::GetGlobalReleaseDataFlag()
+bool itkDataObject::GetGlobalReleaseDataFlag()
 {
   return itkDataObjectGlobalReleaseDataFlag;
 }
@@ -92,7 +92,7 @@ void itkDataObject::ReleaseData()
 }
 
 //----------------------------------------------------------------------------
-const bool itkDataObject::ShouldIReleaseData()
+bool itkDataObject::ShouldIReleaseData() const
 {
   if ( itkDataObjectGlobalReleaseDataFlag || m_ReleaseDataFlag )
     {

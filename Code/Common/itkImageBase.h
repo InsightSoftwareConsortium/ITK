@@ -33,7 +33,7 @@ public:
   /** 
    * Create an empty image. 
    */
-  static itkImageBase::Pointer New();
+  static Pointer New();
 
   /** 
    * Restore object to initialized state.

@@ -32,7 +32,7 @@ public:
   typedef itkSmartPointer< itkImageSource<T> > Pointer;
 
   /** Create the source with one output initially */
-  static itkImageSource::Pointer<T> New();
+  static Pointer New();
 
   /** Get the output of this process object. */
   itkImage<T> *GetOutput();

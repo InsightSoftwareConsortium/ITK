@@ -19,7 +19,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVector.h"
 
 template <class T, unsigned int TImageDimension>
-int IterateOverImage( itkImage<T, TImageDimension>::Iterator it, int dim = 0)
+int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim = 0)
 {
   T value;
   int i, j, ii;

@@ -66,7 +66,7 @@ public:
   /** 
    * Instantiate object with no start, end, or progress methods. 
    */
-  static itkProcessObject::Pointer New();
+  static Pointer New();
 
   /** 
    * Return an array with all the inputs of this process object.
@@ -156,7 +156,7 @@ public:
   /** 
    * Test to see if this object is in a reference counting loop. 
    */
-  virtual const int InRegisterLoop(itkObject *) {return 0;}
+  virtual int InRegisterLoop(itkObject *) const {return 0;}
 
 protected:
   itkProcessObject();

@@ -46,7 +46,7 @@ public:
   /** 
    * Instantiate object.
    */
-  static itkDataObject::Pointer New();
+  static Pointer New();
 
   /** 
    * Set/Get the source object creating this data object. 
@@ -58,12 +58,12 @@ public:
   /** 
    * Set the dimension (number of independent variables) of the data.
    */
-  virtual void SetDimension(int dim) {itkSetMacro(m_Dimension,dim);}
+  virtual void SetDimension(unsigned int dim) {itkSetMacro(m_Dimension,dim);}
 
   /** 
    * Get the dimension of the data.
    */
-  const int GetDimension() 
+  int GetDimension() const
     {itkGetMacro(m_Dimension);}
 
   /** 
@@ -78,7 +78,7 @@ public:
    */
   void SetReleaseDataFlag(const bool flag) 
     {itkSetMacro(m_ReleaseDataFlag,flag);};
-  const bool GetReleaseDataFlag() {itkGetMacro(m_ReleaseDataFlag);}
+  bool GetReleaseDataFlag() const {itkGetMacro(m_ReleaseDataFlag);}
   void ReleaseDataFlagOn() {this->SetReleaseDataFlag(true);}
   void ReleaseDataFlagOff() {this->SetReleaseDataFlag(false);}
 
@@ -90,7 +90,7 @@ public:
   static void SetGlobalReleaseDataFlag(const bool val);
   void GlobalReleaseDataFlagOn() {this->SetGlobalReleaseDataFlag(true);};
   void GlobalReleaseDataFlagOff() {this->SetGlobalReleaseDataFlag(false);};
-  static const bool GetGlobalReleaseDataFlag();
+  static bool GetGlobalReleaseDataFlag();
 
   /** 
    * Release data back to system to conserve memory resource. Used during
@@ -104,12 +104,12 @@ public:
    * Return flag indicating whether data should be released after use  
    * by a filter. 
    */
-  const bool ShouldIReleaseData();
+  bool ShouldIReleaseData() const;
 
   /** 
    * Get the flag indicating the data has been released. 
    */
-  const bool GetDataReleased() {return m_DataReleased;}
+  bool GetDataReleased() const {return m_DataReleased;}
   
   /** 
    * Handle the source/data loop. 
@@ -121,7 +121,7 @@ public:
    * any self created loops. This is used in the Source/Data
    * registration to properly free the objects. 
    */
-  virtual const int GetNetReferenceCount() 
+  virtual int GetNetReferenceCount() const
     {return this->GetReferenceCount();}
 
 protected:

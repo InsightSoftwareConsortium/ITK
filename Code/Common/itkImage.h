@@ -71,7 +71,7 @@ class ITK_EXPORT itkImage : public itkImageBase
   Iterator RegionEnd();
   
   /** Create an empty image. */
-  static itkImage<T, TImageDimension>::Pointer New();
+  static Pointer New();
 
   /**
    * Allocate the image memory. Dimension and Size must be set a priori.
