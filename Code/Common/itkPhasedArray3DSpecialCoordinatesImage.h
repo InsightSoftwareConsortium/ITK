@@ -92,6 +92,7 @@ public:
   typedef SpecialCoordinatesImage<TPixel,3> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  typedef WeakPointer<const Self>  ConstWeakPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

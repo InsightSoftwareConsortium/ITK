@@ -272,7 +272,7 @@ public:
     }
   
 protected: //made protected so other iterators can access 
-  typename TImage::ConstPointer     m_Image;
+  typename TImage::ConstWeakPointer     m_Image;
   
   IndexType    m_PositionIndex;     // Index where we currently are
   IndexType    m_BeginIndex;        // Index to start iterating over

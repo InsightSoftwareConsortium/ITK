@@ -77,10 +77,6 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
   m_ImageRegion  = m_Image->GetBufferedRegion();
 
   // Build a temporary image of chars for use in the flood algorithm
-  {
-  SmartPointer<  TImage > image = const_cast< TImage * >( m_Image.GetPointer() );
-  image->SetRequestedRegionToLargestPossibleRegion();
-  }
   tempPtr = TTempImage::New();
   typename TTempImage::RegionType tempRegion = m_Image->GetBufferedRegion();
 

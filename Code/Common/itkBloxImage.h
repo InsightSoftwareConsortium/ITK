@@ -65,6 +65,7 @@ public:
   typedef Image<TBloxPixelType, VImageDimension>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  typedef WeakPointer<const Self>  ConstWeakPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  

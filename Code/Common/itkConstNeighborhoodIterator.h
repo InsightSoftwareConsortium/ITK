@@ -431,7 +431,7 @@ protected:
   const InternalPixelType *m_Begin;
   
   /** The image on which iteration is defined. */
-  typename ImageType::ConstPointer m_ConstImage;
+  typename ImageType::ConstWeakPointer m_ConstImage;
 
   /*
    * A pointer to one past the last pixel in the iteration region.

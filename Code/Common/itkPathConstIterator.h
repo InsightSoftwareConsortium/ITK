@@ -201,7 +201,7 @@ protected: //made protected so other iterators can access
   OffsetType  m_ZeroOffset; // = 0 for all dimensions
 
   /** Smart pointer to the source image. */
-  typename ImageType::ConstPointer m_Image;
+  typename ImageType::ConstWeakPointer m_Image;
 
   /** Smart pointer to the path we're following */
   typename PathType::ConstPointer m_Path;

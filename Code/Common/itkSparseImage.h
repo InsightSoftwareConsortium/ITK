@@ -56,6 +56,7 @@ class ITK_EXPORT SparseImage : public Image <TNode*, VImageDimension>
   typedef Image <TNode*, VImageDimension> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self> ConstPointer;
+  typedef WeakPointer<const Self> ConstWeakPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

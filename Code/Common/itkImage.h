@@ -24,6 +24,7 @@
 #include "itkPoint.h"
 #include "itkContinuousIndex.h"
 #include "itkFixedArray.h"
+#include "itkWeakPointer.h"
 
 namespace itk
 {
@@ -85,6 +86,7 @@ public:
   typedef ImageBase<VImageDimension>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  typedef WeakPointer<const Self>  ConstWeakPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

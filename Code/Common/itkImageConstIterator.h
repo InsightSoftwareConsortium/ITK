@@ -347,7 +347,7 @@ public:
   
 
 protected: //made protected so other iterators can access 
-  SmartPointer<const ImageType>  m_Image;
+  typename TImage::ConstWeakPointer  m_Image;
   RegionType                     m_Region;      // region to iterate over
   
   unsigned long  m_Offset;

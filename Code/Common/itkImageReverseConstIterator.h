@@ -409,7 +409,7 @@ public:
     }
   
 protected: //made protected so other iterators can access 
-  typename ImageType::ConstPointer    m_Image;
+  typename ImageType::ConstWeakPointer    m_Image;
   RegionType                          m_Region;      // region to iterate over
   
   unsigned long  m_Offset;
