@@ -1926,7 +1926,20 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         }
       }
     m_OutputImage->SetPixel(center_index, value + delta );
+    // This function can be overridden in the derived classes to process pixels entering the active layer.
+    this->ThreadedProcessPixelEnteringActiveLayer (center_index, value, ThreadId);
     }
+}
+
+template <class TInputImage, class TOutputImage>
+void
+ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::ThreadedProcessPixelEnteringActiveLayer (const IndexType itkNotUsed(index),
+                                           const ValueType itkNotUsed(value),
+                                           const unsigned int itkNotUsed(ThreadId))
+{
+  // This function can be overridden in the derived classes to process pixels entering the active layer.
+  return;
 }
 
 template <class TInputImage, class TOutputImage>

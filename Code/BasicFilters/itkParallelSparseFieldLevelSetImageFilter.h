@@ -510,6 +510,13 @@ protected:
     return (value + dt * change);
   }
   
+  // This method can be overridden in derived classes.
+  // The pixel at 'index' is entering the active layer for thread 'ThreadId'.
+  // The outputimage at 'index' will have the value as given by the 'value' parameter.
+  virtual void ThreadedProcessPixelEnteringActiveLayer (const IndexType itkNotUsed(index),
+                                                        const ValueType itkNotUsed(value),
+                                                        const unsigned int itkNotUsed(ThreadId));
+  
   /** This method is not implemented or necessary for this solver */
   void ApplyUpdate(TimeStepType) {}
 
