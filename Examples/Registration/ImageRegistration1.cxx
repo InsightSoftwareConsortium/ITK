@@ -327,9 +327,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The registration process is triggered by an invocation of the
-  //  \code{StartRegistration()} method. If something goes wrong during the
+  //  \code{Update()} method. If something goes wrong during the
   //  initialization or execution of the registration an exception will be
-  //  thrown. We should therefore place the \code{StartRegistration()} method
+  //  thrown. We should therefore place the \code{Update()} method
   //  in a \code{try/catch} block as illustrated in the following lines.
   //
   //  Software Guide : EndLatex 
@@ -337,7 +337,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   try 
     { 
-    registration->StartRegistration(); 
+    registration->Update(); 
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -477,34 +477,35 @@ int main( int argc, char *argv[] )
                             FixedImageType >    ResampleFilterType;
   // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
-  //  
-  //  A transform of the same type used in the registration process should be
-  //  created and initialized with the parameters resulting from the
-  //  registration process.
-  //
-  //  \index{itk::ImageRegistrationMethod!Resampling image}
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
-  TransformType::Pointer finalTransform = TransformType::New();
-  finalTransform->SetParameters( finalParameters );
-  // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //  
-  //  Then a resampling filter is created and the corresponding transform and
+  //  A resampling filter is created and the corresponding transform and
   //  moving image connected as inputs.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
-  resample->SetTransform( finalTransform );
   resample->SetInput( movingImageReader->GetOutput() );
   // Software Guide : EndCodeSnippet
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The Transform that is produced as output of the Registration method is
+  //  now passed as input to the resampling filter.
+  //
+  //  \index{itk::ImageRegistrationMethod!Resampling image}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  resample->SetTransform( registration->GetOutput()->Get() );
+  // Software Guide : EndCodeSnippet
+
 
 
   //  Software Guide : BeginLatex
