@@ -7,7 +7,7 @@ A.code { text-decoration: none; font-weight: normal; color: #4444ee }
 A.codeRef { font-weight: normal; color: #4444ee }
 DL.el { margin-left: -1cm }
 DIV.fragment { width: 100%; border: none; background-color: #eeeeee }
-DIV.ah { background-color: black; margin-bottom: 3; margin-top: 3 }
+DIV.ah { background-color: black; color: white; font-weight: bold; font-size: larger; margin-bottom: 3; margin-top: 3 }
 TD.md { background-color: #f2f2ff }
 DIV.groupHeader { margin-left: 16; margin-top: 12; margin-bottom: 6; font-weight: bold }
 DIV.groupText { margin-left: 16; font-style: italic; font-size: smaller }
