@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImageRegionIterator.h"
 #include "itkImageBoundaryCondition.h"
 #include "itkConstantBoundaryCondition.h"
-#include "itkSmartRegionNeighborhoodIterator.h"
+#include "itkSmartNeighborhoodIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 
 void println(const char *c) { std::cout << std::endl << c << std::endl; }
@@ -184,7 +184,7 @@ int main()
    szN[2] = 1;
    szN[3] = 1;
 
-   typedef itk::SmartRegionNeighborhoodIterator<ImageType2D,
+   typedef itk::SmartNeighborhoodIterator<ImageType2D,
      itk::ConstantBoundaryCondition<ImageType2D> > SmartIteratorType;
 
    SmartIteratorType it2d(sz2, image2D, image2D->GetRequestedRegion());

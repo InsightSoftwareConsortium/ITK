@@ -68,7 +68,7 @@ namespace itk {
  * image pixels.
  *
  * Dereferencing may be handled differently by a ConstNeighborhoodIterator subclass.
- * SmartRegionConstNeighborhoodIterator's, for example, perform bounds checking
+ * SmartConstNeighborhoodIterator's, for example, perform bounds checking
  * and handle boundary conditions during dereferencing.
  *
  * The API for creating and manipulating a ConstNeighborhoodIterator mimics
@@ -82,12 +82,6 @@ namespace itk {
  * internal loop variables and offsets to trigger wraps at itk::Image region
  * boundaries, and to identify the end of the itk::Image region.
  *
- * ConstNeighborhoodIterators are "bidirectional iterators".
- * They move only in two directions through the data set.  These directions
- * correspond to the layout of the image data in memory and not to the
- * spatial directions of the N-dimensional itk::Image.  A
- * RandomAccessNeighborhoodIterator exists which can move in arbitrary
- * itk::Image coordinate directions.
  *
  * \todo Add support for regions with negative indicies.
  * 

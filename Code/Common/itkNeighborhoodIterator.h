@@ -50,9 +50,51 @@ namespace itk {
 
 /**
  * \class NeighborhoodIterator
- * \brief
+ * \brief  Defines iteration of a local N-dimensional neighborhood of pixels
+ * across an itk::Image.
  *
- */
+
+ I. What NeighborhoodIterators are.
+
+ II. What NeighborhoodIterators can be used for.
+
+ III. How NeighborhoodIterators are used.
+
+ IV. How NeighborhoodIterators are implemented.
+
+ V. Examples?
+
+ I. What are NeighborhoodIterators?
+ 
+ This class is an extension of the Standard Template Library bi-directional
+ iterator concept to neighborhoods of pixels within itk::Image objects.  The
+ class allows simple forward and reverse iteration of a N-dimensional 
+ neighborhood "mask" across an image.  A pixel neighborhood is defined as
+ a central pixel location and an N-dimensional radius extending from that
+ location.  For iteration, a neighborhood mask is
+ constructed as a container of pointers to a neighborhood of image pixels.  As
+ the central pixel position in the mask is moved around the image, the
+ neighboring pixel pointers are moved accordingly. 
+ 
+ NeighborhoodIterators are "bidirectional iterators". They move only in two
+ directions through the data set.  These directions correspond to the layout of
+ the image data in memory and not to the spatial directions of the
+ N-dimensional itk::Image.  Iteration always proceeds along the
+ fastest increasing dimension (as defined by the layout of the image data) .
+ For itk::Image this is the first dimension specified (i.e. for 3-dimensional
+ (x,y,z) NeighborhoodIterator proceeds along the x-dimension)  
+
+ For true, random access iteration within an itk::Image, use
+ RandomAccessNeighborhoodIterator. 
+
+ II. What are NeighborhoodIterators used for?
+
+ NeighborhoodIterators can be used to simplify writing algorithms that
+ perform local image processing.  Convolution filtering and morphological
+ operations on images are two typical use cases.  
+ 
+
+*/
 template<class TImage>
 class ITK_EXPORT NeighborhoodIterator
   :  public ConstNeighborhoodIterator<TImage>
