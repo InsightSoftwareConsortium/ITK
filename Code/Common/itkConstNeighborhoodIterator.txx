@@ -31,22 +31,27 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
       {
       m_InBounds[i] = ans = false;
       }
+    else
+      {
+      m_InBounds[i] = true;
+      }
     }
   return ans;
 }
 
 
-  
+
 template<class TImage, class TBoundaryCondition>
 typename ConstNeighborhoodIterator<TImage, TBoundaryCondition>::PixelType
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>
-::GetPixel(const unsigned n) const
+::GetPixel(const unsigned n, bool& IsInBounds) const
 {
   // If the region the iterator is walking (padded by the neighborhood size)
   // never bumps up against the bounds of the buffered region, then don't
   // bother checking any boundary conditions
   if (!m_NeedToUseBoundaryCondition)
     {
+    IsInBounds = true;
     return (*(this->operator[](n)));
     }
 
@@ -58,6 +63,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   // Is this whole neighborhood in bounds?
   if (this->InBounds())
     {
+    IsInBounds = true;
     return (*(this->operator[](n)));
     }
   else
@@ -69,7 +75,10 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
     // Is this pixel in bounds?
     for (i=0; i<Dimension; ++i)
       {
-      if (m_InBounds[i]) offset[i] = 0; // this dimension in bounds
+      if (m_InBounds[i])
+        {
+        offset[i] = 0; // this dimension in bounds
+        }
       else  // part of this dimension spills out of bounds
         {
         // Calculate overlap for this dimension
@@ -94,16 +103,18 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
 
     if (flag) 
       {
+      IsInBounds = true;
       return ( *(this->operator[](n)) ) ;
       }
     else 
       {
+      IsInBounds = false;
       return( m_BoundaryCondition->operator()(temp, offset, this) );
       }
     } 
 }
-  
-  
+
+
 template<class TImage, class TBoundaryCondition>
 typename ConstNeighborhoodIterator<TImage, TBoundaryCondition>::OffsetType
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>
@@ -152,6 +163,10 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   m_Region.SetSize(zeroSize);
   
   m_WrapOffset.Fill(0);
+
+  for (unsigned int i=0; i < Dimension; i++)
+    { m_InBounds[i] = false; }
+
   this->ResetBoundaryCondition();
 }
 

@@ -151,15 +151,30 @@ public:
   virtual NeighborhoodType GetNeighborhood() const;
 
   /** Returns the pixel value located at a linear array location i. */
-  virtual PixelType GetPixel(const unsigned i) const;
-    //    {  return *(this->operator[](i));  }
+  virtual PixelType GetPixel(const unsigned i) const
+    { bool inbounds; return this->GetPixel(i, inbounds); }
+
+  /** Return the pixel value located at a linear array location i.
+   * Sets "IsInBounds" to true if the location is inside the
+   * image and the pixel value returned is an actual pixel in the
+   * image. Sets "IsInBounds" to false if the location is outside the
+   * image and the pixel value returned is a boundary condition. */
+  virtual PixelType GetPixel(const unsigned i, bool& IsInBounds) const;
 
   /** Returns the pixel value located at the itk::Offset o from the center of
       the neighborhood. */
   virtual PixelType GetPixel(const OffsetType &o) const
-  { return (this->GetPixel(this->GetNeighborhoodIndex(o))); }
-    //  { return *(this->operator[](o)); }
+  { bool inbounds; return (this->GetPixel(this->GetNeighborhoodIndex(o), inbounds)); }
 
+  /** Returns the pixel value located at the itk::Offset o from the center of
+   * the neighborhood. Sets "IsInBounds" to true if the offset is inside the
+   * image and the pixel value returned is an actual pixel in the
+   * image. Sets "IsInBounds" to false if the offset is outside the
+   * image and the pixel value returned is a boundary condition. */
+  virtual PixelType GetPixel(const OffsetType &o,
+                             bool& IsInBounds) const
+  { return (this->GetPixel(this->GetNeighborhoodIndex(o), IsInBounds)); }
+  
   /** Returns the pixel value located i pixels distant from the neighborhood center in
       the positive specified ``axis'' direction. No bounds checking is done on
       the size of the neighborhood. */
@@ -337,7 +352,7 @@ public:
    * otherwise.  Also updates an internal boolean array indicating
    * which of the iterator's faces are out of bounds. */
   bool InBounds() const;
-  
+
   /** Allows a user to override the internal boundary condition. Care should
    * be taken to ensure that the overriding boundary condition is a persistent
    * object during the time it is referenced.  The overriding condition
