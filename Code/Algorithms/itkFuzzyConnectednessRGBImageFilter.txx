@@ -48,28 +48,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk{
 
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 ::FuzzyConnectednessRGBImageFilter()
 {
 }
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 ::~FuzzyConnectednessRGBImageFilter()
 {
 }
 
-
-/**
- *
- */
 
 template <class TInputImage, class TOutputImage>
 double 
@@ -81,7 +71,6 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
   save[1] = 0.5 * (f1[1]+f2[1]) - m_Mean[1];
   save[2] = 0.5 * (f1[2]+f2[2]) - m_Mean[2];
 
-/* save some result to reduce repeating computation */ 
   double s00 = save[0]*save[0];
   double s01 = save[0]*save[1];
   double s02 = save[0]*save[2];
@@ -135,16 +124,13 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 }
 
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 void 
 FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
 
-/* compute the Determinate and inverse of the Variance Matrices */
+/** Compute the inverse of the Variance Matrices. */
   m_VarDet = m_Var[0][0]*m_Var[1][1]*m_Var[2][2]
              +m_Var[1][0]*m_Var[2][1]*m_Var[0][2]
        +m_Var[0][1]*m_Var[1][2]*m_Var[2][0]
@@ -200,7 +186,7 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateData();            
 }
 
-} // end namespace itk
+} /** end namespace itk. */
 
 #endif
 
