@@ -489,14 +489,14 @@ TclGenerator
         {
         m_Output <<
           "    new StaticMethod(this, &Wrapper::StaticMethod_" << m << "_" << methods[m]->GetName() << ",\n"
-          "                     \"" << methods[m]->GetName() << "\",\n"
+          "                     \"" << methods[m]->GetName() << "\", false,\n"
           "                     CvType< " << returnTypeName.c_str() << " >::type";
         }
       else
         {
         m_Output <<
           "    new Method(this, &Wrapper::Method_" << m << "_" << methods[m]->GetName() << ",\n"
-          "               \"" << methods[m]->GetName() << "\", " << (methods[m]->IsConst() ? "true":"false") << ",\n"
+          "               \"" << methods[m]->GetName() << "\", " << (methods[m]->IsConst() ? "true":"false") << ", false,\n"
           "               CvType< " << returnTypeName.c_str() << " >::type";
         }
       }
@@ -511,14 +511,14 @@ TclGenerator
         {
         m_Output <<
           "    new StaticMethod(this, &Wrapper::StaticOperator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str() << ",\n"
-          "                     \"" << methods[m]->GetName() << "\",\n"
+          "                     \"" << methods[m]->GetName() << "\", true,\n"
           "                     CvType< " << returnTypeName.c_str() << " >::type";
         }
       else
         {
         m_Output <<
           "    new Method(this, &Wrapper::Operator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str() << ",\n"
-          "               \"" << methods[m]->GetName() << "\", " << (methods[m]->IsConst() ? "true":"false") << ",\n"
+          "               \"" << methods[m]->GetName() << "\", " << (methods[m]->IsConst() ? "true":"false") << ", true,\n"
           "               CvType< " << returnTypeName.c_str() << " >::type";
         }
       }

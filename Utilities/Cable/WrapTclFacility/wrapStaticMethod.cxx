@@ -54,10 +54,11 @@ namespace _wrap_
  */
 StaticMethod::StaticMethod(WrapperBase* wrapper,
                            MethodWrapper methodWrapper,
-                           const String& name,
+                           const String& name, bool isOperator,
                            const CvQualifiedType& returnType,
                            const ParameterTypes& parameterTypes):
-  Method(wrapper, methodWrapper, name, false, returnType, parameterTypes)
+  Method(wrapper, methodWrapper, name, false,
+         isOperator, returnType, parameterTypes)
 {
   // Replace the implicit object parameter with a dummy.
   const Type* implicit =

@@ -67,7 +67,7 @@ public:
   Method(WrapperBase* wrapper,
          MethodWrapper methodWrapper,
          const String& name,
-         bool isConst,
+         bool isConst, bool isOperator,
          const CvQualifiedType& returnType,
          const ParameterTypes& parameterTypes = ParameterTypes());
   virtual bool IsStatic() const;
@@ -79,6 +79,7 @@ private:
   const WrapperBase* m_Wrapper;
   MethodWrapper m_MethodWrapper;
   CvQualifiedType m_FunctionType;
+  bool m_IsOperator;
 };
 
 

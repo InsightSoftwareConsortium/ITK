@@ -54,12 +54,13 @@ namespace _wrap_
 Method::Method(WrapperBase* wrapper,
                MethodWrapper methodWrapper,
                const String& name,
-               bool isConst,
+               bool isConst, bool isOperator,
                const CvQualifiedType& returnType,
                const ParameterTypes& parameterTypes):
   FunctionBase(name, parameterTypes),
   m_Wrapper(wrapper),
-  m_MethodWrapper(methodWrapper)
+  m_MethodWrapper(methodWrapper),
+  m_IsOperator(isOperator)
 {
   // Construct the function type associated with the method.  This does not
   // include the implicit object parameter.
@@ -125,17 +126,13 @@ String Method::GetCallName() const
     {
     return "";
     }
-  
-  char ch = m_Name[0];
-  if(((ch >= 'A') && (ch <= 'Z'))
-     || ((ch >= 'a') && (ch <= 'z'))
-     || (ch == '_'))
+  if(m_IsOperator)
     {
-    return m_Name;
+    return "operator "+m_Name;
     }
   else
     {
-    return "operator"+m_Name;
+    return m_Name;
     }
 }
 

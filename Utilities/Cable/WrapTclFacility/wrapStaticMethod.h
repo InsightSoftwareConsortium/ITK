@@ -58,7 +58,7 @@ public:
   
   StaticMethod(WrapperBase* wrapper,
                MethodWrapper methodWrapper,
-               const String& name,
+               const String& name, bool isOperator,
                const CvQualifiedType& returnType,
                const ParameterTypes& parameterTypes = ParameterTypes());
   virtual bool IsStatic() const;
