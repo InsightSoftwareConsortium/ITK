@@ -15,6 +15,12 @@
 
 =========================================================================*/
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {CurvatureAnisotropicDiffusionImageFilterOutput.png}
+//    5 0.125 3
+//  Software Guide : EndCommandLineArgs
+//
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} performs anisotropic
