@@ -67,7 +67,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
-::SetObjectsSeed(const IndexType &seed, const int object_num)
+::SetObjectsSeed(const InputIndexType &seed, const int object_num)
 {
 	m_ObjectsSeed[object_num].push_front(seed);
 }
@@ -206,7 +206,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	VectorInt  *Histogram;
 	IntVector            Hist_sum;
 	int i,j,k,l,pslices,prow,pcol,tti1;
-	IndexType            index1,index2;
+	InputIndexType            index1,index2;
 	IntVector            value1,value2;
 	float     result;   
 
@@ -545,7 +545,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	int i,j,k,x,y,z,pslices,prow,pcol;
 	int flag,edge_flag;
 	int tti1;
-	IndexType  index1,index2;
+	InputIndexType  index1,index2;
 	IntVector  value1,value2, mean;
 	double mask_f[3]; 
 	double count_obj,count_nonobj;
@@ -676,7 +676,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	int col, row, slice, pcol, prow, pslice;
 	double tt1,tt2,inv_k,count;
 	double weight[8][8];
-	IndexType index;
+	InputIndexType index;
 	IntVector  value,mean;
 
 
@@ -688,9 +688,9 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	pcol = m_Size[0];
 
 	m_FilterImage = InputImageType::New();
-	
-	index = InputImageType::IndexType::ZeroIndex;
-	InputImageType::RegionType region;
+
+	index = InputIndexType::ZeroIndex;
+	InputRegionType region;
 
 	region.SetSize(m_Size);
 	region.SetIndex(index);
@@ -773,7 +773,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 {
 
 	int i,j,k,pslices,prow,pcol;
-	IndexType  index1,index2;
+	InputIndexType  index1,index2;
 	IntVector  value1,value2, mean; 
 	int tti1;
 	double temp[3];
@@ -1061,7 +1061,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	ListType::iterator  iter;
 	int                topIndex;
 	int                pslices,prow,pcol;
-	IndexType          current,index1,index2;
+	InputIndexType          current,index1,index2;
 	unsigned short     affp[6];
 
 
@@ -1298,7 +1298,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   prow = m_Size[1];
   pcol = m_Size[0];
 
-  IndexType index = IndexType::ZeroIndex;
+  InputIndexType index = InputIndexType::ZeroIndex;
 
   UShortImage::RegionType region;
   region.SetSize(m_Size);
@@ -1315,7 +1315,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   m_BackgroundFuzzyScene->SetRequestedRegion( region );
   m_BackgroundFuzzyScene->Allocate();
 
-  RegionType region1;
+  OutputRegionType region1;
   region1.SetSize(m_Size);
   region1.SetIndex(index);
   m_SegmentObject->SetLargestPossibleRegion( region1 );
@@ -1375,7 +1375,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
 				count++;
 
-				IndexType current = it1.GetIndex();
+				InputIndexType current = it1.GetIndex();
 				if(current[0]>0)
 					m_Xaffinity[current[2]*prow*pcol + current[1]*pcol + current[0]-1] = 0;
 				if(current[1]>0)

@@ -74,11 +74,12 @@ public:
   typedef   TInputImage	                          InputImageType;
   typedef   TOutputImage                          OutputImageType;
   typedef   Image <unsigned short,ImageDimension> UShortImage;
-  typedef   typename TInputImage::IndexType       IndexType;
-  typedef   typename TInputImage::SizeType        SizeType;
-  typedef   typename TOutputImage::RegionType     RegionType;
+  typedef   typename TInputImage::IndexType       InputIndexType;
+  typedef   typename TInputImage::SizeType        InputSizeType;
+  typedef   typename TInputImage::RegionType      InputRegionType;
+  typedef   typename TOutputImage::RegionType     OutputRegionType;
 
-  typedef   std::list<IndexType>                  ListType;
+  typedef   std::list<InputIndexType>                  ListType;
   typedef   std::vector<IntVector>                OffsetType;
   typedef   std::vector<float>                    FloatType;
   
@@ -108,7 +109,7 @@ public:
   /**
    * Setting the seed points for specified object.
    */
-  void SetObjectsSeed( const IndexType &seed, const int object_num);
+  void SetObjectsSeed( const InputIndexType &seed, const int object_num);
 
   /**
    * Setting the seed points for specified object.
@@ -132,7 +133,7 @@ protected:
 private:
 
 
-  SizeType                       m_Size;
+  InputSizeType                       m_Size;
   OffsetType                     *m_SpherePointsLoc;
   int                            *m_SpherePointsNum;
 
