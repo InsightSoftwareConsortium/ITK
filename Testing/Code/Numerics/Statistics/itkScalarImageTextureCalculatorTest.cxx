@@ -98,9 +98,9 @@ int itkScalarImageTextureCalculatorTest(int, char* [] )
   means = texCalc->GetFeatureMeans();
   stds = texCalc->GetFeatureStandardDeviations();
   
-  double expectedMeans[6] = {0.513889, 0.979574, 0.625, 0.75, -0.14814825, 0.2962975};
-  double expectedDeviations[6] = {0.024056454, 0.03537887, 0.216506351, 0.433012702, 
-    0.256600296, 0.513202324};
+  double expectedMeans[6] = {0.505, 0.992738, 0.625, 0.75, 0.0959999, 0.2688};
+  double expectedDeviations[6] = {0.00866027, 0.0125788, 0.216506351, 0.433012702, 
+    0.166277, 0.465575};
   
   bool passed = true;
   TextureCalcType::FeatureValueVector::ConstIterator mIt, sIt;

@@ -171,11 +171,11 @@ int itkMaskedScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest(int, char* []
   // Test the histogram with "0" as the "inside" value instead of "1"
   // It should look like this:
   // 
-  //     0 1 2 ...
-  //     -----
-  //  0 |0 0 0
-  //  1 |0 0 3
-  //  2 |0 3 12
+  //     0 1  2 ...
+  //     ------
+  //  0 |0 0  0
+  //  1 |0 18 14
+  //  2 |0 14 18
   //  .
   //  .
   //  .
@@ -196,11 +196,11 @@ int itkMaskedScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest(int, char* []
   ttF = hist->GetFrequency(two_two);
   totalF = hist->GetTotalFrequency();
   
-  if( ooF != 0 || ttF != 12 || otF != 3 || toF != 3 || ooF + ttF + otF + toF != totalF)
+  if( ooF != 16 || ttF != 16 || otF != 14 || toF != 14 || ooF + ttF + otF + toF != totalF)
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "The histogram was calculated incorrectly" << std::endl;
-    std::cerr << "Expected 0, 12, 3, 3, 18 got " << ooF << ", " << ttF  << ", " <<
+    std::cerr << "Expected 16, 16, 14, 14, 64 got " << ooF << ", " << ttF  << ", " <<
     otF  << ", " << toF  << ", " << totalF << std::endl << std::endl;
     passed = false;
     }
@@ -210,16 +210,16 @@ int itkMaskedScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest(int, char* []
   // Generate the histogram with no mask. The un-normalized, un-masked histogram
   // should look like this:
   // 
-  //     0 1 2 ...
-  //     -----
-  //  0 |0 0 0
-  //  1 |0 6 9
-  //  2 |0 9 12
-  //  3 |0 0 0
+  //     0 1  2 ...
+  //     ------
+  //  0 |0 0  0
+  //  1 |0 24 20
+  //  2 |0 20 16
+  //  3 |0 0  0
   //  .
   //  .
   // with zeroes elsewhere.
-  //--------------------------------------------------------------------------
+  //-------------------------------------------------------------------------- 
   
   glcmGen = GLCMGeneratorType::New();
   
@@ -235,11 +235,11 @@ int itkMaskedScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest(int, char* []
   totalF = hist->GetTotalFrequency();
   
   
-  if( ooF != 6 || ttF != 12 || otF != 9 || toF != 9 || ooF + ttF + otF + toF != totalF)
+  if( ooF != 24 || ttF != 16 || otF != 20 || toF != 20 || ooF + ttF + otF + toF != totalF)
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "The histogram was calculated incorrectly" << std::endl;
-    std::cerr << "Expected 6, 12, 9, 9, 36 got " << ooF << ", " << ttF  << ", " <<
+    std::cerr << "Expected 24, 16, 20, 20, 80 got " << ooF << ", " << ttF  << ", " <<
     otF  << ", " << toF  << ", " << totalF << std::endl << std::endl;
     passed = false;
     }

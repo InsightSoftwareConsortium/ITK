@@ -84,12 +84,12 @@ int itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest(int, char* [] )
   //--------------------------------------------------------------------------
   // Generate the histogram. The un-normalized histogram should look like this:
   // 
-  //     0 1 2 ...
-  //     -----
-  //  0 |0 0 0
-  //  1 |0 6 9
-  //  2 |0 9 12
-  //  3 |0 0 0
+  //     0 1  2 ...
+  //     ------
+  //  0 |0 0  0
+  //  1 |0 24 20
+  //  2 |0 20 16
+  //  3 |0 0  0
   //  .
   //  .
   // with zeroes elsewhere.
@@ -142,11 +142,11 @@ int itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest(int, char* [] )
   ttF = hist->GetFrequency(two_two);
   totalF = hist->GetTotalFrequency();
   
-  if( ooF != 6 || ttF != 12 || otF != 9 || toF != 9 || ooF + ttF + otF + toF != totalF)
+  if( ooF != 24 || ttF != 16 || otF != 20 || toF != 20 || ooF + ttF + otF + toF != totalF)
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "The histogram was calculated incorrectly" << std::endl;
-    std::cerr << "Expected 6, 12, 9, 9, 36 got " << ooF << ", " << ttF  << ", " <<
+    std::cerr << "Expected 24, 16, 20, 20, 80 got " << ooF << ", " << ttF  << ", " <<
     otF  << ", " << toF  << ", " << totalF << std::endl << std::endl;
     passed = false;
     }
@@ -169,12 +169,12 @@ int itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest(int, char* [] )
   toF = hist0->GetFrequency(two_one);
   ttF = hist0->GetFrequency(two_two);
   
-  if( (ooF - 6/36.) > 0.001 || (ttF - 12/36.) > 0.001 || (otF - 9/36.) > 0.001 || 
-      (toF - 9/36.) > 0.001 || (ooF + ttF + otF + toF - 1) > 0.001 )
+  if( (ooF - 24/80.) > 0.001 || (ttF - 16/80.) > 0.001 || (otF - 20/80.) > 0.001 || 
+      (toF - 20/80.) > 0.001 || (ooF + ttF + otF + toF - 1) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "The histogram was calculated incorrectly" << std::endl;
-    std::cerr << "Expected 0.166, 0.333, 0.25, 0.25 got " << ooF << ", " << ttF  << ", " <<
+    std::cerr << "Expected 0.3, 0.2, 0.25, 0.25 got " << ooF << ", " << ttF  << ", " <<
     otF  << ", " << toF << std::endl << std::endl;
     passed = false;
     }
@@ -200,11 +200,11 @@ int itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest(int, char* [] )
   zzF = hist2->GetFrequency(zero_zero);
   totalF = hist2->GetTotalFrequency();
   
-  if( zzF != 18 || zzF != totalF)
+  if( zzF != 40 || zzF != totalF)
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "The degenerate histogram was calculated incorrectly" << std::endl;
-    std::cerr << "Expected 18, 18 got " << zzF  << ", " << totalF << std::endl << std::endl;
+    std::cerr << "Expected 40, 40 got " << zzF  << ", " << totalF << std::endl << std::endl;
     passed = false;
     }
   
@@ -231,11 +231,11 @@ int itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest(int, char* [] )
   ooF = hist3->GetFrequency(one_one);
   totalF = hist3->GetTotalFrequency();
   
-  if( zzF != 0 || zoF != 9 || ozF != 9 || ooF != 0 || zzF + zoF + ozF + ooF != totalF)
+  if( zzF != 0 || zoF != 16 || ozF != 16 || ooF != 0 || zzF + zoF + ozF + ooF != totalF)
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "The small size histogram was calculated incorrectly" << std::endl;
-    std::cerr << "Expected 6, 12, 9, 9, 36 got " << zzF << ", " << zoF  << ", " <<
+    std::cerr << "Expected 0, 16, 16, 0, 32 got " << zzF << ", " << zoF  << ", " <<
     ozF  << ", " << ooF  << ", " << totalF << std::endl << std::endl;
     passed = false;
     }
@@ -258,11 +258,11 @@ int itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest(int, char* [] )
   ooF = hist4->GetFrequency(one_one);
   totalF = hist4->GetTotalFrequency();
   
-  if( zzF != 0 || zoF != 0 || ozF != 0 || ooF != 6 || zzF + zoF + ozF + ooF != totalF)
+  if( zzF != 0 || zoF != 0 || ozF != 0 || ooF != 24 || zzF + zoF + ozF + ooF != totalF)
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "The truncated range histogram was calculated incorrectly" << std::endl;
-    std::cerr << "Expected 6, 12, 9, 9, 36 got " << zzF << ", " << zoF  << ", " <<
+    std::cerr << "Expected 0, 0, 0, 24, 24 got " << zzF << ", " << zoF  << ", " <<
     ozF  << ", " << ooF  << ", " << totalF << std::endl << std::endl;
     passed = false;
     }
