@@ -194,6 +194,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   // Start optimization.
   optimizer->StartOptimization();
 
+  int retval;
   if(optimizer->GetFitError() < 1e-3)
   {
     m_FinalParameters[0] = optimizer->GetLowerAsymptote();
@@ -208,10 +209,18 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 //    std::cerr << "Fitted upper asymptote = " << m_FinalParameters[1] << std::endl;
 //    std::cerr << "Fitted lower asymptote = " << m_FinalParameters[0] << std::endl;
 
-    return EXIT_SUCCESS;
+    retval = EXIT_SUCCESS;
   }
   else
-    return EXIT_FAILURE;
+    {
+    retval =  EXIT_FAILURE;
+    }
+
+  // clean up
+  delete normalizedAccumulator;
+  delete cumGaussianArray;
+  
+  return retval;
 }
 
 template< typename TSourceImage >
