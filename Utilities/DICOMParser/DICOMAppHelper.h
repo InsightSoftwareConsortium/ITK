@@ -31,53 +31,174 @@ class DICOMAppHelper
   
   void SetFileName(const char* filename);
   
-  void ArrayCallback(doublebyte group,
+  virtual void ArrayCallback(doublebyte group,
                      doublebyte element,
                      DICOMParser::VRTypes type,
                      unsigned char* val,
                      quadbyte len);
   
-  void SliceNumberCallback(doublebyte group,
+  virtual void SliceNumberCallback(doublebyte group,
                            doublebyte element,
                            DICOMParser::VRTypes type,
                            unsigned char* val,
                            quadbyte len) ;
   
-  void SeriesUIDCallback(doublebyte group,
+  virtual void SeriesUIDCallback(doublebyte group,
                          doublebyte element,
                          DICOMParser::VRTypes type,
                          unsigned char* val,
                          quadbyte len) ;
   
-  void WriteImageData(doublebyte group,
+  virtual void WriteImageData(doublebyte group,
                       doublebyte element,
                       DICOMParser::VRTypes type,
                       unsigned char* val,
                       quadbyte len);
   
-  void TransferSyntaxCallback(doublebyte group,
+  virtual void TransferSyntaxCallback(doublebyte group,
                               doublebyte element,
                               DICOMParser::VRTypes type,
                               unsigned char* val,
                               quadbyte len) ;
   
-  void BitsAllocatedCallback(doublebyte group,
+  virtual void BitsAllocatedCallback(doublebyte group,
                              doublebyte element,
                              DICOMParser::VRTypes type,
                              unsigned char* val,
                              quadbyte len) ;
   
   void OutputSeries();
-  void RegisterCallbacks(DICOMParser& parser);
-  void SetDICOMDataFile(DICOMFile* f)
-  {
+
+  virtual void RegisterCallbacks(DICOMParser* parser);
+
+  virtual void SetDICOMDataFile(DICOMFile* f)
+    {
     this->DICOMDataFile = f;
-  }
+    }
+
+  virtual void ToggleSwapBytesCallback(doublebyte,
+                               doublebyte,
+                               DICOMParser::VRTypes,
+                               unsigned char*,
+                               quadbyte);
+
+  virtual void PixelSpacingCallback(doublebyte group,
+                                    doublebyte element,
+                                    DICOMParser::VRTypes type,
+                                    unsigned char* val,
+                                    quadbyte len) ;
+
+  virtual void DICOMAppHelper::HeightCallback(doublebyte group,
+                                              doublebyte element,
+                                              DICOMParser::VRTypes type,
+                                              unsigned char* val,
+                                              quadbyte len);
+
+  virtual void DICOMAppHelper::WidthCallback( doublebyte group,
+                                              doublebyte element,
+                                              DICOMParser::VRTypes type,
+                                              unsigned char* val,
+                                              quadbyte len);
+
+  virtual void DICOMAppHelper::PixelRepresentationCallback(doublebyte group,
+                                                           doublebyte element,
+                                                           DICOMParser::VRTypes type,
+                                                           unsigned char* val,
+                                                           quadbyte len);
+
+  virtual void DICOMAppHelper::PhotometricInterpretationCallback(doublebyte,
+                                                                 doublebyte,
+                                                                 DICOMParser::VRTypes,
+                                                                 unsigned char* val,
+                                                                 quadbyte len);
+
+  virtual void DICOMAppHelper::PixelDataCallback(doublebyte,
+                                                 doublebyte,
+                                                 DICOMParser::VRTypes,
+                                                 unsigned char* val,
+                                                 quadbyte len);
+
+  virtual void DICOMAppHelper::PixelOffsetCallback( doublebyte,
+                                                    doublebyte,
+                                                    DICOMParser::VRTypes,
+                                                    unsigned char* val,
+                                                    quadbyte);
+
+  float* GetPixelSpacing()
+    {
+    return this->PixelSpacing;
+    }
+
+  int GetWidth()
+    {
+    return this->Width;
+    }
+
+  int GetHeight()
+    {
+    return this->Height;
+    }
+
+  int* GetDimensions()
+    {
+    return this->Dimensions;
+    }
+
+  int GetBitsAllocated()
+    {
+    return this->BitsAllocated;
+    }
+
+  // 0 unsigned
+  // 1 signed
+  int GetPixelRepresentation()
+    {
+    return this->PixelRepresentation;
+    }
+
+  int GetNumberOfComponents()
+    {
+    if (!this->PhotometricInterpretation)
+      {
+      return 1;
+      }
+
+    //
+    // DICOM standard says that spaces (0x20) are to
+    // be ignored for CS types.  We don't handle this
+    // well yet.
+    //
+    std::string str1(*this->PhotometricInterpretation);
+    std::string rgb("RGB ");
+
+    if (str1 == rgb)
+      {
+      return 3;
+      }
+    else
+      {
+      return 1;
+      }
+    }
+
+  virtual void RegisterPixelDataCallback();
+
+  std::string GetTransferSyntaxUID()
+    {
+    return *(this->TransferSyntaxUID);
+    }
+
+  const char* TransferSyntaxUIDDescription(const char* uid);
 
  protected:
   int BitsAllocated;
   bool ByteSwapData;
-  
+  float PixelSpacing[3];
+  int Width;
+  int Height;
+  int SliceNumber; 
+  int Dimensions[2];
+
   char* GetOutputFilename()
   {
     int len = strlen(this->FileName);
@@ -99,6 +220,16 @@ class DICOMAppHelper
   std::ofstream HeaderFile;
   
   DICOMFile* DICOMDataFile;
+
+  DICOMParser* Parser;
+
+  // 0 unsigned
+  // 1 2s complement (signed)
+  int PixelRepresentation;
+  std::string* PhotometricInterpretation;
+  std::string* TransferSyntaxUID;
+  int PixelOffset;
+
 };
 
 #endif

@@ -17,8 +17,13 @@ DICOMAppHelper::DICOMAppHelper()
 {
   this->FileName = NULL;
   this->DICOMDataFile = NULL;
-  this->BitsAllocated = 16;
+  this->BitsAllocated = 8;
   this->ByteSwapData = false;
+  this->PixelSpacing[0] = this->PixelSpacing[1] = 1.0;
+  this->Dimensions[0] = this->Dimensions[1] = 0;
+  this->PhotometricInterpretation = NULL;
+  this->TransferSyntaxUID = NULL;
+  this->PixelOffset = 0;
 }
 
 DICOMAppHelper::~DICOMAppHelper()
@@ -26,37 +31,69 @@ DICOMAppHelper::~DICOMAppHelper()
   this->HeaderFile.close();
 }
 
-void DICOMAppHelper::RegisterCallbacks(DICOMParser& parser)
+void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
 {
+  if (!parser)
+    {
+    std::cerr << "Null parser!" << std::endl;
+    }
+
+  this->Parser = parser;
+
+  
   DICOMMemberCallback<DICOMAppHelper>* cb = new DICOMMemberCallback<DICOMAppHelper>;
   cb->SetCallbackFunction(this, &DICOMAppHelper::WriteImageData);
-  parser.AddDICOMTagCallback(0x7FE0, 0x0010, DICOMParser::VR_OW, cb);
-        
+  // parser->AddDICOMTagCallback(0x7FE0, 0x0010, DICOMParser::VR_OW, cb);
+  
   DICOMMemberCallback<DICOMAppHelper>* cb2 = new DICOMMemberCallback<DICOMAppHelper>;
   cb2->SetCallbackFunction(this, &DICOMAppHelper::SeriesUIDCallback);
-  parser.AddDICOMTagCallback(0x0020, 0x000e, DICOMParser::VR_UI, cb2);
+  parser->AddDICOMTagCallback(0x0020, 0x000e, DICOMParser::VR_UI, cb2);
 
   DICOMMemberCallback<DICOMAppHelper>* cb3 = new DICOMMemberCallback<DICOMAppHelper>;
   cb3->SetCallbackFunction(this, &DICOMAppHelper::SliceNumberCallback);
-  parser.AddDICOMTagCallback(0x0020, 0x0013, DICOMParser::VR_IS, cb3);
+  parser->AddDICOMTagCallback(0x0020, 0x0013, DICOMParser::VR_IS, cb3);
 
   DICOMMemberCallback<DICOMAppHelper>* cb4 = new DICOMMemberCallback<DICOMAppHelper>;
   cb4->SetCallbackFunction(this, &DICOMAppHelper::TransferSyntaxCallback);
-  parser.AddDICOMTagCallback(0x0002, 0x0010, DICOMParser::VR_UI, cb4);
+  parser->AddDICOMTagCallback(0x0002, 0x0010, DICOMParser::VR_UI, cb4);
 
   DICOMMemberCallback<DICOMAppHelper>* cb5 = new DICOMMemberCallback<DICOMAppHelper>;
   cb5->SetCallbackFunction(this, &DICOMAppHelper::BitsAllocatedCallback);
-  parser.AddDICOMTagCallback(0x0028, 0x0100, DICOMParser::VR_US, cb5);
+  parser->AddDICOMTagCallback(0x0028, 0x0100, DICOMParser::VR_US, cb5);
 
+  DICOMMemberCallback<DICOMAppHelper>* cb6 = new DICOMMemberCallback<DICOMAppHelper>;
+  cb6->SetCallbackFunction(this, &DICOMAppHelper::PixelSpacingCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x0030, DICOMParser::VR_FL, cb6);
+  parser->AddDICOMTagCallback(0x0018, 0x0050, DICOMParser::VR_FL, cb6);
+
+  DICOMMemberCallback<DICOMAppHelper>* cb7 = new DICOMMemberCallback<DICOMAppHelper>;
+  cb7->SetCallbackFunction(this, &DICOMAppHelper::WidthCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x0011, DICOMParser::VR_FL, cb7);
+
+  DICOMMemberCallback<DICOMAppHelper>* cb8 = new DICOMMemberCallback<DICOMAppHelper>;
+  cb8->SetCallbackFunction(this, &DICOMAppHelper::HeightCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x0010, DICOMParser::VR_FL, cb8);
+
+  DICOMMemberCallback<DICOMAppHelper>* cb9 = new DICOMMemberCallback<DICOMAppHelper>;
+  cb9->SetCallbackFunction(this, &DICOMAppHelper::PixelRepresentationCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x0103, DICOMParser::VR_US, cb9);
+
+  DICOMMemberCallback<DICOMAppHelper>* cb10 = new DICOMMemberCallback<DICOMAppHelper>;
+  cb10->SetCallbackFunction(this, &DICOMAppHelper::PhotometricInterpretationCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x0004, DICOMParser::VR_CS, cb10);
+
+  DICOMMemberCallback<DICOMAppHelper>* cb11 = new DICOMMemberCallback<DICOMAppHelper>;
+  cb11->SetCallbackFunction(this, &DICOMAppHelper::PixelOffsetCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x1052, DICOMParser::VR_CS, cb11);
 
   DICOMTagInfo dicom_tags[] = {
-    // {0x0002, 0x0002, DICOMParser::VR_UI, "Media storage SOP class uid"},
-    // {0x0002, 0x0003, DICOMParser::VR_UI, "Media storage SOP inst uid"},
+    {0x0002, 0x0002, DICOMParser::VR_UI, "Media storage SOP class uid"},
+    {0x0002, 0x0003, DICOMParser::VR_UI, "Media storage SOP inst uid"},
     {0x0002, 0x0010, DICOMParser::VR_UI, "Transfer syntax uid"},
-    // {0x0002, 0x0012, DICOMParser::VR_UI, "Implementation class uid"},
-    // {0x0008, 0x0018, DICOMParser::VR_UI, "Image UID"},
-    // {0x0008, 0x0020, DICOMParser::VR_DA, "Series date"},
-    // {0x0008, 0x0030, DICOMParser::VR_TM, "Series time"},
+    {0x0002, 0x0012, DICOMParser::VR_UI, "Implementation class uid"},
+    {0x0008, 0x0018, DICOMParser::VR_UI, "Image UID"},
+    {0x0008, 0x0020, DICOMParser::VR_DA, "Series date"},
+    {0x0008, 0x0030, DICOMParser::VR_TM, "Series time"},
     {0x0008, 0x0060, DICOMParser::VR_SH, "Modality"},
     {0x0008, 0x0070, DICOMParser::VR_SH, "Manufacturer"},
     {0x0008, 0x1060, DICOMParser::VR_SH, "Physician"},
@@ -71,13 +108,12 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser& parser)
     {0x0020, 0x0013, DICOMParser::VR_IS, "Image number"},
     {0x0020, 0x0032, DICOMParser::VR_SH, "Patient position"},
     {0x0020, 0x0037, DICOMParser::VR_SH, "Patient position cosines"},
-    {0x0028, 0x0010, DICOMParser::VR_US, "Num rows"},
-    {0x0028, 0x0011, DICOMParser::VR_US, "Num cols"},
+    {0x0028, 0x0010, DICOMParser::VR_FL, "Num rows"},
+    {0x0028, 0x0011, DICOMParser::VR_FL, "Num cols"},
     {0x0028, 0x0030, DICOMParser::VR_FL, "pixel spacing"},
     {0x0028, 0x0100, DICOMParser::VR_US, "Bits allocated"},
     {0x0028, 0x0120, DICOMParser::VR_UL, "pixel padding"},
     {0x0028, 0x1052, DICOMParser::VR_FL, "pixel offset"}
-    //{0x7FE0, 0x0010, DICOMParser::VR_OW, "pixel data"}
   };
 
   int num_tags = sizeof(dicom_tags)/sizeof(DICOMTagInfo);
@@ -105,7 +141,7 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser& parser)
     //
     // Set callback on parser.
     //
-    parser.AddDICOMTagCallback(group, element,datatype, callbackArray[j]);
+    parser->AddDICOMTagCallback(group, element,datatype, callbackArray[j]);
 
     }
 
@@ -165,26 +201,30 @@ void DICOMAppHelper::WriteImageData(doublebyte group,
                                     unsigned char* val,
                                     quadbyte len)
 {
-#if 0
-  //FILE* fptr = fopen(this->GetOutputFilename(), "wb");
 
-  /*  
-      if (this->ByteSwapData)
-      {
-      if (this->BitsAllocated >= 8 && this->BitsAllocated <=16)
+  std::cout << "Image data length: 0x" << std::hex << unsigned long(len) << std::endl; 
+  std::cout << std::dec;
+
+  FILE* fptr = fopen(this->GetOutputFilename(), "wb");
+
+  if (this->ByteSwapData)
+    {
+    if (this->BitsAllocated >= 8 && this->BitsAllocated <=16)
       {
       this->DICOMDataFile->swapShorts((ushort*) val,(ushort*) val, len/2);
+      std::cout << "Swapped shorts." << std::endl;
       }
-      else if (this->BitsAllocated > 16)
+    else if (this->BitsAllocated > 16)
       {
       this->DICOMDataFile->swapLongs((ulong*) val,(ulong*) val, len/4);
+      std::cout << "Swapped longs." << std::endl;
       }
-      }
-  */
+    }
 
-  // fwrite(val,len, 1,fptr);
-  // fclose(fptr);
-#endif
+  fwrite(val,len, 1,fptr);
+  fclose(fptr);
+  std::cout << "Wrote raw data to: " << this->GetOutputFilename() << std::endl;
+
 }
 
 void DICOMAppHelper::SetFileName(const char* filename)
@@ -194,13 +234,6 @@ void DICOMAppHelper::SetFileName(const char* filename)
     this->HeaderFile.close();
     }
   this->FileName = (char*) filename;
-  /*
-    #ifdef WIN32
-    char myfilename[_MAX_PATH];
-    #else
-    char myfilename[PATH_MAX];
-    #endif
-  */
 
   std::string myfilename(std::string((char*) this->FileName) + ".header.txt");
     
@@ -221,6 +254,12 @@ void DICOMAppHelper::ArrayCallback(doublebyte group,
     desc = (*iter).second.description;
     }
 
+  int t2 = int((0x0000FF00 & datatype) >> 8);
+  int t1 = int((0x000000FF & datatype));
+
+  char ct2(t2);
+  char ct1(t1);
+
     
   HeaderFile << "(0x";
 
@@ -238,6 +277,7 @@ void DICOMAppHelper::ArrayCallback(doublebyte group,
 
   HeaderFile.fill(prev);
   HeaderFile << std::dec;
+  HeaderFile << " " << ct1 << ct2 << " ";
   HeaderFile << "[" << len << " bytes] ";
   
   HeaderFile << desc << " : ";
@@ -320,7 +360,7 @@ void DICOMAppHelper::SliceNumberCallback(doublebyte,
   int sliceNumber = atoi(newString);
   std::cout << "Slice number: " << sliceNumber << std::endl;
 
-  SliceNumberMap.insert(std::pair<char*, int> (this->FileName, sliceNumber));
+  // SliceNumberMap.insert(std::pair<char*, int> (this->FileName, sliceNumber));
 }
 
 void DICOMAppHelper::TransferSyntaxCallback(doublebyte,
@@ -329,23 +369,39 @@ void DICOMAppHelper::TransferSyntaxCallback(doublebyte,
                                             unsigned char* val,
                                             quadbyte) 
 {
-  static char* TRANSFER_UID_LITTLE_ENDIAN = "1.2.840.10008.1.2";
-  if (!strcmp(TRANSFER_UID_LITTLE_ENDIAN, (char*) val))
-    {
+  char dataByteOrder = 'L';
 #ifdef WIN32
-    this->ByteSwapData = false;   
+  char platformByteOrder = 'L';
 #else
-    this->ByteSwapData = true;
+  char platformByteOrder = 'B';
 #endif
+
+  static char* TRANSFER_UID_EXPLICIT_BIG_ENDIAN = "1.2.840.10008.1.2.2";
+
+  if (strcmp(TRANSFER_UID_EXPLICIT_BIG_ENDIAN, (char*) val) == 0)
+    {
+    dataByteOrder = 'B';
     }
   else
     {
-#ifdef WIN32
-    this->ByteSwapData = true;    
-#else
-    this->ByteSwapData = false;
-#endif
+    dataByteOrder = 'L';
     }
+
+  DICOMMemberCallback<DICOMAppHelper>* cb = new DICOMMemberCallback<DICOMAppHelper>;
+  cb->SetCallbackFunction(this, &DICOMAppHelper::ToggleSwapBytesCallback);
+
+  if ((platformByteOrder != dataByteOrder))
+    {
+    this->ByteSwapData = true;
+    this->Parser->AddDICOMTagCallback(0x800, 0x0000, DICOMParser::VR_UNKNOWN, cb);
+    std::cerr <<"Registering callback for swapping bytes." << std::endl;
+    }
+  
+  this->TransferSyntaxUID = new std::string((char*) val);
+  std::cout << "Transfer Syntax UID: " << *this->TransferSyntaxUID;
+  std::cout << " " << this->TransferSyntaxUIDDescription(this->TransferSyntaxUID->c_str()) << std::endl;
+
+
 }
 
 void DICOMAppHelper::BitsAllocatedCallback(doublebyte,
@@ -356,4 +412,159 @@ void DICOMAppHelper::BitsAllocatedCallback(doublebyte,
 {
   this->BitsAllocated = this->DICOMDataFile->ReturnAsUnsignedShort(val, this->DICOMDataFile->GetByteSwap());
   std::cout << "Bits allocated: " << this->BitsAllocated << std::endl;
+}
+
+
+void DICOMAppHelper::ToggleSwapBytesCallback(doublebyte,
+                                             doublebyte,
+                                             DICOMParser::VRTypes vrtype,
+                                             unsigned char* val,
+                                             quadbyte len) 
+{
+  std::cout << "ToggleSwapBytesCallback" << std::endl;
+  bool bs = this->DICOMDataFile->GetByteSwap();
+  this->DICOMDataFile->SetByteSwap(!bs);
+
+  long pos = this->DICOMDataFile->Tell();
+
+  //
+  // The +4 is probably a hack, but it's a guess at the length of the previous field.
+  //
+  this->DICOMDataFile->SkipToPos(pos - len + 4);
+}
+
+
+void DICOMAppHelper::PixelSpacingCallback(doublebyte group,
+                                          doublebyte element,
+                                          DICOMParser::VRTypes type,
+                                          unsigned char* val,
+                                          quadbyte len) 
+{
+  float fval = DICOMFile::ReturnAsFloat(val, this->DICOMDataFile->GetByteSwap());
+
+  if (group == 0x0028 && element == 0x0030)
+    {
+    this->PixelSpacing[0] = this->PixelSpacing[1] = fval;
+    }
+  else if (group = 0x0018 && element == 0x0050)
+    {
+    this->PixelSpacing[2] = fval;
+    }
+}
+
+void DICOMAppHelper::WidthCallback(doublebyte group,
+                                   doublebyte element,
+                                   DICOMParser::VRTypes type,
+                                   unsigned char* val,
+                                   quadbyte len)
+{
+  unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, this->DICOMDataFile->GetByteSwap()); 
+  std::cout << "Width: " << uival << std::endl;
+
+  this->Width = uival;
+  this->Dimensions[0] = this->Width;
+}
+
+void DICOMAppHelper::HeightCallback(doublebyte group,
+                                    doublebyte element,
+                                    DICOMParser::VRTypes type,
+                                    unsigned char* val,
+                                    quadbyte len) 
+{
+  unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, this->DICOMDataFile->GetByteSwap()); 
+
+  std::cout << "Height: " << uival << std::endl;
+
+  this->Height = uival;
+  this->Dimensions[1] = this->Height;
+}
+
+
+void DICOMAppHelper::PixelRepresentationCallback( doublebyte,
+                                                  doublebyte,
+                                                  DICOMParser::VRTypes,
+                                                  unsigned char* val,
+                                                  quadbyte len)
+{
+  unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, this->DICOMDataFile->GetByteSwap());
+  std::cout << "Pixel Representation: " << (uival ? "Signed" : "Unsigned") << std::endl;
+  this->PixelRepresentation = uival;
+}
+
+void DICOMAppHelper::PhotometricInterpretationCallback( doublebyte,
+                                                        doublebyte,
+                                                        DICOMParser::VRTypes,
+                                                        unsigned char* val,
+                                                        quadbyte len)
+{
+  std::cout << "Photometric Interpretation: " << (char*) val << std::endl;
+  this->PhotometricInterpretation = new std::string((char*) val);
+}
+
+void DICOMAppHelper::PixelDataCallback( doublebyte,
+                                        doublebyte,
+                                        DICOMParser::VRTypes,
+                                        unsigned char* val,
+                                        quadbyte len)
+{
+  std::cout << "Photometric Interpretation: " << (char*) val << std::endl;
+  this->PhotometricInterpretation = new std::string((char*) val);
+}
+
+void DICOMAppHelper::RegisterPixelDataCallback()
+{
+  DICOMMemberCallback<DICOMAppHelper>* cb = new DICOMMemberCallback<DICOMAppHelper>;
+  cb->SetCallbackFunction(this, &DICOMAppHelper::PixelDataCallback);
+  this->Parser->AddDICOMTagCallback(0x7FE0, 0x0010, DICOMParser::VR_OW, cb);
+}
+
+void DICOMAppHelper::PixelOffsetCallback( doublebyte,
+                                          doublebyte,
+                                          DICOMParser::VRTypes,
+                                          unsigned char* val,
+                                          quadbyte)
+{
+  float fval = DICOMFile::ReturnAsFloat(val, this->DICOMDataFile->GetByteSwap());
+  this->PixelOffset = int(fval);
+  std::cout << "Pixel offset: " << this->PixelOffset << std::endl;
+}
+
+const char* DICOMAppHelper::TransferSyntaxUIDDescription(const char* uid)
+{
+  static char* DICOM_IMPLICIT_VR_LITTLE_ENDIAN = "1.2.840.10008.1.2";
+  static char* DICOM_LOSSLESS_JPEG = "1.2.840.10008.1.2.4.70";
+  static char* DICOM_LOSSY_JPEG_8BIT = "1.2.840.10008.1.2.4.50";
+  static char* DICOM_LOSSY_JPEG_16BIT = "1.2.840.10008.1.2.4.51";
+  static char* DICOM_EXPLICIT_VR_LITTLE_ENDIAN = "1.2.840.10008.1.2.1";
+  static char* DICOM_EXPLICIT_VR_BIG_ENDIAN = "1.2.840.10008.1.2.2";
+
+  if (!strcmp(DICOM_IMPLICIT_VR_LITTLE_ENDIAN, uid))
+    {
+    return "Implicit VR, Little Endian";
+    }
+  else if (!strcmp(DICOM_LOSSLESS_JPEG, uid))
+    {
+    return "Lossless JPEG";
+    }
+  else if (!strcmp(DICOM_LOSSY_JPEG_8BIT, uid))
+    {
+    return "Lossy JPEG 8 bit";
+    }
+  else if (!strcmp(DICOM_LOSSY_JPEG_16BIT, uid))
+    {
+    return "Lossy JPEG 16 bit.";
+    }
+  else if (!strcmp(DICOM_EXPLICIT_VR_LITTLE_ENDIAN, uid))
+    {
+    return "Explicit VR, Little Endian.";
+    }
+  else if (!strcmp(DICOM_EXPLICIT_VR_BIG_ENDIAN, uid))
+    {
+    return "Explicit VR, Big Endian.";
+    }
+  else
+    {
+    return "Unknown.";
+    }
+
 }
