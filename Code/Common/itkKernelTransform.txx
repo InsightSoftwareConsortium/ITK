@@ -496,7 +496,7 @@ PrintSelf(std::ostream& os, Indent indent) const
     {
     os << indent << "Displacements: " << m_Displacements << std::endl;
     }
-
+  os << indent << "Stiffness: " << m_Stiffness << std::endl;
 }
 } // namespace itk
 
