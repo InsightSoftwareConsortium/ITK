@@ -228,6 +228,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
      {
      ParametersType * parameters = const_cast<ParametersType *>( m_InputParametersPointer );
      parameters->Fill( 0.0 );
+     this->Modified();
      }
 }
 
@@ -282,7 +283,9 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
       SetImportPointer( jacobianDataPointer, numberOfPixels );
     jacobianDataPointer += this->GetNumberOfParameters() + numberOfPixels;
     }
-
+  // Modified is always called since we just have a pointer to the
+  // parameters and cannot know if the parameters have changed.
+  this->Modified();
 }
 
 // Get the parameters
