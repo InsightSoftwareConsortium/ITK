@@ -88,7 +88,7 @@ public:
   };
 
   /** Define the container type used in this list data structure */
-  typedef deque<merge_t> DequeType;
+  typedef std::deque<merge_t> DequeType;
   typedef typename DequeType::iterator Iterator;
   typedef typename DequeType::const_iterator ConstIterator;
   typedef typename DequeType::value_type ValueType;

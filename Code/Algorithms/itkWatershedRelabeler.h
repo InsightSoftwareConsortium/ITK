@@ -135,7 +135,7 @@ public:
     {
       this->ProcessObject::SetNthInput(1, et);
     }
-  SegmentTreeType::Pointer GetInputSegmentTree()
+  typename SegmentTreeType::Pointer GetInputSegmentTree()
     {
       return static_cast<SegmentTreeType *>
         (this->ProcessObject::GetInput(1).GetPointer());

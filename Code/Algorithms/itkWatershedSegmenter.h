@@ -154,7 +154,7 @@ public:
   
   /** Get/Set the segment table.  The segment table is a table of segmentation
    * information identifying each region produced by the labeling algorithm. */ 
-  SegmentTableType::Pointer GetSegmentTable()
+  typename SegmentTableType::Pointer GetSegmentTable()
     { return static_cast<SegmentTableType *>
         (this->ProcessObject::GetOutput(1).GetPointer()); }
   void SetSegmentTable(SegmentTableType *s)
@@ -162,7 +162,7 @@ public:
   
   /** Returns the boundary information data necessary only for data streaming
     applications.  */
-  BoundaryType::Pointer GetBoundary()
+  typename BoundaryType::Pointer GetBoundary()
     { return static_cast<BoundaryType *>
         (this->ProcessObject::GetOutput(2).GetPointer()); }
   void SetBoundary(BoundaryType *b)

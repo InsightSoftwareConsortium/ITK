@@ -301,8 +301,8 @@ void SegmentTreeGenerator<TScalarType>
 
 template <class TScalarType>
 void SegmentTreeGenerator<TScalarType>
-::PruneMergeSegments(SegmentTableType::Pointer segments,
-                OneWayEquivalencyTableType::Pointer eqT,
+::PruneMergeSegments(typename SegmentTableType::Pointer segments,
+                typename OneWayEquivalencyTableType::Pointer eqT,
                      const unsigned long FROM, const unsigned long TO,
                      ScalarType maxSaliency)
 {
@@ -434,8 +434,8 @@ void SegmentTreeGenerator<TScalarType>
 
 template <class TScalarType>
 void SegmentTreeGenerator<TScalarType>
-::MergeSegments(SegmentTableType::Pointer segments,
-                OneWayEquivalencyTableType::Pointer eqT,
+::MergeSegments(typename SegmentTableType::Pointer segments,
+                typename OneWayEquivalencyTableType::Pointer eqT,
                 const unsigned long FROM, const unsigned long TO)
 {
   SegmentTableType::edge_list_t::iterator edgeTOi, edgeFROMi, edgeTEMPi;

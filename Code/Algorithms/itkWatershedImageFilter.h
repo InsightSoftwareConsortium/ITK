@@ -246,9 +246,9 @@ private:
    * must save state between calls to GenerateData() so that the
    * computationally expensive execution of segment tree generation is
    * not unneccessarily repeated. */
-  watershed::Segmenter<InputImageType>::Pointer m_Segmenter;
-  watershed::SegmentTreeGenerator<ScalarType>::Pointer m_TreeGenerator;
-  watershed::Relabeler<ScalarType, ImageDimension>::Pointer m_Relabeler;
+  typename watershed::Segmenter<InputImageType>::Pointer m_Segmenter;
+  typename watershed::SegmentTreeGenerator<ScalarType>::Pointer m_TreeGenerator;
+  typename watershed::Relabeler<ScalarType, ImageDimension>::Pointer m_Relabeler;
 
   unsigned long m_ObserverTag;
   bool m_FirstExecution;

@@ -171,15 +171,15 @@ public:
 
   /** Performs a merge of two segments in a SegmentTable according
    * to criteria specific to this algorithm.   */
-  void static MergeSegments(SegmentTableType::Pointer,
-                            OneWayEquivalencyTableType::Pointer,
+  void static MergeSegments(typename SegmentTableType::Pointer,
+                            typename OneWayEquivalencyTableType::Pointer,
                             const unsigned long,
                             const unsigned long);
 
   /** This method should not be used.  It will be removed in future versions
    * of this filter. */
-  void static PruneMergeSegments(SegmentTableType::Pointer,
-                            OneWayEquivalencyTableType::Pointer,
+  void static PruneMergeSegments(typename SegmentTableType::Pointer,
+                            typename OneWayEquivalencyTableType::Pointer,
                             const unsigned long,
                                  const unsigned long,
                                  ScalarType);
@@ -201,8 +201,8 @@ protected:
 
   /** Compiles a list of all the actual segment merges up to the specified
    * flood level, recomputing new potential merges as it goes.   */
-  void ExtractMergeHierarchy(SegmentTableType::Pointer,
-                             SegmentTreeType::Pointer);
+  void ExtractMergeHierarchy(typename SegmentTableType::Pointer,
+                             typename SegmentTreeType::Pointer);
 
   void MergeEquivalencies();
 
