@@ -15,7 +15,7 @@
 
 =========================================================================*/
 
-#include <iostream.h>
+#include <iostream>
 #include "itkFourierSeriesPath.h"
 
 int itkFourierSeriesPathTest(int, char*[])
