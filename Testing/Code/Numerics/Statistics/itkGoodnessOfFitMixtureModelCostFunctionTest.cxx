@@ -128,7 +128,7 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char** argv)
 
   std::vector< ComponentType::Pointer > components(numberOfClasses) ;
 
-  for (int i = 0 ; i < numberOfClasses ; i++)
+  for ( i = 0 ; i < numberOfClasses ; i++)
     {
       components[i] = ComponentType::New() ;
       components[i]->SetHistogramNumberOfBins(6) ;
@@ -195,7 +195,7 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char** argv)
 
   bool passed = true ;
   double displacement ;
-  int paramIndex = 0 ;
+  unsigned int paramIndex = 0 ;
   for ( i = 0 ; i < numberOfClasses ; i++)
     {
       std::cout << "Cluster[" << i << "]" << std::endl ;
