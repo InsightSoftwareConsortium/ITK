@@ -127,7 +127,6 @@ ADD_TEST(itkShapePriorMAPCostFunctionTest ${ALGORITHMS_TESTS3} itkShapePriorMAPC
 ADD_TEST(itkShapePriorSegmentationLevelSetFunctionTest ${ALGORITHMS_TESTS3} itkShapePriorSegmentationLevelSetFunctionTest)
 ADD_TEST(itkSpatialObjectToImageRegistrationTest ${ALGORITHMS_TESTS3} itkSpatialObjectToImageRegistrationTest)
 ADD_TEST(itkSupervisedImageClassifierTest ${ALGORITHMS_TESTS3} itkSupervisedImageClassifierTest)
-ADD_TEST(itkSwathChainCodePathFilterTest ${ALGORITHMS_TESTS3} itkSwathChainCodePathFilterTest)
 ADD_TEST(itkThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS2} itkThresholdSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkGibbsTest ${ALGORITHMS_TESTS3} itkGibbsTest)
 ADD_TEST(itkDeformableTest ${ALGORITHMS_TESTS3} itkDeformableTest)
@@ -282,7 +281,6 @@ itkShapePriorSegmentationLevelSetFunctionTest.cxx
 itkSpatialObjectToImageRegistrationTest.cxx
 itkSphereMeshSourceTest.cxx
 itkSupervisedImageClassifierTest.cxx
-itkSwathChainCodePathFilterTest.cxx
 itkUnsharpMaskLevelSetImageFilterTest.cxx
 )
 

@@ -44,7 +44,6 @@ void RegisterTests()
   REGISTER_TEST(itkSpatialObjectToImageRegistrationTest );
   REGISTER_TEST(itkSphereMeshSourceTest );
   REGISTER_TEST(itkSupervisedImageClassifierTest);
-  REGISTER_TEST(itkSwathChainCodePathFilterTest);
   REGISTER_TEST(itkUnsharpMaskLevelSetImageFilterTest );
 }
 

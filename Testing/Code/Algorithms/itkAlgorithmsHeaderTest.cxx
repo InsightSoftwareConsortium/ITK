@@ -156,7 +156,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkShapePriorSegmentationLevelSetImageFilter.txx"
 #include "itkSphereMeshSource.txx"
 #include "itkStructHashFunction.h"
-#include "itkSwathChainCodePathFilter.txx"
 #include "itkSymmetricForcesDemonsRegistrationFilter.txx"
 #include "itkSymmetricForcesDemonsRegistrationFunction.txx"
 #include "itkThresholdSegmentationLevelSetFunction.txx"
