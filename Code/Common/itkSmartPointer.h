@@ -82,14 +82,20 @@ public:
   operator ObjectType * () const 
     { return m_Pointer; }
   
+  /** Test if the pointer has been initialized */
+  bool IsInitialized() const
+  { return m_Pointer != 0; }
+  bool IsNull() const
+  { return m_Pointer == 0; }
+
   /** Template comparison operators. */
   template <typename R>
-  bool operator == (R r) const
-    { return (m_Pointer == (ObjectType*)r); }
+  bool operator == ( R r ) const
+    { return (m_Pointer == static_cast<ObjectType*>(r) ); }
 
   template <typename R>
-  bool operator != (R r) const
-    { return (m_Pointer != (ObjectType*)r); }
+  bool operator != ( R r ) const
+    { return (m_Pointer != static_cast<ObjectType*>(r) ); }
     
   /** Access function to pointer. */
   ObjectType *GetPointer () const 
