@@ -272,12 +272,11 @@ public:
         size = m_Region.GetSize();
 
       // Increment along a row, then wrap at the end of the region row.
-      bool done;
       unsigned int dim;
 
       // Check to see if we are past the last pixel in the region
       // Note that ++ind[0] moves to the next pixel along the row.
-      done = (++ind[0] == startIndex[0] + static_cast<typename Superclass::IndexValueType>(size[0]));
+      bool done = (++ind[0] == startIndex[0] + static_cast<typename Superclass::IndexValueType>(size[0]));
       for (unsigned int i=1; done && i < ImageIteratorDimension; i++)
         {
         done = (ind[i] == startIndex[i] + static_cast<typename Superclass::IndexValueType>(size[i]) - 1);
