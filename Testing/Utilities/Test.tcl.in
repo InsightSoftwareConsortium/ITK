@@ -74,11 +74,11 @@ puts $Out "<Site BuildName=\"$BuildName\" BuildStamp=\"$BuildStamp\" Name=\"$Sit
 puts $Out {<Testing>}
 puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
 
-# Find the list of canidate tests
+# Find the list of candidate tests
 puts "\tFinding Tests"
 set TestList ""
 set OldDir [pwd]
-cd $SourceDirectory
+cd $BuildDirectory
 FindTests .
 cd $OldDir
 puts "\tFound [llength $TestList] tests"
@@ -95,7 +95,7 @@ catch { FileMap [glob -nocomplain *] [list *.da *.gcov] RemoveFile } Result
 puts $Out "\t<TestList>"
 foreach Test $TestList \
 {
-  puts $Out "\t\t<Test>[XMLSafeString $Test]</Test>"
+  puts $Out "\t\t<Test>[XMLSafeString [lindex $Test 1]/[lindex $Test 0]]</Test>"
 }
 puts $Out "\t</TestList>"
 
@@ -111,33 +111,31 @@ set ReportFailed 0
 set ReportNotRun 0
 foreach Test $TestList \
 {
-  cd [file dirname $Test]
+  # Each $Test = {TestIdentifier PathFromBuildDirToTest Executable [args]}
+  cd [lindex $Test 1]
 
-  set Filename [file tail $Test]
+  set Filename [lindex $Test 2]
 
-  switch $tcl_platform(platform) \
-  {
-    windows \
-    {
-      if { [regexp cygtclsh [info nameofexecutable]] == 0 } {
-        # Windows build
-	set NewFilename [file join Release $Filename.exe]
-      } else {
-        # Cygwin build
-        set NewFilename [file join . $Filename]
-      }
-    }
-    default \
-    {
-      set NewFilename [file join . $Filename]
+  # first check to see if Executable exists
+  set candidates ""
+  foreach path [list "." "" "Release"] {
+    lappend candidates [file join $path $Filename]
+    lappend candidates [file join $path $Filename.exe]
+  }
+
+  set NewFilename ""
+  foreach candidate $candidates {
+    if { [CheckFile $candidate] } {
+       set NewFilename $candidate
+       break
     }
   }
-  
+
   set Status notrun
   set Result ""
-  if { [CheckFile $NewFilename] } \
+  if { $NewFilename != "" } \
   {
-    set Status [catch { eval exec $NewFilename } Result]
+    set Status [catch { eval exec $NewFilename [lrange $Test 3 end]} Result]
   }
   if { $Status == 0 } \
   {
@@ -155,9 +153,10 @@ foreach Test $TestList \
   }
   
   puts $Out "\t<Test Status=\"$Status\">"
-  puts $Out "\t\t<Name>[XMLSafeString $Filename]</Name>"
-  puts $Out "\t\t<Path>[XMLSafeString [file dirname $Test]]</Path>"
-  puts $Out "\t\t<FullName>[XMLSafeString $Test]</FullName>"
+  puts $Out "\t\t<Name>[XMLSafeString [lindex $Test 0]]</Name>"
+  puts $Out "\t\t<Path>[XMLSafeString [lindex $Test 1]]</Path>"
+  puts $Out "\t\t<FullName>[XMLSafeString [file join [lindex $Test 1] [lindex $Test 0]]]</FullName>"
+  puts $Out "\t\t<FullCommandLine>[XMLSafeString [lrange $Test 2 end]]</FullCommandLine>"
   puts $Out "\t\t<Results>"
   puts $Out "\t\t\t<Measurement>"
   puts $Out "\t\t\t\t<Value>[XMLSafeString $Result]</Value>"

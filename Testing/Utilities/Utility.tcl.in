@@ -595,13 +595,17 @@ proc Match { match file { Exceptions {} } } \
 proc FindTests { Path } \
 {
   global TestList
-  set Tests [GetCMakeVariable TESTS]
-  foreach Test $Tests \
-  {
-    lappend TestList "[file join $Path $Test]"
+  set testCommands [GetTestfileTests]
+  if { $testCommands != ""} {
+    # insert $Path to the list for this test and change how tests are run to a 
+    # (cwd $Path; exec; cwd $Back)
+    foreach test $testCommands {
+       set testCommand [list [lindex $test 0] $Path [lrange $test 1 end]]
+       lappend TestList $testCommand
+    }
   }
 
-  foreach SubDir [GetCMakeVariable SUBDIRS] \
+  foreach SubDir [GetTestfileSubdirs] \
   {
     cd $SubDir
     FindTests [file join $Path $SubDir]
@@ -630,6 +634,73 @@ proc GetCMakeVariable { Variable } \
   foreach Line [split $Contents "\n"] \
   {
     if { [string first $Variable $Line] != -1 } \
+    {
+      set i [expr [string first "(" $Line] + 1]
+      set l [string trim [string range $Line $i end]]
+      set l [string trim $l "()"]
+      eval lappend variableValue $l
+    }
+  }
+  return $variableValue
+}
+
+# Pull out all ADD_TEST commands from a Testfile. Each ADD_TEST command
+# adds a sublist which is {TestName ExeName [args]}
+proc GetTestfileTests {} \
+{
+  if { ![file exists CMakeTestfile.txt] } \
+  {
+    error "No CMakeTestfile.txt found"
+  }
+  set Contents ""
+  set f [open CMakeTestfile.txt r]
+  set Contents [read $f]
+  close $f
+  regsub -all "\n" $Contents " " C1
+  regsub -all {\)} $C1 ")\n " C
+  set Contents $C
+
+  set variableValue ""  
+  foreach Line [split $Contents "\n"] \
+  {
+    if { [string first ADD_TEST $Line] != -1 } \
+    {
+      if { [string first "#" $Line] != -1 && [string first "#" $Line] < [string first ADD_TEST $Line] } {
+        continue;
+      }
+
+      set i [expr [string first "(" $Line] + 1]
+      set l [string trim [string range $Line $i end]]
+      set l [string trim $l "()"]
+      if {$l != ""} {
+        lappend variableValue $l
+      }
+    }
+  }
+  return $variableValue
+}
+
+
+# Pull out all SUBDIRS commands from a Testfile and append them into a
+# single list.
+proc GetTestfileSubdirs {} \
+{
+  if { ![file exists CMakeTestfile.txt] } \
+  {
+    error "No CMakeTestfile.txt found"
+  }
+  set Contents ""
+  set f [open CMakeTestfile.txt r]
+  set Contents [read $f]
+  close $f
+  regsub -all "\n" $Contents " " C1
+  regsub -all {\)} $C1 ")\n " C
+  set Contents $C
+
+  set variableValue ""  
+  foreach Line [split $Contents "\n"] \
+  {
+    if { [string first SUBDIRS $Line] != -1 } \
     {
       set i [expr [string first "(" $Line] + 1]
       set l [string trim [string range $Line $i end]]
