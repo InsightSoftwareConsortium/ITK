@@ -99,6 +99,7 @@ Object
 ::Modified() const
 {
   m_MTime.Modified();
+  InvokeEvent( Command::ModifiedEvent );
 }
 
 
