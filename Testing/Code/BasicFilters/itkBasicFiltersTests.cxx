@@ -32,6 +32,7 @@ void RegisterTests()
   REGISTER_TEST(itkVectorExpandImageFilterTest );
   REGISTER_TEST(itkFilterDispatchTest );
   REGISTER_TEST(itkAddImageFilterTest );
+  REGISTER_TEST(itkFlipImageFilterTest );
   REGISTER_TEST(itkFloodFillIteratorTest );
   REGISTER_TEST(itkGaussianImageSourceTest );
   REGISTER_TEST(itkImageAdaptorNthElementTest );
