@@ -33,11 +33,10 @@ struct Return
   static void From(const T& result, const WrapperBase* wrapper)
     {
     Tcl_Interp* interp = wrapper->GetInterpreter();
-    CvQualifiedType type = wrapper->GetType(TypeInfo<T>::name);
     
     // Create a temporary instance, and set its value to the result object.
     String name = wrapper->CreateTemporary(NewObjectOf<T>::CreateCopy(&result),
-                                           type);
+                                           CvType<T>::type);
 
     // The return object to the Tcl interpreter is just a string which
     // refers to an instance.
@@ -48,7 +47,7 @@ struct Return
     // Create the command to allow methods to be invoked on the
     // resulting value.
     wrapper->CreateResultCommand(Tcl_GetString(Tcl_GetObjResult(interp)),
-                                 type.GetType());
+                                 CvType<T>::type.GetType());
     }
 };
 
@@ -114,17 +113,16 @@ struct ReturnPointerTo
   static void From(T* result, const WrapperBase* wrapper)
     {
     Tcl_Interp* interp = wrapper->GetInterpreter();
-    CvQualifiedType referencedType = wrapper->GetType(TypeInfo<T>::name);
     
     // Set the Tcl result to a PointerType object representing this
     // pointer return value.
     Tcl_SetPointerObj(Tcl_GetObjResult(interp),
-                      Pointer(result, referencedType));
+                      Pointer(result, CvType<T>::type));
     
     // Create the command to allow methods to be invoked on the
     // resulting value.
     wrapper->CreateResultCommand(Tcl_GetString(Tcl_GetObjResult(interp)),
-                                 referencedType.GetType());
+                                 CvType<T>::type.GetType());
     }
 };
  
@@ -158,17 +156,16 @@ struct ReturnReferenceTo
   static void From(T& result, const WrapperBase* wrapper)
     {
     Tcl_Interp* interp = wrapper->GetInterpreter();
-    CvQualifiedType referencedType = wrapper->GetType(TypeInfo<T>::name);
     
     // Set the Tcl result to a ReferenceType object representing this
     // reference return value.
     Tcl_SetReferenceObj(Tcl_GetObjResult(interp),
-                        Reference(&result, referencedType));
+                        Reference(&result, CvType<T>::type));
     
     // Create the command to allow methods to be invoked on the
     // resulting value.
     wrapper->CreateResultCommand(Tcl_GetString(Tcl_GetObjResult(interp)),
-                                 referencedType.GetType());
+                                 CvType<T>::type.GetType());
     }
 };
 
@@ -185,8 +182,18 @@ struct ConversionFunctionTo
     {
     // 8.3.5/3 Top level cv-qualifiers on target type never matter for
     // conversions.  They only affect the parameter inside the function body.
-    const Type* to = wrapper->GetType(TypeInfo<T>::name).GetType();
+    const Type* to = CvType<T>::type.GetType();
+    
+    // If the types are the same, use the identity conversion function.
+    if(to->Id() == from.GetType()->Id())
+      {
+      return Converter::ObjectIdentity<T>::GetConversionFunction();
+      }
+    
+    // See if this conversion has been registered.
     ConversionFunction cf = wrapper->GetConversionFunction(from, to);
+
+    // If not, we don't know how to do the conversion.
     if(!cf)
       {
       throw _wrap_UnknownConversionException(from.GetName(), to->Name());
@@ -205,7 +212,7 @@ struct ObjectCanBe
   static bool Test(Tcl_Obj* obj, const WrapperBase* wrapper)
     {
     //    return Conversions::CanConvert(wrapper->GetObjectType(obj),
-    //                                   wrapper->GetType(TypeInfo<T>::name));
+    //                                   wrapper->GetType(CvType<T>::name));
     return ConversionFunctionTo<T>::From(wrapper->GetObjectType(obj),
                                          wrapper) != NULL;
     }
@@ -252,8 +259,7 @@ struct ObjectAs
       int i;
       Tcl_GetBooleanFromObj(interp, obj, &i);
       bool b = (i!=0);
-      CvQualifiedType type = wrapper->GetType(TypeInfo<bool>::name);
-      ConversionFunction cf = ConversionFunctionTo<T>::From(type, wrapper);
+      ConversionFunction cf = ConversionFunctionTo<T>::From(CvType<bool>::type, wrapper);
       // When the conversion function dereferences its pointer, it must
       // get the bool object.
       return ConvertTo<T>::From(&b, cf);
@@ -263,8 +269,7 @@ struct ObjectAs
       // The Tcl object stores an integer.
       int i;
       Tcl_GetIntFromObj(interp, obj, &i);
-      CvQualifiedType type = wrapper->GetType(TypeInfo<int>::name);
-      ConversionFunction cf = ConversionFunctionTo<T>::From(type, wrapper);
+      ConversionFunction cf = ConversionFunctionTo<T>::From(CvType<int>::type, wrapper);
       // When the conversion function dereferences its pointer, it must
       // get the int object.
       return ConvertTo<T>::From(&i, cf);
@@ -274,8 +279,7 @@ struct ObjectAs
       // The Tcl object stores a double.
       double d;
       Tcl_GetDoubleFromObj(interp, obj, &d);
-      CvQualifiedType type = wrapper->GetType(TypeInfo<double>::name);
-      ConversionFunction cf = ConversionFunctionTo<T>::From(type, wrapper);
+      ConversionFunction cf = ConversionFunctionTo<T>::From(CvType<double>::type, wrapper);
       // When the conversion function dereferences its pointer, it must
       // get the double object.
       return ConvertTo<T>::From(&d, cf);
@@ -300,8 +304,7 @@ struct ObjectAs
       else
         {
         // Can't identify the object type.  We will have to assume char*.
-        CvQualifiedType type = wrapper->GetType(TypeInfo<char*>::name);
-        ConversionFunction cf = ConversionFunctionTo<T>::From(type, wrapper); 
+        ConversionFunction cf = ConversionFunctionTo<T>::From(CvType<char*>::type, wrapper); 
         // When the conversion function dereferences its pointer, it must
         // get a pointer to char, not a char.
         void* pointer = Tcl_GetString(obj);

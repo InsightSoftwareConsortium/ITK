@@ -7,7 +7,7 @@ wrapInit
 wrapInstanceTable
 wrapPointer
 wrapReference
-wrapTypeSystemTable
+wrapTypeInfo
 wrapUtils
 wrapWrapperBase
 wrapWrapperTable

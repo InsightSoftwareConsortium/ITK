@@ -29,7 +29,6 @@ namespace _wrap_
 WrapperBase::WrapperBase(Tcl_Interp* interp, const String& wrappedTypeName):
   m_Interpreter(interp),
   m_WrappedTypeName(wrappedTypeName),
-  m_TypeSystem(TypeSystemTable::GetForInterpreter(m_Interpreter)),
   m_ConversionTable(ConversionTable::GetForInterpreter(m_Interpreter)),
   m_InstanceTable(InstanceTable::GetForInterpreter(m_Interpreter)),
   m_WrapperTable(WrapperTable::GetForInterpreter(m_Interpreter)),
@@ -52,35 +51,6 @@ WrapperBase::~WrapperBase()
 Tcl_Interp* WrapperBase::GetInterpreter() const
 {
   return m_Interpreter;
-}
-
-
-/**
- * Get the TypeMap entry with the given key.
- */
-CvQualifiedType WrapperBase::GetType(TypeKey typeKey) const
-{
-  TypeMap::const_iterator i = m_TypeMap.find(typeKey);
-  if(i == m_TypeMap.end())
-    {
-    String errorMessage = "Type \"";
-    errorMessage += typeKey;
-    errorMessage += "\" has no entry in type map of wrapper for ";
-    errorMessage += m_WrappedTypeName;
-    this->ReportErrorMessage(errorMessage);
-    // TODO: Throw exception?
-    return CvQualifiedType();
-    }
-  return i->second;
-}
-
-
-/**
- * Set the TypeMap entry with the given key to the given value.
- */
-void WrapperBase::SetType(TypeKey typeKey, const CvQualifiedType& type)
-{
-  m_TypeMap[typeKey] = type;
 }
 
 
@@ -137,35 +107,29 @@ CvQualifiedType WrapperBase::GetObjectType(Tcl_Obj* obj) const
     {
     Pointer p;
     Tcl_GetPointerFromObj(m_Interpreter, obj, &p);
-    return m_TypeSystem->GetPointerType(p.GetCvQualifiedType())
-      ->GetCvQualifiedType(false, false);
+    return TypeInfo::GetPointerType(p.GetCvQualifiedType(), false, false);
     }
   else if(TclObjectTypeIsReference(obj))
     {
     Reference r;
     Tcl_GetReferenceFromObj(m_Interpreter, obj, &r);
-    return m_TypeSystem->GetReferenceType(r.GetCvQualifiedType())
-      ->GetCvQualifiedType(false, false);
+    return TypeInfo::GetReferenceType(r.GetCvQualifiedType());
     }
   else if(TclObjectTypeIsBoolean(obj))
     {
-    return m_TypeSystem->GetFundamentalType(FundamentalType::Bool)
-      ->GetCvQualifiedType(false, false);
+    return CvType<bool>::type;
     }
   else if(TclObjectTypeIsInt(obj))
     {
-    return m_TypeSystem->GetFundamentalType(FundamentalType::Int)
-      ->GetCvQualifiedType(false, false);
+    return CvType<int>::type;
     }
   else if(TclObjectTypeIsLong(obj))
     {
-    return m_TypeSystem->GetFundamentalType(FundamentalType::LongInt)
-      ->GetCvQualifiedType(false, false);
+    return CvType<long>::type;
     }
   else if(TclObjectTypeIsDouble(obj))
     {
-    return m_TypeSystem->GetFundamentalType(FundamentalType::Double)
-      ->GetCvQualifiedType(false, false);
+    return CvType<double>::type;
     }
   // No Tcl type information.  Try converting from string representation.
   else
@@ -180,8 +144,7 @@ CvQualifiedType WrapperBase::GetObjectType(Tcl_Obj* obj) const
       Pointer p;
       if(Tcl_GetPointerFromObj(m_Interpreter, obj, &p) == TCL_OK)
         {
-        return m_TypeSystem->GetPointerType(p.GetCvQualifiedType())
-          ->GetCvQualifiedType(false, false);
+        return TypeInfo::GetPointerType(p.GetCvQualifiedType(), false, false);
         }
       }
     else if(StringRepIsReference(objectName))
@@ -189,8 +152,7 @@ CvQualifiedType WrapperBase::GetObjectType(Tcl_Obj* obj) const
       Reference r;
       if(Tcl_GetReferenceFromObj(m_Interpreter, obj, &r) == TCL_OK)
         {
-        return m_TypeSystem->GetReferenceType(r.GetCvQualifiedType())
-          ->GetCvQualifiedType(false, false);
+        return TypeInfo::GetReferenceType(r.GetCvQualifiedType());
         }
       }
     else
@@ -201,23 +163,17 @@ CvQualifiedType WrapperBase::GetObjectType(Tcl_Obj* obj) const
       double d;
       if(Tcl_GetLongFromObj(m_Interpreter, obj, &l) == TCL_OK)
         {
-        return m_TypeSystem->GetFundamentalType(FundamentalType::LongInt)
-          ->GetCvQualifiedType(false, false);
+        return CvType<long>::type;
         }
       else if(Tcl_GetDoubleFromObj(m_Interpreter, obj, &d) == TCL_OK)
         {
-        return m_TypeSystem->GetFundamentalType(FundamentalType::Double)
-          ->GetCvQualifiedType(false, false);
+        return CvType<double>::type;
         }
       }
     }
   
   // Could not determine the type.  Default to char*.
-  CvQualifiedType charType =
-    m_TypeSystem->GetFundamentalType(FundamentalType::Char)
-    ->GetCvQualifiedType(false, false);
-  return m_TypeSystem->GetPointerType(charType)
-    ->GetCvQualifiedType(false, false);
+  return CvType<char*>::type;
 }
 
 
@@ -366,107 +322,6 @@ void WrapperBase::FreeTemporaries(int objc, Tcl_Obj*CONST objv[]) const
     }
 }
 
-
-/**
- * Register an ArrayType having the given element type and size with this
- * wrapper's TypeSystem.
- */
-CvQualifiedType
-WrapperBase::GetArrayType(TypeKey elementType, unsigned long size) const
-{
-  return m_TypeSystem->GetArrayType(this->GetType(elementType), size)
-    ->GetCvQualifiedType(false, false);
-}
-
-
-/**
- * Register a ClassType having the given name, cv-qualifiers, and
- * (optionally) parents with this wrapper's TypeSystem.
- */
-CvQualifiedType
-WrapperBase::GetClassType(const String& name,
-                          bool isConst, bool isVolatile,
-                          const ClassTypes& parents) const
-{
-  return m_TypeSystem->GetClassType(name, parents)
-    ->GetCvQualifiedType(isConst, isVolatile);
-}
-
-
-/**
- * Register a FunctionType having the given return type, argument types,
- * and cv-qualifiers with this wrapper's TypeSystem.
- */
-CvQualifiedType
-WrapperBase::GetFunctionType(TypeKey returnType,
-                             const TypeKeys& argumentTypes,
-                             bool isConst, bool isVolatile) const
-{
-  CvQualifiedTypes cvQualifiedTypes;
-  for(TypeKeys::const_iterator k = argumentTypes.begin();
-      k != argumentTypes.end(); ++k)
-    {
-    cvQualifiedTypes.push_back(this->GetType(*k));
-    }
-  
-  return m_TypeSystem->GetFunctionType(this->GetType(returnType),
-                                       cvQualifiedTypes)
-    ->GetCvQualifiedType(isConst, isVolatile);
-}
-
-
-/**
- * Register a FundamentalType having the given type id and cv-qualifiers
- * with this wrapper's TypeSystem.
- */
-CvQualifiedType
-WrapperBase::GetFundamentalType(FundamentalType::Id id,
-                                bool isConst, bool isVolatile) const
-{
-  return m_TypeSystem->GetFundamentalType(id)
-    ->GetCvQualifiedType(isConst, isVolatile);
-}
-
-
-/**
- * Register a PointerType pointing to the given type and having the
- * given cv-qualifiers with this wrapper's TypeSystem.
- */
-CvQualifiedType
-WrapperBase::GetPointerType(TypeKey referencedType,
-                            bool isConst, bool isVolatile) const
-{
-  return m_TypeSystem->GetPointerType(this->GetType(referencedType))
-    ->GetCvQualifiedType(isConst, isVolatile);
-}
-
-
-/**
- * Register a PointerToMemberType pointing to the given type inside the
- * given ClassType and having the given cv-qualifiers with this wrapper's
- * TypeSystem.
- */
-CvQualifiedType
-WrapperBase::GetPointerToMemberType(TypeKey referencedType,
-                                    const ClassType* classScope,
-                                    bool isConst, bool isVolatile) const
-{
-  return m_TypeSystem->GetPointerToMemberType(this->GetType(referencedType),
-                                              classScope)
-    ->GetCvQualifiedType(isConst, isVolatile);
-}
-
-
-/**
- * Register a ReferenceType referencing the given type with this wrapper's
- * TypeSystem.
- */
-CvQualifiedType
-WrapperBase::GetReferenceType(TypeKey referencedType) const
-{
-  return m_TypeSystem->GetReferenceType(this->GetType(referencedType))
-    ->GetCvQualifiedType(false, false);
-}
 
 } // namespace _wrap_
 

@@ -17,6 +17,7 @@
 #define _wrapConversionTable_h
 
 #include "wrapUtils.h"
+#include "wrapTypeInfo.h"
 #include "wrapException.h"
 #include <map>
 
@@ -52,6 +53,8 @@ public:
                                    const Type* to) const;
   
 private:
+  void InitializePredefinedConversions();
+  
   typedef std::pair<CvQualifiedType, const Type*> ConversionKey;
   typedef std::map<ConversionKey, ConversionFunction> ConversionMap;
 

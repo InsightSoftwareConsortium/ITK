@@ -14,6 +14,7 @@
 
 =========================================================================*/
 #include "wrapUtils.h"
+#include "wrapTypeInfo.h"
 
 namespace _wrap_
 {
@@ -36,5 +37,8 @@ _wrap_EXPORT int Wrap_Init(Tcl_Interp* interp)
 {
   Tcl_RegisterObjType(&_wrap_::TclPointerType);
   Tcl_RegisterObjType(&_wrap_::TclReferenceType);
+  
+  _wrap_::TypeInfo::Initialize();
+  
   return TCL_OK;
 }

@@ -17,7 +17,7 @@
 #define _wrapWrapperBase_h
 
 #include "wrapUtils.h"
-#include "wrapTypeSystemTable.h"
+#include "wrapTypeInfo.h"
 #include "wrapConversionTable.h"
 #include "wrapPointer.h"
 #include "wrapReference.h"
@@ -35,14 +35,6 @@ template <class T>
 class Wrapper;
 
 /**
- * Every type invovled in a wrapper should have a specialization of this
- * class with the following member holding its name:
- * static const char* const name;
- */
-template <class T>
-struct TypeInfo;
-
-/**
  * Implement functionality common to all wrapper classes.  An individual
  * wrapper class should inherit from this class.
  */
@@ -52,11 +44,7 @@ public:
   WrapperBase(Tcl_Interp* interp, const String& wrappedTypeName);
   virtual ~WrapperBase();
   
-  typedef const char* TypeKey;
-
   Tcl_Interp* GetInterpreter() const;
-  CvQualifiedType GetType(TypeKey typeKey) const;
-  void SetType(TypeKey typeKey, const CvQualifiedType&);
   void CreateResultCommand(const String& name, const Type* type) const;
   String CreateTemporary(void* object, const CvQualifiedType&) const;
   
@@ -99,23 +87,6 @@ protected:
   void ReportErrorMessage(const String& errorMessage) const;
   void FreeTemporaries(int objc, Tcl_Obj*CONST objv[]) const;
 
-  typedef std::vector<TypeKey> TypeKeys;
-  CvQualifiedType GetArrayType(TypeKey elementType, unsigned long size) const;
-  CvQualifiedType GetClassType(const String& name,
-                               bool isConst, bool isVolatile,
-                               const ClassTypes& parents = ClassTypes()) const;
-  CvQualifiedType GetFunctionType(TypeKey returnType,
-                                  const TypeKeys& argumentTypes,
-                                  bool isConst, bool isVolatile) const;
-  CvQualifiedType GetFundamentalType(FundamentalType::Id,
-                                     bool isConst, bool isVolatile) const;
-  CvQualifiedType GetPointerType(TypeKey referencedType,
-                                 bool isConst, bool isVolatile) const;
-  CvQualifiedType GetPointerToMemberType(TypeKey referencedType,
-                                         const ClassType* classScope,
-                                         bool isConst, bool isVolatile) const;
-  CvQualifiedType GetReferenceType(TypeKey referencedType) const;
-
 protected:
   /**
    * The Tcl interpreter to which this wrapper is attached.
@@ -126,12 +97,6 @@ protected:
    * The name of the wrapped type.
    */
   const String   m_WrappedTypeName;
-  
-  /**
-   * The TypeSystem used to handle type information for this wrapper's
-   * interpreter.
-   */
-  TypeSystem*    m_TypeSystem;
   
   /**
    * The table of conversion functions for this wrapper's interpreter.
@@ -152,15 +117,6 @@ protected:
    * The TypeSystem's representation for this wrapped type.
    */
   const Type*    m_WrappedTypeRepresentation;
-  
-  typedef std::map<const char*, CvQualifiedType>  TypeMap;
-private:
-  /**
-   * Map from const char* to CvQualifiedType.  This allows
-   * wrappers to refer to types through TypeInfo<T>::name keys.
-   * Must be private (with access routines) to prevent DLL address problems.
-   */
-  TypeMap        m_TypeMap;
 };
 
 } // namespace _wrap_

@@ -20,10 +20,11 @@ namespace _wrap_
 
 
 /**
- * Constructor.
+ * Constructor registers predefined conversions with the table.
  */
 ConversionTable::ConversionTable()
 {
+  this->InitializePredefinedConversions();
 }
 
 
@@ -87,6 +88,32 @@ ConversionTable::GetConversion(const CvQualifiedType& from,
     }
   // Couldn't find a conversion.
   return NULL;
+}
+
+
+// Macro to shorten InitializePredefinedConversions function body.
+#define _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(T1, T2) \
+this->SetConversion(CvType<const T1>::type, \
+                    CvType<T2>::type.GetType(), \
+                    Converter::ConversionByConstructor<T1, T2>::GetConversionFunction()); \
+this->SetConversion(CvType<const T2>::type, \
+                    CvType<T1>::type.GetType(), \
+                    Converter::ConversionByConstructor<T2, T1>::GetConversionFunction())
+
+/**
+ * Registers basic type conversion functions for this ConversionTable.
+ * Only called from the constructor.
+ *
+ * The "from" type for any conversion added here should be
+ * const-friendly, if possible.  This way, conversion from a non-const
+ * type can still chain up to the conversion from the const type, thus
+ * avoiding duplication of the conversion function.
+ */
+void ConversionTable::InitializePredefinedConversions()
+{
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, float);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, double);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(float, double);
 }
 
 
