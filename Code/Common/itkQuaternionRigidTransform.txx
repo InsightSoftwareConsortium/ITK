@@ -77,6 +77,7 @@ QuaternionRigidTransform<TScalarType>::
 SetIdentity( void ) 
 { 
   this->Superclass::SetIdentity();
+  m_Rotation = VnlQuaternionType(0,0,0,1);
   m_Center.Fill( 0.0 );
   m_Translation.Fill( 0.0 );
   this->ComputeOffset();
