@@ -199,10 +199,6 @@ public:
 
 protected:
 
-  const double *            m_Spacing;
-  const double *            m_Origin;
-  IndexType                 m_Start;
-  SizeType                  m_Size;
   InterpolatorPointer       m_Interpolator;
   mutable PointType         m_CurrentPoint;
 

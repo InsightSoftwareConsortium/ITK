@@ -67,15 +67,13 @@ ImageMapper<TImage,TTransformation>
 {
   Superclass::SetDomain( domain );
 
-  m_Spacing  = domain->GetSpacing();
-  m_Origin = domain->GetOrigin();
-  RegionType region = domain->GetRequestedRegion();
-
-  m_Start  = region.GetIndex();
-  m_Size   = region.GetSize();
-
   m_Interpolator = InterpolatorType::New();
   m_Interpolator->SetInputImage( domain );
+
+  // FIXME: remove these once GetSpacing/GetOrigin
+  // have been added to itk::Image
+  m_Interpolator->SetImageSpacing( domain->GetSpacing() );
+  m_Interpolator->SetImageOrigin( domain->GetOrigin() );
 
 }
 
@@ -92,36 +90,8 @@ ImageMapper<TImage,TTransformation>
 ::IsInside( const PointType & point ) 
 { 
 
-  typename Superclass::TransformationType::Pointer transformation;
-
-  transformation = GetTransformation();
-
-  PointType mappedPoint = transformation->Transform( point );
-
-
-  for( unsigned int j = 0; j < TImage::ImageDimension; j++ )
-  {
-    m_CurrentPoint[j] =  ( mappedPoint[j] - m_Origin[j] ) / m_Spacing[j] ;
-  }
-   
-  bool value = true;
-  for( unsigned int i = 0; i < TImage::ImageDimension; i++ )
-  {
-    
-    if( m_CurrentPoint[i] < m_Start[i] )
-    { 
-      value = false;
-      break;
-    }
-    
-    if( m_CurrentPoint[i] > m_Start[i] + m_Size[i] - 1 ) 
-    {
-      value = false;
-      break;
-    }
-  }
-
-  return value;
+  m_CurrentPoint = this->GetTransformation()->Transform( point );
+  return ( m_Interpolator->IsInsideBuffer( m_CurrentPoint ) );
 
 }
 
@@ -136,10 +106,7 @@ double
 ImageMapper<TImage,TTransformation>
 ::Evaluate( void ) const
 { 
-
-  const double value = m_Interpolator->Evaluate( m_CurrentPoint );
-
-  return value;
+  return( m_Interpolator->Evaluate( m_CurrentPoint ) );
 
 }
 
