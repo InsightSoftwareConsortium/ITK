@@ -352,6 +352,7 @@ ftnlen task_len;
 ftnlen csave_len;
 {
     /* Format strings */
+/*
     static char fmt_1002[] = "(/,\002At iterate\002,i5,4x,\002f= \002,1p,d12\
 .5,4x,\002|proj g|= \002,1p,d12.5)";
     static char fmt_1003[] = "(2(1x,i4),5x,\002-\002,5x,\002-\002,3x,\002\
@@ -369,6 +370,7 @@ actorization in formk;\002,/,\002   refresh the lbfgs memory and restart the\
     static char fmt_1007[] = "(/,\002 Nonpositive definiteness in Cholesky f\
 actorization in formt;\002,/,\002   refresh the lbfgs memory and restart the\
  iteration.\002)";
+*/
 
     /* System generated locals */
     integer ws_dim1, ws_offset, wy_dim1, wy_offset, sy_dim1, sy_offset, 
@@ -1187,9 +1189,11 @@ y at the bounds\002)";
     static integer nbdd, i__;
 
     /* Fortran I/O blocks */
+/*
     static cilist io___81 = { 0, 6, 0, 0, 0 };
     static cilist io___82 = { 0, 6, 0, 0, 0 };
-    static cilist io___83 = { 0, 6, 0, fmt_1001, 0 };
+    static cilist io___83 = { 0, 6, 0, fmt_1001, 0 
+*/
 
 
 /*     ************ */
@@ -1469,6 +1473,7 @@ integer *info;
 doublereal *epsmch;
 {
     /* Format strings */
+/*
     static char fmt_3010[] = "(/,\002---------------- CAUCHY entered--------\
 -----------\002)";
     static char fmt_1010[] = "(\002Cauchy X =  \002,/,(4x,1p,6(1x,d11.4)))";
@@ -1482,6 +1487,7 @@ doublereal *epsmch;
 oint \002,1p,2(1x,d11.4))";
     static char fmt_2010[] = "(/,\002---------------- exit CAUCHY-----------\
 -----------\002,/)";
+*/
 
     /* System generated locals */
     integer wy_dim1, wy_offset, ws_dim1, ws_offset, sy_dim1, sy_offset, 
@@ -2764,10 +2770,12 @@ integer *iprint, *iter;
     static integer iact, i__, k;
 
     /* Fortran I/O blocks */
+/*
     static cilist io___169 = { 0, 6, 0, 0, 0 };
     static cilist io___170 = { 0, 6, 0, 0, 0 };
     static cilist io___171 = { 0, 6, 0, 0, 0 };
     static cilist io___173 = { 0, 6, 0, 0, 0 };
+*/
 
 
 /*     ************ */
@@ -3283,6 +3291,7 @@ doublereal *epsmch;
 {
 #if 0
     /* Format strings */
+/*
     static char fmt_7001[] = "(\002RUNNING THE L-BFGS-B CODE\002,/,/,\002   \
         * * *\002,/,/,\002Machine precision =\002,1p,d10.3)";
     static char fmt_2001[] = "(\002RUNNING THE L-BFGS-B CODE\002,/,/,\002it \
@@ -3299,7 +3308,7 @@ the projected gradient\002,/,\002f     = function value\002,/,/,\002        \
 ,2x,\002nact\002,2x,\002sub\002,2x,\002itls\002,2x,\002stepl\002,4x,\002tstep\
 \002,5x,\002projg\002,8x,\002f\002)";
     static char fmt_1004[] = "(/,a4,1p,6(1x,d11.4),/,(4x,1p,6(1x,d11.4)))";
-
+*/
     /* System generated locals */
     integer i__1;
 
@@ -3913,6 +3922,7 @@ doublereal *wv, *wn;
 integer *iprint, *info;
 {
     /* Format strings */
+/*
     static char fmt_1001[] = "(/,\002----------------SUBSM entered----------\
 -------\002,/)";
     static char fmt_1002[] = "(\002ALPHA = \002,f7.5,\002 backtrack to the B\
@@ -3921,6 +3931,7 @@ OX\002)";
 ,d11.4)))";
     static char fmt_1004[] = "(/,\002----------------exit SUBSM ------------\
 --------\002,/)";
+*/
 
     /* System generated locals */
     integer ws_dim1, ws_offset, wy_dim1, wy_offset, wn_dim1, wn_offset, i__1, 
