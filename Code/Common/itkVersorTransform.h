@@ -21,6 +21,7 @@
 #include <iostream>
 #include "itkRigid3DTransform.h"
 #include "vnl/vnl_quaternion.h"
+#include "itkVersor.h"
 
 namespace itk
 {
@@ -86,7 +87,7 @@ public:
     /**
      * Versor Type
      */
-    typedef typename itk::Versor<TScalarType>     VersorType;
+    typedef typename Versor<TScalarType>          VersorType;
     typedef typename VersorType::VectorType       AxisType;
     typedef typename VersorType::ValueType        AngleType;
 
