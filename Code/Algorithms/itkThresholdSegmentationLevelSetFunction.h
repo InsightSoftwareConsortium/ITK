@@ -18,7 +18,7 @@
 #define __itkThresholdSegmentationLevelSetFunction_h_
 
 #include "itkSegmentationLevelSetFunction.h"
-
+#include "itkNumericTraits.h"
 namespace itk {
 
 /** \class ThresholdSegmentationLevelSetFunction
@@ -94,11 +94,13 @@ public:
 protected:
   ThresholdSegmentationLevelSetFunction()
   {
+    m_UpperThreshold = NumericTraits<FeatureScalarType>::max();
+    m_LowerThreshold = NumericTraits<FeatureScalarType>::NonpositiveMin();
     this->SetAdvectionWeight(0.0);
     this->SetPropagationWeight(1.0);
     this->SetCurvatureWeight(1.0);
   }
-  virtual ~ThresholdSegmentationLevelSetFunction() {}
+  virtual ~ThresholdSegmentationLevelSetFunction(){}
 
   ThresholdSegmentationLevelSetFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
