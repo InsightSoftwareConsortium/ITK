@@ -58,12 +58,13 @@ CovarianceImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(const IndexType& index) const
 {
   RealType covariance;
-  typedef  typename TInputImage::PixelType::ValueType  PixelComponentType;
+  typedef  typename TInputImage::PixelType  PixelType;
+  typedef  typename PixelType::ValueType    PixelComponentType;
 
   typedef  typename NumericTraits< PixelComponentType >::RealType PixelComponentRealType;
-  
+
   const unsigned int VectorDimension = 
-      ::itk::GetVectorDimension<typename TInputImage::PixelType>::VectorDimension;
+      ::itk::GetVectorDimension< PixelType >::VectorDimension;
 
   covariance = vnl_matrix< PixelComponentRealType >( VectorDimension, VectorDimension );
   covariance.fill( NumericTraits< PixelComponentRealType >::Zero );
