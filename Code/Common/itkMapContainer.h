@@ -133,6 +133,7 @@ public:
   ConstIterator Begin(void) const;
   ConstIterator End(void) const;  
   unsigned long Size(void) const;
+  void Reserve(ElementIdentifier);
   void Squeeze(void);
   
   /**

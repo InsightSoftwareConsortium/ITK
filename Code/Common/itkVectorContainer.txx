@@ -225,6 +225,21 @@ VectorContainer< TElementIdentifier , TElement >
 
 
 /**
+ * Tell the container to allocate enough memory to allow at least
+ * as many elements as the size given to be stored.  This is NOT
+ * guaranteed to actually allocate any memory, but is useful if the
+ * implementation of the container allocates contiguous storage.
+ */
+template <typename TElementIdentifier, typename TElement>
+void
+VectorContainer< TElementIdentifier , TElement >
+::Reserve(ElementIdentifier size)
+{
+  this->Vector::size(size);
+}
+
+
+/**
  * Tell the container to try to minimize its memory usage for storage of
  * the current number of elements.  This is NOT guaranteed to decrease
  * memory usage.
