@@ -113,6 +113,10 @@ ADD_TEST(itkNaryAddImageFilterTest ${BASIC_FILTERS_TESTS} itkNaryAddImageFilterT
 ADD_TEST(itkNarrowBandTest ${BASIC_FILTERS_TESTS} itkNarrowBandTest)
 ADD_TEST(itkNarrowBandImageFilterBaseTest ${BASIC_FILTERS_TESTS} itkNarrowBandImageFilterBaseTest)
 ADD_TEST(itkNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS} itkNeighborhoodOperatorImageFilterTest)
+ADD_TEST(itkNoiseImageFilterTest ${BASIC_FILTERS_TESTS}
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkNoiseImageFilterTest.png
+             ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png
+   itkNoiseImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png)
 ADD_TEST(itkNonThreadedShrinkImageTest ${BASIC_FILTERS_TESTS} itkNonThreadedShrinkImageTest)
 ADD_TEST(itkNormalizeImageFilterTest ${BASIC_FILTERS_TESTS} itkNormalizeImageFilterTest)
 ADD_TEST(itkObjectMorphologyImageFilterTest ${BASIC_FILTERS_TESTS} itkObjectMorphologyImageFilterTest)
@@ -469,6 +473,7 @@ itkMultiplyImageFilterTest.cxx
 itkNaryAddImageFilterTest.cxx
 itkNeighborhoodConnectedImageFilterTest.cxx
 itkNeighborhoodOperatorImageFilterTest.cxx
+itkNoiseImageFilterTest.cxx
 itkNonThreadedShrinkImageTest.cxx
 itkNormalizeImageFilterTest.cxx
 itkObjectMorphologyImageFilterTest.cxx

@@ -131,6 +131,7 @@ void RegisterTests()
   REGISTER_TEST(itkNarrowBandTest );
   REGISTER_TEST(itkNeighborhoodConnectedImageFilterTest  );
   REGISTER_TEST(itkNeighborhoodOperatorImageFilterTest );
+  REGISTER_TEST(itkNoiseImageFilterTest );
   REGISTER_TEST(itkNonThreadedShrinkImageTest );
   REGISTER_TEST(itkNormalizeImageFilterTest  );
   REGISTER_TEST(itkObjectMorphologyImageFilterTest );
