@@ -156,7 +156,7 @@ OutputType trueValue )
 
 }
 
-int itkRGBInterpolateImageFunctionTest(int, char**)
+int itkRGBInterpolateImageFunctionTest(int, char* [] )
 {
   int flag = 0;
 

@@ -27,7 +27,7 @@
  * This module test the functionality of the BSplineDeformableTransform class.
  *
  */
-int itkBSplineDeformableTransformTest(int, char **)
+int itkBSplineDeformableTransformTest(int, char * [] )
 {
 
   const unsigned int SpaceDimension = 3;

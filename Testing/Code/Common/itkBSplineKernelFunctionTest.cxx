@@ -21,7 +21,7 @@
  * This test exercises the BSpline kernel function
  * of various orders.
  */
-int itkBSplineKernelFunctionTest(int, char**)
+int itkBSplineKernelFunctionTest(int, char* [] )
 {
 
 // Externally generated results

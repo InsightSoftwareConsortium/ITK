@@ -30,7 +30,7 @@ class TestObject
   };
 
 
-int itkAutoPointerTest(int, char**)
+int itkAutoPointerTest(int, char* [] )
 {
 
   TestObject * obj = new TestObject;

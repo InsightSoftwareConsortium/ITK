@@ -52,7 +52,7 @@ void lookup(const itk::hash_set<const char*, itk::hash<const char*>, eqstr>& Set
 inline void println(const char *s)
 { std::cout << std::endl << s << std::endl; }
 
-int itkHashTableTest(int, char**)
+int itkHashTableTest(int, char* [] )
 {
   println("Testing itk::hash");
   itk::hash<const char*> H;

@@ -124,7 +124,7 @@ void PrintSlice(TContainer s)
 }
 
 
-int itkSliceIteratorTest(int, char**)
+int itkSliceIteratorTest(int, char* [] )
 {
 
   try {

@@ -17,7 +17,7 @@
 #include <iostream>
 #include "itkScalar.h"
 
-int itkScalarTest(int, char**)
+int itkScalarTest(int, char* [] )
 {
   bool passed = true;
 

@@ -97,7 +97,7 @@ void TestUpCast(itkTestObject* p)
 }
 
 
-int itkSmartPointerTest(int, char**)
+int itkSmartPointerTest(int, char* [] )
 {
   // Create a base class pointer to a child class
   itkTestObject::Pointer to(itkTestObjectSubClass::New());

@@ -35,12 +35,11 @@ void PBCTest_PrintNeighborhood( itk::ConstNeighborhoodIterator<itk::Image<int, 2
   
 }
 
-int itkPeriodicBoundaryConditionTest(int, char**)
+int itkPeriodicBoundaryConditionTest(int, char* [] )
 {
   typedef itk::Image<int, 2> ImageType;
   typedef itk::ConstNeighborhoodIterator<ImageType> IteratorType;
   typedef IteratorType::RadiusType RadiusType;
-  unsigned int i;
   
   ImageType::Pointer img = ImageType::New();
   ImageType::RegionType reg;

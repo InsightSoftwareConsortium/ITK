@@ -24,7 +24,7 @@ struct TestObject
   int counter; 
 };
 
-int itkObjectStoreTest( int argc, char **argv)
+int itkObjectStoreTest( int argc, char * argv[] )
 {
   unsigned i, j;
   itk::ObjectStore<TestObject>::Pointer store
@@ -55,7 +55,7 @@ int itkObjectStoreTest( int argc, char **argv)
       store->Print(std::cout);
       
       // Return all items
-      unsigned sz = borrowed_list.size();
+      unsigned int sz = static_cast< unsigned int>( borrowed_list.size() );
       for (i = 0; i < sz; ++i)
         {
           store->Return(borrowed_list.back());

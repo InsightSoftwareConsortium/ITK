@@ -39,7 +39,7 @@
 //   Main code
 //
 //-------------------------
-int itkVersorRigid3DTransformTest(int, char**) 
+int itkVersorRigid3DTransformTest(int, char* [] ) 
 {
 
   typedef   double          ValueType;

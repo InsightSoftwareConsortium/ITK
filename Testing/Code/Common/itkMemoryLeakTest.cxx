@@ -18,7 +18,7 @@
 // I suspect that Purify is not working correctly.  It should report a memory
 // leak for this program.
 
-int itkMemoryLeakTest(int, char**)
+int itkMemoryLeakTest(int, char* [] )
 {
   // Leak 10000 bytes of memory, a little at a time.
   for(unsigned int i=0; i < 100; ++i)

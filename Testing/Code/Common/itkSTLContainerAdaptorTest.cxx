@@ -22,7 +22,7 @@
 #include "itkSTLConstContainerAdaptor.h"
 
 
-int itkSTLContainerAdaptorTest(int, char**)
+int itkSTLContainerAdaptorTest(int, char* [] )
 {
 
   typedef unsigned long   IndexType;
@@ -48,7 +48,7 @@ int itkSTLContainerAdaptorTest(int, char**)
       vectorSource.push_back(containerSize - i);
       }
 
-    const unsigned int containerSize = vectorSource.size();
+    const unsigned int containerSize = static_cast<unsigned int>( vectorSource.size() );
 
     typedef itk::STLContainerAdaptor<VectorContainerType>       AdaptorType;
     typedef AdaptorType::TargetType                       TargetType;
@@ -181,7 +181,7 @@ int itkSTLContainerAdaptorTest(int, char**)
     }
 
 
-    const unsigned int containerSize = mapSource.size();
+    const unsigned int containerSize = static_cast<unsigned int>( mapSource.size() );
 
     typedef itk::STLContainerAdaptor<MapContainerType>       AdaptorType;
     typedef AdaptorType::TargetType                       TargetType;

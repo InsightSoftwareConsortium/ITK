@@ -41,7 +41,7 @@ void TestConstPixelAccess(const itk::Image<T, VImageDimension> &in,
 }
 
 
-int itkPixelAccessTest(int, char**)
+int itkPixelAccessTest(int, char* [] )
 {
   std::cout << "Creating an image" << std::endl;
   itk::Image<itk::Vector<unsigned short, 5>, 3>::Pointer

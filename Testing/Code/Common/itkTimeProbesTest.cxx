@@ -22,7 +22,7 @@
 //   This file test the interface to the TimeProbe classes
 //
 //-------------------------
-int itkTimeProbesTest(int, char**) 
+int itkTimeProbesTest(int, char* [] ) 
 {
   
   itk::TimeProbesCollectorBase   collector;

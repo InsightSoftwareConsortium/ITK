@@ -20,7 +20,7 @@
 // Spatial function stuff
 #include "itkSphereSpatialFunction.h"
 
-int itkSpatialFunctionTest(int, char**)
+int itkSpatialFunctionTest(int, char* [] )
 {
   // Change this parameter (and the positions, below) to work in higher or lower dimensions
   const unsigned int dim = 3;

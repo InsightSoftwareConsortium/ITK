@@ -156,7 +156,7 @@ OutputType trueValue )
 
 } // RGBInterpolate namespace
 
-int itkVectorInterpolateImageFunctionTest(int, char**)
+int itkVectorInterpolateImageFunctionTest(int, char* [] )
 {
   int flag = 0;
 

@@ -17,7 +17,7 @@
 #include "itkEllipsoidInteriorExteriorSpatialFunction.h"
 #include "vnl/vnl_matrix.h"
 
-int itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char**)
+int itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char* [] )
 {
   std::cout << "itkEllipsoidInteriorExteriorSpatialFunction test start" << std::endl;
 

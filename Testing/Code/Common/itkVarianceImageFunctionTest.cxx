@@ -20,7 +20,7 @@
 #include "itkVarianceImageFunction.h"
 #include "itkImage.h"
 
-int itkVarianceImageFunctionTest(int, char**)
+int itkVarianceImageFunctionTest(int, char* [] )
 {
 
   const unsigned int Dimension = 3;

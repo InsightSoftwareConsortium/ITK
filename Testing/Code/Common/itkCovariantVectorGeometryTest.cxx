@@ -39,7 +39,7 @@
 //   Main code
 //
 //-------------------------
-int itkCovariantVectorGeometryTest(int, char**) 
+int itkCovariantVectorGeometryTest(int, char* [] ) 
 {
 
   VectorType va;

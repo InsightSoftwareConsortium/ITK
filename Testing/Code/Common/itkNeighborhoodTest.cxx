@@ -23,7 +23,7 @@ inline void println(const char *s)
   std::cout << std::endl << s << std::endl;
 }
 
-int itkNeighborhoodTest(int, char**)
+int itkNeighborhoodTest(int, char* [] )
 {
   unsigned int i;
 

@@ -59,7 +59,7 @@ void filln(itk::Image<float, 2> *img)
 
 
 
-int itkBoundaryConditionTest(int, char**)
+int itkBoundaryConditionTest(int, char* [] )
 {
 
  typedef itk::Image<float, 2> ImageType2D;

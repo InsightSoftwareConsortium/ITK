@@ -35,7 +35,7 @@ typedef PointSet::PointType  PointType;
  * The point set that is created consists of a 100 random points.
  */
 
-int itkPointSetTest(int, char**)
+int itkPointSetTest(int, char* [] )
 {
   /**
    * Define the 3d geometric positions for 8 points in a cube.

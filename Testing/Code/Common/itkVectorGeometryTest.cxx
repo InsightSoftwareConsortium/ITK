@@ -30,7 +30,7 @@
 //   Main code
 //
 //-------------------------
-int itkVectorGeometryTest(int, char**) 
+int itkVectorGeometryTest(int, char* [] ) 
 {
 
   // Dimension & Type

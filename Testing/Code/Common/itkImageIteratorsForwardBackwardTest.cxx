@@ -24,7 +24,7 @@
 
 
 
-int itkImageIteratorsForwardBackwardTest(int, char**)
+int itkImageIteratorsForwardBackwardTest(int, char* [] )
 {
 
   std::cout << "Creating an image" << std::endl;

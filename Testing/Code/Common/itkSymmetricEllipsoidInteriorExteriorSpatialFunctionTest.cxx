@@ -16,7 +16,7 @@
 =========================================================================*/
 #include "itkSymmetricEllipsoidInteriorExteriorSpatialFunction.h"
 
-int itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char**)
+int itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char* [] )
 {
   std::cout << "itkSymmetricEllipsoidInteriorExteriorSpatialFunction test start" << std::endl;
 

@@ -17,7 +17,7 @@
 #include <iostream>
 #include "itkByteSwapper.h"
 
-int itkByteSwapTest ( int argc, char** argv )
+int itkByteSwapTest ( int argc, char* argv[] )
 {
   // Test out the Byte Swap code
 

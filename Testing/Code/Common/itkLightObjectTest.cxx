@@ -18,7 +18,7 @@
 #include "itkLightObject.h"
 
 // Excersise the LightObject methods
-int itkLightObjectTest(int, char**)
+int itkLightObjectTest(int, char* [] )
 {
  
 

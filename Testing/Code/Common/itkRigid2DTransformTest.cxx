@@ -27,7 +27,7 @@
 #include "itkVector.h"
 
 
-int itkRigid2DTransformTest(int argc,char **argv)
+int itkRigid2DTransformTest(int argc,char *argv [] )
 {
 
   typedef itk::Rigid2DTransform<double>  TransformType;

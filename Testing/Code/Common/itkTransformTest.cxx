@@ -22,7 +22,7 @@
 
    
 
-int itkTransformTest(int, char**)
+int itkTransformTest(int, char* [] )
 {
 
 

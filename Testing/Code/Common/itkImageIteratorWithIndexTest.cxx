@@ -94,7 +94,7 @@ class IteratorTester
 
 
 
-int itkImageIteratorWithIndexTest(int, char**)
+int itkImageIteratorWithIndexTest(int, char* [] )
 {
 
 

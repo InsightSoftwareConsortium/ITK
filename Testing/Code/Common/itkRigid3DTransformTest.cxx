@@ -24,7 +24,7 @@
 
 
 
-int itkRigid3DTransformTest(int argc,char **argv)
+int itkRigid3DTransformTest(int argc,char * argv[] )
 {
 
 

@@ -19,7 +19,7 @@
 
 
 
-int itkImageRegionTest(int, char**)
+int itkImageRegionTest(int, char* [] )
 {
 
   const unsigned int dimension = 3;

@@ -18,7 +18,7 @@
 
 #include "itkScalarToRGBPixelFunctor.h"
 
-int itkScalarToRGBPixelFunctorTest(int, char**)
+int itkScalarToRGBPixelFunctorTest(int, char* [] )
 {
   itk::RGBPixel<unsigned char> pixel;
   

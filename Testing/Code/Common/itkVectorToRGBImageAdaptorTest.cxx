@@ -35,7 +35,7 @@
 //   Main code
 //
 //-------------------------
-int itkVectorToRGBImageAdaptorTest(int, char**) {
+int itkVectorToRGBImageAdaptorTest(int, char* [] ) {
 
 
 //-------------------------------------

@@ -27,7 +27,7 @@ void PrintShapedNeighborhood(const itk::ConstShapedNeighborhoodIterator<TestImag
   std::cout << "]" << std::endl;
 }
 
-int itkConstShapedNeighborhoodIteratorTest(int, char**)
+int itkConstShapedNeighborhoodIteratorTest(int, char* [] )
 {
   TestImageType::Pointer img = GetTestImage(10, 10, 5, 3);
   itk::ConstShapedNeighborhoodIterator<TestImageType>::IndexType loc;

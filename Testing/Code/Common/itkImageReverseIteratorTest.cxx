@@ -44,7 +44,7 @@ void TestConstPixelAccess(const itk::Image<T, VImageDimension> &in,
 }
 
 
-int itkImageReverseIteratorTest(int, char**)
+int itkImageReverseIteratorTest(int, char* [] )
 {
   std::cout << "Creating an image" << std::endl;
   itk::Image<itk::Vector<unsigned short, 5>, 3>::Pointer

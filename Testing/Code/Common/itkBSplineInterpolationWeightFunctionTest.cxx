@@ -20,7 +20,7 @@
  * This test exercises methods in the 
  * BSplineInterpolationWeightFunction class.
  */
-int itkBSplineInterpolationWeightFunctionTest(int, char**)
+int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
 {
   
   typedef double CoordRepType;

@@ -20,7 +20,7 @@
 #include "itkMeanImageFunction.h"
 #include "itkImage.h"
 
-int itkMeanImageFunctionTest(int, char**)
+int itkMeanImageFunctionTest(int, char* [] )
 {
 
   const unsigned int Dimension = 3;

@@ -24,7 +24,7 @@
 
 
 
-int itkImageRandomIteratorTest(int, char**)
+int itkImageRandomIteratorTest(int, char* [] )
 {
   std::cout << "Creating an image of indices" << std::endl;
 

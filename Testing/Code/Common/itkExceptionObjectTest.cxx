@@ -65,7 +65,7 @@ int lookup(const int& i)
 }
 
 
-int itkExceptionObjectTest(int, char**)
+int itkExceptionObjectTest(int, char* [] )
 {
   // SOME BASIC TESTS OF THE itk::ExceptionObject 's
   

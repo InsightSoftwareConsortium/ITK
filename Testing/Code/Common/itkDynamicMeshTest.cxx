@@ -69,7 +69,7 @@ typedef PointDataContainer::Iterator    CellsIterator;
 
 
 
-int itkDynamicMeshTest(int, char**)
+int itkDynamicMeshTest(int, char* [] )
 {
   
   /**

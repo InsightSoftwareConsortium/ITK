@@ -19,7 +19,7 @@
 #include "itkArray2D.h"
 
 
-int itkArray2DTest(int, char**)
+int itkArray2DTest(int, char* [] )
 {
   typedef itk::Array2D< double > ArrayType;
 

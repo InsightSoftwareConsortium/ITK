@@ -24,7 +24,7 @@
 
 
 
-int itkImageRegionExclusionIteratorWithIndexTest(int, char**)
+int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
 {
 
   const unsigned int ImageDimension = 3;

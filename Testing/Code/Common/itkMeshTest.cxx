@@ -75,7 +75,7 @@ typedef MeshType::PointType  PointType;
 
 
 
-int itkMeshTest(int, char**)
+int itkMeshTest(int, char* [] )
 {
   itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);

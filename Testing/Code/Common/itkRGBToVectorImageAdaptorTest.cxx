@@ -35,7 +35,7 @@
 //   Main code
 //
 //-------------------------
-int itkRGBToVectorImageAdaptorTest(int, char**) {
+int itkRGBToVectorImageAdaptorTest(int, char* [] ) {
 
 
 //-------------------------------------
