@@ -62,9 +62,14 @@ public:
 
   virtual void ShowProgress()
   {
+    m_Steps++;
     if (!m_Quiet)
       {
       std::cout << " | " << m_Process->GetProgress() << std::flush;
+      if ((m_Steps % 10) == 0)
+        {
+        std::cout << std::endl;
+        }
       }
     if (m_TestAbort)
       {
@@ -73,7 +78,6 @@ public:
         m_Process->AbortGenerateDataOn();
         }
       }
-    m_Steps++;
   }
   virtual void ShowAbort()
   {
