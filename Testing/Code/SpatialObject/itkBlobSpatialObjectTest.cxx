@@ -47,6 +47,11 @@ int itkBlobSpatialObjectTest(int, char* [])
     list.push_back(p);
   }
 
+  // For coverage
+  BlobPointType p;
+  p.SetPosition(1,2,3);
+  p.Print(std::cout);
+
   // Create a Blob Spatial Object
   BlobPointer blob = BlobType::New();
   blob->GetProperty()->SetName("Blob 1");
@@ -146,8 +151,36 @@ int itkBlobSpatialObjectTest(int, char* [])
     it++;
     i++;
   }
-
   std::cout<<"[PASSED]"<<std::endl;
+
+  // Testing IsEvaluableAt()
+  std::cout << "IsEvaluableAt: ";
+  if(!blob->IsEvaluableAt(in) || blob->IsEvaluableAt(out))
+  {
+     std::cout<<"[FAILED]"<<std::endl;
+     return EXIT_FAILURE;
+  }
+  std::cout<<"[PASSED]"<<std::endl;
+
+
+  // Testing IsEvaluableAt()
+  std::cout << "ValueAt: ";
+
+  double value;
+  if(!blob->ValueAt(in,value))
+  {
+     std::cout<<"[FAILED]"<<std::endl;
+     return EXIT_FAILURE;
+  }
+
+  if(value != 1)
+  {
+     std::cout<<"[FAILED]"<<std::endl;
+     return EXIT_FAILURE;
+  }
+  std::cout<<"[PASSED]"<<std::endl;
+
+
   return EXIT_SUCCESS;
 
 }

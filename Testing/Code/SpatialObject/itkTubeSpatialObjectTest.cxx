@@ -79,6 +79,12 @@ int itkTubeSpatialObjectTest(int, char * [] )
     list.push_back(p);
     }
 
+  // For coverage
+  TubePointType p;
+  p.SetPosition(1,2,3);
+  p.SetRadius(1);
+  p.Print(std::cout);
+
   tube1->GetProperty()->SetName("Tube 1");
   tube1->SetId(1);
   tube1->SetPoints(list);
@@ -416,6 +422,17 @@ int itkTubeSpatialObjectTest(int, char * [] )
       return EXIT_FAILURE;
     }
 
+  std::cout<<"[PASSED]"<<std::endl;
+
+  // Testing Set/GetParentPoint
+  std::cout << "Set/GetParentPoint: ";
+
+  tube->SetParentPoint(1);
+  if(tube->GetParentPoint() !=1)
+  {
+    std::cout<<"[FAILED]"<<std::endl;
+    return EXIT_FAILURE;
+  }
   std::cout<<"[PASSED]"<<std::endl;
 
   return EXIT_SUCCESS;

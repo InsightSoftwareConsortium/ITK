@@ -54,6 +54,11 @@ int itkSurfaceSpatialObjectTest(int, char* [])
     list.push_back(p);
   }
 
+   // For coverage
+  SurfacePointType p;
+  p.SetPosition(1,2,3);
+  p.Print(std::cout);
+
   // Create a Surface Spatial Object
   SurfacePointer Surface = SurfaceType::New();
   Surface->GetProperty()->SetName("Surface 1");
@@ -124,6 +129,36 @@ int itkSurfaceSpatialObjectTest(int, char* [])
   }
 
   std::cout<<"[PASSED]"<<std::endl;
+
+  // Testing IsEvaluableAt()
+  std::cout << "IsEvaluableAt: ";
+  if(!Surface->IsEvaluableAt(in) || Surface->IsEvaluableAt(out))
+  {
+     std::cout<<"[FAILED]"<<std::endl;
+     return EXIT_FAILURE;
+  }
+  std::cout<<"[PASSED]"<<std::endl;
+
+
+  // Testing IsEvaluableAt()
+  std::cout << "ValueAt: ";
+
+  double value;
+  if(!Surface->ValueAt(in,value))
+  {
+     std::cout<<"[FAILED]"<<std::endl;
+     return EXIT_FAILURE;
+  }
+
+  if(value != 1)
+  {
+     std::cout<<"[FAILED]"<<std::endl;
+     return EXIT_FAILURE;
+  }
+  std::cout<<"[PASSED]"<<std::endl;
+
+
+
   return EXIT_SUCCESS;
 
 }

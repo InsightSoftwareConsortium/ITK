@@ -55,6 +55,11 @@ int itkLineSpatialObjectTest(int, char* [])
     list.push_back(p);
   }
 
+  // For coverage
+  LinePointType p;
+  p.SetPosition(0,1,2);
+  p.Print(std::cout);
+
   // Create a Line Spatial Object
   LinePointer Line = LineType::New();
   Line->GetProperty()->SetName("Line 1");
@@ -130,8 +135,36 @@ int itkLineSpatialObjectTest(int, char* [])
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
-
   std::cout<<"[PASSED]"<<std::endl;
+
+  // Testing IsEvaluableAt()
+  std::cout << "IsEvaluableAt: ";
+  if(!Line->IsEvaluableAt(in) || Line->IsEvaluableAt(out))
+  {
+     std::cout<<"[FAILED]"<<std::endl;
+     return EXIT_FAILURE;
+  }
+  std::cout<<"[PASSED]"<<std::endl;
+
+
+  // Testing IsEvaluableAt()
+  std::cout << "ValueAt: ";
+
+  double value;
+  if(!Line->ValueAt(in,value))
+  {
+     std::cout<<"[FAILED]"<<std::endl;
+     return EXIT_FAILURE;
+  }
+
+  if(value != 1)
+  {
+     std::cout<<"[FAILED]"<<std::endl;
+     return EXIT_FAILURE;
+  }
+  std::cout<<"[PASSED]"<<std::endl;
+
+
   return EXIT_SUCCESS;
 
 }

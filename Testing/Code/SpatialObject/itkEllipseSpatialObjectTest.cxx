@@ -110,10 +110,24 @@ int itkEllipseSpatialObjectTest(int, char* [])
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
-
-
   std::cout<<"[PASSED]"<<std::endl;
 
+  std::cout << "ComputeBoundingBox: ";
+  myEllipse->ComputeBoundingBox();
+  EllipseType::BoundingBoxType * boundingBox = myEllipse->GetBoundingBox();
+
+  for(unsigned int i=0;i<3;i++)
+  {
+    if( (boundingBox->GetBounds()[2*i] != -3 )
+       || (boundingBox->GetBounds()[2*i+1] != 3 )
+       )
+    {
+      std::cout<<"[FAILED]"<<std::endl;
+      return EXIT_FAILURE;
+    }
+
+  }
+  std::cout<<"[PASSED]"<<std::endl;
   return EXIT_SUCCESS;
 
 }
