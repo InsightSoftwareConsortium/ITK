@@ -93,6 +93,8 @@ int main()
   /* Create a Rigid 3D transform with rotation */
 
   {
+    bool Ok = true;
+
     TransformType::Pointer  rotation = TransformType::New();
 
     itk::Vector<double,3> axis;
@@ -101,13 +103,13 @@ int main()
     const double angle = (atan(1.0)/45.0)*120.0; // turn 120 degrees
 
     // this rotation will permute the axis x->y, y->z, z->x
-    rotation->Set( axis, angle );
+    rotation->SetRotation( axis, angle );
 
     TransformType::OffsetType offset = rotation->GetOffset();
     std::cout << "pure Rotation test:  ";
     std::cout << offset << std::endl;
 
-    for(unsigned int i=0; i<N; i++)
+    for(unsigned int i=0; i<3; i++)
     {
       if( fabs( offset[i] - 0.0 ) > epsilon )
       {
@@ -132,7 +134,7 @@ int main()
 
       TransformType::OutputPointType r;
       r = rotation->TransformPoint( p );
-      for(unsigned int i=0; i<N; i++)
+      for(unsigned int i=0; i<3; i++)
       {
         if( fabs( q[i]- r[i] ) > epsilon )
         {
@@ -164,7 +166,7 @@ int main()
 
       TransformType::OutputVectorType r;
       r = rotation->TransformVector( p );
-      for(unsigned int i=0; i<N; i++)
+      for(unsigned int i=0; i<3; i++)
       {
         if( fabs( q[i] - r[i] ) > epsilon )
         {
@@ -197,7 +199,7 @@ int main()
 
       TransformType::OutputCovariantVectorType r;
       r = rotation->TransformCovariantVector( p );
-      for(unsigned int i=0; i<N; i++)
+      for(unsigned int i=0; i<3; i++)
       {
         if( fabs( q[i] - r[i] ) > epsilon )
         {
@@ -234,7 +236,7 @@ int main()
 
       TransformType::OutputVnlVectorType r;
       r = rotation->TransformVnlVector( p );
-      for(unsigned int i=0; i<N; i++)
+      for(unsigned int i=0; i<3; i++)
       {
         if( fabs( q[i] - r[i] ) > epsilon )
         {
