@@ -106,15 +106,13 @@ public:
 
   /** Gets the total energy value of an image or a slice using the
    * given parameters. */
-  MeasureType GetValue(const ParametersType & parameters );
+  MeasureType GetValue(const ParametersType & parameters ) const ;
 
   /** Dummy implementation to confirm to the SingleValuedCostFunction 
    * interfaces. It is pure virtual in the superclass */
-  DerivativeType GetDerivative( const ParametersType & parameters )
-  { 
-    DerivativeType ret ; 
-    return ret ;
-  }
+  void GetDerivative( const ParametersType & parameters,
+                      DerivativeType & derivative ) const 
+  {  }
 
   /** Set Mean and Sigma for the normal distributions 
    *  \warning This method MUST be called before any attemp to 
@@ -331,14 +329,14 @@ public:
 
   /** Sets the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
-  void SetInitialBiasFieldCoefficients(const BiasFieldType::CoefficientVector 
-                                       & coefficients)
+  void SetInitialBiasFieldCoefficients
+  (const BiasFieldType::CoefficientVectorType &coefficients)
     { m_BiasFieldCoefficients = coefficients ; }
 
   /** Get the result bias field coefficients after the bias field
    * estimation (does not apply to the inter-slice intensity
    * correction) */
-  BiasFieldType::CoefficientVector GetEstimatedBiasFieldCoefficients() 
+  BiasFieldType::CoefficientVectorType GetEstimatedBiasFieldCoefficients() 
     { return m_EstimatedBiasFieldCoefficients ; }
 
   /** Set the tissue class statistics for energy function initialization
@@ -478,11 +476,11 @@ private:
 
   /** Storage for the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
-  BiasFieldType::CoefficientVector m_BiasFieldCoefficients ;
+  BiasFieldType::CoefficientVectorType m_BiasFieldCoefficients ;
 
   /** Storage for the resulting 3D bias field estimate coefficients 
    * after optimization. */
-  BiasFieldType::CoefficientVector m_EstimatedBiasFieldCoefficients ;
+  BiasFieldType::CoefficientVectorType m_EstimatedBiasFieldCoefficients ;
 
   /** Storage for the optimizer's maximum iteration number. */
   int m_OptimizerMaximumIteration ;
