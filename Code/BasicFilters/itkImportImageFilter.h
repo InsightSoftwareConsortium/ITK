@@ -43,6 +43,9 @@ public:
   /** Typedef for the output image.   */
   typedef Image<TPixel,VImageDimension> OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef typename OutputImageType::SpacingType SpacingType;
+  typedef typename OutputImageType::PointType   OriginType;
+
   
   /** Standard class typedefs. */
   typedef ImportImageFilter   Self;
@@ -104,11 +107,13 @@ public:
   /** Get the spacing (size of a pixel) of the image.
    * \sa SetSpacing() */
   itkGetVectorMacro(Spacing, const double, VImageDimension);
+  void SetSpacing( const SpacingType & spacing );
   
   /** Set the origin of the image.
    * \sa GetOrigin() */
   itkSetVectorMacro(Origin, const double, VImageDimension);
   itkSetVectorMacro(Origin, const float, VImageDimension);
+  void SetOrigin( const OriginType & origin );
 
   /** Get the origin of the image.
    * \sa SetOrigin() */

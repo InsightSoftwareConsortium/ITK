@@ -202,6 +202,36 @@ ImportImageFilter<TPixel, VImageDimension>
 }
 
 
+/** 
+ *
+ */
+template <class TPixel, unsigned int VImageDimension>
+void 
+ImportImageFilter<TPixel, VImageDimension>
+::SetSpacing( const SpacingType & spacing )
+{
+  for(unsigned int i=0; i<VImageDimension; i++)
+    {
+    m_Spacing[i] = spacing[i];
+    }
+}
+
+
+/** 
+ *
+ */
+template <class TPixel, unsigned int VImageDimension>
+void 
+ImportImageFilter<TPixel, VImageDimension>
+::SetOrigin( const OriginType & origin )
+{
+  for(unsigned int i=0; i<VImageDimension; i++)
+    {
+    m_Origin[i] = origin[i];
+    }
+}
+
+
 } // end namespace itk
 
 #endif
