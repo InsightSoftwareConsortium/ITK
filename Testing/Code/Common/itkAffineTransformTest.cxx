@@ -17,6 +17,7 @@
 #include <iostream>
 
 #include "itkAffineTransform.h"
+#include "itkImage.h"
 
 int
 main(
@@ -166,6 +167,28 @@ main(
     inv3 = aff3.Inverse();
     std::cout << "Create an inverse transformation:"
               << std::endl << inv3;
+
+    /* Create an image for testing index<->physical transforms */
+    std::cout << "Creating image for testing index<->physical transforms"
+              << std::endl;
+    double spacing[3] = {1.0, 2.0, 3.0};
+    double origin [3] = {4.0, 5.0, 6.0};
+    itk::Image<unsigned char, 3>::Pointer
+        image =itk::Image<unsigned char, 3>::New();
+    image->SetOrigin (origin);
+    image->SetSpacing(spacing);
+
+    /* Generate index-to-physical transform */
+    itk::AffineTransform<double, 3>
+        i2p = image->GetIndexToPhysicalTransform();
+    std::cout << "Index to physical transformation:" << std::endl;
+    std::cout << i2p << std::endl;
+
+    /* Generate physical-to-index transform */
+    itk::AffineTransform<double, 3>
+        p2i = image->GetPhysicalToIndexTransform();
+    std::cout << "Physical to index transformation:" << std::endl;
+    std::cout << p2i << std::endl;
 
     return any;
 }

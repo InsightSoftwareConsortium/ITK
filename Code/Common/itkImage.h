@@ -23,6 +23,7 @@
 #include "itkPixelTraits.h"
 #include "itkValarrayImageContainer.h"
 #include "itkDataAccessor.h"
+#include "itkAffineTransform.h"
 
 namespace itk
 {
@@ -72,9 +73,16 @@ namespace itk
  * The data in an image is arranged in a 1D array as [][][][slice][row][col]
  * with Index[0] = col, Index[1] = row, Index[2] = slice, ...
  *
- * \sa ImageContainerInterface
+ * Accessing an image pixel through the corresponding index values is
+ * referred as using index coordinates.  The image class also includes
+ * origin and spacing fields which allow the user to define physical
+ * coordinates within an image.  Along axis i, the pixel with index
+ * coordinate k[i] has the physical coordinate x[i] = origin[i] +
+ * k[i]*spacing[i].
  *
- */
+ *
+ * \sa ImageContainerInterface
+ * */
 
 template <class TPixel, unsigned int VImageDimension=2, class TPixelContainer=ValarrayImageContainer<unsigned long, TPixel> >
 class ITK_EXPORT Image : public ImageBase
@@ -169,7 +177,17 @@ public:
    * Region typedef support. A region is used to specify a subset of an image.
    */
   typedef ImageRegion<VImageDimension>  RegionType;
-  
+
+  /** 
+   * Typedef for associated AffineTransform
+   *
+   * This is used specifically as the type of the index-to-physical and
+   * physical-to-index transforms associated with the origin and spacing
+   * for the image, and more generally as any affine transformation of
+   * the image.
+   */
+  typedef AffineTransform<double, VImageDimension> AffineTransformType;
+
   /** 
    * Run-time type information (and related methods).
    */
@@ -320,6 +338,24 @@ public:
    * \sa SetOrigin()
    */
   itkGetVectorMacro(Origin, const double, VImageDimension);
+
+  /** 
+   * Get the index-to-physical coordinate transformation
+   *
+   * This method returns an AffineTransform which defines the
+   * transformation from index coordinates to physical coordinates
+   * determined by the origin and spacing of this image.
+   */
+  AffineTransformType GetIndexToPhysicalTransform();
+
+  /** 
+   * Get the physical-to-index coordinate transformation
+   *
+   * This method returns an AffineTransform which defines the
+   * transformation from physical coordinates to index coordinates
+   * determined by the origin and spacing of this image.
+   */
+  AffineTransformType GetPhysicalToIndexTransform();
 
   /**
    * Return a pointer to the beginning of the buffer.  This is used by

@@ -258,4 +258,50 @@ Image<TPixel, VImageDimension, TPixelContainer>
     }
 }
 
+
+//---------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+Image<TPixel, VImageDimension, TPixelContainer>::AffineTransformType
+Image<TPixel, VImageDimension, TPixelContainer>::
+GetIndexToPhysicalTransform()
+{
+    AffineTransformType::MatrixType matrix;
+    AffineTransformType::VectorType offset;
+    for (int i = 0; i < VImageDimension; i++) {
+        for (int j = 0; j < VImageDimension; j++)
+            matrix[i][j] = 0.0;
+        matrix[i][i] = m_Spacing[i];
+        offset[i]    = m_Origin [i];
+    }
+
+    AffineTransformType result(matrix, offset);
+    result.SetMatrix(matrix);
+    result.SetOffset(offset);
+
+    return result;
+}
+
+
+//---------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+Image<TPixel, VImageDimension, TPixelContainer>::AffineTransformType
+Image<TPixel, VImageDimension, TPixelContainer>::
+GetPhysicalToIndexTransform()
+{
+    AffineTransformType::MatrixType matrix;
+    AffineTransformType::VectorType offset;
+
+    for (int i = 0; i < VImageDimension; i++) {
+        for (int j = 0; j < VImageDimension; j++)
+            matrix[i][j] = 0.0;
+        matrix[i][i] = 1.0 / m_Spacing[i];
+        offset[i]    = -m_Origin[i] / m_Spacing[i];
+    }
+
+    AffineTransformType result(matrix, offset);
+
+    return result;
+}
+
+
 } // end namespace itk
