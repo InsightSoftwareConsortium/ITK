@@ -100,23 +100,10 @@ public:
   virtual void UnRegister();
 
   /** 
-   * Gets the reference count (use with care) 
-   */
-  virtual int GetReferenceCount() const 
-    {return m_ReferenceCount;}
-
-  /** 
    * Sets the reference count (use with care) 
    */
   virtual void SetReferenceCount(int);
 
-  /** 
-   * A callback for when the destructor is called. Scripting
-   * languages use this to know when a C++ object has been freed.
-   * This is not intended for any use other than scripting. 
-   */
-  virtual void SetDeleteMethod(void (*f)(void *));
-  
   /** 
    * This is a global flag that controls whether any debug, warning
    *  or error messages are displayed. 

@@ -15,6 +15,7 @@
 =========================================================================*/
 #include "itkObject.h"
 #include "itkObjectFactory.h"
+#include "itkCommand.h"
 
 namespace itk
 {
@@ -128,18 +129,8 @@ Object
 {
   itkDebugMacro(<< this << "UnRegistered, "
   << "ReferenceCount = " << (m_ReferenceCount-1));
-
-  if(--m_ReferenceCount <= 0)
-    {
-    /**
-     * If there is a delete method, invoke it.
-     */
-    if(m_DeleteMethod)
-      {
-      (*m_DeleteMethod)(this);
-      }
-    delete this;
-    }
+// call the parent
+  this->LightObject::UnRegister();
 }
 
 
@@ -150,23 +141,9 @@ void
 Object
 ::SetReferenceCount(int ref)
 {
-  m_ReferenceCount = ref;
-  itkDebugMacro(<< "Reference Count set to " << m_ReferenceCount);
-}
-
-
-/**
- * Set the delete method, and update modification time if needed.
- */
-void 
-Object
-::SetDeleteMethod(void (*f)(void *))
-{
-  if (f != m_DeleteMethod)
-    {
-    m_DeleteMethod = f;
-    this->Modified();
-    }
+  itkDebugMacro(<< "Reference Count set to " << ref);
+  // call the parent
+  this->LightObject::SetReferenceCount(ref);
 }
 
 

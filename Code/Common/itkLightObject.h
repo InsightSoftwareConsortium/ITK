@@ -27,7 +27,8 @@
 
 namespace itk
 {
-
+class SubjectImplementation;
+class Command;
 /** \class LightObject
  * LightObject is the highest level base class for most itk objects. It
  * implements reference counting, call-backs, and API for object printing.
@@ -104,12 +105,21 @@ public:
    */
   virtual void SetReferenceCount(int);
 
-  /** 
-   * A callback for when the destructor is called. Scripting
-   * languages use this to know when a C++ object has been freed.
-   * This is not intended for any use other than scripting. 
+  /**
+   * Allow people to add/remove/invoke observers (callbacks) to any ITK object
+   * This is an implementation of the subject/observer design pattern. An 
+   * observer is added by specifying an event to respond to and an itk::Command
+   * to execute. It returns an unsigned long tag which can be used later to
+   * remove the event or retrieve the command.
    */
-  virtual void SetDeleteMethod(void (*f)(void *));
+  unsigned long AddObserver(unsigned long event, Command *);
+  unsigned long AddObserver(const char *event, Command *);
+  Command *GetCommand(unsigned long tag);
+  void InvokeEvent(unsigned long event, void *callData);
+  void InvokeEvent(const char *event, void *callData);
+  void RemoveObserver(unsigned long tag);
+  int HasObserver(unsigned long event);
+  int HasObserver(const char *event);
   
 protected:
   LightObject(); 
@@ -133,10 +143,10 @@ protected:
   int m_ReferenceCount;
   
   /**
-   * Call-back when object is deleted.  Used to interface with interpreted
-   * languages.
+   * Implementaion class for Subject/Observer Pattern.
+   * This is only allocated if used.
    */
-  void (*m_DeleteMethod)(void *);
+  SubjectImplementation* m_SubjectImplementation;
 };
 
 } // end namespace itk

@@ -16,6 +16,7 @@
 #include "itkProcessObject.h"
 #include "itkDataObject.h"
 #include "itkObjectFactory.h"
+#include "itkCommand.h"
 #include <algorithm>
 
 namespace itk
@@ -31,16 +32,6 @@ ProcessObject
 
   m_NumberOfRequiredOutputs = 0;
 
-  m_StartMethod = NULL;
-  m_StartMethodArgDelete = NULL;
-  m_StartMethodArg = NULL;
-  m_ProgressMethod = NULL;
-  m_ProgressMethodArgDelete = NULL;
-  m_ProgressMethodArg = NULL;
-  m_EndMethod = NULL;
-  m_EndMethodArgDelete = NULL;
-  m_EndMethodArg = NULL;
-
   m_AbortGenerateData = false;
   m_Progress = 0.0;
   m_Updating = false;
@@ -53,19 +44,6 @@ ProcessObject
 ProcessObject
 ::~ProcessObject()
 {
-  if ((m_StartMethodArg)&&(m_StartMethodArgDelete))
-    {
-    (*m_StartMethodArgDelete)(m_StartMethodArg);
-    }
-  if ((m_ProgressMethodArg)&&(m_ProgressMethodArgDelete))
-    {
-    (*m_ProgressMethodArgDelete)(m_ProgressMethodArg);
-    }
-  if ((m_EndMethodArg)&&(m_EndMethodArgDelete))
-    {
-    (*m_EndMethodArgDelete)(m_EndMethodArg);
-    }
-
 }
 
 typedef DataObject *DataObjectPointer;
@@ -334,124 +312,7 @@ ProcessObject
 ::UpdateProgress(float amount)
 {
   m_Progress = amount;
-  if ( m_ProgressMethod )
-    {
-    (*m_ProgressMethod)(m_ProgressMethodArg);
-    }
-}
-
-
-/**
- * Specify function to be called before object executes.
- */
-void 
-ProcessObject
-::SetStartMethod(void (*f)(void *), void *arg)
-{
-  if ( f != m_StartMethod || arg != m_StartMethodArg )
-    {
-    /**
-     * delete the current arg if there is one and a delete meth
-     */
-    if ((m_StartMethodArg)&&(m_StartMethodArgDelete))
-      {
-      (*m_StartMethodArgDelete)(m_StartMethodArg);
-      }
-    m_StartMethod = f;
-    m_StartMethodArg = arg;
-    this->Modified();
-    }
-}
-
-
-/**
- * Specify function to be called to show progress of filter
- */
-void 
-ProcessObject
-::SetProgressMethod(void (*f)(void *), void *arg)
-{
-  if ( f != m_ProgressMethod || arg != m_ProgressMethodArg )
-    {
-    /**
-     * delete the current arg if there is one and a delete meth
-     */
-    if ((m_ProgressMethodArg)&&(m_ProgressMethodArgDelete))
-      {
-      (*m_ProgressMethodArgDelete)(m_ProgressMethodArg);
-      }
-    m_ProgressMethod = f;
-    m_ProgressMethodArg = arg;
-    this->Modified();
-    }
-}
-
-
-/**
- * Specify function to be called after object executes.
- */
-void 
-ProcessObject
-::SetEndMethod(void (*f)(void *), void *arg)
-{
-  if ( f != m_EndMethod || arg != m_EndMethodArg )
-    {
-    /**
-     * delete the current arg if there is one and a delete meth
-     */
-    if ((m_EndMethodArg)&&(m_EndMethodArgDelete))
-      {
-      (*m_EndMethodArgDelete)(m_EndMethodArg);
-      }
-    m_EndMethod = f;
-    m_EndMethodArg = arg;
-    this->Modified();
-    }
-}
-
-
-/**
- * Set the arg delete method. This is used to free user memory.
- */
-void 
-ProcessObject
-::SetStartMethodArgDelete(void (*f)(void *))
-{
-  if ( f != m_StartMethodArgDelete)
-    {
-    m_StartMethodArgDelete = f;
-    this->Modified();
-    }
-}
-
-
-/**
- * Set the arg delete method. This is used to free user memory.
- */
-void 
-ProcessObject
-::SetProgressMethodArgDelete(void (*f)(void *))
-{
-  if ( f != m_ProgressMethodArgDelete)
-    {
-    m_ProgressMethodArgDelete = f;
-    this->Modified();
-    }
-}
-
-
-/**
- * Set the arg delete method. This is used to free user memory.
- */
-void 
-ProcessObject
-::SetEndMethodArgDelete(void (*f)(void *))
-{
-  if ( f != m_EndMethodArgDelete)
-    {
-    m_EndMethodArgDelete = f;
-    this->Modified();
-    }
+  this->InvokeEvent(Command::ProgressEvent, 0);
 }
 
 
@@ -525,33 +386,6 @@ ProcessObject
   else
     {
     os << indent <<"No Output\n";
-    }
-
-  if ( m_StartMethod )
-    {
-    os << indent << "Start Method defined\n";
-    }
-  else
-    {
-    os << indent <<"No Start Method\n";
-    }
-
-  if ( m_ProgressMethod )
-    {
-    os << indent << "Progress Method defined\n";
-    }
-  else
-    {
-    os << indent << "No Progress Method\n";
-    }
-
-  if ( m_EndMethod )
-    {
-    os << indent << "End Method defined\n";
-    }
-  else
-    {
-    os << indent << "No End Method\n";
     }
 
   os << indent << "AbortGenerateData: " << (m_AbortGenerateData ? "On\n" : "Off\n");
@@ -799,13 +633,7 @@ ProcessObject
       }
     }
  
-  /**
-   * If there is a start method, call it
-   */
-  if ( m_StartMethod )
-    {
-    (*m_StartMethod)(m_StartMethodArg);
-    }
+  this->InvokeEvent(Command::StartEvent, 0);
 
   /**
    * GenerateData this object - we have not aborted yet, and our progress
@@ -831,14 +659,9 @@ ProcessObject
     this->UpdateProgress(1.0);
     }
 
-  /**
-   * Call the end method, if there is one
-   */
-  if ( m_EndMethod )
-    {
-    (*m_EndMethod)(m_EndMethodArg);
-    }
-    
+  // Notify end event observers
+  this->InvokeEvent(Command::EndEvent, 0);
+
   /**
    * Now we have to mark the data as up to data.
    */

@@ -15,10 +15,127 @@
 =========================================================================*/
 #include "itkLightObject.h"
 #include "itkObjectFactory.h"
+#include "itkCommand.h"
+#include <list>
+#include <memory>
 
 namespace itk
 {
+class Observer
+{
+public:
+  Observer(Command* c) :m_Command(c) { }
+  std::auto_ptr<Command> m_Command;
+  unsigned long m_Event;
+  unsigned long m_Tag;
+};
+    
+  
+class SubjectImplementation
+{
+public:
+  SubjectImplementation() {m_Count = 0;}
+  ~SubjectImplementation();
+  unsigned long AddObserver(unsigned long event, Command* cmd);
+  void RemoveObserver(unsigned long tag);
+  void InvokeEvent(unsigned long event, void* data, LightObject* self);
+  Command *GetCommand(unsigned long tag);
+  bool HasObserver(unsigned long event);
+private:
+  std::list<Observer* > m_Observers;
+  unsigned long m_Count;
+};
 
+SubjectImplementation::
+~SubjectImplementation()
+{
+  for(std::list<Observer* >::iterator i = m_Observers.begin();
+      i != m_Observers.end(); ++i)
+    {
+    delete (*i);
+    }
+}
+
+
+unsigned long 
+SubjectImplementation::
+AddObserver(unsigned long event,
+	    Command* cmd)
+{
+  Observer* ptr = new Observer(cmd);
+  m_Observers.push_back(ptr);
+  ptr->m_Tag = m_Count;
+  m_Count++;
+  return ptr->m_Tag;
+}
+
+
+void
+SubjectImplementation::
+RemoveObserver(unsigned long tag)
+{
+  for(std::list<Observer* >::iterator i = m_Observers.begin();
+      i != m_Observers.end(); ++i)
+    {
+    if((*i)->m_Tag == tag)
+      {
+      m_Observers.remove(*i);
+      return;
+      }
+    }
+}
+
+
+void 
+SubjectImplementation::
+InvokeEvent(unsigned long event,
+	    void* data,
+	    LightObject* self)
+{
+  for(std::list<Observer* >::iterator i = m_Observers.begin();
+      i != m_Observers.end(); ++i)
+    {
+    if( (*i)->m_Event == event)
+      {
+      (*i)->m_Command->Execute(self, data);
+      }
+    }
+}
+Command*
+SubjectImplementation::
+GetCommand(unsigned long tag)
+{
+  for(std::list<Observer* >::iterator i = m_Observers.begin();
+      i != m_Observers.end(); ++i)
+    {
+    if ( (*i)->m_Tag == tag)
+      {
+      return (*i)->m_Command.get();
+      }
+    }
+  return 0;
+}
+
+bool
+SubjectImplementation::
+HasObserver(unsigned long event)
+{
+  for(std::list<Observer* >::iterator i = m_Observers.begin();
+      i != m_Observers.end(); ++i)
+    {
+    if( (*i)->m_Event == event)
+      {
+      return true;
+      }
+    }
+  return false;
+}
+
+
+
+
+  
+    
 /**
  * Instance creation.
  */
@@ -114,10 +231,6 @@ LightObject
 ::Register()
 {
   m_ReferenceCount++;
-  if(m_ReferenceCount <= 0)
-    {
-    delete this;
-    }
 }
 
 
@@ -133,10 +246,7 @@ LightObject
     /**
      * If there is a delete method, invoke it.
      */
-    if(m_DeleteMethod)
-      {
-      (*m_DeleteMethod)(this);
-      }
+    this->InvokeEvent(Command::DeleteEvent, 0);
     delete this;
     }
 }
@@ -150,18 +260,17 @@ LightObject
 ::SetReferenceCount(int ref)
 {
   m_ReferenceCount = ref;
+  if(m_ReferenceCount <= 0)
+    {
+    /**
+     * If there is a delete method, invoke it.
+     */
+    this->InvokeEvent(Command::DeleteEvent, 0);
+    delete this;
+    }
 }
 
 
-/**
- * Access routine to set the delete method pointer.
- */
-void 
-LightObject
-::SetDeleteMethod(void (*f)(void *))
-{
-  m_DeleteMethod = f;
-}
 
 
 /**
@@ -173,7 +282,7 @@ LightObject
    * initial ref count = 0 because smart pointer immediately increments it
    */
   m_ReferenceCount(0),
-  m_DeleteMethod(NULL)
+  m_SubjectImplementation(0)
 {
 }
 
@@ -189,6 +298,7 @@ LightObject
     {
     itkErrorMacro(<< "Trying to delete object with non-zero reference count.");
     }
+  delete m_SubjectImplementation;
 }
 
 
@@ -200,14 +310,6 @@ void
 LightObject
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  if(m_DeleteMethod)
-    {
-    os << indent << "Delete Method defined" << std::endl;
-    }
-  else
-    {
-    os << indent <<"No Delete Method" << std::endl;
-    }
   os << indent << "Reference Count: " << m_ReferenceCount << std::endl;
 }
 
@@ -246,5 +348,64 @@ operator<<(std::ostream& os, LightObject& o)
   o.Print(os);
   return os;
 }
+
+unsigned long LightObject::AddObserver(unsigned long event, Command *cmd)
+{
+  if (!this->m_SubjectImplementation)
+    {
+    this->m_SubjectImplementation = new SubjectImplementation;
+    }
+  return this->m_SubjectImplementation->AddObserver(event,cmd);
+}
+
+unsigned long LightObject::AddObserver(const char *event,Command *cmd)
+{
+  return this->AddObserver(Command::GetEventIdFromString(event), cmd);
+}
+
+Command *LightObject::GetCommand(unsigned long tag)
+{
+  if (this->m_SubjectImplementation)
+    {
+    return this->m_SubjectImplementation->GetCommand(tag);
+    }
+  return NULL;
+}
+
+void LightObject::RemoveObserver(unsigned long tag)
+{
+  if (this->m_SubjectImplementation)
+    {
+    this->m_SubjectImplementation->RemoveObserver(tag);
+    }
+}
+
+void LightObject::InvokeEvent(unsigned long event, void *callData)
+{
+  if (this->m_SubjectImplementation)
+    {
+    this->m_SubjectImplementation->InvokeEvent(event,callData, this);
+    }
+}
+
+void LightObject::InvokeEvent(const char *event, void *callData)
+{
+  this->InvokeEvent(Command::GetEventIdFromString(event), callData);
+}
+
+int LightObject::HasObserver(unsigned long event)
+{
+  if (this->m_SubjectImplementation)
+    {
+    return this->m_SubjectImplementation->HasObserver(event);
+    }
+  return 0;
+}
+
+int LightObject::HasObserver(const char *event)
+{
+  return this->HasObserver(Command::GetEventIdFromString(event));
+}
+
 
 } // end namespace itk

@@ -15,6 +15,7 @@ itkMutexLock \
 itkNumericTraits \
 itkObject \
 itkObjectFactoryBase \
+itkObserver \
 itkOutputWindow \
 itkProcessObject \
 itkRegion \

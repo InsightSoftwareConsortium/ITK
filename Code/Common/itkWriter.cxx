@@ -15,6 +15,7 @@
 =========================================================================*/
 #include "itkWriter.h"
 #include "itkDataObject.h"
+#include "itkCommand.h"
 
 namespace itk
 {
@@ -53,17 +54,11 @@ Writer
     }
 
   this->GetInput(0)->Update();
-  if ( m_StartMethod )
-    {
-    (*m_StartMethod)(m_StartMethodArg);
-    }
+  this->InvokeEvent(Command::StartEvent, 0);
 
   this->WriteData();
-
-  if ( m_EndMethod )
-    {
-    (*m_EndMethod)(m_EndMethodArg);
-    }
+  // Notify end event observers
+  this->InvokeEvent(Command::EndEvent, 0);
 
   if ( this->GetInput(0)->ShouldIReleaseData() )
     {

@@ -40,18 +40,16 @@ namespace itk
  * not use inputs (the source) or outputs (mappers). In this case, the
  * inputs or outputs is just ignored.
  *
- * ProcessObject provides a mechanism for invoking the methods
- * StartMethod() and EndMethod() before and after object execution (via
- * GenerateData()). These are convenience methods you can use for any purpose
- * (e.g., debugging info, highlighting/notifying user interface, etc.) These
- * methods accept a single void* pointer that can be used to send data to the
- * methods. It is also possible to specify a function to delete the argument
- * via StartMethodArgDelete and EndMethodArgDelete.
+ * ProcessObject invokes the following events: 
+ * , Command::StartEvent, Command::EndEvent
+ * These are convenience events you can use for any purpose
+ * (e.g., debugging info, highlighting/notifying user interface, etc.) 
+ * See Command and LightObject for information on using AddObserver.
  *
- * Another method, ProgressMethod() can be specified. Some filters invoke
- * this method periodically during their execution (with the progress,
+ * Another event Command::ProgressEvent can be observed. Some filters invoke
+ * this event periodically during their execution (with the progress,
  * parameter, the fraction of work done). The use is similar to that of
- * StartMethod() and EndMethod(). Filters may also check their
+ * StartEvent and EndEvent. Filters may also check their
  * AbortGenerateData flag to determine whether to prematurally end their
  * execution.
  *
@@ -126,36 +124,6 @@ public:
   int GetNumberOfOutputs() const
     {return m_Outputs.size();}
     
-  /** 
-   * Specify function to be called before object executes. 
-   */
-  void SetStartMethod(void (*f)(void *), void *arg);
-
-  /** 
-   * Specify function to be called to show progress of filter. 
-   */
-  void SetProgressMethod(void (*f)(void *), void *arg);
-
-  /** 
-   * Specify function to be called after object executes. 
-   */
-  void SetEndMethod(void (*f)(void *), void *arg);
-
-  /** 
-   * Set the arg delete method. This is used to free user memory. 
-   */
-  void SetStartMethodArgDelete(void (*f)(void *));
-
-  /** 
-   * Set the arg delete method. This is used to free user memory. 
-   */
-  void SetProgressMethodArgDelete(void (*f)(void *));
-
-  /** 
-   * Set the arg delete method. This is used to free user memory. 
-   */
-  void SetEndMethodArgDelete(void (*f)(void *));
-
   /** 
    * Set the AbortGenerateData flag for the process object. Process objects
    *  may handle premature termination of execution in different ways. 
@@ -353,19 +321,6 @@ protected:
    * unmodified from the input to the output.
    */
   virtual void GenerateOutputInformation();
-
-  /**
-   * Callbacks to be called during pipeline execution
-   */
-  void (*m_StartMethod)(void *);
-  void (*m_StartMethodArgDelete)(void *);
-  void *m_StartMethodArg;
-  void (*m_ProgressMethod)(void *);
-  void *m_ProgressMethodArg;
-  void (*m_ProgressMethodArgDelete)(void *);
-  void (*m_EndMethod)(void *);
-  void (*m_EndMethodArgDelete)(void *);
-  void *m_EndMethodArg;
 
 private:
   /**
