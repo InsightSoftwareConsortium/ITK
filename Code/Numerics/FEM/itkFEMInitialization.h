@@ -55,7 +55,7 @@ public:
  */
 namespace {
   static FEMInitialization FEMInitialization_var; 
-};
+}
 
 
 
