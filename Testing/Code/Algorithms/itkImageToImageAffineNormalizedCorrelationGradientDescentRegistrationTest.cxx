@@ -148,14 +148,14 @@ int main()
   registrationMethod->GetOptimizer()->AddObserver( itk::Command::IterationEvent,
                                                    iterationCommand ); 
 
-  const double translationScale = 1e4;
+  const double translationScale = 5e-7;
 
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(imgTarget);
   registrationMethod->SetTranslationScale( translationScale );
 
-  registrationMethod->GetOptimizer()->SetLearningRate(1e-6);
-  registrationMethod->GetOptimizer()->SetNumberOfIterations(100);
+  registrationMethod->GetOptimizer()->SetLearningRate(0.02);
+  registrationMethod->GetOptimizer()->SetNumberOfIterations(200);
 
   registrationMethod->StartRegistration();
 
@@ -176,7 +176,7 @@ int main()
     }
   for( unsigned int j = 4; j < 6; j++ )
     {
-    if( vnl_math_abs( solution[j] * translationScale - trueParameters[j] ) > 1.0 )
+    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 1.0 )
       pass = false;
     }
 
