@@ -45,7 +45,7 @@ namespace itk
 
 template <class TScalarType, int NDimensions>
 ElasticBodySplineKernelTransform<TScalarType, NDimensions>::
-ElasticBodySplineKernelTransform() : KernelTransform<TScalarType, NDimensions>()
+ElasticBodySplineKernelTransform() 
 {
 }
 

@@ -42,6 +42,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkElasticBodySplineKernelTransform_h
 
 #include "itkKernelTransform.h"
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_matrix.h"
+
 
 namespace itk
 {
@@ -60,7 +63,9 @@ namespace itk
  */
 template <class TScalarType,         // Data type for scalars (float or double)
           int NDimensions = 3>          // Number of dimensions
-class ElasticBodySplineKernelTransform : public KernelTransform<TScalarType, NDimensions>
+class ElasticBodySplineKernelTransform : public KernelTransform<TScalarType, NDimensions,
+                                                  vnl_vector<TScalarType>,
+                                                  vnl_matrix<TScalarType> >
 {
 public:
   /**
@@ -70,7 +75,9 @@ public:
   /**
    * Standard Superclass typedef
    */
-  typedef KernelTransform<TScalarType, NDimensions> Superclass;
+  typedef KernelTransform< TScalarType, NDimensions,
+                           vnl_vector<TScalarType>, 
+                           vnl_matrix<TScalarType> > Superclass;
   /**
    * Set alpha
    */
