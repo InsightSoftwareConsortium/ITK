@@ -76,7 +76,6 @@ public:
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
   typedef typename InputImageType::RegionType   InputImageRegionType;
   typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename OutputImageType::RegionType  OutputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
