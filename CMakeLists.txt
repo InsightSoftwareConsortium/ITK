@@ -64,11 +64,11 @@ ENDIF (BUILD_TESTING)
 SUBDIRS(Auxiliary)
 
 
-# Add an option to build or not build the Examples
-OPTION(BUILD_EXAMPLES "Build the examples directory")
-IF(BUILD_EXAMPLES)
-  SUBDIRS(Examples)
-ENDIF(BUILD_EXAMPLES)
+# Add an option to build or not build the Applications
+OPTION(BUILD_APPLICATIONS "Build the applications directory")
+IF(BUILD_APPLICATIONS)
+  SUBDIRS(Applications)
+ENDIF(BUILD_APPLICATIONS)
 
 # Configure files
 CONFIGURE_FILE(
@@ -114,7 +114,7 @@ IF(NOT UNIX)
 ENDIF(NOT UNIX)
 
 # Add an option to use or not use VTK
-OPTION(USE_VTK "Use VTK (The Visualization Toolkit) (some examples need this)" 0)
+OPTION(USE_VTK "Use VTK (The Visualization Toolkit) (some applications need this)" 0)
 IF(USE_VTK)
   INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindVTK.cmake)
   IF (USE_VTK_FILE)
@@ -133,7 +133,7 @@ IF(USE_VTK)
     ENDIF( VTK_USE_HYBRID )
   ELSE (USE_VTK_FILE)
     MESSAGE("The UseVTK.cmake file was not found. You will not be able to build code requiring VTK")
-    SET(HAS_VTK 0 CACHE INTERNAL "Use VTK: The Visualization Toolkit, this is required for some examples but not for the ITK toolkit")
+    SET(HAS_VTK 0 CACHE INTERNAL "Use VTK: The Visualization Toolkit, this is required for some applications but not for the ITK toolkit")
   ENDIF (USE_VTK_FILE)
 ELSE(USE_VTK)
   SET(HAS_VTK 0)
@@ -152,7 +152,7 @@ ENDIF(USE_GLUT)
 
 
 # Add an option to use or not use FLTK (http://www.fltk.org)
-OPTION(USE_FLTK "Use FLTK (The Fast Light Toolkit) for GUI (some examples need this)" 0)
+OPTION(USE_FLTK "Use FLTK (The Fast Light Toolkit) for GUI (some applications need this)" 0)
 IF(USE_FLTK)
   INCLUDE (${CMAKE_ROOT}/Modules/FindFLTK.cmake)
   IF(FLTK_VERSION_1.0.11)
