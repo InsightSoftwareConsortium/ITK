@@ -778,7 +778,14 @@ void DICOMAppHelper::SliceNumberCallback(DICOMParser *,
     }
 
   // cache the slice number
-  this->SliceNumber = atoi( (char *) val);
+  if (len > 0)
+    {
+    this->SliceNumber = atoi( (char *) val);
+    }
+  else
+    {
+    this->SliceNumber = -1; // default to an unset slice number
+    }
 }
 
 
