@@ -18,6 +18,7 @@
 #define __itkDistanceMetric_h
 
 #include "itkMembershipFunctionBase.h"
+#include "itkVector.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -52,10 +53,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(DistanceMetric, MembershipFunctionBase);
 
+  typedef Vector< double, itkGetStaticConstMacro(VectorLength) > OriginType ;
+
   /** Sets the origin point that will be used for the single point 
    * version Evaluate() function. This function is necessary part of
    * implementing MembershipFunctionBase's Evaluate() interface */ 
-  void SetOrigin(const TVector &x) ;
+  void SetOrigin(const OriginType& x) ;
 
   /** Gets the distance between the origin point and x. This function
    * work with SetOrigin() function*/
@@ -65,7 +68,7 @@ public:
   virtual double Evaluate(const TVector &x1, const TVector &x2) const = 0 ;
   
 protected:
-  TVector m_Origin ;
+  OriginType m_Origin ;
 } ; // end of class
 
 } // end of namespace Statistics 

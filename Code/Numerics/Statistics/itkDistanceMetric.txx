@@ -25,7 +25,7 @@ namespace Statistics{
 template< class TVector >
 void 
 DistanceMetric< TVector >
-::SetOrigin(const TVector &x)
+::SetOrigin(const OriginType &x)
 {
   m_Origin = x ;
 }
