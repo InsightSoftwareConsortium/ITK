@@ -131,6 +131,7 @@ public:
 
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
+  typedef typename PixelContainer::ConstPointer PixelContainerConstPointer;
 
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */
@@ -216,6 +217,9 @@ public:
 
   /** Return a pointer to the container. */
   PixelContainer* GetPixelContainer()
+    { return m_Buffer.GetPointer(); }
+
+  const PixelContainer* GetPixelContainer() const
     { return m_Buffer.GetPointer(); }
 
   /** Set the container to use. Note that this does not cause the
