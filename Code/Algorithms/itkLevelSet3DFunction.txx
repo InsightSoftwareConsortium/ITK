@@ -167,7 +167,7 @@ LevelSet3DFunction< TImageType >
   ScalarValueType dxP[ImageDimension][ImageDimension], 
                   dxM[ImageDimension][ImageDimension];
 
-  ScalarValueType grad_mag_sq, propagation_gradient;
+  ScalarValueType propagation_gradient;
   ScalarValueType propagation_term, curvature_term, advection_term;
   VectorType advection_field;
   ScalarValueType x_energy[ImageDimension];
@@ -359,10 +359,6 @@ LevelSet3DFunction< TImageType >
   const ScalarValueType ZERO = NumericTraits<ScalarValueType>::Zero;
   ScalarValueType temp_value;
   ScalarValueType dx[ImageDimension];
-
-  ScalarValueType dxx[ImageDimension];
-  ScalarValueType dxy[ImageDimension * (ImageDimension-1)/2];
-  ScalarValueType curve, gradMag;
   
   
   ScalarValueType dx_forward[ImageDimension], 
@@ -371,7 +367,7 @@ LevelSet3DFunction< TImageType >
   ScalarValueType dxP[ImageDimension][ImageDimension], 
                   dxM[ImageDimension][ImageDimension];
 
-  ScalarValueType grad_mag_sq, propagation_gradient;
+  ScalarValueType propagation_gradient;
   ScalarValueType propagation_term, curvature_term, advection_term;
   VectorType advection_field;
   ScalarValueType x_energy[ImageDimension];
