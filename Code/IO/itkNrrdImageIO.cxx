@@ -128,7 +128,7 @@ void NrrdImageIO::ReadImageInformation()
      err = biffGetDone("nrrd");
      itkExceptionMacro("Error reading " << this->GetFileName() << ": " << err);
      free(err); // err points to malloc'd data!!
-     err = NULL;
+     //     err = NULL;
      }
 
    if ( nio->endian == airEndianLittle )
@@ -197,8 +197,8 @@ void NrrdImageIO::ReadImageInformation()
      key = val = NULL;
      }
    
-   nrrd = nrrdNix(nrrd);
-   nio = nrrdIoStateNix(nio);
+   nrrdNix(nrrd);
+   nrrdIoStateNix(nio);
 } 
 
 
@@ -232,7 +232,7 @@ void NrrdImageIO::Read(void* buffer)
     }
 
   // Free the nrrd struct but do not delete nrrd.data
-  nrrd = nrrdNix(nrrd);
+  nrrdNix(nrrd);
 } 
 
 
@@ -458,7 +458,7 @@ NrrdImageIO
     }
   
   // Release the nrrd struct memory.  Do not free nrrd.data.
-  nrrd = nrrdNix(nrrd);
+  nrrdNix(nrrd);
 }
  
 } // end namespace itk
