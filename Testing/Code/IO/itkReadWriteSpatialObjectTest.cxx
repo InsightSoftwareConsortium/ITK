@@ -399,8 +399,8 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   {
     if(!strcmp((*i)->GetTypeName(),"ImageSpatialObject"))
     {
-      itkImageType::Pointer image = dynamic_cast<ImageType*>((*i).GetPointer())->GetImage();
-      itk::ImageRegionIteratorWithIndex< itkImageType > it(image, image->GetLargestPossibleRegion());
+      itkImageType::ConstPointer image = dynamic_cast<const ImageType*>((*i).GetPointer())->GetImage();
+      itk::ImageRegionConstIteratorWithIndex< itkImageType > it(image, image->GetLargestPossibleRegion());
       for(unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
       {
         if(it.Get() != i)

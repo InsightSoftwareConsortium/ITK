@@ -18,6 +18,7 @@
 #define __MetaImageConverter__txx
 
 #include "itkMetaImageConverter.h"
+#include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk  
@@ -90,11 +91,11 @@ MetaImageConverter<NDimensions,PixelType>
 ::ImageSpatialObjectToMetaImage(SpatialObjectType * spatialObject)
 { 
   typedef itk::Image<PixelType,NDimensions>  ImageType;
-  typedef typename ImageType::Pointer     ImagePointer;
-  typedef typename ImageType::SizeType    SizeType;
-  typedef typename ImageType::RegionType  RegionType;
+  typedef typename ImageType::ConstPointer   ImageConstPointer;
+  typedef typename ImageType::SizeType       SizeType;
+  typedef typename ImageType::RegionType     RegionType;
   
-  ImagePointer SOImage = spatialObject->GetImage();
+  ImageConstPointer SOImage = spatialObject->GetImage();
 
   float spacing[NDimensions];
   int size[NDimensions];
@@ -107,7 +108,7 @@ MetaImageConverter<NDimensions,PixelType>
 
   MetaImage* Image = new MetaImage(NDimensions,size,spacing,MET_GetPixelType(typeid(PixelType)));
 
-  itk::ImageRegionIteratorWithIndex< ImageType > it(SOImage, SOImage->GetLargestPossibleRegion());
+  itk::ImageRegionConstIterator< ImageType > it(SOImage, SOImage->GetLargestPossibleRegion());
   for(unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
   {
     Image->ElementData(i,it.Get());
