@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkRecursiveSeparableImageFilter.h"
 #include "itkObjectFactory.h"
-#include "itkImageLinearIterator.h"
+#include "itkImageLinearIteratorWithIndex.h"
 #include <new>
 
 
@@ -207,8 +207,8 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
   typedef typename TOutputImage::PixelType  TOutputType;
   typedef typename TInputImage::PixelType   TInputType;
 
-  typedef ImageLinearIterator< TInputImage  >  InputIteratorType;
-  typedef ImageLinearIterator< TOutputImage >  OutputIteratorType;
+  typedef ImageLinearIteratorWithIndex< TInputImage  >  InputIteratorType;
+  typedef ImageLinearIteratorWithIndex< TOutputImage >  OutputIteratorType;
 
   typedef ImageRegion< TInputImage::ImageDimension > RegionType;
     

@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkObjectFactory.h"
-#include "itkImageLinearIterator.h"
+#include "itkImageLinearIteratorWithIndex.h"
 #include <new>
 
 
