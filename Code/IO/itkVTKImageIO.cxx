@@ -57,6 +57,18 @@ const std::type_info& VTKImageIO::GetPixelType() const
       return typeid(unsigned char);
     case USHORT:
       return typeid(unsigned short);
+    case CHAR:
+    case SHORT:
+    case UINT:
+    case INT:
+    case ULONG:
+    case LONG:
+    case FLOAT:
+    case DOUBLE:
+      {
+      itkErrorMacro ("Invalid type: " << m_VTKPixelType << ", only unsigned char and unsigned short are allowed.");
+      return this->ConvertToTypeInfo(m_VTKPixelType);      
+      }
     default:
       return typeid(unsigned char);
     }
@@ -71,6 +83,18 @@ unsigned int VTKImageIO::GetComponentSize() const
       return sizeof(unsigned char);
     case USHORT:
       return sizeof(unsigned short);
+    case CHAR:
+    case SHORT:
+    case UINT:
+    case INT:
+    case ULONG:
+    case LONG:
+    case FLOAT:
+    case DOUBLE:
+      {
+      itkErrorMacro ("Invalid type: " << m_VTKPixelType << ", only unsigned char and unsigned short are allowed.");
+      return 0;
+      }
     }
   return 1;
 }
