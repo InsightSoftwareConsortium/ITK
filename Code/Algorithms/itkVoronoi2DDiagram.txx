@@ -15,7 +15,6 @@
 =========================================================================*/
 
 #include <algorithm>
-#include <queue>
 #include "vnl/vnl_sample.h"
 
 namespace itk{
@@ -285,11 +284,11 @@ ConstructDiagram(void)
   
   VDregions.clear();
   VDregions.resize(m_NumberOfSeeds);
-  std::vector<std::deque<EdgeInfo> > rawEdges;
-  rawEdges.resize(m_NumberOfSeeds);
+  EdgeInfoDQ *rawEdges = new EdgeInfoDQ[m_NumberOfSeeds];
+
   m_CellNeighborsID.resize(m_NumberOfSeeds);
 
-  for(int i = 0; i < m_NumberOfSeeds; i++){
+  for(unsigned int i = 0; i < m_NumberOfSeeds; i++){
     VDregions[i] = Cell::New();
 	m_CellNeighborsID[i].clear();
   }  
@@ -464,7 +463,7 @@ std::cout<<"Numerical problem 1"<<curr[0]<<" "<<curr1[1]<<std::endl;
 	VDregions[i]->BuildEdges();
   }
 
-  for(int i = 0; i < m_NumberOfSeeds; i++){
+  for(unsigned int i = 0; i < m_NumberOfSeeds; i++){
     this->SetCell(i, VDregions[i]);
   }  
 
@@ -577,7 +576,7 @@ Voronoi2DDiagram<TCoordRepType>::
 PQbucket(FortuneHalfEdge *task)
 {
   int bucket;
-  bucket = (task->m_ystar - f_pymin)/f_deltay * f_PQhashsize;
+  bucket = (int) ((task->m_ystar - f_pymin)/f_deltay * f_PQhashsize);
   if(bucket < 0) bucket = 0;
   if(bucket >= f_PQhashsize) bucket = f_PQhashsize -1;
   if(bucket < f_PQmin) f_PQmin = bucket;
@@ -640,7 +639,7 @@ Voronoi2DDiagram<TCoordRepType>::FortuneHalfEdge *
 Voronoi2DDiagram<TCoordRepType>::
 findLeftHE(PointType *p){
   int i;
-  int bucket = (((*p)[0]) - f_pxmin)/f_deltax * f_ELhashsize;
+  int bucket = (int)( (((*p)[0]) - f_pxmin)/f_deltax * f_ELhashsize );
   if(bucket < 0) bucket = 0;
   if(bucket >= f_ELhashsize) bucket = f_ELhashsize - 1;
   FortuneHalfEdge *he = ELgethash(bucket);
@@ -992,7 +991,7 @@ Voronoi2DDiagram<TCoordRepType>::
 GenerateVDFortune(void)
 {
 
-  int i;
+  unsigned int i;
 
 /* Build SeedSites */
   f_SeedSites.resize(m_NumberOfSeeds);
@@ -1021,12 +1020,12 @@ GenerateVDFortune(void)
 /* Initialize the Hash Table for Circle Event and Point Event */
   f_PQcount = 0;
   f_PQmin = 0;
-  f_PQhashsize = 4 * f_sqrtNSites;
+  f_PQhashsize = (int)(4 * f_sqrtNSites);
   f_PQHash.resize(f_PQhashsize);
   for (i = 0; i < f_PQhashsize; i++){
     f_PQHash[i].m_next = NULL;
   }
-  f_ELhashsize = 2 * f_sqrtNSites;
+  f_ELhashsize = (int)(2 * f_sqrtNSites);
   f_ELHash.resize(f_ELhashsize);
   for (i = 0; i < f_ELhashsize; i++){
     f_ELHash[i] = NULL;
