@@ -128,6 +128,15 @@ ParametricPath<VDimension>
   return ( Evaluate(input + inputStepSize) - Evaluate(input) ) / inputStepSize;
 }
 
+template<unsigned int VDimension>
+void
+ParametricPath<VDimension>
+::PrintSelf (std::ostream &os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "DefaultInputSize: " << m_DefaultInputStepSize << std::endl;
+}
+
 } // end namespaceitk
 
 #endif

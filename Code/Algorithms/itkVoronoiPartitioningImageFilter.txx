@@ -200,6 +200,16 @@ VoronoiPartitioningImageFilter <TInputImage,TOutputImage>
   return (savevar >= 0 && sqrt(savevar) < m_SigmaThreshold);
 }
 
+template <class TInputImage, class TOutputImage>
+void
+VoronoiPartitioningImageFilter <TInputImage,TOutputImage>
+::PrintSelf (std::ostream &os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "SigmaThreshold: " << m_SigmaThreshold << std::endl;
+}
+
 } //end namespace
 
 #endif
