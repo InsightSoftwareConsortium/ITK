@@ -21,7 +21,7 @@ protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
   
   ReferenceType(const CvQualifiedType&);
-  ReferenceType(const Self&) {}
+  ReferenceType(const Self&): m_ReferencedType(NULL) {}
   void operator=(const Self&) {}
   virtual ~ReferenceType() {}
   

@@ -21,7 +21,7 @@ protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
   
   ArrayType(const CvQualifiedType&, unsigned long);
-  ArrayType(const Self&) {}
+  ArrayType(const Self&): m_ElementType(NULL), m_Length(0) {}
   void operator=(const Self&) {}
   virtual ~ArrayType() {}
   

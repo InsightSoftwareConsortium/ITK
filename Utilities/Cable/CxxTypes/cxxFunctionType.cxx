@@ -24,4 +24,14 @@ FunctionType
 }
 
 
+/**
+ * Constructor takes the return type of the function.
+ */
+FunctionType
+::FunctionType(const CvQualifiedType& in_type):
+  m_ReturnType(in_type)
+{
+}
+
+
 } // namespace _cxx_

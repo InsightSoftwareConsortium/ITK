@@ -21,8 +21,8 @@ public:
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
 
-  FunctionType() {}
-  FunctionType(const Self&) {}
+  FunctionType(const CvQualifiedType&);
+  FunctionType(const Self&): m_ReturnType(NULL) {}
   void operator=(const Self&) {}
   virtual ~FunctionType() {}
   

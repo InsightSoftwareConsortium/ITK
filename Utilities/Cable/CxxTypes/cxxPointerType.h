@@ -13,13 +13,15 @@ namespace _cxx_
 class PointerType: public Type
 {
 public:
+  typedef PointerType Self;
+
   virtual RepresentationType GetRepresentationType() const;
   
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
   
   PointerType(const CvQualifiedType&);
-  PointerType(const Self&) {}
+  PointerType(const Self&): m_ReferencedType(NULL) {}
   void operator=(const Self&) {}
   virtual ~PointerType() {}
   

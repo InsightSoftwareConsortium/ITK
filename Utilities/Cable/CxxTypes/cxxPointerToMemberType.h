@@ -21,7 +21,7 @@ protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
   
   PointerToMemberType(const CvQualifiedType&, const ClassType*);  
-  PointerToMemberType(const Self&) {}
+  PointerToMemberType(const Self& s): PointerType(s), m_ClassType(NULL) {}
   void operator=(const Self&) {}
   virtual ~PointerToMemberType() {}
   

@@ -34,7 +34,5 @@ enum RepresentationType
 #include "cxxArrayType.h"
 #include "cxxFunctionType.h"
 
-} // namespace _cxx_
-
 #endif
 
