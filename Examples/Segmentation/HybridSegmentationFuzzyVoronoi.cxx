@@ -236,12 +236,14 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  The parameters of the FuzzySegmentationFilter are defined here. A seed
-  //  point is provided in order to initialize the region to be grown.
-  //  Estimated values for the mean and standard deviation of the object
-  //  intensities are also provided, a threshold value for generate the binary
-  //  object is preset.  Details on the influence that the mean and standard
-  //  deviation on the computation of the segmentation can be found in
-  //  \cite{Imielinska2000b}.
+  //  point is provided with the method \code{SetObjectsSeed()} in order to
+  //  initialize the region to be grown.  Estimated values for the mean and
+  //  variance of the object intensities are also provided with the methods
+  //  \code{SetMean()} and \code{SetVariance()} respectively. A threshold value
+  //  for generating the binary object is finally preset with the method
+  //  \code{SetThreshold()}.  Details on the influence that the mean and
+  //  variance on the computation of the segmentation can be found in
+  //  \cite{Imielinska2000b}. 
   //
   //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetObjectsSeed()}
   //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetMean()}
@@ -299,7 +301,10 @@ int main( int argc, char **argv )
   //  
   //  The tolerance levels for testing the mean and standard deviation are set
   //  with the methods \code{SetMeanPercentError()} and
-  //  \code{SetSTDPercentError()}, 
+  //  \code{SetSTDPercentError()}. Note that the \code{FuzzySegmentationFilter}
+  //  uses \emph{variance} as parameter while the
+  //  \code{VoronoiSegmentationImageFilter} uses the tolerance of the
+  //  \emph{standard deviation}.
   //  
   //  \index{itk::VoronoiSegmentationImageFilter!SetMeanPercentError()}
   //  \index{itk::VoronoiSegmentationImageFilter!SetSTDPercentError()}
@@ -318,8 +323,8 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   // 
-  //  The \emph{resolution} of the segmentation can be choosen with the method
-  //  \code{SetMinRegion()}. 
+  //  The \emph{resolution} of the voronoi segmentation can be choosen with the
+  //  method \code{SetMinRegion()}. 
   //
   //  \index{itk::VoronoiSegmentationImageFilter!SetMinRegion()}
   //
