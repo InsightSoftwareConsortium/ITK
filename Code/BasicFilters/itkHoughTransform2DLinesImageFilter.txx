@@ -44,6 +44,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   m_Variance = 10;
   m_OldModifiedTime = 0;
   m_OldNumberOfLines = 0;
+  m_SimplifyAccumulator = NULL;
 }
 
 
@@ -355,6 +356,9 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
             << m_DiscRadius << std::endl;
   std::cout << "Accumulator blur variance: "
             << m_Variance << std::endl;
+  std::cout << "Simplify Accumulator" 
+            << m_SimplifyAccumulator << std::endl;
+
 }
 
 
