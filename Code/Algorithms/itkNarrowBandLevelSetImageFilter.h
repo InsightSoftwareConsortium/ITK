@@ -327,9 +327,11 @@ public:
 protected:
   virtual ~NarrowBandLevelSetImageFilter() {}
   NarrowBandLevelSetImageFilter();
+  NarrowBandLevelSetImageFilter(const Self &); //purposely not implemented
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
-
+  void operator=(const Self&); //purposely not implemented
+  
   /** Overrides parent implementation */
   virtual void InitializeIteration()
   {
