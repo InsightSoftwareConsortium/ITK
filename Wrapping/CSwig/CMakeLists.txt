@@ -130,10 +130,6 @@ MACRO(GCCXML_CREATE_XML_FILE Source Bin Input Output Library)
 # the depend files are created in the wrap tcl/python sections
 # when the .xml file is parsed.
      INCLUDE(${Bin}/${Output}.depend OPTIONAL)
-     IF(EXISTS ${Bin}/${Output}.depend)
-       MESSAGE("${CABLE_SWIG_DEPEND}")
-     ENDIF(EXISTS ${Bin}/${Output}.depend)
-       
    ENDIF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
 
    ADD_CUSTOM_COMMAND(
