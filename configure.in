@@ -597,7 +597,7 @@ AC_ARG_WITH(buildname,
          [buildname_specified=$withval], [buildname_specified=none])
 
 # Determine the site (domain) name
-AC_PATH_PROG(HOSTNAME, hostname, hostname)
+AC_PATH_PROG(HOSTNAME, hostname, hostname, $PATH:/usr/bsd:/usr/sbin:/usr/bin:/bin:/sbin)
 AC_PATH_PROG(NSLOOKUP, nslookup, nslookup, $PATH:/usr/bin:/usr/sbin:/usr/local/bin)
 # Fallback site
 myhostname=`$HOSTNAME`
