@@ -702,6 +702,8 @@ IF(ITK_CSWIG_JAVA)
   FOREACH( javatestfile 
      MeanImageFilter
      CurvatureFlowImageFilter
+     CurvatureAnisotropicDiffusionImageFilter
+     GradientAnisotropicDiffusionImageFilter
      )
 
   ADD_CUSTOM_TARGET(${javatestfile}Java ALL  DEPENDS ${ITK_BINARY_DIR}/Examples/Filtering/${javatestfile}.class)
@@ -725,6 +727,16 @@ IF(ITK_CSWIG_JAVA)
            CurvatureFlowImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterJavaTest.png 5 0.125 )  
+
+  ADD_TEST(CurvatureAnisotropicDiffusionImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+           CurvatureAnisotropicDiffusionImageFilter
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/CurvatureAnisotropicDiffusionImageFilterJavaTest.png 5 0.125 3.0)  
+
+  ADD_TEST(GradientAnisotropicDiffusionImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+           GradientAnisotropicDiffusionImageFilter
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterJavaTest.png 5 0.125 3.0)  
 
 ENDIF(ITK_CSWIG_JAVA)
 
