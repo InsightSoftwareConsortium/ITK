@@ -71,7 +71,7 @@ class ITK_EXPORT InvalidImageMomentsError : public ExceptionObject
 template<class TImage>
 ImageMomentsCalculator<TImage>::ImageMomentsCalculator(void) 
 {
-  m_valid = 0;
+  m_Valid = 0;
 }
 
 //-----------------------------------------------------------------------
@@ -102,11 +102,11 @@ ComputeMoments( ImageType * image )
   AffineTransformPointer indexToPhysical 
           = image->GetIndexToPhysicalTransform();
 
-  m_m0 = 0.0;
-  m_m1.Fill( 0.0 );
-  m_m2.Fill( 0.0 );
-  m_cg.Fill( 0.0 );
-  m_cm.Fill( 0.0 );
+  m_M0 = 0.0;
+  m_M1.Fill( 0.0 );
+  m_M2.Fill( 0.0 );
+  m_Cg.Fill( 0.0 );
+  m_Cm.Fill( 0.0 );
 
   typedef typename ImageType::IndexType IndexType;
     
@@ -125,15 +125,15 @@ ComputeMoments( ImageType * image )
       indexPosition[i] = index[i];
     }
 
-    m_m0 += value;
+    m_M0 += value;
 
     for(unsigned int i=0; i<ImageDimension; i++)
     {
-      m_m1[i] += indexPosition[i] * value; 
+      m_M1[i] += indexPosition[i] * value; 
       for(unsigned int j=0; j<ImageDimension; j++)
       {
         double weight = value * indexPosition[i] * indexPosition[j];
-        m_m2[i][j] += weight;
+        m_M2[i][j] += weight;
       }
     }
 
@@ -141,11 +141,11 @@ ComputeMoments( ImageType * image )
       
     for(unsigned int i=0; i<ImageDimension; i++)
     {
-      m_cg[i] += physicalPosition[i] * value; 
+      m_Cg[i] += physicalPosition[i] * value; 
       for(unsigned int j=0; j<ImageDimension; j++)
       {
         double weight = value * physicalPosition[i] * physicalPosition[j];
-        m_cm[i][j] += weight;
+        m_Cm[i][j] += weight;
       }
 
     }
@@ -154,18 +154,18 @@ ComputeMoments( ImageType * image )
   }
 
   // Throw an error if the total mass is zero
-  if ( m_m0 == 0.0 )
+  if ( m_M0 == 0.0 )
     throw InvalidImageMomentsError(__FILE__, __LINE__);
 
   // Normalize using the total mass
   for(unsigned int i=0; i<ImageDimension; i++)
   {
-    m_cg[i] /= m_m0;
-    m_m1[i] /= m_m0;
+    m_Cg[i] /= m_M0;
+    m_M1[i] /= m_M0;
     for(unsigned int j=0; j<ImageDimension; j++)
     {
-      m_m2[i][j] /= m_m0;
-      m_cm[i][j] /= m_m0;
+      m_M2[i][j] /= m_M0;
+      m_Cm[i][j] /= m_M0;
     }
   }
 
@@ -174,23 +174,23 @@ ComputeMoments( ImageType * image )
   {
     for(unsigned int j=0; j<ImageDimension; j++)
     {
-      m_m2[i][j] -= m_m1[i] * m_m1[j];
-      m_cm[i][j] -= m_cg[i] * m_cg[j];
+      m_M2[i][j] -= m_M1[i] * m_M1[j];
+      m_Cm[i][j] -= m_Cg[i] * m_Cg[j];
     }
   }
 
   // Compute principal moments and axes
-  vnl_symmetric_eigensystem<double> eigen( m_cm.GetVnlMatrix() );
+  vnl_symmetric_eigensystem<double> eigen( m_Cm.GetVnlMatrix() );
   vnl_diag_matrix<double> pm = eigen.D;
   for(unsigned int i=0; i<ImageDimension; i++)
   {
-    m_pm[i] = pm(i,i) * m_m0;
+    m_Pm[i] = pm(i,i) * m_M0;
   }
-  m_pa = eigen.V.transpose();
+  m_Pa = eigen.V.transpose();
 
   // Add a final reflection if needed for a proper rotation,
   // by multiplying the last row by the determinant
-  vnl_real_eigensystem eigenrot( m_pa.GetVnlMatrix() );
+  vnl_real_eigensystem eigenrot( m_Pa.GetVnlMatrix() );
   vnl_diag_matrix< vcl_complex<double> > eigenval = eigenrot.D;
   vcl_complex<double> det( 1.0, 0.0 );
 
@@ -201,11 +201,11 @@ ComputeMoments( ImageType * image )
 
   for(unsigned int i=0; i<ImageDimension; i++)
   {
-    m_pa[ ImageDimension-1 ][i] *= std::real( det );
+    m_Pa[ ImageDimension-1 ][i] *= std::real( det );
   }
   
   /* Remember that the moments are valid */
-  m_valid = 1;
+  m_Valid = 1;
 
 }
 
@@ -217,8 +217,8 @@ ImageMomentsCalculator<TImage>::ScalarType
 ImageMomentsCalculator<TImage>::
 GetTotalMass()
 {
-  if (!m_valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
-  return m_m0;
+  if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
+  return m_M0;
 }
 
 //--------------------------------------------------------------------
@@ -228,8 +228,8 @@ ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
 GetFirstMoments()
 {
-  if (!m_valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
-  return m_m1;
+  if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
+  return m_M1;
 }
 
 //--------------------------------------------------------------------
@@ -239,8 +239,8 @@ ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetSecondMoments()
 {
-  if (!m_valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
-  return m_m2;
+  if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
+  return m_M2;
 }
 
 //--------------------------------------------------------------------
@@ -250,8 +250,8 @@ ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
 GetCenterOfGravity()
 {
-  if (!m_valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
-  return m_cg;
+  if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
+  return m_Cg;
 }
 
 //--------------------------------------------------------------------
@@ -261,8 +261,8 @@ ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetCentralMoments()
 {
-  if (!m_valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
-  return m_cm;
+  if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
+  return m_Cm;
 }
 
 //--------------------------------------------------------------------
@@ -272,8 +272,8 @@ ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
 GetPrincipalMoments()
 {
-  if (!m_valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
-  return m_pm;
+  if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
+  return m_Pm;
 }
 
 
@@ -285,8 +285,8 @@ ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetPrincipalAxes()
 {
-  if (!m_valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
-  return m_pa;
+  if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
+  return m_Pa;
 }
 
 
@@ -302,10 +302,10 @@ GetPrincipalAxesToPhysicalAxesTransform(void) const
     AffineTransformType::OffsetType offset;
     for (unsigned int i = 0; i < ImageDimension; i++) 
     {
-      offset[i]  = m_cg [i];
+      offset[i]  = m_Cg [i];
       for (unsigned int j = 0; j < ImageDimension; j++)
       {
-        matrix[j][i] = m_pa[i][j];    // Note the transposition
+        matrix[j][i] = m_Pa[i][j];    // Note the transposition
       }
     }
 
@@ -330,10 +330,10 @@ GetPhysicalAxesToPrincipalAxesTransform(void) const
     AffineTransformType::OffsetType offset;
     for (unsigned int i = 0; i < ImageDimension; i++) 
     {
-      offset[i]    = m_cg [i];
+      offset[i]    = m_Cg [i];
       for (unsigned int j = 0; j < ImageDimension; j++)
       {
-        matrix[j][i] = m_pa[i][j];    // Note the transposition
+        matrix[j][i] = m_Pa[i][j];    // Note the transposition
       }
     }
 

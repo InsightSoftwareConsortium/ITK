@@ -195,14 +195,11 @@ protected:
   double                *m_ClassProbability; //Class liklihood
 
   int                   m_ErrorCounter;
-  int                   m_kWidth;
-  int                   m_kHeight;
-  int                   m_kDepth;
-  int                   m_imgWidth;
-  int                   m_imgHeight;
-  int                   m_imgDepth;
-  int         m_ClusterSize;
-  int         m_ObjectLabel;
+  int                   m_ImageWidth;
+  int                   m_ImageHeight;
+  int                   m_ImageDepth;
+  int                   m_ClusterSize;
+  int                   m_ObjectLabel;
 
   unsigned short    *m_Region;
   unsigned short    *m_RegionCount;

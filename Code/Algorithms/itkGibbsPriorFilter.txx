@@ -156,13 +156,13 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   //---------------------------------------------------------------------
   //Get the image width/height and depth
   //---------------------------------------------------------------------       
-  m_imgWidth  = static_cast<int>(inputImageSize[0]);
-  m_imgHeight = static_cast<int>(inputImageSize[1]);
-  m_imgDepth  = static_cast<int>(inputImageSize[2]);
+  m_ImageWidth  = static_cast<int>(inputImageSize[0]);
+  m_ImageHeight = static_cast<int>(inputImageSize[1]);
+  m_ImageDepth  = static_cast<int>(inputImageSize[2]);
  
-  m_LabelStatus = new unsigned int[m_imgWidth*m_imgHeight*m_imgDepth]; 
+  m_LabelStatus = new unsigned int[m_ImageWidth*m_ImageHeight*m_ImageDepth]; 
   for( int index = 0; 
-       index < ( m_imgWidth * m_imgHeight * m_imgDepth ); 
+       index < ( m_ImageWidth * m_ImageHeight * m_ImageDepth ); 
        index++ ) 
     {
     m_LabelStatus[index]=1;
@@ -193,13 +193,13 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 
   LabelledImageIndexType offsetIndex3D = {0, 0, 0};
 
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
-  int frame = m_imgWidth * m_imgHeight;
-  int rowsize = m_imgWidth;
+  int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
+  int frame = m_ImageWidth * m_ImageHeight;
+  int rowsize = m_ImageWidth;
 
   offsetIndex3D[2] = i / frame;
-  offsetIndex3D[1] = (i % frame) / m_imgHeight;
-  offsetIndex3D[0] = (i % frame) % m_imgHeight;
+  offsetIndex3D[1] = (i % frame) / m_ImageHeight;
+  offsetIndex3D[0] = (i % frame) % m_ImageHeight;
 
   if ((i > rowsize - 1)&&((i%rowsize) != rowsize - 1)&&(i < size - rowsize)&&((i%rowsize) != 0)) {
 //    inputImageIt = inputImageIt - rowsize;
@@ -239,13 +239,13 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 
   LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
 
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
-  int frame = m_imgWidth * m_imgHeight;
-  int rowsize = m_imgWidth;
+  int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
+  int frame = m_ImageWidth * m_ImageHeight;
+  int rowsize = m_ImageWidth;
 
   offsetIndex3D[2] = i / frame;
-  offsetIndex3D[1] = (i % frame) / m_imgHeight;
-  offsetIndex3D[0] = (i % frame) % m_imgHeight;
+  offsetIndex3D[1] = (i % frame) / m_ImageHeight;
+  offsetIndex3D[0] = (i % frame) % m_ImageHeight;
 
   if ((i > rowsize - 1)&&((i%rowsize) != rowsize - 1)&&(i < size - rowsize)&&((i%rowsize) != 0)) {
 
@@ -370,13 +370,13 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 
   LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
 
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
-  int frame = m_imgWidth * m_imgHeight;
-  int rowsize = m_imgWidth;
+  int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
+  int frame = m_ImageWidth * m_ImageHeight;
+  int rowsize = m_ImageWidth;
 
   offsetIndex3D[2] = i / frame;
-  offsetIndex3D[1] = (i % frame) / m_imgHeight;
-  offsetIndex3D[0] = (i % frame) % m_imgHeight;
+  offsetIndex3D[1] = (i % frame) / m_ImageHeight;
+  offsetIndex3D[0] = (i % frame) % m_ImageHeight;
 
   di = (int) m_InputImage->GetPixel( offsetIndex3D )[0];
 
@@ -451,16 +451,16 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 {
   LabelledImageIndexType offsetIndex3D = {0, 0, 0};
 
-  int frame = m_imgWidth * m_imgHeight;
-  int rowsize = m_imgWidth;
+  int frame = m_ImageWidth * m_ImageHeight;
+  int rowsize = m_ImageWidth;
 
   float energy[2] = {0.0, 0.0}, maxenergy;
   int label, originlabel;
   maxenergy = 1e+20;
 
   offsetIndex3D[2] = i / frame;
-  offsetIndex3D[1] = (i % frame) / m_imgHeight;
-  offsetIndex3D[0] = (i % frame) % m_imgHeight;
+  offsetIndex3D[1] = (i % frame) / m_ImageHeight;
+  offsetIndex3D[0] = (i % frame) % m_ImageHeight;
 
   for(int j = 1; j < m_NumberOfClasses; j++) {
     energy[j-1] += GibbsEnergy(i,       0, j);
@@ -503,13 +503,13 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
   LabelledImagePixelType labelledPixel;
 
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
-  int frame = m_imgWidth * m_imgHeight;
-  int rowsize = m_imgWidth;
+  int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
+  int frame = m_ImageWidth * m_ImageHeight;
+  int rowsize = m_ImageWidth;
 
   offsetIndex3D[2] = i / frame;
-  offsetIndex3D[1] = (i % frame) / m_imgHeight;
-  offsetIndex3D[0] = (i % frame) % m_imgHeight;
+  offsetIndex3D[1] = (i % frame) / m_ImageHeight;
+  offsetIndex3D[0] = (i % frame) % m_ImageHeight;
   
   if (k != 0) labelledPixel = 
     ( LabelledImagePixelType ) m_LabelledImage->GetPixel( offsetIndex3D );
@@ -658,10 +658,10 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 {
 
   int maxNumPixelError =  
-    static_cast<int>(m_ErrorTolerance * m_imgWidth * m_imgHeight * m_imgDepth);
+    static_cast<int>(m_ErrorTolerance * m_ImageWidth * m_ImageHeight * m_ImageDepth);
 
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
-  int rowsize = m_imgWidth;
+  int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
+  int rowsize = m_ImageWidth;
 
   int numIter = 0;
   do
@@ -733,9 +733,9 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   //Set a variable to store the offset index
   LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
 
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
-  int frame = m_imgWidth * m_imgHeight;
-  int rowsize = m_imgWidth;
+  int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
+  int frame = m_ImageWidth * m_ImageHeight;
+  int rowsize = m_ImageWidth;
 
 //  srand ((unsigned)time(NULL));   
 //  for (int i = 0; i < size; i++ ) {
@@ -746,8 +746,8 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   while ( !inputImageIt.IsAtEnd() )
     {
     offsetIndex3D[2] = i / frame;
-    offsetIndex3D[1] = (i % frame) / m_imgHeight;
-    offsetIndex3D[0] = (i % frame) % m_imgHeight;
+    offsetIndex3D[1] = (i % frame) / m_ImageHeight;
+    offsetIndex3D[0] = (i % frame) % m_ImageHeight;
 
     if ((i > (rowsize - 1)) && (i < (size - rowsize)) 
         && (i%rowsize != 0) && (i%rowsize != rowsize-1)) {
@@ -803,13 +803,13 @@ void
 GibbsPriorFilter<TInputImage, TClassifiedImage>
 ::RegionEraser()
 {
-  int i, j, size = m_imgWidth * m_imgHeight * m_imgDepth;
+  int i, j, size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   m_Region = (unsigned short*) malloc(sizeof(unsigned short)*size);
   m_RegionCount = (unsigned short*) malloc(sizeof(unsigned short)*size);
 
   LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
 
-  int frame = m_imgWidth * m_imgHeight;
+  int frame = m_ImageWidth * m_ImageHeight;
 
   LabelledImageIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
@@ -832,8 +832,8 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
     if (LabelRegion(i, ++l, label) < m_ClusterSize) {
     for (j = 0; j < size; j++) {
     offsetIndex3D[2] = j / frame;
-    offsetIndex3D[1] = (j % frame) / m_imgHeight;
-    offsetIndex3D[0] = (j % frame) % m_imgHeight;
+    offsetIndex3D[1] = (j % frame) / m_ImageHeight;
+    offsetIndex3D[0] = (j % frame) % m_ImageHeight;
     if (m_Region[j] == l) {
     m_LabelledImage->SetPixel(offsetIndex3D, m_ObjectLabel);
     m_Region[j] = 0;
@@ -845,8 +845,8 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
       if (LabelRegion(i, ++l, 2) < m_ClusterSize) {
       for (j = 0; j < size; j++) {
       offsetIndex3D[2] = j / frame;
-      offsetIndex3D[1] = (j % frame) / m_imgHeight;
-      offsetIndex3D[0] = (j % frame) % m_imgHeight;
+      offsetIndex3D[1] = (j % frame) / m_ImageHeight;
+      offsetIndex3D[0] = (j % frame) % m_ImageHeight;
       if (m_Region[j] == l) {
       m_LabelledImage->SetPixel(offsetIndex3D, 1);
       m_Region[j] = 0;
@@ -867,17 +867,17 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 ::LabelRegion(int i, int l, int change)
 {
   int count = 1, m;
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
-  int frame = m_imgWidth * m_imgHeight;
-  int rowsize = m_imgWidth;
+  int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
+  int frame = m_ImageWidth * m_ImageHeight;
+  int rowsize = m_ImageWidth;
 
   LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
 
   m_Region[i] = l;
 
   offsetIndex3D[2] = i / frame;
-  offsetIndex3D[1] = (i % frame) / m_imgHeight;
-  offsetIndex3D[0] = (i % frame) % m_imgHeight;
+  offsetIndex3D[1] = (i % frame) / m_ImageHeight;
+  offsetIndex3D[0] = (i % frame) % m_ImageHeight;
   
   
   if (i-1 > -1) {

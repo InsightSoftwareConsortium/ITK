@@ -232,9 +232,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   //---------------------------------------------------------------------
   //Get the image width/height and depth
   //---------------------------------------------------------------------       
-  m_imgWidth  = PotentialSize[0];
-  m_imgHeight = PotentialSize[1];
-  m_imgDepth  = PotentialSize[2];
+  m_ImageWidth  = PotentialSize[0];
+  m_ImageHeight = PotentialSize[1];
+  m_ImageDepth  = PotentialSize[2];
 
   float d[3] = {0,0,0}, fd=0; 
 
@@ -555,8 +555,8 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       extend[1] = (int) extends[1];
     extend[2] = slice;
     if ((extend[0] < 0) || (extend[1] < 0) 
-      || (extend[0] >= m_imgWidth) || (extend[1] >= m_imgHeight) 
-    /*|| (extend[2] < 0) || (extend[2] >= m_imgDepth)*/) break;
+      || (extend[0] >= m_ImageWidth) || (extend[1] >= m_ImageHeight) 
+    /*|| (extend[2] < 0) || (extend[2] >= m_ImageDepth)*/) break;
 
     label = m_Potential->GetPixel(extend);
     if ( label != m_ObjectLabel ) break;
@@ -930,9 +930,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   int i;
 
   m_ModelXUpLimit = 0;
-  m_ModelXDownLimit = m_imgWidth;
+  m_ModelXDownLimit = m_ImageWidth;
   m_ModelYUpLimit = 0;
-  m_ModelYDownLimit = m_imgHeight;
+  m_ModelYDownLimit = m_ImageHeight;
 
   InputPointsContainerPointer   myDerives = m_Derives->GetPoints();
   InputPointsContainerIterator    derives = myDerives->Begin();
@@ -959,11 +959,11 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     if (s[1] < 0) {
     s[1] = 0;
     }
-    if (s[0] > m_imgWidth) {
-    s[0] = m_imgWidth-0.001;
+    if (s[0] > m_ImageWidth) {
+    s[0] = m_ImageWidth-0.001;
     }
-    if (s[1] > m_imgHeight) {
-    s[1] = m_imgHeight-0.001;
+    if (s[1] > m_ImageHeight) {
+    s[1] = m_ImageHeight-0.001;
     }
     points.Value() = s;
   }
@@ -1211,9 +1211,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   s = locations.Value();
   d = forces.Value();
   xlowlimit = ((s[0] - m_NeighborRadius)>0)? (int)(s[0] - m_NeighborRadius):0;
-  xhighlimit = ((s[0] + m_NeighborRadius)<m_imgWidth)? (int)(s[0] + m_NeighborRadius):m_imgWidth;
+  xhighlimit = ((s[0] + m_NeighborRadius)<m_ImageWidth)? (int)(s[0] + m_NeighborRadius):m_ImageWidth;
   ylowlimit = ((s[1] - m_NeighborRadius)>0)? (int)(s[1] - m_NeighborRadius):0;
-  yhighlimit = ((s[1] + m_NeighborRadius)<m_imgHeight)? (int)(s[1] + m_NeighborRadius):m_imgHeight;
+  yhighlimit = ((s[1] + m_NeighborRadius)<m_ImageHeight)? (int)(s[1] + m_NeighborRadius):m_ImageHeight;
   for (i=xlowlimit; i<xhighlimit; i++) {
     for (j=ylowlimit; j<yhighlimit; j++) {
     dis = (i+0.5-s[0])*(i+0.5-s[0]) + (j+0.5-s[1])*(j+0.5-s[1]);
@@ -1645,10 +1645,10 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   int i, j, l, m, n, pt1, pt2;
   float s;
   IPT v, v1, v2, v3;
-  m_ACD = (int**) malloc(sizeof(int *)*m_imgHeight/2);
+  m_ACD = (int**) malloc(sizeof(int *)*m_ImageHeight/2);
 
-  for (i=0; i<m_imgHeight/2; i++) {
-  m_ACD[i] = (int*) malloc(sizeof(int)*m_imgWidth/2);
+  for (i=0; i<m_ImageHeight/2; i++) {
+  m_ACD[i] = (int*) malloc(sizeof(int)*m_ImageWidth/2);
   }
   
   InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
@@ -1782,7 +1782,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   } 
 
   m_ModelRestart = 0;
-  for (i=0; i<m_imgHeight/2; i++) {
+  for (i=0; i<m_ImageHeight/2; i++) {
   free(m_ACD[i]);
   }
   free(m_ACD);

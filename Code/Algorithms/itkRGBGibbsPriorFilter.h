@@ -192,9 +192,9 @@ private:
   int   m_Temp;         /** for SA algo. */
   IndexType m_StartPoint; /** the seed of object */
 
-  int         m_imgWidth; /** image size. */
-  int         m_imgHeight;
-  int         m_imgDepth;
+  int         m_ImageWidth; /** image size. */
+  int         m_ImageHeight;
+  int         m_ImageDepth;
   unsigned int m_ClusterSize; /** region size smaller than the threshold will be erased. */
   unsigned int m_ObjectLabel; /** the label for object region. */
   int         m_VecDim;      /** the channel number in the image. */

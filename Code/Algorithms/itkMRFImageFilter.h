@@ -264,12 +264,12 @@ private:
 
   int                    m_ErrorCounter;
   int                    *m_Offset;
-  int                    m_kWidth;
-  int                    m_kHeight;
-  int                    m_kDepth;
-  int                    m_imgWidth;
-  int                    m_imgHeight;
-  int                    m_imgDepth;
+  int                    m_KernelWidth;
+  int                    m_KernelHeight;
+  int                    m_KernelDepth;
+  int                    m_ImageWidth;
+  int                    m_ImageHeight;
+  int                    m_ImageDepth;
 
   int                    *m_WidthOffset;
   int                    *m_HeightOffset;

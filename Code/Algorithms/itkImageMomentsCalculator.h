@@ -200,14 +200,14 @@ public:
   ~ImageMomentsCalculator();
 
 private:
-  bool m_valid;                      // Have moments been computed yet?
-  ScalarType m_m0;                   // Zeroth moment
-  VectorType m_m1;                   // First moments about origin
-  MatrixType m_m2;                   // Second moments about origin
-  VectorType m_cg;                   // Center of gravity (physical units)
-  MatrixType m_cm;                   // Second central moments (physical)
-  VectorType m_pm;                   // Principal moments (physical)
-  MatrixType m_pa;                   // Principal axes (physical)
+  bool m_Valid;                      // Have moments been computed yet?
+  ScalarType m_M0;                   // Zeroth moment
+  VectorType m_M1;                   // First moments about origin
+  MatrixType m_M2;                   // Second moments about origin
+  VectorType m_Cg;                   // Center of gravity (physical units)
+  MatrixType m_Cm;                   // Second central moments (physical)
+  VectorType m_Pm;                   // Principal moments (physical)
+  MatrixType m_Pa;                   // Principal axes (physical)
 
 };  // class ImageMomentsCalculator
 

@@ -103,7 +103,7 @@ LevelSet2DFunction< TImageType>
   m_Center =  it.Size() / 2;
 
   // Get the y-axis stride length
-  m_yStride = it.GetStride(1);
+  m_YStride = it.GetStride(1);
 
   // Set up the derivative operators
   dx_op.SetOrder(1);
@@ -133,7 +133,7 @@ LevelSet2DFunction< TImageType>
   // slice = std::slice(start_offset, length, step_size);
   //
   x_slice = std::slice(m_Center - 1        , 3, 1);
-  y_slice = std::slice(m_Center - m_yStride, 3, m_yStride);
+  y_slice = std::slice(m_Center - m_YStride, 3, m_YStride);
 }
   
 template< class TImageType >
@@ -166,18 +166,18 @@ LevelSet2DFunction< TImageType >
   //  dyy = m_InnerProduct(y_slice, it, dxx_op);
 
   dx =0.5* (it.GetPixel(m_Center + 1) - it.GetPixel(m_Center - 1)) ;
-  dy = 0.5 *( it.GetPixel(m_Center + m_yStride)
-              - it.GetPixel(m_Center - m_yStride) );
+  dy = 0.5 *( it.GetPixel(m_Center + m_YStride)
+              - it.GetPixel(m_Center - m_YStride) );
   dxx = it.GetPixel(m_Center + 1) + it.GetPixel(m_Center - 1)
     - 2.0 * it.GetPixel(m_Center);
-  dyy = it.GetPixel(m_Center + m_yStride)
-    + it.GetPixel(m_Center - m_yStride)
+  dyy = it.GetPixel(m_Center + m_YStride)
+    + it.GetPixel(m_Center - m_YStride)
     - 2.0 * it.GetPixel(m_Center);
   
-  dxy = 0.25* (  it.GetPixel(m_Center + 1 + m_yStride)
-               + it.GetPixel(m_Center - 1 - m_yStride)
-               - it.GetPixel(m_Center - 1 + m_yStride)
-               - it.GetPixel(m_Center + 1 - m_yStride) );
+  dxy = 0.25* (  it.GetPixel(m_Center + 1 + m_YStride)
+               + it.GetPixel(m_Center - 1 - m_YStride)
+               - it.GetPixel(m_Center - 1 + m_YStride)
+               - it.GetPixel(m_Center + 1 - m_YStride) );
 
   grad_mag_sq = dx * dx + dy * dy;
     
@@ -209,8 +209,8 @@ LevelSet2DFunction< TImageType >
   temp_value  = it.GetPixel(m_Center);
   dx_forward  = it.GetPixel(m_Center + 1) - temp_value;
   dx_backward = temp_value - it.GetPixel(m_Center - 1);
-  dy_forward  = it.GetPixel(m_Center + m_yStride) - temp_value;
-  dy_backward = temp_value - it.GetPixel(m_Center - m_yStride);
+  dy_forward  = it.GetPixel(m_Center + m_YStride) - temp_value;
+  dy_backward = temp_value - it.GetPixel(m_Center - m_YStride);
 
   // 
   // Calculate the advection term.
@@ -318,17 +318,17 @@ LevelSet2DFunction< TImageType >
   //  dyy = m_SmartInnerProduct(y_slice, it, dxx_op);
 
   dx = 0.5* (it.GetPixel(m_Center + 1) - it.GetPixel(m_Center - 1)) ;
-  dy = 0.5 *(  it.GetPixel(m_Center + m_yStride)
-               - it.GetPixel(m_Center - m_yStride) );
+  dy = 0.5 *(  it.GetPixel(m_Center + m_YStride)
+               - it.GetPixel(m_Center - m_YStride) );
   dxx = it.GetPixel(m_Center + 1) + it.GetPixel(m_Center - 1)
     - 2.0 * it.GetPixel(m_Center);
-  dyy = it.GetPixel(m_Center + m_yStride)
-    + it.GetPixel(m_Center - m_yStride) - 2.0 * it.GetPixel(m_Center);
+  dyy = it.GetPixel(m_Center + m_YStride)
+    + it.GetPixel(m_Center - m_YStride) - 2.0 * it.GetPixel(m_Center);
   
-  dxy = 0.25* (it.GetPixel(m_Center + 1 + m_yStride)
-               + it.GetPixel(m_Center - 1 - m_yStride)
-               - it.GetPixel(m_Center - 1 + m_yStride)
-               - it.GetPixel(m_Center + 1 - m_yStride) );
+  dxy = 0.25* (it.GetPixel(m_Center + 1 + m_YStride)
+               + it.GetPixel(m_Center - 1 - m_YStride)
+               - it.GetPixel(m_Center - 1 + m_YStride)
+               - it.GetPixel(m_Center + 1 - m_YStride) );
   
   grad_mag_sq = dx * dx + dy * dy;
 
@@ -364,8 +364,8 @@ LevelSet2DFunction< TImageType >
   temp_value  = it.GetPixel(m_Center);
   dx_forward  = it.GetPixel(m_Center + 1) - temp_value;
   dx_backward = temp_value - it.GetPixel(m_Center - 1);
-  dy_forward  = it.GetPixel(m_Center + m_yStride) - temp_value;
-  dy_backward = temp_value - it.GetPixel(m_Center - m_yStride);
+  dy_forward  = it.GetPixel(m_Center + m_YStride) - temp_value;
+  dy_backward = temp_value - it.GetPixel(m_Center - m_YStride);
 
   // 
   // Calculate the advection term.

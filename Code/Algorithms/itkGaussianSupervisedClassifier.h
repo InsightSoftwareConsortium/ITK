@@ -213,14 +213,14 @@ private:
   MatrixType            m_NumberOfSamples;
   MatrixType            *m_Covariance;  
   MatrixType            *m_InvCovariance;
-  ColumnVectorType      m_tmpVec;
-  ColumnVectorType      m_tmpMat;
-  double                *m_pixProbability;
+  ColumnVectorType      m_TmpVec;
+  ColumnVectorType      m_TmpMat;
+  double                *m_PixelProbability;
   int                   m_ClassifiedPixelIndex;
 
   double                m_Epsilon;
   double                m_DoubleMax;
-  bool                  m_validTrainingFlag;
+  bool                  m_ValidTrainingFlag;
 
 }; // class GaussianSupervisedClassifier
 

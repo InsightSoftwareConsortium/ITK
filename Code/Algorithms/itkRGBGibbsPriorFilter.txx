@@ -103,13 +103,13 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 {
   /** Get the image width/height and depth. */  
   InputImageSizeType inputImageSize = m_InputImage->GetBufferedRegion().GetSize();
-  m_imgWidth  = inputImageSize[0];
-  m_imgHeight = inputImageSize[1];
-  m_imgDepth  = inputImageSize[2];
+  m_ImageWidth  = inputImageSize[0];
+  m_ImageHeight = inputImageSize[1];
+  m_ImageDepth  = inputImageSize[2];
  
-  m_LabelStatus = (unsigned int *) new unsigned int[m_imgWidth*m_imgHeight*m_imgDepth]; 
+  m_LabelStatus = (unsigned int *) new unsigned int[m_ImageWidth*m_ImageHeight*m_ImageDepth]; 
   for( int index = 0; 
-      index < ( m_imgWidth * m_imgHeight * m_imgDepth ); 
+      index < ( m_ImageWidth * m_ImageHeight * m_ImageDepth ); 
       index++ ) 
   {
     m_LabelStatus[index]=1;
@@ -222,17 +222,17 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 {
   LabelledImageIndexType offsetIndex3D = LabelledImageIndexType::ZeroIndex;
 
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
-  int frame = m_imgWidth * m_imgHeight;
-  int rowsize = m_imgWidth;
+  int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
+  int frame = m_ImageWidth * m_ImageHeight;
+  int rowsize = m_ImageWidth;
 
   float energy[2];
   float difenergy;
   int label, originlabel, f[8], j, k, neighborcount=0;
 
   offsetIndex3D[2] = i / frame;
-  offsetIndex3D[1] = (i % frame) / m_imgHeight;
-  offsetIndex3D[0] = (i % frame) % m_imgHeight;
+  offsetIndex3D[1] = (i % frame) / m_ImageHeight;
+  offsetIndex3D[0] = (i % frame) % m_ImageHeight;
 
   if ((i > rowsize - 1)&&((i%rowsize) != rowsize - 1)&&
       (i < size - rowsize)&&((i%rowsize) != 0)) {
@@ -319,13 +319,13 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   LabelledImageIndexType offsetIndex3D = LabelledImageIndexType::ZeroIndex;
   LabelledImagePixelType labelledPixel;
 
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
-  int frame = m_imgWidth * m_imgHeight;
-  int rowsize = m_imgWidth;
+  int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
+  int frame = m_ImageWidth * m_ImageHeight;
+  int rowsize = m_ImageWidth;
 
   offsetIndex3D[2] = i / frame;
-  offsetIndex3D[1] = (i % frame) / m_imgHeight;
-  offsetIndex3D[0] = (i % frame) % m_imgHeight;
+  offsetIndex3D[1] = (i % frame) / m_ImageHeight;
+  offsetIndex3D[0] = (i % frame) % m_ImageHeight;
   
   if (k != 0) labelledPixel = 
                 ( LabelledImagePixelType ) m_LabelledImage->GetPixel( offsetIndex3D );
@@ -475,13 +475,13 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   RegionEraser();
 
   std::cout<<"Region eraser finished! " <<std::endl; 
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
-  int rowsize = m_imgWidth;
+  int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
+  int rowsize = m_ImageWidth;
 
   m_Temp = 0;
   srand ((unsigned)time(NULL));
 
-  while ( m_Temp < 2*m_imgWidth*m_imgDepth*m_imgHeight ) {
+  while ( m_Temp < 2*m_ImageWidth*m_ImageDepth*m_ImageHeight ) {
     int randomPixel = (int) size*rand()/32768;
     if ((randomPixel > (rowsize - 1)) && (randomPixel < (size - rowsize)) 
         && (randomPixel%rowsize != 0) && (randomPixel%rowsize != rowsize-1)) {
@@ -525,9 +525,9 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 
   double * dist = new double[m_NumberOfClasses];
 
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
-  int frame = m_imgWidth * m_imgHeight;
-  int rowsize = m_imgWidth;
+  int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
+  int frame = m_ImageWidth * m_ImageHeight;
+  int rowsize = m_ImageWidth;
 
   inputImageIt.GoToBegin();
   mediumImageIt.GoToBegin();
@@ -536,8 +536,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   while ( !inputImageIt.IsAtEnd() ) {
 
     offsetIndex3D[2] = i / frame;
-    offsetIndex3D[1] = (i % frame) / m_imgHeight;
-    offsetIndex3D[0] = (i % frame) % m_imgHeight;
+    offsetIndex3D[1] = (i % frame) / m_ImageHeight;
+    offsetIndex3D[0] = (i % frame) % m_ImageHeight;
 
     if ((i > (rowsize - 1)) && (i < (size - rowsize)) 
         && (i%rowsize != 0) && (i%rowsize != rowsize-1)) {
@@ -590,7 +590,7 @@ void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::RegionEraser()
 {
-  int i, j, k, size = m_imgWidth * m_imgHeight * m_imgDepth;
+  int i, j, k, size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   m_Region = (unsigned short*) malloc(sizeof(unsigned short)*size);
   m_RegionCount = (unsigned short*) malloc(sizeof(unsigned short)*size);
   unsigned short *valid_region_counter;
@@ -653,15 +653,15 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::LabelRegion(int i, int l, int change)
 {
   int count = 1, m;
-  int frame = m_imgWidth * m_imgHeight;
-  int rowsize = m_imgWidth;
+  int frame = m_ImageWidth * m_ImageHeight;
+  int rowsize = m_ImageWidth;
 
   LabelledImageIndexType offsetIndex3D; offsetIndex3D.Fill(0);
   m_Region[i] = l;
 
   offsetIndex3D[2] = i / frame;
-  offsetIndex3D[1] = (i % frame) / m_imgHeight;
-  offsetIndex3D[0] = (i % frame) % m_imgHeight;
+  offsetIndex3D[1] = (i % frame) / m_ImageHeight;
+  offsetIndex3D[0] = (i % frame) % m_ImageHeight;
 
   if (offsetIndex3D[0] > 0) {
     offsetIndex3D[0]--;
@@ -671,7 +671,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     offsetIndex3D[0]++;
   }
 
-  if (offsetIndex3D[0] < m_imgWidth-1) 
+  if (offsetIndex3D[0] < m_ImageWidth-1) 
     {
     offsetIndex3D[0]++;
     m = m_LabelledImage->GetPixel(offsetIndex3D);
@@ -689,7 +689,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     offsetIndex3D[1]++;
   }
 
-  if (offsetIndex3D[1] < m_imgHeight-1) 
+  if (offsetIndex3D[1] < m_ImageHeight-1) 
     {
     offsetIndex3D[1]++;
     m = m_LabelledImage->GetPixel(offsetIndex3D);

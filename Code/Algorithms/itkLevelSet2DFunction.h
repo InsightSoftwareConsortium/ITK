@@ -177,7 +177,7 @@ private:
   ::size_t m_Center;
 
   /** Stride length along the y-dimension. */
-  ::size_t m_yStride;
+  ::size_t m_YStride;
 
 };
 

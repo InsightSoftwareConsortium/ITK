@@ -163,7 +163,7 @@ private:
   double m_Diff_Mean;
   double m_Diff_Var;
   IndexType m_Seed;
-  SizeType m_size;
+  SizeType m_Size;
 
   virtual double FuzzyAffinity(const PixelType f1, const PixelType f2);
 };

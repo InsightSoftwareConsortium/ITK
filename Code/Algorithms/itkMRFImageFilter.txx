@@ -56,11 +56,11 @@ MRFImageFilter<TInputImage,TClassifiedImage>
       m_ClassifierPtr(0),
       m_ErrorCounter(0),
       m_Offset(0),
-      m_kWidth(3), // Default values of the kernel size of the beta matrix
-      m_kHeight(3), 
-      m_kDepth(3)
+      m_KernelWidth(3), // Default values of the kernel size of the beta matrix
+      m_KernelHeight(3), 
+      m_KernelDepth(3)
 {
-  m_KernelSize = m_kWidth * m_kHeight * m_kDepth;
+  m_KernelSize = m_KernelWidth * m_KernelHeight * m_KernelDepth;
   SetBeta( 0 );
 }
 
@@ -260,13 +260,13 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   //---------------------------------------------------------------------
   //Get the image width/height and depth
   //---------------------------------------------------------------------       
-  m_imgWidth  = static_cast<int>(inputImageSize[0]);
-  m_imgHeight = static_cast<int>(inputImageSize[1]);
-  m_imgDepth  = static_cast<int>(inputImageSize[2]);
+  m_ImageWidth  = static_cast<int>(inputImageSize[0]);
+  m_ImageHeight = static_cast<int>(inputImageSize[1]);
+  m_ImageDepth  = static_cast<int>(inputImageSize[2]);
  
-  m_LabelStatus = new unsigned int[m_imgWidth*m_imgHeight*m_imgDepth]; 
+  m_LabelStatus = new unsigned int[m_ImageWidth*m_ImageHeight*m_ImageDepth]; 
   for( int index = 0; 
-       index < ( m_imgWidth * m_imgHeight * m_imgDepth ); 
+       index < ( m_ImageWidth * m_ImageHeight * m_ImageDepth ); 
        index++ ) 
     {
     m_LabelStatus[index]=1;
@@ -309,18 +309,18 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   // k prefix stands for the kernel
         
-  int kHalfWidth  = m_kWidth/2;
-  int kHalfHeight = m_kHeight/2;
-  int kHalfDepth  = m_kDepth/2;
+  int kHalfWidth  = m_KernelWidth/2;
+  int kHalfHeight = m_KernelHeight/2;
+  int kHalfDepth  = m_KernelDepth/2;
 
   int l=0; // index for the offset 
 
   // Now calculate the corresponding offsets
-  for( int k = 0; k < m_kDepth; k++ )
+  for( int k = 0; k < m_KernelDepth; k++ )
     {
-    for( int j = 0; j < m_kHeight; j++ )
+    for( int j = 0; j < m_KernelHeight; j++ )
       {
-      for( int i = 0; i < m_kWidth; i++, l++ )
+      for( int i = 0; i < m_KernelWidth; i++, l++ )
         {
         m_WidthOffset[l]  = ( i - kHalfWidth ); 
         m_HeightOffset[l] = ( j - kHalfHeight );
@@ -373,7 +373,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 ::ApplyMRFImageFilter()
 {
 
-  int imgSize = m_imgWidth * m_imgHeight * m_imgDepth;
+  int imgSize = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   int maxNumPixelError =  
     (int)(m_ErrorTolerance * imgSize);
 
@@ -449,17 +449,17 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   //Set a variable to store the index
   LabelledImageIndexType index3D;
 
-  int imageFrame = m_imgWidth * m_imgHeight;
+  int imageFrame = m_ImageWidth * m_ImageHeight;
 
   double * dist = new double[m_NumberOfClasses];
  
-  for( int d = 0; d < m_imgDepth; d++ )
+  for( int d = 0; d < m_ImageDepth; d++ )
     {
-    for( int j = 0; j < m_imgHeight; j++ )
+    for( int j = 0; j < m_ImageHeight; j++ )
       {
-      for( int i = 0; i < m_imgWidth; i++, ++inputImageIt, ++labelledImageIt )
+      for( int i = 0; i < m_ImageWidth; i++, ++inputImageIt, ++labelledImageIt )
         {
-        int labelStatusPtrOffset = i + j * m_imgHeight + d * imageFrame;
+        int labelStatusPtrOffset = i + j * m_ImageHeight + d * imageFrame;
 
         //Check if the label == 1 indicates the need for pixel reclassification
 
@@ -479,9 +479,9 @@ MRFImageFilter<TInputImage, TClassifiedImage>
           int heightOffset = j + m_HeightOffset[k];
           int depthOffset  = d + m_DepthOffset[k];
 
-          if( ( widthOffset >= 0 ) && ( widthOffset < m_imgWidth ) &&
-              ( heightOffset >= 0 ) && ( heightOffset < m_imgHeight ) &&
-              ( depthOffset >= 0) && ( depthOffset <m_imgDepth ) )
+          if( ( widthOffset >= 0 ) && ( widthOffset < m_ImageWidth ) &&
+              ( heightOffset >= 0 ) && ( heightOffset < m_ImageHeight ) &&
+              ( depthOffset >= 0) && ( depthOffset <m_ImageDepth ) )
             {
 
             //Generate the index offsets
@@ -538,13 +538,13 @@ MRFImageFilter<TInputImage, TClassifiedImage>
             int heightOffset = j + m_HeightOffset[k];
             int depthOffset  = d + m_DepthOffset[k];
 
-            if( ( widthOffset >= 0) && ( widthOffset < m_imgWidth ) &&
-                ( heightOffset >= 0) && ( heightOffset < m_imgHeight ) &&
-                ( depthOffset >= 0) && ( depthOffset < m_imgDepth ) )
+            if( ( widthOffset >= 0) && ( widthOffset < m_ImageWidth ) &&
+                ( heightOffset >= 0) && ( heightOffset < m_ImageHeight ) &&
+                ( depthOffset >= 0) && ( depthOffset < m_ImageDepth ) )
               {
 
               offset = m_WidthOffset[k] +
-                m_HeightOffset[k] * m_imgWidth +
+                m_HeightOffset[k] * m_ImageWidth +
                 m_DepthOffset[k] * imageFrame;
                   
               m_LabelStatus[labelStatusPtrOffset +offset] = 1;

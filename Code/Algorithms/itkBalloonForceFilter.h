@@ -207,9 +207,9 @@ private:
   float   **m_NewNodes;
   int   m_NewNodesExisted;
   int   m_NewNodeLimit;
-  int   m_imgWidth;       // input image size
-  int   m_imgHeight;
-  int   m_imgDepth;
+  int   m_ImageWidth;       // input image size
+  int   m_ImageHeight;
+  int   m_ImageDepth;
   int   m_ModelXUpLimit;    // the following 4 variables record the size of the model
   int   m_ModelXDownLimit;
   int   m_ModelYUpLimit;

@@ -52,7 +52,7 @@ GaussianSupervisedClassifier<TInputImage,TClassifiedImage>
   m_ClassifiedPixelIndex = -1;
   m_Epsilon   = 1e-100;
   m_DoubleMax = 1e+20;
-  m_validTrainingFlag = false;
+  m_ValidTrainingFlag = false;
  
   m_Covariance = NULL;
   m_InvCovariance = NULL;
@@ -64,7 +64,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 {
   if ( m_Covariance )    delete [] m_Covariance;
   if ( m_InvCovariance ) delete [] m_InvCovariance;
-  if ( m_pixProbability )  delete [] m_pixProbability;
+  if ( m_PixelProbability )  delete [] m_PixelProbability;
 }
 
 /**
@@ -102,7 +102,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 {
 
   m_NumberOfClasses = num;
-  m_pixProbability = new double[m_NumberOfClasses];
+  m_PixelProbability = new double[m_NumberOfClasses];
 
 }
 
@@ -301,7 +301,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     }//end Class index looping
   
   //Training completed now set the valid training flag
-  m_validTrainingFlag = true;  
+  m_ValidTrainingFlag = true;  
 
 
 }// end TrainClassifier
@@ -314,7 +314,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 {
   
   //First ensure that the classifier has been trained before proceedin
-  if( m_validTrainingFlag != true) TrainClassifier();
+  if( m_ValidTrainingFlag != true) TrainClassifier();
 
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the input image
@@ -371,16 +371,16 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 ::GetPixelClass(InputImageVectorType &inPixelVec)
 {
 
-  GetPixelDistance( inPixelVec, m_pixProbability );
-  double minDist = m_pixProbability[0];
+  GetPixelDistance( inPixelVec, m_PixelProbability );
+  double minDist = m_PixelProbability[0];
   m_ClassifiedPixelIndex = 1;
 
   //Loop through the probabilities to get the best index
   for(unsigned int classIndex = 1; classIndex < m_NumberOfClasses; classIndex++ )
     {  
-    if( m_pixProbability[classIndex] < minDist ) 
+    if( m_PixelProbability[classIndex] < minDist ) 
       {
-      minDist = m_pixProbability[classIndex];
+      minDist = m_PixelProbability[classIndex];
       m_ClassifiedPixelIndex = classIndex;
       }
     }// end for
@@ -400,14 +400,14 @@ double * pixDistance )
     {
     // Compute |y - mean | 
     for ( unsigned int i = 0; i < VectorDimension; i++ )
-      m_tmpVec[0][i] = inPixelVec[i] - m_Means[classIndex][i];
+      m_TmpVec[0][i] = inPixelVec[i] - m_Means[classIndex][i];
         
     // Compute |y - mean | * inverse(cov) 
-    m_tmpMat= m_tmpVec * m_InvCovariance[classIndex];
+    m_TmpMat= m_TmpVec * m_InvCovariance[classIndex];
 
     // Compute |y - mean | * inverse(cov) * |y - mean|^T 
-    //tmp = (m_tmpMat * (m_tmpVec.transpose()))[0][0];
-    tmp = dot_product( m_tmpMat, m_tmpVec ); 
+    //tmp = (m_TmpMat * (m_TmpVec.transpose()))[0][0];
+    tmp = dot_product( m_TmpMat, m_TmpVec ); 
     
     pixDistance[classIndex] = tmp;
     }
