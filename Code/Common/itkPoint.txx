@@ -345,10 +345,11 @@ template<class T, unsigned int TPointDimension>
 std::ostream &
 operator<<(std::ostream& os,const Point<T,TPointDimension> & vct ) 
 {
-  for( unsigned int i=0; i<TPointDimension; i++)
+  for( unsigned int i=0; i+1<TPointDimension; i++)
     {
     os <<  vct[i] << "  ";
     }
+  os <<  vct[TPointDimension-1];
   return os;
 }
 
