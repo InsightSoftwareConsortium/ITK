@@ -109,7 +109,7 @@ int main()
 //  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
 //  fow->SetInstance(fow);
 
-  itk::MultiThreader::SetGlobalMaximumNumberOfThreads(2);
+//  itk::MultiThreader::SetGlobalDefaultNumberOfThreads(8);
   
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   SimpleImage;
