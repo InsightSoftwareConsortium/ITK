@@ -3,7 +3,6 @@
 
 #include "itkHistogram.h"
 #include "itkImageToImageMetric.h"
-#include "itkOptimizedBSplineDeformableTransform.h"
 
 namespace itk
 {

@@ -1,11 +1,10 @@
 #ifndef __itkHistogramImageToImageMetric_txx
-#define __itkHistogramImageToImageNetric_txx
+#define __itkHistogramImageToImageMetric_txx
 
 #include "itkArray.h"
 #include "itkHistogramImageToImageMetric.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkOptimizedBSplineDeformableTransform.h"
 
 namespace itk
 {

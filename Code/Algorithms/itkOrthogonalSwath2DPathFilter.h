@@ -19,6 +19,7 @@
 #define _itkOrthogonalSwath2DPathFilter_h
 
 #include "itkPathAndImageToPathFilter.h"
+#include "itkOrthogonallyCorrected2DParametricPath.h"
 
 namespace itk
 {

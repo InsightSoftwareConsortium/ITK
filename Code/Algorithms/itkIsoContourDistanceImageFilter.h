@@ -82,7 +82,7 @@ public:
    * Inherited from the superclass. */
   typedef typename OutputImageType::PixelType PixelType;
   typedef typename InputImageType::PixelType InputPixelType;
-  
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
   /** Some typedef */
   typedef typename InputImageType::SizeType  InputSizeType;
   typedef typename OutputImageType::SizeType SizeType;

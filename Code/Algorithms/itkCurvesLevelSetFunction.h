@@ -84,6 +84,7 @@ public:
   typedef typename Superclass::FeatureScalarType FeatureScalarType;
   typedef typename Superclass::RadiusType        RadiusType;
   typedef typename SuperSuperclass::FloatOffsetType   FloatOffsetType;
+  typedef typename SuperSuperclass::GlobalDataStruct GlobalDataStruct;
   typedef typename Superclass::VectorImageType   VectorImageType;
 
   /** Extract some parameters from the superclass. */
