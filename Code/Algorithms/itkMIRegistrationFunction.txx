@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMIRegistrationFunction.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkMIRegistrationFunction.txx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) 2002 Insight Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef _itkMIRegistrationFunction_txx_
@@ -121,11 +121,11 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_FixedImageGradientCalculator->SetInputImage( m_FixedImage );
 
   if (m_DoInverse)
-  {
+    {
     // setup gradient calculator
     m_MovingImageGradientCalculator->SetInputImage( m_MovingImage );
     std::cout  << " Doing inverse metric " << std::endl;
-  }
+    }
   // setup moving image interpolator
   m_MovingImageInterpolator->SetInputImage( m_MovingImage );
 
@@ -142,8 +142,8 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 typename MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::ComputeUpdate(const NeighborhoodType &it, void * globalData,
-                const FloatOffsetType& offset) 
+::ComputeUpdate(const NeighborhoodType &it, void * itkNotUsed(globalData),
+                const FloatOffsetType& itkNotUsed(offset)) 
 {
 // we compute the derivative of MI w.r.t. the infinitesimal 
 // displacement, following viola and wells. 
@@ -159,10 +159,6 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 //                W((F_i,M_i),(F_j,M_j)) \frac{1}{\sigma_vv} ) \nabla F
 //
 // NOTE : must estimate sigma for each pdf
-
-//  if (m_DoInverse) 
-//    return ComputeForwardAndInverseUpdate(it,globalData,offset);
-
 
   typedef vnl_matrix<double>        matrixType;
   typedef std::vector<double>      sampleContainerType;
@@ -180,16 +176,16 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   unsigned int indct;
 
   for (indct=0;indct<ImageDimension;indct++)
-  {
+    {
     update[indct]=0.0;
     derivative[indct]=0.0;
-  }
+    }
 
 
   float thresh2=1.0/255.;//  FIX ME : FOR PET LUNG ONLY !!
   float thresh1=1.0/255.;
   if ( m_MovingImage->GetPixel(oindex) <= thresh1 &&
-     m_FixedImage->GetPixel(oindex) <= thresh2 ) return update;
+       m_FixedImage->GetPixel(oindex) <= thresh2 ) return update;
 
   typename FixedImageType::SizeType hradius=this->GetRadius();
  
@@ -228,22 +224,22 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
  
 // first get the density-related sample
   for(indct=0; indct<hoodlen; indct=indct+samplestep)
-  {
+    {
     IndexType index=asamIt.GetIndex(indct);
     inimage=true;
     for (unsigned int dd=0; dd<ImageDimension; dd++)
-    {
+      {
       if ( index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd]-1) ) inimage=false;
-    }
+      }
     if (inimage)
-    {
+      {
 
       fixedValue=0.;
       movingValue=0.0;
       PointType mappedPoint;
       CovariantVectorType fixedGradient;
 
-        // Get fixed image related information
+      // Get fixed image related information
       fixedValue = (double) m_FixedImage->GetPixel( index );
       
      
@@ -253,19 +249,19 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       typename DeformationFieldType::PixelType itvec=m_DeformationField->GetPixel(index);
 
       for( j = 0; j < ImageDimension; j++ )
-      {
+        {
         mappedPoint[j] = double( index[j] ) * m_FixedImageSpacing[j] + 
-        m_FixedImageOrigin[j];
+          m_FixedImageOrigin[j];
         mappedPoint[j] += itvec[j];
-      }
+        }
       if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
-      {
+        {
         movingValue = m_MovingImageInterpolator->Evaluate( mappedPoint );
-      }
+        }
       else
-      {
+        {
         movingValue = 0.0;
-      }
+        }
       
       if (fixedValue > maxf) maxf=fixedValue;
       else if (fixedValue < minf) minf=fixedValue;
@@ -275,9 +271,9 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       fixedMean+=fixedValue;
       movingMean+=movingValue;      
 
-        fixedSamplesA.insert(fixedSamplesA.begin(),(double)fixedValue);
-        fixedGradientsA.insert(fixedGradientsA.begin(),fixedGradient);
-        movingSamplesA.insert(movingSamplesA.begin(),(double)movingValue);
+      fixedSamplesA.insert(fixedSamplesA.begin(),(double)fixedValue);
+      fixedGradientsA.insert(fixedGradientsA.begin(),fixedGradient);
+      movingSamplesA.insert(movingSamplesA.begin(),(double)movingValue);
 
         
 //        fixedSamplesB.insert(fixedSamplesB.begin(),(double)fixedValue);
@@ -285,90 +281,90 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 //        movingSamplesB.insert(movingSamplesB.begin(),(double)movingValue);
 
       sampct++;
-    }  
+      }  
     
-  }
+    }
 
 
 // BEGIN RANDOM A SAMPLES
   bool getrandasamples=true;
   if (getrandasamples)
-  {
+    {
 
-  typename FixedImageType::RegionType region=img->GetLargestPossibleRegion();
+    typename FixedImageType::RegionType region=img->GetLargestPossibleRegion();
 
-  ImageRandomIteratorWithIndex<FixedImageType> randasamit(img,region);
-  unsigned int numberOfSamples=20;
-  randasamit.SetNumberOfSamples( numberOfSamples ); 
+    ImageRandomIteratorWithIndex<FixedImageType> randasamit(img,region);
+    unsigned int numberOfSamples=20;
+    randasamit.SetNumberOfSamples( numberOfSamples ); 
 //  numberOfSamples=100;
 
-  indct=0;
+    indct=0;
  
-  randasamit.GoToBegin();
-  while( !randasamit.IsAtEnd() &&  indct < numberOfSamples )
-  {
-    IndexType index=randasamit.GetIndex();
-    inimage=true;
+    randasamit.GoToBegin();
+    while( !randasamit.IsAtEnd() &&  indct < numberOfSamples )
+      {
+      IndexType index=randasamit.GetIndex();
+      inimage=true;
 
-    float d=0.0;
-    for (unsigned int dd=0; dd<ImageDimension; dd++)
-    {
-      if ( index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd]-1) ) inimage=false;
-      d+=(index[dd]-oindex[dd])*(index[dd]-oindex[dd]);
-    }
+      float d=0.0;
+      for (unsigned int dd=0; dd<ImageDimension; dd++)
+        {
+        if ( index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd]-1) ) inimage=false;
+        d+=(index[dd]-oindex[dd])*(index[dd]-oindex[dd]);
+        }
     
-    if (inimage )
-    {
-      fixedValue=0.;
-      movingValue=0.0;
-      PointType mappedPoint;
-      CovariantVectorType fixedGradient;
-      double fgm=0;
+      if (inimage )
+        {
+        fixedValue=0.;
+        movingValue=0.0;
+        PointType mappedPoint;
+        CovariantVectorType fixedGradient;
+        double fgm=0;
         // Get fixed image related information
-      fixedValue = (double) m_FixedImage->GetPixel( index );
-      fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
+        fixedValue = (double) m_FixedImage->GetPixel( index );
+        fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
 
-      for( j = 0; j < ImageDimension; j++ )
-      {
-        fgm+=fixedGradient[j] *fixedGradient[j];
-      } 
-      // Get moving image related information
-      typename DeformationFieldType::PixelType itvec=m_DeformationField->GetPixel(index);
+        for( j = 0; j < ImageDimension; j++ )
+          {
+          fgm+=fixedGradient[j] *fixedGradient[j];
+          } 
+        // Get moving image related information
+        typename DeformationFieldType::PixelType itvec=m_DeformationField->GetPixel(index);
 
-      for( j = 0; j < ImageDimension; j++ )
-      {
-        mappedPoint[j] = double( index[j] ) * m_FixedImageSpacing[j] + 
-        m_FixedImageOrigin[j];
-        mappedPoint[j] += itvec[j];
-      }
-      if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
-      {
-        movingValue = m_MovingImageInterpolator->Evaluate( mappedPoint );
-      }
-      else
-      {
-        movingValue = 0.0;
-      }
+        for( j = 0; j < ImageDimension; j++ )
+          {
+          mappedPoint[j] = double( index[j] ) * m_FixedImageSpacing[j] + 
+            m_FixedImageOrigin[j];
+          mappedPoint[j] += itvec[j];
+          }
+        if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
+          {
+          movingValue = m_MovingImageInterpolator->Evaluate( mappedPoint );
+          }
+        else
+          {
+          movingValue = 0.0;
+          }
       
-  //      if ( (fixedValue > 0 || movingValue > 0 || fgm > 0) || !filtersamples)
+        //      if ( (fixedValue > 0 || movingValue > 0 || fgm > 0) || !filtersamples)
   
-      if ( fixedValue > 0 || movingValue > 0 || fgm > 0 )
-      { 
-      fixedMean+=fixedValue;
-      movingMean+=movingValue;      
+        if ( fixedValue > 0 || movingValue > 0 || fgm > 0 )
+          { 
+          fixedMean+=fixedValue;
+          movingMean+=movingValue;      
 
-        fixedSamplesA.insert(fixedSamplesA.begin(),(double)fixedValue);
-        fixedGradientsA.insert(fixedGradientsA.begin(),fixedGradient);
-        movingSamplesA.insert(movingSamplesA.begin(),(double)movingValue);
-        sampct++;
-        indct++;
-      }
+          fixedSamplesA.insert(fixedSamplesA.begin(),(double)fixedValue);
+          fixedGradientsA.insert(fixedGradientsA.begin(),fixedGradient);
+          movingSamplesA.insert(movingSamplesA.begin(),(double)movingValue);
+          sampct++;
+          indct++;
+          }
       
-    }
-    ++randasamit;  
-  }
+        }
+      ++randasamit;  
+      }
 
-  }
+    }
 // END RANDOM A SAMPLES
 
 
@@ -390,24 +386,24 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
  
 // then get the entropy ( and MI derivative ) related sample
   for(indct=0; indct<hoodIt.Size(); indct=indct+1)
-  {
+    {
     IndexType index=hoodIt.GetIndex(indct);
     inimage=true;
     float d=0.0;
     for (unsigned int dd=0; dd<ImageDimension; dd++)
-    {
+      {
       if ( index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd]-1) ) inimage=false;
       d+=(index[dd]-oindex[dd])*(index[dd]-oindex[dd]);
-    }
+      }
     if (inimage  && sqrt(d) <= 1.0)
-    {
+      {
 
       fixedValue=0.;
       movingValue=0.0;
       PointType mappedPoint;
       CovariantVectorType fixedGradient;
 
-        // Get fixed image related information
+      // Get fixed image related information
       fixedValue = (double) m_FixedImage->GetPixel( index );
       fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
        
@@ -418,31 +414,31 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       typename DeformationFieldType::PixelType hooditvec=m_DeformationField->GetPixel(index);
 
       for( j = 0; j < ImageDimension; j++ )
-      {
+        {
         mappedPoint[j] = double( index[j] ) * m_FixedImageSpacing[j] + 
-        m_FixedImageOrigin[j];
+          m_FixedImageOrigin[j];
         mappedPoint[j] += hooditvec[j];
-      }
+        }
       if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
-      {
+        {
         movingValue = m_MovingImageInterpolator->Evaluate( mappedPoint );
-      }
+        }
       else
-      {
+        {
         movingValue = 0.0;
-      }
+        }
       
 
-        fixedSamplesB.insert(fixedSamplesB.begin(),(double)fixedValue);
-        fixedGradientsB.insert(fixedGradientsB.begin(),fixedGradient);
-        movingSamplesB.insert(movingSamplesB.begin(),(double)movingValue);
+      fixedSamplesB.insert(fixedSamplesB.begin(),(double)fixedValue);
+      fixedGradientsB.insert(fixedGradientsB.begin(),fixedGradient);
+      movingSamplesB.insert(movingSamplesB.begin(),(double)movingValue);
 /*        fixedSamplesA.insert(fixedSamplesA.begin(),(double)fixedValue);
-        fixedGradientsA.insert(fixedGradientsA.begin(),fixedGradient);
-        movingSamplesA.insert(movingSamplesA.begin(),(double)movingValue);
+          fixedGradientsA.insert(fixedGradientsA.begin(),fixedGradient);
+          movingSamplesA.insert(movingSamplesA.begin(),(double)movingValue);
 */      
-    }  
+      }  
     
-  }
+    }
 
 
   double fsigma=0.0;
@@ -465,7 +461,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   bool mattes=false;
 
   for(indct=0; indct<(unsigned int)numsamplesA; indct++)
-  {
+    {
 // Get fixed image related information
     fixedValue=fixedSamplesA[indct];
     movingValue=movingSamplesA[indct];
@@ -475,16 +471,16 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     jointsigma+=fsigma+msigma;
 
     if (mattes)
-    {
+      {
       fixedSamplesA[indct]=fixedSamplesA[indct]-minf;
       movingSamplesA[indct]=movingSamplesA[indct]-minm;
       if (indct < numsamplesB)
-      {
+        {
         fixedSamplesB[indct]=fixedSamplesB[indct]-minf;
         movingSamplesB[indct]=movingSamplesB[indct]-minm;
-      }
-    } 
-  }
+        }
+      } 
+    }
   
 
   fsigma=sqrt(fsigma/numsamplesA);
@@ -504,16 +500,16 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   // the B samples estimate the entropy
   for(bsamples=0; bsamples<(unsigned int)numsamplesB; bsamples++)
-  {  
+    {  
     double dDenominatorMoving = m_MinProbability;
     double dDenominatorJoint = m_MinProbability;
     double dDenominatorFixed = m_MinProbability;
     double dSumFixed = m_MinProbability;
 
 
-  // this loop estimates the density
+    // this loop estimates the density
     for(asamples=0; asamples<(unsigned int)numsamplesA; asamples++)
-    {  
+      {  
       double valueFixed;
       double valueMoving;
 
@@ -542,9 +538,9 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     dLogSumJoint  -= log( dDenominatorJoint );
 
      
-  // this loop estimates the density
+    // this loop estimates the density
     for(asamples=0; asamples<(unsigned int)numsamplesA; asamples++)
-    {  
+      {  
   
       double valueFixed;
       double valueMoving;
@@ -574,7 +570,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
 // this can also be stored away
       for (unsigned int i=0; i<ImageDimension;i++)
-      derivative[i]+= ( fixedGradientsB[bsamples][i] - fixedGradientsA[asamples][i] ) * weight;
+        derivative[i]+= ( fixedGradientsB[bsamples][i] - fixedGradientsA[asamples][i] ) * weight;
 
       } // end of sample A loop
 
@@ -603,15 +599,15 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   double updatenorm=0.0;
   for (unsigned int tt=0; tt<ImageDimension; tt++)
-  {
+    {
     updatenorm+=derivative[tt]*derivative[tt];
-  }
+    }
   updatenorm=sqrt(updatenorm);
   
   if (updatenorm > 1.e-20 && m_NormalizeGradient) 
-  {
+    {
     derivative=derivative/updatenorm;
-  } 
+    } 
  
   return derivative/m_GradientStep;
 }
