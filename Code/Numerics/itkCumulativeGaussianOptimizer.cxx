@@ -59,13 +59,15 @@ CumulativeGaussianOptimizer
 
   m_OffsetForMean = startingPointForInsertion;
 
-  for(int i=0; i<extendedArray->GetNumberOfElements(); i++)
+  for(int i=0; i<(int)(extendedArray->GetNumberOfElements()); i++)
+    {
     extendedArray->put(i, amplitude * exp( - ( pow((i-mean),2) / (2*pow(sd,2)) ) ));
-
+    }
   // Then insert the originalArray over the middle section of extendedArray.
-  for(int i=0; i<originalArray->GetNumberOfElements(); i++)
+  for(int i=0; i<(int)(originalArray->GetNumberOfElements()); i++)
+    {
     extendedArray->put(i+startingPointForInsertion, originalArray->get(i));    
-
+    }
   return extendedArray;
 }
 
@@ -150,7 +152,7 @@ void CumulativeGaussianOptimizer
   double sum   = 0;
 
   // Calculate the mean.
-  for(int i = 0; i < array->GetNumberOfElements(); i++)
+  for(int i = 0; i < (int)(array->GetNumberOfElements()); i++)
     {
     m_ComputedMean += i * array->get(i);
     sum  +=  array->get(i);
@@ -161,7 +163,7 @@ void CumulativeGaussianOptimizer
   m_ComputedMean /= sum;
 
   // Calculate the standard deviation
-  for(int i = 0; i < array->GetNumberOfElements(); i++)
+  for(int i = 0; i < (int)(array->GetNumberOfElements()); i++)
     m_ComputedStandardDeviation += array->get(i) * pow( (i - m_ComputedMean), 2);
 
   m_ComputedStandardDeviation = sqrt( m_ComputedStandardDeviation/sum );
@@ -202,12 +204,14 @@ CumulativeGaussianOptimizer
   double  sd        = m_ComputedStandardDeviation; 
   double  amplitude = m_ComputedAmplitude; 
 
-  for(int i = 0; i < extendedArray->GetNumberOfElements(); i++)
+  for(int i = 0; i < (int)(extendedArray->GetNumberOfElements()); i++)
     {
     // Leave the original inserted array unchanged.
     if( i < startingPointForInsertion ||            
-        i >= startingPointForInsertion + originalArray->GetNumberOfElements() )
+        i >= startingPointForInsertion + (int)(originalArray->GetNumberOfElements()) )
+      {
       extendedArray->put(i, amplitude * exp(-(pow((i - mean),2) / (2 * pow(sd,2))))); 
+      }
     }
   return extendedArray;
 }
@@ -249,7 +253,7 @@ CumulativeGaussianOptimizer
   MeasureType * derivative = new MeasureType();
   derivative->resize(cumGaussianArraySize - 1);
 
-  for(int i=1; i < derivative->GetNumberOfElements()+1; i++)
+  for(int i=1; i < (int)(derivative->GetNumberOfElements()+1); i++)
     derivative->put(i-1, m_CumulativeGaussianArray->get(i) - m_CumulativeGaussianArray->get(i-1) );
 
   m_CumulativeGaussianArray = derivative;
@@ -274,7 +278,7 @@ CumulativeGaussianOptimizer
   double c = VerticalBestShift(cumGaussianArrayCopy, sampledGaussianArray);
   
   // Add constant c to array.
-  for(int i = 0; i < sampledGaussianArray->GetNumberOfElements(); i++)
+  for(int i = 0; i < (int)(sampledGaussianArray->GetNumberOfElements()); i++)
     sampledGaussianArray->put(i, sampledGaussianArray->get(i) + c);
 
   // Calculate the mean, standard deviation, lower and upper asymptotes of the
@@ -288,9 +292,10 @@ CumulativeGaussianOptimizer
 
   m_FinalSampledArray = new MeasureType();
   m_FinalSampledArray->resize(sampledGaussianArray->GetNumberOfElements());
-  for(int i = 0; i < m_FinalSampledArray->GetNumberOfElements(); i++)
+  for(int i = 0; i < (int)(m_FinalSampledArray->GetNumberOfElements()); i++)
+    {
     m_FinalSampledArray->put(i, sampledGaussianArray->get(i));
-
+    }
   // Calculate the least square error as a measure of goodness of fit.
   m_FitError = m_CostFunction->CalculateFitError(sampledGaussianArray);
 
@@ -301,8 +306,10 @@ CumulativeGaussianOptimizer
 
 void CumulativeGaussianOptimizer::PrintArray(MeasureType * array)
 {
-  for(int i = 0; i < array->GetNumberOfElements(); i++)
+  for(int i = 0; i < (int)(array->GetNumberOfElements()); i++)
+    {
     std::cerr << i << " " << array->get(i) << std::endl;
+    }
 }
 
 double 

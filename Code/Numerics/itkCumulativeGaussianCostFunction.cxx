@@ -44,8 +44,10 @@ CumulativeGaussianCostFunction
   // Set the original data array.
   m_OriginalDataArray->resize(m_RangeDimension);
 
-  for(int i = 0; i < setOriginalDataArray->GetNumberOfElements(); i++)
+  for(int i = 0; i < (int)(setOriginalDataArray->GetNumberOfElements()); i++)
+    {
     m_OriginalDataArray->put(i, setOriginalDataArray->get(i));
+    }
 }
 
 double 
@@ -56,12 +58,14 @@ CumulativeGaussianCostFunction
   unsigned int numberOfElements = m_OriginalDataArray->GetNumberOfElements();
 
   if(numberOfElements != setTestArray->GetNumberOfElements())
+    {
     return 1;
-
-  double fitError = 0;
-  for(int i = 0; i < numberOfElements; i++)
+    }
+  double fitError = 0.0;
+  for(int i = 0; i < (int)(numberOfElements); i++)
+    {
     fitError += pow((setTestArray->get(i) - m_OriginalDataArray->get(i)), 2);
-
+    }
   return(sqrt((1/numberOfElements) * fitError));
 }
 
