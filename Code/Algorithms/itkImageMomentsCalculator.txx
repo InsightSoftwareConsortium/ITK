@@ -151,8 +151,8 @@ ComputeMoments( ImageType * image )
   // Add a final reflection if needed for a proper rotation,
   // by multiplying the last row by the determinant
   vnl_real_eigensystem eigenrot( m_pa.GetVnlMatrix() );
-  vnl_diag_matrix< vnl_double_complex> eigenval = eigenrot.D;
-  vnl_double_complex det( 1.0, 0.0 );
+  vnl_diag_matrix< vcl_complex<double> > eigenval = eigenrot.D;
+  vcl_complex<double> det( 1.0, 0.0 );
 
   for(unsigned int i=0; i<ImageDimension; i++)
   {
