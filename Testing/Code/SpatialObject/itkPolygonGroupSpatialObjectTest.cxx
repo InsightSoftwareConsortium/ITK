@@ -199,7 +199,7 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
         }
       }
     }
-  catch(itk::ExceptionObject &e)
+  catch(itk::ExceptionObject &)
     {
     std::cerr << "Error creating PolygonGroup" << std::endl;
     return -1;
@@ -246,6 +246,8 @@ int itkPolygonGroupSpatialObjectTest(int, char *[])
     std::cerr << "1.75,1.75,5 is inside PolygonGroup, IsInside returns false"
               << std::endl;
     }
+
+
   double outsidepos[3];
   outsidepos[0] = 1.6;
   outsidepos[1] = 1.3;
