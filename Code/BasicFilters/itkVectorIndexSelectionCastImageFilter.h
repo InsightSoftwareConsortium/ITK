@@ -22,20 +22,6 @@
 namespace itk
 {
   
-/** \class VectorIndexSelectionCastImageFilter
- *
- * \brief Extracts the selected index of the vector that is the input
- * pixel type
- *
- * This filter is templated over the input image type and 
- * output image type.
- * 
- * The filter expect the input image pixel type to be a vector and 
- * the output image pixel type to be a scalar.
- *
- * \ingroup IntensityImageFilters  Multithreaded
- */
-
 namespace Functor {  
   
 template< class TInput, class TOutput>
@@ -57,7 +43,26 @@ private:
   unsigned int m_Index;   
 }; 
 }
- 
+
+
+
+ /** \class VectorIndexSelectionCastImageFilter
+ *
+ * \brief Extracts the selected index of the vector that is the input
+ * pixel type
+ *
+ * This filter is templated over the input image type and 
+ * output image type.
+ * 
+ * The filter expect the input image pixel type to be a vector and 
+ * the output image pixel type to be a scalar. The only requirement on
+ * the type used for representing the vector is that it must provide an
+ * operator[].
+ *
+ * \ingroup IntensityImageFilters  Multithreaded
+ */
+
+
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT VectorIndexSelectionCastImageFilter :
     public
