@@ -35,29 +35,15 @@
 
 #include <string>
 
-// First version is correct, but requires CMake 1.4.
-#if 0
-#  if !defined(CMAKE_NO_ANSI_STRING_STREAM)
-#    include <sstream>
-#  elif !defined(CMAKE_NO_ANSI_STREAM_HEADERS)
-#    include <strstream>
-#    define ITK_NO_ANSI_STRING_STREAM
-#  else
-#    include <strstream.h>
-#    define ITK_NO_ANSI_STRING_STREAM
-#  endif
+// Determine type of string stream to use.
+#if !defined(CMAKE_NO_ANSI_STRING_STREAM)
+#  include <sstream>
+#elif !defined(CMAKE_NO_ANSI_STREAM_HEADERS)
+#  include <strstream>
+#  define ITK_NO_ANSI_STRING_STREAM
 #else
-#  if !defined(__GNUC__) || !((__GNUC__==3) && (__GNUC_MINOR__>=1))
-#    if !defined(CMAKE_NO_ANSI_STREAM_HEADERS)
-#      include <strstream>
-#      define ITK_NO_ANSI_STRING_STREAM
-#    else
-#      include <strstream.h>
-#      define ITK_NO_ANSI_STRING_STREAM
-#    endif
-#  else
-#      include <sstream>
-#  endif
+#  include <strstream.h>
+#  define ITK_NO_ANSI_STRING_STREAM
 #endif
 
 /** \namespace itk
