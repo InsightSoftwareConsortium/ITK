@@ -541,7 +541,7 @@ These objects are the basic system objects used in building ITK.
 
 
 /**
-  \defgroup Deprecated  Classes that are scheduled to be removed from the Toolkit
+  \defgroup Deprecated Deprecated classes that are scheduled to be removed from the Toolkit
   The classes on this group will be removed soon. Their funcionality is now provided 
   by other classes or changes in the toolkit have made them useless. Please report to
   their documentation and look in to their "Deprecated" section. This section should
