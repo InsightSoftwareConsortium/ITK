@@ -65,6 +65,9 @@ public:
   FloodFilledSpatialFunctionConditionalIterator(ImageType *imagePtr,
                                      FunctionType *fnPtr,
                                      IndexType startIndex);
+
+  FloodFilledSpatialFunctionConditionalIterator(ImageType *imagePtr,
+                                     FunctionType *fnPtr);
   /** Default Destructor. */
   virtual ~FloodFilledSpatialFunctionConditionalIterator() {};
 

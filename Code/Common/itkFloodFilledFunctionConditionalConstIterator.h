@@ -72,10 +72,27 @@ public:
   enum { NDimensions = TImage::ImageDimension };
 
   /** Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image. */
+   * particular region of that image. This version of the constructor uses
+   * an explicit seed pixel for the flood fill, the "startIndex" */
   FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
                                      FunctionType *fnPtr,
                                      IndexType startIndex);
+
+  /** Constructor establishes an iterator to walk a particular image and a
+   * particular region of that image. This version of the constructor
+   * should be used when the seed pixel is unknown */
+  FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
+                                              FunctionType *fnPtr);
+
+  /** Automatically find a seed pixel and set m_StartIndex. Does nothing
+   * if a seed pixel isn't found. A seed pixel is determined by
+   * traversing the input image's image's LargestPossibleRegion and
+   * applying the IsPixelIncluded() test.*/
+  void FindSeedPixel();
+
+  /** Initializes the iterator, called from constructor */
+  void InitializeIterator();
+
   /** Default Destructor. */
   virtual ~FloodFilledFunctionConditionalConstIterator() {};
 
@@ -119,13 +136,25 @@ public:
       m_IndexStack.pop();
       }
 
-    // Push the seed onto the stack
-    m_IndexStack.push(m_StartIndex);
+    if( this->IsPixelIncluded(m_StartIndex) )
+      {
+      // Push the seed onto the stack
+      m_IndexStack.push(m_StartIndex);
+      
+      // Obviously, we're at the beginning
+      m_IsAtEnd = false;
 
-    // Initialize the temporary image
-    tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
-    
-    m_IsAtEnd = false;
+      // Initialize the temporary image
+      tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
+
+      // Mark the start index in the temp image as inside the function, neighbor check incomplete
+      tempPtr->SetPixel(m_StartIndex, 2);
+      }
+    else
+      {
+      // If the start index is not included, we're done
+      m_IsAtEnd = true;
+      }    
     };
 
   /** Walk forward one index */

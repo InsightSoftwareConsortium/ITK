@@ -24,13 +24,38 @@ namespace itk
 template<class TImage, class TFunction>
 FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 ::FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
-                                   FunctionType *fnPtr,
-                                   IndexType startIndex)
+                                              FunctionType *fnPtr,
+                                              IndexType startIndex)
 {
   m_Image = imagePtr;
   m_Function = fnPtr;
   m_StartIndex = startIndex;
 
+  // Set up the temporary image
+  this->InitializeIterator();
+}
+
+template<class TImage, class TFunction>
+FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
+::FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
+                                              FunctionType *fnPtr)
+{
+  m_Image = imagePtr;
+  m_Function = fnPtr;
+
+  // Initially set the start index to the origin. We assume the user
+  // will call FindSeedPixel() at some point in the future
+  m_StartIndex.Fill(0);
+
+  // Set up the temporary image
+  this->InitializeIterator();
+}
+
+template<class TImage, class TFunction>
+void
+FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
+::InitializeIterator()
+{
   // Get the origin and spacing from the image in simple arrays
   m_ImageOrigin = m_Image->GetOrigin();
   m_ImageSpacing = m_Image->GetSpacing();
@@ -52,11 +77,36 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
   tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
   m_IsAtEnd = false;
 
-  // Initialize the stack by adding the start index assuming startIndex
-  // is "inside"
+  // Initialize the stack by adding the start index assuming m_StartIndex is "inside"
+  // This might not be true, in which case it's up to the programmer to
+  // specify a correct starting position later (using FindSeedPixel).
   m_IndexStack.push(m_StartIndex);
   tempPtr->SetPixel(m_StartIndex, 2);
+}
 
+template<class TImage, class TFunction>
+void
+FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
+::FindSeedPixel()
+{
+ // Create an iterator that will walk the input image
+  typedef itk::ImageRegionIterator<TImage> IRIType;
+  IRIType it = IRIType(m_Image, m_Image->GetLargestPossibleRegion() );
+  
+  // Now we search the input image for the first pixel which is inside
+  // the function of interest
+  for ( it.GoToBegin(); !it.IsAtEnd(); ++it)
+    {
+    if( this->IsPixelIncluded( it.GetIndex() ) )
+      {
+      m_StartIndex = it.GetIndex();
+
+      // We need to reset the "beginning" now that we have a real seed
+      this->GoToBegin();
+
+      return;
+      }
+    }
 }
 
 template<class TImage, class TFunction>

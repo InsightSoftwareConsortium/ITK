@@ -61,10 +61,17 @@ public:
   typedef typename Superclass::PixelType   PixelType;
 
   /** Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image. */
+   * particular region of that image. This version of the constructor uses
+   * an explicit seed pixel for the flood fill, the "startIndex" */
   FloodFilledSpatialFunctionConditionalConstIterator(const ImageType *imagePtr,
                                      FunctionType *fnPtr,
                                      IndexType startIndex);
+
+  /** Constructor establishes an iterator to walk a particular image and a
+   * particular region of that image. This version of the constructor
+   * should be used when the seed pixel is unknown. */
+  FloodFilledSpatialFunctionConditionalConstIterator(const ImageType *imagePtr,
+                                     FunctionType *fnPtr);
   /** Default Destructor. */
   virtual ~FloodFilledSpatialFunctionConditionalConstIterator() {};
 

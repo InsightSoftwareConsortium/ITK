@@ -32,6 +32,14 @@ FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
   this->SetCenterInclusionStrategy();
 }
 
+template<class TImage, class TFunction>
+FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
+::FloodFilledSpatialFunctionConditionalIterator(ImageType *imagePtr,
+                                     FunctionType *fnPtr): Superclass(imagePtr, fnPtr)
+{
+  // The default inclusion strategy is "center"
+  this->SetCenterInclusionStrategy();
+}
 
 template<class TImage, class TFunction>
 bool

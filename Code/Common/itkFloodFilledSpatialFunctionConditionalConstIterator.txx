@@ -33,6 +33,15 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
 }
 
 template<class TImage, class TFunction>
+FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
+::FloodFilledSpatialFunctionConditionalConstIterator(const ImageType *imagePtr,
+                                     FunctionType *fnPtr): Superclass(imagePtr, fnPtr)
+{
+  // The default inclusion strategy is "center"
+  this->SetCenterInclusionStrategy();
+}
+
+template<class TImage, class TFunction>
 bool
 FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
 ::IsPixelIncluded(const IndexType & index) const

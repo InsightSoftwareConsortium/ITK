@@ -67,10 +67,18 @@ public:
   enum { NDimensions = Superclass::NDimensions };
 
   /** Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image. */
+   * particular region of that image. This version of the constructor uses
+   * an explicit seed pixel for the flood fill, the "startIndex" */
   FloodFilledImageFunctionConditionalIterator(ImageType *imagePtr,
                                      FunctionType *fnPtr,
                                      IndexType startIndex): Superclass(imagePtr, fnPtr, startIndex) {};
+
+  /** Constructor establishes an iterator to walk a particular image and a
+   * particular region of that image. This version of the constructor
+   * should be used when the seed pixel is unknown. */
+  FloodFilledImageFunctionConditionalIterator(ImageType *imagePtr,
+                                     FunctionType *fnPtr): Superclass(imagePtr, fnPtr) {};
+
   /** Default Destructor. */
   virtual ~FloodFilledImageFunctionConditionalIterator() {};
 
