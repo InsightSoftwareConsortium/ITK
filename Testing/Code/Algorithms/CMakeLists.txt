@@ -10,6 +10,7 @@ IF( NOT ITK_DISABLE_CXX_TESTING )
 
 SET(ALGORITHMS_TESTS ${CXX_TEST_PATH}/itkAlgorithmsTests)
 SET(ALGORITHMS_TESTS2 ${CXX_TEST_PATH}/itkAlgorithmsTests2)
+SET(ALGORITHMS_PRINT_TESTS ${CXX_TEST_PATH}/itkAlgorithmsPrintTest)
 SET(ALGORITHMS_HEADER_TESTS ${CXX_TEST_PATH}/itkAlgorithmsHeaderTest)
 
 ADD_TEST(itkAlgorithmsPrintTest ${ALGORITHMS_TESTS2} itkAlgorithmsPrintTest)
@@ -238,7 +239,6 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest.cxx
 SET(AlgorithmsTest2_SRCS
 itkAlgorithmsPrintTest.cxx
 itkAlgorithmsPrintTest2.cxx
-itkAlgorithmsPrintTest3.cxx
 itkCompareHistogramImageToImageMetricTest.cxx
 itkGradientDifferenceImageToImageMetricTest.cxx
 itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
@@ -263,6 +263,17 @@ itkVoronoiSegmentationImageFilterTest.cxx
 itkWatershedImageFilterTest.cxx
 itkFFTTest.cxx
 )
+
+SET(AlgorithmsPrintTest_SRCS
+itkAlgorithmsPrintTest3.cxx
+)
+
+ADD_EXECUTABLE(itkAlgorithmsPrintTest itkAlgorithmsPrintTests.cxx ${AlgorithmsPrintTest_SRCS})
+TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest ITKAlgorithms ITKIO 
+                                              ITKBasicFilters ITKFEM)
+ADD_TEST(itkAlgorithmsPrintTest ${ALGORITHMS_PRINT_TESTS})
+
+
 ADD_EXECUTABLE(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkAlgorithmsHeaderTest ITKAlgorithms ITKIO 
                                               ITKBasicFilters ITKFEM)
