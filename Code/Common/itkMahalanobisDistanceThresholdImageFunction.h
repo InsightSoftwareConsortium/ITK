@@ -92,13 +92,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-
-  virtual bool Evaluate( const PointType& point ) const
-    {
-    IndexType index;
-    this->ConvertPointToNearestIndex( point, index );
-    return ( this->EvaluateAtIndex( index ) );
-    }
+  virtual bool Evaluate( const PointType& point ) const;
 
   /** BinaryThreshold the image at a continuous index position
    *
@@ -109,13 +103,7 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
   virtual bool EvaluateAtContinuousIndex( 
-    const ContinuousIndexType & index ) const
-    {
-      IndexType nindex;
-
-      this->ConvertContinuousIndexToNearestIndex (index, nindex);
-      return this->EvaluateAtIndex(nindex);
-    }
+                        const ContinuousIndexType & index ) const;
 
   /** BinaryThreshold the image at an index position.
    *
@@ -125,13 +113,23 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual bool EvaluateAtIndex( const IndexType & index ) const
-    {
-    double mahalanobisDistance = 
-      m_MahalanobisDistanceMembershipFunction->Evaluate( 
-                                        m_Image->GetPixel( index ) );
-    return ( sqrt( mahalanobisDistance ) <= m_Threshold );
-    }
+  virtual bool EvaluateAtIndex( const IndexType & index ) const;
+
+  /** 
+   *
+   * Returns the actual value of the MahalanobisDistance at that point.
+   * The point is assumed to lie within the image buffer.
+   * ImageFunction::IsInsideBuffer() can be used to check bounds before
+   * calling the method. */
+  virtual double EvaluateDistance( const PointType& point ) const;
+
+  /** 
+   *
+   * Returns the actual value of the MahalanobisDistance at that Index.
+   * The point is assumed to lie within the image buffer.
+   * ImageFunction::IsInsideBuffer() can be used to check bounds before
+   * calling the method. */
+  virtual double EvaluateDistanceAtIndex( const IndexType & index ) const;
 
   /** Get the lower threshold value. */
   itkGetConstMacro(Threshold,double);

@@ -73,6 +73,72 @@ MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
 
 
 
+template <class TInputImage, class TCoordRep>
+bool 
+MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
+::Evaluate( const PointType& point ) const
+{
+  IndexType index;
+  this->ConvertPointToNearestIndex( point, index );
+  return ( this->EvaluateAtIndex( index ) );
+}
+
+
+
+
+template <class TInputImage, class TCoordRep>
+bool 
+MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
+::EvaluateAtContinuousIndex( const ContinuousIndexType & index ) const
+{
+  IndexType nindex;
+  this->ConvertContinuousIndexToNearestIndex (index, nindex);
+  return this->EvaluateAtIndex(nindex);
+}
+
+
+
+template <class TInputImage, class TCoordRep>
+bool 
+MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
+::EvaluateAtIndex( const IndexType & index ) const
+{
+  double mahalanobisDistance = 
+    m_MahalanobisDistanceMembershipFunction->Evaluate( 
+                                    m_Image->GetPixel( index ) );
+  return ( sqrt( mahalanobisDistance ) <= m_Threshold );
+}
+
+
+
+template <class TInputImage, class TCoordRep>
+double 
+MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
+::EvaluateDistance( const PointType& point ) const
+{
+  IndexType index;
+  this->ConvertPointToNearestIndex( point, index );
+  const double mahalanobisDistance = this->EvaluateDistanceAtIndex( index );
+  return  mahalanobisDistance;
+}
+
+
+template <class TInputImage, class TCoordRep>
+double 
+MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
+::EvaluateDistanceAtIndex( const IndexType& index ) const
+{
+  const double mahalanobisDistanceSquared = 
+    m_MahalanobisDistanceMembershipFunction->Evaluate( 
+                                  m_Image->GetPixel( index ) );
+  
+  const double mahalanobisDistance = sqrt( mahalanobisDistanceSquared );
+
+  return  mahalanobisDistance;
+}
+
+
+
 
 
 template <class TInputImage, class TCoordRep>
