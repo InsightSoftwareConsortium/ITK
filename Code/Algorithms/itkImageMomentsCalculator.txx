@@ -100,7 +100,7 @@ ComputeMoments( ImageType * image )
       }
     }
 
-    physicalPosition = indexToPhysical.Transform( indexPosition );
+    physicalPosition = indexToPhysical.TransformPoint( indexPosition );
       
     for(unsigned int i=0; i<ImageDimension; i++)
     {
