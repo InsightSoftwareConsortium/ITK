@@ -140,7 +140,13 @@ int itkMeanSquaresImageMetricTest(int, char**)
 //------------------------------------------------------------
    metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
   
- 
+
+ //------------------------------------------------------------
+ // Define the scale at which the gradient will be computed
+ //------------------------------------------------------------
+    metric->SetScaleGradient( 1.0 );
+   
+  
   std::cout << metric << std::endl;
 
 
@@ -182,7 +188,7 @@ int itkMeanSquaresImageMetricTest(int, char**)
 
   std::cout << "param[1]   Metric    d(Metric)/d(param[1] " << std::endl;
 
-  for( double trans = -10; trans <= 5; trans += 0.5 )
+  for( double trans = -10; trans <= 5; trans += 0.2 )
     {
     parameters[1] = trans;
     metric->GetValueAndDerivative( parameters, measure, derivative );
