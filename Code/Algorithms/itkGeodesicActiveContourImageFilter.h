@@ -79,7 +79,7 @@ namespace itk
  * Note: this filter will eventually be re-implemented as part of
  * the Finite Difference Solver framework.
  *
- * \ingroup LevelSetSegmentation 
+ * \ingroup Deprecated
  */
 template <
 class TLevelSet, 

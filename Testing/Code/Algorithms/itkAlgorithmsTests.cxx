@@ -16,7 +16,7 @@ REGISTER_TEST(itkExtractMeshConnectedRegionsTest );
 REGISTER_TEST(itkFastMarchingTest );
 REGISTER_TEST(itkFastMarchingExtensionImageFilterTest );
 //REGISTER_TEST(itkFEMRegistrationFilterTest );
-REGISTER_TEST(itkGeodesicActiveContoursTest );
+REGISTER_TEST(itkGeodesicActiveContourLevelSetImageFilterTest );
 REGISTER_TEST(itkGradientVectorFlowImageFilterTest );
 REGISTER_TEST(itkSimpleFuzzyConnectednessScalarImageFilterTest );
 REGISTER_TEST(itkHistogramMatchingImageFilterTest );
