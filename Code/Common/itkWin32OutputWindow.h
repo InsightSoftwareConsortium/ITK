@@ -85,6 +85,11 @@ public:
   itkNewMacro(Self);
 
   /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(Win32OutputWindow, OutputWindow);
+
+  /** 
    * Put the text into the display window.
    * Each new line is converted to a carriage return, new line.
    */ 

@@ -74,7 +74,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(Image, ImageBase);
+  itkTypeMacro(OutputWindow, Object);
 
   /** 
    * This is a singleton pattern New.  There will only be ONE
