@@ -64,8 +64,8 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     typedef ImageMomentsCalculator< FixedImageType >   FixedImageCalculatorType;
     typedef ImageMomentsCalculator< MovingImageType >  MovingImageCalculatorType;
 
-    FixedImageCalculatorType::Pointer    fixedCalculator = FixedImageCalculatorType::New();
-    MovingImageCalculatorType::Pointer   movingCalculator = MovingImageCalculatorType::New();
+    typename FixedImageCalculatorType::Pointer    fixedCalculator = FixedImageCalculatorType::New();
+    typename MovingImageCalculatorType::Pointer   movingCalculator = MovingImageCalculatorType::New();
 
     fixedCalculator->SetImage(  m_FixedImage );
     fixedCalculator->Compute();
