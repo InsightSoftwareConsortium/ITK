@@ -33,23 +33,7 @@ unsigned int
 Subsample< TSample >
 ::GetNumberOfInstances() const
 {
-  return m_Sample->GetNumberOfInstances() ;
-}
-
-template< class TSample >
-inline void
-Subsample< TSample >
-::SetActiveDimension(unsigned int &dimension)
-{
-  m_ActiveDimension = dimension ;
-}
-
-template< class TSample >
-inline Subsample< TSample >::MeasurementType
-Subsample< TSample >
-::GetMeasurement(int index)
-{
-  return m_Sample->GetMeasurement(m_IdHolder[index], m_ActiveDimension) ;
+  return this->Size() ;
 }
 
 template< class TSample >

@@ -90,30 +90,15 @@ public:
   MeasurementVectorType& GetMeasurementVector(const InstanceIdentifier &id)
   { return m_Sample->GetMeasurementVector(id) ; }
 
-  /** returns the measurement element which is the 'n'-th element 
-   * in the 'd' dimension of the measurement vector */
-  MeasurementType& GetMeasurement(const InstanceIdentifier &id, 
-                                  const unsigned int &dimension)
-  { return m_Sample->GetMeasurement(id, dimension) ; }
-
   /** returns the frequency of the instance which is identified by the 'id' */
   FrequencyType GetFrequency(const InstanceIdentifier &id) const
   { return m_Sample->GetFrequency(id) ; }
   
-//    /** returns the frequency of the 'n'-th element in the 'd' dimension  
-//     * of the measurement vector */
-//    FrequencyType GetFrequency(const unsigned int &d, const unsigned long &n)
-//    { return m_Sample->GetFrequency(d, n) ; }
-
   /** returns the total frequency for the 'd' dimension */
   FrequencyType GetTotalFrequency(const unsigned int &dimension) const
   { return m_Sample->GetTotalFrequency(dimension) ; }
   
-  void SetActiveDimension(unsigned int &dimension) ;
-
   void Swap(int index1, int index2) ;
-  
-  MeasurementType GetMeasurement(int index) ;
   
   MeasurementVectorType& GetMeasurementVector(int index) ;
   
@@ -147,9 +132,6 @@ public:
     
     MeasurementVectorType& GetMeasurementVector() 
     { return m_Sample->GetMeasurementVector(*m_Iter) ; } 
-    
-    MeasurementType& GetMeasurement(const unsigned int &dimension) 
-    { return m_Sample->GetMeasurement(*m_Iter, dimension) ; }
     
     InstanceIdentifier GetInstanceIdentifier() const   
     { return *m_Iter ; }
