@@ -160,9 +160,11 @@
 #  endif
 #endif
 
+#include "zlibDllConfig.h"
+
 /* Compile with -DZLIB_DLL for Windows DLL support */
 #if defined(ZLIB_DLL)
-#  if defined(_WINDOWS) || defined(WINDOWS)
+#  if defined(NOTUSED_WINDOWS) || defined(NOTUSEDWINDOWS)
 #    ifdef FAR
 #      undef FAR
 #    endif
@@ -274,6 +276,14 @@ typedef uLong FAR uLongf;
 #   pragma map(inflate_trees_dynamic,"INTRDY")
 #   pragma map(inflate_trees_fixed,"INTRFI")
 #   pragma map(inflate_trees_free,"INTRFR")
+#endif
+
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4100 ) /* unreferenced variable */
+#pragma warning ( disable : 4127 ) /* cond expr is constant */
+#pragma warning ( disable : 4131 ) /* Old style declaration */
+#pragma warning ( disable : 4244 ) /* conversion loss of data */
+#pragma warning ( disable : 4267 )
 #endif
 
 #endif /* _ZCONF_H */
