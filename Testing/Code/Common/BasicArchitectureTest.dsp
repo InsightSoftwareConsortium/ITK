@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /W3 /vd0 /GR /GX /O2 /I "/vxl" /I ".\..\..\Code\Insight3DParty\vxl" /I ".\..\..\Code\Insight3DParty\vxl\config.win32-VC60" /I "..\..\..\Code\Insight3DParty\vxl" /I "..\..\..\Code\Insight3DParty\vxl\config.win32-VC60" /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /I ../../../Code/Common /c
+# ADD CPP /nologo /W3 /vd0 /GR /GX /O2 /I ".\..\..\Code\Insight3DParty\vxl" /I ".\..\..\Code\Insight3DParty\vxl\config.win32-VC60" /I "..\..\..\Code\Insight3DParty\vxl" /I "..\..\..\Code\Insight3DParty\vxl\config.win32-VC60" /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /I /vxl" /I " ../../../Code/Common /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /MD /W3 /Gm /vd1 /GR /GX /ZI /Od /I "..\..\..\Code\Insight3DParty\vxl\config.win32-VC60" /I "..\..\..\Code\Insight3DParty\vxl" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /I ../../../Code/Common /c
+# ADD CPP /nologo /MD /W3 /Gm /GR /GX /ZI /Od /I "..\..\..\Code\Insight3DParty\vxl\config.win32-VC60" /I "..\..\..\Code\Insight3DParty\vxl" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /I ../../../Code/Common /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -118,6 +118,10 @@ SOURCE=..\..\..\Code\Common\itkObjectFactoryBase.cxx
 # Begin Source File
 
 SOURCE=..\..\..\Code\Common\itkOutputWindow.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Code\Common\itkPixelTraits.cxx
 # End Source File
 # Begin Source File
 
@@ -198,6 +202,10 @@ SOURCE=..\..\..\Code\Common\itkObjectFactoryBase.h
 # Begin Source File
 
 SOURCE=..\..\..\Code\Common\itkOutputWindow.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Code\Common\itkPixelTraits.h
 # End Source File
 # Begin Source File
 
