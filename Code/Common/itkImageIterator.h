@@ -96,6 +96,126 @@ class itkImageIterator {
     }
 
   /**
+   * Add a delta to the fastest moving dimension of the iterator's index. 
+   * This is an optimized method to be used in the inner most loops. 
+   * This method models a random access ImageIterator. No bounds checking 
+   * is performed.
+   */
+  const itkImageIterator<T, TImageDimension>
+  operator+(long delta)
+    {
+    itkImageIterator<T, TImageDimension> result( *this ); // copy all the ivars
+    result.m_Index[TImageDimension-1] += delta;
+    result.m_Offset += delta;
+    return result;
+    }
+
+  /**
+   * Increment the fastest moving dimension of the iterator's index by a delta.
+   * This is an optimized method to be used in the inner most loops. This 
+   * method models a random access ImageIterator. No bounds checking is 
+   * performed.
+   */
+  const itkImageIterator<T, TImageDimension> &
+  operator+=(long delta)
+    {
+    m_Index[TImageDimension-1] += delta;
+    m_Offset += delta;
+    return *this;
+    }
+
+  /**
+   * Subtract a delta from the fastest moving dimension of the iterator's
+   * index. This is an optimized method to be used in the inner most loops. 
+   * This method models a random access ImageIterator. No bounds checking 
+   * is performed.
+   */
+  const itkImageIterator<T, TImageDimension>
+  operator-(long delta)
+    {
+    itkImageIterator<T, TImageDimension> result( *this ); // copy all the ivars
+    result.m_Index[TImageDimension-1] -= delta;
+    result.m_Offset -= delta;
+    return result;
+    }
+
+  /**
+   * Decrement the fastest moving dimension of the iterator's index by a delta.
+   * This is an optimized method to be used in the inner most loops. This 
+   * method models a random access ImageIterator. No bounds checking is 
+   * performed.
+   */
+  const itkImageIterator<T, TImageDimension> &
+  operator-=(long delta)
+    {
+    m_Index[TImageDimension-1] -= delta;
+    m_Offset -= delta;
+    return *this;
+    }
+
+  /**
+   * Increment (prefix) the fastest moving dimension of the iterator's index.
+   * This is an optimized method to be used in the inner most loops. This 
+   * method models a random access ImageIterator. No bounds checking is 
+   * performed. The prefix form of this operator is more efficient.
+   * \sa operator++(int)
+   */
+  const itkImageIterator<T, TImageDimension> &
+  operator++()
+    {
+    m_Index[TImageDimension-1]++;
+    m_Offset++;
+    return *this;
+    }
+
+  /**
+   * Increment (postfix) the fastest moving dimension of the iterator's index.
+   * This is an optimized method to be used in the inner most loops. This 
+   * method models a random access ImageIterator. No bounds checking is 
+   * performed. The prefix form of this operator is more efficient.
+   * \sa operator++()
+   */
+  const itkImageIterator<T, TImageDimension> 
+  operator++(int)
+    {
+    itkImageIterator<T, TImageDimension> result( *this ); // copy all ivars
+    m_Index[TImageDimension-1]++;
+    m_Offset++;
+    return result;
+    }
+
+  /**
+   * Decrement (prefix) the fastest moving dimension of the iterator's index.
+   * This is an optimized method to be used in the inner most loops. This 
+   * method models a random access ImageIterator. No bounds checking is 
+   * performed. The prefix form of this operator is more efficient.
+   * \sa operator--(int)
+   */
+  const itkImageIterator<T, TImageDimension> &
+  operator--()
+    {
+    m_Index[TImageDimension-1]--;
+    m_Offset--;
+    return *this;
+    }
+
+  /**
+   * Decrement (postfix) the fastest moving dimension of the iterator's index.
+   * This is an optimized method to be used in the inner most loops. This 
+   * method models a random access ImageIterator. No bounds checking is 
+   * performed. The prefix form of this operator is more efficient.
+   * \sa operator--()
+   */
+  const itkImageIterator<T, TImageDimension> 
+  operator--(int)
+    {
+    itkImageIterator<T, TImageDimension> result( *this ); // copy all ivars
+    m_Index[TImageDimension-1]--;
+    m_Offset--;
+    return result;
+    }
+
+  /**
    * Add two indices and perform a bounds check. This method models a
    * random access ImageIterator. If the iterator would be outside of the
    * bounds, an exception (itkBoundsError) is thrown.
