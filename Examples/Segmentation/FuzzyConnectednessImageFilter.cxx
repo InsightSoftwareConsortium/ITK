@@ -37,18 +37,34 @@
 // Software Guide : EndCodeSnippet
 
 
+// Software Guide : BeginLatex
+//
+// Since the FuzzyConnectednessImageFilter requires an estimation of the
+// graylevel mean and variance for the region to be segmented, we use here the
+// \doxygen{ConfidenceConnectedImageFilter} as a preprocessor that produces a
+// rough sementation and estimates from it the values of the mean and the
+// variance.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+#include "itkConfidenceConnectedImageFilter.h"
+// Software Guide : EndCodeSnippet
+
+
+
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
 
 int main( int argc, char *argv[] )
 {
-  if( argc < 9 )
+  if( argc < 7 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage outputImage outputAffinityMap " << std::endl;
-    std::cerr << " seedX seedY estimateMean estimateVariance " << std::endl;
+    std::cerr << " seedX seedY multiplier " << std::endl;
     return 1;
     }
 
@@ -66,7 +82,6 @@ int main( int argc, char *argv[] )
   typedef itk::Image< InputPixelType, Dimension >  InputImageType;
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //  
   //  Fuzzy connectedness computes first the affinity map and then thresholds
@@ -79,6 +94,28 @@ int main( int argc, char *argv[] )
   typedef   unsigned char   BinaryPixelType;
   typedef itk::Image< BinaryPixelType, Dimension >      BinaryImageType;
   // Software Guide : EndCodeSnippet
+
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The Confidence connected filter type is instantiated using the input
+  //  image type and a binary image type for output.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::ConfidenceConnectedImageFilter< 
+                                                  InputImageType, 
+                                                  BinaryImageType 
+                                                    >  ConfidenceConnectedFilterType;
+
+  ConfidenceConnectedFilterType::Pointer confidenceConnectedFilter = 
+                                                 ConfidenceConnectedFilterType::New();
+  // Software Guide : EndCodeSnippet
+
+
 
 
   //  Software Guide : BeginLatex
@@ -148,6 +185,37 @@ int main( int argc, char *argv[] )
   writer->SetFileName(  argv[2] );
   fwriter->SetFileName( argv[3] );
 
+ 
+  InputImageType::IndexType index;
+
+  index[0] = atoi(argv[4]);
+  index[1] = atoi(argv[5]);
+
+  const double varianceMultiplier = atof( argv[6] );
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The output of the reader is passed as input ot the ConfidenceConnected image filter.
+  //  Then the filter is executed in order to obtain estimations of the mean and variance
+  //  gray values for the region to be segmented.
+  //
+  //  Software Guide : EndLatex 
+  
+  // Software Guide : BeginCodeSnippet
+  confidenceConnectedFilter->SetInput( reader->GetOutput()  );
+  confidenceConnectedFilter->SetMultiplier( varianceMultiplier );
+  confidenceConnectedFilter->SetNumberOfIterations( 2 );
+  confidenceConnectedFilter->AddSeed( index );
+
+  confidenceConnectedFilter->Update();
+  // Software Guide : EndCodeSnippet
+
+
+  WriterType::Pointer confidenceWriter = WriterType::New();
+  confidenceWriter->SetInput( confidenceConnectedFilter->GetOutput() );
+  confidenceWriter->SetFileName("confidenceConnectedPreprocessing.png");
+  confidenceWriter->Update();
+
 
   //  Software Guide : BeginLatex
   //  
@@ -162,14 +230,8 @@ int main( int argc, char *argv[] )
   fuzzysegmenter->SetInput( reader->GetOutput() );
   // Software Guide : EndCodeSnippet
 
-  
-  InputImageType::IndexType index;
-
-  index[0] = atoi(argv[4]);
-  index[1] = atoi(argv[5]);
-
-  const float  mean              = atof(argv[6]);
-  const float  variance          = atof(argv[7]);
+  const double  meanEstimation      = confidenceConnectedFilter->GetMean();
+  const double  varianceEstimation  = confidenceConnectedFilter->GetVariance();
 
 
   //  Software Guide : BeginLatex
@@ -193,8 +255,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   fuzzysegmenter->SetObjectSeed( index );
-  fuzzysegmenter->SetMean( mean );
-  fuzzysegmenter->SetVariance( variance );
+  fuzzysegmenter->SetMean( meanEstimation );
+  fuzzysegmenter->SetVariance( varianceEstimation );
   fuzzysegmenter->SetThreshold( 0.5 );
   // Software Guide : EndCodeSnippet
 
