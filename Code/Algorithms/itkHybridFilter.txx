@@ -22,7 +22,7 @@ namespace itk
 {
 
 
-/**
+/*
  * Constructor
  */
 template <class TInputImage, class TOutputImage, 
@@ -35,7 +35,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
 
 
 
-/**
+/*
  * Set the balloon force filter
  */
 template <class TInputImage, class TOutputImage, 
@@ -47,7 +47,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
   m_BalloonForceFilter = bffilter;
 }
 
-/**
+/*
  * Set the gibbs prior filter
  */
 template <class TInputImage, class TOutputImage, 
@@ -59,7 +59,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
   m_GibbsPriorFilter = gpfilter;
 }
 
-/**
+/*
  * Set the gibbs prior filter input
  */
 template <class TInputImage, class TOutputImage, 
@@ -72,7 +72,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
   m_GibbsPriorFilter->SetInput(inputImage);
 }
 
-/**
+/*
  * Send balloon force filter a new potential from the gibbs prior model
  */
 template <class TInputImage, class TOutputImage, 
@@ -84,7 +84,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
   m_BalloonForceFilter->SetPotential(m_GibbsPriorFilter->GetOutput());
 }
 
-/**
+/*
  * Send balloon force filter a new potential from the gibbs prior model
  */
 template <class TInputImage, class TOutputImage, 
@@ -96,7 +96,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
   m_GibbsPriorFilter->SetTrainingImage(m_BalloonForceFilter->GetImageOutput());
 }
 
-/**
+/*
  * One iteration of gibbs prior model and the deformable model
  */
 template <class TInputImage, class TOutputImage, 
@@ -111,7 +111,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
   m_BalloonForceFilter->Update();
 }
 
-/**
+/*
  * Compute the output image
  */
 template <class TInputImage, class TOutputImage, 

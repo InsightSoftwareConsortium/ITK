@@ -22,7 +22,7 @@
 namespace itk
 {
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
@@ -45,7 +45,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
@@ -62,7 +62,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
@@ -84,7 +84,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
@@ -110,7 +110,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
@@ -157,7 +157,7 @@ DataObject *output )
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
@@ -292,7 +292,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension, 

@@ -23,7 +23,7 @@
 
 namespace itk {
 
-/**
+/*
  * Constructor
  */
 template<class TImage>
@@ -37,7 +37,7 @@ BinaryMinMaxCurvatureFlowFunction<TImage>
 
 
 
-/**
+/*
  * Update the solution at pixels which does not lie on the
  * data boundary.
  */
@@ -72,7 +72,7 @@ BinaryMinMaxCurvatureFlowFunction<TImage>
 }
 
 
-/**
+/*
  * Update the solution at pixels which lies on the data boundary.
  */
 template<class TImage>

@@ -24,7 +24,7 @@
 namespace itk
 { 
     
-/**
+/*
  * Constructor
  */
 template<class TInputImage>
@@ -35,7 +35,7 @@ MinimumMaximumImageCalculator<TInputImage>
 }
 
 
-/**
+/*
  * Compute Min and Max of m_Image
  */
 template<class TInputImage>
@@ -63,7 +63,7 @@ MinimumMaximumImageCalculator<TInputImage>
 
 }
 
-/**
+/*
  * Compute the minimum intensity value of the image
  */
 template<class TInputImage>
@@ -85,7 +85,7 @@ MinimumMaximumImageCalculator<TInputImage>
 
 }
 
-/**
+/*
  * Compute the maximum intensity value of the image
  */
 template<class TInputImage>

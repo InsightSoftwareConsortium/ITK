@@ -47,7 +47,7 @@ Classifier<TInputImage,TClassifiedImage>
   this->ClassifyImage();
 }
 
-/**
+/*
  * PrintSelf
  */
 template <class TInputImage,  class TClassifiedImage>

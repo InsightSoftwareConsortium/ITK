@@ -30,7 +30,7 @@ namespace itk
 {
 
 
-/**
+/*
  * Constructor
  */
 template <class TInputImage, class TOutputImage>
@@ -43,7 +43,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 }
 
 
-/**
+/*
  * Set the number of computation levels
  */
 template <class TInputImage, class TOutputImage>
@@ -105,7 +105,7 @@ unsigned int num )
 }
 
 
-/**
+/*
  * Set the starting shrink factors
  */
 template <class TInputImage, class TOutputImage>
@@ -126,7 +126,7 @@ unsigned int factor )
 }
 
 
-/**
+/*
  * Set the starting shrink factors
  */
 template <class TInputImage, class TOutputImage>
@@ -162,7 +162,7 @@ unsigned int * factors )
 }
 
 
-/**
+/*
  * Get the starting shrink factors
  */
 template <class TInputImage, class TOutputImage>
@@ -174,7 +174,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 }
 
 
-/**
+/*
  * Set the multi-resolution schedule
  */
 template <class TInputImage, class TOutputImage>
@@ -223,7 +223,7 @@ const ScheduleType& schedule )
 }
 
 
-/**
+/*
  * Is the schedule downward divisible ?
  */
 template <class TInputImage, class TOutputImage>
@@ -253,7 +253,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
 
 
-/**
+/*
  * GenerateData for non downward divisible schedules
  */
 template <class TInputImage, class TOutputImage>
@@ -328,7 +328,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 }
 
 
-/**
+/*
  * PrintSelf method
  */
 template <class TInputImage, class TOutputImage>
@@ -345,7 +345,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 }
 
 
-/** 
+/* 
  * GenerateOutputInformation
  */
 template <class TInputImage, class TOutputImage>
@@ -419,7 +419,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 }
 
 
-/** 
+/* 
  * GenerateOutputRequestedRegion
  */
 template <class TInputImage, class TOutputImage>
@@ -497,7 +497,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 }
 
 
-/** 
+/* 
  * GenerateInputRequestedRegion
  */
 template <class TInputImage, class TOutputImage>

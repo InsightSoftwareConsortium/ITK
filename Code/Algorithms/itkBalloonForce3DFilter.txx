@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/** Constructor. */
+/* Constructor. */
 template <typename TInputMesh, typename TOutputMesh>
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
 ::BalloonForce3DFilter()
@@ -35,7 +35,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 }
 
 
-/** PrintSelf. */
+/* PrintSelf. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
@@ -45,9 +45,9 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 
   os << indent << "Balloon Force Filter" << std::endl;
 
-}/** end PrintSelf. */
+}/* end PrintSelf. */
 
-/** Set default value of parameters and initialize local data container 
+/* Set default value of parameters and initialize local data container 
   * such as forces, displacements and displacement derivatives. */
 template <typename TInputMesh, typename TOutputMesh>
 void 
@@ -97,7 +97,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   m_ObjectLabel = m_Potential->GetPixel(m_Center);
   PotentialSizeType PotentialSize = m_Potential->GetBufferedRegion().GetSize();
 
-  /** Get the image width/height and depth. */   
+  /* Get the image width/height and depth. */   
   m_ImageWidth  = PotentialSize[0];
   m_ImageHeight = PotentialSize[1];
   m_ImageDepth  = PotentialSize[2];
@@ -160,7 +160,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   }
 } 
 
-/** Set the stiffness matrix. */
+/* Set the stiffness matrix. */
 template <typename TInputMesh, typename TOutputMesh>
 void 
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
@@ -269,7 +269,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   }
 } 
 
-/** Compute the shrink force when the model is deflated to fit the object. */
+/* Compute the shrink force when the model is deflated to fit the object. */
 template <typename TInputMesh, typename TOutputMesh>
 void 
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
@@ -333,7 +333,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 
     f = normals.Value();
 
-    /** All the movement in z direction is now disabled for further test. */  
+    /* All the movement in z direction is now disabled for further test. */  
     n[0] = f[0]/sqrt(f[0]*f[0]+f[1]*f[1]);
     n[1] = f[1]/sqrt(f[0]*f[0]+f[1]*f[1]);
     n[2] = 0;
@@ -382,7 +382,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   }
 }
 
-/** Compute force compute the balloon force. */
+/* Compute force compute the balloon force. */
 template <typename TInputMesh, typename TOutputMesh>
 void 
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
@@ -432,7 +432,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
       xs = ys = zs = 0.0;
     }
 
-  /** The following part should be added if the input potential provides only 
+  /* The following part should be added if the input potential provides only 
    *  an estimation of the edges. 
 
     coord[0] = (int) (x[0]+1);
@@ -539,7 +539,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   }
 }
 
-/** Compute the derivatives using d'- Kd = f. */
+/* Compute the derivatives using d'- Kd = f. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
@@ -652,7 +652,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   }   
 }
 
-/** Update the displacements using d_{new} = d_{old} + timestep*d'. */
+/* Update the displacements using d_{new} = d_{old} + timestep*d'. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
@@ -691,7 +691,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
     if ( m_ModelXDownLimit > s[0] ) m_ModelXDownLimit = s[0];
     if ( m_ModelXUpLimit < s[0] ) m_ModelXUpLimit = s[0];
 
-    /** disable for shrink test */
+    /* disable for shrink test */
     if ( i < m_NumNodes - 2 ) {
       if (s[0] < 0) {
         s[0] = 0;
@@ -718,7 +718,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 
 }
 
-/** Copy the content of m_Location into output. */
+/* Copy the content of m_Location into output. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
@@ -767,7 +767,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   }
 }
 
-/** Generate Data. */
+/* Generate Data. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
@@ -789,7 +789,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   }
 }
 
-/** Add new nodes into the model. */
+/* Add new nodes into the model. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
@@ -798,7 +798,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   m_NewNode = 1;
 }
 
-/** Fit the model using the gradient information. */
+/* Fit the model using the gradient information. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
@@ -839,7 +839,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   node = 0;
   slice = 0;
 
-  /** New gradient fit method testing. */
+  /* New gradient fit method testing. */
 
   locations = myLocations->Begin();
   forces = myForces->Begin();
@@ -863,7 +863,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 
 }
 
-/** Fit the model with the gradient information. */
+/* Fit the model with the gradient information. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
@@ -955,7 +955,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 
 }
 
-/** Rearrange the nodes. */
+/* Rearrange the nodes. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
@@ -1038,7 +1038,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
       ++forces;
     }
 
-    /** For the last node in the slice. */
+    /* For the last node in the slice. */
     v2 = locations.Value();
     ++locations;
     v3[0] = s[0];
@@ -1070,7 +1070,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
     forces.Value() = v2;
     ++forces;
 
-    /** For the first node in the slice. */
+    /* For the first node in the slice. */
     i = j*m_YResolution;
     v2[0] = s[0];
     v2[1] = s[1];
@@ -1270,7 +1270,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   free(length);
 }
 
-/** Use ACD search to keep the topology of the model correct. */
+/* Use ACD search to keep the topology of the model correct. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
@@ -1422,6 +1422,6 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   
 }
 
-} /** end namespace itk. */
+} /* end namespace itk. */
 
 #endif

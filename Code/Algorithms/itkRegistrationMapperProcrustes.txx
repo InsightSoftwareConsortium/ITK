@@ -22,7 +22,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TTransformation, unsigned int NDimension> 
@@ -32,7 +32,7 @@ RegistrationMapperProcrustes<TTransformation,NDimension>
 }
 
 
-/**
+/*
  * Set Domain 
  */
 template <class TTransformation, unsigned int NDimension>
@@ -46,7 +46,7 @@ RegistrationMapperProcrustes<TTransformation,NDimension>
 
 
 
-/**
+/*
  * Set Transformation
  */
 template <class TTransformation, unsigned int NDimension>
@@ -59,7 +59,7 @@ RegistrationMapperProcrustes<TTransformation,NDimension>
 
 
 
-/**
+/*
  * Transform a point from one coordinate system to the 
  * other.
  */

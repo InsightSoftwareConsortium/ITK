@@ -27,7 +27,7 @@
 namespace itk
 {
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage>
@@ -44,7 +44,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 
 }
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage>
@@ -60,7 +60,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage>
@@ -72,7 +72,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage>
@@ -92,7 +92,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage>
@@ -109,7 +109,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage>
@@ -131,7 +131,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage>
@@ -154,7 +154,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage>
@@ -263,7 +263,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
                                         
 }
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage>

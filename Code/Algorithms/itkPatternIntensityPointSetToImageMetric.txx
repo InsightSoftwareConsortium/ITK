@@ -22,7 +22,7 @@
 namespace itk
 {
 
-/**
+/*
 * Constructor
 */
 template < class TTarget, class TMapper > 
@@ -32,7 +32,7 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
   m_Lambda = 1.0;
 }
 
-/**
+/*
  * Get the match Measure
  */
 template < class TTarget, class TMapper > 
@@ -104,7 +104,7 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
   return m_MatchMeasure;
 }
 
-/**
+/*
  * Get the Derivative Measure
  */
 template < class TTarget, class TMapper> 
@@ -131,7 +131,7 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
 
 }
 
-/**
+/*
  * Get both the match Measure and theDerivative Measure 
  */
 template < class TTarget, class TMapper > 

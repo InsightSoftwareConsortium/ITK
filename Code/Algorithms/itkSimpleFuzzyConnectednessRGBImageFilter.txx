@@ -107,7 +107,7 @@ SimpleFuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
 
-/** Compute the inverse of the Varianceiance Matrices. */
+/* Compute the inverse of the Varianceiance Matrices. */
   m_VarianceDet = m_Variance[0][0]*m_Variance[1][1]*m_Variance[2][2]
              +m_Variance[1][0]*m_Variance[2][1]*m_Variance[0][2]
        +m_Variance[0][1]*m_Variance[1][2]*m_Variance[2][0]
@@ -163,7 +163,7 @@ SimpleFuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateData();            
 }
 
-} /** end namespace itk. */
+} /* end namespace itk. */
 
 #endif
 

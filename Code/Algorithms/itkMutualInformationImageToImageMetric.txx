@@ -26,7 +26,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template < class TFixedImage, class TMovingImage >
@@ -70,7 +70,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/**
+/*
  * Set the number of spatial samples
  */
 template < class TFixedImage, class TMovingImage  >
@@ -93,7 +93,7 @@ unsigned int num )
 }
 
 
-/**
+/*
  * Uniformly sample the fixed image domain. Each sample consists of:
  *  - the fixed image value
  *  - the corresponding moving image value
@@ -155,7 +155,7 @@ SpatialSampleContainer& samples ) const
 }
 
 
-/**
+/*
  * Get the match Measure
  */
 template < class TFixedImage, class TMovingImage  >
@@ -243,7 +243,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/**
+/*
  * Get the both Value and Derivative Measure
  */
 template < class TFixedImage, class TMovingImage  >
@@ -304,7 +304,7 @@ DerivativeType& derivative) const
   for( aiter = m_SampleA.begin(), aditer = sampleADerivatives.begin();
     aiter != aend; ++aiter, ++aditer )
     {
-    /**** FIXME: is there a way to avoid the extra copying step? *****/
+    /*** FIXME: is there a way to avoid the extra copying step? *****/
     this->CalculateDerivatives( (*aiter).FixedImagePointValue, tempDeriv );
     (*aditer) = tempDeriv;
     }
@@ -401,7 +401,7 @@ DerivativeType& derivative) const
 }
 
 
-/**
+/*
  * Get the match measure derivative
  */
 template < class TFixedImage, class TMovingImage  >
@@ -415,7 +415,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/**
+/*
  * Calculate derivatives of the image intensity with respect
  * to the transform parmeters.
  *

@@ -82,7 +82,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   os << m_MRFNeighborhoodWeight[i] << "]" << std::endl;
 }// end PrintSelf
 
-/**
+/*
  * GenerateInputRequestedRegion method.
  */
 template <class TInputImage, class TClassifiedImage>
@@ -109,7 +109,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 }
 
 
-/**
+/*
  * EnlargeOutputRequestedRegion method.
  */
 template <class TInputImage, class TClassifiedImage>
@@ -127,7 +127,7 @@ DataObject *output )
 
 }
 
-/**
+/*
  * GenerateOutputInformation method.
  */
 template <class TInputImage, class TClassifiedImage>

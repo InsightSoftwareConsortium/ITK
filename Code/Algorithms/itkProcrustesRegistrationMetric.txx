@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TTransform, unsigned int NDimension>
@@ -32,7 +32,7 @@ ProcrustesRegistrationMetric<TTransform, NDimension>
 {
 }
 
-/**
+/*
  * Compute Performs the evaluation of similarity
  */
 template <class TTransform, unsigned int NDimension>

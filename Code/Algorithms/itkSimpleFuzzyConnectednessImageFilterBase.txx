@@ -237,7 +237,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   MakeSegmentObject();
 }
 
-} /** end namespace itk. */
+} /* end namespace itk. */
 
 #endif
 

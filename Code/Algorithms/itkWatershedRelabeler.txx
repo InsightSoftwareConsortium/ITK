@@ -214,7 +214,7 @@ void Relabeler<TScalarType, TImageDimension>
     }
 }
 
-/**
+/*
  * 
  */
 template <class TScalarType, unsigned int TImageDimension>
@@ -224,7 +224,7 @@ void Relabeler<TScalarType, TImageDimension>
   this->GraftNthOutput(0, graft);
 }
 
-/**
+/*
  * 
  */
 template <class TScalarType, unsigned int TImageDimension>

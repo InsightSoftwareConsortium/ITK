@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TReference, class TTarget>
@@ -33,7 +33,7 @@ ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration<TRefere
   m_TranslationScale = 100.0; 
 }
 
-/**
+/*
  * Destructor
  */
 template <class TReference, class TTarget>
@@ -42,7 +42,7 @@ ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration<TRefere
 {
 }
 
-/**
+/*
  * Starts the Registration Process
  */
 template <class TReference, class TTarget>

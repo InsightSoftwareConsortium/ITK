@@ -27,7 +27,7 @@
 namespace itk
 {
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TSpeedImage>
@@ -56,7 +56,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TSpeedImage>
@@ -74,7 +74,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TSpeedImage>
@@ -87,7 +87,7 @@ const SpeedImageType * ptr )
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TSpeedImage>
@@ -100,7 +100,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TSpeedImage>
@@ -121,7 +121,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TSpeedImage>
@@ -152,7 +152,7 @@ DataObject *output )
 
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TSpeedImage>
@@ -285,7 +285,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TSpeedImage>
@@ -365,7 +365,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   itkDebugMacro(<< "No. invalid points: " << InvalidPoints);
 }
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TSpeedImage>
@@ -408,7 +408,7 @@ LevelSetImageType * output )
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TSpeedImage>

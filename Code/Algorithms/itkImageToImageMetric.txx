@@ -24,7 +24,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TFixedImage, class TMovingImage> 
@@ -38,7 +38,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/**
+/*
  * Set the parameters that define a unique transform
  */
 template <class TFixedImage, class TMovingImage> 
@@ -55,7 +55,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 
 
 
-/**
+/*
  * PrintSelf
  */
 template <class TFixedImage, class TMovingImage> 
@@ -89,7 +89,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 }
  
 
-/**
+/*
  * PrintSelf
  */
 template <class TFixedImage, class TMovingImage> 

@@ -27,7 +27,7 @@
 namespace itk
 {
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
@@ -50,7 +50,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
 }
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
@@ -70,7 +70,7 @@ unsigned int idx )
 }
 
 
-/**
+/*
  * 
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
@@ -91,7 +91,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 }
 
 
-/**
+/*
  * 
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
@@ -112,7 +112,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
@@ -157,7 +157,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
@@ -182,7 +182,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
 }
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
@@ -331,7 +331,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 }
   
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >

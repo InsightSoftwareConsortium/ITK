@@ -28,7 +28,7 @@
 namespace itk
 {
   
-/**
+/*
  * set intial value of some parameters in the constructor
  */
 
@@ -49,7 +49,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   m_StartRadius = 10;
 }
 
-/**
+/*
  * Set the labelled image.
  */
 template<typename TInputImage, typename TClassifiedImage>
@@ -61,7 +61,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   this->Allocate();
 }// Set the LabelledImage
 
-/**
+/*
  * GenerateInputRequestedRegion method.
  */
 template <class TInputImage, class TClassifiedImage>
@@ -76,7 +76,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 }
 
 
-/**
+/*
  * EnlargeOutputRequestedRegion method.
  */
 template <class TInputImage, class TClassifiedImage>
@@ -94,7 +94,7 @@ DataObject *output )
 
 }
 
-/**
+/*
  * GenerateOutputInformation method.
  */
 template <class TInputImage, class TClassifiedImage>
@@ -109,7 +109,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 
 }
 
-/**
+/*
  * allocate the memeory for classified image.
  */
 template<class TInputImage, class TClassifiedImage>
@@ -417,7 +417,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   return 0;
 }
 
-/**
+/*
  * GibbsTotalEnergy method minimizes the local characteristic item
  * in the energy function.
  */

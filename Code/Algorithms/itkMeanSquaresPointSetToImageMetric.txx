@@ -22,7 +22,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template < class TTarget, class TMapper > 
@@ -31,7 +31,7 @@ MeanSquaresPointSetToImageMetric<TTarget,TMapper>
 {
 }
 
-/**
+/*
  * Get the match Measure
  */
 template < class TTarget, class TMapper > 
@@ -103,7 +103,7 @@ MeanSquaresPointSetToImageMetric<TTarget,TMapper>
 
 }
 
-/**
+/*
  * Get the Derivative Measure
  */
 template < class TTarget, class TMapper> 
@@ -128,7 +128,7 @@ MeanSquaresPointSetToImageMetric<TTarget,TMapper>
 
 }
 
-/**
+/*
  * Get both the match Measure and theDerivative Measure 
  */
 template < class TTarget, class TMapper > 

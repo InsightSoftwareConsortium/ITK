@@ -63,7 +63,7 @@ ClassifierBase<TDataContainer>
 
 }
 
-/**
+/*
  * PrintSelf
  */
 template <class TDataContainer>

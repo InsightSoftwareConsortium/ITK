@@ -22,7 +22,7 @@
 
 namespace itk {
 
-/**
+/*
  * Constructor
  */
 template<class TImage>
@@ -35,7 +35,7 @@ MinMaxCurvatureFlowFunction<TImage>
 }
 
 
-/**
+/*
  * Set the stencil radius.
  */
 template<class TImage>
@@ -60,7 +60,7 @@ MinMaxCurvatureFlowFunction<TImage>
 }
 
 
-/**
+/*
  * Initialize the stencil operator.
  */
 template<class TImage>
@@ -131,7 +131,7 @@ MinMaxCurvatureFlowFunction<TImage>
 
 
 
-/**
+/*
  * Compute the threshold by averaging the image intensity in 
  * the direction perpendicular to the image gradient.
  */
@@ -233,7 +233,7 @@ MinMaxCurvatureFlowFunction<TImage>
 }
 
 
-/**
+/*
  * Compute the threshold by averaging the image intensity in 
  * the direction perpendicular to the image gradient.
  */
@@ -337,7 +337,7 @@ MinMaxCurvatureFlowFunction<TImage>
 
 }
 
-/**
+/*
  * Compute the threshold by averaging the image intensity in 
  * the direction perpendicular to the image gradient.
  */
@@ -400,7 +400,7 @@ MinMaxCurvatureFlowFunction<TImage>
 }
 
 
-/**
+/*
  * Compute the threshold by averaging the image intensity in 
  * the direction perpendicular to the image gradient.
  */
@@ -463,7 +463,7 @@ MinMaxCurvatureFlowFunction<TImage>
 }
 
 
-/**
+/*
  * Compute the threshold by averaging the image intensity in 
  * the direction perpendicular to the image gradient.
  */
@@ -572,7 +572,7 @@ MinMaxCurvatureFlowFunction<TImage>
 }
 
 
-/**
+/*
  * Compute the threshold by averaging the image intensity in 
  * the direction perpendicular to the image gradient.
  */
@@ -681,7 +681,7 @@ MinMaxCurvatureFlowFunction<TImage>
 }
 
 
-/**
+/*
  * Update the solution at pixels which does not lie on the
  * data boundary.
  */
@@ -718,7 +718,7 @@ MinMaxCurvatureFlowFunction<TImage>
 }
 
 
-/**
+/*
  * Update the solution at pixels which lies on the data boundary.
  */
 template<class TImage>

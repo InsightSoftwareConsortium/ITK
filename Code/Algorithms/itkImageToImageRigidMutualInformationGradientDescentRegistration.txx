@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TReference, class TTarget>
@@ -41,7 +41,7 @@ ImageToImageRigidMutualInformationGradientDescentRegistration<TReference, TTarge
 
 }
 
-/**
+/*
  * Destructor
  */
 template <class TReference, class TTarget>
@@ -63,7 +63,7 @@ ImageToImageRigidMutualInformationGradientDescentRegistration<TReference,  TTarg
 
 
 
-/**
+/*
  * Starts the Registration Process
  */
 template <class TReference, class TTarget>

@@ -23,7 +23,7 @@ namespace itk
 {
 
 
-/**
+/*
  * Constructor
  */
 template <class TReference, class TTarget>
@@ -34,7 +34,7 @@ MultiResolutionMutualInformationAffineRegistration<TReference,TTarget>
 }
 
 
-/**
+/*
  * Set number of levels
  */
 template <class TReference, class TTarget>
@@ -48,7 +48,7 @@ MultiResolutionMutualInformationAffineRegistration<TReference,TTarget>
 }
 
 
-/**
+/*
  * OneLevelPreRegistration
  */
 template <class TReference, class TTarget>
@@ -68,7 +68,7 @@ unsigned int level )
 }
  
 
-/**
+/*
  * OneLevelPostRegistration
  */
 template <class TReference, class TTarget>
@@ -82,7 +82,7 @@ unsigned int level )
  
 
 
-/**
+/*
  * PrintSelf method
  */
 template <class TReference, class TTarget>

@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TInputImage, class TOutputImage>
@@ -43,7 +43,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 }
 
 
-/**
+/*
  * Standard PrintSelf method.
  */
 template <class TInputImage, class TOutputImage>
@@ -59,7 +59,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 }
 
 
-/**
+/*
  * Initialize the state of filter and equation before each iteration.
  */
 template <class TInputImage, class TOutputImage>
@@ -97,7 +97,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 }
 
 
-/**
+/*
  * GenerateInputRequestedRegion
  */
 template <class TInputImage, class TOutputImage>
@@ -126,7 +126,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 }
 
 
-/**
+/*
  * EnlargeOutputRequestedRegion
  */
 template <class TInputImage, class TOutputImage>
@@ -158,7 +158,7 @@ DataObject * ptr )
     radius[j] *= m_NumberOfIterations;
     }
 
-  /**
+  /*
    * NewOutputRequestedRegion = OldOutputRequestedRegion +
    * radius * m_Iterations padding on each edge
    */

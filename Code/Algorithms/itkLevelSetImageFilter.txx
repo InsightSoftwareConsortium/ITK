@@ -25,7 +25,7 @@
 namespace itk
 {
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -45,7 +45,7 @@ LevelSetImageFilter<TLevelSet>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -62,7 +62,7 @@ LevelSetImageFilter<TLevelSet>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -79,7 +79,7 @@ LevelSetImageFilter<TLevelSet>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -94,7 +94,7 @@ LevelSetImageFilter<TLevelSet>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -125,7 +125,7 @@ LevelSetImageFilter<TLevelSet>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -164,7 +164,7 @@ LevelSetImageFilter<TLevelSet>
 
 }
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -178,7 +178,7 @@ LevelSetImageFilter<TLevelSet>
   m_InputBuffer = temp;
 }
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -213,7 +213,7 @@ LevelSetImageFilter<TLevelSet>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet>

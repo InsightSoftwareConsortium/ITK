@@ -22,7 +22,7 @@
 
 namespace itk {
 
-/**
+/*
  *
  */
 template <class TInputImage, class TOutputImage>
@@ -40,7 +40,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 {
 }
 
-/**
+/*
  *
  */
 template <class TInputImage, class TOutputImage>
@@ -84,7 +84,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
     }
 }
 
-/**
+/*
  *
  */
 template <class TInputImage, class TOutputImage>
@@ -96,7 +96,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TInputImage, class TOutputImage>
@@ -107,7 +107,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   m_ObjectsMean[object_num] = mean;
 }
 
-/**
+/*
  *
  */
 template <class TInputImage, class TOutputImage>
@@ -118,7 +118,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   m_ObjectsSeed[object_num].push_front(seed);
 }
 
-/**
+/*
  *
  */
 template <class TInputImage, class TOutputImage>
@@ -137,7 +137,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TInputImage, class TOutputImage>

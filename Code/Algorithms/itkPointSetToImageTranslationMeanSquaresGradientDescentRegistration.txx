@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TReference, class TTarget>
@@ -32,7 +32,7 @@ PointSetToImageTranslationMeanSquaresGradientDescentRegistration<TReference, TTa
 { 
 }
 
-/**
+/*
  * Destructor
  */
 template <class TReference, class TTarget>
@@ -41,7 +41,7 @@ PointSetToImageTranslationMeanSquaresGradientDescentRegistration<TReference,  TT
 {
 }
 
-/**
+/*
  * Starts the Registration Process
  */
 template <class TReference, class TTarget>

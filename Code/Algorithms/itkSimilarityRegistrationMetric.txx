@@ -22,7 +22,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TTarget, class TMapper, 
@@ -35,7 +35,7 @@ SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>
 }
 
 
-/**
+/*
  * Set Reference 
  */
 template <class TTarget, class TMapper, 
@@ -48,7 +48,7 @@ SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>
 }
 
 
-/**
+/*
  * Get Reference 
  */
 template <class TTarget, class TMapper, 
@@ -63,7 +63,7 @@ SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>
 
 
 
-/**
+/*
  * GenerateData Performs the evaluation of similarity
  */
 template <class TTarget, class TMapper, 
@@ -78,7 +78,7 @@ SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>
 }
 
 
-/**
+/*
  * PrintSelf
  */
 template <class TTarget, class TMapper, 

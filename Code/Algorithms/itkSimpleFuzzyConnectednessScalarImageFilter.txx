@@ -83,7 +83,7 @@ SimpleFuzzyConnectednessScalarImageFilter<TInputImage,TOutputImage>
   }
 }
 
-} /** end namespace itk. */
+} /* end namespace itk. */
 
 
 #endif

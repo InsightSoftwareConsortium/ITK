@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TReference, class TTarget>
@@ -32,7 +32,7 @@ PointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration
 { 
 }
 
-/**
+/*
  * Destructor
  */
 template <class TReference, class TTarget>
@@ -41,7 +41,7 @@ PointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration
 {
 }
 
-/**
+/*
  * Starts the Registration Process
  */
 template <class TReference, class TTarget>

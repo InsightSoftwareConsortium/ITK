@@ -33,7 +33,7 @@ DeformableMesh<TPixelType/*, TMeshTraits*/>
 {
 }
 
-/**
+/*
  * Set the resoluion of the model.
  */
 template <typename TPixelType/*, typename TMeshTraits*/>
@@ -45,7 +45,7 @@ DeformableMesh<TPixelType/*, TMeshTraits*/>
   m_Resolution[1] = b;
 }
 
-/**
+/*
  * Set the scale of the model.
  */
 template <typename TPixelType/*, typename TMeshTraits*/>
@@ -58,7 +58,7 @@ DeformableMesh<TPixelType/*, TMeshTraits*/>
   m_Scale[2] = c;
 }
 
-/**
+/*
  * Set the center point of the model.
  */
 template <typename TPixelType/*, typename TMeshTraits*/>
@@ -71,7 +71,7 @@ DeformableMesh<TPixelType/*, TMeshTraits*/>
   m_Center[2] = c;
 }
 
-/**
+/*
  * Set the default value to the scale and resolution.
  */
 template <typename TPixelType/*, typename TMeshTraits*/>
@@ -86,7 +86,7 @@ DeformableMesh<TPixelType/*, TMeshTraits*/>
   m_Resolution[1] = 18;
 }
 
-/**
+/*
  * Calculate and insert the nodes into the pointscontainer.
  * and store the connectness of the model into the cellscontainer.
  * store the type of cells in the celldatacontainer, these will be used

@@ -24,7 +24,7 @@ namespace itk
 {
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue, 
@@ -41,7 +41,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue,
@@ -61,7 +61,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue,
@@ -79,7 +79,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TAuxValue,

@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TReference, class TTarget>
@@ -34,7 +34,7 @@ ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration<TReference, 
 }
 
 
-/**
+/*
  * Destructor
  */
 template <class TReference, class TTarget>
@@ -45,7 +45,7 @@ ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration<TReference, 
 
 
 
-/**
+/*
  * Starts the Registration Process
  */
 template <class TReference, class TTarget>

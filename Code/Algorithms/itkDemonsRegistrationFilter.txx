@@ -20,7 +20,7 @@
 
 namespace itk {
 
-/**
+/*
  * Default constructor
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -37,7 +37,7 @@ DemonsRegistrationFilter<TReference,TTarget,TDeformationField>
 }
 
 
-/**
+/*
  * Set the function state values before each iteration
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -49,7 +49,7 @@ DemonsRegistrationFilter<TReference,TTarget,TDeformationField>
   // call the superclass  implementation
   Superclass::InitializeIteration();
 
-  /**
+  /*
    * Smooth the deformation field
    */
   this->SmoothDeformationField();

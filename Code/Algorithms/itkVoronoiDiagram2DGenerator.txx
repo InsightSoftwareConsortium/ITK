@@ -188,8 +188,8 @@ UpdateDiagram(void)
 }
 
 
-/*************************************************************/
-/*************************************************************/
+/************************************************************/
+/************************************************************/
 /* Methods to convert the result from Fortune Algorithm into 
 * itkMesh structure.*/
 
@@ -441,7 +441,7 @@ ConstructDiagram(void)
   delete [] rawEdges;
 }
 
-/**************************************************************
+/*************************************************************
 **************************************************************
 * Generate Voronoi Diagram using Fortune's Method. (Sweep Line)
 * Infomations are stored in m_VertexList, m_EdgeList and m_LineList.*/

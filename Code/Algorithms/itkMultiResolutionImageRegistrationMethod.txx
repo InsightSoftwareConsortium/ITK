@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -59,7 +59,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/**
+/*
  * Initialize by setting the interconnects between components. 
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -146,7 +146,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/**
+/*
  * Stop the Registration Process
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -158,7 +158,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/**
+/*
  * Starts the Registration Process
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -228,7 +228,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/**
+/*
  * PrintSelf
  */
 template < typename TFixedImage, typename TMovingImage >

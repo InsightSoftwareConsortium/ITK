@@ -29,7 +29,7 @@
 namespace itk
 {
 
-/**
+/*
  * ------------------------------------------------
  */
 template <class TInputMesh, class TOutputMesh>
@@ -40,7 +40,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
   m_ClosestPoint.Fill(0);
 }
 
-/**
+/*
  * ------------------------------------------------
  */
 template <class TInputMesh, class TOutputMesh>
@@ -65,7 +65,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
     }
 }
 
-/**
+/*
  * ------------------------------------------------
  */
 template <class TInputMesh, class TOutputMesh>
@@ -91,7 +91,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
 }
 
 
-/**
+/*
  * ------------------------------------------------
  */
 template <class TInputMesh, class TOutputMesh>
@@ -129,7 +129,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
 }
 
 
-/**
+/*
  *
  */
 template <class TInputMesh, class TOutputMesh>

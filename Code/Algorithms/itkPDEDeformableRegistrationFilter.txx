@@ -29,7 +29,7 @@
 
 namespace itk {
 
-/**
+/*
  * Default constructor
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -53,7 +53,7 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 }
 
 
-/**
+/*
  * Set the reference image.
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -66,7 +66,7 @@ const ReferenceType * ptr )
 }
 
 
-/**
+/*
  * Get the reference image.
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -80,7 +80,7 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 }
 
 
-/**
+/*
  * Set the target image.
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -93,7 +93,7 @@ const TargetType * ptr )
 }
 
 
-/**
+/*
  * Get the target image.
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -107,7 +107,7 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 }
 
 
-/**
+/*
  * Set the standard deviations.
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -137,7 +137,7 @@ double value )
 }
 
 
-/**
+/*
  * Standard PrintSelf method.
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -158,7 +158,7 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 }
 
 
-/**
+/*
  * Set the function state values before each iteration
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -206,7 +206,7 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 }
 
 
-/**
+/*
  * Override the default implemenation for the case when the 
  * initial deformation is not set.
  * If the initial deformation is not set, the output is
@@ -317,7 +317,7 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 }
 
 
-/**
+/*
  * Copy one deformation field into the buffer or another field
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -340,7 +340,7 @@ DeformationFieldType * output
 }
 
 
-/**
+/*
  * Smooth deformation using a separable Gaussian kernel
  */
 template <class TReference, class TTarget, class TDeformationField>

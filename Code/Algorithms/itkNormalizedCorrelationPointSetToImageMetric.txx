@@ -22,7 +22,7 @@
 namespace itk
 {
 
-/**
+/*
 * Constructor
 */
 template < class TTarget, class TMapper > 
@@ -31,7 +31,7 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
 {
 }
 
-/**
+/*
  * Get the match Measure
  */
 template < class TTarget, class TMapper > 
@@ -110,7 +110,7 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
 
 }
 
-/**
+/*
  * Get the Derivative Measure
  */
 template < class TTarget, class TMapper> 
@@ -135,7 +135,7 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
   return m_MatchMeasureDerivatives;
 }
 
-/**
+/*
  * Get both the match Measure and theDerivative Measure 
  */
 template < class TTarget, class TMapper > 

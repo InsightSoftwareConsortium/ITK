@@ -22,14 +22,14 @@
 namespace itk
 {
 
-/**
+/*
  *
  */
 template<class TOutputMesh>
 SphereSource<TOutputMesh>
 ::SphereSource()
 {
-  /**
+  /*
    * Create the output
    */
   typename TOutputMesh::Pointer output = TOutputMesh::New();
@@ -43,7 +43,7 @@ SphereSource<TOutputMesh>
   m_ResolutionY = 4;
 }
 
-/**
+/*
  *
  */
 template<class TOutputMesh>

@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TTraits>
@@ -35,7 +35,7 @@ RegistrationMethod<TTraits>
 }
 
 
-/**
+/*
  * Destructor
  */
 template <class TTraits>
@@ -45,7 +45,7 @@ RegistrationMethod<TTraits>
 }
 
 
-/**
+/*
  * Get Reference 
  */
 
@@ -59,7 +59,7 @@ RegistrationMethod<TTraits>
 }
 
 
-/**
+/*
  * Get Target 
  */
 template <class TTraits>
@@ -81,7 +81,7 @@ RegistrationMethod<TTraits>
 }
 
 
-/**
+/*
  * Set Target 
  */
 template <class TTraits>
@@ -97,7 +97,7 @@ RegistrationMethod< TTraits >
 
 
 
-/**
+/*
  * Starts the Registration Process
  */
 template <class TTraits>
@@ -111,7 +111,7 @@ RegistrationMethod<TTraits>
 }
 
 
-/**
+/*
  * PrintSelf
  */
 template <class TTraits>

@@ -24,7 +24,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TInputImage, class TOutputImage>
@@ -43,7 +43,7 @@ MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>
 }
 
 
-/**
+/*
  * Standard PrintSelf method.
  */
 template <class TInputImage, class TOutputImage>
@@ -56,7 +56,7 @@ MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>
 }
 
 
-/**
+/*
  * Initialize the state of filter and equation before each iteration.
  */
 template <class TInputImage, class TOutputImage>

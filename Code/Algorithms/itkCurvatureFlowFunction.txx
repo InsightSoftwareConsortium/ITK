@@ -21,7 +21,7 @@
 
 namespace itk {
 
-/**
+/*
  * Constructor
  */
 template<class TImage>
@@ -43,7 +43,7 @@ CurvatureFlowFunction<TImage>
 }
 
 
-/**
+/*
  * Update the solution at pixels which does not lie on the
  * data boundary.
  */
@@ -138,7 +138,7 @@ CurvatureFlowFunction<TImage>
 }
 
 
-/**
+/*
  * Update the solution at pixels which lies on the data boundary.
  */
 template<class TImage>

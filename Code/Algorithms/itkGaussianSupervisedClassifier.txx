@@ -44,7 +44,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   if ( m_PixelProbability )  delete [] m_PixelProbability;
 }
 
-/**
+/*
  * PrintSelf
  */
 template <class TInputImage, class TClassifiedImage>

@@ -23,7 +23,7 @@ namespace itk
 {
 
 
-/**
+/*
  * Constructor
  */
 template <class TTraits>
@@ -40,7 +40,7 @@ MultiResolutionRegistration<TTraits>
 }
 
 
-/**
+/*
  * Set the number of computation levels
  */
 template <class TRegistrationMethod>
@@ -60,7 +60,7 @@ unsigned int num )
 }
 
 
-/**
+/*
  * Set the target
  */
 template <class TRegistrationMethod>
@@ -77,7 +77,7 @@ TargetType * ptr )
 }
 
 
-/**
+/*
  * Get the target
  */
 template <class TRegistrationMethod>
@@ -89,7 +89,7 @@ MultiResolutionRegistration<TRegistrationMethod>
 }
 
 
-/**
+/*
  * Set the reference
  */
 template <class TRegistrationMethod>
@@ -107,7 +107,7 @@ ReferenceType * ptr )
 
 
 
-/**
+/*
  * Get the target
  */
 template <class TRegistrationMethod>
@@ -118,7 +118,7 @@ MultiResolutionRegistration<TRegistrationMethod>
   return m_ReferencePyramid->GetInput();
 }
 
-/**
+/*
  * Start the registration
  */
 template <class TRegistrationMethod>
@@ -149,7 +149,7 @@ MultiResolutionRegistration<TRegistrationMethod>
 
 
 
-/**
+/*
  * OneLevelRegistration
  */
 template <class TRegistrationMethod>
@@ -177,7 +177,7 @@ MultiResolutionRegistration<TRegistrationMethod>
 }
 
 
-/**
+/*
  * PrintSelf method
  */
 template <class TRegistrationMethod>

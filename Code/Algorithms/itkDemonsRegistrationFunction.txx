@@ -22,7 +22,7 @@
 
 namespace itk {
 
-/**
+/*
  * Default constructor
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -57,7 +57,7 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
 }
 
 
-/**
+/*
  * Standard "PrintSelf" method.
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -77,7 +77,7 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
 }
 
 
-/**
+/*
  * Set the function state values before each iteration
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -104,7 +104,7 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
 }
 
 
-/**
+/*
  * Compute update at a non boundary neighbourhood
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -178,7 +178,7 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
 
 
 
-/**
+/*
  * Compute update at a boundary neighbourhood
  */
 template <class TReference, class TTarget, class TDeformationField>

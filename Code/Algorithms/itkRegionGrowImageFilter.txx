@@ -37,7 +37,7 @@ RegionGrowImageFilter<TInputImage,TOutputImage>
 
 }
 
-/**
+/*
  * PrintSelf
  */
 template <class TInputImage, class TOutputImage>

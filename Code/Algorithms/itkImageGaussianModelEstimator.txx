@@ -40,7 +40,7 @@ ImageGaussianModelEstimator<TInputImage, TTrainingImage, TMembershipFunction>
   if ( m_Covariance )    delete [] m_Covariance;
 }
 
-/**
+/*
  * PrintSelf
  */
 template <class TInputImage, 

@@ -22,7 +22,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TImage, class TTransformation> 
@@ -33,7 +33,7 @@ ImageMapper<TImage,TTransformation>
 
 
 
-/**
+/*
  * Set the Domain
  */
 template <class TImage, class TTransformation> 
@@ -52,7 +52,7 @@ ImageMapper<TImage,TTransformation>
 
 
 
-/**
+/*
  * Test whether the point is inside the image domain
  */
 template <class TImage, class TTransformation> 
@@ -69,7 +69,7 @@ ImageMapper<TImage,TTransformation>
 
 
 
-/**
+/*
  * Evaluate the image at some point
  */
 template <class TImage, class TTransformation> 
@@ -82,7 +82,7 @@ ImageMapper<TImage,TTransformation>
 }
 
 
-/**
+/*
  * PrintSelf
  */
 template <class TImage, class TTransformation> 

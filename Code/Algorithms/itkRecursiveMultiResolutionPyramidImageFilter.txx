@@ -30,7 +30,7 @@ namespace itk
 {
 
 
-/**
+/*
  * Constructor
  */
 template <class TInputImage, class TOutputImage>
@@ -40,7 +40,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 }
 
 
-/**
+/*
  * GenerateData
  */
 template <class TInputImage, class TOutputImage>
@@ -193,7 +193,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 }
 
 
-/**
+/*
  * PrintSelf method
  */
 template <class TInputImage, class TOutputImage>
@@ -205,7 +205,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 }
 
 
-/** 
+/* 
  * GenerateOutputRequestedRegion
  */
 template <class TInputImage, class TOutputImage>
@@ -348,7 +348,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 }
 
 
-/** 
+/* 
  * GenerateInputRequestedRegion
  */
 template <class TInputImage, class TOutputImage>

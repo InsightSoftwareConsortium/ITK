@@ -26,7 +26,7 @@
 namespace itk
 { 
     
-/**
+/*
  * Constructor
  */
 template<class TInputImage>
@@ -39,7 +39,7 @@ OtsuThresholdImageCalculator<TInputImage>
 }
 
 
-/**
+/*
  * Compute the Otsu's threshold
  */
 template<class TInputImage>

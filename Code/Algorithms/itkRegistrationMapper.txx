@@ -22,7 +22,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TDomain, class TTransform> 
@@ -34,7 +34,7 @@ RegistrationMapper<TDomain,TTransform>
 }
 
 
-/**
+/*
  * PrintSelf
  */
 template <class TDomain, class TTransform> 

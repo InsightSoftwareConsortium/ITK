@@ -23,7 +23,7 @@
 
 namespace itk {
 
-/**
+/*
  * Default constructor
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -57,7 +57,7 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
 }
 
 
-/**
+/*
  * Set the reference image.
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -70,7 +70,7 @@ const ReferenceType * ptr )
 }
 
 
-/**
+/*
  * Get the reference image.
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -84,7 +84,7 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
 }
 
 
-/**
+/*
  * Set the target image.
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -97,7 +97,7 @@ const TargetType * ptr )
 }
 
 
-/**
+/*
  * Get the target image.
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -111,7 +111,7 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
 }
 
 
-/**
+/*
  * Set the number of multi-resolution levels
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -139,7 +139,7 @@ unsigned int num )
 }
 
 
-/**
+/*
  * Standard PrintSelf method.
  */
 template <class TReference, class TTarget, class TDeformationField>
@@ -168,7 +168,7 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
 
 }
 
-/**
+/*
  * Perform a the deformable registration using a multiresolution scheme
  * using an internal mini-pipeline
  *
@@ -235,7 +235,7 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
 
     if( m_CurrentLevel == 0 )
       {
-       /**
+       /*
          * \todo What to do if there is an input deformation field?
          * Will need a VectorMultiResolutionPyramidImageFilter to downsample it.
          */

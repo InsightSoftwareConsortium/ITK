@@ -55,7 +55,7 @@ TTrainingImage, TMembershipFunction>
   this->EstimateModels();
 }
 
-/**
+/*
  * PrintSelf
  */
 template <class TInputImage, 

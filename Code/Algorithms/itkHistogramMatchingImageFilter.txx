@@ -26,7 +26,7 @@
 namespace itk
 {
 
-/**
+/*
  *
  */
 template <class TInputImage, class TOutputImage>
@@ -46,7 +46,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TInputImage, class TOutputImage>
@@ -79,7 +79,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TInputImage, class TOutputImage>
@@ -92,7 +92,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TInputImage, class TOutputImage>
@@ -111,7 +111,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
 }
 
 
-/**
+/*
  * This filter requires all of the input images to be
  * in the buffer.
  */
@@ -134,7 +134,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
 }
 
 
-/**
+/*
  * 
  */
 template <class TInputImage, class TOutputImage>
@@ -236,7 +236,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
 
 }
 
-/**
+/*
  *
  */
 template <class TInputImage, class TOutputImage>
@@ -319,7 +319,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
 }
 
 
-/**
+/*
  * Compute min, max and mean of an image.
  */
 template <class TInputImage, class TOutputImage>
@@ -359,7 +359,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
 }
 
 
-/**
+/*
  * Construct a histogram from an image.
  */
 template <class TInputImage, class TOutputImage>

@@ -25,7 +25,7 @@
 namespace itk
 {
 
-/**
+/*
  * Default constructor.
  */
 template <class TLevelSet>
@@ -47,7 +47,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 }
 
 
-/**
+/*
  * Set the input narrowband container.
  */
 template <class TLevelSet>
@@ -64,7 +64,7 @@ NodeContainer * ptr )
 }
 
 
-/**
+/*
  * PrintSelf method.
  */
 template <class TLevelSet>
@@ -87,7 +87,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 }
 
 
-/**
+/*
  * GenerateInputRequestedRegion method.
  */
 template <class TLevelSet>
@@ -100,7 +100,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 }
 
 
-/**
+/*
  * EnlargeOutputRequestedRegion method.
  */
 template <class TLevelSet>
@@ -131,7 +131,7 @@ DataObject *output )
 }
 
 
-/**
+/*
  * Allocate/initialize memory.
  */
 template <class TLevelSet>
@@ -154,7 +154,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 }
 
 
-/**
+/*
  * Generate the output data.
  */
 template <class TLevelSet>
@@ -175,7 +175,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
 }
 
-/**
+/*
  * Generate the output data - full set version.
  */
 template <class TLevelSet>
@@ -258,7 +258,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
 }
  
-/**
+/*
  * Generate output data - narrowband version.
  */
 template <class TLevelSet>

@@ -29,7 +29,7 @@
 namespace itk
 {
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage, class TDerivImage>
@@ -44,7 +44,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage, class TDerivImage>
@@ -57,7 +57,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   os << std::endl;
 }
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage, class TDerivImage>
@@ -72,7 +72,7 @@ unsigned int dim )
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage, class TDerivImage>
@@ -92,7 +92,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage, class TDerivImage>
@@ -113,7 +113,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage, class TDerivImage>
@@ -270,7 +270,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
                                         
 }
 
-/**
+/*
  *
  */
 template <class TLevelSet, class TEdgeImage, class TDerivImage>

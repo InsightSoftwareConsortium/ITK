@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/**
+/*
  * Constructor
  */
 template <class TFixedImage, class TMovingImage> 
@@ -32,7 +32,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 {
 }
 
-/**
+/*
  * Get the match Measure
  */
 template <class TFixedImage, class TMovingImage> 
@@ -116,7 +116,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
 
 
-/**
+/*
  * Get the Derivative Measure
  */
 template < class TFixedImage, class TMovingImage> 
@@ -147,7 +147,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/**
+/*
  * Get both the match Measure and theDerivative Measure 
  */
 template <class TFixedImage, class TMovingImage> 

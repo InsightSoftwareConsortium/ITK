@@ -29,12 +29,12 @@ namespace itk
 class ITK_EXPORT InvalidImageMomentsError : public ExceptionObject
 {
  public:
-  /**
+  /*
    * Constructor. Needed to ensure the exception object can be copied.
    */
   InvalidImageMomentsError(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) { this->SetDescription("No valid image moments are availble.");}
 
-  /**
+  /*
    * Constructor. Needed to ensure the exception object can be copied.
    */
   InvalidImageMomentsError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) { this->SetDescription("No valid image moments are availble.");}  

@@ -34,7 +34,7 @@ UnsupervisedClassifier<TInputImage,TClassifiedImage>
 
 }
 
-/**
+/*
  * PrintSelf
  */
 template <class TInputImage, class TClassifiedImage>
