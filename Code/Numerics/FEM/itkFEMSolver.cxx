@@ -314,8 +314,8 @@ void Solver::GenerateGFN() {
    * Assign new ID to every DOF in a system
    */
 
-  // Start numbering DOFs from 1
-  Element::ResetGlobalDOFCounter();
+  // Start numbering DOFs from 0
+  NGFN=0;
 
   Element::NodeDefinitionType ndef,nndef;
 
@@ -333,7 +333,8 @@ void Solver::GenerateGFN() {
         {
           if( elem->GetNode(n)->GetDegreeOfFreedom(dof)==ElementNew::InvalidDegreeOfFreedomID )
           {
-            elem->GetNode(n)->SetDegreeOfFreedom(dof,Element::CreateNewGlobalDOF());
+            elem->GetNode(n)->SetDegreeOfFreedom(dof,NGFN);
+            NGFN++;
           }
         }
       }
@@ -443,7 +444,8 @@ void Solver::GenerateGFN() {
         {
           // Found a undefined DOF. We need obtain a unique id,
           // which we set with the SetDegreeOfFreedom function.
-          (*e)->SetDegreeOfFreedomAtNode(n,d,Element::CreateNewGlobalDOF());
+          (*e)->SetDegreeOfFreedomAtNode(n,d,NGFN);
+          NGFN++;
         }
 
       } // end for d
@@ -454,7 +456,7 @@ void Solver::GenerateGFN() {
 
   } // end for e
 
-  NGFN=Element::GetGlobalDOFCounter()+1;
+//  NGFN=Element::GetGlobalDOFCounter()+1;
   if (NGFN>0) return;  // if we got 0 DOF, somebody forgot to define the system...
 
 }
