@@ -183,15 +183,7 @@ public:
   /**
    * Method for creation through the object factory.
    */
-  static Pointer New()
-    {
-      Self *ret = ObjectFactory<Self>::Create();
-      if(ret)
-        {
-        return ret;
-        }
-      return new Self;
-    }
+  itkNewMacro(Self);
 
   /**
    *  Set the callback function along with the object that it will
@@ -271,15 +263,8 @@ public:
   /**
    * Method for creation through the object factory.
    */
-  static Pointer New()
-    {
-      Self *ret = ObjectFactory<Self>::Create();
-      if(ret)
-        {
-        return ret;
-        }
-      return new Self;
-    }
+  itkNewMacro(Self);
+
 
   void SetCallbackFunction(T* object,  
                            TMemberFunctionPointer memberFunction)
@@ -346,15 +331,7 @@ public:
   /**
    * Method for creation through the object factory.
    */
-  static Pointer New()
-    {
-      Self *ret = ObjectFactory<Self>::Create();
-      if(ret)
-        {
-        return ret;
-        }
-      return new Self;
-    }
+  itkNewMacro(Self);
 
   /**
    * Set the client data that will be passed into the C function when 
