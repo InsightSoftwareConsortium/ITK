@@ -286,7 +286,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 } 
 
 
-/* Compute the derivatives using d'- Kd = f. */
+/* Compute the derivatives using d' + Kd = f. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
