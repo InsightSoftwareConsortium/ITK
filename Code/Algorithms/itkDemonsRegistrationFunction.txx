@@ -142,6 +142,9 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
   PixelType update;
   int j;
 
+  // convert global data to the right type
+  GlobalDataStruct *global = static_cast<GlobalDataStruct*>(globalData);
+
   IndexType index = it.GetIndex();
 
   // Get target related information

@@ -184,17 +184,22 @@ public:
     { return m_TimeStep; }
 
   /**
-   * This class does not use this particular parameter
-   * so it's safe to return a null value.
+   * Return a pointer to a global data structure that is passed to
+   * this object from the solver at each calculation. 
    */
   virtual void *GetGlobalDataPointer() const
-    {  return 0; }
+    {
+    GlobalDataStruct *global = new GlobalDataStruct();
+    return global;
+    }
 
   /**
-   * Does nothing.  No global data is used in this class of equations.
+   * Release memory for global data structur
    */
-  virtual void ReleaseGlobalDataPointer(void *GlobalData) const
-    { /* do nothing */ }
+  virtual void ReleaseGlobalDataPointer( void *GlobalData ) const
+    {
+    delete (GlobalDataStruct *) GlobalData;
+    }
 
   /**
    * Set the object's state before each iteration.
@@ -224,6 +229,21 @@ protected:
   DemonsRegistrationFunction(const Self&) {}
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /**
+   * Target image neighborhood iterator type
+   */
+  typedef ConstNeighborhoodIterator<TargetType> TargetNeighborhoodIteratorType;
+
+  /**
+   * A global data type for this class of equation. Used to store
+   * iterators for the target image.
+   */
+  struct GlobalDataStruct
+   {
+   TargetNeighborhoodIteratorType   m_TargetIterator;
+   };
+
 
 private:
 
