@@ -92,21 +92,6 @@ _wrap_EXPORT Tcl_Obj* Tcl_NewPointerObj(const Pointer&);
                                  && (strcmp("Pointer", (o)->typePtr->name)==0))
 #define StringRepIsPointer(s)    (((s).substr(0, 4)) == "_ptr")
 
-  
-template <typename T>
-struct PointerAs;
-
-/**
- * A function to access an object of any type through a Pointer.
- */
-template <typename T>
-struct PointerAs<T*>
-{
-  static T* Get(const Pointer& p)
-    {
-      return ((T*)p.Object());
-    }
-};
 
 } // namespace _wrap_
 

@@ -91,23 +91,6 @@ _wrap_EXPORT Tcl_Obj* Tcl_NewReferenceObj(const Reference&);
                                    && (strcmp("Reference", (o)->typePtr->name)==0))
 #define StringRepIsReference(s)    (((s).substr(0, 4)) == "_ref")
 
-
-template <typename T>
-struct ReferenceAs;
-
-/**
- * A function to access an object of any type through a Reference.
- */
-template <typename T>
-struct ReferenceAs<T&>
-{
-  static T& Get(const Reference& r)
-    {
-      return *((T*)r.Object());
-    }
-};
-
-
 } // namespace _wrap_
 
 #endif
