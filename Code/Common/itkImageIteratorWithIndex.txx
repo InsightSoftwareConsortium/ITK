@@ -127,6 +127,7 @@ ImageIteratorWithIndex<TImage>
   m_BeginIndex        = it.m_BeginIndex;
   m_EndIndex          = it.m_EndIndex;
   m_PositionIndex     = it.m_PositionIndex;
+  m_Region            = it.m_Region;
 
   memcpy(m_OffsetTable, it.m_OffsetTable, 
         (ImageIteratorDimension+1)*sizeof(unsigned long));
