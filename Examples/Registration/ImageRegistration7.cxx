@@ -257,14 +257,18 @@ int main( int argc, char **argv )
   //  
   //  The remaining parameters of the transform are initialized below.
   //
+  //  \index{itk::Similarity2DTransform!SetScale()}
+  //  \index{itk::Similarity2DTransform!SetAngle()}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  transform->SetAngle( 0.0 );
-  transform->SetScale( 1.0 );
+  transform->SetScale( atof( argv[7] ) );
+  transform->SetAngle( atof( argv[8] ) );
   // Software Guide : EndCodeSnippet
 
 
+  std::cout << transform->GetParameters() << std::endl;
 
 
 
@@ -302,14 +306,14 @@ int main( int argc, char **argv )
 
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
-  const double translationScale = 1.0 / 1000.0;
+  const double translationScale = 1.0 / 100.0;
 
-  optimizerScales[0] = 1.0;
-  optimizerScales[1] = 1.0;
-  optimizerScales[2] = translationScale;
-  optimizerScales[3] = translationScale;
-  optimizerScales[4] = translationScale;
-  optimizerScales[5] = translationScale;
+  optimizerScales[0] = 10.0;
+  optimizerScales[1] =  1.0;
+  optimizerScales[2] =  translationScale;
+  optimizerScales[3] =  translationScale;
+  optimizerScales[4] =  translationScale;
+  optimizerScales[5] =  translationScale;
 
   optimizer->SetScales( optimizerScales );
   // Software Guide : EndCodeSnippet
@@ -328,11 +332,13 @@ int main( int argc, char **argv )
   //
   //  Software Guide : EndLatex 
 
+  const double steplength = atof( argv[6] );
+
   // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( 0.1    ); 
+  optimizer->SetMaximumStepLength( steplength ); 
   optimizer->SetMinimumStepLength( 0.001 );
 
-  optimizer->SetNumberOfIterations( 200 );
+  optimizer->SetNumberOfIterations( 500 );
   // Software Guide : EndCodeSnippet
 
 
@@ -395,17 +401,18 @@ int main( int argc, char **argv )
   //  
   //  \begin{itemize}
   //  \item \code{BrainProtonDensitySliceBorder20.png} 
-  //  \item \code{BrainProtonDensitySliceRotated10.png}
+  //  \item \code{BrainProtonDensitySliceR10X13Y17S12.png}
   //  \end{itemize}
   //
   //  The second image is the result of intentionally rotating the first image
-  //  by $10$ degrees. Both images have unit-spacing and are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration5}. The registration takes $16$
+  //  by $10$ degrees, scaling by $1/1.2$ and then translating by $(-13,-17)$..
+  //  Both images have unit-spacing and are shown in Figure
+  //  \ref{fig:FixedMovingImageRegistration7}. The registration takes $16$
   //  iterations and produce as result the parameters:
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [0.177491, 110.487, 128.489, 0.0111713, 0.00250842]
+  //  [ ]
   //  \end{verbatim}
   //  \end{center}
   //
@@ -418,48 +425,47 @@ int main( int argc, char **argv )
   //  \end{itemize}
   //  
   // 
-  //  As expected, these values match pretty well the misalignment
+  //  These values match pretty well the misalignment
   //  intentionally introduced in the moving image. Since $10$ degrees is about
   //  $0.174532$ radians.
   //
   // \begin{figure}
   // \center
   // \includegraphics[width=6cm]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceRotated10.eps}
+  // \includegraphics[width=6cm]{BrainProtonDensitySliceR10X13Y17S12.eps}
   // \caption{Fixed and Moving image provided as input to the registration
   // method using Similarity2D transform.}
-  // \label{fig:FixedMovingImageRegistration5}
+  // \label{fig:FixedMovingImageRegistration7}
   // \end{figure}
   //
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=5cm]{ImageRegistration5Output.eps}
-  // \includegraphics[width=5cm]{ImageRegistration5DifferenceBefore.eps}
-  // \includegraphics[width=5cm]{ImageRegistration5DifferenceAfter.eps} 
+  // \includegraphics[width=5cm]{ImageRegistration7Output.eps}
+  // \includegraphics[width=5cm]{ImageRegistration7DifferenceBefore.eps}
+  // \includegraphics[width=5cm]{ImageRegistration7DifferenceAfter.eps} 
   // \caption{Resampled moving image (left). Differences between fixed and
   // moving images, before (center) and after (right) registration with the
   // Similarity2D transform.}
-  // \label{fig:ImageRegistration5Outputs}
+  // \label{fig:ImageRegistration7Outputs}
   // \end{figure}
   //
-  // Figure \ref{fig:ImageRegistration5Outputs} shows the output of the
+  // Figure \ref{fig:ImageRegistration7Outputs} shows the output of the
   // registration. The right most image of this Figure shows the squared
   // magnitude of pixel differences between the fixed image and the resampled
-  // moving image. It can be seen on the difference image that the rotational
-  // component was solved but a centering miss-registration persists.
+  // moving image. 
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=5cm]{ImageRegistration5TraceMetric.eps}
-  // \includegraphics[height=5cm]{ImageRegistration5TraceAngle.eps}
-  // \includegraphics[height=5cm]{ImageRegistration5TraceTranslations.eps} 
+  // \includegraphics[height=5cm]{ImageRegistration7TraceMetric.eps}
+  // \includegraphics[height=5cm]{ImageRegistration7TraceAngle.eps}
+  // \includegraphics[height=5cm]{ImageRegistration7TraceTranslations.eps} 
   // \caption{Plots of the Metric, rotation angle and translations during the registration using 
   // Similarity2D transform.}
-  // \label{fig:ImageRegistration5Plots}
+  // \label{fig:ImageRegistration7Plots}
   // \end{figure}
   //
-  //  Figure \ref{fig:ImageRegistration5Plots} shows the plots of the main
+  //  Figure \ref{fig:ImageRegistration7Plots} shows the plots of the main
   //  output parameters of the registration process. The metric values at every
   //  iteration are shown on the top. The angle values are shown in the plot at
   //  left while the translation components of the registration are presented
@@ -545,98 +551,6 @@ int main( int argc, char **argv )
     difference->SetInput2( movingImageReader->GetOutput() );
     writer2->Update();
     }
-
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  Let's now consider the case in which rotations and translations are
-  //  simultaneously present in the miss-registration. For example in the pair
-  //  of images:
-  //  
-  //  \begin{itemize}
-  //  \item \code{BrainProtonDensitySliceBorder20.png} 
-  //  \item \code{BrainProtonDensitySliceR10X13Y17.png}
-  //  \end{itemize}
-  //
-  //  The second image is the result of intentionally rotating the first image
-  //  by $10$ degrees and then translation it $13mm$ in $X$ and $17mm$ in $Y$.
-  //  Both images have unit-spacing and are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration5b}. In order to accelerate
-  //  convergence it is convenient here to use a larger step length. For
-  //  example, with the following change:
-  //
-  //  \code{optimizer->SetMaximumStepLength( 1.0 );}
-  //
-  //  The registration takes now $92$ iterations and produce as result the
-  //  parameters:
-  //
-  //  \begin{center}
-  //  \begin{verbatim}
-  //  [0.174474, 109.658, 129.124, 12.9044, 15.8459]
-  //  \end{verbatim}
-  //  \end{center}
-  //
-  //  That are interpreted as
-  //
-  //  \begin{itemize}
-  //  \item Angle         =                     $0.174474$   radians
-  //  \item Center        = $( 109.658     , 129.124      )$ millimeters
-  //  \item Translation   = $(  12.9044    ,  15.8459     )$ millimeters
-  //  \end{itemize}
-  //  
-  //  These values reasonably match the miss-registration intentionally
-  //  introduced in the moving image. Since $10$ degrees is about $0.174532$
-  //  radians. The horizontal translation is well resolved while the vertical
-  //  translation ends up being off by a bit more than one millimeter.
-  //
-  // \begin{figure}
-  // \center
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceR10X13Y17S12.eps}
-  // \caption{Fixed and Moving image provided as input to the registration
-  // method using Similarity2D transform.}
-  // \label{fig:FixedMovingImageRegistration5b}
-  // \end{figure}
-  //
-  //
-  // \begin{figure}
-  // \center
-  // \includegraphics[width=5cm]{ImageRegistration5Output2.eps}
-  // \includegraphics[width=5cm]{ImageRegistration5DifferenceBefore2.eps}
-  // \includegraphics[width=5cm]{ImageRegistration5DifferenceAfter2.eps} 
-  // \caption{Resampled moving image (left). Differences between fixed and
-  // moving images, before (center) and after (right) registration with the
-  // Similarity2D transform.}
-  // \label{fig:ImageRegistration5Outputs2}
-  // \end{figure}
-  //
-  // Figure \ref{fig:ImageRegistration5Outputs2} shows the output of the
-  // registration. The right most image of this Figure shows the squared
-  // magnitude of pixel differences between the fixed image and the resampled
-  // moving image. 
-  //
-  // \begin{figure}
-  // \center
-  // \includegraphics[height=5cm]{ImageRegistration5TraceMetric2.eps}
-  // \includegraphics[height=5cm]{ImageRegistration5TraceAngle2.eps}
-  // \includegraphics[height=5cm]{ImageRegistration5TraceTranslations2.eps} 
-  // \caption{Plots of the Metric, rotation angle and translations during the registration using 
-  // Similarity2D transform on an image with rotation and translation miss-registration.}
-  // \label{fig:ImageRegistration5Plots2}
-  // \end{figure}
-  //
-  //  Figure \ref{fig:ImageRegistration5Plots2} shows the plots of the main
-  //  output parameters of the registration process for the rotation and
-  //  translations combined. The metric values at every iteration are shown on
-  //  the top. The angle values are shown in the plot at left while the
-  //  translation components of the registration are presented in the plot at
-  //  right. It can be seen from the smoothness of these plots that a larger
-  //  step length could have been easily supported by the optimizer. You may
-  //  want to play with this value in order to get a better feeling of how to
-  //  tune this parameters.
-  //
-  //  Software Guide : EndLatex 
 
 
   return 0;
