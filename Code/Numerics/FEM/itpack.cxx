@@ -124,6 +124,16 @@ inline double d_lg10(doublereal *x)
 return( 0.43429448190325182765 * log(*x) );
 }
 
+inline double d_sqrt(doublereal *x)
+{
+return( sqrt(*x) );
+}
+
+inline double d_log(doublereal *x)
+{
+return( log(*x) );
+}
+
 inline double d_sign(doublereal *a, doublereal *b)
 {
 double x;
