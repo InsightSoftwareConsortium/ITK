@@ -210,10 +210,12 @@ void
 ImportImageFilter<TPixel, VImageDimension>
 ::SetSpacing( const SpacingType & spacing )
 {
+  double dspacing[VImageDimension];
   for(unsigned int i=0; i<VImageDimension; i++)
     {
-    m_Spacing[i] = spacing[i];
+    dspacing[i] = spacing[i];
     }
+  this->SetSpacing( dspacing );
 }
 
 
@@ -225,10 +227,12 @@ void
 ImportImageFilter<TPixel, VImageDimension>
 ::SetOrigin( const OriginType & origin )
 {
+  double dorigin[VImageDimension];
   for(unsigned int i=0; i<VImageDimension; i++)
     {
-    m_Origin[i] = origin[i];
+    dorigin[i] = origin[i];
     }
+  this->SetOrigin( dorigin );
 }
 
 
