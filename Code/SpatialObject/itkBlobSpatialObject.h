@@ -99,7 +99,7 @@ public:
   /** Test whether a point is inside or outside the object 
    *  For computational speed purposes, it is faster if the method does not
    *  check the name of the class and the current depth */ 
-  virtual bool IsInside( const PointType & point) const;
+  bool IsInside( const PointType & point) const;
 
   /** Compute the boundaries of the Blob. */
   bool ComputeLocalBoundingBox() const;
