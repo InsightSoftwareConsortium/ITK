@@ -67,8 +67,12 @@ public:
   /** Kernel (structuring element) iterator */
   typedef typename KernelType::ConstIterator KernelIteratorType ;
  
-  typedef NeighborhoodIterator<TOutputImage>
-  OutputNeighborhoodIteratorType ;
+  typedef NeighborhoodIterator<TOutputImage> OutputNeighborhoodIteratorType ;
+
+  /** Default boundary condition type */
+  typedef typename Superclass::DefaultBoundaryConditionType 
+                                             DefaultBoundaryConditionType;
+
 
   /** Set the value to be assigned to eroded pixels */
   itkSetMacro(BackgroundValue, PixelType);
@@ -93,6 +97,10 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   PixelType m_BackgroundValue;
+
+  // Default boundary condition for erosion filter, defaults to
+  // NumericTraits<PixelType>::max()
+  DefaultBoundaryConditionType m_ErodeBoundaryCondition;
 
 } ; // end of class
 

@@ -25,6 +25,10 @@ template<class TInputImage, class TOutputImage, class TKernel>
 DilateObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::DilateObjectMorphologyImageFilter()
 {
+  m_DilateBoundaryCondition.SetConstant( 
+                                NumericTraits<PixelType>::NonpositiveMin() );
+  this->OverrideBoundaryCondition( &m_DilateBoundaryCondition );
+
 }
 
 

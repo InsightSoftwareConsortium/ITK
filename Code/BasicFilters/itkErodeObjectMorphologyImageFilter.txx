@@ -26,6 +26,10 @@ ErodeObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::ErodeObjectMorphologyImageFilter()
 {
   m_BackgroundValue = NumericTraits< PixelType >::Zero;
+
+  m_ErodeBoundaryCondition.SetConstant( NumericTraits<PixelType>::max() );
+  this->OverrideBoundaryCondition( &m_ErodeBoundaryCondition );
+
 }
 
 template<class TInputImage, class TOutputImage, class TKernel>

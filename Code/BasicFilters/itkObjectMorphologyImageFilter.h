@@ -21,6 +21,7 @@
 #include "itkNeighborhoodIterator.h"
 #include "itkNeighborhood.h"
 #include "itkConstSliceIterator.h"
+#include "itkConstantBoundaryCondition.h"
 #include "itkImageBoundaryCondition.h"
 #include "itkImageRegionIterator.h"
 
@@ -90,6 +91,13 @@ public:
   typedef typename TInputImage::IndexType IndexType ;
   typedef typename TInputImage::PixelType PixelType ;
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+
+  typedef ImageBoundaryCondition<InputImageType> * 
+               ImageBoundaryConditionPointerType;
+  typedef ImageBoundaryCondition<InputImageType> const * 
+               ImageBoundaryConditionConstPointerType;
+  typedef ConstantBoundaryCondition<InputImageType> 
+               DefaultBoundaryConditionType;
   
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -130,6 +138,34 @@ public:
    * the request is cropped by the LargestPossibleRegion. */
   void GenerateInputRequestedRegion() ;
 
+  /** Allows a user to override the internal boundary condition. Care should be
+   * be taken to ensure that the overriding boundary condition is a persistent
+   * object during the time it is referenced.  The overriding condition
+   * can be of a different type than the default type as long as it is
+   * a subclass of ImageBoundaryCondition. 
+   * NOTE: Don't foget to set UseBoundaryCondition to true! */
+  void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
+    { m_BoundaryCondition = i; }
+
+  /** Rest the boundary condition to the default */
+  void ResetBoundaryCondition()
+    { m_BoundaryCondition = &m_DefaultBoundaryCondition; }
+  
+  /** Get the current boundary condition. */
+  itkGetMacro(BoundaryCondition, ImageBoundaryConditionPointerType);
+
+  /** Enable/disable the use of boundary condition.  Defaults to false.
+   * if false, a neighborhood operator extends outside an image, it does
+   * not consider that outside extent when determining if a pixel is on
+   * an object's boundary. */
+  itkSetMacro(UseBoundaryCondition, bool);
+
+  /** Enable/disable the use of boundary condition.  Defaults to false.
+   * if false, a neighborhood operator extends outside an image, it does
+   * not consider that outside extent when determining if a pixel is on
+   * an object's boundary. */
+  itkGetMacro(UseBoundaryCondition, bool);
+
 protected:
   ObjectMorphologyImageFilter();
   ~ObjectMorphologyImageFilter() {};
@@ -150,6 +186,16 @@ protected:
    * non-ObjectValue pixel. */
   bool IsObjectPixelOnBoundary(const InputNeighborhoodIteratorType &nit);
 
+  /** Pointer to a persistent boundary condition object used
+   * for the image iterator. */
+  ImageBoundaryConditionPointerType m_BoundaryCondition;
+
+  /** Default boundary condition */
+  DefaultBoundaryConditionType m_DefaultBoundaryCondition;
+
+  /** Defaults to false */
+  bool m_UseBoundaryCondition;
+
   /** kernel or structuring element to use. */
   KernelType m_Kernel ;
 
@@ -161,6 +207,8 @@ protected:
 private:
   ObjectMorphologyImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  
 
 } ; // end of class
 

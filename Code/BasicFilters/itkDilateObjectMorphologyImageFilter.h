@@ -68,8 +68,10 @@ public:
   typedef typename KernelType::ConstIterator KernelIteratorType;
 
   /** duplicates from base class to avoid compiler warnings */
-  typedef NeighborhoodIterator<TOutputImage>
-  OutputNeighborhoodIteratorType ;
+  typedef NeighborhoodIterator<TOutputImage> OutputNeighborhoodIteratorType ;
+
+  typedef typename Superclass::DefaultBoundaryConditionType 
+                                             DefaultBoundaryConditionType ;
 
 protected:
   DilateObjectMorphologyImageFilter();
@@ -86,6 +88,11 @@ protected:
 private:
   DilateObjectMorphologyImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  // Default boundary condition for dilation filter, defaults to
+  // NumericTraits<PixelType>::NonpositiveMin()
+  DefaultBoundaryConditionType m_DilateBoundaryCondition;
+
 
 } ; // end of class
 

@@ -33,6 +33,11 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::ObjectMorphologyImageFilter()
   : m_Kernel()
 {
+  m_DefaultBoundaryCondition.SetConstant( NumericTraits<PixelType>::Zero );
+  m_BoundaryCondition = &m_DefaultBoundaryCondition;
+
+  m_UseBoundaryCondition = false;
+
   m_ObjectValue = NumericTraits<PixelType>::One;
   //this->SetNumberOfThreads(1);
 }
@@ -132,10 +137,6 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     ++iRegIter;
     }
 
-  // Is this the right boundary condition for all morphology operations?
-  ConstantBoundaryCondition<TInputImage> BC;
-  BC.SetConstant( NumericTraits<PixelType>::Zero );
-
   // Find the boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>
     ::FaceListType faceList;
@@ -160,12 +161,12 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     { 
     oSNIter = OutputNeighborhoodIteratorType(m_Kernel.GetRadius(),
                                              this->GetOutput(), *fit);
-    oSNIter.OverrideBoundaryCondition(&BC);
+    oSNIter.OverrideBoundaryCondition(m_BoundaryCondition);
     oSNIter.GoToBegin();
 
     iSNIter = InputNeighborhoodIteratorType(bKernelSize,
                                             this->GetInput(), *fit);
-    iSNIter.OverrideBoundaryCondition(&BC);
+    iSNIter.OverrideBoundaryCondition(m_BoundaryCondition);
     iSNIter.GoToBegin();
     
     while ( ! iSNIter.IsAtEnd() )
@@ -195,10 +196,13 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     (unsigned int)pow((double)3.0,
                       (double)(ImageDimension));
 
+  PixelType tf;
   unsigned int i;
+  bool isInside = true;
   for(i=0; i<s; i++)
     {
-    if(iNIter.GetPixel(i) != m_ObjectValue)
+    tf = iNIter.GetPixel(i, isInside);
+    if(tf != m_ObjectValue && (m_UseBoundaryCondition || isInside))
       {
       return true;
       }
@@ -213,6 +217,12 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  os << indent << "Boundary condition: " 
+               << typeid( *m_BoundaryCondition ).name() << std::endl;
+  os << indent << "Use boundary condition: " 
+               << m_UseBoundaryCondition << std::endl;
+
   os << indent << "ObjectValue: " << m_ObjectValue << std::endl;
   os << indent << "Kernel: " << m_Kernel << std::endl;
 }
