@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkImageLinearIterator_h
 #define __itkImageLinearIterator_h
 
-#include "itkImageIteratorWithIndex.h"
+#include "itkImageIterator.h"
 
 namespace itk
 {
@@ -100,7 +100,7 @@ namespace itk
  *
  */
 template<typename TImage>
-class ImageLinearIterator : public ImageIteratorWithIndex<TImage>
+class ImageLinearIterator : public ImageIterator<TImage>
 {
 public:
   /**
@@ -111,7 +111,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageIteratorWithIndex<TImage>  Superclass;
+  typedef ImageIterator<TImage>  Superclass;
 
   /** 
    * Index typedef support. While this was already typdef'ed in the superclass
@@ -148,7 +148,7 @@ public:
   /**
    * Default constructor. Needed since we provide a cast constructor.
    */
-  ImageLinearIterator() : ImageIteratorWithIndex<TImage>() {}
+  ImageLinearIterator() : ImageIterator<TImage>() {}
   
   /**
    * Constructor establishes an iterator to walk a particular image and a
@@ -156,7 +156,7 @@ public:
    */
   ImageLinearIterator(ImageType *ptr,
                       const RegionType& region)
-    : ImageIteratorWithIndex<TImage>( ptr, region ) {}
+    : ImageIterator<TImage>( ptr, region ) {}
 
   /**
    * Constructor that can be used to cast from an ImageIterator to an
@@ -166,8 +166,8 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageLinearIterator.
    */
-  ImageLinearIterator( const ImageIteratorWithIndex<TImage> &it)
-    { this->ImageIteratorWithIndex<TImage>::operator=(it); }
+  ImageLinearIterator( const ImageIterator<TImage> &it)
+    { this->ImageIterator<TImage>::operator=(it); }
 
   /**
    * Go to the next line inside the defined region
