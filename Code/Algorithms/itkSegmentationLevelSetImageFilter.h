@@ -81,7 +81,13 @@ namespace itk {
  The FeatureScaling parameter controls the magnitude of the features calculated
  for use in the level set propagation speed.  This is important in controlling
  the relative effect of the feature values versus the curvature values (and possibly other
- terms).
+ terms).  Default value is 1.0.
+
+ \par
+ The CurvatureScaling parameter controls the magnitude of the curvature values
+ which are calculated on the evolving isophote.  This is important in
+ controlling the relative effect of curvature in the calculation.  Default
+ value is 1.0.
  
  \todo Use a second input image for the feature image instead of keeping the
  feature image as a parameter.  This may be tricky because the feature image
@@ -163,6 +169,10 @@ public:
   itkSetMacro(FeatureScaling, ValueType);
   itkGetMacro(FeatureScaling, ValueType);
 
+  /** Set/Get the scaling of the curvature. */
+  itkSetMacro(CurvatureScaling, ValueType);
+  itkGetMacro(CurvatureScaling, ValueType);
+
   /** Set the segmentation function.  In general, this should only be called by a subclass
    *  of this object. It is made public to allow itk::Command objects access. */
   virtual void SetSegmentationFunction(SegmentationFunctionType *s);
@@ -198,6 +208,9 @@ protected:
 
   /** Scalar parameter for propagation speed.*/
   ValueType m_FeatureScaling;
+
+  /** Scalar parameter for curvature.*/
+  ValueType m_CurvatureScaling;
   
 private:
   unsigned int m_MaximumIterations;

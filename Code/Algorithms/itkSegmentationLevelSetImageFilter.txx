@@ -30,7 +30,8 @@ SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
   os << indent << "m_MaximumRMSError = "      << m_MaximumRMSError     << std::endl;
   os << indent << "m_MaximumIterations = "    << m_MaximumIterations   << std::endl;
   os << indent << "m_UseNegativeFeatures = "  << m_UseNegativeFeatures << std::endl;
-  os << indent << "m_FeatureScaling = "   << m_FeatureScaling  << std::endl;  
+  os << indent << "m_FeatureScaling = "   << m_FeatureScaling  << std::endl;
+  os << indent << "m_CurvatureScaling = "   << m_CurvatureScaling  << std::endl;  
 }
 
 template <class TInputImage, class TOutputImage>
@@ -76,6 +77,9 @@ SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
 
   // Set the propagation speed scaling
   m_SegmentationFunction->SetPropagationWeight(m_FeatureScaling);
+
+  // Set the propagation speed scaling
+  m_SegmentationFunction->SetCurvatureWeight(m_CurvatureScaling);
   
   // A positive speed value implies positive outside, negative inside: the
   //  opposite of the default.
