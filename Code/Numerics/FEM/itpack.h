@@ -59,7 +59,9 @@ namespace itpack {
 
 
 /**
- * jacobian conjugate gradient
+ * Jacobian conjugate gradient
+ *
+ * \param nn Order of linear system
  * \param ia array of row offsets
  * \param ja array of column indices
  * \param a array of matrix values
@@ -76,7 +78,9 @@ extern int jcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal
 
 
 /**
- * jacobian semi-iteration
+ * Jacobian semi-iteration
+ *
+ * \param nn Order of linear system
  * \param ia array of row offsets
  * \param ja array of column indices
  * \param a array of matrix values
@@ -93,7 +97,9 @@ extern int jsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal
 
 
 /**
- * successive overrelaxation
+ * Successive overrelaxation
+ *
+ * \param nn Order of linear system
  * \param ia array of row offsets
  * \param ja array of column indices
  * \param a array of matrix values
@@ -110,7 +116,9 @@ extern int sor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal
 
 
 /**
- * symmetric successive overrelaxation conjugate gradient
+ * Symmetric successive overrelaxation conjugate gradient
+ *
+ * \param nn Order of linear system
  * \param ia array of row offsets
  * \param ja array of column indices
  * \param a array of matrix values
@@ -127,7 +135,9 @@ extern int ssorcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doubler
 
 
 /** 
- * symmetric successive overrelaxation semi-iteration
+ * Symmetric successive overrelaxation semi-iteration
+ *
+ * \param nn Order of linear system
  * \param ia array of row offsets
  * \param ja array of column indices
  * \param a array of matrix values
@@ -144,7 +154,9 @@ extern int ssorsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doubler
 
 
 /**
- * reduced system conjugate gradient
+ * Reduced system conjugate gradient
+ *
+ * \param nn Order of linear system
  * \param ia array of row offsets
  * \param ja array of column indices
  * \param a array of matrix values
@@ -161,7 +173,9 @@ extern int rscg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublerea
 
 
 /**
- * reduced system semi-iteration
+ * Reduced system semi-iteration
+ *
+ * \param nn Order of linear system
  * \param ia array of row offsets
  * \param ja array of column indices
  * \param a array of matrix values
@@ -236,19 +250,6 @@ extern int qsort_(integer *nn, integer *key, doublereal *data, integer *error);
 
 /**
  * Convert compressed row matrix back to linked-list representation used for adding entires
- * \param nn order of matrix
- * \param nz maximum number of non-zero values
- * \param ia array of row offsets
- * \param ja array of column indices
- * \param a array of matrix values
- * \param iwork workspace array used by itpack
- * \param i row index of value to add
- * \param j column index of value to add
- * \param value value to add
- * \param mode flag for type of adding to be done
- * \param level specifier for level of output
- * \param nout specifier for output
- * \param ier holds error flag on return
  */
 extern int sbagn_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a, integer *iwork, integer *levell, integer *noutt, integer *ierr);
 extern int sbelm_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, integer *iw, doublereal *rw, doublereal *tol, integer *isym, integer *level, integer *nout, integer *ier);
@@ -263,7 +264,7 @@ extern int sbelm_(integer *nn, integer *ia, integer *ja, doublereal *a, doublere
  * \param a array of matrix values
  * \param iwork workspace array used by itpack
  */
-extern int sbend_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a, integer *iwork);
+extern int sbend_(integer *nn, integer *nz, integer *ia, integer *ja, doublereal *a, integer *iwork);
 
 
 /**
@@ -273,9 +274,9 @@ extern int sbend_(integer *n, integer *nz, integer *ia, integer *ja, doublereal 
  * \param ia array of row offsets
  * \param ja array of column indices
  * \param a array of matrix values
- * \param i work workspace array used by itpack
+ * \param iwork workspace array used by itpack
  */
-extern int sbini_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a, integer *iwork);
+extern int sbini_(integer *nn, integer *nz, integer *ia, integer *ja, doublereal *a, integer *iwork);
 
 
 /**
@@ -286,15 +287,15 @@ extern int sbini_(integer *n, integer *nz, integer *ia, integer *ja, doublereal 
  * \param ja array of column indices
  * \param a array of matrix values
  * \param iwork workspace array used by itpack
- * \param i row index of value to add
- * \param j column index of value to add
- * \param value value to add
+ * \param ii row index of value to add
+ * \param jj column index of value to add
+ * \param vall value to add
  * \param mode flag for type of adding to be done
- * \param level specifier for level of output
- * \param nout specifier for output
- * \param ier holds error flag on return
+ * \param levell specifier for level of output
+ * \param noutt specifier for output
+ * \param ierr holds error flag on return
  */
-extern int sbsij_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a, integer *iwork, integer *ii, integer *jj, doublereal *vall, integer *mode, integer *levell, integer *noutt, integer *ierr);
+extern int sbsij_(integer *nn, integer *nz, integer *ia, integer *ja, doublereal *a, integer *iwork, integer *ii, integer *jj, doublereal *vall, integer *mode, integer *levell, integer *noutt, integer *ierr);
 
 
 extern int scal_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u, doublereal *d__, integer *level, integer *nout, integer *ier);
@@ -309,9 +310,9 @@ extern int vevpw_(integer *n, doublereal *v, doublereal *w);
 
 /** 
  * Fill all entires of nn-sized array u with value
- * \param nn size of array
- * \param u array
- * \param value value to fill array with
+ * \param n size of array
+ * \param v array
+ * \param val value to fill array with
  */ 
 extern int vfill_(integer *n, doublereal *v, doublereal *val);
 extern int vout_(integer *n, doublereal *v, integer *iswt, integer *noutt);

@@ -55,9 +55,12 @@
 #endif
 #endif
 
+
+/*
+ * Required includes and typedefs for code created with f2c
+ */
+#include "itpack_f2c.h"
 #include <math.h>
-
-
 
 namespace itk {
 namespace fem {
@@ -67,14 +70,6 @@ namespace itpack {
  * \namespace itk::fem::itpack
  * \brief ITPACK numeric library is stored in this namespace.
  */
-
-
-
-
-/*
- * Required includes and typedefs for code created with f2c
- */
-#include "itpack_f2c.h"
 
 
 
