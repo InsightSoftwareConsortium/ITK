@@ -91,6 +91,26 @@ KernelTransform<TScalarType, NDimensions>::Getq()
  *
  */
 template <class TScalarType, int NDimensions>
+void 
+KernelTransform<TScalarType, NDimensions>::Setp(const PointSetPointer p)
+{
+	m_p = p;
+}
+
+/**
+ *
+ */
+template <class TScalarType, int NDimensions>
+void 
+KernelTransform<TScalarType, NDimensions>::Setq(const PointSetPointer q)
+{
+	m_q = q;
+}
+
+/**
+ *
+ */
+template <class TScalarType, int NDimensions>
 KernelTransform<TScalarType, NDimensions>::VectorListType*
 KernelTransform<TScalarType, NDimensions>::Getd()
 {

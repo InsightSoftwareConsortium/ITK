@@ -75,9 +75,17 @@ public:
    */
 	PointSetPointer Getp();
   /**
+   * Set the source landmarks list
+   */
+	void Setp(const PointSetPointer p);
+  /**
    * Get the target landmarks list, which we will denote q
    */
 	PointSetPointer Getq();
+  /**
+   * Set the target landmarks list
+   */
+	void Setq(const PointSetPointer q);
   /**
    * Get the displacements list, which we will denote d,
    * where d_i = q_i - p_i
