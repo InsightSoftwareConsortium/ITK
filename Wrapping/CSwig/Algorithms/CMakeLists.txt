@@ -12,6 +12,11 @@ SET(WRAP_SOURCES
     wrap_itkMeanReciprocalSquareDifferenceImageToImageMetric
     wrap_itkSimpleFuzzyConnectednessImageFilterBase
     wrap_itkSimpleFuzzyConnectednessScalarImageFilter
+    wrap_itkThresholdSegmentationLevelSetImageFilter
+    wrap_itkGeodesicActiveContourLevelSetImageFilter
+    wrap_itkShapeDetectionLevelSetImageFilter
+    wrap_itkCurvesLevelSetImageFilter
+    wrap_itkNarrowBandCurvesLevelSetImageFilter
 )
 
 # loop over cable config files creating two lists:
