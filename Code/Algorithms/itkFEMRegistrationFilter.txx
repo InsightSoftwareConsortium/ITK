@@ -104,6 +104,7 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::FEMRegistrationFilter( )
   m_FloatImage=NULL;
   m_Field=NULL;
   m_TotalField=NULL;
+  m_Load = 0;
 }
 
 
