@@ -145,16 +145,16 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
   radius.Fill(VRadius);
 
   // Initialize the neighborhood
-  m_Neighborhood.Initialize(radius,image, image->GetBufferedRegion());
+  IteratorType it = IteratorType(radius, image, image->GetBufferedRegion());
 
   // Compute the offset tables (we ignore all the zero indices
   // in the neighborhood)
   unsigned int iOffset = 0;
   int empty = VRadius;
-  for(unsigned int iPos = 0; iPos < m_Neighborhood.Size(); iPos++)
+  for(unsigned int iPos = 0; iPos < it.Size(); iPos++)
     {
     // Get the offset (index)
-    typename IteratorType::OffsetType off = m_Neighborhood.GetOffset(iPos);
+    typename IteratorType::OffsetType off = it.GetOffset(iPos);
 
     // Check if the offset has zero weights
     bool nonzero = true;
@@ -243,7 +243,10 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
   // cout << "Sampling at index " << index << " discrete " << baseIndex << endl;
 
   // Position the neighborhood at the index of interest
-  m_Neighborhood.SetLocation( baseIndex );
+  Size<ImageDimension> radius;
+  radius.Fill(VRadius);
+  IteratorType nit = IteratorType( radius, m_Image, m_Image->GetBufferedRegion());
+  nit.SetLocation( baseIndex );
   
   // Compute the sinc function for each dimension
   double xWeight[ImageDimension][2 * VRadius];
@@ -287,7 +290,7 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
     unsigned int off = m_OffsetTable[j];
     
     // Get the intensity value at the pixel
-    double xVal = m_Neighborhood.GetPixel(off);
+    double xVal = nit.GetPixel(off);
 
     // Multiply the intensity by each of the weights. Gotta hope
     // that the compiler will unwrap this loop and pipeline this!

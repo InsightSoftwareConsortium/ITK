@@ -199,29 +199,21 @@ private:
 
   \par CAVEATS
 
-  There are a few improvements that an enthusiasting ITK developer could
-  make to this filter. First, there is a performance issue associated
-  with creating an internal copy of the m_Neighborhood object in the
-  method EvaluateAtContnuousIndex. This has to do with the fact that the
-  latter method is const, and I wanted to use the SetLocation method of
-  m_Neighborhood. One solution would be to not use neighborhood
-  iterators, another to make the method not const in the interpolation
-  function hierarchy.
-
-  \par
-  The second issue is with the way that the kernel is applied. The
-  computational expense comes from two sources: computing the kernel
-  weights K(t) and multiplying the pixels in the window by the kernel
-  weights. The first is done more or less efficiently in \f$ 2 m d \f$
-  operations (where d is the dimensionality of the image). The second
-  can be done better. Presently, each pixel \f$ I(i,j,k) \f$ is 
-  multiplied by the weights \f$ K(x-i), K(y-j), K(z-k) \f$ and added to
-  the running total. This results in \f$ d (2m)^d \f$ multiplication
+  There are a few improvements that an enthusiasting ITK developer
+  could make to this filter. One issue is with the way that the kernel
+  is applied. The computational expense comes from two sources:
+  computing the kernel weights K(t) and multiplying the pixels in the
+  window by the kernel weights. The first is done more or less
+  efficiently in \f$ 2 m d \f$ operations (where d is the
+  dimensionality of the image). The second can be done
+  better. Presently, each pixel \f$ I(i,j,k) \f$ is multiplied by the
+  weights \f$ K(x-i), K(y-j), K(z-k) \f$ and added to the running
+  total. This results in \f$ d (2m)^d \f$ multiplication
   operations. However, by keeping intermediate sums, it would be
-  possible to do the operation in \f$ O ( (2m)^d ) \f$ operations. This
-  would require some creative coding. In addition, in the case when one
-  of the coordinates is integer, the computation could be reduced by an
-  order of magnitude.
+  possible to do the operation in \f$ O ( (2m)^d ) \f$
+  operations. This would require some creative coding. In addition, in
+  the case when one of the coordinates is integer, the computation
+  could be reduced by an order of magnitude.
  
   \sa LinearInterpolateImageFunction ResampleImageFilter
   \sa Function::HammingWindowFunction 
@@ -301,9 +293,6 @@ private:
 
   // Constant to store twice the radius
   static const unsigned int m_WindowSize;
-
-  /** Neighborhood iterator used to access the pixels in the window */
-  mutable IteratorType m_Neighborhood;
 
   /** The function object, used to compute window */
   TWindowFunction m_WindowFunction;
