@@ -37,7 +37,6 @@ BlobSpatialObject< TDimension, PipelineDimension >
   m_Property->SetGreen(0); 
   m_Property->SetBlue(0); 
   m_Property->SetAlpha(1); 
-  ComputeBounds();
 } 
 
 /** Destructor */ 
@@ -52,6 +51,16 @@ template< unsigned int TDimension , unsigned int PipelineDimension >
 typename BlobSpatialObject< TDimension, PipelineDimension > ::PointListType &  
 BlobSpatialObject< TDimension, PipelineDimension > 
 ::GetPoints() 
+{ 
+  itkDebugMacro( "Getting BlobPoint list" );
+  return m_Points;
+} 
+
+/** Get the list of points which are defining the blob */
+template< unsigned int TDimension , unsigned int PipelineDimension >
+typename BlobSpatialObject< TDimension, PipelineDimension > ::ConstPointListType &  
+BlobSpatialObject< TDimension, PipelineDimension > 
+::GetPoints() const
 { 
   itkDebugMacro( "Getting BlobPoint list" );
   return m_Points;
@@ -108,13 +117,17 @@ BlobSpatialObject< TDimension, PipelineDimension >
     points->Initialize();
 
     for(unsigned int i=0; it!= end; it++, i++ ) 
-    {     
+    {  
       points->InsertElement(i,(*it)->GetPosition());
     } 
 
     m_Bounds->SetPoints(points);
     m_Bounds->ComputeBoundingBox();
     m_BoundsMTime.Modified();
+  }
+  else
+  {
+    this->Modified();
   }
 } 
 

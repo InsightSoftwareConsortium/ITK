@@ -56,6 +56,7 @@ public:
   typedef SpatialObjectPoint< TDimension >            BlobPointType;
   typedef typename BlobPointType::Pointer             BlobPointPointer; 
   typedef std::list < BlobPointPointer >              PointListType;
+  typedef const std::list < BlobPointPointer >        ConstPointListType;
   typedef typename Superclass::PointType              PointType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
   typedef SmartPointer<PointContainerType>            PointContainerPointer;
@@ -68,6 +69,9 @@ public:
   
   /** Returns a reference to the list of the Blob points. */
   PointListType & GetPoints( void );
+
+ /** Returns a reference to the list of the Blob points. */
+  ConstPointListType & GetPoints( void ) const;
 
   /** Set the list of Blob points.*/
   void SetPoints( PointListType & newPoints );
