@@ -76,9 +76,6 @@ public:
   typedef Image<InputPixelType,itkGetStaticConstMacro(IntermediateImageDimension)> IntermediateImageType;
   typedef InterpolateImageFunction<IntermediateImageType> InterpolatorType;
 
-  /** Input image type. */
-  typedef typename Superclass::InputImageType InputImageType;
-
   /** Set/Get the first image */
    void SetInput1( const InputImageType * image)
     { this->SetInput( image ); }
