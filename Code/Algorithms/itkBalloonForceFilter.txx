@@ -150,12 +150,14 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 //  m_ImageDePixelTypeh  = ImageSize[2];
 
   float d[3] = {0,0,0};
+  itk::Point<float, 3> tmp;
 
 //  TimeStep = 0.001; 
 
   while( points != myPoints->End() )
   {
   locations.Value() = points.Value();
+  tmp = locations.Value();
     ++points;
     ++locations;
   }
@@ -828,16 +830,13 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     s = points.Value();
     d = displacements.Value();
     s[0] += m_TimeStep*ds[0]; 
-    s[1] += m_TimeStep*ds[1]; 
-    s[2] += m_TimeStep*ds[2]; 
+    s[1] += m_TimeStep*ds[1];
     if ( m_GradientBegin ) {
       d[0] += m_TimeStep*ds[0]; 
       d[1] += m_TimeStep*ds[1]; 
-      d[2] += m_TimeStep*ds[2]; 
     } else {
       d[0] = 0;
       d[1] = 0;
-      d[2] = 0;
     }
 
     /** do not update the displacements if the nodes is moving out of the image region. */
