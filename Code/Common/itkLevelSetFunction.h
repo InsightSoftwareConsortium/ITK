@@ -199,6 +199,7 @@ public:
       GlobalDataStruct *ans = new GlobalDataStruct();
       ans->m_MaxAdvectionChange   = NumericTraits<ScalarValueType>::Zero;
       ans->m_MaxPropagationChange = NumericTraits<ScalarValueType>::Zero;
+      ans->m_MaxCurvatureChange   = NumericTraits<ScalarValueType>::Zero;
       return ans; 
     }
 
