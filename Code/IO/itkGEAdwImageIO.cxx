@@ -131,6 +131,7 @@ struct GEImageHeader *GEAdwImageIO::ReadHeader(const char *FileNameToRead)
   this->GetShortAt(f,GE_ADW_IM_CPHASENUM,&(hdr->turboFactor));
 
   this->GetFloatAt(f,GE_ADW_IM_SLTHICK,&(hdr->sliceThickness));
+  hdr->sliceGap = 0.0;
 
   this->GetShortAt(f,GE_ADW_IM_IMATRIX_X,&(hdr->imageXsize));
 

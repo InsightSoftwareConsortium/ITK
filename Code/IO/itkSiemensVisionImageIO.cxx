@@ -153,6 +153,8 @@ struct GEImageHeader *SiemensVisionImageIO::ReadHeader(const char *FileNameToRea
   this->GetStringAt(f, TEXT_SLICE_THCK,tmpStr, TEXT_SLICE_THCK_LEN);
   tmpStr[TEXT_SLICE_THCK_LEN] = '\0';
   hdr->sliceThickness = atoi(tmpStr);
+  hdr->sliceGap = 0.0;
+
   DB(hdr->sliceThickness );
   
   this->GetIntAt(f, HDR_DISPLAY_SIZE, &tmpInt, sizeof (int));
