@@ -23,6 +23,16 @@
 // \index{itk::SpatialObjectTransforms} This example describes the different
 // transformations associated with a spatial object.
 //
+//  
+// \begin{figure} \center
+// \includegraphics[width=0.9\textwidth]{SpatialObjectTransforms.eps}
+// \itkcaption[SpatialObject Transformations]{Set of transformations associated
+// with a Spatial Object}
+// \label{fig:SpatialObjectTransforms}
+// \end{figure}
+//
+// Figure~\ref{fig:SpatialObjectTransforms} shows our set of transformations.
+//
 // Software Guide : EndLatex 
 
 #include "itkSpatialObject.h"
@@ -32,7 +42,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Like the previous example, we create two spatial objects and give them the
+// Like the first example, we create two spatial objects and give them the
 // names \code{First Object} and \code{Second Object}, respectively.
 //
 // Software Guide : EndLatex 
@@ -212,14 +222,14 @@ int main( int , char *[] )
 //
 //  
 // \begin{figure} \center
-// \includegraphics[width=0.5\textwidth]{SpatialObjectTransforms.eps}
+// \includegraphics[width=0.5\textwidth]{SpatialObjectExampleTransforms.eps}
 // \itkcaption[SpatialObject Transform Computations]{Physical positions of the
 // two objects in the world frame (shapes are merely for illustration
 // purposes).}
-// \label{fig:SpatialObjectTransforms}
+// \label{fig:SpatialObjectExampleTransforms}
 // \end{figure}
 //
-// Figure~\ref{fig:SpatialObjectTransforms} shows our set of transformations.
+// Figure~\ref{fig:SpatialObjectExampleTransforms} shows our set of transformations.
 //
 // Finally, we display the resulting affine transformations.
 // Software Guide : EndLatex 

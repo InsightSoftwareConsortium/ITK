@@ -22,8 +22,7 @@ PURPOSE.  See the above copyright notices for more information.
 //
 // \index{itk::GaussianSpatialObject}
 //
-// A \doxygen{GaussianSpatialObject} 
-// This example shows how to create a GaussianSpatiaObject which
+// This example shows how to create a \doxygen{GaussianSpatialObject} which
 // defines a gaussian in space. This object is particularly usefull
 // to query the ValueAt() a point in physical space
 // Let's begin by including the appropriate header file.
@@ -46,7 +45,7 @@ int main(int, char* [])
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // The SetMaximum() function is used to set the maximum
+  // The \code{SetMaximum()} function is used to set the maximum
   // value of the gaussian.
   // Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
@@ -54,8 +53,8 @@ int main(int, char* [])
   // Software Guide : EndCodeSnippet
   
   // Software Guide : BeginLatex
-  // SetRadius() is used to defined the radius of the gaussian.
-  // By default the radius is set to one.
+  // The radius of the gaussian is defined by the \code{SetRadius()} method.
+  // By default the radius is set to 1.0.
   // Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
   myGaussian->SetRadius(3);

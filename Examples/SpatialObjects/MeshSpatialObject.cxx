@@ -27,10 +27,11 @@
 //
 // \index{itk::MeshSpatialObject}
 //
-// A \doxygen{MeshSpatialObject} contains a \doxygen{Mesh} but adds the
+// A \doxygen{MeshSpatialObject} contains a pointer to an \doxygen{Mesh} but adds the
 // notion of spatial transformations and parent-child hierarchy. 
-// This example shows how to create a MeshSpatiaObject, create a binary image from it
-// and how to write the mesh on disk.
+// This example shows how to create an \doxygen{MeshSpatialObject}, 
+// use it to form a binary image and how to write the mesh on disk.
+//
 // Let's begin by including the appropriate header file.
 //
 // Software Guide : EndLatex 
@@ -46,9 +47,8 @@ int main(int, char * [] )
 {
   // Software Guide : BeginLatex
   //
-  // The MeshSpatialObject is a "Wrapper" to the \doxygen{Mesh} so we first 
-  // create an actual mesh. 
-  // First we define some standard type definitions:
+  // The MeshSpatialObject is a wraps an \doxygen{Mesh}, therefor we first 
+  // create a mesh.
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet  
@@ -87,7 +87,8 @@ int main(int, char * [] )
 
   // Software Guide : BeginLatex
   //
-  // We then create a MeshSpatialObject which is templated over the type of mesh...
+  // We then create a MeshSpatialObject which is templated over the type of mesh 
+  // previously defined...
   //
   // Software Guide : EndLatex 
 
@@ -115,7 +116,7 @@ int main(int, char * [] )
 
   // Software Guide : BeginLatex
   // Like any other SpatialObjects. The GetBoundingBox(), ValueAt(),
-  // IsInside() functions can be used to retrieve important information.
+  // IsInside() functions can be used to access important information.
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet  
@@ -126,8 +127,9 @@ int main(int, char * [] )
   // Software Guide : EndCodeSnippet  
 
   // Software Guide : BeginLatex
-  // Now that we have defined the MeshSpatialObject, you can save the actual mesh onto disk
-  // using the \doxygen{SpatialObjectWriter}. We need to specify the type of Mesh we are
+  // Now that we have defined the MeshSpatialObject, we can save the actual mesh
+  // using the \doxygen{SpatialObjectWriter}. To be able to do so, 
+  // we need to specify the type of Mesh we are
   // writing.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet 
@@ -146,7 +148,8 @@ int main(int, char * [] )
   // Software Guide : EndCodeSnippet 
 
   // Software Guide : BeginLatex
-  // Reading the saved mesh is done using the \doxygen{SpatialObjectReader}
+  // Reading the saved mesh is done using the \doxygen{SpatialObjectReader}.
+  // Once again we need to specify the type of mesh we intend to read.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet 
   typedef itk::SpatialObjectReader<3,float,MeshTrait> ReaderType;
@@ -162,7 +165,7 @@ int main(int, char * [] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // We show now how to create a binary image of a MeshSpatialObject
+  // Next, we show how to create a binary image of a MeshSpatialObject
   // using the \doxygen{SpatialObjectToImageFilter}. The resulting image
   // will have ones inside and zeros outside the mesh.
   // First we define and instantiate the SpatialObjectToImageFilter.
@@ -177,7 +180,7 @@ int main(int, char * [] )
   // Software Guide : EndCodeSnippet 
 
   // Software Guide : BeginLatex
-  // Then we pass the output of the reader, i.e the MeshSpatialObject to the
+  // Then we pass the output of the reader, i.e the MeshSpatialObject, to the
   // filter.
   // Software Guide : EndLatex 
 
@@ -187,7 +190,8 @@ int main(int, char * [] )
 
   //  Software Guide : BeginLatex 
   //  Finally we trigger the execution of the filter by calling the
-  //  \code{Update()} method.
+  //  \code{Update()} method. Note that depending on the size of the mesh,
+  //  the computation time can increase significantly.
   //  \index{itk::SpatialObjectToImageFilter!Update()}
   //  Software Guide : EndLatex 
 

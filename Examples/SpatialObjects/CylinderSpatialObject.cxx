@@ -22,8 +22,7 @@
 //
 // \index{itk::CylinderSpatialObject}
 //
-// A \doxygen{CylinderSpatialObject} 
-// This example shows how to create a CylinderSpatialObject
+// This example shows how to create a \doxygen{CylinderSpatialObject}
 // Let's begin by including the appropriate header file.
 //
 // Software Guide : EndLatex 
@@ -35,21 +34,22 @@
 int main(int, char* [])
 {
   // Software Guide : BeginLatex
-  // A cylinder SpatialObject exists only in 3D. Therefore it is not templated.
+  // An \doxygen{CylinderSpatialObject} exists only in 3D. Therefore it is not templated.
   // Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
   typedef itk::CylinderSpatialObject   CylinderType;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // We create a cylinder using the standard smart pointer.
+  // We create a cylinder using the standard smart pointers.
   // Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
   CylinderType::Pointer myCylinder = CylinderType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // The radius of the cylinder is set using the SetRadius() function.
+  // The radius of the cylinder is set using the \code{SetRadius()} function.
+  // By default the radius is set to 1.
   // Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
   double radius = 3.0;
@@ -57,7 +57,7 @@ int main(int, char* [])
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // The height of the cylinder is set using the SetHeight() function.
+  // The height of the cylinder is set using the \code{SetHeight()} function.
   // By default the cylinder is defined along the X axis (first dimension).
   // Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
@@ -66,7 +66,7 @@ int main(int, char* [])
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // Like any other \doxygen{SpatialObjects} the IsInside() function can
+  // Like any other \doxygen{SpatialObjects} the \code{IsInside()} function can
   // be used to query if a point is inside or outside the cylinder.
   // Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
@@ -78,7 +78,7 @@ int main(int, char* [])
   // Software Guide : EndCodeSnippet
    
   // Software Guide : BeginLatex
-  // We can print the Cylinder information using the Print() function.
+  // We can print the cylinder information using the \code{Print()} function.
   // Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
   myCylinder->Print(std::cout);

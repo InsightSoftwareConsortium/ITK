@@ -68,15 +68,6 @@ int main( int , char *[] )
 // \item The color of the point is set to red in our case.
 // \end{enumerate}  
 //
-// Other values can be set to tell how well the tube was extracted from the
-// image.  These values are indeed optional if the tube is not extracted from
-// an image.  First, the ridgeness coefficient tells how well the extracted
-// tube falls into a ridge.  Second, the medialness value shows how medial
-// the point is on the ridge. Third and last, the branchness value tends to
-// take a high value when a branch is present nearby the centerline point.
-// All these values can be set using \code{SetRidgeness()},
-// \code{SetMedialness()}, \code{SetBranchness()}.
-//
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet

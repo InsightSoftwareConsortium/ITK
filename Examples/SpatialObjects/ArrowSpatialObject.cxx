@@ -22,8 +22,7 @@
 //
 // \index{itk::ArrowSpatialObject}
 //
-// A \doxygen{ArrowSpatialObject} 
-// This example shows how to create a ArrowSpatiaObject
+// This example shows how to create a \doxygen{ArrowSpatialObject}
 // Let's begin by including the appropriate header file.
 //
 // Software Guide : EndLatex 
@@ -36,8 +35,8 @@ int main( int , char *[] )
 {
 // Software Guide : BeginLatex
 // The \doxygen{ArrowSpatialObject}, like many SpatialObjects, is templated
-// over the dimensionality of the object. The creation is also done via
-// smart pointers.
+// over the dimensionality of the object. Like other SpatialObjects 
+// the creation is done via smart pointers.
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet
   typedef itk::ArrowSpatialObject<3>   ArrowType;
@@ -54,8 +53,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 // The direction of the arrow can be set using the SetDirection() function.
-// The SetDirection() function modified the ObjectToParentTransform (not the IndexToObject).
-// By default the direction is set along the X axis.
+// The SetDirection() function modifies the ObjectToParentTransform (not the IndexToObjectTransform).
+// By default the direction is set along the X axis (first direction).
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet
   ArrowType::VectorType direction;

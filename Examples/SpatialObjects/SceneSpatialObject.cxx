@@ -51,7 +51,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Then we create two \doxygen{EllipseSpatialObjects}.
+// Then we create two \doxygen{EllipseSpatialObject}s.
 // 
 // Software Guide : EndLatex 
 
@@ -146,6 +146,17 @@ int main( int , char *[] )
 // Software Guide : BeginCodeSnippet 
   scene->FixHierarchy();
 // Software Guide : EndCodeSnippet
+
+// Software Guide : BeginLatex
+//
+// The scene can also be cleared by using the \code{Clear()} function.
+// 
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet 
+  scene->Clear();
+// Software Guide : EndCodeSnippet
+
 
   return 0;
 }

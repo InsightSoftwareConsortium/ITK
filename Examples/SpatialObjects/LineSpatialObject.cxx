@@ -23,7 +23,7 @@
 // \index{itk::LineSpatialObject}
 //
 // \doxygen{LineSpatialObject} defines a line in an n-dimensional space.  A
-// Line is defined as a list of points which compose the line, i.e a
+// line is defined as a list of points which compose the line, i.e a
 // polyline. We begin the example by including the appropriate header files.
 //
 // Software Guide : EndLatex 

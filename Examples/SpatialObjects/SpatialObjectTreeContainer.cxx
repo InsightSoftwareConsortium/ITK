@@ -21,7 +21,7 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::SpatialObjectTreeContainer}
-// This example describes how top use the \doxygen{SpatialObjectTreeContainer}
+// This example describes how to use the \doxygen{SpatialObjectTreeContainer}
 // to form a hierarchy of SpatialObjects.
 // First we include the appropriate header file.
 // Software Guide : EndLatex 
@@ -36,8 +36,9 @@
 int main( int , char *[] )
 {
   // Software Guide : BeginLatex
-  // We then define the type of Node and the type of tree we want to use.
-  // Both are templated over the dimensionality of the space. Here we are in 2D.
+  // Next we define the type of node and the type of tree we want to use.
+  // Both are templated over the dimensionality of the space.
+  // Let's create a 2-dimensional tree.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   typedef itk::GroupSpatialObject<2> NodeType;
@@ -57,7 +58,7 @@ int main( int , char *[] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // We can create a hierarchy using the AddSpatialObject() function.
+  // The hierarchy is formed using the \code{AddSpatialObject()} function.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   object0->AddSpatialObject(object1);
@@ -65,8 +66,8 @@ int main( int , char *[] )
   // Software Guide : EndCodeSnippet
    
   // Software Guide : BeginLatex
-  // After instantiation of the tree we can set the root of the tree
-  // using the SetRoot() function.
+  // After instantiation of the tree we can set its root
+  // using the \code{SetRoot()} function.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   TreeType::Pointer tree = TreeType::New();
@@ -74,8 +75,9 @@ int main( int , char *[] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // Using a \doxygen{LevelOrderTreeIterator} templated over the type of tree,
-  // we can go trough the hierarchy of SpatialObjects.
+  // Using an \doxygen{LevelOrderTreeIterator} templated over the type of tree,
+  // we can parse the hierarchy of SpatialObjects. We set the maximum level to 10
+  // which is enough in this case since our hierarchy is only 2 deep.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   itk::LevelOrderTreeIterator<TreeType> levelIt(tree,10);
@@ -89,7 +91,7 @@ int main( int , char *[] )
 
   // Software Guide : BeginLatex
   // Tree iterators can also be used to add spatial objects to the hierarchy. Here we show
-  // how to use the \doxygen{PreOrderTreeIterator} to a fourth object to the tree.
+  // how to use the \doxygen{PreOrderTreeIterator} to add a fourth object to the tree.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   NodeType::Pointer object4 = NodeType::New();
