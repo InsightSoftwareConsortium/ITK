@@ -38,7 +38,7 @@ CovariantVector<T, NVectorDimension>
 template<class T, unsigned int NVectorDimension>
 CovariantVector<T, NVectorDimension>&
 CovariantVector<T, NVectorDimension>
-::operator= (const ValueType r[VectorDimension])
+::operator= (const ValueType r[Dimension])
 {
   BaseArray::operator=(r);
   return *this;

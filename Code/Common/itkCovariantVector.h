@@ -98,11 +98,11 @@ class CovariantVector : public FixedArray<T,NVectorDimension> {
 
   /** Pass-through constructor for the Array base class. */
   CovariantVector(const Self& r): BaseArray(r) {}
-  CovariantVector(const ValueType r[VectorDimension]): BaseArray(r) {}  
+  CovariantVector(const ValueType r[Dimension]): BaseArray(r) {}  
     
   /** Pass-through assignment operator for the Array base class. */
   CovariantVector& operator= (const Self& r);
-  CovariantVector& operator= (const ValueType r[VectorDimension]);
+  CovariantVector& operator= (const ValueType r[Dimension]);
     
   /** Scalar operator*=.  Scales elements by a scalar. */
   const Self& operator*=(const ValueType &value);

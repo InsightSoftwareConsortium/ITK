@@ -92,11 +92,11 @@ public:
   
   /** Pass-through constructor for the Array base class. */
   Vector(const Self& r): BaseArray(r) {}
-  Vector(const ValueType r[VectorDimension]): BaseArray(r) {}  
+  Vector(const ValueType r[Dimension]): BaseArray(r) {}  
     
   /** Pass-through assignment operator for the Array base class. */
   Vector& operator= (const Self& r);
-  Vector& operator= (const ValueType r[VectorDimension]);
+  Vector& operator= (const ValueType r[Dimension]);
     
   /** Scalar operator*=.  Scales elements by a scalar. */
   const Self& operator*=(const ValueType &value);
