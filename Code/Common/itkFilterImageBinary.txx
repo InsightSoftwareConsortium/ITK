@@ -74,6 +74,17 @@ FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::GenerateData( void )
 {
 
+  m_OutputImage->SetLargestPossibleRegion( 
+      m_Image1->GetLargestPossibleRegion() );
+
+  m_OutputImage->SetBufferedRegion( 
+      m_Image1->GetBufferedRegion() );
+
+  m_OutputImage->SetRequestedRegion( 
+      m_Image1->GetRequestedRegion() );
+
+  m_OutputImage->Allocate();
+
   RegionType region  = this->m_OutputImage->GetRequestedRegion();
   RegionType region1 = this->m_Image1->GetRequestedRegion();
   RegionType region2 = this->m_Image2->GetRequestedRegion();

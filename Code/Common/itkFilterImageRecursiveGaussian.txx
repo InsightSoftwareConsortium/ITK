@@ -274,6 +274,16 @@ FilterImageRecursiveGaussian<TInputImage,TOutputImage, TComputation>
     throw ExceptionObject();
     }
 
+  outputImage->SetLargestPossibleRegion( 
+      inputImage->GetLargestPossibleRegion() );
+
+  outputImage->SetBufferedRegion( 
+      inputImage->GetBufferedRegion() );
+
+  outputImage->SetRequestedRegion( 
+      inputImage->GetRequestedRegion() );
+
+  outputImage->Allocate();
 
   const double * pixelSize = inputImage->GetSpacing();
   m_Spacing   = pixelSize[ this->m_Direction ];
