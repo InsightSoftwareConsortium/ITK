@@ -124,8 +124,8 @@ int Strucmp(const char *s1, const char *s2)
 
 char* ExtractFileName (const char* fileName)
 {
-  char* dot;
-  char* slash;
+  const char* dot;
+  const char* slash;
   char* fName = NULL;
 
   if (fileName != NULL)
@@ -158,7 +158,7 @@ char* ExtractFileName (const char* fileName)
 
 char* ExtractFileExtension (const char* fileName)
 {
-  char* dot;
+  const char* dot;
   char* fExtension = NULL;
 
   dot = strrchr(fileName, '.');
@@ -175,7 +175,7 @@ char* ExtractFileExtension (const char* fileName)
 
 char* ExtractFilePath (const char* fileName)
 {
-  char* slash;
+  const char* slash;
   char* fPath = NULL;
 
   if (fileName != NULL)
