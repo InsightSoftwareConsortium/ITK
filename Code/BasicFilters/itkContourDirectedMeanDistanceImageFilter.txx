@@ -131,8 +131,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
   
   // Initialize the temporaries
   m_MeanDistance.Fill(NumericTraits<RealType>::Zero);
-  m_Count.Fill(05
-);
+  m_Count.Fill(0);
 
   // Compute Danielsson distance from non-zero pixels in the second image
   typedef itk::DanielssonDistanceMapImageFilter<InputImage2Type,DistanceMapType>
