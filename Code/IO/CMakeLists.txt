@@ -1,23 +1,25 @@
 SET(ITKIO_SRCS
-itkWriter.cxx
-itkImageIOBase.cxx
-itkImageIOFactory.cxx
 itkAnalyzeImageIO.cxx
 itkAnalyzeImageIOFactory.cxx
+itkDicomImageIOFactory.cxx
+itkDicomImageIO.cxx
+itkDICOMImageIO2Factory.cxx
+itkDICOMImageIO2.cxx
+itkFileIteratorBase.cxx
+itkGiplImageIOFactory.cxx
+itkGiplImageIO.cxx
+itkImageIOBase.cxx
+itkImageIOFactory.cxx
 itkMetaImageIOFactory.cxx
 itkMetaImageIO.cxx
+itkNumericSeriesFileIterator.cxx
 itkPNGImageIOFactory.cxx
 itkPNGImageIO.cxx
 itkVOLImageIOFactory.cxx
 itkVOLImageIO.cxx
 itkVTKImageIOFactory.cxx
 itkVTKImageIO.cxx
-itkDicomImageIOFactory.cxx
-itkDicomImageIO.cxx
-itkGiplImageIOFactory.cxx
-itkGiplImageIO.cxx
-itkDICOMImageIO2Factory.cxx
-itkDICOMImageIO2.cxx
+itkWriter.cxx
 )
 
 # Add ITKIO library

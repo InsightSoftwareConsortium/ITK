@@ -44,8 +44,8 @@ class ITK_EXPORT ImageIORegion: public Region
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageIORegion              Self;
-  typedef Region  Superclass;
+  typedef ImageIORegion Self;
+  typedef Region        Superclass;
 
   /** Standard part of all itk objects. */
   itkTypeMacro(ImageIORegion, Region);
@@ -53,6 +53,19 @@ public:
   /** Dimension of the image available at run time. */
   unsigned int GetImageDimension() const
     { return m_ImageDimension; }
+
+  /** Dimension of the region to be written. This differs from the
+   * the image dimension and is calculated at run-time by examining
+   * the size of the image in each coordinate direction. */
+  unsigned int GetRegionDimension() const
+    { 
+      unsigned long dim=0;
+      for (unsigned long i=0; i<m_ImageDimension; i++)
+        {
+        if ( m_Size[i] > 1 ) dim++;
+        }
+      return dim;
+    }
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef std::vector<long>  IndexType;
@@ -125,7 +138,13 @@ public:
   const SizeType& GetSize() const
     { return m_Size;}
 
-  /** Convenience methods to set the size and index for the dimension i. */
+  /** Convenience methods to get the size of the image in a particular
+   * coordinate direction i. Do not try to access image sizes beyond the
+   * the ImageDimension. */
+  long GetSize(unsigned long i) const
+    { return m_Size[i]; }
+  long GetIndex(unsigned long i) const
+    { return m_Index[i]; }
   void SetSize(const unsigned long i, long size)
     {m_Size[i] = size;}
   void SetIndex(const unsigned long i, long idx)

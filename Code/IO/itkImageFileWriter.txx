@@ -29,9 +29,9 @@ namespace itk
 template <class TInputImage>
 ImageFileWriter<TInputImage>
 ::ImageFileWriter():
-  m_FileName(""),m_FilePrefix(""),m_FilePattern(""),
+  m_FileName(""),
   m_ImageIO(0), m_UserSpecifiedImageIO(false),
-  m_Region(0), m_UserSpecifiedRegion(false)
+  m_UserSpecifiedIORegion(false)
 {
 }
 
@@ -84,98 +84,103 @@ ImageFileWriter<TInputImage>
 template <class TInputImage>
 void 
 ImageFileWriter<TInputImage>
-::Write(void)
+::SetIORegion (const ImageIORegion* region) 
 {
-  const InputImageType * input = this->GetInput();
-  if ( input == 0 )
+  itkDebugMacro("setting IORegion to " << region );
+  if ( m_IORegion != region)
     {
-    itkExceptionMacro(<<"No input to writer!");
-    return;
+    m_IORegion = region;
+    this->Modified();
+    m_UserSpecifiedIORegion = true;
     }
-
-  
-  // This is required due to the lack of const-correctness of 
-  // the ProcessObject
-  InputImageType * nonConstInput = const_cast<InputImageType*>( input );
-  nonConstInput->Update();
-
-  if ( m_ImageIO.IsNull() ) //try creating via factory
-    {
-    itkDebugMacro(<<"Attempting creation of ImageIO with a factory for file " << m_FileName);
-    m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), ImageIOFactory::WriteMode );
-    }
-  else
-    {
-      if( !m_ImageIO->CanWriteFile( m_FileName.c_str() ) )
-        {
-        itkDebugMacro(<<"ImageIO exists but doesn't know how to write file" << m_FileName );
-        itkDebugMacro(<<"Attempting creation of ImageIO with a factory for file " << m_FileName);
-        m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), ImageIOFactory::WriteMode );
-        }
-    }
-
-  if ( m_ImageIO.IsNull() )
-    {
-    itkExceptionMacro(<<"No ImageIO set, or none could be created.");
-    return;
-    }
-
-  // Make sure region is within the image, crop if necessary
-  ImageIORegion ioRegion(TInputImage::ImageDimension);
-  ImageRegion<TInputImage::ImageDimension> region = 
-        input->GetLargestPossibleRegion();
-  const double *spacing = input->GetSpacing();
-  const double *origin = input->GetOrigin();
-
-  m_ImageIO->SetNumberOfDimensions(TInputImage::ImageDimension);
-  for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
-    {
-    ioRegion.SetSize(i,region.GetSize(i));
-    ioRegion.SetIndex(i,region.GetIndex(i));
-    m_ImageIO->SetDimensions(i,region.GetSize(i));
-    m_ImageIO->SetSpacing(i,spacing[i]);
-    m_ImageIO->SetOrigin(i,origin[i]);
-    }
-  itkDebugMacro( <<"Region to write = " << ioRegion );
-  this->Write(ioRegion);        
-}
+} 
 
 //---------------------------------------------------------
 template <class TInputImage>
 void 
 ImageFileWriter<TInputImage>
-::Write(const ImageIORegion &ioRegion)
+::Write()
 {
   const InputImageType * input = this->GetInput();
 
-  // make sure input is available
+  itkDebugMacro( <<"Writing an image file" );
+
+  // Make sure input is available
   if ( input == 0 )
     {
     itkExceptionMacro(<< "No input to writer!");
-    return;
+    }
+
+  // Make sure that we can write the file given the name
+  //
+  if ( m_FileName == "" )
+    {
+    itkExceptionMacro(<<"No filename was specified");
+    }
+
+  if ( m_ImageIO.IsNull() ) //try creating via factory
+    {
+    itkDebugMacro(<<"Attempting factory creation of ImageIO for file: " 
+                  << m_FileName);
+    m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), 
+                                               ImageIOFactory::WriteMode );
+    }
+  else
+    {
+    if( !m_ImageIO->CanWriteFile( m_FileName.c_str() ) )
+      {
+      itkDebugMacro(<<"ImageIO exists but doesn't know how to write file:" 
+                    << m_FileName );
+      itkDebugMacro(<<"Attempting creation of ImageIO with a factory for file:"
+                    << m_FileName);
+      m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), 
+                                                 ImageIOFactory::WriteMode );
+      }
     }
 
   if ( m_ImageIO.IsNull() )
     {
     itkExceptionMacro(<<"No ImageIO set, or none could be created.");
-    return;
     }
 
-  // Check to see if we can write the file given the name or prefix
-  //
-  if ( m_FileName == "" && m_FilePrefix == "" )
-    {
-    itkExceptionMacro(<<"No filename or file prefix specified");
-    return;
-    }
-
-  m_ImageIO->SetIORegion(ioRegion);
-
-  // make sure the data is up-to-date
+  // Make sure the data is up-to-date.
   // NOTE: this const_cast<> is due to the lack of const-correctness
   // of the ProcessObject.
   InputImageType * nonConstImage = const_cast<InputImageType *>(input);
   nonConstImage->Update();
+
+  if ( ! m_UserSpecifiedIORegion )
+    {
+    // Write the whole image
+    ImageIORegion ioRegion(TInputImage::ImageDimension);
+    ImageRegion<TInputImage::ImageDimension> region = 
+          input->GetLargestPossibleRegion();
+    const double *spacing = input->GetSpacing();
+    const double *origin = input->GetOrigin();
+
+    for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
+      {
+      ioRegion.SetSize(i,region.GetSize(i));
+      ioRegion.SetIndex(i,region.GetIndex(i));
+      }
+    m_IORegion = ioRegion; //used by GenerateData
+    }
+
+  // Setup the ImageIO
+  //
+  m_ImageIO->SetNumberOfDimensions(TInputImage::ImageDimension);
+  ImageRegion<TInputImage::ImageDimension> region = 
+        input->GetLargestPossibleRegion();
+  const double *spacing = input->GetSpacing();
+  const double *origin = input->GetOrigin();
+
+  for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
+    {
+    m_ImageIO->SetDimensions(i,region.GetSize(i));
+    m_ImageIO->SetSpacing(i,spacing[i]);
+    m_ImageIO->SetOrigin(i,origin[i]);
+    }
+  m_ImageIO->SetIORegion(m_IORegion);
 
   // Notify start event observers
   this->InvokeEvent( StartEvent() );
@@ -191,47 +196,6 @@ ImageFileWriter<TInputImage>
     {
     nonConstImage->ReleaseData();
     }
-}
-
-
-//---------------------------------------------------------
-template <class TInputImage>
-void 
-ImageFileWriter<TInputImage>
-::GenerateOutputInformation(void)
-{
-
-  itkDebugMacro(<<"Entering GenerateOutputInformation()" << m_FileName);
-
-  // Check to see if we can write the file given the name or prefix
-  //
-  if ( m_FileName == "" && m_FilePrefix == "" )
-    {
-    throw ImageFileWriterException(__FILE__, __LINE__, "One of FileName or FilePrefix must be non-empty");
-    }
-
-  if ( m_ImageIO.IsNull() ) //try creating via factory
-    {
-    m_UserSpecifiedImageIO = false;
-    m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), ImageIOFactory::WriteMode );
-    }
-  else
-    {
-    m_UserSpecifiedImageIO = true;
-    }
-  
-  if ( m_ImageIO.IsNull() )
-    {
-    ImageFileWriterException e(__FILE__, __LINE__);
-    OStringStream msg;
-    msg << " Could not create IO object for file "
-        << m_FileName.c_str();
-    e.SetDescription(msg.str().c_str());
-    throw e;
-    return;
-    }
-
-
 }
 
 
@@ -256,7 +220,6 @@ ImageFileWriter<TInputImage>
   // Setup the image IO for writing.
   //
   m_ImageIO->SetFileName(m_FileName.c_str());
-  m_ImageIO->SetFilePrefix(m_FilePrefix.c_str());
 
   //okay, now extract the data as a raw buffer pointer
   const void* dataPtr = (const void*) input->GetBufferPointer();
@@ -275,10 +238,6 @@ ImageFileWriter<TInputImage>
 
   os << indent << "File Name: " 
      << (m_FileName.data() ? m_FileName.data() : "(none)") << std::endl;
-  os << indent << "File Prefix: " 
-     << (m_FilePrefix.data() ? m_FilePrefix.data() : "(none)") << std::endl;
-  os << indent << "File Pattern: " 
-     << (m_FilePattern.data() ? m_FilePattern.data() : "(none)") << std::endl;
 
   os << indent << "Image IO: ";
   if ( m_ImageIO.IsNull() )

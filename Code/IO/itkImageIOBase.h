@@ -26,13 +26,21 @@
 namespace itk
 {
 
+class FileIteratorBase;
+
 /** \brief Abstract superclass defines image IO interface.
  *
- * An itk::ImageIOClass is a class that reads and/or writes image data of a
- * particular format. The ImageIOClass encapsulates both the reading and
- * writing of a particular form of data, such as PNG or raw binary. The
- * ImageIOClass is typically used by the ImageFileReader class (to read data)
- * and the ImageFileWriter (to write data).
+ * ImageIOBase is a class that reads and/or writes image data
+ * of a particular format (such as PNG or raw binary). The
+ * ImageIOBase encapsulates both the reading and writing of data. The
+ * ImageIOBase is used by the ImageFileReader class (to read data)
+ * and the ImageFileWriter (to write data) into a single file. The 
+ * ImageSeriesReader and ImageSeriesWriter classes are used to read
+ * and write data (in conjunction with ImageIOBase) when the data is 
+ * represented by a series of files. Normally the user does not directly
+ * manipulate this class other than to instantiate it, set the FileName,
+ * and assign it to a ImageFileReader/ImageFileWriter or 
+ * ImageSeriesReader/ImageSeriesWriter.
  *
  * A Pluggable factory pattern is used this allows different kinds of readers
  * to be registered (even at run time) without having to modify the
@@ -40,8 +48,10 @@ namespace itk
  *
  * \sa ImageFileWriter
  * \sa ImageFileReader
+ * \sa ImageSeriesWriter
+ * \sa ImageSeriesReader
  *
- *  \ingroup IOFilters
+ * \ingroup IOFilters
  *
  */
 class ITK_EXPORT ImageIOBase : public LightProcessObject
@@ -55,6 +65,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageIOBase, Superclass);
 
+  /** Set/Get the name of the file to be read. */
+  itkSetStringMacro(FileName);
+  itkGetStringMacro(FileName);
+  
   /** Used to return information when types are unknown. */
   class UnknownType {};
 
@@ -64,16 +78,9 @@ public:
                  ULONG,LONG, FLOAT,DOUBLE,
                  RGB,RGBA,OFFSET,VECTOR,POINT,COVARIANTVECTOR} IODataType;
 
-  /** Set/Get the file name. Subclasses may ignore this and use FilePrefix. */
-  itkSetStringMacro(FileName);
-  itkGetStringMacro(FileName);
-  
-  /** Set/Get the file prefix. Subclasses may ignore this and use FileName. */
-  itkSetStringMacro(FilePrefix);
-  itkGetStringMacro(FilePrefix);
-  
   /** Set/Get the number of independent variables (dimensions) in the
-   * image being read. */
+   * image being read or written. Note this is not necessarily what
+   * is written, rather the IORegion controls that. */
   void SetNumberOfDimensions(unsigned int);
   itkGetMacro(NumberOfDimensions, unsigned int);
 
@@ -206,8 +213,25 @@ public:
   virtual void WriteImageInformation() = 0;
   
   /** Writes the data to disk from the memory buffer provided. Make sure
-   * that the IORegions has been set properly. */
+   * that the IORegions has been set properly. The buffer is cast to a 
+   * pointer to the beginning of the image data. */
   virtual void Write( const void* buffer) = 0;
+
+  /* --- Support reading and writing data as a series of files. --- */
+
+  /** The file iterator interfaces with the ImageSeriesReader
+   * and ImageSeriesWriter to read and write multiple files. The
+   * subclasses of ImageIOBase create and return the correct type 
+   * of file iterator to use. */
+  virtual FileIteratorBase* NewFileIterator();
+
+  /** The different types of ImageIO's can support data of varying
+   * dimensionality. For example, some file formats are strictly 2D
+   * while others can support 2D, 3D, or even n-D. This method returns
+   * true/false as to whether the ImageIO can support the dimension
+   * indicated. */
+  virtual bool SupportsDimension(unsigned long dim)
+    {return (dim == 2);}
 
 protected:
   ImageIOBase();
@@ -225,9 +249,6 @@ protected:
    * when ComputeStrides() is invoked. */
   IODataType m_ComponentType;
 
-  /** The number of dimensions in the image. */
-  unsigned int m_NumberOfDimensions;
-
   /** Big or Little Endian, and the type of the file. (May be ignored.) */
   ByteOrder      m_ByteOrder;
   FileType       m_FileType;
@@ -235,15 +256,15 @@ protected:
   /** Does the ImageIOBase object have enough info to be of use? */
   bool m_Initialized;
 
-  /** Filename: pathname + filename + file extension. */
+  /** Filename to read */
   std::string m_FileName;
-
-  /** File prefix: pathname + filename + some pattern */
-  std::string m_FilePrefix;
 
   /** Stores the number of components per pixel. This will be 1 for 
    * grayscale images, 3 for RGBPixel images, and 4 for RGBPixelA images. */
   unsigned int m_NumberOfComponents;
+
+  /** The number of independent dimensions in the image. */
+  unsigned int m_NumberOfDimensions;
 
   /** The region to read or write. The region contains information about the
    * data within the region to read or write. */

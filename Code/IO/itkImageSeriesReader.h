@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageFileReader.h
+  Module:    itkImageSeriesReader.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkImageFileReader_h
-#define __itkImageFileReader_h
+#ifndef __itkImageSeriesReader_h
+#define __itkImageSeriesReader_h
 
 #include "itkImageIOBase.h"
 #include "itkImageSource.h"
@@ -28,14 +28,14 @@ namespace itk
 {
 
 /** \brief Base exception class for IO conflicts. */
-class ImageFileReaderException : public ExceptionObject 
+class ImageSeriesReaderException : public ExceptionObject 
 {
 public:
   /** Run-time information. */
-  itkTypeMacro( ImageFileReaderException, ExceptionObject );
+  itkTypeMacro( ImageSeriesReaderException, ExceptionObject );
 
   /** Constructor. */
-  ImageFileReaderException(char *file, unsigned int line, 
+  ImageSeriesReaderException(char *file, unsigned int line, 
                            const char* message = "Error in IO") : 
     ExceptionObject(file, line)
     {
@@ -43,7 +43,7 @@ public:
     }
 
   /** Constructor. */
-  ImageFileReaderException(const std::string &file, unsigned int line, 
+  ImageSeriesReaderException(const std::string &file, unsigned int line, 
                            const char* message = "Error in IO") : 
     ExceptionObject(file, line)
     {
@@ -52,15 +52,15 @@ public:
 };
 
 
-/** \brief Data source that reads image data from a single file.
+/** \brief Data source that reads image data from a series of disk files.
  *
- * This source object is a general filter to read data from
- * a variety of file formats. It works with a ImageIOBase subclass
- * to actually do the reading of the data. Object factory machinery
- * can be used to automatically create the ImageIOBase, or the
- * ImageIOBase can be manually created and set. Note that this
- * class reads data from a single file; if you wish to read data
- * from a series of files use ImageSeriesReader.
+ * This source object is a general filter that reads image data from a
+ * variety of file formats and assumes that the data is stored in a
+ * series of files (the series can be one file long). It works with
+ * the ImageIOBase class to actually do the reading of the
+ * data. Object factory machinery can be used to automatically create
+ * the ImageIOBase, or the ImageIOBase can be manually created and
+ * set.
  *
  * TOutputImage is the type expected by the external users of the
  * filter. If data stored in the file is stored in a different format
@@ -70,13 +70,9 @@ public:
  *
  * A Pluggable factory pattern is used this allows different kinds of readers
  * to be registered (even at run time) without having to modify the
- * code in this class. Normally just setting the FileName with the
- * appropriate suffix is enough to get the reader to instantiate the
- * correct ImageIO and read the file properly. However, some files (like
- * raw binary format) have no accepted suffix, so you will have to
- * manually create the ImageIO instance of the write type.
+ * code in this class.
  *
- * \sa ImageSeriesReader
+ * \sa ImageFileReader
  * \sa ImageIOBase
  *
  * \ingroup IOFilters
@@ -85,11 +81,11 @@ public:
 template <class TOutputImage,
   class ConvertPixelTraits = 
 DefaultConvertPixelTraits< ITK_TYPENAME TOutputImage::PixelType> >
-class ITK_EXPORT ImageFileReader : public ImageSource<TOutputImage>
+class ITK_EXPORT ImageSeriesReader : public ImageSource<TOutputImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageFileReader         Self;
+  typedef ImageSeriesReader         Self;
   typedef ImageSource<TOutputImage>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   
@@ -97,7 +93,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageFileReader, ImageSource);
+  itkTypeMacro(ImageSeriesReader, ImageSource);
 
   /** The size of the output image. */
   typedef typename TOutputImage::SizeType  SizeType;
@@ -108,7 +104,10 @@ public:
   /** The pixel type of the output image. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
   
-  /** Specify the file to read. This is forwarded to the IO instance. */
+  /** Specify one of the files in the series to read. Note that this
+   * is a "seed" that is used to determine the file type as well as
+   * establish the configuration of the series (i.e., the sequence of
+   * files in the series). */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
   
@@ -126,16 +125,15 @@ public:
   virtual void GenerateOutputInformation(void);
 
   /** Give the reader a chance to indicate that it will produce more
-   * output than it was requested to produce. ImageFileReader cannot
+   * output than it was requested to produce. ImageSeriesReader cannot
    * currently read a portion of an image (since the ImageIO objects
-   * cannot read a portion of an image), so the ImageFileReader must
+   * cannot read a portion of an image), so the ImageSeriesReader must
    * enlarge the RequestedRegion to the size of the image on disk. */
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
-
   
 protected:
-  ImageFileReader();
-  ~ImageFileReader();
+  ImageSeriesReader();
+  ~ImageSeriesReader();
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /** Convert a block of pixels from one type to another. */
@@ -147,11 +145,11 @@ protected:
   ImageIOBase::Pointer m_ImageIO;
   bool m_UserSpecifiedImageIO; //keep track whether the ImageIO is user specified
 
-  /** The file to be read. */
+  /** The seed file for the series. */
   std::string m_FileName;
   
 private:
-  ImageFileReader(const Self&); //purposely not implemented
+  ImageSeriesReader(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };
@@ -160,7 +158,8 @@ private:
 } //namespace ITK
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageFileReader.txx"
+#include "itkImageSeriesReader.txx"
 #endif
 
-#endif // __itkImageFileReader_h
+#endif // __itkImageSeriesReader_h
+

@@ -43,6 +43,14 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaImageIO, Superclass);
 
+  /** The different types of ImageIO's can support data of varying
+   * dimensionality. For example, some file formats are strictly 2D
+   * while others can support 2D, 3D, or even n-D. This method returns
+   * true/false as to whether the ImageIO can support the dimension
+   * indicated. */
+  virtual bool SupportsDimension(unsigned long dim)
+    {return true;}
+
   /*-------- This part of the interfaces deals with reading data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the

@@ -26,9 +26,6 @@ template <class TPixel, unsigned int VImageDimension>
 RawImageIO<TPixel,VImageDimension>::RawImageIO() 
 : ImageIOBase()
 {
-  m_FilePrefix = "";
-  m_FilePattern = "%s.%d";
-  
   this->SetNumberOfComponents(1);
   this->SetNumberOfDimensions(VImageDimension);
   
@@ -67,9 +64,9 @@ unsigned long RawImageIO<TPixel,VImageDimension>::GetHeaderSize()
 {
   std::ifstream file;
 
-  if ( m_FileName == "" && m_FilePattern == "" )
+  if ( m_FileName == "" )
     {
-    itkExceptionMacro(<<"Either a FileName or FilePattern must be specified.");
+    itkExceptionMacro(<<"A FileName must be specified.");
     }
 
   if ( ! m_ManualHeaderSize )
@@ -94,9 +91,9 @@ unsigned long RawImageIO<TPixel,VImageDimension>::GetHeaderSize()
 template <class TPixel, unsigned int VImageDimension>
 void RawImageIO<TPixel,VImageDimension>::OpenFileForReading(std::ifstream& is)
 {
-  if ( m_FileName == "" && m_FilePattern == "")
+  if ( m_FileName == "" )
     {
-    itkExceptionMacro(<<"Either a FileName or FilePattern must be specified.");
+    itkExceptionMacro(<<"A FileName must be specified.");
     }
 
   // Close file from any previous image
@@ -121,9 +118,9 @@ void RawImageIO<TPixel,VImageDimension>::OpenFileForReading(std::ifstream& is)
 template <class TPixel, unsigned int VImageDimension>
 void RawImageIO<TPixel,VImageDimension>::OpenFileForWriting(std::ofstream& os)
 {
-  if ( m_FileName == "" && m_FilePattern == "")
+  if ( m_FileName == "" )
     {
-    itkExceptionMacro(<<"Either a FileName or FilePattern must be specified.");
+    itkExceptionMacro(<<"A FileName must be specified.");
     }
 
   // Close file from any previous image

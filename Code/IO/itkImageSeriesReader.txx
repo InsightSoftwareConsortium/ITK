@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageFileReader.txx
+  Module:    itkImageSeriesReader.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,9 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageFileReader_txx
-#define _itkImageFileReader_txx
-#include "itkImageFileReader.h"
+#ifndef _itkImageSeriesReader_txx
+#define _itkImageSeriesReader_txx
+#include "itkImageSeriesReader.h"
 
 #include "itkObjectFactory.h"
 #include "itkImageIOFactory.h"
@@ -28,20 +28,20 @@ namespace itk
 {
 
 template <class TOutputImage, class ConvertPixelTraits>
-ImageFileReader<TOutputImage, ConvertPixelTraits>
-::ImageFileReader()
+ImageSeriesReader<TOutputImage, ConvertPixelTraits>
+::ImageSeriesReader()
 {
   m_ImageIO = 0;
   m_FileName = "";
 }
 
 template <class TOutputImage, class ConvertPixelTraits>
-ImageFileReader<TOutputImage, ConvertPixelTraits>::~ImageFileReader()
+ImageSeriesReader<TOutputImage, ConvertPixelTraits>::~ImageSeriesReader()
 {
 }
 
 template <class TOutputImage, class ConvertPixelTraits>
-void ImageFileReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream& os, Indent indent) const
+void ImageSeriesReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -59,7 +59,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream& 
 
 
 template <class TOutputImage, class ConvertPixelTraits>
-void ImageFileReader<TOutputImage, ConvertPixelTraits>
+void ImageSeriesReader<TOutputImage, ConvertPixelTraits>
 ::GenerateOutputInformation(void)
 {
 
@@ -71,10 +71,10 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
   //
   if ( m_FileName == "" )
     {
-    throw ImageFileReaderException(__FILE__, __LINE__, "FileName must be specified");
+    throw ImageSeriesReaderException(__FILE__, __LINE__, "FileName must be specified");
     }
 
-  if ( m_ImageIO.IsNull() ) //try creating via factory
+  if ( m_ImageIO == 0 ) //try creating via factory
     {
     m_UserSpecifiedImageIO = false;
     m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), ImageIOFactory::ReadMode );
@@ -84,9 +84,9 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
     m_UserSpecifiedImageIO = true;
     }
   
-  if ( m_ImageIO.IsNull() )
+  if ( m_ImageIO == 0 )
     {
-    ImageFileReaderException e(__FILE__, __LINE__);
+    ImageSeriesReaderException e(__FILE__, __LINE__);
     OStringStream msg;
     msg << " Could not create IO object for file "
         << m_FileName.c_str();
@@ -142,7 +142,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
 
 template <class TOutputImage, class ConvertPixelTraits>
 void
-ImageFileReader<TOutputImage, ConvertPixelTraits>
+ImageSeriesReader<TOutputImage, ConvertPixelTraits>
 ::EnlargeOutputRequestedRegion(DataObject *output)
 {
   typename TOutputImage::Pointer out = dynamic_cast<TOutputImage*>(output);
@@ -153,13 +153,13 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     }
   else
     {
-    throw ImageFileReaderException(__FILE__, __LINE__, "Invalid output object type");
+    throw ImageSeriesReaderException(__FILE__, __LINE__, "Invalid output object type");
     }
 }
 
 
 template <class TOutputImage, class ConvertPixelTraits>
-void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
+void ImageSeriesReader<TOutputImage, ConvertPixelTraits>::GenerateData()
 {
 
   typename TOutputImage::Pointer output = this->GetOutput();
@@ -249,7 +249,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
 
 template <class TOutputImage, class ConvertPixelTraits>
 void 
-ImageFileReader<TOutputImage, ConvertPixelTraits>
+ImageSeriesReader<TOutputImage, ConvertPixelTraits>
 ::DoConvertBuffer(void* inputData,
                   unsigned long numberOfPixels)
 {
@@ -290,7 +290,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   ITK_CONVERT_BUFFER_IF_BLOCK( double)
   else
     {
-    ImageFileReaderException e(__FILE__, __LINE__);
+    ImageSeriesReaderException e(__FILE__, __LINE__);
     OStringStream msg;
     msg <<"Couldn't convert pixel type: "
         << std::endl << "    " << m_ImageIO->GetPixelType().name()

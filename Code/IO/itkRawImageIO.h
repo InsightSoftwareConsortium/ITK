@@ -91,6 +91,14 @@ public:
   virtual unsigned int GetComponentSize() const
     {return sizeof(typename PixelTraits<PixelType>::ValueType);}
 
+  /** The different types of ImageIO's can support data of varying
+   * dimensionality. For example, some file formats are strictly 2D
+   * while others can support 2D, 3D, or even n-D. This method returns
+   * true/false as to whether the ImageIO can support the dimension
+   * indicated. */
+  virtual bool SupportsDimension(unsigned long dim)
+    {return (dim == m_FileDimensionality);}
+
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIOBase can read the
@@ -147,8 +155,6 @@ private:
   RawImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  std::string   m_FilePrefix;
-  std::string   m_FilePattern;
   std::string   m_InternalFileName;
 
   unsigned long  m_FileDimensionality;

@@ -41,9 +41,6 @@ struct PNGFileWrapper
     }
 };
 
-
-
-
 bool PNGImageIO::CanReadFile(const char* file) 
 { 
   // First check the extension
@@ -447,39 +444,23 @@ void PNGImageIO::Write(const void* buffer)
 {
   ImageIORegion ioRegion = this->GetIORegion();
 
-  // Check the image region for proper dimensions, etc.
-  unsigned int numDims = this->GetNumberOfDimensions();
-  if ( numDims < 2 || numDims > 3 )
+  // Make sure the region to be written is 2D
+  if ( ioRegion.GetRegionDimension() != 2 )
     {
-    itkExceptionMacro(<<"PNG Writer can only write 2 or 3-dimensional images");
-    return;
+    itkExceptionMacro(<<"PNG Writer can only write 2-dimensional images");
     }
   
-  // loop over the z axis and write the slices
-  std::string fileName;
-  int numSlices = (numDims < 3 ? 1 : this->GetDimensions(2));
-  unsigned long sliceSizeInBytes = 
-                  this->GetDimensions(0) * 
-                  this->GetDimensions(1) *
-                  this->GetNumberOfComponents() *
-                  this->GetComponentSize();
-  
-  for ( int fileNum=0; fileNum < numSlices; fileNum++ )
+  // Compute the pointer offset. THIS CALCULATION CURRENTLY ASSUMES THAT
+  // ALL THE DATA IN A SLICE IS WRITTEN, NOT A PIECE OF THE DATA.
+  unsigned long offset = ioRegion.GetIndex(0);
+  unsigned long sliceSize = ioRegion.GetSize(0);
+  for (unsigned long i=1; i < ioRegion.GetImageDimension(); i++)
     {
-    // determine the name
-    if ( m_FileName != "" )
-      {
-      fileName = m_FileName;
-      }
-    else 
-      {
-      char fullName[1024];
-      sprintf (fullName, "%s%03d.png", m_FilePrefix.c_str(), fileNum);
-      fileName = fullName;
-      }
-    this->WriteSlice(fileName,buffer,fileNum * sliceSizeInBytes);
+    offset += ioRegion.GetIndex(i) * sliceSize;
+    sliceSize *= ioRegion.GetSize(i);
     }
 
+  this->WriteSlice(m_FileName, buffer, offset);
 }
 
 void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer, 
@@ -554,9 +535,10 @@ void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer,
   //                 PNG_INTERLACE_ADAM7
     
   if(m_UseCompression)
-  {
-    png_set_compression_level(png_ptr, m_CompressionLevel); // Set the image compression level.
-  }
+    {
+    // Set the image compression level.
+    png_set_compression_level(png_ptr, m_CompressionLevel); 
+    }
 
   // write out the spacing information:
   //      set the unit_type to unknown.  if we add units to ITK, we should

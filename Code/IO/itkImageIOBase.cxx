@@ -21,6 +21,7 @@
 #include "itkVector.h"
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
+#include "itkNumericSeriesFileIterator.h"
 
 
 namespace itk
@@ -691,13 +692,16 @@ void ImageIOBase::ReadBufferAsASCII(std::istream& is, void *buffer,
 
 }
 
+FileIteratorBase* ImageIOBase::NewFileIterator()
+{
+  return NumericSeriesFileIterator::New();
+}
 
 void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "FileName: " << m_FileName << std::endl;
-  os << indent << "FilePrefix: " << m_FilePrefix << std::endl;
   os << indent << "FileType: " << m_FileType << std::endl;
   os << indent << "ByteOrder: " << m_ByteOrder << std::endl;
   os << indent << "IORegion: " << m_IORegion << std::endl;
