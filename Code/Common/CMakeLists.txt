@@ -8,6 +8,7 @@ itkExceptionObject \
 itkImageBase \
 itkIndent \
 itkLightObject \
+itkMeshRegion \
 itkMultiThreader \
 itkMutexLock \
 itkNumericTraits \
@@ -15,6 +16,7 @@ itkObject \
 itkObjectFactoryBase \
 itkOutputWindow \
 itkProcessObject \
+itkRegion \
 itkTimeStamp \
 itkVersion \
 itkWriter

@@ -65,12 +65,6 @@ public:
    */
   void Initialize();
 
-  /** 
-   * Return the region type.
-   */
-  virtual int GetRegionType()
-    {return DataObject::ITK_STRUCTURED_REGION;}
-
 protected:
   ImageBase();
   ~ImageBase();

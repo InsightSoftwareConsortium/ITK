@@ -28,6 +28,8 @@ namespace itk
 {
 
 /** \class Object
+ * \brief Base class for most itk classes.
+ *
  * Object is the second-highest level base class for most itk objects.
  * It extends the base object functionality of LightObject by
  * implementing debug flags/methods and modification time tracking.
@@ -100,7 +102,8 @@ public:
   /** 
    * Gets the reference count (use with care) 
    */
-  virtual int GetReferenceCount() const {return m_ReferenceCount;}
+  virtual int GetReferenceCount() const 
+    {return m_ReferenceCount;}
 
   /** 
    * Sets the reference count (use with care) 

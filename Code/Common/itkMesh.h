@@ -101,12 +101,6 @@ public:
    */
   itkTypeMacro(Mesh, Object);
 
-  /** 
-   * Return the region type.
-   */
-  virtual int GetRegionType()
-    {return DataObject::ITK_UNSTRUCTURED_REGION;}
-
   /**
    * Get the maximum number of regions that this data can be
    * separated into.

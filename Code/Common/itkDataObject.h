@@ -136,12 +136,6 @@ public:
     {m_PipelineMTime = time; }
   itkGetMacro(PipelineMTime,unsigned long);
 
-  /**
-   * Enums used to describe the extent types.
-   */
-  typedef enum {ITK_UNSTRUCTURED_REGION,ITK_STRUCTURED_REGION} RegionType;
-  
-  virtual int GetRegionType() = 0;
   virtual void PrepareForNewData() 
     {this->Initialize();};
   void DataHasBeenGenerated();

@@ -27,8 +27,7 @@ Image<TPixel, VImageDimension>
 ::Image()
 {
   m_Buffer = 0;
-  Index nullIndex = {0
-  };
+  Index nullIndex = {0};
   
   m_BufferStartIndex = nullIndex;
   m_RegionStartIndex = nullIndex;

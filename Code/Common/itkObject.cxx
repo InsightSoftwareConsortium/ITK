@@ -222,20 +222,9 @@ Object
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "m_Debug: " << (m_Debug ? "On\n" : "Off\n");
-
-  if ( m_DeleteMethod )
-    {
-    os << indent << "Delete Method defined" << std::endl;
-    }
-  else
-    {
-    os << indent <<"No Delete Method" << std::endl;
-    }
   os << indent << "Modified Time: " << this->GetMTime() << std::endl;
-  os << indent << "Reference Count: " << m_ReferenceCount << std::endl;
+  os << indent << "m_Debug: " << (m_Debug ? "On\n" : "Off\n");
 }
-
 
 /**
  * Define a default print header for all objects.
