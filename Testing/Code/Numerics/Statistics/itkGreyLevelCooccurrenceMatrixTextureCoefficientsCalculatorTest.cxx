@@ -3,7 +3,7 @@
 #endif
 // Insight classes
 #include "itkHistogram.h"
-#include <cmath>
+#include "vnl/vnl_math.h"
 
 #include "itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculator.h"
 
@@ -91,7 +91,7 @@ int itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTest(int, char* [
   
   bool passed = true;
   
-  if( std::abs(energy - trueEnergy) > 0.001 )
+  if( vnl_math_abs(energy - trueEnergy) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Energy calculated wrong. Expected: " << trueEnergy << ", got: " 
@@ -99,7 +99,7 @@ int itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTest(int, char* [
     passed = false;
     }
    
-  if( std::abs(entropy - trueEntropy) > 0.001 )
+  if( vnl_math_abs(entropy - trueEntropy) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Entropy calculated wrong. Expected: " << trueEntropy << ", got: "  
@@ -107,7 +107,7 @@ int itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTest(int, char* [
     passed = false;
     }
   
-  if( std::abs(correlation - trueCorrelation) > 0.001 )
+  if( vnl_math_abs(correlation - trueCorrelation) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Correlation calculated wrong. Expected: " << trueCorrelation << 
@@ -115,7 +115,7 @@ int itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTest(int, char* [
     passed = false;
     }
   
-  if( std::abs(inverseDifferenceMoment - trueInverseDifferenceMoment) > 0.001 )
+  if( vnl_math_abs(inverseDifferenceMoment - trueInverseDifferenceMoment) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "InverseDifferenceMoment calculated wrong. Expected: " << 
@@ -123,7 +123,7 @@ int itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTest(int, char* [
     passed = false;
     }
   
-  if( std::abs(inertia - trueInertia) > 0.001 )
+  if( vnl_math_abs(inertia - trueInertia) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Inertia calculated wrong. Expected: " << trueInertia << ", got: " 
@@ -131,7 +131,7 @@ int itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTest(int, char* [
     passed = false;
     }
   
-  if( std::abs(clusterShade - trueClusterShade) > 0.001 )
+  if( vnl_math_abs(clusterShade - trueClusterShade) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "ClusterShade calculated wrong. Expected: " << trueClusterShade << 
@@ -139,7 +139,7 @@ int itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTest(int, char* [
     passed = false;
     }
 
-  if( std::abs(clusterProminence - trueClusterProminence) > 0.001 )
+  if( vnl_math_abs(clusterProminence - trueClusterProminence) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "ClusterProminence calculated wrong. Expected: " 
@@ -147,7 +147,7 @@ int itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTest(int, char* [
     passed = false;
     }
   
-  if( std::abs(haralickCorrelation - trueHaralickCorrelation) > 0.001 )
+  if( vnl_math_abs(haralickCorrelation - trueHaralickCorrelation) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Haralick's Correlation calculated wrong. Expected: "
