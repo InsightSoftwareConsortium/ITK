@@ -114,7 +114,7 @@ TreeIteratorBase<TTreeType>::Add(ValueType element)
 /** Add a new element at a given position */
 template <class TTreeType>
 bool 
-TreeIteratorBase<TTreeType>::Add( int childPosition, ValueType element )
+TreeIteratorBase<TTreeType>::Add( int itkNotUsed(childPosition), ValueType element )
 {
   if ( m_Position ) 
     {
