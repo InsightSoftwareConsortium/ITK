@@ -125,7 +125,6 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
 
   std::cout << "[PASSED]" << std::endl;
 
-
   std::cout << " --- Testing higher dimensionality --- " << std::endl;
 
   // Create a new 3D image
@@ -200,9 +199,9 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   std::cout << "Sample mean = " << calculator3D->GetMean() << std::endl ;
   std::cout << "Sample covariance = " << calculator3D->GetCovarianceMatrix();
 
-  if( (fabs(calculator3D->GetMean()[0]-1.0)>1.0)
-    || (fabs(calculator3D->GetMean()[1]-6.84)>1.0)
-    || (fabs(calculator3D->GetMean()[2]-6.78)>1.0)
+  if( (calculator3D->GetMean()[0] != 0.0)
+    || (calculator3D->GetMean()[1] != 1.0)
+    || (calculator3D->GetMean()[2] != 2.0)
     )
     {
     std::cout << "[FAILED]" << std::endl;
