@@ -118,7 +118,7 @@ LevelSetFunction< TImageType >
   const ScalarValueType ZERO = NumericTraits<ScalarValueType>::Zero;
   const ScalarValueType center_value  = it.GetCenterPixel();
 
-  ScalarValueType dxy, gradMag, laplacian, x_energy, laplacian_term, propagation_term,
+  ScalarValueType dxy, gradMagSqr, laplacian, x_energy, laplacian_term, propagation_term,
     curvature_term, advection_term, propagation_gradient;
   ScalarValueType dx[ImageDimension], dxx[ImageDimension],
     dx_forward[ImageDimension], dx_backward[ImageDimension];
@@ -128,7 +128,7 @@ LevelSetFunction< TImageType >
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
 
   // Calculate the mean curvature
-  gradMag = 1.0e-6;
+  gradMagSqr = 1.0e-6;
   for( i = 0 ; i < ImageDimension; i++)
     {
     const unsigned int positionA = 
@@ -138,22 +138,18 @@ LevelSetFunction< TImageType >
     dx[i] = 0.5 * (it.GetPixel( positionA ) - 
                    it.GetPixel( positionB )    );
       
+    dxx[i] = it.GetPixel( positionA )
+      + it.GetPixel( positionB ) - 2.0 * center_value;
+    
     dx_forward[i]  = it.GetPixel( positionA ) - center_value;
     dx_backward[i] = center_value - it.GetPixel( positionB );
-    gradMag += dx[i] * dx[i];
+    gradMagSqr += dx[i] * dx[i];
     }
   
   curvature_term = ZERO;
   
   for (i = 0; i < ImageDimension; i++)
     {
-    const unsigned int positionAI = 
-      static_cast<unsigned int>( m_Center + m_xStride[i]);    
-    const unsigned int positionBI = 
-      static_cast<unsigned int>( m_Center - m_xStride[i]);    
-    dxx[i] = it.GetPixel( positionAI )
-      + it.GetPixel( positionBI ) - 2.0 * center_value;
-      
     for(j = i+1; j < ImageDimension; j++)
       {
       const unsigned int positionA = static_cast<unsigned int>( 
@@ -178,15 +174,17 @@ LevelSetFunction< TImageType >
     for(j = 0; j < ImageDimension; j++)
       {      
       if(j != i)
+        {
         curvature_term += dxx[j] * dx[i] * dx[i];
+        }
       }
     }
   
-    curvature_term = ( curvature_term / (gradMag * vcl_sqrt(gradMag)) )
-      * m_CurvatureWeight * this->CurvatureSpeed(it, offset);
+  //  curvature_term = ( curvature_term / (gradMagSqr * vcl_sqrt(gradMagSqr)) )
+  //    * m_CurvatureWeight * this->CurvatureSpeed(it, offset);
 
-  //  curvature_term = ( curvature_term / gradMag )
-  //    * m_CurvatureWeight * this->CurvatureSpeed(it, offset);;
+  curvature_term = ( curvature_term / gradMagSqr )
+    * m_CurvatureWeight * this->CurvatureSpeed(it, offset);;
   
   // Calculate the advection term.
   //  $\alpha \stackrel{\rightharpoonup}{F}(\mathbf{x})\cdot\nabla\phi $
