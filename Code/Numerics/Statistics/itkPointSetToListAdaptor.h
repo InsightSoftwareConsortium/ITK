@@ -20,14 +20,14 @@ PURPOSE.  See the above copyright notices for more information.
 #include <typeinfo>
 
 #include "itkPointSet.h"
-#include "itkListSample.h"
+#include "itkListSampleBase.h"
 #include "itkSmartPointer.h"
 
 namespace itk{ 
 namespace Statistics{
 
 /** \class PointSetToListAdaptor
- *  \brief This class provides ListSample interfaces to ITK Image
+ *  \brief This class provides ListSampleBase interfaces to ITK PointSet
  *
  * After calling SetPointSet(PointSet::Pointer) method to plug-in 
  * the PointSet object, users can use Sample interfaces to access 
@@ -36,21 +36,21 @@ namespace Statistics{
  * points are equal to measurement vectors. This class totally ignores
  * PointsDataContainer.
  * 
- * \sa Sample, ListSample, DefaultStaticMeshTraits, PointSet
+ * \sa Sample, ListSampleBase, DefaultStaticMeshTraits, PointSet
  */
 
 template < class TPointSet >
 class ITK_EXPORT PointSetToListAdaptor :
-    public ListSample< typename TPointSet::PointType >
+    public ListSampleBase< typename TPointSet::PointType >
 {
 public:
   /** Standard class typedefs */
   typedef PointSetToListAdaptor Self;
-  typedef ListSample< typename TPointSet::PointType > Superclass ;
+  typedef ListSampleBase< typename TPointSet::PointType > Superclass ;
   typedef SmartPointer< Self > Pointer;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PointSetToListAdaptor, ListSample) ;
+  itkTypeMacro(PointSetToListAdaptor, ListSampleBase) ;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self) ;
@@ -85,7 +85,7 @@ public:
   unsigned int Size() const ;
 
   /** returns the number of measurement vectors int this container.
-   * The size of each dimension in any subclass of ListSample
+   * The size of each dimension in any subclass of ListSampleBase
    * doen't vary. However, the dimension's size of histogram can be
    * different from other dimensions */
   unsigned int Size(const unsigned int &dimension) const ;
@@ -103,7 +103,7 @@ public:
                       const unsigned int &dim,
                       const MeasurementType &value) ;
 
-  /** returns 1 as other subclasses of ListSample does */
+  /** returns 1 as other subclasses of ListSampleBase does */
   FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
 
   /** returns the size of this container */
