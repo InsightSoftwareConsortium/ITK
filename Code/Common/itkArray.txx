@@ -18,25 +18,23 @@
 #define _itkArray_txx
 
 #include "itkArray.h"
+#include <iostream>
 
 namespace itk
 {
 
 
 
-/**
- * Default constructor 
- */
+/** Default constructor  */
 template < typename TValueType >
 Array<TValueType >
-::Array():vnl_vector_ref<TValueType>(0,NULL)
+::Array():vnl_vector_ref<TValueType>(1,vnl_c_vector<TValueType>::allocate_T(1))
 {
+
 }
 
 
-/**
- * Constructor with size
- */
+/** Constructor with size */
 template < typename TValueType >
 Array<TValueType >
 ::Array(unsigned int dimension):vnl_vector_ref<TValueType>(dimension,vnl_c_vector<TValueType>::allocate_T(dimension))
@@ -51,11 +49,42 @@ Array<TValueType >
 
 }
 
+/** Copy Constructor */ 
+template < typename TValueType >
+Array<TValueType >
+::Array(Array<TValueType> const& v) : vnl_vector_ref<TValueType>(v.Size(),vnl_c_vector<TValueType>::allocate_T(v.Size()))
+{
+ for (unsigned i = 0; i < this->num_elmts; i++)
+   {
+   this->data[i] = v.data[i];
+   }
+
+}
+
 template < typename TValueType >
 void Array<TValueType >
 ::SetSize(unsigned int sz)
 {
   this->set_size(sz);
+}
+
+
+template < typename TValueType >
+Array<TValueType> Array<TValueType>::operator= (Array<TValueType> const rhs) 
+{
+if (this != &rhs) { // make sure *this != m
+    if (rhs.data) {
+      if (this->num_elmts != rhs.num_elmts)
+        this->set_size(rhs.size());
+      for (unsigned i = 0; i < this->num_elmts; i++)
+        this->data[i] = rhs.data[i];
+    }
+    else {
+      // rhs is default-constructed.
+      clear();
+    }
+  }
+  return *this;
 }
 
 

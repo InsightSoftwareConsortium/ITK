@@ -19,6 +19,7 @@
 
 #include "itkMacro.h"
 #include "vnl/vnl_vector_ref.h"
+#include "vnl/vnl_vector.h"
 
 namespace itk
 {
@@ -86,7 +87,12 @@ public:
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
   ~Array() {};
-  
+ 
+  /** Copy Operator : To avoid returning the reference we override this function*/
+  Array<TValueType> operator= (Array<TValueType> const rhs);
+
+  /** Copy Constructor : */ 
+  Array(Array<TValueType> const& v);
 };
 
 
