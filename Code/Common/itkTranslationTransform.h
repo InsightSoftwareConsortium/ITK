@@ -86,7 +86,11 @@ public:
     typedef TScalarType ScalarType;
 
     /// Dimension of the domain space
-    enum { SpaceDimension     = NDimensions };
+    enum { SpaceDimension      = NDimensions,
+           ParametersDimension = NDimensions };
+
+    /// Standard parameters container
+    typedef TParameters ParametersType;
 
 
     /// Standard "Superclass" typedef.
@@ -133,6 +137,15 @@ public:
      **/
     const OutputVectorType & GetOffset(void) const
         { return m_Offset; }
+
+    /**
+     * Set Parameters
+     *
+     * This method sets the parameters for the transform
+     * value specified by the user.
+     **/
+    void SetParameters(const ParametersType & parameters);
+
 
     /**
      * Set offset of an Translation Transform

@@ -94,6 +94,22 @@ TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>
 }
 
 
+
+// Set the parameters
+template <class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType>
+void
+TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>
+::SetParameters( const ParametersType & parameters )
+{
+  for( unsigned int i=0; i<SpaceDimension; i++ )
+  {
+    m_Offset[i] = parameters[i];
+  }
+}
+
+
+
 // Print self
 template<class ScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
