@@ -147,7 +147,7 @@ public:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadrilateralCell.cxx"
+#include "itkQuadrilateralCell.txx"
 #endif
 
 #endif

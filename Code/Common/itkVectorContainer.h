@@ -148,7 +148,7 @@ public:
 } // namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorContainer.cxx"
+#include "itkVectorContainer.txx"
 #endif
 
 #endif

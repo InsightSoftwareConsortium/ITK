@@ -65,7 +65,7 @@ private:
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShrinkImage.cxx"
+#include "itkShrinkImage.txx"
 #endif
 
 #endif

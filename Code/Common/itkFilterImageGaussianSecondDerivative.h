@@ -64,7 +64,7 @@ private:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFilterImageGaussianSecondDerivative.cxx"
+#include "itkFilterImageGaussianSecondDerivative.txx"
 #endif
 
 #endif

@@ -147,7 +147,7 @@ public:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTriangleCell.cxx"
+#include "itkTriangleCell.txx"
 #endif
 
 #endif

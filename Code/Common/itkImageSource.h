@@ -72,7 +72,7 @@ private:
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageSource.cxx"
+#include "itkImageSource.txx"
 #endif
 
 #endif

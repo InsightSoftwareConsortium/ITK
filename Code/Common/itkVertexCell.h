@@ -119,7 +119,7 @@ public:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVertexCell.cxx"
+#include "itkVertexCell.txx"
 #endif
 
 #endif

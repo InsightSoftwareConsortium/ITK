@@ -63,7 +63,7 @@ protected:
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFilterImageToImage.cxx"
+#include "itkFilterImageToImage.txx"
 #endif
 
 #endif

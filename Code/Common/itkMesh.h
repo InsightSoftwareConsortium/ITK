@@ -413,7 +413,7 @@ protected:
 } // namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMesh.cxx"
+#include "itkMesh.txx"
 #endif
   
 #endif

@@ -91,7 +91,7 @@ private:
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWriteVTKImage.cxx"
+#include "itkWriteVTKImage.txx"
 #endif
 
 #endif

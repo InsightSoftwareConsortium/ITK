@@ -157,7 +157,7 @@ public:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTetrahedronCell.cxx"
+#include "itkTetrahedronCell.txx"
 #endif
 
 #endif

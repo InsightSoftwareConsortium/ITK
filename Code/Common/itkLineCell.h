@@ -127,7 +127,7 @@ public:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLineCell.cxx"
+#include "itkLineCell.txx"
 #endif
 
 #endif

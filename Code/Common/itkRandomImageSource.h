@@ -91,7 +91,7 @@ private:
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRandomImageSource.cxx"
+#include "itkRandomImageSource.txx"
 #endif
 
 #endif

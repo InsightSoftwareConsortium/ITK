@@ -58,7 +58,7 @@ private:
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWriteImage.cxx"
+#include "itkWriteImage.txx"
 #endif
 
 #endif

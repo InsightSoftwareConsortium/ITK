@@ -79,7 +79,7 @@ protected:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPoint.cxx"
+#include "itkPoint.txx"
 #endif
 
 #endif

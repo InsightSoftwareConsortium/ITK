@@ -67,7 +67,7 @@ private:
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkReadVTKImage.cxx"
+#include "itkReadVTKImage.txx"
 #endif
 
 #endif

@@ -79,7 +79,7 @@ protected:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCellBoundary.cxx"
+#include "itkCellBoundary.txx"
 #endif
 
 #endif

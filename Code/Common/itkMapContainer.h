@@ -121,7 +121,7 @@ public:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMapContainer.cxx"
+#include "itkMapContainer.txx"
 #endif
 
 #endif

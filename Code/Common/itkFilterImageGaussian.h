@@ -105,7 +105,7 @@ private:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFilterImageGaussian.cxx"
+#include "itkFilterImageGaussian.txx"
 #endif
 
 #endif

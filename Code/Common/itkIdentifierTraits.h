@@ -96,7 +96,7 @@ public:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkIdentifierTraits.cxx"
+#include "itkIdentifierTraits.txx"
 #endif
 
 #endif

@@ -330,7 +330,7 @@ protected: //made protected so other iterators can access
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageIterator.cxx"
+#include "itkImageIterator.txx"
 #endif
 
 #endif 
