@@ -17,8 +17,7 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include <fstream>
-#include <iostream>
+
 #include "itkRandomImageSource.h"
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
@@ -145,6 +144,7 @@ int itkVTKImageIOTest(int argc, char* argv[] )
                              argv[1], argv[2], true);
 
 
+#ifndef __BORLANDC__
   status += ReadWrite<char,2>(itk::NumericTraits<char>::NonpositiveMin(),
                              itk::NumericTraits<char>::max(),
                              argv[1], argv[2], false);
@@ -157,6 +157,8 @@ int itkVTKImageIOTest(int argc, char* argv[] )
   status += ReadWrite<char,3>(itk::NumericTraits<char>::NonpositiveMin(),
                              itk::NumericTraits<char>::max(),
                              argv[1], argv[2], true);
+
+#endif
 
   status += ReadWrite<unsigned short,2>(itk::NumericTraits<unsigned short>::NonpositiveMin(),
                              itk::NumericTraits<unsigned short>::max(),
