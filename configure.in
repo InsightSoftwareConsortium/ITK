@@ -184,7 +184,7 @@ case $system in
 		ITK_SHLIB_LINK_FLAGS=""])
 	fi
 	;;
-    CYGWIN_NT-4.0*)
+    CYGWIN_NT*)
         DL_LIBS="-lgdi32"
         ;;
     MP-RAS-02*)
