@@ -28,7 +28,6 @@ INCLUDE (${vxl_SOURCE_DIR}/config/cmake/config/vxl_config_macros.cmake)
 # Perform all the specific tests
 #
 
-PERFORM_CMAKE_TEST(vxl_platform_tests.cxx MY_NEW_TEST)
 PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VCL_HAS_BOOL)
 PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VCL_HAS_TYPENAME)
 PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VCL_HAS_EXPORT)
