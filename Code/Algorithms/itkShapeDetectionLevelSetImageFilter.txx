@@ -44,6 +44,25 @@ ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
   os << "ShapeDetectionFunction: " << m_ShapeDetectionFunction.GetPointer();
 }
 
+template <class TInputImage, class TFeatureImage, class TOutputType>
+void
+ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
+::GenerateData()
+{
+  // Make sure the SpeedImage is setup for the case when PropagationScaling
+  // is zero while CurvatureScaling is non-zero
+  if ( this->GetSegmentationFunction() && 
+       this->GetSegmentationFunction()->GetCurvatureWeight() != 0 &&
+       this->GetSegmentationFunction()->GetPropagationWeight() == 0 )
+    {
+    this->GetSegmentationFunction()->AllocateSpeedImage();
+    this->GetSegmentationFunction()->CalculateSpeedImage();
+    }
+
+  // Continue with Superclass implementation
+  Superclass::GenerateData();
+
+}
 
 }// end namespace itk
 

@@ -143,6 +143,10 @@ protected:
   ShapeDetectionLevelSetImageFilter(const Self &); // purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  /** Overridden from Superclass to handle the case when PropagationScaling is zero
+   * and CurvatureScaling is non-zero.*/
+  void GenerateData();
+
 private:
   ShapeDetectionFunctionPointer m_ShapeDetectionFunction;
 };
