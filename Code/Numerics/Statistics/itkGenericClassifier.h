@@ -111,11 +111,8 @@ public:
   typedef typename TDecisionRule::Pointer DecisionRulePointer ;
 
   /** Output type for GetClassSample method */
-  typedef Subsample< TSample > ClassSampleType ;
-  typedef typename ClassSampleType::Pointer ClassSamplePointer ;
-
-  /** Container of pointers of the subsamples for all classes */ 
-  typedef std::vector< ClassSamplePointer > ClassSampleVectorType ;
+  typedef MembershipSample< TSample > OutputType ;
+  typedef typename OutputType::Pointer OutputPointer ;
 
   /** Container of the pointers of MembershipCalculator objects */
   typedef std::vector< MembershipCalculatorPointer > 
@@ -126,11 +123,6 @@ public:
 
   /** Returns the target data */
   SamplePointer GetSample() ;
-
-  /** Returns a subsample that has instance identifiers of all patterns 
-   * that belong to the class for the classLabel */ 
-  ClassSamplePointer GetClassSample(unsigned int classLabel) 
-    throw (ExceptionObject) ;
 
   /** Stores a MembershipCalculator of a class in its internal vector */
   unsigned int AddMembershipCalculator(MembershipCalculatorPointer function) ;
@@ -146,15 +138,11 @@ public:
   void GenerateData() ;
 
   /** Returns the classification result */
-  ClassSampleVectorType GetOutput() ;
+  OutputPointer GetOutput() ;
 
 protected:
-  GenericClassifier() {}
+  GenericClassifier() ;
   virtual ~GenericClassifier() {}
-  /** Creates subclasses that holds the classification result for each class
-   * and stores their pointer as many as the "numberOfClasses" */ 
-  void PrepareClassSampleVector(unsigned int numberOfClasses) ;
-
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
@@ -166,9 +154,9 @@ private:
 
   /** Container for MembershipCalculators' pointers */
   MembershipCalculatorVectorType m_MembershipCalculators ;
-  
-  /** Classification results storage */
-  ClassSampleVectorType m_ClassSamples ;
+
+  /** Output pointer (MembershipSample) */
+  OutputPointer m_Output ;
 } ; // end of class
 
 

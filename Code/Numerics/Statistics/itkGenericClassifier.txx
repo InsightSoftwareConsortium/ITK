@@ -45,11 +45,19 @@ namespace itk{
   namespace Statistics{
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
+GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
+::GenericClassifier()
+{
+  m_Output = OutputType::New() ;
+}
+
+template< class TSample, class TMembershipCalculator, class TDecisionRule >
 void
 GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
 ::SetSample(SamplePointer sample)
 {
   m_Sample = sample ;
+  m_Output->SetSample(sample) ;
 }
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
@@ -58,32 +66,6 @@ GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
 ::GetSample()
 {
   return m_Sample ;
-}
-
-template< class TSample, class TMembershipCalculator, class TDecisionRule >
-void
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
-::PrepareClassSampleVector(unsigned int numberOfClasses)
-{
-  for (unsigned int i = 0 ; i < numberOfClasses ; i++)
-    {
-      m_ClassSamples.push_back(ClassSampleType::New()) ;
-      (m_ClassSamples[i])->SetSample(m_Sample) ;
-    }
-}
-
-template< class TSample, class TMembershipCalculator, class TDecisionRule >
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >::ClassSamplePointer
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
-::GetClassSample(unsigned int classLabel) 
-  throw (ExceptionObject)
-{
-  if (classLabel >= m_ClassSamples.size())
-    {
-      throw ExceptionObject(__FILE__, __LINE__) ;
-    }
-
-  return m_ClassSamples[classLabel] ;
 }
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
@@ -119,8 +101,6 @@ GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
 {
   unsigned int i ;
 
-  this->PrepareClassSampleVector(m_MembershipCalculators.size()) ;
-  
   typename TSample::Iterator iter = GetSample()->Begin() ;
   typename TSample::Iterator last = GetSample()->End() ;
   typename TSample::MeasurementVectorType measurements ;
@@ -138,17 +118,17 @@ GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
         }
 
       classLabel = rule->Evaluate(discriminantScores) ;
-      this->GetClassSample(classLabel)->AddInstance(iter.GetInstanceIdentifier()) ;
+      m_Output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
       ++iter ;
     }
 }
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >::ClassSampleVectorType
+GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >::OutputPointer
 GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
 ::GetOutput() 
 {
-  return m_ClassSamples ;
+  return m_Output ;
 }
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
@@ -169,7 +149,7 @@ GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
     }
   os << m_MembershipCalculators[i] << "]" << std::endl;
   
-  os << indent << "ClassSamples: " << &m_ClassSamples << std::endl;
+  os << indent << "Output: " << m_Output << std::endl;
   //  os << indent << "Accesor: " << m_Accessor << std::endl;
 }
   } // end of namespace Statistics 
