@@ -20,6 +20,14 @@
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKCommon.h"
 
+#define ITK_WRAP_BASE_TYPEDEF(x) \
+  typedef ::itk::x x; \
+  typedef ::itk::x::Pointer x##_Pointer
+
+#define ITK_WRAP_BASE_SIZEOF(x) \
+  sizeof(x); \
+  sizeof(x##_Pointer)
+
 namespace _cable_
 {
   const char* const group = ITK_WRAP_GROUP(ITKUtils);
@@ -35,8 +43,9 @@ namespace _cable_
 
 void force_instantiate()
 {
+  using namespace _cable_::wrappers::itk;
   ITK_WRAP_BASE_SIZEOF(TclCommand);
-  sizeof(_cable_::wrappers::itk::TclStringStream);
+  sizeof(TclStringStream);
 }
 
 #endif
