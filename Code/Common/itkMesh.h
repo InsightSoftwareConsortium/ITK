@@ -180,7 +180,8 @@ public:
   
   /** The base cell type for cells in this mesh. */
   typedef CellInterface<CellPixelType,CellTraits>  Cell;
-  typedef typename    Cell::Pointer      CellPointer;
+//typedef typename    Cell::Pointer      CellPointer;
+  typedef             Cell             * CellPointer;
   
   /** It happens that boundaries are also cells. */
   typedef Cell BoundaryType;

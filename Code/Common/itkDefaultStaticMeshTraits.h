@@ -111,7 +111,8 @@ public:
   /** The interface to cells to be used by the mesh.
    * This should not be changed. */
   typedef CellInterface< CellPixelType , CellTraits >  Cell;
-  typedef typename Cell::Pointer CellPointer;
+//typedef typename Cell::Pointer CellPointer;
+  typedef          Cell        * CellPointer;
     
   /** The container type for use in storing cells.  It must conform to
    * the IndexedContainer interface. */

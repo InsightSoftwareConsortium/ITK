@@ -51,11 +51,14 @@ public:
   /** Standard class typedefs. */
   typedef HexahedronCell      Self;
   typedef CellInterface<TPixelType,TCellTraits>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+//  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<const Self>  ConstPointer;
+  typedef       Self *  Pointer;
+  typedef const Self *  ConstPointer;
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+//  itkNewMacro(Self);
+  static Pointer New(void) { return new Self; }
   
   /** Standard part of every itk Object. */
   itkTypeMacro(HexahedronCell, CellInterface);
@@ -159,10 +162,14 @@ class HexahedronBoundary:
 public:
   /** Standard class typedefs. */
   typedef HexahedronBoundary  Self;
-  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<const Self>  ConstPointer;
+  typedef       Self *  Pointer;
+  typedef const Self *  ConstPointer;
     
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+//  itkNewMacro(Self);
+  static Pointer New(void) { return new Self; }
 
   /** Standard part of every itk Object. */
   itkTypeMacro(HexahedronBoundary, CellBoundary);

@@ -51,11 +51,14 @@ public:
   /** Standard class typedefs. */
   typedef TriangleCell        Self;
   typedef CellInterface<TPixelType,TCellTraits>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+//  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<const Self>  ConstPointer;
+  typedef       Self *    Pointer;
+  typedef const Self *    ConstPointer;
     
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+//  itkNewMacro(Self);
+  static Pointer  New(void) { return new Self; }
   
   /** Standard part of every itk Object. */
   itkTypeMacro(TriangleCell, CellInterface);
@@ -148,10 +151,14 @@ class TriangleBoundary:
 public:
   /** Standard class typedefs. */
   typedef TriangleBoundary    Self;
-  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<const Self>  ConstPointer;
+  typedef       Self *    Pointer;
+  typedef const Self *    ConstPointer;
     
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  //itkNewMacro(Self);
+  static Pointer  New(void) { return new Self; }
   
   /** Standard part of every itk Object. */
   itkTypeMacro(TriangleBoundary, CellBoundary);

@@ -49,11 +49,14 @@ public:
   /** Standard class typedefs. */
   typedef CellBoundary  Self;
   typedef TCell  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+//  typedef SmartPointer<Self>   Pointer;
+//  typedef SmartPointer<const Self>  ConstPointer;
+  typedef       Self *       Pointer;
+  typedef const Self *       ConstPointer;
     
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  //itkNewMacro(Self);
+  static Pointer New(void) { return new Self; }
 
   /** Standard part of Object class.  Used for debugging output. */
   itkTypeMacro(CellBoundary, Cell);

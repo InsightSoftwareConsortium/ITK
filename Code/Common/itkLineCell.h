@@ -51,11 +51,14 @@ public:
   /** Standard class typedefs. */
   typedef LineCell            Self;
   typedef CellInterface<TPixelType,TCellTraits>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+//  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<const Self>  ConstPointer;
+  typedef       Self *    Pointer;
+  typedef const Self *    ConstPointer;
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  //itkNewMacro(Self);
+  static Pointer New(void) { return new Self; }
   
   /** Standard part of every itk Object. */
   itkTypeMacro(LineCell, CellInterface);
@@ -140,10 +143,15 @@ class LineBoundary:
 public:
   /** Standard class typedefs. */
   typedef LineBoundary        Self;
-  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<const Self>  ConstPointer;
+  typedef       Self *    Pointer;
+  typedef const Self *    ConstPointer;
+  
     
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  //itkNewMacro(Self);
+  static Pointer New(void) { return new Self; }
   
   /** Standard part of every itk Object. */
   itkTypeMacro(LineBoundary, CellBoundary);

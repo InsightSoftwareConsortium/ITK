@@ -50,8 +50,11 @@ public:
   /** Standard class typedefs. */
   typedef VertexCell          Self;
   typedef CellInterface<TPixelType,TCellTraits>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+//  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<const Self>  ConstPointer;
+  typedef       Self * Pointer;
+  typedef const Self * ConstPointer;
+
   
   /** Standard part of every itk Object. */
   itkTypeMacro(VertexCell, CellInterface);
@@ -75,7 +78,8 @@ public:
          CellDimension  = 0 };
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+//  itkNewMacro(Self);
+  static Pointer New(void) { return new Self; }
   
   /** Pick-up typedefs from superclass or classes that we use. */
   typedef typename CellTraits::CellFeatureIdentifier  CellFeatureIdentifier;
@@ -133,10 +137,14 @@ class VertexBoundary:
 public:
   /** Standard class typdefs. */
   typedef VertexBoundary      Self;
-  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<const Self>  ConstPointer;
+  typedef       Self * Pointer;
+  typedef const Self * ConstPointer;
     
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+//  itkNewMacro(Self);  
+  static Pointer New(void) { return new Self; }
   
   /** Standard part of every itk Object. */
   itkTypeMacro(VertexBoundary, CellBoundary);

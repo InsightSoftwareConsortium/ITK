@@ -55,8 +55,10 @@ public:
   /** Standard class typedefs. */
   typedef PolygonCell  Self;
   typedef CellInterface<TPixelType,TCellTraits>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+//  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<const Self>  ConstPointer;
+  typedef       Self * Pointer;
+  typedef const Self * ConstPointer;
     
   /** Save the PixelType template parameter. */
   typedef TPixelType                                PixelType;
@@ -94,7 +96,8 @@ public:
   typedef std::deque<EdgeInfo> EdgeInfoDQ;
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  // itkNewMacro(Self);
+  static Pointer New(void) { return new Self; }
 
   /** Standard part of every itk Object. */
   itkTypeMacro(PolygonCell, CellInterface);
@@ -156,10 +159,14 @@ class PolygonBoundary:
 public:
   /** Standard class typedefs. */
   typedef PolygonBoundary  Self;
-  typedef SmartPointer<Self>     Pointer;
+  //typedef SmartPointer<Self>     Pointer;
+//  typedef SmartPointer<const Self>  ConstPointer;
+  typedef       Self * Pointer;
+  typedef const Self * ConstPointer;
     
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  //itkNewMacro(Self);
+  static Pointer New(void) { return new Self; }
   
   /** Standard part of every itk Object. */
   itkTypeMacro(PolygonBoundary, CellBoundary);

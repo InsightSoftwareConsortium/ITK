@@ -59,15 +59,19 @@ template <
   typename TPixelType,
   typename TCellTraits
   >
-class CellInterface: public LightObject
+//class CellInterface: public LightObject
+class CellInterface
 {
 public:
   /** Standard class typedefs. */
   typedef CellInterface       Self;
   typedef LightObject  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+//  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<const Self>  ConstPointer;
     
+  typedef Self *       Pointer;
+  typedef const Self * ConstPointer;
+
   /** Save the PixelType template parameter. */
   typedef TPixelType                                PixelType;
   
@@ -122,7 +126,8 @@ public:
     typedef SmartPointer<Self>  Pointer;
       
     /** Method for creation through the object factory.   */
-    itkNewMacro(Self);
+    //itkNewMacro(Self);
+    static  Pointer New(void) { return new Self; }
   
     /** Run-time type information (and related methods).   */
     itkTypeMacro(MultiVisitor,LightObject);
@@ -327,7 +332,7 @@ public:
 
 protected:
   CellInterface() {}
-  ~CellInterface() {}
+  virtual ~CellInterface() {}
   /** Cell internal utility routines. */
 
   /** Get the geometric position of a point. */

@@ -49,11 +49,14 @@ public:
   /** Standard class typedefa. */
   typedef TetrahedronCell     Self;
   typedef CellInterface<TPixelType,TCellTraits>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+//  typedef SmartPointer<Self>  Pointer;
+//  typedef SmartPointer<const Self>  ConstPointer;
+  typedef       Self * Pointer;
+  typedef const Self * ConstPointer;
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  //itkNewMacro(Self);
+  static Pointer New(void) { return new Self; }
   
   /** Standard part of every itk Object. */
   itkTypeMacro(TetrahedronCell, CellInterface);
@@ -154,10 +157,14 @@ class TetrahedronBoundary:
 public:
   /** Standard class typedefs. */
   typedef TetrahedronBoundary  Self;
-  typedef SmartPointer<Self>   Pointer;
+//  typedef SmartPointer<Self>   Pointer;
+//  typedef SmartPointer<const Self>  ConstPointer;
+  typedef       Self * Pointer;
+  typedef const Self * ConstPointer;
     
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  //itkNewMacro(Self);
+  static Pointer New(void) { return new Self; }
   
   /** Standard part of every itk Object. */
   itkTypeMacro(TetrahedronBoundary, CellBoundary);
