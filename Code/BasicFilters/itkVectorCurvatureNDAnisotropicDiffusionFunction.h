@@ -25,11 +25,18 @@
 namespace itk {
 
 /** \class VectorCurvatureNDAnisotropicDiffusionFunction
- *  
+ *
+ * This class is a simple extension of the
+ * CurvatureNDAnisotropicDiffusionFunction to pixel types of multiple
+ * components.  Vector components are diffused separately, but diffusion of
+ * each component is limited by a conductance term which depends on all
+ * components.
+ *
+ * For more information, please see CurvatureNDAnisotropicDiffusionFunction.
+ *
+ * \sa CurvatureNDAnisotropicDiffusionFunction
+ * \sa VectorGradientNDAnisotropicDiffusionFunction
  * \sa AnisotropicDiffusionFunction
- * \sa VectorCurvature2DAnisotropicDiffusionFunction
- * \ingroup Operators
- * \todo DOCUMENT! References
  */ 
 template <class TImage>
 class ITK_EXPORT VectorCurvatureNDAnisotropicDiffusionFunction :
@@ -100,15 +107,8 @@ private:
 
   /** Modified global average gradient magnitude term. */
   double m_K;
-
-  /**
-   *
-   */
+  
   static double m_MIN_NORM;
-
-  /**
-   * 
-   */
   unsigned long m_Center;
   unsigned long m_Stride[ImageDimension];
 };

@@ -24,11 +24,32 @@
 namespace itk {
 
 /** \class VectorGradientAnisotropicDiffusionImageFilter
- * 
- * \ingroup ImageEnhancement
- * \ingroup GradientFilters
  *
- *\todo Document.
+ * This filter performs anisotropic diffusion on a vector itk::Image using the
+ * anisotropic diffusion function implemented implemented in
+ * itkVectorGradientNDAnisotropicDiffusionFunction.  For detailed information on
+ * anisotropic diffusion see itkAnisotropicDiffusionFunction,
+ * itkVectorGradientNDAnisotropicDiffusionFunction, and
+ * itkGradientAnisotropicDiffusionFunction.
+ * 
+ * \par Inputs and Outputs
+ * The input to this filter must be an itk::Image with pixel
+ * type which is either an itk::Vector, or a subclass of an itk::Vector.
+ * Additionally, the component type of the vector should be a numerical type
+ * (float or double, or a user defined type which correctly defines
+ * arithmetic operations with floating point accuracy).  The output image type
+ * also has these requirements.
+ *
+ * \par Parameters
+ * Please read all the documentation found in
+ * AnisotropicDiffusionImageFilter and AnisotropicDiffusionFunction.  Also see
+ * VectorGradientNDAnisotropicDiffusionFunction.
+ *
+ * The maximum allowable time step for this filter is 1/2^N, where N is the
+ * dimensionality of the image.  For 2D images any value below 0.250 is stable,
+ * and for 3D images, any value below 0.125 is stable.
+ *
+ * \ingroup ImageEnhancement
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT VectorGradientAnisotropicDiffusionImageFilter

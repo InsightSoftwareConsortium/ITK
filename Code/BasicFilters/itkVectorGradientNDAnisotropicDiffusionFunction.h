@@ -25,10 +25,18 @@
 namespace itk {
 
 /** \class VectorGradientNDAnisotropicDiffusionFunction
- *  
- * \ingroup Operators
  *
- * \todo Convert this class to ND and write a NDGradientAnis....Function
+ * This class is a simple extension of the
+ * GradientNDAnisotropicDiffusionFunction to pixel types of multiple
+ * components.  Vector components are diffused separately, but diffusion of
+ * each component is limited by a conductance term which depends on all
+ * components.
+ *
+ * For more information, please see GradientNDAnisotropicDiffusionFunction.
+ *
+ * \sa GradientNDAnisotropicDiffusionFunction
+ * \sa VectorCurvatureNDAnisotropicDiffusionFunction
+ * \sa AnisotropicDiffusionFunction
  */ 
 template <class TImage>
 class ITK_EXPORT VectorGradientNDAnisotropicDiffusionFunction :
