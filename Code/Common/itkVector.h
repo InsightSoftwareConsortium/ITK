@@ -106,6 +106,134 @@ class Vector {
   void SetVector(const VectorType &vec)
     { m_Vector = vec; }
 
+
+  /**
+   * Operator=.  Assign a vector to a vector.
+   */
+  Self& operator=(const Self& vec)
+  { m_Vector = vec.m_Vector; return *this; }
+
+  Self& operator=(const VectorType &vec)
+  { m_Vector = vec; return *this; }
+
+  /**
+   * Scalar operator=.  Sets all elements of the vector to the same value.
+   */
+  Self& operator=(const VectorValueType &value)
+  { m_Vector = value; return *this; }
+
+  /**
+   * Scalar operator+=.  Adds a scalar to all elements.
+   */
+  Self& operator+=(const VectorValueType &value)
+  { m_Vector += value; return *this; };
+
+  /**
+   * Scalar operator-=.  Subtracts a scalar to all elements.
+   */
+  Self& operator-=(const VectorValueType &value)
+  { m_Vector -= value; return *this; };
+  
+  /**
+   * Scalar operator*=.  Scales elements by a scalar.
+   */
+  Self& operator*=(const VectorValueType &value)
+  { m_Vector *= value; return *this; };
+
+  /**
+   * Scalar operator/=.  Scales (divides) elements by a scalar.
+   */
+  Self& operator/=(const VectorValueType &value)
+  { m_Vector /= value; return *this; };
+
+
+
+  /**
+   * Vector operator+=.  Adds a vectors to the current vector.
+   */
+  Self& operator+=(const Self &vec)
+  { m_Vector += vec.m_Vector; return *this; };
+
+  Self& operator+=(const VectorType &vec)
+  { m_Vector += vec; return *this; };
+
+  /**
+   * Vector operator-=.  Subtracts a vector from a current vector.
+   */
+  Self& operator-=(const Self &vec)
+  { m_Vector -= vec.m_Vector; return *this; };
+
+  Self& operator-=(const VectorType &vec)
+  { m_Vector -= vec; return *this; };
+  
+
+
+  /**
+   * Vector negation.  Negate all the elements of a vector. Return a new vector
+   */
+  Self operator-() const
+  { Self vec(*this); vec *= -1; return vec; }
+  
+  /**
+   * Vector addition. Add two vectors. Return a new vector.
+   */
+  Self operator+(const Self &vec) const
+  { Self result(*this); result.m_Vector += vec.m_Vector; return result; }
+  
+  Self operator+(const VectorType &vec) const
+  { Self result(*this); result.m_Vector += vec; return result; }
+
+  /**
+   * Vector subtraction. Subtract two vectors. Return a new vector.
+   */
+  Self operator-(const Self &vec) const
+  { Self result(*this); result.m_Vector -= vec.m_Vector; return result; }
+  
+  Self operator-(const VectorType &vec) const
+  { Self result(*this); result.m_Vector -= vec; return result; }
+  
+  /**
+   * Scalar operator+. Add a scalar to all elements of a vector. Return
+   * a new vector.
+   */
+  Self operator+(const VectorValueType& val) const
+  { Self result(*this); result.m_Vector += val; return result; }
+    
+  /**
+   * Scalar operator-. Subtract a scalar from all elements of a vector.
+   * Return a new vector.
+   */
+  Self operator-(const VectorValueType& val) const
+  { Self result(*this); result.m_Vector -= val; return result; }
+
+  /**
+   * Scalar operator*. Scale the elements of a vector by a scalar.
+   * Return a new vector.
+   */
+  Self operator*(const VectorValueType& val) const
+  { Self result(*this); result.m_Vector *= val; return result; }
+  
+  /**
+   * Scalar operator/. Scale (divide) the elements of a vector by a scalar.
+   * Return a new vector.
+   */
+  Self operator/(const VectorValueType& val) const
+  { Self result(*this); result.m_Vector /= val; return result; }
+  
+
+  /**
+   * Access an element of a vector. This version can be used as an lvalue.
+   */
+  VectorValueType& operator[] (unsigned int i)
+  { return m_Vector[i]; }
+
+  /**
+   * Access an element of a vector. This version can only a rvalue.
+   */
+  VectorValueType operator[] (unsigned int i) const
+  { return m_Vector[i]; }
+
+  
  private:
   vnl_vector_fixed<T, TVectorDimension> m_Vector;
 };
