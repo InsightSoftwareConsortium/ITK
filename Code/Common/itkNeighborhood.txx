@@ -545,7 +545,7 @@ Convolve1D(Neighborhood<TPixel, VDimension> &A,
 template<class TPixel, unsigned int VDimension>
 Neighborhood<TPixel, VDimension>
 Neighborhood<TPixel, VDimension>
-::operator+(const TPixelScalarValueType &n) const
+::operator+(const ScalarValueType &n) const
 {
   Neighborhood<TPixel, VDimension> ans(*this);
   for (Iterator it = ans.Begin(); it < ans.End(); ++it)
@@ -700,7 +700,7 @@ Neighborhood<TPixel, VDimension>
   
   for (iter = Begin(); iter < End(); ++iter)
     {
-      std::cout << *iter << " ";
+      //      std::cout << *iter << " ";
       for (iDim = 0; iDim < VDimension; ++iDim)
         {
           loop[iDim]++;

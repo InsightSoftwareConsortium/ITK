@@ -303,7 +303,7 @@ public:
    * Returns a Neighborhood  whose scalar pixel values are incremented
    * by a single scalar constant.
    */
-  Self operator+(const TPixelScalarValueType &) const;
+  Self operator+(const ScalarValueType &) const;
 
   /**
    * Returns a Neighborhood whose scalar pixel values are all raised to
