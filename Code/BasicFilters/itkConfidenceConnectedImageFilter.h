@@ -108,6 +108,11 @@ public:
   itkSetMacro(ReplaceValue, OutputImagePixelType);
   itkGetMacro(ReplaceValue, OutputImagePixelType);
 
+  /** Get/Set the radius of the neighborhood over which the
+      statistics are evaluated */
+  itkSetMacro( InitialNeighborhoodRadius, unsigned int );
+  itkGetConstReferenceMacro( InitialNeighborhoodRadius, unsigned int );
+
 protected:
   ConfidenceConnectedImageFilter();
   ~ConfidenceConnectedImageFilter(){};
@@ -128,6 +133,7 @@ private:
   double m_Multiplier;
   unsigned int m_NumberOfIterations;
   OutputImagePixelType m_ReplaceValue;
+  unsigned int m_InitialNeighborhoodRadius;
 };
 
 

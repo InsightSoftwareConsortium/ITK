@@ -40,6 +40,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
   m_Multiplier = 2.5;
   m_NumberOfIterations = 4;
   m_Seed.Fill(0);
+  m_InitialNeighborhoodRadius = 1;
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
 }
 
@@ -110,9 +111,11 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   typename MeanImageFunction<InputImageType>::Pointer meanFunction
     = MeanImageFunction<InputImageType>::New();
   meanFunction->SetInputImage( inputImage );
+  meanFunction->SetNeighborhoodRadius( m_InitialNeighborhoodRadius );
   typename VarianceImageFunction<InputImageType>::Pointer varianceFunction
     = VarianceImageFunction<InputImageType>::New();
   varianceFunction->SetInputImage( inputImage );
+  varianceFunction->SetNeighborhoodRadius( m_InitialNeighborhoodRadius );
   
   // Set up the image function used for connectivity
   typename FunctionType::Pointer function = FunctionType::New();
