@@ -66,6 +66,7 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   region.SetIndex(index);
   m_Image->SetRegions( region );
   m_Image->Allocate();
+  m_Image->FillBuffer(0);
 
 
   /** Create a line */
