@@ -93,13 +93,13 @@ int itkLineSpatialObjectTest(int, char**)
         return EXIT_FAILURE;
       }
 
-      if((*(*it)->GetNormal(0))[d]!=d)
+      if(((*it)->GetNormal(0))[d]!=d)
       {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
       }
       
-      if((*(*it)->GetNormal(1))[d]!=2*d)
+      if(((*it)->GetNormal(1))[d]!=2*d)
       {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
