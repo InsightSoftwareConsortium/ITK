@@ -1465,7 +1465,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   {
     i = 0;
-    while ( i < m_NumberOfNodes - 2 ) {
+    while ( i < static_cast<int>(m_NumberOfNodes) - 2 ) {
       v1 = normals.Value();
       //  v1 = forces.Value();
       v2 = locations.Value();
