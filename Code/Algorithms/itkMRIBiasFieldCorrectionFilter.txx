@@ -140,18 +140,19 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
       typename ImageType::IndexType curIndex; 
       typename TBiasField::IndexType indexBias(SpaceDimension); 
       typename ImageType::SizeType size = m_Region.GetSize();
+      typedef  typename ImageType::IndexType::IndexValueType ivtype;
       // use indexing for incomplete sampling
 
       if (!m_Mask)
    {
      indexBias[2] = 0;
-     for (curIndex[2] = origIndex[2]; curIndex[2] < size[2]; curIndex[2] = curIndex[2] + (int) m_SamplingFactor[2] ) 
+     for (curIndex[2] = origIndex[2]; curIndex[2] < (ivtype) size[2]; curIndex[2] = curIndex[2] + (ivtype) m_SamplingFactor[2] ) 
        {
          indexBias[1] = 0;
-         for (curIndex[1] = origIndex[1]; curIndex[1] < size[1]; curIndex[1] = curIndex[1] + (int) m_SamplingFactor[1]) 
+         for (curIndex[1] = origIndex[1]; curIndex[1] < (ivtype) size[1]; curIndex[1] = curIndex[1] + (ivtype) m_SamplingFactor[1]) 
       {
         indexBias[0] = 0;
-        for (curIndex[0] = origIndex[0]; curIndex[0] < size[0]; curIndex[0] = curIndex[0] + (int) m_SamplingFactor[0]) 
+        for (curIndex[0] = origIndex[0]; curIndex[0] < (ivtype) size[0]; curIndex[0] = curIndex[0] + (ivtype) m_SamplingFactor[0]) 
           {
             const double biasVal = m_BiasField->Evaluate(indexBias);
             const double imageVal = m_Image->GetPixel(curIndex);
@@ -166,13 +167,13 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
       else
    {
      indexBias[2] = 0;
-     for (curIndex[2] = origIndex[2]; curIndex[2] < size[2]; curIndex[2] = curIndex[2] + (int) m_SamplingFactor[2] ) 
+     for (curIndex[2] = origIndex[2]; curIndex[2] < (ivtype) size[2]; curIndex[2] = curIndex[2] + (ivtype) m_SamplingFactor[2] ) 
        {
          indexBias[1] = 0;
-         for (curIndex[1] = origIndex[1]; curIndex[1] < size[1]; curIndex[1] = curIndex[1] + (int) m_SamplingFactor[1]) 
+         for (curIndex[1] = origIndex[1]; curIndex[1] < (ivtype) size[1]; curIndex[1] = curIndex[1] + (ivtype) m_SamplingFactor[1]) 
       {
         indexBias[0] = 0;
-        for (curIndex[0] = origIndex[0]; curIndex[0] < size[0]; curIndex[0] = curIndex[0] + (int) m_SamplingFactor[0]) 
+        for (curIndex[0] = origIndex[0]; curIndex[0] < (ivtype) size[0]; curIndex[0] = curIndex[0] + (ivtype) m_SamplingFactor[0]) 
           {
             if (m_Mask->GetPixel(curIndex) > 0.0) 
          {
