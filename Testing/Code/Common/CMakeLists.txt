@@ -39,6 +39,7 @@ ADD_TEST(itkHashTableTest ${COMMON_TESTS} itkHashTableTest)
 ADD_TEST(itkImageAdaptorTest ${COMMON_TESTS} itkImageAdaptorTest)
 ADD_TEST(itkImageIteratorTest ${COMMON_TESTS} itkImageIteratorTest)
 ADD_TEST(itkImageIteratorsForwardBackwardTest ${COMMON_TESTS} itkImageIteratorsForwardBackwardTest)
+ADD_TEST(itkImageIteratorWithIndexTest ${COMMON_TESTS} itkImageIteratorWithIndexTest)
 ADD_TEST(itkImageLinearIteratorTest ${COMMON_TESTS} itkImageLinearIteratorTest)
 ADD_TEST(itkImageRandomIteratorTest ${COMMON_TESTS} itkImageRandomIteratorTest)
 ADD_TEST(itkImageRegionTest ${COMMON_TESTS} itkImageRegionTest)
@@ -106,6 +107,7 @@ itkHashTableTest.cxx
 itkImageAdaptorTest.cxx
 itkImageIteratorTest.cxx
 itkImageIteratorsForwardBackwardTest.cxx
+itkImageIteratorWithIndexTest.cxx
 itkImageLinearIteratorTest.cxx
 itkImageRandomIteratorTest.cxx
 itkImageRegionTest.cxx

@@ -31,6 +31,7 @@ REGISTER_TEST(itkHashTableTest );
 REGISTER_TEST(itkImageAdaptorTest );
 REGISTER_TEST(itkImageIteratorTest );
 REGISTER_TEST(itkImageIteratorsForwardBackwardTest );
+REGISTER_TEST(itkImageIteratorWithIndexTest );
 REGISTER_TEST(itkImageLinearIteratorTest );
 REGISTER_TEST(itkImageRandomIteratorTest );
 REGISTER_TEST(itkImageRegionTest );
