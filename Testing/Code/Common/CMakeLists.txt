@@ -70,6 +70,7 @@ ADD_TEST(itkMaximumDecisionRuleTest ${COMMON_TESTS} itkMaximumDecisionRuleTest)
 ADD_TEST(itkMaximumRatioDecisionRuleTest ${COMMON_TESTS} itkMaximumRatioDecisionRuleTest)
 ADD_TEST(itkMeanImageFunctionTest ${COMMON_TESTS} itkMeanImageFunctionTest)
 ADD_TEST(itkMedianImageFunctionTest ${COMMON_TESTS} itkMedianImageFunctionTest)
+ADD_TEST(itkMedialNodeCorrespondencesTest${COMMON_TESTS} itkMedialNodeCorrespondencesTest)
 ADD_TEST(itkMemoryLeakTest ${COMMON_TESTS} itkMemoryLeakTest)
 ADD_TEST(itkMeshTest ${COMMON_TESTS} itkMeshTest)
 ADD_TEST(itkMeshFstreamTest ${COMMON_TESTS} itkMeshFstreamTest)
@@ -223,6 +224,7 @@ itkMahalanobisDistanceThresholdImageFunctionTest.cxx
 itkMaximumDecisionRuleTest.cxx
 itkMaximumRatioDecisionRuleTest.cxx
 itkMeanImageFunctionTest.cxx 
+itkMedialNodeCorrespondencesTest.cxx
 itkMedianImageFunctionTest.cxx 
 itkMemoryLeakTest.cxx
 itkMeshTest.cxx
