@@ -11,8 +11,9 @@ SET (CVS_WEB_URL "http://${DROP_SITE}/cgi-bin/itkcvsweb.cgi/Insight/")
 SET (CVS_WEB_CVSROOT "Insight")
 
 OPTION(BUILD_DOXYGEN "Build source documentation using doxygen" "On")
-SET (DOXYGEN_URL "http://${DROP_SITE}/Insight/Doxygen/html/" )
 SET (DOXYGEN_CONFIG "${PROJECT_BINARY_DIR}/doxygen.config" )
+SET (USE_DOXYGEN "On")
+SET (DOXYGEN_URL "http://${DROP_SITE}/Insight/Doxygen/html/" )
 
 SET (USE_GNATS "On")
 SET (GNATS_WEB_URL "http://${DROP_SITE}/cgi-bin/gnatsweb.pl/Insight/")
