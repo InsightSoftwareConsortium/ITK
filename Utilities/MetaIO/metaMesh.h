@@ -93,7 +93,7 @@ public:
   };
   
   int m_Id;
-  int m_Dim;
+  unsigned int m_Dim;
   int* m_PointsId;
 };
 
@@ -125,7 +125,7 @@ public:
     { 
     m_Id = -1;
     }
-  ~MeshDataBase()
+  virtual ~MeshDataBase()
     { 
     };
   

@@ -716,7 +716,7 @@ M_Read(void)
   char* _data = new char[pointDataSize];
   m_ReadStream->read((char *)_data, pointDataSize);
 
-  int gc = m_ReadStream->gcount();
+  unsigned int gc = m_ReadStream->gcount();
   if(gc != pointDataSize)
     {
     std::cout << "MetaMesh: m_Read: data not read completely" 
@@ -831,7 +831,7 @@ M_Read(void)
   char* _celldata = new char[cellDataSize];
   m_ReadStream->read((char *)_celldata, cellDataSize);
 
-  int gcCell = m_ReadStream->gcount();
+  unsigned int gcCell = m_ReadStream->gcount();
   if(gcCell != cellDataSize)
     {
     std::cout << "MetaMesh: m_Read: data not read completely" 
@@ -999,7 +999,7 @@ M_Write(void)
         {
         unsigned int totalCellsSize = m_CellListArray[i]->size()*(MET_CellSize[i]+1);
         char* data = new char[totalCellsSize*sizeof(int)];
-        int d;
+        unsigned int d;
         int j=0;
         CellListType::const_iterator it = m_CellListArray[i]->begin();
         while(it != m_CellListArray[i]->end())
@@ -1019,7 +1019,7 @@ M_Write(void)
         {
         CellListType::const_iterator it = m_CellListArray[i]->begin();
   
-        int d;
+        unsigned int d;
         while(it != m_CellListArray[i]->end())
           {
            *m_WriteStream << (*it)->m_Id << " ";
