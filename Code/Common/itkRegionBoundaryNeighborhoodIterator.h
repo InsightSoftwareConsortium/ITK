@@ -39,7 +39,7 @@ namespace itk {
  *
  */
 template<class TPixel, unsigned int VDimension = 2>
-class RegionBoundaryNeighborhoodIterator
+class ITK_EXPORT RegionBoundaryNeighborhoodIterator
   :  public SmartRegionNeighborhoodIterator<TPixel, VDimension>
 {
 public:

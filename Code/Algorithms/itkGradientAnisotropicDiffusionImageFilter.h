@@ -25,7 +25,7 @@ namespace itk
 {
 
 template <class TInnerProduct,  class TIterator>
-struct AnisoDiffuseGrad2D : public DiffusionStrategy
+struct ITK_EXPORT AnisoDiffuseGrad2D : public DiffusionStrategy
 {
   AnisoDiffuseGrad2D() {}
   AnisoDiffuseGrad2D(float c) : DiffusionStrategy(c) {}
@@ -33,7 +33,7 @@ struct AnisoDiffuseGrad2D : public DiffusionStrategy
 };
 
 template <class TInnerProduct, class TIterator>
-struct AnisoDiffuseGradND : public DiffusionStrategy
+struct ITK_EXPORT AnisoDiffuseGradND : public DiffusionStrategy
 {
   AnisoDiffuseGradND() {}
   AnisoDiffuseGradND(float c) : DiffusionStrategy(c) {}

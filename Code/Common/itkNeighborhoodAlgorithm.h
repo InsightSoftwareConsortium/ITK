@@ -42,7 +42,7 @@ namespace NeighborhoodAlgorithm
  * neighborhood.
  */
 template<class TContainer>
-struct ScalarOperation
+struct ITK_EXPORT ScalarOperation
 {
   typedef typename TContainer::PixelType InternalType;
   typedef typename TContainer::ScalarValueType ScalarType;
@@ -69,7 +69,7 @@ struct ScalarOperation
  * coefficients.
  */
 template<class TContainer>
-struct InnerProduct : public ScalarOperation<TContainer>
+struct ITK_EXPORT InnerProduct : public ScalarOperation<TContainer>
 {
   typedef typename TContainer::ScalarValueType ScalarType;
   virtual ScalarType operator()(TContainer &,
@@ -87,7 +87,7 @@ struct InnerProduct : public ScalarOperation<TContainer>
  * m_VisibleComponent member variable. 
  */
 template<class TContainer>
-struct VectorComponentInnerProduct
+struct ITK_EXPORT VectorComponentInnerProduct
   : public ScalarOperation<TContainer>
 {
   typedef typename TContainer::ScalarValueType ScalarType;
@@ -128,7 +128,7 @@ struct VectorComponentInnerProduct
  * This algorithm does no bounds checking.
  */
 template<class TIterator>
-struct IteratorInnerProduct : public ScalarOperation<TIterator>
+struct ITK_EXPORT IteratorInnerProduct : public ScalarOperation<TIterator>
 {
   typedef typename TIterator::ScalarValueType ScalarType;
   virtual ScalarType operator()(TIterator &,
@@ -156,7 +156,7 @@ struct IteratorInnerProduct : public ScalarOperation<TIterator>
  *
  */
 template<class TIterator>
-struct BoundsCheckingIteratorInnerProduct
+struct ITK_EXPORT BoundsCheckingIteratorInnerProduct
   : public ScalarOperation<TIterator>
 {
   typedef typename TIterator::ScalarValueType ScalarType;
@@ -184,7 +184,7 @@ struct BoundsCheckingIteratorInnerProduct
  *
  */
 template<class TIterator>
-struct VectorComponentIteratorInnerProduct
+struct ITK_EXPORT VectorComponentIteratorInnerProduct
   : public ScalarOperation<TIterator>
 {
   typedef typename TIterator::ScalarValueType ScalarType;
@@ -225,7 +225,7 @@ struct VectorComponentIteratorInnerProduct
  *   Neighborhood GetNeighborhood()
  */
 template<class TIterator>
-struct BoundsCheckingVectorComponentIteratorInnerProduct
+struct ITK_EXPORT BoundsCheckingVectorComponentIteratorInnerProduct
   : public VectorComponentIteratorInnerProduct<TIterator>
 {
   typedef typename TIterator::ScalarValueType ScalarType;
@@ -247,7 +247,7 @@ struct BoundsCheckingVectorComponentIteratorInnerProduct
  * type. 
  */
 template<class TOperation, class TIterator>
-struct ApplyOperatorToEach
+struct ITK_EXPORT ApplyOperatorToEach
 {
   typedef typename TIterator::ScalarValueType ScalarType;
   typedef typename TIterator::ImageType ImageType;
@@ -269,7 +269,7 @@ struct ApplyOperatorToEach
  * 
  */
 template<class TImage>
-struct CalculateOutputWrapOffsetModifiers
+struct ITK_EXPORT CalculateOutputWrapOffsetModifiers
 {
   inline void operator()(long int *, TImage *, TImage *) const;
 };

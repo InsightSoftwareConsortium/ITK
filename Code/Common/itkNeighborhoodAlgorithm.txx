@@ -254,7 +254,7 @@ BoundsCheckingVectorComponentIteratorInnerProduct<TIterator>
   else
     {
       Neighborhood<VectorType, Dimension> N = d.GetNeighborhood();
-      IP(N, v);
+      return IP(N, v);
     }
 }
 
@@ -282,7 +282,7 @@ BoundsCheckingVectorComponentIteratorInnerProduct<TIterator>
   else
     {
       Neighborhood<VectorType, Dimension> N = d.GetNeighborhood();
-      IP(s, N, v);
+      return IP(s, N, v);
     }
 }
 

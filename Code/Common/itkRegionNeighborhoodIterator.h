@@ -44,7 +44,7 @@ namespace itk {
  */
  
 template<class TPixel, unsigned int VDimension =2>
-class RegionNeighborhoodIterator
+class ITK_EXPORT RegionNeighborhoodIterator
  : public NeighborhoodIterator<TPixel, VDimension>
 {
 public:

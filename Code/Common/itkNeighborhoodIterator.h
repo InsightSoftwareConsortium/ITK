@@ -90,7 +90,7 @@ namespace itk {
  */
 
 template<class TPixel, unsigned int VDimension = 2>
-class NeighborhoodIterator
+class ITK_EXPORT NeighborhoodIterator
   :  public NeighborhoodBase<TPixel *, VDimension>
 {
 public:

@@ -146,6 +146,7 @@ template<class TInnerProduct,  class TIterator >
 void AnisoDiffuseCurveND<TInnerProduct, TIterator>
 ::operator()(void *d1, void *d2)
 {
+  /*
   typedef typename TIterator::ImageType ImageType;
   typedef typename ImageType::ScalarValueType ScalarValueType;
   enum { ImageDimension = ImageType::ImageDimension };
@@ -169,7 +170,7 @@ void AnisoDiffuseCurveND<TInnerProduct, TIterator>
   it.SetOutputBuffer(output->GetBufferPointer()
                      + output->ComputeOffset(it.GetStartIndex()));
 
-
+  */
 
   //******* UNIMPLEMENTED **************//
   

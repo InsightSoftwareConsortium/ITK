@@ -40,7 +40,7 @@ namespace itk {
  * Wesley, Reading, MA. 1997.
  */
 template<class TPixel, class TContainer>
-class SliceIterator
+class ITK_EXPORT SliceIterator
 {
 public:
   /**

@@ -39,7 +39,7 @@ namespace itk {
  */
 
 template<class TPixel, unsigned int VDimension = 2>
-class NeighborhoodBase : public std::valarray<TPixel>
+class ITK_EXPORT NeighborhoodBase : public std::valarray<TPixel>
 {
 public:
   /**

@@ -54,7 +54,8 @@ namespace itk {
  *
  */
 template<unsigned int VDimension=2>
-class GaussianOperator : public NeighborhoodOperator<float, VDimension>
+class ITK_EXPORT GaussianOperator
+  : public NeighborhoodOperator<float, VDimension>
 {
 public:
   /**

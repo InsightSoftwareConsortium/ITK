@@ -34,7 +34,7 @@ namespace itk {
  *
  */
 template<class TPixel, unsigned int VDimension=2>
-class BackwardDifferenceOperator
+class ITK_EXPORT BackwardDifferenceOperator
   : public NeighborhoodOperator<TPixel, VDimension>
 {
 public:

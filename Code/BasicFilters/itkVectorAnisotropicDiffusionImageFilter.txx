@@ -264,8 +264,6 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
 
   VectorValueType Cx[D];
   VectorValueType Cxd[D];
-  VectorValueType Cx_gradmag[D];
-  VectorValueType Cxd_gradmag[D];
   VectorValueType dx_forward[D][N];
   VectorValueType dx_backward[D][N];
   VectorValueType dx[D][N];

@@ -24,7 +24,7 @@ namespace itk
 {
 
 template<class TInnerProduct, class TIterator>
-struct GradientMagnitudeStrategy
+struct ITK_EXPORT GradientMagnitudeStrategy
 {
   typedef typename TIterator::ImageType ImageType;
   typedef typename ImageType::PixelType PixelType;

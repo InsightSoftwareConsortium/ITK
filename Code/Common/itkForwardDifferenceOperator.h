@@ -33,7 +33,7 @@ namespace itk {
  * inner product. 
  */
 template<class TPixel, unsigned int VDimension=2>
-class ForwardDifferenceOperator
+class ITK_EXPORT ForwardDifferenceOperator
   : public NeighborhoodOperator<TPixel, VDimension>
 {
 public:

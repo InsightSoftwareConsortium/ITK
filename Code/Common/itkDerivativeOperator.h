@@ -38,7 +38,8 @@ namespace itk {
  * \sa BackwardDifferenceOperator
  */
 template<class TPixel, unsigned int VDimension=2>
-class DerivativeOperator : public NeighborhoodOperator<TPixel, VDimension>
+class ITK_EXPORT DerivativeOperator
+  : public NeighborhoodOperator<TPixel, VDimension>
 {
 
 public:

@@ -22,27 +22,27 @@ namespace itk
 {
 
 template <class TPixel, unsigned long VDimension>
-struct AvgGradMagSquared
+struct ITK_EXPORT AvgGradMagSquared
 {
   AvgGradMagSquared() {}
   TPixel operator() (Image<TPixel, VDimension> *,
                      const ImageRegion<VDimension> &) const;
 };
 
-struct CopyStrategy
+struct ITK_EXPORT CopyStrategy
 {
   CopyStrategy() {}
   virtual void operator()(void *, void *) const = 0;
 };
 
 template <class TPixel>
-struct CopyStrategyScalar : public CopyStrategy
+struct ITK_EXPORT CopyStrategyScalar : public CopyStrategy
 {
   CopyStrategyScalar() {}
   virtual void operator()(void*, void *) const;
 };
   
-struct DiffusionStrategy
+struct ITK_EXPORT DiffusionStrategy
 {
   DiffusionStrategy(float c) : m_ConductanceTerm(c) {}
   DiffusionStrategy() : m_ConductanceTerm(0.0f) {}
@@ -51,7 +51,7 @@ struct DiffusionStrategy
   float m_ConductanceTerm;
 };
 
-struct CompositeDiffusionStrategy : public DiffusionStrategy
+struct ITK_EXPORT CompositeDiffusionStrategy : public DiffusionStrategy
 {
   CompositeDiffusionStrategy(float c) : DiffusionStrategy(c) {}
   CompositeDiffusionStrategy(DiffusionStrategy *first,
@@ -76,7 +76,7 @@ struct CompositeDiffusionStrategy : public DiffusionStrategy
   DiffusionStrategy *b;
 };
 
-struct UpdateStrategy
+struct ITK_EXPORT UpdateStrategy
 {
   UpdateStrategy() : m_Multiplier(1.0f) {}
   virtual void operator()(void *, void *) const = 0;
@@ -84,7 +84,7 @@ struct UpdateStrategy
 };
 
 template<class TImage>
-struct UpdateStrategyScalar : public UpdateStrategy
+struct ITK_EXPORT UpdateStrategyScalar : public UpdateStrategy
 {
   UpdateStrategyScalar() {} 
   virtual void operator()(void *, void *) const;

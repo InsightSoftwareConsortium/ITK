@@ -59,7 +59,7 @@ namespace itk {
  *
  */
 template< class TPixel, unsigned int VDimension >
-class NeighborhoodOperator : public Neighborhood<TPixel, VDimension>
+class ITK_EXPORT NeighborhoodOperator : public Neighborhood<TPixel, VDimension>
 {
 public:
   /**

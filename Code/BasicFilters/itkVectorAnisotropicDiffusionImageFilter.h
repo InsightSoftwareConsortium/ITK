@@ -28,14 +28,14 @@ namespace itk
 {
 
 template<class TImage>
-struct UpdateStrategyVector: public UpdateStrategy
+struct ITK_EXPORT UpdateStrategyVector: public UpdateStrategy
 {
   UpdateStrategyVector() {}
   virtual void operator() (void *, void *) const;
 };
     
 template<class TImage>
-struct AvgGradMagSquaredVector
+struct ITK_EXPORT AvgGradMagSquaredVector
 {
   typedef typename TImage::PixelType PixelType;
   typedef typename TImage::VectorValueType VectorValueType;
@@ -47,14 +47,14 @@ struct AvgGradMagSquaredVector
 };
 
 template<class TImage>
-struct CopyStrategyVector: public CopyStrategy
+struct ITK_EXPORT CopyStrategyVector: public CopyStrategy
 {
   CopyStrategyVector() {};
   virtual void operator()(void *, void *) const;
 };
 
 template <class TInnerProduct, class TIterator>
-struct AnisoDiffuseVector2D : public DiffusionStrategy
+struct ITK_EXPORT AnisoDiffuseVector2D : public DiffusionStrategy
 {
   typedef typename TIterator::ImageType ImageType;
   typedef typename ImageType::ScalarValueType ScalarValueType;
@@ -69,7 +69,7 @@ struct AnisoDiffuseVector2D : public DiffusionStrategy
 };
 
 template <class TInnerProduct, class TIterator>
-struct AnisoDiffuseVectorND : public DiffusionStrategy
+struct ITK_EXPORT AnisoDiffuseVectorND : public DiffusionStrategy
 {
   typedef typename TIterator::ImageType ImageType;
   typedef typename ImageType::ScalarValueType ScalarValueType;
