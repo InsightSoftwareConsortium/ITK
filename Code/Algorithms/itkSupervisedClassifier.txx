@@ -45,6 +45,9 @@ SupervisedClassifier<TInputImage, TClassifiedImage>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Supervised Classifier / Clusterer" << std::endl;
+  os << indent << "TrainingImage: " <<
+    m_TrainingImage.GetPointer() << std::endl;
+
 
 }// end PrintSelf
 

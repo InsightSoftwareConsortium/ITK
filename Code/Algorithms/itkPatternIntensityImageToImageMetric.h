@@ -90,6 +90,8 @@ public:
 protected:
   PatternIntensityImageToImageMetric();
   virtual ~PatternIntensityImageToImageMetric() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
 
 private:
   PatternIntensityImageToImageMetric(const Self&); //purposely not implemented

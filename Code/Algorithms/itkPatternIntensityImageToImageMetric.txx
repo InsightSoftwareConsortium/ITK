@@ -32,6 +32,18 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
 {
 }
 
+
+/*
+ * PrintSelf
+ */
+template <class TFixedImage, class TMovingImage> 
+void
+PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+}
+
 /*
  * Get the match Measure
  */

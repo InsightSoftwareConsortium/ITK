@@ -100,7 +100,7 @@ int itkPatternIntensityImageMetricTest(int, char**)
   typedef TransformBaseType::JacobianType           JacobianType;
 
   MetricType::Pointer  metric = MetricType::New();
-
+  metric->Print(std::cout);
 
 //-----------------------------------------------------------
 // Plug the Images into the metric
