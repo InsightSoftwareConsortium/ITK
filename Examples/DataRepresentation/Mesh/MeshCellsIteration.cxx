@@ -294,6 +294,7 @@ int main()
         VertexType * line = dynamic_cast<VertexType *>( cell );
         std::cout << "dimension = " << line->GetDimension()      << std::endl;
         std::cout << "# points  = " << line->GetNumberOfPoints() << std::endl;
+        break;
         }
       case CellType::LINE_CELL:
         {
@@ -301,6 +302,7 @@ int main()
         LineType * line = dynamic_cast<LineType *>( cell );
         std::cout << "dimension = " << line->GetDimension()      << std::endl;
         std::cout << "# points  = " << line->GetNumberOfPoints() << std::endl;
+        break;
         }
       case CellType::TRIANGLE_CELL:
         {
@@ -308,7 +310,15 @@ int main()
         TriangleType * line = dynamic_cast<TriangleType *>( cell );
         std::cout << "dimension = " << line->GetDimension()      << std::endl;
         std::cout << "# points  = " << line->GetNumberOfPoints() << std::endl;
+        break;
         }
+      default:
+        {
+        std::cout << "Cell with more than three points" << std::endl;
+        std::cout << "dimension = " << cell->GetDimension()      << std::endl;
+        std::cout << "# points  = " << cell->GetNumberOfPoints() << std::endl;
+        break;
+        } 
      }
       ++cellIterator;
     }
