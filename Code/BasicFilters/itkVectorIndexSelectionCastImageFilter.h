@@ -76,10 +76,10 @@ class ITK_EXPORT VectorIndexSelectionCastImageFilter :
     
     /** Method for creation through the object factory. */
     itkNewMacro(Self);
-    
+
     /** Get/Set methods for the index */
     void SetIndex(unsigned int i) { this->GetFunctor().SetIndex(i); }
-    unsigned int GetIndex(void) const { return this->GetFunctor().GetIndex(); }
+    unsigned int GetIndex(void) { return this->GetFunctor().GetIndex(); }
 
   protected:
     VectorIndexSelectionCastImageFilter() {}
