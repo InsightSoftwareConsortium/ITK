@@ -39,11 +39,17 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
     itkExceptionMacro(<< "Either input and/or output is NULL.");
     }
 
-   if( input->GetPixelContainer() == output->GetPixelContainer() )
-     {
-     // the input and output container are the same - no need to copy
-     return;
-     }
+  // Check if we are doing in-place filtering
+  if ( this->GetInPlace() && (typeid(TInputImage) == typeid(TOutputImage)) )
+    {
+    typename TInputImage::Pointer tempPtr = 
+      dynamic_cast<TInputImage *>( output.GetPointer() );
+    if ( tempPtr && tempPtr->GetPixelContainer() == input->GetPixelContainer() )
+      {
+      // the input and output container are the same - no need to copy
+      return;
+      }
+    }
   
   ImageRegionConstIterator<TInputImage>  in(input, output->GetRequestedRegion());
   ImageRegionIterator<TOutputImage> out(output, output->GetRequestedRegion());
