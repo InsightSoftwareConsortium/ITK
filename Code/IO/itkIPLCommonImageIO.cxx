@@ -89,8 +89,11 @@ void IPLCommonImageIO::Read(void* buffer)
     if(!f.is_open())
       RAISE_EXCEPTION();
     f.seekg (m_fnlist.Info[i].SliceOffset, std::ios::beg);
-    f.read((char *)img_buffer, m_fnlist.XDim * m_fnlist.YDim * sizeof(S16));
-    IOCHECK();
+    if(!this->ReadBufferAsBinary(f, img_buffer, m_fnlist.XDim * m_fnlist.YDim * sizeof(S16)))
+      {
+      f.close();
+      RAISE_EXCEPTION();
+      }
     f.close();
     // ByteSwapper::SwapRangeFromSystemToBigEndian is set up based on
     // the FILE endian-ness, not as the name would lead you to believe.
