@@ -41,8 +41,7 @@ const std::vector<std::string> &GDCMSeriesFileNames::GetInputFileNames()
     for(std::list<gdcmHeaderHelper*>::iterator it = flist.begin(); 
         it != flist.end(); ++it )
       {
-      std::string foo = (*it)->GetFileName();
-      m_InputFileNames.push_back( foo );
+      m_InputFileNames.push_back( (*it)->GetFileName() );
       }
     }
   else
