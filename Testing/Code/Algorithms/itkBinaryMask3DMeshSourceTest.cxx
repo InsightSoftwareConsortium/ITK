@@ -22,9 +22,9 @@
 #include <iostream>
 #include <time.h>
 
-#include <itkImage.h>
-#include <itkImageRegionIterator.h>
-#include <itkMesh.h>
+#include "itkImage.h"
+#include "itkImageRegionIterator.h"
+#include "itkMesh.h"
 #include "itkBinaryMask3DMeshSource.h"
 
 
