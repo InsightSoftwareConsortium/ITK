@@ -176,6 +176,7 @@ void SolverCrankNicolson::AssembleFforTimeStep(int dim) {
   { 
     m_ls->SetVectorValue(q->first,0.0,SolutionVectorTMinus1Index); //FIXME? 
     m_ls->SetSolutionValue(q->first,0.0,SolutionTMinus1Index); //FIXME? 
+    m_ls->SetSolutionValue(q->first,0.0,TotalSolutionIndex);
   }
 
   m_ls->MultiplyMatrixVector(DiffMatrixBySolutionTMinus1Index,
@@ -388,7 +389,7 @@ Element::Float SolverCrankNicolson::BrentsMethod(Float tol,unsigned int MaxIters
 
 
 
-void SolverCrankNicolson::GoldenSection(Float tol,unsigned int MaxIters)
+Element::Float SolverCrankNicolson::GoldenSection(Float tol,unsigned int MaxIters)
 {
   // We should now have a, b and c, as well as f(a), f(b), f(c), 
   // where b gives the minimum energy position;
@@ -397,7 +398,7 @@ void SolverCrankNicolson::GoldenSection(Float tol,unsigned int MaxIters)
 
 
   FindBracketingTriplet(&ax, &bx, &cx);
-  Float xmin=1.0;
+  Float xmin=1.0,fmin=1.0;
   //if (fb!=0.0)
   Float f1=1.0,f2=1.0,x0=1.0,x1=1.0,x2=1.0,x3=1.0;
 
@@ -429,11 +430,14 @@ void SolverCrankNicolson::GoldenSection(Float tol,unsigned int MaxIters)
   }
   if (f1<f2){
     xmin=x1;
+    fmin=f1;
   } else {
     xmin=x2;
+    fmin=f2;
   }
   
   SetEnergyToMin(xmin);
+  return fmin; 
 }
 
 
