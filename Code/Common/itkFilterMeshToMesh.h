@@ -53,15 +53,21 @@ public:
   itkTypeMacro(FilterMeshToMesh,MeshSource);
 
   /** 
+   * Some typedefs.
+   */
+  typedef TInputMesh InputMesh;
+  typedef typename InputMesh::Pointer InputMeshPointer;
+
+  /** 
    * Set the mesh input of this process object. 
    */
-  void SetInput(TInputMesh *input);
+  void SetInput(InputMesh *input);
 
   /** 
    * Get the mesh input of this process object. 
    */
-  TInputMesh *GetInput();
-  TInputMesh *GetInput(unsigned int idx);
+  InputMeshPointer GetInput();
+  InputMeshPointer GetInput(unsigned int idx);
 
 protected:
   FilterMeshToMesh();

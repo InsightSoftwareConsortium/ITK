@@ -40,7 +40,7 @@ WriteImage<TInputImage>
     }
   
   return static_cast<TInputImage*>
-                    ((DataObject*)(this->ProcessObject::GetInput(0)));
+                     (this->ProcessObject::GetInput(0).GetPointer());
 }
 
 

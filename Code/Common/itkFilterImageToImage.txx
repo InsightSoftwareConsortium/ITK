@@ -58,7 +58,7 @@ FilterImageToImage<TInputImage,TOutputImage>
     }
   
   return static_cast<TInputImage*>
-                    ((DataObject*)(this->ProcessObject::GetInput(0)));
+                     (this->ProcessObject::GetInput(0).GetPointer());
 }
   
 /**
@@ -70,7 +70,7 @@ FilterImageToImage<TInputImage,TOutputImage>
 ::GetInput(unsigned int idx)
 {
   return static_cast<TInputImage*>
-                    ((DataObject*)(this->ProcessObject::GetInput(idx)));
+                     (this->ProcessObject::GetInput(idx).GetPointer());
 }
 
 

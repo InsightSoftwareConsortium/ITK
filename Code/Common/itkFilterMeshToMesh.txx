@@ -48,7 +48,7 @@ FilterMeshToMesh<TInputMesh,TOutputMesh>
  *
  */
 template <class TInputMesh, class TOutputMesh>
-TInputMesh *
+FilterMeshToMesh<TInputMesh,TOutputMesh>::InputMeshPointer
 FilterMeshToMesh<TInputMesh,TOutputMesh>
 ::GetInput()
 {
@@ -57,7 +57,8 @@ FilterMeshToMesh<TInputMesh,TOutputMesh>
     return 0;
     }
   
-  return static_cast<TInputMesh *>(this->GetInput(0));
+  return static_cast<TInputMesh*>
+                     (this->ProcessObject::GetInput(0).GetPointer());
 }
 
   
@@ -65,11 +66,12 @@ FilterMeshToMesh<TInputMesh,TOutputMesh>
  *
  */
 template <class TInputMesh, class TOutputMesh>
-TInputMesh *
+FilterMeshToMesh<TInputMesh,TOutputMesh>::InputMeshPointer
 FilterMeshToMesh<TInputMesh,TOutputMesh>
 ::GetInput(unsigned int idx)
 {
-  return static_cast<TInputMesh *>(this->ProcessObject::GetInput(idx));
+  return static_cast<TInputMesh*>
+                     (this->ProcessObject::GetInput(idx).GetPointer());
 }
 
 
