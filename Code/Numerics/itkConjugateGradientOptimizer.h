@@ -58,15 +58,25 @@ public:
 
 
   /**
-   * ParametersType typedef.
+   *  Parameters type.
+   *  it defines a position in the optimization search space
    */
-  typedef typename TCostFunction::ParametersType    ParametersType;
+  typedef typename TCostFunction::ParametersType ParametersType;
 
 
   /**
-   * InternalParametersType typedef.
+   *  Measure type.
+   *  it defines a type used to return the cost function value 
    */
-  typedef  typename Superclass::InternalParametersType   InternalParametersType;
+  typedef typename TCostFunction::MeasureType MeasureType;
+
+
+  /**
+   *  Derivative type.
+   *  it defines a type used to return the cost function derivative 
+   */
+  typedef typename TCostFunction::DerivativeType DerivativeType;
+
 
 
  /** 
@@ -91,7 +101,7 @@ public:
   /**
    * Start optimization with an initial value
    */
-  void StartOptimization( const ParametersType &);
+  void StartOptimization( void );
 
 
 protected:

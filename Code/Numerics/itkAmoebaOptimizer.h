@@ -16,7 +16,7 @@
 #ifndef __itkAmoebaOptimizer_h
 #define __itkAmoebaOptimizer_h
 
-#include "itkNonLinearOptimizer.h"
+#include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_amoeba.h"
 #include "vnl/vnl_cost_function.h"
 #include "itkExceptionObject.h"
@@ -34,7 +34,7 @@ namespace itk
 
 template <class TCostFunction>
 class ITK_EXPORT AmoebaOptimizer : 
-    public NonLinearOptimizer<TCostFunction>
+    public SingleValuedNonLinearVnlOptimizer<TCostFunction>
 
 {
 public:
@@ -68,13 +68,43 @@ public:
    */
   itkNewMacro(Self);
 
+  /**
+   * InternalParameters typedef.
+   */
+  typedef   vnl_vector<double>     InternalParametersType;
+
 
   /**
-   * Standard "Superclass" typedef.
+   * InternalMeasure typedef.
    */
-  typedef   vnl_vector<double>     VectorType;
+  typedef   vnl_vector<double>     InternalMeasureType;
 
 
+  /**
+   * InternalGradient typedef.
+   */
+  typedef   vnl_matrix<double>     InternalDerivativeType;
+
+
+  /**
+   *  ParametersType typedef.
+   *  it defines a position in the optimization search space
+   */
+  typedef typename TCostFunction::ParametersType    ParametersType;
+
+
+  /**
+   *  MeasureType typedef.
+   *  it defines a type used to return the cost function value 
+   */
+  typedef typename TCostFunction::MeasureType         MeasureType;
+
+
+  /**
+   *  GradientType typedef.
+   *  it defines a type used to return the cost function derivative 
+   */
+  typedef typename TCostFunction::DerivativeType      DerivativeType;
 
 
   /**
@@ -107,7 +137,7 @@ public:
       /** 
        *  Delegate computation of the value to the CostFunction
        */
-      virtual double f( const VectorType & parameters ) {
+      virtual double f( const InternalParametersType & parameters ) {
         if( !m_CostFunction )
         {
           throw ExceptionObject();
@@ -118,8 +148,8 @@ public:
       /** 
        *  Delegate computation of the gradient to the CostFunction
        */
-      virtual void gradf(const VectorType & parameters,
-                               VectorType & gradient ) {
+      virtual void gradf(const InternalParametersType & parameters,
+                               InternalDerivativeType & gradient ) {
         if( !m_CostFunction )
         {
           throw ExceptionObject();
@@ -130,9 +160,9 @@ public:
       /** 
        *  Delegate computation of value and gradient to the CostFunction
        */
-      virtual void compute(const VectorType & x,
-                                 double * f, 
-                                 VectorType * g ) {
+      virtual void compute(const InternalParametersType & x,
+                                 InternalMeasureType    * f, 
+                                 InternalDerivativeType * g ) {
         // delegate the computation to the CostFunction
         *f = m_CostFunction->GetValue( x );
         *g = m_CostFunction->GetDerivative( x );
@@ -153,7 +183,7 @@ public:
   /**
    * Start optimization with an initial value
    */
-  void StartOptimization( VectorType & );
+  void StartOptimization( void );
   
 
 protected:
@@ -163,7 +193,7 @@ protected:
   AmoebaOptimizer(const Self&) {}
   void operator=(const Self&) {}
 
-  InternalOptimizerType     m_Amoeba;
+  InternalOptimizerType             m_Amoeba;
 
   VnlCostFunctionAdaptor            m_CostFunction;
 

@@ -16,7 +16,7 @@
 #ifndef __itkLBFGSOptimizer_h
 #define __itkLBFGSOptimizer_h
 
-#include "itkSingleValuedNonLinearOptimizer.h"
+#include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_lbfgs.h"
 
 namespace itk
@@ -49,11 +49,28 @@ public:
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * VectorType typedef.
-   */
-  typedef   vnl_vector<double>     VectorType;
 
+  /**
+   *  Parameters type.
+   *  it defines a position in the optimization search space
+   */
+  typedef typename TCostFunction::ParametersType ParametersType;
+
+
+  /**
+   *  Measure type.
+   *  it defines a type used to return the cost function value 
+   */
+  typedef typename TCostFunction::MeasureType MeasureType;
+
+
+  /**
+   *  Derivative type.
+   *  it defines a type used to return the cost function derivative 
+   */
+  typedef typename TCostFunction::DerivativeType DerivativeType;
+
+ 
  /** 
    * Run-time type information (and related methods).
    */
@@ -78,7 +95,7 @@ public:
   /**
    * Start optimization with an initial value
    */
-  void StartOptimization( VectorType & );
+  void StartOptimization( void );
  
 protected:
 

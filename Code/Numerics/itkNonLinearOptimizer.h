@@ -26,8 +26,8 @@ namespace itk
  * \brief Wrap of the vnl_nonlinear_minimizer to be adapted 
  *
  */
-template <class TPoint>
-class ITK_EXPORT NonLinearOptimizer : public Optimizer<TPoint>
+template <class TCostFunction>
+class ITK_EXPORT NonLinearOptimizer : public Optimizer<TCostFunction>
 
 {
 public:
@@ -39,13 +39,36 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef  Optimizer<TPoint>   Superclass;
+  typedef  Optimizer<TCostFunction>   Superclass;
 
   /** 
    * Smart pointer typedef support 
    */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+
+
+  /**
+   *  Parameters type.
+   *  it defines a position in the optimization search space
+   */
+  typedef typename TCostFunction::ParametersType ParametersType;
+
+
+  /**
+   *  Measure type.
+   *  it defines a type used to return the cost function value 
+   */
+  typedef typename TCostFunction::MeasureType MeasureType;
+
+
+  /**
+   *  Derivative type.
+   *  it defines a type used to return the cost function derivative 
+   */
+  typedef typename TCostFunction::DerivativeType DerivativeType;
+
+
 
 
  /** 

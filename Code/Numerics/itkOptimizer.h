@@ -27,7 +27,7 @@ namespace itk
 /** \class Optimizer
  * \brief Generic representation for an optimization method 
  */
-template <class TPoint>
+template <class TCostFunction>
 class ITK_EXPORT Optimizer : public Object 
 {
 public:
@@ -61,27 +61,42 @@ public:
 
 
   /**
-   *  Point type.
+   *  Parameters type.
    *  it defines a position in the optimization search space
    */
-  typedef TPoint  PointType;
+  typedef typename TCostFunction::ParametersType ParametersType;
+
+
+  /**
+   *  Measure type.
+   *  it defines a type used to return the cost function value 
+   */
+  typedef typename TCostFunction::MeasureType MeasureType;
+
+
+  /**
+   *  Derivative type.
+   *  it defines a type used to return the cost function derivative 
+   */
+  typedef typename TCostFunction::DerivativeType DerivativeType;
+
 
   /**
    *   Set the position to initialize the optimization  
    */
-  void SetInitialPosition( const PointType & initialPosition ) 
+  void SetInitialPosition( const ParametersType & initialPosition ) 
     { m_InitialPosition = initialPosition; }
 
   /**
    *   Get the position to initialize the optimization  
    */
-  const PointType & GetInitialPosition( void ) const 
+  const ParametersType & GetInitialPosition( void ) const 
     { return m_InitialPosition; }
 
   /**
    *   Get current position of the optimization  
    */
-  const PointType & GetCurrentPosition( void ) const 
+  const ParametersType & GetCurrentPosition( void ) const 
     { return m_CurrentPosition; }
 
 
@@ -95,14 +110,14 @@ protected:
   /**
    *   Set the current position 
    */
-  void SetCurrentPosition( const PointType & currentPosition ) 
+  void SetCurrentPosition( const ParametersType & currentPosition ) 
     { m_CurrentPosition = currentPosition; }
 
 
 private:
   
-  PointType     m_InitialPosition;
-  PointType     m_CurrentPosition;
+  ParametersType     m_InitialPosition;
+  ParametersType     m_CurrentPosition;
   
 };
 

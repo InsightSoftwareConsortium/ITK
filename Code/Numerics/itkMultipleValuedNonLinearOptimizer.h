@@ -32,8 +32,7 @@ namespace itk
   
 template <class TCostFunction>
 class ITK_EXPORT MultipleValuedNonLinearOptimizer : 
-        public NonLinearOptimizer <
-              typename TCostFunction::ParametersType >
+        public NonLinearOptimizer < TCostFunction >
 {
 public:
   /**
@@ -52,19 +51,26 @@ public:
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * VectorType typedef. This type is used to represent
-   * the input parameters of the function, as well as
-   * the output vales.
-   */
-  typedef   vnl_vector<double>     VectorType;
 
   /**
-   * MatrixType typedef. This type is used to represent
-   * the derivatives of the output values with respect
-   * to the input parameters of the function
+   *  Parameters type.
+   *  it defines a position in the optimization search space
    */
-  typedef   vnl_matrix<double>     MatrixType;
+  typedef typename TCostFunction::ParametersType ParametersType;
+
+
+  /**
+   *  Measure type.
+   *  it defines a type used to return the cost function value 
+   */
+  typedef typename TCostFunction::MeasureType   MeasureType;
+
+
+  /**
+   *  Derivative type.
+   *  it defines a type used to return the cost function derivative 
+   */
+  typedef typename TCostFunction::DerivativeType DerivativeType;
 
 
  /** 

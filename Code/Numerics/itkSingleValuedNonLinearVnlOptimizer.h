@@ -87,19 +87,22 @@ public:
 
 
   /**
-   * ParametersType typedef.
+   *  ParametersType typedef.
+   *  it defines a position in the optimization search space
    */
   typedef typename TCostFunction::ParametersType    ParametersType;
 
 
   /**
-   * MeasureType typedef.
+   *  MeasureType typedef.
+   *  it defines a type used to return the cost function value 
    */
   typedef typename TCostFunction::MeasureType         MeasureType;
 
 
   /**
-   * GradientType typedef.
+   *  GradientType typedef.
+   *  it defines a type used to return the cost function derivative 
    */
   typedef typename TCostFunction::DerivativeType      DerivativeType;
 
@@ -128,7 +131,7 @@ public:
           throw ExceptionObject();
         }
         ParametersType parameters;
-        ConvertParameters( inparameters, parameters );
+        ConvertInternalToExternalParameters( inparameters, parameters );
         const InternalMeasureType value = 
           (InternalMeasureType)m_CostFunction->GetValue( parameters );
         return value;
@@ -144,10 +147,10 @@ public:
           throw ExceptionObject();
         }
         ParametersType parameters;
-        ConvertParameters( inparameters, parameters );
+        ConvertInternalToExternalParameters( inparameters, parameters );
         typename DerivativeType externalGradient = 
                       m_CostFunction->GetDerivative( parameters );
-        ConvertGradient( externalGradient, gradient);
+        ConvertExternalToInternalGradient( externalGradient, gradient);
       }
       
       /** 
@@ -159,22 +162,23 @@ public:
         // delegate the computation to the CostFunction
 
         ParametersType parameters;
-        ConvertParameters( x, parameters );
+        ConvertInternalToExternalParameters( x, parameters );
 
         *f = (InternalMeasureType)m_CostFunction->GetValue( parameters );
 
         typename DerivativeType externalGradient = 
                                       m_CostFunction->GetDerivative( parameters );
 
-        ConvertGradient( externalGradient, *g );    
+        ConvertExternalToInternalGradient( externalGradient, *g );    
       }
  
       /**
        *  Convert internal Parameters (vnl_Vector) 
        *  into VectorContainer type
        */
-      static void ConvertParameters( const InternalParametersType & input,
-                                           ParametersType         & output )
+      static void ConvertInternalToExternalParameters( 
+                        const InternalParametersType & input,
+                              ParametersType         & output )
       {
         for( unsigned int i=0; i<SpaceDimension; i++)
         {
@@ -186,8 +190,9 @@ public:
        *  Convert external Parameters VectorContainer 
        *  into internal type (vnl_Vector)
        */
-      static void ConvertParameters(const  ParametersType         & input,
-                                           InternalParametersType & output )
+      static void ConvertExternalToInternalParameters(
+                        const  ParametersType         & input,
+                               InternalParametersType & output )
       {
         for( unsigned int i=0; i<SpaceDimension; i++ ) 
         {
@@ -199,7 +204,8 @@ public:
        *  Convert external derviative measures (VectorContainer) 
        *  into internal type (vnl_Vector)
        */
-      void ConvertGradient(const DerivativeType & input,
+      void ConvertExternalToInternalGradient(
+                     const DerivativeType         & input,
                            InternalDerivativeType & output )
       {
         for( unsigned int i=0; i<SpaceDimension; i++ ) 

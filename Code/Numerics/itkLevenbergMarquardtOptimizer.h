@@ -63,10 +63,44 @@ public:
   itkNewMacro(Self);
   
 
+  
   /**
-   * ParametersType typedef.
+   * InternalParameters typedef.
+   */
+  typedef   vnl_vector<double>     InternalParametersType;
+
+
+  /**
+   * InternalMeasure typedef.
+   */
+  typedef   vnl_vector<double>     InternalMeasureType;
+
+
+  /**
+   * InternalGradient typedef.
+   */
+  typedef   vnl_matrix<double>     InternalDerivativeType;
+
+
+  /**
+   *  ParametersType typedef.
+   *  it defines a position in the optimization search space
    */
   typedef typename TCostFunction::ParametersType    ParametersType;
+
+
+  /**
+   *  MeasureType typedef.
+   *  it defines a type used to return the cost function value 
+   */
+  typedef typename TCostFunction::MeasureType         MeasureType;
+
+
+  /**
+   *  GradientType typedef.
+   *  it defines a type used to return the cost function derivative 
+   */
+  typedef typename TCostFunction::DerivativeType      DerivativeType;
 
 
   /**
@@ -82,7 +116,7 @@ public:
   /**
    * Start optimization with an initial value
    */
-  void StartOptimization( const ParametersType &);
+  void StartOptimization( void ); 
  
 
 protected:

@@ -59,12 +59,29 @@ public:
   /**
    * Dimension of the Search Space
    */
-  enum { SpaceDimension = TCostFunction::ParametersDimension };
+  enum { SpaceDimension = TCostFunction::SpaceDimension };
  
+
   /**
-   * ParametersType typedef.
+   *  Parameters type.
+   *  it defines a position in the optimization search space
    */
-  typedef typename TCostFunction::ParametersType    ParametersType;
+  typedef typename TCostFunction::ParametersType ParametersType;
+
+
+  /**
+   *  Measure type.
+   *  it defines a type used to return the cost function value 
+   */
+  typedef typename TCostFunction::MeasureType MeasureType;
+
+
+  /**
+   *  Derivative type.
+   *  it defines a type used to return the cost function derivative 
+   */
+  typedef typename TCostFunction::DerivativeType DerivativeType;
+
 
 
  /** 

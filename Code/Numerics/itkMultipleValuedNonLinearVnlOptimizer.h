@@ -33,8 +33,7 @@ namespace itk
   
 template <class TCostFunction>
 class ITK_EXPORT MultipleValuedNonLinearVnlOptimizer : 
-          public MultipleValuedNonLinearOptimizer< 
-                typename TCostFunction::ParametersType > 
+          public MultipleValuedNonLinearOptimizer< TCostFunction > 
 {
 public:
   /**
@@ -45,8 +44,14 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   MultipleValuedNonLinearOptimizer<
-                typename TCostFunction::ParametersType> Superclass;
+  typedef   MultipleValuedNonLinearOptimizer< TCostFunction > Superclass;
+
+  
+  /**
+   * Dimension of the search space
+   */
+  enum { SpaceDimension = TCostFunction::SpaceDimension };
+
 
   /** 
    * Smart pointer typedef support 
@@ -73,9 +78,24 @@ public:
 
 
   /**
-   * Parameters typedef.
+   *  ParametersType typedef.
+   *  it defines a position in the optimization search space
    */
   typedef typename TCostFunction::ParametersType    ParametersType;
+
+
+  /**
+   *  MeasureType typedef.
+   *  it defines a type used to return the cost function value 
+   */
+  typedef typename TCostFunction::MeasureType         MeasureType;
+
+
+  /**
+   *  GradientType typedef.
+   *  it defines a type used to return the cost function derivative 
+   */
+  typedef typename TCostFunction::DerivativeType      DerivativeType;
 
 
  /** 
@@ -90,20 +110,7 @@ public:
    */
   itkNewMacro(Self);
 
-  
-  /**
-   * MeasureType typedef.
-   */
-  typedef typename TCostFunction::MeasureType       MeasureType;
-
-
-  /**
-   * GradientType typedef.
-   */
-  typedef typename TCostFunction::DerivativeType      DerivativeType;
-
-
-
+ 
   /** \class VnlCostFunction
    * \brief Adaptor between the CostFunction and the
    * vnl_least_squares_function classes
@@ -124,16 +131,19 @@ public:
       /** 
        *  Delegate computation of the value to the CostFunction
        */
-      virtual void f( const InternalParametersType & parameters, InternalMeasureType & output ) {
+      virtual void f( const InternalParametersType & parameters, 
+                            InternalMeasureType    & output      )
+      {
+
         if( !m_CostFunction )
         {
           throw ExceptionObject();
         }
-        ConvertParameters( parameters ); // should be transfertparameters
-        MeasureType externalOutput;
-        ConvertMeasure(output,externalOutput);
-        externalOutput = m_CostFunction->GetValue( parameters );
-        ConvertMeasure(externalOutput,output);
+
+        ParametersType externalParameters;
+        ConvertInternalToExternalParameters( parameters, externalParameters ); 
+        ConvertExternalToInternalMeasure( 
+                         m_CostFunction->GetValue( externalParameters ),output);
       }
       
       /** 
@@ -145,12 +155,12 @@ public:
         {
           throw ExceptionObject();
         }
-        
-       ConvertParameters( parameters );
-       typename DerivativeType::Pointer externalDerivative = DerivativeType::New();
-             externalDerivative = m_CostFunction->GetDerivative();
 
-        ConvertGradient( externalDerivative, derivative );  
+       ParametersType externalParameters; 
+       ConvertInternalToExternalParameters( parameters, externalParameters );
+
+        ConvertGradient( m_CostFunction->GetDerivative( externalParameters ),
+                         derivative );
       }
       
       /** 
@@ -161,51 +171,48 @@ public:
                                  InternalDerivativeType * g ) {
         // delegate the computation to the CostFunction
 
-        ConvertParameters( x );
-        typename MeasureType::Pointer externalMeasure = MeasureType::New();
-        externalMeasure->Reserve(f->size());
-        ConvertMeasure(*f,externalMeasure);
-        m_CostFunction->GetValue( externalMeasure);
-        ConvertMeasure(externalMeasure,*f);
+        ParametersType externalParameters; 
+        ConvertInternalToExternalParameters( x, externalParameters );
 
-        typename DerivativeType::Pointer externalGradient = 
-                                      m_CostFunction->GetDerivative();
-
-        ConvertGradient( externalGradient, *g ); 
+        ConvertExternalToInternalMeasure(
+            m_CostFunction->GetValue( externalParameters ),
+            *f);
+        
+        ConvertGradient( 
+            m_CostFunction->GetDerivative( externalParameters ), 
+            *g ); 
       }
      
+
       /**
        *  Convert internal Parameters (vnl_Vector) 
-       *  into external type (VectorContainer)
+       *  into VectorContainer type
        */
-      void ConvertParameters( const InternalParametersType & input )
+      static void ConvertInternalToExternalParameters( 
+                        const InternalParametersType & input,
+                              ParametersType         & output )
       {
-        typename ParametersType::Pointer output = m_CostFunction->GetParameters();
-        typename ParametersType::Iterator it = output->Begin(); 
-        unsigned int i=0;
-        while( it != output->End() )
+        for( unsigned int i=0; i<SpaceDimension; i++)
         {
-          it.Value() = input[i]; 
-          it++;
-          i++;
+          output[i] = input[i]; 
         }
       }
 
-
       /**
-       *  Convert external Parameters (itkPoint) 
-       *  into internal parameters type (vnl_Vector)
+       *  Convert external Parameters VectorContainer 
+       *  into internal type (vnl_Vector)
        */
-      static void ConvertParameters(const ParametersType & input,
-                                   InternalParametersType & output )
+      static void ConvertExternalToInternalParameters(
+                        const  ParametersType         & input,
+                               InternalParametersType & output )
       {
-        for(unsigned int i=0; i< ParametersDimension; i++)
+        for( unsigned int i=0; i<SpaceDimension; i++ ) 
         {
           output[i] = input[i];
         }
-
       }
-      
+ 
+     
       /**
        *  Convert external Gradient (itkMatrix) 
        *  into internal gradient type (vnl_Matrix)
@@ -221,21 +228,13 @@ public:
       *  Convert external Measure (itkPoint) 
       *  into internal Measure type (vnl_Vector)
       */
-     void ConvertMeasure(const MeasureType         & input,
-                               InternalMeasureType & output )
+     void ConvertExternalToInternalMeasure(
+                  const MeasureType         & input,
+                        InternalMeasureType & output )
       {
-        const unsigned size = input->Size();
-        if( output.size() != size ) 
+        for( unsigned int i=0; i<SpaceDimension; i++ )
         {
-          output.resize( size );
-        }
-        unsigned int i=0;
-        typename MeasureType::Iterator it = input->Begin();
-        while( it != input->End() )
-        {
-          output[i] = it.Value();
-          i++;
-          it++;
+          output[i] = input[i];
         }
       }
 
@@ -243,25 +242,14 @@ public:
       *  Convert internal Measure (vnl_vector) 
       *  into external Measure type (itkPoint)
       */
-       void ConvertMeasure(const InternalMeasureType & input,
-                                 MeasureType         & output )
+       void ConvertInternalToExternalMeasure(
+                    const InternalMeasureType & input,
+                          MeasureType         & output )
       {
-        const unsigned size = input.size();
-        if( output->Size() != size ) 
-        { 
-          output->Reserve( size );
-          output->Squeeze();
-        }
-        unsigned int i=0;
-        typename MeasureType::Iterator it = output->Begin();
-
-        while( it != output->End() )
+        for( unsigned int i=0; i<SpaceDimension; i++ )
         {
-          it.Value() = input[i];
-          i++;
-          it++;
+          output[i] = input[i];
         }
-
       }
 
 
