@@ -29,6 +29,10 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::Histogram()
 {
   m_FrequencyContainer = FrequencyContainerType::New() ;
+  for (unsigned int i = 0 ; i < (MeasurementVectorSize + 1) ; ++i )
+    {
+    m_OffsetTable[i] = 0 ;
+    } 
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
