@@ -17,20 +17,20 @@
 
 // Software Guide : BeginLatex
 //
-// The ``WithIndex'' family of iterators was designed for algorithms that rely
-// on knowing the image index location of values they work with.  Unlike
+// The ``WithIndex'' family of iterators was designed for algorithms that
+// depend on the image index locations of values they work with.  Unlike
 // \code{itk::ImageRegionIterator}, which calculates an index only if and when
 // it is asked for, \code{itk::ImageRegionIteratorWithIndex} maintains its
 // index location as a member variable that is updated each time the iterator
 // is incremented or decremented.  A penalty is therefore introduced on the
-// iteration speed, but the iterator is more efficient when repeatedly querying
-// for the index.
+// iteration speed, but the iterator is more efficient in cases where it is
+// heavily queried for the index.
 //
 // The following example illustrates the use of
 // \code{itk::ImageRegionIteratorWithIndex}.  This algorithm mirrors
-// a 2D image across its x axis (see \code{itk::FlipImageAxis} for an ND
+// a 2D image across its $x$-axis (see \code{itk::FlipImageAxis} for an ND
 // version).  The algorithm makes extensive use of the \code{GetIndex()}
-// method as it calculates its mirrored indicies to copy across.
+// method.
 //
 // Start by including the proper header file.
 //
@@ -59,20 +59,21 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// RGB Image and pixel types are defined as in the previous example
-// (section~\ref{sec:itkImageRegionIterator}). The
-// \code{itk::ImageRegionIteratorWithIndex} class has a single template 
-// parameter, the image type.
+// For this example, we will use an RGB pixel type so that we can process color
+// images. Like most other ITK image iterator,
+// \code{itk::ImageRegionIteratorWithIndex} class expects the image type as its
+// single template parameter.
 //
 // Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
   
   typedef itk::RGBPixel< unsigned char > RGBPixelType;
   typedef itk::Image< RGBPixelType, Dimension >  ImageType;
   
-  // Software Guide : BeginCodeSnippet
   typedef itk::ImageRegionIteratorWithIndex< ImageType >       IteratorType;
-  // Software Guide : EndCodeSnippet
+// Software Guide : EndCodeSnippet
   
   typedef itk::ImageFileReader< ImageType > ReaderType;
   typedef itk::ImageFileWriter< ImageType > WriterType;
@@ -96,21 +97,23 @@ int main( int argc, char ** argv )
 //
 // An \code{ImageType} smart pointer called \code{inputImage} points to the
 // output of the image reader.  After updating the image reader, we can
-// allocate an output image that of the same size as the input image.
+// allocate an output image that of the same size, spacing, and origin as the
+// input image.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   ImageType::Pointer outputImage = ImageType::New();
   outputImage->SetRegions( inputImage->GetRequestedRegion() );
+  outputImage->CopyInformation( inputImage );
   outputImage->Allocate();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
-// Next we create the iterator that walks the output image.  No iterator for
-// the input is needed in this case.  The input is sampled using the mirror
-// index values.
+// Next we create the iterator that walks the output image. Instead of using
+// an iterator on the input, we will copy the values directly using image
+// indicies.
 //
 // Software Guide : EndLatex
 
@@ -122,7 +125,7 @@ int main( int argc, char ** argv )
 //
 // This axis flipping algorithm works by iterating through the output image, querying
 // the iterator for its index, and copying the value from the input at an index
-// mirrored across the x axis.
+// mirrored across the $x$-axis.
 //
 // Software Guide : EndLatex
 
@@ -152,5 +155,23 @@ int main( int argc, char ** argv )
       return -1;   
 }
 
+// Software Guide : BeginLatex
+//
+// Let's run this example on the image \code{VisibleWomanEyeSlice.png} found in
+// the \code{Insight/Examples/Data} directory.
+// Figure~\ref{fig:ImageRegionIteratorWithIndexExample} shows how the original
+// image has been mirrored across its $x$-axis in the output.
+//
+// \begin{figure} \center
+// \includegraphics[width=4cm]{VisibleWomanEyeSlice.eps}
+// \includegraphics[width=4cm]{ImageRegionIteratorWithIndexOutput.eps}
+// \caption[Using the ImageRegionIteratorWithIndex]{Results of using ImageRegionIteratorWithIndex to mirror an image
+// across an axis. The original image is shown at left.  The mirrored output is
+// shown at right.}
+// \label{fig:ImageRegionIteratorWithIndexExample}
+// \end{figure}
+//  
+// Software Guide : EndLatex
+  
   return 0;
 }

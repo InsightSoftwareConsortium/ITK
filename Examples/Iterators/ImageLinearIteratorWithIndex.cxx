@@ -19,18 +19,18 @@
 //
 // The \code{itk::ImageLinearIteratorWithIndex} is designed for line-by-line
 // processing of an image.  It walks a linear path along a selected image
-// direction parallel to one of the coordinate axes of the image. The image is
-// effectively indexed as a set of parallel lines spanning the selected image
-// dimension.
+// direction parallel to one of the coordinate axes of the image. This
+// iterator allows developers to work with an image as a set of parallel lines
+// spanning the selected image dimension.
 //
 // Like all other ITK image iterators, movement is constrained to within an
 // image region, $R$.  The line $\ell$ through which the iterator moves is
 // defined by a selected direction and an origin.  The origin itself can be
-// iterated, and is any of the pixels along the lower boundary of $R$.  $\ell$
+// iterated across the pixels along the lower boundary of $R$.  The line $\ell$
 // extends from the origin to the upper boundary of $R$.
 //    
 // Several additional methods are defined for this iterator to control movement
-// along the line $\ell$, and movement of the line origin within the image.
+// of the iterator along the line $\ell$ and movement of the origin of $\ell$.
 //
 // %Might need a figure here to describe this iterator.
 //
@@ -45,24 +45,25 @@
 // determined by decrementing the current origin along the fastest increasing
 // dimension of the subspace of the image that excludes the selected dimension.
 //
-// \item \textbf{\code{(GoToBeginOfLine())}} Moves the iterator to the beginning
+// \item \textbf{\code{GoToBeginOfLine()}} Moves the iterator to the beginning
 // pixel of the current line.
 //
-// \item \textbf{\code{(GoToEndOfLine())}}  Move the iterator to \emph{one past
-// the last valid} pixel of the current line.
+// \item \textbf{\code{GoToEndOfLine()}}  Move the iterator to \emph{one
+// position past} the last valid pixel of the current line.
 //
-// \item \textbf{\code{(IsAtBeginOfLine())}} Returns true if the iterator points
+// \item \textbf{\code{IsAtBeginOfLine()}} Returns true if the iterator points
 // to the beginning pixel of the current line.
 //
-// \item \textbf{\code{(IsAtEndOfLine())}}  Returns true if the iterator points to
-// \emph{one position past the last valid} pixel of the current line.
+// \item \textbf{\code{IsAtEndOfLine()}}  Returns true if the iterator points to
+// \emph{one position past} the last valid pixel of the current line.
 // \end{itemize}
 //
 // The following code example shows how to use the
 // \code{itk::ImageLinearIteratorWithIndex}.  It implements the same
-// algorithm as in the previous example, flipping an image across its x axis.
-// Two line iterators are used, moving in opposite directions on the x axis,
-// and iterating line by line down the y axis.
+// algorithm as in the previous example, flipping an image across its $x$-axis.
+// Two line iterators are iterated in opposite directions across the $x$-axis.
+// After a line is processed, the iterators are stepped to the next line (down the
+// $y$-axis).
 //
 // Headers for both the const and non-const versions are needed.
 //
@@ -92,22 +93,21 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// Image and pixel types are defined as in the previous examples
-// (section~\ref{sec:itkImageLinearIterator}). The
-// \code{itk::ImageLinearIteratorWithIndex} class and its const version have
+// The RGB Image and pixel types are defined as in the previous example.  The 
+// \code{itk::ImageLinearIteratorWithIndex} class and its const version each have
 // single template parameters, the image type.
 //
 // Software Guide : EndLatex
 
   const unsigned int Dimension = 2;
   
-  typedef itk::RGBPixel< unsigned char > RGBPixelType;
+  typedef itk::RGBPixel< unsigned short > RGBPixelType;
   typedef itk::Image< RGBPixelType, Dimension >  ImageType;
-  
-  // Software Guide : BeginCodeSnippet
+
+// Software Guide : BeginCodeSnippet
   typedef itk::ImageLinearIteratorWithIndex< ImageType >       IteratorType;
   typedef itk::ImageLinearConstIteratorWithIndex< ImageType >  ConstIteratorType;
-  // Software Guide : EndCodeSnippet
+// Software Guide : EndCodeSnippet
   
   typedef itk::ImageFileReader< ImageType > ReaderType;
   typedef itk::ImageFileWriter< ImageType > WriterType;
@@ -130,13 +130,14 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // After reading the input image, we allocate an output image that of the same
-// size.
+// size, spacing, and origin.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   ImageType::Pointer outputImage = ImageType::New();
   outputImage->SetRegions( inputImage->GetRequestedRegion() );
+  outputImage->CopyInformation( inputImage );
   outputImage->Allocate();
 // Software Guide : EndCodeSnippet
 
@@ -159,10 +160,8 @@ int main( int argc, char ** argv )
 
 // Software Guide: BeginLatex
 //
-// This version of the axis flipping algorithm works by moving the two
-// iterators line by line through the image, where a line spans the columns of
-// the image.  The input iterator moves forward across columns while the output
-// iterator moves backwards.
+// Each line in the input is copied to the output.  The input iterator moves
+// forward across columns while the output iterator moves backwards.
 //
 // Software Guide : EndLatex
 
@@ -196,5 +195,13 @@ int main( int argc, char ** argv )
       return -1;   
 }
 
+// Software Guide : BeginLatex
+//
+// Running this example on \code{VisibleWomanEyeSlice.png} produces
+// the same output image shown in
+// figure~\ref{fig:ImageRegionIteratorWithIndex}.
+//
+// Software Guide : EndLatex
+  
   return 0;
 }

@@ -18,8 +18,8 @@
 // Software Guide : BeginLatex
 //
 // The \code{itk::ImageSliceIteratorWithIndex} is an extension of the
-// \code{itk::ImageLinearIteratorWithIndex} from movement along lines to
-// movement along lines \emph{and planes} in an image.  A \emph{slice} is a 2D
+// \code{itk::ImageLinearIteratorWithIndex} from iteration along lines to
+// iteration along both lines \emph{and planes} in an image.  A \emph{slice} is a 2D
 // plane spanned by two vectors pointing along coordinate axes.  The two
 // coordinate directions which define the slice plane are set as member
 // variables.
@@ -48,11 +48,11 @@
 // fastest increasing dimension of the image subspace which excludes the first
 // and second dimensions of the iterator.
 //
-// \item \textbf{\code{(IsAtBeginOfSlice())}} Returns true if the iterator
+// \item \textbf{\code{IsAtBeginOfSlice()}} Returns true if the iterator
 // points to the beginning pixel of the current slice.
 //
-// \item \textbf{\code{(IsAtEndOfSlice())}} Returns true if the iterator points
-// to \emph{one position past the last valid} pixel of the current slice.
+// \item \textbf{\code{IsAtEndOfSlice()}} Returns true if the iterator points
+// to \emph{one position past} the last valid pixel of the current slice.
 // 
 // \end{itemize}
 //
@@ -63,9 +63,15 @@
 //
 // The next code example calculates the maximum intensity projection along one
 // of the coordinate axes of an image volume.  The algorithm is straightforward
-// using \code{itk::ImageSliceIteratorWithIndex}: step slice by slice along the
-// specified axis, keeping track of the maximum values at each slice index
-// location in a second, 2D image.  The 2D image is the projection image.
+// using \code{itk::ImageSliceIteratorWithIndex} because we can coordinate
+// movement through a slice of the 3D input image with movement through the 2D
+// planar output.
+//
+// Here is how the algorithm works.  For each 2D slice of the input, iterate
+// through all the pixels line by line. Copy a pixel value to the corresponding
+// position in the 2D output image if it is larger than the value already
+// contained there.  When all slices have been processed, the output image is
+// the desired maximum intensity projection.
 //
 // We include a header for the const version of the slice iterator. For writing
 // values to the 2D projection image, we use the linear iterator from the
@@ -219,11 +225,12 @@ int main( int argc, char ** argv )
 // Software Guide: BeginLatex
 //
 // Now we are ready to compute the projection.  The first step is to initialize
-// all of the projection values to zero.  The projection values are then updated row
-// by row from the first slice of the input.  At the end of the first slice, the input
-// iterator steps to the first row in the next slice, while the output iterator,
-// whose underlying image consists of only one slice, rewinds to its first row.
-// The process repeats until the last slice of the input is processed.
+// all of the projection values to their nonpositive minimum value.  The
+// projection values are then updated row by row from the first slice of the
+// input.  At the end of the first slice, the input iterator steps to the first
+// row in the next slice, while the output iterator, whose underlying image
+// consists of only one slice, rewinds to its first row.  The process repeats
+// until the last slice of the input is processed.
 //
 // Software Guide : EndLatex
 
@@ -233,7 +240,7 @@ int main( int argc, char ** argv )
     {
       while ( ! outputIt.IsAtEndOfLine() )
         {
-          outputIt.Set( 0 );
+          outputIt.Set( itk::NumericTraits<unsigned short>::NonpositiveMin() );
           ++outputIt;
         }
       outputIt.NextLine();

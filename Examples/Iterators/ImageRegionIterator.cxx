@@ -27,14 +27,13 @@
 // The following example illustrates the use of
 // \code{itk::ImageRegionConstIterator} and \code{itk::ImageRegionIterator}.
 // Most of the code constructs introduced apply to other ITK iterators as
-// well. This simple application crops a sub-region from an image by copying
-// pixel values using iterators.
+// well. This simple application crops a subregion from an image by copying
+// pixel values into to a second image.
 //
 // We begin by including the appropriate header files.
 // Software Guide : EndLatex
 
 #include "itkImage.h"
-#include "itkRGBPixel.h"
 // Software Guide : BeginCodeSnippet
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
@@ -57,17 +56,16 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// Next we define types for the ITK objects used.  This application will
-// process color images, so we use an RGB pixel type. ITK iterator classes
-// generally take a single template parameter, the image type.
+// Next we define a pixel type and corresponding image type. ITK iterator classes
+// expect the image type as their template parameter.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
   
-  typedef itk::RGBPixel< unsigned char > RGBPixelType;
-  typedef itk::Image< RGBPixelType, Dimension >  ImageType;
+  typedef unsigned short PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
   
   typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
   typedef itk::ImageRegionIterator< ImageType>       IteratorType;
@@ -78,9 +76,9 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 // 
-// Information about the sub-region to copy is read from the command line.
-// Notice that the region object type is be defined in the image type.  A
-// region definition needs a size and a starting index (section~\ref{}).
+// Information about the subregion to copy is read from the command line. The
+// subregion is defined by an \code{itk::ImageRegion} object, with a starting
+// grid index and a size (section~\ref{sec:ImageSection}).
 //
 // Software Guide : EndLatex
 
@@ -122,18 +120,20 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// After reading the input image and checking that the desired sub-region is,
+// After reading the input image and checking that the desired subregion is,
 // in fact, contained in the input, we allocate an output image.  Allocating
-// using the region object we just created guarantees that the output image has
-// the same starting index and size as the extracted sub-region.  Preserving
+// this image with the same region object we just created guarantees that the output image has
+// the same starting index and size as the extracted subregion.  Preserving
 // the starting index may be an important detail later if the cropped image
-// requires registering against the original image..
+// requires registering against the original image. The origin and spacing
+// information is passed to the new image by \code{CopyInformation}.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   ImageType::Pointer outputImage = ImageType::New();
   outputImage->SetRegions( region );
+  outputImage->CopyInformation( reader->GetOutput() );
   outputImage->Allocate();
 // Software Guide : EndCodeSnippet
 
@@ -141,10 +141,10 @@ int main( int argc, char ** argv )
 //
 // The necessary images and region definitions are now in place.  All that is
 // left is to create the iterators and perform the copy.  Note that image
-// iterators are not smart pointers, their constructors are called directly.
+// iterators are not smart pointers so their constructors are called directly.
 // Also notice how the input and output iterators are defined over the
 // \emph{same region}.  Though the images are different sizes, they both
-// contain this same sub-region.
+// contain the same target subregion.
 //
 // Software Guide : EndLatex
 
@@ -182,6 +182,31 @@ int main( int argc, char ** argv )
       std::cout << err << std::endl; 
       return -1;   
 }
+
+// Software Guide : BeginLatex
+//
+// Let's run this example on the image \code{FatMRISlice.png} found
+// in \code{Insight/Examples/Data}.  The command line arguments specify the
+// input and output file names, then the $x$, $y$ origin and the $x$, $y$ size
+// of the cropped subregion.
+//
+// \begin{verbatim}
+// ImageRegionIterator FatMRISlice.png ImageRegionIteratorOutput.png 20 70 210 140
+// \end{verbatim}
+//
+// The output is the cropped subregion shown in figure~\ref{fig:ImageRegionIteratorOutput}.
+//
+// \begin{figure}
+// \centering
+// \includegraphics[width=0.4\textwidth]{FatMRISlice.eps}
+// \includegraphics[width=0.3\textwidth]{ImageRegionIteratorOutput.eps}
+// \caption[Copying an image subregion using ImageRegionIterator]{Cropping a
+// region from an image.  The original image is shown at left.  The image on
+// the right is the result of applying the ImageRegionIterator example code.}
+// \protect\label{fig:ImageRegionIteratorOutput}
+// \end{figure}
+// 
+// Software Guide : EndLatex
 
   return 0;
 }

@@ -17,10 +17,9 @@
 
 // Software Guide : BeginLatex
 //
-// Sometimes an algorithm needs to find a random sample of pixel values in an
-// image. \code{itk::ImageRandomConstIteratorWithIndex} was developed for that
-// purpose. When incremented or decremented, the iterator simply jumps to a
-// random location in its image region.
+// \code{itk::ImageRandomConstIteratorWithIndex} was developed to randomly
+// sample pixel values.  When incremented or decremented, it jumps to a random
+// location in its image region.
 //
 // The user must specify a sample size when creating this iterator. The sample
 // size defines the end position for the iterator.  \code{IsAtEnd()} returns
@@ -30,7 +29,7 @@
 // \code{itk::ImageRandomConstIteratorWithIndex} may visit the same pixel
 // location more than once.
 //
-// Let's use the random iterator to do some simple image statistics. The next
+// Let's use the random iterator to calculate some simple image statistics. The next
 // example calculates an estimate of the arithmetic mean of pixel values.
 //
 // First, include the appropriate header and declare pixel and image types.
@@ -86,7 +85,8 @@ int main( int argc, char ** argv )
 //
 // The input image has been read as \code{inputImage}.  We now create an
 // iterator with a number of samples set by command line argument. The call to
-// \code{ReinitializeSeed} seeds the random number generator.
+// \code{ReinitializeSeed} seeds the random number generator.  The iterator is
+// initialized over the entire valid image region.
 //
 // Software Guide : EndLatex
 
@@ -113,5 +113,29 @@ int main( int argc, char ** argv )
 // Software Guide : EndCodeSnippet
   std::cout << "Mean estimate with " << argv[2] << " samples is " << mean << std::endl;
 
+// Software Guide : BeginLatex
+//
+// Table~\ref{fig:ImageRandomConstIteratorWithIndexExample} shows the results
+// of running this example on several of the data files from
+// \code{Insight/Examples/Data} with a range of sample sizes.
+//
+//
+// \begin{table}
+// \begin{tabular}[]{rc|c|c|c}
+// & \multicolumn{4}{c}{\emph{Sample Size}} \\
+// & \code{\textbf{10}} & \code{\textbf{100}} & \code{\textbf{1000}} & \code{\textbf{10000}} \\
+// \cline{2-5}
+// \code{RatLungSlice1.mha} & 50.5 & 52.4 & 53.0 & 52.4 \\
+// \code{RatLungSlice2.mha} & 46.7 & 47.5 & 47.4 & 47.6  \\
+// \code{BrainT1Slice.png} & 47.2 & 64.1 & 68.0 & 67.8  \\ 
+// \end{tabular}
+// \protect\label{fig:ImageRandomConstIteratorWithIndexExample}
+// \caption[Estimating mean image value with
+// ImageRandomConstIteratorWithIndex]{Estimates of mean image pixel value
+// using the ImageRandomConstIteratorWithIndex at different sample sizes.}
+// \end{table}
+//
+// Software Guide : EndLatex
+  
   return 0;
 }
