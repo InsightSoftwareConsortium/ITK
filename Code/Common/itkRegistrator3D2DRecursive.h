@@ -13,7 +13,19 @@
   
 ==========================================================================*/
 
-/**
+#ifndef __itkRegistrator3D2DRecursive_h
+#define __itkRegistrator3D2DRecursive_h
+
+#include <itkRegistrator3D2D.h>
+#include <itkKalmanFilter.h>
+
+namespace itk
+{
+
+/** \class Registrator3D2DRecursive
+ * \brief Perform rigid-body registration between a set of 3D points
+ *        and a set of 2D points.
+ *
  *  Registrator3D2D performs 3D rigid registration 
  *  between a set of 3D points and a set of 2D points.
  *  
@@ -37,43 +49,29 @@
  *  ibanez@cs.unc.edu
  */
  
-#ifndef __itkRegistrator3D2DRecursive_h
-#define __itkRegistrator3D2DRecursive_h
-
-#include <itkRegistrator3D2D.h>
-#include <itkKalmanFilter.h>
-
-namespace itk
-{
-
 class Registrator3D2DRecursive : public Registrator3D2D   
 {
 
 public:
-
   /**
    * Constructor of a registrator object
    */
   Registrator3D2DRecursive();
-
 
   /**
    * Destructor of a registrator object
    */
   ~Registrator3D2DRecursive();
 
-
   /**
    * Initialize the registration process
    */
   void PerformRegistration( void );
 
-
   /**
    * Execute the recursive estimation
    */
   void RecursiveEstimation( void );
-
 
 private:
 
@@ -83,7 +81,6 @@ private:
    * for one iteration of the registration process.
    */
   KalmanFilter<double,6>   Estimator;
-
 
 };
 

@@ -13,14 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * KalmanFilter class implements a linear recursive estimator. 
- * The class is templated over the type of the parameters to be estimated 
- * and over the number of parameters. Recursive estimation is a fast mechanism
- * for getting information about a system for which we only have access to
- * measures that are linearly related with the parameters we want to estimate.
- */
-
 #ifndef __itkKalmanFilter_h
 #define __itkKalmanFilter_h
 
@@ -30,7 +22,16 @@
 namespace itk
 {
 
-template <class T, unsigned int TEstimatorDimension>
+/** \class KalmanFilter
+ * \brief Implement a linear recursive estimator.
+ *
+ * KalmanFilter class implements a linear recursive estimator.  The class is
+ * templated over the type of the parameters to be estimated and over the
+ * number of parameters. Recursive estimation is a fast mechanism for getting
+ * information about a system for which we only have access to measures that
+ * are linearly related with the parameters we want to estimate.  
+ */
+template <class T, unsigned int VEstimatorDimension>
 class KalmanFilter 
 {
 public:
@@ -39,19 +40,19 @@ public:
    *  Dimension of the vector of parameters to be estimated.
    *  It is equivalent to the number of parameters to estimate.
    */  
-  enum { Dimension = TEstimatorDimension };
+  enum { Dimension = VEstimatorDimension };
 
   /**
    *  Vector type defines a generic vector type that is used
    *  for the matricial operations performed during estimation.
    */
-  typedef vnl_vector_fixed<T,TEstimatorDimension> Vector;
+  typedef vnl_vector_fixed<T,VEstimatorDimension> Vector;
 
   /**
    *  Matrix type defines a generic matrix type that is used
    *  for the matricial operations performed during estimation.
    */
-  typedef vnl_matrix_fixed<T,TEstimatorDimension,TEstimatorDimension> Matrix;
+  typedef vnl_matrix_fixed<T,VEstimatorDimension,VEstimatorDimension> Matrix;
 
   /**
    * Type is the type associated with the parameters to be estimated.
@@ -67,7 +68,7 @@ public:
    * that should be called iteratively in order to estimate the parameter's
    * vector. It internally updates the covariance matrix.
    */
-  void updateWithNewMeasure(  const T & newMeasure,
+  void UpdateWithNewMeasure(  const T & newMeasure,
                               const Vector & newPredictor );
 
   /**
@@ -75,35 +76,32 @@ public:
    * The covariance matrix is not changed.
    * \sa Estimator
    * \sa Variance
-   * \sa clearVariance
+   * \sa ClearVariance
    */
-  void clearEstimation(void) 
+  void ClearEstimation(void) 
     {
-      Estimator = 0;
+    m_Estimator = 0;
     }
-
 
   /**
    * This method resets the covariance matrix. It is set to an identity matrix
    * \sa Estimator
    * \sa Variance
-   * \sa clearEstimation
+   * \sa ClearEstimation
    */
-  void clearVariance(void)
+  void ClearVariance(void)
     {
-      const unsigned int N = TEstimatorDimension * TEstimatorDimension;
-      for(unsigned int i=0; i<N; i++) 
-	{
-	Variance(i) = 0.0;
-	}
+    const unsigned int N = VEstimatorDimension * VEstimatorDimension;
+    for(unsigned int i=0; i<N; i++) 
+      {
+      m_Variance(i) = 0.0;
+      }
 
-      for(unsigned int j=0; j<N; j++) 
-	{
-	Variance(j,j) = 1.0;
-	}
-
+    for(unsigned int j=0; j<N; j++) 
+      {
+      m_Variance(j,j) = 1.0;
+      }
     }
-
 
   /**
    * This method sets the covariance matrix to a diagonal matrix with
@@ -111,23 +109,21 @@ public:
    * be estimated are the same and the parameters are considered independents.
    * \sa Estimator
    * \sa Variance
-   * \sa clearEstimation
+   * \sa ClearEstimation
    */
-  void setVariance(const T & var = 1.0) 
+  void SetVariance(const T & var = 1.0) 
     {
-      const unsigned int N = TEstimatorDimension * TEstimatorDimension;
-      for(unsigned int i=0; i<N; i++) 
-	{
-	Variance(i) = 0.0;
-	}
+    const unsigned int N = VEstimatorDimension * VEstimatorDimension;
+    for(unsigned int i=0; i<N; i++) 
+      {
+      m_Variance(i) = 0.0;
+      }
 
-      for(unsigned int j=0; j<N; j++) 
-	{
-	Variance(j,j) = var;
-	}
-
+    for(unsigned int j=0; j<N; j++) 
+      {
+      m_Variance(j,j) = var;
+      }
     }
-
 
   /**
    * This method sets the covariance matrix to known matrix. It is intended to
@@ -136,35 +132,30 @@ public:
    * operation of a previously used estimator using it last known state.
    * \sa Estimator
    * \sa Variance
-   * \sa clearEstimation
+   * \sa ClearEstimation
    */
-  void setVariance(const Matrix & m)
+  void SetVariance(const Matrix & m)
     {
-      Variance = m;
+    m_Variance = m;
     }
-
-
   
   /**
    * This method returns the vector of estimated parameters
    * \sa Estimator
    */ 
-  const Vector & getEstimator(void) const
+  const Vector& GetEstimator(void) const
     {
-      return Estimator;
+    return m_Estimator;
     }
-
 
   /**
    * This method returns the covariance matrix of the estimated parameters
    * \sa Variance
    */
-  const Matrix & getVariance(void) const
+  const Matrix & GetVariance(void) const
     {
-      return Variance;
+    return m_Variance;
     }
-  
-
 
 private:  
 
@@ -174,69 +165,67 @@ private:
    * call this method directly.
    * \sa updateWithNewMeasure
    */
-  void updateVariance( const Vector & );
+  void UpdateVariance( const Vector & );
 
   /**
    * Vector of parameters to estimate.
-   * \sa getEstimator
+   * \sa GetEstimator
    */
-  Vector Estimator;
+  Vector m_Estimator;
 
   /**
-   * Estimation of the parameter's covariance matrix. This matrix contains the
-   * information about the estate of the estimator. It holds all the
-   * information obtained from previous measures provided to the estimator. The
-   * initialization of this matrix is critical to the behavior of the
-   * estimator, at least to ensure a short trasient period for estabilizing the
-   * estimation.
-   * \sa setVariance
-   * \sa getVariance
-   */ 
-  Matrix Variance;
+   * Estimation of the parameter's covariance matrix. This matrix contains
+   * the information about the estate of the estimator. It holds all the
+   * information obtained from previous measures provided to the
+   * estimator. The initialization of this matrix is critical to the behavior
+   * of the estimator, at least to ensure a short trasient period for
+   * estabilizing the estimation.  \sa SetVariance \sa GetVariance 
+   */
+  Matrix m_Variance;
 };
 
 
 /**
  *
  */
-template <class T, unsigned int TEstimatorDimension>
+template <class T, unsigned int VEstimatorDimension>
 void
-KalmanFilter<T,TEstimatorDimension>
-::updateWithNewMeasure(const T & newMeasure, const Vector & newPredictor )
+KalmanFilter<T,VEstimatorDimension>
+::UpdateWithNewMeasure(const T & newMeasure, const Vector & newPredictor )
 {
-  T measurePrediction      = dot_product( newPredictor , Estimator );
+  T measurePrediction      = dot_product( newPredictor , m_Estimator );
   
   T errorMeasurePrediction = newMeasure - measurePrediction;
 
-  Vector Corrector = Variance * newPredictor;
+  Vector Corrector = m_Variance * newPredictor;
 
-  for( unsigned int j=0; j<TEstimatorDimension; j++) 
+  for( unsigned int j=0; j<VEstimatorDimension; j++) 
     {
-    Estimator(j) += Corrector(j) * errorMeasurePrediction;
+    m_Estimator(j) += Corrector(j) * errorMeasurePrediction;
     }
   
-  updateVariance( newPredictor );
+  UpdateVariance( newPredictor );
 }
 
 
 /**
  *
  */
-template <class T, unsigned int TEstimatorDimension>
+template <class T, unsigned int VEstimatorDimension>
 void
-KalmanFilter<T,TEstimatorDimension>
-::updateVariance( const Vector & newPredictor )
+KalmanFilter<T,VEstimatorDimension>
+::UpdateVariance( const Vector & newPredictor )
 {  
-  Vector aux =  Variance * newPredictor;
+  Vector aux =  m_Variance * newPredictor;
 
   T denominator = 1.0/(1.0 +  dot_product( aux , newPredictor ) );
 
   unsigned pos = 0;
-  for( unsigned int col=0; col<TEstimatorDimension; col++) 
+  for( unsigned int col=0; col<VEstimatorDimension; col++) 
     {
-    for( unsigned int row=0; row<TEstimatorDimension; row++) 
+    for( unsigned int row=0; row<VEstimatorDimension; row++) 
       {
-      Variance(pos) -= aux(col)*aux(row)*denominator;
+      m_Variance(pos) -= aux(col)*aux(row)*denominator;
       pos++;
       }
     }

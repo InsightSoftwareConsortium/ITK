@@ -17,7 +17,6 @@
 #include <vnl/algo/vnl_svd.h>
 #include <vnl/vnl_fastops.h>
 
-
 namespace itk
 {
   
@@ -27,20 +26,19 @@ namespace itk
 Registrator3D2D
 ::Registrator3D2D()
 {
-  Tolerance	  = 0.001;
-  InTolerance = 1.000;
-  Potential   = 0.0;
-  potentialRange = 0.001;
+  m_Tolerance	  = 0.001;
+  m_InTolerance = 1.000;
+  m_Potential   = 0.0;
+  m_PotentialRange = 0.001;
 
   for(unsigned int i=0; i<6; i++) 
     {
-    Delta[i]     = 0.0;
-    Uncertain[i] = 0.0;
+    m_Delta[i]     = 0.0;
+    m_Uncertain[i] = 0.0;
     }
 
-  maxNumberOfIterations = 10;
+  m_MaxNumberOfIterations = 10;
 }
-
 
 /**
  * Destructor
@@ -51,7 +49,6 @@ Registrator3D2D
  
 }
 
-
 /**
  * Set the Tolerance in the MeanSquareError to stop registration    
  */
@@ -59,7 +56,7 @@ void
 Registrator3D2D
 ::SetTolerance(double tol) 
 {
-  Tolerance = tol;
+  m_Tolerance = tol;
 }
 
 
@@ -70,7 +67,7 @@ void
 Registrator3D2D
 ::SetInTolerance(double tol) 
 {
-  InTolerance = tol;
+  m_InTolerance = tol;
 }
 
 
@@ -81,7 +78,7 @@ void
 Registrator3D2D
 ::SetPotentialRange(double range) 
 {
-  potentialRange = range;
+  m_PotentialRange = range;
 }
 
 
@@ -92,7 +89,7 @@ void
 Registrator3D2D
 ::SetMaximumNumberOfIterations(unsigned int num) 
 {
-  maxNumberOfIterations = num;
+  m_MaxNumberOfIterations = num;
 }
 
 
@@ -103,9 +100,9 @@ void
 Registrator3D2D
 ::SetTranslationUncertainty(const Vector3D & uncertainty)
 {
-  Uncertain[0] = uncertainty[0];
-  Uncertain[1] = uncertainty[1];
-  Uncertain[2] = uncertainty[2];
+  m_Uncertain[0] = uncertainty[0];
+  m_Uncertain[1] = uncertainty[1];
+  m_Uncertain[2] = uncertainty[2];
 }
 
 
@@ -116,9 +113,9 @@ void
 Registrator3D2D
 ::SetRotationUncertainty(const Vector3D & uncertainty)
 {
-  Uncertain[3] = uncertainty[0];
-  Uncertain[4] = uncertainty[1];
-  Uncertain[5] = uncertainty[2];
+  m_Uncertain[3] = uncertainty[0];
+  m_Uncertain[4] = uncertainty[1];
+  m_Uncertain[5] = uncertainty[2];
 }
 
 
@@ -129,9 +126,8 @@ double
 Registrator3D2D
 ::GetMeanSquareError(void) const
 {
-  return MeanSquareError;
+  return m_MeanSquareError;
 }
-
 
 /**
  * Get the value of the Potential  
@@ -140,9 +136,8 @@ double
 Registrator3D2D
 ::GetPotential(void) const
 {
-  return Potential;
+  return m_Potential;
 }
-
 
 /**
  * Get the value of the Potential  
@@ -151,9 +146,8 @@ double
 Registrator3D2D
 ::GetPotentialRange(void) const
 {
-  return potentialRange;
+  return m_PotentialRange;
 }
-
 
 /**
  * Stop the registration process      
@@ -162,9 +156,8 @@ void
 Registrator3D2D
 ::StopRegistration(void) 
 {
-  stopRegistration = true;
+  m_StopRegistration = true;
 }
-
 
 /**
  * Set the extrinsic transformation        
@@ -173,10 +166,9 @@ void
 Registrator3D2D
 ::SetExtrinsicTransform(const Transform3D & matrix)
 {
-  extrinsicTransform = matrix;
+  m_ExtrinsicTransform = matrix;
   ResetRegistration();
 }
-
 
 /**
  * Set the intrinsic transformation        
@@ -185,10 +177,9 @@ void
 Registrator3D2D
 ::SetIntrinsicTransform(const Transform3D & matrix)
 {
-  intrinsicTransform = matrix;
+  m_IntrinsicTransform = matrix;
   ResetRegistration();
 }
-
 
 /**
  * Load associated points
@@ -201,7 +192,6 @@ Registrator3D2D
   AssociatedPoints.assign(externalList.begin(),externalList.end());
 }
 
-
 /**
  * Reset Registration
  */
@@ -209,9 +199,8 @@ void
 Registrator3D2D
 ::ResetRegistration(void)
 {
-  cumulatedCorrectionTransform.set_identity();
+  m_CumulatedCorrectionTransform.set_identity();
 }
-
 
 /**
  * Return the Transformation
@@ -220,9 +209,8 @@ const Registrator3D2D::Transform3D&
 Registrator3D2D
 ::GetTransformation( void ) const
 {
-  return cumulatedCorrectionTransform;
+  return m_CumulatedCorrectionTransform;
 }
-
 
 /**
  * Return the real number of iterations
@@ -231,7 +219,7 @@ unsigned int
 Registrator3D2D
 ::GetNumberOfIterationsPerformed( void ) const
 {
-  return numberOfIterations;
+  return m_NumberOfIterations;
 }
 
 } // namespace itk
