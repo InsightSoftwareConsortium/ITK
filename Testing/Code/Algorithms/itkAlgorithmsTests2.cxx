@@ -8,7 +8,6 @@
 void RegisterTests()
 {
   vnl_sample_reseed(8775070);
-  REGISTER_TEST(itkNarrowBandCurvesLevelSetImageFilterTest );
   REGISTER_TEST(itkNarrowBandThresholdSegmentationLevelSetImageFilterTest );
   REGISTER_TEST(itkThresholdSegmentationLevelSetImageFilterTest );
   REGISTER_TEST(itkCompareHistogramImageToImageMetricTest   );
@@ -31,17 +30,7 @@ void RegisterTests()
   REGISTER_TEST(itkSimplexMeshVolumeCalculatorTest );
   REGISTER_TEST(itkSTAPLEImageFilterTest );
   REGISTER_TEST(itkSymmetricForcesDemonsRegistrationFilterTest );
-  REGISTER_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest );
   REGISTER_TEST(itkVoronoiDiagram2DTest );
   REGISTER_TEST(itkVoronoiSegmentationImageFilterTest );
-  REGISTER_TEST(itkVoronoiPartitioningImageFilterTest );
-  REGISTER_TEST(itkWatershedImageFilterTest );
-  REGISTER_TEST(itkVnlFFTTest);
-#if defined(USE_FFTW)
-  REGISTER_TEST(itkFFTWFFTTest);
-#endif
-#if defined(USE_SCSL)
-  REGISTER_TEST(itkSCSLFFTTest);
-#endif
 }
 

@@ -11,6 +11,7 @@ IF( NOT ITK_DISABLE_CXX_TESTING )
 SET(ALGORITHMS_TESTS ${CXX_TEST_PATH}/itkAlgorithmsTests)
 SET(ALGORITHMS_TESTS2 ${CXX_TEST_PATH}/itkAlgorithmsTests2)
 SET(ALGORITHMS_TESTS3 ${CXX_TEST_PATH}/itkAlgorithmsTests3)
+SET(ALGORITHMS_TESTS4 ${CXX_TEST_PATH}/itkAlgorithmsTests4)
 
 SET(ALGORITHMS_PRINT_TEST ${CXX_TEST_PATH}/itkAlgorithmsPrintTest)
 SET(ALGORITHMS_PRINT_TEST2 ${CXX_TEST_PATH}/itkAlgorithmsPrintTest2)
@@ -98,7 +99,7 @@ itkMultiResolutionImageRegistrationMethodTest_1  )
 ADD_TEST(itkMultiResolutionImageRegistrationMethodTest_2 ${ALGORITHMS_TESTS3}   
 itkMultiResolutionImageRegistrationMethodTest_2  )
 ADD_TEST(itkMutualInformationMetricTest ${ALGORITHMS_TESTS3} itkMutualInformationMetricTest)
-ADD_TEST(itkNarrowBandCurvesLevelSetImageFilterTest ${ALGORITHMS_TESTS2} itkNarrowBandCurvesLevelSetImageFilterTest)
+ADD_TEST(itkNarrowBandCurvesLevelSetImageFilterTest ${ALGORITHMS_TESTS4} itkNarrowBandCurvesLevelSetImageFilterTest)
 ADD_TEST(itkNarrowBandThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS2} itkNarrowBandThresholdSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkNewTest ${ALGORITHMS_TESTS3} itkNewTest)
 ADD_TEST(itkNormalizedCorrelationImageMetricTest ${ALGORITHMS_TESTS3} itkNormalizedCorrelationImageMetricTest)
@@ -142,13 +143,13 @@ ADD_TEST(itkBinaryThinningImageFilterTest ${ALGORITHMS_TESTS3}
              )
 ADD_TEST(itkSphereMeshSourceTest ${ALGORITHMS_TESTS3} itkSphereMeshSourceTest)
 ADD_TEST(itkUnsharpMaskLevelSetImageFilterTest ${ALGORITHMS_TESTS3} itkUnsharpMaskLevelSetImageFilterTest) 
-ADD_TEST(itkVnlFFTTest ${ALGORITHMS_TESTS2} itkVnlFFTTest)
+ADD_TEST(itkVnlFFTTest ${ALGORITHMS_TESTS4} itkVnlFFTTest)
 IF(USE_FFTW)
-       ADD_TEST(itkFFTWFFTTest ${ALGORITHMS_TESTS2} itkFFTWFFTTest)
+       ADD_TEST(itkFFTWFFTTest ${ALGORITHMS_TESTS4} itkFFTWFFTTest)
 ENDIF(USE_FFTW)
 
 IF(USE_SCSL)
-       ADD_TEST(itkSCSLFFTTest ${ALGORITHMS_TESTS2} itkSCSLFFTTest)        
+       ADD_TEST(itkSCSLFFTTest ${ALGORITHMS_TESTS4} itkSCSLFFTTest)        
 ENDIF(USE_SCSL)
 
 
@@ -156,7 +157,7 @@ ADD_TEST(itkMIRegistrationFunctionTest ${ALGORITHMS_TESTS2} itkMIRegistrationFun
 ADD_TEST(itkSymmetricForcesDemonsRegistrationFilterTest ${ALGORITHMS_TESTS2} itkSymmetricForcesDemonsRegistrationFilterTest)
 ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS2} itkVoronoiDiagram2DTest)
 ADD_TEST(itkVoronoiSegmentationImageFilterTest ${ALGORITHMS_TESTS2} itkVoronoiSegmentationImageFilterTest)
-ADD_TEST(itkWatershedImageFilterTest ${ALGORITHMS_TESTS2} itkWatershedImageFilterTest)
+ADD_TEST(itkWatershedImageFilterTest ${ALGORITHMS_TESTS4} itkWatershedImageFilterTest)
 ADD_TEST(itkPointSetToPointSetRegistrationTest ${ALGORITHMS_TESTS2}  itkPointSetToPointSetRegistrationTest)
 ADD_TEST(itkPointSetToSpatialObjectDemonsRegistrationTest ${ALGORITHMS_TESTS2}  itkPointSetToSpatialObjectDemonsRegistrationTest)
 
@@ -224,7 +225,6 @@ SET(AlgorithmsTest2_SRCS
 itkCompareHistogramImageToImageMetricTest.cxx
 itkDeformableSimplexMesh3DBalloonForceFilterTest.cxx
 itkDeformableSimplexMesh3DFilterTest.cxx
-itkFFTTest.cxx
 itkGradientDifferenceImageToImageMetricTest.cxx
 itkImagePCADecompositionCalculatorTest.cxx
 itkImagePCAShapeModelEstimatorTest.cxx
@@ -233,7 +233,6 @@ itkKappaStatisticImageToImageMetricTest.cxx
 itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
 itkMIRegistrationFunctionTest.cxx
 itkMatchCardinalityImageToImageMetricTest.cxx
-itkNarrowBandCurvesLevelSetImageFilterTest.cxx
 itkNarrowBandThresholdSegmentationLevelSetImageFilterTest.cxx
 itkOtsuMultipleThresholdsCalculatorTest.cxx
 itkOtsuMultipleThresholdsImageFilterTest.cxx        
@@ -245,11 +244,8 @@ itkSTAPLEImageFilterTest.cxx
 itkSimplexMeshVolumeCalculatorTest.cxx
 itkSymmetricForcesDemonsRegistrationFilterTest.cxx
 itkThresholdSegmentationLevelSetImageFilterTest.cxx
-itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
 itkVoronoiDiagram2DTest.cxx
-itkVoronoiPartitioningImageFilterTest.cxx
 itkVoronoiSegmentationImageFilterTest.cxx
-itkWatershedImageFilterTest.cxx
 )
 
 SET(AlgorithmsTest3_SRCS
@@ -293,6 +289,14 @@ itkSupervisedImageClassifierTest.cxx
 itkUnsharpMaskLevelSetImageFilterTest.cxx
 )
 
+SET(AlgorithmsTest4_SRCS
+itkNarrowBandCurvesLevelSetImageFilterTest.cxx
+itkFFTTest.cxx
+itkWatershedImageFilterTest.cxx
+itkVoronoiPartitioningImageFilterTest.cxx
+itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
+)
+
 ADD_EXECUTABLE(itkAlgorithmsPrintTest itkAlgorithmsPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest ITKAlgorithms ITKIO 
                                               ITKBasicFilters ITKFEM)
@@ -323,12 +327,15 @@ TARGET_LINK_LIBRARIES(itkAlgorithmsTests2 ITKAlgorithms ITKIO ITKBasicFilters IT
 ADD_EXECUTABLE(itkAlgorithmsTests3 itkAlgorithmsTests3.cxx ${AlgorithmsTest3_SRCS})
 TARGET_LINK_LIBRARIES(itkAlgorithmsTests3 ITKAlgorithms ITKIO ITKBasicFilters ITKFEM ITKStatistics)
 
+ADD_EXECUTABLE(itkAlgorithmsTests4 itkAlgorithmsTests4.cxx ${AlgorithmsTest4_SRCS})
+TARGET_LINK_LIBRARIES(itkAlgorithmsTests4 ITKAlgorithms ITKIO ITKBasicFilters ITKFEM ITKStatistics)
+
 IF(USE_FFTW)
-        TARGET_LINK_LIBRARIES(itkAlgorithmsTests2 fftw3 fftw3f)
+        TARGET_LINK_LIBRARIES(itkAlgorithmsTests4 fftw3 fftw3f)
 ENDIF(USE_FFTW)
 
 IF(USE_SCSL)
-        TARGET_LINK_LIBRARIES(itkAlgorithmsTests2 scs )
+        TARGET_LINK_LIBRARIES(itkAlgorithmsTests4 scs )
 ENDIF(USE_SCSL)
 
 IF(ITK_DATA_ROOT)
@@ -363,21 +370,21 @@ ADD_TEST(itkOtsuMultipleThresholdsImageFilterTest ${ALGORITHMS_TESTS2}
             ${ITK_TEST_OUTPUT_DIR}/OtsuMultipleThresholdsImageFilterTest.png
             64 3 2)
 
-ADD_TEST(itkVoronoiPartitioningImageFilterTest1 ${ALGORITHMS_TESTS2}
+ADD_TEST(itkVoronoiPartitioningImageFilterTest1 ${ALGORITHMS_TESTS4}
   --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/VoronoiPartioningImageFilterTest1.png
             ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png
   itkVoronoiPartitioningImageFilterTest
             ${ITK_DATA_ROOT}/Input/sf4.png
             ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png 1)
 
-ADD_TEST(itkVoronoiPartitioningImageFilterTest2 ${ALGORITHMS_TESTS2}
+ADD_TEST(itkVoronoiPartitioningImageFilterTest2 ${ALGORITHMS_TESTS4}
   --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/VoronoiPartioningImageFilterTest2.png
             ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png
   itkVoronoiPartitioningImageFilterTest
             ${ITK_DATA_ROOT}/Input/sf4.png
             ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png 0)
 
-ADD_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS2}
+ADD_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS4}
   --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/VectorThresholdSegmentationLevelSetImageFilterTest.png
             ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png
   itkVectorThresholdSegmentationLevelSetImageFilterTest
@@ -528,7 +535,5 @@ IF(ITK_CSWIG_JAVA AND ITK_BINARY_DIR)
            ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
            ${ITK_TEST_OUTPUT_DIR}/WatershedSegmentation1Java.mhd  )
 
-
 ENDIF(ITK_CSWIG_JAVA AND ITK_BINARY_DIR)
-
 
