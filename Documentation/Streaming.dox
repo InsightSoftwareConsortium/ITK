@@ -1,0 +1,10 @@
+/**
+   \page StreamingPage Streaming
+
+   \section StreamingIntroduction Introduction
+   
+   \image html Streaming.gif "Pipelines can be set up to stream data through filters in small pieces."
+
+
+
+*/
