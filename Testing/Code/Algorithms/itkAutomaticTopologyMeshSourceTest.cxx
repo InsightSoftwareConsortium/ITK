@@ -247,7 +247,7 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
 
   // ... In more detail.
 
-  int i;
+  unsigned int i;
 
   std::cout << mesh->GetNumberOfPoints() << " points:" << std::endl;
   for( i = 0; i < mesh->GetNumberOfPoints(); i++ )

@@ -131,7 +131,6 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
 
   // ---------------------------------------------------------------------------
 
-  passed = false;
   try
     {
     std::cout << "Test when wrong function type." << std::endl;
@@ -155,17 +154,8 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
     {
     std::cout << "Caught expected error." << std::endl;
     std::cout << err << std::endl;
-    passed = true;
     }
   
-/*
-  if ( !passed )
-    {
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-    }
-*/
-
   //-----------------------------------------------------------------------
 
   std::cout << "Create input image using RandomImageSource" << std::endl;

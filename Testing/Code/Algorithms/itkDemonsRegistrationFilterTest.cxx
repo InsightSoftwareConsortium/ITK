@@ -255,6 +255,12 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
     passed = false;
     }
 
+  if ( !passed )
+    {
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   //--------------------------------------------------------------
   std::cout << "Test exception handling." << std::endl;
 

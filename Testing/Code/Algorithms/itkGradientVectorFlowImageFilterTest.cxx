@@ -24,7 +24,7 @@
 #include <itkGradientVectorFlowImageFilter.h>
 #include <itkLaplacianImageFilter.h>
 
-int itkGradientVectorFlowImageFilterTest(int argc, char *argv[]) 
+int itkGradientVectorFlowImageFilterTest(int , char *[]) 
 {
   // Define the dimension of the images
   const unsigned int myDimension = 2;

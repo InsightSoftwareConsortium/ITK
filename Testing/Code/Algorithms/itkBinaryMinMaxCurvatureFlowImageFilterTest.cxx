@@ -253,7 +253,6 @@ int testBinaryMinMaxCurvatureFlow(
   bool passed = true;
   if ( fractionWrong > fractionNoise )
     {
-    passed = false;
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
    }
