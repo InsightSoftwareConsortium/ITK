@@ -56,13 +56,13 @@ void evaluate_function(itk::Image<char, 3> *im,
 {
   itk::Image<char, 3>::IndexType idx;
 
-  for(unsigned int z = 0; z < V_DEPTH; ++z)
+  for(int z = 0; z < V_DEPTH; ++z)
     {
       idx[2] = z;
-      for (unsigned int y = 0; y < V_HEIGHT; ++y)
+      for (int y = 0; y < V_HEIGHT; ++y)
         {
           idx[1] = y;
-          for (unsigned int x = 0; x < V_WIDTH; ++x)
+          for (int x = 0; x < V_WIDTH; ++x)
             {
               idx[0] = x;
               if ( f((float)x,(float)y,(float)z) >= 0.0 )
@@ -89,8 +89,13 @@ int itkAntiAliasBinaryImageFilterTest(int argc, char **argv)
   // Create a binary image of a sphere.
   BinaryImageType::Pointer image = BinaryImageType::New();
   BinaryImageType::RegionType region;
-  BinaryImageType::RegionType::SizeType sz = {64, 64, 64};
-  BinaryImageType::RegionType::IndexType idx = {0,0,0};
+  BinaryImageType::RegionType::SizeType sz;
+  BinaryImageType::RegionType::IndexType idx;
+  for (unsigned k = 0; k < 3; k++)
+    {
+      sz[k] = 64;
+      idx[k] = 0;
+    }
   region.SetSize(sz);
   region.SetIndex(idx);
   image->SetRegions(region);
