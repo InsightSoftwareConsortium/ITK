@@ -473,9 +473,9 @@ protected:
   /** Print contents of an AffineTransform */
   void PrintSelf(std::ostream &s, Indent indent) const;
 
-  void ComputeTranslation(void);
+  virtual void ComputeTranslation(void);
 
-  void ComputeOffset(void);
+  virtual void ComputeOffset(void);
 
   /** To avoid recomputation of the inverse if not needed */
   mutable TimeStamp   m_InverseMatrixMTime;
