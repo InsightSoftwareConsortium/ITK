@@ -49,8 +49,8 @@ int itkSimilarity2DTransformTest(int argc,char **argv)
   SimilarityTransformType::InputPointType p = pInit;
   SimilarityTransformType::InputPointType q;
 
-  q[0] =  p[0] * costh + p[1] * sinth;
-  q[1] = -p[0] * sinth + p[1] * costh;
+  q[0] =  p[0] * costh - p[1] * sinth;
+  q[1] =  p[0] * sinth + p[1] * costh;
 
   SimilarityTransformType::OutputPointType r;
   r = transform->TransformPoint( p );
