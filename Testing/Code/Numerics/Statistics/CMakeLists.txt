@@ -33,6 +33,8 @@ ADD_TEST(itkNormalVariateGeneratorTest ${STATISTICS_TESTS}
 
 ADD_TEST(itkSampleClassifierTest ${STATISTICS_TESTS} 
          itkSampleClassifierTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
+ADD_TEST(itkSelectiveSubsampleGeneratorTest ${STATISTICS_TESTS} 
+                                            itkSelectiveSubsampleGeneratorTest)
 ADD_TEST(itkSubsampleTest ${STATISTICS_TESTS} itkSubsampleTest)
 ADD_TEST(itkWeightedMeanCalculatorTest ${STATISTICS_TESTS} itkWeightedMeanCalculatorTest))
 
@@ -55,6 +57,7 @@ itkMembershipSampleGeneratorTest.cxx
 itkNeighborhoodSamplerTest.cxx
 itkNormalVariateGeneratorTest.cxx
 itkSampleClassifierTest.cxx
+itkSelectiveSubsampleGeneratorTest.cxx
 itkSubsampleTest.cxx
 itkWeightedMeanCalculatorTest.cxx
 )
