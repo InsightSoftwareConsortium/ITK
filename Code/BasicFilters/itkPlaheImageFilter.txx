@@ -283,9 +283,9 @@ PlaheImageFilter<TImageType>
 {
   Superclass::PrintSelf(os,indent);
 
-  std::cout << "Window: " << m_Window << std::endl;
-  std::cout << "Alpha: " << m_Alpha << std::endl;
-  std::cout << "Beta: " << m_Beta << std::endl;
+  os << "Window: " << m_Window << std::endl;
+  os << "Alpha: " << m_Alpha << std::endl;
+  os << "Beta: " << m_Beta << std::endl;
 }
 } // end namespace
 

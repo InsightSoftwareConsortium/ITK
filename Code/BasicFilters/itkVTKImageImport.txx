@@ -276,51 +276,51 @@ VTKImageImport<TOutputImage>
   Superclass::PrintSelf(os,indent);
   if (m_DataExtentCallback)
     {
-    std::cout << "DataExtentCallback: " << m_DataExtentCallback << std::endl;
+    os << "DataExtentCallback: " << m_DataExtentCallback << std::endl;
     }
   if (m_WholeExtentCallback)
     {
-    std::cout << "WholeExtentCallback: " << m_WholeExtentCallback << std::endl;
+    os << "WholeExtentCallback: " << m_WholeExtentCallback << std::endl;
     }
   if (m_BufferPointerCallback)
     {
-    std::cout << "BufferPointerCallback: " << m_BufferPointerCallback << std::endl;
+    os << "BufferPointerCallback: " << m_BufferPointerCallback << std::endl;
     }
   if (m_UpdateDataCallback)
     {
-    std::cout << "UpdateDataCallback: " << m_UpdateDataCallback << std::endl;
+    os << "UpdateDataCallback: " << m_UpdateDataCallback << std::endl;
     }
   if (m_PipelineModifiedCallback)
     {
-    std::cout << "PipelineModifiedCallback: " << m_PipelineModifiedCallback << std::endl;
+    os << "PipelineModifiedCallback: " << m_PipelineModifiedCallback << std::endl;
     }
   if (m_NumberOfComponentsCallback)
     {
-    std::cout << "NumberOfComponentsCallback: " << m_NumberOfComponentsCallback << std::endl;
+    os << "NumberOfComponentsCallback: " << m_NumberOfComponentsCallback << std::endl;
     }
   if (m_SpacingCallback)
     {
-    std::cout << "SpacingCallback: " << m_SpacingCallback << std::endl;
+    os << "SpacingCallback: " << m_SpacingCallback << std::endl;
     }
   if (m_OriginCallback)
     {
-      std::cout << "OriginCallback: " << m_OriginCallback << std::endl;
+      os << "OriginCallback: " << m_OriginCallback << std::endl;
     }
   if (m_UpdateInformationCallback)
     {
-    std::cout << "UpdateInformationCallback: " << m_UpdateInformationCallback << std::endl;
+    os << "UpdateInformationCallback: " << m_UpdateInformationCallback << std::endl;
     }
   if (m_ScalarTypeCallback)
     {
-    std::cout << "ScalarTypeCallback: " << m_ScalarTypeCallback << std::endl;
+    os << "ScalarTypeCallback: " << m_ScalarTypeCallback << std::endl;
     }
   if (m_PropagateUpdateExtentCallback)
     {
-    std::cout << "PropagateUpdateExtentCallback: " << m_PropagateUpdateExtentCallback << std::endl;
+    os << "PropagateUpdateExtentCallback: " << m_PropagateUpdateExtentCallback << std::endl;
     }
   if (m_CallbackUserData)
     {
-    std::cout << "CallbackUserData: " << m_CallbackUserData << std::endl;
+    os << "CallbackUserData: " << m_CallbackUserData << std::endl;
     }
 }
 

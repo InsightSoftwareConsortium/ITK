@@ -59,7 +59,7 @@ ImageToParametricSpaceFilter<TInputImage,TOutputMesh>
 {
   Superclass::PrintSelf(os,indent);
 
-  std::cout << indent << "ComputeIndices: " << m_ComputeIndices << std::endl;
+  os << indent << "ComputeIndices: " << m_ComputeIndices << std::endl;
 }
 
 /**

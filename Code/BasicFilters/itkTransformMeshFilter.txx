@@ -45,7 +45,7 @@ TransformMeshFilter<TInputMesh,TOutputMesh,TTransform>
   Superclass::PrintSelf(os,indent);
   if (m_Transform)
     {
-    std::cout << indent << "Transform: " << m_Transform << std::endl;
+    os << indent << "Transform: " << m_Transform << std::endl;
     }
 }
 

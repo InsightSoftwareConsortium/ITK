@@ -137,12 +137,12 @@ void FileIOToImageFilter<TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  std::cout << "FilePrefix: " << m_FilePrefix << std::endl;
-  std::cout << "FilePattern: " << m_FilePattern << std::endl;
-  std::cout << "FileName: " << m_FileName << std::endl;
+  os << "FilePrefix: " << m_FilePrefix << std::endl;
+  os << "FilePattern: " << m_FilePattern << std::endl;
+  os << "FileName: " << m_FileName << std::endl;
   if (m_IO)
     {
-    std::cout << "IO: " << m_IO << std::endl;
+    os << "IO: " << m_IO << std::endl;
     }
 }
 

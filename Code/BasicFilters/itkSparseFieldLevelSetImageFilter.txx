@@ -147,9 +147,9 @@ void SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   m_StatusImage->SetBufferedRegion(output->GetBufferedRegion());
   m_StatusImage->Allocate();
 
-  cout<<"constructing lists"<<endl;
+  itkDebugMacro(<<"constructing lists");
   ConstructLists();
-  cout<<"finished constructing lists"<<endl;
+  itkDebugMacro(<<"finished constructing lists");
 }
 
 
@@ -527,10 +527,10 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     {
       for(int i= 0; i < m_NumberOfLayers; i++)
         {
-          cout<<"thread "<<threadId<<" outside "<<i<<": "<<m_OutsideLists[threadId][i].size()<<endl;
-          cout<<"thread "<<threadId<<" inside "<<i<<": "<<m_InsideLists[threadId][i].size()<<endl;
+          itkDebugMacro(<<"thread "<<threadId<<" outside "<<i<<": "<<m_OutsideLists[threadId][i].size());
+          itkDebugMacro(<<"thread "<<threadId<<" inside "<<i<<": "<<m_InsideLists[threadId][i].size());
         }
-      cout<<"thread "<<threadId<<" active list "<<m_ActiveLists[threadId].size()<<endl;
+      itkDebugMacro(<<"thread "<<threadId<<" active list "<<m_ActiveLists[threadId].size());
     }
   
 #endif
@@ -804,8 +804,8 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         }
     }
 
-  // cout<<"active status up"<< m_StatusUpLists[threadId][0].size()<<endl;
-  //cout<<"active status down"<< m_StatusDownLists[threadId][0].size()<<endl;
+  // itkDebugMacro(<<"active status up"<< m_StatusUpLists[threadId][0].size() );
+  // itkDebugMacro(<<"active status down"<< m_StatusDownLists[threadId][0].size() );
 
   //Process the status lists for active layer: update the 1st inside layer,
   //create status up list for 1st outside layer and update the value
@@ -918,7 +918,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   for( j = 0; j < m_NumberOfLayers-1 ; j++)
     {
 
-      //      cout<<"outside "<<j <<" up: "<<status->size()<<endl; 
+      //      itkDebugMacro(<<"outside "<<j <<" up: "<<status->size() ); 
 
       //This is to re-use the status list
       if( k == 0) 
@@ -1019,7 +1019,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   for( j = 0; j < m_NumberOfLayers -1; j++)
     {
 
-      // cout<<"inside "<<j <<" down: "<<status->size()<<endl; 
+      // itkDebugMacro(<<"inside "<<j <<" down: "<<status->size() ); 
       //This is to re-use the status list
       if( k == 0) 
         k = 1;
@@ -1308,7 +1308,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     }
 
 #ifdef DEBUG  
-  cout<<"active layer"<<endl;
+  itkDebugMacro(<<"active layer");
 
   it = m_ActiveLists[threadId].begin();
   while(it != m_ActiveLists[threadId].end())
@@ -1321,14 +1321,14 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       
       oit += offset;
       
-      cout<<oit.GetCenterPixel()<<" ";
+      itkDebugMacro( <<oit.GetCenterPixel()<<" " );
       ++it;
 
     }
   
   for(int i = 0; i < m_NumberOfLayers; i++)
     {
-      cout<<"outside layer "<<i<<endl;
+      itkDebugMacro(<<"outside layer "<<i<< );
       it = m_OutsideLists[threadId][i].begin();
       while(it != m_OutsideLists[threadId][i].end())
         {
@@ -1340,13 +1340,13 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
           
           oit += offset;
            ++it;
-          cout<<oit.GetCenterPixel()<<" ";
+          itkDebugMacro(<<oit.GetCenterPixel()<<" ");
         }
     }
 
   for(int i = 0; i < m_NumberOfLayers; i++)
     {
-      cout<<"Inside layer "<<i<<endl;
+      itkDebugMacro(<<"Inside layer "<<i);
       it = m_InsideLists[threadId][i].begin();
       while(it != m_InsideLists[threadId][i].end())
         {
@@ -1358,7 +1358,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
           
           oit += offset;
            ++it;
-          cout<<oit.GetCenterPixel()<<" ";
+          itkDebugMacro(<<oit.GetCenterPixel()<<" ");
         }
     }
   
@@ -1366,10 +1366,10 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
    {
      for(int i= 0; i < m_NumberOfLayers; i++)
        {
-         cout<<"thread "<<threadId<<" outside "<<i<<": "<<m_OutsideLists[threadId][i].size()<<endl;
-         cout<<"thread "<<threadId<<" inside "<<i<<": "<<m_InsideLists[threadId][i].size()<<endl;
+         itkDebugMacro(<<"thread "<<threadId<<" outside "<<i<<": "<<m_OutsideLists[threadId][i].size() );
+         itkDebugMacro(<<"thread "<<threadId<<" inside "<<i<<": "<<m_InsideLists[threadId][i].size() );
        }
-     cout<<"thread "<<threadId<<" active list "<<m_ActiveLists[threadId].size()<<endl;
+     itkDebugMacro(<<"thread "<<threadId<<" active list "<<m_ActiveLists[threadId].size());
    }
   
 #endif
@@ -1508,7 +1508,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       m_FreeLists[threadId].pop_front();
       return tempItem;
     }
-  cout<<"allocating new memory"<<endl;
+  itkDebugMacro(<<"allocating new memory");
   for(int j = 0; j < m_MaxPreAllocateNodes; j ++)
     m_FreeLists[threadId].push_back(new LevelSetNodeType());
       

@@ -24,7 +24,6 @@
 #include "itkZeroCrossingImageFilter.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkNumericTraits.h"
-#include "itkRawImageWriter.h"
 
 namespace itk
 {
@@ -430,8 +429,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   this->AllocateUpdateBuffer();
 
- RawImageWriter<TOutputImage>::Pointer writer =
-    RawImageWriter<TOutputImage>::New();
 
   // Apply the Gaussian Filter to the input image.
   gaussianFilter->SetVariance(m_Variance);
@@ -452,10 +449,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   zeroCrossFilter->Update();
   zeroCross = zeroCrossFilter->GetOutput();
 
-  writer->SetFileName("zero.raw");
-  writer->SetInput(zeroCross);
   
-  writer->Write();
 
   // Calculate the 2nd derivative gradient here.  This result is written to
   // the m_UpdateBuffer1 image.

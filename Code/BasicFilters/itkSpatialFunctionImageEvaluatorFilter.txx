@@ -17,7 +17,6 @@
 #ifndef __itkSpatialFunctionImageEvaluatorFilter_txx
 #define __itkSpatialFunctionImageEvaluatorFilter_txx
 
-#include <iostream>
 #include "itkSize.h"
 #include "itkImageRegion.h"
 #include "itkSpatialFunctionImageEvaluatorFilter.h"

@@ -17,7 +17,6 @@
 #ifndef __itkBinomialBlurImageFilter_txx
 #define __itkBinomialBlurImageFilter_txx
 
-#include <iostream>
 #include "vnl/vnl_vector_fixed.h"
 #include "itkSize.h"
 #include "itkImageRegion.h"

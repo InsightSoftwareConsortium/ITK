@@ -70,10 +70,10 @@ RandomImageSource<TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  std::cout << indent << "Max: "
+  os << indent << "Max: "
             << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_Max)
             << std::endl;
-  std::cout << indent << "Min: "
+  os << indent << "Min: "
             << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_Min)
             << std::endl;
   unsigned int i;

@@ -17,7 +17,6 @@
 #ifndef __itkGradientToMagnitudeImageFilter_txx
 #define __itkGradientToMagnitudeImageFilter_txx
 
-#include <iostream>
 #include <math.h>
 #include "itkSize.h"
 #include "itkImageRegion.h"

@@ -103,8 +103,8 @@ MinimumMaximumImageFilter<TInputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  std::cout << "Minimum: " << m_Minimum << std::endl;
-  std::cout << "Maximum: " << m_Maximum << std::endl;
+  os << "Minimum: " << m_Minimum << std::endl;
+  os << "Maximum: " << m_Maximum << std::endl;
 }
 } // end namespace itk
 
