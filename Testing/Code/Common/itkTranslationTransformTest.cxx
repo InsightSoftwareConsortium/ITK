@@ -67,14 +67,12 @@ int main(
         vector2[i]    = 0.0;
     }
     std::cout << "Instantiation of a given 2D transform:" 
-              << std::endl;
-    aff2.PrintSelf( std::cout );
+              << std::endl << aff2;
 
     itk::TranslationTransform<double,2> inverse2;
     inverse2 = aff2.Inverse();
     std::cout << "Inverse of the given transform:"
-              << std::endl;
-    inverse2.PrintSelf( std::cout );
+              << std::endl << inverse2;
 
     /* Set parameters of a 2D transform */
     vector2[0] = 2;
@@ -93,8 +91,7 @@ int main(
     /* Try composition of two transformations */
     aff2.Compose(aff2);
     std::cout << "Result of a composition:"
-              << std::endl;
-    aff2.PrintSelf( std::cout );
+              << std::endl << aff2;
 
     /* Compose with a translation */
     VectorType trans;
@@ -102,8 +99,7 @@ int main(
     trans[1] = 2;
     aff2.Translate(trans);
     std::cout << "Result of a translation:"
-              << std::endl;
-    aff2.PrintSelf( std::cout );
+              << std::endl << aff2;
 
         /* Transform a point */
     itk::Point<double, 2> u2, v2;
