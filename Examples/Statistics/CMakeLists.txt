@@ -70,3 +70,6 @@ TARGET_LINK_LIBRARIES(SampleSorting ITKCommon)
 ADD_EXECUTABLE(WeightedSampleStatistics WeightedSampleStatistics.cxx )
 TARGET_LINK_LIBRARIES(WeightedSampleStatistics ITKCommon)
 
+ADD_EXECUTABLE(ImageHistogram1 ImageHistogram1.cxx )
+TARGET_LINK_LIBRARIES(ImageHistogram1 ITKIO ITKCommon )
+
