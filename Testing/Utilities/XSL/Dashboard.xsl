@@ -6,87 +6,76 @@
        The proper flags to Xalan are in the form -PARAM DashboardStamp "string('foo')"
        -->
   <xsl:param name="DashboardStamp" select="string('MostRecentResults-Nightly')"/>
+  <xsl:param name="PreviousDashboardStamp" select="string('')"/>
   <xsl:variable name="DashboardDir" select="concat('../../../../Dashboard/', $DashboardStamp)"/>
+  <xsl:variable name="IconDir" select="string('../../Icons')"/>
+
+  <xsl:include href="Insight.xsl"/>
 
   <xsl:template match="/Dashboard">
-    <html>
-      <head>
-        <title>
-          Insight Dashboard - <xsl:value-of select="Information/LocalTime"/>
-        </title>
-      </head>
-      <body bgcolor="#ffffff">
-        <table border="4" cellpading="0" cellspacing="2" width="100%">
-          <tr>
-            <td width="140">
-              <img src="../../Icons/Logo.gif" border="0"></img>
-            </td>
-            <td>
-              <h1>Insight testing dashboard</h1>
-            </td>
-          </tr>
-          <tr>
-            <td valign="top" halign="center">
-              <table width="100%" halign="center">
-                <tr>
-                  <td>
-                    <a href="Update.html"><img src="../../Icons/Updates.gif" border="0"></img></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="BuildError.html"><img src="../../Icons/Errors.gif" border="0"></img></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="BuildWarning.html"><img src="../../Icons/Warnings.gif" border="0"></img></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="Test.html"><img src="../../Icons/Tests.gif" border="0"></img></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="Coverage.html"><img src="../../Icons/Coverage.gif" border="0"></img></a>
-                  </td>
-                </tr>
-              </table>
-            </td>		    
-            <td>
-              <h3>
-                <a>
-                  <xsl:attribute name="href">Update.html</xsl:attribute>
-                  <xsl:value-of select="Update/ChangedFileCount"/> Files Changed
-                  by <xsl:value-of select="Update/AuthorCount"/> Authors
-                </a>
-              </h3>
-              <h2>Nightly Builds</h2>
+    <xsl:call-template name="InsightHeader">
+      <xsl:with-param name="Title">Insight dashboard</xsl:with-param>
+      <xsl:with-param name="IconDir">../../Icons</xsl:with-param>
+    </xsl:call-template>
+    <h3>
+      <xsl:choose>
+        <xsl:when test="Update/ChangedFileCount != ''">
+          <a href="Update.html">
+            <xsl:value-of select="Update/ChangedFileCount"/> Files Changed
+            by <xsl:value-of select="Update/AuthorCount"/> Authors
+          </a>
+        </xsl:when>
+        <xsl:otherwise>
+          No Update information available!
+        </xsl:otherwise>
+      </xsl:choose>
+    </h3>
+
+    <h3>
+      <xsl:choose>
+        <xsl:when test="string-length(Doxygen/StartDateTime) != 0">
+          <a>
+            <xsl:attribute name="href">Doxygen.html</xsl:attribute>
+            Doxygen: <xsl:value-of select="Doxygen/ErrorCount"/> Errors
+            and <xsl:value-of select="Doxygen/WarningCount"/> Warnings
+          </a>
+        </xsl:when>
+        <xsl:otherwise>
+          No Doxygen information available!
+        </xsl:otherwise>
+      </xsl:choose>
+    </h3>
+    
+    <h2>Nightly Builds</h2>
             
-              <table border="2">
+    <table border="2">
               
-                <xsl:call-template name="BuildTableHeader"/>
-                <xsl:for-each select="BuildStamp">
-                  <xsl:if test="contains(Build/BuildStamp,'Nightly')">
-                    <xsl:call-template name="BuildStamp"/>
-                  </xsl:if>
-                </xsl:for-each>
-              </table>
-            
-              <h2>Experimental Builds</h2>
-            
-              <table border="2">
-              
-                <xsl:call-template name="BuildTableHeader"/>
-                <xsl:for-each select="BuildStamp">
-                  <xsl:if test="not ( contains(Build/BuildStamp,'Nightly') )">
-                    <xsl:call-template name="BuildStamp"/>
-                  </xsl:if>
-                </xsl:for-each>
-              
-              </table>
+      <xsl:call-template name="BuildTableHeader"/>
+      <xsl:for-each select="BuildStamp">
+        <xsl:if test="contains(Build/BuildStamp,'Nightly')">
+          <xsl:call-template name="BuildStamp"/>
+        </xsl:if>
+      </xsl:for-each>
+    </table>
+    
+
+    <xsl:choose>
+      <xsl:when test="count(Build/BuildStamp[contains(node(),'Nightly')])">
+        <h2>Experimental Builds</h2>
+        <table border="2">
+          <xsl:call-template name="BuildTableHeader"/>
+          <xsl:for-each select="BuildStamp">
+            <xsl:if test="not ( contains(Build/BuildStamp,'Nightly') )">
+              <xsl:call-template name="BuildStamp"/>
+            </xsl:if>
+          </xsl:for-each>
+      
+        </table>
+      </xsl:when>
+      <xsl:otherwise>
+        <h3>No Experimental Builds</h3>
+      </xsl:otherwise>
+    </xsl:choose>
             
               <xsl:choose>
                 <xsl:when test="count(BuildStamp/Coverage)">
@@ -131,11 +120,15 @@
                   <h3>No coverage information</h3><br/>
                 </xsl:otherwise>
               </xsl:choose>
-            </td>
-          </tr>
-        </table>
-      </body>
-    </html>
+              <xsl:if test="$PreviousDashboardStamp != ''">
+                <h3>
+                  <a href="../{$PreviousDashboardStamp}/Dashboard.html">
+                    Previous dashboard
+                  </a>
+                </h3>
+                <br/>
+              </xsl:if>
+              <xsl:call-template name="InsightFooter"/>
   </xsl:template>
 
 

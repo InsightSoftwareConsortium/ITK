@@ -7,89 +7,30 @@
        -->
   <xsl:param name="DashboardStamp" select="string('MostRecentResults-Nightly')"/>
   <xsl:variable name="DashboardDir" select="concat('../../../../Dashboard/', $DashboardStamp)"/>
+  <xsl:param name="Type" select="string('Error')"/>
 
-  <xsl:template match="/">
+  <xsl:include href="Insight.xsl"/>
 
-    
-    <html>
-      <head>
-        <title>Build log</title>
-      </head>
-      Stamp = <xsl:value-of select="$DashboardStamp"/>
-      Dir = <xsl:value-of select="$DashboardDir"/>
-      <body bgcolor="#ffffff">
-        <table border="4" cellpading="0" cellspacing="2" width="100%">
-	    <tr>
-	      <td width="140">
-                <a href="{$DashboardDir}/Dashboard.html"> <img src="../../../../Icons/Logo.gif" border="0"></img></a>
-              </td>
-	      <td>
-               <h1>Insight build log dashboard</h1>
-        	</td>
-	      </tr>
-	   <tr> <td width="23%" valign="top" halign="center">
-	<table width="100%">
-              <tr><td>
-              <a href="{$DashboardDir}/Update.html"><img src="../../../../Icons/Updates.gif" border="0"></img></a>
-              </td></tr>
-               <tr><td>
-               <a href="{$DashboardDir}/BuildError.html"><img src="../../../../Icons/Errors.gif" border="0"></img></a>
-              </td></tr>
-              <tr><td>
-              <img src="../../../../Icons/WarningsBlue.gif" border="0"></img>
-              </td></tr>
-                <tr><td>
-                <a href="{$DashboardDir}/Test.html"><img src="../../../../Icons/Tests.gif" border="0"></img></a>
-              </td></tr>
-              <tr><td>
-              <a href="{$DashboardDir}/Coverage.html"><img src="../../../../Icons/Coverage.gif" border="0"></img></a>
-             </td></tr></table>
-            <hr width="75%"></hr>
-<table width="100%">
-  <tr><td><a href="{$DashboardDir}/Dashboard.html"><img src="../../../../Icons/Home.gif" border="0"></img></a> 
- </td></tr></table>
-</td>		    
-<td>
-<h2>Build started on <xsl:value-of select="Site/Build/StartDateTime"/></h2>
-        <h3>Found 
-        <a href="#Error">
-          <xsl:value-of select="count(Site/Build/Error)"/> Errors
-        </a>
-        and 
-        <a href="#Warning">
-          <xsl:value-of select="count(Site/Build/Warning)"/> Warnings
-        </a>
-      </h3>
-      <br/>
-      <hr/>
-      <a name="Error">
-        <h2>Errors</h2>
-      </a>
-      <xsl:for-each select="Site/Build/Error">
-        <hr/>
-        <h3>Error # <xsl:number level="single" count="Site/Build/Error" format="1"/>: Build Log line <xsl:value-of select="BuildLogLine"/></h3>
-        <br/>
-        <xsl:call-template name="FormatContext"/>
-      </xsl:for-each>
+    <xsl:template match="/">
+      <xsl:call-template name="InsightHeader">
+        <xsl:with-param name="Title">Insight <xsl:value-of select="$Type"/> Errors</xsl:with-param>
+        <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
+      </xsl:call-template>
+    <h2>Build started on <xsl:value-of select="Site/Build/StartDateTime"/></h2>
+    <h3>
+      Found <xsl:value-of select="count(Site/Build/child::node()[contains(local-name(),$Type)])"/> <xsl:value-of select="$Type"/>s
+  </h3>
+  <br/>
+  <hr/>
+  <xsl:for-each select="Site/Build/child::node()[contains(local-name(),$Type)]">
+    <hr/>
+    <h3>Error: Build Log line <xsl:value-of select="BuildLogLine"/></h3>
+    <br/>
+    <xsl:call-template name="FormatContext"/>
+  </xsl:for-each>
 
-      <hr/>
-      <a name="Warning">
-        <h2>Warnings</h2>
-      </a>
-      <xsl:for-each select="//Build/Warning">
-        <hr/>
-        <h3>Warning # <xsl:number level="single" count="//Build/Warning" format="1"/>: Build Log line <xsl:value-of select="BuildLogLine"/></h3>
-        <br/>
-        <xsl:call-template name="FormatContext"/>
-      </xsl:for-each>
-    </td>
-  </tr>
-</table>
-      
-</body>
-</html>
+  <xsl:call-template name="InsightFooter"/>
 </xsl:template>
-	
 
 <xsl:template name="FormatContext">
   <xsl:choose>
