@@ -74,15 +74,7 @@ BinaryPruningImageFilter<TInputImage,TOutputImage>
   InputImagePointer  inputImage  = 
     dynamic_cast<const TInputImage  *>( ProcessObject::GetInput(0) );
 
-  pruneImage->SetLargestPossibleRegion( 
-    inputImage->GetLargestPossibleRegion() );
-
-  pruneImage->SetBufferedRegion( 
-    inputImage->GetBufferedRegion() );
-
-  pruneImage->SetRequestedRegion( 
-    inputImage->GetRequestedRegion() );
-
+  pruneImage->SetBufferedRegion( pruneImage->GetRequestedRegion() );
   pruneImage->Allocate();
 
   typename OutputImageType::RegionType region  = pruneImage->GetRequestedRegion();
