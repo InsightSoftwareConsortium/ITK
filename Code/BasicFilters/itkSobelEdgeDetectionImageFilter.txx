@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkSobelEdgeDetectionImageFilter_txx
 #define _itkSobelEdgeDetectionImageFilter_txx
+#include "itkSobelEdgeDetectionImageFilter.h"
 
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkSobelOperator.h"

@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkLaplacianImageFilter_txx
 #define _itkLaplacianImageFilter_txx
+#include "itkLaplacianImageFilter.h"
 
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkLaplacianOperator.h"

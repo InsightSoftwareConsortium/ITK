@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef __itkVTKImageExport_txx
 #define __itkVTKImageExport_txx
+#include "itkVTKImageExport.h"
 
 namespace itk
 {

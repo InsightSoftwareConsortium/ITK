@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef __itkVectorAnisotropicDiffusionFunction_txx_
 #define __itkVectorAnisotropicDiffusionFunction_txx_
+#include "itkVectorAnisotropicDiffusionFunction.h"
 
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkConstSmartNeighborhoodIterator.h"
