@@ -39,7 +39,7 @@ void
 UnaryImageFilter<TInputImage,TOutputImage,TFunction>
 ::SetInput( TInputImage * image ) 
 {
-  SetNthInput(0, image1 );
+  SetNthInput(0, image );
 }
 
 
