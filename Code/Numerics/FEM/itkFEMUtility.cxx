@@ -21,6 +21,7 @@
 #endif
 
 #include "itkFEMUtility.h"
+#include "itkNumericTraits.h"
 
 namespace itk {
 namespace fem {
@@ -34,7 +35,7 @@ namespace fem {
 void SkipWhiteSpace(std::istream& f) 
 {
 while(f && !f.eof() && (std::ws(f).peek())=='%' )
-  f.ignore(INT_MAX, '\n');
+  f.ignore(NumericTraits<int>::max(), '\n');
 }
 
 
