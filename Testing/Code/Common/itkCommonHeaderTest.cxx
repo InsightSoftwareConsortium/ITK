@@ -23,6 +23,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkArray2D.txx"
 #include "itkAsinImageAdaptor.h"
 #include "itkAtanImageAdaptor.h"
+#include "itkAutoPointer.h"
 #include "itkAzimuthElevationToCartesianTransform.txx"
 #include "itkBSplineInterpolateImageFunction.txx"
 #include "itkBackwardDifferenceOperator.txx"

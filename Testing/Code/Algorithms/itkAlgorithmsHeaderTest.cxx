@@ -28,7 +28,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkConnectedRegionsMeshFilter.txx"
 #include "itkCurvatureFlowFunction.txx"
 #include "itkCurvatureFlowImageFilter.txx"
-#include "itkDeformableMesh.txx"
 #include "itkDeformableMesh3DFilter.txx"
 #include "itkDeformableMeshFilter.txx"
 #include "itkDemonsRegistrationFilter.txx"
