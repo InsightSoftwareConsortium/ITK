@@ -45,6 +45,9 @@ namespace Statistics{
  *
  *  This class is intended to be used in combination with the ListToHistogramGenerator class.
  *
+ * \author Glenn Pierce
+ *
+ * \ingroup Statistics
  */
  
 template < class TImage >
