@@ -98,11 +98,10 @@ int itkPlaheImageFilterTest(int, char* [] )
   myFilterTypePointer filter = myFilterType::New();
 
   // window[] is a neighborhood of a evaluated pixel
-  unsigned int pixelWindow[ myDimension ];
-  pixelWindow[0] = 9;
-  pixelWindow[1] = 9;
+  myFilterType::ImageSizeType radius;
+  radius.Fill(9);
 
-  filter->SetWindow( pixelWindow );
+  filter->SetRadius( radius );
   filter->SetAlpha( 0.3 );
   filter->SetBeta(  0.3 );
 
