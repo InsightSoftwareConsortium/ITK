@@ -710,8 +710,15 @@ void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "IORegion: " << m_IORegion << std::endl;
   os << indent << "Number of Components/Pixel: " << m_NumberOfComponents << "\n";
   os << indent << "Pixel Type: " << this->GetPixelType().name() << std::endl;
-  os << indent << "Component Type: " 
-     << this->ReturnTypeAsString(m_ComponentType) << std::endl;
+  if (m_ComponentType)
+    {
+    os << indent << "Component Type: " 
+       << this->ReturnTypeAsString(m_ComponentType) << std::endl;
+    }
+  else
+    {
+    os << indent << "(none)" << std::endl; 
+    }
   os << indent << "Dimensions: ( ";
   for (unsigned int i=0; i < m_NumberOfDimensions; i++)
     {
