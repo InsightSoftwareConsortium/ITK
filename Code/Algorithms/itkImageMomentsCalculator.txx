@@ -19,15 +19,14 @@
 
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
-#include "itkSimpleImageRegionConstIterator.h"
+#include "itkSimpleImageRegionIterator.h"
 
 namespace itk
 { 
 
 
 template<class TImage>
-const char * ImageMomentsCalculator<TImage>::notvalid
-= "No valid image moments are available.";
+const char * ImageMomentsCalculator<TImage>::notvalid = "No valid image moments are available.";
 
 
 //----------------------------------------------------------------------
@@ -42,7 +41,7 @@ ImageMomentsCalculator<TImage>::ImageMomentsCalculator(void)
 // Construct and compute moments
 template<class TImage>
 ImageMomentsCalculator<TImage>::
-ImageMomentsCalculator( const ImageType * image) 
+ImageMomentsCalculator( ImageType * image) 
 {
   ComputeMoments(image);
 }
@@ -60,7 +59,7 @@ ImageMomentsCalculator<TImage>::
 template<class TImage>
 void
 ImageMomentsCalculator<TImage>::
-ComputeMoments( const ImageType * image)
+ComputeMoments( ImageType * image)
 {
 
   AffineTransformType indexToPhysical = image->GetIndexToPhysicalTransform();
@@ -73,8 +72,9 @@ ComputeMoments( const ImageType * image)
 
   typedef typename ImageType::IndexType IndexType;
     
-  SimpleImageRegionConstIterator< ImageType > it( image,
-                                                  image->GetRequestedRegion() ); 
+  SimpleImageRegionIterator< ImageType > it( image,
+                                   image->GetRequestedRegion() ); 
+
   it.Begin();
   while( !it.IsAtEnd() )
   {
@@ -93,11 +93,10 @@ ComputeMoments( const ImageType * image)
     for(unsigned int i=0; i<ImageDimension; i++)
     {
       m_m1[i] += indexPosition[i] * value; 
-      for(unsigned int j=i; j<ImageDimension; j++)
+      for(unsigned int j=0; j<ImageDimension; j++)
       {
         double weight = value * indexPosition[i] * indexPosition[j];
         m_m2[i][j] += weight;
-        m_m2[j][i] += weight;
       }
     }
 
@@ -106,11 +105,10 @@ ComputeMoments( const ImageType * image)
     for(unsigned int i=0; i<ImageDimension; i++)
     {
       m_cg[i] += physicalPosition[i] * value; 
-      for(unsigned int j=i; j<ImageDimension; j++)
+      for(unsigned int j=0; j<ImageDimension; j++)
       {
         double weight = value * physicalPosition[i] * physicalPosition[j];
         m_cm[i][j] += weight;
-        m_cm[j][i] += weight;
       }
 
     }
@@ -123,7 +121,7 @@ ComputeMoments( const ImageType * image)
   {
     m_cg[i] /= m_m0;
     m_m1[i] /= m_m0;
-    for(unsigned int j=i; j<ImageDimension; j++)
+    for(unsigned int j=0; j<ImageDimension; j++)
     {
       m_m2[i][j] /= m_m0;
       m_cm[i][j] /= m_m0;
@@ -134,7 +132,7 @@ ComputeMoments( const ImageType * image)
   // Center the second order moments
   for(unsigned int i=0; i<ImageDimension; i++)
   {
-    for(unsigned int j=i; j<ImageDimension; j++)
+    for(unsigned int j=0; j<ImageDimension; j++)
     {
       m_m2[i][j] -= m_m1[i] * m_m1[j];
       m_cm[i][j] -= m_cg[i] * m_cg[j];

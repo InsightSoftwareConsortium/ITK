@@ -92,7 +92,7 @@ public:
      * other methods of this object.
      *
      */
-    void ComputeMoments( const ImageType * image );
+    void ComputeMoments( ImageType * image );
 
     /**
      * Return the total mass (or zeroth moment) of an image.
@@ -207,7 +207,7 @@ public:
      * other methods of the object constructed.
      */
     ImageMomentsCalculator(              // Create and sum moments of an image
-          const ImageType * image);
+          ImageType * image);
 
     /**
      * Destroy an ImageMomentsCalculator object.
