@@ -84,6 +84,16 @@ public:
   itkNewMacro(Self);
   
   /**
+   * Pick-up typedefs from superclass or classes that we use
+   */
+  typedef typename CellType::CellFeatureIdentifier  CellFeatureIdentifier;
+  typedef CellFeatureIdentifier  CellFeatureCount;
+  typedef typename CellInterface<TPixelType,TCellType>::PointIdIterator 
+                   PointIdIterator;
+  typedef typename CellInterface<TPixelType,TCellType>::PointIdConstIterator
+                   PointIdConstIterator;
+
+  /**
    * Implement the standard CellInterface.
    */
   virtual CellPointer MakeCopy(void);
@@ -110,10 +120,12 @@ public:
    * Standard part of every itk Object.
    */
   itkTypeMacro(VertexCell, CellInterface);
+
   /**
    * Visitor interface
    */
   itkCellVisitMacro(VERTEX_CELL);
+
 protected:
   /**
    * Store the number of points needed for a vertex.

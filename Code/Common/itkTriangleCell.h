@@ -65,6 +65,16 @@ public:
    */
   typedef TCellType                                 CellType;
 
+  /**
+   * Pick-up typedefs from superclass
+   */
+  typedef typename CellType::CellFeatureIdentifier  CellFeatureIdentifier;
+  typedef CellFeatureIdentifier  CellFeatureCount;
+  typedef typename CellInterface<TPixelType,TCellType>::PointIdIterator 
+                   PointIdIterator;
+  typedef typename CellInterface<TPixelType,TCellType>::PointIdConstIterator
+                   PointIdConstIterator;
+
   /** \typedef
    * Save some template parameter information.
    */

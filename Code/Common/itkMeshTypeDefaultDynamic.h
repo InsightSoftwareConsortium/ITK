@@ -129,12 +129,13 @@ public:
    * This should not be changed.
    */
   typedef CellInterface< PixelType , CellType >  Cell;
+  typedef typename Cell::Pointer CellPointer;
   
   /**
    * The container type for use in storing cells.  It must conform to
    * the IndexedContainer interface.
    */
-  typedef MapContainer< CellIdentifier , Cell::Pointer >
+  typedef MapContainer< CellIdentifier , CellPointer >
         CellsContainer;
   
   /**
@@ -169,7 +170,7 @@ public:
    * The container type for use in storing explicitly created
    * boundaries.  It must conform to the IndexedContainer interface.
    */
-  typedef MapContainer< BoundaryIdentifier , Cell::Pointer >
+  typedef MapContainer< BoundaryIdentifier , CellPointer >
         BoundariesContainer;
 
   /**

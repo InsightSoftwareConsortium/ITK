@@ -41,8 +41,6 @@
 namespace itk
 {
 
-  
-
 /** \class CellInterface
  * Define an abstract interface for cells.  Actual cell types derive from
  * this class.
@@ -121,6 +119,7 @@ public:
    * Allow const iteration over the point ID list.
    */
   typedef const PointIdentifier*  PointIdConstIterator;
+  
   /** 
    *  Cell Visitor interfaces
    */
