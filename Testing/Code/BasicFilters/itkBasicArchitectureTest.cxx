@@ -198,7 +198,7 @@ int main()
   allEvents = itk::MemberCommand<AllEvents>::New();
   allEvents->SetCallbackFunction(&allWatch,
                                  &AllEvents::WatchEvents);
-  shrink->AddObserver(itk::Command::AnyEvent, allEvents);
+  unsigned long tag = shrink->AddObserver(itk::Command::AnyEvent, allEvents);
   
   // Create a mapper (in this case a writer). A mapper
   // is templated on the input type.
@@ -217,6 +217,9 @@ int main()
   rawWriter->SetFileTypeToBinary();
   rawWriter->SetByteOrderToBigEndian();
   rawWriter->Write();
+
+  // test RemoveObserver code
+  shrink->RemoveObserver( tag );
 
   return EXIT_SUCCESS;
 }
