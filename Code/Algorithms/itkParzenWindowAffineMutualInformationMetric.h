@@ -15,7 +15,7 @@
 #ifndef _itkParzenWindowAffineMutualInformationMetric_h
 #define _itkParzenWindowAffineMutualInformationMetric_h
 
-#include "itkAffineMutualInformationImageMetricMetric.h"
+#include "itkAffineMutualInformationImageMetric.h"
 #include "itkIndex.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkKernelFunction.h"
@@ -73,7 +73,7 @@ namespace itk
  * The can be improved by using a finitely supported kernel and
  * sorting the samples.
  *
- * \sa AffineMutualInformationImageMetricMetric
+ * \sa AffineMutualInformationImageMetric
  * \sa KernelFunction
  *
  */
@@ -83,7 +83,7 @@ class TTestImage,
 class TDerivImage
 >
 class ITK_EXPORT ParzenWindowAffineMutualInformationMetric :
-  public AffineMutualInformationImageMetricMetric<TRefImage,TTestImage,TDerivImage>
+  public AffineMutualInformationImageMetric<TRefImage,TTestImage,TDerivImage>
 {
 public:
   /**
@@ -94,7 +94,7 @@ public:
   /**
    * Standard "Superclass" typedef
    */
-  typedef AffineMutualInformationImageMetricMetric<TRefImage,TTestImage,TDerivImage> Superclass;
+  typedef AffineMutualInformationImageMetric<TRefImage,TTestImage,TDerivImage> Superclass;
 
   /**
    * Smart pointer typedef support
@@ -105,7 +105,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(ParzenWindowAffineMutualInformationMetric, AffineMutualInformationImageMetricMetric);
+  itkTypeMacro(ParzenWindowAffineMutualInformationMetric, AffineMutualInformationImageMetric);
 
   /**
    * Method for creation through the object factory.

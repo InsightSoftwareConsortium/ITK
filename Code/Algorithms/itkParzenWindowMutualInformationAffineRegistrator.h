@@ -16,8 +16,8 @@
 #define _itkParzenWindowMutualInformationAffineRegistrator_h
 
 #include "itkMutualInformationImageMetricRigidRegistration.h"
-#include "itkAffineMutualInformationImageMetricMetric.h"
-#include "itkParzenWindowAffineMutualInformationImageMetricMetricMetric.h"
+#include "itkAffineMutualInformationImageMetric.h"
+#include "itkParzenWindowAffineMutualInformationImageMetric.h"
 
 namespace itk
 {
@@ -32,10 +32,10 @@ namespace itk
  * best affine transform to register the test image onto the reference
  * image.
  *
- * In this optimization scheme any subclass of AffineMutualInformationImageMetricMetric
+ * In this optimization scheme any subclass of AffineMutualInformationImageMetric
  * can be used as the mutual information calculator. The calculator can
  * be set using method SetMutualInformationImageMetricCalculator(). The default calculator
- * is of type ParzenWindowAffineMutualInformationImageMetricMetricMetric.
+ * is of type ParzenWindowAffineMutualInformationImageMetric.
  *
  * This class uses a simple stochastic gradient descent scheme. Steps
  * are taken repeatedly taken that are proportional to the approximate
@@ -65,8 +65,8 @@ namespace itk
  * - current optimization is based on a simple steepest scheme.
  * Future implementation should look at more complex schemes.
  *
- * \sa AffineMutualInformationImageMetricMetric
- * \sa ParzenWindowAffineMutualInformationImageMetricMetricMetric.
+ * \sa AffineMutualInformationImageMetric
+ * \sa ParzenWindowAffineMutualInformationImageMetric.
  */
 template <
 class TRefImage,
@@ -109,14 +109,14 @@ public:
   /**
    * CalculatorType typedef support. Type of the mutual information calculator.
    */
-  typedef AffineMutualInformationImageMetricMetric<TRefImage,TTestImage,TDerivImage>
+  typedef AffineMutualInformationImageMetric<TRefImage,TTestImage,TDerivImage>
     CalculatorType;
 
   /**
    * DefaultCalculatorType typedef support. Type of the default mutual information
    * calculator.
    */
-  typedef ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,TDerivImage> 
+  typedef ParzenWindowAffineMutualInformationImageMetric<TRefImage,TTestImage,TDerivImage> 
     DefaultCalculatorType;
 
   /**
