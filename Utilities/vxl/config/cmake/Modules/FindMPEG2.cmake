@@ -16,7 +16,7 @@
 # If this FORCE variable is unset or is FALSE, try to find a native library.
 IF( VXL_FORCE_V3P_MPEG2 )
 ELSE( VXL_FORCE_V3P_MPEG2 )
-  INCLUDE( ${MODULE_PATH}/NewCMake/FindMPEG2.cmake )
+  INCLUDE( ${CMAKE_ROOT}/Modules/FindMPEG2.cmake )
 ENDIF( VXL_FORCE_V3P_MPEG2 )
 
 IF( MPEG2_FOUND )

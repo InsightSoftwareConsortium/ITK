@@ -11,7 +11,7 @@
 # include <stddef.h>
 #elif defined(VCL_GCC) && !defined(GNU_LIBSTDCXX_V3)
 # include <stddef.h>
-#elif VCL_VC60
+#elif defined(VCL_VC60)
 # include <cstddef>
 #elif defined(VCL_METRO_WERKS)
 # include <cstddef>

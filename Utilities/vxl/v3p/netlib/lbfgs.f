@@ -255,7 +255,7 @@ C
   10  ITER= 0
       IF(N.LE.0.OR.M.LE.0) GO TO 196
       IF(GTOL.LE.1.D-04) THEN
-        IF(LP.GT.0) then 
+        IF(LP.GT.0) then
            call lbptf('  GTOL IS LESS THAN OR EQUAL TO 1.D-04')
            call lbptf('  IT HAS BEEN RESET TO 9.D-01')
         endif
@@ -301,7 +301,7 @@ C
 C
       IF (IPRINT(1).GE.0)
      $     CALL LB1(IPRINT,ITER,NFUN,GNORM,N,M,X,F,G,STP,FINISH)
-C     
+C
 C    --------------------
 C     MAIN ITERATION LOOP
 C    --------------------
@@ -420,7 +420,7 @@ C     END OF MAIN ITERATION LOOP. ERROR EXITS.
 C     ------------------------------------------------------------
 C
  190  IFLAG=-1
-      IF(LP.GT.0) then 
+      IF(LP.GT.0) then
          call lbptf('IFLAG= -1. LINE SEARCH FAILED.')
          call lbptf(' SEE DOCUMENTATION OF ROUTINE MCSRCH')
          call lbp1d(' ERROR RETURN  OF LINE SEARCH: INFO=%d', INFO)

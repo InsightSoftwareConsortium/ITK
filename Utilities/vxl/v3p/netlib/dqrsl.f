@@ -9,7 +9,7 @@ c     for k .le. min(n,p), let xk be the matrix
 c
 c            xk = (x(jpvt(1)),x(jpvt(2)), ... ,x(jpvt(k)))
 c
-c     formed from columnns jpvt(1), ... ,jpvt(k) of the original
+c     formed from columns jpvt(1), ... ,jpvt(k) of the original
 c     n x p matrix x that was input to dqrdc (if no pivoting was
 c     done, xk consists of the first k columns of x in their
 c     original order).  dqrdc produces a factored orthogonal matrix q

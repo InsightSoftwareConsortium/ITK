@@ -10,11 +10,7 @@ vcl_compiler.h
   <vcl_compiler.h> even if you need the macros defined in there.
 
 vcl_complex_fwd.h
-  In ISO C++, the complex template class can be forward declared with
-    namespace std { template <class T> class complex; }
-  so there is no need for a forward declaration header. In VXL C++, the
-  complex class might be called anything from std::complex<T> to plain
-  old vcl_complex<T>, so we do need a forward declaration header.
+  This is deprecated
 
 vcl_rel_ops.h
   This is the (deprecated) vcl form of the ISO incantation

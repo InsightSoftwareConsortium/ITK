@@ -86,4 +86,4 @@ inline float       absf (float       x) { return (float)::fabs(x); }
 inline long double absl (long double x) { return (long double)::fabs(x); }
 #endif // sun
 
-#endif // vcl_cmath_h_
+#endif // vcl_gcc_cmath_h_

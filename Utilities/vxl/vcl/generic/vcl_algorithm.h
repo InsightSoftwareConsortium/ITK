@@ -159,6 +159,10 @@
 #ifndef vcl_partition
 #define vcl_partition vcl_generic_algorithm_STD :: partition
 #endif
+// stable_partition
+#ifndef vcl_stable_partition
+#define vcl_stable_partition vcl_generic_algorithm_STD :: stable_partition
+#endif
 // partitions_
 #ifndef vcl_partitions_
 #define vcl_partitions_ vcl_generic_algorithm_STD :: partitions_

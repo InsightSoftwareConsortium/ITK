@@ -15,5 +15,13 @@
 #ifndef vcl_float_denorm_style
 #define vcl_float_denorm_style vcl_generic_limits_STD :: float_denorm_style
 #endif
+// round_toward_zero
+#ifndef vcl_round_toward_zero
+#define vcl_round_toward_zero vcl_generic_limits_STD :: round_toward_zero
+#endif
+// round_toward_neg_infinity
+#ifndef vcl_round_toward_neg_infinity
+#define vcl_round_toward_neg_infinity vcl_generic_limits_STD :: round_toward_neg_infinity
+#endif
 
 #endif // vcl_generic_limits_h_

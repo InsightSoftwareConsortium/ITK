@@ -9,6 +9,8 @@
 
 #if !VCL_CXX_HAS_HEADER_CFLOAT
 # include <float.h>
+#elif defined(VCL_BORLAND_55)
+# include "borland55/vcl_cfloat.h"
 #else
 # include "iso/vcl_cfloat.h"
 #endif

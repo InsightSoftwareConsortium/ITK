@@ -17,13 +17,13 @@
 # define vcl_max vcl_max
 # undef  vcl_min
 # define vcl_min vcl_min
-template <typename T>
+template <class T>
 inline T vcl_max(T const& a, T const& b)
 {
   return (a > b) ? a : b;
 }
 
-template <typename T>
+template <class T>
 inline T vcl_min(T const& a, T const& b)
 {
   return (a < b) ? a : b;

@@ -8,4 +8,4 @@
 inline int  vcl_abs(int  x) { return x >= 0    ? x : -x; }
 inline long vcl_abs(long x) { return x >= 0L   ? x : -x; }
 
-#endif // vcl_cstdlib_h_
+#endif // vcl_sunpro_cstdlib_h_

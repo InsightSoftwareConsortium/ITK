@@ -12,7 +12,7 @@
 # undef  vcl_char_traits
 # define vcl_char_traits   string_char_traits
 
-#elif VCL_VC60
+#elif defined(VCL_VC60)
 # include "win32-vc60/vcl_string.h"
 
 #elif defined(VCL_SGI_CC_7)

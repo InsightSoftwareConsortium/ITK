@@ -20,4 +20,8 @@
 * vcl_ prefix by using fancy compiler flags, and many #defines. However, that way lies
 * madness--trying to confuse a C++ compiler always rebounds on one.
 *
+*
+* \section Lead Developer
+* Fred Schaffalitzky is responsible for co-ordinating significant changes to vil.
+* http://sourceforge.net/sendmessage.php?touser=294676
 */

@@ -1,6 +1,8 @@
 #include "f2c.h"
 #include "netlib.h"
 
+/* Modified by Peter Vanroose, Oct 2003: manual optimisation and clean-up */
+
 /* Table of constant values */
 
 static integer c__1 = 1;
@@ -16,7 +18,7 @@ doublereal *tau, *work;
 integer *lwork, *info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, i__1, i__2, i__3, i__4;
+    integer i__1;
 
     /* Local variables */
     static integer i, k, nbmin, iinfo;
@@ -24,7 +26,7 @@ integer *lwork, *info;
     static integer nx;
     static integer ldwork, lwkopt;
     static logical lquery;
-    static integer iws;
+    static integer iws, mmi;
 
 /*  -- LAPACK routine (version 3.0) --                                    */
 /*     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,        */
@@ -96,65 +98,50 @@ integer *lwork, *info;
 /*                                                                        */
 /*  ===================================================================== */
 
-    /* Parameter adjustments */
-    a_dim1 = *lda;
-    a_offset = 1 + a_dim1 * 1;
-    a -= a_offset;
-    --tau;
-    --work;
-
-/*     Test the input arguments */
+    /* Test the input arguments */
 
     *info = 0;
     nb = ilaenv_(&c__1, "DGEQRF", " ", m, n, &c_n1, &c_n1);
     lwkopt = *n * nb;
-    work[1] = (doublereal) lwkopt;
+    *work = (doublereal) lwkopt;
     lquery = *lwork == -1;
-    if (*m < 0) {
-        *info = -1;
-    } else if (*n < 0) {
-        *info = -2;
-    } else if (*lda < max(1,*m)) {
-        *info = -4;
-    } else if (*lwork < max(1,*n) && ! lquery) {
-        *info = -7;
-    }
+    if      (*m < 0)           *info = 1;
+    else if (*n < 0)           *info = 2;
+    else if (*lda < max(1,*m)) *info = 4;
+    else if (*lwork < max(1,*n) && ! lquery) *info = 7;
     if (*info != 0) {
-        i__1 = -(*info);
-        xerbla_("DGEQRF", &i__1);
-        return;
-    } else if (lquery) {
+        xerbla_("DGEQRF", info);
+        *info = -(*info);
         return;
     }
+    else if (lquery)
+        return;
 
-/*     Quick return if possible */
+    /* Quick return if possible */
 
     k = min(*m,*n);
     if (k == 0) {
-        work[1] = 1.;
+        *work = 1.;
         return;
     }
 
     nbmin = 2;
     nx = 0;
     iws = *n;
-    if (nb > 1 && nb < k) {
-
-/*        Determine when to cross over from blocked to unblocked code. */
-
+    if (nb > 1 && nb < k)
+    {
+        /* Determine when to cross over from blocked to unblocked code. */
         nx = ilaenv_(&c__3, "DGEQRF", " ", m, n, &c_n1, &c_n1);
         nx = max(0,nx);
-        if (nx < k) {
-
-/*           Determine if workspace is large enough for blocked code. */
-
+        if (nx < k)
+        {
+            /* Determine if workspace is large enough for blocked code. */
             ldwork = *n;
             iws = ldwork * nb;
-            if (*lwork < iws) {
-
-/*              Not enough workspace to use optimal NB:  reduce NB and */
-/*              determine the minimum value of NB. */
-
+            if (*lwork < iws)
+            {
+                /* Not enough workspace to use optimal NB: */
+                /* reduce NB and determine the minimum value of NB. */
                 nb = *lwork / ldwork;
                 nbmin = ilaenv_(&c__2, "DGEQRF", " ", m, n, &c_n1, &c_n1);
                 nbmin = max(2,nbmin);
@@ -162,49 +149,40 @@ integer *lwork, *info;
         }
     }
 
-    if (nb >= nbmin && nb < k && nx < k) {
+    mmi = *m;
+    if (nb >= nbmin && nb < k && nx < k) /* nbmin is at least 2, so is nb */
+    {
+        /* Use blocked code initially */
+        for (i = 0; i < k-nx; i += nb, mmi -= nb) /* mmi == *m - i */
+        {
+            ib = min(k-i,nb);
 
-/*        Use blocked code initially */
+            /* Compute the QR factorization of the current block */
+            /* A(i:m,i:i+ib-1) */
+            dgeqr2_(&mmi, &ib, &a[i + i * *lda], lda, &tau[i], work, &iinfo);
+            if (i + ib < *n)
+            {
+                /* Form the triangular factor of the block reflector */
+                /* H = H(i) H(i+1) . . . H(i+ib-1) */
+                dlarft_("Forward", "Columnwise", &mmi, &ib, &a[i + i * *lda], lda, &tau[i], work, &ldwork);
 
-        i__1 = k - nx;
-        i__2 = nb;
-        for (i = 1; i__2 < 0 ? i >= i__1 : i <= i__1; i += i__2) {
-            ib = min(k - i + 1,nb);
-
-/*           Compute the QR factorization of the current block */
-/*           A(i:m,i:i+ib-1) */
-
-            i__3 = *m - i + 1;
-            dgeqr2_(&i__3, &ib, &a[i + i * a_dim1], lda, &tau[i], &work[1], &iinfo);
-            if (i + ib <= *n) {
-
-/*              Form the triangular factor of the block reflector */
-/*              H = H(i) H(i+1) . . . H(i+ib-1) */
-
-                i__3 = *m - i + 1;
-                dlarft_("Forward", "Columnwise", &i__3, &ib, &a[i + i * a_dim1], lda, &tau[i], &work[1], &ldwork);
-
-/*              Apply H' to A(i:m,i+ib:n) from the left */
-
-                i__3 = *m - i + 1;
-                i__4 = *n - i - ib + 1;
-                dlarfb_("Left", "Transpose", "Forward", "Columnwise", &i__3, &i__4,
-                        &ib, &a[i + i * a_dim1], lda, &work[1], &ldwork,
-                        &a[i + (i + ib) * a_dim1], lda, &work[ib + 1], &ldwork);
+                /* Apply H' to A(i:m,i+ib:n) from the left */
+                i__1 = *n - i - ib;
+                dlarfb_("Left", "Transpose", "Forward", "Columnwise", &mmi, &i__1,
+                        &ib, &a[i + i * *lda], lda, work, &ldwork,
+                        &a[i + (i + ib) * *lda], lda, work+ib, &ldwork);
             }
         }
-    } else {
-        i = 1;
+    }
+    else
+        i = 0;
+
+    /* Use unblocked code to factor the last or only block. */
+    if (i < k) {
+        i__1 = *n - i;
+        dgeqr2_(&mmi, &i__1, &a[i + i * *lda], lda, &tau[i], work, &iinfo);
     }
 
-/*     Use unblocked code to factor the last or only block. */
-
-    if (i <= k) {
-        i__2 = *m - i + 1;
-        i__1 = *n - i + 1;
-        dgeqr2_(&i__2, &i__1, &a[i + i * a_dim1], lda, &tau[i], &work[1], &iinfo);
-    }
-
-    work[1] = (doublereal) iws;
+    *work = (doublereal) iws;
 
 } /* dgeqrf_ */

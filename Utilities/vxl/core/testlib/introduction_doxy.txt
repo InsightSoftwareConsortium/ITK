@@ -1,0 +1,10 @@
+// The following text is included in the main documentation page by doxygen
+/*! \mainpage testlib : Testing Library
+*
+* testlib provides some common functionality used in testing vxl. It
+* provides a framework for generating a single test driver that will
+* run a bunch of tests, thus minimising the number of test executables
+* generated.
+*
+* testlib_root_dir() can be used to find golden data files.
+*/

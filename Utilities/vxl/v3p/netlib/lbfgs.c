@@ -12,16 +12,7 @@ void lb1_(int *iprint, int *iter, int *nfun, double *gnorm, int *n, int *m,
 void lbptf_(char* msg);
 void lbp1d_(char* msg, int* i);
 
-/* Common Block Declarations */
-
-struct lb3_1_ {
-    integer mp, lp;
-    doublereal gtol, stpmin, stpmax, stpawf;
-};
-
-/*#define lb3_1 (*(struct lb3_1_ *) &lb3_)*/
-#define lb3_1 lb3_
-
+#include "lbfgs.h"
 /* Initialized data */
 struct lb3_1_ lb3_1 = { 6, 6, .9, 1e-20, 1e20, 1. };
 

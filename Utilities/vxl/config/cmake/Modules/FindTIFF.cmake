@@ -16,7 +16,7 @@
 # If this FORCE variable is unset or is FALSE, try to find a native library.
 IF( VXL_FORCE_V3P_TIFF )
 ELSE( VXL_FORCE_V3P_TIFF )
-  INCLUDE( ${MODULE_PATH}/NewCMake/FindTIFF.cmake )
+  INCLUDE( ${CMAKE_ROOT}/Modules/FindTIFF.cmake )
 ENDIF( VXL_FORCE_V3P_TIFF )
 
   

@@ -1,3 +1,5 @@
 @numeric_limits
 @float_round_style
 @float_denorm_style
+@round_toward_zero
+@round_toward_neg_infinity

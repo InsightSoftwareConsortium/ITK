@@ -12,7 +12,7 @@
 # include <time.h>
 # define vcl_generic_ctime_STD /* */
 # include "generic/vcl_ctime.h"
-#elif VCL_VC60
+#elif defined(VCL_VC60)
 # include <ctime>
 # define vcl_generic_ctime_STD /* */
 # include "generic/vcl_ctime.h"

@@ -16,7 +16,7 @@
 # If this FORCE variable is unset or is FALSE, try to find a native library.
 IF( VXL_FORCE_V3P_ZLIB )
 ELSE( VXL_FORCE_V3P_ZLIB )
-  INCLUDE( ${MODULE_PATH}/NewCMake/FindZLIB.cmake )
+  INCLUDE( ${CMAKE_ROOT}/Modules/FindZLIB.cmake )
 ENDIF( VXL_FORCE_V3P_ZLIB )
 
   

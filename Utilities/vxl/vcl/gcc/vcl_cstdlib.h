@@ -16,4 +16,4 @@ inline long vcl_abs(long x) { return x >= 0 ? x : -x; }
 # include "../iso/vcl_cstdlib.h"
 #endif
 
-#endif // vcl_cstdlib_h_
+#endif // vcl_gcc_cstdlib_h_

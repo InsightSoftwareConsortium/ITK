@@ -19,6 +19,13 @@
 #define VCL_HAS_DYNAMIC_CAST @VCL_HAS_DYNAMIC_CAST@
 
 
+//: VCL_HAS_RTTI
+//
+// True if the compiler supports RTTI, viz the 'typeid' function.
+//
+#define VCL_HAS_RTTI @VCL_HAS_RTTI@
+
+
 //: VCL_HAS_TYPENAME
 //
 // True if the compiler supports the "typename" keyword
@@ -31,6 +38,7 @@
 // True if the compiler supports the "export" keyword
 //
 #define VCL_HAS_EXPORT @VCL_HAS_EXPORT@
+
 
 //: VCL_HAS_MUTABLE
 //
@@ -78,17 +86,23 @@
 // And there is a speed advantage, so we want to use it where supported.
 // However, the standard also requires (9.4.2/4) that the constant be
 // defined in namespace scope. (That is, space must be allocated.)
-// To use the macro, use VCL_STATIC_CONST_INIT_DECL in the class
+// To make matters worse, some compilers (at least VC 7) mistakenly
+// allocate storage without the definition in namespace scope,
+// which results in multiply defined symbols.
+// To use the macro, use VCL_STATIC_CONST_INIT_INT_DECL in the class
 // definition (header file). This declares the constant.
 // \code
 //     class A {
 //       static const int x VCL_STATIC_CONST_INIT_INT_DECL(27);
 //     };
 // \endcode
-// Use VCL_STATIC_CONST_INIT_DEFN in some .cxx file to define
-// the constant.
+// Use VCL_STATIC_CONST_INIT_INT_DEFN in some .cxx file to define
+// the constant, but only if VCL_STATIC_CONST_INIT_INT_NO_DEFN
+// evaluates to false.
 // \code
-//     const int A::x VCL_STATIC_CONST_INIT_DEFN(27);
+//     #if !VCL_STATIC_CONST_INIT_INT_NO_DEFN
+//     const int A::x VCL_STATIC_CONST_INIT_INT_DEFN(27);
+//     #endif
 // \endcode
 //
 // In order to be able to query the setting of this, one actually must
@@ -97,14 +111,16 @@
 //#define VCL_CAN_STATIC_CONST_INIT_INT 1 /* allowed */
 //#define VCL_CAN_STATIC_CONST_INIT_INT 0 /* not allowed */
 #ifndef VCL_CAN_STATIC_CONST_INIT_INT
-#define VCL_CAN_STATIC_CONST_INIT_INT @VCL_STATIC_CONST_INIT_INT@
+# define VCL_CAN_STATIC_CONST_INIT_INT @VCL_STATIC_CONST_INIT_INT@
 #endif
 #if VCL_CAN_STATIC_CONST_INIT_INT
-#define VCL_STATIC_CONST_INIT_INT_DECL(x) = x
-#define VCL_STATIC_CONST_INIT_INT_DEFN(x) /* initialized at declaration */
+# define VCL_STATIC_CONST_INIT_INT_DECL(x) = x
+# define VCL_STATIC_CONST_INIT_INT_DEFN(x) /* initialized at declaration */
+# define VCL_STATIC_CONST_INIT_INT_NO_DEFN @VCL_STATIC_CONST_INIT_NO_DEFN@
 #else
-#define VCL_STATIC_CONST_INIT_INT_DECL(x) /* not allowed */
-#define VCL_STATIC_CONST_INIT_INT_DEFN(x) = x
+# define VCL_STATIC_CONST_INIT_INT_DECL(x) /* not allowed */
+# define VCL_STATIC_CONST_INIT_INT_DEFN(x) = x
+# define VCL_STATIC_CONST_INIT_INT_NO_DEFN 0
 #endif
 
 
@@ -119,14 +135,16 @@
 //#define VCL_CAN_STATIC_CONST_INIT_FLOAT 1 /* allowed */
 //#define VCL_CAN_STATIC_CONST_INIT_FLOAT 0 /* not allowed */
 #ifndef VCL_CAN_STATIC_CONST_INIT_FLOAT
-#define VCL_CAN_STATIC_CONST_INIT_FLOAT @VCL_STATIC_CONST_INIT_FLOAT@
+# define VCL_CAN_STATIC_CONST_INIT_FLOAT @VCL_STATIC_CONST_INIT_FLOAT@
 #endif
 #if VCL_CAN_STATIC_CONST_INIT_FLOAT
-#define VCL_STATIC_CONST_INIT_FLOAT_DECL(x) = x
-#define VCL_STATIC_CONST_INIT_FLOAT_DEFN(x) /* initialized at declaration */
+# define VCL_STATIC_CONST_INIT_FLOAT_DECL(x) = x
+# define VCL_STATIC_CONST_INIT_FLOAT_DEFN(x) /* initialized at declaration */
+# define VCL_STATIC_CONST_INIT_FLOAT_NO_DEFN @VCL_STATIC_CONST_INIT_NO_DEFN@
 #else
-#define VCL_STATIC_CONST_INIT_FLOAT_DECL(x) /* not allowed */
-#define VCL_STATIC_CONST_INIT_FLOAT_DEFN(x) = x
+# define VCL_STATIC_CONST_INIT_FLOAT_DECL(x) /* not allowed */
+# define VCL_STATIC_CONST_INIT_FLOAT_DEFN(x) = x
+# define VCL_STATIC_CONST_INIT_FLOAT_NO_DEFN 0
 #endif
 
 
@@ -174,10 +192,84 @@
 #define VCL_DEFINE_SPECIALIZATION @VCL_DEFINE_SPECIALIZATION@
 
 
+//: VCL_CANNOT_SPECIALIZE_CV
+//
+// Template specialization considers top-level cv-qualifiers of the
+// argument type.  For example, A<int> and A<int const> are distinct
+// types.  Some compilers (eg Borland 5.5) do not make this distinction.
+// Specializations using top-level cv-qualifiers should not be defined
+// in addition to the unqualified equivalents unless
+// VCL_CANNOT_SPECIALIZE_CV is false.
+//#define VCL_CANNOT_SPECIALIZE_CV 1 /* cannot specialize with cv-qualifiers */
+//#define VCL_CANNOT_SPECIALIZE_CV 0 /* can specialize with cv-qualifiers */
+#define VCL_CANNOT_SPECIALIZE_CV @VCL_CANNOT_SPECIALIZE_CV@
+
+
+//: VCL_TEMPLATE_MATCHES_TOO_OFTEN
+//
+// A function template is selected by overload resolution only if no
+// non-template requires equal or better conversions.  Some compilers
+// (eg MSVC 6.x and 7.0, Borland 5.5 and 5.6) select the template
+// incorrectly in a case like this:
+// \code
+//    class A {};
+//    template <class T> void f(T);
+//    void f(const A&);
+//    void g() { f(A()); } // should call non-template
+// \endcode
+//
+// The work-around is to explicitly give the template a worse
+// conversion than the non-templated overloads:
+// \code
+//    class A {};
+//    template <class T> inline void f(T t) { f(t, 1); }
+//    template <class T> void f(T t, long);
+//    void f(const A&, int);
+//    void g() { f(A()); } // will call non-template
+// \endcode
+// In this example, the inline one-argument template will always be
+// called, which will call the real function with an "int" passed to
+// the second argument.  The templated two-argument function has a
+// "long" second argument while the others have "int".  Therefore, the
+// template will be chosen only if no non-templates match.
+//
+// The VCL_TEMPLATE_MATCHES_TOO_OFTEN macro is set to 1
+// if this work-around is required and 0 otherwise.
+//#define VCL_TEMPLATE_MATCHES_TOO_OFTEN 1 /* need work-around */
+//#define VCL_TEMPLATE_MATCHES_TOO_OFTEN 0 /* do not need it */
+#define VCL_TEMPLATE_MATCHES_TOO_OFTEN @VCL_TEMPLATE_MATCHES_TOO_OFTEN@
+
+
+//: VCL_HAS_SLICED_DESTRUCTOR_BUG
+//
+// Consider this example code that creates a temporary in the call to f:
+// \code
+//  struct A { A(); A(const A&); ~A(); };
+//  struct B: public A { B(); B(const B& b); ~B(); };
+//  struct C { operator B(); };
+//  void f(A);
+//  void g(C c) { f(c); } // fails to call ~B() on 2nd temporary B
+// \endcode
+// Compilers will call c.operator B() to implement the conversion
+// necessary to call f(c).  Some compilers will then create a
+// temporary A by copy-constructing the temporary B to bind the
+// argument of f.  Others will create a second temporary B by
+// copy-constructing the first temporary B and bind the A-portion of
+// the object to the argument of f.  Some compilers (at least Intel
+// C++ 7.0 and 7.1) will create a second temporary B but forget to
+// call ~B() when destroying it.  This can cause resource leaks.
+//
+// The VCL_HAS_SLICED_DESTRUCTOR_BUG is set to 1 if this bug exists in
+// the compiler and 0 otherwise.
+//#define VCL_HAS_SLICED_DESTRUCTOR_BUG 1 /* bug exists */
+//#define VCL_HAS_SLICED_DESTRUCTOR_BUG 0 /* bug does not exist */
+#define VCL_HAS_SLICED_DESTRUCTOR_BUG @VCL_HAS_SLICED_DESTRUCTOR_BUG@
+
+
 //: VCL_NULL_TMPL_ARGS
 //
 // Define to <> for compilers that require them in friend template function
-// declarations (i.e., EGCS).
+// declarations (i.e., EGCS, VC C++.NET 2003).
 
 //#define VCL_NULL_TMPL_ARGS /* <> */
 //#define VCL_NULL_TMPL_ARGS <>
@@ -420,10 +512,14 @@ text { return ret; }
 
 // VCL_DFL_TYPE_PARAM_STLDECL(A, a) and VCL_DFL_TMPL_PARAM_STLDECL(A, a)
 // EGCS doesn't like definition of default types, viz:
+// \code
 //   template <class A = default> class vector;
 //   template <class A = default> class vector { ... };
+// \endcode
 // This macro is used to say "define if not previously defined, like
+// \code
 //   template <VCL_DFL_TYPE_PARAM_STLDECL(A,a)> class vector { ... };
+// \endcode
 
 //#define VCL_DFL_TYPE_PARAM_STLDECL(A,a) A = a
 //#define VCL_DFL_TYPE_PARAM_STLDECL(A,a) A /* = a */
@@ -441,7 +537,9 @@ text { return ret; }
 // template argument, some compilers don't like the redeclaration of
 // that argument, while others insist on it.
 // In such cases, specify the default argument as follows:
+// \code
 //   template class vector <int VCL_DFL_TMPL_ARG(default_iterator) >;
+// \endcode
 // (Note the missing comma after int: it is inside the macro.)
 
 //#define VCL_DFL_TMPL_ARG(classname) , classname
@@ -492,7 +590,20 @@ text { return ret; }
 #define VCL_NEEDS_NAMESPACE_STD @VCL_NEEDS_NAMESPACE_STD@
 
 //----------------------------------------------------------------------
+// infinity issues
 
+//: VCL_NUMERIC_LIMITS_HAS_INFINITY
+// Set to true if there is a numeric_limits and it reports having an floating point infinity.
+#define VCL_NUMERIC_LIMITS_HAS_INFINITY @VCL_NUMERIC_LIMITS_HAS_INFINITY@
+
+//: VCL_PROCESSOR_HAS_INFINITY
+// Set to true if the processor really does have an infinity.
+// Although this is strictly not a C++ issue, some platforms' versions of
+// numeric_limits<double> imply that there is no infinity, when there is.
+#define VCL_PROCESSOR_HAS_INFINITY @VCL_PROCESSOR_HAS_INFINITY@
+
+
+//----------------------------------------------------------------------
 // architecture macros removed -- they're not in the C++ standard
 
 #endif // vcl_config_compiler_h_

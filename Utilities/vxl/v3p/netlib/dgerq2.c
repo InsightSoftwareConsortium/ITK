@@ -1,14 +1,13 @@
 #include "f2c.h"
 #include "netlib.h"
 
+/* Modified by Peter Vanroose, Oct 2003: manual optimisation and clean-up */
+
 /* Subroutine */ void dgerq2_(const integer *m, const integer *n, doublereal *a, const integer *lda,
                               doublereal *tau, doublereal *work, integer *info)
 {
-    /* System generated locals */
-    integer a_dim1, a_offset, i__1, i__2;
-
     /* Local variables */
-    static integer i, k;
+    static integer i, k, k1, k2, k3;
     static doublereal aii;
 
 /*  -- LAPACK routine (version 2.0) --                                    */
@@ -71,46 +70,33 @@
 /*                                                                        */
 /*  ===================================================================== */
 
-    /* Parameter adjustments */
-    --work;
-    --tau;
-    a_dim1 = *lda;
-    a_offset = a_dim1 + 1;
-    a -= a_offset;
-
-/*     Test the input arguments */
+    /* Test the input arguments */
 
     *info = 0;
-    if (*m < 0) {
-        *info = -1;
-    } else if (*n < 0) {
-        *info = -2;
-    } else if (*lda < max(1,*m)) {
-        *info = -4;
-    }
+    if (*m < 0)                *info = 1;
+    else if (*n < 0)           *info = 2;
+    else if (*lda < max(1,*m)) *info = 4;
     if (*info != 0) {
-        i__1 = -(*info);
-        xerbla_("DGERQ2", &i__1);
+        xerbla_("DGERQ2", info);
+        *info = -(*info);
         return;
     }
 
     k = min(*m,*n);
+    k1 = *m;
+    k2 = *n + 1;
+    k3 = *m + *n * *lda;
 
-    for (i = k; i >= 1; --i) {
+    for (i = k-1; i >= 0; --i)
+    {
+        --k1; --k2; k3 -= *lda + 1;
 
-/*        Generate elementary reflector H(i) to annihilate */
-/*        A(m-k+i,1:n-k+i-1) */
+        /* Generate elementary reflector H(i) to annihilate A(m-k+i,1:n-k+i-1) */
+        dlarfg_(&k2, &a[k3], &a[k1], lda, &tau[i]);
 
-        i__1 = *n - k + i;
-        dlarfg_(&i__1, &a[*m - k + i + (*n - k + i) * a_dim1], &a[*m - k + i + a_dim1], lda, &tau[i]);
-
-/*        Apply H(i) to A(1:m-k+i-1,1:n-k+i) from the right */
-
-        aii = a[*m - k + i + (*n - k + i) * a_dim1];
-        a[*m - k + i + (*n - k + i) * a_dim1] = 1.;
-        i__1 = *m - k + i - 1;
-        i__2 = *n - k + i;
-        dlarf_("Right", &i__1, &i__2, &a[*m - k + i + a_dim1], lda, &tau[i], &a[a_offset], lda, &work[1]);
-        a[*m - k + i + (*n - k + i) * a_dim1] = aii;
+        /* Apply H(i) to A(1:m-k+i-1,1:n-k+i) from the right */
+        aii = a[k3]; a[k3] = 1.;
+        dlarf_("Right", &k1, &k2, &a[k1], lda, &tau[i], a, lda, work);
+        a[k3] = aii;
     }
 } /* dgerq2_ */

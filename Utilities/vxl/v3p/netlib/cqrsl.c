@@ -34,7 +34,7 @@ integer *job, *info;
 /*                                                                      */
 /*            xk = (x(jpvt(1)),x(jpvt(2)), ... ,x(jpvt(k)))             */
 /*                                                                      */
-/*     formed from columnns jpvt(1), ... ,jpvt(k) of the original       */
+/*     formed from columns jpvt(1), ... ,jpvt(k) of the original        */
 /*     n x p matrix x that was input to cqrdc (if no pivoting was       */
 /*     done, xk consists of the first k columns of x in their           */
 /*     original order).  cqrdc produces a factored unitary matrix q     */

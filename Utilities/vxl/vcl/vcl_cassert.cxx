@@ -1,10 +1,7 @@
-/*
-  fsm
-*/
-#include "vcl_compiler.h"
-
+// @author fsm
 #include <vcl_cstdio.h>
 #include <vcl_cstdlib.h>
+
 void vcl_cassert_failure(char const *FILE, int LINE, char const *expr)
 {
   vcl_fprintf(stderr, "%s:%d assertion failure \'%s\'\n",
@@ -19,11 +16,11 @@ void vcl_cassert_failure(char const *FILE, int LINE, char const *expr)
 // The gcc assert macro uses a function call __eprintf() which is defined
 // in gcc/libgcc2.c in the gcc sources.
 //
-// Note that this is a fixing a problem with *gcc*, not the SunPro or
+// Note that this is fixing a problem with *gcc*, not the SunPro or
 // KAI compilers.
 extern "C" void
-__eprintf (char const *string, char const *expression,
-           unsigned int line, char const *filename)
+__eprintf(char const *string, char const *expression,
+          unsigned int line, char const *filename)
 {
   vcl_fprintf(stderr, string, expression, line, filename);
   vcl_fflush(stderr);

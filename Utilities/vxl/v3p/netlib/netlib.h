@@ -21,8 +21,8 @@ extern "C" {
 #endif
 
 #include <vxl_config.h>
-#if VXL_MATH_HAS_SQRTF
-  float sqrtf(float);
+#if VXL_C_MATH_HAS_SQRTF
+float sqrtf(float);
 #else
 # define sqrtf(f) ((float)sqrt((double)(f)))
 #endif
@@ -580,6 +580,78 @@ double pythag_(const double *a, const double *b);
                dcmplx *work, const int *lwork, int *info);
   void zunghr_(const int *n, int *ilo, int *ihi, dcmplx *a, const int *lda, const dcmplx *tau,
                dcmplx *work, const int *lwork, int *info);
+
+  /* ITPACK functions from dsrc2c.f.  */
+  int jcg_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
+  int jsi_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
+  int sor_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
+  int ssorcg_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
+  int ssorsi_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
+  int rscg_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
+  int rssi_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
+  int itjcg_(int *nn, int *ia, int *ja, double *a, double *u, double *u1, double *d__, double *d1, double *dtwd, double *tri);
+  int itjsi_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, double *u1, double *d__, int *icnt);
+  int itsor_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, double *wk);
+  int itsrcg_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, double *u1, double *c__, double *c1, double *d__, double *dl, double *wk, double *tri);
+  int itsrsi_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, double *u1, double *c__, double *d__, double *ctwd, double *wk);
+  int itrscg_(int *n, int *nnb, int *ia, int *ja, double *a, double *ub, double *ub1, double *db, double *db1, double *wb, double *tri);
+  int itrssi_(int *n, int *nnb, int *ia, int *ja, double *a, double *rhs, double *ub, double *ub1, double *db);
+  int bisrch_(int *n, int *k, int *l);
+  double cheby_(double *qa, double *qt, double *rrr, int *ip, double *cme, double *sme);
+  int chgcon_(double *tri, double *gamold, double *rhoold, int *ibmth);
+  int chgsi_(double *dtnrm, int *ibmth);
+  logical chgsme_(double *oldnrm, int *icnt);
+  int itpackdaxpy_(int *n, double *da, double *dx, int *incx, double *dy, int *incy);
+  int itpackdcopy_(int *n, double *dx, int *incx, double *dy, int *incy);
+  double itpackddot_(int *n, double *dx, int *incx, double *dy, int *incy);
+  double determ_(int *n, double *tri, double *xlmda);
+  int dfault_(int *iparm, double *rparm);
+  int echall_(int *nn, int *ia, int *ja, double *a, double *rhs, int *iparm, double *rparm, int *icall);
+  int echout_(int *iparm, double *rparm, int *imthd);
+  double eigvns_(int *n, double *tri, double *d__, double *e2, int *ier);
+  double eigvss_(int *n, double *tri, double *start, double *zeta, int *itmax, int *ier);
+  int eqrt1s_(double *d__, double *e2, int *nn, int *m, int *isw, int *ierr);
+  int ipstr_(double *omega);
+  int iterm_(int *nn, double *a, double *u, double *wk, int *imthdd);
+  int ivfill_(int *n, int *iv, int *ival);
+  int omeg_(double *dnrm, int *iflag);
+  logical omgchg_(int *ndummy);
+  logical omgstr_(int *ndummy);
+  int parcon_(double *dtnrm, double *c1, double *c2, double *c3, double *c4, double *gamold, double *rhotmp, int *ibmth);
+  int parsi_(double *c1, double *c2, double *c3, int *ibmth);
+  double pbeta_(int *nn, int *ia, int *ja, double *a, double *v, double *w1, double *w2);
+  int pbsor_(int *nn, int *ia, int *ja, double *a, double *u, double *rhs);
+  int permat_(int *nn, int *ia, int *ja, double *a, int *p, int *newia, int *isym, int *level, int *nout, int *ierr);
+  int perror_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, double *w, double *digtt1, double *digtt2, int *idgtts);
+  int pervec_(int *n, double *v, int *p);
+  int pfsor_(int *nn, int *ia, int *ja, double *a, double *u, double *rhs);
+  int pfsor1_(int *nn, int *ia, int *ja, double *a, double *u, double *rhs);
+  int pjac_(int *nn, int *ia, int *ja, double *a, double *u, double *rhs);
+  int pmult_(int *nn, int *ia, int *ja, double *a, double *u, double *w);
+  int prbndx_(int *nn, int *nblack, int *ia, int *ja, int *p, int *ip, int *level, int *nout, int *ier);
+  int prsblk_(int *nnb, int *nnr, int *ia, int *ja, double *a, double *ur, double *vb);
+  int prsred_(int *nnb, int *nnr, int *ia, int *ja, double *a, double *ub, double *vr);
+  int pssor1_(int *nn, int *ia, int *ja, double *a, double *u, double *rhs, double *fr, double *br);
+  int pstop_(int *n, double *u, double *dnrm, double *ccon, int *iflag, logical *q1);
+  double pvtbv_(int *n, int *ia, int *ja, double *a, double *v);
+  int qsort_(int *nn, int *key, double *data, int *error);
+  int sbagn_(int *n, int *nz, int *ia, int *ja, double *a, int *iwork, int *levell, int *noutt, int *ierr);
+  int sbelm_(int *nn, int *ia, int *ja, double *a, double *rhs, int *iw, double *rw, double *tol, int *isym, int *level, int *nout, int *ier);
+  int sbend_(int *n, int *nz, int *ia, int *ja, double *a, int *iwork);
+  int sbini_(int *n, int *nz, int *ia, int *ja, double *a, int *iwork);
+  int sbsij_(int *n, int *nz, int *ia, int *ja, double *a, int *iwork, int *ii, int *jj, double *vall, int *mode, int *levell, int *noutt, int *ierr);
+  int scal_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, double *d__, int *level, int *nout, int *ier);
+  int sum3_(int *n, double *c1, double *x1, double *c2, double *x2, double *c3, double *x3);
+  double tau_(int *ii);
+  double timer_(float *timdmy);
+  logical tstchg_(int *ibmth);
+  int unscal_(int *n, int *ia, int *ja, double *a, double *rhs, double *u, double *d__);
+  int vevmw_(int *n, double *v, double *w);
+  int vevpw_(int *n, double *v, double *w);
+  int vfill_(int *n, double *v, double *val);
+  int vout_(int *n, double *v, int *iswt, int *noutt);
+  int wevmw_(int *n, double *v, double *w);
+  int zbrent_(int *n, double *tri, double *eps, int *nsig, double *aa, double *bb, int *maxfnn, int *ier);
 
 #ifdef __cplusplus
 }
