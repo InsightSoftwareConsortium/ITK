@@ -143,16 +143,23 @@
 // Software Guide : EndCodeSnippet
 
 
+// 
+//  The RescaleIntensityImageFilter is used to renormailize the output 
+//  of filters before sending them to files. 
+// 
+#include "itkRescaleIntensityImageFilter.h"
+
 
 int main( int argc, char **argv )
 {
 
 
-  if( argc < 5 )
+  if( argc < 8 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage  outputImage seedX seedY " << std::endl;
+    std::cerr << " inputImage  outputImage seedX seedY";
+    std::cerr << " Sigma ExponentialFactor TimeThreshold StoppingValue" << std::endl;
     return 1;
     }
 
@@ -214,6 +221,27 @@ int main( int argc, char **argv )
 
 
   //  Software Guide : BeginLatex
+  //
+  //  The upper threshold passed to the \doxygen{BinaryThresholdImageFilter}
+  //  will define the time snap-shot that we are taking from the time-crossing
+  //  map. In an ideal application the user should be able to select this
+  //  threshold interactively using visual feedback. Here, since it is a
+  //  minimal example, the value is taken from the command line arguments.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  thresholder->SetLowerThreshold( 0.0 );
+  thresholder->SetUpperThreshold( atof( argv[7] ) );
+
+  thresholder->SetOutsideValue(  0  );
+  thresholder->SetInsideValue(  255 );
+  // Software Guide : EndCodeSnippet
+
+
+
+
+  //  Software Guide : BeginLatex
   //  
   // We instantiate reader and writer types in the following lines.
   //
@@ -232,6 +260,14 @@ int main( int argc, char **argv )
   writer->SetFileName( argv[2] );
 
 
+
+  //
+  //  The RescaleIntensityImageFilter type is declared below. This filter will
+  //  renormalize image before sending them to writers.
+  //
+  typedef itk::RescaleIntensityImageFilter< 
+                               InternalImageType, 
+                               OutputImageType >   CastFilterType;
 
   //  Software Guide : BeginLatex
   //  
@@ -356,6 +392,7 @@ int main( int argc, char **argv )
 
 
 
+
   //  Software Guide : BeginLatex
   //
   //  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} requires a couple
@@ -381,15 +418,7 @@ int main( int argc, char **argv )
   //  derivative operator. The sigma of this Gaussian can be used to control
   //  the range of influence of the image edges.
   //
-  //  defined. First, the factor $f$ that the defines how large the range of
-  //  intensities will be. Small values of the multiplier will restrict the
-  //  inclusion of pixels to those having very similar intensities to those in
-  //  the current region. Larger values of the multiplier will relax the
-  //  accepting condition and will result in more generous growth of the
-  //  region. Too large values will make the region ingest neighbor regions in
-  //  the image that may actually belong to separate anatomical structures.
-  //
-  //  \index{itk::ConfidenceConnectedImageFilter!SetMultiplier()}
+  //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!SetSigma()}
   //
   //  Software Guide : EndLatex 
 
@@ -399,6 +428,24 @@ int main( int argc, char **argv )
   gradientMagnitude->SetSigma(  sigma  );
   // Software Guide : EndCodeSnippet
 
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The \doxygen{ExpNegativeImageFilter} requires the exponential factor as a
+  //  parameter. This value will multiply all the input pixel intensities
+  //  before their exponential is computed. The factor is passed using the
+  //  \code{SetFactor()} method. In the context of this example, the factor can
+  //  be used to intensify the differences between regions of low and high
+  //  values in the speed image. In an ideal case, the speed value should be
+  //  $1.0$ in the homogeneous regions of anatomical structures and the value
+  //  should decay rapidly to $0.0$ around the edges of structures.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  negativeExponential->SetFactor( atof( argv[6] ) );
+  // Software Guide : EndCodeSnippet
 
 
 
@@ -413,7 +460,9 @@ int main( int argc, char **argv )
   //  container is defined as \code{NodeContainer} among the
   //  \doxygen{FastMarchingImageFilter} traits.
   //
-  //  \index{itk::FastMarchingImageFilter!SetSeed()}
+  //  \index{itk::FastMarchingImageFilter!Nodes}
+  //  \index{itk::FastMarchingImageFilter!NodeContainer}
+  //  \index{itk::FastMarchingImageFilter!NodeType}
   //
   //  Software Guide : EndLatex 
 
@@ -431,16 +480,32 @@ int main( int argc, char **argv )
   seedPosition[1] = atoi( argv[4] );
 
 
+  //  Software Guide : BeginLatex
+  //
+  //  Nodes are created as stack variables and initialized with a value and an
+  //  index position.
+  //
+  //  \index{itk::FastMarchingImageFilter!Seed initialization}
+  //
+  //  Software Guide : EndLatex 
 
+  // Software Guide : BeginCodeSnippet
   NodeType node;
 
   const double seedValue = 0.0;
   
   node.SetValue( seedValue );
   node.SetIndex( seedPosition );
+  // Software Guide : EndCodeSnippet
 
 
 
+  //  Software Guide : BeginLatex
+  //
+  //  The list of nodes is initialized and then every node is inserted using
+  //  the \code{InsertElement()}.
+  //
+  //  Software Guide : EndLatex 
 
   //  Software Guide : BeginCodeSnippet
   seeds->Initialize();
@@ -451,7 +516,112 @@ int main( int argc, char **argv )
 
 
 
+  //  Software Guide : BeginLatex
+  //
+  //  The set of seed nodes is passed now to the
+  //  \doxygen{FastMarchingImageFilter} with the method
+  //  \code{SetTrialPoints()}.
+  //
+  //  \index{itk::FastMarchingImageFilter!SetTrialPoints()}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  fastMarching->SetTrialPoints(  seeds  );
+  // Software Guide : EndCodeSnippet
+
+
+
+
+  //
+  //  Here we configure all the writers required to see the intermediate
+  //  outputs of the pipeline. This is added here only for
+  //  pedagogical/debugging purposes. These intermediate output are normaly not
+  //  required. Only the output of the final thresholding filter should be
+  //  relevant.  Observing intermediate output is helpful in the process of
+  //  fine tunning the parameters of filters in the pipeline. 
+  //
+  //
+  CastFilterType::Pointer caster1 = CastFilterType::New();
+  CastFilterType::Pointer caster2 = CastFilterType::New();
+  CastFilterType::Pointer caster3 = CastFilterType::New();
+  CastFilterType::Pointer caster4 = CastFilterType::New();
+
+  WriterType::Pointer writer1 = WriterType::New();
+  WriterType::Pointer writer2 = WriterType::New();
+  WriterType::Pointer writer3 = WriterType::New();
+  WriterType::Pointer writer4 = WriterType::New();
+
+  caster1->SetInput( smoothing->GetOutput() );
+  writer1->SetInput( caster1->GetOutput() );
+  writer1->SetFileName("FastMarchingFilterOutput1.png");
+  caster1->SetOutputMinimum(   0 );
+  caster1->SetOutputMaximum( 255 );
+  writer1->Update();
+
+  caster2->SetInput( gradientMagnitude->GetOutput() );
+  writer2->SetInput( caster2->GetOutput() );
+  writer2->SetFileName("FastMarchingFilterOutput2.png");
+  caster2->SetOutputMinimum(   0 );
+  caster2->SetOutputMaximum( 255 );
+  writer2->Update();
+
+  caster3->SetInput( negativeExponential->GetOutput() );
+  writer3->SetInput( caster3->GetOutput() );
+  writer3->SetFileName("FastMarchingFilterOutput3.png");
+  caster3->SetOutputMinimum(   0 );
+  caster3->SetOutputMaximum( 255 );
+  writer3->Update();
+
+  caster4->SetInput( fastMarching->GetOutput() );
+  writer4->SetInput( caster4->GetOutput() );
+  writer4->SetFileName("FastMarchingFilterOutput4.png");
+  caster4->SetOutputMinimum(   0 );
+  caster4->SetOutputMaximum( 255 );
   
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The \doxygen{FastMarchingImageFilter} requires the user to specify the
+  //  size of the image to be produced as output. This is done using the
+  //  \code{SetOutputSize()}. Note that the size is obtained here from the
+  //  output image of the smoothing filter. The size of this image is valid
+  //  only after the \code{Update()} methods of this filter has been called
+  //  directly or indirectly.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  fastMarching->SetOutputSize( 
+           reader->GetOutput()->GetBufferedRegion().GetSize() );
+  // Software Guide : EndCodeSnippet
+
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Since the front representing the contour will propagate continuosly over
+  //  time, it is desirable to stop the process once a certain time has been
+  //  reached. This allows to save computation time under the assumption that
+  //  the region of interest has already been computed. The value for stopping
+  //  the process is defined with the method \code{SetStoppingValue()}. In
+  //  principle the stopping value should be a little bit higher than the
+  //  threshold value.
+  //
+  //  \index{itk::FastMarchingImageFilter!SetStoppingValue()}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  fastMarching->SetStoppingValue( atof( argv[8] ) );
+  // Software Guide : EndCodeSnippet
+
+
+
+
   //  Software Guide : BeginLatex
   //  
   //  The invokation of the \code{Update()} method on the writer triggers the
@@ -471,6 +641,35 @@ int main( int argc, char **argv )
     std::cerr << excep << std::endl;
     }
   // Software Guide : EndCodeSnippet
+
+
+
+  writer4->Update();
+
+
+
+
+  //
+  // The following writer type is used to save the output of the time-crossing
+  // map in a file with apropiate pixel representation. The advantage of saving
+  // this image in native format is that it can be used with a viewer to help
+  // determine an appropriate threshold to be used on the output of the
+  // fastmarching filter.
+  //
+  typedef itk::ImageFileWriter< InternalImageType > InternalWriterType;
+
+  InternalWriterType::Pointer mapWriter = InternalWriterType::New();
+  mapWriter->SetInput( fastMarching->GetOutput() );
+  mapWriter->SetFileName("FastMarchingFilterOutput4.mha");
+  mapWriter->Update();
+
+  InternalWriterType::Pointer speedWriter = InternalWriterType::New();
+  speedWriter->SetInput( negativeExponential->GetOutput() );
+  speedWriter->SetFileName("FastMarchingFilterOutput3.mha");
+  speedWriter->Update();
+
+
+
 
 
   //  Software Guide : BeginLatex
@@ -493,11 +692,12 @@ int main( int argc, char **argv )
   //  \end{center}
   //
   // \begin{figure} \center
-  // \includegraphics[width=4cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=4cm]{FastMarchingOutput1.eps}
-  // \includegraphics[width=4cm]{FastMarchingOutput2.eps}
-  // \includegraphics[width=4cm]{FastMarchingOutput3.eps}
-  // \caption{Segmentation results of the ConfidenceConnected filter for various seed points.}
+  // \includegraphics[width=5cm]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=5cm]{FastMarchingImageFilterOutput1.eps}
+  // \includegraphics[width=5cm]{FastMarchingImageFilterOutput2.eps}
+  // \includegraphics[width=5cm]{FastMarchingImageFilterOutput3.eps}
+  // \caption[FastMarchingImageFilter output images]{Images generated by the
+  // segmentation process based on the FastMarchingImageFilter}
   // \label{fig:FastMarchingImageFilterOutput}
   // \end{figure}
   //
