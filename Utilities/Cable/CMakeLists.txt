@@ -1,6 +1,6 @@
 PROJECT(CABLE)
 
-SUBDIRS(Expat Parsers Generators)
+SUBDIRS(Expat Parsers Generators Executables)
 
 INCLUDE_DIRECTORIES(
 ${CABLE_SOURCE_DIR}/Expat/xmlparse
