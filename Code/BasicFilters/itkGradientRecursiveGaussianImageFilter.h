@@ -35,10 +35,8 @@ namespace itk
  * \ingroup GradientFilters   
  * \ingroup Singlethreaded
  */
-template <typename TInputImage, 
-          typename TOutputImage=
-              Image< CovariantVector< 
-                      typename NumericTraits<typename TInputImage::PixelType>::RealType,
+template <typename TInputImage, typename TOutputImage= Image< CovariantVector< 
+                      NumericTraits<TInputImage::PixelType>::RealType,
                       ExtractImageDimension<TInputImage>::ImageDimension >,
                           ExtractImageDimension<TInputImage>::ImageDimension > >
 class ITK_EXPORT GradientRecursiveGaussianImageFilter:
