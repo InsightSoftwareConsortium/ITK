@@ -443,7 +443,7 @@ int itkVersorTest(int, char**)
     ValueType angle1 = atan(1.0)/3.0; // 15 degrees in radians
     
     VectorType::ValueType x2Init[3] = {1.5f, 0.5f, 0.5f};
-    VectorType x2 = x1Init;
+    VectorType x2 = x2Init;
 
     ValueType angle2 = atan(1.0)/1.0; // 45 degrees in radians
     
