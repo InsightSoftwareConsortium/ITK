@@ -18,7 +18,7 @@
 #include "itkMacro.h"
 #include "vnl/vnl_vector_fixed.h"
 
-#include <memory.h>
+#include <memory>
 
 namespace itk
 {
