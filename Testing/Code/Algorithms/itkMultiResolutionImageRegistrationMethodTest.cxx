@@ -92,7 +92,19 @@ int itkMultiResolutionImageRegistrationMethodTest(int, char* [] )
   MovingImagePyramidType::Pointer movingImagePyramid =
     MovingImagePyramidType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
-  
+
+  FixedImageType::SizeType size;
+  size.Fill( 8 );
+
+  FixedImageType::RegionType region( size );
+  fixedImage->SetRegions( region );
+  fixedImage->Allocate();
+  fixedImage->FillBuffer( 3.0 );
+
+  movingImage->SetRegions( region );
+  movingImage->Allocate();
+  movingImage->FillBuffer( 4.0 );
+
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
@@ -109,7 +121,28 @@ int itkMultiResolutionImageRegistrationMethodTest(int, char* [] )
 
   registration->SetInitialTransformParameters( initialParameters );
 
+  registration->SetNumberOfLevels( 2 );
+
   registration->Print( std::cout );
+
+
+  // Exercise Get methods
+  std::cout << "metric: " << registration->GetMetric() << std::endl;
+  std::cout << "optimizer: " << registration->GetOptimizer() << std::endl;
+  std::cout << "transform: " << registration->GetTransform() << std::endl;
+  std::cout << "fixed image: " << registration->GetFixedImage() << std::endl;
+  std::cout << "moving image: " << registration->GetMovingImage() << std::endl;
+  std::cout << "interpolator: " << registration->GetInterpolator() << std::endl;
+  std::cout << "fixed image region: " << registration->GetFixedImageRegion() << std::endl;
+  std::cout << "fixed image pyramid: " << registration->GetFixedImagePyramid() << std::endl;
+  std::cout << "moving image pyramid: " << registration->GetMovingImagePyramid() << std::endl;
+
+  std::cout << "initial parameters: ";
+  std::cout << registration->GetInitialTransformParameters() << std::endl;
+
+  std::cout << "no. levels: " << registration->GetNumberOfLevels() << std::endl;
+  std::cout << "current level: " << registration->GetCurrentLevel() << std::endl;
+
 
   /****************************************************
    * Test out initialization errors
@@ -146,6 +179,7 @@ int itkMultiResolutionImageRegistrationMethodTest(int, char* [] )
   TEST_INITIALIZATION_ERROR( MovingImagePyramid, NULL, movingImagePyramid );
   TEST_INITIALIZATION_ERROR( InitialTransformParameters, ParametersType(1),
                                                          initialParameters );
+
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
