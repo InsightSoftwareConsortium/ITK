@@ -60,11 +60,11 @@ typedef itk::DefaultDynamicMeshTraits< int,
                                        2,
                                        float,
                                        float
-                                       >  DynamicTraits;
+                                       >  MeshTraits;
                                  
-typedef itk::Mesh< DynamicTraits::PixelType,
-                   DynamicTraits::PointDimension,
-                   DynamicTraits
+typedef itk::Mesh< MeshTraits::PixelType,
+                   MeshTraits::PointDimension,
+                   MeshTraits
                    >  MeshType;
                    
 
@@ -73,22 +73,22 @@ typedef MeshType::CellTraits  CellTraits;
 
 /**
  * The type of point stored in the mesh. Because mesh was instantiated
- * with defaults (itkDefaultStaticMeshTraits), the point dimension is 3 and
+ * with defaults (itkDefaultDynamicMeshTraits), the point dimension is 3 and
  * the coordinate representation is float.
  */
-typedef MeshType::PointType  PointType;
+typedef MeshType::PointType             PointType;
+typedef PointType::VectorType           VectorType;
 
-typedef MeshType::Pointer        MeshPointer;
-typedef MeshType::ConstPointer   MeshConstPointer;
+typedef MeshType::Pointer               MeshPointer;
+typedef MeshType::ConstPointer          MeshConstPointer;
 
-typedef MeshType::PointType      PointType;
+typedef MeshType::PointType             PointType;
 
+typedef MeshType::PointsContainer       PointsContainer;
+typedef MeshType::PointDataContainer    PointDataContainer;
 
-// typedef MeshType::PointsContainer::iterator           PointsIterator;
-// typedef MeshType::PointDataContainer::iterator        CellsIterator;
-
-typedef MeshType::PointsContainer::Iterator           PointsIterator;
-typedef MeshType::PointDataContainer::Iterator        CellsIterator;
+typedef PointsContainer::Iterator       PointsIterator;
+typedef PointDataContainer::Iterator    CellsIterator;
 
 
 
@@ -100,13 +100,37 @@ int main(void)
    */
   MeshType::Pointer mesh(MeshType::New());  
 
-  PointsIterator point    = mesh->GetPoints()->Begin();
-  PointsIterator endpoint = mesh->GetPoints()->End();
+  PointType pointA;
+  PointType pointB;
+  PointType pointC;
+  PointType pointD;
+
+  VectorType displacement;
+
+  displacement[0] = 2;
+  displacement[1] = 5;
+
+  pointA.Fill( 0.0 );
+  pointB = pointA + displacement;
+  pointC = pointB + displacement;
+  pointD = pointC + displacement;
+  
+  PointsContainer::Pointer pointsContainter = mesh->GetPoints();
+
+  pointsContainter->SetElement( 0, pointA );
+  pointsContainter->SetElement( 1, pointB );
+  pointsContainter->SetElement( 2, pointC );
+  pointsContainter->SetElement( 3, pointD );
+
+
+  std::cout << "Number of Points = " << mesh->GetNumberOfPoints() << std::endl;
+
+  PointsIterator point    = pointsContainter->Begin();
+  PointsIterator endpoint = pointsContainter->End();
 
   while( point != endpoint )
     {
-//    point->second;
-    point.Value();
+    std::cout << point.Index() << " = " << point.Value() << std::endl;
     point++;
     }
 
