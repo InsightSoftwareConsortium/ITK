@@ -48,7 +48,7 @@ namespace itk {
 
 /** \class PDEDeformableRegistrationFunction
  *
- * This is a base class for all PDE functions which drives a
+ * This is an abstract base class for all PDE functions which drives a
  * deformable registration algorithm. It is used by 
  * PDEDeformationRegistrationFilter subclasses to compute the
  * output deformation field which will map a reference image onto
@@ -70,9 +70,6 @@ public:
   typedef FiniteDifferenceFunction<TDeformationField>    Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
-
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
   itkTypeMacro( PDEDeformableRegistrationFunction, 
