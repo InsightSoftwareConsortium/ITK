@@ -74,7 +74,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // Image file readers are set up in a similar fashion to previous examples.
-  // To support the re-mapping of the moving image intensity we declare an
+  // To support the re-mapping of the moving image intensity, we declare an
   // internal image type with a floating point pixel type and cast the input
   // images to the internal image type.
   //
@@ -105,8 +105,7 @@ int main( int argc, char *argv[] )
   //
   // \index{itk::HistogramMatchingImageFilter}
   //
-  // The basic idea is to match the histograms of the two images at a user
-  // specified number of quantile values. For robustness, the histograms are
+  // The basic idea is to match the histograms of the two images at a user-specified number of quantile values. For robustness, the histograms are
   // matched so that the background pixels are excluded from both histograms.
   // For MR images, a simple procedure is to exclude all gray values that are
   // smaller than the mean gray value of the image.
@@ -141,7 +140,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // We then select the number of bins to represent the histograms and the
-  // number of points or quantiles values where the histogram is to be
+  // number of points or quantile values where the histogram is to be
   // matched.
   //
   // \index{itk::HistogramMatchingImageFilter!SetNumberOfHistogramLevels()}
@@ -237,11 +236,10 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // A \doxygen{WarpImageFilter} can be used to warp the moving image with
-  // the output deformation field. Similar to the
-  // \doxygen{ResampleImageFilter}, the \doxygen{WarpImageFilter} requires
+  // The \doxygen{WarpImageFilter} can be used to warp the moving image with
+  // the output deformation field. Like the ResampleImageFilter, the WarpImageFilter requires
   // the specification of the input image to be resampled, an input image
-  // interpolator, the output image spacing and origin.
+  // interpolator, and the output image spacing and origin.
   //
   // \index{itk::WarpImageFilter}
   // \index{itk::WarpImageFilter!SetInput()}
@@ -272,7 +270,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Unlike the \doxygen{ResampleImageFilter}, the \doxygen{WarpImageFilter}
+  // Unlike the ResampleImageFilter, the WarpImageFilter
   // warps or transform the input image with respect to the deformation field
   // represented by an image of vectors.  The resulting warped or resampled
   // image is written to file as per previous examples.
@@ -306,7 +304,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Let's execute this example using rat lung data from the previous example.
+  // Let's execute this example using the rat lung data from the previous example.
   // The associated data files can be found in \code{Examples/Data}:
   //
   // \begin{itemize}
