@@ -708,6 +708,39 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
       
 }
 
+template<class TInputImage, class TClassifiedImage>
+void
+RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "NumberOfClasses: " 
+     << m_NumberOfClasses << std::endl;
+  os << indent << "MaximumNumberOfIterations: " 
+     << m_MaximumNumberOfIterations << std::endl;
+  os << indent << "BoundaryGradient: "
+     << m_BoundaryGradient << std::endl;
+  os << indent << "ClusterSize: " 
+     << m_ClusterSize << std::endl;
+  os << indent << "ObjectLabel: " 
+     << m_ObjectLabel << std::endl;
+  os << indent << "StartPoint: "
+     << m_StartPoint << std::endl;
+  if (m_TrainingImage)
+    {
+    os << "TraingImage: " << m_TrainingImage;
+    }
+  if (m_LabelledImage)
+    {
+    os << "TrainingImage: " << m_TrainingImage;
+    }
+  if (m_ClassifierPtr)
+    {
+    os << "ClassifierPtr: " << m_ClassifierPtr;
+    }
+}
+
 } /** end namespace itk. */
 
 #endif
