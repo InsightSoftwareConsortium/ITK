@@ -1,3 +1,105 @@
+/**
+ * \file itpack.cxx
+ * \brief Routines from ITPACK numerical library.
+ *
+ * In this file routines from ITPACK are defined in the itk::fem::itpack
+ * namespace. This is done by calling the original ITPACK code
+ * (file dsrc2c.c) which was converted from Fortran using f2c.
+ * See "ftp://netlib.bell-labs.com/netlib/f2c" for more info.
+ * 
+ * Besides that we also define some functions that the ITPACK uses and should
+ * normally be defined in f2c.lib. But since we don't have that library
+ * we redefine these function here, so that ITPACK code is happy.
+ *
+ * ITPACK was converted with the following command line options:
+ *    f2c -C++P dsrc2c.f
+ *
+ * This produced two files:
+ *   - dsrc2c.c was converted to itpack_dsrc2c.c by removing the
+ *     #include "f2c" and all "#ifdef __cplusplus extern C  #endif" parts.
+ *   - dsrc2c.P was used to obtain function prototypes which are stored
+ *     in itpack.h file.
+ *
+ * To use ITPACK in your ITK code, simply include the header "itpack.h",
+ * and link to the corresponding library.
+ *
+ * \note All ITPACK functions reside in namespace itpack.
+ */
+
+
+
+
+/* Turn off warnings in f2c generated code */
+#if defined(_MSC_VER)
+#if defined(__ICL)
+#pragma warning(disable: 239 264 1011 )
+#else
+#pragma warning(disable: 4101 4244 4554 4756 4723)
+#endif
+#endif
+
+
+
+
+
+#include "f2c.h"
+
+
+
+
+integer i_sign(integer *a, integer *b)
+{
+integer x;
+x = (*a >= 0 ? *a : - *a);
+return( *b >= 0 ? x : -x);
+}
+
+
+/*
+ * The following couple of functions have something to
+ * do with I/O. Since we don't want ITPACK to output
+ * anything, the functions do nothing.
+ */
+integer do_fio(integer * a, char * b, ftnlen c )
+{
+  return 0;
+}
+
+integer e_wsfe(void)
+{
+  return 0;
+}
+
+integer s_wsfe(cilist * list)
+{
+  return 0;
+}
+
+doublereal etime_(float *tarray)
+{
+  tarray[0]=0.0;
+  tarray[1]=0.0;
+  return 0.0;
+}
+
+
+
+
+/*
+ * Required macros for for code obtained with f2c
+ */
+#define TRUE_ (1)
+#define FALSE_ (0)
+
+#define max(a,b) ((a) >= (b) ? (a) : (b))
+#define min(a,b) ((a) <= (b) ? (a) : (b))
+#define abs(x) ((x) >= 0 ? (x) : -(x))
+
+
+/*****   END OF ITK ADDITIONS ****/
+
+
+
 /* dsrc2c.f -- translated by f2c (version 20020621).
    You must link the resulting object file with the libraries:
   -lf2c -lm   (in that order)
@@ -121,7 +223,7 @@ OES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
       integer *);
     static integer idgts;
     extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
-       dcopy_(integer *, doublereal *, integer *, doublereal *, integer 
+       itpackdcopy_(integer *, doublereal *, integer *, doublereal *, integer 
       *);
     extern doublereal timer_(real *);
     static real dummy;
@@ -498,7 +600,7 @@ L220:
 /* ... COMPUTE INITIAL PSEUDO-RESIDUAL */
 
 L230:
-    dcopy_(&n, &rhs[1], &c__1, &wksp[ib2], &c__1);
+    itpackdcopy_(&n, &rhs[1], &c__1, &wksp[ib2], &c__1);
     pjac_(&n, &ia[1], &ja[1], &a[1], &u[1], &wksp[ib2]);
     vevmw_(&n, &wksp[ib2], &u[1]);
 
@@ -581,7 +683,7 @@ L290:
 
 L310:
     if (itcom1_1.in % 2 == 1) {
-  dcopy_(&n, &wksp[ib1], &c__1, &u[1], &c__1);
+  itpackdcopy_(&n, &wksp[ib1], &c__1, &u[1], &c__1);
     }
 
 /* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
@@ -734,7 +836,7 @@ OES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
        integer *, integer *, integer *, integer *);
     static integer idgts;
     extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
-       dcopy_(integer *, doublereal *, integer *, doublereal *, integer 
+       itpackdcopy_(integer *, doublereal *, integer *, doublereal *, integer 
       *);
     extern doublereal timer_(real *);
     extern /* Subroutine */ int itjsi_(integer *, integer *, integer *, 
@@ -1176,7 +1278,7 @@ L280:
 
 L300:
     if (itcom1_1.in % 2 == 1) {
-  dcopy_(&n, &wksp[ib1], &c__1, &u[1], &c__1);
+  itpackdcopy_(&n, &wksp[ib1], &c__1, &u[1], &c__1);
     }
 
 /* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
@@ -1897,7 +1999,7 @@ CH UNDOES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
        integer *, integer *, integer *, integer *);
     static integer idgts;
     extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
-       dcopy_(integer *, doublereal *, integer *, doublereal *, integer 
+       itpackdcopy_(integer *, doublereal *, integer *, doublereal *, integer 
       *);
     extern doublereal timer_(real *);
     extern /* Subroutine */ int pfsor_(integer *, integer *, integer *, 
@@ -2302,8 +2404,8 @@ L240:
 /* ... INITIALIZE FORWARD PSEUDO-RESIDUAL */
 
 L250:
-    dcopy_(&n, &rhs[1], &c__1, &wksp[ib1], &c__1);
-    dcopy_(&n, &u[1], &c__1, &wksp[ib2], &c__1);
+    itpackdcopy_(&n, &rhs[1], &c__1, &wksp[ib1], &c__1);
+    itpackdcopy_(&n, &u[1], &c__1, &wksp[ib2], &c__1);
     pfsor_(&n, &ia[1], &ja[1], &a[1], &wksp[ib2], &wksp[ib1]);
     vevmw_(&n, &wksp[ib2], &u[1]);
 
@@ -2388,7 +2490,7 @@ L310:
 
 L330:
     if (itcom1_1.in % 2 == 1) {
-  dcopy_(&n, &wksp[ib1], &c__1, &u[1], &c__1);
+  itpackdcopy_(&n, &wksp[ib1], &c__1, &u[1], &c__1);
     }
 
 /* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
@@ -2547,7 +2649,7 @@ CH UNDOES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
        integer *, integer *, integer *, integer *);
     static integer idgts;
     extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
-       dcopy_(integer *, doublereal *, integer *, doublereal *, integer 
+       itpackdcopy_(integer *, doublereal *, integer *, doublereal *, integer 
       *);
     extern doublereal timer_(real *);
     static real dummy;
@@ -3013,7 +3115,7 @@ L300:
 
 L320:
     if (itcom1_1.in % 2 == 1) {
-  dcopy_(&n, &wksp[ib1], &c__1, &u[1], &c__1);
+  itpackdcopy_(&n, &wksp[ib1], &c__1, &u[1], &c__1);
     }
 
 /* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
@@ -3171,7 +3273,7 @@ H UNDOES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
        integer *, integer *, integer *, integer *);
     static integer idgts;
     extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
-       dcopy_(integer *, doublereal *, integer *, doublereal *, integer 
+       itpackdcopy_(integer *, doublereal *, integer *, doublereal *, integer 
       *);
     extern doublereal timer_(real *);
     static real dummy;
@@ -3596,9 +3698,9 @@ L270:
     u[1] = rhs[1];
     goto L330;
 L280:
-    dcopy_(&nr, &rhs[1], &c__1, &wksp[ib1], &c__1);
+    itpackdcopy_(&nr, &rhs[1], &c__1, &wksp[ib1], &c__1);
     prsred_(&nb, &nr, &ia[1], &ja[1], &a[1], &u[nrp1], &wksp[ib1]);
-    dcopy_(&nb, &rhs[nrp1], &c__1, &wksp[ib2], &c__1);
+    itpackdcopy_(&nb, &rhs[nrp1], &c__1, &wksp[ib2], &c__1);
     prsblk_(&nb, &nr, &ia[1], &ja[1], &a[1], &wksp[ib1], &wksp[ib2]);
     vevmw_(&nb, &wksp[ib2], &u[nrp1]);
 
@@ -3684,9 +3786,9 @@ L360:
   goto L370;
     }
     if (itcom1_1.in % 2 == 1) {
-  dcopy_(&n, &wksp[ib1], &c__1, &u[1], &c__1);
+  itpackdcopy_(&n, &wksp[ib1], &c__1, &u[1], &c__1);
     }
-    dcopy_(&nr, &rhs[1], &c__1, &u[1], &c__1);
+    itpackdcopy_(&nr, &rhs[1], &c__1, &u[1], &c__1);
     prsred_(&nb, &nr, &ia[1], &ja[1], &a[1], &u[nrp1], &u[1]);
 
 /* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
@@ -3844,7 +3946,7 @@ H UNDOES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
        integer *, integer *, integer *, integer *);
     static integer idgts;
     extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
-       dcopy_(integer *, doublereal *, integer *, doublereal *, integer 
+       itpackdcopy_(integer *, doublereal *, integer *, doublereal *, integer 
       *);
     extern doublereal timer_(real *);
     static real dummy;
@@ -4331,9 +4433,9 @@ L350:
   goto L360;
     }
     if (itcom1_1.in % 2 == 1) {
-  dcopy_(&n, &wksp[ib1], &c__1, &u[1], &c__1);
+  itpackdcopy_(&n, &wksp[ib1], &c__1, &u[1], &c__1);
     }
-    dcopy_(&nr, &rhs[1], &c__1, &u[1], &c__1);
+    itpackdcopy_(&nr, &rhs[1], &c__1, &u[1], &c__1);
     prsred_(&nb, &nr, &ia[1], &ja[1], &a[1], &u[nrp1], &u[1]);
 
 /* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
@@ -4421,7 +4523,7 @@ L420:
       doublereal *, doublereal *, doublereal *, doublereal *), pjac_(
       integer *, integer *, integer *, doublereal *, doublereal *, 
       doublereal *);
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal itpackddot_(integer *, doublereal *, integer *, doublereal *, 
       integer *);
     static doublereal dnrm;
     extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
@@ -4508,7 +4610,7 @@ L420:
 /* ... TEST FOR STOPPING */
 
     n = *nn;
-    itcom3_1.delnnm = ddot_(&n, &d__[1], &c__1, &d__[1], &c__1);
+    itcom3_1.delnnm = itpackddot_(&n, &d__[1], &c__1, &d__[1], &c__1);
     dnrm = itcom3_1.delnnm;
     con = itcom3_1.cme;
     pstop_(&n, &u[1], &dnrm, &con, &c__1, &q1);
@@ -4520,11 +4622,11 @@ L420:
 
     vfill_(&n, &dtwd[1], &c_b21);
     pjac_(&n, &ia[1], &ja[1], &a[1], &d__[1], &dtwd[1]);
-    dtnrm = ddot_(&n, &d__[1], &c__1, &dtwd[1], &c__1);
+    dtnrm = itpackddot_(&n, &d__[1], &c__1, &dtwd[1], &c__1);
     if (itcom1_1.isym == 0) {
   goto L10;
     }
-    rhotmp = ddot_(&n, &dtwd[1], &c__1, &d1[1], &c__1);
+    rhotmp = itpackddot_(&n, &dtwd[1], &c__1, &d1[1], &c__1);
     parcon_(&dtnrm, &c1, &c2, &c3, &c4, &gamold, &rhotmp, &c__1);
     rhoold = rhotmp;
     goto L20;
@@ -4557,16 +4659,16 @@ L30:
       doublereal *, doublereal *, doublereal *, doublereal *), pjac_(
       integer *, integer *, integer *, doublereal *, doublereal *, 
       doublereal *);
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal itpackddot_(integer *, doublereal *, integer *, doublereal *, 
       integer *);
     static doublereal dnrm;
-    extern /* Subroutine */ int chgsi_(doublereal *, integer *), dcopy_(
+    extern /* Subroutine */ int chgsi_(doublereal *, integer *), itpackdcopy_(
       integer *, doublereal *, integer *, doublereal *, integer *), 
       parsi_(doublereal *, doublereal *, doublereal *, integer *), 
       iterm_(integer *, doublereal *, doublereal *, doublereal *, 
       integer *);
     static doublereal dtnrm;
-    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int itpackdaxpy_(integer *, doublereal *, doublereal *, 
       integer *, doublereal *, integer *);
     extern doublereal pvtbv_(integer *, integer *, integer *, doublereal *, 
       doublereal *);
@@ -4637,14 +4739,14 @@ L30:
 
 /* ... COMPUTE PSEUDO-RESIDUALS */
 
-    dcopy_(&n, &rhs[1], &c__1, &d__[1], &c__1);
+    itpackdcopy_(&n, &rhs[1], &c__1, &d__[1], &c__1);
     pjac_(&n, &ia[1], &ja[1], &a[1], &u[1], &d__[1]);
     vevmw_(&n, &d__[1], &u[1]);
 
 /* ... STOPPING AND ADAPTIVE CHANGE TESTS */
 
     oldnrm = itcom3_1.delnnm;
-    itcom3_1.delnnm = ddot_(&n, &d__[1], &c__1, &d__[1], &c__1);
+    itcom3_1.delnnm = itpackddot_(&n, &d__[1], &c__1, &d__[1], &c__1);
     dnrm = itcom3_1.delnnm;
     con = itcom3_1.cme;
     pstop_(&n, &u[1], &dnrm, &con, &c__1, &q1);
@@ -4681,8 +4783,8 @@ L10:
 /* ... COMPUTE U(IN+1) AFTER CHANGE OF PARAMETERS */
 
 L20:
-    dcopy_(&n, &u[1], &c__1, &u1[1], &c__1);
-    daxpy_(&n, &itcom3_1.gamma, &d__[1], &c__1, &u1[1], &c__1);
+    itpackdcopy_(&n, &u[1], &c__1, &u1[1], &c__1);
+    itpackdaxpy_(&n, &itcom3_1.gamma, &d__[1], &c__1, &u1[1], &c__1);
     goto L40;
 
 /* ... COMPUTE U(IN+1) WITHOUT CHANGE OF PARAMETERS */
@@ -4718,7 +4820,7 @@ L40:
     static integer iss;
     static doublereal dnrm;
     static integer iphat;
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int itpackdcopy_(integer *, doublereal *, integer *, 
       doublereal *, integer *), iterm_(integer *, doublereal *, 
       doublereal *, doublereal *, integer *);
     extern integer ipstr_(doublereal *);
@@ -4829,7 +4931,7 @@ L20:
 L30:
     itcom3_1.delsnm = itcom3_1.delnnm;
     spcrm1 = itcom3_1.specr;
-    dcopy_(&n, &rhs[1], &c__1, &wk[1], &c__1);
+    itpackdcopy_(&n, &rhs[1], &c__1, &wk[1], &c__1);
     pfsor1_(&n, &ia[1], &ja[1], &a[1], &u[1], &wk[1]);
     if (itcom3_1.delnnm == 0.) {
   goto L40;
@@ -4926,13 +5028,13 @@ L70:
       doublereal *, doublereal *, doublereal *, doublereal *), pjac_(
       integer *, integer *, integer *, doublereal *, doublereal *, 
       doublereal *), omeg_(doublereal *, integer *);
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal itpackddot_(integer *, doublereal *, integer *, doublereal *, 
       integer *);
     static doublereal dnrm;
     extern doublereal pbeta_(integer *, integer *, integer *, doublereal *, 
       doublereal *, doublereal *, doublereal *);
     extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
-       dcopy_(integer *, doublereal *, integer *, doublereal *, integer 
+       itpackdcopy_(integer *, doublereal *, integer *, doublereal *, integer 
       *), iterm_(integer *, doublereal *, doublereal *, doublereal *, 
       integer *), pbsor_(integer *, integer *, integer *, doublereal *, 
       doublereal *, doublereal *), pfsor_(integer *, integer *, integer 
@@ -5028,30 +5130,30 @@ L70:
 
 /* ... COMPUTE BACKWARD RESIDUAL */
 
-    dcopy_(&n, &rhs[1], &c__1, &wk[1], &c__1);
-    dcopy_(&n, &c__[1], &c__1, &d__[1], &c__1);
+    itpackdcopy_(&n, &rhs[1], &c__1, &wk[1], &c__1);
+    itpackdcopy_(&n, &c__[1], &c__1, &d__[1], &c__1);
     vevpw_(&n, &d__[1], &u[1]);
     pbsor_(&n, &ia[1], &ja[1], &a[1], &d__[1], &wk[1]);
     vevmw_(&n, &d__[1], &u[1]);
 
 /* ... COMPUTE ACCELERATION PARAMETERS AND THEN U(IN+1) (IN U1) */
 
-    dcopy_(&n, &d__[1], &c__1, &dl[1], &c__1);
+    itpackdcopy_(&n, &d__[1], &c__1, &dl[1], &c__1);
     vfill_(&n, &wk[1], &c_b21);
     pfsor_(&n, &ia[1], &ja[1], &a[1], &dl[1], &wk[1]);
     wevmw_(&n, &d__[1], &dl[1]);
-    itcom3_1.delnnm = ddot_(&n, &c__[1], &c__1, &c__[1], &c__1);
+    itcom3_1.delnnm = itpackddot_(&n, &c__[1], &c__1, &c__[1], &c__1);
     if (itcom3_1.delnnm == 0.) {
   goto L30;
     }
-    dnrm = ddot_(&n, &c__[1], &c__1, &dl[1], &c__1);
+    dnrm = itpackddot_(&n, &c__[1], &c__1, &dl[1], &c__1);
     if (dnrm == 0.) {
   goto L30;
     }
     if (itcom1_1.isym == 0) {
   goto L10;
     }
-    rhotmp = ddot_(&n, &c__[1], &c__1, &c1[1], &c__1) - ddot_(&n, &dl[1], &
+    rhotmp = itpackddot_(&n, &c__[1], &c__1, &c1[1], &c__1) - itpackddot_(&n, &dl[1], &
       c__1, &c1[1], &c__1);
     parcon_(&dnrm, &t1, &t2, &t3, &t4, &gamold, &rhotmp, &c__3);
     rhoold = rhotmp;
@@ -5064,7 +5166,7 @@ L20:
 /* ... TEST FOR STOPPING */
 
 L30:
-    itcom3_1.bdelnm = ddot_(&n, &d__[1], &c__1, &d__[1], &c__1);
+    itcom3_1.bdelnm = itpackddot_(&n, &d__[1], &c__1, &d__[1], &c__1);
     dnrm = itcom3_1.bdelnm;
     con = itcom3_1.specr;
     pstop_(&n, &u[1], &dnrm, &con, &c__1, &q1);
@@ -5121,15 +5223,15 @@ L60:
 L70:
     vfill_(&n, &wk[1], &c_b21);
     pjac_(&n, &ia[1], &ja[1], &a[1], &d__[1], &wk[1]);
-    dnrm = ddot_(&n, &wk[1], &c__1, &wk[1], &c__1);
+    dnrm = itpackddot_(&n, &wk[1], &c__1, &wk[1], &c__1);
 L80:
     omeg_(&dnrm, &c__3);
 
 /* ...    (3) COMPUTE NEW FORWARD RESIDUAL SINCE OMEGA HAS BEEN CHANGED. */
 
 L90:
-    dcopy_(&n, &rhs[1], &c__1, &wk[1], &c__1);
-    dcopy_(&n, &u1[1], &c__1, &c1[1], &c__1);
+    itpackdcopy_(&n, &rhs[1], &c__1, &wk[1], &c__1);
+    itpackdcopy_(&n, &u1[1], &c__1, &c1[1], &c__1);
     pfsor_(&n, &ia[1], &ja[1], &a[1], &c1[1], &wk[1]);
     vevmw_(&n, &c1[1], &u1[1]);
 
@@ -5157,13 +5259,13 @@ L100:
       doublereal *, doublereal *, doublereal *, doublereal *), pjac_(
       integer *, integer *, integer *, doublereal *, doublereal *, 
       doublereal *), omeg_(doublereal *, integer *);
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal itpackddot_(integer *, doublereal *, integer *, doublereal *, 
       integer *);
     static doublereal dnrm;
     extern doublereal pbeta_(integer *, integer *, integer *, doublereal *, 
       doublereal *, doublereal *, doublereal *);
     extern /* Subroutine */ int chgsi_(doublereal *, integer *), vfill_(
-      integer *, doublereal *, doublereal *), dcopy_(integer *, 
+      integer *, doublereal *, doublereal *), itpackdcopy_(integer *, 
       doublereal *, integer *, doublereal *, integer *), parsi_(
       doublereal *, doublereal *, doublereal *, integer *), iterm_(
       integer *, doublereal *, doublereal *, doublereal *, integer *), 
@@ -5242,8 +5344,8 @@ L100:
 
     /* Function Body */
     n = *nn;
-    dcopy_(&n, &rhs[1], &c__1, &wk[1], &c__1);
-    dcopy_(&n, &u[1], &c__1, &ctwd[1], &c__1);
+    itpackdcopy_(&n, &rhs[1], &c__1, &wk[1], &c__1);
+    itpackdcopy_(&n, &u[1], &c__1, &ctwd[1], &c__1);
     pssor1_(&n, &ia[1], &ja[1], &a[1], &ctwd[1], &wk[1], &c__[1], &d__[1]);
 
 /* ... COMPUTE U(IN+1) -- CONTAINED IN THE VECTOR U1. */
@@ -5253,7 +5355,7 @@ L100:
 
 /* ... TEST FOR STOPPING */
 
-    itcom3_1.bdelnm = ddot_(&n, &d__[1], &c__1, &d__[1], &c__1);
+    itcom3_1.bdelnm = itpackddot_(&n, &d__[1], &c__1, &d__[1], &c__1);
     dnrm = itcom3_1.bdelnm;
     con = itcom3_1.specr;
     pstop_(&n, &u[1], &dnrm, &con, &c__1, &q1);
@@ -5266,7 +5368,7 @@ L100:
     if (omgstr_(&c__1)) {
   goto L40;
     }
-    itcom3_1.delnnm = ddot_(&n, &c__[1], &c__1, &c__[1], &c__1);
+    itcom3_1.delnnm = itpackddot_(&n, &c__[1], &c__1, &c__[1], &c__1);
     if (itcom1_1.in == itcom1_1.is) {
   itcom3_1.delsnm = itcom3_1.delnnm;
     }
@@ -5277,7 +5379,7 @@ L100:
 /* ... IT HAS BEEN DECIDED TO CHANGE PARAMETERS. */
 /* ...    (1) COMPUTE CTWD */
 
-    dcopy_(&n, &d__[1], &c__1, &ctwd[1], &c__1);
+    itpackdcopy_(&n, &d__[1], &c__1, &ctwd[1], &c__1);
     vfill_(&n, &wk[1], &c_b21);
     pfsor_(&n, &ia[1], &ja[1], &a[1], &ctwd[1], &wk[1]);
     vevpw_(&n, &ctwd[1], &c__[1]);
@@ -5285,7 +5387,7 @@ L100:
 
 /* ...    (2) COMPUTE NEW SPECTRAL RADIUS FOR CURRENT OMEGA. */
 
-    dnrm = ddot_(&n, &c__[1], &c__1, &ctwd[1], &c__1);
+    dnrm = itpackddot_(&n, &c__[1], &c__1, &ctwd[1], &c__1);
     chgsi_(&dnrm, &c__3);
     if (! itcom2_1.adapt) {
   goto L40;
@@ -5313,7 +5415,7 @@ L10:
 L20:
     vfill_(&n, &wk[1], &c_b21);
     pjac_(&n, &ia[1], &ja[1], &a[1], &d__[1], &wk[1]);
-    dnrm = ddot_(&n, &wk[1], &c__1, &wk[1], &c__1);
+    dnrm = itpackddot_(&n, &wk[1], &c__1, &wk[1], &c__1);
 L30:
     omeg_(&dnrm, &c__3);
 
@@ -5336,7 +5438,7 @@ L40:
     static integer nrp1;
     extern /* Subroutine */ int sum3_(integer *, doublereal *, doublereal *, 
       doublereal *, doublereal *, doublereal *, doublereal *);
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal itpackddot_(integer *, doublereal *, integer *, doublereal *, 
       integer *);
     static doublereal dnrm;
     extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
@@ -5428,7 +5530,7 @@ L40:
 
 /* ... TEST FOR STOPPING */
 
-    itcom3_1.delnnm = ddot_(&nb, &db[1], &c__1, &db[1], &c__1);
+    itcom3_1.delnnm = itpackddot_(&nb, &db[1], &c__1, &db[1], &c__1);
     dnrm = itcom3_1.delnnm;
     con = itcom3_1.cme;
     pstop_(&nb, &ub[nrp1], &dnrm, &con, &c__2, &q1);
@@ -5442,11 +5544,11 @@ L40:
     prsred_(&nb, &nr, &ia[1], &ja[1], &a[1], &db[1], &ub1[1]);
     vfill_(&nb, &wb[1], &c_b21);
     prsblk_(&nb, &nr, &ia[1], &ja[1], &a[1], &ub1[1], &wb[1]);
-    dnrm = ddot_(&nb, &db[1], &c__1, &wb[1], &c__1);
+    dnrm = itpackddot_(&nb, &db[1], &c__1, &wb[1], &c__1);
     if (itcom1_1.isym == 0) {
   goto L10;
     }
-    rhotmp = ddot_(&nb, &wb[1], &c__1, &db1[1], &c__1);
+    rhotmp = itpackddot_(&nb, &wb[1], &c__1, &db1[1], &c__1);
     parcon_(&dnrm, &c1, &c2, &c3, &c4, &gamold, &rhotmp, &c__2);
     rhoold = rhotmp;
     goto L20;
@@ -5476,15 +5578,15 @@ L30:
     static integer nb, nr, nrp1;
     extern /* Subroutine */ int sum3_(integer *, doublereal *, doublereal *, 
       doublereal *, doublereal *, doublereal *, doublereal *);
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal itpackddot_(integer *, doublereal *, integer *, doublereal *, 
       integer *);
     static doublereal dnrm;
     extern /* Subroutine */ int chgsi_(doublereal *, integer *), vfill_(
-      integer *, doublereal *, doublereal *), dcopy_(integer *, 
+      integer *, doublereal *, doublereal *), itpackdcopy_(integer *, 
       doublereal *, integer *, doublereal *, integer *), parsi_(
       doublereal *, doublereal *, doublereal *, integer *), iterm_(
       integer *, doublereal *, doublereal *, doublereal *, integer *), 
-      daxpy_(integer *, doublereal *, doublereal *, integer *, 
+      itpackdaxpy_(integer *, doublereal *, doublereal *, integer *, 
       doublereal *, integer *);
     static doublereal const__;
     extern /* Subroutine */ int vevmw_(integer *, doublereal *, doublereal *),
@@ -5556,18 +5658,18 @@ L30:
     nb = *nnb;
     nr = *n - nb;
     nrp1 = nr + 1;
-    dcopy_(&nr, &rhs[1], &c__1, &ub[1], &c__1);
+    itpackdcopy_(&nr, &rhs[1], &c__1, &ub[1], &c__1);
     prsred_(&nb, &nr, &ia[1], &ja[1], &a[1], &ub[nrp1], &ub[1]);
 
 /* ... COMPUTE PSEUDO-RESIDUAL, DB(IN) */
 
-    dcopy_(&nb, &rhs[nrp1], &c__1, &db[1], &c__1);
+    itpackdcopy_(&nb, &rhs[nrp1], &c__1, &db[1], &c__1);
     prsblk_(&nb, &nr, &ia[1], &ja[1], &a[1], &ub[1], &db[1]);
     vevmw_(&nb, &db[1], &ub[nrp1]);
 
 /* ... TEST FOR STOPPING */
 
-    itcom3_1.delnnm = ddot_(&nb, &db[1], &c__1, &db[1], &c__1);
+    itcom3_1.delnnm = itpackddot_(&nb, &db[1], &c__1, &db[1], &c__1);
     dnrm = itcom3_1.delnnm;
     const__ = itcom3_1.cme;
     pstop_(&nb, &ub[nrp1], &dnrm, &const__, &c__2, &q1);
@@ -5588,7 +5690,7 @@ L30:
 
     vfill_(&nr, &ub1[1], &c_b21);
     prsred_(&nb, &nr, &ia[1], &ja[1], &a[1], &db[1], &ub1[1]);
-    dnrm = ddot_(&nr, &ub1[1], &c__1, &ub1[1], &c__1);
+    dnrm = itpackddot_(&nr, &ub1[1], &c__1, &ub1[1], &c__1);
     chgsi_(&dnrm, &c__2);
     if (! itcom2_1.adapt) {
   goto L10;
@@ -5596,8 +5698,8 @@ L30:
 
 /* ... COMPUTE UB(N+1) AFTER CHANGING PARAMETERS */
 
-    dcopy_(&nb, &ub[nrp1], &c__1, &ub1[nrp1], &c__1);
-    daxpy_(&nb, &itcom3_1.gamma, &db[1], &c__1, &ub1[nrp1], &c__1);
+    itpackdcopy_(&nb, &ub[nrp1], &c__1, &ub1[nrp1], &c__1);
+    itpackdaxpy_(&nb, &itcom3_1.gamma, &db[1], &c__1, &ub1[nrp1], &c__1);
     goto L20;
 
 /* ... COMPUTE UB(N+1) WITHOUT CHANGE OF PARAMETERS */
@@ -6356,7 +6458,7 @@ L10:
     return ret_val;
 } /* chgsme_ */
 
-/* Subroutine */ int daxpy_(integer *n, doublereal *da, doublereal *dx, 
+/* Subroutine */ int itpackdaxpy_(integer *n, doublereal *da, doublereal *dx, 
   integer *incx, doublereal *dy, integer *incy)
 {
     /* System generated locals */
@@ -6446,9 +6548,9 @@ L70:
 /* L80: */
     }
     return 0;
-} /* daxpy_ */
+} /* itpackdaxpy_ */
 
-/* Subroutine */ int dcopy_(integer *n, doublereal *dx, integer *incx, 
+/* Subroutine */ int itpackdcopy_(integer *n, doublereal *dx, integer *incx, 
   doublereal *dy, integer *incy)
 {
     /* System generated locals */
@@ -6541,9 +6643,9 @@ L70:
 /* L80: */
     }
     return 0;
-} /* dcopy_ */
+} /* itpackdcopy_ */
 
-doublereal ddot_(integer *n, doublereal *dx, integer *incx, doublereal *dy, 
+doublereal itpackddot_(integer *n, doublereal *dx, integer *incx, doublereal *dy, 
   integer *incy)
 {
     /* System generated locals */
@@ -6634,7 +6736,7 @@ L70:
 /* L80: */
     }
     return ret_val;
-} /* ddot_ */
+} /* itpackddot_ */
 
 doublereal determ_(integer *n, doublereal *tri, doublereal *xlmda)
 {
@@ -9207,7 +9309,7 @@ DUAL) =\002,f5.1,2x,\002(DIGIT2)\002)";
 
     /* Local variables */
     static integer n;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal itpackddot_(integer *, doublereal *, integer *, doublereal *, 
       integer *);
     static doublereal bnrm, temp, rnrm;
     extern /* Subroutine */ int vout_(integer *, doublereal *, integer *, 
@@ -9289,13 +9391,13 @@ DUAL) =\002,f5.1,2x,\002(DIGIT2)\002)";
   d__1 = abs(itcom3_1.stptst);
   digit1 = -d_lg10(&d__1);
     }
-    bnrm = ddot_(&n, &rhs[1], &c__1, &rhs[1], &c__1);
+    bnrm = itpackddot_(&n, &rhs[1], &c__1, &rhs[1], &c__1);
     if (bnrm == 0.) {
   goto L10;
     }
     pmult_(&n, &ia[1], &ja[1], &a[1], &u[1], &w[1]);
     wevmw_(&n, &rhs[1], &w[1]);
-    rnrm = ddot_(&n, &w[1], &c__1, &w[1], &c__1);
+    rnrm = itpackddot_(&n, &w[1], &c__1, &w[1], &c__1);
     temp = rnrm / bnrm;
     if (temp == 0.) {
   goto L10;
@@ -10505,7 +10607,7 @@ L110:
 
     /* Local variables */
     static doublereal tl, tr, con;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal itpackddot_(integer *, doublereal *, integer *, doublereal *, 
       integer *);
     static doublereal uold;
 
@@ -10574,7 +10676,7 @@ L10:
   goto L20;
     }
     uold = itcom3_1.udnm;
-    itcom3_1.udnm = ddot_(n, &u[1], &c__1, &u[1], &c__1);
+    itcom3_1.udnm = itpackddot_(n, &u[1], &c__1, &u[1], &c__1);
     if (itcom3_1.udnm == 0.) {
   itcom3_1.udnm = 1.;
     }
