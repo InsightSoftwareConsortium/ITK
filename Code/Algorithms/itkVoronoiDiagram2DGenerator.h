@@ -131,7 +131,7 @@ private:
   public:
     PointType m_Coord;
     int m_Sitenbr;
-    FortuneSite() : m_Sitenbr(NumericTraits<int>::max()) { m_Coord.Fill(NumericTraits<PointType::CoordRepType>::max()); };
+    FortuneSite() : m_Sitenbr(NumericTraits<int>::max()) { m_Coord.Fill(NumericTraits<CoordRepType>::max()); };
     ~FortuneSite(){};
   };
 
