@@ -280,7 +280,7 @@ int main( int argc, char *argv[] )
   //  The tolerance levels for testing the mean and standard deviation are set
   //  with the methods \code{SetMeanPercentError()} and
   //  \code{SetSTDPercentError()}. Note that the
-  //  fuzzy segmentation filter} uses \emph{variance} as parameter while
+  //  fuzzy segmentation filter uses \emph{variance} as parameter while
   //  the Voronoi segmentation filter uses the tolerance of the
   //  \emph{standard deviation} as a parameter. For more details on how these
   //  parameters should be selected, please see \cite{Imielinska2000b}.
