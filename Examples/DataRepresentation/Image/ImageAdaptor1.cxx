@@ -175,7 +175,8 @@ int main( int argc, char *argv[] )
 //  Software Guide : BeginLatex
 //
 //  Finally, we can visit the image using Iterators instantiated for the output
-//  image type of the adaptor.
+//  image type of the adaptor. For example, the following code computes the sum
+//  of pixel values.
 //
 //  Software Guide : EndLatex 
 
@@ -185,21 +186,25 @@ int main( int argc, char *argv[] )
   
   IteratorType  it( adaptor, adaptor->GetBufferedRegion() );
 
+  double sum = 0.0;
   it.GoToBegin();
   while( !it.IsAtEnd() )
     {
     float value = it.Get();
+    sum += value;
     ++it;
     }
 // Software Guide : EndCodeSnippet
 
 
+std::cout << "Sum of pixels is: " << sum << std::endl;
+
 
 //  Software Guide : BeginLatex
 //
-// In this case, the iterator is simply visiting all the pixels and reading
-// their values. The fact to be highlighted is that the access to the pixel is
-// performed as if it has type \code{float}. 
+// In this case, the iterator is simply visiting all the pixels, reading their
+// values and accumulating them in the sum. The fact to be highlighted is that
+// the access to the pixel is performed as if it has type \code{float}. 
 //
 // Note that the \code{adaptor} is used \emph{as if} it was an image, not as a
 // filter. ImageAdaptors provide the same API of the \doxygen{Image} class.
