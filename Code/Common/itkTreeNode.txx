@@ -40,6 +40,7 @@ TreeNode<TValueType>::~TreeNode()
     
  for ( int i=m_Children.size() ; i > 0; i-- )
    {
+   m_Children[i-1]->SetParent(NULL);
    m_Children[i-1] = 0;
    }
   m_Children.clear();
