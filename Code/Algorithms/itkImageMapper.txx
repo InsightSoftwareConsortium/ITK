@@ -114,7 +114,7 @@ ImageMapper<TImage,TTransformation>
       break;
     }
     
-    if( m_CurrentPoint[i] >= m_Start[i] + m_Size[i] ) 
+    if( m_CurrentPoint[i] > m_Start[i] + m_Size[i] - 1 ) 
     {
       value = false;
       break;
