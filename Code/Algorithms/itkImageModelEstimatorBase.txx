@@ -83,6 +83,11 @@ TTrainingImage, TMembershipFunction>
 
   os << indent << "                   " << std::endl;
 
+  os << indent << "InputImage: ";
+  os << m_InputImage.GetPointer() << std::endl;
+  os << indent << "TrainingImage: " ;
+  os << m_TrainingImage.GetPointer() << std::endl;
+
 }// end PrintSelf
 
 //------------------------------------------------------------------
