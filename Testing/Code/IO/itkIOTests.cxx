@@ -46,6 +46,8 @@ void RegisterTests()
   REGISTER_TEST(itkRawImageIOTest4);
   REGISTER_TEST(itkReadWriteSpatialObjectTest);
   REGISTER_TEST(itkRegularExpressionSeriesFileNamesTest);
+  REGISTER_TEST(itkStimulateImageIOTest);
+  REGISTER_TEST(itkStimulateImageIOTest2);
   REGISTER_TEST(itkGEImageIOTest);
   REGISTER_TEST(itkAnalyzeImageIOTest2);
   REGISTER_TEST(testMetaUtils);

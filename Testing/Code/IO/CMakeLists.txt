@@ -20,6 +20,8 @@ itkRawImageIOTest2.cxx
 itkRawImageIOTest3.cxx
 itkRawImageIOTest4.cxx
 itkRegularExpressionSeriesFileNamesTest.cxx
+itkStimulateImageIOTest.cxx
+itkStimulateImageIOTest2.cxx
 itkVTKImageIOTest.cxx
 testMetaGroup.cxx
 testMetaUtils.cxx
