@@ -180,7 +180,7 @@ typename BloxBoundaryProfileItem<VImageDimension>::GradientType
 BloxBoundaryProfileItem<VImageDimension>
 ::GetGradient()
 {
-  return m_Gradient;
+  return *m_Gradient;
 }
 
 } // end namespace itk
