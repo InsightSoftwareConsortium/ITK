@@ -107,6 +107,31 @@ public:
     }
 
   /**
+   * Multiply two indices (elementwise product). This method models a random
+   * access Index. 
+   */
+  const Self
+  operator*(const Self &vec)
+    {
+    Self result;
+    for (unsigned int i=0; i < VIndexDimension; i++)
+      { result[i] = m_Index[i] * vec.m_Index[i]; }
+    return result;
+    }
+
+  /**
+   * Multiply two indices (elementwise product). This method models a random
+   * access Index. 
+   */
+  const Self &
+  operator*=(const Self &vec)
+    {
+    for (unsigned int i=0; i < VIndexDimension; i++)
+      { m_Index[i] *-= vec.m_Index[i]; }
+    return *this;
+    }
+
+  /**
    * Compare two indices.
    */
   bool
