@@ -52,7 +52,7 @@ void LoadBCMFC::Read( std::istream& f, void* info )
   /**
    * Convert the info pointer to a usable objects
    */
-  Element::ArrayType::ConstPointer elements=static_cast<ReadInfoType*>(info)->m_el;
+  ReadInfoType::ElementArrayPointer elements=static_cast<ReadInfoType*>(info)->m_el;
 
 
   /** first call the parent's Read function */

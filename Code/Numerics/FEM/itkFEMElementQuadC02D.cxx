@@ -577,8 +577,8 @@ void QuadC02D::Read( std::istream& f, void* info )
   /**
    * Convert the info pointer to a usable objects
    */
-  Node::ArrayType::Pointer nodes=static_cast<ReadInfoType*>(info)->m_node;
-  Material::ArrayType::Pointer mats=static_cast<ReadInfoType*>(info)->m_mat;
+  ReadInfoType::NodeArrayPointer nodes=static_cast<ReadInfoType*>(info)->m_node;
+  ReadInfoType::MaterialArrayPointer mats=static_cast<ReadInfoType*>(info)->m_mat;
 
 
   /** first call the parent's read function */

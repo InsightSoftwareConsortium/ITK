@@ -51,7 +51,6 @@ public:
   typedef typename Superclass::Float Float;
   typedef typename Superclass::MatrixType MatrixType;
   typedef typename Superclass::VectorType VectorType;
-  typedef typename Superclass::ReadInfoType ReadInfoType;
 
   /**
    * Read data for this class from input stream

@@ -635,25 +635,6 @@ public:
    * Methods and classes related to IO and drawing
    */
 
-  /**
-   * \class ReadInfoType
-   * \brief Additional information that is required when reading elements
-            from stream.
-   *
-   * When the element is to be read from the input stream, we must provide
-   * pointers to the array of nodes and materials. Construct this class and
-   * pass a pointer to it when calling the Element::Read virtual member
-   * function.
-   */
-  class ReadInfoType {
-  public:
-    Node::ArrayType::Pointer m_node;  /**< Pointer to an array nodes. */
-    Material::ArrayType::Pointer m_mat;  /**< Pointer to an array of materials. */
-    /** Constructor for simple object creation. */
-    ReadInfoType(Node::ArrayType::Pointer node_, Material::ArrayType::Pointer mat_) :
-      m_node(node_), m_mat(mat_) {}
-  };
-
 #ifdef FEM_BUILD_VISUALIZATION
   /**
    * Draws the element on the DC.
@@ -698,6 +679,42 @@ private:
    */
   static DegreeOfFreedomIDType m_DOFCounter;
 
+};
+
+
+
+
+/**
+ * \class ReadInfoType
+ * \brief Helper class for storing additional information that is required
+ *        when reading FEM objects from stream.
+ *
+ * When an element is to be read from the input stream, we must provide
+ * pointers to the array of nodes and materials. When reading load objects
+ * we also need pointer to the array of elements. Construct object of this
+ * class and pass a pointer to it when calling Read virtual member function
+ * for any type of fem classes.
+ */
+class ReadInfoType
+{
+public:
+
+  typedef Node::ArrayType::ConstPointer NodeArrayPointer;
+  typedef Element::ArrayType::ConstPointer ElementArrayPointer;
+  typedef Material::ArrayType::ConstPointer MaterialArrayPointer;
+
+  /** Pointer to an array of nodes. */
+  NodeArrayPointer m_node;
+
+  /** Pointer to an array of elements */
+  ElementArrayPointer m_el;
+
+  /** Pointer to an array of materials. */
+  MaterialArrayPointer m_mat;
+
+  /** Constructor for simple object creation. */
+  ReadInfoType( NodeArrayPointer node_, ElementArrayPointer el_, MaterialArrayPointer mat_) :
+    m_node(node_), m_el(el_), m_mat(mat_) {}
 };
 
 

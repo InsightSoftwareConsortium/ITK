@@ -100,7 +100,7 @@ Element2DStress<TBaseClass>
   /*
    * Convert the info pointer to a usable objects
    */
-  Material::ArrayType::Pointer mats=static_cast<ReadInfoType*>(info)->m_mat;
+  ReadInfoType::MaterialArrayPointer mats=static_cast<ReadInfoType*>(info)->m_mat;
 
 
   /* first call the parent's read function */

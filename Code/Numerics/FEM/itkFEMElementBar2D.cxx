@@ -116,8 +116,8 @@ void Bar2D::Read( std::istream& f, void* info )
   /**
    * Convert the info pointer to a usable objects
    */
-  Node::ArrayType::Pointer nodes=static_cast<ReadInfoType*>(info)->m_node;
-  Material::ArrayType::Pointer mats=static_cast<ReadInfoType*>(info)->m_mat;
+  ReadInfoType::NodeArrayPointer nodes=static_cast<ReadInfoType*>(info)->m_node;
+  ReadInfoType::MaterialArrayPointer mats=static_cast<ReadInfoType*>(info)->m_mat;
 
   /** first call the parent's read function */
   Superclass::Read(f,info);
@@ -126,15 +126,15 @@ void Bar2D::Read( std::istream& f, void* info )
   {
     /** read and set the material pointer */
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    m_mat=dynamic_cast<MaterialStandard*>( &*mats->Find(n));
+    m_mat=dynamic_cast<const MaterialStandard*>( &*mats->Find(n));
 
     /** read and set first GNN */
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    m_node[0]=dynamic_cast<NodeXY*>( &*nodes->Find(n));
+    m_node[0]=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
 
     /** read and set second GNN */
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    m_node[1]=dynamic_cast<NodeXY*>( &*nodes->Find(n));
+    m_node[1]=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
   }
   catch ( FEMExceptionObjectNotFound e )
   {

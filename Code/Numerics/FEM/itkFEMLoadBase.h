@@ -46,25 +46,6 @@ public:
   typedef FEMPArray<Self> ArrayType;
 
   /**
-   * \class ReadInfoType
-   * \brief Additional information that is required when reading load
-            objects from stream.
-   *
-   * When the load object is to be read from the input stream, we must provide
-   * pointers to the array of nodes and elements. Construct this class and
-   * pass a pointer to it when calling the Read member function for loads.
-   */
-  class ReadInfoType {
-  public:
-    Node::ArrayType::ConstPointer m_node;   /**< Pointer to an array nodes */
-    Element::ArrayType::ConstPointer m_el;  /**< Pointer to an array of elements */
-    /** Constructor for simple object creation. */
-    ReadInfoType(  Node::ArrayType::ConstPointer node_,
-            Element::ArrayType::ConstPointer el_) :
-      m_node(node_), m_el(el_) {}
-  };
-
-  /**
    * Sets the pointer to solution vector. This function is automatically
    * called by the Solver class on every load object.
    *
@@ -77,7 +58,7 @@ public:
    * \param ptr Pointer to the object of Solution class.
    */
   virtual void SetSolution(Solution::ConstPointer ptr) {}
-  virtual Solution::ConstPointer GetSolution( ) { return NULL;}
+  virtual Solution::ConstPointer GetSolution( ) { return 0;}
 
 };
 

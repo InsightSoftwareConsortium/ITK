@@ -83,6 +83,10 @@ std::string::size_type b,e;
 int clID;
 FEMLightObject::Pointer a=0;
 
+  // Initialize the pointers to arrays in ReadInfoType object to the
+  // arrays in solver object.
+  ReadInfoType info(&this->node,&this->el,&this->mat);
+
 start:
 #ifndef __sgi
   l=f.tellg();    // remember the stream position
@@ -115,39 +119,12 @@ start:
   if (!a) goto out;    // error creating new object of the derived class
 
   /*
-   * now we have to read additional data, which is
+   * Now we have to read additional data, which is
    * specific to the class of object we just created
    */
-  try {
-
-    /*
-     * Since we may have to provide addditional data to the
-     * read function defined within the class, we use the
-     * dynamic_cast operator to check for the object type
-     * and provide the required info.
-     *
-     * Elements for example need pointers to array of 
-     * nodes and materials.
-     */
-
-    if (dynamic_cast<Element*>(&*a))
-    {
-      /* Element classes... */
-      Element::ReadInfoType info(&node,&mat);
-      a->Read(f,&info);
-    }
-    else if (dynamic_cast<Load*>(&*a))
-    {
-      /* Load classes... */
-      Load::ReadInfoType info(&node,&el);
-      a->Read(f,&info);
-    }
-    else
-    {
-      /* All other classes (Nodes and Materials) require no additional info */
-      a->Read(f,0);
-    }
-
+  try
+  {
+    a->Read(f,&info);
   }
   /*
    * Catch possible exceptions while 

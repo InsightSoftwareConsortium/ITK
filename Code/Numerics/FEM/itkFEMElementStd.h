@@ -68,7 +68,6 @@ public:
   typedef typename Superclass::LoadElementPointer LoadElementPointer;
   typedef typename Superclass::NodeIDType NodeIDType;
   typedef typename Superclass::DegreeOfFreedomIDType DegreeOfFreedomIDType;
-  typedef typename Superclass::ReadInfoType ReadInfoType;
   typedef typename Superclass::Node Node;
   enum{ InvalidDegreeOfFreedomID = Superclass::InvalidDegreeOfFreedomID };
 
