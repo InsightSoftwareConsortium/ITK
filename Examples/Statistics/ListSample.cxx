@@ -26,8 +26,9 @@
 // Different subclasses of \subdoxygen{Statistics}{Sample} expect
 // different sets of template arguments. In this example, we use the
 // \subdoxygen{Statistics}{ListSample} class that requires the type of
-// measurement vectors. The \subdoxygen{Statistics}{ListSample} uses STL
-// \code{vector} to store measurement vectors. This class confirms to
+// measurement vectors. The \subdoxygen{Statistics}{ListSample} uses
+// \href{http://www.sgi.com/tech/stl/}{STL} \code{vector} to store
+// measurement vectors. This class conforms to
 // the common iterface of \subdoxygen{Statistics}{Sample}.  Most methods
 // of the \subdoxygen{Statistics}{Sample} class interface are for
 // retrieving measurement vectors, the size of a container, and the
