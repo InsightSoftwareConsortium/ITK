@@ -39,13 +39,16 @@ public:
    * copied. */
   DataObjectError();
   
+  /** Destructor. Need to specify empty throw() to avoid warnings. */
+  virtual ~DataObjectError() throw() {}
+  
   /** Constructor. Needed to ensure the exception object can be copied. */
   DataObjectError(const char *file, unsigned int lineNumber);
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   DataObjectError(const std::string& file, unsigned int lineNumber);
 
-  /** Copy constructor.  Needed to ensure the exception object can be copied. */
+  /** Copy constructor. Needed to ensure the exception object can be copied. */
   DataObjectError(const DataObjectError &orig);
 
   /** Operator=.  Needed to ensure the exception object can be copied. */

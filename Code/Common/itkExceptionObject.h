@@ -23,13 +23,6 @@
 #include "itkWin32Header.h"
 
 
-/** Macro used to add standard methods to all classes, mainly type
- * information. */
-#define itkTypeMacro2(thisClass,superclass) \
-    virtual const char *GetNameOfClass() const \
-        {return #thisClass;} 
-
-
 namespace itk
 {
 
@@ -81,7 +74,7 @@ public:
     m_Line = orig.m_Line;
   }
   
-  /** Virtual destructor needed for subclasses.  */
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~ExceptionObject() throw() {}
 
   /** Assignment operator. */
@@ -152,10 +145,7 @@ private:
  
 };
 
-/**
- * Generic inserter operator for ExceptionObject and its subclasses.
- *
- */
+/** Generic inserter operator for ExceptionObject and its subclasses. */
 inline std::ostream& operator<<(std::ostream& os, ExceptionObject &e)
 {
   (&e)->Print(os);
@@ -173,23 +163,22 @@ inline std::ostream& operator<<(std::ostream& os, ExceptionObject &e)
 class RangeError : public ExceptionObject
 {
 public:
-  /**
-   * Default constructor.  Needed to ensure the exception object can be
-   * copied.
-   */
+  /** Default constructor.  Needed to ensure the exception object can be
+   * copied. */
   RangeError() : ExceptionObject() {}
   
-  /**
-   * Constructor. Needed to ensure the exception object can be copied.
-   */
+  /** Constructor. Needed to ensure the exception object can be copied. */
   RangeError(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}
 
-  /**
-   * Constructor. Needed to ensure the exception object can be copied.
-   */
+  /** Constructor. Needed to ensure the exception object can be copied. */
   RangeError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
 
-  itkTypeMacro2(RangeError, ExceptionObject);
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~RangeError() throw() {}
+
+  virtual const char *GetNameOfClass() const 
+    {return "RangeError";}
+
 };
 
 /** \class InvalidArgumentError
@@ -216,7 +205,11 @@ public:
    */
   InvalidArgumentError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
 
-  itkTypeMacro2(InvalidArgumentError, ExceptionObject);
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~InvalidArgumentError() throw() {}
+
+  virtual const char *GetNameOfClass() const 
+    {return "InvalidArgumentError";}
 };
 
 /** \class IncompatibleOperandsError
@@ -226,23 +219,21 @@ public:
 class IncompatibleOperandsError : public ExceptionObject
 {
 public:
-  /**
-   * Default constructor.  Needed to ensure the exception object can be
-   * copied.
-   */
+  /** Default constructor.  Needed to ensure the exception object can be
+   * copied. */
   IncompatibleOperandsError() : ExceptionObject() {}
   
-  /**
-   * Constructor. Needed to ensure the exception object can be copied.
-   */
+  /** Constructor. Needed to ensure the exception object can be copied. */
   IncompatibleOperandsError(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}
 
-  /**
-   * Constructor. Needed to ensure the exception object can be copied.
-   */
+  /** Constructor. Needed to ensure the exception object can be copied. */
   IncompatibleOperandsError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
 
-  itkTypeMacro2(IncompatibleOperandsError, ExceptionObject);
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~IncompatibleOperandsError() throw() {}
+
+  virtual const char *GetNameOfClass() const 
+    {return "IncompatibleOperandsError";}
 };
 
 
