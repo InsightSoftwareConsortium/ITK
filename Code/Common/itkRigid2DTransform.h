@@ -167,10 +167,6 @@ public:
   inline InputCovariantVectorType BackTransform(
                                      const OutputCovariantVectorType &vector) const;
 
-  /**
-   * Print contents of an Rigid2DTransform
-   **/
-  void PrintSelf(std::ostream &os, Indent indent) const;
 
   /**
    * Find inverse of an affine transformation
@@ -192,6 +188,10 @@ protected:
   ~Rigid2DTransform();
 
   Rigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
+  /**
+   * Print contents of an Rigid2DTransform
+   **/
+  void PrintSelf(std::ostream &os, Indent indent) const;
 
 
   // matrix representation of the rotation

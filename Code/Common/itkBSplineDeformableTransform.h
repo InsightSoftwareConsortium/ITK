@@ -228,9 +228,6 @@ public:
       return OutputCovariantVectorType(); 
     } 
     
-  /** Print contents of an BSplineDeformableTransform. */
-  void PrintSelf(std::ostream &os, Indent indent) const;
-
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual const JacobianType& GetJacobian(const InputPointType  &point ) const;
 
@@ -244,6 +241,10 @@ public:
   itkGetConstMacro( ValidRegion, RegionType );
 
 protected:
+  /** Print contents of an BSplineDeformableTransform. */
+  void PrintSelf(std::ostream &os, Indent indent) const;
+
+
   BSplineDeformableTransform();
   ~BSplineDeformableTransform();
 

@@ -177,11 +177,6 @@ public:
                                      const OutputCovariantVectorType &vector) const;
 
   /**
-   * Print contents of an Rigid3DTransform
-   **/
-  void PrintSelf(std::ostream &os, Indent indent) const;
-
-  /**
    * Find inverse of an affine transformation
    *
    * This method creates and returns a new Rigid3DTransform object
@@ -199,6 +194,12 @@ public:
 protected:
   Rigid3DTransform();
   ~Rigid3DTransform();
+
+  
+  /**
+   * Print contents of an Rigid3DTransform
+   **/
+  void PrintSelf(std::ostream &os, Indent indent) const;
 
   Rigid3DTransform(unsigned int SpaceDimension, unsigned int ParametersDimension);
   // matrix representation of the rotation

@@ -133,9 +133,6 @@ public:
   /** Back transform from cartesian to azimuth-elevation.   **/
   inline InputPointType      BackTransform(const OutputPointType  &point ) const;
   InputPointType  BackTransformPoint(const OutputPointType  &point) const;
-
-  /** Print contents of an AzimuthElevationTransform.   **/
-  void PrintSelf(std::ostream &s, Indent indent) const;
     
   /** Defines that the forward transform goes from azimuth,elevation to cartesian.   **/
   void SetForwardAzimuthElevationToCartesian();
@@ -179,6 +176,9 @@ protected:
 
   /** Destroy an AzimuthElevationToCartesianTransform object.   **/
   virtual ~AzimuthElevationToCartesianTransform();
+
+  /** Print contents of an AzimuthElevationTransform.   **/
+  void PrintSelf(std::ostream &s, Indent indent) const;
 
 private:
   AzimuthElevationToCartesianTransform(const Self&); //purposely not implemented

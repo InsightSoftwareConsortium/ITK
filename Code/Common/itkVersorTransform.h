@@ -164,12 +164,12 @@ public:
     const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 
+
+ protected:
     /**
      * Print contents of a VersorTransform
      **/
     void PrintSelf(std::ostream &os, Indent indent) const;
-
- protected:
     /**
      * Construct an VersorTransform object
      *

@@ -130,9 +130,6 @@ public:
   inline InputCovariantVectorType BackTransform(
     const OutputCovariantVectorType &vector) const;
   
-  /** Print contents of an TranslationTransform. */
-  void PrintSelf(std::ostream &os, Indent indent) const;
-
   /** Find inverse of an affine transformation.
    * This method creates and returns a new TranslationTransform object
    * which is the inverse of self.  If self is not invertible,
@@ -153,6 +150,8 @@ public:
 protected:
   TranslationTransform();
   ~TranslationTransform();
+  /** Print contents of an TranslationTransform. */
+  void PrintSelf(std::ostream &os, Indent indent) const;
 
 private:
   TranslationTransform(const Self&); //purposely not implemented

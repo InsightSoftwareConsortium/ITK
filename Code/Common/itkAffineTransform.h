@@ -374,9 +374,6 @@ public:
    * of the Metric() method. **/
   ScalarType Metric(void) const;
 
-  /** Print contents of an AffineTransform */
-  void PrintSelf(std::ostream &s, Indent indent) const;
-
   /** Compute the Jacobian of the transformation
    *
    * This method computes the Jacobian matrix of the transformation.
@@ -402,6 +399,9 @@ protected:
 
   /** Recompute inverse of the transformation matrix   **/
   void RecomputeInverse();
+
+  /** Print contents of an AffineTransform */
+  void PrintSelf(std::ostream &s, Indent indent) const;
 
 private:
   AffineTransform(const Self & other);
