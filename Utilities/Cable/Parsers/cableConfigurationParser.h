@@ -53,6 +53,12 @@ private:
   std::stack<ConfigureObject::Pointer>  m_ElementStack;  
   
   /**
+   * A stack of Namespace elements to keep track of the current Namespace
+   * scope in the configuration file.
+   */
+  std::stack<Namespace::Pointer>  m_NamespaceStack;
+  
+  /**
    * Store the package configuration instance.
    */
   Package::Pointer m_Package;
@@ -60,58 +66,50 @@ private:
   /**
    * Flag for whether a CDATA section is being parsed.
    */
-  bool m_CdataSectionFlag;
-  
-  /**
-   * Set of named CreateMethod s that have been defined.
-   */
-  std::map<String, CodeBlock::Pointer>  m_CreateMethods;
-  
-  /**
-   * Set of named DeleteMethod s that have been defined.
-   */
-  std::map<String, CodeBlock::Pointer>  m_DeleteMethods;
-
-  /**
-   * Set of named Set s that have been defined.
-   */
-  std::map<String, Set::Pointer>  m_Sets;
+  bool m_CdataSectionFlag;  
 
   // Access functions for element stack.
-  ConfigureObject::Pointer TopParseElement();
-  Package::Pointer         CurrentPackage();
-  Dependencies::Pointer    CurrentDependencies();
-  CodeBlock::Pointer       CurrentCodeBlock();
-  Set::Pointer             CurrentSet();
-  Element::Pointer         CurrentElement();
-  Headers::Pointer         CurrentHeaders();
+  ConfigureObject::Pointer TopParseElement() const;
+  Package::Pointer         CurrentPackage() const;
+  Dependencies::Pointer    CurrentDependencies() const;
+  Namespace::Pointer       CurrentNamespace() const;
+  CodeBlock::Pointer       CurrentCodeBlock() const;
+  Set::Pointer             CurrentSet() const;
+  Element::Pointer         CurrentElement() const;
+  Headers::Pointer         CurrentHeaders() const;
+  Namespace::Pointer       CurrentNamespaceScope() const;
 
   // Element stack utilities.
-  void PushElement(ConfigureObject* element);
+  void PushElement(ConfigureObject*);
   void PopElement();
+  
+  // Namespace stack utilities.
+  void PushNamespace(Namespace*);
+  void PopNamespace();
+  Namespace::Pointer MostNestedNamespace() const;
 
   // The element begin handlers.
   void begin_Package(const Attributes&);
   void begin_Dependencies(const Attributes&);
-  void begin_CreateMethod(const Attributes&);
-  void begin_DeleteMethod(const Attributes&);
-  void begin_Set(const Attributes&);
-  void begin_Element(const Attributes&);
   void begin_Headers(const Attributes&);
   void begin_File(const Attributes&);
   void begin_Directory(const Attributes&);
+  void begin_Namespace(const Attributes&);
+  void begin_Code(const Attributes&);
+  void begin_Set(const Attributes&);
+  void begin_Element(const Attributes&);
   void begin_WrapperSet(const Attributes&);
   
   // The element end handlers.
   void end_Package();
   void end_Dependencies();
-  void end_CreateMethod();
-  void end_DeleteMethod();
-  void end_Set();
-  void end_Element();
   void end_Headers();
   void end_File();
   void end_Directory();
+  void end_Namespace();
+  void end_Code();
+  void end_Set();
+  void end_Element();
   void end_WrapperSet();
   
   // Element map utilities.
@@ -137,7 +135,9 @@ private:
   static void BeginCdataSectionHandler_proxy(void*);
   static void EndCdataSectionHandler_proxy(void*);
   
-  void GenerateElementCombinations(const Element*, Set*);
+  // Other utilities.
+  Namespace* GlobalNamespace() const;
+  void GenerateElementCombinations(const Element*, Set*) const;
 };
 
 } // namespace configuration

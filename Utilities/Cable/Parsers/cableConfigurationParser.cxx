@@ -210,10 +210,28 @@ Parser
  */
 ConfigureObject::Pointer
 Parser
-::TopParseElement()
+::TopParseElement() const
 {
   return m_ElementStack.top();
 }
+
+
+/**
+ * An invalid identifier has been used.
+ */
+class InvalidIdentifierException: public ParseException
+{
+public:
+  InvalidIdentifierException(const String& invalid):
+    ParseException(), m_Invalid(invalid) {}
+  void Print(std::ostream& os) const
+    {
+      os << "Invalid identifier \"" << m_Invalid.c_str() << "\""
+         << std::endl;
+    }
+private:
+  String m_Invalid;
+};
 
 
 /**
@@ -231,6 +249,43 @@ public:
     }
 private:
   String m_Unknown;
+};
+
+
+/**
+ * An attempt to duplicate an existing name has occurred.
+ */
+class NameExistsException: public ParseException
+{
+public:
+  NameExistsException(const String& name):
+    ParseException(), m_Name(name) {}
+  void Print(std::ostream& os) const
+    {
+      os << "Name \"" << m_Name.c_str()
+         << "\" already exists locally in this scope."
+         << std::endl;
+    }
+private:
+  String m_Name;
+};
+
+
+/**
+ * A Set has been referenced with a $ token inside its own definition.
+ */
+class SetSelfReferenceException: public ParseException
+{
+public:
+  SetSelfReferenceException(const String& set_name):
+    ParseException(), m_SetName(set_name) {}
+  void Print(std::ostream& os) const
+    {
+      os << "Set \"" << m_SetName.c_str() << "\" cannot reference itself."
+         << std::endl;
+    }
+private:
+  String m_SetName;
 };
 
 
@@ -259,7 +314,7 @@ private:
  */
 Package::Pointer
 Parser
-::CurrentPackage()
+::CurrentPackage() const
 {
   if(!m_ElementStack.top()->IsPackage())
     throw ElementStackTypeException("Package",
@@ -274,7 +329,7 @@ Parser
  */
 Dependencies::Pointer
 Parser
-::CurrentDependencies()
+::CurrentDependencies() const
 {
   if(!m_ElementStack.top()->IsDependencies())
     throw ElementStackTypeException("Dependencies",
@@ -285,11 +340,26 @@ Parser
 
 
 /**
+ * Get the current Namespace off the top of the element stack.
+ */
+Namespace::Pointer
+Parser
+::CurrentNamespace() const
+{
+  if(!m_ElementStack.top()->IsNamespace())
+    throw ElementStackTypeException("Namespace",
+                                    m_ElementStack.top()->GetClassName());
+
+  return dynamic_cast<Namespace*>(m_ElementStack.top().RealPointer());
+}
+
+
+/**
  * Get the current CodeBlock off the top of the element stack.
  */
 CodeBlock::Pointer
 Parser
-::CurrentCodeBlock()
+::CurrentCodeBlock() const
 {
   if(!m_ElementStack.top()->IsCodeBlock())
     throw ElementStackTypeException("CodeBlock",
@@ -304,7 +374,7 @@ Parser
  */
 Set::Pointer
 Parser
-::CurrentSet()
+::CurrentSet() const
 {
   if(!m_ElementStack.top()->IsSet()
      && !m_ElementStack.top()->IsWrapperSet())
@@ -320,7 +390,7 @@ Parser
  */
 Element::Pointer
 Parser
-::CurrentElement()
+::CurrentElement() const
 {
   if(!m_ElementStack.top()->IsElement())
     throw ElementStackTypeException("Element",
@@ -335,13 +405,32 @@ Parser
  */
 Headers::Pointer
 Parser
-::CurrentHeaders()
+::CurrentHeaders() const
 {
   if(!m_ElementStack.top()->IsHeaders())
     throw ElementStackTypeException("Headers",
                                     m_ElementStack.top()->GetClassName());
 
   return dynamic_cast<Headers*>(m_ElementStack.top().RealPointer());
+}
+
+
+/**
+ * Get the current Namespace scope.  This is either the CurrentNamespace()
+ * or the GlobalNamespace().
+ */
+Namespace::Pointer
+Parser
+::CurrentNamespaceScope() const
+{
+  if(this->TopParseElement()->IsPackage())
+    {
+    return this->GlobalNamespace();
+    }
+  else
+    {
+    return this->CurrentNamespace();
+    }
 }
 
 
@@ -374,6 +463,45 @@ Parser
 
 
 /**
+ * Push a new namespace onto the namespace stack.
+ */
+void
+Parser
+::PushNamespace(Namespace* ns)
+{
+  m_NamespaceStack.push(ns);
+}
+
+
+/**
+ * Pop the top off the namespace stack.
+ */
+void
+Parser
+::PopNamespace()
+{
+  m_NamespaceStack.pop();
+
+  // Sanity check.
+  if(m_NamespaceStack.empty())
+    {
+    throw String("Global namespace popped from namespace stack!");
+    }
+}
+
+
+/**
+ * Get the top of the Namespace stack.
+ */
+Namespace::Pointer
+Parser
+::MostNestedNamespace() const
+{
+  return m_NamespaceStack.top();
+}
+
+
+/**
  * Begin handler for Package element.
  */
 void
@@ -383,9 +511,12 @@ Parser
   String name = atts.Get("name");
   if(!m_Package)
     {
-    // This is the outermost package.
+    // This is the outermost element.
     m_Package = Package::New(name);
     this->PushElement(m_Package);
+    
+    // Push the Package's global namespace onto the namespace stack.
+    this->PushNamespace(this->GlobalNamespace());
     }
   else
     {
@@ -437,167 +568,6 @@ Parser
 ::end_Dependencies()
 {
   this->PopElement();
-}
-
-
-/**
- * Begin handler for CreateMethod element.
- */
-void
-Parser
-::begin_CreateMethod(const Attributes& atts)
-{
-  String name = atts.Get("name");
-  
-  // Create a new CodeBlock to hold the lines of code.
-  CodeBlock::Pointer newCodeBlock = CodeBlock::New();
-  
-  // Save the CodeBlock by this name.
-  m_CreateMethods[name] = newCodeBlock;
-  
-  // Put new CodeBlock on the stack so it can be filled with lines.
-  this->PushElement(newCodeBlock);
-}
-
-
-/**
- * End handler for CreateMethod element.
- */
-void
-Parser
-::end_CreateMethod()
-{
-  // Take the CodeBlock off the stack.
-  this->PopElement();
-}
-
-
-/**
- * Begin handler for DeleteMethod element.
- */
-void
-Parser
-::begin_DeleteMethod(const Attributes& atts)
-{
-  String name = atts.Get("name");
-  
-  // Create a new CodeBlock to hold the lines of code.
-  CodeBlock::Pointer newCodeBlock = CodeBlock::New();
-  
-  // Save the CodeBlock by this name.
-  m_DeleteMethods[name] = newCodeBlock;
-  
-  // Put new CodeBlock on the stack so it can be filled with lines.
-  this->PushElement(newCodeBlock);
-}
-
-
-/**
- * End handler for DeleteMethod element.
- */
-void
-Parser
-::end_DeleteMethod()
-{
-  // Take the CodeBlock off the stack.
-  this->PopElement();
-}
-
-
-/**
- * Begin handler for Set element.
- */
-void
-Parser
-::begin_Set(const Attributes& atts)
-{
-  String name = atts.Get("name");
-  
-  if(this->TopParseElement()->IsSet()
-     || this->TopParseElement()->IsWrapperSet())
-    {
-    // The Set is being referenced inside another set.
-    if(m_Sets.count(name) > 0)
-      {
-      // Copy all the elements over to it.
-      this->CurrentSet()->Add(m_Sets[name]);
-      }
-    else
-      {
-      // The referenced element set does not exist.  Complain.
-      throw UnknownSetException(name);
-      }
-    
-    // Put a dummy element on the stack to be popped off by end_Set().
-    this->PushElement(0);
-    }
-  else
-    {
-    // Create a new Set.
-    Set::Pointer newSet = Set::New();
-    
-    // Save the Set by this name.
-    m_Sets[name] = newSet;
-    
-    // Put new Set on the stack so it can be filled.
-    this->PushElement(newSet);
-    }
-}
-
-
-/**
- * End handler for Set element.
- */
-void
-Parser
-::end_Set()
-{
-  if(this->TopParseElement())
-    {
-    std::cout << "----begin Set----" << std::endl;
-    // Print out the elements defined.
-    this->CurrentSet()->Print(std::cout);
-    std::cout << "----end Set----" << std::endl;
-    }
-  
-  // Take the Set off the stack.
-  this->PopElement();
-}
-
-
-/**
- * Begin handler for Element element.
- */
-void
-Parser
-::begin_Element(const Attributes& atts)
-{
-  String tag = atts.Get("tag");
-  
-  // Create a new Element.
-  Element::Pointer newElement = Element::New(tag);
-  
-  // Put new Element on the stack so it can be filled with code.
-  this->PushElement(newElement);
-}
-
-
-/**
- * End handler for Element element.
- */
-void
-Parser
-::end_Element()
-{
-  // Hold onto the finished Element as it is popped off the stack.
-  Element::Pointer finishedElement = this->CurrentElement();
-  
-  // Take the Element off the stack.
-  this->PopElement();
-
-  // Add the element to the current Set.
-  this->GenerateElementCombinations(finishedElement,
-                                    this->CurrentSet().RealPointer());
 }
 
 
@@ -685,6 +655,218 @@ Parser
 
 
 /**
+ * Return true only if the given name is a valid C++ identifier (unqualified).
+ */
+bool IsValidCxxIdentifier(const String& name)
+{
+  for(String::const_iterator c = name.begin(); c != name.end(); ++c)
+    {
+    char ch = *c;
+    if(!(((ch >= 'a') && (ch <= 'z'))
+         || ((ch >= 'A') && (ch <= 'Z'))
+         || ((ch >= '0') && (ch <= '9'))
+         || (ch == '_')))
+      {
+      return false;
+      }
+    }
+  return true;
+}
+
+
+/**
+ * Begin handler for Namespace element.
+ */
+void
+Parser
+::begin_Namespace(const Attributes& atts)
+{
+  String name = atts.Get("name");
+  
+  // See if the namespace exists.
+  Namespace::Pointer ns = this->MostNestedNamespace()->LookupNamespace(name);
+  
+  if(!ns)
+    {
+    // The namespace could not be found.  We must create it.
+    // This requires:
+    //  - the prefix_seperator attribute.
+    //  - name must not be qualified.
+    //  - we are currently in a Namespace element.
+    String prefixSeperator = atts.Get("prefix_seperator");
+    
+    if(IsValidCxxIdentifier(name))
+      {
+      Namespace* enclosingNamespace = this->CurrentNamespaceScope();
+      ns = Namespace::New(name, prefixSeperator, enclosingNamespace);
+      enclosingNamespace->AddNamespace(ns);
+      }
+    else
+      {
+      throw InvalidIdentifierException(name);
+      }
+    }  
+  
+  // Put new Namespace on the element stack.
+  this->PushElement(ns);
+
+  // Open the namespace with the given name.
+  this->PushNamespace(ns);
+}
+
+
+/**
+ * End handler for Namespace element.
+ */
+void
+Parser
+::end_Namespace()
+{
+  // Close the namespace scope.
+  this->PopNamespace();
+  
+  // Take the Namespace off the element stack.
+  this->PopElement();
+}
+
+
+/**
+ * Begin handler for Code element.
+ */
+void
+Parser
+::begin_Code(const Attributes& atts)
+{
+  String name = atts.Get("name");
+  
+  // Create a new CodeBlock to hold the lines of code.
+  CodeBlock::Pointer newCodeBlock = CodeBlock::New(name);
+  
+  // Save the CodeBlock by this name.
+  if(!this->CurrentNamespaceScope()->AddCode(newCodeBlock))
+    {
+    throw NameExistsException(name);
+    }
+  
+  // Put new CodeBlock on the stack so it can be filled with lines.
+  this->PushElement(newCodeBlock);
+}
+
+
+/**
+ * End handler for Code element.
+ */
+void
+Parser
+::end_Code()
+{
+  // Take the CodeBlock off the stack.
+  this->PopElement();
+}
+
+
+/**
+ * Begin handler for Set element.
+ */
+void
+Parser
+::begin_Set(const Attributes& atts)
+{
+  String name = atts.Get("name");
+  
+  if(this->TopParseElement()->IsSet()
+     || this->TopParseElement()->IsWrapperSet())
+    {
+    // The Set is being referenced inside another set.
+    const Set* otherSet = this->MostNestedNamespace()->LookupSet(name);
+    if(otherSet)
+      {
+      // Copy all the elements over to it.
+      this->CurrentSet()->Add(otherSet);
+      }
+    else
+      {
+      // The referenced element set does not exist.  Complain.
+      throw UnknownSetException(name);
+      }
+    
+    // Put a dummy element on the stack to be popped off by end_Set().
+    this->PushElement(0);
+    }
+  else
+    {
+    // Create a new Set.
+    Set::Pointer newSet = Set::New(name);
+    
+    // Save the Set by this name.
+    if(!this->CurrentNamespaceScope()->AddSet(newSet))
+      {
+      throw NameExistsException(name);
+      }
+      
+    // Put new Set on the stack so it can be filled.
+    this->PushElement(newSet);
+    }
+}
+
+
+/**
+ * End handler for Set element.
+ */
+void
+Parser
+::end_Set()
+{
+  if(this->TopParseElement())
+    {
+    std::cout << "----begin Set----" << std::endl;
+    // Print out the elements defined.
+    this->CurrentSet()->Print(std::cout);
+    std::cout << "----end Set----" << std::endl;
+    }
+  
+  // Take the Set off the stack.
+  this->PopElement();
+}
+
+
+/**
+ * Begin handler for Element element.
+ */
+void
+Parser
+::begin_Element(const Attributes& atts)
+{
+  String tag = atts.Get("tag");
+  
+  // Create a new Element.
+  Element::Pointer newElement = Element::New(tag);
+  
+  // Put new Element on the stack so it can be filled with code.
+  this->PushElement(newElement);
+}
+
+
+/**
+ * End handler for Element element.
+ */
+void
+Parser
+::end_Element()
+{
+  // Hold onto the finished Element as it is popped off the stack.
+  Element::Pointer finishedElement = this->CurrentElement();
+  
+  // Take the Element off the stack.
+  this->PopElement();
+
+  // Add the element to the current Set.
+  this->GenerateElementCombinations(finishedElement,
+                                    this->CurrentSet().RealPointer());
+}
+
+
+/**
  * Begin handler for WrapperSet element.
  */
 void
@@ -747,24 +929,24 @@ Parser
   
   beginHandlers["Package"]      = &Parser::begin_Package;
   beginHandlers["Dependencies"] = &Parser::begin_Dependencies;
-  beginHandlers["CreateMethod"] = &Parser::begin_CreateMethod;
-  beginHandlers["DeleteMethod"] = &Parser::begin_DeleteMethod;
-  beginHandlers["Set"]          = &Parser::begin_Set;
-  beginHandlers["Element"]      = &Parser::begin_Element;
   beginHandlers["Headers"]      = &Parser::begin_Headers;
   beginHandlers["File"]         = &Parser::begin_File;
   beginHandlers["Directory"]    = &Parser::begin_Directory;
+  beginHandlers["Namespace"]    = &Parser::begin_Namespace;
+  beginHandlers["Code"]         = &Parser::begin_Code;
+  beginHandlers["Set"]          = &Parser::begin_Set;
+  beginHandlers["Element"]      = &Parser::begin_Element;
   beginHandlers["WrapperSet"]   = &Parser::begin_WrapperSet;
 
   endHandlers["Package"]      = &Parser::end_Package;
   endHandlers["Dependencies"] = &Parser::end_Dependencies;
-  endHandlers["CreateMethod"] = &Parser::end_CreateMethod;
-  endHandlers["DeleteMethod"] = &Parser::end_DeleteMethod;
-  endHandlers["Set"]          = &Parser::end_Set;
-  endHandlers["Element"]      = &Parser::end_Element;
   endHandlers["Headers"]      = &Parser::end_Headers;
   endHandlers["File"]         = &Parser::end_File;
   endHandlers["Directory"]    = &Parser::end_Directory;
+  endHandlers["Namespace"]    = &Parser::end_Namespace;
+  endHandlers["Code"]         = &Parser::end_Code;
+  endHandlers["Set"]          = &Parser::end_Set;
+  endHandlers["Element"]      = &Parser::end_Element;
   endHandlers["WrapperSet"]   = &Parser::end_WrapperSet;
   
   initialized = true;
@@ -827,121 +1009,282 @@ Parser
 
 
 /**
- * Represent a substitution for Parser::GenerateElementCombinations().
- * A ReplacePortion refers to an instance of this class.  As
- * GenerateElementCombinations() iterates through a Set of elements for
- * substitution, it sets this instance to represent a each, one at a time.
+ * Get the global namespace in the package configuration.
  */
-class Substitution
-{
-public:
-  Substitution() {}
-  Substitution(const String& in_tag, const String& in_code):
-    m_Tag(in_tag), m_Code(in_code) {}
-  void Set(const String& in_tag, const String& in_code)
-    {
-      m_Tag = in_tag;
-      m_Code = in_code;
-    }
-  const String& GetTag() const
-    { return m_Tag; }
-  const String& GetCode() const
-    { return m_Code; }
-  
-private:
-  String m_Tag;
-  String m_Code;
-};
-
-
-/**
- * Interface to the parts of an input string of code, possibly with
- * $SomeSetName tokens in it.  An indivitual Portion will be either a
- * StringPortion, which has no substitutions, or a ReplacePortion, which has
- * only a substitution, and no hard-coded text.
- *
- * This is used by Parser::GenerateElementCombinations() to hold the pieces
- * of a string after the set substitution tokens have been extracted.
- */
-class Portion
-{
-public:
-  /**
-   * Get the C++ code corresponding to this Portion of a string.
-   */
-  virtual String GetCode() const =0;
-  /**
-   * Get the tag corresponding to this Portion of a string.  This is empty
-   * for StringPortion, and holds a real tag for ReplacePortion.
-   */
-  virtual String GetTag() const =0;
-  virtual ~Portion() {}
-};
-
-
-/**
- * Represent a hard-coded part of an input string, that has no substitutions
- * in it.  The tag for this part of a string is always empty.
- */
-class StringPortion: public Portion
-{
-public:
-  StringPortion(const String& in_code): m_Code(in_code) {}
-  virtual String GetCode() const
-    { return m_Code; }
-  virtual String GetTag() const
-    { return ""; }
-  virtual ~StringPortion() {}
-private:
-  /**
-   * Hold this Portion's contribution to the output string.
-   */
-  String m_Code;
-};
-
-
-/**
- * Represent the "$SomeSetName" portion of an input string.  This has a
- * reference to the Substitution holding the real output to generate.
- */
-class ReplacePortion: public Portion
-{
-public:
-  ReplacePortion(const Substitution& in_substitution):
-    m_Substitution(in_substitution) {}
-  virtual String GetCode() const
-    { return m_Substitution.GetCode(); }
-  virtual String GetTag() const
-    { return m_Substitution.GetTag(); }
-  virtual ~ReplacePortion() {}
-private:
-  /**
-   * Refer to the real Substitution for this Portion's contribution.
-   */
-  const Substitution& m_Substitution;
-};
-
-
-/**
- * Given an Element, generate all the combinations of Set
- * substitutions possbile based on $ tokens in the Element's code.
- */
-void
+Namespace*
 Parser
-::GenerateElementCombinations(const Element* in_element,
-                              Set* out_set)
+::GlobalNamespace() const
 {
+  return m_Package->GetGlobalNamespace().RealPointer();
+}
+
+
+
+/**
+ * A utility class to generate element combinations from all possible
+ * substitutions of Set members into a $ token.
+ */
+class ElementCombinationGenerator
+{
+public:
+  ElementCombinationGenerator(const Element* in_element,
+                              Namespace* in_scope):
+    m_Element(in_element), m_Namespace(in_scope)
+    {
+      this->ParseInputString();
+    }
+  ~ElementCombinationGenerator();
+  
+  void Generate(Set*);
+  
+private:  
+  /**
+   * Represent a substitution.
+   */
+  class Substitution
+  {
+  public:
+    Substitution(const Set* in_set): m_Set(in_set) {}
+    void Bind(const String& in_tag, const String& in_code)
+      {
+        m_Tag = in_tag;
+        m_Code = in_code;
+      }
+    const String& GetTag() const
+      { return m_Tag; }
+    const String& GetCode() const
+      { return m_Code; }
+    const Set* GetSet() const
+      { return m_Set; }
+    
+  private:
+    /**
+     * The tag associated with this substitution.
+     */
+    String m_Tag;
+
+    /**
+     * The code to be used for the substitution.
+     */
+    String m_Code;
+
+    /**
+     * The set of elements to be set into m_Tag and m_Code, one at a time.
+     */
+    const Set* m_Set;
+  };
+  
+  
+  /**
+   * Interface to the parts of an input string of code, possibly with
+   * $SomeSetName tokens in it.  An indivitual Portion will be either a
+   * StringPortion, which has no substitutions, or a ReplacePortion, which has
+   * only a substitution, and no hard-coded text.
+   *
+   * This is used by Parser::GenerateElementCombinations() to hold the pieces
+   * of a string after the set substitution tokens have been extracted.
+   */
+  class Portion
+  {
+  public:
+    /**
+     * Get the C++ code corresponding to this Portion of a string.
+     */
+    virtual String GetCode() const =0;
+    /**
+     * Get the tag corresponding to this Portion of a string.  This is empty
+     * for StringPortion, and holds a real tag for ReplacePortion.
+     */
+    virtual String GetTag() const =0;
+    virtual ~Portion() {}
+  };
+  
+  
+  /**
+   * Represent a hard-coded part of an input string, that has no substitutions
+   * in it.  The tag for this part of a string is always empty.
+   */
+  class StringPortion: public Portion
+  {
+  public:
+    StringPortion(const String& in_code): m_Code(in_code) {}
+    virtual String GetCode() const
+      { return m_Code; }
+    virtual String GetTag() const
+      { return ""; }
+    virtual ~StringPortion() {}
+  private:
+    /**
+     * Hold this Portion's contribution to the output string.
+     */
+    String m_Code;
+  };
+  
+
+  /**
+   * Represent the "$SomeSetName" portion of an input string.  This has a
+   * reference to the Substitution holding the real output to generate.
+   */
+  class ReplacePortion: public Portion
+  {
+  public:
+    ReplacePortion(const Substitution& in_substitution):
+      m_Substitution(in_substitution) {}
+    virtual String GetCode() const
+      { return m_Substitution.GetCode(); }
+    virtual String GetTag() const
+      { return m_Substitution.GetTag(); }
+    virtual ~ReplacePortion() {}
+  private:
+    /**
+     * Refer to the real Substitution for this Portion's contribution.
+     */
+    const Substitution& m_Substitution;
+  };
+  
   typedef std::list<Portion*>  Portions;
   typedef std::map<String, Substitution* >  Substitutions;
-  Portions      portions;
-  Substitutions substitutions;
   
+  /**
+   * The original, unparsed element.
+   */
+  Element::ConstPointer m_Element;
+  
+  /**
+   * The parts of the input string after parsing of the tokens.
+   */
+  Portions m_Portions;
+  
+  /**
+   * Map from substitution token to actual Substitution.
+   */
+  Substitutions m_Substitutions;
+  
+  /**
+   * The Namespace scope in which to begin name lookups.
+   */
+  Namespace::Pointer m_Namespace;
+  
+private:
+  void Generate(Set*, Substitutions::const_iterator);
+  void ParseInputString();
+};
+
+
+/**
+ * Destructor frees portions and substitutions that were allocated by
+ * constructor.
+ */
+ElementCombinationGenerator
+::~ElementCombinationGenerator()
+{
+  // Free the string portions that were allocated.
+  for(Portions::iterator i=m_Portions.begin(); i != m_Portions.end(); ++i)
+    {
+    delete *i;
+    }
+  
+  // Free the substitutions that were allocated.
+  for(Substitutions::iterator i = m_Substitutions.begin();
+      i != m_Substitutions.end(); ++i)
+    {
+    delete i->second;
+    }
+}
+
+
+/**
+ * Generate all element combinations possible with the set of
+ * substitutions available.  The given output set is filled with
+ * all the combinations.
+ */
+void
+ElementCombinationGenerator
+::Generate(Set* out_set)
+{
+  // If there are no substitutions to be made, just generate this
+  // single combination.
+  if(m_Substitutions.empty())
+    {
+    out_set->Add(m_Element->GetTag(), m_Element->GetCode());
+    return;
+    }
+  
+  // We must generate all combinations of substitutions.
+  // Begin the recursion with the first substitution.
+  this->Generate(out_set, m_Substitutions.begin());
+}
+
+
+/**
+ * Internal helper to Generate(Set*) which generates all combinations
+ * in a recursive, depth-first order.
+ */
+void
+ElementCombinationGenerator
+::Generate(Set* out_set, Substitutions::const_iterator substitution)
+{
+  // Test our position in the list of substitutions to be bound.
+  if(substitution == m_Substitutions.end())
+    {
+    // All substitutions have been prepared.  Generate this combination.
+    String tag = m_Element->GetTag();
+    String code = "";
+    // Put together all the pieces, with substitutions.
+    for(Portions::const_iterator i = m_Portions.begin();
+        i != m_Portions.end(); ++i)
+      {
+      tag.append((*i)->GetTag());
+      code.append((*i)->GetCode());
+      }
+    // Add this combination to the output set.
+    out_set->Add(tag, code);
+    }
+  else
+    {
+    // Get the set for this substitution.
+    // The lookup of the name substitution->first has already been done
+    // and saved in the Substitution in substitution->second.
+    const Set* set = substitution->second->GetSet();
+    if(set == out_set)
+      {
+      // We cannot iterate over the set currently being defined.
+      throw SetSelfReferenceException(substitution->first);
+      }
+    
+    // Prepare an iterator to the next substitution.
+    Substitutions::const_iterator nextSubstitution = substitution;
+    ++nextSubstitution;
+    
+    // We must iterate over all possible values for this substitution.
+    for(Set::ConstIterator element = set->Begin();
+        element != set->End(); ++element)
+      {
+      // Bind the substitution to this element.
+      substitution->second->Bind(element->first, element->second);
+      
+      // Move on to the next substitution.
+      this->Generate(out_set, nextSubstitution);
+      }
+    }
+}
+
+
+/**
+ * Called from constructor.  Parses the input string into portions.
+ * Plain text in the string is held by a StringPortion, and a $ token
+ * for replacement is represented by a ReplacePortion.
+ */
+void
+ElementCombinationGenerator
+::ParseInputString()
+{
   // The input code supplied in the source file.
-  String in_string = in_element->GetCode();
+  String in_string = m_Element->GetCode();
   
   // Break the input code into blocks alternating between literal code and
   // set-substitution tokens (like $SomeSetName).
-  String currentPortion;
+  String currentPortion = "";
   for(String::const_iterator c=in_string.begin(); c != in_string.end(); ++c)
     {
     // Look for the '$' to mark the beginning of a token.
@@ -954,20 +1297,21 @@ Parser
       // If there is a portion of the string, record it.
       if(currentPortion.length() > 0)
         {
-        portions.push_back(new StringPortion(currentPortion));
+        m_Portions.push_back(new StringPortion(currentPortion));
         currentPortion = "";
         }
       // Get element set name token.
       String setName = "";
       ++c;
-      // Look for all characters that can be part of a C++ identifier.
+      // Look for all characters that can be part of a qualified C++
+      // identifier.
       while(c != in_string.end())
         {
         char ch = *c;
         if(((ch >= 'a') && (ch <= 'z'))
            || ((ch >= 'A') && (ch <= 'Z'))
            || ((ch >= '0') && (ch <= '9'))
-           || (ch == '_'))
+           || (ch == '_') || (ch == ':'))
           {
           setName.insert(setName.end(), ch);
           ++c;
@@ -977,163 +1321,61 @@ Parser
           break;
           }
         }
-      // We have a complete set name.  Make sure it is valid.
-      if((setName.length() > 0)
-         && (m_Sets.count(setName) > 0)
-         && (out_set != m_Sets[setName]))
+      // We have a complete set name.  Look it up in the current scope.
+      Set* set = m_Namespace->LookupSet(setName);
+      if(set)
         {
         // We have a valid set name.  Prepare the substitution entry
         // for it.
         Substitution* sub;
-        if(substitutions.count(setName) == 0)
+        if(m_Substitutions.count(setName) == 0)
           {
-          sub = new Substitution();
-          substitutions[setName] = sub;
+          sub = new Substitution(set);
+          m_Substitutions[setName] = sub;
           }
         else
           {
-          sub = substitutions[setName];
+          sub = m_Substitutions[setName];
           }
-        portions.push_back(new ReplacePortion(*sub));
+        m_Portions.push_back(new ReplacePortion(*sub));
         setName = "";
         }
-      else   
+      else
         {
         // Invalid set name.  Complain.
         throw UnknownSetException(setName);
         }
-      // Begin the next portion of the string with this character,
-      // the first after the end of the setName.
-      if(c != in_string.end())
-        currentPortion.insert(currentPortion.end(), *c);
+      
+      // Let the loop look at this character again.
+      --c;
       }
     }
   
   // If there is a final portion of the string, record it.
   if(currentPortion.length() > 0)
     {
-    portions.push_back(new StringPortion(currentPortion));
-    }
-
-  // If there are no substitutions to be made, just generate this
-  // single combination.
-  if(substitutions.empty())
-    {
-    out_set->Add(in_element->GetTag(), in_element->GetCode());
-    return;
-    }
-  
-  // We must generate all combinations of element substitutions.
-  
-  // A pair of iterators into a Set.  The first is the current spot, and
-  // the second is the ending iterator.
-  typedef std::pair<Set::ConstIterator,
-                    Set::ConstIterator>  SetIteratorPair;
-  
-  // Prepare a "stack" of element set iterator pairs that will keep track
-  // of all combinations of substitutions to be done.
-  std::list<SetIteratorPair> elementSets;
-  
-  // Keep track of the current substitution level.  Combinations are only
-  // generated at the inner-most substitution level since bindings have
-  // been assigned for all substitutions.
-  Substitutions::const_iterator substitution = substitutions.begin();
-  
-  bool done = false;
-  while(!done)
-    {
-    if(substitution == substitutions.end())
-      {
-      // We are at the end of the list of substitutions.
-      if(elementSets.back().first != elementSets.back().second)
-        {
-        // Prepare the substitution for the current spot in this element set.
-        --substitution;
-        substitution->second->Set(elementSets.back().first->first,
-                                  elementSets.back().first->second);
-        ++substitution;
-
-        // Generate this combination's output.
-        String tag = in_element->GetTag();
-        String code;
-        // Put together all the pieces, with substitutions.
-        for(Portions::const_iterator i = portions.begin();
-            i != portions.end(); ++i)
-          {
-          tag.append((*i)->GetTag());
-          code.append((*i)->GetCode());
-          }
-        // Add this combination to the output set.
-        out_set->Add(tag, code);
-        
-        // Increment to the next spot in this unfinished element set.
-        ++(elementSets.back().first);
-        }
-      else
-        {
-        // We have finished this set of combinations.  That is, we have
-        // finished iterating through the elements in the inner-most
-        // set of substitution elements.
-
-        // Walk back through the list of substitutions until we find an
-        // unfinished set.
-        while(elementSets.back().first == elementSets.back().second)
-          {
-          // Pop off finished element set.
-          elementSets.pop_back();
-          // Corresponding back-step in substitution list.
-          --substitution;
-          
-          // If the outermost element set has been finished,
-          // then we are done.
-          if(elementSets.empty())
-            {
-            // We have finished all combinations.
-            done = true;
-            break;
-            }
-
-          // Not done, so increment to the next spot in this unfinished element set.
-          ++(elementSets.back().first);
-          }
-        if(!done)
-          {
-          --substitution;
-          // Prepare the substitution for the current spot in this element set.
-          substitution->second->Set(elementSets.back().first->first,
-                                    elementSets.back().first->second);
-          ++substitution;
-          }
-        }
-      }
-    else
-      {
-      // We are not at the end of the list of substitutions.
-      // Move on to the next one.
-      // Prepare to iterate over all elements in the next set of substitutions.
-      elementSets.push_back(
-        SetIteratorPair(m_Sets[substitution->first]->Begin(),
-                                m_Sets[substitution->first]->End()));
-      // Prepare the substitution for the current spot in this element set.
-      substitution->second->Set(elementSets.back().first->first,
-                                elementSets.back().first->second);
-      ++substitution;
-      }
-    }
-  
-  // Free the string portions that were allocated.
-  for(Portions::iterator i=portions.begin(); i != portions.end(); ++i)
-    {
-    delete *i;
-    }
-  
-  // Free the substitutions that were allocated.
-  for(Substitutions::iterator i = substitutions.begin();
-      i != substitutions.end(); ++i)
-    {
-    delete i->second;
+    m_Portions.push_back(new StringPortion(currentPortion));
     }
 }
+
+
+/**
+ * Given an Element, generate all the combinations of Set
+ * substitutions possbile based on $ tokens in the Element's code.
+ */
+void
+Parser
+::GenerateElementCombinations(const Element* in_element,
+                              Set* out_set) const
+{
+  // Create an object to handle the generation.
+  ElementCombinationGenerator
+    combinationGenerator(in_element, this->MostNestedNamespace());
+  
+  // Generate the combinations.
+  combinationGenerator.Generate(out_set);
+}
+
 
 } // namespace configuration
 
