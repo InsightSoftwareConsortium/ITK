@@ -59,6 +59,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <vector>
 #include "vnl/vnl_vector_ref.h"
 #include "vnl/vnl_matrix.h"
+#include "itkImageRegionIterator.h"
+#include "itkExceptionObject.h"
 
 #define  ONEBAND        1
 #define  GLA_CONVERGED     1
