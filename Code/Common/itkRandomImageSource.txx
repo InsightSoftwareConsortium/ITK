@@ -55,6 +55,7 @@ void itkRandomImageSource<TOutputImage>
 ::Execute()
 {
   TOutputImage *image=this->GetOutput(0);
+  unsigned int imageDimension = image->GetImageDimension();
   TOutputImage::Index ind;
   long index[2];
 
@@ -64,5 +65,9 @@ void itkRandomImageSource<TOutputImage>
   index[1] = 0;
   ind.SetIndex(index);
   
+  TOutputImage::PixelType pixel;
+  unsigned int pixelDimension = pixel.GetPixelDimension();
+
+ // for (int j=0; j<imageSize; j++)
   
 }

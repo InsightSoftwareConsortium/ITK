@@ -11,8 +11,7 @@
 
   See COPYRIGHT.txt for copyright details.
   
-  ==========================================================================*/
-
+==========================================================================*/
 /**
  * itkVector is a templated class that holds a single vector.  itkVector
  * can be used as the data type held at each pixel in an itkImage or at each
@@ -53,7 +52,7 @@ template<class T, unsigned int TVectorDimension=3>
 class itkVector {
  public:
   /**
-   * vector_value_type can be used to declare a variable that is the same type
+   * Vector_value_type can be used to declare a variable that is the same type
    * as the data held in an itkVector.  The naming convention here follows
    * STL conventions. vector_value_type is what STL would call value_type.
    * vector_value_type is used instead of STL's value_type to avoid confusion
@@ -65,20 +64,22 @@ class itkVector {
   /**
    * Get the dimension (size) of the vector.
    */
-  static unsigned int GetVectorDimension() { return TVectorDimension; }
+  static unsigned int GetPixelDimension() 
+    { return TVectorDimension; }
   
   /**
    * Get the vector. This provides a read only reference to the vector.
    * \sa SetVector
    */
-  const T *GetVector() const { return m_Vector; };
+  const T *GetVector() const 
+    { return m_Vector; }
 
   /**
    * Set the vector.
    * \sa GetVector
    */
   void SetVector(const T *val)
-  { memcpy(m_Vector, val, sizeof(T)*TVectorDimension); };
+    { memcpy(m_Vector, val, sizeof(T)*TVectorDimension); };
 
   /**
    * Add a vector to this vector and return a new vector.
@@ -125,7 +126,6 @@ class itkVector {
       { m_Vector[i] -= vec.m_Vector[i]; }
     return *this;
     }
-
 
  private:
   T m_Vector[TVectorDimension];

@@ -36,7 +36,7 @@
 
 template<class T, unsigned int TImageDimension=2>
 class itkImageIterator {
- public:
+public:
   /** 
    * Index typedef support 
    */
@@ -253,39 +253,41 @@ class itkImageIterator {
    * Get the index. This provides a read only reference to the index.
    * \sa SetIndex
    */
-  const Index &GetIndex() const { return m_Index; };
+  const Index &GetIndex() const { return m_Index; }
 
   /**
    * Set the index. No bounds checking is performed.
    * \sa GetIndex
    */
   void SetIndex(const Index &ind)
-  { m_Index = ind; this->ComputeOffset(); };
+  { m_Index = ind; this->ComputeOffset(); }
 
 
   /**
    *
    */
   void SetPointer( T* ptr)
-    { m_Image = ptr; m_Offset = 0;};
+    { m_Image = ptr; m_Offset = 0;}
   void SetImageSize( const unsigned long *size)
-    { memcpy(m_ImageSize, size, TImageDimension*sizeof(unsigned long)); };
+    { memcpy(m_ImageSize, size, TImageDimension*sizeof(unsigned long)); }
   void SetRegionSize( const unsigned long *size)
-    { memcpy(m_RegionSize, size, TImageDimension*sizeof(unsigned long)); };
+    { memcpy(m_RegionSize, size, TImageDimension*sizeof(unsigned long)); }
   void SetImageIndexOrigin( const long *origin)
-    { memcpy(m_ImageIndexOrigin, origin, TImageDimension*sizeof(long)); };
+    { memcpy(m_ImageIndexOrigin, origin, TImageDimension*sizeof(long)); }
   void SetRegionIndexOrigin( const long *origin)
-    { memcpy(m_RegionIndexOrigin, origin, TImageDimension*sizeof(long)); };
+    { memcpy(m_RegionIndexOrigin, origin, TImageDimension*sizeof(long)); }
 
-  const unsigned long *GetImageSize() const { return m_ImageSize; };
+  const unsigned long *GetImageSize() const 
+    { return m_ImageSize; }
 
   /**
    * Dereference the iterator, returns a reference to the pixel. Used to set
    * or get the value referenced by the index.
    */
-  T& operator*() const  { return *( m_Image + m_Offset ); };
+  T& operator*() const  
+    { return *( m_Image + m_Offset ); }
   
- protected:
+protected:
   /**
    * Compute the offset from the beginning of the image to the pixel under
    * the iterator.
@@ -304,7 +306,7 @@ class itkImageIterator {
       }
   }
 
- private:
+private:
   Index          m_Index;
   unsigned long  m_Offset;
 
@@ -316,6 +318,8 @@ class itkImageIterator {
 };
 
 
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageIterator.cxx"
+#endif
 
 #endif 

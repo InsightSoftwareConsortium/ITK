@@ -55,7 +55,7 @@ public:
 
 protected:
   itkImageSource();
-  ~itkImageSource() {};
+  virtual ~itkImageSource() {};
   itkImageSource(const itkImageSource&) {};
   void operator=(const itkImageSource&) {};
   void PrintSelf(std::ostream& os, itkIndent indent);

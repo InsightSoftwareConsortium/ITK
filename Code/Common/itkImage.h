@@ -40,6 +40,13 @@ public:
   typedef T PixelType;
 
   /** 
+   * Image dimension typedef support. Used to help declare pixel types
+   * or other operations.
+   */
+  static unsigned int GetImageDimension() 
+    { return TImageDimension; }
+  
+  /** 
    * Iterator typedef support. An iterator is used to traverse
    * the image.
    */
@@ -108,15 +115,19 @@ public:
    */
   const T& GetPixel(const Index &index);
 
-
 private:
   itkImage();
   virtual ~itkImage();
+  itkImage(const itkImage&) {};
+  void operator=(const itkImage&) {};
+  void PrintSelf(std::ostream& os, itkIndent indent);
 
   std::vector<T> *m_Data;
 };
 
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImage.cxx"
+#endif
 
 #endif
 

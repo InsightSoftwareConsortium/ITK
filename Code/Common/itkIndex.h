@@ -33,7 +33,7 @@
 
 template<unsigned int TIndexDimension=2>
 class itkIndex {
- public:
+public:
   /**
    * Get the dimension (size) of the index.
    */
@@ -90,9 +90,7 @@ class itkIndex {
    * 0, ..., TIndexDimension-1. No bounds checking is performed.
    */
   long & operator[](unsigned int dim)
-  {
-    return m_Index[dim];
-  }
+    { return m_Index[dim]; }
   
 
   /**
@@ -108,7 +106,7 @@ class itkIndex {
    * \sa GetIndex
    */
   void SetIndex(const long val[TIndexDimension])
-  { memcpy(m_Index, val, sizeof(long)*TIndexDimension); };
+    { memcpy(m_Index, val, sizeof(long)*TIndexDimension); }
 
   /**
    * Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
@@ -120,11 +118,11 @@ class itkIndex {
    */
   static itkIndex<TIndexDimension> GetBasisIndex(unsigned int dim); 
 
- public:
+public:
   template<unsigned int TIndexDim> friend 
     std::ostream& operator<<(std::ostream& os,
 			     const itkIndex<TIndexDim> &ind);
- private:
+private:
   long m_Index[TIndexDimension];
 };
 

@@ -12,7 +12,6 @@
   See COPYRIGHT.txt for copyright details.
   
   ==========================================================================*/
-
 /**
  * itkScalar is a templated class that holds a single scalar value.
  * itkScalar can be used as the data type held at each pixel in an itkImage
@@ -33,7 +32,8 @@
  * \sa itkTensor
  * \sa itkScalarTensor
  * \sa itkVectorTensor
- * \sa itkScalarVectorTensor */
+ * \sa itkScalarVectorTensor 
+ */
 
 // To compile / test this class
 // Windows: cl itkDataTypeTest.cxx; .\itkDataTypeTest.exe
@@ -57,10 +57,18 @@ class itkScalar {
   typedef T scalar_value_type;
 
   /**
+   * Get the dimension (size) of this scalar. The method is necessary
+   * to satisfy the pixel manipulation API.
+   */
+  static unsigned int GetPixelDimension() 
+    { return 1; }
+  
+  /**
    * Get the scalar value.
    * \sa SetScalar
    */
-  T GetScalar() const { return m_Scalar; }
+  T GetScalar() const 
+    { return m_Scalar; }
 
   /**
    * Set the scalar value.

@@ -15,11 +15,13 @@
 =========================================================================*/
 #include "itkDirectory.h"
 
+//----------------------------------------------------------------------------
 itkDirectory::itkDirectory() 
   :m_NumberOfFiles(0), m_Files(0), m_Path(0)
 {
 }
 
+//----------------------------------------------------------------------------
 itkDirectory::~itkDirectory() 
 {
   for ( int i =0; i < m_NumberOfFiles; i++ )
@@ -29,6 +31,7 @@ itkDirectory::~itkDirectory()
   delete [] m_Files;
 }
 
+//----------------------------------------------------------------------------
 void itkDirectory::PrintSelf(std::ostream& os, itkIndent indent)
 { 
   itkObject::PrintSelf(os, indent);
@@ -60,6 +63,7 @@ void itkDirectory::PrintSelf(std::ostream& os, itkIndent indent)
 #include <sys/stat.h>
 #include <sys/types.h>
 
+//----------------------------------------------------------------------------
 bool itkDirectory::Load(const char* name)
 {
   char* buf;
@@ -121,6 +125,7 @@ bool itkDirectory::Load(const char* name)
 #include <sys/types.h>
 #include <dirent.h>
 
+//----------------------------------------------------------------------------
 int itkDirectory::Open(const char* name)
 {
   DIR* dir = opendir(name);
@@ -153,6 +158,7 @@ int itkDirectory::Open(const char* name)
 #endif
 
 
+//----------------------------------------------------------------------------
 const char* itkDirectory::GetFile(int index)
 {
   if ( index >= m_NumberOfFiles || index < 0 )
@@ -163,4 +169,3 @@ const char* itkDirectory::GetFile(int index)
   
   return m_Files[index];
 }
-

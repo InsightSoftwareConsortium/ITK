@@ -7,16 +7,16 @@
   Version:   $Revision$
 
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
 
-See COPYRIGHT.txt for copyright details.
+  See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-
-// #include "itkImage.h"
+#include "itkImage.h"
 #include "itkObjectFactory.h"
 
+//----------------------------------------------------------------------------
 template<class T, unsigned int TImageDimension>
 itkImage<T, TImageDimension>::Pointer itkImage<T, TImageDimension>
 ::New()
@@ -31,6 +31,7 @@ itkImage<T, TImageDimension>::Pointer itkImage<T, TImageDimension>
     itkImage<T, TImageDimension>::Pointer(new itkImage<T, TImageDimension>);
 }
 
+//----------------------------------------------------------------------------
 template<class T, unsigned int TImageDimension>
 itkImage<T, TImageDimension>
 ::itkImage()
@@ -50,6 +51,7 @@ itkImage<T, TImageDimension>
     }
 }
 
+//----------------------------------------------------------------------------
 template<class T, unsigned int TImageDimension>
 void itkImage<T, TImageDimension>
 ::Allocate()
@@ -72,6 +74,7 @@ void itkImage<T, TImageDimension>
     }
 }
 
+//----------------------------------------------------------------------------
 template<class T, unsigned int TImageDimension>
 void itkImage<T, TImageDimension>
 ::SetPixel(const Index &ind, const T& value)
@@ -95,6 +98,7 @@ void itkImage<T, TImageDimension>
   (*m_Data)[offset] = value;
 }
 
+//----------------------------------------------------------------------------
 template<class T, unsigned int TImageDimension>
 const T& itkImage<T, TImageDimension>
 ::GetPixel(const Index &ind)
@@ -143,8 +147,7 @@ itkImageIterator<T, TImageDimension> itkImage<T, TImageDimension>
   return ind;
 }
 
-
-//
+//----------------------------------------------------------------------------
 // The End() of the image is one pixel past the last pixel.  The index of this
 // pixel is [m_ImageSize[0]-1, m_ImageSize[1]-1, ...,
 //           m_ImageSize[TImageDimension-2]-1, m_ImageSize[TImageDimension-1]]
@@ -177,4 +180,14 @@ itkImageIterator<T, TImageDimension> itkImage<T, TImageDimension>
   ind.SetIndex( index );
   
   return ind;
+}
+
+//----------------------------------------------------------------------------
+template<class T, unsigned int TImageDimension>
+void itkImage<T, TImageDimension>
+::PrintSelf(std::ostream& os, itkIndent indent)
+{
+  itkImageBase::PrintSelf(os,indent);
+  
+  os << indent << "Data: " << m_Data << std::endl;
 }
