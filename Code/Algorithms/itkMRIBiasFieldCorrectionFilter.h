@@ -305,7 +305,7 @@ public:
 
   /** Sets the direction of slicing.
    * 0 - x axis, 1 - y axis, 2 - z axis */
-  itkSetMacro( SlicingDirection , bool );
+  itkSetMacro( SlicingDirection , int );
 
   /** Set/Get the degree of the bias field estimate. */
   itkSetMacro( BiasFieldDegree, int );
