@@ -67,8 +67,8 @@ PlaheImageFilter<TImageType>
 {
   
   typedef TImageType ImageType;
-  ImageType::Pointer input = this->GetInput();
-  ImageType::Pointer output = this->GetOutput();
+  typename ImageType::Pointer input = this->GetInput();
+  typename ImageType::Pointer output = this->GetOutput();
   
   output->SetBufferedRegion(input->GetBufferedRegion());
   output->SetRequestedRegion(input->GetRequestedRegion() );
@@ -86,9 +86,9 @@ PlaheImageFilter<TImageType>
   kernel = 1/kernel;
 
   //Set Iterator which traverse whole image
-  ImageType::RegionType region;
-  ImageType::IndexType index;
-  ImageType::SizeType size;
+  typename ImageType::RegionType region;
+  typename ImageType::IndexType index;
+  typename ImageType::SizeType size;
   region = input->GetRequestedRegion();
   for ( i = 0; i < ImageDimension; i++)
     {
@@ -115,7 +115,7 @@ PlaheImageFilter<TImageType>
   // Allocate a float type image which has the same size with an input image.
   // This image store normalized pixel values [-0.5 0.5] of the input image.
   typedef Image<float, ImageDimension> ImageFloatType;
-  ImageFloatType::Pointer inputFloat = ImageFloatType::New();
+  typename ImageFloatType::Pointer inputFloat = ImageFloatType::New();
   inputFloat->SetBufferedRegion(region);
   inputFloat->SetRequestedRegion( region );
   inputFloat->SetLargestPossibleRegion( region );
@@ -261,7 +261,7 @@ PlaheImageFilter<TImageType>
       ++itWin;
       }
 
-    typedef ImageType::PixelType PixelType;    
+    typedef typename ImageType::PixelType PixelType;    
 
     // if CumulativeArray is properly assign, use it, 
     // if not, use CumulativeFunction()
