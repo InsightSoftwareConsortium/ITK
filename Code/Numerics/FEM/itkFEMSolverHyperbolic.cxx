@@ -199,16 +199,6 @@ SolverHyperbolic
   m_ls->CopySolution2Vector(0,vector_tmp);
   m_ls->CopyVector2Solution(vector_tmp,solution_a);
 
-  //for(int i=0; i<m_ls->GetSystemOrder(); i++)
-  {
-  for(int j=0; j<m_ls->GetSystemOrder(); j++)
-  {
-    std::cout<<m_ls->GetVectorValue(j,vector_dhat)<<" ";
-  }
-  std::cout<<"\n";
-  }
-
-
   // Calculate displacements and velocities
   for(unsigned int i=0; i<m_ls->GetSystemOrder(); i++)
   {

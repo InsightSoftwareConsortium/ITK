@@ -32,7 +32,9 @@ namespace fem {
 
 void LinearSystemWrapper::Clean( void )
 {
-  int i;
+  unsigned int i;
+
+  // FIXME: Does not work properly for all derived classes
 
   // clear all data
   for(i=0;i<m_NumberOfMatrices;i++)

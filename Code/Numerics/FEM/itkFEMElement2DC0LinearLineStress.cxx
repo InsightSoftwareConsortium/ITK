@@ -64,7 +64,6 @@ Element2DC0LinearLineStress
   Me.resize(4,4);
   Me.fill(0.0);
 
-  Float rho=1.0;
   Float l=(m_node[1]->GetCoordinates()-m_node[0]->GetCoordinates()).magnitude();
 
   Me[0][0]=2.0;
