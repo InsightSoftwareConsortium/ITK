@@ -112,6 +112,8 @@ protected:
   MetaImageIO(const Self&) {}
   void operator=(const Self&) {}
   
+private:
+
   bool ReadHeader(const char* fname);
   void PrintSelf(std::ostream& os, Indent indent) const;
   ComponentType m_MetaPixelType;
