@@ -113,9 +113,17 @@ ImageToParametricSpaceFilter<TInputImage,TOutputMesh>
   OutputMeshPointer       mesh    = this->GetOutput();
   PointsContainerPointer  points  = mesh->GetPoints();
   InputImagePointer       image   = this->GetInput(0);
+  InputImageRegionType    region  = image->GetRequestedRegion();
 
-  points->Reserve( image->GetRequestedRegion().GetNumberOfPixels() );
+  unsigned long numberOfPixels    = region.GetNumberOfPixels();
 
+  points->Reserve( numberOfPixels );
+
+  // support progress methods/callbacks
+  unsigned long visitPeriod  = 100;
+  unsigned long updateVisits = numberOfPixels / visitPeriod;
+  unsigned long visitCounter = 0;
+ 
   for( unsigned int component=0; component<PointDimension; component++)
     {
 
@@ -127,9 +135,16 @@ ImageToParametricSpaceFilter<TInputImage,TOutputMesh>
     it.GoToBegin();
     while( !it.IsAtEnd() ) 
       {
+        if( visitCounter == updateVisits )
+          {
+            visitCounter = 0;
+            this->UpdateProgress( static_cast<float>( visitCounter ) /
+                                  static_cast<float>( updateVisits * visitPeriod ) );
+          }
         (point.Value())[ component ] = it.Get();
         ++it;
         ++point;
+        ++visitCounter;
       }
     }
 
