@@ -10,6 +10,7 @@ ENDIF(ITK_BINARY_DIR)
 
 SET(SPATIAL_OBJECT_TESTS        ${CXX_TEST_PATH}/itkSpatialObjectTests)
 SET(SPATIAL_OBJECT_TESTS2       ${CXX_TEST_PATH}/itkSpatialObjectTests2)
+SET(SPATIAL_OBJECT_TESTS3       ${CXX_TEST_PATH}/itkSpatialObjectTests3)
 SET(SPATIAL_OBJECT_HEADER_TEST  ${CXX_TEST_PATH}/itkSpatialObjectHeaderTest)
 
 ADD_TEST( itkAffineGeometryFrameTest ${SPATIAL_OBJECT_TESTS} itkAffineGeometryFrameTest )
@@ -27,7 +28,7 @@ ADD_TEST( itkMeshSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkMeshSpatialObject
 ADD_TEST( itkPlaneSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPlaneSpatialObjectTest )
 ADD_TEST( itkPolygonGroupSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPolygonGroupSpatialObjectTest )
 ADD_TEST( itkSceneSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkSceneSpatialObjectTest )
-ADD_TEST( itkSpatialObjectPrintTest ${SPATIAL_OBJECT_TESTS2} itkSpatialObjectPrintTest)
+ADD_TEST( itkSpatialObjectPrintTest ${SPATIAL_OBJECT_TESTS3} itkSpatialObjectPrintTest)
 ADD_TEST( itkSpatialObjectTreeContainerTest ${SPATIAL_OBJECT_TESTS2} itkSpatialObjectTreeContainerTest )
 ADD_TEST( itkSurfaceSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkSurfaceSpatialObjectTest )
 ADD_TEST( itkTubeSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkTubeSpatialObjectTest )
@@ -52,10 +53,13 @@ SET(SpatialObject_SRCS2
   itkPlaneSpatialObjectTest.cxx
   itkPolygonGroupSpatialObjectTest.cxx
   itkSceneSpatialObjectTest.cxx
-  itkSpatialObjectPrintTest.cxx
   itkSpatialObjectTreeContainerTest.cxx
   itkSurfaceSpatialObjectTest.cxx
   itkTubeSpatialObjectTest.cxx
+)
+
+SET(SpatialObject_SRCS3
+  itkSpatialObjectPrintTest.cxx
 )
 
 ADD_EXECUTABLE(itkSpatialObjectTests itkSpatialObjectTests.cxx ${SpatialObject_SRCS})
@@ -63,6 +67,9 @@ TARGET_LINK_LIBRARIES(itkSpatialObjectTests ITKIO ITKCommon ITKSpatialObject)
 
 ADD_EXECUTABLE(itkSpatialObjectTests2 itkSpatialObjectTests2.cxx ${SpatialObject_SRCS2})
 TARGET_LINK_LIBRARIES(itkSpatialObjectTests2 ITKIO ITKCommon)
+
+ADD_EXECUTABLE(itkSpatialObjectTests3 itkSpatialObjectTests3.cxx ${SpatialObject_SRCS3})
+TARGET_LINK_LIBRARIES(itkSpatialObjectTests3 ITKIO ITKCommon)
 
 ADD_EXECUTABLE(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkSpatialObjectHeaderTest ITKCommon)
