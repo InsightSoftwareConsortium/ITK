@@ -34,11 +34,6 @@ namespace itk
 {
 typedef HMODULE LibHandle;
 } // end namespace itk
-#elif defined(__powerpc)
-namespace itk
-{
-typedef ConnectionID LibHandle;
-} // end namespace itk
 #else
 namespace itk
 {
