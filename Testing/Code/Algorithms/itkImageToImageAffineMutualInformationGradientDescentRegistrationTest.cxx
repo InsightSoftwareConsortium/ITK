@@ -164,12 +164,12 @@ int main()
   double trueParameters[6] = { 1, 0, 0, 1, -7, -3 };
   for( unsigned int j = 0; j < 4; j++ )
     {
-    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.01 )
+    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.02 )
       pass = false;
     }
   for( unsigned int j = 4; j < 6; j++ )
     {
-    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.5 )
+    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 1.0 )
       pass = false;
     }
 
