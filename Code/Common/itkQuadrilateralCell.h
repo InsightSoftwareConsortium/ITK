@@ -142,7 +142,7 @@ public:
   /**
    * Implement the standard CellInterface.
    */
-  virtual Superclass::CellType GetType(void) const 
+  virtual typename Superclass::CellType GetType(void) const 
     {return Superclass::QUADRILATERAL_CELL;}
   virtual CellPointer MakeCopy(void);
   virtual int GetDimension(void) const;
