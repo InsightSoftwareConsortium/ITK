@@ -95,7 +95,8 @@ DerivativeImageFilter< TInputImage, TOutputImage >
    oper.SetDirection(m_Direction);
    oper.SetOrder(m_Order);
    oper.CreateDirectional();
-
+   oper.FlipAxes();
+   
   NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
     ::Pointer filter =
     NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
@@ -104,21 +105,21 @@ DerivativeImageFilter< TInputImage, TOutputImage >
   filter->OverrideBoundaryCondition(&nbc);
 
   //
-  // set up the mini-pipline
+  // Set up the mini-pipline
   //
   filter->SetOperator(oper);
   filter->SetInput(this->GetInput());
 
-  // graft this filter's output to the mini-pipeline.  this sets up
+  // Graft this filter's output to the mini-pipeline.  this sets up
   // the mini-pipeline to write to this filter's output and copies
   // region ivars and meta-data
   filter->GraftOutput(this->GetOutput());
 
-  // execute the mini-pipeline
+  // Execute the mini-pipeline.
   filter->Update();
 
-  // graft the output of the mini-pipeline back onto the filter's output.
-  // this copies back the region ivars and meta-data
+  // Graft the output of the mini-pipeline back onto the filter's output,
+  // this copies back the region ivars and meta-data.
   this->GraftOutput(filter->GetOutput());
 }
 
