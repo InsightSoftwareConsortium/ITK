@@ -310,8 +310,8 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  At this point the Mesh contains four points and fourteen cells.  The
-  //  points can be visited using PointContainer iterators 
+  //  At this point the Mesh contains four points and fifteen cells enumerated
+  //  from 0 to 14.  The points can be visited using PointContainer iterators 
   //
   // \index{itk::Mesh!PointsContainer}
   // \index{itk::Mesh!PointsIterators}
