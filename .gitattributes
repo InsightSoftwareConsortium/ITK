@@ -4,7 +4,6 @@
 *.jpg           -crlf
 *.pdf           -crlf
 *.sh             crlf=input
-Configure.tcl.in  crlf=input
 configure        crlf=input
 cvsrmvend        crlf=input
 install-sh       crlf=input
