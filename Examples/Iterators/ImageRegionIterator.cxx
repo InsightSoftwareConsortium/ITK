@@ -18,15 +18,15 @@
 // Software Guide : BeginLatex
 //
 // \index{Iterators!speed}
-// The \code{itk::ImageRegionIterator} has been optimized for iteration speed.
+// The \doxygen{ImageRegionIterator} has been optimized for iteration speed.
 // It is the first choice for iterative, pixel-wise operations where location
 // in the image is not important and no special iteration path through the
-// image is required.  \code{itk::ImageRegionIterator} is the most commonly
+// image is required.  \doxygen{ImageRegionIterator} is the most commonly
 // used and least specialized of the ITK image iterator classes.  It implements
 // all of the methods described in the preceding section.
 //
 // The following example illustrates the use of
-// \code{itk::ImageRegionConstIterator} and \code{itk::ImageRegionIterator}.
+// \doxygen{ImageRegionConstIterator} and \doxygen{ImageRegionIterator}.
 // Most of the code constructs introduced apply to other ITK iterators as
 // well. This simple application crops a subregion from an image by copying
 // pixel values into to a second image.
@@ -80,7 +80,7 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 // 
 // Information about the subregion to copy is read from the command line. The
-// subregion is defined by an \code{itk::ImageRegion} object, with a starting
+// subregion is defined by an \doxygen{ImageRegion} object, with a starting
 // grid index and a size (section~\ref{sec:ImageSection}).
 //
 // Software Guide : EndLatex
@@ -129,7 +129,7 @@ int main( int argc, char ** argv )
 // the same starting index and size as the extracted subregion.  Preserving
 // the starting index may be an important detail later if the cropped image
 // requires registering against the original image. The origin and spacing
-// information is passed to the new image by \code{CopyInformation}.
+// information is passed to the new image by \code{CopyInformation()}.
 //
 // Software Guide : EndLatex
 
