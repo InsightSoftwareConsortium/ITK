@@ -57,7 +57,7 @@ int main()
   d.Print(std::cout);
 
   println("Testing Gaussian operator");
-  itk::GaussianOperator<2, vnl_vector<float> > g;
+  itk::GaussianOperator<float,2, vnl_vector<float> > g;
   g.SetVariance(2.3);
   g.SetMaximumError(.01);
   g.CreateDirectional();
