@@ -17,7 +17,7 @@
 #ifndef __itkWatershedEquivalenceRelabeler_txx
 #define __itkWatershedEquivalenceRelabeler_txx
 #include "itkWatershedEquivalenceRelabeler.h"
-
+#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 namespace itk
 {
@@ -27,8 +27,8 @@ template <class TScalarType, unsigned int TImageDimension>
 void EquivalenceRelabeler<TScalarType, TImageDimension>
 ::GenerateData()
 { 
-  typename ImageType::Pointer input  = this->GetInputImage();
-  typename ImageType::Pointer output  = this->GetOutputImage();
+  typename ImageType::ConstPointer input  = this->GetInputImage();
+  typename ImageType::Pointer output = this->GetOutputImage();
 
   typename EquivalencyTableType::Pointer eqT = this->GetEquivalencyTable();
   
@@ -38,7 +38,7 @@ void EquivalenceRelabeler<TScalarType, TImageDimension>
   //
   // Copy input to output
   //
-  ImageRegionIterator<ImageType> it_a(input, output->GetRequestedRegion());
+  ImageRegionConstIterator<ImageType> it_a(input, output->GetRequestedRegion());
   ImageRegionIterator<ImageType> it_b(output, output->GetRequestedRegion());
 
   it_a = it_a.Begin();
@@ -62,8 +62,8 @@ void EquivalenceRelabeler<TScalarType, ImageDimension>
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  typename ImageType::Pointer  inputPtr  = this->GetInputImage();
-  typename ImageType::Pointer outputPtr = this->GetOutputImage();
+  ImageType  *inputPtr  = const_cast<ImageType *> (this->GetInputImage());
+  ImageType *outputPtr  = this->GetOutputImage();
   
   if ( !inputPtr || !outputPtr )
     {
