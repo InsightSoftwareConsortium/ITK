@@ -174,6 +174,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkObjectFactoryBase.h"
+#include "itkObjectStore.txx"
 #include "itkOffset.h"
 #include "itkOutputWindow.h"
 #include "itkPixelAccessor.h"

@@ -109,6 +109,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSimilarityIndexImageFilter.txx"
 #include "itkSinImageFilter.h"
 #include "itkSobelEdgeDetectionImageFilter.txx"
+#include "itkSparseFieldLayer.txx"
 #include "itkSparseFieldLevelSetImageFilter.txx"
 #include "itkSpatialFunctionImageEvaluatorFilter.txx"
 #include "itkSqrtImageFilter.h"
