@@ -4,50 +4,6 @@ namespace xml
 {
 
 /**
- * Passes call through to real parser object according to first argument.
- */
-static void BeginCdataSectionHandler(void* parser)
-{
-  static_cast<ConfigurationParser*>(parser)->BeginCdataSectionHandler();
-}
-
-/**
- * Passes call through to real parser object according to first argument.
- */
-static void EndCdataSectionHandler(void* parser)
-{
-  static_cast<ConfigurationParser*>(parser)->EndCdataSectionHandler();
-}
-
-
-/**
- * Passes call through to real parser object according to first argument.
- */
-static void BeginElement(void* parser, const char *name, const char **atts)
-{
-  static_cast<ConfigurationParser*>(parser)->BeginElement(name, atts);
-}
-
-
-/**
- * Passes call through to real parser object according to first argument.
- */
-static void EndElement(void* parser, const char *name)
-{
-  static_cast<ConfigurationParser*>(parser)->EndElement(name);
-}
-
-
-/**
- * Passes call through to real parser object according to first argument.
- */
-static void CharacterDataHandler(void* parser,const XML_Char *data, int length)
-{
-  static_cast<ConfigurationParser*>(parser)->CharacterDataHandler(data, length);
-}
-
-
-/**
  * Create a new ConfigurationParser and return a pointer to it.
  */
 ConfigurationParser::Pointer
@@ -70,15 +26,15 @@ ConfigurationParser
   ConfigurationParser::InitializeHandlers();
   
   XML_SetElementHandler(m_XML_Parser,
-                        ::BeginElement,
-                        ::EndElement);
+                        BeginElement_proxy,
+                        EndElement_proxy);
   XML_SetUserData(m_XML_Parser,
                   this);
   XML_SetCdataSectionHandler(m_XML_Parser,
-                             ::BeginCdataSectionHandler,
-                             ::EndCdataSectionHandler);
+                             BeginCdataSectionHandler_proxy,
+                             EndCdataSectionHandler_proxy);
   XML_SetCharacterDataHandler(m_XML_Parser,
-                              ::CharacterDataHandler);
+                              CharacterDataHandler_proxy);
 }
 
 
@@ -303,6 +259,68 @@ ConfigurationParser
   
   initialized = true;
 }
+
+
+
+
+/**
+ * Passes call through to real parser object according to first argument.
+ */
+void
+ConfigurationParser
+::BeginCdataSectionHandler_proxy(void* parser)
+{
+  static_cast<ConfigurationParser*>(parser)->BeginCdataSectionHandler();
+}
+
+/**
+ * Passes call through to real parser object according to first argument.
+ */
+void
+ConfigurationParser
+::EndCdataSectionHandler_proxy(void* parser)
+{
+  static_cast<ConfigurationParser*>(parser)->EndCdataSectionHandler();
+}
+
+
+/**
+ * Passes call through to real parser object according to first argument.
+ */
+void
+ConfigurationParser
+::BeginElement_proxy(void* parser, const char *name, const char **atts)
+{
+  static_cast<ConfigurationParser*>(parser)->BeginElement(name, atts);
+}
+
+
+/**
+ * Passes call through to real parser object according to first argument.
+ */
+void
+ConfigurationParser
+::EndElement_proxy(void* parser, const char *name)
+{
+  static_cast<ConfigurationParser*>(parser)->EndElement(name);
+}
+
+
+/**
+ * Passes call through to real parser object according to first argument.
+ */
+void
+ConfigurationParser
+::CharacterDataHandler_proxy(void* parser,const XML_Char *data, int length)
+{
+  static_cast<ConfigurationParser*>(parser)->CharacterDataHandler(data, length);
+}
+
+
+
+
+
+
 
 
 #if 0

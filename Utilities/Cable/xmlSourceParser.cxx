@@ -4,23 +4,6 @@ namespace xml
 {
 
 /**
- * Passes call through to real parser object according to first argument.
- */
-static void BeginElement(void* parser, const char *name, const char **atts)
-{
-  static_cast<SourceParser*>(parser)->BeginElement(name, atts);
-}
-
-
-/**
- * Passes call through to real parser object according to first argument.
- */
-static void EndElement(void* parser, const char *name)
-{
-  static_cast<SourceParser*>(parser)->EndElement(name);
-}
-
-/**
  * Create a new SourceParser and return a pointer to it.
  */
 SourceParser::Pointer
@@ -43,8 +26,8 @@ SourceParser
   SourceParser::InitializeHandlers();
   
   XML_SetElementHandler(m_XML_Parser,
-                        ::BeginElement,
-                        ::EndElement);
+                        BeginElement_proxy,
+                        EndElement_proxy);
   XML_SetUserData(m_XML_Parser,
                   this);
 }
@@ -1616,5 +1599,30 @@ SourceParser
   
   initialized = true;
 }
+
+
+/**
+ * Begin element handler that is registered with the XML_Parser.
+ * Passes call through to real parser object according to first argument.
+ */
+void
+SourceParser
+::BeginElement_proxy(void* parser, const char *name, const char **atts)
+{
+  static_cast<SourceParser*>(parser)->BeginElement(name, atts);
+}
+
+
+/**
+ * End element handler that is registered with the XML_Parser.
+ * Passes call through to real parser object according to first argument.
+ */
+void
+SourceParser
+::EndElement_proxy(void* parser, const char *name)
+{
+  static_cast<SourceParser*>(parser)->EndElement(name);
+}
+
 
 } // namespace xml

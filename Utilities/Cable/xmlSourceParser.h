@@ -11,6 +11,9 @@
 namespace xml
 {
 
+/**
+ * Class to parse the XML description of a C++ source.
+ */
 class SourceParser: public Object
 {
 public:
@@ -167,6 +170,10 @@ private:
   
   static BeginHandlers beginHandlers;
   static EndHandlers   endHandlers;  
+
+  // Proxy functions for call-backs from XML Parser.
+  static void BeginElement_proxy(void*, const char *, const char **);
+  static void EndElement_proxy(void*, const char *);
 };
 
 } // namespace xml
