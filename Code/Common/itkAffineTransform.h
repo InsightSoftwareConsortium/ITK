@@ -354,7 +354,7 @@ public:
    * This method creates and returns a new AffineTransform object
    * which is the inverse of self.  If self is not invertible,
    * an exception is thrown.   **/
-  AffineTransform::Pointer Inverse(void) const;
+  typename AffineTransform::Pointer Inverse(void) const;
 
   /** Compute distance between two affine transformations
    *
