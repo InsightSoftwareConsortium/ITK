@@ -114,29 +114,21 @@ LevelSetFunction< TImageType >
 ::ComputeUpdate(const NeighborhoodType &it, void *gd,
                 const FloatOffsetType& offset) const
 {
-  unsigned int i;  
+  unsigned int i, j;  
   const ScalarValueType ZERO = NumericTraits<ScalarValueType>::Zero;
-  const ScalarValueType MIN_NORM = 1.0e-6;
-  
-  ScalarValueType curve, gradMag, laplacian;
-  ScalarValueType temp_value;
-  ScalarValueType dx[ImageDimension];
-  ScalarValueType dx_forward[ImageDimension], dx_backward[ImageDimension];
-  ScalarValueType propagation_gradient;
-  ScalarValueType propagation_term, curvature_term, advection_term;
-  ScalarValueType laplacian_term;
+  const ScalarValueType center_value  = it.GetCenterPixel();
+
+  ScalarValueType dxy, gradMag, laplacian, x_energy, laplacian_term, propagation_term,
+    curvature_term, advection_term, propagation_gradient;
+  ScalarValueType dx[ImageDimension], dxx[ImageDimension],
+    dx_forward[ImageDimension], dx_backward[ImageDimension];
   VectorType advection_field;
-  ScalarValueType x_energy[ImageDimension];
 
   // Global data structure
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
 
-  temp_value  = it.GetCenterPixel();  
-
   // Calculate the mean curvature
-  ScalarValueType dxx[ImageDimension];
-  ScalarValueType dxy[ImageDimension * (ImageDimension-1)/2];
-
+  gradMag = 1.0e-6;
   for( i = 0 ; i < ImageDimension; i++)
     {
     const unsigned int positionA = 
@@ -146,13 +138,12 @@ LevelSetFunction< TImageType >
     dx[i] = 0.5 * (it.GetPixel( positionA ) - 
                    it.GetPixel( positionB )    );
       
-    dx_forward[i]  = it.GetPixel( positionA ) - temp_value;
-    dx_backward[i] = temp_value - it.GetPixel( positionB );
+    dx_forward[i]  = it.GetPixel( positionA ) - center_value;
+    dx_backward[i] = center_value - it.GetPixel( positionB );
+    gradMag += dx[i] * dx[i];
     }
   
-  int k = 0;
-
-  curve = ZERO;
+  curvature_term = ZERO;
   
   for (i = 0; i < ImageDimension; i++)
     {
@@ -161,9 +152,9 @@ LevelSetFunction< TImageType >
     const unsigned int positionBI = 
       static_cast<unsigned int>( m_Center - m_xStride[i]);    
     dxx[i] = it.GetPixel( positionAI )
-      + it.GetPixel( positionBI ) - 2.0 * temp_value;
+      + it.GetPixel( positionBI ) - 2.0 * center_value;
       
-    for(unsigned int j = i+1; j < ImageDimension; j++)
+    for(j = i+1; j < ImageDimension; j++)
       {
       const unsigned int positionA = static_cast<unsigned int>( 
         m_Center - m_xStride[i] - m_xStride[j] );    
@@ -173,33 +164,29 @@ LevelSetFunction< TImageType >
         m_Center + m_xStride[i] - m_xStride[j] );    
       const unsigned int positionD = static_cast<unsigned int>( 
         m_Center + m_xStride[i] + m_xStride[j] );    
-      dxy[k] = 0.25 *( it.GetPixel( positionA )
+      dxy = 0.25 *( it.GetPixel( positionA )
                        - it.GetPixel( positionB )
                        - it.GetPixel( positionC )
                        + it.GetPixel( positionD )  );
          
-      curve -= 2.0 * dx[i] * dx[j] * dxy[k]; 
-      k++;
+      curvature_term -= 2.0 * dx[i] * dx[j] * dxy; 
       }
     }
 
-  gradMag = MIN_NORM;
   for (i = 0; i < ImageDimension; i++)
-    {
-      
-    for(unsigned int j = 0; j < ImageDimension; j++)
-      {
-      
+    {      
+    for(j = 0; j < ImageDimension; j++)
+      {      
       if(j != i)
-        curve += dxx[j] * dx[i] * dx[i];
+        curvature_term += dxx[j] * dx[i] * dx[i];
       }
-    gradMag += dx[i] * dx[i];
     }
   
-  curve /= gradMag * vcl_sqrt(gradMag);
-  
-  curvature_term = curve;
-  curvature_term *= m_CurvatureWeight * this->CurvatureSpeed(it, offset);
+    curvature_term = ( curvature_term / (gradMag * vcl_sqrt(gradMag)) )
+      * m_CurvatureWeight * this->CurvatureSpeed(it, offset);
+
+  //  curvature_term = ( curvature_term / gradMag )
+  //    * m_CurvatureWeight * this->CurvatureSpeed(it, offset);;
   
   // Calculate the advection term.
   //  $\alpha \stackrel{\rightharpoonup}{F}(\mathbf{x})\cdot\nabla\phi $
@@ -216,9 +203,9 @@ LevelSetFunction< TImageType >
     for(i = 0; i < ImageDimension; i++)
       {
       
-      x_energy[i] = m_AdvectionWeight * advection_field[i];
+      x_energy = m_AdvectionWeight * advection_field[i];
       
-      if (x_energy[i] > ZERO)
+      if (x_energy > ZERO)
         {
         advection_term += advection_field[i] * dx_backward[i];
         }
@@ -228,7 +215,7 @@ LevelSetFunction< TImageType >
         }
         
       globalData->m_MaxAdvectionChange
-        = vnl_math_max(globalData->m_MaxAdvectionChange, vnl_math_abs(x_energy[i])); 
+        = vnl_math_max(globalData->m_MaxAdvectionChange, vnl_math_abs(x_energy)); 
       }
     advection_term *= m_AdvectionWeight;
     
