@@ -4,7 +4,8 @@
 #
 # The following variables are defined to help external projects use ITK:
 #
-# ITK_VERSION_STRING    - The ITK version number in "major.minor" format.
+# ITK_VERSION_MAJOR     - The ITK major version number.
+# ITK_VERSION_MINOR     - The ITK minor version number.
 #
 # ITK_USE_FILE          - A CMake source file that can be included
 #                         to set the include directories, library
@@ -71,7 +72,8 @@ SET(ITK_LIBRARY_DIRS "@ITK_LIBRARY_DIRS@")
 SET(ITK_DEFINITIONS "@ITK_DEFINITIONS@")
 
 # The ITK version number
-SET(ITK_VERSION_STRING "@ITK_VERSION_STRING@")
+SET(ITK_VERSION_MAJOR "@ITK_VERSION_MAJOR@")
+SET(ITK_VERSION_MINOR "@ITK_VERSION_MINOR@")
 
 # The location of the UseITK.cmake file.
 SET(ITK_USE_FILE "@ITK_USE_FILE@")
