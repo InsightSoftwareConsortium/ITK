@@ -224,8 +224,8 @@ int main()
 
   iterationCommand->SetOptimizer(  method->GetOptimizer() );
 
-  method->GetOptimizer()->AddObserver( itk::Command::IterationEvent,
-                                                   iterationCommand ); 
+  method->GetOptimizer()->AddObserver( itk::IterationEvent(),
+                                           iterationCommand ); 
 
   // set metric related parameters
   method->GetMetric()->SetTargetStandardDeviation( 5.0 );

@@ -205,13 +205,13 @@ int main()
 
   iterationCommand->SetOptimizer(  registrationMethod->GetOptimizer() );
 
-  registrationMethod->GetOptimizer()->AddObserver( itk::Command::IterationEvent,
+  registrationMethod->GetOptimizer()->AddObserver( itk::IterationEvent(),
                                                    iterationCommand ); 
 
-  registrationMethod->GetOptimizer()->AddObserver( itk::Command::StartEvent,
+  registrationMethod->GetOptimizer()->AddObserver( itk::StartEvent(),
                                                    iterationCommand ); 
 
-  registrationMethod->GetOptimizer()->AddObserver( itk::Command::EndEvent,
+  registrationMethod->GetOptimizer()->AddObserver( itk::EndEvent(),
                                                    iterationCommand ); 
 
   ScaleTransformParametersType  parametersScale;

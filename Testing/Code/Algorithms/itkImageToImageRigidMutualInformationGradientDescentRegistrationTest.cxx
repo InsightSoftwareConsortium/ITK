@@ -176,7 +176,7 @@ int main()
 
   iterationCommand->SetOptimizer(  registrationMethod->GetOptimizer() );
 
-  registrationMethod->GetOptimizer()->AddObserver( itk::Command::IterationEvent,
+  registrationMethod->GetOptimizer()->AddObserver( itk::IterationEvent(),
                                                    iterationCommand ); 
   
   // do the registration

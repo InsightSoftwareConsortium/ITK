@@ -145,7 +145,7 @@ int main()
 
   iterationCommand->SetOptimizer(  registrationMethod->GetOptimizer() );
 
-  registrationMethod->GetOptimizer()->AddObserver( itk::Command::IterationEvent,
+  registrationMethod->GetOptimizer()->AddObserver( itk::IterationEvent(),
                                                    iterationCommand ); 
 
   const double translationScale = 5e-7;
