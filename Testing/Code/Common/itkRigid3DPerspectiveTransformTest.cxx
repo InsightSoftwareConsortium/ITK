@@ -106,9 +106,9 @@ int itkRigid3DPerspectiveTransformTest(int argc,char **argv)
       TransformType::InputPointType q;
       q = p + ioffset;
       TransformType::OutputPointType s;
-      const double factor = height/(q[2]+focal);
-      s[0] = q[0] * factor + width/2.0;
-      s[1] = q[1] * factor + height/2.0;
+      const double factor = focal/q[2];
+      s[0] = q[0] * factor;
+      s[1] = q[1] * factor;
       TransformType::OutputPointType r;
       r = translation->TransformPoint( p );
       for(unsigned int i=0; i<N-1; i++)
@@ -141,9 +141,9 @@ int itkRigid3DPerspectiveTransformTest(int argc,char **argv)
       TransformType::InputPointType q;
       q = p + ioffset;
       TransformType::OutputPointType s;
-      const double factor = height/(q[2]+focal);
-      s[0] = q[0] * factor + width/2.0;
-      s[1] = q[1] * factor + height/2.0;
+      const double factor = focal/q[2];
+      s[0] = q[0] * factor;
+      s[1] = q[1] * factor;
       TransformType::OutputPointType r;
       r = translation->TransformPoint( p );
       for(unsigned int i=0; i<N-1; i++)
@@ -205,9 +205,9 @@ int itkRigid3DPerspectiveTransformTest(int argc,char **argv)
       TransformType::InputPointType q;
       q = p + ioffset;
       TransformType::OutputPointType s;
-      const double factor = height/(q[2]+focal);
-      s[0] = q[0] * factor + width/2.0;
-      s[1] = q[1] * factor + height/2.0;
+      const double factor = focal/q[2];
+      s[0] = q[0] * factor;
+      s[1] = q[1] * factor;
       TransformType::OutputPointType r;
       r = rigid->TransformPoint( p );
       for(unsigned int i=0; i<N-1; i++)
@@ -240,9 +240,9 @@ int itkRigid3DPerspectiveTransformTest(int argc,char **argv)
       TransformType::InputPointType q;
       q = p + ioffset;
       TransformType::OutputPointType s;
-      const double factor = height/(q[2]+focal);
-      s[0] = q[0] * factor + width/2.0;
-      s[1] = q[1] * factor + height/2.0;
+      const double factor = focal/q[2];
+      s[0] = q[0] * factor;
+      s[1] = q[1] * factor;
       TransformType::OutputPointType r;
       r = rigid->TransformPoint( p );
       for(unsigned int i=0; i<N-1; i++)
@@ -255,7 +255,7 @@ int itkRigid3DPerspectiveTransformTest(int argc,char **argv)
       }
       if( !Ok )
       { 
-        std::cerr << "Error rotating point: " << p << std::endl;
+        std::cerr << "Error translatin point: " << p << std::endl;
         std::cerr << "Result should be       : " << s << std::endl;
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
@@ -270,6 +270,7 @@ int itkRigid3DPerspectiveTransformTest(int argc,char **argv)
   }
 
  
+  std::cout << "Test successful" << std::endl;
   return EXIT_SUCCESS;
 
 }
