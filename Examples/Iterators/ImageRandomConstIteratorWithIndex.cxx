@@ -21,6 +21,9 @@
 // sample pixel values.  When incremented or decremented, it jumps to a random
 // location in its image region.
 //
+// \index{itk::ImageRandomConstIteratorWithIndex!sample size}
+// \index{itk::ImageRandomConstIteratorWithIndex!begin and end positions}
+//
 // The user must specify a sample size when creating this iterator. The sample
 // size defines the end position for the iterator.  \code{IsAtEnd()} returns
 // \code{true} when the current sample number equals the sample size.
@@ -29,6 +32,8 @@
 // \code{itk::ImageRandomConstIteratorWithIndex} may visit the same pixel
 // location more than once.
 //
+// \index{itk::ImageRandomConstIteratorWithIndex!example of using|(}
+// \index{itk::ImageRandomConstIteratorWithIndex!and statistics}
 // Let's use the random iterator to calculate some simple image statistics. The next
 // example calculates an estimate of the arithmetic mean of pixel values.
 //
@@ -88,6 +93,8 @@ int main( int argc, char ** argv )
 // \code{ReinitializeSeed} seeds the random number generator.  The iterator is
 // initialized over the entire valid image region.
 //
+//  \index{itk::ImageRandomConstIteratorWithIndex!SetNumberOfSamples()}
+//  \index{itk::ImageRandomConstIteratorWithIndex!ReinitializeSeed()}
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -119,7 +126,6 @@ int main( int argc, char ** argv )
 // of running this example on several of the data files from
 // \code{Insight/Examples/Data} with a range of sample sizes.
 //
-//
 // \begin{table}
 // \begin{tabular}[]{rc|c|c|c}
 // & \multicolumn{4}{c}{\emph{Sample Size}} \\
@@ -135,6 +141,7 @@ int main( int argc, char ** argv )
 // using the ImageRandomConstIteratorWithIndex at different sample sizes.}
 // \end{table}
 //
+// \index{itk::ImageRandomConstIteratorWithIndex!example of using|)}
 // Software Guide : EndLatex
   
   return 0;

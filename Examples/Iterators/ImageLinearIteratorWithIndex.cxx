@@ -23,6 +23,8 @@
 // iterator allows developers to work with an image as a set of parallel lines
 // spanning the selected image dimension.
 //
+// \index{Iterators!and image lines}
+//
 // Like all other ITK image iterators, movement is constrained to within an
 // image region, $R$.  The line $\ell$ through which the iterator moves is
 // defined by a selected direction and an origin.  The origin itself can be
@@ -35,21 +37,34 @@
 // %Might need a figure here to describe this iterator.
 //
 // \begin{itemize}
+//
+// \index{itk::ImageLinearIteratorWithIndex!NextLine()}
+//
 // \item \textbf{\code{NextLine()}} Moves the iterator to the beginning pixel
 // location of the next line in the image.  The origin of the next line is
 // determined by incrementing the current origin along the fastest increasing
 // dimension of the subspace of the image that excludes the selected dimension.
+//
+//
+// \index{itk::ImageLinearIteratorWithIndex!PreviousLine()}
 //
 // \item \textbf{\code{PreviousLine()}} Moves the iterator to the \emph{last valid
 // pixel location} in the previous line. The origin of the previous line is
 // determined by decrementing the current origin along the fastest increasing
 // dimension of the subspace of the image that excludes the selected dimension.
 //
+// \index{itk::ImageLinearIteratorWithIndex!GoToBeginOfLine()}
+// \index{itk::ImageLinearIteratorWithIndex!GoToEndOfLine()}
+//
 // \item \textbf{\code{GoToBeginOfLine()}} Moves the iterator to the beginning
 // pixel of the current line.
 //
 // \item \textbf{\code{GoToEndOfLine()}}  Move the iterator to \emph{one
 // position past} the last valid pixel of the current line.
+//
+//
+// \index{itk::ImageLinearIteratorWithIndex!IsAtBeginOfLine()}
+// \index{itk::ImageLinearIteratorWithIndex!IsAtEndOfLine()}
 //
 // \item \textbf{\code{IsAtBeginOfLine()}} Returns true if the iterator points
 // to the beginning pixel of the current line.
@@ -64,6 +79,8 @@
 // Two line iterators are iterated in opposite directions across the $x$-axis.
 // After a line is processed, the iterators are stepped to the next line (down the
 // $y$-axis).
+//
+// \index{itk::ImageLinearIteratorWithIndex!example of using|(}
 //
 // Headers for both the const and non-const versions are needed.
 //
@@ -201,6 +218,7 @@ int main( int argc, char ** argv )
 // the same output image shown in
 // figure~\ref{fig:ImageRegionIteratorWithIndex}.
 //
+// \index{itk::ImageLinearIteratorWithIndex!example of using|)}
 // Software Guide : EndLatex
   
   return 0;

@@ -17,6 +17,8 @@
 
 // Software Guide : BeginLatex
 //
+// \index{Iterators!and image slices}
+//
 // The \code{itk::ImageSliceIteratorWithIndex} is an extension of the
 // \code{itk::ImageLinearIteratorWithIndex} from iteration along lines to
 // iteration along both lines \emph{and planes} in an image.  A \emph{slice} is a 2D
@@ -25,9 +27,11 @@
 // variables.
 // 
 // \begin{itemize}
+// \index{itk::ImageSliceIteratorWithIndex!SetFirstDirection()}
 // \item \textbf{\code{SetFirstDirection()}} Specifies the first coordinate axis
 // direction of the slice plane.
 //
+// \index{itk::ImageSliceIteratorWithIndex!SetSecondDirection()}
 // \item \textbf{\code{SetSecondDirection()}} Specifies the second coordinate axis
 // direction of the slice plane.
 // \end{itemize}
@@ -36,21 +40,25 @@
 //
 // \begin{itemize}
 // 
+// \index{itk::ImageSliceIteratorWithIndex!NextSlice()}
 // \item \textbf{\code{NextSlice()}} Moves the iterator to the beginning pixel
 // location of the next slice in the image.  The origin of the next slice is
 // calculated by incrementing the current origin index along the fastest
 // increasing dimension of the image subspace which excludes the first and
 // second dimensions of the iterator.
 //
+// \index{itk::ImageSliceIteratorWithIndex!PreviousSlice()}
 // \item \textbf{\code{PreviousSlice()}} Moves the iterator to the \emph{last
 // valid pixel location} in the previous slice.  The origin of the previous
 // slice is calculated by decrementing the current origin index along the
 // fastest increasing dimension of the image subspace which excludes the first
 // and second dimensions of the iterator.
 //
+// \index{itk::ImageSliceIteratorWithIndex!IsAtBeginOfSlice(})
 // \item \textbf{\code{IsAtBeginOfSlice()}} Returns true if the iterator
 // points to the beginning pixel of the current slice.
 //
+// \index{itk::ImageSliceIteratorWithIndex!IsAtEndOfSlice(})
 // \item \textbf{\code{IsAtEndOfSlice()}} Returns true if the iterator points
 // to \emph{one position past} the last valid pixel of the current slice.
 // 
@@ -61,6 +69,7 @@
 // coordinate axis direction of the slice plane (see also
 // section~\ref{sec:itkImageLinearIteratorWithIndex}).
 //
+// \index{itk::ImageSliceIteratorWithIndex!example of using|(}
 // The next code example calculates the maximum intensity projection along one
 // of the coordinate axes of an image volume.  The algorithm is straightforward
 // using \code{itk::ImageSliceIteratorWithIndex} because we can coordinate
@@ -121,7 +130,6 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 //  A slice iterator type is defined to walk the input image.
-  
 //
 // Software Guide : EndLatex
   
@@ -204,7 +212,7 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// Next we create the necesary iterators.  The const slice iterator walks the 3D input image,
+// Next we create the necessary iterators.  The const slice iterator walks the 3D input image,
 // and the non-const linear iterator walks the 2D output image. The iterators are
 // initialized to walk the same linear path through a slice.  Remember that the
 // \emph{second} direction of the slice iterator defines the direction linear
@@ -281,6 +289,13 @@ int main( int argc, char ** argv )
       std::cout << err << std::endl; 
       return -1;   
 }
+
+// Software Guide : BeginLatex
+//
+//  
+// \index{itk::ImageSliceIteratorWithIndex!example of using|)}
+//
+// Software Guide : EndLatex
 
   return 0;
 }

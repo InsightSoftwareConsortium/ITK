@@ -17,6 +17,7 @@
 
 // Software Guide : BeginLatex
 //
+// \index{Iterators!speed}
 // The \code{itk::ImageRegionIterator} has been optimized for iteration speed.
 // It is the first choice for iterative, pixel-wise operations where location
 // in the image is not important and no special iteration path through the
@@ -30,6 +31,8 @@
 // well. This simple application crops a subregion from an image by copying
 // pixel values into to a second image.
 //
+// \index{Iterators!and image regions}
+// \index{itk::ImageRegionIterator!example of using|(}
 // We begin by including the appropriate header files.
 // Software Guide : EndLatex
 
@@ -139,6 +142,8 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
+// \index{Iterators!construction of}
+// \index{Iterators!and image regions}
 // The necessary images and region definitions are now in place.  All that is
 // left is to create the iterators and perform the copy.  Note that image
 // iterators are not smart pointers so their constructors are called directly.
@@ -161,6 +166,7 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
+// \index{Iterators!image dimensionality}
 // The \code{for} loop above is a common construct in ITK.  The beauty of these
 // four lines of code is that they are equally valid for one, two, three, or
 // even ten dimensional data.  Consider the ugly alternative of ten nested
@@ -206,6 +212,8 @@ int main( int argc, char ** argv )
 // \protect\label{fig:ImageRegionIteratorOutput}
 // \end{figure}
 // 
+// \index{itk::ImageRegionIterator!example of using|)}
+//
 // Software Guide : EndLatex
 
   return 0;

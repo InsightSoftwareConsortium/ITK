@@ -17,6 +17,7 @@
 
 // Software Guide : BeginLatex
 //
+// \index{Iterators!speed}
 // The ``WithIndex'' family of iterators was designed for algorithms that
 // depend on the image index locations of values they work with.  Unlike
 // \code{itk::ImageRegionIterator}, which calculates an index only if and when
@@ -25,6 +26,8 @@
 // is incremented or decremented.  A penalty is therefore introduced on the
 // iteration speed, but the iterator is more efficient in cases where it is
 // heavily queried for the index.
+//
+// \index{itk::ImageRegionIteratorWithIndex!example of using|(}
 //
 // The following example illustrates the use of
 // \code{itk::ImageRegionIteratorWithIndex}.  This algorithm mirrors
@@ -170,7 +173,9 @@ int main( int argc, char ** argv )
 // shown at right.}
 // \label{fig:ImageRegionIteratorWithIndexExample}
 // \end{figure}
-//  
+//
+// \index{itk::ImageRegionIteratorWithIndex!example of using|)}
+//
 // Software Guide : EndLatex
   
   return 0;
