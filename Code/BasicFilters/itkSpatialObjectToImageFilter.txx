@@ -40,6 +40,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 
   m_InsideValue = 0;
   m_OutsideValue = 0;
+  m_UseObjectValue = false;
 }
 
 /** Destructor */
@@ -347,8 +348,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 
   while(!it.IsAtEnd())
     {
-     
-    
+       
     // ValueAt requires the point to be in physical coordinate i.e
     for(unsigned int i=0;i<ObjectDimension;i++)
       {
@@ -360,9 +360,16 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
     if(   m_InsideValue != 0 
           ||  m_OutsideValue != 0 )
       {
-      if( val )
+      if( val)
         {
-        it.Set(m_InsideValue);
+        if(m_UseObjectValue)
+          {
+          it.Set(static_cast<ValueType>(val));
+          }
+        else
+          {
+          it.Set(m_InsideValue);
+          }
         }
       else
         {

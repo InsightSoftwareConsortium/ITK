@@ -121,6 +121,12 @@ public:
   itkSetMacro(Size,SizeType);
   itkGetMacro(Size,SizeType);
 
+  /** If UseObjectValue is set to true, then the filter uses
+   *  the ValueAt() function instead of IsInside() */
+  itkSetMacro(UseObjectValue,bool);
+  itkGetMacro(UseObjectValue,bool);
+
+
 protected:
   SpatialObjectToImageFilter();
   ~SpatialObjectToImageFilter();
@@ -135,6 +141,7 @@ protected:
   unsigned int m_ChildrenDepth;
   ValueType    m_InsideValue;
   ValueType    m_OutsideValue;
+  bool         m_UseObjectValue;
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
