@@ -41,6 +41,8 @@ namespace itk
   * Finally the neighbors of the points are reordered counter-clockwise
   * for geometry computation.
   *
+  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
+  * 
   */
   template <class TInputMesh, class TOutputMesh>
 class TriangleMeshToSimplexMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>

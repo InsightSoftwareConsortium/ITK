@@ -45,7 +45,7 @@ namespace itk
   * 
   *
   *
-  * \author Thomas Boettger
+  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
   */
   template <typename TPixelType, unsigned int VDimension = 3,
     typename TMeshTraits = DefaultStaticMeshTraits< TPixelType , VDimension, VDimension, TPixelType , TPixelType , TPixelType >

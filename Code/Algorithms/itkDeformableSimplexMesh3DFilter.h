@@ -54,6 +54,8 @@ namespace itk
   *
   * The user has to set the number of iterations for mesh evolution.
   * 
+  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
+  * 
   * \ingroup MeshFilters
   * \ingroup MeshSegmentation 
   */

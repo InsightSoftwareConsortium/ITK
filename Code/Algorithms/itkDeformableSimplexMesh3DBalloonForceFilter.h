@@ -35,6 +35,9 @@ namespace itk
   * internal forces.
   * 
   * The balloon force can be scaled, by setting the parameter kappa.
+  *
+  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
+  * 
   */
   template <class TInputMesh, class TOutputMesh>
 class DeformableSimplexMesh3DBalloonForceFilter : public DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>

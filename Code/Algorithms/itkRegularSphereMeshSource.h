@@ -33,7 +33,7 @@ namespace itk
  *
  * Don't use recursion depths larger than 5, because mesh generation gets very slow. 
  *
- * \author Thomas Boettger
+ * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
  *
  */
 template <class TOutputMesh>

@@ -43,6 +43,9 @@ namespace itk
   * Currently only one transformation for inserting new cells into a mesh is implemented.
   * For insertion several criteria are compute, e.g. the curvature in a mesh point. The user 
   * can set a threshold value to control how many cells will be manipulated.
+  *
+  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
+  * 
   */
   template <class TInputMesh, class TOutputMesh>
 class SimplexMeshAdaptTopologyFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>

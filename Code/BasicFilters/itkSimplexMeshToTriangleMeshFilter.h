@@ -39,6 +39,10 @@ namespace itk
   * Convert a simplex mesh into a triangle mesh. Therefore the center of each 
   * simplex cell is computed. These centers are taken as the points for the 
   * triangle mesh then the points are connected.
+  *
+  *
+  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
+  *
   */
   template <class TInputMesh, class TOutputMesh>
 class SimplexMeshToTriangleMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
