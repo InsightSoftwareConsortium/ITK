@@ -40,14 +40,20 @@ public:
    */
   void Initialize();
 
-  /** Overload itkDataObject method.*/
+  /** 
+   * Overload itkDataObject method.
+   */
   virtual void SetDimension(unsigned int dim);
 
-  /** Set the size of the image. This method assumes that
-   *  the dimension of the data has been set. */
+  /** 
+   * Set the size of the image. This method assumes that
+   *  the dimension of the data has been set. 
+   */
   void SetSize(unsigned long *size);
 
-  /** Get the size of the iamge. */
+  /** 
+   * Get the size of the iamge. 
+   */
   const unsigned long *GetSize() const {return m_Size;} ;
   
   /** 

@@ -57,8 +57,10 @@ public:
   
   /** 
    * Set the dimension (number of independent variables) of the data.
+   * This method has the side effect of allocating memory related to
+   * dimension size (e.g., WholeExtent).
    */
-  virtual void SetDimension(unsigned int dim) {itkSetMacro(m_Dimension,dim);}
+  virtual void SetDimension(unsigned int dim);
 
   /** 
    * Get the dimension of the data.
@@ -147,10 +149,24 @@ public:
   void ComputeEstimatedPipelineMemorySize(unsigned long sizes[3]);
   unsigned long GetEstimatedPipelineMemorySize();
   virtual unsigned long GetEstimatedMemorySize();
+  virtual unsigned long GetActualMemorySize();
   void CopyInformation(itkDataObject *data);
   virtual bool UpdateExtentIsOutsideOfTheExtent();
   virtual bool VerifyUpdateExtent();
 
+  /**
+   * Get the whole extent of this data object
+   */
+  const int *GetWholeExtent() const
+    {return m_WholeExtent;}
+      
+  /**
+   * Get the maximum number of pieces thaT this data can be
+   * separated into.
+   */
+  int GetMaximumNumberOfPieces() const
+    {return m_MaximumNumberOfPieces;}
+      
   /** 
    * Handle the source/data loop. 
    */

@@ -254,8 +254,6 @@ protected:
     {itkSetClampMacro(m_NumberOfRequiredInputs,num,0,ITK_LARGE_INTEGER);}
   unsigned int GetNumberOfRequiredInputs()
     {itkGetMacro(m_NumberOfRequiredInputs);}
-  // Called to allocate the input array.  Copies old inputs.
-  void SetNumberOfInputs(int num);
 
   // protected methods for setting outputs.
   virtual void SetNthOutput(int num, itkDataObject *output);
@@ -270,6 +268,12 @@ protected:
   virtual void Execute() {};
 
   // Called to allocate the input array.  Copies old inputs.
+  void SetNumberOfInputs(int num);
+
+  // method used internally for getting an input.
+  itkDataObject *GetInput(int idx);
+
+  // Called to allocate the output array.  Copies old outputs.
   void SetNumberOfOutputs(int num);
 
   // method used internally for getting an output.
@@ -279,8 +283,7 @@ protected:
   // unmodified from the input to the output.
   virtual void ExecuteInformation();
 
-private:
-  // Callbacks to be called during pipeline execution
+    // Callbacks to be called during pipeline execution
   void (*m_StartMethod)(void *);
   void (*m_StartMethodArgDelete)(void *);
   void *m_StartMethodArg;
@@ -290,6 +293,8 @@ private:
   void (*m_EndMethod)(void *);
   void (*m_EndMethodArgDelete)(void *);
   void *m_EndMethodArg;
+
+private:
 
   itkDataObject **m_Inputs;     // An Array of the inputs to the filter
   int m_NumberOfInputs;

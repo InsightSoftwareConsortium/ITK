@@ -14,6 +14,7 @@
 
 =========================================================================*/
 #include "itkWriter.h"
+#include "itkDataObject.h"
 
 //----------------------------------------------------------------------------
 itkWriter::itkWriter()
@@ -29,8 +30,30 @@ itkWriter::~itkWriter()
 
 void itkWriter::Write()
 {
-  this->Update();
+  // make sure input is available
+  if ( !this->GetInput(0) )
+    {
+    itkErrorMacro(<< "No input!");
+    return;
+    }
+
+  this->GetInput(0)->Update();
+  if ( m_StartMethod )
+    {
+    (*m_StartMethod)(m_StartMethodArg);
+    }
+
   this->WriteData();
+
+  if ( m_EndMethod )
+    {
+    (*m_EndMethod)(m_EndMethodArg);
+    }
+
+  if ( this->GetInput(0)->ShouldIReleaseData() )
+    {
+    this->GetInput(0)->ReleaseData();
+    }
 }
 
 //----------------------------------------------------------------------------

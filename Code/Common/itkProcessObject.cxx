@@ -413,6 +413,17 @@ itkDataObject *itkProcessObject::GetOutput(int i)
   return m_Outputs[i];
 }
 
+//----------------------------------------------------------------------------
+itkDataObject *itkProcessObject::GetInput(int i)
+{
+  if (m_NumberOfInputs < i+1)
+    {
+    return NULL;
+    }
+  
+  return m_Inputs[i];
+}
+
 //------------------------------------------------------------------------
 // Update the progress of the process object. If a ProgressMethod exists, 
 // executes it. Then set the Progress ivar to amount. The parameter amount 

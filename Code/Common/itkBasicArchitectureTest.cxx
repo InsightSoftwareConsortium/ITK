@@ -131,6 +131,7 @@ int main()
   itkShrinkImage< itkImage<itkScalar<float>,2>, itkImage<itkScalar<float>,2> >::Pointer shrink;
   shrink = itkShrinkImage< itkImage<itkScalar<float>,2>, itkImage<itkScalar<float>,2> >::New();
   shrink->SetInput(random->GetOutput());
+  shrink->DebugOn();
 
   // Create a mapper
   itkVTKImageWriter< itkImage<itkScalar<float>,2> >::Pointer writer;
@@ -138,6 +139,7 @@ int main()
   writer->SetInput(shrink->GetOutput());
   writer->SetFileName("junkImage.vtk");
   writer->SetFileTypeToASCII();
+  writer->DebugOn();
   writer->Write();
 
   // Next create some images and manipulate it.

@@ -57,6 +57,15 @@ itkDataObject::itkDataObject()
 //----------------------------------------------------------------------------
 itkDataObject::~itkDataObject()
 {
+  if ( m_WholeExtent )
+    {
+    delete [] m_WholeExtent;
+    m_WholeExtent = NULL;
+    delete [] m_Extent;
+    m_Extent = NULL;
+    delete [] m_UpdateExtent;
+    m_UpdateExtent = NULL;
+    }
 }
 
 
@@ -66,6 +75,22 @@ void itkDataObject::Initialize()
 // We don't modify ourselves because the "ReleaseData" methods depend upon
 // no modification when initialized.
 //
+}
+
+//----------------------------------------------------------------------------
+void itkDataObject::SetDimension(unsigned int dim)
+{
+  if ( m_WholeExtent )
+    {
+    delete [] m_WholeExtent;
+    delete [] m_Extent;
+    delete [] m_UpdateExtent;
+    }
+  m_WholeExtent = new int [dim*2];
+  m_Extent = new int [dim*2];
+  m_UpdateExtent = new int [dim*2];
+  
+  m_Dimension = dim;
 }
 
 //----------------------------------------------------------------------------
@@ -283,37 +308,107 @@ void itkDataObject::PropagateUpdateExtent()
 //----------------------------------------------------------------------------
 void itkDataObject::TriggerAsynchronousUpdate()
 {
+  // If we need to update due to PipelineMTime, or the fact that our
+  // data was released, then propagate the trigger to the source
+  // if there is one.
+  if ( m_UpdateTime < m_PipelineMTime || m_DataReleased ||
+       this->UpdateExtentIsOutsideOfTheExtent())
+    {
+    if (m_Source)
+      {
+      m_Source->TriggerAsynchronousUpdate();
+      }
+    }
 }
 
 //----------------------------------------------------------------------------
 void itkDataObject::UpdateData()
 {
+  // If we need to update due to PipelineMTime, or the fact that our
+  // data was released, then propagate the UpdateData to the source
+  // if there is one.
+  if ( m_UpdateTime < m_PipelineMTime || m_DataReleased ||
+       this->UpdateExtentIsOutsideOfTheExtent())
+    {
+    if (m_Source)
+      {
+      m_Source->UpdateData(this);
+      } 
+    } 
 }
 
 //----------------------------------------------------------------------------
 void itkDataObject::SetUpdateExtentToWholeExtent()
 {
+  switch ( this->GetExtentType() )
+    {
+    // Our update extent will be the first piece of one piece (the whole thing)
+    case ITK_UNSTRUCTURED_EXTENT:
+      m_UpdateNumberOfPieces  = 1;
+      m_UpdatePiece           = 0;
+      break;
+
+    // Our update extent will be the whole extent
+    case ITK_STRUCTURED_EXTENT:
+      memcpy( m_UpdateExtent, m_WholeExtent, 6*sizeof(int) );
+      break;
+
+    // We should never have this case occur
+    default:
+      itkErrorMacro( << "Internal error - invalid extent type!" );
+      break;
+    }
 }
 
 //----------------------------------------------------------------------------
 void itkDataObject::DataHasBeenGenerated()
 {
+  m_DataReleased = 0;
+  m_UpdateTime.Modified();
 }
 
 //----------------------------------------------------------------------------
 void itkDataObject::ComputeEstimatedPipelineMemorySize(unsigned long sizes[3])
 {
+  if ( m_Source )
+    {
+    m_Source->ComputeEstimatedPipelineMemorySize( this, sizes );
+    } 
+  else
+    {
+    unsigned long size = this->GetActualMemorySize();
+    sizes[0] = size;
+    sizes[1] = size;
+    sizes[2] = size;
+    }
 }
 
 //----------------------------------------------------------------------------
 unsigned long itkDataObject::GetEstimatedPipelineMemorySize()
 {
-  return 0;
+  unsigned long sizes[3];
+  unsigned long memorySize = 0;
+
+  if ( m_Source )
+    {
+    m_Source->ComputeEstimatedPipelineMemorySize( this, sizes );
+    memorySize = sizes[2];
+    } 
+
+  return memorySize;
 }
 
 
 //----------------------------------------------------------------------------
 unsigned long itkDataObject::GetEstimatedMemorySize()
+{
+  // This should be implemented in a subclass. If not, default to
+  // estimating that no memory is used.
+  return 0;
+}
+
+//----------------------------------------------------------------------------
+unsigned long itkDataObject::GetActualMemorySize()
 {
   return 0;
 }
@@ -321,6 +416,16 @@ unsigned long itkDataObject::GetEstimatedMemorySize()
 //----------------------------------------------------------------------------
 void itkDataObject::CopyInformation(itkDataObject *data)
 {
+  if ( this->GetExtentType() == ITK_STRUCTURED_EXTENT &&
+       data->GetExtentType() == ITK_STRUCTURED_EXTENT )
+    {
+    memcpy( m_WholeExtent, data->GetWholeExtent(), 6*sizeof(int) );
+    }
+  else if ( this->GetExtentType() == ITK_UNSTRUCTURED_EXTENT &&
+	    data->GetExtentType() == ITK_UNSTRUCTURED_EXTENT )
+    {
+    m_MaximumNumberOfPieces = data->GetMaximumNumberOfPieces();
+    }  
 }
 
 
