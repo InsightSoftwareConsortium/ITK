@@ -107,8 +107,20 @@ public:
    * graphs etc.  */
   DataObjectPointerArray& GetInputs() 
     {return m_Inputs;}
+
+  /** Get the size of the input vector.  This is merely the size of
+   * the input vector, not the number of inputs that have valid
+   * DataObject's assigned. Use GetNumberOfValidRequiredInputs() to
+   * determine how many inputs are non-null. */
   std::vector<DataObjectPointer>::size_type GetNumberOfInputs() const
     {return m_Inputs.size();}
+
+  /** Get the number of valid inputs.  This is the number of non-null
+   * entries in the input vector in the first NumberOfRequiredInputs
+   * slots. This method is used to determine whether the necessary
+   * required inputs have been set.
+   */
+  std::vector<DataObjectPointer>::size_type GetNumberOfValidRequiredInputs() const;
   
   /** Return an array with all the outputs of this process object.
    * This is useful for tracing forward in the pipeline to contruct

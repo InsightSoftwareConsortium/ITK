@@ -102,7 +102,27 @@ ProcessObject
   this->Modified();
 }
 
-
+/**
+ * Get the number of specified inputs
+ */
+std::vector<SmartPointer<DataObject> >::size_type
+ProcessObject
+::GetNumberOfValidRequiredInputs() const
+{
+  std::vector<DataObjectPointer>::size_type num;
+  if (m_NumberOfRequiredInputs < m_Inputs.size())
+    {
+    num = m_NumberOfRequiredInputs;
+    }
+  else
+    {
+    num = m_Inputs.size();
+    }
+  return std::count_if(m_Inputs.begin(), m_Inputs.begin() + num,
+                       std::bind2nd(std::not_equal_to<DataObject*>(),
+                                    static_cast<DataObject*>(0)) );
+}
+ 
 /**
  * Adds an input to the first null position in the input list.
  * Expands the list memory if necessary
@@ -867,11 +887,16 @@ ProcessObject
    */
   m_AbortGenerateData = false;
   m_Progress = 0.0;
-  if (m_Inputs.size() < m_NumberOfRequiredInputs)
+
+  /**
+   * Count the number of required inputs which have been assigned 
+   */
+  unsigned int ninputs = this->GetNumberOfValidRequiredInputs();
+  if (ninputs < m_NumberOfRequiredInputs)
     {
     itkExceptionMacro(<< "At least " << m_NumberOfRequiredInputs 
-                      << " inputs are required but only " << static_cast<int>( m_Inputs.size() )
-                      << " are specified");
+                      << " inputs are required but only " << ninputs 
+                      << " are specified.");
     }
   else
     {
