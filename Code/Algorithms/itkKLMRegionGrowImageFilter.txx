@@ -378,7 +378,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 //----------------------------------------------------------------------
 
 template<class TInputImage, class TOutputImage>
-KLMRegionGrowImageFilter<TInputImage,TOutputImage>::LabelImagePointer
+typename KLMRegionGrowImageFilter<TInputImage,TOutputImage>::LabelImagePointer
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::GetLabelledImage()
 {
@@ -394,11 +394,11 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //--------------------------------------------------------------------
   LabelImagePointer labelImagePtr = LabelImageType::New();
 
-  LabelImageType::SizeType labelImageSize 
+  typename LabelImageType::SizeType labelImageSize 
     = this->GetInput()->GetBufferedRegion().GetSize();
         
-  LabelImageType::IndexType labelImageIndex = LabelImageType::IndexType::ZeroIndex;
-  LabelImageType::RegionType labelImageRegion;
+  typename LabelImageType::IndexType labelImageIndex = LabelImageType::IndexType::ZeroIndex;
+  typename LabelImageType::RegionType labelImageRegion;
 
   labelImageRegion.SetSize( labelImageSize );
   labelImageRegion.SetIndex( labelImageIndex );
@@ -426,7 +426,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 //----------------------------------------------------------------------
 
 template<class TInputImage, class TOutputImage>
-KLMRegionGrowImageFilter<TInputImage,TOutputImage>::LabelImagePointer
+typename KLMRegionGrowImageFilter<TInputImage,TOutputImage>::LabelImagePointer
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::localfn_generate_labeled2Dimage( LabelImageType *labelImagePtr )
 {
@@ -517,7 +517,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 //----------------------------------------------------------------------
 
 template<class TInputImage, class TOutputImage>
-KLMRegionGrowImageFilter<TInputImage,TOutputImage>::LabelImagePointer
+typename KLMRegionGrowImageFilter<TInputImage,TOutputImage>::LabelImagePointer
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::localfn_generate_labeled3Dimage( LabelImageType *labelImagePtr )
 {
