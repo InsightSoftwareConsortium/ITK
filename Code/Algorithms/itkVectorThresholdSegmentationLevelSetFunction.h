@@ -75,6 +75,11 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
+  /** Extract the number of components in the vector pixel type . */
+  itkStaticConstMacro(NumberOfComponents, unsigned int,
+                        FeatureImageType::PixelType::Dimension);
+
+
   typedef Statistics::MahalanobisDistanceMembershipFunction<FeatureScalarType> MahalanobisFunctionType;
   typedef typename MahalanobisFunctionType::Pointer MahalanobisFunctionPointer;
   typedef typename MahalanobisFunctionType::MeanVectorType MeanVectorType;
@@ -120,9 +125,8 @@ public:
 protected:
   VectorThresholdSegmentationLevelSetFunction()
   {
-    MeanVectorType mean(FeatureImageType::GetImageDimension());
-    CovarianceMatrixType covariance(FeatureImageType::GetImageDimension(),
-                   FeatureImageType::GetImageDimension());
+    MeanVectorType mean( NumberOfComponents );
+    CovarianceMatrixType covariance( NumberOfComponents, NumberOfComponents );
     
     mean.fill(NumericTraits<ITK_TYPENAME FeatureScalarType::ValueType>::Zero);
     covariance.fill(NumericTraits<ITK_TYPENAME FeatureScalarType::ValueType>::Zero);
