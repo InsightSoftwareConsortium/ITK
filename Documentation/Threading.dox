@@ -28,7 +28,7 @@
    each thread is restricted to writing to separate portions of the
    output image. Note that the "entire" input and "entire" output
    images (i.e. what would be available normally to the GenerateData()
-   method, see the discussion on \sa Streaming) are available to each
+   method, see the discussion on Streaming) are available to each
    call of ThreadedGenerateData().  Each thread is allowed to read
    from anywhere in the input image but each thread can only write to
    its designated portion of the output image.
