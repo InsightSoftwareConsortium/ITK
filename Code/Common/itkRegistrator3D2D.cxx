@@ -15,6 +15,7 @@
 =========================================================================*/
 #include "itkRegistrator3D2D.h"
 #include <vnl/algo/vnl_svd.h>
+#include <vnl/vnl_fastops.h>
 
 
 
@@ -454,7 +455,7 @@ void itkRegistrator3D2D::LeastSquareSolution(void)
 	// compute Jacobian^t * Jacobian
 	// this matrix is column ordered
 	// in a one dimensional array
-   M = (*Jacobian) * Jacobian->transpose();
+  vnl_fastops::AtA(*Jacobian, &M);
 
   // Add Uncertainties
   for(int c=0; c<dof; c++) {
