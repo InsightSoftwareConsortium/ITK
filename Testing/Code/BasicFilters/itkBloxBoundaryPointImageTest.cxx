@@ -206,6 +206,7 @@ int itkBloxBoundaryPointImageTest(int, char* [] )
     
     // Get the number of items in the pixel to exercise the GetSize function
     unsigned long int numItems = bloxIt.Value().GetSize();
+    std::cout << "Number of items in the pixel = " << numItems << std::endl;
 
     // Walk through all of the elements at the pixel
     for (bpiterator = bloxIt.Value().begin(); bpiterator != bloxIt.Value().end(); ++bpiterator)
