@@ -154,7 +154,7 @@ int main( int argc, char ** argv )
 // The shaped iterator that ranges over the input is our structuring element
 // and its active stencil must be created accordingly.  For this example, the
 // structuring element is shaped like a circle of radius
-// \code{element_radius}.  Each of the appropriate neighborhood offsets is
+// \code{element\_radius}.  Each of the appropriate neighborhood offsets is
 // activated in the double \code{for} loop.
 //
 // Software Guide : EndLatex

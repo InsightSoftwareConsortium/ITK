@@ -142,8 +142,9 @@ int main( int argc, char ** argv )
 // image biased towards maximally vertical edges.
 //
 // There are many ways to take derivatives using the neighborhood operators.
-// The example in section~\ref{sec:?????????????}  illustrates traditional
-// convolution filtering with convolution kernels.  In this example, we use the
+// The example in section~\ref{sec:NeighborhoodIterators2}  illustrates traditional
+// convolution filtering with convolution kernels.  In this example, we instead
+// use the
 // neighborhood iterator \code{Set / Get} API to perform the necessary finite
 // difference calculations.
 //
@@ -194,7 +195,7 @@ int main( int argc, char ** argv )
 //
 // Software Guide : EndLatex  
   
-// Software Guide : BeginCodeSnippe
+// Software Guide : BeginCodeSnippet
   typedef unsigned char WritePixelType;
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
   typedef itk::ImageFileWriter< WriteImageType > WriterType;

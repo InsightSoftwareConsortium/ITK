@@ -45,6 +45,7 @@
 //. The face calculator object is defined in
 // \code{itkNeighborhoodAlgorithm.h}.  We include this file in addition to
 // those from the previous two examples.
+//
 // Software Guide : EndLatex
 
 #include "itkSobelOperator.h"
@@ -143,6 +144,8 @@ int main( int argc, char ** argv )
 // matter because all regions are processed the same way.
 //
 // Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet  
   FaceCalculatorType::FaceListType::iterator fit;
 // Software Guide : EndCodeSnippet 
 
