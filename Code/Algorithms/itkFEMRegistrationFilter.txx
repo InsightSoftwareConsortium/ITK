@@ -39,6 +39,8 @@
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
+#include "itkMinimumMaximumImageFilter.h"
+#include "itkShiftScaleImageFilter.h"
 
 #include "vnl/algo/vnl_determinant.h"
 
@@ -90,8 +92,8 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::FEMRegistrationFilter( )
   m_UseLandmarks=false;
   m_MinJacobian=1.0;
 
-  m_FixedPyramid=NULL;
-  m_MovingPyramid=NULL;
+//  m_FixedPyramid=NULL;
+//  m_MovingPyramid=NULL;
   m_TotalIterations=0;
 
   m_ReadMeshFile=false;
@@ -99,13 +101,25 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::FEMRegistrationFilter( )
   for (unsigned int i=0; i < ImageDimension; i++)
     {
     m_ImageScaling[i]=1;
+    m_CurrentImageScaling[i]=1;
     m_FullImageSize[i]=0;
     m_ImageOrigin[i]=0;
     }
   m_FloatImage=NULL;
   m_Field=NULL;
   m_TotalField=NULL;
+  m_WarpedImage=NULL;
+
+  // Setup the default interpolator
+  typename DefaultInterpolatorType::Pointer interp =
+    DefaultInterpolatorType::New();
+
+  m_Interpolator = 
+        static_cast<InterpolatorType*>( interp.GetPointer() );
+  m_Interpolator->SetInputImage(m_Field);
+
   m_Load = 0;
+
 }
 
 
@@ -153,22 +167,30 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::RunRegistration()
 
 //    InterpolateVectorField(&mySolver);
   }
-  else if (m_Maxiters[m_CurrentLevel] > 0)
-    {
+  else //if (m_Maxiters[m_CurrentLevel] > 0)
+  {
     MultiResSolve();
-    }
-    
-    this->ComputeJacobian(-1.,m_Field);
-    WarpImage(m_MovingImage); 
+  }
+        
+  if (m_Field)
+  {
     if (m_TotalField) m_Field=m_TotalField;
+    this->ComputeJacobian(1.,m_Field,2.5);
+    WarpImage(m_OriginalMovingImage); 
+  }
 }
 
 
 
 template<class TMovingImage,class TFixedImage>
-void FEMRegistrationFilter<TMovingImage,TFixedImage>::SetMovingImage(ImageType* R)
+void FEMRegistrationFilter<TMovingImage,TFixedImage>::SetMovingImage(MovingImageType* R)
 {
   m_MovingImage=R;
+
+  if (m_TotalIterations == 0) m_OriginalMovingImage=R;
+
+
+  std::cout << " moving image size " << m_MovingImage->GetLargestPossibleRegion().GetSize() << std::endl;
 }
 
 
@@ -179,6 +201,8 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::SetFixedImage(FixedImageTy
   m_FixedImage=T;
   m_FullImageSize = m_FixedImage->GetLargestPossibleRegion().GetSize();
   
+  std::cout << " fixed image size " << m_FullImageSize << std::endl;
+
   VectorType disp;
   for (unsigned int i=0; i < ImageDimension; i++) 
     {
@@ -186,14 +210,6 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::SetFixedImage(FixedImageTy
     m_ImageOrigin[i]=0;
 
   } 
-
-  m_Wregion.SetSize( m_FullImageSize );
-  m_WarpedImage = ImageType::New();
-  m_WarpedImage->SetLargestPossibleRegion( m_Wregion );
-  m_WarpedImage->SetBufferedRegion( m_Wregion );
-  m_WarpedImage->Allocate();
-
-
   
   m_CurrentLevelImageSize=m_FullImageSize;
 
@@ -462,7 +478,7 @@ bool FEMRegistrationFilter<TMovingImage,TFixedImage>::ReadConfigFile(const char*
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> ibuf;
-    m_EmployRegridding = (bool) ibuf;
+    m_EmployRegridding = (unsigned int) ibuf;
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> ibuf;
@@ -582,22 +598,22 @@ int FEMRegistrationFilter<TMovingImage,TFixedImage>::WriteDisplacementField(unsi
 
 
 template<class TMovingImage,class TFixedImage>
-void FEMRegistrationFilter<TMovingImage,TFixedImage>::WarpImage( const ImageType * ImageToWarp)
+void FEMRegistrationFilter<TMovingImage,TFixedImage>::WarpImage( const MovingImageType * ImageToWarp)
 {
   // -------------------------------------------------------
   std::cout << "Warping image" << std::endl;
 
   {
-  typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
+  typedef itk::WarpImageFilter<MovingImageType,FixedImageType,FieldType> WarperType;
   typename WarperType::Pointer warper = WarperType::New();
 
 
     typedef typename WarperType::CoordRepType CoordRepType;
-    typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
+    typedef itk::NearestNeighborInterpolateImageFunction<MovingImageType,CoordRepType>
       InterpolatorType0;
-    typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>
+    typedef itk::LinearInterpolateImageFunction<MovingImageType,CoordRepType>
       InterpolatorType1;
-    typedef itk::BSplineInterpolateImageFunction<ImageType,CoordRepType>
+    typedef itk::BSplineInterpolateImageFunction<MovingImageType,CoordRepType>
       InterpolatorType2;
     typename InterpolatorType1::Pointer interpolator = InterpolatorType1::New();
   
@@ -607,7 +623,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::WarpImage( const ImageType
     warper->SetInterpolator( interpolator );
     warper->SetOutputSpacing( m_FixedImage->GetSpacing() );
     warper->SetOutputOrigin( m_FixedImage->GetOrigin() );
-    typename ImageType::PixelType padValue = 0;
+    typename FixedImageType::PixelType padValue = 0;
     warper->SetEdgePaddingValue( padValue );
     warper->Update();
 
@@ -668,7 +684,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::CreateMesh(double PixelsPe
       coord=(*node)->GetCoordinates();    
       for (unsigned int ii=0; ii < ImageDimension; ii++)
         { 
-        coord[ii] = coord[ii]/(float)m_ImageScaling[ii];
+        coord[ii] = coord[ii]/(float)m_CurrentImageScaling[ii];
         }
       (*node)->SetCoordinates(coord);  
       }
@@ -998,21 +1014,30 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::IterativeSolve(SolverType&
    if ( iters >= m_Maxiters[m_CurrentLevel] || (deltE < 0.0 && iters > 5 && lastdeltE < 0.0))
    Done=true;
    
+   float curmaxsol=mySolver.GetCurrentMaxSolution();
+   if (curmaxsol == 0) curmaxsol=1.0;
+   mint= m_Gamma[m_CurrentLevel]/curmaxsol;
+   if (mint > 1) mint = 1.0;
+
+   if (mySolver.GetCurrentMaxSolution() < 0.01 && iters > 2) Done=true;
    mySolver.AddToDisplacements(mint);
    m_MinE=LastE;
 
    InterpolateVectorField(mySolver);
-   
-   if ( iters % 25 == 0 && m_EmployRegridding)  
-   {
-     this->EnforceDiffeomorphism(0.2, mySolver); 
-   }
-    // uncomment to write out every deformation SLOW due to interpolating vector field everywhere.
 
-    //if ( (iters % 1) == 0 || Done ) {
+
+   if (m_EmployRegridding != 0){ 
+   if ( iters % m_EmployRegridding == 0  )
+   {
+     this->EnforceDiffeomorphism(1.0, mySolver, true);
+//     std::string rfn="warpedimage";
+//     WriteWarpedImage(rfn.c_str()); 
+   }}
+   // uncomment to write out every deformation SLOW due to interpolating vector field everywhere.
+   //else if ( (iters % 5) == 0 || Done ) {
     //WarpImage(m_MovingImage);
     //WriteWarpedImage(m_ResultsFileName.c_str());
-    //}//
+    //}
  
     std::cout << " min E " << m_MinE <<  " delt E " << deltE <<  " iter " << iters << std::endl;
    
@@ -1077,7 +1102,7 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::InterpolateVectorField(SolverTy
   FieldIterator m_FieldIter( field, field->GetLargestPossibleRegion() );
 
   m_FieldIter.GoToBegin();
-  typename ImageType::IndexType rindex = m_FieldIter.GetIndex();
+  typename FixedImageType::IndexType rindex = m_FieldIter.GetIndex();
 
   Sol.resize(ImageDimension); 
   Gpt.resize(ImageDimension);
@@ -1113,7 +1138,7 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::InterpolateVectorField(SolverTy
           eltp->GetNode(n)->GetDegreeOfFreedom(f) , mySolver.TotalSolutionIndex);
       }
       Sol[f]=solval;
-      disp[f] =(Float) 1.0*Sol[f];//*((Float)m_ImageScaling[f]); 
+      disp[f] =(Float) 1.0*Sol[f];
     }
     field->SetPixel(rindex, disp );
     }
@@ -1161,6 +1186,8 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::InterpolateVectorField(SolverTy
 
         Float solval,posval;
         bool inimage=true;
+
+        float interperror=0.0;
   
         for(unsigned int f=0; f<ImageDimension; f++)
         {
@@ -1180,9 +1207,13 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::InterpolateVectorField(SolverTy
           if (x !=0) temp=(long int) ((x)+0.5); else temp=0;// round 
           rindex[f]=temp;
           disp[f] =(Float) 1.0*Sol[f];
+          interperror+= ((Float)temp-x)*((Float)temp-x);
           if ( temp < 0 || temp > (long int) m_FieldSize[f]-1)  inimage=false;
-        }
 
+        }
+        interperror=sqrt(interperror);
+//        std::cout << " rindex " << rindex << " inimage " << inimage << std::endl;
+        //if (inimage && interperror < 0.25) 
         if (inimage) field->SetPixel(rindex, disp );
   }
   }
@@ -1193,112 +1224,50 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::InterpolateVectorField(SolverTy
   }/* */ // end if imagedimension==3
   
   // Insure that the values are exact at the nodes. They won't necessarily be unless we use this code.
- 
-
-
-}
-
-
- /*Node::ArrayType* nodes = &(mySolver.node);
+  std::cout << " interpolation done " << std::endl;
+/*
+  std::cout << " begin exact at nodes ";
+  Node::ArrayType* nodes = &(mySolver.node);
   Element::VectorType coord;  
   VectorType SolutionAtNode;
-  for(  Node::ArrayType::iterator node=node->begin(); node!=nodes->end(); node++) 
+  for(  Node::ArrayType::iterator node=nodes->begin(); node!=nodes->end(); node++) 
   {
     coord=(*node)->GetCoordinates();
     for (unsigned int ii=0; ii < ImageDimension; ii++)
     { 
-      if (coord[ii] != 0) rindex[ii]=(long int) (coord[ii])-1; 
+      if (coord[ii] != 0) rindex[ii]=(long int) (coord[ii]+0.5); 
        else rindex[ii]=0;
       Float OldSol=mySolver.GetLinearSystemWrapper()->
         GetSolutionValue((*node)->GetDegreeOfFreedom(ii),mySolver.TotalSolutionIndex);
       SolutionAtNode[ii]=OldSol;    
     }
     m_Field->SetPixel(rindex, SolutionAtNode );
-  }*/
-
-template<class TMovingImage,class TFixedImage>
-typename FEMRegistrationFilter<TMovingImage , TFixedImage>::FloatImageType* 
-FEMRegistrationFilter<TMovingImage,TFixedImage>::GetMetricImage(FieldType* Field)
-{
-  typename FloatImageType::RegionType metricRegion;
-
-  metricRegion.SetSize( m_MovingImage->GetLargestPossibleRegion().GetSize() );
-  if (m_FloatImage == NULL){
-  m_FloatImage = FloatImageType::New();
-  m_FloatImage->SetLargestPossibleRegion( metricRegion );
-  m_FloatImage->SetBufferedRegion( metricRegion );
-  m_FloatImage->Allocate(); 
   }
-  
-  m_Load=FEMRegistrationFilter<TMovingImage,TFixedImage>::ImageMetricLoadType::New();
-  m_Load->SetMovingImage(m_MovingImage);
-  m_Load->SetFixedImage(m_FixedImage);
-  if (!m_Field) this->InitializeField();
-  m_Load->SetDeformationField(this->GetDeformationField());
-  m_Load->SetMetric(m_Metric);
-  m_Load->InitializeMetric();
-  m_Load->SetTemp(m_Temp);
-  m_Load->SetGamma(m_Gamma[m_CurrentLevel]);
-  typename ImageType::SizeType r;
-  for (unsigned int i=0; i < ImageDimension; i++) r[i]=m_MetricWidth[m_CurrentLevel];
-  m_Load->SetMetricRadius(r);
-  m_Load->SetNumberOfIntegrationPoints(m_NumberOfIntegrationPoints[m_CurrentLevel]);
-  m_Load->SetSign((Float)m_DescentDirection);
- 
-   
-  FieldIterator m_FieldIter( m_Field, m_FieldRegion );
-  m_FieldIter.GoToBegin();
-  typename ImageType::IndexType rindex = m_FieldIter.GetIndex();
-
-  
-  std:: cout << " get metric image " << std::endl;
-  for( ; !m_FieldIter.IsAtEnd(); ++m_FieldIter )
-    {
-    rindex=m_FieldIter.GetIndex();
-    typename FieldType::PixelType vector=m_Field->GetPixel(rindex);
-
-    typename ImageMetricLoadType::VectorType invec;
-    invec.resize(ImageDimension*2);
-    for (unsigned int i=0; i<ImageDimension; i++)
-      {
-      invec[i]=(double) rindex[i];
-      invec[i+ImageDimension]=(double) vector[i];
-      }
-    typename FloatImageType::PixelType mPix=m_Load->GetMetric(invec);
-    
-    m_FloatImage->SetPixel(rindex, mPix );
-
-    }
-  
-  return m_FloatImage;
+  std::cout << " end exact at nodes ";
+*/
 
 }
 
+
 template<class TMovingImage,class TFixedImage>
-void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sign, FieldType* field)
+void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sign, 
+  FieldType* field, float smooth)
 {
   unsigned int row; 
   unsigned int col;
   bool jproduct=true;
-  typename FloatImageType::RegionType m_JacobianRegion;
+  
+  m_MinJacobian=1.0;
 
   if (!field) 
   { 
     field=m_Field;
     jproduct=false;
   }
-  ImageSizeType s= field->GetLargestPossibleRegion().GetSize();
-//  std::cout << " size " << s << std::endl;
-  m_JacobianRegion.SetSize(s);
-  bool fullfield=true;
-  for (row=0; row<ImageDimension; row++)
-  {
-    if (s[row] != m_FullImageSize[row] ) fullfield=false;
-  }
-  if (!fullfield) jproduct=false;
 
-  if (fullfield && jproduct && !m_FloatImage)
+  if ( !m_FloatImage && jproduct)
   {
+  std::cout << " allocating m_FloatImage " << std::endl;
   m_FloatImage = FloatImageType::New();
   m_FloatImage->SetLargestPossibleRegion( field->GetLargestPossibleRegion() );
   m_FloatImage->SetBufferedRegion( field->GetLargestPossibleRegion().GetSize() );
@@ -1316,15 +1285,15 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sig
   jMatrix.resize(ImageDimension,ImageDimension);
   
   FieldIterator m_FieldIter( field, field->GetLargestPossibleRegion() );
-  typename ImageType::IndexType rindex;
-  typename ImageType::IndexType ddrindex;
-  typename ImageType::IndexType ddlindex;
+  typename FixedImageType::IndexType rindex;
+  typename FixedImageType::IndexType ddrindex;
+  typename FixedImageType::IndexType ddlindex;
 
-  typename ImageType::IndexType difIndex[ImageDimension][2];
+  typename FixedImageType::IndexType difIndex[ImageDimension][2];
   
   std:: cout << " get jacobian " << std::endl;
 
-  double det;
+  float det;
   unsigned int posoff=1;
 
   float space=1.0;
@@ -1339,17 +1308,9 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sig
   for(  m_FieldIter.GoToBegin() ; !m_FieldIter.IsAtEnd(); ++m_FieldIter )
   {
     rindex=m_FieldIter.GetIndex();
-    float mindist=3.0;
+    
     bool oktosample=true;
-    float dist;
-    for (row=0; row<ImageDimension; row++)
-    {
-      dist=fabs((float)rindex[row]);      
-      if (dist < mindist) oktosample=false;
-      dist = fabs((float)s[row]-(float)rindex[row]);
-      if (dist < mindist) oktosample=false;
-    }
-
+    
     cpix=field->GetPixel(rindex);
     for(row=0; row< ImageDimension;row++)
       {
@@ -1358,19 +1319,19 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sig
       ddrindex=rindex;
       ddlindex=rindex;
       if (rindex[row] <
-          static_cast<typename ImageType::IndexType::IndexValueType>(m_FieldSize[row]-2) )
+          static_cast<typename FixedImageType::IndexType::IndexValueType>(m_FieldSize[row]-2) )
         {
         difIndex[row][0][row]=rindex[row]+posoff;
         ddrindex[row]=rindex[row]+posoff*2;
-        }
+        } else oktosample=false;
       if (rindex[row] > 1 )
         {
         difIndex[row][1][row]=rindex[row]-1;
         ddlindex[row]=rindex[row]-2;
-        }
+        } else oktosample=false;
 //      std::cout << " indices " << difIndex[row][0] << " " <<difIndex[row][1] << std::endl;
 
-      float h=0.5;
+      float h=1.0;
       space=1.0; // should use image spacing here?
 
       rpix = field->GetPixel(difIndex[row][1]);
@@ -1396,8 +1357,9 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sig
     
     //the determinant of the jacobian matrix
     // std::cout << " get det " << std::endl;
-    det = vnl_determinant(jMatrix);
-    if ( jproduct  )  // FIXME - NEED TO COMPOSE THE FULL FIELD
+    det = (float) vnl_determinant(jMatrix);
+    if (det < 0.) det=0.0;
+    if ( jproduct && oktosample )  // FIXME - NEED TO COMPOSE THE FULL FIELD
       m_FloatImage->SetPixel(rindex,  m_FloatImage->GetPixel(rindex)*det );
 //  
     if ( oktosample)
@@ -1407,13 +1369,14 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sig
   }
 //  std:: cout << " mat val " << jMatrix << " det " << det << std::endl;
 
-  if (jproduct)
+  std::cout << " min Jacobian " << m_MinJacobian << std::endl;
+
+  if (jproduct && m_FloatImage && smooth > 0)
   {
   typedef DiscreteGaussianImageFilter<FloatImageType, FloatImageType> dgf;
 
   typename dgf::Pointer filter = dgf::New();
-  float sig=1.5;
-  filter->SetVariance(sig);
+  filter->SetVariance(smooth);
   filter->SetMaximumError(.01f);
   filter->SetInput(m_FloatImage);
   filter->Update();
@@ -1425,34 +1388,33 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sig
 
 
 template<class TMovingImage,class TFixedImage>
-void FEMRegistrationFilter<TMovingImage,TFixedImage>::EnforceDiffeomorphism(float thresh, SolverType& mySolver )
+void FEMRegistrationFilter<TMovingImage,TFixedImage>::EnforceDiffeomorphism(float thresh, 
+  SolverType& mySolver ,  bool onlywriteimages )
 {
  
  // FIX ME - WE NEED TO STORE THE PRODUCTS OF THE JACOBIANS 
  //          s.t. WE TRACK THE JACOBIAN OF THE O.D.E. FLOW.
   std::cout << " Checking Jacobian " ;  
-  this->ComputeJacobian(-1.);
-  std::cout << " min Jacobian " << m_MinJacobian << std::endl;
-  if (m_MinJacobian < thresh)
+  this->ComputeJacobian(1.,NULL);
+  if (m_MinJacobian < thresh) //FIXME
   {
   std::cout << " Enforcing diffeomorphism " << std::endl;
   // resize the vector field to full size
-    ImageSizeType movingsize=m_MovingImage->GetLargestPossibleRegion().GetSize();
-
     typename FieldType::Pointer fullField=NULL;
     ExpandFactorsType expandFactors[ImageDimension];
     bool resize=false;
     for (unsigned int ef=0; ef<ImageDimension; ef++) 
     {
-      ExpandFactorsType factor=(ExpandFactorsType)((float) movingsize[ef]/(float)m_CurrentLevelImageSize[ef]);
+      ExpandFactorsType factor=(ExpandFactorsType)
+        ((float) m_FullImageSize[ef]/(float)m_CurrentLevelImageSize[ef]);
       expandFactors[ef]=factor;
       if (factor != 1.) resize=true;
     }
     if (resize)  
        fullField=ExpandVectorField(expandFactors,m_Field); // this works - linear interp and expansion of vf
-    
+    else fullField=m_Field;
      
-    this->ComputeJacobian(-1.,fullField);
+//    this->ComputeJacobian(1.,fullField);
  
  // FIXME : SHOULD COMPUTE THE JACOBIAN AGAIN AND EXIT THE FUNCTION
  // IF IT'S NOT BELOW THE THRESH.  ALSO, WE SHOULD STORE THE FULL TIME 
@@ -1460,30 +1422,15 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::EnforceDiffeomorphism(floa
 
   // here's where we warp the image
 
-  typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
+  typedef itk::WarpImageFilter<MovingImageType,FixedImageType,FieldType> WarperType;
   typename WarperType::Pointer warper = WarperType::New();
   typedef typename WarperType::CoordRepType CoordRepType;
-  typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
+  typedef itk::NearestNeighborInterpolateImageFunction<MovingImageType,CoordRepType>
       InterpolatorType0;
-  typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>
+  typedef itk::LinearInterpolateImageFunction<MovingImageType,CoordRepType>
       InterpolatorType1;
   typename InterpolatorType1::Pointer interpolator = InterpolatorType1::New();
   
-    warper = WarperType::New();
-    warper->SetInput( m_MovingImage );
-    warper->SetDeformationField( fullField );
-    warper->SetInterpolator( interpolator );
-    warper->SetOutputSpacing( m_FixedImage->GetSpacing() );
-    warper->SetOutputOrigin( m_FixedImage->GetOrigin() );
-    typename ImageType::PixelType padValue = 0;
-    warper->SetEdgePaddingValue( padValue );
-    warper->Update();
-
-  // set it as the new moving image
-
-  this->SetMovingImage( warper->GetOutput() );
-
-
   // if using landmarks, warp them
 
    if (m_UseLandmarks)
@@ -1494,12 +1441,12 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::EnforceDiffeomorphism(floa
      {
      for(unsigned int lmind=0; lmind<m_LandmarkArray.size(); lmind++) 
      {
-       std::cout << " source " << m_LandmarkArray[lmind]->GetSource() << " target " << m_LandmarkArray[lmind]->GetTarget() << std::endl;
+       std::cout << " old source " << m_LandmarkArray[lmind]->GetSource() << " target " << m_LandmarkArray[lmind]->GetTarget() << std::endl;
     
        // Convert the source to warped coords.
        m_LandmarkArray[lmind]->GetSource()=m_LandmarkArray[lmind]->GetSource()+
          (dynamic_cast<LoadLandmark*>( &*mySolver.load.Find(lmind) )->GetForce() );        
-       std::cout << " source " << m_LandmarkArray[lmind]->GetSource() << " target " << m_LandmarkArray[lmind]->GetTarget() << std::endl;
+       std::cout << " new source " << m_LandmarkArray[lmind]->GetSource() << " target " << m_LandmarkArray[lmind]->GetTarget() << std::endl;
        
        LoadLandmark::Pointer l5=(dynamic_cast<LoadLandmark::Pointer>(m_LandmarkArray[lmind]->Clone()));
        mySolver.load.push_back(FEMP<Load>(l5));
@@ -1508,38 +1455,15 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::EnforceDiffeomorphism(floa
      std::cout << " warping landmarks done " << std::endl;
      } else std::cout << " landmark array empty " << std::endl;
   }
-  // now repeat the pyramid if necessary
- 
-  if ( resize )
-  {
-//lark
-  std::cout << " re-doing pyramid " << std::endl;
-    typedef itk::CastImageFilter<ImageType,FloatImageType> CasterType1;
-    typename CasterType1::Pointer MovingCaster1 = CasterType1::New();
-    
-    MovingCaster1->SetInput(m_MovingImage); 
-    MovingCaster1->Update();
-    m_MovingPyramid->SetInput( MovingCaster1->GetOutput());
-    m_MovingPyramid->GetOutput( m_CurrentLevel )->Update();
-
-    typedef itk::CastImageFilter<FloatImageType,ImageType> CasterType2;
-    typename CasterType2::Pointer MovingCaster2 = CasterType2::New();
-    MovingCaster2->SetInput(m_MovingPyramid->GetOutput(m_CurrentLevel)); 
-    MovingCaster2->Update();
-    m_Load->SetMovingImage(MovingCaster2->GetOutput()); 
-
-
-  std::cout << " re-doing pyramid done " << std::endl;
-  }        
 
   // store the total deformation by composing with the full field
-  if (!m_TotalField) 
+  if (!m_TotalField && !onlywriteimages) 
   {
     std::cout << " allocating total deformation field " << std::endl;
 
     m_TotalField = FieldType::New();
 
-    m_FieldRegion.SetSize(m_CurrentLevelImageSize );
+    m_FieldRegion.SetSize(fullField->GetLargestPossibleRegion().GetSize() );
     m_TotalField->SetLargestPossibleRegion( m_FieldRegion );
     m_TotalField->SetBufferedRegion( m_FieldRegion );
     m_TotalField->SetLargestPossibleRegion( m_FieldRegion );
@@ -1554,34 +1478,78 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::EnforceDiffeomorphism(floa
       m_FieldIter.Set(disp);
     }
   }
-  if (m_TotalField)
+  
+  if (onlywriteimages)
+  {
+    warper = WarperType::New();
+    warper->SetInput( m_OriginalMovingImage );
+    warper->SetDeformationField( fullField );
+    warper->SetInterpolator( interpolator );
+    warper->SetOutputSpacing( m_FixedImage->GetSpacing() );
+    warper->SetOutputOrigin( m_FixedImage->GetOrigin() );
+    typename MovingImageType::PixelType padValue = 0;
+    warper->SetEdgePaddingValue( padValue );
+    warper->Update();
+    m_WarpedImage=warper->GetOutput();
+  }
+  else if (m_TotalField)
   {
 
-  typename ImageType::IndexType index;
+  typename InterpolatorType::ContinuousIndexType inputIndex;
+
+  typedef typename InterpolatorType::OutputType InterpolatedType;
+
+  InterpolatedType interpolatedValue;
+
+  m_Interpolator->SetInputImage(fullField);
+  
+  typename FixedImageType::IndexType index;
   FieldIterator m_FieldIter( m_TotalField, m_TotalField->GetLargestPossibleRegion() );
   m_FieldIter.GoToBegin();
+  unsigned int jj;
+  float pathsteplength=0;
   while( !m_FieldIter.IsAtEnd()  )
   {
     index=m_FieldIter.GetIndex();
-    m_FieldIter.Set(m_FieldIter.Get()+m_Field->GetPixel(index));
+    for (jj=0; jj<ImageDimension; jj++) 
+    {
+       inputIndex[jj]=(CoordRepType) index[jj];
+       interpolatedValue[jj]=0.0;
+    }
+    if( m_Interpolator->IsInsideBuffer( inputIndex ) )
+      {
+
+      interpolatedValue = 
+        m_Interpolator->EvaluateAtContinuousIndex( inputIndex );
+
+      }
+    VectorType interped;
+    float temp=0.0;
+    for (jj=0; jj<ImageDimension; jj++)
+    { 
+    interped[jj]=interpolatedValue[jj];
+    temp+=interped[jj]*interped[jj];
+    }
+    pathsteplength+=sqrt(temp);
+    m_TotalField->SetPixel(index,m_TotalField->GetPixel(index)+interped);
     ++m_FieldIter; 
   }
+  std::cout << " incremental path length " << pathsteplength << std::endl;
 
-  }
 
   // then we set the field to zero
 
-
-  FieldIterator m_FieldIter( m_Field, m_Field->GetLargestPossibleRegion() );
-  m_FieldIter.GoToBegin();
-  while( !m_FieldIter.IsAtEnd()  )
   {
-    VectorType disp;
-    disp.Fill(0.0);  
-    m_FieldIter.Set(disp);
-    ++m_FieldIter; 
+    FieldIterator m_FieldIter( m_Field, m_Field->GetLargestPossibleRegion() );
+    m_FieldIter.GoToBegin();
+    while( !m_FieldIter.IsAtEnd()  )
+    {
+      VectorType disp;
+      disp.Fill(0.0);  
+      m_FieldIter.Set(disp);
+      ++m_FieldIter; 
+    }
   }
-
 // now do the same for the solver
   unsigned int ii;
   Node::ArrayType* nodes = &(mySolver.node);
@@ -1597,11 +1565,64 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::EnforceDiffeomorphism(floa
     }
   }
   
+
+    warper = WarperType::New();
+    warper->SetInput( m_OriginalMovingImage );
+    warper->SetDeformationField( m_TotalField );
+    warper->SetInterpolator( interpolator );
+    warper->SetOutputSpacing( m_FixedImage->GetSpacing() );
+    warper->SetOutputOrigin( m_FixedImage->GetOrigin() );
+    typename FixedImageType::PixelType padValue = 0;
+    warper->SetEdgePaddingValue( padValue );
+    warper->Update();
+
+  // set it as the new moving image
+
+  this->SetMovingImage( warper->GetOutput() );
+  
+  m_WarpedImage=m_MovingImage;
+
+
+  // now repeat the pyramid if necessary
+ 
+  if ( resize )
+  {
+//lark
+  std::cout << " re-doing pyramid " << std::endl;   
+    typename FixedPyramidType::Pointer   m_MovingPyramid;
+    m_MovingPyramid = NULL;
+    m_MovingPyramid = FixedPyramidType::New(); 
+    m_MovingPyramid->SetInput( m_MovingImage);
+    m_MovingPyramid->SetNumberOfLevels( 1 );
+    typedef typename FixedPyramidType::ScheduleType ScheduleType;
+    ScheduleType SizeReductionMoving=m_MovingPyramid->GetSchedule();
+  
+    unsigned int ii=m_CurrentLevel; 
+      for (unsigned int jj=0; jj<ImageDimension; jj++) 
+      { 
+      unsigned int scale=m_ImageScaling[jj]/(unsigned int)pow(2.0,(double)ii);
+      if (scale < 1) scale=1;
+      SizeReductionMoving[0][jj]=scale;
+      }
+      
+    m_MovingPyramid->SetSchedule(SizeReductionMoving);
+    m_MovingPyramid->GetOutput( 0 )->Update();
+    m_Load->SetMovingImage(m_MovingPyramid->GetOutput(0)); 
+
+  std::cout << " re-doing pyramid done " << std::endl;
+  } else  m_Load->SetMovingImage(this->GetMovingImage( )); 
+       
+
+
+  } 
+  
+
+
+
   std::cout << " Enforcing diffeomorphism done "  << std::endl;
 
   }
-  else   std::cout << " Jacobian OK " << std::endl;
-  m_MinJacobian=1.0;
+  
 
 }
 
@@ -1611,9 +1632,8 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::WriteWarpedImage(const cha
 
   // for image output
   std::ofstream fbin; 
-  std::string exte=".img";
+  std::string exte=".hdr";
   std::string fnum;
-  m_FileCount++;
 
   OStringStream buf;
   buf<<(m_FileCount+10);
@@ -1621,18 +1641,39 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::WriteWarpedImage(const cha
 
   std::string fullfname=(fname+fnum+exte);
 
-  ImageIterator wimIter( m_WarpedImage,m_Wregion );
+  if (!m_WarpedImage) return;
 
-  fbin.open(fullfname.c_str(),std::ios::out | std::ios::binary);
-  ImageDataType t=0;
-  // for arbitrary dimensionality
-  wimIter.GoToBegin();  
-  for( ; !wimIter.IsAtEnd(); ++wimIter )
-    {
-    t=(ImageDataType) wimIter.Get();
-    fbin.write(reinterpret_cast<const char*>(&t),sizeof(ImageDataType));
-    }
-  
+  typedef MinimumMaximumImageFilter<MovingImageType> MinMaxFilterType;
+  typename MinMaxFilterType::Pointer minMaxFilter = MinMaxFilterType::New();
+  minMaxFilter->SetInput( m_WarpedImage );
+  minMaxFilter->Update();
+  float min = minMaxFilter->GetMinimum();
+  double shift = -1.0 * static_cast<double>( min );
+  double scale = static_cast<double>( minMaxFilter->GetMaximum() );
+  scale += shift;
+  scale = 255.0 / scale;
+  typedef ShiftScaleImageFilter<MovingImageType, MovingImageType> FilterType;
+  typename FilterType::Pointer filter = FilterType::New();
+  filter->SetInput( m_WarpedImage );
+  filter->SetShift( shift );
+  filter->SetScale( scale );
+  filter->Update();
+
+
+  typedef unsigned char  pix;
+  typedef itk::Image<pix,ImageDimension> WriteImageType;
+  typedef itk::CastImageFilter<TMovingImage,WriteImageType> CasterType1;
+  typename CasterType1::Pointer caster1 = CasterType1::New();
+  caster1->SetInput(filter->GetOutput()); 
+  caster1->Update();
+  typename ImageFileWriter<WriteImageType>::Pointer writer;
+  writer = ImageFileWriter<WriteImageType>::New();
+  writer->SetFileName(fullfname.c_str());
+  writer->SetInput(caster1->GetOutput() ); 
+  writer->Write();
+ 
+  m_FileCount++;
+ 
 }
 
 
@@ -1679,12 +1720,15 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::SampleVectorFieldAtNodes(S
   Element::VectorType coord;  
   VectorType SolutionAtNode;
 
-  typename ImageType::IndexType rindex;
+  typename FixedImageType::IndexType rindex;
   
+
+  m_Interpolator->SetInputImage(m_Field);
 
   for(  Node::ArrayType::iterator node=nodes->begin(); node!=nodes->end(); node++) 
   {
     coord=(*node)->GetCoordinates();
+/*
     bool inimage=true;
     for (ii=0; ii < ImageDimension; ii++)
     { 
@@ -1701,13 +1745,35 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::SampleVectorFieldAtNodes(S
       SolutionAtNode[ii]=0;
     }
    
-    if (inimage)   SolutionAtNode=m_Field->GetPixel(rindex);
+    if (inimage)  
+    { 
+      SolutionAtNode=m_Field->GetPixel(rindex);
+    }
+  */
+
+
+    typename InterpolatorType::ContinuousIndexType inputIndex;
+    typedef typename InterpolatorType::OutputType InterpolatedType;
+    InterpolatedType interpolatedValue;
+  
+    typename FixedImageType::IndexType index;
+    for (unsigned int jj=0; jj<ImageDimension; jj++) 
+    {
+      inputIndex[jj]=(CoordRepType) coord[jj];
+      interpolatedValue[jj]=0.0;
+    }
+    if( m_Interpolator->IsInsideBuffer( inputIndex ) )
+    {
+      interpolatedValue = 
+        m_Interpolator->EvaluateAtContinuousIndex( inputIndex );
+    }
+    
+    for (unsigned int jj=0; jj<ImageDimension; jj++) SolutionAtNode[jj]=interpolatedValue[jj];
 
     // Now put it into the solution!
     for (ii=0; ii < ImageDimension; ii++)
     { 
-      Float Sol=SolutionAtNode[ii];///((Float)m_ImageScaling[ii]); // Scale back to current scale
-
+      Float Sol=SolutionAtNode[ii];
 //      std::cout << " the sol " << Sol << " at coord " << coord << " rind " << rindex << std::endl;
       mySolver.GetLinearSystemWrapper()->
         SetSolutionValue((*node)->GetDegreeOfFreedom(ii),Sol,mySolver.TotalSolutionIndex);    
@@ -1722,7 +1788,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::SampleVectorFieldAtNodes(S
 template<class TMovingImage,class TFixedImage>
 void FEMRegistrationFilter<TMovingImage,TFixedImage>::PrintVectorField(unsigned int modnum)
 {
-  FieldIterator m_FieldIter( m_Field, m_FieldRegion );
+  FieldIterator m_FieldIter( m_Field, m_Field->GetLargestPossibleRegion() );
   m_FieldIter.GoToBegin();
   unsigned int ct=0;
 
@@ -1747,94 +1813,86 @@ template<class TMovingImage,class TFixedImage>
 void FEMRegistrationFilter<TMovingImage,TFixedImage>::MultiResSolve()
 {
 
-//  Float LastScaleEnergy=0.0, ThisScaleEnergy=0.0;
   vnl_vector<Float> LastResolutionSolution;
+
 //   Setup a multi-resolution pyramid
-  typedef typename m_FixedPyramidType::ScheduleType ScheduleType;
-  m_MovingPyramid = m_FixedPyramidType::New();
-  m_FixedPyramid = m_FixedPyramidType::New();
+  typedef typename FixedPyramidType::ScheduleType ScheduleType;
 
-  typedef itk::CastImageFilter<ImageType,FloatImageType> CasterType1;
-  typedef itk::CastImageFilter<FloatImageType,ImageType> CasterType2;
-  typename CasterType1::Pointer MovingCaster1 = CasterType1::New();
-  typename CasterType1::Pointer FixedCaster1 = CasterType1::New();
-  typename CasterType2::Pointer MovingCaster2;
-  typename CasterType2::Pointer FixedCaster2;
-//lark2
-  MovingCaster1->SetInput(m_MovingImage); MovingCaster1->Update();
-  m_MovingPyramid->SetInput( MovingCaster1->GetOutput());
-  FixedCaster1->SetInput(m_FixedImage); FixedCaster1->Update();
-  m_FixedPyramid->SetInput( FixedCaster1->GetOutput());
-
-// set schedule by specifying the number of levels;
-  m_MovingPyramid->SetNumberOfLevels( m_NumLevels );
-  m_FixedPyramid->SetNumberOfLevels( m_NumLevels );
-
-  ScheduleType SizeReductionMoving=m_MovingPyramid->GetSchedule();
-  ScheduleType SizeReductionFixed=m_FixedPyramid->GetSchedule();
-  
-  for (unsigned int ii=0; ii<m_NumLevels; ii++) 
-    for (unsigned int jj=0; jj<ImageDimension; jj++) 
-      { 
-      unsigned int scale=m_ImageScaling[jj]/(unsigned int)pow(2.0,(double)ii);
-      if (scale < 1) scale=1;
-      SizeReductionMoving[ii][jj]=scale;
-      SizeReductionFixed[ii][jj]=scale;
-      }
-      
-  m_MovingPyramid->SetSchedule(SizeReductionMoving); 
-  m_FixedPyramid->SetSchedule(SizeReductionFixed);
-  std::cout << " size change at each level " << SizeReductionMoving << std::endl;
-//  m_MovingPyramid->Update();
-//  m_FixedPyramid->Update();
-  
   for (m_CurrentLevel=0; m_CurrentLevel<m_MaxLevel; m_CurrentLevel++)
   {
-  
-    m_MovingPyramid->GetOutput( m_CurrentLevel )->Update();
-    m_FixedPyramid->GetOutput( m_CurrentLevel )->Update();
+    std::cout << " beginning level " << m_CurrentLevel << std::endl;
+//   Setup a multi-resolution pyramid
+
+    SolverType SSS;
+    typename FixedImageType::SizeType nextLevelSize;
+    typename FixedImageType::SizeType lastLevelSize;
     
-    typename ImageType::SizeType nextLevelSize;
-    m_CurrentLevelImageSize=m_FixedPyramid->GetOutput( m_CurrentLevel )->GetLargestPossibleRegion().GetSize();
-    if (m_CurrentLevel < m_MaxLevel-1)
-      nextLevelSize=m_FixedPyramid->GetOutput( m_CurrentLevel+1 )->GetLargestPossibleRegion().GetSize();
-    else nextLevelSize=m_FixedPyramid->GetOutput( m_CurrentLevel )->GetLargestPossibleRegion().GetSize();
+    if (m_Maxiters[m_CurrentLevel] > 0)
+    {
+   
+    {  
+    typename FixedPyramidType::Pointer   m_MovingPyramid;
+    typename FixedPyramidType::Pointer   m_FixedPyramid;
+    m_MovingPyramid = FixedPyramidType::New();
+    m_FixedPyramid = FixedPyramidType::New();
+
+    m_MovingPyramid->SetInput( m_MovingImage);
+    m_FixedPyramid->SetInput( m_FixedImage);
+
+
+// set schedule by specifying the number of levels;
+    m_MovingPyramid->SetNumberOfLevels( 1 );
+    m_FixedPyramid->SetNumberOfLevels( 1 );
+    
+    ScheduleType SizeReductionMoving=m_MovingPyramid->GetSchedule();
+    ScheduleType SizeReductionFixed=m_FixedPyramid->GetSchedule();
+  
+  
+    unsigned int ii=m_CurrentLevel; 
+    for (unsigned int jj=0; jj<ImageDimension; jj++) 
+    { 
+      unsigned int scale=m_ImageScaling[jj]/(unsigned int)pow(2.0,(double)ii);
+      unsigned int nextscale = m_ImageScaling[jj]/(unsigned int)pow(2.0,(double)(ii+1));
+      if (scale < 1) scale=1;
+      SizeReductionMoving[0][jj]=scale;
+      SizeReductionFixed[0][jj]=scale;
+      nextLevelSize[jj]=(long int) ( (float) m_FullImageSize[jj] / (float) nextscale );
+    }
+      
+    m_MovingPyramid->SetSchedule(SizeReductionMoving);
+    m_FixedPyramid->SetSchedule(SizeReductionFixed);
+    m_MovingPyramid->GetOutput( 0 )->Update();
+    m_FixedPyramid->GetOutput( 0 )->Update();
+    
+    lastLevelSize=m_CurrentLevelImageSize;
+    m_CurrentLevelImageSize=m_FixedPyramid->GetOutput( 0 )->GetLargestPossibleRegion().GetSize();
+    if (m_CurrentLevel == m_MaxLevel-1) nextLevelSize=m_CurrentLevelImageSize;
 
     double scaling[ImageDimension];
     for (unsigned int d=0; d < ImageDimension; d++)
       {
-      m_ImageScaling[d]=SizeReductionMoving[m_CurrentLevel][d];
-      if (m_CurrentLevel == 0) scaling[d]=(double)SizeReductionMoving[m_CurrentLevel][d];
-      else scaling[d]=
-       (double) m_FixedPyramid->GetOutput( m_CurrentLevel-1 )->GetLargestPossibleRegion().GetSize()[d]/
-       (double) m_CurrentLevelImageSize[d];
+      m_CurrentImageScaling[d]=SizeReductionMoving[0][d];
+      if (m_CurrentLevel == 0) scaling[d]=(double)SizeReductionMoving[0][d];
+      else scaling[d]=(double) lastLevelSize[d]/(double) m_CurrentLevelImageSize[d];
        std::cout << " scaling " << scaling[d] << std::endl;
       }
     double MeshResolution=(double)this->m_MeshPixelsPerElementAtEachResolution(m_CurrentLevel);
 
-
-    if (m_Maxiters[m_CurrentLevel] > 0)
-    {
-      SolverType SSS;
   
-      MovingCaster2 = CasterType2::New();// Weird - don't know why but this worked
-      FixedCaster2 = CasterType2::New();// and declaring the Casters outside the loop did not.
-
-      MovingCaster2 = CasterType2::New();// Weird - don't know why but this worked
-      FixedCaster2 = CasterType2::New();// and declaring the Casters outside the loop did not.
-      MovingCaster2->SetInput(m_MovingPyramid->GetOutput(m_CurrentLevel)); 
-      MovingCaster2->Update(); 
-      FixedCaster2->SetInput(m_FixedPyramid->GetOutput(m_CurrentLevel)); 
-      FixedCaster2->Update();
-
-
       SSS.SetDeltatT(m_dT);  
       SSS.SetRho(m_Rho[m_CurrentLevel]);     
       SSS.SetAlpha(m_Alpha);    
 
       CreateMesh(MeshResolution,SSS,m_CurrentLevelImageSize); 
       ApplyLoads(SSS,m_CurrentLevelImageSize,scaling);
-      ApplyImageLoads(SSS,MovingCaster2->GetOutput(),FixedCaster2->GetOutput());
+      ApplyImageLoads(SSS,m_MovingPyramid->GetOutput(0),
+                           m_FixedPyramid->GetOutput(0));
+
+      m_MovingPyramid = FixedPyramidType::New();
+      m_FixedPyramid = FixedPyramidType::New();
+
+    } 
+
 
       unsigned int ndofpernode=(m_Element)->GetNumberOfDegreesOfFreedomPerNode();
       unsigned int numnodesperelt=(m_Element)->GetNumberOfNodes()+1;
@@ -1863,49 +1921,59 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::MultiResSolve()
           SSS.AssembleK();
         }
         if (m_CurrentLevel > 0)  this->SampleVectorFieldAtNodes(SSS);
-        this->PrintVectorField(900000);
         this->IterativeSolve(SSS);
       }
-      else
-      {
-      }
-
 
 // now expand the field for the next level, if necessary.
-      if ( m_CurrentLevel == m_MaxLevel-1) 
+      if ( m_CurrentLevel == m_MaxLevel-1 && m_Field) 
       { 
 
         // expand the field to full size
-        ExpandFactorsType expandFactors[ImageDimension];
+//        ExpandFactorsType expandFactors[ImageDimension];
 //         bool NeedToExpand=false;
-        for (unsigned int ef=0; ef<ImageDimension; ef++)
-        { 
-          expandFactors[ef]= (ExpandFactorsType)((float)m_FullImageSize[ef]/(float)m_FieldSize[ef]);
+//        for (unsigned int ef=0; ef<ImageDimension; ef++)
+//        { 
+//          expandFactors[ef]= (ExpandFactorsType)((float)m_FullImageSize[ef]/(float)m_FieldSize[ef]);
 //          if (expandFactors[ef]!=1) NeedToExpand=true;
-        }
- 
+//        }
+        PrintVectorField(900000);
+        std:: cout << " field size " << m_Field->GetLargestPossibleRegion().GetSize() << std::endl;
+
       } 
-      else if (m_CurrentLevel < m_MaxLevel-1)
+      else if (m_CurrentLevel < m_MaxLevel-1 && m_Field)
       {
         ExpandFactorsType expandFactors[ImageDimension];
         for (unsigned int ef=0; ef<ImageDimension; ef++) 
         {
             expandFactors[ef]=(ExpandFactorsType)
            ((float) nextLevelSize[ef]/(float)m_CurrentLevelImageSize[ef]);
-//          std::cout << " exp f " <<expandFactors[ef] << std::endl;
         }
-        m_Field=ExpandVectorField(expandFactors,m_Field); // this works - linear interp and expansion of vf
-        if (m_TotalField) m_TotalField=ExpandVectorField(expandFactors,m_TotalField);
-      } 
-      
-      PrintVectorField(900000);
-      std:: cout << " field size " << m_FieldSize << std::endl;
-    
+        m_Field=ExpandVectorField(expandFactors,m_Field); 
+        // this works - linear interp and expansion of vf
+        // if (m_TotalField) m_TotalField=ExpandVectorField(expandFactors,m_TotalField);
+        PrintVectorField(900000);
+        std:: cout << " field size " << m_Field->GetLargestPossibleRegion().GetSize() << std::endl;
 
+      } 
+     
+      std::cout << " end level " << m_CurrentLevel ;
+       
        
     }// end image resolution loop
 
-
+  if (m_TotalField)
+  {
+    std::cout << " copy field " <<  m_TotalField->GetLargestPossibleRegion().GetSize() 
+      << " to " <<  m_Field->GetLargestPossibleRegion().GetSize() << std::endl;
+    FieldIterator m_FieldIter( m_TotalField, m_TotalField->GetLargestPossibleRegion() );
+    m_FieldIter.GoToBegin();
+    for( ; !m_FieldIter.IsAtEnd(); ++m_FieldIter )
+    {
+      typename FixedImageType::IndexType index = m_FieldIter.GetIndex();
+      m_TotalField->SetPixel(index,m_TotalField->GetPixel(index)
+        + m_Field->GetPixel(index));
+    }
+  }
   return;
   
 }

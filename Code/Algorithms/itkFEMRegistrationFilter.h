@@ -114,15 +114,13 @@ public:
   itkTypeMacro(FEMRegistrationFilter, ImageToImageFilter );
   
   typedef TMovingImage                              MovingImageType;
-  typedef TMovingImage                              ImageType;
   typedef TFixedImage                               FixedImageType;
-  typedef typename ImageType::PixelType             ImageDataType;
-  typedef typename ImageType::PixelType             PixelType;
-  typedef typename ImageType::SizeType              ImageSizeType;
+  typedef typename FixedImageType::PixelType             PixelType;
+  typedef typename FixedImageType::SizeType              ImageSizeType;
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      ImageType::ImageDimension);
+                      FixedImageType::ImageDimension);
 
   typedef Image< float, itkGetStaticConstMacro(ImageDimension) >            FloatImageType;
   typedef LinearSystemWrapperItpack                 LinearSystemSolverType;
@@ -135,18 +133,34 @@ public:
   typedef std::vector<typename LoadLandmark::Pointer> LandmarkArrayType;
   typedef itk::Vector<float,itkGetStaticConstMacro(ImageDimension)>         VectorType;
   typedef itk::Image<VectorType,itkGetStaticConstMacro(ImageDimension)>     FieldType;
-  typedef itk::WarpImageFilter<ImageType,ImageType, FieldType> WarperType;
+  typedef itk::WarpImageFilter<MovingImageType,FixedImageType, FieldType> WarperType;
   typedef MaterialLinearElasticity                  MaterialType;
-  typedef itk::ImageRegionIteratorWithIndex<ImageType>         ImageIterator; 
+  typedef itk::ImageRegionIteratorWithIndex<FixedImageType>         ImageIterator; 
   typedef itk::ImageRegionIteratorWithIndex<FloatImageType>         FloatImageIterator; 
   typedef itk::ImageRegionIteratorWithIndex<FieldType>         FieldIterator; 
   typedef itk::VectorIndexSelectionCastImageFilter<FieldType,FloatImageType> IndexSelectCasterType;
 
+
+  /** Typedef support for the interpolation function */
+  typedef double CoordRepType;
+  typedef VectorInterpolateImageFunction<FieldType,CoordRepType> 
+    InterpolatorType;
+  typedef typename InterpolatorType::Pointer InterpolatorPointer;
+  typedef VectorLinearInterpolateImageFunction<FieldType,CoordRepType> 
+    DefaultInterpolatorType;
+
+  /** Set the interpolator function. */
+  itkSetObjectMacro( Interpolator, InterpolatorType );
+
+  /** Get a pointer to the interpolator function. */
+  itkGetObjectMacro( Interpolator, InterpolatorType );
+
+
   typedef itk::VectorExpandImageFilter<FieldType,FieldType> ExpanderType;
   typedef typename ExpanderType::ExpandFactorsType ExpandFactorsType;
 
-  typedef itk::RecursiveMultiResolutionPyramidImageFilter<FloatImageType,FloatImageType>
-    m_FixedPyramidType;
+  typedef itk::RecursiveMultiResolutionPyramidImageFilter<FixedImageType,FixedImageType>
+    FixedPyramidType;
 
 /** Instantiate the load class with the correct image type. */
 //#define USEIMAGEMETRIC
@@ -154,8 +168,8 @@ public:
   typedef ImageToImageMetric<ImageType,FixedImageType>   MetricBaseType;
   typedef  ImageMetricLoad<ImageType,ImageType>  ImageMetricLoadType;
 #else
-  typedef  FiniteDifferenceFunctionLoad<ImageType,ImageType>  ImageMetricLoadType;
-  typedef PDEDeformableRegistrationFunction<ImageType,FixedImageType,FieldType>   MetricBaseType;
+  typedef  FiniteDifferenceFunctionLoad<MovingImageType,FixedImageType>  ImageMetricLoadType;
+  typedef PDEDeformableRegistrationFunction<FixedImageType,MovingImageType,FieldType>   MetricBaseType;
 #endif
   typedef typename MetricBaseType::Pointer          MetricBaseTypePointer;
   /* Main functions */
@@ -180,7 +194,7 @@ public:
   void      MultiResSolve();
 
   /** Applies the warp to the input image. */
-  void      WarpImage(const ImageType * R);      
+  void      WarpImage(const MovingImageType * R);      
 
   /** Writes the displacement field to a file. */
   int       WriteDisplacementField(unsigned int index);
@@ -198,22 +212,23 @@ public:
   /** One can set the images directly to input images in an application */ 
   
   /** Define the reference (moving) image. */
-  void SetMovingImage(ImageType* R);
+  void SetMovingImage(MovingImageType* R);
   
   /** Define the target (fixed) image. */
   void SetFixedImage(FixedImageType* T);
   
-  ImageType* GetMovingImage(){return m_MovingImage;}
+  MovingImageType* GetMovingImage(){return m_MovingImage;}
+  MovingImageType* GetOriginalMovingImage(){return m_OriginalMovingImage;}
   
   FixedImageType* GetFixedImage(){return m_FixedImage;}
   
   
   /** Get the reference image warped to the target image.
       Must first apply the warp using WarpImage() */
-  ImageType* GetWarpedImage(){return m_WarpedImage;}
+  FixedImageType* GetWarpedImage(){return m_WarpedImage;}
 
   /** Compute the jacobian of the current deformation field.*/
-  void ComputeJacobian(float sign=1.0, FieldType* field=NULL);
+  void ComputeJacobian(float sign=1.0, FieldType* field=NULL , float smooth=0.0);
 
   /** Get the image that gives the jacobian of the deformation field. */
   FloatImageType* GetJacobianImage(){return m_FloatImage;}
@@ -243,7 +258,7 @@ public:
         3)  Set the warped moving image as the new moving image, 
             resizing if necessary. 
     */
-  void      EnforceDiffeomorphism(float thresh , SolverType& S);
+  void      EnforceDiffeomorphism(float thresh , SolverType& S ,  bool onlywriteimages);
 
 
   /** The warped reference image will be written to this file name with 
@@ -323,7 +338,7 @@ public:
   void      DoMultiRes(bool b) { m_DoMultiRes=b; } 
 
   /** Sets the use of multi-resolution strategy.  The control file always uses multi-res. */ 
-  void      EmployRegridding(bool b) { m_EmployRegridding=b; } 
+  void      EmployRegridding(unsigned int b) { m_EmployRegridding=b; } 
 
   /** This sets the line search's max iterations. */ 
   void      SetLineSearchMaximumIterations(unsigned int f) { m_LineSearchMaximumIterations=f; } 
@@ -360,6 +375,8 @@ public:
 
   void      SetNumLevels(unsigned int i) { m_NumLevels=i; }
   void      SetMaxLevel(unsigned int i) { m_MaxLevel=i; }
+
+  void      SetTemp(Float i) { m_Temp=i; }
 
   /** de/constructor */
   FEMRegistrationFilter( ); 
@@ -462,7 +479,7 @@ private :
   unsigned int     m_MeshStep;  // Ratio Between Mesh Resolutions ( currently set to 2, should be >= 1)
   unsigned int     m_FileCount; // keeps track of number of files written
   unsigned int     m_CurrentLevel;
-  typename ImageType::SizeType     m_CurrentLevelImageSize; 
+  typename FixedImageType::SizeType     m_CurrentLevelImageSize; 
   unsigned int     m_WhichMetric;
  
   /** Stores the number of  pixels per element  of the mesh for each
@@ -486,15 +503,16 @@ private :
   bool  m_UseLandmarks;
   bool  m_ReadMeshFile;
   bool  m_UseMassMatrix;
-  bool  m_EmployRegridding;
+  unsigned int m_EmployRegridding;
   Sign  m_DescentDirection;
 
   ImageSizeType     m_FullImageSize; // image size
   ImageSizeType     m_ImageOrigin; // image size
   /** Gives the ratio of original image size to current image size - for dealing with multi-res.*/
   ImageSizeType     m_ImageScaling; 
-  typename ImageType::RegionType   m_FieldRegion;
-  typename ImageType::SizeType     m_FieldSize;
+  ImageSizeType     m_CurrentImageScaling; 
+  typename FieldType::RegionType   m_FieldRegion;
+  typename FieldType::SizeType     m_FieldSize;
   typename FieldType::Pointer      m_Field;
   // only use TotalField if re-gridding is employed.
   typename FieldType::Pointer      m_TotalField;
@@ -504,14 +522,15 @@ private :
   typename WarperType::Pointer m_Warper; 
 
  // declare a new image to hold the warped  reference
-  typename ImageType::Pointer      m_WarpedImage;
+  typename FixedImageType::Pointer      m_WarpedImage;
   typename FloatImageType::Pointer      m_FloatImage;
-  typename ImageType::RegionType   m_Wregion; 
-  typename ImageType::IndexType    m_Windex;
+  typename FixedImageType::RegionType   m_Wregion; 
+  typename FixedImageType::IndexType    m_Windex;
  
  // declare images for target and reference
-  typename ImageType::Pointer      m_MovingImage;
-  typename ImageType::Pointer      m_FixedImage;
+  typename MovingImageType::Pointer      m_MovingImage;
+  typename MovingImageType::Pointer      m_OriginalMovingImage;
+  typename FixedImageType::Pointer      m_FixedImage;
 
   // element and metric pointers
   typename Element::Pointer        m_Element;
@@ -520,10 +539,12 @@ private :
 
 
   // multi-resolution stuff
-  typename m_FixedPyramidType::Pointer   m_FixedPyramid;
-  typename m_FixedPyramidType::Pointer   m_MovingPyramid;
+//  typename FixedPyramidType::Pointer   m_FixedPyramid;
+//  typename FixedPyramidType::Pointer   m_MovingPyramid;
   
   LandmarkArrayType    m_LandmarkArray;
+
+  InterpolatorPointer    m_Interpolator;
 
  
 
