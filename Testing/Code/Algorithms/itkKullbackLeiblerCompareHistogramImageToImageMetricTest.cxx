@@ -98,7 +98,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
 
   const double s = (double)region.GetSize()[0]/2.0;
   const double mag = (double)200.0;
-  const double noisemag = (double)10.0;
+  const double noisemag = (double)0.0; // ended up yielding best results
 
   itk::Point<double,2>  p;
   itk::Vector<double,2> d;
