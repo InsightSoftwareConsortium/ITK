@@ -424,9 +424,9 @@ MetaImageIO
   m_MetaImage.CompressedData(m_UseCompression);
   m_MetaImage.Write(m_FileName.c_str());
 
-  delete dSize;
-  delete eSpacing;
-  delete eOrigin;
+  delete []dSize;
+  delete []eSpacing;
+  delete []eOrigin;
 }
 
 
