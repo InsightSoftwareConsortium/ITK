@@ -95,7 +95,7 @@ namespace itk
  *
  * The current implementation of this class does not support streaming.
  *
- * \ingroup RegistrationFilters
+ * \ingroup DeformableImageRegistration
  */
 template <class TReference, class TTarget, class TDeformationField>
 class MultiResolutionPDEDeformableRegistration :

@@ -58,6 +58,7 @@ namespace itk {
  *
  * \sa CurvatureFlowImageFilter
  * \sa ZeroFluxNeumannBoundaryCondition 
+ * \ingroup Functions
 */
 template <class TImage>
 class CurvatureFlowFunction :

@@ -72,7 +72,7 @@ namespace itk
  * Possible improvements:
  * - the use of Neighborhood operators may improve efficiency.
  *
- * \ingroup Functions
+ * \ingroup ImageFunctions
  */
 template < class TInputImage >
 class ITK_EXPORT EntropyPreservingGradientMagnitudeImageFunction :

@@ -79,7 +79,8 @@ namespace itk {
  * \warning This filter assumes that the reference type, target type
  * and deformation field type all have the same number of dimensions.
  * 
- * \sa DemonsRegistrationFunction
+ * \sa DemonsRegistrationFunction 
+ * \ingroup DeformableImageRegistration MultiThreaded
  */
 template<class TReference, class TTarget, class TDeformationField>
 class ITK_EXPORT DemonsRegistrationFilter : 
