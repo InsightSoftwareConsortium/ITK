@@ -7,7 +7,7 @@
 
 <Update>
 <StartDateTime><xsl:value-of select="StartDateTime"/></StartDateTime>
-<ChangedFileCount><xsl:value-of select="count(Modified|Conflicting)"/></ChangedFileCount>
+<ChangedFileCount><xsl:value-of select="count(Updated|Modified|Conflicting)"/></ChangedFileCount>
 <AuthorCount><xsl:value-of select="count(Author)"/></AuthorCount>
 <DirectoryCount><xsl:value-of select="count(Directory)"/></DirectoryCount>
 </Update>

@@ -30,37 +30,37 @@
 
           <xsl:for-each select="Instance">
             
-            <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Site/SiteName"/>/<xsl:value-of select="Site/BuildName"/>/<xsl:value-of select="Site/BuildStamp"/></xsl:variable>
+            <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Build/SiteName"/>/<xsl:value-of select="Build/BuildName"/>/<xsl:value-of select="Build/BuildStamp"/></xsl:variable>
             <tr>
               <td align="left">
-                <xsl:value-of select="Site/SiteName"/>
+                <xsl:value-of select="Build/SiteName"/>
               </td>
               <td align="left">
-                <xsl:value-of select="Site/BuildName"/>
+                <xsl:value-of select="Build/BuildName"/>
               </td>
               <td align="right">
-                <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Build.html#Error</xsl:attribute><xsl:value-of select="Site/Build/ErrorCount"/></a>
+                <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Build.html#Error</xsl:attribute><xsl:value-of select="Build/ErrorCount"/></a>
               </td>
               <td>
                 <xsl:attribute name="align">right</xsl:attribute>
-                <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Build.html#Warning</xsl:attribute><xsl:value-of select="Site/Build/WarningCount"/></a>
+                <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Build.html#Warning</xsl:attribute><xsl:value-of select="Build/WarningCount"/></a>
               </td>
               <td>
                 <xsl:attribute name="align">right</xsl:attribute>
-                <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html#Passed</xsl:attribute><xsl:value-of select="Site/Testing/PassedCount"/></a>
+                <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html#Passed</xsl:attribute><xsl:value-of select="Testing/PassedCount"/></a>
               </td>
               <td>
                 <xsl:attribute name="align">right</xsl:attribute>
-                <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html#Failed</xsl:attribute><xsl:value-of select="Site/Testing/FailedCount"/></a>
+                <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html#Failed</xsl:attribute><xsl:value-of select="Testing/FailedCount"/></a>
               </td>
-              <td><xsl:value-of select="Site/Testing/StartDateTime"/></td>
+              <td><xsl:value-of select="Testing/StartDateTime"/></td>
             </tr>
           </xsl:for-each>
           
         </table>
 
         <xsl:choose>
-          <xsl:when test="count(Instance/Site/Coverage) != 0">
+          <xsl:when test="count(Instance/Coverage) != 0">
             <h3>Coverage</h3>
             <table>
               <tr>
@@ -73,16 +73,16 @@
               
             <!-- Loop over each instance -->
             <xsl:for-each select="Instance">
-              <xsl:if test="count(Site/Coverage) != 0">
+              <xsl:if test="Coverage/LOC != ''">
                 
-                <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Site/SiteName"/>/<xsl:value-of select="Site/BuildName"/>/<xsl:value-of select="Site/BuildStamp"/></xsl:variable>
+                <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Coverage/SiteName"/>/<xsl:value-of select="Coverage/BuildName"/>/<xsl:value-of select="Coverage/BuildStamp"/></xsl:variable>
                 
                 <tr>
-                  <td><xsl:value-of select="Site/SiteName"/></td>
-                  <td><xsl:value-of select="Site/BuildName"/></td>
-                  <td><a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Coverage.html</xsl:attribute><xsl:value-of select="Site/Coverage/PercentCoverage"/>%</a></td>
-                  <td><xsl:value-of select="Site/Coverage/LOCTested"/><xsl:text> of </xsl:text><xsl:value-of select="Site/Coverage/LOC"/></td>
-                  <td><xsl:value-of select="Site/Coverage/StartDateTime"/></td>
+                  <td><xsl:value-of select="Coverage/SiteName"/></td>
+                  <td><xsl:value-of select="Coverage/BuildName"/></td>
+                  <td><a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Coverage.html</xsl:attribute><xsl:value-of select="Coverage/PercentCoverage"/>%</a></td>
+                  <td><xsl:value-of select="Coverage/LOCTested"/><xsl:text> of </xsl:text><xsl:value-of select="Coverage/LOC"/></td>
+                  <td><xsl:value-of select="Coverage/StartDateTime"/></td>
                 </tr>
               </xsl:if>
             </xsl:for-each>
