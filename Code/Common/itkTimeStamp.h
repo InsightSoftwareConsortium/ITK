@@ -120,6 +120,13 @@ public:
   operator unsigned long() 
     {return m_ModifiedTime;}
 
+  /** 
+   * Allow for typcasting to unsigned long. 
+   */
+  operator const unsigned long() const
+    {return m_ModifiedTime;}
+
+
 private:
   unsigned long m_ModifiedTime;
 };
