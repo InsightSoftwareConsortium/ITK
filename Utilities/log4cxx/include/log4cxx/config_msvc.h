@@ -31,7 +31,7 @@ typedef __int64 int64_t;
 #pragma warning(disable : 4250 4251 4786 4290)
 #endif
 
-#define LOG4CXX_STATIC
+//#define LOG4CXX_STATIC
 
 #ifdef LOG4CXX_STATIC
 #define LOG4CXX_EXPORT
