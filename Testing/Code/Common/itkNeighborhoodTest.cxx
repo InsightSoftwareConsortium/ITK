@@ -62,7 +62,9 @@ int main()
 
   println("TESTING WITH DEFAULT ALLOCATOR");
   itk::Neighborhood<float, 2> q;
-  itk::Size<2> rad = {3, 2};
+  itk::Size<2> rad;
+  rad[0] = 3;
+  rad[1] = 2;
   q.SetRadius(rad);
   q.Print(std::cout);
 

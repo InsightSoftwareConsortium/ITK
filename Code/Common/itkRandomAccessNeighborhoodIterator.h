@@ -145,7 +145,8 @@ public:
   Index<VDimension> operator-(const Self& b)
   {
     Index<VDimension> idx;
-    for (int i = 0; i < VDimension; ++i) idx[i] = m_Loop[i] - b.m_Loop[i];
+    for (unsigned int i = 0; i < VDimension; ++i)
+      idx[i] = m_Loop[i] - b.m_Loop[i]; 
     return idx;
   }
   
