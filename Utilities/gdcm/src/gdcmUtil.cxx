@@ -21,6 +21,7 @@
 
 #include <stdarg.h>  //only included in implementation file
 #include <stdio.h>   //only included in implementation file
+#include <fstream>
 
 namespace gdcm 
 {

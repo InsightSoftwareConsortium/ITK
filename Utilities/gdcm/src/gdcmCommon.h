@@ -45,13 +45,6 @@
 #endif //_MSC_VER
 
 //-----------------------------------------------------------------------------
-// ifdef for old gcc compiler
-#ifdef GDCM_NO_ANSI_STRING_STREAM
-#  include <strstream>
-#  define  ostringstream ostrstream
-# else
-#  include <sstream>
-#endif
 
 #include <string>
 #include <assert.h>

@@ -23,6 +23,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <itksys/ios/sstream>
 
 namespace gdcm 
 {
@@ -84,7 +85,7 @@ VR::~VR()
  */
 void VR::Print(std::ostream &os) 
 {
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
 
    for (VRHT::iterator it = vr.begin(); it != vr.end(); ++it)
    {

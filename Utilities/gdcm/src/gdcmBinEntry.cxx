@@ -20,6 +20,7 @@
 #include "gdcmDebug.h"
 #include <fstream>
 #include <iostream> // for std::ios_base, since <ios> does not exist on gcc/Solaris
+#include <itksys/ios/sstream>
 
 namespace gdcm 
 {
@@ -74,7 +75,7 @@ BinEntry::~BinEntry()
 void BinEntry::Print(std::ostream &os)
 {
    DocEntry::Print(os);
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
    void* binArea = GetBinArea();
    if (binArea)
    {

@@ -23,6 +23,7 @@
 #include <fstream>
 #include <iostream>
 #include <iomanip>
+#include <itksys/ios/sstream>
 
 namespace gdcm 
 {
@@ -101,7 +102,7 @@ void Dict::Print(std::ostream &os)
  */
 void Dict::PrintByKey(std::ostream &os)
 {
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
 
    for (TagKeyHT::iterator tag = KeyHt.begin(); tag != KeyHt.end(); ++tag)
    {

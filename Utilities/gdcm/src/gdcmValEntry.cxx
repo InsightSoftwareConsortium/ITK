@@ -22,6 +22,7 @@
 #include "gdcmUtil.h"
 
 #include <fstream>
+#include <itksys/ios/sstream>
 
 namespace gdcm 
 {
@@ -71,7 +72,7 @@ void ValEntry::Print(std::ostream & os)
    uint16_t g = GetGroup();
    uint16_t e = GetElement();
    std::string vr = GetVR();
-   std::ostringstream s; 
+   itksys_ios::ostringstream s; 
    std::string st;
    TSKey v;
    std::string d2;

@@ -26,6 +26,7 @@
 
 #include <vector>
 #include <iomanip>
+#include <itksys/ios/sstream>
 
 // For nthos:
 #if defined(_MSC_VER) || defined(__BORLANDC__)
@@ -1501,7 +1502,7 @@ void Document::ParseSQ( SeqEntry* seqEntry,
       }
 
       SQItem *itemSQ = new SQItem( seqEntry->GetDepthLevel() );
-      std::ostringstream newBase;
+      itksys_ios::ostringstream newBase;
       newBase << seqEntry->GetKey()
               << "/"
               << SQItemNumber
@@ -1563,7 +1564,7 @@ void Document::LoadDocEntry(DocEntry* entry)
    // are not loaded. Instead we leave a short notice of the offset of
    // the element content and it's length.
 
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
    if (length > MaxSizeLoadEntry)
    {
       if (BinEntry* binEntryPtr = dynamic_cast< BinEntry* >(entry) )
@@ -1973,7 +1974,7 @@ std::string Document::GetDocEntryValue(DocEntry *entry)
       std::string val = ((ValEntry *)entry)->GetValue();
       std::string vr  = entry->GetVR();
       uint32_t length = entry->GetLength();
-      std::ostringstream s;
+      itksys_ios::ostringstream s;
       int nbInt;
 
       // When short integer(s) are expected, read and convert the following 
@@ -2048,7 +2049,7 @@ std::string Document::GetDocEntryUnvalue(DocEntry* entry)
    {
       std::string vr = entry->GetVR();
       std::vector<std::string> tokens;
-      std::ostringstream s;
+      itksys_ios::ostringstream s;
 
       if ( vr == "US" || vr == "SS" ) 
       {
@@ -2132,7 +2133,7 @@ void Document::FixDocEntryFoundLength(DocEntry *entry,
      
    if ( foundLength % 2)
    {
-      std::ostringstream s;
+      itksys_ios::ostringstream s;
       s << "Warning : Tag with uneven length "
         << foundLength 
         <<  " in x(" << std::hex << gr << "," << el <<")" << std::dec;
@@ -2222,7 +2223,7 @@ bool Document::IsDocEntryAnInteger(DocEntry *entry)
          // test is useless (and might even look a bit paranoid), when we
          // encounter such an ill-formed image, we simply display a warning
          // message and proceed on parsing (while crossing fingers).
-         std::ostringstream s;
+         itksys_ios::ostringstream s;
          long filePosition = Fp->tellg();
          s << "Erroneous Group Length element length  on : (" \
            << std::hex << group << " , " << element 
@@ -2750,7 +2751,7 @@ bool Document::ReadTag(uint16_t testGroup, uint16_t testElement)
    }
    if ( itemTagGroup != testGroup || itemTagElement != testElement )
    {
-      std::ostringstream s;
+      itksys_ios::ostringstream s;
       s << "   We should have found tag (";
       s << std::hex << testGroup << "," << testElement << ")" << std::endl;
       s << "   but instead we encountered tag (";
@@ -2794,7 +2795,7 @@ uint32_t Document::ReadTagLength(uint16_t testGroup, uint16_t testElement)
    long currentPosition = Fp->tellg();
    uint32_t itemLength  = ReadInt32();
    {
-      std::ostringstream s;
+      itksys_ios::ostringstream s;
       s << "Basic Item Length is: "
         << itemLength << std::endl;
       s << "  at address: " << (unsigned)currentPosition << std::endl;
@@ -2828,7 +2829,7 @@ void Document::ReadAndSkipEncapsulatedBasicOffsetTable()
       {
          uint32_t individualLength = str2num( &basicOffsetTableItemValue[i],
                                               uint32_t);
-         std::ostringstream s;
+         itksys_ios::ostringstream s;
          s << "   Read one length: ";
          s << std::hex << individualLength << std::endl;
          dbg.Verbose(0,

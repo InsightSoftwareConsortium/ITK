@@ -23,7 +23,9 @@
 #include "gdcmGlobal.h"
 #include "gdcmUtil.h"
 #include "gdcmDebug.h"
+
 #include <fstream>
+#include <itksys/ios/sstream>
 
 namespace gdcm 
 {
@@ -60,7 +62,7 @@ SQItem::~SQItem()
  */
  void SQItem::Print(std::ostream& os)
  {
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
 
    if (SQDepthLevel > 0)
    {

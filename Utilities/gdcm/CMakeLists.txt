@@ -31,11 +31,6 @@ SUBDIRS(
 SET( GDCM_PUB_DICT_PATH "${CMAKE_INSTALL_PREFIX}${GDCM_DATA_DIR}")
 
 #-----------------------------------------------------------------------------
-# SunOS + old gcc fixes:
-INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityCXX.cmake)
-IF(CMAKE_NO_ANSI_STRING_STREAM)
-  SET(GDCM_NO_ANSI_STRING_STREAM 1)
-ENDIF(CMAKE_NO_ANSI_STRING_STREAM)
 INCLUDE (${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
 TEST_BIG_ENDIAN(GDCM_WORDS_BIGENDIAN)
 

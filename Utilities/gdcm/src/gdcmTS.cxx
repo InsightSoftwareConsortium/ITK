@@ -24,6 +24,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <itksys/ios/sstream>
 
 namespace gdcm 
 {
@@ -74,7 +75,7 @@ TS::~TS()
  */
 void TS::Print(std::ostream &os) 
 {
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
 
    for (TSHT::const_iterator it = TsMap.begin(); it != TsMap.end(); ++it)
    {

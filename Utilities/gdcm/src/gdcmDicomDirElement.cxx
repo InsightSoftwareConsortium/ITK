@@ -23,6 +23,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <itksys/ios/sstream>
 
 namespace gdcm 
 {
@@ -100,7 +101,7 @@ DicomDirElement::~DicomDirElement()
  */
 void DicomDirElement::Print(std::ostream &os)
 {
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
    std::list<Element>::iterator it;
    //char greltag[10];  //group element tag
    std::string greltag;
