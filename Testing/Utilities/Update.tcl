@@ -24,8 +24,7 @@ proc GetLog { File } \
 }
   
 # Do the update
-# set UpdateStatus [catch { exec $cvs -n update -d -P -A >& update.tmp } ]
-set UpdateStatus [catch { exec $cvs update -d -P -A >& update.tmp } ]
+set UpdateStatus [catch { exec $cvs -n update -d -P -A >& update.tmp } ]
 puts $Out "\t<UpdateCommand>cvs -n update -d -P -A</UpdateCommand>"
 
 set Update [open update.tmp r]
