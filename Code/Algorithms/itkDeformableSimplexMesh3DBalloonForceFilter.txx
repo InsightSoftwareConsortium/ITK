@@ -19,7 +19,6 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkNumericTraits.h"
 //#include "itkMapContainer.h"
-#include <vnl/vnl_numeric_limits.h>
 
 #include <set>
 
