@@ -105,13 +105,6 @@ ExtractImageFilter<TInputImage,TOutputImage>
   InputImageConstPointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
 
-  // Set the requested region for the input region to the same as
-  // that for the output region.
-  { 
-  InputImagePointer image = const_cast< InputImageType * >( inputPtr.GetPointer() );
-  image->SetRequestedRegion( outputRegionForThread );
-  }
-
   // support progress methods/callbacks
   unsigned long updateVisits = 0;
   unsigned long totalPixels = 0;
@@ -123,12 +116,16 @@ ExtractImageFilter<TInputImage,TOutputImage>
     if( updateVisits < 1 ) updateVisits = 1;
     }
 
+  // Define the portion of the input to walk for this thread
+  InputImageRegionType inputRegionForThread;
+  this->GetRegionCopier()(inputRegionForThread, outputRegionForThread);
+  
   // Define the iterators.
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
   typedef ImageRegionConstIterator<TInputImage> InputIterator;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
-  InputIterator inIt(inputPtr, outputRegionForThread);
+  InputIterator inIt(inputPtr, inputRegionForThread);
 
   // walk the output region, and sample the input image
   for (i=0; !outIt.IsAtEnd(); ++outIt, ++inIt, i++ )

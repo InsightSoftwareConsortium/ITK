@@ -67,7 +67,8 @@ public:
   typedef typename TInputImage::SizeType InputImageSizeType;
 
   /** ImageDimension enumeration */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  enum { InputImageDimension = TInputImage::ImageDimension };
+  enum { OutputImageDimension = TOutputImage::ImageDimension };
 
   /** Set/Get the output image region. */
   itkSetMacro(ExtractionRegion, OutputImageRegionType);
