@@ -54,7 +54,7 @@
                 SelfAutoPointer ptr( new celltype );   \
                 ptr.TakeOwnership();                   \
                 return ptr;                            \
-                };                                     \
+                }                                      \
 
 
 // Define a macro for the common typedefs required by the 
