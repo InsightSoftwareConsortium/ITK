@@ -158,11 +158,10 @@ namespace itk{
         // iteration loop
         for (unsigned int i=0; i<m_NumberOfIterations; i++)
           {
-          double tmp = 0;
+          double tmp;
 
           if( stillSamePoint )
             {
-            stillSamePoint = 0;
             step = step/2;
             }
 
@@ -193,7 +192,7 @@ namespace itk{
               {
               forwardVector = inputFieldInterpolator->Evaluate( mappedPoint );
               tmp = 0;
-              for (int l=0; l<ImageDimension; l++)
+              for (unsigned int l=0; l<ImageDimension; l++)
                 {
                 tmp += pow(mappedPoint[l] + forwardVector[l] - originalPoint[l], 2);
                 }

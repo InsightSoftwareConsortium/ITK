@@ -134,7 +134,7 @@ RegularSphereMeshSource<TOutputMesh>
     PointType* v3_pt;
     v1_pt = &v1;  v2_pt = &v2;  v3_pt = &v3;
     const unsigned long *tp;
-    unsigned long pointIdx=0,cellIdx=0;
+    unsigned long pointIdx,cellIdx=0;
     unsigned long pointIdxOffset = outputMesh->GetNumberOfPoints();
     pointIdx = pointIdxOffset;
     unsigned long newIdx[3] = {0,1,2};
