@@ -143,6 +143,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSigmoidImageFilter.h"
 #include "itkSimilarityIndexImageFilter.txx"
 #include "itkSinImageFilter.h"
+#include "itkSmoothingRecursiveGaussianImageFilter.txx"
 #include "itkSobelEdgeDetectionImageFilter.txx"
 #include "itkSparseFieldLayer.txx"
 #include "itkSparseFieldLevelSetImageFilter.txx"
