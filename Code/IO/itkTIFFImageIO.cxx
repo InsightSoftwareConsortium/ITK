@@ -127,14 +127,14 @@ int TIFFReaderInternal::CanRead()
 {
   return ( this->Image && ( this->Width > 0 ) && ( this->Height > 0 ) &&
            ( this->SamplesPerPixel > 0 ) && 
-           ( this->Compression == COMPRESSION_NONE ) &&
+           ( this->Compression == COMPRESSION_NONE || this->Compression == COMPRESSION_PACKBITS) &&
            ( this->Photometrics == PHOTOMETRIC_RGB ||
              this->Photometrics == PHOTOMETRIC_MINISWHITE ||
              this->Photometrics == PHOTOMETRIC_MINISBLACK ||
              this->Photometrics == PHOTOMETRIC_PALETTE ) &&
            this->PlanarConfig == PLANARCONFIG_CONTIG &&
            ( !this->TileDepth ) &&
-           ( this->BitsPerSample == 8 ) );
+           ( this->BitsPerSample == 8   || this->BitsPerSample == 16)   );
 }
 
 
@@ -205,10 +205,16 @@ void TIFFImageIO::ReadGenericImage( void *out,
   unsigned int cc;
   int row, inc;
   tdata_t buf = _TIFFmalloc(isize);
-  unsigned char *image = (unsigned char *)out;
 
-  if ( m_InternalImage->PlanarConfig == PLANARCONFIG_CONTIG )
+  if ( m_InternalImage->PlanarConfig != PLANARCONFIG_CONTIG )
     {
+    std::cout << "This reader can only do PLANARCONFIG_CONTIG" << std::endl;
+    return;
+    }
+
+  if(m_PixelType == UCHAR)
+    {
+    unsigned char* image = reinterpret_cast<unsigned char*>(out);
     for ( row = 0; row < (int)height; row ++ )
       {
       if (TIFFReadScanline(m_InternalImage->Image, buf, row, 0) <= 0)
@@ -216,24 +222,106 @@ void TIFFImageIO::ReadGenericImage( void *out,
         std::cout << "Problem reading the row: " << row << std::endl;
         break;
         }
+          
       for (cc = 0; cc < isize; 
            cc += m_InternalImage->SamplesPerPixel )
         {
-          inc = this->EvaluateImageAt( image, 
-                                       static_cast<unsigned char *>(buf) +
-                                       cc );      
-          
-          image += inc;
+        inc = this->EvaluateImageAt( image, 
+                                        static_cast<unsigned char *>(buf) +
+                                        cc );      
+        image += inc;
         }
       }
     }
-  else 
+  else if(m_PixelType == USHORT)
     {
-    std::cout << "This reader can only do PLANARCONFIG_CONTIG" << std::endl;
+    isize /= 2;
+    unsigned short* image = reinterpret_cast<unsigned short*>(out);
+    for ( row = 0; row < (int)height; row ++ )
+      {
+      if (TIFFReadScanline(m_InternalImage->Image, buf, row, 0) <= 0)
+        {
+        std::cout << "Problem reading the row: " << row << std::endl;
+        break;
+        }
+          
+      for (cc = 0; cc < isize; 
+           cc += m_InternalImage->SamplesPerPixel )
+        {
+        inc = this->EvaluateImageAt( image, 
+                                     static_cast<unsigned short *>(buf) +
+                                     cc );      
+        image += inc;
+        }
+      }
     }
-
   _TIFFfree(buf); 
 }
+
+
+int TIFFImageIO::EvaluateImageAt( void* out, void* in )
+{
+  unsigned char *image = (unsigned char*)out;
+  unsigned char *source = (unsigned char*)in;
+  
+  int increment;
+  unsigned short red, green, blue, alpha;
+  switch ( this->GetFormat() )
+    {
+    case TIFFImageIO::GRAYSCALE:
+      if ( m_InternalImage->Photometrics == 
+           PHOTOMETRIC_MINISBLACK )
+        {
+        if(m_PixelType == USHORT)
+          {
+          unsigned short *image = (unsigned short*)out;
+          unsigned short *source = (unsigned short*)in;
+          *image = *source;
+          }
+        else
+          {
+          *image = *source;
+          }
+        }
+      else
+        {
+        *image = ~( *source );
+        }
+      increment = 1;
+      break;
+    case TIFFImageIO::PALETTE_GRAYSCALE:
+      this->GetColor(*source, &red, &green, &blue);
+      *image = red;
+      increment = 1;
+      break;
+    case TIFFImageIO::RGB_: 
+      red   = *(source);
+      green = *(source+1);
+      blue  = *(source+2);
+      *(image)   = red;
+      *(image+1) = green;
+      *(image+2) = blue;
+      if ( m_InternalImage->SamplesPerPixel == 4 )
+        {
+        alpha = *(source+3);
+        *(image+3) = 255-alpha;       
+        }
+      increment = m_InternalImage->SamplesPerPixel;
+      break;
+    case TIFFImageIO::PALETTE_RGB:
+      this->GetColor(*source, &red, &green, &blue);     
+      *(image)   = static_cast<unsigned char>(red >> 8);
+      *(image+1) = static_cast<unsigned char>(green >> 8);
+      *(image+2) = static_cast<unsigned char>(blue >> 8);
+      increment = 3;
+      break;
+    default:
+      return 0;
+    }
+  
+  return increment;
+}
+
 
 void TIFFImageIO::GetColor( int index, unsigned short *red, 
                                  unsigned short *green, unsigned short *blue )
@@ -306,60 +394,6 @@ void TIFFImageIO::GetColor( int index, unsigned short *red,
   *red   = *(red_orig   + index);
   *green = *(green_orig + index);
   *blue  = *(blue_orig  + index);
-}
-
-
-int TIFFImageIO::EvaluateImageAt( void* out, void* in )
-{
-  unsigned char *image = (unsigned char *)out;
-  unsigned char *source = (unsigned char *)in;
-  int increment;
-  unsigned short red, green, blue, alpha;
-  switch ( this->GetFormat() )
-    {
-    case TIFFImageIO::GRAYSCALE:
-      if ( m_InternalImage->Photometrics == 
-           PHOTOMETRIC_MINISBLACK )
-        {
-        *image = *source;
-        }
-      else
-        {
-        *image = ~( *source );
-        }
-      increment = 1;
-      break;
-    case TIFFImageIO::PALETTE_GRAYSCALE:
-      this->GetColor(*source, &red, &green, &blue);
-      *image = red;
-      increment = 1;
-      break;
-    case TIFFImageIO::RGB_: 
-      red   = *(source);
-      green = *(source+1);
-      blue  = *(source+2);
-      *(image)   = red;
-      *(image+1) = green;
-      *(image+2) = blue;
-      if ( m_InternalImage->SamplesPerPixel == 4 )
-        {
-        alpha = *(source+3);
-        *(image+3) = 255-alpha;       
-        }
-      increment = m_InternalImage->SamplesPerPixel;
-      break;
-    case TIFFImageIO::PALETTE_RGB:
-      this->GetColor(*source, &red, &green, &blue);     
-      *(image)   = static_cast<unsigned char>(red >> 8);
-      *(image+1) = static_cast<unsigned char>(green >> 8);
-      *(image+2) = static_cast<unsigned char>(blue >> 8);
-      increment = 3;
-      break;
-    default:
-      return 0;
-    }
-  
-  return increment;
 }
 
 
@@ -503,7 +537,6 @@ void TIFFImageIO::Read(void* buffer)
   int height = m_InternalImage->Height;
 
 
-
   if ( !m_InternalImage->CanRead() )
     {
     uint32 *tempImage ;
@@ -553,18 +586,12 @@ void TIFFImageIO::Read(void* buffer)
   unsigned int format = this->GetFormat();  
 
 
-
-  if ( m_InternalImage->Compression == COMPRESSION_PACKBITS )
-    {
-    height /= m_InternalImage->BitsPerSample;
-    }
-  
   switch ( format )
     {
     case TIFFImageIO::GRAYSCALE:
     case TIFFImageIO::RGB_: 
     case TIFFImageIO::PALETTE_RGB:
-    case TIFFImageIO::PALETTE_GRAYSCALE:      
+    case TIFFImageIO::PALETTE_GRAYSCALE:
       this->ReadGenericImage( buffer, width, height );
       break;
     default:
@@ -650,6 +677,15 @@ void TIFFImageIO::ReadImageInformation()
   if ( !m_InternalImage->CanRead() )
     {
     this->SetNumberOfComponents( 4 );
+    }
+
+  if (m_InternalImage->BitsPerSample <= 8)
+    {
+    m_PixelType = UCHAR;
+    }
+  else
+    {
+    m_PixelType = USHORT;
     }
 
   return;
@@ -834,6 +870,7 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
 
   uint32 w = width;
   uint32 h = height;
+
   TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, w);
   TIFFSetField(tif, TIFFTAG_IMAGELENGTH, h);
   TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
@@ -868,8 +905,11 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
   default: compression = COMPRESSION_NONE;
     }
   //compression = COMPRESSION_JPEG;
+  //compression = COMPRESSION_NONE;
   TIFFSetField(tif, TIFFTAG_COMPRESSION, compression); // Fix for compression
-  uint16 photometric = PHOTOMETRIC_RGB;
+
+  uint16 photometric = (scomponents ==1) ? PHOTOMETRIC_MINISBLACK : PHOTOMETRIC_RGB;
+
   if ( compression == COMPRESSION_JPEG )
     {
     TIFFSetField(tif, TIFFTAG_JPEGQUALITY, 75); // Parameter
@@ -889,6 +929,7 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
     }
 
   TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, photometric); // Fix for scomponents
+ 
   TIFFSetField(tif,
                TIFFTAG_ROWSPERSTRIP,
                TIFFDefaultStripSize(tif, rowsperstrip));
@@ -898,9 +939,6 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
     TIFFSetField(tif, TIFFTAG_YRESOLUTION, resolution);
     TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
     }
-
-
-
 
   int rowLength; // in bytes
 
