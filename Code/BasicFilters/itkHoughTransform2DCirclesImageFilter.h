@@ -60,6 +60,7 @@ public:
 
   /** Input Image typedef */ 
   typedef Image<TInputPixelType,2> InputImageType;
+  typedef typename InputImageType::Pointer InputImagePointer;
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
 
   /** Output Image typedef */
