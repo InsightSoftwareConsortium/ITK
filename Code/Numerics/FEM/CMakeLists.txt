@@ -1,7 +1,3 @@
-PROJECT(FEM)
-
-
-
 # Source files for the FEM project
 SOURCE_FILES(FEM_SRCS 
 
@@ -124,13 +120,3 @@ ENDIF(WIN32)
 
 # Build the library
 ADD_LIBRARY(FEM FEM_SRCS)
-
-
-
-# FEM project depends on the VXLNumerics...
-ADD_DEPENDENCIES(FEM VXLNumerics)
-
-# FEM project also depends on ITKCommon if smartpointers are used...
-IF(FEM_USE_SMART_POINTERS)
-ADD_DEPENDENCIES(FEM ITKCommon)
-ENDIF(FEM_USE_SMART_POINTERS)
