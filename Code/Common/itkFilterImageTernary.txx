@@ -89,19 +89,13 @@ FilterImageTernary<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction
 ::GenerateData( void )
 {
 
-  m_OutputImage->SetLargestPossibleRegion( 
-      this->m_Image1->GetLargestPossibleRegion() );
+  ImageRegion region = this->m_OutputImage->GetRequestedRegion();
 
-  m_OutputImage->SetBufferedRegion( 
-      this->m_Image1->GetBufferedRegion() );
+  Image1Iterator it1( this->m_Image1, region );
+  Image2Iterator it2( this->m_Image2, region );
+  Image3Iterator it3( this->m_Image3, region );
 
-  m_OutputImage->Allocate();
-
-  Image1Iterator it1(this->m_Image1, this->m_Image1->GetBufferedRegion() );
-  Image2Iterator it2(this->m_Image2, this->m_Image2->GetBufferedRegion() );
-  Image3Iterator it3(this->m_Image3, this->m_Image3->GetBufferedRegion() );
-
-  ImageOutputIterator ot(m_OutputImage, m_OutputImage->GetBufferedRegion());
+  ImageOutputIterator ot( this->m_OutputImage, region );
 
   it1.Begin();
   it2.Begin();
