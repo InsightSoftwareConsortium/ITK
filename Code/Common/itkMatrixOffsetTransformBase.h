@@ -311,12 +311,12 @@ public:
     * an exception is thrown.
     * Note that by default the inverese transform is centered at 
     * the origin.   */
-  virtual bool GetInverse(Self * inverse) const;
+  bool GetInverse(Self * inverse) const;
 
   /** \deprecated Use GetInverse instead.
    *
    * Method will eventually be made a protected member function */ 
-  virtual InverseMatrixType GetInverseMatrix( void ) const;
+  InverseMatrixType GetInverseMatrix( void ) const;
 
 protected:
   /** Construct an MatrixOffsetTransformBase object
