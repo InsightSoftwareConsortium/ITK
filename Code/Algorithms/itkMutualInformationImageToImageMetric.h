@@ -24,7 +24,6 @@
 #include "itkIndex.h"
 #include "itkKernelFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
-#include "itkImageMapper.h"
 
 namespace itk
 {
