@@ -618,9 +618,11 @@ int main( int argc, char *argv[] )
   //  \code{Examples/Data}.  The following parameters are
   //  passed to the command line:
   // 
+  //  \small
   //  \begin{verbatim}
   //  DeformableModel1  BrainProtonDensitySlice.png ConfidenceConnectedOutput1.png
   //  \end{verbatim}
+  //  \normalsize
   //
   //  Note that in order to successfully segment other images, one has to play
   //  with proper parameters settings that are best for that data. The

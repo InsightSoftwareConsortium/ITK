@@ -319,9 +319,11 @@ int main( int argc, char *argv[] )
   //  We execute this program on the image \code{brainweb89.png}. The following parameters
   //  are passed to the command line:
   // 
+  //  \small
   //  \begin{verbatim}
   //  GibbsGuide.exe brainweb89.png brainweb89_train.png brainweb_gp.png
   //  \end{verbatim}
+  //  \normalsize
   //
   //  \code{brainweb89train} is a training image that helps to estimate the object statistics.
   //
