@@ -580,7 +580,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     if ((randomPixel > (rowsize - 1)) && (randomPixel < (size - rowsize)) 
         && (randomPixel%rowsize != 0) && (randomPixel%rowsize != rowsize-1)) 
       {
-      GibbsTotalEnergy(randomPixel); /* minimized f_2; *//*
+      GibbsTotalEnergy(randomPixel); // minimized f_2; 
       }
     m_Temp++;
     }
