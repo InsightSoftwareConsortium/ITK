@@ -20,6 +20,7 @@
 
 #include "itkImageSpatialObject.h"
 #include "itkSize.h"
+#include <itkDefaultConvertPixelTraits.h>
 
 namespace itk
 {
@@ -78,7 +79,9 @@ ImageSpatialObject< TDimension,  PixelType >
 }
 
 /** Return the value of the image at a specified point 
- *  The value returned is always of type double */
+ *  The value returned is always of type double 
+ *  For RGB Images the value returned is the value of the first channel.
+ */
 template< unsigned int TDimension, class PixelType >
 bool 
 ImageSpatialObject< TDimension,  PixelType >
@@ -95,14 +98,18 @@ ImageSpatialObject< TDimension,  PixelType >
       {
       index[i] = (int)p[i];
       }
-    value = m_Image->GetPixel(index);
+    
+    value = static_cast<double>(DefaultConvertPixelTraits<PixelType>::GetScalarValue(m_Image->GetPixel(index)));
+
     return true;
     }
   else
     {
     if( Superclass::IsEvaluableAt(point, depth, name) )
       {
-      Superclass::ValueAt(point, value, depth, name);
+      double val;
+      Superclass::ValueAt(point, val, depth, name);
+      value = val;
       return true;
       }
     else
