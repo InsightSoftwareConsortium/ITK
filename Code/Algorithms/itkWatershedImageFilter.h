@@ -187,10 +187,13 @@ public:
 
   /** Overloaded to link the input to this filter with the input of the
       mini-pipeline */
-  void SetInput(InputImageType *input)
+  void SetInput(const InputImageType *input)
     {
-      this->ProcessObject::SetNthInput(0, input);
-      m_Segmenter->SetInputImage(input);
+      // processObject is not const-correct so a const_cast is needed here
+      this->ProcessObject::SetNthInput(0, 
+                const_cast<InputImageType *>( input ) );
+      m_Segmenter->SetInputImage(
+                const_cast<InputImageType *>( input ) );
     }
   
   /** Set/Get the input thresholding parameter.  Units are a percentage of
