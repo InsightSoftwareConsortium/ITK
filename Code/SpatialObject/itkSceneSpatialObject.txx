@@ -36,21 +36,6 @@ template <unsigned int SpaceDimension>
 SceneSpatialObject<SpaceDimension>
 ::~SceneSpatialObject()
 {
-  //We decrease the reference count of all the object added to the scene
-  //i.e. the flag  SceneManageMemory is set to true;
-  ObjectListType * objects = this->GetObjects(0);
-  typename ObjectListType::iterator it = objects->begin();
-
-  while(it!=objects->end())
-    {
-    if((*it)->GetSceneManageMemory())
-      {
-      (*it)->SetReferenceCount((*it)->GetReferenceCount()-1);    
-      }
-    it++;
-    } 
-
-  delete objects;
 }
 
 /** Add a spatial object to the SceneSpatialObject */
@@ -62,7 +47,7 @@ SceneSpatialObject<SpaceDimension>
   // When an object is added to the scene, the reference count is increased 
   // when the objet is removed or the scene is deleted, the reference count
   // is decreased.
-  pointer->SetReferenceCount(pointer->GetReferenceCount()+1);
+  //pointer->SetReferenceCount(pointer->GetReferenceCount()+1);
   pointer->SetSceneManageMemory(true);
   m_Objects.push_back( pointer );
   this->Modified();
@@ -139,14 +124,14 @@ SceneSpatialObject<SpaceDimension>
       typedef typename SpatialObject<SpaceDimension>::ChildrenListType
         ChildListType;
       ChildListType * childList = 
-        (dynamic_cast<SpatialObject<SpaceDimension> *>(*it))->
+        dynamic_cast<SpatialObject<SpaceDimension> *>((*it).GetPointer())->
         GetChildren(depth-1, name);
       typename ChildListType::const_iterator cIt = childList->begin();
       typename ChildListType::const_iterator cItEnd = childList->end();
 
       while(cIt != cItEnd)
         {
-        newList->push_back(dynamic_cast< ObjectType * >(*cIt));
+        newList->push_back(dynamic_cast< ObjectType * >((*cIt).GetPointer()));
         cIt++;
         }
 
@@ -192,7 +177,7 @@ SceneSpatialObject<SpaceDimension>
     {
     while(it != itEnd)
       {
-      cnt += (dynamic_cast<SpatialObject<SpaceDimension> * >(*it))->
+      cnt += (dynamic_cast<SpatialObject<SpaceDimension> * >((*it).GetPointer()))->
         GetNumberOfChildren( depth-1, name );
       it++;
       }
@@ -247,8 +232,9 @@ SceneSpatialObject<SpaceDimension>
       }
     else
       {
-      cList = (dynamic_cast<SpatialObject<SpaceDimension> *>(*it))->
-        GetChildren(SpatialObjectType::MaximumDepth); 
+      //cList = (dynamic_cast<SpatialObject<SpaceDimension> *>(*it))->
+      //  GetChildren(SpatialObjectType::MaximumDepth); 
+      cList = (*it)->GetChildren(SpatialObjectType::MaximumDepth); 
       cIt = cList->begin();
       cItEnd = cList->end();
       while(cIt != cItEnd)
@@ -297,7 +283,7 @@ SceneSpatialObject<SpaceDimension>
       else
         {
         pObj->AddSpatialObject(dynamic_cast<SpatialObject<SpaceDimension> *>
-                               (*it));
+                               ((*it).GetPointer()));
         oldIt = it;
         it++;
         m_Objects.erase( oldIt );
