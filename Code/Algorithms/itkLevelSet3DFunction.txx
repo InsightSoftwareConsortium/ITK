@@ -43,31 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkLevelSet3DFunction.h"
 
-#ifdef MANUAL_CALCULATION
-#define DX (0)
-#define DY (1)
-#define DZ (2)
-#define DPX (3)
-#define DPY (4)
-#define DPZ (5)
-#define DMX (6)
-#define DMY (7)
-#define DMZ (8)
-#define DYPX (9)
-#define DZPX (10)
-#define DXPY (11)
-#define DZPY (12)
-#define DXPZ (13)
-#define DYPZ (14)
-#define DYMX (15)
-#define DZMX (16)
-#define DXMY (17)
-#define DZMY (18)
-#define DXMZ (19)
-#define DYMZ (20)
-#define NSIZE (27)
-#endif
-
 namespace itk {
 
 template< class TImageType >
@@ -272,178 +247,6 @@ LevelSet3DFunction< TImageType >
     }
       
   curvature_term *= m_CurvatureWeight * this->CurvatureSpeed(it, offset);
-  
-#ifdef MEAN_CURVATURE_FORMULA
-
-  ScalarValueType dxx[ImageDimension];
-  ScalarValueType dxy[ImageDimension * (ImageDimension-1)/2];
-  ScalarValueType curve, gradMag;
-  
-  int k = 0;
-  curve = ZERO;
-  for (i = 0; i < ImageDimension; i++)
-    {
-      dxx[i] = it.GetPixel(m_Center + m_xStride[i]) + it.GetPixel(m_Center -
-                                                                  m_xStride[i])
-        - 2.0 * temp_value;
-      
-
-      for(int j = i+1; j < ImageDimension; j++)
-        {
-          dxy[k] = 0.25 *( it.GetPixel(m_Center - m_xStride[i] - m_xStride[j])
-            - it.GetPixel(m_Center - m_xStride[i]+ m_xStride[j])
-            - it.GetPixel(m_Center + m_xStride[i] - m_xStride[j])
-            + it.GetPixel(m_Center + m_xStride[i] + m_xStride[j]));
-         
-          curve -= 2.0 * dx[i]*dx[j] * dxy[k]; 
-          k++;
-        }
-
-    }
-
-  gradMag = 1.0e-6;
-  for (i = 0; i < ImageDimension; i++)
-    {
-      
-      for(int j = 0; j < ImageDimension; j++)
-        {
-          
-          if(j != i)
-            curve += dxx[j] * dx[i] * dx[i];
-        }
-      gradMag += dx[i] * dx[i];
-    }
-
-  curve /= gradMag * vnl_math_sqrt(gradMag);
-  
-  curvature_term = curve;
-  curvature_term *= m_CurvatureWeight * this->CurvatureSpeed(it, offset);
-
-#endif
-
-#ifdef MANUAL_CALCULATION
-
-  float curve_trace = 0;
-
-  if(ImageDimension == 2)
-    {
-      float derivative[10];
-      
-
-      derivative[DX] = 0.5f*(it.GetPixel(5) - it.GetPixel(3));
-      derivative[DY] = 0.5f*(it.GetPixel(7) - it.GetPixel(1));
-      derivative[DPX] = it.GetPixel(5) - it.GetPixel(4);
-      derivative[DPY] = it.GetPixel(7) - it.GetPixel(4);
-      derivative[DMX] = it.GetPixel(4) - it.GetPixel(3);
-      derivative[DMY] = it.GetPixel(4) - it.GetPixel(1);
-      derivative[DYPX] = 0.5f*(it.GetPixel(8) - it.GetPixel(2));
-      derivative[DYMX] = 0.5f*(it.GetPixel(6) - it.GetPixel(0));
-      derivative[DXPY] = 0.5f*(it.GetPixel(8) - it.GetPixel(6));
-      derivative[DXMY] = 0.5f*(it.GetPixel(2) - it.GetPixel(0));
-      
-      VectorType Nf, Nb;
-      
-      Nf[0] = derivative[DPX];
-      Nf[1] = 0.5f*(derivative[DYPX] + derivative[DY]);
-      Nf = Nf/(Nf.GetNorm()+MIN_NORM);
-      
-      Nb[0] = derivative[DMX];
-      Nb[1] = 0.5f*(derivative[DYMX] + derivative[DY]);
-      Nb = Nb/(Nb.GetNorm()+MIN_NORM);
-
-      curve_trace += Nf[0] - Nb[0];
-      
-      //    curve.pokeROI(0, 0, Nf - Nb);
-      // do the y derivative
-      Nf[0] = 0.5f*(derivative[DXPY] + derivative[DX]);
-      Nf[1] = derivative[DPY];
-      Nf = Nf/(Nf.GetNorm()+MIN_NORM);
-      
-      Nb[0] = 0.5f*(derivative[DXMY] + derivative[DX]);
-      Nb[1] = derivative[DMY];
-      Nb = Nb/(Nb.GetNorm()+MIN_NORM);
-
-      curve_trace += Nf[1] - Nb[1];
-      
-    }
-  else
-    {
-      
-      //Here we compute the mean curvature in another way
-      float derivative[21];
-      
-      derivative[DX] = 0.5 * (it.GetPixel(14) - it.GetPixel(12));
-      derivative[DY] = 0.5 * (it.GetPixel(16) - it.GetPixel(10));
-      derivative[DZ] = 0.5 * (it.GetPixel(22) - it.GetPixel(4));
-      
-      derivative[DPX] = it.GetPixel(14) - it.GetPixel(13);
-      derivative[DPY] = it.GetPixel(16) - it.GetPixel(13);
-      derivative[DPZ] = it.GetPixel(22) - it.GetPixel(13);  
-      
-      derivative[DMX] = it.GetPixel(13) - it.GetPixel(12);
-      derivative[DMY] = it.GetPixel(13) - it.GetPixel(10);
-      derivative[DMZ] = it.GetPixel(13) - it.GetPixel(4);
-      
-      derivative[DYPX] = 0.5f*(it.GetPixel(17) - it.GetPixel(11));
-      derivative[DZPX] = 0.5f*(it.GetPixel(23) - it.GetPixel(5));
-      derivative[DYMX] = 0.5f*(it.GetPixel(15) - it.GetPixel(9));
-      derivative[DZMX] = 0.5f*(it.GetPixel(21) - it.GetPixel(3));
-      
-      derivative[DXPY] = 0.5f*(it.GetPixel(17) - it.GetPixel(15));
-      derivative[DZPY] = 0.5f*(it.GetPixel(25) - it.GetPixel(7));
-      derivative[DXMY] = 0.5f*(it.GetPixel(11) - it.GetPixel(9));
-      derivative[DZMY] = 0.5f*(it.GetPixel(19) - it.GetPixel(1));
-      
-      derivative[DXPZ] = 0.5f*(it.GetPixel(23) - it.GetPixel(21));
-      derivative[DYPZ] = 0.5f*(it.GetPixel(25) - it.GetPixel(19));
-      derivative[DXMZ] = 0.5f*(it.GetPixel(5) - it.GetPixel(3));
-      derivative[DYMZ] = 0.5f*(it.GetPixel(7) - it.GetPixel(1));
-      
-      VectorType Nf, Nb;
-      
-      Nf[0] = derivative[DPX];
-      Nf[1] = 0.5f*(derivative[DYPX] + derivative[DY]);
-      Nf[2] = 0.5f*(derivative[DZPX] + derivative[DZ]);
-            
-      Nf = Nf/(Nf.GetNorm()+MIN_NORM);
-
-      Nb[0] = derivative[DMX];
-      Nb[1] = 0.5f*(derivative[DYMX] + derivative[DY]);
-      Nb[2] = 0.5f*(derivative[DZMX] + derivative[DZ]);
-      Nb = Nb/(Nb.GetNorm()+MIN_NORM);
-      
-      curve_trace += Nf[0] - Nb[0];
-
-      // do the y derivative
-      Nf[0] = 0.5f*(derivative[DXPY] + derivative[DX]);
-      Nf[1] = derivative[DPY];
-      Nf[2] = 0.5f*(derivative[DZPY] + derivative[DZ]);
-      Nf = Nf/(Nf.GetNorm()+MIN_NORM);
-      
-      Nb[0] = 0.5f*(derivative[DXMY] + derivative[DX]);
-      Nb[1] = derivative[DMY];
-      Nb[2] = 0.5f*(derivative[DZMY] + derivative[DZ]);
-      Nb = Nb/(Nb.GetNorm()+MIN_NORM);
-      
-      curve_trace += Nf[1] - Nb[1];
-
-      // do the z derivative
-      Nf[0] = 0.5f*(derivative[DXPZ] + derivative[DX]);
-      Nf[1] = 0.5f*(derivative[DYPZ] + derivative[DY]);
-      Nf[2] = derivative[DPZ];
-      Nf = Nf/(Nf.GetNorm()+MIN_NORM);
-      
-      Nb[0] = 0.5f*(derivative[DXMZ] + derivative[DX]);
-      Nb[1] = 0.5f*(derivative[DYMZ] + derivative[DY]);
-      Nb[2] = derivative[DMZ];
-      Nb = Nb/(Nb.GetNorm()+MIN_NORM);
-
-      curve_trace += Nf[2] - Nb[2];
-
-    }
-    curvature_term = curve_trace;
-    curvature_term *= m_CurvatureWeight * this->CurvatureSpeed(it, offset);
-#endif  
 
 
   // Calculate the advection term.
@@ -582,6 +385,7 @@ LevelSet3DFunction< TImageType >
 
   temp_value  = it.GetPixel(m_Center);  
 
+
   //calculate mean curvature
   //First calculate derivatives
   for( i = 0 ; i < ImageDimension; i++)
@@ -594,54 +398,45 @@ LevelSet3DFunction< TImageType >
     
       dx_backward[i] =  temp_value - 
         it.GetPixel(m_Center - m_xStride[i]);  
-
-      /*
+      
       for( int j = 0; j < ImageDimension; j++)
         {
-
           //calculate the partial derivatives  
-          
           if(j != i)
             {
-              dxP[i][j] = 0.5 * (it.GetPixel(m_Center + m_xStride[i] + m_xStride[j]) +
-                                 it.GetPixel(m_Center + m_xStride[i] - m_xStride[j]) );
-              
-              dxM[i][j] = 0.5 * (it.GetPixel(m_Center - m_xStride[i] + m_xStride[j]) +
-                                 it.GetPixel(m_Center - m_xStride[i] - m_xStride[j]) );
+              dxP[i][j] = 0.5 * (it.GetPixel(m_Center + m_xStride[i] +
+                                             m_xStride[j]) - 
+                                 it.GetPixel(m_Center + m_xStride[i] - 
+                                             m_xStride[j]) );
+          
+              dxM[i][j] = 0.5 * (it.GetPixel(m_Center - m_xStride[i] + 
+                                             m_xStride[j]) - 
+                                 it.GetPixel(m_Center - m_xStride[i] -
+                                             m_xStride[j]) );
+            }
+          else
+            {
+              dxP[i][j] = 0;
+              dxM[i][j] = 0;
             }
           
         }//for
 
-      */
-
     }//for
-
-  /*
-    float F[ImageDimension],B[ImageDimension];
-    float normF, normB; 
-
-    curvature_term = 0.0;
-    
-    for(int k = 0; k < ImageDimension; k ++)
+  
+  float F[ImageDimension],B[ImageDimension];
+  float normF, normB; 
+  curvature_term = 0.0;
+  
+  //calculate the vectors used to calculate the mean curvature
+  for(int k = 0; k < ImageDimension; k ++)
     {
-    
-    //  for( i = 0; i < ImageDimension; i ++)
-    //    {
-    //      VectorF[i] = 0.5 *(dxP[k][i] + dx[i]);
-    //      VectorB[i] = 0.5 *(dxM[k][i] + dx[i]);
-    //    }
-    //  VectorF[k] = dx_forward[k];
-    //  VectorB[k] = dx_backward[k];
-    //  VectorF = VectorF/(VectorF.GetNorm() + MIN_NORM);
-    //  VectorB = VectorB/(VectorB.GetNorm() + MIN_NORM);
 
-    //  curvature_term += VectorF[k] - VectorB[k];
-      
-      
       for( i = 0; i < ImageDimension; i ++)
         {
           F[i] = 0.5 *(dxP[k][i] + dx[i]);
           B[i] = 0.5 *(dxM[k][i] + dx[i]);
+
         }
       F[k] = dx_forward[k];
       B[k] = dx_backward[k];
@@ -654,54 +449,11 @@ LevelSet3DFunction< TImageType >
           normB += B[i] * B[i];
         }
 
-      curvature_term += F[k]/vnl_math_sqrt(normF) - VectorB[k]/vnl_math_sqrt(normB);
+      curvature_term += F[k]/vnl_math_sqrt(normF) - B[k]/vnl_math_sqrt(normB);
       
     }
-
-    
+      
   curvature_term *= m_CurvatureWeight * this->CurvatureSpeed(it, offset);
-  */
-
-  int k = 0;
-  curve = ZERO;
-  for (i = 0; i < ImageDimension; i++)
-    {
-      dxx[i] = it.GetPixel(m_Center + m_xStride[i]) + it.GetPixel(m_Center -
-                                                                  m_xStride[i])
-        - 2.0 * temp_value;
-      
-
-      for(int j = i+1; j < ImageDimension; j++)
-        {
-          dxy[k] = 0.25 *( it.GetPixel(m_Center - m_xStride[i] - m_xStride[j])
-            - it.GetPixel(m_Center - m_xStride[i]+ m_xStride[j])
-            - it.GetPixel(m_Center + m_xStride[i] - m_xStride[j])
-            + it.GetPixel(m_Center + m_xStride[i] + m_xStride[j]));
-         
-          curve -= 2.0 * dx[i]*dx[j] * dxy[k]; 
-          k++;
-        }
-
-    }
-
-  gradMag = 1.0e-6;
-  for (i = 0; i < ImageDimension; i++)
-    {
-      
-      for(int j = 0; j < ImageDimension; j++)
-        {
-          
-          if(j != i)
-            curve += dxx[j] * dx[i] * dx[i];
-        }
-      gradMag += dx[i] * dx[i];
-    }
-
-  curve /= gradMag * vnl_math_sqrt(gradMag);
-  
-  curvature_term = curve;
-  curvature_term *= m_CurvatureWeight * this->CurvatureSpeed(it, offset);
-
 
   //
   // Calculate upwind derivatives.  These are used in calculating upwind
