@@ -147,6 +147,13 @@ STRIP_CODE_COMMENTS   = YES
 
 CASE_SENSE_NAMES      = YES
 
+# If the SHORT_NAMES tag is set to NO (the default) then Doxygen will
+# generate documentation file names that include the class names.  If
+# set to YES, short names in the format a00000.html will be used.
+# This may be necessary to support 8.3 filesystems.
+
+SHORT_NAMES           = NO
+
 # If the HIDE_SCOPE_NAMES tag is set to NO (the default) then Doxygen 
 # will show members with their full class and namespace scopes in the 
 # documentation. If set to YES the scope will be hidden. 
