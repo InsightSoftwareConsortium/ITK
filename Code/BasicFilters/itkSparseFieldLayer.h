@@ -31,7 +31,7 @@ namespace itk {
 template <class TNodeType>
 class ConstSparseFieldLayerIterator
 {
-public:
+ public:
   const TNodeType& operator*() const
   { return *m_Pointer; }
 
@@ -56,6 +56,12 @@ public:
   ConstSparseFieldLayerIterator &operator++()
   {
     m_Pointer = m_Pointer->Next;
+    return *this;
+  }
+
+  ConstSparseFieldLayerIterator &operator--()
+  {
+    m_Pointer = m_Pointer->Previous;
     return *this;
   }
 
@@ -102,6 +108,17 @@ public:
     return *this;
   }
 
+  SparseFieldLayerIterator &operator--()
+  {
+    m_Pointer = m_Pointer->Previous;
+    return *this;
+  }
+
+  SparseFieldLayerIterator &operator=(Superclass &sc)
+  {
+    m_Pointer = const_cast<TNodeType*> (sc.GetPointer());
+    return *this;
+  }
 };
 
 
