@@ -65,7 +65,7 @@ IF(ITK_CSWIG_PYTHON)
     SOURCE ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i
     COMMAND ${CSWIG} 
     ARGS -nocable -c ${IGNORE_WARNINGS} -o ${WrapITK_BINARY_DIR}/Common/SwigExtras_wrapPython.cxx
-         -c++ ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i
+         -python -c++ ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i
     TARGET _ITKCommonPython
     OUTPUTS ${WrapITK_BINARY_DIR}/Common/SwigExtras_wrapPython.cxx
     DEPENDS ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i)

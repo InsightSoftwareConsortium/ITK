@@ -21,7 +21,7 @@ namespace itk
 {
 
 // this class is used to send output to stdout and not the itk window
-class TextOutput : public OutputWindow
+class ITKCommon_EXPORT TextOutput : public OutputWindow
 {
 public:
   typedef TextOutput                Self;

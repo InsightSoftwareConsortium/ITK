@@ -36,7 +36,7 @@ namespace itk {
  * (usually, the a priori probability or the size of a class) is \f$K_{i}\f$
  */
  
-class ITK_EXPORT MaximumRatioDecisionRule : 
+class ITKCommon_EXPORT MaximumRatioDecisionRule : 
     public DecisionRuleBase
 {
 public:

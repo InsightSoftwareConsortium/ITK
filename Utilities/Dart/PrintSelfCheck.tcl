@@ -132,7 +132,7 @@ proc check_header_file { filename } {
 
       # Search for the class string
       # Extract the class name from the string
-      if { [string match "*class ITK_EXPORT*" $data] == 1 } {
+      if { [string match "*class *_EXPORT*" $data] == 1 } {
           while { [gets $fileid rest] >= 0 && [string first "\{" $rest] == -1 } {
           lappend data $rest
           }
@@ -141,8 +141,8 @@ proc check_header_file { filename } {
 
         set class_ivar_count 0
 
-        set first [string first "ITK_EXPORT" $data];
-        incr first 10
+        set first [string first "_EXPORT" $data];
+        incr first 7
         if { $first > -1 } {
 
           set end [expr [string first ":" $data] - 1];
@@ -673,12 +673,12 @@ proc measure_itk {kits} {
 
   print_totals
 
-  close_files
+
 
   if { $verbose } {
     parray class_list
   }
-
+  close_files
 }
 measure_itk [lindex $argv 0]
 

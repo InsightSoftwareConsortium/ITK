@@ -28,7 +28,7 @@ namespace itk{
  *  \brief A Decision rule that choose the class that has maximum value
  */
  
-class ITK_EXPORT MaximumDecisionRule : 
+class ITKCommon_EXPORT MaximumDecisionRule : 
       public DecisionRuleBase
 {
 public:

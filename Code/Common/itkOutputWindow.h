@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup OSSystemObjects
  */
-class ITK_EXPORT OutputWindow : public Object
+class ITKCommon_EXPORT OutputWindow : public Object
 {
 public:
   /** Standard class typedefs. */

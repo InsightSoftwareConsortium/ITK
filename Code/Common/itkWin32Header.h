@@ -52,11 +52,18 @@
 
 // 'identifier' : class 'type' needs to have dll-interface to be used by
 // clients of class 'type2'
-// #pragma warning ( disable : 4251 )
+#pragma warning ( disable : 4251 )
+
+
+// non dll-interface class 'type' used as base for dll-interface class 'type2'
+#pragma warning ( disable : 4275 )
 
 // C++ exception specification ignored except to indicate a 
 // function is not __declspec(nothrow)
 #pragma warning ( disable : 4290 )
+
+// 'type' : inconsistent dll linkage.  dllexport assumed.
+#pragma warning ( disable : 4273 )
 
 
 // typename keyword in default template arguments is not accepted by
@@ -86,5 +93,17 @@
 #define ITK_EXPORT
 
 #endif
+
+#if defined(_WIN32) || defined(WIN32) /* Win32 version */
+#ifdef ITKCommon_EXPORTS
+#  define ITKCommon_EXPORT __declspec(dllexport)
+#else
+#  define ITKCommon_EXPORT __declspec(dllimport)
+#endif
+#else
+/* unix needs nothing */
+#define ITKCommon_EXPORT
+#endif
+
 
 #endif

@@ -36,6 +36,7 @@ SET(ITKCommon_SRCS
   itkSegmentationBorder.cxx 
   itkSegmentationRegion.cxx  
   itkSimpleFastMutexLock.cxx 
+  itkTextOutput.cxx
   itkTetrahedronCellTopology.cxx
   itkTimeProbe.cxx 
   itkTimeProbesCollectorBase.cxx 
@@ -50,10 +51,10 @@ SET(ITKCommon_SRCS
 )
 
 IF (WIN32)
-   SET(ITKCommon_SRCS ${ITKCommon_SRCS};itkWin32OutputWindow.cxx)
+   SET(ITKCommon_SRCS ${ITKCommon_SRCS};itkWin32OutputWindow.cxx;itkSmartPointerForwardReferenceProcessObject.cxx)
 ENDIF (WIN32)
 
-ADD_LIBRARY(ITKCommon ${ITKCommon_SRCS})
+ADD_LIBRARY(ITKCommon ${ITK_COMMON_BUILD_TYPE} ${ITKCommon_SRCS})
 TARGET_LINK_LIBRARIES (ITKCommon ${VXL_NUMERICS_LIBRARIES} itkkwsys)
 IF(UNIX)
   TARGET_LINK_LIBRARIES(ITKCommon ${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS} -lm)

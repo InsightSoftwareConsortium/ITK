@@ -48,7 +48,7 @@ namespace itk
  *
  * \ingroup OSSystemObjects
  */
-class ITK_EXPORT FastMutexLock : public Object
+class ITKCommon_EXPORT FastMutexLock : public Object
 {
 public:
   /** Standard class typedefs. */

@@ -71,7 +71,7 @@ typedef int FastMutexType;
  */
 
 // Critical Section object that is not a itkObject.
-class ITK_EXPORT SimpleFastMutexLock
+class ITKCommon_EXPORT SimpleFastMutexLock
 {
 public:
   /** Standard class typedefs.  */

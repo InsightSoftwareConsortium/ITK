@@ -53,7 +53,7 @@ namespace itk
  * \sa MeshRegion
  * \ingroup DataRepresentation
  */
-class ITK_EXPORT Region
+class ITKCommon_EXPORT Region
 {
 public:
   /** Standard class typedefs. */

@@ -37,7 +37,7 @@ namespace itk
  */
   
 // The superclass that all commands should be subclasses of
-class ITK_EXPORT Command : public Object
+class ITKCommon_EXPORT Command : public Object
 {
 public:
   /** Standard class typedefs. */

@@ -48,7 +48,7 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup DataRepresentation
  */
-class ITK_EXPORT LightObject 
+class ITKCommon_EXPORT LightObject 
 {
 public:
   /** Standard clas typedefs. */

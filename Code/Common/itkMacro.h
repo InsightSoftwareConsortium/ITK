@@ -330,11 +330,11 @@ namespace itk
  * OutputWindow::GetInstance()->DisplayText();
  * This is to avoid Object #include of OutputWindow
  * while OutputWindow #includes Object. */
-extern ITK_EXPORT void OutputWindowDisplayText(const char*);
-extern ITK_EXPORT void OutputWindowDisplayErrorText(const char*);
-extern ITK_EXPORT void OutputWindowDisplayWarningText(const char*);
-extern ITK_EXPORT void OutputWindowDisplayGenericOutputText(const char*);
-extern ITK_EXPORT void OutputWindowDisplayDebugText(const char*);
+extern ITKCommon_EXPORT void OutputWindowDisplayText(const char*);
+extern ITKCommon_EXPORT void OutputWindowDisplayErrorText(const char*);
+extern ITKCommon_EXPORT void OutputWindowDisplayWarningText(const char*);
+extern ITKCommon_EXPORT void OutputWindowDisplayGenericOutputText(const char*);
+extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char*);
 } // end namespace itk
 
 /** This macro is used to print debug (or other information). They are

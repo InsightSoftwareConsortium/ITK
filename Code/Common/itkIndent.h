@@ -38,7 +38,7 @@ namespace itk
  * \ingroup OSSystemObjects
  */
 
-class ITK_EXPORT Indent
+class ITKCommon_EXPORT Indent
 {
 public:
   /** Standard class typedefs. */
@@ -61,7 +61,7 @@ public:
   Indent GetNextIndent();
 
   /** Print out the indentation. Basically output a bunch of spaces.  */
-  friend ITK_EXPORT std::ostream& operator<<(std::ostream& os, const Indent& o); 
+  friend ITKCommon_EXPORT std::ostream& operator<<(std::ostream& os, const Indent& o); 
 
 private:
   int m_Indent;

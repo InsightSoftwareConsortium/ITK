@@ -17,6 +17,7 @@
 #ifndef __itkQuadraticTriangleCellTopology_h
 #define __itkQuadraticTriangleCellTopology_h
 
+#include "itkWin32Header.h"
 
 namespace itk
 {
@@ -31,7 +32,7 @@ namespace itk
  * \ingroup MeshObjects
  */
 
-class QuadraticTriangleCellTopology
+class ITKCommon_EXPORT QuadraticTriangleCellTopology
 {
 protected:
    

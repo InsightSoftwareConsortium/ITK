@@ -17,6 +17,8 @@
 #ifndef __itkBloxItem_h
 #define __itkBloxItem_h
 
+#include "itkWin32Header.h"
+
 namespace itk
 {
 
@@ -29,7 +31,7 @@ namespace itk
  * \ingroup ImageObjects
  * */
 
-class BloxItem
+class ITKCommon_EXPORT BloxItem
 {
 public:
   BloxItem();

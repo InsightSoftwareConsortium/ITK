@@ -37,7 +37,7 @@ namespace itk
    * arbitrary data types. The main motivation for such a collection is to
    * associate arbitrary data elements with itk DataObjects.
    */
-  class ITK_EXPORT MetaDataDictionary
+  class ITKCommon_EXPORT MetaDataDictionary
     :public std::map<std::string, itk::MetaDataObjectBase::Pointer>
     {
       public:

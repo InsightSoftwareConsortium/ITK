@@ -36,7 +36,7 @@ namespace itk
  *
  * \ingroup ITKSystemObjects
  */
-class ITK_EXPORT TimeStamp 
+class ITKCommon_EXPORT TimeStamp 
 {
 public:
   /** Standard class typedefs. */

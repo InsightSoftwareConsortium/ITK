@@ -28,7 +28,7 @@
 #define ITK_VERSION ITK_VERSION_TO_STRING(ITK_VERSION_MAJOR) \
                     ITK_VERSION_TO_STRING(ITK_VERSION_MINOR) \
                     ITK_VERSION_TO_STRING(ITK_VERSION_PATCH)
-#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.952 $, $Date: 2003-06-02 05:10:09 $ (GMT)"
+#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.953 $, $Date: 2003-06-02 21:55:10 $ (GMT)"
 
 namespace itk
 {
@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKSystemObjects
  */
 
-class ITK_EXPORT Version : public Object 
+class ITKCommon_EXPORT Version : public Object 
 {
 public:
   /** Standard class typedefs. */

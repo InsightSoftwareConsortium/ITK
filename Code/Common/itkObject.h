@@ -41,7 +41,7 @@ class Command;
  * \ingroup ITKSystemObjects
  * \ingroup DataRepresentation
  */
-class ITK_EXPORT Object: public LightObject
+class ITKCommon_EXPORT Object: public LightObject
 {
 public:
   /** Smart pointer typedef support. */

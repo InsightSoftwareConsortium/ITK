@@ -19,12 +19,13 @@
 
 
 #include <time.h>
+#include "itkWin32Header.h"
 
 
 namespace itk 
 {
  
-class TimeProbe
+class ITKCommon_EXPORT TimeProbe
 {
 
 public:

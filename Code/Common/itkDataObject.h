@@ -34,7 +34,7 @@ class DataObject;
 /*--------------------Data Object Exceptions---------------------------*/
 
 /** \brief Exception object for DataObject exceptions */
-class ITK_EXPORT DataObjectError : public ExceptionObject
+class ITKCommon_EXPORT DataObjectError : public ExceptionObject
 {
 public:
   /** Default constructor.  Needed to ensure the exception object can be
@@ -80,7 +80,7 @@ private:
 /**
  * Exception object for invalid requested region
  */
-class ITK_EXPORT InvalidRequestedRegionError : public DataObjectError
+class ITKCommon_EXPORT InvalidRequestedRegionError : public DataObjectError
 {
  public:
   /** Default constructor. Needed to ensure the exception object can be copied. */
@@ -132,7 +132,7 @@ protected:
  * \ingroup DataRepresentation
  * \ingroup ITKSystemObjects
  */
-class ITK_EXPORT DataObject : public Object
+class ITKCommon_EXPORT DataObject : public Object
 {
 public:
   /** Standard class typedefs. */

@@ -36,7 +36,7 @@ namespace itk
  */
 
 
-class ITK_EXPORT Directory : public Object
+class ITKCommon_EXPORT Directory : public Object
 {
 public:
   /** Standard class typedefs. */

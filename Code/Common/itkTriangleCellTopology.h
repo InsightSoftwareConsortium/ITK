@@ -16,7 +16,7 @@
 =========================================================================*/
 #ifndef __itkTriangleCellTopology_h
 #define __itkTriangleCellTopology_h
-
+#include "itkWin32Header.h"
 
 namespace itk
 {
@@ -31,7 +31,7 @@ namespace itk
  * \ingroup MeshObjects
  */
 
-class TriangleCellTopology
+class ITKCommon_EXPORT TriangleCellTopology
 {
 protected:
    

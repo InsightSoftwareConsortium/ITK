@@ -32,7 +32,7 @@ namespace itk
  *  \brief A Decision rule that choose the class that has minimum value
  */
  
-class ITK_EXPORT MinimumDecisionRule : 
+class ITKCommon_EXPORT MinimumDecisionRule : 
   public DecisionRuleBase
 {
  public:

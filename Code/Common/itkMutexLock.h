@@ -67,7 +67,7 @@ typedef int MutexType;
  * 
  * \ingroup OSSystemObjects
  */
-class ITK_EXPORT SimpleMutexLock
+class ITKCommon_EXPORT SimpleMutexLock
 {
 public:
   /** Standard class typedefs.  */
@@ -103,7 +103,7 @@ protected:
  * 
  * \ingroup OSSystemObjects
  */
-class ITK_EXPORT MutexLock : public Object
+class ITKCommon_EXPORT MutexLock : public Object
 {
 public:
   /** Standard class typedefs. */

@@ -43,7 +43,7 @@ namespace itk
  *
  * \ingroup OSSystemObjects
  */
-class ITK_EXPORT XMLFileOutputWindow : public FileOutputWindow
+class ITKCommon_EXPORT XMLFileOutputWindow : public FileOutputWindow
 {
 public:
   /** Standard class typedefs. */

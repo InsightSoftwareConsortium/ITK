@@ -45,7 +45,7 @@ namespace itk
  *
  * \ingroup RegionGrowingSegmentation 
  */
-class ITK_EXPORT SegmentationRegion : public Object
+class ITKCommon_EXPORT SegmentationRegion : public Object
 {
 public:
   /** Standard class typedefs. */

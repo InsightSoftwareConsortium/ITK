@@ -75,7 +75,7 @@ namespace itk
  * \ingroup DataProcessing 
  *       
  */
-class ITK_EXPORT ProcessObject : public Object
+class ITKCommon_EXPORT ProcessObject : public Object
 {
 public:
   /** Standard class typedefs. */

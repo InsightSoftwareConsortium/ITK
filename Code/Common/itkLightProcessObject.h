@@ -68,7 +68,7 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup DataProcessing
  */
-class ITK_EXPORT LightProcessObject : public Object
+class ITKCommon_EXPORT LightProcessObject : public Object
 {
 public:
   /** Standard class typedefs. */

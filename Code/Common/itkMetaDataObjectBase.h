@@ -38,7 +38,7 @@ namespace itk {
    * of the (key,value) pair to be stored in
    * a MetaDataDictionary
    */
-  class ITK_EXPORT MetaDataObjectBase : public LightObject
+  class ITKCommon_EXPORT MetaDataObjectBase : public LightObject
   {
     public:
       /** Smart pointer typedef support. */

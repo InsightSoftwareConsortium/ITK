@@ -36,7 +36,7 @@ namespace itk
  * 
  * \ingroup Functions
  */
-class ITK_EXPORT KernelFunction : public FunctionBase<double,double>
+class ITKCommon_EXPORT KernelFunction : public FunctionBase<double,double>
 {
 public:  
   /** Standard class typedefs. */

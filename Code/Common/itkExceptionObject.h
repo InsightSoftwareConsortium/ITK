@@ -44,7 +44,7 @@ namespace itk
  *
  * \ingroup ITKSystemObjects 
  */
-class ITK_EXPORT ExceptionObject : public std::exception
+class ITKCommon_EXPORT ExceptionObject : public std::exception
 {
 public:
   typedef std::exception Superclass;

@@ -47,7 +47,7 @@ namespace itk
 
 class OverRideMap;
 
-class ITK_EXPORT ObjectFactoryBase : public Object
+class ITKCommon_EXPORT ObjectFactoryBase : public Object
 {
 public:  
   /** Standard class typedefs. */

@@ -102,7 +102,7 @@ typedef int ThreadProcessIDType;
 #define ITK_THREAD_RETURN_TYPE void
 #endif
   
-class ITK_EXPORT MultiThreader : public Object 
+class ITKCommon_EXPORT MultiThreader : public Object 
 {
 public:
   /** Standard class typedefs. */

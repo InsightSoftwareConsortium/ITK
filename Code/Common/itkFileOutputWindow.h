@@ -33,7 +33,7 @@ namespace itk
  * 
  */
 
-class ITK_EXPORT FileOutputWindow : public OutputWindow
+class ITKCommon_EXPORT FileOutputWindow : public OutputWindow
 {
 public:
   /** Standard class typedefs. */

@@ -62,7 +62,7 @@ namespace itk
  */
 
 
-class ITK_EXPORT DynamicLoader : public Object
+class ITKCommon_EXPORT DynamicLoader : public Object
 {
 public:
   /** Standard class typedefs. */

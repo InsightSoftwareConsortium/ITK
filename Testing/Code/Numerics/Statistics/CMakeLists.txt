@@ -26,7 +26,7 @@ ADD_TEST(itkListSampleToHistogramFilterTest ${STATISTICS_TESTS} itkListSampleToH
 ADD_TEST(itkListSampleToHistogramGeneratorTest ${STATISTICS_TESTS} itkListSampleToHistogramGeneratorTest)
 ADD_TEST(itkMeanCalculatorTest ${STATISTICS_TESTS} itkMeanCalculatorTest)
 ADD_TEST(itkMembershipSampleTest ${STATISTICS_TESTS} itkMembershipSampleTest)
-ADD_TEST(itkNeighborhoodSamplerTest ${STATISTICS_TESTS} itkNeighborhoodSamplerTest
+ADD_TEST(itkNeighborhoodSamplerTest ${STATISTICS_TESTS} itkNeighborhoodSamplerTest)
 ADD_TEST(itkMembershipSampleGeneratorTest ${STATISTICS_TESTS} itkMembershipSampleGeneratorTest)
 ADD_TEST(itkNormalVariateGeneratorTest ${STATISTICS_TESTS} 
                     itkNormalVariateGeneratorTest)
@@ -38,7 +38,7 @@ ADD_TEST(itkSampleClassifierWithMaskTest ${STATISTICS_TESTS}
 ADD_TEST(itkSelectiveSubsampleGeneratorTest ${STATISTICS_TESTS} 
                                             itkSelectiveSubsampleGeneratorTest)
 ADD_TEST(itkSubsampleTest ${STATISTICS_TESTS} itkSubsampleTest)
-ADD_TEST(itkWeightedMeanCalculatorTest ${STATISTICS_TESTS} itkWeightedMeanCalculatorTest))
+ADD_TEST(itkWeightedMeanCalculatorTest ${STATISTICS_TESTS} itkWeightedMeanCalculatorTest)
 
 SET(Statistics_SRCS
 itkStatisticsPrintTest.cxx

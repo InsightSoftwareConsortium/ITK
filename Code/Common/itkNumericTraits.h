@@ -84,6 +84,7 @@ public:
  * 
  * \ingroup DataRepresentation
  */
+
 template <>
 class NumericTraits<bool> : public ITK_NUMERIC_LIMITS<bool> {
 public:
@@ -91,8 +92,8 @@ public:
   typedef bool PrintType;
   typedef unsigned char AbsType;
   typedef unsigned char AccumulateType;
-  static const bool Zero;
-  static const bool One;
+  static const bool ITKCommon_EXPORT Zero;
+  static const bool ITKCommon_EXPORT One;
 
   static bool NonpositiveMin() { return false; }
   static bool IsPositive(bool val) { return val; }
@@ -113,8 +114,8 @@ public:
   typedef unsigned char AbsType;
   typedef short AccumulateType;
   typedef double RealType;
-  static const char Zero;
-  static const char One;
+  static const char ITKCommon_EXPORT Zero;
+  static const char ITKCommon_EXPORT One;
 
   static char min() { return char(255) < 0 ? -128 : 0; }
   static char max() { return char(255) < 0 ? 127 : 255; }
@@ -137,8 +138,8 @@ public:
   typedef unsigned char AbsType;
   typedef short AccumulateType;
   typedef double RealType;
-  static const signed char Zero;
-  static const signed char One;
+  static const signed char ITKCommon_EXPORT Zero;
+  static const signed char ITKCommon_EXPORT One;
 
   static signed char min() { return -128; }
   static signed char max() { return  127; }
@@ -161,8 +162,8 @@ public:
   typedef unsigned char AbsType;
   typedef unsigned short AccumulateType;
   typedef double RealType;
-  static const unsigned char Zero;
-  static const unsigned char One;
+  static const unsigned char ITKCommon_EXPORT Zero;
+  static const unsigned char ITKCommon_EXPORT One;
 
   static unsigned char NonpositiveMin() { return min(); }
   static bool IsPositive(unsigned char val) { return val != Zero; }
@@ -182,8 +183,8 @@ public:
   typedef unsigned short AbsType;
   typedef int AccumulateType;
   typedef double RealType;
-  static const short Zero;
-  static const short One;
+  static const short ITKCommon_EXPORT Zero;
+  static const short ITKCommon_EXPORT One;
 
   static short NonpositiveMin() { return min(); }
   static bool IsPositive(short val) { return val > Zero; }
@@ -204,8 +205,8 @@ public:
   typedef unsigned short AbsType;
   typedef unsigned int AccumulateType;
   typedef double RealType;
-  static const unsigned short Zero;
-  static const unsigned short One;
+  static const unsigned short ITKCommon_EXPORT Zero;
+  static const unsigned short ITKCommon_EXPORT One;
 
   static unsigned short NonpositiveMin() { return min(); }
   static unsigned short IsPositive(unsigned short val) { return val != Zero; }
@@ -225,8 +226,8 @@ public:
   typedef unsigned int AbsType;
   typedef long AccumulateType;
   typedef double RealType;
-  static const int Zero;
-  static const int One;
+  static const int ITKCommon_EXPORT Zero;
+  static const int ITKCommon_EXPORT One;
 
   static int NonpositiveMin() { return min(); }
   static bool IsPositive(int val) { return val > Zero; }
@@ -247,8 +248,8 @@ public:
   typedef unsigned int AbsType;
   typedef unsigned int AccumulateType;
   typedef double RealType;
-  static const unsigned int Zero;
-  static const unsigned int One;
+  static const unsigned int ITKCommon_EXPORT Zero;
+  static const unsigned int ITKCommon_EXPORT One;
 
   static unsigned int min(void) { return 0; }
   static unsigned int max(void) { return static_cast<unsigned int>( -1 ); }
@@ -271,8 +272,8 @@ public:
   typedef unsigned long AbsType;
   typedef long AccumulateType;
   typedef double RealType;
-  static const long Zero;
-  static const long One;
+  static const long ITKCommon_EXPORT Zero;
+  static const long ITKCommon_EXPORT One;
 
   static long NonpositiveMin() { return min(); }
   static bool IsPositive(long val) { return val > Zero; }
@@ -293,8 +294,8 @@ public:
   typedef unsigned long AbsType;
   typedef unsigned long AccumulateType;
   typedef double RealType;
-  static const unsigned long Zero;
-  static const unsigned long One;
+  static const unsigned long ITKCommon_EXPORT Zero;
+  static const unsigned long ITKCommon_EXPORT One;
 
   static unsigned long NonpositiveMin() { return min(); }
   static bool IsPositive(unsigned long val) { return val != Zero; }
@@ -315,8 +316,8 @@ public:
   typedef float AbsType;
   typedef double AccumulateType;
   typedef double RealType;
-  static const float Zero;
-  static const float One;
+  static const float ITKCommon_EXPORT Zero;
+  static const float ITKCommon_EXPORT One;
 
   static float NonpositiveMin() { return -max(); }
   static bool IsPositive(float val) { return val > Zero; }
@@ -337,8 +338,8 @@ public:
   typedef double AbsType;
   typedef double AccumulateType;
   typedef double RealType;
-  static const double Zero;
-  static const double One;
+  static const double ITKCommon_EXPORT Zero;
+  static const double ITKCommon_EXPORT One;
 
   static double NonpositiveMin() { return -max(); }
   static bool IsPositive(double val) { return val > Zero; }
@@ -359,8 +360,8 @@ public:
   typedef long double AbsType;
   typedef long double AccumulateType;
   typedef long double RealType;
-  static const long double Zero;
-  static const long double One;
+  static const long double ITKCommon_EXPORT Zero;
+  static const long double ITKCommon_EXPORT One;
 
   static long double NonpositiveMin() { return -max(); }
   static bool IsPositive(long double val) { return val > Zero; }

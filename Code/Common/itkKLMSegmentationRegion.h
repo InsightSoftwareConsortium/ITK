@@ -93,7 +93,7 @@ namespace itk
 
 class KLMSegmentationBorder;
 
-class ITK_EXPORT KLMSegmentationRegion : public SegmentationRegion
+class ITKCommon_EXPORT KLMSegmentationRegion : public SegmentationRegion
 {
 private:
   /** Type definition for an double vector. */

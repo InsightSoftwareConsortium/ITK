@@ -55,7 +55,7 @@ namespace itk
  *
  * \ingroup ITKSystemObjects 
  */
-class ITK_EXPORT EventObject
+class ITKCommon_EXPORT EventObject
 {
 public:
   /** Constructor and copy constructor.  Note that these functions will be

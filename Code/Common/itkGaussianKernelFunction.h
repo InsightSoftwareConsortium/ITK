@@ -35,7 +35,7 @@ namespace itk
  *
  * \ingroup Functions
  */
-class ITK_EXPORT GaussianKernelFunction : public KernelFunction
+class ITKCommon_EXPORT GaussianKernelFunction : public KernelFunction
 {
 public:
   /** Standard class typedefs. */

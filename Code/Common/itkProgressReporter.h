@@ -55,7 +55,7 @@ namespace itk
  *  - ProcessObject::ReportProgress()
  *  - Object::AddObserver()
  */
-class ProgressReporter
+class ITKCommon_EXPORT ProgressReporter
 {
 public:
   /** Constructor sets progress to 0 because the filter is starting.  */

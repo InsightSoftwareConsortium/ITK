@@ -17,6 +17,7 @@
 #ifndef __itkHexahedronCellTopology_h
 #define __itkHexahedronCellTopology_h
 
+#include "itkWin32Header.h"
 
 namespace itk
 {
@@ -31,7 +32,7 @@ namespace itk
  * \ingroup MeshObjects
  */
 
-class HexahedronCellTopology
+class ITKCommon_EXPORT HexahedronCellTopology
 {
 protected:
    
