@@ -10,9 +10,6 @@ template <unsigned int VImageDimension>
 class ITK_EXPORT BloxBoundaryProfileItem : public BloxItem
 {
 public:
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
   /** Run-time type information (and related methods). */
   itkTypeMacro( BloxBoundaryProfileItem, BloxItem );
 
