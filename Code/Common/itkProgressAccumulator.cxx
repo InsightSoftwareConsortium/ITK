@@ -91,11 +91,8 @@ ProgressAccumulator
 
 void 
 ProgressAccumulator
-::ReportProgress(Object *object, const EventObject &event)
+::ReportProgress(Object *, const EventObject &event)
 {
-  const ProcessObject * internalFilter = 
-    dynamic_cast<const ProcessObject *>( object );
-
   ProgressEvent p;
   if( typeid( event ) == typeid( p ) )
     {
@@ -105,13 +102,7 @@ ProgressAccumulator
     FilterRecordVector::iterator it;
     for(it = m_FilterRecord.begin();it!=m_FilterRecord.end();++it)
       {
-      // Record the progress if it's from one of the registered filters
-      if(it->Filter == internalFilter)
-        {
-        it->Progress = internalFilter->GetProgress();
-        }
-      
-      m_AccumulatedProgress += it->Progress * it->Weight;
+      m_AccumulatedProgress += it->Filter->GetProgress() * it->Weight;
       }
 
     // Update the progress of the client mini-pipeline filter
