@@ -61,11 +61,11 @@ ImageRegionExclusionIteratorWithIndex<TImage>
     m_PositionIndex[ in  ]++;
     
     // if entering the exclusion region... jump over it
-    if( m_PositionIndex[ in ] == m_ExclusionBegin[in] )
+    if( m_ExclusionRegion.IsInside( m_PositionIndex ) )
       {
-      m_PositionIndex[ in ]  = m_ExclusionEnd[ in ]+1;
+      m_PositionIndex[ in ]  = m_ExclusionEnd[ in ];
       m_Position            += m_OffsetTable[in] * 
-                               ( m_ExclusionRegion.GetSize()[ in ] + 1 );
+                               m_ExclusionRegion.GetSize()[ in ];
       }
 
     if( m_PositionIndex[ in ] < m_EndIndex[ in ] )
@@ -110,7 +110,7 @@ ImageRegionExclusionIteratorWithIndex<TImage>
         m_Position -= m_OffsetTable[in];
 
         // if entering the exclusion region... jump over it
-        if( m_PositionIndex[ in ] == m_ExclusionEnd[in] )
+        if( m_ExclusionRegion.IsInside( m_PositionIndex ) )
           {
           m_PositionIndex[ in ]  = m_ExclusionBegin[ in ]-1;
           m_Position            -= m_OffsetTable[in] * m_ExclusionRegion.GetSize()[ in ];
