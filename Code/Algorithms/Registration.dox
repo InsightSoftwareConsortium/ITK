@@ -6,7 +6,7 @@
  * Registration is a technique aimed to align two objects using a 
  * particular transformation.
  *
- * A tipical example of registration is to have two medical images
+ * A typical example of registration is to have two medical images
  * from the same patient taken at different dates. It is very likely
  * that the patient assume a different position during each acquisition.
  * A registration procedure would allow to take both images and find
