@@ -32,7 +32,13 @@ public:
     Base::data = space;
     Base::num_elmts = n;
   }
-
+  //: Copy constructor.
+  vnl_vector_ref(vnl_vector_ref<T> const& v) : vnl_vector<T>() 
+    {
+      Base::data = v.data;
+      Base::num_elmts = v.num_elmts;
+    }
+  
   //: Destructor
   // Prevents base destructor from releasing memory we don't own
   ~vnl_vector_ref() {
