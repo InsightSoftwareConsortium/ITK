@@ -109,12 +109,14 @@ int itkImageToHistogramGeneratorTest( int , char * [] )
 
   std::cout << "Histogram of the red component" << std::endl;
 
+  const unsigned int expectedFrequency = 255 * 255;
+
   for( unsigned int bin=0; bin < histogramSize; bin++ )
     {
-    if( histogram->GetFrequency( bin, channel ) != 255 ) 
+    if( histogram->GetFrequency( bin, channel ) != expectedFrequency ) 
        {
        std::cerr << "Error in bin= " << bin << " channel = " << channel << std::endl;
-       std::cerr << "Frequency was= " <<  histogram->GetFrequency( bin, channel ) << " Instead of the expected " << 255 << std::endl;
+       std::cerr << "Frequency was= " <<  histogram->GetFrequency( bin, channel ) << " Instead of the expected " << expectedFrequency << std::endl;
        return EXIT_FAILURE;
        }
     }
