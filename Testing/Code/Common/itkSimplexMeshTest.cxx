@@ -136,7 +136,7 @@ int itkSimplexMeshTest(int , char *[] )
   for (unsigned int i=0; i < 2; i++)
     {  
     timeProbe.Start();
-    for (int pointIndex = 0; pointIndex < simplexMesh->GetPoints()->Size(); pointIndex++)
+    for (unsigned int pointIndex = 0; pointIndex < simplexMesh->GetPoints()->Size(); pointIndex++)
       {
       neighbors = simplexMesh->GetNeighbors( pointIndex, i );
       }
