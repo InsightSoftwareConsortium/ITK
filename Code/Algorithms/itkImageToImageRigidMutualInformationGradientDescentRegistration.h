@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkRegistrationMethod.h"
 #include "itkMutualInformationImageToImageMetric.h"
-#include "itkGradientDescentOptimizer.h"
+#include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 #include "itkImageMapper.h"
 #include "itkQuaternionRigidRegistrationTransform.h"
 #include "itkPoint.h"
@@ -104,8 +104,8 @@ public:
   /**
    *  Type of the Optimizer 
    */
-   typedef GradientDescentOptimizer<MetricType>           OptimizerType;
-
+   typedef QuaternionRigidTransformGradientDescentOptimizer<
+                MetricType>  OptimizerType;
 
 };
 
@@ -150,9 +150,14 @@ public:
  * The following formula translate their scaling parameters to
  * those used in this framework:
  *
- * LearningRate = lambda_R
+ * \f[
+ * \mbox{LearningRate} = \lambda_R
+ * \f]
  *
- * TranslationScale = sqrt( lambda_T / lambda_R );
+ * \f[
+ * \mbox{TranslationScale} = \sqrt{
+      \frac{\lambda_T}{\lambda_R} }
+ * \f]
  *
  * Optimization performance can be improved by setting the image
  * origin to center of mass of the image.
