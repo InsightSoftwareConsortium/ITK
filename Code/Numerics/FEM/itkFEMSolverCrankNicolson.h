@@ -119,7 +119,7 @@ public:
   /** Finds the optimum value between the last two solutions 
     * and sets the current solution to that value.  Uses Evaluate Residual;
     */
-  void GoldenSection(Float tol=0.01);
+  void GoldenSection(Float tol=0.01,unsigned int MaxIters=25);
   /* Brents method from Numerical Recipes. */
   Float BrentsMethod(Float tol=0.01,unsigned int MaxIters=25);
   Float EvaluateResidual(Float t=1.0);
