@@ -311,6 +311,10 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
   for( ilevel = 0; ilevel < m_NumberOfLevels; ilevel++ )
     {
+
+    this->UpdateProgress( static_cast<float>( ilevel ) /
+      static_cast<float>( m_NumberOfLevels ) );
+
     // Allocate memory for each output
     OutputImagePointer outputPtr = this->GetOutput( ilevel );
     outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
