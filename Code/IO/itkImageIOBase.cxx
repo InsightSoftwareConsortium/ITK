@@ -329,6 +329,33 @@ void ImageIOBase::SetNumberOfDimensions(unsigned int dim)
     }
 }
 
+
+
+bool 
+ImageIOBase ::ReadBufferAsBinary(std::istream& is, void *buffer, unsigned int num)
+{
+
+  const unsigned int numberOfBytesToBeRead = num;
+
+  is.read( static_cast<char *>( buffer ), numberOfBytesToBeRead );
+
+  const unsigned int numberOfBytesRead = is.gcount();
+
+#ifdef __APPLE_CC__
+    // fail() is broken in the Mac. It returns true when reaches eof().
+    if ( numberOfBytesRead != numberOfBytesToBeRead )
+#else
+    if ( ( numberOfBytesRead != numberOfBytesToBeRead )  || is.fail() )
+#endif
+       {
+       return false; // read failed
+       }
+
+  return true;
+
+}
+
+
 const std::type_info& 
 ImageIOBase::ConvertToTypeInfo(IODataType t ) const
 {
@@ -607,31 +634,6 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream& os, const void *buffer,
     default:
       ;
     }
-
-}
-
-
-template <class TComponent>
-static bool ReadBufferAsBinary(std::istream& is, void *buffer, unsigned int num)
-{
-
-  const unsigned int numberOfBytesToBeRead = num;
-
-  is.read( buffer, numberOfBytesToBeRead );
-
-  const unsigned int numberOfBytesRead = is.gcount();
-
-#ifdef __APPLE_CC__
-    // fail() is broken in the Mac. It returns true when reaches eof().
-    if ( numberOfBytesRead != numberOfBytesToBeRead )
-#else
-    if ( ( numberOfBytesRead != numberOfBytesToBeRead )  || file.fail() )
-#endif
-       {
-       return false; // read failed
-       }
-
-  return true;
 
 }
 
