@@ -122,12 +122,13 @@ LevelSetFunction< TImageType >
   const ScalarValueType ZERO = NumericTraits<ScalarValueType>::Zero;
   const ScalarValueType MIN_NORM = 1.0e-6;
   
-  ScalarValueType curve, gradMag;
+  ScalarValueType curve, gradMag, laplacian;
   ScalarValueType temp_value;
   ScalarValueType dx[ImageDimension];
   ScalarValueType dx_forward[ImageDimension], dx_backward[ImageDimension];
   ScalarValueType propagation_gradient;
   ScalarValueType propagation_term, curvature_term, advection_term;
+  ScalarValueType laplacian_term;
   VectorType advection_field;
   ScalarValueType x_energy[ImageDimension];
 
@@ -281,8 +282,27 @@ LevelSetFunction< TImageType >
     }
   else propagation_term = ZERO;
 
+  if(m_LaplacianSmoothingWeight != ZERO)
+    {
+    laplacian = ZERO;
+    
+    // Compute the laplacian using the existing second derivative values
+    for(i = 0;i < ImageDimension; i++)
+      {
+      laplacian += dxx[i];
+      }
+
+    // Scale the laplacian by its speed and weight
+    laplacian_term = 
+      laplacian * m_LaplacianSmoothingWeight 
+      * LaplacianSmoothingSpeed(it,offset);
+    }
+  else 
+    laplacian_term = ZERO;
+
   // Return the combination of all the terms.
-  return ( PixelType ) ( curvature_term - propagation_term - advection_term );
+  return ( PixelType ) ( curvature_term - propagation_term 
+    - advection_term - laplacian_term );
 } 
 
 // Print self

@@ -49,6 +49,7 @@ PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "AdvectionWeight: " << m_AdvectionWeight << std::endl;
   os << indent << "PropagationWeight: " << m_PropagationWeight << std::endl;
   os << indent << "CurvatureWeight: " << m_CurvatureWeight << std::endl;
+  os << indent << "LaplacianSmoothingWeight: " << m_LaplacianSmoothingWeight << std::endl;
 }
   
 } // end namespace itk

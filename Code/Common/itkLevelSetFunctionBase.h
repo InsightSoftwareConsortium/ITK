@@ -79,6 +79,13 @@ public:
                                          const FloatOffsetType &
                                          ) const
     { return NumericTraits<ScalarValueType>::One; }
+  
+  /** Laplacian smoothing speed.  Can be used to spatially modify the 
+      effects of laplacian smoothing of the level set function */
+  virtual ScalarValueType LaplacianSmoothingSpeed(
+    const NeighborhoodType &,
+    const FloatOffsetType &) const
+    { return NumericTraits<ScalarValueType>::One; }
 
   /** Alpha.  Scales all advection term values.*/ 
   void SetAdvectionWeight(const ScalarValueType a)
@@ -98,6 +105,12 @@ public:
   ScalarValueType GetCurvatureWeight() const
     { return m_CurvatureWeight; }
   
+  /** Weight of the laplacian smoothing term */
+  void SetLaplacianSmoothingWeight(const ScalarValueType c)
+    { m_LaplacianSmoothingWeight = c; }
+  ScalarValueType GetLaplacianSmoothingWeight() const
+    { return m_LaplacianSmoothingWeight; }
+  
   /** Epsilon. */
   void SetEpsilonMagnitude(const ScalarValueType e)
     { m_EpsilonMagnitude = e; }
@@ -110,8 +123,9 @@ protected:
   LevelSetFunctionBase()
     {
       m_EpsilonMagnitude = 1.0e-5;
-      m_AdvectionWeight = m_PropagationWeight = m_CurvatureWeight =
-        NumericTraits<ScalarValueType>::Zero;
+      m_AdvectionWeight = m_PropagationWeight 
+        = m_CurvatureWeight = m_LaplacianSmoothingWeight 
+        = NumericTraits<ScalarValueType>::Zero;
     }
   ~LevelSetFunctionBase() {}
 
@@ -135,6 +149,9 @@ protected:
 
   /** Gamma. */
   ScalarValueType m_CurvatureWeight;
+
+  /** Laplacean smoothing term */
+  ScalarValueType m_LaplacianSmoothingWeight;
 
 private:
   LevelSetFunctionBase(const Self&); //purposely not implemented
