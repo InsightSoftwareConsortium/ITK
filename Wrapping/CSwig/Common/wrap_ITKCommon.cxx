@@ -41,6 +41,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkIdentityTransform),
     ITK_WRAP_GROUP(itkImage),
     ITK_WRAP_GROUP(itkIndex),
+    ITK_WRAP_GROUP(itkLevelSet),
     ITK_WRAP_GROUP(itkPoint),
     ITK_WRAP_GROUP(itkSize),
     ITK_WRAP_GROUP(itkScaleTransform),
