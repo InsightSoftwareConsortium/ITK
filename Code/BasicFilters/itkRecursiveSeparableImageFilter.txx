@@ -182,6 +182,40 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
   
 }
 
+//
+//
+//
+template <typename TInputImage, typename TOutputImage>
+void
+RecursiveSeparableImageFilter<TInputImage,TOutputImage>
+::GenerateInputRequestedRegion() throw(InvalidRequestedRegionError)
+{
+  // call the superclass' implementation of this method. this should
+  // copy the output requested region to the input requested region
+  Superclass::GenerateInputRequestedRegion();
+
+  // This filter needs all of the input
+  InputImagePointer image = const_cast<InputImageType *>( this->GetInput() );
+  image->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
+}
+
+
+//
+//
+//
+template <typename TInputImage, typename TOutputImage>
+void
+RecursiveSeparableImageFilter<TInputImage,TOutputImage>
+::EnlargeOutputRequestedRegion(DataObject *output)
+{
+  TOutputImage *out = dynamic_cast<TOutputImage*>(output);
+
+  if (out)
+    {
+    out->SetRequestedRegion( out->GetLargestPossibleRegion() );
+    }
+}
+
 
 /**
  * Compute Recursive filter
@@ -210,15 +244,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
     itkExceptionMacro("Direction selected for filtering is greater than ImageDimension");
     }
 
-  outputImage->SetLargestPossibleRegion( 
-      inputImage->GetLargestPossibleRegion() );
-
-  outputImage->SetBufferedRegion( 
-      inputImage->GetBufferedRegion() );
-
-  outputImage->SetRequestedRegion( 
-      inputImage->GetRequestedRegion() );
-
+  outputImage->SetBufferedRegion( outputImage->GetRequestedRegion() );
   outputImage->Allocate();
 
   const double * pixelSize = inputImage->GetSpacing();

@@ -72,6 +72,13 @@ public:
   /** Get Input Image. */
   const TInputImage * GetInputImage( void );
 
+  /** RecursiveSeparableImageFilter needs all of the input to produce an
+   * output. Therefore, RecursiveSeparableImageFilter needs to provide
+   * an implementation for GenerateInputRequestedRegion in order to inform
+   * the pipeline execution model.
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
+  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+
 protected:
   RecursiveSeparableImageFilter();
   virtual ~RecursiveSeparableImageFilter() {};
@@ -79,6 +86,9 @@ protected:
 
   /** GenerateData (apply) the filter. */   
   void GenerateData(void);
+
+  // Override since the filter produces the entire dataset
+  void EnlargeOutputRequestedRegion(DataObject *output);
 
   /** Set up the coefficients of the filter to approximate a specific kernel.
    * typically it can be used to approximate a gaussian or one of its
