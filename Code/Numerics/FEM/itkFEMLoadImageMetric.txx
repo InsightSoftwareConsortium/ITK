@@ -98,7 +98,7 @@ LoadImageMetric<TReference , TTarget>::Fg
   typename TargetType::IndexType tindex;
   typename ReferenceType::IndexType rindex;
   VectorType OutVec(ImageDimension,0.0); // gradient direction
-
+  //std::cout << " pos   translation " << InVec  << endl;
    // initialize the offset/vector part
   for( unsigned int k = 0; k < ImageDimension; k++ )
   { 
@@ -127,8 +127,8 @@ LoadImageMetric<TReference , TTarget>::Fg
   {
     OutVec[k]=derivative[k];
   }
-  std::cout << " pos   translation " << InVec << " at index " << tindex   
-     << " deriv " << derivative <<  " val " << measure << endl;
+ 
+  //std::cout   << " deriv " << derivative <<  " val " << measure << endl;
  
   return OutVec;
 }

@@ -57,7 +57,9 @@ using namespace std;
 #include "itkForwardDifferenceOperator.h"
 
 #include "vnl/vnl_math.h"
-
+#include "FEM/itkFEMMacro.h"
+#include "FEM/itkFEM.h"
+#include "FEM/itkFEMLoadGrav.h"
 #include "itkFEMLoadGrav.h"
 
 
@@ -126,9 +128,11 @@ public:
   typedef   vnl_vector<Float>                                   VectorType;
   
 // FUNCTIONS
- /** Implements the LoadGrav Fg using the given images. */
-  VectorType Fg(VectorType);
-
+/**
+ * Compute the image based gravity load - implemented in the derived class.
+ */
+   VectorType Fg(VectorType) { return vnl_vector<Float>(ImageDimension,0.0); }
+   
   LoadImagePairBase(); 
   
   void SetReferenceImage(ReferenceType*); /** Define the reference (moving) image. */
@@ -140,6 +144,11 @@ public:
   /** Define the reference (moving) image region size. */
   void SetTargetRadius(TargetRadiusType T) {m_TarRadius  = T; };       
   /** Define the target (fixed) image region size. */ 
+
+
+  virtual Baseclass::Pointer Clone() const 
+      { return new Self(*this); }  //FIXME?
+
 
 protected:
  
@@ -154,13 +163,11 @@ protected:
 
 private:
 
-  LoadImagePairBase(const Self&);     //purposely not implemented
+//  LoadImagePairBase(const Self&);   FIXME NEED COPY CONSTRUCTOR   //purposely not implemented
   void operator=(const Self&); //purposely not implemented  
 
 };
 
-
-//template LoadImagePairBase< Image<unsigned char,2>,Image<unsigned char,2> > LMS1;
 
 }} // end namespace itk
 

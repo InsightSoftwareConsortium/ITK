@@ -81,14 +81,15 @@ namespace fem
 template<class TReference,class TTarget> 
 class LoadImageMetric : public LoadImagePairBase<TReference,TTarget>
 {
-  
+typedef LoadImagePairBase<TReference,TTarget> TemplatedParentClass;
+FEM_CLASS_SP(LoadImageMetric,TemplatedParentClass)
 public:
-  typedef LoadImageMetric             Self;                   
-  typedef LoadImagePairBase     Superclass;         
-  typedef SmartPointer<Self>       Pointer;   
-  typedef SmartPointer<const Self> ConstPointer;  
-  itkTypeMacro(LoadImageMetric,LoadImagePairBase);
-  itkNewMacro(Self);  // need light object
+//  typedef LoadImageMetric             Self;                   
+//  typedef LoadImagePairBase     Superclass;         
+//  typedef SmartPointer<Self>       Pointer;   
+//  typedef SmartPointer<const Self> ConstPointer;  
+//  itkTypeMacro(LoadImageMetric,LoadImagePairBase);
+  //itkNewMacro(Self);  // need light object
 
 //------------------------------------------------------------
 // Set up the metrics
@@ -110,9 +111,9 @@ public:
   typedef   PatternIntensityImageToImageMetric<  TargetType, ReferenceType  > PatternIntensityMetricType;
 
 //  typedef typename MutualInformationMetricType             DefaultMetricType;
-  typedef typename NormalizedCorrelationMetricType             DefaultMetricType;
+//  typedef typename NormalizedCorrelationMetricType             DefaultMetricType;
 //  typedef typename PatternIntensityMetricType             DefaultMetricType;
-//  typedef typename MeanSquaresMetricType             DefaultMetricType;
+  typedef typename MeanSquaresMetricType             DefaultMetricType;
   typedef typename DefaultTransformType::ParametersType         ParametersType;
   typedef typename DefaultTransformType::JacobianType           JacobianType;
 
@@ -132,18 +133,27 @@ public:
   /** Implements the LoadGrav Fg function using the selected image metric. */
   VectorType Fg(VectorType);
 
+  void SetSolution(Solution::ConstPointer ptr) {  m_Solution=ptr; }
+  Solution::ConstPointer GetSolution() {  return m_Solution; }
+
+  // FIXME - WE ASSUME THE 2ND VECTOR (INDEX 1) HAS THE INFORMATION WE WANT
+  Float GetSolution(unsigned int i){  return m_Solution->GetSolutionValue(i,1); }
+
   LoadImageMetric(); // cannot be private until we always use smart pointers
   
-protected:
+  virtual Baseclass::Pointer Clone() const 
+      { return new Self(*this); }  //FIXME?
  
+protected:
 
 private:
- 
+  Solution::ConstPointer   m_Solution;
   typename MetricBaseTypePointer                         m_Metric;
   typename TransformBaseType::Pointer                 m_Transform;
   typename InterpolatorType::Pointer               m_Interpolator;
+public:
 
-  LoadImageMetric(const Self&);     //purposely not implemented
+//  LoadImageMetric(const Self&);  FIXME NEED COPY CONSTRUCTOR   //purposely not implemented
   void operator=(const Self&); //purposely not implemented  
 };
 
