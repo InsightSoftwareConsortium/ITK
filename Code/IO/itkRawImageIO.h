@@ -90,6 +90,11 @@ public:
   virtual bool CanReadFile(const char*) 
     {return true;}
 
+  /** Binary files have no image information to read. This must be set by the
+   * user of the class. */
+  virtual void ReadImageInformation() 
+    {return;}
+
   /** Get the type of the pixel.  */
   virtual const std::type_info& GetPixelType() const
     {return typeid(PixelType);}
