@@ -59,10 +59,8 @@
 #include "itkWatershedBoundary.h"
 #include "itkWatershedBoundaryResolver.h"
 #include "itkWatershedEquivalenceRelabeler.h"
-#include "itkWatershedEquivalencyTable.h"
 #include "itkWatershedImageFilter.h"
 #include "itkWatershedMiniPipelineProgressCommand.h"
-#include "itkWatershedOneWayEquivalencyTable.h"
 #include "itkWatershedRelabeler.h"
 #include "itkWatershedSegmentTable.h"
 #include "itkWatershedSegmentTree.h"
@@ -238,10 +236,6 @@ int itkAlgorithmsPrintTest2(int , char* [])
     itk::watershed::EquivalenceRelabeler<double,3>::New();
   std:: cout << "-------------WatershedEquivalenceRelabeler " << WatershedEquivalenceRelabelerObj;
 
-  itk::watershed::EquivalencyTable::Pointer WatershedEquivalencyTableObj =
-    itk::watershed::EquivalencyTable::New();
-  std:: cout << "-------------WatershedEquivalencyTable " << WatershedEquivalencyTableObj;
-
   itk::WatershedImageFilter<InputType>::Pointer WatershedImageFilterObj =
     itk::WatershedImageFilter<InputType>::New();
   std:: cout << "-------------WatershedImageFilter " << WatershedImageFilterObj;
@@ -249,10 +243,6 @@ int itkAlgorithmsPrintTest2(int , char* [])
   itk::WatershedMiniPipelineProgressCommand::Pointer WatershedMiniPipelineProgressCommandObj =
     itk::WatershedMiniPipelineProgressCommand::New();
   std:: cout << "-------------WatershedMiniPipelineProgressCommand " << WatershedMiniPipelineProgressCommandObj;
-
-  itk::watershed::OneWayEquivalencyTable::Pointer WatershedOneWayEquivalencyTableObj =
-    itk::watershed::OneWayEquivalencyTable::New();
-  std:: cout << "-------------WatershedOneWayEquivalencyTable " << WatershedOneWayEquivalencyTableObj;
 
   itk::watershed::Relabeler<double,3>::Pointer WatershedRelabelerObj =
     itk::watershed::Relabeler<double,3>::New();

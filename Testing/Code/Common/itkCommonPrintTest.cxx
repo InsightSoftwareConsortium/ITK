@@ -55,6 +55,7 @@
 #include "itkElasticBodyReciprocalSplineKernelTransform.h"
 #include "itkElasticBodySplineKernelTransform.h"
 #include "itkEllipsoidInteriorExteriorSpatialFunction.h"
+#include "itkEquivalencyTable.h"
 #include "itkEuler2DTransform.h"
 #include "itkEuler3DTransform.h"
 #include "itkExpImageAdaptor.h"
@@ -99,6 +100,7 @@
 #include "itkNeighborhoodOperatorImageFunction.h"
 #include "itkNthElementImageAdaptor.h"
 #include "itkObjectStore.h"
+#include "itkOneWayEquivalencyTable.h"
 #include "itkPointLocator.h"
 #include "itkPointSet.h"
 #include "itkProgressAccumulator.h"
@@ -278,6 +280,10 @@ int itkCommonPrintTest(int , char* [])
   itk::EllipsoidInteriorExteriorSpatialFunction<2,PointType>::Pointer EllipsoidInteriorExteriorSpatialFunctionObj =
     itk::EllipsoidInteriorExteriorSpatialFunction<2,PointType>::New();
   std::cout << "------------EllipsoidInteriorExteriorSpatialFunction" << EllipsoidInteriorExteriorSpatialFunctionObj;
+
+  itk::EquivalencyTable::Pointer EquivalencyTableObj =
+    itk::EquivalencyTable::New();
+  std:: cout << "-------------EquivalencyTable " << EquivalencyTableObj;
   
   itk::Euler2DTransform<double>::Pointer Euler2DTransformObj =
     itk::Euler2DTransform<double>::New();
@@ -439,6 +445,10 @@ int itkCommonPrintTest(int , char* [])
     itk::ObjectStore<TestObject>::New();
   std::cout << "------------ObjectStore" << ObjectStoreObj;
   
+  itk::OneWayEquivalencyTable::Pointer OneWayEquivalencyTableObj =
+    itk::OneWayEquivalencyTable::New();
+  std:: cout << "-------------OneWayEquivalencyTable " << OneWayEquivalencyTableObj;
+
   itk::PointLocator<unsigned long, 3,float>::Pointer PointLocatorObj =
     itk::PointLocator<unsigned long, 3,float>::New();
   std::cout << "------------PointLocator" << PointLocatorObj;
