@@ -178,7 +178,7 @@ public:
   typedef GradientRecursiveGaussianImageFilter< ImageType,
                                                 GradientImageType >
           GradientImageFilterType;  
-  typedef typename GradientImageFilterType::Pointer GradientImageFilterPointer;
+  //  typedef typename GradientImageFilterType::Pointer GradientImageFilterPointer;
 
 
 // FUNCTIONS
