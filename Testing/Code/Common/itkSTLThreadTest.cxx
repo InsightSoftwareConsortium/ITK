@@ -22,7 +22,7 @@ namespace itkSTLThreadTestImpl
 int done = 0;
 int numberOfIterations = 10;
 
-void* Runner(void*);
+ITK_THREAD_RETURN_TYPE Runner(void*);
 int Thread(int);
 } // namespace itkSTLThreadTestImpl
 
@@ -92,7 +92,7 @@ int itkSTLThreadTest(int argc, char* argv[])
 namespace itkSTLThreadTestImpl
 {
 
-void* Runner(void* infoIn)
+ITK_THREAD_RETURN_TYPE Runner(void* infoIn)
 {
   // Get the thread id and result pointer and run the method for this
   // thread.
