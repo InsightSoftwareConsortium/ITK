@@ -119,7 +119,7 @@ const IndexType& index ) const
   for( int j = 0; j < ImageDimension; j++ )
     {
     if( index[j] < start[j] ||
-        index[j] > start[j] + size[j] - 1 )
+        index[j] > start[j] + (signed long) size[j] - 1 )
       {
       return false;
       }
