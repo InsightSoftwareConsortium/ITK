@@ -212,9 +212,9 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
       } // end of sample A loop
 
-    dLogSumFixed -= log( dSumFixed );
-    dLogSumMoving    -= log( dSumMoving );
-    dLogSumJoint  -= log( dSumJoint );
+    dLogSumFixed  -= ( dSumFixed > 0.0 ) ? log( dSumFixed  ) : 0.0;
+    dLogSumMoving -= ( dSumMoving> 0.0 ) ? log( dSumMoving ) : 0.0;
+    dLogSumJoint  -= ( dSumJoint > 0.0 ) ? log( dSumJoint  ) : 0.0;
 
     } // end of sample B loop
 
@@ -325,9 +325,18 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
       } // end of sample A loop
 
-    dLogSumFixed -= log( dSumFixed );
-    dLogSumMoving    -= log( dDenominatorMoving );
-    dLogSumJoint  -= log( dDenominatorJoint );
+    if( dSumFixed > 0.0 )
+      {
+      dLogSumFixed -= log( dSumFixed );
+      }
+    if( dDenominatorMoving > 0.0 )
+      {
+      dLogSumMoving    -= log( dDenominatorMoving );
+      }
+    if( dDenominatorJoint > 0.0 )
+      {
+      dLogSumJoint  -= log( dDenominatorJoint );
+      }
 
     // get the image derivative for this B sample
     this->CalculateDerivatives( (*biter).FixedImagePointValue, derivB );
