@@ -115,9 +115,6 @@ IF(ITK_NEED_CableSwig)
   IF(NOT BUILD_SHARED_LIBS)
     MESSAGE(FATAL_ERROR "Wrapping requires a shared build, change BUILD_SHARED_LIBS to ON")
   ENDIF(NOT BUILD_SHARED_LIBS)
-  IF(ITK_USE_SYSTEM_VXL)
-    MESSAGE(FATAL_ERROR "Wrapping is not supported with an external VXL.")
-  ENDIF(ITK_USE_SYSTEM_VXL)
 ENDIF(ITK_NEED_CableSwig)
 
 #-----------------------------------------------------------------------------
