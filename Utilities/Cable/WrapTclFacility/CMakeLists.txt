@@ -1,6 +1,4 @@
-LIBRARY(WrapTclFacility)
-
-SOURCE_FILES(
+ADD_LIBRARY(WrapTclFacility
 wrapCalls
 wrapConversionTable
 wrapInit
