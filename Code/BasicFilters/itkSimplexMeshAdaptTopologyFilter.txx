@@ -16,6 +16,7 @@ PURPOSE.  See the above copyright notices for more information.
 =========================================================================*/
 #ifndef _SIMPLEX_MESH_ADAPT_TOPOLOGY_FILTER_TXX
 #define _SIMPLEX_MESH_ADAPT_TOPOLOGY_FILTER_TXX
+#include "itkSimplexMeshAdaptTopologyFilter.h"
 
 namespace itk
   {

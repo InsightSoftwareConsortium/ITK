@@ -16,6 +16,7 @@ PURPOSE.  See the above copyright notices for more information.
 =========================================================================*/
 #ifndef __TriangleMeshToSimplexMeshFilter_txx
 #define __TriangleMeshToSimplexMeshFilter_txx
+#include "itkTriangleMeshToSimplexMeshFilter.h"
 
 namespace itk
   {
