@@ -47,7 +47,14 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::SetUp(void)
 {
  
-  const RealType spacingTolerance = 1e-5;
+  const RealType spacingTolerance = 1e-8;
+
+  RealType direction = 1.0;
+  if( m_Spacing < 0.0 )
+    {
+    direction = -1.0;
+    m_Spacing = -m_Spacing;
+    }
 
   if( m_Spacing < spacingTolerance )
     {
@@ -65,6 +72,7 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
     m_K = 1.0 / ( sigmad * sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
     }
 
+  m_K *= direction;  // take into account the sign of the spacing.
 
   switch( m_Order ) 
     {
@@ -133,7 +141,9 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::ComputeFilterCoefficients(bool symmetric) 
 {
 
-  const RealType sigmad = m_Sigma/m_Spacing;
+  const RealType spacing = (m_Spacing>0.0) ? m_Spacing : -m_Spacing;
+
+  const RealType sigmad = m_Sigma / spacing;
   
   m_N00  = m_A0 + m_C0;
   m_N11  = exp(-m_B1/sigmad)*(m_C1*sin(m_W1/sigmad)-(m_C0+2*m_A0)*cos(m_W1/sigmad)); 
