@@ -119,6 +119,9 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
     lb3_.gtol = line_search_accuracy; // set to 0.1 for huge problems or cheap functions
     lb3_.stpawf = default_step_length;
 
+    // use the variable or else the sgi warns.
+    lb3_.gtol = lb3_.gtol;
+
     // Call function
     double f;
     f_->compute(x, &f, &g);
