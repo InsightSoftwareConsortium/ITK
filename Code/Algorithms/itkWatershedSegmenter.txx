@@ -788,7 +788,7 @@ void Segmenter<TInputImage>
   typename OutputImageType::Pointer output = this->GetOutputImage();
 
   InputPixelType minVal;
-  unsigned int i, nSize, nPos;
+  unsigned int i, nPos;
   typename InputImageType::OffsetType  moveIndex;
   unsigned long newLabel;
   std::stack< unsigned long * > updateStack;
@@ -808,7 +808,6 @@ void Segmenter<TInputImage>
   RandomAccessNeighborhoodIterator<OutputImageType>
     labelIt(zeroRad, output, region);
   ImageRegionIterator<OutputImageType> it(output, region);
-  nSize   = valueIt.Size();
 
   //
   // Sweep through the image and trace all unlabeled
