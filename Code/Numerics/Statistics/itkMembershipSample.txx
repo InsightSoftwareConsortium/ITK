@@ -18,7 +18,7 @@
 #define __itkMembershipSample_txx
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 template< class TSample >
 MembershipSample< TSample >
@@ -53,9 +53,9 @@ MembershipSample< TSample >
   m_ClassSamples.resize(m_NumberOfClasses) ;
   for ( unsigned int i = 0 ; i < m_NumberOfClasses ; i++ )
     {
-      m_ClassSamples[i] = ClassSampleType::New() ;
-      (m_ClassSamples[i])->SetSample(this->GetSample()) ;
-      m_ClassSampleSizes[i] = 0 ;
+    m_ClassSamples[i] = ClassSampleType::New() ;
+    (m_ClassSamples[i])->SetSample(this->GetSample()) ;
+    m_ClassSampleSizes[i] = 0 ;
     }
 }
 
@@ -76,8 +76,8 @@ MembershipSample< TSample >
   int classIndex = this->GetInternalClassLabel(classLabel) ;
   if ( classIndex == -1 )
     {
-      m_UniqueClassLabels.push_back(classLabel) ;
-      classIndex = m_UniqueClassLabels.size() - 1 ;
+    m_UniqueClassLabels.push_back(classLabel) ;
+    classIndex = m_UniqueClassLabels.size() - 1 ;
     }
 
   m_ClassSampleSizes[classIndex] += 1 ;
@@ -100,10 +100,10 @@ MembershipSample< TSample >
 {
   for ( unsigned int i = 0 ; i < m_UniqueClassLabels.size() ; i++ )
     {
-      if ( m_UniqueClassLabels[i] == classLabel )
-        {
-          return i ;
-        }
+    if ( m_UniqueClassLabels[i] == classLabel )
+      {
+      return i ;
+      }
     }
 
   return -1 ;
@@ -180,7 +180,7 @@ MembershipSample< TSample >
   os << indent << "CurrentClassLabel: " << m_CurrentClassLabel << std::endl;
   os << indent << "ClassLabelHolder: " << &m_ClassLabelHolder << std::endl;
 }
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk
 
 #endif
