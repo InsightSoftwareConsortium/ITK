@@ -155,6 +155,10 @@ protected:
   virtual ~ImageRegistrationMethod() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  /** Allow subclass to access information on FixedImageRegion. */
+  itkGetMacro( FixedImageRegionDefined, bool );
+  itkGetConstReferenceMacro( FixedImageRegion, FixedImageRegionType );
+
 private:
   ImageRegistrationMethod(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
