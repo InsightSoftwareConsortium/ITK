@@ -24,87 +24,103 @@ namespace itk {
 
 /**
  *
- \class SegmentationLevelSetImageFilter
- 
- \brief A base class which defines the API for implementing a special class of
- image segmentation filters using level set methods.
-
- \par OVERVIEW
- This object defines the framework for a class of segmentation filters which
- use level set methods.  These filters work by constructing a ``feature image''
- onto which the evolving level set locks as it moves.  In the feature image,
- values that are close to zero are associated with object boundaries.  An
- original (or preprocessed) image is given to the filter as the feature image
- and a seed for the level set is given as the input of the filter.  The seed is
- converted into a level set embedding which propagates according to the features
- calculated from the original image.
-
- \par TEMPLATE PARAMETERS
- There are two required and two optional template parameter for these
- filters. Of the optional parameters, the last, TOutputImage, should not be
- changed from its default.  It is only there to instantiate the parent class
- correctly.
-
- TInputImage is the image type of the initial model you will input to the
- filter using SetInput() or SetInitialImage().
-
- TFeatureImage is the image type of the image from which the filter will
- calculate the speed term for segmentation (see INPUTS).
-
- TOutputPixelType is the data type used for the output image phi, the implicit
- level set image.  This should really only ever be set as float (default) or
- double.
- 
- \par INPUTS
- The input to any subclass of this filter is the seed image for the initial
- level set embedding.  As with other subclasses of the
- SparseLevelSetImageFilter, the type of the input image is is not important.
- The (RequestedRegion) size of the seed image must, however, match the
- (RequestedRegion) size of the feature image.
-
- \par
- Depending on the particular application and filter that you are using, the
- feature image should be preprocessed with some type of noise reduction
- filtering.  The feature image input can be of any type, but it will be cast
- to floating point before calculations are done.
-
- \par OUTPUTS
- The output of any subclass of this filter is a level set embedding as
- described in SparseFieldLevelSetImageFilter.  The zero crossings of the output
- image give the pixels closest to the level set boundary.  By ITK convention,
- positive values are pixels inside the segmented region and negative values are
- pixels outside the segmented region.
-
- \par PARAMETERS
- The MaximumRMSChange parameter is used to determine when the solution has
- converged.  A lower value will result in a tighter-fitting solution, but
- will require more computations.  Too low a value could put the solver into
- an infinite loop unless a reasonable MaximumIterations parameter is set.
- Values should always be greater than 0.0 and less than 1.0.
- 
- \par
- The MaximumIterations parameter can be used to halt the solution after a
- specified number of iterations, overriding the MaximumRMSChange halting
- criteria.
-
- \par
- The UseNegativeFeatures parameter tells the function object to reverse the
- sign of the feature image, resulting in surface movement in the opposite
- direction.
-
- \par
- The FeatureScaling parameter controls the magnitude of the features calculated
- for use in the level set propagation speed.  This is important in controlling
- the relative effect of the feature values versus the curvature values (and possibly other
- terms).  Default value is 1.0.
-
- \par
- The CurvatureScaling parameter controls the magnitude of the curvature values
- which are calculated on the evolving isophote.  This is important in
- controlling the relative effect of curvature in the calculation.  Default
- value is 1.0.
- 
- */  
+ * \class SegmentationLevelSetImageFilter
+ * 
+ * \brief A base class which defines the API for implementing a special class of
+ * image segmentation filters using level set methods.
+ *
+ * \par OVERVIEW
+ * This object defines the framework for a class of segmentation filters which
+ * use level set methods.  These filters work by constructing a ``feature image''
+ * onto which the evolving level set locks as it moves.  In the feature image,
+ * values that are close to zero are associated with object boundaries.  An
+ * original (or preprocessed) image is given to the filter as the feature image
+ * and a seed for the level set is given as the input of the filter.  The seed is
+ * converted into a level set embedding which propagates according to the features
+ * calculated from the original image.
+ *
+ * \par TEMPLATE PARAMETERS
+ * There are two required and two optional template parameter for these
+ * filters. Of the optional parameters, the last, TOutputImage, should not be
+ * changed from its default.  It is only there to instantiate the parent class
+ * correctly.
+ *
+ * TInputImage is the image type of the initial model you will input to the
+ * filter using SetInput() or SetInitialImage().
+ *
+ * TFeatureImage is the image type of the image from which the filter will
+ * calculate the speed term for segmentation (see INPUTS).
+ *
+ * TOutputPixelType is the data type used for the output image phi, the implicit
+ * level set image.  This should really only ever be set as float (default) or
+ * double.
+ *
+ * \par INPUTS
+ * The input to any subclass of this filter is the seed image for the initial
+ * level set embedding.  As with other subclasses of the
+ * SparseLevelSetImageFilter, the type of the input image is is not important.
+ * The (RequestedRegion) size of the seed image must, however, match the
+ * (RequestedRegion) size of the feature image.
+ *
+ * \par
+ * Depending on the particular application and filter that you are using, the
+ * feature image should be preprocessed with some type of noise reduction
+ * filtering.  The feature image input can be of any type, but it will be cast
+ * to floating point before calculations are done.
+ *
+ * \par OUTPUTS
+ * The output of any subclass of this filter is a level set embedding as
+ * described in SparseFieldLevelSetImageFilter.  The zero crossings of the output
+ * image give the pixels closest to the level set boundary.  By ITK convention,
+ * positive values are pixels inside the segmented region and negative values are
+ * pixels outside the segmented region.
+ *
+ * \par PARAMETERS
+ * The MaximumRMSChange parameter is used to determine when the solution has
+ * converged.  A lower value will result in a tighter-fitting solution, but
+ * will require more computations.  Too low a value could put the solver into
+ * an infinite loop unless a reasonable MaximumIterations parameter is set.
+ * Values should always be greater than 0.0 and less than 1.0.
+ *
+ * \par
+ * The MaximumIterations parameter can be used to halt the solution after a
+ * specified number of iterations, overriding the MaximumRMSChange halting
+ * criteria.
+ *
+ * \par
+ * The UseNegativeFeatures parameter tells the function object to reverse the
+ * sign of the feature image, resulting in surface movement in the opposite
+ * direction.
+ *
+ * \par
+ * The FeatureScaling parameter controls the magnitude of the features calculated
+ * for use in the level set propagation and advection speeds.  This value simply
+ * sets both parameters to equal values at once.  Some filters may only use on of
+ * these two terms and this method is a generic way to set either or both without
+ * having to know which is in use.
+ *
+ *
+ * \par
+ * The CurvatureScaling parameter controls the magnitude of the curvature values
+ * which are calculated on the evolving isophote.  This is important in
+ * controlling the relative effect of curvature in the calculation.  Default
+ * value is 1.0.  Higher values relative to the other level set equation terms
+ * (propagation and advection) will give a smoother result.
+ *
+ * \par
+ * The PropagationScaling parameter controls the scaling of the scalar
+ * propagation (speed) term relative to other terms in the level set
+ * equation. Setting this value will  override any value already set by
+ * FeatureScaling.
+ *
+ * \par
+ * The AdvectionScaling parameter controls the scaling of the vector
+ * advection field term relative to other terms in the level set
+ * equation. Setting this value will  override any value already set by
+ * FeatureScaling.
+ *
+ * \par
+ *  See LevelSetFunction for more information.*/
 template <class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float,
@@ -133,6 +149,9 @@ public:
   /** The generic level set function type */
   typedef SegmentationLevelSetFunction<OutputImageType, FeatureImageType>
       SegmentationFunctionType;
+
+  /** The type used for the advection field */
+  typedef typename SegmentationFunctionType::VectorImageType VectorImageType;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(SegmentationLevelSetImageFilter, SparseFieldLevelSetImageFilter);
@@ -167,6 +186,9 @@ public:
   virtual typename SegmentationFunctionType::ImageType *GetSpeedImage() const
   { return m_SegmentationFunction->GetSpeedImage(); }
 
+  virtual typename SegmentationFunctionType::VectorImageType *GetAdvectionImage() const
+  { return m_SegmentationFunction->GetAdvectionImage(); }
+
   /** This method reverses the speed function direction, effectively changing
    *  inside feature values to outside feature values and vice versa */
   void SetUseNegativeFeaturesOn()
@@ -185,11 +207,30 @@ public:
   itkSetMacro(UseNegativeFeatures, bool);
   itkGetMacro(UseNegativeFeatures, bool);
 
-  /** Set/Get the scaling of the propagation speed. */
-  itkSetMacro(FeatureScaling, ValueType);
-  itkGetMacro(FeatureScaling, ValueType);
+  /** Combined scaling of the propagation and advection speed
+      terms. You should use either this -or- Get/SetPropagationScaling and
+      Get/SetAdvectionScaling (if appropriate).  See subclasses for details
+      on when and whether to set these parameters.*/
+  void SetFeatureScaling(ValueType v)
+  {
+    this->SetPropagationScaling(v);
+    this->SetAdvectionScaling(v);
+  }
+  //  itkGetMacro(FeatureScaling, ValueType);
 
-  /** Set/Get the scaling of the curvature. */
+  /** Set/Get the scaling of the propagation speed.  Setting the FeatureScaling
+      parameter overrides any previous values set for PropagationScaling. */
+  itkSetMacro(PropagationScaling, ValueType);
+  itkGetMacro(PropagationScaling, ValueType);
+
+  /** Set/Get the scaling of the advection field.  Setting the FeatureScaling
+      parameter will override any existing value for AdvectionScaling. */
+  itkSetMacro(AdvectionScaling, ValueType);
+  itkGetMacro(AdvectionScaling, ValueType);
+
+  /** Set/Get the scaling of the curvature. Use this parameter to increase the
+      influence of curvature on the movement of the surface.  Higher values
+      relative to Advection and Propagation values will give smoother surfaces. */
   itkSetMacro(CurvatureScaling, ValueType);
   itkGetMacro(CurvatureScaling, ValueType);
 
@@ -214,7 +255,6 @@ protected:
                                 / (float)this->GetMaximumIterations()) );
   }
   
-  
   /** Overridden from ProcessObject to set certain values before starting the
    * finite difference solver and then create an appropriate output */
   void GenerateData();
@@ -226,11 +266,17 @@ protected:
   /** Flag which sets the inward/outward direction of positive propagation speed.*/
   bool m_UseNegativeFeatures;
 
-  /** Scalar parameter for propagation speed.*/
-  ValueType m_FeatureScaling;
+  /** Combined Scalar parameter for propagation and advection speed.*/
+  //  ValueType m_FeatureScaling;
 
   /** Scalar parameter for curvature.*/
   ValueType m_CurvatureScaling;
+
+    /** Scalar parameter for curvature.*/
+  ValueType m_PropagationScaling;
+
+    /** Scalar parameter for curvature.*/
+  ValueType m_AdvectionScaling;
   
 private:
   unsigned int m_MaximumIterations;

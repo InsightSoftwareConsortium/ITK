@@ -18,7 +18,8 @@
 #define __itkLevelSetFunctionBase_h_
 
 #include "itkFiniteDifferenceFunction.h"
-#include "itkVector.h"
+//#include "itkVector.h"
+#include "itkFixedArray.h"
 
 namespace itk {
 
@@ -58,9 +59,10 @@ public:
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
   
   /** The vector type that will be used in the calculations. */
-  typedef
-    Vector<ScalarValueType, itkGetStaticConstMacro(ImageDimension)> VectorType;
-
+  //  typedef
+  //    Vector<ScalarValueType, itkGetStaticConstMacro(ImageDimension)> VectorType;
+  typedef FixedArray<ScalarValueType, itkGetStaticConstMacro(ImageDimension)> VectorType;
+  
   /** Advection field.  Default implementation returns a vector of zeros. */
   virtual VectorType AdvectionField(const NeighborhoodType &,
                                     const FloatOffsetType &)  const

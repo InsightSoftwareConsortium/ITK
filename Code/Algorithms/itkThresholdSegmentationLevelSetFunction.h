@@ -92,7 +92,12 @@ public:
   }
   
 protected:
-  ThresholdSegmentationLevelSetFunction()  {}
+  ThresholdSegmentationLevelSetFunction()
+  {
+    this->SetAdvectionWeight(0.0);
+    this->SetPropagationWeight(1.0);
+    this->SetCurvatureWeight(1.0);
+  }
   virtual ~ThresholdSegmentationLevelSetFunction() {}
 
   ThresholdSegmentationLevelSetFunction(const Self&); //purposely not implemented

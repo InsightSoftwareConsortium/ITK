@@ -198,10 +198,10 @@ LevelSetFunction< TImageType >
   //
   if (m_AdvectionWeight != ZERO)
     {
-  
+
       advection_field = this->AdvectionField(it, offset);
       advection_term = ZERO;
-      
+
       for(i = 0; i < ImageDimension; i++)
         {
 
@@ -366,7 +366,7 @@ LevelSetFunction< TImageType >
   
       advection_field = this->AdvectionField(it, offset);
       advection_term = ZERO;
-      
+
       for(i = 0; i < ImageDimension; i++)
         {
 

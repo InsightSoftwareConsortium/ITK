@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLaplacianSegmentationLevelSetFunction.h
+  Module:    itkCannySegmentationLevelSetFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,26 +14,25 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkLaplacianSegmentationLevelSetFunction_h_
-#define __itkLaplacianSegmentationLevelSetFunction_h_
+#ifndef __itkCannySegmentationLevelSetFunction_h_
+#define __itkCannySegmentationLevelSetFunction_h_
 
 #include "itkSegmentationLevelSetFunction.h"
 
 namespace itk {
 
-
 /**
  *
  *
- * Assumes a strictly POSITIVE feature image
+ * 
  */
 template <class TImageType, class TFeatureImageType = TImageType>
-class ITK_EXPORT LaplacianSegmentationLevelSetFunction
+class ITK_EXPORT CannySegmentationLevelSetFunction
   : public SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 {
 public:
   /** Standard class typedefs. */
-  typedef LaplacianSegmentationLevelSetFunction Self;
+  typedef CannySegmentationLevelSetFunction Self;
   typedef SegmentationLevelSetFunction<TImageType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
@@ -43,7 +42,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( LaplacianSegmentationLevelSetFunction, SegmentationLevelSetFunction );
+  itkTypeMacro( CannySegmentationLevelSetFunction, SegmentationLevelSetFunction );
 
   /** Extract some parameters from the superclass. */
   typedef typename Superclass::ImageType ImageType;
@@ -55,41 +54,56 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
+  /** */
+  void SetThreshold(ScalarValueType v)
+  { m_Threshold = v; }
+  ScalarValueType GetThreshold() const
+  { return m_Threshold; }
 
-  virtual void CalculateSpeedImage();
+  /** */
+  void SetVariance(double v)
+  { m_Variance = v; }
+  double GetVariance() const
+  { return m_Variance; }
+
+  /** This method also fills in the Speed image, everything is done in one step
+      so that CalculateSpeedImage does not need to be implemented.*/
+  virtual void CalculateAdvectionImage();
 
   virtual void Initialize(const RadiusType &r)
   {
     Superclass::Initialize(r);
     
-    this->SetAdvectionWeight( NumericTraits<ScalarValueType>::Zero);
+    this->SetAdvectionWeight(-1.0 * NumericTraits<ScalarValueType>::One);
     this->SetPropagationWeight(-1.0 * NumericTraits<ScalarValueType>::One);
     this->SetCurvatureWeight(NumericTraits<ScalarValueType>::One);
   }
-  
-protected:
-  LaplacianSegmentationLevelSetFunction()
-  {
-    this->SetAdvectionWeight(0.0);
-    this->SetPropagationWeight(1.0);
-    this->SetCurvatureWeight(1.0);
-  }
-  virtual ~LaplacianSegmentationLevelSetFunction() {}
 
-  LaplacianSegmentationLevelSetFunction(const Self&); //purposely not implemented
+protected:
+  CannySegmentationLevelSetFunction()
+  {
+    m_Variance = 0.0;
+    m_Threshold = NumericTraits<ScalarValueType>::Zero;
+  }
+  virtual ~CannySegmentationLevelSetFunction() {}
+
+  CannySegmentationLevelSetFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
+
   void PrintSelf(std::ostream& os, Indent indent) const
   {
     Superclass::PrintSelf(os, indent );
   }
-  
+
+private:
+  ScalarValueType m_Variance;
+  double m_Threshold;
 };
   
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLaplacianSegmentationLevelSetFunction.txx"
+#include "itkCannySegmentationLevelSetFunction.txx"
 #endif
 
 #endif

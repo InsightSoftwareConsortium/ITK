@@ -40,6 +40,17 @@ void SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 }
 
 template <class TImageType, class TFeatureImageType>
+void SegmentationLevelSetFunction<TImageType, TFeatureImageType>
+::AllocateAdvectionImage()
+{
+ m_AdvectionImage->SetRequestedRegion(m_FeatureImage->GetRequestedRegion());
+ m_AdvectionImage->SetBufferedRegion(m_FeatureImage->GetBufferedRegion());
+ m_AdvectionImage->SetLargestPossibleRegion(m_FeatureImage->GetLargestPossibleRegion());
+ m_AdvectionImage->Allocate();
+ m_VectorInterpolator->SetInputImage(m_AdvectionImage);
+}
+
+template <class TImageType, class TFeatureImageType>
 typename SegmentationLevelSetFunction<TImageType, TFeatureImageType>::ScalarValueType
 SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::PropagationSpeed(const NeighborhoodType &neighborhood,
@@ -78,6 +89,48 @@ SegmentationLevelSetFunction<TImageType, TFeatureImageType>
     }
   else return ( static_cast<ScalarValueType>(m_SpeedImage->GetPixel(idx)) );
 }
+
+template <class TImageType, class TFeatureImageType>
+typename SegmentationLevelSetFunction<TImageType, TFeatureImageType>::VectorType
+SegmentationLevelSetFunction<TImageType, TFeatureImageType>
+::AdvectionField(const NeighborhoodType &neighborhood,
+                 const FloatOffsetType &offset)  const
+{
+  IndexType idx = neighborhood.GetIndex();
+  ContinuousIndexType cdx;
+  for (unsigned i = 0; i < ImageDimension; ++i)
+    {
+      cdx[i] = static_cast<double>(idx[i]) - offset[i];
+    }
+  if ( m_VectorInterpolator->IsInsideBuffer(cdx) )
+    {
+      return ( m_VectorCast(m_VectorInterpolator->EvaluateAtContinuousIndex(cdx)));
+    }
+  else return ( m_AdvectionImage->GetPixel(idx) );  
+}
+
+template <class TImageType, class TFeatureImageType>
+typename SegmentationLevelSetFunction<TImageType, TFeatureImageType>::VectorType
+SegmentationLevelSetFunction<TImageType, TFeatureImageType>
+::AdvectionField(const BoundaryNeighborhoodType &neighborhood,
+                 const FloatOffsetType &offset) const
+{
+  IndexType idx = neighborhood.GetIndex();
+  ContinuousIndexType cdx;
+  for (unsigned i = 0; i < ImageDimension; ++i)
+    {
+      cdx[i] = static_cast<double>(idx[i]) - offset[i];
+    }
+
+  if ( m_VectorInterpolator->IsInsideBuffer(cdx) )
+    {
+      return ( m_VectorCast(m_VectorInterpolator->EvaluateAtContinuousIndex(cdx)));
+    }
+  else return ( m_AdvectionImage->GetPixel(idx) );   
+}
+
+
+
 
 } // end namespace itk
 

@@ -19,6 +19,8 @@
 
 #include "itkLevelSetFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
+#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkVectorCastImageFilter.h"
 
 namespace itk {
 
@@ -53,8 +55,6 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro( SegmentationLevelSetFunction, LevelSetFunction );
 
-  //  itkNewMacro(Self);
-  
   /** Extract some parameters from the superclass. */
   typedef typename Superclass::ImageType ImageType;
   typedef typename Superclass::RadiusType RadiusType;
@@ -65,11 +65,18 @@ public:
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename FeatureImageType::PixelType FeatureScalarType;
   typedef typename ImageType::IndexType IndexType;
+  typedef typename Superclass::VectorType VectorType;
 
+  /** Define an image type for the advection field. */
+  typedef Image<VectorType, GetImageDimension<TImageType>::ImageDimension >
+    VectorImageType;
 
-  /** Define an interpolator */
+  /** Define a scalar interpolator */
   typedef LinearInterpolateImageFunction<FeatureImageType>  InterpolatorType;
 
+  /** Define a vector interpolator */
+  typedef VectorLinearInterpolateImageFunction<VectorImageType> VectorInterpolatorType;
+  
   /** Continuous index type recognized by the interpolator */
   typedef typename InterpolatorType::ContinuousIndexType ContinuousIndexType;
   
@@ -86,6 +93,10 @@ public:
   virtual ImageType *GetSpeedImage() const
   { return m_SpeedImage.GetPointer(); }
 
+  /** Get the image used as the advection field in the level set equation */
+  virtual VectorImageType *GetAdvectionImage() const
+  { return m_AdvectionImage.GetPointer(); } 
+
   /** This method creates the appropriate member variable operators for the
    * level-set calculations.  The argument to this function is a the radius
    * necessary for performing the level-set calculations. */
@@ -95,33 +106,60 @@ public:
    * object.  This method is called before the solver begins its work to
    * produce the speed image used as the level set function's Propagation speed
    * term.  See LevelSetFunction for more information. */
-  virtual void CalculateSpeedImage() = 0;
+  virtual void CalculateSpeedImage() {}
+
+  /** This method must be defined in a subclass to implement a working function
+   * object.  This method is called before the solver begins its work to
+   * produce the speed image used as the level set function's Advection field
+   * term.  See LevelSetFunction for more information. */
+  virtual void CalculateAdvectionImage() {}
 
   /** Allocates the image that will be used for the level set function's
    * Propagation Speed term.  See LevelSetFunction for more information. */
   virtual void AllocateSpeedImage();
-  
+
+  /** Allocates the image that will be used for the level set function's
+   * Advection field term.  See LevelSetFunction for more information. */
+  virtual void AllocateAdvectionImage();
+
 protected:
   /** The image whose features will be used to create a speed image */
   typename FeatureImageType::Pointer m_FeatureImage;
+
+  /** The image holding the speed values for front propagation */
   typename ImageType::Pointer        m_SpeedImage;
 
-  /** Returns the propagation speed from the precalculated speed image.*/
-  virtual ScalarValueType PropagationSpeed(const NeighborhoodType&,
-                                           const FloatOffsetType&) const;
+  /** The image holding the advection field for front propation */
+  typename VectorImageType::Pointer  m_AdvectionImage;
 
-  /** Returns the propagation speed from the precalculated speed image. */
+  /** A casting functor to convert between vector types.  */
+  Functor::VectorCast< ITK_TYPENAME VectorInterpolatorType::OutputType,
+                       VectorType > m_VectorCast;
+
+  /** Returns the propagation speed from the precalculated speed image.*/
+  virtual ScalarValueType PropagationSpeed(const NeighborhoodType &,
+                                           const FloatOffsetType &) const;
   virtual ScalarValueType PropagationSpeed(const BoundaryNeighborhoodType&,
                                            const FloatOffsetType &) const;
 
+  /** Advection field.  Returns a vector from the computed advectionfield.*/
+  virtual VectorType AdvectionField(const NeighborhoodType &,
+                                    const FloatOffsetType &) const;
+  virtual VectorType AdvectionField(const BoundaryNeighborhoodType &,
+                                    const FloatOffsetType &) const;
+  
+  
   virtual ~SegmentationLevelSetFunction() {}
   SegmentationLevelSetFunction()
   {
     m_SpeedImage = ImageType::New();
+    m_AdvectionImage = VectorImageType::New();
     m_Interpolator = InterpolatorType::New();
+    m_VectorInterpolator = VectorInterpolatorType::New();
   }
 
   typename InterpolatorType::Pointer m_Interpolator;
+  typename VectorInterpolatorType::Pointer m_VectorInterpolator;
   
 };
 
