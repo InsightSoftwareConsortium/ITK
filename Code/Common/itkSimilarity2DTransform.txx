@@ -81,7 +81,7 @@ Similarity2DTransform<TScalarType>
     offset[i] = parameters[i+4];
     }
 
-  this->SetOffset( offset );
+  this->SetTranslation( offset );
 
   this->ComputeMatrixAndOffset();
 
