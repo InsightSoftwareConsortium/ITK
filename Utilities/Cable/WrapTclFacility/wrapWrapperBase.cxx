@@ -156,12 +156,18 @@ void WrapperBase::UnknownMethod(const String& methodName,
                                 int argc, Tcl_Obj*CONST objv[]) const
 {
   String errorMessage = 
-    "Unknown method: " + m_WrappedTypeName + "::" + methodName + "(";
+    "No method matches " + m_WrappedTypeName + "::" + methodName + "(";
 
-  // TODO: Chain up hierarchy here??
-//  for(int i=0; i < (argc-1); ++i)
-//    errorMessage += GetObjType(interp, objv[i]) + " , ";
-//  if(argc > 0) errorMessage += GetObjType(interp, objv[argc-1]);
+  for(int i=0; i < (argc-1); ++i)
+    {
+    CvQualifiedType objType = this->GetObjectType(objv[i]);
+    errorMessage += objType.GetName() + ", ";
+    }
+  if(argc > 0)
+    {
+    CvQualifiedType objType = this->GetObjectType(objv[argc-1]);
+    errorMessage += objType.GetName();
+    }
   
   errorMessage += ")";  
   this->ReportErrorMessage(errorMessage);
