@@ -114,7 +114,7 @@ int main()
   center[1] = static_cast<double>( region.GetSize()[1] ) / 2.0;
   center[2] = static_cast<double>( region.GetSize()[2] ) / 2.0;
 
-  const double s = (double)region.GetSize()[0]/2.0;
+  const double s = (double)region.GetSize()[0]/4.0;
 
   itk::Point<double,ImageDimension>  p;
   itk::Vector<double,ImageDimension> d;
@@ -122,7 +122,7 @@ int main()
   /* Set the displacement */
   itk::Vector<double,ImageDimension> displacement;
   displacement[0] = 7.0;
-  displacement[1] = 3.0;
+  displacement[1] = 5.0;
   displacement[2] = 3.0;
 
   ReferenceIteratorType ri(imgReference,region);
@@ -139,7 +139,7 @@ int main()
     const double x = d[0];
     const double y = d[1];
     const double z = d[2];
-    const double value = 200.0 * exp( - ( x*x + y*y + z*z )/(s*s) );
+    const double value = 200.0 * x * y * exp( - ( x*x + y*y + z*z )/(s*s) );
     ri.Set( static_cast<ReferenceType::PixelType>( value ) );
     ++ri;
   }
@@ -154,7 +154,7 @@ int main()
     const double x = d[0];
     const double y = d[1];
     const double z = d[2];
-    const double value = 200.0 * exp( - ( x*x + y*y * z*z )/(s*s) );
+    const double value = 200.0 * x * y * exp( - ( x*x + y*y * z*z )/(s*s) );
     ti.Set( static_cast<TargetType::PixelType>( value ) ); 
     ++ti;
   }
@@ -208,13 +208,19 @@ int main()
   registrationMethod->GetOptimizer()->AddObserver( itk::Command::IterationEvent,
                                                    iterationCommand ); 
 
+  registrationMethod->GetOptimizer()->AddObserver( itk::Command::StartEvent,
+                                                   iterationCommand ); 
+
+  registrationMethod->GetOptimizer()->AddObserver( itk::Command::EndEvent,
+                                                   iterationCommand ); 
+
   ScaleTransformParametersType  parametersScale;
-  parametersScale[0] = 1.00;
-  parametersScale[1] = 1.00;
-  parametersScale[2] = 1.00;
-  parametersScale[3] = 0.01;
-  parametersScale[4] = 0.01;
-  parametersScale[5] = 0.01;
+  parametersScale[0] = 1.00000;
+  parametersScale[1] = 1.00000;
+  parametersScale[2] = 1.00000;
+  parametersScale[3] = 0.00001;
+  parametersScale[4] = 0.00001;
+  parametersScale[5] = 0.00001;
   
 
   
@@ -229,9 +235,9 @@ int main()
   optimizer->GetTransform()->SetParameters( parametersScale );
   optimizer->SetMinimize();
   optimizer->SetGradientMagnitudeTolerance( 1e-6 );
-  optimizer->SetMaximumStepLength( 0.01 );
-  optimizer->SetMinimumStepLength( 1e-6 );
-  optimizer->SetNumberOfIterations( 100 );
+  optimizer->SetMaximumStepLength( 10.0 );
+  optimizer->SetMinimumStepLength( 1e-10 );
+  optimizer->SetNumberOfIterations( 500 );
 
 
   registrationMethod->StartRegistration();
