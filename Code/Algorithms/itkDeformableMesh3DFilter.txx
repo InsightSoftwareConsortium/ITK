@@ -52,7 +52,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 {
   if (m_K)
     {
-    free(m_K);
+    delete [] (m_K);
+    m_K = 0;
     }
 }
 
@@ -238,13 +239,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 template <typename TInputMesh, typename TOutputMesh>
 void 
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
-::SetStiffnessMatrix ( vnl_matrix_fixed<double, 4, 4> *stiff, int i ) 
+::SetStiffnessMatrix ( StiffnessMatrixType *stiff, int i ) 
 { 
-  InputCellDataContainerPointer    myCellData = m_Locations->GetCellData();
-  InputCellDataContainerIterator   celldata = myCellData->Begin();
-
-  double x;
- 
   m_StiffnessMatrix[i][0][0] = stiff[0][0]; 
   m_StiffnessMatrix[i][0][1] = stiff[0][1]; 
   m_StiffnessMatrix[i][0][2] = stiff[0][2]; 
@@ -272,16 +268,16 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputCellDataContainerPointer    myCellData = this->GetInput(0)->GetCellData();
   InputCellDataContainerIterator   celldata = myCellData->Begin();
 
-  m_K = (vnl_matrix_fixed<double,4,4>**) malloc(sizeof(vnl_matrix_fixed<double,4,4>*)*m_NumberOfCells);
-  double x;
+  m_K = new StiffnessMatrixRawPointer[m_NumberOfCells];
 
-  int j = 0;
-  while (celldata != myCellData->End()){
-  x = celldata.Value();
-  m_K[j] = m_StiffnessMatrix+((int) x);
-  ++celldata; 
-  j++;
-  }
+  unsigned int j = 0;
+  while (celldata != myCellData->End())
+    {
+    const double x = celldata.Value();
+    m_K[j] = m_StiffnessMatrix+((int) x);
+    ++celldata; 
+    j++;
+    }
 } 
 
 
@@ -472,25 +468,27 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputCellDataContainerIterator celldata = myCellData->Begin(); 
   
   i = 0;
-  for (; i<m_NumberOfNodes; i++) {
-  points.Value() = locations.Value();
-  ++locations;
-  ++points;
-  } 
+  for (; i<m_NumberOfNodes; i++) 
+    {
+    points.Value() = locations.Value();
+    ++locations;
+    ++points;
+    } 
 
-  for (int i=0; i<m_NumberOfCells; i++) {
-  tp = cells.Value()->GetPointIds();
-  tripoints[0] = tp[0];
-  tripoints[1] = tp[1];
-  tripoints[2] = tp[2];
-  insertCell.TakeOwnership( new TriCell );
-  insertCell->SetPointIds(tripoints);
-  output->SetCell(i, insertCell );
-  x = celldata.Value();
-  output->SetCellData(i, (PixelType)x);
-  ++cells;
-  ++celldata;
-  }
+  for (int i=0; i<m_NumberOfCells; i++) 
+    {
+    tp = cells.Value()->GetPointIds();
+    tripoints[0] = tp[0];
+    tripoints[1] = tp[1];
+    tripoints[2] = tp[2];
+    insertCell.TakeOwnership( new TriCell );
+    insertCell->SetPointIds(tripoints);
+    output->SetCell(i, insertCell );
+    x = celldata.Value();
+    output->SetCellData(i, (PixelType)x);
+    ++cells;
+    ++celldata;
+    }
 
 }
 

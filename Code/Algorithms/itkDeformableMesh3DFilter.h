@@ -122,8 +122,12 @@ public:
   typedef typename OutputMeshType::Pointer    OutputMeshPointer;
   typedef typename GradientImageType::Pointer GradientImagePointer;
 
+  /* Stiffness Matrix Type definition */
+  typedef vnl_matrix_fixed<double, 4, 4>  StiffnessMatrixType;
+  typedef StiffnessMatrixType * StiffnessMatrixRawPointer; 
+
   /** Routines. */
-  void SetStiffnessMatrix( vnl_matrix_fixed<double, 4, 4> *stiff, int i );
+  void SetStiffnessMatrix( StiffnessMatrixType *stiff, int i );
 
   /** Set/Get routines. */
   itkSetMacro(Gradient, GradientImagePointer);
@@ -175,8 +179,8 @@ private:
   void PotentialFit();
 
   /** Three different kinds of stiffness matrix. */
-  vnl_matrix_fixed<double, 4, 4> m_StiffnessMatrix[10];
-  vnl_matrix_fixed<double, 4, 4> **m_K;
+  StiffnessMatrixType         m_StiffnessMatrix[10];
+  StiffnessMatrixRawPointer  *m_K;
   
   /** Parameters definitions. */
   double2DVector    m_Stiffness;
