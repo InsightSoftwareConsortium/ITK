@@ -164,7 +164,7 @@ public:
    * Compare two indices.
    */
   bool
-  operator==(const Self &vec)
+  operator==(const Self &vec) const
     {
     bool same=1;
     for (unsigned int i=0; i < VIndexDimension && same; i++)
@@ -176,7 +176,7 @@ public:
    * Compare two indices.
    */
   bool
-  operator!=(const Self &vec)
+  operator!=(const Self &vec) const
     {
     bool same=1;
     for (unsigned int i=0; i < VIndexDimension && same; i++)
