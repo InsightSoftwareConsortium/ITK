@@ -266,6 +266,7 @@ void
 MapContainer< TElementIdentifier , TElement >
 ::Initialize(void)
 {
+  this->MapType::clear();
 }
 
 
