@@ -9,7 +9,7 @@
 #include <itkVectorContainer.h>
 #include <itkRegistrationMethod.h>
 #include <itkRegistrationTransformationAffine.h>
-#include <itkRegistrationMapper.h>
+#include <itkRegistrationMapperImage.h>
 #include <itkRegistrationMetric.h>
 #include <itkRegistrationOptimizer.h>
 
@@ -24,7 +24,7 @@ int main()
 
   typedef itk::RegistrationTransformationAffine< 2 > TransfromType;
   
-  typedef itk::RegistrationMapper< ImageType,
+  typedef itk::RegistrationMapperImage< ImageType,
                                    TransfromType
                                              >  MapperType;
 
