@@ -31,6 +31,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkAtanImageFilter.h"
 #include "itkBSplineCenteredL2ResampleImageFilterBase.txx"
 #include "itkBSplineCenteredResampleImageFilterBase.txx"
+#include "itkBSplineDecompositionImageFilter.txx"
 #include "itkBSplineDownsampleImageFilter.txx"
 #include "itkBSplineL2ResampleImageFilterBase.txx"
 #include "itkBSplineResampleImageFilterBase.txx"
