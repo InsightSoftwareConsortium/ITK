@@ -50,7 +50,7 @@ namespace watershed
 
 template <class TScalarType, unsigned int TImageDimension>
 Relabeler<TScalarType, TImageDimension>::
-Relabeler()
+Relabeler() : m_FloodLevel(0.0)
 {
   typename ImageType::Pointer img
     = static_cast<ImageType*>(this->MakeOutput(0).GetPointer());
