@@ -32,6 +32,7 @@ SET(ITKIO_SRCS
   itkIPLFileNameList.cxx
   itkImageIOBase.cxx
   itkImageIOFactory.cxx
+  itkImageIORegion.cxx
   itkMetaImageIO.cxx
   itkMetaImageIOFactory.cxx
   itkNumericSeriesFileNames.cxx

@@ -92,13 +92,11 @@ LightObject
  */
 void 
 LightObject
-::Print(std::ostream& os) const
+::Print(std::ostream& os, Indent indent) const
 {
-  Indent indent;
-
-  this->PrintHeader(os,0); 
+  this->PrintHeader(os, indent); 
   this->PrintSelf(os, indent.GetNextIndent());
-  this->PrintTrailer(os,0);
+  this->PrintTrailer(os, indent);
 }
 
 
@@ -209,7 +207,6 @@ void
 LightObject
 ::PrintTrailer(std::ostream& os, Indent indent) const
 {
-  os << indent << std::endl;
 }
 
 

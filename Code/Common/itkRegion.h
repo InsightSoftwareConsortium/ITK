@@ -70,7 +70,7 @@ public:
   virtual RegionType GetRegionType() const = 0;
 
   /** Print the region. */
-  virtual void Print(std::ostream& os) const;
+  virtual void Print(std::ostream& os, Indent indent=0) const;
   
 protected:
   /** Methods invoked by Print() to print information about the object

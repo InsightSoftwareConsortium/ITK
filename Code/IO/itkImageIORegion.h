@@ -196,6 +196,11 @@ public:
   unsigned long GetNumberOfPixels() const;
 
 protected:
+  /** Methods invoked by Print() to print information about the object
+   * including superclasses. Typically not called by the user (use Print()
+   * instead) but used in the hierarchical print process to combine the
+   * output of several classes.  */
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   unsigned int m_ImageDimension;
@@ -203,26 +208,9 @@ private:
   std::vector<long> m_Size;
 };
 
-
-inline std::ostream & operator<<(std::ostream &os, const ImageIORegion &region)
-{
-  os << "Dimension: " << region.GetImageDimension() << std::endl;
-  os << "Index: ";
-  for(ImageIORegion::IndexType::const_iterator i = region.GetIndex().begin();
-      i != region.GetIndex().end(); ++i)
-    {
-    os << *i << " ";
-    }
-  os << std::endl;
-  os << "Size: ";
-  for(ImageIORegion::SizeType::const_iterator k = region.GetSize().begin();
-      k != region.GetSize().end(); ++k)
-    {
-    os << *k << " ";
-    }
-  os << std::endl;
-  return os;
-}
+#  ifndef ITKIO_EXPORTS
+   extern std::ostream & operator<<(std::ostream &os, const ImageIORegion &region); 
+#endif
 
 } // end namespace itk
 

@@ -51,14 +51,16 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
   Superclass::PrintSelf(os, indent);
 
   if (m_ImageIO)
-    {       
-    os << indent << "m_ImageIO: " << m_ImageIO << "\n";
+    {
+    os << indent << "ImageIO: \n";
+    m_ImageIO->Print(os, indent.GetNextIndent());
     }
   else
     {
-    os << indent << "m_ImageIO: (null)" << "\n";
+    os << indent << "ImageIO: (null)" << "\n";
     }
-  os << indent << "m_UserSpecified m_ImageIO flag: " << m_UserSpecifiedImageIO << "\n";
+
+  os << indent << "UserSpecifiedImageIO flag: " << m_UserSpecifiedImageIO << "\n";
   os << indent << "m_FileName: " << m_FileName << "\n";
 }
 

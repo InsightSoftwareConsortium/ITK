@@ -79,7 +79,7 @@ public:
 #endif 
   
   /** Cause the object to print itself out. */
-  void Print(std::ostream& os) const;
+  void Print(std::ostream& os, Indent indent=0) const;
 
   /** This method is called when itkExceptionMacro executes. It allows 
    * the debugger to break on error.  */

@@ -42,7 +42,14 @@ namespace itk
 /** Constructor */
 DICOMImageIO2::DICOMImageIO2()
 {
-  this->SetNumberOfDimensions(2);
+  // We are going to default the dimensions for a DICOM image to 3.
+  // The ImagePositionPatient field in a DICOM image is a 3D position
+  // even though the image is just 2D.  So from the ImageIO
+  // standpoint, a single DICOM image will be a 3D image with just one
+  // slice.  The ImageFileReader may reduce this down to a 2D image if
+  // the user only asks for a 2D image.
+  this->SetNumberOfDimensions(3);  
+
   m_PixelType  = UCHAR;
   m_ByteOrder = BigEndian;
   m_Parser = new itkdicomparser::DICOMParser();
@@ -142,19 +149,34 @@ void DICOMImageIO2::ReadImageInformation()
 
   m_Parser->ReadHeader();
 
-  float* spacing = m_AppHelper->GetPixelSpacing();
-  float* origin  = m_AppHelper->GetImagePositionPatient();
+  Array<float> imagePosition(3);
+  imagePosition[0] = m_AppHelper->GetImagePositionPatient()[0];
+  imagePosition[1] = m_AppHelper->GetImagePositionPatient()[1];
+  imagePosition[2] = m_AppHelper->GetImagePositionPatient()[2];
+
+  Array<float> imageSpacing(3);
+  imageSpacing[0] = m_AppHelper->GetPixelSpacing()[0];
+  imageSpacing[1] = m_AppHelper->GetPixelSpacing()[1];
+  imageSpacing[2] = m_AppHelper->GetPixelSpacing()[2];
+
+  EncapsulateMetaData<Array<float> >(this->GetMetaDataDictionary(),
+                                     "ITK_ImageOrigin",
+                                     imagePosition);
 
   int* dims = m_AppHelper->GetDimensions();
 
-  
-  for (int i = 0; i < 2; i++)
+  for (int i = 0; i < 3; i++)
     {
-    this->SetOrigin(i, origin[i]);
-    this->SetSpacing(i, spacing[i]);
-    this->SetDimensions(i, dims[i]);
+    this->SetOrigin(i, imagePosition[i]);
+    this->SetSpacing(i, imageSpacing[i]);
     }
 
+  for (int i = 0; i < 2; i++)
+    {
+    this->SetDimensions(i, dims[i]);
+    }
+  this->SetDimensions(2, 1);   // single slice in a 3D image
+  
   int numBits = m_AppHelper->GetBitsAllocated();
   bool sign = m_AppHelper->RescaledImageDataIsSigned();
 

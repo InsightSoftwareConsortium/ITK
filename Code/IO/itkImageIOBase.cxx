@@ -746,7 +746,8 @@ void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "FileName: " << m_FileName << std::endl;
   os << indent << "FileType: " << m_FileType << std::endl;
   os << indent << "ByteOrder: " << m_ByteOrder << std::endl;
-  os << indent << "IORegion: " << m_IORegion << std::endl;
+  os << indent << "IORegion: " << std::endl;
+  m_IORegion.Print(os, indent.GetNextIndent());
   os << indent << "Number of Components/Pixel: " << m_NumberOfComponents << "\n";
   if (m_PixelType)
     {

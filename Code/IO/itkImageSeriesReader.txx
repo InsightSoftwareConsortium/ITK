@@ -40,12 +40,13 @@ void ImageSeriesReader<TOutputImage>
 
   os << indent << "ReverseOrder: " << m_ReverseOrder << std::endl;
   if (m_ImageIO)
-    {       
-    os << indent << "m_ImageIO: " << m_ImageIO << "\n";
+    {
+    os << indent << "ImageIO: \n";
+    m_ImageIO->Print(os, indent.GetNextIndent());
     }
   else
     {
-    os << indent << "m_ImageIO: (null)" << "\n";
+    os << indent << "ImageIO: (null)" << "\n";
     }
 }
 
@@ -123,6 +124,19 @@ void ImageSeriesReader<TOutputImage>
     
     SizeType dimSize = reader1->GetOutput()->GetLargestPossibleRegion().GetSize();
     m_NumberOfDimensionsInImage = reader1->GetImageIO()->GetNumberOfDimensions();
+    // collapse the number of dimensions in image if any of the last
+    // dimensions are one
+    for (i = m_NumberOfDimensionsInImage-1; i >= 0; --i)
+      {
+      if (dimSize[i] == 1)
+        {
+        m_NumberOfDimensionsInImage--;
+        }
+      else
+        {
+        break;
+        }
+      }
     dimSize[m_NumberOfDimensionsInImage] = m_FileNames.size();
 
     float spacing[TOutputImage::ImageDimension];
