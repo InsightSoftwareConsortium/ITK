@@ -42,7 +42,7 @@ public:
    * Constructor and copy constructor.  Note that these functions will be
    * called when children are instantiated.
    */
-  ExceptionObject() { };
+  ExceptionObject() {m_Location = ""; m_Description = ""; };
 
   /**
    * Virtual destructor needed 
