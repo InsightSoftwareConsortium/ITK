@@ -101,7 +101,7 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
   itk::Point<double,3> center;
   center[0] = (double)region.GetSize()[0]/2.0;
   center[1] = (double)region.GetSize()[1]/2.0;
-  center[2] = (double)region.GetSize()[2]/2,0;
+  center[2] = (double)region.GetSize()[2]/2.0;
 
   itk::Point<double,3>  p;
   itk::Vector<double,3> d;
