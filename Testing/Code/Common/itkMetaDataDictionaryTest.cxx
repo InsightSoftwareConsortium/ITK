@@ -170,36 +170,55 @@ int itkMetaDataDictionaryTest(int , char * [])
 
 
   std::cout << "Exercise the Iterator access" << std::endl;
-  {
+  try
+    {
     itk::MetaDataDictionary::Iterator itr = MyDictionary.Begin();
     itk::MetaDataDictionary::Iterator end = MyDictionary.End();
 
     while( itr != end )
-    {
+      {
       std::cout << "Key   = " << itr->first << std::endl;
       std::cout << "Value = ";
       itr->second->Print( std::cout );
       std::cout << std::endl;
       ++itr;
+      }
     }
-  }
+  catch( itk::ExceptionObject  & excp )
+    {
+    std::cerr << "Exception Thrown." << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
   std::cout << "Exercise the const Iterator access" << std::endl;
-  {
+  try
+    {
     const itk::MetaDataDictionary & MyConstDictionary = MyDictionary;
     itk::MetaDataDictionary::ConstIterator itr = MyConstDictionary.Begin();
     itk::MetaDataDictionary::ConstIterator end = MyConstDictionary.End();
 
     while( itr != end )
-    {
+      {
       std::cout << "Key   = " << itr->first << std::endl;
       std::cout << "Value = ";
       itr->second->Print( std::cout );
       std::cout << std::endl;
       ++itr;
+      }
     }
-  }
+  catch( itk::ExceptionObject  & excp )
+    {
+    std::cerr << "Exception Thrown." << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
 
   //NOTE: Must clean up memory allocated with char * StrandedMemory=new char[2345];
   delete [] StrandedMemory;
-  return 0;
+
+  return EXIT_SUCCESS;
+
 }
