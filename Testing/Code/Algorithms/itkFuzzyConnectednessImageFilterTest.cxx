@@ -64,6 +64,7 @@ const unsigned short TestingImage [400]={
 
 
 int main(){
+        int i, j;
 	typedef itk::Image<bool,2> BinaryImage2D;
 	typedef itk::Image<unsigned short,2> UShortImage2D;
 	typedef itk::FuzzyConnectednessImageFilter<UShortImage2D,BinaryImage2D> FuzzyUShort;
@@ -103,8 +104,8 @@ int main(){
 /* print the input image */	
 	std::cout<<"The Input Image"<<std::endl;
 	it.Begin();
-	for(int i = 0;i < HEIGHT; i++){
-		for (int j = 0; j < WIDTH; j++){
+	for(i = 0;i < HEIGHT; i++){
+		for (j = 0; j < WIDTH; j++){
 		std::cout << std::setw(4) << it.Get()<<" ";
 			++it;
 			}
@@ -130,8 +131,8 @@ int main(){
 	itk::SimpleImageRegionIterator <BinaryImage2D> ot(testFuzzy->GetOutput(), region);
 
 	ot.Begin();
-	for(int i = 0;i < HEIGHT; i++){
-		for (int j = 0; j < WIDTH; j++){
+	for(i = 0;i < HEIGHT; i++){
+		for (j = 0; j < WIDTH; j++){
 			std::cout<<ot.Get();
 			++ot;
 			}
