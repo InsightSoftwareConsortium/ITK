@@ -17,9 +17,10 @@
 #ifndef __itkMRIBiasFieldCorrectionFilter_h
 #define __itkMRIBiasFieldCorrectionFilter_h
 
+#include <ctime>
+
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
-
 #include "itkMRASlabIdentifier.h"
 #include "itkCompositeValleyFunction.h"
 #include "itkMultivariateLegendrePolynomial.h"
@@ -27,7 +28,7 @@
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkArray.h"
 #include "itkImageRegionConstIterator.h"
-
+#include "itkImageRegionIterator.h"
 
 namespace itk
 {
@@ -81,12 +82,14 @@ public:
   /** The cost value type. */
   typedef Superclass::MeasureType       MeasureType;
 
-  /** Not used, but expected by SingleValuedNonLinearOptimizer class. */
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
 
   /** The type of the internal energy function. */
   typedef CompositeValleyFunction InternalEnergyFunction ;
 
+  /** The type of the sampling factors */
+  typedef unsigned int SamplingFactorType[SpaceDimension];
+  
   /** Specify the input image. */
   itkSetObjectMacro( Image, ImageType );
 
@@ -100,6 +103,10 @@ public:
   void SetBiasField(BiasFieldType* bias)
   { m_BiasField = bias ; }
 
+  /** Sets the sampling factors of the energy function in each direction. Default is 1 in each dimension */
+  void SetSamplingFactors(SamplingFactorType factor)
+  { for (int i = 0; i < SpaceDimension; i++) m_SamplingFactor[i] = factor[i]; }
+  
   /** Get an energy value for the intensity difference between a pixel
    * and its corresponding bias. */
   double GetEnergy0(double diff) 
@@ -140,6 +147,9 @@ private:
   /** Internal energy function object pointer. */
   InternalEnergyFunction* m_InternalEnergyFunction ;
 
+  /** Sampling factors */
+  SamplingFactorType m_SamplingFactor;
+  
 protected:
   /** Constructor: */
   MRIBiasEnergyFunction();
@@ -170,23 +180,35 @@ private:
  * polynomials. The 1+1 evolutionary optimizer searches for the best
  * paramters of a Legendre polynomial (bias field estimate) which
  * minimizes the total energy value of each image after bias field
- * is eleminated.
+ * is eleminated. The default Legendre polynomial degree is 3.
+ *
+ * The correction performes by default a multiplicative bias field correction
+ * by first log-transforming the input image. This log transform only
+ * works on images with grayscale values bigger than 0. The log-transform
+ * can be disabled and the filter computes an additive bias field.
  *
  * There are three major processes in the whole bias correction scheme: 
  * slab identification, inter-slice intensity correction, and 
  * actual bias correction process.
  * Users can turn on and off each process within the whole bias
- * correction scheme using SetUsingSlabIdentification(bool),
- * SetUsingInterSliceIntensityCorrection(bool), and 
- * SetUsingBiasFieldCorrection(bool) member function.
- * 
+ * correction scheme using SetUsingSlabIdentification(bool, false by default),
+ * SetUsingInterSliceIntensityCorrection(bool, true by default), and 
+ * SetUsingBiasFieldCorrection(bool, true by default) member function.
+ *
+ * Only the last process (the actual bias field correction) is implemented in a
+ * multiresolution framework (without smoothing). Default is a standard level 2
+ * multiresolution schedule (2 2 2 1 1 1)
+ *
  * The bias field correction method was initially developed 
  * and implemented by Martin Styner, Univ. of North Carolina at Chapel Hill,
  * and his colleagues.
  *
+ * The multiresolution pyramid implementation is based on
+ * itkMultiTesolutionPyramidImageFilter (without Gaussian smoothing)
+ * 
  * For more details. refer to the following articles.
  * "Parametric estimate of intensity inhomogeneities applied to MRI" 
- * Martin Styner, G. Gerig, Christian Brechbuehler, Gabor Szekely,  
+ * Martin Styner, Guido Gerig, Christian Brechbuehler, Gabor Szekely,  
  * IEEE TRANSACTIONS ON MEDICAL IMAGING; 19(3), pp. 153-165, 2000, 
  * (http://www.cs.unc.edu/~styner/docs/tmi00.pdf)
  * 
@@ -260,6 +282,9 @@ public:
   /** Optimizer type definition. */
   typedef OnePlusOneEvolutionaryOptimizer OptimizerType ;
 
+  /** ScheduleType typedef support. */
+  typedef Array2D<unsigned int>  ScheduleType;
+
   /** Set/Get the input mask image pointer
    * Without this mask, this filter calculates the energy value using
    * all pixels in the input image.  */
@@ -331,7 +356,7 @@ public:
    * used for correcting each slab. */
   void SetInitialBiasFieldCoefficients
   (const BiasFieldType::CoefficientArrayType &coefficients)
-  { m_BiasFieldCoefficients = coefficients ; }
+  { this->Modified() ; m_BiasFieldCoefficients = coefficients ; }
 
   /** Get the result bias field coefficients after the bias field
    * estimation (does not apply to the inter-slice intensity
@@ -367,6 +392,45 @@ public:
   itkSetMacro( OptimizerShrinkFactor, double );
   itkGetMacro( OptimizerShrinkFactor, double );
 
+
+  /** Set the number of multi-resolution levels. The matrix containing the
+   * schedule will be resized accordingly.  The schedule is populated with
+   * default values.  At the coarset (0) level, the shrink factors are set
+   * 2^(nlevel - 1) for all dimension. These shrink factors are halved for
+   * subsequent levels.  The number of levels is clamped to a minimum value
+   * of 1.  All shrink factors are also clamped to a minimum value of 1. */
+  void SetNumberOfLevels(unsigned int num);
+
+  /** Get the number of multi-resolution levels. */
+  itkGetMacro(NumberOfLevels, unsigned int);
+
+  /** Set a multi-resolution schedule.  The input schedule must have only
+   * ImageDimension number of columns and NumberOfLevels number of rows.  For
+   * each dimension, the shrink factor must be non-increasing with respect to
+   * subsequent levels. This function will clamp shrink factors to satisify
+   * this condition.  All shrink factors less than one will also be clamped
+   * to the value of 1. */
+  void SetSchedule( const ScheduleType& schedule );
+
+  /** Get the multi-resolution schedule. */
+  itkGetConstReferenceMacro(Schedule, ScheduleType);
+
+  /** Set the starting shrink factor for the coarset (0) resolution
+   * level. The schedule is then populated with defaults values obtained by
+   * halving the factors at the previous level.  All shrink factors are
+   * clamped to a minimum value of 1. */
+  void SetStartingShrinkFactors( unsigned int factor );
+  void SetStartingShrinkFactors( unsigned int* factors );
+
+  /** Get the starting shrink factors */
+  const unsigned int * GetStartingShrinkFactors() const;
+
+  /** Test if the schedule is downward divisible. This method returns true if
+   * at every level, the shrink factors are divisble by the shrink factors at
+   * the next level. */
+  static bool IsScheduleDownwardDivisible( const ScheduleType& schedule );
+
+  
   /** Initializes the energy function object and optimizer objects and
    * creates the internal image object copying the input image data to it.
    * Also, if the bias field is multiplicative, applies logarithm to pixel
@@ -491,6 +555,11 @@ private:
   /** The degree of the bias field estimate. */
   int m_BiasFieldDegree ;
 
+  /** The number of levels for the multires schedule */
+  unsigned int    m_NumberOfLevels;
+  /** The multires schedule */
+  ScheduleType    m_Schedule;
+  
   /** Storage for the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
   BiasFieldType::CoefficientArrayType m_BiasFieldCoefficients ;

@@ -33,20 +33,24 @@
 
 int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
 {
-  typedef itk::Image< float, 3 > ImageType ;
-  typedef itk::Image< float, 3 > MaskType ;
+  const unsigned int ImageDimension = 3;
+  typedef itk::Image< float, ImageDimension > ImageType ;
+  typedef itk::Image< float, ImageDimension > MaskType ;
   typedef itk::ImageRegionIteratorWithIndex< ImageType > ImageIteratorType ;
 
-  bool SaveImages = false ;
+  bool SaveImages = false;
   ImageType::SizeType imageSize ;
   ImageType::IndexType imageIndex ;
   ImageType::RegionType imageRegion ;
-  imageSize[0] = 30 ;
-  imageSize[1] = 30 ;
-  imageSize[2] = 10 ;
+  imageSize[0] = 60 ;
+  imageSize[1] = 60 ;
+  imageSize[2] = 30 ;
+  std::cout << "Random Test image size: " << imageSize[0] << "x" 
+       << imageSize[1] << "x" << imageSize[2] << std::endl; 
+
   imageIndex.Fill( 0 ) ;
-  float spacing[3] = {1.0, 1.0, 1.0} ;
-  float origin[3] = {0, 0, 0} ;
+  float spacing[ImageDimension] = {1.0, 1.0, 1.0} ;
+  float origin[ImageDimension] = {0, 0, 0} ;
 
   imageRegion.SetSize( imageSize ) ;
   imageRegion.SetIndex( imageIndex ) ;
@@ -82,8 +86,8 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   classMeans[0] = 10.0 ;
   classMeans[1] = 200.0 ;
 
-  classSigmas[0] = 1.0 ;
-  classSigmas[1] = 10.0 ;
+  classSigmas[0] = 10.0 ;
+  classSigmas[1] = 20.0 ;
 
   // creats a normal random variate generator
   itk::Statistics::NormalVariateGenerator::Pointer randomGenerator =
@@ -91,7 +95,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
 
   // fills the image with a sphere filled with intensity values from a
   // normal distribution. 
-  typedef itk::SphereSpatialFunction<3> SphereType;
+  typedef itk::SphereSpatialFunction<ImageDimension> SphereType;
   SphereType::Pointer sphere = SphereType::New();
 
   SphereType::InputType center;
@@ -133,11 +137,14 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   // generates the coefficients using the normal random variate generator.
   BiasFieldType::CoefficientArrayType 
     coefficients(bias.GetNumberOfCoefficients()) ;
+  BiasFieldType::CoefficientArrayType 
+    initCoefficients(bias.GetNumberOfCoefficients()) ;
 
   randomGenerator->Initialize( (int) 2003 ) ;
   for ( unsigned int i = 0 ; i < bias.GetNumberOfCoefficients() ; ++i )
     {
-    coefficients[i] = ( randomGenerator->GetVariate() + 1 ) * 0.01 ;
+    coefficients[i] = ( randomGenerator->GetVariate() + 1 ) * 0.1 ;
+    initCoefficients[i] = 0 ;
     }
   bias.SetCoefficients(coefficients) ;
 
@@ -148,10 +155,11 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
 
   BiasFieldType::SimpleForwardIterator b_iter( &bias ) ;
   i_iter.GoToBegin() ;
+  ib_iter.GoToBegin() ;
   float temp ;
   while ( !i_iter.IsAtEnd() )
     {
-    temp = i_iter.Get() * (2 + b_iter.Get()) ;
+      temp = i_iter.Get() * (2 + b_iter.Get()) ; // this is a multiplicative bias field
     ib_iter.Set( temp ) ;
     ++i_iter ;
     ++ib_iter ;
@@ -169,25 +177,46 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   // following line. 
   // filter->DebugOn() ;
 
+  double sumOfError = 0.0 ;
+  i_iter.GoToBegin() ;
+  ib_iter.GoToBegin() ;
+  while ( !i_iter.IsAtEnd() )
+    {
+    sumOfError += vnl_math_abs( ib_iter.Get() - i_iter.Get() ) ;
+    ++i_iter ;
+    ++ib_iter ;
+    }
+  std::cout << "Avg. error before correction = " 
+            << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) 
+            << std::endl ;
+
+  std::cout << "Computing bias correction without mask, 2 classes 10,10 - 200,20" << std::endl; 
   filter->SetInput( imageWithBias.GetPointer() ) ;
-  filter->IsBiasFieldMultiplicative( true ) ;
-  filter->SetBiasFieldDegree( biasDegree ) ;
+  filter->IsBiasFieldMultiplicative( true ) ; // correct with multiplicative bias 
+  filter->SetBiasFieldDegree( biasDegree ) ; // default value = 3
   filter->SetTissueClassStatistics( classMeans, classSigmas ) ;
-  filter->SetOptimizerGrowthFactor( 1.01 ) ;
-  filter->SetOptimizerInitialRadius( 1.02 ) ;
-  filter->SetVolumeCorrectionMaximumIteration( 1000 ) ;
-  filter->SetUsingInterSliceIntensityCorrection( true ) ;
-  filter->SetInterSliceCorrectionMaximumIteration( 200 ) ;
-  filter->SetUsingSlabIdentification( true ) ;
+  filter->SetOptimizerGrowthFactor( 1.01 ) ; // default value
+  filter->SetOptimizerInitialRadius( 0.02 ) ; // default value
+  filter->SetVolumeCorrectionMaximumIteration( 1000 ) ; // default value = 100
+  filter->SetUsingInterSliceIntensityCorrection( true ) ; // default value
+  filter->SetInterSliceCorrectionMaximumIteration( 200 ) ; // default value = 100
+  filter->SetUsingSlabIdentification( true ) ; // default value = false
   filter->SetSlabBackgroundMinimumThreshold( 0 ) ; // default value
   filter->SetSlabNumberOfSamples( 10 ) ; // default value 
   filter->SetSlabTolerance(0.0) ; // default value
-  filter->SetSlicingDirection( 2 ) ;
+  filter->SetSlicingDirection( 2 ) ; // default value
   filter->SetUsingBiasFieldCorrection( true ) ; // default value
   filter->SetGeneratingOutput( true ) ; // default value
-  filter->Update() ;
 
-  double sumOfError = 0.0 ;
+  filter->SetInitialBiasFieldCoefficients(initCoefficients); //default value is all zero
+
+  //timing
+  long int t1 = time(NULL);
+  filter->Update() ;
+  long int t2 = time(NULL);
+  std::cout << "Run time (in s)" << t2-t1  << std::endl ;
+
+  sumOfError = 0.0 ;
   ImageIteratorType o_iter( filter->GetOutput(), 
                             filter->GetOutput()->GetLargestPossibleRegion() );
   i_iter.GoToBegin() ;
@@ -196,15 +225,6 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
     sumOfError += vnl_math_abs( o_iter.Get() - i_iter.Get() ) ;
     ++i_iter ;
     ++o_iter ;
-    }
-
-  b_iter.Begin() ;
-  ImageIteratorType bias_iter( biasImage.GetPointer(), imageRegion ) ;
-  while ( !b_iter.IsAtEnd() )
-    {
-    bias_iter.Set( b_iter.Get() + 2 ) ;
-    ++b_iter ;
-    ++bias_iter ;
     }
 
   if ( SaveImages )
@@ -226,20 +246,22 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
     writer3->SetFileName( "MRICorrected.mhd" ) ;
     writer3->Update() ;
   
-    WriterType::Pointer writer4 = WriterType::New() ;
-    writer4->SetInput( biasImage ) ;
-    writer4->SetFileName( "MRIBias.mhd" ) ;
-    writer4->Update() ;
     }
 
   std::cout << "Avg. error without input and output mask = " 
             << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) 
             << std::endl ;
 
+  std::cout << "Computing bias correction with mask" << std::endl;
   filter->SetInput( imageWithBias.GetPointer() ) ;
   filter->SetInputMask( image.GetPointer() ) ;
   filter->SetOutputMask( image.GetPointer() ) ;
+  filter->SetInitialBiasFieldCoefficients(initCoefficients);
+  filter->SetOptimizerInitialRadius( 0.02 ) ; // default value 
+  t1 = time(NULL);
   filter->Update() ;
+  t2 = time(NULL);
+  std::cout << "Run time (in s)" << t2-t1  << std::endl ;
 
   sumOfError = 0.0 ;
   ImageIteratorType o2_iter( filter->GetOutput(), 
@@ -252,13 +274,60 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
     ++o2_iter ;
     }
 
-  b_iter.Begin() ;
-  ImageIteratorType bias2_iter( biasImage.GetPointer(), imageRegion ) ;
-  while ( !b_iter.IsAtEnd() )
+  std::cout << "Avg. error with input and output mask = " 
+            << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) 
+            << std::endl ;
+
+  // default schedule is 2 2 2 - 1 1 1, let's change this
+  std::cout << "Computing bias correction only with 2,2,2 resolution" << std::endl;
+  FilterType::ScheduleType schedule ( 1, ImageDimension) ;
+  schedule.Fill( 2 );
+  filter->SetNumberOfLevels( 1 ) ; // Important to set this first, otherwise the filter rejects the new schedule
+  filter->SetSchedule( schedule ) ;
+  filter->SetInitialBiasFieldCoefficients(initCoefficients); 
+  filter->SetOptimizerInitialRadius( 0.02 ) ; // default value
+  t1 = time(NULL);
+  filter->Update() ;
+  t2 = time(NULL);
+  std::cout << "Run time (in s)" << t2-t1  << std::endl ;
+
+  sumOfError = 0.0 ;
+  ImageIteratorType o3_iter( filter->GetOutput(), 
+                             filter->GetOutput()->GetLargestPossibleRegion() );
+  i_iter.GoToBegin() ;
+  while ( !i_iter.IsAtEnd() )
     {
-    bias2_iter.Set( b_iter.Get() + 2 ) ;
-    ++b_iter ;
-    ++bias2_iter ;
+    sumOfError += vnl_math_abs( o3_iter.Get() - i_iter.Get() ) ;
+    ++i_iter ;
+    ++o3_iter ;
+    }
+
+  std::cout << "Avg. error with input and output mask = " 
+            << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) 
+            << std::endl ;
+
+  std::cout << "Computing bias correction only with 4,4,4 resolution & no interSlice/Slab" << std::endl;
+  filter->SetUsingInterSliceIntensityCorrection( false ) ; // default value
+  filter->SetUsingSlabIdentification( false ) ; // default value = false
+  schedule.Fill( 4 );
+  filter->SetNumberOfLevels( 1 ) ; 
+  filter->SetOptimizerInitialRadius( 0.02 ) ; // default value
+  filter->SetSchedule( schedule ) ;
+  filter->SetInitialBiasFieldCoefficients(initCoefficients); 
+  t1 = time(NULL);
+  filter->Update() ;
+  t2 = time(NULL);
+  std::cout << "Run time (in s)" << t2-t1  << std::endl ;
+
+  sumOfError = 0.0 ;
+  ImageIteratorType o4_iter( filter->GetOutput(), 
+                             filter->GetOutput()->GetLargestPossibleRegion() );
+  i_iter.GoToBegin() ;
+  while ( !i_iter.IsAtEnd() )
+    {
+    sumOfError += vnl_math_abs( o4_iter.Get() - i_iter.Get() ) ;
+    ++i_iter ;
+    ++o4_iter ;
     }
 
   std::cout << "Avg. error with input and output mask = " 
