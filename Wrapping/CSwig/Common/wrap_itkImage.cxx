@@ -31,13 +31,18 @@ namespace _cable_
     ITK_WRAP_OBJECT2(Image, float, 3, itkImageF3);
     ITK_WRAP_OBJECT2(Image, unsigned short, 2, itkImageUS2);
     ITK_WRAP_OBJECT2(Image, unsigned short, 3, itkImageUS3);
+    ITK_WRAP_OBJECT2(Image, unsigned char, 2, itkImageUC2);
+    ITK_WRAP_OBJECT2(Image, unsigned char, 3, itkImageUC3);
     
     typedef image::F2::PixelContainer::Self itkImageF_PixelContainer;
     typedef image::US2::PixelContainer::Self itkImageUS_PixelContainer;
+    typedef image::UC2::PixelContainer::Self itkImageUC_PixelContainer;
     typedef itkImageF_PixelContainer::Pointer::SmartPointer 
     itkImageF_PixelContainer_Pointer;
     typedef itkImageUS_PixelContainer::Pointer::SmartPointer 
     itkImageUS_PixelContainer_Pointer;
+    typedef itkImageUC_PixelContainer::Pointer::SmartPointer 
+    itkImageUC_PixelContainer_Pointer;
   }
 }
 

@@ -52,6 +52,10 @@ namespace _cable_
                        itkImageToImageFilterF2UC2);
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::US2, image::UC2,
                        itkImageToImageFilterUS2UC2);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::F3, image::UC3,
+                       itkImageToImageFilterF3UC3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::US3, image::UC3,
+                       itkImageToImageFilterUS3UC3);
   }
 }
 #endif
