@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkIterativeInverseDeformationFieldImageFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
 #ifndef __itkIterativeInverseDeformationFieldImageFilter_h
 #define __itkIterativeInverseDeformationFieldImageFilter_h
 
@@ -10,8 +27,32 @@
 #include "itkTimeProbe.h"
 
 
-namespace itk{
-  
+
+namespace itk
+{
+ 
+/** \class IterativeInverseDeformationFieldImageFilter
+ * \brief Computes the inverse of a deformation field.
+ *
+ * IterativeInverseDeformationFieldImageFilter takes a deformation field as input and
+ * computes the deformation field that is its inverse. If the input deformation
+ * field was mapping coordinates from a space A into a space B, the output of
+ * this filter will map coordinates from the space B into the space A.
+ * 
+ * The algorithm implemented in this filter uses an iterative method for
+ * progresively refining the values of the inverse field. Starting from the
+ * direct field, at every pixel the direct mapping of this point is found, and
+ * a the nevative of the current deformation is stored in the inverse field at
+ * the nearest pixel. Then, subsequent iterations verify if any of the neigbor pixels
+ * provide a better return to the current pixel, in which case its value is taken for
+ * updating the vector in the inverse field.
+ *
+ * This method was discussed in the users-list during February 2004.
+ *
+ * \author  Corinne Mattmann
+ *
+ */
+
   template < class TInputImage, class TOutputImage >
   class ITK_EXPORT IterativeInverseDeformationFieldImageFilter :
   public ImageToImageFilter<TInputImage,TOutputImage> 
@@ -92,3 +133,4 @@ namespace itk{
 #include "itkIterativeInverseDeformationFieldImageFilter.txx"
 
 #endif
+
