@@ -60,7 +60,7 @@ namespace itk
  * More parameters are added to make the sphere mesh has global and local
  * deform ability.
  */
-template <typename TOutputMesh>
+template <class TOutputMesh>
 class ITK_EXPORT SphereSource : public MeshSource<TOutputMesh>
 {
 public:
@@ -77,6 +77,7 @@ public:
   itkTypeMacro(SphereSource, MeshSource);
 
   /** Hold on to the type information specified by the template parameters. */
+  typedef TOutputMesh OutputMeshType;
   typedef typename OutputMeshType::MeshTraits   OMeshTraits;
   typedef typename OutputMeshType::PointType    OPointType;
   typedef typename OMeshTraits::PixelType       OPixelType;  
