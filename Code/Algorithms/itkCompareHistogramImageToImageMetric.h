@@ -94,11 +94,11 @@ public HistogramImageToImageMetric<TFixedImage, TMovingImage>
   typedef typename HistogramType::Iterator              HistogramIteratorType;
   typedef typename HistogramType::Pointer               HistogramPointerType;
 
-  typedef typename Superclass::Superclass::InterpolatorType InterpolatorType;
-  typedef typename Superclass::Superclass::InterpolatorPointer 
+  typedef typename Superclass::InterpolatorType InterpolatorType;
+  typedef typename Superclass::InterpolatorPointer 
     InterpolatorPointer;
 
-  typedef typename Superclass::Superclass::FixedImageRegionType 
+  typedef typename Superclass::FixedImageRegionType 
     FixedImageRegionType;
 
   /** Set the histogram to be used in the metric calculation */
