@@ -175,23 +175,8 @@ private:
 }; //class TranslationTransform
 
 
-/**
- * Print the matrix and offset of an TranslationTransform
- *
- * This method prints the matrix and offset of the
- * TranslationTransform as an n x (n+1) matrix, with the
- * offset as the last column.  This is the same as
- * the conventional homogeneous coordinate representation,
- * except that the last row is omitted.
- **/
-template<class ScalarType, unsigned int NDimensions>
-inline
-std::ostream &
-operator<< (std::ostream &s, TranslationTransform<ScalarType, NDimensions> &affine)
-{
-    return affine.PrintSelf(s);
-}
 
+  
 
 }  // namespace itk
 

@@ -189,6 +189,7 @@ TranslationTransform<ScalarType, NDimensions>
 TranslationTransform<ScalarType, NDimensions>::
 Inverse()
 {
+  Self result;
   result.m_Offset   = - m_Offset;
   return result;
 }
