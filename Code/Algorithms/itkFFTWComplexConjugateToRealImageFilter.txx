@@ -17,6 +17,7 @@
 #ifndef _itkFFTWComplexConjugateToRealImageFilter_txx
 #define _itkFFTWComplexConjugateToRealImageFilter_txx
 
+#ifdef USE_FFTW
 #include "itkFFTWComplexConjugateToRealImageFilter.h"
 #include <iostream>
 #include "itkIndent.h"
@@ -156,6 +157,5 @@ PrintSelf(std::ostream& os,Indent indent) const
 {
 }
 }
-#include "itkFFTWComplexConjugateToRealImageFilter.h"
-
+#endif
 #endif

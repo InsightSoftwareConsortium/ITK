@@ -17,6 +17,7 @@
 #ifndef _itkSCSLComplexConjugateToRealImageFilter_txx
 #define _itkSCSLComplexConjugateToRealImageFilter_txx
 
+#ifdef USE_SCSL
 #include "itkSCSLComplexConjugateToRealImageFilter.h"
 #include <iostream>
 #include "itkIndent.h"
@@ -300,5 +301,5 @@ PrintSelf(std::ostream& os,Indent indent) const
 {
 }
 }
-
+#endif
 #endif
