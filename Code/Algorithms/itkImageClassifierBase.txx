@@ -74,8 +74,9 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
 ::Classify()
 {
 
+  ClassifiedImagePointer  classifiedImage = this->GetClassifiedImage();
   //Check if the an output buffer has been allocated
-  if( this->GetClassifiedImage() == NULL )
+  if( !classifiedImage )
     {
     this->Allocate();
 
@@ -92,7 +93,7 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the classified image
   //--------------------------------------------------------------------
-  ClassifiedImagePointer  classifiedImage = this->GetClassifiedImage();
+  classifiedImage = this->GetClassifiedImage();
 
   ClassifiedImageIterator 
     classifiedIt( classifiedImage, classifiedImage->GetBufferedRegion() );
