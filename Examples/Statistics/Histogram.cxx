@@ -47,9 +47,6 @@
 
 int main() 
 {
-  bool pass = true;
-  std::string whereFail = "" ;
-  
   // Software Guide : BeginLatex
   // Here we create a \code{Histogram} object with 2-component measurement vectors.
   // Software Guide : EndLatex 
@@ -67,7 +64,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   HistogramType::SizeType size ;
   size.Fill(3) ;
-  unsigned long totalSize = size[0] * size[1] ;
   HistogramType::MeasurementVectorType lowerBound ;
   HistogramType::MeasurementVectorType upperBound ;
   lowerBound[0] = 1.1 ;
@@ -76,9 +72,6 @@ int main()
   upperBound[1] = 8.6 ;
 
   histogram->Initialize(size, lowerBound, upperBound ) ;
-  HistogramType::MeasurementType interval = 
-    (upperBound[0] - lowerBound[0]) / 
-    static_cast< HistogramType::MeasurementType >(size[0]) ;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

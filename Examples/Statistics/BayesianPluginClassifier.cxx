@@ -286,7 +286,6 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   std::vector< MembershipFunctionType::Pointer > membershipFunctions ;
-  int index = 0 ;
   for ( unsigned int i = 0 ; i < 2 ; i++ ) 
     {
     membershipFunctions.push_back(MembershipFunctionType::New()) ;
