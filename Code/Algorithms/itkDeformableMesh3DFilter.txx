@@ -35,6 +35,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   m_StepThreshold = 0;
   m_PotentialOn = 0;
   m_K = 0;
+  m_ObjectLabel = 0;
   m_Scale.Fill( 1.0 );
   m_Center.Fill( 0 );
   m_Resolution.Fill( 1 );
@@ -65,9 +66,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "NormalUpdate = "
-     << static_cast<typename NumericTraits<char>::PrintType>(m_NormalUpdate)
-     << std::endl;
   os << indent << "Stiffness = " << m_Stiffness;
   os << indent << "PotentialMagnitude = "
      << static_cast<typename NumericTraits<PixelType>::PrintType>(m_PotentialMagnitude)

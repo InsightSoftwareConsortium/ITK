@@ -141,9 +141,6 @@ public:
   itkSetMacro(TimeStep, double);
   itkGetMacro(TimeStep, double);
 
-  itkSetMacro(NormalUpdate, unsigned char);
-  itkGetMacro(NormalUpdate, unsigned char);
-
   itkSetMacro(Center, ImageIndexType);
 
   itkSetMacro(Scale, double3DVector);
@@ -204,7 +201,6 @@ private:
   unsigned short m_ModelZUpLimit;
   unsigned short m_ModelZDownLimit;
   unsigned short m_PotentialOn;
-  unsigned char  m_NormalUpdate;
   unsigned char  m_ObjectLabel;
   PixelType      m_GradientMagnitude;
   PixelType      m_PotentialMagnitude;
