@@ -105,20 +105,19 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // The only further changes from the previous example are in the main loop.
-// Once again we use the face calculator and the inner product function object,
-// and we reinitialize the iterators for each region that is processed.  But
-// for separable convolution, we now have one pass through the image for each
-// dimension and, therefore, an outer loop which surrounds the main processing
-// loop.  Note how the input and output buffers are swapped at each iteration.
-// The output of the previous iteration becomes the input for the current
-// iteration. The swap is not performed on the last iteration.
+// Once again we use the results from face calculator to construct a loop that
+// processes boundary and non-boundary image regions separately.  Separable
+// convolution, however, requires an additional, outer loop over all the image
+// dimensions.  The direction of the Gaussian operator is reset at each
+// iteration of the outer loop using the new dimension.  The iterators change
+// direction to match because they are initialized with the radius of the
+// Gaussian operator.
 //
-// The Gaussian operator is reinitialized at each iteration of the outer loop
-// using the new direction.  The iterators change direction to match because they
-// are initialized with the radius of the Gaussian operator.
-// 
+// Input and output buffers are swapped at each iteration so that the output of
+// the previous iteration becomes the input for the current iteration. The swap
+// is not performed on the last iteration.
+//
 // Software Guide : EndLatex
-
 
 // Software Guide : BeginCodeSnippet 
   ImageType::Pointer input = reader->GetOutput();
@@ -167,7 +166,7 @@ int main( int argc, char ** argv )
 // \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4c.eps}
 // \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4d.eps}
 // \itkcaption[Gaussian blurring by convolution filtering]{Results of
-// convolution filtering with a Guassian kernel of increasing standard
+// convolution filtering with a Gaussian kernel of increasing standard
 // deviation $\sigma$.  From left to right, $\sigma = 0$, $\sigma = 1$, $\sigma
 // = 2$, $\sigma = 5$}
 // \protect\label{fig:NeighborhoodExample4}
