@@ -116,29 +116,29 @@ namespace itk
       }
   }
 
-  int IOCommon
-  ::Strucmp(const char *s1, const char *s2)
-  {
-    char* s1_up = new char[strlen(s1)+1];
-    char* s2_up = new char[strlen(s2)+1];
-    int i;
+//   int IOCommon
+//   ::Strucmp(const char *s1, const char *s2)
+//   {
+//     char* s1_up = new char[strlen(s1)+1];
+//     char* s2_up = new char[strlen(s2)+1];
+//     int i;
 
-    strcpy(s1_up, s1);
-    strcpy(s2_up, s2);
+//     strcpy(s1_up, s1);
+//     strcpy(s2_up, s2);
 
-    for (i = 0; s1_up[i]; i++)
-      {
-        s1_up[i] = islower(s1_up[i]) ? toupper(s1_up[i]) : s1_up[i];
-      }
-    for (i = 0; s2_up[i]; i++)
-      {
-        s2_up[i] = islower(s2_up[i]) ? toupper(s2_up[i]) : s2_up[i];
-      }
-    int rc = strcmp(s1_up, s2_up);
-    delete [] s1_up;
-    delete [] s2_up;
-    return rc;
-  }
+//     for (i = 0; s1_up[i]; i++)
+//       {
+//         s1_up[i] = islower(s1_up[i]) ? toupper(s1_up[i]) : s1_up[i];
+//       }
+//     for (i = 0; s2_up[i]; i++)
+//       {
+//         s2_up[i] = islower(s2_up[i]) ? toupper(s2_up[i]) : s2_up[i];
+//       }
+//     int rc = strcmp(s1_up, s2_up);
+//     delete [] s1_up;
+//     delete [] s2_up;
+//     return rc;
+//   }
 
   char* IOCommon
   ::ExtractFileName (const char* fileName)
@@ -222,72 +222,72 @@ namespace itk
     return fPath;
   }
 
-  // return true if the file exists
-  bool IOCommon
-  ::FileExists(const char* filename)
-  {
-    struct stat fs;
-    if (stat(filename, &fs) != 0) 
-      {
-        return false;
-      }
-    else
-      {
-        return true;
-      }
-  }
-  // return size of file; also returns zero if no file exists
-  unsigned long IOCommon
-  ::FileLength(const char* filename)
-  {
-    struct stat fs;
-    if (stat(filename, &fs) != 0) 
-      {
-        return 0;
-      }
-    else
-      {
-        return fs.st_size;
-      }
-  }
+//   // return true if the file exists
+//   bool IOCommon
+//   ::FileExists(const char* filename)
+//   {
+//     struct stat fs;
+//     if (stat(filename, &fs) != 0) 
+//       {
+//         return false;
+//       }
+//     else
+//       {
+//         return true;
+//       }
+//   }
+//   // return size of file; also returns zero if no file exists
+//   unsigned long IOCommon
+//   ::FileLength(const char* filename)
+//   {
+//     struct stat fs;
+//     if (stat(filename, &fs) != 0) 
+//       {
+//         return 0;
+//       }
+//     else
+//       {
+//         return fs.st_size;
+//       }
+//   }
 
-  char *IOCommon
-  ::RealPath(const char *path, char *resolved_path)
-  {
-#if defined(_WIN32)
-    char pathpart[itk::IOCommon::ITK_MAXPATHLEN];
-    strcpy(pathpart,path);
-    char fnamepart[itk::IOCommon::ITK_MAXPATHLEN];
-    char *slash;
+//   char *IOCommon
+//   ::RealPath(const char *path, char *resolved_path)
+//   {
+// #if defined(_WIN32)
+//     char pathpart[itk::IOCommon::ITK_MAXPATHLEN];
+//     strcpy(pathpart,path);
+//     char fnamepart[itk::IOCommon::ITK_MAXPATHLEN];
+//     char *slash;
 
-    if((slash = strrchr(pathpart,'/')) == NULL)
-      {
-        slash = strrchr(pathpart,'\\');
-      }
+//     if((slash = strrchr(pathpart,'/')) == NULL)
+//       {
+//         slash = strrchr(pathpart,'\\');
+//       }
 
-    if(slash == NULL) // no path part, so just use current dir.
-      {
-        Getcwd(pathpart,sizeof(pathpart));
-        strcpy(fnamepart,path);
-      } 
-    else // change directory to path part, getcwd to find OS resolved path
-      {
-        *slash = '\0';
-        strcpy(fnamepart,slash+1);
+//     if(slash == NULL) // no path part, so just use current dir.
+//       {
+//         Getcwd(pathpart,sizeof(pathpart));
+//         strcpy(fnamepart,path);
+//       } 
+//     else // change directory to path part, getcwd to find OS resolved path
+//       {
+//         *slash = '\0';
+//         strcpy(fnamepart,slash+1);
 
-        char savedir[itk::IOCommon::ITK_MAXPATHLEN];
-        Getcwd(savedir,sizeof(savedir));
-        Chdir(pathpart);
-        Getcwd(pathpart,sizeof(pathpart));
-        Chdir(savedir);
-      }
-    strcpy(resolved_path,pathpart);
-    strcat(resolved_path,"/");
-    strcat(resolved_path,fnamepart);
-    return resolved_path;
-#else
-    return realpath(path,resolved_path);
-#endif
-  }
+//         char savedir[itk::IOCommon::ITK_MAXPATHLEN];
+//         Getcwd(savedir,sizeof(savedir));
+//         Chdir(pathpart);
+//         Getcwd(pathpart,sizeof(pathpart));
+//         Chdir(savedir);
+//       }
+//     strcpy(resolved_path,pathpart);
+//     strcat(resolved_path,"/");
+//     strcat(resolved_path,fnamepart);
+//     return resolved_path;
+// #else
+//     return realpath(path,resolved_path);
+// #endif
+//   }
 
 } // namespace itk

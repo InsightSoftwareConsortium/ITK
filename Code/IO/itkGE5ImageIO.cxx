@@ -17,6 +17,7 @@
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkDirectory.h"
+#include <itkkwsys/SystemTools.hxx>
 #include <iostream>
 #include <fstream>
 #include <string.h>
@@ -51,13 +52,13 @@ static const char GE_PROD_STR[]="SIGNA";
   {
     //
     // Does it exist?
-    if(!itk::IOCommon::FileExists(imageFileTemplate))
+    if(!itkkwsys::SystemTools::FileExists(imageFileTemplate))
       {
   return -1;
       }
     //
     // is it at least 5000 bytes?
-    if(itk::IOCommon::FileLength(imageFileTemplate) < 5000)
+    if(itkkwsys::SystemTools::FileLength(imageFileTemplate) < 5000)
       {
   return -1;
       }
@@ -317,7 +318,7 @@ static const char GE_PROD_STR[]="SIGNA";
       }
     else
       {
-        curImage->offset = itk::IOCommon::FileLength(FileNameToRead) - (curImage->imageXsize * curImage->imageYsize * 2);
+        curImage->offset = itkkwsys::SystemTools::FileLength(FileNameToRead) - (curImage->imageXsize * curImage->imageYsize * 2);
       }
 
     strncpy (curImage->filename,FileNameToRead, IOCommon::ITK_MAXPATHLEN+1);

@@ -21,6 +21,7 @@
 //#include "idbm_hdr_def.h"
 #include "itkMvtSunf.h"
 #include "itkDirectory.h"
+#include <itkkwsys/SystemTools.hxx>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -315,7 +316,7 @@ namespace itk
       //    hdr->offset = statBuf.st_size - (hdr->imageXsize * hdr->imageYsize * 2);
       //
       // find file length in line ...
-      unsigned long file_length = itk::IOCommon::FileLength(FileNameToRead);
+      unsigned long file_length = itkkwsys::SystemTools::FileLength(FileNameToRead);
 
     hdr->offset = file_length -
       (hdr->imageXsize * hdr->imageYsize * 2);

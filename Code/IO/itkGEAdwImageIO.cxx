@@ -15,12 +15,11 @@
   =========================================================================*/
 #include "itkGEAdwImageIO.h"
 #include "itkIOCommon.h"
+#include <itkkwsys/SystemTools.hxx>
 
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkGEImageHeader.h"
-//#include "idbm_hdr_def.h"
-#include "itkMvtSunf.h"
 #include "itkDirectory.h"
 #include <iostream>
 #include <fstream>
@@ -77,7 +76,7 @@ namespace itk
 
     imageSize = varHdrSize + GE_ADW_FIXED_HDR_LENGTH + (matrixX * matrixY * sizeof(short));
 
-    if ( imageSize != itk::IOCommon::FileLength(FileNameToRead) )
+    if ( imageSize != itkkwsys::SystemTools::FileLength(FileNameToRead) )
       {
   return false;
       }

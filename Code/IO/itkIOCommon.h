@@ -20,21 +20,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkIntTypes.h"
 #include "itkProcessObject.h"
 #include "itkObjectFactory.h"
-#include <sys/stat.h>
-#include <string>
-#ifdef MAXPATHLEN
-#undef MAXPATHLEN
-#endif
-#if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
-#include <string.h>
-#include <windows.h>
-#include <direct.h>
-#define _unlink unlink
-#else
-#include <sys/types.h>
-#include <unistd.h>
-#include <fcntl.h>
-#endif
 
 namespace itk
 {
@@ -98,11 +83,6 @@ namespace itk
       /** Calculate the size, in bytes, that the atomic pixel type occupies. */
       static unsigned int ComputeSizeOfAtomicPixelType(const AtomicPixelType pixelType);
 
-      /** Cross-platform case-insensitive string comparison
-       * (MSVC++ doesn't provide strucmp, so necessary to define our own
-       * This function taken from /usr/Image library developed at UNC. */
-      static int Strucmp(const char *s1, const char *s2);
-
       /** Given a full filename, extracts just the pathname. */
       static char* ExtractFilePath (const char* fileName);
 
@@ -116,47 +96,6 @@ namespace itk
        * return true if it does. */
       static bool FileExists(const char* filename);
 
-      /** Given a filename determine how large it is
-       * \author Kent Williams
-       * \param filename The name of the file to check
-       * \return Returns the size of the file in bytes
-       * \ it will return zero for non-existant files as well;
-       * \ so it's important to check existence separately
-       */
-      static unsigned long FileLength(const char* filename);
-      static char *RealPath(const char *path, char *resolved_path);
-      // CODE STOLEN STRAIGHT FROM CMAKE
-#if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
-      static inline int Mkdir(const char* dir)
-        {
-          return _mkdir(dir);
-        }
-      static inline const char* Getcwd(char* buf, unsigned int len)
-        {
-          return _getcwd(buf, len);
-        }
-      static inline int Chdir(const char* dir)
-        {
-#if defined(__BORLANDC__)
-          return chdir(dir);
-#else
-          return _chdir(dir);
-#endif
-        }
-#else
-      static inline int Mkdir(const char* dir)
-        {
-          return mkdir(dir, 00777);
-        }
-      static inline const char* Getcwd(char* buf, unsigned int len)
-        {
-          return getcwd(buf, len);
-        }
-      static inline int Chdir(const char* dir)
-        {
-          return chdir(dir);
-        }
-#endif
 };
   
 

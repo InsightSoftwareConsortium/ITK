@@ -15,7 +15,7 @@
   =========================================================================*/
 #include "itkSiemensVisionImageIO.h"
 #include "itkIOCommon.h"
-
+#include <itkkwsys/SystemTools.hxx>
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkGEImageHeader.h"
@@ -62,7 +62,7 @@ namespace itk
       return false;
 
     if((HDR_TOTAL_LENGTH + (matrixX * matrixX * 2)) !=
-       (int)itk::IOCommon::FileLength(FileNameToRead))
+       (int)itkkwsys::SystemTools::FileLength(FileNameToRead))
       return false;
 
     return true;

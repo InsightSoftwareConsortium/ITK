@@ -13,6 +13,7 @@
   PURPOSE.  See the above copyright notices for more information.
 
   =========================================================================*/
+#include <itkkwsys/SystemTools.hxx>
 #include "itkIOCommon.h"
 #include "itkIPLCommonImageIO.h"
 #include "itkExceptionObject.h"
@@ -168,7 +169,8 @@ namespace itk
     // GE images are stored in separate files per slice.
     char imagePath[IOCommon::ITK_MAXPATHLEN+1];
     char imageMask[IOCommon::ITK_MAXPATHLEN+1];
-    if(IOCommon::RealPath(FileNameToRead.c_str(),imagePath) == NULL)
+    if(itkkwsys::SystemTools::RealPath(FileNameToRead.c_str(),imagePath)
+       == NULL)
       RAISE_EXCEPTION();
     strcpy(imageMask,imagePath);
     char *lastslash = strrchr(imagePath,'/');
