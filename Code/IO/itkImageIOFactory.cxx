@@ -95,13 +95,13 @@ ImageIOFactory::RegisterBuiltInFactories()
   MutexLockHolder<SimpleMutexLock> mutexHolder( mutex );
   if( firstTime )
     {
-    ObjectFactoryBase::RegisterFactory( DicomImageIOFactory::New() ); 
     ObjectFactoryBase::RegisterFactory( MetaImageIOFactory::New() ); 
     ObjectFactoryBase::RegisterFactory( PNGImageIOFactory::New() ); 
     ObjectFactoryBase::RegisterFactory( VTKImageIOFactory::New() ); 
     ObjectFactoryBase::RegisterFactory( GiplImageIOFactory::New() ); 
     ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New());
+    ObjectFactoryBase::RegisterFactory( DicomImageIOFactory::New() ); 
     firstTime = false;
     }
   }
