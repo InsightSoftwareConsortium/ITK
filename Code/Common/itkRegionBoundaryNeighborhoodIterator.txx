@@ -17,18 +17,22 @@
 #define _itkRegionBoundaryNeighborhoodIterator_txx
 namespace itk {
 
-template<class TImage, class TAllocator, class TDerefAllocator>
+template<class TImage, class TAllocator, class TBoundaryCondition,
+    class TDerefAllocator>
 void
-RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator>
 ::SetBound(const SizeType& size)
 {
   Superclass::SetBound(size);
   m_InnerStride = (m_Bound[0] - m_StartIndex[0]) - 2*this->GetRadius(0);
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
+template<class TImage, class TAllocator, class TBoundaryCondition,
+    class TDerefAllocator>
 const NeighborhoodIterator<TImage, TAllocator, TDerefAllocator> &
-RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator>
 ::operator++()
 {
   unsigned int i;
@@ -83,9 +87,11 @@ RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   return *this; 
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
+template<class TImage, class TAllocator, class TBoundaryCondition,
+  class TDerefAllocator>
 const NeighborhoodIterator<TImage, TAllocator, TDerefAllocator> &
-RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator>
 ::operator--()
 {
   unsigned int i;
@@ -117,12 +123,8 @@ RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
             {
               m_Loop[0] -= m_InnerStride;
             }
-          else
-            {
-              m_Loop[i]--;
-            }
           
-          if ( m_Loop[i] < m_StartIndex[i] )
+          if ( m_Loop[i] == m_StartIndex[i] )
             {
               m_Loop[i]= m_Bound[i] - 1;
               for (it = this->begin(); it < _end; ++it)
@@ -135,15 +137,22 @@ RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
                     + m_OutputWrapOffsetModifier[i];
                 }
             }        
-          else break;
+          else
+            {
+              m_Loop[i]--;
+              break;
+            }
         }
     }
   return *this; 
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
-RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
-RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+template<class TImage, class TAllocator, class TBoundaryCondition,
+  class TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator>
 ::Begin() const
 {
   //Copy the current iterator
@@ -155,9 +164,12 @@ RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   return it;
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
-RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
-RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+template<class TImage, class TAllocator, class TBoundaryCondition,
+  class TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator>
+RegionBoundaryNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator>
 ::End() const
 {
   IndexType endIndex;

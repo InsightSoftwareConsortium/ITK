@@ -17,9 +17,61 @@
 #define _itkSmartRegionNeighborhoodIterator_txx
 namespace itk {
 
-template<class TImage, class TAllocator, class TDerefAllocator>
+template<class TImage, class TAllocator, class TBoundaryCondition,
+    class TDerefAllocator>
+SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator>
+::SmartRegionNeighborhoodIterator(const Self& orig)
+  : NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>(orig)
+{
+  memcpy(m_InnerBoundsLow, orig.m_InnerBoundsLow, sizeof(long int) *
+         Dimension);
+  memcpy(m_InnerBoundsHigh, orig.m_InnerBoundsHigh, sizeof(long int) *
+         Dimension);
+  memcpy(m_InBounds, orig.m_InBounds, sizeof(bool) * Dimension);
+  m_InternalBoundaryCondition = orig.m_InternalBoundaryCondition;
+
+  // Check to see if the default boundary conditions have been
+  // overridden.
+  if ( orig.m_BoundaryCondition ==
+       (ImageBoundaryConditionPointerType)&orig.m_InternalBoundaryCondition ) 
+    {
+      this->ResetBoundaryCondition();
+    }
+  else m_BoundaryCondition = orig.m_BoundaryCondition;        
+}
+
+template<class TImage, class TAllocator, class TBoundaryCondition,
+    class TDerefAllocator>
+SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator> &  
+SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator>
+::operator=(const Self& orig)
+{
+  Superclass::operator=(orig);
+  memcpy(m_InnerBoundsLow, orig.m_InnerBoundsLow, sizeof(long int) *
+         Dimension);
+  memcpy(m_InnerBoundsHigh, orig.m_InnerBoundsHigh, sizeof(long int) *
+         Dimension);
+  memcpy(m_InBounds, orig.m_InBounds, sizeof(bool) * Dimension);
+
+  // Check to see if the default boundary conditions
+  // have been overridden.
+  if (orig.m_BoundaryCondition ==
+      (ImageBoundaryConditionPointerType) &orig.m_InternalBoundaryCondition ) 
+    {
+      this->ResetBoundaryCondition();
+    }
+  else m_BoundaryCondition = orig.m_BoundaryCondition;
+  return *this;
+}
+  
+template<class TImage, class TAllocator, class TBoundaryCondition,
+  class TDerefAllocator>
 bool
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator>
 ::InBounds()
 {
   bool ans = true;
@@ -33,12 +85,19 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   return ans;
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
+template<class TImage, class TAllocator, class TBoundaryCondition,
+  class TDerefAllocator>
 typename SmartRegionNeighborhoodIterator<TImage, TAllocator,
-  TDerefAllocator>::NeighborhoodType
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+  TBoundaryCondition, TDerefAllocator>::NeighborhoodType
+SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator>
 ::GetNeighborhood()
 {
+  register unsigned int i;
+  int OverlapLow[Dimension], OverlapHigh[Dimension], temp[Dimension],
+    offset[Dimension];
+  bool flag;
+
   const Iterator _end = this->end();
   NeighborhoodType ans;
   typename NeighborhoodType::Iterator ans_it;
@@ -50,52 +109,47 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
     {
       for (ans_it = ans.begin(), this_it = this->begin();
            this_it < _end; ans_it++, this_it++)
-        {
-          *ans_it = **this_it;
-        }
+        { *ans_it = **this_it; }
     }
   else
     {
-      register unsigned int i;
-      unsigned int OverlapLow[Dimension];
-      unsigned int OverlapHigh[Dimension];
-      unsigned int temp[Dimension];
-      bool flag;
-      
       // Calculate overlap & initialize index
       for (i=0; i<Dimension; i++)
         {
-          OverlapLow[i] = m_InnerBoundsLow[i] - m_Loop[i];
-          OverlapHigh[i]= this->GetSize(i)
-            - (m_Loop[i]-m_InnerBoundsHigh[i])-1;
+          OverlapLow[i] = (long int)m_InnerBoundsLow[i] - (long int)m_Loop[i];
+          OverlapHigh[i]= (long int)this->GetSize(i)
+            - ( ((long int)m_Loop[i]+2) - (long int)m_InnerBoundsHigh[i]);
           temp[i] = 0;
         }
-      
+
       // Iterate through neighborhood
       for (ans_it = ans.begin(), this_it = this->begin();
            this_it < _end; ans_it++, this_it++)
         {
           flag = true;
+          
+          // Is this pixel in bounds?
           for (i=0; i<Dimension; ++i)
             {
-              if (!m_InBounds[i] && ((temp[i] < OverlapLow[i])
-                                     || (temp[i] >= OverlapHigh[i])) )
+              if (m_InBounds[i]) offset[i] = 0; // this dimension in bounds
+              else  // part of this dimension spills out of bounds
                 {
-                  flag=false;
-                  break;
+                  if (temp[i] < OverlapLow[i])
+                    {
+                      flag = false;
+                      offset[i] = OverlapLow[i] - temp[i];
+                    }
+                  else if ( OverlapHigh[i] < temp[i] )
+                    {
+                      flag = false;
+                      offset[i] =  OverlapHigh[i] - temp[i];
+                    }
+                  else offset[i] = 0;
                 }
             }
           
-          if (flag)
-            {
-              *ans_it = **this_it;
-            }
-          
-          else  // Boundary condition here
-            {
-              // *ans_it = m_BoundaryCondition(this);
-              *ans_it = NumericTraits<ScalarValueType>::Zero;
-            }
+          if (flag) *ans_it = **this_it;
+          else *ans_it = m_BoundaryCondition->operator()(temp, offset, this);
           
           for (i=0; i<Dimension; ++i)  // Update index
             {
@@ -103,19 +157,22 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
               if ( temp[i] == this->GetSize(i) ) temp[i]= 0;
               else break;
             }
-        }
-      
+        } 
     }
-   
   return ans;
-  
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
+template<class TImage, class TAllocator, class TBoundaryCondition,
+  class TDerefAllocator>
 void
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator>
 ::SetNeighborhood(NeighborhoodType &N)
 {
+  register unsigned int i;
+  int OverlapLow[Dimension], OverlapHigh[Dimension], temp[Dimension];
+  bool flag;
+      
   const Iterator _end = this->end();
   Iterator this_it;
   typename  NeighborhoodType::Iterator N_it;
@@ -130,18 +187,12 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
     }
   else
     {
-      register unsigned int i;
-      unsigned int OverlapLow[Dimension];
-      unsigned int OverlapHigh[Dimension];
-      unsigned int temp[Dimension];
-      bool flag;
-      
       // Calculate overlap & initialize index
       for (i=0; i<Dimension; i++)
         {
-          OverlapLow[i] = m_InnerBoundsLow[i] - m_Loop[i];
+          OverlapLow[i] =(long int)m_InnerBoundsLow[i] - (long int)m_Loop[i];
           OverlapHigh[i]= this->GetSize(i)
-            - (m_Loop[i]-m_InnerBoundsHigh[i])-1;
+            - (m_Loop[i]-(long int)m_InnerBoundsHigh[i])-1;
           temp[i] = 0;
         }
       
@@ -174,11 +225,12 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
         }
       
     }
-
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
-void SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+template<class TImage, class TAllocator, class TBoundaryCondition,
+  class TDerefAllocator>
+void SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   unsigned int i;
@@ -191,8 +243,10 @@ void SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   Superclass::PrintSelf(os, indent.GetNextIndent());
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
-void SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+template<class TImage, class TAllocator, class TBoundaryCondition,
+  class TDerefAllocator>
+void SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator>
 ::SetBound(const SizeType& size)
 {
   SizeType radius  = this->GetRadius();
@@ -214,9 +268,12 @@ void SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
     }
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator> 
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator> 
+template<class TImage, class TAllocator, class TBoundaryCondition,
+  class TDerefAllocator>
+SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator> 
+SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator> 
 ::Begin() const 
 {
   //Copy the current iterator
@@ -228,9 +285,12 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   return it;
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator> 
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator> 
+template<class TImage, class TAllocator, class TBoundaryCondition,
+  class TDerefAllocator>
+SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator> 
+SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
+  TDerefAllocator> 
 ::End() const
 {
   IndexType endIndex;
@@ -243,11 +303,12 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
     {
       endIndex.m_Index[i] = m_Bound[i] -1;
     }
-  
+
   // Set the position to the m_BeginOffset
   it.SetLocation( endIndex );
 
   ++it;
+
   return it;
 }
 

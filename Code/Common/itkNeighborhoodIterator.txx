@@ -202,8 +202,7 @@ NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   // Check loop bounds, wrap & add pointer offsets if needed.
   for (i=0; i<Dimension; ++i)
     {
-      m_Loop[i]--;
-      if ( m_Loop[i] < m_StartIndex[i] )
+      if (m_Loop[i] == m_StartIndex[i])
         {
           m_Loop[i]= m_Bound[i] - 1;
           for (it = this->begin(); it < _end; ++it)
@@ -216,7 +215,11 @@ NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
                 + m_OutputWrapOffsetModifier[i];
             }
         }        
-      else break;
+      else
+        {
+          m_Loop[i]--;
+          break;
+        }
     }
   return *this;
 }

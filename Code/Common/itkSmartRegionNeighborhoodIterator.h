@@ -17,6 +17,7 @@
 #define __itkSmartRegionNeighborhoodIterator_h
 
 #include "itkNeighborhoodIterator.h"
+#include "itkConstantBoundaryCondition.h"
 
 namespace itk {
 
@@ -33,7 +34,7 @@ namespace itk {
  * are defined by the boundary condition.
  *
  * Bounds checking is performed and boundary conditions are resolved on
- * dereferencing, favoring iteration efficiency.
+ * dereferencing.
  *
  * \sa RegionBoundaryNeighborhoodIterator
  * \sa RegionNeighborhoodIterator
@@ -42,7 +43,11 @@ namespace itk {
  */
 template<class TImage,
   class TAllocator =
-    NeighborhoodAllocator<ITK_TYPENAME ImageTraits<TImage>::InternalPixelType *>,
+     NeighborhoodAllocator<ITK_TYPENAME ImageTraits<TImage>::InternalPixelType *>,
+  class TBoundaryCondition = ConstantBoundaryCondition
+   <TImage, Neighborhood<ITK_TYPENAME ImageTraits<TImage>::InternalPixelType *,
+            ImageTraits<TImage>::ImageDimension,
+                                 TAllocator>  >,
   class TDerefAllocator =
     NeighborhoodAllocator<ITK_TYPENAME ImageTraits<TImage>::PixelType>
   >
@@ -57,13 +62,12 @@ public:
   typedef NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   Superclass;
 
-
- /**
+  /**
    * Extract image type information.
    */
   typedef typename Superclass::InternalPixelType InternalPixelType;
   typedef typename Superclass::PixelType PixelType;
-  enum {Dimension = Superclass::Dimension };
+  enum { Dimension = Superclass::Dimension };
 
   /**
    * Some common itk object typedefs
@@ -75,6 +79,14 @@ public:
   typedef typename Superclass::IndexType IndexType;
 
   /**
+   * Typedef for generic boundary condition pointer
+   */
+  typedef ImageBoundaryCondition<ImageType,
+    Neighborhood<typename ImageType::InternalPixelType *,
+    ImageType::ImageDimension, TAllocator> > *
+  ImageBoundaryConditionPointerType;
+  
+  /**
    * Scalar data type typedef support
    */
   typedef typename Superclass::ScalarValueType ScalarValueType;
@@ -82,34 +94,18 @@ public:
   /**
    * Default constructor.
    */
-  SmartRegionNeighborhoodIterator() {};
+  SmartRegionNeighborhoodIterator()
+  { this->ResetBoundaryCondition(); }
 
   /**
    * Copy constructor
    */
-  SmartRegionNeighborhoodIterator(const Self& orig)
-    : NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>(orig)
-  {
-    memcpy(m_InnerBoundsLow, orig.m_InnerBoundsLow, sizeof(long int) *
-           Dimension);
-    memcpy(m_InnerBoundsHigh, orig.m_InnerBoundsHigh, sizeof(long int) *
-           Dimension);
-    memcpy(m_InBounds, orig.m_InBounds, sizeof(bool) * Dimension);
-  }
+  SmartRegionNeighborhoodIterator(const Self& orig);
   
   /**
    * Assignment operator
    */
-  Self &operator=(const Self& orig)
-  {
-    Superclass::operator=(orig);
-    memcpy(m_InnerBoundsLow, orig.m_InnerBoundsLow, sizeof(long int) *
-           Dimension);
-    memcpy(m_InnerBoundsHigh, orig.m_InnerBoundsHigh, sizeof(long int) *
-           Dimension);
-    memcpy(m_InBounds, orig.m_InBounds, sizeof(bool) * Dimension);
-    return *this;
-  }
+  Self &operator=(const Self& orig);
  
   /**
    * Constructor establishes a neighborhood of iterators of a specified
@@ -119,7 +115,8 @@ public:
   SmartRegionNeighborhoodIterator(const SizeType& radius,
                                   ImageType *ptr,
                                   const RegionType& region)
-  {  this->Initialize(radius, ptr, region);  }
+  {  this->ResetBoundaryCondition();
+     this->Initialize(radius, ptr, region);  }
 
   /**
    * Return an iterator for the beginning of the region.
@@ -144,7 +141,7 @@ public:
 
   /**
    * "Dereferences" the iterator. Returns the Neighborhood of values in the
-   * itk::Image at the position of the iterator.
+   * itk::Image masked by the iterator.
    */
   NeighborhoodType GetNeighborhood();
 
@@ -178,9 +175,39 @@ public:
   /**
    * Returns false if the iterator overlaps region boundaries, true
    * otherwise.  Also updates an internal boolean array indicating
-   * which of the iterator's sides are out of bounds.
+   * which of the iterator's faces are out of bounds.
    */
   bool InBounds();
+  
+  /**
+   * Allows a user to override the internal boundary condition. Care should
+   * be taken to ensure that the overriding boundary condition is a persistent
+   * object during the time it is referenced.  The overriding condition
+   * can be of a different type than the default type as long as it is
+   * a subclass of ImageBoundaryCondition.
+   */
+  virtual void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
+  { m_BoundaryCondition = i; }
+
+  /**
+   * Resets the boundary condition to the internal, default conditions
+   * specified by the template parameter.
+   */
+  virtual void ResetBoundaryCondition()
+  { m_BoundaryCondition = &m_InternalBoundaryCondition;  }
+
+  /**
+   * Returns the internal, default boundary condition.
+   */
+  const TBoundaryCondition &GetBoundaryCondition() const
+  { return m_InternalBoundaryCondition;}
+
+  /**
+   * Sets the internal, default boundary condition.
+   */
+  void SetBoundaryCondition( const TBoundaryCondition &c )
+  { m_InternalBoundaryCondition = c; }
+    
   
 protected:
   /**
@@ -204,6 +231,19 @@ protected:
    */
   bool m_InBounds[Dimension];
 
+  /**
+   * Default boundary condition.
+   */
+  TBoundaryCondition m_InternalBoundaryCondition;
+
+  /**
+   * Pointer to the actual boundary condition that will be used.
+   * By default this points to m_BoundaryCondition, but
+   * OverrideBoundaryCondition allows a user to point this variable an external
+   * boundary condition. 
+   */
+  ImageBoundaryConditionPointerType m_BoundaryCondition;
+  
 };
 
 } // namespace itk

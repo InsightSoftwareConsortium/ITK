@@ -40,12 +40,17 @@ namespace itk {
  */
 template<class TImage,
   class TAllocator
-   = NeighborhoodAllocator<ITK_TYPENAME ImageTraits<TImage>::InternalPixelType *>,
+ = NeighborhoodAllocator<ITK_TYPENAME ImageTraits<TImage>::InternalPixelType *>,
+  class TBoundaryCondition = ConstantBoundaryCondition
+    <TImage, Neighborhood<ITK_TYPENAME ImageTraits<TImage>::InternalPixelType *,
+     ImageTraits<TImage>::ImageDimension,
+                       TAllocator>  >,  
   class TDerefAllocator
    = NeighborhoodAllocator<ITK_TYPENAME ImageTraits<TImage>::PixelType>
   >
 class ITK_EXPORT RegionBoundaryNeighborhoodIterator
-  :  public SmartRegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+  :  public SmartRegionNeighborhoodIterator<TImage, TAllocator,
+  TBoundaryCondition, TDerefAllocator>
 {
 public:
   /** 
@@ -53,7 +58,7 @@ public:
    */
   typedef RegionBoundaryNeighborhoodIterator Self;
   typedef SmartRegionNeighborhoodIterator<TImage, TAllocator,
-    TDerefAllocator> Superclass;
+    TBoundaryCondition, TDerefAllocator> Superclass;
 
   /**
    * Extract image type information.
@@ -84,7 +89,8 @@ public:
    * Copy constructor
    */
   RegionBoundaryNeighborhoodIterator(const Self& other)
-    : SmartRegionNeighborhoodIterator<TImage,TAllocator,TDerefAllocator>(other)
+    : SmartRegionNeighborhoodIterator<TImage,TAllocator,TBoundaryCondition,
+    TDerefAllocator>(other)
   {    m_InnerStride = other.m_InnerStride;  }
 
   /**

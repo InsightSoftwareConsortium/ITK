@@ -25,6 +25,7 @@
 #include "itkImageRegion.h"
 #include "itkMacro.h"
 #include "itkNeighborhood.h"
+#include "itkImageBoundaryCondition.h"
 
 namespace itk {
 
@@ -129,6 +130,14 @@ public:
    */
   typedef typename Superclass::Iterator Iterator;
   typedef typename Superclass::ConstIterator ConstIterator;
+
+  /**
+   * Typedef for generic boundary condition pointer
+   */
+  typedef ImageBoundaryCondition<ImageType,
+    Neighborhood<typename ImageType::InternalPixelType *,
+    ImageType::ImageDimension, TAllocator> > *
+  ImageBoundaryConditionPointerType;
   
   /**
    * Scalar data type typedef support
@@ -412,7 +421,27 @@ public:
    */
   RegionType GetRegion() const
   { return m_Region; }
-   
+
+  /**
+   * Allows a user to override the internal boundary condition. Care should be
+   * be taken to ensure that the overriding boundary condition is a persistent
+   * object during the time it is referenced.  The overriding condition
+   * can be of a different type than the default type as long as it is
+   * a subclass of ImageBoundaryCondition.
+   *
+   * This method is only relevant in iterators that have the capability
+   * to handle boundary conditions.
+   */
+  virtual void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
+  { /* default case is do nothing */ }
+
+  /**
+   * Resets the boundary condition to the internal, default conditions
+   * specified by the template parameter.
+   */
+  virtual void ResetBoundaryCondition()
+  { /* default case is do nothing */ }
+ 
 protected:
   /**
    * Default method for setting the coordinate location of the iterator.
