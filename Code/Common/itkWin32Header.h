@@ -45,6 +45,9 @@
 // 'conversion' : truncation of constant value
 #pragma warning ( disable : 4309 )
 
+// decorated name length exceeded, name was truncated
+#pragma warning ( disable : 4503 )
+
 // 'identifier' : identifier was truncated to 'number' characters in the
 // debug information
 #pragma warning ( disable : 4786 )
