@@ -29,6 +29,7 @@ ScaleTransform<ScalarType, NDimensions>::
 ScaleTransform():Superclass(SpaceDimension,ParametersDimension)
 {
   m_Scale.Fill( 1.0 );
+  m_Center.Fill( 0.0 );
 }
     
 
@@ -127,7 +128,7 @@ TransformPoint(const InputPointType &point) const
   OutputPointType result;
   for( unsigned int i=0; i<SpaceDimension; i++ )
     {
-    result[i] = point[i] * m_Scale[i];
+    result[i] = ( point[i] - m_Center[i] ) * m_Scale[i] + m_Center[i];
     }
   return result;
 }
@@ -188,7 +189,7 @@ BackTransform(const OutputPointType &point) const {
   InputPointType result;
   for( unsigned int i=0; i<SpaceDimension; i++ )
     {
-    result[i] = point[i] / m_Scale[i];
+    result[i] = ( point[i] + m_Center[i] ) / m_Scale[i] - m_Center[i]; 
     }
   return result;
 }

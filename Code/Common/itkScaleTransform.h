@@ -155,6 +155,11 @@ public:
   void SetIdentity( void )
     { m_Scale.Fill( 1.0 ); }
 
+
+  /** Set/Get the center used as fixed point for the scaling */
+  itkSetMacro( Center, InputPointType );
+  itkGetConstMacro( Center, InputPointType );
+
 protected:
   /** Construct an ScaleTransform object. */
   ScaleTransform();
@@ -170,6 +175,8 @@ private:
   const Self & operator=( const Self & ); //purposely not implemented
 
   ScaleType   m_Scale;  // Scales of the transformation
+
+  InputPointType   m_Center; // Scaling center
 
 }; //class ScaleTransform
 
