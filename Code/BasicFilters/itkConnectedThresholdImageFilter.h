@@ -23,6 +23,7 @@
 namespace itk{
 
 /** /class ConnectedThresholdImageFilter
+ * \brief Label pixels that are connected to a seed and lie within a range of values
  * 
  * ConnectedThresholdImageFilter labels pixels with ReplaceValue that are
  * connected to an initial Seed AND lie within a Lower and Upper
