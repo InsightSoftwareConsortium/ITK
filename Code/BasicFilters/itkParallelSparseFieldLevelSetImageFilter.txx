@@ -1927,7 +1927,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       }
     m_OutputImage->SetPixel(center_index, value + delta );
     // This function can be overridden in the derived classes to process pixels entering the active layer.
-    this->ThreadedProcessPixelEnteringActiveLayer (center_index, value, ThreadId);
+    this->ThreadedProcessPixelEnteringActiveLayer (center_index, value + delta, ThreadId);
     }
 }
 
