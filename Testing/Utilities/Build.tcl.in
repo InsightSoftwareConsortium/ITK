@@ -185,7 +185,7 @@ while { ![eof $Build] } \
       set ErrorList($i,SourceLineNumber) $LineNumber
       set Found 1
     }
-    if { !$Found && [regexp {/Insight/([^:]*):([0-9]+)} $LogLine dummy SourceFile LineNumber] } \
+    if { !$Found && [regexp "${SourceDirectoryBase}/(\[^:\]*):(\[0-9\]+)" $LogLine dummy SourceFile LineNumber] } \
     {
       set ErrorList($i,SourceFile) $SourceFile
       set ErrorList($i,SourceLineNumber) $LineNumber
@@ -193,7 +193,7 @@ while { ![eof $Build] } \
     }
     
     # MS VC++ 6.0
-    set match {Insight(\\|/)([^\(]*)\(([0-9]+)\) : (error|fatal error|warning)}
+    set match "${SourceDirectoryBase}(\\|/)(\[^\(\]*)\((\[0-9\]+)\) : (error|fatal error|warning)"
       
     if { !$Found && [regexp $match $LogLine dummy dummy2 SourceFile LineNumber] } \
     {

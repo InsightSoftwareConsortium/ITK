@@ -60,12 +60,9 @@ if { $argc == 1 } \
   set Model [lindex $argv 0]
 }
 
-set dropSite           "public.kitware.com"
-set dropLocation       "/incoming"
-set dropSiteUser       "anonymous"
-set dropSitePassword   "insight-tester@somewhere.com"
-set triggerSite        "http://public.kitware.com/cgi-bin/Submit-Insight-TestingResults.pl"
 
+#
+#
 set HTMLDir [file join Testing HTML]
 set TempDir [file join Testing Temporary]
 
@@ -86,9 +83,9 @@ set FTPprefix [file join $Site $BuildName $BuildStamp XML]
 
 
 # Ftp the results to public.kitware.com
-set conn [ftp::Open $dropSite $dropSiteUser $dropSitePassword]
+set conn [ftp::Open $DropSite $DropSiteUser $DropSitePassword]
 ftp::Type $conn ascii
-ftp::Cd $conn $dropLocation
+ftp::Cd $conn $DropLocation
 
 puts "\tBeginning Submission"
 set XMLFiles [glob $XMLDir/*.xml]
@@ -118,7 +115,7 @@ foreach XMLFile $XMLFiles {
 
   # tell the server the results have been posted
   #
-  set token [::http::geturl $triggerSite?xmlfile=$urlFilename ]
+  set token [::http::geturl $TriggerSite?xmlfile=$urlFilename ]
   puts "\tTriggered [::http::data $token]"
 }
  
