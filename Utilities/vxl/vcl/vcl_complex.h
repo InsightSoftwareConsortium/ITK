@@ -38,7 +38,7 @@
 # include "sunpro/vcl_complex.h"
 
 // ---------- SGI 7*0
-#elif defined(VCL_SGI_CC_7)
+#elif defined(VCL_SGI_CC_7) && _COMPILER_VERSION < 740
 #include  "sgi/vcl_complex.h"
 
 // ---------- MW
