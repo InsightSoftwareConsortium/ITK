@@ -37,7 +37,7 @@ ImageToListAdaptor< TImage, TMeasurementVector >
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Image: " ;
-  if ( m_Image != 0 )
+  if ( m_Image.IsNotNull() )
     {
     os << m_Image << std::endl;
     }
@@ -47,7 +47,7 @@ ImageToListAdaptor< TImage, TMeasurementVector >
     }
    
   os << indent << "PixelContainer: " ;
-  if ( m_PixelContainer != 0 )
+  if ( m_PixelContainer.IsNotNull() )
     {
     os << m_PixelContainer << std::endl;
     }

@@ -43,7 +43,7 @@ MeanShiftModeSeekerBase< TSample >
   Superclass::PrintSelf(os,indent);
 
   os << indent << "InputSample: " ;
-  if ( m_InputSample != 0 )
+  if ( m_InputSample.IsNotNull() )
     {
     os << m_InputSample << std::endl;
     }
@@ -53,7 +53,7 @@ MeanShiftModeSeekerBase< TSample >
     }
 
   os << indent << "CacheMethod: " ;
-  if ( m_CacheMethod != 0 )
+  if ( m_CacheMethod.IsNotNull() )
     {
     os << m_CacheMethod << std::endl;
     }
@@ -113,7 +113,7 @@ MeanShiftModeSeekerBase< TSample >
       return queryPoint ;
       }
 
-    if ( m_CacheMethod != 0 )
+    if ( m_CacheMethod.IsNotNull() )
       {
       if ( !m_CacheMethod->GetMeasurementVector(queryPoint, newPoint) )
         {

@@ -243,7 +243,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
   os << indent << "Slicing direction: " << m_SlicingDirection << std::endl ;
     
   os << indent << "InputMask: " ;
-  if ( m_InputMask != 0 )
+  if ( m_InputMask.IsNotNull() )
     {
     os << m_InputMask << std::endl ;
     }
@@ -253,7 +253,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
     }
 
   os << indent << "OutputMask: " ;
-  if ( m_OutputMask != 0 )
+  if ( m_OutputMask.IsNotNull() )
     {
     os << m_OutputMask << std::endl ;
     }
@@ -358,7 +358,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 
   m_EnergyFunction->SetImage(m_InternalInput.GetPointer()) ;
 
-  if ( m_InputMask != 0 )
+  if ( m_InputMask.IsNotNull() )
     {
     m_EnergyFunction->SetMask(m_InputMask.GetPointer()) ;
     }
@@ -460,7 +460,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
   bIter.Begin() ;
   iIter.GoToBegin() ;
 
-  if ( m_OutputMask != 0 )
+  if ( m_OutputMask.IsNotNull() )
     {
     itkDebugMacro(<< "Output mask is being used") ;
     ImageRegionIterator<ImageMaskType> mIter(m_OutputMask, region) ;

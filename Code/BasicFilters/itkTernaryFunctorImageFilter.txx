@@ -95,7 +95,7 @@ TernaryFunctorImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TF
     = dynamic_cast<const TInputImage2*>((ProcessObject::GetInput(1)));
   Input3ImagePointer inputPtr3
     = dynamic_cast<const TInputImage3*>((ProcessObject::GetInput(2)));
-  if (inputPtr1 == 0 || inputPtr2 == 0 || inputPtr3 == 0)
+  if (inputPtr1.IsNull() || inputPtr2.IsNull() || inputPtr3.IsNull())
     {
     itkExceptionMacro(<< "At least one input is missing."
                       << " Input1 is " << inputPtr1.GetPointer() << ", "

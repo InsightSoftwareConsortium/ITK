@@ -37,7 +37,7 @@ SampleAlgorithmBase< TInputSample >
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Input Sample: " ;
-  if ( m_InputSample != 0 )
+  if ( m_InputSample.IsNotNull() )
     {
     os << m_InputSample << std::endl;
     }

@@ -162,7 +162,7 @@ PrintSelf(std::ostream& os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "TrainingFixedImage: ";
-  if (m_TrainingFixedImage  == 0)
+  if (m_TrainingFixedImage.IsNull())
     {
     os << 0 << std::endl;
     }
@@ -172,7 +172,7 @@ PrintSelf(std::ostream& os, Indent indent) const
     }
 
   os << indent << "TrainingMovingImage: ";
-  if (m_TrainingMovingImage  == 0)
+  if (m_TrainingMovingImage.IsNull())
     {
     os << 0 << std::endl;
     }
@@ -181,7 +181,7 @@ PrintSelf(std::ostream& os, Indent indent) const
     os << m_TrainingMovingImage << std::endl;
     }
   os << indent << "TrainingTransform: ";
-  if (m_TrainingTransform    == 0)
+  if (m_TrainingTransform.IsNull() )
     {
     os << 0 << std::endl;
     }
@@ -190,7 +190,7 @@ PrintSelf(std::ostream& os, Indent indent) const
     os << m_TrainingTransform << std::endl;
     }
   os << indent << "TrainingInterpolator: ";
-  if (m_TrainingInterpolator == 0)
+  if (m_TrainingInterpolator.IsNull())
     {
     os << 0 << std::endl;
     }
@@ -199,7 +199,7 @@ PrintSelf(std::ostream& os, Indent indent) const
     os << m_TrainingInterpolator << std::endl;
     }
   os << indent << "TrainingHistogram: ";
-  if (m_TrainingHistogram    == 0)
+  if (m_TrainingHistogram.IsNull())
     {
     os << 0 << std::endl;
     }

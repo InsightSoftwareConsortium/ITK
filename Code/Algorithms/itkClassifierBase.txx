@@ -48,7 +48,7 @@ ClassifierBase<TDataContainer>
 
   os << indent << "Number of classes: " << m_NumberOfClasses << std::endl;
   os << indent << "DecisionRule: " ;
-  if ( m_DecisionRule != 0 )
+  if ( m_DecisionRule.IsNotNull() )
     {
     os << m_DecisionRule << std::endl ;
     }

@@ -38,7 +38,7 @@ SampleClassifierWithMask< TSample, TMaskSample >
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Mask: " ;
-  if ( m_Mask != 0 )
+  if ( m_Mask.IsNotNull() )
     {
     os << m_Mask << std::endl;
     }

@@ -57,7 +57,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
      << m_CentroidPositionChangesThreshold << std::endl;
 
   os << indent << "Kd Tree:" ;
-  if ( m_KdTree != 0 )
+  if ( m_KdTree.IsNotNull() )
     {
     os << m_KdTree << std::endl ;
     }

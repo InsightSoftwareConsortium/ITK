@@ -83,7 +83,7 @@ GoodnessOfFitComponentBase< TInputSample >
   os << indent << "Total Observed Scale: " << m_TotalObservedScale << std::endl;
 
   os << indent << "Observed Histogram: " ;
-  if ( m_ObservedHistogram != 0 )
+  if ( m_ObservedHistogram.IsNotNull() )
     {
     os << m_ObservedHistogram << std::endl;
     }
@@ -93,7 +93,7 @@ GoodnessOfFitComponentBase< TInputSample >
     }
 
   os << indent << "Expected Histogram: " ;
-  if ( m_ExpectedHistogram != 0 )
+  if ( m_ExpectedHistogram.IsNotNull() )
     {
     os << m_ExpectedHistogram << std::endl ;
     }

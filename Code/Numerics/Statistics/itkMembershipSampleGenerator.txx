@@ -37,7 +37,7 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Input: " ;
-  if ( m_Input != 0 )
+  if ( m_Input.IsNotNull() )
     {
     os << m_Input << std::endl ;
     }
@@ -47,7 +47,7 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
     }
   
   os << indent << "ClassMask: " ;
-  if ( m_ClassMask != 0 )
+  if ( m_ClassMask.IsNotNull() )
     {
     os << m_ClassMask << std::endl ;
     }

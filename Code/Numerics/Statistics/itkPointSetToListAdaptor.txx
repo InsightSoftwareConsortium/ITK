@@ -37,7 +37,7 @@ PointSetToListAdaptor< TPointSet >
   Superclass::PrintSelf(os,indent);
 
   os << indent << "PointSet: " ;
-  if ( m_PointSet != 0 )
+  if ( m_PointSet.IsNotNull() )
     {
     os << m_PointSet << std::endl;
     }

@@ -55,7 +55,7 @@ SpatialObjectWriter<NDimensions,PixelType>
     m_Scene = 0;
     }
   else
-    if(m_SpatialObject != 0)
+    if(m_SpatialObject.IsNotNull())
       {
       typename SceneType::Pointer tScene = SceneType::New();
       tScene->AddSpatialObject(m_SpatialObject);
