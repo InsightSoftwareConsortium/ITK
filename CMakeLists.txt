@@ -14,8 +14,8 @@ SOURCE_GROUP("XML Files" "[.]xml$")
 # Include the include and link libraries
 INCLUDE (${ITK_SOURCE_DIR}/itkCMakeOptions.cmake)
 
-SET (LIBRARY_OUTPUT_PATH ${ITK_BINARY_DIR}/bin/ CACHE INTERNAL "Single output directory for building all libraries.")
-SET (EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin/ CACHE INTERNAL "Single output directory for building all executables.")
+SET (LIBRARY_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all libraries.")
+SET (EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
 MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
 
 SET (ITK_LIBRARY_PATH ${LIBRARY_OUTPUT_PATH} CACHE INTERNAL "Where ITK libraries are. Used by projects which depend on ITK. Do not remove.")
