@@ -453,20 +453,6 @@ bool GDCMImageIO::CanWriteFile(const char* name)
     return false;
     }
 
-  bool extensionFound = false;
-  std::string::size_type sprPos = filename.rfind(".dcm");
-  if ((sprPos != std::string::npos)
-      && (sprPos == filename.length() - 4))
-    {
-    extensionFound = true;
-    }
-
-  if( !extensionFound )
-    {
-    itkDebugMacro(<<"The filename extension is not recognized");
-    return false;
-    }
-
   return true;
 }
 
