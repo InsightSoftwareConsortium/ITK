@@ -78,35 +78,6 @@ public:
   virtual void Load() = 0;
 
   /**
-   * Load a 2D image. If fileName="" (the default), will read from m_FileName.
-   */
-  virtual void Load2D(const std::string fileName="") = 0;
-
-  /**
-   * Load a 2D slice from a volume dataset.
-   * fileName is file to read from. default="", which uses m_FileName instead
-   * sliceNum is the slice # to load (starting at 0). (The default = 0.)
-   * The offset is expressed in bytes, into fileData at which the data should 
-   * be loaded.
-   */
-  virtual void Load2DSlice(const std::string fileName="",
-                           const unsigned int sliceNum=0,
-                           const unsigned int offset=0) = 0;
-
-  /**
-   * Load multiple slices to form a volume dataset.
-   * The argument filePattern is the string of characters after which to 
-   * start appending numbers (default is to use fName as the pattern)
-   * startSlice is the starting file number (e.g. if 5, then start at 
-   * "testSave005") (The default is to start w/ first slice found in 
-   * directory.) The argument endSlice is the ending slice number.
-   * (The default is to end w/ last consecutively numbered file in directory.)
-   */
-  virtual void LoadSeveralSlices (const std::string filePattern="",
-                                  const int startSlice=-1,
-                                  const int endSlice=-1);
-
-  /**
    * Read a file's header to determine image dimensions, etc.
    * fileName is file to read from. default="", which uses m_FileName instead
    */
@@ -115,24 +86,12 @@ public:
   /**
    * Get the image origin.
    */
-  virtual const float* GetImageOrigin() const =0;
+  virtual const double* GetOrigin() const =0;
 
   /**
    * Get the image spacing.
    */
-  virtual const float* GetImageSpacing() const =0;
-
-  /**
-   * Default save; do whatever is appropriate for the filetype.
-   */
-  virtual void Save(const std::string headerFile="", 
-                    const std::string dataFile="") = 0;
-
-  /**
-   * Save a 3D image.
-   */
-  virtual void Save3D(const std::string headerFile="", 
-                      const std::string dataFile="") = 0;
+  virtual const double* GetSpacing() const =0;
 
   /**
    * Returns the file extension that a particular ImageIO subclass
@@ -147,14 +106,39 @@ public:
    * Set the filename.
    */
   itkSetStringMacro(FileName);
-
-  /**
-   * Get the filename.
-   */
   itkGetStringMacro(FileName);
 
+  /** 
+   * Specify file prefix for the image file(s). You should specify either
+   * a FileName or FilePrefix. Use FilePrefix if the data is stored
+   * in multiple files. (Note: the FileName ivar is available from the
+   * superclass.)
+   */
+  itkSetStringMacro(FilePrefix);
+  itkGetStringMacro(FilePrefix);
+
   /**
-   * Set the number of dimensions in an image
+   * The sprintf format used to build filename from FilePrefix and number.
+   */
+  itkSetStringMacro(FilePattern);
+  itkGetStringMacro(FilePattern);
+
+  /**
+   * Set the number of components per pixel in the image. This may
+   * be set by the reading process.
+   */
+  itkSetMacro(NumberOfComponents,unsigned int);
+  itkGetConstMacro(NumberOfComponents,unsigned int);
+  
+  /**  /**
+   * The guts of this class. Returns FileData, which holds the raw
+   * pixels of the image loaded from disk.
+   */
+  void* GetFileData();
+
+  /**
+   * Set the number of independent variables (dimensions) in the image
+   * being read.
    */
   itkSetMacro(NumberOfDimensions, unsigned int);
   itkGetMacro(NumberOfDimensions, unsigned int);
@@ -164,23 +148,6 @@ public:
    */
   unsigned int GetDimensions(unsigned int i) const;
 
-  /**
-   * The guts of this class. Returns FileData, which holds the raw
-   * pixels of the image loaded from disk.
-   */
-  void* GetFileData();
-
-  /**
-   * Set the number of components per pixel in the image. This may
-   * be set by the reading process.
-   */
-  itkSetMacro(NumberOfComponents,unsigned int);
-  
-  /**
-   * Return the number of components per pixel in the image.
-   */
-  itkGetConstMacro(NumberOfComponents,unsigned int);
-  
   /**
    * Convenient method for accessing the number of bytes to get to 
    * the next pixel. Returns m_Strides[1];
@@ -208,6 +175,8 @@ protected:
    * Full filename: pathname + filename + file extension.
    */
   std::string m_FileName;
+  std::string m_FilePrefix;
+  std::string m_FilePattern;
 
   /**
    * Atomic pixel type being stored.

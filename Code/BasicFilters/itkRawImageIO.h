@@ -42,6 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkRawImageIO_h
 
 #include "itkImageIO.h"
+#include "itkIndex.h"
+#include "itkImageRegion.h"
 #include "itkVersion.h"
 #include <string>
 #include <fstream>
@@ -58,7 +60,7 @@ namespace itk
  * \sa FileIOToImageFilter
  * */
 
-template <class TPixel>
+  template <class TPixel, unsigned int VImageDimension=2>
 class ITK_EXPORT RawImageIO : public ImageIO
 {
 public:
@@ -90,33 +92,46 @@ public:
   typedef TPixel PixelType;
 
   /** 
-   * Specify file prefix for the image file(s). You should specify either
-   * a FileName or FilePrefix. Use FilePrefix if the data is stored
-   * in multiple files. (Note: the FileName ivar is available from the
-   * superclass.)
+   * Index typedef support. An index is used to access pixel values.
    */
-  itkSetStringMacro(FilePrefix);
-  itkGetStringMacro(FilePrefix);
+  typedef Index<VImageDimension>  IndexType;
+
+  /** 
+   * Size typedef support. A size is used to define region bounds.
+   */
+  typedef Size<VImageDimension>  SizeType;
+
+  /** 
+   * Region typedef support. A region is used to specify a subset of an image.
+   */
+  typedef ImageRegion<VImageDimension>  RegionType;
 
   /**
-   * The sprintf format used to build filename from FilePrefix and number.
+   * Set the region object that defines the size and starting index
+   * for the imported image. This will serve as the LargestPossibleRegion,
+   * the BufferedRegion, and the RequestedRegion.
+   * \sa ImageRegion
    */
-  itkSetStringMacro(FilePattern);
-  itkGetStringMacro(FilePattern);
+  void SetRegion(const RegionType &region)
+    { if (m_Region != region) {m_Region = region; this->Modified();} };
+  const RegionType& GetRegion() const
+    { return m_Region;};
+  
+  /** 
+   * Set the spacing (size of a pixel) of the image.
+   * \sa GetSpacing()
+   */
+  itkSetVectorMacro(Spacing, const double, VImageDimension);
+  itkGetVectorMacro(Spacing, const double, VImageDimension);
+  
+  /** 
+   * Set the origin of the image.
+   * \sa GetOrigin()
+   */
+  itkSetVectorMacro(Origin, const double, VImageDimension);
+  itkGetVectorMacro(Origin, const double, VImageDimension);
 
-  /**
-   * Get/Set the extent of the data on disk.  
-   */
-  itkSetVectorMacro(ImageExtent,unsigned long,6);
-  itkGetVectorMacro(ImageExtent,const unsigned long,6);
-  
-  /**
-   * Set/get the data VOI. You can limit the reader to only
-   * read a subset of the data. 
-   */
-  itkSetVectorMacro(ImageVOI,unsigned long,6);
-  itkGetVectorMacro(ImageVOI,const unsigned long,6);
-  
+
   /** 
    * The number of dimensions stored in a file. This defaults to two.
    */
@@ -171,36 +186,6 @@ public:
   virtual void Load ();
 
   /**
-   * Load a 2D image. If fileName="" (the default), will read from m_FileName
-   */
-  virtual void Load2D(const std::string fileName="");
-
-  /**
-   * Load a 2D slice from a volume dataset.  fileName is file to read
-   * from. default="", which uses m_FileName instead sliceNum is the slice #
-   * to load (starting at 0). default = 0.  offset is the offset, in bytes,
-   * into fileData at which the data should be loaded default = 0 
-   */
-  virtual void Load2DSlice(const std::string fileName="",
-                           const unsigned int sliceNum=0,
-                           const unsigned int offset=0);
-
-  /**
-   * Default save; do whatever is appropriate for MetaImages Since MetaImages
-   * can be saved as a header/data file pair, we need to be able to pass in
-   * these strings as parameters. Most other file formats will simply use
-   * m_FullFileName 
-   */
-  virtual void Save(const std::string headerFile="", 
-                    const std::string dataFile="");
-
-  /**
-   * Save a 3D image
-   */
-  virtual void Save3D(const std::string headerFile="", 
-                      const std::string dataFile="");
-
-  /**
    * Read a file's header to determine image dimensions, etc.
    */
   virtual void ReadHeader (const std::string fileName="") {};
@@ -212,18 +197,6 @@ public:
    * so that a whole list of strings is returned.
    */
   virtual FileExtensionsListType& GetSupportedFileExtensions () const;
-
-  /**
-   * Set/Get the image position.
-   */
-  itkSetVectorMacro(ImageOrigin,float,3);
-  itkGetVectorMacro(ImageOrigin,const float,3);
-
-  /**
-   * Set/Get the image spacing.
-   */
-  itkSetVectorMacro(ImageSpacing,const float,3);
-  itkGetVectorMacro(ImageSpacing,const float,3);
 
 protected:
   RawImageIO();
@@ -237,13 +210,14 @@ protected:
   
 private:
   std::ifstream m_File;
-
-  float m_ImageOrigin[3];
-  float m_ImageSpacing[3];
-  
   std::string m_FilePrefix;
   std::string m_FilePattern;
   std::string m_InternalFileName;
+
+  RegionType  m_Region;
+  double      m_Spacing[VImageDimension];
+  double      m_Origin[VImageDimension];
+
   unsigned long m_ImageExtent[6];
   unsigned long m_ImageVOI[6];
   unsigned long m_FileDimensionality;
@@ -253,7 +227,7 @@ private:
   unsigned short m_ImageMask;
 };
 
-template <class TPixel>
+template <class TPixel, unsigned int VImageDimension>
 class ITK_EXPORT RawImageIOFactory : public ObjectFactoryBase
 {
 public:
@@ -262,7 +236,7 @@ public:
   const char* GetDescription() const;
 
 protected:
-  typedef RawImageIO<TPixel> myProductType;
+  typedef RawImageIO<TPixel,VImageDimension> myProductType;
   const myProductType* m_MyProduct;
 
 };

@@ -65,7 +65,9 @@ template <class TOutputImage>
 FileIOToImageFilter<TOutputImage>::FileIOToImageFilter()
 {
   m_IO = NULL;
-  m_FileToLoad = "";
+  m_FileName = "";
+  m_FilePrefix = "";
+  m_FilePattern = "";
 }
 
 template <class TOutputImage>
@@ -74,14 +76,15 @@ FileIOToImageFilter<TOutputImage>::~FileIOToImageFilter()
 }
 
 template <class TOutputImage>
-void FileIOToImageFilter<TOutputImage>::LoadFile()
+void FileIOToImageFilter<TOutputImage>::Update()
 {
-  if (m_FileToLoad == "")
+  if ( m_FileName == "" && m_FilePrefix == "" )
     {
     throw FileIOException();
     }
 
-  m_LightObjectIO = ObjectFactoryBase::CreateInstance(ExtractFileExtension(m_FileToLoad.c_str()));
+  m_LightObjectIO = ObjectFactoryBase::
+    CreateInstance(ExtractFileExtension(m_FileName.c_str()));
   m_IO = dynamic_cast<ImageIO*>((LightObject*) m_LightObjectIO);
 
   if ( m_IO == 0 )
@@ -89,8 +92,14 @@ void FileIOToImageFilter<TOutputImage>::LoadFile()
     throw FileIOException();
     }
 
-  m_IO->SetFileName(m_FileToLoad.c_str());
-  m_IO->Load();
+  m_IO->SetFileName(m_FileName.c_str());
+  m_IO->SetFilePrefix(m_FilePrefix.c_str());
+  m_IO->SetFilePattern(m_FilePattern.c_str());
+  
+  if (this->GetOutput(0))
+    {
+    this->GetOutput(0)->Update();
+    }
 }
 
 template <class TOutputImage>
@@ -99,7 +108,7 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
   typename TOutputImage::Pointer m_OutputImage = this->GetOutput();
   Size dimSize;
 
-  this->LoadFile();
+  m_IO->Update(); //causes the helper to read
 
   for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
     {
@@ -118,8 +127,8 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
   m_OutputImage->SetLargestPossibleRegion(region);
   m_OutputImage->SetBufferedRegion(region);
   m_OutputImage->Allocate();
-  m_OutputImage->SetOrigin( m_IO->GetImageOrigin() );
-  m_OutputImage->SetSpacing( m_IO->GetImageSpacing() );
+  m_OutputImage->SetOrigin( m_IO->GetOrigin() );
+  m_OutputImage->SetSpacing( m_IO->GetSpacing() );
 
   typedef typename TOutputImage::PixelType  OutputPixelType;
   typedef SimpleImageRegionIterator< TOutputImage> IteratorType;

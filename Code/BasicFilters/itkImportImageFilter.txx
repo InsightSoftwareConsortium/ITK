@@ -76,7 +76,6 @@ ImportImageFilter<TPixel, VImageDimension>
 {
   Superclass::PrintSelf(os,indent);
 
-  //  os << indent << "Shrink Factor: " << m_ShrinkFactor << std::endl;
 }
 
 

@@ -122,29 +122,64 @@ public:
   typedef ImageRegion<TOutputImage::ImageDimension>  Region;
 
   /**
-   * Set the ImageIO helper class.
+   * Specify the file to load. This is forwarded to the IO instance. 
+   * Either the FileName or FilePrefix plus pattern are used to read
+   * files.
    */
-  itkSetObjectMacro(IO,ImageIO);
+  itkSetStringMacro(FileName);
+  itkGetStringMacro(FileName);
+
+  /** 
+   * Specify file prefix for the image file(s). You should specify either
+   * a FileName or FilePrefix. Use FilePrefix if the data is stored
+   * in multiple files. (Note: the FileName ivar is available from the
+   * superclass.)
+   */
+  itkSetStringMacro(FilePrefix);
+  itkGetStringMacro(FilePrefix);
 
   /**
-   * Get the ImageIO helper class.
+   * The sprintf format used to build filename from FilePrefix and number.
+   */
+  itkSetStringMacro(FilePattern);
+  itkGetStringMacro(FilePattern);
+
+  /** 
+   * Specify the region of the image to be read.
+   */
+  
+  /**
+   * Get the ImageIO helper class. Often this is created via the object
+   * factory mechanism which keys off of the filename extension. This
+   * method provides a way to get the ImageIO instance that is 
+   * created.
    */
   itkGetObjectMacro(IO,ImageIO);
 
   /**
-   * Set m_FileToLoad
+   * Set the ImageIO helper class. Often this is created via the object
+   * factory mechanism which keys off of the filename extension, so you 
+   * don't have to specify it. This method is provided so that you can 
+   * manually specify the IO helper class.
    */
-  itkSetStringMacro(FileToLoad);
+  itkSetObjectMacro(IO,ImageIO);
+
+  /**
+   * Cause the filter to read data.
+   */
+  virtual void Update();
 
 protected:
   void GenerateData();
   FileIOToImageFilter();
   ~FileIOToImageFilter();
-  void LoadFile();
 
   ImageIO::Pointer m_IO;
   LightObject::Pointer m_LightObjectIO;
-  std::string m_FileToLoad;
+
+  std::string m_FileName;
+  std::string m_FilePrefix;
+  std::string m_FilePattern;
 };
 
 } //namespace ITK

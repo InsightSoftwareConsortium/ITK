@@ -43,35 +43,35 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-template <class TPixel>
-RawImageIOFactory<TPixel>::RawImageIOFactory()
+template <class TPixel, unsigned int VImageDimension>
+RawImageIOFactory<TPixel,VImageDimension>::RawImageIOFactory()
 {
   myProductType::Pointer m_MyProduct = myProductType::New();
-  RawImageIO<TPixel>::FileExtensionsListType& extensionsList =
+  RawImageIO<TPixel,VImageDimension>::FileExtensionsListType& extensionsList =
     m_MyProduct->GetSupportedFileExtensions();
 
   for (int i = 0; i < extensionsList.size(); i++)
     {
     RegisterOverride(m_MyProduct->GetSupportedFileExtensions()[i].c_str(),
                      "RawImageIO", "Create RawImageIO", true,
-                     CreateObjectFunction<RawImageIO<TPixel> >::New());
+                     CreateObjectFunction<RawImageIO<TPixel,VImageDimension> >::New());
     }
 }
 
-template <class TPixel>
-const char* RawImageIOFactory<TPixel>::GetITKSourceVersion()
+template <class TPixel, unsigned int VImageDimension>
+const char* RawImageIOFactory<TPixel,VImageDimension>::GetITKSourceVersion()
 {
   return ITK_SOURCE_VERSION;
 }
 
-template <class TPixel>
-const char* RawImageIOFactory<TPixel>::GetDescription() const
+template <class TPixel, unsigned int VImageDimension>
+const char* RawImageIOFactory<TPixel,VImageDimension>::GetDescription() const
 {
   return "RawImageIOFactory - Object factory with registry";
 }
 
-template <class TPixel>
-RawImageIO<TPixel>::RawImageIO() 
+template <class TPixel, unsigned int VImageDimension>
+RawImageIO<TPixel,VImageDimension>::RawImageIO() 
 : ImageIO()
 {
   m_FilePrefix = "";
@@ -79,12 +79,12 @@ RawImageIO<TPixel>::RawImageIO()
   
   this->SetNumberOfComponents(1);
   
-  for (int idx = 0; idx < 3; ++idx)
+  for (int idx = 0; idx < VImageDimension; ++idx)
     {
     m_ImageExtent[idx*2] = m_ImageExtent[idx*2 + 1] = 0;
     m_ImageVOI[idx*2] = m_ImageVOI[idx*2 + 1] = 0;
-    m_ImageSpacing[idx] = 1.0;
-    m_ImageOrigin[idx] = 0.0;
+    m_Spacing[idx] = 1.0;
+    m_Origin[idx] = 0.0;
     }
   
   m_HeaderSize = 0;
@@ -96,25 +96,25 @@ RawImageIO<TPixel>::RawImageIO()
   m_FileDimensionality = 2;
 }
 
-template <class TPixel>
-RawImageIO<TPixel>::~RawImageIO()
+template <class TPixel, unsigned int VImageDimension>
+RawImageIO<TPixel,VImageDimension>::~RawImageIO()
 {
 }
 
-template <class TPixel>
-void RawImageIO<TPixel>::PrintSelf(std::ostream& os, Indent indent) const
+template <class TPixel, unsigned int VImageDimension>
+void RawImageIO<TPixel,VImageDimension>::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-template <class TPixel>
-unsigned long RawImageIO<TPixel>::GetHeaderSize()
+template <class TPixel, unsigned int VImageDimension>
+unsigned long RawImageIO<TPixel,VImageDimension>::GetHeaderSize()
 {
   return this->GetHeaderSize(m_ImageExtent[4]); //first z-slice
 }
 
-template <class TPixel>
-unsigned long RawImageIO<TPixel>::GetHeaderSize(unsigned long idx)
+template <class TPixel, unsigned int VImageDimension>
+unsigned long RawImageIO<TPixel,VImageDimension>::GetHeaderSize(unsigned long idx)
 {
   if ( m_FileName == "" && m_FilePattern == "" )
     {
@@ -141,8 +141,8 @@ unsigned long RawImageIO<TPixel>::GetHeaderSize(unsigned long idx)
   return m_HeaderSize;
 }
 
-template <class TPixel>
-void RawImageIO<TPixel>::ComputeInternalFileName(unsigned long slice)
+template <class TPixel, unsigned int VImageDimension>
+void RawImageIO<TPixel,VImageDimension>::ComputeInternalFileName(unsigned long slice)
 {
   char buf[2048];
 
@@ -172,8 +172,8 @@ void RawImageIO<TPixel>::ComputeInternalFileName(unsigned long slice)
     }
 }
 
-template <class TPixel>
-void RawImageIO<TPixel>::OpenFile()
+template <class TPixel, unsigned int VImageDimension>
+void RawImageIO<TPixel,VImageDimension>::OpenFile()
 {
   if ( m_FileName == "" && m_FilePattern == "")
     {
@@ -201,8 +201,8 @@ void RawImageIO<TPixel>::OpenFile()
     }
 }
 
-template <class TPixel>
-void RawImageIO<TPixel>::SetHeaderSize(unsigned long size)
+template <class TPixel, unsigned int VImageDimension>
+void RawImageIO<TPixel,VImageDimension>::SetHeaderSize(unsigned long size)
 {
   if ( size != m_HeaderSize)
     {
@@ -212,8 +212,8 @@ void RawImageIO<TPixel>::SetHeaderSize(unsigned long size)
   m_ManualHeaderSize = true;
 }
 
-template <class TPixel>
-void RawImageIO<TPixel>::Load()
+template <class TPixel, unsigned int VImageDimension>
+void RawImageIO<TPixel,VImageDimension>::Load()
 {
   this->OpenFile();
   
@@ -221,33 +221,10 @@ void RawImageIO<TPixel>::Load()
   m_FileData = (void*)0;
 }
 
-template <class TPixel>
-void RawImageIO<TPixel>::Load2D(const std::string fileName)
-{
-}
 
-template <class TPixel>
-void RawImageIO<TPixel>::Load2DSlice(const std::string fileName,
-                                     const unsigned int sliceNum,
-                                     const unsigned int offset)
-{
-}
-
-template <class TPixel>
-void RawImageIO<TPixel>::Save(const std::string headerFile, 
-                              const std::string dataFile)
-{
-}
-
-template <class TPixel>
-void RawImageIO<TPixel>::Save3D(const std::string headerFile, 
-                                const std::string dataFile)
-{
-}
-
-template <class TPixel>
-RawImageIO<TPixel>::FileExtensionsListType& 
-RawImageIO<TPixel>::GetSupportedFileExtensions() const
+template <class TPixel, unsigned int VImageDimension>
+RawImageIO<TPixel,VImageDimension>::FileExtensionsListType& 
+RawImageIO<TPixel,VImageDimension>::GetSupportedFileExtensions() const
 {
   static FileExtensionsListType fileExtensionsList;
 

@@ -119,14 +119,6 @@ void ImageIO::ComputeStrides()
     }
 }
 
-void ImageIO::LoadSeveralSlices (const std::string filePattern,
-                                const int startSlice,
-                                const int endSlice)
-{
-  /*
-   * Not yet implemented, because currently requires code from FLTK
-   */
-}
 
 // Calculates the image size in PIXELS
 unsigned int ImageIO::ImageSizeInPixels() const

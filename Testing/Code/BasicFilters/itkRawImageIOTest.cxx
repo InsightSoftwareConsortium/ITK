@@ -72,12 +72,10 @@ int main(int argc, char *argv[])
   itk::RawImageIO<unsigned short>::Pointer io;
   io = itk::RawImageIO<unsigned short>::New();
   io->SetFilePrefix(argv[1]);
-  unsigned long extent[6] = {0,255,0,255,50,50};
-  io->SetImageExtent(extent);
-  float spacing[3] = {0.8, 0.8, 1.5};
-  io->SetImageSpacing(spacing);
-  float origin[3] = {0.0,0.0,0.0};
-  io->SetImageOrigin(origin);
+  double spacing[3] = {0.8, 0.8, 1.5};
+  io->SetSpacing(spacing);
+  double origin[3] = {0.0,0.0,0.0};
+  io->SetOrigin(origin);
   io->SetHeaderSize(0);
   io->SetImageMask(0x7fff);
   io->SetImageByteOrderToLittleEndian();
