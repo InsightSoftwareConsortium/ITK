@@ -27,7 +27,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkConstShapedNeighborhoodIterator.h"
-
+#include "vnl/vnl_math.h"
 
 namespace itk {
 
@@ -190,9 +190,6 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
     }
 
 
-  //ProgressReporter progress(this, 0, ????);
-
-
   // Filter was configured to run until convergence. We need to
   // delegate to an instance of the filter to run each iteration
   // separately. For efficiency, we will delegate to an instance that
@@ -211,6 +208,17 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
   singleIteration->GetOutput()
     ->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
   
+  // Guess at the number of iterations (worst case estimate)
+  double guess = 0.0;
+  for (unsigned int i = 0; i < this->GetOutput()->GetRequestedRegion().GetSize().GetSizeDimension(); i++)
+    {
+    guess += vnl_math_sqr(static_cast<double>(this->GetOutput()->GetRequestedRegion().GetSize()[i]));
+    }
+  unsigned int maxSize = static_cast<unsigned int>(::sqrt(guess));
+  std::cout << "GUESS: " << maxSize << std::endl;
+
+  ProgressReporter progress(this, 0, maxSize, maxSize);
+
   // run until convergence
   while (!done)
     {
@@ -256,6 +264,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
 
       // Keep track of how many iterations have be done
       m_NumberOfIterationsUsed++;
+      progress.CompletedPixel();
       }
     }
 

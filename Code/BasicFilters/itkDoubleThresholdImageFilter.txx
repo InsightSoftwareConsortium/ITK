@@ -20,6 +20,7 @@
 #include "itkDoubleThresholdImageFilter.h"
 #include "itkGrayscaleGeodesicDilateImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
+#include "itkProgressAccumulator.h"
 
 namespace itk {
 
@@ -76,6 +77,12 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>
   typedef GrayscaleGeodesicDilateImageFilter<TOutputImage, TOutputImage> DilationFilterType;
 
   typename ThresholdFilterType::Pointer narrowThreshold = ThresholdFilterType::New();
+
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+
+
   narrowThreshold->SetLowerThreshold( m_Threshold2 );
   narrowThreshold->SetUpperThreshold( m_Threshold3 );
   narrowThreshold->SetInsideValue( m_InsideValue );
@@ -94,6 +101,10 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>
   dilate->SetMaskImage( wideThreshold->GetOutput() );
   dilate->RunOneIterationOff();   // run to convergence
   
+  progress->RegisterInternalFilter(narrowThreshold,.1f);
+  progress->RegisterInternalFilter(wideThreshold,.1f);
+  progress->RegisterInternalFilter(dilate,.8f);
+
   // graft our output to the dilate filter to force the proper regions
   // to be generated
   dilate->GraftOutput( this->GetOutput() );
@@ -118,12 +129,24 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Threshold1: " << m_Threshold1 << std::endl;
-  os << indent << "Threshold2: " << m_Threshold2 << std::endl;
-  os << indent << "Threshold3: " << m_Threshold3 << std::endl;
-  os << indent << "Threshold4: " << m_Threshold4 << std::endl;
-  os << indent << "InsideValue: " << m_InsideValue << std::endl;
-  os << indent << "OutsideValue: " << m_OutsideValue << std::endl;
+  os << indent << "Threshold1: "
+     << static_cast<NumericTraits<InputPixelType>::PrintType>(m_Threshold1)
+     << std::endl;
+  os << indent << "Threshold2: "
+     << static_cast<NumericTraits<InputPixelType>::PrintType>(m_Threshold2)
+     << std::endl;
+  os << indent << "Threshold3: "
+     << static_cast<NumericTraits<InputPixelType>::PrintType>(m_Threshold3)
+     << std::endl;
+  os << indent << "Threshold4: "
+     << static_cast<NumericTraits<InputPixelType>::PrintType>(m_Threshold4)
+     << std::endl;
+  os << indent << "InsideValue: "
+     << static_cast<NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
+     << std::endl;
+  os << indent << "OutsideValue: "
+     << static_cast<NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
+     << std::endl;
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;
 }
