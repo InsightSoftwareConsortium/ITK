@@ -44,6 +44,8 @@ class MetaEllipse : public MetaObject
 
     MetaEllipse(const MetaEllipse *_ellipse);    
 
+    MetaEllipse(unsigned int dim);
+
     ~MetaEllipse(void);
 
     void PrintInfo(void) const;

@@ -40,6 +40,14 @@ MetaEllipse(const MetaEllipse *_ellipse)
   CopyInfo(_ellipse);
 }
 
+MetaEllipse::
+MetaEllipse(unsigned int dim)
+:MetaObject(dim)
+{
+  if(META_DEBUG) std::cout << "MetaEllipse()" << std::endl;
+  Clear();
+}
+
 //
 MetaEllipse::
 ~MetaEllipse()
