@@ -32,9 +32,12 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::
 CannyEdgeDetectionImageFilter()
 {
   unsigned int i;
-  
-  this->SetVariance(0.0f);
-  this->SetMaximumError(0.01f);
+
+  for (i = 0; i < ImageDimension; i++)
+    {
+    m_Variance[i] = 0.0f;
+    m_MaximumError[i] = 0.01f;
+    }
   m_OutsideValue = NumericTraits<OutputImagePixelType>::Zero;
   m_Threshold = NumericTraits<OutputImagePixelType>::Zero;
   m_UpdateBuffer = OutputImageType::New();
