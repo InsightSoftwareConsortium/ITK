@@ -63,6 +63,7 @@ int itkNeighborhoodOperatorImageFunctionTest(int, char* [] )
   oper->CreateToRadius(3);
   
   function->SetOperator(*oper);
+  delete oper;
 
   itk::Index<3>    index;
   index.Fill(25);
