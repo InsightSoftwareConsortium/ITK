@@ -77,7 +77,7 @@ public:
    * an Object which must be constructed through the "New()" routine. */
   MapContainer():MapType() {}
   MapContainer(const MapKeyCompareType& comp):MapType(comp) {}
-//  MapContainer(const Self& r):MapType(r) {}
+  //  MapContainer(const Self& r):MapType(r) {}
   template <typename InputIterator>
   MapContainer(InputIterator first, InputIterator last):MapType(first, last) {}
   template <typename InputIterator>
@@ -86,6 +86,17 @@ public:
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
+
+  /** This type is provided to Adapt this container as an STL container */
+  typedef MapType STLContainerType;
+
+  /** Cast the container to a STL container type */
+  STLContainerType & CastToSTLContainer() {
+     return static_cast<STLContainerType &>(*this); }
+
+  /** Cast the container to a const STL container type */
+  const STLContainerType & CastToSTLConstContainer() const {
+     return static_cast<const STLContainerType &>(*this); }
 
   /** Declare iterators to container. */
   class Iterator;

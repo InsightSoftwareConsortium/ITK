@@ -84,6 +84,10 @@ protected:
     Object(), VectorType(first, last) {}
   
 public:
+
+  /** This type is provided to Adapt this container as an STL container */
+  typedef VectorType STLContainerType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
@@ -94,6 +98,14 @@ public:
   class Iterator;
   class ConstIterator;
     
+  /** Cast the container to a STL container type */
+  STLContainerType & CastToSTLContainer() {
+     return static_cast<STLContainerType &>(*this); }
+
+  /** Cast the container to a const STL container type */
+  const STLContainerType & CastToSTLConstContainer() const {
+     return static_cast<const STLContainerType &>(*this); }
+
   /** Friends to this class. */
   friend class Iterator;
   friend class ConstIterator;
