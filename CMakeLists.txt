@@ -30,6 +30,9 @@ BEGIN MAKE VERBATIM
 # NightlyStart:
 #	$(TCLSH) Testing/Utilities/DashboardManager.tcl Nightly Start
 
+Nightly:
+	$(TCLSH) Testing/Utilities/DashboardManager.tcl Nightly Start Build Test Submit
+
 NightlyBuild:
 	$(TCLSH) Testing/Utilities/DashboardManager.tcl Nightly Start Build
 
