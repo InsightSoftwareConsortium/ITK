@@ -92,9 +92,8 @@ public:
   
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
-   * There are 9 parameters. The first three represent the
-   * versor, the following three represent the center of rotation
-   * and the last three represent the offset. */
+   * There are 6 parameters. The first three represent the
+   * versor, the last three represent the translation. */
   void SetParameters( const ParametersType & parameters );
   virtual const ParametersType& GetParameters(void) const;
 
