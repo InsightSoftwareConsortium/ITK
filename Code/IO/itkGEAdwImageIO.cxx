@@ -193,8 +193,8 @@ namespace itk
     this->GetIntAt(f,GE_ADW_VARIABLE_HDR_LENGTH,&tmpInt);
     hdr->offset = GE_ADW_FIXED_HDR_LENGTH + tmpInt;
 
-    strncpy (hdr->filename, FileNameToRead, IOCommon::MAXPATHLEN);
-    hdr->filename[IOCommon::MAXPATHLEN] = '\0';
+    strncpy (hdr->filename, FileNameToRead, IOCommon::ITK_MAXPATHLEN);
+    hdr->filename[IOCommon::ITK_MAXPATHLEN] = '\0';
 
     return hdr;
   }

@@ -116,10 +116,9 @@ namespace itk
           UNKNOWN_PLANE = 5
         };
 
-      enum { MAX_FILENAMELIST_SIZE = 512, MAXPATHLEN=2048 };
 
       struct FILESORTINFOSTRUCT {
-        char imageFileName[MAXPATHLEN+1];
+        char imageFileName[itk::IOCommon::ITK_MAXPATHLEN+1];
         float SliceLocation;
         int  SliceOffset;
         int echoNumber;
@@ -135,7 +134,7 @@ namespace itk
 
       struct FILENAMELISTSTRUCT
       {
-        FILESORTINFO Info[MAX_FILENAMELIST_SIZE];
+        FILESORTINFO Info[itk::IOCommon::MAX_FILENAMELIST_SIZE];
         int  XDim;
         int  YDim;
         int Key1;  /** Key that must be matched for image to be used, i.e. seriesNumber, extensionkey*/

@@ -284,9 +284,15 @@ char *IOCommon
 ::RealPath(const char *path, char *resolved_path)
 {
 #if defined(_WIN32)
+<<<<<<< itkIOCommon.cxx
+  char pathpart[itk::IOCommon::ITK_MAXPATHLEN];
+  std::strcpy(pathpart,path);
+  char fnamepart[itk::IOCommon::ITK_MAXPATHLEN];
+=======
   char pathpart[MAXPATHLEN];
   strcpy(pathpart,path);
   char fnamepart[MAXPATHLEN];
+>>>>>>> 1.5
   char *slash;
 
   if((slash = strrchr(pathpart,'/')) == NULL)
@@ -304,7 +310,7 @@ char *IOCommon
       *slash = '\0';
       strcpy(fnamepart,slash+1);
 
-      char savedir[MAXPATHLEN];
+      char savedir[itk::IOCommon::ITK_MAXPATHLEN];
       Getcwd(savedir,sizeof(savedir));
       Chdir(pathpart);
       Getcwd(pathpart,sizeof(pathpart));

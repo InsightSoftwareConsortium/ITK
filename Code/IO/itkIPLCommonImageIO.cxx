@@ -129,8 +129,8 @@ namespace itk
      
     //
     // GE images are stored in separate files per slice.
-    char imagePath[IOCommon::MAXPATHLEN+1];
-    char imageMask[IOCommon::MAXPATHLEN+1];
+    char imagePath[IOCommon::ITK_MAXPATHLEN+1];
+    char imageMask[IOCommon::ITK_MAXPATHLEN+1];
     if(IOCommon::RealPath(FileNameToRead,imagePath) == NULL)
       RAISE_EXCEPTION();
     strcpy(imageMask,imagePath);
@@ -162,7 +162,7 @@ namespace itk
     {
       continue;
     }
-  char fullPath[IOCommon::MAXPATHLEN+1];
+  char fullPath[IOCommon::ITK_MAXPATHLEN+1];
   sprintf(fullPath,"%s/%s",imagePath,curFname);
   try 
     {
@@ -353,9 +353,9 @@ namespace itk
     fnList->Info[fnList->numImageInfoStructs].SliceLocation = sliceLocation;
     fnList->Info[fnList->numImageInfoStructs].echoNumber = 0;
     fnList->Info[fnList->numImageInfoStructs].SliceOffset = offset;
-    strncpy ( fnList->Info[fnList->numImageInfoStructs].imageFileName,filename, IOCommon::MAXPATHLEN+1);
+    strncpy ( fnList->Info[fnList->numImageInfoStructs].imageFileName,filename, IOCommon::ITK_MAXPATHLEN+1);
     fnList->numImageInfoStructs++;
-    assert(fnList->numImageInfoStructs< MAX_FILENAMELIST_SIZE);
+    assert(fnList->numImageInfoStructs< itk::IOCommon::MAX_FILENAMELIST_SIZE);
     return 1;
   }
   /**
