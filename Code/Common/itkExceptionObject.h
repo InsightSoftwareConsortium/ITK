@@ -14,13 +14,13 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 #ifndef __itkExceptionObject_h
 #define __itkExceptionObject_h
 
-#include "itkObject.h"
-#include "itkIndent.h"
 #include <string>
+#include <stdexcept>
+
+#include "itkWin32Header.h"
 
 namespace itk
 {
@@ -30,31 +30,38 @@ namespace itk
  *
  * ExceptionObject provides standard methods for throwing
  * and managing exceptions in itk. Specific exceptions should be
- * derived from this class.
+ * derived from this class. Note that this class is derived from
+ * std::exception, so an application can catch ITK exceptions as
+ * std::exception if desired.
  *
  * ExceptionObject maintains two types of information: a location
  * and description (both of which are strings). The location is the
  * point in the code where the exception was thrown; the description
- * is an error message that describes the exception.
+ * is an error message that describes the exception. The ExceptionObject
+ * can be thrown explicitly in code, or more conveniently, the 
+ * itkExceptionMacro (found in Common/itkMacro.h) can be used.
  *
  * \ingroup ITKSystemObjects 
  */
-class ITK_EXPORT ExceptionObject
+class ITK_EXPORT ExceptionObject : public std::exception
 {
 public:
   /** Various types of constructors.  Note that these functions will be
    * called when children are instantiated. */
-  ExceptionObject(const char *file = "Unknown", unsigned int lineNumber=0)
+  ExceptionObject(const char *file="Unknown", unsigned int lineNumber=0,
+                  const char *desc="None", const char *loc="Unknown")
   {
-    m_Location = "";
-    m_Description = "";
+    m_Location = loc;
+    m_Description = desc;
     m_File = file;
     m_Line = lineNumber;
   };
-  ExceptionObject(const std::string& file, unsigned int lineNumber)
+  ExceptionObject(const std::string& file, unsigned int lineNumber,
+                  const std::string& desc="None",
+                  const std::string& loc="Unknown")
   {
-    m_Location = "";
-    m_Description = "";
+    m_Location = loc;
+    m_Description = desc;
     m_File = file;
     m_Line = lineNumber;
   };
@@ -66,8 +73,8 @@ public:
     m_Line = orig.m_Line;
   }
   
-  /** Virtual destructor needed  */
-  virtual ~ExceptionObject() {};
+  /** Virtual destructor needed for subclasses.  */
+  virtual ~ExceptionObject() {}
 
   /** Assignment operator. */
   ExceptionObject &operator= ( const ExceptionObject &orig )
@@ -95,6 +102,9 @@ public:
       }
   }
           
+  virtual const char *GetNameOfClass() const 
+    {return "ExceptionObject";}
+
   /** Print exception information.  This method can be overridden by
    * specific exception subtypes.  The default is to print out the
    * location where the exception was first thrown and any description
@@ -119,29 +129,17 @@ public:
   
   /** What file did the exception occur in? */
   virtual const char *GetFile()    const 
-    { return m_File.c_str();    }
+    { return m_File.c_str(); }
 
   /** What line did the exception occur in? */
   virtual unsigned int GetLine() const 
     { return m_Line; }
   
-  /** Return the name of the class. */
-  itkTypeMacro(ExceptionObject, None);
-
-protected:
-  /** Methods invoked by Print() to print information about the object
-   * including superclasses. Typically not called by the user (use Print()
-   * instead) but used in the hierarchical print process to combine the
-   * output of several classes.  */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
-  virtual void PrintHeader(std::ostream& os, Indent indent) const;
-  virtual void PrintTrailer(std::ostream& os, Indent indent) const;
-    
 private:
   /** Exception data.  Location of the error and description of the error. */
-  std::string m_Location;
-  std::string m_Description;
-  std::string m_File;
+  std::string  m_Location;
+  std::string  m_Description;
+  std::string  m_File;
   unsigned int m_Line;
  
 };
@@ -239,48 +237,6 @@ public:
   itkTypeMacro(IncompatibleOperandsError, ExceptionObject);
 };
 
-
-/**
- * This class demonstrates subclassing the base class and adding additional
- * data fields.
- */
-/*
-class SampleError : public ExceptionObject
-{
-private:
-  int m_ExtraInfo;
-public:
-  // Constructor and copy constructor:  Be sure parent constructors are called.
-  SampleError () : ExceptionObject(), m_ExtraInfo(0) {}
-  SampleError (const SampleError& orig) : ExceptionObject(orig)
-  {
-        m_ExtraInfo = orig.m_ExtraInfo;
-  }
-
-  // Assignment operator:  Be sure parent assignment operator is called.
-  SampleError &operator= ( const SampleError &orig )
-  { 
-        ExceptionObject::operator= ( orig );
-        m_ExtraInfo = orig.m_ExtraInfo;
-        return *this;
-  }
-
-  // Get and set methods for the new field.
-  void SetExtraInfo( const int &i ) { m_ExtraInfo = i; }
-  int  GetExtraInfo() { return m_ExtraInfo; }
-  
-  // Print function is overloaded to display new information.  Parent
-  // print function is used to print basic information.
-  void Print(std::ostream& os)  const
-  {
-        ExceptionObject::Print( os );
-        os << std::endl << "\tExtra info: " << m_ExtraInfo;
-  }
-
-  itkTypeMacro(SampleError, ExceptionObject);
-
-};
-*/
 
 } // end namespace itk
 
