@@ -32,5 +32,6 @@ itkRegistrationModelToImage
 itkRegistrationPoints3D2DAffine
 itkRegistrationProcrustes
 itkSupervisedClassifierTest
+itkTraitsTest
 itkUnsupervisedClassifierTest
 )

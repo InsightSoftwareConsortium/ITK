@@ -16,7 +16,6 @@ itkPointGeometryTest
 itkScalarTest
 itkSliceIteratorTest
 itkSmartPointerTest
-itkTraitsTest
 itkVectorGeometryTest
 itkVectorTest
 )
