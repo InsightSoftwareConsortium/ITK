@@ -933,7 +933,7 @@ ProcessObject
     {
     if ( m_Outputs[idx] )
       {
-      //subtract one because we are referencing it
+      // subtract one (per each data object) because the data object references me
       refCount += m_Outputs[idx]->GetNetReferenceCount() - 1;
       }
     }
@@ -945,31 +945,36 @@ void
 ProcessObject
 ::UnRegister()
 {
-  bool wasDeletedByOutput=false;
+  // Determine the number of external references to the expected reference
+  // count cycle between the process objects and its outputs.
   int refCount = this->GetNetReferenceCount();
 
-  // We are decrementing the count by 1. So if the net
-  // reference count (combined process/data object count)
+  // We are decrementing the external reference count by 1. So if the net 
+  // (external) reference count (combined process/data object count)
   // is <= 1, then we are going to be destroyed.
   if ( refCount <= 1 ) 
     {
+    // The following magic statement temporarily ups the reference
+    // count so that the SetSource() method, which results in a recursive
+    // UnRegister(), does not enter into this if(refCount<=1) loop the
+    // next time. We UnRegister() when we are done with the outputs.
+    Superclass::Register();
+
+    // Break reference count cycle to output
     for (int idx = 0; idx < m_Outputs.size(); ++idx)
       {
       if ( m_Outputs[idx] )
         {
-        if ( m_Outputs[idx]->GetSource().GetPointer() == this )
-          {
-          wasDeletedByOutput = true;
-          }
-        m_Outputs[idx]->SetSource(0); //side effect: deletes me!
+        m_Outputs[idx]->SetSource(0); //side effect: recursively unregister me!
         }
       }//for all outputs
+
+    // Release block for recursive UnRegister()
+    Superclass::UnRegister();
     }//if deleting
 
-  if ( !wasDeletedByOutput )
-    {
-    Superclass::UnRegister();
-    }
+  // Cycle is broken, propagate normal behavior to superclass
+  Superclass::UnRegister();
 }
 
 

@@ -104,8 +104,7 @@ DataObject
 }
 
 //----------------------------------------------------------------------------
-// Note: this method specifically does not do a Register(). This is
-// to break the reference counting loop between process and data objects.
+// Set the process object that generates this data object.
 //
 void 
 DataObject
@@ -116,7 +115,6 @@ DataObject
 
   if (m_Source != arg) 
     {
-    ProcessObject::Pointer tmp = m_Source;
     m_Source = arg; 
     this->Modified(); 
     }
