@@ -51,6 +51,7 @@ public:
   SubjectImplementation() {m_Count = 0;}
   ~SubjectImplementation();
   unsigned long AddObserver(const EventObject & event, Command* cmd);
+  unsigned long AddObserver(const EventObject & event, Command* cmd) const;
   void RemoveObserver(unsigned long tag);
   void RemoveAllObservers();
   void InvokeEvent( const EventObject & event, Object* self);
@@ -82,6 +83,19 @@ AddObserver(const EventObject & event,
   Observer* ptr = new Observer(cmd, event.MakeObject(), m_Count);
   m_Observers.push_back(ptr);
   m_Count++;
+  return ptr->m_Tag;
+}
+
+
+unsigned long 
+SubjectImplementation::
+AddObserver(const EventObject & event,
+            Command* cmd) const
+{
+  Observer* ptr = new Observer(cmd, event.MakeObject(), m_Count);
+  SubjectImplementation * me = const_cast<SubjectImplementation *>( this );
+  me->m_Observers.push_back(ptr);
+  me->m_Count++;
   return ptr->m_Tag;
 }
 
@@ -377,6 +391,19 @@ Object
   if (!this->m_SubjectImplementation)
     {
     this->m_SubjectImplementation = new SubjectImplementation;
+    }
+  return this->m_SubjectImplementation->AddObserver(event,cmd);
+}
+
+
+unsigned long 
+Object
+::AddObserver(const EventObject & event, Command *cmd) const
+{
+  if (!this->m_SubjectImplementation)
+    {
+    Self * me = const_cast<Self *>( this );
+    me->m_SubjectImplementation = new SubjectImplementation;
     }
   return this->m_SubjectImplementation->AddObserver(event,cmd);
 }

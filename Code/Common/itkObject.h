@@ -109,6 +109,7 @@ public:
    * this object, so don't pass the same instance of a command to two
    * different objects  */
   unsigned long AddObserver(const EventObject & event, Command *);
+  unsigned long AddObserver(const EventObject & event, Command *) const;
  
   /** Get the command associated with the given tag.  NOTE: This returns
    * a pointer to a Command, but it is safe to asign this to a
