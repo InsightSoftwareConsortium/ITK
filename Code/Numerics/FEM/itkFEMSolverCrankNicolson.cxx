@@ -515,33 +515,70 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
    * Copy the resulting displacements from 
    * solution vector back to node objects.
    */
-  Float mins=0.0, maxs=0.0;
+  Float mins=0.0, maxs=0.0,CurrentTotSolution,CurrentSolution=0.,CurrentForce=0.;
   Float mins2=0.0, maxs2=0.0;
   for(unsigned int i=0;i<NGFN;i++)
   {  
     
 //  note: set rather than add - i.e. last solution of system not total solution  
 #ifdef LOCE
-    Float CurrentSolution=optimum*m_ls->GetSolutionValue(i,SolutionTIndex)
+    CurrentSolution=optimum*m_ls->GetSolutionValue(i,SolutionTIndex)
           +(1.-optimum)*m_ls->GetVectorValue(i,SolutionVectorTMinus1Index);
-    Float CurrentForce=optimum*m_ls->GetVectorValue(i,ForceTIndex)
+    CurrentForce=optimum*m_ls->GetVectorValue(i,ForceTIndex)
           +(1.-optimum)*m_ls->GetVectorValue(i,ForceTMinus1Index);
     m_ls->SetVectorValue(i,CurrentSolution,SolutionVectorTMinus1Index);   
     m_ls->SetSolutionValue(i,CurrentSolution,SolutionTMinus1Index);   
     m_ls->SetVectorValue(i , CurrentForce, ForceTMinus1Index); // now set t minus one force vector correctly
 #endif
 #ifdef TOTE
-    Float CurrentSolution=optimum*m_ls->GetSolutionValue(i,SolutionTIndex);
-    Float CurrentForce=optimum*m_ls->GetVectorValue(i,ForceTIndex);
+    CurrentSolution=optimum*m_ls->GetSolutionValue(i,SolutionTIndex);
+    CurrentForce=optimum*m_ls->GetVectorValue(i,ForceTIndex);
     m_ls->AddVectorValue(i,CurrentSolution,SolutionVectorTMinus1Index); // FOR TOT E   
     m_ls->AddSolutionValue(i,CurrentSolution,SolutionTMinus1Index);  // FOR TOT E 
     m_ls->SetVectorValue(i,CurrentForce,ForceTMinus1Index);
 #endif
    
-    if (CurrentSolution < mins2 )  mins2=CurrentSolution;
-    else if (CurrentSolution > maxs2 )  maxs2=CurrentSolution;
+    if (CurrentSolution < mins2 ){  
+      mins2=CurrentSolution;
+    }
+    else if (CurrentSolution > maxs2 ) {
+      maxs2=CurrentSolution;
+    }
     m_ls->AddSolutionValue(i,CurrentSolution,TotalSolutionIndex);
     m_ls->AddVectorValue(i , CurrentForce, ForceTotalIndex);
+    CurrentTotSolution=m_ls->GetSolutionValue(i,TotalSolutionIndex);
+    if (CurrentTotSolution < mins ) { 
+      mins=CurrentTotSolution;
+    }
+    else if (CurrentTotSolution > maxs ) {
+      maxs=CurrentTotSolution;
+    }
+  }  
+ 
+//  std::cout << " min cur solution val " << mins2 << std::endl;
+//  std::cout << " max cur solution val " << maxs2 << std::endl;
+//  std::cout << " min tot solution val " << mins << std::endl;
+//  std::cout << " max tot solution val " << maxs << std::endl;
+
+}
+
+/*
+ * Compute maximum and minimum solution values.
+ */  
+void SolverCrankNicolson::PrintMinMaxOfSolution() 
+{
+  /*
+   * Copy the resulting displacements from 
+   * solution vector back to node objects.
+   */
+  std::cout << " Printing min/max of total and current solutions " << std::endl;
+  Float mins=0.0, maxs=0.0;
+  Float mins2=0.0, maxs2=0.0;
+  for(unsigned int i=0;i<NGFN;i++)
+  {  
+    Float CurrentSolution=m_ls->GetSolutionValue(i,SolutionTIndex);
+    if (CurrentSolution < mins2 )  mins2=CurrentSolution;
+    else if (CurrentSolution > maxs2 )  maxs2=CurrentSolution;
     CurrentSolution=m_ls->GetSolutionValue(i,TotalSolutionIndex);
     if (CurrentSolution < mins )  mins=CurrentSolution;
     else if (CurrentSolution > maxs )  maxs=CurrentSolution;
@@ -553,7 +590,6 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
   std::cout << " max tot solution val " << maxs << std::endl;
 
 }
-
 
 /*
  * Copy solution vector u to the corresponding nodal values, which are
