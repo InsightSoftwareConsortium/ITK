@@ -68,16 +68,38 @@ namespace itk
  * Index[0] = col, Index[1] = row, Index[2] = slice, etc.
  *
  * operator++ provides a simple syntax for walking around a region of
- * a multidimensional image. operator++ iterates across a row, constraining
- * the movement to within a region of image. When the iterator reaches
- * the boundary of the region along a row, the iterator automatically
- * wraps to the next row, starting at the first pixel in the row that is
- * part of the region. This allows for simple processing loops of the form:
+ * a multidimensional image. operator++ iterates across a preselected direction 
+ * constraining the movement to within a region of image. The user can verify
+ * when the iterator reaches the boundary of the region along this direction, 
+ * by calling the IsAtEndOfLine() method. Then it is possible to pass to the
+ * next line starting at the first pixel in the row that is part of the region 
+ * by calling the NextLine() method.
  *
- *      for (it = image->RegionBegin(); it != image->RegionEnd(); ++it)
- *         {
- *         *it += 100.0;
- *         }
+ * This is the typical use of this iterator in a loop:
+ *
+ * \code
+ *  
+ * ImageLinearConstIterator<ImageType> it( image, image->GetRequestedRegion() );
+ * 
+ * it.SetDirection(2);
+ * it.GoToBegin();
+ * while( !it.IsAtEnd() )
+ * {
+ *   while( !it.IsAtEndOfLine() )
+ *   {
+ *      value = it.Get();  // it.Set() doesn't exist in the Const Iterator
+ *      ++it;
+ *   }
+ *   it.NextLine();
+ *  } 
+ *
+ *  \endcode
+ *
+ * \example  Common/itkImageLinearIteratorTest.cxx
+ *
+ * \todo Implement operator-- for reverse iteration
+ *
+ *
  *
  */
 template<typename TImage>

@@ -95,7 +95,9 @@ namespace itk
  *
  *  \endcode
  *
- * \example  itkImageLinearIteratorTest.cxx
+ * \example  Common/itkImageLinearIteratorTest.cxx
+ *
+ * \todo Implement operator-- for reverse iteration
  *
  */
 template<typename TImage>
