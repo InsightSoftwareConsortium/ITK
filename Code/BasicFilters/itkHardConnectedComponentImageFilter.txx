@@ -19,6 +19,7 @@
 #include "itkHardConnectedComponentImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -30,8 +31,8 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   unsigned int i;
   int p,q,m;
 
-  unsigned short eq_tab[vnl_numeric_limits<unsigned short>::max()];
-  unsigned char flags[vnl_numeric_limits<unsigned short>::max()];
+  unsigned short eq_tab[NumericTraits<unsigned short>::max()];
+  unsigned char flags[NumericTraits<unsigned short>::max()];
   OutputPixelType    label,max_label = 0;
   IndexType          index,current;
   SizeType           size;
@@ -58,7 +59,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   for(;!it.IsAtEnd(); ++it,++ot)
     if(it.Get() != 0)
       {
-      ot.Set(vnl_numeric_limits<unsigned short>::max());
+      ot.Set(NumericTraits<unsigned short>::max());
       }
     else
       {
@@ -79,7 +80,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
               else
                 label = output->GetPixel(current);
               if(label)
-                if(ot.Get() == vnl_numeric_limits<unsigned short>::max())
+                if(ot.Get() == NumericTraits<unsigned short>::max())
                   ot.Set(label);
                 else if((ot.Get() != label) && (eq_tab[ot.Get()] != eq_tab[label]))
                    if(eq_tab[ot.Get()] > eq_tab[label])
@@ -97,12 +98,12 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
                            eq_tab[p] = eq_tab[ot.Get()];
                      }
             }
-          if(ot.Get() == vnl_numeric_limits<unsigned short>::max())
+          if(ot.Get() == NumericTraits<unsigned short>::max())
             {
               ++max_label;
               eq_tab[max_label] = max_label;
               ot.Set(max_label);
-              if(max_label == vnl_numeric_limits<unsigned short>::max())
+              if(max_label == NumericTraits<unsigned short>::max())
                 return;
             }
         }
