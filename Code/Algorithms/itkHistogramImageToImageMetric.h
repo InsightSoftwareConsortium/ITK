@@ -162,6 +162,9 @@ protected:
       subclasses must reimplement this method. */
   virtual MeasureType EvaluateMeasure(HistogramType& histogram) const = 0;
   
+  /** PrintSelf funtion */
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
 private:
   HistogramImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
