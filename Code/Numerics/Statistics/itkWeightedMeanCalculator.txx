@@ -26,6 +26,37 @@ WeightedMeanCalculator< TSample >
 {
   m_WeightFunction = 0 ;
   m_Weights = 0 ;
+  m_Output.Fill(0.0) ;
+}
+
+template< class TSample >
+void
+WeightedMeanCalculator< TSample >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  
+  os << indent << "Output: " << m_Output << std::endl ;
+
+  os << indent << "WeightFunction: " ; 
+  if ( m_WeightFunction != 0 )
+    {
+    os << m_WeightFunction << std::endl ;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
+  os << indent << "Weights: " ;
+  if ( m_Weights != 0 )
+    {
+    os << m_Weights << std::endl ;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
 }
 
 template< class TSample >
@@ -67,7 +98,6 @@ WeightedMeanCalculator< TSample >
 ::GenerateData() 
 {
   m_Output.Fill(0.0) ;
-
   typename TSample::Iterator iter = this->GetInputSample()->Begin() ;
   typename TSample::Iterator end = this->GetInputSample()->End() ;
   double totalWeight = 0.0 ;
@@ -119,15 +149,6 @@ WeightedMeanCalculator< TSample >
   return &m_Output ;
 }
 
-template< class TSample >
-void
-WeightedMeanCalculator< TSample >
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-  
-  std::cout << "Output: " << m_Output << std::endl ;
-}
 } // end of namespace Statistics 
 } // end of namespace itk
 
