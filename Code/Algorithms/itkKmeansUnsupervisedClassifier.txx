@@ -223,7 +223,7 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   itkDebugMacro(<<"Histogram of the vector             ");
   itkDebugMacro(<<"+++++++++++++++++++++++++++++++++++ ");
 
-  itkDebugMacro(<<m_CodewordHist);
+  itkDebugMacro(<<m_CodewordHistogram);
 
 }// End PrintKmeansAlgorithmResults
 
@@ -344,7 +344,7 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
       // consolidate the highest distortion codewords into the beginning
       // of the array.  Take care to protect zero distortion codewords
-      // which have a positive m_CodewordHist.  note: there must be a
+      // which have a positive m_CodewordHistogram.  note: there must be a
       // faster sort algorithm, but this event should be very unlikely
       for ( unsigned int n = 0; n < m_CurrentNumberOfCodewords - emptycells; n++ ) 
         {
