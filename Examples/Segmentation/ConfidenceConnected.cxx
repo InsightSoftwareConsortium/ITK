@@ -14,6 +14,21 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+//  Software Guide : BeginCommandLineArgs
+//  INPUTS: {BrainProtonDensitySlice.png}
+//  OUTPUTS: {ConfidenceConnectedOutput1.png}
+//  60 116
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//  INPUTS: {BrainProtonDensitySlice.png}
+//  OUTPUTS: {ConfidenceConnectedOutput2.png}
+//  81 112
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//  INPUTS: {BrainProtonDensitySlice.png}
+//  OUTPUTS: {ConfidenceConnectedOutput3.png}
+//  107 69
+//  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
 //
