@@ -42,6 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkAddImageFilter_h
 
 #include "itkBinaryImageFilter.h"
+#include "itkNumericTraits.h"
+
 
 namespace itk
 {
@@ -53,22 +55,42 @@ namespace itk
  * input images and the type of the output image. 
  * Numeric conversions (castings) are done by the C++ defaults.
  *
+ * The pixel type of the input 1 image must have a valid defintion of
+ * the operator+ with a pixel type of the image 2. This condition is 
+ * required because internally this filter will perform the operation
+ *
+ *        pixel_from_image_1 + pixel_from_image_2
+ *
+ * Additionally the type resulting from the sum, will be casted onto
+ * the pixel type of the output image.
  * 
+ * The total operation over one pixel will be
+ *
+ *  output_pixel = static_cast<OutputPixelType>( input1_pixel + input2_pixel )
+ *
+ * For example, this filter could be used directly for adding images whose
+ * pixels are vectors of the same dimension, and to store the resulting vector
+ * in an output image of vector pixels.
+ *
+ * \warning No numeric overflow checking is performed in this filter.
+ *
  * \ingroup IntensityImageFilters
  *
  */
 
-namespace Function {  
+namespace Functor {  
   
-  template< class TInput1, class TInput2, class TOutput>
+  template< class TInput1, class TInput2, class TOutput >
   class Add2
   {
   public:
+    typedef NumericTraits< TInput1 >::AccumulateType AccumulatorType;
     Add2() {};
     ~Add2() {};
     inline TOutput operator()( const TInput1 & A, const TInput2 & B)
     {
-      return (TOutput)(A + B);
+      const AccumulatorType sum = A;
+      return static_cast<TOutput>( sum + B );
     }
   }; 
 
@@ -80,7 +102,7 @@ template <class TInputImage1, class TInputImage2, class TOutputImage>
 class ITK_EXPORT AddImageFilter :
     public
     BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Function::Add2< 
+    Functor::Add2< 
               typename TInputImage1::PixelType, 
               typename TInputImage2::PixelType,
               typename TOutputImage::PixelType>   >
@@ -97,7 +119,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Function::Add2< 
+    Functor::Add2< 
               typename TInputImage1::PixelType, 
               typename TInputImage2::PixelType,
               typename TOutputImage::PixelType>   
