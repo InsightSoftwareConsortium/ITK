@@ -111,6 +111,12 @@ public:
   
   /** New() method for dynamic construction */
   itkNewMacro( Self );
+
+  /** Needed for Pipelining */
+  virtual void Initialize(void)
+    {
+    m_VertexList->Initialize();
+    }
   
   
 protected:

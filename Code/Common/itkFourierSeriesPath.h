@@ -110,6 +110,11 @@ public:
   /** New() method for dynamic construction */
   itkNewMacro( Self );
   
+    /** Needed for Pipelining */
+  virtual void Initialize(void)
+    {
+    this->Clear();
+    }
   
 protected:
   FourierSeriesPath();

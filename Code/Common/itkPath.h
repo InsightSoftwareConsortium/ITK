@@ -18,7 +18,8 @@
 #ifndef _itkPath_h
 #define _itkPath_h
 
-#include "itkFunctionBase.h"
+//#include "itkFunctionBase.h"
+#include "itkDataObject.h"
 #include "itkIndex.h"
 #include "itkOffset.h"
 #include "itkNumericTraits.h"
@@ -47,14 +48,14 @@ namespace itk
  * \ingroup PathObjects
  */
 template <class TInput, class TOutput, unsigned int VDimension>
-class ITK_EXPORT Path : public FunctionBase< TInput, TOutput >
+class ITK_EXPORT Path : public DataObject
 {
 public:
   /** Standard class typedefs. */
-  typedef Path                          Self;
-  typedef FunctionBase<TInput, TOutput> Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef Path                      Self;
+  typedef DataObject                Superclass;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(Path, FunctionBase);
@@ -101,6 +102,31 @@ public:
    * bounds checking, but are required to return an offset of zero when trying
    * to increment from the final valid input value. */
   virtual OffsetType IncrementInput(InputType & input) const = 0;
+  
+  
+  
+  /**
+   * DataObject methods
+   * 
+   * All of these are either pure virtual functions or empty functions
+   * in itkDataObject
+   */
+  
+  /** Useful for data pipeline updates without memory re-allocation. */
+  virtual void Initialize(void);
+  
+  /** Methods to manage streaming. */
+  virtual void UpdateOutputInformation();
+  virtual void SetRequestedRegionToLargestPossibleRegion();
+  virtual void CopyInformation(const DataObject *data);
+  virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
+  virtual bool VerifyRequestedRegion();
+  
+  /** Set the requested region from this data object to match the requested
+   * region of the data object passed in as a parameter.  This method 
+   * implements the API from DataObject. The data object parameter must be
+   * castable to a PointSet. */
+  virtual void SetRequestedRegion(DataObject *data);
 
 
 protected:
@@ -108,7 +134,7 @@ protected:
   OffsetType  m_ZeroOffset; // = 0 for all dimensions
   IndexType   m_ZeroIndex;  // = 0 for all dimensions
   
-  Path(){ m_ZeroOffset.Fill(0); m_ZeroIndex.Fill(0); }
+  Path();
   ~Path(){}
 
 private:
@@ -119,4 +145,8 @@ private:
 
 } // namespace itk
 
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkPath.txx"
+#endif
+  
 #endif

@@ -137,6 +137,13 @@ public:
     return m_Chain.size();
     }
 
+  /** Needed for Pipelining */
+  virtual void Initialize(void)
+    {
+    m_Start = m_ZeroIndex;
+    this->Clear();
+    }
+
 
 
 protected:
