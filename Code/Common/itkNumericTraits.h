@@ -27,7 +27,7 @@
 #include <limits>
 #define ITK_NUMERIC_LIMITS std::numeric_limits
 #else
-#include "../Insight3DParty/vxl/vnl/vnl_numeric_limits.h"
+#include "vnl/vnl_numeric_limits.h"
 #define ITK_NUMERIC_LIMITS vnl_numeric_limits
 #endif
 
