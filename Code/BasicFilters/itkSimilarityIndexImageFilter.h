@@ -50,7 +50,6 @@ namespace itk {
  * This filter is templated over the two input image type. It assume
  * both image have the same number of dimensions.
  *
- * \ingroup MathematicalSimilarityIndexImageFilters
  * \ingroup MultiThreaded
  */
 template<class TInputImage1, class TInputImage2>
