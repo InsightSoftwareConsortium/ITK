@@ -23,6 +23,7 @@ See COPYRIGHT.txt for copyright details.
 
 #include "itkAcosImageFilter.h"
 #include "itkAdaptImageFilter.h"
+#include "itkAdaptiveHistogramEqualizationImageFilter.txx"
 #include "itkAddImageFilter.h"
 #include "itkAnisotropicDiffusionFunction.h"
 #include "itkAnisotropicDiffusionImageFilter.txx"
