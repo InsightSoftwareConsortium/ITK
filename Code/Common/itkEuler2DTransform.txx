@@ -28,7 +28,6 @@ template <class TScalarType>
 Euler2DTransform<TScalarType>
 ::Euler2DTransform()
 {
- 
 }
 
 // Copy Constructor
@@ -146,15 +145,16 @@ GetJacobian( const InputPointType & p ) const
 
   m_Jacobian.Fill(0.0);
 
-  m_Jacobian[0][0] = -sx; m_Jacobian[0][1] = cx;
-  m_Jacobian[1][0] = -cx; m_Jacobian[1][1] = -sx;
+  // derivatives with respect to the angle
+  m_Jacobian[0][0] = -sx * p[0] + cx * p[1]; 
+  m_Jacobian[1][0] = -cx * p[0] + sx * p[1];
 
   // compute derivatives for the translation part
-  unsigned int blockOffset = 2;  
+  unsigned int blockOffset = 1;  
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
-  {
+    {
     m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
-  }
+    }
 
   return m_Jacobian;
 
