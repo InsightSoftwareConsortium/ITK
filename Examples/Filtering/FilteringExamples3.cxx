@@ -18,8 +18,6 @@ REGISTER_TEST(FFTImageFilterTest);
 REGISTER_TEST(RGBToGrayscaleTest);
 REGISTER_TEST(LaplacianRecursiveGaussianImageFilter1Test);
 REGISTER_TEST(LaplacianRecursiveGaussianImageFilter2Test);
-REGISTER_TEST(ResampleImageFilter6Test);
-REGISTER_TEST(ResampleImageFilter7Test);
 }
 
 #undef main
@@ -57,12 +55,3 @@ REGISTER_TEST(ResampleImageFilter7Test);
 #undef main
 #define main LaplacianRecursiveGaussianImageFilter2Test
 #include "LaplacianRecursiveGaussianImageFilter2.cxx"
-
-#undef main
-#define main ResampleImageFilter6Test
-#include "ResampleImageFilter6.cxx"
-
-#undef main
-#define main ResampleImageFilter7Test
-#include "ResampleImageFilter7.cxx"
-

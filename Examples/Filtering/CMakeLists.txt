@@ -751,7 +751,7 @@ ADD_TEST( LaplacianRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES3}
         3
 )
 
-ADD_TEST( ResampleImageFilter6Test ${FILTERING_EXAMPLES3}
+ADD_TEST( ResampleImageFilter6Test ${FILTERING_EXAMPLES4}
   --compare ${BASELINE}/ResampleImageFilter6.png
             ${TEMP}/ResampleImageFilter6.png
   ResampleImageFilter6Test
@@ -760,7 +760,7 @@ ADD_TEST( ResampleImageFilter6Test ${FILTERING_EXAMPLES3}
         3
 )
 
-ADD_TEST( ResampleImageFilter7Test ${FILTERING_EXAMPLES3}
+ADD_TEST( ResampleImageFilter7Test ${FILTERING_EXAMPLES4}
   --compare ${BASELINE}/ResampleImageFilter7.png
             ${TEMP}/ResampleImageFilter7.png
   ResampleImageFilter7Test

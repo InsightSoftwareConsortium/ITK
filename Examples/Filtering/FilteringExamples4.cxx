@@ -9,6 +9,8 @@
 
 void RegisterTests()
 {
+REGISTER_TEST(ResampleImageFilter6Test);
+REGISTER_TEST(ResampleImageFilter7Test);
 REGISTER_TEST(ResampleVolumesToBeIsotropicTest);
 REGISTER_TEST(ScaleSpaceGenerator2DTest);
 REGISTER_TEST(SubsampleVolumeTest);
@@ -26,3 +28,10 @@ REGISTER_TEST(SubsampleVolumeTest);
 #define main SubsampleVolumeTest
 #include "SubsampleVolume.cxx"
 
+#undef main
+#define main ResampleImageFilter6Test
+#include "ResampleImageFilter6.cxx"
+
+#undef main
+#define main ResampleImageFilter7Test
+#include "ResampleImageFilter7.cxx"
