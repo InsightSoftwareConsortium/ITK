@@ -90,7 +90,10 @@ namespace eval itk {
 
     package ifneeded itktesting $version "
       set src [file join ${ITK_SOURCE_DIR} Wrapping Tcl itktesting.tcl]
-      namespace eval itk::testing { set defaultDataRoot ${ITK_DATA_ROOT} }
+      namespace eval itk::testing {
+        set defaultDataRoot {${ITK_DATA_ROOT}}
+        set defaultTestRoot {${ITK_BINARY_DIR}/Testing}
+      }
       if {\[catch { source \$src } errorMessage \]} { puts \$errorMessage } \\
       else { package provide itktesting $version }
     "
