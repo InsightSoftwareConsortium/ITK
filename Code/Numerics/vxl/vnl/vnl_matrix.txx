@@ -218,7 +218,7 @@ vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const& from)
 //------------------------------------------------------------
 
 template<class T>
-vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &A, vnl_matrix<T> const &B, vnl_tag_add)
+vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &A, vnl_matrix<T> const &B, const vnl_tag_add &)
 {
   if (A.num_rows != B.num_rows || A.num_cols != B.num_cols)
     vnl_error_matrix_dimension ("vnl_tag_add", A.num_rows, A.num_cols, B.num_rows, B.num_cols);
@@ -235,7 +235,7 @@ vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &A, vnl_matrix<T> const &B, vnl_t
 }
 
 template<class T>
-vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &A, vnl_matrix<T> const &B, vnl_tag_sub)
+vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &A, vnl_matrix<T> const &B, const vnl_tag_sub &)
 {
   if (A.num_rows != B.num_rows || A.num_cols != B.num_cols)
     vnl_error_matrix_dimension ("vnl_tag_sub", A.num_rows, A.num_cols, B.num_rows, B.num_cols);
@@ -252,7 +252,7 @@ vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &A, vnl_matrix<T> const &B, vnl_t
 }
 
 template<class T>
-vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &M, T s, vnl_tag_mul)
+vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &M, T s, const vnl_tag_mul &)
 {
   vnl_matrix_alloc_blah(M.num_rows, M.num_cols);
 
@@ -265,7 +265,7 @@ vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &M, T s, vnl_tag_mul)
 }
 
 template<class T>
-vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &M, T s, vnl_tag_div)
+vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &M, T s, const vnl_tag_div &)
 {
   vnl_matrix_alloc_blah(M.num_rows, M.num_cols);
 
@@ -278,7 +278,7 @@ vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &M, T s, vnl_tag_div)
 }
 
 template<class T>
-vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &M, T s, vnl_tag_add)
+vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &M, T s, const vnl_tag_add &)
 {
   vnl_matrix_alloc_blah(M.num_rows, M.num_cols);
 
@@ -291,7 +291,7 @@ vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &M, T s, vnl_tag_add)
 }
 
 template<class T>
-vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &M, T s, vnl_tag_sub)
+vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &M, T s, const vnl_tag_sub &)
 {
   vnl_matrix_alloc_blah(M.num_rows, M.num_cols);
 
@@ -304,7 +304,7 @@ vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &M, T s, vnl_tag_sub)
 }
 
 template<class T>
-vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &A, vnl_matrix<T> const &B, vnl_tag_mul)
+vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const &A, vnl_matrix<T> const &B, const vnl_tag_mul &)
 {
   if (A.num_cols != B.num_rows)
     vnl_error_matrix_dimension("vnl_tag_mul", A.num_rows, A.num_cols, B.num_rows, B.num_cols);

@@ -123,7 +123,7 @@ public:
 
   //: Construct a matrix of size r rows by c columns, by taking ownership of another matrixes contents
   // The other matrix is rezised to empty.
-  vnl_matrix(vnl_matrix<T> &that, vnl_tag_grab)
+  vnl_matrix(vnl_matrix<T> &that, const vnl_tag_grab &)
     : num_rows(that.num_rows), num_cols(that.num_cols), data(that.data)
     { that.num_cols=that.num_rows=0; that.data=0; }
 
@@ -133,13 +133,13 @@ public:
 // <internal>
   // These constructors are here so that operator* etc can take
   // advantage of the C++ return value optimization.
-  vnl_matrix (vnl_matrix<T> const &, vnl_matrix<T> const &, vnl_tag_add); // M + M
-  vnl_matrix (vnl_matrix<T> const &, vnl_matrix<T> const &, vnl_tag_sub); // M - M
-  vnl_matrix (vnl_matrix<T> const &, T,                     vnl_tag_mul); // M * s
-  vnl_matrix (vnl_matrix<T> const &, T,                     vnl_tag_div); // M / s
-  vnl_matrix (vnl_matrix<T> const &, T,                     vnl_tag_add); // M + s
-  vnl_matrix (vnl_matrix<T> const &, T,                     vnl_tag_sub); // M - s
-  vnl_matrix (vnl_matrix<T> const &, vnl_matrix<T> const &, vnl_tag_mul); // M * M
+  vnl_matrix (vnl_matrix<T> const &, vnl_matrix<T> const &, const vnl_tag_add &); // M + M
+  vnl_matrix (vnl_matrix<T> const &, vnl_matrix<T> const &, const vnl_tag_sub &); // M - M
+  vnl_matrix (vnl_matrix<T> const &, T,                     const vnl_tag_mul &); // M * s
+  vnl_matrix (vnl_matrix<T> const &, T,                     const vnl_tag_div &); // M / s
+  vnl_matrix (vnl_matrix<T> const &, T,                     const vnl_tag_add &); // M + s
+  vnl_matrix (vnl_matrix<T> const &, T,                     const vnl_tag_sub &); // M - s
+  vnl_matrix (vnl_matrix<T> const &, vnl_matrix<T> const &, const vnl_tag_mul &); // M * M
 // </internal>
 #endif
 
