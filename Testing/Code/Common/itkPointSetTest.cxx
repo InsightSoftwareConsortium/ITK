@@ -38,15 +38,11 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include <iostream>
-#include <string>
-
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
-
 #include "itkPointSet.h"
 #include "vnl/vnl_sample.h"
+
+#include <iostream>
+#include <string>
 
 /**
  * Define a PointSet type that stores a PixelType of "int".  Use the defaults

@@ -38,17 +38,13 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include <iostream>
-#include <string>
-
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
-
 #include "itkMesh.h"
 #include "itkTetrahedronCell.h"
 #include "itkHexahedronCell.h"
 #include "itkBoundingBox.h"
+
+#include <iostream>
+#include <string>
 
 /**
  * Some typedefs to make things easier.
