@@ -27,7 +27,8 @@ See COPYRIGHT.txt for copyright details.
  * Several standard concepts also adapted from BOOST.
  */
 
-#if !defined(ITK_CONCEPT_CHECKING)
+// Don't do concept checks for MSVC++.
+#if !defined(ITK_CONCEPT_CHECKING) || defined(_MSC_VER)
 
 // Define fake concept specification macros.
 // Concept checks will not be done.
@@ -121,7 +122,18 @@ template <int> struct UniqueTypeFor_int {};
 template <unsigned int> struct UniqueTypeFor_unsigned_int {};
 //@}
 
-  
+/**
+ * Concept checks may require that an expression be convertible to bool.
+ * Passing the expression to this function will enforce this requirement.
+ */
+template <class T>
+void require_boolean_expr(const T& t)
+{
+  bool x = t;
+  ignore_unused_variable(x);
+}
+
+
 /**
  * Concept that requires a default constructor.
  */
@@ -231,6 +243,38 @@ struct MultiplicativeOperatorsConcept
 
 
 /**
+ * Concept that requires comparison operators <, >, <=, >=, ==, !=.
+ */
+template <class T>
+struct ComparisonOperatorsConcept
+{
+  void constraints()
+    {
+      // Require that the operators exist and that they have a result
+      // that is convertible to bool.
+      require_boolean_expr(a < b);
+      require_boolean_expr(a > b);
+      require_boolean_expr(a <= b);
+      require_boolean_expr(a >= b);
+      require_boolean_expr(a == b);
+      require_boolean_expr(a != b);
+      const_constraints(a, b);
+    }
+  void const_constraints(const T& c, const T& d)
+    {
+      // Require that the operators can be applied to const arguments.
+      require_boolean_expr(c < d);
+      require_boolean_expr(c > d);
+      require_boolean_expr(c <= d);
+      require_boolean_expr(c >= d);
+      require_boolean_expr(c == d);
+      require_boolean_expr(c != d);
+    }
+  T a, b;
+};
+
+
+/**
  * Concept that requires a conversion from its first type to its second.
  */
 template <typename T1, typename T2>
@@ -287,6 +331,56 @@ struct itkStandardTypedefsConcept
       typedef typename T::ConstPointer ConstPointer;
     }
 };
+
+
+/**
+ * Concept that requires that a type models the itk::IndexedContainerInterface.
+ */
+template <class T>
+struct IndexedContainerInterfaceConcept
+{
+  void constraints()
+    {
+      typedef typename T::Self Self;
+      typedef typename T::Pointer Pointer;
+      typedef typename T::ConstPointer ConstPointer;
+      typedef typename T::ElementIdentifier ElementIdentifier;
+      typedef typename T::Element Element;
+      typedef typename T::Iterator Iterator;
+      typedef typename T::ConstIterator ConstIterator;
+      
+      Element& e1 = a.ElementAt(element_identifier);
+      Element& e2 = a.CreateElementAt(element_identifier);
+      a.SetElement(element_identifier, element);
+      a.InsertElement(element_identifier, element);
+      a.CreateIndex(element_identifier);
+      a.DeleteIndex(element_identifier);
+      itr = a.Begin();
+      itr = a.End();
+      a.Reserve(element_identifier);
+      a.Squeeze();
+      const_constraints(a);
+      
+      ignore_unused_variable(e1);
+      ignore_unused_variable(e2);
+    }
+  void const_constraints(const T& b)
+    {
+      element = b.GetElement(element_identifier);
+      require_boolean_expr(b.IndexExists(element_identifier));
+      require_boolean_expr(b.GetElementIfIndexExists(element_identifier, &element));
+      c_itr = a.Begin();
+      c_itr = a.End();
+      ul = b.Size();
+    }
+  T a;
+  typename T::ElementIdentifier element_identifier;
+  typename T::Element element;
+  typename T::Iterator itr;
+  typename T::ConstIterator c_itr;
+  unsigned long ul;
+};
+
 
 } // namespace Concepts
 } // namespace itk
