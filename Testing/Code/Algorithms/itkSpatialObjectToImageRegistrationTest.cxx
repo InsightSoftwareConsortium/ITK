@@ -230,18 +230,18 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   EllipseType::TransformType::OffsetType offset;
   offset[0]=100;
   offset[1]=40;
-  ellipse1->GetTransform()->SetOffset(offset);
-  ellipse1->ComputeGlobalTransform();
+  ellipse1->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse1->ComputeObjectToWorldTransform();
  
   offset[0]=40;
   offset[1]=150;
-  ellipse2->GetTransform()->SetOffset(offset);
-  ellipse2->ComputeGlobalTransform();
+  ellipse2->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse2->ComputeObjectToWorldTransform();
 
   offset[0]=150;
   offset[1]=150;
-  ellipse3->GetTransform()->SetOffset(offset);
-  ellipse3->ComputeGlobalTransform();
+  ellipse3->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse3->ComputeObjectToWorldTransform();
 
   GroupType::Pointer group = GroupType::New();
   group->AddSpatialObject(ellipse1);

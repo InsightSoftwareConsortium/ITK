@@ -243,7 +243,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   OutputImage->SetLargestPossibleRegion( region);// 
   OutputImage->SetBufferedRegion( region );  // set the region 
   OutputImage->SetRequestedRegion( region );         //                                                                       
-  OutputImage->SetSpacing(InputObject->GetSpacing());   // set spacing
+  OutputImage->SetSpacing(InputObject->GetIndexToObjectTransform()->GetScaleComponent());   // set spacing
   OutputImage->SetOrigin(origin);   //   and origin
   OutputImage->Allocate();   // allocate the image                            
 
