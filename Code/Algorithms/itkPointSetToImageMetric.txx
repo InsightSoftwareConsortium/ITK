@@ -35,7 +35,6 @@ PointSetToImageMetric<TFixedPointSet,TMovingImage>
   m_MovingImage   = 0; // has to be provided by the user.
   m_Transform     = 0; // has to be provided by the user.
   m_Interpolator  = 0; // has to be provided by the user.
-  m_ScaleGradient = 1.0f; // Default value of sigma for the gradient
   m_ComputeGradient = true; // metric computes gradient by default
   m_NumberOfPixelsCounted = 0; // initialize to zero
   m_GradientImage = NULL; // computed at initialization
@@ -110,7 +109,6 @@ PointSetToImageMetric<TFixedPointSet,TMovingImage>
 
     gradientFilter->SetInput( m_MovingImage );
 
-    gradientFilter->SetSigma( m_ScaleGradient );  
     gradientFilter->SetNormalizeAcrossScale( true );
 
     gradientFilter->Update();
@@ -137,7 +135,6 @@ PointSetToImageMetric<TFixedPointSet,TMovingImage>
   os << indent << "Transform:    " << m_Transform.GetPointer()    << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
   os << indent << "Number of Pixels Counted: " << m_NumberOfPixelsCounted << std::endl;
-  os << indent << "ScaleGradient: " << m_ScaleGradient << std::endl;
 
 }
 

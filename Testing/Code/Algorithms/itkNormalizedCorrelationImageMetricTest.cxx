@@ -144,10 +144,6 @@ int itkNormalizedCorrelationImageMetricTest(int, char* [] )
    metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
   
 
-//------------------------------------------------------------
-// Define the Scale at which the Gradient of the image will be computed
-//------------------------------------------------------------
-   metric->SetScaleGradient( 1.0 );
   
   std::cout << metric << std::endl;
 

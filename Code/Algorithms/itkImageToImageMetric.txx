@@ -36,7 +36,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   m_Transform     = 0; // has to be provided by the user.
   m_Interpolator  = 0; // has to be provided by the user.
   m_GradientImage = 0; // will receive the output of the filter;
-  m_ScaleGradient = 1.0f; // Default value of sigma for the gradient
   m_ComputeGradient = true; // metric computes gradient by default
   m_NumberOfPixelsCounted = 0; // initialize to zero
   m_GradientImage = NULL; // computed at initialization
@@ -122,7 +121,16 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 
     gradientFilter->SetInput( m_MovingImage );
 
-    gradientFilter->SetSigma( m_ScaleGradient );  
+    const double * spacing = m_MovingImage->GetSpacing();
+    double maximumSpacing=0.0;
+    for(unsigned int i=0; i<MovingImageDimension; i++)
+      {
+      if( spacing[i] > maximumSpacing )
+        {
+        maximumSpacing = spacing[i];
+        }
+      }
+    gradientFilter->SetSigma( maximumSpacing );
     gradientFilter->SetNormalizeAcrossScale( true );
 
     gradientFilter->Update();
@@ -150,7 +158,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
   os << indent << "FixedImageRegion: " << m_FixedImageRegion << std::endl;
   os << indent << "Number of Pixels Counted: " << m_NumberOfPixelsCounted << std::endl;
-  os << indent << "ScaleGradient: " << m_ScaleGradient << std::endl;
 
 }
 

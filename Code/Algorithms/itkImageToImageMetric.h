@@ -163,11 +163,6 @@ public:
    *  are present and plugged together correctly     */
   virtual void Initialize(void) throw ( ExceptionObject );
 
-  /** Set/Get the sigma value used for computing the 
-      gradient image with a derivative of a Gaussian filter */
-  itkSetMacro( ScaleGradient, RealType );
-  itkGetMacro( ScaleGradient, RealType );
-
 protected:
   ImageToImageMetric();
   virtual ~ImageToImageMetric() {};
@@ -191,8 +186,6 @@ private:
   FixedImageRegionType        m_FixedImageRegion;  
 
 
-  // This is the Sigma value to be used by the Gradient Filter
-  RealType                    m_ScaleGradient;
 };
 
 } // end namespace itk

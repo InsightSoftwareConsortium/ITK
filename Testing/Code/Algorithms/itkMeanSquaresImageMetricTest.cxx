@@ -144,11 +144,6 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
    metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
   
 
- //------------------------------------------------------------
- // Define the scale at which the gradient will be computed
- //------------------------------------------------------------
-    metric->SetScaleGradient( 1.0 );
-   
   
   std::cout << metric << std::endl;
 
@@ -229,7 +224,6 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
   std::cout << "Interpolator: " << metric->GetInterpolator() << std::endl;
   std::cout << "NumberOfPixelsCounted: " << metric->GetNumberOfPixelsCounted() << std::endl;
   std::cout << "FixedImageRegion: " << metric->GetFixedImageRegion() << std::endl;
-  std::cout << "ScaleGradient: " << metric->GetScaleGradient() << std::endl;
 
   std::cout << "Check case when Target is NULL" << std::endl;
   metric->SetFixedImage( NULL );
