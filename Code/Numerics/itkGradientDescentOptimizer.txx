@@ -70,11 +70,20 @@ GradientDescentOptimizer<TCostFunction>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Learning rate: " << m_LearningRate << std::endl;
-  os << indent << "No. iterations: " << m_NumberOfIterations;
-  os << std::endl;
-  os << indent << "Maximize: " << m_Maximize << std::endl;
-  os << indent << "Current iteration: " << m_CurrentIteration;
+  os << indent << "LearningRate: "
+     << m_LearningRate << std::endl;
+  os << indent << "NunberOfIterations: "
+     << m_NumberOfIterations << std::endl;
+  os << indent << "Maximize: "
+     << m_Maximize << std::endl;
+  os << indent << "CurrentIteration: "
+     << m_CurrentIteration;
+  os << indent << "Value: "
+     << m_Value;
+  os << indent << "CostFunction: "
+     << m_CostFunction;
+  os << indent << "StopCondition: "
+     << m_StopCondition;
   os << std::endl;
 
 }

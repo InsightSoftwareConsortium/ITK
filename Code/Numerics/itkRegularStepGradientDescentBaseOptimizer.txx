@@ -242,10 +242,33 @@ RegularStepGradientDescentBaseOptimizer<TCostFunction>
 
 }
 
-
-
-
-
+template <class TCostFunction>
+void
+RegularStepGradientDescentBaseOptimizer<TCostFunction>
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << indent << "MaximumStepLength: "
+     << m_MaximumStepLength << std::endl;
+  os << indent << "MinimumStepLength: "
+     << m_MinimumStepLength << std::endl;
+  os << indent << "GradientMagnitudeTolerance: "
+     << m_GradientMagnitudeTolerance << std::endl;
+  os << indent << "NumberOfIterations: "
+     << m_NumberOfIterations << std::endl;
+  os << indent << "CurrentIteration: "
+     << m_CurrentIteration   << std::endl;
+  os << indent << "Value: "
+     << m_Value << std::endl;
+  os << indent << "Maximize: "
+     << m_Maximize << std::endl;
+  os << indent << "CostFunction: "
+     << m_CostFunction << std::endl;
+  os << indent << "CurrentStepLength: "
+     << m_CurrentStepLength << std::endl;
+  os << indent << "StopCondition: "
+     << m_StopCondition << std::endl;
+}
 } // end namespace itk
 
 #endif

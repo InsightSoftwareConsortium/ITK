@@ -112,8 +112,8 @@ public:
 protected:
   Optimizer() 
     { m_Transform = TransformType::New(); };
-
   virtual ~Optimizer() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Set the current position. */
   itkSetMacro( CurrentPosition, ParametersType );
@@ -130,6 +130,9 @@ private:
 };
 
 } // end namespace itk
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkOptimizer.txx"
+#endif
 
 #endif
 
