@@ -1,0 +1,145 @@
+Version 0.9.7 (2004-05-10)
+==========================
+
+* Fixed examples source code in the "Short introduction to log4cxx".
+* Fixed, in the renaming algorithm of RollingFileAppender and
+  DailyRollingFileAppender, a problem specific to Unicode.
+* Fixed conflict with Windows macros "min" and "max", by renaming
+  StrictMath::min and StrictMath::max to StrictMath::minimum and
+  StrictMath::maximum.
+* Port to HPUX 11.0.
+* Fixed segmentation fault in PropertyConfigurator.
+* Port to Solaris.
+* Fixed MutexException thrown while destroying RollingFileAppender.
+* Logging macros can be used without explicity declaring the use of log4cxx
+  namespace.
+* Fixed static library unresolved externals for msvc 6 and 7.1
+
+Version 0.9.6 (2004-04-11)
+==========================
+
+* Timezone management has been optimized through the class TimeZone
+* Inter-thread synchronization and reference counting has been optimized
+* Reference counting now uses gcc atomic functions (bug 929078)
+* Use of StringBuffer has been optimized.
+* Support of localisation throug resourceBundles
+* SyslogAppender now uses the system function 'syslog' to log on the local host.
+ (only for POSIX systems)
+* Added TimeZone configuration to PatternLayout (bug 912563)
+* Support of the DailyRollingFileAppender (feature request 842765)
+
+Version 0.9.5 (2004-02-04)
+==========================
+
+* Port of log4j Jnuit tests with Cppunit and Boost Regex.
+* Added explicit exports for MSDEV 6 and MSDEV 7 (no further need of .def files)
+* Custom levels can be configured through the DOMConfigurator and
+  PropertyConfigurator classes (Level inherites from Object)
+* Added a reference counter to LoggingEvent to avoid useless copies
+  (LoggingEvent inherites from Object)
+* The file log4j.xml as well as the file log4j.properties are now search
+  for, in log4cxx initialization.
+* The root logger can be assigned the "OFF" level.
+* Added MSVC6 project missing files mutext.cpp & condition.cpp (bug 847397)
+* condition.cpp now compiles with MSVC6 (bug 847417)
+* fixed pure virtual function call in PropertyConfigurator::configureAndWatch
+  (bug 848521)
+* XMLAppender now displays correct timestamp with MSVC 6 (bug 852836)
+* SRLPORT 4.6 support.
+* Fixed an infinite loop in class Properties.
+* Fixed compilations problems with unicode.
+* Fixed SocketAppender bug concerning MDC ans NDC.
+
+Version 0.9.4 (2003-10-25)
+==========================
+
+* StringBuffer has been optimized.
+* Fixed miscellaneous threading problems.
+* Added TimeZone support in PatternLayout (bug 796894)
+* Fixed threading configuration problems (bug 809125)
+* Fixed miscellaneous MSVC and cygwin compilation problems.
+
+Version 0.9.3 (2003-09-19)
+==========================
+
+* Changed tstring to log4cxx::String and tostringstream to
+  log4cxx::StringBuffer.
+* Fixed MSVC 2003 compilation erros and warnings.
+* Added helpers for NDC and MDC.
+* Added TimeZone support in TTCCLayout.
+* Fixed compilation problems with logger macros (LOG4CXX_...)
+* Fixed milliseconds formatting problem with MSVC 6.0 and 2003
+* Fixed AsyncAppender crash
+* Added new tests
+* Added benchmarks
+
+Version 0.9.2 (2003-08-10)
+==========================
+
+* Fixed FreeBSD compilation problem with pthread mutex (class CriticalSection).
+* Fixed milliseconds formatting problem (class DateFormat).
+* Long events (> 1024 chars) are now supported in the class XMLSocketAppender.
+* Carriage returns have been normalized in the class XMLLayout.
+
+Version 0.9.1 (2003-08-06)
+==========================
+
+* Fixed deadlock problems in classes Logger and AsyncAppender.
+* Fixed MSVC 6.0 compilation problems.
+* Added MSVC 6.0 static libraty project.
+* Default configuration for the SMTP options is "no".
+
+Version 0.9.0 (2003-08-06)
+==========================
+
+* Added ODBCAppender (matching log4j JDBCAppender)
+* Added SyslogAppender
+* Added SMTPAppender (only for Linux/FreeBSD)
+* Added BasicConfigurator
+* Added a FileWatchDog in PropertyConfigurator and DOMConfigurator
+* Possibility to load a custom LoggerFactory through the DOMConfigurator
+* Changed time precision from seconds to milliseconds
+* Added MSVC 6.0 'Unicode Debug' and 'Unicode Release' targets
+* Added Java like System class.
+
+Version 0.1.1 (2003-07-09)
+==========================
+
+* Fixed MSVC 6.0 compilation problems concerning the 'Release' target
+* Added MSVC 6.0 tests projects
+
+Version 0.1.0 (2003-07-08)
+==========================
+
+* FreeBSD Autotools/Compilation support
+* Fixed TelnetAppender crash when a socket bind exception occured.
+* Added log4j DTD support to XMLLayout and DOMConfigurator
+* Can now send events in XML format over TCP (class XMLSocketAppender) for the
+  log4j Chainsaw UI
+* Now compiles with 'configure --enable-unicode' (UTF16 Unicode support)
+* Added Java like Properties class. It's a helper for the PropertyConfigurator
+* Added Java like objects with dynamic cast and instanciation. Custom objects
+  can be configured through the DOMConfigurator and PropertyConfigurator classes
+* Port of the PropertyConfigurator class
+* Port of the "Map Diagnostic Context" (MDC) class
+* Added 13 tests (try make check)
+
+Version 0.0.1 (2003-05-31)
+==========================
+
+Loggers, Hierarchy, Filters, Appenders, Layouts, NDC
+
+* Appenders:
+  AsyncAppender, ConsoleAppender, FileAppender, NTEventLogAppender,
+  RollingFileAppender, SocketAppender, SocketHubAappender,
+  TelnetAppender
+
+* Layouts:
+  HTMLLayout, PatternLayout, SimpleLayout, TTCCLayout, XMLLayout
+
+
+* Filters:
+  DenyAllFilter, LevelMatchFilter, LevelRangeFilter, StringMatchFilter
+
+* Configurators:
+  DOMConfigurator
