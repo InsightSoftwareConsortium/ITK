@@ -75,7 +75,12 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self) ;
 
-  typedef Histogram< THistogramMeasurement, TListSample::MeasurementVectorSize,
+  /** the number of components in a measurement vector */
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TListSample::MeasurementVectorSize);
+
+  typedef Histogram< THistogramMeasurement, 
+                     itkGetStaticConstMacro(MeasurementVectorSize),
                      TFrequencyContainer > HistogramType ;
 
   typedef typename HistogramType::SizeType HistogramSizeType ;
