@@ -55,10 +55,6 @@ public:
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TSample::MeasurementVectorSize);
 
-  /** Sample typedefs alias */
-  typedef typename Superclass::SampleType SampleType ;
-  typedef typename Superclass::SamplePointer SamplePointer ;
-  
   typedef Array< double > WeightArrayType ;
   /** Typedef for the mean output */
   typedef Vector< double, itkGetStaticConstMacro(MeasurementVectorSize) > OutputType ;
