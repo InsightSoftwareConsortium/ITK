@@ -220,6 +220,39 @@ namespace itk
     return this->m_##name; \
   } 
 
+
+/**
+ * Set const pointer to object; uses Object reference counting methodology.
+ * Creates method Set"name"() (e.g., SetPoints()). Note that using
+ * smart pointers requires using real pointers when setting input,
+ * but returning smart pointers on output.
+ */
+#define itkSetConstObjectMacro(name,type) \
+  virtual void Set##name (const type* _arg) \
+  { \
+    itkDebugMacro(<< this->GetClassName() << " (" << this \
+                  << "): setting " << #name " to " << _arg ); \
+    if (this->m_##name != _arg) \
+      { \
+      this->m_##name = _arg; \
+      this->Modified(); \
+      } \
+  } 
+
+
+/**
+ * Get a smart const pointer to an object.  Creates the member 
+ * Get"name"() (e.g., GetPoints()).
+ */
+#define itkGetConstObjectMacro(name,type) \
+  virtual typename type::ConstPointer Get##name () \
+  { \
+    itkDebugMacro(<< this->GetClassName() << " (" << this \
+                  << "): returning " #name " address " << this->m_##name ); \
+    return this->m_##name; \
+  } 
+
+
 /**
  * Get a const reference to a smart pointer to an object.  
  * Creates the member Get"name"() (e.g., GetPoints()).
