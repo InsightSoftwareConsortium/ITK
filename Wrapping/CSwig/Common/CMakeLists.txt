@@ -16,6 +16,7 @@ SET(WRAP_SOURCES
   wrap_itkDenseFiniteDifferenceImageFilter
   wrap_itkDifferenceImageFilter
   wrap_itkEventObject
+  wrap_itkFiniteDifferenceFunction
   wrap_itkFiniteDifferenceImageFilter
   wrap_itkFixedArray
   wrap_itkFunctionBase

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrap_itkThresholdSegmentationLevelSetImageFilter.cxx
+  Module:    wrap_itkFiniteDifferenceFunction.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -15,7 +15,7 @@
 
 =========================================================================*/
 #include "itkImage.h"
-#include "itkThresholdSegmentationLevelSetImageFilter.h"
+#include "itkFiniteDifferenceFunction.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
@@ -23,13 +23,11 @@
 
 namespace _cable_
 {
-  const char* const group = ITK_WRAP_GROUP(itkThresholdSegmentationLevelSetImageFilter);
+  const char* const group = ITK_WRAP_GROUP(itkFiniteDifferenceFunction);
   namespace wrappers
   {
-    ITK_WRAP_OBJECT2(ThresholdSegmentationLevelSetImageFilter, image::F3, image::F3,
-                     itkThresholdSegmentationLevelSetImageFilterF3F3);
-    ITK_WRAP_OBJECT2(ThresholdSegmentationLevelSetImageFilter, image::F2, image::F2,
-                     itkThresholdSegmentationLevelSetImageFilterF2F2);
+    ITK_WRAP_OBJECT1(FiniteDifferenceFunction,image::F2, itkFiniteDifferenceFunctionF2);
+    ITK_WRAP_OBJECT1(FiniteDifferenceFunction,image::F3, itkFiniteDifferenceFunctionF3);
   }
 }
 

@@ -47,8 +47,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkSegmentationLevelSetImageFilter),
     ITK_WRAP_GROUP(itkTreeNodeSO),
     ITK_WRAP_GROUP(itkSparseFieldLevelSetImageFilter),
-    ITK_WRAP_GROUP(itkLevelSetFunction),
-    ITK_WRAP_GROUP(itkDenseFiniteDifferenceImageFilter)
+    ITK_WRAP_GROUP(itkLevelSetFunction)
   };
 }
 #endif

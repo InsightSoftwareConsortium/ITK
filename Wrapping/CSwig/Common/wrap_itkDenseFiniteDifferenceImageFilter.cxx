@@ -27,6 +27,14 @@ namespace _cable_
   ITK_WRAP_GROUP(itkDenseFiniteDifferenceImageFilter);
   namespace wrappers
   {
+    // vector image wrapped Filters 
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter,
+                     image::VF2, image::VF2, 
+                     itkDenseFiniteDifferenceImageFilterVF2VF2);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter,
+                     image::VF3, image::VF3, 
+                     itkDenseFiniteDifferenceImageFilterVF3VF3);
+    
     //===========2D Wrapped Filters==============
     ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::F2 , image::F2 , itkDenseFiniteDifferenceImageFilterF2F2  );
     ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::D2 , image::D2 , itkDenseFiniteDifferenceImageFilterD2D2  );
