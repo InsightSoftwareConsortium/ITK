@@ -56,7 +56,7 @@ namespace itk
  * No.1, January 1990, pp 78-87.  
  *
  * \ingroup ImageEnhancement 
- * \ingroup ImageFeatureExtraction
+ * \ingroup ImageFeatureExtraction   Singlethreaded
  *
  */
 template <class TInputImage, class TOutputImage, class TComputation>
