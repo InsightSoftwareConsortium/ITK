@@ -50,6 +50,14 @@ inline int BilateralFloor(double x)
 
 namespace itk
 {
+template< class TInputImage, class TOutputImage >
+void
+BilateralImageFilter<TInputImage, TOutputImage>
+::SetRadius(const unsigned long i)
+{
+  m_Radius.Fill(i);
+}
+
 template <class TInputImage, class TOutputImage>
 void 
 BilateralImageFilter<TInputImage,TOutputImage>
@@ -70,12 +78,23 @@ BilateralImageFilter<TInputImage,TOutputImage>
 
   // Pad the image by 2.5*sigma in all directions
   typename TInputImage::SizeType radius;
+  unsigned int i;
   
-  for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+  if (m_AutomaticKernelSize)
     {
-    radius[i] =
-      (typename TInputImage::SizeType::SizeValueType)
-      ceil(m_DomainMu*m_DomainSigma[i]/this->GetInput()->GetSpacing()[i]);
+    for (i = 0; i < ImageDimension; i++)
+      {
+      radius[i] =
+        (typename TInputImage::SizeType::SizeValueType)
+        ceil(m_DomainMu*m_DomainSigma[i]/this->GetInput()->GetSpacing()[i]);
+      }
+    }
+  else
+    {
+    for (i = 0; i < ImageDimension; i++)
+      {
+      radius[i] = m_Radius[i];
+      }
     }
 
   // get a copy of the input requested region (should equal the output
@@ -129,12 +148,23 @@ BilateralImageFilter<TInputImage, TOutputImage>
   const typename InputImageType::SpacingType inputSpacing = inputImage->GetSpacing();
   const typename InputImageType::PointType   inputOrigin  = inputImage->GetOrigin();
 
-  for (i = 0; i < ImageDimension; i++)
+  if (m_AutomaticKernelSize)
     {
-    radius[i] =
-      (typename TInputImage::SizeType::SizeValueType)
-      ceil( m_DomainMu * m_DomainSigma[i] / inputSpacing[i] );
-    domainKernelSize[i] = 2 * radius[i] + 1;
+    for (i = 0; i < ImageDimension; i++)
+      {
+      radius[i] =
+        (typename TInputImage::SizeType::SizeValueType)
+        ceil( m_DomainMu * m_DomainSigma[i] / inputSpacing[i] );
+      domainKernelSize[i] = 2 * radius[i] + 1;
+      }
+    }
+  else
+    {
+    for (i = 0; i < ImageDimension; i++)
+      {
+      radius[i] = m_Radius[i];
+      domainKernelSize[i] = 2 * radius[i] + 1;
+      }
     }
 
   typename GaussianImageSource<GaussianImageType>::Pointer gaussianImage;
@@ -166,10 +196,15 @@ BilateralImageFilter<TInputImage, TOutputImage>
     = ImageRegionIterator<GaussianImageType>(gaussianImage->GetOutput(),
                                              gaussianImage->GetOutput()
                                              ->GetBufferedRegion() );
+  double norm = 0.0;
+  for (git.GoToBegin(); !git.IsAtEnd(); ++git)
+    {
+    norm += git.Get();
+    }
   for (git.GoToBegin(), kernel_it = m_GaussianKernel.Begin(); !git.IsAtEnd();
        ++git, ++kernel_it)
     {
-    *kernel_it = git.Get();
+    *kernel_it = git.Get() / norm;
     }
 
   // Build a lookup table for the range gaussian

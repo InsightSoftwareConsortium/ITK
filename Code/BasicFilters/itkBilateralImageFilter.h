@@ -112,6 +112,7 @@ public:
   /** Kernel typedef. */
   typedef
   Neighborhood<double, itkGetStaticConstMacro(ImageDimension)> KernelType;
+  typedef KernelType::SizeType                                 SizeType;
   
   /** Kernel iterator. */
   typedef typename KernelType::Iterator KernelIteratorType ;
@@ -137,6 +138,22 @@ public:
   {
     m_DomainSigma.Fill(v);
   }
+
+  /** Control automatic kernel size determination. When
+   * automatic is "on", the kernel size is a function of the domain
+   * sigma. When automatic is "off", the kernel size is whatever is
+   * specified by the user.
+   * \sa SetRadius() */
+  itkBooleanMacro(AutomaticKernelSize);
+  itkGetMacro(AutomaticKernelSize, bool);
+  itkSetMacro(AutomaticKernelSize, bool);
+
+  /** Set/Get the kernel radius, specified in pixels.  This parameter
+   * is used only when AutomaticNeighborhoodSize is "off". */
+  void SetRadius(const unsigned long);
+  itkSetMacro(Radius, SizeType);
+  itkGetConstMacro(Radius, SizeType);
+  
   
   /** Set/Get the number of samples in the approximation to the Gaussian
    * used for the range smoothing. Samples are only generated in the
@@ -149,6 +166,8 @@ protected:
    * RangeSigma is 50. */
   BilateralImageFilter()
   {
+    m_Radius.Fill(1);
+    m_AutomaticKernelSize = true;
     m_DomainSigma.Fill(4.0);
     m_RangeSigma = 50.0;
     m_FilterDimensionality = ImageDimension;
@@ -202,6 +221,8 @@ private:
 
   /** Gaussian kernel used for smoothing in the spatial domain */
   KernelType m_GaussianKernel;
+  SizeType   m_Radius;
+  bool       m_AutomaticKernelSize;
 
   /** Variables for the lookup table of range gaussian values */
   unsigned long m_NumberOfRangeGaussianSamples;
