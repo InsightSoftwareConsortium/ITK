@@ -227,7 +227,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 
 
 template<class TInputImage, class TOutputImage, class TKernel>
-MorphologyImageFilter<TInputImage, TOutputImage, TKernel>::RegionType
+void
 MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {

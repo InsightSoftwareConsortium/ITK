@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkBinaryDilateImageFilterFilter_txx
 #define __itkBinaryDilateImageFilterFilter_txx
 
-#include "itkBinaryDilateImageFilterFilter.h"
+#include "itkBinaryDilateImageFilter.h"
 
 namespace itk {
 
