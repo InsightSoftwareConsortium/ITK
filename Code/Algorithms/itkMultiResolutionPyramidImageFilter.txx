@@ -275,34 +275,6 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 }
 
 
-/**
- * Is the schedule upward divisible ?
- */
-template <class TInputImage, class TOutputImage>
-bool
-MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
-::IsScheduleUpwardDivisible( const ScheduleType& schedule )
-{
-
-  unsigned int ilevel, idim;
-  for( ilevel = 1; ilevel < schedule.rows(); ilevel++ )
-    {
-    for( idim = 0; idim < schedule.columns(); idim++ )
-      {
-      if( schedule[ilevel-1] == 0 )
-        {
-        return false;
-        }
-      if( ( schedule[ilevel][idim] % schedule[ilevel-1][idim] ) > 0 )
-        { 
-        return false; 
-        } 
-      }
-    }
-
-  return true;
-}
-
 
 /**
  * GenerateData for non downward divisible schedules

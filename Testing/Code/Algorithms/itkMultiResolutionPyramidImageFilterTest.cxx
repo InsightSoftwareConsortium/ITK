@@ -244,12 +244,6 @@ int main()
     std::cout << "Schedule should be downward divisible" << std::endl;
     }
 
-  if( !PyramidType::IsScheduleUpwardDivisible( pyramid->GetSchedule() ) )
-    {
-    pass = false;
-    std::cout << "Schedule should be upward divisible" << std::endl;
-    }
-
   // generate output at a level with progress
   std::cout << "Run MultiResolutionPyramidImageFilter in standalone mode with progress";
   std::cout << std::endl;

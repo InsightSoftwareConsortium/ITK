@@ -234,13 +234,6 @@ public:
   static bool IsScheduleDownwardDivisible( const ScheduleType& schedule );
 
   /**
-   * Test if the schedule is upward divisible. This method returns
-   * true if at every level, the shrink factors are divisible by
-   * the shrink factors in the previous level
-   */
-  static bool IsScheduleUpwardDivisible( const ScheduleType& schedule );
-
-  /**
    * MultiResolutionPyramid produces an image which is a different
    * resolution and with a different pixel spacing than its input
    * image.  As such, MultiResolutionPyramid needs to provide an
