@@ -28,7 +28,7 @@ namespace _cxx_
  * A complete system of types.  This class must be used to generate all
  * type representations.
  */
-class TypeSystem
+class _cxx_EXPORT TypeSystem
 {
 public:
 

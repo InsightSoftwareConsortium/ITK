@@ -27,7 +27,7 @@ namespace _cxx_
 /**
  * Hold cv-qualifiers attached to a type.
  */
-class CvQualifiedType
+class _cxx_EXPORT CvQualifiedType
 {
 public:
   typedef CvQualifiedType Self;

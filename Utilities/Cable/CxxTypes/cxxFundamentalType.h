@@ -25,7 +25,7 @@ namespace _cxx_
 /**
  * Represent a C++ fundamental type.  These are defined in 3.9.1.
  */
-class FundamentalType: public Type
+class _cxx_EXPORT FundamentalType: public Type
 {
 public:
   typedef FundamentalType Self;

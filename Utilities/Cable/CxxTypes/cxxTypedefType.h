@@ -24,7 +24,7 @@ namespace _cxx_
 /**
  * Represent a C++ typedef.  It is simply a name for a CvQualifiedType.
  */
-class TypedefType: public Type
+class _cxx_EXPORT TypedefType: public Type
 {
 public:
   typedef TypedefType Self;

@@ -25,7 +25,7 @@ namespace _cxx_
 /**
  * Represents a C-style array type.
  */
-class ArrayType: public Type
+class _cxx_EXPORT ArrayType: public Type
 {
 public:
   typedef ArrayType Self;

@@ -23,7 +23,7 @@
 namespace _cxx_
 {
 
-class ClassType;
+class _cxx_EXPORT ClassType;
 
 /**
  * A vector of ClassType pointers.

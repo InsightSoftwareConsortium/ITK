@@ -25,7 +25,7 @@ namespace _cxx_
 /**
  * Represents a C++ pointer-to-member type.
  */
-class PointerToMemberType: public PointerType
+class _cxx_EXPORT PointerToMemberType: public PointerType
 {
 public:
   typedef PointerToMemberType Self;

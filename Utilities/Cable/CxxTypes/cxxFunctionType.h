@@ -28,7 +28,7 @@ namespace _cxx_
  * Represent a C++ function type.  This consists of the return type and
  * argument types.
  */
-class FunctionType: public Type
+class _cxx_EXPORT FunctionType: public Type
 {
 public:
   typedef FunctionType Self;

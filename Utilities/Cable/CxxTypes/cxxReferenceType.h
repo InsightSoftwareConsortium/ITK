@@ -25,7 +25,7 @@ namespace _cxx_
 /**
  * Represents a C++ reference type.
  */
-class ReferenceType: public Type
+class _cxx_EXPORT ReferenceType: public Type
 {
 public:
   typedef ReferenceType Self;

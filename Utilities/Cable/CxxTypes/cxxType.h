@@ -26,7 +26,7 @@ class CvQualifiedType;
 /**
  * Abstract interface to a C++ type representation.
  */
-class Type
+class _cxx_EXPORT Type
 {
 public:
   /**

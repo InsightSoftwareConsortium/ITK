@@ -25,7 +25,7 @@ namespace _cxx_
 /**
  * Represent a C++ pointer type.
  */
-class PointerType: public Type
+class _cxx_EXPORT PointerType: public Type
 {
 public:
   typedef PointerType Self;
