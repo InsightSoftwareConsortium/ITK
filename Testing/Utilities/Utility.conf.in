@@ -35,6 +35,7 @@ proc SetConfiguration { variable { value INSIGHTINVALIDVALUE } } \
     # whose source command does not understand /cygdrive/...
     if { [regexp cygtclsh [info nameofexecutable]] == 1} {
       set value [exec cygpath -w $value]
+      set value [eval file join [file split $value]]
     }
   
     set TestingUtility($variable) $value
