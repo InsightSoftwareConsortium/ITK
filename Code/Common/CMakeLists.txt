@@ -6,6 +6,7 @@ SET(ITKCommon_SRCS
   itkDecisionRuleBase.cxx 
   itkDirectory.cxx  
   itkDynamicLoader.cxx  
+  itkEquivalencyTable.cxx
   itkEventObject.cxx  
   itkExceptionObject.cxx  
   itkFastMutexLock.cxx  
@@ -27,6 +28,7 @@ SET(ITKCommon_SRCS
   itkNumericTraits.cxx  
   itkObject.cxx 
   itkObjectFactoryBase.cxx  
+  itkOneWayEquivalencyTable.cxx
   itkOutputWindow.cxx  
   itkProcessObject.cxx  
   itkProgressReporter.cxx  
