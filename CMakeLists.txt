@@ -13,6 +13,9 @@ INCLUDE (${ITK_SOURCE_DIR}/itkCMakeOptions.cmake)
 # Include standard Testing module
 INCLUDE (${CMAKE_ROOT}/Modules/Testing.cmake)
 
+# Walk into these directories before Testing or Unsupported.
+SUBDIRS(Utilities Code)
+
 #
 # Variables used for submitting testing results. These will change from
 # project to project. Most likely, you will change DROP_SITE, 
@@ -32,9 +35,6 @@ IF (BUILD_TESTING)
   SET (GNATS_WEB_URL "http://${DROP_SITE}/cgi-bin/gnatsweb.pl/Insight/" CACHE INTERNAL "URL for bug tracker")
 ENDIF (BUILD_TESTING)
 
-
-# Set up subdirectories
-SUBDIRS(Utilities Code)
 
 # Add an option to build or not build the Unsupported stuff
 OPTION(BUILD_UNSUPPORTED "Build the unsupported directory")
