@@ -321,7 +321,9 @@ private:
   bool m_UsePrincipleComponents;
   int m_RequestedNumberOfThreads;
 
-  typename ImageBase<ImageDimension>::ConstPointer m_RealValuedInputImage;
+  typedef typename InputImageType::Superclass ImageBaseType;
+
+  typename ImageBaseType::ConstPointer m_RealValuedInputImage;
   
   VectorGradientMagnitudeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
