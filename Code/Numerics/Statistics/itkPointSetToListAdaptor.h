@@ -30,10 +30,13 @@ namespace Statistics{
  *  \brief This class provides ListSample interfaces to ITK Image
  *
  * After calling SetPointSet(PointSet::Pointer) method to plug-in 
- * the PointSet object,
- * users can use Sample interfaces to access PointSet data.
- *
- * \sa Sample, ListSample
+ * the PointSet object, users can use Sample interfaces to access 
+ * PointSet data. This adaptor assumes that the PointsContainer is
+ * actual storage for measurment vectors. In other words, PointSet's
+ * points are equal to measurement vectors. This class totally ignores
+ * PointsDataContainer.
+ * 
+ * \sa Sample, ListSample, DefaultStaticMeshTraits, PointSet
  */
 
 template < class TPointSet >
@@ -80,29 +83,43 @@ public:
   /** returns the number of measurement vectors in this container*/
   unsigned int Size() const ;
 
+  /** returns the number of measurement vectors int this container.
+   * The size of each dimension in any subclass of ListSample
+   * doen't vary. However, the dimension's size of histogram can be
+   * different from other dimensions */
   unsigned int Size(const unsigned int &dimension) const ;
 
+  /** returns the number of measurement vectors int this container */
   unsigned int GetNumberOfInstances() const ;
 
+  /** returns the measurement vector that is specified by the instance
+   * identifier argument. */
   MeasurementVectorType& GetMeasurementVector(const InstanceIdentifier &id) ;
 
+  /** sets the "dim" dimensional component value of the measurement vector
+   * that is specified by "id". */
   void SetMeasurement(const InstanceIdentifier &id, 
                       const unsigned int &dim,
                       const MeasurementType &value) ;
 
+  /** returns 1 as other subclasses of ListSample does */
   FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
 
+  /** returns the size of this container */
   FrequencyType GetTotalFrequency(const unsigned int &dimension) const ;
 
+  /** iterator support */
   class Iterator;
   friend class Iterator;
   
+  /** returns an iterator that points to the beginning of the container */
   Iterator Begin()
   { 
     Iterator iter(m_PointsContainer->Begin());
     return iter; 
   }
   
+  /** returns an iterator that points to the end of the container */
   Iterator End()        
   {
     Iterator iter(m_PointsContainer->End()); 
@@ -162,8 +179,12 @@ private:
   PointSetToListAdaptor(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
 
+  /** the PointSet data source pointer */
   PointSetPointer m_PointSet ;
+  /** the points container which will be actually used for storing
+   * measurement vectors */
   PointsContainerPointer m_PointsContainer ;
+  /** temporary points for conversions */
   PointType m_TempPoint ;
 } ; // end of class PointSetToListAdaptor
 
