@@ -42,7 +42,17 @@ namespace itk {
  * one pointer per object allocated.  Because of this overhead, ObjectStore is 
  * not efficient for use with small objects such as native types.
  *
- * Warnings:  For efficiency reasons, the ObjectStore cannot guard against the
+ * Important notes on thread-safety: This object is thread-safe in the same
+ * sense that STL defines thread-safety: simultaneous operations on distinct
+ * containers are safe.  It is the user's responsibility to apply appropriate
+ * mutex locks if the same container is used across multiple threads. One (or
+ * more) ObjectStore's can be safely be created for each thread -- and may even
+ * be more efficient in terms of memory use than sharing a single ObjectStore
+ * across threads. Calls to \em{new} and \em{delete} have been placed in
+ * critical sections in case a compiler's implementation of new/delete is not
+ * thread-safe.
+ * 
+ * Warnings:  For efficiency reasons, the ObjectStore does not guard against the
  * same pointer being Returned() more than once.  Doing this could result in
  * serious problems.
  */
@@ -149,6 +159,7 @@ private:
 
   /** A list of MemoryBlocks that have been allocated. */
   std::vector<MemoryBlock>   m_Store;
+
 };
 
   
