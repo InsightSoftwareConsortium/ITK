@@ -29,14 +29,10 @@ namespace fem {
 void LinearSystemWrapperDenseVNL::InitializeMatrix(unsigned int matrixIndex)
 {
 
-  /* FIX ME: error checking */
-
   // allocate if necessary
   if (m_Matrices == 0)
   {
-    m_Matrices = new MatrixHolder(m_NumberOfMatrices);
-    if (m_Matrices == NULL) throw FEMException(__FILE__, __LINE__, "FEM error!");
-  }
+    m_Matrices = new MatrixHolder(m_NumberOfMatrices); }
 
   // out with old, in with new
   if ( (*m_Matrices)[matrixIndex] != 0 )
@@ -45,8 +41,6 @@ void LinearSystemWrapperDenseVNL::InitializeMatrix(unsigned int matrixIndex)
   }
 
   (*m_Matrices)[matrixIndex] = new MatrixRepresentation(this->GetSystemOrder(), this->GetSystemOrder() );
-  if ( (*m_Matrices)[matrixIndex] == NULL) throw FEMException(__FILE__, __LINE__, "FEM error!");
-
   (*m_Matrices)[matrixIndex]->fill(0.0);
 
   return;
@@ -77,7 +71,6 @@ void LinearSystemWrapperDenseVNL::InitializeVector(unsigned int vectorIndex)
   if (m_Vectors == 0)
   {
     m_Vectors = new std::vector< vnl_vector<Float>* >(m_NumberOfVectors);
-    if (m_Vectors == NULL) throw FEMException(__FILE__, __LINE__, "FEM error!");
   }
 
   // out with old, in with new
@@ -87,7 +80,6 @@ void LinearSystemWrapperDenseVNL::InitializeVector(unsigned int vectorIndex)
   }
 
   (*m_Vectors)[vectorIndex] = new vnl_vector<Float>(this->GetSystemOrder());
-  if ( (*m_Vectors)[vectorIndex] == NULL) throw FEMException(__FILE__, __LINE__, "FEM error!");
   (*m_Vectors)[vectorIndex]->fill(0.0);
 
   return;
@@ -118,7 +110,6 @@ void LinearSystemWrapperDenseVNL::InitializeSolution(unsigned int solutionIndex)
   if (m_Solutions == 0)
   {
     m_Solutions = new std::vector< vnl_vector<Float>* >(m_NumberOfSolutions);
-    if (m_Solutions == NULL) throw FEMException(__FILE__, __LINE__, "FEM error!");
   }
 
   // out with old, in with new
@@ -128,8 +119,7 @@ void LinearSystemWrapperDenseVNL::InitializeSolution(unsigned int solutionIndex)
   }
 
   (*m_Solutions)[solutionIndex] = new vnl_vector<Float>(this->GetSystemOrder());
-  if ( (*m_Solutions)[solutionIndex] == NULL) throw FEMException(__FILE__, __LINE__, "FEM error!");
-  (*m_Solutions)[solutionIndex]->fill(0.0);
+ (*m_Solutions)[solutionIndex]->fill(0.0);
 
   return;
 }
@@ -208,10 +198,10 @@ void  LinearSystemWrapperDenseVNL::SwapMatrices(unsigned int MatrixIndex1, unsig
 
 void  LinearSystemWrapperDenseVNL::SwapVectors(unsigned int VectorIndex1, unsigned int VectorIndex2)
 {
-  vnl_vector<Float> *tmp;
-  tmp = (*m_Vectors)[VectorIndex1];
-  (*m_Vectors)[VectorIndex1] = (*m_Vectors)[VectorIndex2];
-  (*m_Vectors)[VectorIndex2] = tmp;
+  vnl_vector<Float> tmp;
+  tmp = *(*m_Vectors)[VectorIndex1];
+  *(*m_Vectors)[VectorIndex1] = *(*m_Vectors)[VectorIndex2];
+  *(*m_Vectors)[VectorIndex2] = tmp;
 }
 
 
@@ -234,35 +224,39 @@ void LinearSystemWrapperDenseVNL::CopySolution2Vector(unsigned int SolutionIndex
 void LinearSystemWrapperDenseVNL::MultiplyMatrixMatrix(unsigned int ResultMatrixIndex, unsigned int LeftMatrixIndex, unsigned int RightMatrixIndex)
 {
   
-  delete (*m_Matrices)[ResultMatrixIndex];
-  (*m_Matrices)[ResultMatrixIndex] = new vnl_matrix<Float>( this->GetSystemOrder(), this->GetSystemOrder() );
+  //delete (*m_Matrices)[ResultMatrixIndex];
+  //(*m_Matrices)[ResultMatrixIndex] = new vnl_matrix<Float>( this->GetSystemOrder(), this->GetSystemOrder() );
 
-  //((*m_Matrices)[LeftMatrixIndex])->mult( *((*m_Matrices)[RightMatrixIndex]), *((*m_Matrices)[ResultMatrixIndex]) );
+  (*((*m_Matrices)[ResultMatrixIndex])) = (*((*m_Matrices)[LeftMatrixIndex])) * (*((*m_Matrices)[RightMatrixIndex]));
 
 }
 
 
-void LinearSystemWrapperDenseVNL::MultiplyMatrixVector(unsigned int ResultVectorIndex, unsigned int MatrixIndex, unsigned int VectorIndex)
+void LinearSystemWrapperDenseVNL::MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex)
 {
-
-  delete (*m_Vectors)[ResultVectorIndex];
-  (*m_Vectors)[ResultVectorIndex] = new vnl_vector<Float>(this->GetSystemOrder());
-
-  //((*m_Matrices)[MatrixIndex])->mult( *((*m_Vectors)[VectorIndex]), *((*m_Vectors)[ResultVectorIndex]) );
+  
+  //delete (*m_Matrices)[ResultMatrixIndex];
+  //(*m_Matrices)[ResultMatrixIndex] = new vnl_matrix<Float>( this->GetSystemOrder(), this->GetSystemOrder() );
+  (*(*m_Vectors)[resultVectorIndex]) = (*(*m_Vectors)[vectorIndex]);
+  (*m_Vectors)[resultVectorIndex]->pre_multiply( *((*m_Matrices)[matrixIndex]) );
 
 }
+
 
 void LinearSystemWrapperDenseVNL::ScaleMatrix(Float scale, unsigned int matrixIndex)
 {
-  ;
-//   for ( ((*m_Matrices)[matrixIndex])->reset(); ((*m_Matrices)[matrixIndex])->next(); )
-//   {
-//     (*((*m_Matrices)[matrixIndex]))( ((*m_Matrices)[matrixIndex])->getrow(), ((*m_Matrices)[matrixIndex])->getcolumn() ) 
-//       = scale * (*((*m_Matrices)[matrixIndex]))( ((*m_Matrices)[matrixIndex])->getrow(), ((*m_Matrices)[matrixIndex])->getcolumn() );
-//   }
-
+  (*((*m_Matrices)[matrixIndex])) = (*((*m_Matrices)[matrixIndex])) * scale;
 }
 
+void LinearSystemWrapperDenseVNL::ScaleVector(Float scale, unsigned int vectorIndex)
+{
+  (*(*m_Vectors)[vectorIndex]) = (*(*m_Vectors)[vectorIndex]) * scale;
+}
+
+void LinearSystemWrapperDenseVNL::ScaleSolution(Float scale, unsigned int solutionIndex)
+{
+  (*(*m_Solutions)[solutionIndex]) = (*(*m_Solutions)[solutionIndex]) * scale;
+}
 
 LinearSystemWrapperDenseVNL::~LinearSystemWrapperDenseVNL()
 {

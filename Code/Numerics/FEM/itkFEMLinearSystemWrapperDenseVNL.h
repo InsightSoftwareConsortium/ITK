@@ -82,12 +82,14 @@ public:
 
   /* matrix & vector manipulation routines */
   virtual void  ScaleMatrix(Float scale, unsigned int matrixIndex);
+  virtual void  ScaleVector(Float scale, unsigned int vectorIndex);
+  virtual void  ScaleSolution(Float scale, unsigned int solutionIndex);
   virtual void  SwapMatrices(unsigned int MatrixIndex1, unsigned int MatrixIndex2);
   virtual void  SwapVectors(unsigned int VectorIndex1, unsigned int VectorIndex2);
   virtual void  SwapSolutions(unsigned int SolutionIndex1, unsigned int SolutionIndex2);
   virtual void  CopySolution2Vector(unsigned SolutionIndex, unsigned int VectorIndex);
   virtual void  MultiplyMatrixMatrix(unsigned int ResultMatrixIndex, unsigned int LeftMatrixIndex, unsigned int RightMatrixIndex);
-  virtual void  MultiplyMatrixVector(unsigned int ResultVectorIndex, unsigned int MatrixIndex, unsigned int VectorIndex);
+  virtual void  MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex);
 
 private:
 
