@@ -1,6 +1,5 @@
 INCLUDE_DIRECTORIES(${TCL_INCLUDE_PATH}
-                    ${CABLE_SOURCE_DIR}/CxxTypes
-                    ${CABLE_SOURCE_DIR}/WrapTclFacility)
+                    ${CABLE_SOURCE_DIR})
 
 IF(NOT LIBRARY_OUTPUT_PATH)
   LINK_DIRECTORIES(${CABLE_BINARY_DIR}/CxxTypes
