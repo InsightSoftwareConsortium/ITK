@@ -70,12 +70,6 @@ class CovariantVector : public Array<T,TCovariantVectorDimension> {
   typedef Array<T,TCovariantVectorDimension>  Superclass;
 
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(CovariantVector, Array);
-
-
   
   /**
    * ValueType can be used to declare a variable that is the same type
