@@ -169,6 +169,11 @@ public:
    */
   void ExcuteSegment();
 
+  /**
+   * Update the binary result. (needed after update the threshold)
+   */
+  void MakeSegmentObject();
+
 protected:
   FuzzyConnectednessImageFilter();
   ~FuzzyConnectednessImageFilter();
@@ -192,7 +197,6 @@ private:
   void PushNeighbors(const IndexType &center);
   double FuzzyAffinity(const double f1, const double f2);
   double FindStrongPath(const IndexType &center);
-  void MakeSegmentObject();
 };
 
 
