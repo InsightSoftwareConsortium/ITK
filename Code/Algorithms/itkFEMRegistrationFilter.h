@@ -205,11 +205,11 @@ public:
   /** One can set the reference file names to read images from files */
   void      SetReferenceFile(const char* r) {m_ReferenceFileName=r;}
 
-  const char* GetReferenceFile() {return m_ReferenceFileName;}
+  std::string GetReferenceFile() {return m_ReferenceFileName;}
   
   void      SetTargetFile(const char* t) {m_TargetFileName=t;}
   
-  const char* GetTargetFile() {return m_TargetFileName;}
+  std::string GetTargetFile() {return m_TargetFileName;}
 
   
   /** One can set the images directly to input images in an application */ 
@@ -247,7 +247,7 @@ public:
 
   void      SetResultsFileName (const char* f){m_ResultsFileName=f;}
 
-  const char* GetResultsFileName () {return m_ResultsFileName;} 
+  std::string GetResultsFileName () {return m_ResultsFileName;} 
 
   /** Sets the filename for the vector field component images. */
   void      SetDisplacementsFile(const char* r) {m_DisplacementsFileName=r;}
@@ -325,7 +325,7 @@ public:
       One can also set the parameters in code. */
   void      SetConfigFileName (const char* f){m_ConfigFileName=f;}
   
-  const char* GetConfigFileName () {return m_ConfigFileName; }
+  std::string GetConfigFileName () {return m_ConfigFileName; }
   
   ImageSizeType GetImageSize(){ return m_ImageSize; }
 
@@ -364,13 +364,13 @@ private :
     
   SolverType m_Solver; // Defines the solver to use
 
-  const char*      m_ConfigFileName;
-  const char*      m_ResultsFileName;
-  const char*      m_ReferenceFileName;  
-  const char*      m_TargetFileName;
-  const char*      m_LandmarkFileName;
-  const char*      m_DisplacementsFileName;
-  const char*      m_MeshFileName;
+  std::string      m_ConfigFileName;
+  std::string      m_ResultsFileName;
+  std::string      m_ReferenceFileName;  
+  std::string      m_TargetFileName;
+  std::string      m_LandmarkFileName;
+  std::string      m_DisplacementsFileName;
+  std::string      m_MeshFileName;
 
   unsigned int     m_DoLineSearchOnImageEnergy; 
   unsigned int     m_LineSearchFrequency;  

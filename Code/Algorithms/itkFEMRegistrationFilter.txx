@@ -22,7 +22,6 @@
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
 #endif
-#include <fstream>
 
 #include "itkImageFileWriter.h" 
 #include "itkRawImageIO.h" 
@@ -38,7 +37,6 @@ namespace fem {
 template<class TReference,class TTarget>
 FEMRegistrationFilter<TReference,TTarget>::~FEMRegistrationFilter( )
 {
- 
 }
 
 template<class TReference,class TTarget>
@@ -73,10 +71,6 @@ FEMRegistrationFilter<TReference,TTarget>::FEMRegistrationFilter( )
   m_DoMultiRes=false;
   m_UseLandmarks=false;
 
-  m_ReferenceFileName = NULL;
-  m_TargetFileName = NULL;
-  m_LandmarkFileName = NULL;
-  m_Field=NULL;
   m_TotalIterations=0;
 
   m_ReadMeshFile=false;
@@ -245,7 +239,6 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
   char buffer[80] = {'\0'};
   Float fbuf = 0.0;
   unsigned int ibuf = 0;
-  char* sbuf;
   unsigned int jj=0;
 
   std::cout << "Reading config file..." << fname << std::endl;
@@ -350,15 +343,11 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> buffer;
-    sbuf = new char[256];
-    strcpy(sbuf, buffer);
-    this->SetReferenceFile(sbuf);
+    this->SetReferenceFile(buffer);
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> buffer;
-    sbuf = new char[256];
-    strcpy(sbuf, buffer);
-    this->SetTargetFile(sbuf);
+    this->SetTargetFile(buffer);
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> ibuf;
@@ -367,17 +356,13 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
 
     if (ibuf == 1) {
       this->UseLandmarks(true);
-    sbuf = new char[256];
-    strcpy(sbuf, buffer);
-      this->SetLandmarkFile(sbuf);
+      this->SetLandmarkFile(buffer);
     }
     else { this->UseLandmarks(false); }
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> buffer;
-    sbuf = new char[256];
-    strcpy(sbuf, buffer);
-    this->SetResultsFile(sbuf);
+    this->SetResultsFile(buffer);
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> ibuf;
@@ -386,9 +371,7 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
 
     if (ibuf == 1) {
       this->SetWriteDisplacements(true);
-      sbuf = new char[256];
-      strcpy(sbuf, buffer);
-      this->SetDisplacementsFile(sbuf);
+      this->SetDisplacementsFile(buffer);
     }
     else { this->SetWriteDisplacements(false); }
 
@@ -399,9 +382,7 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
 
     if (ibuf == 1) {
       this->m_ReadMeshFile=true;
-      sbuf = new char[256];
-      strcpy(sbuf, buffer);
-      this->m_MeshFileName=sbuf;
+      this->m_MeshFileName=buffer;
     }
     else { this->m_ReadMeshFile=false; }
 
@@ -545,7 +526,7 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(double ElementsPerSid
   if (m_ReadMeshFile)
   {
     std::ifstream meshstream; 
-    meshstream.open(m_MeshFileName);
+    meshstream.open(m_MeshFileName.c_str());
     if (!meshstream)
     {
       std::cout<<"File "<<m_MeshFileName<<" not found!\n";
@@ -718,7 +699,7 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
   std::ifstream f;
   std::cout << m_LandmarkFileName << std::endl;
   std::cout << "Loading landmarks...";
-  f.open(m_LandmarkFileName);
+  f.open(m_LandmarkFileName.c_str());
   if (f) {
 
     try { 
