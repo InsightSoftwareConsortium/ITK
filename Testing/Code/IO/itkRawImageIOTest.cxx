@@ -15,60 +15,53 @@
 
 =========================================================================*/
 #include <iostream>
-#include "itkOutputWindow.h"
-#include "itkRawImageIO.h"
+#include "itkRandomImageSource.h"
+#include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
-#include "itkRGBPixel.h"
-#include "itkImage.h"
+#include "itkRawImageIO.h"
 
-// this class is used to send output to stdout and not the itk window
-class TextOutput : public itk::OutputWindow
+int main()
 {
-public:
-  typedef itk::SmartPointer<TextOutput> Pointer;
-  itkNewMacro(TextOutput);
-  virtual void DisplayText(const char* s)
-    {
-      std::cout << s << std::endl;
-    }
-};
+  typedef itk::Image<unsigned short,2> ImageType;
 
-int main(int argc, char *argv[])
-{
-  if ( argc < 2 )
-    {
-    itkGenericOutputMacro(<<"Need a file to process");
-    return 1;
-    }
+  // Create a source object (in this case a random image generator).
+  // The source object is templated on the output type.
+  //
+  unsigned long size[2];
+  size[0]=128; size[1]=64;
+  
+  itk::RandomImageSource<ImageType>::Pointer random;
+  random = itk::RandomImageSource<ImageType>::New();
+  random->SetMin(0);
+  random->SetMax(24680);
+  random->SetSize(size);
 
+  // Create a mapper (in this case a writer). A mapper
+  // is templated on the input type.
+  //
+  itk::RawImageIO<unsigned short,2>::Pointer io;
+  io = itk::RawImageIO<unsigned short,2>::New();\
+//  io->SetFileTypeToASCII();
 
-  // Comment the following if you want to use the itk text output window
-  itk::OutputWindow::SetInstance(TextOutput::New());
-  // Uncomment the following if you want to see each message independently
-  // itk::OutputWindow::GetInstance()->PromptUserOn();
-
-  // We are reading a RGB pixel
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
+  // Write out the image
+  itk::ImageFileWriter<ImageType>::Pointer writer;
+  writer = itk::ImageFileWriter<ImageType>::New();
+  writer->SetInput(random->GetOutput());
+  writer->SetFileName("junk.raw");
+  writer->SetImageIO(io);
+  writer->Write();
 
   // Create a source object (in this case a reader)
-  itk::RawImageIO<RGBPixelType>::Pointer io;
-  io = itk::RawImageIO<RGBPixelType>::New();
-  unsigned int dim[3] = {570,670,1};
-  io->SetDimensions(dim);
-  double spacing[3] = {0.8, 0.8, 1.5};
-  io->SetSpacing(spacing);
-  double origin[3] = {0.0,0.0,0.0};
-  io->SetOrigin(origin);
-  io->SetHeaderSize(0);
-  io->SetImageMask(0x7fff);
-  io->SetImageByteOrderToLittleEndian();
-
-  typedef itk::Image<RGBPixelType,2> RGBImage2DType;
-  itk::ImageFileReader<RGBImage2DType>::Pointer reader;
-  reader = itk::ImageFileReader<RGBImage2DType>::New();
-  reader->SetFileName(argv[1]);
+  itk::ImageFileReader<ImageType>::Pointer reader;
+  reader = itk::ImageFileReader<ImageType>::New();
   reader->SetImageIO(io);
+  reader->SetFileName("junk.raw");
   reader->Update();
+
+  writer->SetInput(reader->GetOutput());
+  writer->SetFileName("junk2.raw");
+  writer->SetInput(reader->GetOutput());
+  writer->Write();
 
   return EXIT_SUCCESS;
 }

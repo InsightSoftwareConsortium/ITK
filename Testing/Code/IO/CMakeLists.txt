@@ -15,9 +15,16 @@ ADD_EXECUTABLE(itkMetaImageIOTest itkMetaImageIOTest)
 ADD_EXECUTABLE(itkPNGImageIOTest itkPNGImageIOTest)
 ADD_EXECUTABLE(itkVOLImageIOTest itkVOLImageIOTest)
 ADD_EXECUTABLE(itkVTKImageIOTest itkVTKImageIOTest)
+ADD_EXECUTABLE(itkRawImageIOTest itkRawImageIOTest)
 
-#ADD_EXECUTABLE(itkRawImageIOTest itkRawImageIOTest)
+FIND_PATH(VW_RAW_DATA_PATH
+avfCROP.1023c.raw 
+${ITK_SOURCE_DIR}/../InsightData/VisibleWomanHead/CROPraw)
 
+IF(VW_RAW_DATA_PATH)
+ADD_TEST(itkRawImageIOTest2 itkRawImageIOTest2 ${VW_RAW_DATA_PATH}/avfCROP.1023c.raw)
+ADD_EXECUTABLE(itkRawImageIOTest2 itkRawImageIOTest2)
+ENDIF(VW_RAW_DATA_PATH)
 
 # Add VTK code if we found VTK
 INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindVTK.cmake)

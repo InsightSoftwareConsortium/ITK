@@ -15,189 +15,56 @@
 
 =========================================================================*/
 #include <iostream>
-#include "itkImage.h"
-#include "itkVector.h"
 #include "itkRandomImageSource.h"
-#include "itkShrinkImageFilter.h"
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 #include "itkVTKImageIO.h"
-#include "itkCommand.h"
-#include "itkOutputWindow.h"
-
-
-// this class is used to send output to stdout and not the itk window
-class TextOutput : public itk::OutputWindow
-{
-public: 
-  typedef TextOutput              Self;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
-  itkNewMacro(TextOutput);
-  virtual void DisplayText(const char* s)
-    {
-      std::cout << s << std::endl;
-    }
-};
-
-// The following three classes are used to support callbacks
-// on the shrink filter in the pipeline that follows later
-class ShowProgressObject
-{
-public:
-  ShowProgressObject(itk::ProcessObject* o)
-    {m_Process = o;}
-  void ShowProgress()
-    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
-  itk::ProcessObject::Pointer m_Process;
-};
-  
-class StartEndEvent
-{
-public:
-  void Start() 
-    {std::cout << "start event" << std::endl;}
-  void End()
-    {std::cout << "end event " << std::endl;}
-};
-
-
-class AllEvents
-{
-public:
-  void WatchEvents(itk::Object *caller, const itk::EventObject & event )
-    {
-      const char* eventName = 0;
-      if( typeid( event ) == typeid( itk::DeleteEvent ) )
-        {
-        eventName = "DeleteEvent";
-        }
-      else if( typeid( event ) == typeid( itk::StartEvent ) )
-        {
-        eventName = "StartEvent";
-        }
-      else if( typeid( event ) == typeid( itk::EndEvent ) )
-        {
-        eventName = "EndEvent";
-        }
-      else if( typeid( event ) == typeid( itk::ProgressEvent ) )
-        {
-        itk::ProcessObject* obj = dynamic_cast<itk::ProcessObject*>(caller);
-        std::cout << "AnyEvent Progress " << obj->GetProgress() << std::endl;
-        eventName = "ProgressEvent";
-          }
-      else if( typeid( event ) == typeid( itk::PickEvent ) )
-        {
-        eventName = "PickEvent";
-        }
-      else if( typeid( event ) == typeid( itk::StartPickEvent ) )
-        {
-        eventName = "StartPickEvent";
-        }
-      else if( typeid( event ) == typeid( itk::AbortCheckEvent ) )
-        {
-        eventName = "AbortCheckEvent";
-        }
-      else if( typeid( event ) == typeid( itk::ExitEvent ) )
-        {
-        eventName = "ExitEvent";
-        }
-      else 
-        {
-        eventName = "UserEvent";
-        }
-      std::cout << "Event name: " << eventName << " Id: " << event.GetEventName() << std::endl;
-    }
-};
-
 
 int main()
 {
-  // Comment the following if you want to use the itk text output window
-  itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
-  // Uncomment the following if you want to see each message independently
-  // itk::OutputWindow::GetInstance()->PromptUserOn();
+  typedef itk::Image<float,2> FloatImageType;
 
-  // Test the creation of an image with native type
-  //
-  itk::Image<float,2>::Pointer if2 = itk::Image<float,2>::New();
-
-  std::cout << std::endl
-            << "Image dimension is " << itk::Image<float,5>::ImageDimension
-            << std::endl;
-  std::cout << "Image dimension is " << itk::Image<short,1>::ImageDimension
-            << std::endl;
-
-  // Begin by creating a simple pipeline. Use a scalar ss a pixel.
-  //
-  // Create a typedef to make the code more digestable
-  typedef itk::Image<float,2> FloatImage2DType;
-
-  // Create a source object (in this case a reader)
-  itk::ImageFileReader<FloatImage2DType>::Pointer reader;
-  reader = itk::ImageFileReader<FloatImage2DType>::New();
-  reader->SetFileName("junkInput.vtk");
-
-  // Create another source object (in this case a random image generator).
+  // Create a source object (in this case a random image generator).
   // The source object is templated on the output type.
   //
-  itk::RandomImageSource<FloatImage2DType>::Pointer random;
-  random = itk::RandomImageSource<FloatImage2DType>::New();
+  unsigned long size[2];
+  size[0]=128; size[1]=64;
+  
+  itk::RandomImageSource<FloatImageType>::Pointer random;
+  random = itk::RandomImageSource<FloatImageType>::New();
   random->SetMin(0.0);
   random->SetMax(1.0);
+  random->SetSize(size);
 
-  // Create a filter...shrink the image by an integral amount. We also 
-  // add some callbacks to the start, progress, and end filter execution
-  // methods. The filter is templated on the input and output data types.
-  //
-  itk::ShrinkImageFilter<FloatImage2DType,FloatImage2DType>::Pointer shrink;
-  shrink = itk::ShrinkImageFilter<FloatImage2DType,FloatImage2DType>::New();
-  shrink->SetInput(random->GetOutput());
-  shrink->SetShrinkFactors(2);
-  
-  // Create a command to call ShowProgress when progress event is triggered
-  ShowProgressObject progressWatch(shrink);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
-  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
-  command->SetCallbackFunction(&progressWatch,
-                               &ShowProgressObject::ShowProgress);
-  shrink->AddObserver(itk::ProgressEvent(), command);
-  
-  // Create a command to call StartEndEvent when start event is triggered
-  StartEndEvent startEndWatch;
-  itk::SimpleMemberCommand<StartEndEvent>::Pointer start;
-  start = itk::SimpleMemberCommand<StartEndEvent>::New();
-  start->SetCallbackFunction(&startEndWatch, &StartEndEvent::Start);
-  unsigned long tag = shrink->AddObserver(itk::StartEvent(), start);
-  
-  // Create a command to call StartEndEvent when end event is triggered
-  itk::SimpleMemberCommand<StartEndEvent>::Pointer end;
-  end = itk::SimpleMemberCommand<StartEndEvent>::New();
-  end->SetCallbackFunction(&startEndWatch, &StartEndEvent::End);
-  shrink->AddObserver(itk::EndEvent(), end);
-  
-  // Create a command that to call AnyEvent when event is fired
-  AllEvents allWatch;
-  itk::MemberCommand<AllEvents>::Pointer allEvents;
-  allEvents = itk::MemberCommand<AllEvents>::New();
-  allEvents->SetCallbackFunction(&allWatch,
-                                 &AllEvents::WatchEvents);
-  shrink->AddObserver(itk::AnyEvent(), allEvents);
-  
   // Create a mapper (in this case a writer). A mapper
   // is templated on the input type.
   //
   itk::VTKImageIO::Pointer vtkIO;
   vtkIO = itk::VTKImageIO::New();
-  itk::ImageFileWriter<FloatImage2DType>::Pointer writer;
-  writer = itk::ImageFileWriter<FloatImage2DType>::New();
-  writer->SetInput(shrink->GetOutput());
-  writer->SetFileName("BasicArchitectureImage.vtk");
+
+  // Write out the image
+  itk::ImageFileWriter<FloatImageType>::Pointer writer;
+  writer = itk::ImageFileWriter<FloatImageType>::New();
+  writer->SetInput(random->GetOutput());
+  writer->SetFileName("junk.vtk");
   writer->SetImageIO(vtkIO);
   writer->Write();
 
-  // test RemoveObserver code
-  shrink->RemoveObserver( tag );
+  if ( !vtkIO->CanReadFile("junk.vtk") )
+    {
+    return 1;
+    }
+
+  // Create a source object (in this case a reader)
+  itk::ImageFileReader<FloatImageType>::Pointer reader;
+  reader = itk::ImageFileReader<FloatImageType>::New();
+  reader->SetImageIO(vtkIO);
+  reader->SetFileName("junk.vtk");
+  reader->Update();
+
+  writer->SetInput(reader->GetOutput());
+  writer->SetFileName("junk2.vtk");
+  writer->Write();
 
   return EXIT_SUCCESS;
 }

@@ -14,72 +14,42 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include <iostream>
+#include "itkPNGImageIO.h"
 #include "itkImageFileReader.h"
-#include "itkPNGImageIOFactory.h"
+#include "itkImageFileWriter.h"
+#include "itkImage.h"
 
-#ifdef ITK_HAS_VTK
-#include "vtkImageImport.h"
-#include "vtkImageViewer.h"
-#include "vtkImageActor.h"
-#include "vtkRenderer.h"
-#include "vtkRenderWindow.h"
-#include "vtkRenderWindowInteractor.h"
-#endif
-
-int main(int ac, char** av)
+int main(int argc, char *argv[])
 {
-  if(ac < 2)
+  // This test is usually run with the data file
+  // Insight/Testing/Data/Input/cthead1.png
+  if( argc < 2)
     {
-    std::cerr << "Usage: " << av[0] << " Image\n";
+    std::cerr << "Usage: " << argv[0] << " filename\n";
+    return 1;
     }
-  
-  // Register one Factory of PNG readers
-  itk::PNGImageIOFactory::RegisterOneFactory();
-  
-  typedef unsigned char PixelType;
 
-  typedef itk::Image<PixelType, 2> myImage;
-  itk::ImageFileReader<myImage>::Pointer reader 
-    = itk::ImageFileReader<myImage>::New();
-  reader->DebugOn();
-  reader->SetFileName(av[1]);
-  try{
+  // We are converting read data into RGB pixel image
+  typedef itk::RGBPixel<unsigned char> RGBPixelType;
+  typedef itk::Image<RGBPixelType,2> RGBImageType;
+
+  // Read in the image
+  itk::PNGImageIO::Pointer io;
+  io = itk::PNGImageIO::New();
+
+  itk::ImageFileReader<RGBImageType>::Pointer reader;
+  reader = itk::ImageFileReader<RGBImageType>::New();
+  reader->SetFileName(argv[1]);
+  reader->SetImageIO(io);
   reader->Update();
-  }
-  catch (itk::ImageFileReaderException& e)
-    {
-    std::cerr << "exception in file reader \n"  << e.GetDescription();
-    return -1;
-    }
-  
-  myImage::Pointer image = reader->GetOutput();
-  image->Print(std::cout);
-  PixelType * data = image->GetPixelContainer()->GetBufferPointer();
-  myImage::RegionType region = image->GetLargestPossibleRegion();
-  std::cout << "region " << region;
 
-#ifdef ITK_HAS_VTK  
-// create an importer to read the data back in
-  vtkImageImport *importer = vtkImageImport::New();
-  importer->SetDataExtent(1,region.GetSize()[0],
-                          1,region.GetSize()[1],
-                          1,1);
-  importer->SetDataScalarTypeToUnsignedChar();
-  importer->SetImportVoidPointer(data);
-  
-  vtkRenderer *renderer = vtkRenderer::New();
-  vtkRenderWindow *renWin = vtkRenderWindow::New();
-    renWin->AddRenderer(renderer);
-  vtkRenderWindowInteractor *iren = vtkRenderWindowInteractor::New();
-    iren->SetRenderWindow(renWin);
+  itk::ImageFileWriter<RGBImageType>::Pointer writer;
+  writer = itk::ImageFileWriter<RGBImageType>::New();
+  writer->SetInput(reader->GetOutput());
+  writer->SetFileName("junk.png");
+  writer->SetImageIO(io);
+  writer->Write();
 
-  vtkImageActor *actor = vtkImageActor::New();
-  actor->SetInput(importer->GetOutput());
-    
-  renderer->AddActor(actor);
-  // interact with data
-  renWin->Render();
-  iren->Start();
-#endif
-  return 0;
+  return EXIT_SUCCESS;
 }
