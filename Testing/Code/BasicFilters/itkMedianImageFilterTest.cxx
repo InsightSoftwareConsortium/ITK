@@ -84,7 +84,7 @@ int itkMedianImageFilterTest(int, char* [] )
   
   // Test the itkGetConstReferenceMacro
   const FloatImage2DType::SizeType & radius = median->GetRadius();
-  std::cout << "median->GetRadius():" << radius << endl;
+  std::cout << "median->GetRadius():" << radius << std::endl;
 
 
   return EXIT_SUCCESS;
