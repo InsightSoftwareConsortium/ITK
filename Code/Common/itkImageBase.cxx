@@ -72,6 +72,11 @@ ImageBase
     m_Size = new unsigned long [dim];
     m_Spacing = new float [dim];
     m_Origin = new float [dim];
+
+    for (int i = 0; i < dim; i++) {
+	m_Origin [i] = 0.0;
+	m_Spacing[i] = 1.0;
+    }
     
     this->Modified();
     }
