@@ -126,8 +126,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ResampleImageFilter<
-                  InputImageType, OutputImageType >  FilterType;
+  typedef itk::ResampleImageFilter<InputImageType,OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 

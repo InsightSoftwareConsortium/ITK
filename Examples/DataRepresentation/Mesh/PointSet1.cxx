@@ -125,7 +125,6 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   PointType p0;
-
   p0[0] = -1.0;     //  x coordinate
   p0[1] = -1.0;     //  y coordinate
   p0[2] =  0.0;     //  z coordinate
@@ -175,7 +174,6 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   const unsigned int numberOfPoints = pointsSet->GetNumberOfPoints();
-
   std::cout << numberOfPoints << std::endl;
   // Software Guide : EndCodeSnippet
 

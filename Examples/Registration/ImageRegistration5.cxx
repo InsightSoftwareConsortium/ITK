@@ -285,8 +285,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  registration->SetInitialTransformParameters( 
-                                 transform->GetParameters() );
+  registration->SetInitialTransformParameters( transform->GetParameters() );
   // Software Guide : EndCodeSnippet
 
 

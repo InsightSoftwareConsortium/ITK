@@ -66,7 +66,6 @@ int main(int argc, char ** argv)
   // Software Guide : BeginCodeSnippet 
   typedef unsigned char   PixelType;
   const unsigned int Dimension = 3;
-
   typedef itk::Image< PixelType, Dimension > ImageType;
   // Software Guide : EndCodeSnippet 
 
@@ -140,7 +139,6 @@ int main(int argc, char ** argv)
 
   // Software Guide : BeginCodeSnippet
   double origin[ Dimension ];
-
   origin[0] = 0.0;    // X coordinate 
   origin[1] = 0.0;    // Y coordinate
   origin[2] = 0.0;    // Z coordinate
@@ -157,7 +155,6 @@ int main(int argc, char ** argv)
 
   // Software Guide : BeginCodeSnippet
   double spacing[ Dimension ];
-
   spacing[0] = 1.0;    // along X direction 
   spacing[1] = 1.0;    // along Y direction
   spacing[2] = 1.0;    // along Z direction
@@ -178,7 +175,6 @@ int main(int argc, char ** argv)
 
   // Software Guide : BeginCodeSnippet
   const unsigned int numberOfPixels =  size[0] * size[1] * size[2];
-
   PixelType * localBuffer = new PixelType[ numberOfPixels ];
   // Software Guide : EndCodeSnippet
 
@@ -239,9 +235,7 @@ int main(int argc, char ** argv)
 
   // Software Guide : BeginCodeSnippet
   const bool importImageFilterWillOwnTheBuffer = true;
-
-  importFilter->SetImportPointer( localBuffer, 
-                                  numberOfPixels, 
+  importFilter->SetImportPointer( localBuffer, numberOfPixels, 
                                   importImageFilterWillOwnTheBuffer );
   // Software Guide : EndCodeSnippet
 

@@ -84,10 +84,8 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef PointSetType::PointType   PointType;
-
   PointType p0;
   PointType p1;
-
   p0[0] = -1.0; p0[1] = 0.0; p0[2] = 0.0; // Point 0 = {-1,0,0 }
   p1[0] =  1.0; p1[1] = 0.0; p1[2] = 0.0; // Point 1 = { 1,0,0 }
   // Software Guide : EndCodeSnippet
@@ -108,7 +106,6 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   unsigned int pointId = 0;
-
   points->InsertElement( pointId++ , p0 );
   points->InsertElement( pointId++ , p1 );
   // Software Guide : EndCodeSnippet

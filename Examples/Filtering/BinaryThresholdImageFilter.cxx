@@ -17,14 +17,14 @@
 // Software Guide : BeginLatex
 //
 // \itkpiccaption[BinaryThresoldImageFilter transfer function]{Transfer function
-// of the BinaryThreshold image filter.
+// of the BinaryThresholdImageFilter.
 // \label{fig:BinaryThresholdTransferFunction}}
 // \parpic(8cm,5cm)[r]{\includegraphics[width=7cm]{BinaryThresholdTransferFunction.eps}}
 //
-// This example illustrates the use of the binary threshold image filter.  This
-// filter is used to transform an image into a binary image by changing the
-// pixel values according to the rule illustrated in Figure
-// \ref{fig:BinaryThresholdTransferFunction}. The user defines two
+// This example illustrates the use of the binary threshold image filter.
+// This filter is used to transform an image into a binary image by changing
+// the pixel values according to the rule illustrated in
+// Figure~\ref{fig:BinaryThresholdTransferFunction}. The user defines two
 // thresholds---Upper and Lower---and two intensity values---Inside and
 // Outside. For each pixel in the input image, the value of the pixel is
 // compared with the lower and upper thresholds. If the pixel value is inside

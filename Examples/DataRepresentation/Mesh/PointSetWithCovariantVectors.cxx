@@ -68,7 +68,6 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 3;
-  
   typedef itk::CovariantVector< float, Dimension >    PixelType;
   // Software Guide : EndCodeSnippet
 
@@ -82,7 +81,6 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef itk::PointSet< PixelType, Dimension > PointSetType;
-
   PointSetType::Pointer  pointSet = PointSetType::New();
   // Software Guide : EndCodeSnippet
 

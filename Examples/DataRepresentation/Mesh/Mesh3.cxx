@@ -150,8 +150,7 @@ int main()
   // Software Guide : BeginCodeSnippet
   for(unsigned int cellId=0; cellId<numberOfCells; cellId++)
     {
-    mesh->SetCellData( cellId, 
-                       static_cast<PixelType>( cellId * cellId ) );  
+    mesh->SetCellData( cellId, static_cast<PixelType>( cellId * cellId ) );  
     }
 
   // Software Guide : EndCodeSnippet

@@ -212,14 +212,13 @@ int main( int argc, char * argv[] )
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{VectorCurvatureAnisotropicDiffusionImageFilterInput.eps}
   // \includegraphics[width=0.44\textwidth]{VectorCurvatureAnisotropicDiffusionImageFilterOutput.eps}
-  // \itkcaption[VectorCurvatureAnisotropicDiffusionImageFilter output] ]{Effect
+  // \itkcaption[VectorCurvatureAnisotropicDiffusionImageFilter output]{Effect
   // of the VectorCurvatureAnisotropicDiffusionImageFilter on the $X$ component
   // of the gradient from a MRIproton density brain image.}
   // \label{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
   // \end{figure}
   //
-  //  Figure
-  //  \ref{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
+  //  Figure~\ref{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
   //  the brain. The images show the $X$ component of the gradient before
   //  (left) and after (right) the application of the filter. In this example
