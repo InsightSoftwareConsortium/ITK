@@ -110,4 +110,5 @@ REGISTER_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest );
 //This is a separate executable REGISTER_TEST(itkSystemInformationTest );
 REGISTER_TEST(itkMetaDataDictionaryTest );
 REGISTER_TEST(itkSTLThreadTest );
+REGISTER_TEST(itkOctreeTest );
 }
