@@ -159,7 +159,6 @@ void Solver::Read(std::istream& f) {
   node.clear();
   mat.clear();
   load.clear();
-  Node::solution.clear();
 
   FEMLightObject::Pointer o=0;
   /** then we start reading objects from stream */
@@ -249,7 +248,7 @@ void Solver::Write( std::ostream& f ) {
 
 
 /**
- * Assign a global freedom numbers to each DOF in a system.
+ * Assign a global freedom number to each DOF in a system.
  */
 void Solver::GenerateGFN() {
 
@@ -436,6 +435,11 @@ void Solver::AssembleF(int dim) {
      */
     Load::Pointer l0=*l;
 
+    /*
+     * Pass the vector to the solution to the Load object.
+     */
+    l0->SetSolution(m_ls);
+
     /**
      * Here we only handle Nodal loads
      */
@@ -586,15 +590,8 @@ void Solver::Solve()
  * Copy solution vector u to the corresponding nodal values, which are
  * stored in node objects). This is standard post processing of the solution.
  */  
-void Solver::UpdateDisplacements() {
-
-  /**
-   * Copy the resulting displacements from 
-   * solution vector back to node objects.
-   */
-  Node::solution.clear();
-  for(unsigned int i=0;i<NGFN;i++)
-    Node::solution.push_back(m_ls->GetSolutionValue(i));
+void Solver::UpdateDisplacements()
+{
 
 }
 

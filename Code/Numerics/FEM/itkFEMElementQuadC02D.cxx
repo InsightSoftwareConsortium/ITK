@@ -164,7 +164,7 @@ vnl_matrix<QuadC02D::Float> QuadC02D::Ke() const
  * Draw the element on device context pDC.
  */
 #ifdef FEM_BUILD_VISUALIZATION
-void QuadC02D::Draw(CDC* pDC) const 
+void QuadC02D::Draw(CDC* pDC, Solution::ConstPointer sol) const 
 {
 
   int x1=m_node[0]->X*DC_Scale;
@@ -179,18 +179,14 @@ void QuadC02D::Draw(CDC* pDC) const
   int x4=m_node[3]->X*DC_Scale;
   int y4=m_node[3]->Y*DC_Scale;
 
-  if(Node::solution.size()!=0)
-  {
-    x1+=Node::solution[this->GetDegreeOfFreedom(0)]*DC_Scale;
-    y1+=Node::solution[this->GetDegreeOfFreedom(1)]*DC_Scale;
-    x2+=Node::solution[this->GetDegreeOfFreedom(2)]*DC_Scale;
-    y2+=Node::solution[this->GetDegreeOfFreedom(3)]*DC_Scale;
-    x3+=Node::solution[this->GetDegreeOfFreedom(4)]*DC_Scale;
-    y3+=Node::solution[this->GetDegreeOfFreedom(5)]*DC_Scale;
-    x4+=Node::solution[this->GetDegreeOfFreedom(6)]*DC_Scale;
-    y4+=Node::solution[this->GetDegreeOfFreedom(7)]*DC_Scale;
-  }
-
+  x1+=sol->GetSolutionValue(this->GetDegreeOfFreedom(0))*DC_Scale;
+  y1+=sol->GetSolutionValue(this->GetDegreeOfFreedom(1))*DC_Scale;
+  x2+=sol->GetSolutionValue(this->GetDegreeOfFreedom(2))*DC_Scale;
+  y2+=sol->GetSolutionValue(this->GetDegreeOfFreedom(3))*DC_Scale;
+  x3+=sol->GetSolutionValue(this->GetDegreeOfFreedom(4))*DC_Scale;
+  y3+=sol->GetSolutionValue(this->GetDegreeOfFreedom(5))*DC_Scale;
+  x4+=sol->GetSolutionValue(this->GetDegreeOfFreedom(6))*DC_Scale;
+  y4+=sol->GetSolutionValue(this->GetDegreeOfFreedom(7))*DC_Scale;
 
   pDC->MoveTo(x1,y1);
   pDC->LineTo(x2,y2);

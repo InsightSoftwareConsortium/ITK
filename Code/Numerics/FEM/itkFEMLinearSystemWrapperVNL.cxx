@@ -91,6 +91,8 @@ void LinearSystemWrapperVNL::DestroySolution(unsigned int SolutionIndex)
 
 LinearSystemWrapperVNL::Float LinearSystemWrapperVNL::GetSolutionValue(unsigned int i, unsigned int SolutionIndex) const
 {
+  
+  if ( m_Solutions==0 ) return 0.0;
   if ( ((*m_Solutions)[SolutionIndex])->size() <= i) return 0.0;
   else return (*((*m_Solutions)[SolutionIndex]))(i);
 }
@@ -150,7 +152,7 @@ void  LinearSystemWrapperVNL::SwapSolutions(unsigned int SolutionIndex1, unsigne
 }
 
 
-void LinearSystemWrapperVNL::Solution2Vector(unsigned int SolutionIndex, unsigned int VectorIndex)
+void LinearSystemWrapperVNL::CopySolution2Vector(unsigned int SolutionIndex, unsigned int VectorIndex)
 {
   delete (*m_Vectors)[VectorIndex];
   (*m_Vectors)[VectorIndex] = new vnl_vector<Float>( *((*m_Solutions)[SolutionIndex]) );

@@ -76,7 +76,7 @@ public:
    *
    * \param ptr Pointer to the object of Solution class.
    */
-  virtual void SetSolution(Solution::Pointer ptr) {}
+  virtual void SetSolution(Solution::ConstPointer ptr) {}
 
 };
 

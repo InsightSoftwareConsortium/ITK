@@ -118,7 +118,7 @@ void NodeXYZ::Write( std::ostream& f, int ofid ) const
    * Draws the node on DC.
    * FIXME - implement the function to render in 3-space
    */
-  void NodeXYZ::Draw(CDC* pDC) const 
+  void NodeXYZ::Draw(CDC* pDC, Solution::ConstPointer sol) const 
   {
   }
 #endif

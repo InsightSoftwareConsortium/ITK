@@ -112,20 +112,17 @@ Float s=y/l;
  * Draw the element on the device context.
  */
 #ifdef FEM_BUILD_VISUALIZATION
-void Beam2D::Draw(CDC* pDC) const {
+void Beam2D::Draw(CDC* pDC, Solution::ConstPointer sol) const {
 
   int x1=m_node[0]->X*DC_Scale;
   int y1=m_node[0]->Y*DC_Scale;
   int x2=m_node[1]->X*DC_Scale;
   int y2=m_node[1]->Y*DC_Scale;
 
-  if(Node::solution.size()!=0)
-  {
-    x1+=Node::solution[this->GetDegreeOfFreedom(0)]*DC_Scale;
-    y1+=Node::solution[this->GetDegreeOfFreedom(1)]*DC_Scale;
-    x2+=Node::solution[this->GetDegreeOfFreedom(3)]*DC_Scale;
-    y2+=Node::solution[this->GetDegreeOfFreedom(4)]*DC_Scale;
-  }
+  x1+=sol->GetSolutionValue(this->GetDegreeOfFreedom(0))*DC_Scale;
+  y1+=sol->GetSolutionValue(this->GetDegreeOfFreedom(1))*DC_Scale;
+  x2+=sol->GetSolutionValue(this->GetDegreeOfFreedom(3))*DC_Scale;
+  y2+=sol->GetSolutionValue(this->GetDegreeOfFreedom(4))*DC_Scale;
 
   CPen pen(PS_SOLID, 0.1*Node::DC_Scale, (COLORREF) 0);
   CPen* pOldPen=pDC->SelectObject(&pen);

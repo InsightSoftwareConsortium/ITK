@@ -172,7 +172,7 @@ vnl_matrix<TetrahedronC03D::Float> TetrahedronC03D::Ke() const
  */
 #ifdef FEM_BUILD_VISUALIZATION
 
-void TetrahedronC03D::Draw(CDC* pDC) const 
+void TetrahedronC03D::Draw(CDC* pDC, Solution::ConstPointer sol) const 
 {
 }
 #endif

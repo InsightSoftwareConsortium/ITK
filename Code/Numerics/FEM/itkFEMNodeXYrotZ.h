@@ -57,7 +57,7 @@ public:
    * Windows visualizatoion
    */
   #ifdef FEM_BUILD_VISUALIZATION
-    void Draw(CDC* pDC) const;
+    void Draw(CDC* pDC, Solution::ConstPointer sol) const;
   #endif
 
   NodeXYrotZ() : NodeXY() {}

@@ -18,8 +18,13 @@
 #ifndef __itkFEMLinearSystemWrapper_h
 #define __itkFEMLinearSystemWrapper_h
 
+#include "itkFEMSolution.h"
+
 namespace itk {
 namespace fem {
+
+
+
 
 /**
  * \class LinearSystemWrapper
@@ -39,12 +44,17 @@ namespace fem {
  *
  * \sa Solver::SetLinearSystemWrapper
  */
-class LinearSystemWrapper
+class LinearSystemWrapper : public Solution
 {
 public:
-
-  /** Floating point storage type used within a class */
-  typedef double Float;
+  /** Standard "Self" typedef.*/
+  typedef LinearSystemWrapper Self;
+  /** Standard "Superclass" typedef. */
+  typedef Solution Superclass;
+  /**  Pointer to an object. */
+  typedef Self* Pointer;
+  /**  Const pointer to an object. */
+  typedef const Self* ConstPointer;
 
   /**
    * Constructor for linear system, should perform any initialization that
@@ -59,7 +69,6 @@ public:
    * memory allocated for matrix and vector storage.
    */
   virtual ~LinearSystemWrapper() {};
-
 
   /**
    * Set the order of the system.  All matrices will be of size NxN and 
@@ -198,14 +207,6 @@ public:
   virtual void AddVectorValue(unsigned int i, Float value, unsigned int VectorIndex = 0) = 0;
 
   /**
-   * Virtual function to get a value of specific element of the solution
-   * vector.
-   * \param i element Index in solution vector
-   * \param SolutionIndex index of solution vector to get value from
-   */
-  virtual Float GetSolutionValue(unsigned int i, unsigned int SolutionIndex = 0) const = 0;
-
-  /**
    * Virtual function to set a value of specific element of the solution
    * vector.
    * \param i element Index in solution vector
@@ -274,7 +275,7 @@ public:
    * \param SolutionIndex index of solution vector to copy
    * \param VectorIndex index of vector to copy solution to
    */
-  virtual void Solution2Vector(unsigned int SolutionIndex, unsigned int VectorIndex) = 0;
+  virtual void CopySolution2Vector(unsigned int SolutionIndex, unsigned int VectorIndex) = 0;
 
   /**
    * Sets the function used to prepare the primary system matrix for numerical solving
@@ -339,10 +340,10 @@ protected:
    */
   unsigned int m_NumberOfSolutions;
 
-private:
-
   /** Order of linear system */
   int m_Order;
+
+private:
 
   /** Copy constructor is not allowed. */
   LinearSystemWrapper(const LinearSystemWrapper&);

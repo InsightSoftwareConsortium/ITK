@@ -82,7 +82,7 @@ public:
    * Draw the element on the specified device context
    */
 #ifdef FEM_BUILD_VISUALIZATION
-  void Draw(CDC* pDC) const;
+  void Draw(CDC* pDC, Solution::ConstPointer sol) const;
 #endif
 
 

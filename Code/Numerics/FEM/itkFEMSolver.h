@@ -143,18 +143,17 @@ protected:
   unsigned int NMFC;
 
   /** Pointer to LinearSystemWrapper object. */
-  LinearSystemWrapper* m_ls;
+  LinearSystemWrapper::Pointer m_ls;
 
 public:
   /**
    * Default constructor sets Solver to use VNL linear system .
    * \sa Solver::SetLinearSystemWrapper
    */
-  Solver() : m_ls(&m_lsVNL) { Node::solution.clear(); }
+  Solver() : m_ls(&m_lsVNL) {}
 
   /**
-   * Default destructor. We need to destroy the equation solver object
-   * before destruction of the Solver.
+   * Destructor
    */
   ~Solver() {}
 
@@ -172,7 +171,14 @@ public:
    *       should also be destroyed outside. Solver class will not destroy it
    *       when the Solver object is destroyed.
    */
-  void SetLinearSystemWrapper(LinearSystemWrapper* ls) { m_ls=ls; }
+  void SetLinearSystemWrapper(LinearSystemWrapper::Pointer ls) { m_ls=ls; }
+
+  /**
+   * Gets the LinearSystemWrapper object.
+   *
+   * \sa SetLinearSystemWrapper
+   */
+  LinearSystemWrapper::Pointer GetLinearSystemWrapper() { return m_ls; }
 
 private:
 

@@ -183,7 +183,7 @@ public:
   /**
    * Draws the element on the DC.
    */
-  virtual void Draw(CDC* pDC) const {}
+  virtual void Draw(CDC* pDC, Solution::ConstPointer sol) const {}
   /** global scale for drawing on the DC */
   static double& DC_Scale;
 #endif

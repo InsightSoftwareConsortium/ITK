@@ -52,12 +52,23 @@ public:
   /**
    * Returns value of i-th element in a solution vector. This value
    * is calculated generalized displacement of the i-th degree of
-   * freedom in a FEM problem.
+   * freedom in a FEM problem. Note that in general there may be several
+   * solution vectors. You can select which one do you want by passing
+   * the second parameter.
+   *
+   * \param i element index in solution vector
+   * \param solution_index index of solution vector to get value from
    *
    * \note If the solution vector doesn't exist (problem was not yet solved),
-   *       or the index i is out of range, the function returns 0.0;
+   *       or the index i is out of range, the function returns 0.0.
    */
-  virtual Float GetValue(unsigned int i) = 0;
+  virtual Float GetSolutionValue(unsigned int i, unsigned int solution_index = 0) const = 0;
+
+  /**
+   * Virtual destructor should properly destroy the object and clean up any
+   * memory allocated for matrix and vector storage.
+   */
+  virtual ~Solution() {};
 
 };
 

@@ -174,7 +174,7 @@ vnl_matrix<HexahedronC03D::Float> HexahedronC03D::Ke() const
  * Draw the element on device context pDC.
  */
 #ifdef FEM_BUILD_VISUALIZATION
-void HexahedronC03D::Draw(CDC* pDC) const 
+void HexahedronC03D::Draw(CDC* pDC, Solution::ConstPointer sol) const 
 {
 }
 #endif

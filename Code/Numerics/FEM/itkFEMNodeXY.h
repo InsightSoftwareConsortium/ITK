@@ -57,7 +57,7 @@ public:
     /**
      * draws the node on the DC
      */
-    void Draw(CDC* pDC) const;
+    void Draw(CDC* pDC, Solution::ConstPointer sol) const;
   #endif
 
   /**

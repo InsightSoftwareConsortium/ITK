@@ -18,6 +18,7 @@
 #define __itkFEMNodeBase_h
 
 #include "itkFEMLightObject.h"
+#include "itkFEMSolution.h"
 #include "itkFEMPArray.h"
 #include <vector>
 #include <set>
@@ -89,7 +90,7 @@ public:
   /* Windows visualization */
   #ifdef FEM_BUILD_VISUALIZATION
     /** Draws the node on the DC */
-    virtual void Draw(CDC* pDC) const {}
+    virtual void Draw(CDC* pDC, Solution::ConstPointer sol) const {}
     /** Global scale for drawing on the DC */
     static double DC_Scale;
   #endif
@@ -114,8 +115,6 @@ public:
    */
   typedef std::set<Element*> SetOfElements;
   mutable SetOfElements m_elements;
-
-  static std::vector<double> solution;
 
 };
 

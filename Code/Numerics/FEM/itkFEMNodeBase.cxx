@@ -43,11 +43,6 @@ namespace fem {
 
 
 
-std::vector<double> Node::solution;
-
-
-
-
 unsigned int Node::GetDegreeOfFreedom(unsigned int i) const
 {
   // First Find an element with the most DOFs that uses this node
@@ -63,6 +58,8 @@ unsigned int Node::GetDegreeOfFreedom(unsigned int i) const
       el=(*e);
     }
   }
+
+  if (el==0) return 0xFFFFFFFF;
 
   // find a point in an element that corresponds to this node
   unsigned int pt=0;
