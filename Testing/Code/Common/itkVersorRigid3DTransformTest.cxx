@@ -83,7 +83,7 @@ int main()
     VersorType versor;
     versor.Set( axis, angle );
     
-    ParametersType parameters;
+    ParametersType parameters(6); // Number of parameters
 
     parameters[0] = versor.GetX();
     parameters[1] = versor.GetY();

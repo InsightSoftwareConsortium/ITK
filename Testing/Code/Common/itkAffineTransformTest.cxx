@@ -237,12 +237,18 @@ int main(
     image->SetSpacing(spacing);
 
     /* Generate index-to-physical transform */
-    Affine3DType::Pointer i2p = image->GetIndexToPhysicalTransform();
+    Affine3DType::Pointer i2p = 
+          dynamic_cast<Affine3DType *>(
+                   image->GetIndexToPhysicalTransform().GetPointer()  );
+
     std::cout << "Index to physical transformation:" << std::endl;
     i2p->Print( std::cout );
 
     /* Generate physical-to-index transform */
-    Affine3DType::Pointer p2i = image->GetPhysicalToIndexTransform();
+    Affine3DType::Pointer p2i = 
+        dynamic_cast<Affine3DType *>(
+                 image->GetPhysicalToIndexTransform().GetPointer()  );
+
     std::cout << "Physical to index transformation:" << std::endl;
     p2i->Print( std::cout );
 

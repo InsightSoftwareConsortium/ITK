@@ -19,7 +19,9 @@
 
 #include "itkAzimuthElevationToCartesianTransform.h"
 
-typedef  itk::Point<double,3>   PointType;
+typedef  double  CoordinateRepresentationType;
+
+typedef  itk::Point<CoordinateRepresentationType,3>   PointType;
 
 
 
@@ -37,11 +39,15 @@ int main(
     char *argv[])
 {
 
-    const double ACCEPTABLE_ERROR = 1E-10;
+    const CoordinateRepresentationType ACCEPTABLE_ERROR = 1E-10;
 
-    typedef itk::AzimuthElevationToCartesianTransform<> AzimuthElevationToCartesianTransformType;
+    typedef itk::AzimuthElevationToCartesianTransform<
+                             CoordinateRepresentationType 
+                                  > AzimuthElevationToCartesianTransformType;
 
-    AzimuthElevationToCartesianTransformType::Pointer transform = AzimuthElevationToCartesianTransformType::New();
+    AzimuthElevationToCartesianTransformType::Pointer transform = 
+                              AzimuthElevationToCartesianTransformType::New();
+
     transform->SetAzimuthElevationToCartesianParameters(1.0,5.0,45,45);
     PointType p;
     p[0] = 3;

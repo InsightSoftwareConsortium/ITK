@@ -26,14 +26,11 @@ int main()
 {
 
 
-  typedef  itk::Matrix<double,3,3>   MatrixType;
-  typedef  itk::Vector<double,3>     VectorType;
-  typedef  itk::Point<double,3>      ParametersType;
-  typedef  itk::Matrix<double,3,3>   JacobianType;
 
-  typedef  itk::Transform<double,3,3,ParametersType,JacobianType> TransformType;
+  typedef  itk::Transform<double,3,3>      TransformType;
 
-  TransformType::Pointer transform = TransformType::New();
+  // itk::Transform cannot be instantiated because has
+  // abstract methods.
     
 
   return EXIT_SUCCESS;
