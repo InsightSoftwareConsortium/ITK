@@ -314,6 +314,13 @@ ADD_TEST(itkGrayscaleMorphologicalOpeningImageFilterTest ${BASIC_FILTERS_TESTS2}
                ${ITK_DATA_ROOT}/Input/cthead1.png 
                ${ITK_TEST_OUTPUT_DIR}/GrayscaleMorphologicalOpeningImageFilterTest.png )
 
+ADD_TEST(itkSimpleContourExtractorImageFilterTest ${BASIC_FILTERS_TESTS2} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/SimpleContourExtractorImageFilterTest.png 
+               ${ITK_TEST_OUTPUT_DIR}/SimpleContourExtractorImageFilterTest.png 
+   itkSimpleContourExtractorImageFilterTest 
+               ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterTest2.png 
+               ${ITK_TEST_OUTPUT_DIR}/SimpleContourExtractorImageFilterTest.png )
+
 ADD_TEST(itkGrayscaleFillholeImageFilterTest ${BASIC_FILTERS_TESTS} 
      --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleFillholeImageFilterTest.png 
                ${ITK_TEST_OUTPUT_DIR}/GrayscaleFillholeImageFilterTest.png itkGrayscaleFillholeImageFilterTest 
@@ -690,6 +697,7 @@ itkBasicFiltersPrintTest.cxx
 itkBasicFiltersPrintTest2.cxx
 itkGrayscaleMorphologicalClosingImageFilterTest.cxx
 itkGrayscaleMorphologicalOpeningImageFilterTest.cxx
+itkSimpleContourExtractorImageFilterTest.cxx
 itkTanImageFilterAndAdaptorTest.cxx
 itkTernaryMagnitudeImageFilterTest.cxx
 itkThresholdImageFilterTest.cxx

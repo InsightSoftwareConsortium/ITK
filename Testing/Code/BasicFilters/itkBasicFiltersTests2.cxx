@@ -32,6 +32,7 @@ void RegisterTests()
   REGISTER_TEST(itkComplexToImaginaryFilterAndAdaptorTest );
   REGISTER_TEST(itkGrayscaleMorphologicalClosingImageFilterTest );
   REGISTER_TEST(itkGrayscaleMorphologicalOpeningImageFilterTest );
+  REGISTER_TEST(itkSimpleContourExtractorImageFilterTest );
   REGISTER_TEST(itkTanImageFilterAndAdaptorTest );
   REGISTER_TEST(itkTernaryMagnitudeImageFilterTest );
   REGISTER_TEST(itkTileImageFilterTest );
