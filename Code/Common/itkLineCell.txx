@@ -66,7 +66,7 @@ LineCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 LineCell< TPixelType , TCellTraits >
-::GetDimension(void)
+::GetDimension(void) const
 {
   return Self::CellDimension;
 }
@@ -79,7 +79,7 @@ LineCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 LineCell< TPixelType , TCellTraits >
-::GetNumberOfPoints(void)
+::GetNumberOfPoints(void) const
 {
   return Self::NumberOfPoints;
 }  
@@ -92,7 +92,7 @@ LineCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 LineCell< TPixelType , TCellTraits >::CellFeatureCount
 LineCell< TPixelType , TCellTraits >
-::GetNumberOfBoundaryFeatures(int dimension)
+::GetNumberOfBoundaryFeatures(int dimension) const
 {
   switch (dimension)
     {

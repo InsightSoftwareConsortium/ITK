@@ -66,7 +66,7 @@ TetrahedronCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 TetrahedronCell< TPixelType , TCellTraits >
-::GetDimension(void)
+::GetDimension(void) const
 {
   return Self::CellDimension;
 }
@@ -79,7 +79,7 @@ TetrahedronCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 TetrahedronCell< TPixelType , TCellTraits >
-::GetNumberOfPoints(void)
+::GetNumberOfPoints(void) const
 {
   return Self::NumberOfPoints;
 }  
@@ -92,7 +92,7 @@ TetrahedronCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 TetrahedronCell< TPixelType , TCellTraits >::CellFeatureCount
 TetrahedronCell< TPixelType , TCellTraits >
-::GetNumberOfBoundaryFeatures(int dimension)
+::GetNumberOfBoundaryFeatures(int dimension) const
 {
   switch (dimension)
     {

@@ -66,7 +66,7 @@ QuadrilateralCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 QuadrilateralCell< TPixelType , TCellTraits >
-::GetDimension(void)
+::GetDimension(void) const
 {
   return Self::CellDimension;
 }
@@ -79,7 +79,7 @@ QuadrilateralCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 QuadrilateralCell< TPixelType , TCellTraits >
-::GetNumberOfPoints(void)
+::GetNumberOfPoints(void) const
 {
   return Self::NumberOfPoints;
 }  
@@ -92,7 +92,7 @@ QuadrilateralCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 QuadrilateralCell< TPixelType , TCellTraits >::CellFeatureCount
 QuadrilateralCell< TPixelType , TCellTraits >
-::GetNumberOfBoundaryFeatures(int dimension)
+::GetNumberOfBoundaryFeatures(int dimension) const
 {
   switch (dimension)
     {

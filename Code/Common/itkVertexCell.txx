@@ -66,7 +66,7 @@ VertexCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 VertexCell< TPixelType , TCellTraits >
-::GetDimension(void)
+::GetDimension(void) const
 {
   return Self::CellDimension;
 }
@@ -79,7 +79,7 @@ VertexCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 VertexCell< TPixelType , TCellTraits >
-::GetNumberOfPoints(void)
+::GetNumberOfPoints(void) const
 {
   return Self::NumberOfPoints;
 }  
@@ -92,7 +92,7 @@ VertexCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 VertexCell< TPixelType , TCellTraits >::CellFeatureCount
 VertexCell< TPixelType , TCellTraits >
-::GetNumberOfBoundaryFeatures(int)
+::GetNumberOfBoundaryFeatures(int) const
 {
   return 0;
 }

@@ -65,7 +65,7 @@ HexahedronCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 HexahedronCell< TPixelType , TCellTraits >
-::GetDimension(void)
+::GetDimension(void) const
 {
   return Self::CellDimension;
 }
@@ -77,7 +77,7 @@ HexahedronCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 HexahedronCell< TPixelType , TCellTraits >
-::GetNumberOfPoints(void)
+::GetNumberOfPoints(void) const
 {
   return Self::NumberOfPoints;
 }  
@@ -89,7 +89,7 @@ HexahedronCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 HexahedronCell< TPixelType , TCellTraits >::CellFeatureCount
 HexahedronCell< TPixelType , TCellTraits >
-::GetNumberOfBoundaryFeatures(int dimension)
+::GetNumberOfBoundaryFeatures(int dimension) const
 {
   switch (dimension)
     {

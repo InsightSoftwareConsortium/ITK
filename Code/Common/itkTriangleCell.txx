@@ -66,7 +66,7 @@ TriangleCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 TriangleCell< TPixelType , TCellTraits >
-::GetDimension(void)
+::GetDimension(void) const
 {
   return Self::CellDimension;
 }
@@ -79,7 +79,7 @@ TriangleCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 TriangleCell< TPixelType , TCellTraits >
-::GetNumberOfPoints(void)
+::GetNumberOfPoints(void) const
 {
   return Self::NumberOfPoints;
 }  
@@ -92,7 +92,7 @@ TriangleCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 TriangleCell< TPixelType , TCellTraits >::CellFeatureCount
 TriangleCell< TPixelType , TCellTraits >
-::GetNumberOfBoundaryFeatures(int dimension)
+::GetNumberOfBoundaryFeatures(int dimension) const
 {
   switch (dimension)
     {

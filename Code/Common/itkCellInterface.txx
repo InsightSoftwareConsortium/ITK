@@ -50,7 +50,7 @@ namespace itk
 template <typename TPixelType, typename TCellTraits>
 int
 CellInterface< TPixelType , TCellTraits >
-::GetInterpolationOrder(void)
+::GetInterpolationOrder(void) const
 {
   return 1;
 }

@@ -249,22 +249,22 @@ public:
   /**
    * Get the topological dimension of this cell.
    */
-  virtual int GetDimension(void)=0;
+  virtual int GetDimension(void) const=0;
 
   /**
    * Get the interpolation order of the cell.  Usually linear.
    */
-  virtual int GetInterpolationOrder(void);
+  virtual int GetInterpolationOrder(void) const;
   
   /**
    * Get the number of points required to define the cell.
    */
-  virtual int GetNumberOfPoints(void)=0;
+  virtual int GetNumberOfPoints(void) const=0;
   
   /**
    * Get the number of boundary features of a given dimension on this cell.
    */
-  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension)=0;
+  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const =0;
   
   /**
    * Get the boundary feature corresponding to the given dimension and Id.
