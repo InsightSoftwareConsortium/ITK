@@ -17,10 +17,7 @@ and partly by itkImageMomentsTest.cxx.
 =========================================================================*/
 
 
-#include "itkPoint.h"
-
-#include "vnl/vnl_vector_fixed.h"
-#include "vnl/vnl_matrix_fixed.h"
+#include "itkAffineTransform.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 
 
@@ -32,17 +29,10 @@ namespace itk
     AffineTransform<ScalarType, NDimensions>::
     AffineTransform(void)
     {
-        int i, j;
-        for (i = 0; i < NDimensions; i++) {
-            for (j = 0; j < NDimensions; j++) {
-                m_Matrix [i][j] = 0.0;
-                m_Inverse[i][j] = 0.0;
-            }
-            m_Matrix [i][i] = 1.0;
-            m_Inverse[i][i] = 1.0;
-            m_Offset [i] = 0.0;
-        }
-        m_Singular = false;
+      m_Matrix.set_identity();
+      m_Inverse.set_identity();
+      m_Offset.Fill( 0 );
+      m_Singular = false;
     }
  
     // Constructor with explicit arguments
@@ -250,7 +240,7 @@ namespace itk
     AffineTransform<ScalarType, NDimensions>::
     Rotate3D(const VectorType &axis, double angle, bool pre)
     {
-        vnl_matrix_fixed<ScalarType, 3, 3> trans;
+        MatrixType trans;
         ScalarType r, x1, x2, x3;
         ScalarType q0, q1, q2, q3;
 
@@ -323,16 +313,7 @@ namespace itk
     AffineTransform<ScalarType, NDimensions>::PointType
     AffineTransform<ScalarType, NDimensions>::
     Transform(const PointType &point) const {
-        PointType  result;    // Converted point
-        int i, j;
-        
-        for (i = 0; i < NDimensions; i++) {
-            result[i] = m_Offset[i];
-            for (j = 0; j < NDimensions; j++) {
-                result[i] += m_Matrix[i][j]*point[j];
-            }
-        }
-        return result;
+        return m_Matrix * point + m_Offset;
     }
 
 
@@ -345,34 +326,25 @@ namespace itk
     }
 
 
-    // Transform a Vector
+    // Transform a vnl_vector_fixed
     template<class ScalarType, int NDimensions>
-    Vector<ScalarType,NDimensions>  
+    AffineTransform<ScalarType, NDimensions>::VnlVectorType
     AffineTransform<ScalarType, NDimensions>::
-    Transform(const Vector<ScalarType,NDimensions> &vec) const {
-        Vector<ScalarType,NDimensions>  result;    // Converted vector
-        int i, j;
-        
-        for (i = 0; i < NDimensions; i++) {
-            result[i] = 0;    // should use a numeric trait ?
-            for (j = 0; j < NDimensions; j++) {
-                result[i] += m_Matrix[i][j]*vec[j];
-            }
-        }
-        return result;
+    Transform(const VnlVectorType &vect) const {
+        return m_Matrix * vect;
     }
+
 
    // Transform a CovariantVector
     template<class ScalarType, int NDimensions>
-    CovariantVector<ScalarType,NDimensions>  
+    AffineTransform<ScalarType, NDimensions>::CovariantVectorType
     AffineTransform<ScalarType, NDimensions>::
-    Transform(const CovariantVector<ScalarType,NDimensions> &vec) const {
-        CovariantVector<ScalarType,NDimensions>  result;    // Converted vector
-        int i, j;
+    Transform(const CovariantVectorType &vec) const {
+        CovariantVectorType  result;    // Converted vector
         
-        for (i = 0; i < NDimensions; i++) {
-            result[i] = 0;    // should use a numeric trait ?
-            for (j = 0; j < NDimensions; j++) {
+        for (unsigned int i = 0; i < NDimensions; i++) {
+            result[i] = NumericTraits<ScalarType>::Zero;
+            for (unsigned int j = 0; j < NDimensions; j++) {
                 result[i] += m_Inverse[j][i]*vec[j]; // Inverse transposed
             }
         }
@@ -398,17 +370,10 @@ namespace itk
     AffineTransform<ScalarType, NDimensions>::PointType
     AffineTransform<ScalarType, NDimensions>::
     TransformPoint(const PointType &point) {
-        PointType result;                   // Converted point
-        int i, j;
-
-        for (i = 0; i < NDimensions; i++) {
-            result[i] = m_Offset[i];
-            for (j = 0; j < NDimensions; j++) {
-                result[i] += m_Matrix[i][j] * point[j];
-            }
-        }
-        return result;
+        return m_Matrix * point;
     }
+
+
 
     // Back transform a point
     template<class ScalarType, int NDimensions>
@@ -440,6 +405,14 @@ namespace itk
         return m_Inverse * vect;
     }
 
+    // Back transform a vnl_vector
+    template<class ScalarType, int NDimensions>
+    AffineTransform<ScalarType, NDimensions>::VnlVectorType
+    AffineTransform<ScalarType, NDimensions>::
+    BackTransform(const VnlVectorType &vect ) const {
+        return m_Inverse * vect;
+    }
+
 
     // Back transform a given point which is represented as type VectorType
     // FIXME: deprecated on 2001-01-02
@@ -450,34 +423,18 @@ namespace itk
         return m_Inverse * (point - m_Offset);
     }
 
-    // Back Transform a Vector
-    template<class ScalarType, int NDimensions>
-    Vector<ScalarType,NDimensions>  
-    AffineTransform<ScalarType, NDimensions>::
-    BackTransform(const Vector<ScalarType,NDimensions> &vec) const {
-        Vector<ScalarType,NDimensions>  result;    // Converted vector
-        int i, j;
-        
-        for (i = 0; i < NDimensions; i++) {
-            result[i] = 0;    // should use a numeric trait ?
-            for (j = 0; j < NDimensions; j++) {
-                result[i] += m_Inverse[i][j]*vec[j];
-            }
-        }
-        return result;
-    }
 
     // Back Transform a CovariantVector
     template<class ScalarType, int NDimensions>
-    CovariantVector<ScalarType,NDimensions>  
+    AffineTransform<ScalarType, NDimensions>::CovariantVectorType
     AffineTransform<ScalarType, NDimensions>::
-    BackTransform(const CovariantVector<ScalarType,NDimensions> &vec) const {
-        CovariantVector<ScalarType,NDimensions>  result;    // Converted vector
-        int i, j;
+    BackTransform(const CovariantVectorType &vec) const {
+
+        CovariantVectorType result;    // Converted vector
         
-        for (i = 0; i < NDimensions; i++) {
-            result[i] = 0;    // should use a numeric trait ?
-            for (j = 0; j < NDimensions; j++) {
+        for (unsigned int i = 0; i < NDimensions; i++) {
+            result[i] = NumericTraits<ScalarType>::Zero;
+            for (unsigned int j = 0; j < NDimensions; j++) {
                 result[i] += m_Matrix[j][i]*vec[j]; // Direct matrix transposed
             }
         }
@@ -516,12 +473,13 @@ namespace itk
     Inverse()
     {
         Self result;
-        result.m_Matrix   = m_Inverse;
-        result.m_Inverse  = m_Matrix;
-        result.m_Offset   = -m_Inverse*m_Offset;
-        result.m_Singular = false;
+        result.m_Matrix   =   m_Inverse;
+        result.m_Inverse  =   m_Matrix;
+        result.m_Offset   = -(m_Inverse * m_Offset);
+        result.m_Singular =   false;
         return result;
     }
+
 
     // Compute a distance between two affine transforms
     template<class ScalarType, int NDimensions>
@@ -564,6 +522,9 @@ namespace itk
         return sqrt(result);
     }
 
+
+
+
     // Recompute the inverse matrix (internal)
     template<class ScalarType, int NDimensions>
     void
@@ -572,9 +533,18 @@ namespace itk
     {
         // FIXME: the matrix inversion function appears not
         // to give any useful indication of a singular matrix
-        m_Inverse  = vnl_matrix_inverse<ScalarType>(m_Matrix);
         m_Singular = false;
+        try {
+          m_Inverse  = m_Matrix.GetInverse();
+        }
+        catch(...) 
+        {
+          m_Singular = true;
+        }
         return;
     }
+
+
+
 
 } // namespace

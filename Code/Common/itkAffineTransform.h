@@ -20,9 +20,9 @@
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkCovariantVector.h"
+#include "itkMatrix.h"
 
 #include "vnl/vnl_vector_fixed.h"
-#include "vnl/vnl_matrix_fixed.h"
 
 
 namespace itk
@@ -111,10 +111,16 @@ public:
     typedef TScalarType ScalarType;
 
     /// Standard vector type for this class
-    typedef vnl_vector_fixed<TScalarType, NDimensions> VectorType;
+    typedef Vector<TScalarType, NDimensions> VectorType;
+
+    /// Standard covariant vector type for this class
+    typedef CovariantVector<TScalarType, NDimensions> CovariantVectorType;
+
+    /// Standard vnl_vector type for this class
+    typedef vnl_vector_fixed<TScalarType, NDimensions> VnlVectorType;
 
     /// Standard matrix type for this class
-    typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> MatrixType;
+    typedef Matrix<TScalarType, NDimensions, NDimensions> MatrixType;
 
 
     /// Standard coordinate point type for this class
@@ -151,7 +157,7 @@ public:
      * This method returns the value of the offset of the
      * AffineTransform.
      **/
-    VectorType GetOffset() const
+    const VectorType & GetOffset() const
         { return m_Offset; }
 
     /**
@@ -165,7 +171,7 @@ public:
      * This method returns the value of the matrix of the
      * AffineTransform.
      **/
-    MatrixType GetMatrix() const
+    const MatrixType & GetMatrix() const
         { return m_Matrix; }
 
     /**
@@ -177,8 +183,12 @@ public:
      *
      * FIXME: Do something reasonable if the transform is singular.
      **/
-    MatrixType GetInverse() const
-        { return m_Inverse; }
+    const MatrixType & GetInverse() const
+        { if( m_Singular )
+          { 
+            throw ExceptionObject();
+          }
+          return m_Inverse; }
 
     /**
      * Set offset of an Affine Transform
@@ -299,14 +309,12 @@ public:
      * given point or vector, returning the transformed point or
      * vector.
      **/
-    PointType  Transform(const PointType  &point ) const;
-    VectorType Transform(const VectorType &vector) const;
+    inline PointType           Transform(const PointType  &point ) const;
+    inline VectorType          Transform(const VectorType &vector) const;
+    inline VnlVectorType       Transform(const VnlVectorType &vector) const;
 
-    Vector<TScalarType, NDimensions> 
-      Transform(const Vector<TScalarType, NDimensions> &vector) const;
-
-    CovariantVector<TScalarType, NDimensions> 
-      Transform(const CovariantVector<TScalarType, NDimensions> &vector) const;
+    inline CovariantVectorType Transform(
+                                   const CovariantVectorType &vector) const;
 
     /**
      * Back transform by an affine transformation
@@ -315,14 +323,12 @@ public:
      * point or vector under the affine transformation defined by
      * self.  If no such point exists, an exception is thrown.
      **/
-    PointType  BackTransform(const PointType  &point ) const;
-    VectorType BackTransform(const VectorType &vector) const;
+    inline PointType           BackTransform(const PointType  &point ) const;
+    inline VectorType          BackTransform(const VectorType &vector) const;
+    inline VnlVectorType       BackTransform(const VnlVectorType &vector) const;
 
-    Vector<TScalarType, NDimensions> 
-      BackTransform(const Vector<TScalarType, NDimensions> &vector) const;
-
-    CovariantVector<TScalarType, NDimensions> 
-      BackTransform(const CovariantVector<TScalarType, NDimensions> &vector) const;
+    inline CovariantVectorType BackTransform(
+                                       const CovariantVectorType &vector) const;
 
     // FIXME: Add methods to transform (or back transform)
     // many points or vectors at once?
