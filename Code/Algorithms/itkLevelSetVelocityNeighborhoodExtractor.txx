@@ -17,6 +17,7 @@
 #ifndef _itkLevelSetVelocityNeighborhoodExtractor_txx
 #define _itkLevelSetVelocityNeighborhoodExtractor_txx
 
+#include "itkLevelSetVelocityNeighborhoodExtractor.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
@@ -31,7 +32,12 @@ unsigned int VAuxDimension>
 LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
 ::LevelSetVelocityNeighborhoodExtractor( )
 {
-  
+  m_AuxInsideValues = 0;
+  m_AuxOutsideValues = 0;
+  for (unsigned int i=0; i < VAuxDimension; ++i)
+    {
+    m_AuxImage[i] = 0;
+    }
 }
 
 

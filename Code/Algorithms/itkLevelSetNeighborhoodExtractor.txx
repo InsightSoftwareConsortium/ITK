@@ -17,6 +17,7 @@
 #ifndef _itkLevelSetNeighborhoodExtractor_txx
 #define _itkLevelSetNeighborhoodExtractor_txx
 
+#include "itkLevelSetNeighborhoodExtractor.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "vnl/vnl_math.h"
@@ -33,8 +34,10 @@ template <class TLevelSet>
 LevelSetNeighborhoodExtractor<TLevelSet>
 ::LevelSetNeighborhoodExtractor()
 {
-  m_InputLevelSet = NULL;  
   m_LevelSetValue = 0.0;
+  m_InsidePoints = 0;
+  m_OutsidePoints = 0;
+  m_InputLevelSet = 0;  
 
   typedef typename LevelSetImageType::PixelType PixelType;
   m_LargeValue = NumericTraits<PixelType>::max();
@@ -42,8 +45,11 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 
   m_NarrowBanding = false;
   m_NarrowBandwidth = 12.0;
-  m_InputNarrowBand = NULL;
-
+  m_InputNarrowBand = 0;
+  for (unsigned int i=0; i < SetDimension; ++i)
+    {
+    m_ImageSize[i] = 0;
+    }
 }
 
 /**
