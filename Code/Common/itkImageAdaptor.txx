@@ -181,6 +181,79 @@ ImageAdaptor<TImage , TAccessor>
 }
 
 
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+const double * 
+ImageAdaptor<TImage , TAccessor>
+::GetSpacing( void ) const
+{
+  return m_Image->GetSpacing();
+}
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void 
+ImageAdaptor<TImage , TAccessor>
+::SetSpacing(const double spacing[TImage::ImageDimension] )
+{
+  // delegation to internal image
+  m_Image->SetSpacing( spacing );
+}
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void 
+ImageAdaptor<TImage , TAccessor>
+::SetSpacing(const float spacing[TImage::ImageDimension] )
+{
+  // delegation to internal image
+  m_Image->SetSpacing( spacing );
+}
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void 
+ImageAdaptor<TImage , TAccessor>
+::SetOrigin(const PointType & origin )
+{
+  // delegation to internal image
+  m_Image->SetOrigin( origin );
+}
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void 
+ImageAdaptor<TImage , TAccessor>
+::SetOrigin(const double origin[TImage::ImageDimension] )
+{
+  // delegation to internal image
+  m_Image->SetOrigin( origin );
+}
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void 
+ImageAdaptor<TImage , TAccessor>
+::SetOrigin(const float origin[TImage::ImageDimension] )
+{
+  // delegation to internal image
+  m_Image->SetOrigin( origin );
+}
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+const double * 
+ImageAdaptor<TImage , TAccessor>
+::GetOrigin( void ) const
+{
+  return m_Image->GetOrigin();
+}
+
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
