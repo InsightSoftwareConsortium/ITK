@@ -52,7 +52,7 @@ int main(int argc, char **argv)
     std::cout << "NDims: PASS" << std::endl;
     }
 
-  if(tObj.Position(0) != 4)
+  if(tObj.Position((int)0) != 4)
     {
     std::cout << "Position: FAIL" << std::endl;
     }
@@ -61,7 +61,7 @@ int main(int argc, char **argv)
     std::cout << "Position: PASS" << std::endl;
     }
   
-  if(tObj.ElementSpacing(0) != 2)
+  if(tObj.ElementSpacing((int)0) != 2)
     {
     std::cout << "ElementSpacing: FAIL" << std::endl;
     }
