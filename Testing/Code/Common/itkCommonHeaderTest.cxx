@@ -200,7 +200,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSqrtImageAdaptor.h"
 #include "itkSymmetricEllipsoidInteriorExteriorSpatialFunction.h"
 #include "itkTanImageAdaptor.h"
-#include "itkTestMain.h"
 #include "itkTetrahedronCell.h"
 #include "itkThinPlateSplineKernelTransform.h"
 #include "itkTimeStamp.h"
