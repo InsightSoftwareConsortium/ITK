@@ -374,28 +374,81 @@ public:
    */
 
   /**
-   * Returns the vector representing the i-th integration point.
+   * Returns the vector representing the i-th integration point in 
+   * local element coordinates for a Gauss-Legendre numerical integration
+   * over the element domain.
+   *
+   * Optionally you can also specify the order of integration. If order
+   * is not specified, it defaults to 0, which means that the derived element
+   * should use the optimal integration order specific for that element.
+   *
+   * \note This function must be implemented in derived element classes, and
+   *       is expected to provide valid integration points for up to
+   *       gaussMaxOrder-th order of integration.
+   *
+   * \param i Integration point number 0<=i<GetNumberOfIntegrationPoints()
+   * \param order Order of integration.
    *
    * \sa GetWeightAtIntegrationPoint()
    * \sa GetNumberOfIntegrationPoints()
    */
-  virtual VectorType GetIntegrationPoint( unsigned int i ) const = 0;
+  virtual VectorType GetIntegrationPoint( unsigned int i, unsigned int order=0 ) const = 0;
 
   /**
-   * Returns the summation weight at i-th integration point.
+   * Returns the weight at i-th integration point.
+   *
+   * \note This function must be implemented in derived element classes, and
+   *       is expected to provide valid integration weights for up to
+   *       gaussMaxOrder-th order of integration.
+   *
+   * \param i Integration point number 0<=i<GetNumberOfIntegrationPoints()
+   * \param order Order of integration.
    *
    * \sa GetIntegrationPoint()
    */
-  virtual Float GetWeightAtIntegrationPoint( unsigned int i ) const = 0;
+  virtual Float GetWeightAtIntegrationPoint( unsigned int i, unsigned int order=0 ) const = 0;
 
   /**
-   * Returns total number of integration points.
+   * Returns total number of integration points, for given order
+   * of Gauss-Legendre numerical integration rule.
+   *
+   * \note This function must be implemented in derived element classes, and
+   *       is expected to provide valid number of integration points for up
+   *       to gaussMaxOrder-th order of integration.
    *
    * \sa GetIntegrationPoint()
    */
-  virtual unsigned int GetNumberOfIntegrationPoints( void ) const = 0;
+  virtual unsigned int GetNumberOfIntegrationPoints( unsigned int order=0 ) const = 0;
 
+  /**
+   * Maximum supported order of 1D Gauss-Legendre integration.
+   * Integration points are defined for orders from 1 to gaussMaxOrder.
+   * Number of integration points is equal to the order of integration
+   * rule.
+   *
+   * \sa gaussPoint
+   */
+  enum { gaussMaxOrder=10 };
 
+  /**
+   * Points for 1D Gauss-Legendre integration from -1 to 1. First
+   * index is order of integration, second index is the number of
+   * integration point.
+   * 
+   * Example: gaussPoint[4][2] returns third point of the 4th order
+   * integration rule. Subarray gaussPoint[0][...] does not provide useful
+   * information. It is there only to keep order index correct.
+   *
+   * \sa gaussWeight
+   */
+  static const Float gaussPoint[gaussMaxOrder+1][gaussMaxOrder];
+
+  /**
+   * Weights for Gauss-Legendre integration.
+   *
+   * \sa gaussPoint
+   */
+  static const Float gaussWeight[gaussMaxOrder+1][gaussMaxOrder];
 
 
 //////////////////////////////////////////////////////////////////////////

@@ -29,69 +29,20 @@ namespace fem {
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 Element3DC0LinearHexahedron<VNumberOfDegreesOfFreedomPerNode>::VectorType
 Element3DC0LinearHexahedron<VNumberOfDegreesOfFreedomPerNode>
-::GetIntegrationPoint(unsigned int i) const
+::GetIntegrationPoint(unsigned int i, unsigned int order) const
 {
-  VectorType ipts(3);
+  VectorType pt(3);
 
-  Float pt = (Float)1.0 / (Float)sqrt(3.0);
+  // FIXME: range checking
 
-  switch(i)
-  {
-  case 0:
-    ipts[0] = -pt;
-    ipts[1] = -pt;
-    ipts[2] = -pt;
-    break;
+  // default integration order=2
+  if (order==0) { order=2; }
 
-  case 1:
-    ipts[0] =  pt;
-    ipts[1] = -pt;
-    ipts[2] = -pt;
-    break;
+  pt[0] = gaussPoint[order][i%order];
+  pt[1] = gaussPoint[order][(i/order)%order];
+  pt[2] = gaussPoint[order][(i/(order*order))];
 
-  case 2:
-    ipts[0] =  pt;
-    ipts[1] =  pt;
-    ipts[2] = -pt;
-    break;
-
-  case 3:
-    ipts[0] = -pt;
-    ipts[1] =  pt;
-    ipts[2] = -pt;
-    break;
-
-  case 4:
-    ipts[0] = -pt;
-    ipts[1] = -pt;
-    ipts[2] = pt;
-    break;
-
-  case 5:
-    ipts[0] =  pt;
-    ipts[1] = -pt;
-    ipts[2] = pt;
-    break;
-
-  case 6:
-    ipts[0] =  pt;
-    ipts[1] =  pt;
-    ipts[2] = pt;
-    break;
-
-  case 7:
-    ipts[0] = -pt;
-    ipts[1] =  pt;
-    ipts[2] = pt;
-    break;
-
-  default:
-    // i was out of range
-    throw FEMException(__FILE__, __LINE__, "FEM error");
-  }
-
-  return ipts;
-
+  return pt;
 }
 
 
@@ -99,9 +50,14 @@ Element3DC0LinearHexahedron<VNumberOfDegreesOfFreedomPerNode>
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 Element3DC0LinearHexahedron<VNumberOfDegreesOfFreedomPerNode>::Float
 Element3DC0LinearHexahedron<VNumberOfDegreesOfFreedomPerNode>
-::GetWeightAtIntegrationPoint(unsigned int) const
+::GetWeightAtIntegrationPoint(unsigned int i, unsigned int order) const
 {
-  return (Float)1.0;
+  // FIXME: range checking
+
+  // default integration order=2
+  if (order==0) { order=2; }
+
+  return gaussWeight[order][i%order]*gaussWeight[order][(i/order)%order]*gaussWeight[order][(i/(order*order))];
 }
 
 
@@ -109,9 +65,14 @@ Element3DC0LinearHexahedron<VNumberOfDegreesOfFreedomPerNode>
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 unsigned int
 Element3DC0LinearHexahedron<VNumberOfDegreesOfFreedomPerNode>
-::GetNumberOfIntegrationPoints() const
+::GetNumberOfIntegrationPoints(unsigned int order) const
 {
-  return 8;
+  // FIXME: range checking
+
+  // default integration order=2
+  if (order==0) { order=2; }
+
+  return order*order*order;
 }
 
 

@@ -29,7 +29,7 @@ namespace fem {
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>::VectorType
 Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
-::GetIntegrationPoint(unsigned int i) const
+::GetIntegrationPoint(unsigned int i, unsigned int order) const
 {
   VectorType ipts(3);
 
@@ -48,7 +48,7 @@ Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>::Float
 Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
-::GetWeightAtIntegrationPoint(unsigned int) const
+::GetWeightAtIntegrationPoint(unsigned int, unsigned int order) const
 {
   return (Float)1.0;
 }
@@ -58,7 +58,7 @@ Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 unsigned int
 Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
-::GetNumberOfIntegrationPoints() const
+::GetNumberOfIntegrationPoints(unsigned int order) const
 {
   return 1;
 }

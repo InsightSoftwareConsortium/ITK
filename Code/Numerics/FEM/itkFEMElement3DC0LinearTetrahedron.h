@@ -63,11 +63,11 @@ public:
    * Methods related to numeric integration
    */
 
-  virtual VectorType GetIntegrationPoint(unsigned int i) const;
+  virtual VectorType GetIntegrationPoint(unsigned int i, unsigned int order) const;
 
-  virtual Float GetWeightAtIntegrationPoint(unsigned int i) const;
+  virtual Float GetWeightAtIntegrationPoint(unsigned int i, unsigned int order) const;
 
-  virtual unsigned int GetNumberOfIntegrationPoints() const;
+  virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const;
 
 
 

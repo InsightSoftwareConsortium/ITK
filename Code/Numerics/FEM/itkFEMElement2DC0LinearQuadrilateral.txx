@@ -29,41 +29,19 @@ namespace fem {
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>::VectorType
 Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
-::GetIntegrationPoint(unsigned int i) const
+::GetIntegrationPoint(unsigned int i, unsigned int order) const
 {
-  VectorType ipts(2);
+  // FIXME: range checking
 
-  Float pt = (Float)1.0 / (Float)sqrt(3.0);
+  // default integration order=2
+  if (order==0) { order=2; }
 
-  switch(i)
-  {
-  case 0:
-    ipts[0] = -pt;
-    ipts[1] = -pt;
-    break;
+  VectorType pt(2);
 
-  case 1:
-    ipts[0] =  pt;
-    ipts[1] = -pt;
-    break;
+  pt[0]=gaussPoint[order][i%order];
+  pt[1]=gaussPoint[order][i/order];
 
-  case 2:
-    ipts[0] =  pt;
-    ipts[1] =  pt;
-    break;
-
-  case 3:
-    ipts[0] = -pt;
-    ipts[1] =  pt;
-    break;
-
-  default:
-    // i was out of range
-    throw FEMException(__FILE__, __LINE__, "FEM error");
-  }
-
-  return ipts;
-
+  return pt;
 }
 
 
@@ -71,9 +49,14 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>::Float
 Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
-::GetWeightAtIntegrationPoint(unsigned int) const
+::GetWeightAtIntegrationPoint(unsigned int i, unsigned int order) const
 {
-  return (Float)1.0;
+  // FIXME: range checking
+
+  // default integration order=2
+  if (order==0) { order=2; }
+
+  return gaussWeight[order][i%order]*gaussWeight[order][i/order];
 }
 
 
@@ -81,9 +64,14 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 unsigned int
 Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
-::GetNumberOfIntegrationPoints() const
+::GetNumberOfIntegrationPoints(unsigned int order) const
 {
-  return 4;
+  // FIXME: range checking
+
+  // default integration order=2
+  if (order==0) { order=2; }
+
+  return order*order;
 }
 
 
