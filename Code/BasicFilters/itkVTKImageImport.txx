@@ -18,6 +18,7 @@
 #define __itkVTKImageImport_txx
 
 #include "itkVTKImageImport.h"
+#include "itkPixelTraits.h"
 
 namespace itk
 {
