@@ -22,7 +22,6 @@ See COPYRIGHT.txt for copyright details.
 // Test to include each header file for Insight
 
 #include "GeAdvWin.h"
-#include "dbh.h"
 #include "genesis_hdr_def.h"
 #include "idbm_hdr_def.h"
 #include "itkAnalyzeImageIO.h"
