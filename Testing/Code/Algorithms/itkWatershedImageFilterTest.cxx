@@ -23,6 +23,7 @@
 #include "itkWatershedImageFilter.h"
 #include "itkWatershedEquivalenceRelabeler.h"
 #include "itkWatershedBoundaryResolver.h"
+#include "../BasicFilters/itkFilterWatcher.h"
 
 inline void println(char *s) { std::cout << s << std::endl; }
 
@@ -54,7 +55,7 @@ int itkWatershedImageFilterTest(int, char* [] )
   LongImageType2D::Pointer longimage2D = LongImageType2D::New();
    longimage2D->SetRegions(Region2D);
    longimage2D->Allocate();
-
+   longimage2D->FillBuffer(0);
   
  itk::ImageRegionIterator<ImageType2D>
      it2D(image2D, image2D->GetRequestedRegion());  
@@ -105,6 +106,8 @@ int itkWatershedImageFilterTest(int, char* [] )
   println("Creating the watershed filter");
   itk::WatershedImageFilter<ImageType2D>::Pointer ws_filter =
                   itk::WatershedImageFilter<ImageType2D>::New();
+  FilterWatcher watchIt(ws_filter);
+
   ws_filter->SetInput(image2D);
   ws_filter->SetThreshold(.05f);
   ws_filter->GetThreshold();
