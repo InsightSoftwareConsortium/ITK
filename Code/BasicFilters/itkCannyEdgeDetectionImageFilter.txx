@@ -454,10 +454,6 @@ void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-
-
-  unsigned int i;
-
   typename  InputImageType::Pointer input  = this->GetInput();
   typename  OutputImageType::Pointer sndDeriv;
   typename  OutputImageType::Pointer zeroCross;
@@ -546,8 +542,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   ConstSmartNeighborhoodIterator<TInputImage> bit1;
 
   ImageRegionIterator<TOutputImage> it;
-
-  void *globalData;
 
   // Here input is the result from the gaussian filter
   //      input1 is the 2nd derivative result
@@ -639,7 +633,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
           //First calculate the directional derivative
           if ( gradMag != zero)
             {
-              gradMag = std::sqrt(gradMag);
+//              gradMag = std::sqrt(gradMag);
               directional[i] = dx[i]/gradMag;
             }
           else
@@ -702,7 +696,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
               //First calculate the directional derivative
               if ( gradMag != zero)
                 {
-                  gradMag = std::sqrt(gradMag);
+//                  gradMag = std::sqrt(gradMag);
                   directional[i] = dx[i]/gradMag;
                 }
               else
