@@ -37,7 +37,6 @@ TubeSpatialObject< TDimension, PipelineDimension >
   m_Property->SetGreen(0); 
   m_Property->SetBlue(0); 
   m_Property->SetAlpha(1); 
-  //m_Points = new PointListType();
   ComputeBounds();
 } 
  
@@ -46,7 +45,6 @@ template< unsigned int TDimension , unsigned int PipelineDimension >
 TubeSpatialObject< TDimension, PipelineDimension >  
 ::~TubeSpatialObject()
 { 
-  //delete m_Points;
 } 
  
 
