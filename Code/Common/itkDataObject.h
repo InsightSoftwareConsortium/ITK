@@ -435,7 +435,7 @@ public:
    * DataObject's that do not support Regions, this method does
    * nothing. Subclasses of DataObject that do support Regions,
    * provide an alternative implementation. */
-  virtual void SetRequestedRegion(DataObject *data) {};
+  virtual void SetRequestedRegion(DataObject *) {};
   
 protected:
   DataObject();
