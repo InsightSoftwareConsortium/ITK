@@ -131,7 +131,7 @@ public:
       m_IsAtEnd = false;
 
       // Initialize the temporary image
-      tempPtr->FillBuffer(NumericTraits<TTempImage::PixelType>::Zero);
+      tempPtr->FillBuffer(NumericTraits<typename TTempImage::PixelType>::Zero);
       }
     else
       {

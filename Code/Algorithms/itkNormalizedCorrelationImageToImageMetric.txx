@@ -134,7 +134,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
 
   typedef  itk::ImageRegionConstIteratorWithIndex<
-                                        Superclass::GradientImageType> GradientIteratorType;
+                  typename Superclass::GradientImageType> GradientIteratorType;
 
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
@@ -292,7 +292,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
 
   typedef  itk::ImageRegionConstIteratorWithIndex<
-                                        Superclass::GradientImageType> GradientIteratorType;
+                  typename Superclass::GradientImageType> GradientIteratorType;
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
 

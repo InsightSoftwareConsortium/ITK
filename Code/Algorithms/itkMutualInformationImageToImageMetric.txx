@@ -163,7 +163,7 @@ SpatialSampleContainer& samples ) const
  * Get the match Measure
  */
 template < class TFixedImage, class TMovingImage  >
-MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+typename MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::MeasureType
 MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValue( const ParametersType& parameters ) const

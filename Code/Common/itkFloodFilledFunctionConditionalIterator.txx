@@ -40,13 +40,13 @@ FloodFilledFunctionConditionalIterator<TImage, TFunction>
   m_Image->SetRequestedRegionToLargestPossibleRegion();
   SizeType imageSize = m_Image->GetLargestPossibleRegion().GetSize();
   tempPtr = TTempImage::New();
-  TTempImage::RegionType tempRegion;
+  typename TTempImage::RegionType tempRegion;
   tempRegion.SetSize( imageSize );
   tempPtr->SetLargestPossibleRegion( tempRegion );
   tempPtr->SetBufferedRegion( tempRegion );
   tempPtr->SetRequestedRegion( tempRegion );
   tempPtr->Allocate();
-  tempPtr->FillBuffer(NumericTraits<TTempImage::PixelType>::Zero);
+  tempPtr->FillBuffer(NumericTraits<typename TTempImage::PixelType>::Zero);
   m_IsAtEnd = false;
 
   // Initialize the stack by adding the start index assuming startIndex
