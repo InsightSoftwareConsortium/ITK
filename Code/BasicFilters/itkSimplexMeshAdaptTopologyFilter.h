@@ -18,10 +18,7 @@ PURPOSE.  See the above copyright notices for more information.
 #define _SimplexMeshAdaptTopologyFilter_h
 
 #include "itkMesh.h"
-//#include "itkSphereMeshSource.h"
-//#include "itkLineCell.h"
 #include "itkPolygonCell.h"
-//#include "itkVertexCell.h"
 #include "itkMapContainer.h"
 #include "itkCellInterfaceVisitor.h"
 

@@ -18,7 +18,6 @@ PURPOSE.  See the above copyright notices for more information.
 #define __SimplexMeshToTriangleMeshFilter_h
 
 #include <itkMesh.h>
-#include <itkSphereMeshSource.h> 
 #include <itkLineCell.h>
 #include <itkPolygonCell.h>
 #include <itkVertexCell.h>
