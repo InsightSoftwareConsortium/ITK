@@ -74,6 +74,8 @@ public:
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  itkTypeMacro(Command,LightObject);
+  
   /**
    * Abstract method that defines the action to be taken by the command.
    */
@@ -188,6 +190,11 @@ public:
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
+  
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(MemberCommand,Command);
 
   /**
    *  Set the callback function along with the object that it will
@@ -266,6 +273,11 @@ public:
    */
   typedef SmartPointer<Self>  Pointer;
 
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(SimpleMemberCommand,Command);
+
   /**
    * Method for creation through the object factory.
    */
@@ -336,6 +348,11 @@ public:
    */
   typedef SmartPointer<Self>  Pointer;
 
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(CStyleCommand,Command);
+  
   /**
    * Method for creation through the object factory.
    */
