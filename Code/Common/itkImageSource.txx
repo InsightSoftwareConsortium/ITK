@@ -107,7 +107,7 @@ ImageSource<TOutputImage>
 {
   if (idx < this->GetNumberOfOutputs())
     {
-    OutputImageType * output = this->GetOutput(idx);
+    typename ImageSource<TOutputImage>::OutputImageType * output = this->GetOutput(idx);
 
     if (output && graft)
       {

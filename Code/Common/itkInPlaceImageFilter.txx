@@ -65,7 +65,7 @@ InPlaceImageFilter<TInputImage>
   // If there are more than output, allocate the remaining outputs
   for (unsigned int i=1; i < this->GetNumberOfOutputs(); i++)
     {
-    OutputImagePointer outputPtr;
+    typename InPlaceImageFilter<TInputImage>::OutputImagePointer outputPtr;
 
     outputPtr = this->GetOutput(i);
     outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());

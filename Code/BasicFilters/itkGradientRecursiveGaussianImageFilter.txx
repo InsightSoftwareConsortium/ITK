@@ -147,7 +147,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
 
   // This filter needs all of the input
-  InputImagePointer image = const_cast<InputImageType *>( this->GetInput() );
+  typename GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>::InputImagePointer image = const_cast<InputImageType *>( this->GetInput() );
   image->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
 }
 

@@ -224,6 +224,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
    * NOTE: For efficiency, parameters are not copied locally. The parameters
    * are assumed to be maintained by the caller.
    */
+  //PixelType * dataPointer = static_cast<PixelType *>( parameters.data_block() );
   PixelType * dataPointer = (PixelType *)( parameters.data_block() );
   unsigned int numberOfPixels = m_GridRegion.GetNumberOfPixels();
 

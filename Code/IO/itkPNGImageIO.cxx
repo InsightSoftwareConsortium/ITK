@@ -560,7 +560,7 @@ void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer,
   for (unsigned int ui = 0; ui < height; ui++)
     {
     row_pointers[height - ui - 1] = (png_byte *)outPtr;
-    outPtr = (unsigned char *)outPtr + rowInc;
+    outPtr = (const unsigned char *)outPtr + rowInc;
     }
   png_write_image(png_ptr, row_pointers);
   png_write_end(png_ptr, info_ptr);

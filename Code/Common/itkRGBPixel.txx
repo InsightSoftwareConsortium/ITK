@@ -146,7 +146,7 @@ RGBPixel<T>
  * Compute luminance
  */
 template<class T>
-RGBPixel<T>::ComponentType 
+typename RGBPixel<T>::ComponentType
 RGBPixel<T>
 ::GetLuminance() const
 {

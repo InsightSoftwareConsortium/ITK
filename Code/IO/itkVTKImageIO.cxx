@@ -463,22 +463,32 @@ void VTKImageIO::Write(const void* buffer)
                             this->GetImageSizeInComponents());
     }
   else //binary
+  {
+    int size = this->GetPixelSize();
+    const unsigned long int numbytes=this->GetImageSizeInBytes();
+    char * tempmemory=new char[numbytes];
+    memcpy(tempmemory,buffer,numbytes);
+    switch( size )
     {
-      int size = this->GetPixelSize();
-      switch( size )
-      {
-        case 2:
-          ByteSwapper<short>::SwapRangeFromSystemToBigEndian((short *)buffer, this->GetImageSizeInComponents() );
-          break;
-        case 4:
-          ByteSwapper<float>::SwapRangeFromSystemToBigEndian((float *)buffer, this->GetImageSizeInComponents() );
-          break;
-        case 6:
-          ByteSwapper<double>::SwapRangeFromSystemToBigEndian((double *)buffer, this->GetImageSizeInComponents() );
-          break;
-      }
-      file.write(static_cast<const char*>(buffer), this->GetImageSizeInBytes());
+      case 2:
+        {
+          ByteSwapper<short int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short int * const>(tempmemory), this->GetImageSizeInComponents() );
+        }
+        break;
+      case 4:
+        {
+          ByteSwapper<float>::SwapRangeFromSystemToBigEndian(reinterpret_cast<float *>(tempmemory), this->GetImageSizeInComponents() );
+        }
+        break;
+      case 6:
+        {
+          ByteSwapper<double>::SwapRangeFromSystemToBigEndian(reinterpret_cast<double *>(tempmemory), this->GetImageSizeInComponents() );
+        }
+        break;
     }
+    file.write(static_cast<const char*>(tempmemory), this->GetImageSizeInBytes());
+    delete [] tempmemory;
+  }
 }
 
 void VTKImageIO::PrintSelf(std::ostream& os, Indent indent) const

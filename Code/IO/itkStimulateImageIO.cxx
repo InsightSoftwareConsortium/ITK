@@ -248,8 +248,8 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
   char pixelType[256];
   float range[2];
   
-  char fidName[256] = "";   
-  char orient[256] = "";
+  //char fidName[256] = "";   
+  //char orient[256] = "";
   char datafilename[256] = "";
 
   bool fov_specified = false;
@@ -517,53 +517,57 @@ void StimulateImageIO::Write(const void* buffer)
   const unsigned long numberOfComponents = this->GetImageSizeInComponents();
 
   file << "\ndataType: ";
-  switch(this->GetComponentType()) {
-    case CHAR:
-    file << "BYTE";
-      ByteSwapper<char>::SwapRangeFromSystemToBigEndian((char *)buffer, numberOfComponents );
-    break;
-  case SHORT:
-    file << "WORD";
-      ByteSwapper<short>::SwapRangeFromSystemToBigEndian((short *)buffer, numberOfComponents );
-    break;
-  case INT:
-    file << "LWORD";
-      ByteSwapper<int>::SwapRangeFromSystemToBigEndian((int *)buffer, numberOfComponents );
-    break;
-  case FLOAT:
-    file << "REAL";
-      ByteSwapper<float>::SwapRangeFromSystemToBigEndian((float *)buffer, numberOfComponents );
-    break;
-  case DOUBLE:
-    file << "COMPLEX";
-      ByteSwapper<double>::SwapRangeFromSystemToBigEndian((double *)buffer, numberOfComponents );
-    break;
-  default:
-    ;
-  }
-
-  //add the data filename to the header
-  //determine datafile given the spr filename
-  m_DataFileName = m_FileName;
-  m_DataFileName.replace(m_DataFileName.length() - 3, 3, "sdt" );
-  file << "\nstimFileName: " << m_DataFileName.c_str();
-
-  //Last carrier return:
-  file << "\n";
-
-  //actually read data file
-  std::ofstream file_data;
-
-  if ( ! this->OpenStimulateFileForWriting(file_data, m_DataFileName.c_str()) )
-    {
-    return;
+  {
+    char * tempmemory=new char[numberOfBytes];
+    memcpy(tempmemory,buffer,numberOfBytes);
+    switch(this->GetComponentType()) {
+      case CHAR:
+        file << "BYTE";
+        ByteSwapper<char>::SwapRangeFromSystemToBigEndian(reinterpret_cast<char *>(tempmemory), numberOfComponents );
+        break;
+      case SHORT:
+        file << "WORD";
+        ByteSwapper<short int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short int *>(tempmemory), numberOfComponents );
+        break;
+      case INT:
+        file << "LWORD";
+        ByteSwapper<int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<int *>(tempmemory), numberOfComponents );
+        break;
+      case FLOAT:
+        file << "REAL";
+        ByteSwapper<float>::SwapRangeFromSystemToBigEndian(reinterpret_cast<float *>(tempmemory), numberOfComponents );
+        break;
+      case DOUBLE:
+        file << "COMPLEX";
+        ByteSwapper<double>::SwapRangeFromSystemToBigEndian(reinterpret_cast<double *>(tempmemory), numberOfComponents );
+        break;
+      default:
+        ;
     }
 
-  // Write the actual pixel data
-  file_data.write( (char *)buffer , numberOfBytes );
+    //add the data filename to the header
+    //determine datafile given the spr filename
+    m_DataFileName = m_FileName;
+    m_DataFileName.replace(m_DataFileName.length() - 3, 3, "sdt" );
+    file << "\nstimFileName: " << m_DataFileName.c_str();
 
+    //Last carrier return:
+    file << "\n";
+
+    //actually read data file
+    std::ofstream file_data;
+
+    if ( ! this->OpenStimulateFileForWriting(file_data, m_DataFileName.c_str()) )
+    {
+      return;
+    }
+
+    // Write the actual pixel data
+    file_data.write( static_cast<const char *>(tempmemory) , numberOfBytes );
+    delete [] tempmemory;
+    file_data.close();
+  }
   file.close();
-  file_data.close();
 }
 
 void StimulateImageIO::PrintSelf(std::ostream& os, Indent indent) const

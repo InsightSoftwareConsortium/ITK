@@ -42,7 +42,7 @@ class DICOMParser
   //
   // Opens a file and initializes the parser.
   //
-  bool OpenFile(char* filename);
+  bool OpenFile(const char * filename);
 
   //
   // This method kicks off the parser.

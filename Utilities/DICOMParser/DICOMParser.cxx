@@ -45,7 +45,7 @@ DICOMParser::DICOMParser() : ParserOutputFile()
   this->InitTypeMap();
 }
 
-bool DICOMParser::OpenFile(char* filename)
+bool DICOMParser::OpenFile(const char* filename)
 {
   DataFile = new DICOMFile();
   bool val = DataFile->Open(filename);
@@ -271,7 +271,7 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element)
 
     std::pair<const DICOMMapKey,DICOMMapValue> p = *iter;
     DICOMMapValue mv = p.second;
-    char platformEndian = this->DataFile->GetPlatformEndian()[0];
+    //char platformEndian = this->DataFile->GetPlatformEndian()[0];
 
     bool doSwap;
     /*
@@ -633,8 +633,8 @@ void DICOMParser::TransferSyntaxCallback(doublebyte,
   const char* TRANSFER_UID_EXPLICIT_BIG_ENDIAN = "1.2.840.10008.1.2.2";
   const char* TRANSFER_UID_GE_PRIVATE_IMPLICIT_BIG_ENDIAN = "1.2.840.113619.5.2";
 
-  char* fileEndian = "LittleEndian";
-  char* dataEndian = "LittleEndian";
+  //char* fileEndian = "LittleEndian";
+  //char* dataEndian = "LittleEndian";
 
   this->ToggleByteSwapImageData = false;
 

@@ -167,20 +167,19 @@ void DICOMAppHelper::SeriesUIDCallback(doublebyte,
     {
     (*iter).second.push_back(this->FileName);
     }
-} 
+}
 
 void DICOMAppHelper::OutputSeries()
 {
   std::cout << std::endl << std::endl;
-        
+
   for (std::map<char*, std::vector<char*>, ltstr >::iterator iter = SeriesUIDMap.begin();
-            
        iter != SeriesUIDMap.end();
        iter++)
     {
     std::cout << "SERIES: " << (*iter).first << std::endl;
     std::vector<char*>& v_ref = (*iter).second;
-                
+
     for (std::vector<char*>::iterator v_iter = v_ref.begin();
          v_iter != v_ref.end();
          v_iter++)
@@ -193,7 +192,6 @@ void DICOMAppHelper::OutputSeries()
         }
       std::cout << "\t" << *v_iter << " [" << slice << "]" <<  std::endl;
       }
-                
     }
 }
 
@@ -203,10 +201,13 @@ void DICOMAppHelper::SetFileName(const char* filename)
     {
     this->HeaderFile.close();
     }
-  this->FileName = (char*) filename;
+  //NOTE: const_cast is usually a bad idea, but
+  //the number of changes necessary to make this correct are too
+  //numerous to deal with.
+  this->FileName = const_cast<char*>(filename);
 
   std::string myfilename(std::string((char*) this->FileName) + ".header.txt");
-    
+
   this->HeaderFile.open(myfilename.c_str());
 }
 
@@ -491,7 +492,7 @@ void DICOMAppHelper::PixelDataCallback( doublebyte,
   
   bool isFloat = this->RescaledImageDataIsFloat();
 
-  float* tempData = new float[numPixels];
+  //float* tempData = new float[numPixels];
 
   if (isFloat)
     {

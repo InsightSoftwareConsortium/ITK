@@ -156,7 +156,7 @@ public:
   itkGetMacro(Comp_curve_p3_y, long);           
   itkGetMacro(Comp_curve_scaling_index, long);            
   itkGetMacro(Echo_reject, long);           
-  const double** GetMt_tp() const;
+  double const * const * const GetMt_tp(void) const;
   itkGetMacro(True_axis_defined, unsigned long);    
   itkGetMacro(True_axis_on, unsigned long);   
   itkGetMacro(Parallel_x_tilt, double);         

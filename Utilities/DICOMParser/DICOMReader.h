@@ -36,7 +36,7 @@ class DICOMReader : public DICOMParser
                            unsigned char* val,
                            quadbyte len);
 
-  void SetFileName(char* filename)
+  void SetFileName(const char* filename)
   {
     this->FileName = filename;
   }   

@@ -126,9 +126,9 @@ void VOLImageIO::Read(void* buffer)
 }
 
 
-const double** VOLImageIO::GetMt_tp() const
+double const * const * const VOLImageIO::GetMt_tp() const
 {
-  return (const double**)m_Mt_tp;
+  return reinterpret_cast<double const * const * const>(m_Mt_tp);
 }
 
 double VOLImageIO::GetSkinoffset()

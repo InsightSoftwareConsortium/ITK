@@ -335,7 +335,7 @@ MetaImageIO
     } 
 
   m_MetaImage.InitializeEssential(nDims, dSize, eSpacing, eType, nChannels,
-                                  (void *)buffer);
+      (void *)buffer);
   m_MetaImage.Position(eOrigin);
   m_MetaImage.BinaryData(binaryData);
 
@@ -344,7 +344,7 @@ MetaImageIO
   delete dSize;
   delete eSpacing;
   delete eOrigin;
-  } 
+  }
 
 
 

@@ -40,7 +40,7 @@ DICOMFile::~DICOMFile()
 
 }
 
-bool DICOMFile::Open(char* filename)
+bool DICOMFile::Open(const char* filename)
 {
   inputStream.open(filename, std::ios::binary | std::ios::in);
 

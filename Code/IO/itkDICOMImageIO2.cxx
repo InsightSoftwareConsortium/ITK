@@ -55,7 +55,7 @@ DICOMImageIO2::~DICOMImageIO2()
 
 bool DICOMImageIO2::CanReadFile( const char* filename ) 
 { 
-  bool open = Parser->OpenFile((char*) filename);
+  bool open = Parser->OpenFile(static_cast<const char*>( filename ));
   if (!open)
     {
     std::cerr << "Couldn't open file: " << filename << std::endl;
@@ -92,7 +92,7 @@ void DICOMImageIO2::Read(void* buffer)
 
   AppHelper->SetFileName(m_FileName.c_str());
     
-  bool open = Parser->OpenFile((char*) m_FileName.c_str());
+  bool open = Parser->OpenFile(static_cast<const char*>( m_FileName.c_str()));
   if (!open)
     {
     std::cerr << "Couldn't open file: " << m_FileName << std::endl;
@@ -127,7 +127,7 @@ void DICOMImageIO2::ReadImageInformation()
 
     AppHelper->SetFileName(m_FileName.c_str());
     
-    bool open = Parser->OpenFile((char*) m_FileName.c_str());
+    bool open = Parser->OpenFile(static_cast<const char*>( m_FileName.c_str()));
     if (!open)
       {
       std::cerr << "Couldn't open file: " << m_FileName << std::endl;

@@ -160,7 +160,7 @@ BloxBoundaryProfileItem<VImageDimension>
 }
 
 template <unsigned int VImageDimension>
-BloxBoundaryProfileItem<VImageDimension>::PositionType
+typename BloxBoundaryProfileItem<VImageDimension>::PositionType
 BloxBoundaryProfileItem<VImageDimension>
 ::GetOptimalBoundaryLocation(void)
 {
@@ -176,7 +176,7 @@ BloxBoundaryProfileItem<VImageDimension>
 }
 
 template <unsigned int VImageDimension>
-BloxBoundaryProfileItem<VImageDimension>::GradientType
+typename BloxBoundaryProfileItem<VImageDimension>::GradientType
 BloxBoundaryProfileItem<VImageDimension>
 ::GetGradient()
 {
