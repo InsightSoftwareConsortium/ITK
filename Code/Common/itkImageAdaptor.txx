@@ -212,8 +212,6 @@ typename TAccessor::InternalType  *
 ImageAdaptor<TImage , TAccessor>
 ::GetBufferPointer()
 {
-  std::cout << "Buffer Pointer = " << m_Image->GetBufferPointer() <<
-  std::endl;
   return m_Image->GetBufferPointer();
 }
 
