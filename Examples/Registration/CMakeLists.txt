@@ -192,16 +192,13 @@ ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
         ${TEMP}/ImageRegistration13Test.png
 )
 
-ENDIF( NOT BORLAND )
-
-
 ADD_TEST(ImageRegistration14Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration14Test.png
             ${TEMP}/ImageRegistration14Test.png
   ImageRegistration14Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${TEMP}/ImageRegistration14Test.png 32 0.1 0.05
+        ${TEMP}/ImageRegistration14Test.png 32 0.01 0.1  0.15  10.0  14.0
 )
 
 ADD_TEST(ImageRegistration15Test ${REGISTRATION_EXAMPLES8}
@@ -212,6 +209,9 @@ ADD_TEST(ImageRegistration15Test ${REGISTRATION_EXAMPLES8}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration15Test.png 32 0.1 0.05  0.0 0.0
 )
+
+ENDIF( NOT BORLAND )
+
 
 ADD_TEST(MultiResImageRegistration1Test ${REGISTRATION_EXAMPLES2}
   --compare ${BASELINE}/MultiResImageRegistration1Test.png

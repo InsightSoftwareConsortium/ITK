@@ -82,6 +82,7 @@ public:
         { 
         std::cout << optimizer->GetCurrentIteration() << "   ";
         std::cout << currentValue << "   ";
+        std::cout << optimizer->GetFrobeniusNorm() << "   ";
         std::cout << optimizer->GetCurrentPosition() << std::endl;
         m_LastMetricValue = currentValue;
         }
@@ -100,6 +101,7 @@ int main( int argc, char *argv[] )
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile [numberOfHistogramBins] ";
     std::cerr << "[initialRadius] [epsilon]" << std::endl;
+    std::cerr << "[initialAngle(radians)] [initialTx] [initialTy]" << std::endl;
     return 1;
     }
   
@@ -164,6 +166,7 @@ int main( int argc, char *argv[] )
 
 
 
+
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
 
@@ -196,13 +199,38 @@ int main( int argc, char *argv[] )
   initializer->GeometryOn();
   initializer->InitializeTransform();
 
-  transform->SetAngle( 0.0 );
+
+  typedef RegistrationType::ParametersType ParametersType;
+  
+
+  double initialAngle = 0.0;
+
+  if( argc > 7 )
+    {
+    initialAngle = atof( argv[7] );
+    }
+
+  transform->SetAngle( initialAngle );
+
+  TransformType::OutputVectorType initialTranslation;
+
+  initialTranslation = transform->GetTranslation();
+
+  if( argc > 9 )
+    {
+    initialTranslation[0] += atof( argv[8] );
+    initialTranslation[1] += atof( argv[9] );
+    }
+
+  transform->SetTranslation( initialTranslation );
 
 
-  registration->SetInitialTransformParameters( transform->GetParameters() );
+  ParametersType initialParameters =  transform->GetParameters();
+
+  registration->SetInitialTransformParameters( initialParameters );
 
   std::cout << "Initial transform parameters = ";
-  std::cout << transform->GetParameters() << std::endl;
+  std::cout << initialParameters << std::endl;
 
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
