@@ -50,8 +50,13 @@ typename GaussianSpatialObject< TDimension >::ScalarType
 GaussianSpatialObject< TDimension > 
 ::SquaredZScore( const PointType& point ) const
 {
-  const TransformType * giT = GetWorldToIndexTransform();
-  PointType transformedPoint = giT->TransformPoint(point);
+  TransformType::Pointer inverse = TransformType::New();
+  if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    {
+    return false;
+    }
+
+  PointType transformedPoint = inverse->TransformPoint(point); 
   
   ScalarType r = 0;
   for( unsigned int i=0; i<TDimension; i++ )
@@ -149,8 +154,8 @@ GaussianSpatialObject< TDimension >
   ellipse->GetIndexToWorldTransform()->SetParameters(
     this->GetIndexToWorldTransform()->GetParameters() );
   
-  ellipse->GetWorldToIndexTransform()->SetParameters(
-    this->GetWorldToIndexTransform()->GetParameters() );
+//  ellipse->GetWorldToIndexTransform()->SetParameters(
+//    this->GetWorldToIndexTransform()->GetParameters() );
   
   return ellipse;
 }

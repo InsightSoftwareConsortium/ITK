@@ -152,9 +152,14 @@ LandmarkSpatialObject< TDimension >
     typename PointListType::const_iterator it = m_Points.begin();
     typename PointListType::const_iterator itEnd = m_Points.end();
     
-    const TransformType * giT = GetWorldToIndexTransform();
-    PointType transformedPoint = giT->TransformPoint(point);
-  
+    TransformType::Pointer inverse = TransformType::New();
+    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+      {
+      return false;
+      }
+
+    PointType transformedPoint = inverse->TransformPoint(point);
+
     if( m_Bounds->IsInside(transformedPoint) )
       {
       while(it != itEnd)

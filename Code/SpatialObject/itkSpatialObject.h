@@ -160,23 +160,8 @@ public:
   void SetObjectToWorldTransform( TransformType * transform );
   itkGetObjectMacro(ObjectToWorldTransform,TransformType);
   itkGetConstObjectMacro(ObjectToWorldTransform,TransformType);
-
-  //TransformType * GetObjectToWorldTransform( void );
-  //const TransformType * GetObjectToWorldTransform( void ) const;
-
-  //TransformType * GetIndexToWorldTransform( void );
-  //const TransformType * GetIndexToWorldTransform( void ) const;
   itkGetObjectMacro(IndexToWorldTransform,TransformType);
   itkGetConstObjectMacro(IndexToWorldTransform,TransformType);
-
-  //TransformType * GetWorldToIndexTransform( void );
-  //const TransformType * GetWorldToIndexTransform( void ) const;
-  itkGetObjectMacro(WorldToIndexTransform,TransformType);
-  itkGetConstObjectMacro(WorldToIndexTransform,TransformType);
-  
-  /** Helper function */
-  //itkGetObjectMacro(ObjectToParentTransform,TransformType);
-  //itkGetConstObjectMacro(ObjectToParentTransform,TransformType);
 
   /** Compute the World transform when the local transform is set
    *  This function should be called each time the local transform
@@ -537,7 +522,6 @@ protected:
   TransformPointer    m_ObjectToParentTransform;
   TransformPointer    m_ObjectToWorldTransform; 
   TransformPointer    m_IndexToWorldTransform; 
-  TransformPointer    m_WorldToIndexTransform;
 
   /** Constructor. */ 
   SpatialObject(); 
@@ -553,8 +537,7 @@ protected:
    * the BufferedRegion is set. */
   void ComputeOffsetTable();
 
-  //mutable Self* m_Parent;
-
+  /** Type of spatial object */
   std::string m_TypeName;
 
   unsigned int m_Dimension;

@@ -47,8 +47,14 @@ ImageMaskSpatialObject< TDimension>
 {
   if( name == NULL || strstr(typeid(Self).name(), name) )
     {
-    const TransformType * giT = this->GetWorldToIndexTransform();
-    PointType p = giT->TransformPoint(point);
+    TransformType::Pointer inverse = TransformType::New();
+    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+      {
+      return false;
+      }
+
+    PointType p = inverse->TransformPoint(point);
+    
     if(m_Bounds->IsInside( p))
       {
       IndexType index;

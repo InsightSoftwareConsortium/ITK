@@ -44,8 +44,6 @@ SpatialObject< TDimension >
   m_ObjectToParentTransform->SetIdentity();
   m_IndexToWorldTransform = TransformType::New();
   m_IndexToWorldTransform->SetIdentity();
-  m_WorldToIndexTransform = TransformType::New();
-  m_WorldToIndexTransform->SetIdentity();
 
   m_BoundingBoxChildrenDepth=MaximumDepth;
   m_Id = -1;
@@ -227,8 +225,6 @@ SpatialObject< TDimension >
   return false;
 }
 
-
-
 /** Print self */
 template< unsigned int TDimension >
 void 
@@ -236,36 +232,16 @@ SpatialObject< TDimension >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os, indent);
-//  os << indent << "Parent: " << m_Parent << std::endl << std::endl;
   os << "Bounding Box:" << std::endl;
   os << indent << m_Bounds << std::endl;
   os << "Geometric properties:" << std::endl;
   os << indent << "Object to World Transform: " << m_ObjectToWorldTransform << std::endl;
   os << indent << "Index to World Transform: " << m_IndexToWorldTransform << std::endl;
-  os << indent << "World to Index Transform: " << m_WorldToIndexTransform << std::endl;
   os << std::endl << std::endl;
   os << indent << "Bounding Box Children Depth: " << m_BoundingBoxChildrenDepth << std::endl;
   os << indent << "Bounding Box Children Name: " << m_BoundingBoxChildrenName << std::endl;
   os << "Object properties: " << std::endl;
   os << m_Property << std::endl;
-  //os << m_AffineGeometryFrame << std::endl;
-
-/*ChildrenListType* m_Children = m_TreeNode->GetChildren();
-
-  
-  //  os << indent << "Number of children: " 
-//     << static_cast<unsigned long>( m_Children.size() )<< std::endl;
-  os << indent << "List of children: ";
-
-  typename ChildrenListType::const_iterator it_children = m_Children.begin();
-  typename ChildrenListType::const_iterator children_end = m_Children.end();
-
-  while(it_children != children_end)
-    {
-    os << "[" << (*it_children) << "] ";
-    it_children++;
-    }
-  os << std::endl;*/
 }
   
 /** Get the bounds of the object */
@@ -333,9 +309,6 @@ SpatialObject< TDimension >
   m_ObjectToParentTransform->Compose(m_AffineGeometryFrame->GetObjectToNodeTransform(),false);
   m_ObjectToParentTransform->Compose(static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->GetNodeToParentNodeTransform(),false);
 
-  //typename TransformType::MatrixType matrix  = m_ObjectToParentTransform->GetMatrix();
-  //typename TransformType::OffsetType offset  = m_ObjectToParentTransform->GetOffset();
-
   m_ObjectToWorldTransform->SetMatrix(m_AffineGeometryFrame->GetObjectToNodeTransform()->GetMatrix());
   m_ObjectToWorldTransform->SetOffset(m_AffineGeometryFrame->GetObjectToNodeTransform()->GetOffset());
 
@@ -344,24 +317,8 @@ SpatialObject< TDimension >
 
   static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->ComputeNodeToWorldTransform();
   m_ObjectToWorldTransform->Compose(static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->GetNodeToWorldTransform(),false);
- 
-  //std::cout << "m_ObjectToWorldTransform :" << std::endl;
-  //m_ObjectToWorldTransform->Print(std::cout);
-  //system("PAUSE");
-                                                                                                            
-  /*if(m_TreeNode->HasParent())
-    {
-    static_cast<TreeNodeType*>(m_TreeNode->GetParent())->GetNodeToWorldTransform(),false);
-    m_ObjectToWorldTransform->Compose((m_TreeNode->GetParent()->Get())->GetNodeToWorldTransform(),false);
-    }
-*/
 
   m_IndexToWorldTransform->Compose(this->GetObjectToWorldTransform(),false);
-
-  m_WorldToIndexTransform->SetMatrix(
-    m_IndexToWorldTransform->Inverse()->GetMatrix());
-  m_WorldToIndexTransform->SetOffset(
-    m_IndexToWorldTransform->Inverse()->GetOffset());
   
   // Propagate the changes to the children
   typedef typename TreeNodeType::ChildrenListType ChildrenListType; 
@@ -457,7 +414,12 @@ SpatialObject< TDimension >
 
   if(m_TreeNode->HasParent())
     {
-    m_ObjectToParentTransform->Compose(static_cast<TreeNodeType*>(m_TreeNode->GetParent())->GetNodeToParentNodeTransform()->Inverse(),true);
+    TransformType::Pointer inverse = TransformType::New();
+    if(static_cast<TreeNodeType*>(m_TreeNode->GetParent())->GetNodeToParentNodeTransform()->GetInverse(inverse))
+      {
+      m_ObjectToParentTransform->Compose(inverse,true);
+      }
+    
     }
 
   m_AffineGeometryFrame->GetObjectToNodeTransform()->SetIdentity();
@@ -467,69 +429,7 @@ SpatialObject< TDimension >
   m_IndexToWorldTransform->SetMatrix(m_AffineGeometryFrame->GetIndexToObjectTransform()->GetMatrix());
   m_IndexToWorldTransform->SetOffset(m_AffineGeometryFrame->GetIndexToObjectTransform()->GetOffset());
   m_IndexToWorldTransform->Compose(m_ObjectToWorldTransform,false);
-
-  m_WorldToIndexTransform->SetMatrix(
-    m_IndexToWorldTransform->Inverse()->GetMatrix());
-  m_WorldToIndexTransform->SetOffset(
-    m_IndexToWorldTransform->Inverse()->GetOffset());
-
 }
-
-
-/** Get the global transformation */
-/*template< unsigned int TDimension >
-typename SpatialObject< TDimension >::TransformType *
-SpatialObject< TDimension >
-::GetObjectToWorldTransform( void )
-{
-  return m_ObjectToWorldTransform.GetPointer();
-}*/
-
-/** Get the global transformation (const)*/
-/*template< unsigned int TDimension >
-const typename SpatialObject< TDimension >::TransformType *
-SpatialObject< TDimension >
-::GetObjectToWorldTransform( void ) const
-{
-  return m_ObjectToWorldTransform.GetPointer();
-}*/
-
-/** Get the global transformation */
-/*template< unsigned int TDimension >
-typename SpatialObject< TDimension >::TransformType *
-SpatialObject< TDimension >
-::GetIndexToWorldTransform( void )
-{
-  return m_IndexToWorldTransform.GetPointer();
-}*/
-
-/** Get the global transformation (const)*/
-/*template< unsigned int TDimension >
-const typename SpatialObject< TDimension >::TransformType *
-SpatialObject< TDimension >
-::GetIndexToWorldTransform( void ) const
-{
-  return m_IndexToWorldTransform.GetPointer();
-}*/
-
-/** Get the global transformation */
-/*template< unsigned int TDimension >
-typename SpatialObject< TDimension >::TransformType *
-SpatialObject< TDimension >
-::GetWorldToIndexTransform( void )
-{
-  return m_WorldToIndexTransform.GetPointer();
-}*/
-
-/** Get the global transformation (const)*/
-/*template< unsigned int TDimension >
-const typename SpatialObject< TDimension >::TransformType *
-SpatialObject< TDimension >
-::GetWorldToIndexTransform( void ) const
-{
-  return m_WorldToIndexTransform.GetPointer();
-}*/
-
 
 /** Get the modification time  */
 template< unsigned int TDimension >

@@ -181,8 +181,14 @@ TubeSpatialObject< TDimension >
     typename PointListType::const_iterator end = m_Points.end(); 
     typename PointListType::const_iterator min;
   
-    const TransformType * giT = GetWorldToIndexTransform();
-    PointType transformedPoint = giT->TransformPoint(point);      
+    TransformType::Pointer inverse = TransformType::New();
+    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+      {
+      return false;
+      }
+
+    PointType transformedPoint = inverse->TransformPoint(point);
+       
     this->ComputeLocalBoundingBox();
 
     if(m_EndType == 0) // flat end-type

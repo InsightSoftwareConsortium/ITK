@@ -410,8 +410,13 @@ PolygonSpatialObject<TDimension>
       throw exception;
     }
 
-  const TransformType * giT = GetWorldToIndexTransform();
-  PointType transformedPoint = giT->TransformPoint(point);
+  TransformType::Pointer inverse = TransformType::New();
+  if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    {
+    return false;
+    }
+
+  PointType transformedPoint = inverse->TransformPoint(point);
 
   PointListType &points = const_cast<Self *>(this)->GetPoints();
   typename PointListType::iterator it = points.begin();

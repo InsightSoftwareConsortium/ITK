@@ -59,9 +59,16 @@ MeshSpatialObject< TMesh >
 {
   if( name == NULL || strstr(typeid(Self).name(), name) )
     {
-    const TransformType * giT = GetWorldToIndexTransform();
-    PointType p = giT->TransformPoint(point);
-    if(m_Bounds->IsInside( p))
+     
+    TransformType::Pointer inverse = TransformType::New();
+    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+      {
+      return false;
+      }
+
+    PointType transformedPoint = inverse->TransformPoint(point);
+
+    if(m_Bounds->IsInside(transformedPoint))
       {
       
       typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
@@ -71,7 +78,7 @@ MeshSpatialObject< TMesh >
         typename MeshType::CoordRepType position[itkGetStaticConstMacro(Dimension)];
         for(unsigned int i=0;i<itkGetStaticConstMacro(Dimension);i++)
           {
-          position[i] = p[i];
+          position[i] = transformedPoint[i];
           }
 
         if(!it.Value()->EvaluatePosition(position,m_Mesh->GetPoints(),NULL,NULL,NULL,NULL))
