@@ -68,6 +68,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
         break;
       case 4:
         ConvertRGBAToRGB(inputData, outputData, size);
+        break;
       default:
         ConvertMultiComponentToRGB(inputData, inputNumberOfComponents,
                                    outputData, size);
@@ -294,20 +295,18 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   InputPixelType* endInput = inputData + size* 4;
   while(inputData != endInput)
     {
-    OutputComponentType alpha =
-      static_cast<OutputComponentType>(inputData[3]);
     OutputConvertTraits
       ::SetNthComponent(0, *outputData, 
                         static_cast<OutputComponentType>
-                        (*inputData)*alpha);
+                        (*inputData));
     OutputConvertTraits
       ::SetNthComponent(1, *outputData, 
                         static_cast<OutputComponentType>
-                        (*(inputData+1))*alpha);
+                        (*(inputData+1)));
     OutputConvertTraits
       ::SetNthComponent(2, *outputData, 
                         static_cast<OutputComponentType>
-                        (*(inputData+2))*alpha);
+                        (*(inputData+2)));
     inputData += 3;
     inputData++; // skip alpha
     outputData++;
@@ -333,7 +332,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
       {
       OutputComponentType val =  
         static_cast<OutputComponentType>(*inputData) * 
-        static_cast<OutputComponentType>((*inputData+1));
+        static_cast<OutputComponentType>(*(inputData+1));
       inputData += 2;
       OutputConvertTraits
         ::SetNthComponent(0, *outputData, val);
@@ -362,7 +361,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
       OutputConvertTraits
         ::SetNthComponent(2, *outputData, 
                           static_cast<OutputComponentType>
-                          ((*inputData+2)));
+                          (*(inputData+2)));
       inputData += 3;
       inputData += diff;
       outputData++;
