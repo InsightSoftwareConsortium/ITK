@@ -119,6 +119,7 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
   m_OutputImage->SetLargestPossibleRegion(region);
   m_OutputImage->SetBufferedRegion(region);
   m_OutputImage->Allocate();
+  m_OutputImage->SetOrigin( m_IO->GetImagePosition() );
 
 
   typedef typename TOutputImage::PixelType  OutputPixelType;
