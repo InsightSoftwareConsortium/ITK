@@ -18,7 +18,7 @@
 
 =========================================================================*/
 #include "itkVTKImageIO.h"
-#include <cstdio>
+#include <stdio.h>
 
 namespace itk
 {
@@ -194,7 +194,6 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
   float origin[3];
   file.getline(line,255);
   text = line;
-  int i;
 
   if ( text.find("DIMENSIONS") < text.length() || 
        text.find("dimensions") < text.length() )
@@ -208,7 +207,7 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
       {
       this->SetNumberOfDimensions(3);
       }
-    for ( i=0; i < m_NumberOfDimensions; i++ )
+    for ( unsigned int i=0; i < m_NumberOfDimensions; i++ )
       {
       m_Dimensions[i] = dims[i];
       }
@@ -236,7 +235,7 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
          text.find("spacing") < text.length() )
       {
       sscanf(line, "%*s %f %f %f", spacing, spacing+1, spacing+2);
-      for ( i=0; i < m_NumberOfDimensions; i++ )
+      for ( unsigned int i=0; i < m_NumberOfDimensions; i++ )
         {
         m_Spacing[i] = spacing[i];
         }
@@ -246,7 +245,7 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
               text.find("origin") < text.length() )
       {
       sscanf(line, "%*s %f %f %f", origin, origin+1, origin+2);
-      for ( i=0; i < m_NumberOfDimensions; i++ )
+      for ( unsigned int i=0; i < m_NumberOfDimensions; i++ )
         {
         m_Origin[i] = origin[i];
         }
