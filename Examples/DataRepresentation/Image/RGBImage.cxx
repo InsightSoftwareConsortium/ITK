@@ -32,6 +32,8 @@
 //  a custom image type. In order to use the itk::RGBPixel class it is 
 //  necessary to include its header file.
 //
+//  \index{itk::RGBPixel!Image}
+//
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -48,6 +50,8 @@ int main( int argc, char ** argv )
   // The RGB pixel class is templated over the type used to represent each
   // one of the Red, Green and Blue components. A typical instantiation of 
   // the templated class could be as follows.
+  //
+  //  \index{itk::RGBPixel!Instantiation}
   //
   // Software Guide : EndLatex 
 
@@ -76,6 +80,8 @@ int main( int argc, char ** argv )
   //
   // The image type can be used for instantiating other filters. For example 
   // an ImageFileReader object that will read the image from a file.
+  //
+  // \index{itk::ImageFileReader!RGB Image}
   //
   // Software Guide : EndLatex 
 
@@ -109,6 +115,11 @@ int main( int argc, char ** argv )
   //
   // Access to the color components on the pixels can now be performed 
   // using the native methods provided by the RGBPixel class. For example.
+  //
+  // \index{itk::Image!GetPixel()}
+  // \index{itk::RGBPixel!GetRed()}
+  // \index{itk::RGBPixel!GetGreen()}
+  // \index{itk::RGBPixel!GetBlue()}
   //
   // Software Guide : EndLatex 
 

@@ -25,6 +25,8 @@
 //  apropriate for representing the relative position between two points. It
 //  will then be the correct type for managing displacements --- for example.
 //  
+//  \index{itk::PointSet!Vector pixels}
+//  
 //  In order to use the vector class it is necessary to include its header file
 //  along with the header of the point set.
 //
@@ -51,6 +53,8 @@ int main()
   //  of producing an interest example, we are using here vectors that may
   //  represent displacements of the points in the PointSet. Those vectors are
   //  then selected to be of the same dimension as the PointSet.
+  //
+  //  \index{itk::Vector!itk::PointSet}
   //
   //  Software Guide : EndLatex 
 
@@ -84,6 +88,9 @@ int main()
   //  to the points. The components of the vectors in this example are
   //  computed to represent the tangents to the circle.
   //
+  //  \index{itk::PointSet!SetPoint()}
+  //  \index{itk::PointSet!SetPointData()}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -116,6 +123,10 @@ int main()
   //  apply a displacement on the points. This is along the spirit of what a
   //  deformable model could do at each one of its iterations. 
   //
+  //  \index{itk::PointSet!PointIterator}
+  //  \index{itk::PointSet!GetPoints()}
+  //  \index{itk::PointSet!GetPointData()}
+  //
   //  Software Guide : EndLatex 
 
 
@@ -142,6 +153,9 @@ int main()
   //  \code{Iterator} since the pixel values are only intended to be read and
   //  not modified. ITK support const-correctness at the API level.
   //
+  //  \index{ConstIterator}
+  //  \index{const-correctness}
+  //
   //  Software Guide : EndLatex 
 
 
@@ -155,6 +169,8 @@ int main()
   //  points in order to produce new points.  This property is exploited in the
   //  center of the loop in order to update the points positions with a single
   //  statement.
+  //
+  //  \index{itk::PointSet!PointIterator}
   //
   //  We can finally visit all the points and print out the new values
   //

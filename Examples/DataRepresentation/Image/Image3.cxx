@@ -106,6 +106,8 @@ int main()
   // possible to access the content of the pixel in the image.
   // The SetPixel() method allows to set the value of the pixels.
   //
+  // \index{itk::Image!SetPixel()}
+  // 
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -123,6 +125,8 @@ int main()
   //
   // While the \code{GetPixel()} method allows to read the
   // value of the pixel.
+  //
+  // \index{itk::Image!GetPixel()}
   //
   // Software Guide : EndLatex 
 

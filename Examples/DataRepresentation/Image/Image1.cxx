@@ -21,6 +21,9 @@
 // The following code is the minimal procedure required to 
 // instantiate, declare and create an image class.\\
 //
+// \index{itk::Image!Instantiation|textbf}
+// \index{itk::Image!Header|textbf}
+//
 // First, the header file of the Image class must be included.
 //
 // Software Guide : EndLatex 
@@ -53,8 +56,11 @@ int main()
   //
   // The image can then be created by invoking the \code{New()} operator
   // from the corresponding image type and assigning the result
-  // to a \code{SmartPointer}.
+  // to a \code{SmartPointer}. 
   //
+  // \index{itk::Image!Pointer|textbf}
+  // \index{itk::Image!New()|textbf}
+  // 
   // Software Guide : EndLatex 
   //
   // Software Guide : BeginCodeSnippet 
@@ -74,6 +80,9 @@ int main()
   // array where each component is an integer indicating the
   // grid coordinates of the initial pixel of the image.
   //
+  // \index{itk::Image!Size|textbf}
+  // \index{itk::Image!SizeType}
+  //
   // Software Guide : EndLatex 
   //
   // Software Guide : BeginCodeSnippet 
@@ -90,6 +99,9 @@ int main()
   // of the array are integeres indicating the extent in pixels
   // of the image along every dimension.
   //
+  // \index{itk::Image!Index|textbf}
+  // \index{itk::Image!IndexType}
+  //
   // Software Guide : EndLatex 
   // 
   // Software Guide : BeginCodeSnippet 
@@ -105,6 +117,10 @@ int main()
   // two parameters are used to create an ImageRegion object which
   // basically handles both concepts together. The region is initalized
   // with the starting index and size of the image.
+  //
+  // \index{itk::Image!itk::ImageRegion}
+  // \index{itk::Image!RegionType}
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet 
@@ -121,8 +137,12 @@ int main()
   // the \code{Allocate()} method on the image. Allocate does not require
   // any arguments since all the information needed for memory 
   // allocation has already been provided by the region.
-  // Software Guide : EndLatex 
   //
+  // \index{itk::Image!Allocate()|textbf}
+  // \index{itk::Image!SetRegions()}
+  //
+  // Software Guide : EndLatex 
+
   // Software Guide : BeginCodeSnippet 
   image->SetRegions( region );
   image->Allocate();

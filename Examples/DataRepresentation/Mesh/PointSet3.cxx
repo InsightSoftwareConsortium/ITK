@@ -25,6 +25,8 @@
 //  flexibility offered by the Generic Programmin approach used in the toolkit.
 //  The \code{PixelType} is the first template parameter of the PointSet.
 //
+//  \index{itk::PointSet!PixelType}
+//
 //  Software Guide : EndLatex 
 
 
@@ -64,6 +66,8 @@ int main()
   //  inserted data and inserted points. The following line illustrates the use
   //  of the \code{SetPointData()} method.
   //
+  //  \index{itk::PointSet!SetPointData()}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -86,6 +90,8 @@ int main()
   //  \code{false} and the pixel value returned will be invalid. It is the
   //  user's responsibility to check the returned boolean value before
   //  attempting to use the returned pixel value.
+  //
+  //  \index{itk::PointSet!GetPointData()}
   //
   //  Software Guide : EndLatex 
 
@@ -117,6 +123,8 @@ int main()
   //  the type can be taken from the traits and used to conveniently declare a
   //  similar type on the global namespace.
   //
+  //  \index{itk::PointSet!PointDataContainer}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -133,6 +141,9 @@ int main()
   //  container. This is a standard reference counted object, henceforth it
   //  uses the \code{New()} method for creation and assigns the newly created
   //  object to a SmartPointer.
+  //
+  //  \index{PointDataContainer!New()}
+  //  \index{PointDataContainer!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -151,6 +162,10 @@ int main()
   //  Pixel data can be inserted in the container with the method
   //  \code{InsertElement()}. This method requires an identified to be provided
   //  for each point data.
+  //
+  //  \index{PointDataContainer!InsertElement()}
+  //  \index{itk::VectorContainer!InsertElement()}
+  //  \index{itk::MapContainer!InsertElement()}
   //
   //  Software Guide : EndLatex 
 
@@ -175,6 +190,8 @@ int main()
   //  substitute any previously existing PointDataContainer on the PointSet. The
   //  assignment is done using the \code{SetPointData()} method.
   //
+  //  \index{itk::PointSet!SetPointData()}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -191,6 +208,8 @@ int main()
   //  The PointDataContainer can be obtained from the PointSet using the
   //  \code{GetPointData()} method.  This method returns a SmartPointer to the
   //  actual container owned by the PointSet.
+  //
+  //  \index{itk::PointSet!GetPointData()}
   //
   //  Software Guide : EndLatex 
 
@@ -210,6 +229,8 @@ int main()
   //  classes. The iterator is not a reference counted class, so it is just
   //  created directly from the traits without using SmartPointers.
   //
+  //  \index{PointDataContainer!Iterator}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -226,6 +247,8 @@ int main()
   //  The subsequent use of the iterator follows what you may expect from a STL
   //  iterator. The iterator to the first point is obtained from the container
   //  with the \code{Begin()} method and assigned to another iterator.
+  //
+  //  \index{PointDataContainer!Begin()}
   //
   //  Software Guide : EndLatex 
 
@@ -246,6 +269,9 @@ int main()
   //  the current iterator with the iterator returned by the \code{End()}
   //  method of the PointsContainer. The following lines illustrate the typical
   //  loop for walking through the point data.
+  //
+  //  \index{PointDataContainer!End()}
+  //  \index{PointDataContainer!increment ++}
   //
   //  Software Guide : EndLatex 
 

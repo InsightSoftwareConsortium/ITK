@@ -40,6 +40,8 @@ int main()
   //  \code{PointContainer} type from the PointSet traits and declare it on the
   //  global namespace.
   //
+  //  \index{itk::PointSet!PointContainer}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -61,6 +63,9 @@ int main()
   //  then created with the \code{New()} method and assigned to a SmartPointer
   //  after creation.  The following line creates a point container compatible
   //  with the type of the PointSet from which the trait has been taken.
+  //
+  //  \index{itk::PointSet!New()}
+  //  \index{itk::PointSet!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -98,6 +103,11 @@ int main()
   //  The created points can be inserted in the PointsContainer using the generic
   //  method \code{InsertElement()} which requires an identified to be provided
   //  for each point.
+  //
+  //  \index{PointsContainer!InsertElement()}
+  //  \index{PointsContainer!InsertElement()}
+  //  \index{itk::VectorContainer!InsertElement()}
+  //  \index{itk::MapContainer!InsertElement()}
   //
   //  Software Guide : EndLatex 
 

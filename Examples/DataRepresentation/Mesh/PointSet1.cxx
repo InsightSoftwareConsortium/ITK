@@ -31,6 +31,9 @@
 //  between both styles is to facilitate the fine tunning of its behavior
 //  with the aim of optimizing performance and memory management.
 //
+//  \index{itk::PointSet}
+//  \index{itk::PointSet!Static}
+//  \index{itk::PointSet!Dynamic}
 //
 //  In order to use the PointSet class, its header file should be included.
 //
@@ -52,6 +55,8 @@ int main()
   //  represented. The following declaration illustrates a typical
   //  instantiation of the PointSet class.
   //
+  //  \index{itk::PointSet!Instantiation}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -72,6 +77,9 @@ int main()
   //  method should \textbf{never} be called directly in any of the reference
   //  counted ITK classes.
   //
+  //  \index{itk::PointSet!New()}
+  //  \index{itk::PointSet!Pointer}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -91,6 +99,8 @@ int main()
   //  represent points in space.  The following declaration is taking the point
   //  type as defined in the PointSet traits and renaming it to be conveniently
   //  used in the global namespace.
+  //
+  //  \index{itk::PointSet!PointType}
   //
   //  Software Guide : EndLatex 
 
@@ -146,6 +156,8 @@ int main()
   //  the points as they are being inserted. The following code shows how three
   //  points are inserted into the PointSet.
   //
+  //  \index{itk::PointSet!SetPoint()}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -160,6 +172,8 @@ int main()
   // It is possible to query the PointSet in order to determine how many points
   // have been inserted on it. This is done with the \code{GetNumberOfPoints()}
   // method as illustrated below.
+  //
+  //  \index{itk::PointSet!GetNumberOfPoints()}
   //
   //  Software Guide : EndLatex 
 
@@ -179,6 +193,8 @@ int main()
   // existing point the method will return \code{false} and the content of the
   // point will be invalid. The following code illustrates the access to points
   // using defensive programming.
+  //
+  //  \index{itk::PointSet!GetPoint()}
   //
   //  Software Guide : EndLatex 
 

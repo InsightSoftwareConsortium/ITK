@@ -28,6 +28,9 @@
 //  representing the gradient of a function. The transformed covariant vector
 //  will still be the valid gradient of the transformed function.
 // 
+//  \index{itk::PointSet!itk::CovariantVector}
+//  \index{itk::CovariantVector!itk::PointSet}
+//
 //  The following code shows
 //  how vector values can be used as pixel type on the PointSet class.  The
 //  \code{itk::CovariantVector} class is used here as the pixel type. The example
@@ -36,6 +39,8 @@
 //  
 //  In order to use the CovariantVector class it is necessary to include its
 //  header file along with the header of the point set.
+//
+//  \index{itk::CovariantVector!Header}
 //
 //  Software Guide : EndLatex 
 
@@ -60,6 +65,8 @@ int main()
   //  want to illustrate here the spirit of a deformable model. It is then
   //  required for the vectors representing gradients to be of the same
   //  dimension as the points in space.
+  //
+  //  \index{itk::CovariantVector!Instantiation}
   //
   //  Software Guide : EndLatex 
 
@@ -92,6 +99,9 @@ int main()
   //  The following code generates a circle in 3D and assigns gradient values
   //  to the points. The components of the CovariantVectors in this example are
   //  computed to represent the normals to the circle. 
+  //
+  //  \index{itk::PointSet!SetPoint()}
+  //  \index{itk::PointSet!SetPointData()}
   //
   //  Software Guide : EndLatex 
 
@@ -129,6 +139,8 @@ int main()
   //  obtain local deformations.  The resulting deformations  should finally be
   //  used to apply displacements on the points.  but... let's be sloppy with
   //  the physics on this example for a moment.
+  //
+  //  \index{itk::PointSet!PointDataIterator}
   //
   //  Software Guide : EndLatex 
 
@@ -170,6 +182,8 @@ int main()
   //  Note that the absence of basic operators on the ITK geometry classes is
   //  completely intentional with the aim of preventing the  incorrect use of
   //  the mathematical concepts they represent.
+  //
+  //  \index{itk::CovariantVectors}
   //
   //  Software Guide : EndLatex 
   //

@@ -22,6 +22,8 @@
 //  The first step is then to include the header files of the
 //  \code{itk::RGBPixel} and \code{itk::PointSet} classes.
 //
+//  \index{itk::PointSet!RGBPixel}
+//
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -40,6 +42,8 @@ int main()
   //
   //  Then, the pixel type can be defined by selecting the type to be used to
   //  represent each one of the RGB components.
+  //
+  //  \index{itk::RGBPixel!Instantiation}
   //
   //  Software Guide : EndLatex 
 
@@ -71,6 +75,9 @@ int main()
   //  to the points. The components of the RGB values in this example are
   //  computed to represent the position of the points.
   //
+  //  \index{itk::PointSet!SetPoint()}
+  //  \index{itk::PointSet!SetPointData()}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -100,6 +107,10 @@ int main()
   //
   //  All the points on the PointSet are visited using the following code.
   //
+  //  \index{itk::PointSet!GetPoints()}
+  //  \index{itk::PointSet!points iterator}
+  //  \index{itk::PointSet!iterating points}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -128,6 +139,10 @@ int main()
   //
   //  All the pixel values on the PointSet are visited using the following code.
   //
+  //  \index{itk::PointSet!GetPointData()}
+  //  \index{itk::PointSet!data iterator}
+  //  \index{itk::PointSet!iterating point data}
+  //
   //  Software Guide : EndLatex 
 
 
@@ -146,6 +161,9 @@ int main()
   //
   //  Again, please note the use of the  \code{ConstIterator} instead of the
   //  \code{Iterator}. 
+  //
+  //  \index{ConstIterator}
+  //  \index{const-correctness}
   //
   //  Software Guide : EndLatex 
 

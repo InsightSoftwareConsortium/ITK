@@ -67,6 +67,9 @@ int main( int argc, char ** argv )
   // ImageFile Reader. The following line illustrates the typical
   // instantiation of the ImageFileReader type.
   //
+  // \index{itk::ImageFileReader!Instantiation}
+  // \index{itk::Image!read}
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -84,6 +87,9 @@ int main( int argc, char ** argv )
   // The \code{New()} method of the reader type is invoked 
   // to create the reader object.
   //
+  // \index{itk::ImageFileReader!New()}
+  // \index{itk::ImageFileReader!Pointer}
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -98,6 +104,8 @@ int main( int argc, char ** argv )
   // The minimum information required by the reader is the filename
   // of the image to be loaded in memory. This is provided through
   // the \code{::SetFileName()} method.
+  //
+  // \index{itk::ImageFileReader!SetFileName()}
   //
   // Software Guide : EndLatex 
 
@@ -122,6 +130,8 @@ int main( int argc, char ** argv )
   // on this filter will trigger the update of the reader. The following
   // line illustrates how an explicit update can be requested on the reader.
   //
+  // \index{itk::ImageFileReader!Update()}
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -138,6 +148,8 @@ int main( int argc, char ** argv )
   // also be called before the update request is sent to the reader.
   // The reference to the image will be equally valid even though
   // the image will lack any pixel data content.
+  //
+  // \index{itk::ImageFileReader!GetOutput()}
   //
   // Software Guide : EndLatex 
 

@@ -77,6 +77,8 @@ int main()
   // code illustrates the methods available in the image class 
   // for dealing with spacing and origin.
   //
+  // \index{itk::Image!spacing}
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet 
@@ -94,6 +96,8 @@ int main()
   //
   // The array can be assigned to the image using 
   // the \code{SetSpacing()} method.
+  //
+  // \index{itk::Image!SetSpacing()}
   //
   // Software Guide : EndLatex
 
@@ -118,6 +122,10 @@ int main()
   // 
   // The following code illustrates the creation and assignment
   // of a variable suitable for initializing the image origin.
+  //  
+  // \index{itk::Image!origin}
+  // \index{itk::Image!SetOrigin()}
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet 
@@ -200,6 +208,8 @@ int main()
   //
   // The following lines illustrate the point to index mapping and the subsequent
   // use of the pixel index for accessing pixel data from the image. 
+  //
+  // \index{itk::Image!TransformPhysicalPointToIndex()}
   //
   // Software Guide : EndLatex
 

@@ -30,6 +30,9 @@
 // If you are interested in containers, the itk::VectorContainer 
 // class may provide the functionalities you are looking for.
 //
+// \index{itk::Vector}
+//
+//
 // The first step is then to include the header file of the vector class.
 //
 // Software Guide : EndLatex 
@@ -53,6 +56,10 @@ int main()
   // dimension but this is by no means a requirement. We could have
   // defined a four dimensional image with three dimensional vectors
   // as pixels. 
+  //
+  // \index{itk::Vector!Instantiation}
+  // \index{itk::Vector!itk::Image}
+  // \index{itk::Image!Vector pixel}
   //
   // Software Guide : EndLatex 
 
