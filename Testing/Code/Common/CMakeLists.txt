@@ -98,7 +98,7 @@ ADD_TEST(itkSTLThreadTest ${COMMON_TESTS} itkSTLThreadTest)
 # Setup the system information test.  Write out some basic failsafe
 # information in case the test doesn't run.
 
-ADD_TEST(itkSystemInformationTest ${SYSTEM_INFORMATION_TEST})
+ADD_TEST(itkSystemInformationTest ${SYSTEM_INFORMATION_TEST} ${SITE} ${BUILDNAME})
 
 IF(ITK_BINARY_DIR)
   SET(ITK_SYSTEM_INFORMATION_DIR ${ITK_BINARY_DIR})

@@ -17,8 +17,10 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <Code/Common/itkSystemInformationTest.h>
 #include <sys/stat.h>
+#include <time.h>
 
 #if defined(ITK_BINARY_DIR)
 # define ITK_SYSTEM_INFORMATION_DIR ITK_BINARY_DIR
@@ -31,9 +33,23 @@
   ITK_SYSTEM_INFORMATION_DIR "/Testing/HTML/TestingResults/Sites/" \
   ITKTesting_SITE "/" ITKTesting_BUILD_NAME "/BuildNameNotes.xml"
 
-void itkSystemInformationPrintFile(const char* name, std::ostream& os)
+std::string itkGetCurrentDateTime(const char* format)
 {
-  os << "================================================================\n";
+  char buf[1024];
+  time_t t;
+  time(&t);
+  strftime(buf, sizeof(buf), format, localtime(&t));
+  return buf;
+}
+
+
+void itkSystemInformationPrintFile(const char* name, std::ostream& os,
+                                   bool note=false )
+{
+  if (!note)
+    {
+    os << "================================================================\n";
+    }
   struct stat fs;
   if(stat(name, &fs) != 0)
     {
@@ -49,8 +65,11 @@ void itkSystemInformationPrintFile(const char* name, std::ostream& os)
 
   if(fin)
     {
-    os << "Contents of \"" << name << "\":\n";
-    os << "----------------------------------------------------------------\n";
+    if (!note)
+      {
+      os << "Contents of \"" << name << "\":\n";
+      os << "----------------------------------------------------------------\n";
+      }
     const int bufferSize = 4096;
     char buffer[bufferSize];
     // This copy loop is very sensitive on certain platforms with
@@ -74,7 +93,7 @@ void itkSystemInformationPrintFile(const char* name, std::ostream& os)
     }
 }
 
-int main(int,char *[])
+int main(int argc,char *argv[])
 {
   const char* files[] =
     {
@@ -99,19 +118,36 @@ int main(int,char *[])
     std::cout << "Also writing this information to file " << ITK_SYSTEM_INFORMATION_NOTES << "\n";
   
     outf << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << std::endl;
-    outf << "<Site BuildName=\"CMakeCache\"  Name=\"crd\">" << std::endl;
+    switch (argc)
+      {
+      case 1:
+        outf << "<Site BuildName=\"Local\"  Name=\"localhost\">" << std::endl;
+        break;
+      case 2:
+        outf << "<Site BuildName=\"Local\"  Name=\"" << argv[1] << "\">" << std::endl;
+        break;
+      case 3:
+        outf << "<Site BuildName=\"" << argv[2] << "\"  Name=\"" << argv[1] << "\">" << std::endl;
+        break;
+      default:
+        outf << "<Site BuildName=\"Local\"  Name=\"localhost\">" << std::endl;
+        break;
+      }
     outf << "<BuildNameNotes>" << std::endl;
-    outf << "<Note>" << std::endl;
-    outf << "<DateTime>Wed Oct 24 1:00:00 EST</DateTime>" << std::endl;
-    outf << "<Text>" << std::endl;
-    
     for(f = files; *f; ++f)
       {
-      itkSystemInformationPrintFile(*f, outf);
+      outf << "<Note Name=\"" << *f << "\">" << std::endl;
+      outf << "<DateTime>"
+           << itkGetCurrentDateTime("%a %b %d %Y %H:%M:%S %Z")
+           << "</DateTime>" << std::endl;
+      outf << "<Text>" << std::endl;
+    
+      itkSystemInformationPrintFile(*f, outf, true);
+
+      outf << "</Text>" << std::endl;
+      outf << "</Note>" << std::endl;
       }
     
-    outf << "</Text>" << std::endl;
-    outf << "</Note>" << std::endl;
     outf << "</BuildNameNotes>" << std::endl;
     outf << "</Site>" << std::endl;
     }
