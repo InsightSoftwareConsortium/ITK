@@ -301,9 +301,10 @@ Write(const char *_headName)
   m_WriteStream = 0;
 
   /** Then we write all the objects in the scene */
-  ObjectListType::const_iterator it = m_ObjectList.begin();
+  ObjectListType::iterator it = m_ObjectList.begin();
   while(it != m_ObjectList.end())
   {
+    (*it)->BinaryData(this->BinaryData());
     (*it)->Append(_headName);
     it++;
   }
