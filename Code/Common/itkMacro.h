@@ -200,7 +200,7 @@ namespace itk
  * Creates the member Get"name"() (e.g., GetPoints()).
  */
 #define itkGetConstReferenceObjectMacro(name,type) \
-  virtual const type::Pointer & Get##name () const \
+  virtual const typename type::Pointer & Get##name () const \
   { \
     itkDebugMacro(<< this->GetClassName() << " (" << this \
                   << "): returning " #name " address " << this->m_##name ); \
