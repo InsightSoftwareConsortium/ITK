@@ -133,12 +133,12 @@ public:
 };
 
 VCL_DEFINE_SPECIALIZATION
-class vnl_numeric_traits<signed long> {
+class vnl_numeric_traits<long> {
 public:
-  static const signed long zero VCL_STATIC_CONST_INIT_INT(0);
-  static const signed long one VCL_STATIC_CONST_INIT_INT(1);
+  static const long zero VCL_STATIC_CONST_INIT_INT(0);
+  static const long one VCL_STATIC_CONST_INIT_INT(1);
   typedef unsigned long abs_t;
-  typedef signed long double_t;
+  typedef long double_t;
   typedef double real_t;
 };
 
