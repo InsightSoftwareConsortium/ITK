@@ -145,8 +145,8 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
     // Evaluate input at right position and copy to the output
     if( m_Interpolator->IsInsideBuffer(inputPoint) )
     {
-      PixelType pixval;
-      pixval = m_Interpolator->Evaluate(inputPoint);
+      const PixelType pixval = 
+        static_cast<PixelType>( m_Interpolator->Evaluate(inputPoint));
       outIt.Set( pixval );      
     }
     else
