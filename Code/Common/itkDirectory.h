@@ -56,7 +56,7 @@ public:
   /**
    * Return the file at the given index, the indexing is 0 based
    */
-  const char* GetFile(int index);
+  const char* GetFile(unsigned int index);
 
 protected:
   itkDirectory();

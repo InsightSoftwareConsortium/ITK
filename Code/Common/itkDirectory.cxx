@@ -129,7 +129,7 @@ itkDirectory
 //----------------------------------------------------------------------------
 const char* 
 itkDirectory
-::GetFile(int index)
+::GetFile(unsigned int index)
 {
   if ( index >= m_Files.size() || index < 0 )
     {
