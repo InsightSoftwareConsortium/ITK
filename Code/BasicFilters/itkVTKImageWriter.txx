@@ -194,7 +194,7 @@ VTKImageWriter<TInputImage>
 
   if ( fptr->fail() )
     {
-    itkErrorMacro(<< "Unable to open file: "<< m_FileName);
+    itkErrorMacro(<< "Unable to open file: "<< this->GetFileName());
     delete fptr;
     return NULL;
     }
