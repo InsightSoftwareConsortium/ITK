@@ -193,7 +193,7 @@ int itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest(int, char* [] )
     }
   
   
-  // Next a histogram that has many fewer bins.
+  // Next a histogram with a smaller range.
   GLCMGeneratorType::Pointer glcmGen3 = GLCMGeneratorType::New();
   
   glcmGen3->SetInput(image);
@@ -224,6 +224,34 @@ int itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest(int, char* [] )
     passed = false;
     }
 
+  // Next a histogram with a truncated range.
+  GLCMGeneratorType::Pointer glcmGen4 = GLCMGeneratorType::New();
+  
+  glcmGen4->SetInput(image);
+  glcmGen4->SetOffsets(offsetV);
+  
+  glcmGen4->SetPixelValueMinMax(0, 1);
+  glcmGen4->SetNumberOfBinsPerAxis( 2 );
+  
+  glcmGen4->Compute();
+  GLCMGeneratorType::HistogramPointer hist4 = glcmGen4->GetOutput();
+
+  zzF = hist4->GetFrequency(zero_zero);
+  zoF = hist4->GetFrequency(zero_one);
+  ozF = hist4->GetFrequency(one_zero);
+  ooF = hist4->GetFrequency(one_one);
+  totalF = hist4->GetTotalFrequency();
+  
+  if( zzF != 0 || zoF != 0 || ozF != 0 || ooF != 6 || zzF + zoF + ozF + ooF != totalF)
+    {
+    std::cerr << "Error:" << std::endl;
+    std::cerr << "The truncated range histogram was calculated incorrectly" << std::endl;
+    std::cerr << "Expected 6, 12, 9, 9, 36 got " << zzF << ", " << zoF  << ", " <<
+    ozF  << ", " << ooF  << ", " << totalF << std::endl << std::endl;
+    passed = false;
+    }
+  
+  
   if (!passed)
     {
     std::cerr << "Test failed" << std::endl;
