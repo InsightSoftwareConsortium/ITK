@@ -247,7 +247,7 @@ void BMPImageIO::Read(void* buffer)
     m_Ifstream.seekg(-streamRead*(id+1),std::ios::end);
     m_Ifstream.read((char *)value, streamRead);
     
-    for(unsigned long i=0;i<streamRead;i+=step)
+    for(long i=0;i<streamRead;i+=step)
       { 
       p[l++]=value[i];  
       }
@@ -602,8 +602,8 @@ BMPImageIO
 
   int bpp = this->GetNumberOfComponents(); 
 
-  int i;
-  for (int h = 0; h < m_Dimensions[1]; h++)
+  unsigned int i;
+  for (unsigned int h = 0; h < m_Dimensions[1]; h++)
     {  
       const char * ptr = static_cast<const char*>(buffer);
       ptr += (m_Dimensions[1]-(h+1))*m_Dimensions[0]*bpp;
