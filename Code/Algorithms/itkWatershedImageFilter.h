@@ -203,6 +203,12 @@ class ITK_EXPORT RelabelWatershedImageFilter;
  * percent of the maximum value in the image.  A level of 0.0 produces the
  * basic segmentation.
  *
+ *
+ * \todo Rework to accommodate streaming and add support for N-dimensional
+ * images.
+ * \todo Example code for the repository.
+ * \todo References to the documentation.
+ *
  * \sa RelabelWatershedImageFilter
  */
 template <class TInputImage, class TOutputImage>
