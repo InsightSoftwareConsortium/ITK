@@ -40,6 +40,8 @@ Image<TPixel, VImageDimension, TImageTraits>
     m_Spacing[i] = 1.0;
     m_Origin[i] = 0.0;
     }
+  m_IndexToPhysicalTransform = 0;
+  m_PhysicalToIndexTransform = 0;
 }
 
 
@@ -132,9 +134,8 @@ Image<TPixel, VImageDimension, TImageTraits>
       {
       m_Spacing[i] = spacing[i];
       }
+    this->RebuildTransforms();
     }
-
-  this->RebuildTransforms();
 }
 
 //----------------------------------------------------------------------------
@@ -157,9 +158,8 @@ Image<TPixel, VImageDimension, TImageTraits>
       {
       m_Spacing[i] = spacing[i];
       }
-    }
-
   this->RebuildTransforms();
+    }
 }
 
 
@@ -196,9 +196,8 @@ Image<TPixel, VImageDimension, TImageTraits>
       {
       m_Origin[i] = origin[i];
       }
+    this->RebuildTransforms();
     }
-
-  this->RebuildTransforms();
 }
 
 
@@ -222,9 +221,8 @@ Image<TPixel, VImageDimension, TImageTraits>
       {
       m_Origin[i] = origin[i];
       }
+    this->RebuildTransforms();
     }
-
-  this->RebuildTransforms();
 }
 
 
@@ -248,9 +246,8 @@ Image<TPixel, VImageDimension, TImageTraits>
       {
       m_Origin[i] = origin[i];
       }
+    this->RebuildTransforms();
     }
-     
-  this->RebuildTransforms();
 }
 
 
