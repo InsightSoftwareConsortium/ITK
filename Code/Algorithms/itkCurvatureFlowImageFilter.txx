@@ -54,7 +54,6 @@ template <class TLevelSet>
 CurvatureFlowImageFilter<TLevelSet>
 ::CurvatureFlowImageFilter()
 {
-  m_DebugOn = false;
 
 }
 

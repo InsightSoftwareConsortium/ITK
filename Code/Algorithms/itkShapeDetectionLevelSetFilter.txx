@@ -65,8 +65,6 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 
   m_PropagateOutwards = true;
 
-  m_DebugOn = false;
-
 }
 
 /**
@@ -186,10 +184,9 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 
   for( unsigned int k = 0; k < numberOfIterations; k++ )
     {
-    if( m_DebugOn ) 
-      {
-      std::cout << "iteration: " << k << std::endl;
-      }
+    
+    itkDebugMacro(<< "iteration: " << k);
+
     LevelSetPointer inputBuffer = this->GetInputBuffer();
     LevelSetPointer outputBuffer = this->GetOutputBuffer();
 
@@ -315,10 +312,9 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 
   for( unsigned int k = 0; k < numberOfIterations; k++ )
     {
-    if( m_DebugOn ) 
-      {
-      std::cout << "iteration: " << k << std::endl;
-      }
+
+    itkDebugMacro(<< "iteration: " << k);
+
     m_Extender->SetInput( outputPtr );
     m_Extender->SetInputNarrowBand( inputNarrowBand );
     m_Extender->Update();

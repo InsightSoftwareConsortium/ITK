@@ -193,11 +193,6 @@ public:
    */
   void SetDerivativeImage( TDerivImage *ptr, unsigned int idx=0 );
 
-  /** 
-   * Set the debugging mode
-   */
-  itkSetMacro( DebugOn, bool );
-
 
 protected:
   GeodesicActiveContourImageFilter();
@@ -218,8 +213,6 @@ private:
   typename ExtenderType::Pointer    m_Extender;
   typename TDerivImage::Pointer     m_DerivImages[SetDimension];
   double                            m_InflationStrength;
-
-  bool                              m_DebugOn;
 
 };
 

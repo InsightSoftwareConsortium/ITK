@@ -122,8 +122,6 @@ int main()
   detector->SetEdgeImage( edgeImg );
   detector->SetNumberOfIterations( 10 );
 
-  detector->SetDebugOn( true );
-
   /* -------------------------------------------------
    * Test the full-band version of the algorithm
    */

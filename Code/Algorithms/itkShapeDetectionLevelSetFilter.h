@@ -201,11 +201,6 @@ public:
   NodeContainerPointer GetOutputNarrowBand()
     { return m_OutputNarrowBand; }
 
-  /**
-   * Set the debugging mode
-   */
-  itkSetMacro( DebugOn, bool );
-
 protected:
   ShapeDetectionLevelSetFilter();
   ~ShapeDetectionLevelSetFilter(){};
@@ -234,8 +229,6 @@ private:
   bool                                  m_PropagateOutwards;
   typename ExtenderType::Pointer        m_Extender;
   NodeContainerPointer                  m_OutputNarrowBand;
-
-  bool                                  m_DebugOn;
 
 };
 
