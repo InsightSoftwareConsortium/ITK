@@ -111,7 +111,7 @@ c
 c
 c     set the maximum number of iterations.
 c
-      maxit = 30
+      maxit = 50
 c
 c     determine what is to be computed.
 c
