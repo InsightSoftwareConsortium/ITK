@@ -513,9 +513,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   /** Variable to store the modified pixel vector value. */
   InputImageVectorType ChangedPixelVec;
 
-  /** Variable to store the labelled pixel vector. */
-  LabelledImagePixelType labelledPixel;
-
   /** Variable to store the output pixel vector label after
    *  the MRF classification. */
   LabelledImagePixelType outLabelledPix;
@@ -559,9 +556,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
         pixLabel = index;
       }
     }
-
-    labelledPixel = 
-      ( LabelledImagePixelType ) labelledImageIt.Get();
 
     /** Check if the label has changed then set the change flag in all the 
      *  neighborhood of the current pixel. */
