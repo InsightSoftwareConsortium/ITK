@@ -230,8 +230,9 @@ int main( int argc, char ** argv )
   // \center
   // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=6cm]{MinMaxCurvatureFlowImageFilterOutput.eps}
-  // \caption{Effect of the MinMaxCurvatureFlowImageFilter on a slice from a MRI
-  // Proton Density image  of the brain.}
+  // \caption[MinMaxCurvatureFlowImageFilter output]{Effect of the
+  // MinMaxCurvatureFlowImageFilter on a slice from a MRI Proton Density image
+  // of the brain.}
   // \label{fig:MinMaxCurvatureFlowImageFilterInputOutput}
   // \end{figure}
   //

@@ -378,14 +378,14 @@ int main( int argc, char ** argv )
   // \center
   // \includegraphics[height=6cm]{BrainProtonDensitySlice.eps}
   // \includegraphics[height=6cm]{ResampleImageFilterOutput2.eps}
-  // \caption{Effect of a translation by $(-30,-50)$}
+  // \caption{ResampleImageFilter with a translation by $(-30,-50)$}
   // \label{fig:ResampleImageFilterOutput2}
   // \end{figure}
   //
   // \begin{figure}
   // \center
   // \includegraphics[width=12cm]{ResampleImageFilterOutput2Analysis.eps}
-  // \caption{Analysis of a translation by $(-30,-50)$.}
+  // \caption{ResampleImageFilter. Analysis of a translation by $(-30,-50)$.}
   // \label{fig:ResampleImageFilterOutput2Analysis}
   // \end{figure}
   //
@@ -435,7 +435,7 @@ int main( int argc, char ** argv )
   // \begin{figure}
   // \center
   // \includegraphics[width=12cm]{ResampleImageFilterOutput3Analysis.eps}
-  // \caption{Highlighthing image borders with SetDefaultPixelValue().}
+  // \caption{ResampleImageFilter highlighthing image borders with SetDefaultPixelValue().}
   // \label{fig:ResampleImageFilterOutput3Analysis}
   // \end{figure}
   //

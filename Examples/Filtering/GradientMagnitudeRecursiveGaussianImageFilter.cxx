@@ -234,7 +234,8 @@ int main( int argc, char ** argv )
   // \center
   // \includegraphics[width=6cm]{GradientMagnitudeRecursiveGaussianImageFilterOutput3.eps}
   // \includegraphics[width=6cm]{GradientMagnitudeRecursiveGaussianImageFilterOutput5.eps}
-  // \caption{Effect of the GradientMagnitudeRecursiveGaussianImageFilter on a slice from a MRI
+  // \caption[GradientMagnitudeRecursiveGaussianImageFilter output]{Effect of
+  // the GradientMagnitudeRecursiveGaussianImageFilter on a slice from a MRI
   // Proton Density image  of the brain.}
   // \label{fig:GradientMagnitudeRecursiveGaussianImageFilterInputOutput}
   // \end{figure}

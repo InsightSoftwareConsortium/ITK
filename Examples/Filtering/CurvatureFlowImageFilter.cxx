@@ -238,8 +238,9 @@ int main( int argc, char ** argv )
   // \center
   // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=6cm]{CurvatureFlowImageFilterOutput.eps}
-  // \caption{Effect of the CurvatureFlowImageFilter on a slice from a MRI
-  // Proton Density image  of the brain.}
+  // \caption[CurvatureFlowImageFilter output]{Effect of the
+  // CurvatureFlowImageFilter on a slice from a MRI Proton Density image  of
+  // the brain.}
   // \label{fig:CurvatureFlowImageFilterInputOutput}
   // \end{figure}
   //

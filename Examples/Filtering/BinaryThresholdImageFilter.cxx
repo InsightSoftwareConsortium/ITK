@@ -17,9 +17,10 @@
 
 // Software Guide : BeginLatex
 //
-// \piccaption[2]{Transfer function of the BinaryThreshold image filter.
-//                \label{fig:BinaryThresholdTransferFunction}}
-//  \parpic(8cm,5cm)[r]{\includegraphics[width=7cm]{BinaryThresholdTransferFunction.eps}}
+// \piccaption[BinaryThresoldImageFilter transfer function]{Transfer function
+// of the BinaryThreshold image filter.
+// \label{fig:BinaryThresholdTransferFunction}}
+// \parpic(8cm,5cm)[r]{\includegraphics[width=7cm]{BinaryThresholdTransferFunction.eps}}
 //
 // This example illustrates the use of the \doxygen{BinaryThresholdImageFilter}.
 // This filter is used to transform an image into a binary image by changing
@@ -226,7 +227,7 @@ int main( int argc, char ** argv )
   // \center
   // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=6cm]{BinaryThresholdImageFilterOutput.eps}
-  // \caption{Effect of the BinaryThresholdImageFilter on a slice from a MRI
+  // \caption[BinaryThresholdImageFilter output]{Effect of the BinaryThresholdImageFilter on a slice from a MRI
   // Proton Density image  of the brain.}
   // \label{fig:BinaryThresholdImageFilterInputOutput}
   // \end{figure}

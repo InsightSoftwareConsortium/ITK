@@ -209,8 +209,9 @@ int main( int argc, char ** argv )
   // \begin{figure} \center
   // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=6cm]{GradientAnisotropicDiffusionImageFilterOutput.eps}
-  // \caption{Effect of the GradientAnisotropicDiffusionImageFilter on a slice
-  // from a MRI Proton Density image  of the brain.}
+  // \caption[GradientAnisotropicDiffusionImageFilter output]{Effect of the
+  // GradientAnisotropicDiffusionImageFilter on a slice from a MRI Proton
+  // Density image  of the brain.}
   // \label{fig:GradientAnisotropicDiffusionImageFilterInputOutput}
   // \end{figure}
   //

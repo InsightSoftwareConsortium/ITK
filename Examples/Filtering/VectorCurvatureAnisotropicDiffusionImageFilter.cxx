@@ -244,7 +244,8 @@ int main( int argc, char ** argv )
   // \begin{figure} \center
   // \includegraphics[width=6cm]{VectorCurvatureAnisotropicDiffusionImageFilterInput.eps}
   // \includegraphics[width=6cm]{VectorCurvatureAnisotropicDiffusionImageFilterOutput.eps}
-  // \caption{Effect of the VectorCurvatureAnisotropicDiffusionImageFilter on
+  // \caption[VectorCurvatureAnisotropicDiffusionImageFilter output $X$
+  // component]{Effect of the VectorCurvatureAnisotropicDiffusionImageFilter on
   // the $X$ component of the gradient from a MRI-PD brain image.}
   // \label{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
   // \end{figure}

@@ -299,8 +299,9 @@ int main( int argc, char ** argv )
   // \center
   // \includegraphics[width=6cm]{SmoothingRecursiveGaussianImageFilterOutput3.eps}
   // \includegraphics[width=6cm]{SmoothingRecursiveGaussianImageFilterOutput5.eps}
-  // \caption{Effect of the RecursiveGaussianImageFilter on a slice from a MRI
-  // Proton Density image  of the brain.}
+  // \caption[RecursiveGaussianImageFilter output]{Effect of the
+  // RecursiveGaussianImageFilter on a slice from a MRI Proton Density image
+  // of the brain.}
   // \label{fig:RecursiveGaussianImageFilterInputOutput}
   // \end{figure}
   //

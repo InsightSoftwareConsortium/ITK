@@ -17,7 +17,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  \piccaption[2]{Discretized Gaussian.\label{fig:DiscretizedGaussian}}
+//  \piccaption[DiscreteGaussianImageFilter gaussian diagram]{Discretized
+//  Gaussian.\label{fig:DiscretizedGaussian}}
 //  \parpic(7cm,4cm)[r]{\includegraphics[width=6cm]{DiscreteGaussian.eps}}
 //
 //  The \doxygen{DiscreteGaussianImageFilter} computes the convolution of the
@@ -215,8 +216,9 @@ int main( int argc, char ** argv )
   // \center
   // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=6cm]{DiscreteGaussianImageFilterOutput.eps}
-  // \caption{Effect of the DiscreteGaussianImageFilter on a slice from a MRI
-  // Proton Density image  of the brain.}
+  // \caption[DiscreteGaussianImageFilter output]{Effect of the
+  // DiscreteGaussianImageFilter on a slice from a MRI Proton Density image  of
+  // the brain.}
   // \label{fig:DiscreteGaussianImageFilterInputOutput}
   // \end{figure}
   //

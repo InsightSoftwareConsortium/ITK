@@ -260,8 +260,8 @@ int main( int argc, char ** argv )
   // \center
   // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=6cm]{BilateralImageFilterOutput.eps}
-  // \caption{Effect of the BilateralImageFilter on a slice from a MRI
-  // Proton Density image  of the brain.}
+  // \caption[BilateralImageFilter output]{Effect of the BilateralImageFilter
+  // on a slice from a MRI Proton Density image  of the brain.}
   // \label{fig:BilateralImageFilterInputOutput}
   // \end{figure}
   //
