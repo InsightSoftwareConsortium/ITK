@@ -15,6 +15,11 @@
 
 =========================================================================*/
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {BinaryMinMaxCurvatureFlowImageFilterOutput.png}
+//    10 0.125 1 128
+//  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{BinaryMinMaxCurvatureFlowImageFilter} applies a variant of the
