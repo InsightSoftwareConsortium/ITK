@@ -32,6 +32,16 @@ RandomImageSource<TOutputImage>
 }
 
 
+template <class TOutputImage>
+RandomImageSource<TOutputImage>
+::~RandomImageSource()
+{
+  delete [] m_Size;
+  delete [] m_Spacing;
+  delete [] m_Origin;
+}
+
+
 /**
  *
  */

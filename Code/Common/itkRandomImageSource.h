@@ -85,7 +85,7 @@ public:
   
 protected:
   RandomImageSource();
-  ~RandomImageSource() {};
+  ~RandomImageSource();
   RandomImageSource(const RandomImageSource&) {};
   void operator=(const RandomImageSource&) {};
   void PrintSelf(std::ostream& os, Indent indent);
