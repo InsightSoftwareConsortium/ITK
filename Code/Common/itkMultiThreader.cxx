@@ -91,7 +91,9 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
 #else
     num = 1;
 #endif
+#ifdef solaris
     pthread_setconcurrency(num);
+#endif
 #endif
 
 #if defined(_WIN32)
