@@ -87,13 +87,6 @@ public:
   InputPointType GetCenterOfRotationComponent(void) const
     { return this->GetCenter(); };
    
-  /** Set the scale of the transform */
-  virtual void SetScaleComponent( const double scale[NDimensions] )
-    { this->SetScale( scale ); };
-  /** Get the scale of the transform*/
-  virtual const double* GetScaleComponent() const 
-    {return this->GetScale(); };
-
   /** Set the matrix of the transform. The matrix should not include
    *  scale */
   void SetMatrixComponent(const MatrixType &matrix)
