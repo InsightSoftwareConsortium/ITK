@@ -79,13 +79,20 @@ int main( int argc, char ** argv )
 {
 
 
-  if( argc < 4 )
+  if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile   outputImageFile1  outputImageFile2" << std::endl;
+    std::cerr << argv[0] << "  inputImageFile  outputImageFile"; 
+    std::cerr << "  [exampleAction={0,1,2,3}]" << std::endl;
     return 1;
     }
 
+  int exampleAction = 0;
+ 
+  if( argc >= 3 )
+    {
+    exampleAction = atoi( argv[3] );
+    }
 
   //  Software Guide : BeginLatex
   //
@@ -302,6 +309,13 @@ int main( int argc, char ** argv )
   // \label{fig:ResampleImageFilterOutput1}
   // \end{figure}
   //
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=12cm]{ResampleImageFilterOutput1Analysis.eps}
+  // \caption{Analysis of the resample image done in a common coordinate system.}
+  // \label{fig:ResampleImageFilterOutput1Analysis}
+  // \end{figure}
+  //
   //  Figure \ref{fig:ResampleImageFilterOutput1} illustrates the effect of
   //  this filter on a slice of MRI brain image using an affine transform
   //  containing an identity transform. Note that any analysis of the behavior
@@ -320,16 +334,8 @@ int main( int argc, char ** argv )
   //  have requested an output of 300x300 pixels. The spacing of the input
   //  image is 1.0 and the spacing of the output image is 1.0x1.0.
   //
-  // \begin{figure}
-  // \center
-  // \includegraphics[width=12cm]{ResampleImageFilterOutput1Analysis.eps}
-  // \caption{Analysis of the resample image done in a common coordinate system.}
-  // \label{fig:ResampleImageFilterOutput1Analysis}
-  // \end{figure}
   //
   //  Software Guide : EndLatex 
-
-
 
 
   //  Software Guide : BeginLatex
@@ -345,25 +351,95 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   TransformType::OutputVectorType translation;
 
-  translation[0] = 30;  // X translation in millimeters
-  translation[1] = 50;  // Y translation in millimeters
+  translation[0] = -30;  // X translation in millimeters
+  translation[1] = -50;  // Y translation in millimeters
 
   transform->Translate( translation );
   // Software Guide : EndCodeSnippet
 
 
+  if( exampleAction == 1 )
+    {
+    writer->Update();
+    }
+
+
+
   //  Software Guide : BeginLatex
   //
-  //  The execution of the filter is triggered by updating the writer at the
-  //  end of the pipeline.
+  // \begin{figure}
+  // \center
+  // \includegraphics[height=6cm]{BrainProtonDensitySlice.eps}
+  // \includegraphics[height=6cm]{ResampleImageFilterOutput2.eps}
+  // \caption{Effect of a translation by $(-30,-50)$}
+  // \label{fig:ResampleImageFilterOutput2}
+  // \end{figure}
+  //
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=12cm]{ResampleImageFilterOutput2Analysis.eps}
+  // \caption{Analysis of a translation by $(-30,-50)$.}
+  // \label{fig:ResampleImageFilterOutput2Analysis}
+  // \end{figure}
+  //
+  // The output image resulting from the translation can be seen in figure
+  // \ref{fig:ResampleImageFilterOutput2}. Again, it is better to interpret the
+  // result in a common coordinate system as illustrated in figure
+  // \ref{fig:ResampleImageFilterOutput2Analysis}.
+  //
+  // Probably the most important thing to keep in mind when resampling images
+  // is that the transform is used to map points from the \textbf{output} image
+  // space into the \textbf{input} image space. In this case, figure
+  // \ref{fig:ResampleImageFilterOutput2Analysis} shows that the translation is
+  // applied to every point of the output image and the resulting position is
+  // used to read the intensity from the input image. In this way, the gray
+  // level of the point $P$ in the output image is taken from the point $T(P)$
+  // in the input image. Where $T$ is the transformation. In the specific case
+  // of the figure, the value of point $(105,188)$ in the output image is taken
+  // from the point $(75,138)$ of the input image because the transformation
+  // applied was a Translation of $(-30,-50)$.
   //
   //  Software Guide : EndLatex 
 
-  writer->SetFileName( argv[3] );
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  It is sometimes useful to intentionaly set the output value to a distinct
+  //  gray value in order to highligth the mapping of the image borders. For
+  //  example, the following code sets the default external value to a visible
+  //  gray value and maps the image.
+  //
+  //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  writer->Update();  
+  filter->SetDefaultPixelValue( 100 );
   // Software Guide : EndCodeSnippet
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=12cm]{ResampleImageFilterOutput3Analysis.eps}
+  // \caption{Highlighthing image borders with SetDefaultPixelValue().}
+  // \label{fig:ResampleImageFilterOutput3Analysis}
+  // \end{figure}
+  //
+  //  With this change we can better appreciate the effect of the previous
+  //  translation transform on the image resampling. Figure
+  //  \ref{fig:ResampleImageFilterOutput3Analysis} illustrates how the point
+  //  $(30,50)$ of the output image gets its gray value from the point $(0,0)$
+  //  of the input image.
+  //
+  //  Software Guide : EndLatex 
+
+  if( exampleAction == 2 )
+    {
+    writer->Update();
+    }
 
 
 
