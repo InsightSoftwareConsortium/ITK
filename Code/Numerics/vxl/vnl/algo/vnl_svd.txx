@@ -247,7 +247,7 @@ vnl_svd<T>::singval_t vnl_svd<T>::well_condition () const
 
 //: Calculate determinant as product of diagonals in W.
 template <class T>
-vnl_svd<T>::singval_t vnl_svd<T>::determinant_magnitude() const
+typename vnl_svd<T>::singval_t vnl_svd<T>::determinant_magnitude() const
 {
   singval_t product = W_(0, 0);
   for (unsigned long k = 1; k < W_.columns(); k++)
@@ -257,7 +257,7 @@ vnl_svd<T>::singval_t vnl_svd<T>::determinant_magnitude() const
 }
 
 template <class T>
-vnl_svd<T>::singval_t vnl_svd<T>::norm() const
+typename vnl_svd<T>::singval_t vnl_svd<T>::norm() const
 {
   return vcl_abs(sigma_max());
 }
