@@ -50,7 +50,7 @@ namespace itk
 /** \class LevenbergMarquardtOptimizer
  * \brief Wrap of the vnl_levenberg_marquardt 
  *
- * \ingroup Numerics
+ * \ingroup Numerics Optimizers
  */
 
 template <class TCostFunction>

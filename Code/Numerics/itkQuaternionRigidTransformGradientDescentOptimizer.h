@@ -69,7 +69,7 @@ namespace itk
  * have a magnitude of one. This ensures the the transform is purely rigid.
  * 
  * \sa GradientDescentOptimizer
- * \ingroup Numerics
+ * \ingroup Numerics Optimizers
  */  
 template <class TCostFunction>
 class ITK_EXPORT QuaternionRigidTransformGradientDescentOptimizer : 

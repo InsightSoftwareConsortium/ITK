@@ -75,7 +75,7 @@ namespace itk
  * Martin Styner, Prof. Dr. G. Gerig (IKT, BIWI, ETH Zuerich), TR-197
  * (http://www.cs.unc.edu/~styner/docs/StynerTR97.pdf)
  *
- * \ingroup Numerics
+ * \ingroup Numerics Optimizers
  *
  * \sa FastRandomUnitNormalVariateGenerator 
  */

@@ -50,7 +50,7 @@ namespace itk
 /** \class NonLinearOptimizer
  * \brief Wrap of the vnl_nonlinear_minimizer to be adapted 
  *
- * \ingroup Numerics
+ * \ingroup Numerics Optimizers
  */
 template <class TCostFunction>
 class ITK_EXPORT NonLinearOptimizer : public Optimizer<TCostFunction>
