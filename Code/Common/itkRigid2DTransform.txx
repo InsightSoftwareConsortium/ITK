@@ -79,7 +79,7 @@ SetRotationMatrix(const MatrixType & matrix )
   }
 
   m_RotationMatrix = matrix;
-
+  m_InverseMatrix = m_RotationMatrix.GetTranspose();
   this->Modified(); 
 }
 
@@ -101,6 +101,7 @@ Compose(const Self * other, bool pre )
     m_RotationMatrix = other->m_RotationMatrix * m_RotationMatrix;
     }
   m_InverseMatrix = m_RotationMatrix.GetTranspose();
+  this->Modified();
 }
 
 
