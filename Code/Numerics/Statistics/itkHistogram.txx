@@ -122,7 +122,7 @@ inline const typename Histogram<TMeasurement, VMeasurementVectorSize, TFrequency
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::GetIndex(const MeasurementVectorType& measurement) const
 {
-  // now using somthing similar to binary search to find
+  // now using something similar to binary search to find
   // index.
   unsigned int dim ;
   
@@ -137,16 +137,16 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
     if (tempMeasurement < m_Min[dim][begin])
       {
       // one of measurement is below the minimum
-      m_TempIndex[0] = (long) m_Size[0] ;
-      return m_TempIndex ;
+      m_TempIndex[dim] = (long) m_Size[dim] ;
+      itkExceptionMacro(<<"One of the measurement components is below the minimum");
       }
 
     end = m_Min[dim].size() - 1 ;
     if (tempMeasurement >= m_Max[dim][end])
       {
       // one of measurement is above the maximum
-      m_TempIndex[0] = (long) m_Size[0] ;
-      return m_TempIndex ;
+      m_TempIndex[dim] = (long) m_Size[dim] ;
+      itkExceptionMacro(<<"One of the measurement components is below the minimum");
       }
 
     mid = (end + 1) / 2 ;
@@ -426,7 +426,19 @@ inline void
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::IncreaseFrequency(const MeasurementVectorType &measurement, const FrequencyType value) 
 {
-  this->IncreaseFrequency( this->GetInstanceIdentifier(GetIndex(measurement)), value) ;
+  
+  try
+    {
+    const IndexType & index = this->GetIndex( measurement );
+    this->IncreaseFrequency( this->GetInstanceIdentifier( index ), value );
+    }
+  catch( ExceptionObject & )
+    {
+    // the measurement was outside the histogram range,
+    // there is nothing to increment in this case
+    return;
+    }
+  
 }
 
 
