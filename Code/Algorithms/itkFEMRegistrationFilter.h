@@ -325,9 +325,6 @@ public:
   /** Sets the use of multi-resolution strategy.  The control file always uses multi-res. */ 
   void      DoMultiRes(bool b) { m_DoMultiRes=b; } 
 
-  /** This allows one to skip the line search every fth iteration. */ 
-  void      SetLineSearchFrequency(unsigned int f) { m_LineSearchFrequency=f; } 
-
   /** This sets the line search's max iterations. */ 
   void      SetLineSearchMaximumIterations(unsigned int f) { m_LineSearchMaximumIterations=f; } 
   
@@ -402,7 +399,6 @@ private :
   std::string      m_MeshFileName;
 
   unsigned int     m_DoLineSearchOnImageEnergy; 
-  unsigned int     m_LineSearchFrequency;  
   unsigned int     m_LineSearchMaximumIterations;
 
   vnl_vector<unsigned int>     m_NumberOfIntegrationPoints;// resolution of integration

@@ -76,8 +76,7 @@ FEMRegistrationFilter<TReference,TTarget>::FEMRegistrationFilter( )
   m_MetricWidth.resize(1);
   m_MetricWidth[m_CurrentLevel]=3;
   m_DoLineSearchOnImageEnergy=1;
-  m_LineSearchFrequency=1;
-  m_LineSearchMaximumIterations=10;
+  m_LineSearchMaximumIterations=100;
   m_UseMassMatrix=true;
 
   m_NumLevels=1;
@@ -336,10 +335,6 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
     FEMLightObject::SkipWhiteSpace(f);
     f >> ibuf;
     this->DoLineSearch(ibuf); 
-    
-    FEMLightObject::SkipWhiteSpace(f);
-    f >> ibuf;
-    m_LineSearchFrequency=ibuf;
     
     FEMLightObject::SkipWhiteSpace(f);
     f >> fbuf;
@@ -774,7 +769,6 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
   unsigned int iters=0;
   bool Done=false;
   unsigned int DLS=m_DoLineSearchOnImageEnergy;
-  unsigned int LSF=m_LineSearchFrequency;
   while ( !Done ){
   /*
    * Assemble the master force vector (from the applied loads)
@@ -793,11 +787,11 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
    LastE=EvaluateResidual(mySolver,mint);
    deltE=(m_MinE-LastE);
 
-   if ( (DLS > 0  && (iters % LSF) != 0) || deltE < 0.0) 
+   if ( DLS == 1 || (DLS==2 && deltE < 0.0) ) 
    {
      std::cout << " line search ";
      float tol = 1.0;//((0.01  < LastE) ? 0.01 : LastE/10.);
-     LastE=this->GoldenSection(mySolver,tol,250);
+     LastE=this->GoldenSection(mySolver,tol,m_LineSearchMaximumIterations);
      deltE=(m_MinE-LastE);
      std::cout << " line search done " << std::endl;
    } 
