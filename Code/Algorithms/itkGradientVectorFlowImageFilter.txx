@@ -239,6 +239,16 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
   }
 }
 
+template <class TInputImage, class TOutputImage>
+void
+GradientVectorFlowImageFilter<TInputImage, TOutputImage>
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "GradientVectorFlowImageFilter" << std::endl;
+}
+
 } // namespace itk
 
 #endif

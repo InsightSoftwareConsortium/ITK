@@ -56,8 +56,8 @@ void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::Initialize()
 {
-  m_NumNodes = this->GetInput(0)->GetNumberOfPoints();
-  m_NumCells = this->GetInput(0)->GetNumberOfCells();
+  m_NumberOfNodes = this->GetInput(0)->GetNumberOfPoints();
+  m_NumberOfCells = this->GetInput(0)->GetNumberOfCells();
 
   m_Forces = InputMeshType::New();
   m_Displacements = InputMeshType::New();
@@ -69,23 +69,23 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointsContainerIterator     points = myPoints->Begin();
 
   InputPointsContainerPointer      myForces = m_Forces->GetPoints();
-  myForces->Reserve(m_NumNodes);
+  myForces->Reserve(m_NumberOfNodes);
   InputPointsContainerIterator     forces = myForces->Begin();
 
   InputPointsContainerPointer      myDerives = m_Derives->GetPoints();
-  myDerives->Reserve(m_NumNodes);
+  myDerives->Reserve(m_NumberOfNodes);
   InputPointsContainerIterator     derives = myDerives->Begin();
 
   InputPointsContainerPointer      myDisplacements = m_Displacements->GetPoints();
-  myDisplacements->Reserve(m_NumNodes);
+  myDisplacements->Reserve(m_NumberOfNodes);
   InputPointsContainerIterator     displacements = myDisplacements->Begin();
 
   InputPointsContainerPointer      myNormals = m_Normals->GetPoints();
-  myNormals->Reserve(m_NumNodes);
+  myNormals->Reserve(m_NumberOfNodes);
   InputPointsContainerIterator     normals = myNormals->Begin();
 
   InputPointsContainerPointer      myLocations = m_Locations->GetPoints();
-  myLocations->Reserve(m_NumNodes);
+  myLocations->Reserve(m_NumberOfNodes);
   InputPointsContainerIterator     locations = myLocations->Begin();
 
   InputCellsContainerPointer       myCells = this->GetInput(0)->GetCells();
@@ -207,7 +207,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputCellDataContainerPointer    myCellData = this->GetInput(0)->GetCellData();
   InputCellDataContainerIterator   celldata = myCellData->Begin();
 
-  K = (vnl_matrix_fixed<double,4,4>**) malloc(sizeof(vnl_matrix_fixed<double,4,4>*)*m_NumCells);
+  K = (vnl_matrix_fixed<double,4,4>**) malloc(sizeof(vnl_matrix_fixed<double,4,4>*)*m_NumberOfCells);
   double x;
 
   int j = 0;
@@ -384,7 +384,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   m_Output = this->GetOutput();
 
   OutputPointsContainerPointer   myPoints = m_Output->GetPoints();
-  myPoints->Reserve(m_NumNodes);
+  myPoints->Reserve(m_NumberOfNodes);
   OutputPointsContainerIterator  points = myPoints->Begin();
 
   InputPointsContainerPointer    myLocations = m_Locations->GetPoints();
@@ -397,13 +397,13 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputCellDataContainerIterator celldata = myCellData->Begin(); 
 
   i = 0;
-  for (; i<m_NumNodes; i++) {
+  for (; i<m_NumberOfNodes; i++) {
     points.Value() = locations.Value();
     ++locations;
     ++points;
   } 
 
-  for (int i=0; i<m_NumCells; i++) {
+  for (int i=0; i<m_NumberOfCells; i++) {
     tp = cells.Value()->GetPointIds();
     tripoints[0] = tp[0];
     tripoints[1] = tp[1];

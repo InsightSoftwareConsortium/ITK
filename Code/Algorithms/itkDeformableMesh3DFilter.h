@@ -182,10 +182,9 @@ private:
   int3DVector       m_Resolution;
   ImageIndexType    m_Center;
   double3DVector    m_Scale;
-  double    m_MiniT;         /** To stop nodes near a boundary position. */
   int       m_Step;          /** Nnumber of iterations */
-  int       m_NumNodes;
-  int       m_NumCells;
+  int       m_NumberOfNodes;
+  int       m_NumberOfCells;
   int       m_ImageWidth;      /** Image size */
   int       m_ImageHeight;
   int       m_ImageDepth;
@@ -196,7 +195,7 @@ private:
   unsigned short m_ModelYDownLimit;
   unsigned short m_ModelZUpLimit;
   unsigned short m_ModelZDownLimit;
-  unsigned char     m_NormalUpdate;
+  unsigned char  m_NormalUpdate;
 
   /** To compute force derived from gradient data. */
   GradientImagePointer  m_Gradient; 

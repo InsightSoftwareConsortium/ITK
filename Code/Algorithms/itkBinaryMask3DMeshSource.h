@@ -93,8 +93,8 @@ public:
   itkSetMacro(BinaryImage, BinaryImageType::Pointer);
   itkSetMacro(ObjectValue, unsigned char);
 
-  itkGetMacro(NumOfNodes, unsigned long);
-  itkGetMacro(NumOfCells, unsigned long);
+  itkGetMacro(NumberOfNodes, unsigned long);
+  itkGetMacro(NumberOfCells, unsigned long);
 
 protected:
   BinaryMask3DMeshSource();
@@ -144,8 +144,8 @@ private:
 
   double m_LocationOffset[14][3];
 
-  unsigned long m_NumOfNodes;
-  unsigned long m_NumOfCells;
+  unsigned long m_NumberOfNodes;
+  unsigned long m_NumberOfCells;
   int m_NodeLimit;
   int m_CellLimit;
   int m_ImageWidth;
