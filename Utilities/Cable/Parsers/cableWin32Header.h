@@ -4,6 +4,9 @@
 // add in the Windows variants
 #if defined(_WIN32) || defined(WIN32)
 
+// for-loop scoping hack
+#define for if(false) {} else for
+
 //
 // Disable some common warnings in MS VC++
 //
