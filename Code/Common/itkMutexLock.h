@@ -90,6 +90,16 @@ public:
   /** Unlock the MutexLock. */
   void Unlock( void );
 
+  /** Access the MutexType member variable from outside this class */
+  MutexType& GetMutexLock()
+  {
+    return m_MutexLock;
+  }
+  const MutexType GetMutexLock() const
+  {
+    return m_MutexLock;
+  }
+  
 protected:
   MutexType   m_MutexLock;
 };

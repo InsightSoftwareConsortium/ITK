@@ -25,6 +25,25 @@
 
 #ifdef ITK_USE_SPROC
 #include <sys/types.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/prctl.h>
+#include <wait.h>
+#include <errno.h>
+#include <ulocks.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <sys/signal.h>
+#include <sys/sysmp.h>
+#include <sys/errno.h>
+#include <sys/syssgi.h>
+
+extern "C" {
+#include <sys/pmo.h>
+#include <fetchop.h>
+}
 #endif
 
 #ifdef ITK_USE_PTHREADS
@@ -51,15 +70,15 @@ namespace itk
 
 // The maximum number of threads allowed
 #ifdef ITK_USE_SPROC
-#define ITK_MAX_THREADS              32
+#define ITK_MAX_THREADS              128
 #endif
 
 #ifdef ITK_USE_PTHREADS
-#define ITK_MAX_THREADS              32
+#define ITK_MAX_THREADS              128
 #endif
 
 #ifdef ITK_USE_WIN32_THREADS
-#define ITK_MAX_THREADS              32
+#define ITK_MAX_THREADS              128
 #endif
 
 // cygwin threads are unreliable
@@ -67,9 +86,9 @@ namespace itk
 #undef ITK_MAX_THREADS
 #define ITK_MAX_THREADS 1
 #endif
-  
+
 #ifndef ITK_MAX_THREADS
-#define ITK_MAX_THREADS              1
+#define ITK_MAX_THREADS 1
 #endif
 
 /** \par Note
@@ -102,7 +121,7 @@ typedef int ThreadProcessIDType;
 #define ITK_THREAD_RETURN_TYPE void
 #endif
   
-class ITKCommon_EXPORT MultiThreader : public Object 
+class ITK_EXPORT MultiThreader : public Object 
 {
 public:
   /** Standard class typedefs. */
@@ -150,7 +169,7 @@ public:
    * must be of type itkThreadFunctionType and must take a single argument of
    * type void *. */
   void SetSingleMethod(ThreadFunctionType, void *data );
- 
+  
   /** Set the MultipleMethod at the given index to f() and the UserData 
    * field of the ThreadInfoStruct that is passed to it will be data. */
   void SetMultipleMethod( int index, ThreadFunctionType, void *data ); 
@@ -162,7 +181,16 @@ public:
 
   /** Terminate the thread that was created with a SpawnThreadExecute() */
   void TerminateThread( int thread_id );
+  
+#ifdef ITK_USE_SPROC
+  static bool GetInitialized()
+  { return m_Initialized; }
+  static usptr_t * GetThreadArena()
+  { return m_ThreadArena; }
 
+  static void Initialize();
+#endif
+  
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute, MultipleMethodExecute or
    * the SpawnThread method. It is passed in as a void *, and it is up
@@ -176,19 +204,32 @@ public:
    * SpawnThread method. */
   struct ThreadInfoStruct
   {
+#ifdef ITK_USE_SPROC
+    char Pad1[128];
+#endif
     int                 ThreadID;
     int                 NumberOfThreads;
     int                 *ActiveFlag;
     MutexLock::Pointer  ActiveFlagLock;
     void                *UserData;
+#ifdef ITK_USE_SPROC
+    char Pad2[128];
+#endif
   };
-
+  
 protected:
   MultiThreader();
   ~MultiThreader();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  
+#ifdef ITK_USE_SPROC
+  static bool m_Initialized;
+  static usptr_t * m_ThreadArena;
+  static int m_DevzeroFd;
+#endif
+
   MultiThreader(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
@@ -203,14 +244,14 @@ private:
   /** The methods to invoke. */
   ThreadFunctionType         m_SingleMethod;
   ThreadFunctionType         m_MultipleMethod[ITK_MAX_THREADS];
-
+  
   /** Storage of MutexFunctions and ints used to control spawned 
    *  threads and the spawned thread ids. */
-  int                        m_SpawnedThreadActiveFlag[ITK_MAX_THREADS];
+  int                        m_SpawnedThreadActiveFlag    [ITK_MAX_THREADS];
   MutexLock::Pointer         m_SpawnedThreadActiveFlagLock[ITK_MAX_THREADS];
-  ThreadProcessIDType        m_SpawnedThreadProcessID[ITK_MAX_THREADS];
-  ThreadInfoStruct           m_SpawnedThreadInfoArray[ITK_MAX_THREADS];
-
+  ThreadProcessIDType        m_SpawnedThreadProcessID     [ITK_MAX_THREADS];
+  ThreadInfoStruct           m_SpawnedThreadInfoArray     [ITK_MAX_THREADS];
+  
   /** Internal storage of the data. */
   void                       *m_SingleData;
   void                       *m_MultipleData[ITK_MAX_THREADS];
@@ -218,17 +259,12 @@ private:
   /** Statics variables. */
   static int                  m_GlobalMaximumNumberOfThreads;
   static int                  m_GlobalDefaultNumberOfThreads;
-
+  
   /** Friends of Multithreader.
    * ProcessObject is a friend so that it can call PrintSelf() on its
    * Multithreader. */
   friend class ProcessObject;
-};
-
+}; 
+ 
 }  // end namespace itk
 #endif
-
-
-
-
-
