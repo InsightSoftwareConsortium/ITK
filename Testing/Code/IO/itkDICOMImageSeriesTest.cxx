@@ -15,6 +15,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include "itkDICOMImageIO2Factory.h"
 #include "itkDICOMImageIO2.h"
 #include "itkImageSeriesReader.h"
 #include "itkDICOMSeriesFileNames.h"
@@ -29,8 +30,8 @@ int itkDICOMImageSeriesTest(int ac, char* av[])
     return EXIT_FAILURE;
   }
 
-  typedef itk::Image<unsigned short,3> Image3DType;
-  typedef itk::ImageSeriesReader<Image3DType> ReaderType;
+  typedef itk::Image<unsigned short,5> ImageNDType;
+  typedef itk::ImageSeriesReader<ImageNDType> ReaderType;
 
   itk::DICOMImageIO2::Pointer io = itk::DICOMImageIO2::New();
 
