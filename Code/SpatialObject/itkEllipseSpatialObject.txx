@@ -72,9 +72,10 @@ EllipseSpatialObject< TDimension >
         {
         r += (transformedPoint[i]*transformedPoint[i])/(m_Radius[i]*m_Radius[i]);
         }
-      else if(transformedPoint[i]>0.0)
+      else if(transformedPoint[i]>0.0)  // Degenerate ellipse
         {
-        return false;
+        r = 2; // Keeps function from returning true here 
+        break;
         }
       }
   
@@ -93,7 +94,7 @@ bool
 EllipseSpatialObject< TDimension >
 ::ComputeBoundingBox() const
 { 
-  itkDebugMacro( "Computing tube bounding box" );
+  itkDebugMacro( "Computing ellipse bounding box" );
 
   if( this->GetMTime() > m_BoundsMTime )
     { 

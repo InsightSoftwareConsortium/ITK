@@ -55,12 +55,13 @@ public:
   itkNewMacro( Self );
   itkTypeMacro( Self, Superclass );
 
-  /** Set all radii to the same radius value */
+  /** Set all radii to the same radius value.  Each radius is
+   *  half the length of one axis of the ellipse.  */
   void SetRadius(double radius);
 
-  /** Set raddi via an array of radius */
+  /** Set radii via an array of radius values */
   itkSetMacro(Radius,ArrayType);
-  /** Get raddi via an array of radius */
+  /** Get radii via an array of radius values */
   itkGetConstMacro(Radius,ArrayType);
 
   /** Returns a degree of membership to the object. 
@@ -69,8 +70,8 @@ public:
                         unsigned int depth=0,
                         char * name=NULL) const;
      
-  /** return ture if the object provides a method to evaluate the value 
-   * at the specified point, else otherwise.*/
+  /** Return true if the object provides a method to evaluate the value 
+   * at the specified point, false otherwise.*/
   virtual bool IsEvaluableAt( const PointType & point, 
                               unsigned int depth=0,
                               char * name=NULL) const;
@@ -80,9 +81,9 @@ public:
                          unsigned int depth=0,
                          char * name=NULL) const;
 
-  /** provide a method to get the boundaries of 
-  *  a specific object. Basically, this function need to be called
-  *  every time one of the object component is changed. */ 
+  /** Get the boundaries of a specific object.  This function needs to
+   *  be called every time one of the object's components is
+   *  changed. */ 
   virtual bool ComputeBoundingBox() const;
 
 protected:
