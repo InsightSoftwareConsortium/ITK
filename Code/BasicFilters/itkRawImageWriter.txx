@@ -144,7 +144,7 @@ RawImageWriter<TInputImage>
 
   if ( f.fail() )
     {
-    itkErrorMacro(<< "Unable to open file: "<< m_FileName);
+    itkErrorMacro(<< "Unable to open file: "<< this->GetFileName());
     return;
     }
 
