@@ -47,9 +47,6 @@ namespace itk
 template<class TInputImage, class TClassifiedImage>
 MRFImageFilter<TInputImage,TClassifiedImage>
 ::MRFImageFilter(void):
-      m_InputImage(0),
-      m_TrainingImage(0),
-      m_LabelledImage(0),
       m_NumberOfClasses(0),
       m_MaximumNumberOfIterations(50),
       m_LabelStatus(0),
@@ -100,10 +97,18 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 ::GenerateInputRequestedRegion()
 {
 
-  // this filter requires the all of the input image to be in
-  // the buffer
-  InputImageType inputPtr = this->GetInput();
-  inputPtr->SetRequestedRegionToLargestPossibleRegion();
+  // this filter requires the all of the input images 
+  // to be at the size of the output requested region
+  InputImagePointer inputPtr = this->GetInput();
+  OutputImagePointer outputPtr = this->GetOutput();
+  inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+
+  TrainingImagePointer trainPtr = this->GetTrainingImage();
+  if ( trainPtr )
+   {
+   trainPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+   }
+  
 }
 
 
@@ -148,21 +153,19 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   //generate the Gaussian model for the different classes
   //and then generate the initial labelled dataset.
 
-  m_InputImage = this->GetInput();
+  InputImagePointer inputImage = this->GetInput();
     
   //Give the input image and training image set to the  
   // classifier
-  m_ClassifierPtr->SetInputImage( m_InputImage );
-  m_ClassifierPtr->SetTrainingImage( m_TrainingImage );
+  m_ClassifierPtr->SetInputImage( inputImage );
+  m_ClassifierPtr->SetTrainingImage( this->GetTrainingImage() );
 
   //Run the gaussian classifier algorithm
   m_ClassifierPtr->ClassifyImage();
 
-  SetLabelledImage( m_ClassifierPtr->GetClassifiedImage() );
-
   ApplyMRFImageFilter();
   //Set the output labelled and allocate the memory
-  LabelledImageType outputPtr = this->GetOutput();
+  LabelledImagePointer outputPtr = this->GetOutput();
 
   //Allocate the output buffer memory 
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
@@ -174,13 +177,14 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   // Set the iterators to the processed image
   //--------------------------------------------------------------------
   LabelledImageIterator  
-    labelledImageIt( m_LabelledImage, m_LabelledImage->GetBufferedRegion() );
+    labelledImageIt( m_ClassifierPtr->GetClassifiedImage(), 
+                     outputPtr->GetRequestedRegion() );
 
   //--------------------------------------------------------------------
   // Set the iterators to the output image buffer
   //--------------------------------------------------------------------
   LabelledImageIterator  
-    outImageIt( outputPtr, outputPtr->GetBufferedRegion() );
+    outImageIt( outputPtr, outputPtr->GetRequestedRegion() );
 
   //--------------------------------------------------------------------
 
@@ -211,23 +215,26 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 template<class TInputImage, class TClassifiedImage>
 void
 MRFImageFilter<TInputImage, TClassifiedImage>
-::SetTrainingImage( TrainingImageType image )
+::SetTrainingImage( TrainingImagePointer image )
 {
-  m_TrainingImage = image;
+  this->ProcessObject::SetNthInput(1, image );
+ 
 }//end SetInputImage
 
-
-
 template<class TInputImage, class TClassifiedImage>
-void
 MRFImageFilter<TInputImage, TClassifiedImage>
-::SetLabelledImage(LabelledImageType image)
+::TrainingImagePointer
+MRFImageFilter<TInputImage, TClassifiedImage>
+::GetTrainingImage()
 {
-  m_LabelledImage = image;
-  this->Allocate();
-}// Set the LabelledImage
+  if ( this->GetNumberOfInputs() < 2 )
+  {
+    return NULL;
+  }
+  return static_cast<TClassifiedImage*>(
+    this->ProcessObject::GetInput(1).GetPointer() );
 
-
+}
 
 template<class TInputImage, class TClassifiedImage>
 void
@@ -404,14 +411,17 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the input image
   //-------------------------------------------------------------------
-  InputImageIterator  inputImageIt(m_InputImage, 
-                                   m_InputImage->GetBufferedRegion() );
+  InputImagePointer inputImage = this->GetInput();
+  InputImageIterator  inputImageIt(inputImage, 
+                                   inputImage->GetBufferedRegion() );
 
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the classified image
   //--------------------------------------------------------------------
+
+  LabelledImagePointer labelledImage = m_ClassifierPtr->GetClassifiedImage();
   LabelledImageIterator  
-    labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
+    labelledImageIt( labelledImage, labelledImage->GetBufferedRegion());
 
   //---------------------------------------------------------------------
   // Loop through the data set and classify the data
@@ -477,9 +487,9 @@ MRFImageFilter<TInputImage, TClassifiedImage>
             offset3D[1] = m_HeightOffset[k] ;
             offset3D[2] = m_DepthOffset[k]  ;
             index3D = labelledImageIt.GetIndex();
-      index3D += offset3D;
+            index3D += offset3D;
 
-            labelledPixel = m_LabelledImage->GetPixel( index3D );
+            labelledPixel = labelledImage->GetPixel( index3D );
                 
             //Assuems that the MRF label is an image with 1 value
             //per pixel and is treated as a vector with 1 entry pervector
@@ -551,6 +561,8 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   delete [] dist;
   delete[] neighborInfluence;
+
+
 }//ApplyICMlabeller
 
 } // namespace itk

@@ -145,20 +145,20 @@ public:
   itkTypeMacro(MRFImageFilter,Object);
 
   /** Type definition for the input image. */
-  typedef typename TInputImage::Pointer              InputImageType;  
+  typedef typename TInputImage::Pointer              InputImagePointer;  
 
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType            InputPixelType;
 
   /** Type definitions for the training image. */
-  typedef typename TClassifiedImage::Pointer         TrainingImageType;
+  typedef typename TClassifiedImage::Pointer         TrainingImagePointer;
 
   /** Type definitions for the training image pixel type. */
   typedef typename TClassifiedImage::PixelType       TrainingPixelType;
 
   /** Type definitions for the labelled image.
    * It is derived from the training image. */
-  typedef typename TClassifiedImage::Pointer         LabelledImageType;
+  typedef typename TClassifiedImage::Pointer         LabelledImagePointer;
       
   /** Type definitions for the classified image pixel type.
    * It has to be the same type as the training image. */
@@ -181,14 +181,11 @@ public:
   typedef typename TInputImage::PixelType    InputImageVectorType;
 
   /** Set the image required for training type classifiers. */
-  void SetTrainingImage(TrainingImageType image);
+  void SetTrainingImage(TrainingImagePointer image);
 
-  /** Set the labelled image.  */
-  void SetLabelledImage(LabelledImageType LabelledImage);
+  /** Get the traning image.  */
+  TrainingImagePointer GetTrainingImage();
 
-  /** Get the labelled image.  */
-  LabelledImageType GetLabelledImage()
-    { return m_LabelledImage; }
 
   /** Set the pointer to the classifer being used. */
   void SetClassifier( typename ClassifierType::Pointer ptrToClassifier );
@@ -249,11 +246,7 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   typedef typename TInputImage::SizeType InputImageSizeType;
-
-  InputImageType         m_InputImage;
-  TrainingImageType      m_TrainingImage;
-  LabelledImageType      m_LabelledImage;
-          
+ 
   unsigned int           m_NumberOfClasses;
   unsigned int           m_MaximumNumberOfIterations;
   unsigned int           m_KernelSize;
