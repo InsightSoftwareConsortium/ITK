@@ -109,9 +109,8 @@ SpatialSampleContainer& samples ) const
   typedef ImageRandomConstIteratorWithIndex<FixedImageType> RandomIterator;
   RandomIterator randIter( m_FixedImage, this->GetFixedImageRegion() );
 
-  randIter.GoToBegin();
   randIter.SetNumberOfSamples( m_NumberOfSpatialSamples );
-
+  randIter.GoToBegin();
 
   typename SpatialSampleContainer::iterator iter;
   typename SpatialSampleContainer::const_iterator end = samples.end();
