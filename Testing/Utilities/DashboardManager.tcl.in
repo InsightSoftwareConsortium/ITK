@@ -332,7 +332,7 @@ foreach Command $Commands \
       close $DashboardFile
       close $DashboardTargets
 
-      puts "Dashboard $DashboardStamp"
+      puts "Dashboard $DashboardStamp -- Started [clock format [clock seconds]]"
       # Now run xalan to build the dashboard
       foreach XML [list Dashboard TestOverview] \
       {
@@ -360,6 +360,7 @@ foreach Command $Commands \
       file delete -force MostRecentResults-Nightly
       catch { exec ln -s [file tail $DashboardDir] MostRecentResults-Nightly } Result
       puts $Result
+      puts "Dashboard $DashboardStamp -- Finished [clock format [clock seconds]]"
     }
   }
 }
