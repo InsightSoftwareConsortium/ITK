@@ -156,7 +156,7 @@ start:
     delete a;  // if something went wrong, we need to destroy the already created object
     #endif
     a=0;
-    throw FEMException(__FILE__, __LINE__, "FEM error");    // rethrow the same exception
+    throw;     // rethrow the same exception
   }
 
   /*
