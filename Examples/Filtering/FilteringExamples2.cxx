@@ -24,7 +24,6 @@ REGISTER_TEST(VectorGradientAnisotropicDiffusionImageFilterTest);
 REGISTER_TEST(VectorIndexSelectionTest);
 REGISTER_TEST(VotingBinaryHoleFillingImageFilterTest);
 REGISTER_TEST(VotingBinaryIterativeHoleFillingImageFilterTest);
-REGISTER_TEST(ResampleVolumesToBeIsotropicTest);
 }
 #undef main
 #define main BinaryMedianImageFilterTest
@@ -97,7 +96,3 @@ REGISTER_TEST(ResampleVolumesToBeIsotropicTest);
 #undef main
 #define main VotingBinaryIterativeHoleFillingImageFilterTest
 #include "VotingBinaryIterativeHoleFillingImageFilter.cxx"
-
-#undef main
-#define main ResampleVolumesToBeIsotropicTest
-#include "ResampleVolumesToBeIsotropic.cxx"

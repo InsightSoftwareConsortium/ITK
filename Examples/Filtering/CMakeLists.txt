@@ -181,6 +181,7 @@ TARGET_LINK_LIBRARIES(VectorIndexSelection ITKCommon ITKBasicFilters ITKIO)
 SET(FILTERING_EXAMPLES ${CXX_TEST_PATH}/FilteringExamples)
 SET(FILTERING_EXAMPLES2 ${CXX_TEST_PATH}/FilteringExamples2)
 SET(FILTERING_EXAMPLES3 ${CXX_TEST_PATH}/FilteringExamples3)
+SET(FILTERING_EXAMPLES4 ${CXX_TEST_PATH}/FilteringExamples4)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Filtering)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -297,7 +298,7 @@ ADD_TEST( CurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
   CurvatureAnisotropicDiffusionImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/CurvatureAnisotropicDiffusionImageFilter.png
-        5 0.125 1.0
+        5 0.125 3
 )
 ADD_TEST( CurvatureFlowImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${BASELINE}/CurvatureFlowImageFilter.png
@@ -731,6 +732,69 @@ ADD_TEST( RGBToGrayscaleTest ${FILTERING_EXAMPLES3}
         ${TEMP}/RGBToGrayscale.png
 )
 
+ADD_TEST( LaplacianRecursiveGaussianImageFilter1Test ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/LaplacianRecursiveGaussianImageFilter1.mha
+            ${TEMP}/LaplacianRecursiveGaussianImageFilter1.mha
+  LaplacianRecursiveGaussianImageFilter1Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/LaplacianRecursiveGaussianImageFilter1.mha
+        3
+)
+
+ADD_TEST( LaplacianRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/LaplacianRecursiveGaussianImageFilter2.mha
+            ${TEMP}/LaplacianRecursiveGaussianImageFilter2.mha
+  LaplacianRecursiveGaussianImageFilter2Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/LaplacianRecursiveGaussianImageFilter2.mha
+        3
+)
+
+ADD_TEST( ResampleImageFilter6Test ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/ResampleImageFilter6.png
+            ${TEMP}/ResampleImageFilter6.png
+  ResampleImageFilter6Test
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanHeadSlice.png
+        ${TEMP}/ResampleImageFilter6.png
+        3
+)
+
+ADD_TEST( ResampleImageFilter7Test ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/ResampleImageFilter7.png
+            ${TEMP}/ResampleImageFilter7.png
+  ResampleImageFilter7Test
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanHeadSlice.png
+        ${TEMP}/ResampleImageFilter7.png
+        33
+)
+
+ADD_TEST( ResampleVolumesToBeIsotropicTest ${FILTERING_EXAMPLES4}
+  --compare ${BASELINE}/ResampleVolumesToBeIsotropic.mha
+            ${TEMP}/ResampleVolumesToBeIsotropic.mha
+  ResampleVolumesToBeIsotropicTest
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/mri3D.mhd
+        ${TEMP}/ResampleVolumesToBeIsotropic.mha
+        0 255
+)
+
+ADD_TEST( ScaleSpaceGenerator2DTest ${FILTERING_EXAMPLES4}
+  --compare ${BASELINE}/ScaleSpaceGenerator2D005.mhd
+            ${TEMP}/ScaleSpaceGenerator2D005.mhd
+  ScaleSpaceGenerator2DTest
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
+        ${TEMP}/ScaleSpaceGenerator2D
+        10
+)
+
+ADD_TEST( SubSampleVolumeTest ${FILTERING_EXAMPLES4}
+  --compare ${BASELINE}/SubSampleVolume.mha
+            ${TEMP}/SubSampleVolume.mha
+  SubSampleVolumeTest
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolume.mhd
+        ${TEMP}/SubSampleVolume.mha
+        2 2 2
+)
+
 ADD_EXECUTABLE(FilteringExamples FilteringExamples.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples ITKIO ITKBasicFilters ITKCommon)
 
@@ -739,6 +803,9 @@ TARGET_LINK_LIBRARIES(FilteringExamples2 ITKIO ITKBasicFilters ITKCommon)
 
 ADD_EXECUTABLE(FilteringExamples3 FilteringExamples3.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples3 ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(FilteringExamples4 FilteringExamples4.cxx)
+TARGET_LINK_LIBRARIES(FilteringExamples4 ITKIO ITKBasicFilters ITKCommon)
 
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )

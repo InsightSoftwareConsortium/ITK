@@ -32,7 +32,7 @@
 //  \doxygen{RecursiveGaussianImageFilter} for computing the equivalent of a
 //  Laplacian of an image after smoothing with a Gaussian.  The elements used
 //  in this previous example have been packaged together in the
-//  \doxygen{LaplacianRecursiveGaussianImageFiltrer} in order to simplify its
+//  \doxygen{LaplacianRecursiveGaussianImageFilter} in order to simplify its
 //  usage. This current example shows how to use this convenience filter for 
 //  achieving the same results as the previous example.
 //

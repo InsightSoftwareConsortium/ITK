@@ -25,7 +25,6 @@
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkIntensityWindowingImageFilter.h"
 
-
 int main( int argc, char * argv[] )
 {
   if( argc < 5 )
@@ -60,7 +59,7 @@ int main( int argc, char * argv[] )
     }
   catch( itk::ExceptionObject & excep )
     {
-    std::cerr << "Exception catched !" << std::endl;
+    std::cerr << "Exception caught!" << std::endl;
     std::cerr << excep << std::endl;
     }
 

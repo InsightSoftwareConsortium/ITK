@@ -34,10 +34,10 @@
 
 int main( int argc, char * argv[] )
 {
-  if( argc < 3 ) 
+  if( argc < 4 ) 
     { 
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFileBase " << std::endl;
+    std::cerr << argv[0] << "  inputImageFile  outputImageFileBase numberOfSlices" << std::endl;
     return 1;
     }
 
@@ -83,7 +83,8 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   char filename[2000];
 
-  for( unsigned int slice=0; slice < 100; slice++ )
+  int numberOfSlices = atoi(argv[3]);
+  for( unsigned int slice=0; slice < numberOfSlices; slice++ )
     {
     sprintf( filename, "%s%03d.mhd", argv[2], slice );
 
