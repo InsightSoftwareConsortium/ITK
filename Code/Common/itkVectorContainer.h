@@ -64,7 +64,7 @@ public:
    */
   typedef SmartPointer<Self>  Pointer;
   
-  /** \typedef
+  /**
    * Save the template parameters.
    */
   typedef TElementIdentifier  ElementIdentifier;

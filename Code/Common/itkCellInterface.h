@@ -87,7 +87,7 @@ public:
    */
   typedef TCellType                                 CellType;
 
-  /** \typedef
+  /**
    * Save type information for this cell.
    */
   typedef typename CellType::CoordRep               CoordRep;
@@ -100,7 +100,7 @@ public:
   typedef typename CellType::UsingCellsContainer    UsingCellsContainer;
   enum { PointDimension = CellType::PointDimension };
 
-  /** \typedef
+  /**
    * An iterator through the UsingCellsContainer.
    */
   typedef typename UsingCellsContainer::iterator  UsingCellsContainerIterator;

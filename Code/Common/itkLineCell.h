@@ -80,7 +80,7 @@ public:
   typedef typename CellInterface<TPixelType,TCellType>::PointIdConstIterator
                    PointIdConstIterator;
 
-  /** \typedef
+  /**
    * Save some template parameter information.
    */
   typedef typename CellType::CoordRep         CoordRep;
@@ -94,7 +94,7 @@ public:
   typedef VertexBoundary< TPixelType , TCellType >  Vertex;
   typedef typename Vertex::Pointer VertexPointer;
   
-  /** \enum
+  /** 
    * Line-specific topology numbers.
    */
   enum { NumberOfPoints   = 2,

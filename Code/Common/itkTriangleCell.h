@@ -80,7 +80,7 @@ public:
   typedef typename CellInterface<TPixelType,TCellType>::PointIdConstIterator
                    PointIdConstIterator;
 
-  /** \typedef
+  /**
    * Save some template parameter information.
    */
   typedef typename CellType::CoordRep         CoordRep;
@@ -100,7 +100,7 @@ public:
   typedef LineBoundary< TPixelType , TCellType >    Edge;
   typedef typename Edge::Pointer EdgePointer;
   
-  /** \enum
+  /**
    * Triangle-specific topology numbers.
    */
   enum { NumberOfPoints   = 3,

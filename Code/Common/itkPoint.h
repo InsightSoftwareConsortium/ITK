@@ -27,9 +27,7 @@ namespace itk
  * Point simply represents the geometric coordinates of one point in
  * N-dimensional space. Point is used by various types of containers
  * (e.g., VectorContainer) to represent the points in a mesh or cell.
- */
-
-/**
+ *
  * Template parameters for Point:
  *
  * VPointDimension =

@@ -78,7 +78,7 @@ public:
    */
   itkNewMacro(Self);
 
-  /** \typedef TCoordRep
+  /**
    * Hold on to the type information specified by the template parameters.
    */
   typedef TPointIdentifier PointIdentifier;

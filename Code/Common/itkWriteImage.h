@@ -64,7 +64,7 @@ public:
   /** 
    * Set the input image of this writer. 
    */
-  void SetInput(InputImage *input);
+  void SetInput(TInputImage *input);
 
   /** 
    * Get the input image of this writer.

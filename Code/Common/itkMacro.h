@@ -394,14 +394,14 @@ virtual type *Get##name () const \
     return this->m_##name; \
   } 
 
+namespace itk
+{
 /**
  * Use a global function which actually calls:
  * OutputWindow::GetInstance()->DisplayText();
  * This is to avoid Object #include of OutputWindow
  * while OutputWindow #includes Object
  */
-namespace itk
-{
 extern ITK_EXPORT void OutputWindowDisplayText(const char*);
 } // end namespace itk
 

@@ -34,7 +34,6 @@ namespace itk
 template <class TInputMesh, class TOutputMesh>
 class ITK_EXPORT ExtractMeshConnectedRegions :
     public FilterMeshToMesh<TInputMesh,TOutputMesh> 
-
 {
 public:
   /**
@@ -57,7 +56,7 @@ public:
    */
   itkNewMacro(Self);
   
-  /** \enum
+  /**
    * Different modes of operation. Use these to specify
    * how to extract the regions.
    */

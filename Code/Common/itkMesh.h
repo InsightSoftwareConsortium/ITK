@@ -136,7 +136,7 @@ public:
   typedef BoundingBox<PointIdentifier,PointDimension,
                       CoordRep,PointsContainer> BoundingBoxType;
 
-  /** \typedef
+  /**
    * Create types that are pointers to each of the container types.
    */
   typedef typename PointsContainer::Pointer        PointsContainerPointer;
@@ -150,7 +150,7 @@ public:
   typedef typename PointLocatorType::Pointer  PointLocatorPointer;
   typedef typename BoundingBoxType::Pointer   BoundingBoxPointer;
 
-  /** \typedef
+  /**
    * Create types that are iterators for each of the container types.
    */
   typedef typename
@@ -174,7 +174,7 @@ public:
   typedef typename
      PointCellLinksContainer::const_iterator  PointCellLinksContainerIterator;
   
-  /** \typedef
+  /**
    * A useful rename.
    */
   typedef CellFeatureIdentifier  CellFeatureCount;

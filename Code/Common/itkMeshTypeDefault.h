@@ -62,7 +62,7 @@ public:
    */
   typedef MeshTypeDefault  Self;
   
-  /** \typedef
+  /**
    * Just save all the template parameters.
    */
   typedef TPixelType  PixelType;
@@ -96,7 +96,7 @@ public:
    */
   typedef unsigned long  CellFeatureIdentifier;
   
-  /** \typedef
+  /**
    * The type of point used by the mesh.  This should never change from
    * this setting, regardless of the mesh type.
    */
@@ -120,7 +120,7 @@ public:
    */
   typedef MakeCellType                           CellType;
   
-  /** \typedef
+  /**
    * The interface to cells to be used by the mesh.
    * This should not be changed.
    */

@@ -69,7 +69,7 @@ public:
    */
   typedef TCellType                                 CellType;
 
-  /** \typedef
+  /**
    * Save some template parameter information.
    */
   typedef typename CellType::CoordRep         CoordRep;
@@ -77,7 +77,7 @@ public:
   enum { PointDimension = CellType::PointDimension };
   typedef typename CellInterface<TPixelType,TCellType>::Pointer CellPointer;
 
-  /** \enum
+  /** 
    * Vertex-specific topology numbers.
    */
   enum { NumberOfPoints = 1,

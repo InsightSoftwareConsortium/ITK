@@ -80,7 +80,7 @@ public:
   typedef typename CellInterface<TPixelType,TCellType>::PointIdConstIterator
                    PointIdConstIterator;
 
-  /** \typedef
+  /**
    * Save some template parameter information.
    */
   typedef typename CellType::CoordRep         CoordRep;
@@ -106,7 +106,7 @@ public:
   typedef TriangleBoundary< TPixelType , TCellType >  Face;
   typedef typename Face::Pointer FacePointer;
   
-  /** \enum
+  /**
    * Tetrahedron-specific topology numbers.
    */
   enum { NumberOfPoints   = 4,
