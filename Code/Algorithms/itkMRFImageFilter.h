@@ -172,6 +172,7 @@ public:
 
   /** Type definition for the classified image index type. */
   typedef typename TClassifiedImage::IndexType       LabelledImageIndexType;
+  typedef typename LabelledImageIndexType::IndexValueType    IndexValueType;
 
   /** Type definition for the classified image offset type. */
   typedef typename TClassifiedImage::OffsetType      LabelledImageOffsetType;
