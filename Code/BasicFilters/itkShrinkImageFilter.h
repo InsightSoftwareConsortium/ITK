@@ -47,12 +47,18 @@ namespace itk
 {
 
 /** \class ShrinkImageFilter
- * \brief Reduce the size of an image by an integer factor.
+ * \brief Reduce the size of an image by an integer factor in each
+ * dimension.
  *
- * ShrinkImageFilter reduces the size of an image by an integer factor. The
- * algorithm implemented is a simple subsample. Since this filter produces
- * an image which is a different resolution and with different pixel spacing
- * than its input image, it needs to override several of the methods defined
+ * ShrinkImageFilter reduces the size of an image by an integer factor
+ * in each dimension. The algorithm implemented is a simple subsample. 
+ * The output image size in each dimension is given by:
+ *
+ * outputSize[j] = max( floor(inputSize[j]/shrinkFactor[j]), 1 ); 
+ *
+ * Since this filter produces an image which is a different resolution 
+ * and with different pixel spacing than its input image, 
+ * it needs to override several of the methods defined
  * in ProcessObject in order to properly manage the pipeline execution model.
  * In particular, this filter overrides
  * ProcessObject::GenerateInputRequestedRegion() and
@@ -97,16 +103,23 @@ public:
    */
   itkTypeMacro(ShrinkImageFilter, ImageToImageFilter);
 
-  /** 
-   * Set the shrink factor. The default value is 1.
+  /**
+   * ImageDimension enumeration
    */
-  itkSetClampMacro(ShrinkFactor,int, 1,
-                   NumericTraits<int>::max());
+  enum { ImageDimension = TInputImage::ImageDimension };
+
+  /**
+   * Set the shrink factors. Values are clamped to 
+   * a minimum value of 1. Default is 1 for all dimensions.
+   */
+  void SetShrinkFactors( unsigned int factors[] );
+  void SetShrinkFactors( unsigned int factor );
   
   /** 
-   * Get the shrink factor.
+   * Get the shrink factors.
    */
-  itkGetMacro(ShrinkFactor,int);
+  const unsigned int * GetShrinkFactors() const
+		{ return m_ShrinkFactors; }
                  
   /**
    * ShrinkImageFilter produces an image which is a different resolution and
@@ -151,7 +164,7 @@ public:
                             int threadId );
 
 private:
-  int m_ShrinkFactor;
+  unsigned int m_ShrinkFactors[ImageDimension];
 };
 
   

@@ -55,7 +55,10 @@ template <class TInputImage, class TOutputImage>
 ShrinkImageFilter<TInputImage,TOutputImage>
 ::ShrinkImageFilter()
 {
-  m_ShrinkFactor = 1;
+  for( int j = 0; j < ImageDimension; j++ )
+		{
+		m_ShrinkFactors[j] = 1;
+		}
 }
 
 
@@ -69,7 +72,68 @@ ShrinkImageFilter<TInputImage,TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Shrink Factor: " << m_ShrinkFactor << std::endl;
+  os << indent << "Shrink Factor: ";
+  for( int j = 0; j < ImageDimension; j++ )
+		{
+		os << m_ShrinkFactors[j] << " ";
+    } 
+  os << std::endl;
+}
+
+
+/**
+ *
+ */
+template <class TInputImage, class TOutputImage>
+void 
+ShrinkImageFilter<TInputImage,TOutputImage>
+::SetShrinkFactors(unsigned int factors[])
+{
+  int j = 0;
+  for( j = 0; j < ImageDimension; j++ )
+		{
+		if( factors[j] != m_ShrinkFactors[j] ) break;
+		}
+  if( j < ImageDimension )
+		{
+		this->Modified();
+    for( j = 0; j < ImageDimension; j++ )
+			{
+			m_ShrinkFactors[j] = factors[j];
+      if( m_ShrinkFactors[j] < 1 ) 
+				{
+				m_ShrinkFactors[j] = 1;
+        }
+			}
+		}
+}
+
+
+/**
+ *
+ */
+template <class TInputImage, class TOutputImage>
+void 
+ShrinkImageFilter<TInputImage,TOutputImage>
+::SetShrinkFactors(unsigned int factor)
+{
+  int j = 0;
+  for( j = 0; j < ImageDimension; j++ )
+		{
+		if( factor != m_ShrinkFactors[j] ) break;
+		}
+  if( j < ImageDimension )
+		{
+		this->Modified();
+    for( j = 0; j < ImageDimension; j++ )
+			{
+			m_ShrinkFactors[j] = factor;
+      if( m_ShrinkFactors[j] < 1 ) 
+				{
+				m_ShrinkFactors[j] = 1;
+        }
+			}
+		}
 }
 
 
@@ -105,15 +169,18 @@ ShrinkImageFilter<TInputImage,TOutputImage>
 
   for (i=0; i < TInputImage::ImageDimension; i++)
     {
-    factorSize[i] = m_ShrinkFactor;
+    factorSize[i] = m_ShrinkFactors[i];
     }
 
   // support progress methods/callbacks
   unsigned long updateVisits = 0;
+  unsigned long totalPixels;
   if ( threadId == 0 )
     {
-    updateVisits = 
-      outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
+    totalPixels = 
+      outputPtr->GetRequestedRegion().GetNumberOfPixels();
+    updateVisits = totalPixels / 10;
+    if( updateVisits < 1 ) updateVisits = 1;
     }
         
   // walk the output region, and sample the input image
@@ -121,7 +188,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
     {
     if ( threadId == 0 && !(i % updateVisits ) )
       {
-      this->UpdateProgress((float)i/(float(updateVisits)*10.0));
+      this->UpdateProgress((float)i / (float)totalPixels);
       }
     
     // determine the index of the output pixel
@@ -170,9 +237,9 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   for (i = 0; i < TInputImage::ImageDimension; i++)
     {
     inputRequestedRegionSize[i]
-      = outputRequestedRegionSize[i] * m_ShrinkFactor;
+      = outputRequestedRegionSize[i] * m_ShrinkFactors[i];
     inputRequestedRegionStartIndex[i]
-      = outputRequestedRegionStartIndex[i] * (long)m_ShrinkFactor;
+      = outputRequestedRegionStartIndex[i] * (long)m_ShrinkFactors[i];
     }
 
   typename TInputImage::RegionType inputRequestedRegion;
@@ -217,12 +284,17 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   
   for (i = 0; i < TOutputImage::ImageDimension; i++)
     {
-    outputSpacing[i] = inputSpacing[i] * (float) m_ShrinkFactor;
+
+    outputSpacing[i] = inputSpacing[i] * (float) m_ShrinkFactors[i];
     outputSize[i] = (unsigned long)
-      floor( ((float)(inputSize[i] - m_ShrinkFactor + 1))
-             / (float) m_ShrinkFactor);
+      floor( (float) inputSize[i] / (float) m_ShrinkFactors[i]);
+    if( outputSize[i] < 1 )
+			{
+			outputSize[i] = 1;
+			}
+
     outputStartIndex[i] = (long)
-      ceil( (float) inputStartIndex[i] / (float) m_ShrinkFactor );
+      ceil( (float) inputStartIndex[i] / (float) m_ShrinkFactors[i] );
     }
 
   outputPtr->SetSpacing( outputSpacing );
