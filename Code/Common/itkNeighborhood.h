@@ -20,6 +20,7 @@
 #include <valarray>
 #include "itkMacro.h"
 #include "itkNeighborhoodBase.h"
+#include "itkNumericTraits.h"
 
 namespace itk {
 
@@ -39,7 +40,7 @@ template<class TPixel, unsigned int VDimension>  class Neighborhood;
  */
 template<class TPixel, unsigned int VDimension>
 Neighborhood<TPixel, VDimension>
-Convolve(Neighborhood<TPixel, VDimension>&,
+ConvolveND(Neighborhood<TPixel, VDimension>&,
          Neighborhood<TPixel, VDimension>&, int);  
 
 /**
@@ -55,8 +56,9 @@ Convolve(Neighborhood<TPixel, VDimension>&,
  *  specialized for the dimensionality of the neighborhood. 
  */
 template<class TPixel, unsigned int VDimension>
-Neighborhood<TPixel, 3>
-Convolve(Neighborhood<TPixel, 3> &, Neighborhood<TPixel, 3> &, int);
+Neighborhood<TPixel, VDimension>
+Convolve3D(Neighborhood<TPixel, VDimension> &,
+           Neighborhood<TPixel, VDimension> &, int);
 
 
 /**
@@ -72,8 +74,9 @@ Convolve(Neighborhood<TPixel, 3> &, Neighborhood<TPixel, 3> &, int);
  *  specialized for the dimensionality of the neighborhood. 
  */
 template<class TPixel, unsigned int VDimension>
-Neighborhood<TPixel, 2>
-Convolve(Neighborhood<TPixel, 2> &, Neighborhood<TPixel, 2> &, int);
+Neighborhood<TPixel, VDimension>
+Convolve2D(Neighborhood<TPixel, VDimension> &,
+           Neighborhood<TPixel, VDimension> &, int);
 
 /**
  *  Templated function for convolving two neighborhoods, each of one
@@ -88,8 +91,9 @@ Convolve(Neighborhood<TPixel, 2> &, Neighborhood<TPixel, 2> &, int);
  *  specialized for the dimensionality of the neighborhood.
  */
 template<class TPixel, unsigned int VDimension>
-Neighborhood<TPixel, 1>
-Convolve(Neighborhood<TPixel, 1> &, Neighborhood<TPixel, 1> &, int);  
+Neighborhood<TPixel, VDimension>
+Convolve1D(Neighborhood<TPixel, VDimension> &,
+           Neighborhood<TPixel, VDimension> &, int);  
   
 /**
  * \class Neighborhood
@@ -142,7 +146,6 @@ public:
    */
   Self &operator=( const Self &orig )
   {
-    this->resize(orig.size());
     Superclass::operator=(orig);
     return *this;
   }
@@ -204,7 +207,22 @@ public:
    */
   Self Convolve(Self &B)
   {
-    return itk::Convolve<TPixel, VDimension>(*this, B, 0); 
+    if (VDimension == 2)
+      {
+        return itk::Convolve2D<TPixel, VDimension>(*this, B, 0);
+      }
+    else if (VDimension == 3)
+      {
+        return itk::Convolve3D<TPixel, VDimension>(*this, B, 0);
+      }
+    else if (VDimension == 1)
+      {
+        return itk::Convolve1D<TPixel, VDimension>(*this, B, 0);
+      }
+    else
+      {
+        return itk::ConvolveND<TPixel, VDimension>(*this, B, 0);
+      }
   }
 
   /**
@@ -215,10 +233,26 @@ public:
    *
    * Convolve returns a Neighborhood with radii equal to the radii
    * of the Neighborhood on which it is called.
+   *
    */
   Self ConvolveToSize(Self &B)
   {
-    return itk::Convolve<TPixel, VDimension>(*this, B, 1); 
+    if (VDimension == 2)
+      {
+        return itk::Convolve2D<TPixel, VDimension>(*this, B, 1);
+      }
+    else if (VDimension == 3)
+      {
+        return itk::Convolve3D<TPixel, VDimension>(*this, B, 1);
+      }
+    else if (VDimension == 1)
+      {
+        return itk::Convolve1D<TPixel, VDimension>(*this, B, 1);
+      }
+    else
+      {
+        return itk::ConvolveND<TPixel, VDimension>(*this, B, 1);
+      }
   }
    
   /**
@@ -232,10 +266,11 @@ public:
    */
   TPixel Sum()
   {
-    TPixel accum;
+    typename NumericTraits<TPixel>::AccumulateType accum
+      = NumericTraits<TPixel>::Zero;
     for (ConstIterator it = this->Begin(); it < this->End(); ++it)
       {
-        accum+=*it;
+        accum += *it;
       }
     return accum;
   }
