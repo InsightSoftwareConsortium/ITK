@@ -269,21 +269,26 @@ void SmartRegionNeighborhoodIterator<TPixel, VDimension>
 
 template<class TPixel, unsigned int VDimension>
 void SmartRegionNeighborhoodIterator<TPixel, VDimension>
-::SetBound(const unsigned long bound[VDimension])
+::SetBound(const Size& size)
 {
-  const unsigned long *radius     = this->GetRadius();
+  const unsigned long *radius     = this->GetRadius().m_Size;
   const unsigned long *offset     = m_Image->GetOffsetTable();
-  const unsigned long *regionSize = m_Image->GetRegionSize();
-  const unsigned long *bufferSize = m_Image->GetBufferSize();
+  const Index imageRRStart  = m_Image->GetRequestedRegion().GetIndex();
+  const unsigned long *imageRRSize
+    = m_Image->GetRequestedRegion().GetSize().m_Size;
+  const unsigned long *imageBufferSize
+    = m_Image->GetBufferedRegion().GetSize().m_Size;
 
-  // Set the bounds and the wrapping offsets.
+  // Set the bounds and the wrapping offsets. Inner bounds are the loop
+  // indicies where the iterator will begin to overlap the edge of the image
+  // requested region.
   for (int i=0; i<VDimension; ++i)
     {
-      m_Bound[i]           = m_StartIndex[i]+bound[i];
-      m_InnerBoundsHigh[i] = m_StartIndex[i]+ (regionSize[i] - radius[i]);
-      m_InnerBoundsLow[i]  = m_StartIndex[i]+ radius[i];
-      m_WrapOffset[i]      = (bufferSize[i] - (m_Bound[i] - m_StartIndex[i]))
-                              * offset[i];
+      m_Bound[i]          = m_StartIndex[i]+size[i];
+      m_InnerBoundsHigh[i]= imageRRStart[i] + ( imageRRSize[i] - radius[i] );
+      m_InnerBoundsLow[i] = imageRRStart[i] + radius[i];
+      m_WrapOffset[i]     = (imageBufferSize[i] - (m_Bound[i]
+                              - m_StartIndex[i])) * offset[i];
     }
 }
 
@@ -312,10 +317,10 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
   Self it( *this );
 
   // Calculate the end index
-  endIndex.m_Index[0] = m_StartIndex[0] + m_Bound[0];
+  endIndex.m_Index[0] = m_Bound[0];
   for (int i = 1; i< VDimension; ++i)
     {
-      endIndex.m_Index[i] = m_StartIndex[i] + m_Bound[i] -1;
+      endIndex.m_Index[i] = m_Bound[i] -1;
     }
   
   // Set the position to the m_BeginOffset
