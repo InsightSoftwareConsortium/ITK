@@ -779,35 +779,22 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   unsigned long tripoints[3];
    
   InputPointsContainerPointer  myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator forces = myForces->Begin();
-
   InputPointsContainerPointer  myPoints = m_Locations->GetPoints();
-  InputPointsContainerIterator points = myPoints->Begin();
- 
   InputPointsContainerPointer  myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator normals = myNormals->Begin();
-
   InputPointsContainerPointer  myDerives = m_Derives->GetPoints();
-  InputPointsContainerIterator derives = myDerives->Begin();
-
   InputPointsContainerPointer  myDisplacements = m_Displacements->GetPoints();
-  InputPointsContainerIterator displacements = myDisplacements->Begin();
 
   InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
   myForceData->Reserve(m_NumNodes);
-  InputPointDataContainerIterator   forcedata = myForceData->Begin();
 
   InputCellsContainerPointer    myCells = m_Locations->GetCells();
   myCells->Reserve(m_NumCells);
-  InputCellsContainerIterator   cells = myCells->Begin(); 
   
   InputCellDataContainerPointer    myCellData = m_Locations->GetCellData();
   myCellData->Reserve(m_NumCells);
-  InputCellDataContainerIterator   celldata = myCellData->Begin(); 
 
   InputCellsContainerPointer       myOutCells = m_Output->GetCells();
   myOutCells->Reserve(m_NumCells);
-  InputCellsContainerIterator      outcells = myOutCells->Begin(); 
   
   InputCellDataContainerPointer       myOutCellData = m_Output->GetCellData();
   myOutCellData->Reserve(m_NumCells);
@@ -1152,11 +1139,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
     InputPointsContainerPointer     myDerives = m_Derives->GetPoints();
     myDerives->Reserve(m_NumNodes);
-    InputPointsContainerIterator    derives = myDerives->Begin();
 
     InputCellsContainerPointer      myCells = m_Locations->GetCells();
     myCells->Reserve(m_NumCells);
-    InputCellsContainerIterator     cells = myCells->Begin(); 
   
     InputCellDataContainerPointer   myCellData = m_Locations->GetCellData();
     myCellData->Reserve(m_NumCells);
@@ -1243,7 +1228,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointsContainerIterator      forces = myForces->Begin();
 
   InputPointsContainerPointer       myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator      normals = myNormals->Begin();
 
   InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
   InputPointDataContainerIterator   forcedata = myForceData->Begin();
