@@ -44,6 +44,8 @@ IF(VW_RAW_DATA_PATH)
 ENDIF(VW_RAW_DATA_PATH)
 
 IF(ITK_DATA_ROOT)
+  ADD_TEST(itkDicomDifficultFile ${IO_TESTS} itkDicomImageIOTest
+           ${ITK_DATA_ROOT}/Input/012345.002.050)
   ADD_TEST(itkPNGImageIOTest1 ${IO_TESTS} itkPNGImageIOTest
            ${ITK_DATA_ROOT}/Input/cthead1.png)
   ADD_TEST(itkPNGImageIOTest2 ${IO_TESTS} itkPNGImageIOTest
