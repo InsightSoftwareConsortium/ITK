@@ -17,11 +17,12 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \code{CenteredRigid2D} transform.for
+// This example illustrates the use of the \code{CenteredRigid2DTransform} for
 // performing rigid registration in $2D$. The code of this example is for the
-// most part identical to the one presented in \ref{sec:HelloWordRegistration}.
-// The main difference is the use of the rigid $2D$ transform instead of the
-// \code{Translation} transform.
+// most part identical to the one presented in
+// \ref{sec:IntroductionImageRegistration}.  The main difference is the use of
+// the \code{CenteredRigid2DTransform} here instead of the
+// \code{TranslationTransform}.
 //
 // \index{itk::CenteredRigid2DTransform!textbf}
 //
@@ -38,9 +39,11 @@
 
 //  Software Guide : BeginLatex
 //  
-//  In addition to the headers included in previous examples, here the header
-//  of the \code{CenteredRigid2DTransform} must be included.
+//  In addition to the headers included in previous examples, here the
+//  following header must be included.
 //
+//  \index{itk::CenteredRigid2DTransform!header}
+// 
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -107,12 +110,13 @@ int main( int argc, char **argv )
 {
 
 
-  if( argc < 3 )
+  if( argc < 4 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << "outputImagefile" << std::endl;
+    std::cerr << " outputImagefile  [differenceOutputfile] ";
+    std::cerr << " [differenceBeforeRegistration] "<< std::endl;
     return 1;
     }
   
@@ -125,8 +129,8 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The Transform is instantiated using the code below. The only template
-  //  parameter of this class is the representation type of the space
+  //  The Transform type is instantiated using the code below. The only
+  //  template parameter of this class is the representation type of the space
   //  coordinates.
   //
   //  \index{itk::CenteredRigid2DTransform!Instantiation}
@@ -168,7 +172,8 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The transform is constructed and passed to the registration method.
+  //  The transform object is constructed below and passed to the registration
+  //  method.
   //
   //  \index{itk::CenteredRigid2DTransform!New()}
   //  \index{itk::CenteredRigid2DTransform!Pointer}
@@ -177,9 +182,9 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  TransformType::Pointer      transform     = TransformType::New();
+  TransformType::Pointer  transform = TransformType::New();
 
-  registration->SetTransform(     transform     );
+  registration->SetTransform( transform );
   // Software Guide : EndCodeSnippet
 
 
@@ -209,12 +214,13 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  In this example, the input images are taken from readers. Here the
-  //  readers are updated in order to ensure that the parameters of size,
-  //  spacing of the images are valid when used to initialize the transform.
-  //  The intention is to use the center of the fixed image as the rotation
-  //  center and then use the vector between the fixed image center and the
-  //  moving image center as the translation to be applied after the rotation.
+  //  In this example, the input images are taken from readers. The code below
+  //  update the readers in order to ensure that the parameters of size, origin
+  //  and spacing of the images are valid when used to initialize the
+  //  transform.  We intend to use the center of the fixed image as the
+  //  rotation center and then use the vector between the fixed image center
+  //  and the moving image center as the initial translation to be applied
+  //  after the rotation.
   //
   //  Software Guide : EndLatex 
 
@@ -274,6 +280,9 @@ int main( int argc, char **argv )
   // Software Guide : EndCodeSnippet
 
 
+
+
+
   //  Software Guide : BeginLatex
   //  
   //   In order to initialize the transform parameters, the most
@@ -295,6 +304,9 @@ int main( int argc, char **argv )
 
 
 
+
+
+
   //  Software Guide : BeginLatex
   //  
   //  Let's finally initialize the rotation with a zero angle.
@@ -306,15 +318,23 @@ int main( int argc, char **argv )
   // Software Guide : EndCodeSnippet
 
 
+
+
+
   //  Software Guide : BeginLatex
   //  
   //  We pass now the parameter of the current transform as the initial
   //  parameters to be used when the registration process starts.
   //
   //  Software Guide : EndLatex 
- 
+
+  // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( 
                                  transform->GetParameters() );
+  // Software Guide : EndCodeSnippet
+
+
+
 
 
   //  Software Guide : BeginLatex
@@ -332,7 +352,8 @@ int main( int argc, char **argv )
 
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
-  const double translationScale = 1.0 / 1e4;
+  const double translationScale = 1.0 / 100.0;
+
   optimizerScales[0] = 1.0;
   optimizerScales[1] = translationScale;
   optimizerScales[2] = translationScale;
@@ -342,6 +363,10 @@ int main( int argc, char **argv )
   optimizer->SetScales( optimizerScales );
   // Software Guide : EndCodeSnippet
 
+
+
+
+
   //  Software Guide : BeginLatex
   //  
   //  We set also the normal parameters of the optimization method. In this
@@ -350,9 +375,10 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( atof( argv[5] ) );  
-  optimizer->SetMinimumStepLength( 0.0001 );
-  optimizer->SetNumberOfIterations( 500 );
+  optimizer->SetMaximumStepLength( 0.1   ); // 0.1 radian is about 5 degrees
+  optimizer->SetMinimumStepLength( 0.001 );
+
+  optimizer->SetNumberOfIterations( 50 );
   // Software Guide : EndCodeSnippet
 
 
@@ -372,8 +398,8 @@ int main( int argc, char **argv )
     } 
   catch( itk::ExceptionObject & err ) 
     { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    std::cerr << "ExceptionObject caught !" << std::endl; 
+    std::cerr << err << std::endl; 
     return -1;
     } 
   
@@ -413,30 +439,60 @@ int main( int argc, char **argv )
   //  
   //  \begin{itemize}
   //  \item \code{BrainProtonDensitySliceBorder20.png} 
-  //  \item \code{BrainProtonDensitySliceShifted13x17y.png}
+  //  \item \code{BrainProtonDensitySliceRotated10.png}
   //  \end{itemize}
   //
-  //  The second image is the result of intentionally translating the first
-  //  image by $(13,17)$ millimeters. Both images have unit-spacing and
-  //  are shown in Figure \ref{fig:FixedMovingImageRegistration1}. The
-  //  registration takes 18 iterations and produce as result the parameters:
+  //  The second image is the result of intentionally rotating the first image
+  //  by $10$ degrees. Both images have unit-spacing and are shown in Figure
+  //  \ref{fig:FixedMovingImageRegistration5}. The registration takes $13$
+  //  iterations and produce as result the parameters:
   //
+  //  \begin{center}
   //  \begin{verbatim}
-  //  Translation X = 12.9903
-  //  Translation Y = 17.0001
+  //  [0.175342, 110.498, 128.499, 0.00630779, 0.00103069]
   //  \end{verbatim}
+  //  \end{center}
+  //
+  //  That are interpreted as
+  //
+  //  \begin{itemize}
+  //  \item Angle         =                     $0.175342$   radians
+  //  \item Center        = $( 110.498     , 128.499      )$ millimeters
+  //  \item Translation   = $(   0.00630779,   0.00103069 )$ millimeters
+  //  \end{itemize}
+  //  
   // 
   //  As expected, these values match pretty well the misalignment
-  //  intentionally introduced in the moving image.
+  //  intentionally introduced in the moving image. Since $10$ degrees is about
+  //  $0.174532$ radians.
   //
   // \begin{figure}
   // \center
   // \includegraphics[width=6cm]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceShifted13x17y.eps}
-  // \caption{Fixed and Moving image provided as input to the registration method.}
-  // \label{fig:FixedMovingImageRegistration1}
+  // \includegraphics[width=6cm]{BrainProtonDensitySliceRotated10.eps}
+  // \caption{Fixed and Moving image provided as input to the registration
+  // method using CenteredRigid2D transform.}
+  // \label{fig:FixedMovingImageRegistration5}
   // \end{figure}
   //
+  //
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=5cm]{ImageRegistration5Output.eps}
+  // \includegraphics[width=5cm]{ImageRegistration5DifferenceBefore.eps}
+  // \includegraphics[width=5cm]{ImageRegistration5DifferenceAfter.eps} 
+  // \caption{Resampled moving image (left). Differences between fixed and
+  // moving images, before (center) and after (right) registration with the
+  // CenteredRigid2D transform.}
+  // \label{fig:ImageRegistration5Outputs}
+  // \end{figure}
+  //
+
+  // Figure \ref{fig:ImageRegistration5Outputs} shows the output of the
+  // registration. The right most image of this Figure shows the squared
+  // magnitude of pixel differences between the fixed image and the resampled
+  // moving image. It can be seen on the difference image that the rotational
+  // component was solved but a centering miss-registration persists.
   //
   //  Software Guide : EndLatex 
 
@@ -484,6 +540,7 @@ int main( int argc, char **argv )
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
 
+
   typedef itk::SquaredDifferenceImageFilter< 
                                   FixedImageType, 
                                   FixedImageType, 
@@ -491,21 +548,32 @@ int main( int argc, char **argv )
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
-  difference->SetInput1( fixedImageReader->GetOutput() );
-  difference->SetInput2( resample->GetOutput() );
-
   WriterType::Pointer writer2 = WriterType::New();
   writer2->SetInput( difference->GetOutput() );  
   
 
-
+  // Compute the difference image between the 
+  // fixed and resampled moving image.
   if( argc >= 5 )
     {
+    difference->SetInput1( fixedImageReader->GetOutput() );
+    difference->SetInput2( resample->GetOutput() );
     writer2->SetFileName( argv[4] );
     writer2->Update();
     }
 
- 
+
+  // Compute the difference image between the 
+  // fixed and moving image before registration.
+  if( argc >= 6 )
+    {
+    writer2->SetFileName( argv[5] );
+    difference->SetInput1( fixedImageReader->GetOutput() );
+    difference->SetInput2( movingImageReader->GetOutput() );
+    writer2->Update();
+    }
+
+
   return 0;
 
 }
