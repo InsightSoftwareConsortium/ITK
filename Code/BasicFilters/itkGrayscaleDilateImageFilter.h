@@ -106,6 +106,9 @@ protected:
   PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
                      const KernelType &kernel);
   
+private:
+  GrayscaleDilateImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 } ; // end of class
 
 } // end namespace itk
