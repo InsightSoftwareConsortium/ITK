@@ -37,7 +37,6 @@ TubeSpatialObject< TDimension, SpaceDimension >
   m_Property->SetGreen(0); 
   m_Property->SetBlue(0); 
   m_Property->SetAlpha(1); 
-  ComputeBoundingBox();
 } 
  
 /** Destructor */
@@ -121,7 +120,7 @@ TubeSpatialObject< TDimension, SpaceDimension >
   itkDebugMacro( "Computing tube bounding box" );
   bool ret = false;
 
-  if( this->GetMTime() > m_BoundsMTime )
+  if( (this->GetMTime() > m_BoundsMTime) || (m_BoundsMTime==0) )
     {
     ret = Superclass::ComputeBoundingBox(depth, name);
 
@@ -152,7 +151,7 @@ TubeSpatialObject< TDimension, SpaceDimension >
       }
 
     m_BoundsMTime = this->GetMTime();
-    }
+  }
 
   return ret;
 } 
