@@ -26,13 +26,13 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkRecursiveMultiResolutionPyramidImageFilter);
   namespace wrappers
   {
-    ITK_WRAP_OBJECT2(RecursiveMultiResolutionPyramidImageFilter, image::F2, image::F2,
+    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RecursiveMultiResolutionPyramidImageFilter, image::F2, image::F2,
                      itkRecursiveMultiResolutionPyramidImageFilterF2F2);
-    ITK_WRAP_OBJECT2(RecursiveMultiResolutionPyramidImageFilter, image::F3, image::F3,
+    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RecursiveMultiResolutionPyramidImageFilter, image::F3, image::F3,
                      itkRecursiveMultiResolutionPyramidImageFilterF3F3);
-    ITK_WRAP_OBJECT2(RecursiveMultiResolutionPyramidImageFilter, image::US2, image::US2,
+    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RecursiveMultiResolutionPyramidImageFilter, image::US2, image::US2,
                      itkRecursiveMultiResolutionPyramidImageFilterUS2US2);
-    ITK_WRAP_OBJECT2(RecursiveMultiResolutionPyramidImageFilter, image::US3, image::US3,
+    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RecursiveMultiResolutionPyramidImageFilter, image::US3, image::US3,
                      itkRecursiveMultiResolutionPyramidImageFilterUS3US3);
   }
 }
