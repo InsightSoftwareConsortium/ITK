@@ -33,7 +33,7 @@
 // of \code{GradientDescentOptimizer}. Due to the stochastic nature of
 // the way the metric measure is computed, the values are too noisy to
 // work successfully with \code{RegularStepGradientDescentOptimizer}.
-// Therefore we will use the simpler \code{GradientDescentOptimizer} wiht
+// Therefore we will use the simpler \code{GradientDescentOptimizer} with
 // a user defined learning rate. The following headers declare the basic
 // components of the registration method.
 //
@@ -370,8 +370,8 @@ int main( int argc, char **argv )
   //  Translation Y = 17.3635
   //  \end{verbatim}
   // 
-  //  As expected, these values match closely the true misaligment introduced
-  //  in the moving image.
+  //  These values are approximatedly within half pixel of 
+  //  the true misaligment introduced in the moving image.
   //
   //  Software Guide : EndLatex 
 
@@ -482,11 +482,12 @@ int main( int argc, char **argv )
   //  right figure zooms into iterations $150$ to $200$. The area covered by
   //  the right figure has been highlighted by a rectangle in the left image.
   //  It can be seen that after a certain number of iterations the optimizer
-  //  oscilates covering an area of the parameter space. At this point it is
-  //  clear that more iterations will not help. It is rather time to modify
-  //  some of the parameters of the registration process. For example, the
-  //  learning rate of the optimizer could be reduced in order to make smaller
-  //  steps on the parameter space.
+  //  oscillates within a one or two pixels of the true solution. 
+  //  At this point it is
+  //  clear that more iterations will not help. Instead it is time to modify
+  //  some of the parameters of the registration process. For example, 
+  //  reducing the learning rate of the optimizer and continuing the
+  //  registration so that smaller steps are taken.
   //
   // \begin{figure}
   // \center
@@ -500,29 +501,31 @@ int main( int argc, char **argv )
   //  Figure \ref{fig:ImageRegistration2TraceMetric} shows the sequence of
   //  metric values computed as the optimizer searched the parameter space.
   //  The left plot shows values when iterations are extended from $0$ to $300$
-  //  while the right figure zooms into iterations $100$ to $200$. It can be
-  //  seen that after a certain number of iterations the metric value oscilates
-  //  without further convergence. This may indicate the the images used are
-  //  too noisy and undcertainty is leaking to the computation of the metric.
-  //  Possible solutions could be to smooth the images using any of the
-  //  smoothing filters described in section \ref{sec:SmoothingFilters} or to
-  //  increase the number of sample points taken by the
-  //  \code{MutualInformationImageToImageMetric}. In the first case, you will
-  //  have to keep in mind that the registration will no longer be that of the
-  //  fixed and moving images but that of thir smoothed versions.
+  //  while the right figure zooms into iterations $100$ to $200$. 
+  //  The fluctuations in the measure value is due to the stochastic
+  //  nature in which the measure is computed. At each call of 
+  //  \code{GetValue()}, two new sets of intensity samples is randomly 
+  //  taken from the image to compute the density and entrophy estimates.
+  //  Even with the fluctuations, overall the measure initially increases
+  //  with the number of iterations.
+  //  After about 150 iterations the metric value oscilates
+  //  without further noticeable convergence. 
+  //  The trace plots in Figure \ref{fig:ImageRegistration2TraceMetric}
+  //  highlights one of the difficulties with using this particular metric:
+  //  the stochastic oscillations makes it difficult to determine
+  //  convergence and limits the use of more sophisticated optimizations
+  //  methods. As explained above,
+  //  the reduction of the learning rate as the registration progresses
+  //  is very important to get precise results.
   //
-  //  This figures highlight the importance of tracking the evolution of the
+  //  This example highlight the importance of tracking the evolution of the
   //  registration method in order to get some insight on the characteristics
-  //  of the particular problem at hand. The behavior revealed by these plots
+  //  of the particular problem at hand and the components being used. 
+  //  The behavior revealed by these plots
   //  usually helps to identify possible improvements in the setup of the
   //  registration parameters. 
   //
   //  Software Guide : EndLatex 
-
-
-
-
-
 
   return 0;
 
