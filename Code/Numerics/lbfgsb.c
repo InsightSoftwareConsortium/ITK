@@ -44,7 +44,17 @@
 
 #include "f2c.h"
 #include "netlib.h"
-#include "math.h"
+#ifdef __BORLANDC__
+/* A hack to overcome a typo in borlands math.h
+ * file with respect to the abs function
+ * line 206 of C:\Borland\Bcc55\include\math.h 
+ * uses _RTLENTRYF instead of _RTLENTRY */
+# define __ABS_DEFINED
+# include <math.h>
+# undef __ABS_DEFINED
+#else
+# include <math.h>
+#endif
 
 /* Table of constant values */
 
