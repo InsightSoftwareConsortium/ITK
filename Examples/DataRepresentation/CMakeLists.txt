@@ -1,4 +1,5 @@
 SUBDIRS( 
   Image
   Mesh
+  Path
   )
