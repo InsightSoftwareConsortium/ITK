@@ -50,7 +50,7 @@ LBFGSOptimizer<TCostFunction>
 template <class TCostFunction>
 void
 LBFGSOptimizer<TCostFunction>
-::StartOptimization( VectorType & initialValue )
+::StartOptimization( void )
 {
   m_LBFGS.minimize( initialValue );
 }

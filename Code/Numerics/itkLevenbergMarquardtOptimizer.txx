@@ -50,11 +50,17 @@ LevenbergMarquardtOptimizer<TCostFunction>
 template <class TCostFunction>
 void
 LevenbergMarquardtOptimizer<TCostFunction>
-::StartOptimization( const ParametersType & initialValue )
+::StartOptimization( void )
 {
-  InternalParametersType initialParameters;
-  VnlCostFunctionAdaptor::ConvertParameters( initialValue, initialParameters );
+  
+  InternalParametersType initialParameters(SpaceDimension);
+  
+  VnlCostFunctionAdaptor::ConvertExternalToInternalParameters( 
+                                GetInitialPosition()
+                              , initialParameters );
+  
   m_LevenbergMarquardt.minimize( initialParameters );
+
 }
 
 

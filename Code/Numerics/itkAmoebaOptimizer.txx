@@ -37,8 +37,14 @@ AmoebaOptimizer<TCostFunction>
 template <class TCostFunction>
 void
 AmoebaOptimizer<TCostFunction>
-::StartOptimization( VectorType & initialValue )
+::StartOptimization( void )
 {
+  InternalParametersType initialValue( SpaceDimension );
+
+  VnlCostFunctionAdaptor::ConvertParameters( 
+                             GetInitialPosition(), 
+                             initialValue );
+
   m_Amoeba.minimize( initialValue );
 }
 

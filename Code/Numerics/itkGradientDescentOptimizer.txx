@@ -120,9 +120,9 @@ GradientDescentOptimizer<TCostFunction>
 { 
 
   double magnitudeSquare = 0;
-  for(unsigned int i=0; i<SpaceDimension; i++)
+  for(unsigned int dim=0; dim<SpaceDimension; dim++)
   {
-    const double weighted = m_Gradient[i] * m_StepSize[i];
+    const double weighted = m_Gradient[dim] * m_StepSize[dim];
     magnitudeSquare += weighted * weighted;
   }
     
@@ -172,9 +172,9 @@ GradientDescentOptimizer<TCostFunction>
   const double factor = 
     (direction * m_CurrentStepLength / gradientMagnitude);
 
-  for(unsigned int i=0; i<SpaceDimension; i++)
+  for(unsigned int j=0; j<SpaceDimension; j++)
   {
-    newPosition[i] = currentPosition[i] + m_Gradient[i] * factor;
+    newPosition[j] = currentPosition[j] + m_Gradient[j] * factor;
   }
 
   SetCurrentPosition( newPosition );

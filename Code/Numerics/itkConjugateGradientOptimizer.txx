@@ -51,11 +51,16 @@ ConjugateGradientOptimizer<TCostFunction>
 template <class TCostFunction>
 void
 ConjugateGradientOptimizer<TCostFunction>
-::StartOptimization( const ParametersType &  initialValue )
+::StartOptimization( void )
 {
   InternalParametersType initialParameters( SpaceDimension );
-  VnlCostFunctionAdaptor::ConvertParameters( initialValue, initialParameters );
+  
+  VnlCostFunctionAdaptor::ConvertExternalToInternalParameters( 
+                            GetInitialPosition(), 
+                            initialParameters     );
+
   m_ConjugateGradient.minimize( initialParameters );
+
 }
 
 
