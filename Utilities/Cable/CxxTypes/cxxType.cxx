@@ -24,13 +24,21 @@ namespace _cxx_
  * TypedefType's GetRepresentationType() passes the call through to the
  * real type.  This call is not passed through.
  */
-bool
-Type
-::IsTypedefType() const
+bool Type::IsTypedefType() const
 {
   return false;
 }
 
+
+/**
+ * Return the pointer that is used to identify this type.
+ * For all non-typedef types, the "this" pointer is the correct value.
+ */
+const Type* Type::Id() const
+{
+  return this;
+}
+  
 
 /**
  * Given cv-qualifiers, construct the CvQualifiedType referring to
@@ -38,8 +46,7 @@ Type
  * this is a typedef type.
  */
 CvQualifiedType
-Type
-::GetCvQualifiedType(bool isConst, bool isVolatile) const
+Type::GetCvQualifiedType(bool isConst, bool isVolatile) const
 {
   // This is not a TypedefType.  Just construct the qualified form and
   // return it.

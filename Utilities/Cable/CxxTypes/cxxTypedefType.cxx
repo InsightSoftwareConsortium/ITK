@@ -46,6 +46,16 @@ TypedefType
 
 
 /**
+ * Return the pointer that is used to identify this type.
+ * This must pass through to the real type.
+ */
+const Type* TypedefType::Id() const
+{
+  return m_CvQualifiedType.GetType()->Id();
+}
+
+
+/**
  * Given cv-qualifiers, construct the CvQualifiedType referring to
  * this type.  The result may be more cv-qualified than that given if
  * this is a typedef type.

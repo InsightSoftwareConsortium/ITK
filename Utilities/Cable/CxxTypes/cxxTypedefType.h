@@ -32,6 +32,7 @@ public:
   virtual RepresentationType GetRepresentationType() const;
   virtual bool IsTypedefType() const;
   
+  virtual const Type* Id() const;
   virtual CvQualifiedType GetCvQualifiedType(bool, bool) const;
   
 protected:

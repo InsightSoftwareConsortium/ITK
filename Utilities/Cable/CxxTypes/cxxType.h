@@ -46,7 +46,8 @@ public:
   bool IsPointerToMemberType() const { return this->GetRepresentationType() == PointerToMemberType_id; }
   bool IsReferenceType() const       { return this->GetRepresentationType() == ReferenceType_id; }
   //@}
-
+  
+  virtual const Type* Id() const;  
   virtual CvQualifiedType GetCvQualifiedType(bool, bool) const;
   
 protected:

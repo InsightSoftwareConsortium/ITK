@@ -69,7 +69,7 @@ bool
 CvQualifiedType
 ::operator== (const Self& r) const
 {
-  return ((m_Type == r.m_Type)
+  return ((m_Type->Id() == r.m_Type->Id())
           && (m_Const == r.m_Const)
           && (m_Volatile == r.m_Volatile));
 }
@@ -86,15 +86,15 @@ CvQualifiedType
   // First, compare the Type pointers.  Here we take advantage of the
   // fact that types are generated uniquely from the TypeSystem's factory,
   // so that the same type always has the same pointer value.
-  if(m_Type < r.m_Type)
+  if(m_Type->Id() < r.m_Type->Id())
     {
     return true;
     }
-  else if(m_Type > r.m_Type)
+  else if(m_Type->Id() > r.m_Type->Id())
     {
     return false;
     }
-  else // if(m_Type == r.m_Type)
+  else // if(m_Type->Id() == r.m_Type->Id())
     {
     // The base type is the same.  Compare the cv-qualifiers.
     int lhs = (int(m_Const << 1) | int(m_Volatile));
