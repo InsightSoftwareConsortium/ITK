@@ -4,5 +4,11 @@ PROJECT(FilteringExamples)
 ADD_EXECUTABLE(GradientMagnitudeImageFilter GradientMagnitudeImageFilter.cxx )
 TARGET_LINK_LIBRARIES(GradientMagnitudeImageFilter ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
 
+ADD_EXECUTABLE(BinaryThresholdImageFilter BinaryThresholdImageFilter.cxx )
+TARGET_LINK_LIBRARIES(BinaryThresholdImageFilter ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
+ADD_EXECUTABLE(CastingImageFilters CastingImageFilters.cxx )
+TARGET_LINK_LIBRARIES(CastingImageFilters ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
 
 
