@@ -15,6 +15,7 @@ itkHexahedronCellTopology.cxx
 itkImageIOCommon.cxx 
 itkImageIO.cxx 
 itkIndent.cxx  
+itkIterationReporter.cxx
 itkLightObject.cxx  
 itkLightProcessObject.cxx 
 itkKLMSegmentationBorder.cxx 
