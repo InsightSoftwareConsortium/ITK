@@ -24,16 +24,16 @@
 #include <itkImage.h>
 #include <itkRecursiveGaussianImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
+#include <itkImageRegionConstIterator.h>
 
 
 int itkRecursiveGaussianImageFiltersTest(int, char* [] ) 
 {
 
+  {  // 3D test
+
   // Define the dimension of the images
   const unsigned int myDimension = 3;
-
-  // Declare gradient type
-  typedef itk::CovariantVector<float, myDimension> myGradientType;
 
   // Declare the types of the images
   typedef itk::Image<float, myDimension>           myImageType;
@@ -161,8 +161,98 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   std::cout << "Executing Second Derivative filter...";
   filter2->Update();
   std::cout << " Done !" << std::endl;
+  }
 
 
+ 
+  { // Test normalizations factors using a 1D image
+  std::cout << "Test normalizations factors using a 1-D image" << std::endl;
+
+  typedef float                         PixelType;
+  typedef itk::Image< PixelType, 1 >    ImageType;
+
+  typedef ImageType::SizeType           SizeType;
+  typedef ImageType::IndexType          IndexType;
+  typedef ImageType::RegionType         RegionType;
+  typedef ImageType::SpacingType        SpacingType;
+
+  SizeType size;
+  size[0] = 21;
+
+  IndexType start;
+  start[0] = 0;
+
+  RegionType region;
+  region.SetIndex( start );
+  region.SetSize( size );
+
+  SpacingType spacing;
+  spacing[0] = 1.0;
+
+  ImageType::Pointer inputImage = ImageType::New();
+  inputImage->SetRegions( region );
+  inputImage->Allocate();
+  inputImage->SetSpacing( spacing );
+  inputImage->FillBuffer( itk::NumericTraits< PixelType >::Zero );
+
+  IndexType index;
+  index[0] = ( size[0] - 1 ) / 2;  // the middle pixel
+  
+  inputImage->SetPixel( index, static_cast< PixelType >( 1000.0 ) );
+
+  typedef itk::RecursiveGaussianImageFilter< 
+                            ImageType, ImageType > FilterType;
+
+  FilterType::Pointer filter = FilterType::New();
+  filter->SetSigma( 2.0 );
+
+  filter->SetInput( inputImage );
+
+  filter->SetNormalizeAcrossScale( false );
+
+  filter->SetZeroOrder();
+  filter->Update();
+
+  ImageType::ConstPointer outputImage = filter->GetOutput();
+
+  typedef itk::ImageRegionConstIterator< ImageType > IteratorType;
+
+  std::cout << "Smoothed image " << std::endl;
+  IteratorType  it( outputImage, outputImage->GetBufferedRegion() );
+  it.GoToBegin();
+  while( ! it.IsAtEnd() )
+    {
+    std::cout << it.Get() << std::endl;
+    ++it;
+    }
+
+  // Now compute the first derivative
+  std::cout << std::endl << std::endl;
+  std::cout << "First Derivative " << std::endl;
+  filter->SetFirstOrder();
+  filter->Update();
+  it.GoToBegin();
+  while( ! it.IsAtEnd() )
+    {
+    std::cout << it.Get() << std::endl;
+    ++it;
+    }
+
+
+  // Now compute the first derivative
+  std::cout << std::endl << std::endl;
+  std::cout << "Second Derivative " << std::endl;
+  filter->SetSecondOrder();
+  filter->Update();
+  it.GoToBegin();
+  while( ! it.IsAtEnd() )
+    {
+    std::cout << it.Get() << std::endl;
+    ++it;
+    }
+
+
+  }
 
   
   // All objects should be automatically destroyed at this point
