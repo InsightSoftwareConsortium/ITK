@@ -371,8 +371,6 @@ M_Write(void)
     int d;
     while(it != m_PointList.end())
     {
-    std::cout << "Point: " << i << std::endl;
-
       for(d = 0; d < m_NDims; d++)
       {
         MET_DoubleToValue((double)(*it)->m_X[d],m_ElementType,data,i++);
@@ -392,6 +390,7 @@ M_Write(void)
     }
    
     m_WriteStream->write((char *)data,(m_NDims*2+4)*m_NPoints*elementSize);
+    m_WriteStream->write("\n",1);
     delete [] data;
   }
   else

@@ -330,8 +330,6 @@ M_Read(void)
   {
     for(j=0; j<m_NPoints; j++) 
     {
-      if(j%100000 == 0) {std::cout << "Reading " << j << std::endl;}
-
       LandmarkPnt* pnt = new LandmarkPnt(m_NDims);
       
       for(int k=0; k<pntDim; k++)
@@ -401,6 +399,7 @@ M_Write(void)
       it++;
     }  
     m_WriteStream->write((char *)data,(m_NDims+4)*m_NPoints*elementSize);
+    m_WriteStream->write("\n",1);
     delete data;
   }
   else
