@@ -533,8 +533,8 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
   int rowInc = numComp*width;
   for (ui = 0; ui < height; ui++)
     {
-    row_pointers[height - ui - 1] = (JSAMPROW) outPtr;
-    outPtr = (unsigned char *)outPtr + rowInc;
+    row_pointers[height - ui - 1] = const_cast<JSAMPROW>(outPtr);
+    outPtr = const_cast<unsigned char *>(outPtr) + rowInc;
     }
   jpeg_write_scanlines(&cinfo, row_pointers, height);
   
