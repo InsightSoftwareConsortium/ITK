@@ -105,7 +105,7 @@ const int InvalidDimension=11;
 #define itkSetStringMacro(name) \
   virtual void Set##name (const char* _arg) \
   { \
-    if ( _arg && (_arg != this->m_##name) ) { return;} \
+    if ( _arg && (_arg == this->m_##name) ) { return;} \
     if (_arg) \
       { \
       this->m_##name = _arg;\
