@@ -109,7 +109,7 @@ void
 TranslationTransform<ScalarType, NDimensions>::
 Compose(const Self &other, bool )
 {
-  m_Offset += m_Offset;
+  m_Offset += other.m_Offset;
   return;
 }
 
@@ -118,7 +118,7 @@ Compose(const Self &other, bool )
 template<class ScalarType, unsigned int NDimensions>
 void
 TranslationTransform<ScalarType, NDimensions>::
-Translate(const VectorType &offset, bool pre)
+Translate(const VectorType &offset, bool )
 {
   m_Offset += offset;
   return;
