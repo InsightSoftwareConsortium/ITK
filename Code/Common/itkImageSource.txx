@@ -45,7 +45,7 @@ ImageSource<TOutputImage>
  *
  */
 template<class TOutputImage>
-ImageSource<TOutputImage>::DataObjectPointer
+typename ImageSource<TOutputImage>::DataObjectPointer
 ImageSource<TOutputImage>
 ::MakeOutput(unsigned int idx)
 {
@@ -56,7 +56,7 @@ ImageSource<TOutputImage>
  *
  */
 template<class TOutputImage>
-ImageSource<TOutputImage>::OutputImageType * 
+typename ImageSource<TOutputImage>::OutputImageType * 
 ImageSource<TOutputImage>
 ::GetOutput()
 {
@@ -74,7 +74,7 @@ ImageSource<TOutputImage>
  *
  */
 template<class TOutputImage>
-ImageSource<TOutputImage>::OutputImageType *
+typename ImageSource<TOutputImage>::OutputImageType *
 ImageSource<TOutputImage>
 ::GetOutput(unsigned int idx)
 {

@@ -52,7 +52,7 @@ CovarianceCalculator< TSample >
 } 
 
 template< class TSample >
-CovarianceCalculator< TSample >::MeanType*
+typename CovarianceCalculator< TSample >::MeanType*
 CovarianceCalculator< TSample >
 ::GetMean()
 {
@@ -60,7 +60,7 @@ CovarianceCalculator< TSample >
 } 
 
 template< class TSample >
-CovarianceCalculator< TSample >::OutputType*
+typename CovarianceCalculator< TSample >::OutputType*
 CovarianceCalculator< TSample >
 ::GetOutput()
 {
