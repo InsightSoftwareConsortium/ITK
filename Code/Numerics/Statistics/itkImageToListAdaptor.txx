@@ -60,7 +60,7 @@ ImageToListAdaptor< TImage >
 template < class TImage >
 inline unsigned int
 ImageToListAdaptor< TImage >
-::Size(const unsigned int &dimension) const
+::Size(const unsigned int &) const
 {
   return m_PixelContainer->Size() ;
 }
@@ -95,7 +95,7 @@ ImageToListAdaptor< TImage >
 template < class TImage >
 inline typename ImageToListAdaptor< TImage >::FrequencyType
 ImageToListAdaptor< TImage >
-::GetFrequency(const InstanceIdentifier &id) const 
+::GetFrequency(const InstanceIdentifier &) const 
 {
   return NumericTraits< FrequencyType >::One ;
 }
@@ -103,7 +103,7 @@ ImageToListAdaptor< TImage >
 template < class TImage >
 typename ImageToListAdaptor< TImage >::FrequencyType
 ImageToListAdaptor< TImage >
-::GetTotalFrequency(const unsigned int &dim) const
+::GetTotalFrequency(const unsigned int &) const
 { 
   return this->Size() ; 
 }

@@ -80,29 +80,29 @@ double NormalVariateGenerator::GetVariate()
 
 double NormalVariateGenerator::FastNorm(void)
 {
-  int i = 0;
+  int i;
   int inc    = 0;
-  int skew   = 0;
-  int stride = 0;
+  int skew;
+  int stride;
   int mask   = 0;
-  int p = 0;
-  int q = 0;
-  int r = 0;
-  int s = 0;
+  int p;
+  int q;
+  int r;
+  int s;
   int t = 0;
   int *pa = 0;
   int *pb = 0;
   int *pc = 0;
   int *pd = 0;
-  int *pe = 0;
+  int *pe;
   int *p0 = 0;
-  int mtype = 0;
-  int stype = 0;
-  double ts = 0.0;
-  double tr = 0.0;
-  double tx = 0.0;
-  double ty = 0.0;
-  double tz = 0.0;
+  int mtype;
+  int stype;
+  double ts;
+  double tr;
+  double tx;
+  double ty;
+  double tz;
 
   /*    See if time to make a new set of 'original' deviates  */
   /*    or at least to correct for a drift in sum-of-squares    */
@@ -128,7 +128,7 @@ double NormalVariateGenerator::FastNorm(void)
   skew = 4 * skew;      /*  To give a word index to group of 4 */
   stride = (LEN/2 -1 ) & t;     t = t >> (ELEN-1);
   stride = 8 * stride + 4;      /* To give an odd num of 4-groups */
-  mtype = t & 3;     t = t >> 2;
+  mtype = t & 3;
   /*    Leaves a bit for stype, but not currently used   */
 
   /*    Use last bits of nslew to determine scanning pattern   */

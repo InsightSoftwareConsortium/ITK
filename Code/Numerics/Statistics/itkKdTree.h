@@ -103,10 +103,10 @@ struct KdTreeNonterminalNode: public KdTreeNode< TSample >
   void GetCenteroid(CenteroidType &centeroid)
   { /* do nothing */ }
 
-  InstanceIdentifier GetInstanceIdentifier(size_t index)
+  InstanceIdentifier GetInstanceIdentifier(size_t)
   { return 0 ; }
 
-  void AddInstanceIdentifier(InstanceIdentifier id) {}
+  void AddInstanceIdentifier(InstanceIdentifier) {}
 
 private:
   unsigned int m_PartitionDimension ;
@@ -183,8 +183,8 @@ struct KdTreeTerminalNode: public KdTreeNode< TSample >
   bool IsTerminal()
   { return true ; }
 
-  void GetParameters(unsigned int &partitionDimension, 
-                     MeasurementType &partitionValue) {}
+  void GetParameters(unsigned int &, 
+                     MeasurementType &) {}
 
   Superclass* Left() 
   { return 0 ; }
@@ -195,10 +195,10 @@ struct KdTreeTerminalNode: public KdTreeNode< TSample >
   unsigned int Size()
   { return m_InstanceIdentifiers.size() ; }
 
-  void GetWeightedCenteroid(CenteroidType &centeroid)
+  void GetWeightedCenteroid(CenteroidType &)
   { /* do nothing */ } 
 
-  void GetCenteroid(CenteroidType &centeroid)
+  void GetCenteroid(CenteroidType &)
   { /* do nothing */ } 
 
   InstanceIdentifier GetInstanceIdentifier(size_t index)

@@ -32,6 +32,8 @@ GoodnessOfFitFunctionBase< TInputHistogram >
   m_UseExpectedHistogram = true ;
   m_ObservedHistogram = 0 ;
   m_ExpectedHistogram = 0 ;
+
+  m_UseExpectedHistogram = false ;
 }
 
 template< class TInputHistogram >

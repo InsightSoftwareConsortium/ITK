@@ -99,7 +99,7 @@ inline TValue MedianOfThree(const TValue a,
 }
 
 template< class TSample >
-inline void FindSampleBound(TSample* sample,
+inline void FindSampleBound(TSample* ,
                             typename TSample::Iterator begin,
                             typename TSample::Iterator end,
                             typename TSample::MeasurementVectorType &min,
