@@ -94,7 +94,7 @@ public:
   /** 
    * Print out the indentation. Basically output a bunch of spaces. 
    */
-  friend ITK_EXPORT std::ostream& operator<<(std::ostream& os, Indent& o); 
+  friend ITK_EXPORT std::ostream& operator<<(std::ostream& os, const Indent& o); 
 
 private:
   int m_Indent;
