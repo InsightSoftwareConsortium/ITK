@@ -29,8 +29,8 @@ using namespace std;
 using namespace itk;
 using namespace fem;
 
-//
-int itkFEMElement2DMembraneTest(int, char *[])
+//itkFEMElement2DMembraneTest
+int main(int, char *[])
 {
     Node::Pointer n0,n1,n2,n3;
     Element::VectorType pt(2);
@@ -75,6 +75,8 @@ int itkFEMElement2DMembraneTest(int, char *[])
 
     e0->GetMassMatrix(Me);
     e0->GetMaterialMatrix(D);
+    cout << "Mass matrix: " << endl << Me << endl;
+    cout << "Material matrix: " << endl << D << endl;
     cout << "#dof per node = " << e0->GetNumberOfDegreesOfFreedomPerNode() << endl;
 
     std::cout << "Test PASSED!\n";
