@@ -214,6 +214,8 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   typename TInputImage::RegionType inputRequestedRegion;
   inputRequestedRegion.SetSize( inputRequestedRegionSize );
   inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
+
+  inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() );
   
   inputPtr->SetRequestedRegion( inputRequestedRegion );
 }
