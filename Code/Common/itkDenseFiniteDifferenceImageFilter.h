@@ -111,6 +111,11 @@ protected:
    * the ThreadedAPplyUpdate() method and a multithreading mechanism.  "dt" is
    * the time step to use for the update of each pixel. */
   virtual void ApplyUpdate(TimeStepType dt);
+
+  /** Method to allow subclasses to get direct access to the update
+   * buffer */
+  virtual UpdateBufferType* GetUpdateBuffer()
+    { return m_UpdateBuffer; }
   
 private:
   DenseFiniteDifferenceImageFilter(const Self&); //purposely not implemented
