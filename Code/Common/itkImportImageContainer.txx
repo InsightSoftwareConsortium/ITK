@@ -61,7 +61,7 @@ ImportImageContainer< TElementIdentifier , TElement >
       TElement *temp = new TElement[size];
       // only copy the portion of the data used in the old buffer
       memcpy(temp, m_ImportPointer, m_Size*sizeof(TElement));
-      if (m_ContainerManageMemory)
+      if (m_ImportPointer && m_ContainerManageMemory)
         {
         delete [] m_ImportPointer;
         }
