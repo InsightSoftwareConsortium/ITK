@@ -144,6 +144,14 @@ int itkPatternIntensityImageMetricTest(int, char* [] )
   std::cout << metric << std::endl;
 
 
+
+//------------------------------------------------------------
+// The lambda value is the intensity difference that should
+// make the metric drop by 50%
+//------------------------------------------------------------
+   metric->SetLambda( 10 );
+
+
 //------------------------------------------------------------
 // This call is mandatory before start querying the Metric
 // This method do all the necesary connections between the 
