@@ -27,6 +27,7 @@ RawImageIO<TPixel,VImageDimension>::RawImageIO()
   : ImageIOBase()
 {
   this->SetNumberOfComponents(1);
+  this->SetPixelTypeInfo(typeid(PixelType));
   this->SetNumberOfDimensions(VImageDimension);
   
   for (unsigned int idx = 0; idx < VImageDimension; ++idx)
@@ -236,7 +237,6 @@ void RawImageIO<TPixel,VImageDimension>
   this->OpenFileForWriting(file);
 
   // Set up for reading
-  this->SetPixelTypeInfo(typeid(PixelType));
   this->ComputeStrides();
   
   // Actually do the writing
