@@ -133,7 +133,7 @@ int main()
 	data = new unsigned char[DEEP*HEIGHT*WIDTH*3];
 	fread(data,1,DEEP*HEIGHT*WIDTH*3,fin);
 */
-	itk::SimpleImageRegionIterator <VectorImage3D> it(inputimg, region);
+	itk::ImageRegionIteratorWithIndex <VectorImage3D> it(inputimg, region);
 	it.Begin();
 
 	int k=0;
@@ -181,7 +181,7 @@ int main()
 	
 	testFuzzy->DoFuzzySegmentation();
 
-	itk::SimpleImageRegionIterator <BinaryImage3D> ot(testFuzzy->GetOutput(), region);
+	itk::ImageRegionIteratorWithIndex <BinaryImage3D> ot(testFuzzy->GetOutput(), region);
 
 	ot.Begin();
 

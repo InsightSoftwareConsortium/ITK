@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 #include "itkPhysicalImage.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageToImageTranslationNormalizedCorrelationGradientDescentRegistration.h"
 
 #include "itkCommandIterationUpdate.h"
@@ -88,9 +88,9 @@ int main()
   imgTarget->Allocate();
 
   /* Fill images with a 2D gaussian*/
-  typedef  itk::SimpleImageRegionIterator<ReferenceType> ReferenceIteratorType;
+  typedef  itk::ImageRegionIteratorWithIndex<ReferenceType> ReferenceIteratorType;
 
-  typedef  itk::SimpleImageRegionIterator<TargetType> TargetIteratorType;
+  typedef  itk::ImageRegionIteratorWithIndex<TargetType> TargetIteratorType;
 
 
   itk::Point<double,2> center;

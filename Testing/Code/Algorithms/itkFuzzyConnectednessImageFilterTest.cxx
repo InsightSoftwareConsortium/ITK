@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 #include "itkFuzzyConnectednessImageFilter.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include <iomanip>
 
 const int WIDTH = 20;
@@ -116,7 +116,7 @@ int main(){
 	 all pre-generated on a Windows Based PC using rand()
 	*/
 
-	itk::SimpleImageRegionIterator <UShortImage2D> it(inputimg, region);
+	itk::ImageRegionIteratorWithIndex <UShortImage2D> it(inputimg, region);
 	it.Begin();
 	int k=0;
 	while( !it.IsAtEnd()) {    
@@ -153,7 +153,7 @@ int main(){
 
 /* printout the segmentation result */
 	std::cout<<"Segmentation Result"<<std::endl;
-	itk::SimpleImageRegionIterator <BinaryImage2D> ot(testFuzzy->GetOutput(), region);
+	itk::ImageRegionIteratorWithIndex <BinaryImage2D> ot(testFuzzy->GetOutput(), region);
 
 	ot.Begin();
 	for(i = 0;i < HEIGHT; i++){

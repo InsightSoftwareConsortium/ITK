@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImage.h"
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkGaussianSupervisedClassifier.h"
 #include "itkMRFImageFilter.h"
 
@@ -85,7 +85,7 @@ int main()
   typedef VecImageType::PixelType::VectorType VecPixelType;
 
   enum { VecImageDimension = VecImageType::ImageDimension };
-  typedef itk::SimpleImageRegionIterator< VecImageType > VecIterator;
+  typedef itk::ImageRegionIteratorWithIndex< VecImageType > VecIterator;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
   outIt.Begin();
@@ -218,7 +218,7 @@ int main()
   // setup the iterators
   typedef ClassImageType::PixelType ClassImagePixelType;
 
-  typedef  itk::SimpleImageRegionIterator<ClassImageType>  ClassImageIterator;
+  typedef  itk::ImageRegionIteratorWithIndex<ClassImageType>  ClassImageIterator;
 
   ClassImageIterator classoutIt( classImage, classImage->GetBufferedRegion() );
 

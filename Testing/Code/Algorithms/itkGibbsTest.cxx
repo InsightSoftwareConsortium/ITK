@@ -5,7 +5,7 @@
 #include "itkImage.h"
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkGaussianSupervisedClassifier.h"
 #include "itkGibbsPriorFilter.h"
 #include <iostream>
@@ -85,7 +85,7 @@ int main(){
   typedef VecImageType::PixelType::VectorType VecPixelType;
 
   enum { VecImageDimension = VecImageType::ImageDimension };
-  typedef itk::SimpleImageRegionIterator< VecImageType > VecIterator;
+  typedef itk::ImageRegionIteratorWithIndex< VecImageType > VecIterator;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
   outIt.Begin();
@@ -130,7 +130,7 @@ int main(){
 
   unsigned int ClassImageDimension = NDIMENSION;
 
-  typedef  itk::SimpleImageRegionIterator<ClassImageType>  ClassImageIterator;
+  typedef  itk::ImageRegionIteratorWithIndex<ClassImageType>  ClassImageIterator;
 
   ClassImageIterator classoutIt( classImage, classImage->GetBufferedRegion() );
 

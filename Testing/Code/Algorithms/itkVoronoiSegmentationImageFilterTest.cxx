@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 #include "itkVoronoiSegmentationImageFilter.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkImage.h"
 #include "vnl/vnl_sample.h"
 #include <stdio.h>
@@ -66,7 +66,7 @@ int main(void){
   inputIMG->Allocate();
 
 
-  itk::SimpleImageRegionIterator <UShortImage> it(inputIMG, region);
+  itk::ImageRegionIteratorWithIndex <UShortImage> it(inputIMG, region);
 
   // background: random field with mean: 500, std: 50
   it.Begin();
@@ -106,7 +106,7 @@ int main(void){
   testVorseg->InitializeSegment();
   testVorseg->ExcuteSegment();
 
-  itk::SimpleImageRegionIterator <UShortImage> ot(testVorseg->GetOutput(), region);
+  itk::ImageRegionIteratorWithIndex <UShortImage> ot(testVorseg->GetOutput(), region);
 
   unsigned short TestImg[65536];
   ot.Begin();
