@@ -90,9 +90,19 @@
 #include "itkVectorContainer.h"
 
 
-int main()
+#include <fstream>
+
+
+int main(int argc, char * argv[] )
 {
 
+  if( argc < 2 ) 
+    {
+    std::cerr << "Missing arguments" << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << "inputFileWithPointCoordinates" << std::endl;
+    return -1;
+    }
     
   //  Software Guide : BeginLatex
   //
@@ -106,86 +116,64 @@ int main()
   typedef vnl_fft_1d< double > FFTCalculator;
   // Software Guide : EndCodeSnippet
 
-  const unsigned int numberOfPoints = 16;
    
+  //  Software Guide : BeginLatex
+  //
+  //  The points representing the curve are stored in a
+  //  \doxygen{VectorContainer} of \doxygen{Point}.
+  //
+  //  Software Guide : EndLatex 
+
+
+  // Software Guide : BeginCodeSnippet
   typedef itk::Point< double, 2 >  PointType;
 
   typedef itk::VectorContainer< unsigned int, PointType >  PointsContainer;
 
   PointsContainer::Pointer points = PointsContainer::New();
-
-  points->Reserve( numberOfPoints );
-
-  typedef PointsContainer::Iterator PointIterator;
-  
-  PointIterator pointItr = points->Begin();
-
-  unsigned int currentPoint = 0;
-
-  PointType point;
-
-  point[0] = 1.0;
-  point[1] = 1.0;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  point[0] = 0.0;
-  point[1] = 0.0;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  pointItr.Value() = point;
-  ++pointItr;
-
-  
+  // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  This type can now be used for constructing one of such filters. Note that
-  //  this is a VNL class and does not follows ITK notation for construction and
-  //  assignment to SmartPointers.
+  //  In this example we read the set of points from a text file.
+  //
+  //  Software Guide : EndLatex 
+
+
+  // Software Guide : BeginCodeSnippet
+  std::ifstream inputFile;
+  inputFile.open( argv[1] );
+
+  if( inputFile.fail() )
+    {
+    std::cerr << "Problems opening file " << argv[1] << std::endl;
+    }
+
+  unsigned int numberOfPoints;
+  inputFile >> numberOfPoints;
+
+  points->Reserve( numberOfPoints );
+
+  typedef PointsContainer::Iterator PointIterator;
+  PointIterator pointItr = points->Begin();
+
+  PointType point;
+  for( unsigned int pt=0; pt<numberOfPoints; pt++)
+    {
+    inputFile >> point[0] >> point[1];
+    pointItr.Value() = point;
+    ++pointItr;
+    }
+  // Software Guide : EndCodeSnippet
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The Fourier Transform type can now be used for constructing one of such
+  //  filters. Note that this is a VNL class and does not follows ITK notation
+  //  for construction and assignment to SmartPointers.
   //
   //  Software Guide : EndLatex 
 
@@ -209,11 +197,20 @@ int main()
   // Software Guide : BeginCodeSnippet
   typedef vcl_complex<double>   FFTCoefficientType;
   typedef vcl_vector< FFTCoefficientType > FFTSpectrumType;
+  // Software Guide : EndCodeSnippet
 
 
-  // The choice of the spectrum size is very important
-  const unsigned int spectrumSize = 32;
 
+   
+  //  Software Guide : BeginLatex
+  //
+  // The choice of the spectrum size is very important. Here we select to use
+  // the next power of two that is larger than the number of points.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  const unsigned int spectrumSize = 1 << (int)ceil(log(numberOfPoints)/log(2.0)) ;
 
   FFTSpectrumType signal( spectrumSize );  
 
@@ -223,8 +220,21 @@ int main()
     signal[p] = (pointItr.Value())[0];   // X coordinate
     ++pointItr;
     }
+  // Software Guide : EndCodeSnippet
 
-  // Fill in the rest of the input with zeros.
+
+
+   
+  //  Software Guide : BeginLatex
+  //
+  // Fill in the rest of the input with zeros. This padding may have
+  // undesirable effects on the spectrum if the signal is not attenuated to
+  // zero close to their boundaries. Instead of zero-padding we could have used
+  // repetition of the last value or mirroring of the signal.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   for(unsigned int pad=numberOfPoints; pad<spectrumSize; pad++)
     {
     signal[pad] = 0.0;
@@ -232,20 +242,31 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
+
+
   //  Software Guide : BeginLatex
   //
   //  Now we print out the signal as it is passed to the transform calculator
   //
   //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   std::cout << "Input to the FFT transform" << std::endl;
   for(unsigned int s=0; s<spectrumSize; s++)
     {
     std::cout << s << " : ";
     std::cout << signal[s] << std::endl;
     }
+  // Software Guide : EndCodeSnippet
 
 
 
+  //  Software Guide : BeginLatex
+  //
+  //  The actual transform is computed by invoking the \code{fwd_transform}
+  //  method in the FFT calculator class.
+  //
+  //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   fftCalculator.fwd_transform( signal );
@@ -259,6 +280,8 @@ int main()
   //  Now we print out the results of the transform.
   //
   //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   std::cout << std::endl;
   std::cout << "Result from the FFT transform" << std::endl;
   for(unsigned int k=0; k<spectrumSize; k++)
@@ -266,7 +289,7 @@ int main()
     std::cout << k << " : ";
     std::cout << signal[k] << std::endl;
     }
-
+  // Software Guide : EndCodeSnippet
 
 
   return 0;
