@@ -17,6 +17,7 @@
 #include "itkSimpleImageRegionIterator.h"
 #include "itkImage.h"
 #include "vnl/vnl_sample.h"
+#include <stdio.h>
 
 const int WIDTH = 256;
 const int HEIGHT = 256;
