@@ -66,10 +66,10 @@ public:
   
   /** Globaldata methods are not needed in this class. */
   virtual void *GetGlobalDataPointer() const {return 0;}
-  virtual void ReleaseGlobalDataPointer(void *GlobalData) const {};
+  virtual void ReleaseGlobalDataPointer(void*) const {};
   
   /** For the global time step, we return the time step parameter. */
-  virtual TimeStepType ComputeGlobalTimeStep (void *GlobalData) const
+  virtual TimeStepType ComputeGlobalTimeStep (void*) const
   { return m_TimeStep; }
 
   /** Sets the time step. */

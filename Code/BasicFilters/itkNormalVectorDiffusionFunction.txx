@@ -157,8 +157,7 @@ template <class TSparseImageType>
 typename NormalVectorDiffusionFunction <TSparseImageType>::NormalVectorType
 NormalVectorDiffusionFunction <TSparseImageType>
 ::ComputeSparseUpdate (NeighborhoodType &it,
-                       void *globalData,
-                       const FloatOffsetType &offset) const
+                       void*, const FloatOffsetType&) const
 {
   int i;
   NormalVectorType change;
