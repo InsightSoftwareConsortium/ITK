@@ -28,13 +28,15 @@ OnePlusOneEvolutionaryOptimizer
 ::OnePlusOneEvolutionaryOptimizer()
 {
   m_Maximize = false;
-  m_Initialized = false ;
   m_Epsilon = (double) 1.5e-4  ; 
   m_RandomGenerator = 0 ;
-  m_MaximumIteration = 20 ;
-  m_InitialRadius = 1;
-  m_GrowthFactor = 1.05;
+
+  m_Initialized = false ;
+  m_GrowthFactor = 1.05 ;
   m_ShrinkFactor = pow(m_GrowthFactor, -0.25) ;
+  m_InitialRadius = 1.01 ;
+  m_MaximumIteration = 100 ;
+  m_Stop = false ;
   m_CurrentCost = 0;
   m_CurrentIteration = 0;
 }
@@ -71,8 +73,6 @@ OnePlusOneEvolutionaryOptimizer
     m_ShrinkFactor = pow(m_GrowthFactor, -0.25) ;
   else
     m_ShrinkFactor = shrink ;
-
-  m_Initialized = true ;
 }
 
 void
@@ -80,15 +80,17 @@ OnePlusOneEvolutionaryOptimizer
 ::StartOptimization()
 {
   
-  if( m_CostFunction.IsNull() || !m_Initialized )
+  if( m_CostFunction.IsNull() )
     {
       return ;
     }
 
   this->InvokeEvent( StartEvent() );
   m_Stop = false ;
-  double pvalue, cvalue, adjust ;
-  double fro_norm ;
+  double pvalue = 0.0 ;
+  double cvalue = 0.0 ;
+  double adjust = 0.0 ;
+  double fro_norm = 0.0 ;
 
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
@@ -98,10 +100,14 @@ OnePlusOneEvolutionaryOptimizer
   vnl_vector<double> f_norm(spaceDimension);
   vnl_vector<double> child(spaceDimension);
   vnl_vector<double> delta(spaceDimension);
+  
+  vnl_vector<double> scaledDelta(spaceDimension) ;
+
+  ScalesType scales = this->GetScales() ;
 
   for(unsigned int i = 0  ; i < spaceDimension ; i++) 
     {
-      A(i,i) = m_InitialRadius ;
+      A(i,i) = m_InitialRadius / scales[i] ;
     }
   //m_BiasField->SetCoefficients(parent) ;
 
@@ -112,9 +118,9 @@ OnePlusOneEvolutionaryOptimizer
       parentPosition[i] = parent[i];
     }
 
+  itkDebugMacro(<< ": initial position: " << parentPosition) ; 
   pvalue = m_CostFunction->GetValue(parentPosition);
   this->SetCurrentPosition(parentPosition) ;
-  ScalesType scales = this->GetScales() ;
   m_CurrentIteration = 0 ;
   for (unsigned int iter = 0 ; iter < m_MaximumIteration ; iter++) 
     {
@@ -127,10 +133,11 @@ OnePlusOneEvolutionaryOptimizer
 
       for (unsigned int i=0 ; i < spaceDimension ; i++) 
         {
-          f_norm[i] = m_RandomGenerator->GetVariate() / scales[i] ;
+          f_norm[i] = m_RandomGenerator->GetVariate() ;
         }
 
       delta  = A * f_norm ;
+
       child  = parent + delta ;
 
       ParametersType childPosition( spaceDimension );
@@ -210,9 +217,34 @@ OnePlusOneEvolutionaryOptimizer
       // vector and A is an m by n matrix.
       // x = A * f_norm , y = f_norm, alpha = (adjust - 1) / Blas_Dot_Prod(
       // f_norm, f_norm)
-      A = A + (adjust - 1.0) * A ;
-    this->InvokeEvent( IterationEvent() );   
-  }
+
+      //A = A + (adjust - 1.0) * A ;
+      double alpha = ((adjust - 1.0) / dot_product(f_norm, f_norm)) ;
+      double temp ; 
+      for ( unsigned int c = 0 ; c < spaceDimension ; c++ )
+        {
+          if ( f_norm[c] != 0.0 )
+            { 
+              temp = alpha * f_norm[c] ;
+            }
+
+          for (unsigned int r = 0 ; r < spaceDimension ; r++)
+            {
+              A(c, r) += alpha * delta[r] * temp ;
+            }
+        }
+      //      A = A + tempA ;
+
+//       double temp = 0.0 ;
+//       for (unsigned int r = 0 ; r < spaceDimension ; r++)
+//         {
+//           temp += x[r] * y[r] ;
+//         }
+//       A = alpha*temp + A ;
+//       itkDebugMacro( << " Weight matrix: " << std::endl << A) ;
+      this->InvokeEvent( IterationEvent() );   
+      itkDebugMacro(<< "Current position: " << this->GetCurrentPosition()) ;
+    }
   this->InvokeEvent( EndEvent() );
   
 }
