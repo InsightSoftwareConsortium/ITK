@@ -57,15 +57,11 @@ GrayscaleMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>
 template<class TInputImage, class TOutputImage, class TKernel>
 void
 GrayscaleMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                       int threadId) 
+::GenerateData()
 {
+  // Allocate the outputs
   this->AllocateOutputs();
   
-  typename TOutputImage::Pointer output = this->GetOutput();
-  output->SetBufferedRegion(output->GetRequestedRegion());
-  output->Allocate();
-
   /** set up erosion and dilation methods */
   typename GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::Pointer
     dilate = GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::New();
@@ -80,39 +76,29 @@ GrayscaleMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>
   /** set up the minipipeline */
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
-  progress->RegisterInternalFilter(erode, 1.0f);
-  progress->RegisterInternalFilter(dilate, 1.0f);
+  progress->RegisterInternalFilter(erode, .5f);
+  progress->RegisterInternalFilter(dilate, .5f);
   
   erode->SetInput( this->GetInput() );
   dilate->SetInput( erode->GetOutput() );
-  dilate->GraftOutput( output );
+  dilate->GraftOutput( this->GetOutput() );
 
   /** execute the minipipeline */
   dilate->Update();
 
   /** graft the minipipeline output back into this filter's output */
-  this->GraftOutput( output );
+  this->GraftOutput( this->GetOutput() );
 }
 
 template<class TInputImage, class TOutputImage, class TKernel>
 typename GrayscaleMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 GrayscaleMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>
-::Evaluate(const NeighborhoodIteratorType &nit,
-           const KernelIteratorType kernelBegin,
-           const KernelIteratorType kernelEnd)
+::Evaluate(const NeighborhoodIteratorType &,
+           const KernelIteratorType ,
+           const KernelIteratorType )
 {
   PixelType max = NumericTraits<PixelType>::NonpositiveMin();
   return max ;
-}
-
-
-template<class TInputImage, class TOutputImage, class TKernel>
-void
-GrayscaleMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-
 }
 
 

@@ -92,11 +92,9 @@ protected:
   /** GrayscaleMorphologicalClosingImageFilter will produce the entire output. */
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
 
-
-  /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData (const OutputImageRegionType& 
-                              outputRegionForThread,
-                              int threadId) ;
+  /** Single-threaded version of GenerateData.  This filter delegates
+   * to GrayscaleDilateImageFilter GrayscaleErodeImageFilter. */
+  void  GenerateData ();
 
   /** Evaluate image neighborhood with kernel to find the new value 
    * for the center pixel value
@@ -107,10 +105,6 @@ protected:
   PixelType Evaluate(const NeighborhoodIteratorType &nit,
                      const KernelIteratorType kernelBegin,
                      const KernelIteratorType kernelEnd);
-
-
-  /** Print out internal state */
-  void PrintSelf ( std::ostream& os, Indent indent ) const;
 
 
 private:

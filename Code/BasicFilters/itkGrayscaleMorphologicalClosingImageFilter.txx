@@ -57,13 +57,10 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
 template<class TInputImage, class TOutputImage, class TKernel>
 void
 GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                       int threadId) 
+::GenerateData()
 {
+  // Allocate the outputs
   this->AllocateOutputs();
-  typename TOutputImage::Pointer output = this->GetOutput();
-  output->SetBufferedRegion(output->GetRequestedRegion());
-  output->Allocate();
 
   /** set up erosion and dilation methods */
   typename GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::Pointer
@@ -73,47 +70,37 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
     erode = GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::New();
 
   dilate->SetKernel( this->GetKernel() );
+  dilate->ReleaseDataFlagOn();
   erode->SetKernel( this->GetKernel() );
   erode->ReleaseDataFlagOn();
   
   /** set up the minipipeline */
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
-  progress->RegisterInternalFilter(erode, 1.0f);
-  progress->RegisterInternalFilter(dilate, 1.0f);
+  progress->RegisterInternalFilter(erode, .5f);
+  progress->RegisterInternalFilter(dilate, .5f);
   
   dilate->SetInput( this->GetInput() );
   erode->SetInput(  dilate->GetOutput() );
-  erode->GraftOutput( output );
+  erode->GraftOutput( this->GetOutput() );
 
   /** execute the minipipeline */
   erode->Update();
 
   /** graft the minipipeline output back into this filter's output */
-  this->GraftOutput( output );
+  this->GraftOutput( erode->GetOutput() );
 }
 
 template<class TInputImage, class TOutputImage, class TKernel>
 typename GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
-::Evaluate(const NeighborhoodIteratorType &nit,
-           const KernelIteratorType kernelBegin,
-           const KernelIteratorType kernelEnd)
+::Evaluate(const NeighborhoodIteratorType &,
+           const KernelIteratorType ,
+           const KernelIteratorType )
 {
   PixelType max = NumericTraits<PixelType>::NonpositiveMin();
   return max ;
 }
-
-
-template<class TInputImage, class TOutputImage, class TKernel>
-void
-GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-
-}
-
 
 }// end namespace itk
 #endif
