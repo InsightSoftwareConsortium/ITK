@@ -16,7 +16,7 @@
 #ifndef __itkLBFGSOptimizer_h
 #define __itkLBFGSOptimizer_h
 
-#include "itkNonLinearOptimizer.h"
+#include "itkSingleValuedNonLinearOptimizer.h"
 #include "vnl/algo/vnl_lbfgs.h"
 
 namespace itk
@@ -27,9 +27,9 @@ namespace itk
  *
  */
 
-template <class TMetric>
+template <class TCostFunction>
 class ITK_EXPORT LBFGSOptimizer : 
-    public NonLinearOptimizer<TMetric> 
+    public SingleValuedNonLinearOptimizer<TCostFunction> 
 
 {
 public:
@@ -41,7 +41,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   NonLinearOptimizer<TMetric> Superclass;
+  typedef   SingleValuedNonLinearOptimizer<TCostFunction> Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -55,7 +55,7 @@ public:
    * Run-time type information (and related methods).
    */
   itkTypeMacro( LBFGSOptimizer, 
-      NonLinearOptimizer );
+      SingleValuedNonLinearOptimizer );
 
 
   /**
@@ -64,12 +64,24 @@ public:
   itkNewMacro(Self);
   
 
+
+  /**
+   * Internal Optimizer Type
+   */
+  typedef   vnl_lbfgs       InternalOptimizerType;
+
+
+
   /**
    * Method for getting access to the internal optimizer
    */
-  vnl_lbfgs & GetOptimizer(void);
+  InternalOptimizerType & GetOptimizer(void);
 
-
+  /**
+   * Start optimization with an initial value
+   */
+  void StartOptimization( VectorType & );
+ 
 protected:
 
   LBFGSOptimizer();
@@ -77,7 +89,7 @@ protected:
   LBFGSOptimizer(const Self&) {}
   void operator=(const Self&) {}
 
-  vnl_lbfgs     m_LBFGS;
+  InternalOptimizerType     m_LBFGS;
 
 };
 

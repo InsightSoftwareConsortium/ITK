@@ -21,10 +21,10 @@ namespace itk
 /**
  * Constructor
  */
-template <class TMetric>
-LBFGSOptimizer<TMetric>
+template <class TCostFunction>
+LBFGSOptimizer<TCostFunction>
 ::LBFGSOptimizer():
-  m_LBFGS( m_MetricCostFunction )
+  m_LBFGS( m_CostFunctionAdaptor )
 {
 }
 
@@ -32,13 +32,27 @@ LBFGSOptimizer<TMetric>
 /**
  * Get the Optimizer
  */
-template <class TMetric>
+template <class TCostFunction>
 vnl_lbfgs & 
-LBFGSOptimizer<TMetric>
+LBFGSOptimizer<TCostFunction>
 ::GetOptimizer()
 {
   return m_LBFGS;
 }
+
+
+
+/**
+ * Start the optimization
+ */
+template <class TCostFunction>
+void
+LBFGSOptimizer<TCostFunction>
+::StartOptimization( VectorType & initialValue )
+{
+  m_LBFGS.minimize( initialValue );
+}
+
 
 
 } // end namespace itk
