@@ -436,11 +436,17 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     extend[2] = (int) x[2];
 
     f = normals.Value();
-    max = abs(f[0]);
+    max = vnl_math_abs(f[0]);
 
   /* All the movements in the z direction are now disabled for further testing. */
-    if ( abs(f[1]) > max ) max = abs(f[1]);
-    if ( abs(f[2]) > max ) max = abs(f[2]);
+    if ( vnl_math_abs(f[1]) > max ) 
+      {
+      max = vnl_math_abs(f[1]);
+      }
+    if ( vnl_math_abs(f[2]) > max ) 
+      {
+      max = vnl_math_abs(f[2]);
+      }
     n[0] = f[0]/max;
     n[1] = f[1]/max;
     n[2] = f[2]/max;
@@ -600,11 +606,18 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     extend[2] = (int) x[2];
 
     f = normals.Value();
-    max = abs(f[0]);
+    max = vnl_math_abs(f[0]);
 
     /* All the movements in the z direction are now disabled for further testing. */
-    if ( abs(f[1]) > max ) max = abs(f[1]);
-    if ( abs(f[2]) > max ) max = abs(f[2]);
+    if ( vnl_math_abs(f[1]) > max )
+      {
+      max = vnl_math_abs(f[1]);
+      }
+    if ( vnl_math_abs(f[2]) > max )
+      {
+      max = vnl_math_abs(f[2]);
+      }
+
     n[0] = f[0]/max;
     n[1] = f[1]/max;
     n[2] = f[2]/max;
@@ -2277,7 +2290,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     l++;
     }
 
-  distance = abs(distance/m_YResolution);
+  distance = vnl_math_abs(distance/m_YResolution);
 
   if (distance > m_SliceDistanceThreshold) 
     {
