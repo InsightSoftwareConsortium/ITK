@@ -88,23 +88,39 @@ public:
   
   /** Plug in the actual sample data */
   void SetSample(TSample* sample) ;
-  
+
+  /** Returns the source sample pointer */
   TSample* GetSample() ;
   
+  /** Sets the number of classes (class labels) */
   void SetNumberOfClasses(unsigned int numberOfClasses) ;
   
+  /** Gets the number of classes (class labels) */
   unsigned int GetNumberOfClasses() const ;
 
+  /** Adds an instance from the source sample to this container. The
+   * first argument is the class label for that instance. The second
+   * argument is the instance identifier from the source identifier that
+   * is going to be included this container. */
   void AddInstance(const unsigned int &classLabel, const InstanceIdentifier &id) ;
-  
+  /** Gets the class label for the instance that has the instance
+   *   identifier, id. */
   unsigned int GetClassLabel(const InstanceIdentifier &id) const ;
 
+  /** Gets the internal continuous class label from the class labels that
+   *   are used for AddInstance method. */ 
   int GetInternalClassLabel(const unsigned int classLabel ) const ;
 
+  /** Gets the number of instances that belong to the class label in
+   *   this container */
   unsigned int GetClassSampleSize(const unsigned int &classLabel) const ;
 
+  /** Gets the Subsample that includes only the instances that belongs
+   *   to the classLabel */
   ClassSampleType* GetClassSample(const unsigned int &classLabel) ;
   
+  /** Gets the class labels that corresponding to the each instance in
+   *   this container. */
   ClassLabelHolderType* GetClassLabels()
   { return &m_ClassLabelHolder ; }
 
@@ -163,6 +179,9 @@ public:
     InstanceIdentifier GetInstanceIdentifier() const
     { return m_Id ; }
 
+    void SetClassLabel(unsigned int classLabel)
+    { m_MembershipSample->AddInstance(classLabel, m_Id) ; }
+
     unsigned int GetClassLabel() const
     { return m_MembershipSample->GetClassLabel(m_Id) ; }
 
@@ -178,11 +197,11 @@ public:
           m_MembershipSample != it.m_MembershipSample ||
           m_Sample != it.m_Sample)
         {
-          return true ;
+        return true ;
         }
       else
         {
-          return false ;
+        return false ;
         }
     }
 
@@ -192,11 +211,11 @@ public:
           m_MembershipSample == it.m_MembershipSample &&
           m_Sample == it.m_Sample)
         {
-          return true ;
+        return true ;
         }
       else
         {
-          return false ;
+        return false ;
         }
     }
     
