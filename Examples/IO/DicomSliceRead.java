@@ -24,8 +24,8 @@ public class DicomSliceRead
     
     reader.SetImageIO( dicomIO.GetPointer() );
     
-    filter.SetOutputMinimum( 0 );
-    filter.SetOutputMaximum(255);
+    filter.SetOutputMinimum( (short)0 );
+    filter.SetOutputMaximum( (short) 255);
 
     reader.SetFileName( argv[0] );
     writer.SetFileName( argv[1] );
