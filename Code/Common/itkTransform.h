@@ -230,12 +230,6 @@ protected:
   Transform(const Self&);
   const Self & operator=(const Self&);
 
-private:
-
-  /**
-   *  List of parameters that unambiguosly define the transformation
-   */  
-  ParametersType                      m_Parameters;
 
   /**
    * Jacobian matrix of the transformation. It is used to compute
@@ -243,6 +237,14 @@ private:
    */
   mutable JacobianType                m_Jacobian;     
 
+
+
+private:
+
+  /**
+   *  List of parameters that unambiguosly define the transformation
+   */  
+  ParametersType                      m_Parameters;
 
 };
 
