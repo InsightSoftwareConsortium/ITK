@@ -268,12 +268,13 @@ ScaleTransform<ScalarType, NDimensions>
 {
   
   m_Jacobian.Fill(0);
-  m_Jacobian(0,0) = p[0];
-  m_Jacobian(1,1) = p[1];
-  m_Jacobian(2,2) = p[2];
+  for(unsigned int dim=0; dim<SpaceDimension; dim++)
+    {
+    m_Jacobian(dim,dim) = p[dim];
+    }
   return m_Jacobian;
+}
 
- }
 
 } // namespace
 
