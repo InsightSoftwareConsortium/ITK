@@ -346,14 +346,14 @@ public:
   virtual const char* GetClassName() const { return "WrapperSet"; }
   virtual TypeOfObject GetTypeOfObject() const { return WrapperSet_id; }
   
-  static Pointer New();
+  static Pointer New(const String&);
   
   typedef Set::ElementContainer  ElementContainer;
   typedef Set::Iterator          Iterator;
   typedef Set::ConstIterator     ConstIterator;
   
 protected:
-  WrapperSet(): Set("") {}
+  WrapperSet(const String& name): Set(name) {}
   WrapperSet(const Self&): Set("") {}
   void operator=(const Self&) {}
   virtual ~WrapperSet() {}
@@ -408,6 +408,8 @@ public:
   static Pointer New(const String&, const String&, Namespace*);
   
   SmartPointer<PackageNamespace> MakePackageNamespace(Namespace*) const;
+
+  String GetQualifiedName() const;
   
   bool AddField(Named*);
   
@@ -446,11 +448,6 @@ private:
   QualifiersConstIterator Next(QualifiersConstIterator) const;
 protected:
   typedef std::map<String, Named::Pointer>  Fields;
-  
-  /**
-   * The name of this namespace.
-   */
-  String m_Name;
   
   /**
    * The prefix-separator of this namespace.  This is used when an output

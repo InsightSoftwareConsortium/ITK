@@ -236,9 +236,9 @@ Set
  */
 WrapperSet::Pointer
 WrapperSet
-::New()
+::New(const String& name)
 {
-  return new WrapperSet;
+  return new WrapperSet(name);
 }
 
 
@@ -303,6 +303,23 @@ Namespace
   return pns;
 }
   
+
+/**
+ * Return the fully qualified name of this namespace.
+ */
+String
+Namespace
+::GetQualifiedName() const
+{
+  String name = "";
+  if(m_EnclosingNamespace)
+    {
+    name = m_EnclosingNamespace->GetQualifiedName() + "::";
+    }
+  name += this->GetName();
+  return name;
+}
+
 
 /**
  * Add a new Named entity to this Namespace's fields.

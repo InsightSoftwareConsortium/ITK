@@ -981,10 +981,12 @@ Parser
  */
 void
 Parser
-::begin_WrapperSet(const Attributes&)
+::begin_WrapperSet(const Attributes& atts)
 {
+  String name = atts.Get("name");
+  
   // Create a new WrapperSet.
-  WrapperSet::Pointer newWrapperSet = WrapperSet::New();
+  WrapperSet::Pointer newWrapperSet = WrapperSet::New(name);
     
   // Save the WrapperSet.
   this->CurrentPackageNamespaceScope()->AddWrapperSet(newWrapperSet);
