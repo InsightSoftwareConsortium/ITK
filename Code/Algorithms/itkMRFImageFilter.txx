@@ -43,7 +43,8 @@ MRFImageFilter<TInputImage,TClassifiedImage>
   m_MRFNeighborhoodWeight.resize(0);
   m_NeighborInfluence.resize(0);
   m_DummyVector.resize(0);
-  SetMRFNeighborhoodWeight( m_DummyVector );
+  this->SetMRFNeighborhoodWeight( m_DummyVector );
+  this->SetDefaultMRFNeighborhoodWeight();
 }
 
 template<class TInputImage, class TClassifiedImage>
@@ -339,7 +340,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   if( betaMatrix.size() == 0 )
     {
     //Call a the function to set the default neighborhood
-    SetDefaultMRFNeighborhoodWeight();
+    this->SetDefaultMRFNeighborhoodWeight();
     }
   else
     {
