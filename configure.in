@@ -722,6 +722,7 @@ Testing/Utilities/Utility.conf
 Testing/Utilities/Utility.tcl
 Testing/Utilities/DashboardManager.tcl
 Testing/Utilities/Test.tcl
+Testing/Utilities/Purify.tcl
 Testing/Utilities/Submit.tcl
 Testing/Utilities/Coverage.tcl
 Testing/Utilities/ftp.tcl
