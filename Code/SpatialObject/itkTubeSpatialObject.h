@@ -21,7 +21,7 @@
 #include <list>
 
 #include "itkSpatialObject.h"
-#include "itkTubePoint.h"
+#include "itkTubeSpatialObjectPoint.h"
 
 namespace itk 
 {
@@ -35,7 +35,7 @@ namespace itk
 * of a TubeSpatialObjectNet Object. A tube is also identified by an id number when connected
 * to a network.
 *
-* \also TubePoint TubeNetworkSpatialObject 
+* \also TubeSpatialObjectPoint TubeNetworkSpatialObject 
 */
 
 template < unsigned int TDimension = 3 , unsigned int PipelineDimension = 3 >
@@ -48,100 +48,68 @@ class TubeSpatialObject
 
 public:
 
-    typedef TubeSpatialObject                           Self;
-    typedef SpatialObject< TDimension, 
-                           AffineTransform< double, TDimension>,
-                           PipelineDimension
-                           >                            Superclass;
-    typedef SmartPointer < Self >                       Pointer;
-    typedef SmartPointer < const Self >                 ConstPointer;
-    typedef double                                      ScalarType;
-    typedef unsigned int                                IdentifierType;
-    typedef TubePoint< TDimension >                     TubePointType;
-    typedef typename TubePointType::Pointer             TubePointPointer; 
-    typedef std::list < TubePointPointer >              PointListType;
-    typedef PointListType *                             PointListPointer;
-    typedef typename Superclass::PointType              PointType;
-    typedef VectorContainer<unsigned long,PointType>    PointContainerType;
-    typedef SmartPointer<PointContainerType>            PointContainerPointer;
+  typedef TubeSpatialObject                           Self;
+  typedef SpatialObject< TDimension, 
+                         AffineTransform< double, TDimension>,
+                         PipelineDimension
+                       >                              Superclass;
+  typedef SmartPointer < Self >                       Pointer;
+  typedef SmartPointer < const Self >                 ConstPointer;
+  typedef double                                      ScalarType;
+  typedef itk::TubeSpatialObjectPoint< TDimension >   TubePointType;
+  typedef typename TubePointType::Pointer             TubePointPointer; 
+  typedef std::list < TubePointPointer >              PointListType;
+  typedef PointListType *                             PointListPointer;
+  typedef typename Superclass::PointType              PointType;
+  typedef VectorContainer<unsigned long,PointType>    PointContainerType;
+  typedef SmartPointer<PointContainerType>            PointContainerPointer;
 
-    /** 
-    * Method for creation through the object factory. 
-    */
-    itkNewMacro( Self );
+  /** Method for creation through the object factory. */
+  itkNewMacro( Self );
 
-    /** 
-    * Method for creation through the object factory. 
-    */
-    itkTypeMacro( Self, Superclass );
+  /** Method for creation through the object factory. */
+  itkTypeMacro( Self, Superclass );
+    
+  /** Returns a reference to the list of the tube points.*/
+  PointListPointer GetPoints( void ) const;
 
-    /** 
-    * Get the identifier of the tube.
-    */
-    IdentifierType GetId( void ) const;
+  /** Set the list of tube points.*/
+  void SetPoints( PointListPointer newPoints );
 
-    /** 
-    * Set the tube identifier.
-    */
-    void SetId( const IdentifierType newId );
+  /** Calculate the normalized tangent, and orthogonal 
+   *  vector of the tube.*/
+  bool CalcTangent( void );
 
-    /** 
-    * Returns a reference to the list of the tube points.
-    */
-    PointListPointer GetPoints( void ) const;
+  /** Returns true if the tube is evaluable at the requested point, 
+   *  false otherwise. */
+  bool IsEvaluableAt( const PointType & point );
 
-    /** 
-    * Set the list of tube points.
-    */
-    void SetPoints( PointListPointer newPoints );
+  /** Returns the value of the tube at that point.
+   *  Currently this function returns a binary value,
+   *  but it might want to return a degree of membership
+   *  in case of fuzzy tubes. */
+  void ValueAt( const PointType & point, double & value );
 
-    /**
-    * Calculate the normalized tangent, and orthogonal vector of the tube.
-    */
-    bool CalcTangent( void );
+  /** Returns true if the point is inside the tube, false otherwise. */
+  bool IsInside( const PointType & point );
 
-    /**
-    * Returns true if the tube is evaluable at the requested point, 
-    * false otherwise.
-    */
-    bool IsEvaluableAt( const PointType & point );
+  /** Compute the boundaries of the tube. */
+  void ComputeBounds( void );
 
-    /**
-    * Returns the value of the tube at that point.
-    * Currently this function returns a binary value,
-    * but it might want to return a degree of membership
-    * in case of fuzzy tubes.
-    */
-    void ValueAt( const PointType & point, double & value );
-
-    /**
-    * Returns true if the point is inside the tube, false otherwise.
-    */
-    bool IsInside( const PointType & point );
-
-    /**
-    * Compute the boundaries of the tube.
-    */
-    void ComputeBounds( void );
-
-    /**
-    * Return the last modified time of the object, and all of its components
-    */
-    unsigned long GetMTime( void ) const;
+  /** Return the last modified time of the object, 
+   *  and all of its components */
+  unsigned long GetMTime( void ) const;
 
 protected:
 
-    unsigned int      m_Id;
-    PointListPointer  m_Points;
-    TimeStamp         m_BoundsMTime; 
+  PointListPointer  m_Points;
+  TimeStamp         m_BoundsMTime; 
 
-    TubeSpatialObject();
-    virtual ~TubeSpatialObject();
+  TubeSpatialObject();
+  virtual ~TubeSpatialObject();
 
-    /**
-    * Method to print the object.
-    */
-    virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  /** Method to print the object.*/
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 };
 
 } // end namespace itk
