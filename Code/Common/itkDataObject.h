@@ -139,9 +139,9 @@ public:
   /**
    * Enums used to describe the extent types.
    */
-  typedef enum {ITK_UNSTRUCTURED_EXTENT,ITK_STRUCTURED_EXTENT} ExtentType;
+  typedef enum {ITK_UNSTRUCTURED_REGION,ITK_STRUCTURED_REGION} RegionType;
   
-  virtual int GetExtentType() = 0;
+  virtual int GetRegionType() = 0;
   virtual void PrepareForNewData() 
     {this->Initialize();};
   void DataHasBeenGenerated();
@@ -150,10 +150,10 @@ public:
   virtual unsigned long GetEstimatedMemorySize();
   virtual unsigned long GetActualMemorySize();
 
-  virtual void SetUpdateExtentToWholeExtent() = 0;
+  virtual void SetRequestedRegionToLargestPossibleRegion() = 0;
   virtual void CopyInformation(DataObject *data) = 0;
-  virtual bool UpdateExtentIsOutsideOfTheExtent() = 0;
-  virtual bool VerifyUpdateRegion() = 0;
+  virtual bool RequestedRegionIsOutsideOfTheBufferedRegion() = 0;
+  virtual bool VerifyRequestedRegion() = 0;
 
   /** 
    * Handle the source/data loop. 
@@ -176,10 +176,11 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent);
 
   // Was the update extent propagated down the pipeline
-  bool m_LastUpdateExtentWasOutsideOfTheExtent;
+  bool m_LastRequestedRegionWasOutsideOfTheBufferedRegion;
 
-  // First update, the update extent will be set to the whole extent.
-  bool m_UpdateExtentInitialized;  
+  // First update, the update region will be set to the largest possible
+  // region.
+  bool m_RequestedRegionInitialized;  
 
 private:
   ProcessObject *m_Source; ///Who generated this data as output?
@@ -194,7 +195,7 @@ private:
   unsigned long m_PipelineMTime;
 
   // A guess at how much memory would be consumed by the data object
-  // if the WholeExtent were updated.
+  // if the LargestPossibleRegion were updated.
   unsigned long m_EstimatedWholeMemorySize;
 
   // How many upstream filters are local to the process.

@@ -194,10 +194,10 @@ public:
   virtual void Update();
 
   /** 
-   * Like update, but make sure the update extent is the whole extent in
-   * the output.
+   * Like update, but make sure the requested region is the largest possible
+   * region the output.
    */
-  virtual void UpdateWholeExtent();
+  virtual void UpdateLargestPossibleRegion();
 
   /** 
    * Updates any global information about the data 
@@ -205,7 +205,7 @@ public:
   virtual void UpdateOutputInformation();
 
   /** 
-   * Send the update extent down the pipeline 
+   * Send the requested region down the pipeline 
    */
   virtual void PropagateRequestedRegion(DataObject *output);
 
@@ -240,15 +240,15 @@ public:
    * Give the source a chance to say that it will produce more output
    * than it was asked to produce. For example, FFT always produces the
    * whole thing, and many imaging filters must produce the output in
-   * whole slices (whole extent in two dimensions). By default we do not
-   * modify the output update extent. 
+   * whole slices (in two dimensions). By default we do not modify 
+   * the size of the output requested region. 
    */
   virtual void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)){};
   
   /** 
-   * What is the input update extent that is required to produce the
-   * desired output? By default, the whole input is always required but
-   * this is overridden in many subclasses. 
+   * What is the input requested region that is required to produce the
+   * desired output? By default, the largest possible region is always 
+   * required but this is overridden in many subclasses. 
    */
   virtual void GenerateInputRequestedRegion( DataObject *output );
 

@@ -40,9 +40,10 @@ Mesh<TPixelType,TMeshType>
     os << indent << "Number of explicet cell boundary assignments: " 
        << m_BoundaryAssignmentsContainers.size() << std::endl;
 
-  os << indent << "Update Number Of Pieces: " << m_UpdateNumberOfPieces << std::endl;
-  os << indent << "Update Piece: " << m_UpdatePiece << std::endl;
-  os << indent << "Maximum Number Of Pieces: " << m_MaximumNumberOfPieces << std::endl;
+  os << indent << "Update Number Of Regions: " << m_UpdateNumberOfRegions 
+     << std::endl;
+  os << indent << "Update Requested Region: " << m_UpdateRequestedRegion << std::endl;
+  os << indent << "Maximum Number Of Regions: " << m_MaximumNumberOfRegions << std::endl;
 
 }
 
@@ -1178,13 +1179,14 @@ Mesh<TPixelType,TMeshType>
   m_PointLocator = PointLocatorType::New();
   m_BoundingBox  = BoundingBoxType::New();
   
-  // If we used pieces instead of 3D extent, then assume this object was
-  // created by the user and this is piece 0 of 1 pieces.
-  m_Piece          =  0;
-  m_NumberOfPieces =  1;
-  m_UpdatePiece          =   0;
-  m_UpdateNumberOfPieces =   1;
-  m_MaximumNumberOfPieces = 1;
+  // If we used unstructured regions instead of structured regions, then 
+  // assume this object was created by the user and this is region 0 of 
+  // 1 region.
+  m_RequestedRegion          =  0;
+  m_NumberOfRegions =  1;
+  m_RequestedRegion      =   0;
+  m_UpdateNumberOfRegions =   1;
+  m_MaximumNumberOfRegions = 1;
 
 }
 
@@ -1200,25 +1202,26 @@ Mesh<TPixelType,TMeshType>
     this->GetSource()->UpdateOutputInformation();
     }
   
-  // Now we should know what our whole extent is. If our update extent
-  // was not set yet, (or has been set to something invalid - with no 
-  // data in it ) then set it to the whole extent.
-  if ( m_UpdatePiece == -1 && m_UpdateNumberOfPieces == 0 )
+  // Now we should know what our largest possible region is. If our 
+  // requested region was not set yet, (or has been set to something 
+  // invalid - with no data in it ) then set it to the largest 
+  // possible region.
+  if ( m_RequestedRegion == -1 && m_UpdateNumberOfRegions == 0 )
     {
-    this->SetUpdateExtentToWholeExtent();
+    this->SetRequestedRegionToLargestPossibleRegion();
     }
   
-  m_LastUpdateExtentWasOutsideOfTheExtent = 0;
+  m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;
 }
 
 //----------------------------------------------------------------------------
 template <typename TPixelType, typename TMeshType>
 void 
 Mesh<TPixelType,TMeshType>
-::SetUpdateExtentToWholeExtent()
+::SetRequestedRegionToLargestPossibleRegion()
 {
-  m_UpdateNumberOfPieces  = 1;
-  m_UpdatePiece           = 0;
+  m_UpdateNumberOfRegions     = 1;
+  m_RequestedRegion           = 0;
 }
 
 //----------------------------------------------------------------------------
@@ -1232,7 +1235,7 @@ Mesh<TPixelType,TMeshType>
   try
     {
     mesh = dynamic_cast<Mesh*>(data);
-    m_MaximumNumberOfPieces = mesh->GetMaximumNumberOfPieces();
+    m_MaximumNumberOfRegions = mesh->GetMaximumNumberOfRegions();
     }
   catch (...)
     {
@@ -1244,12 +1247,12 @@ Mesh<TPixelType,TMeshType>
 template <typename TPixelType, typename TMeshType>
 bool 
 Mesh<TPixelType,TMeshType>
-::UpdateExtentIsOutsideOfTheExtent()
+::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
   unsigned int i;
 
-  if ( m_UpdatePiece != m_Piece ||
-       m_UpdateNumberOfPieces != m_NumberOfPieces )
+  if ( m_UpdateRequestedRegion != m_RequestedRegion ||
+       m_UpdateNumberOfRegions != m_NumberOfRegions )
     {
     return true;
     }
@@ -1260,26 +1263,26 @@ Mesh<TPixelType,TMeshType>
 template <typename TPixelType, typename TMeshType>
 bool 
 Mesh<TPixelType,TMeshType>
-::VerifyUpdateRegion()
+::VerifyRequestedRegion()
 {
   bool retval = true;
   unsigned int i;
 
-  // Are we asking for more pieces than we can get?
-  if ( m_UpdateNumberOfPieces > m_MaximumNumberOfPieces )
+  // Are we asking for more regions than we can get?
+  if ( m_UpdateNumberOfRegions > m_MaximumNumberOfRegions )
     {
     itkErrorMacro( << "Cannot break object into " <<
-    m_UpdateNumberOfPieces << ". The limit is " <<
-    m_MaximumNumberOfPieces );
+    m_UpdateNumberOfRegions << ". The limit is " <<
+    m_MaximumNumberOfRegions );
     retval = false;
     }
 
-  if ( m_UpdatePiece >= m_UpdateNumberOfPieces ||
-       m_UpdatePiece < 0 )
+  if ( m_UpdateRequestedRegion >= m_UpdateNumberOfRegions ||
+       m_UpdateRequestedRegion < 0 )
     {
-    itkErrorMacro( << "Invalid update piece " << m_UpdatePiece
+    itkErrorMacro( << "Invalid update region " << m_UpdateRegion
     << ". Must be between 0 and " 
-    << m_UpdateNumberOfPieces - 1);
+    << m_UpdateNumberOfRegions - 1);
     retval = false;
     }
 

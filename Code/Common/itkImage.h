@@ -348,10 +348,10 @@ public:
   }
 
   virtual void UpdateOutputInformation();
-  virtual void SetUpdateExtentToWholeExtent();
+  virtual void SetRequestedRegionToLargestPossibleRegion();
   virtual void CopyInformation(DataObject *data);
-  virtual bool UpdateExtentIsOutsideOfTheExtent();
-  virtual bool VerifyUpdateRegion();
+  virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
+  virtual bool VerifyRequestedRegion();
 
 protected:
   Image();

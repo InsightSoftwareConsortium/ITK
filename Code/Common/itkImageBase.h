@@ -66,10 +66,10 @@ public:
   void Initialize();
 
   /** 
-   * Return the extent type.
+   * Return the region type.
    */
-  virtual int GetExtentType()
-    {return DataObject::ITK_STRUCTURED_EXTENT;}
+  virtual int GetRegionType()
+    {return DataObject::ITK_STRUCTURED_REGION;}
 
 protected:
   ImageBase();

@@ -30,7 +30,7 @@ namespace itk
  * and managing exceptions in itk. Specific exceptions should be
  * derived from this class.
  *
- * ExceptionObject maintains two pieces of information: a location
+ * ExceptionObject maintains two types of information: a location
  * and description (both of which are strings). The location is the
  * point in the code where the exception was thrown; the description
  * is an error message that describes the exception.

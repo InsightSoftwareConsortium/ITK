@@ -84,19 +84,19 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent);
   
   /**
-   * Update extent of Image is specified in pieces.  
-   * Since all DataObjects should be able to set UpdateExent as pieces,
-   * just copy output->UpdateExtent  all Inputs.
+   * Requested region of image is specified as structured regions.  
+   * Since all DataObjects should be able to set RequestedRegion in
+   * unstructured form, just copy output->RequestedRegion all inputs.
    */
   void GenerateInputRequestedRegion(DataObject *output);
   
 private:
   /**
-   * Used by streaming: The extent of the output being processed
+   * Used by streaming: The requested region of the output being processed
    * by the execute method. Set in the GenerateInputRequestedRegion method.
    */
-  int m_GenerateDataPiece;
-  int m_GenerateDataNumberOfPieces;
+  int m_GenerateDataRegion;
+  int m_GenerateDataNumberOfRegions;
 };
 
 } // end namespace itk

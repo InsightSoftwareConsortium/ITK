@@ -700,7 +700,7 @@ ProcessObject
   this->EnlargeOutputRequestedRegion( output );
 
   /**
-   * Give the subclass a chance to request a larger extent on 
+   * Give the subclass a chance to request a larger requested region on 
    * the inputs. This is necessary when, for example, a filter
    * requires more data at the "internal" boundaries to 
    * produce the boundary values - such as an image filter that
@@ -710,7 +710,7 @@ ProcessObject
   this->GenerateInputRequestedRegion( output );
 
   /**
-   * Now that we know the input update extent, propogate this
+   * Now that we know the input requested region, propogate this
    * through all the inputs.
    */
   m_Updating = true;
@@ -738,7 +738,7 @@ ProcessObject
     {
     if (m_Inputs[idx])
       {
-      m_Inputs[idx]->SetUpdateExtentToWholeExtent();
+      m_Inputs[idx]->SetRequestedRegionToLargestPossibleRegion();
       }
     }  
 }
@@ -1018,7 +1018,7 @@ ProcessObject
 
   /**
    * loop through all the outputs asking them how big they are given the
-   * information that they have on their update extent. Keep track of 
+   * information that they have on their requested region. Keep track of 
    * the size of the specified output in size[0], and the sum of all
    * output size in size[1]. Ignore input sizes in this default implementation.
    */
@@ -1067,13 +1067,13 @@ ProcessObject
  */
 void 
 ProcessObject
-::UpdateWholeExtent()
+::UpdateLargestPossibleRegion()
 {
   this->UpdateOutputInformation();
 
   if (this->GetOutput(0))
     {
-    this->GetOutput(0)->SetUpdateExtentToWholeExtent();
+    this->GetOutput(0)->SetRequestedRegionToLargestPossibleRegion();
     this->GetOutput(0)->Update();
     }
 }

@@ -38,7 +38,7 @@ DataObject()
 
   m_PipelineMTime = 0;
   
-  m_UpdateExtentInitialized = false;
+  m_RequestedRegionInitialized = false;
   
 }
 
@@ -175,11 +175,11 @@ DataObject
   os << indent << "PipelineMTime: " << m_PipelineMTime << std::endl;
   os << indent << "UpdateTime: " << m_UpdateTime << std::endl;
   
-  os << indent << "LastUpdateExtentWasOutsideOfTheExtent: " << 
-    m_LastUpdateExtentWasOutsideOfTheExtent << std::endl;
+  os << indent << "LastRequestedRegionWasOutsideOfTheBufferedRegion: " << 
+    m_LastRequestedRegionWasOutsideOfTheBufferedRegion << std::endl;
 }
 
-// The follwing methods are used for updating the data processing pipeline.
+// The following methods are used for updating the data processing pipeline.
 //
 
 //----------------------------------------------------------------------------
@@ -198,12 +198,13 @@ DataObject
 ::PropagateRequestedRegion()
 {
   // If we need to update due to PipelineMTime, or the fact that our
-  // data was released, then propagate the update extent to the source 
+  // data was released, then propagate the update region to the source 
   // if there is one.
   if ( m_UpdateTime < m_PipelineMTime || m_DataReleased ||
-       this->UpdateExtentIsOutsideOfTheExtent() || 
-       m_LastUpdateExtentWasOutsideOfTheExtent)
+       this->RequestedRegionIsOutsideOfTheBufferedRegion() || 
+       m_LastRequestedRegionWasOutsideOfTheBufferedRegion)
     {
+
     if (m_Source)
       {
       m_Source->PropagateRequestedRegion(this);
@@ -211,13 +212,13 @@ DataObject
     }
   
   // update the value of this ivar
-  m_LastUpdateExtentWasOutsideOfTheExtent = 
-    this->UpdateExtentIsOutsideOfTheExtent();
+  m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 
+    this->RequestedRegionIsOutsideOfTheBufferedRegion();
   
-  // Check that the update extent lies within the whole extent
-  if ( ! this->VerifyUpdateRegion() )
+  // Check that the requested region lies within the largest possible region
+  if ( ! this->VerifyRequestedRegion() )
     {
-    // invalid update piece - this should not occur!
+    // invalid requested region - this should not occur!
     return;
     }
 
@@ -232,7 +233,7 @@ DataObject
   // data was released, then propagate the UpdateOutputData to the source
   // if there is one.
   if ( m_UpdateTime < m_PipelineMTime || m_DataReleased ||
-       this->UpdateExtentIsOutsideOfTheExtent())
+       this->RequestedRegionIsOutsideOfTheBufferedRegion())
     {
     if (m_Source)
       {

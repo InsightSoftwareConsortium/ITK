@@ -122,23 +122,24 @@ Image<TPixel, VImageDimension>
     memcpy( m_ImageSize, m_BufferSize, VImageDimension*sizeof(unsigned long) );
     }
   
-  // Now we should know what our whole extent is. If our update extent
-  // was not set yet, (or has been set to something invalid - with no 
-  // data in it ) then set it to the whole extent.
-  if ( ! m_UpdateExtentInitialized)
+  // Now we should know what our largest possible region is. If our 
+  // requested region was not set yet, (or has been set to something 
+  // invalid - with no data in it ) then set it to the largest possible
+  // region.
+  if ( ! m_RequestedRegionInitialized)
     {
-    this->SetUpdateExtentToWholeExtent();
-    m_UpdateExtentInitialized = true;
+    this->SetRequestedRegionToLargestPossibleRegion();
+    m_RequestedRegionInitialized = true;
     }
   
-  m_LastUpdateExtentWasOutsideOfTheExtent = 0;
+  m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;
 }
 
 //----------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension>
 void 
 Image<TPixel, VImageDimension>
-::SetUpdateExtentToWholeExtent()
+::SetRequestedRegionToLargestPossibleRegion()
 {
   m_RegionStartIndex = m_ImageStartIndex;
   memcpy( m_RegionSize, m_ImageSize, VImageDimension*sizeof(unsigned long) );
@@ -169,7 +170,7 @@ Image<TPixel, VImageDimension>
 template<class TPixel, unsigned int VImageDimension>
 bool 
 Image<TPixel, VImageDimension>
-::UpdateExtentIsOutsideOfTheExtent()
+::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
   unsigned int i;
 
@@ -189,7 +190,7 @@ Image<TPixel, VImageDimension>
 template<class TPixel, unsigned int VImageDimension>
 bool 
 Image<TPixel, VImageDimension>
-::VerifyUpdateRegion()
+::VerifyRequestedRegion()
 {
   bool retval = true;
   unsigned int i;
