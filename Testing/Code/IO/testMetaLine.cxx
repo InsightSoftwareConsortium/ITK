@@ -6,6 +6,7 @@ int testMetaLine(int , char * [])
 {
 
   std::cout << "Creating test file ...";
+  MetaLine line0;
   MetaLine* Line = new MetaLine(3);
   Line->ID(0);
   LinePnt* pnt;
@@ -31,6 +32,13 @@ int testMetaLine(int , char * [])
 
   Line->Clear();
   Line->Read("myLine.meta");
+
+  MetaLine LineRead("myLine.meta");
+  MetaLine LineCopy(&LineRead);
+
+  std::cout << "PointDim = " << LineCopy.PointDim() << std::endl;
+  std::cout << "NPoints = " << LineCopy.NPoints() << std::endl;
+  std::cout << "ElementType = " << LineCopy.ElementType() << std::endl;
 
   Line->PrintInfo();
 
