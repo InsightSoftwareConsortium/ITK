@@ -87,7 +87,7 @@ Directory
 ::Load(const char* name)
 {
   char* buf;
-  int n = strlen(name);
+  int n = static_cast<int>( strlen(name) );
   if ( name[n - 1] == '/' ) 
     {
     buf = new char[n + 1 + 1];

@@ -32,7 +32,7 @@ MinimumDecisionRule
 
   double       minimumDistance      = discriminantScores[0];
   unsigned int classifiedPixelIndex = 0;
-  unsigned int numberOfClasses      = discriminantScores.size();
+  unsigned int numberOfClasses      = static_cast<unsigned int>( discriminantScores.size() );
 
   //Loop through the probabilities to get the best index
   for(unsigned int classIndex = 1; classIndex < numberOfClasses; classIndex++ )

@@ -104,16 +104,18 @@ void LoadElement::Write( std::ostream& f ) const
   Superclass::Write(f);
 
   /** Write the list of element global numbers */
-  if (!el.empty()) {
-    f<<"\t"<<(el.size()); f<<"\t% # of elements on which the load acts"<<"\n";
-    f<<"\t";
+  if (!el.empty())
+    {
+    f << "\t" <<static_cast<int>((el.size()));
+  f << "\t% # of elements on which the load acts" << std::endl;
+    f << "\t";
     for(ElementPointersVectorType::const_iterator i=el.begin(); i!=el.end(); i++) {
       f<<((*i)->GN)<<" ";
     }
-    f<<"\t% GNs of elements"<<"\n";
+  f << "\t% GNs of elements" << std::endl;
   }
   else {
-    f<<"\t-1\t% Load acts on all elements"<<"\n";
+    f << "\t-1\t% Load acts on all elements" << std::endl;
   }
 
   /** check for errors */

@@ -229,7 +229,7 @@ unsigned long
 MapContainer< TElementIdentifier , TElement >
 ::Size(void) const
 {
-  return this->MapType::size();
+  return static_cast<unsigned long>( this->MapType::size() );
 }
 
 /**

@@ -122,8 +122,8 @@ ProcessObject
       }
     }
   
-  this->SetNumberOfInputs(m_Inputs.size() + 1);
-  m_Inputs[m_Inputs.size() - 1] = input;
+  this->SetNumberOfInputs( static_cast<int>( m_Inputs.size() + 1 ) );
+  m_Inputs[ static_cast<int>( m_Inputs.size() ) - 1] = input;
 }
 
 
@@ -159,7 +159,7 @@ ProcessObject
   // if that was the last input, then shrink the list
   if (pos == m_Inputs.end() - 1 )
     {
-    this->SetNumberOfInputs(m_Inputs.size() - 1);
+    this->SetNumberOfInputs( static_cast<int>( m_Inputs.size() ) - 1);
     }
 
   this->Modified();
@@ -220,7 +220,7 @@ ProcessObject
   // if that was the last output, then shrink the list
   if (pos == m_Outputs.end() - 1 )
     {
-    this->SetNumberOfOutputs(m_Outputs.size() - 1);
+    this->SetNumberOfOutputs( static_cast<int>( m_Outputs.size() ) - 1);
     }
 
   this->Modified();
@@ -310,11 +310,11 @@ ProcessObject
       }
     }
   
-  this->SetNumberOfOutputs(m_Outputs.size() + 1);
-  m_Outputs[m_Outputs.size() - 1] = output;
+  this->SetNumberOfOutputs( static_cast<int>( m_Outputs.size() ) + 1);
+  m_Outputs[ static_cast<int>( m_Outputs.size() ) - 1] = output;
   if (output)
     {
-    output->ConnectSource(this, m_Outputs.size()-1);
+    output->ConnectSource(this, static_cast<int>( m_Outputs.size() ) - 1 );
     }
   this->Modified();
 }
@@ -441,7 +441,8 @@ ProcessObject
     std::vector<DataObjectPointer>::size_type idx;
     for (idx = 0; idx < m_Inputs.size(); ++idx)
       {
-      os << indent << "Input " << idx << ": (" << m_Inputs[idx].GetPointer() << ")\n";
+      os << indent << "Input " << static_cast<int>( idx );
+    os << ": (" << m_Inputs[idx].GetPointer() << ")\n";
       }
     }
   else
@@ -453,7 +454,8 @@ ProcessObject
     std::vector<DataObjectPointer>::size_type idx;
     for (idx = 0; idx < m_Outputs.size(); ++idx)
       {
-      os << indent << "Output " << idx << ": (" << m_Outputs[idx].GetPointer() << ")\n";
+      os << indent << "Output " << static_cast<int>( idx );
+    os << ": (" << m_Outputs[idx].GetPointer() << ")\n";
       }
     }
   else
@@ -614,7 +616,7 @@ ProcessObject
     {
     for (idx = 0; idx < m_Outputs.size(); ++idx)
       {
-      output = this->GetOutput(idx);
+      output = this->GetOutput( static_cast<int>( idx ) );
       if (output)
         {
         output->SetPipelineMTime(t1);
@@ -806,7 +808,7 @@ ProcessObject
   if (m_Inputs.size() < m_NumberOfRequiredInputs)
     {
     itkExceptionMacro(<< "At least " << m_NumberOfRequiredInputs 
-                  << " inputs are required but only " << m_Inputs.size() 
+                  << " inputs are required but only " << static_cast<int>( m_Inputs.size() )
                   << " are specified");
     }
   else

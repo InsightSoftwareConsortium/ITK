@@ -429,7 +429,7 @@ ObjectFactoryBase
   os << indent << "Factory DLL path: " << m_LibraryPath.c_str() << "\n";
   os << indent << "Factory description: " << this->GetDescription() << std::endl;
 
-  int num = m_OverrideMap->size();
+  int num = static_cast<int>( m_OverrideMap->size() );
   os << indent << "Factory overides " << num << " classes:" << std::endl;
 
   indent = indent.GetNextIndent();

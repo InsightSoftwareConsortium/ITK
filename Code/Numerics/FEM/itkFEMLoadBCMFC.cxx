@@ -113,21 +113,21 @@ void LoadBCMFC::Write( std::ostream& f ) const
    */
 
   /** write the number of DOFs affected by this MFC */
-  f<<"\t"<<lhs.size()<<"\t% Number of DOFs in this MFC"<<"\n";
+  f << "\t" << static_cast<int>( lhs.size() ) << "\t% Number of DOFs in this MFC" << std::endl;
 
   /** write each term */
-  f<<"\t  %==>\n";
+  f << "\t  %==>\n";
   for(LhsType::const_iterator q=lhs.begin(); q!=lhs.end(); q++) 
   {
-    f<<"\t  "<<q->m_element->GN<<"\t% GN of element"<<"\n";
-    f<<"\t  "<<q->dof<<"\t% DOF# in element"<<"\n";
-    f<<"\t  "<<q->value<<"\t% weight"<<"\n";
-    f<<"\t  %==>\n";
+    f << "\t  "<<q->m_element->GN<<"\t% GN of element" << std::endl;
+    f << "\t  "<<q->dof<<"\t% DOF# in element" << std::endl;
+    f << "\t  "<<q->value<<"\t% weight" << std::endl;
+    f << "\t  %==>\n";
   }
 
   /** write the rhs */
-  f<<"\t"<<rhs.size();
-  f<<" "<<rhs<<"\t% rhs of MFC"<<"\n";
+  f << "\t" << static_cast<int>( rhs.size() );
+  f << " "  << rhs <<"\t% rhs of MFC" << std::endl;
 
   /** check for errors */
   if (!f)

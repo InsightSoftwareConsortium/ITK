@@ -103,7 +103,7 @@ public:
     Instance().m_MutexLock.Lock();
 //  std::cout<<"OF->"<<str<<"\n";
     Instance().cofs_.push_back( COF_Array::value_type(f,str) );
-    clid=Instance().cofs_.size()-1;
+    clid = static_cast<int>( Instance().cofs_.size()-1 );
     Instance().m_MutexLock.Unlock();
     return clid;
   }

@@ -61,7 +61,7 @@ unsigned int
 PolygonCell< TCellInterface >
 ::GetNumberOfPoints(void) const
 {
-  return m_PointIds.size();
+  return static_cast<unsigned int>( m_PointIds.size() );
 }  
 
 
@@ -170,14 +170,14 @@ PolygonCell< TCellInterface >
   if( m_PointIds.size() > 0 )
     {
     m_Edges.resize(m_PointIds.size());
-    const unsigned int numberOfPoints = m_PointIds.size();
+    const unsigned int numberOfPoints = static_cast<unsigned int>( m_PointIds.size() );
     for(unsigned int i = 1; i < numberOfPoints; i++)
       {
       m_Edges[i-1][0]=i-1;
       m_Edges[i-1][1]=i;
       }
-    m_Edges[m_PointIds.size()-1][0]=m_PointIds.size()-1;
-    m_Edges[m_PointIds.size()-1][1]=0;
+    m_Edges[ numberOfPoints-1][0]= numberOfPoints-1;
+    m_Edges[ numberOfPoints-1][1]=0;
     }
   else
     {
@@ -317,7 +317,7 @@ typename PolygonCell< TCellInterface >::CellFeatureCount
 PolygonCell< TCellInterface >
 ::GetNumberOfVertices(void) const
 {
-  return m_PointIds.size();
+  return static_cast<CellFeatureCount>( m_PointIds.size() );
 }
 
 /**
@@ -329,7 +329,7 @@ typename PolygonCell< TCellInterface >::CellFeatureCount
 PolygonCell< TCellInterface >
 ::GetNumberOfEdges(void) const
 {
-  return m_Edges.size();
+  return static_cast<CellFeatureCount>( m_Edges.size() );
 }
 
 /**

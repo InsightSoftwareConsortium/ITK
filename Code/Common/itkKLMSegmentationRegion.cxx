@@ -395,7 +395,7 @@ KLMSegmentationRegion
   itkDebugMacro(<< "Label      : " << (this->GetRegionLabel()) );
   itkDebugMacro(<< "Area       : " << (this->GetRegionArea()) );
   itkDebugMacro(<< "Mean       : " << (this->GetMeanRegionIntensity()) );
-  itkDebugMacro(<< "Num Borders: " << m_RegionBorderVector.size() );
+  itkDebugMacro(<< "Num Borders: " << static_cast<int>( m_RegionBorderVector.size() ) );
   itkDebugMacro(<< "++++++++++++++++++++++++++++++" );
 
   // If there are border pointers print the results
@@ -418,7 +418,7 @@ KLMSegmentationRegion
   std::cout << "Label      : " << (this->GetRegionLabel()) << std::endl;
   std::cout << "Area       : " << (this->GetRegionArea()) << std::endl;
   std::cout << "Mean       : " << (this->GetMeanRegionIntensity()) << std::endl;
-  std::cout << "Num Borders: " << m_RegionBorderVector.size() << std::endl;
+  std::cout << "Num Borders: " << static_cast<int>( m_RegionBorderVector.size() ) << std::endl;
   std::cout << "++++++++++++++++++++++++++++++" << std::endl;
 
   // If there are border pointers print the results
