@@ -255,14 +255,13 @@ template<unsigned int VIndexDimension>
 std::ostream & operator<<(std::ostream &os, const Index<VIndexDimension> &ind)
 {
   os << "[";
-  const unsigned int last = VIndexDimension - 1;
-  for (unsigned int i=0; i < last; ++i)
+  for (unsigned int i=0; i+1 < VIndexDimension; ++i)
     {
     os << ind[i] << ", ";
     }
   if (VIndexDimension >= 1)
     {
-    os << ind[last];
+    os << ind[VIndexDimension-1];
     }
   os << "]";
   return os;
