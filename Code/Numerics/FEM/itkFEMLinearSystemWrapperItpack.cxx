@@ -446,6 +446,7 @@ void LinearSystemWrapperItpack::Solve(void)
   IWKSP = new integer [ 3*N ];
   WKSP = new doublereal [ NW ];
 
+  integer i;
   for (i=0; i<NW; i++) 
   {
     WKSP[i] = 0.0;
