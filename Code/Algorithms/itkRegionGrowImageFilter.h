@@ -179,6 +179,16 @@ public:
   itkGetMacro(ColGridSize, unsigned int);
 
   /**
+   * Set the column grid size of the initial regions in the image.
+   */
+  itkSetMacro(SliceGridSize, unsigned int);
+
+  /**
+   * Get the column grid size of the initial regions in the image.
+   */
+  itkGetMacro(SliceGridSize, unsigned int);
+
+  /**
    * Define a virtual RegionGrowImageFilter function.
    */
   virtual void ApplyRegionGrowImageFilter(){};
@@ -218,6 +228,7 @@ private:
   unsigned int    m_MaxNumRegions;
   unsigned int    m_RowGridSize;
   unsigned int    m_ColGridSize;
+  unsigned int    m_SliceGridSize;
 
 }; // class RegionGrowImageFilter
 

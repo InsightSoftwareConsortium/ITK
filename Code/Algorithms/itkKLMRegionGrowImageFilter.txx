@@ -53,7 +53,10 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   m_NumRegions(0),
   m_InitRegionArea(0),
   m_pBordersCandidateDynPtr(NULL),
-  m_pBorderCandidate(NULL)
+  m_pBorderCandidate(NULL),
+  m_imgWidth(0),
+  m_imgHeight(0),
+  m_imgDepth(0)
 {
   m_InitRegionMean = 0;
  this->SetMaxNumRegions( 2 );
@@ -153,8 +156,33 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
+  //---------------------------------------------------------------------
+  //Get the image width/height/depth
+  //--------------------------------------------------------------------- 
+  InputImageType inputImage     = this->GetInput();
+  InputImageSize inputImageSize = inputImage->GetBufferedRegion().GetSize();
+
+  enum { imageDimension = TInputImage::ImageDimension };
+
+  m_imgWidth  = inputImageSize[0];
+  m_imgHeight = inputImageSize[1];
+  if( TInputImage::ImageDimension > 2 ) m_imgDepth = inputImageSize[2];
+
   //Generate the output approximation image
-  GenerateOutputImage();
+  if( ( imageDimension == 2 ) || ( m_imgDepth == 1 ) ) 
+    {
+
+    // 2D initialization routine for the region grwoing algorithm 
+    GenerateOutputImage( m_imgWidth, m_imgHeight );
+
+    }
+
+  if( ( imageDimension > 2 ) && ( m_imgDepth > 1 ) ) 
+    {
+    // 3D initialization routine for the region growing algorithm
+    GenerateOutputImage( m_imgWidth, m_imgHeight, m_imgDepth );
+
+    }
         
 }// end GenerateData
 
@@ -163,7 +191,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
-::GenerateOutputImage()
+::GenerateOutputImage(unsigned int imgWidth, unsigned int imgHeight)
 {
   //Get the pointer to the output image
   OutputImageType outputPtr = this->GetOutput(); 
@@ -250,7 +278,15 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 }// end GenerateOutputImage()
 
 //----------------------------------------------------------------------
-
+template<class TInputImage, class TOutputImage>
+void
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
+::GenerateOutputImage(unsigned int imgWidth, 
+                      unsigned int imgHeight,
+                      unsigned int imgDepth)
+{
+}
+//----------------------------------------------------------------------
 template<class TInputImage, class TOutputImage>
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>::LabelImagePointer
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
@@ -366,7 +402,34 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     {
     throw ExceptionObject(__FILE__, __LINE__);
     }
-  initializeKLM();
+
+  enum { imageDimension = TInputImage::ImageDimension };
+
+  //---------------------------------------------------------------------
+  //Get the image width/height/depth
+  //--------------------------------------------------------------------- 
+  InputImageType inputImage     = this->GetInput();
+  InputImageSize inputImageSize = inputImage->GetBufferedRegion().GetSize();
+
+  m_imgWidth  = inputImageSize[0];
+  m_imgHeight = inputImageSize[1];
+  if( TInputImage::ImageDimension > 2 ) m_imgDepth = inputImageSize[2];
+
+  if( ( imageDimension == 2 ) || ( m_imgDepth == 1 ) ) 
+    {
+
+    // 2D initialization routine for the region grwoing algorithm 
+    initializeKLM( m_imgWidth, m_imgHeight );
+
+    }
+
+  if( ( imageDimension > 2 ) && ( m_imgDepth > 1 ) ) 
+    {
+    // 3D initialization routine for the region growing algorithm
+    initializeKLM( m_imgWidth, m_imgHeight, m_imgDepth );
+
+    }
+  
 
   //-----------------------------------------------------------------
   // Region merging based on the minimum value of the current
@@ -417,17 +480,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
-::initializeKLM()
+::initializeKLM( unsigned int imgWidth,
+                 unsigned int imgHeight )
 { 
-  //---------------------------------------------------------------------
-  //Get the image width/height
-  //--------------------------------------------------------------------- 
-  InputImageType inputImage     = this->GetInput();
-  InputImageSize inputImageSize = inputImage->GetBufferedRegion().GetSize();
-
-  m_imgWidth  = inputImageSize[0];
-  m_imgHeight = inputImageSize[1];
-  if( TInputImage::ImageDimension > 2 ) m_imgDepth = inputImageSize[2];
 
   // Sanity check for the parameters
   if ( ( m_imgWidth < this->GetRowGridSize() ) ||
@@ -441,8 +496,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //---------------------------------------------------------------------
   //Calculate the initial number of regions 
   //--------------------------------------------------------------------- 
-  unsigned int nRow             = m_imgWidth;
-  unsigned int nCol             = m_imgHeight;
+  unsigned int nRow             = imgWidth;
+  unsigned int nCol             = imgHeight;
   unsigned int nRowSquareBlocks = nRow/( this->GetRowGridSize() );
   unsigned int nColSquareBlocks = nCol/( this->GetColGridSize() ); 
   m_NumRegions                  = nRowSquareBlocks * nColSquareBlocks;
@@ -496,6 +551,11 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //----------------------------------------------------------------------
   m_nBorders = ( nColSquareBlocks - 1 ) * nRowSquareBlocks +
                ( nRowSquareBlocks - 1 ) * nColSquareBlocks;
+
+  // Allow a singe region to pass through; this memory would not be
+  // used but the memory allocation and free routine will throw 
+  // exception otherwise.
+  if( m_nBorders == 0 ) m_nBorders = 1;
 
   m_pBorders.resize( m_nBorders );
   for( unsigned int k = 0; k < m_nBorders; k++ )
@@ -713,6 +773,381 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
+::initializeKLM( unsigned int imgWidth,
+                 unsigned int imgHeight,
+                 unsigned int imgDepth )
+{ 
+
+  // Sanity check for the parameters
+  if ( ( m_imgWidth < this->GetRowGridSize() ) ||
+       ( m_imgHeight < this->GetColGridSize() ) || 
+       ( m_imgDepth < this->GetSliceGridSize() ) )
+    throw ExceptionObject(__FILE__, __LINE__);
+
+  //---------------------------------------------------------------------
+  //Determine the regions first and intiaize them
+  //--------------------------------------------------------------------- 
+
+  //---------------------------------------------------------------------
+  //Calculate the initial number of regions 
+  //--------------------------------------------------------------------- 
+  unsigned int nRow             = imgWidth;
+  unsigned int nCol             = imgHeight;
+  unsigned int nSlice           = imgDepth;
+  unsigned int nRowSquareBlocks = nRow/( this->GetRowGridSize() );
+  unsigned int nColSquareBlocks = nCol/( this->GetColGridSize() ); 
+  unsigned int nSliceSquareBlocks = nSlice/( this->GetSliceGridSize() );
+
+  m_NumRegions                  = nRowSquareBlocks * 
+                                  nColSquareBlocks * 
+                                  nSliceSquareBlocks;
+
+  if( m_NumRegions < this->GetMaxNumRegions() )
+  {
+    std::cout<< "Reduce granularity of the grid" << std::endl;
+    std::cout<<
+      "No. of image regions are less than max. no. requested regions" 
+         <<std::endl;
+  }
+
+  //----------------------------------------------------------------------
+  //Allocate and intialize memory to the regions in initial image block
+  //----------------------------------------------------------------------
+  m_pRegions.resize( m_NumRegions );
+  for( unsigned int k = 0; k < m_NumRegions; k++ )
+    {
+    m_pRegions[k] = KLMSegmentationRegion<TInputImage,TOutputImage>::New();
+    }
+
+  //----------------------------------------------------------------------
+  //Label the regions
+  //----------------------------------------------------------------------
+
+  unsigned int rowGridSize        = this->GetRowGridSize();
+  unsigned int colGridSize        = this->GetColGridSize();
+  unsigned int sliceGridSize      = this->GetSliceGridSize();
+
+  int labelValue                  = 0;
+
+  for( unsigned int s = 0; s < nSliceSquareBlocks; s++)
+    {
+    for( unsigned int r = 0; r < nRowSquareBlocks; r++ )
+      {
+      for( unsigned int c = 0; c < nColSquareBlocks; c++, labelValue++ )
+        {
+        CalculateInitRegionStats( r * rowGridSize,
+                                  c * colGridSize,
+                                  s * sliceGridSize,
+                                  rowGridSize,
+                                  colGridSize,
+                                  sliceGridSize );
+ 
+        m_pRegions[labelValue]->SetRegion( m_InitRegionMean,
+                                          m_InitRegionArea,
+                                          ( labelValue + 1 ) );
+        m_pRegions[labelValue]->PrintRegionInfo();
+                                                        
+        }//end col for loop
+      }//end row for loop
+    }// end slice for loop
+
+  //---------------------------------------------------------------------
+  //Determine the borders next and intiaize them
+  //--------------------------------------------------------------------- 
+  //----------------------------------------------------------------------
+  //Allocate and intialize memory to the borders
+  //----------------------------------------------------------------------
+  m_nBorders = ( nColSquareBlocks - 1 ) * nRowSquareBlocks +
+               ( nRowSquareBlocks - 1 ) * nColSquareBlocks +
+               ( nSliceSquareBlocks - 1 ) * nSliceSquareBlocks;
+
+  // Allow a singe region to pass through; this memory would not be
+  // used but the memory allocation and free routine will throw 
+  // exception otherwise.
+  if( m_nBorders == 0 ) m_nBorders = 1;
+
+  m_pBorders.resize( m_nBorders );
+  for( unsigned int k = 0; k < m_nBorders; k++ )
+    {
+    m_pBorders[k] = KLMSegmentationBorder<TInputImage,TOutputImage>::New();
+    }
+
+  /* 
+  the following initialization of the horizontal and vertical
+  borders ensures that each borders is assigned region1 and
+  region2 such that, for a given region, the labels of
+  the neighboring regions are in ascending order.
+  For a given horizontal border (-) , the top region is
+  linked first (a), and the bottom region is linked second (b).
+  For a given vertical border (|) , the left region is linked
+  first (c), and the right region is linked second (d).
+  The result, for a given region (X), is that the bottom border is
+  assigned first, the top border is second, the right border
+  is third, and the left border is last.  To have the labels
+  of the neighboring regions be in ascending order, the
+  region borders must be assigned to the region as [b,d,c,a].
+  Therefore, when the region borders are assigned to a region,
+  (a) is inserted at the head of the list, then (b)b is inserted
+  at the head of the list, then (c) is inserted as the second list
+  element, and finally (d) is inserted as the second list element.
+
+  X c | d X c | d X
+  a       a       a                X represents a region
+  -       -       -                - represents a horizontal border
+  b       b       b                | represents a vertical border
+  X c | d X c | d X                a,b,c,d represent region borders
+  a       a       a
+  -       -       -
+  b       b       b
+  X c | d X c | d X
+
+  Horizontal borders are assigned from the bottom of the image to
+  the top.  This ensures that (a) is always the first border
+  region assigned to the region.
+
+  Region border (b) is the first border being assigned to the
+  region only at last row of regions.  Otherwise it ends up
+  at the front of the list, ahead of (a).
+  */
+
+
+  // horizontal border initialization (for each slice) 
+
+  KLMSegmentationBorder<TInputImage,TOutputImage>::Pointer pcurrentBorder;
+
+  m_TotalBorderLength = 0;
+  unsigned int borderCounter   = 0;
+  unsigned int borderLengthTmp = colGridSize * sliceGridSize;
+  unsigned int numBlocksInSlice = nColSquareBlocks * nRowSquareBlocks;
+
+  for( unsigned int s = 0; s < nSliceSquareBlocks; s++ )
+    {
+    for ( unsigned int r = nRowSquareBlocks - 1; r >= 1; r-- )
+      {
+      for ( unsigned int c = 0; c < nColSquareBlocks; c++ ) 
+        {
+        // Load the border of interest
+        pcurrentBorder = m_pBorders[borderCounter];
+
+        //Length of the border 
+        pcurrentBorder->SetBorderLength( borderLengthTmp );
+
+        // m_TotalBorderLength is used as a sanity check 
+        m_TotalBorderLength += borderLengthTmp;
+
+        // Find the two neighbor regions (top and bottom) 
+        int topRegionBlockOffset    = s * numBlocksInSlice + 
+                                      ( r - 1 ) * nColSquareBlocks + c;
+
+        // Effectively calculate ( r * nColSquareBlocks + c );
+        int bottomRegionBlockOffset = topRegionBlockOffset + nColSquareBlocks;
+                  
+        // Assign the 2 neighboring regions of a border
+        KLMSegmentationRegionPtr
+          pneighborRegion1 = m_pRegions[ topRegionBlockOffset ];
+      
+        KLMSegmentationRegionPtr
+          pneighborRegion2 = m_pRegions[ bottomRegionBlockOffset ];
+
+        // The current border is linked to the top region (pregion1),
+        // and the bottom (region2) 
+         
+        pcurrentBorder->SetRegion1( pneighborRegion1 );
+        pcurrentBorder->SetRegion2( pneighborRegion2 );
+
+        // Initialize the border in the region objects
+        // attach the (a) region border to the top region           
+        pneighborRegion1->SetRegionBorder( pcurrentBorder );
+
+        // Attach the (b) region border to the bottom region 
+        pneighborRegion2->SetRegionBorder( pcurrentBorder );
+
+        // Compute the scale parameter dlambda 
+        pcurrentBorder->EvaluateLambda();
+
+        // Increment the border counter to go to the next border
+        borderCounter += 1;
+       
+
+        }// end col loop
+      }//end row loop
+    }// end slice loop
+
+  //End horizontal border processing
+
+  borderLengthTmp = rowGridSize * sliceGridSize;
+
+  // Vertical border initialization
+  for( unsigned int s = 0; s < nSliceSquareBlocks; s++ )
+    {  
+    for (unsigned  int r = 0; r < nRowSquareBlocks; r++ ) 
+      {
+      for (unsigned  int c = nColSquareBlocks - 1; c >= 1; c-- ) 
+        {
+        // Point to next border
+        pcurrentBorder = m_pBorders[borderCounter];
+
+        //Length of the border 
+        pcurrentBorder->SetBorderLength(borderLengthTmp);
+
+        // m_TotalBorderLength is used as a sanity check 
+        m_TotalBorderLength += borderLengthTmp;
+
+        // Find the two neighbor regions (left and right) 
+        int leftRegionBlockOffset    = s * numBlocksInSlice + 
+                                       r * nColSquareBlocks + ( c - 1 );
+
+        // Effectively calculate (numBlocksInSlice + r * nColSquareBlocks + c)
+        int rightRegionBlockOffset = leftRegionBlockOffset + 1;
+
+        // Assign the right 
+        KLMSegmentationRegionPtr
+          pneighborRegion1 = m_pRegions[ leftRegionBlockOffset ];
+      
+        KLMSegmentationRegionPtr
+          pneighborRegion2 = m_pRegions[ rightRegionBlockOffset ];
+
+        // The current border is linked to the left region (pregion1),
+        // and the right (region2)         
+        pcurrentBorder->SetRegion1( pneighborRegion1 );
+        pcurrentBorder->SetRegion2( pneighborRegion2 );
+
+        // Initialize the border in the region objects
+        // attach the (c) region border to the left region          
+        pneighborRegion1->SetRegionBorder( pcurrentBorder );
+
+        // Attach the (d) region border to the right region 
+        pneighborRegion2->SetRegionBorder( pcurrentBorder );
+
+        // Compute the scale parameter dlambda 
+        pcurrentBorder->EvaluateLambda();
+
+        // Increment the border counter
+        borderCounter += 1;
+
+
+        }// end col loop
+      }//end row loop
+    }//end slice loop
+
+  // End Vertical border processing
+
+  //Slice border initialization
+   borderLengthTmp = rowGridSize * colGridSize;
+
+  for( unsigned int s = nSliceSquareBlocks -1; s >=1; s-- )
+    {
+    for( unsigned int r = 0; r < nRowSquareBlocks; r++ )
+      {
+      for( unsigned int c = 0; c < nColSquareBlocks; c++ )
+        {
+        // Point to next border
+        pcurrentBorder = m_pBorders[borderCounter];
+
+        //Length of the border 
+        pcurrentBorder->SetBorderLength(borderLengthTmp);
+
+        // m_TotalBorderLength is used as a sanity check 
+        m_TotalBorderLength += borderLengthTmp;
+
+        // Find the two neighbor regions (left (front) and right (back)) 
+        int frontRegionBlockOffset    = (s-1) * numBlocksInSlice + 
+                                       r * nColSquareBlocks + c;
+
+        // Effectively calculate (numBlocksInSlice + r * nColSquareBlocks + c)
+        int backRegionBlockOffset = frontRegionBlockOffset + numBlocksInSlice;
+
+        // Assign the right 
+        KLMSegmentationRegionPtr
+          pneighborRegion1 = m_pRegions[ frontRegionBlockOffset ];
+      
+        KLMSegmentationRegionPtr
+          pneighborRegion2 = m_pRegions[ backRegionBlockOffset ];
+
+        // The current border is linked to the left region (pregion1),
+        // and the right (region2)         
+        pcurrentBorder->SetRegion1( pneighborRegion1 );
+        pcurrentBorder->SetRegion2( pneighborRegion2 );
+
+        // Initialize the border in the region objects
+        // attach the (c) region border to the left region          
+        pneighborRegion1->SetRegionBorder( pcurrentBorder );
+
+        // Attach the (d) region border to the right region 
+        pneighborRegion2->SetRegionBorder( pcurrentBorder );
+
+        // Compute the scale parameter dlambda 
+        pcurrentBorder->EvaluateLambda();
+
+        // Increment the border counter
+        borderCounter += 1;
+        }//end col loop
+      }//end row loop
+    }//end slice loop
+
+  // For DEBUG purposes
+#if DEBUG
+     PrintAlgorithmRegionStats();
+     PrintAlgorithmBorderStats();
+#endif
+
+  // Verification of the initialization process
+  if ( m_TotalBorderLength != 
+       ( ( nRowSquareBlocks - 1 ) * m_imgWidth * m_imgDepth +
+         ( nColSquareBlocks - 1 ) * m_imgHeight * m_imgDepth +
+         ( nSliceSquareBlocks - 1 ) * m_imgHeight * m_imgWidth  )  )
+  {
+    std::cout << "Initialization is incorrect" << std::endl;
+    throw ExceptionObject(__FILE__, __LINE__);
+  }// end if
+  else
+  {
+    std::cout << "Passed initialization." << std::endl;
+  }// end else
+
+  // Allocate memory to store the array of pointers that point to the
+  // static border objects
+
+  m_pBordersDynPtrs.resize( m_nBorders );
+
+  for( unsigned int k = 0; k < m_nBorders; k++ )
+    m_pBordersDynPtrs[ k ].m_Pointer = m_pBorders[k];
+
+  // For DEBUG purposes
+#if DEBUG
+  for( unsigned int k = 0; k < m_nBorders; k++ )
+    std::cout << m_pBordersDynPtrs[ k ].m_Pointer << std::endl;
+#endif
+
+  std::sort(m_pBordersDynPtrs.begin(), 
+           (m_pBordersDynPtrs.end()), 
+           std::greater < KLMDynamicBorderArray<BorderType> >());
+   
+  m_pBordersCandidateDynPtr = &(m_pBordersDynPtrs[ m_nBorders - 1 ]);
+  m_RegionLambda = m_pBordersCandidateDynPtr->m_Pointer->GetLambda();
+
+
+  //Sorted border counter
+  //For DEBUG purposes
+#if DEBUG
+  std::cout <<"++++++++++++++++++++++++++++++++++++++++"<<std::endl;
+  std::cout <<"     Rearranged Data Structure List      "<<std::endl;
+  std::cout <<"++++++++++++++++++++++++++++++++++++++++"<<std::endl;
+
+  //Rearranged list of the borders
+  bool smartPointerUseFlag = true;
+  PrintAlgorithmBorderStats(smartPointerUseFlag);
+
+  std::cout <<"+++++++++++++++++++++++++++++++++"<<std::endl;
+#endif
+
+
+}
+ 
+//----------------------------------------------------------------------
+template<class TInputImage, class TOutputImage>
+void
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::CalculateInitRegionStats( int   regionRowIndex, 
                             int   regionColIndex, 
                             int   regionRowGridSize,
@@ -766,6 +1201,78 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   //Calculate the area and the mean associated with the region
   m_InitRegionArea = regionRowGridSize * regionColGridSize;
+  m_InitRegionMean /= m_InitRegionArea;
+
+}//end Set Initial Region Stats
+
+//-------------------------------------------------------------------
+//----------------------------------------------------------------------
+template<class TInputImage, class TOutputImage>
+void
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
+::CalculateInitRegionStats( int   regionRowIndex, 
+                            int   regionColIndex,
+                            int   regionSliceIndex, 
+                            int   regionRowGridSize,
+                            int   regionColGridSize,
+                            int   regionSliceGridSize)
+{
+
+  // Get the vector dimension from the TInputImage parameter
+  unsigned int vecDim      = InputImagePixelType::GetVectorDimension();
+  unsigned int row_start   = regionRowIndex;
+  unsigned int row_end     = row_start + regionRowGridSize;
+  unsigned int col_start   = regionColIndex;
+  unsigned int col_end     = col_start + regionColGridSize;
+  unsigned int slice_start = regionSliceIndex;
+  unsigned int slice_end   = slice_start + regionSliceGridSize;
+
+  m_InitRegionArea         = 0;
+
+  //--------------------------------------------------------------------
+  // Set the iterators and the pixel type definition for the input image
+  //-------------------------------------------------------------------
+  InputImageType inputImage = this->GetInput();
+  InputImageIterator  inputImageIt( inputImage, 
+                                    inputImage->GetBufferedRegion() );
+
+  InputImageIterator  inputIt    = inputImageIt.Begin();
+  InputImageIterator  inputItEnd = inputImageIt.End();
+
+  //Varible to store the input pixel vector value
+  InputImageVectorType inputPixelVec;
+
+  InputImagePixelType *tempImgIt   = &( inputIt.Value() ); // dangerous!
+  InputImagePixelType *inImgIt     = &( inputIt.Value() ); // dangerous!
+
+
+  //Calculate V[0] for the constant model facet for the Region Grow
+  //algorithm
+
+  m_InitRegionMean.resize( vecDim, 1 );
+  m_InitRegionMean.fill(NULL);
+
+  unsigned int imgSize = m_imgWidth * m_imgHeight;
+  for( unsigned int nslice = slice_start; nslice < slice_end; nslice++ )
+    {
+    for ( unsigned int nrow = row_start; nrow < row_end; nrow++ ) 
+      {
+      for ( unsigned int ncol = col_start; ncol < col_end; ncol++ ) 
+        {
+        int offset    = nslice * imgSize + nrow * m_imgWidth + ncol;
+        tempImgIt     = inImgIt + offset;
+        inputPixelVec = *tempImgIt;
+
+        for ( unsigned int j = 0; j < vecDim; j++ )
+          m_InitRegionMean[j][0] += inputPixelVec[j];
+        }
+      }
+    }
+
+  //Calculate the area and the mean associated with the region
+  m_InitRegionArea = regionRowGridSize * 
+                     regionColGridSize * 
+                     regionSliceGridSize;
   m_InitRegionMean /= m_InitRegionArea;
 
 }//end Set Initial Region Stats

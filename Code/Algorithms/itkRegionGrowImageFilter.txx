@@ -47,9 +47,10 @@ namespace itk
 template<class TInputImage, class TOutputImage>
 RegionGrowImageFilter<TInputImage,TOutputImage>
 ::RegionGrowImageFilter(void):
-  m_MaxNumRegions(0),
-  m_RowGridSize(2),
-  m_ColGridSize(2)
+  m_MaxNumRegions( 0 ),
+  m_RowGridSize( 2 ),
+  m_ColGridSize( 2 ),
+  m_SliceGridSize( 2 )
 {
 }
 

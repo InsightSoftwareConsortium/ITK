@@ -309,7 +309,14 @@ public:
   /**
    * Generate output approximated image
    */
-  void GenerateOutputImage();
+  void GenerateOutputImage(unsigned int imgWidth,
+                           unsigned int imgHeight);
+  /**
+   * Generate output approximated image
+   */
+  void GenerateOutputImage(unsigned int imgWidth,
+                           unsigned int imgHeight,
+                           unsigned int imgDepth);
 
   /**
    * Generate labelled image
@@ -332,8 +339,8 @@ public:
   void PrintAlgorithmBorderStats(bool smartBorderPointerUseFlag);
 
   /**
-   * Calculate the statistics representing the regions. In this
-   * case we comput the mean region intensity and the area of the
+   * Calculate the statistics representing the 2D regions. In this
+   * case we compute the mean region intensity and the area of the
    * initial rectangular area. This is the function that can be
    * overriden in order to enable a different statistical 
    * representation for region initialization.
@@ -342,6 +349,20 @@ public:
                                          int   regionColIndex, 
                                          int   regionRowGridSize,
                                          int   regionColGridSize );
+  
+  /**
+   * Calculate the statistics representing the 3D regions. In this
+   * case we comput the mean region intensity and the volume of the
+   * initial rectangular area. This is the function that can be
+   * overriden in order to enable a different statistical 
+   * representation for region initialization.
+   */
+  virtual void CalculateInitRegionStats( int   regionRowIndex, 
+                                         int   regionColIndex,
+                                         int   regionSliceIndex,
+                                         int   regionRowGridSize,
+                                         int   regionColGridSize,
+                                         int   regionSliceGridSize );
 
 protected:
   /**
@@ -380,10 +401,17 @@ protected:
   void ApplyKLM();
 
   /**
-   * Initialize the RegionGrowImageFilter algorithm
+   * Initialize the RegionGrowImageFilter algorithm (2D case )
    */
-  void initializeKLM();
+  void initializeKLM(unsigned int imgWidth, 
+                     unsigned int imgHeight);
 
+  /**
+   * Initialize the RegionGrowImageFilter algorithm (2D case )
+   */
+  void initializeKLM(unsigned int imgWidth,
+                     unsigned int imgHeight,
+                     unsigned int imgDepth );
 private:
   typedef typename TInputImage::SizeType InputImageSize;
   typedef typename KLMSegmentationRegion<TInputImage,TOutputImage>::Pointer 
