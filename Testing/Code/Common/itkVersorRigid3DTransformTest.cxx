@@ -288,6 +288,50 @@ int itkVersorRigid3DTransformTest(int, char**)
   }
 
 
+  /**  Exercise the SetCenter method  */
+  {
+  bool Ok = true;
+
+    TransformType::Pointer  rotation = TransformType::New();
+
+    itk::Vector<double,3> axis(1);
+
+    const double angle = (atan(1.0)/45.0)*30.0; // turn 30 degrees
+
+    rotation->SetRotation( axis, angle );
+
+    TransformType::InputPointType  center;
+    center[0] = 31;
+    center[1] = 62;
+    center[2] = 93;
+    
+    rotation->SetCenter( center );
+
+    TransformType::OutputPointType transformedPoint;
+    transformedPoint = rotation->TransformPoint( center );
+
+    for(unsigned int i=0; i<3; i++)
+      {
+        if( fabs( center[i] - transformedPoint[i] ) > epsilon )
+        {
+          Ok = false;
+          break;    
+        }
+      }
+
+    if( !Ok )
+      { 
+      std::cerr << "The center point was not invariant to rotation " << std::endl;
+      return EXIT_FAILURE;
+      }
+    else
+      {
+      std::cout << "Ok center is invariant to rotation." << std::endl;
+      }
+
+    
+  }
+
   
   return EXIT_SUCCESS;
 

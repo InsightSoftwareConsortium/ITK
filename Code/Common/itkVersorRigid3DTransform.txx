@@ -29,7 +29,7 @@ VersorRigid3DTransform<TScalarType>
 ::VersorRigid3DTransform()
 {
   m_Versor.SetIdentity();
-  this->ComputeMatrix();
+  this->ComputeMatrixAndOffset();
 }
 
 // Copy Constructor
@@ -39,7 +39,7 @@ VersorRigid3DTransform<TScalarType>
 {
   // call the superclass copy constructor
   m_Versor = other.m_Versor;
-  this->ComputeMatrix();
+  this->ComputeMatrixAndOffset();
 }
 
 // Set Parameters
@@ -77,7 +77,7 @@ VersorRigid3DTransform<TScalarType>
   
   this->SetOffset( offset );
 
-  this->ComputeMatrix();
+  this->ComputeMatrixAndOffset();
 
   itkDebugMacro(<<"After setting paramaters ");
 }
@@ -90,7 +90,7 @@ VersorRigid3DTransform<TScalarType>
 ::SetRotation( const VersorType & versor )
 {
     m_Versor = versor;
-    this->ComputeMatrix();
+    this->ComputeMatrixAndOffset();
 }
 
 
@@ -102,15 +102,43 @@ VersorRigid3DTransform<TScalarType>
 ::SetRotation( const AxisType & axis, AngleType  angle )
 {
     m_Versor.Set( axis, angle );
-    this->ComputeMatrix();
+    this->ComputeMatrixAndOffset();
 }
+
+
+
+
+template <class TScalarType>
+void
+VersorRigid3DTransform<TScalarType>
+::SetCenter( const InputPointType & center )
+{
+  m_Center = center;
+  this->ComputeMatrixAndOffset();
+}
+
+
+
+
+template <class TScalarType>
+void
+VersorRigid3DTransform<TScalarType>
+::SetTranslation( const OutputVectorType & translation )
+{
+  m_Translation = translation;
+  this->ComputeMatrixAndOffset();
+}
+
+
+
+
 
 
 // Compute the matrix
 template <class TScalarType>
 void
 VersorRigid3DTransform<TScalarType>
-::ComputeMatrix( void )
+::ComputeMatrixAndOffset( void )
 {
 
   const TScalarType vx = m_Versor.GetX();
@@ -139,6 +167,18 @@ VersorRigid3DTransform<TScalarType>
   m_RotationMatrix[1][2] = 2.0 * ( yz - xw );
  
   m_InverseMatrix = m_RotationMatrix.GetTranspose();
+
+  OffsetType offset; 
+  for(unsigned int i=0; i<3; i++)
+    {
+    offset[i] = m_Translation[i] + m_Center[i];  
+    for(unsigned int j=0; j<3; j++)
+      {
+      offset[i] -= m_RotationMatrix[i][j] * m_Center[j];
+      }
+    }
+
+  this->SetOffset( offset );
 
 }
 
@@ -197,7 +237,9 @@ PrintSelf(std::ostream &os, Indent indent) const
 
   Superclass::PrintSelf(os,indent);
   
-  os << indent << "Versor: " << m_Versor  << std::endl;
+  os << indent << "Versor:      " << m_Versor       << std::endl;
+  os << indent << "Center:      " << m_Center       << std::endl;
+  os << indent << "Translation: " << m_Translation  << std::endl;
 }
 
 } // namespace

@@ -99,6 +99,14 @@ public:
   /** Set the rotational part of the transform. */
   void SetRotation( const VersorType & versor );
   void SetRotation( const AxisType & axis, AngleType angle );
+
+   /** Set and Get the center of rotation */
+  void SetCenter( const InputPointType & center );
+  itkGetConstReferenceMacro( Center, InputPointType );
+ 
+  /** Set and Get the Translation to be applied after rotation */
+  void SetTranslation( const OutputVectorType & translation );
+  itkGetConstReferenceMacro( Translation, OutputVectorType );
   
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
@@ -112,14 +120,21 @@ protected:
   void PrintSelf(std::ostream &os, Indent indent) const;
 
   /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrix(void);
+  void ComputeMatrixAndOffset(void);
 
 private:
   VersorRigid3DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /**  Versor containing the rotation. */
-  VersorType    m_Versor;
+  VersorType          m_Versor;
+
+  /**  Center of rotation */
+  InputPointType      m_Center;
+
+  /**  Translation defined in addittion to the rotation around the center. */
+  OutputVectorType    m_Translation;
+
 
 }; //class VersorRigid3DTransform
 
