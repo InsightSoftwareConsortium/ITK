@@ -14,6 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
 
 // Software Guide : BeginLatex
 //
@@ -40,7 +43,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 
 
-int main( int argc, char **argv )
+int main( int argc, char *argv[] )
 {
 
 

@@ -53,7 +53,7 @@
 #define   NUM_CLASSES         3
 #define   MAX_NUM_ITER        1
 
-int main( int argc, char **argv )
+int main( int argc, char *argv[] )
 {
   if( argc != 4 )
     {

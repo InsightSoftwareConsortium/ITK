@@ -37,3 +37,7 @@ TARGET_LINK_LIBRARIES(DeformableModel1 ITKAlgorithms ITKNumerics ITKIO)
 ADD_EXECUTABLE(GibbsPriorImageFilter1 GibbsPriorImageFilter1.cxx )
 TARGET_LINK_LIBRARIES(GibbsPriorImageFilter1 ITKAlgorithms ITKNumerics ITKIO)
 
+SET(SEGMENTATION_EXAMPLES ${CXX_TEST_PATH}/SegmentationExamples)
+
+ADD_EXECUTABLE(SegmentationExamples SegmentationExamples.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
