@@ -462,7 +462,7 @@ M_Read(void)
   // Now reading the cells
   for(unsigned int nCellType=0;nCellType<numberOfCellTypes;nCellType++)
     {
-    m_Fields.clear();
+    MetaObject::ClearFields();
     mF = new MET_FieldRecordType;
     MET_InitReadField(mF, "CellType", MET_STRING, true);
     m_Fields.push_back(mF);
@@ -571,7 +571,7 @@ M_Read(void)
     }
 
   // Now reading the cell links
-  m_Fields.clear();
+  MetaObject::ClearFields();
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "NCellLinks", MET_INT, false);
@@ -678,7 +678,7 @@ M_Read(void)
     }
 
    // Now reading the point data
-  m_Fields.clear();
+  MetaObject::ClearFields();
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "NPointData", MET_INT, false);
@@ -793,7 +793,7 @@ M_Read(void)
 
 
   // Now reading the cell data
-  m_Fields.clear();
+  MetaObject::ClearFields();
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "NCellData", MET_INT, false);
@@ -968,7 +968,7 @@ M_Write(void)
     if(m_CellListArray[i]->size()>0)
       {
       // clear the fields and add new fields for a new write
-      m_Fields.clear();
+      MetaObject::ClearFields();
       MET_FieldRecordType * mF;
       if(strlen(MET_CellTypeName[i])>0)
         {
@@ -1038,7 +1038,7 @@ M_Write(void)
   // Now write the cell links
   if(m_CellLinks.size()>0)
     {
-    m_Fields.clear();
+    MetaObject::ClearFields();
     m_NCellLinks = m_CellLinks.size();
     MET_FieldRecordType * mF;
     mF = new MET_FieldRecordType;
@@ -1117,7 +1117,7 @@ M_Write(void)
   // Point Data type is the same for the whole mesh
   if(m_PointData.size()>0)
     {
-    m_Fields.clear();
+    MetaObject::ClearFields();
     m_NPointData = m_PointData.size();
     MET_FieldRecordType * mF;
     mF = new MET_FieldRecordType;
@@ -1162,7 +1162,7 @@ M_Write(void)
   // Point Data type is the same for the whole mesh
   if(m_CellData.size()>0)
     {
-    m_Fields.clear();
+    MetaObject::ClearFields();
     m_NCellData = m_CellData.size();
     MET_FieldRecordType * mF;
     mF = new MET_FieldRecordType;
