@@ -41,22 +41,25 @@ namespace _cable_
     typedef itk::LevelSetNode<signed short  , 3 >::LevelSetNode itkLevelSetNodeSS3;
     typedef itk::LevelSetNode<signed int    , 3 >::LevelSetNode itkLevelSetNodeSI3;
 
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeF2  >::VectorContainer itkNodeContainerF2;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeD2  >::VectorContainer itkNodeContainerD2;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeUC2 >::VectorContainer itkNodeContainerUC2;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeUS2 >::VectorContainer itkNodeContainerUS2;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeUI2 >::VectorContainer itkNodeContainerUI2;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeSC2 >::VectorContainer itkNodeContainerSC2;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeSS2 >::VectorContainer itkNodeContainerSS2;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeSI2 >::VectorContainer itkNodeContainerSI2;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeF3  >::VectorContainer itkNodeContainerF3;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeD3  >::VectorContainer itkNodeContainerD3;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeUC3 >::VectorContainer itkNodeContainerUC3;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeUS3 >::VectorContainer itkNodeContainerUS3;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeUI3 >::VectorContainer itkNodeContainerUI3;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeSC3 >::VectorContainer itkNodeContainerSC3;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeSS3 >::VectorContainer itkNodeContainerSS3;
-    typedef itk::VectorContainer<unsigned int, itkLevelSetNodeSI3 >::VectorContainer itkNodeContainerSI3;
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeF2, itkNodeContainerF2);
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeD2, itkNodeContainerD2);
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeUC2, itkNodeContainerUC2);
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeUS2, itkNodeContainerUS2);
+     
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeUI2, itkNodeContainerUI2);
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeSC2, itkNodeContainerSC2);
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeSS2, itkNodeContainerSS2);
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeSI2, itkNodeContainerSI2);
+     
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeF3, itkNodeContainerF3);
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeD3, itkNodeContainerD3);
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeUC3, itkNodeContainerUC3);
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeUS3, itkNodeContainerUS3);
+     
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeUI3, itkNodeContainerUI3);
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeSC3, itkNodeContainerSC3);
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeSS3, itkNodeContainerSS3);
+    ITK_WRAP_OBJECT2(VectorContainer, unsigned int, itkLevelSetNodeSI3, itkNodeContainerSI3);     
   }
 }
 
