@@ -59,6 +59,7 @@ AffineTransform(const MatrixType &matrix, const OutputVectorType &offset)
   m_Matrix = matrix;
   m_Offset = offset;
   m_MatrixMTime.Modified();
+  this->Modified();
 }
 
 
@@ -129,6 +130,7 @@ Compose(const Self * other, bool pre)
     m_Matrix = other->m_Matrix * m_Matrix;
     }
   m_MatrixMTime.Modified();
+  this->Modified();
   return;
 }
 
@@ -167,6 +169,7 @@ Scale(const TScalarType &factor, bool pre)
     m_Offset *= factor;
     }
   m_MatrixMTime.Modified();
+  this->Modified();
   return;
 }
 
@@ -199,6 +202,7 @@ Scale(const OutputVectorType &factor, bool pre)
     m_Offset = trans * m_Offset;
     }
   m_MatrixMTime.Modified();
+  this->Modified();
   return;
 }
 
@@ -235,6 +239,7 @@ Rotate(int axis1, int axis2, TScalarType angle, bool pre)
     m_Offset = trans * m_Offset;
     }
   m_MatrixMTime.Modified();
+  this->Modified();
   return;
 }
 
@@ -263,6 +268,7 @@ Rotate2D(TScalarType angle, bool pre)
     m_Offset = trans * m_Offset;
     }
   m_MatrixMTime.Modified();
+  this->Modified();
   return;
 }
 
@@ -314,6 +320,7 @@ Rotate3D(const OutputVectorType &axis, TScalarType angle, bool pre)
     m_Offset = trans * m_Offset;
     }
   m_MatrixMTime.Modified();
+  this->Modified();
   return;
 }
 
@@ -346,6 +353,7 @@ Shear(int axis1, int axis2, TScalarType coef, bool pre)
     m_Offset = trans * m_Offset;
     }
   m_MatrixMTime.Modified();
+  this->Modified();
   return;
 }
 
@@ -712,6 +720,20 @@ GetJacobian( const InputPointType & p ) const
 
 }
 
+// Create and return an inverse transformation
+template<class TScalarType, unsigned int NDimensions>
+typename AffineTransform<TScalarType, NDimensions>::Pointer
+AffineTransform<TScalarType, NDimensions>::
+Inverse( void ) const
+{
+  itkWarningMacro("Inverse() is deprecated.  Please use GetInverse() instead.");
+  Pointer result = New();
+  result->m_Matrix   =   this->GetInverseMatrix();
+  result->m_Inverse  =   m_Matrix;
+  result->m_Offset   = -(this->GetInverseMatrix() * m_Offset);
+  result->m_Singular =   false;
+  return result;
+}
 
  
 
