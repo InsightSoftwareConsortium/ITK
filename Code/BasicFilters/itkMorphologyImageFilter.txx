@@ -91,9 +91,9 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   for (i = 0; i < TInputImage::ImageDimension; i++)
     {
     inputRequestedRegionSize[i]
-      = outputRequestedRegionSize[i] + 2 * m_Operator.GetRadius(i);
+      = outputRequestedRegionSize[i] + 2 * m_Kernel.GetRadius(i);
     inputRequestedRegionStartIndex[i]
-      = outputRequestedRegionStartIndex[i] - m_Operator.GetRadius(i);
+      = outputRequestedRegionStartIndex[i] - m_Kernel.GetRadius(i);
 
     // crop the requested region to the largest possible region
     //
