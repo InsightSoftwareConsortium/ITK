@@ -134,9 +134,9 @@ std::slice Neighborhood<TPixel, VDimension, TContainer>
   n = n - ( static_cast<unsigned>(this->GetStride(d))
             * (static_cast<unsigned>(this->GetSize()[d] / 2) ) );
 
-  return std::slice(static_cast<::size_t>(n),
-                    static_cast<::size_t>(this->GetSize()[d]),
-                    static_cast<::size_t>(this->GetStride(d)) );
+  return std::slice(static_cast<size_t>(n),
+                    static_cast<size_t>(this->GetSize()[d]),
+                    static_cast<size_t>(this->GetStride(d)) );
 }
 
 template<class TPixel, unsigned int VDimension, class TContainer>
