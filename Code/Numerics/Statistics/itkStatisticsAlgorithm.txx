@@ -189,9 +189,8 @@ FindSampleBoundAndMean(TSubsample* sample,
   unsigned int dimension ;
   MeasurementVectorType temp ;
 
-  double numberOfInstances = endIndex - beginIndex ;
-
   min = max = temp = sample->GetMeasurementVectorByIndex(beginIndex) ;
+  double frequencySum = sample->GetFrequencyByIndex(beginIndex) ;
   sum.Fill(0.0) ;
  
   while (true)
@@ -214,11 +213,12 @@ FindSampleBoundAndMean(TSubsample* sample,
       break ;
       }
     temp = sample->GetMeasurementVectorByIndex(beginIndex) ;
+    frequencySum += sample->GetFrequencyByIndex(beginIndex) ;
     } // end of while
 
   for (int i = 0 ; i < Dimension ; i++)
     {
-    mean[i] = int(sum[i] / numberOfInstances) ;
+    mean[i] = (MeasurementType)(sum[i] / frequencySum) ;
     }
 }
 
@@ -260,7 +260,7 @@ QuickSelect(TSubsample* sample,
     {
     cut = Partition< TSubsample >(sample, activeDimension, 
                                   begin, end, tempMedian) ;
-
+    
     if (begin == cut)
       {
       break ;
