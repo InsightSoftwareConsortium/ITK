@@ -18,6 +18,7 @@
 #define _itkGradientRecursiveGaussianImageFilter_txx
 
 #include "itkGradientRecursiveGaussianImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
@@ -47,6 +48,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
   m_DerivativeFilter->SetInput( 
                        m_SmoothingFilters[ImageDimension-2]->GetOutput() );
   
+  m_ImageAdaptor = OutputImageAdaptorType::New();
 
   this->SetSigma( 1.0 );
 
@@ -85,29 +87,25 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
 ::GenerateData(void)
 {
 
-  itkDebugMacro(<< "Hi, GradientRecursiveGaussianImageFilter generating data ");
+  itkDebugMacro(<< "GradientRecursiveGaussianImageFilter generating data ");
 
-  const typename TInputImage::Pointer   inputImage( GetInput() );
+  const typename TInputImage::Pointer   inputImage( this->GetInput() );
 
-  OutputImagePointer    outputImage   = TOutputImage::New();
-  OutputAdaptorPointer  outputAdaptor = m_DerivativeFilter->GetOutput();
-
-  outputImage->ReleaseData();  // Free any data from previous execution
-
-  outputAdaptor->SetImage( outputImage );
+  //OutputImagePointer    outputImage   = TOutputImage::New();
+  OutputImagePointer    outputImage   = this->GetOutput();
   
+  m_ImageAdaptor->SetImage( outputImage.GetPointer() );
 
+  m_ImageAdaptor->SetLargestPossibleRegion( 
+                    inputImage->GetLargestPossibleRegion() );
 
-  outputAdaptor->SetLargestPossibleRegion( 
-      inputImage->GetLargestPossibleRegion() );
+  m_ImageAdaptor->SetBufferedRegion( 
+                    inputImage->GetBufferedRegion() );
 
-  outputAdaptor->SetBufferedRegion( 
-      inputImage->GetBufferedRegion() );
+  m_ImageAdaptor->SetRequestedRegion( 
+                    inputImage->GetRequestedRegion() );
 
-  outputAdaptor->SetRequestedRegion( 
-      inputImage->GetRequestedRegion() );
-
-  outputAdaptor->Allocate();
+  m_ImageAdaptor->Allocate();
 
   m_SmoothingFilters[0]->SetInput( inputImage );
 
@@ -126,13 +124,35 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
     j++;
     }
     m_DerivativeFilter->SetDirection( dim );
-    outputAdaptor->SelectNthElement( dim );
     m_DerivativeFilter->Update();
     
+
+    // Copy the results to the corresponding component
+    // on the output image of vectors
+    m_ImageAdaptor->SelectNthElement( dim );
+
+    typename TInputImage::Pointer derivativeImage = 
+                                    m_DerivativeFilter->GetOutput(); 
+
+    ImageRegionIteratorWithIndex< TInputImage > it( 
+                                      derivativeImage, 
+                                      derivativeImage->GetRequestedRegion() );
+
+    ImageRegionIteratorWithIndex< OutputImageAdaptorType > ot( 
+                                      m_ImageAdaptor, 
+                                      m_ImageAdaptor->GetRequestedRegion() );
+
+    it.GoToBegin();
+    ot.GoToBegin();
+    while( !it.IsAtEnd() )
+      {
+      ot.Set( it.Get() );
+      ++it;
+      ++ot;
+      }
+
   }
   
-  // Reconnect the image to the output
-  this->GraftOutput( outputImage );
 
 }
 

@@ -51,7 +51,8 @@ public:
    *  components of the gradient image pixels. */
   typedef NthElementImageAdaptor< TOutputImage,
                                   typename TInputImage::PixelType >  
-                                                     OutputAdaptorType;
+                                                OutputImageAdaptorType;
+  typedef OutputImageAdaptorType::Pointer       OutputImageAdaptorPointer;
 
   /**  Smoothing filter type */
   typedef RecursiveGaussianImageFilter<
@@ -62,7 +63,7 @@ public:
   /**  Derivative along one dimension filter type. */
   typedef FirstDerivativeRecursiveGaussianImageFilter<
                                   TInputImage,
-                                  OutputAdaptorType,
+                                  TInputImage,
                                   TComputation>    DerivativeFilterType;
 
   /**  Pointer to a smoothing filter.  */
@@ -70,9 +71,7 @@ public:
 
   /**  Pointer to a derivative filter.  */
   typedef typename DerivativeFilterType::Pointer   DerivativeFilterPointer;                                  
-  /**  Pointer to the output image adaptor. */
-  typedef typename OutputAdaptorType::Pointer      OutputAdaptorPointer;                                  
-  /**  Pointer to the Output Image Adaptor */
+  /**  Pointer to the Output Image */
   typedef typename TOutputImage::Pointer          OutputImagePointer;                                  
   /** Image dimension. */
   enum { ImageDimension = TInputImage::ImageDimension };
@@ -94,8 +93,9 @@ private:
   GradientRecursiveGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  SmoothingFilterPointer     m_SmoothingFilters[ImageDimension-1];
-  DerivativeFilterPointer    m_DerivativeFilter;
+  SmoothingFilterPointer        m_SmoothingFilters[ImageDimension-1];
+  DerivativeFilterPointer       m_DerivativeFilter;
+  OutputImageAdaptorPointer     m_ImageAdaptor;
 
 };
 
