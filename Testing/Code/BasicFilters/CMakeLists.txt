@@ -25,6 +25,7 @@ ADD_TEST(itkBinaryDilateImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryDilateIm
 ADD_TEST(itkBinaryMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryMagnitudeImageFilterTest)
 ADD_TEST(itkBinaryMedianImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryMedianImageFilterTest)
 ADD_TEST(itkBinaryThresholdImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryThresholdImageFilterTest)
+ADD_TEST(itkBSplineInterpolateImageFunctionTest ${BASIC_FILTERS_TESTS} itkBSplineInterpolateImageFunctionTest)
 ADD_TEST(itkBSplineResampleImageFilterTest ${BASIC_FILTERS_TESTS} itkBSplineResampleImageFilterTest)
 ADD_TEST(itkBloxBoundaryPointImageTest ${BASIC_FILTERS_TESTS} itkBloxBoundaryPointImageTest)
 ADD_TEST(itkBloxCoreAtomTest ${BASIC_FILTERS_TESTS} itkBloxCoreAtomTest)
@@ -136,6 +137,7 @@ itkBinaryDilateImageFilterTest.cxx
 itkBinaryMagnitudeImageFilterTest.cxx
 itkBinaryMedianImageFilterTest.cxx
 itkBinaryThresholdImageFilterTest.cxx
+itkBSplineInterpolateImageFunctionTest.cxx
 itkBSplineResampleImageFilterTest.cxx
 itkBloxBoundaryPointImageTest.cxx
 itkBloxCoreAtomTest.cxx
