@@ -65,9 +65,9 @@ QuaternionRigidRegistrationTransform<TScalarType,TParameters>
  * Transform a Point
  */
 template <class TScalarType,class TParameters>
-QuaternionRigidRegistrationTransform<TScalarType,TParameters>::PointType
+QuaternionRigidRegistrationTransform<TScalarType,TParameters>::OutputPointType
 QuaternionRigidRegistrationTransform<TScalarType,TParameters>
-::Transform( const PointType & point ) const
+::Transform( const InputPointType & point ) const
 {
   return m_RigidTransform.Transform( point );
 }
@@ -129,7 +129,7 @@ QuaternionRigidRegistrationTransform<TScalarType,TParameters>
 template<class ScalarType, class TParameters>
 const QuaternionRigidRegistrationTransform<ScalarType, TParameters>::JacobianType &
 QuaternionRigidRegistrationTransform<ScalarType, TParameters>::
-GetJacobian( const PointType & p ) const
+GetJacobian( const InputPointType & p ) const
 {
 
   // compute derivatives with respect to rotation

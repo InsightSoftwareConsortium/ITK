@@ -82,7 +82,8 @@ public:
   /** 
    * Input point type
    */
-  typedef typename RigidTransformType::PointType  PointType;
+  typedef typename RigidTransformType::InputPointType  InputPointType;
+  typedef typename RigidTransformType::OutputPointType OutputPointType;
 
   /** 
    * Run-time type information (and related methods).
@@ -102,7 +103,7 @@ public:
   /**
    * Rigidly transform a Point using pre-specified parameters.
    */
-  PointType Transform( const PointType & point ) const;
+  OutputPointType Transform( const InputPointType & point ) const;
 
   /**
    * Set the Transformation Parameters
@@ -126,7 +127,7 @@ public:
    * This method computes the Jacobian matrix of the transformation
    * for a given point.
    **/
-  const JacobianType & GetJacobian(const PointType  &point ) const;
+  const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 protected:
 
