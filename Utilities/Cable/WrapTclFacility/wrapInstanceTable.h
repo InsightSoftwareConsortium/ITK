@@ -69,16 +69,8 @@ private:
   typedef std::map<const Type*, DeleteFunction>  DeleteFunctionMap;
   DeleteFunctionMap m_DeleteFunctionMap;
   
-  /**
-   * Let an STL map use void pointers as a key.
-   */
-  struct VoidPointerCompare
-  {
-    bool operator()(const void* l, const void*r) const
-      { return (((unsigned long)l) < ((unsigned long)r)); }
-  };
-  
-  typedef std::map<const void*, String, VoidPointerCompare>  AddressToNameMap;
+  typedef std::map<const void*, String,
+                   PointerCompare<const void> >  AddressToNameMap;
   
   /** 
    * Map from object address to object name.
@@ -92,6 +84,14 @@ private:
   unsigned int m_TempNameNumber;
   
   void CheckExists(const String& name) const;
+  
+public:
+  static Instances* GetInterpreterInstances(Tcl_Interp*);
+  
+private:
+  typedef std::map<const Tcl_Interp*, Instances*,
+                   PointerCompare<const Tcl_Interp> >  InterpreterInstancesMap;
+  static InterpreterInstancesMap interpreterInstancesMap;
 };
 
 

@@ -172,6 +172,25 @@ void Instances::CheckExists(const String& name) const
     throw _wrap_UndefinedInstanceNameException(name);
     }
 }
+
+
+/**
+ * Get an Instances object set up to deal with the given Tcl interpreter.
+ * If one exists, it will be returned.  Otherwise, a new one will be
+ * created.
+ */
+Instances* Instances::GetInterpreterInstances(Tcl_Interp* interp)
+{
+  // See if an Instances exists for the given interpreter.
+  if(interpreterInstancesMap.count(interp) == 0)
+    {
+    // No, we must create a new Instances for this interpreter.
+    interpreterInstancesMap[interp] = new Instances(interp);
+    }
   
+  // Return the existing copy.
+  return interpreterInstancesMap[interp];  
+}
+
 
 } // namespace _wrap_

@@ -96,7 +96,21 @@ typedef ::_cxx_::ReferenceType        ReferenceType;
 typedef ::_cxx_::CvQualifiedType      CvQualifiedType;
 typedef ::_cxx_::TypeSystem           TypeSystem;
 //@}
+
   
+/**
+ * Comparison function object for sorting based on pointer type.
+ */
+template <typename T>
+struct PointerCompare
+{
+  bool operator()(T* l, T* r) const
+    {
+    return (reinterpret_cast<unsigned long>(l)
+            < reinterpret_cast<unsigned long>(r));
+    }
+};
+
 } // namespace _wrap_
 
 
