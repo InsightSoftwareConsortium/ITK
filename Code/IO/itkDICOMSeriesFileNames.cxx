@@ -46,11 +46,97 @@ const std::vector<std::string> &
 DICOMSeriesFileNames
 ::GetFileNames()
 {
+  // make sure the SeriesUIDs are up to date
+  this->GetSeriesUIDs();
+
+  if (m_SeriesUIDs.size() > 0)
+    {
+    return this->GetFileNames( *m_SeriesUIDs.begin() );
+    }
+  else
+    {
+    m_FileNames.clear();
+    return m_FileNames;
+    }
+}
+
+const std::vector<std::string> &
+DICOMSeriesFileNames
+::GetFileNames(const std::string &seriesUID)
+{
   if ( m_Directory == "" )
     {
     itkExceptionMacro ( << "No directory defined!");
     }
 
+  // Make sure the SeriesUIDs are up to date. This may require the
+  // directory to be scanned.
+  this->GetSeriesUIDs();
+  
+  // Get the filenames, sorted by user selection. 
+  m_FileNames.clear();
+  if (m_SeriesUIDs.size() > 0)
+    {
+    switch (m_FileNameSortingOrder)
+      {
+      case SortByImageNumber:
+      {
+      std::vector<std::pair<int, std::string> > iSortedFileNames;
+      m_AppHelper.GetSliceNumberFilenamePairs(seriesUID,
+                                              iSortedFileNames);
+      for (std::vector<std::pair<int, std::string> >::iterator it =
+             iSortedFileNames.begin(); it != iSortedFileNames.end(); ++it)
+        {
+        m_FileNames.push_back( (*it).second );
+        }
+      }
+      break;
+      
+      case SortBySliceLocation:
+      {
+      std::vector<std::pair<float, std::string> > fSortedFileNames;
+      m_AppHelper.GetSliceLocationFilenamePairs(seriesUID,
+                                                fSortedFileNames);
+      for (std::vector<std::pair<float, std::string> >::iterator it =
+             fSortedFileNames.begin(); it != fSortedFileNames.end(); ++it)
+        {
+        m_FileNames.push_back( (*it).second );
+        }
+      }
+      break;
+      
+      case SortByImagePositionPatient:
+      {
+      std::vector<std::pair<float, std::string> > fSortedFileNames;
+      m_AppHelper.GetImagePositionPatientFilenamePairs(seriesUID,
+                                                       fSortedFileNames);
+      for (std::vector<std::pair<float, std::string> >::iterator it =
+             fSortedFileNames.begin(); it != fSortedFileNames.end(); ++it)
+        {
+        m_FileNames.push_back( (*it).second );
+        }
+      }
+      break;
+      }
+    }
+  return m_FileNames;
+}
+
+const std::vector<std::string> &
+DICOMSeriesFileNames
+::GetSeriesUIDs()
+{
+  if ( m_Directory == "" )
+    {
+    itkExceptionMacro ( << "No directory defined!");
+    }
+
+  // Check whether we need to rescan the directory
+  if (m_DirectorySetTime < m_DirectoryScanTime)
+    {
+    return m_SeriesUIDs;
+    }
+  
   // Process all files in the directory
   itksys::Directory dicomDir;
   if (!dicomDir.Load (m_Directory.c_str()))
@@ -58,12 +144,11 @@ DICOMSeriesFileNames
     itkExceptionMacro ( << "Directory " << m_Directory.c_str() << " cannot be read!");
     }
 
-  // clear the file names
-  m_AppHelper.ClearSeriesUIDMap();
-  m_AppHelper.ClearSliceOrderingMap();
+  // Initialize the AppHelper
+  m_AppHelper.Clear();
 
   // Scan directory for files
-  m_FileNames.clear();
+  std::vector<std::string> filenames;
   for (unsigned long i = 0; i < dicomDir.GetNumberOfFiles(); i++)
     {
     // Only read files
@@ -73,21 +158,17 @@ DICOMSeriesFileNames
       }
 
     // store the full filename
-    m_FileNames.push_back(m_Directory + "/" + dicomDir.GetFile(i));
+    filenames.push_back(m_Directory + "/" + dicomDir.GetFile(i));
     }
 
   // Scan the header of each file
   std::vector<std::string>::iterator iter;
-  for (iter = m_FileNames.begin();
-       iter != m_FileNames.end();
-       iter++)
+  for (iter = filenames.begin(); iter != filenames.end(); iter++)
     {
     const char* fn = (*iter).c_str();
     m_Parser.OpenFile(fn);
     m_Parser.ClearAllDICOMTagCallbacks();
     m_AppHelper.RegisterCallbacks(&m_Parser);
-    m_AppHelper.SetFileName(fn);
-    m_AppHelper.SetDICOMDataFile(m_Parser.GetDICOMFile());
     m_Parser.ReadHeader();
     }
 
@@ -96,48 +177,13 @@ DICOMSeriesFileNames
     m_AppHelper.OutputSeries();
     }
 
-  // Get the filenames, sorted by user selection
-  m_FileNames.clear();
-  switch (m_FileNameSortingOrder)
-    {
-    case SortByImageNumber:
-    {
-    std::vector<std::pair<int, std::string> > iSortedFileNames;
-    m_AppHelper.GetSliceNumberFilenamePairs(iSortedFileNames);
-    for (std::vector<std::pair<int, std::string> >::iterator it =
-           iSortedFileNames.begin(); it != iSortedFileNames.end(); ++it)
-      {
-      m_FileNames.push_back( (*it).second );
-      }
-    }
-    break;
-    
-    case SortBySliceLocation:
-    {
-    std::vector<std::pair<float, std::string> > fSortedFileNames;
-    m_AppHelper.GetSliceLocationFilenamePairs(fSortedFileNames);
-    for (std::vector<std::pair<float, std::string> >::iterator it =
-           fSortedFileNames.begin(); it != fSortedFileNames.end(); ++it)
-      {
-      m_FileNames.push_back( (*it).second );
-      }
-    }
-    break;
-    
-    case SortByImagePositionPatient:
-    {
-    std::vector<std::pair<float, std::string> > fSortedFileNames;
-    m_AppHelper.GetImagePositionPatientFilenamePairs(fSortedFileNames);
-    for (std::vector<std::pair<float, std::string> >::iterator it =
-           fSortedFileNames.begin(); it != fSortedFileNames.end(); ++it)
-      {
-      m_FileNames.push_back( (*it).second );
-      }
-    }
-    break;
-    }
-  
-  return m_FileNames;
+  // Get the SeriesUIDs
+  m_AppHelper.GetSeriesUIDs( m_SeriesUIDs );
+
+  // Keep track of when we scanned the directory last
+  m_DirectoryScanTime.Modified();
+
+  return m_SeriesUIDs;
 }
 
 int

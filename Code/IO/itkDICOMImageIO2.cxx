@@ -85,27 +85,9 @@ void DICOMImageIO2::ReadDataCallback( doublebyte,
 
 void DICOMImageIO2::Read(void* buffer)
 {
-  // We tell the Parser to clear the callbacks then we tell the
-  // AppHelper to register the callbacks with the parser.
-  //
-  // Maybe we can put the Parser->ClearAll....() inside the
-  // AppHelper->RegisterCallbacks( Parser );
-  //
-  // or maybe it should be
-  //
-  // AppHelper->SetParser( Parser );
-  // AppHelper->RegisterCallbacks();
   Parser->ClearAllDICOMTagCallbacks();
   AppHelper->RegisterCallbacks(Parser);
-
-  // These next 3 steps seem repetetive:
-  //    1) We tell the AppHelper the filename
-  //    2) We tell the Parser to open the file
-  //    3) We tell the AppHelper who the Parser is
-  //    4) We tell the AppHelper to register callbacks with the Parser
-  //
-  //
-  AppHelper->SetFileName(m_FileName.c_str());
+  AppHelper->RegisterPixelDataCallback(Parser);
     
   bool open = Parser->OpenFile(m_FileName.c_str());
   if (!open)
@@ -113,10 +95,6 @@ void DICOMImageIO2::Read(void* buffer)
     std::cerr << "Couldn't open file: " << m_FileName << std::endl;
     return;
     }
-
-  AppHelper->SetDICOMDataFile(Parser->GetDICOMFile());
-
-  AppHelper->RegisterPixelDataCallback();
 
   // Should ReadHeader() be Read() since more than just a header is read?
   Parser->ReadHeader();
@@ -127,13 +105,10 @@ void DICOMImageIO2::Read(void* buffer)
 
 
   AppHelper->GetImageData(newData, newType, imageDataLength);
-
   memcpy(buffer, newData, imageDataLength);
 
-  // why do have to tell the AppHelper to clear the maps?
-  AppHelper->ClearSliceOrderingMap();
-  AppHelper->ClearSeriesUIDMap();
-
+  // Clean up
+  AppHelper->Clear();
 }
 
 
@@ -145,16 +120,12 @@ void DICOMImageIO2::ReadImageInformation()
   Parser->ClearAllDICOMTagCallbacks();
   AppHelper->RegisterCallbacks(Parser);
 
-  AppHelper->SetFileName(m_FileName.c_str());
-    
   bool open = Parser->OpenFile(m_FileName.c_str());
   if (!open)
     {
     std::cerr << "Couldn't open file: " << m_FileName << std::endl;
     return;
     }
-
-  AppHelper->SetDICOMDataFile(Parser->GetDICOMFile());
 
   Parser->ReadHeader();
 
@@ -230,9 +201,9 @@ void DICOMImageIO2::ReadImageInformation()
     }
 
   this->SetNumberOfComponents(num_comp);
-  AppHelper->ClearSliceOrderingMap();
-  AppHelper->ClearSeriesUIDMap();
 
+  // Cleanup
+  AppHelper->Clear();
 }
 
 /** Print Self Method */
