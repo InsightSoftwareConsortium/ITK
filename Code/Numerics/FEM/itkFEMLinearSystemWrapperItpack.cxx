@@ -624,6 +624,15 @@ void LinearSystemWrapperItpack::Solve(void)
   (*m_Methods[m_Method])( &N, (*m_Matrices)[0].GetIA(), (*m_Matrices)[0].GetJA(), (*m_Matrices)[0].GetA(), 
     (*m_Vectors)[0], (*m_Solutions)[0], &(IWKSP[0]), &NW, &(WKSP[0]), &(m_IPARM[0]), &(m_RPARM[0]), &IERR);
   
+  /* remove exception throw on convergence failure */
+  if (IERR < 100) 
+  {
+    if ( (IERR % 10) == 3 )
+    {
+      IERR = 0;
+    }
+  }
+
   /* check for itpack error code */
   if (IERR > 0)
   {
