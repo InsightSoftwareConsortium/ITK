@@ -57,6 +57,11 @@
 // C++ exception specification ignored except to indicate...
 #pragma warning ( disable : 4267 )
 
+// C++ exception specification ignored except to indicate a 
+// function is not __declspec(nothrow)
+#pragma warning ( disable : 4290 )
+
+
 // typename keyword in default template arguments is not accepted by
 // MSVC.  This macro should only be used in such places.
 #if !defined(CABLE_CONFIGURATION)
