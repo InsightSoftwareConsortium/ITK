@@ -157,6 +157,14 @@ public:
     { 
       return true;
     }
+  bool IsInsideBuffer( const ContinuousIndexType & index ) const
+    { 
+      return Superclass::IsInsideBuffer(index);
+    }
+  bool IsInsideBuffer( const IndexType & index ) const
+    { 
+      return Superclass::IsInsideBuffer(index);
+    }
 
   /** 
    *  Initialise the ray using the position and direction of a line.

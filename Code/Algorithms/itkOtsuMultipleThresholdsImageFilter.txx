@@ -18,7 +18,6 @@
 #define _itkOtsuMultipleThresholdsImageFilter_txx
 
 #include "itkOtsuMultipleThresholdsImageFilter.h"
-#include "itkMinimumMaximumImageCalculator.h"
 #include "itkThresholdLabelerImageFilter.h"
 #include "itkProgressAccumulator.h"
 #include "itkScalarImageToHistogramGenerator.h"
@@ -44,24 +43,16 @@ OtsuMultipleThresholdsImageFilter<TInputImage, TOutputImage>
   typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  // Calculate the min and max of the image
-  typename MinimumMaximumImageCalculator < TInputImage >::Pointer minMaxCalculator = 
-    MinimumMaximumImageCalculator < TInputImage >::New();
-  minMaxCalculator->SetImage( this->GetInput() );
-  minMaxCalculator->Compute();
-  int imageMin = minMaxCalculator->GetMinimum();
-  int imageMax = minMaxCalculator->GetMaximum();
-
   // Create a histogram of the image intensities
-  typedef itk::Statistics::ScalarImageToHistogramGenerator< TInputImage > HistogramGeneratorType;
-  HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
+  typedef typename Statistics::ScalarImageToHistogramGenerator< TInputImage > HistogramGeneratorType;
+  typename HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
   histogramGenerator->SetInput(  this->GetInput()  );
   histogramGenerator->SetNumberOfBins( m_NumberOfHistogramBins );
   histogramGenerator->Compute();
 
   // Compute the multiple Otsu Thresholds for the input image
-  typedef itk::OtsuMultipleThresholdsCalculator< HistogramGeneratorType::HistogramType > OtsuType;
-  OtsuType::Pointer otsuThresholdCalculator = OtsuType::New();
+  typedef typename OtsuMultipleThresholdsCalculator< HistogramGeneratorType::HistogramType > OtsuType;
+  typename OtsuType::Pointer otsuThresholdCalculator = OtsuType::New();
   otsuThresholdCalculator->SetInputHistogram( histogramGenerator->GetOutput() );
   otsuThresholdCalculator->SetNumberOfThresholds( m_NumberOfThresholds );
   otsuThresholdCalculator->Update();
@@ -103,7 +94,7 @@ OtsuMultipleThresholdsImageFilter<TInputImage,TOutputImage>
   for (unsigned long j=0; j<m_Thresholds.size(); j++)
     {
     os << "\tThreshold #" << j << ": " 
-       << static_cast<NumericTraits<OutputPixelType>::PrintType>(m_Thresholds[j]) 
+       << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_Thresholds[j]) 
        << std::endl;
     }
 }

@@ -61,9 +61,7 @@ ListSampleToHistogramGenerator< TListSample,
 
     for ( unsigned int i = 0 ; i < TListSample::MeasurementVectorSize ; i++ )
       {
-      // integer and char type has usually 0 for the epsilon
-      if ( NumericTraits< THistogramMeasurement >::epsilon() > 
-           NumericTraits< THistogramMeasurement >::Zero )
+      if ( !NumericTraits< THistogramMeasurement >::is_integer )
         {
         margin = 
           ( (THistogramMeasurement)(upper[i] - lower[i]) / 
