@@ -130,7 +130,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-
   unsigned long          m_Neighbors;  // Size of interpolation neighborhood
 
 };

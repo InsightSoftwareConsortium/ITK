@@ -101,8 +101,9 @@ const ContinuousIndexType& index) const
    * Compute base index = closet index below point
    * Compute distance from point to base index
    */
-  IndexType baseIndex;
-  VectorType distance;
+  signed long baseIndex[ImageDimension];
+  double distance[ImageDimension];
+
   for( dim = 0; dim < ImageDimension; dim++ )
     {
     baseIndex[dim] = (long) floor( index[dim] );
