@@ -240,7 +240,7 @@ int main()
   pyramid->SetCurrentLevel( currentLevel );
   pyramid->Update();
 
-/*
+
   pyramid->Print( std::cout );
 
   // check the output image information
@@ -325,7 +325,6 @@ int main()
     ++iter2;
     }
 
-*/
 
 
   if( !pass )

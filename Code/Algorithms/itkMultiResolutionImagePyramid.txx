@@ -309,15 +309,17 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
       {
       caster = CasterType::New();
       caster->SetInput( inputPtr );
-      smoother->SetInput( caster->GetOutput() );
+//      smoother->SetInput( caster->GetOutput() );
+      shrinker->SetInput( caster->GetOutput() );
       firstFilter = false;
       }
     else
       {
-      smoother->SetInput( tempImagePtr );
+//      smoother->SetInput( tempImagePtr );
+      shrinker->SetInput( tempImagePtr );
       }
 
-    shrinker->SetInput( smoother->GetOutput() );
+//    shrinker->SetInput( smoother->GetOutput() );
 
     // make sure we only update what we really need
     shrinker->UpdateOutputInformation();
