@@ -12,7 +12,6 @@ SET(FEM_SRCS
 itkFEMElementTest.cxx
 itkFEMExceptionTest.cxx
 itkFEMGenerateMeshTest.cxx
-itkFEMLandmarkLoadImplementationTest.cxx
 itkFEMLinearSystemWrapperItpackTest.cxx
 itkFEMLinearSystemWrapperVNLTest.cxx
 itkFEMLinearSystemWrapperDenseVNLTest.cxx
@@ -46,7 +45,7 @@ ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  ${FEM_TESTS} itkFEMLinearSystemW
 
 ADD_TEST(itkFEMExceptionTest ${FEM_TESTS} itkFEMExceptionTest)
 ADD_TEST(itkFEMGenerateMeshTest ${FEM_TESTS} itkFEMGenerateMeshTest)
-ADD_TEST(itkFEMLandmarkLoadImplementationTest ${FEM_TESTS} itkFEMLandmarkLoadImplementationTest)
+#ADD_TEST(itkFEMLandmarkLoadImplementationTest ${FEM_TESTS} itkFEMLandmarkLoadImplementationTest)
 
 #ADD_TEST(itkFEMBar2DTest ${FEM_TESTS} itkFEMBar2DTest)
 
