@@ -21,15 +21,25 @@
 #include <iostream>
 
 // For GetCurrentDate, GetCurrentTime
-#include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#ifdef _MSC_VER
-#include <sys/timeb.h>
-#else
-#include <sys/time.h>
+#if defined( _WIN32 ) && !defined( __CYGWIN__ )
+#  include <sys/timeb.h>
+#  define HAVE_FTIME
+#  if defined( __BORLANDC__)
+#    define FTIME ftime
+#    define TIMEB timeb
+#  else // Visual studio?
+#    define FTIME _ftime
+#    define TIMEB _timeb
+#  endif
+#elif defined( __CYGWIN__ ) || defined( __linux__ )
+#  include <sys/time.h>
+#  include <time.h>
+#  define HAVE_GETTIMEOFDAY
 #endif
+
 
 #include <stdarg.h>  //only included in implementation file
 #include <stdio.h>   //only included in implementation file
