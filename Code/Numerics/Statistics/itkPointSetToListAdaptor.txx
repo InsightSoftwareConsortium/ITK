@@ -23,13 +23,28 @@ namespace itk{
 namespace Statistics{
 
 template < class TPointSet >
+PointSetToListAdaptor< TPointSet >
+::PointSetToListAdaptor()
+{
+  m_PointSet = 0 ;
+}
+
+template < class TPointSet >
 void
 PointSetToListAdaptor< TPointSet >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "PointSet: " << m_PointSet << std::endl;
+  os << indent << "PointSet: " ;
+  if ( m_PointSet != 0 )
+    {
+    os << m_PointSet << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
 }
 
 template < class TPointSet >
