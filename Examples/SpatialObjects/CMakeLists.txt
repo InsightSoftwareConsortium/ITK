@@ -22,8 +22,8 @@ TARGET_LINK_LIBRARIES(LineSpatialObject ITKCommon ITKIO ITKMetaIO itkzlib itkpng
 ADD_EXECUTABLE(ReadWriteSpatialObject ReadWriteSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(ReadWriteSpatialObject ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
 
-ADD_EXECUTABLE(Scene Scene.cxx)
-TARGET_LINK_LIBRARIES(Scene ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+ADD_EXECUTABLE(SceneSpatialObject SceneSpatialObject.cxx)
+TARGET_LINK_LIBRARIES(SceneSpatialObject ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
 
 ADD_EXECUTABLE(SpatialObjectHierarchy SpatialObjectHierarchy.cxx)
 TARGET_LINK_LIBRARIES(SpatialObjectHierarchy ITKCommon ITKIO ITKMetaIO itkzlib itkpng)

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    Scene.cxx
+  Module:    SceneSpatialObject.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -17,16 +17,16 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::Scene}
-// This example describes how to use the \doxygen{Scene}.
-// A scene contains a collection of SpatialObjects.
+// \index{itk::SceneSpatialObject}
+// This example describes how to use the \doxygen{SceneSpatialObject}.
+// A SceneSpatialObject contains a collection of SpatialObjects.
 //
 // Let's start by including the appropriate header file.
 //
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-#include "itkScene.h"
+#include "itkSceneSpatialObject.h"
 // Software Guide : EndCodeSnippet
 #include "itkEllipseSpatialObject.h"
 
@@ -34,16 +34,16 @@ int main( int , char *[] )
 {
 // Software Guide : BeginLatex
 //
-// An \doxygen{itkScene} is templated over the dimension of the space which means that all the objects
-// in the scene should have the same dimension.
+// An \doxygen{itkSceneSpatialObject} is templated over the dimension of the space which means that all the objects
+// in the SceneSpatialObject should have the same dimension.
 //
-// First we define some type definitions and we create the scene.
+// First we define some type definitions and we create the SceneSpatialObject.
 //
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::Scene<3> SceneType;
-  SceneType::Pointer scene = SceneType::New();
+  typedef itk::SceneSpatialObject<3> SceneSpatialObjectType;
+  SceneSpatialObjectType::Pointer scene = SceneSpatialObjectType::New();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -65,7 +65,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// We, then, add the two ellipses into the scene.
+// We, then, add the two ellipses into the SceneSpatialObject.
 // 
 // Software Guide : EndLatex 
 
@@ -77,7 +77,7 @@ int main( int , char *[] )
   
 // Software Guide : BeginLatex
 //
-// We can query the number of object in the scene with the
+// We can query the number of object in the SceneSpatialObject with the
 // GetNumberOfObjects() function. This function takes two optional arguments:
 // the depth at which we should count the number of objects (default is set to infinity) 
 // and the name of the object to count (default is set to NULL). 
@@ -86,25 +86,25 @@ int main( int , char *[] )
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  std::cout << "Number of objects in the scene = ";
+  std::cout << "Number of objects in the SceneSpatialObject = ";
   std::cout << scene->GetNumberOfObjects() << std::endl;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
-// The GetObjectById() returns the first object in the scene that has the specified identification
+// The GetObjectById() returns the first object in the SceneSpatialObject that has the specified identification
 // number.
 // 
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  std::cout << "Object in the scene with an ID == 2: " << std::endl;
+  std::cout << "Object in the SceneSpatialObject with an ID == 2: " << std::endl;
   scene->GetObjectById(2)->Print(std::cout);
 // Software Guide : EndCodeSnippet
   
 // Software Guide : BeginLatex
 //
-// Objects can also be removed from the scene using the RemoveSpatialObject() function.
+// Objects can also be removed from the SceneSpatialObject using the RemoveSpatialObject() function.
 // 
 // Software Guide : EndLatex 
 
@@ -114,15 +114,15 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// The list of current objects in the scene can be retrieve using the GetObjects() function.
+// The list of current objects in the SceneSpatialObject can be retrieve using the GetObjects() function.
 // Like the GetNumberOfObjects() function, GetObjects() can take two arguments: 
 // a search depth and a matching name.
 // 
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  SceneType::ObjectListType * myObjectList =  scene->GetObjects();
-  std::cout << "Number of objects in the scene = ";
+  SceneSpatialObjectType::ObjectListType * myObjectList =  scene->GetObjects();
+  std::cout << "Number of objects in the SceneSpatialObject = ";
   std::cout << myObjectList->size() << std::endl;
 // Software Guide : EndCodeSnippet
 
@@ -130,7 +130,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // In some cases, it is useful to define a hierarchy by using ParentId() and current identification
-// number. This results in having a flat list of SpatialObjects in the scene. Therefore, the \doxygen{Scene} 
+// number. This results in having a flat list of SpatialObjects in the SceneSpatialObject. Therefore, the \doxygen{SceneSpatialObject} 
 // provides the FixHierarchy() function which reorganizes the Parent-Child hierarchy based on identification numbers.
 // 
 // Software Guide : EndLatex 
