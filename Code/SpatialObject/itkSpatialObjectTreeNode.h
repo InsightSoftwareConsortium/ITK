@@ -86,6 +86,7 @@ SpatialObjectTreeNode<TDimension>
   m_NodeToParentNodeTransform->SetIdentity();
   m_NodeToWorldTransform = TransformType::New();
   m_NodeToWorldTransform->SetIdentity();
+  m_Parent = NULL;
 }
 
   
