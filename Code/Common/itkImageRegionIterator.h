@@ -77,14 +77,30 @@ public:
    */
   typedef itk::Index<VImageDimension> Index;
 
+  /** 
+   * Size typedef support. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc.
+   * Note that we have to rescope Size back to itk::Size to that is it not
+   * confused with ImageIterator::Size.
+   */
+  typedef itk::Size<VImageDimension> Size;
+
   /**
    * Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index.
+   * Note that we have to rescope Image back to itk::Image to that is it not
+   * confused with ImageIterator::Image.
    */
   typedef itk::Image<TPixel, VImageDimension> Image;
 
+  /**
+   * Region typedef support. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc.
+   * Note that we have to rescope Region back to itk::ImageRegion so that is
+   * it not confused with ImageIterator::Index.
+   */
+  typedef itk::ImageRegion<VImageDimension> Region;
+  
   /** 
    * Run-time type information (and related methods).
    */
@@ -99,10 +115,9 @@ public:
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
-  ImageRegionIterator(const SmartPointer<Image> &ptr,
-                      const Index &start,
-                      const unsigned long size[VImageDimension])
-    : ImageIterator<TPixel, VImageDimension>(ptr, start, size) {}
+  ImageRegionIterator(Image *ptr,
+                      const Region &region)
+    : ImageIterator<TPixel, VImageDimension>(ptr, region) {}
 
   /**
    * Constructor that can be used to cast from an ImageIterator to an
@@ -137,16 +152,21 @@ public:
     ImageIterator<TPixel, VImageDimension>::Index
       ind = m_Image->ComputeIndex( m_Offset );
 
+    const ImageIterator<TPixel, VImageDimension>::Index&
+      startIndex = m_Region.GetIndex();
+    const ImageIterator<TPixel, VImageDimension>::Size&
+      size = m_Region.GetSize();
+      
     // increment along a row, then wrap at the end of the region row.
     int done;
     int dim;
     ind[0]++;
 
     // check to see if we are past the last pixel in the region
-    done = (ind[0] == m_StartIndex[0] + m_Size[0]);
+    done = (ind[0] == startIndex[0] + size[0]);
     for (unsigned int i=1; done && i < VImageDimension; i++)
       {
-      done = (ind[i] == m_StartIndex[i] + m_Size[i] - 1);
+      done = (ind[i] == startIndex[i] + size[i] - 1);
       }
     
     // if the iterator is outside the region (but not past region end) then
@@ -157,9 +177,9 @@ public:
       done = 1;
       if (dim < VImageDimension-1)
 	{
-	if (ind[dim] > m_StartIndex[dim] + m_Size[dim] - 1)
+	if (ind[dim] > startIndex[dim] + size[dim] - 1)
 	  {
-	  ind[dim] = m_StartIndex[dim];
+	  ind[dim] = startIndex[dim];
 	  ind[++dim]++;
 	  done = 0;
 	  }

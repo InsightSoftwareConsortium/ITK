@@ -17,7 +17,7 @@
 #include "itkPixelTraits.h"
 #include "itkObjectFactory.h"
 #include "itkImageScalarRegionIterator.h"
-
+ 
 namespace itk
 {
 
@@ -75,11 +75,16 @@ RandomImageSource<TOutputImage>
 {
   TOutputImage *output;
   typename TOutputImage::Index index = {0};
+  typename TOutputImage::Size size = {0};
+  size.SetSize( m_Size );
   
   output = this->GetOutput(0);
-  
-  output->SetImageSize( m_Size );
-  output->SetImageStartIndex( index );
+
+  typename TOutputImage::Region largestPossibleRegion;
+  largestPossibleRegion.SetSize( size );
+  largestPossibleRegion.SetIndex( index );
+  output->SetLargestPossibleRegion( largestPossibleRegion );
+
   output->SetSpacing(m_Spacing);
   output->SetOrigin(m_Origin);
 }
@@ -94,15 +99,14 @@ RandomImageSource<TOutputImage>
 
   typename TOutputImage::Pointer image=this->GetOutput(0);
 
-  image->SetBufferSize(image->GetRegionSize());
-  image->SetBufferStartIndex( image->GetRegionStartIndex() );
+  image->SetBufferedRegion( image->GetRequestedRegion() );
   image->Allocate();
 
   scalarType min = NumericTraits<scalarType>::min();
   scalarType max = NumericTraits<scalarType>::max();
 
   ImageScalarRegionIterator<OutputImagePixelType, TOutputImage::ImageDimension>
-    scalarIterator(image, image->GetRegionStartIndex(),image->GetRegionSize());
+    scalarIterator(image, image->GetRequestedRegion());
 
   itkDebugMacro(<<"Generating a random image of scalars");
 

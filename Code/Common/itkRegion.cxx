@@ -18,31 +18,5 @@
 namespace itk
 {
 
-/**
- * Instantiate object.
- */
-Region
-::Region()
-{
-}
-
-/**
- * Destructor for the Region class.
- */
-Region
-::~Region()
-{
-}
-
-/**
- * Print internal instance variables.
- */
-void 
-Region
-::PrintSelf(std::ostream& os, Indent indent)
-{
-  Superclass::PrintSelf(os,indent);
-}
-
 } // end namespace itk
 

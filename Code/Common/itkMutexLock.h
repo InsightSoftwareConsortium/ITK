@@ -56,7 +56,7 @@ class ITK_EXPORT SimpleMutexLock
 {
 public:
   /** 
-   * Standard "Self" typedef.
+   * Standard "Self" typedef. 
    */
   typedef SimpleMutexLock       Self;
   

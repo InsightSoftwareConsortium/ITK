@@ -69,10 +69,10 @@ WriteMetaImage<TInputImage>
   typename TInputImage::Pointer m_InputImage( GetInput() );
 
   int dimSize[ dimension ];
-  const unsigned long *size    = m_InputImage->GetBufferSize();
+  const TInputImage::Size& size    = m_InputImage->GetBufferSize();
   const float         *spacing = m_InputImage->GetSpacing();
   
-  const unsigned long bufferSize = 
+  const TInputImage::Size& bufferSize = 
                   m_InputImage->GetOffsetTable()[dimension];
 
   for(unsigned int i=0; i<dimension; i++) 

@@ -155,7 +155,7 @@ public:
    */
   itkSetClampMacro( NumberOfThreads, int, 1, ITK_MAX_THREADS );
   itkGetMacro( NumberOfThreads, int );
-
+  
   /**
    * Set/Get the maximum number of threads to use when multithreading.
    * This limits and overrides any other settings for multithreading.
@@ -181,7 +181,7 @@ public:
   /**
    * Execute the MultipleMethods (as define by calling SetMultipleMethod
    * for each of the required m_NumberOfThreads methods) using
-   * this->NumberOfThreads threads.
+   * m_NumberOfThreads threads.
    */
   void MultipleMethodExecute();
   
@@ -221,6 +221,7 @@ protected:
 
   void PrintSelf(std::ostream& os, Indent indent);
 
+ private:
   // The number of threads to use
   int                        m_NumberOfThreads;
 
@@ -236,13 +237,17 @@ protected:
   // Storage of MutexFunctions and ints used to control spawned 
   // threads and the spawned thread ids
   int                        m_SpawnedThreadActiveFlag[ITK_MAX_THREADS];
-  MutexLock                 *m_SpawnedThreadActiveFlagLock[ITK_MAX_THREADS];
+  MutexLock::Pointer         m_SpawnedThreadActiveFlagLock[ITK_MAX_THREADS];
   ThreadProcessIDType        m_SpawnedThreadProcessID[ITK_MAX_THREADS];
   ThreadInfoStruct           m_SpawnedThreadInfoArray[ITK_MAX_THREADS];
 
   // Internal storage of the data
   void                       *m_SingleData;
   void                       *m_MultipleData[ITK_MAX_THREADS];
+
+  // statics
+  static int                  m_GlobalMaximumNumberOfThreads;
+  static int                  m_GlobalDefaultNumberOfThreads;
 };
 
 }  // end namespace itk

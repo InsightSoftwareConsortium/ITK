@@ -24,18 +24,20 @@ namespace itk
  * \class ImageRegionSimpleIterator
  * \brief Multi-dimensional image iterator which only walks a region.
  * 
- * ImageRegionSimpleIterator is a templated class to represent a multi-dimensional
- * iterator. ImageRegionSimpleIterator is templated over the dimension of the image
- * and the data type of the image. ImageRegionSimpleIterator is constrained to walk
- * only within the specified region.
+ * ImageRegionSimpleIterator is a templated class to represent a
+ * multi-dimensional iterator. ImageRegionSimpleIterator is templated
+ * over the dimension of the image and the data type of the
+ * image. ImageRegionSimpleIterator is constrained to walk only within
+ * the specified region.
  *
- * ImageRegionSimpleIterator is a multi-dimensional iterator, requiring more
- * information be specified before the iterator can be used than conventional
- * iterators. Whereas the std::vector::iterator from the STL only needs to be
- * passed a pointer to establish the iterator, the multi-dimensional image
- * iterator needs a pointer, the size of the buffer, the size of the region,
- * the start index of the buffer, and the start index of the region. To gain
- * access to this information, ImageRegionSimpleIterator holds a reference to the
+ * ImageRegionSimpleIterator is a multi-dimensional iterator,
+ * requiring more information be specified before the iterator can be
+ * used than conventional iterators. Whereas the std::vector::iterator
+ * from the STL only needs to be passed a pointer to establish the
+ * iterator, the multi-dimensional image iterator needs a pointer, the
+ * size of the buffer, the size of the region, the start index of the
+ * buffer, and the start index of the region. To gain access to this
+ * information, ImageRegionSimpleIterator holds a reference to the
  * image over which it is traversing.
  *
  * ImageRegionSimpleIterator assumes a particular layout of the image data. The
@@ -53,8 +55,7 @@ namespace itk
  *         {
  *         *it += 100.0;
  *         }
- *
- */
+ * */
 template<typename TPixel, unsigned int VImageDimension=2>
 class ImageRegionSimpleIterator : public ImageIteratorWithIndex<TPixel, VImageDimension>
 {
@@ -80,10 +81,18 @@ public:
   /**
    * Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index.
+   * Note that we have to rescope Image back to itk::Image to that is it not
+   * confused with ImageIterator::Image.
    */
   typedef itk::Image<TPixel, VImageDimension> Image;
+
+  /**
+   * Region typedef support. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc.
+   * Note that we have to rescope Region back to itk::ImageRegion so that is
+   * it not confused with ImageIterator::Index.
+   */
+  typedef itk::ImageRegion<VImageDimension> Region;
 
   /**
    * Default constructor. Needed since we provide a cast constructor.
@@ -95,9 +104,8 @@ public:
    * particular region of that image.
    */
   ImageRegionSimpleIterator(const SmartPointer<Image> &ptr,
-                      const Index &start,
-                      const unsigned long size[VImageDimension])
-    : ImageIteratorWithIndex<TPixel, VImageDimension>(ptr, start, size) {}
+                            const Region& region);
+    : ImageIteratorWithIndex<TPixel, VImageDimension>(ptr, region) {}
 
   /**
    * Constructor that can be used to cast from an ImageIterator to an

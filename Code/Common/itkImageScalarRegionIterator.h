@@ -63,10 +63,18 @@ public:
   /**
    * Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index.
+   * Note that we have to rescope Image back to itk::Image to that is it not
+   * confused with ImageIterator::Image.
    */
   typedef itk::Image<TPixel, VImageDimension> Image;
+
+  /**
+   * Region typedef support. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc.
+   * Note that we have to rescope Region back to itk::ImageRegion so that is
+   * it not confused with ImageIterator::Index.
+   */
+  typedef itk::ImageRegion<VImageDimension> Region;
 
   /**
    * Default constructor. Needed since we provide a cast constructor.
@@ -78,10 +86,9 @@ public:
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
-  ImageScalarRegionIterator(const SmartPointer<Image> &ptr,
-                      const Index &start,
-                      const unsigned long size[VImageDimension])
-    : ImageRegionIterator<TPixel, VImageDimension>(ptr, start, size) {}
+  ImageScalarRegionIterator(Image *ptr,
+                            const Region &region)
+    : ImageRegionIterator<TPixel, VImageDimension>(ptr, region) {}
 
   /**
    * Constructor that can be used to cast from an ImageIterator to an

@@ -36,7 +36,7 @@ namespace itk
  * other:   CCcompiler SmartPointerTest.cxx  ./a.out
  */
 template <class T>
-class SmartPointer 
+class ITK_EXPORT SmartPointer 
 {
 public:
   /** 
@@ -172,7 +172,7 @@ public:
       }
     return *this;
     }
-
+  
   /** 
    * Function to print object pointed to 
    */

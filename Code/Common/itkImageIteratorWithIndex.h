@@ -26,30 +26,32 @@ namespace itk
  * \class ImageIteratorWithIndex
  * \brief Multi-dimensional image iterator.
  * 
- * ImageIteratorWithIndex is a templated class to represent a multi-dimensional
- * iterator. ImageIteratorWithIndex is templated over the dimension of the image
- * and the data type of the image.
+ * ImageIteratorWithIndex is a templated class to represent a
+ * multi-dimensional iterator. ImageIteratorWithIndex is templated
+ * over the dimension of the image and the data type of the image.
  *
- * ImageIteratorWithIndex is a base class for all the image iterators. It provides
- * the basic construction and comparison operations.  However, it does not
- * provide mechanisms for moving the iterator.  A subclass of ImageIteratorWithIndex
- * must be used to move the iterator.
+ * ImageIteratorWithIndex is a base class for image iterators. It
+ * provides the basic construction and comparison operations.
+ * However, it does not provide mechanisms for moving the iterator.  A
+ * subclass of ImageIteratorWithIndex must be used to move the
+ * iterator.
  * 
- * ImageIteratorWithIndex is a multi-dimensional iterator, requiring more information
- * be specified before the iterator can be used than conventional iterators.
- * Whereas the std::vector::iterator from the STL only needs to be passed
- * a pointer to establish the iterator, the multi-dimensional image iterator
- * needs a pointer, the size of the buffer, the size of the region, the
- * start index of the buffer, and the start index of the region. To gain
- * access to this information, ImageIteratorWithIndex holds a reference to the image
+ * ImageIteratorWithIndex is a multi-dimensional iterator, requiring
+ * more information be specified before the iterator can be used than
+ * conventional iterators.  Whereas the std::vector::iterator from the
+ * STL only needs to be passed a pointer to establish the iterator,
+ * the multi-dimensional image iterator needs a pointer, the size of
+ * the buffer, the size of the region, the start index of the buffer,
+ * and the start index of the region. To gain access to this
+ * information, ImageIteratorWithIndex holds a reference to the image
  * over which it is traversing.
  *
- * ImageIteratorWithIndex assumes a particular layout of the image data. In particular,
- * the data is arranged in a 1D array as if it were [][][][slice][row][col]
- * with Index[0] = col, Index[1] = row, Index[2] = slice, etc.
+ * ImageIteratorWithIndex assumes a particular layout of the image
+ * data. In particular, the data is arranged in a 1D array as if it
+ * were [][][][slice][row][col] with Index[0] = col, Index[1] = row,
+ * Index[2] = slice, etc.
  *
- * 
- */
+ *  */
 template<typename TPixel, unsigned int VImageDimension=2>
 class ImageIteratorWithIndex {
 public:
@@ -93,9 +95,7 @@ public:
    * particular region of that image.
    */
   ImageIteratorWithIndex(const SmartPointer<Image> &ptr,
-                const Index &start,
-                const unsigned long size[VImageDimension]);
-  
+                         const Region& region);
 
   /**
    * operator= is provided to make sure the handle to the image is properly

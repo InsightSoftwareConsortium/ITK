@@ -16,6 +16,7 @@
 #define __itkIndex_h
 
 #include "itkMacro.h"
+#include "itkSize.h"
 
 #include <memory>
 
@@ -61,6 +62,11 @@ public:
   static unsigned int GetIndexDimension() { return VIndexDimension; }
 
   /**
+   * Define the zero index for convenience.
+   */
+  static const Self ZeroIndex;
+  
+  /**
    * Add two indices. This method models a random access Index.
    */
   const Self
@@ -80,6 +86,29 @@ public:
     {
     for (unsigned int i=0; i < VIndexDimension; i++)
       { m_Index[i] += vec.m_Index[i]; }
+    return *this;
+    }
+
+  /**
+   * Add a size to an index. This method models a random access Index.
+   */
+  const Self
+  operator+(const Size<VIndexDimension> &size)
+    {
+    Self result;
+    for (unsigned int i=0; i < VIndexDimension; i++)
+      { result[i] = m_Index[i] + size[i]; }
+    return result;
+    }
+
+  /**
+   * Increment index by a size. This method models a random access Index.
+   */
+  const Self &
+  operator+=(const Size<VIndexDimension> &size)
+    {
+    for (unsigned int i=0; i < VIndexDimension; i++)
+      { m_Index[i] += size[i]; }
     return *this;
     }
 
@@ -219,21 +248,28 @@ Index<VIndexDimension>
   return ind;
 }
 
-template<unsigned int VImageDimension>
-std::ostream & operator<<(std::ostream &os, const Index<VImageDimension> &ind)
+template<unsigned int VIndexDimension>
+std::ostream & operator<<(std::ostream &os, const Index<VIndexDimension> &ind)
 {
   os << "[";
-  for (unsigned int i=0; i < VImageDimension - 1; ++i)
+  for (unsigned int i=0; i < VIndexDimension - 1; ++i)
     {
     os << ind[i] << ", ";
     }
-  if (VImageDimension >= 1)
+  if (VIndexDimension >= 1)
     {
-    os << ind[VImageDimension-1];
+    os << ind[VIndexDimension-1];
     }
   os << "]" << std::endl;
   return os;
 }
+
+// Set the const definition of the ZeroIndex. This uses the aggregate
+// initialization shortcut to assign all the data in the aggregate to zero.
+template<unsigned int VIndexDimension>
+const Index<VIndexDimension>
+Index<VIndexDimension>
+::ZeroIndex = {0};
 
 } // end namespace itk
 

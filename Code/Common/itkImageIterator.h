@@ -16,6 +16,7 @@
 #define __itkImageIterator_h
 
 #include "itkIndex.h"
+#include "itkSize.h"
 #include "itkImage.h"
 #include <memory.h>
 
@@ -71,11 +72,21 @@ public:
    */
   typedef Index<VImageDimension> Index;
 
+  /** 
+   * Size typedef support.
+   */
+  typedef Size<VImageDimension> Size;
+
   /**
    * Image typedef support.
    */
   typedef Image<TPixel, VImageDimension> Image;
 
+  /**
+   * Region typedef support.
+   */
+  typedef ImageRegion<VImageDimension> Region;
+  
   /**
    * Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor.
@@ -86,7 +97,6 @@ public:
     m_Offset = 0;
     m_BeginOffset = 0;
     m_EndOffset = 0;
-    memset( m_Size, 0, VImageDimension*sizeof(unsigned long) );
   }
 
   /**
@@ -97,8 +107,7 @@ public:
   {
     m_Image = it.m_Image;     // copy the smart pointer
 
-    m_StartIndex = it.m_StartIndex;
-    memcpy(m_Size, it.m_Size, VImageDimension*sizeof(unsigned long));
+    m_Region = it.m_Region;
     
     m_Buffer = it.m_Buffer;
     m_Offset = it.m_Offset;
@@ -110,24 +119,23 @@ public:
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
-  ImageIterator(const SmartPointer<Image> &ptr,
-                const Index &start,
-                const unsigned long size[VImageDimension])
+  ImageIterator(Image *ptr,
+                const Region &region)
   {
     m_Image = ptr;
     m_Buffer = m_Image->GetBufferPointer();
-    m_StartIndex = start;
-    memcpy(m_Size, size, VImageDimension*sizeof(unsigned long));
+    m_Region = region;
 
     // Compute the start offset
-    m_Offset = m_Image->ComputeOffset( m_StartIndex );
+    m_Offset = m_Image->ComputeOffset( m_Region.GetIndex() );
     m_BeginOffset = m_Offset;
     
     // Compute the end offset
-    Index ind(m_StartIndex);
+    Index ind(m_Region.GetIndex());
+    Size size(m_Region.GetSize());
     for (unsigned int i=0; i < VImageDimension; ++i)
       {
-      ind[i] += (m_Size[i] - 1);
+      ind[i] += (size[i] - 1);
       }
     m_EndOffset = m_Image->ComputeOffset( ind );
     m_EndOffset++;
@@ -140,9 +148,7 @@ public:
   Self &operator=(const Self& it)
   {
     m_Image = it.m_Image;     // copy the smart pointer
-
-    m_StartIndex = it.m_StartIndex;
-    memcpy(m_Size, it.m_Size, VImageDimension*sizeof(unsigned long));
+    m_Region = it.m_Region;
     
     m_Buffer = it.m_Buffer;
     m_Offset = it.m_Offset;
@@ -244,30 +250,13 @@ public:
   void SetIndex(const Index &ind)
     { m_Offset = m_Image->ComputeOffset( ind ); }
 
-  /**
-   * Get the size of the image.
-   */
-  const unsigned long *GetImageSize() const
-  { return m_Image->GetImageSize(); };
 
   /**
-   * Get the size of the buffer.
+   * Get the region that this iterator walks. ImageIterators know the
+   * beginning and the end of the region of the image to iterate over.
    */
-  const unsigned long *GetBufferSize() const
-  { return m_Image->GetBufferSize(); };
-
-  /**
-   * Get the "array index" of the first pixel to iterate over.
-   * ImageIterators know the beginning and end of the region of the image
-   * to iterate over.
-   */
-  const Index &GetStartIndex() const  {return m_StartIndex;} ;
-
-  /**
-   * Get the size of the region to iterator over.
-   */
-  const unsigned long *GetSize() const
-    { return m_Size; };
+  const Region& GetRegion() const
+  { return m_Region; };
 
   /**
    * Dereference the iterator, returns a reference to the pixel. Used to set
@@ -304,8 +293,7 @@ public:
   
 protected: //made protected so other iterators can access 
   SmartPointer<Image> m_Image;
-  Index          m_StartIndex;                // Index to start iterating over
-  unsigned long  m_Size[VImageDimension];     // How large of a region to iter
+  Region         m_Region;                    // region to iterate over
   
   unsigned long  m_Offset;
   unsigned long  m_BeginOffset;

@@ -33,37 +33,37 @@
 namespace itk {
 
 // Initialize static member that controls global maximum number of threads
-static int MultiThreaderGlobalMaximumNumberOfThreads = 0;
+int MultiThreader::m_GlobalMaximumNumberOfThreads = 0;
+// 0 => Not initialized.
+int MultiThreader::m_GlobalDefaultNumberOfThreads = 0;
 
 void MultiThreader::SetGlobalMaximumNumberOfThreads(int val)
 {
-  if (val == MultiThreaderGlobalMaximumNumberOfThreads)
+  if (val == m_GlobalMaximumNumberOfThreads)
     {
     return;
     }
-  MultiThreaderGlobalMaximumNumberOfThreads = val;
+  m_GlobalMaximumNumberOfThreads = val;
 }
 
 int MultiThreader::GetGlobalMaximumNumberOfThreads()
 {
-  return MultiThreaderGlobalMaximumNumberOfThreads;
+  return m_GlobalMaximumNumberOfThreads;
 }
 
-// 0 => Not initialized.
-static int MultiThreaderGlobalDefaultNumberOfThreads = 0;
 
 void MultiThreader::SetGlobalDefaultNumberOfThreads(int val)
 {
-  if (val == MultiThreaderGlobalDefaultNumberOfThreads)
+  if (val == m_GlobalDefaultNumberOfThreads)
     {
     return;
     }
-  MultiThreaderGlobalDefaultNumberOfThreads = val;
+  m_GlobalDefaultNumberOfThreads = val;
 }
 
 int MultiThreader::GetGlobalDefaultNumberOfThreads()
 {
-  if (MultiThreaderGlobalDefaultNumberOfThreads == 0)
+  if (m_GlobalDefaultNumberOfThreads == 0)
     {
     int num;
 #ifdef ITK_USE_SPROC
@@ -108,11 +108,10 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
       num = 8;
       }
 
-    MultiThreaderGlobalDefaultNumberOfThreads = num;
+    m_GlobalDefaultNumberOfThreads = num;
     }
 
-
-  return MultiThreaderGlobalDefaultNumberOfThreads;
+  return m_GlobalDefaultNumberOfThreads;
 }
 
 // Constructor. Default all the methods to NULL. Since the
@@ -128,15 +127,15 @@ MultiThreader::MultiThreader()
     m_ThreadInfoArray[i].ActiveFlag         = NULL;
     m_ThreadInfoArray[i].ActiveFlagLock     = NULL;
     m_MultipleMethod[i]                     = NULL;
+    m_MultipleData[i]                       = NULL;
     m_SpawnedThreadActiveFlag[i]            = 0;
     m_SpawnedThreadActiveFlagLock[i]        = NULL;
     m_SpawnedThreadInfoArray[i].ThreadID    = i;
     }
 
   m_SingleMethod = NULL;
-  m_NumberOfThreads = 
-    MultiThreader::GetGlobalDefaultNumberOfThreads();
-
+  m_SingleData = NULL;
+  m_NumberOfThreads = this->GetGlobalDefaultNumberOfThreads();
 }
 
 // Destructor. Nothing allocated so nothing needs to be done here.
@@ -198,10 +197,10 @@ void MultiThreader::SingleMethodExecute()
     }
 
   // obey the global maximum number of threads limit
-  if (MultiThreaderGlobalMaximumNumberOfThreads &&
-      m_NumberOfThreads > MultiThreaderGlobalMaximumNumberOfThreads)
+  if (m_GlobalMaximumNumberOfThreads &&
+      m_NumberOfThreads > m_GlobalMaximumNumberOfThreads)
     {
-    m_NumberOfThreads = MultiThreaderGlobalMaximumNumberOfThreads;
+    m_NumberOfThreads = m_GlobalMaximumNumberOfThreads;
     }
   
     
@@ -374,10 +373,10 @@ void MultiThreader::MultipleMethodExecute()
 
 
   // obey the global maximum number of threads limit
-  if (MultiThreaderGlobalMaximumNumberOfThreads &&
-      m_NumberOfThreads > MultiThreaderGlobalMaximumNumberOfThreads)
+  if (m_GlobalMaximumNumberOfThreads &&
+      m_NumberOfThreads > m_GlobalMaximumNumberOfThreads)
     {
-    m_NumberOfThreads = MultiThreaderGlobalMaximumNumberOfThreads;
+    m_NumberOfThreads = m_GlobalMaximumNumberOfThreads;
     }
 
   for ( thread_loop = 0; thread_loop < m_NumberOfThreads; thread_loop++ )
@@ -693,7 +692,7 @@ void MultiThreader::PrintSelf(std::ostream& os, Indent indent)
 
   os << indent << "Thread Count: " << m_NumberOfThreads << "\n";
   os << indent << "Global Maximum Number Of Threads: " << 
-    MultiThreaderGlobalMaximumNumberOfThreads << std::endl;
+    m_GlobalMaximumNumberOfThreads << std::endl;
 
 }
 

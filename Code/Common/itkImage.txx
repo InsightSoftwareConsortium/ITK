@@ -27,14 +27,6 @@ Image<TPixel, VImageDimension>
 ::Image()
 {
   m_Buffer = 0;
-  Index nullIndex = {0};
-  
-  m_BufferStartIndex = nullIndex;
-  m_RegionStartIndex = nullIndex;
-  
-  memset( m_ImageSize, 0, VImageDimension*sizeof(unsigned long) );
-  memset( m_BufferSize, 0, VImageDimension*sizeof(unsigned long) );
-  memset( m_RegionSize, 0, VImageDimension*sizeof(unsigned long) );
 
   memset( m_OffsetTable, 0, (VImageDimension+1)*sizeof(unsigned long) );
 
@@ -59,6 +51,7 @@ Image<TPixel, VImageDimension>
     delete m_Buffer;
     m_Buffer = 0;
     }
+
 }
 
 
@@ -69,11 +62,12 @@ Image<TPixel, VImageDimension>
 ::Allocate()
 {
   unsigned long num=1;
+  const Size& bufferSize = m_BufferedRegion.GetSize();
   
   m_OffsetTable[0] = num;
   for (unsigned int i=0; i < VImageDimension; i++)
     {
-    num *= m_BufferSize[i];
+    num *= bufferSize[i];
     m_OffsetTable[i+1] = num;
     }
 
@@ -101,6 +95,10 @@ Image<TPixel, VImageDimension>
   Superclass::PrintSelf(os,indent);
   
   os << indent << "Data: " << m_Buffer << std::endl;
+  os << indent << "LargestPossibleRegion: " << m_LargestPossibleRegion
+     << std::endl;
+  os << indent << "BufferedRegion: " << m_BufferedRegion << std::endl;
+  os << indent << "RequestedRegion: " << m_RequestedRegion << std::endl;
 }
 
 //----------------------------------------------------------------------------
@@ -117,8 +115,7 @@ Image<TPixel, VImageDimension>
   // span our buffer
   else
     {
-    m_ImageStartIndex = m_BufferStartIndex;
-    memcpy( m_ImageSize, m_BufferSize, VImageDimension*sizeof(unsigned long) );
+    m_LargestPossibleRegion = m_BufferedRegion;
     }
   
   // Now we should know what our largest possible region is. If our 
@@ -140,8 +137,7 @@ void
 Image<TPixel, VImageDimension>
 ::SetRequestedRegionToLargestPossibleRegion()
 {
-  m_RegionStartIndex = m_ImageStartIndex;
-  memcpy( m_RegionSize, m_ImageSize, VImageDimension*sizeof(unsigned long) );
+  m_RequestedRegion = m_LargestPossibleRegion;
 }
 
 //----------------------------------------------------------------------------
@@ -156,8 +152,7 @@ Image<TPixel, VImageDimension>
     {
     imgData = dynamic_cast<Image*>(data);
 
-    m_ImageStartIndex = imgData->GetImageStartIndex();
-    memcpy( m_ImageSize, imgData->GetImageSize(), VImageDimension*sizeof(unsigned long) );
+    m_LargestPossibleRegion = imgData->GetLargestPossibleRegion();
     }
   catch (...)
     {
@@ -172,11 +167,17 @@ Image<TPixel, VImageDimension>
 ::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
   unsigned int i;
+  const Index &requestedRegionIndex = m_RequestedRegion.GetIndex();
+  const Index &bufferedRegionIndex = m_BufferedRegion.GetIndex();
 
+  const Size& requestedRegionSize = m_RequestedRegion.GetSize();
+  const Size& bufferedRegionSize = m_BufferedRegion.GetSize();
+  
   for (i=0; i< VImageDimension; i++)
     {
-    if ( (m_RegionStartIndex[i] < m_BufferStartIndex[i]) ||
-         ((m_RegionStartIndex[i] + m_RegionSize[i]) > (m_BufferStartIndex[i] + m_BufferSize[i])) )
+    if ( (requestedRegionIndex[i] < bufferedRegionIndex[i]) ||
+         ((requestedRegionIndex[i] + requestedRegionSize[i])
+          > (bufferedRegionIndex[i] + bufferedRegionSize[i])) )
       {
       return true;
       }
@@ -195,10 +196,17 @@ Image<TPixel, VImageDimension>
   unsigned int i;
 
   // Is the region within the image?
+  const Index &requestedRegionIndex = m_RequestedRegion.GetIndex();
+  const Index &largestPossibleRegionIndex = m_LargestPossibleRegion.GetIndex();
+
+  const Size& requestedRegionSize = m_RequestedRegion.GetSize();
+  const Size& largestPossibleRegionSize = m_LargestPossibleRegion.GetSize();
+  
   for (i=0; i< VImageDimension; i++)
     {
-    if ( (m_RegionStartIndex[i] < m_ImageStartIndex[i]) ||
-         ((m_RegionStartIndex[i] + m_RegionSize[i]) > (m_ImageStartIndex[i] + m_ImageSize[i])) )
+    if ( (requestedRegionIndex[i] < largestPossibleRegionIndex[i]) ||
+         ((requestedRegionIndex[i] + requestedRegionSize[i])
+          > (largestPossibleRegionIndex[i]+largestPossibleRegionSize[i])))
       {
       itkErrorMacro( << "Region does not lie within the image" );
       retval = false;

@@ -31,9 +31,6 @@ ImageSource<TOutputImage>
   typename TOutputImage::Pointer output = TOutputImage::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
-
-  m_GenerateDataRegion = 0;
-  m_GenerateDataNumberOfRegions = 0;
 }
 
 

@@ -18,6 +18,8 @@
 
 #include "itkImageBase.h"
 #include "itkIndex.h"
+#include "itkSize.h"
+#include "itkImageRegion.h"
 #include "itkPixelTraits.h"
 #include <valarray>
 
@@ -32,18 +34,18 @@ namespace itk
  * variables) and a dimension (number of independent variables). Images
  * are modeled as arrays, defined by a start index and a size.
  *
- * There are three sets of meta-data describing an image.  The ImageSize and
- * ImageStartIndex define the size and starting index of the image dataset.
- * The entire image dataset, however, may not resident in memory. The section
- * of the image that is resident in memory is the "Buffer".  The Buffer is
- * defined by BufferStartIndex and BufferSize.  Buffer is a contiguous
- * block of memory.  The third set of meta-data defines a region of interest.
- * The region is defined by RegionStartIndex and RegionSize. The region is
- * the section of the image selected for processing. Accessing pixels in the
- * region of interest accessing data held in the Buffer. 
+ * There are three sets of meta-data describing an image. These are "Region"
+ * objects that define a portion of an image via a starting index for image
+ * array and a size. The ivar LargestPossibleRegion defines the size and
+ * starting index of the image dataset. The entire image dataset, however,
+ * may not resident in memory. The region of the image that is resident in
+ * memory is defined by the "BufferedRegion". The Buffer is a contiguous block
+ * of memory.  The third set of meta-data defines a region of interest, called
+ * the "RequestedRegion". The RequestedRegion is used by the pipeline
+ * execution model to define what a filter is requested to produce. 
  *
- * [RegionStartIndex, RegionSize] C [BufferStartIndex, BufferSize]
- *                                C [ImageStartIndex, ImageSize]
+ * [RegionIndex, RegionSize] C [BufferIndex, BufferSize]
+ *                           C [ImageIndex, ImageSize]
  *
  * Pixels can be accessed direcly using the SetPixel() and GetPixel()
  * methods or can be accessed via iterators.  Begin() creates
@@ -124,6 +126,16 @@ public:
    * Index typedef support. An index is used to access pixel values.
    */
   typedef Index<VImageDimension>  Index;
+
+  /** 
+   * Size typedef support. A size is used to define region bounds.
+   */
+  typedef Size<VImageDimension>  Size;
+
+  /** 
+   * Region typedef support. A region is used to specify a subset of an image.
+   */
+  typedef ImageRegion<VImageDimension>  Region;
   
   /** 
    * Run-time type information (and related methods).
@@ -141,84 +153,59 @@ public:
   static unsigned int GetImageDimension() 
     { return VImageDimension; }
 
-  /** 
-   * Set the size of the image. This is used in determining how much memory
-   * would be needed to load an entire dataset.  It is also used to determine
-   * boundary conditions.
-   * \sa GetImageSize(), SetBufferSize(), SetRegionSize()
-   * 
+  /**
+   * Set the region object that defines the size and starting index
+   * for the largest possible region this image could represent.  This
+   * is used in determining how much memory would be needed to load an
+   * entire dataset.  It is also used to determine boundary
+   * conditions.
+   * \sa ImageRegion, SetBufferedRegion(), SetRequestedRegion()
    */
-  itkSetVectorMacro(ImageSize, const unsigned long, VImageDimension);
-
-  /** 
-   * Get the size of the image.
-   * \sa SetImageSize(), GetBufferSize(), GetRegionSize()
-   */
-  itkGetVectorMacro(ImageSize, const unsigned long, VImageDimension);
-  
-  /** 
-   * Set the size of the current buffer. This is the amount of the image
-   * that is currently loaded in memory.
-   * \sa GetBufferSize(), SetImageSize(), SetRegionSize()
-   */
-  itkSetVectorMacro(BufferSize, const unsigned long, VImageDimension);
-
-  /** 
-   * Get the size of the current buffer.  This is the amount of the image
-   * that is currently loaded in memory.
-   * \sa SetBufferSize(), GetImageSize(), GetRegionSize()
-   */
-  itkGetVectorMacro(BufferSize, const unsigned long, VImageDimension);
-  
-  /** 
-   * Set the size of the region of interest.
-   * \sa GetRegionSize(), SetImageSize(), SetBufferSize()
-   */
-  itkSetVectorMacro(RegionSize, const unsigned long, VImageDimension);
-
-  /** 
-   * Get the size of the region of interest.
-   * \sa SetRegionSize(), GetImageSize(), GetBufferSize()
-   */
-  itkGetVectorMacro(RegionSize, const unsigned long, VImageDimension);
+  void SetLargestPossibleRegion(const Region &region)
+    { m_LargestPossibleRegion = region;};
 
   /**
-   * Set the "array index" of the first pixel of the image. 
-   * The image does not have to start at index [0,0,...0]
-   * \sa GetImageStartIndex(), SetBufferStartIndex(), SetRegionStartIndex()
+   * Get the region object that defines the size and starting index
+   * for the largest possible region this image could represent.  This
+   * is used in determining how much memory would be needed to load an
+   * entire dataset.  It is also used to determine boundary
+   * conditions.
+   * \sa ImageRegion, GetBufferedRegion(), GetRequestedRegion()
    */
-  itkSetMacro(ImageStartIndex, Index &);
+  const Region& GetLargestPossibleRegion()
+    { return m_LargestPossibleRegion;};
 
   /**
-   * Get the "array index" of the first pixel of the image.
-   * \sa SetImageStartIndex(), GetBufferStartIndex(), GetRegionStartIndex()
+   * Set the region object that defines the size and starting index
+   * of the region of the image currently load in memory. 
+   * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
    */
-  itkGetConstMacro(ImageStartIndex, Index &);
+  void SetBufferedRegion(const Region &region)
+    { m_BufferedRegion = region;};
+
+  /**
+   * Get the region object that defines the size and starting index
+   * of the region of the image currently load in memory. 
+   * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
+   */
+  const Region& GetBufferedRegion()
+  { return m_BufferedRegion;};
   
   /**
-   * Set the "array index" of the first pixel of the buffer currently in
-   * memory.
-   * \sa GetBufferStartIndex(), SetImageStartIndex(), SetRegionStartIndex()
+   * Set the region object that defines the size and starting index
+   * for the region of the image requested.
+   * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
    */
-  itkSetMacro(BufferStartIndex, Index &);
-  
-  /**
-   * Get the "array index" of the first pixel of the buffer currently in
-   * memory.
-   * \sa SetBufferStartIndex(), GetImageStartIndex(), GetRegionStartIndex()
-   */
-  itkGetConstMacro(BufferStartIndex, Index &);
-  
-  /**
-   * Set the "array index" of the first pixel of the region to be processed.
-   */
-  itkSetMacro(RegionStartIndex, Index &);
+  void SetRequestedRegion(const Region &region)
+  { m_RequestedRegion = region;};
 
   /**
-   * Get the "array index" of the first pixel of the region of interest.
-   * \sa SetRegionStartIndex(), GetImageStartIndex(), GetBufferStartIndex()
+   * Get the region object that defines the size and starting index
+   * for the region of the image requested.
+   * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
    */
-  itkGetConstMacro(RegionStartIndex, Index &);
+  const Region& GetRequestedRegion()
+  { return m_RequestedRegion;};
 
   /**
    * Allocate the image memory. Dimension and Size must be set a priori.
@@ -316,14 +303,15 @@ public:
   {
     // need to add bounds checking for the region/buffer?
     unsigned long offset=0;
+    const Index &bufferedRegionIndex = m_BufferedRegion.GetIndex();
   
     // data is arranged as [][][][slice][row][col]
     // with Index[0] = col, Index[1] = row, Index[2] = slice
     for (int i=VImageDimension-1; i > 0; i--)
       {
-      offset += (ind[i] - m_BufferStartIndex[i])*m_OffsetTable[i];
+      offset += (ind[i] - bufferedRegionIndex[i])*m_OffsetTable[i];
       }
-    offset += (ind[0] - m_BufferStartIndex[0]);
+    offset += (ind[0] - bufferedRegionIndex[0]);
 
     return offset;
   }
@@ -335,14 +323,15 @@ public:
   Index ComputeIndex(unsigned long offset) const
   {
     Index index;
+    const Index &bufferedRegionIndex = m_BufferedRegion.GetIndex();
     
     for (int i=VImageDimension-1; i > 0; i--)
       {
       index[i] = offset / m_OffsetTable[i];
       offset -= (index[i] * m_OffsetTable[i]);
-      index[i] += m_BufferStartIndex[i];
+      index[i] += bufferedRegionIndex[i];
       }
-    index[0] = m_BufferStartIndex[0] + offset;
+    index[0] = bufferedRegionIndex[0] + offset;
 
     return index;
   }
@@ -367,13 +356,9 @@ private:
   
   unsigned long   m_OffsetTable[VImageDimension+1];
 
-  unsigned long   m_ImageSize[VImageDimension];
-  unsigned long   m_BufferSize[VImageDimension];
-  unsigned long   m_RegionSize[VImageDimension];
-
-  Index           m_ImageStartIndex;
-  Index           m_BufferStartIndex;
-  Index           m_RegionStartIndex;
+  Region          m_LargestPossibleRegion;
+  Region          m_RequestedRegion;
+  Region          m_BufferedRegion;
 
   float           m_Spacing[VImageDimension];
   float           m_Origin[VImageDimension];

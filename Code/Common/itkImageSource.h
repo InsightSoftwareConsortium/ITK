@@ -64,7 +64,9 @@ public:
    */
   typedef TOutputImage OutputImage;
   typedef typename OutputImage::Pointer OutputImagePointer;
-
+  typedef typename OutputImage::Region OutputImageRegion;
+  typedef typename OutputImage::PixelType OutputImagePixelType;
+  
   /** 
    * Get the image output of this process object. 
    */
@@ -99,12 +101,7 @@ protected:
   void GenerateInputRequestedRegion();
   
 private:
-  /**
-   * Used by streaming: The requested region of the output being processed
-   * by the execute method. Set in the GenerateInputRequestedRegion method.
-   */
-  int m_GenerateDataRegion;
-  int m_GenerateDataNumberOfRegions;
+
 };
 
 } // end namespace itk

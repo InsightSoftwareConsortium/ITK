@@ -26,8 +26,9 @@ ImageRegion<VImageDimension>
 ::ImageRegion()
 {
   Index nullIndex = {0};
+  Size nullSize = {0};
   m_Index = nullIndex;
-  memset( m_Size, 0, VImageDimension*sizeof(unsigned long) );
+  m_Size = nullSize;
 }
 
 /**
@@ -37,30 +38,6 @@ template<unsigned int VImageDimension>
 ImageRegion<VImageDimension>
 ::~ImageRegion()
 {
-}
-
-/**
- * Print internal instance variables.
- */
-template<unsigned int VImageDimension>
-void 
-ImageRegion<VImageDimension>
-::PrintSelf(std::ostream& os, Indent indent)
-{
-  Superclass::PrintSelf(os,indent);
-
-  os << indent << "Dimension: " << this->GetImageDimension() << std::endl;
-  os << indent << "Index: " << m_Index;
-  os << indent << "Size: [";
-  for (unsigned int i=0; i < VImageDimension - 1; ++i)
-    {
-    os << m_Size[i] << ", ";
-    }
-  if (VImageDimension >= 1)
-    {
-    os << m_Size[VImageDimension-1];
-    }
-  os << "]" << std::endl;
 }
 
 } // end namespace itk

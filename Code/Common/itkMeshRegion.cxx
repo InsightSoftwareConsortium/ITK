@@ -36,18 +36,5 @@ MeshRegion
 {
 }
 
-/**
- * Print internal instance variables.
- */
-void 
-MeshRegion
-::PrintSelf(std::ostream& os, Indent indent)
-{
-  Superclass::PrintSelf(os,indent);
-
-  os << indent << "Region: " << m_Region << std::endl;
-  os << indent << "Number Of Regions: " << m_NumberOfRegions << std::endl;
-}
-
 } // end namespace itk
 

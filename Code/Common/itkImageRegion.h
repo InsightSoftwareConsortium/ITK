@@ -19,6 +19,7 @@
 #include "itkRegion.h"
 #include "itkObjectFactory.h"
 #include "itkIndex.h"
+#include "itkSize.h"
 
 namespace itk
 {
@@ -34,6 +35,7 @@ namespace itk
  *
  * \sa Region
  * \sa Index
+ * \sa Size
  * \sa MeshRegion
  */
 
@@ -50,16 +52,6 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef Region  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
-  typedef SmartPointer<Self>  Pointer;
-
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
 
   /** 
    * Standard part of all itk objects.
@@ -81,6 +73,11 @@ public:
    * Index typedef support. An index is used to access pixel values.
    */
   typedef Index<VImageDimension>  Index;
+
+  /** 
+   * Size typedef support. A size is used to define region bounds
+   */
+  typedef Size<VImageDimension>  Size;
   
   /** 
    * Return the region type. Images are described with structured regions.
@@ -89,40 +86,75 @@ public:
     {return Superclass::ITK_STRUCTURED_REGION;}
 
   /**
+   * Constructor. ImageRegion is a lightweight object that is not reference
+   * counted.
+   */
+  ImageRegion();
+
+  /**
+   * Destructor. ImageRegion is a lightweight object that is not reference
+   * counted.
+   */
+  virtual ~ImageRegion();
+
+  /**
+   * Copy constructor. ImageRegion is a lightweight object that is not
+   * reference counted.
+   */
+  ImageRegion(const Self& region)
+  { m_Index = region.m_Index;  m_Size = region.m_Size; };
+
+  /*
+   * operator=. ImageRegion is a lightweight object that is not reference
+   * counted.
+   */
+  void operator=(const Self& region) 
+  { m_Index = region.m_Index;  m_Size = region.m_Size; };
+
+  /**
    * Set the index defining the corner of the region.
    */
-  itkSetMacro(Index, Index &);
+  void SetIndex(const Index &index) 
+  { m_Index = index; };
 
   /**
    * Get index defining the corner of the region.
    */
-  itkGetConstMacro(Index, Index &);
+  const Index& GetIndex() const
+  { return m_Index; };
   
   /** 
    * Set the size of the region. This plus the index determines the
    * rectangular shape, or extent, of the region.
    */
-  itkSetVectorMacro(Size, const unsigned long, VImageDimension);
+  void SetSize(const Size &size)
+  { m_Size = size; };
 
   /** 
    * Get the size of the region.
    */
-  itkGetVectorMacro(Size, const unsigned long, VImageDimension);
+  const Size& GetSize() const
+  { return m_Size;}
   
 protected:
-  ImageRegion(); 
-  virtual ~ImageRegion(); 
-  ImageRegion(const Self&) {}
-  void operator=(const Self&) {}
-
-  virtual void PrintSelf(std::ostream& os, Indent indent);
 
 private:
   Index           m_Index;
-  unsigned long   m_Size[VImageDimension];
+  Size            m_Size;
 
 };
-  
+
+
+template<unsigned int VImageDimension>
+std::ostream & operator<<(std::ostream &os, const ImageRegion<VImageDimension> &region)
+{
+  os << "Dimension: " << region.GetImageDimension() << std::endl;
+  os << "Index: " << region.GetIndex();
+  os << "Size: " << region.GetSize();
+
+  return os;
+}
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

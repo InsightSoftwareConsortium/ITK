@@ -47,55 +47,55 @@ public:
   typedef Region  Superclass;
 
   /** 
-   * Smart pointer typedef support.
-   */
-  typedef SmartPointer<Self>  Pointer;
-
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /** 
    * Standard part of all itk objects.
    */
   itkTypeMacro(MeshRegion, Region);
 
+  /**
+   * Constructor.  MeshRegion is a lightweight object and is not reference
+   * counted.
+   */
+  MeshRegion();
+
+  /**
+   * Destructor.  MeshRegion is a lightweight object and is not reference
+   * counted.
+   */
+  virtual ~MeshRegion();
+
   /** 
    * Return the region type. Meshes are described with unstructured regions.
    */
-  virtual int GetRegionType()
+  virtual int GetRegionType() const
     {return Superclass::ITK_UNSTRUCTURED_REGION;}
 
   /** 
    * Get the number of regions.
    */
-  itkGetMacro(NumberOfRegions,unsigned long);
+  unsigned long GetNumberOfRegions() const
+  { return m_NumberOfRegions; };
 
   /** 
    * Set the number of regions.
    */
-  itkSetClampMacro(NumberOfRegions,unsigned long,
-		   1, NumericTraits<unsigned long>::max());
+  void SetNumberOfRegions(unsigned long num)
+  { if ((num >= 1) && (num <= NumericTraits<unsigned long>::max()))
+    { m_NumberOfRegions = num; } };
 
   /** 
    * Get the current region.
    */
-  itkGetMacro(Region,unsigned long);
+  unsigned long GetRegion() const
+  { return m_Region; };
 
   /** 
    * Set the number of regions.
    */
-  itkSetClampMacro(Region,unsigned long,
-		   0, NumericTraits<unsigned long>::max());
+  void SetRegion(unsigned long region)
+  { if ((region >= 1) && (region <= NumericTraits<unsigned long>::max()))
+    { m_Region = region; } };
 
 protected:
-  MeshRegion(); 
-  virtual ~MeshRegion(); 
-  MeshRegion(const Self&) {}
-  void operator=(const Self&) {}
-
-  virtual void PrintSelf(std::ostream& os, Indent indent);
 
 private:
   // The maximum number of regions possible.
@@ -105,6 +105,14 @@ private:
   unsigned long int    m_Region;
 
 };
+
+std::ostream & operator<<(std::ostream &os, const MeshRegion &region)
+{
+  os << "Number of regions: " << region.GetNumberOfRegions() << std::endl;
+  os << "Region number: " << region.GetRegion() << std::endl;
+
+  return os;
+}
   
 } // end namespace itk
 

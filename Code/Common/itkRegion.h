@@ -42,28 +42,13 @@ namespace itk
  * \sa ImageRegion
  * \sa MeshRegion
  */
-class ITK_EXPORT Region: public Object
+class ITK_EXPORT Region
 {
 public:
   /** 
    * Standard "Self" typedef.
    */
   typedef Region              Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
-  typedef SmartPointer<Self>  Pointer;
-
-  /** 
-   * Standard part of all itk objects.
-   */
-  itkTypeMacro(Region, Object);
 
   /**
    * Enums used to describe the extent types.
@@ -77,12 +62,6 @@ public:
   virtual int GetRegionType() = 0;
 
 protected:
-  Region(); 
-  virtual ~Region(); 
-  Region(const Self&) {}
-  void operator=(const Self&) {}
-
-  virtual void PrintSelf(std::ostream& os, Indent indent);
 
 private:
 

@@ -41,7 +41,6 @@ WriteVTKImage<TInputImage>
 {
   const char *name;// = PixelTraits<TInputImage::PixelValueType>::Name;
   std::ostream *fp;
-  const unsigned long *dims;
   const float *spacing;
   const float *origin;
 
@@ -64,7 +63,8 @@ WriteVTKImage<TInputImage>
   //
   *fp << "DATASET STRUCTURED_POINTS\n";
 
-  dims = input->GetImageSize();
+  const typename InputImage::Size& dims
+    = input->GetLargestPossibleRegion().GetSize();
   *fp << "DIMENSIONS " << dims[0] << " " << dims[1] << " " << dims[2] << "\n";
 
   spacing = input->GetSpacing();
