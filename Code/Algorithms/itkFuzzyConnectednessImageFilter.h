@@ -49,29 +49,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk{
 
-/** /class FuzzyConnectednessImageFilter
+/** /class FuzzyConnectednessRGBImageFilter
  * 
- * Perform the segmentation by single channel fuzzy connectedness.
- * Used as a node of the segmentation toolkits.
- * The Basic concept here is the fuzzy affinity which is defined between
- * two neighbor pixels, it reflects the similarity and possibility of these
- * two pixels to be in the same object. 
- * A "path" between two pixels is a list of pixels that connect them, the stregth
- * of a particular path was defined as the weakest affinity between the neighbor pixels
- * that form the path.
- * The fuzzy connectedness between two pixels is defined as the strongest path stregth
- * between these two pixels.
- * The segmentation based on fuzzy connectedness assumes that the fuzzy connectedness 
- * between any two pixels is significantly higher than those belongs to different objects.
- * A fuzzy connectedness scene was first computed, which is the fuzzy connectedness value 
- * to a preset seed point believed to be inside the object of interest.
- * then a threshold was applied to obtain the binary segmented object.
- * The fuzzy affinity here was defined as a gaussian function of the pixel difference
- * and the difference of the estimated object mean and the mean of the two input
- * pixels.
+ * Perform the segmentation for a single channel (Grayscale) image 
+ * via thresholding of a fuzzy connectedness scene.
+ * Used as a node of the segmentation toolkit.
+ * Fuzzy affinity is defined between two neighboor pixels, to reflect
+ * their similarity and assign a probability that these two pixels belong to the
+ * same object.  A "path" between two pixels is a list of pixels that connect
+ * them, the strength of a particular path is defined as the weakest affinity
+ * between the neighboor pixels that form the path. The fuzzy connectedness
+ * between two pixels is defined as the strongest path strength between these
+ * two pixels.  The segmentation based on fuzzy connectedness assumes that
+ * the fuzzy connectedness between any two pixels from a single object 
+ * is significantly higher than those for pixels belonging to different objects.  
+ * A fuzzy connectedness scene is first computed for a set of input seed
+ * points selected inside the object of interest.  A threshold is then
+ * applied to the fuzzy scene to extract the binary segmented object.
+ * The fuzzy affinity here was defined as a gaussian function of the pixel difference 
+ * and the difference of the estimated object mean and the mean of the two input 
+ * pixels. 
+ * 
+ * Input Parameters are:
+ * (1) Input image in the form itkImage
+ * (2) Seed points
+ * (3) Threshold value.
  * 
  * Usage:
- *
  * 1. use SetInput to import the input image object
  * 2. use SetParameter, SetSeed, SetThreshold to set the parameters
  * 3. run GenerateData() to perform the segmenation
@@ -81,13 +85,13 @@ namespace itk{
  * 5. use GetOutput to obtain the resulted binary image Object.
  * 6. GetFuzzyScene gives the pointer of Image<unsigned short> for the fuzzy scene.
  *
- * Detail information about this algorithm can be found in:
+ * Detailed information about this algorithm can be found in:
  *  "Fuzzy Connectedness and Object Definition: Theory, Algorithms,
  *    and Applications in Image Segmentation", J. Udupa and S. Samarasekera
  *  Graphical Models and Image Processing, Vol.58, No.3. pp 246-261, 1996.
  *
- * \ingroup FuzzyConnectednessSegmentation  
- */
+ * 
+ * \ingroup FuzzyConnectednessSegmentation */
 
 template <class TInputImage, class TOutputImage>
 class FuzzyConnectednessImageFilter:
