@@ -42,9 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkRegionNonBoundaryNeighborhoodIterator_txx
 namespace itk {
 
-template< class TImage, class TAllocator, class TDerefAllocator>
-RegionNonBoundaryNeighborhoodIterator<TImage, TAllocator,
-  TDerefAllocator>
+template< class TImage>
+RegionNonBoundaryNeighborhoodIterator<TImage>
 ::RegionNonBoundaryNeighborhoodIterator(const SizeType &radius, ImageType *ptr,
                                         const RegionType &region)
 {
@@ -62,9 +61,9 @@ RegionNonBoundaryNeighborhoodIterator<TImage, TAllocator,
   this->Initialize(radius, ptr, cropped);
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
-RegionNonBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
-RegionNonBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+template<class TImage>
+RegionNonBoundaryNeighborhoodIterator<TImage>
+RegionNonBoundaryNeighborhoodIterator<TImage>
 ::Begin() const
 {
   //Copy the current iterator
@@ -76,9 +75,9 @@ RegionNonBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   return it;
 }
 
-template<class TImage, class TAllocator,  class TDerefAllocator>
-RegionNonBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
-RegionNonBoundaryNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+template<class TImage>
+RegionNonBoundaryNeighborhoodIterator<TImage>
+RegionNonBoundaryNeighborhoodIterator<TImage>
 ::End() const
 {
   IndexType endIndex;

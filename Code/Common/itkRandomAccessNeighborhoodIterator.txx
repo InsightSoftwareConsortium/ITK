@@ -42,9 +42,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkRandomAccessNeighborhoodIterator_txx
 namespace itk {
   
-template<class TImage, class TAccessor, class TDerefAccessor>
-RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
-RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
+template<class TImage>
+RandomAccessNeighborhoodIterator<TImage>
+RandomAccessNeighborhoodIterator<TImage>
 ::Begin() const
 {
   //Copy the current iterator
@@ -56,9 +56,9 @@ RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
   return it;
 }
 
-template<class TImage, class TAccessor, class TDerefAccessor>
-RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
-RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
+template<class TImage>
+RandomAccessNeighborhoodIterator<TImage>
+RandomAccessNeighborhoodIterator<TImage>
 ::End() const 
 {
   IndexType endIndex;
@@ -79,9 +79,9 @@ RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
 }
 
 
-template<class TImage, class TAccessor, class TDerefAccessor>
-RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> &
-RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
+template<class TImage>
+RandomAccessNeighborhoodIterator<TImage> &
+RandomAccessNeighborhoodIterator<TImage>
 ::operator+=(const OffsetType & idx)
 {
   unsigned int i;
@@ -119,9 +119,9 @@ RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
   return *this;
 }
 
-template<class TImage, class TAccessor, class TDerefAccessor>
-RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> &
-RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> 
+template<class TImage>
+RandomAccessNeighborhoodIterator<TImage> &
+RandomAccessNeighborhoodIterator<TImage> 
 ::operator-=(const OffsetType & idx)
 {
   unsigned int i;

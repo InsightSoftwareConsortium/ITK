@@ -185,7 +185,6 @@ int main()
    szN[3] = 1;
 
    typedef itk::SmartRegionNeighborhoodIterator<ImageType2D,
-     itk::NeighborhoodAllocator<float *>,
      itk::ConstantBoundaryCondition<ImageType2D> > SmartIteratorType;
 
    SmartIteratorType it2d(sz2, image2D, image2D->GetRequestedRegion());

@@ -116,15 +116,10 @@ namespace itk {
  * \sa RegionBoundaryNeighborhoodIterator
  */
 
-template<class TImage,
-         class TAllocator =
-            NeighborhoodAllocator<ITK_TYPENAME TImage::InternalPixelType *>,
-         class TDerefAllocator =
-            NeighborhoodAllocator<ITK_TYPENAME TImage::PixelType>
-        >
+template<class TImage>
 class ITK_EXPORT NeighborhoodIterator
   :  public Neighborhood<typename TImage::InternalPixelType *,
-                         TImage::ImageDimension, TAllocator >
+                                           TImage::ImageDimension>
 {
 public:
   /**
@@ -138,7 +133,7 @@ public:
    * Standard "Self" & Superclass typedef support.
    */
   typedef NeighborhoodIterator Self;
-  typedef Neighborhood<InternalPixelType *, Dimension, TAllocator> Superclass;
+  typedef Neighborhood<InternalPixelType *, Dimension> Superclass;
 
   /**
    * Typedef support for common objects
@@ -148,9 +143,8 @@ public:
   typedef typename TImage::RegionType RegionType;
   typedef Index<Dimension> IndexType;
   typedef Offset<Dimension> OffsetType;
-  // NOTE: the STL Allocator::recast method would eliminate the need
-  // for this second Allocator template parameter.
-  typedef Neighborhood<PixelType, Dimension, TDerefAllocator> NeighborhoodType;
+  typedef typename Superclass::RadiusType RadiusType;
+  typedef Neighborhood<PixelType, Dimension> NeighborhoodType;
   
   /**
    * Support for internal iterator types
@@ -163,7 +157,7 @@ public:
    */
   typedef ImageBoundaryCondition<ImageType,
     Neighborhood<typename ImageType::InternalPixelType *,
-    ImageType::ImageDimension, TAllocator> > *
+    ImageType::ImageDimension> > *
   ImageBoundaryConditionPointerType;
   
   /**

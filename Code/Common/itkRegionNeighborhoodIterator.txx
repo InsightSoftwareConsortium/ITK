@@ -42,11 +42,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkRegionNeighborhoodIterator_txx
 namespace itk {
   
-template<class TImage, class TAllocator, class TDerefAllocator> 
+template<class TImage> 
 typename 
-RegionNeighborhoodIterator<TImage, TAllocator, 
-  TDerefAllocator>::NeighborhoodType
-RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+RegionNeighborhoodIterator<TImage>::NeighborhoodType
+RegionNeighborhoodIterator<TImage>
 ::GetNeighborhood()
 {
   NeighborhoodType ans;
@@ -65,9 +64,9 @@ RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   return ans;
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
+template<class TImage>
 void
-RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+RegionNeighborhoodIterator<TImage>
 ::SetNeighborhood(NeighborhoodType &N)
 {
   Iterator this_it;
@@ -82,8 +81,8 @@ RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 
 }
     
-template<class TImage, class TAllocator, class TDerefAllocator>
-void RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+template<class TImage>
+void RegionNeighborhoodIterator<TImage>
 ::SetBound(const SizeType& size)
 {
   const unsigned long *offset     = m_Image->GetOffsetTable();
@@ -98,9 +97,9 @@ void RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
     }  
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
-RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator> 
-RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator> 
+template<class TImage>
+RegionNeighborhoodIterator<TImage> 
+RegionNeighborhoodIterator<TImage> 
 ::Begin() const
 {
   //Copy the current iterator
@@ -112,9 +111,9 @@ RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   return it;
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
-RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
-RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+template<class TImage>
+RegionNeighborhoodIterator<TImage>
+RegionNeighborhoodIterator<TImage>
 ::End() const
 {
   IndexType endIndex;

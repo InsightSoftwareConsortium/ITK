@@ -64,26 +64,20 @@ namespace itk {
  *
  */
 template<class TImage,
-  class TAllocator
- = NeighborhoodAllocator<ITK_TYPENAME TImage::InternalPixelType *>,
   class TBoundaryCondition = ZeroFluxNeumannBoundaryCondition
 <TImage, Neighborhood<ITK_TYPENAME TImage::InternalPixelType *,
-                          TImage::ImageDimension,
-                          TAllocator>  >,  
-  class TDerefAllocator
-   = NeighborhoodAllocator<ITK_TYPENAME TImage::PixelType>
+                        TImage::ImageDimension>  >
   >
 class ITK_EXPORT RegionBoundaryNeighborhoodIterator
-  :  public SmartRegionNeighborhoodIterator<TImage, TAllocator,
-  TBoundaryCondition, TDerefAllocator>
+  :  public SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
 {
 public:
   /** 
    * Standard "Self" & Superclass typedef support.
    */
   typedef RegionBoundaryNeighborhoodIterator Self;
-  typedef SmartRegionNeighborhoodIterator<TImage, TAllocator,
-    TBoundaryCondition, TDerefAllocator> Superclass;
+  typedef SmartRegionNeighborhoodIterator<TImage,
+    TBoundaryCondition> Superclass;
 
   /**
    * Extract image type information.
@@ -114,8 +108,7 @@ public:
    * Copy constructor
    */
   RegionBoundaryNeighborhoodIterator(const Self& other)
-    : SmartRegionNeighborhoodIterator<TImage,TAllocator,TBoundaryCondition,
-    TDerefAllocator>(other)
+    : SmartRegionNeighborhoodIterator<TImage,TBoundaryCondition>(other)
   {    m_InnerStride = other.m_InnerStride;  }
 
   /**
@@ -142,14 +135,14 @@ public:
    * Overridden from itkNeighborhoodPointerBase because this
    * iterator follows a different path across a region.
    */ 
-  const NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+  const NeighborhoodIterator<TImage>
   &operator++();  
 
   /**
    * Overridden from itkNeighborhoodPointerBase because this
    * iterator follows a different path across a region.
    */ 
-  const NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+  const NeighborhoodIterator<TImage>
   &operator--();  
 
   /**

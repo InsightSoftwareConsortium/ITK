@@ -68,24 +68,19 @@ namespace itk {
  * \sa Neighborhood
  */
 template<class TImage,
-  class TAllocator =
-     NeighborhoodAllocator<ITK_TYPENAME TImage::InternalPixelType*>,
-  class TBoundaryCondition = ZeroFluxNeumannBoundaryCondition
-   <TImage, Neighborhood<ITK_TYPENAME TImage::InternalPixelType*,
-                         TImage::ImageDimension,
-                         TAllocator>  >,
-  class TDerefAllocator =
-    NeighborhoodAllocator<ITK_TYPENAME TImage::PixelType>
-  >
+  class TBoundaryCondition
+   = ZeroFluxNeumannBoundaryCondition<TImage,
+                         Neighborhood<ITK_TYPENAME TImage::InternalPixelType*,
+                         TImage::ImageDimension> >  >
 class ITK_EXPORT SmartRegionNeighborhoodIterator
-  :  public NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+  :  public NeighborhoodIterator<TImage>
 {
 public:
   /** 
    * Standard "Self" & Superclass typdef.
    */
   typedef SmartRegionNeighborhoodIterator Self;
-  typedef NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+  typedef NeighborhoodIterator<TImage>
   Superclass;
 
   /**
@@ -110,7 +105,7 @@ public:
    */
   typedef ImageBoundaryCondition<ImageType,
     Neighborhood<typename ImageType::InternalPixelType *,
-    ImageType::ImageDimension, TAllocator> > *
+    ImageType::ImageDimension> > *
   ImageBoundaryConditionPointerType;
   
   /**

@@ -42,12 +42,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkSmartRegionNeighborhoodIterator_txx
 namespace itk {
 
-template<class TImage, class TAllocator, class TBoundaryCondition,
-    class TDerefAllocator>
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
-  TDerefAllocator>
+template<class TImage, class TBoundaryCondition>
+SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
 ::SmartRegionNeighborhoodIterator(const Self& orig)
-  : NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>(orig)
+  : NeighborhoodIterator<TImage>(orig)
 {
   m_InnerBoundsLow = orig.m_InnerBoundsLow;
   m_InnerBoundsHigh = orig.m_InnerBoundsHigh;
@@ -67,12 +65,9 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
   else m_BoundaryCondition = orig.m_BoundaryCondition;        
 }
 
-template<class TImage, class TAllocator, class TBoundaryCondition,
-    class TDerefAllocator>
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
-  TDerefAllocator> &  
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
-  TDerefAllocator>
+template<class TImage,class TBoundaryCondition>
+SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition> &  
+SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
 ::operator=(const Self& orig)
 {
   Superclass::operator=(orig);
@@ -94,11 +89,9 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
   return *this;
 }
   
-template<class TImage, class TAllocator, class TBoundaryCondition,
-  class TDerefAllocator>
+template<class TImage, class TBoundaryCondition>
 bool
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
-  TDerefAllocator>
+SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
 ::InBounds()
 { 
   bool ans = true;
@@ -112,12 +105,10 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
   return ans;
 }
 
-template<class TImage, class TAllocator, class TBoundaryCondition,
-  class TDerefAllocator>
-typename SmartRegionNeighborhoodIterator<TImage, TAllocator,
-  TBoundaryCondition, TDerefAllocator>::NeighborhoodType
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
-  TDerefAllocator>
+template<class TImage, class TBoundaryCondition>
+typename SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
+::NeighborhoodType
+SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
 ::GetNeighborhood()
 {
   register unsigned int i;
@@ -188,11 +179,9 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
   return ans;
 }
 
-template<class TImage, class TAllocator, class TBoundaryCondition,
-  class TDerefAllocator>
+template<class TImage, class TBoundaryCondition>
 void
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
-  TDerefAllocator>
+SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
 ::SetNeighborhood(NeighborhoodType &N)
 {
   register unsigned int i;
@@ -253,10 +242,8 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
     }
 }
 
-template<class TImage, class TAllocator, class TBoundaryCondition,
-  class TDerefAllocator>
-void SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
-  TDerefAllocator>
+template<class TImage, class TBoundaryCondition>
+void SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   unsigned int i;
@@ -269,10 +256,8 @@ void SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
   Superclass::PrintSelf(os, indent.GetNextIndent());
 }
 
-template<class TImage, class TAllocator, class TBoundaryCondition,
-  class TDerefAllocator>
-void SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
-  TDerefAllocator>
+template<class TImage, class TBoundaryCondition>
+void SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
 ::SetBound(const SizeType& size)
 {
   SizeType radius  = this->GetRadius();
@@ -294,12 +279,9 @@ void SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
     }
 }
 
-template<class TImage, class TAllocator, class TBoundaryCondition,
-  class TDerefAllocator>
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
-  TDerefAllocator> 
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
-  TDerefAllocator> 
+template<class TImage, class TBoundaryCondition>
+SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition> 
+SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition> 
 ::Begin() const 
 {
   //Copy the current iterator
@@ -311,12 +293,9 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
   return it;
 }
 
-template<class TImage, class TAllocator, class TBoundaryCondition,
-  class TDerefAllocator>
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
-  TDerefAllocator> 
-SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
-  TDerefAllocator> 
+template<class TImage, class TBoundaryCondition>
+SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition> 
+SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition> 
 ::End() const
 {
   IndexType endIndex;

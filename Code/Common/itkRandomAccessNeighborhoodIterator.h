@@ -70,22 +70,16 @@ namespace itk {
  * \sa Neighborhood
  * \sa NeighborhoodAlgorithm
  */
-template<class TImage,
-  class TAllocator =
-    NeighborhoodAllocator<ITK_TYPENAME TImage::InternalPixelType *>,
-  class TDerefAllocator =
-    NeighborhoodAllocator<ITK_TYPENAME TImage::PixelType>
-  >
+template<class TImage>
 class RandomAccessNeighborhoodIterator
-  :  public RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator> 
+  :  public RegionNeighborhoodIterator<TImage> 
 {
 public:
   /** 
    * Standard "Self" & Superclass typedef support.
    */
   typedef RandomAccessNeighborhoodIterator Self;
-  typedef RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
-   Superclass;
+  typedef RegionNeighborhoodIterator<TImage> Superclass;
 
  /**
    * Extract image type information.
@@ -122,8 +116,7 @@ public:
   RandomAccessNeighborhoodIterator(const SizeType &radius,
                              ImageType *ptr,
                              const RegionType &region)
-    : RegionNeighborhoodIterator<TImage, TAllocator,
-              TDerefAllocator>(radius, ptr, region) { }
+    : RegionNeighborhoodIterator<TImage>(radius, ptr, region) { }
 
   /**
    * Return an iterator for the beginning of the region.
@@ -152,8 +145,7 @@ public:
    * Copy constructor
    */
   RandomAccessNeighborhoodIterator( const Self &other)
-    : RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator>(other)
-   { }
+    : RegionNeighborhoodIterator<TImage>(other)   { }
   
   /**
    * Assignment operator
@@ -194,36 +186,32 @@ public:
   }
 };
 
-template<class TImage, class TAccessor, class TDerefAccessor>
-inline RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
-operator+(const RandomAccessNeighborhoodIterator<TImage, TAccessor, 
-          TDerefAccessor> &it,
-          const typename RandomAccessNeighborhoodIterator<TImage, TAccessor,
-          TDerefAccessor>::OffsetType &ind)
+template<class TImage>
+inline RandomAccessNeighborhoodIterator<TImage>
+operator+(const RandomAccessNeighborhoodIterator<TImage> &it,
+          const typename RandomAccessNeighborhoodIterator<TImage>
+          ::OffsetType &ind)
 {
-  RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> ret;
+  RandomAccessNeighborhoodIterator<TImage> ret;
   ret = it;
   ret += ind;
   return ret;
 }
 
-template<class TImage, class TAccessor, class TDerefAccessor>
-inline RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
-operator+(const typename RandomAccessNeighborhoodIterator<TImage, TAccessor,
-          TDerefAccessor>::OffsetType &ind,
-          const RandomAccessNeighborhoodIterator<TImage, TAccessor, 
-          TDerefAccessor> &it)
+template<class TImage>
+inline RandomAccessNeighborhoodIterator<TImage>
+operator+(const typename RandomAccessNeighborhoodIterator<TImage>
+          ::OffsetType &ind,
+          const RandomAccessNeighborhoodIterator<TImage> &it)
 {  return (it + ind); }
 
-template<class TImage, class TAccessor, class TDerefAccessor>
-inline RandomAccessNeighborhoodIterator<TImage, TAccessor,
-  TDerefAccessor>
-operator-(const RandomAccessNeighborhoodIterator<TImage, TAccessor, 
-          TDerefAccessor> &it,
-          const typename RandomAccessNeighborhoodIterator<TImage, TAccessor,
-          TDerefAccessor>::OffsetType &ind)
+template<class TImage>
+inline RandomAccessNeighborhoodIterator<TImage>
+operator-(const RandomAccessNeighborhoodIterator<TImage> &it,
+          const typename RandomAccessNeighborhoodIterator<TImage>
+          ::OffsetType &ind)
 {
-  RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> ret;
+  RandomAccessNeighborhoodIterator<TImage> ret;
   ret = it;
   ret -= ind;
   return ret;

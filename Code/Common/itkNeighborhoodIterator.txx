@@ -42,9 +42,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkNeighborhoodIterator_txx
 namespace itk {
 
-template<class TImage, class TAllocator, class TDerefAllocator>
+template<class TImage>
 void
-NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+NeighborhoodIterator<TImage>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   unsigned int i;
@@ -73,18 +73,18 @@ NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   Superclass::PrintSelf(os, indent.GetNextIndent());
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
+template<class TImage>
 void 
-NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+NeighborhoodIterator<TImage>
 ::SetOutputWrapOffsetModifier(const OffsetType &o)
 {
   for (unsigned int i = 0; i < Dimension; ++i)
     {      m_OutputWrapOffsetModifier[i] = o[i];    }
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
-NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>::
-NeighborhoodIterator()
+template<class TImage>
+NeighborhoodIterator<TImage>
+::NeighborhoodIterator()
 : m_OutputBuffer(0)
 {
   m_OutputWrapOffsetModifier.Fill(0);
@@ -95,9 +95,9 @@ NeighborhoodIterator()
   m_EndPointer = 0;
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
-NeighborhoodIterator<TImage, TAllocator, TDerefAllocator> &
-NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+template<class TImage>
+NeighborhoodIterator<TImage> &
+NeighborhoodIterator<TImage>
 ::operator=(const Self& orig)
 {
   Superclass::operator=(orig);
@@ -113,10 +113,10 @@ NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   return *this;
 }
 
-template<class TImage, class TAllocator,  class TDerefAllocator>
-NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+template<class TImage>
+NeighborhoodIterator<TImage>
 ::NeighborhoodIterator(const Self& orig)
-  : Neighborhood<InternalPixelType *, Dimension, TAllocator>(orig)
+  : Neighborhood<InternalPixelType *, Dimension>(orig)
 {
   m_WrapOffset = orig.m_WrapOffset;
   m_Bound      = orig.m_Bound;
@@ -128,8 +128,8 @@ NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   m_EndPointer = orig.m_EndPointer;
 }
   
-template<class TImage, class TAllocator, class TDerefAllocator>
-void NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+template<class TImage>
+void NeighborhoodIterator<TImage>
 ::Initialize(const SizeType &radius, ImageType *ptr, const RegionType &region)
 {
   m_Region = region;
@@ -144,8 +144,8 @@ void NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   this->SetEnd();
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
-void NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+template<class TImage>
+void NeighborhoodIterator<TImage>
 ::SetPixelPointers(const IndexType &pos)
 {
   const Iterator _end = this->end();
@@ -185,9 +185,9 @@ void NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
     }
 }
   
-template<class TImage, class TAllocator, class TDerefAllocator>
-const NeighborhoodIterator<TImage, TAllocator, TDerefAllocator> &
-NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+template<class TImage>
+const NeighborhoodIterator<TImage> &
+NeighborhoodIterator<TImage>
 ::operator++()
 {
   unsigned int i;
@@ -226,9 +226,9 @@ NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   return *this;
 }
 
-template<class TImage, class TAllocator, class TDerefAllocator>
-const NeighborhoodIterator<TImage, TAllocator, TDerefAllocator> &
-NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+template<class TImage>
+const NeighborhoodIterator<TImage> &
+NeighborhoodIterator<TImage>
 ::operator--()
 {
   unsigned int i;

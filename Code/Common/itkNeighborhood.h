@@ -96,6 +96,11 @@ public:
   typedef Size<VDimension> SizeType;
 
   /**
+   * Radius typedef support
+   */
+  typedef Size<VDimension> RadiusType;
+
+  /**
    * External slice iterator type typedef support
    */
   typedef SliceIterator<TPixel, Self> SliceIteratorType;
