@@ -115,6 +115,11 @@ public:
   typedef AffineTransform<double, ImageDimension> AffineTransformType;
 
   /** 
+   * Definition of the Point type used for settin the origin
+   */
+  typedef AffineTransformType::PointType    PointType;
+
+  /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro(PhysicalImageAdaptor, ImageAdaptor);
@@ -153,6 +158,7 @@ public:
    */
   virtual void SetOrigin( const double values[TImage::ImageDimension] );
   virtual void SetOrigin( const float values[TImage::ImageDimension] );
+  virtual void SetOrigin( const PointType & point );
 
 
   /**

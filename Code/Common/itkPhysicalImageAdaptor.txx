@@ -116,6 +116,17 @@ PhysicalImageAdaptor<TImage , TAccessor>
 template <class TImage, class TAccessor >
 void 
 PhysicalImageAdaptor<TImage , TAccessor>
+::SetOrigin(const PointType & origin )
+{
+  // delegation to internal image
+  m_Image->SetOrigin( origin );
+}
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void 
+PhysicalImageAdaptor<TImage , TAccessor>
 ::SetOrigin(const double origin[TImage::ImageDimension] )
 {
   // delegation to internal image
