@@ -359,7 +359,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
   //std::cout <<"DEBUG: before this->GraftOutput( to_output->GetOutput() );" <<std::endl;
   {
   typename CastToOutputFilterType::OutputImageType::Pointer tempImage = to_output->GetOutput();
-  stdto::cout <<(tempImage) <<std::endl;
+  std::cout <<(tempImage) <<std::endl;
   }
   this->GraftOutput( to_output->GetOutput() );
   this->GetOutput()->SetMetaDataDictionary( this->GetInput()->GetMetaDataDictionary() );
