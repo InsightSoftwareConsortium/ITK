@@ -54,7 +54,7 @@ LaplacianOperator <TPixel, VDimension, TAllocator>
 ::Fill(const CoefficientVector &coeff)
 {
 
-  Superclass::CoefficientVector::const_iterator it;
+  typename Superclass::CoefficientVector::const_iterator it;
 
   std::slice* temp_slice;
   temp_slice = new std::slice(0, coeff.size(),1);
