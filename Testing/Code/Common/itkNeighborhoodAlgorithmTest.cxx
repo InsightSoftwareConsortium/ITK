@@ -18,6 +18,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRegionNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkSmartRegionNeighborhoodIterator.h"
+#include "itkRandomAccessNeighborhoodIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkDerivativeOperator.h"
 #include <iostream>
@@ -47,10 +48,10 @@ int main()
   size3D[2] = 10;
   
   itk::Size<4>  sizeND;
-  sizeND[0] = 10;
-  sizeND[1] = 10;
+  sizeND[0] = 100;
+  sizeND[1] = 100;
   sizeND[2] = 4;
-  sizeND[3] = 2;
+  sizeND[3] = 3;
   
   itk::Index<2> orig2D;
   orig2D[0] = 0;
@@ -110,20 +111,20 @@ int main()
 
   // Set up some neighborhood iterators
   println("Setting up some neighborhood iterators");
-  itk::Index<2> orig2Dm;
+  itk::Offset<2> orig2Dm;
   orig2Dm[0] = 55;
   orig2Dm[1] = 55;
   
-  itk::Index<3> orig3Dm;
+  itk::Offset<3> orig3Dm;
   orig3Dm[0] = 55;
   orig3Dm[1] = 55;
   orig3Dm[2] = 5;
   
-  itk::Index<4> origNDm;
-  origNDm[0] = 55;
-  origNDm[1] = 55;
-  origNDm[2] = 5;
-  origNDm[3] = 2;
+  itk::Offset<4> origNDm;
+  origNDm[0] = 0;
+  origNDm[1] = 0;
+  origNDm[2] = 0;
+  origNDm[3] = 1;
 
   itk::Size<2> sz2;
   sz2[0] = 2;
@@ -142,28 +143,24 @@ int main()
 
   itk::RegionNeighborhoodIterator<ImageType2D> rni2D(sz2, image2D,
                                            image2D->GetRequestedRegion());
-  itk::RegionNeighborhoodIterator<ImageType3D> rni3D(sz3, image3D,
+  itk::RandomAccessNeighborhoodIterator<ImageType3D> rni3D(sz3, image3D,
                                            image3D->GetRequestedRegion());
-  itk::RegionNeighborhoodIterator<ImageTypeND> rniND(szN, imageND,
+  itk::RandomAccessNeighborhoodIterator<ImageTypeND> rniND(szN, imageND,
                                            imageND->GetRequestedRegion());
 
-  // Test convolution
-  println("Testing convolution");
-  rni2D.SetLocation(orig2Dm);
+  rniND.Print(std::cout);
+
+  println("Grabbing some neighborhoods");
   itk::Neighborhood<float, 2> n2 = rni2D.GetNeighborhood();
-  n2 = itk::NeighborhoodAlgorithm::Convolve2D(n2, n2, 1);
-  n2 = itk::NeighborhoodAlgorithm::Convolve2D(n2, n2, 0);
-
-  rni3D.SetLocation(orig3Dm);
+  rni3D += orig3Dm;
   itk::Neighborhood<float, 3> n3 = rni3D.GetNeighborhood();
-  n3 = itk::NeighborhoodAlgorithm::Convolve3D(n3, n3, 1);
-  n3 = itk::NeighborhoodAlgorithm::Convolve3D(n3, n3, 0);
-
-  rniND.SetLocation(origNDm);
+  std::cout << imageND << std::endl;
+  rniND += origNDm;
+  rniND.Print(std::cout);
+  std::cout << rniND.Center() << std::endl;
   itk::Neighborhood<float, 4> nN = rniND.GetNeighborhood();
-  nN = itk::NeighborhoodAlgorithm::ConvolveND(nN, nN, 1);
-  nN = itk::NeighborhoodAlgorithm::ConvolveND(nN, nN, 0);
-  
+  nN.Print(std::cout);
+
   // Test inner product
   println("Testing inner product variations");
   itk::DerivativeOperator<float, 2> d2D;
