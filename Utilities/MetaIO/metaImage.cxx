@@ -352,7 +352,10 @@ ElementNumberOfChannels(int _elementNumberOfChannels)
 void MetaImage::
 ElementByteOrderSwap(void)
   {
-  std::cout << "MetaImage: ElementByteOrderSwap" << std::endl;
+  if(META_DEBUG)
+    {
+    std::cout << "MetaImage: ElementByteOrderSwap" << std::endl;
+    }
 
   int eSize;
   MET_SizeOfType(m_ElementType, &eSize);    
