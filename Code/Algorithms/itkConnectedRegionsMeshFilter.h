@@ -77,6 +77,40 @@ public:
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  //@{
+  /**
+   * Convenient typedefs for this filter.
+   */
+  typedef TInputMesh InputMeshType;
+  typedef TOutputMesh OutputMeshType;
+  typedef typename typename TInputMesh::Pointer InputMeshPointer;
+  typedef typename typename TOutputMesh::Pointer OutputMeshPointer;
+  enum {PointDimension = TInputMesh::PointDimension};
+  typedef typename TInputMesh::PointType PointType;
+  typedef typename TInputMesh::PointsContainerPointer 
+                   InputMeshPointsContainerPointer;
+  typedef typename TInputMesh::CellsContainer InputMeshCellsContainer;
+  typedef typename TInputMesh::CellsContainerPointer 
+                   InputMeshCellsContainerPointer;
+  typedef typename TInputMesh::CellDataContainer InputMeshCellDataContainer;
+  typedef typename TInputMesh::CellDataContainerPointer 
+                   InputMeshCellDataContainerPointer;
+  typedef typename InputMeshType::PointsContainer::ConstIterator 
+                   PointsContainerConstIterator;
+  typedef typename InputMeshType::CellsContainer::ConstIterator
+                   CellsContainerConstIterator;
+  typedef typename InputMeshType::CellDataContainer::ConstIterator
+                   CellDataContainerConstIterator;
+  typedef typename TInputMesh::CellPointer InputMeshCellPointer;
+  typedef typename TInputMesh::CellTraits::PointIdConstIterator 
+                   InputMeshPointIdConstIterator;
+  typedef typename TInputMesh::CellLinksContainerPointer
+                   InputMeshCellLinksContainerPointer;
+  typedef typename TInputMesh::PointCellLinksContainer
+                   InputMeshCellLinksContainer;
+  typedef typename TInputMesh::CellIdentifier InputMeshCellIdentifier;
+  //@}
+
   /**
    * Method for creation through the object factory.
    */
@@ -93,14 +127,6 @@ public:
          AllRegions = 4,
          ClosestPointRegion = 5 };
   
-  /**
-   * Special typedefs for this filter
-   */
-  typedef TInputMesh InputMeshType;
-  typedef TOutputMesh OutputMeshType;
-  enum {PointDimension = TInputMesh::PointDimension};
-  typedef typename TInputMesh::PointType PointType;
-
   /**
    * Methods specify mode of operation for the filter. Note that
    * some modes require additional information. For example, 
@@ -184,6 +210,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void GenerateData();
+  void PropagateConnectedWave();
 
 private:  
   int                        m_ExtractionMode;
@@ -191,6 +218,12 @@ private:
   std::vector<unsigned long> m_SeedList;
   std::vector<unsigned long> m_RegionList;
   std::vector<unsigned long> m_RegionSizes;
+  
+  std::vector<long>          m_Visited;
+  unsigned long              m_NumberOfCellsInRegion;
+  unsigned long              m_RegionNumber;
+  std::vector<unsigned long> *m_Wave;
+  std::vector<unsigned long> *m_Wave2;
   
 }; // class declaration
 

@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkConnectedRegionsMeshFilter_txx
 
 #include "itkConnectedRegionsMeshFilter.h"
+#include "itkNumericTraits.h"
 #include "itkObjectFactory.h"
 
 namespace itk
@@ -154,9 +155,295 @@ void
 ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
 ::GenerateData()
 {
+  InputMeshPointer input = this->GetInput();
+  OutputMeshPointer output = this->GetOutput();
+  InputMeshPointsContainerPointer inPts = input->GetPoints();
+  InputMeshCellsContainerPointer inCells = input->GetCells();
+
   itkDebugMacro(<<"Executing connectivity");
 
+  //  Check input/allocate storage
+  unsigned long numCells = input->GetNumberOfCells();
+  unsigned long numPts = input->GetNumberOfPoints();
+  if ( numPts < 1 || numCells < 1 )
+    {
+    itkWarningMacro(<<"No data to connect!");
+    return;
+    }
+
+  // Initialize.  Keep track of points and cells visited.
+  input->BuildCellLinks(); //needed to get neighbors
+  
+  m_RegionSizes.clear();
+  m_Visited.reserve(numCells);
+  for ( int i=0; i < numCells; i++ )
+    {
+    m_Visited[i] = -1;
+    }
+
+  // Traverse all cells marking those visited.  Each new search
+  // starts a new connected region. Connected region grows 
+  // using a connected wave propagation.
+  //
+  m_Wave = new std::vector<unsigned long>;
+  m_Wave2 = new std::vector<unsigned long>;
+  m_Wave->reserve(numPts/4);
+  m_Wave2->reserve(numPts/4);
+  
+  // variable used to keep track of propagation
+  m_RegionNumber = 0;
+  unsigned long maxCellsInRegion=0, largestRegionId;
+
+  int tenth = numCells/10 + 1;
+  int cellId=0;
+  if ( m_ExtractionMode != PointSeededRegions && 
+  m_ExtractionMode != CellSeededRegions &&
+  m_ExtractionMode != ClosestPointRegion ) 
+    { //visit all cells marking with region number
+    for (CellsContainerConstIterator cell=inCells->Begin(); 
+         cell != inCells->End(); ++cell, ++cellId)
+      {
+      if ( !(cellId % tenth) )
+        {
+        this->UpdateProgress ((float)cellId/numCells);
+        }
+
+      if ( m_Visited[cellId] < 0 )
+        {
+        m_NumberOfCellsInRegion = 0;
+        m_Wave->push_back(cellId);
+        this->PropagateConnectedWave();
+        
+        if ( m_NumberOfCellsInRegion > maxCellsInRegion )
+          {
+          maxCellsInRegion = m_NumberOfCellsInRegion;
+          largestRegionId = m_RegionNumber;
+          }
+
+        m_RegionSizes[m_RegionNumber++] = m_NumberOfCellsInRegion;
+        m_Wave->clear();
+        m_Wave2->clear();
+        }
+      }
+    }
+  //Otherwise, seeds are used to indicate the region
+  else if ( m_ExtractionMode == PointSeededRegions )
+    {
+    m_NumberOfCellsInRegion = 0;
+    if ( m_ExtractionMode == PointSeededRegions )
+      {
+      InputMeshCellLinksContainerPointer cellLinks;
+      cellLinks = input->GetCellLinks();
+      InputMeshCellLinksContainer links;
+      std::set<TInputMesh::CellIdentifier>::iterator citer;
+      
+      for (std::vector<unsigned long>::iterator i = m_SeedList.begin();
+           i != m_SeedList.end(); ++i)
+        {
+        links = cellLinks->ElementAt(*i);
+        for (citer = links.begin(); citer != links.end();
+             ++citer)
+          {
+          m_Wave->push_back(*citer);
+          }
+        }
+      }
+    // use the seeds directly
+    else if ( m_ExtractionMode == CellSeededRegions )
+      {
+      for (std::vector<unsigned long>::iterator i = m_SeedList.begin();
+           i != m_SeedList.end(); ++i)
+        {
+        m_Wave->push_back(*i);
+        }
+      }
+    // find the closest point and get the cells using it as the seeds
+    else if ( m_ExtractionMode == ClosestPointRegion )
+      {
+      // find the closest point
+      double minDist2=NumericTraits<double>::max(), dist2;
+      TInputMesh::PointIdentifier minId = 0;
+      TInputMesh::PointType x;
+      for (PointsContainerConstIterator piter=inPts->Begin();
+           piter != inPts->End(); ++piter)
+        {
+        x = piter->Value();
+        dist2 = x.SquaredEuclideanDistanceTo(m_ClosestPoint);
+        if ( dist2 < minDist2 )
+          {
+          minId = piter.Index();
+          minDist2 = dist2;
+          }
+        }
+
+      // get the cells using the closest point and use them as seeds
+      TInputMesh::CellLinksContainerPointer cellLinks;
+      cellLinks = input->GetCellLinks();
+      TInputMesh::PointCellLinksContainer links;
+      std::set<InputMeshCellIdentifier>::iterator citer;
+      
+      links = cellLinks->ElementAt(minId);
+      for (citer = links.begin(); citer != links.end();
+           ++citer)
+        {
+        m_Wave->push_back(*citer);
+        }
+      }//closest point
+
+    // now propagate a wave
+    this->PropagateConnectedWave();
+    m_RegionSizes[m_RegionNumber] = m_NumberOfCellsInRegion;
+    }
+  
+  delete m_Wave;
+  delete m_Wave2;
+  m_Wave = m_Wave2 = 0;
+  
+  itkDebugMacro (<<"Extracted " << m_RegionNumber << " region(s)");
+
+  // Pass the point and point data through
+  output->SetPoints(inPts);
+  output->SetPointData(input->GetPointData());
+  
+  // Create output cells
+  //
+  InputMeshCellsContainerPointer 
+    outCells(InputMeshCellsContainer::New());
+  InputMeshCellDataContainerPointer 
+    outCellData(InputMeshCellDataContainer::New());
+  cellId = 0;
+  CellsContainerConstIterator cell;
+  CellDataContainerConstIterator cellData;
+
+  if ( m_ExtractionMode == PointSeededRegions ||
+  m_ExtractionMode == CellSeededRegions ||
+  m_ExtractionMode == ClosestPointRegion ||
+  m_ExtractionMode == AllRegions)
+    { // extract any cell that's been visited
+    for (cell=inCells->Begin(); cell != inCells->End(); ++cell, ++cellId)
+      {
+      if ( m_Visited[cellId] >= 0 )
+        {
+        outCells->InsertElement(cellId,cell->Value());
+        outCellData->InsertElement(cellId,cellData->Value());
+        }
+      }
+    }
+  // if specified regions, add regions
+  else if ( m_ExtractionMode == SpecifiedRegions )
+    {
+    std::vector<unsigned long>::iterator i;
+    long regionId;
+    bool inReg;
+    for (cell=inCells->Begin(); cell != inCells->End(); ++cell, ++cellId)
+      {
+      if ( (regionId=m_Visited[cellId]) >= 0 )
+        {
+        //see if cell is on region
+        for ( i = m_RegionList.begin(); i != m_RegionList.end(); ++i)
+          {
+          if ( *i == regionId )
+            {
+            inReg = true;
+            break;
+            }
+          }
+
+        if ( inReg )
+          {
+          outCells->InsertElement(cellId,cell->Value());
+          outCellData->InsertElement(cellId,cellData->Value());
+          }
+        }
+      }
+    }
+  else //we are extracting the largest region
+    {
+    for (cell=inCells->Begin(); cell != inCells->End(); ++cell, ++cellId)
+      {
+      if ( m_Visited[cellId] == largestRegionId )
+        {
+        outCells->InsertElement(cellId,cell->Value());
+        outCellData->InsertElement(cellId,cellData->Value());
+        }
+      }
+    }
+
+  // Set the output and clean up
+  output->SetCells(outCells);
+  output->SetCellData(outCellData);
+  m_Visited.clear();
+  
+  // Report some statistics
+  if ( this->GetDebug() )
+    {
+    long count=0;
+    for (std::vector<unsigned long>::const_iterator ii=m_RegionSizes.begin();
+         ii != m_RegionSizes.end(); ++ii)
+      {
+      count += *ii;
+      }
+    itkDebugMacro (<< "Total # of cells accounted for: " << count);
+    itkDebugMacro (<< "Extracted " << output->GetNumberOfCells() << " cells");
+    }
+
+  return;
 }
+
+template <class TInputMesh, class TOutputMesh>
+void 
+ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
+::PropagateConnectedWave()
+{
+  InputMeshPointer input = this->GetInput();
+  unsigned long cellId;
+  InputMeshCellPointer cellPtr;
+  InputMeshPointIdConstIterator piter;
+  InputMeshCellLinksContainerPointer cellLinks;
+  cellLinks = input->GetCellLinks();
+  InputMeshCellLinksContainer links;
+
+  std::vector<unsigned long>::iterator i;
+  std::vector<unsigned long> *tmpWave;
+  std::set<InputMeshCellIdentifier>::iterator citer;
+
+  while ( m_Wave->size() > 0 )
+    {
+    for (i=m_Wave->begin(); i != m_Wave->end(); ++i)
+      {
+      cellId = *i;
+      if ( m_Visited[cellId] < 0 )
+        {
+        m_Visited[cellId] = m_RegionNumber;
+        m_NumberOfCellsInRegion++;
+        
+        //now get the cell points, and then cells using these points
+        input->GetCell(cellId, &cellPtr);
+        for ( piter=cellPtr->PointIdsBegin(); 
+              piter != cellPtr->PointIdsEnd(); ++piter)
+          {
+          links = cellLinks->ElementAt(*piter);
+          for (citer = links.begin(); citer != links.end(); ++citer)
+            {
+            if ( m_Visited[*citer] < 0 )
+              {
+              m_Wave2->push_back(*citer);
+              }
+            }
+          }
+        }//if visited
+      }//for all cells in wave
+
+    tmpWave = m_Wave;
+    m_Wave = m_Wave2;
+    m_Wave2 = tmpWave;
+    tmpWave->clear();
+    }//while wave is propagating
+  
+  return;
+}
+
+
 
 } // end namespace itk
 
