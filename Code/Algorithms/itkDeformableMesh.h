@@ -27,7 +27,7 @@ namespace itk
  * \ingroup MeshSegmentation
  */
 template <typename TPixelType/*, 
-	typename TMeshTraits = DefaultStaticMeshTraits< TPixelType >*/>
+  typename TMeshTraits = DefaultStaticMeshTraits< TPixelType >*/>
 class ITK_EXPORT DeformableMesh : public Mesh<TPixelType/*, TMeshTraits*/>
 {
 public:
@@ -72,7 +72,7 @@ public:
  * and will be used in FEM application.
  */
 
-  typedef itk::TriangleCell<PixelType, CellTraits>	   TriCell;
+  typedef itk::TriangleCell<PixelType, CellTraits>     TriCell;
   typedef typename TriCell::Pointer TriCellPointer;
 
 

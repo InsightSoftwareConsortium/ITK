@@ -158,8 +158,8 @@ public:
    * Setting the parameters for segmentation:
    */
   void SetParameters(const double inmean,const double invar, 
-	  const double indifmean,const double indifvar,const double inweight);
-	
+    const double indifmean,const double indifvar,const double inweight);
+  
 protected:
   FuzzyConnectednessImageFilter();
   ~FuzzyConnectednessImageFilter();

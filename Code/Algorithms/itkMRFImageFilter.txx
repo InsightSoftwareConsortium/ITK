@@ -471,7 +471,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
             offset3D[1] = m_HeightOffset[k] ;
             offset3D[2] = m_DepthOffset[k]  ;
             index3D = labelledImageIt.GetIndex();
-	    index3D += offset3D;
+      index3D += offset3D;
 
             labelledPixel = m_LabelledImage->GetPixel( index3D );
                 

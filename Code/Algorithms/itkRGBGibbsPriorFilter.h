@@ -28,7 +28,7 @@ namespace itk
  */
 template <class TInputImage, class TClassifiedImage>
 class ITK_EXPORT RGBGibbsPriorFilter : public MRFImageFilter<TInputImage, 
-	TClassifiedImage>
+  TClassifiedImage>
 {
 public:
   /**
@@ -101,9 +101,9 @@ public:
    */
 //  typename ClassifierType::Pointer m_ClassifierPtr;
 
-//  typedef typename TInputImage::PixelType		InputImagePixelType;
-//  typedef typename TClassifiedImage::PixelType	TrainingImagePixelType;
-//  typedef typename TClassifiedImage::PixelType	LabelledImagePixelType;
+//  typedef typename TInputImage::PixelType   InputImagePixelType;
+//  typedef typename TClassifiedImage::PixelType  TrainingImagePixelType;
+//  typedef typename TClassifiedImage::PixelType  LabelledImagePixelType;
 
 //  typedef
 //    ImageRegionIteratorWithIndex< TInputImage > InputImageIterator;
@@ -211,47 +211,47 @@ private:
   typedef typename TInputImage::SizeType InputImageSizeType;
   typename ClassifierType::Pointer m_ClassifierPtr;
 
-  InputImageType		m_InputImage;
-  InputImageType		m_MediumImage;
-  TrainingImageType		m_TrainingImage;
-  LabelledImageType		m_LabelledImage;
+  InputImageType    m_InputImage;
+  InputImageType    m_MediumImage;
+  TrainingImageType   m_TrainingImage;
+  LabelledImageType   m_LabelledImage;
 
-  float	m_BoundaryWt; 
-  float	m_GibbsPriorWt; 
-  int	m_StartRadius;
+  float m_BoundaryWt; 
+  float m_GibbsPriorWt; 
+  int m_StartRadius;
   float m_NewRegionThreshold;
-  int	m_Temp;
+  int m_Temp;
 
 //  Parameter definitions
-	 
+   
   int m_StartPoint[3]; 
   int m_StartModelSize; 
   int m_GibbsNeighborsThreshold; 
   int m_BoundaryGradient;
   int m_RecursiveNum;
-  unsigned int			*m_LabelStatus;
+  unsigned int      *m_LabelStatus;
 
   int                   m_imgWidth;
   int                   m_imgHeight;
   int                   m_imgDepth;
-  int					m_ClusterSize;
-  int					m_ObjectLabel;
-  int					m_VecDim;
-  int					m_NumberOfClasses;
+  int         m_ClusterSize;
+  int         m_ObjectLabel;
+  int         m_VecDim;
+  int         m_NumberOfClasses;
   unsigned int          m_MaximumNumberOfIterations;
-  InputPixelType		m_LowPoint;
+  InputPixelType    m_LowPoint;
 
-  unsigned short		*m_Region;
-  unsigned short		*m_RegionCount;
+  unsigned short    *m_Region;
+  unsigned short    *m_RegionCount;
 
   void  GibbsTotalEnergy(int i);
   float GibbsEnergy(int i, int k, int k1);
-  int	Sim(int a, int b);
-  int	LabelRegion(int i, int l, int change);
-  void	RegionEraser();
-  void	GenerateMediumImage();
+  int Sim(int a, int b);
+  int LabelRegion(int i, int l, int change);
+  void  RegionEraser();
+  void  GenerateMediumImage();
 
-  void	GreyScalarBoundary(LabelledImageIndexType Index3D); 
+  void  GreyScalarBoundary(LabelledImageIndexType Index3D); 
 
 };
 

@@ -59,7 +59,7 @@ public:
    *  Type of the Transformation
    */
    typedef VersorRigid3DTransform< double > TransformationType;
-	  
+    
   /**
    * Parameters Dimension
    */
@@ -159,7 +159,7 @@ public:
    *  Type of the Transformation
    */
    typedef typename Superclass::TransformationType TransformationType;
-	 
+   
    
   /**
    *  Type of the Mapper

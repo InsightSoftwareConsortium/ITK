@@ -70,7 +70,7 @@ public:
   typedef   itk::Vector<int,3>                    IntVector;
 
 
-  typedef   TInputImage	                          InputImageType;
+  typedef   TInputImage                           InputImageType;
   typedef   TOutputImage                          OutputImageType;
   typedef   Image <unsigned short,ImageDimension> UShortImage;
   typedef   typename TInputImage::IndexType       IndexType;
@@ -103,7 +103,7 @@ public:
    * Setting the covariance matrix for specified object:
    */
   void SetObjectsMatrix(const MatrixType object_max,const int object_num);
-	
+  
   /**
    * Setting the seed points for specified object.
    */
@@ -127,7 +127,7 @@ protected:
   /**
    * Standard pipeline method.
    */
-	void GenerateData();
+  void GenerateData();
 
 private:
 
@@ -160,7 +160,7 @@ private:
 
 
   typename InputImageType::Pointer   m_InputImage;
-  typename InputImageType::Pointer   m_FilterImage;	
+  typename InputImageType::Pointer   m_FilterImage; 
   typename UShortImage::Pointer      m_ObjectFuzzyScene;
   typename UShortImage::Pointer      m_BackgroundFuzzyScene;
   typename OutputImageType::Pointer  m_SegmentObject; 

@@ -86,7 +86,7 @@ public:
   /**
    *  Type of the match measure
    */
-  typedef double			        MeasureType;
+  typedef double              MeasureType;
  
 
   /**
@@ -113,7 +113,7 @@ public:
   /**
    *  Type of the Mapper
    */
-  typedef TMapper							MapperType;
+  typedef TMapper             MapperType;
   
   /**
    *  Type of the Reference
@@ -124,7 +124,7 @@ public:
   /**
    *  Type of the Target
    */
-  typedef TTarget							TargetType;
+  typedef TTarget             TargetType;
  
 
   /**

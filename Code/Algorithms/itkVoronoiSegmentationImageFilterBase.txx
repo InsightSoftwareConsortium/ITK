@@ -392,7 +392,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 ::GenerateAddingSeeds(void)
 {
   EdgeIterator eit;
-  EdgeIterator eitend =	m_WorkingVD->EdgeEnd();  
+  EdgeIterator eitend = m_WorkingVD->EdgeEnd();  
   PointType adds;
   Point<int,2> seeds;
 
@@ -468,7 +468,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       RunSegmentOneStep();
       i++;
       }
-    }	  
+    }   
 }
 
 template <class TInputImage, class TOutputImage>

@@ -54,7 +54,7 @@ VoronoiSegmentationRGBImageFilter(){
   unsigned int i;
   for(i=0;i<6;i++){
     m_Mean[i] = 0;
-	m_Var[i] = 0;
+  m_Var[i] = 0;
     m_MeanTolerance[i] = 10;
     m_VarTolerance[i] = 10;
     m_MeanPercentError[i] = 0.10;
@@ -151,7 +151,7 @@ InitializeSegment(void){
     L = 116*Y - 16;
     a = 500*(X - Y);
     b = 200*(Y - Z);
-	
+  
     wpixel[3] = atan(b/a);     //H
     wpixel[4] = sqrt(a*a+b*b); //C
     wpixel[5] = L;             //V 
@@ -194,33 +194,33 @@ TestHomogeneity(IndexList Plist)
     for(i=0;i<6;i++){
       savemean[i] = addp[i]/num;
       savevar[i] = sqrt((addpp[i] - (addp[i]*addp[i])/(num) )/(num-1));
-	}
+  }
   }
   else{
     for(i=0;i<6;i++){
       savemean[i] = 0;
       savevar[i] = -1;
-	}
+  }
   }
 
   bool ok = 1;
   j = 0;
   double savem,savev;
   while (ok && (j < 3)){
-	savem = savemean[m_TestMean[j]] - m_Mean[m_TestMean[j]];
-	savev = savevar[m_TestVar[j]] - m_Var[m_TestVar[j]];
-	if( (savem < -m_MeanTolerance[m_TestMean[j]]) ||
-	      (savem > m_MeanTolerance[m_TestMean[j]]) ){
-	  ok = 0;
-	}
-	if( (savev < -m_VarTolerance[m_TestVar[j]]) ||
-	    (savev > m_VarTolerance[m_TestVar[j]]) ){
+  savem = savemean[m_TestMean[j]] - m_Mean[m_TestMean[j]];
+  savev = savevar[m_TestVar[j]] - m_Var[m_TestVar[j]];
+  if( (savem < -m_MeanTolerance[m_TestMean[j]]) ||
+        (savem > m_MeanTolerance[m_TestMean[j]]) ){
+    ok = 0;
+  }
+  if( (savev < -m_VarTolerance[m_TestVar[j]]) ||
+      (savev > m_VarTolerance[m_TestVar[j]]) ){
       ok = 0;
     }
     j++;
   }
   if(ok)
-	return 1;
+  return 1;
   else
     return 0;
 }
@@ -265,7 +265,7 @@ Reset(void)
     L = 116*Y - 16;
     a = 500*(X - Y);
     b = 200*(Y - Z);
-	
+  
     wpixel[3] = atan(b/a);     //H
     wpixel[4] = sqrt(a*a+b*b); //C
     wpixel[5] = L;             //V 
@@ -331,19 +331,19 @@ TakeAPrior(BinaryObjectImage* aprior)
     for(j=minx;j<=maxx;j++){
       currp = iit.Get();
       if(ait.Get()){
-	    objnum++;
-	    for(k=0;k<6;k++){
-	      objaddp[k] += currp[k];
-	      objaddpp[k] += currp[k]*currp[k];
-	    }
+      objnum++;
+      for(k=0;k<6;k++){
+        objaddp[k] += currp[k];
+        objaddpp[k] += currp[k]*currp[k];
+      }
       }
       else{
-	    bkgnum++;
-	    for(k=0;k<6;k++){
-	      bkgaddp[k] += currp[k];
-	      bkgaddpp[k] += currp[k]*currp[k];
-	    }
-	  }
+      bkgnum++;
+      for(k=0;k<6;k++){
+        bkgaddp[k] += currp[k];
+        bkgaddpp[k] += currp[k]*currp[k];
+      }
+    }
       ++ait;++iit;
     }
     for(j=maxx+1;j<m_Size[0];j++){
@@ -362,10 +362,10 @@ TakeAPrior(BinaryObjectImage* aprior)
     m_VarTolerance[i] = m_Var[i]*m_VarPercentError[i];
     b_Mean[i] = bkgaddp[i]/bkgnum;
     b_Var[i] = sqrt((bkgaddpp[i] - (bkgaddp[i]*bkgaddp[i])/bkgnum)/(bkgnum-1));
-	diffMean[i] = (b_Mean[i]-m_Mean[i])/m_Mean[i];
-	if(diffMean[i] < 0) diffMean[i] = -diffMean[i];
-	diffVar[i] = (b_Var[i]-m_Var[i])/m_Var[i];
-	if(diffVar[i] < 0) diffVar[i] = -diffVar[i];
+  diffMean[i] = (b_Mean[i]-m_Mean[i])/m_Mean[i];
+  if(diffMean[i] < 0) diffMean[i] = -diffMean[i];
+  diffVar[i] = (b_Var[i]-m_Var[i])/m_Var[i];
+  if(diffVar[i] < 0) diffVar[i] = -diffVar[i];
     if(m_UseBackgroundInAPrior)
       m_MeanTolerance[i] = diffMean[i]*m_Mean[i]*m_MeanDeviation;
     else
@@ -378,10 +378,10 @@ TakeAPrior(BinaryObjectImage* aprior)
     k=0;
     for(i=1;i<6-j;i++){
       if(diffMean[tmp[i]]>diffMean[tmp[k]]){
-	    k=i;
-	  }   
+      k=i;
+    }   
     }
-	m_TestMean[j]=tmp[k];
+  m_TestMean[j]=tmp[k];
     tmp[k]=tmp[5-j];
   }
   unsigned char tmp1[6]={0,1,2,3,4,5};
@@ -389,10 +389,10 @@ TakeAPrior(BinaryObjectImage* aprior)
     k=0;
     for(i=1;i<6-j;i++){
       if(diffVar[tmp1[i]]>diffVar[tmp1[k]]){
-	    k=i;
-	  }   
+      k=i;
+    }   
     }
-	m_TestVar[j]=tmp1[k];
+  m_TestVar[j]=tmp1[k];
     tmp1[k]=tmp1[5-j];
   }
 }

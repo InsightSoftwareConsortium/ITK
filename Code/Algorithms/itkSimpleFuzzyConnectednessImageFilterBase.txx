@@ -90,16 +90,16 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
     
   for(int i = 0; i < ImageDimension; i++)
   {
-	if(current[i] < m_size[i]-1)
-	{
+  if(current[i] < m_size[i]-1)
+  {
       current[i]++;
-	  m_Queue.push(current);
-	  current[i]--;
+    m_Queue.push(current);
+    current[i]--;
     }
-	
-	if(current[i]>0){
-	  current[i]--;
-	  m_Queue.push(current);
+  
+  if(current[i]>0){
+    current[i]--;
+    m_Queue.push(current);
       current[i]++;
     }
   }
@@ -126,7 +126,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
     tmp = (double)(m_FuzzyScene->GetPixel(current));
     tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current),centerpixel);
     if(tmp > tmp1)
-	{
+  {
       tmp=tmp1;
     }
     current[0]++;
@@ -137,7 +137,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
     tmp2 = (double)(m_FuzzyScene->GetPixel(current));
     tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current), centerpixel);
     if(tmp2 > tmp1)
-	{
+  {
       tmp2 = tmp1;
     }
     if(tmp < tmp2){
@@ -150,35 +150,35 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   for(int i = 1;i < ImageDimension; i++)
   {
     if(current[i] > 0)
-	{
+  {
       current[i]--;
       tmp2 = (double)(m_FuzzyScene->GetPixel(current));
       tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current), centerpixel);
       if(tmp2 > tmp1)
-	  {
+    {
         tmp2 = tmp1;
       }
       if(tmp < tmp2)
-	  {
+    {
         tmp = tmp2;
       }
       current[i]++;
-	}
-	if(current[i] < m_size[i]-1)
-	{
-	  current[i]++;
+  }
+  if(current[i] < m_size[i]-1)
+  {
+    current[i]++;
       tmp2 = (double)(m_FuzzyScene->GetPixel(current));
       tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current), centerpixel);
       if(tmp2 > tmp1)
-	  {
+    {
         tmp2 = tmp1;
       }
       if(tmp < tmp2)
-	  {
+    {
         tmp = tmp2;
       }
       current[i]--;
-	}
+  }
   }
 
   return(tmp);
@@ -285,7 +285,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 
 
 
-	
+  
 
 
 

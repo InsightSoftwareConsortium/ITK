@@ -193,7 +193,7 @@ public:
   typedef typename std::vector<PointType>::iterator VertexIterator;
 
   itkGetMacro(NumberOfSeeds,unsigned int);
-	
+  
   /**
    * Input the seeds information, will overwrite if seeds already
    * exists.
@@ -217,7 +217,7 @@ public:
    */ 
   VertexIterator VertexBegin(void);
   VertexIterator VertexEnd(void);
-	
+  
   /**
    * return the given indexed seed.
    */
@@ -243,7 +243,7 @@ public:
       VoronoiEdge(){};
       ~VoronoiEdge(){};
   };
-	
+  
   typedef typename std::vector<VoronoiEdge>::iterator VoronoiEdgeIterator;
   /* the Iterator of all the edges for the Voronoi Diagram */
   VoronoiEdgeIterator EdgeBegin(void);
@@ -258,8 +258,8 @@ public:
 
   void AddCellNeighbor(EdgeInfo x){ 
      m_CellNeighborsID[x[0]].push_back(x[1]);
-	   m_CellNeighborsID[x[1]].push_back(x[0]);};
-  void ClearRegion(int i){ VoronoiRegions[i]->ClearPoints();};	
+     m_CellNeighborsID[x[1]].push_back(x[0]);};
+  void ClearRegion(int i){ VoronoiRegions[i]->ClearPoints();};  
   void VoronoiRegionAddPointId(int id, int x){VoronoiRegions[id]->AddPointId(x);};
   void BuildEdge(int id){ VoronoiRegions[id]->BuildEdges();};
 
@@ -300,7 +300,7 @@ private:
   PointType m_VoronoiBoundary;
   PointType m_VoronoiBoundaryOrigin;
   std::vector< std::vector<int> > m_CellNeighborsID;
-	
+  
   std::vector< EdgeInfo > f_LineList;
   std::vector< PointType > f_VertexList;
   std::vector< VoronoiEdge > f_EdgeList;

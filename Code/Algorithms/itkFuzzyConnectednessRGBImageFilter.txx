@@ -147,10 +147,10 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 /* compute the Determinate and inverse of the Variance Matrices */
   m_Var_Det = m_Var[0][0]*m_Var[1][1]*m_Var[2][2]
              +m_Var[1][0]*m_Var[2][1]*m_Var[0][2]
-			 +m_Var[0][1]*m_Var[1][2]*m_Var[2][0]
-			 -m_Var[2][0]*m_Var[1][1]*m_Var[0][2]
-			 -m_Var[0][1]*m_Var[1][0]*m_Var[2][2]
-			 -m_Var[0][0]*m_Var[1][2]*m_Var[2][1];
+       +m_Var[0][1]*m_Var[1][2]*m_Var[2][0]
+       -m_Var[2][0]*m_Var[1][1]*m_Var[0][2]
+       -m_Var[0][1]*m_Var[1][0]*m_Var[2][2]
+       -m_Var[0][0]*m_Var[1][2]*m_Var[2][1];
   m_Var_inverse[0][0]=(m_Var[1][1]*m_Var[2][2]-m_Var[2][1]*m_Var[1][2])
                       /m_Var_Det;  
   m_Var_inverse[0][1]=-(m_Var[1][0]*m_Var[2][2]-m_Var[2][0]*m_Var[1][2])
@@ -208,7 +208,7 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 
 
 
-	
+  
 
 
 

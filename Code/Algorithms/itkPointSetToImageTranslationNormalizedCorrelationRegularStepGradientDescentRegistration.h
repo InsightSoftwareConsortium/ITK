@@ -74,7 +74,7 @@ public:
    */
    typedef TTarget TargetType;
 
-	/**
+  /**
    * Image Dimensions and Parameters Dimension
    */
    enum { ImageDimension = ReferenceType::ImageDimension };
@@ -185,7 +185,7 @@ public:
    *  Type of the Transformation
    */
    typedef typename Superclass::TransformationType TransformationType;
-	 
+   
    
   /**
    *  Type of the Mapper

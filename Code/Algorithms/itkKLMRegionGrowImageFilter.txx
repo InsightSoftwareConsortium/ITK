@@ -726,14 +726,14 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     std::cout << "-------------------" << std::endl;
    
    
-	  for( unsigned int k = 0; k < m_NumRegions; k++ )
+    for( unsigned int k = 0; k < m_NumRegions; k++ )
       {
       m_pRegions[k]->PrintRegionInfo(); 
       }
 
     std::cout << "-------------------" << std::endl;
     std::cout << "    +++++++++++    " << std::endl;
-    std::cout << "-------------------" << std::endl;	
+    std::cout << "-------------------" << std::endl;  
     */
    
     // since the number of borders decreases or increases, possibly

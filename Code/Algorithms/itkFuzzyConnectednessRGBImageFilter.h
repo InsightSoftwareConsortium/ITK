@@ -134,8 +134,8 @@ public:
   };
   void SetVar(double ivar[3][3]){
     m_Var[0][0]=ivar[0][0];m_Var[0][1]=ivar[0][1];m_Var[0][2]=ivar[0][2];
-	m_Var[1][0]=ivar[1][0];m_Var[1][1]=ivar[1][1];m_Var[1][2]=ivar[1][2];
-	m_Var[2][0]=ivar[2][0];m_Var[2][1]=ivar[2][2];m_Var[2][2]=ivar[2][2];
+  m_Var[1][0]=ivar[1][0];m_Var[1][1]=ivar[1][1];m_Var[1][2]=ivar[1][2];
+  m_Var[2][0]=ivar[2][0];m_Var[2][1]=ivar[2][2];m_Var[2][2]=ivar[2][2];
   };
   void GetVar(double ovar[3][3]){
     ovar[0][0]=m_Var[0][0];ovar[0][1]=m_Var[0][1];ovar[0][2]=m_Var[0][2];

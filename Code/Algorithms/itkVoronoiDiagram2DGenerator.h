@@ -118,7 +118,7 @@ public:
 
 
   itkGetMacro(NumberOfSeeds,unsigned int);
-	
+  
   /**
    * Input the seeds information, will overwrite if seeds already
    * exists.
@@ -211,7 +211,7 @@ private:
     ~FortuneHalfEdge(){};
   };
 
-	double f_pxmin;
+  double f_pxmin;
   double f_pxmax;
   double f_pymin;
   double f_pymax;
@@ -231,7 +231,7 @@ private:
   std::vector<FortuneHalfEdge *> f_ELHash;
   FortuneEdge f_DELETED;
   std::vector<FortuneSite> f_SeedSites;
-	
+  
   bool differentPoint(PointType p1,PointType p2);
   bool almostsame(CoordRepType p1,CoordRepType p2);
   unsigned char Pointonbnd(int VertID);

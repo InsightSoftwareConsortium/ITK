@@ -88,11 +88,11 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   }
   else if(inweight > 1)
   {
-	m_Weight = 1;
+  m_Weight = 1;
   }
   else 
   {
-	m_Weight = inweight;
+  m_Weight = inweight;
   }
 }
 
@@ -108,14 +108,14 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   if(m_Weight == 1)
   {
     return( (NumericTraits<unsigned short>::max())* 
-	   (exp(-0.5 * tmp1 * tmp1 / m_Var)));
+     (exp(-0.5 * tmp1 * tmp1 / m_Var)));
   }
   else{
     double tmp2 = fabs(static_cast<double>(f1) - static_cast<double>(f2)) - m_Diff_Mean;
-	return( (NumericTraits<unsigned short>::max()) *
-	  (m_Weight * exp(-0.5 * tmp1 * tmp1 / m_Var) + 
-	   (1 - m_Weight) * exp(-0.5 * tmp2 * tmp2 / m_Diff_Var)));
-	}
+  return( (NumericTraits<unsigned short>::max()) *
+    (m_Weight * exp(-0.5 * tmp1 * tmp1 / m_Var) + 
+     (1 - m_Weight) * exp(-0.5 * tmp2 * tmp2 / m_Diff_Var)));
+  }
 }
 
 } // end namespace itk

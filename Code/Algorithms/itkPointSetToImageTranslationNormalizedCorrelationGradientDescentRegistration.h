@@ -85,7 +85,7 @@ public:
    */
    typedef TranslationTransform< double, ImageDimension
                                                   > TransformationType;
-	  	  
+        
   /**
    * Parameters Dimension
    */
@@ -189,7 +189,7 @@ public:
    *  Type of the Transformation
    */
    typedef typename Superclass::TransformationType TransformationType;
-	 
+   
    
   /**
    *  Type of the Mapper

@@ -152,9 +152,9 @@ LevelSetNeighborhoodExtractor<TLevelSet>
     m_InputLevelSet->GetLargestPossibleRegion().GetSize();
 
   for( int j = 0; j < SetDimension; j++ )
-		{
-		m_ImageSize[j] = (signed long) size[j];
-		}
+    {
+    m_ImageSize[j] = (signed long) size[j];
+    }
 
 }
 

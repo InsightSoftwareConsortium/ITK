@@ -267,10 +267,10 @@ ConstructDiagram(void)
   EdgeInfo LRsites; 
   for (int i = 0; i < edges; i++){
     currentPtID = m_OutputVD->GetEdgeEnd(i);
-	LRsites = m_OutputVD->GetLine(m_OutputVD->GetEdgeLineID(i));
+  LRsites = m_OutputVD->GetLine(m_OutputVD->GetEdgeLineID(i));
     rawEdges[LRsites[0]].push_back(currentPtID);
     rawEdges[LRsites[1]].push_back(currentPtID);
-    m_OutputVD->AddCellNeighbor(LRsites);	
+    m_OutputVD->AddCellNeighbor(LRsites); 
   }
 
 
@@ -309,124 +309,124 @@ ConstructDiagram(void)
   std::vector<unsigned long> cellPoints;
   for(unsigned int i = 0; i < m_NumberOfSeeds; i++){
     buildEdges.clear();
-	curr=rawEdges[i].front();
-   	rawEdges[i].pop_front();
-	buildEdges.push_back(curr);
+  curr=rawEdges[i].front();
+    rawEdges[i].pop_front();
+  buildEdges.push_back(curr);
     EdgeInfo front=curr;
     EdgeInfo back=curr;
-	int maxStop=rawEdges[i].size();
-	while(!(rawEdges[i].empty())){
+  int maxStop=rawEdges[i].size();
+  while(!(rawEdges[i].empty())){
       maxStop--;
-	  curr=rawEdges[i].front();
-  	  rawEdges[i].pop_front();
-	  frontbnd=Pointonbnd(front[0]);
-	  backbnd=Pointonbnd(back[1]);
-	  if(curr[0]==back[1]){
-	    buildEdges.push_back(curr);
-		back=curr;
-	  }
-	  else if(curr[1]==front[0]){
-	    buildEdges.push_front(curr);
-		front=curr;
-	  }
-	  else if(curr[1]==back[1]){
-	    curr1[1]=curr[0];
-	    curr1[0]=curr[1];
-	    buildEdges.push_back(curr1);
-		back=curr1;
-	  }
-	  else if(curr[0]==front[0]){
-	    curr1[0]=curr[1];
-	    curr1[1]=curr[0];
-	    buildEdges.push_front(curr1);
-		front=curr1;
-	  }
-	  else if( (frontbnd != 0) || (backbnd != 0) )
-	  {
+    curr=rawEdges[i].front();
+      rawEdges[i].pop_front();
+    frontbnd=Pointonbnd(front[0]);
+    backbnd=Pointonbnd(back[1]);
+    if(curr[0]==back[1]){
+      buildEdges.push_back(curr);
+    back=curr;
+    }
+    else if(curr[1]==front[0]){
+      buildEdges.push_front(curr);
+    front=curr;
+    }
+    else if(curr[1]==back[1]){
+      curr1[1]=curr[0];
+      curr1[0]=curr[1];
+      buildEdges.push_back(curr1);
+    back=curr1;
+    }
+    else if(curr[0]==front[0]){
+      curr1[0]=curr[1];
+      curr1[1]=curr[0];
+      buildEdges.push_front(curr1);
+    front=curr1;
+    }
+    else if( (frontbnd != 0) || (backbnd != 0) )
+    {
           unsigned char cfrontbnd=Pointonbnd(curr[0]);
           unsigned char cbackbnd=Pointonbnd(curr[1]);
 
-		  if((cfrontbnd == backbnd) &&(backbnd)){
-		    curr1[0]=back[1];
-		    curr1[1]=curr[0];
-		    buildEdges.push_back(curr1);
-		    buildEdges.push_back(curr);
-		    back=curr;
-		}
-		else if((cbackbnd == frontbnd)&&(frontbnd)){
-		  curr1[0]=curr[1];
-		  curr1[1]=front[0];
-		  buildEdges.push_front(curr1);
-		  buildEdges.push_front(curr);
-		  front=curr;
-		}
-		else if((cfrontbnd == frontbnd)&&(frontbnd)){
-		  curr1[0]=curr[0];
-		  curr1[1]=front[0];
-		  buildEdges.push_front(curr1);
-		  curr1[0]=curr[1];
-		  curr1[1]=curr[0];
-		  buildEdges.push_front(curr1);
-		  front=curr1;
-		}
-		else if((cbackbnd == backbnd)&&(backbnd)){
-		  curr1[0]=back[1];
-		  curr1[1]=curr[1];
-		  buildEdges.push_back(curr1);
-		  curr1[0]=curr[1];
-		  curr1[1]=curr[0];
-		  buildEdges.push_back(curr1);
-		  back=curr1;
-	    }
-		else{
+      if((cfrontbnd == backbnd) &&(backbnd)){
+        curr1[0]=back[1];
+        curr1[1]=curr[0];
+        buildEdges.push_back(curr1);
+        buildEdges.push_back(curr);
+        back=curr;
+    }
+    else if((cbackbnd == frontbnd)&&(frontbnd)){
+      curr1[0]=curr[1];
+      curr1[1]=front[0];
+      buildEdges.push_front(curr1);
+      buildEdges.push_front(curr);
+      front=curr;
+    }
+    else if((cfrontbnd == frontbnd)&&(frontbnd)){
+      curr1[0]=curr[0];
+      curr1[1]=front[0];
+      buildEdges.push_front(curr1);
+      curr1[0]=curr[1];
+      curr1[1]=curr[0];
+      buildEdges.push_front(curr1);
+      front=curr1;
+    }
+    else if((cbackbnd == backbnd)&&(backbnd)){
+      curr1[0]=back[1];
+      curr1[1]=curr[1];
+      buildEdges.push_back(curr1);
+      curr1[0]=curr[1];
+      curr1[1]=curr[0];
+      buildEdges.push_back(curr1);
+      back=curr1;
+      }
+    else{
           rawEdges[i].push_back(curr);
-		}
-	  }
-	  else{
+    }
+    }
+    else{
         rawEdges[i].push_back(curr);
-	  }
-	}
+    }
+  }
 
     curr=buildEdges.front();
-	curr1=buildEdges.back();
-	if(curr[0] != curr1[1]){
-	  frontbnd=Pointonbnd(curr[0]);
-	  backbnd=Pointonbnd(curr1[1]);
-	  if( (frontbnd!=0) && (backbnd!=0) )
-	   {
-	    if(frontbnd == backbnd){
-	      curr2[0]=curr1[1];
-		  curr2[1]=curr[0];
-		  buildEdges.push_back(curr2);
-		}
-	    else if((frontbnd == backbnd+1) || (frontbnd == backbnd-3) ){
-	      curr2[0]=cornerID[frontbnd-1];
-		  curr2[1]=curr[0];
-		  buildEdges.push_front(curr2);
-		  curr2[1]=curr2[0];
-		  curr2[0]=curr1[1];
-		  buildEdges.push_front(curr2);
-	    }
-	    else if((frontbnd == backbnd-1) || (frontbnd == backbnd+3) ){
-	      curr2[0]=cornerID[backbnd-1];
-		  curr2[1]=curr[0];
-		  buildEdges.push_front(curr2);
-		  curr2[1]=curr2[0];
-		  curr2[0]=curr1[1];
-		  buildEdges.push_front(curr2);
-		}
-		else{
+  curr1=buildEdges.back();
+  if(curr[0] != curr1[1]){
+    frontbnd=Pointonbnd(curr[0]);
+    backbnd=Pointonbnd(curr1[1]);
+    if( (frontbnd!=0) && (backbnd!=0) )
+     {
+      if(frontbnd == backbnd){
+        curr2[0]=curr1[1];
+      curr2[1]=curr[0];
+      buildEdges.push_back(curr2);
+    }
+      else if((frontbnd == backbnd+1) || (frontbnd == backbnd-3) ){
+        curr2[0]=cornerID[frontbnd-1];
+      curr2[1]=curr[0];
+      buildEdges.push_front(curr2);
+      curr2[1]=curr2[0];
+      curr2[0]=curr1[1];
+      buildEdges.push_front(curr2);
+      }
+      else if((frontbnd == backbnd-1) || (frontbnd == backbnd+3) ){
+        curr2[0]=cornerID[backbnd-1];
+      curr2[1]=curr[0];
+      buildEdges.push_front(curr2);
+      curr2[1]=curr2[0];
+      curr2[0]=curr1[1];
+      buildEdges.push_front(curr2);
+    }
+    else{
 std::cout<<"Numerical problem 1"<<curr[0]<<" "<<curr1[1]<<std::endl;
-		}
-	  }
+    }
+    }
     }
 
-	EdgeInfo pp;
+  EdgeInfo pp;
 
-	m_OutputVD->ClearRegion(i);
+  m_OutputVD->ClearRegion(i);
 
-	for(BEiter = buildEdges.begin(); BEiter != buildEdges.end(); ++BEiter){
-	  pp = *BEiter;
+  for(BEiter = buildEdges.begin(); BEiter != buildEdges.end(); ++BEiter){
+    pp = *BEiter;
       m_OutputVD->VoronoiRegionAddPointId(i,pp[0]);
     }
     m_OutputVD->BuildEdge(i);
@@ -455,30 +455,30 @@ right_of(FortuneHalfEdge *el, PointType *p)
   if (e->m_a == 1.0){
     double dyp = ((*p)[1]) - (topsite->m_coord[1]);
     double dxp = ((*p)[0]) - (topsite->m_coord[0]);
-	fast = 0;
-	if( ((!right_of_site) && ((e->m_b)<0.0)) || (right_of_site && ((e->m_b)>=0.0)) )
-	{
-	  above = ( dyp >= (e->m_b)*dxp );
-	  fast = above;
-	}
+  fast = 0;
+  if( ((!right_of_site) && ((e->m_b)<0.0)) || (right_of_site && ((e->m_b)>=0.0)) )
+  {
+    above = ( dyp >= (e->m_b)*dxp );
+    fast = above;
+  }
     else
-	{
-	  above = ( (((*p)[0]) + ((*p)[1])*(e->m_b)) > e->m_c );
-	  if(e->m_b < 0.0 ) above = !above;
-	  if(!above) fast = 1;
-	}
-	if(!fast){
-	  double dxs = topsite->m_coord[0] - ((e->m_reg[0])->m_coord[0]);
-	  above = ( ((e->m_b)*(dxp*dxp-dyp*dyp))<(dxs*dyp*(1.0+2.0*dxp/dxs+(e->m_b)*(e->m_b))) );
-	  if((e->m_b) < 0.0) above = !above;
-	}
+  {
+    above = ( (((*p)[0]) + ((*p)[1])*(e->m_b)) > e->m_c );
+    if(e->m_b < 0.0 ) above = !above;
+    if(!above) fast = 1;
+  }
+  if(!fast){
+    double dxs = topsite->m_coord[0] - ((e->m_reg[0])->m_coord[0]);
+    above = ( ((e->m_b)*(dxp*dxp-dyp*dyp))<(dxs*dyp*(1.0+2.0*dxp/dxs+(e->m_b)*(e->m_b))) );
+    if((e->m_b) < 0.0) above = !above;
+  }
   }
   else { // e->m_b == 1.0 
     double y1 = (e->m_c) - (e->m_a)*((*p)[0]);
-	double t1 = ((*p)[1]) -y1;
-	double t2 = ((*p)[0]) - topsite->m_coord[0];
-	double t3 = y1 - topsite->m_coord[1];
-	above = ( (t1*t1) > (t2*t2+t3*t3) );
+  double t1 = ((*p)[1]) -y1;
+  double t2 = ((*p)[0]) - topsite->m_coord[0];
+  double t3 = y1 - topsite->m_coord[1];
+  above = ( (t1*t1) > (t2*t2+t3*t3) );
   }
   return (el->m_RorL? (!above):above);
 }
@@ -516,11 +516,11 @@ deletePQ(FortuneHalfEdge *task)
   FortuneHalfEdge *last;
   if( (task->m_vert) != NULL){
     last = &(f_PQHash[PQbucket(task)]);
-	while ((last->m_next) != task)
-	  last = last->m_next;
-	last->m_next = (task->m_next);
-	f_PQcount--;
-	task->m_vert = NULL;
+  while ((last->m_next) != task)
+    last = last->m_next;
+  last->m_next = (task->m_next);
+  f_PQcount--;
+  task->m_vert = NULL;
   }
 }
 
@@ -561,9 +561,9 @@ insertPQ(FortuneHalfEdge *he, FortuneSite *v, double offset)
 
   while( ((enext = (last->m_next)) != NULL) && 
          ( ((he->m_ystar) > (enext->m_ystar)) ||
-		   ( ((he->m_ystar) == (enext->m_ystar)) && 
-		   ( (v->m_coord[0])> (enext->m_vert->m_coord[0]) ))))
-	{last = enext;}
+       ( ((he->m_ystar) == (enext->m_ystar)) && 
+       ( (v->m_coord[0])> (enext->m_vert->m_coord[0]) ))))
+  {last = enext;}
   he->m_next = (last->m_next);
   last->m_next = he;
   f_PQcount += 1;
@@ -610,26 +610,26 @@ findLeftHE(PointType *p){
   FortuneHalfEdge *he = ELgethash(bucket);
   if(he == NULL){
     
-	for(i = 1; 1; i++){
-	  if( (he=ELgethash(bucket-i)) != NULL) break;
-	  if( (he=ELgethash(bucket+i)) != NULL) break;
-	}
+  for(i = 1; 1; i++){
+    if( (he=ELgethash(bucket-i)) != NULL) break;
+    if( (he=ELgethash(bucket+i)) != NULL) break;
+  }
   }
 
   if( (he==(&f_ELleftend)) || ((he!=(&f_ELrightend)) && right_of(he,p)) ){
- 	do {
-	  he = he->m_Right;
-	} while ( (he!=(&f_ELrightend)) && (right_of(he,p)) );
-	he = he->m_Left;
+  do {
+    he = he->m_Right;
+  } while ( (he!=(&f_ELrightend)) && (right_of(he,p)) );
+  he = he->m_Left;
   }
   else {
     do {
-	  he = he->m_Left;
-	} while ( (he!=(&f_ELleftend)) && (!right_of(he,p)) );
+    he = he->m_Left;
+  } while ( (he!=(&f_ELleftend)) && (!right_of(he,p)) );
   }
 
   if( (bucket>0) && (bucket<f_ELhashsize-1) ){
-	f_ELHash[bucket] = he;
+  f_ELHash[bucket] = he;
   }
   return (he);
 }
@@ -689,13 +689,13 @@ bisect(FortuneEdge *answer, FortuneSite *s1, FortuneSite *s2){
   answer->m_c = (s1->m_coord[0])*dx + (s1->m_coord[1])*dy + (dx*dx+dy*dy)*0.5;
   if(adx > ady){
     answer->m_a = 1.0;
-	answer->m_b = dy/dx;
-	answer->m_c /=dx;
+  answer->m_b = dy/dx;
+  answer->m_c /=dx;
   }
   else {
     answer->m_a = dx/dy;
-	answer->m_b = 1.0;
-	answer->m_c /=dy;
+  answer->m_b = 1.0;
+  answer->m_c /=dy;
   }
   answer->m_edgenbr = f_nedges;
   f_nedges++;
@@ -719,35 +719,35 @@ intersect(FortuneSite *newV, FortuneHalfEdge *el1, FortuneHalfEdge *el2)
 
   if(e1 == NULL){
     newV->m_sitenbr = -1;
-	return;
+  return;
   }
   if(e2 == NULL){
     newV->m_sitenbr = -2;
-	return;
+  return;
   }
   if( (e1->m_reg[1]) == (e2->m_reg[1]) ){
       newV->m_sitenbr = -3;
-	  return;
+    return;
   }
   
   double d = (e1->m_a)*(e2->m_b) - (e1->m_b)*(e2->m_a);
   
   if ( (d>-NUMERIC_TOLERENCE) && (d<NUMERIC_TOLERENCE) )
     {
-	newV->m_sitenbr = -4;
-	return;
-	}
+  newV->m_sitenbr = -4;
+  return;
+  }
   
   double xmeet = ( (e1->m_c)*(e2->m_b) - (e2->m_c)*(e1->m_b) )/d;
   double ymeet = ( (e2->m_c)*(e1->m_a) - (e1->m_c)*(e2->m_a) )/d;
 
   if( comp(e1->m_reg[1]->m_coord, e2->m_reg[1]->m_coord) ){
     saveHE = el1;
-	saveE = e1;
-  }	 
+  saveE = e1;
+  }  
   else {
     saveHE = el2;
-	saveE = e2;
+  saveE = e2;
   }
 
   bool right_of_site = (xmeet >= (saveE->m_reg[1]->m_coord[0]) );
@@ -755,7 +755,7 @@ intersect(FortuneSite *newV, FortuneHalfEdge *el1, FortuneHalfEdge *el2)
       ( (!right_of_site) && (saveHE->m_RorL)) )
   {
     newV->m_sitenbr = -4;
-	return;
+  return;
   }
 
   newV->m_coord[0] = xmeet;
@@ -795,108 +795,108 @@ clip_line(FortuneEdge *task)
   int id1;
   int id2;
   if( (task->m_a) == 1.0){
-	if( (s1 != NULL) && ((s1->m_coord[1]) >f_pymin) ){
-	  y1 = s1->m_coord[1];
-   	  if(y1 > f_pymax)
-	    return;
-	  x1 = s1->m_coord[0];
-	  id1 = s1->m_sitenbr;
-	}
-	else{
-	  y1 = f_pymin;
-  	  x1 = (task->m_c) - (task->m_b)*y1;
-	  id1 = -1;
-	}
-
-	if ( (s2 != NULL) && ((s2->m_coord[1]) <f_pymax) ){
-	  y2 = s2->m_coord[1];
-	  if(y2 < f_pymin)
-	    return;
-	  x2 = s2->m_coord[0];
-	  id2 = s2->m_sitenbr;
-	}
-	else{
-	  y2 = f_pymax;
-  	  x2 = (task->m_c) - (task->m_b)*y2;
-	  id2 = -1;
-	}
-
-	if( (x1>f_pxmax) && (x2>f_pxmax) )
-	  return;
-	if( (x1<f_pxmin) && (x2<f_pxmin) )
-	  return;
-
-    if(x1 > f_pxmax){
-	  x1 = f_pxmax;
-	  y1 = ((task->m_c)-x1)/(task->m_b);
-	  id1 = -1;
-	}
-    if(x1 <f_pxmin){
-	  x1 = f_pxmin;
-	  y1 = ((task->m_c)-x1)/(task->m_b);
-	  id1 = -1;
-	}
-    if(x2 > f_pxmax){
-	  x2 = f_pxmax;
-	  y2 = ((task->m_c)-x2)/(task->m_b);
-	  id2 = -1;
-	}
-    if(x2 <f_pxmin){
-	  x2 = f_pxmin;
-	  y2 = ((task->m_c)-x2)/(task->m_b);
-  	  id2 = -1;
-	}
+  if( (s1 != NULL) && ((s1->m_coord[1]) >f_pymin) ){
+    y1 = s1->m_coord[1];
+      if(y1 > f_pymax)
+      return;
+    x1 = s1->m_coord[0];
+    id1 = s1->m_sitenbr;
   }
   else{
-	if( (s1 != NULL) && ((s1->m_coord[0]) >f_pxmin) ){
-	  x1 = s1->m_coord[0];
-	  if(x1 > f_pxmax)
-	    return;
-	  y1 = s1->m_coord[1];
-	  id1 = s1->m_sitenbr;
-	}
-	else{
+    y1 = f_pymin;
+      x1 = (task->m_c) - (task->m_b)*y1;
+    id1 = -1;
+  }
+
+  if ( (s2 != NULL) && ((s2->m_coord[1]) <f_pymax) ){
+    y2 = s2->m_coord[1];
+    if(y2 < f_pymin)
+      return;
+    x2 = s2->m_coord[0];
+    id2 = s2->m_sitenbr;
+  }
+  else{
+    y2 = f_pymax;
+      x2 = (task->m_c) - (task->m_b)*y2;
+    id2 = -1;
+  }
+
+  if( (x1>f_pxmax) && (x2>f_pxmax) )
+    return;
+  if( (x1<f_pxmin) && (x2<f_pxmin) )
+    return;
+
+    if(x1 > f_pxmax){
+    x1 = f_pxmax;
+    y1 = ((task->m_c)-x1)/(task->m_b);
+    id1 = -1;
+  }
+    if(x1 <f_pxmin){
+    x1 = f_pxmin;
+    y1 = ((task->m_c)-x1)/(task->m_b);
+    id1 = -1;
+  }
+    if(x2 > f_pxmax){
+    x2 = f_pxmax;
+    y2 = ((task->m_c)-x2)/(task->m_b);
+    id2 = -1;
+  }
+    if(x2 <f_pxmin){
+    x2 = f_pxmin;
+    y2 = ((task->m_c)-x2)/(task->m_b);
+      id2 = -1;
+  }
+  }
+  else{
+  if( (s1 != NULL) && ((s1->m_coord[0]) >f_pxmin) ){
+    x1 = s1->m_coord[0];
+    if(x1 > f_pxmax)
+      return;
+    y1 = s1->m_coord[1];
+    id1 = s1->m_sitenbr;
+  }
+  else{
       x1 = f_pxmin;
-	  y1 = (task->m_c) - (task->m_a)*x1;
-	  id1 = -1;
-	}
-	x2 = f_pxmax;
-	if ( (s2 != NULL) && ((s2->m_coord[0]) <f_pxmax) ){
-	  x2 = s2->m_coord[0];
- 	  if(x2 < f_pxmin)
-	    return;
-	  y2 = s2->m_coord[1];
-	  id2 = s2->m_sitenbr;
+    y1 = (task->m_c) - (task->m_a)*x1;
+    id1 = -1;
+  }
+  x2 = f_pxmax;
+  if ( (s2 != NULL) && ((s2->m_coord[0]) <f_pxmax) ){
+    x2 = s2->m_coord[0];
+    if(x2 < f_pxmin)
+      return;
+    y2 = s2->m_coord[1];
+    id2 = s2->m_sitenbr;
     }
-	else{
-	  x2 = f_pxmax;
-	  y2 = (task->m_c) - (task->m_a)*x2;
-	  id2 = -1;
-	}
-	if( (y1>f_pymax) && (y2>f_pymax) )
-	  return;
-	if( (y1<f_pymin) && (y2<f_pymin) )
-	  return;
+  else{
+    x2 = f_pxmax;
+    y2 = (task->m_c) - (task->m_a)*x2;
+    id2 = -1;
+  }
+  if( (y1>f_pymax) && (y2>f_pymax) )
+    return;
+  if( (y1<f_pymin) && (y2<f_pymin) )
+    return;
     if(y1 > f_pymax){
-	  y1 = f_pymax;
-	  x1 = ((task->m_c)-y1)/(task->m_a);
-	  id1 = -1;
-	}
+    y1 = f_pymax;
+    x1 = ((task->m_c)-y1)/(task->m_a);
+    id1 = -1;
+  }
     if(y1 <f_pymin){
-	  y1 = f_pymin;
-	  x1 = ((task->m_c)-y1)/(task->m_a);
-	  id1 = -1;
-	}
+    y1 = f_pymin;
+    x1 = ((task->m_c)-y1)/(task->m_a);
+    id1 = -1;
+  }
     if(y2 > f_pymax){
-	  y2 = f_pymax;
-	  x2 = ((task->m_c)-y2)/(task->m_a);
-	  id2 = -1;
-	}
+    y2 = f_pymax;
+    x2 = ((task->m_c)-y2)/(task->m_a);
+    id2 = -1;
+  }
     if(y2 <f_pymin){
-	  y2 = f_pymin;
-	  x2 = ((task->m_c)-y2)/(task->m_a);
-	  id2 = -1;
-	}
+    y2 = f_pymin;
+    x2 = ((task->m_c)-y2)/(task->m_a);
+    id2 = -1;
+  }
   }
 
   VoronoiEdge newInfo;
@@ -911,11 +911,11 @@ clip_line(FortuneEdge *task)
   else
   {
     newInfo.m_LeftID = f_nvert;
-	f_nvert++;
-	PointType newv;
-	newv[0]=x1;
-	newv[1]=y1;
-	m_OutputVD->AddVert(newv);     
+  f_nvert++;
+  PointType newv;
+  newv[0]=x1;
+  newv[1]=y1;
+  m_OutputVD->AddVert(newv);     
   }
 
   if(id2>-1)
@@ -923,11 +923,11 @@ clip_line(FortuneEdge *task)
   else
   {
     newInfo.m_RightID = f_nvert;
-	f_nvert++;
-	PointType newv;
-	newv[0]=x2;
-	newv[1]=y2;
-	m_OutputVD->AddVert(newv);     
+  f_nvert++;
+  PointType newv;
+  newv[0]=x2;
+  newv[1]=y2;
+  m_OutputVD->AddVert(newv);     
   }
   m_OutputVD->AddEdge(newInfo);
 }
@@ -961,7 +961,7 @@ GenerateVDFortune(void)
   f_SeedSites.resize(m_NumberOfSeeds);
   for(i = 0; i < m_NumberOfSeeds; i++){
     f_SeedSites[i].m_coord = m_Seeds[i];
-	f_SeedSites[i].m_sitenbr = i;
+  f_SeedSites[i].m_sitenbr = i;
   }
 /* Initialize Boundary */
   f_pxmax = m_VorBoundary[0];
@@ -1034,11 +1034,11 @@ GenerateVDFortune(void)
   i = 2;
   bool ok = 1;
   while(ok){
-  	if(f_PQcount != 0){
-	  PQshowMin(&currentCircle);
-	}
-	if( (i <= m_NumberOfSeeds) && ((f_PQcount == 0) || comp(currentSite->m_coord, currentCircle)) ){
-	/* Handling Site Event */
+    if(f_PQcount != 0){
+    PQshowMin(&currentCircle);
+  }
+  if( (i <= m_NumberOfSeeds) && ((f_PQcount == 0) || comp(currentSite->m_coord, currentCircle)) ){
+  /* Handling Site Event */
       leftHalfEdge = findLeftHE(&(currentSite->m_coord));
       rightHalfEdge = leftHalfEdge->m_Right;
 
@@ -1047,104 +1047,104 @@ GenerateVDFortune(void)
   
       bisect(&(Edgepool[Edgeid]),findSite, currentSite);
       newEdge = &(Edgepool[Edgeid]);
-	  Edgeid++;
+    Edgeid++;
 
-	  createHalfEdge( &(HEpool[HEid]), newEdge, 0);
-	  newHE = &(HEpool[HEid]);
-	  HEid++;
+    createHalfEdge( &(HEpool[HEid]), newEdge, 0);
+    newHE = &(HEpool[HEid]);
+    HEid++;
 
-	  insertEdgeList(leftHalfEdge, newHE);
+    insertEdgeList(leftHalfEdge, newHE);
 
       
       intersect(&(Sitepool[Siteid]),leftHalfEdge, newHE);
-	  meetSite = &(Sitepool[Siteid]);
+    meetSite = &(Sitepool[Siteid]);
 
       if((meetSite->m_sitenbr) == -5){
-	    deletePQ(leftHalfEdge);
-		insertPQ(leftHalfEdge, meetSite, dist(meetSite, currentSite));
-     	Siteid++;
-	  }
+      deletePQ(leftHalfEdge);
+    insertPQ(leftHalfEdge, meetSite, dist(meetSite, currentSite));
+      Siteid++;
+    }
 
-	  leftHalfEdge = newHE;
-	  createHalfEdge( &(HEpool[HEid]), newEdge, 1);
-	  newHE = &(HEpool[HEid]);
-	  HEid++;
+    leftHalfEdge = newHE;
+    createHalfEdge( &(HEpool[HEid]), newEdge, 1);
+    newHE = &(HEpool[HEid]);
+    HEid++;
   
-	  insertEdgeList(leftHalfEdge, newHE);
+    insertEdgeList(leftHalfEdge, newHE);
 
       intersect(&(Sitepool[Siteid]),newHE, rightHalfEdge);
-	  meetSite = &(Sitepool[Siteid]);
+    meetSite = &(Sitepool[Siteid]);
       if((meetSite->m_sitenbr) == -5){
-    	Siteid++;
-		insertPQ(newHE, meetSite, dist(meetSite, currentSite));
-	  }
-      currentSite = &(f_SeedSites[i]);
-  	  i++;
+      Siteid++;
+    insertPQ(newHE, meetSite, dist(meetSite, currentSite));
     }
-	else if(f_PQcount != 0){
-	/* Handling Circle Event */
+      currentSite = &(f_SeedSites[i]);
+      i++;
+    }
+  else if(f_PQcount != 0){
+  /* Handling Circle Event */
 
       leftHalfEdge = getPQmin();
-	  left2HalfEdge = leftHalfEdge->m_Left;
-	  rightHalfEdge = leftHalfEdge->m_Right;
-	  right2HalfEdge = rightHalfEdge->m_Right;
-	  findSite = getLeftReg(leftHalfEdge);
-	  topSite = getRightReg(rightHalfEdge);
+    left2HalfEdge = leftHalfEdge->m_Left;
+    rightHalfEdge = leftHalfEdge->m_Right;
+    right2HalfEdge = rightHalfEdge->m_Right;
+    findSite = getLeftReg(leftHalfEdge);
+    topSite = getRightReg(rightHalfEdge);
 
-	  newVert = leftHalfEdge->m_vert;
-	  newVert->m_sitenbr = f_nvert;
-	  f_nvert++;
-	  m_OutputVD->AddVert(newVert->m_coord);
+    newVert = leftHalfEdge->m_vert;
+    newVert->m_sitenbr = f_nvert;
+    f_nvert++;
+    m_OutputVD->AddVert(newVert->m_coord);
 
-	  makeEndPoint(leftHalfEdge->m_edge, leftHalfEdge->m_RorL, newVert);
-	  makeEndPoint(rightHalfEdge->m_edge, rightHalfEdge->m_RorL, newVert);
+    makeEndPoint(leftHalfEdge->m_edge, leftHalfEdge->m_RorL, newVert);
+    makeEndPoint(rightHalfEdge->m_edge, rightHalfEdge->m_RorL, newVert);
       deleteEdgeList(leftHalfEdge);
-	  deletePQ(rightHalfEdge);      
-	  deleteEdgeList(rightHalfEdge);      
+    deletePQ(rightHalfEdge);      
+    deleteEdgeList(rightHalfEdge);      
 
-	  saveBool = 0;
-	  if( (findSite->m_coord[1]) > (topSite->m_coord[1]) ){
-	    saveSite = findSite;
-		findSite = topSite;
-		topSite = saveSite;
-		saveBool = 1;
-	  }
+    saveBool = 0;
+    if( (findSite->m_coord[1]) > (topSite->m_coord[1]) ){
+      saveSite = findSite;
+    findSite = topSite;
+    topSite = saveSite;
+    saveBool = 1;
+    }
 
       bisect(&(Edgepool[Edgeid]),findSite, topSite);
       newEdge = &(Edgepool[Edgeid]);
-	  Edgeid++;
-	    
-	  createHalfEdge( &(HEpool[HEid]), newEdge, saveBool);
-	  newHE = &(HEpool[HEid]);
-	  HEid++;
+    Edgeid++;
+      
+    createHalfEdge( &(HEpool[HEid]), newEdge, saveBool);
+    newHE = &(HEpool[HEid]);
+    HEid++;
 
-	  insertEdgeList(left2HalfEdge, newHE);
-	  makeEndPoint(newEdge, 1-saveBool, newVert);
+    insertEdgeList(left2HalfEdge, newHE);
+    makeEndPoint(newEdge, 1-saveBool, newVert);
 
       intersect(&(Sitepool[Siteid]),left2HalfEdge, newHE);
-	  meetSite = &(Sitepool[Siteid]);
+    meetSite = &(Sitepool[Siteid]);
 
       if((meetSite->m_sitenbr) == -5){
-  		Siteid++;
-	    deletePQ(left2HalfEdge);
-		insertPQ(left2HalfEdge, meetSite, dist(meetSite, findSite));
-	  }
+      Siteid++;
+      deletePQ(left2HalfEdge);
+    insertPQ(left2HalfEdge, meetSite, dist(meetSite, findSite));
+    }
 
       intersect(&(Sitepool[Siteid]),newHE, right2HalfEdge);
-	  meetSite = &(Sitepool[Siteid]);
+    meetSite = &(Sitepool[Siteid]);
       if((meetSite->m_sitenbr) == -5){
-	    Siteid++;
-		insertPQ(newHE, meetSite, dist(meetSite, findSite));
-	  }
-	}
-	else
-	  ok = 0; 
+      Siteid++;
+    insertPQ(newHE, meetSite, dist(meetSite, findSite));
+    }
+  }
+  else
+    ok = 0; 
   }
 
   for( (leftHalfEdge=f_ELleftend.m_Right); (leftHalfEdge != (&f_ELrightend)); (leftHalfEdge=(leftHalfEdge->m_Right)) )
   {
     newEdge = leftHalfEdge->m_edge;
-	clip_line(newEdge);
+  clip_line(newEdge);
   }
 }
 

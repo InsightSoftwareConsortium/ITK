@@ -55,24 +55,24 @@ public:
   /** 
    * Hold on to the type information specified by the template parameters.
    */
-  typedef typename OutputMeshType::MeshTraits	OMeshTraits;
-  typedef typename OMeshTraits::PixelType		PixelType;  
+  typedef typename OutputMeshType::MeshTraits OMeshTraits;
+  typedef typename OMeshTraits::PixelType   PixelType;  
 
   /** 
    * Some typedefs.
    */
   typedef typename OutputMeshType::Pointer OutputMeshPointer;
   typedef typename OutputMeshType::CellTraits CellTraits;
-  typedef typename OutputMeshType::PointsContainerPointer	PointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainer	PointsContainer;
-  typedef typename OutputMeshType::PointType	PointType;
+  typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
+  typedef typename OutputMeshType::PointsContainer  PointsContainer;
+  typedef typename OutputMeshType::PointType  PointType;
   
 /**
  * Define the triangular cell types which forms the surface of the model
  * and will be used in FEM application.
  */
 
-  typedef itk::TriangleCell<PixelType, CellTraits>	   TriCell;
+  typedef itk::TriangleCell<PixelType, CellTraits>     TriCell;
   typedef typename TriCell::Pointer TriCellPointer;
 
 //  bool GetCenter(PointType*) const;

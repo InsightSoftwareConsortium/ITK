@@ -200,7 +200,7 @@ Reset(void){
 
   for(unsigned int i = 0; i < m_NumberOfSeeds; i++){
     VoronoiRegions[i] = Cell::New();
-	m_CellNeighborsID[i].clear();
+  m_CellNeighborsID[i].clear();
   }  
 }
 

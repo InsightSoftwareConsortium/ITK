@@ -130,7 +130,7 @@ public:
    * Setting the beginning point, believed to be inside the object.
    */
   void SetSeed(const IndexType & seed);
-	
+  
   /**
    * Update the binary result. (needed after update the threshold)
    */

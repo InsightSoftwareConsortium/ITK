@@ -69,7 +69,7 @@ namespace itk
  */
 template <class TInputImage, class TClassifiedImage>
 class ITK_EXPORT GibbsPriorFilter : public MRFImageFilter<TInputImage, 
-	TClassifiedImage>
+  TClassifiedImage>
 {
 public:
   /**
@@ -245,12 +245,12 @@ protected:
   TrainingImageType      m_TrainingImage;
   LabelledImageType      m_LabelledImage;
 
-  float	m_BoundaryWt; 
-  float	m_GibbsPriorWt; 
-  int	m_StartRadius;
+  float m_BoundaryWt; 
+  float m_GibbsPriorWt; 
+  int m_StartRadius;
 
 //  Parameter definitions
-	 
+   
   int m_StartPoint[3]; 
   int m_StartModelSize; 
   int m_GibbsNeighborsThreshold; 
@@ -275,15 +275,15 @@ protected:
   int                   m_imgWidth;
   int                   m_imgHeight;
   int                   m_imgDepth;
-  int					m_ClusterSize;
-  int					m_ObjectLabel;
+  int         m_ClusterSize;
+  int         m_ObjectLabel;
 
 //  int                    *m_WidthOffset;
 //  int                    *m_HeightOffset;
 //  int                    *m_DepthOffset;
 
-  unsigned short		*m_Region;
-  unsigned short		*m_RegionCount;
+  unsigned short    *m_Region;
+  unsigned short    *m_RegionCount;
 
 // function defintions
   void  GenerateInputRequestedRegion();
@@ -293,11 +293,11 @@ protected:
   void  GibbsTotalEnergy(int i);
   int   GreyScalarBoundary(LabelledImageIndexType Index3D); 
   float GibbsEnergy(int i, int k, int k1);
-//  int	Mini(int i); 
-//  int	Maxi(int i); 
-  int	Sim(int a, int b);
-  int	LabelRegion(int i, int l, int change);
-  void	RegionEraser();
+//  int Mini(int i); 
+//  int Maxi(int i); 
+  int Sim(int a, int b);
+  int LabelRegion(int i, int l, int change);
+  void  RegionEraser();
 //  void InitialStat(int dims[3]);
 
 //  void Execute();

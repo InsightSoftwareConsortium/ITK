@@ -129,21 +129,21 @@ public:
   typedef typename OutputMeshType::PointsContainer::Iterator
       OutputPointsContainerIterator;
 
-  typedef Image<unsigned short, 3>		ImageType;
-  typedef typename InputMeshType::Pointer	InputMeshPointer;
-  typedef typename OutputMeshType::Pointer	OutputMeshPointer;
-  typedef typename ImageType::Pointer		ImagePointer;
-  typedef typename ImageType::IndexType		IndexType;
-  typedef ImageRegionIteratorWithIndex<ImageType>	ImageIterator;
+  typedef Image<unsigned short, 3>    ImageType;
+  typedef typename InputMeshType::Pointer InputMeshPointer;
+  typedef typename OutputMeshType::Pointer  OutputMeshPointer;
+  typedef typename ImageType::Pointer   ImagePointer;
+  typedef typename ImageType::IndexType   IndexType;
+  typedef ImageRegionIteratorWithIndex<ImageType> ImageIterator;
 
-  typedef itk::Vector<float, 3>				FloatVector;
-  typedef itk::Vector<int, 3>				IntVector;
+  typedef itk::Vector<float, 3>       FloatVector;
+  typedef itk::Vector<int, 3>       IntVector;
 
-  typedef typename InputMeshType::Cell			Cell;
-  typedef typename InputMeshType::CellTraits	CellTraits;
-  typedef itk::TriangleCell<float, CellTraits>	TriCell;
-  typedef typename InputMeshType::PointType		IPT;
-  typedef typename InputMeshType::PixelType		PT;
+  typedef typename InputMeshType::Cell      Cell;
+  typedef typename InputMeshType::CellTraits  CellTraits;
+  typedef itk::TriangleCell<float, CellTraits>  TriCell;
+  typedef typename InputMeshType::PointType   IPT;
+  typedef typename InputMeshType::PixelType   PT;
 
   /** 
    * Some functions.
@@ -190,12 +190,12 @@ protected:
 /** 
  * These meshes are defined to hold the vectors as force, etc.
  */
-  InputMeshPointer	m_Forces; 
-  InputMeshPointer	m_Normals;
-  InputMeshPointer	m_Displacements;
-  InputMeshPointer	m_Derives;
-  InputMeshPointer	m_Locations;
-  InputMeshPointer	m_Input;
+  InputMeshPointer  m_Forces; 
+  InputMeshPointer  m_Normals;
+  InputMeshPointer  m_Displacements;
+  InputMeshPointer  m_Derives;
+  InputMeshPointer  m_Locations;
+  InputMeshPointer  m_Input;
   OutputMeshPointer m_Output;
 
   /** 
@@ -206,36 +206,36 @@ protected:
   vnl_matrix_fixed<double, 4, 4> CStiffness;
   vnl_matrix_fixed<double, 4, 4> **K;
   
-  double	m_Stiffness[2];
-  double	TimeStep;
-  int		m_Resolution[3];
-  IndexType	m_Center;
-  float		m_MiniT;
-  int		m_Step;
-  int		m_NumNodes;
-  int		m_NumCells;
-  int		m_NumNewNodes;
-  int		*m_GapLocations;
-//  float		m_NewNodes[200][4];
-  float		**m_NewNodes;
-  int		m_NewNodesExisted;
-  int		m_NewNodeLimit;
-  int		m_imgWidth;
-  int		m_imgHeight;
-  int		m_imgDepth;
-  int		m_ModelXUpLimit;
-  int		m_ModelXDownLimit;
-  int		m_ModelYUpLimit;
-  int		m_ModelYDownLimit;
-  int		**m_ACD;
-  int		m_ModelRestart;
+  double  m_Stiffness[2];
+  double  TimeStep;
+  int   m_Resolution[3];
+  IndexType m_Center;
+  float   m_MiniT;
+  int   m_Step;
+  int   m_NumNodes;
+  int   m_NumCells;
+  int   m_NumNewNodes;
+  int   *m_GapLocations;
+//  float   m_NewNodes[200][4];
+  float   **m_NewNodes;
+  int   m_NewNodesExisted;
+  int   m_NewNodeLimit;
+  int   m_imgWidth;
+  int   m_imgHeight;
+  int   m_imgDepth;
+  int   m_ModelXUpLimit;
+  int   m_ModelXDownLimit;
+  int   m_ModelYUpLimit;
+  int   m_ModelYDownLimit;
+  int   **m_ACD;
+  int   m_ModelRestart;
 
-  ImagePointer		m_Potential;	// for calculate of image force from ptoential
-  ImagePointer		m_Gradient;		// for calculate of image force from gradient
+  ImagePointer    m_Potential;  // for calculate of image force from ptoential
+  ImagePointer    m_Gradient;   // for calculate of image force from gradient
 
   // for Gibbs Prior Model parameters' recalculation 
-  ImagePointer		m_ImageOutput; 
-  unsigned short	m_ObjectLabel;
+  ImagePointer    m_ImageOutput; 
+  unsigned short  m_ObjectLabel;
 
   typedef ImageType::SizeType PotentialSizeType;
   

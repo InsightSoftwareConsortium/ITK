@@ -59,7 +59,7 @@ namespace itk
  *
  */
 template <class TInputImage, class TOutputImage, class TInputMesh, 
-	class TOutputMesh>
+  class TOutputMesh>
 class ITK_EXPORT HybridFilter:
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
@@ -80,30 +80,30 @@ public:
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>                Pointer;
-  typedef SmartPointer<const Self>			ConstPointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
 
   /** 
    *  Smoothing filter type
    */
-  typedef BalloonForceFilter<TInputMesh,TOutputMesh>	BalloonForceFilterType;
+  typedef BalloonForceFilter<TInputMesh,TOutputMesh>  BalloonForceFilterType;
 
 
   /** 
    *  Derivative along one dimension filter type
    */
-  typedef GibbsPriorFilter<TInputImage,TOutputImage>	GibbsPriorFilterType;
+  typedef GibbsPriorFilter<TInputImage,TOutputImage>  GibbsPriorFilterType;
 
   /** 
    *  Pointer to a balloon force filter 
    */
-  typedef typename BalloonForceFilterType::Pointer	BalloonForceFilterPointer;
+  typedef typename BalloonForceFilterType::Pointer  BalloonForceFilterPointer;
 
 
   /** 
    *  Pointer to a gibbs prior filter 
    */
-  typedef typename GibbsPriorFilterType::Pointer	GibbsPriorFilterPointer;                                  
+  typedef typename GibbsPriorFilterType::Pointer  GibbsPriorFilterPointer;                                  
                                   
   typedef
     ImageRegionIteratorWithIndex< TOutputImage > OutputImageIterator;
@@ -133,8 +133,8 @@ public:
   /**
    * Set the balloon force filter and gibbs prior filter
    */
-  void SetBalloonForceFilter(BalloonForceFilterPointer	bffilter);
-  void SetGibbsPriorFilter(GibbsPriorFilterPointer	gpfilter);
+  void SetBalloonForceFilter(BalloonForceFilterPointer  bffilter);
+  void SetGibbsPriorFilter(GibbsPriorFilterPointer  gpfilter);
 
   void Advance();
   void SetGibbsInput();
@@ -151,8 +151,8 @@ protected:
   virtual void GenerateData();
 
 private:
-  BalloonForceFilterPointer		m_BalloonForceFilter;
-  GibbsPriorFilterPointer		m_GibbsPriorFilter;
+  BalloonForceFilterPointer   m_BalloonForceFilter;
+  GibbsPriorFilterPointer   m_GibbsPriorFilter;
   int m_IterNum;
 
 };

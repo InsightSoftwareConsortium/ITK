@@ -415,10 +415,10 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
   for( int k = 0; k < m_RegionBorderVec.size(); k++ )
   {      
     region1label = (*tempVecIt)->GetRegion1()->GetRegionLabel();
-	  region2label = (*tempVecIt)->GetRegion2()->GetRegionLabel(); 
+    region2label = (*tempVecIt)->GetRegion2()->GetRegionLabel(); 
 
     std::cout << "Border Ptr :" << (*tempVecIt) << "( " << 
-	  region1label << " - " << region2label << " )" << std::endl;
+    region1label << " - " << region2label << " )" << std::endl;
     tempVecIt++;
   }// end while
           

@@ -164,34 +164,34 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   m_Normals = InputMeshType::New();
   m_Locations = InputMeshType::New();
 
-  InputPointsContainerPointer			myPoints = m_Input->GetPoints();
-  InputPointsContainerIterator  		points = myPoints->Begin();
-	
-  InputPointsContainerPointer   		myForces = m_Forces->GetPoints();
-  myForces->Reserve(m_NumNodes);
-  InputPointsContainerIterator			forces = myForces->Begin();
-
-  InputPointsContainerPointer   		myDerives = m_Derives->GetPoints();
-  myDerives->Reserve(m_NumNodes);
-  InputPointsContainerIterator			derives = myDerives->Begin();
-
-  InputPointsContainerPointer   		myDisplacements = m_Displacements->GetPoints();
-  myDisplacements->Reserve(m_NumNodes);
-  InputPointsContainerIterator			displacements = myDisplacements->Begin();
-
-  InputPointsContainerPointer   		myNormals = m_Normals->GetPoints();
-  myNormals->Reserve(m_NumNodes);
-  InputPointsContainerIterator			normals = myNormals->Begin();
-
-  InputPointsContainerPointer   		myLocations = m_Locations->GetPoints();
-  myLocations->Reserve(m_NumNodes);
-  InputPointsContainerIterator			locations = myLocations->Begin();
-
-  InputCellsContainerPointer			myCells = m_Input->GetCells();
-  InputCellsContainerIterator			cells = myCells->Begin(); 
+  InputPointsContainerPointer     myPoints = m_Input->GetPoints();
+  InputPointsContainerIterator      points = myPoints->Begin();
   
-  InputCellDataContainerPointer			myCellData = m_Input->GetCellData();
-  InputCellDataContainerIterator		celldata = myCellData->Begin(); 
+  InputPointsContainerPointer       myForces = m_Forces->GetPoints();
+  myForces->Reserve(m_NumNodes);
+  InputPointsContainerIterator      forces = myForces->Begin();
+
+  InputPointsContainerPointer       myDerives = m_Derives->GetPoints();
+  myDerives->Reserve(m_NumNodes);
+  InputPointsContainerIterator      derives = myDerives->Begin();
+
+  InputPointsContainerPointer       myDisplacements = m_Displacements->GetPoints();
+  myDisplacements->Reserve(m_NumNodes);
+  InputPointsContainerIterator      displacements = myDisplacements->Begin();
+
+  InputPointsContainerPointer       myNormals = m_Normals->GetPoints();
+  myNormals->Reserve(m_NumNodes);
+  InputPointsContainerIterator      normals = myNormals->Begin();
+
+  InputPointsContainerPointer       myLocations = m_Locations->GetPoints();
+  myLocations->Reserve(m_NumNodes);
+  InputPointsContainerIterator      locations = myLocations->Begin();
+
+  InputCellsContainerPointer      myCells = m_Input->GetCells();
+  InputCellsContainerIterator     cells = myCells->Begin(); 
+  
+  InputCellDataContainerPointer     myCellData = m_Input->GetCellData();
+  InputCellDataContainerIterator    celldata = myCellData->Begin(); 
   
   m_Stiffness[0] = 0.00001; 
   m_Stiffness[1] = 0.04; 
@@ -215,44 +215,44 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
   while( points != myPoints->End() )
   {
-	locations.Value() = points.Value();
+  locations.Value() = points.Value();
     ++points;
-	++locations;
+  ++locations;
   }
 
   while( forces != myForces->End() )
   {
-	forces.Value() = d;
+  forces.Value() = d;
     ++forces;
   }
 
   while( normals != myNormals->End() )
   {
-	normals.Value() = d;
+  normals.Value() = d;
     ++normals;
   }
 
   for (int i=0; i<m_NumNodes-2; i++  )
   {
-	m_Forces->SetPointData(i, 1.0);
-	m_Locations->SetPointData(i, 0.0);
-	m_Derives->SetPointData(i, 0.0);
-	m_Displacements->SetPointData(i, 0.0);
+  m_Forces->SetPointData(i, 1.0);
+  m_Locations->SetPointData(i, 0.0);
+  m_Derives->SetPointData(i, 0.0);
+  m_Displacements->SetPointData(i, 0.0);
   }
 
 //  for (int i = 0; i < m_NewNodeLimit; i++) {
-//	m_NewNodes[i] = (float*) malloc(sizeof(float)*5);
+//  m_NewNodes[i] = (float*) malloc(sizeof(float)*5);
 //  }
    
   while( derives != myDerives->End() )
   {
-	derives.Value() = d;
+  derives.Value() = d;
     ++derives;
   }
 
   while( displacements != myDisplacements->End() )
   {
-	displacements.Value() = d;
+  displacements.Value() = d;
     ++displacements;
   }
 
@@ -262,17 +262,17 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   float x;
 
   for (int i=0; i<m_NumCells; i++) {
-	tp = cells.Value()->GetPointIds();
-	tripoints[0] = tp[0];
-	tripoints[1] = tp[1];
-	tripoints[2] = tp[2];
-	insertCell = TriCell::New();
-	insertCell->SetPointIds(tripoints);
-	m_Locations->SetCell(i, insertCell);
-	x = celldata.Value();
-	m_Locations->SetCellData(i, (PT)x);
-	++cells;
-	++celldata;
+  tp = cells.Value()->GetPointIds();
+  tripoints[0] = tp[0];
+  tripoints[1] = tp[1];
+  tripoints[2] = tp[2];
+  insertCell = TriCell::New();
+  insertCell->SetPointIds(tripoints);
+  m_Locations->SetCell(i, insertCell);
+  x = celldata.Value();
+  m_Locations->SetCellData(i, (PT)x);
+  ++cells;
+  ++celldata;
   }
 } 
 
@@ -284,11 +284,11 @@ void
 DeformableMeshFilter<TInputMesh, TOutputMesh>
 ::SetStiffnessMatrix () 
 { 
-  InputCellDataContainerPointer			myCellData = m_Locations->GetCellData();
-  InputCellDataContainerIterator		celldata = myCellData->Begin();
+  InputCellDataContainerPointer     myCellData = m_Locations->GetCellData();
+  InputCellDataContainerIterator    celldata = myCellData->Begin();
 
   K = (vnl_matrix_fixed<double,4,4>**) malloc(sizeof(vnl_matrix_fixed<double,4,4>*)*m_NumCells);
-  float x;	
+  float x;  
 
   float us = vnl_math::pi / m_Resolution[0]; 
   float vs = 2.0*vnl_math::pi / m_Resolution[1]; 
@@ -369,9 +369,9 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
   int j=0;
   while (celldata != myCellData->End()){
-	x = celldata.Value();
-	++celldata;
-	switch ((int)(x)) { 
+  x = celldata.Value();
+  ++celldata;
+  switch ((int)(x)) { 
     case 1: 
       K[j] = &SStiffness; 
       break; 
@@ -382,7 +382,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
       K[j] = &CStiffness; 
       break; 
     } 
-	++j;
+  ++j;
   }
 
 } 
@@ -407,20 +407,20 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   y_pt = &y;
   z_pt = &z;
 
-  InputPointsContainerPointer			Points = m_Locations->GetPoints();
-  InputPointsContainerIterator			points = Points->Begin();
+  InputPointsContainerPointer     Points = m_Locations->GetPoints();
+  InputPointsContainerIterator      points = Points->Begin();
 
-  InputPointsContainerPointer			myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator			forces = myForces->Begin();
+  InputPointsContainerPointer     myForces = m_Forces->GetPoints();
+  InputPointsContainerIterator      forces = myForces->Begin();
 
-  InputPointsContainerPointer			myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator			normals = myNormals->Begin();
+  InputPointsContainerPointer     myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator      normals = myNormals->Begin();
 
-  InputPointDataContainerPointer		myForceData = m_Forces->GetPointData();
-  InputPointDataContainerIterator		forcedata = myForceData->Begin();
+  InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
+  InputPointDataContainerIterator   forcedata = myForceData->Begin();
 
-  InputPointDataContainerPointer		myPointData = m_Locations->GetPointData();
-  InputPointDataContainerIterator		pointstatus = myPointData->Begin();
+  InputPointDataContainerPointer    myPointData = m_Locations->GetPointData();
+  InputPointDataContainerIterator   pointstatus = myPointData->Begin();
 
   int slicediv = this->m_Resolution[1]; 
   double d=0.0, f1=0.0;
@@ -430,77 +430,77 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   
   while( i < m_NumNodes )
   {
-	slice = i/slicediv;
+  slice = i/slicediv;
     xs = ys = zs = -1.0; 
-	x = points.Value();
+  x = points.Value();
 
-	coord[0] = (int) x[0];
-	coord[1] = (int) x[1];
-	coord[2] = (int) x[2];   //slice + m_FirstSlice;
+  coord[0] = (int) x[0];
+  coord[1] = (int) x[1];
+  coord[2] = (int) x[2];   //slice + m_FirstSlice;
 
-	extends[0] = x[0];
-	extends[1] = x[1];
-	extends[2] = x[2];
-	extend[0] = (int) x[0];
-	extend[1] = (int) x[1];
-	extend[2] = (int) x[2];
+  extends[0] = x[0];
+  extends[1] = x[1];
+  extends[2] = x[2];
+  extend[0] = (int) x[0];
+  extend[1] = (int) x[1];
+  extend[2] = (int) x[2];
 
-	f[0] = x[0] - m_Center[0];
-	f[1] = x[1] - m_Center[1];
-	f[2] = x[2] - m_Center[2];
+  f[0] = x[0] - m_Center[0];
+  f[1] = x[1] - m_Center[1];
+  f[2] = x[2] - m_Center[2];
 
-	max = abs(f[0]);
+  max = abs(f[0]);
 
   //---------------------------------------------------------------------
   // all the movement in z direction is now disabled for further test
   //---------------------------------------------------------------------  
-	if ( abs(f[1]) > max ) max = abs(f[1]);
-	if ( abs(f[2]) > max ) max = abs(f[2]);
-	n[0] = f[0]/max;
-	n[1] = f[1]/max;
-	n[2] = f[2]/max;
+  if ( abs(f[1]) > max ) max = abs(f[1]);
+  if ( abs(f[2]) > max ) max = abs(f[2]);
+  n[0] = f[0]/max;
+  n[1] = f[1]/max;
+  n[2] = f[2]/max;
 
-	t = 0.0;
+  t = 0.0;
 
-	while (t < 100.0){
-	  extends[0] -= n[0];
-	  extends[1] -= n[1];
-	  extends[2] -= n[2];
+  while (t < 100.0){
+    extends[0] -= n[0];
+    extends[1] -= n[1];
+    extends[2] -= n[2];
       extend[0] = (int) (extends[0]+1);
       extend[1] = (int) (extends[1]+1);
-	  extend[2] = (int) (extends[2]+1);  //slice;
-	  if ((extend[0] <= 0) || (extend[1] <= 0) || (extend[2] <= 0)) {
-	    t += 1.0;
-		continue;
-	  }
+    extend[2] = (int) (extends[2]+1);  //slice;
+    if ((extend[0] <= 0) || (extend[1] <= 0) || (extend[2] <= 0)) {
+      t += 1.0;
+    continue;
+    }
 
-	  extend[0] = (int) (extends[0]);
+    extend[0] = (int) (extends[0]);
       extend[1] = (int) (extends[1]);
-	  extend[2] = (int) (extends[2]);
-	  if ((extend[0] >= m_imgWidth) || (extend[1] >= m_imgHeight) || 
-		  (extend[2] >= m_imgDepth)) {
-	    t += 1.0;
-		continue;
-	  }
+    extend[2] = (int) (extends[2]);
+    if ((extend[0] >= m_imgWidth) || (extend[1] >= m_imgHeight) || 
+      (extend[2] >= m_imgDepth)) {
+      t += 1.0;
+    continue;
+    }
 
-	  label = m_Potential->GetPixel(extend);
-	  if ( label == m_ObjectLabel ) break;
+    label = m_Potential->GetPixel(extend);
+    if ( label == m_ObjectLabel ) break;
 
-	  t += 1.0;
-	}
+    t += 1.0;
+  }
 
-	if (t > 5.0) {
-	  f[0] = extends[0] + 5.0*n[0];
-	  f[1] = extends[1] + 5.0*n[1];
-	  f[2] = extends[2] + 5.0*n[2];
-	  points.Value() = f; 
-	}
+  if (t > 5.0) {
+    f[0] = extends[0] + 5.0*n[0];
+    f[1] = extends[1] + 5.0*n[1];
+    f[2] = extends[2] + 5.0*n[2];
+    points.Value() = f; 
+  }
 
-	++forces;
-	++forcedata;
-	++points;
-	++normals;
-	++i;
+  ++forces;
+  ++forcedata;
+  ++points;
+  ++normals;
+  ++i;
   }
 }
 
@@ -524,20 +524,20 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   y_pt = &y;
   z_pt = &z;
 
-  InputPointsContainerPointer			Points = m_Locations->GetPoints();
-  InputPointsContainerIterator			points = Points->Begin();
+  InputPointsContainerPointer     Points = m_Locations->GetPoints();
+  InputPointsContainerIterator      points = Points->Begin();
 
-  InputPointsContainerPointer			myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator			forces = myForces->Begin();
+  InputPointsContainerPointer     myForces = m_Forces->GetPoints();
+  InputPointsContainerIterator      forces = myForces->Begin();
 
-  InputPointsContainerPointer			myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator			normals = myNormals->Begin();
+  InputPointsContainerPointer     myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator      normals = myNormals->Begin();
 
-  InputPointDataContainerPointer		myForceData = m_Forces->GetPointData();
-  InputPointDataContainerIterator		forcedata = myForceData->Begin();
+  InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
+  InputPointDataContainerIterator   forcedata = myForceData->Begin();
 
-  InputPointDataContainerPointer		myPointData = m_Locations->GetPointData();
-  InputPointDataContainerIterator		pointstatus = myPointData->Begin();
+  InputPointDataContainerPointer    myPointData = m_Locations->GetPointData();
+  InputPointDataContainerIterator   pointstatus = myPointData->Begin();
 
   int slicediv = this->m_Resolution[1]; 
   double d=0.0, f1=0.0;
@@ -547,92 +547,92 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   
   while( i < m_NumNodes )
   {
-	slice = i/slicediv;
+  slice = i/slicediv;
     xs = ys = zs = -1.0; 
-	x = points.Value();
+  x = points.Value();
 
-	coord[0] = (int) x[0];
-	coord[1] = (int) x[1];
-	coord[2] = (int) x[2];   //slice + m_FirstSlice;
+  coord[0] = (int) x[0];
+  coord[1] = (int) x[1];
+  coord[2] = (int) x[2];   //slice + m_FirstSlice;
 
     if ( (coord[0]>0)&&(coord[0]<m_imgWidth)&&(coord[1]>0)&&
-		(coord[1]<m_imgHeight)&&(coord[2]>0)&&(coord[2]<m_imgDepth)) {
-	  if ( m_Potential->GetPixel(coord) == m_ObjectLabel ) {
-		xs = ys = zs = 0.0;
-	  }
-	}
+    (coord[1]<m_imgHeight)&&(coord[2]>0)&&(coord[2]<m_imgDepth)) {
+    if ( m_Potential->GetPixel(coord) == m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+    }
+  }
 
-	extends[0] = x[0];
-	extends[1] = x[1];
-	extends[2] = x[2];
-	extend[0] = (int) x[0];
-	extend[1] = (int) x[1];
-	extend[2] = (int) x[2];
+  extends[0] = x[0];
+  extends[1] = x[1];
+  extends[2] = x[2];
+  extend[0] = (int) x[0];
+  extend[1] = (int) x[1];
+  extend[2] = (int) x[2];
 
-	f = normals.Value();
+  f = normals.Value();
 
-	p = -1;
-	max = abs(f[0]);
+  p = -1;
+  max = abs(f[0]);
 
   //---------------------------------------------------------------------
   // all the movement in z direction is now disabled for further test
   //---------------------------------------------------------------------  
-	if ( abs(f[1]) > max ) max = abs(f[1]);
-	if ( abs(f[2]) > max ) max = abs(f[2]);
-	n[0] = f[0]/max;
-	n[1] = f[1]/max;
-	n[2] = f[2]/max;
+  if ( abs(f[1]) > max ) max = abs(f[1]);
+  if ( abs(f[2]) > max ) max = abs(f[2]);
+  n[0] = f[0]/max;
+  n[1] = f[1]/max;
+  n[2] = f[2]/max;
 
-	t = 0.0;
+  t = 0.0;
 
-	while (t < 5.0){
-	  extends[0] -= n[0];
-	  extends[1] -= n[1];
-	  extends[2] -= n[2];
+  while (t < 5.0){
+    extends[0] -= n[0];
+    extends[1] -= n[1];
+    extends[2] -= n[2];
       extend[0] = (int) (extends[0]+1);
       extend[1] = (int) (extends[1]+1);
-	  extend[2] = (int) (extends[2]+1);  //slice;
-	  if ((extend[0] <= 0) || (extend[1] <= 0) || (extend[2] <= 0)) {
-	    t += 1.0;
-		continue;
-	  }
+    extend[2] = (int) (extends[2]+1);  //slice;
+    if ((extend[0] <= 0) || (extend[1] <= 0) || (extend[2] <= 0)) {
+      t += 1.0;
+    continue;
+    }
 
-	  extend[0] = (int) (extends[0]);
+    extend[0] = (int) (extends[0]);
       extend[1] = (int) (extends[1]);
-	  extend[2] = (int) (extends[2]);
-	  if ((extend[0] >= m_imgWidth) || (extend[1] >= m_imgHeight) || 
-		  (extend[2] >= m_imgDepth)) {
-	    t += 1.0;
-		continue;
-	  }
+    extend[2] = (int) (extends[2]);
+    if ((extend[0] >= m_imgWidth) || (extend[1] >= m_imgHeight) || 
+      (extend[2] >= m_imgDepth)) {
+      t += 1.0;
+    continue;
+    }
 
-	  label = m_Potential->GetPixel(extend);
-	  if ( label == m_ObjectLabel ) break;
+    label = m_Potential->GetPixel(extend);
+    if ( label == m_ObjectLabel ) break;
 
-	  t += 1.0;
-	}
+    t += 1.0;
+  }
 
-	if (t < 2) pointstatus.Value() = 1.0;
-	else {
-	  pointstatus.Value() = 0.0;
-//	  m_ImageOutput->SetPixel(coord, 1);
-	}
+  if (t < 2) pointstatus.Value() = 1.0;
+  else {
+    pointstatus.Value() = 0.0;
+//    m_ImageOutput->SetPixel(coord, 1);
+  }
 
 
-	fo = sqrt(f[0]*f[0]+f[1]*f[1]+f[2]*f[2]);
+  fo = sqrt(f[0]*f[0]+f[1]*f[1]+f[2]*f[2]);
     f[0] = t*400*f[0]*xs/fo; 
     f[1] = t*400*f[1]*ys/fo;
-//	f[2] = t*400*f[2]*zs/fo;
-	f[2] = 0;
+//  f[2] = t*400*f[2]*zs/fo;
+  f[2] = 0;
 
     forces.Value() = f;
-	forcedata.Value() = 0.0;
-	++pointstatus;
+  forcedata.Value() = 0.0;
+  ++pointstatus;
     ++forces;
-	++forcedata;
-	++points;
-	++normals;
-	++i;
+  ++forcedata;
+  ++points;
+  ++normals;
+  ++i;
   }
 }
 
@@ -656,20 +656,20 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   y_pt = &y;
   z_pt = &z;
 
-  InputPointsContainerPointer			Points = m_Locations->GetPoints();
-  InputPointsContainerIterator			points = Points->Begin();
+  InputPointsContainerPointer     Points = m_Locations->GetPoints();
+  InputPointsContainerIterator      points = Points->Begin();
 
-  InputPointsContainerPointer			myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator			forces = myForces->Begin();
+  InputPointsContainerPointer     myForces = m_Forces->GetPoints();
+  InputPointsContainerIterator      forces = myForces->Begin();
 
-  InputPointsContainerPointer			myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator			normals = myNormals->Begin();
+  InputPointsContainerPointer     myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator      normals = myNormals->Begin();
 
-  InputPointDataContainerPointer		myForceData = m_Forces->GetPointData();
-  InputPointDataContainerIterator		forcedata = myForceData->Begin();
+  InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
+  InputPointDataContainerIterator   forcedata = myForceData->Begin();
 
-  InputPointDataContainerPointer		myPointData = m_Locations->GetPointData();
-  InputPointDataContainerIterator		pointstatus = myPointData->Begin();
+  InputPointDataContainerPointer    myPointData = m_Locations->GetPointData();
+  InputPointDataContainerIterator   pointstatus = myPointData->Begin();
 
   int slicediv = this->m_Resolution[1]; 
   double d=0.0, f1=0.0;
@@ -679,135 +679,135 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   
   while( i < m_NumNodes )
   {
-	slice = i/slicediv;
+  slice = i/slicediv;
     xs = ys = zs = 1.0; 
-	x = points.Value();
+  x = points.Value();
 
-	coord[0] = (int) x[0];
-	coord[1] = (int) x[1];
-	coord[2] = (int) x[2];   //slice + m_FirstSlice;
+  coord[0] = (int) x[0];
+  coord[1] = (int) x[1];
+  coord[2] = (int) x[2];   //slice + m_FirstSlice;
 
-	if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-		xs = ys = zs = 0.0;
-	}
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
 
   //---------------------------------------------------------------------
   // The following part should be added if the input potential are only 
   // estimation of edges
   //---------------------------------------------------------------------  
 /*
-	coord[0] = (int) (x[0]+1);
-	coord[1] = (int) (x[1]+1);
-	if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-		xs = ys = zs = 0.0;
-	}
+  coord[0] = (int) (x[0]+1);
+  coord[1] = (int) (x[1]+1);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
 
-	coord[0] = (int) (x[0]+1);
-	coord[1] = (int) (x[1]);
-	if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-		xs = ys = zs = 0.0;
-	}
+  coord[0] = (int) (x[0]+1);
+  coord[1] = (int) (x[1]);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
 
-	coord[0] = (int) (x[0]+1);
-	coord[1] = (int) (x[1]-1);
-	if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-		xs = ys = zs = 0.0;
-	}
+  coord[0] = (int) (x[0]+1);
+  coord[1] = (int) (x[1]-1);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
 
-	coord[0] = (int) (x[0]);
-	coord[1] = (int) (x[1]+1);
-	if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-		xs = ys = zs = 0.0;
-	}
+  coord[0] = (int) (x[0]);
+  coord[1] = (int) (x[1]+1);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
 
-	coord[0] = (int) (x[0]);
-	coord[1] = (int) (x[1]-1);
-	if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-		xs = ys = zs = 0.0;
-	}
+  coord[0] = (int) (x[0]);
+  coord[1] = (int) (x[1]-1);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
 
-	coord[0] = (int) (x[0]-1);
-	coord[1] = (int) (x[1]+1);
-	if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-		xs = ys = zs = 0.0;
-	}
+  coord[0] = (int) (x[0]-1);
+  coord[1] = (int) (x[1]+1);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
 
-	coord[0] = (int) (x[0]-1);
-	coord[1] = (int) (x[1]);
-	if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-		xs = ys = zs = 0.0;
-	}
+  coord[0] = (int) (x[0]-1);
+  coord[1] = (int) (x[1]);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
 
-	coord[0] = (int) (x[0]-1);
-	coord[1] = (int) (x[1]-1);
-	if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-		xs = ys = zs = 0.0;
-	}
+  coord[0] = (int) (x[0]-1);
+  coord[1] = (int) (x[1]-1);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
 */
-	extends[0] = x[0];
-	extends[1] = x[1];
-	extends[2] = x[2];
-	extend[0] = (int) x[0];
-	extend[1] = (int) x[1];
-	extend[2] = (int) x[2];
+  extends[0] = x[0];
+  extends[1] = x[1];
+  extends[2] = x[2];
+  extend[0] = (int) x[0];
+  extend[1] = (int) x[1];
+  extend[2] = (int) x[2];
 
-	f = normals.Value();
+  f = normals.Value();
 
-	p = -1;
-	max = abs(f[0]);
+  p = -1;
+  max = abs(f[0]);
 
   //---------------------------------------------------------------------
   // all the movement in z direction is now disabled for further test
   //---------------------------------------------------------------------  
-	if ( abs(f[1]) > max ) max = abs(f[1]);
-	if ( abs(f[2]) > max ) max = abs(f[2]);
-	n[0] = f[0]/max;
-	n[1] = f[1]/max;
-	n[2] = f[2]/max;
+  if ( abs(f[1]) > max ) max = abs(f[1]);
+  if ( abs(f[2]) > max ) max = abs(f[2]);
+  n[0] = f[0]/max;
+  n[1] = f[1]/max;
+  n[2] = f[2]/max;
 
-	t = 0.0;
+  t = 0.0;
 
-	while (t < 5.0){
-	  extends[0] += n[0];
-	  extends[1] += n[1];
-	  extends[2] += n[2];
+  while (t < 5.0){
+    extends[0] += n[0];
+    extends[1] += n[1];
+    extends[2] += n[2];
       extend[0] = (int) (extends[0]+1);
       extend[1] = (int) (extends[1]+1);
-	  extend[2] = (int) (extends[2]+1);  //slice;
-	  if ((extend[0] <= 0) || (extend[1] <= 0) || (extend[2] <= 0)) break;
+    extend[2] = (int) (extends[2]+1);  //slice;
+    if ((extend[0] <= 0) || (extend[1] <= 0) || (extend[2] <= 0)) break;
 
-	  extend[0] = (int) (extends[0]);
+    extend[0] = (int) (extends[0]);
       extend[1] = (int) (extends[1]);
-	  extend[2] = (int) (extends[2]);
-	  if ((extend[0] >= m_imgWidth) || (extend[1] >= m_imgHeight) || 
-		  (extend[2] >= m_imgDepth)) break;
+    extend[2] = (int) (extends[2]);
+    if ((extend[0] >= m_imgWidth) || (extend[1] >= m_imgHeight) || 
+      (extend[2] >= m_imgDepth)) break;
 
-	  label = m_Potential->GetPixel(extend);
-	  if ( label != m_ObjectLabel ) break;
+    label = m_Potential->GetPixel(extend);
+    if ( label != m_ObjectLabel ) break;
 
-	  t += 1.0;
-	}
+    t += 1.0;
+  }
 
-	if (t < 2) pointstatus.Value() = 1.0;
-	else {
-	  pointstatus.Value() = 0.0;
-	  m_ImageOutput->SetPixel(coord, 1);
-	}
+  if (t < 2) pointstatus.Value() = 1.0;
+  else {
+    pointstatus.Value() = 0.0;
+    m_ImageOutput->SetPixel(coord, 1);
+  }
 
-	fo = sqrt(f[0]*f[0]+f[1]*f[1]+f[2]*f[2]);
+  fo = sqrt(f[0]*f[0]+f[1]*f[1]+f[2]*f[2]);
     f[0] = t*400*f[0]*xs/fo; 
     f[1] = t*400*f[1]*ys/fo;
-	f[2] = t*400*f[2]*zs/fo;
-//	f[2] = 0;
+  f[2] = t*400*f[2]*zs/fo;
+//  f[2] = 0;
 
     forces.Value() = f;
-	forcedata.Value() = 0.0;
-	++pointstatus;
+  forcedata.Value() = 0.0;
+  ++pointstatus;
     ++forces;
-	++forcedata;
-	++points;
-	++normals;
-	++i;
+  ++forcedata;
+  ++points;
+  ++normals;
+  ++i;
   }
 
 }
@@ -825,14 +825,14 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   typename TriCell::Pointer testCell = TriCell::New();
   int npts = 3;
 
-  InputCellsContainerPointer		myCells = m_Locations->GetCells();
-  InputCellsContainerIterator		cells = myCells->Begin();
+  InputCellsContainerPointer    myCells = m_Locations->GetCells();
+  InputCellsContainerIterator   cells = myCells->Begin();
 
-  InputPointsContainerPointer	    myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator		forces = myForces->Begin();
+  InputPointsContainerPointer     myForces = m_Forces->GetPoints();
+  InputPointsContainerIterator    forces = myForces->Begin();
 
-  InputPointsContainerPointer		myDerives = m_Derives->GetPoints();
-  InputPointsContainerIterator		derives = myDerives->Begin();
+  InputPointsContainerPointer   myDerives = m_Derives->GetPoints();
+  InputPointsContainerIterator    derives = myDerives->Begin();
 
   float p = 1; 
   i = 0;
@@ -846,8 +846,8 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
   while( cells != myCells->End() )
   {
-	tp = cells.Value()->GetPointIds();
-	++cells;
+  tp = cells.Value()->GetPointIds();
+  ++cells;
     m_Displacements->GetPoint (tp[0], v1_pt); 
     m_Displacements->GetPoint (tp[1], v2_pt); 
     m_Displacements->GetPoint (tp[2], v3_pt); 
@@ -865,9 +865,9 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
     v1[2] += v2[2]+v3[2]; 
     m_Forces->GetPoint (tp[0], v2_pt); 
 
-	v2[0] -= v1[0]; 
-	v2[1] -= v1[1]; 
-	v2[2] -= v1[2];
+  v2[0] -= v1[0]; 
+  v2[1] -= v1[1]; 
+  v2[2] -= v1[2];
 
     m_Forces->SetPoint (tp[0], v2); 
  
@@ -888,9 +888,9 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
     v1[2] += v2[2]+v3[2]; 
     m_Forces->GetPoint (tp[1], v2_pt);  
 
-	v2[0] -= v1[0]; 
-	v2[1] -= v1[1]; 
-	v2[2] -= v1[2];
+  v2[0] -= v1[0]; 
+  v2[1] -= v1[1]; 
+  v2[2] -= v1[2];
 
     m_Forces->SetPoint (tp[1], v2); 
  
@@ -911,18 +911,18 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
     v1[2] += v2[2]+v3[2]; 
     m_Forces->GetPoint (tp[2], v2_pt); 
 
-	v2[0] -= v1[0]; 
-	v2[1] -= v1[1]; 
-	v2[2] -= v1[2];
+  v2[0] -= v1[0]; 
+  v2[1] -= v1[1]; 
+  v2[2] -= v1[2];
 
     m_Forces->SetPoint (tp[2], v2);  
-	++i;
+  ++i;
   } 
 
   while ( derives != myDerives->End() ) {
-	derives.Value() = forces.Value();
-	++derives; 
-	++forces;
+  derives.Value() = forces.Value();
+  ++derives; 
+  ++forces;
   }
    
 }
@@ -948,72 +948,72 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
   unsigned long tripoints[3];
    
-  InputPointsContainerPointer			myForces = m_Forces->GetPoints();
+  InputPointsContainerPointer     myForces = m_Forces->GetPoints();
 //  myForces->Reserve(m_NumNodes);
-  InputPointsContainerIterator			forces = myForces->Begin();
+  InputPointsContainerIterator      forces = myForces->Begin();
 
-  InputPointsContainerPointer			myPoints = m_Locations->GetPoints();
+  InputPointsContainerPointer     myPoints = m_Locations->GetPoints();
 //  myPoints->Reserve(m_NumNodes);
-  InputPointsContainerIterator			points = myPoints->Begin();
+  InputPointsContainerIterator      points = myPoints->Begin();
  
-  InputPointsContainerPointer			myNormals = m_Normals->GetPoints();
+  InputPointsContainerPointer     myNormals = m_Normals->GetPoints();
 //  myNormals->Reserve(m_NumNodes);
-  InputPointsContainerIterator			normals = myNormals->Begin();
+  InputPointsContainerIterator      normals = myNormals->Begin();
 
-  InputPointsContainerPointer			myDerives = m_Derives->GetPoints();
+  InputPointsContainerPointer     myDerives = m_Derives->GetPoints();
 //  myDerives->Reserve(m_NumNodes);
-  InputPointsContainerIterator			derives = myDerives->Begin();
+  InputPointsContainerIterator      derives = myDerives->Begin();
 
-  InputPointsContainerPointer			myDisplacements = m_Displacements->GetPoints();
+  InputPointsContainerPointer     myDisplacements = m_Displacements->GetPoints();
 //  myDisplacements->Reserve(m_NumNodes);
-  InputPointsContainerIterator			displacements = myDisplacements->Begin();
+  InputPointsContainerIterator      displacements = myDisplacements->Begin();
 
-  InputPointDataContainerPointer		myForceData = m_Forces->GetPointData();
+  InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
   myForceData->Reserve(m_NumNodes);
-  InputPointDataContainerIterator		forcedata = myForceData->Begin();
+  InputPointDataContainerIterator   forcedata = myForceData->Begin();
 
-  InputCellsContainerPointer			myCells = m_Locations->GetCells();
+  InputCellsContainerPointer      myCells = m_Locations->GetCells();
   myCells->Reserve(m_NumCells);
-  InputCellsContainerIterator			cells = myCells->Begin(); 
+  InputCellsContainerIterator     cells = myCells->Begin(); 
   
-  InputCellDataContainerPointer			myCellData = m_Locations->GetCellData();
+  InputCellDataContainerPointer     myCellData = m_Locations->GetCellData();
   myCellData->Reserve(m_NumCells);
-  InputCellDataContainerIterator		celldata = myCellData->Begin(); 
+  InputCellDataContainerIterator    celldata = myCellData->Begin(); 
 
-  InputCellsContainerPointer			myOutCells = m_Output->GetCells();
+  InputCellsContainerPointer      myOutCells = m_Output->GetCells();
   myOutCells->Reserve(m_NumCells);
-  InputCellsContainerIterator			outcells = myOutCells->Begin(); 
+  InputCellsContainerIterator     outcells = myOutCells->Begin(); 
   
-  InputCellDataContainerPointer			myOutCellData = m_Output->GetCellData();
+  InputCellDataContainerPointer     myOutCellData = m_Output->GetCellData();
   myOutCellData->Reserve(m_NumCells);
-  InputCellDataContainerIterator		outcelldata = myOutCellData->Begin();
+  InputCellDataContainerIterator    outcelldata = myOutCellData->Begin();
    
-  typename TriCell::Pointer				insertCell = TriCell::New(); 
+  typename TriCell::Pointer       insertCell = TriCell::New(); 
 
   i = 0;
   j = 0;
 
-	int p = 0, jn;
+  int p = 0, jn;
 
     for(int i=0; i < m_Resolution[0]-1 ; i++) {
-	  for (int j=0; j<m_Resolution[1]; j++) {
+    for (int j=0; j<m_Resolution[1]; j++) {
         jn = (j+1)%m_Resolution[1]; 
         tripoints[0] = i*m_Resolution[1]+j; 
         tripoints[1] = tripoints[0]-j+jn; 
         tripoints[2] = tripoints[0]+m_Resolution[1]; 
-	    insertCell->SetPointIds(tripoints);
-	    m_Locations->SetCell(p, insertCell);
-	    m_Locations->SetCellData(p, (PT)3.0);
-	    p++;
-	    insertCell = TriCell::New();
+      insertCell->SetPointIds(tripoints);
+      m_Locations->SetCell(p, insertCell);
+      m_Locations->SetCellData(p, (PT)3.0);
+      p++;
+      insertCell = TriCell::New();
         tripoints[0] = tripoints[1]; 
         tripoints[1] = tripoints[0]+m_Resolution[1]; 
-	    insertCell->SetPointIds(tripoints);
-	    m_Locations->SetCell(p, insertCell);
-	    m_Locations->SetCellData(p, (PT)3.0);
-	    p++;
-	    insertCell = TriCell::New();
-	  }
+      insertCell->SetPointIds(tripoints);
+      m_Locations->SetCell(p, insertCell);
+      m_Locations->SetCellData(p, (PT)3.0);
+      p++;
+      insertCell = TriCell::New();
+    }
     }
  
 // store cells containing the south pole nodes
@@ -1022,38 +1022,38 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
       tripoints[0] = m_NumNodes-2; 
       tripoints[1] = jn; 
       tripoints[2] = j; 
-	  insertCell->SetPointIds(tripoints);
-	  m_Locations->SetCell(p, insertCell);
-	  m_Locations->SetCellData(p, (PT)1.0);
-	  p++;
-	  insertCell = TriCell::New();
+    insertCell->SetPointIds(tripoints);
+    m_Locations->SetCell(p, insertCell);
+    m_Locations->SetCellData(p, (PT)1.0);
+    p++;
+    insertCell = TriCell::New();
     }
 
 // store cells containing the north pole nodes
     for (int j=0; j<m_Resolution[1]; j++) {
       jn = (j+1)%m_Resolution[1]; 
       tripoints[2] = (m_Resolution[0]-1)*m_Resolution[1]+j; 
-	  tripoints[1] = m_NumNodes-1; 
+    tripoints[1] = m_NumNodes-1; 
       tripoints[0] = tripoints[2]-j+jn; 
-	  insertCell->SetPointIds(tripoints);
-	  m_Locations->SetCell(p, insertCell);
-	  m_Locations->SetCellData(p, (PT)2.0);
-	  p++;
-  	  insertCell = TriCell::New();
+    insertCell->SetPointIds(tripoints);
+    m_Locations->SetCell(p, insertCell);
+    m_Locations->SetCellData(p, (PT)2.0);
+    p++;
+      insertCell = TriCell::New();
     }
-	
-/*	m_NumCells = p;
-
-	K = (vnl_matrix_fixed<double,4,4>**) 
-		malloc(sizeof(vnl_matrix_fixed<double,4,4>*)*m_NumCells);
   
-//	InputCellDataContainerIterator		celldata = m_Locations->GetCellData()->Begin();
+/*  m_NumCells = p;
 
-//	int j=0;
-	while (celldata != m_Locations->GetCellData()->End()){
-	  w = celldata.Value();
-	  ++celldata;
-	  switch ((int)(w)) { 
+  K = (vnl_matrix_fixed<double,4,4>**) 
+    malloc(sizeof(vnl_matrix_fixed<double,4,4>*)*m_NumCells);
+  
+//  InputCellDataContainerIterator    celldata = m_Locations->GetCellData()->Begin();
+
+//  int j=0;
+  while (celldata != m_Locations->GetCellData()->End()){
+    w = celldata.Value();
+    ++celldata;
+    switch ((int)(w)) { 
       case 1: 
         K[j] = &SStiffness; 
         break; 
@@ -1064,8 +1064,8 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
         K[j] = &CStiffness; 
         break; 
       } 
-	  ++j;
-	}
+    ++j;
+  }
 */ 
 }
 
@@ -1089,51 +1089,51 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   m_ModelZDownLimit = m_imgDepth;
 
 
-  InputPointsContainerPointer		myDerives = m_Derives->GetPoints();
-  InputPointsContainerIterator		derives = myDerives->Begin();
+  InputPointsContainerPointer   myDerives = m_Derives->GetPoints();
+  InputPointsContainerIterator    derives = myDerives->Begin();
 
-  InputPointsContainerPointer		myPoints = m_Locations->GetPoints();
-  InputPointsContainerIterator		points = myPoints->Begin();
+  InputPointsContainerPointer   myPoints = m_Locations->GetPoints();
+  InputPointsContainerIterator    points = myPoints->Begin();
  
   i = 0;
   while( derives != myDerives->End() ) {
     ds = derives.Value();
-	s = points.Value();
+  s = points.Value();
     s[0] += TimeStep*ds[0]; 
     s[1] += TimeStep*ds[1]; 
     s[2] += TimeStep*ds[2]; 
-	if ( m_ModelYDownLimit > s[1] ) m_ModelYDownLimit = s[1];
-	if ( m_ModelYUpLimit < s[1] ) m_ModelYUpLimit = s[1];
-	if ( m_ModelXDownLimit > s[0] ) m_ModelXDownLimit = s[0];
-	if ( m_ModelXUpLimit < s[0] ) m_ModelXUpLimit = s[0];
-	if ( m_ModelZDownLimit > s[2] ) m_ModelZDownLimit = s[2];
-	if ( m_ModelZUpLimit < s[2] ) m_ModelZUpLimit = s[2];
-//	if ( i < m_NumNodes - 2 ) {
+  if ( m_ModelYDownLimit > s[1] ) m_ModelYDownLimit = s[1];
+  if ( m_ModelYUpLimit < s[1] ) m_ModelYUpLimit = s[1];
+  if ( m_ModelXDownLimit > s[0] ) m_ModelXDownLimit = s[0];
+  if ( m_ModelXUpLimit < s[0] ) m_ModelXUpLimit = s[0];
+  if ( m_ModelZDownLimit > s[2] ) m_ModelZDownLimit = s[2];
+  if ( m_ModelZUpLimit < s[2] ) m_ModelZUpLimit = s[2];
+//  if ( i < m_NumNodes - 2 ) {
 /* disabled for shrink test
-	  if (s[0] < 0) {
-		s[0] = 0;
-	  }
-	  if (s[1] < 0) {
-		s[1] = 0;
-	  }
-	  if (s[2] < 0) {
-		s[2] = 0;
-	  }
-	  if (s[2] > m_imgDepth) {
-		s[2] = m_imgDepth-0.001;
-	  }
-	  if (s[0] > m_imgWidth) {
-		s[0] = m_imgWidth-0.001;
-	  }
-	  if (s[1] > m_imgHeight) {
-		s[1] = m_imgHeight-0.001;
-	  }
+    if (s[0] < 0) {
+    s[0] = 0;
+    }
+    if (s[1] < 0) {
+    s[1] = 0;
+    }
+    if (s[2] < 0) {
+    s[2] = 0;
+    }
+    if (s[2] > m_imgDepth) {
+    s[2] = m_imgDepth-0.001;
+    }
+    if (s[0] > m_imgWidth) {
+    s[0] = m_imgWidth-0.001;
+    }
+    if (s[1] > m_imgHeight) {
+    s[1] = m_imgHeight-0.001;
+    }
 */
-	  points.Value() = s;
-//	}
-	++derives; 
-	++points;
-	++i;
+    points.Value() = s;
+//  }
+  ++derives; 
+  ++points;
+  ++i;
   } 
 
 }
@@ -1155,38 +1155,38 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
   m_Output = this->GetOutput();
 
-  OutputPointsContainerPointer		myPoints = m_Output->GetPoints();
+  OutputPointsContainerPointer    myPoints = m_Output->GetPoints();
   myPoints->Reserve(m_NumNodes);
-  OutputPointsContainerIterator		points = myPoints->Begin();
+  OutputPointsContainerIterator   points = myPoints->Begin();
 
-  InputPointsContainerPointer		myLocations = m_Locations->GetPoints();
-  InputPointsContainerIterator		locations = myLocations->Begin();
+  InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
+  InputPointsContainerIterator    locations = myLocations->Begin();
 
-  InputCellsContainerPointer		myCells = m_Locations->GetCells();
-  InputCellsContainerIterator		cells = myCells->Begin(); 
+  InputCellsContainerPointer    myCells = m_Locations->GetCells();
+  InputCellsContainerIterator   cells = myCells->Begin(); 
   
-  InputCellDataContainerPointer		myCellData = m_Locations->GetCellData();
-  InputCellDataContainerIterator	celldata = myCellData->Begin(); 
+  InputCellDataContainerPointer   myCellData = m_Locations->GetCellData();
+  InputCellDataContainerIterator  celldata = myCellData->Begin(); 
 
   i = 0;
   for (; i<m_NumNodes; i++) {
-	points.Value() = locations.Value();
-	++locations;
-	++points;
+  points.Value() = locations.Value();
+  ++locations;
+  ++points;
   } 
 
   for (int i=0; i<m_NumCells; i++) {
-	tp = cells.Value()->GetPointIds();
-	tripoints[0] = tp[0];
-	tripoints[1] = tp[1];
-	tripoints[2] = tp[2];
-	insertCell = TriCell::New();
-	insertCell->SetPointIds(tripoints);
-	m_Output->SetCell(i, insertCell);
-	x = celldata.Value();
-	m_Output->SetCellData(i, (PT)x);
-	++cells;
-	++celldata;
+  tp = cells.Value()->GetPointIds();
+  tripoints[0] = tp[0];
+  tripoints[1] = tp[1];
+  tripoints[2] = tp[2];
+  insertCell = TriCell::New();
+  insertCell->SetPointIds(tripoints);
+  m_Output->SetCell(i, insertCell);
+  x = celldata.Value();
+  m_Output->SetCellData(i, (PT)x);
+  ++cells;
+  ++celldata;
   }
 
 }
@@ -1200,15 +1200,15 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 ::GenerateData() 
 {
   while (m_Step < m_StepThreshold2) {
-	this->ComputeNormals();
-	if (m_Step > m_StepThreshold1) this->GradientFit();
-	else	this->ComputeForce();
-	this->ComputeDt();
-	this->Advance();
-	this->ACDSearch();
-	this->NodesRearrange();
-	this->ComputeOutput();
-	m_Step++;
+  this->ComputeNormals();
+  if (m_Step > m_StepThreshold1) this->GradientFit();
+  else  this->ComputeForce();
+  this->ComputeDt();
+  this->Advance();
+  this->ACDSearch();
+  this->NodesRearrange();
+  this->ComputeOutput();
+  m_Step++;
   }
 
 }
@@ -1222,7 +1222,7 @@ void
 DeformableMeshFilter<TInputMesh, TOutputMesh>
 ::GapSearch() 
 {
-	 		  
+        
 }
 
 /**
@@ -1247,16 +1247,16 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   typename TInputMesh::PointType s, s1, d1, d2;
 
   InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
-  InputPointsContainerIterator	locations = myLocations->Begin();
+  InputPointsContainerIterator  locations = myLocations->Begin();
 
-  InputPointDataContainerPointer	myPointData = m_Locations->GetPointData();
-  InputPointDataContainerIterator	pointdata = myPointData->Begin();
+  InputPointDataContainerPointer  myPointData = m_Locations->GetPointData();
+  InputPointDataContainerIterator pointdata = myPointData->Begin();
 
   InputPointsContainerPointer   myDisplacements = m_Displacements->GetPoints();
-  InputPointsContainerIterator	displacements = myDisplacements->Begin();
+  InputPointsContainerIterator  displacements = myDisplacements->Begin();
 
   InputPointsContainerPointer   myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator	normals = myNormals->Begin();
+  InputPointsContainerIterator  normals = myNormals->Begin();
   
   int j, k, l;
 
@@ -1264,58 +1264,58 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   k = 0;
   while (j < i-1) {
     k = 0;
-	while ( k < m_Resolution[1] ) {
-	  ++locations;
-	  k++;
-	}
-	j++;
+  while ( k < m_Resolution[1] ) {
+    ++locations;
+    k++;
+  }
+  j++;
   } 
 
   j = 0;
   while ( j < m_Resolution[1] ) {
     displacements.Value() = locations.Value();    
-	++displacements;
-	++locations;
-	j++;
+  ++displacements;
+  ++locations;
+  j++;
   }
 
   if (i == 0) {
-	locations = myLocations->Begin();
-	j = 0;
-	while ( j < m_NumNodes - 2 ) {
-	  ++locations;
-	  j++;
-	} 
+  locations = myLocations->Begin();
+  j = 0;
+  while ( j < m_NumNodes - 2 ) {
+    ++locations;
+    j++;
+  } 
     j = 0;
-	while ( j < m_Resolution[1] ) {
+  while ( j < m_Resolution[1] ) {
       normals.Value() = locations.Value();    
-	  ++normals;
-	  j++;
-	}
+    ++normals;
+    j++;
+  }
   } 
 
   if (i == m_Resolution[0]) {
-	locations = myLocations->Begin();
-	j = 0;
-	while ( j < m_NumNodes - 1 ) {
-	  ++locations;
-	  j++;
-	} 
+  locations = myLocations->Begin();
+  j = 0;
+  while ( j < m_NumNodes - 1 ) {
+    ++locations;
+    j++;
+  } 
     j = 0;
-	while ( j < m_Resolution[1] ) {
+  while ( j < m_Resolution[1] ) {
       normals.Value() = locations.Value();    
-	  ++normals;
-	  j++;
-	}
+    ++normals;
+    j++;
+  }
   } 
 
   if ( (i > 0) && ( i < m_Resolution[0]) ) {
-	j = 0;
-	while ( j < m_Resolution[1] ) {
-	  normals.Value() = locations.Value();    
-	  ++normals;
-	  ++locations;
-	  j++;
+  j = 0;
+  while ( j < m_Resolution[1] ) {
+    normals.Value() = locations.Value();    
+    ++normals;
+    ++locations;
+    j++;
     }
   }
 
@@ -1326,101 +1326,101 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   j = 0;
   while ( j < m_Resolution[1] ) {
     d1 = displacements.Value();
-	d2 = normals.Value();
-	s[0] = 0.5*(d1[0]+d2[0]);
-	s[1] = 0.5*(d1[1]+d2[1]); 
-	s[2] = 0.5*(d1[2]+d2[2]);
-	normals.Value() = s;     
-	++displacements;
-	++normals;
-	j++;
+  d2 = normals.Value();
+  s[0] = 0.5*(d1[0]+d2[0]);
+  s[1] = 0.5*(d1[1]+d2[1]); 
+  s[2] = 0.5*(d1[2]+d2[2]);
+  normals.Value() = s;     
+  ++displacements;
+  ++normals;
+  j++;
   }
 
   locations = myLocations->Begin();
 
-	m_NumNodes = m_NumNodes+m_Resolution[1];
-	m_NumCells = 2*m_Resolution[1]+m_NumCells;
-	m_Resolution[0] += 1;
+  m_NumNodes = m_NumNodes+m_Resolution[1];
+  m_NumCells = 2*m_Resolution[1]+m_NumCells;
+  m_Resolution[0] += 1;
 
-	OutputPointsContainerPointer		myPoints = m_Output->GetPoints();
-	myPoints->Reserve(m_NumNodes);
+  OutputPointsContainerPointer    myPoints = m_Output->GetPoints();
+  myPoints->Reserve(m_NumNodes);
 
-	myDisplacements->Reserve(m_NumNodes);
+  myDisplacements->Reserve(m_NumNodes);
     displacements = myDisplacements->Begin();
 
     InputPointsContainerPointer     myForces = m_Forces->GetPoints();
-	myForces->Reserve(m_NumNodes);
-    InputPointsContainerIterator	forces = myForces->Begin();
+  myForces->Reserve(m_NumNodes);
+    InputPointsContainerIterator  forces = myForces->Begin();
 
-	InputPointsContainerPointer   	myDerives = m_Derives->GetPoints();
+  InputPointsContainerPointer     myDerives = m_Derives->GetPoints();
     myDerives->Reserve(m_NumNodes);
-    InputPointsContainerIterator	derives = myDerives->Begin();
+    InputPointsContainerIterator  derives = myDerives->Begin();
 
-    InputCellsContainerPointer		myCells = m_Locations->GetCells();
-	myCells->Reserve(m_NumCells);
-    InputCellsContainerIterator		cells = myCells->Begin(); 
+    InputCellsContainerPointer    myCells = m_Locations->GetCells();
+  myCells->Reserve(m_NumCells);
+    InputCellsContainerIterator   cells = myCells->Begin(); 
   
-    InputCellDataContainerPointer	myCellData = m_Locations->GetCellData();
-	myCellData->Reserve(m_NumCells);
-    InputCellDataContainerIterator	celldata = myCellData->Begin();    
+    InputCellDataContainerPointer myCellData = m_Locations->GetCellData();
+  myCellData->Reserve(m_NumCells);
+    InputCellDataContainerIterator  celldata = myCellData->Begin();    
 
     normals = myNormals->Begin();
 
-	j = 0;
-	k = 0;
-	l = 0;
-	while (j < m_NumNodes) {
-	  if ( k == i) {
-		while ( l < m_Resolution[1] ) {
-		  displacements.Value() = normals.Value();
-		  ++displacements;
-		  ++normals;
-		  l++;
-		  j++;
-		}
-	  } else {
-	    displacements.Value() = locations.Value();
-		++displacements;
-		++locations;
-		l++;
-		j++;
-	  }
+  j = 0;
+  k = 0;
+  l = 0;
+  while (j < m_NumNodes) {
+    if ( k == i) {
+    while ( l < m_Resolution[1] ) {
+      displacements.Value() = normals.Value();
+      ++displacements;
+      ++normals;
+      l++;
+      j++;
+    }
+    } else {
+      displacements.Value() = locations.Value();
+    ++displacements;
+    ++locations;
+    l++;
+    j++;
+    }
 
-	  if ( l == m_Resolution[1] ) {
-	    l = 0;
-		k++;
-	  }
-	}
+    if ( l == m_Resolution[1] ) {
+      l = 0;
+    k++;
+    }
+  }
 
     myLocations->Reserve(m_NumNodes);
     locations = myLocations->Begin();
 
-	myPointData->Reserve(m_NumNodes);
-	pointdata = myPointData->Begin();
+  myPointData->Reserve(m_NumNodes);
+  pointdata = myPointData->Begin();
 
     myNormals->Reserve(m_NumNodes);
     normals = myNormals->Begin();
 
-	s[0] = 0;
-	s[1] = 0;
-	s[2] = 0;
-	j = 0;
-	displacements = myDisplacements->Begin();
-	while ( j < m_NumNodes ) {
-	  locations.Value() = displacements.Value();
-	  displacements.Value() = s;
-	  ++displacements;
-	  ++locations;
-	  j++;
-	}
+  s[0] = 0;
+  s[1] = 0;
+  s[2] = 0;
+  j = 0;
+  displacements = myDisplacements->Begin();
+  while ( j < m_NumNodes ) {
+    locations.Value() = displacements.Value();
+    displacements.Value() = s;
+    ++displacements;
+    ++locations;
+    j++;
+  }
 
     for (j=0; j<m_NumNodes; j++) {
-	  m_Locations->SetPointData(j, 0);
-	  m_Forces->SetPointData(j, 0);
-	}
+    m_Locations->SetPointData(j, 0);
+    m_Forces->SetPointData(j, 0);
+  }
 
-	Reset();
-	SetStiffnessMatrix();
+  Reset();
+  SetStiffnessMatrix();
 }
 
 
@@ -1445,20 +1445,20 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
   typename TInputMesh::PointType s, d;
 
-//  GradientIterator	it(m_Gradient, m_Gradient->GetBufferedRegion());
+//  GradientIterator  it(m_Gradient, m_Gradient->GetBufferedRegion());
 //  it.Begin();
 
   InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
-  InputPointsContainerIterator	locations = myLocations->Begin();
+  InputPointsContainerIterator  locations = myLocations->Begin();
 
-  InputPointsContainerPointer	myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator	forces = myForces->Begin();
+  InputPointsContainerPointer myForces = m_Forces->GetPoints();
+  InputPointsContainerIterator  forces = myForces->Begin();
 
-  InputPointsContainerPointer	myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator	normals = myNormals->Begin();
+  InputPointsContainerPointer myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator  normals = myNormals->Begin();
 
-  InputPointDataContainerPointer		myForceData = m_Forces->GetPointData();
-  InputPointDataContainerIterator		forcedata = myForceData->Begin();
+  InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
+  InputPointDataContainerIterator   forcedata = myForceData->Begin();
 
   s[0] = 0;
   s[1] = 0;
@@ -1466,16 +1466,16 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
 /*
   while ( forces != myForces->End() ) {
-	s = normals.Value();
-	dis = sqrt(s[0]*s[0]+s[1]*s[1]);
-	s[0] = 15*s[0]/dis;
-	s[1] = 15*s[1]/dis;
-	s[2] = 0;
-	forces.Value() = s;
-	forcedata.Value() = 0;
-	++forces;
-	++normals;
-	++forcedata;
+  s = normals.Value();
+  dis = sqrt(s[0]*s[0]+s[1]*s[1]);
+  s[0] = 15*s[0]/dis;
+  s[1] = 15*s[1]/dis;
+  s[2] = 0;
+  forces.Value() = s;
+  forcedata.Value() = 0;
+  ++forces;
+  ++normals;
+  ++forcedata;
   }
 */
 
@@ -1494,20 +1494,20 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   forcedata = myForceData->Begin();
 
   while( forces != myForces->End() ) {
-	s = locations.Value();
-	d = forces.Value();
-	
-	coord[0] = (int) s[0];
-	coord[1] = (int) s[1];
-	coord[2] = (int) s[2]; 
-	d[0] = 10*m_Gradient->GetPixel(coord)[0];
-	d[1] = 10*m_Gradient->GetPixel(coord)[1]; 
-	d[2] = 10*m_Gradient->GetPixel(coord)[2]; 
-	forces.Value() = d;
+  s = locations.Value();
+  d = forces.Value();
+  
+  coord[0] = (int) s[0];
+  coord[1] = (int) s[1];
+  coord[2] = (int) s[2]; 
+  d[0] = 10*m_Gradient->GetPixel(coord)[0];
+  d[1] = 10*m_Gradient->GetPixel(coord)[1]; 
+  d[2] = 10*m_Gradient->GetPixel(coord)[2]; 
+  forces.Value() = d;
 
-	++forces;
-	++locations;
-//	++forcedata;
+  ++forces;
+  ++locations;
+//  ++forcedata;
   }
 
 }
@@ -1531,36 +1531,36 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   float coa, cob, coc ;
   float absvec ;
 
-  InputCellsContainerPointer			myCells = m_Locations->GetCells();
-  InputCellsContainerIterator			cells = myCells->Begin();
+  InputCellsContainerPointer      myCells = m_Locations->GetCells();
+  InputCellsContainerIterator     cells = myCells->Begin();
 
-  InputPointsContainerPointer   		myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator			normals = myNormals->Begin();
+  InputPointsContainerPointer       myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator      normals = myNormals->Begin();
 
   static float d[3]={0, 0, 0};
   while( normals != myNormals->End() )
   {
-	normals.Value() = d;
+  normals.Value() = d;
     ++normals;
   }
 
   while ( cells != myCells->End() ) {
-  	tp = cells.Value()->GetPointIds();
-	++cells;
+    tp = cells.Value()->GetPointIds();
+  ++cells;
 
     m_Locations->GetPoint (tp[0], v1_pt);
     m_Locations->GetPoint (tp[1], v2_pt);
     m_Locations->GetPoint (tp[2], v3_pt);
 
     coa = -(v1[1]*(v2[2]-v3[2]) + 
-	    v2[1]*(v3[2]-v1[2]) +
-	    v3[1]*(v1[2]-v2[2])) ;
+      v2[1]*(v3[2]-v1[2]) +
+      v3[1]*(v1[2]-v2[2])) ;
     cob = -(v1[2] * (v2[0]-v3[0]) +
-	    v2[2]*(v3[0]-v1[0]) +
-	    v3[2]*(v1[0]-v2[0])) ;
+      v2[2]*(v3[0]-v1[0]) +
+      v3[2]*(v1[0]-v2[0])) ;
     coc = -(v1[0] * (v2[1]-v3[1]) +
-	    v2[0]*(v3[1]-v1[1]) +
-	    v3[0]*(v1[1]-v2[1])) ;
+      v2[0]*(v3[1]-v1[1]) +
+      v3[0]*(v1[1]-v2[1])) ;
 
     absvec = -sqrt ((double) ((coa*coa) + (cob*cob) + (coc*coc))) ;
   
@@ -1573,34 +1573,34 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
     m_Normals->GetPoint (tp[1], v2_pt);
     m_Normals->GetPoint (tp[2], v3_pt);
 
-	v1[0] += v4[0];
-	v1[1] += v4[1];
-	v1[2] += v4[2];
+  v1[0] += v4[0];
+  v1[1] += v4[1];
+  v1[2] += v4[2];
 
-	v2[0] += v4[0];
-	v2[1] += v4[1];
-	v2[2] += v4[2];
+  v2[0] += v4[0];
+  v2[1] += v4[1];
+  v2[2] += v4[2];
     
-	v3[0] += v4[0];
-	v3[1] += v4[1];
-	v3[2] += v4[2];
-	
-	m_Normals->SetPoint (tp[0], v1);
-	m_Normals->SetPoint (tp[1], v2);
-	m_Normals->SetPoint (tp[2], v3);
+  v3[0] += v4[0];
+  v3[1] += v4[1];
+  v3[2] += v4[2];
+  
+  m_Normals->SetPoint (tp[0], v1);
+  m_Normals->SetPoint (tp[1], v2);
+  m_Normals->SetPoint (tp[2], v3);
 
   }
 
   normals = myNormals->Begin();
   while( normals != myNormals->End() )
   {
-	v1 = normals.Value();
-	absvec = sqrt ((double) ((v1[0]*v1[0]) + (v1[1]*v1[1]) + (v1[2]*v1[2])));
-	v1[0] = v1[0]/absvec;
-	v1[1] = v1[1]/absvec;
-	v1[2] = v1[2]/absvec;
-	normals.Value() = v1;
-	++normals;
+  v1 = normals.Value();
+  absvec = sqrt ((double) ((v1[0]*v1[0]) + (v1[1]*v1[1]) + (v1[2]*v1[2])));
+  v1[0] = v1[0]/absvec;
+  v1[1] = v1[1]/absvec;
+  v1[2] = v1[2]/absvec;
+  normals.Value() = v1;
+  ++normals;
   }
 
 }
@@ -1628,20 +1628,20 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   typename TInputMesh::PointType s, s1, d1, d2;
 
   InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
-  InputPointsContainerIterator	locations = myLocations->Begin();
+  InputPointsContainerIterator  locations = myLocations->Begin();
 
-  InputPointDataContainerPointer	myPointData = m_Locations->GetPointData();
-  InputPointDataContainerIterator	pointdata = myPointData->Begin();
+  InputPointDataContainerPointer  myPointData = m_Locations->GetPointData();
+  InputPointDataContainerIterator pointdata = myPointData->Begin();
 
   InputPointsContainerPointer   myDisplacements = m_Displacements->GetPoints();
-  InputPointsContainerIterator	displacements = myDisplacements->Begin();
+  InputPointsContainerIterator  displacements = myDisplacements->Begin();
 
   InputPointsContainerPointer   myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator	normals = myNormals->Begin();
+  InputPointsContainerIterator  normals = myNormals->Begin();
 
   InputPointsContainerPointer   myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator	forces = myForces->Begin();
-  InputPointsContainerIterator	forcescopy;
+  InputPointsContainerIterator  forces = myForces->Begin();
+  InputPointsContainerIterator  forcescopy;
 
   length = (float*) malloc(sizeof(float)*m_Resolution[0]);
 
@@ -1656,44 +1656,44 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   forces++;
   
   while ( (i+1)%m_Resolution[1] != 0 ) {
-	v2 = locations.Value();
-	++locations;
-	v3 = locations.Value();
-	d1[0] = v1[0] - v2[0];
-	d2[0] = v3[0] - v2[0];
-	d1[1] = v1[1] - v2[1];
-	d2[1] = v3[1] - v2[1];
-	d1[2] = v1[2] - v2[2];
-	d2[2] = v3[2] - v2[2];
-	v1[0] = v2[0];
-	v1[1] = v2[1];
-	v1[2] = v2[2];
-	dis = d1[0]*d2[0]+d1[1]*d2[1]+d1[2]*d2[2];
-	if ( dis > 0 ) {
-	  l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]+d1[2]*d1[2]);
-	  l2 = sqrt(d2[0]*d2[0]+d2[1]*d2[1]+d2[2]*d2[2]);
-	  dis = dis/sqrt(l1*l2);
-	  d1[0] = d1[0]/l1;
-	  d1[1] = d1[1]/l1;
-	  d1[2] = d1[2]/l1;
-	  d2[0] = d2[0]/l2;
-	  d2[1] = d2[1]/l2;
-	  d2[2] = d2[2]/l2;
-	  d1[0] = (d1[0]+d2[0]);
-	  d1[1] = (d1[1]+d2[1]);
-	  d1[2] = (d1[2]+d2[2]);
-	  l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]+d1[2]*d1[2]);
-	  d1[0] = d1[0]/l1;
-	  d1[1] = d1[1]/l1;
-	  d1[2] = d1[2]/l1;
-	  v2[0] = v2[0] + dis * d1[0];
-	  v2[1] = v2[1] + dis * d1[1];
-	  v2[2] = v2[2] + dis * d1[2];
-	}
-	
-	forces.Value() = v2;
-	i++;
-	++forces;
+  v2 = locations.Value();
+  ++locations;
+  v3 = locations.Value();
+  d1[0] = v1[0] - v2[0];
+  d2[0] = v3[0] - v2[0];
+  d1[1] = v1[1] - v2[1];
+  d2[1] = v3[1] - v2[1];
+  d1[2] = v1[2] - v2[2];
+  d2[2] = v3[2] - v2[2];
+  v1[0] = v2[0];
+  v1[1] = v2[1];
+  v1[2] = v2[2];
+  dis = d1[0]*d2[0]+d1[1]*d2[1]+d1[2]*d2[2];
+  if ( dis > 0 ) {
+    l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]+d1[2]*d1[2]);
+    l2 = sqrt(d2[0]*d2[0]+d2[1]*d2[1]+d2[2]*d2[2]);
+    dis = dis/sqrt(l1*l2);
+    d1[0] = d1[0]/l1;
+    d1[1] = d1[1]/l1;
+    d1[2] = d1[2]/l1;
+    d2[0] = d2[0]/l2;
+    d2[1] = d2[1]/l2;
+    d2[2] = d2[2]/l2;
+    d1[0] = (d1[0]+d2[0]);
+    d1[1] = (d1[1]+d2[1]);
+    d1[2] = (d1[2]+d2[2]);
+    l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]+d1[2]*d1[2]);
+    d1[0] = d1[0]/l1;
+    d1[1] = d1[1]/l1;
+    d1[2] = d1[2]/l1;
+    v2[0] = v2[0] + dis * d1[0];
+    v2[1] = v2[1] + dis * d1[1];
+    v2[2] = v2[2] + dis * d1[2];
+  }
+  
+  forces.Value() = v2;
+  i++;
+  ++forces;
   }
 
 // for the last node in the slice
@@ -1713,25 +1713,25 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   v1[2] = v2[2];
   dis = d1[0]*d2[0]+d1[1]*d2[1]+d1[2]*d2[2];
   if ( dis > 0 ) {
-	l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]+d1[2]*d1[2]);
-	l2 = sqrt(d2[0]*d2[0]+d2[1]*d2[1]+d2[2]*d2[2]);
-	dis = dis/sqrt(l1*l2);
-	d1[0] = d1[0]/l1;
-	d1[1] = d1[1]/l1;
-	d1[2] = d1[2]/l1;
-	d2[0] = d2[0]/l2;
-	d2[1] = d2[1]/l2;
-	d2[2] = d2[2]/l2;
-	d1[0] = (d1[0]+d2[0]);
-	d1[1] = (d1[1]+d2[1]);
-	d1[2] = (d1[2]+d2[2]);
-	l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]+d1[2]*d1[2]);
-	d1[0] = d1[0]/l1;
-	d1[1] = d1[1]/l1;
-	d1[2] = d1[2]/l1;
-	v2[0] = v2[0] + dis * d1[0];
-	v2[1] = v2[1] + dis * d1[1];
-	v2[2] = v2[2] + dis * d1[2];
+  l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]+d1[2]*d1[2]);
+  l2 = sqrt(d2[0]*d2[0]+d2[1]*d2[1]+d2[2]*d2[2]);
+  dis = dis/sqrt(l1*l2);
+  d1[0] = d1[0]/l1;
+  d1[1] = d1[1]/l1;
+  d1[2] = d1[2]/l1;
+  d2[0] = d2[0]/l2;
+  d2[1] = d2[1]/l2;
+  d2[2] = d2[2]/l2;
+  d1[0] = (d1[0]+d2[0]);
+  d1[1] = (d1[1]+d2[1]);
+  d1[2] = (d1[2]+d2[2]);
+  l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]+d1[2]*d1[2]);
+  d1[0] = d1[0]/l1;
+  d1[1] = d1[1]/l1;
+  d1[2] = d1[2]/l1;
+  v2[0] = v2[0] + dis * d1[0];
+  v2[1] = v2[1] + dis * d1[1];
+  v2[2] = v2[2] + dis * d1[2];
   }
   
   forces.Value() = v2;
@@ -1756,25 +1756,25 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 //  v1[2] = v2[2];
   dis = d1[0]*d2[0]+d1[1]*d2[1]+d1[2]*d1[2];
   if ( dis > 0 ) {
-	l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]+d1[2]*d1[2]);
-	l2 = sqrt(d2[0]*d2[0]+d2[1]*d2[1]+d1[2]*d1[2]);
-	dis = dis/sqrt(l1*l2);
-	d1[0] = d1[0]/l1;
-	d1[1] = d1[1]/l1;
-	d1[2] = d1[2]/l1;
-	d2[0] = d2[0]/l2;
-	d2[1] = d2[1]/l2;
-	d2[2] = d2[2]/l2;
-	d1[0] = (d1[0]+d2[0]);
-	d1[1] = (d1[1]+d2[1]);
-	d1[2] = (d1[2]+d2[2]);
-	l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]+d1[2]*d1[2]);
-	d1[0] = d1[0]/l1;
-	d1[1] = d1[1]/l1;
-	d1[2] = d1[2]/l1;
-	v2[0] = v2[0] + dis * d1[0];
-	v2[1] = v2[1] + dis * d1[1];
-	v2[2] = v2[2] + dis * d1[2];
+  l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]+d1[2]*d1[2]);
+  l2 = sqrt(d2[0]*d2[0]+d2[1]*d2[1]+d1[2]*d1[2]);
+  dis = dis/sqrt(l1*l2);
+  d1[0] = d1[0]/l1;
+  d1[1] = d1[1]/l1;
+  d1[2] = d1[2]/l1;
+  d2[0] = d2[0]/l2;
+  d2[1] = d2[1]/l2;
+  d2[2] = d2[2]/l2;
+  d1[0] = (d1[0]+d2[0]);
+  d1[1] = (d1[1]+d2[1]);
+  d1[2] = (d1[2]+d2[2]);
+  l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]+d1[2]*d1[2]);
+  d1[0] = d1[0]/l1;
+  d1[1] = d1[1]/l1;
+  d1[2] = d1[2]/l1;
+  v2[0] = v2[0] + dis * d1[0];
+  v2[1] = v2[1] + dis * d1[1];
+  v2[2] = v2[2] + dis * d1[2];
   }
 
   forcescopy.Value() = v2;
@@ -1787,119 +1787,119 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   forces = myForces->Begin();
 
   for (j = 0; j < m_Resolution[0]; j++) {
-	dis = 0;
-	i = 0;
-	s = forces.Value();
-//	forcescopy = forces;
+  dis = 0;
+  i = 0;
+  s = forces.Value();
+//  forcescopy = forces;
 
-	while ( i < m_Resolution[1] - 1 ) {
+  while ( i < m_Resolution[1] - 1 ) {
       v1 = forces.Value();
-	  ++forces;
+    ++forces;
       v2 = forces.Value();
-//	  m_Displacements->GetPointData(i+j*m_Resolution[1], d_ptr);
-	  dis += sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1])+(v1[2]-v2[2])*(v1[2]-v2[2]));
-	  i++;
-	}
-//	m_Displacements->GetPointData(i+j*m_Resolution[1], d_ptr);
-	dis += sqrt((s[0]-v2[0])*(s[0]-v2[0])+(s[1]-v2[1])*(s[1]-v2[1])+(s[2]-v2[2])*(s[2]-v2[2]));
-	length[j] = dis/m_Resolution[1];
-	++forces;
+//    m_Displacements->GetPointData(i+j*m_Resolution[1], d_ptr);
+    dis += sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1])+(v1[2]-v2[2])*(v1[2]-v2[2]));
+    i++;
+  }
+//  m_Displacements->GetPointData(i+j*m_Resolution[1], d_ptr);
+  dis += sqrt((s[0]-v2[0])*(s[0]-v2[0])+(s[1]-v2[1])*(s[1]-v2[1])+(s[2]-v2[2])*(s[2]-v2[2]));
+  length[j] = dis/m_Resolution[1];
+  ++forces;
   }
 */
   if ( m_NewNode ) {
     m_NumNodes = 2*(m_NumNodes-2)+2;
-	m_NumCells = 2*m_NumCells;
-//	m_Resolution[1] = m_Resolution[1]*2;
+  m_NumCells = 2*m_NumCells;
+//  m_Resolution[1] = m_Resolution[1]*2;
     new_node = 2;
 
-	OutputPointsContainerPointer		myPoints = m_Output->GetPoints();
-	myPoints->Reserve(m_NumNodes);
+  OutputPointsContainerPointer    myPoints = m_Output->GetPoints();
+  myPoints->Reserve(m_NumNodes);
 
     myLocations->Reserve(m_NumNodes);
     locations = myLocations->Begin();
 
-	myPointData->Reserve(m_NumNodes);
-	pointdata = myPointData->Begin();
+  myPointData->Reserve(m_NumNodes);
+  pointdata = myPointData->Begin();
 
-	myDisplacements->Reserve(m_NumNodes);
+  myDisplacements->Reserve(m_NumNodes);
     displacements = myDisplacements->Begin();
 
     myNormals->Reserve(m_NumNodes);
     normals = myNormals->Begin();
 
-	InputPointsContainerPointer   	myDerives = m_Derives->GetPoints();
+  InputPointsContainerPointer     myDerives = m_Derives->GetPoints();
     myDerives->Reserve(m_NumNodes);
-    InputPointsContainerIterator	derives = myDerives->Begin();
+    InputPointsContainerIterator  derives = myDerives->Begin();
 
-    InputCellsContainerPointer		myCells = m_Locations->GetCells();
-	myCells->Reserve(m_NumCells);
-    InputCellsContainerIterator		cells = myCells->Begin(); 
+    InputCellsContainerPointer    myCells = m_Locations->GetCells();
+  myCells->Reserve(m_NumCells);
+    InputCellsContainerIterator   cells = myCells->Begin(); 
   
-    InputCellDataContainerPointer	myCellData = m_Locations->GetCellData();
-	myCellData->Reserve(m_NumCells);
-    InputCellDataContainerIterator	celldata = myCellData->Begin();
-	
-	for (j = 0; j < m_Resolution[0]; j++) length[j] = length[j]*0.5;
+    InputCellDataContainerPointer myCellData = m_Locations->GetCellData();
+  myCellData->Reserve(m_NumCells);
+    InputCellDataContainerIterator  celldata = myCellData->Begin();
+  
+  for (j = 0; j < m_Resolution[0]; j++) length[j] = length[j]*0.5;
   }
 
   forces = myForces->Begin();
 /*
   for (j = 0; j < m_Resolution[0]; j++) {
     k = 1;
-	i = 0;
-	l1 = 0;
-	v1 = forces.Value();
-	normals.Value() = v1;
-	++normals;
-	v3 = forces.Value();
-	while ( i < m_Resolution[1] - 1 ) {
-	  v1 = forces.Value();
-	  ++forces;
-	  v2 = forces.Value();
-	  dis = sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1])+(v1[2]-v2[2])*(v1[2]-v2[2]));
-	  l2 = -1*l1;
-	  l1 += dis;
-//	  m_Displacements->GetPointData(i+j*m_Resolution[1], d_ptr);
-	  while ( l1 > length[j] ) {
-	    if (k==m_Resolution[1]*new_node) break;
-		s[0] = v1[0] + (length[j]+l2)*(v2[0] - v1[0])/dis;
-		s[1] = v1[1] + (length[j]+l2)*(v2[1] - v1[1])/dis;
-		s[2] = v1[2] + (length[j]+l2)*(v2[2] - v1[2])/dis;
-		normals.Value() = s;
-		++normals;
-		k++;
-		l2 += length[j];
-		l1 -= length[j];
-	  }
-	  i++;
-	  if (k==m_Resolution[1]*new_node) break;
-	}
+  i = 0;
+  l1 = 0;
+  v1 = forces.Value();
+  normals.Value() = v1;
+  ++normals;
+  v3 = forces.Value();
+  while ( i < m_Resolution[1] - 1 ) {
+    v1 = forces.Value();
+    ++forces;
+    v2 = forces.Value();
+    dis = sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1])+(v1[2]-v2[2])*(v1[2]-v2[2]));
+    l2 = -1*l1;
+    l1 += dis;
+//    m_Displacements->GetPointData(i+j*m_Resolution[1], d_ptr);
+    while ( l1 > length[j] ) {
+      if (k==m_Resolution[1]*new_node) break;
+    s[0] = v1[0] + (length[j]+l2)*(v2[0] - v1[0])/dis;
+    s[1] = v1[1] + (length[j]+l2)*(v2[1] - v1[1])/dis;
+    s[2] = v1[2] + (length[j]+l2)*(v2[2] - v1[2])/dis;
+    normals.Value() = s;
+    ++normals;
+    k++;
+    l2 += length[j];
+    l1 -= length[j];
+    }
+    i++;
+    if (k==m_Resolution[1]*new_node) break;
+  }
 
-	if (k==m_Resolution[1]*new_node) {
-	  while (i < m_Resolution[1]) {
-		i++;
-		++forces;
-	  }
+  if (k==m_Resolution[1]*new_node) {
+    while (i < m_Resolution[1]) {
+    i++;
+    ++forces;
+    }
       continue;
-	}
+  }
 
-	v1 = forces.Value();
-	++forces;
-	dis = sqrt((v1[0]-v3[0])*(v1[0]-v3[0])+(v1[1]-v3[1])*(v1[1]-v3[1])+(v1[2]-v3[2])*(v1[2]-v3[2]));
-	l2 = -1*l1;
-	l1 += dis;
-//	m_Displacements->GetPointData(i+j*m_Resolution[1], d_ptr);
-	while ( l1 > length[j] ) {
-	  if (k==m_Resolution[1]*new_node) break;
-	  s[0] = v1[0] + (length[j]+l2)*(v3[0] - v1[0])/dis;
-	  s[1] = v1[1] + (length[j]+l2)*(v3[1] - v1[1])/dis;
-	  s[2] = v1[2] + (length[j]+l2)*(v3[2] - v1[2])/dis;
-	  normals.Value() = s;
-	  ++normals;
-	  k++;
-	  l2 += length[j]/d;
-	  l1 -= length[j]/d;
-	}
+  v1 = forces.Value();
+  ++forces;
+  dis = sqrt((v1[0]-v3[0])*(v1[0]-v3[0])+(v1[1]-v3[1])*(v1[1]-v3[1])+(v1[2]-v3[2])*(v1[2]-v3[2]));
+  l2 = -1*l1;
+  l1 += dis;
+//  m_Displacements->GetPointData(i+j*m_Resolution[1], d_ptr);
+  while ( l1 > length[j] ) {
+    if (k==m_Resolution[1]*new_node) break;
+    s[0] = v1[0] + (length[j]+l2)*(v3[0] - v1[0])/dis;
+    s[1] = v1[1] + (length[j]+l2)*(v3[1] - v1[1])/dis;
+    s[2] = v1[2] + (length[j]+l2)*(v3[2] - v1[2])/dis;
+    normals.Value() = s;
+    ++normals;
+    k++;
+    l2 += length[j]/d;
+    l1 -= length[j]/d;
+  }
 
   }
 */
@@ -1909,64 +1909,64 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
   i = 0;
   while ( i < m_NumNodes-2 ) {
-//	v1 = normals.Value();
-	v1 = forces.Value();
-	v2 = locations.Value();
-	v3 = displacements.Value();
-	v3[0] += v1[0] - v2[0];
-	v3[1] += v1[1] - v2[1];
-	v3[2] += v1[2] - v2[2];
-	locations.Value() = v1;
-	displacements.Value() = v3;
-//	++normals;
-	++forces;
-	++locations;
-	++displacements;
-	i++;
+//  v1 = normals.Value();
+  v1 = forces.Value();
+  v2 = locations.Value();
+  v3 = displacements.Value();
+  v3[0] += v1[0] - v2[0];
+  v3[1] += v1[1] - v2[1];
+  v3[2] += v1[2] - v2[2];
+  locations.Value() = v1;
+  displacements.Value() = v3;
+//  ++normals;
+  ++forces;
+  ++locations;
+  ++displacements;
+  i++;
   }
 
   if ( m_NewNode ) {
     m_Resolution[1] = m_Resolution[1]*2;
     locations.Value() = v_southpole;
-	++locations;
-	locations.Value() = v_northpole;
-	
-	v3[0] = 0;
-	v3[1] = 0;
-	v3[2] = 0;
-	i = 0;
-	while ( i < m_NumNodes ) {
-	  displacements.Value() = v3;
-	  ++displacements;
-	  i++;
-	}
+  ++locations;
+  locations.Value() = v_northpole;
+  
+  v3[0] = 0;
+  v3[1] = 0;
+  v3[2] = 0;
+  i = 0;
+  while ( i < m_NumNodes ) {
+    displacements.Value() = v3;
+    ++displacements;
+    i++;
+  }
 
-	myForces->Reserve(m_NumNodes);
+  myForces->Reserve(m_NumNodes);
     for (int i=0; i<m_NumNodes; i++) {
-	  m_Locations->SetPointData(i, 0);
-	  m_Forces->SetPointData(i, 0);
-	}
-	m_NewNode = FALSE;
-	Reset();
-	SetStiffnessMatrix();
+    m_Locations->SetPointData(i, 0);
+    m_Forces->SetPointData(i, 0);
+  }
+  m_NewNode = FALSE;
+  Reset();
+  SetStiffnessMatrix();
   }
 
 /*
   locations = myLocations->Begin();
   j = 0;
   for (; j < m_Resolution[0]; j++) {
-	dis = 0;
-	i = 0;
-	s = locations.Value();
-	while ( i < m_Resolution[1] - 1 ) {
+  dis = 0;
+  i = 0;
+  s = locations.Value();
+  while ( i < m_Resolution[1] - 1 ) {
       v1 = locations.Value();
-	  ++locations;
+    ++locations;
       v2 = locations.Value();
-	  dis = sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1])+(v1[2]-v2[2])*(v1[2]-v2[2]));
-	  i++;
-	}
-	dis = sqrt((s[0]-v2[0])*(s[0]-v2[0])+(s[1]-v2[1])*(s[1]-v2[1])+(s[2]-v2[2])*(s[2]-v2[2]));
-	++locations;
+    dis = sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1])+(v1[2]-v2[2])*(v1[2]-v2[2]));
+    i++;
+  }
+  dis = sqrt((s[0]-v2[0])*(s[0]-v2[0])+(s[1]-v2[1])*(s[1]-v2[1])+(s[2]-v2[2])*(s[2]-v2[2]));
+  ++locations;
   }
 */
   free(length);
@@ -1983,142 +1983,142 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   m_ACD = (int**) malloc(sizeof(int *)*m_imgHeight/2);
 
   for (i=0; i<m_imgHeight/2; i++) {
-	m_ACD[i] = (int*) malloc(sizeof(int)*m_imgWidth/2);
+  m_ACD[i] = (int*) malloc(sizeof(int)*m_imgWidth/2);
   }
   
   InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
-  InputPointsContainerIterator	locations = myLocations->Begin();
-  InputPointsContainerIterator	locationscopy;
-  InputPointsContainerIterator	locationscopy1;
+  InputPointsContainerIterator  locations = myLocations->Begin();
+  InputPointsContainerIterator  locationscopy;
+  InputPointsContainerIterator  locationscopy1;
   InputPointsContainerPointer   myDisplacements = m_Displacements->GetPoints();
-  InputPointsContainerIterator	displacements = myDisplacements->Begin();
-  InputPointsContainerIterator	dpcopy;
-  InputPointsContainerIterator	dpcopy1;
+  InputPointsContainerIterator  displacements = myDisplacements->Begin();
+  InputPointsContainerIterator  dpcopy;
+  InputPointsContainerIterator  dpcopy1;
 
   for (j = 0; j < m_Resolution[0]; j++) {
-	i = 0;
-	locationscopy = locations;
-	dpcopy = displacements;
+  i = 0;
+  locationscopy = locations;
+  dpcopy = displacements;
 
-	for (l=m_ModelYDownLimit/2; l<=m_ModelYUpLimit/2; l++) 
-	  for (m=m_ModelXDownLimit/2; m<=m_ModelXUpLimit/2; m++)
-		m_ACD[l][m] = -1;
+  for (l=m_ModelYDownLimit/2; l<=m_ModelYUpLimit/2; l++) 
+    for (m=m_ModelXDownLimit/2; m<=m_ModelXUpLimit/2; m++)
+    m_ACD[l][m] = -1;
 
-	for (; i < m_Resolution[1]; i++) {
-	  v = locations.Value();
-	  ++locations;
-	  ++displacements;
-	  l = (int)(v[0]/2);
-	  m = (int)(v[1]/2);
-	  if (m_ACD[m][l] == -1) m_ACD[m][l] = i;
-	  else {
-		if (((i - m_ACD[m][l]) > m_Resolution[1]/10) && 
-			((m_Resolution[1]-i+m_ACD[m][l])>m_Resolution[1]/10)) {
-		  locationscopy1 = locationscopy;
-		  n = 0;
-		  v1[0] = 0;
-		  v1[1] = 0;
-		  v1[2] = 0;
-		  if ( (i - m_ACD[m][l]) < 0.5*m_Resolution[1] ) {
-			if (m_ACD[m][l] == 0) pt1 = m_Resolution[1] - 1;
-			else pt1 = m_ACD[m][l] - 1;
-			if (i == m_Resolution[1] - 1) pt2 = 0;
-			else pt2 = i + 1;
-			while (n<m_Resolution[1]) {
-			  v = locationscopy1.Value();
-			  if ((n>m_ACD[m][l]) && (n<i)) {
-				v1[0] += v[0];
-				v1[1] += v[1];
-			  } else {
-				if ( n == pt1) v2 = locationscopy1.Value();
-				if ( n == pt2 ) v3 = locationscopy1.Value();
-			  }
-			  ++locationscopy1;
-			  n++;
-			}
-			v1[0] = v1[0]/(i-m_ACD[m][l]-1);
-			v1[1] = v1[1]/(i-m_ACD[m][l]-1);
-			s = 1;
-			if (s > 0) {
-			  locationscopy1 = locationscopy;
-			  dpcopy1 = dpcopy;
-			  n = 0;
-			  while (n<m_Resolution[1]) {
-				if ((n>m_ACD[m][l]) && (n<i)) {
-				  v1 = locationscopy1.Value();
-				  locationscopy1.Value() = v;
-				  v2 = dpcopy1.Value();
-				  v2[0] += v[0] - v1[0];
-				  v2[1] += v[1] - v1[1];
-				  v2[2] += v[2] - v1[2];
-				  dpcopy1.Value() = v2;
-				} 
-			    if ( n == m_ACD[m][l] ) {
-				  v = locationscopy1.Value();
-				}
-				++locationscopy1;
-				++dpcopy1;
-				n++;
-			  }
-			}
-		  } else {
-		    while (n<m_Resolution[1]) {
-			  pt1 = m_ACD[m][l] + 1;
-			  pt2 = i - 1;
-			  v = locationscopy1.Value();
-			  if ((n<m_ACD[m][l]) && (n>i)) {
-				v1[0] += v[0];
-				v1[1] += v[1];
-			  } else{
-				if ( n == pt1 ) v2 = locationscopy1.Value();
-				if ( n == pt2 ) v3 = locationscopy1.Value();
-			  }
-			  ++locationscopy1;
-			  n++;
-			}
-			v1[0] = v1[0]/(i-m_ACD[m][l]-1);
-			v1[1] = v1[1]/(i-m_ACD[m][l]-1);
-			s = -1;
-			if (s < 0) {
-			  locationscopy1 = locationscopy;
-			  dpcopy1 = dpcopy;
-			  n = 0;
-			  while (n<m_Resolution[1]) {
-			    if ( n == i ) {
-				  v = locationscopy1.Value();
-				}
-			    ++locationscopy1;
-			    n++;
-			  }
-			  locationscopy1 = locationscopy;
-			  n = 0;
-			  while (n<m_Resolution[1]) {
-				if ((n<m_ACD[m][l]) && (n>i)) {
-				  v1 = locationscopy1.Value();
-				  locationscopy1.Value() = v;
-				  v2 = dpcopy1.Value();
-				  v2[0] += v[0] - v1[0];
-				  v2[1] += v[1] - v1[1];
-				  v2[2] += v[2] - v1[2];
-				  dpcopy1.Value() = v2;
-				}
-				++locationscopy1;
-				++dpcopy1;
-				n++;
-			  }
-			}
-		  }
-		  
-		  m_ModelRestart = 1;
-		  break;
-	    }
-	  }
-	}
-  }	
+  for (; i < m_Resolution[1]; i++) {
+    v = locations.Value();
+    ++locations;
+    ++displacements;
+    l = (int)(v[0]/2);
+    m = (int)(v[1]/2);
+    if (m_ACD[m][l] == -1) m_ACD[m][l] = i;
+    else {
+    if (((i - m_ACD[m][l]) > m_Resolution[1]/10) && 
+      ((m_Resolution[1]-i+m_ACD[m][l])>m_Resolution[1]/10)) {
+      locationscopy1 = locationscopy;
+      n = 0;
+      v1[0] = 0;
+      v1[1] = 0;
+      v1[2] = 0;
+      if ( (i - m_ACD[m][l]) < 0.5*m_Resolution[1] ) {
+      if (m_ACD[m][l] == 0) pt1 = m_Resolution[1] - 1;
+      else pt1 = m_ACD[m][l] - 1;
+      if (i == m_Resolution[1] - 1) pt2 = 0;
+      else pt2 = i + 1;
+      while (n<m_Resolution[1]) {
+        v = locationscopy1.Value();
+        if ((n>m_ACD[m][l]) && (n<i)) {
+        v1[0] += v[0];
+        v1[1] += v[1];
+        } else {
+        if ( n == pt1) v2 = locationscopy1.Value();
+        if ( n == pt2 ) v3 = locationscopy1.Value();
+        }
+        ++locationscopy1;
+        n++;
+      }
+      v1[0] = v1[0]/(i-m_ACD[m][l]-1);
+      v1[1] = v1[1]/(i-m_ACD[m][l]-1);
+      s = 1;
+      if (s > 0) {
+        locationscopy1 = locationscopy;
+        dpcopy1 = dpcopy;
+        n = 0;
+        while (n<m_Resolution[1]) {
+        if ((n>m_ACD[m][l]) && (n<i)) {
+          v1 = locationscopy1.Value();
+          locationscopy1.Value() = v;
+          v2 = dpcopy1.Value();
+          v2[0] += v[0] - v1[0];
+          v2[1] += v[1] - v1[1];
+          v2[2] += v[2] - v1[2];
+          dpcopy1.Value() = v2;
+        } 
+          if ( n == m_ACD[m][l] ) {
+          v = locationscopy1.Value();
+        }
+        ++locationscopy1;
+        ++dpcopy1;
+        n++;
+        }
+      }
+      } else {
+        while (n<m_Resolution[1]) {
+        pt1 = m_ACD[m][l] + 1;
+        pt2 = i - 1;
+        v = locationscopy1.Value();
+        if ((n<m_ACD[m][l]) && (n>i)) {
+        v1[0] += v[0];
+        v1[1] += v[1];
+        } else{
+        if ( n == pt1 ) v2 = locationscopy1.Value();
+        if ( n == pt2 ) v3 = locationscopy1.Value();
+        }
+        ++locationscopy1;
+        n++;
+      }
+      v1[0] = v1[0]/(i-m_ACD[m][l]-1);
+      v1[1] = v1[1]/(i-m_ACD[m][l]-1);
+      s = -1;
+      if (s < 0) {
+        locationscopy1 = locationscopy;
+        dpcopy1 = dpcopy;
+        n = 0;
+        while (n<m_Resolution[1]) {
+          if ( n == i ) {
+          v = locationscopy1.Value();
+        }
+          ++locationscopy1;
+          n++;
+        }
+        locationscopy1 = locationscopy;
+        n = 0;
+        while (n<m_Resolution[1]) {
+        if ((n<m_ACD[m][l]) && (n>i)) {
+          v1 = locationscopy1.Value();
+          locationscopy1.Value() = v;
+          v2 = dpcopy1.Value();
+          v2[0] += v[0] - v1[0];
+          v2[1] += v[1] - v1[1];
+          v2[2] += v[2] - v1[2];
+          dpcopy1.Value() = v2;
+        }
+        ++locationscopy1;
+        ++dpcopy1;
+        n++;
+        }
+      }
+      }
+      
+      m_ModelRestart = 1;
+      break;
+      }
+    }
+  }
+  } 
 
   m_ModelRestart = 0;
   for (i=0; i<m_imgHeight/2; i++) {
-	free(m_ACD[i]);
+  free(m_ACD[i]);
   }
   free(m_ACD);
   

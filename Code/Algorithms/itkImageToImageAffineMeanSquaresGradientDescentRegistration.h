@@ -84,7 +84,7 @@ public:
    */
    typedef AffineTransform< double, ImageDimension > TransformationType;
 
-	/**
+  /**
    *  Type of the parameters
    */
    typedef typename TransformationType::ParametersType  ParametersType;
@@ -187,7 +187,7 @@ public:
    *  Type of the Transformation
    */
    typedef typename Superclass::TransformationType TransformationType;
-	 
+   
    
   /**
    *  Type of the Mapper

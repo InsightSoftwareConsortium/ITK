@@ -10,7 +10,7 @@ namespace itk
  * Constructor
  */
 template <class TInputImage, class TOutputImage, 
-	class TInputMesh, class TOutputMesh>
+  class TInputMesh, class TOutputMesh>
 HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
 ::HybridFilter()
 {
@@ -23,10 +23,10 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
  * Set the balloon force filter
  */
 template <class TInputImage, class TOutputImage, 
-	class TInputMesh, class TOutputMesh>
+  class TInputMesh, class TOutputMesh>
 void
 HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
-::SetBalloonForceFilter( BalloonForceFilterPointer	bffilter )
+::SetBalloonForceFilter( BalloonForceFilterPointer  bffilter )
 {
   m_BalloonForceFilter = bffilter;
 }
@@ -35,10 +35,10 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
  * Set the gibbs prior filter
  */
 template <class TInputImage, class TOutputImage, 
-	class TInputMesh, class TOutputMesh>
+  class TInputMesh, class TOutputMesh>
 void
 HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
-::SetGibbsPriorFilter( GibbsPriorFilterPointer	gpfilter )
+::SetGibbsPriorFilter( GibbsPriorFilterPointer  gpfilter )
 {
   m_GibbsPriorFilter = gpfilter;
 }
@@ -47,7 +47,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
  * Set the gibbs prior filter input
  */
 template <class TInputImage, class TOutputImage, 
-	class TInputMesh, class TOutputMesh>
+  class TInputMesh, class TOutputMesh>
 void
 HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
 ::SetGibbsInput()
@@ -60,7 +60,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
  * Send balloon force filter a new potential from the gibbs prior model
  */
 template <class TInputImage, class TOutputImage, 
-	class TInputMesh, class TOutputMesh>
+  class TInputMesh, class TOutputMesh>
 void
 HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
 ::SetPotential( void )
@@ -72,7 +72,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
  * Send balloon force filter a new potential from the gibbs prior model
  */
 template <class TInputImage, class TOutputImage, 
-	class TInputMesh, class TOutputMesh>
+  class TInputMesh, class TOutputMesh>
 void
 HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
 ::SetObjectRegion( void )
@@ -84,7 +84,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
  * One iteration of gibbs prior model and the deformable model
  */
 template <class TInputImage, class TOutputImage, 
-	class TInputMesh, class TOutputMesh>
+  class TInputMesh, class TOutputMesh>
 void
 HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
 ::Advance( void )
@@ -99,7 +99,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
  * Compute the output image
  */
 template <class TInputImage, class TOutputImage, 
-	class TInputMesh, class TOutputMesh>
+  class TInputMesh, class TOutputMesh>
 void
 HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
 ::GenerateData()
@@ -109,7 +109,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
 
   const typename TInputImage::Pointer   inputImage(    GetInput()   );
         typename TOutputImage::Pointer  outputImage(   GetOutput()  );
-        typename TOutputImage::Pointer	outputGp = m_GibbsPriorFilter->GetOutput();
+        typename TOutputImage::Pointer  outputGp = m_GibbsPriorFilter->GetOutput();
 
   outputImage->SetLargestPossibleRegion( 
       inputImage->GetLargestPossibleRegion() );
@@ -122,7 +122,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
 
   outputImage->Allocate();
   OutputImageIterator outit(outputImage,
-	  inputImage->GetRequestedRegion());
+    inputImage->GetRequestedRegion());
 
   while (m_IterNum != 5) 
     {

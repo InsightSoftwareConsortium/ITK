@@ -126,7 +126,7 @@ public:
    */
   itkSetMacro(MeanTolerance, double);
 
-	/**
+  /**
    * Get the Tolearance of Mean for classifying the regions
    */
   itkGetMacro(MeanTolerance, double);
@@ -136,11 +136,11 @@ public:
    */
   itkSetMacro(VarTolerance, double);
 
-	/**
+  /**
    * Get the Tolearance of Variance for classifying the regions
    */
   itkGetMacro(VarTolerance, double);
-	
+  
   itkGetMacro(MeanPercentError, double);
   itkGetMacro(VarPercentError, double);
 
