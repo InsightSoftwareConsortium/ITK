@@ -92,6 +92,7 @@ ADD_TEST(itkOtsuThresholdImageCalculatorTest ${ALGORITHMS_TESTS} itkOtsuThreshol
 ADD_TEST(itkOrthogonalSwath2DPathFilterTest ${ALGORITHMS_TESTS} itkOrthogonalSwath2DPathFilterTest)
 ADD_TEST(itkMeanReciprocalSquareDifferenceImageMetricTest ${ALGORITHMS_TESTS}  itkMeanReciprocalSquareDifferenceImageMetricTest)
 ADD_TEST(itkPointSetToImageRegistrationTest_1 ${ALGORITHMS_TESTS}  itkPointSetToImageRegistrationTest_1)
+ADD_TEST(itkPointSetToPointSetRegistrationTest ${ALGORITHMS_TESTS}  itkPointSetToPointSetRegistrationTest)
 ADD_TEST(itkRegionGrow2DTest ${ALGORITHMS_TESTS} itkRegionGrow2DTest)
 ADD_TEST(itkReinitializeLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkReinitializeLevelSetImageFilterTest)
 ADD_TEST(itkShapeDetectionLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkShapeDetectionLevelSetImageFilterTest)
@@ -217,6 +218,7 @@ itkAlgorithmsPrintTest.cxx
 itkAlgorithmsPrintTest2.cxx
 itkAlgorithmsPrintTest3.cxx
 itkMIRegistrationFunctionTest.cxx
+itkPointSetToPointSetRegistrationTest.cxx
 itkVectorFuzzyConnectednessImageFilterTest.cxx
 itkVoronoiDiagram2DTest.cxx
 itkVoronoiPartitioningImageFilterTest.cxx
