@@ -17,7 +17,9 @@
 #ifndef __itkTobogganImageFilter_h
 #define __itkTobogganImageFilter_h
 
-#include "itkMorphologyImageFilter.h"
+#include "itkImageToImageFilter.h"
+#include "itkConstNeighborhoodIterator.h"
+#include "itkConstSmartNeighborhoodIterator.h"
 
 namespace itk {
 

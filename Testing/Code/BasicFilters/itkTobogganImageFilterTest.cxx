@@ -14,7 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include <fstream>
 #include "itkTobogganImageFilter.h"
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkGradientMagnitudeImageFilter.h"
@@ -51,20 +50,23 @@ int itkTobogganImageFilterTest(int ac, char** av)
   input->SetFileName(av[1]);
   
   // Create a pipeline
+  typedef itk::CastImageFilter<FloatImageType, LongImageType> InCastType;
   typedef itk::RecursiveGaussianImageFilter<InputImageType,FloatImageType> GaussianFilterType;
   typedef itk::GradientMagnitudeImageFilter<FloatImageType,FloatImageType> GradientMagnitudeFilterType;
-  typedef itk::TobogganImageFilter<FloatImageType> FilterType;
+  typedef itk::TobogganImageFilter<LongImageType> FilterType;
   typedef itk::CastImageFilter<LongImageType, OutputImageType> CastType;
   
   FilterType::Pointer toboggan = FilterType::New();
   GaussianFilterType::Pointer gaussian = GaussianFilterType::New();
   GradientMagnitudeFilterType::Pointer magnitude = GradientMagnitudeFilterType::New();
   CastType::Pointer cast = CastType::New();
+  InCastType::Pointer incast = InCastType::New();
 
   gaussian->SetInput ( input->GetOutput() );
   gaussian->SetSigma ( 1.5 );
   magnitude->SetInput ( gaussian->GetOutput() );
-  toboggan->SetInput ( magnitude->GetOutput() );
+  incast->SetInput ( magnitude->GetOutput() );
+  toboggan->SetInput ( incast->GetOutput() );
   cast->SetInput ( toboggan->GetOutput() );
   try
     {
@@ -118,6 +120,10 @@ int itkTobogganImageFilterTest(int ac, char** av)
       } 
     ++it;
     ++rit;  
+    }
+  if ( status )
+    {
+    std::cerr << "Found " << status << " pixels different" << std::endl;
     }
   return status;
 }
