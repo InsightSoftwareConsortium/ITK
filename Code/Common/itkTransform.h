@@ -156,7 +156,7 @@ public:
 
 
   /** Return the number of parameters that completely define the Transfom  */
-  unsigned int GetNumberOfParameters(void) const 
+  unsigned int virtual GetNumberOfParameters(void) const 
                       { return m_Parameters.Size(); }
 
 
