@@ -21,6 +21,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include <iostream>
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
+#include <complex>
 #include "vnl/algo/vnl_fft_1d.h"
 #include "vnl/algo/vnl_fft_2d.h"
 #include "vnl_fft_3d.h"
@@ -150,7 +151,7 @@ namespace itk
         v1d.bwd_transform(signal);
         for(i = 0; i < vec_size; i++)
           {
-          out[i] = std::real<TPixel>(signal[i]) / vec_size;
+          out[i] = signal[i].real() / vec_size;
           }
         }
         break;
@@ -163,7 +164,7 @@ namespace itk
           unsigned int yOffset = i * outputSize[0];
           for(j = 0; j < outputSize[0]; j++)
             {
-            out[yOffset + j] = std::real<TPixel>(signal[yOffset + j]) / vec_size;
+            out[yOffset + j] = signal[yOffset + j].real() / vec_size;
             }
           }
         }
@@ -181,7 +182,7 @@ namespace itk
             for(k = 0; k < outputSize[0]; k++)
               {
               out[k + outYStride + outZStride] =
-                std::real<TPixel>(signal[k + outYStride + outZStride]) / vec_size;
+               signal[k + outYStride + outZStride].real() / vec_size;
               }
             }
           }
