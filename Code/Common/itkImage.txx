@@ -102,48 +102,10 @@ Image<TPixel, VImageDimension>
 template<class TPixel, unsigned int VImageDimension>
 void 
 Image<TPixel, VImageDimension>
-::SetSpacing(const SpacingType& spacing )
-{
-  unsigned int i; 
-  for (i=0; i<VImageDimension; i++)
-    {
-    if ( spacing[i] != m_Spacing[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < VImageDimension ) 
-    { 
-    for (i=0; i<VImageDimension; i++)
-      {
-      m_Spacing[i] = spacing[i];
-      }
-    this->Modified();
-    }
-}
-
-//----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-void 
-Image<TPixel, VImageDimension>
 ::SetSpacing(const double spacing[VImageDimension] )
 {
-  unsigned int i; 
-  for (i=0; i<VImageDimension; i++)
-    {
-    if ( spacing[i] != m_Spacing[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < VImageDimension ) 
-    { 
-    for (i=0; i<VImageDimension; i++)
-      {
-      m_Spacing[i] = spacing[i];
-      }
-    this->Modified();
-    }
+  SpacingType s(spacing);
+  this->SetSpacing(s);
 }
 
 
@@ -153,50 +115,11 @@ void
 Image<TPixel, VImageDimension>
 ::SetSpacing(const float spacing[VImageDimension] )
 {
-  unsigned int i; 
-  for (i=0; i<VImageDimension; i++)
-    {
-    if ( (double)spacing[i] != m_Spacing[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < VImageDimension ) 
-    { 
-    for (i=0; i<VImageDimension; i++)
-      {
-      m_Spacing[i] = spacing[i];
-      }
-    this->Modified();
-    }
+  Vector<float, VImageDimension> sf(spacing);
+  SpacingType s;
+  s.CastFrom( sf );
+  this->SetSpacing(s);
 }
-
-
-
-//----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-void 
-Image<TPixel, VImageDimension>
-::SetOrigin(const PointType& origin )
-{
-  unsigned int i; 
-  for (i=0; i<VImageDimension; i++)
-    {
-    if ( origin[i] != m_Origin[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < VImageDimension ) 
-    { 
-    for (i=0; i<VImageDimension; i++)
-      {
-      m_Origin[i] = origin[i];
-      }
-    this->Modified();
-    }
-}
-
 
 //----------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension>
@@ -204,22 +127,8 @@ void
 Image<TPixel, VImageDimension>
 ::SetOrigin(const double origin[VImageDimension] )
 {
-  unsigned int i; 
-  for (i=0; i<VImageDimension; i++)
-    {
-    if ( origin[i] != m_Origin[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < VImageDimension ) 
-    { 
-    for (i=0; i<VImageDimension; i++)
-      {
-      m_Origin[i] = origin[i];
-      }
-    this->Modified();
-    }
+  PointType p(origin);
+  this->SetOrigin( p );
 }
 
 
@@ -229,22 +138,10 @@ void
 Image<TPixel, VImageDimension>
 ::SetOrigin(const float origin[VImageDimension] )
 {
-  unsigned int i; 
-  for (i=0; i<VImageDimension; i++)
-    {
-    if ( (double)origin[i] != m_Origin[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < VImageDimension ) 
-    { 
-    for (i=0; i<VImageDimension; i++)
-      {
-      m_Origin[i] = origin[i];
-      }
-    this->Modified();
-    }
+  Point<float, VImageDimension> of(origin);
+  PointType p;
+  p.CastFrom( of );
+  this->SetOrigin( p );
 }
 
 

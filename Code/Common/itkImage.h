@@ -247,7 +247,7 @@ public:
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
-  virtual void SetSpacing( const SpacingType& spacing );
+  itkSetMacro(Spacing, SpacingType);
   virtual void SetSpacing( const double spacing[VImageDimension] );
   virtual void SetSpacing( const float spacing[VImageDimension] );
 
@@ -255,7 +255,7 @@ public:
    * coordinates of the image origin.  It is stored internally
    * as double but may be set from float.
    * \sa GetOrigin() */
-  virtual void SetOrigin( const PointType& origin );
+  itkSetMacro(Origin, PointType);
   virtual void SetOrigin( const double origin[VImageDimension] );
   virtual void SetOrigin( const float origin[VImageDimension] );
 

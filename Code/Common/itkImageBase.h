@@ -112,7 +112,7 @@ public:
 
   /** Spacing typedef support.  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. */
-  typedef FixedArray<double, VImageDimension> SpacingType;
+  typedef Vector<double, VImageDimension> SpacingType;
 
   /** Origin typedef support.  The origin is the geometric coordinates
    * of the index (0,0). */
@@ -129,13 +129,13 @@ public:
    * spacing is the geometric distance between image samples.
    * The value returned is a pointer to a double array.
    * For ImageBase and Image, the default data spacing is unity. */
-  virtual const SpacingType& GetSpacing() const;
+  itkGetConstReferenceMacro(Spacing, SpacingType);
 
   /** Get the origin of the image. The origin is the geometric
    * coordinates of the index (0,0).  The value returned is a pointer
    * to a double array.  For ImageBase and Image, the default origin is 
    * 0. */
-  virtual const PointType& GetOrigin() const;
+  itkGetConstReferenceMacro(Origin, PointType);
 
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
@@ -296,7 +296,8 @@ protected:
   void ComputeOffsetTable();
 
 protected:
-  /** Origin and spacing of physical coordinates. */
+  /** Origin and spacing of physical coordinates. Protected so
+   * subclasses can access directly. */
   SpacingType  m_Spacing;
   PointType   m_Origin;
 private:

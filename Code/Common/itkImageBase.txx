@@ -72,29 +72,6 @@ ImageBase<VImageDimension>
 }
 
 
-/**
- *
- */
-template<unsigned int VImageDimension>
-const typename ImageBase<VImageDimension>::SpacingType&
-ImageBase<VImageDimension>
-::GetSpacing() const
-{
-  return m_Spacing;
-}
-
-
-/**
- *
- */
-template<unsigned int VImageDimension>
-const typename ImageBase<VImageDimension>::PointType& 
-ImageBase<VImageDimension>
-::GetOrigin() const
-{
-  return m_Origin;
-}
-
 
 //----------------------------------------------------------------------------
 template<unsigned int VImageDimension>
