@@ -250,7 +250,7 @@ public:
   typedef MultivariateLegendrePolynomial                  BiasFieldType;
 
   /** Energy function type defintion. */
-  typedef MRIBiasEnergyFunction<TInputImage, ImageMaskType, BiasFieldType> 
+  typedef MRIBiasEnergyFunction<InternalImageType, ImageMaskType, BiasFieldType> 
                                                           EnergyFunctionType;
   typedef typename EnergyFunctionType::Pointer            EnergyFunctionPointer;
 
