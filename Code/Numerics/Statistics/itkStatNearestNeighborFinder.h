@@ -16,7 +16,7 @@
 #define __itkStatNearestNeighborFinder_h
 
 #include "itkLightProcessObject.h"
-#include "itkStatDistance.h"
+#include "itkStatDistanceFunctions.h"
 
 namespace itk {
   /**
