@@ -85,7 +85,7 @@
         <tr><td colspan="9" valign="center"><h3>Experimental Builds</h3></td></tr>
           <xsl:call-template name="BuildTableHeader"/>
           <xsl:for-each select="BuildStamp">
-            <xsl:sort select="Build/BuildStamp" order="ascending"/>
+            <xsl:sort select="Build/BuildStamp" order="descending"/>
             <xsl:sort select="Build/SiteName"/>
             <xsl:sort select="Build/BuildName"/>
             <xsl:if test="not ( contains(Build/BuildStamp,'Nightly') or contains(Testing/BuildStamp,'Nightly') ) and count(Build/SiteName | Testing/Sitename)">
