@@ -249,9 +249,9 @@ SpatialObjectPoint< TPointDimension >
   os << m_Color.GetBlue() << " ";
   os << m_Color.GetAlpha() << std::endl;
   os << indent << "Position: ";
-  for(unsigned int i=0;i<m_NumDimensions-1;i++)
+  for(unsigned int i=1;i<m_NumDimensions;i++)
   {
-    os << m_X[i] << "," ;
+    os << m_X[i-1] << "," ;
   }
   os <<  m_X[m_NumDimensions-1] << std::endl;
 }
