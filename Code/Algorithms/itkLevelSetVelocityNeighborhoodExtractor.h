@@ -93,11 +93,11 @@ public:
   itkTypeMacro(LevelSetVelocityNeighborhoodExtractor, 
                LevelSetNeighborhoodExtractor);
 
-  /** The dimension of the level set. */
-  enum { SetDimension = LevelSetType::SetDimension};
-
   /** The type of the level set. */
   typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
+
+  /** The dimension of the level set. */
+  enum { SetDimension = LevelSetType::SetDimension};
 
   /** Index typedef support */
   typedef Index<SetDimension> Index;
