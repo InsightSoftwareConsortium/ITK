@@ -42,7 +42,8 @@ set UpdateCommand "$cvs update -d -P -A"
 
 if { $DateStamp != "" } \
 {
-  set UpdateCommand "$UpdateCommand -D \"$Year-$Month-$Day 23:00 GMT\""
+  # For the moment, just get latest source
+  # set UpdateCommand "$UpdateCommand -D \"$Year-$Month-$Day 23:00 GMT\""
 }
   
 set UpdateStatus [catch { eval exec $UpdateCommand >& update.tmp } result]
