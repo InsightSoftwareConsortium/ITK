@@ -25,8 +25,6 @@
 
 #include "itkNonUniformBSpline.h" 
 
-#include "itkSingleValuedCostFunction.h"
-
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
@@ -393,5 +391,5 @@ NonUniformBSpline< TDimension >
 
 } // end namespace itk 
 
-#endif // end __itkTubeSpatialObject_txx
+#endif
 
