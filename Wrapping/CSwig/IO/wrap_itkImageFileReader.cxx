@@ -18,16 +18,20 @@
 #include "itkImage.h"
 
 #ifdef CABLE_CONFIGURATION
-#include "wrap_ITKIO.h"
+#include "itkCSwigMacros.h"
+#include "itkCSwigImages.h"
 
-#define ITK_WRAP_IFR(x) ITK_WRAP_IMAGE_SOURCE(ImageFileReader, x)
-
-ITK_WRAP_CONFIG_GROUP(itkImageFileReader);
-ITK_WRAP_DEFINE_IMAGE_TYPES();
-
-ITK_WRAP_IFR(F2);
-ITK_WRAP_IFR(F3);
-ITK_WRAP_IFR(US2);
-ITK_WRAP_IFR(US3);
+namespace _cable_
+{
+  const char* const group = ITK_WRAP_GROUP(itkImageFileReader);
+  namespace wrappers
+  {
+    ITK_WRAP_OBJECT1(ImageFileReader, image::F2, itkImageFileReaderF2);
+    ITK_WRAP_OBJECT1(ImageFileReader, image::F3, itkImageFileReaderF3);
+    ITK_WRAP_OBJECT1(ImageFileReader, image::US2, itkImageFileReaderUS2);
+    ITK_WRAP_OBJECT1(ImageFileReader, image::US3, itkImageFileReaderUS3);
+    ITK_WRAP_OBJECT1(ImageFileReader, image::UC2, itkImageFileReaderUC2);
+  }
+}
 
 #endif

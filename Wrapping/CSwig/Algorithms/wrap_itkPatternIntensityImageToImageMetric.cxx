@@ -18,17 +18,23 @@
 #include "itkPatternIntensityImageToImageMetric.h"
 
 #ifdef CABLE_CONFIGURATION
-#include "wrap_ITKAlgorithms.h"
+#include "itkCSwigMacros.h"
+#include "itkCSwigImages.h"
 
-#define ITK_WRAP_PIITIM(x) \
-  ITK_WRAP_IMAGE_TO_SAME_IMAGE(PatternIntensityImageToImageMetric, x)
-
-ITK_WRAP_CONFIG_GROUP(itkPatternIntensityImageToImageMetric);
-ITK_WRAP_DEFINE_IMAGE_TYPES();
-
-ITK_WRAP_PIITIM(F2);
-ITK_WRAP_PIITIM(F3);
-ITK_WRAP_PIITIM(US2);
-ITK_WRAP_PIITIM(US3);
+namespace _cable_
+{
+  const char* const group = ITK_WRAP_GROUP(itkPatternIntensityImageToImageMetric);
+  namespace wrappers
+  {
+    ITK_WRAP_OBJECT2(PatternIntensityImageToImageMetric, image::F2, image::F2,
+                     PatternIntensityImageToImageMetricF2F2);
+    ITK_WRAP_OBJECT2(PatternIntensityImageToImageMetric, image::F3, image::F3,
+                     PatternIntensityImageToImageMetricF3F3);
+    ITK_WRAP_OBJECT2(PatternIntensityImageToImageMetric, image::US2, image::US2,
+                     PatternIntensityImageToImageMetricUS2US2);
+    ITK_WRAP_OBJECT2(PatternIntensityImageToImageMetric, image::US3, image::US3,
+                     PatternIntensityImageToImageMetricUS3US3);
+  }
+}
 
 #endif

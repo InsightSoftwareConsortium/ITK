@@ -18,17 +18,23 @@
 #include "itkImageRegistrationMethod.h"
 
 #ifdef CABLE_CONFIGURATION
-#include "wrap_ITKAlgorithms.h"
+#include "itkCSwigMacros.h"
+#include "itkCSwigImages.h"
 
-#define ITK_WRAP_IRM(x) \
-  ITK_WRAP_IMAGE_TO_SAME_IMAGE(ImageRegistrationMethod, x)
-
-ITK_WRAP_CONFIG_GROUP(itkImageRegistrationMethod);
-ITK_WRAP_DEFINE_IMAGE_TYPES();
-
-ITK_WRAP_IRM(F2);
-ITK_WRAP_IRM(F3);
-ITK_WRAP_IRM(US2);
-ITK_WRAP_IRM(US3);
+namespace _cable_
+{
+  const char* const group = ITK_WRAP_GROUP(itkImageRegistrationMethod);
+  namespace wrappers
+  {
+    ITK_WRAP_OBJECT2(ImageRegistrationMethod, image::F2, image::F2,
+                     ImageRegistrationMethodF2F2);
+    ITK_WRAP_OBJECT2(ImageRegistrationMethod, image::F3, image::F3,
+                     ImageRegistrationMethodF3F3);
+    ITK_WRAP_OBJECT2(ImageRegistrationMethod, image::US2, image::US2,
+                     ImageRegistrationMethodUS2US2);
+    ITK_WRAP_OBJECT2(ImageRegistrationMethod, image::US3, image::US3,
+                     ImageRegistrationMethodUS3US3);
+  }
+}
 
 #endif

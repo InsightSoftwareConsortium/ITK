@@ -1,6 +1,5 @@
 # create the ITKNumericsTcl libraries
 SET(WRAP_SOURCES
-  wrap_ITKNumerics
   wrap_ITKCostFunctions
   wrap_ITKOptimizers
 )
@@ -13,6 +12,9 @@ FOREACH(Source ${WRAP_SOURCES})
    SET(ALL_IDX_FILES ${ALL_IDX_FILES} ${WrapITK_BINARY_DIR}/Numerics/${Source}.idx )
    SET(INDEX_FILE_CONTENT "${INDEX_FILE_CONTENT}${WrapITK_BINARY_DIR}/Numerics/${Source}.idx\n")
 ENDFOREACH(Source)
+
+SET(WRAP_TCL_SOURCES ${WRAP_TCL_SOURCES} wrap_ITKNumericsTclTcl.cxx)
+SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} wrap_ITKNumericsPythonPython.cxx)
 
 # set the generated sources as generated
 SET_SOURCE_FILES_PROPERTIES(${WRAP_TCL_SOURCES} ${WRAP_PYTHON_SOURCES} GENERATED )
@@ -40,24 +42,28 @@ SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumericsTcl.mdx"
 
 FOREACH(Source ${WRAP_SOURCES})
   IF(ITK_SWRAP_TCL)
-  # tcl
-    GCCXML_CREATE_XML_FILE(ITKNumericsTcl ${ITK_TOP}/Wrapping/CSwig/Numerics 
-                         ${WrapITK_BINARY_DIR}/Numerics ${Source}.cxx ${Source}.xml ITKNumericsTcl)
-    CINDEX_CREATE_IDX_FILE(${WrapITK_BINARY_DIR}/Numerics ${Source}.xml ${Source}.idx ITKNumericsTcl)
-    CSWIG_CREATE_TCL_CXX_FILE(${WrapITK_BINARY_DIR}/Numerics
-                            "${MASTER_INDEX_FILES}" ${Source}.idx
-                            ${Source}.xml ${Source}Tcl.cxx ITKNumericsTcl
-                            "${ALL_IDX_FILES}")
+  # tcl 
+    WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/Numerics ${WrapITK_BINARY_DIR}/Numerics
+                     ${Source} ITKNumericsTcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
   ENDIF(ITK_SWRAP_TCL)
 
   IF(ITK_WRAP_PYTHON)
 # python
-    GCCXML_CREATE_XML_FILE(ITKNumericsPython ${ITK_TOP}/Wrapping/CSwig/Numerics 
-                         ${WrapITK_BINARY_DIR}/Numerics ${Source}.cxx ${Source}.xml _ITKNumericsPython)
-    CINDEX_CREATE_IDX_FILE(${WrapITK_BINARY_DIR}/Numerics ${Source}.xml ${Source}.idx _ITKNumericsPython)
-    CSWIG_CREATE_PYTHON_CXX_FILE(${WrapITK_BINARY_DIR}/Numerics 
-                            "${MASTER_INDEX_FILES}" ${Source}.idx
-                            ${Source}.xml ${Source}Python.cxx _ITKNumericsPython
-                            "${ALL_IDX_FILES}")
+    WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/Numerics ${WrapITK_BINARY_DIR}/Numerics
+                        ${Source} _ITKNumericsPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
    ENDIF(ITK_WRAP_PYTHON)
 ENDFOREACH(Source)
+
+
+
+IF(ITK_SWRAP_TCL)
+  # tcl 
+    WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/Numerics ${WrapITK_BINARY_DIR}/Numerics
+                     wrap_ITKNumericsTcl ITKNumericsTcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+ENDIF(ITK_SWRAP_TCL)
+
+IF(ITK_WRAP_PYTHON)
+# python
+    WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/Numerics ${WrapITK_BINARY_DIR}/Numerics
+                        wrap_ITKNumericsPython _ITKNumericsPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+ENDIF(ITK_WRAP_PYTHON)

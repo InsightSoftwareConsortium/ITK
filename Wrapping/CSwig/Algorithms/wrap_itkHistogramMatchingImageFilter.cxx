@@ -18,15 +18,19 @@
 #include "itkHistogramMatchingImageFilter.h"
 
 #ifdef CABLE_CONFIGURATION
-#include "wrap_ITKAlgorithms.h"
+#include "itkCSwigMacros.h"
+#include "itkCSwigImages.h"
 
-#define ITK_WRAP_HMIF(x) \
-  ITK_WRAP_IMAGE_TO_SAME_IMAGE(HistogramMatchingImageFilter, x)
-
-ITK_WRAP_CONFIG_GROUP(itkHistogramMatchingImageFilter);
-ITK_WRAP_DEFINE_IMAGE_TYPES();
-
-ITK_WRAP_HMIF(F2);
-ITK_WRAP_HMIF(F3);
+namespace _cable_
+{
+  const char* const group = ITK_WRAP_GROUP(itkHistogramMatchingImageFilter);
+  namespace wrappers
+  {
+    ITK_WRAP_OBJECT2(HistogramMatchingImageFilter, image::F2, image::F2,
+                     HistogramMatchingImageFilterF2F2);
+    ITK_WRAP_OBJECT2(HistogramMatchingImageFilter, image::F3, image::F3,
+                     HistogramMatchingImageFilterF3F3);
+  }
+}
 
 #endif

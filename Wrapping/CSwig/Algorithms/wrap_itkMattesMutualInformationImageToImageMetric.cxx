@@ -18,17 +18,23 @@
 #include "itkMattesMutualInformationImageToImageMetric.h"
 
 #ifdef CABLE_CONFIGURATION
-#include "wrap_ITKAlgorithms.h"
+#include "itkCSwigMacros.h"
+#include "itkCSwigImages.h"
 
-#define ITK_WRAP_MIITIM(x) \
-  ITK_WRAP_IMAGE_TO_SAME_IMAGE(MattesMutualInformationImageToImageMetric, x)
-
-ITK_WRAP_CONFIG_GROUP(itkMattesMutualInformationImageToImageMetric);
-ITK_WRAP_DEFINE_IMAGE_TYPES();
-
-ITK_WRAP_MIITIM(F2);
-ITK_WRAP_MIITIM(F3);
-ITK_WRAP_MIITIM(US2);
-ITK_WRAP_MIITIM(US3);
+namespace _cable_
+{
+  const char* const group = ITK_WRAP_GROUP(itkMattesMutualInformationImageToImageMetric);
+  namespace wrappers
+  {
+    ITK_WRAP_OBJECT2(MattesMutualInformationImageToImageMetric, image::F2, image::F2,
+                     MattesMutualInformationImageToImageMetricF2F2);
+    ITK_WRAP_OBJECT2(MattesMutualInformationImageToImageMetric, image::F3, image::F3,
+                     MattesMutualInformationImageToImageMetricF3F3);
+    ITK_WRAP_OBJECT2(MattesMutualInformationImageToImageMetric, image::US2, image::US2,
+                     MattesMutualInformationImageToImageMetricUS2US2);
+    ITK_WRAP_OBJECT2(MattesMutualInformationImageToImageMetric, image::US3, image::US3,
+                     MattesMutualInformationImageToImageMetricUS3US3);
+  }
+}
 
 #endif

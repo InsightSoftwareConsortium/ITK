@@ -18,17 +18,23 @@
 #include "itkMeanSquaresImageToImageMetric.h"
 
 #ifdef CABLE_CONFIGURATION
-#include "wrap_ITKAlgorithms.h"
+#include "itkCSwigMacros.h"
+#include "itkCSwigImages.h"
 
-#define ITK_WRAP_MSITIM(x) \
-  ITK_WRAP_IMAGE_TO_SAME_IMAGE(MeanSquaresImageToImageMetric, x)
-
-ITK_WRAP_CONFIG_GROUP(itkMeanSquaresImageToImageMetric);
-ITK_WRAP_DEFINE_IMAGE_TYPES();
-
-ITK_WRAP_MSITIM(F2);
-ITK_WRAP_MSITIM(F3);
-ITK_WRAP_MSITIM(US2);
-ITK_WRAP_MSITIM(US3);
+namespace _cable_
+{
+  const char* const group = ITK_WRAP_GROUP(itkMeanSquaresImageToImageMetric);
+  namespace wrappers
+  {
+    ITK_WRAP_OBJECT2(MeanSquaresImageToImageMetric, image::F2, image::F2,
+                     MeanSquaresImageToImageMetricF2F2);
+    ITK_WRAP_OBJECT2(MeanSquaresImageToImageMetric, image::F3, image::F3,
+                     MeanSquaresImageToImageMetricF3F3);
+    ITK_WRAP_OBJECT2(MeanSquaresImageToImageMetric, image::US2, image::US2,
+                     MeanSquaresImageToImageMetricUS2US2);
+    ITK_WRAP_OBJECT2(MeanSquaresImageToImageMetric, image::US3, image::US3,
+                     MeanSquaresImageToImageMetricUS3US3);
+  }
+}
 
 #endif

@@ -18,17 +18,19 @@
 #include "itkCurvatureFlowImageFilter.h"
 
 #ifdef CABLE_CONFIGURATION
-#include "wrap_ITKAlgorithms.h"
+#include "itkCSwigMacros.h"
+#include "itkCSwigImages.h"
 
-#define ITK_WRAP_DFDIF(x, y) \
-  ITK_WRAP_IMAGE_TO_IMAGE(CurvatureFlowImageFilter, x, y)
-
-ITK_WRAP_CONFIG_GROUP(itkCurvatureFlowImageFilter);
-ITK_WRAP_DEFINE_IMAGE_TYPES();
-
-ITK_WRAP_DFDIF(F2, F2);
-//ITK_WRAP_DFDIF(US2, F2);
-ITK_WRAP_DFDIF(F3, F3);
-//ITK_WRAP_DFDIF(US3, F3);
+namespace _cable_
+{
+  const char* const group = ITK_WRAP_GROUP(itkCurvatureFlowImageFilter);
+  namespace wrappers
+  {
+    ITK_WRAP_OBJECT2(CurvatureFlowImageFilter, image::F2, image::F2,
+                     CurvatureFlowImageFilterF2F2);
+    ITK_WRAP_OBJECT2(CurvatureFlowImageFilter, image::F3, image::F3,
+                     CurvatureFlowImageFilterF3F3);
+  }
+}
 
 #endif

@@ -18,17 +18,23 @@
 #include "itkImage.h"
 
 #ifdef CABLE_CONFIGURATION
-#include "wrap_ITKAlgorithms.h"
+#include "itkCSwigMacros.h"
+#include "itkCSwigImages.h"
 
-#define ITK_WRAP_MMIC(x) \
-  ITK_WRAP_IMAGE_CALCULATOR(OtsuThresholdImageCalculator, x) \
-
-ITK_WRAP_CONFIG_GROUP(itkOtsuThresholdImageCalculator);
-ITK_WRAP_DEFINE_IMAGE_TYPES();
-
-ITK_WRAP_MMIC(F2);
-ITK_WRAP_MMIC(F3);
-ITK_WRAP_MMIC(US2);
-ITK_WRAP_MMIC(US3);
+namespace _cable_
+{
+  const char* const group = ITK_WRAP_GROUP(itkOtsuThresholdImageCalculator);
+  namespace wrappers
+  {
+    ITK_WRAP_OBJECT1(OtsuThresholdImageCalculator, image::F2,
+                     OtsuThresholdImageCalculatorF2);
+    ITK_WRAP_OBJECT1(OtsuThresholdImageCalculator, image::F3,
+                     OtsuThresholdImageCalculatorF3);
+    ITK_WRAP_OBJECT1(OtsuThresholdImageCalculator, image::US2,
+                     OtsuThresholdImageCalculatorUS2);
+    ITK_WRAP_OBJECT1(OtsuThresholdImageCalculator, image::US3,
+                     OtsuThresholdImageCalculatorUS3);
+  }
+}
 
 #endif

@@ -1,6 +1,5 @@
 # create the ITKBasicFiltersTcl libraries
 SET(WRAP_SOURCES
-  wrap_ITKBasicFilters
   wrap_itkAnisotropicDiffusionImageFilter
   wrap_itkBinaryThresholdImageFilter
   wrap_itkCannyEdgeDetectionImageFilter
@@ -38,6 +37,9 @@ FOREACH(Source ${WRAP_SOURCES})
    SET(INDEX_FILE_CONTENT "${INDEX_FILE_CONTENT}${WrapITK_BINARY_DIR}/BasicFilters/${Source}.idx\n")
 ENDFOREACH(Source)
 
+SET(WRAP_TCL_SOURCES ${WRAP_TCL_SOURCES} wrap_ITKBasicFiltersTclTcl.cxx)
+SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} wrap_ITKBasicFiltersPythonPython.cxx)
+
 # set the generated sources as generated
 SET_SOURCE_FILES_PROPERTIES(${WRAP_TCL_SOURCES} ${WRAP_PYTHON_SOURCES} GENERATED )
 
@@ -66,24 +68,22 @@ SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumericsTcl.mdx"
 
 FOREACH(Source ${WRAP_SOURCES})
   IF(ITK_SWRAP_TCL)
-#tcl
-    GCCXML_CREATE_XML_FILE(ITKBasicFiltersTcl ${ITK_TOP}/Wrapping/CSwig/BasicFilters 
-                         ${WrapITK_BINARY_DIR}/BasicFilters ${Source}.cxx ${Source}.xml ITKBasicFiltersTcl)
-    CINDEX_CREATE_IDX_FILE(${WrapITK_BINARY_DIR}/BasicFilters ${Source}.xml ${Source}.idx ITKBasicFiltersTcl)
-    CSWIG_CREATE_TCL_CXX_FILE(${WrapITK_BINARY_DIR}/BasicFilters
-                            "${MASTER_INDEX_FILES}" ${Source}.idx
-                            ${Source}.xml ${Source}Tcl.cxx ITKBasicFiltersTcl
-                            "${ALL_IDX_FILES}")
-  ENDIF(ITK_SWRAP_TCL)
+    WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/BasicFilters ${WrapITK_BINARY_DIR}/BasicFilters
+                     ${Source} ITKBasicFiltersTcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+    ENDIF(ITK_SWRAP_TCL)
 
   IF(ITK_WRAP_PYTHON)
-# python
-    GCCXML_CREATE_XML_FILE(ITKBasicFiltersPython ${ITK_TOP}/Wrapping/CSwig/BasicFilters 
-                         ${WrapITK_BINARY_DIR}/BasicFilters ${Source}.cxx ${Source}.xml _ITKBasicFiltersPython)
-    CINDEX_CREATE_IDX_FILE(${WrapITK_BINARY_DIR}/BasicFilters ${Source}.xml ${Source}.idx _ITKBasicFiltersPython)
-    CSWIG_CREATE_PYTHON_CXX_FILE(${WrapITK_BINARY_DIR}/BasicFilters 
-                            "${MASTER_INDEX_FILES}" ${Source}.idx
-                            ${Source}.xml ${Source}Python.cxx _ITKBasicFiltersPython
-                            "${ALL_IDX_FILES}")
+    WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/BasicFilters ${WrapITK_BINARY_DIR}/BasicFilters
+                        ${Source} _ITKBasicFiltersPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
   ENDIF(ITK_WRAP_PYTHON)
 ENDFOREACH(Source)
+
+IF(ITK_SWRAP_TCL)
+  WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/BasicFilters ${WrapITK_BINARY_DIR}/BasicFilters
+                   wrap_ITKBasicFiltersTcl ITKBasicFiltersTcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+ENDIF(ITK_SWRAP_TCL)
+   
+IF(ITK_WRAP_PYTHON)
+  WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/BasicFilters ${WrapITK_BINARY_DIR}/BasicFilters
+                      wrap_ITKBasicFiltersPython _ITKBasicFiltersPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+ENDIF(ITK_WRAP_PYTHON)

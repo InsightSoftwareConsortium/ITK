@@ -1,7 +1,6 @@
 # create a list of cable config files for wrapping
 SET(WRAP_SOURCES
   wrap_ITKBase
-  wrap_ITKCommon
   wrap_ITKFilterBase
   wrap_ITKInterpolators
   wrap_ITKRegions
@@ -30,6 +29,8 @@ FOREACH(Source ${WRAP_SOURCES})
    SET(ALL_IDX_FILES ${ALL_IDX_FILES} ${WrapITK_BINARY_DIR}/Common/${Source}.idx )
    SET(INDEX_FILE_CONTENT "${INDEX_FILE_CONTENT}${WrapITK_BINARY_DIR}/Common/${Source}.idx\n")
 ENDFOREACH(Source)
+SET(WRAP_TCL_SOURCES ${WRAP_TCL_SOURCES} wrap_ITKCommonTclTcl.cxx)
+SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} wrap_ITKCommonPythonPython.cxx)
 
 CONFIGURE_FILE(
 ${WrapITK_SOURCE_DIR}/Master.mdx.in
@@ -60,24 +61,25 @@ SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumericsTcl.mdx"
 FOREACH(Source ${WRAP_SOURCES})
   IF(ITK_SWRAP_TCL)
   # tcl
-    GCCXML_CREATE_XML_FILE(ITKCommonTcl ${ITK_TOP}/Wrapping/CSwig/Common 
-                         ${WrapITK_BINARY_DIR}/Common ${Source}.cxx ${Source}.xml ITKCommonTcl)
-    CINDEX_CREATE_IDX_FILE(${WrapITK_BINARY_DIR}/Common ${Source}.xml ${Source}.idx ITKCommonTcl)
-    CSWIG_CREATE_TCL_CXX_FILE(${WrapITK_BINARY_DIR}/Common 
-                            "${MASTER_INDEX_FILES}" ${Source}.idx
-                            ${Source}.xml ${Source}Tcl.cxx ITKCommonTcl
-                            "${ALL_IDX_FILES}")
+    WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/Common ${WrapITK_BINARY_DIR}/Common
+                     ${Source} ITKCommonTcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
   ENDIF(ITK_SWRAP_TCL)
    
   IF(ITK_WRAP_PYTHON)
   # python
-    GCCXML_CREATE_XML_FILE(ITKCommonPython ${ITK_TOP}/Wrapping/CSwig/Common 
-                         ${WrapITK_BINARY_DIR}/Common ${Source}.cxx ${Source}.xml _ITKCommonPython)
-    CINDEX_CREATE_IDX_FILE(${WrapITK_BINARY_DIR}/Common ${Source}.xml ${Source}.idx _ITKCommonPython)
-    CSWIG_CREATE_PYTHON_CXX_FILE(${WrapITK_BINARY_DIR}/Common 
-                            "${MASTER_INDEX_FILES}" ${Source}.idx
-                            ${Source}.xml ${Source}Python.cxx _ITKCommonPython
-                            "${ALL_IDX_FILES}")
+    WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/Common ${WrapITK_BINARY_DIR}/Common
+                        ${Source} _ITKCommonPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
   ENDIF(ITK_WRAP_PYTHON)
 ENDFOREACH(Source)
 
+IF(ITK_SWRAP_TCL)
+# tcl
+  WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/Common ${WrapITK_BINARY_DIR}/Common
+                   wrap_ITKCommonTcl ITKCommonTcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+ENDIF(ITK_SWRAP_TCL)
+   
+IF(ITK_WRAP_PYTHON)
+# python
+  WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/Common ${WrapITK_BINARY_DIR}/Common
+                      wrap_ITKCommonPython _ITKCommonPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+ENDIF(ITK_WRAP_PYTHON)

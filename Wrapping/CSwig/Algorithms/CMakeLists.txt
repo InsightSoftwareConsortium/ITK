@@ -1,6 +1,5 @@
 # create the ITKAlgorithmsTcl libraries
 SET(WRAP_SOURCES
-    wrap_ITKAlgorithms
     wrap_itkCurvatureFlowImageFilter
     wrap_itkHistogramMatchingImageFilter
     wrap_itkImageRegistrationMethod
@@ -24,6 +23,9 @@ FOREACH(Source ${WRAP_SOURCES})
    SET(INDEX_FILE_CONTENT "${INDEX_FILE_CONTENT}${WrapITK_BINARY_DIR}/Algorithms/${Source}.idx\n")
 ENDFOREACH(Source)
 
+SET(WRAP_TCL_SOURCES ${WRAP_TCL_SOURCES} wrap_ITKAlgorithmsTclTcl.cxx)
+SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} wrap_ITKAlgorithmsPythonPython.cxx)
+
 # set the generated sources as generated
 SET_SOURCE_FILES_PROPERTIES(${WRAP_TCL_SOURCES} ${WRAP_PYTHON_SOURCES} GENERATED )
 IF(ITK_SWRAP_TCL)
@@ -33,9 +35,9 @@ IF(ITK_SWRAP_TCL)
 ENDIF(ITK_SWRAP_TCL)
 
 IF(ITK_WRAP_PYTHON)
-  ADD_LIBRARY(_ITKAlgorithmsTcl MODULE ${WRAP_PYTHON_SOURCES})
-  SET_TARGET_PROPERTIES( _ITKAlgorithmsTcl PROPERTIES PREFIX "")
-  TARGET_LINK_LIBRARIES(_ITKAlgorithmsTcl ITKAlgorithms SwigRuntimePython ${PYTHON_LIBRARY})
+  ADD_LIBRARY(_ITKAlgorithmsPython MODULE ${WRAP_PYTHON_SOURCES})
+  SET_TARGET_PROPERTIES( _ITKAlgorithmsPython PROPERTIES PREFIX "")
+  TARGET_LINK_LIBRARIES(_ITKAlgorithmsPython ITKAlgorithms SwigRuntimePython ${PYTHON_LIBRARY})
 ENDIF(ITK_WRAP_PYTHON)
 
 CONFIGURE_FILE(
@@ -51,30 +53,22 @@ SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumericsTcl.mdx"
 )
 
 FOREACH(Source ${WRAP_SOURCES})
-  IF(ITK_SWRAP_TCL)
-# tcl
-  GCCXML_CREATE_XML_FILE(ITKAlgorithmsTcl 
-      ${ITK_TOP}/Wrapping/CSwig/Algorithms 
-      ${WrapITK_BINARY_DIR}/Algorithms ${Source}.cxx ${Source}.xml 
-      ITKAlgorithmsTcl)
-  CINDEX_CREATE_IDX_FILE(${WrapITK_BINARY_DIR}/Algorithms ${Source}.xml ${Source}.idx ITKAlgorithmsTcl)
-  CSWIG_CREATE_TCL_CXX_FILE(${WrapITK_BINARY_DIR}/Algorithms
-                            "${MASTER_INDEX_FILES}" ${Source}.idx
-                            ${Source}.xml ${Source}Tcl.cxx ITKAlgorithmsTcl
-                            "${ALL_IDX_FILES}")
+  IF(ITK_SWRAP_TCL) 
+     WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/Algorithms ${WrapITK_BINARY_DIR}/Algorithms
+                     ${Source} ITKAlgorithmsTcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
   ENDIF(ITK_SWRAP_TCL)
   IF(ITK_WRAP_PYTHON)
-# python 
-    GCCXML_CREATE_XML_FILE(ITKAlgorithmsPython 
-           ${ITK_TOP}/Wrapping/CSwig/Algorithms 
-           ${WrapITK_BINARY_DIR}/Algorithms ${Source}.cxx ${Source}.xml 
-           _ITKAlgorithmsPython)
-    CINDEX_CREATE_IDX_FILE(${WrapITK_BINARY_DIR}/Algorithms ${Source}.xml
-                           ${Source}.idx _ITKAlgorithmsPython)
-    CSWIG_CREATE_PYTHON_CXX_FILE(${WrapITK_BINARY_DIR}/Algorithms 
-                            "${MASTER_INDEX_FILES}" ${Source}.idx
-                            ${Source}.xml ${Source}Python.cxx 
-                            _ITKAlgorithmsPython
-                            "${ALL_IDX_FILES}")
+    WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/Algorithms ${WrapITK_BINARY_DIR}/Algorithms
+                        ${Source} _ITKAlgorithmsPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
   ENDIF(ITK_WRAP_PYTHON)
 ENDFOREACH(Source)
+
+IF(ITK_SWRAP_TCL)
+  WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/Algorithms ${WrapITK_BINARY_DIR}/Algorithms
+                   wrap_ITKAlgorithmsTcl ITKAlgorithmsTcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+ENDIF(ITK_SWRAP_TCL)
+   
+IF(ITK_WRAP_PYTHON)
+  WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/Algorithms ${WrapITK_BINARY_DIR}/Algorithms
+                      wrap_ITKAlgorithmsPython _ITKAlgorithmsPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+ENDIF(ITK_WRAP_PYTHON)

@@ -10,13 +10,9 @@
 //  -DITK_WRAP_PACKAGE="ITKCommonTcl" 
 //  -DITK_WRAP_PACKAGE="ITKCommonPython" 
 
-#define ITK_WRAP_GROUP(x) ITK_WRAP_GROUP0(ITK_WRAP_PACKAGE, x)
-#define ITK_WRAP_GROUP0(p, x) ITK_WRAP_GROUP1(p, x)
-#define ITK_WRAP_GROUP1(p, x) #p "_" #x
+#define ITK_WRAP_GROUP(x) #x
 
-#define ITK_WRAP_PACKAGE_NAME(p) ITK_WRAP_PACKAGE_NAME0(ITK_WRAP_PACKAGE)
-#define ITK_WRAP_PACKAGE_NAME0(p) ITK_WRAP_PACKAGE_NAME1(p)
-#define ITK_WRAP_PACKAGE_NAME1(p) #p 
+#define ITK_WRAP_PACKAGE_NAME(p) p
 
 // Wrap an itk object, the wrap name is itkname, 
 // this is for non-templated itk objects, so

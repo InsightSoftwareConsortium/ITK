@@ -18,18 +18,20 @@
 #include "itkImage.h"
 
 #ifdef CABLE_CONFIGURATION
-#include "wrap_ITKIO.h"
+#include "itkCSwigMacros.h"
+#include "itkCSwigImages.h"
 
-#define ITK_WRAP_IFW(x) ITK_WRAP_IMAGE_SINK(ImageFileWriter, x)
-
-ITK_WRAP_CONFIG_GROUP(itkImageFileWriter);
-ITK_WRAP_DEFINE_IMAGE_TYPES();
-
-ITK_WRAP_IFW(F2);
-ITK_WRAP_IFW(F3);
-ITK_WRAP_IFW(US2);
-ITK_WRAP_IFW(US3);
-ITK_WRAP_IFW(UC2);
-
+namespace _cable_
+{
+  const char* const group = ITK_WRAP_GROUP(itkImageFileWriter);
+  namespace wrappers
+  {
+    ITK_WRAP_OBJECT1(ImageFileWriter, image::F2, itkImageFileWriterF2);
+    ITK_WRAP_OBJECT1(ImageFileWriter, image::F3, itkImageFileWriterF3);
+    ITK_WRAP_OBJECT1(ImageFileWriter, image::US2, itkImageFileWriterUS2);
+    ITK_WRAP_OBJECT1(ImageFileWriter, image::US3, itkImageFileWriterUS3);
+    ITK_WRAP_OBJECT1(ImageFileWriter, image::UC2, itkImageFileWriterUC2);
+  }
+}
 
 #endif

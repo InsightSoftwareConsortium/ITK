@@ -18,17 +18,23 @@
 #include "itkSimpleFuzzyConnectednessImageFilterBase.h"
 
 #ifdef CABLE_CONFIGURATION
-#include "wrap_ITKAlgorithms.h"
+#include "itkCSwigMacros.h"
+#include "itkCSwigImages.h"
 
-#define ITK_WRAP_SFCIFB(x) \
-  ITK_WRAP_IMAGE_TO_SAME_IMAGE(SimpleFuzzyConnectednessImageFilterBase, x)
-
-ITK_WRAP_CONFIG_GROUP(itkSimpleFuzzyConnectednessImageFilterBase);
-ITK_WRAP_DEFINE_IMAGE_TYPES();
-
-ITK_WRAP_SFCIFB(F2);
-ITK_WRAP_SFCIFB(F3);
-ITK_WRAP_SFCIFB(US2);
-ITK_WRAP_SFCIFB(US3);
+namespace _cable_
+{
+  const char* const group = ITK_WRAP_GROUP(itkSimpleFuzzyConnectednessImageFilterBase);
+  namespace wrappers
+  {
+    ITK_WRAP_OBJECT2(SimpleFuzzyConnectednessImageFilterBase, image::F2, image::F2,
+                     SimpleFuzzyConnectednessImageFilterBaseF2F2);
+    ITK_WRAP_OBJECT2(SimpleFuzzyConnectednessImageFilterBase, image::F3, image::F3,
+                     SimpleFuzzyConnectednessImageFilterBaseF3F3);
+    ITK_WRAP_OBJECT2(SimpleFuzzyConnectednessImageFilterBase, image::US2, image::US2,
+                     SimpleFuzzyConnectednessImageFilterBaseUS2US2);
+    ITK_WRAP_OBJECT2(SimpleFuzzyConnectednessImageFilterBase, image::US3, image::US3,
+                     SimpleFuzzyConnectednessImageFilterBaseUS3US3);
+  }
+}
 
 #endif
