@@ -113,11 +113,12 @@ int main( int argc, char * argv [] )
 
   EstimatorType::Pointer estimator = EstimatorType::New();
 
-  const unsigned int numberOfClasses = 2;
+  const unsigned int numberOfClasses = 3;
 
   EstimatorType::ParametersType initialMeans( numberOfClasses );
-  initialMeans[0] = 180.0;
-  initialMeans[1] = 100.0;
+  initialMeans[0] = 20.0;   // real one is 30
+  initialMeans[1] = 100.0;  // real one is 125
+  initialMeans[1] = 200.0;  // real one is 220
 
   estimator->SetParameters( initialMeans );
   
