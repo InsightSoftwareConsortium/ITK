@@ -110,12 +110,26 @@ bool StimulateImageIO::CanReadFile(const char* filename)
   char buffer[256];
   std::string fname(filename);
 
-  // First check the extension
-  if ( fname.find(".spr") >= fname.length())
+  if(  fname == "" )
     {
-       itkDebugMacro(<<"The filename extension is not recognized");
+    itkDebugMacro(<<"No filename specified.");
     return false;
     }
+
+  bool extensionFound = false;
+  std::string::size_type sprPos = fname.rfind(".spr");
+  if ((sprPos != std::string::npos)
+      && (sprPos == fname.length() - 4))
+    {
+    extensionFound = true;
+    }
+
+  if( !extensionFound )
+    {
+    itkDebugMacro(<<"The filename extension is not recognized");
+    return false;
+    }
+
 
   if ( ! this->OpenStimulateFileForReading(file, filename))
     {
@@ -458,12 +472,28 @@ void StimulateImageIO::ReadImageInformation()
 bool StimulateImageIO::CanWriteFile( const char* name )
 {
   std::string filename = name;
-  if ( filename != "" &&
-       filename.find(".spr") < filename.length() )
+
+  if(  filename == "" )
     {
-    return true;
+    itkDebugMacro(<<"No filename specified.");
+    return false;
     }
-  return false;
+
+  bool extensionFound = false;
+  std::string::size_type sprPos = filename.rfind(".spr");
+  if ((sprPos != std::string::npos)
+      && (sprPos == filename.length() - 4))
+    {
+    extensionFound = true;
+    }
+
+  if( !extensionFound )
+    {
+    itkDebugMacro(<<"The filename extension is not recognized");
+    return false;
+    }
+
+  return true;
 }
 
 

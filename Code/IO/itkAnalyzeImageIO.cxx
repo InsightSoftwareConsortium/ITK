@@ -540,16 +540,35 @@ namespace itk
   bool AnalyzeImageIO::CanWriteFile(const char * FileNameToWrite)
   {
     m_FileName=FileNameToWrite;
-    if(m_FileName != "" &&
-        // DataFile Name Given*/
-        (m_FileName.find(".img") < m_FileName.length() ||
-         // HeaderFile Name Given
-         m_FileName.find(".hdr") < m_FileName.length() ||
-         //Compressed Images
-         m_FileName.find(".img.gz") < m_FileName.length()))
-    {
+    if(  m_FileName == "" )
+      {
+      return false;
+      }
+
+    // Data file name given?
+    std::string::size_type imgPos = m_FileName.rfind(".img");
+    if ((imgPos != std::string::npos)
+        && (imgPos == m_FileName.length() - 4))
+      {
       return true;
-    }
+      }
+
+    // Header file given?
+    std::string::size_type hdrPos = m_FileName.rfind(".hdr");
+    if ((hdrPos != std::string::npos)
+        && (hdrPos == m_FileName.length() - 4))
+      {
+      return true;
+      }
+
+    // Compressed image given?
+    std::string::size_type imggzPos = m_FileName.rfind(".img.gz");
+    if ((imggzPos != std::string::npos)
+        && (imggzPos == m_FileName.length() - 7))
+      {
+      return true;
+      }
+    
     return false;
   }
 

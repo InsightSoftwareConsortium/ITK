@@ -60,9 +60,28 @@ bool MetaImageIO::CanReadFile( const char* filename )
 
   // First check the extension
   std::string fname = filename;
-  if(  fname == ""  || 
-       !( fname.find(".mha") < fname.length() || 
-          fname.find(".mhd") < fname.length()    ) )
+  if(  fname == "" )
+    {
+    itkDebugMacro(<<"No filename specified.");
+    return false;
+    }
+
+  bool extensionFound = false;
+  std::string::size_type mhaPos = fname.rfind(".mha");
+  if ((mhaPos != std::string::npos)
+      && (mhaPos == fname.length() - 4))
+    {
+    extensionFound = true;
+    }
+
+  std::string::size_type mhdPos = fname.rfind(".mhd");
+  if ((mhdPos != std::string::npos)
+      && (mhdPos == fname.length() - 4))
+    {
+    extensionFound = true;
+    }
+  
+  if( !extensionFound )
     {
     itkDebugMacro(<<"The filename extension is not recognized");
     return false;
@@ -254,11 +273,21 @@ bool MetaImageIO::CanWriteFile( const char * name )
     {
     return false;
     }
-  if( filename.find(".mha") < filename.length() || 
-      filename.find(".mhd") < filename.length()    )
+
+  std::string::size_type mhaPos = filename.rfind(".mha");
+  if ((mhaPos != std::string::npos)
+      && (mhaPos == filename.length() - 4))
     {
     return true;
     }
+
+  std::string::size_type mhdPos = filename.rfind(".mhd");
+  if ((mhdPos != std::string::npos)
+      && (mhdPos == filename.length() - 4))
+    {
+    return true;
+    }
+
   return false;
   }
 

@@ -45,8 +45,21 @@ bool PNGImageIO::CanReadFile(const char* file)
 { 
   // First check the extension
   std::string filename = file;
-  if ( !( filename != "" &&
-          filename.find(".png") < filename.length() ) )
+  if(  filename == "" )
+    {
+    itkDebugMacro(<<"No filename specified.");
+    return false;
+    }
+
+  bool extensionFound = false;
+  std::string::size_type pngPos = filename.rfind(".png");
+  if ((pngPos != std::string::npos)
+      && (pngPos == filename.length() - 4))
+    {
+    extensionFound = true;
+    }
+
+  if( !extensionFound )
     {
     itkDebugMacro(<<"The filename extension is not recognized");
     return false;
@@ -277,6 +290,7 @@ void PNGImageIO::Read(void* buffer)
   for (unsigned int ui = 0; ui < height; ++ui)
     {
     row_pointers[height - ui - 1] = tempImage + rowbytes*ui;
+    //row_pointers[ui] = tempImage + rowbytes*ui;
     }
   png_read_image(png_ptr, row_pointers);
   delete [] row_pointers;
@@ -427,11 +441,19 @@ void PNGImageIO::ReadImageInformation()
 bool PNGImageIO::CanWriteFile( const char * name )
 {
   std::string filename = name;
-  if ( filename != "" &&
-       filename.find(".png") < filename.length() )
+
+  if (filename == "")
+    {
+    return false;
+    }
+  
+  std::string::size_type pngPos = filename.rfind(".png");
+  if ( (pngPos != std::string::npos)
+       && (pngPos == filename.length() - 4) )
     {
     return true;
     }
+
   return false;
 }
 
@@ -560,7 +582,8 @@ void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer,
   for (unsigned int ui = 0; ui < height; ui++)
     {
     row_pointers[height - ui - 1] = (png_byte *)outPtr;
-    outPtr = (const unsigned char *)outPtr + rowInc;
+    //row_pointers[ui] = (png_byte *)outPtr;
+    outPtr = (unsigned char *)outPtr + rowInc;
     }
   png_write_image(png_ptr, row_pointers);
   png_write_end(png_ptr, info_ptr);

@@ -88,11 +88,25 @@ bool GiplImageIO::CanReadFile( const char* filename )
 
   // First check the filename extension
   std::string fname = filename;
-  if( fname  == ""  || 
-       !(fname.find(".gipl") < fname.length() ) )
+  if ( fname == "" )
     {
+    itkDebugMacro(<< "No filename specified.");
+    }
+
+  bool extensionFound = false;
+  std::string::size_type giplPos = fname.rfind(".gipl");
+  if ((giplPos != std::string::npos)
+      && (giplPos == fname.length() - 5))
+    {
+    extensionFound = true;
+    }
+
+  if( !extensionFound )
+    {
+    itkDebugMacro(<<"The filename extension is not recognized");
     return false;
     }
+
 
   // Now check the content
   std::ifstream inputStream;
@@ -130,8 +144,26 @@ bool GiplImageIO::CanReadFile( const char* filename )
 bool GiplImageIO::CanWriteFile( const char * name )
 {
   std::string filename = name;
-  if(  filename != ""  && 
-       filename.find(".gipl") < filename.length() )
+  if ( filename == "" )
+    {
+    itkDebugMacro(<< "No filename specified.");
+    }
+
+  bool extensionFound = false;
+  std::string::size_type giplPos = filename.rfind(".gipl");
+  if ((giplPos != std::string::npos)
+      && (giplPos == filename.length() - 5))
+    {
+    extensionFound = true;
+    }
+
+  if( !extensionFound )
+    {
+    itkDebugMacro(<<"The filename extension is not recognized");
+    return false;
+    }
+
+  if( extensionFound )
     {
     return true;
     }
