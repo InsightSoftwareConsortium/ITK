@@ -21,6 +21,7 @@ itkRegularStepGradientDescentOptimizer.cxx
 itkSingleValuedNonLinearOptimizer.cxx
 itkSingleValuedNonLinearVnlOptimizer.cxx
 itkVersorTransformOptimizer.cxx
+itkOnePlusOneEvolutionaryOptimizer.cxx
 )
 
 SET(HAS_FEM 0 CACHE INTERNAL "Support for FEM")
