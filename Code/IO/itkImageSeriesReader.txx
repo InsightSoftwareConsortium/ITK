@@ -179,21 +179,24 @@ void ImageSeriesReader<TOutputImage>
 {
   typedef ImageFileReader<TOutputImage> ReaderType;
 
-  typename TOutputImage::Pointer output = this->GetOutput();
+  TOutputImage * output = this->GetOutput();
+
+  typedef typename TOutputImage::RegionType   RegionType;
+  RegionType requestedRegion = output->GetRequestedRegion();
 
   // Each file must have the same size.
-  SizeType validSize = output->GetRequestedRegion().GetSize();
+  SizeType validSize = requestedRegion.GetSize();
   validSize[m_NumberOfDimensionsInImage] = 1;
 
   // Allocate the output buffer
-  output->SetBufferedRegion( output->GetRequestedRegion() );
+  output->SetBufferedRegion( requestedRegion );
   output->Allocate();
 
   ProgressReporter progress(this, 0, 
                             m_FileNames.size(),
                             m_FileNames.size());
 
-  ImageRegionIterator<TOutputImage> ot (output, output->GetRequestedRegion() );
+  ImageRegionIterator<TOutputImage> ot (output, requestedRegion );
 
   int numberOfFiles = static_cast<int>(m_FileNames.size());
   for (int i = (m_ReverseOrder ? numberOfFiles - 1 : 0);
