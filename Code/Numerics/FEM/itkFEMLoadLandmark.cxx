@@ -3,14 +3,14 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkFEMLoadLandmark.cxx
   Language:  C++
-  Date:      $Date$
+  Date: $Date$
   Version:   $Revision$
 
   Copyright (c) 2002 Insight Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -33,20 +33,14 @@ void LoadLandmark::Read( std::istream& f, void* info )
   int n1, n2;
   vnl_vector<Float> pu;
   vnl_vector<Float> pd;
-  //  bool isFound = false;
 
-  // Convert the info pointer to a usable objects
-  //  ReadInfoType::ElementArrayPointer elements=static_cast<ReadInfoType*>(info)->m_el;
-
-  // first call the parent's read function 
-  Superclass::Read(f,info);
-
-  // Read the landmark ID - obsolete
-  // SkipWhiteSpace(f); f>>id; if(!f) goto out;
+  // first call the parent's read function
+  //Superclass::Read(f,info);
+  f>>n1;
 
   // read the dimensions of the undeformed point and set the size of the point accordingly
   SkipWhiteSpace(f); f>>n1; if(!f) goto out;
-  pu.resize(n1);  
+  pu.resize(n1);
   this->m_pt.resize(n1);
 
   // read the undeformed point in global coordinates
@@ -56,31 +50,25 @@ void LoadLandmark::Read( std::istream& f, void* info )
   SkipWhiteSpace(f); f>>n2; if(!f) goto out;
   pd.resize(n2);
   m_force.resize(n2);
-  
+
   // read the deformed point in global coordinates
   SkipWhiteSpace(f); f>>pd; if(!f) goto out;
 
   m_source = pd;
-  m_pt     = pd;
+  m_pt = pd;
   m_target = pu;
   m_force  = pu-pd;
+
+  //std::cout << m_source << std::endl << m_pt << std::endl << m_target << std::endl << m_force << std::endl;
 
   // read the square root of the variance associated with this landmark
   SkipWhiteSpace(f); f>>eta; if(!f) goto out;
 
   // Verify that the undeformed and deformed points are of the same size.
-  if (n1 != n2) { goto out; } 
+  if (n1 != n2) { goto out; }
 
   this->el.resize(1);
 
-  // Compute & store the local coordinates of the undeformed point and
-  // the pointer to the element
-  /*  for (Element::ArrayType::const_iterator n = elements->begin(); n!=elements->end() && !isFound; n++) {
-    if ( (*n)->GetLocalFromGlobalCoordinates(pd, this->m_pt) ) { 
-      isFound = true; 
-      this->el.push_back( ( &**n ) );
-    }    
-    }*/
 out:
 
   if( !f )
@@ -90,9 +78,33 @@ out:
 }
 
 /**
+ * Find the Element to which the LoadLandmark belongs
+ */
+
+void LoadLandmark::AssignToElement(Element::ArrayType::Pointer elements)
+{
+  bool isFound = false;
+
+  // Compute & store the local coordinates of the undeformed point and
+  // the pointer to the element
+
+  for (Element::ArrayType::const_iterator n = elements->begin(); n!=elements->end() && !isFound; n++) {
+    if ( (*n)->GetLocalFromGlobalCoordinates(m_source, this->m_pt) ) {
+      isFound = true;
+      std::cout << "Found: " << (&**n) << std::endl;
+      this->el[0] = *n;
+    }
+  }
+
+  if (!isFound) {
+      throw FEMException(__FILE__,__LINE__,"LoadLandmark::Read() - could not find element containing landmark!");
+  }
+}
+
+/**
  * Write the LoadLandmark object to the output stream
  */
-void LoadLandmark::Write( std::ostream& f ) const 
+void LoadLandmark::Write( std::ostream& f ) const
 {
 
   /** first call the parent's write function */
