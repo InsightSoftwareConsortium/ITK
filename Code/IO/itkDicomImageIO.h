@@ -20,16 +20,6 @@
 #include <fstream>
 #include "itkImageIOBase.h"
 
-//this structure is used to creat a table of Tag
-typedef struct Bal
-{
-  char Balise1 [2]; 
-  char Balise2 [2];
-  int compt;
-} Tag;
-
-
-
 namespace itk
 {
 
@@ -41,6 +31,14 @@ public:
   typedef DicomImageIO            Self;
   typedef ImageIOBase  Superclass;
   typedef SmartPointer<Self>  Pointer;
+
+  //this structure is used to creat a table of tags
+  typedef struct Bal
+  {
+    unsigned char Subtag1 [2]; 
+    unsigned char Subtag2 [2];
+    int count;
+  } Tag;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,7 +54,7 @@ public:
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
-  
+
   /** Get the type of the pixel.  */
   virtual const std::type_info& GetPixelType() const;
 
@@ -92,14 +90,21 @@ private:
 
   void SwapBytesIfNecessary(void* buffer, unsigned long numberOfPixels);
  
-  /** This function builds a list of tags required to read data in a dicom file*/
-  bool CheckTagTable(std::ifstream & inputStream, std::list <Tag> &TableOfTags) const;
-  /** This function put the cursor of the stream on the first byte after the last balise
-   *  at the end of the header */
-  bool GoToTheEndOfHeader(std::ifstream & inputStream,long int& i,Tag & tagcurrent) const;
-  /** This function put the cursor of the stream on the first byte after the given balise */
-  bool GoToTag(std::ifstream & inputStream,int balise1,int balise2,long int & i,
-                                                     long int & max,Tag & tagcurrent) const;
+  /** This function builds a list of tags required to read data in a
+   * dicom file*/
+  bool CheckTagTable(std::ifstream & inputStream,
+                     std::list <Tag> &TableOfTags) const;
+
+  /** This function puts the cursor of the stream on the first byte
+   *  after the last balise at the end of the header */
+  bool GoToTheEndOfHeader(std::ifstream & inputStream,
+                          long int& i,Tag & tagcurrent) const;
+
+  /** This function puts the cursor of the stream on the first byte
+   * after the given balise */
+  bool GoToTag(std::ifstream & inputStream, int balise1, int balise2,
+               long int & i, long int & max, Tag & tagcurrent) const;
+
   /** return true if tag([0][1]) = tagvalue1 and tag([2][3]) = tagvalue2*/ 
   bool IfEqual(unsigned char * tag, int tagvalue1, int tagvalue2) const;
   

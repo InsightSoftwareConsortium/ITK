@@ -21,11 +21,19 @@
 #include "itkByteSwapper.h"
 #include <iostream>
 #include <list>
-#include <string.h>
-#include <math.h>
 
-// Note: Balise is a French word used in this case to refer to half of
-// a tag.
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+
+// If you're not Mark Foskey, then he left this here by mistake.
+// Please complain to mark_foskey@unc.edu.
+#define OH(var) #var "=" << var << " "
+
+// Convert a subtag into an unsigned int.
+static inline unsigned int
+BytePairToUnsigned(unsigned char* bytePair)
+{ return ((unsigned int) (bytePair[1]) << 8)  + bytePair[0]; }
 
 namespace itk
 {
@@ -45,25 +53,20 @@ DicomImageIO::~DicomImageIO()
 }
 
 
-/** This function return true if the given tag (char *) is equal
- *  to (first balise + the second balise)
+/** This function returns true if the given tag (char *) is equal
+ *  to (first subtag + second subtag)
  *  else return false */
-bool DicomImageIO::IfEqual(unsigned char * tag,int tagvalue1,int tagvalue2) const
+bool DicomImageIO
+::IfEqual(unsigned char * tag,int tagvalue1,int tagvalue2) const
 {
-  if((tag[0]+tag[1]*256==tagvalue1) && (tag[2]+tag[3]*256==tagvalue2))
-  {
-    return (true);
-  }
-  else
-  {
-    return (false);
-  }
+  return (BytePairToUnsigned(&tag[0]) == tagvalue1 &&
+          BytePairToUnsigned(&tag[2]) == tagvalue2);
 }
 
-/** This function put the cursor of the given Stream on the first byte
- *  after the balise of the begining of the Datapixel. i is the number of bytes allready red
- *  in the Stream. return true >> balise found
- *                 return flase >> else */
+/** This function puts the cursor of inputStream on the first byte
+ *  after the subtag of the begining of the data pixels. i is the number
+ *  of bytes already read in the stream.  Return true if the subtag is
+ *  found, false otherwise.  */
 bool DicomImageIO::GoToTheEndOfHeader(std::ifstream & inputStream,
                                       long int& i,Tag & tagcurrent) const
 {
@@ -102,7 +105,7 @@ bool DicomImageIO::GoToTheEndOfHeader(std::ifstream & inputStream,
   again=true;
   while(again)
   {
-    //0x7EF0 and 0x0010 >> Balise before data pixel
+    // (0x7EF0, 0x0010): Tag before data pixel
     if (!DicomImageIO::IfEqual(current,0x7FE0,0x0010))
     {
       //continue
@@ -122,24 +125,24 @@ bool DicomImageIO::GoToTheEndOfHeader(std::ifstream & inputStream,
     }
     else
     {   
-      tagcurrent.Balise1[0]=current[0];
-      tagcurrent.Balise1[1]=current[1];
-      tagcurrent.Balise2[0]=current[2];
-      tagcurrent.Balise2[1]=current[3];
-      tagcurrent.compt=i;
+      tagcurrent.Subtag1[0]=current[0];
+      tagcurrent.Subtag1[1]=current[1];
+      tagcurrent.Subtag2[0]=current[2];
+      tagcurrent.Subtag2[1]=current[3];
+      tagcurrent.count=i;
       again=false;
     } 
   }
   return (true);
 }
 
-/** This function put the cursor of the given stream on the first byte
- *  after the tag (baliseref1, baliseref2). i is the number of bytes
+/** This function puts the cursor of the given stream on the first byte
+ *  after the tag (subtagref1, subtagref2). i is the number of bytes
  *  already read in the Stream.  Return true if tag is found, false
  *  otherwise.
  */
-bool DicomImageIO::GoToTag(std::ifstream & inputStream,int baliseref1,
-                           int baliseref2,long int& i,long int& max,
+bool DicomImageIO::GoToTag(std::ifstream & inputStream,int subtagref1,
+                           int subtagref2,long int& i,long int& max,
                            Tag & tagcurrent) const
 {
   unsigned char current[4]; 
@@ -177,42 +180,53 @@ bool DicomImageIO::GoToTag(std::ifstream & inputStream,int baliseref1,
   again=true;
   while(again)
   {
-    //0xAAAA and 0xBBBB >> Balise1 And Balise2 
-    if (!DicomImageIO::IfEqual(current,baliseref1,baliseref2))
+    unsigned int pos = inputStream.tellg();
+    if (pos > 03440 && pos < 03500) {
+      printf(" %o %02x%02x %02x%02x   ", pos, 
+             current[0], current[1], current[2], current[3]);
+    }
+    //0xAAAA and 0xBBBB >> Subtag1 And Subtag2 
+    if (!DicomImageIO::IfEqual(current,subtagref1,subtagref2))
     {
       //continue
       current[0]=current[1];
       current[1]=current[2];
       current[2]=current[3];
-      if(i>=max) //if the program is reading outside the header
+      // if(i>=max) //if the program is reading outside the header
+      if (false)
       {
         return (false);
       }
       else  
       {
         inputStream >> c;
+        if (inputStream.eof()) 
+        {
+          return false;
+        }
         current[3]=c;
         i++;
       }
     }
     else
     {   
-      tagcurrent.Balise1[0]=current[0];
-      tagcurrent.Balise1[1]=current[1];
-      tagcurrent.Balise2[0]=current[2];
-      tagcurrent.Balise2[1]=current[3];
-      tagcurrent.compt=i;
+      tagcurrent.Subtag1[0]=current[0];
+      tagcurrent.Subtag1[1]=current[1];
+      tagcurrent.Subtag2[0]=current[2];
+      tagcurrent.Subtag2[1]=current[3];
+      tagcurrent.count=i;
       again=false;
     } 
   }
   return (true);
 }
 
-/** This function try to build a list of Tags for all required balises
- *  return true >> all balises are found 
- *  return flase >> else
+/** This function tries to build a list of Tags for all required subtags
+ *  return true >> all subtags are found 
+ *  return false >> else
  */
-bool DicomImageIO::CheckTagTable(std::ifstream & inputStream,std::list <Tag> &TableOfTags) const
+bool DicomImageIO::
+CheckTagTable(std::ifstream& inputStream, std::list<Tag>& TableOfTags) const
 {
   long int i;
   long int max;
@@ -252,15 +266,15 @@ bool DicomImageIO::CheckTagTable(std::ifstream & inputStream,std::list <Tag> &Ta
     TableOfTags.push_back(tagcurrent);
   }
 
-  //0x0028 and 0x0030 >> tag before each the value of spacing
+  //0x0028 and 0x0030 >> tag before each value of spacing
   if(!DicomImageIO::GoToTag(inputStream,0x0028,0x0030,i,max,tagcurrent))
   {
-    //if there is no information about the spacing, we set the value compt to 0
-    tagcurrent.Balise1[1]=0x28;
-    tagcurrent.Balise1[0]=0x00;
-    tagcurrent.Balise2[1]=0x30;
-    tagcurrent.Balise2[0]=0x0;
-    tagcurrent.compt=0;  //
+    //if there is no information about the spacing, we set 'count' to 0
+    tagcurrent.Subtag1[1]=0x28;
+    tagcurrent.Subtag1[0]=0x00;
+    tagcurrent.Subtag2[1]=0x30;
+    tagcurrent.Subtag2[0]=0x00;
+    tagcurrent.count=0;  //
     TableOfTags.push_back(tagcurrent);
     //start the reading of the Stream from the begining
     inputStream.seekg(0);
@@ -290,7 +304,20 @@ bool DicomImageIO::CheckTagTable(std::ifstream & inputStream,std::list <Tag> &Ta
   {
     TableOfTags.push_back(tagcurrent);
   }
+
+  /*
+  // DEBUGGING ONLY
+  typedef std::list<Tag>::iterator TagIterator;
+  for (TagIterator ii = TableOfTags.begin(); ii != TableOfTags.end(); ii++)
+  {
+    printf("%x %x; %d\n",
+           BytePairToUnsigned(ii->Subtag1),
+           BytePairToUnsigned(ii->Subtag2),
+           ii->count);
+  }
+  */
   return(true);
+
 }
 
 bool DicomImageIO::CanReadFile( const char* filename ) 
@@ -399,9 +426,9 @@ void DicomImageIO::Read(void* buffer)
   bool success = !inFile.bad();
   inFile.close();
   if( !success )
-    {
+  {
     itkExceptionMacro("Error reading image data.");
-    }
+  }
 
   SwapBytesIfNecessary( buffer, numberOfPixels );
 }
@@ -415,12 +442,13 @@ void DicomImageIO::ReadImageInformation()
   long int i,j,max;
   long int len;
   double temp;
+  unsigned char bytePair[2];
   unsigned char c;
   unsigned int rows;
   unsigned int columns;
   unsigned int allocatedbits;
   unsigned int representation;
-  char chaine [4];
+  char chain [4];
   char * value;
   char * spac1value,* spac2value;
   Tag tagcurrent;
@@ -444,181 +472,184 @@ void DicomImageIO::ReadImageInformation()
     //start the reading of the Stream from the begining
     inFile.seekg(0);
     i=0;
-  }   
-
-  ////0x0028 and 0x0010 >> tag before the number of rows 
-  if(DicomImageIO::GoToTag(inFile,0x0028,0x0010,
-                                             i,max,tagcurrent))
-  { 
-    for(i=0;i<4;i++)
-    {
-      inFile >> chaine [i];
-    }
-    if(strcmp("US20",chaine)||strcmp("2000",chaine))
-    {
-      rows=0;
-      for(i=0;i<2;i++)
-      {
-        inFile >> c;
-        // rows=rows+c*(unsigned int)pow((double)256,(double)i);
-        rows += c << (i * 8);
-      }
-      m_Dimensions[1]=rows;
-      std::cout << m_Dimensions[1] << std::endl;
-    }
-    else
-    {
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("error_dicom_rows");
-      throw exception;  
-    }
-  }
-  else
-  {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("error_dicom_rows");
-    throw exception;  
-  }
-  ////0x0028 and 0x0011 >> tag before the number of columns 
-  if(DicomImageIO::GoToTag(inFile,0x0028,0x0011,
-                                            i,max,tagcurrent))
-   {
-    for(i=0;i<4;i++)
-    {
-      inFile >> chaine [i];
-    }
-    if(strcmp("US20",chaine)||strcmp("2000",chaine))
-    {
-      columns=0;
-      for(i=0;i<2;i++)
-      {
-        inFile >> c;
-        // columns=columns+c*(unsigned int)pow((double)256,(double)i);
-        columns += c << (i * 8);
-      }
-      m_Dimensions[0]=columns;
-    }
-    else
-    {
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("error_dicom_rows");
-      throw exception;  
-    }
-  }
-  else
-  {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("error_dicom_rows");
-    throw exception;  
   }
 
-  ////0x0028 and 0x0030 >> tag before value of spacing
-  if(DicomImageIO::GoToTag( inFile,0x0028,0x0030,
-                                             i,max,tagcurrent))
+  ////0x0020 and 0x0032 >> tag before value of Origin
+  m_Origin.clear();
+  m_Origin.insert(m_Origin.end(), 3, 0.0);  // Default for origin.
+  std::cout << "*** ORIGIN: " << OH(i) << OH(max) << std::endl;
+  if(DicomImageIO::GoToTag(inFile, 0x0020, 0x0032, i, max, tagcurrent))
   {
     for(i=0;i<4;i++)
     {
-      inFile >> chaine [i];
+      inFile >> chain[i];
     }
-    if((chaine[0]=='D') && (chaine[1]=='S'))
+    if((chain[0]=='D') && (chain[1]=='S'))
     {
-      //if the length is not specified 
-      if (chaine[2]==0 && chaine[3] !=0 )
+      // The VR (Value Representation) is explicitly "DS"
+      if (chain[2]==0 && chain[3] !=0 )
       {
-       len=0; 
-       c=chaine[3];
-       i=inFile.tellg();
-       while(c>44)
-       {
-         len++;
-         inFile >> c;
-       }
-       //we put the cursor back to read data spacing
-       inFile.seekg(i-len+8);
-        
+        // But the length is not specified 
+        len=0; 
+        c=chain[3];
+        i=inFile.tellg();
+        while(c>44)
+        {
+          len++;
+          inFile >> c;
+        }
+        //we put the cursor back to read data spacing
+        inFile.seekg(i-len+8);
       }
       else
       {
-       //if the length is specified on 2 bytes
-      len=chaine[2]+chaine[3]*256;
+        // The length is specified using 2 bytes.
+        len=chain[2]+chain[3]*256;
       }
     }
     else
     {
-      //if the length is specified on 4 bytes
-      len=chaine[0]+chaine[1]*256+chaine[2]*256*256+chaine[3]*256*256*256;
+      // The VR is not specified and the length is, using 4 bytes.
+      len=chain[0]+chain[1]*256+chain[2]*256*256+chain[3]*256*256*256;
     }
-    // we build a table of char 
-    value = (char *) malloc (sizeof(char)*len);
-    j = 0;
-    for(i=0;i<len;i++)
-    {
-      inFile >> c;
-      value[i]=c;
-      if(value[i]=='\\')
-      {
-        j=i;
-      }
+
+    std::cout << OH(len) << std::endl;
+    if (len > 0) {
+      char dummy;
+      inFile
+        >> m_Origin[0] >> dummy
+        >> m_Origin[1] >> dummy
+        >> m_Origin[2];
     }
-    spac1value=(char*)malloc(sizeof(char)*(j));
-    spac2value=(char*)malloc(sizeof(char)*(len-j-1));
-    for(i=0;i<len;i++)
-    {
-      if(i<j)
-      {
-        //we put data in spac1value[]
-        spac1value[i]=value[i];
-      }
-      if(i>j)
-      {
-        //we put data in spac2value[]
-        if(i<len-1)
-        {
-          spac2value[i-j-1]=value[i];
-        }
-        if(i==len-1) // if the value of the length is = n or = n-1  ???
-        {
-          if(value[i]>=44)  // 44 is '-' / if lower it can be a tag detected
-          {
-            spac2value[i-j-1]=value[i];
-          }
-          else
-          {
-            //one byte was red too many
-            i=inFile.tellg();
-            inFile.seekg(--i);
-          }
-        }
-      }
-    }
-    temp=atof(spac1value);
-    m_Spacing[0]=temp;
-    temp=atof(spac2value);
-    m_Spacing[1]=temp;
   }
   else
   {
-    //if no data about spacing exits >> then set the value to 1
-    m_Spacing[0]=1;
-    m_Spacing[1]=1;
+    // If tag not found then go back to beginning of file to look for
+    // next tag.  (We aren't using the fact that tags are required to
+    // be in order.)
     inFile.seekg(0);
     i=0;
   }
+
+  std::cout << "*** ROWS:" << endl;
+  ////0x0028 and 0x0010 >> tag before the number of rows 
+  if(DicomImageIO::GoToTag(inFile, 0x0028, 0x0010, i, max, tagcurrent))
+  { 
+    for(i=0;i<4;i++)
+    {
+      inFile >> chain [i];
+    }
+    if(strcmp("US20",chain)||strcmp("2000",chain))
+    {
+      inFile >> bytePair[0] >> bytePair[1];
+      m_Dimensions[1] = BytePairToUnsigned(bytePair);
+    }
+    else
+    {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("error_dicom_rows");
+      throw exception;  
+    }
+  }
+  else
+  {
+    ExceptionObject exception(__FILE__, __LINE__);
+    exception.SetDescription("error_dicom_rows");
+    throw exception;  
+  }
+
+  std::cout << "*** COLUMNS:" << endl;
+  ////0x0028 and 0x0011 >> tag before the number of columns 
+  if(DicomImageIO::GoToTag(inFile,0x0028,0x0011,
+                           i,max,tagcurrent))
+   {
+    for(i=0;i<4;i++)
+    {
+      inFile >> chain [i];
+    }
+    if(strcmp("US20",chain)||strcmp("2000",chain))
+    {
+      inFile >> bytePair[0] >> bytePair[1];
+      m_Dimensions[0] = BytePairToUnsigned(bytePair);
+    }
+    else
+    {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("error_dicom_columns");
+      throw exception;  
+    }
+  }
+  else
+  {
+    ExceptionObject exception(__FILE__, __LINE__);
+    exception.SetDescription("error_dicom_columns");
+    throw exception;  
+  }
+
+  std::cout << "*** SPACING:" << endl;
+  ////0x0028 and 0x0030 >> tag before value of spacing
+  m_Spacing[0]=1;  // Default values
+  m_Spacing[1]=1;
+  if(DicomImageIO::GoToTag(inFile, 0x0028, 0x0030, i, max, tagcurrent))
+  {
+    for(i=0;i<4;i++)
+    {
+      inFile >> chain[i];
+    }
+    if((chain[0]=='D') && (chain[1]=='S'))
+    {
+      // The VR (Value Representation) is explicitly "DS"
+      if (chain[2]==0 && chain[3] !=0 )
+      {
+        // But the length is not specified 
+        len=0; 
+        c=chain[3];
+        i=inFile.tellg();
+        while(c>44)
+        {
+          len++;
+          inFile >> c;
+        }
+        //we put the cursor back to read data spacing
+        inFile.seekg(i-len+8);
+      }
+      else
+      {
+        // The length is specified using 2 bytes.
+        len=chain[2]+chain[3]*256;
+      }
+    }
+    else
+    {
+      // The VR is not specified and the length is, using 4 bytes.
+      len=chain[0]+chain[1]*256+chain[2]*256*256+chain[3]*256*256*256;
+    }
+    std::cout << OH(len) << std::endl;
+    if (len > 0) {
+      char dummy;
+      inFile >> m_Spacing[0] >> dummy >> m_Spacing[1];
+    }
+  }
+  else
+  {
+    // If tag not found then go back to beginning of file to look for
+    // next tag.  (We aren't using the fact that tags are required to
+    // be in order.)
+    inFile.seekg(0);
+    i=0;
+  }
+
   ////0x0028 and 0x0100 >> tag before the number of allocated bits
   if(DicomImageIO::GoToTag(inFile,0x0028,0x0100,i,max,tagcurrent))
   {
     for(i=0;i<4;i++)
     {
-      inFile >> chaine [i];
+      inFile >> chain [i];
     }
-    if(strcmp("US20",chaine)||strcmp("2000",chaine))
+    if(strcmp("US20",chain)||strcmp("2000",chain))
     {
-      allocatedbits=0;
-      for(i=0;i<2;i++)
-      {
-        inFile >> c;
-        allocatedbits=allocatedbits+c*(unsigned int)pow((double)256,(double)i);
-      }
+      inFile >> bytePair[0] >> bytePair[1];
+      allocatedbits = BytePairToUnsigned(bytePair);
     }
     else
     {
@@ -639,16 +670,12 @@ void DicomImageIO::ReadImageInformation()
   {
     for(i=0;i<4;i++)
     {
-      inFile >> chaine [i];
+      inFile >> chain [i];
     }
-    if(strcmp("US20",chaine)||strcmp("2000",chaine))
+    if(strcmp("US20",chain)||strcmp("2000",chain))
     {
-      representation=0;
-      for(i=0;i<2;i++)
-      {
-        inFile >> c;
-        representation=representation+c*(unsigned int)pow((double)256,(double)i);
-      }
+      inFile >> bytePair[0] >> bytePair[1];
+      representation = BytePairToUnsigned(bytePair);
     }
     else
     {
@@ -708,9 +735,9 @@ void DicomImageIO::ReadImageInformation()
     exception.SetDescription("error_dicom_no_end_of_the_header");
     throw exception;  
   }
-  inFile >> chaine[0];
-  inFile >> chaine[1];
-  if (chaine[0]=='O' && chaine[1]=='W')
+  inFile >> chain[0];
+  inFile >> chain[1];
+  if (chain[0]=='O' && chain[1]=='W')
   {
     j=4;
   }
@@ -724,6 +751,8 @@ void DicomImageIO::ReadImageInformation()
   }
   
   m_InputPosition = inFile.tellg();
+  itk::Indent* in = itk::Indent::New();
+  this->PrintSelf(std::cout, *in);
 }
 
 
@@ -817,7 +846,19 @@ DicomImageIO
 void DicomImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "PixelType " << m_PixelType << "\n";
+  os << indent << "Spacing: ( ";
+  for (unsigned int i=0; i < m_NumberOfDimensions; i++)
+  {
+    os << m_Spacing[i] << " ";
+  }
+  os << " )\n";
+  os << indent << "Origin: ( ";
+  for (unsigned int i=0; i < m_Origin.size(); i++)
+  {
+    os << m_Origin[i] << " ";
+  }
+  os << " )" << std::endl;
+  
 }
 
 
