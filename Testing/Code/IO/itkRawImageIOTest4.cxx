@@ -134,7 +134,8 @@ int itkRawImageIOTest4(int argc, char*argv[])
 
 
   // Create the BigEndian binary file
-  std::ofstream outputFile1;
+  std::ofstream outputFile1(argv[1], std::ios::out);
+  outputFile1.close();
 #ifdef _WIN32
   outputFile1.open( argv[1] , std::ios::out | std::ios::binary );
 #else
@@ -169,7 +170,8 @@ int itkRawImageIOTest4(int argc, char*argv[])
 
 
   // Create the LittleEndian binary file
-  std::ofstream outputFile2;
+  std::ofstream outputFile2(argv[2], std::ios::out);
+  outputFile2.close();
 #ifdef _WIN32
   outputFile2.open( argv[2] , std::ios::out | std::ios::binary );
 #else
