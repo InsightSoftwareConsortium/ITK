@@ -7,8 +7,6 @@
 #include <set>
 #include <strstream>
 
-typedef std::string String;
-
 #include "referenceCount.h"
 
 #define NoPointedToTypeException  ("PointerType has no pointed-to type.")
@@ -16,6 +14,11 @@ typedef std::string String;
 #define NotIndirectionException ("Indirection operation on non-indirection type.")
 #define IndirectionOnReferenceException ("Attempt to form type with indirection to reference.")
 #define NameIsNotClassException ("Name looked up as class, but is not Class, Struct, or Union.")
+
+namespace source
+{
+
+typedef std::string String;
 
 String GetValid_C_Identifier(const String& in_name);
 
@@ -316,14 +319,13 @@ public:
   bool IsMethodType(void) const    { return (this->GetTypeOfObject() == MethodType_id); }
   bool IsOffsetType(void) const    { return (this->GetTypeOfObject() == OffsetType_id); }
   bool IsArrayType(void) const     { return (this->GetTypeOfObject() == ArrayType_id); }
-  bool IsFunctionPointer(void) const 
+  bool IsFunctionPointer(void) const
     {
+      // if(!this->IsPointerType()) return false;      
+      // ... Type::Pointer GetPointedToType(void) { return m_PointedToType; }
       return ((this->GetTypeOfObject() == PointerType_id )
 	      && (this->GetName().find("(*)") != String::npos));
     }
-  
-
-	
   
   String GetName(void) const { return this->GetNameWithCV(); }  
   String GetCV(void) const { return m_CV_Qualifiers? m_CV_Qualifiers->GetString() : ""; }
@@ -1333,5 +1335,6 @@ private:
   QualifiedName::Pointer m_QualifiedName;
 };
 
+} // namespace source
 
 #endif

@@ -1,23 +1,26 @@
 #ifndef _xmlSourceParser_h
 #define _xmlSourceParser_h
 
-#include <cstdio>
-#include <stack>
-#include <map>
-
-#include "parseUtils.h"
+#include "xmlParseException.h"
+#include "xmlAttributes.h"
 #include "internalRep.h"
 
-namespace xml
+#include <stack>
+
+namespace source
 {
+
+typedef ::xml::ParseException              ParseException;
+typedef ::xml::UnknownElementTagException  UnknownElementTagException;
+typedef ::xml::Attributes                  Attributes;
 
 /**
  * Class to parse the XML description of a C++ source.
  */
-class SourceParser: public Object
+class Parser: public Object
 {
 public:
-  typedef SourceParser Self;
+  typedef Parser Self;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   
@@ -31,10 +34,10 @@ public:
   void EndElement(const char *name);
   
 protected:
-  SourceParser();
-  SourceParser(const Self&) {}
+  Parser();
+  Parser(const Self&) {}
   void operator=(const Self&) {}
-  virtual ~SourceParser();
+  virtual ~Parser();
   
 private:
   /**
@@ -52,7 +55,8 @@ private:
    * element stack if the XML source is correct.
    */
   Namespace::Pointer  m_GlobalNamespace;
-
+  
+  // Access functions for element stack.
   InternalObject::Pointer CurrentElement(void);
   Context::Pointer        CurrentContext(void);
   Namespace::Pointer      CurrentNamespace(void);
@@ -176,6 +180,6 @@ private:
   static void EndElement_proxy(void*, const char *);
 };
 
-} // namespace xml
+} // namespace source
   
 #endif

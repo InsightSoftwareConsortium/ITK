@@ -1,13 +1,13 @@
 #include "xmlConfigurationParser.h"
 
-namespace xml
+namespace configuration
 {
 
 /**
- * Create a new ConfigurationParser and return a pointer to it.
+ * Create a new Parser and return a pointer to it.
  */
-ConfigurationParser::Pointer
-ConfigurationParser::New()
+Parser::Pointer
+Parser::New()
 {
   return new Self;
 }
@@ -15,15 +15,15 @@ ConfigurationParser::New()
 
 /**
  * Constructor sets up an XML_Parser to make call-backs into this
- * ConfigurationParser.
+ * Parser.
  */
-ConfigurationParser
-::ConfigurationParser():
+Parser
+::Parser():
   m_XML_Parser(XML_ParserCreate(NULL)),
   m_Package(NULL),
   m_CdataSectionFlag(false)
 {
-  ConfigurationParser::InitializeHandlers();
+  Parser::InitializeHandlers();
   
   XML_SetElementHandler(m_XML_Parser,
                         BeginElement_proxy,
@@ -41,8 +41,8 @@ ConfigurationParser
 /**
  * Cleanup the XML_Parser
  */
-ConfigurationParser
-::~ConfigurationParser()
+Parser
+::~Parser()
 {
   XML_ParserFree(m_XML_Parser);
 }
@@ -52,11 +52,11 @@ ConfigurationParser
  * Parse the XML from the given input stream until end-of-input is reached.
  */
 void
-ConfigurationParser
+Parser
 ::Parse(std::istream& inStream)
 {
-  char buf[BUFSIZ];
-  bool done = false;  
+  char buf[257];
+  bool done = false;
 
   /**
    * Parse until end of input stream is reached.
@@ -68,9 +68,11 @@ ConfigurationParser
     done = (len < sizeof(buf));
     if(!XML_Parse(m_XML_Parser, buf, len, done))
       {
-      fprintf(stderr, "ConfigurationParser::Parse(): %s at line %d\n",
-              XML_ErrorString(XML_GetErrorCode(m_XML_Parser)),
-              XML_GetCurrentLineNumber(m_XML_Parser));
+      std::cerr << "Parser::Parse(): \""
+                << XML_ErrorString(XML_GetErrorCode(m_XML_Parser))
+                << "\" at source line "
+                << XML_GetCurrentLineNumber(m_XML_Parser)
+                << std::endl;
       }
     }
 }
@@ -82,7 +84,7 @@ ConfigurationParser
  * Attributes container.
  */
 void
-ConfigurationParser
+Parser
 ::BeginElement(const char *name, const char **atts)
 {
   try {
@@ -105,19 +107,18 @@ ConfigurationParser
   }
   catch (const ParseException& e)
     {
-    e.PrintLocation(stderr);
-    e.Print(stderr);
-    exit(1);
+    e.PrintLocation(std::cerr);
+    e.Print(std::cerr);
     }
   catch (const String& e)
     {
-    fprintf(stderr, "Caught exceptoin in BeginElement():\n%s\n", e.c_str());
-    exit(1);
+    std::cerr << "Caught exception in Parser::BeginElement():"
+              << std::endl << e.c_str() << std::endl;
     }
   catch (...)
     {
-    fprintf(stderr, "Caught unknown exception in BeginElement().\n");
-    exit(1);
+    std::cerr << "Caught unknown exception in Parser::BeginElement()."
+              << std::endl;
     }
 }
 
@@ -127,7 +128,7 @@ ConfigurationParser
  * BeginElement was called.
  */
 void
-ConfigurationParser
+Parser
 ::EndElement(const char *name)
 {
   try {
@@ -145,19 +146,18 @@ ConfigurationParser
   }
   catch (const ParseException& e)
     {
-    e.PrintLocation(stderr);
-    e.Print(stderr);
-    exit(1);
+    e.PrintLocation(std::cerr);
+    e.Print(std::cerr);
     }
   catch (const String& e)
     {
-    fprintf(stderr, "Caught exceptoin in EndElement():\n%s\n", e.c_str());
-    exit(1);
+    std::cerr << "Caught exception in Parser::EndElement():"
+              << std::endl << e.c_str() << std::endl;
     }
   catch (...)
     {
-    fprintf(stderr, "Caught unknown exception in EndElement().\n");
-    exit(1);
+    std::cerr << "Caught unknown exception in Parser::EndElement()."
+              << std::endl;
     }
 }
 
@@ -167,7 +167,7 @@ ConfigurationParser
  * section from the XML source.
  */
 void
-ConfigurationParser
+Parser
 ::BeginCdataSectionHandler()
 {
   m_CdataSectionFlag = true;
@@ -179,7 +179,7 @@ ConfigurationParser
  * section from the XML source.
  */
 void
-ConfigurationParser
+Parser
 ::EndCdataSectionHandler()
 {
   m_CdataSectionFlag = false;
@@ -196,10 +196,10 @@ ConfigurationParser
  * "data" will NOT be '\0' terminated, but "length" specifies how much.
  */
 void
-ConfigurationParser
+Parser
 ::CharacterDataHandler(const XML_Char *data, int length)
 {
-//  ConfigurationParser* parser = static_cast<ConfigurationParser*>(in_parser);
+//  Parser* parser = static_cast<Parser*>(in_parser);
 //  if(parser->GetCdataSectionFlag())// && CurrentCodeBlock())
 //    {
     //CurrentCodeBlock()->AddLine(data, length);
@@ -208,54 +208,185 @@ ConfigurationParser
 
 
 /**
+ * Get the top of the element stack.
+ */
+ConfigureObject::Pointer
+Parser
+::CurrentElement(void)
+{
+  return m_ElementStack.top();
+}
+
+
+/**
+ * An unexpected element type is on top of the stack.
+ */
+class ElementStackTypeException: public ParseException
+{
+public:
+  ElementStackTypeException(const char* file, int line,
+                            const char* e, const char* t):
+    ParseException(file, line), m_Expected(e), m_Got(t) {}
+  void Print(std::ostream& os) const
+    {
+      os << "Expected \"" << m_Expected.c_str()
+         << "\" on top of element stack, but got \"" << m_Got << "\""
+         << std::endl;
+    }
+private:
+  String m_Expected;
+  String m_Got;
+};
+
+
+/**
+ * Get the current Package off the top of the element stack.
+ */
+Package::Pointer
+Parser
+::CurrentPackage(void)
+{
+  if(m_ElementStack.top()->GetTypeOfObject() != Package_id)
+    throw ElementStackTypeException(__FILE__, __LINE__, "Package",
+                                    m_ElementStack.top()->GetClassName());
+
+  return dynamic_cast<Package*>(m_ElementStack.top().RealPointer());
+}
+
+
+/**
+ * Get the current Dependencies off the top of the element stack.
+ */
+Dependencies::Pointer
+Parser
+::CurrentDependencies(void)
+{
+  if(m_ElementStack.top()->GetTypeOfObject() != Dependencies_id)
+    throw ElementStackTypeException(__FILE__, __LINE__, "Dependencies",
+                                    m_ElementStack.top()->GetClassName());
+
+  return dynamic_cast<Dependencies*>(m_ElementStack.top().RealPointer());
+}
+
+
+/**
+ * Push a new element onto the element stack.
+ */
+void
+Parser
+::PushElement(ConfigureObject* element)
+{
+  m_ElementStack.push(element);
+}
+
+
+/**
+ * Pop the top off the element stack.
+ */
+void
+Parser
+::PopElement(void)
+{
+  m_ElementStack.pop();
+
+  // Sanity check.
+  if(m_ElementStack.empty())
+    {
+    throw String("Main package popped from element stack!");
+    }
+}
+
+
+/**
  * Begin handler for Package element.
  */
 void
-ConfigurationParser
-::begin_Package(const Attributes&)
+Parser
+::begin_Package(const Attributes& atts)
 {
-//  String source = atts.Get("source");
-//  String dest = "";
-//  if(atts.Have("dest"))
-//    dest = atts.Get("dest");
-  m_Package = Package::New();
+  String name = atts.Get("name");
+  if(!m_Package)
+    {
+    // This is the outermost package.
+    m_Package = Package::New(name);
+    this->PushElement(m_Package);
+    }
+  else
+    {
+    // This is a package dependency element.
+    // Add the dependency.
+    this->CurrentDependencies()->Add(name);
+    }
 }
 
 /**
  * End handler for Package element.
  */
 void
-ConfigurationParser
+Parser
 ::end_Package()
 {
+  // Don't pop off the main package element!
 }
 
 
 /**
- * Map of ConfigurationParser element begin handlers.
+ * Begin handler for Dependencies element.
  */
-ConfigurationParser::BeginHandlers ConfigurationParser::beginHandlers;
+void
+Parser
+::begin_Dependencies(const Attributes&)
+{
+  Package* package = this->CurrentPackage();
+  Dependencies::Pointer dependencies = package->GetDependencies();
+  if(!dependencies)
+    {
+    dependencies = Dependencies::New();
+    package->SetDependencies(dependencies);
+    }
+  this->PushElement(dependencies);
+}
+
 
 /**
- * Map of ConfigurationParser element end handlers.
+ * End handler for Dependencies element.
  */
-ConfigurationParser::EndHandlers ConfigurationParser::endHandlers;
+void
+Parser
+::end_Dependencies()
+{
+  this->PopElement();
+}
+
+
+/**
+ * Map of Parser element begin handlers.
+ */
+Parser::BeginHandlers Parser::beginHandlers;
+
+/**
+ * Map of Parser element end handlers.
+ */
+Parser::EndHandlers Parser::endHandlers;
 
 /**
  * This static method initializes the beginHandlers and endHandlers
- * maps.  It is called by the ConfigurationParser constructor every time,
+ * maps.  It is called by the Parser constructor every time,
  * but only initializes the maps once.
  */
 void
-ConfigurationParser
+Parser
 ::InitializeHandlers(void)
 {
   // Make sure we only initialize the maps once.
   static bool initialized = false;  
   if(initialized) return;
   
-  beginHandlers["Package"] = &ConfigurationParser::begin_Package;
-  endHandlers["Package"]   = &ConfigurationParser::end_Package;
+  beginHandlers["Package"]      = &Parser::begin_Package;
+  beginHandlers["Dependencies"] = &Parser::begin_Dependencies;
+
+  endHandlers["Package"]      = &Parser::end_Package;
+  endHandlers["Dependencies"] = &Parser::end_Dependencies;
   
   initialized = true;
 }
@@ -267,20 +398,20 @@ ConfigurationParser
  * Passes call through to real parser object according to first argument.
  */
 void
-ConfigurationParser
+Parser
 ::BeginCdataSectionHandler_proxy(void* parser)
 {
-  static_cast<ConfigurationParser*>(parser)->BeginCdataSectionHandler();
+  static_cast<Parser*>(parser)->BeginCdataSectionHandler();
 }
 
 /**
  * Passes call through to real parser object according to first argument.
  */
 void
-ConfigurationParser
+Parser
 ::EndCdataSectionHandler_proxy(void* parser)
 {
-  static_cast<ConfigurationParser*>(parser)->EndCdataSectionHandler();
+  static_cast<Parser*>(parser)->EndCdataSectionHandler();
 }
 
 
@@ -288,10 +419,10 @@ ConfigurationParser
  * Passes call through to real parser object according to first argument.
  */
 void
-ConfigurationParser
+Parser
 ::BeginElement_proxy(void* parser, const char *name, const char **atts)
 {
-  static_cast<ConfigurationParser*>(parser)->BeginElement(name, atts);
+  static_cast<Parser*>(parser)->BeginElement(name, atts);
 }
 
 
@@ -299,10 +430,10 @@ ConfigurationParser
  * Passes call through to real parser object according to first argument.
  */
 void
-ConfigurationParser
+Parser
 ::EndElement_proxy(void* parser, const char *name)
 {
-  static_cast<ConfigurationParser*>(parser)->EndElement(name);
+  static_cast<Parser*>(parser)->EndElement(name);
 }
 
 
@@ -310,195 +441,11 @@ ConfigurationParser
  * Passes call through to real parser object according to first argument.
  */
 void
-ConfigurationParser
+Parser
 ::CharacterDataHandler_proxy(void* parser,const XML_Char *data, int length)
 {
-  static_cast<ConfigurationParser*>(parser)->CharacterDataHandler(data, length);
+  static_cast<Parser*>(parser)->CharacterDataHandler(data, length);
 }
 
 
-
-
-
-
-
-
-#if 0
-
-
-/**
- * A stack of code block definitions.
- */
-static std::stack<CodeBlock::Pointer>  codeBlockStack;
-
-
-
-/**
- * Begin handler for WrapType element.
- */
-void
-ConfigurationParser
-::begin_WrapType(const Attributes& atts)
-{
-  String name = atts.Get("name");
-  WrapType::Pointer newWrapType = WrapType::New(name);
-  
-  wrapperConfiguration->AddWrapType(newWrapType);
-  currentWrapType = newWrapType;
-}
-
-/**
- * End handler for WrapType element.
- */
-void
-ConfigurationParser
-::end_WrapType(void)
-{
-  // If there was no creation, use the current default.
-  if(!currentWrapType->GetCreate())
-    {
-    currentWrapType->SetCreate(wrapperConfiguration->GetDefaultCreate());
-    }
-  // If there was no deletion, use the current default.
-  if(!currentWrapType->GetDelete())
-    {
-    currentWrapType->SetDelete(wrapperConfiguration->GetDefaultDelete());
-    }
-  // No wrapping type is currently being defined.
-  currentWrapType = NULL;
-}
-
-
-/**
- * Begin handler for DefaultCreate element.
- */
-void
-ConfigurationParser
-::begin_DefaultCreate(const Attributes&)
-{
-  Create::Pointer newCreate = Create::New();
-  
-  wrapperConfiguration->SetDefaultCreate(newCreate);
-  PushCodeBlock(newCreate);
-}
-
-/**
- * End handler for DefaultCreate element.
- */
-void
-ConfigurationParser
-::end_DefaultCreate(void)
-{
-  // Remove the current default creation setting.
-  wrapperConfiguration->SetDefaultCreate(NULL);
-  PopCodeBlock();
-}
-
-
-/**
- * Begin handler for DefaultDelete element.
- */
-void
-ConfigurationParser
-::begin_DefaultDelete(const Attributes&)
-{
-  Delete::Pointer newDelete = Delete::New();
-  
-  wrapperConfiguration->SetDefaultDelete(newDelete);
-  PushCodeBlock(newDelete);
-}
-
-/**
- * End handler for DefaultDelete element.
- */
-void
-ConfigurationParser
-::end_DefaultDelete(void)
-{
-  // Remove the current default deletion setting.
-  wrapperConfiguration->SetDefaultDelete(NULL);
-  PopCodeBlock();
-}
-
-
-/**
- * Begin handler for Create element.
- */
-void
-ConfigurationParser
-::begin_Create(const Attributes&)
-{
-  Create::Pointer newCreate = Create::New();
-  
-  if(!currentWrapType) throw "Create setting without WrapType.\n";
-  currentWrapType->SetCreate(newCreate);
-  PushCodeBlock(newCreate);
-}
-
-/**
- * End handler for Create element.
- */
-void
-ConfigurationParser
-::end_Create(void)
-{
-  PopCodeBlock();
-}
-
-
-/**
- * Begin handler for Delete element.
- */
-void
-ConfigurationParser
-::begin_Delete(const Attributes&)
-{
-  Delete::Pointer newDelete = Delete::New();
-  
-  if(!currentWrapType) throw "Delete setting without WrapType.\n";
-  currentWrapType->SetDelete(newDelete);
-  PushCodeBlock(newDelete);
-}
-
-/**
- * End handler for Delete element.
- */
-void
-ConfigurationParser
-::end_Delete(void)
-{
-  PopCodeBlock();
-}
-
-/**
- * Begin a new code block.
- */
-static void PushCodeBlock(CodeBlock* c)
-{
-  codeBlockStack.push(c);
-}
-
-
-/**
- * End a code block.
- */
-static void PopCodeBlock(void)
-{
-  codeBlockStack.pop();
-}
-
-
-/**
- * The current code block.
- */
-static CodeBlock::Pointer CurrentCodeBlock(void)
-{
-  if(codeBlockStack.empty()) return NULL;
-  else return codeBlockStack.top();
-}
-
-
-
-#endif
-
-} // namespace xml
+} // namespace configuration

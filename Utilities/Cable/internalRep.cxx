@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <strstream>
 
+namespace source
+{
 
 /**
  * Convert the given string to a valid C identifier.
@@ -1455,3 +1457,4 @@ BaseClass
           "</BaseClass>\n");
 }
 
+} // namespace source

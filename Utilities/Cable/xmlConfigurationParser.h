@@ -1,25 +1,26 @@
 #ifndef _xmlConfigurationParser_h
 #define _xmlConfigurationParser_h
 
-#include <iostream>
-#include <cstdio>
-#include <map>
-#include <stack>
-#include <cstdlib>
-
-#include "parseUtils.h"
+#include "xmlParseException.h"
+#include "xmlAttributes.h"
 #include "configRep.h"
 
-namespace xml
+#include <stack>
+
+namespace configuration
 {
+
+typedef ::xml::ParseException              ParseException;
+typedef ::xml::UnknownElementTagException  UnknownElementTagException;
+typedef ::xml::Attributes                  Attributes;
 
 /**
  * Class to parse the XML wrapper configuration file.
  */
-class ConfigurationParser: public Object
+class Parser: public Object
 {
 public:
-  typedef ConfigurationParser Self;
+  typedef Parser Self;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   
@@ -35,16 +36,21 @@ public:
   void CharacterDataHandler(const XML_Char *data, int length);
   
 protected:
-  ConfigurationParser();
-  ConfigurationParser(const Self&) {}
+  Parser();
+  Parser(const Self&) {}
   void operator=(const Self&) {}
-  virtual ~ConfigurationParser();
+  virtual ~Parser();
   
 private:
   /**
    * The actual XML_Parser.
    */
   XML_Parser m_XML_Parser;
+  
+  /**
+   * A stack of XML elements used during parsing of the XML configuration.
+   */
+  std::stack<ConfigureObject::Pointer>  m_ElementStack;  
   
   /**
    * Store the package configuration instance.
@@ -55,12 +61,23 @@ private:
    * Flag for whether a CDATA section is being parsed.
    */
   bool m_CdataSectionFlag;
+
+  // Access functions for element stack.
+  ConfigureObject::Pointer CurrentElement(void);  
+  Package::Pointer         CurrentPackage(void);  
+  Dependencies::Pointer   CurrentDependencies(void);  
   
+  // Element stack utilities.
+  void PushElement(ConfigureObject* element);
+  void PopElement(void);
+
   // The element begin handlers.
   void begin_Package(const Attributes&);
+  void begin_Dependencies(const Attributes&);
   
   // The element end handlers.
   void end_Package();
+  void end_Dependencies();
   
   // Element map utilities.
   static void InitializeHandlers();  
@@ -86,6 +103,6 @@ private:
   static void CharacterDataHandler_proxy(void*,const XML_Char *, int);
 };
 
-} // namespace xml
+} // namespace configuration
   
 #endif

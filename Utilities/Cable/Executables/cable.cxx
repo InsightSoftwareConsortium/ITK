@@ -1,14 +1,18 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <iostream>
+#include <fstream>
 
-#include "parseConfigXML.h"
-#include "parseSourceXML.h"
+#include "xmlConfigurationParser.h"
+#include "xmlSourceParser.h"
 
-extern void GenerateTcl(const Namespace* globalNamespace,
-                        const WrapperConfiguration*,
-                        const char* outputDirectory);
+typedef std::string String;
+typedef source::Namespace       Namespace;
+typedef configuration::Package  Package;
+
+//extern void GenerateTcl(const Namespace* globalNamespace,
+//                        const Package*,
+//                        const char* outputDirectory);
 extern void DisplayTree(const Namespace* globalNamespace,
-                        const WrapperConfiguration*,
+                        const Package*,
                         const char* outputDirectory);
 
 
@@ -21,7 +25,7 @@ struct WrapperGenerator
   char* commandLineFlag;         // Command line flag's text.
   bool  flag;                    // Was command line flag given?
   void (*generate)(const Namespace*,
-                   const WrapperConfiguration*,
+                   const Package*,
                    const char*); // Generation function.
   char* outputDirectory;         // Name of subdirectory where wrappers go.
 };
@@ -32,24 +36,24 @@ struct WrapperGenerator
  */
 WrapperGenerator wrapperGenerators[] =
 {
-  { "TCL", "-tcl", false, GenerateTcl, "Tcl"},
+//  { "TCL", "-tcl", false, GenerateTcl, "Tcl"},
   { "(display tree)", "-display", false, DisplayTree, ""},
   { 0, 0, 0, 0 }
 };
 
 
 /**
- * The input file to be used for configuration (defaults to stdin).
+ * The input stream to be used for configuration.
  */
-FILE* inputFile = NULL;
+std::ifstream inputFile;
 
 /**
  * If the command line override's the configuration file's output name,
  * this is set to the new file name.
  */
-char* outputName = NULL;
+const char* outputName = NULL;
 
-void processCommandLine(int argc, char* argv[]);
+bool processCommandLine(int argc, char* argv[]);
 
 /**
  * Program entry point.
@@ -57,12 +61,18 @@ void processCommandLine(int argc, char* argv[]);
 int main(int argc, char* argv[])
 {
   try {
-  processCommandLine(argc, argv);
+  if(!processCommandLine(argc, argv)) return 1;
+ 
+  configuration::Parser::Pointer configurationParser =
+    configuration::Parser::New();
   
-  // Store the configuration.
-  WrapperConfiguration::Pointer configuration =
-    ParseConfigXML(inputFile);
-
+  configurationParser->Parse(inputFile);
+  
+//  source::Parser::Pointer sourceParser = source::Parser::New();
+  
+//  sourceParser->Parse(inputFile);
+  
+#if 0
   // If needed, override output file name.
   if(outputName)
     {
@@ -95,6 +105,7 @@ int main(int argc, char* argv[])
       }
     }
   fprintf(stderr, "Done.\n");
+#endif  
   }
   catch(String s)
     {
@@ -120,7 +131,7 @@ return 0;
  * Loop through all the arguments.  Any unrecognized argument
  * is assumed to be an input file name.
  */
-void processCommandLine(int argc, char* argv[])
+bool processCommandLine(int argc, char* argv[])
 {
   int curArg;
   
@@ -154,19 +165,21 @@ void processCommandLine(int argc, char* argv[])
      */
     if(!found)
       {
-      inputFile = fopen(argv[curArg], "rt");
+      inputFile.open(argv[curArg]);
       if(!inputFile)
         {
-        fprintf(stderr, "Error opening input file: %s\n", argv[curArg]);
-        exit(1);
+        std::cerr << "Error opening input file: " << argv[curArg] << std::endl;
+        return false;
         }
       }
     }
-
+  
   if(!inputFile)
     {
-    fprintf(stderr, "Using standard input.\n");
-    inputFile = stdin;
+    std::cerr << "No input file specified!" << std::endl;
+    return false;
     }
+  
+  return true;
 }
 

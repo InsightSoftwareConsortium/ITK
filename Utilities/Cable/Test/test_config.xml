@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<WrapperConfiguration source="Vect3.xml" dest="Vect3">
-  <WrapType name="Vect3">
-  </WrapType>
-</WrapperConfiguration>
+<Package name="Vect3">
+  <Dependencies>
+    <Package name="Numbers"/>
+  </Dependencies>
+</Package>

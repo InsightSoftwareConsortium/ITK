@@ -299,7 +299,7 @@ void OutputMethodTest(FILE* outFile, const Function* func, const char* indent)
       // rather just use the tcl string later
       if(innerType != "char")
 	{
-	fprintf(outFile, "ObjectCanBePointerTo<%s >::Test(interp, objv[%d])",
+	fprintf(outFile, "ObjectCanBe<%s*>::Test(interp, objv[%d])",
 		innerType.c_str(), argNum+2);
 	}
       else
@@ -319,7 +319,7 @@ void OutputMethodTest(FILE* outFile, const Function* func, const char* indent)
       else
 	{
 	String innerType = rt->GetReferencedType()->GetName();
-	fprintf(outFile, "ObjectCanBeReferenceTo<%s >::Test(interp, objv[%d])",
+	fprintf(outFile, "ObjectCanBe<%s&>::Test(interp, objv[%d])",
 		innerType.c_str(), argNum+2);
 	}
       }
@@ -355,7 +355,7 @@ void OutputMethodCall(FILE* outFile, const Function* func)
       // BUG FIX ME, I have to get rid of const here for some reason
       String innerType = pt->GetPointedToType()->GetNameWithoutCV();
       // ReturnPointerTo<const type> causes a syntax error...
-      fprintf(outFile, "ReturnPointerTo<%s >::From(interp,\n      ",
+      fprintf(outFile, "Return<%s*>::From(interp,\n      ",
               innerType.c_str());
       // if it is a pointer, then use const_cast for the case of const char*
       if(innerType == "char")
@@ -376,20 +376,20 @@ void OutputMethodCall(FILE* outFile, const Function* func)
       // if it is a const reference, then treat it like a real type
       if(IsBuiltin(rt->GetName())) // GetNonReferenceType(rt)))
 	{
-	fprintf(outFile, "ReturnInstanceOf<%s >::From(interp,\n      ",
+	fprintf(outFile, "Return<%s >::From(interp,\n      ",
 		GetNonReferenceType(returnType).c_str());
 	}
       else
 	{
 	String innerType = rt->GetReferencedType()->GetNameWithoutCV();
-	fprintf(outFile, "ReturnReferenceTo<%s >::From(interp,\n      ",
+	fprintf(outFile, "Return<%s&>::From(interp,\n      ",
 		innerType.c_str());
 	}
       
       }
     else
       {
-      fprintf(outFile, "ReturnInstanceOf<%s >::From(interp,\n      ",
+      fprintf(outFile, "Return<%s >::From(interp,\n      ",
               returnType->GetName().c_str());
       }
     }
@@ -412,7 +412,7 @@ void OutputMethodCall(FILE* outFile, const Function* func)
 	}
       else
 	{
-	fprintf(outFile, "ObjectAsPointerTo<%s >::Get(interp, objv[%d])",
+	fprintf(outFile, "ObjectAs<%s*>::Get(interp, objv[%d])",
 		innerType.c_str(), argNum+2);
 	}
       }
@@ -428,7 +428,7 @@ void OutputMethodCall(FILE* outFile, const Function* func)
       else
 	{
 	String innerType = rt->GetReferencedType()->GetName();
-	fprintf(outFile, "ObjectAsReferenceTo<%s >::Get(interp, objv[%d])",
+	fprintf(outFile, "ObjectAs<%s&>::Get(interp, objv[%d])",
 		innerType.c_str(), argNum+2);
 	}
       }
@@ -602,9 +602,23 @@ void OutputMethodWrapper(FILE* outFile,const Class* aClass)
           "        {\n"
           "        methodMap_%s[methodName](InstanceAs<%s >::Get(commandName), interp, objc, objv);\n"
           "        }\n"
-          "      else if(ReferenceExists(commandName))\n"
+          "      else if(StringRepIsReference(commandName))\n"
           "        {\n"
-          "        methodMap_%s[methodName](ReferenceAs<%s >::Get(commandName), interp, objc, objv);\n"
+          "        Reference r;\n"
+          "        if((Tcl_GetReferenceFromObj(interp, objv[0], &r) == TCL_OK)\n"
+          "           && (r.Type() == \"%s\"))\n"
+          "          {\n"
+          "          methodMap_%s[methodName](*(%s*)r.Object(), interp, objc, objv);\n"
+          "          }\n"
+          "        }\n"
+          "      else if(StringRepIsPointer(commandName))\n"
+          "        {\n"
+          "        Pointer p;\n"
+          "        if((Tcl_GetPointerFromObj(interp, objv[0], &p) == TCL_OK)\n"
+          "           && (p.Type() == \"%s\"))\n"
+          "          {\n"
+          "          methodMap_%s[methodName](*(%s*)p.Object(), interp, objc, objv);\n"
+          "          }\n"
           "        }\n"
 	  "      else\n"
           "        {\n"
@@ -613,6 +627,10 @@ void OutputMethodWrapper(FILE* outFile,const Class* aClass)
           "      }\n",  
 	  GetWrapName(aClass).c_str(),
           GetWrapName(aClass).c_str(),
+          aClass->GetQualifiedName().c_str(),
+          aClass->GetQualifiedName().c_str(),
+          GetWrapName(aClass).c_str(),
+          aClass->GetQualifiedName().c_str(),
           aClass->GetQualifiedName().c_str(),
           GetWrapName(aClass).c_str(),
           aClass->GetQualifiedName().c_str()); 
