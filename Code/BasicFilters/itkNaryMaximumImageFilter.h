@@ -71,7 +71,7 @@ public:
   inline TOutput operator()( const Array< TInput > & B)
     {
     OutputValueType A = NumericTraits< TOutput >::NonpositiveMin();
-    for( int i=0; i< B.size(); i++ )
+    for( unsigned int i=0; i< B.size(); i++ )
       {
       if( A < static_cast<OutputValueType>(B[i]) )
         {

@@ -65,7 +65,7 @@ public:
   inline TOutput operator()( const Array< TInput > & B)
   {
     AccumulatorType sum = NumericTraits< TOutput >::Zero;
-    for( int i=0; i< B.size(); i++ )
+    for( unsigned int i=0; i< B.size(); i++ )
       {
       sum += static_cast< TOutput >(B[i]);
       }       
