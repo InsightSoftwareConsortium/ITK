@@ -44,7 +44,7 @@ int itkConnectedThresholdImageFilterTest(int ac, char** av)
     filter->SetInput(input->GetOutput());
 
     FilterType::IndexType seed; seed[0] = 165; seed[1] = 90;
-    filter->SetSeed(seed);
+    filter->AddSeed(seed);
 
     filter->SetLower(0);
     filter->SetUpper(150);

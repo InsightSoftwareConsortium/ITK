@@ -30,7 +30,25 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 {
   m_Image = imagePtr;
   m_Function = fnPtr;
-  m_StartIndex = startIndex;
+  m_StartIndices.push_back ( startIndex );
+
+  // Set up the temporary image
+  this->InitializeIterator();
+}
+
+template<class TImage, class TFunction>
+FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
+::FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
+                                              FunctionType *fnPtr,
+                                              std::vector<IndexType>& startIndex)
+{
+  m_Image = imagePtr;
+  m_Function = fnPtr;
+  unsigned int i;
+  for (i = 0; i < startIndex.size(); i++ )
+    {
+    m_StartIndices.push_back ( startIndex[i] );
+    }
 
   // Set up the temporary image
   this->InitializeIterator();
@@ -43,10 +61,6 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 {
   m_Image = imagePtr;
   m_Function = fnPtr;
-
-  // Initially set the start index to the origin. We assume the user
-  // will call FindSeedPixel() at some point in the future
-  m_StartIndex.Fill(0);
 
   // Set up the temporary image
   this->InitializeIterator();
@@ -77,21 +91,21 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
   tempPtr->Allocate();
   tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
 
-  // Initialize the stack by adding the start index assuming m_StartIndex is "inside"
-  // This might not be true, in which case it's up to the programmer to
-  // specify a correct starting position later (using FindSeedPixel).
-  // Must make sure that the seed is inside the buffer before
-  // touching pixels.
-  if ( m_Image->GetBufferedRegion().IsInside ( m_StartIndex ) )
+  // Initialize the stack by adding the start index assuming one of
+  // the m_StartIndices is "inside" This might not be true, in which
+  // case it's up to the programmer to specify a correct starting
+  // position later (using FindSeedPixel).  Must make sure that the
+  // seed is inside the buffer before touching pixels.
+  m_IsAtEnd = true;
+  for ( unsigned int i = 0; i < m_StartIndices.size(); i++ )
     {
-    m_IndexStack.push(m_StartIndex);
-    tempPtr->SetPixel(m_StartIndex, 2);
-    m_IsAtEnd = false;
+    if ( m_Image->GetBufferedRegion().IsInside ( m_StartIndices[i] ) )
+      {
+      m_IndexStack.push(m_StartIndices[i]);
+      tempPtr->SetPixel(m_StartIndices[i], 2);
+      m_IsAtEnd = false;
+      }
     }
-  else
-    {
-    m_IsAtEnd = true;
-    }    
 }
 
 template<class TImage, class TFunction>
@@ -105,17 +119,46 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
   
   // Now we search the input image for the first pixel which is inside
   // the function of interest
+  m_StartIndices.clear();
   for ( it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
     if( this->IsPixelIncluded( it.GetIndex() ) )
       {
-      m_StartIndex = it.GetIndex();
+      m_StartIndices.push_back ( it.GetIndex() );
 
       // We need to reset the "beginning" now that we have a real seed
       this->GoToBegin();
 
       return;
       }
+    }
+}
+
+template<class TImage, class TFunction>
+void
+FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
+::FindSeedPixels()
+{
+ // Create an iterator that will walk the input image
+  typedef typename itk::ImageRegionConstIterator<TImage> IRIType;
+  IRIType it = IRIType(m_Image, m_Image->GetLargestPossibleRegion() );
+  
+  // Now we search the input image for the first pixel which is inside
+  // the function of interest
+  m_StartIndices.clear();
+  bool found = false;
+  for ( it.GoToBegin(); !it.IsAtEnd(); ++it)
+    {
+    if( this->IsPixelIncluded( it.GetIndex() ) )
+      {
+      m_StartIndices.push_back ( it.GetIndex() );
+      found = true;
+      }
+    }
+  if ( found )
+    {
+    // We need to reset the "beginning" now that we have a real seed
+    this->GoToBegin();
     }
 }
 

@@ -21,6 +21,8 @@
 #include "itkBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 
+static void CTIFFoo () { int i = 1; i++; }
+
 namespace itk
 {
 
@@ -33,7 +35,6 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>
 {
   m_Lower = NumericTraits<InputImagePixelType>::NonpositiveMin();
   m_Upper = NumericTraits<InputImagePixelType>::max();
-  m_Seed.Fill(0);
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
 }
 
@@ -81,6 +82,7 @@ void
 ConnectedThresholdImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
+  CTIFFoo();
   InputImageConstPointer inputImage = this->GetInput();
   OutputImagePointer outputImage = this->GetOutput();
 
@@ -95,7 +97,8 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
   typename FunctionType::Pointer function = FunctionType::New();
     function->SetInputImage ( inputImage );
     function->ThresholdBetween ( m_Lower, m_Upper );
-  IteratorType it ( outputImage, function, m_Seed );
+
+  IteratorType it ( outputImage, function, m_SeedList );
 
   while( !it.IsAtEnd())
     {

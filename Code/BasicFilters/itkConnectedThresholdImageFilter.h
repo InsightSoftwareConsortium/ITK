@@ -65,13 +65,15 @@ public:
   void PrintSelf ( std::ostream& os, Indent indent ) const;
 
   /** Set seed point. */
-  void SetSeed(const IndexType & seed)
+  void AddSeed(const IndexType & seed)
   {
-    if ( m_Seed != seed )
-      {
-      m_Seed = seed;
-      this->Modified();
-      }
+    m_SeedList.push_back ( seed );
+  };
+
+  /** Clear the seed list. */
+  void ClearSeeds ()
+  {
+    m_SeedList.clear();
   };
 
   /** Set/Get the lower threshold. The default is 0. */
@@ -92,7 +94,7 @@ public:
 protected:
   ConnectedThresholdImageFilter();
   ~ConnectedThresholdImageFilter(){};
-  IndexType m_Seed;
+  std::vector<IndexType> m_SeedList;
   InputImagePixelType m_Lower;
   InputImagePixelType m_Upper;
   OutputImagePixelType m_ReplaceValue;

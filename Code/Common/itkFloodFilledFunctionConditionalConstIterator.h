@@ -18,6 +18,7 @@
 #define __itkFloodFilledFunctionConditionalConstIterator_h
 
 #include <stack>
+#include <vector>
 
 #include "itkIndex.h"
 #include "itkSize.h"
@@ -79,6 +80,13 @@ public:
                                      IndexType startIndex);
 
   /** Constructor establishes an iterator to walk a particular image and a
+   * particular region of that image. This version of the constructor uses
+   * a list of seed pixels for the flood fill */
+  FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
+                                     FunctionType *fnPtr,
+                                     std::vector<IndexType> & startIndices);
+
+  /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor
    * should be used when the seed pixel is unknown */
   FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
@@ -89,6 +97,9 @@ public:
    * traversing the input image's image's LargestPossibleRegion and
    * applying the IsPixelIncluded() test.*/
   void FindSeedPixel();
+
+  /** Automatically find all seed pixels. */
+  void FindSeedPixels();
 
   /** Initializes the iterator, called from constructor */
   void InitializeIterator();
@@ -126,6 +137,18 @@ public:
   bool IsAtEnd()
     { return m_IsAtEnd; };
 
+  /** Put more seeds on the list */
+  void AddSeed ( const IndexType seed )
+  {
+    m_StartIndices.push_back ( seed );
+  };
+
+  /** Clear all the seeds */
+  void ClearSeeds ()
+  {
+    m_StartIndices.clear();
+  };
+  
  /** Move an iterator to the beginning of the region. "Begin" is
   * defined as the first pixel in the region. */
   void GoToBegin()
@@ -135,27 +158,26 @@ public:
       {
       m_IndexStack.pop();
       }
-    
-    if( m_Image->GetBufferedRegion().IsInside ( m_StartIndex ) &&
-        this->IsPixelIncluded(m_StartIndex) )
+
+    m_IsAtEnd = true;
+    for ( unsigned int i = 0; i < m_StartIndices.size(); i++ )
       {
-      // Push the seed onto the stack
-      m_IndexStack.push(m_StartIndex);
-      
-      // Obviously, we're at the beginning
-      m_IsAtEnd = false;
-
-      // Initialize the temporary image
-      tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
-
-      // Mark the start index in the temp image as inside the function, neighbor check incomplete
-      tempPtr->SetPixel(m_StartIndex, 2);
+      if( m_Image->GetBufferedRegion().IsInside ( m_StartIndices[i] ) &&
+          this->IsPixelIncluded(m_StartIndices[i]) )
+        {
+        // Push the seed onto the stack
+        m_IndexStack.push(m_StartIndices[i]);
+        
+        // Obviously, we're at the beginning
+        m_IsAtEnd = false;
+        
+        // Initialize the temporary image
+        tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
+        
+        // Mark the start index in the temp image as inside the function, neighbor check incomplete
+        tempPtr->SetPixel(m_StartIndices[i], 2);
+        }
       }
-    else
-      {
-      // If the start index is not included, we're done
-      m_IsAtEnd = true;
-      }    
     };
 
   /** Walk forward one index */
@@ -176,8 +198,8 @@ protected: //made protected so other iterators can access
   typedef Image<unsigned char, itkGetStaticConstMacro(NDimensions)> TTempImage;
   typename TTempImage::Pointer tempPtr;
   
-  /** A known seed location to start the recursive fill */
-  IndexType m_StartIndex;
+  /** A list of locations to start the recursive fill */
+  std::vector<IndexType> m_StartIndices;
 
   /** The origin of the source image */
   const double* m_ImageOrigin;
