@@ -89,8 +89,10 @@ RescaleIntensityImageFilter<TInputImage, TOutputImage>
   m_InputMaximum = calculator->GetMaximum();
 
   m_Scale = 
-          static_cast<RealType>( m_OutputMaximum - m_OutputMinimum ) /
-          static_cast<RealType>( m_InputMaximum - m_InputMinimum );
+    (static_cast<RealType>( m_OutputMaximum )
+     - static_cast<RealType>( m_OutputMinimum )) /
+    (static_cast<RealType>( m_InputMaximum )
+     - static_cast<RealType>( m_InputMinimum ));
 
   m_Shift =
           static_cast<RealType>( m_OutputMinimum ) - 
