@@ -658,7 +658,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 {
 
   int maxNumPixelError =  
-    m_ErrorTollerance * m_imgWidth * m_imgHeight * m_imgDepth;
+    static_cast<int>(m_ErrorTollerance * m_imgWidth * m_imgHeight * m_imgDepth);
 
   int size = m_imgWidth * m_imgHeight * m_imgDepth;
   int rowsize = m_imgWidth;
