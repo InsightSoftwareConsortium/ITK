@@ -64,8 +64,8 @@ ListSampleToHistogramGenerator< TListSample,
         ( (THistogramMeasurement)(upper[i] - lower[i]) / 
           (THistogramMeasurement) m_Sizes[i] ) / 
         (THistogramMeasurement) m_MarginalScale ;
-      h_upper[i] = (THistogramMeasurement) (upper[i]) + 
-        margin ;
+      h_upper[i] = (THistogramMeasurement) (upper[i] + 
+        margin) ;
       }
     else
       {

@@ -106,13 +106,13 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
     // Set the min vector and max vector
     for (unsigned int j = 0; j < (size[i] - 1) ; j++)
       {
-      this->SetBinMin(i, j, lowerBound[i] +  ((float)j * interval)) ;
-      this->SetBinMax(i, j, lowerBound[i] +  (((float)j + 1) * interval));
+      this->SetBinMin(i, j, (MeasurementType)(lowerBound[i] +  ((float)j * interval))) ;
+      this->SetBinMax(i, j, (MeasurementType)(lowerBound[i] +  (((float)j + 1) * interval)));
       }
     this->SetBinMin(i, size[i] - 1, 
-                    lowerBound[i] + (((float) size[i] - 1) * interval)) ;
+                    (MeasurementType)(lowerBound[i] + (((float) size[i] - 1) * interval))) ;
     this->SetBinMax(i, size[i] - 1, 
-                    upperBound[i]) ;
+                    (MeasurementType)(upperBound[i])) ;
     }
 }
 
