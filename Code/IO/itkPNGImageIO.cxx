@@ -116,6 +116,18 @@ const std::type_info& PNGImageIO::GetPixelType() const
       return typeid(unsigned char);
     case USHORT:
       return typeid(unsigned short);
+    case CHAR:
+    case SHORT:
+    case UINT:
+    case INT:
+    case ULONG:
+    case LONG:
+    case FLOAT:
+    case DOUBLE:
+      {
+      itkErrorMacro ("Invalid type: " << m_PNGPixelType << ", only unsigned char and unsigned short are allowed.");
+      return this->ConvertToTypeInfo(m_PNGPixelType);      
+      }
     default:
       return typeid(unsigned char);
     }
