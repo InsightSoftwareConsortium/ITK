@@ -143,7 +143,7 @@ DicomDir::DicomDir(std::string const &fileName, bool parseDir ):
    if ( GetFirstEntry() == 0 ) // when user passed a Directory to parse
    {
       if (!parseDir)
-         gdcmWarningMacro( "Entry HT empty for file: "<<fileName);
+         gdcmWarningMacro( "Entry HT empty for file: "<<fileName)
 
    // Only if user passed a root directory
    // ------------------------------------
