@@ -1,5 +1,5 @@
-#ifndef __itkdeformabletest_h
-#define __itkdeformabletest_h
+#ifndef __itkdeformablemesh_h
+#define __itkdeformablemesh_h
 
 #include <vnl_matrix_fixed.h>
 #include "itkmesh.h"
@@ -9,21 +9,33 @@
 namespace itk
 {
 
-/** \class FilterMeshToMesh
+/** \class DeformableMesh
  * \brief 
  *
- * FilterMeshToMesh is the base class for all process objects that output
- * mesh data, and require mesh data as input. Specifically, this class
- * defines the SetInput() method for defining the input to a filter.
+ * DeformableMesh is a class that define the geometry of the deformable
+ * models used in segmentation work.
+ *
+ * The DeformableMesh is derive from the class mesh. Its basic shape is
+ * a sphere with triangular cells on the surface. Each node can deform
+ * under the effect of global force or the local forces and perform global
+ * deformation or the local deformation.
+ *
+ * User can use SetResolution method to set the resolution in 2 direction.
+ * The stiffness matrix of the is defined in itkBalloonForceFilter, we will
+ * decide later where is the best to define the stiffness matrix.
+ *
+ * The filter is templated over the type of meshes.
+ *
+ * \sa itkBalloonForceFilter
  */
 template <class PixelType>
-class ITK_EXPORT DeformableMeshTest : public Mesh<PixelType>
+class ITK_EXPORT DeformableMesh : public Mesh<PixelType>
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef DeformableMeshTest  Self;
+  typedef DeformableMesh  Self;
 
   /**
    * Standard "Superclass" typedef.
@@ -43,7 +55,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(DeformableMeshTest,Mesh);
+  itkTypeMacro(DeformableMesh,Mesh);
 
 /**
  * Define a few cell types which uses a PixelType of "int".  Again,
@@ -54,11 +66,6 @@ public:
   typedef itk::TriangleCell<PixelType, CellType>	   TriCell;
 
 
-/**
- * Typedef the generic cell type for the mesh.  It is an abstract class,
- * so we can only use information from it, like get its pointer type.
- */
-
   void SetResolution(int a, int b);
   void SetCenter(int a, int b, int c);
   void SetScale(float a, float b, float c);
@@ -66,16 +73,13 @@ public:
   void Allocate();
 
 protected:
-  DeformableMeshTest();
-  ~DeformableMeshTest() {};
+  DeformableMesh();
+  ~DeformableMesh() {};
 
 
   int Center[3]; 
   int Resolution[2];
   float Scale[3]; 
-//  unsigned long i, j, jn, e, p, numpts, numcells;
-//  float x[3], ustep, vstep, ubeg, vbeg, u, v; 
-//  int pts[3], signu, signv; 
 
 };
 

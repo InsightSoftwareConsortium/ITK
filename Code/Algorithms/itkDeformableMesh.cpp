@@ -79,7 +79,7 @@ void
 DeformableMeshTest<PixelType>
 ::Allocate()
 {
-  float PointCoords[3], scale[3], center[3];
+  float PointCoords[3];
   
   /**
    * List the points that the tetrahedron will use from the mesh.
@@ -107,34 +107,45 @@ DeformableMeshTest<PixelType>
 	for (v=vbeg, j=0; j < Resolution[1]; v += vstep, j++) { 
 	  if (cos(u) > 0) {signu = 1;} else {signu = -1;}
 	  if (cos(v) > 0) {signv = 1;} else {signv = -1;}
-      PointCoords[0] = scale[0]*signu*(pow(fabs(cos(u)),1.0))*signv* 
-		(pow(fabs(cos(v)),1.0)) + center[0]; 
+      PointCoords[0] = Scale[0]*signu*(pow(fabs(cos(u)),1.0))*signv* 
+		(pow(fabs(cos(v)),1.0)) + Center[0]; 
 	  if (sin(v) > 0) {signv = 1;} else {signv = -1;}
-	  PointCoords[1] = scale[1]*signu*(pow(fabs(cos(u)),1.0))*signv* 
-		(pow(fabs(sin(v)),1.0)) + center[1]; 
+	  PointCoords[1] = Scale[1]*signu*(pow(fabs(cos(u)),1.0))*signv* 
+		(pow(fabs(sin(v)),1.0)) + Center[1]; 
 	  if (sin(u) > 0) {signu = 1;} else {signu = -1;}
-	  PointCoords[2] = scale[2]*signu*(pow(fabs(sin(u)),1.0)) + center[2];
-	  SetPoint(p, (PointCoords));
+	  PointCoords[2] = Scale[2]*signu*(pow(fabs(sin(u)),1.0)) + Center[2];
+	  this->SetPoint(p, PointType(PointCoords));
       p++;
 	} 
   }   
 
-  PointCoords[0] = scale[0]*(pow(fabs(cos(-vnl_math::pi/2)),1.0))* 
-	(pow(fabs(cos(0.0)),1.0)) + center[0]; 
-  PointCoords[1] = scale[1]*(pow(fabs(cos(-vnl_math::pi/2)),1.0))* 
-	(pow(fabs(sin(0.0)),1.0)) + center[1]; 
-  PointCoords[2] = scale[2]*-1*(pow(fabs(sin(-vnl_math::pi/2)),1.0)) + center[2];
-  SetPoint(p, (PointCoords));
+  PointCoords[0] = Scale[0]*(pow(fabs(cos(-vnl_math::pi/2)),1.0))* 
+	(pow(fabs(cos(0.0)),1.0)) + Center[0]; 
+  PointCoords[1] = Scale[1]*(pow(fabs(cos(-vnl_math::pi/2)),1.0))* 
+	(pow(fabs(sin(0.0)),1.0)) + Center[1]; 
+  PointCoords[2] = Scale[2]*-1*(pow(fabs(sin(-vnl_math::pi/2)),1.0)) + Center[2];
+  this->SetPoint(p, (PointCoords));
   p++;
-  PointCoords[0] = scale[0]*(pow(fabs(cos(vnl_math::pi/2)),1.0))* 
-	(pow(fabs(cos(0.0)),1.0)) + center[0]; 
-  PointCoords[1] = scale[1]*(pow(fabs(cos(vnl_math::pi/2)),1.0))* 
-	(pow(fabs(sin(0.0)),1.0)) + center[1]; 
-  PointCoords[2] = scale[2]*(pow(fabs(sin(vnl_math::pi/2)),1.0)) + center[2];
-  SetPoint(p, (PointCoords));
+  PointCoords[0] = Scale[0]*(pow(fabs(cos(vnl_math::pi/2)),1.0))* 
+	(pow(fabs(cos(0.0)),1.0)) + Center[0]; 
+  PointCoords[1] = Scale[1]*(pow(fabs(cos(vnl_math::pi/2)),1.0))* 
+	(pow(fabs(sin(0.0)),1.0)) + Center[1]; 
+  PointCoords[2] = Scale[2]*(pow(fabs(sin(vnl_math::pi/2)),1.0)) + Center[2];
+  this->SetPoint(p, (PointCoords));
   p++;
 
-  p = 0;
+//////////////////////////////////////////////////
+// for test
+
+  CoordRepType d[2][3];
+  float ds[3];
+//  SetPoint(1, (PointType)d);
+  this->GetPoint(1, (PointType*)(d[0]));
+  this->GetPoint(2, (PointType*)(d[1]));
+
+//////////////////////////////////////////////////
+
+  p = 1;
   Cell::Pointer testCell(TriCell::New());
 
   for(int i=0; i < Resolution[0]-1 ; i++) {
@@ -145,17 +156,26 @@ DeformableMeshTest<PixelType>
       tripoints[2] = tripoints[0]+Resolution[1]; 
 	  testCell->SetPointIds(tripoints);
 	  SetCell(p, testCell);
-	  SetCellData(p++, (PixelType)3.0);
+	  SetCellData(p, (PixelType)3.0);
+	  p++;
 	  testCell = TriCell::New();
       tripoints[0] = tripoints[1]; 
       tripoints[1] = tripoints[0]+Resolution[1]; 
 	  testCell->SetPointIds(tripoints);
 	  SetCell(p, testCell);
-	  SetCellData(p++, (PixelType)3.0);
+	  SetCellData(p, (PixelType)3.0);
+	  p++;
 	  testCell = TriCell::New();
 	}
   }
+//////////////////////////////////////////////////
+// for test
+  float *xx, x1;
+  xx = &x1;
 
+  SetCellData(0, (PixelType)3.0);
+  GetCellData(0, (PixelType*)xx);
+//////////////////////////////////////////////////
   for (int j=0; j<Resolution[1]; j++)
 	  {
       jn = (j+1)%Resolution[1]; 
@@ -164,7 +184,8 @@ DeformableMeshTest<PixelType>
       tripoints[2] = j; 
 	  testCell->SetPointIds(tripoints);
 	  SetCell(p, testCell);
-	  SetCellData(p++, (PixelType)1.0);
+	  SetCellData(p, (PixelType)1.0);
+	  p++;
 	  testCell = TriCell::New();
   }
 
@@ -176,7 +197,8 @@ DeformableMeshTest<PixelType>
       tripoints[0] = tripoints[2]-j+jn; 
 	  testCell->SetPointIds(tripoints);
 	  SetCell(p, testCell);
-	  SetCellData(p++, (PixelType)2.0);
+	  SetCellData(p, (PixelType)2.0);
+	  p++;
 	  testCell = TriCell::New();
   }
 }
