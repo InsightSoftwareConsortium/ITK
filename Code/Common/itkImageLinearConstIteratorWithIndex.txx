@@ -35,32 +35,32 @@ ImageLinearConstIteratorWithIndex<TImage>
 ::NextLine(void)
 {
 
-  m_Position -=   m_OffsetTable[ m_Direction ] * 
-    ( m_PositionIndex[ m_Direction ] - m_BeginIndex[ m_Direction ] ); 
+  this->m_Position -=   this->m_OffsetTable[ m_Direction ] * 
+    ( this->m_PositionIndex[ m_Direction ] - this->m_BeginIndex[ m_Direction ] ); 
   
-  m_PositionIndex[m_Direction] = m_BeginIndex[m_Direction];     
+  this->m_PositionIndex[m_Direction] = this->m_BeginIndex[m_Direction];     
 
   for( unsigned int n=0; n<TImage::ImageDimension; n++ )
     {
 
-    m_Remaining = false;
+    this->m_Remaining = false;
     
     if( n == m_Direction ) 
       {
       continue;
       }
     
-    m_PositionIndex[ n  ]++;
-    if( m_PositionIndex[n] <  m_EndIndex[n] )
+    this->m_PositionIndex[ n  ]++;
+    if( this->m_PositionIndex[n] <  this->m_EndIndex[n] )
       {
-      m_Position += m_OffsetTable[ n ];
-      m_Remaining = true;
+      this->m_Position += this->m_OffsetTable[ n ];
+      this->m_Remaining = true;
       break;
       }
     else 
       {
-      m_Position -= m_OffsetTable[ n ] * ( m_Region.GetSize()[n]-1 );
-      m_PositionIndex[ n ] = m_BeginIndex[ n ]; 
+      this->m_Position -= this->m_OffsetTable[ n ] * ( this->m_Region.GetSize()[n]-1 );
+      this->m_PositionIndex[ n ] = this->m_BeginIndex[ n ]; 
       }
     }
 }
@@ -76,33 +76,33 @@ ImageLinearConstIteratorWithIndex<TImage>
 ::PreviousLine(void)
 {
 
-  m_Position +=   m_OffsetTable[ m_Direction ] * 
-    ( m_EndIndex[ m_Direction ] - 1 - m_PositionIndex[ m_Direction ] ); 
+  this->m_Position +=   this->m_OffsetTable[ m_Direction ] * 
+    ( this->m_EndIndex[ m_Direction ] - 1 - this->m_PositionIndex[ m_Direction ] ); 
   
-  m_PositionIndex[m_Direction] = m_EndIndex[m_Direction]-1;   
+  this->m_PositionIndex[m_Direction] = this->m_EndIndex[m_Direction]-1;   
 
 
   for( unsigned int n=0; n<TImage::ImageDimension; n++ )
     {
 
-    m_Remaining = false;
+    this->m_Remaining = false;
     
     if( n == m_Direction ) 
       {
       continue;
       }
     
-    m_PositionIndex[ n  ]--;
-    if( m_PositionIndex[ n ] >=  m_BeginIndex[ n ] )
+    this->m_PositionIndex[ n  ]--;
+    if( this->m_PositionIndex[ n ] >=  this->m_BeginIndex[ n ] )
       {
-      m_Position -= m_OffsetTable[ n ];
-      m_Remaining = true;
+      this->m_Position -= this->m_OffsetTable[ n ];
+      this->m_Remaining = true;
       break;
       }
     else 
       {
-      m_Position += m_OffsetTable[ n ] * ( m_Region.GetSize()[n]-1 );
-      m_PositionIndex[ n ] = m_EndIndex[ n ] - 1; 
+      this->m_Position += this->m_OffsetTable[ n ] * ( this->m_Region.GetSize()[n]-1 );
+      this->m_PositionIndex[ n ] = this->m_EndIndex[ n ] - 1; 
       }
     }
 }
@@ -119,7 +119,7 @@ bool
 ImageLinearConstIteratorWithIndex<TImage>
 ::IsAtEndOfLine(void) 
 {
-  return m_PositionIndex[m_Direction] >= m_EndIndex[m_Direction];
+  return this->m_PositionIndex[m_Direction] >= this->m_EndIndex[m_Direction];
 }
 
 
@@ -133,7 +133,7 @@ bool
 ImageLinearConstIteratorWithIndex<TImage>
 ::IsAtReverseEndOfLine(void) 
 {
-  return m_PositionIndex[m_Direction] < m_BeginIndex[m_Direction];
+  return this->m_PositionIndex[m_Direction] < this->m_BeginIndex[m_Direction];
 }
 
 
@@ -149,11 +149,11 @@ ImageLinearConstIteratorWithIndex<TImage>
 {
 
   long distanceToBegin = 
-    m_PositionIndex[ m_Direction ] - m_BeginIndex[ m_Direction ];
+    this->m_PositionIndex[ m_Direction ] - this->m_BeginIndex[ m_Direction ];
 
-  m_Position -= m_Jump * distanceToBegin; 
+  this->m_Position -= m_Jump * distanceToBegin; 
 
-  m_PositionIndex[m_Direction] = m_BeginIndex[m_Direction];   
+  this->m_PositionIndex[m_Direction] = this->m_BeginIndex[m_Direction];   
   
 }
 
@@ -170,12 +170,12 @@ ImageLinearConstIteratorWithIndex<TImage>
 {
 
   long distanceToEnd = 
-    m_EndIndex[ m_Direction ] - m_PositionIndex[ m_Direction ];
+    this->m_EndIndex[ m_Direction ] - this->m_PositionIndex[ m_Direction ];
 
 
-  m_Position += m_Jump * distanceToEnd; 
+  this->m_Position += m_Jump * distanceToEnd; 
 
-  m_PositionIndex[m_Direction] = m_EndIndex[m_Direction];
+  this->m_PositionIndex[m_Direction] = this->m_EndIndex[m_Direction];
   
 }
 
@@ -197,7 +197,7 @@ ImageLinearConstIteratorWithIndex<TImage>
     itkGenericExceptionMacro(<<"In image of dimension " << TImage::ImageDimension <<" Direction " << direction << " sas selected");
     }
   m_Direction = direction;
-  m_Jump = m_OffsetTable[ m_Direction ];
+  m_Jump = this->m_OffsetTable[ m_Direction ];
 }
  
 
@@ -212,8 +212,8 @@ ImageLinearConstIteratorWithIndex<TImage>  &
 ImageLinearConstIteratorWithIndex<TImage>
 ::operator++()
 {
-  m_PositionIndex[m_Direction]++;
-  m_Position += m_Jump;
+  this->m_PositionIndex[m_Direction]++;
+  this->m_Position += m_Jump;
   return *this;
 }
 
@@ -228,8 +228,8 @@ ImageLinearConstIteratorWithIndex<TImage>  &
 ImageLinearConstIteratorWithIndex<TImage>
 ::operator--()
 {
-  m_PositionIndex[m_Direction]--;
-  m_Position -= m_Jump;
+  this->m_PositionIndex[m_Direction]--;
+  this->m_Position -= m_Jump;
   return *this;
 }
 

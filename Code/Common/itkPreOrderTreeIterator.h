@@ -86,8 +86,8 @@ template <class TTreeType>
 const typename PreOrderTreeIterator<TTreeType>::ValueType&
 PreOrderTreeIterator<TTreeType>::Next() 
 {
-  m_Position = const_cast<TreeNodeType* >(FindNextNode());
-  return m_Position->Get();
+  this->m_Position = const_cast<TreeNodeType* >(FindNextNode());
+  return this->m_Position->Get();
 }
 
 /** Find the next node */
@@ -95,22 +95,22 @@ template <class TTreeType>
 const typename PreOrderTreeIterator<TTreeType>::TreeNodeType* 
 PreOrderTreeIterator<TTreeType>::FindNextNode() const
 { 
-  if ( m_Position == NULL )
+  if ( this->m_Position == NULL )
     {
     return NULL;
     }
-  if ( m_Position->HasChildren() )
+  if ( this->m_Position->HasChildren() )
     {
-    return dynamic_cast<const TreeNodeType*>(m_Position->GetChild(0));
+    return dynamic_cast<const TreeNodeType*>(this->m_Position->GetChild(0));
     }
 
-  if ( !m_Position->HasParent() )
+  if ( !this->m_Position->HasParent() )
     {
     return NULL;
     }
 
-  TreeNodeType* child = m_Position;
-  TreeNodeType* parent = dynamic_cast<TreeNodeType*>(m_Position->GetParent());
+  TreeNodeType* child = this->m_Position;
+  TreeNodeType* parent = dynamic_cast<TreeNodeType*>(this->m_Position->GetParent());
 
   int childPosition = parent->ChildPosition( child ); 
   int lastChildPosition = parent->CountChildren() - 1;
@@ -132,7 +132,7 @@ PreOrderTreeIterator<TTreeType>::FindNextNode() const
     parent = dynamic_cast<TreeNodeType*>(parent->GetParent());
 
     // Subtree
-    if( parent->ChildPosition( m_Root ) >= 0 )
+    if( parent->ChildPosition( this->m_Root ) >= 0 )
       {
       return NULL;
       }
@@ -157,7 +157,7 @@ PreOrderTreeIterator<TTreeType>::FindNextNode() const
 template <class TTreeType>
 TreeIteratorBase<TTreeType>* PreOrderTreeIterator<TTreeType>::Clone() 
 {
-  PreOrderTreeIterator<TTreeType>* clone = new PreOrderTreeIterator<TTreeType>( m_Tree, m_Position );
+  PreOrderTreeIterator<TTreeType>* clone = new PreOrderTreeIterator<TTreeType>(this-> m_Tree, this->m_Position );
   *clone = *this;
   return clone;
 }

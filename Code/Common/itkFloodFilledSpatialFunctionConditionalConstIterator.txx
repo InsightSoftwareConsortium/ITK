@@ -55,10 +55,10 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
   case 0:
   {
   // Get the physical location of this index
-  m_Image->TransformIndexToPhysicalPoint(index, position);
+  this->m_Image->TransformIndexToPhysicalPoint(index, position);
 
   // Evaluate the function at this point
-  return m_Function->Evaluate(position);
+  return this->GetFunction()->Evaluate(position);
   }
   break;
   
@@ -76,10 +76,10 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
     }
 
   // Get the physical location of this index
-  m_Image->TransformContinuousIndexToPhysicalPoint(contIndex, position);
+  this->m_Image->TransformContinuousIndexToPhysicalPoint(contIndex, position);
 
   // Evaluate the function at this point
-  return m_Function->Evaluate(position);
+  return this->GetFunction()->Evaluate(position);
   }
   break;
 
@@ -127,12 +127,12 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
 
     // Now that we've built an index, we can test it
     // Get the physical location of this index
-    m_Image->TransformIndexToPhysicalPoint(tempIndex, position);
+    this->m_Image->TransformIndexToPhysicalPoint(tempIndex, position);
 
     // Evaluate the function at this index, if it's false
     // then the AND of all function dimensions is false,
     // and hence it's not included
-    if( !(m_Function->Evaluate(position)) )
+    if( !(this->GetFunction()->Evaluate(position)) )
       return false;
     }
       
@@ -171,12 +171,12 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
 
     // Now that we've built an index, we can test it
     // Get the physical location of this index
-    m_Image->TransformIndexToPhysicalPoint(tempIndex, position);
+    this->m_Image->TransformIndexToPhysicalPoint(tempIndex, position);
 
     // Evaluate the function at this index, if it's true
     // then the OR of all function dimensions is true,
     // and hence it's included
-    if( m_Function->Evaluate(position) )
+    if( this->m_Function->Evaluate(position) )
       return true;
     }
       

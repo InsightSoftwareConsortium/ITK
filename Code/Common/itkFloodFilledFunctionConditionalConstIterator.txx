@@ -28,7 +28,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
                                               FunctionType *fnPtr,
                                               IndexType startIndex)
 {
-  m_Image = imagePtr;
+  this->m_Image = imagePtr;
   m_Function = fnPtr;
   m_StartIndices.push_back ( startIndex );
 
@@ -42,7 +42,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
                                               FunctionType *fnPtr,
                                               std::vector<IndexType>& startIndex)
 {
-  m_Image = imagePtr;
+  this->m_Image = imagePtr;
   m_Function = fnPtr;
   unsigned int i;
   for (i = 0; i < startIndex.size(); i++ )
@@ -59,7 +59,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 ::FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
                                               FunctionType *fnPtr)
 {
-  m_Image = imagePtr;
+  this->m_Image = imagePtr;
   m_Function = fnPtr;
 
   // Set up the temporary image
@@ -72,13 +72,13 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 ::InitializeIterator()
 {
   // Get the origin and spacing from the image in simple arrays
-  m_ImageOrigin  = m_Image->GetOrigin();
-  m_ImageSpacing = m_Image->GetSpacing();
-  m_ImageRegion  = m_Image->GetBufferedRegion();
+  m_ImageOrigin  = this->m_Image->GetOrigin();
+  m_ImageSpacing = this->m_Image->GetSpacing();
+  m_ImageRegion  = this->m_Image->GetBufferedRegion();
 
   // Build a temporary image of chars for use in the flood algorithm
   tempPtr = TTempImage::New();
-  typename TTempImage::RegionType tempRegion = m_Image->GetBufferedRegion();
+  typename TTempImage::RegionType tempRegion = this->m_Image->GetBufferedRegion();
 
   tempPtr->SetLargestPossibleRegion( tempRegion );
   tempPtr->SetBufferedRegion( tempRegion );
@@ -91,13 +91,13 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
   // case it's up to the programmer to specify a correct starting
   // position later (using FindSeedPixel).  Must make sure that the
   // seed is inside the buffer before touching pixels.
-  m_IsAtEnd = true;
+  this->m_IsAtEnd = true;
   for ( unsigned int i = 0; i < m_StartIndices.size(); i++ )
     {
     if ( m_ImageRegion.IsInside ( m_StartIndices[i] ) )
       {
       m_IndexStack.push(m_StartIndices[i]);
-      m_IsAtEnd = false;
+      this->m_IsAtEnd = false;
       }
     }
 }
@@ -109,7 +109,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 {
   // Create an iterator that will walk the input image
   typedef typename itk::ImageRegionConstIterator<TImage> IRIType;
-  IRIType it = IRIType(m_Image, m_Image->GetBufferedRegion() );
+  IRIType it = IRIType(this->m_Image, this->m_Image->GetBufferedRegion() );
   
   // Now we search the input image for the first pixel which is inside
   // the function of interest
@@ -135,7 +135,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 {
   // Create an iterator that will walk the input image
   typedef typename itk::ImageRegionConstIterator<TImage> IRIType;
-  IRIType it = IRIType(m_Image, m_Image->GetBufferedRegion() );
+  IRIType it = IRIType(this->m_Image, this->m_Image->GetBufferedRegion() );
   
   // Now we search the input image for the first pixel which is inside
   // the function of interest
@@ -220,7 +220,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
     
   if( m_IndexStack.empty() )
     {
-    m_IsAtEnd = true;
+    this->m_IsAtEnd = true;
     }
 
 

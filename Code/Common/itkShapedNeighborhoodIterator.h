@@ -208,10 +208,10 @@ public:
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
   ShapedNeighborhoodIterator(const SizeType &radius,
-                       const ImageType * ptr,
-                       const RegionType &region
-                                  ) : Superclass(radius, const_cast<ImageType*>(ptr),
-                                                  region)
+                             const ImageType * ptr,
+                             const RegionType &region
+    ) : Superclass(radius, const_cast<ImageType*>(ptr),
+                   region)
   {
     m_BeginIterator = Iterator(this);
     m_EndIterator = Iterator(this);
@@ -244,7 +244,7 @@ public:
   /** Returns a const iterator for the neighborhood which points to the last
    * pixel in the neighborhood. */
   const ConstIterator &End() const
-  {    return m_ConstEndIterator;  }
+  {    return this->m_ConstEndIterator;  }
 
   void ClearActiveList()
   {

@@ -33,7 +33,6 @@ ImageRandomConstIteratorWithIndex<TImage>
   m_NumberOfPixelsInRegion    = 0L;
   m_NumberOfSamplesRequested  = 0L;
   m_NumberOfSamplesDone       = 0L;
-  m_NumberOfRandomJumps       = 0L;
 }
 
 /** Constructor establishes an iterator to walk a particular image and a
@@ -98,14 +97,14 @@ ImageRandomConstIteratorWithIndex<TImage>
   unsigned long residual;
   for( unsigned int dim = 0; dim < TImage::ImageDimension; dim++ )
     {
-    const unsigned long sizeInThisDimension = m_Region.GetSize()[dim];
+    const unsigned long sizeInThisDimension = this->m_Region.GetSize()[dim];
     residual = position % sizeInThisDimension;
-    m_PositionIndex[dim] =  residual + m_BeginIndex[dim];
+    this->m_PositionIndex[dim] =  residual + this->m_BeginIndex[dim];
     position -= residual;
     position /= sizeInThisDimension;
     }
 
-  m_Position = m_Image->GetBufferPointer() + m_Image->ComputeOffset( m_PositionIndex );
+  this->m_Position = this->m_Image->GetBufferPointer() + this->m_Image->ComputeOffset( this->m_PositionIndex );
 }
 
 

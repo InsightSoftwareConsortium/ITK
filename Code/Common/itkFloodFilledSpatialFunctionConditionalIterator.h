@@ -76,15 +76,15 @@ public:
 
   /** Get the pixel value, const version to avoid overload warnings */
   const PixelType & Get(void) const
-    { return const_cast<ImageType *>(m_Image.GetPointer())->GetPixel(m_IndexStack.front() ); }
+    { return const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front() ); }
 
   /** Get the pixel value, non-const version is sometimes useful*/
   PixelType & Get(void)
-    { return const_cast<ImageType *>(m_Image.GetPointer())->GetPixel(m_IndexStack.front() ); }
+    { return const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front() ); }
 
   /** Set the pixel value */
   void Set( const PixelType & value)
-    { const_cast<ImageType *>(m_Image.GetPointer())->GetPixel(m_IndexStack.front() ) = value; }
+    { const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front() ) = value; }
 
   /** Default Destructor. */
   virtual ~FloodFilledSpatialFunctionConditionalIterator() {};

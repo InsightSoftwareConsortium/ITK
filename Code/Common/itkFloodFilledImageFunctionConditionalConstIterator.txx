@@ -26,7 +26,7 @@ bool
 FloodFilledImageFunctionConditionalConstIterator<TImage, TFunction>
 ::IsPixelIncluded(const IndexType & index) const
 {
-  return m_Function->EvaluateAtIndex(index);
+  return this->GetFunction()->EvaluateAtIndex(index);
 }
 
 } // end namespace itk

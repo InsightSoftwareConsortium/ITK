@@ -33,7 +33,7 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>
 ::SetExclusionRegion( const RegionType & region )
 {
   
-  if( !m_Region.IsInside( region ) )
+  if( !this->m_Region.IsInside( region ) )
     {
     itkGenericExceptionMacro(<< "Attempt to set a exclusion region that is NOT contained inside the iterator region");
     }
@@ -59,35 +59,35 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>
 ::operator++()
 {
   
-  m_Remaining = false;
+  this->m_Remaining = false;
   for( unsigned int in=0; in<TImage::ImageDimension; in++ )
     {
-    m_PositionIndex[ in  ]++;
+    this->m_PositionIndex[ in  ]++;
     
     // if entering the exclusion region... jump over it
-    if( m_ExclusionRegion.IsInside( m_PositionIndex ) )
+    if( m_ExclusionRegion.IsInside( this->m_PositionIndex ) )
       {
-      m_PositionIndex[ in ]  = m_ExclusionEnd[ in ];
-      m_Position            += m_OffsetTable[in] * 
+      this->m_PositionIndex[ in ]  = m_ExclusionEnd[ in ];
+      this->m_Position      += this->m_OffsetTable[in] * 
         m_ExclusionRegion.GetSize()[ in ];
       }
 
-    if( m_PositionIndex[ in ] < m_EndIndex[ in ] )
+    if( this->m_PositionIndex[ in ] < this->m_EndIndex[ in ] )
       {
-      m_Position += m_OffsetTable[in];
-      m_Remaining = true;
+      this->m_Position += this->m_OffsetTable[in];
+      this->m_Remaining = true;
       break;
       }
     else 
       {
-      m_Position -= m_OffsetTable[ in ] * ( static_cast<long>(m_Region.GetSize()[in])-1 );
-      m_PositionIndex[ in ] = m_BeginIndex[ in ]; 
+      this->m_Position -= this->m_OffsetTable[ in ] * ( static_cast<long>(this->m_Region.GetSize()[in])-1 );
+      this->m_PositionIndex[ in ] = this->m_BeginIndex[ in ]; 
       }
     }
 
-  if( !m_Remaining ) // It will not advance here otherwise
+  if( !this->m_Remaining ) // It will not advance here otherwise
     {
-    m_Position = m_End;
+    this->m_Position = this->m_End;
     }
 
   return *this;
@@ -103,38 +103,38 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>
 ::operator--()
 {
   
-  m_Remaining = false;
+  this->m_Remaining = false;
   for( unsigned int in=0; in<TImage::ImageDimension; in++ )
     {
       
-    if( m_PositionIndex[ in ] > m_BeginIndex[ in ] )
+    if( this->m_PositionIndex[ in ] > this->m_BeginIndex[ in ] )
       {
 
-      m_PositionIndex[ in  ]--;
-      m_Position -= m_OffsetTable[in];
+      this->m_PositionIndex[ in  ]--;
+      this->m_Position -= this->m_OffsetTable[in];
 
       // if entering the exclusion region... jump over it
-      if( m_ExclusionRegion.IsInside( m_PositionIndex ) )
+      if( m_ExclusionRegion.IsInside( this->m_PositionIndex ) )
         {
-        m_PositionIndex[ in ]  = m_ExclusionBegin[ in ]-1;
-        m_Position            -= m_OffsetTable[in] * m_ExclusionRegion.GetSize()[ in ];
+        this->m_PositionIndex[ in ]  = m_ExclusionBegin[ in ]-1;
+        this->m_Position      -= this->m_OffsetTable[in] * m_ExclusionRegion.GetSize()[ in ];
         }
 
-      m_Remaining = true;
+      this->m_Remaining = true;
       break;
       }
     else 
       {
-      m_PositionIndex[ in  ]--;
-      m_Position += m_OffsetTable[ in ] * ( static_cast<long>(m_Region.GetSize()[in])-1 );
-      m_PositionIndex[ in ] = m_EndIndex[ in ] - 1; 
+      this->m_PositionIndex[ in  ]--;
+      this->m_Position += this->m_OffsetTable[ in ] * ( static_cast<long>(this->m_Region.GetSize()[in])-1 );
+      this->m_PositionIndex[ in ] = this->m_EndIndex[ in ] - 1; 
       }
 
     }
 
-  if( !m_Remaining ) // It will not advance here otherwise
+  if( !this->m_Remaining ) // It will not advance here otherwise
     {
-    m_Position = m_End;
+    this->m_Position = this->m_End;
     }
 
   return *this;

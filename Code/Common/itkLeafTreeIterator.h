@@ -68,7 +68,7 @@ template <class TTreeType>
 LeafTreeIterator<TTreeType>::LeafTreeIterator(  const TTreeType* tree ) 
   :TreeIteratorBase<TTreeType>(tree,NULL)
 {
-  m_Begin = const_cast<TreeNodeType* >(this->FindNextNode()); // Position the iterator to the first leaf;
+  this->m_Begin = const_cast<TreeNodeType* >(this->FindNextNode()); // Position the iterator to the first leaf;
 }
 
 /** Constructor */
@@ -76,7 +76,7 @@ template <class TTreeType>
 LeafTreeIterator<TTreeType>::LeafTreeIterator( TTreeType* tree ) 
   :TreeIteratorBase<TTreeType>(tree,NULL)
 {
-  m_Begin = const_cast<TreeNodeType* >(this->FindNextNode()); // Position the iterator to the first leaf;
+  this->m_Begin = const_cast<TreeNodeType* >(this->FindNextNode()); // Position the iterator to the first leaf;
 }
 
 /** Destructor */
@@ -96,7 +96,7 @@ int LeafTreeIterator<TTreeType>::GetType() const
 template <class TTreeType>
 bool LeafTreeIterator<TTreeType>::HasNext() const
 {
-  if(m_Position == NULL)
+  if(this->m_Position == NULL)
     {
     return false;
     }
@@ -112,8 +112,8 @@ template <class TTreeType>
 const typename LeafTreeIterator<TTreeType>::ValueType&
 LeafTreeIterator<TTreeType>::Next() 
 {
-  m_Position = const_cast<TreeNodeType* >(FindNextNode());
-  return m_Position->Get();
+  this->m_Position = const_cast<TreeNodeType* >(FindNextNode());
+  return this->m_Position->Get();
 }
 
 /** Find the next node given the position */
@@ -121,7 +121,7 @@ template <class TTreeType>
 const typename LeafTreeIterator<TTreeType>::TreeNodeType* 
 LeafTreeIterator<TTreeType>::FindNextNode() const 
 {
-  PreOrderTreeIterator<TTreeType> it(m_Tree,m_Position); 
+  PreOrderTreeIterator<TTreeType> it(this->m_Tree,this->m_Position); 
   ++it; // go next
   if(it.IsAtEnd())
     {
@@ -149,7 +149,7 @@ LeafTreeIterator<TTreeType>::FindNextNode() const
 template <class TTreeType>
 TreeIteratorBase<TTreeType>* LeafTreeIterator<TTreeType>::Clone() 
 {
-  LeafTreeIterator<TTreeType>* clone = new LeafTreeIterator<TTreeType>( m_Tree );
+  LeafTreeIterator<TTreeType>* clone = new LeafTreeIterator<TTreeType>( this->m_Tree );
   *clone = *this;
   return clone;
 }

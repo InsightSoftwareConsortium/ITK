@@ -97,17 +97,17 @@ LevelOrderTreeIterator<TTreeType>
   if ( start != NULL )
     {
     m_Queue.push( start );
-    m_Position = const_cast<TreeNodeType*>(start);
+    this->m_Position = const_cast<TreeNodeType*>(start);
     }
   else
     {
     if(tree->GetRoot())
       {
       m_Queue.push( dynamic_cast<const TreeNodeType*>(tree->GetRoot()) );
-      m_Position = const_cast<TreeNodeType*>(dynamic_cast<const TreeNodeType*>(tree->GetRoot()));
+      this->m_Position = const_cast<TreeNodeType*>(dynamic_cast<const TreeNodeType*>(tree->GetRoot()));
       }
     }
-  m_Begin = m_Position;
+  this->m_Begin = this->m_Position;
 }
 
 /** Constructor with end level specification */
@@ -121,17 +121,17 @@ LevelOrderTreeIterator<TTreeType>
   if ( start != NULL )
     {
     m_Queue.push( start );
-    m_Position = const_cast<TreeNodeType*>(start);
+    this->m_Position = const_cast<TreeNodeType*>(start);
     }
   else
     {
     if(tree->GetRoot())
       {
       m_Queue.push( dynamic_cast<const TreeNodeType*>(tree->GetRoot()) );
-      m_Position = const_cast<TreeNodeType*>(dynamic_cast<const TreeNodeType*>(tree->GetRoot()));
+      this->m_Position = const_cast<TreeNodeType*>(dynamic_cast<const TreeNodeType*>(tree->GetRoot()));
       }
     }
-  m_Begin = m_Position;
+  this->m_Begin = this->m_Position;
 }
 
 /** Return the type of iterator */
@@ -159,8 +159,8 @@ template <class TTreeType>
 const typename LevelOrderTreeIterator<TTreeType>::ValueType&
 LevelOrderTreeIterator<TTreeType>::Next() 
 {
-  m_Position = const_cast<TreeNodeType* >(FindNextNode());
-  return m_Position->Get();
+  this->m_Position = const_cast<TreeNodeType* >(FindNextNode());
+  return this->m_Position->Get();
 }
 
 /** Get the start Level */
@@ -207,14 +207,14 @@ template <class TTreeType>
 int 
 LevelOrderTreeIterator<TTreeType>::GetLevel() const
 {
-  if( m_Position == NULL )
+  if( this->m_Position == NULL )
     {
     return -1;
     }
   
   int level = 0;
-  TreeNodeType* node = m_Position;
-  while( node->HasParent() && node != m_Root ) 
+  TreeNodeType* node = this->m_Position;
+  while( node->HasParent() && node != this->m_Root ) 
     {
     node = dynamic_cast<TreeNodeType*>(node->GetParent());
     level++;
@@ -233,7 +233,7 @@ LevelOrderTreeIterator<TTreeType>::GetLevel( const TreeNodeType* node ) const
     }
   int level = 0;
 
-  while( node->HasParent() && node != m_Root )
+  while( node->HasParent() && node != this->m_Root )
     {
     node = dynamic_cast<const TreeNodeType*>(node->GetParent());
     level++;
@@ -271,7 +271,7 @@ LevelOrderTreeIterator<TTreeType>::FindNextNodeHelp() const
     }
 
   // If the current node is the root we try again
-  if(currentNode == m_Root)
+  if(currentNode == this->m_Root)
     {
     currentNode = const_cast<TreeNodeType*>(FindNextNodeHelp());
     }
@@ -282,7 +282,7 @@ LevelOrderTreeIterator<TTreeType>::FindNextNodeHelp() const
 template <class TTreeType>
 TreeIteratorBase<TTreeType>* LevelOrderTreeIterator<TTreeType>::Clone() 
 {
-  LevelOrderTreeIterator<TTreeType>* clone = new LevelOrderTreeIterator<TTreeType>( const_cast<TTreeType*>(m_Tree), m_StartLevel, m_EndLevel );
+  LevelOrderTreeIterator<TTreeType>* clone = new LevelOrderTreeIterator<TTreeType>( const_cast<TTreeType*>(this->m_Tree), m_StartLevel, m_EndLevel );
   *clone = *this;
   return clone;
 }

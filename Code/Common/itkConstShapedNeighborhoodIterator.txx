@@ -41,7 +41,7 @@ void
 ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
 ::ActivateIndex(const unsigned int n)
 {
-  const OffsetValueType *OffsetTable = m_ConstImage->GetOffsetTable();
+  const OffsetValueType *OffsetTable = this->m_ConstImage->GetOffsetTable();
 
   // Insert so that the list remains ordered.
   IndexListType::iterator it   = m_ActiveIndexList.begin();
@@ -124,14 +124,14 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
   // Check loop bounds, wrap & add pointer offsets if needed.
   for (i=0; i<Dimension; ++i)
     {
-    m_Loop[i]++;
-    if ( m_Loop[i] == m_Bound[i] )
+    this->m_Loop[i]++;
+    if ( this->m_Loop[i] == this->m_Bound[i] )
       {
-      m_Loop[i] = m_BeginIndex[i];
+      this->m_Loop[i] = this->m_BeginIndex[i];
       if (! m_CenterIsActive)
-        { this->GetElement(this->GetCenterNeighborhoodIndex())+= m_WrapOffset[i]; }
+        { this->GetElement(this->GetCenterNeighborhoodIndex())+= this->m_WrapOffset[i]; }
       for (it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); it++)
-        { (this->GetElement(*it))+= m_WrapOffset[i]; }
+        { (this->GetElement(*it))+= this->m_WrapOffset[i]; }
       }        
     else break;
     }
@@ -156,17 +156,17 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
   // Check loop bounds, wrap & add pointer offsets if needed.
   for (i=0; i<Dimension; ++i)
     {
-    if (m_Loop[i] == m_BeginIndex[i])
+    if (this->m_Loop[i] == this->m_BeginIndex[i])
       {
-      m_Loop[i]= m_Bound[i] - 1;
+      this->m_Loop[i]= this->m_Bound[i] - 1;
       if (! m_CenterIsActive)
-        { this->GetElement(this->GetCenterNeighborhoodIndex())-= m_WrapOffset[i]; }
+        { this->GetElement(this->GetCenterNeighborhoodIndex())-= this->m_WrapOffset[i]; }
       for (it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); it++)
-        { (this->GetElement(*it))-= m_WrapOffset[i]; }
+        { (this->GetElement(*it))-= this->m_WrapOffset[i]; }
       }        
     else
       {
-      m_Loop[i]--;
+      this->m_Loop[i]--;
       break;
       }
     }
@@ -205,7 +205,7 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
     { (this->GetElement(*it))+= accumulator ; }
 
   // Update loop counter values
-  m_Loop += idx;
+  this->m_Loop += idx;
 
   return *this;
 }
@@ -242,7 +242,7 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
     { (this->GetElement(*it)) -= accumulator ; }
 
   // Update loop counter values
-  m_Loop -= idx;
+  this->m_Loop -= idx;
 
   return *this;
 }

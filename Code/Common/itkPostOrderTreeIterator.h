@@ -59,16 +59,16 @@ template <class TTreeType>
 PostOrderTreeIterator<TTreeType>::PostOrderTreeIterator( TTreeType* tree)
     :TreeIteratorBase<TTreeType>(tree,NULL) 
 {
-  m_Position = const_cast<TreeNode<ValueType>*>(tree->GetRoot());
+  this->m_Position = const_cast<TreeNode<ValueType>*>(tree->GetRoot());
 
-  if ( m_Position == NULL )
+  if ( this->m_Position == NULL )
   {
-    m_Begin = NULL;
+    this->m_Begin = NULL;
   }
   else
   {
-    m_Position =const_cast<TreeNodeType* >(FindMostRightLeaf(m_Position));
-    m_Begin = m_Position;
+    this->m_Position =const_cast<TreeNodeType* >(FindMostRightLeaf(this->m_Position));
+    this->m_Begin = this->m_Position;
   }  
 }
 
@@ -99,8 +99,8 @@ template <class TTreeType>
 const typename PostOrderTreeIterator<TTreeType>::ValueType&
 PostOrderTreeIterator<TTreeType>::Next()
 { 
-  m_Position = const_cast<TreeNodeType*>(FindNextNode());
-  return m_Position->Get();
+  this->m_Position = const_cast<TreeNodeType*>(FindNextNode());
+  return this->m_Position->Get();
 }
 
 /** Find the next node */
@@ -108,18 +108,18 @@ template <class TTreeType>
 const typename PostOrderTreeIterator<TTreeType>::TreeNodeType* 
 PostOrderTreeIterator<TTreeType>::FindNextNode() const
 {
-  if ( m_Position == NULL || m_Position == m_Root )
+  if ( this->m_Position == NULL || this->m_Position == this->m_Root )
     {
     return NULL;
     }
-  TreeNodeType* sister = const_cast<TreeNodeType*>(FindSister( m_Position ));
+  TreeNodeType* sister = const_cast<TreeNodeType*>(FindSister( this->m_Position ));
 
   if ( sister != NULL )
     {
     return FindMostRightLeaf( sister );
     }
 
-  return m_Position->GetParent();
+  return this->m_Position->GetParent();
 }
 
 
@@ -180,7 +180,7 @@ PostOrderTreeIterator<TTreeType>::FindMostRightLeaf(TreeNodeType* node) const
 template <class TTreeType>
 TreeIteratorBase<TTreeType>* PostOrderTreeIterator<TTreeType>::Clone() 
 {
-  PostOrderTreeIterator<TTreeType>* clone = new PostOrderTreeIterator<TTreeType>( const_cast<TTreeType*>(m_Tree) );
+  PostOrderTreeIterator<TTreeType>* clone = new PostOrderTreeIterator<TTreeType>( const_cast<TTreeType*>(this->m_Tree) );
   *clone = *this;
   return clone;
 }

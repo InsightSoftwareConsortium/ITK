@@ -82,8 +82,8 @@ ChildTreeIterator<TTreeType>::ChildTreeIterator(TTreeType* tree, const TreeNodeT
   :TreeIteratorBase<TTreeType>(tree, start)
 {
   m_ListPosition = 0;
-  m_ParentNode = m_Position;
-  m_Position = m_ParentNode->GetChild( m_ListPosition );
+  m_ParentNode = this->m_Position;
+  this->m_Position = m_ParentNode->GetChild( m_ListPosition );
 }
 
 template <class TTreeType>
@@ -91,8 +91,8 @@ ChildTreeIterator<TTreeType>::ChildTreeIterator(const TreeIteratorBase<TTreeType
   :TreeIteratorBase<TTreeType>(iterator.GetTree(), iterator.GetNode())
 {
   m_ListPosition = 0;
-  m_ParentNode = m_Position;
-  m_Position = m_ParentNode->GetChild( m_ListPosition );
+  m_ParentNode = this->m_Position;
+  this->m_Position = m_ParentNode->GetChild( m_ListPosition );
 }
 
 /** Go to a specific child */
@@ -107,8 +107,8 @@ ChildTreeIterator<TTreeType>::GoToChild(int number)
 
   m_ListPosition = 0;
   m_ParentNode = m_ParentNode->GetChild( number );
-  m_Position = m_ParentNode->GetChild( m_ListPosition );
-  m_Begin = m_Position;
+  this->m_Position = m_ParentNode->GetChild( m_ListPosition );
+  this->m_Begin = this->m_Position;
   return true;
 }
 
@@ -126,8 +126,8 @@ ChildTreeIterator<TTreeType>::GoToParent()
 
   m_ListPosition = 0;
   m_ParentNode = parent;
-  m_Position = m_ParentNode->GetChild( m_ListPosition );
-  m_Begin = m_Position;
+  this->m_Position = m_ParentNode->GetChild( m_ListPosition );
+  this->m_Begin = this->m_Position;
   return true;
 }
 
@@ -160,15 +160,15 @@ const typename ChildTreeIterator<TTreeType>::ValueType&
 ChildTreeIterator<TTreeType>::Next() 
 {
   m_ListPosition++;
-  m_Position = m_ParentNode->GetChild( m_ListPosition );
-  return m_Position->Get();
+  this->m_Position = m_ParentNode->GetChild( m_ListPosition );
+  return this->m_Position->Get();
 }
 
 /** Clone function */
 template <class TTreeType>
 TreeIteratorBase<TTreeType>* ChildTreeIterator<TTreeType>::Clone() 
 {
-  ChildTreeIterator<TTreeType>* clone = new ChildTreeIterator<TTreeType>( const_cast<TTreeType*>(m_Tree), m_Position );   
+  ChildTreeIterator<TTreeType>* clone = new ChildTreeIterator<TTreeType>( const_cast<TTreeType*>(this->m_Tree), this->m_Position );   
   *clone = *this;
   return clone;
 }

@@ -164,8 +164,8 @@ public:
                       const RegionType &region)
     : Superclass(ptr, region)
   {
-    m_SpanBeginOffset = m_BeginOffset;
-    m_SpanEndOffset = m_BeginOffset - static_cast<long>(m_Region.GetSize()[0]);
+    m_SpanBeginOffset = this->m_BeginOffset;
+    m_SpanEndOffset = this->m_BeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
   }
 
   /** Constructor that can be used to cast from an ImageIterator to an
@@ -178,9 +178,9 @@ public:
   ImageRegionReverseConstIterator( const ImageConstIterator<TImage> &it):Superclass(it)
   {
     IndexType ind = this->GetIndex();
-    m_SpanBeginOffset = m_Offset + static_cast<long>(m_Region.GetSize()[0]) 
-      - (ind[0] - m_Region.GetIndex()[0]);
-    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(m_Region.GetSize()[0]);
+    m_SpanBeginOffset = this->m_Offset + static_cast<long>(this->m_Region.GetSize()[0]) 
+      - (ind[0] - this->m_Region.GetIndex()[0]);
+    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
   }
 
   /** Constructor that takes in a reverse image iterator.  This can be used
@@ -188,9 +188,9 @@ public:
   ImageRegionReverseConstIterator( const ImageReverseConstIterator<TImage> &it):Superclass(it)
   {
     IndexType ind = this->GetIndex();
-    m_SpanBeginOffset = m_Offset + static_cast<long>(m_Region.GetSize()[0]) 
-      - (ind[0] - m_Region.GetIndex()[0]);
-    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(m_Region.GetSize()[0]);
+    m_SpanBeginOffset = this->m_Offset + static_cast<long>(this->m_Region.GetSize()[0]) 
+      - (ind[0] - this->m_Region.GetIndex()[0]);
+    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
   }
 
    /** Constructor that takes in an image region iterator.  This can be used
@@ -198,9 +198,9 @@ public:
   ImageRegionReverseConstIterator( const ImageRegionIterator<TImage> &it):Superclass(it)
   {
     IndexType ind = this->GetIndex();
-    m_SpanBeginOffset = m_Offset + static_cast<long>(m_Region.GetSize()[0]) 
-      - (ind[0] - m_Region.GetIndex()[0]);
-    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(m_Region.GetSize()[0]);
+    m_SpanBeginOffset = this->m_Offset + static_cast<long>(this->m_Region.GetSize()[0]) 
+      - (ind[0] - this->m_Region.GetIndex()[0]);
+    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
   }
 
  /** Move an iterator to the beginning of the region. "Begin" for a reverse
@@ -210,9 +210,9 @@ public:
     Superclass::GoToBegin();
 
     // reset the span offsets
-    m_SpanBeginOffset = m_BeginOffset;
-    m_SpanEndOffset   = m_BeginOffset
-      - static_cast<long>(m_Region.GetSize()[0]);
+    m_SpanBeginOffset = this->m_BeginOffset;
+    m_SpanEndOffset   = this->m_BeginOffset
+      - static_cast<long>(this->m_Region.GetSize()[0]);
   };
   
  /** Move an iterator to the end of the region. "End" for a reverse iterator
@@ -222,9 +222,9 @@ public:
     Superclass::GoToEnd();
     
     // reset the span offsets
-    m_SpanEndOffset = m_EndOffset;
+    m_SpanEndOffset = this->m_EndOffset;
     m_SpanBeginOffset = m_SpanEndOffset
-      + static_cast<long>(m_Region.GetSize()[0]);
+      + static_cast<long>(this->m_Region.GetSize()[0]);
   };
 
   /** Return an iterator for the beginning of the region. "Begin" for a reverse
@@ -244,9 +244,9 @@ public:
    * \sa GetIndex */
   void SetIndex(const IndexType &ind)
   { Superclass::SetIndex(ind);
-    m_SpanBeginOffset = m_Offset + static_cast<long>(m_Region.GetSize()[0]) 
-      - (ind[0] - m_Region.GetIndex()[0]);
-    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(m_Region.GetSize()[0]);
+    m_SpanBeginOffset = this->m_Offset + static_cast<long>(this->m_Region.GetSize()[0]) 
+      - (ind[0] - this->m_Region.GetIndex()[0]);
+    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
   }
   
   /** iterator's index.  For a reverse iterator, this moves backwards
@@ -260,22 +260,22 @@ public:
   Self &
   operator++()
   {
-    if (--m_Offset <= m_SpanEndOffset)
+    if (--this->m_Offset <= m_SpanEndOffset)
       {
       // We have past the beginning of the span (row), need to wrap around.
 
       // First move forward one pixel, because we are going to use a different
       // algorithm to compute the next pixel
-      m_Offset++;
+      this->m_Offset++;
       
       // Get the index of the first pixel on the span (row)
       typename ImageConstIterator<TImage>::IndexType
-        ind = m_Image->ComputeIndex( static_cast<OffsetValueType>(m_Offset) );
+        ind = this->m_Image->ComputeIndex( static_cast<OffsetValueType>(this->m_Offset) );
 
       const typename ImageConstIterator<TImage>::IndexType&
-        startIndex = m_Region.GetIndex();
+        startIndex = this->m_Region.GetIndex();
       const typename ImageConstIterator<TImage>::SizeType&
-        size = m_Region.GetSize();
+        size = this->m_Region.GetSize();
 
       // Deccrement along a row, then wrap at the beginning of the region row.
       bool done;
@@ -301,8 +301,8 @@ public:
           ind[++dim]--;
           }
         }
-      m_Offset = m_Image->ComputeOffset( ind );
-      m_SpanBeginOffset = m_Offset;
+      this->m_Offset = this->m_Image->ComputeOffset( ind );
+      m_SpanBeginOffset = this->m_Offset;
       m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(size[0]);
       }
     return *this;
@@ -318,22 +318,22 @@ public:
    * \sa operator--(int) */
   Self & operator--()
   {
-    if (++m_Offset >= m_SpanBeginOffset)
+    if (++this->m_Offset >= m_SpanBeginOffset)
       {
       // We have reached the end of the span (row), need to wrap around.
 
       // First back up one pixel, because we are going to use a different
       // algorithm to compute the next pixel
-      --m_Offset;
+      --this->m_Offset;
       
       // Get the index of the last pixel on the span (row)
       typename ImageConstIterator<TImage>::IndexType
-        ind = m_Image->ComputeIndex( static_cast<OffsetValueType>(m_Offset) );
+        ind = this->m_Image->ComputeIndex( static_cast<OffsetValueType>(this->m_Offset) );
 
       const typename ImageIterator<TImage>::IndexType&
-        startIndex = m_Region.GetIndex();
+        startIndex = this->m_Region.GetIndex();
       const typename ImageIterator<TImage>::SizeType&
-        size = m_Region.GetSize();
+        size = this->m_Region.GetSize();
 
       // Increment along a row, then wrap at the end of the region row.
       bool done;
@@ -359,9 +359,9 @@ public:
           ind[++dim]++;
           }
         }
-      m_Offset = m_Image->ComputeOffset( ind );
-      m_SpanBeginOffset = m_Offset;
-      m_SpanEndOffset = m_Offset - static_cast<long>(size[0]);
+      this->m_Offset = this->m_Image->ComputeOffset( ind );
+      m_SpanBeginOffset = this->m_Offset;
+      m_SpanEndOffset = this->m_Offset - static_cast<long>(size[0]);
       }
     return *this;
   }

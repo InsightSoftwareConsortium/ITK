@@ -114,8 +114,8 @@ public:
    * reference counted. */
   Self &operator=(const Self& it)
   {
-    m_Image = it.m_Image;     // copy the smart pointer
-    m_Region = it.m_Region;
+    this->m_Image = it.m_Image;     // copy the smart pointer
+    this->m_Region = it.m_Region;
     return *this;
   }
   
@@ -132,11 +132,11 @@ public:
 
   /** Get the pixel value */
   const PixelType & Get(void) const
-    { return m_Image->GetPixel(m_IndexStack.front() ); }
+    { return this->m_Image->GetPixel(m_IndexStack.front() ); }
  
   /** Is the iterator at the end of the region? */
   bool IsAtEnd()
-    { return m_IsAtEnd; };
+    { return this->m_IsAtEnd; };
 
   /** Put more seeds on the list */
   void AddSeed ( const IndexType seed )
@@ -160,20 +160,20 @@ public:
       m_IndexStack.pop();
       }
 
-    m_IsAtEnd = true;
+    this->m_IsAtEnd = true;
     // Initialize the temporary image
     tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
     
     for ( unsigned int i = 0; i < m_StartIndices.size(); i++ )
       {
-      if( m_Image->GetBufferedRegion().IsInside ( m_StartIndices[i] ) &&
+      if( this->m_Image->GetBufferedRegion().IsInside ( m_StartIndices[i] ) &&
           this->IsPixelIncluded(m_StartIndices[i]) )
         {
         // Push the seed onto the queue
         m_IndexStack.push(m_StartIndices[i]);
         
         // Obviously, we're at the beginning
-        m_IsAtEnd = false;
+        this->m_IsAtEnd = false;
         
         // Mark the start index in the temp image as inside the function, neighbor check incomplete
         tempPtr->SetPixel(m_StartIndices[i], 2);
@@ -187,6 +187,12 @@ public:
 
   void DoFloodStep();
   
+  virtual SmartPointer<FunctionType> GetFunction() const
+  {
+    return m_Function;
+  }
+
+
 protected: //made protected so other iterators can access 
   /** Smart pointer to the function we're evaluating */
   SmartPointer<FunctionType> m_Function;
