@@ -160,6 +160,15 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
+
+  unsigned int iDimension;
+  for (iDimension=0; iDimension<FixedImageDimension; iDimension++) 
+  {
+    os << indent << "Moving Gradient Image, dimension " << iDimension 
+       << ": " << m_MovedGradientImage[iDimension]->GetPointer() << std::endl;
+    os << indent << "Fixed Gradient Image,  dimension " << iDimension 
+       << ": " << m_FixedGradientImage[iDimension]->GetPointer() << std::endl;
+  }
 }
 
 
