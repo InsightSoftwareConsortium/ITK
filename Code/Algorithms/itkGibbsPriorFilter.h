@@ -173,13 +173,18 @@ public:
 /**
  *  Threshold of the object size
  */
-
   itkSetMacro(ClusterSize, unsigned int);
+
+/**
+ *  The label of object region
+ */  
+  itkSetMacro(ObjectLabel, unsigned int);
 
   enum {ImageDimension = TInputImage::ImageDimension };
 
   void SetStartPoint (int x, int y, int z); 
   void SetBoundaryGradient(int a);
+  void Advance();
 
 protected:
   GibbsPriorFilter();
@@ -209,32 +214,33 @@ protected:
   int m_BoundaryGradient;
   int m_RecursiveNum;
 
-  unsigned int           m_NumClasses;
-  unsigned int           m_MaxNumIter;
+  unsigned int          m_NumClasses;
+  unsigned int          m_MaxNumIter;
 //  unsigned int           m_KernelSize;
-  unsigned int           *m_LabelStatus;
+  unsigned int          *m_LabelStatus;
   
-  double                 m_ErrorTollerance;
-  double                 *m_ClassProbability; //Class liklihood
+  double                m_ErrorTollerance;
+  double                *m_ClassProbability; //Class liklihood
   //double                 *m_Beta3x3x3;
 
 
-  int                    m_ErrorCounter;
+  int                   m_ErrorCounter;
 //  int                    *m_Offset;
-  int                    m_kWidth;
-  int                    m_kHeight;
-  int                    m_kDepth;
-  int                    m_imgWidth;
-  int                    m_imgHeight;
-  int                    m_imgDepth;
-  int					 m_ClusterSize;
+  int                   m_kWidth;
+  int                   m_kHeight;
+  int                   m_kDepth;
+  int                   m_imgWidth;
+  int                   m_imgHeight;
+  int                   m_imgDepth;
+  int					m_ClusterSize;
+  int					m_ObjectLabel;
 
 //  int                    *m_WidthOffset;
 //  int                    *m_HeightOffset;
 //  int                    *m_DepthOffset;
 
-  unsigned short		 *m_Region;
-  unsigned short		 *m_RegionCount;
+  unsigned short		*m_Region;
+  unsigned short		*m_RegionCount;
 
 // function defintions
   void  GenerateInputRequestedRegion();
