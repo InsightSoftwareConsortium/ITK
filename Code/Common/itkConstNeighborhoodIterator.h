@@ -247,7 +247,7 @@ public:
    * buffer.
    */
   OffsetValueType GetWrapOffset(unsigned int n) const
-    {    return m_WrapOffsets[n];   }
+    {    return m_WrapOffset[n];   }
 
   /**
    * Virtual method for rewinding the iterator to its beginning pixel.
