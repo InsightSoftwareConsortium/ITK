@@ -19,6 +19,11 @@
 
 #include "itkMacro.h"
 
+#ifdef _MSC_VER
+# pragma warning (push)
+# pragma warning (disable: 4284) // operator-> returning pointer to non-aggregate
+#endif
+
 namespace itk
 {
 
@@ -209,6 +214,10 @@ std::ostream & operator<<(std::ostream &os, const FixedArray<TValueType,VLength>
 }
 
 } // namespace itk
+
+#ifdef _MSC_VER
+# pragma warning (pop)
+#endif
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFixedArray.txx"
