@@ -198,8 +198,8 @@ int main( int argc, char *argv[] )
 
   FixedImageType::SpacingType spacing = fixedImage->GetSpacing();
 
-  optimizerScales[0] = 1.0 / ( 10.0 * size[0] * spacing[0] );
-  optimizerScales[1] = 1.0 / ( 10.0 * size[1] * spacing[1] );
+  optimizerScales[0] = 1.0 / ( 0.1 * size[0] * spacing[0] );
+  optimizerScales[1] = 1.0 / ( 0.1 * size[1] * spacing[1] );
 
   optimizer->SetScales( optimizerScales );
 
@@ -230,7 +230,7 @@ int main( int argc, char *argv[] )
     }
   optimizer->SetEpsilon( epsilon );
 
-  optimizer->SetMaximumIteration( 1000 );
+  optimizer->SetMaximumIteration( 2000 );
 
 
   // Create the Command observer and register it with the optimizer.
