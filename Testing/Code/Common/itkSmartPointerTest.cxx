@@ -75,7 +75,7 @@ class itkTestObjectSubClass : public itkTestObject
 {
 public:
   typedef itkSmartPointer<itkTestObjectSubClass> Pointer;
-  static itkTestObjectSubClass::Pointer New();
+  static Pointer New();
 };
 
 
@@ -87,8 +87,8 @@ itkTestObjectSubClass::Pointer itkTestObjectSubClass::New()
 
 int main()
 {
-  itkTestObject::Pointer to = itkTestObjectSubClass::New();
-  itkTestObjectSubClass::Pointer sc = dynamic_cast<itkTestObjectSubClass*>((itkTestObject*)to);
+  itkTestObject::Pointer to = (itkTestObjectSubClass*)itkTestObjectSubClass::New().GetPointer();
+  itkTestObjectSubClass::Pointer sc = dynamic_cast<itkTestObjectSubClass*>(to.GetPointer());
   
   std::cout <<"second test" << std::endl;
   {
