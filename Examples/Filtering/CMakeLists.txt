@@ -101,6 +101,7 @@ ADD_EXECUTABLE(LaplacianImageFilter LaplacianImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianImageFilter ITKCommon ITKBasicFilters ITKIO)
 
 SET(FILTERING_EXAMPLES ${CXX_TEST_PATH}/FilteringExamples)
+SET(FILTERING_EXAMPLES2 ${CXX_TEST_PATH}/FilteringExamples2)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Filtering)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -445,5 +446,8 @@ ADD_TEST( RGBCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
         0.125 20
 )
 
-ADD_EXECUTABLE(FilteringExamples FilteringExamples.cxx ${FilteringExamples_SRCS})
+ADD_EXECUTABLE(FilteringExamples FilteringExamples.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(FilteringExamples2 FilteringExamples2.cxx)
+TARGET_LINK_LIBRARIES(FilteringExamples2 ITKIO ITKBasicFilters ITKCommon)
