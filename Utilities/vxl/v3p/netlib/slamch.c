@@ -2,6 +2,12 @@
 #include "netlib.h"
 #include <stdio.h>
 
+/* There are too many problems in this file created by the MSVC
+   optimizer.  Just disable it.  */
+#if defined(_MSC_VER)
+# pragma optimize("", off)
+#endif
+
 static void slamc1_(integer *beta, integer *t, logical *rnd, logical *ieee1);
 static void slamc2_(integer *beta, integer *t, logical *rnd, real *eps,
                     integer *emin, real *rmin, integer *emax, real *rmax);
