@@ -240,13 +240,16 @@ PasteImageFilter<TInputImage>
     InputIterator destIt(destPtr, outputRegionForThread);
     
     // walk the output region, and sample the destination image
-    while( !outIt.IsAtEnd() && !(this->GetInPlace() && this->CanRunInPlace()))
+    if (!(this->GetInPlace() && this->CanRunInPlace()))
       {
-      // copy the input pixel to the output
-      outIt.Set( destIt.Get());
-      ++outIt; 
-      ++destIt; 
-      progress.CompletedPixel();
+      while( !outIt.IsAtEnd() )
+        {
+        // copy the input pixel to the output
+        outIt.Set( destIt.Get());
+        ++outIt; 
+        ++destIt; 
+        progress.CompletedPixel();
+        }
       }
 
     // Copy source to output
