@@ -56,8 +56,6 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
   typedef TInputMesh::PointsContainerPointer  InputPointsContainerPointer;
   typedef TOutputMesh::PointsContainerPointer OutputPointsContainerPointer;
 
-  std::cout << "AffineTransformMeshFilter::GenerateData" << std::endl;
-  
   InputMeshPointer    inputMesh      =  GetInput();
   OutputMeshPointer   outputMesh     =  GetOutput();
   
