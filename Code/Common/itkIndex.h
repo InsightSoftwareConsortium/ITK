@@ -198,7 +198,7 @@ template<unsigned int VImageDimension>
 std::ostream & operator<<(std::ostream &os, const Index<VImageDimension> &ind)
 {
   os << "[";
-  for (int i=0; i < VImageDimension - 1; ++i)
+  for (unsigned int i=0; i < VImageDimension - 1; ++i)
     {
     os << ind[i] << ", ";
     }
