@@ -30,30 +30,15 @@
 // \index{itk::ConnectedThresholdImageFilter|textbf}
 // \index{itk::ConnectedThresholdImageFilter!header}
 //
-// The criterion used by the \doxygen{ConnectedThresholdImageFilter} is based on
-// simple statistics of the current region. First, the algorithm computes the
-// mean and standard deviation of intensity values for all the pixels currently
-// included in the region. A user-provided factor is used to multiply the
-// standard deviation and define a range aroun the mean. Neighbor pixels whose
-// intensity values fall inside the range are accepted to be included in the
-// region. When no more neighbor pixes are found that can satisfy the
-// criterion, the algorithm considered to have finished its first iteration. At
-// that point, the mean and standard deviation of intensity levels are
-// recomputed using all the pixels currently included in the region. These mean
-// and standard deviation define a new intensity range that is used for
-// visiting the current neighbors in search of pixels whose intensity falls
-// inside the range.  This iterative process is repated a number of times as
-// defined by the user. The following equation illustrates the inclusion 
-// criterion used by this filter.
+// The criterion used by the \doxygen{ConnectedThresholdImageFilter} is based
+// on an interval of intensity values provided by the user. Values of lower and
+// upper threshold should be provided. The region growing algorithm will then
+// include in the region only those pixels whose intensities are inside the
+// interval.
 //
 // \begin{equation}
-// I(\mathbf{X}) \in [ m - f \sigma , m + f \sigma ]
+// I(\mathbf{X}) \in [ \mbox{lower}, \mbox{upper} ]
 // \end{equation}
-//
-// where $m$ and $\sigma$ are the mean and standard deviation of the  region
-// intensities, $f$ is a factor defined by the user. $I()$ is the image and
-// $\mathbf{X}$ is the position of the particular neighbor pixel being
-// considered for inclusion in the region.
 //
 // Let's look at the minimal code required to use this algorithm. First, the
 // following header defining the \doxygen{ConnectedThresholdImageFilter} class
