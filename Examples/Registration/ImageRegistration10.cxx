@@ -197,6 +197,8 @@ int main( int argc, char *argv[] )
   //  \index{itk::Image!GetBufferedRegion()}
   //
   fixedImageReader->Update();
+  movingImageReader->Update();
+
   registration->SetFixedImageRegion( 
      fixedImageReader->GetOutput()->GetBufferedRegion() );
 
@@ -245,6 +247,7 @@ int main( int argc, char *argv[] )
   optimizer->AutomaticInitialSimplexOff();
   optimizer->SetInitialSimplexDelta( simplexDelta );
   // Software Guide : EndCodeSnippet
+
 
   //  Software Guide : BeginLatex
   //  We also adjust the tolerances on the optimizer to define
