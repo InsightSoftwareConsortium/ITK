@@ -24,7 +24,7 @@ const double WID=400;
 const int NUMSEEDS=20;
 
 
-int main(void){
+int itkVoronoiDiagram2DTest(int, char**){
   typedef itk::VoronoiDiagram2D<double> Vor;
   typedef itk::VoronoiDiagram2DGenerator<double> VorGenerator;
 
