@@ -38,6 +38,8 @@ turek:Matt Turek:turek@crd.ge.com
 turner:Wes Turner:turner@crd.ge.com
 vikram:Vikram Chalana:vikram@insightful.com
 whitaker:Ross Whitaker:whitaker@serrano.cs.utah.edu
+wilson:Wilson Chang:wmcst6@pitt.edu
 will:Will Schroeder:will.schroeder@kitware.com
 ying:Ying Zhuge:zhuge@mipg.upenn.edu
 yoo:Terry S. Yoo:yoo@nlm.nih.gov
+
