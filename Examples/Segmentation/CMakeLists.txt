@@ -168,5 +168,41 @@ ADD_TEST(FastMarchingGrayMatterTest ${SEGMENTATION_EXAMPLES}
         40 90 .5 -0.3 2.0 200 250        
 )
 
+ADD_TEST(GeodesicActiveContourLeftVentricleTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/GeodesicActiveContourLeftVentricleTest.png
+            ${TEMP}/GeodesicActiveContourLeftVentricleTest.png
+  GeodesicActiveContourImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/GeodesicActiveContourLeftVentricleTest.png
+        81 114 5.0 1.0 -0.5 3.0 2.0
+)
+
+ADD_TEST(GeodesicActiveContourRightVentricleTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/GeodesicActiveContourRightVentricleTest.png
+            ${TEMP}/GeodesicActiveContourRightVentricleTest.png
+  GeodesicActiveContourImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/GeodesicActiveContourRightVentricleTest.png
+        99 114 5.0 1.0 -0.5 3.0 2.0
+)
+
+ADD_TEST(GeodesicActiveContourWhiteMatterTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/GeodesicActiveContourWhiteMatterTest.png
+            ${TEMP}/GeodesicActiveContourWhiteMatterTest.png
+  GeodesicActiveContourImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/GeodesicActiveContourWhiteMatterTest.png
+        56 92 5.0 1.0 -0.3 2.0 10.0
+)
+
+ADD_TEST(GeodesicActiveContourGrayMatterTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/GeodesicActiveContourGrayMatterTest.png
+            ${TEMP}/GeodesicActiveContourGrayMatterTest.png
+  GeodesicActiveContourImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/GeodesicActiveContourGrayMatterTest.png
+        40 90 5.0 0.5 -0.3 2.0 10.0
+)
+
 ADD_EXECUTABLE(SegmentationExamples SegmentationExamples.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
