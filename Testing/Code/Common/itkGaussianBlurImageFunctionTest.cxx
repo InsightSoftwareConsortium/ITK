@@ -135,6 +135,46 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
     std::cout << "[PASSED] " << std::endl;
   } 
 
+  // Testing Set/GetUseImageSpacing()
+  {
+    std::cout << "Testing Set/GetUseImageSpacing(): ";
+    bool useImageSpacing = true;
+    
+    gaussianFunction->SetUseImageSpacing( useImageSpacing );
+    if( gaussianFunction->GetUseImageSpacing() != useImageSpacing )
+      {
+      std::cerr << "Set/GetUseImageSpacing() FAILED !" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    useImageSpacing = false;
+    
+    gaussianFunction->SetUseImageSpacing( useImageSpacing );
+    if( gaussianFunction->GetUseImageSpacing() != useImageSpacing )
+      {
+      std::cerr << "Set/GetUseImageSpacing() FAILED !" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    gaussianFunction->UseImageSpacingOn();
+    if( gaussianFunction->GetUseImageSpacing() != true )
+      {
+      std::cerr << "Set/GetUseImageSpacing() FAILED !" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    gaussianFunction->UseImageSpacingOff();
+    if( gaussianFunction->GetUseImageSpacing() != false )
+      {
+      std::cerr << "Set/GetUseImageSpacing() FAILED !" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+
+    gaussianFunction->UseImageSpacingOn(); // leave it ON for the next test.
+    std::cout << "[PASSED] " << std::endl;
+  } 
+
 
   GFunctionType::OutputType  blurredvalue_index;
   blurredvalue_index = gaussianFunction->EvaluateAtIndex( index );

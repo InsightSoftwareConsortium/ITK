@@ -139,6 +139,16 @@ public:
   itkSetMacro( MaximumKernelWidth, int );
   itkGetMacro( MaximumKernelWidth, int );
 
+  /** Set/GetUseImageSpacing() This flag is used by the underling 
+   *  GaussianOperator to decide if the image spacing should be used
+   *  to scale the value of sigma or not. The methods UseImageSpacingOn() 
+   *  and UseImageSpacingOff() provide a similar functionality.
+   */
+  itkSetMacro( UseImageSpacing, bool );
+  itkGetMacro( UseImageSpacing, bool );
+  itkBooleanMacro( UseImageSpacing );
+
+
 protected:
   GaussianBlurImageFunction();
   GaussianBlurImageFunction( const Self& ){};
