@@ -45,6 +45,7 @@ SET(ITKCommon_SRCS
   itkSegmentationBorder.cxx
   itkSegmentationRegion.cxx
   itkSimpleFastMutexLock.cxx
+  itkSimplexMeshGeometry.cxx
   itkTextOutput.cxx
   itkTetrahedronCellTopology.cxx
   itkTimeProbe.cxx
