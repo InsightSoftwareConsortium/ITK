@@ -111,21 +111,38 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   typename OutputImageType::Pointer       output = this->GetOutput();
   typename  InputImageType::ConstPointer  input  = this->GetInput();
   
-  // Set up operators 
-  DerivativeOperator<OperatorValueType, InputImageDimension> op;
-  op.SetDirection(0);
-  op.SetOrder(1);
-  op.CreateDirectional();
+  // Set up operators
+  DerivativeOperator<OperatorValueType,InputImageDimension> op[InputImageDimension];
 
-  // Reverse order of coefficients for the convolution with the image to
-  // follow.
-  op.FlipAxes();
+  for (i = 0; i< InputImageDimension; i++)
+    {
+    op[i].SetDirection(0);
+    op[i].SetOrder(1);
+    op[i].CreateDirectional();
+    
+    // Reverse order of coefficients for the convolution with the image to
+    // follow.
+    op[i].FlipAxes();
 
+    // Take into account the pixel spacing if necessary
+    if (m_UseImageSpacing == true)
+      {
+      if ( this->GetInput()->GetSpacing()[i] == 0.0 )
+        {
+        itkExceptionMacro(<< "Image spacing cannot be zero.");
+        }
+      else
+        {
+        op[i].ScaleCoefficients( 1.0 / this->GetInput()->GetSpacing()[i] );
+        }
+      }
+    }
+  
   // Calculate iterator radius
   Size<InputImageDimension> radius;
   for (i = 0; i < InputImageDimension; ++i)
     {
-    radius[i]  = op.GetRadius()[0];
+    radius[i]  = op[0].GetRadius()[0];
     }
 
   // Find the data-set boundary "faces"
@@ -147,7 +164,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   for (i = 0; i < InputImageDimension; ++i)
     {
     x_slice[i] = std::slice( center - nit.GetStride(i) * radius[i],
-                             op.GetSize()[0], nit.GetStride(i));
+                             op[i].GetSize()[0], nit.GetStride(i));
     }
 
 
@@ -165,7 +182,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
       {
       for (i = 0; i < InputImageDimension; ++i)
         {
-        a[i] = SIP(x_slice[i], bit, op);
+        a[i] = SIP(x_slice[i], bit, op[i]);
         }
       it.Value() = a;          
       ++bit;

@@ -91,8 +91,26 @@ public:
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
+  /** Use the image spacing information in calculations. Use this option if you
+   *  want derivatives in physical space. Default is UseImageSpacingOn. */
+  void SetUseImageSpacingOn()
+  { this->SetUseImageSpacing(true); }
+  
+  /** Ignore the image spacing. Use this option if you want derivatives in
+      isotropic pixel space.  Default is UseImageSpacingOn. */
+  void SetUseImageSpacingOff()
+  { this->SetUseImageSpacing(false); }
+  
+  /** Set/Get whether or not the filter will use the spacing of the input
+      image in its calculations */
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetMacro(UseImageSpacing, bool);
+
 protected:
-  GradientImageFilter() {}
+  GradientImageFilter()
+    {
+      m_UseImageSpacing = true;
+    }
   virtual ~GradientImageFilter() {}
 
   /** GradientImageFilter can be implemented as a multithreaded filter.
@@ -112,6 +130,7 @@ private:
   GradientImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  bool m_UseImageSpacing;
 };
   
 } // end namespace itk
