@@ -29,7 +29,7 @@ namespace itk
  * \brief Base class for all writers that write images.
  *
  * ImageWriter is the base class for writers that write images.
- * \ingroup IOFilters
+ * \ingroup IOFilters Deprecated
  */
 template <class TInputImage>
 class ITK_EXPORT ImageWriter : public Writer

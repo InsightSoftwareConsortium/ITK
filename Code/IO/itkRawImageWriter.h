@@ -36,7 +36,7 @@ namespace itk
  * binary or ASCII output types, as well as the byte order (little
  * endian or big endian).
  *
- * \ingroup IOFilters
+ * \ingroup IOFilters Deprecated
  */
 template <class TInputImage>
 class ITK_EXPORT RawImageWriter : public ImageWriter<TInputImage>

@@ -31,7 +31,7 @@ namespace itk
  * Writer is the base class for all Insight data writers. You can specify
  * binary or ASCII output types, as well as the output file name.
  *
- * \ingroup IOFilters
+ * \ingroup IOFilters Deprecated
  */
 class ITK_EXPORT Writer : public ProcessObject
 {
