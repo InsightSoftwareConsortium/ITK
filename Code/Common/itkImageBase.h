@@ -56,9 +56,10 @@ public:
 
   /** 
    * Set the size of the image. This method assumes that
-   * the dimension of the data has been set. 
+   * the dimension of the data has been set. This method
+   * allocates memory for the image (hence the virtual).
    */
-  void SetSize(unsigned long *size);
+  virtual void SetSize(unsigned long *size);
 
   /** 
    * Get the size of the image. 
