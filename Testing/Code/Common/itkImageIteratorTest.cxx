@@ -44,6 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkScalar.h"
 #include "itkVector.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionReverseIterator.h"
 #include "itkImageBufferIterator.h"
 
 
@@ -283,6 +284,39 @@ int main()
   while (!backIt.IsAtBegin()); // stop when we reach the beginning
   
 
+  // Iterate over a region backwards using a reverse iterator
+  itk::ImageRegionReverseIterator<itk::PhysicalImage<itk::Vector<unsigned short, 5>, 3> > reverseIt(o3, region);
+
+  for ( ; !reverseIt.IsAtEnd(); ++reverseIt)
+    {
+    itk::PhysicalImage<itk::Vector<unsigned short, 5>, 3>::IndexType index = reverseIt.GetIndex();
+    std::cout << "Reverse iterator: ";
+    for (unsigned int i=0; i < index.GetIndexDimension(); i++)
+      {
+      std::cout << index[i] << " ";
+      }
+    std::cout << std::endl;
+    }
+
+  // Iterator over the region forwards using a reverse iterator
+  itk::ImageRegionReverseIterator<itk::PhysicalImage<itk::Vector<unsigned short, 5>, 3> > backReverseIt(o3, region);
+ 
+  backReverseIt = backReverseIt.End(); // one pixel before the region
+  do
+    {
+    --backReverseIt;
+
+    itk::PhysicalImage<itk::Vector<unsigned short, 5>, 3>::IndexType index = backReverseIt.GetIndex();
+    std::cout << "Reverse iterator backwards loop: ";
+    for (unsigned int i=0; i < index.GetIndexDimension(); i++)
+      {
+      std::cout << index[i] << " ";
+      }
+    std::cout << std::endl;    
+    }
+  while (!backReverseIt.IsAtBegin()); // stop when we reach the beginning
+  
+  
   return 0;
 }
 
