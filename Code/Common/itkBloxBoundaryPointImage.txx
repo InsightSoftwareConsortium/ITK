@@ -152,7 +152,7 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
 
       // Convert the continuous index to a normal index
       for (int ii = 0; ii < NDimensions; ++ii)
-        bloxIndex[ii] = contBloxIndex[ii];
+        bloxIndex[ii] = static_cast<long>( contBloxIndex[ii] );
 
       // Create a new boundary point item and set its parameters
       BloxBoundaryPointItem<NDimensions>* pItem = new BloxBoundaryPointItem<NDimensions>;
