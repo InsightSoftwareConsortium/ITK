@@ -151,9 +151,14 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
   m_Optimizer->SetNormalVariateGenerator(m_NormalVariateGenerator.GetPointer()) ;
 
   if (ImageDimension == 3)
-    m_UsingInterSliceIntensityCorrection = true ;
+    {
+      m_UsingInterSliceIntensityCorrection = true ;
+      m_SlicingDirection = 2 ;
+    }
   else
-    m_UsingInterSliceIntensityCorrection = false ;
+    {
+      m_UsingInterSliceIntensityCorrection = false ;
+    }
     
   m_UsingSlabIdentification = false ;
   m_UsingBiasFieldCorrection = true ;
