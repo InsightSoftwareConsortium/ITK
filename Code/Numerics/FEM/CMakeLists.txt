@@ -28,11 +28,12 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadEdge.cxx
   itkFEMLoadPoint.cxx
   itkFEMLoadImagePairBase.txx
+#  itkFEMLoadMeanSquares.txx
   
   itkFEMLoadImplementationsRegister.cxx
   itkFEMLoadImplementationGrav_Bar2D.cxx
   itkFEMLoadImplementationGrav_Beam2D.cxx
-  itkFEMLoadImplementationGrav_MembraneC02D.cxx
+  itkFEMLoadImplementationGravMembraneC02D.cxx
   itkFEMLoadImplementationGrav_QuadC02D.cxx
   itkFEMLoadImplementationGrav_TriC02D.cxx
 
@@ -94,6 +95,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadEdge.h
   itkFEMLoadPoint.h
   itkFEMLoadImagePairBase.h
+#  itkFEMLoadMeanSquares.h
  
   itkFEMSolver.h
 
