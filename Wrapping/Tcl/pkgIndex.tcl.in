@@ -1,0 +1,59 @@
+package ifneeded WrapTclFacility 1.0 {
+  global tcl_platform
+  if {$tcl_platform(platform) == "unix"} {
+    set libPrefix "lib"
+  } else {
+    set libPrefix ""
+  }
+
+  set facilityDir "${CABLE_TCL_FACILITY_DIR}"
+  set libName "WrapTclFacility"
+  set libExt [info sharedlibextension]
+  set libFile [file join $facilityDir $libPrefix$libName$libExt]
+  if {[catch { load $libFile } errorMessage ]} { puts $errorMessage }
+}
+
+package ifneeded ItkTclUtils 1.0 {
+  set utilsDir "${ITK_TCL_UTILS_DIR}"
+  set tclFile [file join $utilsDir "itkTclUtils.tcl"]
+  if {[catch { source $tclFile } errorMessage ]} {
+    puts $errorMessage
+  } else {
+    package provide ItkTclUtils 1.0
+  }
+}
+
+proc itkFindTclPackages {libPath} {
+  global tcl_platform
+  if {$tcl_platform(platform) == "unix"} {
+    set libPrefix "lib"
+  } else {
+    set libPrefix ""
+  }
+
+  set libExt [info sharedlibextension]
+  set libPattern [file join $libPath $libPrefix*Tcl$libExt]
+  set libRegex [file join $libPath $libPrefix\(.*\)\\$libExt]
+
+  set packageList {}
+  catch {
+    foreach lib [glob $libPattern] {
+      if {[regexp $libRegex $lib libFile libName]} {
+        package ifneeded $libName 1.0 "
+          if {[catch { load $libFile } errorMessage]} { puts \$errorMessage }
+        "
+        lappend packageList $libName
+      }
+    }
+  }
+  return $packageList
+}
+
+itkFindTclPackages "${ITK_WRAP_TCL_DIR}"
+
+set subDirs [list ${ITK_WRAP_TCL_SUBDIRS}]
+if {[llength $subDirs] > 0} {
+  foreach subDir $subDirs {
+    itkFindTclPackages [file join ${ITK_WRAP_TCL_DIR} $subDir]
+  }
+}
