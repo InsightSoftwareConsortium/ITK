@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/* constructor: seting the default value of the parameters */
+/* Constructor: setting of the default values for the parameters. */
 template <class TInputImage, class TOutputImage>
 VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
 VoronoiSegmentationRGBImageFilter(){
@@ -70,7 +70,7 @@ VoronoiSegmentationRGBImageFilter(){
   m_MaxValueOfRGB = 256;
 }
 
-/* destructor */
+/* Destructor. */
 template <class TInputImage, class TOutputImage>
 VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
 ~VoronoiSegmentationRGBImageFilter(){
@@ -97,7 +97,7 @@ SetVarPercentError(double x[6]){
 }
 
 
-/* initialization for the segmentation */
+/* Initialization for the segmentation. */
 template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
@@ -372,7 +372,7 @@ TakeAPrior(BinaryObjectImage* aprior)
       m_MeanTolerance[i] = m_Mean[i]*m_MeanPercentError[i];
   }
 
-/* stupid sorting...*/
+/*  Sorting. */
   unsigned char tmp[6]={0,1,2,3,4,5};
   for(j=0;j<3;j++){
     k=0;
