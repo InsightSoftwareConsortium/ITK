@@ -31,6 +31,7 @@ SpatialObjectWriter<NDimensions,PixelType>
   m_FileName = "";
   m_SpatialObject = 0;
   m_Scene = 0;
+  m_BinaryPoints = false;
 }
 
 template <unsigned int NDimensions, class PixelType>
@@ -49,8 +50,11 @@ SpatialObjectWriter<NDimensions,PixelType>
     {
     m_FullFileName = m_FileName;
     }
+
+  m_MetaToSpatialConverter.SetBinaryPoints(m_BinaryPoints);
+
   if(m_Scene != 0)
-    {
+    {   
     m_MetaToSpatialConverter.WriteMeta(m_Scene,m_FullFileName.c_str());
     m_Scene = 0;
     }
@@ -61,7 +65,7 @@ SpatialObjectWriter<NDimensions,PixelType>
       tScene->AddSpatialObject(m_SpatialObject);   
       // Check if IDs are valid because IDs are used to determine parent-child hierarchy
       tScene->FixIdValidity();
-
+     
       m_MetaToSpatialConverter.WriteMeta(tScene,
                                          m_FullFileName.c_str());
       m_SpatialObject = 0;

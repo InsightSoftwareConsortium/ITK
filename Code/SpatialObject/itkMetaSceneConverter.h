@@ -49,6 +49,9 @@ public:
   const MetaEvent* GetEvent() const {return m_Event;}
   void  SetEvent(MetaEvent* event) {m_Event = event;}
 
+  // Set if the points should be saved in binary/ASCII
+  void SetBinaryPoints(bool binary) {m_BinaryPoints = binary;}
+
 private:
 
   typedef itk::SpatialObject<NDimensions> SpatialObjectType;
@@ -71,6 +74,7 @@ private:
   float m_CenterOfRotation[10] ;
 
   MetaEvent* m_Event;
+  bool  m_BinaryPoints;
 
 };
 

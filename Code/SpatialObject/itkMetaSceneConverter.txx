@@ -53,6 +53,7 @@ MetaSceneConverter<NDimensions,PixelType>
   // default behaviour of scene converter is not to save transform 
   // with each spatial object.
   m_Event = NULL;
+  m_BinaryPoints = false;
 }
 
 /** Destructor */ 
@@ -238,6 +239,8 @@ MetaSceneConverter<NDimensions,PixelType>
 ::CreateMetaScene(SceneType * scene, unsigned int depth, char * name)
 {
   MetaScene * metaScene = new MetaScene(NDimensions);
+
+  metaScene->BinaryData(m_BinaryPoints);
 
   float* spacing = new float[NDimensions];
   for(unsigned int i=0;i<NDimensions;i++)

@@ -63,9 +63,13 @@ public:
 
   void SetInput(SceneType * input){m_Scene=input;}
 
+  itkSetMacro(BinaryPoints,bool);
+  itkGetMacro(BinaryPoints,bool);
+
 protected:
   std::string m_FullFileName;
   std::string m_FileName;
+  bool        m_BinaryPoints;
 
   SpatialObjectWriter();
   virtual ~SpatialObjectWriter();
