@@ -74,12 +74,17 @@ public:
   void AddSeed(const IndexType & seed)
   {
     m_SeedList.push_back ( seed );
+    this->Modified();
   };
 
   /** Clear the seed list. */
   void ClearSeeds ()
   {
-    m_SeedList.clear();
+    if (m_SeedList.size() > 0)
+      {
+      m_SeedList.clear();
+      this->Modified();
+      }
   };
 
   /** Set/Get the lower threshold. The default is 0. */
