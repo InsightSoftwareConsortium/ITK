@@ -126,7 +126,7 @@ private:
 
   virtual ScalarValueType PropagationSpeed(
                             const NeighborhoodType& neighborhood,
-                            const FloatOffsetType
+                            const FloatOffsetType &
                           ) const
     {
       Index<2> idx = neighborhood.GetIndex();
