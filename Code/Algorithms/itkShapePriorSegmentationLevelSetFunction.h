@@ -111,6 +111,13 @@ public:
   /** Compute global time step from the global data structure. */
   virtual TimeStepType ComputeGlobalTimeStep( void *globalData ) const;
 
+  /** A global data type used to store values needed to compute the time step. */
+  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
+  struct ShapePriorGlobalDataStruct : public GlobalDataStruct
+   {
+     ScalarValueType m_MaxShapePriorChange;
+   };
+
   /** Returns a pointer to a global data structure for computing time step. */
   virtual void *GetGlobalDataPointer() const
     {
@@ -133,14 +140,6 @@ protected:
   void operator=(const Self&); //purposely not implemented
   
   void PrintSelf(std::ostream& os, Indent indent) const;
-
-  /** A global data type used to store values needed to compute the time step. */
-  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
-  struct ShapePriorGlobalDataStruct : public GlobalDataStruct
-   {
-     ScalarValueType m_MaxShapePriorChange;
-   };
-
 
 private:
 

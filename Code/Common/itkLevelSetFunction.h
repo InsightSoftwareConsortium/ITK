@@ -166,6 +166,14 @@ public:
    * for each thread by the finite difference solver filters. */
   virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const;
 
+  /** A global data type for this class of equations.  Used to store
+   * values that are needed in calculating the time step. */
+  struct GlobalDataStruct
+  {
+    ScalarValueType m_MaxAdvectionChange;
+    ScalarValueType m_MaxPropagationChange;
+  };
+
   /** Returns a pointer to a global data structure that is passed to this
    * object from the solver at each calculation.  The idea is that the solver
    * holds the state of any global values needed to calculate the time step,
@@ -226,13 +234,6 @@ public:
   }
   
 protected:
-  /** A global data type for this class of equations.  Used to store
-   * values that are needed in calculating the time step. */
-  struct GlobalDataStruct
-  {
-    ScalarValueType m_MaxAdvectionChange;
-    ScalarValueType m_MaxPropagationChange;
-  };
   
   LevelSetFunction()
   {
