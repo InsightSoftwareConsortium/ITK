@@ -62,7 +62,7 @@ double F( double x, double y, double z )
   double r = vnl_math_sqrt( x*x + y*y + z*z );
   if( r > 35 )
     {
-    value = 2 * ( vnl_math_abs( x ) + 
+    value = 2 * ( vnl_math_abs( x ) +
       0.8 * vnl_math_abs( y ) +
       0.5 * vnl_math_abs( z ) );
     }
@@ -217,14 +217,14 @@ int main()
   iterationCommand->SetOptimizer(  registrationMethod->GetOptimizer() );
 
   registrationMethod->GetOptimizer()->AddObserver( itk::Command::IterationEvent,
-                                                   iterationCommand ); 
+                                                   iterationCommand );
 
-  
+
   // do the registration
   // reduce learning rate as we go
 
-  unsigned int iter[3]  = {300,300,300};
-  double       rates[3] = {5e-4, 1e-4, 1e-5};
+  unsigned int iter[3]  = {300,300,350};
+  double       rates[3] = {1e-3, 5e-4, 1e-4};
 
   for( unsigned int i = 0; i < 3; i++ )
     {
@@ -256,7 +256,7 @@ int main()
     }
 
   // get the results
-  RegistrationType::ParametersType solution = 
+  RegistrationType::ParametersType solution =
     registrationMethod->GetParameters();
 
   std::cout << "Solution is: " << solution << std::endl;
@@ -300,7 +300,7 @@ int main()
   // check for parzen window exception
   double oldValue = registrationMethod->GetMetric()->GetReferenceStandardDeviation();
   registrationMethod->GetMetric()->SetReferenceStandardDeviation( 0.005 );
-  
+
   try
     {
     pass = false;
@@ -326,7 +326,7 @@ int main()
 
   solution[5] = 1000;
   registrationMethod->SetParameters(solution);
-  
+
   try
     {
     pass = false;
