@@ -22,8 +22,8 @@ public class SigmoidImageFilter
     reader.SetFileName( argv[0] );
     writer.SetFileName( argv[1] );
 
-    filter.SetOutputMinimum( Integer.parseInt( argv[2] ) );
-    filter.SetOutputMaximum( Integer.parseInt( argv[3] ) );
+    filter.SetOutputMinimum( Short.parseShort( argv[2] ) );
+    filter.SetOutputMaximum( Short.parseShort( argv[3] ) );
 
     filter.SetAlpha( Float.parseFloat( argv[4] ) );
     filter.SetBeta(  Float.parseFloat( argv[5] ) );
