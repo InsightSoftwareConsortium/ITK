@@ -239,9 +239,9 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
   
   const unsigned int ln = region.GetSize()[ this->m_Direction ];
 
-  if( ln == 0 )
+  if( ln < 4 )
     {
-    itkExceptionMacro("The number of pixels along direction " << this->m_Direction << " is zero");
+    itkExceptionMacro("The number of pixels along direction " << this->m_Direction << " is less than 4. This filter requires a minimum of four pixels along the dimension to be processed.");
     }
 
   RealType *inps = 0;
