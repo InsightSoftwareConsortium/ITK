@@ -21,6 +21,8 @@
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 
+#include "itkMacro.h"
+#include "itkObjectFactory.h"
 #include "itkObject.h"
 
 namespace itk{ 
