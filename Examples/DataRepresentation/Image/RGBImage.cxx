@@ -132,8 +132,8 @@ int main( int argc, char ** argv )
   PixelType onePixel = image->GetPixel( pixelIndex );
   
   PixelType::ValueType red   = onePixel.GetRed();
-  PixelType::ValueType green = onePixel.GetRed();
-  PixelType::ValueType blue  = onePixel.GetRed();
+  PixelType::ValueType green = onePixel.GetGreen();
+  PixelType::ValueType blue  = onePixel.GetBlue();
   // Software Guide : EndCodeSnippet
 
 
