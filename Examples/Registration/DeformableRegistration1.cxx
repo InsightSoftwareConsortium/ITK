@@ -335,16 +335,12 @@ int main(int argc, char *argv[])
 //  Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  This is a documented sample parameter file that can be used with
-//  this deformable registration example.
-//
-//  \begin{verbatim}
-//  \input{../Data/FiniteElementRegistrationParameters1.txt}
-//  \end{verbatim}
-//
-//  Software Guide : EndLatex
+  //
+  //  This is a documented sample parameter file that can be used with
+  //  this deformable registration example.
+  //
+  //  ../Data/FiniteElementRegistrationParameters1.txt
+  //
 
   // Clean up and exit
   delete m;
