@@ -108,6 +108,8 @@ int itkSigmoidImageFilterTest(int, char**)
   filter->SetAlpha( alpha );
   filter->SetBeta(  beta  );
 
+  filter->SetOutputMinimum( -1.0 );
+  filter->SetOutputMaximum(  1.0 );
   
   // Get the Smart Pointer to the Filter Output 
   OutputImageType::Pointer outputImage = filter->GetOutput();
@@ -129,7 +131,7 @@ int itkSigmoidImageFilterTest(int, char**)
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const double x1 = alpha * input + beta;
-    const double x2 = 1.0 / ( 1.0 + exp( -x1 ) );
+    const double x2 = 2.0 / ( 1.0 + exp( -x1 ) ) - 1.0;
     const OutputImageType::PixelType sigmoid  = 
             static_cast<OutputImageType::PixelType>( x2 );
     if( fabs( sigmoid - output ) > epsilon )
