@@ -122,7 +122,7 @@ namespace itk
           }
       }
 
-    return ret = total ;
+    return total ;
   }
 
 
