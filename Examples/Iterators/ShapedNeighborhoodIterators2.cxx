@@ -73,7 +73,6 @@ int main( int argc, char ** argv )
   faceList = faceCalculator(reader->GetOutput(), output->GetRequestedRegion(), radius);
   
   IteratorType out;
-  ShapedNeighborhoodIteratorType it;
   const float rad = static_cast<float>(element_radius);
   
   const PixelType background_value = 0;
@@ -81,7 +80,7 @@ int main( int argc, char ** argv )
   
   for ( fit=faceList.begin(); fit != faceList.end(); ++fit)
     {
-    it = ShapedNeighborhoodIteratorType( radius, reader->GetOutput(), *fit );
+    ShapedNeighborhoodIteratorType it( radius, reader->GetOutput(), *fit );
     out = IteratorType( output, *fit );
     
     // Creates a circular structuring element by activating all the pixels less

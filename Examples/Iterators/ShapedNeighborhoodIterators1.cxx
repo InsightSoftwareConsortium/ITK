@@ -142,7 +142,6 @@ int main( int argc, char ** argv )
 
 
 // Software Guide : BeginCodeSnippet
-  ShapedNeighborhoodIteratorType it;
   IteratorType out;
   
   const PixelType background_value = 0;
@@ -169,7 +168,7 @@ int main( int argc, char ** argv )
 // Software Guide : BeginCodeSnippet
   for ( fit=faceList.begin(); fit != faceList.end(); ++fit)
     {
-    it = ShapedNeighborhoodIteratorType( radius, reader->GetOutput(), *fit );
+    ShapedNeighborhoodIteratorType it( radius, reader->GetOutput(), *fit );
     out = IteratorType( output, *fit );
 
     // Creates a circular structuring element by activating all the pixels less
