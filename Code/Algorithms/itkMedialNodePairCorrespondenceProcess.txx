@@ -554,7 +554,6 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
 
         // clean up
         delete CorrespondingPairListPointer;
-        CorrespondingPairListPointer = 0;
         }// End if(i<j)
       }// End for j
 
