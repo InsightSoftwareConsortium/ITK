@@ -250,6 +250,10 @@ public:
   /** Returns a list of pointer to the children affiliated to this object. */ 
   NDimensionalChildrenListType & GetNDimensionalChildren( void ) {return m_NDimensionalChildrenList;}
 
+  virtual void SetOrigin(double* origin);
+  virtual void SetOrigin(double x, double y);
+  virtual void SetOrigin(double x, double y, double z);
+  virtual void SetOrigin(double x, double y, double z, double t);
 
 protected: 
   
@@ -286,6 +290,12 @@ protected:
 
   /** Object Identification Number */
   int m_Id;
+
+  /** Set the origin of the object 
+   *  The origin dimension is not related with the object dimensions
+   *  A 2D Object could exist in a 3D space or even 4D */
+  double m_Origin[6];
+  
 
 }; 
 
