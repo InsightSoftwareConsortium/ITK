@@ -419,7 +419,7 @@ public:
    * of ImageBase are guarenteed to respond to GetSpacing() and
    * GetOrigin()). If "data" is another datatype, this method may not
    * do anything.   */
-  virtual void CopyInformation(DataObject *data);
+  virtual void CopyInformation(const DataObject *data);
 
 protected:
   Image();

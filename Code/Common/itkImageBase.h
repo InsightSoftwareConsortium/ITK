@@ -219,7 +219,7 @@ public:
    * ImageBase has more meta-data than its DataObject.  Thus, it must
    * provide its own version of CopyInformation() in order to copy the
    * LargestPossibleRegion from the input parameter. */
-  virtual void CopyInformation(DataObject *data);
+  virtual void CopyInformation(const DataObject *data);
 
   /** Update the information for this DataObject so that it can be used
    * as an output of a ProcessObject.  This method is used the pipeline

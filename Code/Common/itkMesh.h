@@ -352,7 +352,7 @@ public:
   /** Methods that support streaming. */
   virtual void UpdateOutputInformation();
   virtual void SetRequestedRegionToLargestPossibleRegion();
-  virtual void CopyInformation(DataObject *data);
+  virtual void CopyInformation(const DataObject *data);
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
   virtual bool VerifyRequestedRegion();
   

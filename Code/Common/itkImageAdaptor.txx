@@ -172,7 +172,7 @@ ImageAdaptor<TImage , TAccessor>
 template <class TImage, class TAccessor >
 void 
 ImageAdaptor<TImage , TAccessor>
-::CopyInformation(DataObject *data)
+::CopyInformation(const DataObject *data)
 {
   // call the superclass' method first, then delegate
   Superclass::CopyInformation( data );

@@ -254,7 +254,7 @@ public:
   virtual void Update();
   virtual void UpdateOutputInformation();
   virtual void SetRequestedRegionToLargestPossibleRegion();
-  virtual void CopyInformation(DataObject *data);
+  virtual void CopyInformation(const DataObject *data);
    
 protected:
   ImageAdaptor();

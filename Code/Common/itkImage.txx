@@ -336,16 +336,16 @@ Image<TPixel, VImageDimension, TImageTraits>
 template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 void
 Image<TPixel, VImageDimension, TImageTraits>
-::CopyInformation(DataObject *data)
+::CopyInformation(const DataObject *data)
 {
   // Standard call to the superclass' method
   Superclass::CopyInformation(data);
 
   // Attempt to cast data to an ImageBase.  All subclasses of ImageBase
   // respond to GetSpacing(), GetOrigin()
-  ImageBase<VImageDimension> *phyData;
+  const ImageBase<VImageDimension> *phyData;
   
-  phyData = dynamic_cast<ImageBase<VImageDimension>*>(data);
+  phyData = dynamic_cast<const ImageBase<VImageDimension>*>(data);
 
   if (phyData)
     {

@@ -289,7 +289,7 @@ public:
    * The default implementation of this method is empty. If a subclass
    * overrides this method, it should always call its superclass'
    * version. */
-  virtual void CopyInformation(DataObject *data) {};
+  virtual void CopyInformation(const DataObject *data) {};
   
   /** Set the requested region from this data object to match the requested
    * region of the data object passed in as a parameter.  This method is

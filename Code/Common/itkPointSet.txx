@@ -376,11 +376,11 @@ PointSet<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void 
 PointSet<TPixelType, VDimension, TMeshTraits>
-::CopyInformation(DataObject *data)
+::CopyInformation(const DataObject *data)
 {
-  PointSet *mesh;
+  const PointSet *mesh;
   
-  mesh = dynamic_cast<PointSet*>(data);
+  mesh = dynamic_cast<const PointSet*>(data);
 
   if (mesh)
     {

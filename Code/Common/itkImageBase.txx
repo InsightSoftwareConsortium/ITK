@@ -206,15 +206,15 @@ ImageBase<VImageDimension>
 template<unsigned int VImageDimension>
 void 
 ImageBase<VImageDimension>
-::CopyInformation(DataObject *data)
+::CopyInformation(const DataObject *data)
 {
   // Standard call to the superclass' method
   Superclass::CopyInformation(data);
 
   // Attempt to cast data to an ImageBase
-  ImageBase *imgData;
+  const ImageBase *imgData;
   
-  imgData = dynamic_cast<ImageBase*>(data);
+  imgData = dynamic_cast<const ImageBase*>(data);
 
   if (imgData)
     {

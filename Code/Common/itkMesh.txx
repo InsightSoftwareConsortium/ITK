@@ -1010,11 +1010,11 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void 
 Mesh<TPixelType, VDimension, TMeshTraits>
-::CopyInformation(DataObject *data)
+::CopyInformation(const DataObject *data)
 {
-  Mesh *mesh;
+  const Mesh *mesh;
   
-  mesh = dynamic_cast<Mesh*>(data);
+  mesh = dynamic_cast<const Mesh*>(data);
 
   if (mesh)
     {
