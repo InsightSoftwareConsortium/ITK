@@ -194,8 +194,6 @@ int main()
   // setup the iterators
   typedef ClassImageType::PixelType ClassImagePixelType;
 
-  unsigned int ClassImageDimension = NDIMENSION;
-
   typedef  itk::SimpleImageRegionIterator<ClassImageType>  ClassImageIterator;
 
   ClassImageIterator classoutIt( classImage, classImage->GetBufferedRegion() );
@@ -358,7 +356,7 @@ int main()
 
   }//end while
 
-  if( passTest = true ) 
+  if( passTest == true ) 
     std::cout<< "MRF labeller Test Passed" << std::endl;
   else 
     std::cout<< "MRF labeller Test failed" << std::endl;
