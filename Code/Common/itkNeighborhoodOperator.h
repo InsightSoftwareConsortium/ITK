@@ -81,6 +81,23 @@ public:
    * Constructor.
    */
   NeighborhoodOperator() : m_Direction(0) {}
+
+  /**
+   * Copy constructor
+   */
+  NeighborhoodOperator( const Self &orig)
+  {
+    *this = orig;
+  }
+  
+ /**
+   * Assignment operator.
+   */
+  Self &operator=( const Self &orig )
+  {
+    Superclass::operator=(orig);
+    return *this;
+  }
   
   /**
    * Size object typedef support
