@@ -33,19 +33,6 @@ See COPYRIGHT.txt for copyright details.
 #define ITK_LARGE_FLOAT 1.0e+38F
 #define ITK_LARGE_INTEGER 2147483647 // 2^31 - 1
 
-// These types are returned by GetDataType to indicate pixel type.
-#define ITK_VOID            0
-#define ITK_BIT             1 
-#define ITK_CHAR            2
-#define ITK_UNSIGNED_CHAR   3
-#define ITK_SHORT           4
-#define ITK_UNSIGNED_SHORT  5
-#define ITK_INT             6
-#define ITK_UNSIGNED_INT    7
-#define ITK_LONG            8
-#define ITK_UNSIGNED_LONG   9
-#define ITK_FLOAT          10
-#define ITK_DOUBLE         11 
 
 // Some constant required for correct template performance
 #define ITK_BIT_MIN 0
@@ -70,6 +57,11 @@ See COPYRIGHT.txt for copyright details.
 #define ITK_FLOAT_MAX ITK_LARGE_FLOAT
 #define ITK_DOUBLE_MIN -1.0e+99L
 #define ITK_DOUBLE_MAX  1.0e+99L
+
+// Error codes for exceptions
+const int itkBoundsError=10;
+const int itkInvalidDimension=11;
+
 
 // Use a global function which actually calls:
 // itkOutputWindow::GetInstance()->DisplayText();
