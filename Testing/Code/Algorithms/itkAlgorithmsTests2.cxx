@@ -24,6 +24,7 @@ void RegisterTests()
   REGISTER_TEST(itkPointSetToPointSetRegistrationTest );
   REGISTER_TEST(itkPointSetToSpatialObjectDemonsRegistrationTest );
   REGISTER_TEST(itkRegularSphereMeshSourceTest );
+  REGISTER_TEST(itkRayCastInterpolateImageFunctionTest );
   REGISTER_TEST(itkSTAPLEImageFilterTest );
   REGISTER_TEST(itkSymmetricForcesDemonsRegistrationFilterTest );
   REGISTER_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest );
