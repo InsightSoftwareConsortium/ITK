@@ -39,22 +39,25 @@ template< unsigned int NDimensions = 3,
           class TransformType = AffineTransform< double,
                                                  NDimensions 
                                                >,
-          class OutputType = double
+          class OutputType = double ,
+
+          unsigned int PipelineDimension = 3
         > 
 class CompositeSpatialObject 
-: public SpatialObject< NDimensions, TransformType, OutputType >
+: public SpatialObject< NDimensions, TransformType, PipelineDimension >
 { 
  
 public: 
 
-  typedef CompositeSpatialObject< NDimensions, TransformType, OutputType > Self; 
-  typedef SpatialObject< NDimensions, TransformType, OutputType > Superclass; 
+  typedef CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension > Self; 
+  typedef SpatialObject< NDimensions, TransformType, PipelineDimension > Superclass; 
   typedef typename Superclass::Pointer SuperclassPointer; 
   typedef SmartPointer< Self > Pointer; 
   typedef SmartPointer< const Self > ConstPointer; 
   typedef std::list< Superclass * > ChildrenListType; 
   typedef typename Superclass::PointType PointType;
   typedef typename Superclass::OutputVectorType OutputVectorType;
+
      
   /** Method for creation through the object factory */ 
   itkNewMacro(Self); 

@@ -22,23 +22,23 @@
 
 namespace itk
 {
-  template < unsigned int NDimensions, class TransformType, class OutputType >
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::CompositeSpatialObject()
   {
     m_ParentId=-1;
   }
 
-  template < unsigned int NDimensions, class TransformType, class OutputType >
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::~CompositeSpatialObject()
   {
   }
 
 
-  template < unsigned int NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
   void 
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::AddSpatialObject( Superclass * pointer )
   {
     ChildrenListType::iterator it;
@@ -57,9 +57,9 @@ namespace itk
       }
   }
 
-  template < unsigned int NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
   void
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::RemoveSpatialObject( Superclass * pointer )
   {
     ChildrenListType::iterator it;
@@ -81,9 +81,9 @@ namespace itk
       }
   }
   
-  template < unsigned int NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
   bool 
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::IsInside( const PointType &  point )
   {
     ChildrenListType::iterator it = m_Children.begin();
@@ -99,9 +99,9 @@ namespace itk
     return false;
   }
 
-  template < unsigned int NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
   bool 
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::IsEvaluableAt( const PointType & point )
   {
     ChildrenListType::iterator it = m_Children.begin();
@@ -117,9 +117,9 @@ namespace itk
     return false;
   }
 
-  template < unsigned int NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
   void 
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::ValueAt( const PointType & point, OutputType & value )
   {
     ChildrenListType::iterator it = m_Children.begin();
@@ -134,14 +134,14 @@ namespace itk
       } 
 
     itk::ExceptionObject e("CompositeSpatialObject.txx");
-    e.SetLocation("CompositeSpatialObject< NDimensions, TransformType, OutputType >::ValueAt( const PointType & )");
+    e.SetLocation("CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >::ValueAt( const PointType & )");
     e.SetDescription("This composite spatial object is not evaluable at the requested point");
     throw e;
   }
 
-  template < unsigned int NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
   void 
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::DerivativeAt( const PointType & point, short unsigned int order, OutputVectorType & value )
   {
     ChildrenListType::iterator it = m_Children.begin();
@@ -163,9 +163,9 @@ namespace itk
       } 
   }
 
-  template < unsigned int NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
   void 
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::ComputeBounds( void )
   {
     ChildrenListType::iterator it = m_Children.begin();
@@ -197,9 +197,9 @@ namespace itk
     }
   }
   
-  template < unsigned int NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
   unsigned long
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::GetMTime( void ) const
   {
     ChildrenListType::const_iterator it = m_Children.begin();
@@ -220,17 +220,17 @@ namespace itk
     return latestTime;
   }
 
-  template < unsigned int NDimensions, class TransformType, class OutputType >
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >::ChildrenListType &
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >::ChildrenListType &
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::GetChildren( void )
   {
     return m_Children;
   }
 
-  template < unsigned int NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
   void 
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::SetChildren( ChildrenListType & children )
   { 
     m_Children = children;
@@ -244,17 +244,17 @@ namespace itk
       }
   }
 
-  template < unsigned int NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
   unsigned int
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::GetNumberOfChildren( void )
   {
     return m_Children.size();
   } 
 
-  template < unsigned int NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
   void
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::PrintSelf( std::ostream& os, Indent indent ) const
   {
     os << indent << "Number of children: " 
@@ -273,9 +273,9 @@ namespace itk
     Superclass::PrintSelf(os, indent);
   }
 
-  template < unsigned int NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
   void 
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::RebuildGlobalToLocalTransformList( void ) const
   {
     BuildGlobalToLocalTransformList(m_GlobalToLocalTransformList,false);
@@ -289,9 +289,9 @@ namespace itk
       }
   }
 
-  template < unsigned int NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType, unsigned int PipelineDimension >
   void 
-  CompositeSpatialObject< NDimensions, TransformType, OutputType >
+  CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >
   ::RebuildLocalToGlobalTransformList( void ) const
   {
     BuildLocalToGlobalTransformList(m_LocalToGlobalTransformList,false);

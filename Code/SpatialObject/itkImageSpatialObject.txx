@@ -24,23 +24,24 @@
 
 namespace itk
 {
-  template< unsigned int NDimensions, class TransformType, class PixelType >
-  ImageSpatialObject< NDimensions, TransformType, PixelType >
+  template< unsigned int NDimensions, class TransformType, class PixelType, unsigned int PipelineDimension >
+  ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
   ::ImageSpatialObject()
   {
+    strcpy(m_TypeName,"ImageSpatialObject");
     m_Image = ImageType::New();
     ComputeBounds();
   }
 
-  template< unsigned int NDimensions, class TransformType, class PixelType >
-  ImageSpatialObject< NDimensions, TransformType, PixelType >
+  template< unsigned int NDimensions, class TransformType, class PixelType, unsigned int PipelineDimension >
+  ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
   ::~ImageSpatialObject()
   {
   }
 
-  template< unsigned int NDimensions, class TransformType, class PixelType >
+  template< unsigned int NDimensions, class TransformType, class PixelType, unsigned int PipelineDimension >
   bool
-  ImageSpatialObject< NDimensions, TransformType, PixelType >
+  ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
   ::IsEvaluableAt( const PointType & point )
   {
     if( !IsInside( point ) )
@@ -50,9 +51,9 @@ namespace itk
     return true; 
   }
 
-  template< unsigned int NDimensions, class TransformType, class PixelType >
+  template< unsigned int NDimensions, class TransformType, class PixelType, unsigned int PipelineDimension >
   bool
-  ImageSpatialObject< NDimensions, TransformType, PixelType >
+  ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
   ::IsInside( const PointType & point )
   {
     PointType p = point;
@@ -60,17 +61,17 @@ namespace itk
     return m_Bounds->IsInside( p );
   }
 
-  template< unsigned int NDimensions, class TransformType, class PixelType >
+  template< unsigned int NDimensions, class TransformType, class PixelType, unsigned int PipelineDimension >
   void 
-  ImageSpatialObject< NDimensions, TransformType, PixelType >
-  ::ValueAt( const PointType & point, PixelType & value )
+  ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
+  ::ValueAt( const PointType & point, double & value )
   {
     IndexType index;
 
     if( !IsEvaluableAt( point ) )
       {
       ExceptionObject e;
-      e.SetLocation("ImageSpatialObject< NDimensions, TransformType, PixelType >::ValueAt( const PointType & )");
+      e.SetLocation("ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >::ValueAt( const PointType & )");
       e.SetDescription("the image value cannot be evaluated at the requested point");
       throw e;
       }
@@ -84,9 +85,9 @@ namespace itk
       }
   }
 
-  template< unsigned int NDimensions, class TransformType, class PixelType >
+  template< unsigned int NDimensions, class TransformType, class PixelType, unsigned int PipelineDimension >
   void
-  ImageSpatialObject< NDimensions, TransformType, PixelType >
+  ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
   ::ComputeBounds( void )
   {
     if( this->GetMTime() > m_BoundsMTime )
@@ -114,27 +115,27 @@ namespace itk
       }
   }
 
-  template< unsigned int NDimensions, class TransformType, class PixelType >
+  template< unsigned int NDimensions, class TransformType, class PixelType, unsigned int PipelineDimension >
   void
-  ImageSpatialObject< NDimensions, TransformType, PixelType >
-  ::SetImage( ImageSpatialObject< NDimensions, TransformType, PixelType >::ImageType * image )
+  ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
+  ::SetImage( ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >::ImageType * image )
   {
     m_Image = image;
     m_Image->Modified();
     ComputeBounds();
   }
 
-  template< unsigned int NDimensions, class TransformType, class PixelType >
-  ImageSpatialObject< NDimensions, TransformType, PixelType >::ImageType *
-  ImageSpatialObject< NDimensions, TransformType, PixelType >
+  template< unsigned int NDimensions, class TransformType, class PixelType, unsigned int PipelineDimension >
+  ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >::ImageType *
+  ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
   ::GetImage( void )
   {
     return m_Image.GetPointer();
   }
 
-  template< unsigned int NDimensions, class TransformType, class PixelType >
+  template< unsigned int NDimensions, class TransformType, class PixelType, unsigned int PipelineDimension >
   void
-  ImageSpatialObject< NDimensions, TransformType, PixelType >
+  ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
   ::PrintSelf( std::ostream& os, Indent indent ) const
   {
     Superclass::PrintSelf(os,indent);
@@ -142,9 +143,9 @@ namespace itk
     os << indent << m_Image << std::endl;
   }
 
-  template< unsigned int NDimensions, class TransformType, class PixelType >
+  template< unsigned int NDimensions, class TransformType, class PixelType, unsigned int PipelineDimension >
   unsigned long 
-  ImageSpatialObject< NDimensions, TransformType, PixelType >
+  ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
   ::GetMTime( void ) const
   {
     unsigned long latestMTime = Object::GetMTime();

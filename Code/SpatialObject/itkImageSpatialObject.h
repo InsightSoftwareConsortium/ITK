@@ -38,17 +38,18 @@ namespace itk
 template < unsigned int NDimensions = 3,
            class TransformType = AffineTransform< double,
                                                   NDimensions>,
-           class PixelType = RGBPixel< char >
+           class PixelType = RGBPixel< char > ,
+           unsigned int PipelineDimension = 3
          >
 class ImageSpatialObject 
-: public SpatialObject< NDimensions, TransformType, PixelType >
+: public SpatialObject< NDimensions, TransformType , PipelineDimension >
 {
 
 public:
  
   typedef double ScalarType; 
-  typedef ImageSpatialObject< NDimensions, TransformType, PixelType > Self;
-  typedef SpatialObject< NDimensions, TransformType, PixelType > Superclass;
+  typedef ImageSpatialObject< NDimensions, TransformType, PixelType , PipelineDimension > Self;
+  typedef SpatialObject< NDimensions, TransformType > Superclass;
   typedef SmartPointer< Self > Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
@@ -82,7 +83,7 @@ public:
   * the object, then an exception is thrown.
   * \also ExceptionObject
   */
-  void ValueAt( const PointType & point, PixelType & value );
+  void ValueAt( const PointType & point, double & value );
   
   //void DerivativeAt( const PointType & point, short unsigned int order, OutputVectorType & value );
 
