@@ -87,7 +87,8 @@ int itkSplineKernelTransformTest(int , char* [] )
 
   
   std::cout << "EBS 2D Test:" << std::endl;
-  ebs2D->SetAlpha(0.25);
+  // Poisson's ration = 0.25, Alpha = 12.0 * ( 1 - \nu ) - 1
+  ebs2D->SetAlpha( 12.0 * ( 1 -  0.25) - 1.0 );
   ebs2D->ComputeWMatrix();
   ebs2Ds = ebs2D->GetSourceLandmarks()->GetPoints()->Begin();
   ebs2Dt = ebs2D->GetTargetLandmarks()->GetPoints()->Begin();
@@ -191,7 +192,8 @@ int itkSplineKernelTransformTest(int , char* [] )
 
 
   std::cout << "EBS 3D Test:" << std::endl;
-  ebs3D->SetAlpha(0.25);
+  // Poisson's ration = 0.25, Alpha = 12.0 * ( 1 - \nu ) - 1
+  ebs3D->SetAlpha( 12.0 * ( 1 -  0.25) - 1.0 );
   ebs3D->ComputeWMatrix();
   
   ebs3Ds     = ebs3D->GetSourceLandmarks()->GetPoints()->Begin();
@@ -317,7 +319,8 @@ int itkSplineKernelTransformTest(int , char* [] )
       }
     }
   std::cout << "EBS 4D Test:" << std::endl;
-  ebs4D->SetAlpha(0.25);
+  // Poisson's ration = 0.25, Alpha = 12.0 * ( 1 - \nu ) - 1
+  ebs4D->SetAlpha( 12.0 * ( 1 -  0.25) - 1.0 );
   ebs4D->ComputeWMatrix();
 
   ebs4Ds = ebs4D->GetSourceLandmarks()->GetPoints()->Begin();
