@@ -44,7 +44,10 @@ void testvnl_matrix_fixed()
   vnl_vector<double>& cv = v;
   vcl_cout << "X v = " << CX * (cv + cv) << vcl_endl;
   
-  verbose_malloc = false;  
+  verbose_malloc = false;
+
+  vcl_cout << "Number of mallocs = " << malloc_count << vcl_endl;
+  vnl_test_perform( malloc_count == 2 );
 }
 
 
@@ -56,12 +59,22 @@ void* operator new(size_t s)
 {
   void *r = malloc(s);
   
-  ++malloc_count;
-
   if (verbose_malloc)
     {
+    // turn off verbose_malloc while printing. otherwise the Intel C++
+    // compiler (optimized build) will get in an infinite loop because
+    // the streams library allocates memory with new.
     verbose_malloc = false;
-    vcl_cout << "malloc: " << r << " for " << s << vcl_endl;
+    // Intel C++ (optimized build) allocates a small amount of memory
+    // in its stream library using new.  Let's only report memory that
+    // is the size of what we would expect vnl_matrix and vnl_vector
+    // to allocate
+    if (s >= 3*sizeof(double))
+      {
+      ++malloc_count;
+      vcl_cout << "malloc: " << r << " for " << s << vcl_endl;
+      }
+    // turn verbose_malloc back on
     verbose_malloc = true;
     }
  
