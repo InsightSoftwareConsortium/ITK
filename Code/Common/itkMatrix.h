@@ -41,6 +41,14 @@ public:
   /** Standard class typedefs. */
   typedef Matrix  Self;
 
+  /** Component value type */
+  typedef T ValueType;
+  typedef T ComponentType;
+
+  /** Number Of Columns and Rows. */
+  itkStaticConstMacro(RowDimensions,    unsigned int, NRows);
+  itkStaticConstMacro(ColumnDimensions, unsigned int, NColumns);
+
   /** Internal matrix type */
   typedef vnl_matrix_fixed<T,NRows,NColumns>  InternalMatrixType;
 
