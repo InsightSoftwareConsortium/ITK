@@ -1,4 +1,14 @@
-SOURCE_FILES(WrapTclFacility_SRCS
+INCLUDE(${CMAKE_ROOT}/Modules/FindTCL.cmake)
+
+INCLUDE_DIRECTORIES(${CABLE_SOURCE_DIR}/WrapTclFacility)
+LINK_DIRECTORIES(${CABLE_BINARY_DIR}/WrapTclFacility)
+
+LINK_LIBRARIES(
+${TCL_LIBRARY}
+CxxTypes
+)
+
+ADD_LIBRARY(WrapTclFacility
 wrapArgument
 wrapCalls
 wrapConstructor
@@ -17,13 +27,8 @@ wrapWrapperBase
 wrapWrapperFacility
 )
 
-ADD_LIBRARY(WrapTclFacility WrapTclFacility_SRCS)
+ADD_EXECUTABLE(wrapTclShell wrapTclShell)
 
-TARGET_LINK_LIBRARIES(WrapTclFacility
-CxxTypes
-${TCL_LIBRARY}
+TARGET_LINK_LIBRARIES(wrapTclShell
+WrapTclFacility
 )
-
-IF(WIN32)
-  ADD_DEFINITIONS(-D_wrap_LIBRARY)
-ENDIF(WIN32)

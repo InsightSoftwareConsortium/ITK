@@ -46,7 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #if defined(_WIN32) || defined(WIN32) /* Win32 version */
 #  ifdef BUILD_SHARED_LIBRARIES
-#    ifdef PARSERS_LIBRARY
+#    ifdef CableParsers_EXPORTS
 #      define PARSERS_EXPORT __declspec(dllexport)
 #    else
 #      define PARSERS_EXPORT __declspec(dllimport)

@@ -52,7 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #if defined(_WIN32) || defined(WIN32) /* Win32 version */
 #  ifdef BUILD_SHARED_LIBRARIES
-#    ifdef _wrap_LIBRARY
+#    ifdef WrapTclFacility_EXPORTS
 #      define _wrap_EXPORT __declspec(dllexport)
 #    else
 #      define _wrap_EXPORT __declspec(dllimport)

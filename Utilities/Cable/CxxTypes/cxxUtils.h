@@ -68,7 +68,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if defined(_WIN32) || defined(WIN32) /* Win32 version */
 
 #  ifdef BUILD_SHARED_LIBRARIES
-#    ifdef _cxx_LIBRARY
+#    ifdef CxxTypes_EXPORTS
 #      define _cxx_EXPORT __declspec(dllexport)
 #    else
 #      define _cxx_EXPORT __declspec(dllimport)

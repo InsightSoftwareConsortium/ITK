@@ -15,8 +15,6 @@ cxxTypeSystem
 
 IF (WIN32)
     SOURCE_FILES(CxxTypes_SRCS cxxDllAllocator)
-    ADD_DEFINITIONS(-D_cxx_LIBRARY)
 ENDIF (WIN32)
 
 ADD_LIBRARY(CxxTypes CxxTypes_SRCS)
-

@@ -1,13 +1,7 @@
-SOURCE_FILES(CableParsers_SRCS
+ADD_LIBRARY(CableParsers
 cableConfigurationRepresentation
 cableConfigurationParser
 cableSourceParser
 cableSourceRepresentation
 cableXmlAttributes
 )
-
-ADD_LIBRARY(CableParsers CableParsers_SRCS)
-
-IF (WIN32)
-  ADD_DEFINITIONS(-DPARSERS_DLL)
-ENDIF (WIN32)
