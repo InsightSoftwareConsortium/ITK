@@ -87,7 +87,7 @@ class IteratorTester
     
   private:
     
-    ImageType::Pointer m_Image;
+    typename ImageType::Pointer m_Image;
 
 };
 
