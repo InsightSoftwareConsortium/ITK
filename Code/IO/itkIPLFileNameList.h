@@ -94,7 +94,7 @@ namespace itk {
   class IPLFileNameList
   {
   public:
-    typedef std::list<IPLFileSortInfo *> ListType;
+    typedef std::vector<IPLFileSortInfo *> ListType;
     typedef ListType::iterator IteratorType;
     IPLFileNameList() 
       {
@@ -180,7 +180,7 @@ namespace itk {
         }
       if(it == itend)
         return;
-      m_List.remove((*it));
+      m_List.erase(it);
       
       }
     

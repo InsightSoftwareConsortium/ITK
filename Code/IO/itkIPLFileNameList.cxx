@@ -22,6 +22,7 @@
 
 #include <list>
 #include <functional>
+#include <algorithm>
 namespace itk
 {
 struct IPLFileSortInfo_ascend_compare :
@@ -121,7 +122,7 @@ sortImageListAscend ()
   //         qsort_IPLFileSortInfo_ascend_compar);
   m_List.sort<IPLFileSortInfo_ascend_compare>(comp);
 #else
-  m_List.sort( IPLFileSortInfo_ascend_compare() );
+  std::sort( m_List.begin(),m_List.end(),IPLFileSortInfo_ascend_compare() );
 #endif
   return;
 }
@@ -136,7 +137,7 @@ sortImageListDescend ()
   IPLFileSortInfo_descend_compare comp;
   m_List.sort<IPLFileSortInfo_descend_compare>(comp);
 #else
-  m_List.sort( IPLFileSortInfo_descend_compare() );
+   std::sort( m_List.begin(),m_List.end(), IPLFileSortInfo_descend_compare() );
 #endif
   return;
 }
