@@ -63,6 +63,23 @@ MeshSpatialObject< TMesh >
     PointType p = giT->TransformPoint(point);
     if(m_Bounds->IsInside( p))
       {
+      
+      typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
+      MeshType::CellsContainer::ConstIterator it = cells->Begin();
+      while(it!=cells->End())
+        {
+        typename MeshType::CoordRepType position[::itk::GetMeshDimension<TMesh>::PointDimension];
+        for(unsigned int i=0;i<::itk::GetMeshDimension<TMesh>::PointDimension;i++)
+          {
+          position[i] = p[i];
+          }
+
+        if(!it.Value()->EvaluatePosition(position,m_Mesh->GetPoints(),NULL,NULL,NULL,NULL))
+          {
+          return false;
+          }
+        it++;
+        }
       return true;
       }
     }
