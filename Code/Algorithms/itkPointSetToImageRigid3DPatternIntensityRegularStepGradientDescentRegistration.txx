@@ -88,18 +88,9 @@ PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration<TRe
   typename OptimizerType::Pointer optimizer;
   optimizer = this->GetOptimizer();
 
-  typename OptimizerType::TransformType::ParametersType  parametersScale;
-  parametersScale.Fill( 1.0 );
-
   optimizer->SetCostFunction( this->GetMetric() );
-  optimizer->SetMinimize();
-  optimizer->GetTransform()->SetScale( parametersScale );
-  optimizer->SetGradientMagnitudeTolerance( 1e-6 );
-  optimizer->SetMaximumStepLength( 30.0 );
-  optimizer->SetMinimumStepLength( 1e-6 );
-  optimizer->SetNumberOfIterations( 900 );
-
   optimizer->SetInitialPosition( m_Parameters );
+  
   optimizer->StartOptimization();
 
 
