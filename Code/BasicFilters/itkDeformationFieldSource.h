@@ -91,9 +91,6 @@ public:
   typedef typename TOutputImage::PixelType        OutputPixelType;
   typedef typename OutputPixelType::ValueType     OutputPixelComponentType;
 
-  /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType       OutputImageRegionType;
-
   /** Image spacing typedef */
   typedef typename TOutputImage::SpacingType      SpacingType;
   typedef typename TOutputImage::PointType        OriginPointType;
