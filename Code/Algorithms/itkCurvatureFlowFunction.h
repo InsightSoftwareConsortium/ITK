@@ -55,7 +55,8 @@ public:
                 FiniteDifferenceFunction );
   
   /** Inherit some parameters from the superclass type. */
-  typedef typename Superclass::PixelType PixelType;
+  typedef typename Superclass::ImageType  ImageType;
+  typedef typename Superclass::PixelType  PixelType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef PixelType  ScalarValueType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;

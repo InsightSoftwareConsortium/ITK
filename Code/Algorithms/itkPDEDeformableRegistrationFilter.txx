@@ -236,7 +236,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 
     typename OutputImageType::Pointer output = this->GetOutput();
   
-    typename ImageRegionIterator<OutputImageType> out(output, output->GetRequestedRegion());
+    ImageRegionIterator<OutputImageType> out(output, output->GetRequestedRegion());
 
     while( ! out.IsAtEnd() )
       {

@@ -95,6 +95,9 @@ public:
   typedef TDeformationField    DeformationFieldType;
   typedef typename DeformationFieldType::Pointer  DeformationFieldPointer;
 
+  /** Types inherithed from the superclass */
+  typedef typename Superclass::OutputImageType    OutputImageType;
+
   /** FiniteDifferenceFunction type. */
   typedef typename Superclass::FiniteDifferenceFunctionType
     FiniteDifferenceFunctionType;

@@ -56,6 +56,7 @@ public:
                 CurvatureFlowFunction );
   
   /** Inherit some parameters from the superclass type. */
+  typedef typename Superclass::ImageType ImageType;
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
