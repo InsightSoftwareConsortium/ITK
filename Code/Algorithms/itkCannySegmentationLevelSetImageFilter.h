@@ -127,7 +127,8 @@ template <class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float>
 class ITK_EXPORT CannySegmentationLevelSetImageFilter
-  : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+  : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType,
+                                      Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
    /** Standard class typedefs */
