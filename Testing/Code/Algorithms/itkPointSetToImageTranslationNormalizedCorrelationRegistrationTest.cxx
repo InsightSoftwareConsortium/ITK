@@ -5,7 +5,7 @@
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
-
+s
 
 Copyright (c) 2000 National Library of Medicine
 All rights reserved.
@@ -19,8 +19,6 @@ See COPYRIGHT.txt for copyright details.
 
 /** 
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
- *  One is shifted by 10 pixels from the other.
- *  therefore the solution of the registration is |-5 0|
  * 
  *  One of the images is subsampled in order to obtain a PoinSet.
  *  The PointSet is considered the Target and the other image is
@@ -34,16 +32,20 @@ int main()
   unsigned long  numberOfSamples = 10000L;
 
   /*Allocate Images*/
-  typedef itk::PhysicalImage<unsigned char,2>           ReferenceType;
+  const unsigned int ImageDimension  = 2;
+
+  typedef itk::PhysicalImage<unsigned char,ImageDimension>  ReferenceType;
 
   typedef itk::DefaultStaticMeshTraits<unsigned char,   // pixel type
-                                       2,               // point dimension
-                                       3,               // max topological dim
+                                       ImageDimension,  // point dimension
+                                       1,               // max topological dim
                                        double,          // coordinates type
                                        double           // interpolation weight
                                          >  DefaultPointSetTraits;
 
-  typedef itk::PointSet<unsigned char,DefaultPointSetTraits>    TargetType;
+  typedef itk::PointSet<unsigned char,DefaultPointSetTraits>    PointSetType;
+
+  typedef PointSetType                                          TargetType;
 
   typedef itk::PointSetToImageTranslationNormalizedCorrelationRegistration<
                                                                 ReferenceType,
@@ -116,11 +118,43 @@ int main()
 
   
   // Subsample the target image to produce a point set
-  TargetType::Pointer pointSetTarget = TargetType::New();
+  PointSetType::Pointer pointSetTarget = PointSetType::New();
 
-  pointSetTarget->GetPoints()->Reserve( numberOfSamples );
-  pointSetTarget->GetPointData()->Reserve( numberOfSamples );
+  PointSetType::PointsContainer::Pointer    points = pointSetTarget->GetPoints();
+  PointSetType::PointDataContainer::Pointer data   = PointSetType::PointDataContainer::New();
+  pointSetTarget->SetPointData( data );
 
+  points->Reserve( numberOfSamples );
+  data->Reserve(   numberOfSamples );
+
+  const unsigned int numPixelsToSkip =
+            imgTarget->GetOffsetTable()[ImageDimension] / numberOfSamples;
+
+  unsigned int counter   = 0;
+  unsigned int numPoints = 0;
+
+  ti.Begin();
+  while(!ti.IsAtEnd())
+  {
+    if( counter < numPixelsToSkip ) 
+    {
+      PointSetType::PointType point;
+      point[0] = ti.GetIndex()[0];
+      point[1] = ti.GetIndex()[1];
+      points->SetElement( counter, point    );
+      data->SetElement(   counter, ti.Get() );
+      numPoints++;
+    }
+    ++ti;
+    ++counter;
+  }
+
+
+
+
+
+
+  
   RegistrationType::Pointer registrationMethod = RegistrationType::New();
 
   registrationMethod->SetReference(imgReference);
