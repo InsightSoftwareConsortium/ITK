@@ -21,7 +21,7 @@
 
 #include "itkResampleImageFilter.h"
 #include "itkObjectFactory.h"
-#include "itkAffineTransform.h"
+#include "itkIdentityTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkProgressReporter.h"
 
@@ -42,7 +42,7 @@ ResampleImageFilter<TInputImage, TOutputImage>
     m_OutputOrigin[i] = 0.0;
     }
   
-  m_Transform = AffineTransform<double, ImageDimension>::New();
+  m_Transform = IdentityTransform<double, ImageDimension>::New();
   m_Interpolator = LinearInterpolateImageFunction<InputImageType, double>::New();
   m_DefaultPixelValue = 0;
 }
