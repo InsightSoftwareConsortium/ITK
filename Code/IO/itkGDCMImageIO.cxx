@@ -531,7 +531,7 @@ void GDCMImageIO::Write(const void* buffer)
 
   // Handle pixel spacing:
   str.seekp(0);
-  str.setf( itksys_ios::ios::fixed ); //forcing precision to 6 digits
+//  str.setf( itksys_ios::ios::fixed ); //forcing precision to 6 digits
   str << m_Spacing[0] << "\\" << m_Spacing[1];
   header->InsertValEntry(str.str(),0x0028,0x0030); // Pixel Spacing
   str.seekp(0);
@@ -543,7 +543,7 @@ void GDCMImageIO::Write(const void* buffer)
   str << m_Origin[0] << "\\" << m_Origin[1] << "\\" << m_Origin[2];
   header->InsertValEntry(str.str(),0x0020,0x0032); // Image Position Patient
 
-  str.unsetf( itksys_ios::ios::fixed ); // back to normal
+//  str.unsetf( itksys_ios::ios::fixed ); // back to normal
   // Handle the bitDepth:
   std::string bitsAllocated;
   std::string bitsStored;
