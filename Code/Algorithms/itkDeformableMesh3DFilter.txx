@@ -29,26 +29,6 @@ namespace itk
 template <typename TInputMesh, typename TOutputMesh>
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::DeformableMesh3DFilter()
-  : m_Forces(0),
-    m_Normals(0),
-    m_Displacements(0),
-    m_Derives(0),
-    m_Locations(0),
-    m_Input(0),
-    m_Output(0),
-    K(0),
-    m_TimeStep(0.001),
-    m_Center (IndexType::ZeroIndex),
-    m_Step(0),
-    m_NumNodes(0),
-    m_NumCells(0),
-    m_ImageWidth(0),
-    m_ImageHeight(0),
-    m_ImageDepth(0),
-    m_StepThreshold(100),
-    m_Potential(0),
-    m_Gradient(0),
-    m_ImageOutput(0)
 {
   m_Step = 0;
   typename TOutputMesh::Pointer output = TOutputMesh::New();
