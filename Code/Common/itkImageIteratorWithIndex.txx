@@ -31,10 +31,6 @@ template<class TImage>
 ImageIteratorWithIndex<TImage>
 ::ImageIteratorWithIndex()
 {
-  m_Position  = 0;
-  m_Begin     = 0;
-  m_End       = 0;
-  m_Remaining = false;
 }
 
 
@@ -44,25 +40,9 @@ ImageIteratorWithIndex<TImage>
 //----------------------------------------------------------------------
 template<class TImage>
 ImageIteratorWithIndex<TImage>
-::ImageIteratorWithIndex(const Self& it)
+::ImageIteratorWithIndex(const Self& it):
+        ImageConstIteratorWithIndex<TImage>(it)
 {
-  m_Image = it.m_Image;     // copy the smart pointer
-
-  m_PositionIndex     = it.m_PositionIndex;
-  m_BeginIndex        = it.m_BeginIndex;
-  m_EndIndex          = it.m_EndIndex;
-  m_Region            = it.m_Region;
-
-  memcpy(m_OffsetTable, it.m_OffsetTable, 
-          (ImageIteratorDimension+1)*sizeof(unsigned long));
-  
-  m_Position    = it.m_Position;
-  m_Begin       = it.m_Begin;
-  m_End         = it.m_End;
-  m_Remaining   = it.m_Remaining;
-
-  m_PixelAccessor = it.m_PixelAccessor;
-
 }
 
 
