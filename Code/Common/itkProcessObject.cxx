@@ -21,6 +21,7 @@
 #include "itkDataObject.h"
 #include "itkObjectFactory.h"
 #include "itkCommand.h"
+#include <functional>
 #include <algorithm>
 
 namespace itk
