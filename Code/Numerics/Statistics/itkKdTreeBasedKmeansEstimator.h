@@ -103,9 +103,7 @@ public:
   
   /** Set/Get the pointer to the KdTree */
   void SetKdTree(TKdTree* tree) 
-  { 
-    std::cout << "DEBUG: tree = " << tree << std::endl ;
-    m_KdTree = tree ; }
+  { m_KdTree = tree ; }
 
   TKdTree* GetKdTree() 
   { return m_KdTree ; }
