@@ -33,13 +33,11 @@ file mkdir $HTMLDir $SiteDir $BuildNameDir $BuildStampDir $TempDir $XMLDir
 
 set Out [open [file join $XMLDir Coverage.xml] w]
 
-
 catch { unset Coverage }
 
 # Clean out the build directory files
 # puts "Currently in $BuildRoot"
 
-cd Testing/Utilities
 cd $SourceDirectory
 set BuildDirectory $BuildRoot
 set SourceDirectory [pwd]
@@ -55,99 +53,22 @@ proc GCov { file } \
 {
   set dir [pwd]
   cd [file dir $file]
-  catch { exec gcov [file tail $file] }
+  catch { exec gcov -l [file tail $file] }
   cd $dir
 }
 
 proc AddFile { file } \
 {
-  global Files
-  lappend Files([file tail $file]) $file
+  global GCovFiles
+  set GCovFiles($file) $file
 }
 
-
-
-# First run gcov on each *.da file
-# Next index all *.cxx, *.h, *.txx, *.c
-cd $BuildRoot
-FileMap [glob *] [list *.bb] GCov
-FileMap [glob *] [list *.gcov] AddFile
-
-cd $SourceDirectory
-set Queue [glob *]
-set id "File[incr Counter]"
-set TopLevelID $id
-set Coverage($id,FileList) [list]
-set Coverage($id,DirList) [list]
-set Coverage($id,Name) .
-set Coverage($id,FullPath) .
-set Coverage(.,ID) $id
-
-
-
-while { [llength $Queue] != 0 } \
+proc AddSourceFile { file } \
 {
-  set Filename [lindex $Queue 0]
-  set Queue [lrange $Queue 1 end]
-
-  if { [file isdirectory $Filename] } \
-  {
-    if { [file tail $Filename] == "CVS" } \
-    {
-      continue
-    }
-    set id "File[incr Counter]"
-    set Coverage($id,FileList) [list]
-    set Coverage($id,DirList) [list]
-    set Coverage($id,Name) [file tail $Filename]
-    set Coverage($id,FullPath) $Filename
-    set Coverage($Filename,ID) $id
-    set ParentID $Coverage([file dir $Filename],ID)
-    lappend Coverage($ParentID,DirList) $id
-
-    
-    catch { set Queue [concat $Queue [glob $Filename/*]] }
-    continue;
-  }
-  switch [file extension $Filename] \
-  {
-    .h - 
-    .c - 
-    .txx - 
-    .cxx 
-    {
-      if { [info exists Files([file tail $Filename].gcov)] } \
-      {
-	set FN [file tail $Filename].gcov
-	if { [llength $Files($FN)] > 1 } \
-	{
-	  # Try to find the matching one
-	  foreach d $Files($FN) \
-	  {
-	    if { [string match [file dir $d] [file dir $Filename]] } \
-	    {
-	      set Files($FN) $d
-	      break
-	    }
-	  }
-	}
-	  
-	set FileCovered 0
-	set FileCoverage 0.0
-
-	set id "File[incr Counter]"
-	set Coverage($id,Coverage) $FileCoverage
-	set Coverage($id,Covered) false
-	set Coverage($id,Name) [file tail $Filename]
-	set Coverage($id,FullPath) $Filename
-	set Coverage($id,GCovFullPath) $Files($FN)
-	set ParentID $Coverage([file dir $Filename],ID)
-	lappend Coverage($ParentID,FileList) $id
-
-      }
-    }
-  }
+  global Source
+  lappend Source $file
 }
+
 
 proc PercentCoverage { t ut } \
 {
@@ -158,38 +79,65 @@ proc PercentCoverage { t ut } \
   return 0.00;
 }
 
-proc LOC { id } \
+proc LOC { file } \
 {
-  global Coverage
-  set file $Coverage($id,FullPath)
-
-  set gcov $Coverage($id,GCovFullPath)
+  global Coverage GCovFiles
+  
   set Untested 0
   set Tested 0
+  set Covered false
+  set pattern [file join *[file tail $file].gcov]
   
-  # puts "Testing (in [pwd]) $gcov [file exists $gcov]"
-  
-  if { [file exists $gcov] } \
+  foreach name [array names GCovFiles $pattern] \
   {
-    # puts "Opening $gcov"
-    set f [open $gcov r]
+    set Covered true
+    # puts "\tAdding up $GCovFiles($name)"
+    set f [open $GCovFiles($name) r]
+    set LineCounter 0
     while { ![eof $f] } \
     {
+      if { ![info exists Line($LineCounter)] } \
+      {
+	set Line($LineCounter) ""
+      }
       set l [gets $f]
       if { [regexp "\#\#\#\#\#" $l] } \
       {
-	incr Untested
+	if { $Line($LineCounter) == "" } \
+	{
+	  set Line($LineCounter) 0
+	}
       }
       if { [regexp {^[ ]*[0-9][0-9]*} $l] } \
       {
-	incr Tested
+	if { $Line($LineCounter) == "" } \
+	{
+	  set Line($LineCounter) 1
+	}
       }
+      incr LineCounter
     }
     close $f
   }
-  set Coverage($id,Tested) $Tested
-  set Coverage($id,Untested) $Untested
-  return [list $Tested $Untested]
+
+  set Coverage($file,IsCovered) $Covered
+  set Coverage($file,UnCovered) 0
+  set Coverage($file,Covered) 0
+  foreach i [array names Line] \
+  {
+    if { $Line($i) == 0 } \
+    {
+      incr Coverage($file,UnCovered)
+    }
+    if { $Line($i) >= 1 } \
+    {
+      incr Coverage($file,Covered)
+    }
+  }
+  incr Coverage(UnCovered) $Coverage($file,UnCovered)
+  incr Coverage(Covered) $Coverage($file,Covered)
+  
+  
 }
 
 proc RollUpCoverage { id } \
@@ -227,6 +175,59 @@ proc RollUpCoverage { id } \
   set Coverage($id,FileCount) $DirFiles
 }
 
+
+
+# First run gcov on each *.da file
+# Next index all *.cxx, *.h, *.txx, *.c
+cd $BuildRoot
+FileMap [glob *] [list *.bb] GCov
+FileMap [glob *] [list *.gcov] AddFile
+
+set Coverage(UnCovered) 0
+set Coverage(Covered) 0
+
+cd $SourceDirectory
+FileMap [glob *] [list *.h *.cxx *.c *.txx] AddSourceFile
+
+
+puts $Out {<?xml version="1.0" encoding="UTF-8"?>}
+puts $Out "<Site BuildName=\"$BuildName\" BuildStamp=\"$BuildStamp\" Name=\"$Site\">"
+puts $Out {<Coverage>}
+puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
+
+
+cd $BuildRoot
+foreach file $Source \
+{
+  # puts "Looking at $file"
+  # Find all of the .gcov files associated, and roll up coverage
+  LOC $file
+  puts $Out "\t<File Name=\"[file tail $file]\" FullPath=\"$file\" Covered=\"$Coverage($file,IsCovered)\">"
+  puts $Out "\t\t<LOCTested>$Coverage($file,Covered)</LOCTested>"
+  puts $Out "\t\t<LOCUnTested>$Coverage($file,UnCovered)</LOCUnTested>"
+  puts $Out "\t\t<PercentCoverage>[PercentCoverage $Coverage($file,Covered) $Coverage($file,UnCovered)]</PercentCoverage>"
+  puts $Out "\t</File>"
+  
+}
+
+puts $Out "\t<LOCTested>$Coverage(Covered)</LOCTested>"
+puts $Out "\t<LOCUntested>$Coverage(UnCovered)</LOCUntested>"
+puts $Out "\t<LOC>[expr $Coverage(UnCovered) + $Coverage(Covered)]</LOC>"
+
+
+puts $Out "\t<PercentCoverage>[PercentCoverage $Coverage(Covered) $Coverage(UnCovered)]</PercentCoverage>"
+
+
+puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
+
+puts $Out "</Coverage>"
+puts $Out "</Site>"
+
+
+close $Out
+puts "File is $XMLDir/Coverage.xml"
+
+exit
 cd $BuildRoot
 RollUpCoverage $TopLevelID
 
@@ -292,15 +293,14 @@ puts $Out {<?xml version="1.0" encoding="UTF-8"?>}
 puts $Out "<Site BuildName=\"$BuildName\" BuildStamp=\"$BuildStamp\" Name=\"$Site\">"
 puts $Out {<Coverage>}
 puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
-puts $Out "\t<LOCTested>$Coverage($TopLevelID,Tested)</LOCTested>"
-puts $Out "\t<LOCUntested>$Coverage($TopLevelID,Untested)</LOCUntested>"
-puts $Out "\t<LOC>[expr $Coverage($TopLevelID,Untested) + $Coverage($TopLevelID,Tested)]</LOC>"
+puts $Out "\t<LOCTested>$Coverage(Covered)</LOCTested>"
+puts $Out "\t<LOCUntested>$Coverage(UnCovered)</LOCUntested>"
+puts $Out "\t<LOC>[expr $Coverage(UnCovered) + $Coverage(Covered)]</LOC>"
 
 
 puts $Out "\t<PercentCoverage>[PercentCoverage $Coverage($TopLevelID,Tested) $Coverage($TopLevelID,Untested)]</PercentCoverage>"
 
-  EmitXML $TopLevelID $Out 1
-
+foreach file 
 
 puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
 

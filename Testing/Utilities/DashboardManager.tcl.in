@@ -76,6 +76,7 @@ foreach Command $Commands \
   {
     Start \
     {
+      puts "Making directories $BuildStampDir $XMLDir"
       file mkdir $BuildStampDir $XMLDir
     }
     Build - \
@@ -111,7 +112,7 @@ foreach Command $Commands \
       foreach XML [list Error Warning] \
       {
 	set Result ""
-	puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML Build.xml] -OUT Build$XML.html -XSL [file join $XSLDir Build.xsl] -PARAM Type \"string('$XML')\"} Result]"
+	puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML Build.xml] -OUT Build$XML.html -XSL [file join $XSLDir Build.xsl] -PARAM Type $XML} Result]"
 	puts $Result
       }
       set XML Build
@@ -286,7 +287,6 @@ foreach Command $Commands \
       {
 	puts $DashboardTargets $NightlyBuild
 	puts $DashboardFile "<BuildStamp>"
-
 	set CurrentDir [pwd]
 	cd [file join $Dir $NightlyBuild]
 
@@ -295,11 +295,13 @@ foreach Command $Commands \
 	  puts stderr "Could not find file [file join $BuildStampDir XML Build.xml]"
 	  exit 1
 	}
+
+	puts $DashboardFile "\t<BuildSubmissionDateTime>[clock format [file mtime [file join XML Build.xml]]]</BuildSubmissionDateTime>"
 	
 	foreach XML [list Error Warning] \
 	{
 	  set Result ""
-	  puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML Build.xml] -OUT Build$XML.html -XSL [file join $XSLDir Build.xsl] -PARAM Type \"string('$XML')\"} Result]"
+	  puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML Build.xml] -OUT Build$XML.html -XSL [file join $XSLDir Build.xsl] -PARAM Type \"string('$XML')\" } Result]"
 	  puts $Result
 	}
 	set XML Build
@@ -312,6 +314,8 @@ foreach Command $Commands \
 	  {
 	    continue
 	  }
+	  puts $DashboardFile "\t<${XML}SubmissionDateTime>[clock format [file mtime [file join XML $XML.xml]]]</${XML}SubmissionDateTime>"
+
 	  set XalanCmd " $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM DashboardStamp \"string('$DashboardStamp')\""
 	  puts "Xalan on $XML: [catch { eval exec $XalanCmd } Result]"
 	  puts $XalanCmd

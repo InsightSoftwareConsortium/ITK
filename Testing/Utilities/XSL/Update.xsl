@@ -21,31 +21,6 @@
           list-style-image:url "fold.gif"}
           #foldinglist{list-style-image:url(list.gif)}
         </style>
-        <script language="JavaScript1.2">
-          var head="display:''"
-          img1=new Image()
-          img1.src="fold.gif"
-          img2=new Image()
-          img2.src="open.gif"
-          function change(){
-          if(!document.all)
-          return
-          if (event.srcElement.id=="foldheader") {
-          var srcIndex = event.srcElement.sourceIndex
-          var nested = document.all[srcIndex+1]
-          if (nested.style.display=="none") {
-          nested.style.display=''
-          event.srcElement.style.listStyleImage="url(open.gif)"
-          }
-          else {
-          nested.style.display="none"
-          event.srcElement.style.listStyleImage="url(fold.gif)"
-          }
-          }
-          }
-          document.onclick=change
-
-        </script>
       </head>
 
       <body bgcolor="#ffffff">
@@ -122,197 +97,50 @@
           <hr/>
           <a name="Updated"></a><h2>Updated/Patched file</h2>
           
-          <ul>
-            <xsl:for-each select="Directory">   
-            <li id="foldheader">
-              <xsl:value-of select="Name"/>
-            </li>
-            <xsl:for-each select="File">
-              <ul id="foldinglist" style="display:none">
-                <li id="foldheader"><xsl:value-of select="."/></li>
-                <ul id="foldinglist" style="display:none">
-                  <li><a href="http://www.windows95.com">nested 1</a></li>
-                  <li><a href="http://www.shareware.com">nested 2</a></li>  
-                </ul>
-              </ul>
-            </xsl:for-each>
-          </xsl:for-each>
-        </ul>
+          <h2><a><xsl:attribute name="name">Updated</xsl:attribute>Updated</a></h2>
+          <xsl:apply-templates select="Updated"/>
+          <hr/>
 
-        <!--
-             <ul>
-               <li id="foldheader"><xsl:apply-templates select="Directory"/></li>
-               
-               <li id="foldheader">Software</li>
-               <ul id="foldinglist" style="display:none">
-                 <li><a href="http://www.download.com">outer 1</a></li>
-                 <li><a href="http://www.hotfiles.com">outer 2</a></li>
-                 <li id="foldheader">Nested</li>
-                 <ul id="foldinglist" style="display:none">
-                   <li><a href="http://www.windows95.com">nested 1</a></li>
-                   <li><a href="http://www.shareware.com">nested 2</a></li>
-                 </ul>
-                 <li><a href="http://www.windows95.com">outer 3</a></li>
-                 <li><a href="http://www.shareware.com">outer 4</a></li>
-               </ul>
-               
-             </ul>
-             -->
+          <h2><a><xsl:attribute name="name">Modified</xsl:attribute>Modified</a></h2>
+          <xsl:apply-templates select="Modified"/>
+          <hr/>
 
-
-        <script language="JavaScript1.2">
-          <!--
-               function get_cookie(Name) {
-               var search = Name + "="
-               var returnvalue = "";
-               if (document.cookie.length > 0) {
-               offset = document.cookie.indexOf(search)
-               // if cookie exists
-               if (offset != -1) { 
-               offset += search.length
-               // set index of beginning of value
-               end = document.cookie.indexOf(";", offset);
-               // set index of end of cookie value
-               if (end == -1) end = document.cookie.length;
-               returnvalue=unescape(document.cookie.substring(offset, end))
-               }
-               }
-               return returnvalue;
-               }
-
-               if (get_cookie(window.location.pathname) != '') {
-               var openresults = get_cookie(window.location.pathname).split(" ");
-               for (i=0; i < openresults.length; i++) {
-               foldinglist[openresults[i]].style.display=''
-               document.all[foldinglist[openresults[i]].sourceIndex - 1].style.listStyleImage="url(open.gif)";
-               }
-               }
-
-               if (document.all){
-               var nodelength=foldinglist.length-1
-               var nodes=new Array(nodelength)
-               var openones=''
-               }
-               function check(){
-               for (i=0 ; i <= nodelength ; i++){
-               if (foldinglist[i].style.display=='')
-               openones=openones + " " + i
-               }
-               document.cookie=window.location.pathname+"="+openones
-               }
-               if (document.all)
-               document.body.onunload=check
-               //-->
-        </script>
-
-
-        <br/>
-
-
-        <br/>
-        <h3>Updated files listed by <a href="#directory">directory</a></h3>
-
-        <xsl:for-each select="Directory">
-          <strong><xsl:value-of select="Name"/></strong> had <a><xsl:attribute name="href">#<xsl:value-of select="Name"/></xsl:attribute><xsl:value-of select="count(File)"/></a> updated files<br/>
-        </xsl:for-each>
-        <hr/>
-
-        <h3>Updated by <a><xsl:attribute name="href">#author</xsl:attribute>author</a></h3>
-        <xsl:for-each select="Author">
-          <strong><xsl:value-of select="Name"/></strong> had <a><xsl:attribute name="href">#<xsl:value-of select="Name"/></xsl:attribute><xsl:value-of select="count(File)"/></a> updated files<br/>
-        </xsl:for-each>
-        
-        <hr/>
-        <h2>Summary</h2>
- 
-
-        <table border="4" cellpadding="0" cellspacing="2" width="100%"> 
-        <tr>
-          <td>
-            <center><b>#</b></center>
-          </td>
-          <td>
-            <center><b>File Name</b></center>
-          </td>
-          <td>
-            <center><b>Author</b></center>
-          </td>
-          <td>
-            <center><b>Directory</b></center>
-          </td>
-          <td>
-            <center><b>Modification</b></center>
-          </td>
-          <td>
-            <center><b>New version</b></center>
-          </td>
-        </tr>
-        <xsl:for-each select="Updated"> 
-        <tr bgcolor="#bbbbbb">
-          <td><xsl:number level="single" count="Updated" format="1"/>
-          <xsl:choose>
-            <xsl:when test="bgcolor=#bbbbbb"> bgcolor="#ffffff"</xsl:when>
-            <xsl:otherwise> bgcolor="#bbbbbb"</xsl:otherwise>
-          </xsl:choose>
+          <h2><a><xsl:attribute name="name">Conflicting</xsl:attribute>Conflicting</a></h2>
+          <xsl:apply-templates select="Conflicting"/>
+          <hr/>
         </td>
-        <td>
-          <strong>
-            <a><xsl:attribute name="name"><xsl:value-of select="FullName"/></xsl:attribute></a>
-            <a><xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/></xsl:attribute><xsl:value-of select="File"/></a>
-          </strong>
-        </td>
-        <td>
-          <a><xsl:attribute name="href">#<xsl:value-of select="Author"/></xsl:attribute><xsl:value-of select="Author"/></a>
-        </td>
-        <td>
-          <a><xsl:attribute name="href">#<xsl:value-of select="File/@Directory"/></xsl:attribute><xsl:value-of select="File/@Directory"/></a>
-        </td>
-        <td>
-          <xsl:if test="count(PriorRevision) != 0">
-            Modified from: 
-            <a><xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/><xsl:text>Modified from:</xsl:text><xsl:value-of select="FullName"/>.diff?r1=<xsl:value-of select="PriorRevision"/>&amp;r2=<xsl:value-of select="Revision"/></xsl:attribute>
-            <xsl:value-of select="PriorRevision"/></a>
-          </xsl:if>
-        </td>
-        <td> 
-        <a><xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>?rev=<xsl:value-of select="Revision"/>&amp;content-type=text/x-cvsweb-markup</xsl:attribute><xsl:value-of select="Revision"/></a>
-      </td>	
-    </tr>
-  </xsl:for-each>
-</table>
+      </tr>
+    </table>
 
-
-	
-
-<h2><a><xsl:attribute name="name">author</xsl:attribute>Updated by Author</a></h2>
-<xsl:apply-templates select="Author"/>
-<hr/>
-
-<h2><a><xsl:attribute name="name">directory</xsl:attribute>Updated by Directory</a></h2>
-  <xsl:apply-templates select="Directory"/>
-<hr/>
-
-<h2><a><xsl:attribute name="name">Updated</xsl:attribute>Updated</a></h2>
-  <xsl:apply-templates select="Updated"/>
-<hr/>
-
-<h2><a><xsl:attribute name="name">Modified</xsl:attribute>Modified</a></h2>
-  <xsl:apply-templates select="Modified"/>
-<hr/>
-
-<h2><a><xsl:attribute name="name">Conflicting</xsl:attribute>Conflicting</a></h2>
-  <xsl:apply-templates select="Conflicting"/>
-<hr/>
-</td></tr></table>
-
-</body>
+  </body>
 </html>
-
-
 </xsl:template>
 
+<!--
+  <xsl:template match="Updated|Conflicting|Modified">
+    <br/>
+    <strong>
+      <a><xsl:attribute name="name"><xsl:value-of select="FullName"/></xsl:attribute></a>
+      <a><xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/></xsl:attribute><xsl:value-of select="File"/></a>
+    </strong> by <a><xsl:attribute name="href">#<xsl:value-of select="Author"/></xsl:attribute><xsl:value-of select="Author"/></a> in <a><xsl:attribute name="href">#<xsl:value-of select="File/@Directory"/></xsl:attribute><xsl:value-of select="File/@Directory"/></a>
+    Revision: 
+    <a><xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>?rev=<xsl:value-of select="Revision"/>&amp;content-type=text/x-cvsweb-markup</xsl:attribute><xsl:value-of select="Revision"/></a>
+    
+    <xsl:if test="count(PriorRevision) != 0">
+      Diff to Previous:
+      <a><xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>.diff?r1=<xsl:value-of select="PriorRevision"/>&amp;r2=<xsl:value-of select="Revision"/></xsl:attribute>
+      <xsl:value-of select="PriorRevision"/></a>
+    </xsl:if>
+    <br/>
+    <pre>
+      <xsl:value-of select="Log"/>
+    </pre>
+  </xsl:template>
+-->
+
+
 <xsl:template match="Updated|Conflicting|Modified">
-  <br/>
+  <hr/>
   <strong>
     <a><xsl:attribute name="name"><xsl:value-of select="FullName"/></xsl:attribute></a>
     <a><xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/></xsl:attribute><xsl:value-of select="File"/></a>
@@ -326,6 +154,20 @@
     <xsl:value-of select="PriorRevision"/></a>
   </xsl:if>
   <br/>
+
+  <a>
+    <xsl:attribute name="href">
+      <xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>?annotate=<xsl:value-of select="Revision"/>
+    </xsl:attribute>
+    Annotated
+  </a><xsl:text>  </xsl:text>
+  <a>
+    <xsl:attribute name="href">
+      <xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>?rev=<xsl:value-of select="Revision"/>&amp;content-type=text/x-cvsweb-markup
+    </xsl:attribute>
+    Plain Source
+  </a>
+
   <pre>
     <xsl:value-of select="Log"/>
   </pre>

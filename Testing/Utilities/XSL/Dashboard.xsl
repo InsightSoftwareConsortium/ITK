@@ -87,6 +87,7 @@
                       <th align="center" bgcolor="#eeeeee" width="80">Percentage</th>
                       <th align="center" bgcolor="#eeeeee">Files Covered</th>
                       <th align="center" bgcolor="#eeeeee">Date</th>
+                      <th align="center" bgcolor="#eeeeee">Submission Date</th>
                     </tr>
                     <!--
                          Loop over each instance
@@ -110,9 +111,13 @@
                               <xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Coverage.html</xsl:attribute><xsl:value-of select="Coverage/PercentCoverage"/>%
                             </a>
                           </td>
-                          <td align="center"><xsl:value-of select="Coverage/StartDateTime"/></td>
-                        </tr>
-                      </xsl:if>
+                          <td align="center">
+                            <xsl:value-of select="Coverage/Passed"/> Passed, <xsl:value-of select="Coverage/Failed"/> Failed
+                        </td>
+                        <td align="center"><xsl:value-of select="Coverage/StartDateTime"/></td>
+                        <td align="center"><xsl:value-of select="CoverageSubmissionDateTime"/></td>
+                      </tr>
+                    </xsl:if>
                     </xsl:for-each>
                   </table>
                 </xsl:when>
@@ -132,90 +137,90 @@
   </xsl:template>
 
 
-    <xsl:template name="BuildStamp">
-            
-            <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Build/SiteName"/>/<xsl:value-of select="Build/BuildName"/>/<xsl:value-of select="Build/BuildStamp"/></xsl:variable>
-            <tr>
-              <td align="left">
-                <xsl:value-of select="Build/SiteName"/>
-              </td>
-              <td align="left">
-                <xsl:value-of select="Build/BuildName"/>
-              </td>
-              <td align="right">
-                <xsl:choose>
-                  <xsl:when test="Build/ErrorCount > 0">
-                    <xsl:attribute name="bgcolor">#FF7F50</xsl:attribute>
-                  </xsl:when>
-                  <xsl:otherwise>
-                    <xsl:attribute name="bgcolor">#00ff7f</xsl:attribute>
-                  </xsl:otherwise>
-                </xsl:choose>
-                <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Build.html#Error</xsl:attribute><xsl:value-of select="Build/ErrorCount"/></a>
-              </td>
-              <td align="right">
-                <xsl:choose>
-                  <xsl:when test="Build/WarningCount > 0">
-                    <xsl:attribute name="bgcolor">#FF7F50</xsl:attribute>
-                  </xsl:when>
-                  <xsl:otherwise>
-                    <xsl:attribute name="bgcolor">#00ff7f</xsl:attribute>
-                  </xsl:otherwise>
-                </xsl:choose>
-                <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Build.html#Warning</xsl:attribute><xsl:value-of select="Build/WarningCount"/></a>
-              </td>
-              <td align="right">
-                <xsl:choose>
-                  <xsl:when test="Testing/PassedCount = 0">
-                    <xsl:attribute name="bgcolor">#FF7F50</xsl:attribute>
-                  </xsl:when>
-                  <xsl:otherwise>
-                    <xsl:attribute name="bgcolor">#00ff7f</xsl:attribute>
-                  </xsl:otherwise>
-                </xsl:choose>
-                <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html#Passed</xsl:attribute><xsl:value-of select="Testing/PassedCount"/></a>
-              </td>
-              <td>
-                <xsl:choose>
-                  <xsl:when test="Site/Testing/FailedCount > 0">
-                    <xsl:attribute name="bgcolor">#FF7F50</xsl:attribute>
-                  </xsl:when>
-                  <xsl:otherwise>
-                    <xsl:attribute name="bgcolor">#00ff7f</xsl:attribute>
-                  </xsl:otherwise>
-                </xsl:choose>
-                <xsl:attribute name="align">right</xsl:attribute>
-                <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html#Failed</xsl:attribute><xsl:value-of select="Testing/FailedCount"/></a>
-              </td>
-              <td>
-                <xsl:choose>
-                  <xsl:when test="Site/Testing/NotRunCount > 0">
-                    <xsl:attribute name="bgcolor">#FF7F50</xsl:attribute>
-                  </xsl:when>
-                  <xsl:otherwise>
-                    <xsl:attribute name="bgcolor">#00ff7f</xsl:attribute>
-                  </xsl:otherwise>
-                </xsl:choose>
-                <xsl:attribute name="align">right</xsl:attribute>
-                <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html#NotRun</xsl:attribute><xsl:value-of select="Testing/NotRunCount"/></a>
-              </td>
-              <td><xsl:value-of select="Testing/StartDateTime"/></td>
-            </tr>
+  <xsl:template name="BuildStamp">
+    <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Build/SiteName"/>/<xsl:value-of select="Build/BuildName"/>/<xsl:value-of select="Build/BuildStamp"/></xsl:variable>
 
+    <tr>
+      <td align="left">
+        <xsl:value-of select="Build/SiteName"/>
+      </td>
+      <td align="left">
+        <xsl:value-of select="Build/BuildName"/>
+      </td>
+      <td align="right">
+        <xsl:choose>
+          <xsl:when test="Build/ErrorCount > 0">
+            <xsl:attribute name="bgcolor">#FF7F50</xsl:attribute>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:attribute name="bgcolor">#00ff7f</xsl:attribute>
+          </xsl:otherwise>
+        </xsl:choose>
+        <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/BuildError.html</xsl:attribute><xsl:value-of select="Build/ErrorCount"/></a>
+      </td>
+      <td align="right">
+        <xsl:choose>
+          <xsl:when test="Build/WarningCount > 0">
+            <xsl:attribute name="bgcolor">#FF7F50</xsl:attribute>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:attribute name="bgcolor">#00ff7f</xsl:attribute>
+          </xsl:otherwise>
+        </xsl:choose>
+        <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/BuildWarning.html</xsl:attribute><xsl:value-of select="Build/WarningCount"/></a>
+      </td>
 
-</xsl:template>
-
-<xsl:template name="BuildTableHeader">
-          <tr>
-            <th align="left">Site</th>
-            <th align="left">Build Name</th>
-            <th align="left">Build Errors</th>
-            <th align="left">Build Warnings</th>
-            <th align="left">Passed</th>
-            <th align="left">Failed</th>
-            <th align="left">NotRun</th>
-            <th align="left">Date</th>
-          </tr>
-</xsl:template>
-
+      <xsl:variable name="BGColor">#FF7F50</xsl:variable>
+      <xsl:choose>
+        <xsl:when test="Testing/FailedCount + Testing/NotRunCount > 0">
+          <xsl:variable name="BGColor">#00FF7F</xsl:variable>
+        </xsl:when>
+      </xsl:choose>
+      <td align="center">
+        <xsl:attribute name="bgcolor"><xsl:value-of select="$BGColor"/></xsl:attribute>
+        <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute><xsl:value-of select="Testing/PassedCount"/></a>
+      </td>
+      <td align="center">
+        <xsl:choose>
+          <xsl:when test="Testing/FailedCount > 0">
+            <xsl:attribute name="bgcolor">#ff7f50</xsl:attribute>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:attribute name="bgcolor">#007f50</xsl:attribute>
+          </xsl:otherwise>
+        </xsl:choose>
+        <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute><xsl:value-of select="Testing/FailedCount"/></a>
+      </td>
+      <td align="center">
+        <xsl:choose>
+          <xsl:when test="Testing/NotRunCount > 0">
+            <xsl:attribute name="bgcolor">#ff7f50</xsl:attribute>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:attribute name="bgcolor">#007f50</xsl:attribute>
+          </xsl:otherwise>
+        </xsl:choose>
+        <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute><xsl:value-of select="Testing/NotRunCount"/></a>
+      </td>
+      <td><xsl:value-of select="Testing/StartDateTime"/></td>
+      <td><xsl:value-of select="TestSubmissionDateTime"/></td>
+    </tr>
+    
+    
+  </xsl:template>
+  
+  <xsl:template name="BuildTableHeader">
+    <tr>
+      <th align="left">Site</th>
+      <th align="left">Build Name</th>
+      <th align="left">Build Errors</th>
+      <th align="left">Build Warnings</th>
+      <th align="left">Passed</th>
+      <th align="left">Failed</th>
+      <th align="left">NotRun</th>
+      <th align="left">Build Date</th>
+      <th align="left">Submission Date</th>
+    </tr>
+  </xsl:template>
+  
 </xsl:stylesheet>

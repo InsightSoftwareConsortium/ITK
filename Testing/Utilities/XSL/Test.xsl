@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+  version="1.0"
+  xmlns:lxslt="http://xml.apache.org/xslt"
+  xmlns:redirect="org.apache.xalan.xslt.extensions.Redirect"
+  extension-element-prefixes="redirect">
 
   <!--
        Use DashboardStamp as a parameter, default to most recent
@@ -29,23 +34,39 @@
     </h3>
     <br/>
     <ul>
-      <xsl:for-each select="Site/Testing/Test">
-        <xsl:sort select="@Status"/>
+      <xsl:for-each select="Site/Testing/Test[@Status='failed']">
+        <xsl:sort select="Name"/>
         <li>
-          <a><xsl:attribute name="HREF">#<xsl:value-of select="generate-id()"/></xsl:attribute><xsl:value-of select="Name"/></a>
-          <xsl:choose>
-            <xsl:when test="contains('failed',@Status)">
-              <font color="#FF0000"> Failed</font>
-            </xsl:when>
-            <xsl:when test="contains('passed',@Status)">
-              <font color="#00AA00"> Passed</font>
-            </xsl:when>
-            <xsl:when test="contains('notrun',@Status)">
-              <font color="#FF0000"> Not Run</font>
-            </xsl:when>
-          </xsl:choose>
+          <a>
+            <xsl:attribute name="HREF">#<xsl:value-of select="generate-id()"/></xsl:attribute><xsl:value-of select="Name"/>
+          </a>
+          <font color="#FF0000"> Failed</font>
         </li>
-        
+      </xsl:for-each>
+    </ul>
+
+    <hr/>
+    <ul>
+      <xsl:for-each select="Site/Testing/Test[@Status='notrun']">
+        <xsl:sort select="Name"/>
+        <li>
+          <a>
+            <xsl:attribute name="HREF">#<xsl:value-of select="generate-id()"/></xsl:attribute><xsl:value-of select="Name"/>
+              <font color="#FF0000"> Not Run</font>
+          </a>
+        </li>
+      </xsl:for-each>
+    </ul>
+    <hr/>
+    <ul>
+      <xsl:for-each select="Site/Testing/Test[@Status='passed']">
+        <xsl:sort select="Name"/>
+        <li>
+          <a>
+            <xsl:attribute name="HREF">#<xsl:value-of select="generate-id()"/></xsl:attribute><xsl:value-of select="Name"/>
+            <font color="#00AA00"> Passed</font>
+          </a>
+        </li>
       </xsl:for-each>
     </ul>
     <hr/>
@@ -54,12 +75,14 @@
     <xsl:for-each select="//Testing/Test[@Status='passed']">
       <xsl:apply-templates select="."/>
     </xsl:for-each>
-    
+
+    <hr/>
     <a><xsl:attribute name="name">Failed</xsl:attribute><h3>Failed Tests</h3></a><hr/>
     <xsl:for-each select="//Testing/Test[@Status='failed']">
       <xsl:apply-templates select="."/>
     </xsl:for-each>
     
+    <hr/>
     <a><xsl:attribute name="name">NotRun</xsl:attribute><h3>Tests Not Run</h3></a><hr/>
     <xsl:for-each select="//Testing/Test[@Status='notrun']">
       <xsl:apply-templates select="."/>
