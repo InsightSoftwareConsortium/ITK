@@ -153,6 +153,7 @@ void RegisterTests()
   REGISTER_TEST(itkSmoothingRecursiveGaussianImageFilterTest );
   REGISTER_TEST(itkSparseFieldFourthOrderLevelSetImageFilterTest );
   REGISTER_TEST(itkSparseFieldLayerTest);
+  REGISTER_TEST(itkParallelSparseFieldLevelSetImageFilterTest );
   REGISTER_TEST(itkSpatialObjectToImageFilterTest );
   REGISTER_TEST(itkSpatialObjectToImageStatisticsCalculatorTest );
   REGISTER_TEST(itkSpatialFunctionImageEvaluatorFilterTest );
