@@ -215,10 +215,13 @@ int main()
   bool passed;
 
   // an integer position inside the image
-  double darray1[3] = { 10, 20, 40};
-  output = 70, 140, 210;
-  cindex = ContinuousIndexType(darray1);
+  {
+  double darray[3] = {10, 20, 40};
+  double temp[3] = {70, 140, 210};
+  output = OutputType( temp );
+  cindex = ContinuousIndexType(darray);
   passed = TestContinuousIndex( interp, cindex, true, output );
+  }
 
   if( !passed ) flag = 1;
   
@@ -228,10 +231,13 @@ int main()
   if( !passed ) flag = 1;
   
   // position at the image border
-  double darray2[3] = {0, 20, 40};
-  output = 60, 120, 180;
-  cindex = ContinuousIndexType(darray2);
+  {
+  double darray[3] = {0, 20, 40};
+  double temp[3] = {60, 120, 180};
+  output = OutputType( temp );
+  cindex = ContinuousIndexType(darray);
   passed = TestContinuousIndex( interp, cindex, true, output );
+  }
 
   if( !passed ) flag = 1;
 
@@ -241,10 +247,13 @@ int main()
   if( !passed ) flag = 1;
 
   // position near image border
-  double darray3[3] = {19, 20, 40};
-  output = 79, 158, 237;
-  cindex = ContinuousIndexType(darray3);
+  {
+  double darray[3] = {19, 20, 40};
+  double temp[3] = {79, 158, 237};
+  output = OutputType( temp );
+  cindex = ContinuousIndexType(darray);
   passed = TestContinuousIndex( interp, cindex, true, output );
+  }
 
   if( !passed ) flag = 1;
 
@@ -254,10 +263,13 @@ int main()
   if( !passed ) flag = 1;
 
   // position outside the image
-  double darray4[3] = {20, 20, 40};
-  output = 1, 1, 1;
-  cindex = ContinuousIndexType(darray4);
+  {
+  double darray[3] = {20, 20, 40};
+  double temp[3] = {1, 1, 1};
+  output = OutputType( temp );
+  cindex = ContinuousIndexType(darray);
   passed = TestContinuousIndex( interp, cindex, false, output );
+  }
 
   if( !passed ) flag = 1;
 
@@ -267,10 +279,13 @@ int main()
   if( !passed ) flag = 1;
 
   // at non-integer position 
-  double darray5[3] = {5.25, 12.5, 42.0};
-  output = 59.75, 119.5, 179.25;
-  cindex = ContinuousIndexType(darray5);
+  {
+  double darray[3] = {5.25, 12.5, 42.0};
+  double temp[3] = {59.75, 119.5, 179.25};
+  output = OutputType( temp );
+  cindex = ContinuousIndexType(darray);
   passed = TestContinuousIndex( interp, cindex, true, output );
+  }
 
   if( !passed ) flag = 1;
 
