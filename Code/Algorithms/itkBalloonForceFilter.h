@@ -116,7 +116,7 @@ public:
   /** Cell related types. */
   typedef typename InputMeshType::CellType    CellType;
   typedef typename InputMeshType::CellTraits  CellTraits;
-  typedef CellInterface<double, CellTraits>   CellInterface;
+  typedef CellInterface<PixelType, CellTraits>   CellInterface;
   typedef TriangleCell< CellInterface >       TriCell;
 
 

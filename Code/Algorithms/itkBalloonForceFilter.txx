@@ -916,8 +916,8 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   else this->ComputeForce();
   this->ComputeDt();
   this->Advance();
-//  this->ACDSearch();
-//  this->NodesRearrange();
+  this->ACDSearch();
+  this->NodesRearrange();
   m_Step++;
   }
 
