@@ -55,7 +55,8 @@ class ImageMetricLoadImplementation
 {
 public:
   
-  static void ImplementImageMetricLoad(Element2DC0LinearQuadrilateralMembrane::ConstPointer element, Element::LoadPointer load, Element::VectorType& Fe )
+  template<class TElementClassConstPointer>
+  static void ImplementImageMetricLoad(TElementClassConstPointer element, Element::LoadPointer load, Element::VectorType& Fe )
   {
     // We must dynamically cast the given load pointer to the
     // correct templated load class, which is given as
