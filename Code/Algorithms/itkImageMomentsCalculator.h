@@ -56,11 +56,20 @@ namespace itk
  * \todo It's not yet clear how multi-echo images should be handled here.
  */
 template < class TImage >
-class ITK_EXPORT ImageMomentsCalculator
+class ITK_EXPORT ImageMomentsCalculator : public Object
 {
 public:
   /** Standard class typedefs. */
   typedef ImageMomentsCalculator<TImage>   Self;
+  typedef Object Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ImageMomentsCalculator, Object);
 
   /** Extract the dimension of the image. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -82,17 +91,29 @@ public:
 
   /** Standard image type pointer within this class. */
   typedef typename ImageType::Pointer ImagePointer;
+  typedef typename ImageType::ConstPointer ImageConstPointer;
 
   /** Affine transform for mapping to and from principal axis */
   typedef AffineTransform<double,itkGetStaticConstMacro(ImageDimension)> AffineTransformType;
   typedef typename AffineTransformType::Pointer      AffineTransformPointer;
+
+  /** Set the input image. */
+  virtual void SetImage( const ImageType * image )
+    {
+    if ( m_Image != image )
+      {
+      m_Image = image;
+      this->Modified();
+      m_Valid = false;
+      }
+    }
 
   /** Compute moments of a new or modified image.
    * This method computes the moments of the image given as a
    * parameter and stores them in the object.  The values of these
    * moments and related parameters can then be retrieved by using
    * other methods of this object. */
-  void ComputeMoments( const ImageType * image );
+  void Compute( void );
 
   /** Return the total mass (or zeroth moment) of an image.
    * This method returns the sum of pixel intensities (also known as
@@ -159,23 +180,15 @@ public:
    * system. */
   AffineTransformPointer GetPhysicalAxesToPrincipalAxesTransform(void) const;
 
-  /** Construct an ImageMomentsCalculator object.  This method constructs a
-   * new ImageMomentsCalculator object that contains no stored moments
-   * information; this information can be added later by calling the
-   * ComputeMoments method. */
-  ImageMomentsCalculator();            // Create w/o summing moments
-
-  /** Compute moments of an image and save in an ImageMomentsCalculator
-   * object.  This method constructs a new ImageMomentsCalculator object and
-   * stores in it the moments of the image given as argument.  The values of
-   * these moments and related parameters can be retrieved by using * other
-   * methods of the object constructed.  */
-  ImageMomentsCalculator( const ImageType * image); // Create and sum image moments
-
-  /** Destroy an ImageMomentsCalculator object. */
-  ~ImageMomentsCalculator();
+protected:
+  ImageMomentsCalculator();
+  virtual ~ImageMomentsCalculator();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  ImageMomentsCalculator(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   bool m_Valid;                      // Have moments been computed yet?
   ScalarType m_M0;                   // Zeroth moment
   VectorType m_M1;                   // First moments about origin
@@ -184,6 +197,8 @@ private:
   MatrixType m_Cm;                   // Second central moments (physical)
   VectorType m_Pm;                   // Principal moments (physical)
   MatrixType m_Pa;                   // Principal axes (physical)
+
+  ImageConstPointer m_Image;
 
 };  // class ImageMomentsCalculator
 

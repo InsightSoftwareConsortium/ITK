@@ -64,17 +64,20 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     typedef ImageMomentsCalculator< FixedImageType >   FixedImageCalculatorType;
     typedef ImageMomentsCalculator< MovingImageType >  MovingImageCalculatorType;
 
-    FixedImageCalculatorType    fixedCalculator;
-    MovingImageCalculatorType   movingCalculator;
+    FixedImageCalculatorType::Pointer    fixedCalculator = FixedImageCalculatorType::New();
+    MovingImageCalculatorType::Pointer   movingCalculator = MovingImageCalculatorType::New();
 
-    fixedCalculator.ComputeMoments(  m_FixedImage );
-    movingCalculator.ComputeMoments( m_MovingImage );
+    fixedCalculator->SetImage(  m_FixedImage );
+    fixedCalculator->Compute();
+
+    movingCalculator->SetImage( m_MovingImage );
+    movingCalculator->Compute();
     
     typename FixedImageCalculatorType::VectorType fixedCenter =
-      fixedCalculator.GetCenterOfGravity();
+      fixedCalculator->GetCenterOfGravity();
 
     typename MovingImageCalculatorType::VectorType movingCenter =
-      movingCalculator.GetCenterOfGravity();
+      movingCalculator->GetCenterOfGravity();
 
     for( unsigned int i=0; i<InputSpaceDimension; i++)
       {

@@ -109,20 +109,26 @@ itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
     }
 
     /* Compute the moments */
-    CalculatorType moments(image);
-    double ctm = moments.GetTotalMass();
-    VectorType ccg = moments.GetCenterOfGravity();
-    VectorType cpm = moments.GetPrincipalMoments();
-    MatrixType cpa = moments.GetPrincipalAxes();
+    CalculatorType::Pointer moments = CalculatorType::New();
+    moments->SetImage( image );
+    moments->Compute();
+
+    /* Printout info */
+    moments->Print( std::cout );
+
+    double ctm = moments->GetTotalMass();
+    VectorType ccg = moments->GetCenterOfGravity();
+    VectorType cpm = moments->GetPrincipalMoments();
+    MatrixType cpa = moments->GetPrincipalAxes();
 
     /* Report the various non-central moments */
     // FIXME:  Indentation is not handled correctly in matrix output
     std::cout << "\nTotal mass = " << ctm << std::endl;
     std::cout << "True total mass = " << ttm << std::endl;
     std::cout << "\nFirst moments about index origin =\n";
-    std::cout << "   " <<  moments.GetFirstMoments() << std::endl;
+    std::cout << "   " <<  moments->GetFirstMoments() << std::endl;
     std::cout << "\nSecond moments about index origin =\n";
-    std::cout << "   " << moments.GetSecondMoments() << std::endl;
+    std::cout << "   " << moments->GetSecondMoments() << std::endl;
 
     /* Report the center of gravity and central moments */
     std::cout << "\nCenter of gravity =\n";
@@ -130,7 +136,7 @@ itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
     std::cout << "True center of gravity =\n";
     std::cout << "   " << tcg << "\n";
     std::cout << "\nSecond central moments =\n";
-    std::cout << "   " << moments.GetCentralMoments() << "\n";
+    std::cout << "   " << moments->GetCentralMoments() << "\n";
 
     /* Report principal moments and axes */
     std::cout << "\nPrincipal moments = \n";
@@ -145,11 +151,11 @@ itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
     /* Compute transforms between principal and physical axes */
     /* FIXME: Automatically check correctness of these results? */
     AffineTransformType::Pointer
-        pa2p = moments.GetPrincipalAxesToPhysicalAxesTransform();
+        pa2p = moments->GetPrincipalAxesToPhysicalAxesTransform();
     std::cout << "\nPrincipal axes to physical axes transform:\n";
     std::cout << pa2p->GetMatrix() << std::endl;
     AffineTransformType::Pointer
-        p2pa = moments.GetPhysicalAxesToPrincipalAxesTransform();
+        p2pa = moments->GetPhysicalAxesToPrincipalAxesTransform();
     std::cout << "\nPhysical axes to principal axes transform:\n";
     std::cout << p2pa->GetMatrix() << std::endl;
 

@@ -48,16 +48,8 @@ public:
 template<class TImage>
 ImageMomentsCalculator<TImage>::ImageMomentsCalculator(void) 
 {
-  m_Valid = 0;
-}
-
-//-----------------------------------------------------------------------
-// Construct and compute moments
-template<class TImage>
-ImageMomentsCalculator<TImage>::
-ImageMomentsCalculator( const ImageType * image) 
-{
-  ComputeMoments(image);
+  m_Valid = false;
+  m_Image = NULL;
 }
 
 //----------------------------------------------------------------------
@@ -68,12 +60,21 @@ ImageMomentsCalculator<TImage>::
 {
 }
 
+template<class TInputImage>
+void
+ImageMomentsCalculator<TInputImage>
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << indent << "Image: " << m_Image.GetPointer() << std::endl;
+}
+
 //----------------------------------------------------------------------
 // Compute moments for a new or modified image
 template<class TImage>
 void
 ImageMomentsCalculator<TImage>::
-ComputeMoments( const ImageType * image )
+Compute()
 {
   m_M0 = 0.0;
   m_M1.Fill( 0.0 );
@@ -82,9 +83,14 @@ ComputeMoments( const ImageType * image )
   m_Cm.Fill( 0.0 );
 
   typedef typename ImageType::IndexType IndexType;
+
+  if( !m_Image ) 
+    {
+    return;
+    }
     
-  ImageRegionConstIteratorWithIndex< ImageType > it( image,
-                                                     image->GetRequestedRegion() ); 
+  ImageRegionConstIteratorWithIndex< ImageType > it( m_Image,
+                                                     m_Image->GetRequestedRegion() ); 
 
   while( !it.IsAtEnd() )
     {
@@ -106,7 +112,7 @@ ComputeMoments( const ImageType * image )
         }
       }
 
-    image->TransformIndexToPhysicalPoint(indexPosition, physicalPosition);  
+    m_Image->TransformIndexToPhysicalPoint(indexPosition, physicalPosition);  
     
     for(unsigned int i=0; i<ImageDimension; i++)
       {
