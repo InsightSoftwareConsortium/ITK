@@ -241,8 +241,6 @@ BilateralImageFilter<TInputImage, TOutputImage>
   OutputPixelRealType val, tableArg, normFactor, rangeGaussian, 
     rangeDistance, pixel, gaussianProduct;
 
-  const double rangeVariance = m_RangeSigma * m_RangeSigma;
-
   const double distanceToTableIndex
     = static_cast<double>(m_NumberOfRangeGaussianSamples)/m_DynamicRangeUsed;
 
