@@ -60,6 +60,8 @@ extern "C" {
 #  pragma warning ( disable : 4305 )
 #  pragma warning ( disable : 4309 )
 #  pragma warning ( disable : 4273 )
+#  pragma warning ( disable : 4756 )
+#  pragma warning ( disable : 4723 )
 #endif
 
 #if defined(_WIN32) && !defined(__CYGWIN__)
