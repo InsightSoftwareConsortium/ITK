@@ -73,7 +73,7 @@ MeshSource<TOutputMesh>::DataObjectPointer
 MeshSource<TOutputMesh>
 ::MakeOutput(unsigned int idx)
 {
-  return TOutputMesh::New();
+  return static_cast<DataObject*>(TOutputMesh::New().GetPointer());
 }
 
 /**

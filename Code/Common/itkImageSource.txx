@@ -70,7 +70,7 @@ ImageSource<TOutputImage>::DataObjectPointer
 ImageSource<TOutputImage>
 ::MakeOutput(unsigned int idx)
 {
-  return TOutputImage::New();
+  return static_cast<DataObject*>(TOutputImage::New().GetPointer());
 }
   
 /**
