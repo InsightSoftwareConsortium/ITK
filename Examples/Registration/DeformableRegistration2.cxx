@@ -48,31 +48,6 @@
     typedef  itk::Command             Superclass;
     typedef  itk::SmartPointer<CommandIterationUpdate>  Pointer;
     itkNewMacro( CommandIterationUpdate );
-
-    static const unsigned int Dimension = 2;
-    typedef unsigned short PixelType;
-    
-    typedef itk::Image< PixelType, Dimension >  FixedImageType;
-    typedef itk::Image< PixelType, Dimension >  MovingImageType;
-    
-    typedef itk::Vector< float, Dimension >    VectorPixelType;
-    typedef itk::Image<  VectorPixelType, Dimension > DeformationFieldType;
-    
-    typedef itk::WarpImageFilter<
-      MovingImageType, 
-      MovingImageType,
-      DeformationFieldType  >     WarperType;
-    typedef itk::LinearInterpolateImageFunction<
-      MovingImageType,
-      double          >  InterpolatorType;
-    
-    typedef  unsigned char  OutputPixelType;
-    typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-    typedef itk::CastImageFilter< 
-      MovingImageType,
-      OutputImageType > CastFilterType;
-    typedef itk::ImageFileWriter< OutputImageType >  WriterType;
-
   protected:
     CommandIterationUpdate() {};
 
@@ -85,14 +60,7 @@
                                 InternalImageType,
                                 DeformationFieldType>   RegistrationFilterType;
 
-    FixedImageType::Pointer m_WarpInput;
-    
   public:
-
-    void SetWarpInput( FixedImageType *input )
-      {
-        m_WarpInput = input;
-      }
 
     void Execute(itk::Object *caller, const itk::EventObject & event)
       {
@@ -107,32 +75,7 @@
           {
           return;
           }
-        std::cout << filter->GetElapsedIterations() << ": "
-                  << filter->GetMetric() << std::endl;
-
-        if (false && (filter->GetElapsedIterations() % 20 == 0))
-          {
-          WarperType::Pointer warper = WarperType::New();
-          InterpolatorType::Pointer interpolator = InterpolatorType::New();
-          
-          warper->SetInput( m_WarpInput );
-          warper->SetInterpolator( interpolator );
-          warper->SetOutputSpacing( const_cast<RegistrationFilterType*>(filter)->GetOutput()->GetSpacing() );
-          warper->SetOutputOrigin( const_cast<RegistrationFilterType*>(filter)->GetOutput()->GetOrigin() );
-          
-          warper->SetDeformationField( const_cast<RegistrationFilterType*>(filter)->GetOutput() );
-          
-          WriterType::Pointer      writer =  WriterType::New();
-          CastFilterType::Pointer  caster =  CastFilterType::New();
-          
-          caster->SetInput( warper->GetOutput() );
-          writer->SetInput( caster->GetOutput() );
-
-          itk::OStringStream s;
-          s << "warp" << filter->GetElapsedIterations() + 10000 << ".png";
-          writer->SetFileName( s.str().c_str() );
-          writer->Write();
-          }
+        std::cout << filter->GetMetric() << std::endl;
       }
   };
 
@@ -300,9 +243,8 @@ int main( int argc, char *argv[] )
   // Create the Command observer and register it with the registration filter.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
-  observer->SetWarpInput( fixedImageReader->GetOutput() );
   filter->AddObserver( itk::IterationEvent(), observer );
-  
+
 
 
 
@@ -319,8 +261,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   filter->SetFixedImage( fixedImageCaster->GetOutput() );
-  //filter->SetMovingImage( matcher->GetOutput() );
-  filter->SetMovingImage( movingImageCaster->GetOutput() );
+  filter->SetMovingImage( matcher->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
@@ -336,7 +277,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetNumberOfIterations( atoi(argv[4]) );
+  filter->SetNumberOfIterations( 150 );
   filter->SetStandardDeviations( 1.0 );
   // Software Guide : EndCodeSnippet
 
@@ -355,18 +296,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // The deformation field computed by the
-  // \doxygen{DemonsRegistrationFilter} maps a position in the moving
-  // image to a position in the fixed image that has the same
-  // intensity. This deformation field can used by the
-  // \doxygen{WarpImageFilter} to transform the fixed image into an
-  // approximation of the moving image. The \doxygen{WarpImageFilter}
-  // performs an inverse mapping, using the deformation field 
-  // applied to output pixel positions to determine the positions
-  // in the input image to sample. The \doxygen{WarpImageFilter},
-  // therefore, will take the fixed image and the output of the
-  // \doxygen{DemonsRegistrationFilter} and produce an approximation
-  // to the moving image. Like the \doxygen{ResampleImageFilter},
+  // The \doxygen{WarpImageFilter} can be used to warp the moving image with
+  // the output deformation field. Like the \doxygen{ResampleImageFilter},
   // the WarpImageFilter requires the specification of the input image to be
   // resampled, an input image interpolator, and the output image spacing and
   // origin.
@@ -389,13 +320,14 @@ int main( int argc, char *argv[] )
                                    double          >  InterpolatorType;
   WarperType::Pointer warper = WarperType::New();
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
+  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
-  warper->SetInput( fixedImageReader->GetOutput() );
+  warper->SetInput( movingImageReader->GetOutput() );
   warper->SetInterpolator( interpolator );
-  warper->SetOutputSpacing( movingImage->GetSpacing() );
-  warper->SetOutputOrigin( movingImage->GetOrigin() );
+  warper->SetOutputSpacing( fixedImage->GetSpacing() );
+  warper->SetOutputOrigin( fixedImage->GetOrigin() );
   // Software Guide : EndCodeSnippet
+
 
   // Software Guide : BeginLatex
   //
