@@ -26,7 +26,7 @@ void PBCTest_PrintNeighborhood( itk::ConstNeighborhoodIterator<itk::Image<int, 2
   unsigned x, y, i=0;
   for (y = 0; y < p.GetSize()[1]; ++y)
     {
-      for (x = 0; x < p.GetSize()[2]; ++x, ++i)
+      for (x = 0; x < p.GetSize()[0]; ++x, ++i)
         {
           std::cout << p.GetPixel(i) << " ";
         }
