@@ -110,7 +110,6 @@ int main()
 
   ReferenceIteratorType ri(imgReference,region);
   TargetIteratorType ti(imgTarget,region);
-  ri.Begin();
   while(!ri.IsAtEnd())
   {
     p[0] = ri.GetIndex()[0];
@@ -124,7 +123,6 @@ int main()
   }
 
 
-  ti.Begin();
   while(!ti.IsAtEnd())
   {
     p[0] = ti.GetIndex()[0];

@@ -73,11 +73,10 @@ ComputeMoments( ImageType * image )
   typedef typename ImageType::IndexType IndexType;
     
   ImageRegionIteratorWithIndex< ImageType > it( image,
-                                   image->GetRequestedRegion() ); 
+                                                image->GetRequestedRegion() ); 
 
-  it.Begin();
   while( !it.IsAtEnd() )
-  {
+    {
     double value = it.Value();
     IndexType index = it.GetIndex();
     Point<double,ImageDimension> indexPosition;

@@ -77,7 +77,7 @@ int main()
   // Fill image with a ramp
   itk::ImageRegionIteratorWithIndex<ImageType> iter(image, region);
   PixelType value;
-  for (iter.Begin(); !iter.IsAtEnd(); ++iter) {
+  for (; !iter.IsAtEnd(); ++iter) {
     index = iter.GetIndex();
     value = index[0] + index[1];
     iter.Set(value);
@@ -109,7 +109,7 @@ int main()
   itk::ImageRegionIteratorWithIndex<ImageType>
       iter2(resample->GetOutput(), region2);
   PixelType pixval;
-  for (iter2.Begin(); !iter2.IsAtEnd(); ++iter2) {
+  for (; !iter2.IsAtEnd(); ++iter2) {
     index  = iter2.GetIndex();
     value  = iter2.Get();
     pixval = value;

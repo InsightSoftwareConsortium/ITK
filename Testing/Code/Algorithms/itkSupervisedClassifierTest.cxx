@@ -87,7 +87,6 @@ int main()
     itk::ImageRegionIterator< VecImageType > VecIterator;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
-  outIt = outIt.Begin();
 
 
   //--------------------------------------------------------------------------
@@ -160,7 +159,6 @@ int main()
 
   ClassImageIterator 
 	  classoutIt( classImage, classImage->GetBufferedRegion() );
-  classoutIt = classoutIt.Begin();
 
 
 
@@ -278,11 +276,9 @@ int main()
   //Print the gaussian classified image
   ClassImageIterator labeloutIt( outClassImage, 
                                  outClassImage->GetBufferedRegion() );
-  labeloutIt = labeloutIt.Begin();
-  ClassImageIterator labeloutItEnd = labeloutIt.End();
 
   int i=0;
-  while(labeloutIt != labeloutItEnd)
+  while(!labeloutIt.IsAtEnd())
     {
     //Print the classified index
     int classIndex = (int) labeloutIt.Get();
@@ -292,12 +288,11 @@ int main()
     }//end while
 
   //Verify if the results were as per expectation
-  labeloutIt = labeloutIt.Begin();
-  labeloutItEnd = labeloutIt.End();
+  labeloutIt.GoToBegin();
   bool passTest = true;
 
   //Loop through the data set
-  while(labeloutIt != labeloutItEnd)
+  while(!labeloutIt.IsAtEnd())
     {
     int classIndex = (int) labeloutIt.Get();
     if (classIndex != 2)

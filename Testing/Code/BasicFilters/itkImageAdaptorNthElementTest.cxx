@@ -98,8 +98,6 @@ int main()
   initialPixelValue[ 1 ] = 11;
   initialPixelValue[ 2 ] = 17;
 
-
-  it.Begin();
   while( !it.IsAtEnd() ) 
   {
     it.Set( initialPixelValue );  
@@ -107,7 +105,7 @@ int main()
   }
 
   std::cout << "Initial Container Image Values : " << std::endl;
-  it.Begin();
+  it.GoToBegin();
   while( !it.IsAtEnd() ) 
   {
     myIndexType index = it.GetIndex();
@@ -146,7 +144,6 @@ int main()
 
   myFloatPixelType initialFloatValue = 5.0;
 
-  itf.Begin();
   while( !itf.IsAtEnd() ) 
   {
     itf.Set( initialFloatValue );  
@@ -154,7 +151,7 @@ int main()
   }
 
   std::cout << "Initial Float Image Values : " << std::endl;
-  itf.Begin();
+  itf.GoToBegin();
   while( !itf.IsAtEnd() ) 
   {
     myIndexType index = itf.GetIndex();
@@ -231,7 +228,6 @@ int main()
 
   std::cout << std::endl;
   std::cout << "Filter Output :" << std::endl;
-  ito.Begin();
   while( !ito.IsAtEnd() ) 
   {
     myIndexType index = ito.GetIndex();
@@ -260,7 +256,7 @@ int main()
   
   std::cout << std::endl;
   std::cout << "Second Filter Output :" << std::endl;
-  ito.Begin();
+  ito.GoToBegin();
   while( !ito.IsAtEnd() ) 
   {
     myIndexType index = ito.GetIndex();
@@ -289,7 +285,7 @@ int main()
 
   std::cout << std::endl;
   std::cout << "Second Filter Output :" << std::endl;
-  ito.Begin();
+  ito.GoToBegin();
   while( !ito.IsAtEnd() ) 
   {
     myIndexType index = ito.GetIndex();

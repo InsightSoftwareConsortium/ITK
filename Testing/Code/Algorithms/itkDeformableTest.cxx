@@ -98,7 +98,6 @@ int main(){
   typedef itk::ImageRegionIteratorWithIndex< VecImageType > VecIterator;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
-  outIt.Begin();
 
   //Set up the vector to store the image  data
   typedef VecImageType::PixelType     DataVector;
@@ -141,8 +140,6 @@ int main(){
   typedef  itk::ImageRegionIteratorWithIndex<ClassImageType>  ClassImageIterator;
 
   ClassImageIterator classoutIt( classImage, classImage->GetBufferedRegion() );
-
-  classoutIt.Begin();
 
   i = 0;
   while ( !classoutIt.IsAtEnd() ) {
@@ -199,7 +196,6 @@ int main(){
 
   //Print the Gibbs Prior labelled image
   ClassImageIterator labeloutIt( outClassImage, outClassImage->GetBufferedRegion() );
-  labeloutIt.Begin();
 
   i = 0;
   while ( !labeloutIt.IsAtEnd() ) {
@@ -250,7 +246,6 @@ int main(){
   outputimg->Allocate();
   	
   itk::ImageRegionIteratorWithIndex <ObjectImageType> it(outputimg, outregion);
-  it.Begin();	
   while( !it.IsAtEnd()) {	
 	it.Set(0);	
 	++it;
@@ -301,8 +296,8 @@ int main(){
   fwrite(TestImage1, 2, IMGWIDTH*IMGHEIGHT, output);
   fclose(output);
 */
-  it.Begin();
-  classoutIt.Begin();
+  it.GoToBegin();
+  classoutIt.GoToBegin();
   while( !it.IsAtEnd()) {	
     if (classoutIt.Get() == 1) classoutIt.Set(0);
 	if (it.Get() == 1) classoutIt.Set(1);	
@@ -310,7 +305,7 @@ int main(){
 	++classoutIt;
   }
 
-  outIt.Begin();
+  outIt.GoToBegin();
   i = 0;
   while ( !outIt.IsAtEnd() ) { 
     dblVec[0] = TestImage[i]; 
@@ -323,7 +318,7 @@ int main(){
 // to refine the gibbs prior model parameters.   
   applyGibbsImageFilter->Advance();
 
-  labeloutIt.Begin();
+  labeloutIt.GoToBegin();
 
   i = 0;
   while ( !labeloutIt.IsAtEnd() ) {

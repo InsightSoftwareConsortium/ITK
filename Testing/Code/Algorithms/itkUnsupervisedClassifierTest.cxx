@@ -95,7 +95,6 @@ int main()
     itk::ImageRegionIterator< VecImageType > VecIterator;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
-  outIt = outIt.Begin();
 
   //--------------------------------------------------------------------------
   //Manually create and store each vector

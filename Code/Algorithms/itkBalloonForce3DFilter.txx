@@ -454,7 +454,6 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 
   ImageRegionIteratorWithIndex <ImageType> it(this->Potential, region);
 
-  it.Begin();
 */
 
   int slicediv = this->m_Resolution[1]; 
@@ -1155,7 +1154,6 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   typename TInputMesh::PointType s, d;
 
   ImageIterator	it(m_Gradient, m_Gradient->GetBufferedRegion());
-  it.Begin();
 
   InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
   InputPointsContainerIterator	locations = myLocations->Begin();

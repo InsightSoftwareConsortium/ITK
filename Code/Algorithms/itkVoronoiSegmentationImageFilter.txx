@@ -519,8 +519,6 @@ TakeAPrior(BinaryObjectImage* aprior)
   RegionType region = m_InputImage->GetRequestedRegion();
   itk::ImageRegionIteratorWithIndex <BinaryObjectImage> ait(aprior, region);
   itk::ImageRegionIteratorWithIndex <InputImageType> iit(m_InputImage, region);
-  ait.Begin();
-  iit.Begin();
 
   int num=0;
   float addp=0;
@@ -552,8 +550,8 @@ TakeAPrior(BinaryObjectImage* aprior)
   float addbb=0;
   int numb=0;
 
-  ait.Begin();
-  iit.Begin();
+  ait.GoToBegin();
+  iit.GoToBegin();
   for(i=0;i<miny;i++){
     for(j=0;j<m_Size[0];j++){
       ++ait;
@@ -606,11 +604,11 @@ DrawDiagram(VDImagePointer result,unsigned char incolor,
 
   RegionType region = m_InputImage->GetRequestedRegion();
   itk::ImageRegionIteratorWithIndex <VDImage> vdit(result, region);
-  vdit.Begin();
-  while( !vdit.IsAtEnd()) {    
+  while( !vdit.IsAtEnd())
+    {    
     vdit.Set(0);
     ++vdit;
-  }
+    }
   
   EdgeIterator eit;
   EdgeIterator eitend =	m_WorkingVD->EdgeEnd();  
@@ -693,11 +691,11 @@ MakeSegmentBoundary(void)
 
   RegionType region = m_InputImage->GetRequestedRegion(); 
   itk::ImageRegionIteratorWithIndex <OutputImageType> oit(m_OutputImage, region); 
-  oit.Begin(); 
-  while( !oit.IsAtEnd()) {     
-  oit.Set(0); 
-  ++oit; 
-  }
+  while( !oit.IsAtEnd())
+    {     
+    oit.Set(0); 
+    ++oit; 
+    }
 
   NeighborIdIterator nit;
   NeighborIdIterator nitend;
@@ -731,11 +729,11 @@ MakeSegmentObject(void)
 {
   RegionType region = m_InputImage->GetRequestedRegion(); 
   itk::ImageRegionIteratorWithIndex <OutputImageType> oit(m_OutputImage, region); 
-  oit.Begin(); 
-  while( !oit.IsAtEnd()) {     
-  oit.Set(0); 
-  ++oit; 
-  }
+  while( !oit.IsAtEnd())
+    {     
+    oit.Set(0); 
+    ++oit; 
+    }
   CellPointer currCell; 
   PointIdIterator currPit;
   PointIdIterator currPitEnd;

@@ -1328,16 +1328,13 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
   ImageRegionIteratorWithIndex <OutputImageType> it3(this->m_SegmentObject,region1);
 
-  it1.Begin();
-  it2.Begin();
-
   while(!it1.IsAtEnd())
-  {
-	it1.Set(0);
-	it2.Set(0);
-	++it1;
-	++it2;
-  }
+    {
+    it1.Set(0);
+    it2.Set(0);
+    ++it1;
+    ++it2;
+    }
 
   int object_flag = 1;
   FastTracking(object_flag);
@@ -1345,66 +1342,64 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   int count, old_count;
   	
   if(m_Objects > 1)
-  {
-
-	object_flag = 0;
+    {
+    
+    object_flag = 0;
     FastTracking(object_flag);
+    
+    count = 0;
+    old_count = 0;
+    bool flag = 1;
+    int iteration = 0; 
+    
+    
+    while(flag)
+      {
+      old_count = count;
+      count  = 0;
+      flag = 0;
+      iteration = iteration + 1;
+      
+      it1.GoToBegin();
+      it2.GoToBegin();
+      it3.GoToBegin();
 
-	count = 0;
-	old_count = 0;
-	bool flag = 1;
-	int iteration = 0; 
-
-	
-	while(flag)
-	{
-		old_count = count;
-		count  = 0;
-		flag = 0;
-		iteration = iteration + 1;
-
-		it1.Begin();
-		it2.Begin();
-		it3.Begin();
-
-		while(!it1.IsAtEnd())
-		{
-			if(it1.Get() > it2.Get())
-			{
-				it3.Set(1);
-
-				count++;
-
-				InputIndexType current = it1.GetIndex();
-				if(current[0]>0)
-					m_Xaffinity[current[2]*prow*pcol + current[1]*pcol + current[0]-1] = 0;
-				if(current[1]>0)
-					m_Yaffinity[current[2]*prow*pcol + (current[1]-1)*pcol + current[0]] = 0;
-				if(current[2]>0)
-					m_Zaffinity[(current[2]-1)*prow*pcol + current[1]*pcol + current[0]] = 0;
-			}
-			else
-				it3.Set(0);
-			++it1;
-			++it2;
-			++it3;
-		}
-		if(count>old_count)
-		{
-			flag = 1;
-
-			it2.Begin();
-			while(!it2.IsAtEnd())
-			{
-				it2.Set(0);
-				++it2;
-			}
-			FastTracking(0);  /* tracking background again */
-		}
-	}
-  }
-
-
+      while(!it1.IsAtEnd())
+        {
+        if(it1.Get() > it2.Get())
+          {
+          it3.Set(1);
+          
+          count++;
+          
+          InputIndexType current = it1.GetIndex();
+          if(current[0]>0)
+            m_Xaffinity[current[2]*prow*pcol + current[1]*pcol + current[0]-1] = 0;
+          if(current[1]>0)
+            m_Yaffinity[current[2]*prow*pcol + (current[1]-1)*pcol + current[0]] = 0;
+          if(current[2]>0)
+            m_Zaffinity[(current[2]-1)*prow*pcol + current[1]*pcol + current[0]] = 0;
+          }
+        else
+          it3.Set(0);
+        ++it1;
+        ++it2;
+        ++it3;
+        }
+      if(count>old_count)
+        {
+        flag = 1;
+        
+        it2.GoToBegin();
+        while(!it2.IsAtEnd())
+          {
+          it2.Set(0);
+          ++it2;
+          }
+        FastTracking(0);  /* tracking background again */
+        }
+      }
+    }
 }
 
 } // end namespace itk

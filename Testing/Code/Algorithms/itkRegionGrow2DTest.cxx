@@ -92,7 +92,6 @@ int main()
 
   ImageIterator 
 	inIt( image, image->GetBufferedRegion() );
-  inIt = inIt.Begin();
 
   //Set up the vector to store the image  data
   typedef ImageType::PixelType::VectorType ImageData;
@@ -220,14 +219,11 @@ int main()
 
   LabelImageIterator 
 	labelIt( labelledImage, labelledImage->GetBufferedRegion() );
-  labelIt = labelIt.Begin();
-  LabelImageIterator labelItEnd = labelIt.End();
-
 
   unsigned short pixelLabel;  
   unsigned short maxpixelLabel=0;
 
-  while(labelIt != labelItEnd)
+  while(!labelIt.IsAtEnd())
   {
     pixelLabel = (unsigned short) labelIt.Get();
 
@@ -259,8 +255,8 @@ int main()
   }
 
   //Print out the resulting labelled image
-  labelIt = labelIt.Begin();
-  while(labelIt != labelItEnd)
+  labelIt.GoToBegin();
+  while(!labelIt.IsAtEnd())
   {
     for(int k=0; k<IMGWIDTH;k++)
 	  {

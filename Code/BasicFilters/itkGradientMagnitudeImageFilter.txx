@@ -108,7 +108,7 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
     }
 
   nit.GoToBegin();
-  it = it.Begin();
+  it.GoToBegin();
 
   while( ! nit.IsAtEnd() )
     {
@@ -133,7 +133,6 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
       it = ImageRegionIterator<OutputImageType>(output, *fit);
       bit.OverrideBoundaryCondition(&nbc);
       bit.GoToBegin();
-      it = it.Begin();
 
       while ( ! bit.IsAtEnd() )
         {

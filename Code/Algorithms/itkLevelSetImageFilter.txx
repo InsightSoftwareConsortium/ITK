@@ -222,8 +222,6 @@ LevelSetImageFilter<TLevelSet>
     inputPtr, inputPtr->GetBufferedRegion() );
   IteratorType inBuffIt = IteratorType( 
     m_InputBuffer, m_InputBuffer->GetBufferedRegion() );
-  inIt = inIt.Begin();
-  inBuffIt = inBuffIt.Begin();
   
   while( !inIt.IsAtEnd() )
     {
@@ -263,9 +261,6 @@ LevelSetImageFilter<TLevelSet>
   IteratorType outBuffIt = IteratorType( 
     m_OutputBuffer, m_OutputBuffer->GetBufferedRegion() );
 
-  outIt = outIt.Begin();
-  outBuffIt = outBuffIt.Begin();
-  
   while( !outIt.IsAtEnd() )
     {
     outIt.Set( outBuffIt.Get() );

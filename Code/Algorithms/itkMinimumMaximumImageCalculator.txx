@@ -71,7 +71,6 @@ MinimumMaximumImageCalculator<TInputImage>
   m_Maximum = NumericTraits<PixelType>::min() ;
   m_Minimum = NumericTraits<PixelType>::max() ;
 
-  it.Begin();
   while( !it.IsAtEnd() )
   {
     if (it.Get() > m_Maximum) 
@@ -99,7 +98,6 @@ MinimumMaximumImageCalculator<TInputImage>
   ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
   m_Minimum = NumericTraits<PixelType>::max() ;
 
-  it.Begin();
   while( !it.IsAtEnd() )
   {
     if (it.Get() < m_Minimum) 
@@ -122,7 +120,6 @@ MinimumMaximumImageCalculator<TInputImage>
   ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
   m_Maximum = NumericTraits<PixelType>::min() ;
 
-  it.Begin();
   while( !it.IsAtEnd() )
   {
     if (it.Get() > m_Maximum) 

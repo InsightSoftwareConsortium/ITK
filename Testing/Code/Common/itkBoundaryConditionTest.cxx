@@ -66,7 +66,6 @@ void filln(itk::Image<float, 2> *img)
   
   itk::ImageRegionIterator<itk::Image<float, 2> > it(img, img->GetRequestedRegion());
 
-  it.Begin();
   while( ! it.IsAtEnd() )
     {
       it.Set(100.0 * j + i);
@@ -163,10 +162,10 @@ int main()
 
   println("Initializing some images");
   
-  //  for (it2D = it2D.Begin(); it2D != it2D.End(); ++it2D) *it2D = 1.0f;
+  //  for (; !it2D.IsAtEnd(); ++it2D) *it2D = 1.0f;
   filln(image2D);
-  for (it3D = it3D.Begin(); it3D != it3D.End(); ++it3D) it3D.Set(1.0f);
-  for (itND = itND.Begin(); itND != itND.End(); ++itND) itND.Set(1.0f);
+  for (; !it3D.IsAtEnd(); ++it3D) it3D.Set(1.0f);
+  for (; !itND.IsAtEnd(); ++itND) itND.Set(1.0f);
   
   println("Initializing smart neighborhood iterators");
   itk::Size<2> sz2;
@@ -193,7 +192,7 @@ int main()
    SmartIteratorType::NeighborhoodType temp2N;
    temp2N = it2d.GetNeighborhood(); // initialize
 
-   it2d = it2d.End();
+   it2d.GoToEnd();
    --it2d;
    tempN = it2d.GetNeighborhood();
 
@@ -206,7 +205,7 @@ int main()
    itk::ZeroFluxNeumannBoundaryCondition<ImageType2D> neumann;
    for (int yak = 0; yak < 2; ++yak)
      {
-       for (it2d = it2d.Begin(); it2d < it2d.End(); ++it2d)
+       for (it2d.GoToBegin(); !it2d.IsAtEnd(); ++it2d)
          {
            for (unsigned int ii = 0; ii < temp2N.Size(); ++ii)
              {

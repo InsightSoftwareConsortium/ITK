@@ -193,7 +193,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   PixelType outputPixel;
   outputPixel = m_LargeValue;
   
-  for( outIt = outIt.Begin(); !outIt.IsAtEnd(); ++outIt )
+  for( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
     {
     outIt.Set( outputPixel );
     }
@@ -206,7 +206,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   LabelIterator typeIt( m_LabelImage,
     m_LabelImage->GetBufferedRegion() );
 
-  for( typeIt = typeIt.Begin(); !typeIt.IsAtEnd(); ++typeIt )
+  for( typeIt.GoToBegin(); !typeIt.IsAtEnd(); ++typeIt )
     {
     typeIt.Set( FarPoint );
     }

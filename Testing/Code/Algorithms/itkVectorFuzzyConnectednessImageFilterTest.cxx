@@ -134,7 +134,6 @@ int main()
 	fread(data,1,DEEP*HEIGHT*WIDTH*3,fin);
 */
 	itk::ImageRegionIteratorWithIndex <VectorImage3D> it(inputimg, region);
-	it.Begin();
 
 	int k=0;
 	IntVector value;
@@ -183,7 +182,6 @@ int main()
 
 	itk::ImageRegionIteratorWithIndex <BinaryImage3D> ot(testFuzzy->GetOutput(), region);
 
-	ot.Begin();
 
 	unsigned char* test = new unsigned char[LENGTH*HEIGHT*WIDTH];
 

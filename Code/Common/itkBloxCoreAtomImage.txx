@@ -93,7 +93,7 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
                                                   m_BoundaryPointImage->GetRequestedRegion() );
   
   // Iterate through the entire image (all pixels) and look for core atoms
-  for ( imageIt.Begin(); !imageIt.IsAtEnd(); ++imageIt)
+  for ( ; !imageIt.IsAtEnd(); ++imageIt)
     {
     // The iterator for accessing linked list info
     itk::BloxPixel::iterator bpiterator;

@@ -256,16 +256,12 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   ImageRegionIteratorWithIndex <UShortImage> it(this->m_FuzzyScene, regionIN);
   ImageRegionIteratorWithIndex <OutputImageType> ot(this->m_SegmentObject, regionOUT);
 
-
-  it.Begin();
-  ot.Begin();
-
   while( !it.IsAtEnd())
-  {    
+    {    
     ot.Set(it.Get() > activeThreshold);
-	++it;
-	++ot;
-  }
+    ++it;
+    ++ot;
+    }
 }
 
 
@@ -296,13 +292,11 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
   ImageRegionIteratorWithIndex <UShortImage> it(this->m_FuzzyScene, region);
 
-  it.Begin();
-
   while( !it.IsAtEnd())
-  {    
+    {    
     it.Set(0);
-	++it;
-  }
+    ++it;
+    }
 
   RegionType region1;
   region1.SetSize(m_size);

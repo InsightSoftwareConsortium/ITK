@@ -82,7 +82,6 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
 
 
   TargetIteratorType ti( target, targetRegion );
-  ti.Begin();
 
   typename TTarget::IndexType index;
 

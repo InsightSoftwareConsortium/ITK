@@ -141,8 +141,8 @@ CurvatureFlowImageFilter<TLevelSet>
     double value;
 
     // walk the output level set
-    for (outIt = outIt.Begin(), inIt = inIt.Begin(); 
-      outIt != outIt.End(); ++outIt, ++inIt)
+    for (outIt.GoToBegin(), inIt.GoToBegin(); 
+      !outIt.IsAtEnd(); ++outIt, ++inIt)
       {
 
       value = (double) inIt.Get();

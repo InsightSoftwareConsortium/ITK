@@ -57,7 +57,6 @@ void FillRegionSequential(itk::SmartPointer< itk::Image<T, N> > I)
   itk::ImageRegionIterator<itk::Image<T, N> > data(I, I->GetRequestedRegion());
 
   Index = (I->GetRequestedRegion()).GetSize();
-  data.Begin();
   
   for (ArrayLength=1, iDim = 0; iDim<N; ++iDim)
 	{
@@ -112,7 +111,7 @@ void PrintRegion(itk::SmartPointer< itk::Image<T, VDimension> > I)
   
   itk::ImageRegionIterator<itk::Image<T, VDimension> > iter( I, I->GetRequestedRegion());
     
-  for (iter.Begin(); ! iter.IsAtEnd(); ++iter)
+  for (; ! iter.IsAtEnd(); ++iter)
     {
       std::cout << iter.Get() << " ";
 

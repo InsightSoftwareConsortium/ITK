@@ -69,7 +69,6 @@ int main(void){
   itk::ImageRegionIteratorWithIndex <UShortImage> it(inputIMG, region);
 
   // background: random field with mean: 500, std: 50
-  it.Begin();
   while( !it.IsAtEnd()) {    
     it.Set((unsigned short)(vnl_sample_uniform(450,550)) );
     ++it;
@@ -109,7 +108,6 @@ int main(void){
   itk::ImageRegionIteratorWithIndex <UShortImage> ot(testVorseg->GetOutput(), region);
 
   unsigned short TestImg[65536];
-  ot.Begin();
   int k=0;
   while( !ot.IsAtEnd()){
     TestImg[k]=ot.Get();
@@ -123,7 +121,7 @@ int main(void){
   fclose(imgfile);
  
   imgfile = fopen("input.raw","wb");
-  it.Begin();
+  it.GoToBegin();
   k=0;
   while( !it.IsAtEnd()){
     TestImg[k]=it.Get();

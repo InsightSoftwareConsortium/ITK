@@ -89,7 +89,6 @@ void FillImage(itk::Image<itk::Index<N>,N> *img)
   loop.Fill(0);
   itk::ImageRegionIterator<ImageType> it(img, img->GetRequestedRegion());
   
-  it.Begin();
   while (! it.IsAtEnd() )
     {
       it.Value() = loop;

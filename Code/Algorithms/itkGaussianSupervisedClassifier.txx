@@ -137,8 +137,6 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   TrainingImageIterator 
           trainingImageIt( trainingImage, trainingImage->GetBufferedRegion() );
 
-  trainingImageIt.Begin();
-
 
   //-------------------------------------------------------------------
 
@@ -164,7 +162,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     m_Covariance[i].fill( NULL );
   }
 
-  for ( inIt.Begin(); ! inIt.IsAtEnd(); ++inIt, ++trainingImageIt ) 
+  for ( inIt.GoToBegin(); ! inIt.IsAtEnd(); ++inIt, ++trainingImageIt ) 
   {
     unsigned int classIndex = trainingImageIt.Get();
         
@@ -338,8 +336,6 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   TrainingImageIterator 
     classifiedIt( classifiedImage, classifiedImage->GetBufferedRegion() );
 
-  classifiedIt.Begin();
-
   //--------------------------------------------------------------------
 
   //Set up the vector to store the image  data
@@ -348,7 +344,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   ClassifiedImagePixelType  outClassified;
 
   m_NumClasses = this->GetNumClasses();
-  for ( inIt.Begin(); ! inIt.IsAtEnd(); ++inIt, ++classifiedIt ) 
+  for ( inIt.GoToBegin(); ! inIt.IsAtEnd(); ++inIt, ++classifiedIt ) 
   {
     inImgVec = inIt.Get();
     int classifiedIndex = GetPixelClass( inImgVec );

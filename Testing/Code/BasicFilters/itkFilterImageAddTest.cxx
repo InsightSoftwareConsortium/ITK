@@ -109,7 +109,6 @@ int main()
 
   // Initialize the content of Image A
   std::cout << "First operand " << std::endl;
-  it1.Begin();
   while( !it1.IsAtEnd() ) 
   {
     it1.Set( 2.0 );
@@ -122,7 +121,6 @@ int main()
 
   // Initialize the content of Image B
   std::cout << "Second operand " << std::endl;
-  it2.Begin();
   while( !it2.IsAtEnd() ) 
   {
     it2.Set( 3.0 );
@@ -157,7 +155,6 @@ int main()
   
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
-  it3.Begin();
   while( !it3.IsAtEnd() ) 
   {
     std::cout << it3.Get() << std::endl;

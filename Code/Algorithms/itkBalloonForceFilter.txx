@@ -449,7 +449,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   ImageRegionIteratorWithIndex <ImageType> it(this->Potential, region);
 
-  it.Begin();
 */
 
   int slicediv = m_NumNodes / this->m_Resolution[0]; 

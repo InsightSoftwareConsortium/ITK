@@ -75,7 +75,7 @@ int main()
      it2D(image2D, image2D->GetRequestedRegion());  
   println("Initializing an image");
   float q = 0.00f;
-  for (it2D = it2D.Begin(); it2D != it2D.End(); ++it2D)
+  for (; !it2D.IsAtEnd(); ++it2D)
     {
       it2D.Value() = ::sin(q);
       q = q + 0.10f;

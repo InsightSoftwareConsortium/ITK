@@ -57,8 +57,6 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
   ImageRegionIterator<TInputImage>  in(input, output->GetRequestedRegion());
   ImageRegionIterator<TInputImage> out(output, output->GetRequestedRegion());
 
-  in.Begin();
-  out.Begin();
   while( ! out.IsAtEnd() )
     {
       out.Value() =  in.Get();  // Supports input image adaptors only

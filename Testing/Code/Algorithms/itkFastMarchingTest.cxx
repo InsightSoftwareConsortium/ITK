@@ -82,7 +82,6 @@ int main()
   itk::ImageRegionIterator<FloatImage>
     iterator( output, output->GetBufferedRegion() );
 
-  iterator = iterator.Begin();
   bool passed = true;
 
   for( ; !iterator.IsAtEnd(); ++iterator )

@@ -173,7 +173,7 @@ int main()
   itk::ImageRegionIteratorWithIndex<ScalarImage> it2(o3, region);
 
   i = 0;
-  for ( it2.Begin(); !it2.IsAtEnd(); ++it2)
+  for ( ; !it2.IsAtEnd(); ++it2)
     {
     it2.Set( scalar );
     ++i;

@@ -208,9 +208,10 @@ WatershedImageFilter<TInputImage, TOutputImage>
   ImageRegionIterator<TOutputImage>
     out_it(output, output->GetRequestedRegion());
 
-  out_it = out_it.Begin();
-  for (in_it = in_it.Begin(); in_it  < in_it.End(); ++in_it, ++out_it)
-    {    out_it.Set( in_it.Get() );    }
+  for ( ; !in_it.IsAtEnd(); ++in_it, ++out_it)
+    {
+    out_it.Set( in_it.Get() );
+    }
 }
 
 template< class TInputImage, class TOutputImage>
@@ -534,10 +535,10 @@ WatershedImageFilter<TInputImage, TOutputImage>
 
   minImageValue = NumericTraits<InputScalarType>::Zero;
   maxImageValue = NumericTraits<InputScalarType>::Zero;
-  for (it = it.Begin(); it < it.End(); ++it)
+  for (; !it.IsAtEnd(); ++it)
     {
-      if (it.Get() < minImageValue) minImageValue = it.Get();
-      if (it.Get() > maxImageValue) maxImageValue = it.Get();
+    if (it.Get() < minImageValue) minImageValue = it.Get();
+    if (it.Get() > maxImageValue) maxImageValue = it.Get();
     }  
 }
 
@@ -552,11 +553,10 @@ WatershedImageFilter<TInputImage, TOutputImage>
   ImageRegionIterator<InputImageType>
     it_out(out, out->GetRequestedRegion());
 
-  for (it_in = it_in.Begin(), it_out = it_out.Begin(); it_in < it_in.End();
-       ++it_in, ++it_out)
+  for (; !it_in.IsAtEnd(); ++it_in, ++it_out)
     {
-      if (it_in.Get() < minimumValue) it_out.Set( minimumValue );
-      else it_out.Set( it_in.Get() );
+    if (it_in.Get() < minimumValue) it_out.Set( minimumValue );
+    else it_out.Set( it_in.Get() );
     }
 }
 
@@ -649,7 +649,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
   mT[8][0] =  1;  mT[8][1] =  1;
 
   // Search the image and trace the unlabeled pixels to a labeled region.
-  for (it = it.Begin(); it < it.End(); ++it)
+  for (; !it.IsAtEnd(); ++it)
     {
       if (it.Get() == UNLABELED_PIXEL) // Not part of a flat region or single
         {                         // pixel minimum.
@@ -811,10 +811,10 @@ WatershedImageFilter<TInputImage, TOutputImage>
   LabelTableType::const_iterator temp;
   ImageRegionIterator<OutputImageType>
     it(img, img->GetRequestedRegion());
-  for ( it = it.Begin(); it < it.End(); ++it)
+  for ( ; !it.IsAtEnd(); ++it)
     {
-      temp = map.find(it.Get());
-      if (temp != map.end()) { it.Set( (*temp).second ); }
+    temp = map.find(it.Get());
+    if (temp != map.end()) { it.Set( (*temp).second ); }
     }
   
 }

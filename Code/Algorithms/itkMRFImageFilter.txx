@@ -160,15 +160,11 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   LabelledImageIterator  
     labelledImageIt( m_LabelledImage, m_LabelledImage->GetBufferedRegion() );
 
-  labelledImageIt.Begin();
-
   //--------------------------------------------------------------------
   // Set the iterators to the output image buffer
   //--------------------------------------------------------------------
   LabelledImageIterator  
     outImageIt( outputPtr, outputPtr->GetBufferedRegion() );
-
-  outImageIt.Begin();
 
   //--------------------------------------------------------------------
 
@@ -401,16 +397,12 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   InputImageIterator  inputImageIt(m_InputImage, 
                                    m_InputImage->GetBufferedRegion() );
 
-  inputImageIt.Begin();
- 
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the classified image
   //--------------------------------------------------------------------
   LabelledImageIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
-  labelledImageIt.Begin();
- 
   //---------------------------------------------------------------------
   // Loop through the data set and classify the data
   //---------------------------------------------------------------------

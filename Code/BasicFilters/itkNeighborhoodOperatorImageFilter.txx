@@ -82,7 +82,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
     nit(m_Operator.GetRadius(), input, *fit);
   ImageRegionIterator<OutputImageType> it(output, *fit);
   nit.GoToBegin();
-  it = it.Begin();
+  it.GoToBegin();
   //  nit.Print(std::cout);
   while( ! nit.IsAtEnd() )
     {
@@ -102,7 +102,6 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
       //  bit.Print(std::cout);
       it = ImageRegionIterator<OutputImageType>(output, *fit);
       bit.GoToBegin();
-      it = it.Begin();
       while ( ! bit.IsAtEnd() )
         {
           it.Value() = smartInnerProduct(bit, m_Operator);

@@ -98,8 +98,6 @@ int main()
   initialRGBPixelValue.SetBlue( 30 );
   initialRGBPixelValue.SetGreen( 20 );
 
-
-  it.Begin();
   while( !it.IsAtEnd() ) 
   {
     it.Set( initialRGBPixelValue );  
@@ -107,7 +105,7 @@ int main()
   }
 
   std::cout << "Initial RGBPixel Image Values : " << std::endl;
-  it.Begin();
+  it.GoToBegin();
   while( !it.IsAtEnd() ) 
   {
     myIndexType index = it.GetIndex();
@@ -146,7 +144,6 @@ int main()
 
   myFloatPixelType initialFloatValue = 5.0;
 
-  itf.Begin();
   while( !itf.IsAtEnd() ) 
   {
     itf.Set( initialFloatValue );  
@@ -154,7 +151,7 @@ int main()
   }
 
   std::cout << "Initial Float Image Values : " << std::endl;
-  itf.Begin();
+  itf.GoToBegin();
   while( !itf.IsAtEnd() ) 
   {
     myIndexType index = itf.GetIndex();
@@ -226,7 +223,6 @@ int main()
 
   std::cout << std::endl;
   std::cout << "Filter Output :" << std::endl;
-  ito.Begin();
   while( !ito.IsAtEnd() ) 
   {
     myIndexType index = ito.GetIndex();

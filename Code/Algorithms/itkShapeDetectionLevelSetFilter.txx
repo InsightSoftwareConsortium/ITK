@@ -234,10 +234,6 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
     double speed;
     double value;
 
-    outBuffIt = outBuffIt.Begin();
-    inBuffIt = inBuffIt.Begin();
-    speedIt = speedIt.Begin();
-
     while( !outBuffIt.IsAtEnd() )
       {
       index = outBuffIt.GetIndex();
@@ -299,9 +295,6 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
   IteratorType outIt = IteratorType( outputPtr, 
     outputPtr->GetBufferedRegion() );
 
-  inIt = inIt.Begin();
-  outIt = outIt.Begin();
-  
   while( !inIt.IsAtEnd() )
     {
     outIt.Set( inIt.Get() );

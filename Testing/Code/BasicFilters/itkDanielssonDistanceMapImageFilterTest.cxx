@@ -84,7 +84,6 @@ int main()
   myIteratorType2D1 it2D1(inputImage2D,region2D);
 
   // Set the image to 0
-  it2D1.Begin();
   while( !it2D1.IsAtEnd() ) 
   {	
     it2D1.Set( 0 );
@@ -124,9 +123,6 @@ int main()
   it2D2.SetFirstDirection ( 0 );
   it2D2.SetSecondDirection( 1 );
 
-  it2D2.Begin();
-
-
   while( !it2D2.IsAtEnd() ) 
   {
     while( !it2D2.IsAtEndOfSlice() ) 
@@ -156,8 +152,6 @@ int main()
   it2D3.SetFirstDirection( 0 );
   it2D3.SetSecondDirection( 1 );
   
-  it2D3.Begin();
-
   while( !it2D3.IsAtEnd() ) 
   {
     while( !it2D3.IsAtEndOfSlice() ) 
@@ -184,8 +178,6 @@ int main()
 
   it2D4.SetFirstDirection( 0 );
   it2D4.SetSecondDirection( 1 );
-
-  it2D4.Begin();
 
   while( !it2D4.IsAtEnd() ) 
   {

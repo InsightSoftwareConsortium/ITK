@@ -88,7 +88,6 @@ int main()
   typedef itk::ImageRegionIteratorWithIndex< VecImageType > VecIterator;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
-  outIt.Begin();
 
   //Set up the vector to store the image  data
   typedef VecImageType::PixelType     DataVector;
@@ -222,8 +221,6 @@ int main()
 
   ClassImageIterator classoutIt( classImage, classImage->GetBufferedRegion() );
 
-  classoutIt.Begin();
-
 
 
   //--------------------------------------------------------------------------
@@ -338,7 +335,6 @@ int main()
 
   //Print the mrf labelled image
   ClassImageIterator labeloutIt( outClassImage, outClassImage->GetBufferedRegion() );
-  labeloutIt.Begin();
 
   //Verify if the results were as per expectation
   bool passTest = true;

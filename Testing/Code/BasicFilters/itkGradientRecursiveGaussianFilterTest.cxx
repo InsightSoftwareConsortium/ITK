@@ -104,7 +104,6 @@ int main()
 
   // Initialize the content of Image A
   std::cout << "Input Image initialization " << std::endl;
-  it.Begin();
   while( !it.IsAtEnd() ) 
   {
     it.Set( 0.0 );
@@ -125,7 +124,6 @@ int main()
   myIteratorType itb( inputImage, region );
 
   // Initialize the content the internal region
-  itb.Begin();
   while( !itb.IsAtEnd() ) 
   {
     itb.Set( 100.0 );
@@ -163,7 +161,6 @@ int main()
   
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
-  itg.Begin();
   while( !itg.IsAtEnd() ) 
   {
     std::cout << itg.Get() << std::endl;

@@ -244,13 +244,13 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   double value;
 
-  inputIt = inputIt.Begin();
-  outputIt = outputIt.Begin();
-  tempIt = tempIt.Begin();
+  inputIt.GoToBegin();
+  outputIt.GoToBegin();
+  tempIt.GoToBegin();
   for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
-    auxOutputIt[k] = auxOutputIt[k].Begin();
-    auxTempIt[k] = auxTempIt[k].Begin();
+    auxOutputIt[k].GoToBegin();
+    auxTempIt[k].GoToBegin();
     }
 
   while( !inputIt.IsAtEnd() )
@@ -282,13 +282,13 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   m_Marcher->SetAuxiliaryTrialValues( m_Locator->GetAuxInsideValues() );
   m_Marcher->Update();
 
-  inputIt = inputIt.Begin();
-  outputIt = outputIt.Begin();
-  tempIt = tempIt.Begin();
+  inputIt.GoToBegin();
+  outputIt.GoToEnd();
+  tempIt.GoToBegin();
   for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
-    auxOutputIt[k] = auxOutputIt[k].Begin();
-    auxTempIt[k] = auxTempIt[k].Begin();
+    auxOutputIt[k].GoToBegin();
+    auxTempIt[k].GoToBegin();
     }
 
   while( !inputIt.IsAtEnd() )
@@ -355,8 +355,8 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   // all external pixels to positive infinity
   double value;
 
-  inputIt = inputIt.Begin();
-  outputIt = outputIt.Begin();
+  inputIt.GoToBegin();
+  outputIt.GoToBegin();
 
   while( !inputIt.IsAtEnd() )
     {
@@ -389,7 +389,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     ptr = m_OutputAuxImage[k];
     auxOutputIt[k] = AuxIteratorType( ptr,
       ptr->GetBufferedRegion() );
-    auxOutputIt[k] = auxOutputIt[k].Begin();
+    auxOutputIt[k].GoToBegin();
     }
   while( !auxOutputIt[0].IsAtEnd() )
     {

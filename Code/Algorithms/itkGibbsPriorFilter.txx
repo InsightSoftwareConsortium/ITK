@@ -192,8 +192,6 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   InputImageIterator  inputImageIt(m_InputImage, 
                                    m_InputImage->GetBufferedRegion() );
 
-  inputImageIt.Begin();
-
   LabelledImageIndexType offsetIndex3D = {0, 0, 0};
 
   int size = m_imgWidth * m_imgHeight * m_imgDepth;
@@ -239,8 +237,6 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 
   InputImageIterator  inputImageIt(m_InputImage, 
                                    m_InputImage->GetBufferedRegion() );
-
-  inputImageIt.Begin();
 
   LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
 
@@ -367,8 +363,6 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 	
   InputImageIterator  inputImageIt(m_InputImage, 
                                    m_InputImage->GetBufferedRegion() );
-
-  inputImageIt.Begin();
 
   LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
 
@@ -499,8 +493,6 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   LabelledImageIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
-  labelledImageIt.Begin();
-  
   int f[8];
   int j, neighborcount = 0, simnum = 0, difnum = 0, changenum = 0;
   int changeflag;
@@ -634,15 +626,11 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   LabelledImageIterator  
   labelledImageIt( m_LabelledImage, m_LabelledImage->GetBufferedRegion() );
 
-  labelledImageIt.Begin();
-
   //--------------------------------------------------------------------
   // Set the iterators to the output image buffer
   //--------------------------------------------------------------------
   LabelledImageIterator  
     outImageIt( outputPtr, outputPtr->GetBufferedRegion() );
-
-  outImageIt.Begin();
 
   //--------------------------------------------------------------------
 
@@ -720,16 +708,12 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   InputImageIterator  inputImageIt(m_InputImage, 
                                    m_InputImage->GetBufferedRegion() );
 
-  inputImageIt.Begin();
- 
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the classified image
   //--------------------------------------------------------------------
   LabelledImageIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
-  labelledImageIt.Begin();
- 
   //Varible to store the origin pixel vector value
   InputImageVectorType OriginPixelVec;
 
@@ -755,56 +739,54 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 //    int randomPixel = (int) size*rand()/32768;
 
   int i = 0;
-  labelledImageIt.Begin();
-  inputImageIt.Begin();
-  while ( !inputImageIt.IsAtEnd() ) {
+  while ( !inputImageIt.IsAtEnd() )
+    {
+    offsetIndex3D[2] = i / frame;
+    offsetIndex3D[1] = (i % frame) / m_imgHeight;
+    offsetIndex3D[0] = (i % frame) % m_imgHeight;
 
-	offsetIndex3D[2] = i / frame;
-	offsetIndex3D[1] = (i % frame) / m_imgHeight;
-	offsetIndex3D[0] = (i % frame) % m_imgHeight;
-
-	if ((i > (rowsize - 1)) && (i < (size - rowsize)) 
-		&& (i%rowsize != 0) && (i%rowsize != rowsize-1)) {
-      OriginPixelVec = inputImageIt.Get();
-      ChangedPixelVec[0] = GreyScalarBoundary(offsetIndex3D);
-	  if (OriginPixelVec[0] != ChangedPixelVec[0]) {
-		inputImageIt.Set(ChangedPixelVec);
-//		m_ErrorCounter++;
-	  }
-		double *dist = m_ClassifierPtr->GetPixelDistance( ChangedPixelVec );
-		double minDist = 1e+20;
-        int pixLabel = -1;
-
-        for( int index = 0; index < m_NumClasses; index++ )
-        {
-          if ( dist[index] < minDist )
-          {
-                  minDist = dist[index];
-                  pixLabel = index;
-          }// if
-        }// for
-/*
-		if ( dist[2] < (double)(m_BoundaryGradient) ) { 
-		  labelledImageIt.Set( 2 );
-		} else labelledImageIt.Set( 1 );
-*/
-        labelledPixel = 
-          ( LabelledImagePixelType ) labelledImageIt.Get();
-
-        //Check if the label has changed then set the change flag in all the 
-        //neighborhood of the current pixel
-        if( pixLabel != ( int ) labelledPixel )
-        {
-		  outLabelledPix = pixLabel;
-          labelledImageIt.Set( outLabelledPix );
-		  m_ErrorCounter++;
-		}		
-//	  } 
-
+    if ((i > (rowsize - 1)) && (i < (size - rowsize)) 
+        && (i%rowsize != 0) && (i%rowsize != rowsize-1)) {
+    OriginPixelVec = inputImageIt.Get();
+    ChangedPixelVec[0] = GreyScalarBoundary(offsetIndex3D);
+    if (OriginPixelVec[0] != ChangedPixelVec[0]) {
+    inputImageIt.Set(ChangedPixelVec);
+    //		m_ErrorCounter++;
     }
-	i++;
-	++labelledImageIt;
-	++inputImageIt;
+    double *dist = m_ClassifierPtr->GetPixelDistance( ChangedPixelVec );
+    double minDist = 1e+20;
+    int pixLabel = -1;
+    
+    for( int index = 0; index < m_NumClasses; index++ )
+      {
+      if ( dist[index] < minDist )
+        {
+        minDist = dist[index];
+        pixLabel = index;
+        }// if
+      }// for
+    /*
+      if ( dist[2] < (double)(m_BoundaryGradient) ) { 
+      labelledImageIt.Set( 2 );
+      } else labelledImageIt.Set( 1 );
+    */
+    labelledPixel = 
+      ( LabelledImagePixelType ) labelledImageIt.Get();
+    
+    //Check if the label has changed then set the change flag in all the 
+    //neighborhood of the current pixel
+    if( pixLabel != ( int ) labelledPixel )
+      {
+      outLabelledPix = pixLabel;
+      labelledImageIt.Set( outLabelledPix );
+      m_ErrorCounter++;
+      }		
+    //	  } 
+    
+    }
+    i++;
+    ++labelledImageIt;
+    ++inputImageIt;
   }
 
 }//ApplyGibbslabeller
@@ -826,50 +808,50 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   LabelledImageIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
-  labelledImageIt.Begin();
-
-  for ( i=0; i<size; i++ ) {
-	m_Region[i] = 0;
-	m_RegionCount[i] = 1;
-  }
+  for ( i=0; i<size; i++ )
+    {
+    m_Region[i] = 0;
+    m_RegionCount[i] = 1;
+    }
 
   i = 0;
   int l = 0;
   int label;
-  while ( !labelledImageIt.IsAtEnd() ) {
+  while ( !labelledImageIt.IsAtEnd() )
+    {
     label = labelledImageIt.Get();
-	if (( m_Region[i] == 0 ) && ((label != m_ObjectLabel) /*||
-		(labelledImageIt.Get() == 2)*/)) {
-//      if (labelledImageIt.Get() == 1) {
-		if (LabelRegion(i, ++l, label) < m_ClusterSize) {
-		  for (j = 0; j < size; j++) {
-			offsetIndex3D[2] = j / frame;
-			offsetIndex3D[1] = (j % frame) / m_imgHeight;
-			offsetIndex3D[0] = (j % frame) % m_imgHeight;
-			if (m_Region[j] == l) {
-			  m_LabelledImage->SetPixel(offsetIndex3D, m_ObjectLabel);
-			  m_Region[j] = 0;
-		    }
-		  }
-		  l--;
-	    }
-	  /*} else {
-	    if (LabelRegion(i, ++l, 2) < m_ClusterSize) {
-		  for (j = 0; j < size; j++) {
-			offsetIndex3D[2] = j / frame;
-			offsetIndex3D[1] = (j % frame) / m_imgHeight;
-			offsetIndex3D[0] = (j % frame) % m_imgHeight;
-			if (m_Region[j] == l) {
-			  m_LabelledImage->SetPixel(offsetIndex3D, 1);
-			  m_Region[j] = 0;
-		    }
-		  }
-		  l--;
-	    }
-	  }*/
-	}
-	i++;
-	++labelledImageIt;
+    if (( m_Region[i] == 0 ) && ((label != m_ObjectLabel) /*||
+                                                            (labelledImageIt.Get() == 2)*/)) {
+    //      if (labelledImageIt.Get() == 1) {
+    if (LabelRegion(i, ++l, label) < m_ClusterSize) {
+    for (j = 0; j < size; j++) {
+    offsetIndex3D[2] = j / frame;
+    offsetIndex3D[1] = (j % frame) / m_imgHeight;
+    offsetIndex3D[0] = (j % frame) % m_imgHeight;
+    if (m_Region[j] == l) {
+    m_LabelledImage->SetPixel(offsetIndex3D, m_ObjectLabel);
+    m_Region[j] = 0;
+    }
+    }
+    l--;
+    }
+    /*} else {
+      if (LabelRegion(i, ++l, 2) < m_ClusterSize) {
+      for (j = 0; j < size; j++) {
+      offsetIndex3D[2] = j / frame;
+      offsetIndex3D[1] = (j % frame) / m_imgHeight;
+      offsetIndex3D[0] = (j % frame) % m_imgHeight;
+      if (m_Region[j] == l) {
+      m_LabelledImage->SetPixel(offsetIndex3D, 1);
+      m_Region[j] = 0;
+      }
+      }
+      l--;
+      }
+      }*/
+    }
+    i++;
+    ++labelledImageIt;
   }
 }
 

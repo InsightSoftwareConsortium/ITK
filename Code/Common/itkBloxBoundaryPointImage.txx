@@ -102,7 +102,7 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
   typename TSourceImage::IndexType sourceIndex;
   IndexType bloxIndex;
   
-  for ( sourceIt.Begin(); !sourceIt.IsAtEnd(); ++sourceIt)
+  for ( ; !sourceIt.IsAtEnd(); ++sourceIt)
     {
     // Figure out the magnitude of the gradient
     double mag = 0;

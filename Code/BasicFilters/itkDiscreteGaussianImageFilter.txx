@@ -57,8 +57,7 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
                                          imgT->GetRequestedRegion());
   ImageRegionIterator<TOutputImage> out_it(imgT,
                                            imgT->GetRequestedRegion());
-  for (in_it = in_it.Begin(), out_it = out_it.Begin(); in_it < in_it.End();
-       ++in_it, ++out_it)
+  for (; !in_it.IsAtEnd(); ++in_it, ++out_it)
     {
     out_it.Set( in_it.Get() );
     }

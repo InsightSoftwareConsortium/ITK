@@ -78,11 +78,7 @@ int main()
 
   typedef itk::ImageRegionConstIteratorWithIndex< ImageType > ConstIteratorType;
 
-
   IteratorType it( myImage, region );
-
-
-  it.Begin();
 
   ImageType::IndexType index;
   ImageType::PixelType value;
@@ -105,8 +101,6 @@ int main()
   IteratorType ot( myImage, region );
   std::cout << "Verifying the data forwards... ";
 
-  ot.Begin();
- 
   value = itk::NumericTraits< ImageType::PixelType >::Zero;
 
   while( !ot.IsAtEnd() )
@@ -132,8 +126,8 @@ int main()
   // Verification 
   std::cout << "Verifying the data backwards... ";
 
-  ot.End();
- 
+  ot.GoToEnd();
+  --ot;
   while( !ot.IsAtBegin() )
   {
 
@@ -160,8 +154,6 @@ int main()
   ConstIteratorType cot( myImage, region );
   std::cout << "Const Iterator: Verifying the data forwards... ";
 
-  cot.Begin();
- 
   value = itk::NumericTraits< ImageType::PixelType >::Zero;
 
   while( !cot.IsAtEnd() )
@@ -187,8 +179,8 @@ int main()
   // Verification 
   std::cout << "Const Iterator : Verifying the data backwards... ";
 
-  cot.End();
- 
+  cot.GoToEnd();
+  --cot;
   while( !cot.IsAtBegin() )
   {
 

@@ -225,12 +225,12 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
     double deriv;
     double value;
 
-    outIt = outIt.Begin();
-    inIt = inIt.Begin();
-    speedIt = speedIt.Begin();
+    outIt.GoToBegin();
+    inIt.GoToBegin();
+    speedIt.GoToBegin();
     for( unsigned int j = 0; j < SetDimension; j++ )
       {
-      derivIt[j] = derivIt[j].Begin();
+      derivIt[j].GoToBegin();
       }
 
     while( !outIt.IsAtEnd() )
@@ -318,9 +318,6 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   IteratorType outIt = IteratorType( 
     outputPtr, outputPtr->GetBufferedRegion() );
 
-  inIt = inIt.Begin();
-  outIt = outIt.Begin();
-  
   while( !inIt.IsAtEnd() )
     {
     outIt.Set( inIt.Get() );

@@ -272,8 +272,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   InputImageIterator  inputImageIt(m_InputImage, 
                                    m_InputImage->GetBufferedRegion() );
 
-  inputImageIt.Begin();
-
   LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
 
   int size = m_imgWidth * m_imgHeight * m_imgDepth;
@@ -405,8 +403,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   LabelledImageIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
-  labelledImageIt.Begin();
-  
   int f[8];
   int j, neighborcount = 0, simnum = 0, difnum = 0, changenum = 0;
   int changeflag;
@@ -551,15 +547,11 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   LabelledImageIterator  
   labelledImageIt( m_LabelledImage, m_LabelledImage->GetBufferedRegion() );
 
-  labelledImageIt.Begin();
-
   //--------------------------------------------------------------------
   // Set the iterators to the output image buffer
   //--------------------------------------------------------------------
   LabelledImageIterator  
     outImageIt( outputPtr, outputPtr->GetBufferedRegion() );
-
-  outImageIt.Begin();
 
   //--------------------------------------------------------------------
 
@@ -641,21 +633,15 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   InputImageIterator  inputImageIt(m_InputImage, 
                                    m_InputImage->GetBufferedRegion() );
 
-  inputImageIt.Begin();
-
   InputImageIterator  mediumImageIt(m_MediumImage, 
                                    m_MediumImage->GetBufferedRegion() );
 
-  mediumImageIt.Begin();
- 
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the classified image
   //--------------------------------------------------------------------
   LabelledImageIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
-  labelledImageIt.Begin();
- 
   //Varible to store the origin pixel vector value
   InputImageVectorType OriginPixelVec;
 
@@ -681,9 +667,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 //    int randomPixel = (int) size*rand()/32768;
 
   int i = 0;
-  labelledImageIt.Begin();
-  inputImageIt.Begin();
-  mediumImageIt.Begin();
   while ( !inputImageIt.IsAtEnd() ) {
 
 	offsetIndex3D[2] = i / frame;
@@ -741,15 +724,16 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 	++mediumImageIt;
   }
 
-  inputImageIt.Begin();
-  mediumImageIt.Begin();
+  inputImageIt.GoToBegin();
+  mediumImageIt.GoToBegin();
 
-  while ( !mediumImageIt.IsAtEnd() ) {
+  while ( !mediumImageIt.IsAtEnd() )
+    {
     ChangedPixelVec = mediumImageIt.Get();
-	inputImageIt.Set(ChangedPixelVec);
-	++inputImageIt;
-	++mediumImageIt;
-  }
+    inputImageIt.Set(ChangedPixelVec);
+    ++inputImageIt;
+    ++mediumImageIt;
+    }
 
 }//ApplyGibbslabeller
 
@@ -769,8 +753,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 
   LabelledImageIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
-
-  labelledImageIt.Begin();
 
   for ( i=0; i<size; i++ ) {
 	m_Region[i] = 0;

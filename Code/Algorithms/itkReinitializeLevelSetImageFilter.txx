@@ -217,10 +217,6 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
   double value;
 
-  inputIt = inputIt.Begin();
-  outputIt = outputIt.Begin();
-  tempIt = tempIt.Begin();
-
   while( !inputIt.IsAtEnd() )
     {
     value = (double) inputIt.Get();
@@ -238,9 +234,9 @@ ReinitializeLevelSetImageFilter<TLevelSet>
   m_Marcher->SetTrialPoints( m_Locator->GetInsidePoints() );
   m_Marcher->Update();
 
-  inputIt = inputIt.Begin();
-  outputIt = outputIt.Begin();
-  tempIt = tempIt.Begin();
+  inputIt.GoToBegin();
+  outputIt.GoToBegin();
+  tempIt.GoToBegin();
 
   while( !inputIt.IsAtEnd() )
     {
@@ -290,9 +286,6 @@ ReinitializeLevelSetImageFilter<TLevelSet>
   // set all internal pixels to minus infinity and 
   // all external pixels to positive infinity
   double value;
-
-  inputIt = inputIt.Begin();
-  outputIt = outputIt.Begin();
 
   while( !inputIt.IsAtEnd() )
     {

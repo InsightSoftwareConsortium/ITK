@@ -86,7 +86,6 @@ int main()
   itk::ImageRegionIterator<FloatImage>
     iterator( levelSet, levelSet->GetBufferedRegion() );
 
-  iterator = iterator.Begin();
   for( ; !iterator.IsAtEnd(); ++iterator )
     {
     iterator.Set( iterator.Get() - 8.0 );
@@ -106,7 +105,7 @@ int main()
   itk::ImageRegionIterator<FloatImage>
     edgeIter( edgeImg, edgeImg->GetBufferedRegion() );
   
-  for(edgeIter = edgeIter.Begin() ; !edgeIter.IsAtEnd(); ++edgeIter )
+  for( ; !edgeIter.IsAtEnd(); ++edgeIter )
     {
     edgeIter.Set( 1.0 );
     }
@@ -124,7 +123,7 @@ int main()
   itk::ImageRegionIterator<FloatImage>
     derivIter( derivImg, derivImg->GetBufferedRegion() );
 
-  for( derivIter = derivIter.Begin(); !derivIter.IsAtEnd(); ++derivIter )
+  for( ; !derivIter.IsAtEnd(); ++derivIter )
     {
     derivIter.Set( 0.0 );
     }

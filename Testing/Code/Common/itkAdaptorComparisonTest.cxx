@@ -50,7 +50,6 @@ void AdaptorSupportedIteratorSpeed(itk::Image<float, 3> *img)
   itk::ImageRegionIteratorWithIndex<itk::Image<float, 3> >
     it (img, img->GetRequestedRegion());
 
-  it.Begin();
   while( ! it.IsAtEnd() )
     {
       ++it;
@@ -63,7 +62,6 @@ void NoAdaptorSupportIteratorSpeed(itk::Image<float, 3> *img)
   itk::ImageRegionIterator<itk::Image<float, 3> >
     it (img, img->GetRequestedRegion());
 
-  it.Begin();
   while( ! it.IsAtEnd() )
     {
       ++it;
@@ -75,7 +73,6 @@ void AdaptorSupportedModifyScalars(itk::Image<float, 3> *img)
   itk::ImageRegionIteratorWithIndex<itk::Image<float, 3> >
     it (img, img->GetRequestedRegion());
 
-  it.Begin();
   while( ! it.IsAtEnd() )
     {
       // *it += 3.435f;
@@ -89,7 +86,6 @@ void NoAdaptorSupportModifyScalars(itk::Image<float, 3> *img)
   itk::ImageRegionIterator<itk::Image<float, 3> >
     it (img, img->GetRequestedRegion());
 
-  it.Begin();
   while( ! it.IsAtEnd() )
     {
       // *it += 3.435f;
@@ -103,7 +99,6 @@ void BypassAdaptorSupportModifyScalars(itk::Image<float, 3> *img)
   itk::ImageRegionIteratorWithIndex< itk::Image<float, 3> >
     it (img, img->GetRequestedRegion());
 
-  it.Begin();
   while( ! it.IsAtEnd() )
     {
       it.Value() += 3.435f;
@@ -121,7 +116,6 @@ void AdaptorSupportedModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
   itk::ImageRegionIteratorWithIndex<itk::Image<VectorType, 3> >
     it (img, img->GetRequestedRegion());
   
-  it.Begin();
   while( ! it.IsAtEnd() )
     {
       temp_vector = it.Get();
@@ -143,7 +137,6 @@ void NoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
   itk::ImageRegionIterator<itk::Image<VectorType, 3> >
     it (img, img->GetRequestedRegion());
   
-  it.Begin();
   while( ! it.IsAtEnd() )
     {
       temp_vector = it.Get();
@@ -167,7 +160,6 @@ void BypassAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img
   itk::ImageRegionIteratorWithIndex< itk::Image<VectorType, 3> >
     it (img, img->GetRequestedRegion());
   
-  it.Begin();
   while( ! it.IsAtEnd() )
     {
       for (i = 0; i<N; ++i)  (it.Value())[i] += 3.435f;
@@ -185,7 +177,6 @@ void BypassNoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *i
   itk::ImageRegionIterator< itk::Image<VectorType, 3> >
     it (img, img->GetRequestedRegion());
   
-  it.Begin();
   while( ! it.IsAtEnd() )
     {
       for (i = 0; i<N; ++i)  (it.Value())[i] += 3.435f;

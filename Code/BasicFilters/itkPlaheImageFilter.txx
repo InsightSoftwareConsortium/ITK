@@ -100,7 +100,6 @@ PlaheImageFilter<TPixel, VImageDimension>
   ImageRegionIterator<ImageType> itInput(input, region);
 
   // Calculate min and max gray level of an input image
-  itInput = itInput.Begin();
   double min = itInput.Get();
   double max = itInput.Get();
   while( !itInput.IsAtEnd() )
@@ -130,8 +129,7 @@ PlaheImageFilter<TPixel, VImageDimension>
   
   // Normalize input image to [-0.5 0.5] gray level and store in inputFloat
   // Plahe only use float type image which has gray range [-0.5 0.5] 
-  itFloat = itFloat.Begin();
-  itInput = itInput.Begin();
+  itInput.GoToBegin();
   while( !itInput.IsAtEnd() )
     {
     itFloat.Set( scale*(max - itInput.Get())-0.5 );
@@ -148,7 +146,7 @@ PlaheImageFilter<TPixel, VImageDimension>
   // will be calculated each time.
   typedef std::map<float, float> FloatFloatMapType;
   FloatFloatMapType row;
-  itFloat = itFloat.Begin();
+  itFloat.GoToBegin();
   while ( !itFloat.IsAtEnd() )
     {
     row.insert( FloatFloatMapType::value_type( itFloat.Get(),0 ) );
@@ -157,7 +155,7 @@ PlaheImageFilter<TPixel, VImageDimension>
   typedef std::map < float, FloatFloatMapType > ArrayMapType;
   ArrayMapType CumulativeArray;
   std::pair<ArrayMapType::iterator, bool> array;
-  itFloat = itFloat.Begin();
+  itFloat.GoToBegin();
   while ( !itFloat.IsAtEnd() )
     {
     array = CumulativeArray.insert( ArrayMapType::value_type(itFloat.Get(),row ) );

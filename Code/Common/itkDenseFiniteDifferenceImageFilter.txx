@@ -183,13 +183,11 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   ImageRegionIterator<UpdateBufferType> u(m_UpdateBuffer,    regionToProcess);
   ImageRegionIterator<OutputImageType>  o(this->GetOutput(), regionToProcess);
 
-  u.Begin();
-  o.Begin();
   while ( !u.IsAtEnd() )
     {
-      o.Value() += u.Value() * dt;  // no adaptor support here
-      ++o;
-      ++u;
+    o.Value() += u.Value() * dt;  // no adaptor support here
+    ++o;
+    ++u;
     }
 }
 
@@ -284,8 +282,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   // Process the non-boundary region.
   NeighborhoodIteratorType nD(radius, output, nbRegion);
   UpdateIteratorType       nU(m_UpdateBuffer,  nbRegion);
-  nD.Begin();
-  nU.Begin();
+  nD.GoToBegin();
   while( !nD.IsAtEnd() )
     {
       nU.Value() = df->ComputeUpdate(nD, timeStep);
@@ -302,8 +299,8 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
       bD = BoundaryIteratorType(radius, output, *fIt);
       bU = UpdateIteratorType  (m_UpdateBuffer, *fIt);
      
-      bD.Begin();
-      bU.Begin();
+      bD.GoToBegin();
+      bU.GoToBegin();
       while ( !bD.IsAtEnd() )
         {
           bU.Value() = df->ComputeUpdate(bD, timeStep);

@@ -65,27 +65,25 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
       {
       *pit = 0;
       if(i == j)
-	      {
-	      *pit = 1;
+        {
+        *pit = 1;
         }
-	    ++pit;
-
+      ++pit;
       }
     }
 
   // initialize the offset part
   for (unsigned int i=0; i<TReference::ImageDimension; i++)
-  {
+    {
     *pit = 0;
     ++pit;
-
-  }
-
+    }
+  
   // set default parameters
   m_NumberOfIterations = 1000;
   m_LearningRate = 1.0;
   m_TranslationScale = 1.0;
-
+  
 }
 
 

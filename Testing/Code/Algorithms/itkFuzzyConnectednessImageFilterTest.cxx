@@ -118,7 +118,6 @@ int main(){
 
 
 	itk::ImageRegionIteratorWithIndex <UShortImage2D> it(inputimg, region);
-	it.Begin();
 	int k=0;
 	while( !it.IsAtEnd()) {    
 		it.Set(TestingImage[k]);
@@ -129,7 +128,7 @@ int main(){
 
 /* print the input image */	
 	std::cout<<"The Input Image"<<std::endl;
-	it.Begin();
+	it.GoToBegin();
 	for(i = 0;i < HEIGHT; i++){
 		for (j = 0; j < WIDTH; j++){
 		std::cout << std::setw(4) << it.Get()<<" ";
@@ -154,7 +153,6 @@ int main(){
 /* printout the segmentation result */
 	std::cout<<"Segmentation Result"<<std::endl;
 	itk::ImageRegionIteratorWithIndex <BinaryImage2D> ot(testFuzzy->GetOutput(), region);
-	ot.Begin();
 	for(i = 0;i < HEIGHT; i++){
 		for (j = 0; j < WIDTH; j++){
 			std::cout<<ot.Get();
@@ -166,7 +164,7 @@ int main(){
 
   testFuzzy->UpdateThreshold(0.8);
 	std::cout<<std::endl<<"Update threshold"<<std::endl;
-	ot.Begin();
+	ot.GoToBegin();
 	for(i = 0;i < HEIGHT; i++){
 		for (j = 0; j < WIDTH; j++){
 			std::cout<<ot.Get();
