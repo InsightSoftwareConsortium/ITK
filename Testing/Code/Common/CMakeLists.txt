@@ -3,6 +3,7 @@ ITKCommon
 )
 
 TESTS(
+itkAdaptorComparisonTest
 itkAffineTransformTest
 itkArrayTest
 itkBoundaryConditionTest
