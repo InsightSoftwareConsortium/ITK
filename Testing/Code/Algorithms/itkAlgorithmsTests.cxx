@@ -56,6 +56,7 @@ REGISTER_TEST(itkMultiResolutionImageRegistrationMethodTest_2 );
 REGISTER_TEST(itkMutualInformationMetricTest );
 REGISTER_TEST(itkNewTest );
 REGISTER_TEST(itkNormalizedCorrelationImageMetricTest );
+REGISTER_TEST(itkNormalizedCorrelationPointSetToImageMetricTest );
 REGISTER_TEST(itkOtsuThresholdImageCalculatorTest );
 REGISTER_TEST(itkPatternIntensityImageMetricTest  );
 REGISTER_TEST(itkRegionGrow2DTest );

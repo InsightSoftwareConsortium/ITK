@@ -61,6 +61,7 @@ itkMultiResolutionImageRegistrationMethodTest_2  )
 ADD_TEST(itkMutualInformationMetricTest ${ALGORITHMS_TESTS} itkMutualInformationMetricTest)
 ADD_TEST(itkNewTest ${ALGORITHMS_TESTS} itkNewTest)
 ADD_TEST(itkNormalizedCorrelationImageMetricTest ${ALGORITHMS_TESTS} itkNormalizedCorrelationImageMetricTest)
+ADD_TEST(itkNormalizedCorrelationPointSetToImageMetricTest ${ALGORITHMS_TESTS} itkNormalizedCorrelationPointSetToImageMetricTest)
 ADD_TEST(itkOtsuThresholdImageCalculatorTest ${ALGORITHMS_TESTS} itkOtsuThresholdImageCalculatorTest)
 ADD_TEST(itkPatternIntensityImageMetricTest ${ALGORITHMS_TESTS}  itkPatternIntensityImageMetricTest)
 ADD_TEST(itkRegionGrow2DTest ${ALGORITHMS_TESTS} itkRegionGrow2DTest)
@@ -134,6 +135,7 @@ itkMultiResolutionImageRegistrationMethodTest_2.cxx
 itkMutualInformationMetricTest.cxx
 itkNewTest.cxx
 itkNormalizedCorrelationImageMetricTest.cxx
+itkNormalizedCorrelationPointSetToImageMetricTest.cxx
 itkOtsuThresholdImageCalculatorTest.cxx
 itkPatternIntensityImageMetricTest.cxx
 itkRegionGrow2DTest.cxx
