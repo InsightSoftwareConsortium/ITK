@@ -15,6 +15,8 @@ itkImageIO
 itkIndent 
 itkLightObject 
 itkLightProcessObject
+itkKLMSegmentationBorder
+itkKLMSegmentationRegion
 itkMeshRegion 
 itkMultiThreader 
 itkMutexLock 
