@@ -31,10 +31,14 @@ See COPYRIGHT.txt for copyright details.
 #include "itkGaussianSupervisedClassifier.h"
 #include "itkGeodesicActiveContourImageFilter.h"
 #include "itkGibbsPriorFilter.h"
+#include "itkHybridFilter.h"
 #include "itkImageMapper.h"
 #include "itkImageMomentsCalculator.h"
 #include "itkImageToImageAffineMeanSquaresRegistration.h"
 #include "itkImageToImageAffineMutualInformationRegistration.h"
+#include "itkImageToImageAffineNormalizedCorrelationRegistration.h"
+#include "itkImageToImageAffinePatternIntensityRegistration.h"
+#include "itkImageToImageMomentsAlignmentCalculator.h"
 #include "itkImageToImageTranslationMeanSquaresRegistration.h"
 #include "itkKLMRegionGrowImageFilter.h"
 #include "itkKLMSegmentationBorder.h"
@@ -49,6 +53,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMRFImageFilter.h"
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkMutualInformationImageToImageMetric.h"
+#include "itkNormalizedCorrelationImageToImageMetric.h"
+#include "itkPatternIntensityImageToImageMetric.h"
 #include "itkProcrustesRegistrationMetric.h"
 #include "itkRegionGrowImageFilter.h"
 #include "itkRegistrationMapper.h"
@@ -63,16 +69,15 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSimilarityRegistrationMetric.h"
 #include "itkSupervisedClassifier.h"
 #include "itkUnsupervisedClassifier.h"
+#include "itkVectorFuzzyConnectednessImageFilter.h"
 #include "itkVoronoi2DDiagram.h"
 #include "itkVoronoiSegmentationImageFilter.h"
+#include "itkVoronoiSegmentationRGBImageFilter.h"
 #include "itkWatershedImageFilter.h"
 
 int main ( int argc, char* argv )
 {
-
+  
   return 0;
 }
-
-
-
 
