@@ -295,7 +295,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
   m_ImageIO->SetIORegion(ioRegion);
 
   if ( m_ImageIO->GetComponentTypeInfo()
-       == typeid(PixelTraits<TOutputImage::PixelType>::ValueType)
+       == typeid(typename PixelTraits<TOutputImage::PixelType>::ValueType)
        && (m_ImageIO->GetNumberOfComponents()
            == ConvertPixelTraits::GetNumberOfComponents()))
     {
