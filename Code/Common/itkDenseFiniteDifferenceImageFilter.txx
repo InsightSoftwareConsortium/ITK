@@ -240,7 +240,15 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
               if ( j == i ) fSize[j] = static_cast<SizeValueType>(-overlapLow);
               else          fSize[j] = rSize[j];   
             }                                      
-          nbSize[i]  -= fSize[i];                  
+          // avoid unsigned overflow if the non-boundary region is too small to process
+          if (fSize[i] > nbSize[i])
+            {
+            nbSize[i] = 0;
+            }
+          else
+            {
+            nbSize[i]  -= fSize[i];                  // pixel at corners between
+            }
           nbStart[i] += -overlapLow;               
           fRegion.SetIndex(fStart);                
           fRegion.SetSize(fSize);                  
@@ -264,7 +272,15 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
                   fSize[j] = rSize[j];
                 }
             }
-          nbSize[i] -= fSize[i];
+          // avoid unsigned overflow if the non-boundary region is too small to process
+          if (fSize[i] > nbSize[i])
+            {
+            nbSize[i] = 0;
+            }
+          else
+            {
+            nbSize[i] -= fSize[i];
+            }
           fRegion.SetIndex(fStart);
           fRegion.SetSize(fSize);
           faceList.push_back(fRegion);
