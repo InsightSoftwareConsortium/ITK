@@ -1,7 +1,11 @@
 package require itk
 
 wm title . "Curvature Flow Example"
-wm geometry . 1024x400
+wm geometry . 1024x500
+
+# Find the logo image.
+set dir [file dirname [info script]]
+set logo [file join $dir itkLogoMediumTransparentBackground.gif]
 
 itk::PNGImageIOFactory RegisterOneFactory
 
@@ -41,17 +45,29 @@ entry .c.filename.entry -textvariable fileName
 button .c.filename.select -text "..." -command {selectInputFile}
 pack .c.filename.label .c.filename.entry .c.filename.select -side left
 
-frame .c.threshold ; pack .c.threshold -anchor c
-label .c.threshold.label -text "Threshold:"
-scale .c.threshold.scale -from 0 -to 100 -length 200 -orient horizontal \
+frame .c.thresholdL ; pack .c.thresholdL -anchor c
+label .c.thresholdL.label -text "Low Threshold:"
+scale .c.thresholdL.scale -from 0 -to 100 -length 200 -orient horizontal \
                          -variable thLow
-pack .c.threshold.label .c.threshold.scale -side top
+pack .c.thresholdL.label .c.thresholdL.scale -side top
+
+frame .c.thresholdH ; pack .c.thresholdH -anchor c
+label .c.thresholdH.label -text "High Threshold:"
+scale .c.thresholdH.scale -from 0 -to 100 -length 200 -orient horizontal \
+                         -variable thHigh
+pack .c.thresholdH.label .c.thresholdH.scale -side top
 
 # Setup the progress bar.
-frame .c.progress ; pack .c.progress -side bottom
+frame .c.progress ; pack .c.progress -side top
 label .c.progress.label -text "Progress:"
 canvas .c.progress.bar -width 203 -height 32
 pack .c.progress.label .c.progress.bar -side top
+
+# Setup the ITK logo.
+frame .c.logo ; pack .c.logo -side bottom
+image create photo logo -file $logo
+label .c.logo.label -image logo
+pack .c.logo.label -pady 20
 
 # Procedure to set progress of progress bar.
 proc setProgress {percent} {
@@ -179,6 +195,7 @@ proc selectInputFile {} {
   
   # Copy over image size and buffer pointer.
   set output [$denoiser GetOutput]
+  $output SetRequestedRegionToLargestPossibleRegion
   $image CopyInformation $output
   $image SetRegions [$output GetLargestPossibleRegion]
   $image SetPixelContainer [$output GetPixelContainer]
