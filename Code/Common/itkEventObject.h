@@ -89,9 +89,9 @@ protected:
   virtual void PrintHeader(std::ostream& os, Indent indent) const;
   virtual void PrintTrailer(std::ostream& os, Indent indent) const;
    
+  EventObject(const EventObject&){};
 private:
   typedef  EventObject * EventFactoryFunction();
-  EventObject(const EventObject&);
   void operator=(const EventObject&);
 };
 
@@ -121,7 +121,7 @@ inline std::ostream& operator<<(std::ostream& os, EventObject &e)
        { return dynamic_cast<const Self*>(e); } \
      virtual ::itk::EventObject* MakeObject() const \
        { return new Self; } \
-     classname(const Self&) {}; \
+     classname(const Self&s) :super(s){}; \
    private: \
      void operator=(const Self&); \
  }
