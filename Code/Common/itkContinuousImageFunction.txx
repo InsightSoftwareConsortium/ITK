@@ -66,7 +66,7 @@ ContinuousImageFunction<TInputImage,TOutput>
 template <class TInputImage, class TOutput>
 void
 ContinuousImageFunction<TInputImage,TOutput>
-::SetInputImage( InputImageType * ptr )
+::SetInputImage( const InputImageType * ptr )
 {
   if ( m_Image == ptr ) return;
 
@@ -84,7 +84,7 @@ ContinuousImageFunction<TInputImage,TOutput>
 template <class TInputImage, class TOutput>
 void
 ContinuousImageFunction<TInputImage,TOutput>
-::SetImageSpacing( VectorType& spacing )
+::SetImageSpacing( const VectorType& spacing )
 {
 
   bool changed = false;
@@ -109,7 +109,7 @@ ContinuousImageFunction<TInputImage,TOutput>
 template <class TInputImage, class TOutput>
 void
 ContinuousImageFunction<TInputImage,TOutput>
-::SetImageOrigin( PointType& origin )
+::SetImageOrigin( const PointType& origin )
 {
   bool changed = false;
   for( unsigned int j = 0; j < ImageDimension; j++ )
@@ -158,7 +158,7 @@ ContinuousImageFunction<TInputImage,TOutput>
 template<class TInputImage, class TOutput>
 void
 ContinuousImageFunction<TInputImage,TOutput>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
   os << indent << "continuous image function" << std::endl;

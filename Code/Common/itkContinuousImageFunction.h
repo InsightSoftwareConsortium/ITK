@@ -129,7 +129,7 @@ public:
   /** 
    * Set the input image.
    */
-  virtual void SetInputImage( InputImageType * ptr );
+  virtual void SetInputImage( const InputImageType * ptr );
 
   /**
    * Get the input image.
@@ -140,7 +140,7 @@ public:
   /**
    * Set the image spacing
    */
-  void SetImageSpacing( VectorType& spacing );
+  void SetImageSpacing( const VectorType& spacing );
 
   /**
    * Get the image spacing
@@ -151,7 +151,7 @@ public:
   /**
    * Set the image origin
    */
-  void SetImageOrigin( PointType & spacing );
+  void SetImageOrigin( const PointType& spacing );
 
   /**
    * Get the image origin
@@ -183,7 +183,7 @@ protected:
   ~ContinuousImageFunction(){};
   ContinuousImageFunction( const Self& ){};
   void operator=(const Self&) {};
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   // made protected so subclass can access
   InputImageConstPointer  m_Image;
