@@ -50,12 +50,12 @@ optimizer    = itkRegularStepGradientDescentOptimizer_New()
 interpolator = itkLinearInterpolateImageFunctionF2D_New()
 
 
+print optimizer
 
-
-registration.SetOptimizer(    optimizer    )
-registration.SetTransform(    transform    )
-registration.SetInterpolator( interpolator )
-registration.SetMetric(       imageMetric  )
+registration.SetOptimizer(    optimizer.GetPointer()    )
+registration.SetTransform(    transform.GetPointer()    )
+registration.SetInterpolator( interpolator.GetPointer() )
+registration.SetMetric(       imageMetric.GetPointer()  )
 registration.SetFixedImage(  fixedImage  )
 registration.SetMovingImage( movingImage )
 
@@ -76,6 +76,7 @@ optimizer.SetMinimumStepLength(  0.01 )
 optimizer.SetNumberOfIterations( 200  )
 
 
+print "Starting registration"
 
 #
 #  Start the registration process
