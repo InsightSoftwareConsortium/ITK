@@ -113,12 +113,12 @@ namespace itk
     Compose(const Self &other, bool pre)
     {
         if (pre) {
-            m_Matrix = m_Matrix * other.m_Matrix;
             m_Offset = m_Matrix * other.m_Offset + m_Offset;
+            m_Matrix = m_Matrix * other.m_Matrix;
         }
         else {
-            m_Matrix = other.m_Matrix * m_Matrix;
             m_Offset = other.m_Matrix * m_Offset + other.m_Offset;
+            m_Matrix = other.m_Matrix * m_Matrix;
         }
         RecomputeInverse();
 
