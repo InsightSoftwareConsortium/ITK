@@ -137,8 +137,6 @@ int itkImageSpatialObjectTest(int, char**)
     std::cout<<"[PASSED]"<<std::endl;
     }
 
-  imageSO->Delete();
-  image->Delete();
 
   return EXIT_SUCCESS;
 }
