@@ -89,7 +89,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 template <class TLevelSet, class TEdgeImage>
 void
 ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
-::SetEdgeImage(TEdgeImage * ptr)
+::SetEdgeImage(EdgeImageType * ptr)
 {
   this->ProcessObject::SetNthInput( 1, ptr );
 }
