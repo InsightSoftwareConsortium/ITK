@@ -123,5 +123,24 @@ MetaDataDictionary
 
 
 
+MetaDataDictionary::Iterator
+MetaDataDictionary
+::Find( const std::string & key)
+{
+  return m_Dictionary->find(key);
+}
+
+
+MetaDataDictionary::ConstIterator
+MetaDataDictionary
+::Find(const std::string & key) const
+{
+  return m_Dictionary->find(key);
+}
+
+
+
+
+
 }; // namespace
 

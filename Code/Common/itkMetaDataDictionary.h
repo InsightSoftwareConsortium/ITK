@@ -90,6 +90,10 @@ namespace itk
         Iterator  End();
         ConstIterator  End() const;
 
+        /** Returns an iterator to the end of the map */
+        Iterator  Find(const std::string & key);
+        ConstIterator  Find(const std::string & key) const;
+
 
     private:
         MetaDataDictionaryMapType *m_Dictionary;
