@@ -7,7 +7,7 @@
  * \author Hans J. Johnson
  * \brief Includes the basic class definitions for using Octtrees.
  *****************************************************************************************/
-
+#include "itkMacro.h"
 namespace itk {
   enum LeafIdentifier { ZERO=0,ONE=1,TWO=2,THREE=3,FOUR=4,FIVE=5,SIX=6,SEVEN=7 };
 
@@ -24,7 +24,7 @@ namespace itk {
    * This class is the basic building block of an octree.  It is rarely used by itself, and commonly
    * used by the Octree class.
    */
-  class OctreeNode
+  class ITKCommon_EXPORT OctreeNode
   {
   public:
     /**
