@@ -71,6 +71,9 @@
 #include <afxwin.h>        /* required to draw the element on device context */
 #endif
 
+// Include this first, to avoid duplicate linking problems on some platforms (MSVC6).
+#include <fstream>
+
 #include "itkFEMObjectFactory.h"
 
 
