@@ -205,23 +205,20 @@ void DICOMAppHelper::SeriesUIDCallback(doublebyte,
 {
   char* newString = (char*) val;
   std::string newStdString(newString);
-  // std::map<char*, std::vector<char*>, ltstr >::iterator iter = this->SeriesUIDMap.find(newString);
   std::map<std::string, std::vector<std::string>, ltstdstr>::iterator iter = this->SeriesUIDMap.find(newStdString);
   if ( iter == this->SeriesUIDMap.end())
     {
-    std::vector<std::string>* newVector = new std::vector<std::string>;
+    std::vector<std::string> newVector;
 
     std::string filename(this->FileName);
 
-    newVector->push_back(filename);
-    // this->SeriesUIDMap.insert(std::pair<char*, std::vector<char*> > (newString, *newVector));
-    this->SeriesUIDMap.insert(std::pair<std::string, std::vector<std::string> > (newStdString, *newVector));
+    newVector.push_back(filename);
+    this->SeriesUIDMap.insert(std::pair<std::string, std::vector<std::string> > (newStdString, newVector));
     }
   else
     {
     std::string filename(this->FileName);
     (*iter).second.push_back(filename);
-    // delete [] newString;
     }
 } 
 
@@ -229,29 +226,17 @@ void DICOMAppHelper::OutputSeries()
 {
   std::cout << std::endl << std::endl;
         
-  /*
-  for (std::map<char*, std::vector<char*>, ltstr >::iterator iter = this->SeriesUIDMap.begin();
-       iter != this->SeriesUIDMap.end();
-       iter++)
-  */
   for (std::map<std::string, std::vector<std::string>, ltstdstr >::iterator iter = this->SeriesUIDMap.begin();
        iter != this->SeriesUIDMap.end();
        iter++)
     {
     std::cout << "SERIES: " << (*iter).first << std::endl;
-    //std::vector<char*>& v_ref = (*iter).second;
     std::vector<std::string>& v_ref = (*iter).second;
              
-    /*
-    for (std::vector<char*>::iterator v_iter = v_ref.begin();
-         v_iter != v_ref.end();
-         v_iter++)
-    */
     for (std::vector<std::string>::iterator v_iter = v_ref.begin();
          v_iter != v_ref.end();
          v_iter++)
       {
-      // std::map<char*, int, ltstr>::iterator sn_iter = SliceNumberMap.find(*v_iter);
       std::map<std::string, int, ltstdstr>::iterator sn_iter = SliceNumberMap.find(*v_iter);
 
       int slice = -1;
@@ -409,17 +394,13 @@ void DICOMAppHelper::SliceNumberCallback(doublebyte,
 {
   char* newString = (char*) val;
   this->SliceNumber = atoi(newString);
-  // delete [] newString;
 
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "Slice number: " << this->SliceNumber << std::endl;
 #endif
 
-  ::size_t len = strlen(this->FileName);
-  char* filename = new char[len + 1];
-  strcpy(filename, this->FileName);
-
-  SliceNumberMap.insert(std::pair<char*, int> (filename, this->SliceNumber));
+  std::string filename(this->FileName);
+  this->SliceNumberMap.insert(std::pair<std::string, int> (filename, this->SliceNumber));
 }
 
 void DICOMAppHelper::TransferSyntaxCallback(doublebyte,
@@ -472,7 +453,6 @@ void DICOMAppHelper::BitsAllocatedCallback(doublebyte,
                                            quadbyte) 
 {
   this->BitsAllocated = this->DICOMDataFile->ReturnAsUnsignedShort(val, this->DICOMDataFile->GetByteSwap());
-  // delete [] val;
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "Bits allocated: " << this->BitsAllocated << std::endl;
 #endif
@@ -485,7 +465,6 @@ void DICOMAppHelper::ToggleSwapBytesCallback(doublebyte,
                                              unsigned char* ,
                                              quadbyte len) 
 {
-  // delete [] val;
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "ToggleSwapBytesCallback" << std::endl;
 #endif
@@ -521,7 +500,6 @@ void DICOMAppHelper::PixelSpacingCallback(doublebyte group,
     {
     this->PixelSpacing[2] = fval;
     }
-  // delete [] val;
 }
 
 void DICOMAppHelper::WidthCallback(doublebyte,
@@ -537,7 +515,6 @@ void DICOMAppHelper::WidthCallback(doublebyte,
 
   this->Width = uival;
   this->Dimensions[0] = this->Width;
-  // delete [] val;
 }
 
 void DICOMAppHelper::HeightCallback(doublebyte,
@@ -552,7 +529,6 @@ void DICOMAppHelper::HeightCallback(doublebyte,
 #endif
   this->Height = uival;
   this->Dimensions[1] = this->Height;
-  // delete [] val;
 }
 
 
@@ -567,7 +543,6 @@ void DICOMAppHelper::PixelRepresentationCallback( doublebyte,
   std::cout << "Pixel Representation: " << (uival ? "Signed" : "Unsigned") << std::endl;
 #endif
   this->PixelRepresentation = uival;
-  // delete [] val;
 }
 
 void DICOMAppHelper::PhotometricInterpretationCallback( doublebyte,
@@ -585,10 +560,6 @@ void DICOMAppHelper::PhotometricInterpretationCallback( doublebyte,
     }
 
   this->PhotometricInterpretation = new std::string((char*) val);
-  //
-  // DIDN'T HAVE 
-  // delete [] val
-  //
 }
 
 void DICOMAppHelper::PixelDataCallback( doublebyte,
@@ -717,7 +688,6 @@ void DICOMAppHelper::PixelDataCallback( doublebyte,
 #endif
       }
     }
-  // delete [] data;
 }
 
 void DICOMAppHelper::RegisterPixelDataCallback()
@@ -740,7 +710,6 @@ void DICOMAppHelper::RescaleOffsetCallback( doublebyte,
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "Pixel offset: " << this->RescaleOffset << std::endl;
 #endif
-  // delete [] val;
 }
 
 const char* DICOMAppHelper::TransferSyntaxUIDDescription(const char* uid)
@@ -800,7 +769,6 @@ void DICOMAppHelper::RescaleSlopeCallback(doublebyte,
   std::cout << "Rescale slope: " << fval << std::endl;
 #endif
   this->RescaleSlope = fval;
-  // delete [] val;
 }
 
 bool DICOMAppHelper::RescaledImageDataIsFloat()
@@ -845,17 +813,10 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(std::vector<std::pair<int, std:
 {
   v.clear();
 
-  // std::map<char*, std::vector<char*>, ltstr >::iterator miter  = this->SeriesUIDMap.begin();
   std::map<std::string, std::vector<std::string>, ltstdstr >::iterator miter  = this->SeriesUIDMap.begin();
 
-  // std::vector<char*> files = (*miter).second;
   std::vector<std::string> files = (*miter).second;
 
-  /*
-  for (std::vector<char*>::iterator fileIter = files.begin();
-       fileIter != files.end();
-       fileIter++)
-       */
   for (std::vector<std::string>::iterator fileIter = files.begin();
        fileIter != files.end();
        fileIter++)
@@ -863,7 +824,6 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(std::vector<std::pair<int, std:
        std::pair<int, std::string> p;
        p.second = std::string(*fileIter);
        int slice_number = -1;
-       // std::map<char*, int, ltstr>::iterator sn_iter = SliceNumberMap.find(*fileIter);
        std::map<std::string, int, ltstdstr>::iterator sn_iter = SliceNumberMap.find(*fileIter);
        if (sn_iter != SliceNumberMap.end())
         {
@@ -878,21 +838,22 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(std::vector<std::pair<int, std:
 
 void DICOMAppHelper::ClearSliceNumberMap()
 { 
-  // std::map<char*, int, ltstr>::iterator sn_iter;
+  /*
   std::map<std::string, int, ltstdstr>::iterator sn_iter;
 
   for (sn_iter = this->SliceNumberMap.begin();
        sn_iter != this->SliceNumberMap.end();
        sn_iter++)
        {
-       // delete [] (*sn_iter).first;
+       delete [] (*sn_iter).first;
        }
+  */
   this->SliceNumberMap.clear();
 }
 
 void DICOMAppHelper::ClearSeriesUIDMap()
 {
-  // std::map<char*, std::vector<char*>, ltstr >::iterator iter;
+#if 0
   std::map<std::string, std::vector<std::string>, ltstdstr >::iterator iter;
   for (iter = this->SeriesUIDMap.begin();
        iter != this->SeriesUIDMap.end();
@@ -912,6 +873,6 @@ void DICOMAppHelper::ClearSeriesUIDMap()
             }
        // delete [] &(*iter).second;
        }
-
+#endif
  this->SeriesUIDMap.clear();
 }
