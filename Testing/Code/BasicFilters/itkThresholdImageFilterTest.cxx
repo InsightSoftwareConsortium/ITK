@@ -14,7 +14,7 @@ See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include <iostream>
-#include <string>
+#include <strstream>
 #include "itkPhysicalImage.h"
 #include "itkScalar.h"
 #include "itkRandomImageSource.h"
@@ -49,8 +49,7 @@ int main()
   random->SetMin(0.0);
   random->SetMax(1000.0);
 
-  char buffer[8];
-  std::string os;
+  std::ostrstream *os;
 
   // Test #1, filter goes out of scope
   itk::OutputWindow::GetInstance()->DisplayText( "Test #1: Filter goes out of scope -----------------" );
@@ -60,14 +59,22 @@ int main()
   threshold->SetInput(random->GetOutput());
   threshold->Update();
 
-  os = "Filter: " + std::string(itoa((int)(void *)(threshold), buffer, 10));
-  itk::OutputWindow::GetInstance()->DisplayText( os.c_str() );
-  os = "Output #0: " + std::string(itoa((int)(void *)(threshold->GetOutput(0)),
-                                        buffer, 10));
-  itk::OutputWindow::GetInstance()->DisplayText( os.c_str() );
-  os = "Output #1: " + std::string(itoa((int)(void *)(threshold->GetOutput(1)),
-                                        buffer, 10));
-  itk::OutputWindow::GetInstance()->DisplayText( os.c_str() );
+  os = new std::ostrstream();
+  *os << "Filter: " << threshold.GetPointer() << std::ends;
+  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
+  os->rdbuf()->freeze(0);
+  delete os;
+  os = new std::ostrstream();
+  *os << "Output #0: " << threshold->GetOutput(0).GetPointer() << std::ends;
+  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
+  os->rdbuf()->freeze(0);
+  delete os;
+  os = new std::ostrstream();
+  *os << "Output #1: " << threshold->GetOutput(1).GetPointer() << std::ends;
+  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
+  os->rdbuf()->freeze(0);
+  delete os;
+
   threshold->GetOutput(0)->DebugOn();
   threshold->GetOutput(1)->DebugOn();
   threshold->DebugOn();
@@ -86,14 +93,22 @@ int main()
   threshold->SetInput(random->GetOutput());
   threshold->Update();
 
-  os = "Filter: " + std::string(itoa((int)(void *)(threshold), buffer, 10));
-  itk::OutputWindow::GetInstance()->DisplayText( os.c_str() );
-  os = "Output #0: " + std::string(itoa((int)(void *)(threshold->GetOutput(0)),
-                                        buffer, 10));
-  itk::OutputWindow::GetInstance()->DisplayText( os.c_str() );
-  os = "Output #1: " + std::string(itoa((int)(void *)(threshold->GetOutput(1)),
-                                        buffer, 10));
-  itk::OutputWindow::GetInstance()->DisplayText( os.c_str() );
+  os = new std::ostrstream();
+  *os << "Filter: " << threshold.GetPointer() << std::ends;
+  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
+  os->rdbuf()->freeze(0);
+  delete os;
+  os = new std::ostrstream();
+  *os << "Output #0: " << threshold->GetOutput(0).GetPointer() << std::ends;
+  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
+  os->rdbuf()->freeze(0);
+  delete os;
+  os = new std::ostrstream();
+  *os << "Output #1: " << threshold->GetOutput(1).GetPointer() << std::ends;
+  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
+  os->rdbuf()->freeze(0);
+  delete os;
+
   threshold->GetOutput(0)->DebugOn();
   threshold->GetOutput(1)->DebugOn();
   threshold->DebugOn();
@@ -114,14 +129,22 @@ int main()
   threshold->SetInput(random->GetOutput());
   threshold->Update();
 
-  os = "Filter: " + std::string(itoa((int)(void *)(threshold), buffer, 10));
-  itk::OutputWindow::GetInstance()->DisplayText( os.c_str() );
-  os = "Output #0: " + std::string(itoa((int)(void *)(threshold->GetOutput(0)),
-                                        buffer, 10));
-  itk::OutputWindow::GetInstance()->DisplayText( os.c_str() );
-  os = "Output #1: " + std::string(itoa((int)(void *)(threshold->GetOutput(1)),
-                                        buffer, 10));
-  itk::OutputWindow::GetInstance()->DisplayText( os.c_str() );
+  os = new std::ostrstream();
+  *os << "Filter: " << threshold.GetPointer() << std::ends;
+  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
+  os->rdbuf()->freeze(0);
+  delete os;
+  os = new std::ostrstream();
+  *os << "Output #0: " << threshold->GetOutput(0).GetPointer() << std::ends;
+  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
+  os->rdbuf()->freeze(0);
+  delete os;
+  os = new std::ostrstream();
+  *os << "Output #1: " << threshold->GetOutput(1).GetPointer() << std::ends;
+  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
+  os->rdbuf()->freeze(0);
+  delete os;
+
   threshold->GetOutput(0)->DebugOn();
   threshold->GetOutput(1)->DebugOn();
   threshold->DebugOn();
