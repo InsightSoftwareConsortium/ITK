@@ -20,6 +20,7 @@
 #include "itkGDCMImageIO.h"
 
 #include "itkMetaDataObject.h"
+#include <itksys/Base64.h>
 #include "gdcm/src/gdcmValEntry.h" //internal of gdcm
 #include "gdcm/src/gdcmBinEntry.h" //internal of gdcm
 #include "gdcm/src/gdcmFile.h"
@@ -273,7 +274,7 @@ void GDCMImageIO::Read(void* buffer)
       itkExceptionMacro(<< "Unknown component type :" << m_ComponentType);
     }
 
-  delete[] source;
+//  NOTE: source should not be deleted. gdcm controls the pointer.
 
   //closing files:
   file.close();
@@ -407,23 +408,34 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   // Copy of the header content
   while(d)
   {
-    if ( dynamic_cast<gdcm::BinEntry*>(d) )
-    {
-       // Because BinEntry is a ValEntry...
-       // In our case we do not copy binary fields for now
-    }
-    else if ( gdcm::ValEntry* v = dynamic_cast<gdcm::ValEntry*>(d) )
-    {   
-      // Only copying field from the public DICOM dictionary
-      // For now remove "Meta Group Lenght" (0x0002,0x0000) and
-      // "Group Lenght" (0x0000,0x0000) as the calculation is not update properly in gdcm
-      if( v->GetName() != "unkn" 
-       && v->GetName() != "Meta Group Length" 
-       && v->GetName() != "Group Length" )
-      {       
-        EncapsulateMetaData<std::string>(dico, v->GetName(), v->GetValue() );
+    // Because BinEntry is a ValEntry...
+    if ( gdcm::BinEntry* b = dynamic_cast<gdcm::BinEntry*>(d) )
+      {
+      if (b->GetName() != "Pixel Data" && b->GetName() != "unkn")
+        {
+        if (b->GetValue() == "gdcm::Binary data loaded")
+          {
+          int encodedLengthEstimate = 2 * b->GetLength();
+          char *bin = new char[encodedLengthEstimate];
+          int encodedLengthActual = itksysBase64_Encode(
+            (const unsigned char *) b->GetBinArea(),
+            b->GetLength(),
+            bin,
+            0);
+          std::string encodedValue(bin, encodedLengthActual);
+          EncapsulateMetaData<std::string>(dico, b->GetName(), encodedValue); 
+          delete []bin;
+          }      
+        }
       }
-    }
+    else if ( gdcm::ValEntry* v = dynamic_cast<gdcm::ValEntry*>(d) )
+      {   
+      // Only copying field from the public DICOM dictionary
+      if( v->GetName() != "unkn")
+        {       
+        EncapsulateMetaData<std::string>(dico, v->GetName(), v->GetValue() );
+        }
+      }
     //else
     // We skip pb of SQ recursive exploration, and we do not copy binary entries
 
@@ -516,8 +528,32 @@ void GDCMImageIO::Write(const void* buffer)
     // into the DICOM header:
     if (dictEntry)
       {
-      myGdcmHeader->ReplaceOrCreateByNumber( value, dictEntry->GetGroup(), 
-                                             dictEntry->GetElement());
+      if (dictEntry->GetVR() != "OB" && dictEntry->GetVR() != "OW")
+        {
+        if(dictEntry->GetGroup() != 0 || dictEntry->GetElement() != 0)
+          {
+          myGdcmHeader->ReplaceOrCreateByNumber( value,
+                                                 dictEntry->GetGroup(), 
+                                                 dictEntry->GetElement());
+          }
+        }
+      else
+        {
+        // convert value from Base64
+        uint8_t *bin = new uint8_t[value.size()];
+        unsigned int decodedLengthActual = itksysBase64_Decode(
+          (const unsigned char *) value.c_str(),
+          0,
+          (char *) bin,
+          value.size());
+        if(dictEntry->GetGroup() != 0 || dictEntry->GetElement() != 0)
+          {
+          myGdcmHeader->ReplaceOrCreateByNumber( bin,
+                                                 decodedLengthActual,
+                                                 dictEntry->GetGroup(), 
+                                                 dictEntry->GetElement());
+          }
+        }
       }
     ++itr;
     }
