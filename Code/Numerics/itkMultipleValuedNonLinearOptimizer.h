@@ -69,14 +69,6 @@ public:
   itkNewMacro(Self);
   
 
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef   vnl_vector<double>     VectorType;
-
-
-
   /** \class VnlCostFunction
    * \brief Adaptor between the CostFunction and the
    * vnl_least_squares_function classes
