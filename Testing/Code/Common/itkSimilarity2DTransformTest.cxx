@@ -69,7 +69,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
 
   for(unsigned int i=0;i<6;i++)
     {
-    params[i]=i;
+    params[i]=i+1;
     }
 
   std::cout << "Input Parameters = " << params << std::endl;
