@@ -14,10 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 #include "itkImageToListAdaptor.h"
 #include "itkRandomImageSource.h"
 #include "itkImageRegionIterator.h"
+#include "itkScalarToArrayCastImageFilter.h"
+#include "itkFixedArray.h"
 
 int itkImageToListAdaptorTest(int, char**) 
 {
@@ -41,12 +42,21 @@ int itkImageToListAdaptorTest(int, char**)
   source->SetMax( static_cast< FloatImage::PixelType >( maxValue ) );
   source->Update() ;
 
-  typedef  itk::Statistics::ImageToListAdaptor< FloatImage,
-    itk::Statistics::ScalarImageAccessor< FloatImage > >
+  // creat a new image with array pixel type from the source
+  typedef itk::FixedArray< FloatImage::PixelType, 1 > ArrayPixelType ;
+  typedef itk::Image< ArrayPixelType, 3 > ArrayPixelImageType ;
+  typedef itk::ScalarToArrayCastImageFilter< FloatImage, ArrayPixelImageType >
+    ImageCastFilterType ;
+  ImageCastFilterType::Pointer castFilter = ImageCastFilterType::New() ;
+  castFilter->SetInput(source->GetOutput()) ;
+  castFilter->Update() ;
+
+  // creates a sample
+  typedef  itk::Statistics::ImageToListAdaptor< ArrayPixelImageType>
     ImageToListAdaptorType ;
 
   ImageToListAdaptorType::Pointer sample = ImageToListAdaptorType::New() ;
-  sample->SetImage(source->GetOutput()) ;
+  sample->SetImage(castFilter->GetOutput()) ;
 
   // tests begin
 
@@ -68,21 +78,21 @@ int itkImageToListAdaptorTest(int, char**)
       whereFail = "GetNumberOfInstances()" ;
     }
 
-  FloatImage::IndexType index ;
+  ArrayPixelImageType::IndexType index ;
   index.Fill(2) ;// index {2, 2, 2} = instance identifier (offset from image) 
-  FloatImage::PixelType pixel = sample->GetImage()->GetPixel(index) ;
+  ArrayPixelImageType::PixelType pixel = sample->GetImage()->GetPixel(index) ;
   ImageToListAdaptorType::InstanceIdentifier id = 
     static_cast< FloatImage::OffsetValueType >(sample->GetImage()
                                                ->ComputeOffset(index)) ;
 
-  if (pixel != sample->GetMeasurementVector(id)[0])
+  if (pixel[0] != sample->GetMeasurementVector(id)[0])
     {
       pass = false ;
       whereFail = "GetMeasurementVector()" ;
     }
 
   // iterator test
-  typedef itk::ImageRegionIterator< FloatImage > ImageIterator ;
+  typedef itk::ImageRegionIterator< ArrayPixelImageType > ImageIterator ;
   ImageIterator i_iter(sample->GetImage(),
                        sample->GetImage()->GetLargestPossibleRegion()) ;
 
@@ -90,7 +100,7 @@ int itkImageToListAdaptorTest(int, char**)
 
   while (!i_iter.IsAtEnd())
     {
-      if (i_iter.Get() != s_iter.GetMeasurementVector()[0])
+      if (i_iter.Get()[0] != s_iter.GetMeasurementVector()[0])
         {
           pass = false ;
           whereFail = "Iterator: GetMeasurementVecto()" ;
