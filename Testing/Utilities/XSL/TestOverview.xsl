@@ -30,16 +30,18 @@
       <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
     </xsl:call-template>
 
+   
     <table>
       <tr>
-        <th rowspan="2"><a href="TestOverviewByName.html">Test Name</a></th>
-        <th colspan="3">Count</th>
+       <th rowspan="2">Test Name ( <a href="TestOverviewByName.html">sort by </a> )</th>
+       <th colspan="3">Count <img border="0"><xsl:attribute name="src"><xsl:value-of select="$IconDir"/>/DownBlack.gif</xsl:attribute></img></th>
       </tr>
       <tr>
         <th>Passed</th>
         <th>Failed</th>
         <th>Not Run</th>
       </tr>
+
       <xsl:for-each select="/TestOverview/Test">
         <xsl:sort select="count (Result/Status[node()='notrun'])" data-type="number" order="descending"/>
         <xsl:sort select="count (Result/Status[node()='failed'])" data-type="number" order="descending"/>
@@ -59,10 +61,11 @@
         <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
       </xsl:call-template>
 
+      
       <table>
         <tr>
-          <th rowspan="2">Test Name</th>
-          <th colspan="3"><a href="TestOverview.html">Count</a></th>
+          <th rowspan="2">Test Name <img border="0"><xsl:attribute name="src"><xsl:value-of select="$IconDir"/>/DownBlack.gif</xsl:attribute></img></th>
+          <th colspan="3">Count (<a href="TestOverview.html">sort by</a>)</th>
         </tr>
         <tr>
           <th>Passed</th>
