@@ -2332,10 +2332,14 @@ BinaryMask3DMeshSource<TOutputMesh>
       {
       m_PointFound = 1;
 
+      typedef typename InputImageType::IndexType::IndexValueType IndexValueType;
       typename InputImageType::IndexType indTemp;
-      indTemp[0] = m_LocationOffset[nodesid[i]][0] + ( index % m_ImageWidth );
-      indTemp[1] = m_LocationOffset[nodesid[i]][1] + ( (index % (m_ImageWidth*m_ImageHeight)) / m_ImageWidth );
-      indTemp[2] = m_LocationOffset[nodesid[i]][2] + ( index / (m_ImageWidth*m_ImageHeight) );
+      indTemp[0] = static_cast<IndexValueType>(m_LocationOffset[nodesid[i]][0])
+        + ( index % m_ImageWidth );
+      indTemp[1] = static_cast<IndexValueType>(m_LocationOffset[nodesid[i]][1])
+        + ( (index % (m_ImageWidth*m_ImageHeight)) / m_ImageWidth );
+      indTemp[2] = static_cast<IndexValueType>(m_LocationOffset[nodesid[i]][2])
+        + ( index / (m_ImageWidth*m_ImageHeight) );
 
       // We transform the point to the physical space since the mesh does not have the notion
       // of spacing and origin
