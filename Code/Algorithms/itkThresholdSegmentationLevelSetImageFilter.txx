@@ -40,7 +40,7 @@ void
 ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
 ::SetUpperThreshold(ValueType v)
 {
-  m_ThresholdFunction->SetUpperThreshold(v);
+  this->m_ThresholdFunction->SetUpperThreshold(v);
   this->Modified();
 }
 
@@ -52,7 +52,7 @@ void
 ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
 ::SetLowerThreshold(ValueType v)
 {
-  m_ThresholdFunction->SetLowerThreshold(v);
+  this->m_ThresholdFunction->SetLowerThreshold(v);
   this->Modified();
 }
 

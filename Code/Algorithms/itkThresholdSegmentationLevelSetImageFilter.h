@@ -86,8 +86,7 @@ class ITK_EXPORT ThresholdSegmentationLevelSetImageFilter
 public:
    /** Standard class typedefs */
   typedef ThresholdSegmentationLevelSetImageFilter Self;
-  typedef SegmentationLevelSetImageFilter<TInputImage, TFeatureImage,
-                                          TOutputPixelType>  Superclass;
+  typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> > Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -100,7 +99,6 @@ public:
   typedef ThresholdSegmentationLevelSetFunction<OutputImageType,
                                                 FeatureImageType> ThresholdFunctionType;
   typedef typename ThresholdFunctionType::Pointer ThresholdFunctionPointer;
-
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ThresholdSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);

@@ -133,8 +133,9 @@ class ITK_EXPORT CannySegmentationLevelSetImageFilter
 public:
    /** Standard class typedefs */
   typedef CannySegmentationLevelSetImageFilter Self;
-  typedef SegmentationLevelSetImageFilter<TInputImage, TFeatureImage,
-                                          TOutputPixelType> Superclass;
+  typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType,
+                   Image<TOutputPixelType, 
+            ::itk::GetImageDimension<TInputImage>::ImageDimension> >   Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -143,11 +144,10 @@ public:
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
   typedef typename Superclass::VectorImageType VectorImageType;
-
   
   /** Type of the segmentation function */
-  typedef CannySegmentationLevelSetFunction<OutputImageType,
-                                                FeatureImageType> CannyFunctionType;
+  typedef ::itk::CannySegmentationLevelSetFunction<OutputImageType,
+                                       FeatureImageType> CannyFunctionType;
 
   typedef typename CannyFunctionType::ScalarValueType ScalarValueType;
   
@@ -157,17 +157,19 @@ public:
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
-  /**  */
+  /** Set the Threshold parameter of the CannyEdgeDetectionImageFilter used by the
+      underlying level set function. */
   void SetThreshold(ScalarValueType v)
-  { m_CannyFunction->SetThreshold(v); }
+  { this->m_CannyFunction->SetThreshold(v); }
   ScalarValueType GetThreshold() const
-  { return m_CannyFunction->GetThreshold(); }
+  { return this->m_CannyFunction->GetThreshold(); }
 
-  /** */
+  /** Set the Variance parameter of the CannyEdgeDetectionImageFilter used by the
+      underlying level set function. */
   void SetVariance(double v)
-  { m_CannyFunction->SetVariance(v); }
+  { this->m_CannyFunction->SetVariance(v); }
   double GetVariance() const
-  { return m_CannyFunction->GetVariance(); }
+  { return this->m_CannyFunction->GetVariance(); }
 
 protected:
   ~CannySegmentationLevelSetImageFilter() {}
