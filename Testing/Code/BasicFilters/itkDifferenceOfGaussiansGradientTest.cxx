@@ -48,11 +48,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImageRegionIterator.h"
 #include "itkPoint.h"
 
-// Blox stuff
-#include "itkBloxBoundaryPointImage.h"
-#include "itkBloxCoreAtomImage.h"
-#include "itkBloxCoreAtomAnalyzer.h"
-
 // Spatial function stuff
 #include "itkSphereSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"

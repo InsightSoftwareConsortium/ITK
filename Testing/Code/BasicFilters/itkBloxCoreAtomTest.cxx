@@ -51,7 +51,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Blox stuff
 #include "itkBloxBoundaryPointImage.h"
 #include "itkBloxCoreAtomImage.h"
-#include "itkBloxCoreAtomAnalyzer.h"
 
 // Spatial function stuff
 #include "itkSphereSpatialFunction.h"
@@ -250,16 +249,7 @@ int main()
   coreAtomImage->FindCoreAtoms();
 
   //--------------------Analyze core atom population---------------------
-
-  itk::ImageRegionIterator<TCoreAtomType> bloxit = 
-    itk::ImageRegionIterator<TCoreAtomType>(coreAtomImage, coreatomregion);
-
-  itk::BloxCoreAtomAnalyzer<dim> analyzer;
-
-  for(bloxit.GoToBegin(); !bloxit.IsAtEnd(); ++bloxit)
-    {
-    analyzer.Analyze( &(bloxit.Value()) );
-    }
+  coreAtomImage->DoEigenanalysis();
 
   return EXIT_SUCCESS;
 }
