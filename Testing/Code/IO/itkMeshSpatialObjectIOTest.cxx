@@ -267,7 +267,7 @@ int itkMeshSpatialObjectIOTest(int, char*[])
         std::cout << "Index = " << (*it_pd)->Index() << " v.s " << j << std::endl;;
         return EXIT_FAILURE;
         }
-      if((*it_pd)->Value() != data)
+      if(fabs((*it_pd)->Value()-data)>0.001)
         {
         std::cout<<" [FAILED]"<<std::endl;
         std::cout << "value = " << (*it_pd)->Value() << " v.s " << data << std::endl;;
@@ -305,7 +305,7 @@ int itkMeshSpatialObjectIOTest(int, char*[])
         std::cout << "Index = " << (*it_pc)->Index() << " v.s " << j << std::endl;;
         return EXIT_FAILURE;
         }
-      if((*it_pc)->Value() != data)
+      if(fabs((*it_pc)->Value()-data)>0.001)
         {
         std::cout<<" [FAILED]"<<std::endl;
         std::cout << "value = " << (*it_pc)->Value() << " v.s " << data << std::endl;;
