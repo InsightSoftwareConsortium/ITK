@@ -19,7 +19,7 @@
 #include "itkByteSwapper.h"
 #include <iostream>
 #include <list>
-#include <string.h>
+#include <string>
 #include <math.h>
 
 namespace itk
@@ -190,7 +190,7 @@ void GiplImageIO::Read(void* buffer)
  */
 void GiplImageIO::ReadImageInformation()
 {
-  long int i;
+  unsigned int i;
 
   m_Ifstream.open(m_FileName.c_str(), std::ios::in | std::ios::binary );
   if( m_Ifstream.fail() )
@@ -498,7 +498,7 @@ void
 GiplImageIO
 ::Write( const void* buffer) 
 {
-  int nDims = this->GetNumberOfDimensions();
+  unsigned int nDims = this->GetNumberOfDimensions();
 
   m_Ofstream.open(m_FileName.c_str(), std::ios::binary | std::ios::out);
   if( m_Ofstream.fail() )
@@ -555,6 +555,8 @@ GiplImageIO
     case  INT :  image_type = GIPL_INT;break;
     case  FLOAT :  image_type = GIPL_FLOAT;break;
     case  DOUBLE : image_type = GIPL_DOUBLE;break;
+    default:
+      itkExceptionMacro ("Invalid type: " << m_PixelType );
   }
 
   if(m_ByteOrder == BigEndian)
