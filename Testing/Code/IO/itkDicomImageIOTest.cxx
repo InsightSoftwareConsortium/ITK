@@ -19,7 +19,6 @@
 #include "itkImageFileReader.h"
 #include "itkImage.h"
 #include "itkDicomImageIOFactory.h"
-#include "itkDicomImageIO.cxx"
 
 int itkDicomImageIOTest(int ac, char** av)
 {
