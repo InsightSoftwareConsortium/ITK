@@ -20,11 +20,14 @@ SET(COMMON_TESTS ${CXX_TEST_PATH}/itkCommonTests)
 SET(COMMON_HEADER_TEST ${CXX_TEST_PATH}/itkCommonHeaderTest)
 SET(SYSTEM_INFORMATION_TEST ${CXX_TEST_PATH}/itkSystemInformationTest)
 
+SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
+
 ADD_TEST(itkChainCodePath2DTest ${COMMON_TESTS} itkChainCodePath2DTest)
 ADD_TEST(itkChainCodePathTest ${COMMON_TESTS} itkChainCodePathTest)
 ADD_TEST(itkCommonPrintTest ${COMMON_TESTS} itkCommonPrintTest)
 ADD_TEST(itkConditionVariableTest ${COMMON_TESTS} itkConditionVariableTest)
 ADD_TEST(itkDecoratorTest ${COMMON_TESTS} itkDecoratorTest)
+ADD_TEST(itkDirectoryTest ${COMMON_TESTS} itkDirectoryTest ${TEMP})
 ADD_TEST(itkModifiedTimeTest ${COMMON_TESTS} itkModifiedTimeTest)
 ADD_TEST(itkAdaptorComparisonTest ${COMMON_TESTS} itkAdaptorComparisonTest)
 ADD_TEST(itkAffineTransformTest ${COMMON_TESTS} itkAffineTransformTest)
@@ -222,6 +225,7 @@ itkCovariantVectorGeometryTest.cxx
 itkCovarianceImageFunctionTest.cxx
 itkDataTypeTest.cxx
 itkDecoratorTest.cxx
+itkDirectoryTest.cxx
 itkDynamicMeshTest.cxx
 itkEuler2DTransformTest.cxx
 itkEuler3DTransformTest.cxx
