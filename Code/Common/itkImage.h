@@ -240,12 +240,6 @@ public:
   virtual void SetSpacing( const double values[ImageDimension] );
   virtual void SetSpacing( const float values[ImageDimension] );
   
-  /** Get the spacing (size of a pixel) of the image. The
-   * spacing is the geometric distance between image samples.
-   * The value returned is a pointer to a double array.
-   * \sa SetSpacing() */
-  virtual const double* GetSpacing() const;
-  
   /** Set the origin of the image. The origin is the geometric
    * coordinates of the image origin.  It is stored internally
    * as double but may be set from float.
@@ -253,12 +247,6 @@ public:
   virtual void SetOrigin( const double values[ImageDimension] );
   virtual void SetOrigin( const float values[ImageDimension] );
   
-  /** Get the origin of the image. The origin is the geometric
-   * coordinates of the index (0,0).  The value returned is
-   * a pointer to a double array.
-   * \sa SetOrigin() */
-  virtual const double * GetOrigin() const;
-
   /** Get the index-to-physical coordinate transformation
    *
    * This method returns an Transform which defines the
@@ -467,10 +455,6 @@ private:
 
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;
-
-  /** Origin and spacing of physical coordinates. */
-  double                m_Spacing[ImageDimension];
-  double                m_Origin[ImageDimension];
 
   /** Transforms used to convert between data and physical space. */
   TransformPointer  m_IndexToPhysicalTransform;

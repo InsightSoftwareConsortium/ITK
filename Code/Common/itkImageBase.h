@@ -268,6 +268,10 @@ protected:
    * the BufferedRegion is set. */
   void ComputeOffsetTable();
 
+protected:
+  /** Origin and spacing of physical coordinates. */
+  double                m_Spacing[ImageDimension];
+  double                m_Origin[ImageDimension];
 private:
   ImageBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

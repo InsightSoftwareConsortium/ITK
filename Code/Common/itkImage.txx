@@ -172,17 +172,6 @@ Image<TPixel, VImageDimension>
 
 
 
-//----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-const double *
-Image<TPixel, VImageDimension>
-::GetSpacing() const
-{
-  return m_Spacing;
-}
-
-
-
 
 //----------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension>
@@ -232,16 +221,6 @@ Image<TPixel, VImageDimension>
     this->RebuildTransforms();
     }
 }
-
-//----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-const double *
-Image<TPixel, VImageDimension>
-::GetOrigin() const
-{
-  return m_Origin;
-}
-
 
 
 //---------------------------------------------------------------------------
