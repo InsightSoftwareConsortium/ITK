@@ -38,6 +38,7 @@ SET(WRAP_SOURCES
   wrap_itkSize
   wrap_itkScaleTransform
   wrap_itkTransform
+  wrap_itkTransformBase
   wrap_itkTranslationTransform
   wrap_itkVector
   wrap_itkVersorTransform
