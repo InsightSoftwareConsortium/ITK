@@ -43,7 +43,7 @@
 //  image is used to find the grid point corresponding to the space point $Q$.
 //
 //  The whole process is illustrated in figure
-//  \ref{fig:ResampleImageFilterTransformComposition}. In order to correctly
+//  \ref{fig:ResampleImageFilterTransformComposition1}. In order to correctly
 //  interpret the process of the ResampleImageFilter you should be aware of the
 //  origin and spacing settings of both the input and output images.
 //
@@ -198,18 +198,18 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  The output resulting from these filter settings is analyzed in figure
-  //  \ref{fig:ResampleImageFilterTransformComposition}
+  //  \ref{fig:ResampleImageFilterTransformComposition1}
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=12cm]{ResampleImageFilterTransformComposition.eps}
+  // \includegraphics[width=12cm]{ResampleImageFilterTransformComposition1.eps}
   // \caption{Effect of selecting the origin of the output image}
-  // \label{fig:ResampleImageFilterTransformComposition}
+  // \label{fig:ResampleImageFilterTransformComposition1}
   // \end{figure}
   //
   //  With this change we can better appreciate the effect of the previous
   //  translation transform on the image resampling. Figure
-  //  \ref{fig:ResampleImageFilterTransformComposition} illustrates how the
+  //  \ref{fig:ResampleImageFilterTransformComposition1} illustrates how the
   //  output image point with index $I=(0,0)$ has space coordinates
   //  $P=(30,40)$.  The identity transform maps this point to $Q=(30,40)$ in
   //  the input image space. Because the input image in this case happens to
@@ -219,7 +219,88 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex 
 
 
-  
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The code for a different selection of origin and image size is
+  //  illustrated below.  The resulting output is presented in figure
+  //  \ref{fig:ResampleImageFilterTransformComposition2}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  size[0] = 150;  // number of pixels along X
+  size[1] = 200;  // number of pixels along Y
+
+  filter->SetSize( size );
+  // Software Guide : EndCodeSnippet
+
+
+  // Software Guide : BeginCodeSnippet
+  origin[0] = 60.0;  // X space coordinate of origin
+  origin[1] = 30.0;  // Y space coordinate of origin
+
+  filter->SetOutputOrigin( origin );
+  // Software Guide : EndCodeSnippet
+
+
+  if( exampleAction == 1 )
+    {
+    writer->Update();
+    }
+
+
+  //  Software Guide : BeginLatex
+  //
+  //
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=12cm]{ResampleImageFilterTransformComposition2.eps}
+  // \caption{Effect of selecting the origin of the output image}
+  // \label{fig:ResampleImageFilterTransformComposition2}
+  // \end{figure}
+  //
+  //  The output image point with index $I=(0,0)$ now has space coordinates
+  //  $P=(60,30)$.  The identity transform maps this point to $Q=(60,30)$ in
+  //  the input image space. Because the input image in this case happens to
+  //  have spacing $(1.0,1.0)$ and origin $(0.0,0.0)$, the physical point
+  //  $Q=(60,30)$ maps to the pixel with index $I=(60,30)$.
+  //
+  //  Software Guide : EndLatex 
+
+ 
+  //  Software Guide : BeginLatex
+  //
+  //  Let's now analyze the effect of a non-zero origin in the input image.
+  //  Keeping the output image settings of the previous example, we modify only
+  //  the origin values on the file header of the input image. The new origin
+  //  assigned to the input image is $O=(50,70)$. An Identity transform is
+  //  still used as input for the ResampleImageFilter. The result of running
+  //  the filter with these parameters is presented in figure
+  //  \ref{fig:ResampleImageFilterTransformComposition3}
+  //
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=12cm]{ResampleImageFilterTransformComposition3.eps}
+  // \caption{Effect of selecting the origin of the input image}
+  // \label{fig:ResampleImageFilterTransformComposition3}
+  // \end{figure}
+  //
+  //  The pixel with index $I=(56,120)$ on the output image has coordinates
+  //  $P=(116,150)$ in physical space. The identity transform maps $P$ to the
+  //  point $Q=(116,150)$ on the input image space. The coordinates of $Q$ are
+  //  associated with the pixel of index $I=(66,80)$ on the input image.
+  //
+  //  Software Guide : EndLatex 
+
+
+  if( exampleAction == 2 )
+    {
+    writer->Update();
+    }
+
+
   return 0;
 
 }
