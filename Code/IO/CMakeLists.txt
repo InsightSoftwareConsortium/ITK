@@ -35,6 +35,8 @@ SET(ITKIO_SRCS
   itkImageIORegion.cxx
   itkMetaImageIO.cxx
   itkMetaImageIOFactory.cxx
+  itkNrrdImageIO.cxx
+  itkNrrdImageIOFactory.cxx
   itkNumericSeriesFileNames.cxx
   itkPNGImageIO.cxx
   itkPNGImageIOFactory.cxx
@@ -58,9 +60,8 @@ ENDIF(USE_GDCM)
 
 # Add ITKIO library
 ADD_LIBRARY(ITKIO ${ITKIO_SRCS})
-TARGET_LINK_LIBRARIES(ITKIO ITKCommon ${ITK_PNG_LIBRARIES} ${ITK_JPEG_LIBRARIES}
-                      ${ITK_ZLIB_LIBRARIES} ${ITK_TIFF_LIBRARIES} ${GDCM_SHARED_LIBRARY}
- ITKMetaIO ITKDICOMParser ITKEXPAT)
+
+TARGET_LINK_LIBRARIES(ITKIO ITKCommon ITKNrrdIO ${ITK_PNG_LIBRARIES} ${ITK_JPEG_LIBRARIES} ${ITK_ZLIB_LIBRARIES} ${ITK_TIFF_LIBRARIES} ITKMetaIO ITKDICOMParser ITKEXPAT)
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKIO)
 INSTALL_FILES(/include/InsightToolkit/IO "(\\.h|\\.txx)$")

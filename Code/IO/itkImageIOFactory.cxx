@@ -26,6 +26,7 @@
 #include "itkJPEGImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkPNGImageIOFactory.h"
+#include "itkNrrdImageIOFactory.h"
 #include "itkTIFFImageIOFactory.h"
 #include "itkVTKImageIOFactory.h"
 #include "itkStimulateImageIOFactory.h"
@@ -34,8 +35,6 @@
 
 namespace itk
 {
-  
-
   
 ImageIOBase::Pointer 
 ImageIOFactory::CreateImageIO(const char* path, FileModeType mode)
@@ -83,9 +82,6 @@ ImageIOFactory::CreateImageIO(const char* path, FileModeType mode)
   return 0;
 }
 
-
-
-  
 void
 ImageIOFactory::RegisterBuiltInFactories()
 {
@@ -106,6 +102,7 @@ ImageIOFactory::RegisterBuiltInFactories()
     ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( JPEGImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( TIFFImageIOFactory::New());
+    ObjectFactoryBase::RegisterFactory( NrrdImageIOFactory::New() ); 
     ObjectFactoryBase::RegisterFactory( BMPImageIOFactory::New() ); 
     ObjectFactoryBase::RegisterFactory( DICOMImageIO2Factory::New() ); 
     firstTime = false;
@@ -113,8 +110,5 @@ ImageIOFactory::RegisterBuiltInFactories()
   }
 
 }
-
-
-
 
 } // end namespace itk
