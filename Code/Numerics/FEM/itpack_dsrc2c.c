@@ -1,9 +1,8 @@
 /* ../dsrc2c.f -- translated by f2c (version 20020208).
    You must link the resulting object file with the libraries:
-   -lf2c -lm   (in that order)
+    -lf2c -lm   (in that order)
 */
 
-#include "itpack_f2c.h"
 
 /* Common Block Declarations */
 
@@ -39,15 +38,9 @@ static integer c__5 = 5;
 static integer c__6 = 6;
 static integer c__7 = 7;
 
-/* Subroutine */ int jcg_(nn, ia, ja, a, rhs, u, iwksp, nw, wksp, iparm, 
-    rparm, ierr)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs, *u;
-integer *iwksp, *nw;
-doublereal *wksp;
-integer *iparm;
-doublereal *rparm;
-integer *ierr;
+/* Subroutine */ int jcg_(integer *nn, integer *ia, integer *ja, doublereal *
+    a, doublereal *rhs, doublereal *u, integer *iwksp, integer *nw, 
+    doublereal *wksp, integer *iparm, doublereal *rparm, integer *ierr)
 {
     /* Format strings */
     static char fmt_10[] = "(\0020\002///1x,\002BEGINNING OF ITPACK SOLUTION\
@@ -103,29 +96,50 @@ OES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(), e_wsfe(), do_fio();
+    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
-    extern /* Subroutine */ int pjac_(), scal_();
+    extern /* Subroutine */ int pjac_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *), scal_(integer *, 
+        integer *, integer *, doublereal *, doublereal *, doublereal *, 
+        doublereal *, integer *, integer *, integer *);
     static doublereal temp;
     static integer loop;
     static doublereal time1, time2;
     static real timi1, timj1, timi2, timj2;
     static integer n;
-    extern /* Subroutine */ int itjcg_(), sbelm_();
+    extern /* Subroutine */ int itjcg_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, 
+        doublereal *, doublereal *, doublereal *), sbelm_(integer *, 
+        integer *, integer *, doublereal *, doublereal *, integer *, 
+        doublereal *, doublereal *, integer *, integer *, integer *, 
+        integer *);
     static integer idgts;
-    extern /* Subroutine */ int vfill_(), dcopy_();
-    extern doublereal timer_();
+    extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
+         dcopy_(integer *, doublereal *, integer *, doublereal *, integer 
+        *);
+    extern doublereal timer_(real *);
     static real dummy;
     static integer n3;
-    extern /* Subroutine */ int vevmw_();
+    extern /* Subroutine */ int vevmw_(integer *, doublereal *, doublereal *);
     static doublereal digit1, digit2;
     static integer itmax1, nb;
-    extern /* Subroutine */ int echall_(), pervec_(), ivfill_();
+    extern /* Subroutine */ int echall_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, integer *, doublereal *, integer *), 
+        pervec_(integer *, doublereal *, integer *), ivfill_(integer *, 
+        integer *, integer *);
     static integer ierper;
-    extern /* Subroutine */ int echout_(), permat_(), unscal_();
+    extern /* Subroutine */ int echout_(integer *, doublereal *, integer *), 
+        permat_(integer *, integer *, integer *, doublereal *, integer *, 
+        integer *, integer *, integer *, integer *, integer *), unscal_(
+        integer *, integer *, integer *, doublereal *, doublereal *, 
+        doublereal *, doublereal *);
     static integer ib1, ib2, ib3, ib4, ib5;
-    extern /* Subroutine */ int prbndx_(), perror_();
+    extern /* Subroutine */ int prbndx_(integer *, integer *, integer *, 
+        integer *, integer *, integer *, integer *, integer *, integer *),
+         perror_(integer *, integer *, integer *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, 
+        doublereal *, integer *);
     static integer ier;
     static doublereal tol;
 
@@ -646,15 +660,9 @@ L370:
     return 0;
 } /* jcg_ */
 
-/* Subroutine */ int jsi_(nn, ia, ja, a, rhs, u, iwksp, nw, wksp, iparm, 
-    rparm, ierr)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs, *u;
-integer *iwksp, *nw;
-doublereal *wksp;
-integer *iparm;
-doublereal *rparm;
-integer *ierr;
+/* Subroutine */ int jsi_(integer *nn, integer *ia, integer *ja, doublereal *
+    a, doublereal *rhs, doublereal *u, integer *iwksp, integer *nw, 
+    doublereal *wksp, integer *iparm, doublereal *rparm, integer *ierr)
 {
     /* Format strings */
     static char fmt_10[] = "(\0020\002///1x,\002BEGINNING OF ITPACK SOLUTION\
@@ -708,30 +716,49 @@ OES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(), e_wsfe(), do_fio();
+    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
-    extern /* Subroutine */ int scal_();
+    extern /* Subroutine */ int scal_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, integer *,
+         integer *, integer *);
     static integer icnt;
     static doublereal temp;
     static integer loop;
     static doublereal time1, time2;
     static real timi1, timj1, timi2, timj2;
     static integer n;
-    extern /* Subroutine */ int sbelm_();
+    extern /* Subroutine */ int sbelm_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, integer *, doublereal *, doublereal *,
+         integer *, integer *, integer *, integer *);
     static integer idgts;
-    extern /* Subroutine */ int vfill_(), dcopy_();
-    extern doublereal timer_();
-    extern /* Subroutine */ int itjsi_();
+    extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
+         dcopy_(integer *, doublereal *, integer *, doublereal *, integer 
+        *);
+    extern doublereal timer_(real *);
+    extern /* Subroutine */ int itjsi_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, 
+        doublereal *, integer *);
     static real dummy;
     static integer n3;
     static doublereal digit1, digit2;
     static integer itmax1, nb;
-    extern /* Subroutine */ int echall_(), pervec_(), ivfill_();
+    extern /* Subroutine */ int echall_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, integer *, doublereal *, integer *), 
+        pervec_(integer *, doublereal *, integer *), ivfill_(integer *, 
+        integer *, integer *);
     static integer ierper;
-    extern /* Subroutine */ int echout_(), permat_(), unscal_();
+    extern /* Subroutine */ int echout_(integer *, doublereal *, integer *), 
+        permat_(integer *, integer *, integer *, doublereal *, integer *, 
+        integer *, integer *, integer *, integer *, integer *), unscal_(
+        integer *, integer *, integer *, doublereal *, doublereal *, 
+        doublereal *, doublereal *);
     static integer ib1, ib2, ib3;
-    extern /* Subroutine */ int prbndx_(), perror_();
+    extern /* Subroutine */ int prbndx_(integer *, integer *, integer *, 
+        integer *, integer *, integer *, integer *, integer *, integer *),
+         perror_(integer *, integer *, integer *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, 
+        doublereal *, integer *);
     static integer ier;
     static doublereal tol;
 
@@ -1228,15 +1255,9 @@ L360:
     return 0;
 } /* jsi_ */
 
-/* Subroutine */ int sor_(nn, ia, ja, a, rhs, u, iwksp, nw, wksp, iparm, 
-    rparm, ierr)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs, *u;
-integer *iwksp, *nw;
-doublereal *wksp;
-integer *iparm;
-doublereal *rparm;
-integer *ierr;
+/* Subroutine */ int sor_(integer *nn, integer *ia, integer *ja, doublereal *
+    a, doublereal *rhs, doublereal *u, integer *iwksp, integer *nw, 
+    doublereal *wksp, integer *iparm, doublereal *rparm, integer *ierr)
 {
     /* Format strings */
     static char fmt_10[] = "(\0020\002///1x,\002BEGINNING OF ITPACK SOLUTION\
@@ -1291,29 +1312,45 @@ OES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(), e_wsfe(), do_fio();
+    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
-    extern /* Subroutine */ int scal_();
+    extern /* Subroutine */ int scal_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, integer *,
+         integer *, integer *);
     static doublereal temp;
     static integer loop;
     static doublereal time1, time2;
     static real timi1, timj1, timi2, timj2;
     static integer n;
-    extern /* Subroutine */ int sbelm_();
+    extern /* Subroutine */ int sbelm_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, integer *, doublereal *, doublereal *,
+         integer *, integer *, integer *, integer *);
     static integer idgts;
-    extern /* Subroutine */ int vfill_();
-    extern doublereal timer_();
+    extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *);
+    extern doublereal timer_(real *);
     static real dummy;
-    extern /* Subroutine */ int itsor_();
+    extern /* Subroutine */ int itsor_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *, doublereal *);
     static integer n3;
     static doublereal digit1, digit2;
     static integer itmax1, nb;
-    extern /* Subroutine */ int echall_(), pervec_(), ivfill_();
+    extern /* Subroutine */ int echall_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, integer *, doublereal *, integer *), 
+        pervec_(integer *, doublereal *, integer *), ivfill_(integer *, 
+        integer *, integer *);
     static integer ierper;
-    extern /* Subroutine */ int echout_(), permat_(), unscal_();
+    extern /* Subroutine */ int echout_(integer *, doublereal *, integer *), 
+        permat_(integer *, integer *, integer *, doublereal *, integer *, 
+        integer *, integer *, integer *, integer *, integer *), unscal_(
+        integer *, integer *, integer *, doublereal *, doublereal *, 
+        doublereal *, doublereal *);
     static integer ib1, ib2, ib3;
-    extern /* Subroutine */ int prbndx_(), perror_();
+    extern /* Subroutine */ int prbndx_(integer *, integer *, integer *, 
+        integer *, integer *, integer *, integer *, integer *, integer *),
+         perror_(integer *, integer *, integer *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, 
+        doublereal *, integer *);
     static integer ier;
     static doublereal tol;
 
@@ -1789,15 +1826,10 @@ L360:
     return 0;
 } /* sor_ */
 
-/* Subroutine */ int ssorcg_(nn, ia, ja, a, rhs, u, iwksp, nw, wksp, iparm, 
-    rparm, ierr)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs, *u;
-integer *iwksp, *nw;
-doublereal *wksp;
-integer *iparm;
-doublereal *rparm;
-integer *ierr;
+/* Subroutine */ int ssorcg_(integer *nn, integer *ia, integer *ja, 
+    doublereal *a, doublereal *rhs, doublereal *u, integer *iwksp, 
+    integer *nw, doublereal *wksp, integer *iparm, doublereal *rparm, 
+    integer *ierr)
 {
     /* Format strings */
     static char fmt_10[] = "(\0020\002///1x,\002BEGINNING OF ITPACK SOLUTION\
@@ -1854,33 +1886,53 @@ CH UNDOES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
     doublereal d__1;
 
     /* Builtin functions */
-    integer s_wsfe(), e_wsfe(), do_fio();
+    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
-    extern /* Subroutine */ int scal_(), omeg_();
+    extern /* Subroutine */ int scal_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, integer *,
+         integer *, integer *), omeg_(doublereal *, integer *);
     static doublereal temp;
     static integer loop;
     static doublereal time1, time2;
     static real timi1, timj1, timi2, timj2;
     static integer n;
-    extern doublereal pbeta_();
-    extern /* Subroutine */ int sbelm_();
+    extern doublereal pbeta_(integer *, integer *, integer *, doublereal *, 
+        doublereal *, doublereal *, doublereal *);
+    extern /* Subroutine */ int sbelm_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, integer *, doublereal *, doublereal *,
+         integer *, integer *, integer *, integer *);
     static integer idgts;
-    extern /* Subroutine */ int vfill_(), dcopy_();
-    extern doublereal timer_();
-    extern /* Subroutine */ int pfsor_();
+    extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
+         dcopy_(integer *, doublereal *, integer *, doublereal *, integer 
+        *);
+    extern doublereal timer_(real *);
+    extern /* Subroutine */ int pfsor_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *);
     static real dummy;
     static integer n3;
-    extern /* Subroutine */ int vevmw_();
+    extern /* Subroutine */ int vevmw_(integer *, doublereal *, doublereal *);
     static doublereal digit1, digit2;
     static integer itmax1, nb;
-    extern /* Subroutine */ int echall_();
+    extern /* Subroutine */ int echall_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, integer *, doublereal *, integer *);
     static doublereal betnew;
-    extern /* Subroutine */ int ivfill_();
+    extern /* Subroutine */ int ivfill_(integer *, integer *, integer *);
     static integer ierper;
-    extern /* Subroutine */ int echout_(), permat_(), pervec_(), itsrcg_();
+    extern /* Subroutine */ int echout_(integer *, doublereal *, integer *), 
+        permat_(integer *, integer *, integer *, doublereal *, integer *, 
+        integer *, integer *, integer *, integer *, integer *), pervec_(
+        integer *, doublereal *, integer *), itsrcg_(integer *, integer *,
+         integer *, doublereal *, doublereal *, doublereal *, doublereal *
+        , doublereal *, doublereal *, doublereal *, doublereal *, 
+        doublereal *, doublereal *);
     static integer ib1, ib2, ib3, ib4, ib5, ib6, ib7;
-    extern /* Subroutine */ int prbndx_(), unscal_(), perror_();
+    extern /* Subroutine */ int prbndx_(integer *, integer *, integer *, 
+        integer *, integer *, integer *, integer *, integer *, integer *),
+         unscal_(integer *, integer *, integer *, doublereal *, 
+        doublereal *, doublereal *, doublereal *), perror_(integer *, 
+        integer *, integer *, doublereal *, doublereal *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, integer *);
     static integer ier;
     static doublereal tol;
 
@@ -2430,15 +2482,10 @@ L390:
     return 0;
 } /* ssorcg_ */
 
-/* Subroutine */ int ssorsi_(nn, ia, ja, a, rhs, u, iwksp, nw, wksp, iparm, 
-    rparm, ierr)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs, *u;
-integer *iwksp, *nw;
-doublereal *wksp;
-integer *iparm;
-doublereal *rparm;
-integer *ierr;
+/* Subroutine */ int ssorsi_(integer *nn, integer *ia, integer *ja, 
+    doublereal *a, doublereal *rhs, doublereal *u, integer *iwksp, 
+    integer *nw, doublereal *wksp, integer *iparm, doublereal *rparm, 
+    integer *ierr)
 {
     /* Format strings */
     static char fmt_10[] = "(\0020\002///1x,\002BEGINNING OF ITPACK SOLUTION\
@@ -2493,31 +2540,50 @@ CH UNDOES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
     doublereal d__1;
 
     /* Builtin functions */
-    integer s_wsfe(), e_wsfe(), do_fio();
+    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
-    extern /* Subroutine */ int scal_(), omeg_();
+    extern /* Subroutine */ int scal_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, integer *,
+         integer *, integer *), omeg_(doublereal *, integer *);
     static doublereal temp;
     static integer loop;
     static doublereal time1, time2;
     static real timi1, timj1, timi2, timj2;
     static integer n;
-    extern doublereal pbeta_();
-    extern /* Subroutine */ int sbelm_();
+    extern doublereal pbeta_(integer *, integer *, integer *, doublereal *, 
+        doublereal *, doublereal *, doublereal *);
+    extern /* Subroutine */ int sbelm_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, integer *, doublereal *, doublereal *,
+         integer *, integer *, integer *, integer *);
     static integer idgts;
-    extern /* Subroutine */ int vfill_(), dcopy_();
-    extern doublereal timer_();
+    extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
+         dcopy_(integer *, doublereal *, integer *, doublereal *, integer 
+        *);
+    extern doublereal timer_(real *);
     static real dummy;
     static integer n3;
     static doublereal digit1, digit2;
     static integer itmax1, nb;
-    extern /* Subroutine */ int echall_();
+    extern /* Subroutine */ int echall_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, integer *, doublereal *, integer *);
     static doublereal betnew;
-    extern /* Subroutine */ int ivfill_();
+    extern /* Subroutine */ int ivfill_(integer *, integer *, integer *);
     static integer ierper;
-    extern /* Subroutine */ int echout_(), permat_(), pervec_(), unscal_();
+    extern /* Subroutine */ int echout_(integer *, doublereal *, integer *), 
+        permat_(integer *, integer *, integer *, doublereal *, integer *, 
+        integer *, integer *, integer *, integer *, integer *), pervec_(
+        integer *, doublereal *, integer *), unscal_(integer *, integer *,
+         integer *, doublereal *, doublereal *, doublereal *, doublereal *
+        );
     static integer ib1, ib2, ib3, ib4, ib5;
-    extern /* Subroutine */ int prbndx_(), perror_(), itsrsi_();
+    extern /* Subroutine */ int prbndx_(integer *, integer *, integer *, 
+        integer *, integer *, integer *, integer *, integer *, integer *),
+         perror_(integer *, integer *, integer *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, 
+        doublereal *, integer *), itsrsi_(integer *, integer *, integer *,
+         doublereal *, doublereal *, doublereal *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *);
     static integer ier;
     static doublereal tol;
 
@@ -3041,15 +3107,9 @@ L380:
     return 0;
 } /* ssorsi_ */
 
-/* Subroutine */ int rscg_(nn, ia, ja, a, rhs, u, iwksp, nw, wksp, iparm, 
-    rparm, ierr)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs, *u;
-integer *iwksp, *nw;
-doublereal *wksp;
-integer *iparm;
-doublereal *rparm;
-integer *ierr;
+/* Subroutine */ int rscg_(integer *nn, integer *ia, integer *ja, doublereal *
+    a, doublereal *rhs, doublereal *u, integer *iwksp, integer *nw, 
+    doublereal *wksp, integer *iparm, doublereal *rparm, integer *ierr)
 {
     /* Format strings */
     static char fmt_10[] = "(\0020\002///1x,\002BEGINNING OF ITPACK SOLUTION\
@@ -3109,31 +3169,52 @@ H UNDOES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(), e_wsfe(), do_fio();
+    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
-    extern /* Subroutine */ int scal_();
+    extern /* Subroutine */ int scal_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, integer *,
+         integer *, integer *);
     static doublereal temp;
     static integer loop;
     static doublereal time1, time2;
     static real timi1, timj1, timi2, timj2;
     static integer n;
-    extern /* Subroutine */ int sbelm_();
+    extern /* Subroutine */ int sbelm_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, integer *, doublereal *, doublereal *,
+         integer *, integer *, integer *, integer *);
     static integer idgts;
-    extern /* Subroutine */ int vfill_(), dcopy_();
-    extern doublereal timer_();
+    extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
+         dcopy_(integer *, doublereal *, integer *, doublereal *, integer 
+        *);
+    extern doublereal timer_(real *);
     static real dummy;
     static integer n3;
-    extern /* Subroutine */ int vevmw_();
+    extern /* Subroutine */ int vevmw_(integer *, doublereal *, doublereal *);
     static doublereal digit1, digit2;
     static integer itmax1, nb;
-    extern /* Subroutine */ int echall_();
+    extern /* Subroutine */ int echall_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, integer *, doublereal *, integer *);
     static integer nr;
-    extern /* Subroutine */ int pervec_(), ivfill_();
+    extern /* Subroutine */ int pervec_(integer *, doublereal *, integer *), 
+        ivfill_(integer *, integer *, integer *);
     static integer ierper;
-    extern /* Subroutine */ int echout_(), permat_(), unscal_(), itrscg_();
+    extern /* Subroutine */ int echout_(integer *, doublereal *, integer *), 
+        permat_(integer *, integer *, integer *, doublereal *, integer *, 
+        integer *, integer *, integer *, integer *, integer *), unscal_(
+        integer *, integer *, integer *, doublereal *, doublereal *, 
+        doublereal *, doublereal *), itrscg_(integer *, integer *, 
+        integer *, integer *, doublereal *, doublereal *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *);
     static integer ib1, ib2, ib3, ib4, ib5, jb3;
-    extern /* Subroutine */ int prbndx_(), prsred_(), prsblk_(), perror_();
+    extern /* Subroutine */ int prbndx_(integer *, integer *, integer *, 
+        integer *, integer *, integer *, integer *, integer *, integer *),
+         prsred_(integer *, integer *, integer *, integer *, doublereal *,
+         doublereal *, doublereal *), prsblk_(integer *, integer *, 
+        integer *, integer *, doublereal *, doublereal *, doublereal *), 
+        perror_(integer *, integer *, integer *, doublereal *, doublereal 
+        *, doublereal *, doublereal *, doublereal *, doublereal *, 
+        integer *);
     static integer ier;
     static doublereal tol;
     static integer nrp1;
@@ -3706,15 +3787,9 @@ L430:
     return 0;
 } /* rscg_ */
 
-/* Subroutine */ int rssi_(nn, ia, ja, a, rhs, u, iwksp, nw, wksp, iparm, 
-    rparm, ierr)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs, *u;
-integer *iwksp, *nw;
-doublereal *wksp;
-integer *iparm;
-doublereal *rparm;
-integer *ierr;
+/* Subroutine */ int rssi_(integer *nn, integer *ia, integer *ja, doublereal *
+    a, doublereal *rhs, doublereal *u, integer *iwksp, integer *nw, 
+    doublereal *wksp, integer *iparm, doublereal *rparm, integer *ierr)
 {
     /* Format strings */
     static char fmt_10[] = "(\0020\002///1x,\002BEGINNING OF ITPACK SOLUTION\
@@ -3772,32 +3847,50 @@ H UNDOES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(), e_wsfe(), do_fio();
+    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
-    extern /* Subroutine */ int scal_();
+    extern /* Subroutine */ int scal_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, integer *,
+         integer *, integer *);
     static doublereal temp;
     static integer loop;
     static doublereal time1, time2;
     static real timi1, timj1, timi2, timj2;
     static integer n;
-    extern /* Subroutine */ int sbelm_();
+    extern /* Subroutine */ int sbelm_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, integer *, doublereal *, doublereal *,
+         integer *, integer *, integer *, integer *);
     static integer idgts;
-    extern /* Subroutine */ int vfill_(), dcopy_();
-    extern doublereal timer_();
+    extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
+         dcopy_(integer *, doublereal *, integer *, doublereal *, integer 
+        *);
+    extern doublereal timer_(real *);
     static real dummy;
     static integer n3;
     static doublereal digit1, digit2;
     static integer itmax1, nb;
-    extern /* Subroutine */ int echall_();
+    extern /* Subroutine */ int echall_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, integer *, doublereal *, integer *);
     static integer nr;
-    extern /* Subroutine */ int pervec_(), ivfill_();
+    extern /* Subroutine */ int pervec_(integer *, doublereal *, integer *), 
+        ivfill_(integer *, integer *, integer *);
     static integer ierper;
-    extern /* Subroutine */ int echout_(), permat_(), unscal_();
+    extern /* Subroutine */ int echout_(integer *, doublereal *, integer *), 
+        permat_(integer *, integer *, integer *, doublereal *, integer *, 
+        integer *, integer *, integer *, integer *, integer *), unscal_(
+        integer *, integer *, integer *, doublereal *, doublereal *, 
+        doublereal *, doublereal *);
     static integer ib1, ib2;
-    extern /* Subroutine */ int prbndx_();
+    extern /* Subroutine */ int prbndx_(integer *, integer *, integer *, 
+        integer *, integer *, integer *, integer *, integer *, integer *);
     static integer jb3;
-    extern /* Subroutine */ int prsred_(), perror_(), itrssi_();
+    extern /* Subroutine */ int prsred_(integer *, integer *, integer *, 
+        integer *, doublereal *, doublereal *, doublereal *), perror_(
+        integer *, integer *, integer *, doublereal *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, integer *)
+        , itrssi_(integer *, integer *, integer *, integer *, doublereal *
+        , doublereal *, doublereal *, doublereal *, doublereal *);
     static integer ier;
     static doublereal tol;
     static integer nrp1;
@@ -4343,22 +4436,31 @@ L420:
     return 0;
 } /* rssi_ */
 
-/* Subroutine */ int itjcg_(nn, ia, ja, a, u, u1, d__, d1, dtwd, tri)
-integer *nn, *ia, *ja;
-doublereal *a, *u, *u1, *d__, *d1, *dtwd, *tri;
+/* Subroutine */ int itjcg_(integer *nn, integer *ia, integer *ja, doublereal 
+    *a, doublereal *u, doublereal *u1, doublereal *d__, doublereal *d1, 
+    doublereal *dtwd, doublereal *tri)
 {
-    extern /* Subroutine */ int pjac_();
-    extern doublereal ddot_();
+    extern /* Subroutine */ int pjac_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *);
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+        integer *);
     static doublereal dnrm;
     static integer n;
-    extern /* Subroutine */ int vfill_(), iterm_();
+    extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
+         iterm_(integer *, doublereal *, doublereal *, doublereal *, 
+        integer *);
     static doublereal c1, c2, c3, c4, dtnrm;
     static logical q1;
-    extern /* Subroutine */ int pstop_(), chgcon_();
+    extern /* Subroutine */ int pstop_(integer *, doublereal *, doublereal *, 
+        doublereal *, integer *, logical *), chgcon_(doublereal *, 
+        doublereal *, doublereal *, integer *);
     static doublereal gamold;
-    extern /* Subroutine */ int parcon_();
+    extern /* Subroutine */ int parcon_(doublereal *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, 
+        doublereal *, integer *);
     static doublereal rhoold, rhotmp, con;
-    extern /* Subroutine */ int sum3_();
+    extern /* Subroutine */ int sum3_(integer *, doublereal *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *);
 
 
 /* ... FUNCTION: */
@@ -4468,26 +4570,36 @@ L30:
     return 0;
 } /* itjcg_ */
 
-/* Subroutine */ int itjsi_(nn, ia, ja, a, rhs, u, u1, d__, icnt)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs, *u, *u1, *d__;
-integer *icnt;
+/* Subroutine */ int itjsi_(integer *nn, integer *ia, integer *ja, doublereal 
+    *a, doublereal *rhs, doublereal *u, doublereal *u1, doublereal *d__, 
+    integer *icnt)
 {
-    extern /* Subroutine */ int pjac_();
-    extern doublereal ddot_();
+    extern /* Subroutine */ int pjac_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *);
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+        integer *);
     static doublereal dnrm;
     static integer n;
-    extern /* Subroutine */ int chgsi_(), dcopy_(), parsi_(), iterm_();
+    extern /* Subroutine */ int chgsi_(doublereal *, integer *), dcopy_(
+        integer *, doublereal *, integer *, doublereal *, integer *), 
+        parsi_(doublereal *, doublereal *, doublereal *, integer *), 
+        iterm_(integer *, doublereal *, doublereal *, doublereal *, 
+        integer *);
     static doublereal c1, c2, c3, dtnrm;
-    extern /* Subroutine */ int daxpy_();
-    extern doublereal pvtbv_();
+    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *, 
+        integer *, doublereal *, integer *);
+    extern doublereal pvtbv_(integer *, integer *, integer *, doublereal *, 
+        doublereal *);
     static logical q1;
-    extern /* Subroutine */ int vevmw_(), pstop_();
-    extern logical chgsme_();
+    extern /* Subroutine */ int vevmw_(integer *, doublereal *, doublereal *),
+         pstop_(integer *, doublereal *, doublereal *, doublereal *, 
+        integer *, logical *);
+    extern logical chgsme_(doublereal *, integer *);
     static doublereal oldnrm;
-    extern logical tstchg_();
+    extern logical tstchg_(integer *);
     static doublereal con;
-    extern /* Subroutine */ int sum3_();
+    extern /* Subroutine */ int sum3_(integer *, doublereal *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *);
 
 
 /* ... FUNCTION: */
@@ -4611,31 +4723,34 @@ L40:
     return 0;
 } /* itjsi_ */
 
-/* Subroutine */ int itsor_(nn, ia, ja, a, rhs, u, wk)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs, *u, *wk;
+/* Subroutine */ int itsor_(integer *nn, integer *ia, integer *ja, doublereal 
+    *a, doublereal *rhs, doublereal *u, doublereal *wk)
 {
     /* System generated locals */
     integer i__1, i__2;
     doublereal d__1, d__2;
 
     /* Builtin functions */
-    double sqrt(), pow_dd();
+    double sqrt(doublereal), pow_dd(doublereal *, doublereal *);
 
     /* Local variables */
     static doublereal dnrm, h__;
     static integer n, iphat;
-    extern /* Subroutine */ int dcopy_(), iterm_();
-    extern integer ipstr_();
+    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
+        doublereal *, integer *), iterm_(integer *, doublereal *, 
+        doublereal *, doublereal *, integer *);
+    extern integer ipstr_(doublereal *);
     static logical q1;
-    extern /* Subroutine */ int pstop_();
+    extern /* Subroutine */ int pstop_(integer *, doublereal *, doublereal *, 
+        doublereal *, integer *, logical *);
     static doublereal spcrm1;
-    extern /* Subroutine */ int pfsor1_();
+    extern /* Subroutine */ int pfsor1_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *);
     static logical change;
     static integer ip;
     static doublereal omegap;
     static integer ipstar;
-    extern doublereal tau_();
+    extern doublereal tau_(integer *);
     static integer iss;
 
 
@@ -4817,34 +4932,49 @@ L70:
     return 0;
 } /* itsor_ */
 
-/* Subroutine */ int itsrcg_(nn, ia, ja, a, rhs, u, u1, c__, c1, d__, dl, wk, 
-    tri)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs, *u, *u1, *c__, *c1, *d__, *dl, *wk, *tri;
+/* Subroutine */ int itsrcg_(integer *nn, integer *ia, integer *ja, 
+    doublereal *a, doublereal *rhs, doublereal *u, doublereal *u1, 
+    doublereal *c__, doublereal *c1, doublereal *d__, doublereal *dl, 
+    doublereal *wk, doublereal *tri)
 {
     /* System generated locals */
     doublereal d__1;
 
     /* Local variables */
-    extern /* Subroutine */ int pjac_(), omeg_();
-    extern doublereal ddot_();
+    extern /* Subroutine */ int pjac_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *), omeg_(doublereal *, 
+        integer *);
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+        integer *);
     static doublereal dnrm;
     static integer n;
-    extern doublereal pbeta_();
-    extern /* Subroutine */ int vfill_(), dcopy_(), iterm_(), pbsor_(), 
-        pfsor_();
-    extern doublereal pvtbv_();
+    extern doublereal pbeta_(integer *, integer *, integer *, doublereal *, 
+        doublereal *, doublereal *, doublereal *);
+    extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
+         dcopy_(integer *, doublereal *, integer *, doublereal *, integer 
+        *), iterm_(integer *, doublereal *, doublereal *, doublereal *, 
+        integer *), pbsor_(integer *, integer *, integer *, doublereal *, 
+        doublereal *, doublereal *), pfsor_(integer *, integer *, integer 
+        *, doublereal *, doublereal *, doublereal *);
+    extern doublereal pvtbv_(integer *, integer *, integer *, doublereal *, 
+        doublereal *);
     static logical q1;
-    extern /* Subroutine */ int vevmw_();
+    extern /* Subroutine */ int vevmw_(integer *, doublereal *, doublereal *);
     static doublereal t1, t2, t3, t4;
-    extern /* Subroutine */ int vevpw_(), wevmw_(), pstop_();
+    extern /* Subroutine */ int vevpw_(integer *, doublereal *, doublereal *),
+         wevmw_(integer *, doublereal *, doublereal *), pstop_(integer *, 
+        doublereal *, doublereal *, doublereal *, integer *, logical *);
     static doublereal gamold;
-    extern logical omgchg_();
-    extern /* Subroutine */ int chgcon_(), parcon_();
+    extern logical omgchg_(integer *);
+    extern /* Subroutine */ int chgcon_(doublereal *, doublereal *, 
+        doublereal *, integer *), parcon_(doublereal *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, 
+        doublereal *, integer *);
     static doublereal betnew, rhoold, rhotmp;
-    extern logical omgstr_();
+    extern logical omgstr_(integer *);
     static doublereal con;
-    extern /* Subroutine */ int sum3_();
+    extern /* Subroutine */ int sum3_(integer *, doublereal *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *);
 
 
 /* ... FUNCTION: */
@@ -5035,30 +5165,44 @@ L100:
     return 0;
 } /* itsrcg_ */
 
-/* Subroutine */ int itsrsi_(nn, ia, ja, a, rhs, u, u1, c__, d__, ctwd, wk)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs, *u, *u1, *c__, *d__, *ctwd, *wk;
+/* Subroutine */ int itsrsi_(integer *nn, integer *ia, integer *ja, 
+    doublereal *a, doublereal *rhs, doublereal *u, doublereal *u1, 
+    doublereal *c__, doublereal *d__, doublereal *ctwd, doublereal *wk)
 {
     /* System generated locals */
     doublereal d__1;
 
     /* Local variables */
-    extern /* Subroutine */ int pjac_(), omeg_();
-    extern doublereal ddot_();
+    extern /* Subroutine */ int pjac_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *), omeg_(doublereal *, 
+        integer *);
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+        integer *);
     static doublereal dnrm;
     static integer n;
-    extern doublereal pbeta_();
-    extern /* Subroutine */ int chgsi_(), vfill_(), dcopy_(), parsi_(), 
-        iterm_();
+    extern doublereal pbeta_(integer *, integer *, integer *, doublereal *, 
+        doublereal *, doublereal *, doublereal *);
+    extern /* Subroutine */ int chgsi_(doublereal *, integer *), vfill_(
+        integer *, doublereal *, doublereal *), dcopy_(integer *, 
+        doublereal *, integer *, doublereal *, integer *), parsi_(
+        doublereal *, doublereal *, doublereal *, integer *), iterm_(
+        integer *, doublereal *, doublereal *, doublereal *, integer *);
     static doublereal c1, c2, c3;
-    extern /* Subroutine */ int pfsor_();
-    extern doublereal pvtbv_();
+    extern /* Subroutine */ int pfsor_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *);
+    extern doublereal pvtbv_(integer *, integer *, integer *, doublereal *, 
+        doublereal *);
     static logical q1;
-    extern /* Subroutine */ int vevmw_(), pstop_(), vevpw_(), pssor1_();
+    extern /* Subroutine */ int vevmw_(integer *, doublereal *, doublereal *),
+         pstop_(integer *, doublereal *, doublereal *, doublereal *, 
+        integer *, logical *), vevpw_(integer *, doublereal *, doublereal 
+        *), pssor1_(integer *, integer *, integer *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *);
     static doublereal betnew;
-    extern logical tstchg_(), omgstr_();
+    extern logical tstchg_(integer *), omgstr_(integer *);
     static doublereal con;
-    extern /* Subroutine */ int sum3_();
+    extern /* Subroutine */ int sum3_(integer *, doublereal *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *);
 
 
 /* ... FUNCTION: */
@@ -5206,25 +5350,36 @@ L40:
     return 0;
 } /* itsrsi_ */
 
-/* Subroutine */ int itrscg_(n, nnb, ia, ja, a, ub, ub1, db, db1, wb, tri)
-integer *n, *nnb, *ia, *ja;
-doublereal *a, *ub, *ub1, *db, *db1, *wb, *tri;
+/* Subroutine */ int itrscg_(integer *n, integer *nnb, integer *ia, integer *
+    ja, doublereal *a, doublereal *ub, doublereal *ub1, doublereal *db, 
+    doublereal *db1, doublereal *wb, doublereal *tri)
 {
-    extern doublereal ddot_();
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+        integer *);
     static doublereal dnrm;
-    extern /* Subroutine */ int vfill_(), iterm_();
+    extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
+         iterm_(integer *, doublereal *, doublereal *, doublereal *, 
+        integer *);
     static doublereal c1, c2, c3, c4;
     static logical q1;
-    extern /* Subroutine */ int pstop_();
+    extern /* Subroutine */ int pstop_(integer *, doublereal *, doublereal *, 
+        doublereal *, integer *, logical *);
     static integer nb, nr;
-    extern /* Subroutine */ int chgcon_();
+    extern /* Subroutine */ int chgcon_(doublereal *, doublereal *, 
+        doublereal *, integer *);
     static doublereal gamold;
-    extern /* Subroutine */ int parcon_();
+    extern /* Subroutine */ int parcon_(doublereal *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *, 
+        doublereal *, integer *);
     static doublereal rhoold;
-    extern /* Subroutine */ int prsblk_(), prsred_();
+    extern /* Subroutine */ int prsblk_(integer *, integer *, integer *, 
+        integer *, doublereal *, doublereal *, doublereal *), prsred_(
+        integer *, integer *, integer *, integer *, doublereal *, 
+        doublereal *, doublereal *);
     static doublereal rhotmp, con;
     static integer nrp1;
-    extern /* Subroutine */ int sum3_();
+    extern /* Subroutine */ int sum3_(integer *, doublereal *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *);
 
 
 /* ... FUNCTION: */
@@ -5338,23 +5493,34 @@ L30:
     return 0;
 } /* itrscg_ */
 
-/* Subroutine */ int itrssi_(n, nnb, ia, ja, a, rhs, ub, ub1, db)
-integer *n, *nnb, *ia, *ja;
-doublereal *a, *rhs, *ub, *ub1, *db;
+/* Subroutine */ int itrssi_(integer *n, integer *nnb, integer *ia, integer *
+    ja, doublereal *a, doublereal *rhs, doublereal *ub, doublereal *ub1, 
+    doublereal *db)
 {
-    extern doublereal ddot_();
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+        integer *);
     static doublereal dnrm;
-    extern /* Subroutine */ int chgsi_(), vfill_(), dcopy_(), parsi_(), 
-        iterm_();
+    extern /* Subroutine */ int chgsi_(doublereal *, integer *), vfill_(
+        integer *, doublereal *, doublereal *), dcopy_(integer *, 
+        doublereal *, integer *, doublereal *, integer *), parsi_(
+        doublereal *, doublereal *, doublereal *, integer *), iterm_(
+        integer *, doublereal *, doublereal *, doublereal *, integer *);
     static doublereal c1, c2, const__, c3;
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *, 
+        integer *, doublereal *, integer *);
     static logical q1;
-    extern /* Subroutine */ int vevmw_(), pstop_();
+    extern /* Subroutine */ int vevmw_(integer *, doublereal *, doublereal *),
+         pstop_(integer *, doublereal *, doublereal *, doublereal *, 
+        integer *, logical *);
     static integer nb, nr;
-    extern logical tstchg_();
-    extern /* Subroutine */ int prsblk_(), prsred_();
+    extern logical tstchg_(integer *);
+    extern /* Subroutine */ int prsblk_(integer *, integer *, integer *, 
+        integer *, doublereal *, doublereal *, doublereal *), prsred_(
+        integer *, integer *, integer *, integer *, doublereal *, 
+        doublereal *, doublereal *);
     static integer nrp1;
-    extern /* Subroutine */ int sum3_();
+    extern /* Subroutine */ int sum3_(integer *, doublereal *, doublereal *, 
+        doublereal *, doublereal *, doublereal *, doublereal *);
 
 
 /* ... FUNCTION: */
@@ -5474,8 +5640,7 @@ L20:
     return 0;
 } /* itrssi_ */
 
-integer bisrch_(n, k, l)
-integer *n, *k, *l;
+integer bisrch_(integer *n, integer *k, integer *l)
 {
     /* System generated locals */
     integer ret_val;
@@ -5544,16 +5709,15 @@ L40:
     return ret_val;
 } /* bisrch_ */
 
-doublereal cheby_(qa, qt, rrr, ip, cme, sme)
-doublereal *qa, *qt, *rrr;
-integer *ip;
-doublereal *cme, *sme;
+doublereal cheby_(doublereal *qa, doublereal *qt, doublereal *rrr, integer *
+    ip, doublereal *cme, doublereal *sme)
 {
     /* System generated locals */
     doublereal ret_val, d__1, d__2, d__3;
 
     /* Builtin functions */
-    double sqrt(), pow_di(), pow_dd();
+    double sqrt(doublereal), pow_di(doublereal *, integer *), pow_dd(
+        doublereal *, doublereal *);
 
     /* Local variables */
     static doublereal x, y, z__;
@@ -5592,9 +5756,8 @@ doublereal *cme, *sme;
     return ret_val;
 } /* cheby_ */
 
-/* Subroutine */ int chgcon_(tri, gamold, rhoold, ibmth)
-doublereal *tri, *gamold, *rhoold;
-integer *ibmth;
+/* Subroutine */ int chgcon_(doublereal *tri, doublereal *gamold, doublereal *
+    rhoold, integer *ibmth)
 {
     /* Format strings */
     static char fmt_70[] = "(/10x,\002DIFFICULTY IN COMPUTATION OF MAXIMUM E\
@@ -5612,15 +5775,17 @@ TURNED OFF AT ITERATION \002,i5/10x,\002FINAL ESTIMATE OF MAXIMUM EIGENVALUE\
     doublereal d__1;
 
     /* Builtin functions */
-    integer s_wsfe(), do_fio(), e_wsfe();
-    double sqrt();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    double sqrt(doublereal);
 
     /* Local variables */
     static doublereal cmold, start;
     static integer ip;
-    extern doublereal eigvns_();
+    extern doublereal eigvns_(integer *, doublereal *, doublereal *, 
+        doublereal *, integer *);
     static integer ib2, ib3;
-    extern doublereal eigvss_();
+    extern doublereal eigvss_(integer *, doublereal *, doublereal *, 
+        doublereal *, integer *, integer *);
     static doublereal end;
     static integer ier;
 
@@ -5665,7 +5830,7 @@ TURNED OFF AT ITERATION \002,i5/10x,\002FINAL ESTIMATE OF MAXIMUM EIGENVALUE\
     tri -= 3;
 
     /* Function Body */
-    switch ((int)*ibmth) {
+    switch (*ibmth) {
     case 1:  goto L10;
     case 2:  goto L20;
     case 3:  goto L30;
@@ -5812,9 +5977,7 @@ L130:
     return 0;
 } /* chgcon_ */
 
-/* Subroutine */ int chgsi_(dtnrm, ibmth)
-doublereal *dtnrm;
-integer *ibmth;
+/* Subroutine */ int chgsi_(doublereal *dtnrm, integer *ibmth)
 {
     /* Format strings */
     static char fmt_90[] = "(/30x,\002PARAMETERS WERE CHANGED AT ITERATION N\
@@ -5836,11 +5999,12 @@ TION TO RAYLEIGH QUOTIENT    =\002,d15.7/35x,\002NEW ESTIMATE FOR CME       \
     doublereal d__1, d__2;
 
     /* Builtin functions */
-    double sqrt();
-    integer s_wsfe(), do_fio(), e_wsfe();
+    double sqrt(doublereal);
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
 
     /* Local variables */
-    extern doublereal cheby_();
+    extern doublereal cheby_(doublereal *, doublereal *, doublereal *, 
+        integer *, doublereal *, doublereal *);
     static doublereal cmold, zm1, zm2;
 
     /* Fortran I/O blocks */
@@ -5880,7 +6044,7 @@ TION TO RAYLEIGH QUOTIENT    =\002,d15.7/35x,\002NEW ESTIMATE FOR CME       \
 
 /*     DESCRIPTION OF VARIABLES IN COMMON BLOCKS IN MAIN SUBROUTINE */
 
-    switch ((int)*ibmth) {
+    switch (*ibmth) {
     case 1:  goto L10;
     case 2:  goto L30;
     case 3:  goto L50;
@@ -6083,9 +6247,7 @@ L80:
 
 } /* chgsi_ */
 
-logical chgsme_(oldnrm, icnt)
-doublereal *oldnrm;
-integer *icnt;
+logical chgsme_(doublereal *oldnrm, integer *icnt)
 {
     /* Format strings */
     static char fmt_20[] = "(/30x,\002ESTIMATE OF SMALLEST EIGENVALUE OF JAC\
@@ -6099,8 +6261,9 @@ MATE OF SME            =\002,d15.7/35x,\002SECOND ESTIMATE OF SME           =\
     logical ret_val;
 
     /* Builtin functions */
-    double sqrt(), pow_di(), pow_dd();
-    integer s_wsfe(), do_fio(), e_wsfe();
+    double sqrt(doublereal), pow_di(doublereal *, integer *), pow_dd(
+        doublereal *, doublereal *);
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
 
     /* Local variables */
     static doublereal q, z__;
@@ -6220,12 +6383,8 @@ L10:
     return ret_val;
 } /* chgsme_ */
 
-/* Subroutine */ int daxpy_(n, da, dx, incx, dy, incy)
-integer *n;
-doublereal *da, *dx;
-integer *incx;
-doublereal *dy;
-integer *incy;
+/* Subroutine */ int daxpy_(integer *n, doublereal *da, doublereal *dx, 
+    integer *incx, doublereal *dy, integer *incy)
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -6316,12 +6475,8 @@ L70:
     return 0;
 } /* daxpy_ */
 
-/* Subroutine */ int dcopy_(n, dx, incx, dy, incy)
-integer *n;
-doublereal *dx;
-integer *incx;
-doublereal *dy;
-integer *incy;
+/* Subroutine */ int dcopy_(integer *n, doublereal *dx, integer *incx, 
+    doublereal *dy, integer *incy)
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -6415,12 +6570,8 @@ L70:
     return 0;
 } /* dcopy_ */
 
-doublereal ddot_(n, dx, incx, dy, incy)
-integer *n;
-doublereal *dx;
-integer *incx;
-doublereal *dy;
-integer *incy;
+doublereal ddot_(integer *n, doublereal *dx, integer *incx, doublereal *dy, 
+    integer *incy)
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -6512,9 +6663,7 @@ L70:
     return ret_val;
 } /* ddot_ */
 
-doublereal determ_(n, tri, xlmda)
-integer *n;
-doublereal *tri, *xlmda;
+doublereal determ_(integer *n, doublereal *tri, doublereal *xlmda)
 {
     /* System generated locals */
     integer i__1;
@@ -6571,9 +6720,7 @@ L20:
     return ret_val;
 } /* determ_ */
 
-/* Subroutine */ int dfault_(iparm, rparm)
-integer *iparm;
-doublereal *rparm;
+/* Subroutine */ int dfault_(integer *iparm, doublereal *rparm)
 {
 
 /* ... THIS SUBROUTINE SETS THE DEFAULT VALUES OF IPARM AND RPARM. */
@@ -6659,12 +6806,9 @@ doublereal *rparm;
     return 0;
 } /* dfault_ */
 
-/* Subroutine */ int echall_(nn, ia, ja, a, rhs, iparm, rparm, icall)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs;
-integer *iparm;
-doublereal *rparm;
-integer *icall;
+/* Subroutine */ int echall_(integer *nn, integer *ia, integer *ja, 
+    doublereal *a, doublereal *rhs, integer *iparm, doublereal *rparm, 
+    integer *icall)
 {
     /* Format strings */
     static char fmt_10[] = "(///30x,\002THE LINEAR SYSTEM IS AS FOLLOWS\002)";
@@ -6701,7 +6845,7 @@ integer *icall;
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(), e_wsfe(), do_fio();
+    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
     static integer nzro, i__, n, np1;
@@ -6925,10 +7069,8 @@ L120:
     return 0;
 } /* echall_ */
 
-/* Subroutine */ int echout_(iparm, rparm, imthd)
-integer *iparm;
-doublereal *rparm;
-integer *imthd;
+/* Subroutine */ int echout_(integer *iparm, doublereal *rparm, integer *
+    imthd)
 {
     /* Format strings */
     static char fmt_10[] = "(///30x,\002INITIAL ITERATIVE PARAMETERS\002,3x\
@@ -6953,7 +7095,7 @@ AB  =\002,d15.8,8x,\002RPARM(7)\002/35x,\002BETADT =\002,l15,8x,\002IPARM(6\
 //)";
 
     /* Builtin functions */
-    integer s_wsfe(), do_fio(), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
 
     /* Fortran I/O blocks */
     static cilist io___421 = { 0, 0, 0, fmt_10, 0 };
@@ -7068,7 +7210,7 @@ AB  =\002,d15.8,8x,\002RPARM(7)\002/35x,\002BETADT =\002,l15,8x,\002IPARM(6\
     do_fio(&c__1, (char *)&itcom2_1.adapt, (ftnlen)sizeof(logical));
     do_fio(&c__1, (char *)&itcom2_1.caseii, (ftnlen)sizeof(logical));
     e_wsfe();
-    switch ((int)*imthd) {
+    switch (*imthd) {
     case 1:  goto L80;
     case 2:  goto L20;
     case 3:  goto L100;
@@ -7133,10 +7275,8 @@ L100:
     return 0;
 } /* echout_ */
 
-doublereal eigvns_(n, tri, d__, e2, ier)
-integer *n;
-doublereal *tri, *d__, *e2;
-integer *ier;
+doublereal eigvns_(integer *n, doublereal *tri, doublereal *d__, doublereal *
+    e2, integer *ier)
 {
     /* System generated locals */
     integer i__1;
@@ -7144,7 +7284,8 @@ integer *ier;
 
     /* Local variables */
     static integer i__;
-    extern /* Subroutine */ int eqrt1s_();
+    extern /* Subroutine */ int eqrt1s_(doublereal *, doublereal *, integer *,
+         integer *, integer *, integer *);
 
 
 /*     COMPUTES THE LARGEST EIGENVALUE OF A SYMMETRIC TRIDIAGONAL MATRIX */
@@ -7187,22 +7328,21 @@ integer *ier;
     return ret_val;
 } /* eigvns_ */
 
-doublereal eigvss_(n, tri, start, zeta, itmax, ier)
-integer *n;
-doublereal *tri, *start, *zeta;
-integer *itmax, *ier;
+doublereal eigvss_(integer *n, doublereal *tri, doublereal *start, doublereal 
+    *zeta, integer *itmax, integer *ier)
 {
     /* System generated locals */
     doublereal ret_val, d__1;
 
     /* Builtin functions */
-    double d_lg10();
+    double d_lg10(doublereal *);
 
     /* Local variables */
     static integer nsig, itmp;
     static doublereal a, b;
     static integer maxfn;
-    extern /* Subroutine */ int zbrent_();
+    extern /* Subroutine */ int zbrent_(integer *, doublereal *, doublereal *,
+         integer *, doublereal *, doublereal *, integer *, integer *);
     static doublereal eps;
 
 
@@ -7246,9 +7386,8 @@ integer *itmax, *ier;
     return ret_val;
 } /* eigvss_ */
 
-/* Subroutine */ int eqrt1s_(d__, e2, nn, m, isw, ierr)
-doublereal *d__, *e2;
-integer *nn, *m, *isw, *ierr;
+/* Subroutine */ int eqrt1s_(doublereal *d__, doublereal *e2, integer *nn, 
+    integer *m, integer *isw, integer *ierr)
 {
     /* Format strings */
     static char fmt_80[] = "(\0020\002,\002*** W A R N I N G ************\
@@ -7264,8 +7403,8 @@ NE INCREASING \002)";
     doublereal d__1, d__2;
 
     /* Builtin functions */
-    double sqrt();
-    integer s_wsfe(), e_wsfe(), do_fio();
+    double sqrt(doublereal);
+    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
     static doublereal dlam, f;
@@ -7566,14 +7705,13 @@ L220:
     return 0;
 } /* eqrt1s_ */
 
-integer ipstr_(omega)
-doublereal *omega;
+integer ipstr_(doublereal *omega)
 {
     /* System generated locals */
     integer ret_val, i__1;
 
     /* Builtin functions */
-    double pow_di();
+    double pow_di(doublereal *, integer *);
 
     /* Local variables */
     static integer ip;
@@ -7611,10 +7749,8 @@ L10:
 
 } /* ipstr_ */
 
-/* Subroutine */ int iterm_(nn, a, u, wk, imthdd)
-integer *nn;
-doublereal *a, *u, *wk;
-integer *imthdd;
+/* Subroutine */ int iterm_(integer *nn, doublereal *a, doublereal *u, 
+    doublereal *wk, integer *imthdd)
 {
     /* Format strings */
     static char fmt_20[] = "(////15x,\002INTERMEDIATE OUTPUT AFTER EACH ITER\
@@ -7654,8 +7790,8 @@ TION \002,i5)";
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(), e_wsfe(), do_fio();
-    double pow_dd();
+    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
+    double pow_dd(doublereal *, doublereal *);
 
     /* Local variables */
     static doublereal qtff;
@@ -7728,7 +7864,7 @@ TION \002,i5)";
     if (itcom1_1.level < 2) {
     return 0;
     }
-    switch ((int)imthd) {
+    switch (imthd) {
     case 1:  goto L10;
     case 2:  goto L110;
     case 3:  goto L170;
@@ -7955,8 +8091,7 @@ L290:
     return 0;
 } /* iterm_ */
 
-/* Subroutine */ int ivfill_(n, iv, ival)
-integer *n, *iv, *ival;
+/* Subroutine */ int ivfill_(integer *n, integer *iv, integer *ival)
 {
     /* System generated locals */
     integer i__1;
@@ -8022,9 +8157,7 @@ L20:
     return 0;
 } /* ivfill_ */
 
-/* Subroutine */ int omeg_(dnrm, iflag)
-doublereal *dnrm;
-integer *iflag;
+/* Subroutine */ int omeg_(doublereal *dnrm, integer *iflag)
 {
     /* Format strings */
     static char fmt_20[] = "(/30x,\002PARAMETERS WERE CHANGED AT ITERATION N\
@@ -8038,8 +8171,8 @@ PECTRAL RADIUS =\002,d15.7/)";
     doublereal d__1;
 
     /* Builtin functions */
-    double sqrt();
-    integer s_wsfe(), do_fio(), e_wsfe();
+    double sqrt(doublereal);
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
 
     /* Local variables */
     static doublereal temp, zm1, zm2;
@@ -8162,15 +8295,14 @@ L30:
     return 0;
 } /* omeg_ */
 
-logical omgchg_(ndummy)
-integer *ndummy;
+logical omgchg_(integer *ndummy)
 {
     /* System generated locals */
     doublereal d__1, d__2, d__3, d__4, d__5, d__6;
     logical ret_val;
 
     /* Builtin functions */
-    double sqrt(), log();
+    double sqrt(doublereal), log(doublereal);
 
     /* Local variables */
     static doublereal del1, del2;
@@ -8229,8 +8361,7 @@ L10:
     return ret_val;
 } /* omgchg_ */
 
-logical omgstr_(ndummy)
-integer *ndummy;
+logical omgstr_(integer *ndummy)
 {
     /* Format strings */
     static char fmt_20[] = "(/30x,\002OMEGA-STAR, AN ALTERNATE ESTIMATE O\
@@ -8243,8 +8374,8 @@ E             =\002,d15.7/35x,\002NEW ESTIMATE FOR OMEGA           =\002,d15\
     logical ret_val;
 
     /* Builtin functions */
-    double sqrt(), log();
-    integer s_wsfe(), do_fio(), e_wsfe();
+    double sqrt(doublereal), log(doublereal);
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
 
     /* Local variables */
     static doublereal temp, temp1, omstar;
@@ -8334,9 +8465,9 @@ L10:
     return ret_val;
 } /* omgstr_ */
 
-/* Subroutine */ int parcon_(dtnrm, c1, c2, c3, c4, gamold, rhotmp, ibmth)
-doublereal *dtnrm, *c1, *c2, *c3, *c4, *gamold, *rhotmp;
-integer *ibmth;
+/* Subroutine */ int parcon_(doublereal *dtnrm, doublereal *c1, doublereal *
+    c2, doublereal *c3, doublereal *c4, doublereal *gamold, doublereal *
+    rhotmp, integer *ibmth)
 {
     static integer ip;
     static doublereal rhoold;
@@ -8423,15 +8554,14 @@ L20:
     return 0;
 } /* parcon_ */
 
-/* Subroutine */ int parsi_(c1, c2, c3, ibmth)
-doublereal *c1, *c2, *c3;
-integer *ibmth;
+/* Subroutine */ int parsi_(doublereal *c1, doublereal *c2, doublereal *c3, 
+    integer *ibmth)
 {
     /* System generated locals */
     doublereal d__1, d__2;
 
     /* Builtin functions */
-    double sqrt();
+    double sqrt(doublereal);
 
     /* Local variables */
     static integer ip;
@@ -8488,7 +8618,7 @@ L20:
 /* ... NONADAPTIVE INITIALIZATION FOR SEMI-ITERATIVE METHODS */
 
 L30:
-    switch ((int)*ibmth) {
+    switch (*ibmth) {
     case 1:  goto L40;
     case 2:  goto L50;
     case 3:  goto L60;
@@ -8534,9 +8664,8 @@ L70:
     return 0;
 } /* parsi_ */
 
-doublereal pbeta_(nn, ia, ja, a, v, w1, w2)
-integer *nn, *ia, *ja;
-doublereal *a, *v, *w1, *w2;
+doublereal pbeta_(integer *nn, integer *ia, integer *ja, doublereal *a, 
+    doublereal *v, doublereal *w1, doublereal *w2)
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -8687,9 +8816,8 @@ L130:
 
 } /* pbeta_ */
 
-/* Subroutine */ int pbsor_(nn, ia, ja, a, u, rhs)
-integer *nn, *ia, *ja;
-doublereal *a, *u, *rhs;
+/* Subroutine */ int pbsor_(integer *nn, integer *ia, integer *ja, doublereal 
+    *a, doublereal *u, doublereal *rhs)
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -8808,10 +8936,9 @@ L80:
 
 } /* pbsor_ */
 
-/* Subroutine */ int permat_(nn, ia, ja, a, p, newia, isym, level, nout, ierr)
-integer *nn, *ia, *ja;
-doublereal *a;
-integer *p, *newia, *isym, *level, *nout, *ierr;
+/* Subroutine */ int permat_(integer *nn, integer *ia, integer *ja, 
+    doublereal *a, integer *p, integer *newia, integer *isym, integer *
+    level, integer *nout, integer *ierr)
 {
     /* Format strings */
     static char fmt_100[] = "(\0020\002,\002*** F A T A L     E R R O R ****\
@@ -8829,7 +8956,7 @@ ACK ROUTINE PRBNDX   \002)";
     integer i__1, i__2;
 
     /* Builtin functions */
-    integer s_wsfe(), do_fio(), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
 
     /* Local variables */
     static integer ibgn, iend;
@@ -8837,9 +8964,10 @@ ACK ROUTINE PRBNDX   \002)";
     static integer nels;
     static doublereal temp;
     static integer next, i__, j, k, n;
-    extern /* Subroutine */ int qsort_();
+    extern /* Subroutine */ int qsort_(integer *, integer *, doublereal *, 
+        integer *);
     static integer ip, jp;
-    extern integer bisrch_();
+    extern integer bisrch_(integer *, integer *, integer *);
     static integer jaj, ier, ipp, npl1;
 
     /* Fortran I/O blocks */
@@ -9091,10 +9219,9 @@ L150:
     return 0;
 } /* permat_ */
 
-/* Subroutine */ int perror_(nn, ia, ja, a, rhs, u, w, digtt1, digtt2, idgtts)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs, *u, *w, *digtt1, *digtt2;
-integer *idgtts;
+/* Subroutine */ int perror_(integer *nn, integer *ia, integer *ja, 
+    doublereal *a, doublereal *rhs, doublereal *u, doublereal *w, 
+    doublereal *digtt1, doublereal *digtt2, integer *idgtts)
 {
     /* Format strings */
     static char fmt_30[] = "(/6x,\002APPROX. NO. OF DIGITS (EST. REL. ERROR)\
@@ -9105,15 +9232,19 @@ DUAL) =\002,f5.1,2x,\002(DIGIT2)\002)";
     doublereal d__1;
 
     /* Builtin functions */
-    double d_lg10();
-    integer s_wsfe(), do_fio(), e_wsfe();
+    double d_lg10(doublereal *);
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
 
     /* Local variables */
-    extern doublereal ddot_();
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+        integer *);
     static doublereal bnrm, temp, rnrm;
-    extern /* Subroutine */ int vout_();
+    extern /* Subroutine */ int vout_(integer *, doublereal *, integer *, 
+        integer *);
     static integer n, idgts;
-    extern /* Subroutine */ int pmult_(), wevmw_();
+    extern /* Subroutine */ int pmult_(integer *, integer *, integer *, 
+        doublereal *, doublereal *, doublereal *), wevmw_(integer *, 
+        doublereal *, doublereal *);
     static doublereal digit1, digit2;
 
     /* Fortran I/O blocks */
@@ -9232,10 +9363,7 @@ L40:
     return 0;
 } /* perror_ */
 
-/* Subroutine */ int pervec_(n, v, p)
-integer *n;
-doublereal *v;
-integer *p;
+/* Subroutine */ int pervec_(integer *n, doublereal *v, integer *p)
 {
     /* System generated locals */
     integer i__1;
@@ -9303,9 +9431,8 @@ L20:
     return 0;
 } /* pervec_ */
 
-/* Subroutine */ int pfsor_(nn, ia, ja, a, u, rhs)
-integer *nn, *ia, *ja;
-doublereal *a, *u, *rhs;
+/* Subroutine */ int pfsor_(integer *nn, integer *ia, integer *ja, doublereal 
+    *a, doublereal *u, doublereal *rhs)
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -9414,16 +9541,15 @@ L80:
 
 } /* pfsor_ */
 
-/* Subroutine */ int pfsor1_(nn, ia, ja, a, u, rhs)
-integer *nn, *ia, *ja;
-doublereal *a, *u, *rhs;
+/* Subroutine */ int pfsor1_(integer *nn, integer *ia, integer *ja, 
+    doublereal *a, doublereal *u, doublereal *rhs)
 {
     /* System generated locals */
     integer i__1, i__2;
     doublereal d__1;
 
     /* Builtin functions */
-    double sqrt();
+    double sqrt(doublereal);
 
     /* Local variables */
     static integer jajj, ibgn, iend;
@@ -9542,9 +9668,8 @@ L90:
 
 } /* pfsor1_ */
 
-/* Subroutine */ int pjac_(nn, ia, ja, a, u, rhs)
-integer *nn, *ia, *ja;
-doublereal *a, *u, *rhs;
+/* Subroutine */ int pjac_(integer *nn, integer *ia, integer *ja, doublereal *
+    a, doublereal *u, doublereal *rhs)
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -9645,16 +9770,15 @@ L50:
 
 } /* pjac_ */
 
-/* Subroutine */ int pmult_(nn, ia, ja, a, u, w)
-integer *nn, *ia, *ja;
-doublereal *a, *u, *w;
+/* Subroutine */ int pmult_(integer *nn, integer *ia, integer *ja, doublereal 
+    *a, doublereal *u, doublereal *w)
 {
     /* System generated locals */
     integer i__1, i__2;
 
     /* Local variables */
     static integer jajj, ibgn, iend, n;
-    extern /* Subroutine */ int vfill_();
+    extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *);
     static integer ii, jj;
     static doublereal uii, wii, sum;
 
@@ -9750,8 +9874,9 @@ L60:
 
 } /* pmult_ */
 
-/* Subroutine */ int prbndx_(nn, nblack, ia, ja, p, ip, level, nout, ier)
-integer *nn, *nblack, *ia, *ja, *p, *ip, *level, *nout, *ier;
+/* Subroutine */ int prbndx_(integer *nn, integer *nblack, integer *ia, 
+    integer *ja, integer *p, integer *ip, integer *level, integer *nout, 
+    integer *ier)
 {
     /* Format strings */
     static char fmt_170[] = "(\0020\002,\002*** F A T A L     E R R O R ****\
@@ -9762,7 +9887,7 @@ integer *nn, *nblack, *ia, *ja, *p, *ip, *level, *nout, *ier;
     integer i__1, i__2, i__3, i__4;
 
     /* Builtin functions */
-    integer i_sign(), s_wsfe(), e_wsfe();
+    integer i_sign(integer *, integer *), s_wsfe(cilist *), e_wsfe();
 
     /* Local variables */
     static integer ibgn, iend, nred, last, next, type__, i__, j, k, n, first, 
@@ -10084,9 +10209,8 @@ L180:
     return 0;
 } /* prbndx_ */
 
-/* Subroutine */ int prsblk_(nnb, nnr, ia, ja, a, ur, vb)
-integer *nnb, *nnr, *ia, *ja;
-doublereal *a, *ur, *vb;
+/* Subroutine */ int prsblk_(integer *nnb, integer *nnr, integer *ia, integer 
+    *ja, doublereal *a, doublereal *ur, doublereal *vb)
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -10184,9 +10308,8 @@ L50:
     return 0;
 } /* prsblk_ */
 
-/* Subroutine */ int prsred_(nnb, nnr, ia, ja, a, ub, vr)
-integer *nnb, *nnr, *ia, *ja;
-doublereal *a, *ub, *vr;
+/* Subroutine */ int prsred_(integer *nnb, integer *nnr, integer *ia, integer 
+    *ja, doublereal *a, doublereal *ub, doublereal *vr)
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -10245,9 +10368,9 @@ L20:
     return 0;
 } /* prsred_ */
 
-/* Subroutine */ int pssor1_(nn, ia, ja, a, u, rhs, fr, br)
-integer *nn, *ia, *ja;
-doublereal *a, *u, *rhs, *fr, *br;
+/* Subroutine */ int pssor1_(integer *nn, integer *ia, integer *ja, 
+    doublereal *a, doublereal *u, doublereal *rhs, doublereal *fr, 
+    doublereal *br)
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -10396,20 +10519,18 @@ L110:
 
 } /* pssor1_ */
 
-/* Subroutine */ int pstop_(n, u, dnrm, ccon, iflag, q1)
-integer *n;
-doublereal *u, *dnrm, *ccon;
-integer *iflag;
-logical *q1;
+/* Subroutine */ int pstop_(integer *n, doublereal *u, doublereal *dnrm, 
+    doublereal *ccon, integer *iflag, logical *q1)
 {
     /* System generated locals */
     doublereal d__1;
 
     /* Builtin functions */
-    double sqrt();
+    double sqrt(doublereal);
 
     /* Local variables */
-    extern doublereal ddot_();
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+        integer *);
     static doublereal uold, tl, tr, con;
 
 
@@ -10513,9 +10634,8 @@ L40:
     return 0;
 } /* pstop_ */
 
-doublereal pvtbv_(n, ia, ja, a, v)
-integer *n, *ia, *ja;
-doublereal *a, *v;
+doublereal pvtbv_(integer *n, integer *ia, integer *ja, doublereal *a, 
+    doublereal *v)
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -10588,10 +10708,8 @@ L20:
     return ret_val;
 } /* pvtbv_ */
 
-/* Subroutine */ int qsort_(nn, key, data, error)
-integer *nn, *key;
-doublereal *data;
-integer *error;
+/* Subroutine */ int qsort_(integer *nn, integer *key, doublereal *data, 
+    integer *error)
 {
     /* Initialized data */
 
@@ -10606,7 +10724,7 @@ integer *error;
     static integer left, llen, rlen, lfrh2;
     static doublereal d__;
     static integer i__, j, k, n, v, stack[30], right;
-    extern /* Subroutine */ int ivfill_();
+    extern /* Subroutine */ int ivfill_(integer *, integer *, integer *);
     static integer jm1, ip1, top;
 
 
@@ -10933,10 +11051,9 @@ L240:
 
 } /* qsort_ */
 
-/* Subroutine */ int sbagn_(n, nz, ia, ja, a, iwork, levell, noutt, ierr)
-integer *n, *nz, *ia, *ja;
-doublereal *a;
-integer *iwork, *levell, *noutt, *ierr;
+/* Subroutine */ int sbagn_(integer *n, integer *nz, integer *ia, integer *ja,
+     doublereal *a, integer *iwork, integer *levell, integer *noutt, 
+    integer *ierr)
 {
     /* Format strings */
     static char fmt_10[] = "(\0020\002,\002*** F A T A L     E R R O R *****\
@@ -10948,7 +11065,7 @@ integer *iwork, *levell, *noutt, *ierr;
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(), do_fio(), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
 
     /* Local variables */
     static integer nadd, nout, i__, j, level, naddp1, np1, ier, ntn, nto, now;
@@ -11080,13 +11197,9 @@ L90:
     return 0;
 } /* sbagn_ */
 
-/* Subroutine */ int sbelm_(nn, ia, ja, a, rhs, iw, rw, tol, isym, level, 
-    nout, ier)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs;
-integer *iw;
-doublereal *rw, *tol;
-integer *isym, *level, *nout, *ier;
+/* Subroutine */ int sbelm_(integer *nn, integer *ia, integer *ja, doublereal 
+    *a, doublereal *rhs, integer *iw, doublereal *rw, doublereal *tol, 
+    integer *isym, integer *level, integer *nout, integer *ier)
 {
     /* Format strings */
     static char fmt_30[] = "(\0020\002,\002*** F A T A L     E R R O R *****\
@@ -11102,7 +11215,7 @@ T VALUE = \002,d15.8)";
     doublereal d__1, d__2, d__3;
 
     /* Builtin functions */
-    integer s_wsfe(), do_fio(), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
 
     /* Local variables */
     static integer ibgn, iend, jjdi, icnt, n;
@@ -11362,10 +11475,8 @@ L140:
     return 0;
 } /* sbelm_ */
 
-/* Subroutine */ int sbend_(n, nz, ia, ja, a, iwork)
-integer *n, *nz, *ia, *ja;
-doublereal *a;
-integer *iwork;
+/* Subroutine */ int sbend_(integer *n, integer *nz, integer *ia, integer *ja,
+     doublereal *a, integer *iwork)
 {
     /* System generated locals */
     integer i__1;
@@ -11603,17 +11714,16 @@ L80:
     return 0;
 } /* sbend_ */
 
-/* Subroutine */ int sbini_(n, nz, ia, ja, a, iwork)
-integer *n, *nz, *ia, *ja;
-doublereal *a;
-integer *iwork;
+/* Subroutine */ int sbini_(integer *n, integer *nz, integer *ia, integer *ja,
+     doublereal *a, integer *iwork)
 {
     /* System generated locals */
     integer i__1;
 
     /* Local variables */
     static integer i__;
-    extern /* Subroutine */ int vfill_(), ivfill_();
+    extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
+         ivfill_(integer *, integer *, integer *);
 
 
 /* *********************************************************************** */
@@ -11673,13 +11783,9 @@ integer *iwork;
     return 0;
 } /* sbini_ */
 
-/* Subroutine */ int sbsij_(n, nz, ia, ja, a, iwork, ii, jj, vall, mode, 
-    levell, noutt, ierr)
-integer *n, *nz, *ia, *ja;
-doublereal *a;
-integer *iwork, *ii, *jj;
-doublereal *vall;
-integer *mode, *levell, *noutt, *ierr;
+/* Subroutine */ int sbsij_(integer *n, integer *nz, integer *ia, integer *ja,
+     doublereal *a, integer *iwork, integer *ii, integer *jj, doublereal *
+    vall, integer *mode, integer *levell, integer *noutt, integer *ierr)
 {
     /* Format strings */
     static char fmt_10[] = "(\0020\002,\002*** F A T A L     E R R O R *****\
@@ -11706,7 +11812,7 @@ integer *mode, *levell, *noutt, *ierr;
 \002)";
 
     /* Builtin functions */
-    integer s_wsfe(), do_fio(), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
 
     /* Local variables */
     static integer link;
@@ -11943,10 +12049,9 @@ L130:
     return 0;
 } /* sbsij_ */
 
-/* Subroutine */ int scal_(nn, ia, ja, a, rhs, u, d__, level, nout, ier)
-integer *nn, *ia, *ja;
-doublereal *a, *rhs, *u, *d__;
-integer *level, *nout, *ier;
+/* Subroutine */ int scal_(integer *nn, integer *ia, integer *ja, doublereal *
+    a, doublereal *rhs, doublereal *u, doublereal *d__, integer *level, 
+    integer *nout, integer *ier)
 {
     /* Format strings */
     static char fmt_10[] = "(\0020\002,\002*** F A T A L     E R R O R *****\
@@ -11963,8 +12068,8 @@ integer *level, *nout, *ier;
     integer i__1, i__2;
 
     /* Builtin functions */
-    integer s_wsfe(), do_fio(), e_wsfe();
-    double sqrt();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    double sqrt(doublereal);
 
     /* Local variables */
     static integer jadd, jajj, ibgn, iend, jjpi, i__, j, n;
@@ -12126,9 +12231,8 @@ L130:
     return 0;
 } /* scal_ */
 
-/* Subroutine */ int sum3_(n, c1, x1, c2, x2, c3, x3)
-integer *n;
-doublereal *c1, *x1, *c2, *x2, *c3, *x3;
+/* Subroutine */ int sum3_(integer *n, doublereal *c1, doublereal *x1, 
+    doublereal *c2, doublereal *x2, doublereal *c3, doublereal *x3)
 {
     /* System generated locals */
     integer i__1;
@@ -12190,8 +12294,7 @@ L20:
     return 0;
 } /* sum3_ */
 
-doublereal tau_(ii)
-integer *ii;
+doublereal tau_(integer *ii)
 {
     /* Initialized data */
 
@@ -12222,14 +12325,13 @@ integer *ii;
     return ret_val;
 } /* tau_ */
 
-doublereal timer_(timdmy)
-real *timdmy;
+doublereal timer_(real *timdmy)
 {
     /* System generated locals */
     real ret_val;
 
     /* Local variables */
-    extern doublereal etime_();
+    extern doublereal etime_(real *);
     static real total, tarray[2];
 
 
@@ -12264,15 +12366,15 @@ real *timdmy;
     return ret_val;
 } /* timer_ */
 
-logical tstchg_(ibmth)
-integer *ibmth;
+logical tstchg_(integer *ibmth)
 {
     /* System generated locals */
     doublereal d__1;
     logical ret_val;
 
     /* Builtin functions */
-    double sqrt(), pow_di(), pow_dd();
+    double sqrt(doublereal), pow_di(doublereal *, integer *), pow_dd(
+        doublereal *, doublereal *);
 
     /* Local variables */
     static integer ip;
@@ -12337,9 +12439,8 @@ L20:
 
 } /* tstchg_ */
 
-/* Subroutine */ int unscal_(n, ia, ja, a, rhs, u, d__)
-integer *n, *ia, *ja;
-doublereal *a, *rhs, *u, *d__;
+/* Subroutine */ int unscal_(integer *n, integer *ia, integer *ja, doublereal 
+    *a, doublereal *rhs, doublereal *u, doublereal *d__)
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -12439,9 +12540,7 @@ L50:
     return 0;
 } /* unscal_ */
 
-/* Subroutine */ int vevmw_(n, v, w)
-integer *n;
-doublereal *v, *w;
+/* Subroutine */ int vevmw_(integer *n, doublereal *v, doublereal *w)
 {
     /* System generated locals */
     integer i__1;
@@ -12500,9 +12599,7 @@ L20:
 
 } /* vevmw_ */
 
-/* Subroutine */ int vevpw_(n, v, w)
-integer *n;
-doublereal *v, *w;
+/* Subroutine */ int vevpw_(integer *n, doublereal *v, doublereal *w)
 {
     /* System generated locals */
     integer i__1;
@@ -12561,9 +12658,7 @@ L20:
     return 0;
 } /* vevpw_ */
 
-/* Subroutine */ int vfill_(n, v, val)
-integer *n;
-doublereal *v, *val;
+/* Subroutine */ int vfill_(integer *n, doublereal *v, doublereal *val)
 {
     /* System generated locals */
     integer i__1;
@@ -12629,10 +12724,8 @@ L20:
     return 0;
 } /* vfill_ */
 
-/* Subroutine */ int vout_(n, v, iswt, noutt)
-integer *n;
-doublereal *v;
-integer *iswt, *noutt;
+/* Subroutine */ int vout_(integer *n, doublereal *v, integer *iswt, integer *
+    noutt)
 {
     /* Format strings */
     static char fmt_10[] = "(//5x,\002RESIDUAL VECTOR\002)";
@@ -12645,7 +12738,7 @@ integer *iswt, *noutt;
     integer i__1, i__2;
 
     /* Builtin functions */
-    integer s_wsfe(), e_wsfe(), do_fio();
+    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
     static integer nout, i__, j, k, kupper, jm1;
@@ -12724,9 +12817,7 @@ integer *iswt, *noutt;
     return 0;
 } /* vout_ */
 
-/* Subroutine */ int wevmw_(n, v, w)
-integer *n;
-doublereal *v, *w;
+/* Subroutine */ int wevmw_(integer *n, doublereal *v, doublereal *w)
 {
     /* System generated locals */
     integer i__1;
@@ -12784,12 +12875,9 @@ L20:
     return 0;
 } /* wevmw_ */
 
-/* Subroutine */ int zbrent_(n, tri, eps, nsig, aa, bb, maxfnn, ier)
-integer *n;
-doublereal *tri, *eps;
-integer *nsig;
-doublereal *aa, *bb;
-integer *maxfnn, *ier;
+/* Subroutine */ int zbrent_(integer *n, doublereal *tri, doublereal *eps, 
+    integer *nsig, doublereal *aa, doublereal *bb, integer *maxfnn, 
+    integer *ier)
 {
     /* Initialized data */
 
@@ -12813,8 +12901,9 @@ ORITHM FAILED TO CONVERGE   \002/\002 \002,\002    IN\002,i6,\002 ITERATIONS \
     doublereal d__1;
 
     /* Builtin functions */
-    double pow_di(), d_sign();
-    integer s_wsfe(), do_fio(), e_wsfe();
+    double pow_di(doublereal *, integer *), d_sign(doublereal *, doublereal *)
+        ;
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
 
     /* Local variables */
     static doublereal rone, temp, a, b, c__, d__, e, p, q, s, t, r__;
@@ -12822,7 +12911,7 @@ ORITHM FAILED TO CONVERGE   \002/\002 \002,\002    IN\002,i6,\002 ITERATIONS \
     static doublereal fa, fb, fc;
     static integer ic;
     static doublereal rm;
-    extern doublereal determ_();
+    extern doublereal determ_(integer *, doublereal *, doublereal *);
     static doublereal tol;
 
     /* Fortran I/O blocks */
@@ -13103,4 +13192,3 @@ L130:
     *maxfnn = maxfn;
     return 0;
 } /* zbrent_ */
-

@@ -1,39 +1,43 @@
-/* f2c.h  --  Standard Fortran to C header file */
+/*=========================================================================
 
-/**  barf  [ba:rf]  2.  "He suggested using FORTRAN, and everybody barfed."
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itpack_f2c.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-    - From The Shogakukan DICTIONARY OF NEW ENGLISH (Second edition) */
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-#ifndef F2C_INCLUDE
-#define F2C_INCLUDE
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
-/* JVM - turned off warnings in f2c generated code */
-#if defined(_MSC_VER)
-#if defined(__ICL)
-#pragma warning(disable: 239 264 1011 )
-#else
-#pragma warning(disable: 4101 4244 4554 4756 4723)
-#endif
-#endif
+=========================================================================*/
+
+#ifndef __itpack_f2c_h
+#define __itpack_f2c_h
+
+/**
+ * \file itpack_f2c.h
+ * \brief Includes all the typedefs required by itpack.cxx and
+ * itpack_dsrc2c.c files.
+ */
+
+
+
 
 typedef long int integer;
 typedef long int logical;
 typedef float real;
 typedef double doublereal;
 
-
 typedef long int flag;
 typedef long int ftnlen;
 typedef long int ftnint;
 
-#define TRUE_ (1)
-#define FALSE_ (0)
+typedef doublereal E_f;
 
-#define max(a,b) ((a) >= (b) ? (a) : (b))
-#define min(a,b) ((a) <= (b) ? (a) : (b))
-#define abs(x) ((x) >= 0 ? (x) : -(x))
-
-/*external read, write*/
 typedef struct
 {   flag cierr;
     ftnint ciunit;

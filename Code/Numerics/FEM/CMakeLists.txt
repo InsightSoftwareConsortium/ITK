@@ -126,9 +126,8 @@ ENDIF(WIN32)
 
 
 # Include the ITPACK library within FEM
-SOURCE_FILES(FEM_SRCS 
-  itpack_dsrc2c.c
-  itpack_dummy.c
+SOURCE_FILES(FEM_SRCS
+  itpack.cxx
 )
 IF(NOT UNIX)
 IF(WIN32)
