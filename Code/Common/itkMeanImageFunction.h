@@ -100,6 +100,11 @@ public:
       return this->EvaluateAtIndex( index ) ; 
     }
   
+  /** Get/Set the radius of the neighborhood over which the
+      statistics are evaluated */
+  itkSetMacro( NeighborhoodRadius, unsigned int );
+  itkGetConstReferenceMacro( NeighborhoodRadius, unsigned int );
+
 protected:
   MeanImageFunction();
   ~MeanImageFunction(){};
@@ -108,6 +113,8 @@ protected:
 private:
   MeanImageFunction( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
+
+  unsigned int m_NeighborhoodRadius;
 
 };
 

@@ -31,6 +31,7 @@ template <class TInputImage, class TCoordRep>
 VarianceImageFunction<TInputImage,TCoordRep>
 ::VarianceImageFunction()
 {
+  m_NeighborhoodRadius = 1;
 }
 
 
@@ -75,7 +76,7 @@ VarianceImageFunction<TInputImage,TCoordRep>
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
   typename InputImageType::SizeType kernelSize;
-  kernelSize.Fill( 1 );
+  kernelSize.Fill( m_NeighborhoodRadius );
   
   ConstSmartNeighborhoodIterator<InputImageType>
     it(kernelSize, m_Image, m_Image->GetBufferedRegion());

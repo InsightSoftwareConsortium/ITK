@@ -97,7 +97,13 @@ public:
       this->ConvertContinuousIndexToNearestIndex( cindex, index );
       return this->EvaluateAtIndex( index ) ; 
     }
-  
+
+  /** Get/Set the radius of the neighborhood over which the
+      statistics are evaluated */
+  itkSetMacro( NeighborhoodRadius, unsigned int );
+  itkGetConstReferenceMacro( NeighborhoodRadius, unsigned int );
+
+ 
 protected:
   VarianceImageFunction();
   ~VarianceImageFunction(){};
@@ -106,6 +112,8 @@ protected:
 private:
   VarianceImageFunction( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
+
+  unsigned int m_NeighborhoodRadius;
 
 };
 
