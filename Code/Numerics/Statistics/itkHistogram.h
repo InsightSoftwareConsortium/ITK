@@ -157,13 +157,13 @@ public:
   }
 
   /** Method to get minimum value of n th bin of dimension d */
-  MeasurementType& GetBinMin(const unsigned int dimension, 
-                             const unsigned long nbin) 
+  const MeasurementType& GetBinMin(const unsigned int dimension, 
+                             const unsigned long nbin) const
   { return m_Min[dimension][nbin] ; }
   
   /** Method to get maximum value of n th bin of dimension d */
-  MeasurementType& GetBinMax(const unsigned int dimension,
-                             const unsigned long nbin)
+  const MeasurementType& GetBinMax(const unsigned int dimension,
+                             const unsigned long nbin) const
   { return m_Max[dimension][nbin] ; }
   
   /** Method to set minimum value of n th bin of dimension d */
