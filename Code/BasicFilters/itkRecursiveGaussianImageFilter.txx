@@ -75,24 +75,24 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage,TOutputImage>
-::SetUp(void)
+::SetUp(RealType spacing)
 {
  
   const RealType spacingTolerance = 1e-8;
 
   RealType direction = 1.0;
-  if( m_Spacing < 0.0 )
+  if( spacing < 0.0 )
     {
     direction = -1.0;
-    m_Spacing = -m_Spacing;
+    spacing = -spacing;
     }
 
-  if( m_Spacing < spacingTolerance )
+  if( spacing < spacingTolerance )
     {
-    itkExceptionMacro(<<"The spacing " << m_Spacing << "is suspiciosly small in this image");
+    itkExceptionMacro(<<"The spacing " << spacing << "is suspiciosly small in this image");
     } 
   
-  const RealType sigmad = m_Sigma/m_Spacing;
+  const RealType sigmad = m_Sigma/spacing;
 
   if( this->GetNormalizeAcrossScale() )
     {
@@ -118,7 +118,7 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
       m_W0 = static_cast<RealType>(  0.6318 );
       m_W1 = static_cast<RealType>(  1.9970 );
       const bool symmetric = true;
-      this->ComputeFilterCoefficients(symmetric);
+      this->ComputeFilterCoefficients(symmetric, spacing);
       break;
       }
     case FirstOrder: // equivalent to convolution with 
@@ -134,7 +134,7 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
       m_W1 = static_cast<RealType>(   2.0720 );
       m_K /= sigmad;
       const bool symmetric = false;
-      this->ComputeFilterCoefficients(symmetric);
+      this->ComputeFilterCoefficients(symmetric, spacing);
       break;
       }
     case SecondOrder: // equivalent to convolution with 
@@ -150,7 +150,7 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
       m_W1 = static_cast<RealType>(   2.1660 );
       m_K /= sigmad * sigmad;
       const bool symmetric = true;
-      this->ComputeFilterCoefficients(symmetric);
+      this->ComputeFilterCoefficients(symmetric, spacing);
       break;
       }
     default:
@@ -171,10 +171,10 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage,TOutputImage>
-::ComputeFilterCoefficients(bool symmetric) 
+::ComputeFilterCoefficients(bool symmetric, RealType s) 
 {
 
-  const RealType spacing = (m_Spacing>0.0) ? m_Spacing : -m_Spacing;
+  const RealType spacing = (s>0.0) ? s : -s;
 
   const RealType sigmad = m_Sigma / spacing;
   

@@ -250,9 +250,8 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 
   const typename InputImageType::SpacingType & pixelSize
     = inputImage->GetSpacing();
-  m_Spacing   = pixelSize[ this->m_Direction ];
   
-  SetUp();
+  this->SetUp( pixelSize[m_Direction] );
   
   RegionType region = inputImage->GetRequestedRegion();
 

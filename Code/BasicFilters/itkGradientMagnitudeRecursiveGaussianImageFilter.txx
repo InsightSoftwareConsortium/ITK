@@ -18,7 +18,7 @@
 #define _itkGradientMagnitudeRecursiveGaussianImageFilter_txx
 
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk
@@ -35,6 +35,12 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   m_NormalizeAcrossScale = false;
 
+  m_DerivativeFilter = DerivativeFilterType::New();
+  m_DerivativeFilter->SetOrder( DerivativeFilterType::FirstOrder );
+  m_DerivativeFilter->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
+
+  m_DerivativeFilter->ReleaseDataFlagOn();
+
   for( unsigned int i = 0; i<ImageDimension-1; i++ )
     {
     m_SmoothingFilters[ i ] = GaussianFilterType::New();
@@ -43,22 +49,12 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
     m_SmoothingFilters[ i ]->ReleaseDataFlagOn();
     }
 
-  m_DerivativeFilter = DerivativeFilterType::New();
-  m_DerivativeFilter->SetOrder( DerivativeFilterType::FirstOrder );
-  m_DerivativeFilter->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
-
-  m_DerivativeFilter->SetInput( this->GetInput() );
-
   m_SmoothingFilters[0]->SetInput( m_DerivativeFilter->GetOutput() );
-
   for( unsigned int i = 1; i<ImageDimension-1; i++ )
     {
-    m_SmoothingFilters[ i ]->SetInput( 
-      m_SmoothingFilters[i-1]->GetOutput() );
+    m_SmoothingFilters[ i ]->SetInput( m_SmoothingFilters[i-1]->GetOutput() );
     }
   
-  m_CumulativeImage = CumulativeImageType::New();
-
   this->SetSigma( 1.0 );
 
 }
@@ -170,15 +166,10 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  outputImage = this->GetOutput();
-
-  outputImage->SetRegions( inputImage->GetBufferedRegion() );
-
-  outputImage->Allocate();
-
-  m_CumulativeImage->SetRegions( inputImage->GetBufferedRegion() );
-  m_CumulativeImage->Allocate();
-  m_CumulativeImage->FillBuffer( NumericTraits< InternalRealType >::Zero );
+  CumulativeImageType::Pointer cumulativeImage = CumulativeImageType::New();
+  cumulativeImage->SetRegions( inputImage->GetBufferedRegion() );
+  cumulativeImage->Allocate();
+  cumulativeImage->FillBuffer( NumericTraits< InternalRealType >::Zero );
 
   m_DerivativeFilter->SetInput( inputImage );
 
@@ -216,13 +207,13 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
     typename RealImageType::Pointer derivativeImage = lastFilter->GetOutput(); 
 
-    ImageRegionIteratorWithIndex< RealImageType > it( 
+    ImageRegionIterator< RealImageType > it( 
       derivativeImage, 
       derivativeImage->GetRequestedRegion() );
 
-    ImageRegionIteratorWithIndex< CumulativeImageType > ot( 
-      m_CumulativeImage, 
-      m_CumulativeImage->GetRequestedRegion() );
+    ImageRegionIterator< CumulativeImageType > ot( 
+      cumulativeImage, 
+      cumulativeImage->GetRequestedRegion() );
   
     const RealType spacing = inputImage->GetSpacing()[ dim ];
 
@@ -236,17 +227,26 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
       }
 
     }
-  
+
+  // Release the data on the last smoother since we have acculumated
+  // its data into our cumulative image.
+  m_SmoothingFilters[ImageDimension-2]->GetOutput()->ReleaseData();
+
+  // Now allocate the output image (postponed the allocation until
+  // after all the subfilters ran to minimize total memory footprint)
+  outputImage = this->GetOutput();
+  outputImage->SetRegions( inputImage->GetBufferedRegion() );
+  outputImage->Allocate();
 
   // Finally convert the cumulated image to the output by 
   // taking the square root of the pixels.
-  ImageRegionIteratorWithIndex< OutputImageType > ot( 
+  ImageRegionIterator< OutputImageType > ot( 
     outputImage, 
     outputImage->GetRequestedRegion() );
 
-  ImageRegionIteratorWithIndex< CumulativeImageType > it( 
-    m_CumulativeImage, 
-    m_CumulativeImage->GetRequestedRegion() );
+  ImageRegionIterator< CumulativeImageType > it( 
+    cumulativeImage, 
+    cumulativeImage->GetRequestedRegion() );
 
   it.GoToBegin();
   ot.GoToBegin();
@@ -256,7 +256,6 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
     ++it;
     ++ot;
     }
-
 }
 
 

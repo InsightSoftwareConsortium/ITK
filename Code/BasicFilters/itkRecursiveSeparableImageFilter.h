@@ -95,8 +95,9 @@ protected:
 
   /** Set up the coefficients of the filter to approximate a specific kernel.
    * typically it can be used to approximate a gaussian or one of its
-   * derivatives. */
-  virtual void SetUp(void) = 0;
+   * derivatives. Parameter is the spacing along the dimension to
+   * filter. */
+  virtual void SetUp(RealType spacing) = 0;
 
   /** Apply the recursive filter along one of the dimensions of the image.
    * This allow to filter each one of the dimensions of an image separately.
@@ -108,8 +109,9 @@ protected:
    * the coefficients used for filtering the image. The symmetric flag is
    * used to enforce that the filter will be symmetric or antisymmetric. For
    * example, the Gaussian kernel is symmetric, while its first derivative is
-   * antisymmetric. */
-  virtual void ComputeFilterCoefficients(bool symmetric) = 0;
+   * antisymmetric. The spacing parameter is the spacing of the pixels
+   * along the dimension to be filtered. */
+  virtual void ComputeFilterCoefficients(bool symmetric, RealType spacing) = 0;
 
   /** Apply the Recursive Filter in an array of data.  this method is called
    * for each line of the volume from ApplyRecursiveFilter.
@@ -128,9 +130,6 @@ private:
 protected:
   /**  Normalization factor. */
   RealType m_K;                       
-
-  /** Spacing along the direction of filtering. */   
-  RealType m_Spacing;
 
   /**  Parameter of exponential series. */
   RealType m_A0;

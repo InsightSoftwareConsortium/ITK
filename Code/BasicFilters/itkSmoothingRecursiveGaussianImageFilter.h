@@ -111,13 +111,6 @@ public:
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
   itkGetMacro( NormalizeAcrossScale, bool );
 
-  /** SmoothingRecursiveGaussianImageFilter needs all of the input to produce an
-   * output. Therefore, SmoothingRecursiveGaussianImageFilter needs to provide
-   * an implementation for GenerateInputRequestedRegion in order to inform
-   * the pipeline execution model.
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
-
 protected:
   SmoothingRecursiveGaussianImageFilter();
   virtual ~SmoothingRecursiveGaussianImageFilter() {};
@@ -125,6 +118,13 @@ protected:
   
   /** Generate Data */
   void GenerateData( void );
+
+  /** SmoothingRecursiveGaussianImageFilter needs all of the input to produce an
+   * output. Therefore, SmoothingRecursiveGaussianImageFilter needs to provide
+   * an implementation for GenerateInputRequestedRegion in order to inform
+   * the pipeline execution model.
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
+  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
   // Override since the filter produces the entire dataset
   void EnlargeOutputRequestedRegion(DataObject *output);

@@ -111,13 +111,6 @@ public:
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
   itkGetMacro( NormalizeAcrossScale, bool );
 
-  /** GradientMagnitudeRecursiveGaussianImageFilter needs all of the input to produce an
-   * output. Therefore, GradientMagnitudeRecursiveGaussianImageFilter needs to provide
-   * an implementation for GenerateInputRequestedRegion in order to inform
-   * the pipeline execution model.
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
-
 protected:
   GradientMagnitudeRecursiveGaussianImageFilter();
   virtual ~GradientMagnitudeRecursiveGaussianImageFilter() {};
@@ -126,7 +119,17 @@ protected:
   /** Generate Data */
   void GenerateData( void );
 
-  // Override since the filter produces the entire dataset
+  /** GradientMagnitudeRecursiveGaussianImageFilter needs all of the
+   * input to produce an output. Therefore,
+   * GradientMagnitudeRecursiveGaussianImageFilter needs to provide an
+   * implementation for GenerateInputRequestedRegion in order to
+   * inform the pipeline execution model.  \sa
+   * ImageToImageFilter::GenerateInputRequestedRegion() */
+  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+
+  /** GradientMagnitudeRecursiveGaussianImageFilter produces all of
+   * the output.  Therefore, it needs to provide an implementation of
+   * EnlargeOutputRequestedRegion(). */
   void EnlargeOutputRequestedRegion(DataObject *output);
 
 private:
@@ -135,8 +138,6 @@ private:
   
   GaussianFilterPointer         m_SmoothingFilters[ImageDimension-1];
   DerivativeFilterPointer       m_DerivativeFilter;
-
-  CumulativeImagePointer        m_CumulativeImage;
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 
