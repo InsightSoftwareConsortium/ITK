@@ -14,6 +14,7 @@ ADD_TEST(itkChainCodePath2DTest ${COMMON_TESTS} itkChainCodePath2DTest)
 ADD_TEST(itkChainCodePathTest ${COMMON_TESTS} itkChainCodePathTest)
 ADD_TEST(itkCommonPrintTest ${COMMON_TESTS} itkCommonPrintTest)
 ADD_TEST(itkConditionVariableTest ${COMMON_TESTS} itkConditionVariableTest)
+ADD_TEST(itkDecoratorTest ${COMMON_TESTS} itkDecoratorTest)
 ADD_TEST(itkModifiedTimeTest ${COMMON_TESTS} itkModifiedTimeTest)
 ADD_TEST(itkAdaptorComparisonTest ${COMMON_TESTS} itkAdaptorComparisonTest)
 ADD_TEST(itkAffineTransformTest ${COMMON_TESTS} itkAffineTransformTest)
@@ -203,6 +204,7 @@ itkConstShapedNeighborhoodIteratorTest.cxx
 itkCovariantVectorGeometryTest.cxx
 itkCovarianceImageFunctionTest.cxx
 itkDataTypeTest.cxx
+itkDecoratorTest.cxx
 itkDynamicMeshTest.cxx
 itkEuler2DTransformTest.cxx
 itkEuler3DTransformTest.cxx

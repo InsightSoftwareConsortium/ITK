@@ -35,6 +35,7 @@ REGISTER_TEST(itkConstShapedNeighborhoodIteratorTest );
 REGISTER_TEST(itkCovariantVectorGeometryTest );
 REGISTER_TEST(itkCovarianceImageFunctionTest );
 REGISTER_TEST(itkDataTypeTest );
+REGISTER_TEST(itkDecoratorTest ); 
 REGISTER_TEST(itkDynamicMeshTest );
 REGISTER_TEST(itkEuler2DTransformTest );
 REGISTER_TEST(itkEuler3DTransformTest );
