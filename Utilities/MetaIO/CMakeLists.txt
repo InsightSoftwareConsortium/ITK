@@ -13,3 +13,4 @@ ADD_LIBRARY(ITKMetaIO
 )
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKMetaIO)
+INSTALL_FILES(/include/InsightToolkit/Utilities/MetaIO "(\\.h)$")

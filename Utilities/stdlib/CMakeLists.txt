@@ -23,3 +23,21 @@ SET(COMPLEX_SRCS
 
 ADD_LIBRARY(Cio STATIC ${C_LOCALE_SRCS} ${IOSTREAM_SRCS} ${COMPLEX_SRCS})
 
+INSTALL_TARGETS(/lib/InsightToolkit Cio)
+
+INSTALL_FILES(/include/InsightToolkit/Utilities/stdlib "(\\.h)$")
+INSTALL_FILES(/include/InsightToolkit/Utilities/stdlib
+              "^(algorithm|bitset|complex|deque|fstream|functional|hash_map)$")
+INSTALL_FILES(/include/InsightToolkit/Utilities/stdlib
+              "^(hash_set|iomanip|ios|iosfwd|iostream|istream|iterator)$")
+INSTALL_FILES(/include/InsightToolkit/Utilities/stdlib
+              "^(limits|list|locale|map|memory|numeric|ostream)$")
+INSTALL_FILES(/include/InsightToolkit/Utilities/stdlib
+              "^(pthread_alloc|queue|rope|set|slist|sstream|stack|stdexcept)$")
+INSTALL_FILES(/include/InsightToolkit/Utilities/stdlib
+              "^(stdio_streambuf|streambuf|string|strstream|utility)$")
+INSTALL_FILES(/include/InsightToolkit/Utilities/stdlib
+              "^(valarray|vector)$")
+
+# Subdirectory has an install target.
+SUBDIRS(c_locale_glibc)

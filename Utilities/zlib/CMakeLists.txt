@@ -29,3 +29,4 @@ ENDIF(WIN32)
 ADD_LIBRARY(itkzlib ${ZLIB_SRCS})
 
 INSTALL_TARGETS(/lib/InsightToolkit itkzlib)
+INSTALL_FILES(/include/InsightToolkit/Utilities/zlib "(\\.h)$")
