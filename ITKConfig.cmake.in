@@ -32,6 +32,9 @@ SET(ITK_USE_SYSTEM_STDLIB "@ITK_USE_SYSTEM_STDLIB@")
 # Whether ITK was built with shared libraries.
 SET(ITK_BUILD_SHARED "@BUILD_SHARED_LIBS@")
 
+# Whether ITK was built with Tcl wrapping support.
+SET(ITK_WRAP_TCL "@ITK_WRAP_TCL@")
+
 # A list of all libraries for ITK.  Those listed here should
 # automatically pull in their dependencies.
 SET(ITK_LIBRARIES ITKAlgorithms ITKStatistics ITKFEM)
