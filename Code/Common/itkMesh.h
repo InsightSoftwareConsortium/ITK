@@ -275,18 +275,19 @@ protected:
    */
   PointDataContainerPointer  m_PointDataContainer;
 
+ 
+  /**
+   * An object containing cells used by the mesh.  Individual cells are
+   * accessed through cell identifiers.
+   */
+  CellsContainerPointer  m_CellsContainer;
+
   /**
    * An object containing parent cell links for each point.  Since a point
    * can be used by multiple cells, each point identifier accesses another
    * container which holds the cell identifiers
    */
   CellLinksContainerPointer  m_CellLinksContainer;
-  
-  /**
-   * An object containing cells used by the mesh.  Individual cells are
-   * accessed through cell identifiers.
-   */
-  CellsContainerPointer  m_CellsContainer;
   
   /**
    * An object containing data associated with the mesh's cells.
