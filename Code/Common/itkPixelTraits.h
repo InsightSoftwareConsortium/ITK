@@ -13,15 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * PixelTraits is used to determine characteristics of particular pixel
- * types. Pixels are can be user-defined types (not just the native types),
- * and may consist of a scalar portion and a vector portion. Depending on how
- * you want to treat the pixel (as either a scalar or vector), you can use
- * the ScalarTraits and VectorTraits to determine characteristics of
- * the pixel.  
- */
-
 #ifndef __itkPixelTraits_h
 #define __itkPixelTraits_h
 
@@ -29,6 +20,17 @@
 
 namespace itk
 {
+
+/** \class ScalarTraits
+ * \brief Determine characterisitics of a scalar pixel type.
+ *
+ * PixelTraits is used to determine characteristics of particular pixel
+ * types. Pixels are can be user-defined types (not just the native types),
+ * and may consist of a scalar portion and a vector portion. Depending on how
+ * you want to treat the pixel (as either a scalar or vector), you can use
+ * the ScalarTraits and VectorTraits to determine characteristics of
+ * the pixel.  
+ */
 
 template <class T>
 class ScalarTraits {
@@ -53,6 +55,16 @@ public:
   static void SetScalar(T& v, ScalarType const&d) {v.SetScalar(d);}
 };
 
+/** \class VectorTraits
+ * \brief Determine characterisitics of a vector pixel type.
+ *
+ * PixelTraits is used to determine characteristics of particular pixel
+ * types. Pixels are can be user-defined types (not just the native types),
+ * and may consist of a scalar portion and a vector portion. Depending on how
+ * you want to treat the pixel (as either a scalar or vector), you can use
+ * the ScalarTraits and VectorTraits to determine characteristics of
+ * the pixel.  
+ */
 template <class T>
 class VectorTraits {
 public:
@@ -80,6 +92,10 @@ public:
  * The following are specializations of the ScalarTraits for the native
  * types.
  */
+
+/** \class ScalarTraits<bool>
+ * \brief Define (pixel) scalar traits for type bool.
+ */
 template <>
 class ScalarTraits<bool> {
 public:
@@ -89,6 +105,9 @@ public:
   static void SetScalar(bool& data, ScalarType const& v) {data = v;}
 };
 
+/** \class ScalarTraits<unsigned char>
+ * \brief Define (pixel) scalar traits for type unsigned char.
+ */
 template <>
 class ScalarTraits<unsigned char> {
 public:
@@ -98,6 +117,9 @@ public:
   static void SetScalar(unsigned char& data, ScalarType const& v) {data = v;}
 };
 
+/** \class ScalarTraits<signed char>
+ * \brief Define (pixel) scalar traits for type signed char.
+ */
 template <>
 class ScalarTraits<signed char> {
 public:
@@ -107,6 +129,9 @@ public:
   static void SetScalar(signed char& data, ScalarType const& v) {data = v;}
 };
 
+/** \class ScalarTraits<unsigned short>
+ * \brief Define (pixel) scalar traits for type unsigned short.
+ */
 template <>
 class ScalarTraits<unsigned short> {
 public:
@@ -116,6 +141,9 @@ public:
   static void SetScalar(unsigned short& data, ScalarType const& v) {data = v;}
 };
 
+/** \class ScalarTraits<signed short>
+ * \brief Define (pixel) scalar traits for type signed short.
+ */
 template <>
 class ScalarTraits<signed short> {
 public:
@@ -125,6 +153,9 @@ public:
   static void SetScalar(signed short& data, ScalarType const& v) {data = v;}
 };
 
+/** \class ScalarTraits<unsigned int>
+ * \brief Define (pixel) scalar traits for type unsigned int.
+ */
 template <>
 class ScalarTraits<unsigned int> {
 public:
@@ -134,6 +165,9 @@ public:
   static void SetScalar(unsigned int& data, ScalarType const& v) {data = v;}
 };
 
+/** \class ScalarTraits<signed int>
+ * \brief Define (pixel) scalar traits for type signed int.
+ */
 template <>
 class ScalarTraits<signed int> {
 public:
@@ -143,6 +177,9 @@ public:
   static void SetScalar(signed int& data, ScalarType const& v) {data = v;}
 };
 
+/** \class ScalarTraits<signed long>
+ * \brief Define (pixel) scalar traits for type signed long.
+ */
 template <>
 class ScalarTraits<signed long> {
 public:
@@ -152,6 +189,9 @@ public:
   static void SetScalar(signed long& data, ScalarType const& v) {data = v;}
 };
 
+/** \class ScalarTraits<unsigned long>
+ * \brief Define (pixel) scalar traits for type unsigned long.
+ */
 template <>
 class ScalarTraits<unsigned long> {
 public:
@@ -161,6 +201,9 @@ public:
   static void SetScalar(unsigned long& data, ScalarType const& v) {data = v;}
 };
 
+/** \class ScalarTraits<float>
+ * \brief Define (pixel) scalar traits fortype <float.
+ */
 template <>
 class ScalarTraits<float> {
 public:
@@ -170,6 +213,9 @@ public:
   static void SetScalar(float& data, ScalarType const& v) {data = v;}
 };
 
+/** \class ScalarTraits<double>
+ * \brief Define (pixel) scalar traits fortype <double.
+ */
 template <>
 class ScalarTraits<double> {
 public:
@@ -179,10 +225,13 @@ public:
   static void SetScalar(double& data, ScalarType const& v) {data = v;}
 };
 
-
 /**
  * The following are specializations of the VectorTraits for the native
  * types.
+ */
+
+/** \class VectorTraits<bool>
+ * \brief Define (pixel) vector traits for type bool.
  */
 template <>
 class VectorTraits<bool> {
@@ -193,6 +242,9 @@ public:
   static void SetVector(bool& data, VectorType const& v) {data = v;}
 };
 
+/** \class VectorTraits<unsigned char>
+ * \brief Define (pixel) vector traits for type unsigned char.
+ */
 template <>
 class VectorTraits<unsigned char> {
 public:
@@ -202,6 +254,9 @@ public:
   static void SetVector(unsigned char& data, VectorType const& v) {data = v;}
 };
 
+/** \class VectorTraits<signed char>
+ * \brief Define (pixel) vector traits for type signed char.
+ */
 template <>
 class VectorTraits<signed char> {
 public:
@@ -211,6 +266,9 @@ public:
   static void SetVector(signed char& data, VectorType const& v) {data = v;}
 };
 
+/** \class VectorTraits<unsigned short>
+ * \brief Define (pixel) vector traits for type unsigned short.
+ */
 template <>
 class VectorTraits<unsigned short> {
 public:
@@ -220,6 +278,9 @@ public:
   static void SetVector(unsigned short& data, VectorType const& v) {data = v;}
 };
 
+/** \class VectorTraits<signed short>
+ * \brief Define (pixel) vector traits for type signed short.
+ */
 template <>
 class VectorTraits<signed short> {
 public:
@@ -229,6 +290,9 @@ public:
   static void SetVector(signed short& data, VectorType const& v) {data = v;}
 };
 
+/** \class VectorTraits<unsigned int>
+ * \brief Define (pixel) vector traits for type unsigned int.
+ */
 template <>
 class VectorTraits<unsigned int> {
 public:
@@ -238,6 +302,9 @@ public:
   static void SetVector(unsigned int& data, VectorType const& v) {data = v;}
 };
 
+/** \class VectorTraits<signed int>
+ * \brief Define (pixel) vector traits for type signed int.
+ */
 template <>
 class VectorTraits<signed int> {
 public:
@@ -247,6 +314,9 @@ public:
   static void SetVector(signed int& data, VectorType const& v) {data = v;}
 };
 
+/** \class VectorTraits<signed long>
+ * \brief Define (pixel) vector traits for type signed long.
+ */
 template <>
 class VectorTraits<signed long> {
 public:
@@ -256,6 +326,9 @@ public:
   static void SetVector(signed long& data, VectorType const& v) {data = v;}
 };
 
+/** \class VectorTraits<unsigned long>
+ * \brief Define (pixel) vector traits for type unsigned long.
+ */
 template <>
 class VectorTraits<unsigned long> {
 public:
@@ -265,6 +338,9 @@ public:
   static void SetVector(unsigned long& data, VectorType const& v) {data = v;}
 };
 
+/** \class VectorTraits<float>
+ * \brief Define (pixel) vector traits for type float.
+ */
 template <>
 class VectorTraits<float> {
 public:
@@ -274,6 +350,9 @@ public:
   static void SetVector(float& data, VectorType const& v) {data = v;}
 };
 
+/** \class VectorTraits<double>
+ * \brief Define (pixel) vector traits for type double.
+ */
 template <>
 class VectorTraits<double> {
 public:

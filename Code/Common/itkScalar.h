@@ -12,7 +12,16 @@
   See COPYRIGHT.txt for copyright details.
   
   ==========================================================================*/
-/**
+#ifndef __itkScalar_h
+#define __itkScalar_h
+
+namespace itk
+{
+
+/** \class Scalar
+ * \brief A templated class holding a single scalar value and responding to
+ *        the GetScalar() method.
+ * 
  * Scalar is a templated class that holds a single scalar value.
  * Scalar can be used as the data type held at each pixel in an Image
  * or at each vertex (or cell) of an Mesh. The template parameter can be
@@ -36,12 +45,6 @@
  * \sa Vector
  * \sa ScalarVector 
  */
-
-#ifndef __itkScalar_h
-#define __itkScalar_h
-
-namespace itk
-{
 
 template<class T>
 class Scalar {
