@@ -100,16 +100,7 @@ public:
    * \sa Estimator \sa Variance \sa ClearEstimation */
   void ClearVariance(void)
     {
-    const unsigned int N = VEstimatorDimension * VEstimatorDimension;
-    for(unsigned int i=0; i<N; i++) 
-      {
-      m_Variance(i) = 0.0;
-      }
-
-    for(unsigned int j=0; j<N; j++) 
-      {
-      m_Variance(j,j) = 1.0;
-      }
+    m_Variance.set_identity();
     }
 
   /** This method sets the covariance matrix to a diagonal matrix with
@@ -120,16 +111,8 @@ public:
    * \sa ClearEstimation */
   void SetVariance(const T & var = 1.0) 
     {
-    const unsigned int N = VEstimatorDimension * VEstimatorDimension;
-    for(unsigned int i=0; i<N; i++) 
-      {
-      m_Variance(i) = 0.0;
-      }
-
-    for(unsigned int j=0; j<N; j++) 
-      {
-      m_Variance(j,j) = var;
-      }
+    m_Variance.set_identity();
+    m_Variance *= var;
     }
 
   /** This method sets the covariance matrix to known matrix. It is intended to
@@ -205,7 +188,7 @@ KalmanLinearEstimator<T,VEstimatorDimension>
     {
     for( unsigned int row=0; row<VEstimatorDimension; row++) 
       {
-      m_Variance(pos) -= aux(col)*aux(row)*denominator;
+      m_Variance(col,row) -= aux(col)*aux(row)*denominator;
       pos++;
       }
     }
