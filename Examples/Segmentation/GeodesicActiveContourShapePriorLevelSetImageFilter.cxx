@@ -70,9 +70,10 @@
 // For simplicity, this example uses the \doxygen{BoundedReciprocalImageFilter}
 // to produce the edge potential image.
 //
-// The \doxygen{FastMarchingImageFilter} creates an initial level set using two
-// user specified seed positions and a initial contour radius. Two seeds are
-// used in this example to facilitate the segmentation of long narrow objects.
+// The \doxygen{FastMarchingImageFilter} creates an initial level set using three
+// user specified seed positions and a initial contour radius. Three seeds are
+// used in this example to facilitate the segmentation of long narrow objects
+// in a smaller number of iterations.
 // The output of the FastMarchingImageFilter is passed
 // as the input to the GeodesicActiveContourShapePriorLevelSetImageFilter.
 // At then end of the segmentation process, the output level set is passed
@@ -191,13 +192,14 @@ public:
 
 int main( int argc, char *argv[] )
 {
-  if( argc < 16 )
+  if( argc < 18 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage";
     std::cerr << " seed1X seed1Y";
     std::cerr << " seed2X seed2Y";
+    std::cerr << " seed3X seed3Y";
     std::cerr << " initialDistance";
     std::cerr << " sigma";
     std::cerr << " propagationScaling shapePriorScaling";
@@ -366,8 +368,8 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
-  const double propagationScaling = atof( argv[9] );
-  const double shapePriorScaling  = atof( argv[10] );
+  const double propagationScaling = atof( argv[11] );
+  const double shapePriorScaling  = atof( argv[12] );
 
   //  Software Guide : BeginCodeSnippet
   geodesicActiveContour->SetPropagationScaling( propagationScaling );
@@ -388,7 +390,7 @@ int main( int argc, char *argv[] )
   //  in the contour of the anatomical structure to be segmented.
 
   geodesicActiveContour->SetMaximumRMSError( 0.005 );
-  geodesicActiveContour->SetNumberOfIterations( 800 );
+  geodesicActiveContour->SetNumberOfIterations( 400 );
 
   //  Software Guide : BeginLatex
   //
@@ -445,7 +447,7 @@ int main( int argc, char *argv[] )
   //  the range of influence of the image edges. This filter has been discussed
   //  in Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}
 
-  const double sigma = atof( argv[8] );
+  const double sigma = atof( argv[10] );
   gradientMagnitude->SetSigma(  sigma  );
   
 
@@ -481,7 +483,7 @@ int main( int argc, char *argv[] )
   //  command line arguments. The rule of thumb for the user is to select this
   //  value as the distance from the seed points at which she want the initial
   //  contour to be.
-  const double initialDistance = atof( argv[7] );
+  const double initialDistance = atof( argv[9] );
 
   NodeType node;
 
@@ -501,6 +503,12 @@ int main( int argc, char *argv[] )
   seedPosition[1] = atoi( argv[6] );
   node.SetIndex( seedPosition );
   seeds->InsertElement( 1, node );
+
+  seedPosition[0] = atoi( argv[7] );
+  seedPosition[1] = atoi( argv[8] );
+  node.SetIndex( seedPosition );
+  seeds->InsertElement( 2, node );
+
 
   //  The set of seed nodes is passed now to the
   //  FastMarchingImageFilter with the method
@@ -603,7 +611,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const unsigned int numberOfPCAModes = atoi( argv[12] );
+  const unsigned int numberOfPCAModes = atoi( argv[14] );
 
   // Software Guide : BeginCodeSnippet
   typedef itk::PCAShapeSignedDistanceFunction<
@@ -629,7 +637,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   ReaderType::Pointer meanShapeReader = ReaderType::New();
-  meanShapeReader->SetFileName( argv[11] );
+  meanShapeReader->SetFileName( argv[13] );
   meanShapeReader->Update();
 
   std::vector<InternalImageType::Pointer> shapeModeImages( numberOfPCAModes );
@@ -639,7 +647,7 @@ int main( int argc, char *argv[] )
 
   fileNamesCreator->SetStartIndex( 0 );
   fileNamesCreator->SetEndIndex( numberOfPCAModes - 1 );
-  fileNamesCreator->SetSeriesFormat( argv[13] );
+  fileNamesCreator->SetSeriesFormat( argv[15] );
   const std::vector<std::string> & shapeModeFileNames = 
           fileNamesCreator->GetFileNames();
 
@@ -861,8 +869,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   ShapeFunctionType::ParametersType parameters( shape->GetNumberOfParameters() );
   parameters.Fill( 0.0 );
-  parameters[numberOfPCAModes + 1] = atof( argv[14] ); // startX
-  parameters[numberOfPCAModes + 2] = atof( argv[15] ); // startY
+  parameters[numberOfPCAModes + 1] = atof( argv[16] ); // startX
+  parameters[numberOfPCAModes + 2] = atof( argv[17] ); // startY
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -995,17 +1003,17 @@ int main( int argc, char *argv[] )
   // \begin{tabular}{cccc}
   // & $-3\sigma$ & mean & $+3\sigma$ \\
   // mode 0: &
-  // \includegraphics[width=0.15\textwidth]{CorpusCallosumModeMinus0.eps} & 
-  // \includegraphics[width=0.15\textwidth]{CorpusCallosumMeanShape.eps} & 
-  // \includegraphics[width=0.15\textwidth]{CorpusCallosumModePlus0.eps} \\
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus0.eps} & 
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} & 
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus0.eps} \\
   // mode 1: &
-  // \includegraphics[width=0.15\textwidth]{CorpusCallosumModeMinus1.eps} & 
-  // \includegraphics[width=0.15\textwidth]{CorpusCallosumMeanShape.eps} & 
-  // \includegraphics[width=0.15\textwidth]{CorpusCallosumModePlus1.eps} \\
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus1.eps} & 
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} & 
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus1.eps} \\
   // mode 2: &
-  // \includegraphics[width=0.15\textwidth]{CorpusCallosumModeMinus2.eps} & 
-  // \includegraphics[width=0.15\textwidth]{CorpusCallosumMeanShape.eps} & 
-  // \includegraphics[width=0.15\textwidth]{CorpusCallosumModePlus2.eps} \\
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus2.eps} & 
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} & 
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus2.eps} \\
   // \end{tabular}
   // \itkcaption[Corpus callosum PCA modes]{First three PCA modes of a low-resolution
   // ($58 \times 31$ pixels, $2 \times 2$ mm spacing) corpus callosum model used in the 
@@ -1019,8 +1027,8 @@ int main( int argc, char *argv[] )
   // A sigma value of $1.0$ was used to compute the image gradient and the
   // propagation and shape prior scaling are respectively set to $0.5$ and $0.02$.
   // An initial level set was created by placing one seed point in the
-  // rostrum $(60,102)$ and 
-  // one in the splenium $(120, 85)$ of the corpus callosum with
+  // rostrum $(60,102)$, one in the splenium $(120, 85)$ and one
+  // centrally in the body $(88,83)$ of the corpus callosum with
   // an initial radius of $6$ pixels at each seed position.
   // The best-fit shape was initially placed with a translation of
   // $(10,0)$mm so that it roughly overlapped
@@ -1038,7 +1046,7 @@ int main( int argc, char *argv[] )
   // The final best-fit shape parameters after the segmentation process is:
   //
   // \begin{verbatim}
-  // Parameters: [-0.459218, -0.87562, 0.428443, 0.276688, 16.5634, 4.82481]
+  // Parameters: [-0.384988, -0.578738, 0.557793, 0.275202, 16.9992, 4.73473]
   // \end{verbatim}
   //
   // and is shown in
