@@ -35,7 +35,9 @@ namespace _cable_
     ITK_WRAP_GROUP(itkFiniteDifferenceImageFilter),
     ITK_WRAP_GROUP(itkFixedArray),
     ITK_WRAP_GROUP(itkImage),
+    ITK_WRAP_GROUP(itkIndex),
     ITK_WRAP_GROUP(itkPoint),
+    ITK_WRAP_GROUP(itkSize),
     ITK_WRAP_GROUP(itkVector)
   };
 }
