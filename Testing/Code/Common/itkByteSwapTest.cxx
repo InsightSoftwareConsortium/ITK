@@ -22,7 +22,7 @@ int main ( int argc, char* argv[] )
 
   std::cout << "Starting test" << std::endl;
 
-  unsigned char uc = 1, uc1 = 1;
+  unsigned char uc = 'a', uc1 = 'a';
   unsigned short us = 1, us1 = 1;
   unsigned int ui = 1, ui1 = 1;
   unsigned long ul = 1, ul1 = 1;
