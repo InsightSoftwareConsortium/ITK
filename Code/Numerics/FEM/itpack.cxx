@@ -10550,7 +10550,7 @@ L50:
     --a;
 
     /* Function Body */
-    nb = *nnb;
+    nb = *nnb; nb;
     nr = *nnr;
     i__1 = nr;
     for (ii = 1; ii <= i__1; ++ii) {

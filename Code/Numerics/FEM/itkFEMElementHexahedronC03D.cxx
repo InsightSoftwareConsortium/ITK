@@ -72,7 +72,7 @@ vnl_matrix<HexahedronC03D::Float> HexahedronC03D::Ke() const
 
   Float detJ;
   Float x[3];
-  int i, j;
+  int j;
   
   /**
    * Gaussian integration points

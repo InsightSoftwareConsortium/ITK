@@ -70,7 +70,7 @@ vnl_matrix<TetrahedronC03D::Float> TetrahedronC03D::Ke() const
   vnl_matrix<Float> MatKe(12,12), I(3,3), shapeD(4,3), shapeINVD(4,3),
     J(3,3), D(6,6), B(6,12), DB(6,12);
 
-  int i, j;
+  int j;
   Float detJ;
   
   /**
