@@ -64,7 +64,7 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 

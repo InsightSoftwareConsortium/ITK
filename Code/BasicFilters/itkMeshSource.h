@@ -107,7 +107,7 @@ protected:
   virtual ~MeshSource() {}
   MeshSource(const Self&) {}
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
   /**
    * Requested region of Mesh is specified as i of N unstructured regions.

@@ -90,7 +90,7 @@ RandomImageSource<TOutputImage>
 template <class TOutputImage>
 void 
 RandomImageSource<TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 }

@@ -126,7 +126,7 @@ MeshSource<TOutputMesh>
 template<class TOutputMesh>
 void 
 MeshSource<TOutputMesh>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 }

@@ -190,7 +190,7 @@ protected:
   ~ImportPhysicalImageFilter();
   ImportPhysicalImageFilter(const ImportPhysicalImageFilter &) {};
   void operator=(const ImportPhysicalImageFilter&) {};
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * This filter does not actually "produce" any data, rather it "wraps"

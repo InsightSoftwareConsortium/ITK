@@ -159,7 +159,7 @@ RawImageWriter<TInputImage>
 template <class TInputImage>
 void 
 RawImageWriter<TInputImage>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 

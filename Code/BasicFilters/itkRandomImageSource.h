@@ -160,7 +160,7 @@ protected:
   ~RandomImageSource();
   RandomImageSource(const RandomImageSource&) {};
   void operator=(const RandomImageSource&) {};
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
   virtual void 
   ThreadedGenerateData(const OutputImageRegionType& 

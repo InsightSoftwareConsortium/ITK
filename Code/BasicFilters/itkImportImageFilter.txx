@@ -72,7 +72,7 @@ ImportImageFilter<TPixel, VImageDimension>
 template <class TPixel, unsigned int VImageDimension>
 void 
 ImportImageFilter<TPixel, VImageDimension>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 

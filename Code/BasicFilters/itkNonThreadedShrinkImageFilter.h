@@ -124,7 +124,7 @@ public:
   ~NonThreadedShrinkImageFilter() {};
   NonThreadedShrinkImageFilter(const Self&) {}
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
   void GenerateData();
 

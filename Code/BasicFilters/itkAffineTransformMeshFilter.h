@@ -122,7 +122,7 @@ protected:
   ~AffineTransformMeshFilter() {};
   AffineTransformMeshFilter(const AffineTransformMeshFilter&) {};
   void operator=(const AffineTransformMeshFilter&) {};
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
  /**
   *  Affine transform to apply to all the mesh points

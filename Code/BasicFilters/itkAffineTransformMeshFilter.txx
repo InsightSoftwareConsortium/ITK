@@ -63,7 +63,7 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
 template <class TInputMesh, class TOutputMesh>
 void 
 AffineTransformMeshFilter<TInputMesh,TOutputMesh>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 }
