@@ -55,7 +55,6 @@ REGISTER_TEST(itkLaplacianSegmentationLevelSetImageFilterTest );
 REGISTER_TEST(itkLevelSetNeighborhoodExtractorTest );
 REGISTER_TEST(itkLevelSetVelocityNeighborhoodExtractorTest );
 REGISTER_TEST(itkMattesMutualInformationImageToImageMetricTest );
-REGISTER_TEST(itkMahalanobisDistanceThresholdImageFunctionTest );
 REGISTER_TEST(itkMeanSquaresImageMetricTest );
 REGISTER_TEST(itkMinMaxCurvatureFlowImageFilterTest );
 REGISTER_TEST(itkMRFImageFilterTest );

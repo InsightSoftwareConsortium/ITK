@@ -60,6 +60,7 @@ REGISTER_TEST(itkLightObjectTest );
 REGISTER_TEST(itkLevelSetFunctionTest );
 REGISTER_TEST(itkMatrixTest );
 REGISTER_TEST(itkMapContainerTest );
+REGISTER_TEST(itkMahalanobisDistanceThresholdImageFunctionTest );
 REGISTER_TEST(itkMaximumDecisionRuleTest );
 REGISTER_TEST(itkMaximumRatioDecisionRuleTest );
 REGISTER_TEST(itkMeanImageFunctionTest );

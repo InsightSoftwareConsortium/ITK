@@ -62,6 +62,7 @@ ADD_TEST(itkLightObjectTest ${COMMON_TESTS} itkLightObjectTest)
 ADD_TEST(itkLevelSetFunctionTest ${COMMON_TESTS} itkLevelSetFunctionTest)
 ADD_TEST(itkMatrixTest ${COMMON_TESTS} itkMatrixTest)
 ADD_TEST(itkMapContainerTest ${COMMON_TESTS} itkMapContainerTest)
+ADD_TEST(itkMahalanobisDistanceThresholdImageFunctionTest ${COMMON_TESTS} itkMahalanobisDistanceThresholdImageFunctionTest)
 ADD_TEST(itkMaximumDecisionRuleTest ${COMMON_TESTS} itkMaximumDecisionRuleTest)
 ADD_TEST(itkMaximumRatioDecisionRuleTest ${COMMON_TESTS} itkMaximumRatioDecisionRuleTest)
 ADD_TEST(itkMeanImageFunctionTest ${COMMON_TESTS} itkMeanImageFunctionTest)
@@ -211,6 +212,7 @@ itkLevelSetFunctionTest.cxx
 itkLightObjectTest.cxx
 itkMatrixTest.cxx
 itkMapContainerTest.cxx
+itkMahalanobisDistanceThresholdImageFunctionTest.cxx
 itkMaximumDecisionRuleTest.cxx
 itkMaximumRatioDecisionRuleTest.cxx
 itkMeanImageFunctionTest.cxx 
