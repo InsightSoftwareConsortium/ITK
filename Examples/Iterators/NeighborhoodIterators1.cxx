@@ -18,19 +18,15 @@
 // Software Guide : BeginLatex
 //
 // This example uses the \doxygen{NeighborhoodIterator} to implement a simple
-// Sobel edge detection algorithm \cite{Gonzalez1993}.  We will read an input
-// image, create an output buffer of matching size, then iterate through both
-// images simultaneously, calculating derivatives on the input and writing the
-// results to the output.
+// Sobel edge detection algorithm \cite{Gonzalez1993}.  The algorithm uses the
+// neighborhood iterator to iterate through an input image and calculate a
+// series of finite difference derivatives.  Since the derivative results
+// cannot be written back to the input image without affecting later
+// calculations, they are written instead to a second, output image.  Most
+// neighborhood processing algorithms follow this read-only model on their
+// inputs. 
 //
-// In general, neighborhood-based image processing cannot operate in-place on a
-// single image buffer and must use the read-only input strategy just
-// described.  This is because modifying a value at any pixel would affect a
-// later calculation at its neighboring pixel.  Most of the examples in this
-// section and all of the neighborhood-based image processing filters in the
-// Insight toolkit follow this model.
-//
-// Let's begin as always by including the proper header files.  The
+// Begin by including the proper header files.  The
 // \doxygen{ImageRegionIterator} will be used to write the results of
 // computations to the output image.  A const version of the neighborhood
 // iterator is used because the input image is read-only.
@@ -62,12 +58,12 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // Now declare the image and pixel types.  The finite difference calculations
-// in this algorithm require a floating point data type. The file reader will
+// in this algorithm require floating point values.  As declared, the file reader will
 // automatically cast fixed-point data to \code{float}.
 //
-// The second template parameter, which specifies the boundary condition, has
-// been omitted from the neighborhood iterator definition because the default
-// neighborhood iterator boundary condition is appropriate for this algorithm.
+// The second template parameter of the neighborhood iterator, which specifies
+// the boundary condition, has been omitted because the default condition is
+// appropriate for this algorithm.
 //
 // Software Guide : EndLatex
 
@@ -137,19 +133,20 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // Sobel edge detection uses weighted finite difference calculations to
-// construct an edge magnitude image.  For simplicity, this example only
-// calculates the $x$ component of the edge magnitude to produce a derivative
-// image biased towards maximally vertical edges.
+// construct an edge magnitude image.  Normally the edge magnitude is the
+// root sum of squares of partial derivatives in all directions, but for
+// simplicity this example only calculates the $x$ component. The result is a
+// derivative image biased toward maximally vertical edges.
 //
-// There are many ways to take derivatives using the neighborhood operators.
-// The example in Section~\ref{sec:NeighborhoodIterators2}  illustrates traditional
-// convolution filtering with convolution kernels.  In this example, we instead
-// use the
-// neighborhood iterator \code{Set/Get} API to perform the necessary finite
-// difference calculations.
+// The finite differences are computed from pixels at six locations in the
+// neighborhood.  In this example, we use the iterator \code{Set} method to
+// query the values from their offsets in the neighborhood.  The example in
+// Section~\ref{sec:NeighborhoodIterators2} uses convolution with a Sobel
+// kernel instead.
 //
-// There are six positions in the neighborhood used for the Sobel derivatives.
-// These size positions are recorded in \code{offset1} through \code{offset6}.
+// Six positions in the neighborhood are necessary for the finite difference
+// calculations. These positions are recorded in \code{offset1} through
+// \code{offset6}.
 //
 // Software Guide : EndLatex
 
@@ -164,11 +161,11 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// Note that it is equivalent to supply the corresponding integer array
-// indices.  For example, the offsets \code{(-1,-1)} and \code{(1, -1)} are
+// It is equivalent to use the six corresponding integer array indices instead.
+// For example, the offsets \code{(-1,-1)} and \code{(1, -1)} are 
 // equivalent to the integer indices \code{0} and \code{2}, respectively.
 //
-// The calculations are now done in a \code{for} loop that moves the input and
+// The calculations are done in a \code{for} loop that moves the input and
 // output iterators synchronously across their respective images.  The
 // \code{sum} variable is used to sum the results of the finite differences.
 //
@@ -187,11 +184,10 @@ int main( int argc, char ** argv )
   
 // Software Guide : BeginLatex
 //
-// The last step is to write the output buffer to an image file.  This is done
-// in the standard way with a \code{try/catch} block to handle any
-// exceptions.  For the purpose of visualizing the output as a \code{png}
-// image, it is rescaled to intensity range $[0, 255]$ and cast to unsigned
-// char.
+// The last step is to write the output buffer to an image file.  Writing is
+// done inside a \code{try/catch} block to handle any exceptions.  The output
+// is rescaled to intensity range $[0, 255]$ and cast to unsigned char so that
+// it can be saved and visualized as a \code{png} image.
 //
 // Software Guide : EndLatex  
   
