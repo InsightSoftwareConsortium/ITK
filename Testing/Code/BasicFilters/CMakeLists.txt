@@ -696,3 +696,13 @@ IF(ITK_CSWIG_PYTHON)
 
 ENDIF(ITK_CSWIG_PYTHON)
 
+IF(ITK_CSWIG_JAVA)
+
+  ADD_TEST(MeanImageFilterJava ${JAVACOMMAND} -classpath ${ITK_SOURCE_DIR}/Examples/Filtering/
+           MeanImageFilter
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/MeanImageFilterJavaTest.png )
+
+ENDIF(ITK_CSWIG_JAVA)
+
+
