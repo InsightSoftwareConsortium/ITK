@@ -48,6 +48,10 @@ See COPYRIGHT.txt for copyright details.
 #include "itkExtensionVelocitiesImageFilter.txx"
 #include "itkFEMFiniteDifferenceFunctionLoad.txx"
 #include "itkFEMRegistrationFilter.txx"
+#include "itkFFTComplexConjugateToRealImageFilter.txx"
+#include "itkFFTRealToComplexConjugateImageFilter.txx"
+#include "itkFFTWComplexConjugateToRealImageFilter.txx"
+#include "itkFFTWRealToComplexConjugateImageFilter.txx"
 #include "itkFastChamferDistanceImageFilter.txx"
 #include "itkFastMarchingExtensionImageFilter.txx"
 #include "itkFastMarchingImageFilter.txx"
@@ -55,6 +59,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkGeodesicActiveContourLevelSetImageFilter.txx"
 #include "itkGeodesicActiveContourShapePriorLevelSetFunction.txx"
 #include "itkGeodesicActiveContourShapePriorLevelSetImageFilter.txx"
+#include "itkGradientDifferenceImageToImageMetric.txx"
 #include "itkGradientVectorFlowImageFilter.txx"
 #include "itkHistogramImageToImageMetric.txx"
 #include "itkHistogramMatchingImageFilter.txx"
@@ -71,6 +76,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageToSpatialObjectRegistrationMethod.txx"
 #include "itkIsoContourDistanceImageFilter.txx"
 #include "itkIsotropicFourthOrderLevelSetImageFilter.txx"
+#include "itkIterativeClosestPointMetric.txx"
 #include "itkKLMRegionGrowImageFilter.txx"
 #include "itkKalmanLinearEstimator.h"
 #include "itkKullbackLieblerCompareHistogramImageToImageMetric.txx"
@@ -111,11 +117,15 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPDEDeformableRegistrationFunction.h"
 #include "itkPointSetToImageMetric.txx"
 #include "itkPointSetToImageRegistrationMethod.txx"
+#include "itkPointSetToPointSetMetric.txx"
+#include "itkPointSetToPointSetRegistrationMethod.txx"
 #include "itkRGBGibbsPriorFilter.txx"
 #include "itkRayCastInterpolateImageFunction.txx"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.txx"
 #include "itkRegionGrowImageFilter.txx"
 #include "itkReinitializeLevelSetImageFilter.txx"
+#include "itkSCSLComplexConjugateToRealImageFilter.txx"
+#include "itkSCSLRealToComplexConjugateImageFilter.txx"
 #include "itkSegmentationLevelSetImageFilter.txx"
 #include "itkShapeDetectionLevelSetFunction.txx"
 #include "itkShapeDetectionLevelSetImageFilter.txx"
@@ -134,6 +144,10 @@ See COPYRIGHT.txt for copyright details.
 #include "itkUnaryMedialNodeMetric.txx"
 #include "itkUnsharpMaskLevelSetImageFilter.txx"
 #include "itkVectorFuzzyConnectednessImageFilter.txx"
+#include "itkVectorThresholdSegmentationLevelSetFunction.txx"
+#include "itkVectorThresholdSegmentationLevelSetImageFilter.txx"
+#include "itkVnlFFTComplexConjugateToRealImageFilter.txx"
+#include "itkVnlFFTRealToComplexConjugateImageFilter.txx"
 #include "itkVoronoiDiagram2D.txx"
 #include "itkVoronoiDiagram2DGenerator.txx"
 #include "itkVoronoiPartitioningImageFilter.txx"
@@ -150,9 +164,11 @@ See COPYRIGHT.txt for copyright details.
 #include "itkWatershedSegmentTree.txx"
 #include "itkWatershedSegmentTreeGenerator.txx"
 #include "itkWatershedSegmenter.txx"
+#include "vnl_fft_3d.h"
 
 int main ( int , char*  )
 {
   
   return 0;
 }
+
