@@ -36,7 +36,7 @@ namespace itk
  *  should improve the speed of the closest point computation.
  *
  *  Reference: "A Method for Registration of 3-D Shapes",
- *             IEEE PAMI, Vol 14, No. 2, February 1192
+ *             IEEE PAMI, Vol 14, No. 2, February 1992
  *
  * \ingroup RegistrationMetrics
  */
