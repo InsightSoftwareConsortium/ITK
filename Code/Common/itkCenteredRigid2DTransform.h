@@ -153,6 +153,11 @@ public:
    * This sets the matrix to identity and the Offset to null. */
   virtual void SetIdentity( void );
 
+  /**
+   * This method creates and returns a new CenteredRigid2DTransform object
+   * which is the inverse of self.
+   **/
+  Pointer Inverse( void ) const;
 
 protected:
   CenteredRigid2DTransform();

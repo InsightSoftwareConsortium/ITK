@@ -110,6 +110,61 @@ int itkCenteredRigid2DTransformTest(int ,char *[] )
     std::cout << " [ PASSED ] " << std::endl;
   }
 
+  {
+    std::cout << "Testing Inverse:";
+
+    // Populate the transform with some parameters
+    CenteredRigidTransformType::Pointer transform = CenteredRigidTransformType::New();
+    const double a = 0.175;
+    transform->SetAngle( a);
+
+    CenteredRigidTransformType::InputPointType c;
+    c[0] = 13.456;
+    c[1] = 45.890;
+    transform->SetCenter( c );
+
+    CenteredRigidTransformType::OutputVectorType t;
+    t[0] = 9.873;
+    t[1] = 40.312;
+    transform->SetTranslation( t );
+
+    // Transform point p1 to obtain p2
+    CenteredRigidTransformType::InputPointType p1;
+    p1[0] = 5.63;
+    p1[1] = 9.02;
+
+    CenteredRigidTransformType::OutputPointType p2 = 
+      transform->TransformPoint( p1 );
+
+    // Get inverse transform and transform point p2 to obtain point p3
+    CenteredRigidTransformType::Pointer inverse = transform->Inverse();
+
+    CenteredRigidTransformType::OutputPointType p3 = 
+      inverse->TransformPoint( p2 );
+
+    // Check that point p3 is the same as point p1
+    Ok = true;
+    for ( unsigned int i = 0; i < N; i++ )
+      {
+      if ( fabs( p1[i] - p3[i] ) > epsilon )
+        {
+        Ok = false;
+        break;
+        }
+      }
+    if( !Ok )
+    { 
+      std::cerr << "Error in inverse computation" << std::endl;
+      std::cerr << "Result should be       : " << p1 << std::endl;
+      std::cerr << "Reported Result is     : " << p3 << std::endl;
+      return EXIT_FAILURE;
+    }
+    else
+    {
+      std::cout << " [ PASSED ] " << std::endl;
+    }
+    
+  }
   return EXIT_SUCCESS;
 
 }
