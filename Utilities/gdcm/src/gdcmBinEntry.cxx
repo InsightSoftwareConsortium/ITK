@@ -118,7 +118,7 @@ void BinEntry::Write(std::ofstream* fp, FileType filetype)
    else
    {
     // nothing was loaded, but we need to skip space on disc
-      fp->seekp(lgr, std::ios_base::cur);
+      fp->seekp(lgr, std::ios::cur);
    }
 }
 //-----------------------------------------------------------------------------
