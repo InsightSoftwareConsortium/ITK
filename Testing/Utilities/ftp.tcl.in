@@ -935,12 +935,13 @@ proc ftp::StateHandler {s {sock ""}} {
 proc ftp::Type {s {type ""}} {
     upvar ::ftp::ftp$s ftp
 
-    if { ![info exists ftp(State)] } {
-        if { ![string is digit -strict $s] } {
-            DisplayMsg $s "Bad connection name \"$s\"" error
-        } else {
-            DisplayMsg $s "Not connected!" error
-        }
+  if { ![info exists ftp(State)] } {
+    
+#         if { ![string is digit -strict $s] } {
+#             DisplayMsg $s "Bad connection name \"$s\"" error
+#         } else {
+#             DisplayMsg $s "Not connected!" error
+#         }
         return {}
     }
 
@@ -990,11 +991,11 @@ proc ftp::NList {s { dir ""}} {
     upvar ::ftp::ftp$s ftp
 
     if { ![info exists ftp(State)] } {
-        if { ![string is digit -strict $s] } {
-            DisplayMsg $s "Bad connection name \"$s\"" error
-        } else {
-            DisplayMsg $s "Not connected!" error
-        }
+#         if { ![string is digit -strict $s] } {
+#             DisplayMsg $s "Bad connection name \"$s\"" error
+#         } else {
+#             DisplayMsg $s "Not connected!" error
+#         }
         return {}
     }
 
@@ -1055,11 +1056,11 @@ proc ftp::List {s {dir ""}} {
     upvar ::ftp::ftp$s ftp
 
     if { ![info exists ftp(State)] } {
-        if { ![string is digit -strict $s] } {
-            DisplayMsg $s "Bad connection name \"$s\"" error
-        } else {
-            DisplayMsg $s "Not connected!" error
-        }
+#         if { ![string is digit -strict $s] } {
+#             DisplayMsg $s "Bad connection name \"$s\"" error
+#         } else {
+#             DisplayMsg $s "Not connected!" error
+#         }
         return {}
     }
 
@@ -1134,11 +1135,11 @@ proc ftp::FileSize {s {filename ""}} {
     upvar ::ftp::ftp$s ftp
 
     if { ![info exists ftp(State)] } {
-        if { ![string is digit -strict $s] } {
-            DisplayMsg $s "Bad connection name \"$s\"" error
-        } else {
-            DisplayMsg $s "Not connected!" error
-        }
+#         if { ![string is digit -strict $s] } {
+#             DisplayMsg $s "Bad connection name \"$s\"" error
+#         } else {
+#             DisplayMsg $s "Not connected!" error
+#         }
         return {}
     }
 	
@@ -1185,11 +1186,11 @@ proc ftp::ModTime {s {filename ""}} {
     upvar ::ftp::ftp$s ftp
 
     if { ![info exists ftp(State)] } {
-        if { ![string is digit -strict $s] } {
-            DisplayMsg $s "Bad connection name \"$s\"" error
-        } else {
-            DisplayMsg $s "Not connected!" error
-        } 
+#         if { ![string is digit -strict $s] } {
+#             DisplayMsg $s "Bad connection name \"$s\"" error
+#         } else {
+#             DisplayMsg $s "Not connected!" error
+#         } 
         return {}
     }
 	
@@ -1235,11 +1236,11 @@ proc ftp::Pwd {s } {
     upvar ::ftp::ftp$s ftp
 
     if { ![info exists ftp(State)] } {
-        if { ![string is digit -strict $s] } {
-            DisplayMsg $s "Bad connection name \"$s\"" error
-        } else {
-            DisplayMsg $s "Not connected!" error
-        }
+#         if { ![string is digit -strict $s] } {
+#             DisplayMsg $s "Bad connection name \"$s\"" error
+#         } else {
+#             DisplayMsg $s "Not connected!" error
+#         }
         return {}
     }
 
@@ -1276,11 +1277,11 @@ proc ftp::Cd {s {dir ""}} {
     upvar ::ftp::ftp$s ftp
 
     if { ![info exists ftp(State)] } {
-        if { ![string is digit -strict $s] } {
-            DisplayMsg $s "Bad connection name \"$s\"" error
-        } else {
-            DisplayMsg $s "Not connected!" error
-        }
+#         if { ![string is digit -strict $s] } {
+#             DisplayMsg $s "Bad connection name \"$s\"" error
+#         } else {
+#             DisplayMsg $s "Not connected!" error
+#         }
         return 0
     }
 
