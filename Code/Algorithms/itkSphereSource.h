@@ -79,14 +79,15 @@ public:
  * the test easier
  */
 
-//  void SetResolution(int a, int b);
+  void SetResolution(int a, int b);
   void SetCenter(int a, int b, int c);
   void SetScale(float a, float b, float c);
-  void GenerateData();
 
 protected:
   SphereSource();
   ~SphereSource() {};
+
+  void GenerateData();
 
 // model center
   int m_Center[3]; 
