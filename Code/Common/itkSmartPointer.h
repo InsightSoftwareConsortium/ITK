@@ -73,6 +73,7 @@ public:
   ~SmartPointer ()
     {
     this->UnRegister();
+    m_Pointer = 0;  
     }
   
   /** 
