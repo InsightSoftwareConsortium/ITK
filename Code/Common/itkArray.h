@@ -78,9 +78,10 @@ template <typename TValueType >
 std::ostream & operator<<(std::ostream &os, const Array<TValueType> &arr)
 {
   const unsigned int length = arr.size();
-  const unsigned int last   = length - 1;
+  const signed int last   = (unsigned int) length - 1;
+
   os << "[";
-  for (unsigned int i=0; i < last; ++i)
+  for (signed int i=0; i < last; ++i)
     {
     os << arr[i] << ", ";
     }
