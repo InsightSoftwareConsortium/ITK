@@ -34,7 +34,7 @@ namespace itk
 
 template <class TCostFunction>
 class ITK_EXPORT AmoebaOptimizer : 
-    public NonLinearOptimizer
+    public NonLinearOptimizer<TCostFunction>
 
 {
 public:
@@ -46,7 +46,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   NonLinearOptimizer Superclass;
+  typedef NonLinearOptimizer<TCostFunction> Superclass;
 
   /** 
    * Smart pointer typedef support 
