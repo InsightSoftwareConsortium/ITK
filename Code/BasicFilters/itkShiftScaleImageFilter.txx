@@ -66,7 +66,7 @@ ShiftScaleImageFilter<TInputImage, TOutputImage>
   m_OverflowCount = 0;
 
   // Accumulate counts for each thread
-  for( unsigned int i = 0; i < numberOfThreads; i++)
+  for( int i = 0; i < numberOfThreads; i++)
     {
     m_UnderflowCount += m_ThreadUnderflow[i];
     m_OverflowCount += m_ThreadOverflow[i];
@@ -79,7 +79,7 @@ ShiftScaleImageFilter<TInputImage, TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& regionForThread,
                        int threadId) 
 {
-  unsigned long count = 0;;
+
   RealType value;
   ImageRegionIterator<TInputImage>  it (this->GetInput(), regionForThread);
   ImageRegionIterator<TOutputImage> ot (this->GetOutput(), regionForThread);

@@ -72,7 +72,7 @@ void
 StatisticsImageFilter<TInputImage>
 ::AfterThreadedGenerateData()
 {
-  unsigned int i;
+  int i;
   long count;
   RealType sum, sumOfSquares;
     

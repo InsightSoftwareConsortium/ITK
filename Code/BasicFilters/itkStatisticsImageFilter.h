@@ -85,7 +85,7 @@ public:
   itkGetMacro(Variance,RealType);
 
 protected:
-  StatisticsImageFilter(): m_Sum(1), m_SumOfSquares(1), m_Count(1), m_ThreadMax(1), m_ThreadMin(1)
+  StatisticsImageFilter(): m_Sum(1), m_SumOfSquares(1), m_Count(1), m_ThreadMin(1), m_ThreadMax(1)
     {
       m_Minimum = NumericTraits<RealType>::max();
       m_Maximum = NumericTraits<RealType>::NonpositiveMin();
