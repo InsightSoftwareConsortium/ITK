@@ -58,11 +58,11 @@ namespace itk {
  * "Parametric estimate of intensity inhomogeneities applied to MRI" 
  * Martin Styner, G. Gerig, Christian Brechbuehler, Gabor Szekely,  
  * IEEE TRANSACTIONS ON MEDICAL IMAGING; 19(3), pp. 153-165, 2000, 
- * (http://www.cs.unc.edu/~styner/docs/tmi00.pdf)
+ * (http://www.ia.unc.edu/~styner/docs/tmi00.pdf)
  *
  * "Evaluation of 2D/3D bias correction with 1+1ES-optimization" 
  * Martin Styner, Prof. Dr. G. Gerig (IKT, BIWI, ETH Zuerich), TR-197
- * (http://www.cs.unc.edu/~styner/docs/StynerTR97.pdf)
+ * (http://www.ia.unc.edu/~styner/docs/StynerTR97.pdf)
  */
 
 class MultivariateLegendrePolynomial
