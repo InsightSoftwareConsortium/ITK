@@ -374,7 +374,7 @@ main(
 void set1DData(ImageType1D::Pointer imgPtr)
 {
 
-  SizeType1D size = {36};
+  SizeType1D size = {{36}};
   double mydata[36] = {454.0000,  369.4000,  295.2000,  230.8000,  175.6000,  129.0000,   90.4000, 59.2000,   34.8000,   16.6000,    4.0000,   -3.6000,   -6.8000,   -6.2000,
     -2.4000,    4.0000,   12.4000,   22.2000,   32.8000,   43.6000,   54.0000, 63.4000,   71.2000,   76.8000,   79.6000,   79.0000,   74.4000,   65.2000,
     50.8000,   30.6000,    4.0000,  -29.6000,  -70.8000, -120.2000, -178.4000, -246.0000 };
@@ -385,8 +385,6 @@ void set1DData(ImageType1D::Pointer imgPtr)
   imgPtr->SetLargestPossibleRegion( region );
   imgPtr->SetBufferedRegion( region );
   imgPtr->Allocate();
-
-  unsigned int numPixels = region.GetNumberOfPixels(); 
 
   typedef itk::ImageRegionIterator<ImageType1D>    InputIterator;
 
@@ -405,7 +403,7 @@ void set1DData(ImageType1D::Pointer imgPtr)
 
 void set2DData(ImageType2D::Pointer imgPtr)
 {
-  SizeType2D size = {7,7};
+  SizeType2D size = {{7,7}};
   double mydata[ 49 ] = {  154.5000,   82.4000,   30.9000,         0,  -10.3000,         0,   30.9000 ,
     117.0000,   62.4000,   23.4000,         0,   -7.8000,         0,   23.4000 ,
    18.0000,    9.6000,    3.6000,         0,   -1.2000,         0,    3.6000 ,
@@ -420,8 +418,6 @@ void set2DData(ImageType2D::Pointer imgPtr)
   imgPtr->SetLargestPossibleRegion( region );
   imgPtr->SetBufferedRegion( region );
   imgPtr->Allocate();
-
-  unsigned int numPixels = region.GetNumberOfPixels(); 
 
   typedef itk::ImageRegionIterator<ImageType2D>  InputIterator;
 
@@ -441,7 +437,7 @@ void set2DData(ImageType2D::Pointer imgPtr)
 
 void set3DData(ImageType3D::Pointer imgPtr)
 {
-  SizeType3D size = {80,40,30};
+  SizeType3D size = {{80,40,30}};
 
   /* Allocate a simple test image */
   ImageType3D::RegionType region;
@@ -456,11 +452,11 @@ void set3DData(ImageType3D::Pointer imgPtr)
 
   /* Initialize the image contents */
   IndexType3D index;
-  for (int slice = 0; slice < size[2]; slice++) {
+  for (unsigned int slice = 0; slice < size[2]; slice++) {
       index[2] = slice;
-      for (int row = 0; row < size[1]; row++) {
+      for (unsigned int row = 0; row < size[1]; row++) {
           index[1] = row;
-          for (int col = 0; col < size[0]; col++) {
+          for (unsigned int col = 0; col < size[0]; col++) {
               index[0] = col;
               imgPtr->SetPixel(index, slice+row+col);
           }
