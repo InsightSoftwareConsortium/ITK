@@ -513,37 +513,38 @@ void GDCMImageIO::Write(const void* buffer)
     }
 
   // Handle the dimension of image:
-  itksys_ios::ostringstream str;
-  str << m_Dimensions[0];
-  header->InsertValEntry( str.str(), 0x0028,0x0011); // Columns
+  itksys_ios::ostringstream str1;
+  str1 << m_Dimensions[0];
+  header->InsertValEntry( str1.str(), 0x0028,0x0011); // Columns
 
-  str.seekp(0);
-  str << m_Dimensions[1];
-  header->InsertValEntry( str.str(), 0x0028,0x0010); // Rows
+  itksys_ios::ostringstream str2;
+  str2 << m_Dimensions[1];
+  header->InsertValEntry( str2.str(), 0x0028,0x0010); // Rows
 
   if(m_Dimensions[2]>1)
   {
-     str.seekp(0);
-     str << m_Dimensions[2];
-     //header->Insert(str.str(),0x0028,0x0012); // Planes
-     header->InsertValEntry(str.str(),0x0028,0x0008); // Number of Frames
+     itksys_ios::ostringstream str3;
+     str3 << m_Dimensions[2];
+     //header->Insert(str3.str(),0x0028,0x0012); // Planes
+     header->InsertValEntry(str3.str(),0x0028,0x0008); // Number of Frames
   }
 
   // Handle pixel spacing:
-  str.seekp(0);
-//  str.setf( itksys_ios::ios::fixed ); //forcing precision to 6 digits
-  str << m_Spacing[0] << "\\" << m_Spacing[1];
-  header->InsertValEntry(str.str(),0x0028,0x0030); // Pixel Spacing
-  str.seekp(0);
-  str << m_Spacing[2];
-  header->InsertValEntry(str.str(),0x0018,0x0088); // Spacing Between Slices
+  itksys_ios::ostringstream str4;
+  str4 << itksys_ios::ios::fixed; //forcing precision to 6 digits
+  str4 << m_Spacing[0] << "\\" << m_Spacing[1];
+  header->InsertValEntry(str4.str(),0x0028,0x0030); // Pixel Spacing
+  itksys_ios::ostringstream str5;
+  str5 << itksys_ios::ios::fixed; //forcing precision to 6 digits
+  str5 << m_Spacing[2];
+  header->InsertValEntry(str5.str(),0x0018,0x0088); // Spacing Between Slices
  
   // Handle Origin = Image Position Patient
-  str.seekp(0);
-  str << m_Origin[0] << "\\" << m_Origin[1] << "\\" << m_Origin[2];
-  header->InsertValEntry(str.str(),0x0020,0x0032); // Image Position Patient
+  itksys_ios::ostringstream str6;
+  str6 << itksys_ios::ios::fixed; //forcing precision to 6 digits
+  str6 << m_Origin[0] << "\\" << m_Origin[1] << "\\" << m_Origin[2];
+  header->InsertValEntry(str6.str(),0x0020,0x0032); // Image Position Patient
 
-//  str.unsetf( itksys_ios::ios::fixed ); // back to normal
   // Handle the bitDepth:
   std::string bitsAllocated;
   std::string bitsStored;
