@@ -24,7 +24,6 @@ ImageType::Pointer CreateRandomImage()
   itk::ImageRegionIterator<ImageType> ri(img,region);
   while(!ri.IsAtEnd())
     {
-    unsigned int val = rand();
     ri.Set( (unsigned int) vnl_sample_uniform(0, 32767) );
     ++ri;
     }
