@@ -27,6 +27,7 @@ public:
     m_Dim = dim;
     m_GraphNode = -1;
     m_R = 0;
+    m_P = 0;
     m_T = new float[m_Dim*m_Dim];
   }
 
@@ -38,6 +39,7 @@ public:
   unsigned int m_Dim;
   int    m_GraphNode;
   float  m_R;
+  float  m_P;
   float* m_T;
 };
 

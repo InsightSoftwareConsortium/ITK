@@ -138,7 +138,7 @@ Clear(void)
 
   m_Root = 0;
   m_NPoints = 0;
-  strcpy(m_PointDim, "Node r txx txy txz tyx tyy tyz tzx tzy tzz");
+  strcpy(m_PointDim, "Node r p txx txy txz tyx tyy tyz tzx tzy tzz");
   m_ElementType = MET_FLOAT;
 }
         
@@ -299,6 +299,7 @@ M_Read(void)
 
   int i;
   int posR = -1;
+  int posP = -1;
   int posTx = -1;
   int posGraphNode = -1;
 
@@ -322,6 +323,10 @@ M_Read(void)
       !strcmp(pntVal[j], "radius") || !strcmp(pntVal[j], "Radius"))
     {
       posR = j;
+    }
+    if(!strcmp(pntVal[j], "p") || !strcmp(pntVal[j], "P"))
+    {
+      posP = j;
     }
     if(!strcmp(pntVal[j], "txx"))
     {
@@ -375,6 +380,12 @@ M_Read(void)
         pnt->m_R = (float)td;
         }
 
+      if(posP != -1)
+        {
+        MET_ValueToDouble(m_ElementType, _data, posP, &td);
+        pnt->m_P = (float)td;
+        }
+
       if(posTx != -1)
         {
         for(int r=0; r<m_NDims*m_NDims; r++)
@@ -403,6 +414,11 @@ M_Read(void)
      if(posR != -1)
        {
        pnt->m_R = v[posR];
+       }
+
+     if(posP != -1)
+       {
+       pnt->m_P = v[posP];
        }
 
       if(posTx >= 0 && posTx<pntDim) 
@@ -461,7 +477,7 @@ M_Write(void)
     int elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
 
-    char* data = new char[(m_NDims*m_NDims+2)*m_NPoints*elementSize];
+    char* data = new char[(m_NDims*m_NDims+3)*m_NPoints*elementSize];
     int i=0;
     int d;
     while(it != m_PointList.end())
@@ -469,6 +485,8 @@ M_Write(void)
       MET_DoubleToValue((double)(*it)->m_GraphNode,m_ElementType,data,i++);
 
       MET_DoubleToValue((double)(*it)->m_R,m_ElementType,data,i++);  
+
+      MET_DoubleToValue((double)(*it)->m_P,m_ElementType,data,i++);  
       
       for(d = 0; d < m_NDims*m_NDims; d++)
       {
@@ -478,7 +496,8 @@ M_Write(void)
       it++;
     }
 
-    m_WriteStream->write((char *)data,(m_NDims*m_NDims+2)*m_NPoints*elementSize);
+    m_WriteStream->write((char *)data,
+                         (m_NDims*m_NDims+3)*m_NPoints*elementSize);
     m_WriteStream->write("\n",1);
     delete data;
   }
@@ -492,6 +511,8 @@ M_Write(void)
       *m_WriteStream << (*it)->m_GraphNode << " ";
 
       *m_WriteStream << (*it)->m_R << " ";
+
+      *m_WriteStream << (*it)->m_P << " ";
 
       for(d = 0; d < m_NDims*m_NDims; d++)
       {
