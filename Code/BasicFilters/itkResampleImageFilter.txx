@@ -61,6 +61,7 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
     m_Size[i] = 0;
   m_Transform = 0;
   m_Interpolator = 0;
+  m_DefaultPixelValue = 0;
 }
 
 
@@ -111,7 +112,6 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
   IndexType outputIndex;         // Index to current output pixel
   PointType outputPoint;         // Coordinates of current output pixel
   PointType inputPoint;          // Coordinates of current input pixel
-  double value;                  // Interpolated value of input
 
   // Configure the interpolator
   m_Interpolator->SetInputImage(this->GetInput());
@@ -143,11 +143,17 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
     inputPoint = m_Transform->Transform(outputPoint);
 
     // Evaluate input at right position and copy to the output
-    value = m_Interpolator->Evaluate(inputPoint);
-    PixelType pixval;
-    pixval = value;
-    outIt.Set(pixval);
+    if( m_Interpolator->IsInsideBuffer(inputPoint) )
+    {
+      PixelType pixval;
+      pixval = m_Interpolator->Evaluate(inputPoint);
+      outIt.Set( pixval );      
     }
+    else
+    {
+      outIt.Set(m_DefaultPixelValue); // default background value
+    }
+  }
 
   return;
 }
