@@ -131,7 +131,7 @@ ColorTable<TPixel>
             delete [] m_ColorName[i];
         delete [] m_ColorName;
     }
-    m_NumberOfColorsumberOfColors = n;
+    m_NumberOfColors = n;
     m_Color = new RGBPixel<TPixel>[m_NumberOfColors];
     m_ColorName = new char * [m_NumberOfColors];
     for(i=0; i<m_NumberOfColors; i++)
