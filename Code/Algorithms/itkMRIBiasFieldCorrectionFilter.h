@@ -105,7 +105,7 @@ public:
 
   /** Sets the sampling factors of the energy function in each direction. Default is 1 in each dimension */
   void SetSamplingFactors(SamplingFactorType factor)
-  { for (int i = 0; i < SpaceDimension; i++) m_SamplingFactor[i] = factor[i]; }
+  { for (unsigned int i = 0; i < SpaceDimension; i++) m_SamplingFactor[i] = factor[i]; }
   
   /** Get an energy value for the intensity difference between a pixel
    * and its corresponding bias. */

@@ -29,7 +29,7 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
 ::MRIBiasEnergyFunction()
 {
   m_BiasField = 0;
-  for (int i = 0; i < SpaceDimension; i++) 
+  for (unsigned int i = 0; i < SpaceDimension; i++) 
     {
     m_SamplingFactor[i] = 1;
     }
@@ -145,13 +145,13 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
       if (!m_Mask)
    {
      indexBias[2] = 0;
-     for (curIndex[2] = origIndex[2]; curIndex[2] < size[2]; curIndex[2] = curIndex[2] + m_SamplingFactor[2] ) 
+     for (curIndex[2] = origIndex[2]; curIndex[2] < size[2]; curIndex[2] = curIndex[2] + (int) m_SamplingFactor[2] ) 
        {
          indexBias[1] = 0;
-         for (curIndex[1] = origIndex[1]; curIndex[1] < size[1]; curIndex[1] = curIndex[1] + m_SamplingFactor[1]) 
+         for (curIndex[1] = origIndex[1]; curIndex[1] < size[1]; curIndex[1] = curIndex[1] + (int) m_SamplingFactor[1]) 
       {
         indexBias[0] = 0;
-        for (curIndex[0] = origIndex[0]; curIndex[0] < size[0]; curIndex[0] = curIndex[0] + m_SamplingFactor[0]) 
+        for (curIndex[0] = origIndex[0]; curIndex[0] < size[0]; curIndex[0] = curIndex[0] + (int) m_SamplingFactor[0]) 
           {
             const double biasVal = m_BiasField->Evaluate(indexBias);
             const double imageVal = m_Image->GetPixel(curIndex);
@@ -166,13 +166,13 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
       else
    {
      indexBias[2] = 0;
-     for (curIndex[2] = origIndex[2]; curIndex[2] < size[2]; curIndex[2] = curIndex[2] + m_SamplingFactor[2] ) 
+     for (curIndex[2] = origIndex[2]; curIndex[2] < size[2]; curIndex[2] = curIndex[2] + (int) m_SamplingFactor[2] ) 
        {
          indexBias[1] = 0;
-         for (curIndex[1] = origIndex[1]; curIndex[1] < size[1]; curIndex[1] = curIndex[1] + m_SamplingFactor[1]) 
+         for (curIndex[1] = origIndex[1]; curIndex[1] < size[1]; curIndex[1] = curIndex[1] + (int) m_SamplingFactor[1]) 
       {
         indexBias[0] = 0;
-        for (curIndex[0] = origIndex[0]; curIndex[0] < size[0]; curIndex[0] = curIndex[0] + m_SamplingFactor[0]) 
+        for (curIndex[0] = origIndex[0]; curIndex[0] < size[0]; curIndex[0] = curIndex[0] + (int) m_SamplingFactor[0]) 
           {
             if (m_Mask->GetPixel(curIndex) > 0.0) 
          {
