@@ -22,7 +22,7 @@
 #include "itkMeanSquaresHistogramImageToImageMetric.h"
 #include "itkTranslationTransform.h"
 
-int itkHistogramImageToImageMetricTest(int argc, char* argv[] )
+int itkHistogramImageToImageMetricTest(int , char*[] )
 {
   try {
     // Create two simple images.
