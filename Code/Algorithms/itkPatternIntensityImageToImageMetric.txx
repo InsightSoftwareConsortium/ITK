@@ -101,7 +101,8 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
     return 100000;
   } 
 
-  m_MatchMeasure = m_MatchMeasure / count ;     
+  // Negative sign to produce a metric to minimize
+  m_MatchMeasure = -m_MatchMeasure;     
   std::cout<<"m_MatchMeasure= "<<m_MatchMeasure<<std::endl; 
   return m_MatchMeasure;
 
@@ -131,7 +132,7 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
     testPoint[i] += 2*delta;
     const MeasureType valuep1 = GetValue( testPoint );
     m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2 * delta );
-    m_MatchMeasureDerivatives[i] /= 1e5;  // FIX this is an arbitrary value
+    m_MatchMeasureDerivatives[i];
     testPoint[i] = parameters[i];
   }
 
