@@ -65,7 +65,7 @@ public:
   typedef typename TImage::PixelType   PixelType;
 
   /** Compute whether the index of interest should be included in the flood */
-  virtual bool IsPixelIncluded(IndexType index) = 0;
+  virtual bool IsPixelIncluded(const IndexType & index) const = 0;
   
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
@@ -83,7 +83,7 @@ public:
   virtual const IndexType GetIndex() = 0;
 
   /** Get the pixel value at the current iterator location. */
-  virtual PixelType & Get(void) = 0;
+  virtual const PixelType & Get(void) const = 0;
   
   /** Is the iterator at the end of the region? */
   virtual bool IsAtEnd() = 0;
