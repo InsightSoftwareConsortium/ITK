@@ -18,6 +18,7 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryThresholdImageFilterTest );
   REGISTER_TEST(itkBSplineResampleImageFilterTest );
   REGISTER_TEST(itkBloxBoundaryPointImageTest );
+  REGISTER_TEST(itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest );
   REGISTER_TEST(itkBloxCoreAtomTest );
   REGISTER_TEST(itkChangeInformationImageFilterTest );
   REGISTER_TEST(itkConfidenceConnectedImageFilterTest  );

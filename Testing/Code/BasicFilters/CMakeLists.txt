@@ -13,6 +13,8 @@ ITKCommon
 ITKIO
 itkpng
 itkzlib
+ITKNumerics
+VXLNumerics
 )
 
 IF(ITK_WRAP_TCL)
