@@ -43,8 +43,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkMultiResolutionImagePyramid_txx
 
 #include "itkMultiResolutionImagePyramid.h"
+#include "itkCastImageFilter.h"
 #include "itkShrinkImageFilter.h"
-#include "itkRecursiveGaussianImageFilter.h"
+#include "itkGaussianOperator.h"
+#include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkVector.h"
 #include "itkImageRegionIterator.h"
 #include "itkExceptionObject.h"
@@ -182,18 +184,6 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
 ::GenerateData()
 {
 
-  itkDebugMacro( << "MultiResolutionImagePyramid::GenerateData()" );
-
-  /**
-   * \todo
-   *
-   * the smoothing part is skipped for now until
-   * RecursiveGaussianImageFilter is fixed.
-   * Currently RecursiveGaussianImageFilter zero pads the image
-   * this causes large gradient at the image border making
-   * the registration unstable.
-   */
-
   // Get the input and output pointers
   InputImagePointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
@@ -202,118 +192,92 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
-  // Set up a mini-pipeline of smoother/downsampler pairs
-  typedef RecursiveGaussianImageFilter<TOutputImage,TOutputImage,double>
-    FirstSmootherType;
-  typedef ShrinkImageFilter<TInputImage,TOutputImage>
-    FirstDownSamplerType;
-
-  typedef RecursiveGaussianImageFilter<TOutputImage,TOutputImage,double>
+  // Typedefs for the mini-pipeline
+  typedef CastImageFilter<TInputImage, TOutputImage> CasterType;
+  typedef ShrinkImageFilter<TOutputImage, TOutputImage> ShrinkerType;
+  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef GaussianOperator<OutputPixelType,ImageDimension> OperatorType;
+  typedef NeighborhoodOperatorImageFilter<TOutputImage,TOutputImage>
     SmootherType;
-  typedef ShrinkImageFilter<TOutputImage,TOutputImage> 
-		DownSamplerType;
 
-  typename FirstDownSamplerType::Pointer firstDownsampler;
-  typename FirstSmootherType::Pointer firstSmoother;
-  typename DownSamplerType::Pointer downsampler[ImageDimension];
-  typename SmootherType::Pointer smoother[ImageDimension];
-
-  Vector<unsigned int,ImageDimension> shrinkFactors;
+  Vector<unsigned int, ImageDimension> shrinkFactors;
   shrinkFactors = m_Schedule[m_CurrentLevel];
 
-  int lastValidFilter = -1;
   Vector<unsigned int,ImageDimension> tempFactors;
-  double stddev;
+  double variance;
 
-  // find the first dimension where factor is > 1
-  int firstDim;
-  for( firstDim = 0; firstDim < ImageDimension; firstDim++ )
-    {
-    if( shrinkFactors[firstDim] <= 1 ) continue;
-
-    // set up the first smoother/downsample pair
-    firstDownsampler = FirstDownSamplerType::New();
-    firstSmoother = FirstSmootherType::New();
-
-    tempFactors.Fill( 1 );
-    tempFactors[firstDim] = shrinkFactors[firstDim];
-    stddev = 0.5 * shrinkFactors[firstDim];
-
-    firstDownsampler->SetShrinkFactors( tempFactors.Begin() );
-    firstSmoother->SetSigma( stddev );
-    firstSmoother->SetDirection( firstDim );
-
-    // \todo skipped smoothing for now
-    // firstSmoother->SetInput( inputPtr );
-    firstDownsampler->SetInput( inputPtr );
-
-    lastValidFilter = firstDim;
-    break;
-    
-    }
-
-
-  // connect up the remaining pairs
-  for( int j = firstDim + 1; j < ImageDimension; j++ )
+  OutputImagePointer tempImagePtr;  // Pointer to the temporary solution  
+  bool firstFilter = true;
+ 
+  for( int j = 0; j < ImageDimension; j++ )
     {
 
-    if( shrinkFactors[j] <= 1 ) continue;
+    this->UpdateProgress( (float)j / (float)ImageDimension );
 
-    // set up a smoother/downsample pair
-    downsampler[j] = DownSamplerType::New();
-    smoother[j] = SmootherType::New();
+    if( shrinkFactors[j] == 1 )
+      {
+      continue;
+      }
 
     tempFactors.Fill( 1 );
     tempFactors[j] = shrinkFactors[j];
-    stddev = 0.5 * shrinkFactors[j];
+    variance = vnl_math_sqr( 0.5 * (double) shrinkFactors[j] );
 
-    downsampler[j]->SetShrinkFactors( tempFactors.Begin() );
-    smoother[j]->SetSigma( stddev );
-    smoother[j]->SetDirection( j );
+    OperatorType *oper = new OperatorType;
+    oper->SetDirection( j );
+    oper->SetVariance( variance );
+    oper->SetMaximumError( 0.1 ); // need not be too accurate
+    oper->CreateDirectional();
 
-    if( lastValidFilter == firstDim )
+    typename SmootherType::Pointer smoother = SmootherType::New();
+    smoother->SetOperator( *oper );
+
+    typename ShrinkerType::Pointer shrinker = ShrinkerType::New();
+    shrinker->SetShrinkFactors( tempFactors.Begin() );
+
+    typename CasterType::Pointer caster;
+
+    /**
+     *
+     * Create mini-pipline: [caster]-> smoother-> shrinker
+     *
+     * If this is the first dimension processed,
+     * a caster is required to convert the input image 
+     * to the output image type.
+     *
+     * Otherwise, the temporary solution is used as
+     * input to the smoother.
+     */
+    if( firstFilter )
       {
-      // \todo skipped smoothing for now
-      //smoother[j]->SetInput( firstDownsampler->GetOutput() );
-      downsampler[j]->SetInput( firstDownsampler->GetOutput() );
+      caster = CasterType::New();
+      caster->SetInput( inputPtr );
+      smoother->SetInput( caster->GetOutput() );
+      firstFilter = false;
       }
     else
       {
-      // \todo skipped smoothing for now
-      //smoother[j]->SetInput( downsampler[lastValidFilter]->GetOutput() );
-      downsampler[j]->SetInput( downsampler[lastValidFilter]->GetOutput() );
+      smoother->SetInput( tempImagePtr );
       }
 
-    // \todo skipped smoothing for now
-    //downsampler[j]->SetInput( smoother[j]->GetOutput() );
+    shrinker->SetInput( smoother->GetOutput() );
+    shrinker->Update();
 
-    lastValidFilter = j;
+    tempImagePtr = shrinker->GetOutput();
+    tempImagePtr->DisconnectPipeline();
+
+    delete oper;
 
     }
-    
 
-  if( lastValidFilter == -1 )
+  // Copy to the solution to the output buffer
+  if( firstFilter )
     {
-    // copy output of this filter to the actual output
     Self::ImageRegionCopy( inputPtr, outputPtr );
-
     }
-  else if( lastValidFilter == firstDim )
+  else
     {
-    // update the pipeline
-    firstDownsampler->Update();
-
-    // copy output to the actual output
-    Self::ImageRegionCopy2( firstDownsampler->GetOutput(), outputPtr );
-    }
-  else 
-    {
-    // update the pipeline
-    downsampler[lastValidFilter]->Update();
-
-    // copy output to the actual output
-    Self::ImageRegionCopy2( downsampler[lastValidFilter]->GetOutput(), 
-      outputPtr );
+    Self::ImageRegionCopy2( tempImagePtr, outputPtr );
     }
 
 }
@@ -375,7 +339,8 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "No. levels: " << m_NumberOfLevels << std::endl;
-  os << indent << "Schedule: " << m_Schedule << std::endl;
+  os << indent << "Schedule: " << std::endl;
+  os << m_Schedule << std::endl;
 
 }
 

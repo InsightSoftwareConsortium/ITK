@@ -107,15 +107,10 @@ namespace itk
  * 1 1 1
  *
  * To generate the output image, Gaussian smoothing is first performed using
- * RecursiveGaussianImageFilter and standard deviation of (shrink factor / 2). 
+ * a Gaussian neighborhood Operator with variance (shrink factor / 2)^2. 
  * The smoothed image is then downsampled using ShrinkImageFiter.
  *
  * This class is templated over the input image type and the output image type.
- *
- * \todo
- * Smoothing has been skipped for the time being until RecursiveGaussianImageFilter
- * has been fixed. The filter currently zero pads the image which causes large 
- * gradient at the image boundary causes registration algorithms to be unstable. 
  *
  * \ingroup ImageRegistration
  *
