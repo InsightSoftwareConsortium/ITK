@@ -102,9 +102,17 @@ public:
     { return m_EpsilonMagnitude; }
 
   /**
-   * Evalulate the function at specified index
+   * Evaluate the function at specified index
    */
   virtual double Evaluate( const IndexType& index );
+
+  /**
+   * Evaluate the function at an non-integer position
+   */
+  virtual double Evaluate( double coord[] )
+  {
+    return Superclass::Evaluate( coord );
+  }
 
   /**
    * Get the curvature from last evaluation
