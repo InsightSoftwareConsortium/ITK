@@ -27,12 +27,12 @@ int main()
   random = itk::RandomImageSource< itk::Image<itk::Scalar<float>,2> >::New();
 
   // Create a neighborhood
-  itk::NeighborhoodOperator< itkScalar<float>, 3> *neighborhood
-    = itk::NeighborhoodOperator< itkScalar<float, 3>::New();
+  itk::Neighborhood< itk::Scalar<float>, 2> neighborhood;
+  neighborhood.SetRadius(1);
 
   // Create a filter
-  itk::FilterImageSingleOperator< itkScalar<float>, 3>::Pointer filter;
-  filter = itk::FilterImageSingleOperator< itkScalar<float>, 3>::New();
+  itk::FilterImageSingleOperator< itk::Scalar<float>, 2>::Pointer filter;
+  filter = itk::FilterImageSingleOperator< itk::Scalar<float>, 2>::New();
   filter->SetInput( random->GetOutput() );
   filter->SetOperator( neighborhood );
   
