@@ -1,0 +1,2 @@
+all:
+	cd Code; ${MAKE}  -${MAKEFLAGS} all

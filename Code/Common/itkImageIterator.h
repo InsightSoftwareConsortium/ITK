@@ -307,7 +307,7 @@ protected:
   void ComputeOffset() 
   {
     unsigned long prod=1;
-    const long *index = m_Index.GetIndex();
+    const unsigned long *index = m_Index.GetIndex();
 
     // data is arranged as [][][][slice][row][col]
     m_Offset = 0;

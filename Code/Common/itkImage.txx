@@ -85,7 +85,7 @@ itkImage<TPixel, TImageDimension>
   unsigned long offset=0;
   unsigned long prod=1;
 
-  const long *index = ind.GetIndex();
+  const unsigned long *index = ind.GetIndex();
   
   const unsigned long *size = this->GetSize();
   unsigned int dimension = this->GetDimension();
@@ -109,7 +109,7 @@ const TPixel& itkImage<TPixel, TImageDimension>
   unsigned long offset=0;
   unsigned long prod=1;
   
-  const long *index = ind.GetIndex();
+  const unsigned long *index = ind.GetIndex();
 
   const unsigned long *size = this->GetSize();
   unsigned int dimension = this->GetDimension();
