@@ -99,7 +99,6 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
     std::cerr << "Fitted standard deviation = " << optimizer->GetComputedStandardDeviation() << std::endl;
     std::cerr << "Fitted upper intensity = " << optimizer->GetUpperAsymptote() << std::endl;
     std::cerr << "Fitted lower intensity = " << optimizer->GetLowerAsymptote() << std::endl; 
-    delete cumGaussianArray;
     std::cout << "[TEST DONE]" << std::endl;
     return EXIT_SUCCESS;
     }
