@@ -47,14 +47,14 @@ template <class TPixel>
 RawImageIOFactory<TPixel>::RawImageIOFactory()
 {
   myProductType::Pointer m_MyProduct = myProductType::New();
-  RawImageIO::FileExtensionsListType& extensionsList =
+  RawImageIO<TPixel>::FileExtensionsListType& extensionsList =
     m_MyProduct->GetSupportedFileExtensions();
 
   for (int i = 0; i < extensionsList.size(); i++)
     {
     RegisterOverride(m_MyProduct->GetSupportedFileExtensions()[i].c_str(),
                      "RawImageIO", "Create RawImageIO", true,
-                     CreateObjectFunction<RawImageIO>::New());
+                     CreateObjectFunction<RawImageIO<TPixel> >::New());
     }
 }
 
