@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkMutualInformationImageToImageMetric_txx
 
 #include "itkMutualInformationImageToImageMetric.h"
+#include "itkCovariantVector.h"
 #include "vnl/vnl_sample.h"
 #include "vnl/vnl_math.h"
 
@@ -244,6 +245,7 @@ DerivativeType& derivative)
 
   // set the DerivativeCalculator
   m_DerivativeCalculator->SetInputImage( mapper->GetDomain() );
+  m_DerivativeCalculator->SetImageSpacing( mapper->GetDomain()->GetSpacing() );
 
   // collect sample set A
   this->SampleTargetDomain( m_SampleA );
@@ -406,8 +408,8 @@ DerivativeType& derivatives )
       reference->GetSpacing()[j] );
     }
 
-  Vector<double, TargetImageDimension> imageDerivatives;
-  for( int j = 0; j < TargetImageDimension; j++ )
+  CovariantVector<double,TargetImageDimension> imageDerivatives;
+  for( unsigned int j = 0; j < TargetImageDimension; j++ )
     {
     imageDerivatives[j] = m_DerivativeCalculator->Evaluate( refIndex, j );
     }
