@@ -2,7 +2,7 @@ PROJECT(ITKEXPAT)
 INCLUDE_REGULAR_EXPRESSION("^(expat|xml|ascii|utf|name|iascii|latin).*$")
 
 SET(expat_SRCS
-xmlparse.c  xmlrole.c  xmltok.c
+  xmltok.c xmlparse.c  xmlrole.c
 )
 
 INCLUDE_DIRECTORIES(${ITKEXPAT_SOURCE_DIR})
