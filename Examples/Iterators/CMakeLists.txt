@@ -5,49 +5,46 @@ PROJECT(IteratorExamples)
 INCLUDE_REGULAR_EXPRESSION("^.*$")
 
 ADD_EXECUTABLE(ImageRegionIterator ImageRegionIterator.cxx)
-TARGET_LINK_LIBRARIES(ImageRegionIterator ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(ImageRegionIterator ITKIO   )
 
 ADD_EXECUTABLE(ImageRegionIteratorWithIndex ImageRegionIteratorWithIndex.cxx)
-TARGET_LINK_LIBRARIES(ImageRegionIteratorWithIndex ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(ImageRegionIteratorWithIndex ITKIO   )
 
 ADD_EXECUTABLE(ImageLinearIteratorWithIndex ImageLinearIteratorWithIndex.cxx)
-TARGET_LINK_LIBRARIES(ImageLinearIteratorWithIndex ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(ImageLinearIteratorWithIndex ITKIO   )
 
 ADD_EXECUTABLE(ImageLinearIteratorWithIndex2 ImageLinearIteratorWithIndex2.cxx)
-TARGET_LINK_LIBRARIES(ImageLinearIteratorWithIndex2 ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(ImageLinearIteratorWithIndex2 ITKIO   )
 
 ADD_EXECUTABLE(ImageSliceIteratorWithIndex ImageSliceIteratorWithIndex.cxx)
-TARGET_LINK_LIBRARIES(ImageSliceIteratorWithIndex ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(ImageSliceIteratorWithIndex ITKIO   )
 
 ADD_EXECUTABLE(ImageRandomConstIteratorWithIndex ImageRandomConstIteratorWithIndex.cxx)
-TARGET_LINK_LIBRARIES(ImageRandomConstIteratorWithIndex ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(ImageRandomConstIteratorWithIndex ITKIO   )
 
 ADD_EXECUTABLE(NeighborhoodIterators1 NeighborhoodIterators1.cxx)
-TARGET_LINK_LIBRARIES(NeighborhoodIterators1 ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators1 ITKIO   )
 
 ADD_EXECUTABLE(NeighborhoodIterators2 NeighborhoodIterators2.cxx)
-TARGET_LINK_LIBRARIES(NeighborhoodIterators2 ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators2 ITKIO   )
 
 ADD_EXECUTABLE(NeighborhoodIterators3 NeighborhoodIterators3.cxx)
-TARGET_LINK_LIBRARIES(NeighborhoodIterators3 ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators3 ITKIO   )
 
 ADD_EXECUTABLE(NeighborhoodIterators4 NeighborhoodIterators4.cxx)
-TARGET_LINK_LIBRARIES(NeighborhoodIterators4 ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators4 ITKIO   )
 
 ADD_EXECUTABLE(NeighborhoodIterators5 NeighborhoodIterators5.cxx)
-TARGET_LINK_LIBRARIES(NeighborhoodIterators5 ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators5 ITKIO   )
 
 ADD_EXECUTABLE(NeighborhoodIterators6 NeighborhoodIterators6.cxx)
-TARGET_LINK_LIBRARIES(NeighborhoodIterators6 ITKAlgorithms ITKBasicFilters ITKCommon ITKIO 
-                                                           ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators6 ITKAlgorithms ITKBasicFilters ITKIO )
 
 ADD_EXECUTABLE(ShapedNeighborhoodIterators1 ShapedNeighborhoodIterators1.cxx)
-TARGET_LINK_LIBRARIES(ShapedNeighborhoodIterators1 ITKAlgorithms ITKBasicFilters ITKCommon ITKIO 
-                                                           ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(ShapedNeighborhoodIterators1 ITKAlgorithms ITKBasicFilters ITKIO )
 
 ADD_EXECUTABLE(ShapedNeighborhoodIterators2 ShapedNeighborhoodIterators2.cxx)
-TARGET_LINK_LIBRARIES(ShapedNeighborhoodIterators2 ITKAlgorithms ITKBasicFilters ITKCommon ITKIO 
-                                                           ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(ShapedNeighborhoodIterators2 ITKAlgorithms ITKBasicFilters ITKIO )
 
 SET(ITERATORS_EXAMPLES ${CXX_TEST_PATH}/IteratorsExamples)
 
@@ -90,4 +87,4 @@ ADD_TEST(ImageSliceIteratorWithIndexTest ${ITERATORS_EXAMPLES}
 
 
 ADD_EXECUTABLE(IteratorsExamples IteratorsExamples.cxx )
-TARGET_LINK_LIBRARIES(IteratorsExamples ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(IteratorsExamples ITKIO ITKBasicFilters )
