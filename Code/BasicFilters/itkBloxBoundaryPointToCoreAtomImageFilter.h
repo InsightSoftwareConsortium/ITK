@@ -95,7 +95,7 @@ public:
   void FindCoreAtoms();
 
   /** Find core atoms given a specific boundary point. */
-  void FindCoreAtomsAtBoundaryPoint(BloxBoundaryPointItem<NDimensions>* pItem);
+  void FindCoreAtomsAtBoundaryPoint(BloxBoundaryPointItem<dim>* pItem);
 
   /** Gets and sets for member variables. */
   itkSetMacro(DistanceMin, double);

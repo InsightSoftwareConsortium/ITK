@@ -20,7 +20,7 @@
 #include "itkBloxBoundaryPointToCoreAtomImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
-#include "itkFloodFilledSpatialFunctionConditionalIterator.h"
+#include "itkFloodFilledSpatialFunctionConditionalConstIterator.h"
 
 namespace itk
 {
@@ -112,6 +112,8 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
 ::FindCoreAtomsAtBoundaryPoint(BloxBoundaryPointItem<NDimensions>* pBPOne)
 {
 
+  typedef BloxBoundaryPointItem<NDimensions> TBPItemType;
+
   // When looking for core atoms at a boundary point, we want to examine
   // all of the boundary points within blox that are part of a conical
   // region extending out in the direction of the gradient of the boundary
@@ -143,9 +145,8 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
   TFunctionGradientType spatialFunctionGradient = pBPOne->GetGradient();
   spatialFunc->SetOriginGradient(spatialFunctionGradient);
 
-/*
   // Create a seed position for the spatial function iterator we'll use shortly
-  typename TBoundaryPointImage::IndexType seedIndex;
+  typename TInputImage::IndexType seedIndex;
 
   // Normalize the origin gradient
   TVectorType seedVector;
@@ -162,17 +163,17 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
   TPositionType seedPos = spatialFunctionOrigin + (seedVector * m_DistanceMin);
 
   // If the seed position is inside the image, go ahead and process it
-  if( this->TransformPhysicalPointToIndex(seedPos, seedIndex) )
+  if( m_InputPtr->TransformPhysicalPointToIndex(seedPos, seedIndex) )
     {
     // Create and initialize a spatial function iterator
-    typedef itk::FloodFilledSpatialFunctionConditionalIterator<TInputImage, TFunctionType> TSphereItType;
+    typedef itk::FloodFilledSpatialFunctionConditionalConstIterator<TInputImage, TFunctionType> TSphereItType;
     TSphereItType sfi = TSphereItType(m_InputPtr, spatialFunc, seedIndex);
 
     // Walk the spatial function
     for( ; !( sfi.IsAtEnd() ); ++sfi)
       {
       // The iterator for accessing linked list info
-      itk::BloxBoundaryPointPixel<NDimensions>::iterator bpiterator;
+      itk::BloxBoundaryPointPixel<NDimensions>::const_iterator bpiterator;
 
       // Walk through all of the elements at the pixel
       for (bpiterator = sfi.Get().begin(); bpiterator != sfi.Get().end(); ++bpiterator)
@@ -239,7 +240,6 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
         } // end iterate through boundary points in pixel
       } // end iterate through the conic shell
    } // end if the seed position for the conic shell is in the image
-   */
 }
 
 template< unsigned int dim >
