@@ -1,0 +1,149 @@
+/**
+ * \page Registration Registration Techniques
+ *
+ * \section Introduction Introduction 
+ *
+ * Registration is a technique aimed to align two objects using a 
+ * particular transformation.
+ *
+ * A tipical example of registration is to have two medical images
+ * from the same patient taken at different dates. It is very likely
+ * that the patient assume a different position during each acquisition.
+ * A registration procedure would allow to take both images and find
+ * a spatial transformation to find the corresponding pixel from one
+ * image into the other.
+ *
+ * Another typical example of registration is to have a geometrical model
+ * of an organ, let's say a bone. This model can be used to find the 
+ * corresponding structure in a medical image. In this case, a spatial
+ * transformation is needed to find the correct location of the structure
+ * in the image.
+ *
+ *
+ * \section ITK Registration Framework
+ *
+ * The Insight Toolkit takes full advantage of the power provided by 
+ * generic programming. Thanks to that, it have been possible to create
+ * abstraction of the particular problems that the toolkit is intended
+ * to solve.
+ *
+ * The registration problem have been decomposed in a set of basic
+ * elements.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * \section whattouse What Technique to Use
+ *
+ * This section provides a set of rules of thumb that will hopefully help users
+ * to select the appropiate technique to solve their particular registration 
+ * problem. Unfortunately, registration (as numeric programming) still requires
+ * a combination of mathematical foundation, a bit of engineering, and some
+ * elements of intuition to get it done right.
+ *
+ * Given that a registration problem is solve by a combination of basic
+ * element, it is not always obvious to choose an appropiate combination of
+ * them.
+ *
+ * \subsection sameModality Same Modality Same Patient
+ *
+ * This is one of the relatively simple cases that can be considered in
+ * registration.
+ * 
+ * 
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
