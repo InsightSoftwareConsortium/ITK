@@ -496,7 +496,7 @@ TreeIteratorBase<TTreeType>::Remove()
 /** Return the tree */
 template <class TTreeType>
 TTreeType* 
-TreeIteratorBase<TTreeType>::GetTree()
+TreeIteratorBase<TTreeType>::GetTree() const
 {
   return m_Tree;
 }

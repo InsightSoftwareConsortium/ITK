@@ -111,7 +111,7 @@ public:
   const TreeNodeType* &GetRoot() const;
   
   /** Get the tree */
-  TTreeType* GetTree();
+  TTreeType* GetTree() const;
 
   /** Return the first parent found */
   const TreeNodeType* GetParent() const;
