@@ -77,7 +77,6 @@ public:
 protected:
   MirrorPadImageFilter() {};
   ~MirrorPadImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
   
   /** Convert from the output index to the input index taking 
    * into consideration mirrored and normal regions. */

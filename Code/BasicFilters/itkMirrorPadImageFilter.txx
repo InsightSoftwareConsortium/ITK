@@ -28,17 +28,6 @@ namespace itk
 {
   
 /**
- *
- */
-template <class TInputImage, class TOutputImage>
-void 
-MirrorPadImageFilter<TInputImage,TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-}
-  
-/**
  * Given an n dimensional list of output region breakpoints in indices
  * and size (where the current region and maximum region for each dimension
  * is encoded in regIndices and regLimit), choose the next output region.
