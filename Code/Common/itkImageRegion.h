@@ -89,8 +89,7 @@ public:
 
   /** Copy constructor. ImageRegion is a lightweight object that is not
    * reference counted, so the copy constructor is public. */
-  ImageRegion(const Self& region)
-    { m_Index = region.m_Index;  m_Size = region.m_Size; };
+  ImageRegion(const Self& region) : m_Index( region.m_Index ), m_Size( region.m_Size ) {};
 
   /** operator=. ImageRegion is a lightweight object that is not reference
    * counted, so operator= is public. */
