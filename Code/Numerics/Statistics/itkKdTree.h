@@ -338,6 +338,7 @@ public:
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
   typedef typename TSample::MeasurementType MeasurementType ;
   typedef typename TSample::InstanceIdentifier InstanceIdentifier ;
+  typedef typename TSample::FrequencyType FrequencyType ;
 
   /** Length of the measurement vector. k in the k-d tree */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int, 
@@ -444,6 +445,9 @@ public:
   TSample* GetSample()
   { return m_Sample ; }
 
+  unsigned long Size()
+  { return m_Sample->Size() ; }
+
   /** Returns the pointer to the empty terminal node. A KdTree object
    * has a single empty terminal node in memory. when the split process
    * has to create an empty terminal node, the single instance is reused
@@ -465,17 +469,24 @@ public:
   MeasurementVectorType GetMeasurementVector(InstanceIdentifier id)
   { return m_Sample->GetMeasurementVector(id) ; }
 
+  /** Returns the frequency of the measurement vector identified by 
+   * the instance identifier */
+  FrequencyType GetFrequency(InstanceIdentifier id)
+  { return m_Sample->GetFrequency( id ) ; }
+
   /** Get the pointer to the distance metric. */
   DistanceMetricType* GetDistanceMetric()
   { return m_DistanceMetric.GetPointer() ; }
 
   /** Searches the k-nearest neighbors */
-  InstanceIdentifierVectorType Search(MeasurementVectorType &query, 
-                                      unsigned int k) ;
+  void Search(MeasurementVectorType &query, 
+              unsigned int k,
+              InstanceIdentifierVectorType& result) ;
 
   /** Searches the neighbors fallen into a hypersphere */
-  InstanceIdentifierVectorType Search(MeasurementVectorType &query,
-                                      double radius) ;
+  void Search(MeasurementVectorType &query,
+              double radius, 
+              InstanceIdentifierVectorType& result) ;
 
   /** Returns the number of measurement vectors that have been visited
    * to find the k-nearest neighbors. */
@@ -506,6 +517,20 @@ public:
   /** Prints out the tree information */
   void PrintTree(KdTreeNodeType *node, int level, 
                  unsigned int activeDimension) ;
+
+  typedef typename TSample::Iterator Iterator ;
+
+  Iterator Begin()
+  {
+    typename TSample::Iterator iter = m_Sample->Begin() ;
+    return iter; 
+  }
+
+  Iterator End() 
+  {
+    Iterator iter = m_Sample->End() ;
+    return iter; 
+  }
 
 protected:
   /** Constructor */
