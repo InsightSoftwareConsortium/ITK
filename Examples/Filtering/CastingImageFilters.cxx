@@ -53,7 +53,7 @@
 //  specified by the user in the form of a multiplying factor and a value to be
 //  added. This can be expresses as 
 //
-//  \[  outputValue = inputPixel * Scale + Shift \].
+//  \[  outputValue = inputPixel \times Scale + Shift \].
 //
 //  The \code{itk::NormalizeImageFilter} applies a linear transformation to the
 //  intensities of the input image. The parameters of the transformation are
@@ -61,14 +61,19 @@
 //  levels on the output image will have zero mean and a variance of one. This
 //  intensity correction is particularly useful in registration applications as
 //  a pre-processing step leading to the evaluation of Mutual Information
-//  metrics. The linear transformation of this filter can be described as:
+//  metrics. The linear transformation of this filter can be described as
 //
 //  \[ outputPixel = \frac{( inputPixel - mean )}{ \sqrt{ variance } } \]
 //
-//  \index{itk::CastImageFilter}
-//  \index{itk::RescaleIntensityImageFilter}
-//  \index{itk::ShiftScaleImageFilter}
-//  \index{itk::NormalizeImageFilter}
+//  \index{Casting Images|textbf}
+//  \index{itk::CastImageFilter|textbf}
+//  \index{itk::RescaleIntensityImageFilter|textbf}
+//  \index{itk::ShiftScaleImageFilter|textbf}
+//  \index{itk::NormalizeImageFilter|textbf}
+//  \index{itk::ShiftScaleImageFilter!header}
+//  \index{itk::RescaleIntensityImageFilter!header}
+//  \index{itk::NormalizeImageFilter!header}
+//  \index{itk::CastImageFilter!header}
 //
 //  As usual, the first step required to use these filters is to include their
 //  header files.
@@ -89,6 +94,13 @@
 
 int main( int argc, char ** argv )
 {
+
+  if( argc < 2 ) 
+    {
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << "   inputImageFile " << std::endl;
+    return 1;
+    }
 
   //  Software Guide : BeginLatex
   //
@@ -150,6 +162,15 @@ int main( int argc, char ** argv )
   //  Object filters are created by invoking the \code{New()} operator and
   //  assigning the result to SmartPointers.
   //
+  //  \index{itk::ShiftScaleImageFilter!New()}
+  //  \index{itk::RescaleIntensityImageFilter!New()}
+  //  \index{itk::NormalizeImageFilter!New()}
+  //  \index{itk::CastImageFilter!New()}
+  //  \index{itk::ShiftScaleImageFilter!Pointer}
+  //  \index{itk::RescaleIntensityImageFilter!Pointer}
+  //  \index{itk::NormalizeImageFilter!Pointer}
+  //  \index{itk::CastImageFilter!Pointer}
+  //
   //  Software Guide : EndLatex 
 
 
@@ -171,6 +192,11 @@ int main( int argc, char ** argv )
   //
   //  The output of a reader filter (whose creation is not shown here) is now
   //  connected as input to the various casting filters.
+  //
+  //  \index{itk::ShiftScaleImageFilter!SetInput()}
+  //  \index{itk::RescaleIntensityImageFilter!SetInput()}
+  //  \index{itk::NormalizeImageFilter!SetInput()}
+  //  \index{itk::CastImageFilter!SetInput()}
   //
   //  Software Guide : EndLatex 
 
@@ -195,6 +221,11 @@ int main( int argc, char ** argv )
   //  \code{SetOutputMinimum()} and \code{SetOutputMaximum()} methods as
   //  illustrated below.
   //
+  //  \index{itk::RescaleIntensityImageFilter!SetOutputMinimum()}
+  //  \index{itk::RescaleIntensityImageFilter!SetOutputMaximum()}
+  //  \index{SetOutputMinimum()!itk::RescaleIntensityImageFilter}
+  //  \index{SetOutputMaximum()!itk::RescaleIntensityImageFilter}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -212,6 +243,11 @@ int main( int argc, char ** argv )
   //  the multiplication. The methos \code{SetShift()} and \code{SetScale()}
   //  are used for this purpose.
   //
+  //  \index{itk::ShiftScaleImageFilter!SetShift()}
+  //  \index{itk::ShiftScaleImageFilter!SetScale()}
+  //  \index{SetShift()!itk::ShiftScaleImageFilter}
+  //  \index{SetScale()!itk::ShiftScaleImageFilter}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -227,6 +263,11 @@ int main( int argc, char ** argv )
   //
   //  Finally, the execution of the filters can be triggered by invoking the
   //  \code{Update()} method.
+  //
+  //  \index{itk::ShiftScaleImageFilter!Update()}
+  //  \index{itk::RescaleIntensityImageFilter!Update()}
+  //  \index{itk::NormalizeImageFilter!Update()}
+  //  \index{itk::CastImageFilter!Update()}
   //
   //  Software Guide : EndLatex 
 
