@@ -150,7 +150,6 @@ ImageMetricLoad<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
       { 
       // do nothing we dont care if the metric region is outside the image
       //std::cerr << e << std::endl;
-      void e;
       }
       for(unsigned int n=0; n<Nnodes; n++)
       {
