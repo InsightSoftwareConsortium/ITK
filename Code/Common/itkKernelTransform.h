@@ -63,8 +63,9 @@ public:
                                   TScalarType,
                                   TScalarType> PointSetTraitsType;
 
-	typedef PointSet<PointType, PointSetTraitsType> PointSetType;
-	typedef typename PointSetType::Pointer PointSetPointer;
+  typedef PointSet<PointType, NDimensions, PointSetTraitsType> PointSetType;
+  typedef typename PointSetType::Pointer PointSetPointer;
+  
   /**
    * VectorList typedef
    */
