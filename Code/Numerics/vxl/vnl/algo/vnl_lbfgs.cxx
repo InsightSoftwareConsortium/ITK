@@ -98,14 +98,14 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
   
   vnl_vector<double> w(n * (2*m+1)+2*m);
   
-  vcl_cerr << "vnl_lbfgs: n = "<< n <<", memory = "<< m <<", Workspace = "<< w.size()
+  vcl_cout << "vnl_lbfgs: n = "<< n <<", memory = "<< m <<", Workspace = "<< w.size()
        << "[ "<< ( w.size() / 128.0 / 1024.0) <<" MB], ErrorScale = "
        << f_->reported_error(1) <<", xnorm = "<< x.magnitude() << vcl_endl;
   
   bool we_trace = (verbose_ && !trace);
 
   if (we_trace)
-    vcl_cerr << "vnl_lbfgs: ";
+    vcl_cout << "vnl_lbfgs: ";
 
   double best_f = 0;
   vnl_vector<double> best_x;
@@ -135,7 +135,7 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
     }
 
     if (verbose_ && check_derivatives_) {
-      vcl_cerr << "vnl_lbfgs: f = " << f_->reported_error(f) << ", computing FD gradient\n";
+      vcl_cout << "vnl_lbfgs: f = " << f_->reported_error(f) << ", computing FD gradient\n";
       vnl_vector<double> fdg = f_->fdgradf(x);
 #if defined(__GNUG__) && !defined(GNU_LIBSTDCXX_V3)
       int l = n;

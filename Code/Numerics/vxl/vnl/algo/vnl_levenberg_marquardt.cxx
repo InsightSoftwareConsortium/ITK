@@ -121,7 +121,7 @@ bool vnl_levenberg_marquardt::minimize(vnl_vector<double>& x)
 {
   //fsm
   if (f_->has_gradient()) {
-    vcl_cerr << __FILE__ " : WARNING. calling minimize(), but f_ has gradient." << vcl_endl;
+    vcl_cout << __FILE__ " : WARNING. calling minimize(), but f_ has gradient." << vcl_endl;
   }
 
   // e04fcf
