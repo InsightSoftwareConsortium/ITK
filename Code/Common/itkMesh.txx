@@ -113,6 +113,10 @@ typename Mesh<TPixelType, VDimension, TMeshTraits>::CellsContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCells(void)
 {
+  if( !m_CellsContainer )
+    {
+    this->SetCells( CellsContainer::New() );
+    }
   itkDebugMacro("returning Cells container of " << m_CellsContainer );
   return m_CellsContainer;
 }
@@ -1028,7 +1032,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   m_BoundaryDataContainers(BoundaryDataContainerVector(MaxTopologicalDimension)),
   m_BoundaryAssignmentsContainers(
     BoundaryAssignmentsContainerVector(MaxTopologicalDimension)),
-  m_CellsAllocationMethod(CellsAllocationMethodUndefined),
+  m_CellsAllocationMethod(CellsAllocatedDynamicallyCellByCell),
   m_BoundariesAllocationMethod(BoundariesAllocationMethodUndefined)
 {
 
@@ -1180,9 +1184,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 ::ReleaseBoundariesMemory(unsigned int dimension)
 {
   itkDebugMacro("Mesh  ReleaseBoundariesMemory(unsigned int) method ");
-  std::cout << std::endl
-            << "Mesh  ReleaseBoundariesMemory(unsigned int) method "
-            << std::endl;
   // Boundaries are stored as normal pointers in the CellContainer.
   //
   // The following cases are assumed here: 
@@ -1205,7 +1206,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 
   if( m_BoundariesContainers.size() == 0 )
     {
-    std::cout << "\tNo boundaries to delete." << std::endl;
+    itkDebugMacro("\tNo boundaries to delete.");
     return; // there is nothing to be released
     }
 
@@ -1219,67 +1220,64 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   if( boundariesContainer && boundariesContainer->GetReferenceCount()==2 ) 
     {
     switch( m_BoundariesAllocationMethod )
-    {
-    case BoundariesAllocationMethodUndefined:
       {
-      // The user forgot to tell the mesh about how he allocated 
-      // the cells. No responsible guess can be made here. Call for help.
-      itkGenericExceptionMacro(<<"Boundaries Allocation Method was not specified. See SetBoundariesAllocationMethod()");
-      break;
-      }
-    case BoundariesAllocatedAsStaticArray:
-      {
-      // The cells will be naturally destroyed when
-      // the original array goes out of scope.
-      itkDebugMacro(<<"Boundaries allocated as static array.");
-      std::cout <<"\tBoundaries allocated as static array." << std::endl;
-      break;
-      }
-    case BoundariesAllocatedAsADynamicArray:
-      {
-      // the pointer to the first Cell is assumed to be the 
-      // base pointer of the array
-      itkDebugMacro(<<"Boundaries allocated as dynamic array.");
-      std::cout <<"\tBoundaries allocated as dynamic array." << std::endl;
-      BoundariesContainerIterator first = boundariesContainer->Begin();
-      CellType * baseOfBoundariesArray = first->Value();
-      delete [] baseOfBoundariesArray;
-      boundariesContainer->Initialize();
-      break;
-      }
-    case BoundariesAllocatedDynamicallyCellByCell:
-      {
-      // It is assumed that every cell was allocated independently.
-      // A Cell iterator is created for going through the cells 
-      // deleting one by one.
-      itkDebugMacro(<<"Boundaries allocated dynamically cell by cell.");
-      std::cout <<"\tBoundaries allocated dynamically cell by cell." << std::endl;
-      BoundariesContainerIterator cell  = boundariesContainer->Begin();
-      BoundariesContainerIterator end   = boundariesContainer->End();
-      while( cell != end )
+      case BoundariesAllocationMethodUndefined:
         {
-        const CellType * cellToBeDeleted = cell->Value();
-        delete cellToBeDeleted;
-        ++cell; 
+        // The user forgot to tell the mesh about how he allocated 
+        // the cells. No responsible guess can be made here. Call for help.
+        itkGenericExceptionMacro(<<"Boundaries Allocation Method was not specified. See SetBoundariesAllocationMethod()");
+        break;
         }
-      boundariesContainer->Initialize();
-      break;
-      }
-    default:
-      {
-      std::cout << "Cannot determine allocation type" << std::endl;
+      case BoundariesAllocatedAsStaticArray:
+        {
+        // The cells will be naturally destroyed when
+        // the original array goes out of scope.
+        itkDebugMacro(<<"Boundaries allocated as static array.");
+        break;
+        }
+      case BoundariesAllocatedAsADynamicArray:
+        {
+        // the pointer to the first Cell is assumed to be the 
+        // base pointer of the array
+        itkDebugMacro(<<"Boundaries allocated as dynamic array.");
+        BoundariesContainerIterator first = boundariesContainer->Begin();
+        CellType * baseOfBoundariesArray = first->Value();
+        delete [] baseOfBoundariesArray;
+        boundariesContainer->Initialize();
+        break;
+        }
+      case BoundariesAllocatedDynamicallyCellByCell:
+        {
+        // It is assumed that every cell was allocated independently.
+        // A Cell iterator is created for going through the cells 
+        // deleting one by one.
+        itkDebugMacro(<<"Boundaries allocated dynamically cell by cell.");
+        BoundariesContainerIterator cell  = boundariesContainer->Begin();
+        BoundariesContainerIterator end   = boundariesContainer->End();
+        while( cell != end )
+          {
+          const CellType * cellToBeDeleted = cell->Value();
+          delete cellToBeDeleted;
+          ++cell; 
+          }
+        boundariesContainer->Initialize();
+        break;
+        }
+      default:
+        {
+        itkDebugMacro("Cannot determine allocation type");
+        }
       }
     }
-  }
   else
     {
     if (!boundariesContainer)
       {
-      std::cout << "\tBoundaries already deleted." << std::endl;
+      itkDebugMacro("\tBoundaries already deleted.");
       }
     else
       {
-      std::cout << "\tBoundaries container has a reference count of " << boundariesContainer->GetReferenceCount() << std::endl;
+      itkDebugMacro("\tBoundaries container has a reference count of " << boundariesContainer->GetReferenceCount() );
       }
     }
 }
