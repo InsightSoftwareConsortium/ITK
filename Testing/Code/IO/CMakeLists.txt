@@ -20,7 +20,7 @@ ADD_EXECUTABLE(itkRawImageIOTest itkRawImageIOTest)
 
 
 # Add VTK code if we found VTK
-INCLUDE (${CMAKE_ROOT}/Modules/FindVTK.cmake)
+INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindVTK.cmake)
 IF (USE_VTK_FILE)
   ADD_DEFINITIONS(-DITK_HAS_VTK)
   INCLUDE(${USE_VTK_FILE})

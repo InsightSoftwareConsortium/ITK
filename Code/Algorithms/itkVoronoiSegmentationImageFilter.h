@@ -119,6 +119,10 @@ private:
   double m_VarPercentError;
 
   virtual bool TestHomogeneity(IndexList Plist);
+
+private:
+  VoronoiSegmentationImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 }//end namespace

@@ -33,14 +33,15 @@ namespace itk
  * of creating an Ellipsoid in an image.
  *
  **/
-
-template <class T, unsigned int VDimension=3>
-class ITK_EXPORT EllipsoidInteriorExteriorSpatialFunction : public InteriorExteriorSpatialFunction<VDimension>
+template <unsigned int VDimension = 3,
+          typename TInput = Point<double, VDimension> >
+class ITK_EXPORT EllipsoidInteriorExteriorSpatialFunction
+: public InteriorExteriorSpatialFunction<VDimension, TInput>
 {
 public:
   /** Standard class typedefs. */
   typedef EllipsoidInteriorExteriorSpatialFunction Self;
-  typedef InteriorExteriorSpatialFunction<VDimension> Superclass;
+  typedef InteriorExteriorSpatialFunction<VDimension, TInput> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer; 
       
@@ -56,9 +57,6 @@ public:
   /** Output type for the function */
   typedef typename Superclass::OutputType OutputType;
    
-  /** Vector typedef. */
-  typedef T VectorType;
-
   /** Set/Get and set the center of the ellipsoid. */
   itkGetMacro(Center, InputType);
   itkSetMacro(Center, InputType);
@@ -69,7 +67,7 @@ public:
   
   /** Set the orientation vectors (must be orthogonal) of the ellipsoid axes.
    * Must be normalized!!!!! */
-  void SetOrientations(vnl_matrix<VectorType>);
+  void SetOrientations(vnl_matrix<double>);
 
   /** Evaluates the function at a given position. */
   OutputType Evaluate(const InputType& position) const;
@@ -91,7 +89,7 @@ private:
   InputType m_Axes;
 
   /** The orientation vectors (must be orthogonal) of the ellipsoid axes. */  
-  VectorType ** m_Orientations;
+  double ** m_Orientations;
 };
 
 } // end namespace itk

@@ -24,7 +24,7 @@ int main()
   const unsigned int dimension = 3;
 
   // Symmetric Ellipsoid spatial function typedef
-  typedef itk::SymmetricEllipsoidInteriorExteriorSpatialFunction<double, 3> TSymEllipsoidFunctionType;
+  typedef itk::SymmetricEllipsoidInteriorExteriorSpatialFunction<3> TSymEllipsoidFunctionType;
 
   // Point position typedef
   typedef TSymEllipsoidFunctionType::InputType TSymEllipsoidFunctionVectorType;

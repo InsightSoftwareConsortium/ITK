@@ -62,7 +62,7 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
   //
 
   // Ellipsoid spatial function typedef
-  typedef itk::EllipsoidInteriorExteriorSpatialFunction<double, VDimension>
+  typedef itk::EllipsoidInteriorExteriorSpatialFunction<VDimension>
     EllipsoidType;
   
   // Create an ellipsoid spatial function for the source image

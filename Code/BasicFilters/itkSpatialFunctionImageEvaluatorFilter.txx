@@ -55,10 +55,12 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
                                         outputPtr->GetRequestedRegion());
 
   // The value produced by the spatial function
-  double value;
+  // The type is the range of the spatial function
+  typename TSpatialFunction::OutputType value;
 
   // The position at which the function is evaluated
-  Point<double, TOutputImage::ImageDimension> evalPoint;
+  // The type is the domain of the spatial function
+  typename TSpatialFunction::InputType evalPoint;
 
   // Walk the output image, evaluating the spatial function at each pixel
   for ( ; !outIt.IsAtEnd(); ++outIt)
@@ -69,7 +71,6 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
 
     // Set the pixel value to the function value
     outIt.Set( (PixelType) value);
-    
     }
 
   itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::GenerateData() finished");

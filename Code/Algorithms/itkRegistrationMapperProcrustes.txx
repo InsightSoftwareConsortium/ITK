@@ -64,11 +64,11 @@ RegistrationMapperProcrustes<TTransformation,NDimension>
  * other.
  */
 template <class TTransformation, unsigned int NDimension>
-Point<double,NDimension>
+RegistrationMapperProcrustes<TTransformation,NDimension>::OutputPointType
 RegistrationMapperProcrustes<TTransformation,NDimension>
-::Transform( const Point<double,NDimension> & point )
+::Transform( const InputPointType & point )
 {
-  return this->m_Transformation->Transform( point ); 
+  return this->m_Transformation->TransformPoint( point ); 
 }
 
 

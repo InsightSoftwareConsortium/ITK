@@ -22,8 +22,9 @@
 namespace itk
 {
 
-template <unsigned int VDimension>
-ConicShellInteriorExteriorSpatialFunction<VDimension>::ConicShellInteriorExteriorSpatialFunction()
+template <unsigned int VDimension, typename TInput>
+ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
+::ConicShellInteriorExteriorSpatialFunction()
 {
   m_Origin.Fill(0.0);
   m_OriginGradient.Fill(0.0);
@@ -34,15 +35,16 @@ ConicShellInteriorExteriorSpatialFunction<VDimension>::ConicShellInteriorExterio
   m_Epsilon = 0;
 }
 
-template <unsigned int VDimension>
-ConicShellInteriorExteriorSpatialFunction<VDimension>::~ConicShellInteriorExteriorSpatialFunction()
+template <unsigned int VDimension, typename TInput>
+ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
+::~ConicShellInteriorExteriorSpatialFunction()
 {
 
 }
 
-template <unsigned int VDimension>
+template <unsigned int VDimension, typename TInput>
 void
-ConicShellInteriorExteriorSpatialFunction<VDimension>
+ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
 ::SetOriginGradient(TGradientType grad)
 {
   m_OriginGradient = grad;
@@ -51,9 +53,9 @@ ConicShellInteriorExteriorSpatialFunction<VDimension>
   m_OriginGradient.Get_vnl_vector().normalize();
 }
 
-template <unsigned int VDimension>
-ConicShellInteriorExteriorSpatialFunction<VDimension>::OutputType
-ConicShellInteriorExteriorSpatialFunction<VDimension>
+template <unsigned int VDimension, typename TInput>
+ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>::OutputType
+ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
 ::Evaluate(const InputType& position) const
 {
   // As from the header...
@@ -125,9 +127,9 @@ ConicShellInteriorExteriorSpatialFunction<VDimension>
 
 }
 
-template <unsigned int VDimension>
+template <unsigned int VDimension, typename TInput>
 void
-ConicShellInteriorExteriorSpatialFunction<VDimension>
+ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);

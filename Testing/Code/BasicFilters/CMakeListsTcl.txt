@@ -27,8 +27,9 @@ CABLE_CLASS_SET(ComponentAccessor
                 "itk::RedPixelAccessor<$Float>")
 CABLE_CLASS_SET(HexCell
                 "itk::HexahedronCell<$Float, $(Mesh)::CellTraits>")
+CABLE_CLASS_SET(Point3D "itk::Point<$Float, $Dimension3>")
 CABLE_CLASS_SET(EllipsoidFunc
-                "itk::EllipsoidInteriorExteriorSpatialFunction<$Float>")
+                "itk::EllipsoidInteriorExteriorSpatialFunction<$Dimension3, $Point3D>")
 CABLE_CLASS_SET(Kernel "itk::Neighborhood<$Float, $Dimension>")
 CABLE_CLASS_SET(Params "itk::Point<$Float, $Dimension>")
 CABLE_CLASS_SET(Jacobian "itk::Matrix<$Float, 3, 3>")
