@@ -127,7 +127,7 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
     value = m_pFunction->Evaluate(&outputVector);
 
     // Set the pixel value to the function value
-    outIt.Set( (TOutputImage::PixelType) value);
+    outIt.Set( (PixelType) value);
     
     } // end switch
 
