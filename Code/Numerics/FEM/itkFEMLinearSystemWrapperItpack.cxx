@@ -54,7 +54,8 @@ LinearSystemWrapperItpack::LinearSystemWrapperItpack()
   m_IPARM[4] = 1;    /* non-symmetric matrix */
 
   /* itpack recommended (but not default) value */
-  m_RPARM[7] = 500.0 * NumericTraits<double>::NonpositiveMin();
+#undef min
+  m_RPARM[7] = 500.0 * NumericTraits<double>::min();
 
   m_MaximumNonZeroValues = 0;
   m_Matrices = 0;
