@@ -110,7 +110,7 @@ inline std::ostream& operator<<(std::ostream& os, EventObject &e)
  *  Macro for creating new Events
  */
 #define itkEventMacro( classname , super ) \
- class classname : public super { \
+ class ITKCommon_EXPORT classname : public super { \
    public: \
      typedef classname Self; \
      typedef super Superclass; \
@@ -121,7 +121,7 @@ inline std::ostream& operator<<(std::ostream& os, EventObject &e)
        { return dynamic_cast<const Self*>(e); } \
      virtual ::itk::EventObject* MakeObject() const \
        { return new Self; } \
-     classname(const Self&); \
+     classname(const Self&) {}; \
    private: \
      void operator=(const Self&); \
  }
