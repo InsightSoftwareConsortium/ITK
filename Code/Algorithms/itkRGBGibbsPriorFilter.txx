@@ -29,6 +29,7 @@ namespace itk
 template <typename TInputImage, typename TClassifiedImage>
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::RGBGibbsPriorFilter(void):
+    m_ObjectThreshold(5.0),
     m_InputImage(0),
     m_TrainingImage(0),
     m_LabelledImage(0),
@@ -39,7 +40,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     m_BoundaryWeight(1),
     m_GibbsPriorWeight(1),
     m_StartRadius(10),
-    m_RecursiveNum(0),
+    m_RecursiveNumber(0),
     m_LabelStatus(0),
     m_MediumImage(0),
     m_Temp(0),
@@ -511,7 +512,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   /* Set the output labelled image and allocate the memory. */
   LabelledImageType outputPtr = this->GetOutput();
 
-  if (m_RecursiveNum == 0) {
+  if (m_RecursiveNumber == 0) {
     outputPtr->SetLargestPossibleRegion( m_InputImage->GetLargestPossibleRegion() );
     outputPtr->SetBufferedRegion( m_InputImage->GetLargestPossibleRegion() );
   }
@@ -537,7 +538,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     ++outImageIt;
   }
 
-  m_RecursiveNum++;
+  m_RecursiveNumber++;
 
 }
 
@@ -562,7 +563,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   RegionEraser();
 
   std::cout<<"Region eraser finished! " <<std::endl; 
-
+/*
   const unsigned int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   const unsigned int rowsize = m_ImageWidth;
 
@@ -575,11 +576,11 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     if ((randomPixel > (rowsize - 1)) && (randomPixel < (size - rowsize)) 
         && (randomPixel%rowsize != 0) && (randomPixel%rowsize != rowsize-1)) 
       {
-      GibbsTotalEnergy(randomPixel); // minimized f_2; 
+      GibbsTotalEnergy(randomPixel); /* minimized f_2; *//*
       }
     m_Temp++;
     }
-
+*/
 }
 
 template<class TInputImage, class TClassifiedImage>
@@ -619,6 +620,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 
   inputImageIt.GoToBegin();
   mediumImageIt.GoToBegin();
+  labelledImageIt.GoToBegin();
 
   unsigned int i = 0;
   while ( !inputImageIt.IsAtEnd() ) 
@@ -649,7 +651,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 
     double    minDist   = NumericTraits<   double  >::max();
     LabelType pixLabel  = NumericTraits< LabelType >::max();
-
+/*
     for( unsigned int index = 0; index < m_NumberOfClasses; index++ ) 
       {
       if ( dist[index] < minDist ) 
@@ -660,7 +662,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
       }
 
     /* Check if the label has changed then set the change flag in all the 
-     *  neighborhood of the current pixel. */
+     *  neighborhood of the current pixel. *
     if( pixLabel != m_ObjectLabel ) 
       {
       outLabelledPix = 1-m_ObjectLabel;
@@ -672,7 +674,18 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
       labelledImageIt.Set( m_ObjectLabel );
       m_LabelStatus[i] = m_ObjectLabel; 
       }
-
+*
+//===================================
+      if (dist[1] < m_ObjectThreshold) pixLabel = 255;
+      else pixLabel = 0;
+      labelledImageIt.Set( pixLabel );
+      
+//===================================
+*/
+      if (dist[1] > m_ObjectThreshold) pixLabel = 0;
+      else pixLabel = 1;
+      labelledImageIt.Set( pixLabel );
+    
     i++;
     ++labelledImageIt;
     ++inputImageIt;
@@ -703,7 +716,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     }
   m_RegionCount = new unsigned short[size];
 
-  unsigned short *valid_region_counter = new unsigned short[size/100];
+  unsigned short *valid_region_counter = new unsigned short[size];
 
   LabelledImageRegionIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
@@ -712,10 +725,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     {
     m_Region[i] = 0;
     m_RegionCount[i] = 1;
-    }
-
-  for ( unsigned int i=0; i<size/100; i++ ) 
-    {
     valid_region_counter[i] = 0;
     }
 
@@ -740,12 +749,13 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     ++labelledImageIt;
     }
 
-  i = 0; 
+  i = 0;
+  unsigned int j; 
   labelledImageIt.GoToBegin();
 
   while ( !labelledImageIt.IsAtEnd() ) 
     {
-    unsigned int j = 0;
+    j = 0;
     while ( (m_Region[i] != valid_region_counter[j]) && (j < k) ) 
       {
       j++;
@@ -855,10 +865,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
      << m_CliqueWeight_3 << std::endl;
   os << indent << "CliqueWeight_4: "
      << m_CliqueWeight_4 << std::endl;
-  os << indent << "CliqueWeight_5: "
-     << m_CliqueWeight_5 << std::endl;
-  os << indent << "CliqueWeight_6: "
-     << m_CliqueWeight_6 << std::endl;
   os << indent << "ClusterSize: " 
      << m_ClusterSize << std::endl;
   os << indent << "ObjectLabel: " 

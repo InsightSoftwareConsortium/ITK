@@ -38,7 +38,7 @@ namespace itk
  *   f = f_1 + f_2 + f_3;
  * f_1 is related to the object homogeneity,
  * f_2 is related to the boundary smoothness,
- * f_3 is related to the noise model. 
+ * f_3 is related to the constraint of the observation (or the noise model). 
  * The two force components f_1 and f_3 are minimized by the GradientEnergy 
  * method while f_2 is minized by the GibbsTotalEnergy method.
  *
@@ -143,6 +143,8 @@ public:
 
   itkSetMacro(BoundaryGradient, unsigned int);
 
+  itkSetMacro(ObjectThreshold, double);
+
   /** set and get the value for Clique weights */
   itkSetMacro(CliqueWeight_1, double);
   itkGetMacro(CliqueWeight_1, double);
@@ -190,7 +192,7 @@ private:
   double            m_BoundaryWeight; /** weight for H_1 */
   double            m_GibbsPriorWeight; /** weight for H_2 */
   int               m_StartRadius;  /** define the start region of the object. */
-  int               m_RecursiveNum;     /** number of SA iterations. */
+  int               m_RecursiveNumber;     /** number of SA iterations. */
   LabelType       * m_LabelStatus; /** array for the state of each pixel. */
 
   InputImagePointer  m_MediumImage;   /** the medium image to store intermedium result */
@@ -228,6 +230,8 @@ private:
   void  RegionEraser();                       /** erase the small region. */
   void  GenerateMediumImage();                /** create the intermedium image. */
   void  GreyScalarBoundary(LabelledImageIndexType Index3D); /** calculate H_1. */
+
+  double m_ObjectThreshold;
 
 };
 
