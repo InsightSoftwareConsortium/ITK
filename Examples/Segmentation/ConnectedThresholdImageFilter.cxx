@@ -18,30 +18,29 @@
 // Software Guide : BeginLatex
 //
 // The following example illustrates the use of the
-// \doxygen{ConnectedThresholdImageFilter}. This filter is based on the use
-// of the flood fill iterator. Most of the algorithmic complexity of a region
-// growing method comes from the strategy used for visiting the neighbor
-// pixels. The flood fill iterator assumes this responsibility and greatly
-// simplifies the implementation of a region growing approach. The work left to
-// the algorithm is to establish a criterion for deciding whether a particular
-// pixel should be included in the current region or not.
+// \doxygen{ConnectedThresholdImageFilter}. This filter uses the flood fill
+// iterator. Most of the algorithmic complexity of a region growing method
+// comes from visiting neighboring pixels. The flood fill iterator assumes
+// this responsibility and greatly simplifies the implementation of the
+// region growing algorithm. Thus the algorithm is left to establish a
+// criterion to decide whether a particular pixel should be included in
+// the current region or not.
 //
 // \index{itk::FloodFillIterator!In Region Growing}
 // \index{itk::ConnectedThresholdImageFilter}
 // \index{itk::ConnectedThresholdImageFilter!header}
 //
-// The criterion used by the \doxygen{ConnectedThresholdImageFilter} is based
-// on an interval of intensity values provided by the user. Values of lower and
-// upper threshold should be provided. The region growing algorithm will then
-// include in the region only those pixels whose intensities are inside the
-// interval.
+// The criterion used by the ConnectedThresholdImageFilter is based on an
+// interval of intensity values provided by the user. Values of lower and
+// upper threshold should be provided. The region growing algorithm includes
+// those pixels whose intensities are inside the interval.
 //
 // \begin{equation}
 // I(\mathbf{X}) \in [ \mbox{lower}, \mbox{upper} ]
 // \end{equation}
 //
 // Let's look at the minimal code required to use this algorithm. First, the
-// following header defining the \doxygen{ConnectedThresholdImageFilter} class
+// following header defining the ConnectedThresholdImageFilter class
 // must be included.
 //
 // Software Guide : EndLatex 
@@ -56,13 +55,12 @@
 #include "itkCastImageFilter.h"
 
 
-
 //  Software Guide : BeginLatex
 //
 //  Noise present in the image can reduce the capacity of this filter to grow
 //  large regions. When faced with noisy images, it is usually convenient to
 //  pre-process the image by using an edge-preserving smoothing filter. Any of
-//  the filters discussed in section \ref{sec:EdgePreservingSmoothingFilters}
+//  the filters discussed in Section~\ref{sec:EdgePreservingSmoothingFilters}
 //  could be used to this end. In this particular example we use the
 //  \doxygen{CurvatureFlowImageFilter}, hence we need to include its header
 //  file.
@@ -74,16 +72,12 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
 
 int main( int argc, char *argv[])
 {
-
-
   if( argc < 7 )
     {
     std::cerr << "Missing Parameters " << std::endl;
@@ -93,34 +87,27 @@ int main( int argc, char *argv[])
     }
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  We declare now the image type using a pixel type and a particular
-  //  dimension. In this case the \code{float} type is used for the pixels due
-  //  to the requirements of the smoothing filter. 
+  //  We declare the image type based on a particular pixel type and
+  //  dimension. In this case the \code{float} type is used for the pixels
+  //  due to the requirements of the smoothing filter.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef   float           InternalPixelType;
   const     unsigned int    Dimension = 2;
-  
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
   // Software Guide : EndCodeSnippet
 
 
   typedef unsigned char OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-
-  typedef itk::CastImageFilter< 
-                        InternalImageType, 
-                        OutputImageType    >    CastingFilterType;
-  
+  typedef itk::CastImageFilter< InternalImageType, OutputImageType >
+    CastingFilterType;
   CastingFilterType::Pointer caster = CastingFilterType::New();
                         
-  //
   // We instantiate reader and writer types
   //
   typedef  itk::ImageFileReader< InternalImageType > ReaderType;
@@ -133,27 +120,23 @@ int main( int argc, char *argv[])
   writer->SetFileName( argv[2] );
 
 
-
   //  Software Guide : BeginLatex
   //  
   //  
-  //  The smoothing filter type is instantiated using the image type as
+  //  The smoothing filter is instantiated using the image type as
   //  a template parameter.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef   itk::CurvatureFlowImageFilter< 
-                               InternalImageType, 
-                               InternalImageType >  CurvatureFlowImageFilterType;
+  typedef itk::CurvatureFlowImageFilter< InternalImageType, InternalImageType >
+    CurvatureFlowImageFilterType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
   //  
-  //  Then, the filter is created by invoking the \code{New()} method and
+  //  Then the filter is created by invoking the \code{New()} method and
   //  assigning the result to a \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex 
@@ -164,23 +147,22 @@ int main( int argc, char *argv[])
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
   //  We now declare the type of the region growing filter. In this case it is
-  //  the \doxygen{ConnectedThresholdImageFilter}. 
+  //  the ConnectedThresholdImageFilter. 
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::ConnectedThresholdImageFilter< 
-                                    InternalImageType, 
+  typedef itk::ConnectedThresholdImageFilter< InternalImageType, 
                                     InternalImageType > ConnectedFilterType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //  
-  //  Then, we  construct one filter of this class using the \code{New()} method. 
+  //  Then we construct one filter of this class using the \code{New()}
+  //  method.
   //
   //  Software Guide : EndLatex 
 
@@ -189,32 +171,27 @@ int main( int argc, char *argv[])
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
-  //  Now it is time to connect the pipeline. This is pretty linear in our
-  //  example. A file reader is added at the beginning of the pipeline and a
-  //  caster filter and writer are added at the end. The caster filter is
-  //  required here to convert \code{float} pixel types to integer types
-  //  since only a few image file formats support \code{float} types.
+  //  Now it is time to connect a simple, linear pipeline. A file reader is
+  //  added at the beginning of the pipeline and a cast filter and writer
+  //  are added at the end. The cast filter is required to convert
+  //  \code{float} pixel types to integer types since only a few image file
+  //  formats support \code{float} types.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   smoothing->SetInput( reader->GetOutput() );
-
   connectedThreshold->SetInput( smoothing->GetOutput() );
-
   caster->SetInput( connectedThreshold->GetOutput() );
-
   writer->SetInput( caster->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{CurvatureFlowImageFilter} requires a couple of parameters to
+  //  The CurvatureFlowImageFilter requires a couple of parameters to
   //  be defined. The following are typical values for $2D$ images. However
   //  they may have to be adjusted depending on the amount of noise present in
   //  the input image.
@@ -223,21 +200,18 @@ int main( int argc, char *argv[])
 
   // Software Guide : BeginCodeSnippet
   smoothing->SetNumberOfIterations( 5 );
-
   smoothing->SetTimeStep( 0.125 );
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{ConnectedThresholdImageFilter} has two main parameters to be
-  //  defined. They are the lower and upper thresholds of the interval in which
-  //  intensity values should fall in order to be included in the region. Setting
-  //  these two values too close will not allow enough flexibility for the
-  //  region to grow. Setting them too far apart will result in a region that
-  //  engulfes the image. 
+  //  The ConnectedThresholdImageFilter has two main parameters to be
+  //  defined. They are the lower and upper thresholds of the interval in
+  //  which intensity values should fall in order to be included in the
+  //  region. Setting these two values too close will not allow enough
+  //  flexibility for the region to grow. Setting them too far apart will
+  //  result in a region that engulfes the image.
   //
   //  \index{itk::ConnectedThresholdImageFilter!SetUpper()}
   //  \index{itk::ConnectedThresholdImageFilter!SetLower()}
@@ -253,11 +227,10 @@ int main( int argc, char *argv[])
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The output of this filter is a binary image with zero-value pixels
-  //  everywhere except on the extracted region. The intensity value to be put
+  //  everywhere except on the extracted region. The intensity value set
   //  inside the region is selected with the method \code{SetReplaceValue()}
   //
   //  \index{itk::ConnectedThresholdImageFilter!SetReplaceValue()}
@@ -267,7 +240,6 @@ int main( int argc, char *argv[])
   // Software Guide : BeginCodeSnippet
   connectedThreshold->SetReplaceValue( 255 );
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -291,7 +263,6 @@ int main( int argc, char *argv[])
   // Software Guide : BeginCodeSnippet
   connectedThreshold->SetSeed( index );
   // Software Guide : EndCodeSnippet
- 
 
   
   //  Software Guide : BeginLatex
@@ -317,7 +288,7 @@ int main( int argc, char *argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Let's now run this example using as input the image
+  //  Let's run this example using as input the image
   //  \code{BrainProtonDensitySlice.png} provided in the directory
   //  \code{Examples/Data}. We can easily segment the major anatomical
   //  structures by providing seeds in the appropriate locations and defining
@@ -338,7 +309,7 @@ int main( int argc, char *argv[])
   //  \end{center}
   //  \itkcaption[ConnectedThreshold example parameters]{Parameters used for
   //  segmenting some brain structures shown in
-  //  Figure~\ref{fig:ConnectedThresholdOutput} using the filter
+  //  Figure~\ref{fig:ConnectedThresholdOutput} with the filter
   //  \doxygen{ConnectedThresholdImageFilter}.\label{tab:ConnectedThresholdOutput}}
   //  \end{table}
   //
@@ -347,32 +318,30 @@ int main( int argc, char *argv[])
   // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput1.eps}
   // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput2.eps}
   // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput3.eps}
-  // \itkcaption[ConnectedThreshold segmentation results]{Segmentation results of
-  // the ConnectedThreshold filter for various seed points.}
+  // \itkcaption[ConnectedThreshold segmentation results]{Segmentation results 
+  // for the ConnectedThreshold filter for various seed points.}
   // \label{fig:ConnectedThresholdOutput}
   // \end{figure}
   //
-  //  It can be noticed that the gray matter is not being completely segmented.
-  //  This illustrates the vulnerability of the region growing methods when the
+  //  Notice that the gray matter is not being completely segmented.  This
+  //  illustrates the vulnerability of the region growing methods when the
   //  anatomical structures to be segmented do not have a homogeneous
-  //  statistical distribution over the image space. You may want to experiment
-  //  with different values of the lower and upper thresholds  in order to
+  //  statistical distribution over the image space. You may want to
+  //  experiment with different values of the lower and upper thresholds to
   //  verify how the accepted region will extend.
   //
-  //  Another option for completing regions is to take advantage of the
-  //  functionality provided by the \doxygen{ConnectedThresholdImageFilter} for
-  //  managing multiple seeds. The seeds can be passed one by one to the filter
-  //  using the \code{AddSeed()} method. You could imagine a User Interface in
-  //  which an operator clicks on multiple points of the object to be segmented
-  //  and each selected point is passed as a seed to this filter.
+  //  Another option for segmenting regions is to take advantage of the
+  //  functionality provided by the ConnectedThresholdImageFilter for
+  //  managing multiple seeds. The seeds can be passed one by one to the
+  //  filter using the \code{AddSeed()} method. You could imagine a user
+  //  interface in which an operator clicks on multiple points of the object
+  //  to be segmented and each selected point is passed as a seed to this
+  //  filter.
   //
   //  Software Guide : EndLatex 
 
 
-
-
   return 0;
-
 }
 
 

@@ -28,17 +28,16 @@
 // the interval. The size of the neighborhood to be considered around each
 // pixel is defined by a user-provided integer radius. 
 //
-// The reason for considering the neighborhood intensities instead of only the
-// current pixel intensity is that isolated pixels are less likely to be
+// The reason for considering the neighborhood intensities instead of only
+// the current pixel intensity is that isolated pixels are less likely to be
 // accepted in the region. This can be seen as a preemptive mathematical
-// morphology operation that is probably equivalent to using the
-// \doxygen{ConnectedThresholdImageFilter} and then apply a combination of
-// erosion and dilation with an structuring element of the same radius used for
-// the neighborhood provided to the \doxygen{NeighborhoodConnectedImageFilter}. 
+// morphology operation that is similar to using the
+// ConnectedThresholdImageFilter and then applying a combination of
+// erosion and dilation with a structuring element of the same radius used
+// for the neighborhood provided to the NeighborhoodConnectedImageFilter.
 //
-// This filter will be more resistant to the presence of noise in the input
-// image and will probably render unnecessary the initial smoothing step with
-// anisotropic diffusion filters used in this example.
+// This filter is more resistant to the presence of noise in the input image
+// and may not require any initial filtering to smooth the image.
 //
 // Software Guide : EndLatex 
 
@@ -52,11 +51,10 @@
 #include "itkCastImageFilter.h"
 
 
-
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{CurvatureFlowImageFilter} is used here to smooth the image while
-//  preserving edges.
+//  The \doxygen{CurvatureFlowImageFilter} is used here to smooth the image
+//  while preserving edges.
 //
 //  Software Guide : EndLatex 
 
@@ -65,16 +63,12 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
 
 int main( int argc, char *argv[] )
 {
-
-
   if( argc < 7 )
     {
     std::cerr << "Missing Parameters " << std::endl;
@@ -84,11 +78,9 @@ int main( int argc, char *argv[] )
     }
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  We now declare the image type using a pixel type and a particular
+  //  We now define the image type using a particular pixel type and image
   //  dimension. In this case the \code{float} type is used for the pixels due
   //  to the requirements of the smoothing filter. 
   //
@@ -97,7 +89,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef   float           InternalPixelType;
   const     unsigned int    Dimension = 2;
-  
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
   // Software Guide : EndCodeSnippet
 
@@ -105,13 +96,11 @@ int main( int argc, char *argv[] )
   typedef unsigned char OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
-  typedef itk::CastImageFilter< 
-                        InternalImageType, 
-                        OutputImageType    >    CastingFilterType;
-  
+  typedef itk::CastImageFilter< InternalImageType, OutputImageType >
+    CastingFilterType;
   CastingFilterType::Pointer caster = CastingFilterType::New();
                         
-  //
+
   // We instantiate reader and writer types
   //
   typedef  itk::ImageFileReader< InternalImageType > ReaderType;
@@ -124,9 +113,7 @@ int main( int argc, char *argv[] )
   writer->SetFileName( argv[2] );
 
 
-
   //  Software Guide : BeginLatex
-  //  
   //  
   //  The smoothing filter type is instantiated using the image type as
   //  a template parameter.
@@ -134,12 +121,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef   itk::CurvatureFlowImageFilter< 
-                               InternalImageType, 
-                               InternalImageType >  CurvatureFlowImageFilterType;
+  typedef   itk::CurvatureFlowImageFilter<InternalImageType, InternalImageType>
+    CurvatureFlowImageFilterType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -155,17 +139,15 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
   //  We now declare the type of the region growing filter. In this case it is
-  //  the \doxygen{NeighborhoodConnectedImageFilter}. 
+  //  the NeighborhoodConnectedImageFilter. 
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::NeighborhoodConnectedImageFilter< 
-                                    InternalImageType, 
+  typedef itk::NeighborhoodConnectedImageFilter<InternalImageType,
                                     InternalImageType > ConnectedFilterType;
   // Software Guide : EndCodeSnippet
 
@@ -180,32 +162,27 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
-  //  Now it is time to connect the pipeline. This is pretty linear in our
-  //  example. A file reader is added at the beginning of the pipeline and a
-  //  caster filter and writer are added at the end. The caster filter is
-  //  required here to convert \code{float} pixel types to integer types
-  //  since only a few image file formats support \code{float} types.
+  //  Now it is time to create a simplie, linear data processing pipeline. A
+  //  file reader is added at the beginning of the pipeline and a cast
+  //  filter and writer are added at the end. The cast filter is required
+  //  to convert \code{float} pixel types to integer types since only a
+  //  few image file formats support \code{float} types.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   smoothing->SetInput( reader->GetOutput() );
-
   neighborhoodConnected->SetInput( smoothing->GetOutput() );
-
   caster->SetInput( neighborhoodConnected->GetOutput() );
-
   writer->SetInput( caster->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{CurvatureFlowImageFilter} requires a couple of parameters to
+  //  The CurvatureFlowImageFilter requires a couple of parameters to
   //  be defined. The following are typical values for $2D$ images. However
   //  they may have to be adjusted depending on the amount of noise present in
   //  the input image.
@@ -214,21 +191,18 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   smoothing->SetNumberOfIterations( 5 );
-
   smoothing->SetTimeStep( 0.125 );
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{NeighborhoodConnectedImageFilter} has two main parameters to be
-  //  defined. They are the lower and upper thresholds of the interval in which
-  //  intensity values should fall in order to be included in the region. Setting
-  //  these two values too close will not allow enough flexibility for the
-  //  region to grow. Setting them too far apart will result in a region that
-  //  engulfes the image. 
+  //  The NeighborhoodConnectedImageFilter requires that two main parameters
+  //  are specified. They are the lower and upper thresholds of the interval
+  //  in which intensity values must fall to be included in the
+  //  region. Setting these two values too close will not allow enough
+  //  flexibility for the region to grow. Setting them too far apart will
+  //  result in a region that engulfes the image.
   //
   //  \index{itk::NeighborhoodConnectedImageFilter!SetLower()}
   //  \index{itk::NeighborhoodConnectedImageFilter!SetUppder()}
@@ -245,12 +219,12 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Here, we add the crucial parameter that defines the size of the
-  //  neighborhood to be considered when including a pixel on the region. The
-  //  larger the neighborhood, the more stable this filter will be against
-  //  noise in the input image, but also the longer the computing time will be.
-  //  Here we select a filter of radius $2$ along each dimension. This results
-  //  in a neighborhood of $5 \times 5$ pixels.
+  //  Here, we add the crucial parameter that defines the neighborhood size
+  //  used to determine whether a pixel lies in the region. The larger the
+  //  neighborhood, the more stable this filter will be against noise in the
+  //  input image, but also the longer the computing time will be.  Here we
+  //  select a filter of radius $2$ along each dimension. This results in a
+  //  neighborhood of $5 \times 5$ pixels.
   //
   //  Software Guide : EndLatex 
 
@@ -285,7 +259,6 @@ int main( int argc, char *argv[] )
   neighborhoodConnected->SetSeed( index );
   neighborhoodConnected->SetReplaceValue( 255 );
   // Software Guide : EndCodeSnippet
- 
 
   
   //  Software Guide : BeginLatex
@@ -311,11 +284,11 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Let's now run this example using as input the image
-  //  \code{BrainProtonDensitySlice.png} provided in the directory
-  //  \code{Examples/Data}. We can easily segment the major anatomical
-  //  structures by providing seeds in the appropriate locations and defining
-  //  values for the lower and upper thresholds. For example,
+  //  Now we'll run this example using the image
+  //  \code{BrainProtonDensitySlice.png} as input available from the
+  //  directory \code{Examples/Data}. We can easily segment the major
+  //  anatomical structures by providing seeds in the appropriate locations
+  //  and defining values for the lower and upper thresholds. For example
   //
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|}
@@ -338,7 +311,7 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //  As with the \doxygen{ConnectedThresholdImageFilter}, several seeds could
-  //  have been provided to the filter by using the \code{AddSeed()} method.
+  //  beprovided to the filter by using the \code{AddSeed()} method.
   //  Compare the output of Figure
   //  \ref{fig:NeighborhoodConnectedImageFilterOutput} with those of Figure
   //  \ref{fig:ConnectedThresholdOutput} produced by the
@@ -349,11 +322,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
-
-
-
   return 0;
-
 }
 
 

@@ -20,27 +20,29 @@
 
 // Software Guide : BeginLatex
 //
-// The following example illustrates how to preprocess and segment images using
-// the \code{itk::WatershedImageFilter}. Note that the care with which the data
-// is prepared will greatly affect the quality of your result.  Typically, the
-// best results are obtained by preprocessing the original image with an
-// edge-preserving diffusion filter, such as one of the anisotropic diffusion filters,
-// or with the bilateral image filter.  As noted in
-// Section~\ref{sec:AboutWatersheds}, the height function used as input should
-// be created such that higher positive values correspond to object boundaries.
-// A suitable height function for many applications can be generated as the
-// gradient magnitude of the image to be segmented.
+// The following example illustrates how to preprocess and segment images
+// using the \doxygen{WatershedImageFilter}. Note that the care with which
+// the data is preprocessed will greatly affect the quality of your result.
+// Typically, the best results are obtained by preprocessing the original
+// image with an edge-preserving diffusion filter, such as one of the
+// anisotropic diffusion filters, or with the bilateral image filter.  As
+// noted in Section~\ref{sec:AboutWatersheds}, the height function used as
+// input should be created such that higher positive values correspond to
+// object boundaries.  A suitable height function for many applications can
+// be generated as the gradient magnitude of the image to be segmented.
 //
-// The \code{itk::VectorGradientMagnitudeAnisotropicDiffusionImageFilter} class
+// The \doxygen{VectorGradientMagnitudeAnisotropicDiffusionImageFilter} class
 // is used to smooth the image and the
-// \code{itk::VectorGradientMagnitudeImageFilter} to generate the height
-// function.  We begin by including all preprocessing filter header files and
-// the header file for the \code{itk::WatershedImageFilter}.  We use the vector
-// versions of these filters because the input data is a color image.
+// \doxygen{VectorGradientMagnitudeImageFilter} is used to generate the
+// height function.  We begin by including all preprocessing filter header
+// files and the header file for the WatershedImageFilter.  We
+// use the vector versions of these filters because the input data is a color
+// image.
 //
 // 
 // Software Guide : EndLatex
 #include <iostream>
+
 // Software Guide : BeginCodeSnippet
 #include "itkVectorGradientAnisotropicDiffusionImageFilter.h"
 #include "itkVectorGradientMagnitudeImageFilter.h"
@@ -57,10 +59,10 @@ int main( int argc, char *argv[] )
 {
   if (argc < 8 )
     {
-      std::cerr << "Missing Parameters " << std::endl;
-      std::cerr << "Usage: " << argv[0];
-      std::cerr << " inputImage outputImage conductanceTerm diffusionIterations lowerThreshold outputScaleLevel gradientMode " << std::endl;
-      return 1;
+    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " inputImage outputImage conductanceTerm diffusionIterations lowerThreshold outputScaleLevel gradientMode " << std::endl;
+    return 1;
     }
   
   // Software Guide : BeginLatex
@@ -70,7 +72,7 @@ int main( int argc, char *argv[] )
   // work properly.  The preprocessing stages are done directly on the
   // vector-valued data and the segmentation is done using floating point
   // scalar data.  Images are converted from RGB pixel type to
-  // numerical vector type using \code{itk::VectorCastImageFilter}.
+  // numerical vector type using \doxygen{VectorCastImageFilter}.
   //
   // Software Guide : EndLatex
 
@@ -86,7 +88,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // The various image processing filters are declared using the types created
-  // above in the order that they will be used in the pipeline.
+  // above and eventually used in the pipeline.
   //
   // Software Guide : EndLatex
 
@@ -109,15 +111,14 @@ int main( int argc, char *argv[] )
   
   // Software Guide : BeginLatex
   //
-  // Next we instantiate the filters and set their parameters.  The
-  // first step in the image processing pipeline is diffusion of the
-  // color input image using an anisotropic diffusion filter.  For
-  // this class of filters, the CFL condition requires that the time
-  // step be no more than 0.25 for two-dimensional images, and no more
-  // than 0.125 for three-dimensional images.  The number of
-  // iterations and the conductance term will be taken from the
-  // command line. See Section
-  // \ref{sec:EdgePreservingSmoothingFilters} for more information on
+  // Next we instantiate the filters and set their parameters.  The first
+  // step in the image processing pipeline is diffusion of the color input
+  // image using an anisotropic diffusion filter.  For this class of filters,
+  // the CFL condition requires that the time step be no more than 0.25 for
+  // two-dimensional images, and no more than 0.125 for three-dimensional
+  // images.  The number of iterations and the conductance term will be taken
+  // from the command line. See
+  // Section~\ref{sec:EdgePreservingSmoothingFilters} for more information on
   // the ITK anisotropic diffusion filters.
   //
   // Software Guide : EndLatex
@@ -134,6 +135,8 @@ int main( int argc, char *argv[] )
   // The ITK gradient magnitude filter for vector-valued images can optionally
   // take several parameters.  Here we allow only enabling or disabling 
   // of principle component analysis.
+  //
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   GradientMagnitudeFilterType::Pointer gradient = GradientMagnitudeFilterType::New();
@@ -144,8 +147,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // Finally we set up the watershed filter.  There are two parameters.
-  // ``Level'' controls watershed depth, and ``Threshold'' controls the lower
-  // thresholding of the input.  Both parameters are set as a
+  // \code{Level} controls watershed depth, and \code{Threshold} controls the
+  // lower thresholding of the input.  Both parameters are set as a
   // percentage (0.0 - 1.0) of the maximum depth in the input image.
   //
   // Software Guide : EndLatex
@@ -158,17 +161,17 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // The output of \code{itk::WatershedImageFilter} is an image of unsigned
-  // long integer labels, where a label denotes membership of a pixel in a
-  // particular segmented region.  This format is not practical for
-  // visualization, so for the purposes of this example, we will
-  // convert it to RGB pixels.  RGB images have the advantage that they can be saved as a simple png file and
-  // viewed using any standard image viewer software.  The
-  // \code{itk::Functor::ScalarToRGBPixelFunctor} class is a special function
-  // object designed to hash a scalar value into an
-  // \code{itk::RGBPixel}. Plugging this functor into the
-  // \code{itk::UnaryFunctorImageFilter} creates an image to image filter for
-  // converting scalar to RGB images.
+  // The output of WatershedImageFilter is an image of unsigned long integer
+  // labels, where a label denotes membership of a pixel in a particular
+  // segmented region.  This format is not practical for visualization, so
+  // for the purposes of this example, we will convert it to RGB pixels.  RGB
+  // images have the advantage that they can be saved as a simple png file
+  // and viewed using any standard image viewer software.  The
+  // \subdoxygen{Functor}{ScalarToRGBPixelFunctor} class is a special
+  // function object designed to hash a scalar value into an
+  // \doxygen{RGBPixel}. Plugging this functor into the
+  // \doxygen{UnaryFunctorImageFilter} creates an image filter for that
+  // converts scalar images to RGB images.
   //
   // Software Guide : EndLatex
 
@@ -177,19 +180,17 @@ int main( int argc, char *argv[] )
     ColorMapFunctorType;
   typedef itk::UnaryFunctorImageFilter<LabeledImageType,
     RGBImageType, ColorMapFunctorType> ColorMapFilterType;
-
   ColorMapFilterType::Pointer colormapper = ColorMapFilterType::New();
   // Software Guide : EndCodeSnippet
 
-  
   
   FileWriterType::Pointer writer = FileWriterType::New();
   writer->SetFileName(argv[2]);
 
   // Software Guide : BeginLatex
   //
-  // The filters are connected into a single pipeline, with readers and writers
-  // at each end.
+  // The filters are connected into a single pipeline, with readers and
+  // writers at each end.
   //
   // Software Guide : EndLatex
 
@@ -202,14 +203,14 @@ int main( int argc, char *argv[] )
   writer->SetInput(colormapper->GetOutput());
   // Software Guide : EndCodeSnippet
 
-  try {
+  try 
+    {
     writer->Update();
-  }
+    }
   catch (itk::ExceptionObject &e)
     {
-      std::cerr << e << std::endl;
+    std::cerr << e << std::endl;
     }
-  
     
   return 0;
 }
@@ -230,14 +231,15 @@ int main( int argc, char *argv[] )
 // off. } \label{fig:outputWatersheds} \end{figure}
 //
 //
-// Tuning the filter parameters for any particular application is a process of
-// trial and error.  The {\em threshold} parameter can be used to great
+// Tuning the filter parameters for any particular application is a process
+// of trial and error.  The \emph{threshold} parameter can be used to great
 // effect in controlling oversegmentation of the image.  Raising the
 // threshold will generally reduce computation time and produce output with
 // fewer and larger regions.  The trick in tuning parameters is to consider
-// the scale level of the objects you are trying to segment in the image.  The best
-// time/quality trade-off will be achieved when the image is smoothed and
-// thresholded to eliminate features just below the desired scale.
+// the scale level of the objects that you are trying to segment in the
+// image.  The best time/quality trade-off will be achieved when the image is
+// smoothed and thresholded to eliminate features just below the desired
+// scale.
 //
 // Figure~\ref{fig:outputWatersheds} shows output from the example code.  The
 // input image is taken from the Visible Human female data around the right

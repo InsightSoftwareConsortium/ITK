@@ -26,14 +26,14 @@
 // upper threshold for the first seed. A binary search is used to find the
 // value that separates both seeds.
 //
-// The current code follows closely the previous examples. Only the relevant
-// pieces of code are hightlighted here. 
+// This example closely follows the previous ones. Only the relevant pieces
+// of code are hightlighted here.
 //
 // Software Guide : EndLatex 
 
 //  Software Guide : BeginLatex
 //  
-//  The header of the \doxygen{IsolatedConnectedImageFilter} is included below.
+//  The header of the IsolatedConnectedImageFilter is included below.
 //
 //  \index{itk::Isolated\-Connected\-Image\-Filter!header}
 //
@@ -53,8 +53,6 @@
 
 int main( int argc, char *argv[] )
 {
-
-
   if( argc < 7 )
     {
     std::cerr << "Missing Parameters " << std::endl;
@@ -65,33 +63,28 @@ int main( int argc, char *argv[] )
     }
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  We declare the image type using a pixel type and a particular
-  //  dimension. 
+  //  We define the image type using a pixel type and a particular
+  //  dimension.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef   float           InternalPixelType;
   const     unsigned int    Dimension = 2;
-  
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
   // Software Guide : EndCodeSnippet
 
 
   typedef unsigned char OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-
-  typedef itk::CastImageFilter< 
-                        InternalImageType, 
-                        OutputImageType    >    CastingFilterType;
+  typedef itk::CastImageFilter< InternalImageType, OutputImageType >
+    CastingFilterType;
   
   CastingFilterType::Pointer caster = CastingFilterType::New();
                         
-  //
+
   // We instantiate reader and writer types
   //
   typedef  itk::ImageFileReader< InternalImageType > ReaderType;
@@ -104,36 +97,27 @@ int main( int argc, char *argv[] )
   writer->SetFileName( argv[2] );
 
 
-
-  typedef   itk::CurvatureFlowImageFilter< 
-                               InternalImageType, 
-                               InternalImageType >  CurvatureFlowImageFilterType;
-
-
-    CurvatureFlowImageFilterType::Pointer smoothing = 
+  typedef itk::CurvatureFlowImageFilter< InternalImageType, InternalImageType >
+    CurvatureFlowImageFilterType;
+  CurvatureFlowImageFilterType::Pointer smoothing = 
                          CurvatureFlowImageFilterType::New();
-
 
 
   //  Software Guide : BeginLatex
   //  
-  //  The type of the \doxygen{IsolatedConnectedImageFilter} is instantiated in
-  //  the lines below. 
+  //  The IsolatedConnectedImageFilter is instantiated in the lines below.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::IsolatedConnectedImageFilter< 
-                                    InternalImageType, 
-                                    InternalImageType > ConnectedFilterType;
+  typedef itk::IsolatedConnectedImageFilter<InternalImageType, InternalImageType>
+    ConnectedFilterType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
   //  
-  //  One filter of this class is constructed using the \code{New()} method. 
+  //  One filter of this class is constructed using the \code{New()} method.
   //
   //  Software Guide : EndLatex 
 
@@ -142,21 +126,16 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  Now it is time to connect the pipeline. 
+  //  Now it is time to connect the pipeline.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   smoothing->SetInput( reader->GetOutput() );
-
   isolatedConnected->SetInput( smoothing->GetOutput() );
-
   caster->SetInput( isolatedConnected->GetOutput() );
-
   writer->SetInput( caster->GetOutput() );
   // Software Guide : EndCodeSnippet
 
@@ -165,13 +144,11 @@ int main( int argc, char *argv[] )
   smoothing->SetTimeStep( 0.125 );
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{IsolatedConnectedImageFilter} expects as parameters one
-  //  threshold and two seeds. We take all of them from the command line
-  //  arguments.
+  //  The IsolatedConnectedImageFilter expects the user to specify a
+  //  threshold and two seeds. In this example, wetake all of them from the
+  //  command line arguments.
   //
   //  \index{itk::Isolated\-Connected\-Image\-Filter!SetLower()}
   //  \index{itk::Isolated\-Connected\-Image\-Filter!SetSeed1()}
@@ -195,18 +172,16 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   isolatedConnected->SetLower(  lowerThreshold  );
-  
   isolatedConnected->SetSeed1( indexSeed1 );
   isolatedConnected->SetSeed2( indexSeed2 );
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  As in the \doxygen{ConnectedThresholdImageFilter} we must now provide the
-  //  intensity value to be used for the output pixels accepted in the region
-  //  and at least one seed point to define the initial region.
+  //  As in the \doxygen{ConnectedThresholdImageFilter} we must now specify
+  //  the intensity value to be set on the output pixels and at least one
+  //  seed point to define the initial region.
   //
   //  \index{itk::Isolated\-Connected\-Image\-Filter!SetReplaceValue()}
   //
@@ -216,13 +191,12 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   isolatedConnected->SetReplaceValue( 255 );
   // Software Guide : EndCodeSnippet
- 
 
   
   //  Software Guide : BeginLatex
   //  
   //  The invocation of the \code{Update()} method on the writer triggers the
-  //  execution of the pipeline.  
+  //  execution of the pipeline.
   //
   //  Software Guide : EndLatex 
 
@@ -239,14 +213,10 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
-
   //  Software Guide : BeginLatex
   //  
-  //  The intensity value allowing us to separate both regions can be recovered
-  //  with the method \code{GetIsolatedValue()}
+  //  The intensity value allowing us to separate both regions can be
+  //  recovered with the method \code{GetIsolatedValue()}
   //
   //  \index{itk::Isolated\-Connected\-Image\-Filter!GetIsolatedValue()}
   //
@@ -257,28 +227,22 @@ int main( int argc, char *argv[] )
   std::cout << isolatedConnected->GetIsolatedValue()  << std::endl;
   // Software Guide : EndCodeSnippet
 
-
-
-
-
   
   //  Software Guide : BeginLatex
   //
-  //  Let's now run this example using as input the image
+  //  Let's now run this example using the image
   //  \code{BrainProtonDensitySlice.png} provided in the directory
-  //  \code{Examples/Data}. We can easily segment the major
-  //  anatomical structures by providing seed pairs in the appropriate
-  //  locations and defining values for the lower threshold. It is
-  //  important to keep in mind in this and the previous examples that
-  //  the segmentation is being performed in the smoothed version of
-  //  the image. The selection of threshold values should henceforth
-  //  be done in the smoothed image since the distribution of
-  //  intensities could be quite different from that of the input
-  //  image.  As a reminder of this fact, Figure
-  //  \ref{fig:IsolatedConnectedImageFilterOutput} presents, from left
-  //  to right, the input image and the result of smoothing with the
-  //  \doxygen{CurvatureFlowImageFilter} followed by segmentation
-  //  results.
+  //  \code{Examples/Data}. We can easily segment the major anatomical
+  //  structures by providing seed pairs in the appropriate locations and
+  //  defining values for the lower threshold. It is important to keep in
+  //  mind in this and the previous examples that the segmentation is being
+  //  performed in the smoothed version of the image. The selection of
+  //  threshold values should therefore be performed in the smoothed image
+  //  since the distribution of intensities could be quite different from
+  //  that of the input image.  As a reminder of this fact, Figure
+  //  \ref{fig:IsolatedConnectedImageFilterOutput} presents, from left to
+  //  right, the input image and the result of smoothing with the
+  //  \doxygen{CurvatureFlowImageFilter} followed by segmentation results.
   //
   //  This filter is intended to be used in cases where adjacent anatomical
   //  structures are difficult to separate. Selecting one seed in one structure
@@ -315,10 +279,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
 
-
-
   return 0;
-
 }
 
 

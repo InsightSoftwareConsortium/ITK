@@ -19,17 +19,18 @@
 //
 // \index{itk::Threshold\-Segmentation\-Level\-Set\-Image\-Filter}
 //
-// The \doxygen{ThresholdSegmentationLevelSetImageFilter} is an extension of threshold
-// connected-component segmentation to the level-set framework.  The goal is to
-// define a range of intensity values that classify the tissue type of interest
-// and then base the propagation term of the level-set equation on that
-// intensity range.  Using the level-set approach, the smoothness of the
-// evolving surface can be constrained to prevent some of the ``leaking'' that
-// is common in connected-component schemes.
+// The \doxygen{ThresholdSegmentationLevelSetImageFilter} is an extension of
+// the threshold connected-component segmentation to the level set framework.
+// The goal is to define a range of intensity values that classify the tissue
+// type of interest and then base the propagation term on the level set
+// equation for that intensity range.  Using the level set approach, the
+// smoothness of the evolving surface can be constrained to prevent some of
+// the ``leaking'' that is common in connected-component schemes.
 //
-// The propagation term $P$ from equation~\ref{eqn:LevelSetEquation} is
-// calculated from the \code{FeatureImage} input $g$ with \code{UpperThreshold}
-// $U$ and \code{LowerThreshold} $L$ according to the following formula.
+// The propagation term $P$ from Equation~\ref{eqn:LevelSetEquation} is
+// calculated from the \code{FeatureImage} input $g$ with
+// \code{UpperThreshold} $U$ and \code{LowerThreshold} $L$ according to the
+// following formula.
 //
 // \begin{equation}
 // \label{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm}
@@ -49,19 +50,19 @@
 // \label{fig:ThresholdSegmentationLevelSetImageFilterDiagram}
 // \end{figure}
 //
-// \itkpiccaption[Propagation term for threshold-based level-set
-// segmentation]{Propagation term for threshold-based level-set segmentation.
+// \itkpiccaption[Propagation term for threshold-based level set
+// segmentation]{Propagation term for threshold-based level set segmentation.
 // From
-// equation~\ref{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm}.
+// Equation~\ref{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm}.
 // \label{fig:ThresholdSegmentationSpeedTerm}}
 // \parpic(7.0cm,4.5cm)[r]{\includegraphics[width=6.5cm]{ThresholdSegmentationLevelSetImageFilterFigure1.eps}}
 //
-// The \code{ThresholdSegmentation} filter expects two inputs.  The first is an
-// initial level set in the form of an \doxygen{Image}. The second input is the
-// feature image $g$.  For many applications, this filter requires little or no
-// preprocessing of its input.  Smoothing the input image is not usually
-// required to produce reasonable solutions, though it may still be warranted
-// in some cases.
+// The threshold segmentation} filter expects two inputs.  The first is an
+// initial level set in the form of an \doxygen{Image}. The second input is
+// the feature image $g$.  For many applications, this filter requires little
+// or no preprocessing of its input.  Smoothing the input image is not
+// usually required to produce reasonable solutions, though it may still be
+// warranted in some cases.
 // 
 // Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilterDiagram} shows how
 // the image processing pipeline is constructed. The initial surface is
@@ -86,7 +87,6 @@
 
 int main( int argc, char *argv[] )
 {
-
   if( argc < 8 )
     {
     std::cerr << "Missing Parameters " << std::endl;
@@ -102,7 +102,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  We declare the image type using a pixel type and a particular
+  //  We define the image type using a particular pixel type and
   //  dimension. In this case we will use 2D \code{float} images.
   //
   //  Software Guide : EndLatex 
@@ -110,15 +110,13 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef   float           InternalPixelType;
   const     unsigned int    Dimension = 2;
-  
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
   // Software Guide : EndCodeSnippet
 
   typedef unsigned char OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::BinaryThresholdImageFilter< 
-                        InternalImageType, 
-                        OutputImageType    >    ThresholdingFilterType;
+  typedef itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>
+    ThresholdingFilterType;
   
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
                         
@@ -137,42 +135,37 @@ int main( int argc, char *argv[] )
   reader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
 
-  //  
+
   //  We now declare the type of the \doxygen{FastMarchingImageFilter} that
   //  will be used to generate the initial level set in the form of a distance
   //  map.
   //
-  typedef  itk::FastMarchingImageFilter< 
-                              InternalImageType, 
-                              InternalImageType >    FastMarchingFilterType;
+  typedef  itk::FastMarchingImageFilter< InternalImageType, InternalImageType >
+    FastMarchingFilterType;
 
   FastMarchingFilterType::Pointer  fastMarching = FastMarchingFilterType::New();
   
   //  Software Guide : BeginLatex
   //  
   //  The following lines instantiate a
-  //  \doxygen{ThresholdSegmentationLevelSetImageFilter} and create an object of this type
-  //  using the \code{New()} method.
+  //  ThresholdSegmentationLevelSetImageFilter using the \code{New()} method.
   //
   //  Software Guide : EndLatex 
   
   // Software Guide : BeginCodeSnippet
-  typedef  itk::ThresholdSegmentationLevelSetImageFilter< 
-                              InternalImageType, 
-                              InternalImageType >    
-                                  ThresholdSegmentationLevelSetImageFilterType;
-
-  ThresholdSegmentationLevelSetImageFilterType::Pointer thresholdSegmentation = 
-                            ThresholdSegmentationLevelSetImageFilterType::New();
+  typedef  itk::ThresholdSegmentationLevelSetImageFilter< InternalImageType, 
+    InternalImageType > ThresholdSegmentationLevelSetImageFilterType;
+  ThresholdSegmentationLevelSetImageFilterType::Pointer thresholdSegmentation =
+    ThresholdSegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
   
   //  Software Guide : BeginLatex
   //  
-  //  For the \doxygen{ThresholdSegmentationLevelSetImageFilter}, scaling
+  //  For the ThresholdSegmentationLevelSetImageFilter, scaling
   //  parameters are used to balance the influence of the propagation
   //  (inflation) and the curvature (surface smoothing) terms from
-  //  equation~\ref{eqn:LevelSetEquation}. The advection term is not used in
+  //  Equation~\ref{eqn:LevelSetEquation}. The advection term is not used in
   //  this filter. Set the terms with methods \code{SetPropagationScaling()}
   //  and \code{SetCurvatureScaling()}. Both terms are set to 1.0 in this
   //  example.
@@ -197,11 +190,12 @@ int main( int argc, char *argv[] )
   
   //  Software Guide : EndCodeSnippet 
 
-  //  The level-set solver will stop if the convergence criteria has
-  //  been reached or if the maximum number of iterations has elasped.
-  //  The convergence criteria is defined in terms of the root mean squared (RMS)
+  //  The level set solver will stop if the convergence criteria has been
+  //  reached or if the maximum number of iterations has elasped.  The
+  //  convergence criteria is defined in terms of the root mean squared (RMS)
   //  change in the level set function. When RMS change for an iteration is
-  //  below a user-specified threshold, the solution is considered to have converged.
+  //  below a user-specified threshold, the solution is considered to have
+  //  converged.
     thresholdSegmentation->SetMaximumRMSError( 0.02 );
     thresholdSegmentation->SetMaximumIterations( 1200 );
 
@@ -211,9 +205,9 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // The convergence criteria \code{MaximumRMSError} and
-  // \code{MaximumIterations} are set as in previous examples.  We now set the
-  // upper and lower threshold values $U$ and $L$, and the isosurface value to
-  // use in the initial model.
+  // \code{MaximumIterations} are set as in previous examples.  We now set
+  // the upper and lower threshold values $U$ and $L$, and the isosurface
+  // value to use in the initial model.
   //
   // Software Guide : EndLatex
 
@@ -227,10 +221,10 @@ int main( int argc, char *argv[] )
   //  
   //  The filters are now connected in a pipeline indicated in
   //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilterDiagram}.
-  //  Remember that before calling \code{Update()} on the file writer object, the fast
-  //  marching filter must be initialized with the seed points and the output
-  //  from the reader object.  See previous examples and the source code for
-  //  this section for details.
+  //  Remember that before calling \code{Update()} on the file writer object,
+  //  the fast marching filter must be initialized with the seed points and
+  //  the output from the reader object.  See previous examples and the
+  //  source code for this section for details.
   //
   //  Software Guide : EndLatex 
   
@@ -242,42 +236,37 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
   //
-  //  The \doxygen{FastMarchingImageFilter} requires the user to provide a seed
+  //  The FastMarchingImageFilter requires the user to provide a seed
   //  point from which the level set will be generated. The user can actually
   //  pass not only one seed point but a set of them. Note the the
-  //  \doxygen{FastMarchingImageFilter} is used here only as a helper in the
+  //  FastMarchingImageFilter is used here only as a helper in the
   //  determination of an initial Level Set. We could have used the
   //  \doxygen{DanielssonDistanceMapImageFilter} in the same way.
   //
-  //
   //  The seeds are passed stored in a container. The type of this
   //  container is defined as \code{NodeContainer} among the
-  //  \doxygen{FastMarchingImageFilter} traits.
+  //  FastMarchingImageFilter traits.
   //
-
   typedef FastMarchingFilterType::NodeContainer           NodeContainer;
   typedef FastMarchingFilterType::NodeType                NodeType;
 
   NodeContainer::Pointer seeds = NodeContainer::New();
-  
 
   InternalImageType::IndexType  seedPosition;
   
   seedPosition[0] = atoi( argv[3] );
   seedPosition[1] = atoi( argv[4] );
 
-  //
   //  Nodes are created as stack variables and initialized with a value and an
   //  \doxygen{Index} position. Note that here we assign the value of minus the
   //  user-provided distance to the unique node of the seeds passed to the
-  //  \doxygen{FastMarchingImageFilter}. In this way, the value will increment
+  //  FastMarchingImageFilter. In this way, the value will increment
   //  as the front is propagated, until it reaches the zero value corresponding
   //  to the contour. After this, the front will continue propagating until it
   //  fills up the entire image. The initial distance is taken here from the
   //  command line arguments. The rule of thumb for the user is to select this
   //  value as the distance from the seed points at which he want the initial
   //  contour to be.
-  //
 
   const double initialDistance = atof( argv[5] );
 
@@ -291,36 +280,30 @@ int main( int argc, char *argv[] )
   //
   //  The list of nodes is initialized and then every node is inserted using
   //  the \code{InsertElement()}.
-  //
-
   seeds->Initialize();
   seeds->InsertElement( 0, node );
 
-  //
-  //  The set of seed nodes is passed now to the
-  //  \doxygen{FastMarchingImageFilter} with the method
-  //  \code{SetTrialPoints()}.
-  //
 
+  //  The set of seed nodes is passed now to the
+  //  FastMarchingImageFilter with the method
+  //  \code{SetTrialPoints()}.
   fastMarching->SetTrialPoints(  seeds  );
 
   //  
-  //  Since the \doxygen{FastMarchingImageFilter} is used here just as a
+  //  Since the FastMarchingImageFilter is used here just as a
   //  Distance Map generator. It does not require a speed image as input.
   //  Instead the constant value $1.0$ is passed using the
   //  \code{SetSpeedConstant()} method.
-  //
   
   fastMarching->SetSpeedConstant( 1.0 );
 
-  //
-  //  The \doxygen{FastMarchingImageFilter} requires the user to specify the
+
+  //  The FastMarchingImageFilter requires the user to specify the
   //  size of the image to be produced as output. This is done using the
   //  \code{SetOutputSize()}. Note that the size is obtained here from the
   //  output image of the smoothing filter. The size of this image is valid
   //  only after the \code{Update()} methods of this filter has been called
   //  directly or indirectly.
-  //
 
   
   //  Software Guide : BeginLatex
@@ -334,12 +317,10 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   try
     {
-      reader->Update();
-      fastMarching->SetOutputSize( 
-           reader->GetOutput()->GetBufferedRegion().GetSize() );
-
-      writer->Update();
-
+    reader->Update();
+    fastMarching->SetOutputSize( 
+      reader->GetOutput()->GetBufferedRegion().GetSize() );
+    writer->Update();
     }
   catch( itk::ExceptionObject & excep )
     {
@@ -357,7 +338,6 @@ int main( int argc, char *argv[] )
   std::cout << "RMS change: " << thresholdSegmentation->GetRMSChange() << std::endl;
 
 
-  //
   // We write out some intermediate images for debugging.  These images can
   // help tune parameters.
   //
@@ -373,36 +353,32 @@ int main( int argc, char *argv[] )
   speedWriter->SetFileName("speedTermImage.mha");
   speedWriter->Update();
 
-
   //  Software Guide : BeginLatex
   //
   //  Let's run this application with the same data and parameters as the
-  //  example given for \code{itk::ConnectedThreshold} in
-  //  section~\ref{sec:ConnectedThreshold}. We will use a value of 5 as the
+  //  example given for \doxygen{ConnectedThresholdImageFilter} in
+  //  Section~\ref{sec:ConnectedThreshold}. We will use a value of 5 as the
   //  initial distance of the surface from the seed points.  The algorithm is
-  //  relatively insensitive to this initialization.
-  //  Compare the results in
-  //  figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter} with those in
-  //  figure~\ref{fig:ConnectedThresholdOutput}. Notice how the smoothness 
-  //  constraint on the surface prevents leakage of the segmentation into both
-  //  ventricles, but also localizes the segmentation to a smaller portion of
-  //  the gray matter.
+  //  relatively insensitive to this initialization.  Compare the results in
+  //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter} with those in
+  //  Figure~\ref{fig:ConnectedThresholdOutput}. Notice how the smoothness
+  //  constraint on the surface prevents leakage of the segmentation into
+  //  both ventricles, but also localizes the segmentation to a smaller
+  //  portion of the gray matter.
   //
   //  \begin{figure}
   //  \includegraphics[width=0.24\textwidth]{BrainProtonDensitySlice.eps}
   //  \includegraphics[width=0.24\textwidth]{ThresholdSegmentationLevelSetImageFilterWhiteMatter.eps}
   //  \includegraphics[width=0.24\textwidth]{ThresholdSegmentationLevelSetImageFilterVentricle.eps}
   //  \includegraphics[width=0.24\textwidth]{ThresholdSegmentationLevelSetImageFilterGrayMatter.eps}
-  // \itkcaption[ThresholdSegmentationLevelSet segmentations]{Images generated by the
-  // segmentation process based on the ThresholdSegmentationLevelSet. From left to
-  // right: segmentation of the left ventricle, segmentation of the right
-  // ventricle, segmentation of the white matter, attempt of segmentation of
-  // the gray matter. The parameters used in this segmentations are presented in Table~\ref{tab:ThresholdSegmentationLevelSetImageFilter}}
-  //  \label{fig:ThresholdSegmentationLevelSetImageFilter}
-  //  \end{figure}
-  //
-  //
-  //
+  // \itkcaption[ThresholdSegmentationLevelSet segmentations]{Images
+  // generated by the segmentation process based on the
+  // ThresholdSegmentationLevelSetImageFilter. From left to right:
+  // segmentation of the left ventricle, segmentation of the right ventricle,
+  // segmentation of the white matter, attempt of segmentation of the gray
+  // matter. The parameters used in this segmentations are presented in
+  // Table~\ref{tab:ThresholdSegmentationLevelSetImageFilter}}
+  // \label{fig:ThresholdSegmentationLevelSetImageFilter} \end{figure}
   //
   //  \begin{table}
   //  \begin{center}
@@ -414,11 +390,11 @@ int main( int argc, char *argv[] )
   //  Gray matter  & $(107,69)$ & 180 & 210 & Fourth from left  \\  \hline
   //  \end{tabular}
   //  \itkcaption[ThresholdSegmentationLevelSet segmentation parameters]
-  //  {Segmentation results of ThresholdSegmentationLevelSetImageFilter for
-  //  various seed points. The resulting images are shown in
+  //  {Segmentation results using the
+  //  ThresholdSegmentationLevelSetImageFilter for various seed points. The
+  //  resulting images are shown in
   //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter}
-  //  \label{tab:ThresholdSegmentationLevelSetImageFilter} }.
-  //  \end{center}
+  //  \label{tab:ThresholdSegmentationLevelSetImageFilter} }.  \end{center}
   //  \end{table}
   // 
   //  Software Guide : EndLatex 

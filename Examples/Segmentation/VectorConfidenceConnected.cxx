@@ -17,8 +17,8 @@
 
 //  Software Guide : BeginLatex
 //  
-//  This example illustrates the use of the Confidence connected concept
-//  applied to images with vector pixel types. The Confidence connected
+//  This example illustrates the use of the confidence connected concept
+//  applied to images with vector pixel types. The confidence connected
 //  algorithm is implemented for vector images in the class
 //  \doxygen{VectorConfidenceConnected}. The basic difference between the
 //  scalar and vector version is that the vector version uses the covariance
@@ -28,7 +28,6 @@
 //  \subdoxygen{Statistics}{MahalanobisDistanceImageFunction}.
 //
 //  Software Guide : EndLatex 
-
 
 
 // Software Guide : BeginCodeSnippet
@@ -44,8 +43,6 @@
 
 int main( int argc, char *argv[] )
 {
-
-
   if( argc < 7 )
     {
     std::cerr << "Missing Parameters " << std::endl;
@@ -55,22 +52,18 @@ int main( int argc, char *argv[] )
     }
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  We now declare the image type using a pixel type and a particular
-  //  dimension. In this case the \code{float} type is used for the pixels due
-  //  to the requirements of the smoothing filter. 
+  //  We now define the image type using a particular pixel type and
+  //  dimension. In this case the \code{float} type is used for the pixels
+  //  due to the requirements of the smoothing filter.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef   unsigned char                         PixelComponentType;
   typedef   itk::RGBPixel< PixelComponentType >   InputPixelType;
-  
   const     unsigned int    Dimension = 2;
-  
   typedef itk::Image< InputPixelType, Dimension >  InputImageType;
   // Software Guide : EndCodeSnippet
 
@@ -79,7 +72,6 @@ int main( int argc, char *argv[] )
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
                         
-  //
   // We instantiate reader and writer types
   //
   typedef  itk::ImageFileReader<  InputImageType   > ReaderType;
@@ -92,24 +84,22 @@ int main( int argc, char *argv[] )
   writer->SetFileName( argv[2] );
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  We now declare the type of the region growing filter. In this case it is
-  //  the \doxygen{VectorConfidenceConnectedImageFilter}. 
+  //  We now declare the type of the region growing filter. In this case it
+  //  is the \doxygen{VectorConfidenceConnectedImageFilter}.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::VectorConfidenceConnectedImageFilter< 
-                                    InputImageType, 
+  typedef  itk::VectorConfidenceConnectedImageFilter< InputImageType, 
                                     OutputImageType > ConnectedFilterType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //  
-  //  Then, we  construct one filter of this class using the \code{New()} method. 
+  //  Then, we construct one filter of this class using the \code{New()}
+  //  method.
   //
   //  Software Guide : EndLatex 
 
@@ -118,33 +108,28 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
-  //  Now it is time to connect the pipeline. This is pretty linear in our
-  //  example.  
+  //  Next we create a simple, linear data processing pipeline.
   //  
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-
   confidenceConnected->SetInput( reader->GetOutput() );
-
   writer->SetInput( confidenceConnected->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{VectorConfidenceConnectedImageFilter} has two parameters
-  //  to be defined. First, the factor $f$ that the defines how large
-  //  the range of intensities will be. Small values of the multiplier
-  //  will restrict the inclusion of pixels to those having very
-  //  similar intensities to those in the current region. Larger
-  //  values of the multiplier will relax the accepting condition and
-  //  will result in more generous growth of the region. Values that
-  //  are too large will make the region ingest neighbor regions in
-  //  the image that may actually belong to separate anatomical
+  //  The VectorConfidenceConnectedImageFilter requires specifying two
+  //  parameters.  First, the multiplier factor $f$ defines how large the
+  //  range of intensities will be. Small values of the multiplier will
+  //  restrict the inclusion of pixels to those having similar intensities to
+  //  those already in the current region. Larger values of the multiplier
+  //  relax the accepting condition and result in more generous growth of the
+  //  region. Values that are too large will cause the region to grow into
+  //  neighboring regions that may actually belong to separate anatomical
   //  structures.
   //
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetMultiplier()}
@@ -158,20 +143,18 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  The number of iterations may be decided based on the homogeneity of the
-  //  intensities of the anatomical structure to be segmented. Highly homogeneous
-  //  regions may only require a couple of iterations. Regions with ramp
-  //  effects, like MRI images with inhomogenous fields, may require
-  //  more iterations. In practice, it seems to be more relevant to carefully
-  //  select the multiplier factor than the number of iterations.
-  //  However, keep in mind that there is no reason to assume that this
-  //  algorithm should converge to a stable region. It is possible that by
-  //  letting the algorithm run for more iterations the region will end up
-  //  engulfing the entire image.
+  //  The number of iterations is typically determined based on the
+  //  homogeneity of the image intensity representing the anatomical
+  //  structure to be segmented. Highly homogeneous regions may only require
+  //  a couple of iterations. Regions with ramp effects, like MRI images with
+  //  inhomogenous fields, may require more iterations. In practice, it seems
+  //  to be more relevant to carefully select the multiplier factor than the
+  //  number of iterations.  However, keep in mind that there is no reason to
+  //  assume that this algorithm should converge to a stable region. It is
+  //  possible that by letting the algorithm run for more iterations the
+  //  region will end up engulfing the entire image.
   //
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetNumberOfIterations()}
   //
@@ -184,13 +167,12 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The output of this filter is a binary image with zero-value pixels
-  //  everywhere except on the extracted region. The intensity value to be put
-  //  inside the region is selected with the method \code{SetReplaceValue()}
+  //  everywhere except on the extracted region. The intensity value to be
+  //  put inside the region is selected with the method
+  //  \code{SetReplaceValue()}
   //
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetReplaceValue()}
   //
@@ -201,15 +183,14 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The initialization of the algorithm requires the user to provide a seed
-  //  point. It is convenient to select this point to be placed in a
-  //  \emph{typical} region of the anatomical structure to be segmented. A
-  //  small neighborhood around the seed point will be used to compute the
-  //  initial mean and standard deviation for the inclusion criterion. The seed
-  //  is passed in the form of a \doxygen{Index} to the \code{SetSeed()} method.
+  //  point. This point should be placed in a \emph{typical} region of the
+  //  anatomical structure to be segmented. A small neighborhood around the
+  //  seed point will be used to compute the initial mean and standard
+  //  deviation for the inclusion criterion. The seed is passed in the form
+  //  of a \doxygen{Index} to the \code{SetSeed()} method.
   //
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetSeed()}
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetInitialNeighborhoodRadius()}
@@ -228,7 +209,6 @@ int main( int argc, char *argv[] )
  
 
   //  Software Guide : BeginLatex
-  //
   //  
   //  The size of the initial neighborhood around the seed is defined with the
   //  method \code{SetInitialNeighborhoodRadius()}. The neighborhood will be
@@ -240,8 +220,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   confidenceConnected->SetInitialNeighborhoodRadius( 3 );
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -267,7 +245,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Let's now run this example using as input the image
+  //  Now let's run this example using as input the image
   //  \code{VisibleWomanEyeSlice.png} provided in the directory
   //  \code{Examples/Data}. We can easily segment the major anatomical
   //  structures by providing seeds in the appropriate locations. For example,
@@ -292,18 +270,15 @@ int main( int argc, char *argv[] )
   // \label{fig:VectorConfidenceConnectedOutput}
   // \end{figure}
   //
-  // The coloration of muscular tissue makes it easy to distinguish from the
-  // surrounding anatomical strucures. The optic vitrea on the other hand has
-  // a coloration that is not very homogeneous inside the eyeball and does not
-  // allow to generate a full segmentation based only on color.
+  // The coloration of muscular tissue makes it easy to distinguish them from
+  // the surrounding anatomical strucures. The optic vitrea on the other hand
+  // has a coloration that is not very homogeneous inside the eyeball and
+  // does not allow to generate a full segmentation based only on color.
   //
   //  Software Guide : EndLatex 
 
 
-
-
   return 0;
-
 }
 
 
