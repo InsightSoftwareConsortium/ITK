@@ -252,7 +252,7 @@ TEEM_API const airFloat airFloatQNaN;
 TEEM_API const airFloat airFloatSNaN;
 TEEM_API const airFloat airFloatPosInf;
 TEEM_API const airFloat airFloatNegInf;
-TEEM_API float airNaN();
+TEEM_API float airNaN(void);
 TEEM_API int airIsNaN(float f);
 TEEM_API int airIsInf_f(float f);
 TEEM_API int airIsInf_d(double d);
@@ -340,7 +340,7 @@ enum {
 };
 #define AIR_INSANE_MAX        11
 TEEM_API const char *airInsaneErr(int insane);
-TEEM_API int airSanity();
+TEEM_API int airSanity(void);
 
 /* miscAir.c */
 TEEM_API const char *airTeemVersion;
