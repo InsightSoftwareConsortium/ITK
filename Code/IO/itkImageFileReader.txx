@@ -111,6 +111,8 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   // Got to allocate space for the image. Determine the characteristics of
   // the image.
   //
+  m_ImageIO->SetFileName(m_FileName.c_str());
+  m_ImageIO->ReadImageInformation();
   Size dimSize;
   double spacing[ TOutputImage::ImageDimension ];
   double origin[ TOutputImage::ImageDimension ];

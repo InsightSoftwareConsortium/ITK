@@ -94,6 +94,13 @@ public:
    * file specified.
    */
   virtual bool CanReadFile(const char*)  = 0;
+  
+  /**
+   * Read the spacing and dimentions of the image.
+   * Assumes SetFileName has been called with a valid file name.
+   */
+  virtual void ReadImageInformation() = 0;
+  
 
   /**
    * Get the type of the pixel. 

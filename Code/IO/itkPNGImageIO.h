@@ -74,8 +74,11 @@ public:
    * Determine the file type. Returns true if this ImageIO can read the
    * file specified.
    */
-  virtual bool CanReadFile(const char*) ;
-
+  virtual bool CanReadFile(const char*);
+  
+  ///! Set the spacing and diemention information for the set filename.
+  virtual void ReadImageInformation();
+  
   /**
    * Get the type of the pixel. 
    */
@@ -108,7 +111,6 @@ protected:
   PNGImageIO(const Self&) {}
   void operator=(const Self&) {}
   
-  bool ReadHeader(const char* fname);
   void PrintSelf(std::ostream& os, Indent indent) const;
   ComponentType m_PNGPixelType;
   double m_Spacing[2];

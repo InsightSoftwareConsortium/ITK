@@ -162,10 +162,15 @@ void VOLImageIO::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "VOLPixelType " << m_VOLPixelType << "\n";
 }
 
+void VOLImageIO::ReadImageInformation()
+{
+  this->ReadHeader(m_FileName.c_str());
+}
 
+  
 bool VOLImageIO::ReadHeader(const char* fname)
 { 
-	VOLFileWrapper volfp(fname); 
+  VOLFileWrapper volfp(fname); 
   FILE* fp = volfp.m_FilePointer;
   if(!fp)
 		{

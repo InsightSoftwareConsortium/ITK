@@ -62,9 +62,50 @@ struct PNGFileWrapper
     }
 };
 
+  
+  
 bool PNGImageIO::CanReadFile(const char* file) 
 { 
-  return this->ReadHeader(file);
+  PNGFileWrapper pngfp(file);
+  FILE* fp = pngfp.m_FilePointer;
+  if(!fp)
+    {
+    return false;
+    }
+  unsigned char header[8];
+  fread(header, 1, 8, fp);
+  bool is_png = !png_sig_cmp(header, 0, 8);
+  if(!is_png)
+    {
+    return false;
+    }
+  png_structp png_ptr = png_create_read_struct
+    (PNG_LIBPNG_VER_STRING, (png_voidp)NULL,
+     NULL, NULL);
+  if (!png_ptr)
+    {
+    return false;
+    }
+  
+  png_infop info_ptr = png_create_info_struct(png_ptr);
+  if (!info_ptr)
+    {
+    png_destroy_read_struct(&png_ptr,
+                            (png_infopp)NULL, (png_infopp)NULL);
+    return false;
+    }
+  
+  png_infop end_info = png_create_info_struct(png_ptr);
+  if (!end_info)
+    {
+    png_destroy_read_struct(&png_ptr, &info_ptr,
+                            (png_infopp)NULL);
+    return false;
+    }
+  png_destroy_read_struct(&png_ptr, &info_ptr,
+                          (png_infopp)NULL);
+  
+  return true;
 }
   
 const std::type_info& PNGImageIO::GetPixelType() const
@@ -236,27 +277,28 @@ void PNGImageIO::PrintSelf(std::ostream& os, Indent indent) const
 
   
   
-bool PNGImageIO::ReadHeader(const char* fname)
+void PNGImageIO::ReadImageInformation()
 {
-  PNGFileWrapper pngfp(fname); // use this class so return will call close
+  // use this class so return will call close
+  PNGFileWrapper pngfp(m_FileName.c_str());
   FILE* fp = pngfp.m_FilePointer;
   if(!fp)
     {
-    return false;
+    return;
     }
   unsigned char header[8];
   fread(header, 1, 8, fp);
   bool is_png = !png_sig_cmp(header, 0, 8);
   if(!is_png)
     {
-    return false;
+    return;
     }
   png_structp png_ptr = png_create_read_struct
     (PNG_LIBPNG_VER_STRING, (png_voidp)NULL,
      NULL, NULL);
   if (!png_ptr)
     {
-    return false;
+    return;
     }
   
   png_infop info_ptr = png_create_info_struct(png_ptr);
@@ -264,7 +306,7 @@ bool PNGImageIO::ReadHeader(const char* fname)
     {
     png_destroy_read_struct(&png_ptr,
                             (png_infopp)NULL, (png_infopp)NULL);
-    return false;
+    return;
     }
 
   png_infop end_info = png_create_info_struct(png_ptr);
@@ -272,7 +314,7 @@ bool PNGImageIO::ReadHeader(const char* fname)
     {
     png_destroy_read_struct(&png_ptr, &info_ptr,
                             (png_infopp)NULL);
-    return false;
+    return;
     }
   
   png_init_io(png_ptr, fp);
@@ -311,7 +353,6 @@ bool PNGImageIO::ReadHeader(const char* fname)
   this->SetNumberOfDimensions(2);
   this->m_Dimensions[0] = width;
   this->m_Dimensions[1] = height;
-  this->SetFileName(fname); 
   if (bit_depth <= 8)
     {
     m_PNGPixelType = UCHAR;
@@ -321,7 +362,9 @@ bool PNGImageIO::ReadHeader(const char* fname)
     m_PNGPixelType = USHORT;
     }
   this->SetNumberOfComponents(png_get_channels(png_ptr, info_ptr));
-  return true;
+  png_destroy_read_struct(&png_ptr, &info_ptr,
+                          (png_infopp)NULL);
+  return;
 }
 
 

@@ -347,5 +347,10 @@ bool MetaImageIO::ReadHeader(const char* fname)
   return false;
 }
 
+void MetaImageIO::ReadImageInformation()
+{
+  this->ReadHeader(m_FileName.c_str());
+}
+
 
 } // end namespace itk

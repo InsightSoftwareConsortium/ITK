@@ -91,8 +91,10 @@ public:
    */
   virtual bool CanReadFile(const char*);
 
+  ///! Set the spacing and diemention information for the set filename.
+  virtual void ReadImageInformation();
   
-	/**
+  /**
    * Get the type of the pixel. 
    */
   virtual const std::type_info& GetPixelType() const ;
