@@ -87,7 +87,7 @@ public:
     /**
      * Versor Type
      */
-    typedef typename Versor<TScalarType>          VersorType;
+    typedef Versor<TScalarType>                   VersorType;
     typedef typename VersorType::VectorType       AxisType;
     typedef typename VersorType::ValueType        AngleType;
 
