@@ -31,57 +31,54 @@ namespace itk
 
 OrthogonallyCorrected2DParametricPath::OutputType
 OrthogonallyCorrected2DParametricPath
-::Evaluate( const InputType & itkNotUsed(input) ) const
+::Evaluate( const InputType & inputValue ) const
 {
-  //InputType   theta;
-  OutputType  output;
-  /*
-  int         numHarmonics;
+  InputType           input = inputValue; // we may want to remap the input
+  InputType           inputRange;
+  InputType           normalizedInput;
+  OutputType          output;
+  int                 numOrthogonalCorrections;
+  double              softOrthogonalCorrectionTableIndex;
+  double              Correction, Correction1, Correction2;
+  VectorType          originalDerivative;
+  double              originalDerivativeMagnitude;
   
-  numHarmonics = m_CosCoefficients->Size(); 
-  output.Fill(0);
-  
-  if( numHarmonics > 0 ) { output += m_CosCoefficients->ElementAt(0); }
-  
-  for(int n=1; n<numHarmonics; n++)
+  numOrthogonalCorrections = m_OrthogonalCorrectionTable->Size(); 
+
+  // If the original path is closed, then tail input is remapped to head input
+  if(  m_OriginalPath->EvaluateToIndex(m_OriginalPath->EndOfInput())  ==
+       m_OriginalPath->EvaluateToIndex(m_OriginalPath->StartOfInput())  )
     {
-    // input defined over [0,1] maps to theta defined over [0,2pi * n]
-    theta = M_PI*2.0*n*input;
-    output += ( m_CosCoefficients->ElementAt(n) * cos(theta) +
-                m_SinCoefficients->ElementAt(n) * sin(theta) ) * 2.0;
+    if( input >= m_OriginalPath->EndOfInput() )
+      {
+      // use the starting input value instead of the ending input value
+      input = m_OriginalPath->StartOfInput();
+      }
     }
-  */
-  output.Fill(0);
-  //theta=0;
   
-  return output;
-}
-
-
-
-OrthogonallyCorrected2DParametricPath::VectorType
-OrthogonallyCorrected2DParametricPath
-::EvaluateDerivative(const InputType & itkNotUsed(input)) const
-{
-  //InputType   theta;
-  VectorType  output;
-  /*
-  int         numHarmonics;
-  
-  numHarmonics = m_CosCoefficients->Size(); 
+  inputRange = m_OriginalPath->EndOfInput() - m_OriginalPath->StartOfInput();
+  normalizedInput = ( input - m_OriginalPath->StartOfInput() ) / inputRange;
   output.Fill(0);
   
-  for(int n=1; n<numHarmonics; n++)
-    {
-    // input defined over [0,1] maps to theta defined over [0,2pi * n]
-    theta = M_PI*2.0*n*input;
-    output += ( m_SinCoefficients->ElementAt(n) * cos(theta) -
-                m_CosCoefficients->ElementAt(n) * sin(theta) ) * (2.0 * n);
-    }
-  */
-  output.Fill(0);
-  //theta=0;
+  // Find the linearly interpolated offset error value for this exact time.
+  softOrthogonalCorrectionTableIndex = normalizedInput * numOrthogonalCorrections;
+  Correction1 = m_OrthogonalCorrectionTable->ElementAt(
+        int(softOrthogonalCorrectionTableIndex) );
+  Correction2 = m_OrthogonalCorrectionTable->ElementAt(
+        int(softOrthogonalCorrectionTableIndex+1) % numOrthogonalCorrections );
+  Correction = Correction1 + (Correction2-Correction1)*
+        ( softOrthogonalCorrectionTableIndex -
+          int(softOrthogonalCorrectionTableIndex) );
+  
+  // Find the direction of the offset
+  originalDerivative = m_OriginalPath->EvaluateDerivative(input);
+  originalDerivativeMagnitude = sqrt(originalDerivative[0]*originalDerivative[0]
+                                   + originalDerivative[1]*originalDerivative[1]);
 
+  // Find the actual point along this corrected path
+  output = m_OriginalPath->Evaluate(input);
+  output[0] -= Correction*originalDerivative[1]/originalDerivativeMagnitude;
+  output[1] += Correction*originalDerivative[0]/originalDerivativeMagnitude;
   return output;
 }
 
@@ -89,11 +86,16 @@ OrthogonallyCorrected2DParametricPath
 
 void
 OrthogonallyCorrected2DParametricPath
-::SetOrthogonalCorrectionTable( const OrthogonalCorrectionTablePointer
-                                      orthogonalCorrectionTable )
-{  
-  m_OrthogonalCorrectionTable = orthogonalCorrectionTable;
-  this->Modified();
+::SetOriginalPath( OriginalPathType *originalPath )
+{
+  itkDebugMacro("setting OriginalPath to " << originalPath );
+  if (this->m_OriginalPath != originalPath)
+    {
+    this->m_OriginalPath = originalPath;
+    // This is the important line that is not in itkSetObjectMacro
+    this->m_DefaultInputStepSize = m_OriginalPath->GetDefaultInputStepSize();
+    this->Modified();
+    }
 }
 
 
@@ -104,6 +106,7 @@ OrthogonallyCorrected2DParametricPath
 OrthogonallyCorrected2DParametricPath
 ::OrthogonallyCorrected2DParametricPath()
 {
+  m_OriginalPath = NULL;
   m_OrthogonalCorrectionTable = OrthogonalCorrectionTableType::New();
 }
 
@@ -117,6 +120,7 @@ OrthogonallyCorrected2DParametricPath
 ::PrintSelf( std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
+  os << indent << "Original Path:  " << m_OriginalPath << std::endl;
   os << indent << "Correction Table:  " << m_OrthogonalCorrectionTable << std::endl;
 }
 

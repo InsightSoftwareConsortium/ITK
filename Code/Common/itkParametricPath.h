@@ -115,10 +115,7 @@ public:
     * their work does not need the derivative operator. */
   virtual VectorType EvaluateDerivative(const InputType & input) const;
   
-  //virtual inline InputType DefaultInputIncrementAmount() const
-  //{
-  //  return m_DefaultInputStepSize;
-  //}
+  itkGetConstMacro( DefaultInputStepSize, InputType )
   
   
 protected:

@@ -68,6 +68,9 @@ public:
   typedef ContinuousIndex<double,2>             ContinuousIndexType; 
   typedef Index<2>                              IndexType;           
   typedef Offset<2>                             OffsetType;          
+  typedef Superclass::VectorType                VectorType;
+  typedef ParametricPath<2>                     OriginalPathType;
+  typedef ParametricPath<2>::Pointer            OriginalPathPointer;
   typedef VectorContainer<unsigned, double>     OrthogonalCorrectionTableType;
   typedef OrthogonalCorrectionTableType::Pointer OrthogonalCorrectionTablePointer;
 
@@ -75,29 +78,38 @@ public:
   /** Return the location of the parametric path at the specified location. */
   virtual OutputType Evaluate( const InputType & input ) const;
   
-  /** Evaluate the first derivative of the ND output with respect to the 1D
-    * input.  This is an exact, algebraic function. */
-  virtual VectorType EvaluateDerivative(const InputType & input) const;
+  /** Set pointer to the original path.  The path MUST be continuous in its
+   * first derivative to prevent discontinuities in the corrected path.  The
+   * path should also be closed, since the first correction is applied to both
+   * the beginnning and the end of the original path. */
+  // The usual itkSetObjectMacro can not be used here because
+  // m_DefaultInputStepSize must also be copied over.
+  void SetOriginalPath( OriginalPathType *originalPath );
   
-  /** Add another harmonic's frequency coefficients. */
-  void SetOrthogonalCorrectionTable( const OrthogonalCorrectionTablePointer
-                                      orthogonalCorrectionTable );
-  
-  /** Clear all frequency coefficients (including the "DC" coefficients). */
-  void Clear()
-    {
-    m_OrthogonalCorrectionTable->Initialize();
-    this->Modified();
-    }
+  /** Set table of evenly-spaced orthogonal offsets for the original path. */
+  itkSetObjectMacro( OrthogonalCorrectionTable, OrthogonalCorrectionTableType )
   
   /** New() method for dynamic construction */
   itkNewMacro( Self );
   
-    /** Needed for Pipelining */
+  /** Needed for Pipelining */
   virtual void Initialize(void)
     {
-    this->Clear();
+    this->m_OriginalPath = NULL;
+    this->m_OrthogonalCorrectionTable = NULL;
     }
+  
+  /** These are determined by the original path */ 
+  virtual inline InputType StartOfInput() const
+    {
+    return m_OriginalPath->StartOfInput();
+    }
+  virtual inline InputType EndOfInput() const
+    {
+    return m_OriginalPath->EndOfInput();
+    }
+
+
   
 protected:
   OrthogonallyCorrected2DParametricPath();
@@ -108,7 +120,9 @@ private:
   OrthogonallyCorrected2DParametricPath(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  OrthogonalCorrectionTablePointer m_OrthogonalCorrectionTable;
+  OriginalPathPointer               m_OriginalPath;
+  OrthogonalCorrectionTablePointer  m_OrthogonalCorrectionTable;
+  
 };
 
 } // namespace itk
