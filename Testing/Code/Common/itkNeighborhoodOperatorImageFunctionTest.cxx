@@ -89,7 +89,7 @@ int itkNeighborhoodOperatorImageFunctionTest(int, char* [] )
   FunctionType::ContinuousIndexType continuousIndex;
   continuousIndex.Fill(25);
 
-  Blur = function->EvaluateAtContinuousIndex( continuousIndex );
+  function->EvaluateAtContinuousIndex( continuousIndex );
   
   std::cout << "[PASSED] " << std::endl;
 
