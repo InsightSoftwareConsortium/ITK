@@ -46,6 +46,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
   m_OldModifiedTime = 0;
   m_OldNumberOfCircles = 0;
   m_SweepAngle = 0.0;
+  m_NumberOfCircles = 1;
 }
 
 template<typename TInputPixelType, typename TOutputPixelType>
