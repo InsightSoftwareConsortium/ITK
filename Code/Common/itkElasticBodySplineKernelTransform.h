@@ -26,35 +26,30 @@ public:
    */
   typedef ElasticBodySplineKernelTransform<TScalarType, NDimensions> Self;
   /**
-   * Smart pointer typedef support
-   */
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  /**
    * Standard Superclass typedef
    */
   typedef KernelTransform<TScalarType, NDimensions> Superclass;
   /**
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(Self, Superclass);
-  /**
-   * Method for creation through the object factory
-   */
-  itkNewMacro(Self);
-  /**
    * Set alpha
    */
-  itkSetMacro(Alpha, TScalarType);
+	void SetAlpha(const TScalarType newAlpha);
   /**
    * Get alpha
    */
-  itkGetMacro(Alpha, TScalarType);
+	TScalarType GetAlpha() const;
 	/**
 	 * These (rather redundant) typedefs are needed because on SGI, typedefs
 	 * are not inherited
 	 */
 	typedef typename Superclass::VectorType VectorType;
+  /**
+   * Default constructor
+   */
+  ElasticBodySplineKernelTransform();
+  /**
+   * Destructor
+   */
+  virtual ~ElasticBodySplineKernelTransform();
 
 protected:
 	/**
@@ -77,15 +72,6 @@ protected:
    * alpha, Poisson's ratio
    */
   TScalarType m_Alpha;
-  /**
-   * Default constructor
-   */
-  ElasticBodySplineKernelTransform();
-  /**
-   * Destructor
-   */
-  virtual ~ElasticBodySplineKernelTransform();
-
 };
 
 } // namespace itk

@@ -16,6 +16,20 @@ ElasticBodySplineKernelTransform<TScalarType, NDimensions>::
 }
 
 template <class TScalarType, int NDimensions>
+TScalarType
+ElasticBodySplineKernelTransform<TScalarType, NDimensions>::GetAlpha() const
+{
+	return m_Alpha;
+}
+
+template <class TScalarType, int NDimensions>
+void ElasticBodySplineKernelTransform<TScalarType, NDimensions>::
+SetAlpha(const TScalarType newAlpha)
+{
+	m_Alpha = newAlpha;
+}
+
+template <class TScalarType, int NDimensions>
 ElasticBodySplineKernelTransform<TScalarType, NDimensions>::GMatrixType
 ElasticBodySplineKernelTransform<TScalarType, NDimensions>::ComputeG(VectorType& x) const
 {

@@ -1,8 +1,7 @@
 #ifndef __itkKernelTransform_h
 #define __itkKernelTransform_h
 
-#include "itkObjectFactory.h"
-#include "itkObject.h"
+#include "itkTransformation.h"
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkMatrix.h"
@@ -34,7 +33,7 @@ namespace itk
  */
 template <class TScalarType,         // Only float and double make sense
           int NDimensions = 3>       // Number of dimensions
-class KernelTransform : public Object
+class ITK_EXPORT KernelTransform : public Transformation<TScalarType, NDimensions>
 {
 public:
   /**
@@ -42,30 +41,17 @@ public:
    */
   typedef KernelTransform<TScalarType, NDimensions> Self;
   /**
-   * Smart pointer typedef support
-   */
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  /**
    * Standard Superclass typedef
    */
-  typedef Object Superclass;
-  /**
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(Self, Superclass);
-  /**
-   * Method for creation through the object factory
-   */
-  itkNewMacro(Self);
+  typedef Transformation<TScalarType, NDimensions> Superclass;
   /**
    * Standard coordinate point type for this class
    */
-  typedef Point<TScalarType, NDimensions> PointType;
+	typedef typename Superclass::PointType PointType;
   /**
    * Standard vector type for this class
    */
-  typedef Vector<TScalarType, NDimensions> VectorType;
+	typedef typename Superclass::VectorType VectorType;
   /**
    * PointList typedef. This type is used for maintaining lists of points,
    * specifically, the source and target landmark lists.
@@ -78,16 +64,16 @@ public:
   /**
    * Get the source landmarks list, which we will denote p
    */
-  itkGetMacro(p, PointListType*);
+	PointListType* Getp();
   /**
    * Get the target landmarks list, which we will denote q
    */
-  itkGetMacro(q, PointListType*);
+	PointListType* Getq();
   /**
    * Get the displacements list, which we will denote d,
    * where d_i = q_i - p_i
    */
-  itkGetMacro(d, VectorListType*);
+	VectorListType* Getd();
   /**
    * Compute W matrix
    */
@@ -104,6 +90,14 @@ public:
    * 'I' (identity) matrix typedef
    */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> IMatrixType;
+  /**
+   * Default constructor
+   */
+  KernelTransform();
+  /**
+   * Destructor
+   */
+  virtual ~KernelTransform();
 
 protected:
   /**
@@ -140,14 +134,6 @@ protected:
   typedef vnl_matrix_fixed<TScalarType, NDimensions, 1> ColumnMatrixType;
 
   /**
-   * Default constructor
-   */
-  KernelTransform();
-  /**
-   * Destructor
-   */
-  ~KernelTransform();
-  /**
    * Compute G(x)
    * This is essentially the kernel of the transform.
    * By overriding this method, we can obtain (among others):
@@ -172,10 +158,6 @@ protected:
    * Compute Y matrix
    */
   void ComputeY();
-  /**
-   * Compute W matrix
-   */
-  //void ComputeW();
   /**
    * Compute displacements q_i - p_i
    */
