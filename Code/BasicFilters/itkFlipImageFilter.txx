@@ -64,7 +64,8 @@ FlipImageFilter<TImage>
   this->Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  InputImagePointer inputPtr = this->GetInput();
+  InputImagePointer inputPtr = 
+      const_cast< TImage * >( this->GetInput().GetPointer() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   const double *inputSpacing = inputPtr->GetSpacing();
@@ -111,7 +112,8 @@ FlipImageFilter<TImage>
   this->Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  InputImagePointer inputPtr = this->GetInput();
+  InputImagePointer inputPtr = 
+      const_cast< TImage * >( this->GetInput().GetPointer() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   const typename TImage::SizeType& outputRequestedSize =
@@ -167,7 +169,7 @@ FlipImageFilter<TImage>
   int j;
 
   // Get the input and output pointers
-  InputImagePointer inputPtr = this->GetInput();
+  InputImageConstPointer inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
 
   // Setup output region iterator

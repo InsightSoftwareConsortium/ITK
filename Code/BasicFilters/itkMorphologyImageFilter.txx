@@ -42,7 +42,8 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImagePointer  inputPtr = 
+    const_cast< TInputImage * >( this->GetInput().GetPointer() );
   
   if ( !inputPtr )
     {

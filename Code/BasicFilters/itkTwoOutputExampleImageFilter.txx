@@ -19,6 +19,7 @@
 
 #include "itkTwoOutputExampleImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
 #include "itkObjectFactory.h"
 
@@ -129,16 +130,14 @@ TwoOutputExampleImageFilter<TImage>
   itkDebugMacro(<<"Actually executing");
 
   // Get the input and output pointers
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImageConstPointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput(0);
   OutputImagePointer outputInversePtr = this->GetOutput(1);
 
   // Define/declare an iterator that will walk the output region for this
   // thread.
-  typedef
-    ImageRegionIterator<TImage> InputIterator;
-  typedef
-    ImageRegionIterator<TImage> OutputIterator;
+  typedef ImageRegionConstIterator<TImage>  InputIterator;
+  typedef ImageRegionIterator<TImage>       OutputIterator;
 
   InputIterator  inIt(inputPtr, outputRegionForThread);
   OutputIterator outIt(outputPtr, outputRegionForThread);

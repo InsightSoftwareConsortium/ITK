@@ -26,6 +26,7 @@
 #include "Statistics/itkFastRandomUnitNormalVariateGenerator.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkArray.h"
+#include "itkImageRegionConstIterator.h"
 
 
 namespace itk
@@ -507,13 +508,16 @@ private:
 /** Allocates memory to the target image object, converts pixel type, and
  *  copies image data from source to target. */
 template<class TSource, class TTarget>
-void CopyAndConvertImage(typename TSource::Pointer source,
-                         typename TTarget::Pointer target,
+void CopyAndConvertImage(const TSource * sourceInp,
+                               TTarget * targetInp,
                          typename TTarget::RegionType requestedRegion)
 {
-  typedef ImageRegionIterator<TSource> SourceIterator ;
+  typedef ImageRegionConstIterator<TSource> SourceIterator ;
   typedef ImageRegionIterator<TTarget> TargetIterator ;
-  typedef typename TTarget::PixelType TargetPixelType ;
+  typedef typename TTarget::PixelType  TargetPixelType ;
+
+  typename TSource::ConstPointer source( sourceInp );
+  typename TTarget::Pointer      target( targetInp );
 
   target->SetRequestedRegion(requestedRegion) ;
   target->SetBufferedRegion(requestedRegion) ;
@@ -524,7 +528,7 @@ void CopyAndConvertImage(typename TSource::Pointer source,
 
   while (!s_iter.IsAtEnd())
     {
-      t_iter.Set((TargetPixelType) s_iter.Get()) ;
+      t_iter.Set(static_cast<TargetPixelType>( s_iter.Get() ) ) ;
       ++s_iter ;
       ++t_iter ;
     }

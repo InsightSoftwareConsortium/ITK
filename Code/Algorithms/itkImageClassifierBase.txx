@@ -107,8 +107,8 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the input image
   //-------------------------------------------------------------------
-  InputImagePointer  inputImage = this->GetInputImage();
-  InputImageIterator inIt( inputImage, inputImage->GetBufferedRegion() );
+  InputImageConstPointer  inputImage = this->GetInputImage();
+  InputImageConstIterator inIt( inputImage, inputImage->GetBufferedRegion() );
 
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the classified image
@@ -184,7 +184,7 @@ void
 ImageClassifierBase<TInputImage, TClassifiedImage>
 ::Allocate()
 {
-  InputImagePointer inputImage = this->GetInputImage();
+  InputImageConstPointer inputImage = this->GetInputImage();
   
   InputImageSizeType inputImageSize = inputImage->GetBufferedRegion().GetSize();
   

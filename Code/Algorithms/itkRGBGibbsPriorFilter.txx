@@ -93,7 +93,7 @@ void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::GenerateMediumImage()
 {
-  InputImageType input = this->GetInput();
+  InputImageConstPointer input = this->GetInput();
   m_MediumImage = TInputImage::New() ;
   m_MediumImage->SetLargestPossibleRegion( input->GetLargestPossibleRegion() );
   m_MediumImage->SetRequestedRegionToLargestPossibleRegion();
@@ -581,7 +581,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::ApplyGibbsLabeller()
 {
   /** Set the iterators and the pixel type definition for the input image. */
-  InputImageRegionIterator  inputImageIt(m_InputImage, 
+  InputImageRegionConstIterator  inputImageIt(m_InputImage, 
                                    m_InputImage->GetBufferedRegion() );
 
   InputImageRegionIterator  mediumImageIt(m_MediumImage, 

@@ -19,6 +19,7 @@
 
 #include "itkExtractImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"
 
 namespace itk
@@ -66,8 +67,8 @@ ExtractImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateOutputInformation();
  
   // get pointers to the input and output
-  OutputImagePointer outputPtr = this->GetOutput();
-  InputImagePointer inputPtr = this->GetInput();
+  OutputImagePointer      outputPtr = this->GetOutput();
+  InputImageConstPointer  inputPtr  = this->GetInput();
 
   if ( !outputPtr || !inputPtr)
     {
@@ -101,12 +102,15 @@ ExtractImageFilter<TInputImage,TOutputImage>
   itkDebugMacro(<<"Actually executing");
 
   // Get the input and output pointers
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImageConstPointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
 
   // Set the requested region for the input region to the same as
   // that for the output region.
-  inputPtr->SetRequestedRegion( outputRegionForThread );
+  { 
+  InputImagePointer image = const_cast< InputImageType * >( inputPtr.GetPointer() );
+  image->SetRequestedRegion( outputRegionForThread );
+  }
 
   // support progress methods/callbacks
   unsigned long updateVisits = 0;
@@ -120,10 +124,9 @@ ExtractImageFilter<TInputImage,TOutputImage>
     }
 
   // Define the iterators.
-  typedef
-    ImageRegionIterator<TOutputImage> OutputIterator;
-  typedef 
-    ImageRegionIterator<TInputImage> InputIterator;
+  typedef ImageRegionIterator<TOutputImage> OutputIterator;
+  typedef ImageRegionConstIterator<TInputImage> InputIterator;
+
   OutputIterator outIt(outputPtr, outputRegionForThread);
   InputIterator inIt(inputPtr, outputRegionForThread);
 

@@ -18,7 +18,8 @@
 #define _itkReflectImageFilter_txx
 
 #include "itkReflectImageFilter.h"
-#include <itkImageRegionIterator.h>
+#include "itkImageLinearIteratorWithIndex.h"
+#include "itkImageLinearConstIteratorWithIndex.h"
 
 namespace itk
 {
@@ -43,7 +44,7 @@ void
 ReflectImageFilter<TInputImage,TOutputImage>
 ::GenerateData( void )
 {
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImageConstPointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput(0);
 
   outputPtr->SetRequestedRegion( inputPtr->GetRequestedRegion() );
@@ -51,7 +52,7 @@ ReflectImageFilter<TInputImage,TOutputImage>
   outputPtr->SetLargestPossibleRegion( inputPtr->GetLargestPossibleRegion() );
   outputPtr->Allocate();
 
-  typedef ImageLinearIteratorWithIndex<TInputImage>  InputIterator;
+  typedef ImageLinearConstIteratorWithIndex<TInputImage>  InputIterator;
   typedef ImageLinearIteratorWithIndex<TOutputImage> OutputIterator;
 
   InputIterator  inputIt(  inputPtr,  inputPtr->GetRequestedRegion() );

@@ -45,7 +45,8 @@ MeanImageFilter<TInputImage, TOutputImage>
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImagePointer inputPtr = 
+      const_cast< TInputImage * >( this->GetInput().GetPointer() );
   OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
@@ -105,7 +106,7 @@ MeanImageFilter< TInputImage, TOutputImage>
   
   // Allocate output
   typename OutputImageType::Pointer output = this->GetOutput();
-  typename  InputImageType::Pointer input  = this->GetInput();
+  typename  InputImageType::ConstPointer input  = this->GetInput();
   
   // Find the data-set boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;

@@ -20,6 +20,7 @@
 #include "itkClassifierBase.h"
 #include "itkExceptionObject.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {
@@ -84,7 +85,9 @@ public:
   itkTypeMacro(ImageClassifierBase,ClassifierBase);
 
   /** Type definition for the input image. */
-  typedef typename TInputImage::Pointer   InputImagePointer;
+  typedef TInputImage                         InputImageType;
+  typedef typename TInputImage::Pointer       InputImagePointer;
+  typedef typename TInputImage::ConstPointer  InputImageConstPointer;
 
   /** Type definitions for the classified image pixel type. */
   typedef typename TClassifiedImage::Pointer ClassifiedImagePointer;
@@ -107,10 +110,10 @@ public:
   typedef typename Superclass::DecisionRuleType DecisionRuleType;
 
   /** Set the input image. */
-  itkSetMacro(InputImage,InputImagePointer);
+  itkSetConstObjectMacro(InputImage,InputImageType );
 
   /** Get the input image. */
-  itkGetMacro(InputImage,InputImagePointer);
+  itkGetConstObjectMacro(InputImage,InputImageType);
 
   /** Set the classified image. */
   itkSetMacro(ClassifiedImage,ClassifiedImagePointer);
@@ -128,7 +131,7 @@ public:
 
   /** Type definition for the input image/training iterator */
   typedef
-    ImageRegionIterator< TInputImage >         InputImageIterator;
+    ImageRegionConstIterator< TInputImage >    InputImageConstIterator;
   typedef
     ImageRegionIterator< TClassifiedImage >    ClassifiedImageIterator;   
 
@@ -154,7 +157,7 @@ private:
   
   typedef typename TInputImage::SizeType InputImageSizeType;
 
-  InputImagePointer      m_InputImage;
+  InputImageConstPointer      m_InputImage;
   ClassifiedImagePointer m_ClassifiedImage;
   std::vector< double >   m_PixelMembershipValue;
 

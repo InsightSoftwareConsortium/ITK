@@ -37,7 +37,8 @@ VectorNeighborhoodOperatorImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImagePointer  inputPtr = 
+    const_cast< InputImageType * >( this->GetInput().GetPointer() );
   
   if ( !inputPtr )
     {
@@ -95,8 +96,8 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
   FaceListType faceList;
 
   // Allocate output
-  OutputImageType *output = this->GetOutput();
-  InputImageType *input   = this->GetInput();
+  OutputImageType      *output  = this->GetOutput();
+  const InputImageType *input   = this->GetInput();
  
   // Break the input into a series of regions.  The first region is free
   // of boundary conditions, the rest with boundary conditions. Note,

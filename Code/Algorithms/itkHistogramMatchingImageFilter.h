@@ -82,6 +82,7 @@ public:
   /** Inherited typedefs. */
   typedef typename Superclass::InputImageType InputImageType;
   typedef typename Superclass::InputImagePointer InputImagePointer;
+  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename Superclass::OutputImagePointer OutputImagePointer;
   
@@ -94,14 +95,14 @@ public:
   typedef typename HistogramType::Pointer HistogramPointer;
 
   /** Set/Get the source image. */
-  void SetSourceImage( InputImageType * source )
+  void SetSourceImage( const InputImageType * source )
     { this->SetInput( source ); }
-  InputImagePointer GetSourceImage()
+  InputImageConstPointer GetSourceImage(void)
     { return this->GetInput(); }
 
   /** Set/Get the reference image. */
-  void SetReferenceImage( InputImageType * reference );
-  InputImagePointer GetReferenceImage();
+  void SetReferenceImage( const InputImageType * reference );
+  InputImageConstPointer GetReferenceImage(void);
 
   /** Set/Get the number of histogram levels used. */
   itkSetMacro( NumberOfHistogramLevels, unsigned long );
@@ -133,11 +134,11 @@ protected:
                             int threadId );
 
   /** Compute min, max and mean of an image. */
-  void ComputeMinMaxMean( InputImageType * image,
+  void ComputeMinMaxMean( const InputImageType * image,
     double& minValue, double& maxValue, double& meanValue ); 
 
   /** Construct a histogram from an image. */
-  void ConstructHistogram( InputImageType * image,
+  void ConstructHistogram( const InputImageType * image,
     HistogramType * histogram, double minValue,
     double maxValue );
 

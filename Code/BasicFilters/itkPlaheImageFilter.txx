@@ -23,6 +23,7 @@
 
 #include "itkPlaheImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
@@ -44,7 +45,7 @@ PlaheImageFilter<TImageType>
 {
   
   typedef TImageType ImageType;
-  typename ImageType::Pointer input = this->GetInput();
+  typename ImageType::ConstPointer input = this->GetInput();
   typename ImageType::Pointer output = this->GetOutput();
   
   output->SetBufferedRegion(input->GetBufferedRegion());
@@ -74,7 +75,7 @@ PlaheImageFilter<TImageType>
     }
   region.SetIndex(index);
   region.SetSize(size);
-  ImageRegionIterator<ImageType> itInput(input, region);
+  ImageRegionConstIterator<ImageType> itInput(input, region);
 
   // Calculate min and max gray level of an input image
   double min = itInput.Get();

@@ -21,6 +21,7 @@
 #include <vector>
 #include "itkMRASlabIdentifier.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {
@@ -34,13 +35,7 @@ MRASlabIdentifier<TInputImage>
   m_SlicingDirection = 2 ;
 }
 
-template<class TInputImage>
-void 
-MRASlabIdentifier<TInputImage>
-::SetImage(ImagePointer image)
-{
-  m_Image = image ;
-}
+
 
 template<class TInputImage>
 void 
@@ -99,7 +94,7 @@ MRASlabIdentifier<TInputImage>
     index[m_SlicingDirection] = currentSlice ;
     region.SetIndex(index) ;
 
-    ImageRegionIterator<TInputImage> iter(m_Image, region) ;
+    ImageRegionConstIterator<TInputImage> iter(m_Image, region) ;
     iter.GoToBegin() ;
 
     std::fill(mins.begin(), mins.end(), 1000) ;
@@ -144,8 +139,6 @@ MRASlabIdentifier<TInputImage>
   // determine slabs
   am_iter = avgMin.begin() ;
 
-  int slabCount = 0 ;
-  double sign ;
   double prevSign = *am_iter - average ;
   double avgMinValue ;
 
@@ -160,7 +153,7 @@ MRASlabIdentifier<TInputImage>
   while (am_iter != avgMin.end())
     {
     avgMinValue = *am_iter ;
-    sign = avgMinValue - average ;
+    double sign = avgMinValue - average ;
     if (sign * prevSign < 0)
       { 
       slabIndex[m_SlicingDirection] = slabBegin ;

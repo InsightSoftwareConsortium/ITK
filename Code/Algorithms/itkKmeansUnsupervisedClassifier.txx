@@ -392,8 +392,8 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   //-----------------------------------------------------------------
   // Declare the iterators for the image and the codebook
   //-----------------------------------------------------------------
-  InputImageType  inputImage = this->GetInputImage();
-  InputImageIterator inputImageIt( inputImage, inputImage->GetBufferedRegion() );
+  InputImageConstPointer  inputImage = this->GetInputImage();
+  InputImageConstIterator inputImageIt( inputImage, inputImage->GetBufferedRegion() );
   inputImageIt.GoToBegin();
 
   //-----------------------------------------------------------------

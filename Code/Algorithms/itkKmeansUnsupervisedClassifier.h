@@ -36,6 +36,7 @@
 #include "vnl/vnl_vector_ref.h"
 #include "vnl/vnl_matrix.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkExceptionObject.h"
 
 #define  ONEBAND        1
@@ -135,7 +136,9 @@ public:
   itkTypeMacro(KmeansUnsupervisedClassifier,UnsupervisedClassifier);
 
   /** Type definition for the input image. */
-  typedef typename TInputImage::Pointer   InputImageType;
+  typedef TInputImage                           InputImageType;
+  typedef typename TInputImage::Pointer         InputImagePointer;
+  typedef typename TInputImage::ConstPointer    InputImageConstPointer;
 
   /** Type definition for the vector associated with
    * input image pixel type. */     
@@ -148,6 +151,8 @@ public:
   /** Type definition for the input image iterator type. */
   typedef 
     ImageRegionIterator<TInputImage> InputImageIterator;
+  typedef 
+    ImageRegionConstIterator<TInputImage> InputImageConstIterator;
 
   /** Type definition for a double matrix. */
   typedef vnl_matrix<double> CodebookMatrixOfDoubleType; 

@@ -987,8 +987,11 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
 
   // set the input requested region to the LargestPossibleRegion
-  this->GetInput()
-    ->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
+  {
+  InputImagePointer input =
+            const_cast< InputImageType * >( this->GetInput().GetPointer() );
+  input->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
+  }
 }
 
 template <class TInputImage, class TOutputImage> 

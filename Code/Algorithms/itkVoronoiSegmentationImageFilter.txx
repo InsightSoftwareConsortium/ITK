@@ -19,6 +19,7 @@
 #include "itkVoronoiSegmentationImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 
 
 namespace itk
@@ -112,7 +113,7 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
 {
   RegionType region = this->GetInput()->GetRequestedRegion();
   itk::ImageRegionIteratorWithIndex <BinaryObjectImage> ait(aprior, region);
-  itk::ImageRegionIteratorWithIndex <InputImageType> iit(this->GetInput(), region);
+  itk::ImageRegionConstIteratorWithIndex <InputImageType> iit(this->GetInput(), region);
 
   int num=0;
   float addp=0;

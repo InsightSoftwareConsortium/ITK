@@ -100,7 +100,7 @@ OnePlusOneEvolutionaryOptimizer<TNormalRandomVariateGenerator>
   vnl_vector<double> child(spaceDimension);
   vnl_vector<double> delta(spaceDimension);
 
-  for (int i = 0  ; i < spaceDimension ; i++) 
+  for(unsigned int i = 0  ; i < spaceDimension ; i++) 
     {
     A(i,i) = m_InitialRadius ;
     }
@@ -116,10 +116,9 @@ OnePlusOneEvolutionaryOptimizer<TNormalRandomVariateGenerator>
   pvalue = m_CostFunction->GetValue(parentPosition);
   this->SetCurrentPosition(parentPosition) ;
 
-  int iter ;
-  for (iter = 0 ; iter < m_MaximumIteration ; iter++) 
+  for (unsigned int iter = 0 ; iter < m_MaximumIteration ; iter++) 
     {
-    for (int i=0 ; i < spaceDimension ; i++) 
+    for (unsigned int i=0 ; i < spaceDimension ; i++) 
       {
       f_norm[i] = m_RandomGenerator->GetNormalVariate() ;
       }

@@ -79,13 +79,14 @@ public:
   typedef typename AuxVarType::AuxValueContainer AuxValueContainer;
   typedef typename AuxVarType::AuxImageType AuxImageType;
   typedef typename AuxVarType::AuxImagePointer AuxImagePointer;
+  typedef typename AuxVarType::AuxImageConstPointer AuxImageConstPointer;
 
   /** Number of velocity images to be extended. */
   enum { AuxDimension = VAuxDimension };
 
   /** Set/Get one of the input velocity images to be extended. */
-  void SetInputVelocityImage(AuxImageType * ptr, unsigned int idx = 0);
-  AuxImagePointer GetInputVelocityImage(unsigned int idx = 0);
+  void SetInputVelocityImage(const AuxImageType * ptr, unsigned int idx = 0);
+  AuxImageConstPointer GetInputVelocityImage(unsigned int idx = 0);
 
   /** Get one of the extended velocity images. */
   AuxImagePointer GetOutputVelocityImage( unsigned int idx = 0 );

@@ -28,6 +28,7 @@
 #include <math.h>
 #include <float.h>
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkExceptionObject.h"
 
 
@@ -106,7 +107,9 @@ public:
   itkTypeMacro(GaussianSupervisedClassifier,SupervisedClassifier);
 
   /** Type definition for the input image. */
-  typedef typename TInputImage::Pointer   InputImageType;
+  typedef TInputImage                           InputImageType;
+  typedef typename TInputImage::Pointer         InputImagePointer;
+  typedef typename TInputImage::ConstPointer    InputImageConstPointer;
 
   /** Type definitions for the training image pixel type. */
   typedef typename TClassifiedImage::Pointer ClassifiedImageType; 
@@ -121,6 +124,8 @@ public:
   typedef typename TClassifiedImage::PixelType ClassifiedImagePixelType;  
   typedef
     ImageRegionIterator< TInputImage >  InputImageIterator;
+  typedef
+    ImageRegionConstIterator< TInputImage >  InputImageConstIterator;
   typedef
     ImageRegionIterator< TClassifiedImage > TrainingImageIterator;
 

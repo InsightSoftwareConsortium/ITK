@@ -18,6 +18,7 @@
 #define _itkLevelSetNeighborhoodExtractor_txx
 
 #include "itkLevelSetNeighborhoodExtractor.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "vnl/vnl_math.h"
@@ -165,9 +166,9 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 ::GenerateDataFull()
 {
 
-  typedef ImageRegionIterator<LevelSetImageType> InputIterator;
+  typedef ImageRegionConstIterator<LevelSetImageType> InputConstIterator;
 
-  InputIterator inIt ( m_InputLevelSet,
+  InputConstIterator inIt ( m_InputLevelSet,
                        m_InputLevelSet->GetBufferedRegion() );
 
   IndexType inputIndex;

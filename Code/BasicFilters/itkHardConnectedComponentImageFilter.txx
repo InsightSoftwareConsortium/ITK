@@ -18,6 +18,7 @@
 #define _itkHardConnectedComponentImageFilter_txx
 #include "itkHardConnectedComponentImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {
@@ -37,7 +38,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   RegionType region;
 
   typename TOutputImage::Pointer output = this->GetOutput();
-  typename TInputImage::Pointer input = this->GetInput();
+  typename TInputImage::ConstPointer input = this->GetInput();
 
   size = input->GetLargestPossibleRegion().GetSize();
   index = IndexType::ZeroIndex;
@@ -48,7 +49,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   output->SetRequestedRegion( region );
   output->Allocate();
 
-  itk::ImageRegionIterator <TInputImage> it(input,input->GetRequestedRegion());
+  itk::ImageRegionConstIterator <TInputImage> it(input,input->GetRequestedRegion());
   itk::ImageRegionIterator <TOutputImage> ot(output,output->GetRequestedRegion());
 
   it.GoToBegin();

@@ -154,8 +154,9 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
   std::cout << "Output object before filter execution" << std::endl
             << m_Filter->GetOutput() << std::endl;
 
-  ImageToImageFilter<TInputImage, TOutputImage>::Pointer
-    sourceBefore = (ImageToImageFilter<TInputImage, TOutputImage> *) m_Filter->GetOutput()->GetSource().GetPointer();
+  typedef ImageToImageFilter<TInputImage, TOutputImage> ImageFilterType;
+  ImageFilterType::Pointer sourceBefore = 
+     dynamic_cast< ImageFilterType * >( m_Filter->GetOutput()->GetSource().GetPointer() );
   
   // Execute the filter
   clock_t start = ::clock();
@@ -166,8 +167,8 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
   std::cout << "Output object after filter execution" << std::endl
             << m_Filter->GetOutput() << std::endl;
   
-  ImageToImageFilter<TInputImage, TOutputImage>::Pointer
-    sourceAfter = (ImageToImageFilter<TInputImage, TOutputImage> *) m_Filter->GetOutput()->GetSource().GetPointer();
+  ImageFilterType::Pointer sourceAfter = 
+    dynamic_cast< ImageFilterType * >( m_Filter->GetOutput()->GetSource().GetPointer() );
 
   std::cout << sourceBefore.GetPointer() << ", " << sourceAfter.GetPointer() << std::endl;
   if (sourceBefore.GetPointer() != sourceAfter.GetPointer())

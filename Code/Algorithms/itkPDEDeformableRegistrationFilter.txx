@@ -60,9 +60,9 @@ template <class TReference, class TTarget, class TDeformationField>
 void
 PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 ::SetReference(
-ReferenceType * ptr )
+const ReferenceType * ptr )
 {
-  this->ProcessObject::SetNthInput( 1, ptr );
+  this->ProcessObject::SetNthInput( 1, const_cast< ReferenceType * >( ptr ) );
 }
 
 
@@ -71,11 +71,11 @@ ReferenceType * ptr )
  */
 template <class TReference, class TTarget, class TDeformationField>
 PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
-::ReferencePointer
+::ReferenceConstPointer
 PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 ::GetReference()
 {
-  return static_cast< ReferenceType * >
+  return dynamic_cast< const ReferenceType * >
     ( this->ProcessObject::GetInput( 1 ).GetPointer() );
 }
 
@@ -87,9 +87,9 @@ template <class TReference, class TTarget, class TDeformationField>
 void
 PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 ::SetTarget(
-TargetType * ptr )
+const TargetType * ptr )
 {
-  this->ProcessObject::SetNthInput( 2, ptr );
+  this->ProcessObject::SetNthInput( 2, const_cast< TargetType * >( ptr ) );
 }
 
 
@@ -98,11 +98,11 @@ TargetType * ptr )
  */
 template <class TReference, class TTarget, class TDeformationField>
 PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
-::TargetPointer
+::TargetConstPointer
 PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 ::GetTarget()
 {
-  return static_cast< TargetType * >
+  return dynamic_cast< TargetType * >
     ( this->ProcessObject::GetInput( 2 ).GetPointer() );
 }
 
@@ -167,8 +167,8 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 ::InitializeIteration()
 {
 
-  ReferencePointer refPtr = this->GetReference();
-  TargetPointer targetPtr = this->GetTarget();
+  ReferenceConstPointer refPtr = this->GetReference();
+  TargetConstPointer targetPtr = this->GetTarget();
 
   if( !refPtr || !targetPtr )
     {
@@ -218,7 +218,7 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 ::CopyInputToOutput()
 {
 
-  typename InputImageType::Pointer  inputPtr  = this->GetInput();
+  typename InputImageType::ConstPointer  inputPtr  = this->GetInput();
   
   if( inputPtr )
     {
@@ -289,7 +289,8 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
   Superclass::GenerateInputRequestedRegion();
 
   // request the largest possible region for the reference image
-  ReferencePointer refPtr = this->GetReference();
+  ReferencePointer refPtr = 
+      const_cast< ReferenceType * >( this->GetReference().GetPointer() );
   if( refPtr )
     {
     refPtr->SetRequestedRegionToLargestPossibleRegion();
@@ -297,9 +298,11 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
   
   // just propagate up the output requested region for
   // the target image and initial deformation field.
-  DeformationFieldPointer inputPtr = this->GetInput();
+  DeformationFieldPointer inputPtr = 
+      const_cast< DeformationFieldType * >( this->GetInput().GetPointer() );
   DeformationFieldPointer outputPtr = this->GetOutput();
-  TargetPointer targetPtr = this->GetTarget();
+  TargetPointer targetPtr = 
+        const_cast< TargetType *>( this->GetTarget().GetPointer() );
 
   if( inputPtr )
     {

@@ -123,7 +123,8 @@ StreamingImageFilter<TInputImage,TOutputImage>
   /**
    * Grab the input
    */
-  InputImagePointer inputPtr = this->GetInput(0);
+  InputImagePointer inputPtr = 
+      const_cast< InputImageType * >( this->GetInput(0).GetPointer() );
 
   /**
    * Determine of number of pieces to divide the input.  This will be the
@@ -207,7 +208,9 @@ StreamingImageFilter<TInputImage,TOutputImage>
       {
       if ( this->GetInput(idx)->ShouldIReleaseData() )
         {
-        this->GetInput(idx)->ReleaseData();
+        InputImagePointer input =
+          const_cast< InputImageType * >( this->GetInput(idx).GetPointer() );
+        input->ReleaseData();
         }
       }  
     }

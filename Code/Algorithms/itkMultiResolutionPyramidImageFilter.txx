@@ -263,7 +263,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 {
 
   // Get the input and output pointers
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImageConstPointer  inputPtr = this->GetInput();
 
   // Create caster, smoother and shrinker filters
   typedef CastImageFilter<TInputImage, TOutputImage> CasterType;
@@ -358,7 +358,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  InputImagePointer inputPtr = this->GetInput();
+  InputImageConstPointer inputPtr = this->GetInput();
 
   if ( !inputPtr  )
     {
@@ -509,7 +509,8 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImagePointer  inputPtr = 
+        const_cast< InputImageType * >( this->GetInput().GetPointer() );
   if ( !inputPtr )
     {
     itkExceptionMacro( << "Input has not been set." );

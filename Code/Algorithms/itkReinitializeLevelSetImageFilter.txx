@@ -19,6 +19,7 @@
 
 #include "itkReinitializeLevelSetImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkIndex.h"
 
 namespace itk
@@ -183,15 +184,17 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 ::GenerateDataFull()
 {
 
-  LevelSetPointer inputPtr = this->GetInput();
+  LevelSetConstPointer inputPtr = this->GetInput();
   LevelSetPointer outputPtr = this->GetOutput();
   LevelSetPointer tempLevelSet = m_Marcher->GetOutput();
 
   // define iterators
   typedef 
     ImageRegionIterator<LevelSetImageType> IteratorType;
+  typedef 
+    ImageRegionConstIterator<LevelSetImageType> ConstIteratorType;
 
-  IteratorType inputIt( inputPtr,
+  ConstIteratorType inputIt( inputPtr,
     inputPtr->GetBufferedRegion() );
   IteratorType outputIt( outputPtr,
     outputPtr->GetBufferedRegion() );
@@ -264,15 +267,17 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 ::GenerateDataNarrowBand()
 {
 
-  LevelSetPointer inputPtr = this->GetInput();
+  LevelSetConstPointer inputPtr = this->GetInput();
   LevelSetPointer outputPtr = this->GetOutput();
   LevelSetPointer tempLevelSet = m_Marcher->GetOutput();
 
   // define iterators
   typedef 
     ImageRegionIterator<LevelSetImageType> IteratorType;
+  typedef 
+    ImageRegionConstIterator<LevelSetImageType> ConstIteratorType;
 
-  IteratorType inputIt( inputPtr,
+  ConstIteratorType inputIt( inputPtr,
     inputPtr->GetBufferedRegion() );
 
   IteratorType outputIt( outputPtr,

@@ -19,6 +19,7 @@
 
 #include "itkWrapPadImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"
 #include "itkFastMutexLock.h"
 #include <vector>
@@ -360,7 +361,8 @@ WrapPadImageFilter<TInputImage,TOutputImage>
   // Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImagePointer  inputPtr = 
+    const_cast< InputImageType * >( this->GetInput().GetPointer() );
   OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
@@ -539,8 +541,8 @@ WrapPadImageFilter<TInputImage,TOutputImage>
   itkDebugMacro(<<"Actually executing");
   
   // Get the input and output pointers
-  InputImagePointer  inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
+  InputImageConstPointer  inputPtr  = this->GetInput();
+  OutputImagePointer      outputPtr = this->GetOutput();
   
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
@@ -663,10 +665,7 @@ WrapPadImageFilter<TInputImage,TOutputImage>
   // Define/declare iterators that will walk the input and output regions
   // for this thread.  
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
-  typedef ImageRegionIterator<TInputImage> InputIterator;
-  
-  OutputIterator outIt;
-  InputIterator inIt;
+  typedef ImageRegionConstIterator<TInputImage> InputIterator;
   
   i = 0;
   
@@ -684,8 +683,8 @@ WrapPadImageFilter<TInputImage,TOutputImage>
        inputRegionSizes,inputRegion);
     if (goodInput && goodOutput)
       {
-      outIt = OutputIterator(outputPtr, outputRegion);
-      inIt = OutputIterator(inputPtr, inputRegion);
+      OutputIterator outIt = OutputIterator(outputPtr, outputRegion);
+      InputIterator  inIt  = InputIterator(inputPtr, inputRegion);
           
       // Do the actual copy of the input pixels to the output
       // pixels here.

@@ -58,7 +58,7 @@ SupervisedClassifier<TInputImage, TClassifiedImage>
   //Ensure that the training image has the same size as the
   //input image
 
-  InputImageType inputImage = this->GetInputImage();
+  InputImageConstPointer inputImage = this->GetInputImage();
   
   InputImageSizeType 
     inputImageSize = inputImage->GetBufferedRegion().GetSize();
@@ -92,7 +92,7 @@ void
 SupervisedClassifier<TInputImage, TClassifiedImage>
 ::Allocate()
 {
-  InputImageType inputImage = this->GetInputImage();
+  InputImageConstPointer inputImage = this->GetInputImage();
   
   InputImageSizeType inputImageSize = inputImage->GetBufferedRegion().GetSize();
   

@@ -93,7 +93,8 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   // this filter requires the all of the input images 
   // to be at the size of the output requested region
-  InputImagePointer inputPtr = this->GetInput();
+  InputImagePointer inputPtr = 
+      const_cast< InputImageType * >( this->GetInput().GetPointer() );
   OutputImagePointer outputPtr = this->GetOutput();
   inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
 
@@ -134,7 +135,7 @@ void
 MRFImageFilter<TInputImage, TClassifiedImage>
 ::GenerateOutputInformation()
 {
-  typename TInputImage::Pointer input = this->GetInput();
+  typename TInputImage::ConstPointer input = this->GetInput();
   typename TClassifiedImage::Pointer output = this->GetOutput();
   output->SetLargestPossibleRegion( input->GetLargestPossibleRegion() );
 
@@ -149,7 +150,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   //generate the Gaussian model for the different classes
   //and then generate the initial labelled dataset.
 
-  InputImagePointer inputImage = this->GetInput();
+  InputImageConstPointer inputImage = this->GetInput();
     
   //Give the input image and training image set to the  
   // classifier
@@ -483,7 +484,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   LabelStatusImageFaceListType     labelStatusImageFaceList;
 
   //Compute the faces for the neighborhoods in the input/labelled image 
-  InputImagePointer inputImage = this->GetInput();
+  InputImageConstPointer inputImage = this->GetInput();
   inputImageFaceList =
     inputImageFacesCalculator( inputImage, 
                                inputImage->GetBufferedRegion(),

@@ -54,6 +54,13 @@ public:
   /** Number of dimensions */
   enum {NDimensions = TInputImage::ImageDimension};
 
+  /** typedef for images */
+  typedef TInputImage                             InputImageType;
+  typedef TOutputImage                            OutputImageType;;
+  typedef typename OutputImageType::Pointer       OutputImagePointer;
+  typedef typename InputImageType::Pointer        InputImagePointer;
+  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
+
   /** Image size typedef */
   typedef Size<TOutputImage::ImageDimension> SizeType;
 

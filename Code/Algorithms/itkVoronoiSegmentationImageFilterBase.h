@@ -78,6 +78,7 @@ public:
   /** Convenient typedefs. */
   typedef TInputImage InputImageType;
   typedef typename TInputImage::Pointer InputImagePointer;
+  typedef typename TInputImage::ConstPointer InputImageConstPointer;
   typedef TOutputImage OutputImageType;
   typedef typename TInputImage::IndexType IndexType;
   typedef typename TInputImage::SizeType SizeType;

@@ -84,10 +84,12 @@ public:
   /** Reference image type. */
   typedef TReference   ReferenceType;
   typedef typename ReferenceType::Pointer  ReferencePointer;
+  typedef typename ReferenceType::ConstPointer  ReferenceConstPointer;
 
   /** Target image type. */
   typedef TTarget    TargetType;
   typedef typename TargetType::Pointer  TargetPointer;
+  typedef typename TargetType::ConstPointer  TargetConstPointer;
   
   /** Deformation field type. */
   typedef TDeformationField    DeformationFieldType;
@@ -105,16 +107,16 @@ public:
   enum{ ImageDimension = Superclass::ImageDimension };
 
   /** Set the reference image. */
-  void SetReference( ReferenceType * ptr );
+  void SetReference( const ReferenceType * ptr );
 
   /** Get the reference image. */
-  ReferencePointer GetReference();
+  ReferenceConstPointer GetReference(void);
 
   /** Set the target image. */
-  void SetTarget( TargetType * ptr );
+  void SetTarget( const TargetType * ptr );
 
   /** Get the target image. */
-  TargetPointer GetTarget();
+  TargetConstPointer GetTarget(void);
 
   /** Set initial deformation field. */
   void SetInitialDeformationField( DeformationFieldType * ptr )

@@ -94,7 +94,7 @@ public:
   typedef std::vector<ImageRegionType> SlabRegionVectorType ; 
 
   /** Set the input image. */
-  void SetImage(ImagePointer image) ;
+  itkSetConstObjectMacro( Image, ImageType );
 
   /** Set the number of minimum intensity pixels per slice. */
   void SetNumberOfMinimumsPerSlice(int no) ;
@@ -126,7 +126,7 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   /** Target image pointer that MRASlabIdentifier will use. */
-  ImagePointer m_Image ;
+  ImageConstPointer m_Image ;
 
   /** The number of pixels per slice which will be included 
    * for average calculation. In a sense, it's sampling size per slice. */

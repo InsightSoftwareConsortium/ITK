@@ -35,11 +35,15 @@ MinimumMaximumImageFilter<TInputImage>
   itkDebugMacro(<< "MinimumMaximumImageFilter::GenerateData() called");
 
   // Get the input and output pointers
-  InputImagePointer  inputPtr = this->GetInput(0);
-  OutputImagePointer outputPtr = this->GetOutput(0);
+  InputImageConstPointer  inputPtr  = this->GetInput(0);
+  OutputImagePointer      outputPtr = this->GetOutput(0);
 
   // Make sure we're getting everything
-  inputPtr->SetRequestedRegionToLargestPossibleRegion();
+  {
+    typename TInputImage::Pointer image = 
+                  const_cast< TInputImage * >( inputPtr.GetPointer() ); 
+    image->SetRequestedRegionToLargestPossibleRegion();
+  }
 
   // How big is the input image?
   typename TInputImage::SizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
@@ -64,7 +68,10 @@ MinimumMaximumImageFilter<TInputImage>
                                         outputPtr->GetRequestedRegion());
 
  
-  ImageRegionConstIteratorWithIndex< TInputImage >  it( this->GetInput(),  this->GetInput()->GetRequestedRegion() );
+  ImageRegionConstIteratorWithIndex< TInputImage >  it( 
+                                          this->GetInput(),  
+                                          this->GetInput()->GetRequestedRegion() );
+
   m_Maximum = NumericTraits<InputPixelType>::min() ;
   m_Minimum = NumericTraits<InputPixelType>::max() ;
 

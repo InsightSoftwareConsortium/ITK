@@ -19,6 +19,7 @@
 #include "itkShiftScaleImageFilter.h"
 
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
 
 namespace itk {
@@ -81,7 +82,7 @@ ShiftScaleImageFilter<TInputImage, TOutputImage>
 {
 
   RealType value;
-  ImageRegionIterator<TInputImage>  it (this->GetInput(), regionForThread);
+  ImageRegionConstIterator<TInputImage>  it (this->GetInput(), regionForThread);
   ImageRegionIterator<TOutputImage> ot (this->GetOutput(), regionForThread);
   
   // support progress methods/callbacks

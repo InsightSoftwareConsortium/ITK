@@ -132,6 +132,7 @@ public:
 
   /** LevelSetPointer typedef support. */
   typedef typename TLevelSet::Pointer LevelSetPointer;
+  typedef typename TLevelSet::ConstPointer LevelSetConstPointer;
 
   /** PixelType typedef support. */
   typedef typename TLevelSet::PixelType PixelType;
@@ -190,6 +191,7 @@ public:
 
   /** AuxImagePointer typedef support. */
   typedef typename AuxImageType::Pointer AuxImagePointer;
+  typedef typename AuxImageType::ConstPointer AuxImageConstPointer;
 };
 
 

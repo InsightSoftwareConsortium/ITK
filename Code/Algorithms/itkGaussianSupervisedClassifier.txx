@@ -94,8 +94,8 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 {
   //-------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the input image
-  InputImageType  inputImage = this->GetInputImage();
-  InputImageIterator inIt( inputImage, inputImage->GetBufferedRegion() );
+  InputImageConstPointer  inputImage = this->GetInputImage();
+  InputImageConstIterator inIt( inputImage, inputImage->GetBufferedRegion() );
 
   //-------------------------------------------------------------------
 
@@ -296,8 +296,8 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the input image
   //-------------------------------------------------------------------
-  InputImageType  inputImage = this->GetInputImage();
-  InputImageIterator inIt( inputImage, inputImage->GetBufferedRegion() );
+  InputImageConstPointer  inputImage = this->GetInputImage();
+  InputImageConstIterator inIt( inputImage, inputImage->GetBufferedRegion() );
 
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the classified image

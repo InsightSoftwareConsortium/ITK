@@ -94,10 +94,12 @@ public:
   /** Reference image type. */
   typedef TReference ReferenceType;
   typedef typename ReferenceType::Pointer ReferencePointer;
+  typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
 
   /** Target image type. */
   typedef TTarget TargetType;
   typedef typename TargetType::Pointer TargetPointer;
+  typedef typename TargetType::ConstPointer TargetConstPointer;
 
   /** Deformation field image type. */
   typedef TDeformationField DeformationFieldType;
@@ -134,16 +136,16 @@ public:
   typedef typename FieldExpanderType::Pointer  FieldExpanderPointer;
 
   /** Set the reference image. */
-  virtual void SetReference( ReferenceType * ptr );
+  virtual void SetReference( const ReferenceType * ptr );
 
   /** Get the reference image. */
-  ReferencePointer GetReference();
+  ReferenceConstPointer GetReference(void);
 
   /** Set the target image. */
-  virtual void SetTarget( TargetType * ptr );
+  virtual void SetTarget( const TargetType * ptr );
 
   /** Get the target image. */
-  TargetPointer GetTarget();
+  TargetConstPointer GetTarget(void);
 
   /** Set initial deformation field. */
   virtual void SetInitialDeformationField( DeformationFieldType * ptr )

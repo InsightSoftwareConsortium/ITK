@@ -64,7 +64,9 @@ public:
   itkTypeMacro(RGBGibbsPriorFilter,MRFImageFilter);
 
   /** A smart pointer to the input image type. */
-  typedef typename TInputImage::Pointer              InputImageType;  
+  typedef TInputImage                                InputImageType;  
+  typedef typename TInputImage::Pointer              InputImagePointer;  
+  typedef typename TInputImage::ConstPointer         InputImageConstPointer;  
 
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType            InputPixelType;
@@ -165,9 +167,9 @@ private:
   
   typedef typename TInputImage::SizeType InputImageSizeType;
 
-  InputImageType      m_InputImage;    /** the input */
-  TrainingImageType   m_TrainingImage; /** image to train the filter. */
-  LabelledImageType   m_LabelledImage; /** output */
+  InputImageConstPointer  m_InputImage;    /** the input */
+  TrainingImageType       m_TrainingImage; /** image to train the filter. */
+  LabelledImageType       m_LabelledImage; /** output */
   unsigned int        m_NumberOfClasses; /** the number of class need to be classified. */
   unsigned int        m_MaximumNumberOfIterations; /** number of the iteration. */
   typename ClassifierType::Pointer m_ClassifierPtr;
@@ -178,7 +180,7 @@ private:
   int               m_RecursiveNum;     /** number of SA iterations. */
   LabelType       * m_LabelStatus; /** array for the state of each pixel. */
 
-  InputImageType      m_MediumImage;   /** the medium image to store intermedium result */
+  InputImagePointer  m_MediumImage;   /** the medium image to store intermedium result */
 
   unsigned int      m_Temp;         /** for SA algo. */
   IndexType m_StartPoint; /** the seed of object */

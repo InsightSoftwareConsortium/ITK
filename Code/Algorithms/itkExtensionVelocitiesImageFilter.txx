@@ -20,6 +20,7 @@
 
 #include "itkExtensionVelocitiesImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkIndex.h"
 
 
@@ -56,7 +57,7 @@ template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
 void
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::SetInputVelocityImage(
-AuxImageType * ptr,
+const AuxImageType * ptr,
 unsigned int idx )
 {
   if( idx >= VAuxDimension )
@@ -64,7 +65,7 @@ unsigned int idx )
     return;
     }
 
-  this->ProcessObject::SetNthInput( idx+1, ptr );
+  this->ProcessObject::SetNthInput( idx+1, const_cast< AuxImageType * >( ptr ) );
 
 }
 
@@ -74,7 +75,7 @@ unsigned int idx )
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
-::AuxImagePointer
+::AuxImageConstPointer
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::GetInputVelocityImage( unsigned int idx )
 {
@@ -84,8 +85,8 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     return NULL;
     }
 
-  return static_cast<AuxImageType*>(
-    this->ProcessObject::GetInput(idx+1).GetPointer() );
+  return dynamic_cast<AuxImageType*>(
+                this->ProcessObject::GetInput(idx+1).GetPointer() );
 
 }
 
@@ -204,7 +205,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::GenerateDataFull()
 {
 
-  LevelSetPointer inputPtr = this->GetInput();
+  LevelSetConstPointer inputPtr = this->GetInput();
   LevelSetPointer outputPtr = this->GetOutput();
   LevelSetPointer tempLevelSet = m_Marcher->GetOutput();
 
@@ -213,8 +214,10 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   // define iterators
   typedef 
     ImageRegionIterator<LevelSetType::LevelSetImageType> IteratorType;
+  typedef 
+    ImageRegionConstIterator<LevelSetType::LevelSetImageType> ConstIteratorType;
 
-  IteratorType inputIt( inputPtr,
+  ConstIteratorType inputIt( inputPtr,
     inputPtr->GetBufferedRegion() );
   IteratorType outputIt( outputPtr,
     outputPtr->GetBufferedRegion() );
@@ -351,7 +354,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::GenerateDataNarrowBand()
 {
 
-  LevelSetPointer inputPtr = this->GetInput();
+  LevelSetConstPointer inputPtr = this->GetInput();
   LevelSetPointer outputPtr = this->GetOutput();
   LevelSetPointer tempLevelSet = m_Marcher->GetOutput();
 
@@ -362,8 +365,10 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   // define iterators
   typedef 
     ImageRegionIterator<LevelSetType::LevelSetImageType> IteratorType;
+  typedef 
+    ImageRegionConstIterator<LevelSetType::LevelSetImageType> ConstIteratorType;
 
-  IteratorType inputIt( inputPtr,
+  ConstIteratorType inputIt( inputPtr,
     inputPtr->GetBufferedRegion() );
 
   IteratorType outputIt( outputPtr,

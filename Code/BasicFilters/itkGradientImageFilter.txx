@@ -39,7 +39,8 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType>
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImagePointer  inputPtr = 
+    const_cast< InputImageType * >( this->GetInput().GetPointer() );
   OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
@@ -109,8 +110,8 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
     OutputValueType> SIP;
 
   // Allocate output
-  typename OutputImageType::Pointer output = this->GetOutput();
-  typename  InputImageType::Pointer input  = this->GetInput();
+  typename OutputImageType::Pointer       output = this->GetOutput();
+  typename  InputImageType::ConstPointer  input  = this->GetInput();
   
   // Set up operators 
   DerivativeOperator<OperatorValueType, InputImageDimension> op;

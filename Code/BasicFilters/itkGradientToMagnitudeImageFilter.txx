@@ -21,6 +21,7 @@
 #include <math.h>
 #include "itkSize.h"
 #include "itkImageRegion.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkGradientToMagnitudeImageFilter.h"
 
 namespace itk
@@ -43,39 +44,38 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
   itkDebugMacro(<< "GradientToMagnitudeImageFilter::GenerateData() called");
 
   // Get the input and output pointers
-  InputImagePointer  inputPtr = this->GetInput(0);
-  OutputImagePointer outputPtr = this->GetOutput(0);
+  InputImageConstPointer  inputPtr  = this->GetInput(0);
+  OutputImagePointer      outputPtr = this->GetOutput(0);
 
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
   // Create an iterator that will walk the output region
-  typedef ImageRegionIterator<TOutputImage> OutputIterator;
+  typedef ImageRegionConstIterator<TInputImage> InputIterator;
+  typedef ImageRegionIterator<TOutputImage>     OutputIterator;
 
   OutputIterator outIt = OutputIterator(outputPtr,
                                         outputPtr->GetRequestedRegion());
 
-  // Define a few indices that will be used to translate from an input pixel
-  // to an output pixel
-  typename TOutputImage::IndexType index;
+  InputIterator   inIt = InputIterator(inputPtr,
+                                        inputPtr->GetRequestedRegion());
+
+  inIt.GoToBegin();
 
   // walk the output image, and sample the input image
-  for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
+  for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++inIt )
     {
-    TComputation acc = 0;
-
-    // determine the index of the output pixel
-    index = outIt.GetIndex();
+    TComputation acc = NumericTraits< TComputation >::Zero;
 
     for(int i = 0; i < NDimensions; i++)
       {
-      acc += static_cast<TComputation>(inputPtr->GetPixel(index)[i])
-        * static_cast<TComputation>(inputPtr->GetPixel(index)[i]);
+      const TComputation component = static_cast<TComputation>( inIt.Get()[i]);
+      acc += component * component;
       }
 
-    acc = sqrt(acc);
+    acc = sqrt( acc );
 
-    outputPtr->GetPixel(index) = static_cast<OutputImagePixelType>(acc);
+    outIt.Set( static_cast<OutputImagePixelType>(acc) );
     }
 
   itkDebugMacro(<< "GradientToMagnitudeImageFilter::GenerateData() finished");

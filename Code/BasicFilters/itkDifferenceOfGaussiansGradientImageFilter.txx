@@ -41,7 +41,8 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
   itkDebugMacro(<< "DifferenceOfGaussiansGradientImageFilter::GenerateData() called");
 
   // Get the input and output pointers
-  InputImagePointer  inputPtr = this->GetInput(0);
+  InputImagePointer  inputPtr = 
+      const_cast< TInputImage * >( this->GetInput(0).GetPointer() );
   OutputImagePointer outputPtr = this->GetOutput(0);
 
   // Make sure we're getting everything

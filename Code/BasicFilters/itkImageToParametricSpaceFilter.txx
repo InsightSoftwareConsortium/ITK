@@ -74,7 +74,7 @@ ImageToParametricSpaceFilter<TInputImage,TOutputMesh>
   OutputMeshPointer          mesh       = this->GetOutput();
   PointsContainerPointer     points     = mesh->GetPoints();
   PointDataContainerPointer  pointData  = PointDataContainer::New();
-  InputImagePointer          image      = this->GetInput(0).GetPointer();
+  InputImageConstPointer     image      = this->GetInput(0);
 
   const unsigned long numberOfPixels =
              image->GetRequestedRegion().GetNumberOfPixels(); 
@@ -101,7 +101,7 @@ ImageToParametricSpaceFilter<TInputImage,TOutputMesh>
   OutputMeshPointer           mesh      = this->GetOutput();
   PointsContainerPointer      points    = mesh->GetPoints();
   PointDataContainerPointer   pointData = PointDataContainer::New();
-  InputImagePointer           image     = this->GetInput(0);
+  InputImageConstPointer      image     = this->GetInput(0);
   InputImageRegionType        region    = image->GetRequestedRegion();
 
   unsigned long numberOfPixels    = region.GetNumberOfPixels();

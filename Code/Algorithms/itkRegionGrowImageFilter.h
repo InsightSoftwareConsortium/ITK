@@ -90,13 +90,16 @@ public:
   itkTypeMacro(RegionGrowImageFilter,Object);
 
   /** Type definition for the input image. */
-  typedef typename TInputImage::Pointer   InputImageType;
+  typedef TInputImage                           InputImageType;
+  typedef typename TInputImage::Pointer         InputImagePointer;
+  typedef typename TInputImage::ConstPointer    InputImageConstPointer;
 
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType InputImagePixelType;
 
   /** Type definition for the output image. */
-  typedef typename TOutputImage::Pointer   OutputImageType;
+  typedef TOutputImage                          OutputImageType;
+  typedef typename TOutputImage::Pointer        OutputImagePointer;
 
   /** Type definition for the input image pixel type. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;

@@ -67,7 +67,9 @@ public:
   itkTypeMacro(Classifier,LightProcessObject);
 
   /** Type definition for the input image. */
-  typedef typename TInputImage::Pointer   InputImageType;
+  typedef TInputImage                           InputImageType;
+  typedef typename TInputImage::Pointer         InputImagePointer;
+  typedef typename TInputImage::ConstPointer    InputImageConstPointer;
 
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType InputPixelType;
@@ -88,10 +90,10 @@ public:
     TrainingImagePixelType;
 
   /** Set the input image. */
-  itkSetMacro(InputImage,InputImageType);
+  itkSetConstObjectMacro(InputImage,InputImageType);
 
   /** Get the input image. */
-  itkGetMacro(InputImage,InputImageType);
+  itkGetConstObjectMacro(InputImage,InputImageType);
 
   /** Set the classified image. */
   itkSetMacro(ClassifiedImage,ClassifiedImageType);
@@ -142,8 +144,8 @@ private:
   Classifier(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  InputImageType      m_InputImage;
-  ClassifiedImageType m_ClassifiedImage;
+  InputImageConstPointer      m_InputImage;
+  ClassifiedImageType         m_ClassifiedImage;
 
 }; // class Classifier
 

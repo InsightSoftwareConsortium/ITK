@@ -73,6 +73,7 @@ public:
   typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
   typedef typename LevelSetType::LevelSetImageType  LevelSetImageType;
   typedef typename LevelSetType::LevelSetPointer  LevelSetPointer;
+  typedef typename LevelSetType::LevelSetConstPointer  LevelSetConstPointer;
   typedef typename LevelSetType::PixelType  PixelType;
   typedef typename LevelSetType::NodeType NodeType;
   typedef typename LevelSetType::NodeContainer NodeContainer;
@@ -85,10 +86,10 @@ public:
   typedef Index<SetDimension> IndexType;
 
   /** Set the input level set. */
-  itkSetObjectMacro( InputLevelSet, LevelSetImageType );
+  itkSetConstObjectMacro( InputLevelSet, LevelSetImageType );
 
   /** Get the input level set. */
-  itkGetObjectMacro( InputLevelSet, LevelSetImageType );
+  itkGetConstObjectMacro( InputLevelSet, LevelSetImageType );
 
   /** Set the value of the level set to be located. Default is 0. */
   itkSetMacro( LevelSetValue, double );
@@ -157,7 +158,7 @@ private:
   NodeContainerPointer                          m_InsidePoints;
   NodeContainerPointer                          m_OutsidePoints;
 
-  LevelSetPointer                               m_InputLevelSet;
+  LevelSetConstPointer                          m_InputLevelSet;
 
   bool                                          m_NarrowBanding;
   double                                        m_NarrowBandwidth;

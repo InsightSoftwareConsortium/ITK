@@ -24,6 +24,7 @@
 #include "itkVarianceImageFunction.h"
 #include "itkBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
+#include "itkFloodFilledImageFunctionConditionalConstIterator.h"
 
 namespace itk
 {
@@ -65,7 +66,9 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
   if ( this->GetInput() )
     {
-    this->GetInput()->SetRequestedRegionToLargestPossibleRegion();
+    InputImagePointer input =
+        const_cast< TInputImage * >( this->GetInput().GetPointer() );
+    input->SetRequestedRegionToLargestPossibleRegion();
     }
 }
 
@@ -87,13 +90,13 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   typedef BinaryThresholdImageFunction<InputImageType> FunctionType;
   typedef BinaryThresholdImageFunction<OutputImageType> SecondFunctionType;
   typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType> IteratorType;
-  typedef FloodFilledImageFunctionConditionalIterator<InputImageType, SecondFunctionType> SecondIteratorType;
+  typedef FloodFilledImageFunctionConditionalConstIterator<InputImageType, SecondFunctionType> SecondIteratorType;
 
   unsigned int loop;
   unsigned long num;
   
-  InputImagePointer inputImage = this->GetInput();
-  OutputImagePointer outputImage = this->GetOutput();
+  InputImageConstPointer inputImage  = this->GetInput();
+  OutputImagePointer     outputImage = this->GetOutput();
 
   // Zero the output
   outputImage->SetBufferedRegion( outputImage->GetRequestedRegion() );

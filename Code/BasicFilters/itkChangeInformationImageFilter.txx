@@ -65,7 +65,8 @@ ChangeInformationImageFilter<TInputImage>
 
   // Get pointers to the input and output
   OutputImagePointer output = this->GetOutput();
-  InputImagePointer input = this->GetInput();
+  InputImagePointer input = 
+      const_cast< TInputImage * >( this->GetInput().GetPointer() );
 
   inputIndex = input->GetLargestPossibleRegion().GetIndex();
 
@@ -146,7 +147,9 @@ ChangeInformationImageFilter<TInputImage>
     typename TInputImage::RegionType region;
     region.SetSize(this->GetOutput()->GetRequestedRegion().GetSize());
     region.SetIndex(this->GetOutput()->GetRequestedRegion().GetIndex() - m_Shift);
-    this->GetInput()->SetRequestedRegion (region);
+    InputImagePointer input = 
+                const_cast< TInputImage * >( this->GetInput().GetPointer() );
+    input->SetRequestedRegion (region);
     }
 }
 
@@ -157,7 +160,8 @@ ChangeInformationImageFilter<TInputImage>
 {
   // Get pointers to the input and output
   InputImagePointer output = this->GetOutput();
-  InputImagePointer input = this->GetInput();
+  InputImagePointer input = 
+            const_cast< TInputImage * >( this->GetInput().GetPointer() );
   
   // No need to copy the bulk data
   output->SetPixelContainer(input->GetPixelContainer());

@@ -130,8 +130,8 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   itkDebugMacro(<<"Actually executing");
   
   // Get the input and output pointers
-  InputImagePointer  inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
+  InputImageConstPointer  inputPtr = this->GetInput();
+  OutputImagePointer      outputPtr = this->GetOutput();
   
   // Define/declare an iterator that will walk the output region for this
   // thread.
@@ -194,7 +194,8 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImagePointer  inputPtr = 
+      const_cast< TInputImage * >( this->GetInput().GetPointer() );
   OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
@@ -239,8 +240,8 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateOutputInformation();
   
   // get pointers to the input and output
-  InputImagePointer inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
+  InputImageConstPointer  inputPtr  = this->GetInput();
+  OutputImagePointer      outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
     {

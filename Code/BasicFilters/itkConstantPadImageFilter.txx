@@ -19,6 +19,7 @@
 
 #include "itkConstantPadImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"
 
 namespace itk
@@ -109,7 +110,7 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
   itkDebugMacro(<<"Actually executing");
 
   // Get the input and output pointers
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImageConstPointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
 
   // Define a few indices that will be used to translate from an input pixel
@@ -216,52 +217,47 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
   typedef
     ImageRegionIterator<TOutputImage> OutputIterator;
   typedef 
-    ImageRegionIterator<TInputImage> InputIterator;
-
-  OutputIterator outIt;
-  InputIterator inIt;
+    ImageRegionConstIterator<TInputImage> InputIterator;
 
   // Walk the first region which is defined as the between for everyone.
   if (GenerateNextRegion(regIndices, regLimit, indices, sizes, outputRegion))
     {
       inputRegion.SetIndex(outputRegion.GetIndex());
       inputRegion.SetSize(outputRegion.GetSize());
-      outIt = OutputIterator(outputPtr, outputRegion);
-      inIt = OutputIterator(inputPtr, inputRegion);
+      OutputIterator outIt = OutputIterator(outputPtr, outputRegion);
+      InputIterator  inIt  = InputIterator(inputPtr, inputRegion);
 
       // walk the output region, and sample the input image
       for (ctr=0; !outIt.IsAtEnd(); ++outIt, ++inIt, ctr++ )
-  {
-    if ( threadId == 0 && !(ctr % updateVisits ) )
-      {
-        this->UpdateProgress((float)ctr / (float)totalPixels);
+        {
+        if ( threadId == 0 && !(ctr % updateVisits ) )
+          {
+            this->UpdateProgress((float)ctr / (float)totalPixels);
+          }
+        
+        // copy the input pixel to the output
+        outIt.Set( inIt.Get());
       }
-    
-    // copy the input pixel to the output
-    outIt.Set( inIt.Get());
-  }
     } 
 
   // Now walk the remaining regions.
   for (regCtr=1; regCtr<numRegions; regCtr++)
     {
-      if (GenerateNextRegion
-    (regIndices, regLimit, indices, sizes, outputRegion))
-  {
-    outIt = OutputIterator(outputPtr, outputRegion);
-    
-    // walk the output region, and sample the input image
-    for (; !outIt.IsAtEnd(); ++outIt, ctr++ )
-      {
-        if ( threadId == 0 && !(ctr % updateVisits ) )
-    {
-      this->UpdateProgress((float)ctr / (float)totalPixels);
-    }
-        
-        // copy the input pixel to the output
-        outIt.Set( m_Constant );
-      }
-  } 
+      if (GenerateNextRegion(regIndices, regLimit, indices, sizes, outputRegion))
+        {
+        OutputIterator outIt = OutputIterator(outputPtr, outputRegion);
+          
+        // walk the output region, and sample the input image
+        for (; !outIt.IsAtEnd(); ++outIt, ctr++ )
+          {
+          if ( threadId == 0 && !(ctr % updateVisits ) )
+            {
+            this->UpdateProgress((float)ctr / (float)totalPixels);
+            }
+          // copy the input pixel to the output
+          outIt.Set( m_Constant );
+          }
+        } 
     }
 }
 

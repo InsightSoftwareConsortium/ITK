@@ -23,6 +23,7 @@
 #include "itkImageRegion.h"
 #include "itkBinomialBlurImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionReverseIterator.h"
 
 namespace itk
@@ -47,7 +48,8 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   
   Superclass::GenerateInputRequestedRegion();
 
-  InputImagePointer inputPtr = this->GetInput(0);
+  InputImagePointer inputPtr = 
+    const_cast< TInputImage * >( this->GetInput(0).GetPointer() );
   OutputImagePointer outputPtr = this->GetOutput(0);
 
   typename TOutputImage::RegionType outputRegion;
@@ -99,8 +101,8 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   itkDebugMacro(<< "BinomialBlurImageFilter::GenerateData() called");
 
   // Get the input and output pointers
-  InputImagePointer  inputPtr = this->GetInput(0);
-  OutputImagePointer outputPtr = this->GetOutput(0);
+  InputImageConstPointer  inputPtr  = this->GetInput(0);
+  OutputImagePointer      outputPtr = this->GetOutput(0);
 
   // Allocate the output
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
@@ -127,7 +129,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   // Iterator Typedefs for this routine
   typedef ImageRegionIterator<TTempImage> TempIterator;
   typedef ImageRegionReverseIterator<TTempImage> TempReverseIterator;
-  typedef ImageRegionIterator<TInputImage> InputIterator;
+  typedef ImageRegionConstIterator<TInputImage> InputIterator;
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
   
   // Copy the input image to the temporary image

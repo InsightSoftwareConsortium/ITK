@@ -81,7 +81,7 @@ template <class TLevelSet, class TSpeedImage>
 void
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::SetSpeedImage(
-SpeedImageType * ptr )
+const SpeedImageType * ptr )
 {
   this->SetInput( ptr );
 }
@@ -92,11 +92,11 @@ SpeedImageType * ptr )
  */
 template <class TLevelSet, class TSpeedImage>
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
-::SpeedImagePointer
+::SpeedImageConstPointer
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::GetSpeedImage()
 {
-  return this->GetInput();
+  return this->GetInput().GetPointer();
 }
 
 
@@ -294,8 +294,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::GenerateData()
 {
 
-  LevelSetPointer output = this->GetOutput();
-  SpeedImagePointer speedImage = this->GetInput();
+  LevelSetPointer         output      = this->GetOutput();
+  SpeedImageConstPointer  speedImage  = this->GetInput();
 
   this->Initialize( output );
 
@@ -372,8 +372,8 @@ template <class TLevelSet, class TSpeedImage>
 void
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::UpdateNeighbors(
-IndexType& index,
-SpeedImageType * speedImage,
+const IndexType& index,
+const SpeedImageType * speedImage,
 LevelSetImageType * output )
 {
   IndexType neighIndex = index;
@@ -415,8 +415,8 @@ template <class TLevelSet, class TSpeedImage>
 double
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::UpdateValue(
-IndexType& index,
-SpeedImageType * speedImage,
+const IndexType& index,
+const SpeedImageType * speedImage,
 LevelSetImageType * output )
 {
 

@@ -24,6 +24,7 @@
 #include "itkKLMSegmentationRegion.h"
 #include "itkKLMSegmentationBorder.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include <algorithm>
 #include <functional>
 
@@ -169,7 +170,9 @@ public:
   itkTypeMacro(KLMRegionGrowImageFilter,RegionGrowImageFilter);
 
   /** Type definition for the input image. */
-  typedef typename TInputImage::Pointer         InputImageType;
+  typedef TInputImage                           InputImageType;
+  typedef typename TInputImage::Pointer         InputImagePointer;
+  typedef typename TInputImage::ConstPointer    InputImageConstPointer;
 
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType       InputImagePixelType;
@@ -184,10 +187,12 @@ public:
   typedef typename TInputImage::OffsetType      InputImageOffsetType;
 
   /** Type definition for the image iterators to be used. */
-  typedef ImageRegionIterator< TInputImage >    InputImageIterator;
+  typedef ImageRegionIterator< TInputImage >      InputImageIterator;
+  typedef ImageRegionConstIterator< TInputImage > InputImageConstIterator;
 
   /** Type definition for the output image. */
-  typedef typename TOutputImage::Pointer        OutputImageType;
+  typedef TOutputImage                          OutputImageType;
+  typedef typename TOutputImage::Pointer        OutputImagePointer;
 
   /** Type definition for the output image pixel type. */
   typedef typename TOutputImage::PixelType      OutputImagePixelType;

@@ -22,6 +22,7 @@
 #include "itkEntropyPreservingGradientMagnitudeImageFunction.h"
 #include "itkUpwindDerivativeImageFunction.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 
 #include "vnl/vnl_math.h"
 
@@ -124,7 +125,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   this->AllocateBuffers();
   this->CopyInputToInputBuffer();
 
-  EdgeImagePointer edgeImage = this->GetEdgeImage();
+  EdgeImageConstPointer edgeImage = this->GetEdgeImage();
 
   unsigned int numberOfIterations = this->GetNumberOfIterations();
   double timeStepSize = this->GetTimeStepSize();
@@ -182,7 +183,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
       outputBuffer->GetBufferedRegion() );
 
     typedef
-      ImageRegionIterator<EdgeImageType> 
+      ImageRegionConstIterator<EdgeImageType> 
         SpeedIteratorType;
 
     SpeedIteratorType speedIt = SpeedIteratorType( edgeImage, 
@@ -281,8 +282,8 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   this->AllocateBuffers(true);
   
   LevelSetPointer outputPtr = this->GetOutputBuffer();
-  LevelSetPointer inputPtr = this->GetInput();
-  EdgeImagePointer edgeImage = this->GetEdgeImage();
+  LevelSetConstPointer inputPtr = this->GetInput();
+  EdgeImageConstPointer edgeImage = this->GetEdgeImage();
 
   DerivImagePointer derivImages[SetDimension];
   for ( int j = 0; j < SetDimension; j++ )
@@ -294,8 +295,10 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   // copy input to output
   typedef
      ImageRegionIterator<LevelSetImageType> IteratorType;
+  typedef
+     ImageRegionConstIterator<LevelSetImageType> ConstIteratorType;
   
-  IteratorType inIt = IteratorType( 
+  ConstIteratorType inIt = ConstIteratorType( 
     inputPtr, inputPtr->GetBufferedRegion() );
   IteratorType outIt = IteratorType( 
     outputPtr, outputPtr->GetBufferedRegion() );

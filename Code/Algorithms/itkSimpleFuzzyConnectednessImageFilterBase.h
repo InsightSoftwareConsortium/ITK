@@ -118,7 +118,7 @@ protected:
   IndexType m_ObjectsSeed;
   SizeType m_Size;
 
-  typename InputImageType::Pointer m_InputImage;
+  typename InputImageType::ConstPointer m_InputImage;
   typename UShortImage::Pointer m_FuzzyScene;
   typename OutputImageType::Pointer m_SegmentObject; 
   

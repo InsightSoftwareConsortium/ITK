@@ -89,9 +89,10 @@ public:
   typedef typename AuxVarType::AuxValueContainer AuxValueContainer;
   typedef typename AuxVarType::AuxImageType AuxImageType;
   typedef typename AuxVarType::AuxImagePointer AuxImagePointer;
+  typedef typename AuxVarType::AuxImageConstPointer AuxImageConstPointer;
 
   /** Set the auxiliary images. */
-  void SetAuxImage( AuxImageType * ptr, unsigned int idx = 0 )
+  void SetAuxImage( const AuxImageType * ptr, unsigned int idx = 0 )
     { 
     if ( idx < VAuxDimension && m_AuxImage[idx] != ptr )
       {
@@ -101,7 +102,7 @@ public:
     }
 
   /** Get the auxiliary images. */
-  AuxImagePointer GetAuxImage( unsigned int idx = 0 )
+  AuxImageConstPointer GetAuxImage( unsigned int idx = 0 )
     {
     if ( idx >= VAuxDimension ) 
       { 
@@ -137,7 +138,7 @@ private:
 
   typename AuxValueContainer::Pointer    m_AuxInsideValues;
   typename AuxValueContainer::Pointer    m_AuxOutsideValues;
-  AuxImagePointer                        m_AuxImage[VAuxDimension];
+  AuxImageConstPointer                   m_AuxImage[VAuxDimension];
 
 };
 

@@ -64,9 +64,9 @@ template <class TReference, class TTarget, class TDeformationField>
 void
 MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
 ::SetReference(
-ReferenceType * ptr )
+const ReferenceType * ptr )
 {
-  this->ProcessObject::SetNthInput( 1, ptr );
+  this->ProcessObject::SetNthInput( 1, const_cast< ReferenceType * >( ptr ) );
 }
 
 
@@ -75,11 +75,11 @@ ReferenceType * ptr )
  */
 template <class TReference, class TTarget, class TDeformationField>
 MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
-::ReferencePointer
+::ReferenceConstPointer
 MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
-::GetReference()
+::GetReference(void)
 {
-  return static_cast< ReferenceType * >
+  return dynamic_cast< const ReferenceType * >
     ( this->ProcessObject::GetInput( 1 ).GetPointer() );
 }
 
@@ -91,9 +91,9 @@ template <class TReference, class TTarget, class TDeformationField>
 void
 MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
 ::SetTarget(
-TargetType * ptr )
+const TargetType * ptr )
 {
-  this->ProcessObject::SetNthInput( 2, ptr );
+  this->ProcessObject::SetNthInput( 2, const_cast< TargetType * >( ptr ) );
 }
 
 
@@ -102,11 +102,11 @@ TargetType * ptr )
  */
 template <class TReference, class TTarget, class TDeformationField>
 MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
-::TargetPointer
+::TargetConstPointer
 MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
-::GetTarget()
+::GetTarget(void)
 {
-  return static_cast< TargetType * >
+  return dynamic_cast< const TargetType * >
     ( this->ProcessObject::GetInput( 2 ).GetPointer() );
 }
 
@@ -193,8 +193,8 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
   outputPtr->Allocate();
 
   // get a pointer to the reference and test images
-  ReferencePointer reference = this->GetReference();
-  TargetPointer target = this->GetTarget();
+  ReferenceConstPointer reference = this->GetReference();
+  TargetConstPointer    target = this->GetTarget();
 
   if( !reference || !target )
     {
@@ -381,19 +381,22 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
 
   // request the largest possible region for the reference, 
   // target and initial deformation field
-  ReferencePointer refPtr = this->GetReference();
+  ReferencePointer refPtr = 
+    const_cast< ReferenceType * >( this->GetReference().GetPointer() );
   if( refPtr )
     {
     refPtr->SetRequestedRegionToLargestPossibleRegion();
     }
   
-  TargetPointer targetPtr = this->GetTarget();
+  TargetPointer targetPtr = 
+    const_cast< TargetType * >( this->GetTarget().GetPointer() );
   if( targetPtr )
     {
     targetPtr->SetRequestedRegionToLargestPossibleRegion();
     }
 
-  DeformationFieldPointer inputPtr = this->GetInput();
+  DeformationFieldPointer inputPtr = 
+    const_cast< DeformationFieldType * >( this->GetInput().GetPointer() );
   if( inputPtr )
     {
     inputPtr->SetRequestedRegionToLargestPossibleRegion();

@@ -19,6 +19,7 @@
 #include "itkStatisticsImageFilter.h"
 
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
 
 namespace itk {
@@ -31,7 +32,9 @@ StatisticsImageFilter<TInputImage>
   Superclass::GenerateInputRequestedRegion();
   if ( this->GetInput() )
     {
-    this->GetInput()->SetRequestedRegionToLargestPossibleRegion();
+    InputImagePointer image =
+        const_cast< InputImageType * >( this->GetInput().GetPointer() );
+    image->SetRequestedRegionToLargestPossibleRegion();
     }
 }
 
@@ -51,7 +54,9 @@ StatisticsImageFilter<TInputImage>
 ::AllocateOutputs()
 {
   // Pass the input through as the output
-  this->GraftOutput(this->GetInput());
+  InputImagePointer image =
+      const_cast< TInputImage * >( this->GetInput().GetPointer() );
+  this->GraftOutput( image );
 }
 
 template<class TInputImage>
@@ -125,7 +130,7 @@ StatisticsImageFilter<TInputImage>
                        int threadId) 
 {
   RealType value;
-  ImageRegionIterator<TInputImage> it (this->GetInput(), regionForThread);
+  ImageRegionConstIterator<TInputImage> it (this->GetInput(), regionForThread);
   
   // support progress methods/callbacks
   unsigned long updateVisits = 0, i=0;

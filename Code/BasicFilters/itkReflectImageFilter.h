@@ -18,7 +18,6 @@
 #define __itkReflectImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImageLinearIteratorWithIndex.h"
 
 namespace itk
 {

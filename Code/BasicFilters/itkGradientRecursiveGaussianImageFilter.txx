@@ -89,7 +89,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
 
   itkDebugMacro(<< "GradientRecursiveGaussianImageFilter generating data ");
 
-  const typename TInputImage::Pointer   inputImage( this->GetInput() );
+  const typename TInputImage::ConstPointer   inputImage( this->GetInput() );
 
   //OutputImagePointer    outputImage   = TOutputImage::New();
   OutputImagePointer    outputImage   = this->GetOutput();

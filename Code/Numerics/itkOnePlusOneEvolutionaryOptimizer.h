@@ -81,8 +81,8 @@ public:
                    NormalRandomVariateGeneratorPointerType ;
   
   /** Set/Get maximum iteration limit. */
-  itkSetMacro( MaximumIteration, int );
-  itkGetConstMacro( MaximumIteration, int );
+  itkSetMacro( MaximumIteration, unsigned int );
+  itkGetConstMacro( MaximumIteration, unsigned int );
 
   /** Get the search radius grow factor in parameter space. */
   itkGetConstMacro( GrowthFactor, double );
@@ -128,7 +128,7 @@ private:
   NormalRandomVariateGeneratorPointerType m_RandomGenerator ;
 
   /** Maximum iteration limit. */
-  int m_MaximumIteration ;
+  unsigned int m_MaximumIteration ;
 
   /** The minimal size of search radius 
    * (frobenius_norm of covariance matrix). */ 

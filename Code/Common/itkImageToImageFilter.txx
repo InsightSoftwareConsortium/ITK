@@ -52,9 +52,11 @@ ImageToImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 ImageToImageFilter<TInputImage,TOutputImage>
-::SetInput(InputImageType *input)
+::SetInput(const InputImageType *input)
 {
-  this->ProcessObject::SetNthInput(0, input);
+  // Process object is not const-correct so the const_cast is required here
+  this->ProcessObject::SetNthInput(0, 
+      const_cast< InputImageType * >( input ) );
 }
 
 
@@ -62,16 +64,16 @@ ImageToImageFilter<TInputImage,TOutputImage>
  *
  */
 template <class TInputImage, class TOutputImage>
-ImageToImageFilter<TInputImage,TOutputImage>::InputImagePointer
+ImageToImageFilter<TInputImage,TOutputImage>::InputImageConstPointer
 ImageToImageFilter<TInputImage,TOutputImage>
-::GetInput()
+::GetInput(void) 
 {
   if (this->GetNumberOfInputs() < 1)
     {
     return 0;
     }
   
-  return static_cast<TInputImage*>
+  return static_cast<const TInputImage * >
                      (this->ProcessObject::GetInput(0).GetPointer());
 }
   
@@ -79,11 +81,11 @@ ImageToImageFilter<TInputImage,TOutputImage>
  *
  */
 template <class TInputImage, class TOutputImage>
-ImageToImageFilter<TInputImage,TOutputImage>::InputImagePointer
+ImageToImageFilter<TInputImage,TOutputImage>::InputImageConstPointer
 ImageToImageFilter<TInputImage,TOutputImage>
 ::GetInput(unsigned int idx)
 {
-  return static_cast<TInputImage*>
+  return static_cast< const TInputImage * >
                      (this->ProcessObject::GetInput(idx).GetPointer());
 }
 
@@ -100,8 +102,9 @@ ImageToImageFilter<TInputImage,TOutputImage>
     {
     if (this->GetInput(idx))
       {
-      this->GetInput(idx)
-        ->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
+      InputImagePointer input =
+          const_cast< TInputImage * > ( this->GetInput(idx).GetPointer() );
+      input->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
       }
     }  
 }

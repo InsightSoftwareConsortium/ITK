@@ -81,7 +81,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>
 ::AllocateUpdateBuffer()
 {
   // The update buffer looks just like the input.
-  typename TOutputImage::Pointer input = this->GetInput();
+  typename TInputImage::ConstPointer input = this->GetInput();
 
   m_UpdateBuffer->SetLargestPossibleRegion(input->GetLargestPossibleRegion());
   m_UpdateBuffer->SetRequestedRegion(input->GetRequestedRegion());
@@ -103,7 +103,8 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImagePointer  inputPtr = 
+    const_cast< TInputImage * >( this->GetInput().GetPointer() );
   OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
@@ -403,7 +404,7 @@ void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  typename  InputImageType::Pointer  input  = this->GetInput();
+  typename  InputImageType::ConstPointer  input  = this->GetInput();
   typename  OutputImageType::Pointer zeroCross;
   typename  OutputImageType::Pointer edge;
 

@@ -19,6 +19,7 @@
 
 #include "itkLevelSetImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkIndex.h"
 
 namespace itk
@@ -132,7 +133,7 @@ void
 LevelSetImageFilter<TLevelSet>
 ::AllocateBuffers(bool outputOnly)
 {
-  LevelSetPointer inputPtr = this->GetInput();
+  LevelSetConstPointer inputPtr = this->GetInput();
  
   if( !m_InputBuffer && !outputOnly) 
     { 
@@ -189,13 +190,15 @@ LevelSetImageFilter<TLevelSet>
   // Using iterators for copying is inefficient.
   // Replace this by a "DeepCopy" function when
   // available.
-  LevelSetPointer inputPtr = this->GetInput();
+  LevelSetConstPointer inputPtr = this->GetInput();
 
   // Define iterators
   typedef
     ImageRegionIterator<LevelSetImageType> IteratorType;
+  typedef
+    ImageRegionConstIterator<LevelSetImageType> ConstIteratorType;
 
-  IteratorType inIt = IteratorType( 
+  ConstIteratorType inIt = ConstIteratorType( 
     inputPtr, inputPtr->GetBufferedRegion() );
   IteratorType inBuffIt = IteratorType( 
     m_InputBuffer, m_InputBuffer->GetBufferedRegion() );
@@ -227,10 +230,12 @@ LevelSetImageFilter<TLevelSet>
   // Define iterators
   typedef
      ImageRegionIterator<LevelSetImageType> IteratorType;
+  typedef
+     ImageRegionConstIterator<LevelSetImageType> ConstIteratorType;
 
   IteratorType outIt = IteratorType( 
     outputPtr, outputPtr->GetBufferedRegion() );
-  IteratorType outBuffIt = IteratorType( 
+  ConstIteratorType outBuffIt = ConstIteratorType( 
     m_OutputBuffer, m_OutputBuffer->GetBufferedRegion() );
 
   while( !outIt.IsAtEnd() )

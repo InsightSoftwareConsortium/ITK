@@ -247,11 +247,11 @@ private:
   std::vector<char>              m_ScaleArray;
   std::vector<double>            m_Material;
 
-  typename InputImageType::Pointer   m_InputImage;
-  typename InputImageType::Pointer   m_FilterImage;
-  typename UShortImage::Pointer      m_ObjectFuzzyScene;
-  typename UShortImage::Pointer      m_BackgroundFuzzyScene;
-  typename OutputImageType::Pointer  m_SegmentObject; 
+  typename InputImageType::ConstPointer   m_InputImage;
+  typename InputImageType::Pointer        m_FilterImage;
+  typename UShortImage::Pointer           m_ObjectFuzzyScene;
+  typename UShortImage::Pointer           m_BackgroundFuzzyScene;
+  typename OutputImageType::Pointer       m_SegmentObject; 
 
   std::vector<unsigned short>  m_Xaffinity;
   std::vector<unsigned short>  m_Yaffinity;

@@ -66,9 +66,9 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 template <class TLevelSet, class TEdgeImage>
 void
 ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
-::SetEdgeImage(EdgeImageType * ptr)
+::SetEdgeImage(const EdgeImageType * ptr)
 {
-  this->ProcessObject::SetNthInput( 1, ptr );
+  this->ProcessObject::SetNthInput( 1, const_cast< EdgeImageType * >( ptr ) );
 }
 
 
@@ -77,7 +77,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
  */
 template <class TLevelSet, class TEdgeImage>
 ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
-::EdgeImagePointer
+::EdgeImageConstPointer
 ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 ::GetEdgeImage()
 {
@@ -86,7 +86,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
     return NULL;
     }
 
-  return static_cast<TEdgeImage *>(
+  return dynamic_cast<const TEdgeImage *>(
     this->ProcessObject::GetInput(1).GetPointer() );
 
 }
@@ -122,7 +122,11 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 
   // this filter requires all of the input image to
   // be in the buffer
-  this->GetEdgeImage()->SetRequestedRegionToLargestPossibleRegion();
+  {
+  EdgeImagePointer edgeImage = 
+      const_cast< EdgeImageType * >( this->GetEdgeImage().GetPointer() );
+      edgeImage->SetRequestedRegionToLargestPossibleRegion();
+  }
 
 }
 
@@ -135,8 +139,6 @@ void
 ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 ::GenerateData()
 {
-
-  LevelSetPointer inputPtr = this->GetInput();
 
   this->AllocateOutput();
 
@@ -210,7 +212,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
       outputBuffer->GetBufferedRegion() );
 
     typedef
-      ImageRegionIterator<EdgeImageType> 
+      ImageRegionConstIterator<EdgeImageType> 
         SpeedIteratorType;
 
     SpeedIteratorType speedIt = SpeedIteratorType( extVelPtr, 
@@ -273,15 +275,17 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
   this->AllocateBuffers(true);
 
   LevelSetPointer outputPtr = this->GetOutputBuffer();
-  LevelSetPointer inputPtr = this->GetInput();
+  LevelSetConstPointer inputPtr = this->GetInput();
 
   double narrowBandwidth = this->GetNarrowBandwidth();
 
   // copy input to output
   typedef
      ImageRegionIterator<LevelSetImageType> IteratorType;
-  
-  IteratorType inIt = IteratorType( inputPtr, 
+  typedef
+     ImageRegionConstIterator<LevelSetImageType> ConstIteratorType;
+
+  ConstIteratorType inIt = ConstIteratorType( inputPtr, 
     inputPtr->GetBufferedRegion() );
   IteratorType outIt = IteratorType( outputPtr, 
     outputPtr->GetBufferedRegion() );

@@ -19,6 +19,7 @@
 
 #include "itkMirrorPadImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"
 #include <vector>
 
@@ -461,7 +462,8 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
   // Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImagePointer  inputPtr = 
+      const_cast< InputImageType * >( this->GetInput().GetPointer() );
   OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
@@ -640,7 +642,7 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
   itkDebugMacro(<<"Actually executing");
   
   // Get the input and output pointers
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImageConstPointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
   
   // Define a few indices that will be used to translate from an input pixel
@@ -761,10 +763,8 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
   // Define/declare iterators that will walk the input and output regions
   // for this thread.  
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
-  typedef ImageRegionIterator<TInputImage> InputIterator;
+  typedef ImageRegionConstIterator<TInputImage> InputIterator;
   
-  OutputIterator outIt;
-  InputIterator inIt;
 
   int oddRegionArray[ImageDimension];
   OutputImageIndexType currentOutputIndex;
@@ -793,8 +793,8 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
                             static_cast<long>(inputSize[dimCtr]));
             }
 
-          outIt = OutputIterator(outputPtr, outputRegion);
-          inIt = InputIterator(inputPtr, inputRegion);
+          OutputIterator outIt = OutputIterator(outputPtr, outputRegion);
+          InputIterator  inIt  = InputIterator(inputPtr, inputRegion);
           
           // Do the actual copy of the input pixels to the output
           // pixels here.

@@ -61,7 +61,9 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
   if ( this->GetInput() )
     {
-    this->GetInput()->SetRequestedRegionToLargestPossibleRegion();
+    InputImagePointer image = 
+       const_cast< TInputImage * >( this->GetInput().GetPointer() );
+    image->SetRequestedRegionToLargestPossibleRegion();
     }
 }
 
@@ -79,7 +81,7 @@ void
 IsolatedConnectedImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
-  InputImagePointer inputImage = this->GetInput();
+  InputImageConstPointer inputImage = this->GetInput();
   OutputImagePointer outputImage = this->GetOutput();
 
   // Zero the output

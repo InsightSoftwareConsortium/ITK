@@ -152,7 +152,8 @@ public:
   typedef typename TInputImage::RegionType           InputImageRegionType;
 
   /** Type definition for the input image region iterator */
-  typedef ImageRegionIterator<TInputImage>  InputImageRegionIterator;
+  typedef ImageRegionIterator<TInputImage>           InputImageRegionIterator;
+  typedef ImageRegionConstIterator<TInputImage>      InputImageRegionConstIterator;
 
   /** Image dimension */
   enum{ InputImageDimension = TInputImage::ImageDimension };

@@ -119,10 +119,11 @@ public:
 
   /** EdgeImagePointer typedef support. */
   typedef typename EdgeImageType::Pointer EdgeImagePointer;
+  typedef typename EdgeImageType::ConstPointer EdgeImageConstPointer;
 
   /** Set/Get the edge image. */
-  void SetEdgeImage( EdgeImageType * ptr );
-  EdgeImagePointer GetEdgeImage();
+  void SetEdgeImage( const EdgeImageType * ptr );
+  EdgeImageConstPointer GetEdgeImage();
 
   /** Set/Get the length penalty strength. This parameter can be viewed as
    * the weighting given to length of the front in an energy functional. The

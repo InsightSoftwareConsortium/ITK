@@ -242,7 +242,8 @@ ExpandImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImagePointer inputPtr = 
+      const_cast< TInputImage * >( this->GetInput().GetPointer() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
@@ -302,7 +303,8 @@ ExpandImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateOutputInformation();
 
   // Get pointers to the input and output
-  InputImagePointer inputPtr = this->GetInput();
+  InputImagePointer inputPtr = 
+      const_cast< TInputImage * >( this->GetInput().GetPointer() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )

@@ -78,14 +78,15 @@ public:
 
   /** Some convenient typedefs. */
   typedef TInputImage InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
-  typedef typename InputImageType::RegionType InputImageRegionType; 
-  typedef typename InputImageType::PixelType InputImagePixelType; 
+  typedef typename InputImageType::Pointer        InputImagePointer;
+  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
+  typedef typename InputImageType::RegionType     InputImageRegionType; 
+  typedef typename InputImageType::PixelType      InputImagePixelType; 
   
   /** Set/Get the image input of this process object.  */
-  virtual void SetInput(InputImageType *input);
-  InputImagePointer GetInput();
-  InputImagePointer GetInput(unsigned int idx);
+  virtual void SetInput(const InputImageType *input);
+  InputImageConstPointer GetInput(void);
+  InputImageConstPointer GetInput(unsigned int idx);
   
 protected:
   ImageToImageFilter();

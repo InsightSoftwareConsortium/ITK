@@ -77,7 +77,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 {
   // this filter requires the all of the input image to be in
   // the buffer
-  InputImageType inputPtr = this->GetInput();
+  InputImagePointer inputPtr = 
+      const_cast< InputImageType * >( this->GetInput().GetPointer() );
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
 }
 
@@ -108,7 +109,7 @@ void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::GenerateOutputInformation()
 {
-  typename TInputImage::Pointer  input  = this->GetInput();
+  InputImageConstPointer  input  = this->GetInput();
   typename TOutputImage::Pointer output = this->GetOutput();
   output->SetLargestPossibleRegion( input->GetLargestPossibleRegion() );
 }
@@ -124,7 +125,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   this->ApplyKLM();
 
   //Set the output labelled and allocate the memory
-  OutputImageType outputPtr = this->GetOutput();
+  OutputImagePointer outputPtr = this->GetOutput();
 
   //Allocate the output buffer memory 
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
@@ -133,8 +134,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //---------------------------------------------------------------------
   //Get the image width/height/depth
   //--------------------------------------------------------------------- 
-  InputImageType inputImage     = this->GetInput();
-  InputImageSize inputImageSize = inputImage->GetBufferedRegion().GetSize();
+  InputImageConstPointer inputImage     = this->GetInput();
+  InputImageSize         inputImageSize = inputImage->GetBufferedRegion().GetSize();
 
   enum { imageDimension = TInputImage::ImageDimension };
 
@@ -165,7 +166,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::GenerateOutputImage(unsigned int imgWidth, unsigned int imgHeight)
 {
   //Get the pointer to the output image
-  OutputImageType outputImage = this->GetOutput(); 
+  OutputImagePointer outputImage = this->GetOutput(); 
 
   // Get the vector dimension from the TInputImage paramete
   unsigned int vecDim = OutputImagePixelType::GetVectorDimension();
@@ -267,7 +268,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
                       unsigned int imgDepth)
 {
   //Get the pointer to the output image
-  OutputImageType outputImage = this->GetOutput(); 
+  OutputImagePointer outputImage = this->GetOutput(); 
 
   // Get the vector dimension from the TInputImage paramete
   unsigned int vecDim = OutputImagePixelType::GetVectorDimension();
@@ -647,8 +648,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //---------------------------------------------------------------------
   //Get the image width/height/depth
   //--------------------------------------------------------------------- 
-  InputImageType inputImage     = this->GetInput();
-  InputImageSize inputImageSize = inputImage->GetBufferedRegion().GetSize();
+  InputImageConstPointer inputImage     = this->GetInput();
+  InputImageSize         inputImageSize = inputImage->GetBufferedRegion().GetSize();
 
   m_ImgWidth  = inputImageSize[0];
   m_ImgHeight = inputImageSize[1];
@@ -1512,12 +1513,12 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the input image
   //-------------------------------------------------------------------
-  InputImageType inputImage = this->GetInput();
-  InputImageIterator  inputImageIt( inputImage, 
+  InputImageConstPointer   inputImage = this->GetInput();
+  InputImageConstIterator  inputImageIt( inputImage, 
                                     inputImage->GetBufferedRegion() );
 
-  InputImageIterator  inputIt    = inputImageIt.Begin();
-  InputImageIterator  inputItEnd = inputImageIt.End();
+  InputImageConstIterator  inputIt    = inputImageIt.Begin();
+  InputImageConstIterator  inputItEnd = inputImageIt.End();
 
   //Varible to store the input pixel vector value
   InputImageVectorType inputPixelVec;
@@ -1583,12 +1584,12 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the input image
   //-------------------------------------------------------------------
-  InputImageType inputImage = this->GetInput();
-  InputImageIterator  inputImageIt( inputImage, 
+  InputImageConstPointer   inputImage = this->GetInput();
+  InputImageConstIterator  inputImageIt( inputImage, 
                                     inputImage->GetBufferedRegion() );
 
-  InputImageIterator  inputIt    = inputImageIt.Begin();
-  InputImageIterator  inputItEnd = inputImageIt.End();
+  InputImageConstIterator  inputIt    = inputImageIt.Begin();
+  InputImageConstIterator  inputItEnd = inputImageIt.End();
 
   //Varible to store the input pixel vector value
   InputImageVectorType inputPixelVec;

@@ -212,7 +212,7 @@ const OutputImageRegionType& outputRegionForThread,
 int threadId )
 {
 
-  InputImagePointer inputPtr = this->GetInput();
+  InputImageConstPointer inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
   DeformationFieldPointer fieldPtr = this->GetDeformationField();
 
@@ -288,7 +288,9 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
   Superclass::GenerateInputRequestedRegion();
 
   // request the largest possible region for the input image
-  InputImagePointer inputPtr = this->GetInput();
+  InputImagePointer inputPtr = 
+    const_cast< InputImageType * >( this->GetInput().GetPointer() );
+
   if( inputPtr )
     {
     inputPtr->SetRequestedRegionToLargestPossibleRegion();

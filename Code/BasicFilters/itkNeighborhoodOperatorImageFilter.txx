@@ -36,7 +36,8 @@ NeighborhoodOperatorImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImagePointer  inputPtr = 
+      const_cast< TInputImage * >( this->GetInput().GetPointer() );
   
   if ( !inputPtr )
     {
@@ -95,7 +96,8 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
 
   // Allocate output
   OutputImageType *output = this->GetOutput();
-  InputImageType *input   = this->GetInput();
+  
+  const InputImageType *input   = this->GetInput();
  
   // Break the input into a series of regions.  The first region is free
   // of boundary conditions, the rest with boundary conditions. Note,

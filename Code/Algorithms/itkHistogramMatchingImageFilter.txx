@@ -19,6 +19,7 @@
 
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
 #include <vector>
 
@@ -84,9 +85,10 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 HistogramMatchingImageFilter<TInputImage,TOutputImage>
-::SetReferenceImage( InputImageType * reference )
+::SetReferenceImage( const InputImageType * reference )
 {
-  this->ProcessObject::SetNthInput(1, reference);
+  this->ProcessObject::SetNthInput(1, 
+    const_cast< InputImageType * >( reference ) );
 }
 
 
@@ -95,7 +97,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 HistogramMatchingImageFilter<TInputImage,TOutputImage>
-::InputImagePointer
+::InputImageConstPointer
 HistogramMatchingImageFilter<TInputImage,TOutputImage>
 ::GetReferenceImage()
 {
@@ -104,7 +106,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
     return NULL;
     }
 
-  return static_cast<TInputImage*>(
+  return dynamic_cast<TInputImage*>(
     this->ProcessObject::GetInput(1).GetPointer() );
 }
 
@@ -124,7 +126,9 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
     {
     if ( this->GetInput(idx) )
       {
-      this->GetInput(idx)->SetRequestedRegionToLargestPossibleRegion();
+      InputImagePointer image = 
+           const_cast< InputImageType * >( this->GetInput(idx).GetPointer() );
+      image->SetRequestedRegionToLargestPossibleRegion();
       }
     }
 }
@@ -141,8 +145,8 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
 
   unsigned int j;
 
-  InputImagePointer  source    = this->GetSourceImage();
-  InputImagePointer  reference = this->GetReferenceImage();
+  InputImageConstPointer  source    = this->GetSourceImage();
+  InputImageConstPointer  reference = this->GetReferenceImage();
 
   // Create histograms.
   HistogramPointer sourceHistogram = HistogramType::New();
@@ -246,16 +250,16 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
   unsigned int j;
 
   // Get the input and output pointers;
-  InputImagePointer  input  = this->GetInput();  
-  OutputImagePointer output = this->GetOutput();
+  InputImageConstPointer  input  = this->GetInput();  
+  OutputImagePointer      output = this->GetOutput();
 
 
   // Transform the source image and write to output.
-  typedef ImageRegionIterator<InputImageType> InputIterator;
+  typedef ImageRegionConstIterator<InputImageType> InputConstIterator;
   typedef ImageRegionIterator<OutputImageType> OutputIterator;
 
-  InputIterator inIter( input, outputRegionForThread );
-  OutputIterator outIter( output, outputRegionForThread );
+  InputConstIterator inIter(  input, outputRegionForThread );
+  OutputIterator     outIter( output, outputRegionForThread );
 
 
   // support progress methods/callbacks
@@ -322,13 +326,13 @@ template <class TInputImage, class TOutputImage>
 void
 HistogramMatchingImageFilter<TInputImage,TOutputImage>
 ::ComputeMinMaxMean(
-  InputImageType * image,
+  const InputImageType * image,
   double& minValue,
   double& maxValue,
   double& meanValue )
 {
-  typedef ImageRegionIterator<InputImageType> Iterator;
-  Iterator iter( image, image->GetBufferedRegion() );
+  typedef ImageRegionConstIterator<InputImageType> ConstIterator;
+  ConstIterator iter( image, image->GetBufferedRegion() );
 
   double sum = 0.0;
   long int count = 0;
@@ -362,7 +366,7 @@ template <class TInputImage, class TOutputImage>
 void
 HistogramMatchingImageFilter<TInputImage,TOutputImage>
 ::ConstructHistogram(
-  InputImageType * image,
+  const InputImageType * image,
   HistogramType  * histogram,
   double minValue,
   double maxValue )
@@ -390,8 +394,8 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
 
 
   // put each image pixel into the histogram
-  typedef ImageRegionIterator<InputImageType> Iterator;
-  Iterator iter( image, image->GetBufferedRegion() );
+  typedef ImageRegionConstIterator<InputImageType> ConstIterator;
+  ConstIterator iter( image, image->GetBufferedRegion() );
 
   while ( !iter.IsAtEnd() )
     {

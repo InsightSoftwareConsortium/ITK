@@ -116,7 +116,8 @@ public:
   typedef TSpeedImage SpeedImageType;
 
   /** SpeedImagePointer typedef support. */
-  typedef typename SpeedImageType::Pointer SpeedImagePointer;
+  typedef typename SpeedImageType::Pointer        SpeedImagePointer;
+  typedef typename SpeedImageType::ConstPointer   SpeedImageConstPointer;
 
   /** Enum of Fast Marching algorithm point types. FarPoints represent far
    * away points; TrialPoints represent points within a narrowband of the
@@ -156,10 +157,10 @@ public:
 
   /** Set the input Speed Image. If the Speed Image is NULL, 
    * the SpeedConstant value is used for the whole level set. */
-  void SetSpeedImage( SpeedImageType * ptr );
+  void SetSpeedImage( const SpeedImageType * ptr );
 
   /** Get the input Speed Image. */
-  SpeedImagePointer GetSpeedImage();
+  SpeedImageConstPointer GetSpeedImage(void);
 
   /** Get the point type label image. */
   LabelImagePointer GetLabelImage() const
@@ -218,10 +219,10 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   virtual void Initialize( LevelSetImageType * );
-  virtual void UpdateNeighbors( IndexType& index, 
-    SpeedImageType *, LevelSetImageType * );
-  virtual double UpdateValue( IndexType& index, 
-    SpeedImageType *, LevelSetImageType * );
+  virtual void UpdateNeighbors( const IndexType& index, 
+    const SpeedImageType *, LevelSetImageType * );
+  virtual double UpdateValue( const IndexType& index, 
+    const SpeedImageType *, LevelSetImageType * );
 
   typename LevelSetImageType::PixelType GetLargeValue() const
     { return m_LargeValue; }

@@ -193,9 +193,8 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
   
   itkDebugMacro(<<"Actually executing");
 
-  // Get the input and output pointers
-  InputImagePointer  inputPtr  = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
+  // Get the output pointers
+  OutputImagePointer      outputPtr = this->GetOutput();
 
   // Create an iterator that will walk the output region for this thread.
   typedef
@@ -271,12 +270,14 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
   // call the superclass's implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
-  // get pointers to the input and output
-  InputImagePointer  inputPtr  = this->GetInput();
-  if ( !inputPtr )
+  if ( !this->GetInput() )
     {
     return;
     }
+
+  // get pointers to the input and output
+  InputImagePointer  inputPtr  = 
+      const_cast< TInputImage *>( this->GetInput().GetPointer() );
 
   // Request the entire input image
   InputImageRegionType inputRegion;
