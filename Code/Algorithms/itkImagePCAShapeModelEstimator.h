@@ -166,8 +166,6 @@ private:
   typedef 
     std::vector<InputImageConstPointer> InputImagePointerArray;
   typedef
-    ImageRegionConstIterator< InputImageType > InputImageConstIterator;
-  typedef
     std::vector< InputImageConstIterator > InputImageIteratorArray;
 
   typedef typename TInputImage::SizeType ImageSizeType;
