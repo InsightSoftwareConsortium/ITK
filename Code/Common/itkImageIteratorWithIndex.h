@@ -292,7 +292,7 @@ public:
    * Move an iterator to the beginning of the region.
    * \deprecated Use GoToBegin() instead
    */
-  void Begin();
+  Self Begin(void) const;
 
 
   /**
@@ -306,7 +306,7 @@ public:
    * Move an iterator to the End of the region.
    * \deprecated Use GoToEnd() instead
    */
-  void End();
+  Self End(void) const;
 
 
   /**

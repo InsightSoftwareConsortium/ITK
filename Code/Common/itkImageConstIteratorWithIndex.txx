@@ -166,11 +166,13 @@ ImageConstIteratorWithIndex<TImage>
 // Begin() is the first pixel in the region.
 //----------------------------------------------------------------------------
 template<class TImage>
-void
+ImageConstIteratorWithIndex<TImage> 
 ImageConstIteratorWithIndex<TImage>
-::Begin()
+::Begin() const
 {
-  GoToBegin();
+  Self it( *this );
+  it.GoToBegin();
+  return it;
 }
 
 
@@ -206,11 +208,13 @@ ImageConstIteratorWithIndex<TImage>
 // End() is the last pixel in the region.  DEPRECATED
 //----------------------------------------------------------------------------
 template<class TImage>
-void
+ImageConstIteratorWithIndex<TImage> 
 ImageConstIteratorWithIndex<TImage>
-::End()
+::End() const
 {
-  GoToEnd();
+  Self it( *this );
+  it.GoToEnd();
+  return it;
 }
 
 

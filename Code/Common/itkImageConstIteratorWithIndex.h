@@ -278,18 +278,18 @@ public:
    * Move an iterator to the beginning of the region.
    * \deprecated Use GoToBegin() instead
    */
-  void Begin();
+  Self Begin(void) const;
 
   /**
    * Move an iterator to the beginning of the region.
    */
-  void GoToBegin();
+  void GoToBegin(void);
 
   /**
    * Move an iterator to the End of the region.
    * \deprecated Use GoToEnd() instead
    */
-  void End();
+  Self End(void) const;
 
   /**
    * Move an iterator to the End of the region.
@@ -299,7 +299,7 @@ public:
   /**
    * Is the iterator at the beginning of the region?
    */
-  bool IsAtBegin()
+  bool IsAtBegin(void)
     {
       return !m_Remaining;
     }
