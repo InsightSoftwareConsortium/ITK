@@ -4,6 +4,8 @@ INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/png)
 SOURCE_FILES(ITKIO_SRCS
 itkImageIOBase
 itkImageIOFactory
+itkMetaImageIOFactory
+itkMetaImageIO
 itkPNGImageIOFactory
 itkPNGImageIO
 itkVOLImageIOFactory
