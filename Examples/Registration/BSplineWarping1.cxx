@@ -107,10 +107,10 @@ int main( int argc, char * argv[] )
   resampler->SetOutputOrigin(  fixedOrigin  );
 
   
-  FixedImageType::RegionType region = fixedImage->GetBufferedRegion();
-  FixedImageType::SizeType   fixedSize =  region.GetSize();
+  FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
+  FixedImageType::SizeType   fixedSize =  fixedRegion.GetSize();
   resampler->SetSize( fixedSize );
-  resampler->SetOutputStartIndex(  region.GetIndex() );
+  resampler->SetOutputStartIndex(  fixedRegion.GetIndex() );
 
 
   resampler->SetInput( movingReader->GetOutput() );
@@ -184,7 +184,9 @@ int main( int argc, char * argv[] )
   spacing[1] = fixedSpacing[1] * fixedSize[1] / ( numberOfGridNodes - 2 );
 
   typedef TransformType::OriginType OriginType;
-  OriginType origin = fixedOrigin;
+  OriginType origin;
+  origin[0] = fixedOrigin[0] - spacing[0];
+  origin[1] = fixedOrigin[1] - spacing[1];
   
   bsplineTransform->SetGridSpacing( spacing );
   bsplineTransform->SetGridOrigin( origin );
@@ -281,6 +283,64 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 //  Software Guide : EndCodeSnippet
+
+
+  typedef itk::Point<  float, ImageDimension >  PointType;
+  typedef itk::Vector< float, ImageDimension >  VectorType;
+  typedef itk::Image< VectorType, ImageDimension >  DeformationFieldType;
+
+  DeformationFieldType::Pointer field = DeformationFieldType::New();
+  field->SetRegions( fixedRegion );
+  field->SetOrigin( fixedOrigin );
+  field->SetSpacing( fixedSpacing );
+  field->Allocate();
+
+  typedef itk::ImageRegionIterator< DeformationFieldType > FieldIterator;
+  FieldIterator fi( field, fixedRegion );
+
+  fi.GoToBegin();
+
+  TransformType::InputPointType  fixedPoint;
+  TransformType::OutputPointType movingPoint;
+  DeformationFieldType::IndexType index;
+
+  VectorType displacement;
+
+  while( ! fi.IsAtEnd() )
+    {
+    index = fi.GetIndex();
+    field->TransformIndexToPhysicalPoint( index, fixedPoint );
+    movingPoint = bsplineTransform->TransformPoint( fixedPoint );
+    displacement[0] = movingPoint[0] - fixedPoint[0];
+    displacement[1] = movingPoint[1] - fixedPoint[1];
+    fi.Set( displacement );
+    ++fi;
+    }
+
+
+
+  typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
+  FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
+
+  fieldWriter->SetInput( field );
+
+  if( argc >= 6 )
+    {
+    fieldWriter->SetFileName( argv[5] );
+    try
+      {
+      fieldWriter->Update();
+      }
+    catch( itk::ExceptionObject & excp )
+      {
+      std::cerr << "Exception thrown " << std::endl;
+      std::cerr << excp << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
+
+
 
   return EXIT_SUCCESS;
 }
