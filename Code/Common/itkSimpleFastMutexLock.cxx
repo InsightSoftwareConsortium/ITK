@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFastMutexLock.cxx
+  Module:    itkSimpleFastMutexLock.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,14 +38,78 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "itkFastMutexLock.h"
+#include "itkSimpleFastMutexLock.h"
 
 namespace itk
 {
 
-void FastMutexLock::PrintSelf(std::ostream& os, Indent indent) const
+// Construct a new SimpleMutexLock 
+SimpleFastMutexLock::SimpleFastMutexLock()
 {
-  Superclass::PrintSelf(os, indent);
+#ifdef ITK_USE_SPROC
+  init_lock( &m_FastMutexLock );
+#endif
+
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+  //this->MutexLock = CreateMutex( NULL, FALSE, NULL ); 
+  InitializeCriticalSection(&m_FastMutexLock);
+#endif
+
+#ifdef ITK_USE_PTHREADS
+#ifdef ITK_HP_PTHREADS
+  pthread_mutex_init(&(m_FastMutexLock), pthread_mutexattr_default);
+#else
+  pthread_mutex_init(&(m_FastMutexLock), NULL);
+#endif
+#endif
+
+}
+
+// Destruct the SimpleMutexVariable
+SimpleFastMutexLock::~SimpleFastMutexLock()
+{
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+  //CloseHandle(this->MutexLock);
+  DeleteCriticalSection(&m_FastMutexLock);
+#endif
+
+#ifdef ITK_USE_PTHREADS
+  pthread_mutex_destroy( &m_FastMutexLock);
+#endif
+}
+
+// Lock the FastMutexLock
+void SimpleFastMutexLock::Lock() const
+{
+#ifdef ITK_USE_SPROC
+  spin_lock( &m_FastMutexLock );
+#endif
+
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+  //WaitForSingleObject( this->MutexLock, INFINITE );
+  EnterCriticalSection(&m_FastMutexLock);
+#endif
+
+#ifdef ITK_USE_PTHREADS
+  pthread_mutex_lock( &m_FastMutexLock);
+#endif
+}
+
+// Unlock the FastMutexLock
+void SimpleFastMutexLock::Unlock() const
+{
+#ifdef ITK_USE_SPROC
+  release_lock( &m_FastMutexLock );
+#endif
+
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+  //ReleaseMutex( this->MutexLock );
+  LeaveCriticalSection(&m_FastMutexLock);
+#endif
+
+#ifdef ITK_USE_PTHREADS
+  pthread_mutex_unlock( &m_FastMutexLock);
+#endif
 }
 
 }//end namespace itk

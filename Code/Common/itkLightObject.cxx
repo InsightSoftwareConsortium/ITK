@@ -47,145 +47,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-class Observer
-{
-public:
-  Observer(Command* c, 
-           unsigned long event,
-           unsigned long tag) :m_Command(c),
-                               m_Event(event),
-                               m_Tag(tag)
-    { }
-  Command::Pointer m_Command;
-  unsigned long m_Event;
-  unsigned long m_Tag;
-};
-    
-  
-class SubjectImplementation
-{
-public:
-  SubjectImplementation() {m_Count = 0;}
-  ~SubjectImplementation();
-  unsigned long AddObserver(unsigned long event, Command* cmd);
-  void RemoveObserver(unsigned long tag);
-  void InvokeEvent(unsigned long event, LightObject* self);
-  void InvokeEvent(unsigned long event, const LightObject* self);
-  Command *GetCommand(unsigned long tag);
-  bool HasObserver(unsigned long event);
-private:
-  std::list<Observer* > m_Observers;
-  unsigned long m_Count;
-};
-
-SubjectImplementation::
-~SubjectImplementation()
-{
-  for(std::list<Observer* >::iterator i = m_Observers.begin();
-      i != m_Observers.end(); ++i)
-    {
-    delete (*i);
-    }
-}
-
-
-unsigned long 
-SubjectImplementation::
-AddObserver(unsigned long event,
-	    Command* cmd)
-{
-  Observer* ptr = new Observer(cmd, event, m_Count);
-  m_Observers.push_back(ptr);
-  m_Count++;
-  return ptr->m_Tag;
-}
-
-
-void
-SubjectImplementation::
-RemoveObserver(unsigned long tag)
-{
-  for(std::list<Observer* >::iterator i = m_Observers.begin();
-      i != m_Observers.end(); ++i)
-    {
-    if((*i)->m_Tag == tag)
-      {
-      delete (*i);
-      m_Observers.erase(i);
-      return;
-      }
-    }
-}
-
-
-void 
-SubjectImplementation::
-InvokeEvent(unsigned long event,
-	    LightObject* self)
-{
-  for(std::list<Observer* >::iterator i = m_Observers.begin();
-      i != m_Observers.end(); ++i)
-    {
-    unsigned long e =  (*i)->m_Event;
-    if( e == Command::AnyEvent || e == event)
-      {
-      (*i)->m_Command->Execute(self, event);
-      }
-    }
-}
-
-void 
-SubjectImplementation::
-InvokeEvent(unsigned long event,
-	    const LightObject* self)
-{
-  for(std::list<Observer* >::iterator i = m_Observers.begin();
-      i != m_Observers.end(); ++i)
-    {
-    unsigned long e =  (*i)->m_Event;
-    if( e == Command::AnyEvent || e == event)
-      {
-      (*i)->m_Command->Execute(self, event);
-      }
-    }
-}
-
-
-Command*
-SubjectImplementation::
-GetCommand(unsigned long tag)
-{
-  for(std::list<Observer* >::iterator i = m_Observers.begin();
-      i != m_Observers.end(); ++i)
-    {
-    if ( (*i)->m_Tag == tag)
-      {
-      return (*i)->m_Command;
-      }
-    }
-  return 0;
-}
-
-bool
-SubjectImplementation::
-HasObserver(unsigned long event)
-{
-  for(std::list<Observer* >::iterator i = m_Observers.begin();
-      i != m_Observers.end(); ++i)
-    {
-    unsigned long e =  (*i)->m_Event;
-    if( e == Command::AnyEvent || e == event)
-      {
-      return true;
-      }
-    }
-  return false;
-}
-
-
-
-
-  
     
 /**
  * Instance creation.
@@ -286,9 +147,9 @@ void
 LightObject
 ::Register() const
 {
-  m_ReferenceCountLock->Lock();
+  m_ReferenceCountLock.Lock();
   m_ReferenceCount++;
-  m_ReferenceCountLock->Unlock();
+  m_ReferenceCountLock.Unlock();
 }
 
 
@@ -299,18 +160,14 @@ void
 LightObject
 ::UnRegister() const
 {
-  m_ReferenceCountLock->Lock();
+  m_ReferenceCountLock.Lock();
   m_ReferenceCount--;
-  m_ReferenceCountLock->Unlock();
-
+  m_ReferenceCountLock.Unlock();
+  
   // ReferenceCount in now unlocked.  We may have a race condition to
   // to delete the object.
-  if(m_ReferenceCount <= 0)
+  if ( m_ReferenceCount <= 0)
     {
-    /**
-     * If there is a delete method, invoke it.
-     */
-    this->InvokeEvent(Command::DeleteEvent);
     delete this;
     }
 }
@@ -323,38 +180,15 @@ void
 LightObject
 ::SetReferenceCount(int ref)
 {
-  m_ReferenceCountLock->Lock();
+  m_ReferenceCountLock.Lock();
   m_ReferenceCount = ref;
-  m_ReferenceCountLock->Unlock();
+  m_ReferenceCountLock.Unlock();
 
-  // ReferenceCount in now unlocked.  We may have a race condition to
-  // to delete the object.
-  if(m_ReferenceCount <= 0)
+  if ( m_ReferenceCount <= 0)
     {
-    /**
-     * If there is a delete method, invoke it.
-     */
-    this->InvokeEvent(Command::DeleteEvent);
     delete this;
     }
 }
-
-/**
- * Create an object with a reference count of 1.
- */
-LightObject
-::LightObject():
-  /**
-   * Initial ref count = 1 during construction.  After the object is assigned
-   * to a smart pointer, this extra initial reference count is removed.
-   * See itkNewMacro.
-   */
-  m_ReferenceCount(1),
-  m_SubjectImplementation(0)
-{
-  m_ReferenceCountLock = new SimpleFastMutexLock;;
-}
-
 
 LightObject
 ::~LightObject() 
@@ -367,8 +201,6 @@ LightObject
     {
     itkErrorMacro(<< "Trying to delete object with non-zero reference count.");
     }
-  delete m_SubjectImplementation;
-  delete m_ReferenceCountLock;
 }
 
 
@@ -417,103 +249,6 @@ operator<<(std::ostream& os, const LightObject& o)
 {
   o.Print(os);
   return os;
-}
-
-unsigned long 
-LightObject
-::AddObserver(unsigned long event, Command *cmd)
-{
-  if (!this->m_SubjectImplementation)
-    {
-    this->m_SubjectImplementation = new SubjectImplementation;
-    }
-  return this->m_SubjectImplementation->AddObserver(event,cmd);
-}
-
-unsigned long
-LightObject
-::AddObserver(const char *event,Command *cmd)
-{
-  return this->AddObserver(Command::GetEventIdFromString(event), cmd);
-}
-
-Command*
-LightObject
-::GetCommand(unsigned long tag)
-{
-  if (this->m_SubjectImplementation)
-    {
-    return this->m_SubjectImplementation->GetCommand(tag);
-    }
-  return NULL;
-}
-
-void 
-LightObject
-::RemoveObserver(unsigned long tag)
-{
-  if (this->m_SubjectImplementation)
-    {
-    this->m_SubjectImplementation->RemoveObserver(tag);
-    }
-}
-
-void 
-LightObject
-::InvokeEvent(unsigned long event)
-{
-  if (this->m_SubjectImplementation)
-    {
-    this->m_SubjectImplementation->InvokeEvent(event,this);
-    }
-}
-
-
-void 
-LightObject
-::InvokeEvent(unsigned long event) const
-{
-  if (this->m_SubjectImplementation)
-    {
-    this->m_SubjectImplementation->InvokeEvent(event,this);
-    }
-}
-
-
-
-void 
-LightObject
-::InvokeEvent(const char *event)
-{
-  this->InvokeEvent(Command::GetEventIdFromString(event));
-}
-
-
-void 
-LightObject
-::InvokeEvent(const char *event) const
-{
-  this->InvokeEvent(Command::GetEventIdFromString(event));
-}
-
-
-
-bool
-LightObject
-::HasObserver(unsigned long event)
-{
-  if (this->m_SubjectImplementation)
-    {
-    return this->m_SubjectImplementation->HasObserver(event);
-    }
-  return 0;
-}
-
-bool
-LightObject
-::HasObserver(const char *event)
-{
-  return this->HasObserver(Command::GetEventIdFromString(event));
 }
 
 

@@ -7,8 +7,11 @@ itkDynamicLoader
 itkExceptionObject 
 itkFastMutexLock 
 itkFileOutputWindow
+itkImageIOCommon
+itkImageIO
 itkIndent 
 itkLightObject 
+itkLightProcessObject
 itkMeshRegion 
 itkMultiThreader 
 itkMutexLock 
@@ -18,12 +21,10 @@ itkObjectFactoryBase
 itkOutputWindow 
 itkProcessObject 
 itkRegion 
+itkSimpleFastMutexLock
 itkTimeStamp 
 itkVersion 
 itkVector
-itkImageIOCommon
-itkImageIO
-itkLightProcessObject
 itkXMLFileOutputWindow
 )
 

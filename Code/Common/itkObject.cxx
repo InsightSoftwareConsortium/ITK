@@ -44,6 +44,140 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
+class Observer
+{
+public:
+  Observer(Command* c, 
+           unsigned long event,
+           unsigned long tag) :m_Command(c),
+                               m_Event(event),
+                               m_Tag(tag)
+    { }
+  Command::Pointer m_Command;
+  unsigned long m_Event;
+  unsigned long m_Tag;
+};
+    
+  
+class SubjectImplementation
+{
+public:
+  SubjectImplementation() {m_Count = 0;}
+  ~SubjectImplementation();
+  unsigned long AddObserver(unsigned long event, Command* cmd);
+  void RemoveObserver(unsigned long tag);
+  void InvokeEvent(unsigned long event, Object* self);
+  void InvokeEvent(unsigned long event, const Object* self);
+  Command *GetCommand(unsigned long tag);
+  bool HasObserver(unsigned long event) const;
+private:
+  std::list<Observer* > m_Observers;
+  unsigned long m_Count;
+};
+
+SubjectImplementation::
+~SubjectImplementation()
+{
+  for(std::list<Observer* >::iterator i = m_Observers.begin();
+      i != m_Observers.end(); ++i)
+    {
+    delete (*i);
+    }
+}
+
+
+unsigned long 
+SubjectImplementation::
+AddObserver(unsigned long event,
+	    Command* cmd)
+{
+  Observer* ptr = new Observer(cmd, event, m_Count);
+  m_Observers.push_back(ptr);
+  m_Count++;
+  return ptr->m_Tag;
+}
+
+
+void
+SubjectImplementation::
+RemoveObserver(unsigned long tag)
+{
+  for(std::list<Observer* >::iterator i = m_Observers.begin();
+      i != m_Observers.end(); ++i)
+    {
+    if((*i)->m_Tag == tag)
+      {
+      delete (*i);
+      m_Observers.erase(i);
+      return;
+      }
+    }
+}
+
+
+void 
+SubjectImplementation::
+InvokeEvent(unsigned long event,
+	    Object* self)
+{
+  for(std::list<Observer* >::iterator i = m_Observers.begin();
+      i != m_Observers.end(); ++i)
+    {
+    unsigned long e =  (*i)->m_Event;
+    if( e == Command::AnyEvent || e == event)
+      {
+      (*i)->m_Command->Execute(self, event);
+      }
+    }
+}
+
+void 
+SubjectImplementation::
+InvokeEvent(unsigned long event,
+	    const Object* self)
+{
+  for(std::list<Observer* >::iterator i = m_Observers.begin();
+      i != m_Observers.end(); ++i)
+    {
+    unsigned long e =  (*i)->m_Event;
+    if( e == Command::AnyEvent || e == event)
+      {
+      (*i)->m_Command->Execute(self, event);
+      }
+    }
+}
+
+
+Command*
+SubjectImplementation::
+GetCommand(unsigned long tag)
+{
+  for(std::list<Observer* >::iterator i = m_Observers.begin();
+      i != m_Observers.end(); ++i)
+    {
+    if ( (*i)->m_Tag == tag)
+      {
+      return (*i)->m_Command;
+      }
+    }
+  return 0;
+}
+
+bool
+SubjectImplementation::
+HasObserver(unsigned long event) const
+{
+  for(std::list<Observer* >::const_iterator i = m_Observers.begin();
+      i != m_Observers.end(); ++i)
+    {
+    unsigned long e =  (*i)->m_Event;
+    if( e == Command::AnyEvent || e == event)
+      {
+      return true;
+      }
+    }
+  return false;
+}
 
 /**
  * Instance creation.
@@ -150,9 +284,18 @@ void
 Object
 ::UnRegister() const
 {
+  // call the parent 
   itkDebugMacro(<< this << "UnRegistered, "
                 << "ReferenceCount = " << (m_ReferenceCount-1));
-  // call the parent
+
+  if ( (m_ReferenceCount-1) <= 0)
+    {
+    /**
+     * If there is a delete method, invoke it.
+     */
+    this->InvokeEvent(Command::DeleteEvent);
+    }
+
   Superclass::UnRegister();
 }
 
@@ -165,7 +308,17 @@ Object
 ::SetReferenceCount(int ref)
 {
   itkDebugMacro(<< "Reference Count set to " << ref);
-  // call the parent
+
+  // ReferenceCount in now unlocked.  We may have a race condition to
+  // to delete the object.
+  if( ref <= 0 )
+    {
+    /**
+     * If there is a delete method, invoke it.
+     */
+    this->InvokeEvent(Command::DeleteEvent);
+    }
+
   Superclass::SetReferenceCount(ref);
 }
 
@@ -192,6 +345,98 @@ Object
 }
 
 
+unsigned long 
+Object
+::AddObserver(unsigned long event, Command *cmd)
+{
+  if (!this->m_SubjectImplementation)
+    {
+    this->m_SubjectImplementation = new SubjectImplementation;
+    }
+  return this->m_SubjectImplementation->AddObserver(event,cmd);
+}
+
+unsigned long
+Object
+::AddObserver(const char *event,Command *cmd)
+{
+  return this->AddObserver(Command::GetEventIdFromString(event), cmd);
+}
+
+Command*
+Object
+::GetCommand(unsigned long tag)
+{
+  if (this->m_SubjectImplementation)
+    {
+    return this->m_SubjectImplementation->GetCommand(tag);
+    }
+  return NULL;
+}
+
+void 
+Object
+::RemoveObserver(unsigned long tag)
+{
+  if (this->m_SubjectImplementation)
+    {
+    this->m_SubjectImplementation->RemoveObserver(tag);
+    }
+}
+
+void 
+Object
+::InvokeEvent(unsigned long event)
+{
+  if (this->m_SubjectImplementation)
+    {
+    this->m_SubjectImplementation->InvokeEvent(event,this);
+    }
+}
+
+
+void 
+Object
+::InvokeEvent(unsigned long event) const
+{
+  if (this->m_SubjectImplementation)
+    {
+    this->m_SubjectImplementation->InvokeEvent(event,this);
+    }
+}
+
+void 
+Object
+::InvokeEvent(const char *event)
+{
+  this->InvokeEvent(Command::GetEventIdFromString(event));
+}
+
+void 
+Object
+::InvokeEvent(const char *event) const
+{
+  this->InvokeEvent(Command::GetEventIdFromString(event));
+}
+
+bool
+Object
+::HasObserver(unsigned long event) const
+{
+  if (this->m_SubjectImplementation)
+    {
+    return this->m_SubjectImplementation->HasObserver(event);
+    }
+  return false;
+}
+
+bool
+Object
+::HasObserver(const char *event) const
+{
+  return this->HasObserver(Command::GetEventIdFromString(event));
+}
+
 /**
  * Create an object with Debug turned off and modified time initialized 
  * to the most recently modified object.
@@ -199,7 +444,8 @@ Object
 Object
 ::Object():
   LightObject(),
-  m_Debug(false)
+  m_Debug(false),
+  m_SubjectImplementation(0)
 {
   this->Modified();
 }
@@ -209,6 +455,7 @@ Object
 ::~Object() 
 {
   itkDebugMacro(<< "Destructing!");
+  delete m_SubjectImplementation;
 }
 
 
@@ -223,7 +470,16 @@ Object
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Modified Time: " << this->GetMTime() << std::endl;
-  os << indent << "m_Debug: " << (m_Debug ? "On\n" : "Off\n");
+  os << indent << "Debug: " << (m_Debug ? "On\n" : "Off\n");
+  os << indent << "Instance has ";
+  if ( this->HasObserver(Command::AnyEvent) )
+    {
+    os << "one or more observers\n";
+    }
+  else
+    {
+    os << "no observers\n";
+    }
 }
 
 /**
