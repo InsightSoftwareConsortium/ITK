@@ -14,7 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 #ifndef __ImageSpatialObject_txx
 #define __ImageSpatialObject_txx
 
@@ -32,11 +31,12 @@ ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
 {
   strcpy(m_TypeName,"ImageSpatialObject");
   m_Image = ImageType::New();
-  m_SlicePosition = new int(NDimensions);
+  m_SlicePosition = new int[NDimensions];
   for(unsigned int i=0;i<NDimensions;i++)
   {
     m_SlicePosition[i]=0;
   }
+
   ComputeBounds();
 }
 
