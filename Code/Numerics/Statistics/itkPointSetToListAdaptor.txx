@@ -35,18 +35,18 @@ PointSetToListAdaptor< TPointSet >
 template < class TPointSet >
 void
 PointSetToListAdaptor< TPointSet >
-::SetPointSet(PointSetPointer pointSet) 
+::SetPointSet(TPointSet* pointSet) 
 { 
   m_PointSet = pointSet ; 
   m_PointsContainer = pointSet->GetPoints() ;
 }
 
 template < class TPointSet >
-typename PointSetToListAdaptor< TPointSet >::PointSetPointer
+TPointSet*
 PointSetToListAdaptor< TPointSet >
 ::GetPointSet() 
 {
-  return m_PointSet ; 
+  return m_PointSet.GetPointer() ; 
 }  
 
 /** returns the number of measurement vectors in this container*/

@@ -29,7 +29,7 @@ namespace Statistics{
 /** \class PointSetToListAdaptor
  *  \brief This class provides ListSampleBase interfaces to ITK PointSet
  *
- * After calling SetPointSet(PointSet::Pointer) method to plug-in 
+ * After calling SetPointSet(PointSet*) method to plug-in 
  * the PointSet object, users can use Sample interfaces to access 
  * PointSet data. This adaptor assumes that the PointsContainer is
  * actual storage for measurment vectors. In other words, PointSet's
@@ -76,10 +76,10 @@ public:
   typedef typename Superclass::FrequencyType FrequencyType ;
 
   /** Method to set the point set */
-  void SetPointSet(PointSetPointer pointSet) ;
+  void SetPointSet(TPointSet* pointSet) ;
 
   /** Method to get the point set */
-  PointSetPointer GetPointSet() ;
+  TPointSet* GetPointSet() ;
 
   /** returns the number of measurement vectors in this container*/
   unsigned int Size() const ;
