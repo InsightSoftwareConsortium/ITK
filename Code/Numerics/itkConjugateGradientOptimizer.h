@@ -16,7 +16,7 @@
 #ifndef __itkConjugateGradientOptimizer_h
 #define __itkConjugateGradientOptimizer_h
 
-#include "itkSingleValuedNonLinearOptimizer.h"
+#include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_conjugate_gradient.h"
 
 namespace itk
@@ -30,7 +30,7 @@ namespace itk
   
 template <class TCostFunction>
 class ITK_EXPORT ConjugateGradientOptimizer : 
-        public SingleValuedNonLinearOptimizer< TCostFunction >
+        public SingleValuedNonLinearVnlOptimizer< TCostFunction >
 
 {
 public:
@@ -42,7 +42,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef SingleValuedNonLinearOptimizer<TCostFunction> Superclass;
+  typedef SingleValuedNonLinearVnlOptimizer<TCostFunction> Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -58,9 +58,19 @@ public:
 
 
   /**
-   * VectorType typedef.
+   * ParametersType typedef.
    */
-  typedef   vnl_vector<double>     VectorType;
+  typedef typename TCostFunction::ParametersType    ParametersType;
+
+
+  typedef ParametersType::Pointer    ParametersPointer;
+
+
+  /**
+   * InternalParametersType typedef.
+   */
+  typedef  typename Superclass::InternalParametersType   InternalParametersType;
+
 
  /** 
    * Run-time type information (and related methods).
@@ -80,11 +90,13 @@ public:
    */
   vnl_conjugate_gradient & GetOptimizer(void);
  
+
   /**
    * Start optimization with an initial value
    */
-  void StartOptimization( VectorType & );
- 
+  void StartOptimization( ParametersPointer &);
+
+
 protected:
 
   ConjugateGradientOptimizer();

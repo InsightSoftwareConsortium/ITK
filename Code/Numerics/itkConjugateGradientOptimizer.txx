@@ -16,6 +16,7 @@
 #ifndef _itkConjugateGradientOptimizer_txx
 #define _itkConjugateGradientOptimizer_txx
 
+#include "itkConjugateGradientOptimizer.h"
 
 namespace itk
 {
@@ -26,7 +27,7 @@ namespace itk
 template <class TCostFunction>
 ConjugateGradientOptimizer<TCostFunction>
 ::ConjugateGradientOptimizer():
-  m_ConjugateGradient(m_CostFunctionAdaptor)
+  m_ConjugateGradient( m_CostFunctionAdaptor )
 {
 }
 
@@ -50,9 +51,11 @@ ConjugateGradientOptimizer<TCostFunction>
 template <class TCostFunction>
 void
 ConjugateGradientOptimizer<TCostFunction>
-::StartOptimization( VectorType & initialValue )
+::StartOptimization(ParametersPointer &  initialValue )
 {
-  m_ConjugateGradient.minimize( initialValue );
+  InternalParametersType initialParameters;
+  VnlCostFunctionAdaptor::ConvertParameters( initialValue, initialParameters );
+  m_ConjugateGradient.minimize( initialParameters );
 }
 
 
