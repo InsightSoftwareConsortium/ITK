@@ -1,20 +1,6 @@
 package require Tk
-catch {
-   load ./libVXLNumericsTcl.so
-   load ./libITKCommonTcl.so
-   load ./libITKNumericsTcl.so
-   load ./libITKBasicFiltersTcl.so
-   load ./libITKAlgorithmsTcl.so
-   load ./libITKIOTcl.so
-}
-catch {
-   load ./VXLNumericsTcl.dll
-   load ./ITKCommonTcl.dll
-   load ./ITKNumericsTcl.dll
-   load ./ITKBasicFiltersTcl.dll
-   load ./ITKAlgorithmsTcl.dll
-   load ./ITKIOTcl.dll
-}
+package require InsightToolkit
+package require itkinteraction
 
 proc createImageViewer2D {frame image args} {
     # Create the canvas.
