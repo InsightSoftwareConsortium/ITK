@@ -168,14 +168,26 @@ GaussianSpatialObject< TDimension >
 
   ellipse->SetRadius( m_Radius );
   
-  ellipse->GetIndexToObjectTransform()->SetParameters( 
-    this->GetIndexToObjectTransform()->GetParameters() );
+  ellipse->GetIndexToObjectTransform()->SetCenter( 
+    this->GetIndexToObjectTransform()->GetCenter() );
+  ellipse->GetIndexToObjectTransform()->SetMatrix( 
+    this->GetIndexToObjectTransform()->GetMatrix() );
+  ellipse->GetIndexToObjectTransform()->SetOffset( 
+    this->GetIndexToObjectTransform()->GetOffset() );
   
-  ellipse->GetObjectToWorldTransform()->SetParameters(
-    this->GetObjectToWorldTransform()->GetParameters() );
+  ellipse->GetObjectToWorldTransform()->SetCenter(
+    this->GetObjectToWorldTransform()->GetCenter() );
+  ellipse->GetObjectToWorldTransform()->SetMatrix(
+    this->GetObjectToWorldTransform()->GetMatrix() );
+  ellipse->GetObjectToWorldTransform()->SetOffset(
+    this->GetObjectToWorldTransform()->GetOffset() );
   
-  ellipse->GetIndexToWorldTransform()->SetParameters(
-    this->GetIndexToWorldTransform()->GetParameters() );
+  ellipse->GetIndexToWorldTransform()->SetCenter(
+    this->GetIndexToWorldTransform()->GetCenter() );
+  ellipse->GetIndexToWorldTransform()->SetMatrix(
+    this->GetIndexToWorldTransform()->GetMatrix() );
+  ellipse->GetIndexToWorldTransform()->SetOffset(
+    this->GetIndexToWorldTransform()->GetOffset() );
   
 //  ellipse->GetWorldToIndexTransform()->SetParameters(
 //    this->GetWorldToIndexTransform()->GetParameters() );
