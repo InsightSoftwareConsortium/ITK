@@ -143,8 +143,8 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
   typename FixedImageType::IndexType index;
   FixedIteratorType ti( fixedImage, regionForThread );
 
-  m_ThreadMatches[threadId] = NumericTraits< MeasureType >::Zero;
-  m_ThreadCounts[threadId] = 0;
+  MeasureType threadMeasure = NumericTraits< MeasureType >::Zero;
+  unsigned long threadNumberOfPixelsCounted = 0;
 
   while(!ti.IsAtEnd())
     {
@@ -174,8 +174,8 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
       const RealType fixedValue = ti.Get();
       RealType diff;
       
-      m_ThreadCounts[threadId]++;
-
+      threadNumberOfPixelsCounted++;
+      
       if (m_MeasureMatches)
         {
         diff = (movingValue == fixedValue); // count matches
@@ -184,11 +184,14 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
         {
         diff = (movingValue != fixedValue); // count mismatches
         }
-      m_ThreadMatches[threadId] += diff; 
+      threadMeasure += diff;
       }
 
     ++ti;
     }
+
+  m_ThreadMatches[threadId] = threadMeasure;
+  m_ThreadCounts[threadId] = threadNumberOfPixelsCounted;
 }
 
 //----------------------------------------------------------------------------
