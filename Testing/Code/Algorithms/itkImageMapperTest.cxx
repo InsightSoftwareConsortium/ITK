@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImage.h"
 #include "itkImageMapper.h"
 #include "itkGaussianImageSource.h"
-#include "itkCommandIterationUpdate.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkVersorRigid3DTransform.h"
 
 /** 
@@ -53,7 +53,7 @@ int main()
 
 
   // Image Type
-  typedef itk::Image<float,2>                             ImageType;
+  typedef itk::Image<float,3>                             ImageType;
 
   // Transform Type
   typedef itk::VersorRigid3DTransform< double >           TransformType;
@@ -65,10 +65,23 @@ int main()
   typedef itk::GaussianImageSource< ImageType >           ImageSourceType;
 
   // Image Iterator Type
-  typedef itk::ImageIterator< ImageType >               ImageIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< ImageType >  ImageIteratorType;
 
   // Image Region Type
-  typedef ImageType::RegionType                               RegionType;
+  typedef ImageType::RegionType                           RegionType;
+  
+  // Image Index Type
+  typedef RegionType::IndexType                           IndexType;
+
+  // Image Size Type
+  typedef RegionType::SizeType                            SizeType;
+
+  //  Point Types
+  typedef TransformType::InputPointType                   InputPointType;
+  typedef TransformType::OutputPointType                  OutputPointType;
+
+  //  Pixel Type
+  typedef ImageType::PixelType                            PixelType;
 
 
 
@@ -91,9 +104,9 @@ int main()
   origin[2] = 0.0f;
 
   unsigned long size[3];
-  size[0] = 200;
-  size[1] = 200;
-  size[2] = 200;
+  size[0] = 100;
+  size[1] = 100;
+  size[2] = 100;
 
   ImageSourceType::TArrayType sigma;
   sigma[0] = 50.0f;
@@ -117,8 +130,8 @@ int main()
   // Initialize the transform
   TransformType::OffsetType offset;
   offset[0] = 23;
-  offset[1] = 37;
-  offset[3] = 51;
+  offset[1] = 17;
+  offset[2] = 19;
 
   transform->SetOffset( offset );
 
@@ -130,7 +143,7 @@ int main()
   axis[2] = 3.0;
 
   VersorType::ValueType angle;
-  angle = 30.0 * ( atan(1) / 45.0 );
+  angle = 30 * ( atan(1) / 45.0 );
 
   VersorType versor;
 
@@ -138,15 +151,69 @@ int main()
   
   transform->SetRotation( versor );
 
-  // Connect the Image source to the Image mapper
-  imageMapper->SetDomain( imageSource->GetOutput() );
-
   // Create the domain image
   imageSource->Update();
+
+  // Connect the Image source to the Image mapper
+  // NOTE: That must be done AFTER the image source has been
+  // updated because the mapper take data from the image and
+  // compute internal values with it.
+  imageMapper->SetDomain( imageSource->GetOutput() );
+  imageMapper->SetTransform( transform );
+
+  ImageType::Pointer image = imageSource->GetOutput();
 
   bool pass = true;
 
   
+  RegionType testRegion;
+  SizeType testSize;
+  testSize[0] = size[0] / 2;
+  testSize[1] = size[1] / 2;
+  testSize[2] = size[2] / 2;
+
+  testRegion.SetSize( testSize );
+
+  IndexType testOrigin;
+  testOrigin[0] = size[0] / 4;
+  testOrigin[1] = size[1] / 4;
+  testOrigin[2] = size[2] / 4;
+
+  testRegion.SetIndex( testOrigin );
+
+  ImageIteratorType it( image, testRegion );
+      
+  it.GoToBegin();
+
+  const float tolerance = 5.0;
+
+  while( !it.IsAtEnd() )
+    {
+    const IndexType index = it.GetIndex();
+    InputPointType point;
+    point[0] = index[0];
+    point[1] = index[1];
+    point[2] = index[2];
+  
+    if( imageMapper->IsInside( point ) )
+      {
+      const PixelType mappedPixel  = imageMapper->Evaluate();
+      const OutputPointType opoint = transform->TransformPoint( point );
+      IndexType oindex;
+      oindex[0] = static_cast< unsigned long >( opoint[0] );
+      oindex[1] = static_cast< unsigned long >( opoint[1] );
+      oindex[2] = static_cast< unsigned long >( opoint[2] );
+      const PixelType transformedPixel = image->GetPixel( oindex );
+      if( fabs( transformedPixel - mappedPixel ) > tolerance )
+        {
+        itkGenericOutputMacro( << "Mapped value != Transformed Value " 
+            << mappedPixel << " != " << transformedPixel << "  " 
+            << "Point = " << point << " mapped to " << opoint );
+        pass = false;
+        }
+      }
+    ++it;
+    }
 
 
   if( !pass )
