@@ -42,7 +42,6 @@ REGISTER_TEST(itkMinMaxCurvatureFlowImageFilterTest );
 REGISTER_TEST(itkMRFImageFilterTest );
 REGISTER_TEST(itkMultiResolutionPyramidImageFilterTest );
 REGISTER_TEST(itkRecursiveMultiResolutionPyramidImageFilterTest );
-REGISTER_TEST(itkRescaleIntensityImageFilterTest );
 REGISTER_TEST(itkMultiResolutionPDEDeformableRegistrationTest );
 REGISTER_TEST(itkMultiResolutionImageRegistrationMethodTest);
 REGISTER_TEST(itkMultiResolutionImageRegistrationMethodTest_1 );
