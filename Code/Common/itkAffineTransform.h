@@ -1,4 +1,4 @@
-/*=========================================================================
+/*
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkAffineTransform.h
@@ -90,8 +90,16 @@ namespace itk
  * (NDimension + 1) * NDimension using method SetParameters(). 
  * The first (NDimension x NDimension) parameters defines the matrix in 
  * column-major order (where the column index) varies the fastest). 
- * The last NDimension parameters defines the translation or offest 
+ * The last NDimension parameters defines the translation 
  * in each dimensions.
+ *
+ * This class also supports the specification of a center of rotation (center)
+ * and a translation that is applied with respect to that centered rotation.
+ * At any point, even when center and translation are being set, only the
+ * matrix and offset form are assured to be valid.   For example, when an
+ * offset is specified, we make no attempt to assure that the value used for
+ * translation is updated; however, when the translation is changed, we ensure
+ * that the value of the offset is correspondingly updated.
  *
  * \ingroup Transforms
  *
@@ -106,7 +114,8 @@ namespace itk
  * \todo  Add reflection?  **/
 
 template <
- class TScalarType=double,         // Data type for scalars (e.g. float or double)
+ class TScalarType=double,         // Data type for scalars 
+                                   //    (e.g. float or double)
  unsigned int NDimensions=3>       // Number of dimensions in the input space
 class AffineTransform : public Transform< TScalarType,
                                           NDimensions, 
@@ -148,15 +157,19 @@ public:
   
   /** Standard covariant vector type for this class   */
   typedef CovariantVector<TScalarType,
-                          itkGetStaticConstMacro(SpaceDimension)>  InputCovariantVectorType;
+                          itkGetStaticConstMacro(SpaceDimension)>  
+                                                    InputCovariantVectorType;
   typedef CovariantVector<TScalarType,
-                          itkGetStaticConstMacro(SpaceDimension)>  OutputCovariantVectorType;
+                          itkGetStaticConstMacro(SpaceDimension)>  
+                                                    OutputCovariantVectorType;
   
   /** Standard vnl_vector type for this class   */
   typedef vnl_vector_fixed<TScalarType,
-                           itkGetStaticConstMacro(SpaceDimension)> InputVnlVectorType;
+                           itkGetStaticConstMacro(SpaceDimension)> 
+                                                     InputVnlVectorType;
   typedef vnl_vector_fixed<TScalarType,
-                           itkGetStaticConstMacro(SpaceDimension)> OutputVnlVectorType;
+                           itkGetStaticConstMacro(SpaceDimension)> 
+                                                     OutputVnlVectorType;
   
   /** Standard coordinate point type for this class   */
   typedef Point<TScalarType,
@@ -173,16 +186,38 @@ public:
 
   /** Get offset of an AffineTransform
    *
-   * This method returns the offset value of the AffineTransform. **/
+   * This method returns the offset value of the AffineTransform.
+   * To define an affine transform, you must set the matrix,
+   * center, and translation OR the matrix and offset */
   const OffsetType & GetOffset(void) const
       { return m_Offset; }
 
   /** Get matrix of an AffineTransform
    *
    * This method returns the value of the matrix of the
-   * AffineTransform. */
+   * AffineTransform. 
+   * To define an affine transform, you must set the matrix,
+   * center, and translation OR the matrix and offset */
   const MatrixType & GetMatrix() const
       { return m_Matrix; }
+
+  /** Get center of rotation of the AffineTransform
+   *
+   * This method returns the point used as the fixed
+   * center of rotation for the AffineTransform. 
+   * To define an affine transform, you must set the matrix,
+   * center, and translation OR the matrix and offset */
+  const InputPointType & GetCenter() const
+      { return m_Center; }
+
+  /** Get translation component of the AffineTransform
+   *
+   * This method returns the translation used after rotation
+   * about the center point. 
+   * To define an affine transform, you must set the matrix,
+   * center, and translation OR the matrix and offset */
+  const OutputVectorType & GetTranslation(void) const
+      { return m_Translation; }
 
   /** Set the transformation to an Identity
    *
@@ -190,6 +225,8 @@ public:
   void SetIdentity( void )
     { m_Matrix.SetIdentity();
       m_Offset.Fill( 0.0 );
+      m_Translation.Fill( 0.0 );
+      m_Center.Fill( 0.0 );
       m_MatrixMTime.Modified();
       this->Modified();  
     }
@@ -207,20 +244,49 @@ public:
    *
    * This method sets the offset of an AffineTransform to a
    * value specified by the user.  The offset is ...?
-   */
+   * This updates Translation wrt current center.
+   * To define an affine transform, you must set the matrix,
+   * center, and translation OR the matrix and offset */
   void SetOffset(const OffsetType &offset)
-      { m_Offset = offset; this->Modified(); return; }
+      { m_Offset = offset; this->ComputeTranslation(); 
+        this->Modified(); return; }
 
   /** Set matrix of an AffineTransform
    *
    * This method sets the matrix of an AffineTransform to a
-   * value specified by the user. */
+   * value specified by the user. 
+   * To define an affine transform, you must set the matrix,
+   * center, and translation OR the matrix and offset */
   void SetMatrix(const MatrixType &matrix)
-      { m_Matrix = matrix; m_MatrixMTime.Modified(); this->Modified(); return; }
+    { m_Matrix = matrix; this->ComputeOffset(); 
+      m_MatrixMTime.Modified(); this->Modified(); return; }
+
+  /** Set center of rotation of an AffineTransform
+   *
+   * This method sets the center of rotation of an AffineTransform 
+   * to a fixed point - this point is not a "parameter" of the transform.
+   * This updates Offset to reflect current translation.
+   * To define an affine transform, you must set the matrix,
+   * center, and translation OR the matrix and offset */
+  void SetCenter(const InputPointType & center)
+      { m_Center = center; this->ComputeOffset(); this->Modified(); return; }
+
+  /** Set translation of an AffineTransform
+   *
+   * This method sets the center of rotation of an AffineTransform 
+   * to a fixed point - this point is not a "parameter" of the transform. 
+   * This updates Offset to reflect current translation.
+   * To define an affine transform, you must set the matrix,
+   * center, and translation OR the matrix and offset */
+  void SetTranslation(const OutputVectorType & translation)
+      { m_Translation = translation; this->ComputeOffset();
+        this->Modified(); return; }
+
 
   /** Set the transformation from a container of parameters.
    * The first (NDimension x NDimension) parameters define the
-   * matrix and the last NDimension parameters the translation. */
+   * matrix and the last NDimension parameters the offset. 
+   * Translation is updated based on current center. */
   void SetParameters( const ParametersType & parameters );
 
   /** Get the Transformation Parameters. */
@@ -235,14 +301,16 @@ public:
    * consists of first applying other to the source, followed by
    * self.  If pre is false or omitted, then other is post-composed
    * with self; that is the resulting transformation consists of
-   * first applying self to the source, followed by other. */
+   * first applying self to the source, followed by other. 
+   * This updates the Translation based on current center */
   void Compose(const Self * other, bool pre=0);
 
   /** Compose affine transformation with a translation
    *
    * This method modifies self to include a translation of the
    * origin.  The translation is precomposed with self if pre is
-   * true, and postcomposed otherwise. */
+   * true, and postcomposed otherwise. 
+   * This updates Translation based on current center. */
   void Translate(const OutputVectorType &offset, bool pre=0);
 
   /** Compose affine transformation with a scaling
@@ -333,7 +401,8 @@ public:
    * self.  If no such point exists, an exception is thrown.   **/
   inline InputPointType   BackTransform(const OutputPointType  &point ) const;
   inline InputVectorType  BackTransform(const OutputVectorType &vector) const;
-  inline InputVnlVectorType BackTransform(const OutputVnlVectorType &vector) const;
+  inline InputVnlVectorType BackTransform(
+                                     const OutputVnlVectorType &vector) const;
 
   inline InputCovariantVectorType BackTransform(
                               const OutputCovariantVectorType &vector) const;
@@ -394,7 +463,8 @@ protected:
    * omitted, then the AffineTransform is initialized to an identity
    * transformation in the appropriate number of dimensions.   **/
   AffineTransform(const MatrixType &matrix, const OutputVectorType &offset);
-  AffineTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
+  AffineTransform(unsigned int outputSpaceDimension,
+                  unsigned int parametersDimension);
   AffineTransform();      
   
   /** Destroy an AffineTransform object   **/
@@ -402,6 +472,10 @@ protected:
 
   /** Print contents of an AffineTransform */
   void PrintSelf(std::ostream &s, Indent indent) const;
+
+  void ComputeTranslation(void);
+
+  void ComputeOffset(void);
 
   /** To avoid recomputation of the inverse if not needed */
   mutable TimeStamp   m_InverseMatrixMTime;
@@ -418,6 +492,8 @@ private:
   mutable MatrixType   m_InverseMatrix;      // Inverse of the matrix
   mutable bool         m_Singular;     // Is m_Inverse singular?
 
+  InputPointType       m_Center;
+  OutputVectorType     m_Translation;
 
 }; //class AffineTransform
 

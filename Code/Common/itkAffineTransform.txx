@@ -32,6 +32,8 @@ AffineTransform():Superclass(SpaceDimension,ParametersDimension)
 {
   m_Matrix.SetIdentity();
   m_Offset.Fill( 0 );
+  m_Center.Fill( 0 );
+  m_Translation.Fill( 0 );
   m_Singular = false;
   m_InverseMatrix.SetIdentity();
 }
@@ -46,6 +48,8 @@ AffineTransform( unsigned int outputSpaceDimension,
 {
   m_Matrix.SetIdentity();
   m_Offset.Fill( 0 );
+  m_Center.Fill( 0 );
+  m_Translation.Fill( 0 );
   m_Singular = false;
 }
 
@@ -58,6 +62,8 @@ AffineTransform(const MatrixType &matrix, const OutputVectorType &offset)
 {
   m_Matrix = matrix;
   m_Offset = offset;
+  m_Center.Fill( 0 );
+  m_Translation = offset;
   m_MatrixMTime.Modified();
   this->Modified();
 }
@@ -97,6 +103,8 @@ PrintSelf(std::ostream &os, Indent indent) const
     }
 
   os << indent << "Offset: " << m_Offset << std::endl;
+  os << indent << "Center: " << m_Center << std::endl;
+  os << indent << "Translation: " << m_Translation << std::endl;
 
   os << indent << "Inverse: " << std::endl;
   for (i = 0; i < NDimensions; i++) 
@@ -129,6 +137,7 @@ Compose(const Self * other, bool pre)
     m_Offset = other->m_Matrix * m_Offset + other->m_Offset;
     m_Matrix = other->m_Matrix * m_Matrix;
     }
+  this->ComputeTranslation();
   m_MatrixMTime.Modified();
   this->Modified();
   return;
@@ -149,6 +158,7 @@ Translate(const OutputVectorType &offset, bool pre)
     {
     m_Offset += offset;
     }
+  this->ComputeTranslation();
   this->Modified();
   return;
 }
@@ -169,6 +179,7 @@ Scale(const TScalarType &factor, bool pre)
     m_Matrix *= factor;
     m_Offset *= factor;
     }
+  this->ComputeTranslation();
   m_MatrixMTime.Modified();
   this->Modified();
   return;
@@ -202,6 +213,7 @@ Scale(const OutputVectorType &factor, bool pre)
     m_Matrix = trans * m_Matrix;
     m_Offset = trans * m_Offset;
     }
+  this->ComputeTranslation();
   m_MatrixMTime.Modified();
   this->Modified();
   return;
@@ -239,6 +251,7 @@ Rotate(int axis1, int axis2, TScalarType angle, bool pre)
     m_Matrix = trans * m_Matrix;
     m_Offset = trans * m_Offset;
     }
+  this->ComputeTranslation();
   m_MatrixMTime.Modified();
   this->Modified();
   return;
@@ -268,6 +281,7 @@ Rotate2D(TScalarType angle, bool pre)
     m_Matrix = trans * m_Matrix;
     m_Offset = trans * m_Offset;
     }
+  this->ComputeTranslation();
   m_MatrixMTime.Modified();
   this->Modified();
   return;
@@ -320,6 +334,7 @@ Rotate3D(const OutputVectorType &axis, TScalarType angle, bool pre)
     m_Matrix = trans * m_Matrix;
     m_Offset = trans * m_Offset;
     }
+  this->ComputeTranslation();
   m_MatrixMTime.Modified();
   this->Modified();
   return;
@@ -353,6 +368,7 @@ Shear(int axis1, int axis2, TScalarType coef, bool pre)
     m_Matrix = trans * m_Matrix;
     m_Offset = trans * m_Offset;
     }
+  this->ComputeTranslation();
   m_MatrixMTime.Modified();
   this->Modified();
   return;
@@ -527,9 +543,10 @@ GetInverse( Self* inverse) const
     return false;
     }
 
-  inverse->m_Matrix   =   this->GetInverseMatrix();
-  inverse->m_InverseMatrix  =   m_Matrix;
-  inverse->m_Offset   = -(this->GetInverseMatrix() * m_Offset);
+  inverse->m_Matrix         = this->GetInverseMatrix();
+  inverse->m_InverseMatrix  = m_Matrix;
+  inverse->m_Offset         = -(this->GetInverseMatrix() * m_Offset);
+  inverse->ComputeTranslation();
   return true;
 }
 
@@ -639,7 +656,7 @@ GetParameters( void ) const
   // Transfer the constant part
   for(unsigned int i=0; i<NDimensions; i++) 
     {
-    m_Parameters[par] = m_Offset[i];
+    m_Parameters[par] = m_Translation[i];
     ++par;
     }
 
@@ -674,9 +691,10 @@ SetParameters( const ParametersType & parameters )
   // Transfer the constant part
   for(unsigned int i=0; i<NDimensions; i++) 
     {
-    m_Offset[i] = m_Parameters[par];
+    m_Translation[i] = m_Parameters[par];
     ++par;
     }
+  this->ComputeOffset();
  
   // Recompute the inverse
   m_MatrixMTime.Modified();
@@ -728,13 +746,56 @@ AffineTransform<TScalarType, NDimensions>::
 Inverse( void ) const
 {
   itkWarningMacro("Inverse() is deprecated.  Please use GetInverse() instead.");
-  Pointer result = New();
-  result->m_Matrix   =   this->GetInverseMatrix();
-  result->m_InverseMatrix  =   m_Matrix;
-  result->m_Offset   = -(this->GetInverseMatrix() * m_Offset);
-  result->m_Singular =   false;
+  Pointer result           = New();
+  result->m_Matrix         = this->GetInverseMatrix();
+  result->m_InverseMatrix  = m_Matrix;
+  result->m_Offset         = -(this->GetInverseMatrix() * m_Offset);
+  result->ComputeTranslation();
+  result->m_Singular       = false;
   return result;
 }
+
+// Create and return an inverse transformation
+template<class TScalarType, unsigned int NDimensions>
+void
+AffineTransform<TScalarType, NDimensions>::
+ComputeOffset( void ) 
+  {
+  const MatrixType & matrix = this->GetMatrix();
+  
+  OffsetType offset;
+  for(unsigned int i=0; i<SpaceDimension; i++)
+    {
+    offset[i] = m_Translation[i] + m_Center[i];
+    for(unsigned int j=0; j<SpaceDimension; j++)
+      {
+      offset[i] -= matrix[i][j] * m_Center[j];
+      }
+    }
+
+  m_Offset = offset ;
+  }
+
+// Create and return an inverse transformation
+template<class TScalarType, unsigned int NDimensions>
+void
+AffineTransform<TScalarType, NDimensions>::
+ComputeTranslation( void ) 
+  {
+  const MatrixType & matrix = this->GetMatrix();
+  
+  OffsetType translation;
+  for(unsigned int i=0; i<SpaceDimension; i++)
+    {
+    translation[i] = m_Offset[i] - m_Center[i];
+    for(unsigned int j=0; j<SpaceDimension; j++)
+      {
+      translation[i] += matrix[i][j] * m_Center[j];
+      }
+    }
+
+  m_Translation = translation ;
+  }
 
  
 
