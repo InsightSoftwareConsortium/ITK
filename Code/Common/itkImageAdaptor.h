@@ -17,10 +17,11 @@
 #define __itkImageAdaptor_h
 
 #include "itkImage.h"
+#include "itkImageTraits.h"
 
 namespace itk
 {
-
+  
 /**
  * \class ImageAdaptor
  * \brief Give access to partial aspects of voxels from an Image
@@ -40,9 +41,8 @@ namespace itk
  * ExternalType and InternalType too.
  *
  */
-
 template <class TImage, class TAccessor >
-class ITK_EXPORT ImageAdaptor : public ImageBase 
+class ITK_EXPORT ImageAdaptor : public ImageBase<ImageTraits<TImage>::ImageDimension>
 {
 public:
   /**
@@ -51,9 +51,17 @@ public:
   typedef ImageAdaptor  Self;
 
   /**
+   * Dimension of the image.  This enum is used by functions that are
+   * templated over image type (as opposed to being templated over pixel
+   * type and dimension) when they need compile time access to the dimension
+   * of the image.
+   */
+  enum { ImageDimension = TImage::ImageDimension };
+
+  /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageBase Superclass;
+  typedef ImageBase<ImageDimension> Superclass;
 
   /** 
    * Smart pointer typedef support.
@@ -82,13 +90,6 @@ public:
 
 
 
-  /**
-   * Dimension of the image.  This enum is used by functions that are
-   * templated over image type (as opposed to being templated over pixel
-   * type and dimension) when they need compile time access to the dimension
-   * of the image.
-   */
-  enum { ImageDimension = TImage::ImageDimension };
   
   /** 
    * Index typedef support. An index is used to access pixel values.
@@ -115,12 +116,6 @@ public:
    */
   itkNewMacro(Self);  
 
-  /** 
-   * Image dimension. The dimension of an image is fixed at construction.
-   */
-  static unsigned int GetImageDimension() 
-    { return  TImage::ImageDimension; }
-
   /**
    * Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
@@ -129,48 +124,21 @@ public:
    * conditions.
    * \sa ImageRegion, SetBufferedRegion(), SetRequestedRegion()
    */
-  inline void SetLargestPossibleRegion(const RegionType &region);
-
-  /**
-   * Get the region object that defines the size and starting index
-   * for the largest possible region this image could represent.  This
-   * is used in determining how much memory would be needed to load an
-   * entire dataset.  It is also used to determine boundary
-   * conditions.
-   * \sa ImageRegion, GetBufferedRegion(), GetRequestedRegion()
-   */
-  inline const RegionType& GetLargestPossibleRegion();
+  virtual void SetLargestPossibleRegion(const RegionType &region);
 
   /**
    * Set the region object that defines the size and starting index
    * of the region of the image currently load in memory. 
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
    */
-  inline void SetBufferedRegion(const RegionType &region);
-
-
-  /**
-   * Get the region object that defines the size and starting index
-   * of the region of the image currently load in memory. 
-   * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
-   */
-  inline const RegionType& GetBufferedRegion();
-  
+  virtual void SetBufferedRegion(const RegionType &region);
 
   /**
    * Set the region object that defines the size and starting index
    * for the region of the image requested.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
    */
-  inline void SetRequestedRegion(const RegionType &region);
-
-
-  /**
-   * Get the region object that defines the size and starting index
-   * for the region of the image requested.
-   * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
-   */
-  inline const RegionType& GetRequestedRegion();
+  virtual void SetRequestedRegion(const RegionType &region);
 
 
   /**
@@ -200,30 +168,16 @@ public:
 
   /** 
    * Set the spacing (size of a pixel) of the image.
-   * \sa GetSpacing()
    */
   virtual void SetSpacing( const double values[TImage::ImageDimension] );
-
-
-  /** 
-   * Get the spacing (size of a pixel) of the image.
-   * \sa SetSpacing()
-   */
-  virtual const double * GetSpacing() const;
+  virtual void SetSpacing( const float values[TImage::ImageDimension] );
 
 
   /** 
    * Set the origin of the image.
-   * \sa GetOrigin()
    */
   virtual void SetOrigin( const double values[TImage::ImageDimension] );
-
-
-  /** 
-   * Get the origin of the image.
-   * \sa SetOrigin()
-   */
-  virtual const double * GetOrigin() const;
+  virtual void SetOrigin( const float values[TImage::ImageDimension] );
 
 
   /** 
@@ -242,23 +196,6 @@ public:
 
   typedef InternalPixelType * InternalPixelPointerType;
   void GetBufferPointer2( InternalPixelPointerType  & );
-
-  /**
-   * Get the offset table.  
-   */
-  inline const unsigned long *GetOffsetTable() const;
-  
-  /**
-   * Compute an offset from the beginning of the buffer for a pixel
-   * at the specified index.
-   */
-  inline unsigned long ComputeOffset(const IndexType &ind) const;
-
-  /**
-   * Compute the index of the pixel at a specified offset from the
-   * beginning of the buffer.
-   */
-  inline IndexType ComputeIndex(unsigned long offset) const;
 
 
   /**
@@ -282,8 +219,6 @@ public:
   virtual void UpdateOutputInformation();
   virtual void SetRequestedRegionToLargestPossibleRegion();
   virtual void CopyInformation(DataObject *data);
-  virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
-  virtual bool VerifyRequestedRegion();
  
 protected:
   ImageAdaptor();
