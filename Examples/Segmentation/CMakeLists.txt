@@ -230,7 +230,7 @@ ADD_TEST(GeodesicActiveContourGrayMatterTest ${SEGMENTATION_EXAMPLES}
 ADD_TEST(HoughTransformTwo2DLinesTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/HoughTransformTwoLinesTest.png
             ${TEMP}/HoughTransformTwoLinesTest.png
-  HoughTransform2DLinesImageFilter
+  HoughTransform2DLinesImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/HoughTransformTwoLines.png
         ${TEMP}/HoughTransformTwoLinesTest.png
         2 5 10
