@@ -21,6 +21,7 @@
 #include "itkConstantPadImageFilter.h"
 #include "itkFileOutputWindow.h"
 #include "itkStreamingImageFilter.h"
+#include "itkFilterWatcher.h"
 
 int itkConstantPadImageTest(int, char**)
 {
@@ -143,6 +144,7 @@ int itkConstantPadImageTest(int, char**)
   upperfactors[1] = 15;
   constantPad->SetPadLowerBound(lowerfactors);
   constantPad->SetPadUpperBound(upperfactors);
+  FilterWatcher watch(constantPad);
 
   // Create a stream
   itk::StreamingImageFilter< ShortImage, ShortImage >::Pointer stream;
