@@ -99,6 +99,7 @@ ADD_TEST(itkMeanReciprocalSquareDifferenceImageMetricTest ${ALGORITHMS_TESTS}  i
 ADD_TEST(itkPointSetToImageRegistrationTest_1 ${ALGORITHMS_TESTS}  itkPointSetToImageRegistrationTest_1)
 ADD_TEST(itkRegionGrow2DTest ${ALGORITHMS_TESTS} itkRegionGrow2DTest)
 ADD_TEST(itkReinitializeLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkReinitializeLevelSetImageFilterTest)
+ADD_TEST(itkRegularSphereMeshSourceTest ${ALGORITHMS_TESTS2} itkRegularSphereMeshSourceTest)
 ADD_TEST(itkShapeDetectionLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkShapeDetectionLevelSetImageFilterTest)
 ADD_TEST(itkShapePriorMAPCostFunctionTest ${ALGORITHMS_TESTS} itkShapePriorMAPCostFunctionTest)
 ADD_TEST(itkShapePriorSegmentationLevelSetFunctionTest ${ALGORITHMS_TESTS} itkShapePriorSegmentationLevelSetFunctionTest)
@@ -239,6 +240,7 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
 itkMIRegistrationFunctionTest.cxx
 itkOtsuMultipleThresholdsCalculatorTest.cxx
 itkPointSetToPointSetRegistrationTest.cxx
+itkRegularSphereMeshSourceTest.cxx
 itkSymmetricForcesDemonsRegistrationFilterTest.cxx
 itkSTAPLEImageFilterTest.cxx
 itkVectorFuzzyConnectednessImageFilterTest.cxx

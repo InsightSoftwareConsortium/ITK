@@ -16,6 +16,7 @@ void RegisterTests()
   REGISTER_TEST(itkMIRegistrationFunctionTest );
   REGISTER_TEST(itkOtsuMultipleThresholdsCalculatorTest );
   REGISTER_TEST(itkPointSetToPointSetRegistrationTest );
+  REGISTER_TEST(itkRegularSphereMeshSourceTest );
   REGISTER_TEST(itkSTAPLEImageFilterTest );
   REGISTER_TEST(itkSymmetricForcesDemonsRegistrationFilterTest );
   REGISTER_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest );
