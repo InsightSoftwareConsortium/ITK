@@ -76,7 +76,7 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   double VxNorm = Vx/norm;
   double VyNorm = Vy/norm;
        
-  double maxval = size[0]*size[1];
+  unsigned int maxval = size[0]*size[1];
 
     
   for(unsigned int i=0;i<maxval;i+=1)
@@ -84,8 +84,8 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
     m_Index[0]=(long int)(Vx-VyNorm*i);
     m_Index[1]=(long int)(Vy+VxNorm*i);
 
-    if( ((m_Index[0]<size[0]) && (m_Index[0]>=0))
-         && ((m_Index[1]<size[1]) && (m_Index[1]>=0))
+    if( ((m_Index[0]<(long)size[0]) && (m_Index[0]>=0))
+         && ((m_Index[1]<(long)size[1]) && (m_Index[1]>=0))
       )
     {
        m_Image->SetPixel(m_Index,255);

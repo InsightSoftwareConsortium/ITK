@@ -166,8 +166,8 @@ int main( int argc, char *argv[] )
       m_Index[0]=(long int)(u[0]+i*v[0]);
       m_Index[1]=(long int)(u[1]+i*v[1]);
 
-      if(m_Index[0]>=0 && m_Index[0]<m_OutputImage->GetLargestPossibleRegion().GetSize()[0]
-         && m_Index[1]>=0 && m_Index[1]<m_OutputImage->GetLargestPossibleRegion().GetSize()[1])
+      if(m_Index[0]>=0 && m_Index[0]<(long)m_OutputImage->GetLargestPossibleRegion().GetSize()[0]
+         && m_Index[1]>=0 && m_Index[1]<(long)m_OutputImage->GetLargestPossibleRegion().GetSize()[1])
       {
         m_OutputImage->SetPixel(m_Index,255);
       }

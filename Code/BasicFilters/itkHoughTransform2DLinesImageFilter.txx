@@ -90,7 +90,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
         m_Index[0]=(long unsigned int)(image_it.GetIndex()[0]*cos(angle)+image_it.GetIndex()[1]*sin(angle)); // m_R
         m_Index[1]= (long unsigned int)((m_AngleAxisSize/2)+m_AngleAxisSize*angle/(2*PI)); // m_Theta
   
-        if ( (m_Index[0]>0) && (m_Index[0]<=size[0]))
+        if ( (m_Index[0]>0) && (m_Index[0]<=(long)size[0]))
         {
           m_OutputImage->SetPixel(m_Index, m_OutputImage->GetPixel(m_Index)+1);  
         }
@@ -309,9 +309,9 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
           {
             m_index[0] = (long int)(it_input.GetIndex()[0] + lenght * cos(angle));
             m_index[1] = (long int)(it_input.GetIndex()[1] + lenght * sin(angle));
-            if( ((m_index[0]<=m_PostProcessImage->GetLargestPossibleRegion().GetSize()[0]) 
+            if( ((m_index[0]<=(long)m_PostProcessImage->GetLargestPossibleRegion().GetSize()[0]) 
                 && (m_index[0]>=0)
-                && (m_index[1]<=m_PostProcessImage->GetLargestPossibleRegion().GetSize()[1]) 
+                && (m_index[1]<=(long)m_PostProcessImage->GetLargestPossibleRegion().GetSize()[1]) 
                 && (m_index[1]>=0)
               )
             )
