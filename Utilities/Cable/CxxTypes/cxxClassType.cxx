@@ -64,6 +64,24 @@ String ClassType::GetName() const
 
 
 /**
+ * Get a begin iterator to the set of immediate parent classes.
+ */
+ClassTypes::const_iterator ClassType::ParentsBegin() const
+{
+  return m_Parents.begin();
+}
+
+
+/**
+ * Get an end iterator to the set of immediate parent classes.
+ */
+ClassTypes::const_iterator ClassType::ParentsEnd() const
+{
+  return m_Parents.end();
+}
+
+
+/**
  * Determine whether this ClassType is a subclass of the given ClassType
  * through any chain of inheritance.
  */
