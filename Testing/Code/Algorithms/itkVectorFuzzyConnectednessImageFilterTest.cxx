@@ -17,17 +17,23 @@
 #include "itkVectorFuzzyConnectednessImageFilter.h"
 
 
-const int LENGTH = 1;
 const int HEIGHT = 20;
 const int WIDTH = 20;
 
 const int OBJECTS_NUM = 2;
-const int SELECTED_OBJECT = 1;
 
 const int FEATURES_NUM = 3;
 
-int mean1[FEATURES_NUM] = {213,194,140};
-int mean2[FEATURES_NUM] = {83,50, 27};
+double mean1[FEATURES_NUM] = {213,194,140};
+double mean2[FEATURES_NUM] = {83,50, 27};
+
+double homo_cov[FEATURES_NUM][FEATURES_NUM] = 
+{
+   {42.15, 26.31, 16.38},
+   {26.31, 53.22, 31.96},
+   {16.38, 31.96, 31.98},
+};
+
 
 double object_cov1[FEATURES_NUM][FEATURES_NUM] = 
 {
@@ -43,13 +49,13 @@ double object_cov2[FEATURES_NUM][FEATURES_NUM] =
   {-21.27,  132.14, 100.63},
 };
 
-itk::Image<itk::Vector<int,3>,3>::IndexValueType Seed1[1][3] = 
+itk::Image<itk::Vector<unsigned char,3>,2>::IndexValueType Seed1[1][2] = 
 {
-  {5, 15,0},
+  {5, 15},
 };
-itk::Image<itk::Vector<int,3>,3>::IndexValueType  Seed2[1][3] = 
+itk::Image<itk::Vector<unsigned char,3>,2>::IndexValueType  Seed2[1][2] = 
 {
-  {15,5, 0},
+  {15,5},
 };
 
 // this data array is from part of visible human data
@@ -99,37 +105,34 @@ const int data[400][3] =
 
 int itkVectorFuzzyConnectednessImageFilterTest(int, char* [] )
 {
-  typedef itk::Vector<int,FEATURES_NUM> IntVector;
+  typedef itk::Vector<unsigned char,FEATURES_NUM> IntVector;
   typedef itk::Matrix<double,FEATURES_NUM,FEATURES_NUM>  MatrixType;
-  typedef itk::Image<bool,3> BinaryImage3D;
-  typedef itk::Image<IntVector,3> VectorImage3D;
-  typedef itk::VectorFuzzyConnectednessImageFilter<VectorImage3D,BinaryImage3D> FuzzyImage;
+  typedef itk::Image<unsigned char,2> OutImage2D;
+  typedef itk::Image<IntVector,2> VectorImage2D;
+  typedef itk::VectorFuzzyConnectednessImageFilter<VectorImage2D,OutImage2D> FuzzyImage;
 
-  itk::Size<3> size; 
+  itk::Size<2> size; 
 
   std::cout << "VectorDimension: " << FuzzyImage::VectorDimension << std::endl;
   
   size[0] = WIDTH; 
   size[1] = HEIGHT; 
-  size[2] = LENGTH; 
   
-  double spacing[3] = { 0.3,  0.3, 0.3};
+  double spacing[2] = { 0.3,  0.3};
   FuzzyImage::Pointer testFuzzy=FuzzyImage::New();
-  VectorImage3D::Pointer inputimg=VectorImage3D::New();
-  VectorImage3D::IndexType index;
+  VectorImage2D::Pointer inputimg=VectorImage2D::New();
+  VectorImage2D::IndexType index;
   index.Fill(0);
 
-  VectorImage3D::RegionType region;
+  VectorImage2D::RegionType region;
 
   region.SetSize(size);
   region.SetIndex(index);
 
-  inputimg->SetLargestPossibleRegion( region );
-  inputimg->SetBufferedRegion( region );
-  inputimg->SetRequestedRegion( region );
+  inputimg->SetRegions( region );
   inputimg->SetSpacing(spacing);
   inputimg->Allocate();
-  itk::ImageRegionIteratorWithIndex <VectorImage3D> it(inputimg, region);
+  itk::ImageRegionIterator <VectorImage2D> it(inputimg, region);
 
   int k=0;
   IntVector value;
@@ -145,17 +148,20 @@ int itkVectorFuzzyConnectednessImageFilterTest(int, char* [] )
   }
 
   testFuzzy->SetInput(inputimg);
-  testFuzzy->SetObjects(OBJECTS_NUM);
-  testFuzzy->SetSelectedObject(SELECTED_OBJECT);
+  testFuzzy->SetNumberOfObjects(OBJECTS_NUM);
   testFuzzy->Initialization();
+
+  MatrixType matrix;
+  matrix.GetVnlMatrix().set((double *)homo_cov);
+
+  testFuzzy->SetHomogeneityMatrix(matrix);
 
   testFuzzy->SetObjectsMean(mean1,0);
   testFuzzy->SetObjectsMean(mean2,1);
-  MatrixType matrix1;
-  matrix1.GetVnlMatrix().set((double *)object_cov1);
-  testFuzzy->SetObjectsMatrix(matrix1,0);
-  matrix1.GetVnlMatrix().set((double *)object_cov2);
-  testFuzzy->SetObjectsMatrix(matrix1,1);
+  matrix.GetVnlMatrix().set((double *)object_cov1);
+  testFuzzy->SetObjectsMatrix(matrix,0);
+  matrix.GetVnlMatrix().set((double *)object_cov2);
+  testFuzzy->SetObjectsMatrix(matrix,1);
 
   for ( int i = 0; i < 1; i++) 
   {
@@ -171,15 +177,18 @@ int itkVectorFuzzyConnectednessImageFilterTest(int, char* [] )
 
   testFuzzy->Update();
 
-  itk::ImageRegionIteratorWithIndex <BinaryImage3D> ot(testFuzzy->GetOutput(), region);
+  itk::ImageRegionIterator <OutImage2D> ot(testFuzzy->GetOutput(), region);
 
-  for(int i = 0;i < LENGTH*HEIGHT*WIDTH; i++)
-  {
-    if((i%WIDTH) == 0)
-      std::cout<<std::endl;
-      std::cout<<ot.Get();
+  for(int i = 0;i < HEIGHT*WIDTH; i++)
+    {
+      if((i%WIDTH) == 0)
+        std::cout<<std::endl;
+      if(ot.Get())
+        std::cout<<1;
+      else 
+        std::cout<<0;
       ++ot;
-  } 
+    }
 
   std::cout<<std::endl;
   return 0;
