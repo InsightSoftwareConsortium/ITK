@@ -1,5 +1,6 @@
 // this file defines the itkBasicFiltersTest for the test driver
 // and all it expects is that you have a function called RegisterTests
+
 #include "itkTestMain.h" 
 
 
@@ -14,6 +15,7 @@ REGISTER_TEST(itkDemonsRegistrationFilterTest );
 REGISTER_TEST(itkExtractMeshConnectedRegionsTest );
 REGISTER_TEST(itkFastMarchingTest );
 REGISTER_TEST(itkFastMarchingExtensionImageFilterTest );
+//REGISTER_TEST(itkFEMRegistrationFilterTest );
 REGISTER_TEST(itkGeodesicActiveContoursTest );
 REGISTER_TEST(itkGradientVectorFlowImageFilterTest );
 REGISTER_TEST(itkSimpleFuzzyConnectednessScalarImageFilterTest );
