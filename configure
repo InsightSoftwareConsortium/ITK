@@ -2881,12 +2881,13 @@ fi
 
 echo
 
-if test -f $fullSrcDir/local.make.in; then
+if test -f $ITK_OBJ/local.make.in; then
    echo "create local.make"
    rm -f local.make
-   cp $fullSrcDir/local.make.in local.make
+   cp $ITK_OBJ/local.make.in local.make
 else
-   echo "no $fullSrcDir/local.make.in creating an empty one"
+   echo "no $ITK_OBJ/local.make.in creating an empty one"
+   rm -f local.make
    touch local.make
 fi
 
