@@ -143,7 +143,7 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
   // Compute update value  
   for (unsigned int j = 0; j < ImageDimension; j++)
     {
-      delta[j] = NumericTraits<ValueType>::Zero;
+      delta[j] = NumericTraits<ScalarValueType>::Zero;
       
       for (unsigned int i = 0; i < ImageDimension; ++i)
         {
@@ -225,7 +225,7 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
   // Compute update value  
   for (unsigned int j = 0; j < ImageDimension; j++)
     {
-      delta[j] = NumericTraits<ValueType>::Zero;
+      delta[j] = NumericTraits<ScalarValueType>::Zero;
       
       for (unsigned int i = 0; i < ImageDimension; ++i)
         {
