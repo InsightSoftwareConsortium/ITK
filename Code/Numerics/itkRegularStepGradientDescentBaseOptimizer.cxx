@@ -46,7 +46,8 @@ RegularStepGradientDescentBaseOptimizer
   m_StopCondition = MaximumNumberOfIterations;
   m_Gradient.Fill( 0.0f );
   m_PreviousGradient.Fill( 0.0f );
-  
+  m_RelaxationFactor = 0.5;
+
 }
 
 
@@ -168,6 +169,19 @@ RegularStepGradientDescentBaseOptimizer
   DerivativeType previousTransformedGradient( spaceDimension );
   ScalesType     scales = this->GetScales();
 
+  if( m_RelaxationFactor < 0.0 )
+    {
+    itkExceptionMacro(<< "Relaxation factor must be positive. Current value is " << m_RelaxationFactor );
+    return;
+    }
+
+  if( m_RelaxationFactor >= 1.0 )
+    {
+    itkExceptionMacro(<< "Relaxation factor must less than 1.0. Current value is " << m_RelaxationFactor );
+    return;
+    }
+
+
   // Make sure the scales have been set properly
   if (scales.size() != spaceDimension)
     {
@@ -213,7 +227,7 @@ RegularStepGradientDescentBaseOptimizer
   // If there is a direction change 
   if( scalarProduct < 0 ) 
     {
-    m_CurrentStepLength /= 2.0;
+    m_CurrentStepLength *= m_RelaxationFactor;
     }
   
   if( m_CurrentStepLength < m_MinimumStepLength )
@@ -255,6 +269,8 @@ RegularStepGradientDescentBaseOptimizer
      << m_MaximumStepLength << std::endl;
   os << indent << "MinimumStepLength: "
      << m_MinimumStepLength << std::endl;
+  os << indent << "RelaxationFactor: "
+     << m_RelaxationFactor << std::endl;
   os << indent << "GradientMagnitudeTolerance: "
      << m_GradientMagnitudeTolerance << std::endl;
   os << indent << "NumberOfIterations: "

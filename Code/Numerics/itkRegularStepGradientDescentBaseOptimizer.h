@@ -81,11 +81,13 @@ public:
   /** Set/Get parameters to control the optimization process. */
   itkSetMacro( MaximumStepLength, double );
   itkSetMacro( MinimumStepLength, double );
+  itkSetMacro( RelaxationFactor, double );
   itkSetMacro( NumberOfIterations, unsigned long );
   itkSetMacro( GradientMagnitudeTolerance, double );
   itkGetConstReferenceMacro( CurrentStepLength, double);
   itkGetConstReferenceMacro( MaximumStepLength, double );
   itkGetConstReferenceMacro( MinimumStepLength, double );
+  itkGetConstReferenceMacro( RelaxationFactor, double );
   itkGetConstReferenceMacro( NumberOfIterations, unsigned long );
   itkGetConstReferenceMacro( GradientMagnitudeTolerance, double );
   itkGetConstMacro( CurrentIteration, unsigned int );
@@ -135,6 +137,7 @@ protected:
   double                        m_MaximumStepLength;
   double                        m_MinimumStepLength;
   double                        m_CurrentStepLength;
+  double                        m_RelaxationFactor;
   StopConditionType             m_StopCondition;
   unsigned long                 m_NumberOfIterations;
   unsigned long                 m_CurrentIteration;
