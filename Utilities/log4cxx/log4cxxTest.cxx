@@ -4,12 +4,13 @@
 #include <log4cxx/helpers/exception.h>
 
 
-int main ( int argc, char* argv[] ) {
+int main ( int argc, char* argv[] ) 
+  {
 
   // Basic configuration of the logger
   log4cxx::BasicConfigurator::configure();
 
-  char buffer[1024];
+  //char buffer[1024];
 
   log4cxx::LoggerPtr logger(log4cxx::Logger::getLogger("log4cxxTest") );
   logger->debug ( "This is a debug message" );
@@ -17,4 +18,5 @@ int main ( int argc, char* argv[] ) {
   logger->warn ( "This is a warn message" );
   logger->error ( "This is a error message" );
   exit ( 0 );
-}
+  return 0;
+  }
