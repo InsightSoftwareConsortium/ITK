@@ -56,10 +56,24 @@ int itkImportImageTest(int, char* [] )
 
 
   // Test the SetVectorMacros and GetVectorMacros
-  //const double data[2] = {
-  //import->SetSpacing(data);
-  //import->GetSpacing();
+  const double data[2] = {1.0,1.0};
+  import->SetSpacing(data);
+  
+  const float data2[2] = {1.0,1.0};
+  import->SetSpacing(data2);
 
+  const double * spacingValue = import->GetSpacing();
+  std::cout << "import->GetSpacing(): " << spacingValue << std::endl;
+
+  const double data3[2] = {1.0,1.0};
+  import->SetSpacing(data3);
+  
+  const float data4[2] = {1.0,1.0};
+  import->SetSpacing(data4);
+
+  
+  const double * originValue = import->GetOrigin();
+  std::cout << "import->GetOrigin(): " << originValue << std::endl;
 
   //
   // The rest of this code determines whether the shrink code produced
