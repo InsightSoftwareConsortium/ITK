@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <iostream>
 
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 #include "itkSize.h"
 #include "itkLinearInterpolateImageFunction.h"
 
@@ -49,7 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 typedef itk::Size<3>                               SizeType;
-typedef itk::PhysicalImage<unsigned short, 3>              ImageType;
+typedef itk::Image<unsigned short, 3>              ImageType;
 typedef itk::LinearInterpolateImageFunction<ImageType>  InterpolatorType;
 typedef InterpolatorType::IndexType                 IndexType;
 typedef InterpolatorType::PointType                 PointType;

@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 #include "itkVectorFuzzyConnectednessImageFilter.h"
 
 
@@ -101,7 +101,7 @@ int main()
 	typedef itk::Vector<int,3> IntVector;
 	typedef itk::Matrix<double,3>  MatrixType;
 	typedef itk::Image<bool,3> BinaryImage3D;
-	typedef itk::PhysicalImage<IntVector,3> VectorImage3D;
+	typedef itk::Image<IntVector,3> VectorImage3D;
 	typedef itk::VectorFuzzyConnectednessImageFilter<VectorImage3D,BinaryImage3D> FuzzyImage;
 
 	itk::Size<3> size = {WIDTH, HEIGHT, LENGTH};

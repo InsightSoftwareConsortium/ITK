@@ -38,7 +38,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 
 #include "itkImageToImageAffineMutualInformationGradientDescentRegistration.h"
@@ -58,8 +58,8 @@ int main()
 //------------------------------------------------------------
 
   //Allocate Images
-  typedef itk::PhysicalImage<unsigned char,2>           ReferenceType;
-  typedef itk::PhysicalImage<unsigned char,2>           TargetType;
+  typedef itk::Image<unsigned char,2>           ReferenceType;
+  typedef itk::Image<unsigned char,2>           TargetType;
   enum { ImageDimension = ReferenceType::ImageDimension };
 
   ReferenceType::SizeType size = {{100,100}};

@@ -39,13 +39,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkSize.h"
 
 
 typedef itk::Size<3>                                  SizeType;
-typedef itk::PhysicalImage<short, 3>                  ImageType;
+typedef itk::Image<short, 3>                  ImageType;
 typedef itk::MinimumMaximumImageCalculator<ImageType>  MinMaxCalculatorType;
 
 /* Define the image size and physical coordinates */

@@ -38,7 +38,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkMultiResolutionMutualInformationRigidRegistration.h"
 
@@ -54,8 +54,8 @@ int main()
 
   //Allocate Images
   typedef float PixelType;
-  typedef itk::PhysicalImage<PixelType,3>           ReferenceType;
-  typedef itk::PhysicalImage<PixelType,3>           TargetType;
+  typedef itk::Image<PixelType,3>           ReferenceType;
+  typedef itk::Image<PixelType,3>           TargetType;
   enum { ImageDimension = ReferenceType::ImageDimension };
 
   ReferenceType::SizeType size = {{100,100,40}};
