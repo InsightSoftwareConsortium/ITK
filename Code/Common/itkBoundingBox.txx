@@ -91,12 +91,12 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
     radius[i] = m_Bounds[2*i+1]-center[i];
     }
     
-  for(unsigned int j=0;j<pow(2,VPointDimension);j++)
+  for(unsigned int j=0;j<pow(2.0,(double)VPointDimension);j++)
     {       
     PointType pnt;
     for(unsigned int i=0; i<VPointDimension;i++)
       {
-      pnt[i]=center[i]+pow(-1,j/(int(pow(2,i))))*radius[i];
+      pnt[i]=center[i]+pow(-1.0,((double)(j/(int(pow(2.0,(double)i))))))*radius[i];
       }
     m_CornersContainer->push_back(pnt);   
     }

@@ -181,7 +181,7 @@ int itkBoundingBoxTest (int, char*[])
     {      
     for(unsigned int i=0; i<3;i++)
       {
-      if((*it)[i] != pow(-1,j/(int(pow(2,i)))))
+      if((*it)[i] != pow(-1.0,(double)(j/(int(pow(2.0,(double)i))))))
         {
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
