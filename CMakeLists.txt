@@ -109,7 +109,8 @@ IF(ITK_CSWIG_PYTHON)
 ENDIF(ITK_CSWIG_PYTHON)
 
 IF(ITK_CSWIG_JAVA)
-  INCLUDE(${CMAKE_ROOT}/Modules/FindJNI.cmake)
+  FIND_PACKAGE(Java)
+  FIND_PACKAGE(JNI)
 ENDIF(ITK_CSWIG_JAVA)
 
 #-----------------------------------------------------------------------------
