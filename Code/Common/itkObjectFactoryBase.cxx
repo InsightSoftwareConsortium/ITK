@@ -659,4 +659,13 @@ ObjectFactoryBase
   return ret;
 }
 
+/**
+ * Return the path to a dynamically loaded factory. */
+const char *
+ObjectFactoryBase
+::GetLibraryPath()
+{
+  return m_LibraryPath.c_str();
+}
+
 } // end namespace itk
