@@ -313,79 +313,80 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   v2_pt = &v2;
   v3_pt = &v3;
 
-  while( cells != myCells->End() ) {
-  tp = cells.Value()->GetPointIds();
-  ++cells;
-  m_Displacements->GetPoint (tp[0], v1_pt); 
-  m_Displacements->GetPoint (tp[1], v2_pt); 
-  m_Displacements->GetPoint (tp[2], v3_pt); 
-  v1[0] *= m_K[i]->get(0, 0)*p; 
-  v1[1] *= m_K[i]->get(0, 0)*p; 
-  v1[2] *= m_K[i]->get(0, 0)*p; 
-  v2[0] *= m_K[i]->get(0, 1)*p; 
-  v2[1] *= m_K[i]->get(0, 1)*p; 
-  v2[2] *= m_K[i]->get(0, 1)*p; 
-  v3[0] *= m_K[i]->get(0, 2)*p; 
-  v3[1] *= m_K[i]->get(0, 2)*p; 
-  v3[2] *= m_K[i]->get(0, 2)*p; 
-  v1[0] += v2[0]+v3[0]; 
-  v1[1] += v2[1]+v3[1]; 
-  v1[2] += v2[2]+v3[2]; 
-  m_Forces->GetPoint (tp[0], v2_pt); 
+  while( cells != myCells->End() ) 
+    {
+    tp = cells.Value()->GetPointIds();
+    ++cells;
+    m_Displacements->GetPoint (tp[0], v1_pt); 
+    m_Displacements->GetPoint (tp[1], v2_pt); 
+    m_Displacements->GetPoint (tp[2], v3_pt); 
+    v1[0] *= m_K[i]->get(0, 0)*p; 
+    v1[1] *= m_K[i]->get(0, 0)*p; 
+    v1[2] *= m_K[i]->get(0, 0)*p; 
+    v2[0] *= m_K[i]->get(0, 1)*p; 
+    v2[1] *= m_K[i]->get(0, 1)*p; 
+    v2[2] *= m_K[i]->get(0, 1)*p; 
+    v3[0] *= m_K[i]->get(0, 2)*p; 
+    v3[1] *= m_K[i]->get(0, 2)*p; 
+    v3[2] *= m_K[i]->get(0, 2)*p; 
+    v1[0] += v2[0]+v3[0]; 
+    v1[1] += v2[1]+v3[1]; 
+    v1[2] += v2[2]+v3[2]; 
+    m_Forces->GetPoint (tp[0], v2_pt); 
 
-  v2[0] -= v1[0]; 
-  v2[1] -= v1[1]; 
-  v2[2] -= v1[2];
+    v2[0] -= v1[0]; 
+    v2[1] -= v1[1]; 
+    v2[2] -= v1[2];
 
-  m_Forces->SetPoint (tp[0], v2); 
- 
-  m_Displacements->GetPoint (tp[0], v1_pt); 
-  m_Displacements->GetPoint (tp[1], v2_pt); 
-  m_Displacements->GetPoint (tp[2], v3_pt); 
-  v1[0] *= m_K[i]->get(1, 0)*p; 
-  v1[1] *= m_K[i]->get(1, 0)*p; 
-  v1[2] *= m_K[i]->get(1, 0)*p; 
-  v2[0] *= m_K[i]->get(1, 1)*p; 
-  v2[1] *= m_K[i]->get(1, 1)*p; 
-  v2[2] *= m_K[i]->get(1, 1)*p; 
-  v3[0] *= m_K[i]->get(1, 2)*p; 
-  v3[1] *= m_K[i]->get(1, 2)*p; 
-  v3[2] *= m_K[i]->get(1, 2)*p; 
-  v1[0] += v2[0]+v3[0]; 
-  v1[1] += v2[1]+v3[1]; 
-  v1[2] += v2[2]+v3[2]; 
-  m_Forces->GetPoint (tp[1], v2_pt);  
+    m_Forces->SetPoint (tp[0], v2); 
+   
+    m_Displacements->GetPoint (tp[0], v1_pt); 
+    m_Displacements->GetPoint (tp[1], v2_pt); 
+    m_Displacements->GetPoint (tp[2], v3_pt); 
+    v1[0] *= m_K[i]->get(1, 0)*p; 
+    v1[1] *= m_K[i]->get(1, 0)*p; 
+    v1[2] *= m_K[i]->get(1, 0)*p; 
+    v2[0] *= m_K[i]->get(1, 1)*p; 
+    v2[1] *= m_K[i]->get(1, 1)*p; 
+    v2[2] *= m_K[i]->get(1, 1)*p; 
+    v3[0] *= m_K[i]->get(1, 2)*p; 
+    v3[1] *= m_K[i]->get(1, 2)*p; 
+    v3[2] *= m_K[i]->get(1, 2)*p; 
+    v1[0] += v2[0]+v3[0]; 
+    v1[1] += v2[1]+v3[1]; 
+    v1[2] += v2[2]+v3[2]; 
+    m_Forces->GetPoint (tp[1], v2_pt);  
 
-  v2[0] -= v1[0]; 
-  v2[1] -= v1[1]; 
-  v2[2] -= v1[2];
+    v2[0] -= v1[0]; 
+    v2[1] -= v1[1]; 
+    v2[2] -= v1[2];
 
-  m_Forces->SetPoint (tp[1], v2); 
- 
-  m_Displacements->GetPoint (tp[0], v1_pt); 
-  m_Displacements->GetPoint (tp[1], v2_pt); 
-  m_Displacements->GetPoint (tp[2], v3_pt); 
-  v1[0] *= m_K[i]->get(2, 0)*p; 
-  v1[1] *= m_K[i]->get(2, 0)*p; 
-  v1[2] *= m_K[i]->get(2, 0)*p; 
-  v2[0] *= m_K[i]->get(2, 1)*p; 
-  v2[1] *= m_K[i]->get(2, 1)*p; 
-  v2[2] *= m_K[i]->get(2, 1)*p; 
-  v3[0] *= m_K[i]->get(2, 2)*p; 
-  v3[1] *= m_K[i]->get(2, 2)*p; 
-  v3[2] *= m_K[i]->get(2, 2)*p; 
-  v1[0] += v2[0]+v3[0]; 
-  v1[1] += v2[1]+v3[1]; 
-  v1[2] += v2[2]+v3[2]; 
-  m_Forces->GetPoint (tp[2], v2_pt); 
+    m_Forces->SetPoint (tp[1], v2); 
+   
+    m_Displacements->GetPoint (tp[0], v1_pt); 
+    m_Displacements->GetPoint (tp[1], v2_pt); 
+    m_Displacements->GetPoint (tp[2], v3_pt); 
+    v1[0] *= m_K[i]->get(2, 0)*p; 
+    v1[1] *= m_K[i]->get(2, 0)*p; 
+    v1[2] *= m_K[i]->get(2, 0)*p; 
+    v2[0] *= m_K[i]->get(2, 1)*p; 
+    v2[1] *= m_K[i]->get(2, 1)*p; 
+    v2[2] *= m_K[i]->get(2, 1)*p; 
+    v3[0] *= m_K[i]->get(2, 2)*p; 
+    v3[1] *= m_K[i]->get(2, 2)*p; 
+    v3[2] *= m_K[i]->get(2, 2)*p; 
+    v1[0] += v2[0]+v3[0]; 
+    v1[1] += v2[1]+v3[1]; 
+    v1[2] += v2[2]+v3[2]; 
+    m_Forces->GetPoint (tp[2], v2_pt); 
 
-  v2[0] -= v1[0]; 
-  v2[1] -= v1[1]; 
-  v2[2] -= v1[2];
+    v2[0] -= v1[0]; 
+    v2[1] -= v1[1]; 
+    v2[2] -= v1[2];
 
-  m_Forces->SetPoint (tp[2], v2);  
-  ++i;
-  } 
+    m_Forces->SetPoint (tp[2], v2);  
+    ++i;
+    } 
 
   while ( derives != myDerives->End() ) {
   derives.Value() = forces.Value();
@@ -502,17 +503,26 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   this->Initialize();
   this->SetMeshStiffness();
   
-  while (m_Step < m_StepThreshold) {
-  const float progress = static_cast<float>( m_Step ) / 
-    static_cast<float>( m_StepThreshold );
-  this->UpdateProgress( progress );
-  this->ComputeNormals();
-  this->GradientFit();
-  if ( m_PotentialOn ) this->PotentialFit();
-  this->ComputeDt();
-  this->Advance();
-  m_Step++;
-  }
+  while (m_Step < m_StepThreshold) 
+    {
+
+    const float progress = 
+                  static_cast<float>( m_Step ) / 
+                  static_cast<float>( m_StepThreshold );
+                  
+    this->UpdateProgress( progress );
+    this->ComputeNormals();
+    this->GradientFit();
+    
+    if ( m_PotentialOn ) 
+      {
+      this->PotentialFit();
+      }
+
+    this->ComputeDt();
+    this->Advance();
+    m_Step++;
+    }
 
   this->ComputeOutput();
 }
