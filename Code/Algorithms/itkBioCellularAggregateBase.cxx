@@ -42,7 +42,7 @@ CellularAggregateBase
  * dimension is known. */
 CellularAggregateBase::SubstrateValueType 
 CellularAggregateBase
-::GetSubstrateValue( unsigned long int cellId, unsigned int substrateId ) const
+::GetSubstrateValue( unsigned long int itkNotUsed(cellId), unsigned int itkNotUsed(substrateId) ) const
 {
   return 0;
 }
