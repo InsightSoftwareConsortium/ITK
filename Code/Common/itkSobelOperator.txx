@@ -23,130 +23,124 @@
 namespace itk
 {
 
-//Create the operator
-template <class TPixel, unsigned int VDimension, class TAllocator>
-void
-SobelOperator<TPixel, VDimension, TAllocator>
-::CreateOperator()
-{
-  CoefficientVector coefficients;
-  
-  coefficients = this->GenerateCoefficients();
-
-  this->Fill(coefficients);
-  
-}
-
-//This function fills the coefficients into the corresponding neighborhodd.
 template <class TPixel, unsigned int VDimension, class TAllocator>
 void  
 SobelOperator <TPixel, VDimension, TAllocator>
 ::Fill(const CoefficientVector &coeff)
 {
-
-  typename CoefficientVector::const_iterator it;
-
-  std::slice* temp_slice;
-  temp_slice = new std::slice(0, coeff.size(),1);
+  this->InitializeToZero();
   
-  typename Self::SliceIteratorType data(this, *temp_slice);
-  delete temp_slice;
- 
-  it = coeff.begin();
+  // Note that this code is only good for 2d and 3d operators.  Places the
+  // coefficients in the exact center of the neighborhood
+  unsigned int i;
+  int x,y,z, pos;
+  unsigned int center = this->GetCenterNeighborhoodIndex();
 
-  // Copy the coefficients into the neighborhood
-  for (data = data.Begin(); data < data.End(); ++data, ++it)
+  if (VDimension == 3)
     {
-    *data = *it;
+      i = 0;
+      for (z = -1; z <= 1; z++)
+        {
+          for (y = -1; y <= 1; y++ )
+            {
+              for (x = -1; x <= 1; x++)
+                {
+                  pos = center + z * this->GetStride(2) + y * this->GetStride(1) +
+                    x * this->GetStride(0);
+                  this->operator[](pos) = coeff[i];
+                  i++;
+                }
+            }
+        }
     }
-
+  else if (VDimension == 2)
+    {
+      i = 0;
+      for (y = -1; y <= 1; y++ )
+        {
+          for (x = -1; x <= 1; x++)
+            {
+              pos = center + y * this->GetStride(1) + x * this->GetStride(0);
+              this->operator[](pos) = coeff[i];
+              i++;
+            }
+        } 
+    }
+  else
+    {
+      itkExceptionMacro( << "The ND version of the Sobel operator is not yet implemented.  Currently only the 2D and 3D versions are available." );
+    }
+  
 }
-
-
-
+  
 template <class TPixel, unsigned int VDimension, class TAllocator>
 typename SobelOperator<TPixel, VDimension, TAllocator>
 ::CoefficientVector
 SobelOperator<TPixel, VDimension, TAllocator>
 ::GenerateCoefficients()
 {
-  unsigned int i;
-
-  unsigned int w = 1;
-
-  for(i = 0; i < VDimension; i ++)
+  unsigned i, j;
+  std::vector<double> coeff;
+  if (VDimension == 2 && this->GetDirection() == 0)
     {
-    w = w*3;
+      coeff.push_back(-1.0);  coeff.push_back(0.0);  coeff.push_back(1.0);
+      coeff.push_back(-2.0);  coeff.push_back(0.0);  coeff.push_back(2);
+      coeff.push_back(-1.0);  coeff.push_back(0.0);  coeff.push_back(1.0);
     }
-
-  std::vector<PixelType> coeff(w);
-  CoefficientVector coeffP(w);
-
-  // Here we set the radius to 1's, here the
-  // operator is 3x3 for 2D, 3x3x3 for 3D.
-
-  unsigned long k[VDimension];
-  
-  if(VDimension < 2)
+  else if (VDimension == 2 && this->GetDirection() == 1)
     {
-    itkGenericOutputMacro(<<"Dimension must be larger than 1 !");
+      coeff.push_back(-1.0);  coeff.push_back(-2);  coeff.push_back(-1.0);
+      coeff.push_back(0.0);  coeff.push_back(0.0);  coeff.push_back(0.0);
+      coeff.push_back(1.0);  coeff.push_back(2);  coeff.push_back(1.0);
     }
-
-  k[0] = 1;
-  k[1] = 1;
-
-  unsigned int direction = this->GetDirection();
-  
-  for ( i = 2; i < VDimension; i++)
+  else if (VDimension == 3 && this->GetDirection() == 0)
     {
-    if(i == direction)
-      k[i] = 1;
-    else
-      k[i] = 0;
+      coeff.push_back(-1.0);  coeff.push_back(0.0);  coeff.push_back(1.0);
+      coeff.push_back(-3.0);  coeff.push_back(0.0);  coeff.push_back(3.0);
+      coeff.push_back(-1.0);  coeff.push_back(0.0);  coeff.push_back(1.0);
+
+      coeff.push_back(-3.0);  coeff.push_back(0.0);  coeff.push_back(3.0);
+      coeff.push_back(-6.0);  coeff.push_back(0.0);  coeff.push_back(6.0);
+      coeff.push_back(-3.0);  coeff.push_back(0.0);  coeff.push_back(3.0);
+
+      coeff.push_back(-1.0);  coeff.push_back(0.0);  coeff.push_back(1.0);
+      coeff.push_back(-3.0);  coeff.push_back(0.0);  coeff.push_back(3.0);
+      coeff.push_back(-1.0);  coeff.push_back(0.0);  coeff.push_back(1.0);
     }
-
-  this->SetRadius(k);
-  
-  //calculate offset
-  int offset[6];
-
-  offset[0] =   static_cast<int>( this->GetStride(direction) );
-  offset[1] = - static_cast<int>( this->GetStride(direction) );
-
-  if ( direction == 0)
+  else if (VDimension == 3 && this->GetDirection() == 1)
     {
-    const int strideA = static_cast<int>( this->GetStride(direction  ) );
-    const int strideB = static_cast<int>( this->GetStride(direction+1) );    
-    offset[2] =    strideA + strideB;
-    offset[3] =    strideA - strideB; 
-    offset[4] =  - strideA - strideB;
-    offset[5] =  - strideA + strideB;
+      coeff.push_back(-1.0);  coeff.push_back(-3.0);  coeff.push_back(-1.0);
+      coeff.push_back(0.0);  coeff.push_back(0.0);  coeff.push_back(0.0);
+      coeff.push_back(1.0);  coeff.push_back(3.0);  coeff.push_back(1.0);
+      
+      coeff.push_back(-3.0);  coeff.push_back(-6.0);  coeff.push_back(-3.0);
+      coeff.push_back(0.0);  coeff.push_back(0.0);  coeff.push_back(0.0);
+      coeff.push_back(3.0);  coeff.push_back(6.0);  coeff.push_back(3.0);
+      
+      coeff.push_back(-1.0);  coeff.push_back(-3.0);  coeff.push_back(-1.0);
+      coeff.push_back(0.0);  coeff.push_back(0.0);  coeff.push_back(0.0);
+      coeff.push_back(1.0);  coeff.push_back(3.0);  coeff.push_back(1.0);
+    }
+  else if (VDimension == 3 && this->GetDirection() == 2)
+    {
+      coeff.push_back(-1.0);  coeff.push_back(-3.0);  coeff.push_back(-1.0);
+      coeff.push_back(-3.0);  coeff.push_back(-6.0);  coeff.push_back(-3.0);
+      coeff.push_back(-1.0);  coeff.push_back(-3.0);  coeff.push_back(-1.0);
+      
+      coeff.push_back(0.0);  coeff.push_back(0.0);  coeff.push_back(0.0);
+      coeff.push_back(0.0);  coeff.push_back(0.0);  coeff.push_back(0.0);
+      coeff.push_back(0.0);  coeff.push_back(0.0);  coeff.push_back(0.0);
+      
+      coeff.push_back(1.0);  coeff.push_back(3.0);  coeff.push_back(1.0);
+      coeff.push_back(3.0);  coeff.push_back(6.0);  coeff.push_back(3.0);
+      coeff.push_back(1.0);  coeff.push_back(3.0);  coeff.push_back(1.0);
     }
   else
     {
-    const int strideA = static_cast<int>( this->GetStride(direction  ) );
-    const int strideB = static_cast<int>( this->GetStride(direction-1) );    
-    offset[2] =    strideA + strideB;
-    offset[3] =    strideA - strideB;
-    offset[4] =  - strideA - strideB;
-    offset[5] =  - strideA + strideB;
+      itkExceptionMacro( << "The ND version of the Sobel operator has not been implemented.  Currently only 2D and 3D versions are available." );
     }
-
-  coeff[w/2 + offset[0]] = 2.0;
-  coeff[w/2 + offset[1]] = -2.0;
-  coeff[w/2 + offset[2]] = 1.0;
-  coeff[w/2 + offset[3]] = 1.0;
-  coeff[w/2 + offset[4]] = -1.0;
-  coeff[w/2 + offset[5]] = -1.0;
-
-  for ( i = 0; i < w; i ++)
-    {
-    coeffP[i] = coeff[i]/8.0f;
-    }
-
- 
-  return coeffP;
-    
+  
+  return coeff;
 }
 
 } // namespace itk
