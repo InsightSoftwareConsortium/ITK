@@ -213,10 +213,22 @@ public:
   itkSetVectorMacro( NumberOfIterations, unsigned int, this->GetNumberOfLevels() );
 
   /**
+   * Get the number of iterations for each level.
+   */
+  virtual const unsigned int * GetNumberOfIterations()
+    { return &(m_NumberOfIterations[0]); }
+
+  /**
    * Set the learning rate for each level.
    * The number of levels must be set before calling this method.
    */
   itkSetVectorMacro( LearningRates, double, this->GetNumberOfLevels() );
+
+  /**
+   * Get the learning rate for each level.
+   */
+  virtual const double * GetLearningRates()
+    { return &(m_LearningRates[0]); }
 
 protected:
 

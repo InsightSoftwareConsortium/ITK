@@ -246,6 +246,30 @@ std::cout << std::endl;
       }
     }
 
+  // exercise Get functions
+  if( registrator->GetCurrentLevel() != 
+    registrator->GetNumberOfLevels() )
+    {
+    pass = false;
+    }
+
+  const unsigned int * iterPtr = 
+    registrator->GetNumberOfIterations();
+  const double * ratePtr =
+    registrator->GetLearningRates();
+ 
+  for( int k = 0; k < registrator->GetNumberOfLevels(); k++ )
+    {
+    if( iterPtr[k] != niter[k] )
+      {
+      pass = false;
+      }
+    if( ratePtr[k] != rates[k] )
+      {
+      pass = false;
+      }
+    }
+
   if( !pass )
     {
     std::cout << "Test failed." << std::endl;

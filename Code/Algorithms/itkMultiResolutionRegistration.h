@@ -177,6 +177,11 @@ public:
   itkGetConstMacro(NumberOfLevels, unsigned int);
 
   /**
+   * Get the current computation level
+   */
+  itkGetConstMacro(CurrentLevel, unsigned int);
+
+  /**
    * Set the target
    */
   void SetTarget( TargetType * target );
