@@ -25,7 +25,8 @@ class FilterWatcher
 {
 public:
   FilterWatcher(itk::ProcessObject* o, char *comment="")
-  {m_Start = 0; m_End = 0; m_Process = o; m_Steps = 0; m_Comment = comment;
+  {
+    m_Start = 0; m_End = 0; m_Process = o; m_Steps = 0; m_Comment = comment;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer startFilterCommand;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer endFilterCommand;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer progressFilterCommand;
@@ -48,22 +49,22 @@ public:
     m_Process->AddObserver(itk::EndEvent(), endFilterCommand);
     m_Process->AddObserver(itk::ProgressEvent(), progressFilterCommand);
     m_Process->AddObserver(itk::IterationEvent(), iterationFilterCommand);
-    }
+  }
 
   virtual ~FilterWatcher() {}
 
   virtual void ShowProgress()
-    {
-      std::cout << " | " << m_Process->GetProgress() << std::flush;
-      m_Steps++;
-    }
+  {
+    std::cout << " | " << m_Process->GetProgress() << std::flush;
+    m_Steps++;
+  }
   virtual void ShowIteration()
-    {
-      std::cout << " # " << std::flush;
-      m_Iterations++;
-    }
+  {
+    std::cout << " # " << std::flush;
+    m_Iterations++;
+  }
   virtual void StartFilter()
-    {
+  {
     m_Steps = 0;
     m_Iterations = 0;
     m_Start = ::clock();
@@ -74,10 +75,13 @@ public:
     }
   const char *GetNameOfClass () {return m_Process->GetNameOfClass();}
   virtual void EndFilter()
-    {
+  {
     m_End = ::clock();
-    std::cout << std::endl << "Filter took " << static_cast<double>(m_End - m_Start) / CLOCKS_PER_SEC << " seconds.";
-    std::cout << std::endl << std::endl << "-------- End " << m_Process->GetNameOfClass()
+    std::cout << std::endl << "Filter took "
+              << static_cast<double>(m_End - m_Start) / CLOCKS_PER_SEC
+              << " seconds.";
+    std::cout << std::endl << std::endl
+              << "-------- End " << m_Process->GetNameOfClass()
               << " \"" << m_Comment << "\" "
               << m_Process << std::flush;
     if (m_Steps < 1)
