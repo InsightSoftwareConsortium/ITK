@@ -191,6 +191,7 @@ public:
 	 * the boundary that enclose the whold voronoi diagram
 	 */
 	void SetBoundary(PointType vorsize);
+	void SetOrigin(PointType vorsize);
 
 	/**
 	 * set the seeds points randomly.

@@ -24,13 +24,17 @@ const double DIFF_TOLERENCE = 0.001;
 
 template <typename TCoordRepType>
 Voronoi2DDiagram<TCoordRepType>::
-Voronoi2DDiagram(){
-  m_NumberOfSeeds=0;
+Voronoi2DDiagram()
+{
+  m_NumberOfSeeds = 0;
+  f_pxmin = 0;
+  f_pymin = 0;
 }
 
 template <typename TCoordRepType>
 Voronoi2DDiagram<TCoordRepType>::
-~Voronoi2DDiagram(){
+~Voronoi2DDiagram()
+{
 }
 
 /* set random seed points, specify the number of seeds as "num" */
@@ -41,11 +45,11 @@ SetRandomSeeds(int num)
 {
   PointType curr;
   m_Seeds.clear();
-  double ymax=(double)(m_VorBoundary[1]);
-  double xmax=(double)(m_VorBoundary[0]);
+  double ymax = (double)(m_VorBoundary[1]);
+  double xmax = (double)(m_VorBoundary[0]);
   for(int i = 0; i < num; ++i){
-    curr[0]=(CoordRepType)(vnl_sample_uniform(0,xmax));
-    curr[1]=(CoordRepType)(vnl_sample_uniform(0,ymax));
+    curr[0] = (CoordRepType)(vnl_sample_uniform(0,xmax));
+    curr[1] = (CoordRepType)(vnl_sample_uniform(0,ymax));
     m_Seeds.push_back(curr);
   }
   m_NumberOfSeeds = num;
@@ -63,7 +67,7 @@ SetSeeds(int num,  SeedsIterator begin)
   for(int i = 0; i < num; ++i){
     m_Seeds.push_back(*ii++);
   }
-  m_NumberOfSeeds=num;
+  m_NumberOfSeeds = num;
 }
 
 /* set the rectangle that enclosing the Voronoi Diagram. */
@@ -75,6 +79,17 @@ SetBoundary(PointType vorsize)
   m_VorBoundary[0] = vorsize[0];
   m_VorBoundary[1] = vorsize[1];
 }
+
+template <typename TCoordRepType>
+void
+Voronoi2DDiagram<TCoordRepType>::
+SetOrigin(PointType vorsize)
+{
+  f_pxmin = vorsize[0];
+  f_pymin = vorsize[1];
+}
+
+
 template <typename TCoordRepType>
 void
 Voronoi2DDiagram<TCoordRepType>::
@@ -341,7 +356,6 @@ ConstructDiagram(void)
   unsigned char frontbnd;
   unsigned char backbnd;
   std::vector<unsigned long> cellPoints;
-
   for(int i = 0; i < m_NumberOfSeeds; i++){
     buildEdges.clear();
 	curr=rawEdges[i].front();
@@ -354,6 +368,8 @@ ConstructDiagram(void)
       maxStop--;
 	  curr=rawEdges[i].front();
   	  rawEdges[i].pop_front();
+	  frontbnd=Pointonbnd(front[0]);
+	  backbnd=Pointonbnd(back[1]);
 	  if(curr[0]==back[1]){
 	    buildEdges.push_back(curr);
 		back=curr;
@@ -374,18 +390,17 @@ ConstructDiagram(void)
 	    buildEdges.push_front(curr1);
 		front=curr1;
 	  }
-	  else if( ((frontbnd=Pointonbnd(front[0]))!=0) || 
-	      ((backbnd=Pointonbnd(back[1]))!=0) )
+	  else if( (frontbnd != 0) || (backbnd != 0) )
 	  {
-        unsigned char cfrontbnd=Pointonbnd(curr[0]);
-        unsigned char cbackbnd=Pointonbnd(curr[1]);
+          unsigned char cfrontbnd=Pointonbnd(curr[0]);
+          unsigned char cbackbnd=Pointonbnd(curr[1]);
 
-		if((cfrontbnd == backbnd) &&(backbnd)){
-		  curr1[0]=back[1];
-		  curr1[1]=curr[0];
-		  buildEdges.push_back(curr1);
-		  buildEdges.push_back(curr);
-		  back=curr;
+		  if((cfrontbnd == backbnd) &&(backbnd)){
+		    curr1[0]=back[1];
+		    curr1[1]=curr[0];
+		    buildEdges.push_back(curr1);
+		    buildEdges.push_back(curr);
+		    back=curr;
 		}
 		else if((cbackbnd == frontbnd)&&(frontbnd)){
 		  curr1[0]=curr[1];
@@ -424,8 +439,9 @@ ConstructDiagram(void)
     curr=buildEdges.front();
 	curr1=buildEdges.back();
 	if(curr[0] != curr1[1]){
-	  if( ((frontbnd=Pointonbnd(curr[0]))!=0) && 
-	     ((backbnd=Pointonbnd(curr1[1]))!=0) )
+	  frontbnd=Pointonbnd(curr[0]);
+	  backbnd=Pointonbnd(curr1[1]);
+	  if( (frontbnd!=0) && (backbnd!=0) )
 	   {
 	    if(frontbnd == backbnd){
 	      curr2[0]=curr1[1];
@@ -1000,8 +1016,6 @@ GenerateVDFortune(void)
 	f_SeedSites[i].m_sitenbr = i;
   }
 /* Initialize Boundary */
-  f_pxmin = 0;
-  f_pymin = 0;
   f_pxmax = m_VorBoundary[0];
   f_pymax = m_VorBoundary[1];
 
