@@ -59,13 +59,13 @@ Array<TValueType >
 template < typename TValueType >
 void 
 Array<TValueType >
-::SetData(TValueType* data,bool LetArrayManageMemory)
+::SetData(TValueType* datain,bool LetArrayManageMemory)
 {
   if(m_LetArrayManageMemory)
     {
     vnl_vector<TValueType>::destroy();
     }
-  vnl_vector<TValueType>::data = data;
+  vnl_vector<TValueType>::data = datain;
   m_LetArrayManageMemory = LetArrayManageMemory;
 }
 
