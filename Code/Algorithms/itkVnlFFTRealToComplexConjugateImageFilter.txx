@@ -78,7 +78,7 @@ namespace itk
         v1d.fwd_transform(signal);
         for(i = 0; i < (vec_size / 2 + 1); i++)
           {
-          out[i] = std::conj<TPixel>(signal[i]);
+          out[i] = myConj(signal[i]);
           }
         }
         break;
@@ -92,7 +92,7 @@ namespace itk
           unsigned int yOffsetOut = i * (inputSize[0]/2 + 1);
           for(j = 0; j < (inputSize[0] / 2 + 1); j++)
             {
-            out[yOffsetOut + j] = std::conj<TPixel>(signal[yOffset + j]);
+            out[yOffsetOut + j] = myConj(signal[yOffset + j]);
             }
           }
         }
@@ -146,8 +146,7 @@ namespace itk
             for(k = 0; k < (inputSize[0]/2 + 1); k++)
               {
               out[k + outYStride + outZStride] =
-                std::conj<TPixel>(signal[k + signalYStride + signalZStride]);
-              //  std::conj<TPixel>(signal[k + signalYStride + signalZStride]);
+                myConj(signal[k + signalYStride + signalZStride]);
               DEBUG_PRINT(std::cerr << out[k + outYStride + outZStride] << " ";)
               }
             for(; k < inputSize[0]; k++)

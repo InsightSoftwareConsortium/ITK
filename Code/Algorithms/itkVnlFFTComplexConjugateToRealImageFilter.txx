@@ -78,7 +78,7 @@ namespace itk
       case 1:
         for(i = 0; i < inputXSize; i++)
           {
-          signal[i] = std::conj<TPixel>(in[i]);
+          signal[i] = myConj(in[i]);
           }
         for(; i < outputSize[0]; i++)
           {
@@ -94,7 +94,7 @@ namespace itk
           unsigned int YStrideConj = ((outputSize[1] - i) % outputSize[1]) * inputXSize;
           for(j = 0; j < inputXSize; j++)
             {
-            signal[YStride + j] = std::conj<TPixel>(in[YStrideIn+j]);
+            signal[YStride + j] = myConj(in[YStrideIn+j]);
             DEBUG_PRINT(std::cerr << signal[YStride + j] << " ";)
             }
           for(;j < outputSize[0]; j++)
@@ -124,7 +124,7 @@ namespace itk
             for(k = 0; k < inputXSize; k++)
               {
               signal[ZStride + YStride + k] =
-                std::conj<TPixel>(in[ZStrideIn + YStrideIn + k]);
+                myConj(in[ZStrideIn + YStrideIn + k]);
               DEBUG_PRINT(std::cerr << signal[ZStride + YStride + k] << " ";)
               }
             for(;k < outputSize[0]; k++)

@@ -17,7 +17,7 @@
 #ifndef __itkVnlFFTRealToComplexConjugateImageFilter_h
 #define __itkVnlFFTRealToComplexConjugateImageFilter_h
 #include "itkFFTRealToComplexConjugateImageFilter.h"
-
+#include <complex>
 namespace itk
 {
 template <class TPixel, unsigned int Dimension = 3>
@@ -47,6 +47,10 @@ protected:
   ~VnlFFTRealToComplexConjugateImageFilter() { }
 
 private:
+  inline std::complex<TPixel> myConj(const std::complex<TPixel>& __z) {
+    return std::complex<TPixel>(__z._M_re, -__z._M_im);
+  }
+
   VnlFFTRealToComplexConjugateImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };
