@@ -62,6 +62,9 @@ public:
   const CvQualifiedType& GetElementType() const
     { return m_ElementType; }
   
+  unsigned long GetLength() const
+    { return m_Length; }
+  
   virtual String GenerateName(const String& indirection,
                               bool isConst, bool isVolatile) const;
 protected:
