@@ -54,7 +54,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 {
   m_Step = 0;
   m_FirstSlice = 0;
-  m_NewNode = false;
+  m_NewNode = 0;
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
@@ -1054,7 +1054,7 @@ void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::NodeAddition() 
 {
-  m_NewNode = true;
+  m_NewNode = 1;
 }
 
 /**
@@ -1605,7 +1605,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     ++forces;
   }
 
-  if ( m_NewNode ) {
+  if ( m_NewNode == 1 ) {
     m_NumNodes = 2*(m_NumNodes-2)+2;
     m_NumCells = 2*m_NumCells;
     new_node = 2;
@@ -1724,7 +1724,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   ++locations;
   locations.Value() = v_northpole;
 
-  if ( m_NewNode ) {
+  if ( m_NewNode == 1 ) {
     m_YResolution = m_YResolution*2;
 
     v3[0] = 0;
@@ -1743,7 +1743,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
       m_Locations->SetPointData(i, 0);
       m_Forces->SetPointData(i, 0);
     }
-    m_NewNode = false;
+    m_NewNode = 0;
     Reset();
     SetStiffnessMatrix();
   }

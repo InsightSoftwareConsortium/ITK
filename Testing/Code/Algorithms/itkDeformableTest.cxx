@@ -342,12 +342,12 @@ int main()
   for (k=0; k<50; k++) {
     m_bfilter->ComputeNormals();
 
-//    m_bfilter->ComputeForce();
+    m_bfilter->ComputeForce();
 //    m_bfilter->ComputeDt();
-    m_bfilter->InitialFit();
+//    m_bfilter->InitialFit();
     m_bfilter->Advance();
 
-    if (k == 20) m_bfilter->NodeAddition();
+//    if (k == 20) m_bfilter->NodeAddition();
     m_bfilter->NodesRearrange();
   
     m_bfilter->ComputeOutput();
