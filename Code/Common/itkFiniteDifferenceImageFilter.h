@@ -168,13 +168,13 @@ public:
 
  /** Set/Get the number of iterations that the filter will run. */
   itkSetMacro(NumberOfIterations, unsigned int);
-  itkGetMacro(NumberOfIterations, unsigned int);
+  itkGetConstMacro(NumberOfIterations, unsigned int);
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOff. */
   itkSetMacro(UseImageSpacing,bool);
   itkBooleanMacro(UseImageSpacing);
-  itkGetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
 
   /** Set/Get the maximum error allowed in the solution.  This may not be
       defined for all solvers and its meaning may change with the application. */
@@ -200,12 +200,12 @@ public:
   
   /** Set/Get the state of the filter. */
   itkSetMacro(State, FilterStateType);
-  itkGetMacro(State, FilterStateType);
+  itkGetConstMacro(State, FilterStateType);
 
   /** Require the filter to be manually reinitialized (by calling
       SetStateToUninitialized() */
   itkSetMacro(ManualReinitialization, bool);
-  itkGetMacro(ManualReinitialization, bool);
+  itkGetConstMacro(ManualReinitialization, bool);
   itkBooleanMacro(ManualReinitialization);
   
 protected:
