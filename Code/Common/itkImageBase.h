@@ -153,7 +153,7 @@ public:
    * spacing is the geometric distance between image samples.
    * The value returned is a pointer to a double array.
    * For ImageBase and Image, the data spacing is always unity.  
-   * If a different data spacing is needed, use PhysicalImage.
+   * If a different data spacing is needed, use Image.
    */
   virtual const double* GetSpacing() const;
 
@@ -161,7 +161,7 @@ public:
    * Get the origin of the image. The origin is the geometric
    * coordinates of the index (0,0).  The value returned is a pointer
    * to a double array.  For ImageBase and Image, the origin is 
-   * always (0,0). If a different origin is needed, use PhysicalImage.  
+   * always (0,0). If a different origin is needed, use Image.  
    */
   virtual const double * GetOrigin() const;
   
