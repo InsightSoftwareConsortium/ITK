@@ -342,7 +342,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   OffsetType  offset;
 
   // Pixels on the border should not be 
-  // processes because they lack neighbors.
+  // processed because they lack neighbors.
   // Prepare an output region 1 pixel narrower than
   // the input region
   for(unsigned int dim=0; dim<InputImageDimension; dim++)
