@@ -31,7 +31,7 @@
  *  ie itkImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration.h)
  */ 
 
-int main()
+int itkImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistrationTest(int, char**)
 {
 
   /*Allocate Images*/

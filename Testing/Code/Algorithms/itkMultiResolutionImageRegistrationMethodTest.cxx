@@ -45,7 +45,7 @@ public:
  *  This file tests initialization errors.
  */ 
 
-int main()
+int itkMultiResolutionImageRegistrationMethodTest(int, char**)
 {
 
   itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());

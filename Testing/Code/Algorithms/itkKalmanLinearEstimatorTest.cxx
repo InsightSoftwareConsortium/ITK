@@ -28,7 +28,7 @@
  *
  */ 
 
-int main()
+int itkKalmanLinearEstimatorTest(int, char**)
 {
 
 

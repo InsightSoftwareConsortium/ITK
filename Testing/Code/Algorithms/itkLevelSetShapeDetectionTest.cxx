@@ -33,7 +33,7 @@ public:
 };
 
 
-int main()
+int itkLevelSetShapeDetectionTest(int, char**)
 {
 
   /* -------------------------------------------------

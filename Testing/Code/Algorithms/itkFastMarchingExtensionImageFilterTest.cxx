@@ -20,7 +20,7 @@
 
 #include "vnl/vnl_math.h"
 
-int main()
+int itkFastMarchingExtensionImageFilterTest(int, char**)
 {
   // create a fastmarching object
   typedef float PixelType;

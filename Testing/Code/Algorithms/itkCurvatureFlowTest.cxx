@@ -55,7 +55,7 @@ public:
 };
 
 
-int main()
+int itkCurvatureFlowTest(int, char**)
 {
 
    itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());

@@ -34,7 +34,7 @@ public:
 };
 
 
-int main()
+int itkFastMarchingTest(int, char**)
 {
 
   itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());

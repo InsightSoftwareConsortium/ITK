@@ -44,7 +44,7 @@ public:
 
 
 
-int main()
+int itkSupervisedClassifierTest(int, char**)
 {
 
   //------------------------------------------------------

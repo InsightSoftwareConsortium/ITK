@@ -39,7 +39,7 @@ int SEEDZ = 25;
 time_t btime; 
 time_t etime;
 
-int main() 
+int itkDeformableTest(int, char**) 
 {
 
   // Define the dimension of the images

@@ -28,7 +28,7 @@
  *  considered the Reference.
  */ 
 
-int main()
+int itkPointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistrationTest(int, char**)
 {
 
   // Number of pixels to take from the target image

@@ -30,7 +30,7 @@
  *  ie itkImageToImageAffineMeanSquaresGradientDescentRegistration.h)
  */ 
 
-int main()
+int itkImageToImageAffineMeanSquaresGradientDescentRegistrationTest(int, char**)
 {
 
 

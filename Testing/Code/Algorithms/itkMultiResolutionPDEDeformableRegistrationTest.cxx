@@ -116,7 +116,7 @@ TImage *output )
 
 }
 
-int main()
+int itkMultiResolutionPDEDeformableRegistrationTest(int, char**)
 {
 
   typedef unsigned char PixelType;

@@ -106,7 +106,7 @@ TImage *output )
 
 }
 
-int main()
+int itkDemonsRegistrationFilterTest(int, char**)
 {
 
   typedef unsigned char PixelType;

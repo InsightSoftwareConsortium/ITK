@@ -23,7 +23,9 @@
 #include "itkStreamingImageFilter.h"
 
 #include <iostream>
-
+namespace
+{
+  
 /**
  * This function defines the test image pattern.
  * The pattern is a 3D gaussian in the middle
@@ -49,6 +51,7 @@ double F( double x, double y, double z )
   return value;
 
 }
+}
 
 // The following three classes are used to support callbacks
 // on the filter in the pipeline that follows later
@@ -62,7 +65,7 @@ public:
   itk::ProcessObject::Pointer m_Process;
 };
 
-int main()
+int itkRecursiveMultiResolutionPyramidImageFilterTest(int, char**)
 {
 
 //------------------------------------------------------------

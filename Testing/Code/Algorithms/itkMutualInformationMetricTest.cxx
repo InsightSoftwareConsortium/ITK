@@ -32,7 +32,7 @@
  *
  */
 
-int main()
+int itkMutualInformationMetricTest(int, char**)
 {
 
 //------------------------------------------------------------

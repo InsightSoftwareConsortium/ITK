@@ -90,7 +90,7 @@
     int GetTopologyId() { return 1; };
   };
 
-int main ( int argc, char* argv[] )
+int itkNewTest ( int argc, char** argv )
 {
   // Call New and Print on as many classes as possible
 

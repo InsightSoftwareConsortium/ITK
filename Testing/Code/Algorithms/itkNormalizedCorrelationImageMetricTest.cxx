@@ -32,7 +32,7 @@
  *
  */
 
-int main()
+int itkNormalizedCorrelationImageMetricTest(int, char**)
 {
 
 //------------------------------------------------------------

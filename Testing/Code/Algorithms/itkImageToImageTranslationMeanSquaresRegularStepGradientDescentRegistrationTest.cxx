@@ -31,7 +31,7 @@
  *  ie itkImageToImageTranslationMeanSquaresRegularStepGradientDescentRegistration.h)
  */ 
 
-int main()
+int itkImageToImageTranslationMeanSquaresRegularStepGradientDescentRegistrationTest(int, char**)
 {
 
   /*Allocate Images*/

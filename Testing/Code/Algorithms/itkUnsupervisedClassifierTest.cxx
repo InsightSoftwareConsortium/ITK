@@ -41,7 +41,7 @@
 #define   ONEBAND             1
 
 
-int main()
+int itkUnsupervisedClassifierTest(int, char**)
 {
 
   //------------------------------------------------------

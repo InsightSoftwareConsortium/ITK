@@ -25,7 +25,9 @@
 #include "itkImageRegionIterator.h"
 #include "itkCommandIterationUpdate.h"
 
-
+namespace
+{
+  
 // this class is used to send output to stdout and not the itk window
 class TextOutput : public itk::OutputWindow
 {
@@ -42,6 +44,7 @@ public:
 
 
 double F( itk::Vector<double,3> & v );
+}
 
 
 /** 
@@ -103,7 +106,7 @@ double F( itk::Vector<double,3> & v );
  * International Journal of Computer Vision, 24(2):137-154
  * 
  */ 
-int main()
+int itkImageRegistrationMethodTest_13(int, char**)
 {
 
   itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
@@ -415,7 +418,9 @@ int main()
 
 
 }
-
+namespace
+{
+  
 
 /**
  * This function defines the test image pattern.
@@ -444,4 +449,5 @@ double F( itk::Vector<double,3> & v )
 
   return value;
 
+}
 }

@@ -35,12 +35,15 @@ typedef InterpolatorType::ContinuousIndexType       ContinuousIndexType;
 
 typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
   NNInterpolatorType;
-
+namespace
+{
+  
 /* Define the image size and physical coordinates */
 SizeType size = {{20, 40, 80}};
 double origin [3] = { 0.5,   0.5,   0.5};
 double spacing[3] = { 0.1,   0.05 , 0.025};
 
+}
 
 /**
  * Test a geometric point. Returns true if test has passed,
@@ -124,9 +127,9 @@ double trueValue )
 
 
 int 
-main(
+itkInterpolateTest(
     int argc,
-    char *argv[])
+    char **argv)
 {
     int flag = 0;           /* Did this test program work? */
 

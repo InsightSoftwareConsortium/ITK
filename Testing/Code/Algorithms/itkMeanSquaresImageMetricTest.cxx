@@ -32,7 +32,7 @@
  *
  */
 
-int main()
+int itkMeanSquaresImageMetricTest(int, char**)
 {
 
 //------------------------------------------------------------

@@ -24,13 +24,16 @@ typedef itk::Size<3>                          SizeType;
 typedef itk::Image<short, 3>                  ImageType;
 typedef itk::OtsuThresholdImageCalculator<ImageType>  CalculatorType;
 typedef itk::ImageRegionIterator<ImageType> Iterator;
-
+namespace
+{
+  
 /* Define the image size and physical coordinates */
 SizeType size = {{20, 20, 20}};
 double origin [3] = { 0.0, 0.0, 0.0};
-double spacing[3] = { 1, 1 , 1};
+  double spacing[3] = { 1, 1 , 1};
+}
 
-int main()
+int itkOtsuThresholdImageCalculatorTest(int, char**)
 {
     int flag = 0;           /* Did this test program work? */
 

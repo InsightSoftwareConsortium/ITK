@@ -24,7 +24,9 @@
 #include "itkCommandIterationUpdate.h"
 
 #include <iostream>
-
+namespace 
+{
+  
 /**
  * This function defines the test image pattern.
  * The pattern is a 3D gaussian in the middle
@@ -50,9 +52,11 @@ double F( double x, double y, double z )
   return value;
 
 }
+}
 
 
-int main()
+
+int itkImageToImageAffineMutualInformationGradientDescentRegistrationTest(int, char**)
 {
 
 //------------------------------------------------------------

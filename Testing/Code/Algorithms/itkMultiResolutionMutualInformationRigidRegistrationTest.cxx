@@ -23,6 +23,9 @@
 #include "itkMultiThreader.h"
 
 #include "itkOutputWindow.h"
+namespace
+{
+  
 // this class is used to send output to stdout and not the itk window
 class TextOutput : public itk::OutputWindow
 {
@@ -63,9 +66,10 @@ double F( double x, double y, double z )
   return value;
 
 }
+}
 
 
-int main()
+int itkMultiResolutionMutualInformationRigidRegistrationTest(int, char**)
 {
 
    itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());

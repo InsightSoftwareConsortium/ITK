@@ -24,7 +24,7 @@
  *  This program test one instantiation of the itk::ImageMapper class
  */ 
 
-int main()
+int itkImageMapperTest(int, char**)
 {
 
 
@@ -127,7 +127,7 @@ int main()
   
   transform->SetRotation( versor );
 
-  // Create the domain image
+  // Create the doitkImageMapperTest image
   imageSource->Update();
 
   // Connect the Image source to the Image mapper

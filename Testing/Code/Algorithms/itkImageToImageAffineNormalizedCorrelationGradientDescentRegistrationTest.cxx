@@ -32,7 +32,7 @@
  *  ie itkImageToImageAffineNormalizedCorrelationGradientDescentRegistration.h)
  */ 
 
-int main()
+int itkImageToImageAffineNormalizedCorrelationGradientDescentRegistrationTest(int, char**)
 {
 
 

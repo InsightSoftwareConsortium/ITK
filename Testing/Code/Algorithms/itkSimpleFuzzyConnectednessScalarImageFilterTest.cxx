@@ -64,7 +64,7 @@ const unsigned short TestingImage [400]={
 
 
 
-int main(){
+int itkSimpleFuzzyConnectednessScalarImageFilterTest(int, char**){
   int i, j;
   typedef itk::Image<bool,2> BinaryImage2D;
   typedef itk::Image<unsigned short,2> UShortImage2D;

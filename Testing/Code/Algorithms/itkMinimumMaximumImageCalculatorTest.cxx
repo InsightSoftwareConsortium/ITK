@@ -23,14 +23,17 @@
 typedef itk::Size<3>                                  SizeType;
 typedef itk::Image<short, 3>                  ImageType;
 typedef itk::MinimumMaximumImageCalculator<ImageType>  MinMaxCalculatorType;
-
+namespace
+{
+  
 /* Define the image size and physical coordinates */
-SizeType size = {{20, 20, 20}};
-double origin [3] = { 0.0, 0.0, 0.0};
-double spacing[3] = { 1, 1 , 1};
+  SizeType size = {{20, 20, 20}};
+  double origin [3] = { 0.0, 0.0, 0.0};
+  double spacing[3] = { 1, 1 , 1};
+}
 
 int 
-main(int argc,char *argv[])
+itkMinimumMaximumImageCalculatorTest(int argc,char **argv)
 {
     int flag = 0;           /* Did this test program work? */
 

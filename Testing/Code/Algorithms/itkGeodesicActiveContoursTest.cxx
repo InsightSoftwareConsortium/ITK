@@ -35,7 +35,7 @@ public:
 
 
 
-int main()
+int itkGeodesicActiveContoursTest(int, char**)
 {
 
   /* -------------------------------------------------

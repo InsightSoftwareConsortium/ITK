@@ -58,7 +58,7 @@ public:
 };
 
 
-int main()
+int itkHistogramMatchingImageFilterTest(int, char**)
 {
 
   typedef float PixelType;

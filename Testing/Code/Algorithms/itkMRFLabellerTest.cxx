@@ -41,7 +41,7 @@
 #define   NEIGHBORHOOD_RAD    1
 
 
-int main()
+int itkMRFLabellerTest(int, char**)
 {
 
   //------------------------------------------------------

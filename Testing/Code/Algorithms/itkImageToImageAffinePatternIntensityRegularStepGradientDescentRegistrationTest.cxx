@@ -31,7 +31,7 @@
  *  ie itkImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration.h)
  */ 
 
-int main()
+int itkImageToImageAffinePatternIntensityRegularStepGradientDescentRegistrationTest(int, char**)
 {
 
 

@@ -63,7 +63,7 @@ public:
     }
 };
 
-int main()
+int itkRegionGrow2DTest(int, char**)
 {
   //Test the KLM algorithm applied to 2D data
   test_regiongrowKLM2D();

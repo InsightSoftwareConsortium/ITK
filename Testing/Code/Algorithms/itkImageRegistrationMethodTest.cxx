@@ -43,7 +43,7 @@ public:
  *  This file tests initialization errors.
  */ 
 
-int main()
+int itkImageRegistrationMethodTest(int, char**)
 {
 
   itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());

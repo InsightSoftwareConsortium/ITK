@@ -200,7 +200,7 @@ private:
 };
 
 } // end namespace itk
-int main()
+int itkLevelSet2DFunctionTest(int, char**)
 {
   typedef itk::Image<float, 2> ImageType;
   
