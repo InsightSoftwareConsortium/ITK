@@ -171,7 +171,8 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
     static_cast<unsigned int>( this->GetNumberOfOutputs() );
 
   InputImagePointer input = const_cast<TInputImage *>( this->GetInput(0) );
-  for( unsigned int j = 0; j < numberOfOutputs; j++ )
+  unsigned int j;
+  for( j = 0; j < numberOfOutputs; j++ )
     {
 
     OutputImagePointer output = this->GetOutput( j );
@@ -202,7 +203,6 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
   unsigned int kthLargestPrincipalComp = m_NumberOfTrainingImages;
   unsigned int numberOfValidOutputs = 
     vnl_math_min( numberOfOutputs, m_NumberOfTrainingImages + 1 );
-  unsigned int j;
 
   for( j = 1; j < numberOfValidOutputs; j++ )
     {
