@@ -20,9 +20,11 @@
 
 1. - Make modifications to all FEM classes so that they use the (new) itk::Mesh to represent geometry
 
-2. - 2D registration example
+2. - 2D registration example with landmarks
+   
+3. - Implement LoadFace handling in 3D elements
 
-3. - Implement LoadEdge handling in 3d elements
+4. - 3D registration example
 
-4. - Nonlinear elements
+5. - Nonlinear elements
    - C1 elements
