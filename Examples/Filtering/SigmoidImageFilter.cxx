@@ -29,7 +29,7 @@
 //  transformation applied pixel-wise by this filter.  
 //
 //  \begin{equation}
-//  I' = (Max-Min)\cdot \frac{1}{\left(1+e^{-(\frac{ I - \beta }{\alpha } \right)} \right)} + Min
+//  I' = (Max-Min)\cdot \frac{1}{\left(1+e^{-\left(\frac{ I - \beta }{\alpha } \right)} \right)} + Min
 //  \end{equation}
 //  
 //  Where $I$ is the intensity of the input pixel, $I'$ the intensity of the
@@ -169,8 +169,15 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  The coefficients $\alpha$ and $\beta$ are passed with the methods
-  //  \code{SetAlpha()} and \code{SetBeta()}.  methods
-  //  \code{SetOutputMinimum()} and \code{SetOutputMaximum()}. 
+  //  \code{SetAlpha()} and \code{SetBeta()}.  Note that $\alpha$ is not
+  //  exactly the width of the input intensity window but it is proportional to
+  //  it. As a rule of thumb we may say that the actual window is the interval
+  //  $[-3\alpha, 3\alpha]$, with the remark that the intensity window ends are
+  //  not crisp but rather have a continuous fading as shown in
+  //  Figure~\ref{fig:SigmoidParameters}.  You may want to think about this in
+  //  the same terms you do when you take a range in a population of measures
+  //  by defining and interval of $[-3 \sigma, +3 \sigma]$ around the mean of
+  //  the population.
   //
   //  \index{itk::SigmoidImageFilter!SetAlpha()}
   //  \index{itk::SigmoidImageFilter!SetBeta()}
@@ -194,7 +201,7 @@ int main( int argc, char ** argv )
   //  The input to the filter can be taken from any other filter, for example a
   //  reader. The output can be passed down the pipeline to other filters, for
   //  example a writer. An update call on any downstream filter will trigger
-  //  the execution of the filter.
+  //  the execution of the Sigmoid filter.
   //
   //  \index{itk::SigmoidImageFilter!SetInput()}
   //  \index{itk::SigmoidImageFilter!GetOutput()}
@@ -227,12 +234,19 @@ int main( int argc, char ** argv )
   //  \begin{itemize}
   //  \item Minimum =  10
   //  \item Maximum = 240
-  //  \item Alpha   =  10
-  //  \item Beta    = 170
+  //  \item $\alpha$ =  10
+  //  \item $\beta$ = 170
   //  \end{itemize}
   //
+  //  As can be seen from the Figure, the intensities on the white matter
+  //  became expanded in their dynamic range, while intensity values lower than
+  //  $\beta - 3 \alpha$ and higher than $\beta + 3\alpha$ became progressively
+  //  mapped to the minimum and maximum output values. This is the way in which
+  //  a Sigmoid can be used for performing smooth intensity windowing.
+  // 
   //  Note that both $\alpha$ and $\beta$ can be positive and negative. A
-  //  negative $\alpha$ will have the effect of \emph{negating} the image. An
+  //  negative $\alpha$ will have the effect of \emph{negating} the image. This
+  //  is illustrated on the left side of Figure\ref{fig:SigmoidParameters}. An
   //  application of this filter as pre-processing for segmentation is
   //  presented in section~\ref{sec:FastMarchingImageFilter}.
   //
