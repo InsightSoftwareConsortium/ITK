@@ -63,6 +63,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
     return; // No need to update
   }
 
+
   m_InternalImageTime = m_Image->GetMTime();
   m_InternalSpatialObjectTime = m_SpatialObject->GetMTime();
 
@@ -70,15 +71,15 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   typename SpatialObjectType::BoundingBoxType::Pointer boundingBox;
   boundingBox = m_SpatialObject->GetBoundingBox();
   
-  Point<double,itkGetStaticConstMacro(ImageDimension)> pt;
-  for(unsigned int i=0;i<itkGetStaticConstMacro(ImageDimension);i++)
+  Point<double,itkGetStaticConstMacro(ObjectDimension)> pt;
+  for(unsigned int i=0;i<itkGetStaticConstMacro(ObjectDimension);i++)
   {
     pt[i]=boundingBox->GetBounds()[i*2]+(boundingBox->GetBounds()[i*2+1]-boundingBox->GetBounds()[i*2])/2;
   }
 
   IndexType index;
   pt = m_SpatialObject->GetIndexToWorldTransform()->TransformPoint(pt);
-  for(unsigned int i=0;i<itkGetStaticConstMacro(ImageDimension);i++)
+  for(unsigned int i=0;i<itkGetStaticConstMacro(ObjectDimension);i++)
   {
     index[i]=pt[i];
   }
@@ -93,8 +94,14 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
  
   while(!it.IsAtEnd())
   {
+    IndexType ind = it.GetIndex();
     VectorType mv ;
     mv[0] = it.Get();
+    for(unsigned int i=1;i<itkGetStaticConstMacro(SampleDimension);i++)
+    {
+      ind[m_SampleDirection] += 1;
+      mv[i]= m_Image->GetPixel(ind);
+    }
     sample->PushBack( mv ) ;
     ++it;
   }
@@ -121,13 +128,12 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   covarianceAlgorithm->SetInputSample( sample ) ;
   covarianceAlgorithm->SetMean( meanAlgorithm->GetOutput() ) ;
   covarianceAlgorithm->Update();
-
   
   for(unsigned int i=0;i<itkGetStaticConstMacro(SampleDimension);i++)
   {
     for(unsigned int j=0;j<itkGetStaticConstMacro(SampleDimension);j++)
     {
-      m_CovarianceMatrix[i][j] = *(covarianceAlgorithm->GetOutput())[i][j];
+      m_CovarianceMatrix[i][j] = (*(covarianceAlgorithm->GetOutput())).GetVnlMatrix()(i,j);
     }
   }
 }
@@ -144,6 +150,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   os << indent << "Covariance Matrix: " << m_CovarianceMatrix << std::endl;
   os << indent << "Internal Image Time: " << m_InternalImageTime << std::endl;
   os << indent << "Internal Spatial Object Time: " << m_InternalSpatialObjectTime << std::endl;
+  os << indent << "SampleDirection: " << m_SampleDirection << std::endl;
 }
 
 } // end namespace itk

@@ -57,6 +57,10 @@ public:
   itkStaticConstMacro(SampleDimension, unsigned int,
                       TSampleDimension);
 
+  itkStaticConstMacro(ObjectDimension, unsigned int,
+                      TInputSpatialObject::ObjectDimension);
+
+
   /** Type definitions for the input spatial object. */
   typedef TInputSpatialObject SpatialObjectType;  
   typedef typename SpatialObjectType::Pointer  SpatialObjectPointer;
