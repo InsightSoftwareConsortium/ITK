@@ -43,7 +43,7 @@ FRPROptimizer
   if(this->GetMaximize())
     {
     (*val) = -(*val);
-    for(int i=0; i<this->GetSpaceDimension(); i++)
+    for(unsigned int i=0; i<this->GetSpaceDimension(); i++)
       {
       (*xi)[i] = -(*xi)[i];
       }
@@ -82,6 +82,8 @@ void
 FRPROptimizer
 ::StartOptimization()
 {
+  unsigned int i;
+
   if( m_CostFunction.IsNull() )
     {
     return ;
@@ -103,7 +105,7 @@ FRPROptimizer
   double fp;
   this->GetValueAndDerivative(p, &fp, &xi);
 
-  for(int i=0; i<this->GetSpaceDimension(); i++)
+  for(i=0; i<this->GetSpaceDimension(); i++)
     {
     g[i] = -xi[i];
     xi[i] = g[i];
@@ -112,7 +114,7 @@ FRPROptimizer
 
   unsigned int limitCount = 0;
 
-  for (int currentIteration = 0;
+  for (unsigned int currentIteration = 0;
        currentIteration <= this->GetMaximumIteration();
        currentIteration++)
     {
@@ -147,7 +149,7 @@ FRPROptimizer
 
     gg = 0.0;
     dgg = 0.0;
-    for(int i=0; i<this->GetSpaceDimension(); i++)
+    for(unsigned int i=0; i<this->GetSpaceDimension(); i++)
       {
       gg += g[i] * g[i];
       //dgg += xi[i] * xi[i];  // Uncomment for Fletcher-Reeves
@@ -162,7 +164,7 @@ FRPROptimizer
       }
 
     gam = dgg/gg;
-    for(int i=0; i<this->GetSpaceDimension(); i++)
+    for(i=0; i<this->GetSpaceDimension(); i++)
       {
       g[i] = -xi[i];
       xi[i] = g[i] + gam * h[i];
