@@ -75,14 +75,13 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
   //
 
   // compute the minimum pixel value in the input
-  MinimumMaximumImageCalculator<TInputImage>::Pointer calculator
+  typename MinimumMaximumImageCalculator<TInputImage>::Pointer calculator
     = MinimumMaximumImageCalculator<TInputImage>::New();
   calculator->SetImage( this->GetInput() );
-  calculator->Compute();
+  calculator->ComputeMinimum();
 
-  InputImagePixelType minValue, maxValue;
+  InputImagePixelType minValue;
   minValue = calculator->GetMinimum();
-  maxValue = calculator->GetMaximum();
   
   // allocate a marker image
   InputImagePointer markerPtr = InputImageType::New();
@@ -129,7 +128,7 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
   // Delegate to a geodesic dilation filter.
   //
   //
-  GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::Pointer
+  typename GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::Pointer
     dilate
        = GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::New();
 
