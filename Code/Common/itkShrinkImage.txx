@@ -94,7 +94,7 @@ ShrinkImage<TInputImage,TOutputImage>
   // walk the output region, and sample the input image
   for ( int i=0; !outIt.IsAtEnd(); ++outIt, i++)
     {
-    if ( !(i % numVisits ) )
+    if ( threadId == 0 && !(i % numVisits ) )
       {
       this->UpdateProgress(((float)i/numVisits)*10.0);
       }
