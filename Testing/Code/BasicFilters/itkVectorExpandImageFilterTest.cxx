@@ -126,11 +126,15 @@ int main()
   typedef itk::VectorExpandImageFilter<ImageType,ImageType> ExpanderType;
   ExpanderType::Pointer expander = ExpanderType::New();
 
-  unsigned int factors[ImageDimension] = {2,3};
-  ImageType::PixelType padValue;
-  padValue = 2.0, 7.0, 9.0;
   expander->SetInput( input );
+
+  unsigned int factors[ImageDimension] = {2,3};
   expander->SetExpandFactors( factors );
+
+  typedef ImageType::PixelType PixelType;
+  typedef PixelType::ValueType ValueType;
+  ValueType padValueArray[VectorDimension] = {2.0, 7.0, 9.0};
+  ImageType::PixelType padValue( padValueArray );
   expander->SetEdgePaddingValue( padValue );
 
   ShowProgressObject progressWatch(expander);
