@@ -115,9 +115,9 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << " outputImagefile  [differenceOutputfile] ";
-    std::cerr << " [differenceBeforeRegistration] "<< std::endl;
+    std::cerr << " fixedImageFile  movingImageFile outputImagefile  ";
+    std::cerr << " [differenceOutputfile] [differenceBeforeRegistration] ";
+    std::cerr << " [numberOfIterations] [stepLength]"<< std::endl;
     return 1;
     }
   
@@ -279,9 +279,6 @@ int main( int argc, char *argv[] )
   std::cout << "Intial Parameters = " << std::endl;
   std::cout << transform->GetParameters() << std::endl;
 
-  transform->Print( std::cout );
-
-
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( numberOfParameters );
   
@@ -289,10 +286,25 @@ int main( int argc, char *argv[] )
 
   optimizer->SetScales( optimizerScales );
 
-  optimizer->SetMaximumStepLength( 10.00  ); 
-  optimizer->SetMinimumStepLength(  0.01 );
+  unsigned int maxNumberOfIterations = 50;
+  if( argc >= 7 )
+    {
+    maxNumberOfIterations = atoi( argv[6] );
+    }
+ 
 
-  optimizer->SetNumberOfIterations( 200 );
+  double maxStepLength = 10.0;
+  if( argc >= 8 )
+    {
+    maxStepLength = atoi( argv[7] );
+    }
+ 
+
+
+  optimizer->SetMaximumStepLength(  maxStepLength  ); 
+  optimizer->SetMinimumStepLength(  maxStepLength / 1000.0 );
+
+  optimizer->SetNumberOfIterations( maxNumberOfIterations );
 
 
   // Create the Command observer and register it with the optimizer.
