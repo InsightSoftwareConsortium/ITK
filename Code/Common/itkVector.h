@@ -173,20 +173,20 @@ public:
 };
 
 template< class T, unsigned int NVectorDimension >  
-ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
+ITKCommon_EXPORT std::ostream& operator<<(std::ostream& os, 
                                     const Vector<T,NVectorDimension> & v); 
 
 template< class T, unsigned int NVectorDimension >  
-ITK_EXPORT std::istream& operator>>(std::istream& is, 
+ITKCommon_EXPORT std::istream& operator>>(std::istream& is, 
                                     Vector<T,NVectorDimension> & v); 
 
-ITK_EXPORT Vector<double,3> CrossProduct( const Vector<double,3> &,
+ITKCommon_EXPORT Vector<double,3> CrossProduct( const Vector<double,3> &,
                                           const Vector<double,3> &  );
 
-ITK_EXPORT Vector<float,3> CrossProduct( const Vector<float,3> &,
+ITKCommon_EXPORT Vector<float,3> CrossProduct( const Vector<float,3> &,
                                          const Vector<float,3> &  );
 
-ITK_EXPORT Vector<int,3> CrossProduct( const Vector<int,3> &,
+ITKCommon_EXPORT Vector<int,3> CrossProduct( const Vector<int,3> &,
                                        const Vector<int,3> &  );
 
 } // end namespace itk
