@@ -29,9 +29,11 @@
 #include <itksys/ios/sstream>
 
 // For nthos:
-#if defined(_MSC_VER) || defined(__BORLANDC__)
+#if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
    #include <winsock.h>
-#else
+#endif
+
+#ifdef CMAKE_HAVE_NETINET_IN_H
    #include <netinet/in.h>
 #endif
 
