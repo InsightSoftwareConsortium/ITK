@@ -65,7 +65,19 @@ ProcessObject
   m_NumberOfThreads = m_Threader->GetNumberOfThreads();
 }
 
-
+/**
+ * This is a default implementation to make sure we have something.
+ * Once all the subclasses of ProcessObject provide an appopriate
+ * MakeOutput(), then ProcessObject::MakeOutput() can be made pure
+ * virtual.
+ */
+DataObject::Pointer
+ProcessObject
+::MakeOutput(unsigned int idx)
+{
+  return static_cast<DataObject*>(DataObject::New().GetPointer());
+}
+  
 /**
  * Destructor for the ProcessObject class. We've got to
  * UnRegister() the use of any input classes.
@@ -257,8 +269,12 @@ ProcessObject
     this->SetNumberOfOutputs(idx + 1);
     }
 
+  // Keep a handle to the original output and disconnect the old output from
+  // the pipeline
+  DataObjectPointer oldOutput;
   if ( m_Outputs[idx] )
     {
+    oldOutput = m_Outputs[idx];
     m_Outputs[idx]->DisconnectSource(this, idx);
     }
 
@@ -270,13 +286,21 @@ ProcessObject
   m_Outputs[idx] = output;
 
   // if we are clearing an output, we need to create a new blank output
-  // so we are prepared for the next Update()
-//   if (!m_Outputs[idx])
-//     {
-//     itkDebugMacro( " creating new output object." );
-//     DataObjectPointer newOutput = ...
-//     this->SetNthOutput(idx, newOutput);
-//     }
+  // so we are prepared for the next Update(). this copies the requested
+  // region ivar
+  if (!m_Outputs[idx])
+    {
+    itkDebugMacro( " creating new output object." );
+    DataObjectPointer newOutput = this->MakeOutput(idx);
+    this->SetNthOutput(idx, newOutput);
+
+    // If we had an output object before, copy the requested region
+    // ivars to the the new output
+    if (oldOutput)
+      {
+      newOutput->SetRequestedRegion( oldOutput );
+      }
+    }
 
   this->Modified();
 }

@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 int main(int argc, char *argv[])
 {
-  try
+  //  try
     {
       typedef  itk::Image<float, 3> ImageType;
 
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
         = itk::DerivativeImageFilter<ImageType, ImageType>::New();
       filter->SetOrder(1);
       filter->SetDirection(1);
-
+      std::cout << "About to execute" << std::endl;
       // Run Test
       itk::Size<3> sz;
       sz[0]=256;
@@ -65,11 +65,12 @@ int main(int argc, char *argv[])
       test1.SetImageSize(sz);
       test1.SetFilter(filter.GetPointer());
       test1.Execute();
+      std::cout << "Finished executing" << std::endl;
     }
-  catch(itk::ExceptionObject &err)
-    {
-      (&err)->Print(std::cerr);
-      return 1;
-    } 
+//   catch(itk::ExceptionObject &err)
+//     {
+//       (&err)->Print(std::cerr);
+//       return 1;
+//     } 
   return 0;   
 }

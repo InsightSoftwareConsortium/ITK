@@ -90,6 +90,19 @@ Image<TPixel, VImageDimension, TImageTraits>
 }
 
 
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+void 
+Image<TPixel, VImageDimension, TImageTraits>
+::SetPixelContainer(PixelContainer *container)
+{
+  if (m_Buffer != container)
+    {
+    m_Buffer = container;
+    this->Modified();
+    }
+}
+    
+
 
 //----------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension, class TImageTraits>

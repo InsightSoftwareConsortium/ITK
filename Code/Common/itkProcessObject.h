@@ -115,11 +115,6 @@ public:
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
   /** 
    * Run-time type information (and related methods).
    */
@@ -340,6 +335,24 @@ public:
    * the internal state of the pipeline so Update() can be called.
    */
   virtual void ResetPipeline();
+
+  /**
+   * Make a DataObject of the correct type to used as the specified
+   * output.  Every ProcessObject subclass must be able to create a
+   * DataObject that can be used as a specified output. This method
+   * is automatically called when DataObject::DisconnectPipeline() is
+   * called.  DataObject::DisconnectPipeline, disconnects a data object
+   * from being an output of its current source.  When the data object
+   * is disconnected, the ProcessObject needs to construct a replacement
+   * output data object so that the ProcessObject is in a valid state.
+   * So DataObject::DisconnectPipeline eventually calls
+   * ProcessObject::MakeOutput. Note that MakeOutput always returns a
+   * itkSmartPointer to a DataObject. ImageSource and MeshSource override
+   * this method to create the correct type of image and mesh respectively.
+   * If a filter has multiple outputs of different types, then that
+   * filter must provide an implementation of MakeOutput().
+   */
+  virtual DataObjectPointer MakeOutput(unsigned int idx);
   
   /** 
    * Turn on/off the flags to control whether the data belonging to the

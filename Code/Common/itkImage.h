@@ -272,12 +272,17 @@ public:
     { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; };
 
   /**
-   * Return a pointer to the container 
+   * Return a pointer to the container.
    */
   PixelContainerPointer GetPixelContainer()
     { return m_Buffer; };
 
-
+  /**
+   * Set the container to use. Note that this does not cause the
+   * DataObject to be modified.
+   */
+  void SetPixelContainer( PixelContainer *container );
+  
   /**
    * Return the Pixel Accessor object
    */

@@ -124,11 +124,24 @@ DerivativeImageFilter< TInputImage, TOutputImage >
     ::New();
 
   filter->OverrideBoundaryCondition(&nbc);
-  
+
+  //
+  // set up the mini-pipline
+  //
   filter->SetOperator(oper);
   filter->SetInput(this->GetInput());
-  filter->SetOutput(this->GetOutput());
-  filter->Update();  
+
+  // graft this filter's output to the mini-pipeline.  this sets up
+  // the mini-pipeline to write to this filter's output and copies
+  // region ivars and meta-data
+  filter->GraftOutput(this->GetOutput());
+
+  // execute the mini-pipeline
+  filter->Update();
+
+  // graft the output of the mini-pipeline back onto the filter's output.
+  // this copies back the region ivars and meta-data
+  this->GraftOutput(filter->GetOutput());
 }
 
 } // end namespace itk

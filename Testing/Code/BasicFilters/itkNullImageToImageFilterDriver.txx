@@ -109,8 +109,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
 {
   enum { ImageDimension = TInputImage::ImageDimension };
 
-  // Set up input and output images
-  typename TOutputImage::Pointer op = TOutputImage::New();
+  // Set up input images
   typename TInputImage::Pointer ip = TInputImage::New();
   typename TOutputImage::IndexType index;
   typename TOutputImage::RegionType region;
@@ -118,21 +117,45 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
   for (unsigned int i = 0; i < ImageDimension; ++i) index[i] = 0;
   region.SetSize( m_ImageSize );
   region.SetIndex( index);
-  op->SetLargestPossibleRegion( region );
-  op->SetBufferedRegion(region);
-  op->SetRequestedRegion(region);
+
+  // Allocate the input
   ip->SetLargestPossibleRegion( region );
   ip->SetBufferedRegion(region);
   ip->SetRequestedRegion(region);
-
-  // Execute the filter
   ip->Allocate();
-  m_Filter->SetInput(ip);
-  m_Filter->SetOutput(op);
 
+  // Setup the filter
+  m_Filter->SetInput(ip);
+
+  // print out the ouput object so we can see it modified times and regions
+  std::cout << "Output object before filter execution" << std::endl
+            << m_Filter->GetOutput() << std::endl;
+
+  ImageToImageFilter<TInputImage, TOutputImage>::Pointer
+    sourceBefore = (ImageToImageFilter<TInputImage, TOutputImage> *) m_Filter->GetOutput()->GetSource().GetPointer();
+  
+  // Execute the filter
   clock_t start = ::clock();
-  m_Filter->Update();
+  m_Filter->UpdateLargestPossibleRegion();
   clock_t stop = ::clock();
+
+  // print out the ouput object so we can see it modified times and regions
+  std::cout << "Output object after filter execution" << std::endl
+            << m_Filter->GetOutput() << std::endl;
+  
+  ImageToImageFilter<TInputImage, TOutputImage>::Pointer
+    sourceAfter = (ImageToImageFilter<TInputImage, TOutputImage> *) m_Filter->GetOutput()->GetSource().GetPointer();
+
+  std::cout << sourceBefore.GetPointer() << ", " << sourceAfter.GetPointer() << std::endl;
+  if (sourceBefore.GetPointer() != sourceAfter.GetPointer())
+    {
+    std::cout << std::endl << "Pipeline corrupt, filter output source different after execution." << std::endl;
+    }
+  else
+    {
+    std::cout << std::endl << "Pipeline intact" << std::endl;
+    }
+  
   std::cout << "Execution time was approximately " << (stop - start)
             << " clock cycles." << std::endl;
 }

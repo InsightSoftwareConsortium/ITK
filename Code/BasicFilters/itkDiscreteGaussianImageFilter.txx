@@ -47,22 +47,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-
-template< class TInputImage, class TOutputImage >
-void
-DiscreteGaussianImageFilter< TInputImage, TOutputImage >
-::ImageRegionCopy(TOutputImage *imgT, TInputImage *input)
-{
-  ImageRegionIterator<TInputImage> in_it(input,
-                                         imgT->GetRequestedRegion());
-  ImageRegionIterator<TOutputImage> out_it(imgT,
-                                           imgT->GetRequestedRegion());
-  for (; !in_it.IsAtEnd(); ++in_it, ++out_it)
-    {
-    out_it.Set( in_it.Get() );
-    }
-}
-
 template <class TInputImage, class TOutputImage>
 void 
 DiscreteGaussianImageFilter<TInputImage,TOutputImage>
@@ -136,51 +120,49 @@ void
 DiscreteGaussianImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  typename TInputImage::Pointer input = this->GetInput();
   typename TOutputImage::Pointer output = this->GetOutput();
-  typename TOutputImage::Pointer swapPtrA, swapPtrB, swapPtrC;
+  typename TOutputImage::Pointer swapPtrA; 
   
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 
-  typename TOutputImage::Pointer imgT = TOutputImage::New();
-  imgT->SetLargestPossibleRegion(output->GetLargestPossibleRegion());
-  imgT->SetRequestedRegion(output->GetRequestedRegion());
-  imgT->SetBufferedRegion(output->GetBufferedRegion());
-  imgT->Allocate();
-
-  Self::ImageRegionCopy(imgT, input);
-
   GaussianOperator<OutputPixelType, ImageDimension> *oper;
-  NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::Pointer filter;
+  oper = new GaussianOperator<OutputPixelType,ImageDimension>;
 
-  swapPtrA = imgT;
-  swapPtrB = output;
+  NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::Pointer filter;
+  filter
+    = NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::New();
+
+  // Graft this filters output onto the mini-pipeline so that the mini-pipeline
+  // has the correct region ivars and will write to this filters bulk data
+  // output.
+  filter->GraftOutput( output );
+  swapPtrA = this->GetInput();
   for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-    // Filter
-    oper = new GaussianOperator<OutputPixelType,ImageDimension>;
+    // Set up the operator for this dimension
     oper->SetDirection(i);
     oper->SetVariance(m_Variance[i]);
     oper->SetMaximumError(m_MaximumError[i]);
     oper->CreateDirectional();
 
-    filter = NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::New();
+    // Set up the filter and run the mini-pipeline
     filter->SetOperator(*oper);
     filter->SetInput(swapPtrA);
-    filter->SetOutput(swapPtrB);
     filter->Update();
 
-    //      delete oper;       pipeline problems cause seg fault? --3/13/01
-    swapPtrC = swapPtrB;
-    swapPtrB = swapPtrA;
-    swapPtrA = swapPtrC;
+    // Disconnect the output of the mini-pipeline so that it can be
+    // used as the input to the mini-pipeline
+    swapPtrA = filter->GetOutput();
+    swapPtrA->DisconnectPipeline();
     }
+  // Graft the last output of the mini-pipeline onto this filters output so
+  // the final output has the correct region ivars and a handle to the final
+  // bulk data
+  this->GraftOutput(swapPtrA);
 
-  if ((ImageDimension % 2) == 0)
-    { 
-    Self::ImageRegionCopy(output, imgT);
-    }
+  // Clean up
+  delete oper;
 }
 
 } // end namespace itk

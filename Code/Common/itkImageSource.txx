@@ -54,13 +54,25 @@ template<class TOutputImage>
 ImageSource<TOutputImage>
 ::ImageSource()
 {
-  // Create the output.
-  typename TOutputImage::Pointer output = TOutputImage::New();
+  // Create the output. We use static_cast<> here because we know the default
+  // output must be of type TOutputImage
+  typename TOutputImage::Pointer output
+    = static_cast<TOutputImage*>(this->MakeOutput(0).GetPointer()); 
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
 }
 
-
+/**
+ *
+ */
+template<class TOutputImage>
+ImageSource<TOutputImage>::DataObjectPointer
+ImageSource<TOutputImage>
+::MakeOutput(unsigned int idx)
+{
+  return TOutputImage::New();
+}
+  
 /**
  *
  */
@@ -100,7 +112,34 @@ void
 ImageSource<TOutputImage>
 ::SetOutput(TOutputImage *output)
 {
+  itkWarningMacro(<< "SetOutput(): This method is slated to be removed from ITK.  Please use GraftOutput() in possible combination with DisconnectPipeline() instead." );
   this->ProcessObject::SetNthOutput(0, output);
+}
+
+
+/**
+ * 
+ */
+template<class TOutputImage>
+void
+ImageSource<TOutputImage>
+::GraftOutput(TOutputImage *graft)
+{
+  OutputImagePointer output = this->GetOutput();
+
+  if (output && graft)
+    {
+    // grab a handle to the bulk data of the specified data object
+    output->SetPixelContainer( graft->GetPixelContainer() );
+    
+    // copy the region ivars of the specified data object
+    output->SetRequestedRegion( graft->GetRequestedRegion() );
+    output->SetLargestPossibleRegion( graft->GetLargestPossibleRegion() );
+    output->SetBufferedRegion( graft->GetBufferedRegion() );
+
+    // copy the meta-information
+    output->CopyInformation( graft );
+    }
 }
 
 

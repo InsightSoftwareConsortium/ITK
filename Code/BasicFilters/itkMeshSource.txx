@@ -53,10 +53,11 @@ template<class TOutputMesh>
 MeshSource<TOutputMesh>
 ::MeshSource()
 {
-  /**
-   * Create the output
-   */
-  typename TOutputMesh::Pointer output = TOutputMesh::New();
+  // Create the output. We use static_cast<> here because we know the default
+  // output must be of type TOutputMesh
+  typename TOutputMesh::Pointer output
+    = static_cast<TOutputMesh*>(this->MakeOutput(0).GetPointer()); 
+
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
 
@@ -64,6 +65,16 @@ MeshSource<TOutputMesh>
   m_GenerateDataNumberOfRegions = 0;
 }
 
+/**
+ *
+ */
+template<class TOutputMesh>
+MeshSource<TOutputMesh>::DataObjectPointer
+MeshSource<TOutputMesh>
+::MakeOutput(unsigned int idx)
+{
+  return TOutputMesh::New();
+}
 
 /**
  *
@@ -104,6 +115,7 @@ void
 MeshSource<TOutputMesh>
 ::SetOutput(TOutputMesh *output)
 {
+  itkWarningMacro(<< "SetOutput(): This method is slated to be removed from ITK.  Please use GraftOutput() in possible combination with DisconnectPipeline() instead." );
   this->ProcessObject::SetNthOutput(0, output);
 }
 
@@ -117,6 +129,32 @@ MeshSource<TOutputMesh>
 ::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
+}
+
+
+/**
+ * 
+ */
+template<class TOutputMesh>
+void
+MeshSource<TOutputMesh>
+::GraftOutput(TOutputMesh *graft)
+{
+  OutputMeshPointer output = this->GetOutput();
+
+  if (output && graft)
+    {
+    // grab a handle to the bulk data of the specified data object
+    // output->SetPixelContainer( graft->GetPixelContainer() );
+    
+    // copy the region ivars of the specified data object
+    // output->SetRequestedRegion( graft->GetRequestedRegion() );
+    // output->SetLargestPossibleRegion( graft->GetLargestPossibleRegion() );
+    // output->SetBufferedRegion( graft->GetBufferedRegion() );
+
+    // copy the meta-information
+    output->CopyInformation( graft );
+    }
 }
 
 
