@@ -313,7 +313,7 @@ void
 PointSetToImageFilter<TInputPointSet,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  unsigned int i=0;
+  unsigned int i;
   Superclass::PrintSelf(os, indent);
   os << indent << "Size : " << m_Size << std::endl;
   std::cout << "Origin : " ;  
