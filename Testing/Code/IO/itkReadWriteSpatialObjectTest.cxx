@@ -112,28 +112,13 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     p.SetGreen(i+1);
     p.SetBlue(i+2);
     p.SetAlpha(i+3);
-    p.SetFA(i);
-    p.SetADC(2*i);
-    p.SetGA(3*i);
-    p.SetLambda1(4*i);
-    p.SetLambda2(5*i);
-    p.SetLambda3(6*i);
-    float* v = new float[3];
-    v[0] = i;
-    v[1] = 2*i;
-    v[2] = 3*i;
-    p.SetMinEigenVector(v);
-    p.SetMedEigenVector(v);
-    p.SetMaxEigenVector(v);
-    delete v;
-    v = new float[5];
-    for(unsigned int j=0;j<5;j++)
-      {
-      v[j] = j;
-      }
-    p.SetMRI(v);
-    delete v;
-    v = new float[6];
+    p.AddField(DTITubePointType::FA,i);
+    p.AddField(DTITubePointType::ADC,2*i);
+    p.AddField(DTITubePointType::GA,3*i);
+    p.AddField("Lambda1",4*i);
+    p.AddField("Lambda2",5*i);
+    p.AddField("Lambda3",6*i);
+    float* v = new float[6];
     // this is only for testing
     // the tensor matrix should be definite positive
     // in the real case
@@ -143,10 +128,9 @@ int itkReadWriteSpatialObjectTest(int, char*[])
       }
     p.SetTensorMatrix(v);
     delete v;
-    p.SetInterpolation(1);
     list3.push_back(p);
     }
-  
+
   // Blob point list
   for( unsigned int i=0; i<3; i++)
     {
@@ -568,69 +552,37 @@ int itkReadWriteSpatialObjectTest(int, char*[])
           return EXIT_FAILURE;
           }
         
-        if((*jdti).GetFA()!=value)
+        if((*jdti).GetField(DTITubePointType::FA)!=value)
           {
-          std::cout<<" [FAILED] : FA : found " << ( *jdti).GetFA() << " instead of " << value <<std::endl;
+          std::cout<<" [FAILED] : FA : found " << ( *jdti).GetField("FA") << " instead of " << value <<std::endl;
           return EXIT_FAILURE;
           }
-        if((*jdti).GetADC()!=value*2)
+        if((*jdti).GetField(DTITubePointType::ADC)!=value*2)
           {
-          std::cout<<" [FAILED] : ADC : found " << ( *jdti).GetADC() << " instead of " << value*2 <<std::endl;
+          std::cout<<" [FAILED] : ADC : found " << ( *jdti).GetField("ADC") << " instead of " << value*2 <<std::endl;
           return EXIT_FAILURE;
           }
-        if((*jdti).GetGA()!=value*3)
+        if((*jdti).GetField(DTITubePointType::GA)!=value*3)
           {
-          std::cout<<" [FAILED] : GA : found " << ( *jdti).GetADC() << " instead of " << value*3 <<std::endl;
+          std::cout<<" [FAILED] : GA : found " << ( *jdti).GetField("FA") << " instead of " << value*3 <<std::endl;
           return EXIT_FAILURE;
           }
-        if((*jdti).GetLambda1()!=value*4)
+        if((*jdti).GetField("Lambda1")!=value*4)
           {
-          std::cout<<" [FAILED] : GetLambda1 : found " << ( *jdti).GetLambda1() << " instead of " << value*4 <<std::endl;
+          std::cout<<" [FAILED] : GetLambda1 : found " << ( *jdti).GetField("Lambda1") << " instead of " << value*4 <<std::endl;
           return EXIT_FAILURE;
           }
-        if((*jdti).GetLambda2()!=value*5)
+        if((*jdti).GetField("Lambda2")!=value*5)
           {
-          std::cout<<" [FAILED] : GetLambda2 : found " << ( *jdti).GetLambda2() << " instead of " << value*5 <<std::endl;
+          std::cout<<" [FAILED] : GetLambda2 : found " << ( *jdti).GetField("Lambda2") << " instead of " << value*5 <<std::endl;
           return EXIT_FAILURE;
           }
-        if((*jdti).GetLambda3()!=value*6)
+        if((*jdti).GetField("Lambda3")!=value*6)
           {
-          std::cout<<" [FAILED] : GetLambda3 : found " << ( *jdti).GetLambda3() << " instead of " << value*6 <<std::endl;
+          std::cout<<" [FAILED] : GetLambda3 : found " << ( *jdti).GetField("Lambda3") << " instead of " << value*6 <<std::endl;
           return EXIT_FAILURE;
-          }    
-        if((*jdti).GetInterpolation()!=1)
-          {
-          std::cout<<" [FAILED] : GetInterpolation : found " << ( *jdti).GetInterpolation() << " instead of " << 1 <<std::endl;
-          return EXIT_FAILURE;
-          }
-    
+          }      
         int ind;
-        for(ind = 0;ind<3;ind++)
-          {
-          if((*jdti).GetMinEigenVector()[ind]!=value*(ind+1))
-            {
-            std::cout<<" [FAILED] : GetMinEigenVector : found " << ( *jdti).GetMinEigenVector()[ind] << " instead of " << value*(ind+1) <<std::endl;
-            return EXIT_FAILURE;
-            }
-          if((*jdti).GetMedEigenVector()[ind]!=value*(ind+1))
-            {
-            std::cout<<" [FAILED] : GetMedEigenVector : found " << ( *jdti).GetMedEigenVector()[ind] << " instead of " << value*(ind+1) <<std::endl;
-            return EXIT_FAILURE;
-            }
-          if((*jdti).GetMaxEigenVector()[ind]!=value*(ind+1))
-            {
-            std::cout<<" [FAILED] : GetMaxEigenVector : found " << ( *jdti).GetMaxEigenVector()[ind] << " instead of " << value*(ind+1) <<std::endl;
-            return EXIT_FAILURE;
-            }
-          }
-        for(ind=0;ind<5;ind++)
-          {
-          if((*jdti).GetMRI()[ind] != ind)
-            {
-            std::cout<<" [FAILED] : GetMRI : found " << (*jdti).GetMRI()[ind] << " instead of " << ind <<std::endl;
-            return EXIT_FAILURE;
-            }
-          }
         for(ind=0;ind<6;ind++)
           {
           if((*jdti).GetTensorMatrix()[ind]!=ind)
