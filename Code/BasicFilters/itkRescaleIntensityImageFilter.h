@@ -75,7 +75,7 @@ private:
  * user-defined linear transformation for the intensity, then please use teh
  * ShiftScaleImageFilter.
  *
- * \sa IntensityWindowImageFilter
+ * \sa IntensityWindowingImageFilter
  * 
  * \ingroup IntensityImageFilters  Multithreaded
  *
