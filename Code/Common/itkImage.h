@@ -144,6 +144,9 @@ public:
    * memory. */
   virtual void Initialize();
 
+  /** Fill the image buffer with a value. */
+  void FillBuffer (const TPixel& value);
+  
   /** \brief Set a pixel value.
    * 
    * For efficiency, this function does not check that the

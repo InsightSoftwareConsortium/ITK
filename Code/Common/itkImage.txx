@@ -21,7 +21,7 @@
 #define _itkImage_txx
 #include "itkImage.h"
 #include "itkProcessObject.h"
-
+#include "itkImageRegionIterator.h"
 namespace itk
 {
 
@@ -85,6 +85,19 @@ Image<TPixel, VImageDimension, TImageTraits>
   m_Buffer->Initialize();
 }
 
+
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+void 
+Image<TPixel, VImageDimension, TImageTraits>
+::FillBuffer (const TPixel& value)
+{
+  ImageRegionIterator<Self> it(this,this->GetBufferedRegion());
+  while(!it.IsAtEnd())
+    {
+    it.Set(value);
+    ++it;
+    }
+}
 
 template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 void 
