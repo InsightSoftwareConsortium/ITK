@@ -90,6 +90,12 @@ foreach Directory $Directories \
       if {[file tail $File] == "itkWindows.h"} {
 	  continue;
       }
+      if {[file tail $File] == "itkWin32Header.h"} {
+	  continue;
+      }
+      if {[file tail $File] == "itkWin32OutputWindow.h"} {
+	  continue;
+      }
     puts $f "#include \"[file tail $File]\""
   }
   puts $f $Trailer
