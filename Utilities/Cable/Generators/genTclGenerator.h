@@ -39,6 +39,16 @@ public:
   
   virtual void Generate();  
 private:
+  void GeneratePackage(const configuration::Package*);  
+  void GenerateIncludes(std::ostream&, const configuration::Headers*);  
+  void GenerateNamespace(std::ostream&,
+                         const configuration::PackageNamespace*);
+  void GenerateWrapperSet(std::ostream&, const configuration::WrapperSet*);
+  void GenerateClassWrapper(std::ostream&, const source::Class*);
+
+  /**
+   * The global namespace that was parsed from the source file.
+   */
   const source::Namespace* m_GlobalNamespace;
 };
 

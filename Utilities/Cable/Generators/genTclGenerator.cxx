@@ -21,8 +21,7 @@
 namespace gen
 {
 
-using namespace configuration;
-
+typedef configuration::CableConfiguration CableConfiguration;
 
 /**
  * Construct an instance of this generator and return it.
@@ -41,8 +40,367 @@ void
 TclGenerator
 ::Generate()
 {
-  std::cout << "TclGenerator::Generate()" << std::endl;
+  // Just loop over all pacakges in the configuration.
+  for(CableConfiguration::PackageIterator package =
+        m_CableConfiguration->BeginPackages();
+      package != m_CableConfiguration->EndPackages(); ++package)
+    {
+    this->GeneratePackage(*package);
+    }
 }
 
+
+void
+TclGenerator
+::GeneratePackage(const configuration::Package* package)
+{
+  // Make sure the output directory exists.
+  if(!GeneratorBase::MakeDirectory("Tcl"))
+    {
+    std::cerr << "Error making Tcl directory." << std::endl;
+    return;
+    }
+  
+  // Setup the output file names.
+  String wrapperFile = "Tcl/"+package->GetName()+"_tcl.cxx";
+  
+  // Open the output files.
+  std::ofstream wrapperStream(wrapperFile.c_str());
+  if(!wrapperStream) { return; }
+  
+  wrapperStream <<
+    "#include \"wrapCalls.h\"\n"
+    "\n"
+    "/**\n"
+    " * Include headers needed for wrapped types.\n"
+    " */\n";
+  
+  // Be sure to include needed headers.
+  this->GenerateIncludes(wrapperStream, package->GetHeaders());
+
+  wrapperStream <<
+    "\n";
+  
+  // Begin the recursive generation at the package's starting namespace.
+  this->GenerateNamespace(wrapperStream, package->GetStartingNamespace());
+
+  wrapperStream.close();
+}
+
+void
+TclGenerator
+::GenerateIncludes(std::ostream& wrapperStream,
+                   const configuration::Headers* headers)
+{
+  // Make sure we have headers to write out.
+  if(!headers)
+    {
+    return;
+    }
+  
+  // Include headers with the "all" purpose.
+  for(configuration::Headers::FilesIterator header = headers->BeginFiles();
+      header != headers->EndFiles(); ++header)
+    {
+    if(header->purpose == "" || header->purpose == "all")
+      {
+      wrapperStream << "#include \"" << header->name.c_str() << "\""
+                    << std::endl;
+      }
+    }
+}
+
+
+void
+TclGenerator
+::GenerateNamespace(std::ostream& wrapperStream,
+                    const configuration::PackageNamespace* ns)
+{
+  for(configuration::PackageNamespace::WrapperIterator wIter =
+        ns->BeginWrappers();
+      wIter != ns->EndWrappers(); ++wIter)
+    {
+    const configuration::Named* wrapper = *wIter;
+    if(wrapper->IsPackageNamespace())
+      {
+      this->GenerateNamespace(wrapperStream,
+                              dynamic_cast<const configuration::PackageNamespace*>(wrapper));
+      }
+    else if(wrapper->IsWrapperSet())
+      {
+      this->GenerateWrapperSet(wrapperStream,
+                               dynamic_cast<const configuration::WrapperSet*>(wrapper));
+      }
+    }
+
+}
+
+void
+TclGenerator
+::GenerateWrapperSet(std::ostream& wrapperStream,
+                     const configuration::WrapperSet* wrapperSet)
+{
+  for(configuration::WrapperSet::ConstIterator wrapper = wrapperSet->Begin();
+      wrapper != wrapperSet->End(); ++wrapper)
+    {
+    source::Class* c = m_GlobalNamespace->LookupClass(wrapper->second);
+    if(!c)
+      {
+      wrapperStream << "// Couldn't find type " << wrapper->second << std::endl;
+      }
+    this->GenerateClassWrapper(wrapperStream, c);
+    }
+}
+
+void
+TclGenerator
+::GenerateClassWrapper(std::ostream& wrapperStream,
+                       const source::Class* c)
+{
+  typedef std::vector<source::Method*> Methods;
+  Methods methods;
+  for(source::MethodsIterator methodItr = c->GetMethods().begin();
+      methodItr != c->GetMethods().end(); ++methodItr)
+    {
+    source::Method* method = *methodItr;
+    if(method->GetAccess() == source::Public)
+      {
+      if(method->IsMethod()
+         || method->IsConstructor())
+        {
+        methods.push_back(method);
+        }
+      }
+    }
+  
+  wrapperStream <<
+    "#define _wrap_WRAPPED_TYPE " << c->GetName().c_str() << "\n"
+    "#define _wrap_WRAPPED_TYPE_NAME \"" << c->GetName().c_str() << "\"\n"
+    "#define _wrap_METHOD_WRAPPER_PROTOTYPES \\\n";
+  
+  if(!methods.empty())
+    {
+    for(unsigned int m = 0 ; m < methods.size() ;)
+      {
+      if(methods[m]->IsMethod())
+        {
+        wrapperStream <<
+          "  void Method_" << m << "_" << methods[m]->GetName().c_str() << "(const Argument&, const Arguments&) const";
+        }
+      else if(methods[m]->IsConstructor())
+        {
+        wrapperStream <<
+          "  void* Constructor_" << m << "(const Arguments&) const";
+        }
+      if(++m != methods.size())
+        {
+        wrapperStream << "; \\";
+        }
+      wrapperStream << "\n";
+      }
+    }
+  else
+    {
+    wrapperStream <<
+      "  typedef int PlaceholderForNoMethodWrappers\n";
+    }
+  
+  wrapperStream <<
+    "\n"
+    "#include \"wrapWrapperInclude.h\"\n"
+    "\n"
+    "#undef _wrap_METHOD_WRAPPER_PROTOTYPES\n"
+    "#undef _wrap_WRAPPED_TYPE_NAME\n"
+    "#undef _wrap_WRAPPED_TYPE\n"
+    "\n"
+    "namespace _wrap_\n"
+    "{\n"
+    "\n";
+
+  
+  for(unsigned int m = 0 ; m < methods.size() ; ++m)
+    {
+    if(methods[m]->IsMethod())
+      {
+      wrapperStream <<
+        "void\n"
+        "Wrapper< " << c->GetName().c_str() << " >\n"
+        "::Method_" << m << "_" << methods[m]->GetName().c_str() << "(const Argument& implicit, const Arguments& arguments) const\n"
+        "{\n";
+      
+      String implicit = c->GetName();
+      if(methods[m]->IsConst())
+        {
+        implicit = "const "+implicit;
+        }
+      wrapperStream <<
+        "  " << implicit.c_str() << "& instance = ArgumentAsReferenceTo< " << implicit.c_str() << " >::Get(implicit, this);\n";
+      
+      if(methods[m]->GetReturns() && methods[m]->GetReturns()->GetType()
+         && methods[m]->GetReturns()->GetType()->GetName() != "void")
+        {
+        const source::Type* t = methods[m]->GetReturns()->GetType();
+        if(t->IsPointerType())
+          {
+          const source::PointerType* pt = dynamic_cast<const source::PointerType*>(t);
+          t = pt->GetPointedToType();
+          wrapperStream <<
+            "  ReturnPointerTo< " << t->GetName() << " >::From(\n";
+          }
+        else if(t->IsReferenceType())
+          {
+          const source::ReferenceType* rt = dynamic_cast<const source::ReferenceType*>(t);
+          t = rt->GetReferencedType();
+          wrapperStream <<
+            "  ReturnReferenceTo< " << t->GetName() << " >::From(\n";
+          }
+        else
+          {
+          wrapperStream <<
+            "  Return< " << t->GetName() << " >::From(\n";
+          }
+        }
+
+      wrapperStream <<
+        "  instance." << methods[m]->GetName() << "(";
+      
+      unsigned int argCount = 0;
+      for(source::ArgumentsIterator a = methods[m]->GetArguments().begin();
+          a != methods[m]->GetArguments().end(); ++a)
+        {
+        if(a != methods[m]->GetArguments().begin())
+          wrapperStream << ",";
+        wrapperStream << "\n";
+        const source::Type* t = (*a)->GetType();
+        if(t->IsReferenceType())
+          {
+          const source::ReferenceType* rt = dynamic_cast<const source::ReferenceType*>(t);
+          t = rt->GetReferencedType();
+          wrapperStream <<
+            "    ArgumentAsReferenceTo< " << t->GetName() << " >::Get(arguments[" << argCount++ << "], this)";
+          }
+        else
+          {
+          wrapperStream <<
+            "    ArgumentAs< " << t->GetName() << " >::Get(arguments[" << argCount++ << "], this)";
+          }
+        }
+      
+      if(methods[m]->GetReturns() && methods[m]->GetReturns()->GetType()
+         && methods[m]->GetReturns()->GetType()->GetName() != "void")
+        {
+        wrapperStream << "), this);\n";
+        }
+      else
+        {
+        wrapperStream << ");\n"
+          "  Return<void>::From(this);\n";
+        }
+      
+      wrapperStream <<
+        "}\n"
+        "\n";
+      }
+    else if(methods[m]->IsConstructor())
+      {
+        wrapperStream <<
+          "void*\n"
+          "Wrapper< " << c->GetName().c_str() << " >\n"
+          "::Constructor_" << m << "(const Arguments& arguments) const\n"
+          "{\n"
+          "  return new " << c->GetName().c_str() << "(";
+        
+        unsigned int argCount = 0;
+        for(source::ArgumentsIterator a = methods[m]->GetArguments().begin();
+            a != methods[m]->GetArguments().end(); ++a)
+          {
+          if(a != methods[m]->GetArguments().begin())
+            wrapperStream << ",";
+          wrapperStream << "\n";
+          const source::Type* t = (*a)->GetType();
+          if(t->IsReferenceType())
+            {
+            const source::ReferenceType* rt = dynamic_cast<const source::ReferenceType*>(t);
+            t = rt->GetReferencedType();
+            wrapperStream <<
+              "    ArgumentAsReferenceTo< " << t->GetName() << " >::Get(arguments[" << argCount++ << "], this)";
+            }
+          else
+            {
+            wrapperStream <<
+              "    ArgumentAs< " << t->GetName() << " >::Get(arguments[" << argCount++ << "], this)";
+            }
+          }
+        
+        wrapperStream << ");\n"
+          "}\n"
+          "\n";
+      }
+    }
+  
+  wrapperStream <<
+    "\n"
+    "void\n"
+    "Wrapper< " << c->GetName().c_str() << " >\n"
+    "::RegisterMethodWrappers()\n"
+    "{\n";
+
+  for(unsigned int m = 0 ; m < methods.size() ; ++m)
+    {
+    if(!methods[m]->GetArguments().empty())
+      {
+      wrapperStream <<
+        "  {\n"
+        "  Method::ParameterTypes parameterTypes;\n";
+      for(source::ArgumentsIterator a = methods[m]->GetArguments().begin();
+          a != methods[m]->GetArguments().end(); ++a)
+        {
+        const source::Type* t = (*a)->GetType();
+        wrapperStream <<
+          "  parameterTypes.push_back(CvType< " << t->GetName() << " >::type.GetType());\n";
+        }
+      }
+
+    wrapperStream <<
+      "  this->AddFunction(\n";
+    
+    if(methods[m]->IsMethod())
+      {
+      String returnTypeName = "void";
+      if(methods[m]->GetReturns() && methods[m]->GetReturns()->GetType())
+        {
+        returnTypeName = methods[m]->GetReturns()->GetType()->GetName();
+        }
+      wrapperStream <<
+        "    new Method(this, &Wrapper::Method_" << m << "_" << methods[m]->GetName() << ",\n"
+        "               \"" << methods[m]->GetName() << "\", " << (methods[m]->IsConst() ? "true":"false") << ",\n"
+        "               CvType< " << returnTypeName.c_str() << " >::type";
+      }
+    else if(methods[m]->IsConstructor())
+      {
+      wrapperStream <<
+        "    new Constructor(this, &Wrapper::Constructor_" << m << ",\n"
+        "                    \"" << methods[m]->GetName() << "\"";
+      
+      }
+    
+    if(methods[m]->GetArguments().empty())
+      {
+      wrapperStream << "));\n";
+      }
+    else
+      {
+      wrapperStream << ",\n"
+        "      parameterTypes));\n"
+        "  }\n";
+      }
+    }
+  
+  wrapperStream <<
+    "}\n"
+    "\n"
+    "} // namespace _wrap_\n"
+    "\n";
+}
 
 } // namespace gen
