@@ -663,6 +663,52 @@ TARGET_LINK_LIBRARIES(itkBasicFiltersTests2 ITKIO ITKNumerics ITKBasicFilters)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
+
+IF(ITK_CSWIG_TCL)
+
+  ADD_TEST(CastImageFilterTcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/CastImageFilter.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/CastImageFilterTclTest.png )
+
+  ADD_TEST(BinaryDilateImageFilterTcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/BinaryDilateImageFilter.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/BinaryDilateImageFilterTclTest.png )
+
+  ADD_TEST(BinaryErodeImageFilterTcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/BinaryErodeImageFilter.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/BinaryErodeImageFilterTclTest.png )
+
+  ADD_TEST(MeanImageFilterTcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/MeanImageFilter.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/MeanImageFilterTclTest.png
+           2 )
+
+  ADD_TEST(SigmoidImageFilterTcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/SigmoidImageFilter.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/SigmoidImageFilterTclTest.png
+           0 255  1.0  128  )
+
+  ADD_TEST(ThresholdImageFilterTcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/ThresholdImageFilter.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/ThresholdImageFilterTclTest.png
+           0 150 )
+
+  ADD_TEST(BinaryThresholdImageFilterTcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/BinaryThresholdImageFilter.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterTclTest.png
+           0 255 150 180)
+
+ENDIF(ITK_CSWIG_TCL)
+
+
+
 IF(ITK_CSWIG_PYTHON)
 
   ADD_TEST(CastImageFilterPython ${PYTHON_EXECUTABLE}
@@ -711,6 +757,8 @@ IF(ITK_CSWIG_JAVA)
 
   FOREACH( javatestfile 
      BinaryThresholdImageFilter
+     BinaryDilateImageFilter
+     BinaryErodeImageFilter
      CurvatureFlowImageFilter
      CurvatureAnisotropicDiffusionImageFilter
      GradientAnisotropicDiffusionImageFilter
@@ -758,13 +806,23 @@ IF(ITK_CSWIG_JAVA)
 
   ADD_TEST(ThresholdImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            ThresholdImageFilter
-           ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/ThresholdImageFilterJavaTest.png  0 150)  
 
   ADD_TEST(BinaryThresholdImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            BinaryThresholdImageFilter
-           ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterJavaTest.png 150 180 0 255 )  
+
+  ADD_TEST(BinaryDilateImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+           BinaryDilateImageFilter
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/BinaryDilateImageFilterJavaTest.png )  
+
+  ADD_TEST(BinaryErodeImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+           BinaryErodeImageFilter
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/BinaryErodeImageFilterJavaTest.png )  
 
 ENDIF(ITK_CSWIG_JAVA)
 
