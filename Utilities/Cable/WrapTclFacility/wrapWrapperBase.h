@@ -153,8 +153,9 @@ protected:
  * the memory to which the argument refers may not be an InstanceTable
  * object.  It may be a pointer or a fundamental type.
  */
-struct _wrap_EXPORT WrapperBase::Argument
+class _wrap_EXPORT WrapperBase::Argument
 {
+public:
   Argument();
 
   void* GetValue() const;
