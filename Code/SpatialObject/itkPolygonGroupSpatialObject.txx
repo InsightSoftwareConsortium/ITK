@@ -43,16 +43,17 @@ template <unsigned int TDimension >
 bool PolygonGroupSpatialObject<TDimension>::
 ReplaceStrand(PolygonSpatialObject<TDimension> *toReplace,PolygonSpatialObject<TDimension> *replacement)
 {
-  typename ChildrenListType::iterator it = this->m_Children.begin();
-  typename ChildrenListType::iterator itend = this->m_Children.end();
+  TreeNodeChildrenListType & children = m_TreeNode->GetChildrenList();
+  typename TreeNodeChildrenListType::iterator it = children.begin();
+  typename TreeNodeChildrenListType::iterator itend = children.end();
   while(it != itend)
     {
     if((*it) == toReplace)
       {
-      typename ChildrenListType::iterator after = it;
+      typename TreeNodeChildrenListType::iterator after = it;
       after++;
-      this->m_Children.insert(after,1,replacement);
-      this->m_Children.erase(it);
+      children.insert(after,1,replacement->GetTreeNode());
+      children.erase(it);
       return true;
       }
     it++;
@@ -64,8 +65,9 @@ template <unsigned int TDimension >
 bool PolygonGroupSpatialObject<TDimension>::
 IsClosed()
 {
-  typename ChildrenListType::iterator it = this->m_Children.begin();
-  typename ChildrenListType::iterator itend = this->m_Children.end();
+  TreeNodeChildrenListType & children = m_TreeNode->GetChildrenList();
+  typename TreeNodeChildrenListType::iterator it = children.begin();
+  typename TreeNodeChildrenListType::iterator itend = children.end();
   while(it != itend) 
     {
     PolygonSpatialObject<TDimension> *curstrand =
@@ -86,8 +88,7 @@ template <unsigned int TDimension >
 unsigned PolygonGroupSpatialObject<TDimension>::
 NumberOfStrands()
 {
-  return this->m_Children.size();
-  return 0;
+  return m_TreeNode->GetNumberOfChildren();
 }
 
 template <unsigned int TDimension >
@@ -95,8 +96,9 @@ double PolygonGroupSpatialObject<TDimension>::
 Volume()
 {
   double volume = 0;
-  typename ChildrenListType::iterator it = this->m_Children.begin();
-  typename ChildrenListType::iterator itend = this->m_Children.end();
+  ChildrenListType * children = this->GetChildren();
+  typename ChildrenListType::iterator it = children->begin();
+  typename ChildrenListType::iterator itend = children->end();
   while(it != itend)
     {
     PolygonSpatialObject<TDimension> *curstrand =
@@ -104,6 +106,7 @@ Volume()
     volume += curstrand->MeasureVolume();
     it++;
     }
+  delete children;
   return volume;
 }
 

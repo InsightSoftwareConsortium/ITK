@@ -51,12 +51,16 @@ PolygonGroupSpatialObject
   :public GroupSpatialObject<TDimension>
 {
 public:
-  typedef PolygonGroupSpatialObject< TDimension >             Self;
-  typedef BlobSpatialObject< TDimension >            Superclass;
-  typedef SmartPointer < Self >                      Pointer;
-  typedef SmartPointer < const Self >                ConstPointer;
-  typedef typename Superclass::PointType             PointType;
-  typedef typename Superclass::BoundingBoxType       BoundingBoxType;
+  typedef PolygonGroupSpatialObject< TDimension >      Self;
+  typedef GroupSpatialObject< TDimension >             Superclass;
+  typedef SmartPointer < Self >                        Pointer;
+  typedef SmartPointer < const Self >                  ConstPointer;
+  typedef typename Superclass::PointType               PointType;
+  typedef typename Superclass::BoundingBoxType         BoundingBoxType;
+  typedef typename Superclass::ChildrenListType        ChildrenListType;
+  typedef typename Superclass::TreeNodeType            TreeNodeType;
+  typedef typename TreeNodeType::ChildrenListType      TreeNodeChildrenListType;
+
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
 
