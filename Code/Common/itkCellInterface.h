@@ -330,7 +330,7 @@ public:
   /** Standard part of every itk Object. */
   itkTypeMacro(CellInterface, LightObject);
 
-protected:
+public:
   CellInterface() {}
   virtual ~CellInterface() {}
   /** Cell internal utility routines. */
