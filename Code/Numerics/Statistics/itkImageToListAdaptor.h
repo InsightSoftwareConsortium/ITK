@@ -156,6 +156,7 @@ public:
    * Instance Identifier, frequency, size, size element value */
   typedef typename Superclass::MeasurementType MeasurementType ;
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+  typedef MeasurementVectorType ValueType ;
   typedef typename Superclass::FrequencyType FrequencyType ;
 //    typedef typename Superclass::SizeType SizeType ;
 //    typedef typename Superclass::SizeValueType SizeValueType ;
@@ -254,10 +255,11 @@ public:
     bool operator==(const Iterator &it)
     { return !(this != it);}
     
-    Iterator& operator=(const Iterator &iter)
+    Iterator& operator = (Iterator &iter)
     { 
       m_Id = iter.m_Id; 
       m_Container = iter.m_Container ; 
+      return iter ;
     }
     
   private:
