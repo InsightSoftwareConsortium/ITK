@@ -19,6 +19,13 @@
 #  endif
 #  if   (_COMPILER_VERSION >= 730)
 #   define VCL_SGI_CC_730
+// 1116  Non-void function "std::__malloc_alloc_template<0>::_S_oom_malloc" (declared
+//    at line 163) should return a value.
+// 3505  setjmp not marked as unknown_control_flow because it is not declared as a
+// 3438 ceil not marked as no_side_effects because it is not declared as a function
+#   pragma set woff 3438
+#   pragma set woff 1116
+#   pragma set woff 3505
 #  elif (_COMPILER_VERSION >= 720)
 #   define VCL_SGI_CC_720
 #  endif
