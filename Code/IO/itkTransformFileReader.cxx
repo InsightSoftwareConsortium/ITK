@@ -97,9 +97,16 @@ namespace itk
     typedef itk::name<scalartype,dimension,order> InternalTransformType;\
     transform = InternalTransformType::New();\
     InternalTransformType::RegionType region;\
-    InternalTransformType::SizeType size; \
-    for(unsigned int j=0;j<(int)(dimension);j++) {size[j] = (long unsigned int)metaTransform->GridRegionSize()[j];}\
+    InternalTransformType::SizeType size;\
+    InternalTransformType::SpacingType spacing;\
+    InternalTransformType::OriginType origin;\
+    unsigned int j;\
+    for(j=0;j<(int)(dimension);j++) {size[j] = (long unsigned int)metaTransform->GridRegionSize()[j];}\
     region.SetSize(size);\
+    for(j=0;j<(int)(dimension);j++) {spacing[j] = metaTransform->GridSpacing()[j];}\
+    static_cast<InternalTransformType*>(transform.GetPointer())->SetGridSpacing(spacing);\
+    for(j=0;j<(int)(dimension);j++) {origin[j] = metaTransform->GridOrigin()[j];}\
+    static_cast<InternalTransformType*>(transform.GetPointer())->SetGridOrigin(origin);\
     static_cast<InternalTransformType*>(transform.GetPointer())->SetGridRegion(region);\
     hasTransform = true;\
   } \

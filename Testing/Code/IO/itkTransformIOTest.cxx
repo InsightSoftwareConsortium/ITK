@@ -100,6 +100,7 @@ int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
   typedef itk::TransformFileReader::TransformListType * TransformListType;
   TransformListType transforms = reader->GetTransformList();
 
+  // Number of transforms
   std::cout << "Testing number of transforms : ";
   if( transforms->size() != 3)
     {
@@ -112,6 +113,7 @@ int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
 
   std::cout << "Testing transforms : ";
   
+  // Affine transform
   if(strcmp((*it)->GetNameOfClass(),affine->GetNameOfClass()))
     {
     std::cout << "[FAILED] : expecting " << affine->GetNameOfClass() << " got " << (*it)->GetNameOfClass() << std::endl;
@@ -144,6 +146,7 @@ int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
 
   it++;
 
+  // Similarity transform
   if(strcmp((*it)->GetNameOfClass(),similarity->GetNameOfClass()))
     {
     std::cout << "[FAILED] : expecting " << similarity->GetNameOfClass() << " got " << (*it)->GetNameOfClass() << std::endl;
@@ -167,6 +170,7 @@ int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
 
   it++;
 
+  // BSpline transform
   if(strcmp((*it)->GetNameOfClass(),bspline->GetNameOfClass()))
     {
     std::cout << "[FAILED] : expecting " << bspline->GetNameOfClass() << " got " << (*it)->GetNameOfClass() << std::endl;
@@ -184,6 +188,24 @@ int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
     if(fabs((*it)->GetParameters()[i] - bspline->GetParameters()[i])>1e-12)
       {
       std::cout << "[FAILED] : bspline Parameters are different : " << i << " : " << (*it)->GetParameters()[i] << " v.s. " << bspline->GetParameters()[i] << std::endl;
+      return EXIT_FAILURE; 
+      }
+    }
+
+  for(i = 0;i<3;i++)
+    {
+    if(fabs(static_cast<BSplineTransformType*>((*it).GetPointer())->GetGridOrigin()[i] - bspline->GetGridOrigin()[i])>1e-12)
+      {
+      std::cout << "[FAILED] : bspline Grid Origin is different : " << i << " : " << static_cast<BSplineTransformType*>((*it).GetPointer())->GetGridOrigin()[i] << " v.s. " << bspline->GetGridOrigin()[i] << std::endl;
+      return EXIT_FAILURE; 
+      }
+    }
+
+  for(i = 0;i<3;i++)
+    {
+    if(fabs(static_cast<BSplineTransformType*>((*it).GetPointer())->GetGridSpacing()[i] - bspline->GetGridSpacing()[i])>1e-12)
+      {
+      std::cout << "[FAILED] : bspline Grid Spacing is different : " << i << " : " << static_cast<BSplineTransformType*>((*it).GetPointer())->GetGridSpacing()[i] << " v.s. " << bspline->GetGridSpacing()[i] << std::endl;
       return EXIT_FAILURE; 
       }
     }
