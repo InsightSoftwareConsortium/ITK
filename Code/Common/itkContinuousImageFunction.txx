@@ -116,7 +116,8 @@ ContinuousImageFunction<TInputImage,TOutput>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
-  os << indent << "continuous image function" << std::endl;
+  os << indent << "InputImage: ";
+  os << m_Image.GetPointer() << std::endl;
 }
 
 

@@ -67,22 +67,6 @@ LinearInterpolateImageFunction<TInputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
-  os << indent << "linearly interpolate image." << std::endl;
-}
-
-
-/**
- * Evaluate at geometric point position
- */
-template<class TInputImage>
-double
-LinearInterpolateImageFunction<TInputImage>
-::Evaluate(
-const PointType& point) const
-{
-  ContinuousIndexType index;
-  this->ConvertPointToContinuousIndex( point, index );
-  return ( this->Evaluate( index ) );
 }
 
 
@@ -92,7 +76,7 @@ const PointType& point) const
 template<class TInputImage>
 double
 LinearInterpolateImageFunction<TInputImage>
-::Evaluate(
+::EvaluateAtContinuousIndex(
 const ContinuousIndexType& index) const
 {
   unsigned int dim;  // index over dimension
@@ -116,6 +100,7 @@ const ContinuousIndexType& index) const
    * of the neighbor pixel with respect to a pixel centered on point.
    */
   double value = 0.0;
+  double totalOverlap = 0.0;
 
   for( unsigned int counter = 0; counter < m_Neighbors; counter++ )
     {
@@ -147,6 +132,13 @@ const ContinuousIndexType& index) const
     if( overlap )
       {
       value += overlap * (double) m_Image->GetPixel( neighIndex );
+      totalOverlap += overlap;
+      }
+
+    if( totalOverlap == 1.0 )
+      {
+      // finished
+      break;
       }
 
     }

@@ -1,7 +1,7 @@
 /*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLinearInterpolateImageFunction.h
+  Module:    itkInterpolateImageFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -37,41 +37,40 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef _itkLinearInterpolateImageFunction_h
-#define _itkLinearInterpolateImageFunction_h
+#ifndef _itkInterpolateImageFunction_h
+#define _itkInterpolateImageFunction_h
 
-#include "itkInterpolateImageFunction.h"
+#include "itkContinuousImageFunction.h"
 
 namespace itk
 {
 
 /** 
- * \class LinearInterpolateImageFunction
- * \brief Linearly interpolate an image.
+ * \class InterpolateImageFunction
+ * \brief Base class for all image interpolaters.
  *
- * LinearInterpolateImageFunction linearly interpolates image intensity at
- * a non-integer pixel position. This class is templated
- * over the input image type.
- *
- * This function works for N-dimensional images.
+ * InterpolateImageFunction is the base for all ImageFunctions that
+ * interpolates image intensity at a non-integer pixel position. 
+ * This class is templated over the input image type and the function
+ * output type.
  *
  * \ingroup ImageFunctions
  * 
  * */
 template <class TInputImage>
-class ITK_EXPORT LinearInterpolateImageFunction : 
-  public InterpolateImageFunction<TInputImage> 
+class ITK_EXPORT InterpolateImageFunction : 
+  public ContinuousImageFunction<TInputImage,double> 
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef LinearInterpolateImageFunction Self;
+  typedef InterpolateImageFunction Self;
 
   /**
    * Standard "Superclass" typedef.
    */
-  typedef InterpolateImageFunction<TInputImage> Superclass;
+  typedef ContinuousImageFunction<TInputImage,double> Superclass;
 
   /** 
    * Smart pointer typedef support.
@@ -82,7 +81,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(LinearInterpolateImageFunction, InterpolateImageFunction);
+  itkTypeMacro(InterpolateImageFunction, ContinuousImageFunction);
 
   /**
    * Method for creation through the object factory.
@@ -92,17 +91,17 @@ public:
   /**
    * InputImageType typedef support.
    */
-  typedef typename Superclass::InputImageType InputImageType;
-
+  typedef TInputImage InputImageType;
+  
   /**
    * Dimension underlying input image.
    */
-  enum { ImageDimension = Superclass::ImageDimension };
+  enum { ImageDimension = InputImageType::ImageDimension };
 
   /**
    * Index typedef support.
    */
-  typedef typename Superclass::IndexType IndexType;
+  typedef typename InputImageType::IndexType IndexType;
 
   /**
    * ContinuousIndex typedef support.
@@ -110,36 +109,38 @@ public:
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
   /**
-   * Evaluate the function at a ContinuousIndex position
+   * Evaluate the function at a non-integer position
    *
-   * Returns the linearly interpolated image intensity at a 
+   * Returns the interpolated image intensity at a 
    * specified point position. No bounds checking is done.
    * The point is assume to lie within the image buffer.
+   *
+   * Subclasses must implemented these methods.
    *
    * Superclass::IsInsideBuffer() can be used to check bounds before
    * calling the method.
    */
+  virtual double Evaluate( const PointType& point ) const
+    {
+    ContinuousIndexType index;
+    this->ConvertPointToContinuousIndex( point, index );
+    return ( this->EvaluateAtContinuousIndex( index ) );
+    }
+
   virtual double EvaluateAtContinuousIndex( 
-    const ContinuousIndexType & index ) const;
+    const ContinuousIndexType & index ) const = 0;
 
 protected:
-  LinearInterpolateImageFunction();
-  LinearInterpolateImageFunction( const Self& ){};
-
-  ~LinearInterpolateImageFunction(){};
+  InterpolateImageFunction(){};
+  InterpolateImageFunction( const Self& ){};
+  ~InterpolateImageFunction(){};
+  void PrintSelf(std::ostream& os, Indent indent) const
+    { Superclass::PrintSelf( os, indent ); }
 
   void operator=( const Self& ){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
-private:
-  unsigned long          m_Neighbors;  // Size of interpolation neighborhood
 
 };
 
 } // namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLinearInterpolateImageFunction.txx"
-#endif
 
 #endif

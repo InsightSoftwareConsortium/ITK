@@ -98,6 +98,11 @@ public:
    */
   typedef TOutput OutputType;
 
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(ImageFunction, FunctionBase);
+
   /**
    * Method for creation through the object factory.
    */
@@ -148,17 +153,18 @@ public:
   /**
    * Evaluate the function at a geometric point position
    */
-  virtual TOutput Evaluate( const PointType& point ) const = 0;
+  virtual TOutput Evaluate( const PointType& point ) const
+    {
+    ContinuousIndexType index;
+    this->ConvertPointToContinuousIndex( point, index );
+    return ( this->EvaluateAtContinuousIndex( index ) );
+    }
 
   /**
    * Evaluate the function at continuous index position
    */
-  virtual TOutput EvaluateAtContinuousIndex( const ContinuousIndexType& index ) const
-    {
-    PointType point;
-    this->ConvertContinuousIndexToPoint( index, point );
-    return( this->Evaluate( point ) );
-    }
+  virtual TOutput EvaluateAtContinuousIndex( 
+    const ContinuousIndexType& index ) const = 0;
 
   /**
    * Check if a point inside the image buffer
