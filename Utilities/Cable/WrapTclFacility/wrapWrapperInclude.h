@@ -369,7 +369,7 @@ Wrapper< _wrap_WRAPPED_TYPE >
   // TODO: Make sure object != NULL
   
   // Get the name of the instance.
-  char* instanceName = Tcl_GetString(objv[1]);
+  char* instanceName = Tcl_GetStringFromObj(objv[1], NULL);
   
   // Insert the object into the instance table.
   m_Wrapper->AddInstance(instanceName, object);

@@ -45,7 +45,7 @@ struct Return
     
     // Create the command to allow methods to be invoked on the
     // resulting value.
-    wrapper->CreateResultCommand(Tcl_GetString(Tcl_GetObjResult(interp)),
+    wrapper->CreateResultCommand(Tcl_GetStringFromObj(Tcl_GetObjResult(interp), NULL),
                                  CvType<T>::type.GetType());
     }
 };
@@ -120,7 +120,7 @@ struct ReturnPointerTo
     
     // Create the command to allow methods to be invoked on the
     // resulting value.
-    wrapper->CreateResultCommand(Tcl_GetString(Tcl_GetObjResult(interp)),
+    wrapper->CreateResultCommand(Tcl_GetStringFromObj(Tcl_GetObjResult(interp), NULL),
                                  CvType<T>::type.GetType());
     }
 };
@@ -163,7 +163,7 @@ struct ReturnReferenceTo
     
     // Create the command to allow methods to be invoked on the
     // resulting value.
-    wrapper->CreateResultCommand(Tcl_GetString(Tcl_GetObjResult(interp)),
+    wrapper->CreateResultCommand(Tcl_GetStringFromObj(Tcl_GetObjResult(interp), NULL),
                                  CvType<T>::type.GetType());
     }
 };

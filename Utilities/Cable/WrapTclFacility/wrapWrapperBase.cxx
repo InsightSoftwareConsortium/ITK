@@ -167,7 +167,7 @@ CvQualifiedType WrapperBase::GetObjectType(Tcl_Obj* obj) const
   // No Tcl type information.  Try converting from string representation.
   else
     {
-    String objectName = Tcl_GetString(obj);
+    String objectName = Tcl_GetStringFromObj(obj, NULL);
     if(m_InstanceTable->Exists(objectName))
       {
       return m_InstanceTable->GetType(objectName);
@@ -268,7 +268,7 @@ WrapperBase::Argument WrapperBase::GetObjectArgument(Tcl_Obj* obj) const
     Reference r;
 
     // See if it the name of an instance.
-    String objectName = Tcl_GetString(obj);
+    String objectName = Tcl_GetStringFromObj(obj, NULL);
     if(m_InstanceTable->Exists(objectName))
       {        
       argument.SetToObject(m_InstanceTable->GetObject(objectName),
@@ -305,7 +305,7 @@ WrapperBase::Argument WrapperBase::GetObjectArgument(Tcl_Obj* obj) const
         // Can't identify the object type.  We will have to assume char*.
         // When the conversion function dereferences its pointer, it must
         // get a pointer to char, not a char.
-        argument.SetToPointer(Tcl_GetString(obj), CvType<char*>::type); 
+        argument.SetToPointer(Tcl_GetStringFromObj(obj, NULL), CvType<char*>::type); 
         }
       }
     }
@@ -679,7 +679,7 @@ int WrapperBase::ObjectWrapperDispatch(ClientData clientData,
     }  
   
   // Get the method name.
-  String methodName = Tcl_GetString(objv[1]);
+  String methodName = Tcl_GetStringFromObj(objv[1], NULL);
   
   // See if any wrapper in our class hierarchy knows about a method
   // with this name.
@@ -776,7 +776,7 @@ int WrapperBase::CallWrappedFunction(int objc, Tcl_Obj* CONST objv[]) const
     }
   
   // Get the method name.
-  String methodName = Tcl_GetString(objv[1]);
+  String methodName = Tcl_GetStringFromObj(objv[1], NULL);
 
   // Prepare the set of candidate functions.
   CandidateFunctions candidates;    
