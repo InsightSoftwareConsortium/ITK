@@ -33,9 +33,9 @@ namespace itpack {
  * functions. Note: Variables names are consistent with itpack to prevent
  * confusion.
  * 
- * \param nn Order of linear system
- * \param ia Row pointers used in compressed row storage format
- * \param ja Column indices used in compressed row storage format
+ * nn Order of linear system
+ * a Row pointers used in compressed row storage format
+ * m ja Column indices used in compressed row storage format
  * \param a Nonzero entries in compressed row storage format
  * \param rhs Right hand side of linear system
  * \param u Initial guess of solution.  holds solution on output
@@ -272,7 +272,7 @@ extern int itsrsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doubler
 
 /** 
  * Performs one iteration of the reduced system conjugate gradient method
- * \param nn Order of linear system 
+ * \param n Order of linear system 
  * \param nnb Number of black points
  * \param ia array of row offsets
  * \param ja array of column indices     
@@ -289,7 +289,7 @@ extern int itrscg_(integer *n, integer *nnb, integer *ia, integer *ja, doublerea
 
 /** 
  * Performs one iteration of the reduced system semi-iteration method
- * \param nn Order of linear system 
+ * \param n Order of linear system 
  * \param nnb Number of black points
  * \param ia array of row offsets
  * \param ja array of column indices     
@@ -302,31 +302,73 @@ extern int itrscg_(integer *n, integer *nnb, integer *ia, integer *ja, doublerea
 extern int itrssi_(integer *n, integer *nnb, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *ub, doublereal *ub1, doublereal *db);
 
 
-
+/**
+ * Function which uses a bisection search to find the entry j in the
+ * array k such that the value l is greater than or equal to k[j]
+ * and strictly less than k[j+1]
+ * \param n since of array
+ * \param k integer array to search
+ * \param l searching criterion
+ */
 extern integer bisrch_(integer *n, integer *k, integer *l);
 
-
+/**
+ * Computes the solution to the chebyshev equation
+ * \param qa ratio of pseudo-residuals
+ * \param qt virtual spectral radius
+ * \param rrr adaptive parameter
+ * \param ip number of iterations since last change of parameters
+ * \param cme estimate for largest eigen-value of iteration matrix
+ * \param sme estimate for smallest eigen-value of iteration matrix
+ */
 extern doublereal cheby_(doublereal *qa, doublereal *qt, doublereal *rrr, integer *ip, doublereal *cme, doublereal *sme);
 
-
+/**
+ * Computes estimate for largest eigenvalue for conjugate gradient acceleration
+ * \param tri tridiagonal matrix associated with the eigenvalues of the conjugate gradient polynomial
+ * \param gamold previous value of acceleration parameters
+ * \param rhoold previous value of acceleration parameters
+ * \param ibmth flag indicating method being accelerated by conjugate gradient
+ *        1 - jacobian
+ *        2 - reduced system
+ *        3 - ssor
+ */
 extern int chgcon_(doublereal *tri, doublereal *gamold, doublereal *rhoold, integer *ibmth);
 
-
+/*
+ *
+ *
+ */
 extern int chgsi_(doublereal *dtnrm, integer *ibmth);
 
-
+/*
+ *
+ *
+ */
 extern logical chgsme_(doublereal *oldnrm, integer *icnt);
 
-
+/*
+ *
+ *
+ */
 extern int daxpy_(integer *n, doublereal *da, doublereal *dx, integer *incx, doublereal *dy, integer *incy);
 
-
+/*
+ *
+ *
+ */
 extern int dcopy_(integer *n, doublereal *dx, integer *incx, doublereal *dy, integer *incy);
 
-
+/*
+ *
+ *
+ */
 extern doublereal ddot_(integer *n, doublereal *dx, integer *incx, doublereal *dy, integer *incy);
 
-
+/*
+ *
+ *
+ */
 extern doublereal determ_(integer *n, doublereal *tri, doublereal *xlmda);
 
 
@@ -336,7 +378,6 @@ extern doublereal determ_(integer *n, doublereal *tri, doublereal *xlmda);
   * \param rparm array of 12 double parameters
   */
 extern int dfault_(integer *iparm, doublereal *rparm);
-
 
 extern int echall_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, integer *iparm, doublereal *rparm, integer *icall);
 extern int echout_(integer *iparm, doublereal *rparm, integer *imthd);
@@ -353,6 +394,7 @@ extern int iterm_(integer *nn, doublereal *a, doublereal *u, doublereal *wk, int
  * \param ival value to fill array with
  */
 extern int ivfill_(integer *n, integer *iv, integer *ival);
+
 extern int omeg_(doublereal *dnrm, integer *iflag);
 extern logical omgchg_(integer *ndummy);
 extern logical omgstr_(integer *ndummy);
@@ -443,6 +485,7 @@ extern int vevpw_(integer *n, doublereal *v, doublereal *w);
  * \param val value to fill array with
  */ 
 extern int vfill_(integer *n, doublereal *v, doublereal *val);
+
 extern int vout_(integer *n, doublereal *v, integer *iswt, integer *noutt);
 extern int wevmw_(integer *n, doublereal *v, doublereal *w);
 extern int zbrent_(integer *n, doublereal *tri, doublereal *eps, integer *nsig, doublereal *aa, doublereal *bb, integer *maxfnn, integer *ier);
