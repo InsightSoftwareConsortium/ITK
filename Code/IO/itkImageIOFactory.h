@@ -78,7 +78,9 @@ public:
    */
   itkTypeMacro(ImageIOFactory, Object);
 
-  static ImageIOBase::Pointer CreateImageIO(const char* path);
+  typedef ::itk::ImageIOBase::Pointer ImageIOBasePointer;
+
+  static ImageIOBasePointer CreateImageIO(const char* path);
 
 protected:
 
