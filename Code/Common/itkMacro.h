@@ -338,6 +338,10 @@ namespace itk
  * while OutputWindow #includes Object
  */
 extern ITK_EXPORT void OutputWindowDisplayText(const char*);
+extern ITK_EXPORT void OutputWindowDisplayErrorText(const char*);
+extern ITK_EXPORT void OutputWindowDisplayWarningText(const char*);
+extern ITK_EXPORT void OutputWindowDisplayGenericOutputText(const char*);
+extern ITK_EXPORT void OutputWindowDisplayDebugText(const char*);
 } // end namespace itk
 
 /**
@@ -355,7 +359,7 @@ extern ITK_EXPORT void OutputWindowDisplayText(const char*);
              << this->GetNameOfClass() << " (" << this << "): " x  \
              << "\n\n" << std::ends; \
       itkmsgbuff = itkmsg.str(); \
-      itk::OutputWindowDisplayText(itkmsgbuff); \
+      itk::OutputWindowDisplayDebugText(itkmsgbuff); \
       itkmsg.rdbuf()->freeze(0);} \
 }
 #endif
@@ -376,7 +380,7 @@ extern ITK_EXPORT void OutputWindowDisplayText(const char*);
              << this->GetNameOfClass() << " (" << this << "): " x  \
              << "\n\n" << std::ends; \
       itkmsgbuff = itkmsg.str(); \
-      itk::OutputWindowDisplayText(itkmsgbuff); \
+      itk::OutputWindowDisplayWarningText(itkmsgbuff); \
       itkmsg.rdbuf()->freeze(0);} \
 }
 #endif
@@ -397,7 +401,7 @@ extern ITK_EXPORT void OutputWindowDisplayText(const char*);
              << this->GetNameOfClass() << " (" << this << "): " x  \
              << "\n\n" << std::ends; \
       itkmsgbuff = itkmsg.str(); \
-      itk::OutputWindowDisplayText(itkmsgbuff); \
+      itk::OutputWindowDisplayErrorText(itkmsgbuff); \
       itkmsg.rdbuf()->freeze(0);} \
 }
 #endif
@@ -416,7 +420,7 @@ extern ITK_EXPORT void OutputWindowDisplayText(const char*);
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
              x << "\n\n" << std::ends; \
       itkmsgbuff = itkmsg.str(); \
-      itk::OutputWindowDisplayText(itkmsgbuff); \
+      itk::OutputWindowDisplayGenericOutputText(itkmsgbuff); \
       itkmsg.rdbuf()->freeze(0);} \
 }
 #endif

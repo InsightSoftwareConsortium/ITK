@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkOutputWindow.h
+  Module:    itkXMLFileOutputWindow.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,35 +38,49 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkOutputWindow_h
-#define __itkOutputWindow_h
+#ifndef __itkXMLFileOutputWindow_h
+#define __itkXMLFileOutputWindow_h
 
-#include "itkObject.h"
+#include "itkFileOutputWindow.h"
 
 namespace itk
 {
-/** \class OutputWindow
- * \brief Messages sent from the system are collected by this object.
+/** \class XMLFileOutputWindow
+ * \brief Messages sent from the system are sent to a file with each message enclosed by XML tags.
  *
- * Text messages that the system should display to the user are sent to 
- * this object (or subclasses of this object).
+ * Writes debug/warning/error output to an XML file.  Uses predefined XML
+ * tags for each text display method.  The text is processed to replace
+ * XML markup characters.
+ *
+ *   DisplayText - <Text>
+ * 
+ *   DisplayErrorText - <Error>
+ * 
+ *   DisplayWarningText - <Warning>
+ * 
+ *   DisplayGenericOutputText - <GenericOutput>
+ * 
+ *   DisplayDebugText - <Debug>
+ * 
+ * The method DisplayTag outputs the text unprocessed.  To use this
+ * class, instantiate it and then call SetInstance(this).
  *
  * \ingroup OSSystemObjects
  * 
  */
 
-class ITK_EXPORT OutputWindow : public Object
+class ITK_EXPORT XMLFileOutputWindow : public FileOutputWindow
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef OutputWindow        Self;
+  typedef XMLFileOutputWindow        Self;
 
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Object  Superclass;
+  typedef FileOutputWindow  Superclass;
 
   /** 
    * Smart pointer typedef support. 
@@ -77,80 +91,54 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(OutputWindow, Object);
-
-  /** 
-   * This is a singleton pattern New.  There will only be ONE
-   * reference to a OutputWindow object per process.  Clients that
-   * call this must call Delete on the object so that the reference
-   * counting will work.   The single instance will be unreferenced when
-   * the program exits.
-   */
-  static Pointer New();
+  itkTypeMacro(XMLFileOutputWindow, FileOutputWindow);
 
   /**
-   * Return the singleton instance with no reference counting.
+   * Method for creation through the object factory.
    */
-  static Pointer GetInstance();
+  itkNewMacro(Self);
 
   /**
-   * Supply a user defined output window. Call ->Delete() on the supplied
-   * instance after setting it.
-   */
-  static void SetInstance(OutputWindow *instance);
-
-  /**
-   * Send a string to display.
+   * Send a string to the XML file.
    */
   virtual void DisplayText(const char*);
 
   /**
-   * Send a string as an error message to display.
-   * The default implementation calls DisplayText() but subclasses
-   * could present this message differently.
+   * Send an error string to the XML file.
    */
-  virtual void DisplayErrorText(const char *t) { this->DisplayText(t); };
+  virtual void DisplayErrorText(const char*);
 
   /**
-   * Send a string as a warningmessage to display.
-   * The default implementation calls DisplayText() but subclasses
-   * could present this message differently.
+   * Send a warning string to the XML file.
    */
-  virtual void DisplayWarningText(const char *t) { this->DisplayText(t); };
+  virtual void DisplayWarningText(const char*);
 
   /**
-   * Send a string as a message to display.
-   * The default implementation calls DisplayText() but subclasses
-   * could present this message differently.
+   * Send a generic output string to the XML file.
    */
-  virtual void DisplayGenericOutputText(const char *t) {this->DisplayText(t);}
+  virtual void DisplayGenericOutputText(const char*);
 
   /**
-   * Send a string as a debug message to display.
-   * The default implementation calls DisplayText() but subclasses
-   * could present this message differently.
+   * Send a debug string to the XML file.
    */
-  virtual void DisplayDebugText(const char *t) { this->DisplayText(t); };
-  
+  virtual void DisplayDebugText(const char*);
+
   /**
-   * If PromptUser is set to true then each time a line of text
-   * is displayed, the user is asked if they want to keep getting
-   * messages.
+   *  Put the text into the log file without processing it.
    */
-  itkSetMacro(PromptUser,bool);
-  itkGetMacro(PromptUser,bool);
-  itkBooleanMacro(PromptUser);
+  virtual void DisplayTag(const char*);
 
 protected:
-  OutputWindow();
-  virtual ~OutputWindow();
-  OutputWindow(const Self&) {}
+  XMLFileOutputWindow();
+  virtual ~XMLFileOutputWindow();
+  XMLFileOutputWindow(const Self&) {}
   void operator=(const Self&) {}
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  void Initialize();
+  virtual void DisplayXML(const char*, const char*);
 
 private:
-  bool m_PromptUser;
-  static Pointer m_Instance;
+
 };
   
 } // end namespace itk

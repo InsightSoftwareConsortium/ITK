@@ -6,6 +6,7 @@ itkDirectory
 itkDynamicLoader 
 itkExceptionObject 
 itkFastMutexLock 
+itkFileOutputWindow
 itkIndent 
 itkLightObject 
 itkMeshRegion 
@@ -23,6 +24,7 @@ itkVector
 itkImageIOCommon
 itkImageIO
 itkLightProcessObject
+itkXMLFileOutputWindow
 )
 
 LINK_LIBRARIES (

@@ -70,6 +70,31 @@ OutputWindowDisplayText(const char* message)
 }
 
 void 
+OutputWindowDisplayErrorText(const char* message)
+{
+  OutputWindow::GetInstance()->DisplayErrorText(message);
+}
+
+void 
+OutputWindowDisplayWarningText(const char* message)
+{
+  OutputWindow::GetInstance()->DisplayWarningText(message);
+}
+
+void 
+OutputWindowDisplayGenericOutputText(const char* message)
+{
+  OutputWindow::GetInstance()->DisplayGenericOutputText(message);
+}
+
+void 
+OutputWindowDisplayDebugText(const char* message)
+{
+  OutputWindow::GetInstance()->DisplayDebugText(message);
+}
+
+
+void 
 OutputWindow
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
