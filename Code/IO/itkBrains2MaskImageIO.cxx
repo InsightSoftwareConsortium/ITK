@@ -218,7 +218,9 @@ void Brains2MaskImageIO::Read(void* buffer)
 // a StateMachine could provide a better implementation
 bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
 {
-  m_FileName=FileNameToRead;
+// The following assignment doesn't seem neccessary and was causing
+// a problem in MSVC60 which resulted in m_FileName becoming a NULL string. 
+//  m_FileName=FileNameToRead;
   std::ifstream   local_InputStream;
   local_InputStream.open( FileNameToRead, std::ios::in | std::ios::binary );
   if( local_InputStream.fail() )
