@@ -44,6 +44,7 @@ SetConfiguration JavaCommand [list @JAVACOMMAND@ ]
 SetConfiguration SourceDirectory [list @ITK_SOURCE_DIR@ ]
 
 SetConfiguration Site [list @SITE@ ]
+set Site [string tolower $Site]
 SetConfiguration BuildName [list @BUILDNAME@ ]
 
 SetConfiguration PurifyHome /wvp/purify-4.1-irix6/
