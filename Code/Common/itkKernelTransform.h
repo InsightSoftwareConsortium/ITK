@@ -97,9 +97,10 @@ public:
                                   TScalarType,
                                   TScalarType> PointSetTraitsType;
   typedef PointSet<InputPointType, NDimensions, PointSetTraitsType> PointSetType;
-  typedef typename PointSetType::Pointer PointSetPointer;
-  typedef typename PointSetType::PointsContainerIterator PointsIterator;
-  typedef typename PointSetType::PointsContainerConstIterator PointsConstIterator;
+  typedef typename PointSetType::Pointer                        PointSetPointer;
+  typedef typename PointSetType::PointsContainer                PointsContainer;
+  typedef typename PointSetType::PointsContainerIterator        PointsIterator;
+  typedef typename PointSetType::PointsContainerConstIterator   PointsConstIterator;
     
   /** VectorSet typedef. */
   typedef itk::VectorContainer<unsigned long,InputVectorType> VectorSetType;
@@ -133,6 +134,14 @@ public:
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
+
+  /** Set the Transformation Parameters
+   * and update the internal transformation. */
+  virtual void SetParameters(const ParametersType &);
+
+  /** Get the Transformation Parameters. */
+  virtual const ParametersType& GetParameters(void) const;
+
 
 protected:
   KernelTransform();

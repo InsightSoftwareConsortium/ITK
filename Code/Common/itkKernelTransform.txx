@@ -378,6 +378,77 @@ GetJacobian( const InputPointType & p ) const
 }
 
 
+// Set the parameters
+// NOTE that in this transformation both the Source and Target
+// landmarks could be considered as parameters. It is assumed
+// here that the Target landmarks are provided by the user and
+// are not changed during the optimization process required for
+// registration.
+template <class TScalarType, int NDimensions>
+void
+KernelTransform<TScalarType, NDimensions>
+::SetParameters( const ParametersType & parameters )
+{
+  Superclass::SetParameters( parameters );
+
+  typename PointsContainer::Pointer landmarks = PointsContainer::New();
+  const unsigned int numberOfLandmarks =  parameters.Size() / NDimensions; 
+  landmarks->Reserve( numberOfLandmarks );
+
+  PointsIterator itr = landmarks->Begin();
+  PointsIterator end = landmarks->End();
+
+  InputPointType  landMark; 
+
+  unsigned int pcounter = 0;
+  while( itr != end )
+    {
+    for(unsigned int dim=0; dim<NDimensions; dim++)
+      {
+      landMark[ dim ] = m_Parameters[ pcounter ];
+      pcounter++;
+      }  
+    itr.Value() = landMark;
+    itr++;
+    }
+
+  m_SourceLandmarks->SetPoints( landmarks );
+}
+
+
+
+
+// Get the parameters
+// They are the components of all the landmarks in the source space
+template <class TScalarType, unsigned int NDimensions>
+const KernelTransform<TScalarType, NDimensions>::ParametersType &
+KernelTransform<TScalarType, NDimensions>
+::GetParameters( void ) const
+{
+
+  m_Parameters = ParametersType( m_SourceLandmarks->GetNumberOfPoints() * NDimensions );
+
+  PointsIterator itr = m_SourceLandmarks->GetPoints()->Begin();
+  PointsIterator end = m_SourceLandmarks->GetPoints()->End();
+
+  unsigned int pcounter = 0;
+  while( itr != end )
+    {
+    InputPointType  landmark = itr.Value();
+    for(unsigned int dim=0; dim<NDimensions; dim++)
+      {
+      m_Parameters[ pcounter ] = landmark[ dim ];
+      pcounter++;
+      }  
+    itr++;
+    }
+
+  return m_Parameters;
+
+}
+
+
+
 template <class TScalarType, int NDimensions>
 void
 KernelTransform<TScalarType, NDimensions>::
