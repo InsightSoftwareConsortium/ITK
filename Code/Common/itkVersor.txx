@@ -466,7 +466,7 @@ Versor<T>
   m_X = x;
   m_Y = y;
   m_Z = z;
-  m_W = r;
+  m_W = w;
   this->Normalize();
 }
 
