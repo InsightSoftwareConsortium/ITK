@@ -29,12 +29,18 @@ CvQualifiedType CvType<const volatile T>::type
 /*@{
  * The actual CvQualifiedType instance for this fundamental type.
  */
+#ifdef _wrap_NO_CV_VOID
+CvQualifiedType CvType<void>::type;
+#else
 _wrap_DEFINE_FUNDAMENTAL_CVTYPES(void);
+#endif
+#ifndef _wrap_NO_WCHAR_T
+_wrap_DEFINE_FUNDAMENTAL_CVTYPES(wchar_t);
+#endif
 _wrap_DEFINE_FUNDAMENTAL_CVTYPES(bool);
 _wrap_DEFINE_FUNDAMENTAL_CVTYPES(char);
 _wrap_DEFINE_FUNDAMENTAL_CVTYPES(signed char);
 _wrap_DEFINE_FUNDAMENTAL_CVTYPES(unsigned char);
-_wrap_DEFINE_FUNDAMENTAL_CVTYPES(wchar_t);
 _wrap_DEFINE_FUNDAMENTAL_CVTYPES(short);
 _wrap_DEFINE_FUNDAMENTAL_CVTYPES(unsigned short);
 _wrap_DEFINE_FUNDAMENTAL_CVTYPES(int);
@@ -68,12 +74,18 @@ CvType<const volatile T>::type = GetFundamentalType(FundamentalType::ID, true, t
  */
 void TypeInfo::Initialize()
 {
+#ifdef _wrap_NO_CV_VOID
+  CvType<void>::type = GetFundamentalType(FundamentalType::Void, false, false);
+#else
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(void, Void);
+#endif
+#ifndef _wrap_NO_WCHAR_T
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(wchar_t, WChar_t);
+#endif
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(bool, Bool);
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(char, Char);
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(signed char, SignedChar);
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(unsigned char, UnsignedChar);
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(wchar_t, WChar_t);
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(short, ShortInt);
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(unsigned short, UnsignedShortInt);
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(int, Int);
@@ -137,6 +149,9 @@ CvQualifiedType
 TypeInfo::GetFundamentalType(FundamentalType::Id id,
                                 bool isConst, bool isVolatile)
 {
+#ifdef _wrap_NO_WCHAR_T
+  if(id == FundamentalType::WChar_t) { id = FundamentalType::UnsignedShortInt; }
+#endif
   return typeSystem.GetFundamentalType(id)
     ->GetCvQualifiedType(isConst, isVolatile);
 }

@@ -69,12 +69,22 @@ template <> struct _wrap_EXPORT CvType<const volatile T> { static CvQualifiedTyp
 /*@{
  * A specialization for a fundamental type.
  */
+  
+// These require some special handling for some compilers.
+#ifdef _wrap_NO_CV_VOID
+template <> struct _wrap_EXPORT CvType<void> { static CvQualifiedType type; };
+#else  
 _wrap_DECLARE_FUNDAMENTAL_CVTYPES(void);
+#endif
+#ifndef _wrap_NO_WCHAR_T
+_wrap_DECLARE_FUNDAMENTAL_CVTYPES(wchar_t);
+#endif
+  
+// Normal fundamental type definitions.
 _wrap_DECLARE_FUNDAMENTAL_CVTYPES(bool);
 _wrap_DECLARE_FUNDAMENTAL_CVTYPES(char);
 _wrap_DECLARE_FUNDAMENTAL_CVTYPES(signed char);
 _wrap_DECLARE_FUNDAMENTAL_CVTYPES(unsigned char);
-_wrap_DECLARE_FUNDAMENTAL_CVTYPES(wchar_t);
 _wrap_DECLARE_FUNDAMENTAL_CVTYPES(short);
 _wrap_DECLARE_FUNDAMENTAL_CVTYPES(unsigned short);
 _wrap_DECLARE_FUNDAMENTAL_CVTYPES(int);

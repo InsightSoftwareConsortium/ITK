@@ -37,6 +37,18 @@
 #  define WRAPPER_EXPORT
 #endif
 
+// Visual C++ can't distinguish void types with different cv qualifiers.
+#ifdef _MSC_VER
+#define _wrap_NO_CV_VOID
+#endif
+
+// Both Visual C++ and the Intel C/C++ compiler define wchar_t as
+// unsigned short.  Type information will fall through to unsinged short
+// if wchar_t is used, so we can't let the information be duplicated.
+#if defined(_MSC_VER) || defined(__ICL)
+#define _wrap_NO_WCHAR_T
+#endif
+
 // Include Tcl headers.
 #include <tcl.h>
 
