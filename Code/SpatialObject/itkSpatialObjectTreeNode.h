@@ -39,7 +39,6 @@ public:
   typedef SpatialObjectTreeNode<TDimension>                           Self;
   typedef SmartPointer<Self>                                          Pointer;
   typedef SmartPointer<const Self>                                    ConstPointer;
-  typedef SpatialObject<TDimension>                                   SpatialObjectType;
   typedef FixedCenterOfRotationAffineTransform< double, TDimension>   TransformType;
   typedef typename TransformType::Pointer                             TransformPointer;
   typedef const TransformType*                                        TransformConstPointer;
