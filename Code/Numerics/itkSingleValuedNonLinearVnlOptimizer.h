@@ -51,7 +51,7 @@ public:
    * adaptor in order to generate iteration events. This will allow to overcome
    * the limitation of VNL optimizers not offering callbacks for every
    * iteration */
-  typedef SimpleMemberCommand< Self >           CommandType;
+  typedef ReceptorMemberCommand< Self >           CommandType;
 
   /** Set the cost Function. This method has to be overloaded
    *  by derived classes because the CostFunctionAdaptor requires
@@ -106,7 +106,7 @@ protected:
   
 private:
   /** Callback function for the Command Observer */
-  void IterationReport();
+  void IterationReport( const EventObject & event );
   
   SingleValuedNonLinearVnlOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

@@ -107,13 +107,13 @@ SingleValuedNonLinearVnlOptimizer
  * iteration will generate a lot more of Iteration events here. */
 void
 SingleValuedNonLinearVnlOptimizer
-::IterationReport( void ) 
+::IterationReport( const EventObject & event ) 
 {
   const CostFunctionAdaptorType * adaptor = this->GetCostFunctionAdaptor();
   m_CachedValue = adaptor->GetCachedValue();
   m_CachedDerivative = adaptor->GetCachedDerivative();
   m_CachedCurrentPosition = adaptor->GetCachedCurrentParameters();
-  this->InvokeEvent( IterationEvent() );
+  this->InvokeEvent( event );
 }
 
 
