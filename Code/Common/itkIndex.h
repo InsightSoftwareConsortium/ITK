@@ -86,6 +86,16 @@ class itkIndex {
     }
 
   /**
+   * Access an element of the index. Elements are numbered
+   * 0, ..., TIndexDimension-1. No bounds checking is performed.
+   */
+  long & operator[](unsigned int dim)
+  {
+    return m_Index[dim];
+  }
+  
+
+  /**
    * Get the index. This provides a read only reference to the index.
    * \sa SetIndex
    */
@@ -102,7 +112,8 @@ class itkIndex {
 
   /**
    * Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
-   * is positioned in the location specified by the parameter "dim".
+   * is positioned in the location specified by the parameter "dim". Valid
+   * values of "dim" are 0, ..., TIndexDimension-1.
    *
    * This routine will throw an exception (itkInvalidDimension) if
    * "dim" > dimension of the index.
