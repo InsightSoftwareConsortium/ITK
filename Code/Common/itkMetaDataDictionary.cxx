@@ -24,6 +24,7 @@ itk::MetaDataDictionary
       it != this->end();
       it++)
   {
+    os << indent << it->first <<  "  " ;
     it->second->PrintSelf(os,indent);
   }
 }
