@@ -11,13 +11,10 @@
 #
 # Configure the standard ITK Tcl utilities package.
 #
-package ifneeded ITKTclUtils 1.0 {
+package ifneeded ITKTclUtils 0.1 {
   set tclFile [file join "${ITK_TCL_UTILS_DIR}" "itkTclUtils.tcl"]
-  if {[catch { source $tclFile } errorMessage ]} {
-    puts $errorMessage
-  } else {
-    package provide ITKTclUtils 1.0
-  }
+  if {[catch { source $tclFile } errorMessage ]} { puts $errorMessage } \
+  else { package provide ITKTclUtils 0.1 }
 }
 
 #
@@ -35,11 +32,13 @@ proc itkConfigureTclPackage {package version subdir} {
   set libFile [file join $libPath "$libPrefix$libName$libExt"]
 
   package ifneeded $package $version "
-    if {\[catch { load $libFile } errorMessage \]} { puts \$errorMessage }
+    if {\[catch { load $libFile } errorMessage \]} { puts \$errorMessage } \
+    else { package provide $package $version }
   "
 }
 
 # Configure ITK Tcl packages.
-itkConfigureTclPackage ITKCommonTcl       1.0 Common
-itkConfigureTclPackage ITKBasicFiltersTcl 1.0 BasicFilters
-itkConfigureTclPackage ITKAlgorithmsTcl   1.0 Algorithms
+itkConfigureTclPackage VXLNumericsTcl     0.1 Numerics
+itkConfigureTclPackage ITKCommonTcl       0.1 Common
+itkConfigureTclPackage ITKBasicFiltersTcl 0.1 BasicFilters
+itkConfigureTclPackage ITKAlgorithmsTcl   0.1 Algorithms
