@@ -780,7 +780,6 @@ void DicomDir::CreateDicomDir()
       return;
    }
 
-   DicomDirType type = DicomDir::GDCM_DICOMDIR_META;
    MetaElems = NewMeta();
 
    ListSQItem listItems = s->GetSQItems();
@@ -804,22 +803,18 @@ void DicomDir::CreateDicomDir()
       if( v == "PATIENT " )
       {
          AddDicomDirPatientToEnd( *i );
-         type = DicomDir::GDCM_DICOMDIR_PATIENT;
       }
       else if( v == "STUDY " )
       {
          AddDicomDirStudyToEnd( *i );
-         type = DicomDir::GDCM_DICOMDIR_STUDY;
       }
       else if( v == "SERIES" )
       {
          AddDicomDirSerieToEnd( *i );
-         type = DicomDir::GDCM_DICOMDIR_SERIE;
       }
       else if( v == "IMAGE " ) 
       {
          AddDicomDirImageToEnd( *i );
-         type = DicomDir::GDCM_DICOMDIR_IMAGE;
       }
       else
       {
