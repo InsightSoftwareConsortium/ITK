@@ -21,9 +21,9 @@
 
 /**
  * This program tests the FilterImageGradientMagnitude object by driving it
- * with a null input and output.  Returns 1 on success and 2 on failure.
+ * with a null input and output.  Returns 0 on success and 1 on failure.
  */
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
   try
     {
@@ -46,7 +46,7 @@ main(int argc, char *argv[])
   catch(itk::ExceptionObject &err)
     {
       (&err)->Print(std::cerr);
-      return 2;
+      return 1;
     } 
-  return 1;   
+  return 0;   
 }
