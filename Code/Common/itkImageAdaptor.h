@@ -20,6 +20,18 @@
 
 namespace itk
 {
+
+/**
+ * Due to a bug in MSVC, an enum value cannot be accessed out of a template
+ * parameter until the template class opens.  In order for ImageAdaptor
+ * to access the dimension of an image for inheriting from ImageBase of
+ * that dimension, this class is needed as a work-around.
+ */
+template <typename TImage>
+struct GetImageDimension
+{
+  enum { ImageDimension = TImage::ImageDimension };
+}; 
   
 /**
  * \class ImageAdaptor
@@ -41,7 +53,7 @@ namespace itk
  *
  */
 template <class TImage, class TAccessor >
-class ITK_EXPORT ImageAdaptor : public ImageBase<TImage::ImageDimension>
+class ITK_EXPORT ImageAdaptor : public ImageBase<GetImageDimension<TImage>::ImageDimension>
 {
 public:
   /**
