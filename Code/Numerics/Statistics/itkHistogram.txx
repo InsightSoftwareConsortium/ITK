@@ -57,6 +57,8 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
       m_OffsetTable[i + 1] = num ;
     }
 
+  m_NumberOfInstances = num ;
+
   // adjust the sizes of min max value containers 
   int dim;
   m_Min.resize(MeasurementVectorSize);
@@ -168,8 +170,17 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
   id += index[0] ;
   
   return id ;
-  }
+}
 
+
+template< class TMeasurement, unsigned int VMeasurementVectorSize,
+          class TFrequencyContainer >
+size_t
+Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
+::GetNumberOfInstances()
+{
+  return m_NumberOfInstances ;
+}
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
          class TFrequencyContainer >

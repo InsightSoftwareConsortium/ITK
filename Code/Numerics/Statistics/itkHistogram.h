@@ -133,6 +133,9 @@ public:
    * This method uses ImageBase::ComputeIndex() method */
   inline InstanceIdentifier GetInstanceIdentifier(const IndexType index)  ;
   
+  /** Get the total number of instances in this container */
+  size_t GetNumberOfInstances() ;
+
   /** Method to get m_Size */
   SizeType GetSize() { return m_Size ; }
 
@@ -364,6 +367,7 @@ private:
 
   InstanceIdentifier  m_OffsetTable[MeasurementVectorSize + 1] ;
   FrequencyContainerPointer m_FrequencyContainer ;
+  size_t m_NumberOfInstances ;
 } ; // end of class
 
   } // end of namespace Statistics 
