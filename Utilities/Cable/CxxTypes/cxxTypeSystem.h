@@ -35,7 +35,7 @@ public:
   const ArrayType*           GetArrayType(const CvQualifiedType&,
                                           unsigned long);
   ClassType*                 GetClassType(const String&,
-                                          const ClassTypes&);
+                                          const ClassTypes& = ClassTypes());
   const FunctionType*        GetFunctionType(const CvQualifiedType&,
                                              const CvQualifiedTypes&);
   const FundamentalType*     GetFundamentalType(FundamentalType::Id);
