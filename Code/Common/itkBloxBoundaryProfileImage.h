@@ -51,7 +51,7 @@ public:
   /** Standard image class typedefs. */
   typedef BloxBoundaryProfileImage  Self;
   typedef BloxImage<BloxBoundaryProfilePixel<VImageDimension>,
-                   <VImageDimension>  Superclass;
+                   VImageDimension>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
