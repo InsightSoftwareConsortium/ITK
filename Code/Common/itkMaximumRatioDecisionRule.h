@@ -65,8 +65,6 @@ inline unsigned int
 MaximumRatioDecisionRule::Evaluate(std::vector< double > 
                                              &discriminantScores)
 {
-  unsigned int maxIndex = 0 ;
-  double maxScore = 0.0 ;
   unsigned int i, j ;
   double temp ;
 
