@@ -38,8 +38,8 @@ namespace itk
     void SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>
     ::GenerateData()
     {
-    Initialize();
-    CreateTriangles();
+    this->Initialize();
+    this->CreateTriangles();
     }
 
   template <typename TInputMesh, typename TOutputMesh>
