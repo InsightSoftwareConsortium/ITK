@@ -14,7 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkBinaryDilateImageFilter.h"
+#include "itkBinaryErodeImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkImage.h"
 
@@ -24,7 +24,7 @@
 
 namespace _cable_
 {
-  const char* const group = ITK_WRAP_GROUP(itkBinaryDilateImageFilter);
+  const char* const group = ITK_WRAP_GROUP(itkBinaryErodeImageFilter);
   namespace wrappers
   {
     namespace structuringElement 
@@ -38,14 +38,14 @@ namespace _cable_
     }
 
     //===========2D Wrapped Filters==============
-    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(BinaryDilateImageFilter, image::F2 , image::F2 , structuringElement::F2,   itkBinaryDilateImageFilterF2F2  );
-    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(BinaryDilateImageFilter, image::UC2, image::UC2, structuringElement::UC2,  itkBinaryDilateImageFilterUC2UC2);
-    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(BinaryDilateImageFilter, image::US2, image::US2, structuringElement::US2,  itkBinaryDilateImageFilterUS2US2);
+    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(BinaryErodeImageFilter, image::F2 , image::F2 , structuringElement::F2,   itkBinaryErodeImageFilterF2F2  );
+    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(BinaryErodeImageFilter, image::UC2, image::UC2, structuringElement::UC2,  itkBinaryErodeImageFilterUC2UC2);
+    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(BinaryErodeImageFilter, image::US2, image::US2, structuringElement::US2,  itkBinaryErodeImageFilterUS2US2);
 
     //===========3D Wrapped Filters==============
-    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(BinaryDilateImageFilter, image::F3 , image::F3 , structuringElement::F3,   itkBinaryDilateImageFilterF3F3  );
-    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(BinaryDilateImageFilter, image::UC3, image::UC3, structuringElement::UC3,  itkBinaryDilateImageFilterUC3UC3);
-    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(BinaryDilateImageFilter, image::US3, image::US3, structuringElement::US3,  itkBinaryDilateImageFilterUS3US3);
+    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(BinaryErodeImageFilter, image::F3 , image::F3 , structuringElement::F3,   itkBinaryErodeImageFilterF3F3  );
+    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(BinaryErodeImageFilter, image::UC3, image::UC3, structuringElement::UC3,  itkBinaryErodeImageFilterUC3UC3);
+    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(BinaryErodeImageFilter, image::US3, image::US3, structuringElement::US3,  itkBinaryErodeImageFilterUS3US3);
   }
 }
 
