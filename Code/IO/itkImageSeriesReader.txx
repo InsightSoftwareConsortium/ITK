@@ -118,8 +118,9 @@ void ImageSeriesReader<TOutputImage>
 
   ImageRegionIterator<TOutputImage> ot (output, output->GetRequestedRegion() );
 
-  for (int i = (m_ReverseOrder ? m_FileNames.size() - 1 : 0);
-       i != (m_ReverseOrder ? -1 : m_FileNames.size() - 1);
+  int numberOfFiles = static_cast<int>(m_FileNames.size());
+  for (int i = (m_ReverseOrder ? numberOfFiles - 1 : 0);
+       i != (m_ReverseOrder ? -1 : numberOfFiles - 1);
        i += (m_ReverseOrder ? -1 : 1))
     {
     
