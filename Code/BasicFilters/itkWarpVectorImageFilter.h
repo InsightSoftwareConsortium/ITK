@@ -26,11 +26,12 @@
 namespace itk
 {
 
-/** \class WarpImageFilter
+/** \class WarpVectorImageFilter
  * \brief Warps an image using an input deformation field.
  *
- * WarpImageFilter warps an existing image with respect to
- * a given deformation field.
+ * WarpVectorImageFilter warps an existing image with respect to
+ * a given deformation field. The input image is expected to have
+ * vector-like pixel types.
  *
  * A deformation field is represented as a image whose pixel type is some
  * vector type with at least N elements, where N is the dimension of
@@ -73,6 +74,8 @@ namespace itk
  *
  * \warning This filter assumes that the input type, output type
  * and deformation field type all have the same number of dimensions.
+ *
+ * \author  Corinne Mattmann
  *
  * \ingroup GeometricTransforms MultiThreaded
  */
@@ -163,7 +166,7 @@ public:
   /** Get the edge padding value */
   itkGetMacro( EdgePaddingValue, PixelType );
 
-  /** WarpImageFilter produces an image which is a different
+  /** WarpVectorImageFilter produces an image which is a different
    * size than its input image. As such, it needs to provide an
    * implemenation for GenerateOutputInformation() which set
    * the output information according the OutputSpacing, OutputOrigin
@@ -187,7 +190,7 @@ protected:
   ~WarpVectorImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** WarpImageFilter is implemented as a multi-threaded filter.
+  /** WarpVectorImageFilter is implemented as a multi-threaded filter.
    * As such, it needs to provide and implementation for 
    * ThreadedGenerateData(). */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
