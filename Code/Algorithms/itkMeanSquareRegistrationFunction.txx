@@ -119,7 +119,7 @@ typename MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationFie
 ::PixelType
 MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::ComputeUpdate(const NeighborhoodType &it, void * globalData,
-                const FloatOffsetType& offset) const
+                const FloatOffsetType& offset) 
 {
 
 //std::cout << " Update " << std::endl;
@@ -136,9 +136,9 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
   fixedValue = (double) m_FixedImage->GetPixel( index );
+  fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
   for( unsigned int j = 0; j < ImageDimension; j++ )
     {
-    fixedGradient[j] = m_FixedImageGradientCalculator->EvaluateAtIndex( index, j );
     fixedGradientSquaredMagnitude += vnl_math_sqr( fixedGradient[j] ) * m_FixedImageSpacing[j];
     } 
 

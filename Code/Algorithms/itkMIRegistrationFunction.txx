@@ -142,7 +142,7 @@ typename MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::ComputeUpdate(const NeighborhoodType &it, void * globalData,
-                const FloatOffsetType& offset) const
+                const FloatOffsetType& offset) 
 {
 // we compute the derivative of MI w.r.t. the infinitesimal 
 // displacement, following viola and wells. 
@@ -240,10 +240,10 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
         // Get fixed image related information
       fixedValue = (double) m_FixedImage->GetPixel( index );
-      for( j = 0; j < ImageDimension; j++ )
-      {
-        fixedGradient[j] = m_FixedImageGradientCalculator->EvaluateAtIndex( index, j );
-      } 
+      
+     
+      fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
+       
       // Get moving image related information
       typename DeformationFieldType::PixelType itvec=m_DeformationField->GetPixel(index);
 
@@ -321,9 +321,10 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       double fgm=0;
         // Get fixed image related information
       fixedValue = (double) m_FixedImage->GetPixel( index );
+      fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
+
       for( j = 0; j < ImageDimension; j++ )
       {
-        fixedGradient[j] = m_FixedImageGradientCalculator->EvaluateAtIndex( index, j );
         fgm+=fixedGradient[j] *fixedGradient[j];
       } 
       // Get moving image related information
@@ -403,10 +404,8 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
         // Get fixed image related information
       fixedValue = (double) m_FixedImage->GetPixel( index );
-      for(j = 0; j < ImageDimension; j++ )
-      {
-        fixedGradient[j] = m_FixedImageGradientCalculator->EvaluateAtIndex( index, j );
-      } 
+      fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
+       
       // Get moving image related information
 
 
@@ -747,13 +746,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
       {
         movingValue = m_MovingImageInterpolator->Evaluate( mappedPoint );
-        for( j = 0; j < ImageDimension; j++ )
-        {
-//          std::cout << " mappedIndex " << mappedIndex << std::endl;
-//          std::cout << " mappedpoint " << mappedPoint << std::endl;
-          movingGradient[j] = m_MovingImageGradientCalculator->EvaluateAtIndex( mappedIndex, j );
-//          if (movingGradient[j] != 0.0) std::cout <<  " gradient not zero " << std::endl;
-        } 
+        movingGradient = m_MovingImageGradientCalculator->EvaluateAtIndex( mappedIndex );
       }
       else
       {
@@ -823,10 +816,8 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
       {
         movingValue = m_MovingImageInterpolator->Evaluate( mappedPoint );
-        for( j = 0; j < ImageDimension; j++ )
-        {
-          movingGradient[j] = m_MovingImageGradientCalculator->EvaluateAtIndex( mappedIndex, j );
-        } 
+        movingGradient = m_MovingImageGradientCalculator->EvaluateAtIndex( mappedIndex );
+       
       }
       else
       {
@@ -1134,15 +1125,12 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
         m_FixedImageOrigin[j];
         mappedPoint[j] += itvec[j];
         mappedIndex[j] = index[j]+(unsigned long) (itvec[j]+0.5);
-        fixedGradient[j] = m_FixedImageGradientCalculator->EvaluateAtIndex( index, j );
       }
+      fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
       if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
       {
         movingValue = m_MovingImageInterpolator->Evaluate( mappedPoint );
-        for( j = 0; j < ImageDimension; j++ )
-        {
-          movingGradient[j] = m_MovingImageGradientCalculator->EvaluateAtIndex( mappedIndex, j );
-        } 
+        movingGradient = m_MovingImageGradientCalculator->EvaluateAtIndex( mappedIndex ); 
       }
       else
       {
@@ -1210,15 +1198,13 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
         m_FixedImageOrigin[j];
         mappedPoint[j] += hooditvec[j];
         mappedIndex[j] = index[j]+(unsigned long) (hooditvec[j]+0.5);
-        fixedGradient[j] = m_FixedImageGradientCalculator->EvaluateAtIndex( index, j );
       }
+
+      fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
       if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
       {
         movingValue = m_MovingImageInterpolator->Evaluate( mappedPoint );
-        for( j = 0; j < ImageDimension; j++ )
-        {
-          movingGradient[j] = m_MovingImageGradientCalculator->EvaluateAtIndex( mappedIndex, j );
-        } 
+        movingGradient = m_MovingImageGradientCalculator->EvaluateAtIndex( mappedIndex); 
       }
       else
       {

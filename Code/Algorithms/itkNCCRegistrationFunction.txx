@@ -106,6 +106,7 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   // setup moving image interpolator
   m_MovingImageInterpolator->SetInputImage( m_MovingImage );
 
+
   std::cout << " total metric " << m_MetricTotal << " field size " <<
     m_DeformationField->GetLargestPossibleRegion().GetSize()<< " image size " <<
     m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
@@ -122,7 +123,7 @@ typename NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::ComputeUpdate(const NeighborhoodType &it, void * globalData,
-                const FloatOffsetType& offset) const
+                const FloatOffsetType& offset) 
 {
 
   PixelType update;
@@ -182,9 +183,10 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       // Note: no need to check the index is within
       // fixed image buffer. This is done by the external filter.
       fixedValue = (double) m_FixedImage->GetPixel( index );
+
+      fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index ); 
       for( j = 0; j < ImageDimension; j++ )
       {
-        fixedGradient[j] = m_FixedImageGradientCalculator->EvaluateAtIndex( index, j );
         fixedGradientSquaredMagnitude += vnl_math_sqr( fixedGradient[j] ) * m_FixedImageSpacing[j];
       } 
 

@@ -141,14 +141,8 @@ public:
    * each pixel that does not lie on a data set boundary */
   virtual PixelType  ComputeUpdate(const NeighborhoodType &neighborhood,
                      void *globalData,
-                     const FloatOffsetType &offset = FloatOffsetType(0.0)) const;
+                     const FloatOffsetType &offset = FloatOffsetType(0.0));
 
-  /** This method is called by a finite difference solver image filter at
-   * each pixel that lies on the data set boundary. 
-  virtual PixelType  ComputeUpdate(const BoundaryNeighborhoodType
-                     &neighborhood, void *globalData,
-                     const FloatOffsetType &offset = FloatOffsetType(0.0)) const;
-*/
 protected:
   NCCRegistrationFunction();
   ~NCCRegistrationFunction() {}

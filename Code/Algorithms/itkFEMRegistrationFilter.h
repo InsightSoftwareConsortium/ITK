@@ -24,6 +24,7 @@
 #include "itkFEMSolverCrankNicolson.h"
 #include "itkFEMMaterialLinearElasticity.h"
 #include "itkFEMImageMetricLoad.h"
+#include "itkFEMFiniteDifferenceFunctionLoad.h"
 
 #include "itkImage.h"
 #include "itkVector.h"
@@ -33,7 +34,10 @@
 #include "itkWarpImageFilter.h"
 #include "itkImageToImageMetric.h"
 #include "itkTranslationTransform.h"
+#include "itkVectorExpandImageFilter.h"
 
+#include "itkRecursiveMultiResolutionPyramidImageFilter.h"
+#include "itkFEMLoadLandmark.h"
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_math.h"
@@ -49,7 +53,7 @@ namespace itk {
 namespace fem {
 
 /** \class FEMRegistrationFilter 
-    \brief FEM Image registration example class.
+    \brief FEM Image registration filter.
 
      The image registration problem is modeled here with the finite element method.
      Image registration is, in general, an ill-posed problem.  Thus, we use an optimization
@@ -65,7 +69,6 @@ namespace fem {
      The choices and the associated direction of descent are : 
         Mean Squares (minimize), 
         Normalized Cross-Correlation (maximize)
-        Mean Reciprocal Square Difference  (maximize)
         Mutual Information (maximize).
      Note that we have to set the direction (SetDescentDirection) when we choose a metric. 
      The forces driving the problem may also be given by user-supplied landmarks.  
@@ -86,20 +89,21 @@ namespace fem {
         Choose enough iterations to allow the solution to converge (this may be automated).
 
      Reading images is up to the user.  Either set the images using 
-     SetReference/TargetImage or see the ReadImages function.  Outputs are raw images
-     of the same type as the reference image.
+     SetMoving/FixedImage or see the ReadImages function.  
 
-     \note This code works for only 2 or 3 dimensions.
+     \note This code works for only 2 or 3 dimensions b/c we do not have > 3D elements.
 
-  \note  Not yet a REAL itk filter!
+  \note TODO :  Keep the full field around (if using re-gridding).
+                Introduce compensation for kinematic non-linearity in time (if using Eulerian frame).
+                
 */
 
-template<class TReference,class TTarget> 
-class  ITK_EXPORT  FEMRegistrationFilter : public ImageToImageFilter<TReference, TTarget>
+template<class TMovingImage,class TFixedImage> 
+class  ITK_EXPORT  FEMRegistrationFilter : public ImageToImageFilter<TMovingImage, TFixedImage>
 {
 public:
   typedef FEMRegistrationFilter                              Self;
-  typedef ImageToImageFilter<TReference, TTarget> Superclass;
+  typedef ImageToImageFilter<TMovingImage, TFixedImage> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -109,8 +113,9 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro(FEMRegistrationFilter, ImageToImageFilter );
   
-  typedef TReference                                ImageType;
-  typedef TTarget                                   TargetImageType;
+  typedef TMovingImage                              MovingImageType;
+  typedef TMovingImage                              ImageType;
+  typedef TFixedImage                               FixedImageType;
   typedef typename ImageType::PixelType             ImageDataType;
   typedef typename ImageType::PixelType             PixelType;
   typedef typename ImageType::SizeType              ImageSizeType;
@@ -124,46 +129,49 @@ public:
   typedef SolverCrankNicolson                       SolverType;
   enum Sign { positive = 1, negative = -1 };
   typedef double                                    Float;
-   
+  typedef Load::ArrayType LoadArray;
+    
 
-  typedef MaterialLinearElasticity                  MaterialType;
-  typedef ImageToImageMetric<ImageType,TargetImageType>   MetricBaseType;
-  typedef typename MetricBaseType::Pointer          MetricBaseTypePointer;
+  typedef std::vector<typename LoadLandmark::Pointer> LandmarkArrayType;
   typedef itk::Vector<float,itkGetStaticConstMacro(ImageDimension)>         VectorType;
   typedef itk::Image<VectorType,itkGetStaticConstMacro(ImageDimension)>     FieldType;
   typedef itk::WarpImageFilter<ImageType,ImageType, FieldType> WarperType;
+  typedef MaterialLinearElasticity                  MaterialType;
   typedef itk::ImageRegionIteratorWithIndex<ImageType>         ImageIterator; 
+  typedef itk::ImageRegionIteratorWithIndex<FloatImageType>         FloatImageIterator; 
   typedef itk::ImageRegionIteratorWithIndex<FieldType>         FieldIterator; 
   typedef itk::VectorIndexSelectionCastImageFilter<FieldType,FloatImageType> IndexSelectCasterType;
 
+  typedef itk::VectorExpandImageFilter<FieldType,FieldType> ExpanderType;
+  typedef typename ExpanderType::ExpandFactorsType ExpandFactorsType;
+
+  typedef itk::RecursiveMultiResolutionPyramidImageFilter<FloatImageType,FloatImageType>
+    m_FixedPyramidType;
+
 /** Instantiate the load class with the correct image type. */
-  typedef  ImageMetricLoad<ImageType,ImageType>     ImageMetricLoadType;
-  
+//#define USEIMAGEMETRIC
+#ifdef  USEIMAGEMETRIC
+  typedef ImageToImageMetric<ImageType,FixedImageType>   MetricBaseType;
+  typedef  ImageMetricLoad<ImageType,ImageType>  ImageMetricLoadType;
+#else
+  typedef  FiniteDifferenceFunctionLoad<ImageType,ImageType>  ImageMetricLoadType;
+  typedef PDEDeformableRegistrationFunction<ImageType,FixedImageType,FieldType>   MetricBaseType;
+#endif
+  typedef typename MetricBaseType::Pointer          MetricBaseTypePointer;
   /* Main functions */
  
   /** Read the configuration file to set up the example parameters */
   bool      ReadConfigFile(const char*);
+  
 
   /** Call this to register two images. */
   void      RunRegistration(); 
   
-  /** Call this to write out images - a counter is attached to the 
+ /** Call this to write out images - a counter is attached to the 
   *  file name so we can output a numbered sequence tracking the deformation.
   */
   void      WriteWarpedImage(const char* fn);
 
-
-  /** Helper functions */
-
-  /** This function generates a regular mesh of ElementsPerSide^D size */
-  void      CreateMesh(double ElementsPerSide, Solver& S);
-
-  /** The loads are entered into the solver. */
-  void      ApplyLoads(SolverType& S,ImageSizeType Isz); 
-
-  /**  Builds the itpack linear system wrapper with appropriate parameters. 
-       Currently undefined */
-  void      CreateLinearSystemSolver();
 
   /** The solution loop */
   void      IterativeSolve(SolverType& S);  
@@ -171,49 +179,33 @@ public:
   /** The solution loop for a simple multi-resolution strategy. */
   void      MultiResSolve();
 
-  /** Evaluates the image similarity energy by calling the image metric */
-  Float     EvaluateEnergy();
- 
-  /** Interpolates the vector field over the domain.  
-    * Our convention is to always keep the vector field
-    * at the scale of the original images.
-    */
-  void      GetVectorField(SolverType& S); 
-
-  /** Calculates the metric over the domain given the vector field.  
-    */
-  FloatImageType*      GetMetricImage(FieldType* F); 
-  
-  /** This is used for changing between mesh resolutions. */
-  void      SampleVectorFieldAtNodes(SolverType& S);
-
   /** Applies the warp to the input image. */
-  void      WarpImage(ImageType* R);      
+  void      WarpImage(typename ImageType::Pointer R);      
 
   /** Writes the displacement field to a file. */
   int       WriteDisplacementField(unsigned int index);
 
   /** One can set the reference file names to read images from files */
-  void      SetReferenceFile(const char* r) {m_ReferenceFileName=r;}
+  void      SetMovingFile(const char* r) {m_MovingFileName=r;}
 
-  std::string GetReferenceFile() {return m_ReferenceFileName;}
+  std::string GetMovingFile() {return m_MovingFileName;}
   
-  void      SetTargetFile(const char* t) {m_TargetFileName=t;}
+  void      SetFixedFile(const char* t) {m_FixedFileName=t;}
   
-  std::string GetTargetFile() {return m_TargetFileName;}
+  std::string GetFixedFile() {return m_FixedFileName;}
 
   
   /** One can set the images directly to input images in an application */ 
   
   /** Define the reference (moving) image. */
-  void SetReferenceImage(ImageType* R);
+  void SetMovingImage(ImageType* R);
   
   /** Define the target (fixed) image. */
-  void SetTargetImage(TargetImageType* T);
+  void SetFixedImage(FixedImageType* T);
   
-  ImageType* GetReferenceImage(){return m_RefImg;}
+  ImageType* GetMovingImage(){return m_MovingImage;}
   
-  TargetImageType* GetTargetImage(){return m_TarImg;}
+  FixedImageType* GetFixedImage(){return m_FixedImage;}
   
   
   /** Get the reference image warped to the target image.
@@ -221,7 +213,7 @@ public:
   ImageType* GetWarpedImage(){return m_WarpedImage;}
 
   /** Compute the jacobian of the current deformation field.*/
-  void ComputeJacobian();
+  void ComputeJacobian(float sign=1.0, FieldType* field=NULL);
 
   /** Get the image that gives the jacobian of the deformation field. */
   FloatImageType* GetJacobianImage(){return m_FloatImage;}
@@ -242,6 +234,17 @@ public:
 
   /** This determines if the landmark file will be read */
   void      UseLandmarks(bool b) {m_UseLandmarks=b;}
+
+
+  /** We check the jacobian of the current deformation field. 
+      If it is < threshold, we begin diffeomorphism enforcement:
+        1)  Warp the moving image.
+        2)  Set the vector field to zero.
+        3)  Set the warped moving image as the new moving image, 
+            resizing if necessary. 
+    */
+  void      EnforceDiffeomorphism(float thresh , SolverType& S);
+
 
   /** The warped reference image will be written to this file name with 
       the extension "11.img" appended to it.  One can also output the 
@@ -319,6 +322,9 @@ public:
   /** Sets the use of multi-resolution strategy.  The control file always uses multi-res. */ 
   void      DoMultiRes(bool b) { m_DoMultiRes=b; } 
 
+  /** Sets the use of multi-resolution strategy.  The control file always uses multi-res. */ 
+  void      EmployRegridding(bool b) { m_EmployRegridding=b; } 
+
   /** This sets the line search's max iterations. */ 
   void      SetLineSearchMaximumIterations(unsigned int f) { m_LineSearchMaximumIterations=f; } 
   
@@ -334,14 +340,14 @@ public:
   
   std::string GetConfigFileName () {return m_ConfigFileName; }
   
-  ImageSizeType GetImageSize(){ return m_ImageSize; }
+  ImageSizeType GetImageSize(){ return m_FullImageSize; }
 
   /** Set/Get the Metric.  */
   MetricBaseTypePointer    GetMetric() { return m_Metric; }
   void      SetMetric(MetricBaseTypePointer MP) { m_Metric=MP; }
   
   /** Choose the metric by parameter : 0= mean squares, 1=cross correlation, 
-      2=Mean Reciprocal Square Difference, 3 = mutual information. */
+      2=pattern intensity, 3 = mutual information. */
   void      ChooseMetric( float whichmetric); 
   
   /** This function allows one to set the element and its material externally. */
@@ -350,7 +356,61 @@ public:
   /** This sets the pointer to the material. */
   void      SetMaterial(MaterialType::Pointer m) {m_Material=m;}
 
-  void      PrintVectorField();
+  void      PrintVectorField(unsigned int modnum=1000);
+
+  void      SetNumLevels(unsigned int i) { m_NumLevels=i; }
+  void      SetMaxLevel(unsigned int i) { m_MaxLevel=i; }
+
+  /** de/constructor */
+  FEMRegistrationFilter( ); 
+  ~FEMRegistrationFilter(); 
+
+// HELPER FUNCTIONS
+protected :
+
+  
+  /**
+   * Easy access to the FEMObjectFactory. We create a new class
+   * whose name is shorter and it's not templated...
+   */
+  class FEMOF : public FEMObjectFactory<FEMLightObject>{};
+
+ 
+  /** This function generates a regular mesh of ElementsPerSide^D size */
+  void      CreateMesh(double ElementsPerSide, Solver& S, ImageSizeType sz);
+
+  /** The non-image loads are entered into the solver. */
+  void      ApplyLoads(SolverType& S,ImageSizeType Isz,double* spacing=NULL); 
+
+  /** The image loads are entered into the solver. */
+  void      ApplyImageLoads(SolverType& S, MovingImageType* i1, FixedImageType* i2); 
+
+  
+  /**  Builds the itpack linear system wrapper with appropriate parameters. 
+       Currently undefined */
+  void      CreateLinearSystemSolver();
+
+  
+  /** Evaluates the image similarity energy by calling the image metric */
+  Float     EvaluateEnergy();
+ 
+  /** Interpolates the vector field over the domain.  
+    * Our convention is to always keep the vector field
+    * at the scale of the original images.
+    */
+  void      InterpolateVectorField(SolverType& S); 
+
+  /** Calculates the metric over the domain given the vector field.  
+    */
+  FloatImageType*      GetMetricImage(FieldType* F); 
+
+ 
+  /** Re-size the vector field (smaller to larger). */
+  typename FieldType::Pointer ExpandVectorField(ExpandFactorsType* expandFactors, FieldType* f);
+  
+
+  /** This is used for changing between mesh resolutions. */
+  void      SampleVectorFieldAtNodes(SolverType& S);
   
   Float EvaluateResidual(SolverType& mySolver,Float t);
 
@@ -366,23 +426,32 @@ public:
 //  itkSetMacro( Load, ImageMetricLoadType* );
   itkGetMacro( Load, ImageMetricLoadType* );
 
-  /** de/constructor */
-  FEMRegistrationFilter( ); 
-  ~FEMRegistrationFilter(); 
 
-protected :
+  void PrintSelf(std::ostream& os, Indent indent) const 
+  { 
+  Superclass::PrintSelf( os, indent );
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  if (m_Load)
+    {
+    os << indent << "Load = " << m_Load;
+    }
+  else
+    {
+    os << indent << "Load = " << "(None)" << std::endl;
+    }
+  }
 
 private :
+
+  void InitializeField();
 
   FEMRegistrationFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
     
   std::string      m_ConfigFileName;
   std::string      m_ResultsFileName;
-  std::string      m_ReferenceFileName;  
-  std::string      m_TargetFileName;
+  std::string      m_MovingFileName;  
+  std::string      m_FixedFileName;
   std::string      m_LandmarkFileName;
   std::string      m_DisplacementsFileName;
   std::string      m_MeshFileName;
@@ -400,6 +469,7 @@ private :
   unsigned int     m_MeshStep;  // Ratio Between Mesh Resolutions ( currently set to 2, should be >= 1)
   unsigned int     m_FileCount; // keeps track of number of files written
   unsigned int     m_CurrentLevel;
+  typename ImageType::SizeType     m_CurrentLevelImageSize; 
   unsigned int     m_WhichMetric;
  
   /** Stores the number of  pixels per element  of the mesh for each
@@ -412,6 +482,7 @@ private :
   vnl_vector<Float>     m_Gamma;   // image similarity weight
   Float     m_Energy; // current value of energy
   Float     m_MinE;  // minimum recorded energy
+  Float     m_MinJacobian;  // minimum recorded energy
   Float     m_Alpha; // difference parameter 
   /** Factor we want to reduce the energy by - determines convergence. */
   Float     m_EnergyReductionFactor; 
@@ -422,39 +493,45 @@ private :
   bool  m_UseLandmarks;
   bool  m_ReadMeshFile;
   bool  m_UseMassMatrix;
+  bool  m_EmployRegridding;
   Sign  m_DescentDirection;
 
-  ImageSizeType     m_ImageSize; // image size
+  ImageSizeType     m_FullImageSize; // image size
   ImageSizeType     m_ImageOrigin; // image size
   /** Gives the ratio of original image size to current image size - for dealing with multi-res.*/
   ImageSizeType     m_ImageScaling; 
   typename ImageType::RegionType   m_FieldRegion;
   typename ImageType::SizeType     m_FieldSize;
   typename FieldType::Pointer      m_Field;
-
+  // only use TotalField if re-gridding is employed.
+  typename FieldType::Pointer      m_TotalField;
   ImageMetricLoadType* m_Load; // Defines the load to use
    
   // define the warper
   typename WarperType::Pointer m_Warper; 
 
-  // declare a new image to hold the warped  reference
+ // declare a new image to hold the warped  reference
   typename ImageType::Pointer      m_WarpedImage;
   typename FloatImageType::Pointer      m_FloatImage;
   typename ImageType::RegionType   m_Wregion; 
   typename ImageType::IndexType    m_Windex;
  
-  // declare images for target and reference
-  typename ImageType::Pointer      m_RefImg;
-  typename ImageType::Pointer      m_TarImg;
-  typename ImageType::RegionType   m_Rregion;
-  typename ImageType::RegionType   m_Tregion;
-  typename ImageType::IndexType    m_Rindex;
-  typename ImageType::IndexType    m_Tindex;
+ // declare images for target and reference
+  typename ImageType::Pointer      m_MovingImage;
+  typename ImageType::Pointer      m_FixedImage;
 
   // element and metric pointers
   typename Element::Pointer        m_Element;
   typename MaterialType::Pointer   m_Material;
   MetricBaseTypePointer            m_Metric;
+
+
+  // multi-resolution stuff
+  typename m_FixedPyramidType::Pointer   m_FixedPyramid;
+  typename m_FixedPyramidType::Pointer   m_MovingPyramid;
+  
+  LandmarkArrayType    m_LandmarkArray;
+
  
 
 };
