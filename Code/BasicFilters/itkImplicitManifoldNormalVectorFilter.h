@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkImplicitManifoldNormalVectorFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+     =========================================================================*/
 #ifndef __itkImplicitManifoldNormalVectorFilter_h_
 #define __itkImplicitManifoldNormalVectorFilter_h_
 
@@ -95,21 +111,21 @@ public:
   typedef typename FiniteDifferenceFunctionType::RadiusType RadiusType;    
   
   /** This method is used to set the finite difference function. */
-  void SetNormalFunction (NormalFunctionType *nf);  
+  void SetNormalFunction( NormalFunctionType *nf );  
   
-  itkSetMacro (MaxIteration, unsigned int);
-  itkGetMacro (MaxIteration, unsigned int);
-  itkSetMacro (IsoLevelLow,  NodeValueType);
-  itkGetMacro (IsoLevelLow,  NodeValueType);
-  itkSetMacro (IsoLevelHigh, NodeValueType);
-  itkGetMacro (IsoLevelHigh, NodeValueType);
-  itkSetMacro (MinVectorNorm, NodeValueType);
-  itkGetMacro (MinVectorNorm, NodeValueType);
-  itkSetMacro (UnsharpMaskingFlag, bool);
-  itkGetMacro (UnsharpMaskingFlag, bool);
-  itkSetMacro (UnsharpMaskingWeight, NodeValueType);
-  itkGetMacro (UnsharpMaskingWeight, NodeValueType);
-  
+  itkSetMacro(MaxIteration, unsigned int);
+  itkGetMacro(MaxIteration, unsigned int);
+  itkSetMacro(IsoLevelLow,  NodeValueType);
+  itkGetMacro(IsoLevelLow,  NodeValueType);
+  itkSetMacro(IsoLevelHigh, NodeValueType);
+  itkGetMacro(IsoLevelHigh, NodeValueType);
+  itkSetMacro(MinVectorNorm, NodeValueType);
+  itkGetMacro(MinVectorNorm, NodeValueType);
+  itkSetMacro(UnsharpMaskingFlag, bool);
+  itkGetMacro(UnsharpMaskingFlag, bool);
+  itkSetMacro(UnsharpMaskingWeight, NodeValueType);
+  itkGetMacro(UnsharpMaskingWeight, NodeValueType);
+ 
 protected:   
   ImplicitManifoldNormalVectorFilter();  
   ~ImplicitManifoldNormalVectorFilter() {};
@@ -119,11 +135,11 @@ protected:
   virtual void Initialize();
 
   /** This function sets the band for normal vector processing. */
-  void SetNormalBand ();
+  void SetNormalBand();
   
   /** This function precomputes information for normal vector processing .*/
-  void InitializeNormalBandNode (NormalBandNodeType *node,
-                                 const InputImageIteratorType &it);
+  void InitializeNormalBandNode( NormalBandNodeType *node,
+                                 const InputImageIteratorType &it );
   
   /** This function does nothing. The output initialization
       is handled by Initialize. */
@@ -161,7 +177,7 @@ private:
 
 protected:
   /** This function implements the unit norm constraint for normal vectors. */  
-  virtual NormalVectorType DataConstraint (const NormalVectorType &data) const 
+  virtual NormalVectorType DataConstraint( const NormalVectorType &data ) const 
   {
     return (data / (m_MinVectorNorm + data.GetNorm()));
   }
@@ -174,7 +190,7 @@ protected:
 public:
   /** This is the stopping criterion function used in the iterative finite
       difference scheme. */
-  virtual bool Halt ()
+  virtual bool Halt()
   {
     if (this->GetElapsedIterations()==m_MaxIteration) return true;
     else return false;

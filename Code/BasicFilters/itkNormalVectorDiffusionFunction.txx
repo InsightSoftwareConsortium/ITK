@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkNormalVectorDiffusionFunction.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+     =========================================================================*/
 #ifndef __itkNormalVectorDiffusionFunction_txx_
 #define __itkNormalVectorDiffusionFunction_txx_
 
@@ -38,7 +54,7 @@ NormalVectorDiffusionFunction <TSparseImageType>
 template <class TSparseImageType>
 void
 NormalVectorDiffusionFunction <TSparseImageType>
-::PrecomputeSparseUpdate (NeighborhoodType &it) const 
+::PrecomputeSparseUpdate( NeighborhoodType &it ) const 
 {
   unsigned int i, j, k;
   NodeValueType DotProduct;
@@ -156,8 +172,8 @@ NormalVectorDiffusionFunction <TSparseImageType>
 template <class TSparseImageType>
 typename NormalVectorDiffusionFunction <TSparseImageType>::NormalVectorType
 NormalVectorDiffusionFunction <TSparseImageType>
-::ComputeSparseUpdate (NeighborhoodType &it,
-                       void*, const FloatOffsetType&) const
+::ComputeSparseUpdate( NeighborhoodType &it,
+                       void*, const FloatOffsetType& ) const
 {
   unsigned int i;
   NormalVectorType change;

@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkNormalVectorDiffusionFunction.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+     =========================================================================*/
 #ifndef __itkNormalVectorDiffusionFunction_h_
 #define __itkNormalVectorDiffusionFunction_h_
 
@@ -42,11 +58,11 @@ public:
       parameter value of 0 indicates isotropic diffusion and is the
       default. Parameter value 1 is anisotropic diffusion. When using
       anisotropic diffusion the conductance parameter should also be set. */
-  void SetNormalProcessType (int npt)
+  void SetNormalProcessType( int npt )
   { m_NormalProcessType = npt; }
 
   /** This method returns the isotropic/anisotropic filtering parameter. */
-  int GetNormalProcessType () const 
+  int GetNormalProcessType() const 
   { return m_NormalProcessType; }
 
   /** This method sets the conductance parameter used in anisotropic
@@ -54,7 +70,7 @@ public:
    *  0.1 and 0.25. Lower values preserve more shape features, higher values
    *  smooth more. As the conductance parameter large, the processing becomes
    *  isotropic. Default is 0. */
-  void SetConductanceParameter (NodeValueType cp)
+  void SetConductanceParameter( NodeValueType cp )
   {
     m_ConductanceParameter = cp + static_cast<NodeValueType> (0.001);
     // we add a minimum conductance to avoid divide by zero
@@ -64,18 +80,18 @@ public:
   }
 
   /** This method returns the conductance parameter. */
-  NodeValueType GetConductanceParameter () const
+  NodeValueType GetConductanceParameter() const
   { return m_ConductanceParameter; }
 
   /** This method returns the internal variable FluxStopConstant. */
-  NodeValueType GetFluxStopConstant () const
+  NodeValueType GetFluxStopConstant() const
   { return m_FluxStopConstant; }
   
   /** This function is called from LevelSetNormalImageFilter for all of the
    *  nodes to compute and store the flux vectors (first derivatives of the
    *  normal vectors. ComputeUpdateNormal then takes derivatives of the flux
    *  vectors. This way we avoid repeating the same flux computations. */
-  virtual void PrecomputeSparseUpdate (NeighborhoodType &it) const;
+  virtual void PrecomputeSparseUpdate( NeighborhoodType &it ) const;
 
   /** The actual update rule for the normal vectors. */
   virtual NormalVectorType ComputeSparseUpdate (NeighborhoodType &neighborhood,
@@ -97,7 +113,7 @@ protected:
 
   /** The method called in anisotropic diffusion to inhibit diffusion across
       areas with large curvature. */
-  NodeValueType FluxStopFunction (const NodeValueType v) const
+  NodeValueType FluxStopFunction( const NodeValueType v ) const
   {
     // the slow ::exp function could be replaced with a lookup table
     if (v<=0.0) return NumericTraits<NodeValueType>::One;

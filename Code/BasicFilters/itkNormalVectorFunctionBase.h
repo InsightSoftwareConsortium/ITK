@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkNormalVectorFunctionBase.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+     =========================================================================*/
 #ifndef __itkNormalVectorFunctionBase_h_
 #define __itkNormalVectorFunctionBase_h_
 
@@ -66,18 +82,18 @@ public:
   
   /** Globaldata methods are not needed in this class. */
   virtual void *GetGlobalDataPointer() const {return 0;}
-  virtual void ReleaseGlobalDataPointer(void*) const {};
+  virtual void ReleaseGlobalDataPointer( void* ) const {};
   
   /** For the global time step, we return the time step parameter. */
-  virtual TimeStepType ComputeGlobalTimeStep (void*) const
+  virtual TimeStepType ComputeGlobalTimeStep( void* ) const
   { return m_TimeStep; }
 
   /** Sets the time step. */
-  void SetTimeStep (const TimeStepType &ts)
+  void SetTimeStep( const TimeStepType &ts )
   { m_TimeStep = ts; }
 
   /** Returns the time step. */
-  TimeStepType GetTimeStep () const
+  TimeStepType GetTimeStep() const
   { return m_TimeStep; } 
 
 protected:

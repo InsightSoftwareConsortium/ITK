@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkImplicitManifoldNormalVectorFilter.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+     =========================================================================*/
 #ifndef __itkImplicitManifoldNormalVectorFilter_txx_
 #define __itkImplicitManifoldNormalVectorFilter_txx_
 
@@ -10,7 +26,7 @@ namespace itk {
 
 template <class TInputImage, class TSparseOutputImage>
 ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>
-::ImplicitManifoldNormalVectorFilter ()
+::ImplicitManifoldNormalVectorFilter()
 {
   this->SetPrecomputeFlag(true);
   m_NormalFunction = 0;
@@ -55,7 +71,7 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>
 template <class TInputImage, class TSparseOutputImage>
 void 
 ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>
-::SetNormalFunction (NormalFunctionType *nf)
+::SetNormalFunction( NormalFunctionType *nf )
 {
   m_NormalFunction = nf;
   Superclass::SetSparseFunction (nf);
@@ -64,7 +80,7 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>
 template <class TInputImage, class TSparseOutputImage>
 void
 ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>
-::Initialize () 
+::Initialize() 
 {
   SetNormalBand();   
 
@@ -76,7 +92,7 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>
 template <class TInputImage, class TSparseOutputImage>
 void
 ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>
-::SetNormalBand ()
+::SetNormalBand()
 {
   typename InputImageType::ConstPointer ManifoldImage = this->GetInput();
   typename SparseOutputImageType::Pointer output = this->GetOutput();
@@ -107,8 +123,8 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>
 template <class TInputImage, class TSparseOutputImage>
 void
 ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>
-::InitializeNormalBandNode (NormalBandNodeType *node,
-                            const InputImageIteratorType &it)
+::InitializeNormalBandNode( NormalBandNodeType *node,
+                            const InputImageIteratorType &it )
 {
   unsigned int i, j, k;
   unsigned int counter;
