@@ -200,13 +200,13 @@ void VOLImageIO::ReadImageInformation()
 
   ReadData(fp, m_File_rev, 12, 4);
   if      (strcmp(m_File_rev, "V1.0       ")==0) ReadVersion1_0(fp);
-  else if (strcmp(m_File_rev, "V1.1       ")==0)	ReadVersion1_1(fp);
-  else if ((strcmp(m_File_rev, "V2.1       ")==0) || (strcmp(m_File_rev, "V2.2       ")==0))	ReadVersion2_1(fp);
-  else if (strcmp(m_File_rev, "V2.3       ")==0)	ReadVersion2_3(fp);
+  else if (strcmp(m_File_rev, "V1.1       ")==0)  ReadVersion1_1(fp);
+  else if ((strcmp(m_File_rev, "V2.1       ")==0) || (strcmp(m_File_rev, "V2.2       ")==0))  ReadVersion2_1(fp);
+  else if (strcmp(m_File_rev, "V2.3       ")==0)  ReadVersion2_3(fp);
   else
     {
     itkErrorMacro("Cannot read version " << m_File_rev << " in file " 
-							    << this->GetFileName() << " -- will try to read as V2.3");
+                  << this->GetFileName() << " -- will try to read as V2.3");
     ReadVersion2_3(fp);
     }
 

@@ -46,20 +46,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-	
+  
 void VOLImageIOFactory::PrintSelf(std::ostream& os, Indent indent) const
 {
   
 }
 VOLImageIOFactory::VOLImageIOFactory()
 {
-	
+  
   this->RegisterOverride("itkImageIOBase",
                          "itkVOLImageIO",
                          "VOL Image IO",
                          1,
                          new CreateObjectFunction<VOLImageIO>);
-												 
+                         
 }
 VOLImageIOFactory::~VOLImageIOFactory()
 {

@@ -58,7 +58,7 @@ public:
   /**
    * Standard "Self" typedef.
    */
-	typedef VOLImageIOFactory   Self;
+  typedef VOLImageIOFactory   Self;
 
   /**
    * Standard "Superclass" typedef.
@@ -81,8 +81,8 @@ public:
    * Run-time type information (and related methods).
    */
   itkTypeMacro(VOLImageIOFactory, ObjectFactoryBase);
-	
-	/**
+  
+  /**
    * Method for creation through the object factory.
    */
   static VOLImageIOFactory* New()
