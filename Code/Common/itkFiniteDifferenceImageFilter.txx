@@ -179,8 +179,10 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
-  os << "DifferenceFunction: " << m_DifferenceFunction << std::endl;
+  os << indent << "ElapsedIterations: " << m_ElapsedIterations;
+  os << std::endl;
+  os << indent << "DifferenceFunction: " << m_DifferenceFunction;
+  os << std::endl;
 }
 
 

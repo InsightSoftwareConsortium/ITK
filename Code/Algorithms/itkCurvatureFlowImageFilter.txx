@@ -51,9 +51,10 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "CurvatureFlowImageFilter";
   os << indent << "Number of Iterations: " << m_NumberOfIterations;
+  os << std::endl;
   os << indent << "Time step: " << m_TimeStep;
+  os << std::endl;
 }
 
 

@@ -93,7 +93,6 @@ int main()
 
   denoiser->Update();
 
-
   std::cout << "Run CurvatureFlowImageFilter using streamer" << std::endl;
   typedef itk::CastImageFilter<ImageType,ImageType> CasterType;
   CasterType::Pointer caster = CasterType::New();
@@ -131,6 +130,9 @@ int main()
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
+
+  // Exercise other member functions here
+  denoiser->Print( std::cout );
  
   itk::VTKImageIO::Pointer vtkIO;
   vtkIO = itk::VTKImageIO::New();
