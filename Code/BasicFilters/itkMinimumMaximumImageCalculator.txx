@@ -48,7 +48,7 @@ void
 MinimumMaximumImageCalculator<TInputImage>
 ::Compute(void)
 {
-  if( m_RegionSetByUser )
+  if( !m_RegionSetByUser )
     {
     m_Region = m_Image->GetRequestedRegion();
     }
@@ -84,7 +84,7 @@ void
 MinimumMaximumImageCalculator<TInputImage>
 ::ComputeMinimum(void)
 {
-  if( m_RegionSetByUser )
+  if( !m_RegionSetByUser )
     {
     m_Region = m_Image->GetRequestedRegion();
     }
@@ -112,7 +112,7 @@ void
 MinimumMaximumImageCalculator<TInputImage>
 ::ComputeMaximum(void)
 {
-  if( m_RegionSetByUser )
+  if( !m_RegionSetByUser )
     {
     m_Region = m_Image->GetRequestedRegion();
     }
