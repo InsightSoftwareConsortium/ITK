@@ -14,6 +14,7 @@ ITKCommon
 )
 
 TESTS(
+itkAffineTransformMeshFilterTest
 itkAsinImageFilterAndAdaptorTest
 itkAcosImageFilterAndAdaptorTest
 itkAtanImageFilterAndAdaptorTest
