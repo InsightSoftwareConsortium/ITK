@@ -24,11 +24,13 @@
 #include <fstream>
 #include "itkImageIOBase.h"
 #include <stdio.h>
-#include <zlib.h>
 
 namespace itk
 {
 
+class GiplImageIOInternals;
+  
+  
 /** \brief Read GiplImage file format. 
  *
  *  \ingroup IOFilters
@@ -88,7 +90,7 @@ private:
   std::ifstream   m_Ifstream;
   std::ofstream   m_Ofstream;
   bool            m_IsCompressed;
-  gzFile          m_GzFile;
+  GiplImageIOInternals * m_Internal;
 };
 
 } // end namespace itk
