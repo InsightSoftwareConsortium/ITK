@@ -174,8 +174,9 @@ ENDIF(ITK_CSWIG_TCL)
 
 IF(ITK_CSWIG_PYTHON)
   INCLUDE(${CMAKE_ROOT}/Modules/FindPythonLibs.cmake)
+MESSAGE("$ENV{PATH} ${PYTHON_EXECUTABLE}")
   FIND_PROGRAM(PYTHON_EXECUTABLE
-    NAMES python2.3 python2.2 python2.1 python2.0 python1.6 python1.5 python
+    NAMES python python2.3 python2.2 python2.1 python2.0 python1.6 python1.5 
     PATHS
     [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.3\\InstallPath]
     [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.2\\InstallPath]
