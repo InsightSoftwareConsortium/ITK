@@ -49,7 +49,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
 {
   if(!m_Image || !m_SpatialObject)
     {
-    itkExceptionMacro("SpatialObjectToImageStatisticsCalculator: Please set the image AND the spatialb object first.");
+    itkExceptionMacro("SpatialObjectToImageStatisticsCalculator: Please set the image AND the spatial object first.");
     }
 
   // Update only if the image or the spatial object has been modified
@@ -67,6 +67,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
 
   // Get the bounding box
   typename SpatialObjectType::BoundingBoxType::Pointer boundingBox;
+  m_SpatialObject->ComputeBoundingBox();
   boundingBox = m_SpatialObject->GetBoundingBox();
   
   Point<double,itkGetStaticConstMacro(ObjectDimension)> pt;
@@ -77,8 +78,6 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
 
   IndexType index;
   
-  pt = m_SpatialObject->GetIndexToWorldTransform()->TransformPoint(pt);
-
   // We should remove the spacing and the origin of the image since the FloodFill iterator is
   // considering them.
   for(unsigned int i=0;i<itkGetStaticConstMacro(ObjectDimension);i++)
