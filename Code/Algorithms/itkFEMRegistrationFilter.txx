@@ -1533,6 +1533,22 @@ Element::Float FEMRegistrationFilter<TReference,TTarget>::GoldenSection(SolverTy
   return fabs((double)fmin); 
 }
 
+template<class TReference,class TTarget>
+void
+FEMRegistrationFilter<TReference,TTarget>::
+PrintSelf(std::ostream& os, Indent indent) const 
+{ 
+  Superclass::PrintSelf( os, indent );
+
+  if (m_Load)
+    {
+    os << indent << "Load = " << m_Load;
+    }
+  else
+    {
+    os << indent << "Load = " << "(None)" << std::endl;
+    }
+}
 
 
 }} // end namespace itk::fem

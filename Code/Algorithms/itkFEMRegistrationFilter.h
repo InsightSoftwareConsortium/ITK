@@ -372,11 +372,7 @@ public:
 
 protected :
 
-  void PrintSelf(std::ostream& os, Indent indent) const 
-  { 
-      std::cout << "FEM registration filter "<< std::endl;
-      Superclass::PrintSelf( os, indent );
-  }
+void PrintSelf(std::ostream& os, Indent indent) const;
 
 private :
 
