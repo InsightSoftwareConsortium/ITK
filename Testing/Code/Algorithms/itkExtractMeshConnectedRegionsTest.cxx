@@ -51,7 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // A mesh with no pixel data.
 typedef itk::Mesh<int>  Mesh;
 typedef itk::ConnectedRegionsMeshFilter<Mesh,Mesh> Connect;
-
+typedef itk::Point<float,3> Point;
 
 /*
  * Test the mesh connectivity class.
@@ -66,8 +66,15 @@ int main(void)
   
   // Pass the mesh through the filter in a variety of ways.
   //
+  Point p; p = 1,2,3;
   Connect::Pointer connect(Connect::New());
   connect->SetInput(inMesh);
+  connect->SetClosestPoint(p);
+  connect->AddSeed(0);
+  connect->InitializeSeedList();
+  connect->AddSeed(1);
+  connect->AddSeed(2);
+  connect->DeleteSeed(1);
 
   return 0;  
 }

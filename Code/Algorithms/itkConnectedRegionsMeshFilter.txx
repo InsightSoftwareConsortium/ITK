@@ -48,7 +48,7 @@ namespace itk
 {
 
 /**
- *
+ * ------------------------------------------------
  */
 template <class TInputMesh, class TOutputMesh>
 ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
@@ -57,9 +57,59 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
   m_ExtractionMode = Self::LargestRegion;
 }
 
+/**
+ * ------------------------------------------------
+ */
+template <class TInputMesh, class TOutputMesh>
+void
+ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
+::DeleteSeed(unsigned long id)
+{
+  std::vector<unsigned long> tmpVector;
+  std::vector<unsigned long>::iterator i;
+  
+  for ( i = m_SeedList.begin(); i != m_SeedList.end(); ++i)
+    {
+    if ( *i != id )
+      {
+      tmpVector.push_back(*i);
+      }
+    }
+  m_SeedList.clear();
+  for ( i = tmpVector.begin(); i != tmpVector.end(); ++i)
+    {
+    m_SeedList.push_back(*i);
+    }
+}
 
 /**
- *
+ * ------------------------------------------------
+ */
+template <class TInputMesh, class TOutputMesh>
+void
+ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
+::DeleteSpecifiedRegion(unsigned long id)
+{
+  std::vector<unsigned long> tmpVector;
+  std::vector<unsigned long>::iterator i;
+  
+  for ( i = m_RegionList.begin(); i != m_RegionList.end(); ++i)
+    {
+    if ( *i != id )
+      {
+      tmpVector.push_back(*i);
+      }
+    }
+  m_RegionList.clear();
+  for ( i = tmpVector.begin(); i != tmpVector.end(); ++i)
+    {
+    m_RegionList.push_back(*i);
+    }
+}
+
+
+/**
+ * ------------------------------------------------
  */
 template <class TInputMesh, class TOutputMesh>
 void 
@@ -104,7 +154,8 @@ void
 ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
 ::GenerateData()
 {
-  itkDebugMacro(<<"Actually executing");
+  itkDebugMacro(<<"Executing connectivity");
+
 }
 
 } // end namespace itk

@@ -94,6 +94,14 @@ public:
          ClosestPointRegion = 5 };
   
   /**
+   * Special typedefs for this filter
+   */
+  typedef TInputMesh InputMeshType;
+  typedef TOutputMesh OutputMeshType;
+  enum {PointDimension = TInputMesh::PointDimension};
+  typedef typename TInputMesh::PointType PointType;
+
+  /**
    * Methods specify mode of operation for the filter. Note that
    * some modes require additional information. For example, 
    * SetExtractionModeToClosestPointRegion() also requires that
@@ -114,6 +122,60 @@ public:
   void SetExtractionModeToClosestPointRegion ()
     {this->SetExtractionMode(Self::ClosestPointRegion);}
 
+  /**
+   * Initialize list of point ids/cell ids used to seed regions.
+   */
+  void InitializeSeedList()
+    {this->Modified(); m_SeedList.clear();}
+
+  /**
+   * Add a seed id (point or cell id). Note: ids are 0-offset.
+   */
+  void AddSeed(unsigned long id)
+    {this->Modified(); m_SeedList.push_back(id);}
+
+  /**
+   * Delete a seed id (point or cell id). Note: ids are 0-offset.
+   */
+  void DeleteSeed(unsigned long id);
+
+  /**
+   * Initialize list of region ids to extract.
+   */
+  void InitializeSpecifiedRegionList()
+    {this->Modified(); m_RegionList.clear();}
+
+  /**
+   * Add a region id to extract. Note: ids are 0-offset.
+   */
+  void AddSpecifiedRegion(unsigned long id)
+    {this->Modified(); m_RegionList.push_back(id);}
+
+  /**
+   * Delete a region id to extract. Note: ids are 0-offset.
+   */
+  void DeleteSpecifiedRegion(unsigned long id);
+
+  /**
+   * Use to specify x-y-z point coordinates when extracting the region 
+   * closest to a specified point.
+   */
+  void SetClosestPoint(PointType& p)
+    {
+      if ( m_ClosestPoint != p )
+        {
+        m_ClosestPoint = p;
+        this->Modified();
+        }
+    }
+  PointType& GetClosestPoint(PointType& p) const
+    {return m_ClosestPoint;}
+
+  /**
+   * Obtain the number of connected regions.
+   */
+  unsigned long GetNumberOfExtractedRegions();
+
 protected:
   ConnectedRegionsMeshFilter();
   virtual ~ConnectedRegionsMeshFilter() {};
@@ -124,9 +186,12 @@ protected:
   virtual void GenerateData();
 
 private:  
-  int m_ExtractionMode;
+  int                        m_ExtractionMode;
+  PointType                  m_ClosestPoint;
+  std::vector<unsigned long> m_SeedList;
+  std::vector<unsigned long> m_RegionList;
+  std::vector<unsigned long> m_RegionSizes;
   
-
 }; // class declaration
 
 } // end namespace itk
