@@ -183,7 +183,7 @@ protected:
       p->SetAdvectionWeight(0.0);
       p->SetCurvatureWeight(1.0);
       this->SetDifferenceFunction(p);
-
+      m_Iterations = 0;
     }
   MorphFilter(const Self &) {}
   
