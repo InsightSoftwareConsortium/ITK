@@ -183,20 +183,12 @@ void RawImageIO<TPixel,VImageDimension>
   
   if ( m_FileType == Binary )
     {
-    // Read the image (binary) 
-    file.read((char *)buffer, numberOfBytesToBeRead );
-    const unsigned long numberOfBytesRead = file.gcount();
-#ifdef __APPLE_CC__
-    // fail() is broken in the Mac. It returns true when reaches eof().
-    if ( numberOfBytesRead != numberOfBytesToBeRead )
-#else
-    if ( ( numberOfBytesRead != numberOfBytesToBeRead )  || file.fail() )
-#endif
+    if( !this->ReadBufferAsBinary( file, buffer, numberOfBytesToBeRead ) )
       {
       itkExceptionMacro(<<"Read failed: Wanted " 
                         << numberOfBytesToBeRead
                         << " bytes, but read " 
-                        << numberOfBytesRead << " bytes.");
+                        << file.gcount() << " bytes.");
       }
     }
   else
