@@ -19,8 +19,6 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkConstSmartNeighborhoodIterator.h"
-#include "itkSmartNeighborhoodIterator.h"
 #include "itkNeighborhood.h"
 #include "itkConstSliceIterator.h"
 #include "itkImageBoundaryCondition.h"
@@ -66,8 +64,6 @@ namespace itk {
  * \sa BinaryDilateImageFilter
  * \sa GrayScaleErodeImageFilter
  * \sa GrayScaleDilateImageFilter
- * \sa SmartNeighborhoodIterator
- * \sa SmartNeighborhood
  * \sa NeighborhoodIterator
  * \sa Neighborhood
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
@@ -102,13 +98,9 @@ public:
   /** Neighborhood iterator type. */
   typedef ConstNeighborhoodIterator<TInputImage> 
     InputNeighborhoodIteratorType ;
-  typedef ConstSmartNeighborhoodIterator<TInputImage> 
-    InputSmartNeighborhoodIteratorType ;
 
   typedef NeighborhoodIterator<TOutputImage> 
     OutputNeighborhoodIteratorType ;
-  typedef SmartNeighborhoodIterator<TOutputImage> 
-    OutputSmartNeighborhoodIteratorType ;
 
   /** Kernel typedef. */
   typedef TKernel KernelType;
@@ -149,28 +141,14 @@ protected:
                               int threadId) ;
 
   /** Evaluate image neighborhood with kernel to find the new value 
-   * for the center pixel value. This version is used for boundary
-   * pixels - i.e., pixels in the first facelist of an image. */
-  virtual void Evaluate(OutputSmartNeighborhoodIteratorType &nit,
-                             const KernelType &kernel)=0;
-
-  /** Evaluate image neighborhood with kernel to find the new value 
-   * for the center pixel value. This version is used for non-boundary
-   * pixels - i.e., pixels at which the kernel won't exit the image */
+   * for the center pixel value. */
   virtual void Evaluate(OutputNeighborhoodIteratorType &nit,
                              const KernelType &kernel)=0;
 
   /** Evaluate a pixel (assumed to have a value of ObjectValue) to 
    * determine if one of its neighboring pixels (8-neigh in 2d, etc) is a 
-   * non-ObjectValue pixel. This version is used for non-boundary
-   * pixels - i.e., pixels at which the kernel won't exit the image */
+   * non-ObjectValue pixel. */
   bool IsObjectPixelOnBoundary(const InputNeighborhoodIteratorType &nit);
-
-  /** Evaluate a pixel (assumed to have a value of ObjectValue) to 
-   * determine if one of its neighboring pixels (8-neigh in 2d, etc) is a 
-   * non-ObjectValue pixel. This version is used for boundary
-   * pixels - i.e., pixels at which the kernel will exit the image */
-  bool IsObjectPixelOnBoundary(const InputSmartNeighborhoodIteratorType &nit);
 
   /** kernel or structuring element to use. */
   KernelType m_Kernel ;

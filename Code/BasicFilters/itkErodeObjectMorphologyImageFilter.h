@@ -69,8 +69,6 @@ public:
  
   typedef NeighborhoodIterator<TOutputImage>
           OutputNeighborhoodIteratorType ;
-  typedef SmartNeighborhoodIterator<TOutputImage>
-          OutputSmartNeighborhoodIteratorType ;
 
   /** Set the value to be assigned to eroded pixels */
   itkSetMacro(BackgroundValue, PixelType);
@@ -86,25 +84,10 @@ protected:
   /** Apply the kernel to the neighborhood given.
    *
    * All values in neighborhood covered by the kernel will be set to the
-   * background value.
-   *
-   * Bounds checking is NOT performed - i.e., kernel is assumed to
-   * exist within the image.
-   */
+   * background value.  */
   void Evaluate(OutputNeighborhoodIteratorType &nit,
                 const KernelType &kernel);
 
-  /** Apply the kernel to the neighborhood given.
-   *
-   * All values in neighborhood covered by the kernel will be set to the
-   * background value.
-   *
-   * Bounds checking is performed - i.e., kernel is NOT assumed to
-   * exist within the image.
-   */
-  void Evaluate(OutputSmartNeighborhoodIteratorType &nit,
-                const KernelType &kernel);
-  
 private:
   ErodeObjectMorphologyImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

@@ -37,25 +37,6 @@ DilateObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   KernelIteratorType kernel_it;
   const KernelIteratorType kernelEnd = kernel.End();
 
-  for (i=0, kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++i)
-    {
-    if(*kernel_it>0)
-      {
-      nit.SetPixel(i, m_ObjectValue);
-      }
-    }
-} 
-
-template<class TInputImage, class TOutputImage, class TKernel>
-void
-DilateObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-::Evaluate(OutputSmartNeighborhoodIteratorType &nit,
-           const KernelType &kernel)
-{
-  unsigned int i;
-  KernelIteratorType kernel_it;
-  const KernelIteratorType kernelEnd = kernel.End();
-
   bool valid = true;
   for (i=0, kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++i)
     {
@@ -65,7 +46,6 @@ DilateObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
       }
     }
 } 
-
 
 template<class TInputImage, class TOutputImage, class TKernel>
 void

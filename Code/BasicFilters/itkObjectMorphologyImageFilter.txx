@@ -133,44 +133,17 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   ProgressReporter progress(this, threadId,
                             outputRegionForThread.GetNumberOfPixels());
 
-  // Process the boundary faces, these are N-d regions which border the
-  // edge of the buffer
-  fit = faceList.begin();
-
-  // First face is completely within the image, So use faster
-  // Neighborhood iterators
-  OutputNeighborhoodIteratorType oNIter(m_Kernel.GetRadius(),
-                                        this->GetOutput(), *fit);
-  InputNeighborhoodIteratorType iNIter(bKernelSize, this->GetInput(), *fit);
-  iNIter.GoToBegin();
-  oNIter.GoToBegin();
-  while(!oNIter.IsAtEnd())
-    {
-    if (iNIter.GetCenterPixel() == m_ObjectValue)
-      {
-      if(this->IsObjectPixelOnBoundary(iNIter))
-        {
-        this->Evaluate(oNIter, m_Kernel);
-        }
-      }
-    ++iNIter;
-    ++oNIter;
-    progress.CompletedPixel();
-    }
-
-  // At pixels in the remaining faces of the image, the kernel will extend
-  // outside of the image, so use Smart Neighborhood iterators.
-  OutputSmartNeighborhoodIteratorType oSNIter;
-  InputSmartNeighborhoodIteratorType iSNIter;
-  for (; fit != faceList.end(); ++fit)
+  OutputNeighborhoodIteratorType oSNIter;
+  InputNeighborhoodIteratorType iSNIter;
+  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    oSNIter = OutputSmartNeighborhoodIteratorType(m_Kernel.GetRadius(),
-                                                 this->GetOutput(), *fit);
+    oSNIter = OutputNeighborhoodIteratorType(m_Kernel.GetRadius(),
+                                             this->GetOutput(), *fit);
     oSNIter.OverrideBoundaryCondition(&BC);
     oSNIter.GoToBegin();
 
-    iSNIter = InputSmartNeighborhoodIteratorType(bKernelSize,
-                                                this->GetInput(), *fit);
+    iSNIter = InputNeighborhoodIteratorType(bKernelSize,
+                                            this->GetInput(), *fit);
     iSNIter.OverrideBoundaryCondition(&BC);
     iSNIter.GoToBegin();
     
@@ -197,32 +170,14 @@ bool
 ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::IsObjectPixelOnBoundary(const InputNeighborhoodIteratorType &iNIter)
   {
-  static const unsigned int s = (unsigned int)pow(static_cast<float>(3), static_cast<float>(ImageDimension));
+  static const unsigned int s =
+             (unsigned int)pow(static_cast<float>(3),
+                               static_cast<float>(ImageDimension));
 
   unsigned int i;
   for(i=0; i<s; i++)
     {
     if(iNIter.GetPixel(i) != m_ObjectValue)
-      {
-      return true;
-      }
-    }
-
-  return false;
-  }
-
-// Use smar neighborhood iter to determine if pixel touches a non-object pixel
-template<class TInputImage, class TOutputImage, class TKernel>
-bool
-ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-::IsObjectPixelOnBoundary(const InputSmartNeighborhoodIteratorType &iSNIter)
-  {
-  static const unsigned int s = (unsigned int)pow(static_cast<float>(3), static_cast<float>(ImageDimension));
-
-  unsigned int i;
-  for(i=0; i<s; i++)
-    {
-    if(iSNIter.GetPixel(i) != m_ObjectValue)
       {
       return true;
       }

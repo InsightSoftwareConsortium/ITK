@@ -70,9 +70,6 @@ public:
   /** duplicates from base class to avoid compiler warnings */
   typedef NeighborhoodIterator<TOutputImage>
           OutputNeighborhoodIteratorType ;
-  /** duplicates from base class to avoid compiler warnings */
-  typedef SmartNeighborhoodIterator<TOutputImage>
-          OutputSmartNeighborhoodIteratorType ;
 
 protected:
   DilateObjectMorphologyImageFilter();
@@ -82,25 +79,10 @@ protected:
   /** Apply the kernel to the neighborhood given.
    *
    * All values in neighborhood covered by the kernel will be set to the
-   * object value.
-   *
-   * No image bounds checking is performed - i.e., kernel is assumed to
-   * exist within the image.
-   */
+   * object value.  */
   void Evaluate(OutputNeighborhoodIteratorType &nit,
                 const KernelType &kernel);
 
-  /** Apply the kernel to the neighborhood given.
-   *
-   * All values in neighborhood covered by the kernel will be set to the
-   * object value.
-   *
-   * Bounds checking is performed - i.e., kernel is NOT assumed to
-   * exist within the image.
-   */
-  void Evaluate(OutputSmartNeighborhoodIteratorType &nit,
-                const KernelType &kernel);
-  
 private:
   DilateObjectMorphologyImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
