@@ -72,7 +72,7 @@ namespace itk
  * objects that define a portion of an image via a starting index for the image
  * array and a size. The ivar LargestPossibleRegion defines the size and
  * starting index of the image dataset. The entire image dataset, however,
- * may not resident in memory. The region of the image that is resident in
+ * need not be resident in memory. The region of the image that is resident in
  * memory is defined by the "BufferedRegion". The Buffer is a contiguous block
  * of memory.  The third set of meta-data defines a region of interest, called
  * the "RequestedRegion". The RequestedRegion is used by the pipeline
@@ -85,16 +85,17 @@ namespace itk
  * methods or can be accessed via iterators.  Begin() creates
  * an iterator that can walk a specified region of a buffer.
  *
- * The pixel type may be one of the native types; or it can be a 
- * Insight-defined class type such as Vector; or a
- * user-defined type. Note that depending on the type of pixel that you use,
- * the process objects (i.e., those filters processing data objects), may not
- * operate on the image and/or pixel type. This becomes apparant at 
- * compile-time because operator overloading (for the pixel type) is 
- * not supported.
+ * The pixel type may be one of the native types; a Insight-defined
+ * class type such as Vector; or a user-defined type. Note that
+ * depending on the type of pixel that you use, the process objects
+ * (i.e., those filters processing data objects) may not operate on
+ * the image and/or pixel type. This becomes apparent at compile-time
+ * because operator overloading (for the pixel type) is not supported.
  *
  * The data in an image is arranged in a 1D array as [][][][slice][row][col]
- * with Index[0] = col, Index[1] = row, Index[2] = slice, ...
+ * with the column index varying most rapidly.  The Index type reverses
+ * the order so that with Index[0] = col, Index[1] = row, Index[2] = slice, 
+ * ...
  *
  * \sa ImageContainerInterface
  *
@@ -182,7 +183,7 @@ public:
   typedef typename AffineTransformType::Pointer   AffineTransformPointer;
 
   /** 
-   * Definition of the Point type used for settin the origin
+   * Definition of the Point type used for setting the origin
    */
   typedef typename AffineTransformType::OffsetType OriginOffsetType;
 
@@ -199,13 +200,16 @@ public:
 
   /**
    * Allocate the image memory. The image Dimension and Size must 
-   * be set a priori.
+   * already been set.
    */
   void Allocate();
 
 
   /**
    * Set a pixel value.
+   * 
+   * For efficiency, this function does not check that the
+   * image has actually been allocated yet.
    */
   void SetPixel(const IndexType &index, const TPixel& value)
   {
@@ -215,6 +219,9 @@ public:
   
   /**
    * Get a pixel (read only version).
+   * 
+   * For efficiency, this function does not check that the
+   * image has actually been allocated yet.
    */
   const TPixel& GetPixel(const IndexType &index) const
   {
@@ -224,7 +231,10 @@ public:
   }
 
   /**
-   * Get a pixel for editing. 
+   * Get a reference to a pixel (e.g. for editing).
+   * 
+   * For efficiency, this function does not check that the
+   * image has actually been allocated yet.
    */
   TPixel& GetPixel(const IndexType &index)
   {
@@ -234,12 +244,18 @@ public:
     
   /**
    * Access a pixel. This version can be an lvalue.
+   * 
+   * For efficiency, this function does not check that the
+   * image has actually been allocated yet.
    */
   TPixel & operator[](const IndexType &index)
      { return this->GetPixel(index); }
   
   /**
    * Access a pixel. This version can only be an rvalue.
+   * 
+   * For efficiency, this function does not check that the
+   * image has actually been allocated yet.
    */
   const TPixel& operator[](const IndexType &index) const
      { return this->GetPixel(index); }
@@ -263,7 +279,7 @@ public:
 
 
   /**
-   * Return the Pixel Accesor object
+   * Return the Pixel Accessor object
    */
   AccessorType & GetPixelAccessor( void ) 
     { return m_PixelAccessor; }
@@ -329,17 +345,17 @@ public:
   AffineTransformPointer GetPhysicalToIndexTransform(void) const;
 
   /**
-   * Get the cotinuous index from a physical point
+   * Get the continuous index from a physical point
    *
-   * Since this function internally use AffineTranform, even this function 
-   * is templated over coordinate value type (TCoordRep), using float or
-   * double for the coorinate value type is recommended.
+   * Since this function internally uses AffineTranform, it is
+   * templated over coordinate value type (TCoordRep); using float or
+   * double for the coordinate value type is recommended.
    *
-   * TO DO:
+   * \todo
    * In future, when MS Visual C++ supports out-of-class member templates,
    * move function definition to itkImage.txx file.
-   * \sa AffineTransform 
-   */
+   *
+   * \sa AffineTransform */
   template<class TCoordRep> 
   void TransformPhysicalPointToContinuousIndex(Point<TCoordRep, VImageDimension>& point, 
    ContinuousIndex<TCoordRep, VImageDimension>& index)
@@ -372,17 +388,16 @@ public:
   /**
    * Get a physical point (in the space which 
    * the origin and spacing infomation comes from) 
-   * from a continous index (in the index space) 
+   * from a continuous index (in the index space) 
    *
-   * Since this function internally use AffineTranform, even this function 
-   * is templated over coordinate value type (TCoordRep), using float or
+   * Since this function internally uses AffineTranform, it is
+   * templated over coordinate value type (TCoordRep); using float or
    * double for the coorinate value type is recommended.
    *
    * \todo In future, when MS Visual C++ supports out-of-class member 
    * templates, move function definition to itkImage.txx file.
    *
-   * \sa AffineTransform 
-   */
+   * \sa AffineTransform */
   template<class TCoordRep> 
   void TransformContinuousIndexToPhysicalPoint(ContinuousIndex<TCoordRep, VImageDimension>& index, 
    Point<TCoordRep, VImageDimension>& point)
@@ -417,21 +432,22 @@ public:
   }
 
   /**
-   * Copy information from the specified data set.  This method is
-   * part of the pipeline execution model. By default, a ProcessObject
-   * will copy meta-data from the first input to all of its
-   * outputs. See ProcessObject::GenerateOutputInformation().  Each
-   * subclass of DataObject is responsible for being able to copy
-   * whatever meta-data it needs from from another DataObject.
-   * Image has more meta-data than its superclasses Image or
-   * ImageBase.  Thus, it must provide its own version of
-   * CopyInformation() in order to set its Spacing and Origin to match
-   * the input parameter.  This implementation of CopyInformation()
-   * casts the input parameter to an ImageBase. If successful,
-   * this method call GetSpacing() and GetOrigin() on its input
-   * (since all subclasses of ImageBase are guarenteed to respond to
-   * GetSpacing() and GetOrigin()). If "data" is another datatype, this
-   * method may not do anything.
+   * Copy information from the specified data set.  
+   *
+   * This method is part of the pipeline execution model. By default,
+   * a ProcessObject will copy meta-data from the first input to all
+   * of its outputs. See ProcessObject::GenerateOutputInformation().
+   * Each subclass of DataObject is responsible for being able to copy
+   * whatever meta-data it needs from from another DataObject.  Image
+   * has more meta-data than its superclasses Image or ImageBase.
+   * Thus, it must provide its own version of CopyInformation() in
+   * order to set its Spacing and Origin to match the input parameter.
+   * This implementation of CopyInformation() casts the input
+   * parameter to an ImageBase. If successful, this method call
+   * GetSpacing() and GetOrigin() on its input (since all subclasses
+   * of ImageBase are guarenteed to respond to GetSpacing() and
+   * GetOrigin()). If "data" is another datatype, this method may not
+   * do anything.  
    */
   virtual void CopyInformation(DataObject *data);
 
@@ -450,8 +466,10 @@ private:
   // Pixel accessor object, 
   // it converts the presentation of a pixel
   AccessorType          m_PixelAccessor;
-  double              m_Spacing[ImageDimension];
-  double              m_Origin[ImageDimension];
+
+  // Origin and spacing of physical coordinates
+  double                m_Spacing[ImageDimension];
+  double                m_Origin[ImageDimension];
 };
 
   
