@@ -119,14 +119,16 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
       }
     
     //iterate over points determining min/max
+    //start by initializing the values
     for (int i=0; i < PointDimension; i++)
       {
       m_Bounds[2*i] = NumericTraits<CoordRep>::max();
       m_Bounds[2*i+1] = NumericTraits<CoordRep>::min();
       }
+    
+    //use a const iterator to grab the points and compute
+    //the bounding box.
 
-    ConstIterator ii;
-    m_PointsContainer->Begin();    
 
     m_BoundsMTime.Modified();
     }

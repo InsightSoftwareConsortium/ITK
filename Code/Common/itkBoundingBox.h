@@ -79,9 +79,13 @@ public:
   typedef TCoordRep CoordRep;
   enum { PointDimension = VPointDimension };
   typedef TPointsContainer PointsContainer;
-  typedef PointsContainer::Pointer PointsContainerPointer;
+  typedef typename PointsContainer::Pointer PointsContainerPointer;
   typedef Point< PointDimension , CoordRep >  Point;
 
+  typedef typename
+          PointsContainer::ConstIterator        PointsContainerConstIterator;
+  typedef typename
+          PointsContainer::Iterator             PointsContainerIterator;
   /**
    * Set the points from which the bounding box should be computed. The 
    * bounding box is cached and is not recomputed if the points are not 
