@@ -22,23 +22,21 @@
 namespace _wrap_
 {  
 
+// All wrappers inherit from WrapperBase.
+class WrapperBase;
+
 /**
- * A class to maintain a table of the type wrapper functions that have
+ * A class to maintain a table of the type wrappers that have
  * been registered with its interpreter.
  */
 class _wrap_EXPORT WrapperTable
 {
 public:
-  /**
-   * The type of a wrapper function.
-   */
-  typedef int (*WrapperFunction)(ClientData, Tcl_Interp*, int, Tcl_Obj* CONST[]);
-  
   WrapperTable(Tcl_Interp*);
   
-  bool Exists(const Type*) const;
-  void SetFunction(const Type*, WrapperFunction);
-  WrapperFunction GetFunction(const Type*);
+  bool Exists(const Type* type) const;
+  void SetWrapper(const Type*, WrapperBase*);
+  WrapperBase* GetWrapper(const Type*) const;
   
 private:
   /**
@@ -46,14 +44,12 @@ private:
    */
   Tcl_Interp* m_Interpreter;
 
-  typedef std::map<const Type*, WrapperFunction,
+  typedef std::map<const Type*, WrapperBase*,
                    PointerCompare<const Type> >  WrapperMap;
   /**
    * Map from type to wrapper function.
    */
   WrapperMap m_WrapperMap;
-  
-  void CheckExists(const Type*) const;
   
 public:
   static WrapperTable* GetForInterpreter(Tcl_Interp*);

@@ -36,6 +36,14 @@ WrapperBase::WrapperBase(Tcl_Interp* interp, const String& wrappedTypeName):
 
 
 /**
+ * Virtual destructor.
+ */
+WrapperBase::~WrapperBase()
+{
+}
+
+
+/**
  * Get the interpreter to which this wrapper is attached.
  */
 Tcl_Interp* WrapperBase::GetInterpreter() const
@@ -84,11 +92,14 @@ void WrapperBase::SetType(TypeKey typeKey, const CvQualifiedType& type)
 void WrapperBase::CreateResultCommand(const String& name,
                                       const Type* type) const
 {
-  if(m_WrapperTable->Exists(type))
+  // Try to get the wrapper for the given type.
+  WrapperBase* wrapper = m_WrapperTable->GetWrapper(type);
+  if(wrapper)
     {
+    // Found a wrapper.  Create the command to use it.
     Tcl_CreateObjCommand(m_Interpreter,
                          const_cast<char*>(name.c_str()),
-                         m_WrapperTable->GetFunction(type),
+                         wrapper->GetObjectWrapperFunction(),
                          (ClientData)NULL, (Tcl_CmdDeleteProc*)NULL);
     }
   else
@@ -111,6 +122,18 @@ int WrapperBase::ChainMethod(const String& methodName,
   // For now, just report method not found.
   this->UnknownMethod(methodName, objc-2, objv+2);
   return TCL_ERROR;
+}
+
+
+/**
+ * When an object name is given as a command with no arguments, no method
+ * name has been specified.  This is called to generate the error message.
+ */
+void WrapperBase::NoMethodSpecified() const
+{
+  String errorMessage =
+    "No method specified: "+m_WrappedTypeName+"::???";
+  this->ReportErrorMessage(errorMessage);
 }
 
 

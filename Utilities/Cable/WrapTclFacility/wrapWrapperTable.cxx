@@ -30,7 +30,7 @@ WrapperTable::WrapperTable(Tcl_Interp* interp):
 
 
 /**
- * Return whether a wrapper for the given type name exists.
+ * Return whether a wrapper for the given type exists.
  */
 bool WrapperTable::Exists(const Type* type) const
 {
@@ -39,38 +39,29 @@ bool WrapperTable::Exists(const Type* type) const
   
 
 /**
- * Register a wrapper function for the given type.
+ * Register a wrapper for the given type.
  */
-void WrapperTable::SetFunction(const Type* type, WrapperFunction func)
+void WrapperTable::SetWrapper(const Type* type, WrapperBase* wrapper)
 {
-  m_WrapperMap[type] = func;
+  m_WrapperMap[type] = wrapper;
 }
   
  
 /**
- * Retrieve the wrapper function for the given type.
+ * Retrieve the wrapper for the given type.  If none exists, NULL is
+ * returned.
  */
-WrapperTable::WrapperFunction
-WrapperTable::GetFunction(const Type* type)
+WrapperBase*
+WrapperTable::GetWrapper(const Type* type) const
 {
-  this->CheckExists(type);
-  return m_WrapperMap[type];
-}
-
-
-/**
- * Make sure a wrapper for the given type exists.  Throw an exception
- * if it does not.
- */
-void WrapperTable::CheckExists(const Type* type) const
-{
-  if(!this->Exists(type))
+  WrapperMap::const_iterator i = m_WrapperMap.find(type);
+  if(i != m_WrapperMap.end())
     {
-    // throw _wrap_NoWrapperFunctionException(type);
-    throw _wrap_NoWrapperFunctionException("");
+    return i->second;
     }
+  return NULL;
 }
- 
+
 
 /**
  * Get an WrapperTable object set up to deal with the given Tcl interpreter.

@@ -49,6 +49,7 @@ class _wrap_EXPORT WrapperBase
 {
 public:
   WrapperBase(Tcl_Interp* interp, const String& wrappedTypeName);
+  virtual ~WrapperBase();
   
   typedef const char* TypeKey;
 
@@ -57,9 +58,33 @@ public:
   void SetType(TypeKey typeKey, const CvQualifiedType&);
   void CreateResultCommand(const String& name, const Type* type) const;
   
+  /**
+   * The type of a wrapper function for a Tcl interpreter call-back.
+   */
+  typedef int (*WrapperFunction)(ClientData, Tcl_Interp*, int, Tcl_Obj* CONST[]);
+  
+  /**
+   * Get the wrapper function for a Tcl interpreter call-back for commands
+   * referencing the name of the wrapped type.
+   *
+   * This function should handle instance creation and the calling of
+   * static member functions of the type.
+   */
+  virtual WrapperFunction GetClassWrapperFunction() const =0;
+  
+  /**
+   * Get the wrapper function for a Tcl interpreter call-back for commands
+   * referencing instances of the wrapped type.
+   *
+   * This function should handle method calls on instances, references
+   * to instances, and pointers to instances of the type.
+   */
+  virtual WrapperFunction GetObjectWrapperFunction() const =0;
+  
 protected:
   int ChainMethod(const String& methodName, ClientData clientData,
                   int objc, Tcl_Obj* CONST objv[]) const;
+  void NoMethodSpecified() const;
   void UnknownMethod(const String& methodName, int objc, Tcl_Obj*CONST objv[]) const;
   void UnknownInstance(const String& objectName) const;
   void ReportErrorMessage(const String& errorMessage) const;
