@@ -233,11 +233,11 @@
       <th align="center" rowspan="2">Submission Date</th>
     </tr>
     <tr bgcolor="#eeeeee">
-      <th align="left">Errors</th>
-      <th align="left">Warnings</th>
-      <th align="left">Passed</th>
-      <th align="left">Failed</th>
-      <th align="left">NotRun</th>
+      <th align="center">Errors</th>
+      <th align="center">Warnings</th>
+      <th align="center">Passed</th>
+      <th align="center">Failed</th>
+      <th align="center">NotRun</th>
     </tr>
   </xsl:template>
   
