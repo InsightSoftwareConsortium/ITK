@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
   io->SetImageByteOrderToLittleEndian();
   io->SetPixelType(itk::ITK_UCHAR);
   io->SetNumberOfComponents(3);
-
+  std::cout << "IO: " << io << std::endl;
   typedef itk::Image<RGBPixelType,2> RGBImage2DType;
   itk::FileIOToImageFilter<RGBImage2DType>::Pointer reader;
   reader = itk::FileIOToImageFilter<RGBImage2DType>::New();
