@@ -121,7 +121,7 @@ ImageIterator<TImage>
 ImageIterator<TImage>
 ::End() const
 {
-  return this->Superclass::Begin();
+  return this->Superclass::End();
 }
 
 
