@@ -25,137 +25,138 @@ PURPOSE.  See the above copyright notices for more information.
 #include <stdio.h>
 #include <stdlib.h>
 
-//An array of the Analyze v7.5 known DataTypes
-const char DataTypes[12][10]=  {
-  "UNKNOWN","BINARY","CHAR","SHORT", "INT","FLOAT",
-  "COMPLEX", "DOUBLE","RGB","ALL","USHORT","UINT"
-};
+namespace itk
+{
 
-//An array with the corresponding number of bits for each image type.
-//NOTE: the following two line should be equivalent.
-const short int DataTypeSizes[12]={0,1,8,16,32,32,64,64,24,0,16,32};
+  //An array of the Analyze v7.5 known DataTypes
+  const char DataTypes[12][10]=  {
+    "UNKNOWN","BINARY","CHAR","SHORT", "INT","FLOAT",
+    "COMPLEX", "DOUBLE","RGB","ALL","USHORT","UINT"
+  };
 
-//An array with Data type key sizes
-const short int DataTypeKey[12]={
-  ANALYZE_DT_UNKNOWN,
-  ANALYZE_DT_BINARY,
-  ANALYZE_DT_UNSIGNED_CHAR,
-  ANALYZE_DT_SIGNED_SHORT,
-  ANALYZE_DT_SIGNED_INT,
-  ANALYZE_DT_FLOAT,
-  ANALYZE_DT_COMPLEX,
-  ANALYZE_DT_DOUBLE,
-  ANALYZE_DT_RGB,
-  ANALYZE_DT_ALL,
-  ANALYZE_DT_UNSIGNED_SHORT,
-  ANALYZE_DT_UNSIGNED_INT
-};
+  //An array with the corresponding number of bits for each image type.
+  //NOTE: the following two line should be equivalent.
+  const short int DataTypeSizes[12]={0,1,8,16,32,32,64,64,24,0,16,32};
+
+  //An array with Data type key sizes
+  const short int DataTypeKey[12]={
+    ANALYZE_DT_UNKNOWN,
+    ANALYZE_DT_BINARY,
+    ANALYZE_DT_UNSIGNED_CHAR,
+    ANALYZE_DT_SIGNED_SHORT,
+    ANALYZE_DT_SIGNED_INT,
+    ANALYZE_DT_FLOAT,
+    ANALYZE_DT_COMPLEX,
+    ANALYZE_DT_DOUBLE,
+    ANALYZE_DT_RGB,
+    ANALYZE_DT_ALL,
+    ANALYZE_DT_UNSIGNED_SHORT,
+    ANALYZE_DT_UNSIGNED_INT
+  };
 
 
-//The following was inserted based on Bill Hoffman's CMake
-//implementation.
+  //The following was inserted based on Bill Hoffman's CMake
+  //implementation.
 #if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
 #include <stdlib.h>
 #define _unlink unlink
 #else
 #include <unistd.h>
 #endif
-/**
- * \author Kent Williams <Bill Hoffman>
- * Remove file with name fname from the file system
- * \param fname  The name of the file to remove
- * \return true if successful, false if not successful.
- */
-//NOTE: After further testing, this should probably be added to the
-//Directory manipulation section of ITK.
-static inline bool RemoveFile(const char *fname)
-{
-  return (unlink(fname) != 0)? false: true;
-}
-
-//GetExtension from uiig library.
-static std::string
-GetExtension( const std::string& filename ) {
-
-  // This assumes that the final '.' in a file name is the delimiter
-  // for the file's extension type
-  const std::string::size_type it = filename.find_last_of( "." );
-
-  // This determines the file's type by creating a new string
-  // who's value is the extension of the input filename
-  // eg. "myimage.gif" has an extension of "gif"
-  std::string fileExt( filename, it+1, filename.length() );
-
-  return( fileExt );
-}
-
-
-//GetRootName from uiig library.
-static std::string
-GetRootName( const std::string& filename )
-{
-  const std::string fileExt = GetExtension(filename);
-
-  // Create a base filename
-  // i.e Image.hdr --> Image
-  if( fileExt.length() > 0 )
+  /**
+   * \author Kent Williams <Bill Hoffman>
+   * Remove file with name fname from the file system
+   * \param fname  The name of the file to remove
+   * \return true if successful, false if not successful.
+   */
+  //NOTE: After further testing, this should probably be added to the
+  //Directory manipulation section of ITK.
+  static inline bool RemoveFile(const char *fname)
   {
-    const std::string::size_type it = filename.find_last_of( fileExt );
-    std::string baseName( filename, 0, it-fileExt.length() );
-    return( baseName );
+    return (unlink(fname) != 0)? false: true;
   }
-  else
-  {
-    // Case when the extension is nothing (Analyze)
-    return( filename );
-  }
-}
+
+  //GetExtension from uiig library.
+  static std::string
+    GetExtension( const std::string& filename ) {
+
+      // This assumes that the final '.' in a file name is the delimiter
+      // for the file's extension type
+      const std::string::size_type it = filename.find_last_of( "." );
+
+      // This determines the file's type by creating a new string
+      // who's value is the extension of the input filename
+      // eg. "myimage.gif" has an extension of "gif"
+      std::string fileExt( filename, it+1, filename.length() );
+
+      return( fileExt );
+    }
 
 
-static std::string
-GetHeaderFileName( const std::string & filename )
-{
-  std::string ImageFileName = GetRootName(filename);
-  std::string fileExt = GetExtension(filename);
-  //If file was named xxx.img.gz then remove both the gz and the img endings.
-  if(!fileExt.compare("gz"))
-  {
-    ImageFileName=GetRootName(GetRootName(filename));
-  }
-  ImageFileName += ".hdr";
-  return( ImageFileName );
-}
+  //GetRootName from uiig library.
+  static std::string
+    GetRootName( const std::string& filename )
+    {
+      const std::string fileExt = GetExtension(filename);
 
-//Returns the base image filename.
-static std::string GetImageFileName( const std::string& filename )
-{
-  // Why do we add ".img" here?  Look in fileutils.h
-  std::string fileExt = GetExtension(filename);
-  std::string ImageFileName = GetRootName(filename);
-  if(!fileExt.compare("gz"))
-  {
-    //First strip both extensions off
-    ImageFileName=GetRootName(GetRootName(filename));
-    ImageFileName += ".img.gz";
-  }
-  else if(!fileExt.compare("img") || !fileExt.compare("hdr") )
-  {
-    ImageFileName += ".img";
-  }
-  else
-  {
-    //uiig::Reporter* reporter = uiig::Reporter::getReporter();
-    //std::string temp="Error, Can not determine compressed file image name. ";
-    //temp+=filename;
-    //reporter->setMessage( temp );
-    return ("");
-  }
-  return( ImageFileName );
-}
+      // Create a base filename
+      // i.e Image.hdr --> Image
+      if( fileExt.length() > 0 )
+      {
+        const std::string::size_type it = filename.find_last_of( fileExt );
+        std::string baseName( filename, 0, it-fileExt.length() );
+        return( baseName );
+      }
+      else
+      {
+        // Case when the extension is nothing (Analyze)
+        return( filename );
+      }
+    }
 
 
-namespace itk
-{
+  static std::string
+    GetHeaderFileName( const std::string & filename )
+    {
+      std::string ImageFileName = GetRootName(filename);
+      std::string fileExt = GetExtension(filename);
+      //If file was named xxx.img.gz then remove both the gz and the img endings.
+      if(!fileExt.compare("gz"))
+      {
+        ImageFileName=GetRootName(GetRootName(filename));
+      }
+      ImageFileName += ".hdr";
+      return( ImageFileName );
+    }
+
+  //Returns the base image filename.
+  static std::string GetImageFileName( const std::string& filename )
+  {
+    // Why do we add ".img" here?  Look in fileutils.h
+    std::string fileExt = GetExtension(filename);
+    std::string ImageFileName = GetRootName(filename);
+    if(!fileExt.compare("gz"))
+    {
+      //First strip both extensions off
+      ImageFileName=GetRootName(GetRootName(filename));
+      ImageFileName += ".img.gz";
+    }
+    else if(!fileExt.compare("img") || !fileExt.compare("hdr") )
+    {
+      ImageFileName += ".img";
+    }
+    else
+    {
+      //uiig::Reporter* reporter = uiig::Reporter::getReporter();
+      //std::string temp="Error, Can not determine compressed file image name. ";
+      //temp+=filename;
+      //reporter->setMessage( temp );
+      return ("");
+    }
+    return( ImageFileName );
+  }
+
+
   void
     AnalyzeImageIO::SwapBytesIfNecessary( void* buffer,
         unsigned long numberOfPixels )
@@ -793,7 +794,7 @@ namespace itk
 
     std::ifstream   local_InputStream;
     local_InputStream.open( HeaderFileName.c_str(), 
-                            std::ios::in | std::ios::binary );
+        std::ios::in | std::ios::binary );
     if( local_InputStream.fail() )
     {
       return false;
@@ -812,9 +813,9 @@ namespace itk
     if(this->m_hdr.dime.compressed==1)
     {
       return false;
-    //    ExceptionObject exception(__FILE__, __LINE__);
-    //    exception.SetDescription("Unix compress file is not supported.");
-    //    throw exception;
+      //    ExceptionObject exception(__FILE__, __LINE__);
+      //    exception.SetDescription("Unix compress file is not supported.");
+      //    throw exception;
     }
     return true;
   }

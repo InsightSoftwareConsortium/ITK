@@ -31,11 +31,8 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef __dbh_h__
 #define __dbh_h__
 
-#ifdef  __cplusplus
-extern "C"
+namespace itk
 {
-#endif
-
   /**
    *  \enum DataTypeKeyValues
    * Acceptable values for hdr.dime.datatype
@@ -349,8 +346,5 @@ struct dsr/*      dsr              */
   /*40 + 108 */ struct image_dimension dime; /**<  The image_dimension structure. @see image_dimension */
   /*148 + 200*/ struct data_history hist;    /**<   The data_history structure. @see data_history */
 }/*total=348*/;
-
-#ifdef  __cplusplus
-}
-#endif                           /*#ifdef  __cplusplus*/
+} //End namespace itk
 #endif                           /* __dbh_h__ */

@@ -66,16 +66,16 @@ namespace itk
     // the size the file should be and compares it with the actual size.
     // if it's not reading a GEAdw file, chances are overwhelmingly good
     // that this operation will fail somewhere along the line.
-    if(this->GetShortAt(f,IM_IMATRIX_X,&matrixX,false) != 0)
+    if(this->GetShortAt(f,GE_ADW_IM_IMATRIX_X,&matrixX,false) != 0)
       return false;
     
-    if(this->GetShortAt(f,IM_IMATRIX_Y,&matrixY,false) != 0)
+    if(this->GetShortAt(f,GE_ADW_IM_IMATRIX_Y,&matrixY,false) != 0)
       return false;
 
-    if(this->GetIntAt(f,VARIABLE_HDR_LENGTH,&varHdrSize,false) != 0)
+    if(this->GetIntAt(f,GE_ADW_VARIABLE_HDR_LENGTH,&varHdrSize,false) != 0)
       return false;
 
-    imageSize = varHdrSize + FIXED_HDR_LENGTH + (matrixX * matrixY * sizeof(short));
+    imageSize = varHdrSize + GE_ADW_FIXED_HDR_LENGTH + (matrixX * matrixY * sizeof(short));
 
     if ( imageSize != itk::IOCommon::FileLength(FileNameToRead) )
       {
@@ -97,7 +97,7 @@ namespace itk
       RAISE_EXCEPTION();
     
     sprintf(hdr->scanner,"GE-ADW");
-    this->GetStringAt(f,EX_PATID,tmpbuf,12);
+    this->GetStringAt(f,GE_ADW_EX_PATID,tmpbuf,12);
     tmpbuf[12] = '\0';
     hdr->patientId[0] = '\0';
     for(char *ptr = strtok(tmpbuf,"-"); ptr != NULL; ptr = strtok(NULL,"-"))
@@ -105,47 +105,47 @@ namespace itk
   strcat(hdr->patientId,ptr);
       }
 
-    this->GetStringAt(f,EX_PATNAME,hdr->name,EX_PATNAME_LEN);
-    hdr->name[EX_PATNAME_LEN] = '\0';
+    this->GetStringAt(f,GE_ADW_EX_PATNAME,hdr->name,GE_ADW_GE_ADW_EX_PATNAME_LEN);
+    hdr->name[GE_ADW_GE_ADW_EX_PATNAME_LEN] = '\0';
 
-    this->GetStringAt(f,EX_HOSPNAME,hdr->hospital,34);
+    this->GetStringAt(f,GE_ADW_EX_HOSPNAME,hdr->hospital,34);
     hdr->hospital[33] = '\0';
 
 
     int timeStamp;
-    this->GetIntAt(f,EX_DATETIME,&timeStamp);
+    this->GetIntAt(f,GE_ADW_EX_DATETIME,&timeStamp);
     this->statTimeToAscii(&timeStamp,hdr->date);
 
-    this->GetStringAt(f,SU_PRODID,hdr->scanner,13);
+    this->GetStringAt(f,GE_ADW_SU_PRODID,hdr->scanner,13);
     hdr->scanner[13] = '\0';
 
-    this->GetShortAt(f,SE_NO,&(hdr->seriesNumber));
+    this->GetShortAt(f,GE_ADW_SE_NO,&(hdr->seriesNumber));
 
-    this->GetShortAt(f,IM_NO,&(hdr->imageNumber));
+    this->GetShortAt(f,GE_ADW_IM_NO,&(hdr->imageNumber));
 
-    this->GetShortAt(f,IM_CPHASENUM,&(hdr->imagesPerSlice));
+    this->GetShortAt(f,GE_ADW_GE_ADW_IM_CPHASENUM,&(hdr->imagesPerSlice));
 
-    this->GetShortAt(f,IM_CPHASENUM,&(hdr->turboFactor));
+    this->GetShortAt(f,GE_ADW_GE_ADW_IM_CPHASENUM,&(hdr->turboFactor));
 
-    this->GetFloatAt(f,IM_SLTHICK,&(hdr->sliceThickness));
+    this->GetFloatAt(f,GE_ADW_IM_SLTHICK,&(hdr->sliceThickness));
 
-    this->GetShortAt(f,IM_IMATRIX_X,&(hdr->imageXsize));
+    this->GetShortAt(f,GE_ADW_IM_IMATRIX_X,&(hdr->imageXsize));
 
-    this->GetShortAt(f,IM_IMATRIX_Y,&(hdr->imageYsize));
+    this->GetShortAt(f,GE_ADW_IM_IMATRIX_Y,&(hdr->imageYsize));
 
 
     hdr->acqXsize = hdr->imageXsize;
     hdr->acqYsize = hdr->imageYsize;
     
-    this->GetFloatAt(f,IM_DFOV,&hdr->xFOV);
+    this->GetFloatAt(f,GE_ADW_IM_DFOV,&hdr->xFOV);
     hdr->yFOV = hdr->xFOV;
 
-    this->GetFloatAt(f,IM_PIXSIZE_X,&hdr->imageXres);
+    this->GetFloatAt(f,GE_ADW_IM_PIXSIZE_X,&hdr->imageXres);
 
-    this->GetFloatAt(f,IM_PIXSIZE_Y,&hdr->imageYres);
+    this->GetFloatAt(f,GE_ADW_IM_PIXSIZE_Y,&hdr->imageYres);
 
     short tmpShort;
-    this->GetShortAt(f,IM_PLANE,&tmpShort);
+    this->GetShortAt(f,GE_ADW_IM_PLANE,&tmpShort);
     switch (tmpShort)
       {
       case GE_CORONAL:
@@ -161,36 +161,36 @@ namespace itk
   hdr->imagePlane = CORONAL;
   break;
       }
-    this->GetFloatAt(f,IM_LOC,&(hdr->sliceLocation));
+    this->GetFloatAt(f,GE_ADW_IM_LOC,&(hdr->sliceLocation));
 
     int tmpInt;
-    this->GetIntAt(f,IM_TR,&tmpInt);
+    this->GetIntAt(f,GE_ADW_IM_TR,&tmpInt);
     hdr->TR = (float) tmpInt / 1000.0;
 
-    this->GetIntAt(f,IM_TI,&tmpInt);
+    this->GetIntAt(f,GE_ADW_IM_TI,&tmpInt);
     hdr->TI = (float) tmpInt / 1000.0;
 
-    this->GetIntAt(f,IM_TE,&tmpInt);
+    this->GetIntAt(f,GE_ADW_IM_TE,&tmpInt);
     hdr->TE = (float) tmpInt / 1000.0;
 
-    this->GetShortAt(f, IM_NUMECHO,&(hdr->numberOfEchoes));
+    this->GetShortAt(f, GE_ADW_IM_NUMECHO,&(hdr->numberOfEchoes));
 
-    this->GetShortAt(f, IM_ECHONUM,&(hdr->echoNumber));
+    this->GetShortAt(f, GE_ADW_IM_ECHONUM,&(hdr->echoNumber));
 
     float tmpFloat;
-    this->GetFloatAt(f,IM_NEX,&tmpFloat);
+    this->GetFloatAt(f,GE_ADW_IM_NEX,&tmpFloat);
     
     hdr->NEX = (int) tmpFloat;
     
-    this->GetShortAt(f,IM_MR_FLIP,&hdr->flipAngle);
+    this->GetShortAt(f,GE_ADW_IM_MR_FLIP,&hdr->flipAngle);
 
-    this->GetStringAt(f,IM_PSDNAME, hdr->pulseSequence, 31);
+    this->GetStringAt(f,GE_ADW_IM_PSDNAME, hdr->pulseSequence, 31);
     hdr->pulseSequence[31] = '\0';
     
-    this->GetShortAt(f,IM_SLQUANT,&(hdr->numberOfSlices));
+    this->GetShortAt(f,GE_ADW_IM_SLQUANT,&(hdr->numberOfSlices));
 
-    this->GetIntAt(f,VARIABLE_HDR_LENGTH,&tmpInt);
-    hdr->offset = FIXED_HDR_LENGTH + tmpInt;
+    this->GetIntAt(f,GE_ADW_VARIABLE_HDR_LENGTH,&tmpInt);
+    hdr->offset = GE_ADW_FIXED_HDR_LENGTH + tmpInt;
 
     strncpy (hdr->filename, FileNameToRead, MAXPATHLEN);
     hdr->filename[MAXPATHLEN] = '\0';
