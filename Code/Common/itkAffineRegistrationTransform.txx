@@ -168,7 +168,7 @@ GetJacobian( const PointType & p ) const
 
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
   {
-     m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
+     m_Jacobian[ dim ][ blockOffset + dim ] = m_TranslationScale;
   }
 
   return m_Jacobian;
