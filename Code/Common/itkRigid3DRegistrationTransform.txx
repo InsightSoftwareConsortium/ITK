@@ -148,14 +148,17 @@ GetJacobian( const PointType & p ) const
   vnl_matrix_fixed<double,4,4> dQdP;
   dQdP.fill( 0.0 );
 
-  dQdP(0,0) = sin( m_Parameters[3] / 2 );
-  dQdP(1,1) = dQdP(0,0);
-  dQdP(2,2) = dQdP(0,0);
+  double cosAlpha = cos( m_Parameters[3] / 2 );
+  double sinAlpha = sin( m_Parameters[3] / 2 );
 
-  dQdP(0,3) = 0.5 * cos( m_Parameters[3] / 2 );
-  dQdP(1,3) = dQdP(0,3);
-  dQdP(2,3) = dQdP(0,3);
-  dQdP(3,3) = - 0.5 * dQdP(0,0);
+  dQdP(0,0) = sinAlpha;
+  dQdP(1,1) = sinAlpha;
+  dQdP(2,2) = sinAlpha;
+
+  dQdP(0,3) = 0.5 * m_Parameters[0] * cosAlpha;
+  dQdP(1,3) = 0.5 * m_Parameters[1] * cosAlpha;
+  dQdP(2,3) = 0.5 * m_Parameters[2] * cosAlpha;
+  dQdP(3,3) = - 0.5 * sinAlpha;
 
   // compute dX / dParameters
   vnl_matrix_fixed<double,3,4> dXdP = dXdQ * dQdP;
