@@ -14,171 +14,267 @@
 
 =========================================================================*/
 /**
- * itkNumericTraits is used to determine characteristics of particular
- * pixel types. Traits include things like minimum and maximum value;
- * accumulation type; etc.
+ * itkPixelTraits is used to determine characteristics of particular pixel
+ * types. Pixels are can be user-defined types (not just the native types),
+ * and may consist of a scalar portion and a vector portion. Depending on how
+ * you want to treat the pixel (as either a scalar or vector), you can use
+ * the itkScalarTraits and itkVectorTraits to determine characteristics of
+ * the pixel.  
  */
 
 #ifndef __itkPixelTraits_h
 #define __itkPixelTraits_h
 
+#include "itkNumericTraits.h"
+
 template <class T>
-class itkPixelTraits {
+class itkScalarTraits {
 public:
-
-  /* Return the type of this pixel */
-  typedef typename T::ValueType ValueType; 
-
-  /* Return value of abs() */
-  typedef typename T AbsType; 
-
-  /* Accumulation of addition and multiplication */
-  typedef typename double AccumulateType; 
-
-  /* Additive identity */
-  static const T Zero;
-
-  /* Multiplicative identity */
-  static const T One;
-
-  /* Minimum value */
-  static const T Min;
-
-  /* Maximum value */
-  static const T Max;
-
+  /* 
+   * Reflect the value type from the underlying (usually native type)
+   * value type.
+   */
+  typedef typename T::ValueType ValueType;
+  
+  /* 
+   * Support GetScalar method 
+   */
+  typedef typename T::ValueType ScalarType;
+  
+  /* 
+   * Support the GetScalar / SetScalar methods. These are the
+   * default implemnentations if the template is not specialized.
+   */
+  static itkNumericTraits<T>::ValueType& GetScalar(T& v) {return v.GetScalar();}
+  //static ScalarType& GetScalar(T& v) {return v.GetScalar();}
+  static void SetScalar(T& v, ScalarType const&d) {v.SetScalar(d);}
 };
 
+template <class T>
+class itkVectorTraits {
+public:
+  /* 
+   * Reflect the value type from the underlying (usually native type)
+   * value type.
+   */
+  typedef typename T::ValueType ValueType;
+  
+  /* 
+   * Support GetVector method 
+   */
+  typedef typename T::ValueType VectorType;
+  
+  /* 
+   * Support the GetVector / SetVector methods. These are the
+   * default implemnentations if the template is not specialized.
+   */
+  static VectorType& GetVector(T& v) {return v.GetVector();}
+  static void SetVector(T& v, VectorType const&d) {v.SetVector(d);}
+};
+
+// -----------------------------------------------------------------------
+// The following are specializations of the itkScalarTraits for the native
+// types.
 template <>
-class itkPixelTraits<bool> {
+class itkScalarTraits<bool> {
 public:
   typedef bool ValueType;
-  typedef unsigned char AbsType;
-  typedef unsigned char AccumulateType;
-  static const bool Zero;
-  static const bool One;
-  static const bool Min;
-  static const bool Max;
+  typedef bool ScalarType;
+  static ScalarType& GetScalar(bool& v) {return v;}
+  static void SetScalar(bool& data, ScalarType const& v) {data = v;}
 };
 
 template <>
-class itkPixelTraits<unsigned char> {
+class itkScalarTraits<unsigned char> {
 public:
   typedef unsigned char ValueType;
-  typedef unsigned char AbsType;
-  typedef unsigned short AccumulateType;
-  static const unsigned char Zero;
-  static const unsigned char One;
-  static const unsigned char Min;
-  static const unsigned char Max;
+  typedef unsigned char ScalarType;
+  static ScalarType& GetScalar(unsigned char& v) {return v;}
+  static void SetScalar(unsigned char& data, ScalarType const& v) {data = v;}
 };
 
 template <>
-class itkPixelTraits<signed char> {
+class itkScalarTraits<signed char> {
 public:
   typedef signed char ValueType;
-  typedef unsigned char AbsType;
-  typedef signed short AccumulateType;
-  static const signed char Zero;
-  static const signed char One;
-  static const signed char Min;
-  static const signed char Max;
+  typedef signed char ScalarType;
+  static ScalarType& GetScalar(signed char& v) {return v;}
+  static void SetScalar(signed char& data, ScalarType const& v) {data = v;}
 };
 
 template <>
-class itkPixelTraits<unsigned short> {
+class itkScalarTraits<unsigned short> {
 public:
   typedef unsigned short ValueType;
-  typedef unsigned short AbsType;
-  typedef unsigned int AccumulateType;
-  static const unsigned short Zero;
-  static const unsigned short One;
-  static const unsigned short Min;
-  static const unsigned short Max;
+  typedef unsigned short ScalarType;
+  static ScalarType& GetScalar(unsigned short& v) {return v;}
+  static void SetScalar(unsigned short& data, ScalarType const& v) {data = v;}
 };
 
 template <>
-class itkPixelTraits<signed short> {
+class itkScalarTraits<signed short> {
 public:
   typedef signed short ValueType;
-  typedef unsigned short AbsType;
-  typedef signed int AccumulateType;
-  static const signed short Zero;
-  static const signed short One;
-  static const signed short Min;
-  static const signed short Max;
+  typedef signed short ScalarType;
+  static ScalarType& GetScalar(signed short& v) {return v;}
+  static void SetScalar(signed short& data, ScalarType const& v) {data = v;}
 };
 
 template <>
-class itkPixelTraits<unsigned int> {
+class itkScalarTraits<unsigned int> {
 public:
   typedef unsigned int ValueType;
-  typedef unsigned int AbsType;
-  typedef unsigned int AccumulateType;
-  static const unsigned int Zero;
-  static const unsigned int One;
-  static const unsigned int Min;
-  static const unsigned int Max;
+  typedef unsigned int ScalarType;
+  static ScalarType& GetScalar(unsigned int& v) {return v;}
+  static void SetScalar(unsigned int& data, ScalarType const& v) {data = v;}
 };
 
 template <>
-class itkPixelTraits<signed int> {
+class itkScalarTraits<signed int> {
 public:
   typedef signed int ValueType;
-  typedef unsigned int AbsType;
-  typedef signed long AccumulateType;
-  static const signed int Zero;
-  static const signed int One;
-  static const signed int Min;
-  static const signed int Max;
+  typedef signed int ScalarType;
+  static ScalarType& GetScalar(signed int& v) {return v;}
+  static void SetScalar(signed int& data, ScalarType const& v) {data = v;}
 };
 
 template <>
-class itkPixelTraits<signed long> {
+class itkScalarTraits<signed long> {
 public:
   typedef signed long ValueType;
-  typedef unsigned long AbsType;
-  typedef signed long AccumulateType;
-  static const signed long Zero;
-  static const signed long One;
-  static const signed long Min;
-  static const signed long Max;
+  typedef signed long ScalarType;
+  static ScalarType& GetScalar(signed long& v) {return v;}
+  static void SetScalar(signed long& data, ScalarType const& v) {data = v;}
 };
 
 template <>
-class itkPixelTraits<unsigned long> {
+class itkScalarTraits<unsigned long> {
 public:
   typedef unsigned long ValueType;
-  typedef unsigned long AbsType;
-  typedef unsigned long AccumulateType;
-  static const unsigned long Zero;
-  static const unsigned long One;
-  static const unsigned long Min;
-  static const unsigned long Max;
+  typedef unsigned long ScalarType;
+  static ScalarType& GetScalar(unsigned long& v) {return v;}
+  static void SetScalar(unsigned long& data, ScalarType const& v) {data = v;}
 };
 
 template <>
-class itkPixelTraits<float> {
+class itkScalarTraits<float> {
 public:
   typedef float ValueType;
-  typedef float AbsType;
-  typedef double AccumulateType;
-  static const float Zero;
-  static const float One;
-  static const float Min;
-  static const float Max;
+  typedef float ScalarType;
+  static ScalarType& GetScalar(float& v) {return v;}
+  static void SetScalar(float& data, ScalarType const& v) {data = v;}
 };
 
 template <>
-class itkPixelTraits<double> {
+class itkScalarTraits<double> {
 public:
   typedef double ValueType;
-  typedef double AbsType;
-  typedef double AccumulateType;
-  static const double Zero;
-  static const double One;
-  static const double Min;
-  static const double Max;
+  typedef double ScalarType;
+  static ScalarType& GetScalar(double& v) {return v;}
+  static void SetScalar(double& data, ScalarType const& v) {data = v;}
 };
+
+// -----------------------------------------------------------------------
+// The following are specializations of the itkVectorTraits for the native
+// types.
+template <>
+class itkVectorTraits<bool> {
+public:
+  typedef bool ValueType;
+  typedef bool VectorType;
+  static VectorType& GetVector(bool& v) {return v;}
+  static void SetVector(bool& data, VectorType const& v) {data = v;}
+};
+
+template <>
+class itkVectorTraits<unsigned char> {
+public:
+  typedef unsigned char ValueType;
+  typedef unsigned char VectorType;
+  static VectorType& GetVector(unsigned char& v) {return v;}
+  static void SetVector(unsigned char& data, VectorType const& v) {data = v;}
+};
+
+template <>
+class itkVectorTraits<signed char> {
+public:
+  typedef signed char ValueType;
+  typedef signed char VectorType;
+  static VectorType& GetVector(signed char& v) {return v;}
+  static void SetVector(signed char& data, VectorType const& v) {data = v;}
+};
+
+template <>
+class itkVectorTraits<unsigned short> {
+public:
+  typedef unsigned short ValueType;
+  typedef unsigned short VectorType;
+  static VectorType& GetVector(unsigned short& v) {return v;}
+  static void SetVector(unsigned short& data, VectorType const& v) {data = v;}
+};
+
+template <>
+class itkVectorTraits<signed short> {
+public:
+  typedef signed short ValueType;
+  typedef signed short VectorType;
+  static VectorType& GetVector(signed short& v) {return v;}
+  static void SetVector(signed short& data, VectorType const& v) {data = v;}
+};
+
+template <>
+class itkVectorTraits<unsigned int> {
+public:
+  typedef unsigned int ValueType;
+  typedef unsigned int VectorType;
+  static VectorType& GetVector(unsigned int& v) {return v;}
+  static void SetVector(unsigned int& data, VectorType const& v) {data = v;}
+};
+
+template <>
+class itkVectorTraits<signed int> {
+public:
+  typedef signed int ValueType;
+  typedef signed int VectorType;
+  static VectorType& GetVector(signed int& v) {return v;}
+  static void SetVector(signed int& data, VectorType const& v) {data = v;}
+};
+
+template <>
+class itkVectorTraits<signed long> {
+public:
+  typedef signed long ValueType;
+  typedef signed long VectorType;
+  static VectorType& GetVector(signed long& v) {return v;}
+  static void SetVector(signed long& data, VectorType const& v) {data = v;}
+};
+
+template <>
+class itkVectorTraits<unsigned long> {
+public:
+  typedef unsigned long ValueType;
+  typedef unsigned long VectorType;
+  static VectorType& GetVector(unsigned long& v) {return v;}
+  static void SetVector(unsigned long& data, VectorType const& v) {data = v;}
+};
+
+template <>
+class itkVectorTraits<float> {
+public:
+  typedef float ValueType;
+  typedef float VectorType;
+  static VectorType& GetVector(float& v) {return v;}
+  static void SetVector(float& data, VectorType const& v) {data = v;}
+};
+
+template <>
+class itkVectorTraits<double> {
+public:
+  typedef double ValueType;
+  typedef double VectorType;
+  static VectorType& GetVector(double& v) {return v;}
+  static void SetVector(double& data, VectorType const& v) {data = v;}
+};
+
 
 #endif // __itkPixelTraits_h

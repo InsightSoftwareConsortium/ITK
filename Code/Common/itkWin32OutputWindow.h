@@ -27,6 +27,7 @@
 #define __itkWin32OutputWindow_h
 
 #include "itkOutputWindow.h"
+#include <windows.h>
 
 class ITK_EXPORT itkWin32OutputWindow : public itkOutputWindow
 {

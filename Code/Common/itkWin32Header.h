@@ -17,15 +17,12 @@ See COPYRIGHT.txt for copyright details.
 #ifndef __itkWIN32Header_h
 #define __itkWIN32Header_h
 
-// include  generic stuff 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-
-// now add in the UNIX / Windows varients
+// add in the Windows variants
 #if defined(_WIN32) || defined(WIN32)
-#include <windows.h>
+// Uncommenting the following line can cause problems because macros
+// like min & max are defined which screws up traits 
+// (numeric_limits::min()and such.
+//#include <windows.h>
 
 #pragma warning ( disable : 4244 )
 #pragma warning ( disable : 4305 )

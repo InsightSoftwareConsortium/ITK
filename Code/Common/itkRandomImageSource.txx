@@ -49,6 +49,8 @@ itkRandomImageSource<TOutputImage>
 
 }
 
+// Microsoft compiler defines these and screws up the traits
+
 //----------------------------------------------------------------------------
 template <class TOutputImage>
 void 
@@ -60,11 +62,12 @@ itkRandomImageSource<TOutputImage>
   TOutputImage::Index ind;
   long index[2];
   TOutputImage::PixelType pixel;
-  TOutputImage::PixelValueType min = 
-    itkPixelTraits<TOutputImage::PixelValueType>::Min;
-  TOutputImage::PixelValueType max = 
-    itkPixelTraits<TOutputImage::PixelValueType>::Max;
-  TOutputImage::PixelValueType value;
+
+  TOutputImage::ScalarValueType min = 
+    itkNumericTraits<TOutputImage::ScalarValueType>::min();
+  TOutputImage::ScalarValueType max = 
+    itkNumericTraits<TOutputImage::ScalarValueType>::max();
+  TOutputImage::ScalarValueType value;
   unsigned int pixelDimension = pixel.GetPixelDimension();
 
   itkDebugMacro(<<"Generating random image");
