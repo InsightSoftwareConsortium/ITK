@@ -7,7 +7,7 @@
 namespace itk
 {
 template <unsigned int VImageDimension>
-class BloxBoundaryProfileItem : public BloxItem
+class ITK_EXPORT BloxBoundaryProfileItem : public BloxItem
 {
 public:
   /** Run-time type information (and related methods). */
