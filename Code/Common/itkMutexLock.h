@@ -32,7 +32,7 @@ typedef abilock_t MutexType;
 typedef pthread_mutex_t MutexType;
 #endif
  
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
 #include <winbase.h>
 typedef HANDLE MutexType;
 #endif

@@ -84,7 +84,7 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
 #endif
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
     {
       SYSTEM_INFO sysInfo;
       GetSystemInfo(&sysInfo);
@@ -176,7 +176,7 @@ void MultiThreader::SingleMethodExecute()
 {
   int                thread_loop = 0;
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   DWORD              threadId;
   HANDLE             process_id[ITK_MAX_THREADS];
 #endif
@@ -207,7 +207,7 @@ void MultiThreader::SingleMethodExecute()
   // We are using sproc (on SGIs), pthreads(on Suns), or a single thread
   // (the default)  
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   // Using CreateThread on a PC
   //
   // We want to use CreateThread to start m_NumberOfThreads - 1 
@@ -303,7 +303,9 @@ void MultiThreader::SingleMethodExecute()
   pthread_attr_create( &attr );
 #else  
   pthread_attr_init(&attr);
+#if !defined(_WIN32)
   pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
+#endif
 #endif
   
   for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
@@ -357,7 +359,7 @@ void MultiThreader::MultipleMethodExecute()
 {
   int                thread_loop;
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   DWORD              threadId;
   HANDLE             process_id[ITK_MAX_THREADS];
 #endif
@@ -391,7 +393,7 @@ void MultiThreader::MultipleMethodExecute()
   // We are using sproc (on SGIs), pthreads(on Suns), CreateThread
   // on a PC or a single thread (the default)  
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   // Using CreateThread on a PC
   //
   // We want to use CreateThread to start m_NumberOfThreads - 1 
@@ -490,7 +492,9 @@ void MultiThreader::MultipleMethodExecute()
   pthread_attr_create( &attr );
 #else  
   pthread_attr_init(&attr);
+#ifndef _WIN32
   pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
+#endif
 #endif
 
   for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
@@ -542,7 +546,7 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
   ThreadFunctionType tf;
   tf = f; tf= tf;
   
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   DWORD              threadId;
 #endif
 
@@ -584,7 +588,7 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
   // We are using sproc (on SGIs), pthreads(on Suns or HPs), 
   // CreateThread (on win32), or generating an error  
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   // Using CreateThread on a PC
   //
   m_SpawnedThreadProcessID[id] = 
@@ -613,7 +617,9 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
   pthread_attr_create( &attr );
 #else  
   pthread_attr_init(&attr);
+#ifndef _WIN32
   pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
+#endif
 #endif
   
 #ifdef ITK_HP_PTHREADS
@@ -654,7 +660,7 @@ void MultiThreader::TerminateThread( int ThreadID )
   m_SpawnedThreadActiveFlag[ThreadID] = 0;
   m_SpawnedThreadActiveFlagLock[ThreadID]->Unlock();
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   WaitForSingleObject(m_SpawnedThreadProcessID[ThreadID], INFINITE);
   CloseHandle(m_SpawnedThreadProcessID[ThreadID]);
 #endif

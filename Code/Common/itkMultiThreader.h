@@ -55,16 +55,12 @@ namespace itk
 #define ITK_MAX_THREADS              32
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
 #define ITK_MAX_THREADS              8
 #endif
 
-#ifndef _WIN32
-#ifndef ITK_USE_SPROC
-#ifndef ITK_USE_PTHREADS
+#ifndef ITK_MAX_THREADS
 #define ITK_MAX_THREADS              1
-#endif
-#endif
 #endif
 
 // If ITK_USE_PTHREADS is defined, then the multithreaded
@@ -82,20 +78,19 @@ typedef pthread_t ThreadProcessIDType;
 #define ITK_THREAD_RETURN_TYPE   void *
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
 typedef LPTHREAD_START_ROUTINE ThreadFunctionType;
 typedef HANDLE ThreadProcessIDType;
 #define ITK_THREAD_RETURN_VALUE 0
 #define ITK_THREAD_RETURN_TYPE DWORD __stdcall
 #endif
 
-#ifndef _WIN32
-#ifndef ITK_USE_PTHREADS
+
+#ifndef ITK_THREAD_RETURN_VALUE
 typedef void (*ThreadFunctionType)(void *);
 typedef int ThreadProcessIDType;
 #define ITK_THREAD_RETURN_VALUE
 #define ITK_THREAD_RETURN_TYPE void
-#endif
 #endif
 
 // Description:

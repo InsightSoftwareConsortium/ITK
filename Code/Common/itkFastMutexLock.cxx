@@ -25,7 +25,7 @@ SimpleFastMutexLock::SimpleFastMutexLock()
   init_lock( &m_FastMutexLock );
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   //this->MutexLock = CreateMutex( NULL, FALSE, NULL ); 
   InitializeCriticalSection(&m_FastMutexLock);
 #endif
@@ -43,12 +43,12 @@ SimpleFastMutexLock::SimpleFastMutexLock()
 // Destruct the vtkMutexVariable
 SimpleFastMutexLock::~SimpleFastMutexLock()
 {
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   //CloseHandle(this->MutexLock);
   DeleteCriticalSection(&m_FastMutexLock);
 #endif
 
-#ifdef VTK_USE_PTHREADS
+#ifdef ITK_USE_PTHREADS
   pthread_mutex_destroy( &m_FastMutexLock);
 #endif
 }
@@ -56,16 +56,16 @@ SimpleFastMutexLock::~SimpleFastMutexLock()
 // Lock the FastMutexLock
 void SimpleFastMutexLock::Lock()
 {
-#ifdef VTK_USE_SPROC
+#ifdef ITK_USE_SPROC
   spin_lock( &m_FastMutexLock );
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   //WaitForSingleObject( this->MutexLock, INFINITE );
   EnterCriticalSection(&m_FastMutexLock);
 #endif
 
-#ifdef VTK_USE_PTHREADS
+#ifdef ITK_USE_PTHREADS
   pthread_mutex_lock( &m_FastMutexLock);
 #endif
 }
@@ -73,16 +73,16 @@ void SimpleFastMutexLock::Lock()
 // Unlock the FastMutexLock
 void SimpleFastMutexLock::Unlock()
 {
-#ifdef VTK_USE_SPROC
+#ifdef ITK_USE_SPROC
   release_lock( &m_FastMutexLock );
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   //ReleaseMutex( this->MutexLock );
   LeaveCriticalSection(&m_FastMutexLock);
 #endif
 
-#ifdef VTK_USE_PTHREADS
+#ifdef ITK_USE_PTHREADS
   pthread_mutex_unlock( &m_FastMutexLock);
 #endif
 }

@@ -140,7 +140,7 @@ ProcessObject
 ::SetNthInput(unsigned int idx, DataObject *input)
 {
   // does this change anything?
-  if ( idx < m_Inputs.size() && input == m_Inputs[idx])
+  if ( idx < m_Inputs.size() && m_Inputs[idx] == input )
     {
     return;
     }

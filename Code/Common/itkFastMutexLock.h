@@ -32,7 +32,7 @@ typedef abilock_t FastMutexType;
 typedef pthread_mutex_t FastMutexType;
 #endif
  
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
 #include <winbase.h>
 typedef CRITICAL_SECTION FastMutexType;
 #endif

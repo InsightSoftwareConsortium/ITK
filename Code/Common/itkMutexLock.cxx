@@ -31,7 +31,7 @@ SimpleMutexLock::SimpleMutexLock()
   init_lock( &m_MutexLock );
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   m_MutexLock = CreateMutex( NULL, FALSE, NULL ); 
 #endif
 
@@ -48,7 +48,7 @@ SimpleMutexLock::SimpleMutexLock()
 // Destruct the MutexVariable
 SimpleMutexLock::~SimpleMutexLock()
 {
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   CloseHandle(m_MutexLock);
 #endif
 
@@ -64,7 +64,7 @@ void SimpleMutexLock::Lock()
   spin_lock( &m_MutexLock );
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   WaitForSingleObject( m_MutexLock, INFINITE );
 #endif
 
@@ -80,7 +80,7 @@ void SimpleMutexLock::Unlock()
   release_lock( &m_MutexLock );
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   ReleaseMutex( m_MutexLock );
 #endif
 
