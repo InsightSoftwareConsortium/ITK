@@ -81,6 +81,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>
 ::AllocateUpdateBuffer()
 {
   // The update buffer looks just like the input.
+
   typename TInputImage::ConstPointer input = this->GetInput();
 
   m_UpdateBuffer->SetLargestPossibleRegion(input->GetLargestPossibleRegion());
@@ -91,7 +92,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>
   m_UpdateBuffer1->SetLargestPossibleRegion(input->GetLargestPossibleRegion());
   m_UpdateBuffer1->SetRequestedRegion(input->GetRequestedRegion());
   m_UpdateBuffer1->SetBufferedRegion(input->GetBufferedRegion());
-  m_UpdateBuffer1->Allocate();
+  m_UpdateBuffer1->Allocate();  
 }
 
 template <class TInputImage, class TOutputImage>
@@ -101,7 +102,7 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
-  
+return;  
   // get pointers to the input and output
   InputImagePointer  inputPtr = 
     const_cast< TInputImage * >( this->GetInput().GetPointer() );
@@ -404,6 +405,11 @@ void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
+  // Need to allocate output buffer
+  typename OutputImageType::Pointer output = this->GetOutput();
+  output->SetBufferedRegion(output->GetRequestedRegion());
+  output->Allocate();
+
   typename  InputImageType::ConstPointer  input  = this->GetInput();
   typename  OutputImageType::Pointer zeroCross;
   typename  OutputImageType::Pointer edge;
@@ -472,6 +478,7 @@ void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::ThreadedCompute2ndDerivativePos(const OutputImageRegionType& outputRegionForThread, int threadId)
 {
+
   unsigned int i;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
@@ -588,7 +595,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   SmartNeighborhoodInnerProduct<OutputImageType>  IP;
 
   for (++fit; fit != faceList.end(); ++fit)
-    { 
+    {   
       bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
                                                            input, *fit);
       bit1 =ConstSmartNeighborhoodIterator<InputImageType>(radius, 
@@ -601,7 +608,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
 
 
-      while ( ! bit.IsAtEnd() )
+      while ( ! bit.IsAtEnd()  )
         {
 
           gradMag = 0.0001;
@@ -696,21 +703,21 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  std::cout << "Variance: "
+  os << "Variance: "
             << m_Variance << std::endl;
-  std::cout << "MaximumError: "
+  os << "MaximumError: "
             << m_MaximumError << std::endl;
-  std::cout << "Threshold: "
+  os << "Threshold: "
             << m_Threshold << std::endl;
-  std::cout << "OutsideValue: "
+  os << "OutsideValue: "
             << m_OutsideValue << std::endl;
-  std::cout << "Center: "
+  os << "Center: "
             << m_Center << std::endl;
-  std::cout << "Stride: "
+  os << "Stride: "
             << m_Stride << std::endl;
-  std::cout << "UpdateBuffer: "
+  os << "UpdateBuffer: "
             << m_UpdateBuffer;
-  std::cout << "UpdateBuffer1: "
+  os << "UpdateBuffer1: "
             << m_UpdateBuffer1;
 }
 
