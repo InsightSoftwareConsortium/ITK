@@ -119,7 +119,7 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
     }
 #endif
 
-#ifndef _WIN32
+#ifndef ITK_USE_WIN32_THREADS
 #ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
     // If we are not multithreading, the number of threads should
@@ -203,7 +203,7 @@ void MultiThreader::SingleMethodExecute()
 {
   int                thread_loop = 0;
 
-#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+#ifdef ITK_USE_WIN32_THREADS
   DWORD              threadId;
   HANDLE             process_id[ITK_MAX_THREADS];
 #endif
@@ -234,7 +234,7 @@ void MultiThreader::SingleMethodExecute()
   // We are using sproc (on SGIs), pthreads(on Suns), or a single thread
   // (the default)  
 
-#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+#ifdef ITK_USE_WIN32_THREADS
   // Using CreateThread on a PC
   //
   // We want to use CreateThread to start m_NumberOfThreads - 1 
@@ -330,7 +330,7 @@ void MultiThreader::SingleMethodExecute()
   pthread_attr_create( &attr );
 #else  
   pthread_attr_init(&attr);
-#if !defined(_WIN32)
+#if !defined(__CYGWIN__)
   pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
 #endif
 #endif
@@ -370,7 +370,7 @@ void MultiThreader::SingleMethodExecute()
     }
 #endif
 
-#ifndef _WIN32
+#ifndef ITK_USE_WIN32_THREADS
 #ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
   // There is no multi threading, so there is only one thread.
@@ -386,7 +386,7 @@ void MultiThreader::MultipleMethodExecute()
 {
   int                thread_loop;
 
-#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+#ifdef ITK_USE_WIN32_THREADS
   DWORD              threadId;
   HANDLE             process_id[ITK_MAX_THREADS];
 #endif
@@ -420,7 +420,7 @@ void MultiThreader::MultipleMethodExecute()
   // We are using sproc (on SGIs), pthreads(on Suns), CreateThread
   // on a PC or a single thread (the default)  
 
-#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+#ifdef ITK_USE_WIN32_THREADS
   // Using CreateThread on a PC
   //
   // We want to use CreateThread to start m_NumberOfThreads - 1 
@@ -519,7 +519,7 @@ void MultiThreader::MultipleMethodExecute()
   pthread_attr_create( &attr );
 #else  
   pthread_attr_init(&attr);
-#ifndef _WIN32
+#ifndef __CYGWIN__
   pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
 #endif
 #endif
@@ -553,7 +553,7 @@ void MultiThreader::MultipleMethodExecute()
     }
 #endif
 
-#ifndef _WIN32
+#ifndef ITK_USE_WIN32_THREADS
 #ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
   // There is no multi threading, so there is only one thread.
@@ -573,7 +573,7 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
   ThreadFunctionType tf;
   tf = f; tf= tf;
   
-#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+#ifdef ITK_USE_WIN32_THREADS
   DWORD              threadId;
 #endif
 
@@ -615,7 +615,7 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
   // We are using sproc (on SGIs), pthreads(on Suns or HPs), 
   // CreateThread (on win32), or generating an error  
 
-#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+#ifdef ITK_USE_WIN32_THREADS
   // Using CreateThread on a PC
   //
   m_SpawnedThreadProcessID[id] = 
@@ -644,7 +644,7 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
   pthread_attr_create( &attr );
 #else  
   pthread_attr_init(&attr);
-#ifndef _WIN32
+#ifndef __CYGWIN__
   pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
 #endif
 #endif
@@ -661,7 +661,7 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
 
 #endif
 
-#ifndef _WIN32
+#ifndef ITK_USE_WIN32_THREADS
 #ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
   // There is no multi threading, so there is only one thread.
@@ -687,7 +687,7 @@ void MultiThreader::TerminateThread( int ThreadID )
   m_SpawnedThreadActiveFlag[ThreadID] = 0;
   m_SpawnedThreadActiveFlagLock[ThreadID]->Unlock();
 
-#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+#ifdef ITK_USE_WIN32_THREADS
   WaitForSingleObject(m_SpawnedThreadProcessID[ThreadID], INFINITE);
   CloseHandle(m_SpawnedThreadProcessID[ThreadID]);
 #endif
@@ -703,7 +703,7 @@ void MultiThreader::TerminateThread( int ThreadID )
   pthread_join( m_SpawnedThreadProcessID[ThreadID], NULL );
 #endif
 
-#ifndef _WIN32
+#ifndef ITK_USE_WIN32_THREADS
 #ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
   // There is no multi threading, so there is only one thread.

@@ -80,7 +80,7 @@ namespace itk
 #define ITK_MAX_THREADS              32
 #endif
 
-#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+#ifdef ITK_USE_WIN32_THREADS
 #define ITK_MAX_THREADS              8
 #endif
 
@@ -103,7 +103,7 @@ typedef pthread_t ThreadProcessIDType;
 #define ITK_THREAD_RETURN_TYPE   void *
 #endif
 
-#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+#ifdef ITK_USE_WIN32_THREADS
 typedef LPTHREAD_START_ROUTINE ThreadFunctionType;
 typedef HANDLE ThreadProcessIDType;
 #define ITK_THREAD_RETURN_VALUE 0
