@@ -40,7 +40,7 @@ int itkMeshSpatialObjectTest(int, char * [] )
   MeshType::Pointer mesh = MeshType::New();
 
   MeshType::CoordRepType testPointCoords[4][3]
-    = { {0,0,0}, {9,0,0}, {9,0,9}, {0,0,9} };
+    = { {0,0,0}, {9,0,0}, {9,9,0}, {0,0,9} };
   
   unsigned long tetraPoints[4] = {0,1,2,4};
  
@@ -58,7 +58,7 @@ int itkMeshSpatialObjectTest(int, char * [] )
   // Create the mesh Spatial Object
   MeshSpatialObjectType::Pointer meshSO = MeshSpatialObjectType::New();
   meshSO->SetMesh(mesh);
-
+    
   std::cout << "Testing GetMesh(): ";
 
   if(mesh != meshSO->GetMesh())
@@ -73,7 +73,7 @@ int itkMeshSpatialObjectTest(int, char * [] )
   if( (meshSO->GetBoundingBox()->GetBounds()[0] != 0)
    || (meshSO->GetBoundingBox()->GetBounds()[1] != 9)
    || (meshSO->GetBoundingBox()->GetBounds()[2] != 0)
-   || (meshSO->GetBoundingBox()->GetBounds()[3] != 0)
+   || (meshSO->GetBoundingBox()->GetBounds()[3] != 9)
    || (meshSO->GetBoundingBox()->GetBounds()[4] != 0)
    || (meshSO->GetBoundingBox()->GetBounds()[5] != 9)
    )
@@ -89,13 +89,13 @@ int itkMeshSpatialObjectTest(int, char * [] )
   std::cout << "Testing IsInside: ";
 
   MeshSpatialObjectType::PointType inside;
-  inside[0] = 5;
-  inside[1] = 0;
-  inside[2] = 5;
+  inside[0] = 1;
+  inside[1] = 1;
+  inside[2] = 1;
   MeshSpatialObjectType::PointType outside;
-  outside[0] = 10;
-  outside[1] = 0;
-  outside[2] = 5;
+  outside[0] = 0;
+  outside[1] = 3;
+  outside[2] = 0;
 
   if(!meshSO->IsInside(inside) || meshSO->IsInside(outside))
     {
