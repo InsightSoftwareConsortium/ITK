@@ -42,6 +42,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBinaryMedianImageFilter.txx"
 #include "itkBinaryThresholdImageFilter.txx"
 #include "itkBinomialBlurImageFilter.txx"
+#include "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.txx"
 #include "itkBloxBoundaryPointToCoreAtomImageFilter.txx"
 #include "itkCannyEdgeDetectionImageFilter.txx"
 #include "itkCastImageFilter.h"
