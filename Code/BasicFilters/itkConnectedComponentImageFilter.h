@@ -51,6 +51,11 @@ public:
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
 
   /**
+   * Types from the Superclass
+   */
+  typedef typename Superclass::InputImagePointer InputImagePointer;
+
+  /**
    * Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same.
    */

@@ -132,8 +132,8 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   InputRealType mean     = itk::NumericTraits<InputRealType>::Zero;
   InputRealType variance = itk::NumericTraits<InputRealType>::Zero;
 
-  SeedsContainerType::const_iterator si = m_Seeds.begin();
-  SeedsContainerType::const_iterator li = m_Seeds.end();
+  typename SeedsContainerType::const_iterator si = m_Seeds.begin();
+  typename SeedsContainerType::const_iterator li = m_Seeds.end();
   while( si != li )
     {
     mean     += meanFunction->EvaluateAtIndex( *si );

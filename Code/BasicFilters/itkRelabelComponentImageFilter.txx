@@ -125,7 +125,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   //
 
   // walk the input
-  InputImagePixelType inputValue;
+  InputPixelType inputValue;
   ImageRegionConstIterator<InputImageType> it;
   it = ImageRegionConstIterator<InputImageType>(input,
                                                 input->GetRequestedRegion());
@@ -207,7 +207,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
 
   // Remap the labels.  Note we only walk the region of the output
   // that was requested.  This may be a subset of the input image.
-  OutputImagePixelType outputValue;
+  OutputPixelType outputValue;
   ImageRegionIterator<OutputImageType> oit;
   oit = ImageRegionIterator<OutputImageType>(output,
                                              output->GetRequestedRegion());

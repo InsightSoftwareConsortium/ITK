@@ -1,17 +1,17 @@
- /*=========================================================================
+/*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSpatialObjectToImageStatisticsCalculator.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkSpatialObjectToImageStatisticsCalculator.txx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) 2002 Insight Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef _itkSpatialObjectToImageStatisticsCalculator_txx
@@ -48,20 +48,20 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
 ::Update(void)
 {
   if(!m_Image || !m_SpatialObject)
-  {
+    {
     std::cout << "SpatialObjectToImageStatisticsCalculator: "; 
     std::cout << "Please set the image AND the spatialb object first." << std::endl;
     return;
-  }
+    }
 
   // Update only if the image or the spatial object has been modified
   if((m_Image->GetMTime() == m_InternalImageTime)
      &&
      (m_SpatialObject->GetMTime() == m_InternalSpatialObjectTime) 
     )
-  {
+    {
     return; // No need to update
-  }
+    }
 
   
   m_InternalImageTime = m_Image->GetMTime();
@@ -73,16 +73,16 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   
   Point<double,itkGetStaticConstMacro(ObjectDimension)> pt;
   for(unsigned int i=0;i<itkGetStaticConstMacro(ObjectDimension);i++)
-  {
+    {
     pt[i]=boundingBox->GetBounds()[i*2]+(boundingBox->GetBounds()[i*2+1]-boundingBox->GetBounds()[i*2])/2;
-  }
+    }
 
   IndexType index;
   pt = m_SpatialObject->GetIndexToWorldTransform()->TransformPoint(pt);
   for(unsigned int i=0;i<itkGetStaticConstMacro(ObjectDimension);i++)
-  {
+    {
     index[i]=pt[i];
-  }
+    }
 
   IteratorType it = IteratorType(m_Image,m_SpatialObject,index);
   it.SetOriginInclusionStrategy();
@@ -90,26 +90,26 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
 
   typedef typename ImageType::PixelType PixelType;
   typedef itk::Statistics::ListSample< VectorType > SampleType;
-  SampleType::Pointer sample = SampleType::New();
+  typename SampleType::Pointer sample = SampleType::New();
  
   while(!it.IsAtEnd())
-  {
+    {
     IndexType ind = it.GetIndex();
     VectorType mv ;
     mv[0] = it.Get();
     for(unsigned int i=1;i<itkGetStaticConstMacro(SampleDimension);i++)
-    {
+      {
       ind[m_SampleDirection] += 1;
       mv[i]= m_Image->GetPixel(ind);
-    }
+      }
     sample->PushBack( mv ) ;
     ++it;
-  }
+    }
 
   typedef itk::Statistics::MeanCalculator< SampleType >
     MeanAlgorithmType ;
   
-  MeanAlgorithmType::Pointer meanAlgorithm = MeanAlgorithmType::New() ;
+  typename MeanAlgorithmType::Pointer meanAlgorithm = MeanAlgorithmType::New() ;
 
   meanAlgorithm->SetInputSample( sample ) ;
   meanAlgorithm->Update() ;
@@ -119,7 +119,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   typedef itk::Statistics::CovarianceCalculator< SampleType >
     CovarianceAlgorithmType ;
   
-  CovarianceAlgorithmType::Pointer covarianceAlgorithm = 
+  typename CovarianceAlgorithmType::Pointer covarianceAlgorithm = 
     CovarianceAlgorithmType::New() ;
 
   covarianceAlgorithm->SetInputSample( sample ) ;
