@@ -96,7 +96,7 @@ Image<TPixel, VImageDimension>
 
   for(unsigned int i=0; i<numberOfPixels; i++) 
     {
-    m_Buffer[i] = value;
+    (*m_Buffer)[i] = value;
     }
 }
 
