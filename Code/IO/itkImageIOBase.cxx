@@ -163,6 +163,24 @@ const std::type_info& ImageIOBase::GetComponentTypeInfo() const
     this->SetPixelType(ImageIOBase::VECTOR); \
     this->SetComponentType(ImageIOBase::ntype); \
     } \
+  else if ( ptype == typeid(Vector<type,5>) ) \
+    { \
+    this->SetNumberOfComponents(5); \
+    this->SetPixelType(ImageIOBase::VECTOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    } \
+  else if ( ptype == typeid(Vector<type,6>) ) \
+    { \
+    this->SetNumberOfComponents(6); \
+    this->SetPixelType(ImageIOBase::VECTOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    } \
+  else if ( ptype == typeid(Vector<type,7>) ) \
+    { \
+    this->SetNumberOfComponents(7); \
+    this->SetPixelType(ImageIOBase::VECTOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    } \
   else if ( ptype == typeid(CovariantVector<type,2>) ) \
     { \
     this->SetNumberOfComponents(2); \
@@ -180,7 +198,26 @@ const std::type_info& ImageIOBase::GetComponentTypeInfo() const
     this->SetNumberOfComponents(4); \
     this->SetPixelType(ImageIOBase::COVARIANTVECTOR); \
     this->SetComponentType(ImageIOBase::ntype); \
+    } \
+  else if ( ptype == typeid(CovariantVector<type,5>) ) \
+    { \
+    this->SetNumberOfComponents(5); \
+    this->SetPixelType(ImageIOBase::COVARIANTVECTOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    } \
+  else if ( ptype == typeid(CovariantVector<type,6>) ) \
+    { \
+    this->SetNumberOfComponents(6); \
+    this->SetPixelType(ImageIOBase::COVARIANTVECTOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    } \
+  else if ( ptype == typeid(CovariantVector<type,7>) ) \
+    { \
+    this->SetNumberOfComponents(7); \
+    this->SetPixelType(ImageIOBase::COVARIANTVECTOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
     }
+
 
 
 bool ImageIOBase::SetPixelTypeInfo(const std::type_info& ptype)
