@@ -205,7 +205,7 @@ LightObject
  */
 void 
 LightObject
-::PrintTrailer(std::ostream& os, Indent indent) const
+::PrintTrailer(std::ostream& itkNotUsed(os), Indent itkNotUsed(indent)) const
 {
 }
 
