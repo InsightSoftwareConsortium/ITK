@@ -78,6 +78,19 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   if( m_LabelStatus ) delete [] m_LabelStatus;
 }
 
+template<class TInputImage, class TClassifiedImage>
+void
+MRFImageFilter<TInputImage, TClassifiedImage>
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << indent <<" MRF Image filter object " << std::endl;
+  os << indent <<" Number of classes: " << m_NumberOfClasses << std::endl;
+  os << indent <<" Maximum number of iterations: " << m_MaximumNumberOfIterations << std::endl;
+  os << indent <<" Error tollerance for convergence: " << m_ErrorTolerance << std::endl;
+
+}// end PrintSelf
+
 /**
  * GenerateInputRequestedRegion method.
  */
@@ -214,13 +227,6 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   this->Allocate();
 }// Set the LabelledImage
 
-template<class TInputImage, class TClassifiedImage>
-void
-MRFImageFilter<TInputImage, TClassifiedImage>
-::PrintSelf( std::ostream& os, Indent indent ) const
-{
-  Superclass::PrintSelf(os,indent);
-}// end PrintSelf
 
 
 template<class TInputImage, class TClassifiedImage>
