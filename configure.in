@@ -380,6 +380,21 @@ fi
 ## Check thread support ##
 ##			##
 ##########################
+
+##########################
+##                      ##
+##      sproc           ##
+##                      ##
+##########################
+# check for sproc
+force_sproc=no
+AC_ARG_WITH(sproc,
+         [  --with-sproc           use sproc instead of pthreads if possible],
+         if test "$withval" = yes; then
+         force_sproc=yes
+         fi,)
+
+
 THREAD_LIBS=""
 THREAD_FLAGS=""
 use_sproc=no
@@ -388,6 +403,7 @@ if test "$use_sproc" = "yes"; then
 case $system in
     Linux* | IRIX64-6.5 | IRIX-6.5) 
         if test "$force_sproc" = "yes"; then
+	  echo "**** force_sproc=yes $force_sproc" 
            CMAKE_USE_SPROC=1
         else
 	  use_sproc=no
@@ -398,7 +414,6 @@ case $system in
 	;;
 esac
 fi
-
 use_pthreads=no
 AC_CHECK_HEADERS(pthread.h, [use_pthreads=yes])
 if test "$use_pthreads" = "yes"; then
@@ -436,8 +451,19 @@ case $system in
 esac
 fi
 
+
+if test $CMAKE_USE_SPROC = 1; then
+AC_DEFINE(CMAKE_USE_SPROC)
+fi
+if test $CMAKE_USE_PTHREADS = 1; then
+AC_DEFINE(CMAKE_USE_PTHREADS)
+fi
+if test $CMAKE_HP_PTHREADS = 1; then
+AC_DEFINE(CMAKE_HP_PTHREADS)
+fi
+
 AC_SUBST(THREAD_LIBS)
-AC_SUBST(CMAKE_USE_PTHREADS)
+
 
 
 # on hp use -Aa for ansi

@@ -13,3 +13,14 @@
 #undef HAVE_UNISTD_H
 
 #define _HP_NO_FAST_MACROS
+
+
+#ifdef CMAKE_USE_PTHREADS
+#define ITK_USE_PTHREADS
+#endif
+#ifdef CMAKE_USE_SPROC
+#define ITK_USE_SPROC
+#endif
+#ifdef CMAKE_HP_PTHREADS
+#define ITK_HP_PTHREADS
+#endif
