@@ -141,7 +141,8 @@ vnl_matrix<MembraneC02D::Float> MembraneC02D::Me() const
   vnl_matrix<Float> MatMe(8,8), I(2,2),  shapeFINV(4,2), 
      shapeF(4,2), J(2,2), Nmat(3,8);
 
-  Float detJ,rho=1.;
+  Float detJ;
+//  Float rho=1.;
   
   /** Gaussian integration points */
   Float pt = 1.0 / sqrt(3.0);
