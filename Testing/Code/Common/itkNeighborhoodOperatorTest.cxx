@@ -43,6 +43,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkForwardDifferenceOperator.h"
 #include "itkBackwardDifferenceOperator.h"
 #include "itkGaussianOperator.h"
+#include "itkLaplacianOperator.h"
+#include "itkSobelOperator.h"
 #include "itkSize.h"
 
 void println(const char *c) { std::cout << std::endl << c << std::endl; }
@@ -76,6 +78,19 @@ int main()
   b.SetDirection(0);
   b.CreateDirectional();
   b.Print(std::cout);
+
+  println("Testing LaplacianOperator");
+  itk::LaplacianOperator<float, 2, vnl_vector<float> > a;
+  a.CreateOperator();
+  a.Print(std::cout);
+
+  println("Testing SobelOperator");
+  itk::SobelOperator<float, 2, vnl_vector<float> > c;
+  c.SetDirection(0);
+  c.CreateOperator();
+  c.Print(std::cout);
+
+
 
   return 0;
 }
