@@ -48,13 +48,7 @@ OPTION(ITK_WRAP_TCL "Build Tcl wrapper support (requires CABLE/GCC-XML)." OFF)
 OPTION(BUILD_EXAMPLES "Build the Examples directory." ON)
 OPTION(ITK_USE_SYSTEM_STDLIB
        "Use the system's version of the standard C++ library (STL and streams).  If 'OFF', ITK will build against a supplied version of the standard library from SGI.  On SGI systems, this should be set to 'OFF'." ON)
-OPTION(VXL_FROM_UTILITIES "Use new vxl from utilities." OFF)
-MARK_AS_ADVANCED(VXL_FROM_UTILITIES)
-IF(VXL_FROM_UTILITIES)
-  SET(VXL_NUMERICS_LIBRARIES itkvnl itkvnl_algo itknetlib)
-ELSE(VXL_FROM_UTILITIES)
-  SET(VXL_NUMERICS_LIBRARIES VXLNumerics)
-ENDIF(VXL_FROM_UTILITIES)
+SET(VXL_NUMERICS_LIBRARIES itkvnl itkvnl_algo itknetlib)
 
 # Provide options to use system versions of third-party libraries.
 ITK_THIRD_PARTY_OPTION(ZLIB zlib)
@@ -171,45 +165,6 @@ INCLUDE_DIRECTORIES(
   ${ITK_INCLUDE_DIRS_BUILD_TREE_CXX}
   ${ITK_INCLUDE_DIRS_SYSTEM}
 )
-
-#-----------------------------------------------------------------------------
-# Setup third-party components.
-
-# Make directories in the binary tree.
-MAKE_DIRECTORY(${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl)
-MAKE_DIRECTORY(${ITK_BINARY_DIR}/Documentation/Doxygen)
-
-# Run VXL configure scripts.
-IF(RUN_CONFIGURE)
- IF(NOT VXL_FROM_UTILITIES)
-  IF(UNIX)
-    EXEC_PROGRAM(${ITK_SOURCE_DIR}/Code/Numerics/vxl/configure 
-                 ${ITK_BINARY_DIR}/Code/Numerics/vxl)
-    EXEC_PROGRAM(${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/configure 
-                 ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl)
-  ENDIF(UNIX)
- ENDIF(NOT VXL_FROM_UTILITIES)
-ENDIF(RUN_CONFIGURE)
-
-# For win32 vc60, just copy files with predefined configurations.
-IF(NOT UNIX)
- IF(NOT VXL_FROM_UTILITIES)
-  IF(WIN32)
-    CONFIGURE_FILE(
-        ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vxl_config.h
-        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vxl_config.h COPYONLY)
-    CONFIGURE_FILE(
-        ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_compiler.h
-        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_compiler.h COPYONLY)
-    CONFIGURE_FILE(
-        ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_headers.h
-        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_headers.h COPYONLY)
-    CONFIGURE_FILE(
-        ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_manual.h
-        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_manual.h COPYONLY)
-  ENDIF(WIN32)
- ENDIF(NOT VXL_FROM_UTILITIES)
-ENDIF(NOT UNIX)
 
 #-----------------------------------------------------------------------------
 # Help other projects use ITK.
