@@ -259,7 +259,7 @@ void
 AffineTransform<ScalarType, NDimensions>::
 Rotate2D(double angle, bool pre)
 {
-  vnl_matrix_fixed<ScalarType, 2, 2> trans;
+  MatrixType trans;
 
   trans[0][0] =  cos(angle);
   trans[0][1] =  sin(angle);
@@ -503,7 +503,7 @@ BackTransformPoint(const OutputPointType &point) const
 
   for (i = 0; i < NDimensions; i++) 
     {
-    res[i] = 0.0;
+    result[i] = 0.0;
     for (j = 0; j < NDimensions; j++) 
       {
       result[i] += m_Inverse[i][j]*temp[j];
