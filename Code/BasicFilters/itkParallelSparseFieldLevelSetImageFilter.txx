@@ -1654,14 +1654,14 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   if (InOrOut == 1)
     {
     delta =  - m_ConstantGradientValue;
-    from = 1;
+    from = 2;
     InputList  = m_Data[ThreadId].UpList[InputLayerNumber];
     OutputList = m_Data[ThreadId].UpList[OutputLayerNumber];
     }
   else
     {
     delta = m_ConstantGradientValue;
-    from = 2;
+    from = 1;
     InputList  = m_Data[ThreadId].DownList[InputLayerNumber];
     OutputList = m_Data[ThreadId].DownList[OutputLayerNumber];
     }
