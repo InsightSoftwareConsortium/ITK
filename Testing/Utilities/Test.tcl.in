@@ -49,23 +49,6 @@ puts $Out "<Site BuildName=\"$BuildName\" BuildStamp=\"$BuildStamp\" Name=\"$Sit
 puts $Out {<Testing>}
 puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
 
-
-proc FindTests { Path } \
-{
-  global TestList
-  set Tests [GetCMakeVariable TESTS]
-  foreach Test $Tests \
-  {
-    lappend TestList "[file join $Path $Test]"
-  }
-  foreach SubDir [GetCMakeVariable SUBDIRS] \
-  {
-    cd $SubDir
-    FindTests [file join $Path $SubDir]
-    cd ..
-  }
-}
-
 # Find the list of canidate tests
 puts "\tFinding Tests"
 set TestList ""

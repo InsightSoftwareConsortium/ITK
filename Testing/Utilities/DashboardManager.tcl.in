@@ -66,6 +66,7 @@ set NightlyDateStamp [MakeNightlyDateStamp]
 
 switch -glob -- $Model \
 {
+  Continuous - \
   Exp* \
   {
     set BuildStampDir [file join $BuildStampBase $DateTimeStamp]

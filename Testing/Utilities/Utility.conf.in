@@ -59,6 +59,11 @@ SetConfiguration SourceDirectory [list @fullSrcDir@ ]
 SetConfiguration Site [list @SITE@ ]
 SetConfiguration BuildName [list @BUILDNAME@ ]
 
+SetConfiguration PurifyHome /wvp/purify-4.1-irix6/
+# SetConfiguration PurifyCommand purify
+SetConfiguration PurifyCommand /wvp/purify-4.1-irix6/purify
+
+
 SetConfiguration Xalan [list [file join @fullSrcDir@ Testing Utilities xalan xalan.jar]]
 
 set XMLHeader {<?xml version="1.0" encoding="UTF-8"?>}
