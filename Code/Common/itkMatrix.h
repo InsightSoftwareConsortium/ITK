@@ -66,7 +66,7 @@ public:
   Self operator*(const Self & matrix) const;
  
   /** Matrix by vnl_matrix multiplication.  */
-  vnl_matrix_fixed<T,NRows,NColumns> operator*(const vnl_matrix<T> & matrix) const;
+  vnl_matrix<T> operator*(const vnl_matrix<T> & matrix) const;
 
   /** Matrix by Matrix multiplication.  */
   void operator*=(const Self & matrix);
