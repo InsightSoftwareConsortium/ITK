@@ -34,6 +34,20 @@ public:
 
 // The following are the public methods --------------------------------
 //
+
+  // Machine definitions
+#ifdef CMAKE_WORDS_BIGENDIAN
+  template <class T>
+  bool ByteSwap<T>::IsBigEndian() { return true; }
+  template <class T>
+  bool ByteSwap<T>::IsLittleEndian() { return false; }
+#else
+  template <class T>
+  bool ByteSwap<T>::IsBigEndian() { return false; }
+  template <class T>
+  bool ByteSwap<T>::IsLittleEndian() { return true; }
+#endif  
+
   
 //------Big Endian methods----------------------------------------------
 

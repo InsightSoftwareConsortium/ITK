@@ -19,6 +19,7 @@
 #include "itkObject.h"
 #include "itkPoint.h"
 #include "itkNumericTraits.h"
+#include "itkVectorContainer.h"
 
 namespace itk
 {
@@ -124,7 +125,7 @@ public:
    * Get the center of the bounding box. Returns NULL if bounding box
    * cannot be computed.
    */
-  CoordRepType* GetCenter(CoordRepType bounds[PointDimension*2]);
+  CoordRepType* GetCenter(CoordRepType bounds[PointDimension]);
 
   //@{
   /**

@@ -58,6 +58,14 @@ public:
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
+
+  /**
+   * Query the machine Endian-ness
+   */
+  static bool IsBigEndian ();
+  static bool IsBE () { return IsBigEndian(); };
+  static bool IsLittleEndian ();
+  static bool IsLE () { return IsLittleEndian(); };
   
   /**
    * Generic swap method handles type T. The swapping is
