@@ -49,4 +49,17 @@ class vnl_sparse_matrix_linear_system : public vnl_linear_system
   vnl_vector<double> jacobi_precond_;
 };
 
+VCL_DEFINE_SPECIALIZATION
+void vnl_sparse_matrix_linear_system<double>::get_rhs(vnl_vector<double>& b) const;
+VCL_DEFINE_SPECIALIZATION
+void vnl_sparse_matrix_linear_system<double>::transpose_multiply(vnl_vector<double> const& b, vnl_vector<double> & x) const;
+VCL_DEFINE_SPECIALIZATION
+void vnl_sparse_matrix_linear_system<float>::get_rhs(vnl_vector<double>& b) const;
+VCL_DEFINE_SPECIALIZATION
+void vnl_sparse_matrix_linear_system<float>::transpose_multiply(vnl_vector<double> const& b, vnl_vector<double> & x) const;
+VCL_DEFINE_SPECIALIZATION
+void vnl_sparse_matrix_linear_system<double>::multiply(vnl_vector<double> const& x, vnl_vector<double> & b) const;
+VCL_DEFINE_SPECIALIZATION
+void vnl_sparse_matrix_linear_system<float>::multiply(vnl_vector<double> const& x, vnl_vector<double> & b) const;
+
 #endif // vnl_sparse_matrix_linear_system_h_
