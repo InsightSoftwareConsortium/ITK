@@ -118,7 +118,7 @@ public:
     {
       PointType transformedPoint = m_Transform->TransformPoint(*it);
       m_FixedImage->TransformPhysicalPointToIndex(transformedPoint,index);
-      if(index[0]>0 && index[1]>0
+      if(index[0]>(unsigned int)(0) && index[1]>(unsigned int)(0)
         && index[0]<m_FixedImage->GetLargestPossibleRegion().GetSize()[0]
         && index[1]<m_FixedImage->GetLargestPossibleRegion().GetSize()[1]
         )
@@ -205,7 +205,8 @@ int itkSpatialObjectToImageRegistrationTest(int, char**)
   GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
 
   gaussianFilter->SetInput(image);
-  gaussianFilter->SetVariance((const float)20);
+  const double variance = 20;
+  gaussianFilter->SetVariance(variance);
   gaussianFilter->Update();
   image = gaussianFilter->GetOutput();
 
