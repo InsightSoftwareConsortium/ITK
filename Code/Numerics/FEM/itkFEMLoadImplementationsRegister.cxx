@@ -70,6 +70,16 @@ void LoadImplementationsRegister(void)
   REGISTER_LOAD( QuadC02D,     LoadGravConst,    LoadGravImplementation_QuadC02D );
   REGISTER_LOAD( QuadC02D,     LoadEdge,         LoadEdgeImplementation_QuadC02D );
 
+  // Loads acting on MembraneC02D element
+  REGISTER_LOAD( MembraneC02D, LoadGrav,         LoadGravImplementation_MembraneC02D );
+  
+/*  typedef Image< unsigned char, 2 > ImageType;
+  extern Element::LoadVectorType LoadGravImplementation_MembraneC02D 
+    (MembraneC02D::ConstPointer, LoadElement::Pointer); 
+  VisitorDispatcher<MembraneC02D, LoadElement, 
+    Element::LoadVectorType>::RegisterVisitor((LoadImagePairBase<ImageType,ImageType>*)0, 
+    &LoadGravImplementation_MembraneC02D ); */
+
   // Loads acting on C1IsoCurve2D element
   REGISTER_LOAD( C1IsoCurve2D, LoadElement,      LoadImplementation_C1IsoCurve2D );
 
