@@ -31,9 +31,9 @@ CABLE_CLASS_SET(Params "itk::Point<$Float, $Dimension>")
 CABLE_CLASS_SET(Jacobian "itk::Matrix<$Float, 3, 3>")
 CABLE_CLASS_SET(Transform "itk::AffineTransform<$Float>")
 
-ADD_LIBRARY(ITKBasicFiltersTestTcl)
+ADD_LIBRARY(ITKBasicFiltersTestTcl1)
 
-CABLE_WRAP_TCL(ITKBasicFiltersTestTcl
+CABLE_WRAP_TCL(ITKBasicFiltersTestTcl1
   "itk::AcosImageFilter<$Image,$Image>"
   #"itk::AdaptImageFilter"
   "itk::AddImageFilter<$Image,$Image,$Image>"
@@ -54,6 +54,11 @@ CABLE_WRAP_TCL(ITKBasicFiltersTestTcl
   "itk::CurvatureAnisotropicDiffusionImageFilter<$Image,$Image>"
   "itk::CurvatureNDAnisotropicDiffusionFunction<$Image>"
   "itk::DanielssonDistanceMapImageFilter<$Image,$Image>"
+)
+
+ADD_LIBRARY(ITKBasicFiltersTestTcl2)
+
+CABLE_WRAP_TCL(ITKBasicFiltersTestTcl2
   "itk::DerivativeImageFilter<$Image,$Image>"
   "itk::DifferenceOfGaussiansGradientImageFilter<$Image,$Float>"
   "itk::DiscreteGaussianImageFilter<$Image,$Image>"
@@ -74,6 +79,11 @@ CABLE_WRAP_TCL(ITKBasicFiltersTestTcl
   "itk::GrayscaleDilateImageFilter<$Image,$Image,$Kernel>"
   "itk::GrayscaleErodeImageFilter<$Image,$Image,$Kernel>"
   "itk::GrayscaleFunctionDilateImageFilter<$Image,$Image,$Kernel>"
+)
+
+ADD_LIBRARY(ITKBasicFiltersTestTcl2)
+
+CABLE_WRAP_TCL(ITKBasicFiltersTestTcl2
   "itk::GrayscaleFunctionErodeImageFilter<$Image,$Image,$Kernel>"
   "itk::ImageToMeshFilter<$Image,$Mesh>"
   "itk::ImageToParametricSpaceFilter<$Image,$MeshI>"
@@ -94,6 +104,10 @@ CABLE_WRAP_TCL(ITKBasicFiltersTestTcl
   "itk::PadImageFilter<$Image,$Image>"
   "itk::ParametricSpaceToImageSpaceMeshFilter<$Mesh,$Mesh>"
   "itk::PlaheImageFilter<$Image>"
+)
+ADD_LIBRARY(ITKBasicFiltersTestTcl3)
+
+CABLE_WRAP_TCL(ITKBasicFiltersTestTcl3
   "itk::RandomImageSource<$Image>"
   "itk::RecursiveGaussianImageFilter<$Image,$Image,$Float>"
   "itk::RecursiveSeparableImageFilter<$Image,$Image,$Float>"
@@ -114,6 +128,10 @@ CABLE_WRAP_TCL(ITKBasicFiltersTestTcl
   # "itk::TernaryFunctorImageFilter"
   "itk::TernaryMagnitudeImageFilter<$Image,$Image,$Image,$Image>"
   "itk::TernaryMagnitudeSquaredImageFilter<$Image,$Image,$Image,$Image>"
+)
+ADD_LIBRARY(ITKBasicFiltersTestTcl4)
+
+CABLE_WRAP_TCL(ITKBasicFiltersTestTcl4
   "itk::ThresholdImageFilter<$Image>"
   "itk::TransformMeshFilter<$Mesh,$Mesh,$Transform>"
   "itk::TwoOutputExampleImageFilter<$Image>"
@@ -134,7 +152,29 @@ CABLE_WRAP_TCL(ITKBasicFiltersTestTcl
   "itk::ZeroCrossingImageFilter<$Image,$Image>"
 )
 
-TARGET_LINK_LIBRARIES(ITKBasicFiltersTestTcl
+TARGET_LINK_LIBRARIES(ITKBasicFiltersTestTcl1
+ITKCommon
+ITKBasicFilters
+VXLNumerics
+${CABLE_TCL_LIBRARY}
+${TCL_LIBRARY}
+)
+TARGET_LINK_LIBRARIES(ITKBasicFiltersTestTcl2
+ITKCommon
+ITKBasicFilters
+VXLNumerics
+${CABLE_TCL_LIBRARY}
+${TCL_LIBRARY}
+)
+TARGET_LINK_LIBRARIES(ITKBasicFiltersTestTcl3
+ITKCommon
+ITKBasicFilters
+VXLNumerics
+${CABLE_TCL_LIBRARY}
+${TCL_LIBRARY}
+)
+
+TARGET_LINK_LIBRARIES(ITKBasicFiltersTestTcl4
 ITKCommon
 ITKBasicFilters
 VXLNumerics
