@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
   // Make sure all the types requested were in the translation unit.
   if(!configuration->FindTypes(globalNamespace))
     {
-    fprintf(stderr, "Not all types defined in namespace...these are missing:\n");
+    fprintf(stderr, "Not all types defined in source...these are missing:\n");
     configuration->PrintMissingTypes(stderr);
     exit(1);
     }

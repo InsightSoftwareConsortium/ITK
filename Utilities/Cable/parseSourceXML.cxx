@@ -423,7 +423,14 @@ static void end_Typedef(void)
 static void begin_Class(const Attributes& atts)
 {
   String name = atts.Get("name");
-  Class::Pointer newClass = Class::New(name);
+  String accessStr = atts.Get("access");
+  Access access;
+
+  if(accessStr == access_public)         access = Public;
+  else if(accessStr == access_protected) access = Protected;
+  else                                   access = Private;
+  
+  Class::Pointer newClass = Class::New(name, access);
   
   CurrentContext()->AddClass(newClass);
   PushElement(newClass);
@@ -446,7 +453,14 @@ static void end_Class(void)
 static void begin_Struct(const Attributes& atts)
 {
   String name = atts.Get("name");
-  Struct::Pointer newStruct = Struct::New(name);
+  String accessStr = atts.Get("access");
+  Access access;
+
+  if(accessStr == access_public)         access = Public;
+  else if(accessStr == access_protected) access = Protected;
+  else                                   access = Private;
+  
+  Struct::Pointer newStruct = Struct::New(name, access);
 
   CurrentContext()->AddClass(newStruct);
   PushElement(newStruct);
@@ -469,7 +483,14 @@ static void end_Struct(void)
 static void begin_Union(const Attributes& atts)
 {
   String name = atts.Get("name");
-  Union::Pointer newUnion = Union::New(name);
+  String accessStr = atts.Get("access");
+  Access access;
+
+  if(accessStr == access_public)         access = Public;
+  else if(accessStr == access_protected) access = Protected;
+  else                                   access = Private;
+
+  Union::Pointer newUnion = Union::New(name, access);
   
   CurrentContext()->AddClass(newUnion);
   PushElement(newUnion);

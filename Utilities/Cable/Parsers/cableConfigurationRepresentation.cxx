@@ -248,7 +248,10 @@ WrapperConfiguration
   for(ClassesIterator c = ns->GetClasses().begin();
       c != ns->GetClasses().end(); ++c)
     {
-    this->FindTypesInClass(*c);
+    if((*c)->IsPublic())
+      {
+      this->FindTypesInClass(*c);
+      }
     }
   for(NamespacesIterator n = ns->GetNamespaces().begin();
       n != ns->GetNamespaces().end(); ++n)
@@ -277,6 +280,9 @@ WrapperConfiguration
   for(ClassesIterator c = cl->GetClasses().begin();
       c != cl->GetClasses().end(); ++c)
     {
-    this->FindTypesInClass(*c);    
+    if((*c)->IsPublic())
+      {
+      this->FindTypesInClass(*c);
+      }
     }
 }

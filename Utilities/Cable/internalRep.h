@@ -1057,7 +1057,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(const String& name);
+  static Pointer New(const String& name, Access access);
 
   virtual TypeOfObject GetTypeOfObject(void) const { return Class_id; }
 
@@ -1068,6 +1068,10 @@ public:
   void AddBaseClass(BaseClass* b) { m_BaseClasses.push_back(b); }
   const BaseClassContainer& GetBaseClasses(void) const { return m_BaseClasses; }
 
+  bool IsPublic(void) const    { return (m_Access == Public);    }
+  bool IsProtected(void) const { return (m_Access == Protected); }
+  bool IsPrivate(void) const   { return (m_Access == Private);   }
+  
   InternalObject::Pointer LookupName(QualifiedName*) const;
   
   virtual void Print(FILE*, unsigned long) const;
@@ -1075,7 +1079,7 @@ public:
   void PrintBaseClasses(FILE*, unsigned long) const;
   
 protected:  
-  Class(const string& name): Context(name) {}
+  Class(const string& name, Access access): Context(name), m_Access(access) {}
   Class(const Self&): Context("") {}
   void operator=(const Self&) {}
   virtual ~Class() {}
@@ -1083,6 +1087,7 @@ protected:
 private:
   MethodContainer     m_Methods;
   BaseClassContainer  m_BaseClasses;
+  Access              m_Access;
 };
 
 
@@ -1097,15 +1102,15 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(const String& name);
+  static Pointer New(const String& name, Access access);
   
   virtual TypeOfObject GetTypeOfObject(void) const { return Struct_id; }
   
   virtual void Print(FILE*, unsigned long) const;
   
 protected:
-  Struct(const string& name): Class(name) {}
-  Struct(const Self&): Class("") {}
+  Struct(const string& name, Access access): Class(name, access) {}
+  Struct(const Self&): Class("", Public) {}
   void operator=(const Self&) {}
   virtual ~Struct() {}
 };
@@ -1122,15 +1127,15 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(const String& name);
+  static Pointer New(const String& name, Access access);
   
   virtual TypeOfObject GetTypeOfObject(void) const { return Union_id; }
   
   virtual void Print(FILE*, unsigned long) const;
   
 protected:
-  Union(const string& name): Class(name) {}
-  Union(const Self&): Class("") {}
+  Union(const string& name, Access access): Class(name, access) {}
+  Union(const Self&): Class("", Public) {}
   void operator=(const Self&) {}
   virtual ~Union() {}
 };

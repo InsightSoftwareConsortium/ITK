@@ -264,9 +264,9 @@ OperatorFunction
  */
 Class::Pointer
 Class
-::New(const String& name)
+::New(const String& name, Access access)
 {
-  return new Class(name);
+  return new Class(name, access);
 }
 
 
@@ -275,9 +275,9 @@ Class
  */
 Struct::Pointer
 Struct
-::New(const String& name)
+::New(const String& name, Access access)
 {
-  return new Struct(name);
+  return new Struct(name, access);
 }
 
 
@@ -286,9 +286,9 @@ Struct
  */
 Union::Pointer
 Union
-::New(const String& name)
+::New(const String& name, Access access)
 {
-  return new Union(name);
+  return new Union(name, access);
 }
 
 
