@@ -48,6 +48,102 @@ RGBPixel<T>
 }
 
 
+  
+/**
+ * Returns a temporary copy of a vector
+ */
+template<class T>
+RGBPixel<T> 
+RGBPixel<T>
+::operator+(const Self & r) const
+{
+  Self result;
+  for( unsigned int i=0; i<3; i++) 
+  {
+    result[i] = (*this)[i] + r[i];
+  }
+  return result;
+}
+
+
+
+
+/**
+ * Returns a temporary copy of a vector
+ */
+template<class T>
+RGBPixel<T> 
+RGBPixel<T>
+::operator-(const Self & r) const
+{
+  Self result;
+  for( unsigned int i=0; i<3; i++) 
+  {
+    result[i] = (*this)[i] - r[i];
+  }
+  return result;
+}
+
+
+ 
+/**
+ * Returns a temporary copy of a vector
+ */
+template<class T>
+const RGBPixel<T> & 
+RGBPixel<T>
+::operator+=(const Self & r) 
+{
+  for( unsigned int i=0; i<3; i++) 
+  {
+    (*this)[i] += r[i];
+  }
+  return *this;
+}
+
+
+
+ 
+/**
+ * Returns a temporary copy of a vector
+ */
+template<class T>
+const RGBPixel<T> & 
+RGBPixel<T>
+::operator-=(const Self & r)
+{
+  for( unsigned int i=0; i<3; i++) 
+  {
+    (*this)[i] -= r[i];
+  }
+  return *this;
+}
+
+
+
+
+
+/**
+ * Returns a temporary copy of a vector
+ */
+template<class T>
+RGBPixel<T> 
+RGBPixel<T>
+::operator*(const ComponentType & r) const
+{
+  Self result;
+  for( unsigned int i=0; i<3; i++) 
+  {
+    result[i] = (*this)[i] * r;
+  }
+  return result;
+}
+
+
+
+
+
+
 /**
  * Print content to an ostream
  */

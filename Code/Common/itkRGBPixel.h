@@ -73,9 +73,17 @@ public:
   RGBPixel(const ComponentType  r[3]): BaseArray(r) {}  
     
   /** Pass-through assignment operator for the Array base class. */
-  RGBPixel& operator= (const Self& r);
-  RGBPixel& operator= (const ComponentType r[3]);
-  
+  Self& operator= (const Self& r);
+  Self& operator= (const ComponentType r[3]);
+
+  /** Aritmetic operations between pixels. Return a new RGBPixel. */
+  Self operator+(const Self &vec) const;
+  Self operator-(const Self &vec) const;
+  const Self & operator+=(const Self &vec);
+  const Self & operator-=(const Self &vec);
+  Self operator*(const ComponentType &f) const;
+
+ 
   /** Return the number of components. */
   static int GetNumberOfComponents(){ return 3;}
 
