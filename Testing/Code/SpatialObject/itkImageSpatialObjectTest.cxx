@@ -57,7 +57,6 @@ int itkImageSpatialObjectTest(int, char**)
   
   Iterator it(image,region);
   Pixel p =0;
-  ScalarType value = 0;
 
   for(; !it.IsAtEnd(); ++it, ++p)
     {
