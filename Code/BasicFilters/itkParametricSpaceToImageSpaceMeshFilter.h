@@ -71,6 +71,9 @@ protected:
   /** Generate requested data. */
   virtual void GenerateData( void );
 
+  /** Generate additional information in the output  */
+  virtual void GenerateOutputInformation( void );
+
 private:
   ParametricSpaceToImageSpaceMeshFilter(const ParametricSpaceToImageSpaceMeshFilter&); //purposely not implemented
   void operator=(const ParametricSpaceToImageSpaceMeshFilter&); //purposely not implemented

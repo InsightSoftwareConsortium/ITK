@@ -30,6 +30,7 @@ template <class TInputMesh, class TOutputMesh>
 ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
 ::ParametricSpaceToImageSpaceMeshFilter()
 {
+  this->SetNumberOfRequiredInputs( 1 );
 }
 
 
@@ -71,16 +72,12 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
   
   if( !inputMesh )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Missing Input Mesh");
-    throw exception;
+    itkExceptionMacro( <<"Missing Input Mesh" );
     }
 
   if( !outputMesh )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Missing Output Mesh");
-    throw exception;
+    itkExceptionMacro( <<"Missing Output Mesh" );
     }
 
   InputPointsContainerPointer  inPoints  = inputMesh->GetPoints().GetPointer();
@@ -116,7 +113,8 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
   // support progress methods/callbacks
   unsigned long updateVisits = 0;
   unsigned long visitNumber  = 0;
-  updateVisits = inPoints->Size()/10;
+  const float numberOfUpdates = 100.0f;
+  updateVisits = static_cast<unsigned long>( inPoints->Size()/numberOfUpdates );
   if ( updateVisits < 1 ) 
     {
     updateVisits = 1;
@@ -130,7 +128,7 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
       {
       const float progress = 
                     static_cast<float>(visitNumber) /
-                  ( static_cast<float>(updateVisits) * 10.0 );
+                      ( updateVisits * numberOfUpdates );
       this->UpdateProgress( progress );
       }
     
@@ -151,11 +149,20 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
     ++visitNumber;
     }
 
-  outputMesh->SetPoints( outPoints.GetPointer()  );
-  outputMesh->SetPointData( outData.GetPointer() );
-   
 }
 
+
+
+/**
+ * copy information from first input to all outputs
+ */
+template <class TInputMesh, class TOutputMesh>
+void 
+ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
+::GenerateOutputInformation()
+{
+  // No additional information needs to be copied
+}
 
 
 } // end namespace itk
