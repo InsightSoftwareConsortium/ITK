@@ -21,6 +21,7 @@
 #include "itkZeroCrossingImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkShiftScaleImageFilter.h"
 
 namespace itk {
 
@@ -456,17 +457,13 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // position of the zero level set.
 
   // First need to subtract the iso-surface value from the input image.
-  m_ShiftedImage = OutputImageType::New();
-  m_ShiftedImage->SetRegions(this->GetOutput()->GetRequestedRegion());
-  m_ShiftedImage->Allocate();
-
-  ImageRegionConstIterator<InputImageType> inputIt(this->GetInput(),
-                                   this->GetOutput()->GetRequestedRegion());
-  ImageRegionIterator<OutputImageType> shiftedIt(m_ShiftedImage,
-                                   this->GetOutput()->GetRequestedRegion());
-  for (inputIt = inputIt.Begin(), shiftedIt = shiftedIt.Begin();
-       ! inputIt.IsAtEnd(); ++inputIt, ++shiftedIt)
-    { shiftedIt.Set(static_cast<ValueType>(inputIt.Get()) - m_IsoSurfaceValue );}
+  typename ShiftScaleImageFilter<OutputImageType, OutputImageType>::Pointer
+    shiftScaleFilter =
+          ShiftScaleImageFilter<OutputImageType, OutputImageType>::New();
+  shiftScaleFilter->SetInput( this->GetInput() );
+  shiftScaleFilter->SetShift( - m_IsoSurfaceValue );
+  // keep a handle to the shifted output
+  m_ShiftedImage = shiftScaleFilter->GetOutput();
   
   typename ZeroCrossingImageFilter<OutputImageType, OutputImageType>::Pointer
     zeroCrossingFilter = ZeroCrossingImageFilter<OutputImageType,
