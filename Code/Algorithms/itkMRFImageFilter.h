@@ -199,8 +199,7 @@ public:
   typedef typename InputImageNeighborhoodIterator::RadiusType 
     InputImageNeighborhoodRadiusType;
 
-  typedef typename 
-    NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >
+  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >
       InputImageFacesCalculator;
   
   typedef typename InputImageFacesCalculator::FaceListType
@@ -216,8 +215,7 @@ public:
   typedef typename LabelledImageNeighborhoodIterator::RadiusType 
     LabelledImageNeighborhoodRadiusType;
 
-  typedef typename 
-    NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TClassifiedImage >
+  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TClassifiedImage >
       LabelledImageFacesCalculator;
   
   typedef typename LabelledImageFacesCalculator::FaceListType
@@ -324,8 +322,7 @@ private:
   typedef typename LabelStatusImageNeighborhoodIterator::RadiusType 
     LabelStatusImageNeighborhoodRadiusType;
 
-  typedef typename 
-    NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< LabelStatusImageType >
+  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< LabelStatusImageType >
       LabelStatusImageFacesCalculator;
   
   typedef typename LabelStatusImageFacesCalculator::FaceListType
