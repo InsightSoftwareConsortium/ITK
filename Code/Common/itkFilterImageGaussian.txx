@@ -255,14 +255,16 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
 ::Execute() 
 {
 
-  typedef ImageLinearIterator< TInputImage::PixelType,
+  typedef typename TOutputImage::PixelType  TOutputType;
+
+  typedef ImageLinearIterator< typename TInputImage::PixelType,
 							   TInputImage::ImageDimension>  InputIteratorType;
 
-  typedef ImageLinearIterator< TOutputImage::PixelType,
+  typedef ImageLinearIterator< TOutputType,
 							   TOutputImage::ImageDimension> OutputIteratorType;
 
-  const TInputImage::Pointer   inputImage(    GetInputImage ()   );
-        TOutputImage::Pointer  outputImage(   GetOutput()        );
+  const typename TInputImage::Pointer   inputImage(    GetInputImage ()   );
+        typename TOutputImage::Pointer  outputImage(   GetOutput()        );
     
  
   bool needToAllocate = false;
@@ -369,7 +371,7 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
     unsigned int j=0; 
     while( !outputIterator.IsAtEndOfLine() )
     {
-      *outputIterator  = outs[j++];
+      *outputIterator  = (TOutputType)( outs[j++] );
       ++outputIterator;
     }
 
