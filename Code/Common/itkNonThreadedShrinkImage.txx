@@ -66,7 +66,7 @@ NonThreadedShrinkImage<TInputImage,TOutputImage>
 
   // Define/declare an iterator that will walk the output region
   typedef
-    ImageRegionIterator<typename TOutputImage::PixelType, OutputImage::ImageDimension>
+    ImageRegionIterator<typename TOutputImage::PixelType, TOutputImage::ImageDimension>
     OutputIterator;
 
   OutputIterator outIt = OutputIterator(outputPtr,
@@ -78,7 +78,7 @@ NonThreadedShrinkImage<TInputImage,TOutputImage>
   typename TInputImage::IndexType inputIndex;
   typename TInputImage::IndexType factorIndex;
 
-  for (int i=0; i < InputImage::ImageDimension; i++)
+  for (int i=0; i < TInputImage::ImageDimension; i++)
     {
     factorIndex[i] = m_ShrinkFactor;
     }
@@ -121,10 +121,10 @@ NonThreadedShrinkImage<TInputImage,TOutputImage>
   const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
     = outputPtr->GetRequestedRegion().GetIndex();
   
-  InputImage::SizeType  inputRequestedRegionSize;
-  InputImage::IndexType inputRequestedRegionStartIndex;
+  typename TInputImage::SizeType  inputRequestedRegionSize;
+  typename TInputImage::IndexType inputRequestedRegionStartIndex;
   
-  for (i = 0; i < InputImage::ImageDimension; i++)
+  for (i = 0; i < TInputImage::ImageDimension; i++)
     {
     inputRequestedRegionSize[i]
       = outputRequestedRegionSize[i] * m_ShrinkFactor;
@@ -132,7 +132,7 @@ NonThreadedShrinkImage<TInputImage,TOutputImage>
       = outputRequestedRegionStartIndex[i] * (int)m_ShrinkFactor;
     }
 
-  InputImage::RegionType inputRequestedRegion;
+  typename TInputImage::RegionType inputRequestedRegion;
   inputRequestedRegion.SetSize( inputRequestedRegionSize );
   inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
 
@@ -163,7 +163,7 @@ NonThreadedShrinkImage<TInputImage,TOutputImage>
   const typename TInputImage::IndexType&  inputStartIndex
     = inputPtr->GetLargestPossibleRegion().GetIndex();
   
-  float                     outputSpacing[OutputImage::ImageDimension];
+  float                     outputSpacing[TOutputImage::ImageDimension];
   typename TOutputImage::SizeType         outputSize;
   typename TOutputImage::IndexType        outputStartIndex;
   
