@@ -72,12 +72,12 @@ PointLocator<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
     {
     this->FreeSearchStructure();
     }
-  if ( newPts == NULL )
+  if ( !newPts  )
     {
     vtkErrorMacro(<<"Must define points for point insertion");
     return 0;
     }
-  if (this->Points != NULL)
+  if (this->Points)
     {
     this->Points->UnRegister(this);
     }

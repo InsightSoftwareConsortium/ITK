@@ -27,7 +27,7 @@ Object
 ::New()
 {
   Self *ret = ObjectFactory<Self>::Create();
-  if(ret != NULL)
+  if(ret)
     {
     return ret;
     }
@@ -134,7 +134,7 @@ Object
     /**
      * If there is a delete method, invoke it.
      */
-    if(m_DeleteMethod != NULL)
+    if(m_DeleteMethod)
       {
       (*m_DeleteMethod)(this);
       }

@@ -353,7 +353,7 @@ WriteVTKImage<TInputImage>
 {
   itkDebugMacro(<<"Closing VTK file");
   
-  if ( fp != NULL )
+  if ( fp  )
     {
     delete fp;
     fp = NULL;

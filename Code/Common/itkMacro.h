@@ -158,9 +158,9 @@ const int InvalidDimension=11;
                   << "): setting " << #name " to " << _arg ); \
     if (this->m_##name != _arg) \
       { \
-      if (this->m_##name != NULL) { this->m_##name->UnRegister(this); }\
+      if (this->m_##name) { this->m_##name->UnRegister(this); }\
       this->m_##name = _arg; \
-      if (this->m_##name != NULL) { this->m_##name->Register(this); } \
+      if (this->m_##name) { this->m_##name->Register(this); } \
       this->Modified(); \
       } \
   } 

@@ -618,7 +618,7 @@ ProcessObject
    */
   for (idx = 0; idx < m_Inputs.size(); ++idx)
     {
-    if (m_Inputs[idx] != NULL)
+    if (m_Inputs[idx])
       {
       input = m_Inputs[idx];
 
@@ -716,7 +716,7 @@ ProcessObject
   m_Updating = true;
   for (unsigned int idx = 0; idx < m_Inputs.size(); ++idx)
     {
-    if (m_Inputs[idx] != NULL)
+    if (m_Inputs[idx])
       {
       m_Inputs[idx]->PropagateUpdateExtent();
       }
@@ -736,7 +736,7 @@ ProcessObject
 {
   for (unsigned int idx = 0; idx < m_Inputs.size(); ++idx)
     {
-    if (m_Inputs[idx] != NULL)
+    if (m_Inputs[idx])
       {
       m_Inputs[idx]->SetUpdateExtentToWholeExtent();
       }
@@ -765,7 +765,7 @@ ProcessObject
   m_Updating = true;
   for (unsigned int idx = 0; idx < m_Inputs.size(); ++idx)
     {
-    if (m_Inputs[idx] != NULL)
+    if (m_Inputs[idx])
       {
       m_Inputs[idx]->TriggerAsynchronousUpdate();
       }
@@ -800,7 +800,7 @@ ProcessObject
   m_Updating = true;
   if ( m_Inputs.size() == 1 )
     {
-    if (m_Inputs[0] != NULL)
+    if (m_Inputs[0])
       {
       m_Inputs[0]->UpdateData();
       }
@@ -809,7 +809,7 @@ ProcessObject
     {
     for (idx = 0; idx < m_Inputs.size(); ++idx)
       {
-      if (m_Inputs[idx] != NULL)
+      if (m_Inputs[idx])
         {
         m_Inputs[idx]->PropagateUpdateExtent();
         m_Inputs[idx]->UpdateData();
@@ -885,7 +885,7 @@ ProcessObject
    */
   for (idx = 0; idx < m_Inputs.size(); ++idx)
     {
-    if (m_Inputs[idx] != NULL)
+    if (m_Inputs[idx])
       {
       if ( m_Inputs[idx]->ShouldIReleaseData() )
         {

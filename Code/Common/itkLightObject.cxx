@@ -27,7 +27,7 @@ LightObject
 ::New()
 {
   Self *ret = ObjectFactory<Self>::Create();
-  if(ret != NULL)
+  if(ret)
     {
     return ret;
     }
@@ -133,7 +133,7 @@ LightObject
     /**
      * If there is a delete method, invoke it.
      */
-    if(m_DeleteMethod != NULL)
+    if(m_DeleteMethod)
       {
       (*m_DeleteMethod)(this);
       }
@@ -200,7 +200,7 @@ void
 LightObject
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  if(m_DeleteMethod != NULL)
+  if(m_DeleteMethod)
     {
     os << indent << "Delete Method defined" << std::endl;
     }

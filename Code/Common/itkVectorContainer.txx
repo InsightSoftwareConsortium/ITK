@@ -129,7 +129,7 @@ VectorContainer< TElementIdentifier , TElement >
 {
   if((id >= 0) && (id < this->Vector::size()))
     {
-    if(element != NULL)
+    if(element)
       {
       *element = this->Vector::operator[](id);
       }

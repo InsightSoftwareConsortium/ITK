@@ -118,7 +118,7 @@ MapContainer< TElementIdentifier , TElement >
 {
   if(this->Map::count(id) > 0)
     {
-    if(element != NULL)
+    if( element )
       {
       *element = this->Map::find(id)->second;
       }
