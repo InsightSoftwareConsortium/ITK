@@ -493,10 +493,10 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   m_ClassifierPtr->SetInputImage( m_InputImage );
   /* Create the training image using the original image or the output 
    *  of a segmentation method such as the deformable model. */
-  m_ClassifierPtr->SetTrainingImage( m_TrainingImage );
+//  m_ClassifierPtr->SetTrainingImage( m_TrainingImage );
 
   /* Run the Gaussian classifier algorithm. */
-  m_ClassifierPtr->ClassifyImage();
+  m_ClassifierPtr->Update();
 
   std::cout<<"Classify finished!"<<std::endl;
 
@@ -637,7 +637,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
       ChangedPixelVec = inputImageIt.Get();
       }
 
-    m_ClassifierPtr->GetPixelDistance( ChangedPixelVec, dist );
+    const std::vector<double> & dist =
+      m_ClassifierPtr->GetPixelMembershipValue( ChangedPixelVec );
 
     double    minDist   = NumericTraits<   double  >::max();
     LabelType pixLabel  = NumericTraits< LabelType >::max();

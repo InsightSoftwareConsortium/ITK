@@ -21,7 +21,8 @@
 #include "vnl/vnl_matrix.h"
 
 #include "itkImageToImageFilter.h"
-#include "itkSupervisedClassifier.h"
+#include "itkImageClassifierBase.h"
+#include "itkImageRegionIterator.h"
 #include "itkMRFImageFilter.h"
 
 namespace itk
@@ -86,10 +87,8 @@ public:
    the NumericTraits<>::max() value is used for indicating unlabeled pixels */
   typedef unsigned int                               LabelType;
 
-  /**
-   * Type definitions for classifier to be used for the Gibbs lavbelling.
-   */
-  typedef Classifier<TInputImage,TClassifiedImage> ClassifierType;
+  /** Type definitions for classifier to be used for the MRF lavbelling. */
+  typedef ImageClassifierBase<TInputImage,TClassifiedImage> ClassifierType;
 
   /** The type of input pixel. */
   typedef typename TInputImage::PixelType    InputImageVecType;

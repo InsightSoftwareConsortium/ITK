@@ -21,13 +21,23 @@
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
+
+#include "itkRGBGibbsPriorFilter.h"
+
+#include "itkImageClassifierBase.h"
+#include "itkImageGaussianModelEstimator.h"
+#include "itkMahalanobisDistanceMembershipFunction.h"
+#include "itkMinimumDecisionRule.h"
+
+#include "itkSize.h"
 #include "itkImage.h"
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkImageRegionIterator.h"
-#include "itkGaussianSupervisedClassifier.h"
-#include "itkRGBGibbsPriorFilter.h"
+#include "itkConstNeighborhoodIterator.h"
+#include "itkNeighborhoodIterator.h"
+#include "itkNeighborhoodAlgorithm.h"
+#include "itkNeighborhood.h"
 
 #define   IMGWIDTH            20
 #define   IMGHEIGHT           20
@@ -81,11 +91,16 @@ const unsigned short TestingImage [400]={
 328,315,327,311,315,305,340,306,314,339,344,339,337,330,318,342,311,343,311,312
 };
 
-int itkGibbsTest(int, char**){
+//int itkGibbsTest(int, char**){
+int main() 
+{
 std::cout<< "Gibbs Prior Test Begins: " << std::endl;
+
   typedef itk::Image<itk::Vector<unsigned short,NUMBANDS>,NDIMENSION> VecImageType; 
 
   VecImageType::Pointer vecImage = VecImageType::New();
+
+  typedef VecImageType::PixelType VecImagePixelType;
 
   VecImageType::SizeType vecImgSize = { {IMGWIDTH , IMGHEIGHT, NFRAMES} };
 
@@ -103,7 +118,7 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   typedef VecImageType::PixelType::VectorType VecPixelType;
 
   enum { VecImageDimension = VecImageType::ImageDimension };
-  typedef itk::ImageRegionIterator< VecImageType > VecIterator;
+  typedef itk::ImageRegionIteratorWithIndex< VecImageType > VecIterator;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
   outIt.GoToBegin();
@@ -148,7 +163,7 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   // setup the iterators
   typedef ClassImageType::PixelType ClassImagePixelType;
 
-  typedef  itk::ImageRegionIterator<ClassImageType>  ClassImageIterator;
+  typedef  itk::ImageRegionIteratorWithIndex<ClassImageType>  ClassImageIterator;
 
   ClassImageIterator classoutIt( classImage, classImage->GetBufferedRegion() );
   classoutIt.GoToBegin();
@@ -189,16 +204,79 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   //---------------------------------------------------------------------
   // Multiband data is now available in the right format
   //---------------------------------------------------------------------
-  typedef 
-  itk::Classifier<VecImageType,ClassImageType>::Pointer 
-    ClassifierType;
 
-  //Instantiate the classifier to be used
-  typedef itk::GaussianSupervisedClassifier<VecImageType,ClassImageType> 
-    GaussianSupervisedClassifierType;
+  //----------------------------------------------------------------------
+  //Set membership function (Using the statistics objects)
+  //----------------------------------------------------------------------
 
-  GaussianSupervisedClassifierType::Pointer 
-    myGaussianClassifier = GaussianSupervisedClassifierType::New();
+  namespace stat = itk::Statistics;
+
+  typedef stat::MahalanobisDistanceMembershipFunction< VecImagePixelType > 
+    MembershipFunctionType ;
+  typedef MembershipFunctionType::Pointer MembershipFunctionPointer ;
+
+  typedef std::vector< MembershipFunctionPointer > 
+    MembershipFunctionPointerVector;  
+
+  //----------------------------------------------------------------------
+  // Set the image model estimator (train the class models)
+  //----------------------------------------------------------------------
+
+  typedef itk::ImageGaussianModelEstimator<VecImageType,
+    MembershipFunctionType, ClassImageType> 
+    ImageGaussianModelEstimatorType;
+  
+  ImageGaussianModelEstimatorType::Pointer 
+    applyEstimateModel = ImageGaussianModelEstimatorType::New();  
+
+  applyEstimateModel->SetNumberOfModels(NUM_CLASSES);
+  applyEstimateModel->SetInputImage(vecImage);
+  applyEstimateModel->SetTrainingImage(classImage);  
+
+  //Run the gaussian classifier algorithm
+  applyEstimateModel->Update();
+  applyEstimateModel->Print(std::cout); 
+
+  MembershipFunctionPointerVector membershipFunctions = 
+    applyEstimateModel->GetMembershipFunctions();
+
+  //----------------------------------------------------------------------
+  //Set the decision rule 
+  //----------------------------------------------------------------------  
+  typedef itk::DecisionRuleBase::Pointer DecisionRuleBasePointer;
+
+  typedef itk::MinimumDecisionRule DecisionRuleType;
+  DecisionRuleType::Pointer  
+    myDecisionRule = DecisionRuleType::New();
+
+  //----------------------------------------------------------------------
+  // Set the classifier to be used and assigne the parameters for the 
+  // supervised classifier algorithm except the input image which is 
+  // grabbed from the MRF application pipeline.
+  //----------------------------------------------------------------------
+  //---------------------------------------------------------------------
+  typedef VecImagePixelType MeasurementVectorType;
+
+  typedef itk::ImageClassifierBase< VecImageType,
+    ClassImageType > ClassifierType;
+
+  typedef itk::ClassifierBase<VecImageType>::Pointer 
+    ClassifierBasePointer;
+
+  typedef ClassifierType::Pointer ClassifierPointer;
+  ClassifierPointer myClassifier = ClassifierType::New();
+  // Set the Classifier parameters
+  myClassifier->SetNumberOfClasses(NUM_CLASSES);
+
+  // Set the decison rule 
+  myClassifier->
+    SetDecisionRule((DecisionRuleBasePointer) myDecisionRule );
+
+  //Add the membership functions
+  for( unsigned int i=0; i<NUM_CLASSES; i++ )
+    {
+    myClassifier->AddMembershipFunction( membershipFunctions[i] );
+    }
 
   //Set the Gibbs Prior labeller
   typedef itk::RGBGibbsPriorFilter<VecImageType,ClassImageType> GibbsPriorFilterType;
@@ -213,8 +291,7 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   applyGibbsImageFilter->SetObjectLabel(1);
  
   applyGibbsImageFilter->SetInput(vecImage);
-  applyGibbsImageFilter
-    ->SetClassifier((ClassifierType) myGaussianClassifier ); 
+  applyGibbsImageFilter->SetClassifier( myClassifier ); 
 
   //Since a suvervised classifier is used, it requires a training image
   applyGibbsImageFilter->SetTrainingImage(classImage);  
