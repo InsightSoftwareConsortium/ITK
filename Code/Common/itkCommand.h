@@ -101,6 +101,7 @@ public:
     AbortCheckEvent,
     ExitEvent,
     ModifiedEvent,
+    IterationEvent,
     AnyEvent,
     UserEvent = 1000
   };
