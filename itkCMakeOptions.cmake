@@ -8,6 +8,7 @@ INCLUDE_DIRECTORIES(
 ${ITK_BINARY_DIR} 
 ${ITK_SOURCE_DIR}/Code/Numerics
 ${ITK_SOURCE_DIR}/Code/Common 
+${ITK_SOURCE_DIR}/Code/IO 
 ${ITK_BINARY_DIR}/Code/Numerics/vxl 
 ${ITK_SOURCE_DIR}/Code/Numerics/vxl 
 ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl 
@@ -21,6 +22,7 @@ LINK_DIRECTORIES(
 ${ITK_BINARY_DIR}/Utilities/zlib
 ${ITK_BINARY_DIR}/Utilities/png
 ${ITK_BINARY_DIR}/Code/Common 
+${ITK_BINARY_DIR}/Code/IO
 ${ITK_BINARY_DIR}/Code/Numerics/vxl )
 
 # use the distributed version of SGI's experimental C++ Standard Library
