@@ -63,7 +63,7 @@ public:
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer);
 
-  /** Reads 3D data from nulti-pages tiff. */
+  /** Reads 3D data from multi-pages tiff. */
   virtual void ReadVolume(void* buffer);
 
   /** Reads 3D data from tiled tiff*/
