@@ -75,17 +75,15 @@ void GenerateImages( const typename MovingImageType::SizeType & size )
   region.SetSize( size );
   region.SetIndex( index );
 
-  MovingImageType::Pointer imgMovingImage = MovingImageType::New();
-  imgMovingImage->SetLargestPossibleRegion( region );
-  imgMovingImage->SetBufferedRegion( region );
-  imgMovingImage->SetRequestedRegion( region );
-  imgMovingImage->Allocate();
+  m_MovingImage->SetLargestPossibleRegion( region );
+  m_MovingImage->SetBufferedRegion( region );
+  m_MovingImage->SetRequestedRegion( region );
+  m_MovingImage->Allocate();
 
-  FixedImageType::Pointer imgFixedImage = FixedImageType::New();
-  imgFixedImage->SetLargestPossibleRegion( region );
-  imgFixedImage->SetBufferedRegion( region );
-  imgFixedImage->SetRequestedRegion( region );
-  imgFixedImage->Allocate();
+  m_FixedImage->SetLargestPossibleRegion( region );
+  m_FixedImage->SetBufferedRegion( region );
+  m_FixedImage->SetRequestedRegion( region );
+  m_FixedImage->Allocate();
 
   /* Fill images with a 2D gaussian*/
   typedef  itk::ImageRegionIteratorWithIndex<MovingImageType> MovingImageIteratorType;
@@ -107,8 +105,9 @@ void GenerateImages( const typename MovingImageType::SizeType & size )
   displacement[0] = 7;
   displacement[1] = 3;
 
-  MovingImageIteratorType ri(imgMovingImage,region);
-  FixedImageIteratorType ti(imgFixedImage,region);
+
+  MovingImageIteratorType ri(m_MovingImage,region);
+  FixedImageIteratorType ti(m_FixedImage,region);
   while(!ri.IsAtEnd())
   {
     p[0] = ri.GetIndex()[0];
@@ -142,8 +141,8 @@ protected:
 
 ImageRegistrationMethodImageSource()
 {
-  MovingImageType::Pointer m_MovingImage = MovingImageType::New();
-  FixedImageType::Pointer m_FixedImage = FixedImageType::New();
+  m_MovingImage = MovingImageType::New();
+  m_FixedImage  = FixedImageType::New();
 }
 
 
