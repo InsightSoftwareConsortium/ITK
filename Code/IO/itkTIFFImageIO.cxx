@@ -233,7 +233,7 @@ bool TIFFImageIO::CanReadFile(const char* file)
 
 
 void TIFFImageIO::ReadGenericImage( void *out, 
-                                      unsigned int itkNotUsed(width), 
+                                      unsigned int width, 
                                       unsigned int height )
 {
   unsigned int isize = TIFFScanlineSize(m_InternalImage->Image);
@@ -245,6 +245,21 @@ void TIFFImageIO::ReadGenericImage( void *out,
     {
     std::cout << "This reader can only do PLANARCONFIG_CONTIG" << std::endl;
     return;
+    }
+
+  switch ( this->GetFormat() )
+    {
+    default:
+    case TIFFImageIO::GRAYSCALE:
+    case TIFFImageIO::PALETTE_GRAYSCALE:
+      inc = 1;
+      break;
+    case TIFFImageIO::RGB_: 
+      inc = m_InternalImage->SamplesPerPixel;
+      break;
+    case TIFFImageIO::PALETTE_RGB:
+      inc = 3;
+      break;
     }
 
   if(m_ComponentType == UCHAR)
@@ -260,11 +275,11 @@ void TIFFImageIO::ReadGenericImage( void *out,
           
       if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
         {
-        image = reinterpret_cast<unsigned char*>(out) + row * isize;
+        image = reinterpret_cast<unsigned char*>(out) + row * width * inc;
         }
       else
         {
-        image = reinterpret_cast<unsigned char*>(out) + isize * (height - (row + 1));
+        image = reinterpret_cast<unsigned char*>(out) + width * inc * (height - (row + 1));
         }
 
       for (cc = 0; cc < isize; 
@@ -289,6 +304,15 @@ void TIFFImageIO::ReadGenericImage( void *out,
         break;
         }
           
+      if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
+        {
+        image = reinterpret_cast<unsigned short*>(out) + row * width * inc;
+        }
+      else
+        {
+        image = reinterpret_cast<unsigned short*>(out) + width * inc * (height - (row + 1));
+        }
+
       for (cc = 0; cc < isize; 
            cc += m_InternalImage->SamplesPerPixel )
         {
