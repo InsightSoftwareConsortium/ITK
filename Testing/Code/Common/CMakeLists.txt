@@ -1,36 +1,37 @@
 TESTS = \
 itkAffineTransformTest \
+itkBasicArchitectureTest \
 itkBoundingBoxTest \
 itkByteSwapTest \
-itkIteratorTests \
-itkFilterImageAnisotropicDiffusionTest \
-itkFilterImageSingleOperatorTest \
-itkBasicArchitectureTest \
-itkScalarTest \
-itkVectorTest \
-itkShrinkImageTest \
-itkNeighborhoodOperatorTest \
-itkTraitsTest \
-itkSmartPointerTest \
+itkCurvatureFlowTest  \
 itkDataTypeTest \
 itkExceptionObjectTest \
+itkExtractMeshConnectedRegionsTest \
+itkFastMarchingTest \
+itkFilterImageAnisotropicDiffusionTest \
+itkFilterImageSingleOperatorTest \
+itkGeodesicActiveContoursTest \
+itkHeaderTest \
 itkImageIteratorTest \
 itkImageMomentsTest \
 itkImportImageTest \
-itkMeshTest \
-itkMeshInstanceTest \
-itkNewTest \
-itkPixelAccessTest \
-itkExtractMeshConnectedRegionsTest \
-itkMutualInformationTest \
-itkFastMarchingTest \
+itkIteratorTests \
 itkLevelSetShapeDetectionTest \
-itkGeodesicActiveContoursTest \
-itkCurvatureFlowTest  \
+itkMeshInstanceTest \
+itkMeshTest \
+itkMutualInformationTest \
+itkNeighborhoodOperatorTest \
+itkPixelAccessTest \
 itkRegistrationImageToImageAffine \
 itkRegistrationModelToImage \
 itkRegistrationPoints3D2DAffine \
-itkRegistrationProcrustes 
+itkRegistrationProcrustes \
+itkScalarTest \
+itkShrinkImageTest \
+itkSmartPointerTest \
+itkTraitsTest \
+itkVectorTest
+
 
 
 
