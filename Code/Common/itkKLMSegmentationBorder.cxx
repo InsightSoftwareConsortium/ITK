@@ -26,7 +26,7 @@ namespace itk
 KLMSegmentationBorder
 ::KLMSegmentationBorder(void)
 {
-
+  m_Lambda = 0.0;
 }
 
 
@@ -44,7 +44,6 @@ KLMSegmentationBorder
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Region border KLM object" << std::endl;
   os << indent << "Lambda  = " << m_Lambda << std::endl;
   os << indent << "Region1 = " << m_Region1 << std::endl;
   os << indent << "Region2 = " << m_Region2 << std::endl;
