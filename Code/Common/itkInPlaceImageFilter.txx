@@ -28,61 +28,87 @@ namespace itk
 /**
  *
  */
-template <class TInputImage>
-InPlaceImageFilter<TInputImage>
+template <class TInputImage, class TOutputImage>
+InPlaceImageFilter<TInputImage, TOutputImage>
 ::InPlaceImageFilter()
+  : m_InPlace(true)
 {
 }
 
 /**
  *
  */
-template <class TInputImage>
-InPlaceImageFilter<TInputImage>
+template <class TInputImage, class TOutputImage>
+InPlaceImageFilter<TInputImage, TOutputImage>
 ::~InPlaceImageFilter()
 {
 }
   
 
 
-template<class TInputImage>
+template<class TInputImage, class TOutputImage>
 void 
-InPlaceImageFilter<TInputImage>
+InPlaceImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-}
-
-template<class TInputImage>
-void 
-InPlaceImageFilter<TInputImage>
-::AllocateOutputs()
-{
-  // Graft this first input to the output.  Later, we'll need to
-  // remove the input's hold on the bulk data.
-  this->GraftOutput( const_cast<TInputImage *>(this->GetInput()) );
-
-  // If there are more than output, allocate the remaining outputs
-  for (unsigned int i=1; i < this->GetNumberOfOutputs(); i++)
+  os << indent << "InPlace: " << (m_InPlace ? "On" : "Off") << std::endl;
+  if ( typeid(TInputImage) == typeid(TOutputImage))
     {
-    typename InPlaceImageFilter<TInputImage>::OutputImagePointer outputPtr;
-
-    outputPtr = this->GetOutput(i);
-    outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
-    outputPtr->Allocate();
+    os << indent << "The input and output to this filter are the same type. The filter can be run in place." << std::endl;
+    }
+  else
+    {
+    os << indent << "The input and output to this filter are different types. The filter cannot be run in place." << std::endl;
     }
 }
 
-template<class TInputImage>
+template<class TInputImage, class TOutputImage>
 void 
-InPlaceImageFilter<TInputImage>
+InPlaceImageFilter<TInputImage, TOutputImage>
+::AllocateOutputs()
+{
+  // if told to run in place and the types support it, 
+  if (m_InPlace && (typeid(TInputImage) == typeid(TOutputImage)))
+    {
+    // Graft this first input to the output.  Later, we'll need to
+    // remove the input's hold on the bulk data.
+    this->GraftOutput( const_cast<TInputImage *>(this->GetInput()) );
+    
+    // If there are more than output, allocate the remaining outputs
+    for (unsigned int i=1; i < this->GetNumberOfOutputs(); i++)
+      {
+      OutputImagePointer outputPtr;
+      
+      outputPtr = this->GetOutput(i);
+      outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
+      outputPtr->Allocate();
+      }
+    }
+  else
+    {
+    Superclass::AllocateOutputs();
+    }
+}
+
+template<class TInputImage, class TOutputImage>
+void 
+InPlaceImageFilter<TInputImage, TOutputImage>
 ::ReleaseInputs()
 {
-  // Release any input where the ReleaseData flag has been set
-  ProcessObject::ReleaseInputs();
-  
-  // Release input 0 by default since we overwrote it
-  const_cast<TInputImage*>(this->GetInput())->ReleaseData();
+  // if told to run in place and the types support it, 
+  if (m_InPlace && (typeid(TInputImage) == typeid(TOutputImage)))
+    {
+    // Release any input where the ReleaseData flag has been set
+    ProcessObject::ReleaseInputs();
+    
+    // Release input 0 by default since we overwrote it
+    const_cast<TInputImage*>(this->GetInput())->ReleaseData();
+    }
+  else
+    {
+    Superclass::ReleaseInputs();
+    }
 }
 
 
