@@ -160,6 +160,9 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  KLMSegmentationBorder(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   double                                m_Lambda;
   KLMSegmentationRegion<TInputImage,TOutputImage> *m_Region1;
   KLMSegmentationRegion<TInputImage,TOutputImage> *m_Region2;
