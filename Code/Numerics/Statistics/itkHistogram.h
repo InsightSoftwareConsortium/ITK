@@ -45,6 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkSize.h"
 #include "itkIndex.h"
+#include "itkExceptionObject.h"
 #include "itkSample.h"
 #include "itkDenseFrequencyContainer.h"
 #include "itkSparseFrequencyContainer.h"
@@ -96,8 +97,7 @@ public:
   /** Standard Superclass typedef */
   typedef Sample< TMeasurement, VMeasurementVectorSize > Superclass ;
   
-  /** 
-   * Smart pointer typedef support  */
+  /** Smart pointer typedef support  */
   typedef SmartPointer<Self> Pointer ;
 
   /** Run-time type information (and related methods). */
@@ -124,8 +124,7 @@ public:
   /** Frequency value type from superclass */
   typedef typename FrequencyContainerType::FrequencyType FrequencyType ;
 
-  /** 
-   * Index typedef support. An index is used to access pixel values. */
+  /** Index typedef support. An index is used to access pixel values. */
   typedef Index< MeasurementVectorSize >  IndexType;
   typedef typename IndexType::IndexValueType  IndexValueType;
 
@@ -139,10 +138,11 @@ public:
    * subclasses should call this method in their initialize() method
    * the overide methods have prepare the frequency container for
    * input and output. */
-  void Initialize(SizeType size) ;
+   void Initialize(SizeType size) ;
 
   /** returns the index of histogram corresponding to measurement value */
-  IndexType GetIndex(const MeasurementVectorType measurement)  ;
+   IndexType GetIndex(const MeasurementVectorType measurement) 
+     throw (RangeError) ;
 
   /** returns the index that is uniquely labelled by an instance identifier
    * The corresponding id is the offset of the index 
@@ -150,8 +150,7 @@ public:
   IndexType GetIndex(const InstanceIdentifier id)  ;
 
   /** returns the instance identifier of the cell that is indexed by the 
-   * index.
-   * The corresponding instance identifier is the offset of the index 
+   * index. The corresponding instance identifier is the offset of the index 
    * This method uses ImageBase::ComputeIndex() method */
   InstanceIdentifier GetInstanceIdentifier(const IndexType index)  ;
   
