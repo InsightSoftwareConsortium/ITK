@@ -33,7 +33,7 @@
 #include "itkImage.h"
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -120,7 +120,7 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   typedef VecImageType::PixelType::VectorType VecPixelType;
 
   enum { VecImageDimension = VecImageType::ImageDimension };
-  typedef itk::ImageRegionIteratorWithIndex< VecImageType > VecIterator;
+  typedef itk::ImageRegionIterator< VecImageType > VecIterator;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
   outIt.GoToBegin();
@@ -167,7 +167,7 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   // setup the iterators
   typedef ClassImageType::PixelType ClassImagePixelType;
 
-  typedef  itk::ImageRegionIteratorWithIndex<ClassImageType>  ClassImageIterator;
+  typedef  itk::ImageRegionIterator<ClassImageType>  ClassImageIterator;
 
   ClassImageIterator classoutIt( classImage, classImage->GetBufferedRegion() );
   classoutIt.GoToBegin();
