@@ -62,11 +62,11 @@ OutputType trueValue )
   std::cout << " Point: " << point;
 
   bool bvalue = interp->IsInsideBuffer( point );
-  std::cout << " Inside: " << bvalue;
+  std::cout << " Inside: " << bvalue << std::endl;
 
   if( bvalue != isInside )
     {
-    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    std::cout << "*** Error: inside is " << bvalue << " but should be " << isInside << std::endl;
     return false;
     }
 
@@ -77,8 +77,8 @@ OutputType trueValue )
 
     if( vnl_math_abs( value - trueValue ) > 1e-9 )
       {
-      std::cerr << " *** Error: Value should be: ";
-      std::cerr << trueValue << std::endl;
+      std::cout << " *** Error: Value is " << value << " but should be: ";
+      std::cout << trueValue << std::endl;
       }
     }
 
@@ -101,11 +101,11 @@ OutputType trueValue )
   std::cout << " Index: " << index;
 
   bool bvalue = interp->IsInsideBuffer( index );
-  std::cout << " Inside: " << bvalue;
+  std::cout << " Inside: " << bvalue << std::endl;
 
   if( bvalue != isInside )
     {
-    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    std::cout << "*** Error: inside is " << bvalue << " but should be " << isInside << std::endl;
     return false;
     }
 
@@ -116,7 +116,7 @@ OutputType trueValue )
 
     if( vnl_math_abs( value - trueValue ) > 1e-9 )
       {
-      std::cerr << " *** Error: Value should be: " << trueValue << std::endl;
+      std::cout << " *** Error: Value is " << value << " but should be: " << trueValue << std::endl;
       }
     }
 
@@ -154,8 +154,7 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
   ImageType::RegionType region;
   region.SetSize( size );
 
-  image->SetLargestPossibleRegion( region );
-  image->SetBufferedRegion( region );
+  image->SetRegions( region );
   image->Allocate();
  
   image->SetOrigin( origin );
@@ -201,7 +200,7 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
   // an integer position inside the image
   {
   CoordRepType darray[3] = {10, 20, 40};
-  output = OutputType( 140 );
+  output = OutputType( 70 );
   cindex = ContinuousIndexType(darray);
   passed = SincInterpolate::TestContinuousIndex( interp, cindex, true, output );
   }
@@ -232,7 +231,7 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
   {
   double epsilon = 1.0e-10;
   CoordRepType darray[3] = {19 - epsilon, 20, 40};
-  output = OutputType( 158 );
+  output = OutputType( 79 );
   cindex = ContinuousIndexType(darray);
   passed = SincInterpolate::TestContinuousIndex( interp, cindex, true, output );
   }
@@ -262,7 +261,7 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
   // at non-integer position 
   {
   CoordRepType darray[3] = {5.25, 12.5, 42.0};
-  output = OutputType( 119.5 );
+  output = OutputType( 59.75 );
   cindex = ContinuousIndexType(darray);
   passed = SincInterpolate::TestContinuousIndex( interp, cindex, true, output );
   }
