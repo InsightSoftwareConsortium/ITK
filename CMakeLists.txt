@@ -1,17 +1,19 @@
 PROJECT(ITK)
 
-SUBDIRS(Code Testing Examples)
+SUBDIRS(Code )
 
 INCLUDE_DIRECTORIES(
 ${CMAKE_BINARY_DIR} 
-${CMAKE_BINARY_DIR}/Code/Insight3DParty/vxl 
 ${CMAKE_SOURCE_DIR}/Code/Common 
-${CMAKE_SOURCE_DIR}/Code/Insight3DParty/vxl 
+${CMAKE_BINARY_DIR}/Code/Numerics/vxl 
+${CMAKE_SOURCE_DIR}/Code/Numerics/vxl 
+${CMAKE_BINARY_DIR}/Code/Numerics/vxl/vcl 
+${CMAKE_SOURCE_DIR}/Code/Numerics/vxl/vcl 
 )
 
 LINK_DIRECTORIES(
 ${CMAKE_BINARY_DIR}/Code/Common 
-${CMAKE_BINARY_DIR}/Code/Insight3DParty/vxl )
+${CMAKE_BINARY_DIR}/Code/Numerics )
 
 LINK_LIBRARIES (
 ITKCommon 
