@@ -149,12 +149,13 @@ ImageFileWriter<TInputImage>
   InputImageType * nonConstImage = const_cast<InputImageType *>(input);
   nonConstImage->Update();
 
+  typedef typename TInputImage::RegionType   RegionType;
+
   if ( ! m_UserSpecifiedIORegion )
     {
     // Write the whole image
     ImageIORegion ioRegion(TInputImage::ImageDimension);
-    ImageRegion<TInputImage::ImageDimension> region = 
-          input->GetLargestPossibleRegion();
+    RegionType region = input->GetLargestPossibleRegion();
     const double *spacing = input->GetSpacing();
     const double *origin = input->GetOrigin();
 
@@ -169,8 +170,7 @@ ImageFileWriter<TInputImage>
   // Setup the ImageIO
   //
   m_ImageIO->SetNumberOfDimensions(TInputImage::ImageDimension);
-  ImageRegion<TInputImage::ImageDimension> region = 
-        input->GetLargestPossibleRegion();
+  RegionType region = input->GetLargestPossibleRegion();
   const double *spacing = input->GetSpacing();
   const double *origin = input->GetOrigin();
 
