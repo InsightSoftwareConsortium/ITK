@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSingleValuedNonLinearVnlOptimizer.txx
+  Module:    itkMultipleValuedNonLinearVnlOptimizer.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,10 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSingleValuedNonLinearVnlOptimizer_txx
-#define _itkSingleValuedNonLinearVnlOptimizer_txx
+#ifndef _itkMultipleValuedNonLinearVnlOptimizer_txx
+#define _itkMultipleValuedNonLinearVnlOptimizer_txx
 
-#include "itkSingleValuedNonLinearVnlOptimizer.h"
+#include "itkMultipleValuedNonLinearVnlOptimizer.h"
 
 namespace itk
 {
@@ -25,8 +25,8 @@ namespace itk
 /**
  * Constructor
  */
-SingleValuedNonLinearVnlOptimizer
-::SingleValuedNonLinearVnlOptimizer()
+MultipleValuedNonLinearVnlOptimizer
+::MultipleValuedNonLinearVnlOptimizer()
 {
   m_CostFunctionAdaptor = 0;
 }
@@ -35,8 +35,8 @@ SingleValuedNonLinearVnlOptimizer
 /**
  * Destructor
  */
-SingleValuedNonLinearVnlOptimizer
-::~SingleValuedNonLinearVnlOptimizer()
+MultipleValuedNonLinearVnlOptimizer
+::~MultipleValuedNonLinearVnlOptimizer()
 {
   if( m_CostFunctionAdaptor )
     {
@@ -49,7 +49,7 @@ SingleValuedNonLinearVnlOptimizer
 
 
 void 
-SingleValuedNonLinearVnlOptimizer
+MultipleValuedNonLinearVnlOptimizer
 ::SetCostFunctionAdaptor( CostFunctionAdaptorType * adaptor )
 {
 
@@ -69,8 +69,8 @@ SingleValuedNonLinearVnlOptimizer
 
 
 
-const SingleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType * 
-SingleValuedNonLinearVnlOptimizer
+const MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType * 
+MultipleValuedNonLinearVnlOptimizer
 ::GetCostFunctionAdaptor( void ) const
 {
   return m_CostFunctionAdaptor;

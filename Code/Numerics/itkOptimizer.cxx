@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkOptimizer.txx
+  Module:    itkOptimizer.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAmoebaOptimizer.txx
+  Module:    itkLBFGSOptimizer.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,10 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkAmoebaOptimizer_txx
-#define _itkAmoebaOptimizer_txx
+#ifndef _itkLBFGSOptimizer_txx
+#define _itkLBFGSOptimizer_txx
 
-#include "itkAmoebaOptimizer.h"
+#include "itkLBFGSOptimizer.h"
 
 namespace itk
 {
@@ -25,8 +25,8 @@ namespace itk
 /**
  * Constructor
  */
-AmoebaOptimizer
-::AmoebaOptimizer()
+LBFGSOptimizer
+::LBFGSOptimizer()
 {
   m_OptimizerInitialized    = false;
   m_VnlOptimizer            = 0;
@@ -36,8 +36,8 @@ AmoebaOptimizer
 /**
  * Destructor
  */
-AmoebaOptimizer
-::~AmoebaOptimizer()
+LBFGSOptimizer
+::~LBFGSOptimizer()
 {
   delete m_VnlOptimizer;
 }
@@ -48,7 +48,7 @@ AmoebaOptimizer
  * Connect a Cost Function
  */
 void
-AmoebaOptimizer
+LBFGSOptimizer
 ::SetCostFunction( SingleValuedCostFunction * costFunction )
 {
 
@@ -68,7 +68,7 @@ AmoebaOptimizer
     
   this->SetCostFunctionAdaptor( adaptor );
 
-  m_VnlOptimizer = new vnl_amoeba( *adaptor );
+  m_VnlOptimizer = new vnl_lbfgs( *adaptor );
 
   ScalesType scales( numberOfParameters );
   scales.Fill( 1.0f );
@@ -84,7 +84,7 @@ AmoebaOptimizer
  * Start the optimization
  */
 void
-AmoebaOptimizer
+LBFGSOptimizer
 ::StartOptimization( void )
 {
   
@@ -112,8 +112,8 @@ AmoebaOptimizer
 /**
  * Get the Optimizer
  */
-vnl_amoeba * 
-AmoebaOptimizer
+vnl_lbfgs * 
+LBFGSOptimizer
 ::GetOptimizer()
 {
   return m_VnlOptimizer;

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRegularStepGradientDescentBaseOptimizer.txx
+  Module:    itkRegularStepGradientDescentBaseOptimizer.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

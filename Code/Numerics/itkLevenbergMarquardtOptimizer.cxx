@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLBFGSOptimizer.txx
+  Module:    itkLevenbergMarquardtOptimizer.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,10 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLBFGSOptimizer_txx
-#define _itkLBFGSOptimizer_txx
+#ifndef _itkLevenbergMarquardtOptimizer_txx
+#define _itkLevenbergMarquardtOptimizer_txx
 
-#include "itkLBFGSOptimizer.h"
+#include "itkLevenbergMarquardtOptimizer.h"
 
 namespace itk
 {
@@ -25,8 +25,8 @@ namespace itk
 /**
  * Constructor
  */
-LBFGSOptimizer
-::LBFGSOptimizer()
+LevenbergMarquardtOptimizer
+::LevenbergMarquardtOptimizer()
 {
   m_OptimizerInitialized    = false;
   m_VnlOptimizer            = 0;
@@ -36,8 +36,8 @@ LBFGSOptimizer
 /**
  * Destructor
  */
-LBFGSOptimizer
-::~LBFGSOptimizer()
+LevenbergMarquardtOptimizer
+::~LevenbergMarquardtOptimizer()
 {
   delete m_VnlOptimizer;
 }
@@ -48,16 +48,19 @@ LBFGSOptimizer
  * Connect a Cost Function
  */
 void
-LBFGSOptimizer
-::SetCostFunction( SingleValuedCostFunction * costFunction )
+LevenbergMarquardtOptimizer
+::SetCostFunction( MultipleValuedCostFunction * costFunction )
 {
 
 
   const unsigned int numberOfParameters = 
                         costFunction->GetNumberOfParameters();
 
+  const unsigned int numberOfValues = 
+                        costFunction->GetNumberOfValues();
+
   CostFunctionAdaptorType * adaptor = 
-              new CostFunctionAdaptorType( numberOfParameters );
+        new CostFunctionAdaptorType( numberOfParameters, numberOfValues );
        
   adaptor->SetCostFunction( costFunction );
 
@@ -68,7 +71,7 @@ LBFGSOptimizer
     
   this->SetCostFunctionAdaptor( adaptor );
 
-  m_VnlOptimizer = new vnl_lbfgs( *adaptor );
+  m_VnlOptimizer = new vnl_levenberg_marquardt( *adaptor );
 
   ScalesType scales( numberOfParameters );
   scales.Fill( 1.0f );
@@ -84,7 +87,7 @@ LBFGSOptimizer
  * Start the optimization
  */
 void
-LBFGSOptimizer
+LevenbergMarquardtOptimizer
 ::StartOptimization( void )
 {
   
@@ -97,11 +100,13 @@ LBFGSOptimizer
                                             parameters     );
 
   m_VnlOptimizer->minimize( parameters );
-
-  ParametersType solution =
-   this->GetCostFunctionAdaptor()->GetCostFunction()->GetParameters() ;
-
-  this->SetCurrentPosition( solution );
+  // InternalParametersType is different than ParametersType....
+  ParametersType p(parameters.size());
+  for(unsigned int i=0; i < parameters.size(); ++i)
+    {
+    p[i] = parameters[i];
+    }
+  this->SetCurrentPosition( p );
       
 
 }
@@ -112,8 +117,8 @@ LBFGSOptimizer
 /**
  * Get the Optimizer
  */
-vnl_lbfgs * 
-LBFGSOptimizer
+vnl_levenberg_marquardt * 
+LevenbergMarquardtOptimizer
 ::GetOptimizer()
 {
   return m_VnlOptimizer;

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSingleValuedNonLinearOptimizer.txx
+  Module:    itkMultipleValuedNonLinearOptimizer.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,29 +14,18 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSingleValuedNonLinearOptimizer_txx
-#define _itkSingleValuedNonLinearOptimizer_txx
+#ifndef _itkMultipleValuedNonLinearOptimizer_txx
+#define _itkMultipleValuedNonLinearOptimizer_txx
 
-#include "itkSingleValuedNonLinearOptimizer.h"
+#include "itkMultipleValuedNonLinearOptimizer.h"
 
 namespace itk
 {
 
-SingleValuedNonLinearOptimizer
-::SingleValuedNonLinearOptimizer()
+MultipleValuedNonLinearOptimizer
+::MultipleValuedNonLinearOptimizer()
 {
 }
-
-
-
-void
-SingleValuedNonLinearOptimizer
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-  os << indent << "Cost Function: " << m_CostFunction.GetPointer() << std::endl;
-}
-
 
 } // namespace itk
 

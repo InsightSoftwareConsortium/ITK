@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkQuaternionRigidTransformGradientDescentOptimizer.txx
+  Module:    itkQuaternionRigidTransformGradientDescentOptimizer.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

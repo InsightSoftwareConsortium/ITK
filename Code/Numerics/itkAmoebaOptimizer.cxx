@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLevenbergMarquardtOptimizer.txx
+  Module:    itkAmoebaOptimizer.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,10 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLevenbergMarquardtOptimizer_txx
-#define _itkLevenbergMarquardtOptimizer_txx
+#ifndef _itkAmoebaOptimizer_txx
+#define _itkAmoebaOptimizer_txx
 
-#include "itkLevenbergMarquardtOptimizer.h"
+#include "itkAmoebaOptimizer.h"
 
 namespace itk
 {
@@ -25,8 +25,8 @@ namespace itk
 /**
  * Constructor
  */
-LevenbergMarquardtOptimizer
-::LevenbergMarquardtOptimizer()
+AmoebaOptimizer
+::AmoebaOptimizer()
 {
   m_OptimizerInitialized    = false;
   m_VnlOptimizer            = 0;
@@ -36,8 +36,8 @@ LevenbergMarquardtOptimizer
 /**
  * Destructor
  */
-LevenbergMarquardtOptimizer
-::~LevenbergMarquardtOptimizer()
+AmoebaOptimizer
+::~AmoebaOptimizer()
 {
   delete m_VnlOptimizer;
 }
@@ -48,19 +48,16 @@ LevenbergMarquardtOptimizer
  * Connect a Cost Function
  */
 void
-LevenbergMarquardtOptimizer
-::SetCostFunction( MultipleValuedCostFunction * costFunction )
+AmoebaOptimizer
+::SetCostFunction( SingleValuedCostFunction * costFunction )
 {
 
 
   const unsigned int numberOfParameters = 
                         costFunction->GetNumberOfParameters();
 
-  const unsigned int numberOfValues = 
-                        costFunction->GetNumberOfValues();
-
   CostFunctionAdaptorType * adaptor = 
-        new CostFunctionAdaptorType( numberOfParameters, numberOfValues );
+              new CostFunctionAdaptorType( numberOfParameters );
        
   adaptor->SetCostFunction( costFunction );
 
@@ -71,7 +68,7 @@ LevenbergMarquardtOptimizer
     
   this->SetCostFunctionAdaptor( adaptor );
 
-  m_VnlOptimizer = new vnl_levenberg_marquardt( *adaptor );
+  m_VnlOptimizer = new vnl_amoeba( *adaptor );
 
   ScalesType scales( numberOfParameters );
   scales.Fill( 1.0f );
@@ -87,7 +84,7 @@ LevenbergMarquardtOptimizer
  * Start the optimization
  */
 void
-LevenbergMarquardtOptimizer
+AmoebaOptimizer
 ::StartOptimization( void )
 {
   
@@ -100,13 +97,11 @@ LevenbergMarquardtOptimizer
                                             parameters     );
 
   m_VnlOptimizer->minimize( parameters );
-  // InternalParametersType is different than ParametersType....
-  ParametersType p(parameters.size());
-  for(unsigned int i=0; i < parameters.size(); ++i)
-    {
-    p[i] = parameters[i];
-    }
-  this->SetCurrentPosition( p );
+
+  ParametersType solution =
+   this->GetCostFunctionAdaptor()->GetCostFunction()->GetParameters() ;
+
+  this->SetCurrentPosition( solution );
       
 
 }
@@ -117,8 +112,8 @@ LevenbergMarquardtOptimizer
 /**
  * Get the Optimizer
  */
-vnl_levenberg_marquardt * 
-LevenbergMarquardtOptimizer
+vnl_amoeba * 
+AmoebaOptimizer
 ::GetOptimizer()
 {
   return m_VnlOptimizer;
