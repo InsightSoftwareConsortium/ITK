@@ -415,7 +415,7 @@ M_Read(void)
     }
 
     int i=0;
-    int d=0;
+    int d;
     double td;
     for(j=0; j<m_NPoints; j++) 
     {
@@ -454,7 +454,7 @@ M_Read(void)
       }
 
       float* x = new float[m_NDims];
-      int d=0;
+      int d;
       for(d=0; d<m_NDims; d++)
       {
         x[d] = v[posDim[d]];
@@ -503,7 +503,7 @@ M_Write(void)
 
     char* data = new char[(m_NDims+4)*m_NPoints*elementSize];
     int i=0;
-    int d=0;
+    int d;
     while(it != m_PointList.end())
     {
       for(d = 0; d < m_NDims; d++)

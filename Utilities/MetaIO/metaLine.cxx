@@ -416,8 +416,8 @@ M_Read(void)
     {
       pnt = new LinePnt(m_NDims);
 
-      int k=0;
-      int d=0;
+      int k;
+      int d;
       for(k=0; k<m_NDims; k++)
       {
         *m_ReadStream >> v[k];
@@ -491,7 +491,7 @@ M_Write(void)
 
     char* data = new char[(m_NDims*m_NDims+4)*m_NPoints*elementSize];
     int i=0;
-    int d=0;
+    int d;
     while(it != m_PointList.end())
     {
       for(d = 0; d < m_NDims; d++)

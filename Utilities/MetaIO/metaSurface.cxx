@@ -427,7 +427,7 @@ M_Read(void)
         m_ReadStream->get(); // char c =
       }
 
-      int d=0;
+      int d;
       float* x = new float[m_NDims];
       for(d=0; d<m_NDims; d++)
       {
@@ -485,7 +485,7 @@ M_Write(void)
 
     char* data = new char[(m_NDims*2+4)*m_NPoints*elementSize];
     int i=0;
-    int d=0;
+    int d;
     while(it != m_PointList.end())
     {
       for(d = 0; d < m_NDims; d++)
