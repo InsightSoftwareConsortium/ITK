@@ -101,6 +101,11 @@ public:
   
     m_P = m_Transform->TransformPoint( m_P1 );
     m_Q = m_Transform->TransformPoint( m_Q1 );
+
+    std::cout << "m_P1 = " << m_P1  << std::endl;
+    std::cout << "m_Q1 = " << m_Q1  << std::endl;
+    std::cout << "m_P  = " << m_P   << std::endl;
+    std::cout << "m_Q  = " << m_Q   << std::endl;
   }
 
 
@@ -273,19 +278,20 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   initialPosition[5] = 0.0;
 
   ScalesType    parametersScale( spaceDimensions );
+  const double translationScaleFactor = 10000.0;
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
   parametersScale[2] = 1.0;
-  parametersScale[3] = 1.0 / 50.0;
-  parametersScale[4] = 1.0 / 50.0;
-  parametersScale[5] = 1.0 / 50.0;
+  parametersScale[3] = 1.0 / translationScaleFactor;
+  parametersScale[4] = 1.0 / translationScaleFactor;
+  parametersScale[5] = 1.0 / translationScaleFactor;
 
   itkOptimizer->MaximizeOn();
   itkOptimizer->SetScales( parametersScale );
   itkOptimizer->SetGradientMagnitudeTolerance( 1e-15 );
-  itkOptimizer->SetMaximumStepLength( 0.1745 ); // About 10 deegres
-  itkOptimizer->SetMinimumStepLength( 1e-9 );
-  itkOptimizer->SetNumberOfIterations( 10 );
+  itkOptimizer->SetMaximumStepLength( 5.0 ); 
+  itkOptimizer->SetMinimumStepLength( 1e-6 );
+  itkOptimizer->SetNumberOfIterations( 50 );
 
   itkOptimizer->SetInitialPosition( initialPosition );
 
@@ -306,6 +312,7 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
 
   ParametersType finalPosition( spaceDimensions );
   finalPosition = itkOptimizer->GetCurrentPosition();
+
 
   VersorType finalRotation;
   VersorType::VectorType finalRightPart;
@@ -347,7 +354,8 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   trueParameters[4] = 30.0;
   trueParameters[5] = 30.0;
   
-  std::cout << "True Parameters = " << trueParameters << std::endl;
+  std::cout << "Final parameters = " << finalPosition << std::endl;
+  std::cout << "True Parameters  = " << trueParameters << std::endl;
 
   VersorType ratio = finalRotation * trueRotation.GetReciprocal();
   const VersorType::ValueType cosHalfAngle = ratio.GetW();
