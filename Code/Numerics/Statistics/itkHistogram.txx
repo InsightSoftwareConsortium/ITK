@@ -104,39 +104,38 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
 Histogram<TMeasurement, VMeasurementVectorSize,
           TFrequencyContainer>::IndexType
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
-::GetIndex(const MeasurementVectorType measurement) 
+::GetIndex(const MeasurementVectorType measurement) throw (RangeError)
 {
-
+  
   int dim, nbin, numBin ;  // dimension, bin number, number of bins
   IndexType index ;
-
+  
   for ( dim=0; dim< MeasurementVectorSize; dim++)
     {
-    numBin = m_Min[dim].size();
-    if ( measurement[dim] < m_Min[dim][0] )
-      {
-      index[dim] = 0;
-      }
-    else if ( measurement[dim] >= m_Max[dim][numBin-1] )
-      {
-      index[dim] = numBin-1;
-      }
-    else
-      {
-      for ( nbin = 0; nbin < numBin; nbin++)
+      numBin = m_Min[dim].size();
+      if ( measurement[dim] < m_Min[dim][0] )
         {
-        if (  (m_Min[dim][nbin] <= measurement[dim]) 
-           && (measurement[dim]  < m_Max[dim][nbin]) )
-          {
-            index[dim] = nbin;
-            break;  // break for(nbin ...) loop and do for (dim ... ) loop
-          }
-        } // end of for()
-      }  // end of if
+          throw RangeError(__FILE__, __LINE__) ;
+        }
+      else if ( measurement[dim] >= m_Max[dim][numBin-1] )
+        {
+          throw RangeError(__FILE__, __LINE__) ;
+        }
+      else
+        {
+          for ( nbin = 0; nbin < numBin; nbin++)
+            {
+              if (  (m_Min[dim][nbin] <= measurement[dim]) 
+                 && (measurement[dim]  < m_Max[dim][nbin]) )
+                {
+                  index[dim] = nbin;
+                  break;  
+                  // break for(nbin ...) loop and do for (dim ... ) loop
+                }
+            } // end of for()
+        }  // end of if
     } // end of for()
-
-  return index;
-    
+ return index;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
