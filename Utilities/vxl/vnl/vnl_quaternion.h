@@ -131,7 +131,7 @@ class vnl_quaternion : public vnl_vector_fixed<T, 4>
   vnl_matrix_fixed<T,3,3> rotation_matrix_transpose () const;
 
   //: 4x4 rotation matrix
-  vnl_matrix_fixed<T,4,4> rotation_matrix_4 () const {return rotation_matrix_4();}
+  vnl_matrix_fixed<T,4,4> rotation_matrix_4 () const {return rotation_matrix_transpose_4();}
   vnl_matrix_fixed<T,4,4> rotation_matrix_transpose_4 () const;
 
   //: Same real, opposite img part
