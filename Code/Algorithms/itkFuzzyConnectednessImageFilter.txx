@@ -273,7 +273,7 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	++it;
   }
 
-  OutputImageType::RegionType region1;
+  RegionType region1;
   region1.SetSize(m_size);
   region1.SetIndex(index);
   m_SegmentObject->SetLargestPossibleRegion( region1 );

@@ -96,6 +96,7 @@ public:
   typedef TOutputImage OutputImageType;
   typedef Image <unsigned short, ImageDimension> UShortImage;
   typedef typename TInputImage::IndexType IndexType;
+  typedef typename TInputImage::SizeType SizeType;
 
   typedef std::queue<IndexType> QueueType;
 
@@ -181,11 +182,11 @@ private:
   double m_Weight;
   double m_Threshold;
   IndexType m_Seed;
-  TInputImage::SizeType m_size;
+  SizeType m_size;
 
-  InputImageType::Pointer m_InputImage;
+  typename InputImageType::Pointer m_InputImage;
   UShortImage::Pointer m_FuzzyScene;
-  OutputImageType::Pointer m_SegmentObject; 
+  typename OutputImageType::Pointer m_SegmentObject; 
   
   QueueType m_Queue;
 
