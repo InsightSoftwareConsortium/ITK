@@ -353,7 +353,6 @@ int main(int argc, char *argv[])
   // Clean up and exit
   delete m;
   delete e1;
-  delete X;
 
   return 0;
 }
