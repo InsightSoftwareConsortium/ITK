@@ -240,9 +240,9 @@ public:
    * Methods related to the physics of the problem.
    */
 
-  Element::VectorType GetStrainsAtPoint(const VectorType& pt, const Solution& sol, unsigned int index) const;
+  virtual VectorType GetStrainsAtPoint(const VectorType& pt, const Solution& sol, unsigned int index) const;
 
-  Element::VectorType Element::GetStressesAtPoint(const VectorType& pt, const VectorType& e, const Solution& sol, unsigned int index) const;
+  virtual VectorType GetStressesAtPoint(const VectorType& pt, const VectorType& e, const Solution& sol, unsigned int index) const;
 
   /**
    * Compute and return element stiffnes matrix (Ke) in global coordinate
