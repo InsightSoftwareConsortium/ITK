@@ -131,7 +131,7 @@ const char*
 itkDirectory
 ::GetFile(unsigned int index)
 {
-  if ( index >= m_Files.size() || index < 0 )
+  if ( index >= m_Files.size() )
     {
     itkErrorMacro( << "Bad index for GetFile on itkDirectory\n");
     return 0;
