@@ -454,7 +454,7 @@ namespace itk
   template <unsigned int TDimension >
   bool 
   PolygonSpatialObject<TDimension>
-  ::IsInside( const PointType & point,unsigned int depth,char * name) const
+  ::IsInside( const PointType & point,unsigned int ,char * ) const
   {
     int numpoints = this->NumberOfPoints();
     int X, Y;
