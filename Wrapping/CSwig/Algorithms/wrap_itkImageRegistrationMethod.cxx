@@ -26,10 +26,6 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkImageRegistrationMethod);
   namespace wrappers
   {
-//     typedef itk::SpatialObjectTreeNode<3> SpatialObjectTreeNode3;
-//     ITK_WRAP_OBJECT1(TreeNode,SpatialObjectTreeNode3,TreeNodeSOTN3);
-//     typedef itk::SpatialObjectTreeNode<2> SpatialObjectTreeNode2;
-//     ITK_WRAP_OBJECT1(TreeNode,SpatialObjectTreeNode2,TreeNodeSOTN2);
     ITK_WRAP_OBJECT2(ImageRegistrationMethod, image::F2, image::F2,
                      itkImageRegistrationMethodF2F2);
     ITK_WRAP_OBJECT2(ImageRegistrationMethod, image::F3, image::F3,

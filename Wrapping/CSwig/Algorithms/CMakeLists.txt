@@ -23,6 +23,8 @@ SET(WRAP_SOURCES
     wrap_itkNarrowBandCurvesLevelSetImageFilter
     wrap_itkVoronoiSegmentationImageFilter
     wrap_itkWatershedImageFilter
+    wrap_itkSegmentationLevelSetImageFilter
+    wrap_itkSparseFieldLevelSetImageFilter
     wrap_itkTreeNodeSO
 )
 
