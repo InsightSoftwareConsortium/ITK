@@ -85,7 +85,8 @@ int itkNeighborhoodIteratorTest(int, char**)
     }
 
   println("Testing SetNext(0, 2, [0,0,0,0])");
-  itk::NeighborhoodIterator<TestImageType>::PixelType z = {0,0,0,0};
+  itk::NeighborhoodIterator<TestImageType>::PixelType z;
+  z[0] = 0;  z[1] = 0; z[2] = 0; z[3] = 0;
   it3.SetNext(0,2,z);
 
   for (y = 0, i=0; y < 5; y++)
