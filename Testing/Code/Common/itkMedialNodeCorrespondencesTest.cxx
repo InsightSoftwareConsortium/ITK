@@ -41,6 +41,9 @@
 // Medial node correspondence related stuff
 #include "itkMatrixResizeableDataObject.h"
 #include "itkCoreAtomImageToDistanceMatrixProcess.h"
+#include "itkCoreAtomImageToUnaryCorrespondenceMatrixProcess.h"
+#include "itkMedialNodePairCorrespondenceProcess.h"
+#include "itkMedialNodeTripletCorrespondenceProcess.h"
 
 
 // Main for testing various classes related to medial node (clustered and 
@@ -176,7 +179,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     if(i == 0)
       binfilter->SetRepetitions(4);
     else
-      binfilter->SetRepetitions(2);
+      binfilter->SetRepetitions(3);
 
     // Set up the output of the filter
     ImageType::Pointer blurredImage = binfilter->GetOutput();
@@ -213,7 +216,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     if(i == 0)
       caFilter->SetEpsilon(0.05);
     else
-      caFilter->SetEpsilon(0.20);
+      caFilter->SetEpsilon(0.05);
 
     caFilter->SetPolarity(0);
 
@@ -343,7 +346,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
         {
         indexI = i;
         indexJ = j;
-        difference = (distanceMatrix->get(i,j) - correctDistance->get(i,j));
+        difference = fabs(distanceMatrix->get(i,j) - correctDistance->get(i,j));
         distanceSuccess = false;
         break;
         }
@@ -357,6 +360,220 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     {
     std::cerr << "CoreAtomImageToDistanceMatrixProcess Test failed at index (" << indexI << ", " 
       << indexJ << ") with difference: " << difference << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  //-------Test CoreAtomImageToUnaryCorrespondenceMatrixProcess-----------
+
+  std::cout << "Testing CoreAtomImageToUnaryCorrespondenceMatrixProcess" << std::endl;
+
+  typedef itk::MatrixResizeableDataObject<double> CorrespondenceMatrixType;
+  typedef CorrespondenceMatrixType::Pointer CorrespondenceMatrixPointer;
+  CorrespondenceMatrixPointer correspondenceMatrix = CorrespondenceMatrixType::New();
+
+  typedef itk::CoreAtomImageToUnaryCorrespondenceMatrixProcess<BloxCAImageType> CorrespondenceMatrixProcessType;
+  typedef CorrespondenceMatrixProcessType::Pointer CorrespondenceMatrixProcessPointer;
+
+  CorrespondenceMatrixProcessPointer correspondenceMatrixProcess;
+  correspondenceMatrixProcess = CorrespondenceMatrixProcessType::New();
+
+  correspondenceMatrixProcess->SetInput1(bloxCoreAtomImage1);
+
+  correspondenceMatrixProcess->SetInput2(bloxCoreAtomImage2);
+
+  correspondenceMatrix = correspondenceMatrixProcess->GetOutput();
+
+  correspondenceMatrixProcess->Update();
+
+  // Set correctCorrespondenceMatrix to test against.
+  DistanceMatrixPointer correctCorrespondenceMatrix = MatrixType::New();
+  correctCorrespondenceMatrix->resize(numberNodes1, numberNodes2);
+  correctCorrespondenceMatrix->put(0,0,0.999977);
+  correctCorrespondenceMatrix->put(0,1,0.988233);
+  correctCorrespondenceMatrix->put(0,2,0.988233);
+  correctCorrespondenceMatrix->put(0,3,0.979701);
+  correctCorrespondenceMatrix->put(0,4,0.988233);
+  correctCorrespondenceMatrix->put(0,5,0.979701);
+  correctCorrespondenceMatrix->put(0,6,0.979701);
+
+  correctCorrespondenceMatrix->put(1,0,0.978981);
+  correctCorrespondenceMatrix->put(1,1,0.995991);
+  correctCorrespondenceMatrix->put(1,2,0.995991);
+  correctCorrespondenceMatrix->put(1,3,0.975749);
+  correctCorrespondenceMatrix->put(1,4,0.995991);
+  correctCorrespondenceMatrix->put(1,5,0.975749);
+  correctCorrespondenceMatrix->put(1,6,0.975749);
+
+  correctCorrespondenceMatrix->put(2,0,0.978981);
+  correctCorrespondenceMatrix->put(2,1,0.995991);
+  correctCorrespondenceMatrix->put(2,2,0.995991);
+  correctCorrespondenceMatrix->put(2,3,0.975749);
+  correctCorrespondenceMatrix->put(2,4,0.995991);
+  correctCorrespondenceMatrix->put(2,5,0.975749);
+  correctCorrespondenceMatrix->put(2,6,0.975749);
+
+  correctCorrespondenceMatrix->put(3,0,0.950089);
+  correctCorrespondenceMatrix->put(3,1,0.96741);
+  correctCorrespondenceMatrix->put(3,2,0.96741);
+  correctCorrespondenceMatrix->put(3,3,0.991872);
+  correctCorrespondenceMatrix->put(3,4,0.96741);
+  correctCorrespondenceMatrix->put(3,5,0.991872);
+  correctCorrespondenceMatrix->put(3,6,0.991872);
+
+  correctCorrespondenceMatrix->put(4,0,0.978981);
+  correctCorrespondenceMatrix->put(4,1,0.995991);
+  correctCorrespondenceMatrix->put(4,2,0.995991);
+  correctCorrespondenceMatrix->put(4,3,0.975749);
+  correctCorrespondenceMatrix->put(4,4,0.995991);
+  correctCorrespondenceMatrix->put(4,5,0.975749);
+  correctCorrespondenceMatrix->put(4,6,0.975749);
+
+  correctCorrespondenceMatrix->put(5,0,0.950089);
+  correctCorrespondenceMatrix->put(5,1,0.96741);
+  correctCorrespondenceMatrix->put(5,2,0.96741);
+  correctCorrespondenceMatrix->put(5,3,0.991872);
+  correctCorrespondenceMatrix->put(5,4,0.96741);
+  correctCorrespondenceMatrix->put(5,5,0.991872);
+  correctCorrespondenceMatrix->put(5,6,0.991872);
+
+  correctCorrespondenceMatrix->put(6,0,0.950089);
+  correctCorrespondenceMatrix->put(6,1,0.96741);
+  correctCorrespondenceMatrix->put(6,2,0.96741);
+  correctCorrespondenceMatrix->put(6,3,0.991872);
+  correctCorrespondenceMatrix->put(6,4,0.96741);
+  correctCorrespondenceMatrix->put(6,5,0.991872);
+  correctCorrespondenceMatrix->put(6,6,0.991872);
+
+  // Print the contents of the correspondence matrix
+  std::cerr << "\nCorrespondence Matrix: " << std::endl;
+  for(int m=0;m<numberNodes1;++m)
+  {
+    for(int n=0;n<numberNodes2;++n)
+    {
+      std::cerr << correspondenceMatrix->get(m,n) << " ";
+      //std::cerr << "correctCorrespondenceMatrix->put(" <<m<< "," <<n<<","<<correspondenceMatrix->get(m,n) <<");"<< std::endl;
+    }
+    std::cerr << std::endl;
+  }
+
+
+
+  // Compare the test results with the correct results. 
+  int indexK = 0;
+  int indexL = 0;
+  double difference2 = 0;
+
+  bool unarySuccess = true;
+  for(int k = 0; k < numberNodes1; k++)
+    {
+    for(int l = 0; l < numberNodes2; l++)
+      {
+      if( fabs(correspondenceMatrix->get(k,l) - correctCorrespondenceMatrix->get(k,l)) >= 0.0001)
+        {
+        indexK = k;
+        indexL = l;
+        difference2 = fabs(correspondenceMatrix->get(k,l) - correctCorrespondenceMatrix->get(k,l));
+        unarySuccess = false;
+        break;
+        }
+      }
+    }
+
+  // Print results of test.
+  if(unarySuccess)
+    std::cerr << "CoreAtomImageToUnaryCorrespondenceMatrixProcess Test Passed!" << std::endl;
+  else
+    {
+    std::cerr << "CoreAtomImageToUnaryCorrespondenceMatrixProcess Test failed at index (" << indexK << ", " 
+      << indexL << ") with difference: " << difference2 << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  //-------Test MedialNodePairCorrespondenceProcess-----------
+
+  itk::CoreAtomImageToDistanceMatrixProcess<BloxCAImageType>::Pointer distanceMatrixProcess2;
+  distanceMatrixProcess2 = itk::CoreAtomImageToDistanceMatrixProcess<BloxCAImageType>::New();
+  typedef MatrixType::Pointer DistanceMatrixPointer2;
+  DistanceMatrixPointer2 distanceMatrix2 = MatrixType::New();
+  distanceMatrixProcess2->SetInput1(bloxCoreAtomImage2);
+  distanceMatrix2 = distanceMatrixProcess2->GetOutput();
+  distanceMatrixProcess2->Update();
+
+  typedef itk::MedialNodePairCorrespondenceProcess<BloxCAImageType> PairCorrespondenceProcess;
+  PairCorrespondenceProcess::Pointer nodePairProcess;
+  nodePairProcess = PairCorrespondenceProcess::New();
+
+  // Here we will need to create the output type and set it
+  typedef PairCorrespondenceProcess::NodeType NodeType2;
+  typedef PairCorrespondenceProcess::DataStructureType DataStructureType2; 
+  typedef DataStructureType2::Pointer DataStructurePointerType2;
+
+  DataStructurePointerType2 pairDataStructure;
+  pairDataStructure = DataStructureType2::New();
+
+  nodePairProcess->SetCoreAtomImageA(bloxCoreAtomImage1);
+  nodePairProcess->SetCoreAtomImageB(bloxCoreAtomImage2);
+  nodePairProcess->SetDistanceMatrixA(distanceMatrix);
+  nodePairProcess->SetDistanceMatrixB(distanceMatrix2);
+  nodePairProcess->SetCorrespondenceMatrix(correspondenceMatrix);
+
+  pairDataStructure = nodePairProcess->GetOutput();
+
+  nodePairProcess->Update();
+
+  // The test passes if the number of pairs found is 21.
+  int numberOfPairs = nodePairProcess->GetNumberOfNodePairs();
+  bool pairSuccess = true;
+
+  // Print results of test.
+  if(numberOfPairs == 21)
+    {
+    std::cerr << "CoreAtomImageToDistanceMatrixProcess Test Passed!" << std::endl;
+    }
+  else
+    {
+    std::cerr << "CoreAtomImageToDistanceMatrixProcess Test failed: numberOfPairs = " 
+      << numberOfPairs << " , not 21" << std::endl;
+    pairSuccess = false;
+    return EXIT_FAILURE;
+    }
+
+  //-------Test TripletCorrespondenceProcessType-----------
+
+  typedef itk::MedialNodeTripletCorrespondenceProcess<BloxCAImageType> TripletCorrespondenceProcessType;
+  typedef TripletCorrespondenceProcessType::Pointer TripletCorrespondenceProcessPointer;
+  typedef TripletCorrespondenceProcessType::OutputNodeType TripletNodeType;
+  typedef TripletCorrespondenceProcessType::OutputDataStructureType TripletDataStructureType; 
+  typedef TripletDataStructureType::Pointer TripletDataStructurePointer;
+
+  TripletCorrespondenceProcessPointer nodeTripletProcess = TripletCorrespondenceProcessType::New();
+
+  TripletDataStructurePointer tripletDataStructure = TripletDataStructureType::New();
+
+  nodeTripletProcess->SetPairDataStructure(pairDataStructure);
+  nodeTripletProcess->SetCoreAtomImageA(bloxCoreAtomImage1);
+  nodeTripletProcess->SetCoreAtomImageB(bloxCoreAtomImage2);
+  nodeTripletProcess->SetDistanceMatrixA(distanceMatrix);
+  nodeTripletProcess->SetDistanceMatrixB(distanceMatrix2);
+  
+  tripletDataStructure = nodeTripletProcess->GetOutput();
+
+  nodeTripletProcess->Update();
+
+  // The test passes if the number of triplets found is 0.
+  int numberOfTriplets = nodeTripletProcess->GetNumberOfNodeTriplets();
+  bool tripletSuccess = true;
+
+  // Print results of test.
+  if(numberOfTriplets == 0)
+    {    
+    std::cerr << "MedialNodeTripletCorrespondenceProcess Test Passed!" << std::endl;
+    }
+  else
+    {
+    std::cerr << "CoreAtomImageToDistanceMatrixProcess Test failed: numberOfTriplets = " 
+      << numberOfTriplets << " , not 0" << std::endl;
+    tripletSuccess = false;
     return EXIT_FAILURE;
     }
 
