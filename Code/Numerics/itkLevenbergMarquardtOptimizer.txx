@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkLevenbergMarquardtOptimizer_txx
+#define _itkLevenbergMarquardtOptimizer_txx
 
 
 namespace itk
@@ -55,3 +57,5 @@ LevenbergMarquardtOptimizer<TCostFunction>
 
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkLBFGSOptimizer_txx
+#define _itkLBFGSOptimizer_txx
 
 
 namespace itk
@@ -56,3 +58,5 @@ LBFGSOptimizer<TCostFunction>
 
 
 } // end namespace itk
+
+#endif

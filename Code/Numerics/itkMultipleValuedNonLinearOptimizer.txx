@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkMultipleValuedNonLinearOptimizer_txx
+#define _itkMultipleValuedNonLinearOptimizer_txx
 
 
 namespace itk
@@ -29,3 +31,5 @@ MultipleValuedNonLinearOptimizer<TCostFunction>
 
 
 } // end namespace itk
+
+#endif

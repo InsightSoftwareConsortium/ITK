@@ -1,3 +1,6 @@
+#ifndef _vcl_hash_map_txx
+#define _vcl_hash_map_txx
+
 // -*- c++ -*-
 #include <vcl_compiler.h>
 #include "vcl_hash_map.h"
@@ -74,3 +77,5 @@ VCL_UNARY_INSTANTIATE(HTNodeP ## TAG); \
 VCL_UNARY_INSTANTIATE(HTNodeP ## TAG *); \
 VCL_CONTAINABLE_INSTANTIATE(HTNodeP ## TAG); \
 VCL_VECTOR_INSTANTIATE(HTNodeP ## TAG);
+
+#endif

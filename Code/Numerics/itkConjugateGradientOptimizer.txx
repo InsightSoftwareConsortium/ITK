@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkConjugateGradientOptimizer_txx
+#define _itkConjugateGradientOptimizer_txx
 
 
 namespace itk
@@ -55,3 +57,5 @@ ConjugateGradientOptimizer<TCostFunction>
 
 
 } // end namespace itk
+
+#endif

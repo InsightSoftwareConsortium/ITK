@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkSingleValuedNonLinearOptimizer_txx
+#define _itkSingleValuedNonLinearOptimizer_txx
 #ifndef __itkSingleValuedNonLinearOptimizer_txx
 #define __itkSingleValuedNonLinearOptimizer_txx
 
@@ -32,3 +34,5 @@ SingleValuedNonLinearOptimizer<TCostFunction>
 
 
 
+
+#endif

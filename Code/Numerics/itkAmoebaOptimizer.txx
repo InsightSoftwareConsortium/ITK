@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkAmoebaOptimizer_txx
+#define _itkAmoebaOptimizer_txx
 
 
 namespace itk
@@ -56,3 +58,5 @@ AmoebaOptimizer<TMetric>
 
 
 } // end namespace itk
+
+#endif
