@@ -100,7 +100,7 @@ public:
   typedef typename TInputImage::IndexType IndexType;
   typedef typename TInputImage::SizeType SizeType;
   typedef typename TInputImage::PixelType PixelRGB;
-  typedef UShortImage::Pointer FuzzyScene;
+  typedef typename UShortImage::Pointer FuzzyScene;
 
   typedef std::queue<IndexType> QueueType;
 
