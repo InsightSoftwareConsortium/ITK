@@ -43,9 +43,9 @@ KullbackLieblerCompareHistogramImageToImageMetric<TFixedImage, TMovingImage>
 
 template <class TFixedImage, class TMovingImage>
 typename KullbackLieblerCompareHistogramImageToImageMetric<TFixedImage, \
-TMovingImage>::MeasureType
+                                                           TMovingImage>::MeasureType
 KullbackLieblerCompareHistogramImageToImageMetric<TFixedImage, \
-TMovingImage>
+                                                  TMovingImage>
 ::EvaluateMeasure(HistogramType& histogram) const
 {
   // Two terms.
@@ -61,20 +61,21 @@ TMovingImage>
   HistogramIteratorType training_end  = m_TrainingHistogram->End();
 
   while (measured_it != measured_end)
-  {
-  // Every bin gets epsilon added to it
-  double TrainingFreq = training_it.GetFrequency()+m_Epsilon;
-  double MeasuredFreq = measured_it.GetFrequency()+m_Epsilon;
+    {
+    // Every bin gets epsilon added to it
+    double TrainingFreq = training_it.GetFrequency()+m_Epsilon;
+    double MeasuredFreq = measured_it.GetFrequency()+m_Epsilon;
 
-  KullbackLiebler += TrainingFreq*log(TrainingFreq/MeasuredFreq);
+    KullbackLiebler += TrainingFreq*log(TrainingFreq/MeasuredFreq);
 
-  ++measured_it;
-  ++training_it;
-  }
+    ++measured_it;
+    ++training_it;
+    }
 
   if (training_it != training_end)
+    {
     itkWarningMacro("The Measured and Training Histograms have different number of bins.");
-
+    }
   // Get the total frequency for each histogram.
   HistogramFrequencyType totalTrainingFreq = m_TrainingHistogram->GetTotalFrequency();
   HistogramFrequencyType totalMeasuredFreq = histogram.GetTotalFrequency();
@@ -83,7 +84,7 @@ TMovingImage>
   // than the number of counst because we add m_Epsilon to every bin
   double AdjustedTotalTrainingFreq = totalTrainingFreq +
     m_HistogramSize[0]*m_HistogramSize[1]*m_Epsilon;
-  double AdjustedTotalMeasuredFreq = totalTrainingFreq +
+  double AdjustedTotalMeasuredFreq = totalMeasuredFreq +
     m_HistogramSize[0]*m_HistogramSize[1]*m_Epsilon;
 
   KullbackLiebler = -KullbackLiebler/static_cast<MeasureType>(AdjustedTotalTrainingFreq)
@@ -98,8 +99,7 @@ PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Epsilon: ";
-  os << m_Epsilon << std::endl;
+  os << indent << "Epsilon: " << m_Epsilon << std::endl;
 }
 
 
