@@ -134,6 +134,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkNeighborhoodOperatorImageFilter.txx"
 #include "itkNoiseImageFilter.txx"
 #include "itkNonThreadedShrinkImageFilter.txx"
+#include "itkNormalVectorDiffusionFunction.txx"
+#include "itkNormalVectorFunctionBase.txx"
 #include "itkNormalizeImageFilter.txx"
 #include "itkObjectMorphologyImageFilter.txx"
 #include "itkPadImageFilter.txx"
