@@ -92,6 +92,8 @@ public:
   /** 
    * Some typedefs.
    */
+  typedef TFunction   FunctorType;
+
   typedef TInputImage InputImageType;
   typedef typename    InputImageType::Pointer    InputImagePointer;
   typedef typename    InputImageType::RegionType InputImageRegionType; 
@@ -102,6 +104,31 @@ public:
   typedef typename     OutputImageType::RegionType OutputImageRegionType;
   typedef typename     OutputImageType::PixelType  OutputImagePixelType;
 
+  /**
+   * Get the functor object.  The functor is returned by reference.
+   * (Functors do not have to derive from itk::LightObject, so they do
+   * not necessarily have a reference count. So we cannot return a
+   * SmartPointer.)
+   */
+  FunctorType& GetFunctor() { return m_Functor; };
+
+  /**
+   * Set the functor object.  This replaces the current Functor with a
+   * copy of the specified Functor. This allows the user to specify a
+   * functor that has ivars set differently than the default functor.
+   * This method requires an operator!=() be defined on the functor
+   * (or the compiler's default implementation of operator!=() being
+   * appropriate).
+   */
+  void SetFunctor(FunctorType& functor)
+  {
+    if ( m_Functor != functor )
+      {
+      m_Functor = functor;
+      this->Modified();
+      }
+  }
+  
 protected:
   UnaryFunctorImageFilter();
   virtual ~UnaryFunctorImageFilter() {};
@@ -123,6 +150,8 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
+ private:
+  FunctorType m_Functor;
 };
 
 } // end namespace itk

@@ -117,6 +117,15 @@ public:
   void SetElementNumber( unsigned int nth )
   { m_ElementNumber = nth; }
 
+  /**
+   * operator!=. This is needed to convert a pixel accessor to a functor.
+   * \sa AdaptImageFilter
+   */
+  bool operator!=(const Self& accessor) const
+  {
+    return (m_ElementNumber != accessor.m_ElementNumber);
+  }
+
 
 private:
   // Identifier of the N-th element to be accessed

@@ -116,7 +116,6 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
     progressBase = static_cast<float>(updateVisits) * 10.0;
     }
   
-  TFunction function;
   for(unsigned int inputNumber=0;
       inputNumber < numberOfInputImages; inputNumber++ )
     {
@@ -135,7 +134,7 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
         this->UpdateProgress((float)i/progressBase);
         }
       
-      outputIt.Set( function( outputIt.Get(), inputIt.Get() ) );
+      outputIt.Set( m_Functor( outputIt.Get(), inputIt.Get() ) );
       ++inputIt;
       ++outputIt;
       ++i;

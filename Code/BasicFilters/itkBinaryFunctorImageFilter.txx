@@ -117,8 +117,6 @@ BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>
     if ( updateVisits < 1 ) updateVisits = 1;
     }
         
-  TFunction function;
-
   inputIt1.GoToBegin();
   inputIt2.GoToBegin();
   outputIt.GoToBegin();
@@ -130,7 +128,7 @@ BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>
       this->UpdateProgress((float)i/(float(updateVisits)*10.0));
       }
 
-    outputIt.Set( function( inputIt1.Get(), inputIt2.Get() ) );
+    outputIt.Set( m_Functor( inputIt1.Get(), inputIt2.Get() ) );
     ++inputIt1;
     ++inputIt2;
     ++outputIt;

@@ -107,13 +107,8 @@ int main()
   os->rdbuf()->freeze(0);
   delete os;
   os = new std::ostrstream();
-  *os << "Output #1: " << threshold->GetOutput(1).GetPointer() << std::ends;
-  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
-  os->rdbuf()->freeze(0);
-  delete os;
 
   threshold->GetOutput(0)->DebugOn();
-  threshold->GetOutput(1)->DebugOn();
   threshold->DebugOn();
 
   itk::OutputWindow::GetInstance()->DisplayText( "Ending Test #1: filter goes out of scope" );
@@ -141,13 +136,8 @@ int main()
   os->rdbuf()->freeze(0);
   delete os;
   os = new std::ostrstream();
-  *os << "Output #1: " << threshold->GetOutput(1).GetPointer() << std::ends;
-  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
-  os->rdbuf()->freeze(0);
-  delete os;
 
   threshold->GetOutput(0)->DebugOn();
-  threshold->GetOutput(1)->DebugOn();
   threshold->DebugOn();
 
   keep = threshold->GetOutput(0);
@@ -157,7 +147,7 @@ int main()
   itk::OutputWindow::GetInstance()->DisplayText( "End of Test #2 -----------------------------------");
 
   // Test #3, user disconnects a data object from the pipeline
-  itk::OutputWindow::GetInstance()->DisplayText( "Test #3: application disconnects a data object from the pipeline  -----------------" );
+  itk::OutputWindow::GetInstance()->DisplayText( "Test #3: user disconnects a data object from the pipeline  -----------------" );
   {
   FloatImage2DType::Pointer keep;
 
@@ -176,14 +166,8 @@ int main()
   itk::OutputWindow::GetInstance()->DisplayText( os->str() );
   os->rdbuf()->freeze(0);
   delete os;
-  os = new std::ostrstream();
-  *os << "Output #1: " << threshold->GetOutput(1).GetPointer() << std::ends;
-  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
-  os->rdbuf()->freeze(0);
-  delete os;
 
   threshold->GetOutput(0)->DebugOn();
-  threshold->GetOutput(1)->DebugOn();
   threshold->DebugOn();
 
   keep = threshold->GetOutput(0);

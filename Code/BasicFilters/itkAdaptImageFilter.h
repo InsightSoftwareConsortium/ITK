@@ -29,13 +29,43 @@ namespace Functor {
   public:
     AccessorFunctor() {};
     ~AccessorFunctor() {};
+
+    typedef AccessorFunctor Self;
+    typedef TAccessor AccessorType;
     
     typedef typename TAccessor::ExternalType OutputType;
     inline OutputType operator()( const TInput & A )
     {
-      TAccessor accessor;
-      return accessor.Get( A ) ;
+      return m_Accessor.Get( A ) ;
     }
+
+    /**
+     * Get the accessor. The accessor is returned by reference.
+     * (Accessors do not have to derive from itk::LightObject, so they
+     * do not necessarily have a reference count.  So we cannot return
+     * a SmartPointer.)
+     */
+    AccessorType& GetAccessor() {return m_Accessor; };
+
+    /**
+     * Set the accessor object. This replaces the current accessor with
+     * a copy of the specified accessor.  This allows the user to
+     * specify an accessor that has ivars set differently that the default
+     * accessor.
+     */
+    void SetAccessor(AccessorType& accessor) { m_Accessor = accessor; };
+
+    /**
+     * operator!=.  Needed to determine if two accessors are the same.
+     * This is used by UnaryFunctorImageFilter and AdaptImageFilter.
+     */
+    bool operator!=( const Self& functor ) const
+    {
+      return (m_Accessor != functor.m_Accessor);
+    }
+    
+  private:
+    AccessorType m_Accessor;
   }; 
 }
 
@@ -91,20 +121,52 @@ public:
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
+
+  /**
+   * Typedef for the accessor type
+   */
+  typedef TAccessor AccessorType;
   
   /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro(AdaptImageFilter, UnaryFunctorImageFilter);
 
-protected:
+  /**
+   * Get the accessor. This is a convenience method so the user
+   * does not have to first get the functor and then get a copy
+   * of the accessor.  This method is used when the user needs to change
+   * an ivar on the accessor (like for the NthElementPixelAccessor).
+   */
+  AccessorType& GetAccessor() { return this->GetFunctor()->GetAccessor(); };
 
+  /**
+   * Set the accessor. This is a convenience method so the user does
+   * not have to first get a copy of the functor and then get a copy
+   * of the accessor.  This method is used when the user needs to
+   * change an ivar on the accessor (like for the
+   * NthElementPixelAccessor).  Calling this method requires an
+   * operator!=() be defined on the accessor (or the compiler's
+   * default implementation of operator!=() being appropriate).
+   */
+  void SetAccessor(AccessorType& accessor)
+  {
+    FunctorType functor;
+    functor = this->GetFunctor();
+    if (accessor != functor.GetAccessor())
+      {
+      functor.SetAccessor( accessor );
+      this->SetFunctor( functor );
+      this->Modified();
+      }
+  }
+
+protected:
   AdaptImageFilter() {}
   virtual ~AdaptImageFilter() {}
   AdaptImageFilter(const Self&) {}
   void operator=(const Self&) {}
 
-private:
 };
 
   

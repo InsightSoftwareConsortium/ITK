@@ -7,7 +7,7 @@
  *  just the red component.
  *
  *  That will allow to pass the red component of this
- *  image as input or output to any filter that expects
+ *  image as input any filter that expects
  *  a float image
  *
  */

@@ -82,8 +82,6 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
     if ( updateVisits < 1 ) updateVisits = 1;
     }
         
-  TFunction function;
-
   inputIt.GoToBegin();
   outputIt.GoToBegin();
   i = 0;
@@ -94,7 +92,7 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
       this->UpdateProgress((float)i/(float(updateVisits)*10.0));
       }
 
-    outputIt.Set( function( inputIt.Get() ) );
+    outputIt.Set( m_Functor( inputIt.Get() ) );
     ++inputIt;
     ++outputIt;
     ++i;
