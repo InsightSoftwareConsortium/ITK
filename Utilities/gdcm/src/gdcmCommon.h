@@ -80,10 +80,27 @@ namespace gdcm
 #define DICT_TS           "dicomTS.dic"
 #define DICT_VR           "dicomVR.dic"
 
-const std::string GDCM_UNFOUND   = "gdcm::Unfound";
-const std::string GDCM_BINLOADED = "gdcm::Binary data loaded";
-const std::string GDCM_NOTLOADED = "gdcm::NotLoaded";
-const std::string GDCM_UNREAD    = "gdcm::UnRead";
+struct Dummy {};
+template<typename T>
+struct Strings_
+{
+    static std::string const UNKNOWN;
+    static std::string const UNFOUND;
+    static std::string const BINLOADED;
+    static std::string const NOTLOADED;
+    static std::string const UNREAD;
+};
+template<typename T> std::string const Strings_<T>::UNKNOWN   = "gdcm::Unknown";
+template<typename T> std::string const Strings_<T>::UNFOUND   = "gdcm::Unfound";
+template<typename T> std::string const Strings_<T>::BINLOADED = "gdcm::Binary data loaded";
+template<typename T> std::string const Strings_<T>::NOTLOADED = "gdcm::NotLoaded";
+template<typename T> std::string const Strings_<T>::UNREAD    = "gdcm::UnRead";
+typedef Strings_<Dummy> Strings;
+#define GDCM_UNKNOWN   Strings::UNKNOWN
+#define GDCM_UNFOUND   Strings::UNFOUND
+#define GDCM_BINLOADED Strings::BINLOADED
+#define GDCM_NOTLOADED Strings::NOTLOADED
+#define GDCM_UNREAD    Strings::UNREAD
 
 /// \brief TagKey is made to hold an "universal" (as in URL, Universal
 ///        Ressource Locator)  key to a DocEntry i.e. a dicom tag.
