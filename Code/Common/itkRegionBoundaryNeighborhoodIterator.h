@@ -99,6 +99,16 @@ public:
    * Print some debugging information.
    */
   void Print();
+
+  /**
+   * Assignment operator
+   */
+  Self &operator=(const Self& orig)
+  {
+    Superclass::operator=(orig);
+    m_InnerStride = orig.m_InnerStride;
+    return *this;
+  }
   
 protected:
   /**
