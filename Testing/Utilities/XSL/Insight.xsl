@@ -25,6 +25,11 @@
     <xsl:param name="Title">Insight Dashboard</xsl:param>
     <xsl:param name="IconDir">../../Icons</xsl:param>
     <xsl:param name="DashboardDir">./</xsl:param>
+    <xsl:param name="UpdatesIcon">Updates.gif</xsl:param>
+    <xsl:param name="TestsIcon">Tests.gif</xsl:param>
+    <xsl:param name="CoverageIcon">Coverage.gif</xsl:param>
+    <xsl:param name="HomeIcon">Home.gif</xsl:param>
+    
 
     <xsl:text disable-output-escaping="yes">
     &lt;html>
@@ -56,27 +61,23 @@
                   &lt;td>
                     &lt;a href="</xsl:text>
     <xsl:value-of select="$DashboardDir"/>
-    <xsl:text disable-output-escaping="yes">Update.html">&lt;img src="</xsl:text>
-    <xsl:value-of select="$IconDir"/>
-    <xsl:text disable-output-escaping="yes">/Updates.gif" border="0">&lt;/img>&lt;/a>
+   <xsl:text disable-output-escaping="yes">Update.html">&lt;img src="</xsl:text>
+    <xsl:value-of select="$IconDir"/>/<xsl:value-of select="$UpdatesIcon"/> <xsl:text disable-output-escaping="yes">" border="0">&lt;/img>&lt;/a>
                   &lt;/td>
                 &lt;/tr>
                 &lt;tr>
                   &lt;td halign="center" valign="left">
                     &lt;a href="</xsl:text>
     <xsl:value-of select="$DashboardDir"/>
-    <xsl:text disable-output-escaping="yes">Test.html">&lt;img src="</xsl:text>
-    <xsl:value-of select="$IconDir"/>
-    <xsl:text disable-output-escaping="yes">/Tests.gif" border="0">&lt;/img>&lt;/a>
+    <xsl:text disable-output-escaping="yes">TestOverview.html">&lt;img src="</xsl:text>
+    <xsl:value-of select="$IconDir"/>/<xsl:value-of select="$TestIcon"/><xsl:text disable-output-escaping="yes">" border="0">&lt;/img>&lt;/a>
                   &lt;/td>
                 &lt;/tr>
                 &lt;tr>
                   &lt;td>
                     &lt;a >&lt;img src="
     </xsl:text>
-    <xsl:value-of select="$IconDir"/>
-    <xsl:text disable-output-escaping="yes">
-/Coverage.gif" border="0">&lt;/img>&lt;/a>
+    <xsl:value-of select="$IconDir"/>/<xsl:value-of select="$CoverageIcon"/><xsl:text disable-output-escaping="yes">" border="0">&lt;/img>&lt;/a>
                   &lt;/td>
                 &lt;/tr>
 		&lt;tr>
@@ -100,8 +101,7 @@
     <xsl:value-of select="$DashboardDir"/>
     <xsl:text disable-output-escaping="yes">Dashboard.html">
 &lt;img src="</xsl:text>
-    <xsl:value-of select="$IconDir"/>
-    <xsl:text disable-output-escaping="yes">/Home.gif" border="0">&lt;/img>&lt;/a>
+    <xsl:value-of select="$IconDir"/>/<xsl:value-of select="$HomeIcon"/><xsl:text disable-output-escaping="yes">" border="0">&lt;/img>&lt;/a>
 
                   &lt;/td>
               &lt;/table>

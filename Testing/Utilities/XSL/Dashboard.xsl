@@ -17,6 +17,7 @@
     <xsl:call-template name="InsightHeader">
       <xsl:with-param name="Title">Insight Dashboard</xsl:with-param>
       <xsl:with-param name="IconDir">../../Icons</xsl:with-param>
+      <xsl:with-param name="HomeIcon">HomeBlue.gif</xsl:with-param>
     </xsl:call-template>
     <h3>
       <xsl:choose>
