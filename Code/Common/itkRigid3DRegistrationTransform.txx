@@ -76,6 +76,12 @@ Rigid3DRegistrationTransform<TScalarType,TParameters>
 
 /**
  * Set the transformation parameters
+ * 
+ * \todo  Verify if the parameters should be sent as 
+ * a list of 4 components or as an axis and angle.
+ * Eventually consider to use screws for the total 
+ * transformation.
+ *
  */
 template <class TScalarType,class TParameters>
 void
