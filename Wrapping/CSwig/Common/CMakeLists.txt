@@ -1,6 +1,6 @@
 # create a list of cable config files for wrapping
 SET(WRAP_SOURCES
-  wrap_ITKBase
+  wrap_ITKCommonBase
   wrap_ITKFilterBase
   wrap_ITKInterpolators
   wrap_ITKKernelDeformableTransforms
