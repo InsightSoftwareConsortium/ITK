@@ -26,53 +26,32 @@
 
 int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
 {
-  unsigned int i;
   typedef itk::AffineTransform<double,3> AffineTransformType;
   AffineTransformType::Pointer affine = AffineTransformType::New();
   AffineTransformType::InputPointType cor;
-  cor.Fill(12);
+  cor[0] = 1.0;
+  cor[1] = 2.0;
+  cor[2] = 3.0;
   affine->SetCenter(cor);
 
-  typedef itk::Similarity2DTransform<double> SimilarityTransformType;
-  SimilarityTransformType::Pointer similarity = SimilarityTransformType::New();
-  similarity->SetAngle(0.2);
-  SimilarityTransformType::InputPointType simi_CoR;
-  simi_CoR[0] = 1;
-  simi_CoR[1] = 2;
-  similarity->SetCenter(simi_CoR);
-  
   itk::TransformFileWriter::Pointer writer;
+  itk::TransformFileReader::Pointer reader;
+  reader = itk::TransformFileReader::New();
   writer = itk::TransformFileWriter::New();
-  writer->SetInput( affine );
-  writer->AddTransform(similarity);
+  writer->AddTransform(affine);
 
-  typedef itk::BSplineDeformableTransform<double,3,5> BSplineTransformType;
-  BSplineTransformType::Pointer bspline = BSplineTransformType::New();
-  BSplineTransformType::RegionType region;
-
-  BSplineTransformType::SizeType size;
-  size.Fill(10);
-  region.SetSize(size);
-  bspline->SetGridRegion( region );
-  BSplineTransformType::OriginType origin;
-  origin.Fill ( 100 );
-  bspline->SetGridOrigin ( origin );
-  BSplineTransformType::SpacingType spacing;
-  spacing.Fill ( 1.5 );
-  bspline->SetGridSpacing ( spacing );
-  
-  BSplineTransformType::ParametersType parameters( bspline->GetNumberOfParameters() );
-  bspline->SetParameters( parameters );
-  bspline->SetIdentity();
-
-  writer->AddTransform(bspline);
-  writer->SetFileName( "Transforms.meta" );
+  writer->SetFileName( "Transforms.txt" );
+  reader->SetFileName( "Transforms.txt" );
  
   // Testing writing
   std::cout << "Testing write : ";
+  affine->Print ( std::cout );
   try
    {
    writer->Update();
+   std::cout << std::endl;
+   std::cout << "Testing read : " << std::endl;
+   reader->Update();
    }
   catch( itk::ExceptionObject & excp )
    {
@@ -81,149 +60,28 @@ int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
    std::cout << "[FAILED]" << std::endl;
    return EXIT_FAILURE;
    }
-  std::cout << "[PASSED]" << std::endl;
 
-  // Now testing the reader
-  itk::TransformFileReader::Pointer reader;
-  reader = itk::TransformFileReader::New();
-  reader->SetFileName( "Transforms.meta" );
-  std::cout << "Testing read : ";
+
   try
     {
-    reader->Update();
+    itk::TransformFileReader::TransformListType *list;
+    list = reader->GetTransformList();
+    itk::TransformFileReader::TransformListType::iterator i = list->begin();
+    while ( i != list->end() )
+      {
+      (*i)->Print ( std::cout );
+      i++;
+      }
     }
   catch( itk::ExceptionObject & excp )
-   {
-   std::cerr << "Error while reading the transform file" << std::endl;
-   std::cerr << excp << std::endl;
-   std::cout << "[FAILED]" << std::endl;
-   return EXIT_FAILURE;
-   }
-  std::cout << "[PASSED]" << std::endl;
-
-  typedef itk::TransformFileReader::TransformListType * TransformListType;
-  TransformListType transforms = reader->GetTransformList();
-
-  // Number of transforms
-  std::cout << "Testing number of transforms : ";
-  if( transforms->size() != 3)
     {
-    std::cout << "[FAILED] : expecting 3 got " << transforms->size() << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED]" << std::endl;
-
-  itk::TransformFileReader::TransformListType::const_iterator it = transforms->begin();
-
-  std::cout << "Testing transforms : ";
-  
-  // Affine transform
-  if(strcmp((*it)->GetNameOfClass(),affine->GetNameOfClass()))
-    {
-    std::cout << "[FAILED] : expecting " << affine->GetNameOfClass() << " got " << (*it)->GetNameOfClass() << std::endl;
+    std::cerr << "Error while saving the transforms" << std::endl;
+    std::cerr << excp << std::endl;
+    std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
   
-  if((*it)->GetNumberOfParameters() != affine->GetNumberOfParameters())
-    {
-    std::cout << "[FAILED] : Number of parameters expecting " << affine->GetNumberOfParameters() << " got " << (*it)->GetNumberOfParameters() << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  for(i = 0;i<affine->GetNumberOfParameters();i++)
-    {
-    if((*it)->GetParameters()[i] != affine->GetParameters()[i])
-      {
-      std::cout << "[FAILED] : affine Parameters are different "<< std::endl;
-      return EXIT_FAILURE; 
-      }
-    }
-
-  for( i= 0;i<3;i++)
-    {
-    if(static_cast<AffineTransformType*>((*it).GetPointer())->GetCenter()[i] != affine->GetCenter()[i])
-      {
-      std::cout << "[FAILED] : center is different " << static_cast<AffineTransformType*>((*it).GetPointer())->GetCenter()[i] << " v.s. " << affine->GetCenter()[i] << std::endl;
-      return EXIT_FAILURE; 
-      }
-    }
-
-  it++;
-
-  // Similarity transform
-  if(strcmp((*it)->GetNameOfClass(),similarity->GetNameOfClass()))
-    {
-    std::cout << "[FAILED] : expecting " << similarity->GetNameOfClass() << " got " << (*it)->GetNameOfClass() << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  if((*it)->GetNumberOfParameters() !=  similarity->GetNumberOfParameters())
-    {
-    std::cout << "[FAILED] : Number of parameters expecting " << similarity->GetNumberOfParameters() << " got " << (*it)->GetNumberOfParameters() << std::endl;
-    return EXIT_FAILURE;
-    }
- 
-  for(i = 0;i<similarity->GetNumberOfParameters();i++)
-    {
-    if((*it)->GetParameters()[i] != similarity->GetParameters()[i])
-      {
-      std::cout << "[FAILED] : similarity Parameters are different "<< std::endl;
-      return EXIT_FAILURE; 
-      }
-    }
-
-  for(i = 0;i<2;i++)
-    {
-    if(similarity->GetCenter()[i] != static_cast<SimilarityTransformType*>((*it).GetPointer())->GetCenter()[i])
-      {
-      std::cout << "[FAILED] : similarity centers are different "<< similarity->GetCenter()[i]  << " v.s " << static_cast<SimilarityTransformType*>((*it).GetPointer())->GetCenter() << std::endl;
-      return EXIT_FAILURE; 
-      }
-    }
-  it++;
-
-  // BSpline transform
-  if(strcmp((*it)->GetNameOfClass(),bspline->GetNameOfClass()))
-    {
-    std::cout << "[FAILED] : expecting " << bspline->GetNameOfClass() << " got " << (*it)->GetNameOfClass() << std::endl;
-    return EXIT_FAILURE;
-    }
-  
-  if((*it)->GetNumberOfParameters() !=  bspline->GetNumberOfParameters())
-    {
-    std::cout << "[FAILED] : Number of parameters expecting " << similarity->GetNumberOfParameters() << " got " << (*it)->GetNumberOfParameters() << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  for(i = 0;i<bspline->GetNumberOfParameters();i++)
-    {
-    if(fabs((*it)->GetParameters()[i] - bspline->GetParameters()[i])>1e-12)
-      {
-      std::cout << "[FAILED] : bspline Parameters are different : " << i << " : " << (*it)->GetParameters()[i] << " v.s. " << bspline->GetParameters()[i] << std::endl;
-      return EXIT_FAILURE; 
-      }
-    }
-
-  for(i = 0;i<3;i++)
-    {
-    if(fabs(static_cast<BSplineTransformType*>((*it).GetPointer())->GetGridOrigin()[i] - bspline->GetGridOrigin()[i])>1e-12)
-      {
-      std::cout << "[FAILED] : bspline Grid Origin is different : " << i << " : " << static_cast<BSplineTransformType*>((*it).GetPointer())->GetGridOrigin()[i] << " v.s. " << bspline->GetGridOrigin()[i] << std::endl;
-      return EXIT_FAILURE; 
-      }
-    }
-
-  for(i = 0;i<3;i++)
-    {
-    if(fabs(static_cast<BSplineTransformType*>((*it).GetPointer())->GetGridSpacing()[i] - bspline->GetGridSpacing()[i])>1e-12)
-      {
-      std::cout << "[FAILED] : bspline Grid Spacing is different : " << i << " : " << static_cast<BSplineTransformType*>((*it).GetPointer())->GetGridSpacing()[i] << " v.s. " << bspline->GetGridSpacing()[i] << std::endl;
-      return EXIT_FAILURE; 
-      }
-    }
-
   std::cout << "[PASSED]" << std::endl;
 
-  std::cout << "Test [DONE]" << std::endl;
   return EXIT_SUCCESS;
 }

@@ -1,34 +1,29 @@
 SET(ITKIO_SRCS
   itkAnalyzeImageIO.cxx
   itkAnalyzeImageIOFactory.cxx
+  itkArchetypeSeriesFileNames.cxx
+  itkBMPImageIO.cxx
+  itkBMPImageIOFactory.cxx
   itkBrains2HeaderBase.cxx
   itkBrains2HeaderFactory.cxx
   itkBrains2IPLHeaderInfo.cxx
   itkBrains2MaskHeaderInfo.cxx
   itkBrains2MaskImageIO.cxx
   itkBrains2MaskImageIOFactory.cxx
-  itkBMPImageIO.cxx
-  itkBMPImageIOFactory.cxx
   itkDICOMImageIO2.cxx
   itkDICOMImageIO2Factory.cxx
+  itkDICOMSeriesFileNames.cxx
   itkDicomImageIO.cxx
   itkDicomImageIOFactory.cxx
-  itkDICOMSeriesFileNames.cxx
+  itkGDCMImageIO.cxx
+  itkGDCMImageIOFactory.cxx
+  itkGDCMSeriesFileNames.cxx
   itkGE4ImageIO.cxx
   itkGE4ImageIOFactory.cxx
   itkGE5ImageIO.cxx
   itkGE5ImageIOFactory.cxx
   itkGEAdwImageIO.cxx
   itkGEAdwImageIOFactory.cxx
-  itkJPEGImageIO.cxx
-  itkJPEGImageIOFactory.cxx
-  itkRegularExpressionSeriesFileNames.cxx
-  itkArchetypeSeriesFileNames.cxx
-  itkSiemensVisionImageIO.cxx
-  itkSiemensVisionImageIOFactory.cxx
-  itkGDCMImageIO.cxx
-  itkGDCMImageIOFactory.cxx
-  itkGDCMSeriesFileNames.cxx
   itkGiplImageIO.cxx
   itkGiplImageIOFactory.cxx
   itkIOCommon.cxx
@@ -37,6 +32,8 @@ SET(ITKIO_SRCS
   itkImageIOBase.cxx
   itkImageIOFactory.cxx
   itkImageIORegion.cxx
+  itkJPEGImageIO.cxx
+  itkJPEGImageIOFactory.cxx
   itkMetaImageIO.cxx
   itkMetaImageIOFactory.cxx
   itkNrrdImageIO.cxx
@@ -45,7 +42,9 @@ SET(ITKIO_SRCS
   itkPNGImageIO.cxx
   itkPNGImageIOFactory.cxx
   itkPolygonGroupSpatialObjectXMLFile.cxx
-  itkXMLFile.cxx
+  itkRegularExpressionSeriesFileNames.cxx
+  itkSiemensVisionImageIO.cxx
+  itkSiemensVisionImageIOFactory.cxx
   itkStimulateImageIO.cxx
   itkStimulateImageIOFactory.cxx
   itkTIFFImageIO.cxx
@@ -54,6 +53,7 @@ SET(ITKIO_SRCS
   itkTransformFileWriter.cxx
   itkVTKImageIO.cxx
   itkVTKImageIOFactory.cxx
+  itkXMLFile.cxx
 )
 
 # Add ITKIO library

@@ -54,6 +54,7 @@ SET(ITKCommon_SRCS
   itkTimeProbe.cxx
   itkTimeProbesCollectorBase.cxx
   itkTimeStamp.cxx
+  itkTransformFactory.cxx
   itkTriangleCellTopology.cxx
   itkVector.cxx
   itkVersion.cxx

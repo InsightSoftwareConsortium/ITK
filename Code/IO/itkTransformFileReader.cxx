@@ -18,227 +18,143 @@
 #define __itkTransformFileReader_cxx
 
 #include "itkTransformFileReader.h"
-#include "metaScene.h"
-#include "itkAffineTransform.h"
-#include "itkSimilarity2DTransform.h"
-
-#include "itkCenteredEuler3DTransform.h"
-#include "itkCenteredRigid2DTransform.h"
-#include "itkEuler2DTransform.h"
-#include "itkEuler3DTransform.h"
-#include "itkRigid2DTransform.h"
-#include "itkRigid3DPerspectiveTransform.h"
-#include "itkRigid3DPerspectiveTransform.h"
-#include "itkRigid3DPerspectiveTransform.h"
-#include "itkRigid3DTransform.h"
-#include "itkSimilarity2DTransform.h"
-#include "itkCenteredSimilarity2DTransform.h"
-#include "itkVersorTransform.h"
-#include "itkVersorRigid3DTransform.h"
-#include "itkScaleSkewVersor3DTransform.h"
-
-#include "itkCenteredAffineTransform.h"
-#include "itkScalableAffineTransform.h"
-#include "itkFixedCenterOfRotationAffineTransform.h"
-#include "itkQuaternionRigidTransform.h"
-#include "itkScaleLogarithmicTransform.h"
-#include "itkScaleTransform.h"
-#include "itkTranslationTransform.h"
-#include "itkElasticBodyReciprocalSplineKernelTransform.h"
-#include "itkElasticBodySplineKernelTransform.h"
-#include "itkIdentityTransform.h"
-#include "itkKernelTransform.h"
-#include "itkThinPlateR2LogRSplineKernelTransform.h"
-#include "itkThinPlateSplineKernelTransform.h"
-#include "itkVolumeSplineKernelTransform.h"
-
-#include "itkBSplineDeformableTransform.h"
+#include "itkTransformBase.h"
+#include "itkTransformFactory.h"
 
 namespace itk
 {
 
+std::string trim(std::string const& source, char const* delims = " \t\r\n") {
+  std::string result(source);
+  std::string::size_type index = result.find_last_not_of(delims);
+  if(index != std::string::npos)
+    result.erase(++index);
 
-#define ITK_CONVERTMETATOITKTRANSFORM(name,scalartype)\
-  if( (!strcmp(metaTransform->ObjectSubTypeName(),#name)) )\
-  { \
-    typedef itk::name<scalartype> InternalTransformType;\
-    transform = InternalTransformType::New();\
-    hasTransform = true;\
-  } \
-
-#define ITK_CONVERTMETATOITKTRANSFORM_WITH_CENTER(name,scalartype,dimension)\
-if( (!strcmp(metaTransform->ObjectSubTypeName(),#name)) )\
-  { \
-  typedef itk::name<scalartype> InternalTransformType;\
-  transform = InternalTransformType::New();\
-  itk::Point<scalartype,dimension> cor;\
-  for(unsigned int i=0;i<(int)(dimension);i++){cor[i] = metaTransform->CenterOfRotation()[i];}\
-  static_cast<InternalTransformType*>(transform.GetPointer())->SetCenter(cor);\
-  hasTransform = true;\
-  } \
-
-#define ITK_CONVERTMETATOITKTRANSFORM_2(name,scalartype,dimension)\
-  if( (!strcmp(metaTransform->ObjectSubTypeName(),#name)) \
-    && (metaTransform->NDims() == (int)(dimension)) \
-    ) \
-  { \
-    typedef itk::name<scalartype,dimension> InternalTransformType;\
-    transform = InternalTransformType::New();\
-    hasTransform = true;\
-  } \
-
-#define ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(name,scalartype,dimension)\
-  if((!strcmp(metaTransform->ObjectSubTypeName(),#name))\
-    && (metaTransform->NDims() == (int)(dimension))\
-    )\
-  {\
-  typedef itk::name<scalartype,dimension> InternalTransformType;\
-  transform = InternalTransformType::New();\
-  itk::Point<scalartype,dimension> cor;\
-  for(unsigned int i=0;i<(int)(dimension);i++){cor[i] = metaTransform->CenterOfRotation()[i];}\
-  static_cast<InternalTransformType*>(transform.GetPointer())->SetCenter(cor);\
-  hasTransform = true;\
-  } 
-
-#define ITK_CONVERTMETATO_ITK_BSPLINEDEFORMABLETRANSFORM(name,scalartype,dimension,order)\
-  if( (!strcmp(metaTransform->ObjectSubTypeName(),#name)) \
-    && (metaTransform->NDims() == (int)(dimension)) \
-    && (metaTransform->TransformOrder() == (int)(order))\
-    ) \
-  { \
-    typedef itk::name<scalartype,dimension,order> InternalTransformType;\
-    transform = InternalTransformType::New();\
-    InternalTransformType::RegionType region;\
-    InternalTransformType::SizeType size;\
-    InternalTransformType::SpacingType spacing;\
-    InternalTransformType::OriginType origin;\
-    unsigned int j;\
-    for(j=0;j<(int)(dimension);j++) {size[j] = (long unsigned int)metaTransform->GridRegionSize()[j];}\
-    region.SetSize(size);\
-    for(j=0;j<(int)(dimension);j++) {spacing[j] = metaTransform->GridSpacing()[j];}\
-    static_cast<InternalTransformType*>(transform.GetPointer())->SetGridSpacing(spacing);\
-    for(j=0;j<(int)(dimension);j++) {origin[j] = metaTransform->GridOrigin()[j];}\
-    static_cast<InternalTransformType*>(transform.GetPointer())->SetGridOrigin(origin);\
-    static_cast<InternalTransformType*>(transform.GetPointer())->SetGridRegion(region);\
-    hasTransform = true;\
-  } \
-
+  index = result.find_first_not_of(delims);
+  if(index != std::string::npos)
+    result.erase(0, index);
+  else
+    result.erase();
+  return result;
+}
 
 /** Constructor */
 TransformFileReader
 ::TransformFileReader()
 {
   m_FileName = "";
+  TransformFactory::RegisterDefaultTransforms();
 }
 
 /** Destructor */
 TransformFileReader
 ::~TransformFileReader()
 {
-  // we clean the list of parameters
-  ParametersListType::const_iterator it = m_ParametersList.begin();
-  while(it!= m_ParametersList.end())
-    {
-    delete *it;
-    it++;
-    }
-  m_ParametersList.clear();
-}
-
-/** This function does the real conversion */
-bool TransformFileReader
-::ConvertMetaToITKTransform(MetaTransform * metaTransform)
-{
-  bool hasTransform = false;
-  TransformPointer transform;
-  ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(AffineTransform,double,3);
-  ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(CenteredAffineTransform,double,3);
-  ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(ScalableAffineTransform,double,3);
-  ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(FixedCenterOfRotationAffineTransform,double,3);
-  ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(ScaleLogarithmicTransform,double,3);
-  ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(ScaleTransform,double,3);
-  ITK_CONVERTMETATOITKTRANSFORM_2(TranslationTransform,double,3);
-  ITK_CONVERTMETATOITKTRANSFORM_2(ElasticBodyReciprocalSplineKernelTransform,double,3);
-  ITK_CONVERTMETATOITKTRANSFORM_2(ElasticBodySplineKernelTransform,double,3);
-  ITK_CONVERTMETATOITKTRANSFORM_2(IdentityTransform,double,3);
-  ITK_CONVERTMETATOITKTRANSFORM_2(KernelTransform,double,3);
-  ITK_CONVERTMETATOITKTRANSFORM_2(ThinPlateR2LogRSplineKernelTransform,double,3);
-  ITK_CONVERTMETATOITKTRANSFORM_2(ThinPlateSplineKernelTransform,double,3);
-  ITK_CONVERTMETATOITKTRANSFORM_2(VolumeSplineKernelTransform,double,3);
-
-  ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(AffineTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(ScalableAffineTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(FixedCenterOfRotationAffineTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(CenteredAffineTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(ScaleLogarithmicTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(ScaleTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM_2(TranslationTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM_2(ElasticBodyReciprocalSplineKernelTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM_2(ElasticBodySplineKernelTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM_2(IdentityTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM_2(KernelTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM_2(ThinPlateR2LogRSplineKernelTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM_2(ThinPlateSplineKernelTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM_2(VolumeSplineKernelTransform,double,2);
-
-  ITK_CONVERTMETATOITKTRANSFORM(QuaternionRigidTransform,double);
-  ITK_CONVERTMETATOITKTRANSFORM_WITH_CENTER(Similarity2DTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM_WITH_CENTER(CenteredSimilarity2DTransform,double,2);
-  ITK_CONVERTMETATOITKTRANSFORM(CenteredEuler3DTransform,double);
-  ITK_CONVERTMETATOITKTRANSFORM(CenteredRigid2DTransform,double);
-  ITK_CONVERTMETATOITKTRANSFORM(Euler2DTransform,double);
-  ITK_CONVERTMETATOITKTRANSFORM(Euler3DTransform,double);
-  ITK_CONVERTMETATOITKTRANSFORM(Rigid2DTransform,double);
-  ITK_CONVERTMETATOITKTRANSFORM(Rigid3DTransform,double);
-  ITK_CONVERTMETATOITKTRANSFORM(Rigid3DPerspectiveTransform,double);
-  ITK_CONVERTMETATOITKTRANSFORM(VersorTransform,double);
-  ITK_CONVERTMETATOITKTRANSFORM(VersorRigid3DTransform,double);
-  ITK_CONVERTMETATOITKTRANSFORM(ScaleSkewVersor3DTransform,double);
-
-  ITK_CONVERTMETATO_ITK_BSPLINEDEFORMABLETRANSFORM(BSplineDeformableTransform,double,3,3);
-  ITK_CONVERTMETATO_ITK_BSPLINEDEFORMABLETRANSFORM(BSplineDeformableTransform,double,2,3);
-
-  if(hasTransform)
-    {
-    unsigned nParameters = metaTransform->NParameters();
-    typedef  Array< double >  ParametersType;
-    ParametersType* parameters = new ParametersType(nParameters);
-    for(unsigned int i=0;i<nParameters;i++)
-      {
-      (*parameters)[i] = metaTransform->Parameters()[i];
-      }
-
-    // We need to keep the parameters in a list so they are not deleted;
-    m_ParametersList.push_back(parameters);
-    transform->SetParameters(*parameters);
-    m_TransformList.push_back(transform.GetPointer());
-    return true;
-    }
-  else
-    {
-    std::cout << "Not transform" << std::endl;
-    }
-  return false;
 }
 
 /** Update the Reader */
 void TransformFileReader
 ::Update()
 {  
-  m_ParametersList.clear();
-  m_TransformList.clear();
-  MetaScene scene;
-  scene.Read(m_FileName.c_str());
-  MetaScene::ObjectListType * objects = scene.GetObjectList();
-  MetaScene::ObjectListType::const_iterator it = objects->begin();
+  TransformPointer transform;
 
-  while(it != objects->end())
+  std::ifstream in ( m_FileName.c_str() );
+
+  OStringStream InData;
+
+  // in.get ( InData );
+  char* buffer = new char[1024];
+  while ( !in.eof() )
     {
-    if(!strcmp((*it)->ObjectTypeName(),"Transform"))
+    // Read a buffer full
+    in.getline ( buffer, 1024 );
+    InData << buffer << std::endl;
+    }
+  delete[] buffer;
+  std::string data = InData.str();
+  in.close();
+
+  // Read line by line
+  vnl_vector<double> VectorBuffer;
+  unsigned int position = 0;
+  while ( position < data.size() )
+    {
+    // Find the next string
+    unsigned int end = data.find ( "\n", position );
+    std::string line = trim ( data.substr ( position, end - position ) );
+    position = end+1;
+    itkDebugMacro ("Found line: \"" << line << "\"" );
+    if ( line.length() == 0 )
       {
-      this->ConvertMetaToITKTransform(static_cast<MetaTransform*>(*it));
+      continue;
       }
-    it++;
+    if ( line[0] == '#' || std::string::npos == line.find_first_not_of ( " \t" ) )
+      {
+      // Skip lines beginning with #, or blank lines
+      continue;
+      }
+
+    // Get the name
+    end = line.find ( ":" );
+    if ( end == std::string::npos )
+      {
+      // Throw an error
+      itkExceptionMacro ( "Tags must be delimited by :" );
+      }
+    std::string Name = trim ( line.substr ( 0, end ) );
+    std::string Value = trim ( line.substr ( end + 1, line.length() ) );
+    // Push back 
+    itkDebugMacro ( "Name: \"" << Name << "\"" );
+    itkDebugMacro ( "Value: \"" << Value << "\"" );
+    std::istringstream parse ( Value );
+    VectorBuffer.clear();
+    if ( Name == "Transform" )
+      {
+      // Instantiate the transform
+      LightObject::Pointer i = ObjectFactoryBase::CreateInstance ( Value.c_str() );
+      TransformType* ptr = dynamic_cast<TransformBase*> ( i.GetPointer() );
+      if ( ptr == NULL )
+        {
+        itkExceptionMacro ( "Could not create an instance of " << Value );
+        }
+      transform = ptr;
+      transform->Register();
+      // transform->Print ( std::cout );
+      // ptr->UnRegister();
+      m_TransformList.push_back ( transform );
+      }
+    else if ( Name == "Parameters" || Name == "FixedParameters" )
+      {
+      Array<double> TmpArray;
+      TmpArray.clear();
+      VectorBuffer.clear();
+      parse.str ( parse.str() + " " );
+      // Read them
+      parse >> VectorBuffer;
+      itkDebugMacro ( "Parsed: " << VectorBuffer );
+      if ( Name == "Parameters" )
+        {
+        TmpArray = VectorBuffer;
+        itkDebugMacro ( "Setting Parameters: " << TmpArray );
+        if ( !transform )
+          {
+          itkExceptionMacro ( "Please set the transform before parameters" );
+          }
+        transform->SetParameters ( TmpArray );
+        itkDebugMacro ( "Parameters set Parameters" );
+        }
+      else if ( Name == "FixedParameters" )
+        {
+        TmpArray = VectorBuffer;
+        itkDebugMacro ( "Setting Fixed Parameters: " << TmpArray );
+        if ( !transform )
+          {
+          itkExceptionMacro ( "Please set the transform before fixed parameters" );
+          }
+        transform->SetFixedParameters ( TmpArray );
+        itkDebugMacro ( "Set Fixed Parameters" );
+        }
+      }
     }
 }
 

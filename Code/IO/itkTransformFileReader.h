@@ -35,7 +35,6 @@ public:
   typedef TransformType::ParametersType ParametersType;
   typedef TransformType::Pointer TransformPointer;
   typedef std::list<TransformPointer> TransformListType;
-  typedef std::list<ParametersType*> ParametersListType;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -63,13 +62,9 @@ protected:
   TransformFileReader();
   virtual ~TransformFileReader();
 
-  /** Convert the metaTransform to the ITK one */
-  bool ConvertMetaToITKTransform(MetaTransform * metaTransform);
-
 private:
 
   TransformListType    m_TransformList;
-  ParametersListType   m_ParametersList;
 };
 
 } // namespace itk

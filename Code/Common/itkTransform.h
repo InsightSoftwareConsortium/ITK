@@ -139,6 +139,15 @@ public:
     { itkExceptionMacro( << "Subclasses should override this method" );
       return m_Parameters; };
 
+  /** Set the fixed parameters and update internal transformation. */
+  virtual void SetFixedParameters( const ParametersType & ) 
+    { itkExceptionMacro( << "Subclasses should override this method" ) };
+
+  /** Get the Fixed Parameters. */
+  virtual const ParametersType& GetFixedParameters(void) const
+    { itkExceptionMacro( << "Subclasses should override this method" );
+      return m_Parameters; };
+
   /** Compute the Jacobian of the transformation
    *
    * This method computes the Jacobian matrix of the transformation
@@ -179,6 +188,8 @@ public:
    *  The inverse is recomputed if it has been modified */
   bool GetInverse(Self*) const {return false;}
 
+  /** Generate a platform independant name */
+  virtual std::string GetTransformTypeAsString() const;
 
 protected:
   Transform(); 
@@ -187,6 +198,7 @@ protected:
 
 
   mutable ParametersType     m_Parameters;
+  mutable ParametersType     m_FixedParameters;
   mutable JacobianType       m_Jacobian;
 
 private:

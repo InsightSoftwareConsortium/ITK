@@ -33,6 +33,7 @@ template < class TScalarType,
 Transform< TScalarType,NInputDimensions,NOutputDimensions>
 ::Transform():
   m_Parameters(1),
+  m_FixedParameters(1),
   m_Jacobian(NOutputDimensions,1)
 {
   itkWarningMacro(<< "Using default transform constructor.  Should specify NOutputDims and NParameters as args to constructor.");
@@ -53,6 +54,34 @@ Transform< TScalarType,NInputDimensions,NOutputDimensions>
 {
 }
 
+
+/**
+ * GenerateName
+ */
+template < class TScalarType,
+           unsigned int NInputDimensions,
+           unsigned int NOutputDimensions >
+std::string Transform< TScalarType,NInputDimensions,NOutputDimensions>
+::GetTransformTypeAsString () const
+{
+  OStringStream n;
+  n << GetNameOfClass();
+  n << "_";
+  if ( typeid ( TScalarType ) == typeid ( float ) )
+    {
+    n << "float";
+    }
+  else if ( typeid ( TScalarType ) == typeid ( double ) )
+    {
+      n << "double";
+    }
+  else
+    {
+      n << "other";
+    }
+  n << "_" << InputSpaceDimension << "_" << OutputSpaceDimension;
+  return n.str();
+}
 
 
 } // end namespace itk

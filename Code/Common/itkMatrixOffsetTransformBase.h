@@ -270,6 +270,13 @@ public:
   /** Get the Transformation Parameters. */
   const ParametersType& GetParameters(void) const;
 
+  /** Set the fixed parameters and update internal transformation. */
+  virtual void SetFixedParameters( const ParametersType & );
+
+  /** Get the Fixed Parameters. */
+  virtual const ParametersType& GetFixedParameters(void) const;
+
+
   /** Compose with another MatrixOffsetTransformBase
    *
    * This method composes self with another MatrixOffsetTransformBase of the

@@ -27,7 +27,6 @@
 
 #include "itkObjectFactory.h"
 
-
 namespace itk
 {
   
@@ -66,7 +65,16 @@ public:
 
   /** Set the transformation parameters and update internal transformation. */
   virtual void SetParameters( const ParametersType & ) = 0;
- 
+
+  /** Set the fixed parameters. */
+  virtual void SetFixedParameters( const ParametersType & ) = 0;
+
+  /** Get the fixed parameters. */
+  virtual const ParametersType& GetFixedParameters( ) const = 0;
+
+  /** Generate a platform independant name */
+  virtual std::string GetTransformTypeAsString() const = 0;
+
 protected:
   TransformBase() {}; 
   virtual ~TransformBase() {};
@@ -74,7 +82,7 @@ protected:
 private:
   TransformBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
+  
 
 };
 

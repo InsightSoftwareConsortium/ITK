@@ -6,18 +6,20 @@ SET(IO_HEADER_TEST ${CXX_TEST_PATH}/itkIOHeaderTest)
 
 
 SET(IOTest_SRCS
-itkIOPrintTest.cxx
 itkAnalyzeImageIOTest.cxx
-itkBrains2MaskImageIOTest.cxx
+itkArchetypeSeriesFileNamesTest.cxx
 itkBMPImageIOTest.cxx
+itkBrains2MaskImageIOTest.cxx
 itkConvertBufferTest.cxx
 itkConvertBufferTest2.cxx
-itkDicomImageIOTest.cxx
 itkDICOMImageIO2Test.cxx
-itkDICOMSeriesFileNamesTest.cxx
 itkDICOMImageSeriesTest.cxx
+itkDICOMSeriesFileNamesTest.cxx
+itkDicomImageIOTest.cxx
 itkGEImageIOTest.cxx
 itkGiplImageIOTest.cxx
+itkIOPrintTest.cxx
+itkImageFileWriterTest.cxx
 itkImageSeriesWriterTest.cxx
 itkJPEGImageIOTest.cxx
 itkMeshSpatialObjectIOTest.cxx
@@ -25,32 +27,30 @@ itkMetaImageIOTest.cxx
 itkNrrdImageIOTest.cxx
 itkNrrdImageReadWriteTest.cxx
 itkNumericSeriesFileNamesTest.cxx
-itkPolygonGroupSpatialObjectXMLFileTest.cxx
 itkPNGImageIOTest.cxx
+itkPolygonGroupSpatialObjectXMLFileTest.cxx
 itkRawImageIOTest.cxx
 itkRawImageIOTest2.cxx
 itkRawImageIOTest3.cxx
 itkRawImageIOTest4.cxx
+itkReadWriteSpatialObjectTest.cxx
 itkRegularExpressionSeriesFileNamesTest.cxx
-itkArchetypeSeriesFileNamesTest.cxx
 itkStimulateImageIOTest.cxx
 itkStimulateImageIOTest2.cxx
 itkTIFFImageIOTest.cxx
 itkTransformIOTest.cxx
 itkVTKImageIOTest.cxx
-testMetaGroup.cxx
-testMetaUtils.cxx
-testMetaObject.cxx
-testMetaImage.cxx
-testMetaTube.cxx
 testMetaBlob.cxx
-testMetaSurface.cxx
+testMetaGroup.cxx
+testMetaImage.cxx
 testMetaLandmark.cxx
 testMetaLine.cxx
 testMetaMesh.cxx
+testMetaObject.cxx
 testMetaScene.cxx
-itkReadWriteSpatialObjectTest.cxx
-itkImageFileWriterTest.cxx
+testMetaSurface.cxx
+testMetaTube.cxx
+testMetaUtils.cxx
 )
 
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
