@@ -66,12 +66,11 @@ int itkImportImageTest(int, char* [] )
   std::cout << "import->GetSpacing(): " << spacingValue << std::endl;
 
   const double data3[2] = {1.0,1.0};
-  import->SetSpacing(data3);
+  import->SetOrigin(data3);
   
   const float data4[2] = {1.0,1.0};
-  import->SetSpacing(data4);
+  import->SetOrigin(data4);
 
-  
   const double * originValue = import->GetOrigin();
   std::cout << "import->GetOrigin(): " << originValue << std::endl;
 

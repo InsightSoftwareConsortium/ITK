@@ -66,9 +66,9 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
   filter->SetNumberOfRangeGaussianSamples(numberOfRangeGaussianSamples);
   
   // Test itkGetMacro
-  const double rangeSigma2 = filter->GetRangeSigma();
+  double rangeSigma2 = filter->GetRangeSigma();
   std::cout << "filter->GetRangeSigma(): " << rangeSigma2 << std::endl;
-  double filterDimensionality2 = filter->GetFilterDimensionality();
+  unsigned int filterDimensionality2 = filter->GetFilterDimensionality();
   std::cout << "filter->GetFilterDimensionality(): " << filterDimensionality2 << std::endl;
   unsigned long numberOfRangeGaussianSamples2 = filter->GetNumberOfRangeGaussianSamples();
   std::cout << "filter->GetNumberOfRangeGaussianSamples(): " << numberOfRangeGaussianSamples2 << std::endl;

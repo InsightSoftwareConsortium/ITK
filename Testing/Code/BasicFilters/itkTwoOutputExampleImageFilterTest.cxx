@@ -150,10 +150,10 @@ int itkTwoOutputExampleImageFilterTest(int, char* [] )
   // Test itkSetMacro and itkGetMacro
   itk::TwoOutputExampleImageFilter<FloatImage2DType>::Pointer threshold;
   threshold = itk::TwoOutputExampleImageFilter<FloatImage2DType>::New();
-  const float value = 0;
-  threshold->SetOutsideValue(value);
-  float value2 = threshold->GetOutsideValue();
-  std::cout << "threshold->GetOutsideValue(): " << value2 << std::endl;
+  const float outsideValue = 0;
+  threshold->SetOutsideValue(outsideValue);
+  float outsideValue2 = threshold->GetOutsideValue();
+  std::cout << "threshold->GetOutsideValue(): " << outsideValue2 << std::endl;
 
   return EXIT_SUCCESS;
 }

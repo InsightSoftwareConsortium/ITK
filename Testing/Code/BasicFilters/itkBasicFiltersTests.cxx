@@ -150,6 +150,7 @@ void RegisterTests()
   REGISTER_TEST(itkThresholdImageFilterTest );
   REGISTER_TEST(itkTobogganImageFilterTest );
   REGISTER_TEST(itkTransformMeshFilterTest );
+  REGISTER_TEST(itkTwoOutputExampleImageFilterTest );
   REGISTER_TEST(itkVectorAnisotropicDiffusionImageFilterTest );
   REGISTER_TEST(itkVectorExpandImageFilterTest );
   REGISTER_TEST(itkVectorGradientMagnitudeImageFilterTest1 );
