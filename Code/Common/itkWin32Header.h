@@ -19,10 +19,7 @@ See COPYRIGHT.txt for copyright details.
 
 // add in the Windows variants
 #if defined(_WIN32) || defined(WIN32)
-// Uncommenting the following line can cause problems because macros
-// like min & max are defined which screws up traits 
-// (numeric_limits::min()and such.
-//#include <windows.h>
+#include <windows.h>
 
 #pragma warning ( disable : 4244 )
 #pragma warning ( disable : 4305 )
