@@ -333,7 +333,7 @@ Mesh<TPixelType,TMeshType>
 template <typename TPixelType, typename TMeshType>
 void
 Mesh<TPixelType,TMeshType>
-::SetPoint(PointIdentifier ptId, Point point)
+::SetPoint(PointIdentifier ptId, PointType point)
 {
   /**
    * Make sure a points container exists.
@@ -360,7 +360,7 @@ Mesh<TPixelType,TMeshType>
 template <typename TPixelType, typename TMeshType>
 bool
 Mesh<TPixelType,TMeshType>
-::GetPoint(PointIdentifier ptId, Point* point) const
+::GetPoint(PointIdentifier ptId, PointType* point) const
 {
   /**
    * If the points container doesn't exist, then the point doesn't either.
@@ -535,7 +535,8 @@ Mesh<TPixelType,TMeshType>
 template <typename TPixelType, typename TMeshType>
 void
 Mesh<TPixelType,TMeshType>
-::SetBoundary(int dimension, BoundaryIdentifier boundaryId, Boundary* boundary)
+::SetBoundary(int dimension, BoundaryIdentifier boundaryId, 
+                             BoundaryType* boundary)
 {
   /**
    * Make sure a boundaries container exists.
@@ -812,7 +813,7 @@ Mesh<TPixelType,TMeshType>
 template <typename TPixelType, typename TMeshType>
 bool
 Mesh<TPixelType,TMeshType>
-::FindClosestPoint(CoordRep coords[PointDimension],
+::FindClosestPoint(CoordRepType coords[PointDimension],
                    PointIdentifier* pointId)
 {
   m_PointLocator->DebugOn();
@@ -1084,7 +1085,7 @@ Mesh<TPixelType,TMeshType>
 template <typename TPixelType, typename TMeshType>
 void
 Mesh<TPixelType,TMeshType>
-::Accept(CellMultiVisitor* mv)
+::Accept(CellMultiVisitorType* mv)
 {
   if(!m_CellsContainer)
     {

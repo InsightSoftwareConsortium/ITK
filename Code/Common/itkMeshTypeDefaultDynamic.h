@@ -72,8 +72,8 @@ public:
   typedef TPixelType  PixelType;
   enum { PointDimension = VPointDimension };
   enum { MaxTopologicalDimension = VMaxTopologicalDimension };  
-  typedef TCoordRep  CoordRep;
-  typedef TInterpolationWeight  InterpolationWeight;
+  typedef TCoordRep  CoordRepType;
+  typedef TInterpolationWeight  InterpolationWeightType;
   
   /**
    * The type to be used to identify a point.  This should be the index type
@@ -104,7 +104,7 @@ public:
    * The type of point used by the mesh.  This should never change from
    * this setting, regardless of the mesh type.
    */
-  typedef Point< PointDimension , CoordRep >  Point;
+  typedef Point< PointDimension , CoordRepType >  Point;
 
   /**
    * The container type for use in storing points.  It must conform to

@@ -117,21 +117,21 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
     {
     if ( !m_Bounds )
       {
-      m_Bounds = new CoordRep[2*PointDimension];
+      m_Bounds = new CoordRepType[2*PointDimension];
       }
     
     //iterate over points determining min/max
     //start by initializing the values
     for (int i=0; i < PointDimension; i++)
       {
-      m_Bounds[2*i] = NumericTraits<CoordRep>::max();
-      m_Bounds[2*i+1] = NumericTraits<CoordRep>::min();
+      m_Bounds[2*i] = NumericTraits<CoordRepType>::max();
+      m_Bounds[2*i+1] = NumericTraits<CoordRepType>::min();
       }
     
     //use a const iterator to grab the points and compute
     //the bounding box.
-    Point pt;
-    const CoordRep *coords;
+    PointType pt;
+    const CoordRepType *coords;
     for ( PointsContainerIterator ci = m_PointsContainer->Begin();
           ci != m_PointsContainer->End(); ++ci )
       {
@@ -160,9 +160,9 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::CoordRep* 
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::CoordRepType* 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
-::GetBoundingBox(CoordRep bounds[PointDimension*2])
+::GetBoundingBox(CoordRepType bounds[PointDimension*2])
 {
   if ( this->ComputeBoundingBox() )
     {
@@ -181,9 +181,9 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::CoordRep*  
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::CoordRepType*  
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
-::GetCenter(CoordRep center[PointDimension*2])
+::GetCenter(CoordRepType center[PointDimension*2])
 {
   if ( this->ComputeBoundingBox() )
     {
@@ -205,7 +205,8 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::Accumu
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::GetDiagonalLength2(void)
 {
-  NumericTraits<CoordRep>::AccumulateType dist2 = NumericTraits<CoordRep>::zero;
+  NumericTraits<CoordRepType>::AccumulateType 
+    dist2 = NumericTraits<CoordRepType>::zero;
 
   if ( this->ComputeBoundingBox() )
     {

@@ -83,11 +83,11 @@ public:
    * Hold on to the type information specified by the template parameters.
    */
   typedef TPointIdentifier PointIdentifier;
-  typedef TCoordRep CoordRep;
+  typedef TCoordRep CoordRepType;
   enum { PointDimension = VPointDimension };
   typedef TPointsContainer PointsContainer;
   typedef typename PointsContainer::Pointer PointsContainerPointer;
-  typedef Point< PointDimension , CoordRep >  Point;
+  typedef Point< PointDimension , CoordRepType >  PointType;
   //@}
 
   //@{
@@ -118,13 +118,13 @@ public:
    * computed. (This may happen if the user never specifies something to
    * compute the bounding box from.)
    */
-  CoordRep* GetBoundingBox(CoordRep bounds[PointDimension*2]);
+  CoordRepType* GetBoundingBox(CoordRepType bounds[PointDimension*2]);
 
   /**
    * Get the center of the bounding box. Returns NULL if bounding box
    * cannot be computed.
    */
-  CoordRep* GetCenter(CoordRep bounds[PointDimension*2]);
+  CoordRepType* GetCenter(CoordRepType bounds[PointDimension*2]);
 
   //@{
   /**
@@ -132,7 +132,7 @@ public:
    * Returns zero if bounding box cannot be computed. Note that the
    * Accumulate type is used to represent the length.
    */
-  typedef typename NumericTraits<CoordRep>::AccumulateType AccumulateType;
+  typedef typename NumericTraits<CoordRepType>::AccumulateType AccumulateType;
   AccumulateType GetDiagonalLength2(void);
   //@}
 
@@ -151,10 +151,10 @@ public:
    *
    * Returns whether an intersection exists.
    */
-  bool IntersectWithLine(CoordRep origin[PointDimension],
-			 CoordRep direction[PointDimension],
-			 CoordRep coords[PointDimension],
-			 CoordRep* t);
+  bool IntersectWithLine(CoordRepType origin[PointDimension],
+			 CoordRepType direction[PointDimension],
+			 CoordRepType coords[PointDimension],
+			 CoordRepType* t);
   
 #endif
 
@@ -170,7 +170,7 @@ protected:
 
 private:
   PointsContainerPointer m_PointsContainer;
-  CoordRep *m_Bounds;
+  CoordRepType *m_Bounds;
   TimeStamp m_BoundsMTime; //The last time the bounds were computed.
 
 };

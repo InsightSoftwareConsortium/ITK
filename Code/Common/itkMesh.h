@@ -113,15 +113,19 @@ public:
    */
   typedef TMeshType   MeshType;
   typedef typename MeshType::PixelType                PixelType;  
+
+  /** 
+   * Convenient typedefs obtained from TMeshType template parameter.
+   */
   enum {PointDimension = MeshType::PointDimension};
   enum {MaxTopologicalDimension = MeshType::MaxTopologicalDimension};
-  typedef typename MeshType::CoordRep                 CoordRep;  
-  typedef typename MeshType::InterpolationWeight      InterpolationWeight;
+  typedef typename MeshType::CoordRepType             CoordRepType;  
+  typedef typename MeshType::InterpolationWeightType  InterpolationWeightType;
   typedef typename MeshType::PointIdentifier          PointIdentifier;
   typedef typename MeshType::CellIdentifier           CellIdentifier;
   typedef typename MeshType::BoundaryIdentifier       BoundaryIdentifier;
   typedef typename MeshType::CellFeatureIdentifier    CellFeatureIdentifier;
-  typedef typename MeshType::Point                    Point;
+  typedef typename MeshType::PointType                PointType;
   typedef typename MeshType::PointsContainer          PointsContainer;
   typedef typename MeshType::CellType                 CellType;
   typedef typename MeshType::CellsContainer           CellsContainer;
@@ -131,12 +135,16 @@ public:
   typedef typename MeshType::CellDataContainer        CellDataContainer;  
   typedef typename MeshType::BoundariesContainer      BoundariesContainer;
   typedef typename MeshType::BoundaryDataContainer    BoundaryDataContainer;
-  typedef PointLocator<PointIdentifier,PointDimension,
-                       CoordRep,PointsContainer> PointLocatorType;
-  typedef BoundingBox<PointIdentifier,PointDimension,
-                      CoordRep,PointsContainer> BoundingBoxType;
 
   /**
+   * Used to support geometric operations on the toolkit.
+   */
+  typedef PointLocator<PointIdentifier,PointDimension,
+                       CoordRepType,PointsContainer>  PointLocatorType;
+  typedef BoundingBox<PointIdentifier,PointDimension,
+                      CoordRepType,PointsContainer>   BoundingBoxType;
+
+					  /**
    * Create types that are pointers to each of the container types.
    */
   typedef typename PointsContainer::Pointer        PointsContainerPointer;
@@ -145,10 +153,10 @@ public:
   typedef typename PointDataContainer::Pointer     PointDataContainerPointer;
   typedef typename CellDataContainer::Pointer      CellDataContainerPointer;
   typedef typename BoundariesContainer::Pointer    BoundariesContainerPointer;
-  typedef typename
-          BoundaryDataContainer::Pointer  BoundaryDataContainerPointer;  
-  typedef typename PointLocatorType::Pointer  PointLocatorPointer;
-  typedef typename BoundingBoxType::Pointer   BoundingBoxPointer;
+  typedef typename BoundaryDataContainer::Pointer  BoundaryDataContainerPointer;  
+  typedef typename PointLocatorType::Pointer       PointLocatorPointer;
+  typedef typename BoundingBoxType::Pointer        BoundingBoxPointer;
+
 
   /**
    * Create types that are iterators for each of the container types.
@@ -188,13 +196,13 @@ public:
   /**
    * It happens that boundaries are also cells.
    */
-  typedef Cell Boundary;
+  typedef Cell BoundaryType;
   typedef CellPointer BoundaryPointer;
   
   /**
    * Visiting cells
    */
-  typedef typename Cell::MultiVisitor CellMultiVisitor;
+  typedef typename Cell::MultiVisitor CellMultiVisitorType;
 
 protected:
   /**
@@ -388,8 +396,8 @@ public:
    * Access routines to fill the Points container, and get information
    * from it.
    */
-  void SetPoint(PointIdentifier, Point);
-  bool GetPoint(PointIdentifier, Point*) const;
+  void SetPoint(PointIdentifier, PointType);
+  bool GetPoint(PointIdentifier, PointType*) const;
 
   /**
    * Access routines to fill the PointData container, and get information
@@ -416,7 +424,7 @@ public:
    * Access routines to fill the Boundaries container, and get information
    * from it.
    */
-  void SetBoundary(int dimension, BoundaryIdentifier, Boundary*);
+  void SetBoundary(int dimension, BoundaryIdentifier, BoundaryType*);
   bool GetBoundary(int dimension, BoundaryIdentifier, BoundaryPointer*)
     const;
   
@@ -473,7 +481,7 @@ public:
    * Geometric operations convert between coordinate systems, perform 
    * interpolation, and locate points and cells.
    */
-  bool FindClosestPoint(CoordRep coords[PointDimension],
+  bool FindClosestPoint(CoordRepType coords[PointDimension],
                         PointIdentifier* pointId);
   // FindCell(.........)
 
@@ -482,7 +490,7 @@ public:
    *  each cell Accept the MultiVisitor. See MultiVisitor for more 
    *  information.  (Note, this follows the Visitor Design Pattern.)
    */
-  void Accept(CellMultiVisitor* mv);
+  void Accept(CellMultiVisitorType* mv);
 
   virtual void UpdateOutputInformation();
   virtual void SetRequestedRegionToLargestPossibleRegion();

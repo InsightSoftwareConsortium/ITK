@@ -90,14 +90,14 @@ public:
   /**
    * Save type information for this cell.
    */
-  typedef typename CellType::CoordRep               CoordRep;
-  typedef typename CellType::InterpolationWeight    InterpolationWeight;
-  typedef typename CellType::PointIdentifier        PointIdentifier;
-  typedef typename CellType::CellIdentifier         CellIdentifier;
-  typedef typename CellType::CellFeatureIdentifier  CellFeatureIdentifier;
-  typedef typename CellType::Point                  Point;
-  typedef typename CellType::PointsContainer        PointsContainer;
-  typedef typename CellType::UsingCellsContainer    UsingCellsContainer;
+  typedef typename CellType::CoordRepType            CoordRepType;
+  typedef typename CellType::InterpolationWeightType InterpolationWeightType;
+  typedef typename CellType::PointIdentifier         PointIdentifier;
+  typedef typename CellType::CellIdentifier          CellIdentifier;
+  typedef typename CellType::CellFeatureIdentifier   CellFeatureIdentifier;
+  typedef typename CellType::PointType               PointType;
+  typedef typename CellType::PointsContainer         PointsContainer;
+  typedef typename CellType::UsingCellsContainer     UsingCellsContainer;
   enum { PointDimension = CellType::PointDimension };
 
   /**
@@ -309,7 +309,7 @@ public:
    * topological dimension CellDimension-1.  If the "inside" pointer is not
    * NULL, the flag is set to indicate whether the point is inside the cell.
    */
-  virtual Pointer GetClosestBoundary(CoordRep pCoords[], bool* inside) {return Pointer();}
+  virtual Pointer GetClosestBoundary(CoordRepType pCoords[], bool* inside) {return Pointer();}
 
   /**
    * Given the geometric coordinates of a point (coord[PointDimension]),
@@ -329,11 +329,11 @@ public:
    *  - Get the interpolation weights for the cell
    *     (Returns through pointer to array: weights[NumberOfPoints]).
    */
-  virtual bool EvaluatePosition(CoordRep coords[PointDimension],
-				CoordRep closestPoint[PointDimension],
-				CoordRep pCoords[],
-				CoordRep* dist2,
-				InterpolationWeight weights[]) {return bool();}
+  virtual bool EvaluatePosition(CoordRepType coords[PointDimension],
+				CoordRepType closestPoint[PointDimension],
+				CoordRepType pCoords[],
+				CoordRepType* dist2,
+				InterpolationWeightType weights[]) {return bool();}
   
   /**
    * Given the parametric coordinates of a point in the cell
@@ -342,9 +342,9 @@ public:
    * Also get the interpolation weights if pointer is not NULL
    * (returned through pointer to array: weights[NumberOfPoints]).
    */
-  virtual void EvaluateLocation(CoordRep pCoords[],
-				CoordRep coords[PointDimension],
-				InterpolationWeight weights[]) {}
+  virtual void EvaluateLocation(CoordRepType pCoords[],
+				CoordRepType coords[PointDimension],
+				InterpolationWeightType weights[]) {}
 
   /**
    * Intersect the cell with a line given by an origin (origin[PointDimension])
@@ -363,12 +363,12 @@ public:
    *
    * Returns whether an intersection exists within the given tolerance.
    */
-  virtual bool IntersectWithLine(CoordRep origin[PointDimension],
-				 CoordRep direction[PointDimension],
-				 CoordRep tolerance,
-				 CoordRep coords[PointDimension],
-				 CoordRep* t,
-				 CoordRep pCoords[]) {return bool();}
+  virtual bool IntersectWithLine(CoordRepType origin[PointDimension],
+				 CoordRepType direction[PointDimension],
+				 CoordRepType tolerance,
+				 CoordRepType coords[PointDimension],
+				 CoordRepType* t,
+				 CoordRepType pCoords[]) {return bool();}
   
   /**
    * Compute cell bounding box and store in the user-provided array.
@@ -376,12 +376,12 @@ public:
    * array is returned for convenience.  This allows code like:
    * "CoordRep* bounds = cell->GetBoundingBox(new CoordRep[6]);".
    */
-  CoordRep* GetBoundingBox(CoordRep bounds[PointDimension*2]) {return NULL;}
+  CoordRepType* GetBoundingBox(CoordRepType bounds[PointDimension*2]) {return NULL;}
 
   /**
    * Compute the square of the diagonal length of the bounding box.
    */
-  CoordRep GetBoundingBoxDiagonalLength2(void) {return CoordRep();}
+  CoordRepType GetBoundingBoxDiagonalLength2(void) {return CoordRep();}
 
   /**
    * Intersect the given bounding box (bounds[PointDimension*2]) with a line
@@ -397,11 +397,11 @@ public:
    *
    * Returns whether an intersection exists.
    */
-  virtual bool IntersectBoundingBoxWithLine(CoordRep bounds[PointDimension*2],
-					    CoordRep origin[PointDimension],
-					    CoordRep direction[PointDimension],
-					    CoordRep coords[PointDimension],
-					    CoordRep* t) {return bool();}
+  virtual bool IntersectBoundingBoxWithLine(CoordRepType bounds[PointDimension*2],
+					    CoordRepType origin[PointDimension],
+					    CoordRepType direction[PointDimension],
+					    CoordRepType coords[PointDimension],
+					    CoordRepType* t) {return bool();}
   
   /**
    * Interface to the boundary form of the cell to set/get UsingCells.
@@ -440,10 +440,10 @@ protected:
  * During a mesh type definition, after the appropriate types and values
  * have been defined, just have the line:
  \verbatim
- typedef MakeCellType  CellType;
+ typedef MakeCellTypeMacro  CellType;
  \endverbatim
  *
- * MakeCellType is a macro front-end to automatically fill in the template
+ * MakeCellTypeMacro is a macro front-end to automatically fill in the template
  * parameters for the CellTypeInfo structure inside a mesh type structure
  * definition.
  */
@@ -456,20 +456,20 @@ class CellTypeInfo
 {
 public:
   enum { PointDimension = VPointDimension };
-  typedef TCoordRep               CoordRep;
-  typedef TInterpolationWeight    InterpolationWeight;
+  typedef TCoordRep               CoordRepType;
+  typedef TInterpolationWeight    InterpolationWeightType;
   typedef TPointIdentifier  	  PointIdentifier;
   typedef TCellIdentifier   	  CellIdentifier;
   typedef TCellFeatureIdentifier  CellFeatureIdentifier;
-  typedef TPoint                  Point;
+  typedef TPoint                  PointType;
   typedef TPointsContainer        PointsContainer;
   typedef TUsingCellsContainer    UsingCellsContainer;
 };
 
-#define MakeCellType \
-  CellTypeInfo<PointDimension, CoordRep, InterpolationWeight,  \
+#define MakeCellTypeMacro \
+  CellTypeInfo<PointDimension, CoordRepType, InterpolationWeightType,  \
                PointIdentifier, CellIdentifier, CellFeatureIdentifier, \
-               Point, PointsContainer, UsingCellsContainer>
+               PointType, PointsContainer, UsingCellsContainer>
 
 } // end namespace itk
 

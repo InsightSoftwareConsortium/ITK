@@ -72,7 +72,7 @@ public:
   /**
    * Save some template parameter information.
    */
-  typedef typename CellType::CoordRep         CoordRep;
+  typedef typename CellType::CoordRepType         CoordRepType;
   typedef typename CellType::PointIdentifier  PointIdentifier;
   enum { PointDimension = CellType::PointDimension };
   typedef typename CellInterface<TPixelType,TCellType>::Pointer CellPointer;

@@ -27,7 +27,7 @@ Point< VPointDimension , TCoordRep >
 {
   for(int i=0; i < PointDimension ; ++i)
     {
-    m_Coords[i] = CoordRep();
+    m_Coords[i] = CoordRepType();
     }
 }
 
@@ -37,7 +37,7 @@ Point< VPointDimension , TCoordRep >
  */
 template <int VPointDimension, typename TCoordRep>
 Point< VPointDimension , TCoordRep >
-::Point(CoordRep coords[PointDimension])
+::Point(CoordRepType coords[PointDimension])
 {
   for(int i=0; i < PointDimension ; ++i)
     {
@@ -52,7 +52,7 @@ Point< VPointDimension , TCoordRep >
 template <int VPointDimension, typename TCoordRep>
 void
 Point< VPointDimension , TCoordRep >
-::SetCoords(CoordRep coords[PointDimension])
+::SetCoords(CoordRepType coords[PointDimension])
 {
   for(int i=0; i < PointDimension ; ++i)
     {
@@ -67,7 +67,7 @@ Point< VPointDimension , TCoordRep >
 template <int VPointDimension, typename TCoordRep>
 void
 Point< VPointDimension , TCoordRep >
-::GetCoords(CoordRep coords[PointDimension]) const
+::GetCoords(CoordRepType coords[PointDimension]) const
 {
   for(int i=0; i < PointDimension ; ++i)
     {

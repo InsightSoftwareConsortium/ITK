@@ -85,18 +85,18 @@ public:
    * PointIdentifier is the type that the point handles are represented by.
    */
   typedef TPointIdentifier   PointIdentifier;
-  typedef TCoordRep   CoordRep;
+  typedef TCoordRep   CoordRepType;
   enum { PointDimension = VPointDimension };
   typedef TPointsContainer PointsContainer;
   typedef typename PointsContainer::Pointer PointsContainerPointer;
-  typedef Point< PointDimension , CoordRep >  Point;
+  typedef Point< PointDimension , CoordRepType >  PointType;
 
   /**
    * Some convenience typedefs.
    */
   typedef BoundingBox<PointIdentifier,PointDimension,
-                      CoordRep,PointsContainer> BoundingBoxType;
-  typedef typename BoundingBoxType::Pointer   BoundingBoxPointer;
+                      CoordRepType,PointsContainer>      BoundingBoxType;
+  typedef typename BoundingBoxType::Pointer              BoundingBoxPointer;
 
   /**
    * Set the number of divisions in each axis direction.

@@ -52,13 +52,13 @@ public:
    * Save template parameter information.
    */
   enum { PointDimension = VPointDimension };
-  typedef TCoordRep CoordRep;
+  typedef TCoordRep CoordRepType;
 
   /**
    * Constructors.
    */
   Point();
-  Point(CoordRep coords[PointDimension]);
+  Point(CoordRepType coords[PointDimension]);
   
   /**
    * Allow run-time point dimension access.
@@ -71,16 +71,16 @@ public:
   /**
    * Access routines.
    */
-  void SetCoords(CoordRep coords[PointDimension]);
-  void GetCoords(CoordRep coords[PointDimension]) const;
-  const CoordRep* GetCoords() const 
+  void SetCoords(CoordRepType coords[PointDimension]);
+  void GetCoords(CoordRepType coords[PointDimension]) const;
+  const CoordRepType* GetCoords() const 
     { return m_Coords;} ;
 
 protected:
   /**
    * Actually store the point's geometrical information.
    */
-  CoordRep m_Coords[PointDimension];
+  CoordRepType m_Coords[PointDimension];
 };
 
 } // end namespace itk
