@@ -192,7 +192,7 @@ T* ArgumentAsPointerToFunction<T>::operator()(const Argument& argument)
   // 8.3.5/3 Top level cv-qualifiers on target type never matter for
   // conversions.  They only affect the parameter inside the function body.
   const PointerType* to =
-    PointerType::SafeDownCast(CvType<T>::type.GetType());
+    PointerType::SafeDownCast(CvType<T*>::type.GetType());
     
   // Get the argument's type from which we must convert.
   CvQualifiedType from = argument.GetType();
