@@ -33,6 +33,8 @@ CABLE_OPEN_NAMESPACE(itk)
 
   CABLE_DEFINE_SET(ImageType "Image<$PixelType, $Dimension>"
                    SOURCE_FILES itkImage)
+  CABLE_DEFINE_SET(PhysicalImageType "PhysicalImage<$PixelType, $Dimension>"
+                   SOURCE_FILES itkPhysicalImage)
 
 # Close the current namespace and confirm that it was called "itk".
 CABLE_CLOSE_NAMESPACE(itk)
