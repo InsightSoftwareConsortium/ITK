@@ -21,6 +21,7 @@
 #include <list>
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
+#include "itkNeighborhoodAlgorithm.h"
 
 namespace itk {
 
@@ -194,103 +195,22 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   TimeStepType timeStep;
   void *globalData;
 
-  // First we analyze the regionToProcess to determine if any of its faces are
-  // along a buffer boundary (we have no data in the buffer for pixels
-  // that are outside the boundary and within the neighborhood radius so will
-  // have to treat them differently).  We also determine the size of the non-
-  // boundary region that will be processed.
+  // Get the FiniteDifferenceFunction to use in calculations.
   const typename FiniteDifferenceFunctionType::Pointer df
     = this->GetDifferenceFunction();
-  const IndexType bStart = output->GetBufferedRegion().GetIndex();
-  const SizeType  bSize  = output->GetBufferedRegion().GetSize();
-  const IndexType rStart = regionToProcess.GetIndex();
-  const SizeType  rSize  = regionToProcess.GetSize();
   const SizeType  radius = df->GetRadius();
+  
+  // Break the input into a series of regions.  The first region is free
+  // of boundary conditions, the rest with boundary conditions.  We operate
+  // on the output region because input has been copied to output.
+  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>
+    FaceCalculatorType;
+  typedef typename FaceCalculatorType::FaceListType FaceListType;
 
-  IndexValueType  overlapLow, overlapHigh;
-  std::vector<RegionType> faceList;
-  IndexType  fStart;         // Boundary, "face"
-  SizeType   fSize;          // region data.
-  RegionType fRegion;
-  SizeType   nbSize  = regionToProcess.GetSize();   // Non-boundary region
-  IndexType  nbStart = regionToProcess.GetIndex();  // data.
-  RegionType nbRegion;
-
-  for (i = 0; i < ImageDimension; ++i)
-    {
-      overlapLow = (rStart[i] - static_cast<IndexValueType>(radius[i])) 
-        - bStart[i];
-      overlapHigh= (bStart[i] + static_cast<IndexValueType>(bSize[i])) 
-        - (rStart[i] + static_cast<IndexValueType>(rSize[i] + radius[i]));
-
-      if (overlapLow < 0) // out of bounds condition, define a region of 
-        {                 // iteration along this face
-
-          // NOTE: this algorithm results in duplicate
-          // processing of a single pixel at corners between
-          // adjacent faces.  This is negligible performance-
-          // wise until very high dimensions.          
-          for (j = 0; j < ImageDimension; ++j) 
-            { 
-              // define the starting index                                 
-              // and size of the face region
-              fStart[j] = rStart[j];
-              // casting from signed to unsigned is ok here since
-              // -overLapLow must be positive.
-              if ( j == i ) fSize[j] = static_cast<SizeValueType>(-overlapLow);
-              else          fSize[j] = rSize[j];   
-            }                                      
-          // avoid unsigned overflow if the non-boundary region is too small to process
-          if (fSize[i] > nbSize[i])
-            {
-            nbSize[i] = 0;
-            }
-          else
-            {
-            nbSize[i]  -= fSize[i];                  // pixel at corners between
-            }
-          nbStart[i] += -overlapLow;               
-          fRegion.SetIndex(fStart);                
-          fRegion.SetSize(fSize);                  
-          faceList.push_back(fRegion);             
-        }
-      if (overlapHigh < 0)
-        {
-          for (j = 0; j < ImageDimension; ++j)
-            {
-              if ( j == i )
-                {
-                  fStart[j] = rStart[j] + 
-                     static_cast<IndexValueType>(rSize[j]) + overlapHigh;
-                  // casting from signed to unsigned is ok here since
-                  // -overlapHigh must be positive
-                  fSize[j] = static_cast<SizeValueType>(-overlapHigh);
-                }
-              else
-                {
-                  fStart[j] = rStart[j];
-                  fSize[j] = rSize[j];
-                }
-            }
-          // avoid unsigned overflow if the non-boundary region is too small to process
-          if (fSize[i] > nbSize[i])
-            {
-            nbSize[i] = 0;
-            }
-          else
-            {
-            nbSize[i] -= fSize[i];
-            }
-          fRegion.SetIndex(fStart);
-          fRegion.SetSize(fSize);
-          faceList.push_back(fRegion);
-        }
-    }
-  nbRegion.SetSize(nbSize);
-  nbRegion.SetIndex(nbStart);
-
-  // Initialize the time step.
-  //  timeStep = df->GetInitialTimeStep();
+  FaceCalculatorType faceCalculator;
+    
+  FaceListType faceList = faceCalculator(output, regionToProcess, radius);
+  typename FaceListType::iterator fIt = faceList.begin();
 
   // Ask the function object for a pointer to a data structure it
   // will use to manage any global values it needs.  We'll pass this
@@ -300,8 +220,8 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   globalData = df->GetGlobalDataPointer();
 
   // Process the non-boundary region.
-  NeighborhoodIteratorType nD(radius, output, nbRegion);
-  UpdateIteratorType       nU(m_UpdateBuffer,  nbRegion);
+  NeighborhoodIteratorType nD(radius, output, *fIt);
+  UpdateIteratorType       nU(m_UpdateBuffer,  *fIt);
   nD.GoToBegin();
   while( !nD.IsAtEnd() )
     {
@@ -314,8 +234,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 
   BoundaryIteratorType bD;
   UpdateIteratorType   bU;
-  for (std::vector<RegionType>::iterator fIt = faceList.begin();
-       fIt != faceList.end(); ++fIt)
+  for (++fIt; fIt != faceList.end(); ++fIt)
     {
       bD = BoundaryIteratorType(radius, output, *fIt);
       bU = UpdateIteratorType  (m_UpdateBuffer, *fIt);
