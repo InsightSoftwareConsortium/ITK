@@ -244,7 +244,7 @@ protected:
 
   /** imports the "measurements" measurement vector data to the "point" */ 
   void GetPoint(ParameterType &point, 
-                MeasurementVectorType &measurements)
+                MeasurementVectorType measurements)
   {
     for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
       {
