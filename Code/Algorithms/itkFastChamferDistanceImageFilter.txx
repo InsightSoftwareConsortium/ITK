@@ -75,7 +75,7 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
   unsigned int n;
   float val[ImageDimension];
   PixelType  center_value;
-  neighbor_start,neighbor_end;
+  int neighbor_start,neighbor_end;
   BandNodeType node;
   
   /** 1st Scan , using neighbors from center_voxel+1 to it.Size()-1 */
