@@ -61,10 +61,14 @@ int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
 
   // Compute numberOfValues - 1 thresholds.
   unsigned long numberOfThresholds = values.size() - 1;
-  typedef itk::Statistics::OtsuMultipleThresholdsCalculator<HistogramType>  OtsuMultipleThresholdCalculatorType;
+
+  typedef itk::OtsuMultipleThresholdsCalculator<HistogramType>  OtsuMultipleThresholdCalculatorType;
+
   OtsuMultipleThresholdCalculatorType::Pointer otsuThresholdCalculator = OtsuMultipleThresholdCalculatorType::New();
+
   otsuThresholdCalculator->SetInputHistogram(histogram.GetPointer());
   otsuThresholdCalculator->SetNumberOfThresholds(numberOfThresholds);
+
   try
     {
     otsuThresholdCalculator->Update();
