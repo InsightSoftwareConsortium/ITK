@@ -53,6 +53,8 @@ int main()
   threshold->SetInput(random->GetOutput());
   threshold->Update();
 
+  std::cout << "threshold reference count = " << threshold->GetReferenceCount() << std::endl;
+  
   return EXIT_SUCCESS;
 }
 
