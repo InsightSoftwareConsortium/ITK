@@ -149,7 +149,7 @@ private:
   BloxBoundaryPointImageToBloxBoundaryProfileImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  typename BoundaryPointImagePointer m_BoundaryPointImage;
+  BoundaryPointImagePointer m_BoundaryPointImage;
   const double* m_BPImageOrigin;
   const double* m_BPImageSpacing;
     
