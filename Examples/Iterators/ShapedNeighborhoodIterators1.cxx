@@ -216,6 +216,7 @@ int main( int argc, char ** argv )
         if (ci.Get() == background_value)
           {
           flag = false;
+          break;
           }
         }
       if (flag == true)
