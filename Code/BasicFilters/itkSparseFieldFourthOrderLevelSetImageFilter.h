@@ -90,14 +90,65 @@ public:
  * \brief This class implements the fourth order level set PDE framework.
  *
  * \par
- * Halt function needs to be defined by subclass.
- * This class defines a ProcessNormals method which uses the
+ * This class adds a ProcessNormals method to SparseFieldLevelSetImageFilter
+ * class. The ProcessNormals method uses the
  * ImplicitManifoldNormalDiffusionFilter class to generate a SparseImage of
  * filtered normal vectors. We make a copy of the current state of the output
  * image (also referred to as level set image) for this class and pass it to
  * ImplicitManifoldNormalDiffusionFilter. That class computes the normal
  * vectors to the level set image and filters them. The output is in the form
- * of a sparse image templated with the NormalBandNode type.
+ * of a sparse image templated with the NormalBandNode type. We then compute
+ * curvatures from that output and store them in the SparseImage as well. This
+ * SparseImage is passed onto the LevelSetFunctionWithRefitTerm filter class to
+ * be used as a target in the propagation term. 
+ *
+ * \par INPUT and OUTPUT
+ * Same as SparseFieldLevelSetImageFilter
+ *
+ * \par PARAMETERS
+ * MaxRefitIteration sets the maximum number of allowable iterations between
+ * calls to ProcessNormals. The decision of when to call the ProcessNormals
+ * method is made in InitializeIteration according to a few criteria one of
+ * which is this maximum number of iterations.
+ *
+ * \par
+ * MaxNormalIteration sets the maximum number of diffusion iterations on the
+ * normals to be performed by the ImplicitManifoldNormalDiffusionFilter
+ * class. Please read the documentation for that class.
+ *
+ * \par
+ * CurvatureBandWidth determines the width of the band to be processed in
+ * ImplicitManifoldNormalDiffusionFilter.
+ *
+ * \par
+ * RMSChangeNormalProcessTrigger provides another mechanism in
+ * InitializeIteration for calling the ProcessNormals method. Whenever the RMS
+ * change reported by SparseFieldLevelSetImageFilter falls below this parameter
+ * ProcessNormals is called regardless of whether MaxRefitIteration has been
+ * reached. This parameter could be used to speed up the algorithm; however, it
+ * can also effect the results. Use with caution. Default is 0 which does
+ * nothing.
+ *
+ * \par IMPORTANT
+ * Defaults for above parameters are set in the
+ * constructor. Users should not change these unless they have a good
+ * understanding of the algorithm.
+ *
+ * \par OTHER PARAMETERS
+ * NormalProcessType tells ImplicitManifoldNormalVectorFilter whether to use
+ * isotropic or anisotropic diffusion. A value of 0 means isotropic whereas a
+ * value of 1 means anisotropic diffusion. If this parameter is set to 1,
+ * NormalProcessConductance determines the level of detail preservation. Please
+ * read the documentation for ImplicitManifoldNormalVectorFilter and
+ * AnisotropicFourthOrderLevelSetImageFilter.
+ *
+ * \par
+ * NormalProcessUnsharpFlag turns unsharp masking on/off. If this parameter is
+ * turned on, then NormalProcessUnsharpWeight should be set. Please read the
+ * documentation for ImplicitManifoldNormalVectorFilter.
+ *
+ * \par IMPORTANT
+ * Users of this class must define the Halt function. 
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
