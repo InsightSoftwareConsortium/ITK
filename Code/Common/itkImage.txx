@@ -333,6 +333,20 @@ Image<TPixel, VImageDimension, TImageTraits>
 {
   Superclass::PrintSelf(os,indent);
   
+  unsigned int i;
+  os << indent << "Origin: [";
+  for (i=0; i < VImageDimension - 1; i++)
+    {
+    os << m_Origin[i] << ", ";
+    }
+  os << m_Origin[i] << "]" << std::endl;
+  os << indent << "Spacing: [";
+  for (i=0; i < VImageDimension - 1; i++)
+    {
+    os << m_Spacing[i] << ", ";
+    }
+  os << m_Spacing[i] << "]" << std::endl;
+
   os << indent << "Data: " << std::endl;
   m_Buffer->PrintSelf(os, indent.GetNextIndent());
 }
