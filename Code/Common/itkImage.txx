@@ -22,11 +22,11 @@ namespace itk
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension>
-Image<TPixel, VImageDimension>
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+Image<TPixel, VImageDimension, TPixelContainer>
 ::Image()
 {
-  m_Buffer = 0;
+  m_Buffer = PixelContainer::New();
 
   memset( m_OffsetTable, 0, (VImageDimension+1)*sizeof(unsigned long) );
 
@@ -42,24 +42,34 @@ Image<TPixel, VImageDimension>
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension>
-Image<TPixel, VImageDimension>
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+Image<TPixel, VImageDimension, TPixelContainer>
 ::~Image()
 {
-  if (m_Buffer != 0)
-    {
-    delete m_Buffer;
-    m_Buffer = 0;
-    }
-
 }
 
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
 void 
-Image<TPixel, VImageDimension>
+Image<TPixel, VImageDimension, TPixelContainer>
 ::Allocate()
+{
+  unsigned long num;
+
+  this->ComputeOffsetTable();
+  num = m_OffsetTable[VImageDimension];
+  
+  m_Buffer->Reserve(num);
+}
+
+
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+void
+Image<TPixel, VImageDimension, TPixelContainer>
+::ComputeOffsetTable()
 {
   unsigned long num=1;
   const Size& bufferSize = m_BufferedRegion.GetSize();
@@ -70,16 +80,6 @@ Image<TPixel, VImageDimension>
     num *= bufferSize[i];
     m_OffsetTable[i+1] = num;
     }
-
-  
-  if (m_Buffer == 0)
-    { 
-    m_Buffer = new std::valarray<TPixel>(num);
-    }
-  else
-    {
-    m_Buffer->resize(num);
-    }
 }
 
 
@@ -87,9 +87,9 @@ Image<TPixel, VImageDimension>
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension>
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
 void 
-Image<TPixel, VImageDimension>
+Image<TPixel, VImageDimension, TPixelContainer>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
   Superclass::PrintSelf(os,indent);
@@ -102,9 +102,9 @@ Image<TPixel, VImageDimension>
 }
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
 void 
-Image<TPixel, VImageDimension>
+Image<TPixel, VImageDimension, TPixelContainer>
 ::UpdateOutputInformation()
 {
   if (this->GetSource())
@@ -132,18 +132,18 @@ Image<TPixel, VImageDimension>
 }
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
 void 
-Image<TPixel, VImageDimension>
+Image<TPixel, VImageDimension, TPixelContainer>
 ::SetRequestedRegionToLargestPossibleRegion()
 {
   m_RequestedRegion = m_LargestPossibleRegion;
 }
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
 void 
-Image<TPixel, VImageDimension>
+Image<TPixel, VImageDimension, TPixelContainer>
 ::CopyInformation(DataObject *data)
 {
   Image *imgData;
@@ -161,9 +161,9 @@ Image<TPixel, VImageDimension>
 }
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
 bool 
-Image<TPixel, VImageDimension>
+Image<TPixel, VImageDimension, TPixelContainer>
 ::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
   unsigned int i;
@@ -187,9 +187,9 @@ Image<TPixel, VImageDimension>
 }
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
 bool 
-Image<TPixel, VImageDimension>
+Image<TPixel, VImageDimension, TPixelContainer>
 ::VerifyRequestedRegion()
 {
   bool retval = true;
@@ -214,6 +214,48 @@ Image<TPixel, VImageDimension>
     }
 
   return retval;
+}
+
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+void
+Image<TPixel, VImageDimension, TPixelContainer>
+::SetBufferedRegion(const Region &region)
+{
+  if (m_BufferedRegion != region)
+    {
+    m_BufferedRegion = region;
+    this->ComputeOffsetTable();
+    this->Modified();
+    }
+}
+
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+void
+Image<TPixel, VImageDimension, TPixelContainer>
+::SetRequestedRegion(const Region &region)
+{
+  if (m_RequestedRegion != region)
+    {
+    m_RequestedRegion = region;
+    }
+}
+
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+void
+Image<TPixel, VImageDimension, TPixelContainer>
+::SetLargestPossibleRegion(const Region &region)
+{
+  if (m_LargestPossibleRegion != region)
+    {
+    m_LargestPossibleRegion = region;
+    this->Modified();
+    }
 }
 
 } // end namespace itk

@@ -55,8 +55,8 @@ namespace itk
  *         }
  *
  */
-template<typename TPixel, unsigned int VImageDimension=2>
-class ImageRegionIterator : public ImageIterator<TPixel, VImageDimension>
+template<typename TPixel, unsigned int VImageDimension=2, class TPixelContainer=ValarrayImageContainer<unsigned long, TPixel> >
+class ImageRegionIterator : public ImageIterator<TPixel, VImageDimension, TPixelContainer>
 {
 public:
   /**
@@ -67,7 +67,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageIterator<TPixel,VImageDimension>  Superclass;
+  typedef ImageIterator<TPixel,VImageDimension,TPixelContainer>  Superclass;
 
   /** 
    * Index typedef support. While this was already typdef'ed in the superclass
@@ -91,7 +91,15 @@ public:
    * Note that we have to rescope Image back to itk::Image to that is it not
    * confused with ImageIterator::Image.
    */
-  typedef itk::Image<TPixel, VImageDimension> Image;
+  typedef itk::Image<TPixel, VImageDimension, TPixelContainer> Image;
+
+  /** 
+   * PixelContainer typedef support. Used to refer to the container for
+   * the pixel data. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc.
+   */
+  typedef TPixelContainer PixelContainer;
+  typedef typename PixelContainer::Pointer PixelContainerPointer;
 
   /**
    * Region typedef support. While this was already typdef'ed in the superclass
@@ -109,7 +117,7 @@ public:
   /**
    * Default constructor. Needed since we provide a cast constructor.
    */
-  ImageRegionIterator() : ImageIterator<TPixel, VImageDimension>() {}
+  ImageRegionIterator() : ImageIterator<TPixel, VImageDimension, TPixelContainer>() {}
   
   /**
    * Constructor establishes an iterator to walk a particular image and a
@@ -117,7 +125,7 @@ public:
    */
   ImageRegionIterator(Image *ptr,
                       const Region &region)
-    : ImageIterator<TPixel, VImageDimension>(ptr, region) {}
+    : ImageIterator<TPixel, VImageDimension, TPixelContainer>(ptr, region) {}
 
   /**
    * Constructor that can be used to cast from an ImageIterator to an
@@ -127,8 +135,8 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIterator.
    */
-  ImageRegionIterator( const ImageIterator<TPixel, VImageDimension> &it)
-    { this->ImageIterator<TPixel, VImageDimension>::operator=(it); }
+  ImageRegionIterator( const ImageIterator<TPixel, VImageDimension, TPixelContainer> &it)
+    { this->ImageIterator<TPixel, VImageDimension, TPixelContainer>::operator=(it); }
 
   
   /**
@@ -149,12 +157,12 @@ public:
 #if 1
     // Make sure that index is up to date.  This is expensive.  Can we do
     // the same thing by operating strictly on m_Offset?
-    ImageIterator<TPixel, VImageDimension>::Index
+    ImageIterator<TPixel, VImageDimension, TPixelContainer>::Index
       ind = m_Image->ComputeIndex( m_Offset );
 
-    const ImageIterator<TPixel, VImageDimension>::Index&
+    const ImageIterator<TPixel, VImageDimension, TPixelContainer>::Index&
       startIndex = m_Region.GetIndex();
-    const ImageIterator<TPixel, VImageDimension>::Size&
+    const ImageIterator<TPixel, VImageDimension, TPixelContainer>::Size&
       size = m_Region.GetSize();
       
     // increment along a row, then wrap at the end of the region row.

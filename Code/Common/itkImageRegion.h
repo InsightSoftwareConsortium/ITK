@@ -135,6 +135,32 @@ public:
    */
   const Size& GetSize() const
   { return m_Size;}
+
+  /**
+   * Compare two regions.
+   */
+  bool
+  operator==(const Self &region) const
+  {
+    bool same = 1;
+    same = (m_Index == region.m_Index);
+    same = same && (m_Size == region.m_Size);
+
+    return same;
+  }
+
+  /**
+   * Compare two regions.
+   */
+  bool
+  operator!=(const Self &region) const
+  {
+    bool same = 1;
+    same = (m_Index == region.m_Index);
+    same = same && (m_Size == region.m_Size);
+
+    return !same;
+  }
   
 protected:
 

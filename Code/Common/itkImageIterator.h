@@ -51,7 +51,7 @@ namespace itk
  *
  * 
  */
-template<typename TPixel, unsigned int VImageDimension=2>
+template<typename TPixel, unsigned int VImageDimension=2, class TPixelContainer=ValarrayImageContainer<unsigned long, TPixel> >
 class ImageIterator {
 public:
   /**
@@ -80,7 +80,14 @@ public:
   /**
    * Image typedef support.
    */
-  typedef Image<TPixel, VImageDimension> Image;
+  typedef Image<TPixel, VImageDimension, TPixelContainer> Image;
+
+  /** 
+   * PixelContainer typedef support. Used to refer to the container for
+   * the pixel data.
+   */
+  typedef TPixelContainer PixelContainer;
+  typedef typename PixelContainer::Pointer PixelContainerPointer;
 
   /**
    * Region typedef support.

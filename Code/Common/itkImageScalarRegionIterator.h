@@ -32,7 +32,7 @@ namespace itk
  * portion of a pixel.  
  */
 
-template<class TPixel, unsigned int VImageDimension=2>
+template<class TPixel, unsigned int VImageDimension=2, class TPixelContainer=ValarrayImageContainer<unsigned long, TPixel> >
 class ImageScalarRegionIterator : 
 public ImageRegionIterator<TPixel,VImageDimension> 
 {
@@ -45,7 +45,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageRegionIterator<TPixel,VImageDimension>  Superclass;
+  typedef ImageRegionIterator<TPixel,VImageDimension,TPixelContainer>  Superclass;
 
   /** 
    * Run-time type information (and related methods).
@@ -66,7 +66,15 @@ public:
    * Note that we have to rescope Image back to itk::Image to that is it not
    * confused with ImageIterator::Image.
    */
-  typedef itk::Image<TPixel, VImageDimension> Image;
+  typedef itk::Image<TPixel, VImageDimension, TPixelContainer> Image;
+
+  /** 
+   * PixelContainer typedef support. Used to refer to the container for
+   * the pixel data. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc.
+   */
+  typedef TPixelContainer PixelContainer;
+  typedef typename PixelContainer::Pointer PixelContainerPointer;
 
   /**
    * Region typedef support. While this was already typdef'ed in the superclass
@@ -80,7 +88,7 @@ public:
    * Default constructor. Needed since we provide a cast constructor.
    */
   ImageScalarRegionIterator()
-    : ImageRegionIterator<TPixel, VImageDimension>() {}
+    : ImageRegionIterator<TPixel, VImageDimension, TPixelContainer>() {}
   
   /**
    * Constructor establishes an iterator to walk a particular image and a
@@ -88,7 +96,7 @@ public:
    */
   ImageScalarRegionIterator(Image *ptr,
                             const Region &region)
-    : ImageRegionIterator<TPixel, VImageDimension>(ptr, region) {}
+    : ImageRegionIterator<TPixel, VImageDimension, TPixelContainer>(ptr, region) {}
 
   /**
    * Constructor that can be used to cast from an ImageIterator to an
@@ -98,8 +106,8 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageScalarRegionIterator.
    */
-  ImageScalarRegionIterator( const ImageIterator<TPixel, VImageDimension> &it)
-    { this->ImageIterator<TPixel, VImageDimension>::operator=(it); }
+  ImageScalarRegionIterator( const ImageIterator<TPixel, VImageDimension, TPixelContainer> &it)
+    { this->ImageIterator<TPixel, VImageDimension, TPixelContainer>::operator=(it); }
 
   /**
    * Dereference the iterator, returns a reference to the pixel. Used to set

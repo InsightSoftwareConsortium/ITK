@@ -46,7 +46,7 @@ namespace itk
  * Index[0] = col, Index[1] = row, Index[2] = slice, etc.
  *
  */
-template<typename TPixel, unsigned int VImageDimension=2>
+template<typename TPixel, unsigned int VImageDimension=2, class TPixelContainer=ValarrayImageContainer<unsigned long, TPixel> >
 class ImageBufferIterator : public ImageIterator<TPixel, VImageDimension>
 {
 public:
@@ -58,7 +58,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageIterator<TPixel,VImageDimension>  Superclass;
+  typedef ImageIterator<TPixel,VImageDimension,TPixelContainer>  Superclass;
 
   /** 
    * Run-time type information (and related methods).
@@ -87,7 +87,15 @@ public:
    * Note that we have to rescope Image back to itk::Image so that is it not
    * confused with ImageIterator::Image.
    */
-  typedef itk::Image<TPixel, VImageDimension> Image;
+  typedef itk::Image<TPixel, VImageDimension, TPixelContainer> Image;
+
+  /** 
+   * PixelContainer typedef support. Used to refer to the container for
+   * the pixel data. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc.
+   */
+  typedef TPixelContainer PixelContainer;
+  typedef typename PixelContainer::Pointer PixelContainerPointer;
 
   /**
    * Region typedef support. While this was already typdef'ed in the superclass
@@ -100,7 +108,7 @@ public:
   /**
    * Default constructor. Needed since we provide a cast constructor.
    */
-  ImageBufferIterator() : ImageIterator<TPixel, VImageDimension>() {}
+  ImageBufferIterator() : ImageIterator<TPixel, VImageDimension, TPixelContainer>() {}
 
   /**
    * Constructor establishes an iterator to walk a particular image and a
@@ -108,7 +116,7 @@ public:
    */
   ImageBufferIterator(Image *ptr,
                       const Region& region)
-    : ImageIterator<TPixel, VImageDimension>(ptr, region) {}
+    : ImageIterator<TPixel, VImageDimension, TPixelContainer>(ptr, region) {}
   
   /**
    * Constructor that can be used to cast from an ImageIterator to an
@@ -118,8 +126,8 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * an ImageIterator to a ImageBufferIterator.
    */
-  ImageBufferIterator( const ImageIterator<TPixel, VImageDimension> &it)
-    { this->ImageIterator<TPixel, VImageDimension>::operator=(it); }
+  ImageBufferIterator( const ImageIterator<TPixel, VImageDimension, TPixelContainer> &it)
+    { this->ImageIterator<TPixel, VImageDimension, TPixelContainer>::operator=(it); }
 
   /**
    * Increment an iterator by an index. This models a random access

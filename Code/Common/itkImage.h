@@ -21,8 +21,8 @@
 #include "itkSize.h"
 #include "itkImageRegion.h"
 #include "itkPixelTraits.h"
+#include "itkValarrayImageContainer.h"
 #include "itkDataAccessor.h"
-#include <valarray>
 
 namespace itk
 {
@@ -32,8 +32,16 @@ namespace itk
  * \brief Templated n-dimensional image class.
  *
  * Images are templated over a pixel type (modeling the dependent
- * variables) and a dimension (number of independent variables). Images
- * are modeled as arrays, defined by a start index and a size.
+ * variables), a dimension (number of independent variables) and a
+ * container type for the pixel data. The container for the pixel data
+ * must satisfy the ImageContainerInterface.  The default pixel container
+ * uses a valarray to store pixel values (ValarrayImageContainer).  An
+ * alternative pixel container is ImportImageContainer, which allows an
+ * application to pass a block of memory to the Image class to use as its
+ * initial storage.
+ *
+ * Within, the pixel container, images are modeled as arrays, defined by a
+ * start index and a size.
  *
  * There are three sets of meta-data describing an image. These are "Region"
  * objects that define a portion of an image via a starting index for image
@@ -64,9 +72,11 @@ namespace itk
  * The data in an image is arranged in a 1D array as [][][][slice][row][col]
  * with Index[0] = col, Index[1] = row, Index[2] = slice, ...
  *
+ * \sa ImageContainerInterface
+ *
  */
 
-template <class TPixel, unsigned int VImageDimension=2>
+template <class TPixel, unsigned int VImageDimension=2, class TPixelContainer=ValarrayImageContainer<unsigned long, TPixel> >
 class ITK_EXPORT Image : public ImageBase
 {
 public:
@@ -143,6 +153,13 @@ public:
   enum { ImageDimension = VImageDimension };
   
   /** 
+   * PixelContainer typedef support. Used to construct a container for
+   * the pixel data.
+   */
+  typedef TPixelContainer PixelContainer;
+  typedef typename PixelContainer::Pointer PixelContainerPointer;
+
+  /** 
    * Index typedef support. An index is used to access pixel values.
    */
   typedef Index<VImageDimension>  Index;
@@ -181,8 +198,7 @@ public:
    * conditions.
    * \sa ImageRegion, SetBufferedRegion(), SetRequestedRegion()
    */
-  void SetLargestPossibleRegion(const Region &region)
-    { m_LargestPossibleRegion = region;};
+  void SetLargestPossibleRegion(const Region &region);
 
   /**
    * Get the region object that defines the size and starting index
@@ -200,8 +216,7 @@ public:
    * of the region of the image currently load in memory. 
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
    */
-  void SetBufferedRegion(const Region &region)
-    { m_BufferedRegion = region;};
+  void SetBufferedRegion(const Region &region);
 
   /**
    * Get the region object that defines the size and starting index
@@ -216,8 +231,7 @@ public:
    * for the region of the image requested.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
    */
-  void SetRequestedRegion(const Region &region)
-  { m_RequestedRegion = region;};
+  void SetRequestedRegion(const Region &region);
 
   /**
    * Get the region object that defines the size and starting index
@@ -231,6 +245,7 @@ public:
    * Allocate the image memory. Dimension and Size must be set a priori.
    */
   void Allocate();
+
 
   /**
    * Set a pixel.
@@ -301,17 +316,25 @@ public:
    * Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class.
    */
-  TPixel *GetBufferPointer() { return &(*m_Buffer)[0]; }
+  TPixel *GetBufferPointer()
+  { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; };
 
   /**
-   * Get the offset table.  The offset table gives increments for moving
-   * from one pixel to next in the current row, column, slice, etc..
-   * This table if of size [VImageDimension+1], because its values are
-   * computed progressively as:  {1, N1, N1*N2, N1*N2*N3,...,(N1*...*Nn)}
-   * Where the values {N1,...,Nn} are the elements of the BufferSize array.
-   * The last element of the OffsetTable is equivalent to the BufferSize.
-   * Having a [VImageDimension+1] size array, simplifies the implementation 
-   * of some data accessing algorithms.
+   * Return a pointer to the container 
+   */
+  PixelContainerPointer GetPixelContainer()
+  { return m_Buffer; };
+
+  /**
+   * Get the offset table.  The offset table gives increments for
+   * moving from one pixel to next in the current row, column, slice,
+   * etc..  This table if of size [VImageDimension+1], because its
+   * values are computed progressively as: {1, N1, N1*N2,
+   * N1*N2*N3,...,(N1*...*Nn)} Where the values {N1,...,Nn} are the
+   * elements of the BufferedRegion::Size array.  The last element of
+   * the OffsetTable is equivalent to the BufferSize.  Having a
+   * [VImageDimension+1] size array, simplifies the implementation of
+   * some data accessing algorithms.
    */
   const unsigned long *GetOffsetTable() const { return m_OffsetTable; };
   
@@ -369,10 +392,17 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent);
 
+  /**
+   * Calculate the offsets needed to move from one pixel to the next
+   * along a row, column, slice, volume, etc. These offsets are based
+   * on the size of the BufferedRegion. This should be called after
+   * the BufferedRegion is set.
+   */
+  void ComputeOffsetTable();
   
 private:
   // memory for the current buffer
-  std::valarray<TPixel> *m_Buffer;
+  PixelContainerPointer m_Buffer;
   
   unsigned long   m_OffsetTable[VImageDimension+1];
 

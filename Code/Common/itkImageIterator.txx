@@ -21,9 +21,9 @@ namespace itk
 
 //----------------------------------------------------------------------------
 // Begin() is the first pixel in the region.
-template<class TPixel, unsigned int VImageDimension>
-ImageIterator<TPixel, VImageDimension>
-ImageIterator<TPixel, VImageDimension>
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+ImageIterator<TPixel, VImageDimension, TPixelContainer>
+ImageIterator<TPixel, VImageDimension, TPixelContainer>
 ::Begin()
 {
   // Copy the current iterator
@@ -43,9 +43,9 @@ ImageIterator<TPixel, VImageDimension>
 //           m_StartIndex[VImageDimension-2] + m_Size[VImageDimension-2]-1,
 //           m_StartIndex[VImageDimension-1] + m_Size[VImageDimension-1]-1]
 //
-template<class TPixel, unsigned int VImageDimension>
-ImageIterator<TPixel, VImageDimension>
-ImageIterator<TPixel, VImageDimension>
+template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+ImageIterator<TPixel, VImageDimension, TPixelContainer>
+ImageIterator<TPixel, VImageDimension, TPixelContainer>
 ::End()
 {
   // Copy the current iterator
