@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 #include "vnl/vnl_quaternion.h"
+#include "itkEventObject.h"
 
 namespace itk
 {
@@ -106,7 +107,7 @@ QuaternionRigidTransformGradientDescentOptimizer<TCostFunction>
 
   SetCurrentPosition( newPosition );
 
-  InvokeEvent( Command::IterationEvent );
+  InvokeEvent( IterationEvent() );
 
 }
 

@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkGradientDescentOptimizer.h"
 #include "itkCommand.h"
+#include "itkEventObject.h"
 
 namespace itk
 {
@@ -90,7 +91,7 @@ GradientDescentOptimizer<TCostFunction>
   
   m_Stop = false;
 
-  InvokeEvent( Command::StartEvent );
+  InvokeEvent( StartEvent() );
   while( !m_Stop ) 
   {
 
@@ -142,7 +143,7 @@ GradientDescentOptimizer<TCostFunction>
 ::StopOptimization( void )
 {
   m_Stop = true;
-  InvokeEvent( Command::EndEvent );
+  InvokeEvent( EndEvent() );
 }
 
 
@@ -181,7 +182,7 @@ GradientDescentOptimizer<TCostFunction>
 
   SetCurrentPosition( newPosition );
 
-  InvokeEvent( Command::IterationEvent );
+  InvokeEvent( IterationEvent() );
 
 }
 
