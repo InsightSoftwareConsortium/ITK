@@ -9,11 +9,11 @@ ENDIF(ITK_BINARY_DIR)
 SET(ALGORITHMS_TESTS ${CXX_TEST_PATH}/itkAlgorithmsTests)
 SET(ALGORITHMS_HEADER_TESTS ${CXX_TEST_PATH}/itkAlgorithmsHeaderTest)
 
+ADD_TEST(itkAlgorithmsPrintTest ${ALGORITHMS_TESTS} itkAlgorithmsPrintTest)
 ADD_TEST(itkAntiAliasBinaryImageFilterTest ${ALGORITHMS_TESTS} itkAntiAliasBinaryImageFilterTest)
 ADD_TEST(itkBinaryMinMaxCurvatureFlowImageFilterTest ${ALGORITHMS_TESTS} itkBinaryMinMaxCurvatureFlowImageFilterTest )
 ADD_TEST(itkBinaryMask3DMeshSourceTest ${ALGORITHMS_TESTS} itkBinaryMask3DMeshSourceTest )
 ADD_TEST(itkCannySegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkCannySegmentationLevelSetImageFilterTest)
-ADD_TEST(itkCurvatureFlowTest ${ALGORITHMS_TESTS} itkCurvatureFlowTest)
 ADD_TEST(itkDemonsRegistrationFilterTest ${ALGORITHMS_TESTS} itkDemonsRegistrationFilterTest)
 ADD_TEST(itkExtractMeshConnectedRegionsTest ${ALGORITHMS_TESTS} itkExtractMeshConnectedRegionsTest)
 ADD_TEST(itkFastMarchingTest ${ALGORITHMS_TESTS} itkFastMarchingTest)
@@ -78,7 +78,12 @@ ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS} itkVoronoiDiagram2DTest)
 ADD_TEST(itkVoronoiSegmentationImageFilterTest ${ALGORITHMS_TESTS} itkVoronoiSegmentationImageFilterTest)
 ADD_TEST(itkWatershedImageFilterTest ${ALGORITHMS_TESTS} itkWatershedImageFilterTest)
 
+SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+ADD_TEST(itkCurvatureFlowTest ${ALGORITHMS_TESTS}
+    itkCurvatureFlowTest ${TEMP}/itkCurvatureFlowTest.vtk)
+
 SET(AlgorithmsTest_SRCS
+itkAlgorithmsPrintTest.cxx
 itkAntiAliasBinaryImageFilterTest.cxx
 itkBinaryMinMaxCurvatureFlowImageFilterTest.cxx
 itkBinaryMask3DMeshSourceTest.cxx

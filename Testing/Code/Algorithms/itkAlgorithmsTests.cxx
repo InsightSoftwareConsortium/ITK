@@ -6,6 +6,7 @@
 
 void RegisterTests()
 {
+REGISTER_TEST(itkAlgorithmsPrintTest  );
 REGISTER_TEST(itkAntiAliasBinaryImageFilterTest  );
 REGISTER_TEST(itkBinaryMinMaxCurvatureFlowImageFilterTest  );  
 REGISTER_TEST(itkBinaryMask3DMeshSourceTest  );  
