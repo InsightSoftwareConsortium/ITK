@@ -46,14 +46,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-
 /**
  * \class CurvatureAnisotropicDiffusionImageFilter
  *
- * \ingroup ImageEnhancement 
+ * This filter performs anisotropic diffusion on a scalar itk::Image using the
+ * modified curvature diffusion equation (MCDE) implemented in
+ * itkCurvatureNDAnisotropicDiffusionFunction.  For detailed information on
+ * anisotropic diffusion and the MCDE see itkAnisotropicDiffusionFunction and
+ * itkCurvatureNDAnisotropicDiffusionFunction.
  *
- *\todo Document.
- */
+ * \par Inputs and Outputs
+ * The input to this filter should be a scalar itk::Image of any
+ * dimensionality.  The output image will be a diffused copy of the input.
+ *
+ * \sa AnisotropicDiffusionImageFilter
+ * \sa AnisotropicDiffusionFunction
+ * \sa CurvatureNDAnisotropicDiffusionFunction
+ * \ingroup ImageEnhancement */
 template <class TInputImage, class TOutputImage>
 class CurvatureAnisotropicDiffusionImageFilter
   : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
