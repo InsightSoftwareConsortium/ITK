@@ -133,13 +133,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
 
-  typedef  itk::ImageRegionConstIteratorWithIndex<
-                  ITK_TYPENAME Superclass::GradientImageType> GradientIteratorType;
-
-
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
-
-  GradientIteratorType gi( m_GradientImage, this->GetFixedImageRegion() );
 
   typename FixedImageType::IndexType index;
 
@@ -164,8 +158,6 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   derivativeM.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
   ti.GoToBegin();
-  gi.GoToBegin();
-
   // First compute the sums
   while(!ti.IsAtEnd())
     {
@@ -293,12 +285,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
 
-  typedef  itk::ImageRegionConstIteratorWithIndex<
-                  ITK_TYPENAME Superclass::GradientImageType> GradientIteratorType;
-
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
-
-  GradientIteratorType gi( m_GradientImage, this->GetFixedImageRegion() );
 
   typename FixedImageType::IndexType index;
 
@@ -323,8 +310,6 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   derivativeM.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
   ti.GoToBegin();
-  gi.GoToBegin();
-
   // First compute the sums
   while(!ti.IsAtEnd())
     {
