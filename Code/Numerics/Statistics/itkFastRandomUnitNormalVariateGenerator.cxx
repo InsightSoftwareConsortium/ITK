@@ -63,7 +63,6 @@ FastRandomUnitNormalVariateGenerator::~FastRandomUnitNormalVariateGenerator()
 
 void FastRandomUnitNormalVariateGenerator::Initialize(long randomSeed)
 {
-  long i, j ;
   double fake ;
   lseed = randomSeed ;
   irs = randomSeed ;
