@@ -23,8 +23,8 @@
 // use the example as an introduction to the typical elements involved in
 // solving an image registration problem.
 //
-// \index{itk::Image!Instantiation|textbf}
-// \index{itk::Image!Header|textbf}
+// \index{itk::Image!Instantiation}
+// \index{itk::Image!Header}
 //
 // A registration method requires the following set of components: two input
 // images, a transform, a metric, an interpolator and an optimizer. Some of
@@ -297,8 +297,8 @@ int main( int argc, char *argv[] )
   //  \code{SetMaximumStepLength()}, while the tolerance for convergence is
   //  defined with the method \code{SetMinimumStepLength()}.
   //
-  //  \index{itk::RegularStepGradientDescentOptimizer!SetMaximumStepLength()}
-  //  \index{itk::RegularStepGradientDescentOptimizer!SetMinimumStepLength()}
+  //  \index{itk::Regular\-Setp\-Gradient\-Descent\-Optimizer!SetMaximumStepLength()}
+  //  \index{itk::Regular\-Step\-Gradient\-Descent\-Optimizer!SetMinimumStepLength()}
   //
   //  Software Guide : EndLatex 
 
@@ -315,7 +315,7 @@ int main( int argc, char *argv[] )
   //  iterations to be performed. This maximum number is defined with the
   //  method \code{SetNumberOfIterations()}.
   //
-  //  \index{itk::RegularStepGradientDescentOptimizer!SetNumberOfIterations()}
+  //  \index{itk::Regular\-Setp\-Gradient\-Descent\-Optimizer!SetNumberOfIterations()}
   //
   //  Software Guide : EndLatex 
 
@@ -393,7 +393,7 @@ int main( int argc, char *argv[] )
   //  indication that the maximum step length has been set too small, which
   //  is undesirable since it results in long computational times.
   //
-  //  \index{itk::RegularStepGradientDescentOptimizer!GetCurrentIteration()}
+  //  \index{itk::Regular\-Setp\-Gradient\-Descent\-Optimizer!GetCurrentIteration()}
   //
   //  Software Guide : EndLatex 
 
