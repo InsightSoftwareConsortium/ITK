@@ -141,26 +141,44 @@ public:
     { this->ImageConstIteratorWithIndex<TImage>::operator=(it); }
 
   /** Move an iterator to the beginning of the region. */
-  void GoToBegin(void);
+  void GoToBegin(void)
+  {
+    this->RandomJump();
+    m_NumberOfSamplesDone = 0L;
+  }
 
-  /** Move an iterator to the End of the region. */
-  void GoToEnd(void);
+  /** Move an iterator to one position past the End of the region. */
+  void GoToEnd(void)
+  {
+    this->RandomJump();
+    m_NumberOfSamplesDone = m_NumberOfSamplesRequested;
+  }
 
   /** Is the iterator at the beginning of the region? */
   bool IsAtBegin(void) const
-    { return (m_NumberOfSamplesDone > m_NumberOfSamplesRequested) ; }
+    { return (m_NumberOfSamplesDone == 0L) ; }
 
   /** Is the iterator at the end of the region? */
   bool IsAtEnd(void) const
-    { return (m_NumberOfSamplesDone > m_NumberOfSamplesRequested);  }
+    { return (m_NumberOfSamplesDone >= m_NumberOfSamplesRequested);  }
  
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator-- */
-  Self & operator++();
+  Self & operator++()
+  {
+    this->RandomJump();
+    m_NumberOfSamplesDone++;
+    return *this;
+  }
 
   /** Decrement (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator++ */
-  Self & operator--();
+  Self & operator--()
+  {
+    this->RandomJump();
+    m_NumberOfSamplesDone--;
+    return *this;
+  }
   
   /** Set/Get number of random samples to get from the image region */
   void SetNumberOfSamples( unsigned long number );
@@ -170,9 +188,10 @@ public:
   static void ReinitializeSeed();
 
 private:
-    unsigned long  m_NumberOfSamplesRequested;
-    unsigned long  m_NumberOfSamplesDone;
-    unsigned long  m_NumberOfPixelsInRegion;
+  void RandomJump();
+  unsigned long  m_NumberOfSamplesRequested;
+  unsigned long  m_NumberOfSamplesDone;
+  unsigned long  m_NumberOfPixelsInRegion;
 };
 
 } // end namespace itk
