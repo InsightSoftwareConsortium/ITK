@@ -134,7 +134,7 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>
   // are too many.
   for (data = data.Begin(); data < data.End(); ++data, ++it)
     {
-      *data = *it;
+      *data = static_cast<TPixel>(*it);
     }
 }
 

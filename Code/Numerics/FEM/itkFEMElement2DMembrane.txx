@@ -45,7 +45,7 @@ Element2DMembrane<TBaseClass>
 {
   unsigned int p;
   unsigned int Nn=this->GetNumberOfNodes();
-  B.resize(4,2.*Nn); // note minor difference from linear elasticity
+  B.resize(4,2*Nn); // note minor difference from linear elasticity
   
   // Copy the shape function derivatives to the B matrix.
   for (unsigned int i=0; i<Nn; i++) {

@@ -419,7 +419,7 @@ protected:
   /** The number of layers to use in the sparse field.  Sparse field will
    * consist of m_NumberOfLayers layers on both sides of a single active layer.
    * This active layer is the interface of interest, i.e. the zero level set.*/
-  StatusType m_NumberOfLayers;
+  unsigned int m_NumberOfLayers;
 
   /** An image of status values used internally by the algorithm. */
   typename StatusImageType::Pointer m_StatusImage;
