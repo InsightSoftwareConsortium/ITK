@@ -401,8 +401,8 @@ int main( int argc, char *argv[] )
 
 
 
-  metric->SetNumberOfHistogramBins( 50 );
-  metric->SetNumberOfSpatialSamples( 1000 );
+  metric->SetNumberOfHistogramBins( 20 );
+  metric->SetNumberOfSpatialSamples( 10000 );
 
 
   //  Software Guide : BeginLatex
