@@ -437,7 +437,6 @@ void DicomImageIO::ReadImageInformation()
 {
   long int i,j,max;
   long int len;
-  double temp;
   unsigned char bytePair[2];
   unsigned char c;
   unsigned int rows;
@@ -445,8 +444,6 @@ void DicomImageIO::ReadImageInformation()
   unsigned int allocatedbits;
   unsigned int representation;
   char chain [4];
-  char * value;
-  char * spac1value,* spac2value;
   Tag tagcurrent;
 
   std::ifstream inFile;
@@ -839,15 +836,16 @@ DicomImageIO
 /** Print Self Method */
 void DicomImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
+  unsigned int i;
   Superclass::PrintSelf(os, indent);
   os << indent << "Spacing: ( ";
-  for (unsigned int i=0; i < m_NumberOfDimensions; i++)
+  for (i=0; i < m_NumberOfDimensions; i++)
   {
     os << m_Spacing[i] << " ";
   }
   os << " )\n";
   os << indent << "Origin: ( ";
-  for (unsigned int i=0; i < m_Origin.size(); i++)
+  for (i=0; i < m_Origin.size(); i++)
   {
     os << m_Origin[i] << " ";
   }
