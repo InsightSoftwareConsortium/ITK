@@ -25,7 +25,10 @@
  * class works in N dimensions
  */
 #include "itkElasticBodySplineKernelTransform.h"
+#include "itkElasticBodyReciprocalSplineKernelTransform.h"
 #include "itkThinPlateSplineKernelTransform.h"
+#include "itkThinPlateR2LogRSplineKernelTransform.h"
+#include "itkVolumeSplineKernelTransform.h"
 
 using namespace itk;
 
@@ -37,34 +40,39 @@ int itkSplineKernelTransformTest(int , char* [] )
   // 2-D case
   int i, j;
 
-  typedef ElasticBodySplineKernelTransform<double, 2>   EBSTransform2DType;
-  typedef ThinPlateSplineKernelTransform<double, 2>     TPSTransform2DType;
+  typedef ElasticBodySplineKernelTransform<double, 2>           EBSTransform2DType;
+  typedef ElasticBodyReciprocalSplineKernelTransform<double, 2> EBRSTransform2DType;
+  typedef ThinPlateSplineKernelTransform<double, 2>             TPSTransform2DType;
+  typedef ThinPlateR2LogRSplineKernelTransform<double, 2>       TPR2LRSTransform2DType;
+  typedef VolumeSplineKernelTransform<double, 2>                VSTransform2DType;
 
   typedef EBSTransform2DType::InputPointType PointType2D;
   typedef EBSTransform2DType::PointsIterator Points2DIteratorType;
+  typedef EBSTransform2DType::PointSetType   PointSetType2D;
 
   PointType2D sourcePoint2D;
   PointType2D targetPoint2D;
   PointType2D mappedPoint2D;
 
-  EBSTransform2DType::Pointer ebs2D = EBSTransform2DType::New();
-  TPSTransform2DType::Pointer tps2D = TPSTransform2DType::New();
+  EBSTransform2DType::Pointer     ebs2D       = EBSTransform2DType::New();
+  EBRSTransform2DType::Pointer    ebrs2D      = EBRSTransform2DType::New();
+  TPSTransform2DType::Pointer     tps2D       = TPSTransform2DType::New();
+  TPR2LRSTransform2DType::Pointer tpr2lrs2D   = TPR2LRSTransform2DType::New();
+  VSTransform2DType::Pointer      vs2D        = VSTransform2DType::New();
 
   // Reserve memory for the number of points
-  ebs2D->GetTargetLandmarks()->GetPoints()->Reserve( 4 );  
-  tps2D->GetTargetLandmarks()->GetPoints()->Reserve( 4 );
-  
-  ebs2D->GetSourceLandmarks()->GetPoints()->Reserve( 4 );  
-  tps2D->GetSourceLandmarks()->GetPoints()->Reserve( 4 );
+  PointSetType2D::Pointer sourceLandmarks2D = PointSetType2D::New();
+  PointSetType2D::Pointer targetLandmarks2D = PointSetType2D::New();
+
+  sourceLandmarks2D->GetPoints()->Reserve( 4 );
+  targetLandmarks2D->GetPoints()->Reserve( 4 );
 
   // Create landmark sets
-  Points2DIteratorType ebs2Ds = ebs2D->GetSourceLandmarks()->GetPoints()->Begin();
-  Points2DIteratorType ebs2Dt = ebs2D->GetTargetLandmarks()->GetPoints()->Begin();
-  Points2DIteratorType tps2Ds = tps2D->GetSourceLandmarks()->GetPoints()->Begin();
-  Points2DIteratorType tps2Dt = tps2D->GetTargetLandmarks()->GetPoints()->Begin();
+  Points2DIteratorType source2Dit = sourceLandmarks2D->GetPoints()->Begin();
+  Points2DIteratorType target2Dit = targetLandmarks2D->GetPoints()->Begin();
   
-  Points2DIteratorType ebs2DsEnd  = ebs2D->GetSourceLandmarks()->GetPoints()->End();
-  Points2DIteratorType tps2DsEnd  = tps2D->GetSourceLandmarks()->GetPoints()->End();
+  Points2DIteratorType source2Dend = sourceLandmarks2D->GetPoints()->End();
+  Points2DIteratorType target2Dend = targetLandmarks2D->GetPoints()->End();
   
   for (i = 0; i < 2; i++)
     {
@@ -72,64 +80,92 @@ int itkSplineKernelTransformTest(int , char* [] )
       {
       sourcePoint2D[0] = j;
       sourcePoint2D[1] = i;
-      ebs2Ds.Value() = sourcePoint2D;
-      tps2Ds.Value() = sourcePoint2D;
+      source2Dit.Value() = sourcePoint2D;
       targetPoint2D[0] = 3*j;
       targetPoint2D[1] = 3*i;
-      ebs2Dt.Value() = targetPoint2D;
-      tps2Dt.Value() = targetPoint2D;
-      ebs2Ds++;
-      ebs2Dt++;
-      tps2Ds++;
-      tps2Dt++;
+      target2Dit.Value() = targetPoint2D;
+      source2Dit++;
+      target2Dit++;
       }
     }
 
   
   std::cout << "EBS 2D Test:" << std::endl;
   // Poisson's ration = 0.25, Alpha = 12.0 * ( 1 - \nu ) - 1
+  ebs2D->SetSourceLandmarks( sourceLandmarks2D );
+  ebs2D->SetTargetLandmarks( targetLandmarks2D );
   ebs2D->SetAlpha( 12.0 * ( 1 -  0.25) - 1.0 );
   ebs2D->ComputeWMatrix();
-  ebs2Ds = ebs2D->GetSourceLandmarks()->GetPoints()->Begin();
-  ebs2Dt = ebs2D->GetTargetLandmarks()->GetPoints()->Begin();
-  ebs2DsEnd  = ebs2D->GetSourceLandmarks()->GetPoints()->End();
-  while( ebs2Ds != ebs2DsEnd )
-  {
-    sourcePoint2D = ebs2Ds.Value();
-    targetPoint2D = ebs2Dt.Value();
+
+  source2Dit = sourceLandmarks2D->GetPoints()->Begin();
+  target2Dit = targetLandmarks2D->GetPoints()->Begin();
+  
+  source2Dend = sourceLandmarks2D->GetPoints()->End();
+  while( source2Dit != source2Dend )
+    {
+    sourcePoint2D = source2Dit.Value();
+    targetPoint2D = target2Dit.Value();
     mappedPoint2D = ebs2D->TransformPoint(sourcePoint2D);
     std::cout << sourcePoint2D << " : " << targetPoint2D;
     std::cout << " warps to: " << mappedPoint2D << std::endl;
     if( mappedPoint2D.EuclideanDistanceTo( targetPoint2D ) > epsilon )
-    {
+      {
       return EXIT_FAILURE;
+      }
+    source2Dit++;
+    target2Dit++;
     }
-    ebs2Ds++;
-    ebs2Dt++;
-  }
+  std::cout << std::endl;
+
+ 
+  std::cout << "EBRS 2D Test:" << std::endl;
+  // Poisson's ration = 0.25, Alpha = 12.0 * ( 1 - \nu ) - 1
+  ebrs2D->SetAlpha( 12.0 * ( 1 -  0.25) - 1.0 );
+  ebrs2D->ComputeWMatrix();
+
+  source2Dit = sourceLandmarks2D->GetPoints()->Begin();
+  target2Dit = targetLandmarks2D->GetPoints()->Begin();
+  
+  source2Dend = sourceLandmarks2D->GetPoints()->End();
+  while( source2Dit != source2Dend )
+    {
+    sourcePoint2D = source2Dit.Value();
+    targetPoint2D = target2Dit.Value();
+    mappedPoint2D = ebrs2D->TransformPoint(sourcePoint2D);
+    std::cout << sourcePoint2D << " : " << targetPoint2D;
+    std::cout << " warps to: " << mappedPoint2D << std::endl;
+    if( mappedPoint2D.EuclideanDistanceTo( targetPoint2D ) > epsilon )
+      {
+      return EXIT_FAILURE;
+      }
+    source2Dit++;
+    target2Dit++;
+    }
   std::cout << std::endl;
 
 
  
   std::cout << "TPS 2D Test:" << std::endl;
   tps2D->ComputeWMatrix();
-  tps2Ds = tps2D->GetSourceLandmarks()->GetPoints()->Begin();
-  tps2Dt = tps2D->GetTargetLandmarks()->GetPoints()->Begin();
-  tps2DsEnd  = tps2D->GetSourceLandmarks()->GetPoints()->End();
-  while( tps2Ds != tps2DsEnd )
-  {
-    sourcePoint2D = tps2Ds.Value();
-    targetPoint2D = tps2Dt.Value();
+
+  source2Dit = sourceLandmarks2D->GetPoints()->Begin();
+  target2Dit = targetLandmarks2D->GetPoints()->Begin();
+  
+  source2Dend = sourceLandmarks2D->GetPoints()->End();
+  while( source2Dit != source2Dend )
+    {
+    sourcePoint2D = source2Dit.Value();
+    targetPoint2D = target2Dit.Value();
     mappedPoint2D = tps2D->TransformPoint(sourcePoint2D);
     std::cout << sourcePoint2D << " : " << targetPoint2D;
     std::cout << " warps to: " << mappedPoint2D << std::endl;
     if( mappedPoint2D.EuclideanDistanceTo( targetPoint2D ) > epsilon )
-    {
+      {
       return EXIT_FAILURE;
+      }
+    source2Dit++;
+    target2Dit++;
     }
-    tps2Ds++;
-    tps2Dt++;
-  }
   std::cout << std::endl;
 
 
