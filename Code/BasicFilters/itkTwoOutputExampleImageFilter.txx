@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkTwoOutputExampleImageFilter_txx
 
 #include "itkTwoOutputExampleImageFilter.h"
+#include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkObjectFactory.h"
 
