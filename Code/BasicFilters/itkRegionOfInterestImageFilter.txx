@@ -61,7 +61,7 @@ RegionOfInterestImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
   
   // get pointer to the input 
-  InputImagePointer  inputPtr = 
+  typename Superclass::InputImagePointer  inputPtr = 
     const_cast< TInputImage * >( this->GetInput() );
 
   // request the region of interest

@@ -171,7 +171,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
   //
 
   // First, determine the min and max intensity range
-  StatisticsImageFilter<TInputImage>::Pointer statistics
+  typename StatisticsImageFilter<TInputImage>::Pointer statistics
     = StatisticsImageFilter<TInputImage>::New();
   statistics->SetInput( this->GetInput() );
   statistics->GetOutput()
