@@ -24,6 +24,17 @@
 namespace itk
 {
 
+/**
+ * Constructor
+ */
+template <unsigned int VDimension>
+ParametricPath<VDimension>
+::ParametricPath()
+{
+  m_DefaultInputStepSize = 0.3;
+}
+
+
 template<unsigned int VDimension>
 typename ParametricPath<VDimension>::IndexType
 ParametricPath<VDimension>
@@ -64,9 +75,9 @@ ParametricPath<VDimension>
   inputStepSize     = m_DefaultInputStepSize;
 
   // Are we already at (or past) the end of the input?
-  finalInputValue   = EndOfInput();
-  currentImageIndex = EvaluateToIndex( input );
-  finalImageIndex   = EvaluateToIndex( finalInputValue );
+  finalInputValue   = this->EndOfInput();
+  currentImageIndex = this->EvaluateToIndex( input );
+  finalImageIndex   = this->EvaluateToIndex( finalInputValue );
   offset            = finalImageIndex - currentImageIndex;
   if(  ( offset == m_ZeroOffset && input != StartOfInput() )  ||
        ( input >=finalInputValue )  )
@@ -78,7 +89,7 @@ ParametricPath<VDimension>
     {
     if( iterationCount++ > 10000 ) {itkExceptionMacro(<<"Too many iterations");}
     
-    nextImageIndex    = EvaluateToIndex( input + inputStepSize );
+    nextImageIndex    = this->EvaluateToIndex( input + inputStepSize );
     offset            = nextImageIndex - currentImageIndex;
     
     tooBig = false;
@@ -120,9 +131,9 @@ ParametricPath<VDimension>
   InputType   inputStepSize;
   
   inputStepSize = m_DefaultInputStepSize;
-  if(  (input + inputStepSize) >= EndOfInput()  )
+  if(  (input + inputStepSize) >= this->EndOfInput()  )
     {
-    inputStepSize = EndOfInput() - input;
+    inputStepSize = this->EndOfInput() - input;
     }
   
   return ( Evaluate(input + inputStepSize) - Evaluate(input) ) / inputStepSize;

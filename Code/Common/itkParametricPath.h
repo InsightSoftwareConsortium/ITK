@@ -119,7 +119,7 @@ public:
   
   
 protected:
-  ParametricPath(){}
+  ParametricPath();
   ~ParametricPath(){}
   void PrintSelf(std::ostream &os, Indent indent) const;
   
