@@ -121,6 +121,13 @@ public:
   /** Method for creation through the object factory */
   itkNewMacro(Self);
      
+  /** Set the value of sigma used to compute derivatives */
+  void SetDerivativeSigma( float value )
+   { m_GeodesicActiveContourFunction->SetDerivativeSigma( value ); 
+     this->Modified(); }
+  float GetDerivativeSigma() const
+   { return m_GeodesicActiveContourFunction->GetDerivativeSigma(); }
+    
 protected:
   ~GeodesicActiveContourLevelSetImageFilter() {}
   GeodesicActiveContourLevelSetImageFilter();
