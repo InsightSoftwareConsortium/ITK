@@ -180,30 +180,53 @@ TubeSpatialObject< TDimension >
     double minSquareDist=999999.0;
     double tempSquareDist;
     typename PointListType::const_iterator it = m_Points.begin();
+    typename PointListType::const_iterator it2 = m_Points.begin();
     typename PointListType::const_iterator end = m_Points.end(); 
-    typename PointListType::const_iterator min;  
   
     const TransformType * giT = GetWorldToIndexTransform();
     PointType transformedPoint = giT->TransformPoint(point);      
 
+    it2++; // next point
+
     if( m_Bounds->IsInside(transformedPoint) )
       {
-      while(it!= end)
-        {  
-        tempSquareDist=transformedPoint.SquaredEuclideanDistanceTo(
-          (*it).GetPosition());
-        if(tempSquareDist <= minSquareDist)
+      while(it2!= end)
+        {
+        // Check if the point is on the normal plane
+        PointType a = (*it).GetPosition();
+        PointType b = (*it2).GetPosition();
+        
+        double A = 0;
+        double B = 0;
+
+        for(unsigned int i = 0;i<TDimension;i++)
           {
-          minSquareDist = tempSquareDist;
-          min = it; 
+          A += (b[i]-a[i])*(transformedPoint[i]-a[i]);
+          B += (b[i]-a[i])*(b[i]-a[i]);
+          }
+
+        double lambda = A/B;
+
+        if( (lambda <= 1.0) && (lambda >= 0.0))
+          {
+          PointType p;
+
+          for(unsigned int i = 0;i<TDimension;i++)
+            {
+            p[i] = a[i]+lambda*(b[i]-a[i]);
+            }
+
+          tempSquareDist=transformedPoint.EuclideanDistanceTo(p);
+
+          double R =  (*it).GetRadius()+lambda*((*it2).GetRadius()-(*it).GetRadius());
+
+          if(tempSquareDist <= R)
+            {
+            return true;
+            }
           }
         it++;
-        }
-  
-      double dist = sqrt(minSquareDist);
-      if( dist <= ((*min).GetRadius()) )
-        {
-        return true;
+        it2++;
         }
       }
     }
