@@ -290,7 +290,7 @@ bool MET_ValueToValue(MET_ValueEnumType _fromType, const void *_fromData,
 //
 //
 bool MET_StringToWordArray(char *s, int *n, char ***val)
-  {
+{
   int l = strlen(s);
 
   int p = 0;
@@ -299,39 +299,59 @@ bool MET_StringToWordArray(char *s, int *n, char ***val)
   
   *n = 0;
   int pp = p;
+  bool space = false;
   while(pp<l)
+  {
+    if(s[pp] == ' ' && !space)
     {
-    if(s[pp] == ' ')
       (*n)++;
-    pp++;
+      space = true;
     }
+    else
+    {
+      space = false;
+    }
+    pp++;
+  }
   pp=l-1;
-  if(s[pp] == ' ')
+  if(s[pp] == ' ')   
+  {
     while(pp>=0 && s[pp] == ' ')
-      {
+    {
       (*n)--;
       pp--;
-      }
+    }
+  }
   else
+  {
     (*n)++;
+  }
+  
   *val = new char *[*n];
   
   int i, j;
   for(i=0; i<*n; i++) 
-    {
+  {
     if(p == l)
+    {
       return false;
+    }
+    
     (*val)[i] = new char [80];
     while(p<l && s[p] == ' ')
+    {
       p++;
+    }
     j = 0;
     while(p<l && s[p] != ' ')
+    {
       (*val)[i][j++] = s[p++];
-    (*val)[i][j] = '\0';
     }
+    (*val)[i][j] = '\0';
+  }
   
   return true;
-  }
+}
 
 //
 //
