@@ -22,43 +22,56 @@
 namespace itk
 {
 
-//----------------------------------------------------------------------------
-// Begin() is the last pixel in the region.
-template<class TImage>
-ImageReverseIterator<TImage>
-ImageReverseIterator<TImage>
-::Begin()
-{
-  // Copy the current iterator
-  Self it( *this );
 
-  // Set the offset to the m_BeginOffset. 
-  it.m_Offset = m_BeginOffset;
-  
-  return it;
+
+template< typename TImage >
+ImageReverseIterator<TImage>
+::ImageReverseIterator()
+    : ImageRegionReverseConstIterator<TImage>() 
+{
+
+
 }
 
-//----------------------------------------------------------------------------
-// End() is one pixel before the first pixel in the current region.
-// The index of this pixel is
-//          [m_StartIndex[0] - 1,
-//           m_StartIndex[1], ...,
-//           m_StartIndex[VImageDimension-2],
-//           m_StartIndex[VImageDimension-1]]
-//
-template<class TImage>
-ImageReverseIterator<TImage>
-ImageReverseIterator<TImage>
-::End()
-{
-  // Copy the current iterator
-  Self it( *this );
 
-  // Set the offset to the m_EndOffset. 
-  it.m_Offset = m_EndOffset;
-  
-  return it;
+
+template< typename TImage >
+ImageReverseIterator<TImage>
+::ImageReverseIterator(ImageType *ptr, const RegionType& region) :
+    ImageRegionReverseConstIterator<TImage>(   ptr, region ) 
+{
+
+
 }
+
+
+ 
+template< typename TImage >
+ImageReverseIterator<TImage>
+::ImageReverseIterator( const ImageIteratorWithIndex<TImage> &it):
+                                        ImageRegionReverseConstIterator<TImage>(it)
+{ 
+}
+
+ 
+template< typename TImage >
+ImageReverseIterator<TImage>
+::ImageReverseIterator( const ImageRegionReverseConstIterator<TImage> &it):
+                                        ImageRegionReverseConstIterator<TImage>(it)
+{ 
+}
+
+ 
+template< typename TImage >
+ImageReverseIterator<TImage> &
+ImageReverseIterator<TImage>
+::operator=( const ImageRegionReverseConstIterator<TImage> &it)
+{ 
+  this->ImageRegionReverseConstIterator<TImage>::operator=(it);
+  return *this;
+}
+
+
 
 } // end namespace itk
 
