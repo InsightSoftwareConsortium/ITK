@@ -208,6 +208,12 @@ public:
   typedef AffineTransform<double, ImageDimension> AffineTransformType;
 
   /** 
+   * Definition of the Point type used for settin the origin
+   */
+  typedef AffineTransformType::PointType    PointType;
+
+
+  /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro(PhysicalImage, Image);
@@ -243,6 +249,7 @@ public:
    */
   virtual void SetOrigin( const double values[ImageDimension] );
   virtual void SetOrigin( const float values[ImageDimension] );
+  virtual void SetOrigin( const PointType & point );
 
   /** 
    * Get the origin of the image. The origin is the geometric

@@ -185,6 +185,31 @@ PhysicalImage<TPixel, VImageDimension, TImageTraits>
 
 //----------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+void 
+PhysicalImage<TPixel, VImageDimension, TImageTraits>
+::SetOrigin(const PointType & origin )
+{
+  unsigned int i; 
+  for (i=0; i<VImageDimension; i++)
+    {
+    if ( (double)origin[i] != m_Origin[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < VImageDimension ) 
+    { 
+    this->Modified(); 
+    for (i=0; i<VImageDimension; i++)
+      {
+      m_Origin[i] = origin[i];
+      }
+    } 
+}
+
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 const double *
 PhysicalImage<TPixel, VImageDimension, TImageTraits>
 ::GetOrigin() const
