@@ -230,6 +230,7 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     {0x0008, 0x0060, DICOMParser::VR_SH, "Modality"},
     {0x0008, 0x0070, DICOMParser::VR_SH, "Manufacturer"},
     {0x0008, 0x1060, DICOMParser::VR_SH, "Physician"},
+    {0x0010, 0x0010, DICOMParser::VR_PN, "Patient name"},
     {0x0018, 0x0050, DICOMParser::VR_FL, "slice thickness"},
     {0x0018, 0x0060, DICOMParser::VR_FL, "kV"},
     {0x0018, 0x0088, DICOMParser::VR_FL, "slice spacing"},
