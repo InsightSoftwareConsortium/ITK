@@ -32,10 +32,10 @@
 
 #include "itkNormalizedMutualInformationHistogramImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkRegularStepGradientDescentOptimizer.h"
+#include "itkOnePlusOneEvolutionaryOptimizer.h"
+#include "itkNormalVariateGenerator.h" 
+
 #include "itkImage.h"
-
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -57,7 +57,7 @@ public:
 protected:
   CommandIterationUpdate() {};
 public:
-  typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
+  typedef itk::OnePlusOneEvolutionaryOptimizer     OptimizerType;
   typedef   const OptimizerType   *    OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
@@ -73,10 +73,18 @@ public:
         {
         return;
         }
-      std::cout << optimizer->GetCurrentIteration() << "   ";
-      std::cout << optimizer->GetValue() << "   ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
+      double currentValue = optimizer->GetValue();
+      // Only print out when the Metric value changes
+      if( fabs( m_LastMetricValue - currentValue ) > 1e-7 )
+        { 
+        std::cout << optimizer->GetCurrentIteration() << "   ";
+        std::cout << currentValue << "   ";
+        std::cout << optimizer->GetCurrentPosition() << std::endl;
+        m_LastMetricValue = currentValue;
+        }
     }
+private:
+  double m_LastMetricValue;
 };
 
 
@@ -99,7 +107,7 @@ int main( int argc, char *argv[] )
 
   typedef itk::CenteredRigid2DTransform< double > TransformType;
 
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
+  typedef itk::OnePlusOneEvolutionaryOptimizer       OptimizerType;
   typedef itk::LinearInterpolateImageFunction< 
                                     MovingImageType,
                                     double             > InterpolatorType;
@@ -129,7 +137,7 @@ int main( int argc, char *argv[] )
   registration->SetMetric( metric  );
 
 
-  unsigned int numberOfBins = 256;
+  unsigned int numberOfBins = 32;
   MetricType::HistogramType::SizeType histogramSize;
   histogramSize[0] = numberOfBins;
   histogramSize[1] = numberOfBins;
@@ -182,24 +190,37 @@ int main( int argc, char *argv[] )
 
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
+  std::cout << "Initial transform parameters = ";
+  std::cout << transform->GetParameters() << std::endl;
+
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
-  const double translationScale = 1.0 / 1000.0;
+  const double translationScale = 1.0 / 100.0;
+  const double centerScale = 1000.0;  // prevent the center from changing
 
   optimizerScales[0] = 1.0;
   optimizerScales[1] = translationScale;
   optimizerScales[2] = translationScale;
   optimizerScales[3] = translationScale;
   optimizerScales[4] = translationScale;
-
   optimizer->SetScales( optimizerScales );
 
-  optimizer->SetMaximumStepLength( 0.1    ); 
-  optimizer->SetMinimumStepLength( 0.001 );
-  optimizer->SetNumberOfIterations( 400 );
+
+  typedef itk::Statistics::NormalVariateGenerator  GeneratorType;
+
+  GeneratorType::Pointer generator = GeneratorType::New();
+  generator->Initialize(12345);
 
   optimizer->MaximizeOn();
+
+  optimizer->SetNormalVariateGenerator( generator );
+
+  const double initialRadius = 0.01;
+
+  optimizer->Initialize( initialRadius );
+  optimizer->SetEpsilon( 0.001 );
+  optimizer->SetMaximumIteration( 4000 );
 
 
   // Create the Command observer and register it with the optimizer.
