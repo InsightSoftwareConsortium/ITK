@@ -45,6 +45,7 @@ Scene<PipelineDimension>
 ::AddSpatialObject( NDimensionalSpatialObject<> * pointer )
 {
   m_Objects.push_back( pointer );
+  this->Modified();
 }
 
 /** Remove a spatial object from the scene */
@@ -61,6 +62,7 @@ Scene<PipelineDimension>
     if( *it == pointer )
     {
       m_Objects.erase( it );
+      this->Modified();
     }
   }
   else
