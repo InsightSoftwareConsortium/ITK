@@ -61,12 +61,12 @@ public:
    */
   class ConstReference;
   
-  /** \enum
+  /**
    * The element type stored at each location in the Array.
    */
   typedef TValueType  ValueType;
   
-  /** \enum
+  /**
    * The number of elements in the Array.
    */
   enum { Length = VLength };
