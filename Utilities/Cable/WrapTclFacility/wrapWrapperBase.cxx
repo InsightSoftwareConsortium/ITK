@@ -15,6 +15,8 @@
 =========================================================================*/
 #include "wrapWrapperBase.h"
 
+#include <queue>
+
 namespace _wrap_
 {
 
@@ -376,8 +378,7 @@ WrapperBase::ResolveOverload(const CvQualifiedTypes& argumentTypes,
       // If the type is a reference, see if it can be bound.
       if(to->IsReferenceType())
         {
-        if(Conversions::ReferenceCanBindAsIdentity(
-             from, ReferenceType::SafeDownCast(to))
+        if(Conversions::ReferenceCanBindAsIdentity(from, ReferenceType::SafeDownCast(to))
            || (this->GetConversionFunction(from, to) != NULL))
           {
           // This conversion can be done, move on to the next
@@ -663,18 +664,103 @@ WrapperBase
 }
 
 
+
 /**
- * Dispatch function to select a wrapped method called through an object.
+ * Dispatch function to find a wrapper that knows about the method called.
  */
 int WrapperBase::ObjectWrapperDispatch(ClientData clientData,
                                        int objc, Tcl_Obj* CONST objv[]) const
 {
+  // Make sure we have a method name.
   if(objc < 2)
     {
     this->NoMethodSpecified();
     return TCL_ERROR;
     }  
   
+  // Get the method name.
+  String methodName = Tcl_GetString(objv[1]);
+  
+  // See if any wrapper in our class hierarchy knows about a method
+  // with this name.
+  const WrapperBase* wrapper = this->FindMethodWrapper(methodName);
+  if(wrapper)
+    {
+    // We have found a wrapper that knows about the method.  Call it.
+    return wrapper->CallWrappedFunction(objc, objv);
+    }
+  else
+    {
+    // We don't know about the method.  Determine the argument types
+    // of the method call to report the error.
+    CvQualifiedTypes argumentTypes;
+    // Add the implicit object argument.
+    argumentTypes.push_back(this->GetObjectType(objv[0]));
+    // Add the normal arguments.
+    for(int i=2; i < objc; ++i)
+      {
+      argumentTypes.push_back(this->GetObjectType(objv[i]));
+      }
+    // Report that the method is unknown.
+    this->UnknownMethod(methodName, argumentTypes);
+    return TCL_ERROR;
+    }
+}
+
+
+/**
+ * Find a Wrapper that knows about a method with the given name.  This
+ * may involve chaining up the class hierarchy.  If no wrapper knows about
+ * the method, NULL is returned.
+ */
+const WrapperBase* WrapperBase::FindMethodWrapper(const String& name) const
+{  
+  // A queue to do a BFS of this class and its parents.
+  std::queue<const ClassType*> classQueue;
+  
+  // Start with the search at this class.
+  classQueue.push(ClassType::SafeDownCast(m_WrappedTypeRepresentation));
+  while(!classQueue.empty())
+    {
+    // Get the next class off the queue.
+    const ClassType* curClass = classQueue.front(); classQueue.pop();
+    
+    // If the class has a wrapper, see if it knows about the method.
+    const WrapperBase* wrapper = m_WrapperTable->GetWrapper(curClass);
+    if(wrapper && wrapper->HasMethod(name))
+      {
+      return wrapper;
+      }
+    
+    // The class did not know about the method.  Add its parents to the queue.
+    for(ClassTypes::const_iterator parent = curClass->ParentsBegin();
+        parent != curClass->ParentsEnd(); ++parent)
+      {
+      classQueue.push(*parent);
+      }
+    }
+  
+  // We didn't find a wrapper that knows about the method.
+  return NULL;
+}
+
+
+/**
+ * Return whether this Wrapper knows about a method with the given name.
+ */
+bool WrapperBase::HasMethod(const String& name) const
+{
+  return (m_FunctionMap.count(name) > 0);
+}
+
+
+/**
+ * This is called when this wrapper has been selected as knowing about
+ * the method being invoked.  Here we determine the argument types,
+ * use ResolveOverload to get the correct method wrapper, and call it.
+ */
+int WrapperBase::CallWrappedFunction(int objc, Tcl_Obj* CONST objv[]) const
+{
   // Determine the type of the object.  This should be the wrapped
   // type or a subclass of it, but possibly with cv-qualifiers added.
   CvQualifiedType objectType = this->GetObjectType(objv[0]);
@@ -691,56 +777,42 @@ int WrapperBase::ObjectWrapperDispatch(ClientData clientData,
   
   // Get the method name.
   String methodName = Tcl_GetString(objv[1]);
-  
-  // See if this wrapper knows about a method with this name.
-  if(m_FunctionMap.count(methodName) > 0)
+
+  // Prepare the set of candidate functions.
+  CandidateFunctions candidates;    
+  FunctionMap::const_iterator first = m_FunctionMap.lower_bound(methodName);
+  FunctionMap::const_iterator last = m_FunctionMap.upper_bound(methodName);
+  for(FunctionMap::const_iterator i = first; i != last; ++i)
     {
-    // Prepare the set of candidate functions.
-    CandidateFunctions candidates;    
-    FunctionMap::const_iterator first = m_FunctionMap.lower_bound(methodName);
-    FunctionMap::const_iterator last = m_FunctionMap.upper_bound(methodName);
-    for(FunctionMap::const_iterator i = first; i != last; ++i)
-      {
-      candidates.push_back(i->second);
-      }
-    
-    // See if any candidates match the given arguments.
-    FunctionBase* method =
-      this->ResolveOverload(argumentTypes, candidates);
-    
-    // Make sure we have a matching candidate.  If not, we do not chain
-    // up the class hierarchy because of name hiding.
-    if(!method)
-      {
-      this->UnknownMethod(methodName, argumentTypes, candidates);
-      return TCL_ERROR;
-      }
-    
-    // Try to call the wrapped method.
-    try
-      {
-      method->Call(objc, objv);
-      }
-    catch (TclException e)
-      {
-      this->ReportErrorMessage(e.GetMessage());
-      return TCL_ERROR;
-      }
-    // We must catch any C++ exception to prevent it from unwinding the
-    // call stack back through the Tcl interpreter's C code.
-    catch (...)
-      {
-      this->ReportErrorMessage("Caught unknown exception!!");
-      return TCL_ERROR;
-      }
+    candidates.push_back(i->second);
     }
-  else
+  
+  // See if any candidates match the given arguments.
+  FunctionBase* method = this->ResolveOverload(argumentTypes, candidates);
+  
+  // Make sure we have a matching candidate.  If not, we do not chain
+  // up the class hierarchy because of name hiding.
+  if(!method)
     {
-    // We don't have a method by this name, try to get a wrapper for
-    // chaining the call up the hierarchy.
-    // MUST BE IMPLEMENTED
-    // For now, just report that the method is not known.
-    this->UnknownMethod(methodName, argumentTypes);
+    this->UnknownMethod(methodName, argumentTypes, candidates);
+    return TCL_ERROR;
+    }
+  
+  // Try to call the wrapped method.
+  try
+    {
+    method->Call(objc, objv);
+    }
+  catch (TclException e)
+    {
+    this->ReportErrorMessage(e.GetMessage());
+    return TCL_ERROR;
+    }
+  // We must catch any C++ exception to prevent it from unwinding the
+  // call stack back through the Tcl interpreter's C code.
+  catch (...)
+    {
+    this->ReportErrorMessage("Caught unknown exception!!");
     return TCL_ERROR;
     }
   return TCL_OK;  

@@ -176,7 +176,8 @@ Wrapper(Tcl_Interp* interp):
 {
   // Setup our superclass's record of the representation of the
   // wrapped type.
-  m_WrappedTypeRepresentation = CvType<WrappedType>::type.GetType();
+  m_WrappedTypeRepresentation =
+    ClassType::SafeDownCast(CvType<WrappedType>::type.GetType());
   
   // Register our method wrappers with the superclass.
   this->RegisterMethodWrappers();

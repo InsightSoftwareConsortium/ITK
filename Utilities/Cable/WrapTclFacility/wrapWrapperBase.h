@@ -100,9 +100,12 @@ protected:
                      const CandidateFunctions& = CandidateFunctions()) const;
   void UnknownInstance(const String& objectName) const;
   void ReportErrorMessage(const String& errorMessage) const;
-  void FreeTemporaries(int objc, Tcl_Obj*CONST objv[]) const;  
-  int ClassWrapperDispatch(ClientData, int, Tcl_Obj* CONST[]) const;
+  void FreeTemporaries(int objc, Tcl_Obj*CONST objv[]) const;
   int ObjectWrapperDispatch(ClientData ,int, Tcl_Obj* CONST[]) const;
+  const WrapperBase* FindMethodWrapper(const String& name) const;
+  bool HasMethod(const String& name) const;
+  int ClassWrapperDispatch(ClientData, int, Tcl_Obj* CONST[]) const;
+  int CallWrappedFunction(int, Tcl_Obj* CONST[]) const;
 
 protected:
   /**
@@ -133,7 +136,7 @@ protected:
   /**
    * The TypeSystem's representation for this wrapped type.
    */
-  const Type*    m_WrappedTypeRepresentation;
+  const ClassType*    m_WrappedTypeRepresentation;
   
   /**
    * Map from method name to method wrapper.  Duplicate names are
