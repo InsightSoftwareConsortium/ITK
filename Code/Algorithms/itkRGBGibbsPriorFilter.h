@@ -152,6 +152,16 @@ public:
 
   itkSetMacro(BoundaryGradient, unsigned int);
 
+  /** set and get the value for Clique weights */
+  itkSetMacro(CliqueWeight_1, double);
+  itkGetMacro(CliqueWeight_1, double);
+  itkSetMacro(CliqueWeight_2, double);
+  itkGetMacro(CliqueWeight_2, double);
+  itkSetMacro(CliqueWeight_3, double);
+  itkGetMacro(CliqueWeight_3, double);
+  itkSetMacro(CliqueWeight_4, double);
+  itkGetMacro(CliqueWeight_4, double);
+
   /** Specify the type of matrix to use. */
   typedef vnl_matrix<double> MatrixType; 
 
@@ -181,8 +191,8 @@ private:
   unsigned int      m_MaximumNumberOfIterations; /** number of the iteration. */
   typename ClassifierType::Pointer m_ClassifierPtr;
   int m_BoundaryGradient; /** the threshold for the existence of a boundary. */
-  float m_BoundaryWeight; /** weight for H_1 */
-  float m_GibbsPriorWeight; /** weight for H_2 */
+  double m_BoundaryWeight; /** weight for H_1 */
+  double m_GibbsPriorWeight; /** weight for H_2 */
   int   m_StartRadius;  /** define the start region of the object. */
   int m_RecursiveNum;     /** number of SA iterations. */
   unsigned int      *m_LabelStatus; /** array for the state of each pixel. */
@@ -203,8 +213,14 @@ private:
   unsigned short    *m_Region;   /** for region erase. */
   unsigned short    *m_RegionCount;  /** for region erase. */
 
+  /** weights for different clique configuration. */
+  double m_CliqueWeight_1;  /** weight for cliques that all pixels are of the same kind */
+  double m_CliqueWeight_2;  /** weight for clique that has a boundary */
+  double m_CliqueWeight_3;  /** for future usage */
+  double m_CliqueWeight_4;  /** for future usage */
+
   void  GibbsTotalEnergy(int i); /** calculate H_2. */
-  float GibbsEnergy(int i, int k, int k1); /** calculate the energy in each cluster. */
+  double GibbsEnergy(int i, int k, int k1); /** calculate the energy in each cluster. */
   int Sim(int a, int b);         /** method to return 1 when a equal to b. */
   int LabelRegion(int i, int l, int change);  /** help to erase the small region. */
   void  RegionEraser();                       /** erase the small region. */
