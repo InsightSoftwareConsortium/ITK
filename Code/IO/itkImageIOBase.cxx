@@ -644,11 +644,11 @@ void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const
 
   if (m_UseCompression)
     {
-    os << indent << "Compression: On" << std::endl;
+    os << indent << "UseCompression: On" << std::endl;
     }
   else
     {
-    os << indent << "Compression: Off" << std::endl;
+    os << indent << "UseCompression: Off" << std::endl;
     }
 
 }

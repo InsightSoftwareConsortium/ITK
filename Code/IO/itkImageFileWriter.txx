@@ -188,7 +188,10 @@ ImageFileWriter<TInputImage>
     }
   m_ImageIO->SetUseCompression(m_UseCompression);
   m_ImageIO->SetIORegion(m_IORegion);
-  m_ImageIO->SetMetaDataDictionary(input->GetMetaDataDictionary());
+  if( m_UseInputMetaDataDictionary )
+    {
+    m_ImageIO->SetMetaDataDictionary(input->GetMetaDataDictionary());
+    }
   // Notify start event observers
   this->InvokeEvent( StartEvent() );
 

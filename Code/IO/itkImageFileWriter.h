@@ -132,8 +132,20 @@ public:
   {this->Write();}
 
   /** Set the compression On or Off */
-  void CompressionOn() {m_UseCompression = true; this->Modified();}
-  void CompressionOff() {m_UseCompression = false; this->Modified();}
+  itkSetMacro(UseCompression,bool);
+  itkGetConstMacro(UseCompression,bool);
+  itkBooleanMacro(UseCompression);
+
+  /** By default the MetaDataDictionary is taken from the input image and 
+   *  passed to the ImageIO. In some cases, however, a user may prefer to 
+   *  introduce her/his own MetaDataDictionary. This is often the case of
+   *  the ImageSeriesWriter. This flag defined whether the MetaDataDictionary 
+   *  to use will be the one from the input image or the one already set in
+   *  the ImageIO object. */
+  itkSetMacro(UseInputMetaDataDictionary,bool);
+  itkGetConstMacro(UseInputMetaDataDictionary,bool);
+  itkBooleanMacro(UseInputMetaDataDictionary);
+
 
 protected:
   ImageFileWriter();
@@ -155,6 +167,7 @@ private:
   ImageIORegion m_IORegion;
   bool m_UserSpecifiedIORegion; //track whether the region is user specified
   bool m_UseCompression;
+  bool m_UseInputMetaDataDictionary; // whether to use the MetaDataDictionary from the input or not.
 };
 
   

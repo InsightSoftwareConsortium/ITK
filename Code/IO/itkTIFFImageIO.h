@@ -106,17 +106,16 @@ public:
     m_Compression = compression;
  
     // This If block isn't strictly necessary:
-    // m_UseCompression = true; would be sufficient.
-    // However, it reads strangely for SetCompression(NoCompression) to
-    // then set m_UseCompression to true.
+    // SetCompression(true); would be sufficient.  However, it reads strangely
+    // for SetCompression(NoCompression) to then set SetCompression(true).
     // Doing it this way is probaly also less likely to break in the future.
     if (compression == NoCompression)
       {
-      m_UseCompression = false;
+      this->SetUseCompression(false); // this is for the ImageIOBase class
       }
     else
       {
-      m_UseCompression = true;
+      this->SetUseCompression(true);  // this is for the ImageIOBase class
       }
     }
 
