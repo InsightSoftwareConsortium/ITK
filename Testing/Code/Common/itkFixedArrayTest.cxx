@@ -44,7 +44,7 @@ void Print_Array5(itk::FixedArray<int, 5> x, std::ostream& os)
      << x[3] << ',' << x[4] << '}' << std::endl;
 }
 
-int itkArrayTest(int, char**)
+int itkFixedArrayTest(int, char**)
 {
   // Test out many combinations of using c-style arrays and FixedArray
   
