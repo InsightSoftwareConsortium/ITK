@@ -121,7 +121,7 @@ int itkMembershipSampleTest(int, char* [] )
     }
 
   // iterator test
-  typedef itk::ImageRegionIterator< ArrayPixelImageType > ImageIterator ;
+  typedef itk::ImageRegionConstIterator< ArrayPixelImageType > ImageIterator ;
   ImageIterator i_iter(sample->GetImage(),
                        sample->GetImage()->GetLargestPossibleRegion()) ;
 
