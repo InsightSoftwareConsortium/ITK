@@ -44,8 +44,12 @@ TARGET_LINK_LIBRARIES(DicomSeriesReadImageWrite ITKCommon ITKIO)
 
 IF(USE_GDCM)
   INCLUDE_DIRECTORIES( ${GDCM_INCLUDE_DIR})
+  
   ADD_EXECUTABLE(DicomSeriesReadImageWrite2 DicomSeriesReadImageWrite2.cxx )
   TARGET_LINK_LIBRARIES(DicomSeriesReadImageWrite2 ITKCommon ITKIO)
+
+  ADD_EXECUTABLE(DicomSeriesReadPrintTags DicomSeriesReadPrintTags.cxx )
+  TARGET_LINK_LIBRARIES(DicomSeriesReadPrintTags ITKCommon ITKIO)
 ENDIF(USE_GDCM)
 
 ADD_EXECUTABLE(DicomPrintPatientInformation DicomPrintPatientInformation.cxx )
