@@ -141,7 +141,8 @@ ImageViewer<TInputImage>
 {
   Superclass::PrintSelf(os,indent);
   os << "ImageViewerWindow: " << m_Window << std::endl;
-  
+  os << "Direction:         " << m_Direction << std::endl;
+  os << "Slice Number:      " << m_SliceNumber << std::endl;
 }
 
 
