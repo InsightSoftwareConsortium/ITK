@@ -78,6 +78,7 @@ IF(ITK_CSWIG_PYTHON)
     DEPENDS ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i)
   SET_TARGET_PROPERTIES( _ITKCommonPython PROPERTIES PREFIX "")
   # link to ITKCommon
+  ADD_DEPENDENCIES(_ITKCommonPython _VXLNumericsPython)
   TARGET_LINK_LIBRARIES(_ITKCommonPython ${PYTHON_LIBRARY} ITKCommon SwigRuntimePython)
 ENDIF(ITK_CSWIG_PYTHON)
 
