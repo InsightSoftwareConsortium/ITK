@@ -89,27 +89,11 @@ public:
   typedef   TAccessor   AccessorType;
 
 
-
-  
-  /** 
-   * Index typedef support. An index is used to access pixel values.
-   */
-  typedef typename TImage::IndexType  IndexType;
-
-  /** 
-   * Size typedef support. A size is used to define region bounds.
-   */
-  typedef typename TImage::SizeType  SizeType;
-
-  /** 
-   * Region typedef support. A region is used to specify a subset of an image.
-   */
-  typedef typename TImage::RegionType  RegionType;
-  
   /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro(ImageAdaptor, ImageBase);
+
 
   /**
    * Method for creation through the object factory.
@@ -140,6 +124,36 @@ public:
    */
   virtual void SetRequestedRegion(const RegionType &region);
 
+  /**
+   * Get the region object that defines the size and starting index
+   * for the region of the image requested (i.e., the region of the
+   * image to be operated on by a filter).
+   * This method overloads the one in ImageBase in order to delegate
+   * to the adapted image.
+   * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
+   */
+  virtual const RegionType & GetRequestedRegion() const;
+
+  /**
+   * Get the region object that defines the size and starting index
+   * for the largest possible region this image could represent.  This
+   * is used in determining how much memory would be needed to load an
+   * entire dataset.  It is also used to determine boundary
+   * conditions.
+   * This method overloads the one in ImageBase in order to delegate
+   * to the adapted image.
+   * \sa ImageRegion, GetBufferedRegion(), GetRequestedRegion()
+   */
+  virtual const RegionType& GetLargestPossibleRegion() const;
+
+  /**
+   * Get the region object that defines the size and starting index
+   * of the region of the image currently loaded in memory. 
+   * This method overloads the one in ImageBase in order to delegate
+   * to the adapted image.
+   * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
+   */
+  virtual const RegionType& GetBufferedRegion() const;
 
   /**
    * Allocate the image memory. Dimension and Size must be set a priori.
@@ -172,12 +186,33 @@ public:
   virtual void SetSpacing( const double values[TImage::ImageDimension] );
   virtual void SetSpacing( const float values[TImage::ImageDimension] );
 
+  /** 
+   * Get the spacing (size of a pixel) of the image. The
+   * spacing is the geometric distance between image samples.
+   * The value returned is a pointer to a double array.
+   * \sa SetSpacing()
+   */
+  virtual const double* GetSpacing() const;
+ 
+  /** 
+   * Get the origin of the image. The origin is the geometric
+   * coordinates of the image origin.  The value returned is
+   * a pointer to a double array.
+   * \sa SetOrigin()
+   */
+  virtual const double * GetOrigin() const;
 
   /** 
    * Set the origin of the image.
    */
   virtual void SetOrigin( const double values[TImage::ImageDimension] );
   virtual void SetOrigin( const float values[TImage::ImageDimension] );
+
+
+  /**
+   * Get the OffsetTable from the adapted image
+   */
+  const unsigned long *GetOffsetTable() const;
 
 
   /** 

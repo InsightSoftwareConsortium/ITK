@@ -70,6 +70,29 @@ ImageAdaptor<TImage , TAccessor>
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
+const unsigned long * 
+ImageAdaptor<TImage , TAccessor>
+::GetOffsetTable( void ) const
+{
+  return m_Image->GetOffsetTable();
+}
+
+
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+const double * 
+ImageAdaptor<TImage , TAccessor>
+::GetSpacing( void ) const
+{
+  return m_Image->GetSpacing();
+
+}
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
 void 
 ImageAdaptor<TImage , TAccessor>
 ::SetSpacing(const double spacing[TImage::ImageDimension] )
@@ -120,6 +143,16 @@ ImageAdaptor<TImage , TAccessor>
 
   // delegation to internal image
   m_Image->SetOrigin( origin );
+}
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+const double * 
+ImageAdaptor<TImage , TAccessor>
+::GetOrigin( void ) const
+{
+  return m_Image->GetOrigin();
 }
 
 
@@ -193,6 +226,11 @@ ImageAdaptor<TImage , TAccessor>
 {
   m_Image = image;
   m_Image->Register();
+  Superclass::SetLargestPossibleRegion( m_Image->GetLargestPossibleRegion() );
+  Superclass::SetBufferedRegion( m_Image->GetBufferedRegion() );
+  Superclass::SetRequestedRegion( m_Image->GetRequestedRegion() );
+  Superclass::SetOrigin( m_Image->GetOrigin() );
+  Superclass::SetSpacing( m_Image->GetSpacing() );
 }
 
 
@@ -253,6 +291,18 @@ ImageAdaptor<TImage , TAccessor>
 }
 
 
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+const ImageAdaptor<TImage, TAccessor>::RegionType &
+ImageAdaptor<TImage , TAccessor>
+::GetBufferedRegion( void ) const
+{
+  // delegation to internal image
+  return m_Image->GetBufferedRegion();
+}
+
+
+
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -268,6 +318,17 @@ ImageAdaptor<TImage , TAccessor>
 }
 
 
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+const ImageAdaptor<TImage, TAccessor>::RegionType &
+ImageAdaptor<TImage , TAccessor>
+::GetLargestPossibleRegion( void ) const
+{
+  // delegation to internal image
+  return m_Image->GetLargestPossibleRegion();
+}
+
+
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -280,6 +341,17 @@ ImageAdaptor<TImage , TAccessor>
 
   // delegation to internal image
   m_Image->SetRequestedRegion( region );
+}
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+const ImageAdaptor<TImage, TAccessor>::RegionType &
+ImageAdaptor<TImage , TAccessor>
+::GetRequestedRegion( void ) const
+{
+  // delegation to internal image
+  return m_Image->GetRequestedRegion();
 }
 
 
