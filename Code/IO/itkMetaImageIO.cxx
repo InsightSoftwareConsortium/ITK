@@ -365,6 +365,14 @@ MetaImageIO
     eSpacing[i] = this->GetSpacing(i);
     eOrigin[i] = this->GetOrigin(i);
     } 
+  ImageIORegion::IndexType index = this->GetIORegion().GetIndex();
+  for(i=0; i<nDims; i++)
+    {
+    if(index[i] != 0)
+      {
+      eOrigin[i] = eOrigin[i] + eSpacing[i] * index[i];
+      }
+    }
 
   m_MetaImage.InitializeEssential(nDims, dSize, eSpacing, eType, nChannels,
       (void *)buffer);
