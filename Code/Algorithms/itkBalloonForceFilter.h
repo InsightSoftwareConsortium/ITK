@@ -25,6 +25,7 @@
 #include "itkTriangleCell.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
+#include <itkCovariantVector.h>
 
 namespace itk
 {
@@ -33,7 +34,8 @@ namespace itk
  * \brief 
  *
  * BalloonForceFilter is used to apply balloon force and the potential
- * force onto the 2D or 3D deformable model.
+ * force onto the 2D deformable model. For 3D (multi-slices) segmentation
+ * please use BalloonForce3DFilter
  * The balloon force is vertical to the surface of the model. The potential 
  * force is given out by the estimated boundary points. These two will meet 
  * a balance at the boundary, thus the deformable model will fit to the 
@@ -93,37 +95,38 @@ public:
       OutputPointsContainerIterator;
 
   /** Image types. */
-  typedef Image<unsigned short, 3>            ImageType;
+  typedef Image<unsigned short, 2>            ImageType;
+  typedef CovariantVector<double, 2>           GradientType;
+  typedef Image<GradientType, 2>              GradientImageType;
   typedef typename InputMeshType::Pointer     InputMeshPointer;
   typedef typename OutputMeshType::Pointer    OutputMeshPointer;
   typedef typename ImageType::Pointer         ImagePointer;
   typedef typename ImageType::IndexType       IndexType;
+  typedef typename GradientImageType::Pointer         GradientImagePointer;
+  typedef typename GradientImageType::IndexType       GradientIndexType;
   typedef ImageRegionIterator<ImageType>      ImageIterator;
   typedef Vector<float, 3>                    FloatVector;
   typedef Vector<int, 3>                      IntVector;
+  typedef Vector<double, 2>                   Double2Vector;
+  typedef Vector<int, 2>                      Int2Vector;
 
   /** Cell related types. */
   typedef typename InputMeshType::CellType    CellType;
   typedef typename InputMeshType::CellTraits  CellTraits;
-  typedef CellInterface<float, CellTraits>    CellInterface;
+  typedef CellInterface<double, CellTraits>   CellInterface;
   typedef TriangleCell< CellInterface >       TriCell;
-  typedef typename InputMeshType::PointType   IPT;
-  typedef typename InputMeshType::PixelType   PT;
+  typedef typename InputMeshType::PointType   IPixelType;
+  typedef typename InputMeshType::PixelType   PixelType;
 
   /** Some functions. */
   void ComputeForce();
   void Initialize();
   void SetStiffnessMatrix();
   void Advance();             // update data for next iteration
-  void SetStiffness(double a, double b);
-  void SetResolution(int a, int b, int c);
-  void SetCenter(int a, int b, int c);
   void Reset();               // reset all data
   void ComputeDt();             // compute point positions
   void ComputeOutput();
-  void SetPotential(ImagePointer potential);
-  void SetGradient(ImagePointer gradient);
-  void NodeAddition(int i, int res, IPT z); // (folowing 3) for adding new nodes, now disabled for further tests
+  void NodeAddition(int i, int res, IPixelType z); // (folowing 3) for adding new nodes, now disabled for further tests
   void NodesRearrange();
   void GapSearch();       
   void GradientFit();           // fit the model with gradient information
@@ -133,17 +136,19 @@ public:
   /** Set the output image. */
   itkSetMacro(ImageOutput, ImagePointer);
   itkGetMacro(ImageOutput, ImagePointer);
-
-  /** Set the initial slice in the image. */
-  itkSetMacro(FirstSlice, int);
-  itkGetMacro(FirstSlice, int);
+  itkSetMacro(Gradient, GradientImagePointer);
 
   /** Set/Get information for the algorithm. */
   itkSetMacro(NeighborRadius, int);
-  itkSetMacro(StepThreshold1, int);
-  itkSetMacro(StepThreshold2, int);
-  itkGetMacro(Resolution, int*);
+  itkSetMacro(Stiffness, Double2Vector);
+  itkSetMacro(TimeStep, double);
+  itkSetMacro(GradientBegin, int);
+  itkSetMacro(Resolution, int);
+  itkSetMacro(Center, IndexType);
   itkGetMacro(Normals, InputMeshPointer);
+  itkSetMacro(DistanceForGradient, float);
+  itkSetMacro(DistanceToStop, float);
+  itkSetMacro(Potential, ImagePointer);
 
 protected:
   BalloonForceFilter();
@@ -171,14 +176,14 @@ private:
   vnl_matrix_fixed<double, 4, 4> CStiffness;
   vnl_matrix_fixed<double, 4, 4> **K;
   
-  double  m_Stiffness[2];
-  double  TimeStep;       // the time step of each iteration
-  int   m_Resolution[3];
+  Double2Vector  m_Stiffness;
+  double  m_TimeStep;       // the time step of each iteration
+  int   m_Resolution;
   IndexType m_Center;
   float   m_MiniT;        // variabel help to stop the model when near potential estimation
   int   m_Step;         // the number of iteration 
-  int   m_NumNodes;
-  int   m_NumCells;
+  int   m_NumberOfNodes;
+  int   m_NumberOfCells;
   int   m_NumNewNodes;      // for adding new nodes, now disabled for further tests
   int   *m_GapLocations;
   float   **m_NewNodes;
@@ -193,19 +198,22 @@ private:
   int   m_ModelYDownLimit;
   int   **m_ACD;        // help to remove the weird structure on the model surface
   int   m_ModelRestart;
-  int   m_StepThreshold1;   // the threshold decide when to transfer from potential fit to gradient fit
-  int   m_StepThreshold2;   // the threshold decide when to stop the model
-  int   m_FirstSlice;     // variable help to relocate the model when try to load 
+  int   m_GradientBegin;
+  Int2Vector   m_StepThreshold;   // the threshold decide when to transfer from potential fit to gradient fit
+                           // and the threshold decide when to stop the model
   int   m_NeighborRadius;   // the gradient fit range
+  float m_DistanceToBoundary;
+  float m_DistanceToStop;
+  float m_DistanceForGradient;
 
-  ImagePointer    m_Potential;  // for calculate of image force from potential
-  ImagePointer    m_Gradient;   // for calculate of image force from gradient
+  ImagePointer            m_Potential;  // for calculate of image force from potential
+  GradientImagePointer    m_Gradient;   // for calculate of image force from gradient
 
   // for Gibbs Prior Model parameters' recalculation 
   ImagePointer    m_ImageOutput; 
   unsigned short  m_ObjectLabel;
 
-  typedef ImageType::SizeType PotentialSizeType;
+  typedef ImageType::SizeType ImageSizeType;
   
 };
 
