@@ -24,7 +24,8 @@ namespace _cable_
   {
     ITK_WRAP_GROUP(itkRandomImageSource),
     ITK_WRAP_GROUP(itkRecursiveSeparableImageFilter),
-    ITK_WRAP_GROUP(itkRecursiveGaussianImageFilter)
+    ITK_WRAP_GROUP(itkRecursiveGaussianImageFilter),
+    ITK_WRAP_GROUP(itkRescaleIntensityImageFilter)
   };
 }
 #endif
