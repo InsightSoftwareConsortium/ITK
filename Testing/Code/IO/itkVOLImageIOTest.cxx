@@ -45,35 +45,36 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 int main(int ac, char** av)
 {
 
-  if(ac < 2){
-		std::cerr << "Usage: " << av[0] << " Image\n";
-		return 1;
-	}
-	
+  if(ac < 2)
+    {
+    std::cerr << "Usage: " << av[0] << " Image\n";
+    return 1;
+    }
+
   // Register at least one factory capable of producing 
   // VOL image file readers
   itk::VOLImageIOFactory::RegisterOneFactory();
 
   typedef unsigned char PixelType;
-	typedef itk::Image<PixelType, 4> myImage;
+  typedef itk::Image<PixelType, 4> myImage;
   itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
-//	reader->DebugOn(); 
+  //reader->DebugOn(); 
   reader->SetFileName(av[1]); 
-	try
-	{
-		reader->Update();
-	}
-	catch (itk::ImageFileReaderException& e)
-  {
+  try
+    {
+    reader->Update();
+    }
+  catch (itk::ImageFileReaderException& e)
+    {
     std::cout << "exception in file reader \n"  << e.GetDescription();
-		return EXIT_FAILURE;
-  }
+    return EXIT_FAILURE;
+    }
 
-	myImage::Pointer image = reader->GetOutput();
+  myImage::Pointer image = reader->GetOutput();
   image->Print(std::cout);
   PixelType * data = image->GetPixelContainer()->GetBufferPointer();
   myImage::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region;
 
-	return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }
