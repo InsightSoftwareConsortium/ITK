@@ -305,9 +305,8 @@ WrapperBase::Argument WrapperBase::GetObjectArgument(Tcl_Obj* obj) const
       else
         {
         // Can't identify the object type.  We will have to assume char*.
-        // When the conversion function dereferences its pointer, it must
-        // get a pointer to char, not a char.
-        argument.SetToPointer(Tcl_GetStringFromObj(obj, NULL), CvPredefinedType<char*>::type); 
+        argument.SetToPointer(Tcl_GetStringFromObj(obj, NULL),
+                              CvPredefinedType<char*>::type);
         }
       }
     }
@@ -1098,6 +1097,210 @@ WrapperBase::FunctionBase::ParameterTypes::const_iterator
 WrapperBase::FunctionBase::ParametersEnd() const
 {
   return m_ParameterTypes.end();
+}
+
+
+/**
+ * The constructor passes the function name and pararmeter types down to
+ * the FunctionBase.
+ */
+WrapperBase::Constructor::Constructor(WrapperBase* wrapper,
+                                      ConstructorWrapper constructorWrapper,
+                                      const String& name,
+                                      const ParameterTypes& parameterTypes):
+  FunctionBase(name, parameterTypes),
+  m_Wrapper(wrapper),
+  m_ConstructorWrapper(constructorWrapper)
+{
+}
+
+
+/**
+ * Get a string representation of the constructor's function prototype.
+ */
+String WrapperBase::Constructor::GetPrototype() const
+{
+  String prototype = m_Wrapper->GetWrappedTypeRepresentation()->Name() + "::" + m_Name + "(";
+  ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
+  while(arg != m_ParameterTypes.end())
+    {
+    prototype += (*arg)->Name();
+    if(++arg != m_ParameterTypes.end())
+      { prototype += ", "; }
+    }
+  prototype += ")";
+  
+  return prototype;
+}
+
+
+/**
+ * Invokes a wrapped constructor.  This actually extracts the C++ objects
+ * from the Tcl objects given as arguments and calls the constructor wrapper.
+ *
+ * If construction succeeds, this also adds the object to the Wrapper's
+ * instance table.
+ */
+void WrapperBase::Constructor::Call(int objc, Tcl_Obj*CONST objv[]) const
+{
+  // Prepare the list of arguments for the method wrapper to convert and pass
+  // to the real method.
+  Arguments arguments;
+  for(int i=2; i < objc; ++i)
+    {
+    arguments.push_back(m_Wrapper->GetObjectArgument(objv[i]));
+    }
+  
+  // Call the constructor wrapper.
+  void* object = m_ConstructorWrapper(m_Wrapper,arguments);
+  
+  // TODO: Make sure object != NULL
+  
+  // Get the name of the instance.
+  char* instanceName = Tcl_GetStringFromObj(objv[1], NULL);
+  
+  // Insert the object into the instance table.
+  m_Wrapper->AddInstance(instanceName, object);
+}
+
+
+/**
+ * The constructor passes the function name and pararmeter types down to
+ * the FunctionBase.  It then adds the implicit object parameter to the
+ * front of the parameter list.
+ */
+WrapperBase::Method::Method(WrapperBase* wrapper,
+                            MethodWrapper methodWrapper,
+                            const String& name,
+                            bool isConst,
+                            const CvQualifiedType& returnType,
+                            const ParameterTypes& parameterTypes):
+  FunctionBase(name, parameterTypes),
+  m_Wrapper(wrapper),
+  m_MethodWrapper(methodWrapper),
+  m_ReturnType(returnType)
+{
+  // Add the implicit object parameter to the front of the parameter list.
+  CvQualifiedType wrappedType = wrapper->GetWrappedTypeRepresentation()
+    ->GetCvQualifiedType(isConst, false);
+  const Type* implicit = TypeInfo::GetReferenceType(wrappedType).GetType();
+  m_ParameterTypes.insert(m_ParameterTypes.begin(), implicit);
+}
+
+
+/**
+ * Get a string representation of the method's function prototype.
+ */
+String WrapperBase::Method::GetPrototype() const
+{
+  String prototype = m_ReturnType.GetName() + " ";
+  ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
+  CvQualifiedType implicit = ReferenceType::SafeDownCast(*arg++)->GetReferencedType();
+  prototype += m_Wrapper->GetWrappedTypeRepresentation()->Name() + "::" + m_Name + "(";
+  while(arg != m_ParameterTypes.end())
+    {
+    prototype += (*arg)->Name();
+    if(++arg != m_ParameterTypes.end())
+      { prototype += ", "; }
+    }
+  prototype += ")";
+  
+  if(implicit.IsConst())
+    {
+    prototype += " const";
+    }
+  
+  return prototype;
+}
+
+
+/**
+ * Invokes a wrapped method.  This actually extracts the C++ objects
+ * from the Tcl objects given as arguments and calls the method wrapper.
+ */
+void WrapperBase::Method::Call(int objc, Tcl_Obj*CONST objv[]) const
+{
+  // Prepare the implicit object argument for the method wrapper to use
+  // to call the real method.
+  Argument implicit = m_Wrapper->GetObjectArgument(objv[0]);
+  
+  // Prepare the list of arguments for the method wrapper to convert and pass
+  // to the real method.
+  Arguments arguments;
+  for(int i=2; i < objc; ++i)
+    {
+    arguments.push_back(m_Wrapper->GetObjectArgument(objv[i]));
+    }
+  
+  // Call the method wrapper.
+  m_MethodWrapper(m_Wrapper, implicit, arguments);
+}
+
+
+/**
+ * The constructor passes the function name and pararmeter types down to
+ * the FunctionBase.  It then adds the implicit object parameter to the
+ * front of the parameter list.  This implicit object parameter for
+ * a static method wrapper is of a special type that matches any object.
+ */
+WrapperBase
+::StaticMethod::StaticMethod(WrapperBase* wrapper,
+                             StaticMethodWrapper staticMethodWrapper,
+                             const String& name,
+                             const CvQualifiedType& returnType,
+                             const ParameterTypes& parameterTypes):
+  FunctionBase(name, parameterTypes),
+  m_Wrapper(wrapper),
+  m_StaticMethodWrapper(staticMethodWrapper),
+  m_ReturnType(returnType)
+{
+  // Add the implicit object parameter to the front of the parameter list.
+  const Type* implicit = TypeInfo::GetFundamentalType(FundamentalType::Void, false, false).GetType();
+  m_ParameterTypes.insert(m_ParameterTypes.begin(), implicit);
+}
+
+
+/**
+ * Get a string representation of the static method's function prototype.
+ */
+String
+WrapperBase
+::StaticMethod::GetPrototype() const
+{
+  String prototype = m_ReturnType.GetName() + " ";
+  ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
+  ++arg; // Skip past implicit object parameter.
+  prototype += m_Wrapper->GetWrappedTypeRepresentation()->Name() + "::" + m_Name + "(";
+  while(arg != m_ParameterTypes.end())
+    {
+    prototype += (*arg)->Name();
+    if(++arg != m_ParameterTypes.end())
+      { prototype += ", "; }
+    }
+  prototype += ")";
+  
+  return prototype;
+}
+
+
+/**
+ * Invokes a wrapped static method.  This actually extracts the C++ objects
+ * from the Tcl objects given as arguments and calls the static method wrapper.
+ */
+void
+WrapperBase
+::StaticMethod::Call(int objc, Tcl_Obj*CONST objv[]) const
+{
+  // Prepare the list of arguments for the method wrapper to convert and pass
+  // to the real method.
+  Arguments arguments;
+  for(int i=2; i < objc; ++i)
+    {
+    arguments.push_back(m_Wrapper->GetObjectArgument(objv[i]));
+    }
+  
+  // Call the static method wrapper.
+  m_StaticMethodWrapper(m_Wrapper, arguments);
 }
 
 

@@ -55,6 +55,8 @@ public:
   String CreateTemporary(void* object, const CvQualifiedType&) const;
   
   class Argument;
+  typedef std::vector<Argument> Arguments;
+  
   CvQualifiedType GetObjectType(Tcl_Obj* obj) const;
   Argument GetObjectArgument(Tcl_Obj* obj) const;
   ConversionFunction GetConversionFunction(const CvQualifiedType& from,
@@ -64,7 +66,7 @@ public:
    * The type of a wrapper function for a Tcl interpreter call-back.
    */
   typedef int (*WrapperFunction)(ClientData, Tcl_Interp*, int, Tcl_Obj* CONST[]);
-  
+
   /**
    * Get the wrapper function for a Tcl interpreter call-back for commands
    * referencing the name of the wrapped type.
@@ -147,7 +149,7 @@ protected:
   /**
    * The method dispatch function needs to know about all possible methods.
    * This is defined here, but must be filled in by calls from a subclass
-   * to AddMethod.
+   * to AddFunction.
    */
   FunctionMap m_FunctionMap;
   
@@ -156,6 +158,26 @@ protected:
    * template arguments or namespace qualification.
    */
   String m_ConstructorName;
+  
+protected:
+  /**
+   *
+   */
+  typedef void* (*ConstructorWrapper)(const WrapperBase*, const Arguments&);
+  
+  /**
+   *
+   */
+  typedef void (*MethodWrapper)(const WrapperBase*, const Argument&, const Arguments&);
+  
+  /**
+   *
+   */
+  typedef void (*StaticMethodWrapper)(const WrapperBase*, const Arguments&);
+  
+  class Constructor;
+  class Method;
+  class StaticMethod;
 };
 
 
@@ -220,9 +242,7 @@ private:
 
 
 /**
- * Base class for all method wrappers.  A subclass of WrapperBase can
- * define a subclass of this to define a method wrapper corresponding
- * to the type it wraps.
+ * Base class for all method wrappers.
  */
 class _wrap_EXPORT WrapperBase::FunctionBase
 {
@@ -243,7 +263,7 @@ public:
    * method wrapper has been selected.  It must be defined by
    * a subclass to actually call a wrapped method.
    */
-  virtual void Call(int objc, Tcl_Obj* CONST objv[]) const =0;
+  virtual void Call(int objc, Tcl_Obj*CONST objv[]) const =0;
 protected:
   /**
    * The name of the method.
@@ -257,6 +277,76 @@ protected:
   ParameterTypes m_ParameterTypes;
 };
 
+
+/**
+ * The subclass of WrapperBase::FunctionBase which is used for constructor
+ * wrappers.
+ */
+class _wrap_EXPORT WrapperBase::Constructor: public WrapperBase::FunctionBase
+{
+public:
+  // Pull a typedef out of the superclass.
+  typedef FunctionBase::ParameterTypes ParameterTypes;
+  
+  Constructor(WrapperBase* wrapper,
+              ConstructorWrapper constructorWrapper,
+              const String& name,
+              const ParameterTypes& parameterTypes = ParameterTypes());
+  virtual String GetPrototype() const;
+  virtual void Call(int objc, Tcl_Obj*CONST objv[]) const;
+private:
+  const WrapperBase* m_Wrapper;
+  ConstructorWrapper m_ConstructorWrapper;
+};
+
+  
+/**
+ * The subclass of WrapperBase::FunctionBase which is used for method
+ * wrappers.
+ */
+class WrapperBase::Method: public WrapperBase::FunctionBase
+{
+public:
+  // Pull a typedef out of the superclass.
+  typedef FunctionBase::ParameterTypes ParameterTypes;
+  
+  Method(WrapperBase* wrapper,
+         MethodWrapper methodWrapper,
+         const String& name,
+         bool isConst,
+         const CvQualifiedType& returnType,
+         const ParameterTypes& parameterTypes = ParameterTypes());
+  virtual String GetPrototype() const;
+  virtual void Call(int objc, Tcl_Obj*CONST objv[]) const;
+private:
+  const WrapperBase* m_Wrapper;
+  MethodWrapper m_MethodWrapper;
+  CvQualifiedType m_ReturnType;
+};
+
+
+/**
+ * The subclass of WrapperBase::FunctionBase which is used for static
+ * method wrappers.
+ */
+class WrapperBase::StaticMethod: public WrapperBase::FunctionBase
+{
+public:
+  // Pull a typedef out of the superclass.
+  typedef FunctionBase::ParameterTypes ParameterTypes;
+  
+  StaticMethod(WrapperBase* wrapper,
+               StaticMethodWrapper staticMethodWrapper,
+               const String& name,
+               const CvQualifiedType& returnType,
+               const ParameterTypes& parameterTypes = ParameterTypes());
+  virtual String GetPrototype() const;
+  virtual void Call(int objc, Tcl_Obj*CONST objv[]) const;
+private:
+  const WrapperBase* m_Wrapper;
+  StaticMethodWrapper m_StaticMethodWrapper;
+  CvQualifiedType m_ReturnType;
+};
 
 } // namespace _wrap_
 
