@@ -114,6 +114,9 @@ void CvTypeGenerator::Add(const cxx::CvQualifiedType& cvType)
         this->Add(type->GetCvQualifiedType(false, false));
         }
       break;
+    case cxx::EnumerationType_id:
+      // An EnumerationType has no "inner" types.  Terminate recursion.
+      break;
     case cxx::FunctionType_id:
       this->AddFunctionTypes(cxx::FunctionType::SafeDownCast(type));
       break;
@@ -193,6 +196,13 @@ CvTypeGenerator
       os << "  CvType< " << cvType.GetName().c_str()
          << " >::type = TypeInfo::GetClassType(\""
          << cxx::ClassType::SafeDownCast(type)->GetName().c_str()
+         << "\", " << (cvType.IsConst()? "true":"false")
+         << ", " << (cvType.IsVolatile()? "true":"false") << ");\n";
+      break;
+    case cxx::EnumerationType_id:
+      os << "  CvType< " << cvType.GetName().c_str()
+         << " >::type = TypeInfo::GetEnumerationType(\""
+         << cxx::EnumerationType::SafeDownCast(type)->GetName().c_str()
          << "\", " << (cvType.IsConst()? "true":"false")
          << ", " << (cvType.IsVolatile()? "true":"false") << ");\n";
       break;
