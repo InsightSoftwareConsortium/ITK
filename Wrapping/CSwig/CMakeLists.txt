@@ -115,6 +115,10 @@ FIND_PROGRAM(CABLE_INDEX
   /usr/bin 
   /usr/local/bin
 )
+SET(CSWIG_EXTRA_LINKFLAGS )
+IF(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
+  SET(CSWIG_EXTRA_LINKFLAGS "/IGNORE:4049")
+ENDIF(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
 
 SET(IGNORE_WARNINGS -w362 -w389 -w503 -w508 -w509)
 # define macros for wrapping commands

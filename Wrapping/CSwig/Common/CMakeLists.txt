@@ -59,6 +59,7 @@ IF(ITK_CSWIG_TCL)
   # add the library
   SET_SOURCE_FILES_PROPERTIES(SwigExtras_wrapTcl.cxx GENERATED)
   ADD_LIBRARY(ITKCommonTcl SHARED ${WRAP_TCL_SOURCES} itkStringStream.cxx itkTclCommand.cxx SwigExtras_wrapTcl.cxx)
+  SET_TARGET_PROPERTIES(ITKCommonTcl PROPERTIES LINK_FLAGS "${CSWIG_EXTRA_LINKFLAGS}")
   ADD_CUSTOM_COMMAND(
     COMMENT "run native swig on SwigExtras.i"
     SOURCE ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i
