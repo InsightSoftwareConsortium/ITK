@@ -154,6 +154,7 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
     {
     std::cerr << "Exception thrown by writer" << std::endl;
     std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
     }
   
   return EXIT_SUCCESS;
