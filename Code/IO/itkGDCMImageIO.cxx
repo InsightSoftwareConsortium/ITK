@@ -19,7 +19,7 @@
 =========================================================================*/
 #include "itkGDCMImageIO.h"
 #include "gdcmFile.h"
-#include "gdcmHeaderHelper.h"
+#include "gdcmHeader.h"
 #include <fstream>
 
 namespace itk
@@ -209,7 +209,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     itkExceptionMacro(<< "Cannot read requested file");
     }
 
-  gdcmHeaderHelper GdcmHeader(m_FileName.c_str());
+  gdcmHeader GdcmHeader(m_FileName.c_str());
 
   // We don't need to positionate the Endian related stuff (by using
   // this->SetDataByteOrderToBigEndian() or SetDataByteOrderToLittleEndian()

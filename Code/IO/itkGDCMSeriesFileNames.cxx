@@ -30,15 +30,15 @@ namespace itk
 const std::vector<std::string> &GDCMSeriesFileNames::GetInputFileNames() 
 {
   // Get the DICOM filenames from the directory
-  gdcmSerieHeaderHelper *helper = new gdcmSerieHeaderHelper();
+  gdcmSerieHeader *helper = new gdcmSerieHeader();
   helper->SetDirectory( m_InputDirectory.c_str() );
   helper->OrderGdcmFileList();
   //We assume that there is only one study / one serie
 
-  std::list<gdcmHeaderHelper*> flist = helper->GetGdcmFileList();
+  std::list<gdcmHeader*> flist = helper->GetGdcmFileList();
   if( flist.size() )
     {
-    for(std::list<gdcmHeaderHelper*>::iterator it = flist.begin(); 
+    for(std::list<gdcmHeader*>::iterator it = flist.begin(); 
         it != flist.end(); ++it )
       {
       m_InputFileNames.push_back( (*it)->GetFileName() );
