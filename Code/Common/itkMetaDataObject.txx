@@ -17,6 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef _itkMetaDataObject_txx
+#define _itkMetaDataObject_txx
 #include "itkMetaDataObject.h"
 
 template<class MetaDataObjectType>
@@ -89,3 +91,4 @@ itk::MetaDataObject<MetaDataObjectType>
 {
   itk::MetaDataObject<MetaDataObjectType>::Superclass::PrintSelf(os,indent);
 }
+#endif
