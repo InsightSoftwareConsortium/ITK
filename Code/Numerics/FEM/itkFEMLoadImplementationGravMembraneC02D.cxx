@@ -100,12 +100,12 @@ LoadGravImplementationMembraneC02D
   LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*load);
   if ( !l0 ) throw;
   // for gravity loads
-  vnl_vector<Float> pt(4), f(2,0.0);
+  vnl_vector<Float> pt(4,0.0), f(2,0.0);
   // Computes point at which gravity load acts on 
   // and also gives the current displacement
-/*  pt[0] = (element->m_node[0]->X + element->m_node[1]->X + element->m_node[2]->X + element->m_node[3]->X)/4;
+  pt[0] = (element->m_node[0]->X + element->m_node[1]->X + element->m_node[2]->X + element->m_node[3]->X)/4;
   pt[1] = (element->m_node[0]->Y + element->m_node[1]->Y + element->m_node[2]->Y + element->m_node[3]->Y)/4;
-  pt[2] = ( Node::solution[element->GetDegreeOfFreedom(0)] + 
+/*  pt[2] = ( Node::solution[element->GetDegreeOfFreedom(0)] + 
             Node::solution[element->GetDegreeOfFreedom(1)] +
             Node::solution[element->GetDegreeOfFreedom(2)] +
             Node::solution[element->GetDegreeOfFreedom(3)] ) / 4;
@@ -113,8 +113,9 @@ LoadGravImplementationMembraneC02D
             Node::solution[element->GetDegreeOfFreedom(1)] +
             Node::solution[element->GetDegreeOfFreedom(2)] +
             Node::solution[element->GetDegreeOfFreedom(3)] ) / 4;
-  f=l0->Fg(pt);    
 */
+  f=l0->Fg(pt);    
+
   return GravityLoad(f , element);
  
 }
