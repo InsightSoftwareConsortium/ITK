@@ -105,3 +105,17 @@ ENDIF (USE_BUILT_VTK)
 IF (USE_BUILT_VTK AND USE_INSTALLED_VTK)
   MESSAGE ("Warning. Please make sure that only ONE of the USE_INSTALLED_VTK or USE_BUILT_VTK setting is set to ON.")
 ENDIF (USE_BUILT_VTK AND USE_INSTALLED_VTK)
+
+
+IF(USE_VTK_FILE)
+  # Verify if VTK was built using ansi. 
+  # This is required in order to be compatible with ITK
+  IF(VTK_USE_ANSI_STDLIB)
+    SET(HAS_VTK 1 CACHE INTERNAL "VTK Headers and Libraries are available")
+  ELSE( VTK_USE_ANSI_STDLIB )
+    MESSAGE ("Warning. Your VTK was not built with the VTK_USE_ANSI_STDLIB option ON. Please reconfigure and recompile VTK with this option before trying to use it with ITK.")
+  ENDIF( VTK_USE_ANSI_STDLIB )
+ENDIF(USE_VTK_FILE)
+
+
+
