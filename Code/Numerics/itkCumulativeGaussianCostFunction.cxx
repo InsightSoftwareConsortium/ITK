@@ -35,6 +35,7 @@ CumulativeGaussianCostFunction
 ::~CumulativeGaussianCostFunction()
 {
   delete m_OriginalDataArray;
+  delete m_MeasurePointer;
 }
 
 void
@@ -155,7 +156,7 @@ CumulativeGaussianCostFunction::MeasureType *
 CumulativeGaussianCostFunction
 ::GetValue( ParametersType & parameters )
 {  
-  MeasureType * m_MeasurePointer = new MeasureType();
+  m_MeasurePointer = new MeasureType();
   m_MeasurePointer->resize(m_RangeDimension);
 
   for(unsigned int i = 0; i < m_RangeDimension; i++)
