@@ -714,8 +714,8 @@ int main( int argc, char *argv[] )
   //  
   // \begin{figure}
   // \center
-  // \includegraphics[height=6cm]{ImageRegistration1TraceTranslations.eps}
-  // \includegraphics[height=6cm]{ImageRegistration1TraceMetric.eps}
+  // \includegraphics[height=0.44\textwidth]{ImageRegistration1TraceTranslations.eps}
+  // \includegraphics[height=0.44\textwidth]{ImageRegistration1TraceMetric.eps}
   // \caption[Trace of translations and metrics during registration]{Sequence
   // of translations and metric values at each iteration of the optimizer.}
   // \label{fig:ImageRegistration1Trace}
