@@ -465,7 +465,8 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   /* first voxel  */
   for(unsigned int i = 0;i<VectorDimension;i++)
     {
-      temp[i] = vnl_math_abs(value1[i]-m_ObjectMeans[object][i]);
+    temp[i] = static_cast< unsigned short>( 
+        vnl_math_abs(value1[i]-m_ObjectMeans[object][i]) );
     }
   for(unsigned int i = 0;i<VectorDimension;i++)
     {
@@ -486,7 +487,8 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   /* second voxel */
   for(int i = 0;i<static_cast<int>(VectorDimension);i++)
     {
-      temp[i] = vnl_math_abs(value2[i] - m_ObjectMeans[object][i]);
+    temp[i] = static_cast< unsigned short >( 
+        vnl_math_abs(value2[i] - m_ObjectMeans[object][i]) );
     }
   for(int i = 0;i<static_cast<int>(VectorDimension);i++)
     {
@@ -559,7 +561,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
                   index1[i]--;
 
                   tt2 = FuzzyAffinity(value1,value2,object);
-                  temp_affinity[i] = MAX_AFFINITY * tt2;
+                  temp_affinity[i] = static_cast<unsigned short>( MAX_AFFINITY * tt2 );
                 }
               else
                 {temp_affinity = zero_affinity;}
