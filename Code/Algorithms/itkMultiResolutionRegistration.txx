@@ -162,7 +162,7 @@ MultiResolutionRegistration<TRegistrationMethod>
     {
     
     // invoke an iteration event    
-    InvokeEvent( Command::IterationEvent );
+    this->InvokeEvent( IterationEvent() );
 
     this->OneLevelPreRegistration( m_CurrentLevel );
     this->OneLevelRegistration( m_CurrentLevel );
