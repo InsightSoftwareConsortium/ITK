@@ -44,6 +44,9 @@ public:
     m_Process->AddObserver(itk::EndEvent(), endFilterCommand);
     m_Process->AddObserver(itk::ProgressEvent(), progressFilterCommand);
     }
+
+  virtual ~FilterWatcher() {}
+
   virtual void ShowProgress()
     {
     std::cout << " | " << m_Process->GetProgress();
