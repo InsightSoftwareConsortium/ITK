@@ -737,16 +737,14 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
 
   int predictor;
 
-  std::ofstream* file;
-
 #ifdef _WIN32
-  file = new std::ofstream(fileName.c_str(), std::ios::out | std::ios::binary);
+  std::ofstream file(fileName.c_str(), std::ios::out | std::ios::binary);
 #else
-  file = new std::ofstream(fileName.c_str(), std::ios::out);
+  std::ofstream file(fileName.c_str(), std::ios::out);
 #endif
 
   TIFF* tif = TIFFClientOpen(fileName.c_str(), "w",
-    (thandle_t) file,
+    (thandle_t) static_cast<std::ostream*>(&file),
     reinterpret_cast<TIFFReadWriteProc>(TIFFWriterIO::TIFFRead), 
     reinterpret_cast<TIFFReadWriteProc>(TIFFWriterIO::TIFFWrite),
     reinterpret_cast<TIFFSeekProc>(TIFFWriterIO::TIFFSeek),
@@ -758,7 +756,6 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
 
   if ( !tif )
     {
-    delete file;
     return;
     }
 
@@ -872,8 +869,6 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
     }
 
   TIFFClose(tif);
-  file->close();
-  delete file;
 }
 
 
