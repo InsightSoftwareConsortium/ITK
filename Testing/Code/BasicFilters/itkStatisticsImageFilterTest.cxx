@@ -21,6 +21,7 @@
 
 #include "itkStatisticsImageFilter.h"
 #include "itkRandomImageSource.h"
+#include "itkFilterWatcher.h"
 
 int main()
 {
@@ -46,6 +47,8 @@ int main()
   typedef itk::StatisticsImageFilter<FloatImage> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
+  FilterWatcher filterWatch(filter);
+  
   filter->SetInput (image);
   filter->UpdateLargestPossibleRegion();
 
@@ -69,8 +72,6 @@ int main()
     std::cerr << "GetVariance failed! Got " << filter->GetVariance() << " but expected " << 0.0 << std::endl;
     status++;
     }
-  std::cout << "Filter: " << filter;
-
 
 
   // Now generate a real image
@@ -96,8 +97,6 @@ int main()
     {
     std::cerr << "GetSigma failed! Got " << filter->GetSigma() << " but expected " << expectedSigma << std::endl;
     }
-
-  std::cout << "Filter: " << filter;
 
   return status;
 }

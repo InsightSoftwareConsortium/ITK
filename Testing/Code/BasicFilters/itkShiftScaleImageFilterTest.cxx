@@ -21,24 +21,8 @@
 
 #include "itkShiftScaleImageFilter.h"
 #include "itkRandomImageSource.h"
-#include "itkCommand.h"
 
-// The following three classes are used to support callbacks
-// on the filter in the pipeline that follows later
-class WatchFilter
-{
-public:
-  WatchFilter(itk::ProcessObject* o)
-    {m_Process = o;}
-  void ShowProgress()
-    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
-  void StartFilter()
-    {std::cout << "-------- Start Filter " << m_Process->GetNameOfClass() << m_Process;}
-  void EndFilter()
-    {std::cout << "-------- End Filter " << m_Process->GetNameOfClass() << m_Process;}
-  itk::ProcessObject::Pointer m_Process;
-};
-
+#include "itkFilterWatcher.h"
 int main()
 {
   std::cout << "itkShiftScaleImageFilterTest Start" << std::endl;
@@ -65,24 +49,7 @@ int main()
   FilterType::Pointer filter = FilterType::New();
 
   // Set up Start, End and Progress callbacks
-  itk::SimpleMemberCommand<WatchFilter>::Pointer startFilterCommand;
-  itk::SimpleMemberCommand<WatchFilter>::Pointer endFilterCommand;
-  itk::SimpleMemberCommand<WatchFilter>::Pointer progressFilterCommand;
-  
-  startFilterCommand =    itk::SimpleMemberCommand<WatchFilter>::New();
-  endFilterCommand =      itk::SimpleMemberCommand<WatchFilter>::New();
-  progressFilterCommand = itk::SimpleMemberCommand<WatchFilter>::New();
-
-  WatchFilter filterWatch(filter);
-  startFilterCommand->SetCallbackFunction(&filterWatch,
-                                    &WatchFilter::StartFilter);
-  endFilterCommand->SetCallbackFunction(&filterWatch,
-                                  &WatchFilter::EndFilter);
-  progressFilterCommand->SetCallbackFunction(&filterWatch,
-                                       &WatchFilter::ShowProgress);
-  filter->AddObserver(itk::StartEvent(), startFilterCommand);
-  filter->AddObserver(itk::EndEvent(), endFilterCommand);
-  filter->AddObserver(itk::ProgressEvent(), progressFilterCommand);
+  FilterWatcher filterWatch(filter);
 
   // Filter the image
   filter->SetInput (inputImage);
@@ -94,28 +61,10 @@ int main()
   SourceType::Pointer source = SourceType::New();
   unsigned long randomSize[3] = {17, 8, 20};
 
-#if 0
   // Set up Start, End and Progress callbacks
-  itk::SimpleMemberCommand<WatchFilter>::Pointer startSourceCommand;
-  itk::SimpleMemberCommand<WatchFilter>::Pointer endSourceCommand;
-  itk::SimpleMemberCommand<WatchFilter>::Pointer progressSourceCommand;
-  
-  startSourceCommand =    itk::SimpleMemberCommand<WatchFilter>::New();
-  endSourceCommand =      itk::SimpleMemberCommand<WatchFilter>::New();
-  progressSourceCommand = itk::SimpleMemberCommand<WatchFilter>::New();
+  FilterWatcher sourceWatch(source);
 
-  WatchFilter sourceWatch(source);
-  startSourceCommand->SetCallbackFunction(&sourceWatch,
-                                    &WatchFilter::StartFilter);
-  endSourceCommand->SetCallbackFunction(&sourceWatch,
-                                  &WatchFilter::EndFilter);
-  progressSourceCommand->SetCallbackFunction(&sourceWatch,
-                                       &WatchFilter::ShowProgress);
-  source->AddObserver(itk::StartEvent(), startSourceCommand);
-  source->AddObserver(itk::EndEvent(), endSourceCommand);
-  source->AddObserver(itk::ProgressEvent(), progressSourceCommand);
-#endif
-  
+  // Set up source
   source->SetSize(randomSize);
   double minValue = -128.0;
   double maxValue = 127.0;
