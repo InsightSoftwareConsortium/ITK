@@ -28,7 +28,8 @@ template <class TScalarType>
 VersorRigid3DTransform<TScalarType>
 ::VersorRigid3DTransform()
 {
-
+  m_Versor.SetIdentity();
+  this->ComputeMatrix();
 }
 
 // Copy Constructor
@@ -37,6 +38,8 @@ VersorRigid3DTransform<TScalarType>
 ::VersorRigid3DTransform( const Self & other )
 {
   // call the superclass copy constructor
+  m_Versor = other.m_Versor;
+  this->ComputeMatrix();
 }
 
 // Set Parameters
@@ -74,7 +77,7 @@ VersorRigid3DTransform<TScalarType>
   
   this->SetOffset( offset );
 
-  ComputeMatrix();
+  this->ComputeMatrix();
 
   itkDebugMacro(<<"After setting paramaters ");
 }
@@ -87,7 +90,7 @@ VersorRigid3DTransform<TScalarType>
 ::SetRotation( const VersorType & versor )
 {
     m_Versor = versor;
-    ComputeMatrix();
+    this->ComputeMatrix();
 }
 
 
@@ -99,7 +102,7 @@ VersorRigid3DTransform<TScalarType>
 ::SetRotation( const AxisType & axis, AngleType  angle )
 {
     m_Versor.Set( axis, angle );
-    ComputeMatrix();
+    this->ComputeMatrix();
 }
 
 

@@ -74,6 +74,10 @@ int itkVersorRigid3DTransformTest(int, char**)
   typedef    TransformType::ParametersType      ParametersType;
 
 
+  //  Rotation Matrix type
+  typedef    TransformType::MatrixType           MatrixType;
+
+  
   {
     std::cout << "Test default constructor... ";
     
@@ -104,6 +108,15 @@ int itkVersorRigid3DTransformTest(int, char**)
       } 
     std::cout << " PASSED !" << std::endl;
 
+  }
+
+
+  {
+    std::cout << "Test initial rotation matrix " << std::endl;
+    TransformType::Pointer transform = TransformType::New();
+    MatrixType matrix = transform->GetRotationMatrix();
+    std::cout << "Matrix = " << std::endl;
+    std::cout <<    matrix   << std::endl;
   }
 
 

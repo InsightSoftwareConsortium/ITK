@@ -57,6 +57,9 @@ public:
   /** Parameters type. */
   typedef typename Superclass::ParametersType  ParametersType;
 
+  /** Matrix type. */
+  typedef typename Superclass::MatrixType      MatrixType;
+
   /** Jacobian type. */
   typedef typename Superclass::JacobianType  JacobianType;
 

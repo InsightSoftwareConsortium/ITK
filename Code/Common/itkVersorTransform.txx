@@ -28,7 +28,8 @@ template <class TScalarType>
 VersorTransform<TScalarType>
 ::VersorTransform()
 {
-
+  m_Versor.SetIdentity();
+  this->ComputeMatrix();
 }
 
 // Copy Constructor
@@ -36,6 +37,7 @@ template <class TScalarType>
 VersorTransform<TScalarType>
 ::VersorTransform( const Self & other ):Superclass( other )
 {
+  this->ComputeMatrix();
 }
 
 
@@ -61,7 +63,7 @@ VersorTransform<TScalarType>
 
   itkDebugMacro( <<"Versor is now " << m_Versor );
   
-  ComputeMatrix();
+  this->ComputeMatrix();
 
   itkDebugMacro(<<"After setting paramaters ");
 }
@@ -74,7 +76,7 @@ VersorTransform<TScalarType>
 ::SetRotation( const VersorType & versor )
 {
     m_Versor = versor;
-    ComputeMatrix();
+    this->ComputeMatrix();
 }
 
 
@@ -86,7 +88,7 @@ VersorTransform<TScalarType>
 ::SetRotation( const AxisType & axis, AngleType  angle )
 {
     m_Versor.Set( axis, angle );
-    ComputeMatrix();
+    this->ComputeMatrix();
 }
 
 
