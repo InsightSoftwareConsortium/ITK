@@ -22,4 +22,6 @@ itkExtractMeshConnectedRegionsTest \
 itkMutualInformationTest \
 itkFastMarchingTest \
 itkLevelSetShapeDetectionTest \
-itkGeodesicActiveContoursTest
+itkGeodesicActiveContoursTest \
+itkCurvatureFlowTest
+
