@@ -2,6 +2,7 @@
 #  Examples on the use of Iterators.
 #
 PROJECT(IteratorExamples)
+INCLUDE_REGULAR_EXPRESSION("^.*$")
 
 ADD_EXECUTABLE(ImageRegionIterator ImageRegionIterator.cxx)
 TARGET_LINK_LIBRARIES(ImageRegionIterator ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
