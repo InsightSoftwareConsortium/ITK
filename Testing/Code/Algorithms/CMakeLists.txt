@@ -25,6 +25,7 @@ itkInterpolateTest
 itkLevelSetShapeDetectionTest
 itkMRFLabellerTest
 itkMutualInformationTest
+itkNewTest
 itkRegionGrow2DTest
 itkRegistrationImageToImageAffine
 itkRegistrationModelToImage

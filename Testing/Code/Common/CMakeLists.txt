@@ -11,7 +11,6 @@ itkIteratorTests
 itkMeshInstanceTest
 itkMeshTest
 itkNeighborhoodOperatorTest
-itkNewTest
 itkPixelAccessTest
 itkPointGeometryTest
 itkScalarTest
