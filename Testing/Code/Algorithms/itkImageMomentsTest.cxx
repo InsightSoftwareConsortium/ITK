@@ -157,23 +157,22 @@ main( int argc, char *argv[] )
 
     /* Compute transforms between principal and physical axes */
     /* FIXME: Automatically check correctness of these results? */
-    AffineTransformType
+    AffineTransformType::Pointer
         pa2p = moments.GetPrincipalAxesToPhysicalAxesTransform();
     std::cout << "\nPrincipal axes to physical axes transform:\n";
-    std::cout << pa2p.GetMatrix() << std::endl;
-    AffineTransformType
+    std::cout << pa2p->GetMatrix() << std::endl;
+    AffineTransformType::Pointer
         p2pa = moments.GetPhysicalAxesToPrincipalAxesTransform();
     std::cout << "\nPhysical axes to principal axes transform:\n";
-    std::cout << p2pa.GetMatrix() << std::endl;
+    std::cout << p2pa->GetMatrix() << std::endl;
 
     /* Do some error checking on the transforms */
-    double dist = pa2p.Metric(pa2p);
+    double dist = pa2p->Metric( pa2p );
     std::cout << "Distance from self to self = " << dist << std::endl;
-    AffineTransformType
-        p2pa2p;
-    p2pa2p.Compose(p2pa);
-    p2pa2p.Compose(pa2p);
-    double trerr = p2pa2p.Metric();
+    AffineTransformType::Pointer p2pa2p = AffineTransformType::New();
+    p2pa2p->Compose( p2pa );
+    p2pa2p->Compose( pa2p );
+    double trerr = p2pa2p->Metric();
     std::cout << "Distance from composition to identity = ";
     std::cout << trerr << std::endl;
 

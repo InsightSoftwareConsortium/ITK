@@ -110,6 +110,10 @@ public:
     /// Standard affine transform type for this class
     typedef AffineTransform<ScalarType, ImageDimension> AffineTransformType;
 
+    /// Standard affine transform type for this class
+    typedef AffineTransformType::Pointer AffineTransformPointer;
+
+
     /**
      * Compute moments of a new or modified image.
      *
@@ -204,7 +208,7 @@ public:
      * the principal axes coordinate system to physical coordinates.
      *
      */
-    AffineTransformType GetPrincipalAxesToPhysicalAxesTransform(void) const;
+    AffineTransformPointer GetPrincipalAxesToPhysicalAxesTransform(void) const;
 
     /**
      * Get the affine transform from physical axes to principal axes
@@ -214,7 +218,7 @@ public:
      * system.
      *
      */
-    AffineTransformType GetPhysicalAxesToPrincipalAxesTransform(void) const;
+    AffineTransformPointer GetPhysicalAxesToPrincipalAxesTransform(void) const;
 
     /** 
      * Construct an ImageMomentsCalculator object.

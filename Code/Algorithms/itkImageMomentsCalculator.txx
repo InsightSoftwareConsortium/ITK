@@ -62,7 +62,8 @@ ImageMomentsCalculator<TImage>::
 ComputeMoments( ImageType * image )
 {
 
-  AffineTransformType indexToPhysical = image->GetIndexToPhysicalTransform();
+  AffineTransformPointer indexToPhysical 
+          = image->GetIndexToPhysicalTransform();
 
   m_m0 = 0.0;
   m_m1.Fill( 0.0 );
@@ -99,7 +100,7 @@ ComputeMoments( ImageType * image )
       }
     }
 
-    physicalPosition = indexToPhysical.TransformPoint( indexPosition );
+    physicalPosition = indexToPhysical->TransformPoint( indexPosition );
       
     for(unsigned int i=0; i<ImageDimension; i++)
     {
@@ -256,12 +257,12 @@ GetPrincipalAxes()
 //--------------------------------------------------------------------
 // Get principal axes to physical axes transform
 template<class TImage>
-ImageMomentsCalculator<TImage>::AffineTransformType
+ImageMomentsCalculator<TImage>::AffineTransformPointer
 ImageMomentsCalculator<TImage>::
 GetPrincipalAxesToPhysicalAxesTransform(void) const
 {
     AffineTransformType::MatrixType matrix;
-    AffineTransformType::VectorType offset;
+    AffineTransformType::OffsetType offset;
     for (unsigned int i = 0; i < ImageDimension; i++) 
     {
       offset[i]  = m_cg [i];
@@ -271,9 +272,10 @@ GetPrincipalAxesToPhysicalAxesTransform(void) const
       }
     }
 
-    AffineTransformType result(matrix, offset);
-    result.SetMatrix(matrix);
-    result.SetOffset(offset);
+    AffineTransformPointer result = AffineTransformType::New();
+    
+    result->SetMatrix(matrix);
+    result->SetOffset(offset);
 
     return result;
 }
@@ -283,12 +285,12 @@ GetPrincipalAxesToPhysicalAxesTransform(void) const
 // Get physical axes to principal axes transform
 
 template<class TImage>
-ImageMomentsCalculator<TImage>::AffineTransformType
+ImageMomentsCalculator<TImage>::AffineTransformPointer
 ImageMomentsCalculator<TImage>::
 GetPhysicalAxesToPrincipalAxesTransform(void) const
 {
     AffineTransformType::MatrixType matrix;
-    AffineTransformType::VectorType offset;
+    AffineTransformType::OffsetType offset;
     for (unsigned int i = 0; i < ImageDimension; i++) 
     {
       offset[i]    = m_cg [i];
@@ -298,11 +300,11 @@ GetPhysicalAxesToPrincipalAxesTransform(void) const
       }
     }
 
-    AffineTransformType result(matrix, offset);
-    result.SetMatrix(matrix);
-    result.SetOffset(offset);
+    AffineTransformPointer result = AffineTransformType::New();
+    result->SetMatrix(matrix);
+    result->SetOffset(offset);
 
-    return result.Inverse();
+    return result->Inverse();
 }
 
 //--------------------------------------------------------------------
