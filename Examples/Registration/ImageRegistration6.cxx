@@ -477,6 +477,43 @@ int main( int argc, char **argv )
   //     36.9848  -1.22857
   //  \end{verbatim}
   //
+  //  This output illustrates how counter intuitive could be the mix of center
+  //  of rotation and translations. Figure
+  //  \ref{fig:TranslationAndRotationCenter} will clarify this situation. The
+  //  figures shows at left an original image. A rotation of $10\deg$ around
+  //  the center of the image is shown in the middle. The same rotation
+  //  performed around the origin of coordinates is shown at right. It can be
+  //  seen here that changing the center of rotation introduced additional
+  //  translations.
+  //
+  //  Let's analyze what happens to the center of the image that we just
+  //  registered. Under the point of view of rotating $10\deg$ around the
+  //  center and then applying a translation of $(13mm,17mm)$. The image has a
+  //  size of $(221x257)$ pixels and unit spacing. Hence its center has
+  //  coordinates $(110.5,128.5)$. Since the rotation is done around this
+  //  point, the center behaves as the fixed point of the transformation and
+  //  passed unchanged. Then with the  $(13mm,17mm)$ translation it is mapped
+  //  to $(123.5,145.5)$ which becomes its final position.
+  //
+  //  The matrix and offset that we obtained at the end of the registration say
+  //  that this should be equivalent to a rotation of $10\deg$ around the
+  //  origin, followed by a translations of $(36.98,-1.22)$. Let's compute this
+  //  in detail. First the rotation of the image center by $10\deg$ around the
+  //  origin will move the point to $(86.52,147.97)$. Now, applying a
+  //  translation of $(36.98,-1.22)$ maps this point to $(123.5,146.75)$. Which
+  //  is pretty close to the result of our previous computation.
+  //
+  //  It is unlikely that we could have choosen such tranlation as an initial
+  //  guess, since we tend to think about image in a coordinate system whose
+  //  origin is in the center of the image.
+  // 
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=15cm]{TranslationAndRotationCenter.eps}
+  // \caption{Effect of changing the center of rotation.}
+  // \label{fig:TranslationAndRotationCenter}
+  // \end{figure}
+  //
   //  Software Guide : EndLatex 
 
 
@@ -488,7 +525,7 @@ int main( int argc, char **argv )
   //  instead of a $3$-dimensional one. The answer is that by using 5
   //  parameters we have a much simpler way of initializing the transform with
   //  an appropriate rotation matrix and offset. Using the minimum three
-  //  parameters is not obvious to find what the rotation and translations
+  //  parameters is not obvious how to find what the rotation and translations
   //  should be.
   //
   //  Software Guide : EndLatex 
@@ -536,7 +573,11 @@ int main( int argc, char **argv )
   //  output parameters of the registration process. The metric values at every
   //  iteration are shown on the top. The angle values are shown in the plot at
   //  left while the translation components of the registration are presented
-  //  in the plot at right.
+  //  in the plot at right. Note that this is the complementary translation as
+  //  used in the transform, not the atctual total translation that gets used
+  //  in the offset of the transform. We could modify the Observer in order to
+  //  print the total offset instead of printing the array of parameters. Let's
+  //  call that an exercise for the reader !.
   //
   //  Software Guide : EndLatex 
 
