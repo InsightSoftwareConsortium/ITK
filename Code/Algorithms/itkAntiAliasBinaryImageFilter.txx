@@ -28,10 +28,8 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "m_MaximumRMSError = "  << m_MaximumRMSError  << std::endl;
   os << indent << "m_UpperBinaryValue = " << m_UpperBinaryValue << std::endl;
   os << indent << "m_LowerBinaryValue = " << m_LowerBinaryValue << std::endl;
-  os << indent << "m_MaximumIterations = " << m_MaximumIterations << std::endl;
 }
 
 
@@ -66,10 +64,10 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
     this->SetNumberOfLayers(3);
     }
     
-  m_MaximumRMSError = 0.07;
+  this->SetMaximumRMSError(0.07);
   m_UpperBinaryValue = NumericTraits<BinaryValueType>::One;
   m_LowerBinaryValue = - NumericTraits<BinaryValueType>::One;
-  m_MaximumIterations = 1000;
+  this->SetNumberOfIterations(1000);
 }
 
 

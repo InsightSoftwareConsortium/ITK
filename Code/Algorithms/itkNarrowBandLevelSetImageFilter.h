@@ -89,11 +89,11 @@ namespace itk {
  * The MaximumRMSChange parameter is used to determine when the solution has
  * converged.  A lower value will result in a tighter-fitting solution, but
  * will require more computations.  Too low a value could put the solver into
- * an infinite loop unless a reasonable MaximumIterations parameter is set.
+ * an infinite loop unless a reasonable NumberOfIterations parameter is set.
  * Values should always be greater than 0.0 and less than 1.0.
  *
  * \par
- * The MaximumIterations parameter can be used to halt the solution after a
+ * The NumberOfIterations parameter can be used to halt the solution after a
  * specified number of iterations, overriding the MaximumRMSChange halting
  * criteria.
  *
@@ -170,16 +170,6 @@ public:
     
   /** Run-time type information (and related methods). */
   itkTypeMacro(NarrowBandLevelSetImageFilter, NarrowBandImageFilterBase);
-
-  /** Set/Get the maximum RMS error allowed for the solution.  The solver will
-   *  halt once this threshold has been reached. */
-  itkSetMacro(MaximumRMSError, ValueType);
-  itkGetMacro(MaximumRMSError, ValueType);
-
-  /** Set/Get the maximum number of iterations allowed for the solver.  This
-   *  prevents infinite loops if a solution "bounces". */
-  itkSetMacro(MaximumIterations, unsigned int);
-  itkGetMacro(MaximumIterations, unsigned int); 
 
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */
@@ -323,6 +313,24 @@ public:
   virtual void SetSegmentationFunction(SegmentationFunctionType *s);
   virtual SegmentationFunctionType *GetSegmentationFunction()
   { return m_SegmentationFunction; }
+
+ /** Set/Get the maximum number of iterations allowed for the solver.  This
+   *  prevents infinite loops if a solution "bounces". */
+  void SetMaximumIterations (unsigned int i)
+  {
+    itkWarningMacro("SetMaximumIterations is deprecated.  Please use SetNumberOfIterations instead.");
+    this->SetNumberOfIterations(i);
+  }
+  unsigned int GetMaximumIterations()
+  {
+    itkWarningMacro("GetMaximumIterations is deprecated. Please use GetNumberOfIterations instead.");
+    return this->GetNumberOfIterations();
+  }
+
+  void SetMaximumRMSError(double)
+  {
+    itkWarningMacro("The current implmentation of this solver does not compute maximum RMS change. The maximum RMS error value will not be set or used.");
+  }
   
 protected:
   virtual ~NarrowBandLevelSetImageFilter() {}
@@ -338,7 +346,7 @@ protected:
     Superclass::InitializeIteration();
     // Estimate the progress of the filter
     this->SetProgress( (float) ((float)this->GetElapsedIterations()
-                                / (float)this->GetMaximumIterations()) );
+                                / (float)this->GetNumberOfIterations()) );
   }
   
   /** Tells the solver how to reinitialize the narrowband when the reinitialization
@@ -349,10 +357,6 @@ protected:
   /** Overridden from ProcessObject to set certain values before starting the
    * finite difference solver and then create an appropriate output */
   void GenerateData();
-
-  /** Tells the solver when the solution has converged within the specified
-   * parameters. */
-  bool Halt();
 
   /** Flag which sets the inward/outward direction of propagation speed. See
       SetReverseExpansionDirection for more information. */
@@ -369,9 +373,7 @@ protected:
   typename ChamferFilterType::Pointer m_ChamferFilter;
 
 private:
-  unsigned int m_MaximumIterations;
   SegmentationFunctionType *m_SegmentationFunction;
-  ValueType m_MaximumRMSError;
 };
 
 } // end namespace itk

@@ -312,11 +312,6 @@ public:
   itkSetMacro(IsoSurfaceValue, ValueType);
   itkGetMacro(IsoSurfaceValue, ValueType);
 
-  /** Get the RMS change calculated in the PREVIOUS iteration.  This value is
-   *  the square root of the average square of the change value of all pixels
-   *  updated during the previous iteration. */
-  itkGetMacro(RMSChange, ValueType);
-
 protected:
   ParallelSparseFieldLevelSetImageFilter();
   ~ParallelSparseFieldLevelSetImageFilter() {}
@@ -390,7 +385,7 @@ protected:
   /** The RMS change calculated from each update.  Can be used by a subclass to
    *  determine halting criteria.  Valid only for the previous iteration, not
    *  during the current iteration.  Calculated in ApplyUpdate. */
-  ValueType m_RMSChange;
+  //  ValueType m_RMSChange;
   
   /** Reimplement the GenerateData() function from FiniteDifferenceImageFilter
    *  for more effective multithreading */

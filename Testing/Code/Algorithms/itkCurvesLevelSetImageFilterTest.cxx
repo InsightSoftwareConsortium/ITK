@@ -154,7 +154,7 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
 
   // set the convergence criteria
   curvesFilter->SetMaximumRMSError( 0.03 );
-  curvesFilter->SetMaximumIterations( 200 );
+  curvesFilter->SetNumberOfIterations( 200 );
 
   /**
    * Threshold the output level set to display the final contour.
@@ -181,7 +181,7 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
   overlap->Update();
   
   /** Printout useful information from the shape detection filter. */
-  std::cout << "Max. no. iterations: " << curvesFilter->GetMaximumIterations() << std::endl;
+  std::cout << "Max. no. iterations: " << curvesFilter->GetNumberOfIterations() << std::endl;
   std::cout << "Max. RMS error: " << curvesFilter->GetMaximumRMSError() << std::endl;
   std::cout << "No. elpased iterations: " << curvesFilter->GetElapsedIterations() << std::endl;
   std::cout << "RMS change: " << curvesFilter->GetRMSChange() << std::endl;

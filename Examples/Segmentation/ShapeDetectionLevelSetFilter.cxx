@@ -622,15 +622,15 @@ int main( int argc, char *argv[] )
   //  segmented.
   //
   //  \index{itk::Shape\-Detection\-Level\-Set\-Image\-Filter!SetMaximumRMSError()}
-  //  \index{itk::Shape\-Detection\-Level\-Set\-Image\-Filter!SetMaximumIterations()}
+  //  \index{itk::Shape\-Detection\-Level\-Set\-Image\-Filter!SetNumberOfIterations()}
   //  \index{itk::Segmentation\-Level\-Set\-Image\-Filter!SetMaximumRMSError()}
-  //  \index{itk::Segmentation\-Level\-Set\-Image\-Filter!SetMaximumIterations()}
+  //  \index{itk::Segmentation\-Level\-Set\-Image\-Filter!SetNumberOfIterations()}
   //
   //  Software Guide : EndLatex 
 
   //  Software Guide : BeginCodeSnippet
   shapeDetection->SetMaximumRMSError( 0.02 );
-  shapeDetection->SetMaximumIterations( 800 );
+  shapeDetection->SetNumberOfIterations( 800 );
   //  Software Guide : EndCodeSnippet 
 
   

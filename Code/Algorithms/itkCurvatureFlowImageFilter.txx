@@ -31,7 +31,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 ::CurvatureFlowImageFilter()
 {
 
-  m_NumberOfIterations = 0;
+  this->SetNumberOfIterations(0);
   m_TimeStep   = 0.05f;
 
   typename CurvatureFlowFunctionType::Pointer cffp;
@@ -52,7 +52,6 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Number of Iterations: " << m_NumberOfIterations;
   os << std::endl;
   os << indent << "Time step: " << m_TimeStep;
   os << std::endl;
@@ -84,10 +83,10 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
   this->Superclass::InitializeIteration();           
 
   // progress feedback
-  if ( m_NumberOfIterations != 0 )
+  if ( this->GetNumberOfIterations() != 0 )
     {
     this->UpdateProgress(((float)(this->GetElapsedIterations()))
-                         /((float)(m_NumberOfIterations)));
+                         /((float)(this->GetNumberOfIterations())));
     }
   
 }
@@ -151,7 +150,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 
   for( unsigned int j = 0; j < ImageDimension; j++ )
     {
-    radius[j] *= m_NumberOfIterations;
+    radius[j] *= this->GetNumberOfIterations();
     }
 
   /*

@@ -28,8 +28,6 @@ NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOut
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "m_MaximumRMSError = "     << m_MaximumRMSError     << std::endl;
-  os << indent << "m_MaximumIterations = "   << m_MaximumIterations   << std::endl;
   os << indent << "m_ReverseExpansionDirection = " << m_ReverseExpansionDirection << std::endl;
   os << indent << "m_SegmentationFunction = " << m_SegmentationFunction << std::endl;
 }
@@ -48,8 +46,8 @@ NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOut
   
   // Provide some reasonable defaults which will at least prevent infinite
   // looping.
-  m_MaximumRMSError   = 0.02;
-  m_MaximumIterations = 1000;
+  this->SetMaximumRMSError(0.02);
+  this->SetNumberOfIterations(1000);
   m_ReverseExpansionDirection = false;
 }
 
@@ -105,19 +103,6 @@ NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOut
     {
     this->GetSegmentationFunction()->ReverseExpansionDirection();
     }  
-}
-
-template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
-bool
-NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
-::Halt()
-{
-  if (this->GetElapsedIterations() >= m_MaximumIterations)
-    {      return true;    }
-  else if ( this->GetElapsedIterations() == 0)
-    { return false; }
-  else
-    { return false; }
 }
 
 template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>

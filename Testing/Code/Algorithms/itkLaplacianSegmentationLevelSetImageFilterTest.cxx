@@ -185,7 +185,7 @@ int itkLaplacianSegmentationLevelSetImageFilterTest(int, char * [] )
   filter->SetFeatureImage(inputImage);
 
   filter->SetMaximumRMSError(0.02);
-  filter->SetMaximumIterations(10);
+  filter->SetNumberOfIterations(10);
   //    filter->SetUseNegativeFeaturesOn(); // Change the default behavior of the speed
                                       // function so that negative values result in
                                       // surface growth.
@@ -199,7 +199,7 @@ int itkLaplacianSegmentationLevelSetImageFilterTest(int, char * [] )
     filter->Update();
     std::cout << "Done first trial" << std::endl;
     // Repeat to make sure that the filter is reinitialized properly
-        filter->SetMaximumIterations(5);
+        filter->SetNumberOfIterations(5);
         filter->Update();
         std::cout << "Done second trial" << std::endl;
     

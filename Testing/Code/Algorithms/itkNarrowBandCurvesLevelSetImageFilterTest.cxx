@@ -153,8 +153,7 @@ int itkNarrowBandCurvesLevelSetImageFilterTest(int, char* [] )
   curvesFilter->SetAdvectionScaling( 0.5 );
 
   // set the convergence criteria
-  curvesFilter->SetMaximumRMSError( 0.03 );
-  curvesFilter->SetMaximumIterations( 50 );
+  curvesFilter->SetNumberOfIterations( 50 );
   
   curvesFilter->SetNumberOfThreads(2);
 
@@ -183,7 +182,7 @@ int itkNarrowBandCurvesLevelSetImageFilterTest(int, char* [] )
   overlap->Update();
   
   /** Printout useful information from the shape detection filter. */
-  std::cout << "Max. no. iterations: " << curvesFilter->GetMaximumIterations() << std::endl;
+  std::cout << "Max. no. iterations: " << curvesFilter->GetNumberOfIterations() << std::endl;
   std::cout << "No. elpased iterations: " << curvesFilter->GetElapsedIterations() << std::endl;
   std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
 

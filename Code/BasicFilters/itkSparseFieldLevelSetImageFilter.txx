@@ -131,7 +131,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   m_NumberOfLayers = 1;
   m_LayerNodeStore = LayerNodeStorageType::New();
   m_LayerNodeStore->SetGrowthStrategyToExponential();
-  m_RMSChange = m_ValueZero;
+  this->SetRMSChange(static_cast<double>(m_ValueZero));
   m_InterpolateSurfaceLocation = true;
   m_BoundsCheckingActive = false;
 }
@@ -477,10 +477,10 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   
   // Determine the average change during this iteration.
   if (counter == 0)
-    { m_RMSChange = m_ValueZero; }
+    { this->SetRMSChange(static_cast<double>(m_ValueZero)); }
   else
     {
-    m_RMSChange = vcl_sqrt(rms_change_accumulator / static_cast<ValueType>(counter));
+    this->SetRMSChange(static_cast<double>( vcl_sqrt(rms_change_accumulator / static_cast<ValueType>(counter)) ) );
     }
 }
 

@@ -92,11 +92,11 @@ namespace itk {
  * The MaximumRMSChange parameter is used to determine when the solution has
  * converged.  A lower value will result in a tighter-fitting solution, but
  * will require more computations.  Too low a value could put the solver into
- * an infinite loop unless a reasonable MaximumIterations parameter is set.
+ * an infinite loop unless a reasonable NumberOfIterations parameter is set.
  * Values should always be greater than 0.0 and less than 1.0.
  *
  * \par
- * The MaximumIterations parameter can be used to halt the solution after a
+ * The NumberOfIterations parameter can be used to halt the solution after a
  * specified number of iterations, overriding the MaximumRMSChange halting
  * criteria.
  *
@@ -174,15 +174,18 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SegmentationLevelSetImageFilter, SparseFieldLevelSetImageFilter);
 
-  /** Set/Get the maximum RMS error allowed for the solution.  The solver will
-   *  halt once this threshold has been reached. */
-  itkSetMacro(MaximumRMSError, ValueType);
-  itkGetMacro(MaximumRMSError, ValueType);
-
   /** Set/Get the maximum number of iterations allowed for the solver.  This
    *  prevents infinite loops if a solution "bounces". */
-  itkSetMacro(MaximumIterations, unsigned int);
-  itkGetMacro(MaximumIterations, unsigned int); 
+  void SetMaximumIterations (unsigned int i)
+  {
+    itkWarningMacro("SetMaximumIterations is deprecated.  Please use SetNumberOfIterations instead.");
+    this->SetNumberOfIterations(i);
+  }
+  unsigned int GetMaximumIterations()
+  {
+    itkWarningMacro("GetMaximumIterations is deprecated. Please use GetNumberOfIterations instead.");
+    return this->GetNumberOfIterations();
+  }
 
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */
@@ -200,10 +203,26 @@ public:
   {
     this->SetInput(f);
   }
-  
+
+  /** This function is for advanced applications.  Set the image sampled as the
+   * speed term of this segmentation method.  In  general, the speed image is 
+   * generated automatically by a subclass of this filter. */
+  void SetSpeedImage( typename SegmentationFunctionType::ImageType *s)
+  {  m_SegmentationFunction->SetSpeedImage( s ); }
+
+  /** This function is for advanced applications.  Set the image sampled as the
+   * advection term of this segmentation method.  In general, the advection image
+   * is generated automatically by a subclass of this filter. */
+  void SetAdvectionImage( typename SegmentationFunctionType::VectorImageType *v)
+  { m_SegmentationFunction->SetAdvectionImage( v ); }
+
+  /** Return a pointer to the image sampled as the speed term of the
+   * segmentation algorithm. */
   virtual const typename SegmentationFunctionType::ImageType *GetSpeedImage() const
   { return m_SegmentationFunction->GetSpeedImage(); }
 
+  /** Return a pointer to the image sampled as the advection term of the
+   * segmentation algorithm. */
   virtual const typename SegmentationFunctionType::VectorImageType *GetAdvectionImage() const
   { return m_SegmentationFunction->GetAdvectionImage(); }
 
@@ -221,7 +240,7 @@ public:
     this->ReverseExpansionDirectionOff();
   }
 
-  /** Set/Get the value of the UseNegativeFeatures flag.  This method is
+  /** THIS METHOD IS DEPRECATED AND SHOULD NOT BE USED. Set/Get the value of the UseNegativeFeatures flag.  This method is
    * deprecated.  Use Set/Get ReverseExpansionDirection instead.*/
   void SetUseNegativeFeatures( bool u )
   {
@@ -259,6 +278,15 @@ public:
   itkSetMacro(ReverseExpansionDirection, bool);
   itkGetMacro(ReverseExpansionDirection, bool);
   itkBooleanMacro(ReverseExpansionDirection);
+
+  /** Turn On/Off automatic generation of Speed and Advection terms when Update
+      is called.  If set to Off, the Speed and Advection images must be set
+      explicitly using SetSpeedImage, SetAdvectionImage OR the methods
+      GenerateSpeedImage() and GenerateAdvectionImage() should be called prior
+      to updating the filter. */
+  itkSetMacro(AutoGenerateSpeedAdvection, bool);
+  itkGetMacro(AutoGenerateSpeedAdvection, bool);
+  itkBooleanMacro(AutoGenerateSpeedAdvection);
   
   /** Combined scaling of the propagation and advection speed
       terms. You should use either this -or- Get/SetPropagationScaling and
@@ -354,9 +382,9 @@ public:
 
   
   /** Set/Get the maximum constraint for the curvature term factor in the time step
-      calculation.  Changing this value from the default is not recommended or
-      necessary but could be used to speed up the surface evolution at the risk
-      of creating an unstable solution.*/
+   *  calculation.  Changing this value from the default is not recommended or
+   *   necessary but could be used to speed up the surface evolution at the risk
+   *   of creating an unstable solution.*/
   void SetMaximumCurvatureTimeStep(double n)
   {
     if ( n != m_SegmentationFunction->GetMaximumCurvatureTimeStep() )
@@ -371,9 +399,9 @@ public:
   }
 
   /** Set/Get the maximum constraint for the scalar/vector term factor of the time step
-      calculation.  Changing this value from the default is not recommended or
-      necessary but could be used to speed up the surface evolution at the risk
-      of creating an unstable solution.*/
+   *  calculation.  Changing this value from the default is not recommended or
+   *  necessary but could be used to speed up the surface evolution at the risk
+   *  of creating an unstable solution.*/
   void SetMaximumPropagationTimeStep(double n)
   {
     if (n != m_SegmentationFunction->GetMaximumPropagationTimeStep() )
@@ -386,6 +414,17 @@ public:
   {
     return m_SegmentationFunction->GetMaximumPropagationTimeStep();
   }
+
+  /** Allocate and calculate the speed term image in the SegmentationFunction
+      object.  This method is called automatically on filter execution
+      unless AutoGenerateSpeedAdvection is set to Off.*/
+  void GenerateSpeedImage();
+
+  /** Allocate and calculate the advection term image in the
+      SegmentationFunction object  This method is called automatically on
+      filter execution unless AutoGenerateSpeedAdvection is set to Off.*/
+  void GenerateAdvectionImage();
+  
 protected:
   virtual ~SegmentationLevelSetImageFilter() {}
   SegmentationLevelSetImageFilter(const Self&);
@@ -399,25 +438,25 @@ protected:
     Superclass::InitializeIteration();
     // Estimate the progress of the filter
     this->SetProgress( (float) ((float)this->GetElapsedIterations()
-                                / (float)this->GetMaximumIterations()) );
+                                / (float)this->GetNumberOfIterations()) );
   }
   
   /** Overridden from ProcessObject to set certain values before starting the
    * finite difference solver and then create an appropriate output */
   void GenerateData();
 
-  /** Tells the solver when the solution has converged within the specified
-   * parameters. */
-  bool Halt();
-
   /** Flag which sets the inward/outward direction of propagation speed. See
       SetReverseExpansionDirection for more information. */
   bool m_ReverseExpansionDirection;
 
+  /** Flag to indicate whether Speed and Advection images are automatically
+   *  generated when running the filter.  Otherwise, a pointer to images must
+   *  be explicitly set or GenerateSpeedImage() and/or GenerateAdvectionImage()
+   *  called directly before updating the filter */
+  bool m_AutoGenerateSpeedAdvection;
+  
 private:
-  unsigned int m_MaximumIterations;
   SegmentationFunctionType *m_SegmentationFunction;
-  ValueType m_MaximumRMSError;
 };
 
 } // end namespace itk

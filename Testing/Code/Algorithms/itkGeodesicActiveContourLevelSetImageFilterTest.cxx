@@ -154,7 +154,7 @@ int itkGeodesicActiveContourLevelSetImageFilterTest(int, char* [] )
 
   // set the convergence criteria
   shapeDetection->SetMaximumRMSError( 0.03 );
-  shapeDetection->SetMaximumIterations( 200 );
+  shapeDetection->SetNumberOfIterations( 200 );
 
   /**
    * Threshold the output level set to display the final contour.
@@ -181,7 +181,7 @@ int itkGeodesicActiveContourLevelSetImageFilterTest(int, char* [] )
   overlap->Update();
   
   /** Printout useful information from the shape detection filter. */
-  std::cout << "Max. no. iterations: " << shapeDetection->GetMaximumIterations() << std::endl;
+  std::cout << "Max. no. iterations: " << shapeDetection->GetNumberOfIterations() << std::endl;
   std::cout << "Max. RMS error: " << shapeDetection->GetMaximumRMSError() << std::endl;
   std::cout << "No. elpased iterations: " << shapeDetection->GetElapsedIterations() << std::endl;
   std::cout << "RMS change: " << shapeDetection->GetRMSChange() << std::endl;

@@ -41,7 +41,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
  
   this->SetNumberOfRequiredInputs(3);
 
-  m_NumberOfIterations = 10;
+  this->SetNumberOfIterations(10);
  
   unsigned int j;
   for( j = 0; j < ImageDimension; j++ )
@@ -148,7 +148,6 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "No. of Iterations: " << m_NumberOfIterations << std::endl;
   os << indent << "Standard deviations: [";
   unsigned int j;
   for( j = 0; j < ImageDimension - 1; j++ )
@@ -193,10 +192,10 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   this->Superclass::InitializeIteration();           
 
   // progress feedback
-  if ( m_NumberOfIterations != 0 )
+  if ( this->GetNumberOfIterations() != 0 )
     {
     this->UpdateProgress(((float)(this->GetElapsedIterations()))
-                         /((float)(m_NumberOfIterations)));
+                         /((float)(this->GetNumberOfIterations())));
     }
 
 }

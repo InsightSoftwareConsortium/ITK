@@ -116,7 +116,7 @@ int itkAntiAliasBinaryImageFilterTest(int , char * [] )
 
   // Generally a good idea to set this value as a safeguard against infinte
   // loops if the MaximumRMSError has been set too low.
-  antialiaser->SetMaximumIterations(100);
+  antialiaser->SetNumberOfIterations(100);
 
   antialiaser->Update();
 
@@ -148,7 +148,7 @@ int itkAntiAliasBinaryImageFilterTest(int , char * [] )
       //      writer->Write();
 
       // Repeat just to make sure we reinitialize properly.
-      antialiaser->SetMaximumIterations(200);
+      antialiaser->SetNumberOfIterations(200);
       antialiaser->Update();
       
       antialiaser->GetLowerBinaryValue();

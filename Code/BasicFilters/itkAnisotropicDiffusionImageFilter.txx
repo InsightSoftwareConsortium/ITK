@@ -29,7 +29,7 @@ template <class TInputImage, class TOutputImage>
 AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 ::AnisotropicDiffusionImageFilter()
 {
-  m_NumberOfIterations = 0;
+  this->SetNumberOfIterations(1);
   m_ConductanceParameter = 1.0;
   m_ConductanceScalingParameter = 1.0;
   m_ConductanceScalingUpdateInterval = 0;
@@ -37,17 +37,6 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
   m_FixedAverageGradientMagnitude = 0.0;
   m_ConductanceScalingUpdateInterval = 1;
   m_GradientMagnitudeIsFixed = false;
-}
-
-/** Supplies the halting criteria for this class of filters.  The
-  * algorithm will stop after a user-specified number of iterations. */
-template <class TInputImage, class TOutputImage>
-bool
-AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
-::Halt()
-{
-  if (this->GetElapsedIterations() == m_NumberOfIterations) return true;
-  else return false;
 }
 
 /** Prepare for the iteration process. */
@@ -83,9 +72,9 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
     }
   f->InitializeIteration();
 
-  if (m_NumberOfIterations != 0)
+  if (this->GetNumberOfIterations() != 0)
     this->UpdateProgress(((float)(this->GetElapsedIterations()))
-                         /((float)(m_NumberOfIterations)));
+                         /((float)(this->GetNumberOfIterations())));
   else this->UpdateProgress(0);
 }
 
@@ -100,8 +89,6 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
      << m_ConductanceParameter << std::endl;
   os << indent << "ConductanceScalingParameter: "
      << m_ConductanceScalingParameter << std::endl;
-  os << indent << "NumberOfIterations: " << m_NumberOfIterations
-     << std::endl;
   os << indent << "ConductanceScalingUpdateInterval: "
      << m_ConductanceScalingUpdateInterval << std::endl;
   os << indent << "FixedAverageGradientMagnitude: "

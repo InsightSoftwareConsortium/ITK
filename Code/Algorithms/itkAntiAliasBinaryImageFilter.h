@@ -127,22 +127,22 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(AntiAliasBinaryImageFilter, SparseFieldLevelSetImageFilter);
 
-  /** Set/Get the maximum RMS error allowed for the solution.  The solver will
-   *  halt once this threshold has been reached. */
-  itkSetMacro(MaximumRMSError, ValueType);
-  itkGetMacro(MaximumRMSError, ValueType);
-
-  /** Set/Get the maximum number of iterations allowed for the solver.  This
-   *  prevents infinite loops when a solution "bounces".  The filter halt and
-   *  issue a warning when this number is reached because the MaximumRMSError
-   *  criteria will not have been met.*/
-  itkSetMacro(MaximumIterations, unsigned int);
-  itkGetMacro(MaximumIterations, unsigned int);
-  
   /** Get the upper and lower binary values in the input image.*/
   itkGetMacro(UpperBinaryValue, BinaryValueType);
   itkGetMacro(LowerBinaryValue, BinaryValueType);
-  
+
+  /** Set/Get the maximum number of iterations allowed for the solver.  This
+   *  prevents infinite loops if a solution "bounces". */
+  void SetMaximumIterations (unsigned int i)
+  {
+    itkWarningMacro("SetMaximumIterations is deprecated.  Please use SetNumberOfIterations instead.");
+    this->SetNumberOfIterations(i);
+  }
+  unsigned int GetMaximumIterations()
+  {
+    itkWarningMacro("GetMaximumIterations is deprecated. Please use GetNumberOfIterations instead.");
+    return this->GetNumberOfIterations();
+  } 
 protected:
   AntiAliasBinaryImageFilter();
   ~AntiAliasBinaryImageFilter() {}
@@ -155,44 +155,14 @@ protected:
                                                 const ValueType &value,
                                                 const ValueType &change);
   
-  /** Overrides the default Halt() method to stop only when the RMS error is
-   * less than a user-specified threshold. */
-  bool Halt()
-  {
-
-    this->UpdateProgress( static_cast<float>( this->GetElapsedIterations() ) /
-                          static_cast<float>( m_MaximumIterations ) );
-
-    if (this->GetElapsedIterations() >= m_MaximumIterations)
-      {
-      itkWarningMacro("This filter has passed the maximum number of iterations allowed and will be halted.  This means that the solution did not converge to the MaximumRMSError you specified.  Try setting m_MaximumRMSError to a higher value, or set m_MaxmimumIterations to a higher value.");
-      return true;
-      }
-    else if ( this->GetElapsedIterations() == 0)
-      { 
-      return false;
-      }
-    else if ( this->GetRMSChange() <= m_MaximumRMSError )
-      { 
-      return true; 
-      }
-    else
-      { 
-      return false;
-      }
-  }
-
   /** Overridden from ProcessObject to set certain values before starting the
     * finite difference solver and then create an appropriate output */
   void GenerateData();
   
 private:
-  ValueType m_MaximumRMSError;
   BinaryValueType m_UpperBinaryValue;
   BinaryValueType m_LowerBinaryValue;
   typename CurvatureFunctionType::Pointer m_CurvatureFunction;
-  
-  unsigned int m_MaximumIterations;
   
 };
 

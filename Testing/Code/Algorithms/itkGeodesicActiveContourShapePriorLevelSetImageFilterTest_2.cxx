@@ -337,7 +337,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
 
   filter->SetNumberOfLayers( 4 );
   filter->SetMaximumRMSError( 0.01 );
-  filter->SetMaximumIterations( 400 );
+  filter->SetNumberOfIterations( 400 );
 
   /**
    * Connect an observer to the filter
@@ -387,7 +387,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
     }
 
   /** Printout useful information from the shape detection filter. */
-  std::cout << "Max. no. iterations: " << filter->GetMaximumIterations() << std::endl;
+  std::cout << "Max. no. iterations: " << filter->GetNumberOfIterations() << std::endl;
   std::cout << "Max. RMS error: " << filter->GetMaximumRMSError() << std::endl;
   std::cout << "No. elpased iterations: " << filter->GetElapsedIterations() << std::endl;
   std::cout << "RMS change: " << filter->GetRMSChange() << std::endl;

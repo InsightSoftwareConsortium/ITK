@@ -154,7 +154,7 @@ int itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
   filter->SetLowerThreshold(50);
 
   filter->SetMaximumRMSError(0.04); //Does not have any effect
-  filter->SetMaximumIterations(10);
+  filter->SetNumberOfIterations(10);
   filter->ReverseExpansionDirectionOn(); // Change the default behavior of the speed
                                       // function so that negative values result in
                                       // surface growth.
@@ -167,7 +167,7 @@ int itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
     filter->Update();
     std::cout << "Done first trial" << std::endl;
     // Repeat to make sure that the filter is reinitialized properly
-    filter->SetMaximumIterations(8);
+    filter->SetNumberOfIterations(8);
     filter->Update();
     std::cout << "Done second trial" << std::endl;
     

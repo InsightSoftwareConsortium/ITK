@@ -27,9 +27,8 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TO
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "m_MaximumRMSError = "     << m_MaximumRMSError     << std::endl;
-  os << indent << "m_MaximumIterations = "   << m_MaximumIterations   << std::endl;
   os << indent << "m_ReverseExpansionDirection = " << m_ReverseExpansionDirection << std::endl;
+  os << indent << "m_AutoGenerateSpeedAdvection = " << m_AutoGenerateSpeedAdvection << std::endl;
   os << indent << "m_SegmentationFunction = " << m_SegmentationFunction << std::endl;
 }
 
@@ -40,13 +39,13 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TO
   this->SetNumberOfRequiredInputs(2);
   this->SetNumberOfLayers(ImageDimension);
   m_SegmentationFunction = 0;
-
+  m_AutoGenerateSpeedAdvection = true;
   this->SetIsoSurfaceValue(NumericTraits<ValueType>::Zero);
   
   // Provide some reasonable defaults which will at least prevent infinite
   // looping.
-  m_MaximumRMSError   = 0.02;
-  m_MaximumIterations = 1000;
+  this->SetMaximumRMSError(0.02);
+  this->SetNumberOfIterations(1000);
   m_ReverseExpansionDirection = false;
 }
 
@@ -73,6 +72,24 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TO
 template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
 void
 SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
+::GenerateSpeedImage()
+{
+    m_SegmentationFunction->AllocateSpeedImage();
+    m_SegmentationFunction->CalculateSpeedImage();
+}
+
+template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
+void
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
+::GenerateAdvectionImage()
+{
+    m_SegmentationFunction->AllocateAdvectionImage();
+    m_SegmentationFunction->CalculateAdvectionImage();
+}
+
+template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
+void
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
 ::GenerateData()
 {
   if (m_SegmentationFunction == 0)
@@ -88,15 +105,17 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TO
     }
   
   // Allocate the images from which speeds will be sampled.
-  if (this->GetSegmentationFunction()->GetPropagationWeight() != 0)
+  if (this->GetState() == UNINITIALIZED && m_AutoGenerateSpeedAdvection == true)
     {
-    m_SegmentationFunction->AllocateSpeedImage();
-    m_SegmentationFunction->CalculateSpeedImage();
-    }
-  if (this->GetSegmentationFunction()->GetAdvectionWeight() != 0)
-    {
-    m_SegmentationFunction->AllocateAdvectionImage();
-    m_SegmentationFunction->CalculateAdvectionImage();
+    if (this->GetSegmentationFunction()->GetPropagationWeight() != 0)
+      {
+      this->GenerateSpeedImage();
+      }
+    
+    if (this->GetSegmentationFunction()->GetAdvectionWeight() != 0)
+      {
+      this->GenerateAdvectionImage();
+      }
     }
   
   // Start the solver
@@ -107,33 +126,6 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TO
     {
     this->GetSegmentationFunction()->ReverseExpansionDirection();
     }  
-}
-
-template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
-bool
-SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
-::Halt()
-{
-
-  this->UpdateProgress( static_cast<float>( this->GetElapsedIterations() ) /
-                        static_cast<float>( m_MaximumIterations ) );
-
-  if (this->GetElapsedIterations() >= m_MaximumIterations)
-    {
-    return true;
-    }
-  else if ( this->GetElapsedIterations() == 0)
-    {
-    return false; 
-    }
-  else if ( this->GetRMSChange() <= m_MaximumRMSError )
-    {
-    return true; 
-    }
-  else
-    { 
-    return false; 
-    }
 }
 
 } // end namespace itk

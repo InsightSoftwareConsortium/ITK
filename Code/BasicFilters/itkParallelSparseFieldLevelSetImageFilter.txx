@@ -136,9 +136,14 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 {
   m_IsoSurfaceValue = m_ValueZero;
   m_NumberOfLayers = 3;
-  m_RMSChange = m_ValueOne;
+  this->SetRMSChange( static_cast<double>( m_ValueOne ) );
   m_InterpolateSurfaceLocation = true;
   m_BoundsCheckingActive = false;
+  m_GlobalZHistogram = 0;
+  m_ZCumulativeFrequency = 0;
+  m_MapZToThreadNumber = 0;
+  m_Boundary = 0;
+  m_Data = 0;
 }
 
 template<class TInputImage, class TOutputImage>
@@ -146,23 +151,35 @@ void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  // Allocate the output image
-  m_OutputImage= this->GetOutput();
-  m_OutputImage->SetBufferedRegion(m_OutputImage->GetRequestedRegion());
-  m_OutputImage->Allocate();
-  
-  // Copy the input image to the output image.  Algorithms will operate
-  // directly on the output image
-  this->CopyInputToOutput();
-  
-  // Perform any other necessary pre-iteration initialization. 
-  this->Initialize();
+  if (this->GetState() == UNINITIALIZED)
+    {
+    // Clean up any memory from any aborted previous filter executions.
+    this->DeallocateData();
+    
+    // Allocate the output image
+    m_OutputImage= this->GetOutput();
+    m_OutputImage->SetBufferedRegion(m_OutputImage->GetRequestedRegion());
+    m_OutputImage->Allocate();
+    
+    // Copy the input image to the output image.  Algorithms will operate
+    // directly on the output image
+    this->CopyInputToOutput();
+    
+    // Perform any other necessary pre-iteration initialization. 
+    this->Initialize();
+    this->SetStateToInitialized();
+    }
   
   // Evolve the surface
   this->Iterate();
-
+  
   // Clean up
-  this->DeallocateData();
+  if (m_ManualReinitialization == false)
+    {
+    this->DeallocateData();
+    this->SetStateToUninitialized(); // Reset the state once execution is
+                                     // completed
+    }
 }
 
 template<class TInputImage, class TOutputImage>
@@ -938,10 +955,22 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 {
   unsigned int i, j;
   // Delete data structures used for load distribution and balancing.
-  delete [] m_GlobalZHistogram;
-  delete [] m_ZCumulativeFrequency;
-  delete [] m_MapZToThreadNumber;
-  delete [] m_Boundary;
+  if ( m_GlobalZHistogram != 0 )
+    {
+    delete [] m_GlobalZHistogram;
+    }
+  if ( m_ZCumulativeFrequency != 0 )
+    {
+    delete [] m_ZCumulativeFrequency;
+    }
+  if ( m_MapZToThreadNumber != 0 )
+    {
+    delete [] m_MapZToThreadNumber;
+    }
+  if (m_Boundary != 0)
+    {
+    delete [] m_Boundary;
+    }
   
   // Deallocate the status image.
   m_StatusImage= 0;
@@ -950,86 +979,47 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   //  m_Barrier->Remove ();
   
   // Delete initial nodes, the node pool, the layers.
-  for (i = 0; i < 2* static_cast<unsigned int>(m_NumberOfLayers)+1; i++)
+  if (! m_Layers.empty())
     {
-    // return all the nodes in layer i to the main node pool
-    LayerNodeType * nodePtr= 0;
-    LayerPointerType layerPtr= m_Layers[i];
-    while (! layerPtr->Empty())
+    for (i = 0; i < 2* static_cast<unsigned int>(m_NumberOfLayers)+1; i++)
       {
-      nodePtr= layerPtr->Front();
-      layerPtr->PopFront();
-      m_LayerNodeStore->Return (nodePtr);
-      }
-    }
-  m_LayerNodeStore->Clear();
-  m_Layers.clear();
-  
-  // Deallocate the thread local data structures.
-  for (unsigned int ThreadId= 0; ThreadId < m_NumOfThreads; ThreadId++)
-    {
-    // Remove semaphores from the system.
-    m_Data[ThreadId].m_Semaphore[0]->Remove();
-    m_Data[ThreadId].m_Semaphore[1]->Remove();
-    
-    delete [] m_Data[ThreadId].m_ZHistogram;
-    
-    if (m_Data[ThreadId].globalData != 0)
-      {
-      this->GetDifferenceFunction()->ReleaseGlobalDataPointer (m_Data[ThreadId].globalData);
-      m_Data[ThreadId].globalData= 0;
-      }
-
-    // 1. delete nodes on the thread layers
-    for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
-      {
-      // return all the nodes in layer i to thread-i's node pool
-      LayerNodeType * nodePtr;
-      LayerPointerType layerPtr= m_Data[ThreadId].m_Layers[i];
+      // return all the nodes in layer i to the main node pool
+      LayerNodeType * nodePtr= 0;
+      LayerPointerType layerPtr= m_Layers[i];
       while (! layerPtr->Empty())
         {
         nodePtr= layerPtr->Front();
         layerPtr->PopFront();
-        m_Data[ThreadId].m_LayerNodeStore->Return(nodePtr);
+        m_LayerNodeStore->Return (nodePtr);
         }
       }
-    m_Data[ThreadId].m_Layers.clear();
-    
-    // 2. cleanup the LoadTransferBufferLayers: empty all and return the nodes
-    // to the pool 
-    for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
-      {
-      for (j= 0; j < m_NumOfThreads; j++)
-        {
-        if (j == ThreadId)
-          {
-          // a thread does NOT pass nodes to istelf
-          continue;
-          }
-        
-        LayerNodeType * nodePtr;
-        LayerPointerType layerPtr= m_Data[ThreadId].m_LoadTransferBufferLayers[i][j];
-        
-        while (! layerPtr->Empty())
-          {
-          nodePtr= layerPtr->Front();
-          layerPtr->PopFront();
-          m_Data[ThreadId].m_LayerNodeStore->Return (nodePtr);
-          }
-        }
-      m_Data[ThreadId].m_LoadTransferBufferLayers[i].clear();
-      }
-    delete [] m_Data[ThreadId].m_LoadTransferBufferLayers;
-    
-    // 3. clear up the nodes in the last layer of m_InterNeighborNodeTransferBufferLayers (if any)
-    for (i= 0; i < m_NumOfThreads; i++)
-      {
-      LayerNodeType* nodePtr;
-      for (unsigned int InOrOut= 0; InOrOut < 2; InOrOut++)
-        {
-        LayerPointerType layerPtr
-          = m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[InOrOut][m_NumberOfLayers][i];
+    }
+  m_LayerNodeStore->Clear();
+  m_Layers.clear();
 
+  if (m_Data != 0)
+    {
+    // Deallocate the thread local data structures.
+    for (unsigned int ThreadId= 0; ThreadId < m_NumOfThreads; ThreadId++)
+      {
+      // Remove semaphores from the system.
+      m_Data[ThreadId].m_Semaphore[0]->Remove();
+      m_Data[ThreadId].m_Semaphore[1]->Remove();
+      
+      delete [] m_Data[ThreadId].m_ZHistogram;
+      
+      if (m_Data[ThreadId].globalData != 0)
+        {
+        this->GetDifferenceFunction()->ReleaseGlobalDataPointer (m_Data[ThreadId].globalData);
+        m_Data[ThreadId].globalData= 0;
+        }
+      
+      // 1. delete nodes on the thread layers
+      for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
+        {
+        // return all the nodes in layer i to thread-i's node pool
+        LayerNodeType * nodePtr;
+        LayerPointerType layerPtr= m_Data[ThreadId].m_Layers[i];
         while (! layerPtr->Empty())
           {
           nodePtr= layerPtr->Front();
@@ -1037,24 +1027,69 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
           m_Data[ThreadId].m_LayerNodeStore->Return(nodePtr);
           }
         }
+      m_Data[ThreadId].m_Layers.clear();
+      
+      // 2. cleanup the LoadTransferBufferLayers: empty all and return the nodes
+      // to the pool 
+      for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
+        {
+        for (j= 0; j < m_NumOfThreads; j++)
+          {
+          if (j == ThreadId)
+            {
+            // a thread does NOT pass nodes to istelf
+            continue;
+            }
+          
+          LayerNodeType * nodePtr;
+          LayerPointerType layerPtr= m_Data[ThreadId].m_LoadTransferBufferLayers[i][j];
+          
+          while (! layerPtr->Empty())
+            {
+            nodePtr= layerPtr->Front();
+            layerPtr->PopFront();
+            m_Data[ThreadId].m_LayerNodeStore->Return (nodePtr);
+            }
+          }
+        m_Data[ThreadId].m_LoadTransferBufferLayers[i].clear();
+        }
+      delete [] m_Data[ThreadId].m_LoadTransferBufferLayers;
+      
+      // 3. clear up the nodes in the last layer of m_InterNeighborNodeTransferBufferLayers (if any)
+      for (i= 0; i < m_NumOfThreads; i++)
+        {
+        LayerNodeType* nodePtr;
+        for (unsigned int InOrOut= 0; InOrOut < 2; InOrOut++)
+          {
+          LayerPointerType layerPtr
+            = m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[InOrOut][m_NumberOfLayers][i];
+          
+          while (! layerPtr->Empty())
+            {
+            nodePtr= layerPtr->Front();
+            layerPtr->PopFront();
+            m_Data[ThreadId].m_LayerNodeStore->Return(nodePtr);
+            }
+          }
+        }
+    
+      // check if all last layers are empty and then delete them
+      for (i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
+        {
+        delete [] m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[0][i];
+        delete [] m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1][i];
+        }
+      delete [] m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[0];
+      delete [] m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1];
+      
+      // 4. check if all the uplists and downlists are empty
+      
+      // 5. delete all nodes in the node pool
+      m_Data[ThreadId].m_LayerNodeStore->Clear();
       }
-    
-    // check if all last layers are empty and then delete them
-    for (i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
-      {
-      delete [] m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[0][i];
-      delete [] m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1][i];
-      }
-    delete [] m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[0];
-    delete [] m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1];
-    
-    // 4. check if all the uplists and downlists are empty
-    
-    // 5. delete all nodes in the node pool
-    m_Data[ThreadId].m_LayerNodeStore->Clear();
-    }
   
-  delete [] m_Data;
+    delete [] m_Data;
+    } // if m_data != 0
   m_Data= 0;
 }
 
@@ -1187,12 +1222,12 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       if (iter != 0)
         {
         // Update the RMS difference here
-        str->Filter->m_RMSChange = str->Filter->m_Data[0].m_RMSChange;
-        unsigned int count                = str->Filter->m_Data[0].m_Count;
+        str->Filter->SetRMSChange( static_cast<double>(str->Filter->m_Data[0].m_RMSChange));
+        unsigned int count = str->Filter->m_Data[0].m_Count;
         if (count != 0)
           {
-          str->Filter->m_RMSChange = vcl_sqrt(
-                (static_cast<float> (str->Filter->m_RMSChange)) / count);
+          str->Filter->SetRMSChange( static_cast<double>(vcl_sqrt(
+                (static_cast<float> (str->Filter->GetRMSChange())) / count)));
           }
         }
       
@@ -1212,16 +1247,16 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
           {
           // Update the RMS difference here
           unsigned int count = 0;
-          str->Filter->m_RMSChange = m_ValueZero;
+          str->Filter->SetRMSChange(static_cast<double>( m_ValueZero ));
           for (i = 0; i < str->Filter->m_NumOfThreads; i++)
             {
-            str->Filter->m_RMSChange += str->Filter->m_Data[i].m_RMSChange;
-            count                    += str->Filter->m_Data[i].m_Count;
+            str->Filter->SetRMSChange(str->Filter->GetRMSChange() + str->Filter->m_Data[i].m_RMSChange);
+            count += str->Filter->m_Data[i].m_Count;
             }
           if (count != 0)
             {
-            str->Filter->m_RMSChange
-              = vcl_sqrt((static_cast<float> (str->Filter->m_RMSChange)) / count);
+            str->Filter->SetRMSChange( static_cast<double>( vcl_sqrt((static_cast<float> (str->Filter->m_RMSChange))
+                                                                     / count) ));
             }
           }
         

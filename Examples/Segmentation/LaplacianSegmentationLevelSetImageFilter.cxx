@@ -189,7 +189,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   laplacianSegmentation->SetMaximumRMSError( 0.002 );
-  laplacianSegmentation->SetMaximumIterations( ::atoi(argv[8]) );
+  laplacianSegmentation->SetNumberOfIterations( ::atoi(argv[8]) );
   // Software Guide : EndCodeSnippet
   
   // Software Guide : BeginLatex

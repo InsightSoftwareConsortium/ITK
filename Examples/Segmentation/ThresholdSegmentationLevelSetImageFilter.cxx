@@ -197,10 +197,10 @@ int main( int argc, char *argv[] )
   //  below a user-specified threshold, the solution is considered to have
   //  converged.
     thresholdSegmentation->SetMaximumRMSError( 0.02 );
-    thresholdSegmentation->SetMaximumIterations( 1200 );
+    thresholdSegmentation->SetNumberOfIterations( 1200 );
 
   //    thresholdSegmentation->SetMaximumRMSError( atof(argv[8]) );
-  //    thresholdSegmentation->SetMaximumIterations( atoi(argv[9]) );
+  //    thresholdSegmentation->SetNumberOfIterations( atoi(argv[9]) );
 
   // Software Guide : BeginLatex
   //

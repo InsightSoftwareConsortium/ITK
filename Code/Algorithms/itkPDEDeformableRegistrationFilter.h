@@ -130,12 +130,6 @@ public:
   DeformationFieldType * GetDeformationField()
   { return this->GetOutput(); }
 
-  /** Set the number of iterations to be performed. */
-  itkSetMacro(NumberOfIterations, unsigned int);
-
-  /** Get the number of iterations to be performed. */
-  itkGetMacro(NumberOfIterations, unsigned int);
-
   /** Set the Gaussian smoothing standard deviations. The
    * values are set with respect to pixel coordinates. */
   itkSetVectorMacro( StandardDeviations, double, ImageDimension );
@@ -154,7 +148,7 @@ protected:
    * algorithm will stop after a user-specified number of iterations. */
   virtual bool Halt()
   {
-    if (this->GetElapsedIterations() == m_NumberOfIterations) return true;
+    if (this->GetElapsedIterations() == this->GetNumberOfIterations() ) return true;
     else return false;
   }
 
@@ -193,9 +187,6 @@ protected:
 private:
   PDEDeformableRegistrationFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
-  /** Number of iterations to be performed. */
-  unsigned int             m_NumberOfIterations;
   
   /** Standard deviation for Gaussian smoothing */
   double                   m_StandardDeviations[ImageDimension];

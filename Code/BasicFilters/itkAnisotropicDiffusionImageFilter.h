@@ -96,10 +96,6 @@ public:
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::TimeStepType TimeStepType;
 
-  /** Set/Get the number of iterations that the filter will run. */
-  itkSetMacro(NumberOfIterations, unsigned int);
-  itkGetMacro(NumberOfIterations, unsigned int);
-
   /** Set/Get the time step for each iteration */
   itkSetMacro(TimeStep, TimeStepType);
   itkGetMacro(TimeStep, TimeStepType);
@@ -141,7 +137,7 @@ protected:
 
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
-  virtual bool Halt();
+  //  virtual bool Halt();
 
   /** Prepare for the iteration process. */
   virtual void InitializeIteration();
@@ -154,7 +150,6 @@ private:
   
   double           m_ConductanceParameter;
   double           m_ConductanceScalingParameter;
-  unsigned int     m_NumberOfIterations;
   unsigned int     m_ConductanceScalingUpdateInterval;
   double           m_FixedAverageGradientMagnitude;
 

@@ -129,12 +129,6 @@ public:
   /** The time step type. Inherited from the superclass. */
   typedef typename Superclass::TimeStepType TimeStepType;
 
-  /** Set the number of iterations to be performed. */
-  itkSetMacro(NumberOfIterations, unsigned int);
-
-  /** Get the number of iterations to be performed. */
-  itkGetMacro(NumberOfIterations, unsigned int);
-
   /** Set the timestep parameter. */
   itkSetMacro(TimeStep, TimeStepType);
 
@@ -150,7 +144,7 @@ protected:
    * algorithm will stop after a user-specified number of iterations. */
   virtual bool Halt()
   {
-    if (this->GetElapsedIterations() == m_NumberOfIterations) return true;
+    if (this->GetElapsedIterations() == this->GetNumberOfIterations()) return true;
     else return false;
   }
 
@@ -172,7 +166,6 @@ private:
   CurvatureFlowImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  unsigned int    m_NumberOfIterations;
   TimeStepType    m_TimeStep;
 
 };

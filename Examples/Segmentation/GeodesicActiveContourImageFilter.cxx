@@ -266,7 +266,7 @@ int main( int argc, char *argv[] )
   //  in the contour of the anatomical structure to be segmented.
 
   geodesicActiveContour->SetMaximumRMSError( 0.02 );
-  geodesicActiveContour->SetMaximumIterations( 800 );
+  geodesicActiveContour->SetNumberOfIterations( 800 );
 
 
   //  Software Guide : BeginLatex
