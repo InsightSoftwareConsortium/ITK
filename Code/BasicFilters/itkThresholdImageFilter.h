@@ -52,13 +52,7 @@ namespace itk
  *
  * ThresholdImageFilter sets image values to a user-specified "outside"
  * value (by default, "black") if the image values are below, above, or
- * between simple threshold values. The filter can produce two outputs,
- * one the inverse of the other. (GetOutput() returns an image whose
- * pixels satisfy the threshold values and are passed to the output 
- * unchanged (and those that don't are marked with the outside user-value);
- * GetInverseOutput() returns an image in which pixels satisfying the
- * threshold are marked "outside", and the other pixel values are passed
- * through.)
+ * between simple threshold values. 
  *
  * The pixels must support the operators >= and <=.
  * 
@@ -126,24 +120,6 @@ public:
    */
   void ThresholdOutside(PixelType &lower, PixelType &upper);
 
-  /** 
-   * Some typedefs to handle the second output.
-   */
-  typedef TImage OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename OutputImageType::PixelType OutputImagePixelType;
-  
-  /** 
-   * Get the image output of this process object. 
-   */
-  OutputImagePointer GetInverseOutput();
-
-  /** 
-   * Set the image output of this process object. 
-   */
-  void SetInverseOutput(OutputImageType *output)
-    { this->SetNthOutput(1, output); };
 
 protected:
   ThresholdImageFilter();

@@ -58,10 +58,6 @@ ThresholdImageFilter<TImage>
   m_OutsideValue = NumericTraits<PixelType>::Zero;
   m_Lower = NumericTraits<PixelType>::NonpositiveMin();
   m_Upper = NumericTraits<PixelType>::max();
-
-  typename TImage::Pointer output = TImage::New();
-  this->ProcessObject::SetNumberOfRequiredOutputs(2);
-  this->ProcessObject::SetNthOutput(1, output.GetPointer());
 }
 
 
@@ -154,7 +150,6 @@ ThresholdImageFilter<TImage>
   // Get the input and output pointers
   InputImagePointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput(0);
-  OutputImagePointer outputInversePtr = this->GetOutput(1);
 
   // Define/declare an iterator that will walk the output region for this
   // thread.
@@ -165,7 +160,6 @@ ThresholdImageFilter<TImage>
 
   InputIterator  inIt(inputPtr, outputRegionForThread);
   OutputIterator outIt(outputPtr, outputRegionForThread);
-  OutputIterator outInverseIt(outputInversePtr, outputRegionForThread);
 
   // support progress methods/callbacks
   unsigned long updateVisits = 0;
@@ -176,7 +170,7 @@ ThresholdImageFilter<TImage>
     }
         
   // walk the regions, threshold each pixel
-  for (i=0; !outIt.IsAtEnd(); ++inIt, ++outIt, ++outInverseIt, i++ )
+  for (i=0; !outIt.IsAtEnd(); ++inIt, ++outIt, i++ )
     {
     if ( threadId == 0 && !(i % updateVisits ) )
       {
@@ -188,12 +182,10 @@ ThresholdImageFilter<TImage>
       // pixel passes to output unchanged and is replaced by m_OutsideValue in
       // the inverse output image
       outIt.Set( inIt.Get() );
-      outInverseIt.Set( m_OutsideValue );
       }
     else
       {
       outIt.Set( m_OutsideValue );
-      outInverseIt.Set( inIt.Get() );
       }
     }
   
