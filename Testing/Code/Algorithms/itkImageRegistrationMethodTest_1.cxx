@@ -20,16 +20,17 @@
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkGradientDescentOptimizer.h"
+#include "itkCommandIterationUpdate.h"
 
 #include "itkImageRegistrationMethodImageSource.h"
 
 /** 
- *  This program test one instantiation of the itk::ImageRegistrationMethod class
+ *  This program tests one instantiation of the itk::ImageRegistrationMethod class
  * 
  *  
  */ 
 
-int itkImageRegistrationMethodTest_1(int, char**)
+int itkImageRegistrationMethodTest_1(int argc, char** argv)
 {
 
   bool pass = true;
@@ -40,7 +41,7 @@ int itkImageRegistrationMethodTest_1(int, char**)
   typedef itk::Image<float,dimension>               FixedImageType;
 
   // Moving Image Type
-  typedef itk::Image<char,dimension>                MovingImageType;
+  typedef itk::Image<float,dimension>               MovingImageType;
 
   // Size Type
   typedef MovingImageType::SizeType                 SizeType;
@@ -72,6 +73,9 @@ int itkImageRegistrationMethodTest_1(int, char**)
                                     FixedImageType, 
                                     MovingImageType >    RegistrationType;
 
+  typedef itk::CommandIterationUpdate<  
+                                  OptimizerType >    CommandIterationType;
+
 
   MetricType::Pointer         metric        = MetricType::New();
   TransformType::Pointer      transform     = TransformType::New();
@@ -91,12 +95,77 @@ int itkImageRegistrationMethodTest_1(int, char**)
   FixedImageType::ConstPointer     fixedImage    = imageSource->GetFixedImage();
   MovingImageType::ConstPointer    movingImage   = imageSource->GetMovingImage();
 
+  //
+  // Connect all the components required for Registratio
+  //
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
   registration->SetFixedImage(    fixedImage    );
   registration->SetMovingImage(   movingImage   );
   registration->SetInterpolator(  interpolator  );
+
+
+  // Select the Region of Interest over which the Metric will be computed
+  // Registration time will be proportional to the number of pixels in this region.
+  metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
+
+  // Instantiate an Observer to report the progress of the Optimization
+  CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
+  iterationCommand->SetOptimizer(  optimizer.GetPointer() );
+
+  // Scale the translation components of the Transform in the Optimizer
+  OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
+  scales.Fill( 1.0 );
+
+  
+  unsigned long   numberOfIterations = 200;
+  double          translationScale   = 0.01;
+  double          learningRate       = 1e-8;
+
+  if( argc > 1 )
+    {
+    numberOfIterations = atol( argv[1] );
+    std::cout << "numberOfIterations = " << numberOfIterations << std::endl;
+    }
+  if( argc > 2 )
+    {
+    translationScale = atof( argv[2] );
+    std::cout << "translationScale = " << translationScale << std::endl;
+    }
+  if( argc > 3 )
+    {
+    learningRate = atof( argv[3] );
+    std::cout << "learningRate = " << learningRate << std::endl;
+    }
+
+
+
+  for( unsigned int i=0; i<dimension; i++)
+    {
+    scales[ i + dimension * dimension ] = translationScale;
+    }
+
+  optimizer->SetScales( scales );
+  optimizer->SetLearningRate( learningRate );
+  optimizer->SetNumberOfIterations( numberOfIterations );
+
+  // Start from an Identity transform (in a normal case, the user 
+  // can probably provide a better guess than the identity...
+  transform->SetIdentity();
+  registration->SetInitialTransformParameters( transform->GetParameters() );
+
+  // Initialize the internal connections of the registration method. 
+  // This can potentially throw an exception
+  try
+    {
+    registration->StartRegistration();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << e << std::endl;
+    pass = false;
+    }
 
 
   if( !pass )
