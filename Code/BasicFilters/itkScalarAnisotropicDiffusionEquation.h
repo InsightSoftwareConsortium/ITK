@@ -70,7 +70,6 @@ public:
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
   typedef typename Superclass::TimeStepType TimeStepType;
-  typedef typename Superclass::RadiusType RadiusType;
 
   /** 
    * Smart pointer support for this class.
