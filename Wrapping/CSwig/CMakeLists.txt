@@ -172,7 +172,8 @@ MACRO(CSWIG_CREATE_TCL_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Lib
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
      COMMAND ${CSWIG}
-     ARGS -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
+     ARGS -l${ITK_TOP}/Wrapping/CSwig/itk.swg
+          -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
           -o ${Bin}/${OutputTclCxx} -tcl -pkgversion "${ITK_VERSION_STRING}" -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
@@ -189,7 +190,8 @@ MACRO(CSWIG_CREATE_PYTHON_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx 
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
      COMMAND ${CSWIG} 
-     ARGS -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
+     ARGS -l${ITK_TOP}/Wrapping/CSwig/itk.swg
+          -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
           -bindir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}" 
           -o ${Bin}/${OutputTclCxx} -python -c++ ${Bin}/${InputXml}
      TARGET ${Library}
@@ -207,7 +209,8 @@ MACRO(CSWIG_CREATE_JAVA_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Li
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
      COMMAND ${CSWIG} 
-     ARGS -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
+     ARGS -l${ITK_TOP}/Wrapping/CSwig/itk.swg
+          -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
           -bindir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}" 
           -o ${Bin}/${OutputTclCxx} -java -c++ ${Bin}/${InputXml}
      TARGET ${Library}
