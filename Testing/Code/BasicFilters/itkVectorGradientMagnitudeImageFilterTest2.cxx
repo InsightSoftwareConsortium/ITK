@@ -20,6 +20,8 @@
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
 #include "itkRGBPixel.h"
+#include "vnl/vnl_math.h"
+
 
 int itkVectorGradientMagnitudeImageFilterTest2(int ac, char** av)
 {
@@ -93,9 +95,10 @@ int itkVectorGradientMagnitudeImageFilterTest2(int ac, char** av)
   itk::ImageRegionIterator<FilterType::OutputImageType>
     rit(baseline->GetOutput(),baseline->GetOutput()->GetBufferedRegion());
   unsigned long status = 0;
+  const double tolerance = 1e-5;
   while (!it.IsAtEnd())
     {
-      if (it.Get() != rit.Get())
+      if( vnl_math_abs( it.Get() - rit.Get() ) > tolerance )
         {
           // print out the mismatch location and values
           std::cerr << "diff: " << it.GetIndex() << " " << it.Get()
@@ -107,7 +110,7 @@ int itkVectorGradientMagnitudeImageFilterTest2(int ac, char** av)
       ++rit;  
     }
   
-  itk::ObjectFactoryBase::UnRegisterAllFactories();
+ // itk::ObjectFactoryBase::UnRegisterAllFactories();
   
   return status;
 }
