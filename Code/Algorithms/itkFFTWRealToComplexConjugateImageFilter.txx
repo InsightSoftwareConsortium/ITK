@@ -62,12 +62,12 @@ GenerateData()
                                       FFTW_ESTIMATE|FFTW_PRESERVE_INPUT);
         break;
       case 2:
-        M_plan = fftw_plan_dft_r2c_2d(inputSize[0],inputSize[1],
+        M_plan = fftw_plan_dft_r2c_2d(inputSize[1],inputSize[0],
                                       in,dptr,
                                       FFTW_ESTIMATE|FFTW_PRESERVE_INPUT);
         break;
       case 3:
-        M_plan = fftw_plan_dft_r2c_3d(inputSize[0],inputSize[1],inputSize[2],
+        M_plan = fftw_plan_dft_r2c_3d(inputSize[2],inputSize[1],inputSize[0],
                                       in,dptr,
                                       FFTW_ESTIMATE|FFTW_PRESERVE_INPUT);
         break;
@@ -98,12 +98,12 @@ GenerateData()
                                       FFTW_ESTIMATE|FFTW_PRESERVE_INPUT);
         break;
       case 2:
-        M_planf = fftwf_plan_dft_r2c_2d(inputSize[0],inputSize[1],
+        M_planf = fftwf_plan_dft_r2c_2d(inputSize[1],inputSize[0],
                                       in,dptr,
                                       FFTW_ESTIMATE|FFTW_PRESERVE_INPUT);
         break;
       case 3:
-        M_planf = fftwf_plan_dft_r2c_3d(inputSize[0],inputSize[1],inputSize[2],
+        M_planf = fftwf_plan_dft_r2c_3d(inputSize[2],inputSize[1],inputSize[0],
                                       in,dptr,
                                       FFTW_ESTIMATE|FFTW_PRESERVE_INPUT);
         break;

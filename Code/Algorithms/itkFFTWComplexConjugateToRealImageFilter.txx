@@ -65,13 +65,13 @@ GenerateData()
         total_size = outputSize[0];
         break;
       case 2:
-        M_plan = fftw_plan_dft_c2r_2d(outputSize[0],outputSize[1],
+        M_plan = fftw_plan_dft_c2r_2d(outputSize[1],outputSize[0],
                                       dptr,out,
                                       FFTW_ESTIMATE);
         total_size = outputSize[0] * outputSize[1];
         break;
       case 3:
-        M_plan = fftw_plan_dft_c2r_3d(outputSize[0],outputSize[1],outputSize[2],
+        M_plan = fftw_plan_dft_c2r_3d(outputSize[2],outputSize[1],outputSize[0],
                                       dptr,out,
                                       FFTW_ESTIMATE);
         total_size = outputSize[0] * outputSize[1] * outputSize[2];
@@ -105,13 +105,13 @@ GenerateData()
         total_size = outputSize[0];
         break;
       case 2:
-        M_planf = fftwf_plan_dft_c2r_2d(outputSize[0],outputSize[1],
+        M_planf = fftwf_plan_dft_c2r_2d(outputSize[1],outputSize[0],
                                       dptr,out,
                                       FFTW_ESTIMATE);
         total_size = outputSize[0] * outputSize[1];
         break;
       case 3:
-        M_planf = fftwf_plan_dft_c2r_3d(outputSize[0],outputSize[1],outputSize[2],
+        M_planf = fftwf_plan_dft_c2r_3d(outputSize[2],outputSize[1],outputSize[0],
                                       dptr,out,
                                       FFTW_ESTIMATE);
         total_size = outputSize[0] * outputSize[1] * outputSize[2];
