@@ -1,5 +1,11 @@
 LIBRARY(ITKCommon)
 
+INCLUDE_DIRECTORIES(
+../..
+../Numerics/vxl
+../Numerics/vxl/vcl
+)
+
 SOURCE_FILES(
 itkCommand 
 itkDataObject 
