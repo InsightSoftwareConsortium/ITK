@@ -20,7 +20,7 @@
 
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkMultiplyImageFilter.h"
-#include "itkThresholdImageFilter.h"
+//#include "itkThresholdImageFilter.h"
 #include "itkZeroCrossingImageFilter.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkNumericTraits.h"
@@ -422,8 +422,8 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   ZeroCrossingImageFilter<TOutputImage, TOutputImage>::Pointer zeroCrossFilter
     = ZeroCrossingImageFilter<TOutputImage, TOutputImage>::New();
 
-  ThresholdImageFilter<TOutputImage>::Pointer threshFilter
-    = ThresholdImageFilter<TOutputImage>::New();
+  //ThresholdImageFilter<TOutputImage>::Pointer threshFilter
+  //  = ThresholdImageFilter<TOutputImage>::New();
 
   MultiplyImageFilter<TOutputImage, TOutputImage,TOutputImage>::Pointer multFilter 
     = MultiplyImageFilter<TOutputImage, TOutputImage,TOutputImage>::New();
@@ -469,17 +469,21 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   edge = multFilter->GetOutput();
 
+  //The thresholding was done in the step of compute2ndDerivativePos()
   //Do the Thresholding of the final output.
   //Note: Here we need connected-components to implement the classical
   //       canny edge.
-  threshFilter->SetOutsideValue(m_OutsideValue);
-  threshFilter->ThresholdBelow(m_Threshold);
-  threshFilter->SetInput(edge);
-  threshFilter->Update();
+  //threshFilter->SetOutsideValue(m_OutsideValue);
+  //threshFilter->ThresholdBelow(m_Threshold);
+  //threshFilter->SetInput(edge);
+  //threshFilter->Update();
 
   // Graft the output of the mini-pipeline back onto the filter's output.
   // this copies back the region ivars and meta-data.
-  this->GraftOutput(threshFilter->GetOutput());
+
+  //this->GraftOutput(threshFilter->GetOutput());
+  this->GraftOutput(edge);
+  
 }
 
 template< class TInputImage, class TOutputImage >
@@ -577,13 +581,13 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
                                 m_ComputeCannyEdge1stDerivativeOper);
         }
 
-
+      gradMag = vnl_math_sqrt(gradMag);
       derivPos = zero;
       for ( int i = 0; i < ImageDimension; i++)
         {
 
           //First calculate the directional derivative
-          gradMag = vnl_math_sqrt(gradMag);
+
           directional[i] = dx[i]/gradMag;
 
           //calculate gradient of 2nd derivative
@@ -636,13 +640,14 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
               dx1[i] = IP(m_ComputeCannyEdgeSlice[i], bit1,
                           m_ComputeCannyEdge1stDerivativeOper);
             }
-          
+
+          gradMag = vnl_math_sqrt(gradMag);          
           derivPos = zero;
           for ( int i = 0; i < ImageDimension; i++)
             {
               
               //First calculate the directional derivative
-              gradMag = vnl_math_sqrt(gradMag);
+
               directional[i] = dx[i]/gradMag;
                                
               //calculate gradient of 2nd derivative
