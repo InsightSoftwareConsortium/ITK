@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrap_VXLNumerics.cxx
+  Module:    wrap_vnl_matrix_ref.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,25 +14,26 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include "vnl_matrix_ref.h"
+
 #ifdef CABLE_CONFIGURATION
 #include "wrap_VXLNumerics.h"
+
 namespace _cable_
 {
-  const char* const package = ITK_WRAP_PACKAGE;
-  const char* const package_version = ITK_WRAP_PACKAGE_VERSION;
-  const char* const groups[] =
+  const char* const group = ITK_WRAP_GROUP(vnl_matrix_ref);
+  namespace wrappers
   {
-    ITK_WRAP_GROUP(vnl_matrix),
-    ITK_WRAP_GROUP(vnl_vector),
-    ITK_WRAP_GROUP(vnl_c_vector),
-    ITK_WRAP_GROUP(vnl_diag_matrix),
-    ITK_WRAP_GROUP(vnl_file_matrix),
-    ITK_WRAP_GROUP(vnl_file_vector),
-    ITK_WRAP_GROUP(vnl_fortran_copy),
-    ITK_WRAP_GROUP(vnl_matrix_fixed),
-    ITK_WRAP_GROUP(vnl_matrix_fixed_ref),
-    ITK_WRAP_GROUP(vnl_matrix_ref),
-    ITK_WRAP_GROUP(vnl_vector_ref)
-  };
+    typedef vnl_matrix_ref<double> vnl_matrix_ref_double;
+    typedef vnl_matrix_ref<float>  vnl_matrix_ref_float;
+  }
 }
+
+void force_instantiate()
+{
+  using namespace _cable_::wrappers;
+  sizeof(vnl_matrix_ref_double);
+  sizeof(vnl_matrix_ref_float);
+}
+
 #endif
