@@ -41,7 +41,7 @@ namespace itk {
  * object.  The mutex object is used to avoid a dangerous race condition when
  * Wait() and Signal() are called simultaneously from two different threads.
  */
-class ITK_EXPORT ConditionVariable : public LightObject
+class ITKCommon_EXPORT ConditionVariable : public LightObject
 {
 public:
   /** Standard class typedefs. */
@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ConditionVariable, Object);
+  itkTypeMacro(ConditionVariable, LightObject);
 
   /** Suspend execution of this thread until the condition is signaled. The
    *  argument is a SimpleMutex object that must be locked prior to calling
@@ -67,7 +67,13 @@ public:
   /** Signal that the condition is true and release all waiting threads */
   void Broadcast();
 
+protected:
+  ConditionVariable();
+  ~ConditionVariable();
+
 private:
+  ConditionVariable(const Self & other);
+  const Self & operator=( const Self & );
 #ifdef ITK_USE_PTHREADS
   pthread_cond_t m_ConditionVariable;
   MutexType m_Mutex;
@@ -76,8 +82,6 @@ private:
   SimpleMutexLock m_Lock;
   Semaphore::Pointer m_Semaphore;
 #endif
-  ConditionVariable();
-  ~ConditionVariable();
 };
 
 }//end of itk namespace

@@ -96,7 +96,7 @@ typedef int SemaphoreType;
  * systems, POSIX semaphores and WIN32 thread library semaphores are supported.
  *
 */
-class ITK_EXPORT Semaphore : public LightObject
+class ITKCommon_EXPORT Semaphore : public LightObject
 {
 public:
   /** Standard class typedefs. */
@@ -109,7 +109,7 @@ public:
   itkNewMacro(Self);  
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Semaphore, Object);
+  itkTypeMacro(Semaphore, LightObject);
 
   /** Initialize the semaphore with a count of value. */
   void Initialize(unsigned int value);
@@ -127,9 +127,12 @@ public:
   
   /** Remove the semaphore from the system. */
   void Remove ();
-private:   
+
+protected:
   Semaphore ();
   ~Semaphore();
+
+private:   
   
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
   /** Every IPC semaphore must be created with a unique key. This variable
