@@ -29,6 +29,7 @@ SurfaceSpatialObjectPoint< TPointDimension >
 { 
   m_ID = 0;
   m_NumDimensions = TPointDimension;
+  m_Normal.Fill(0);
 }
 
 /** Destructor */

@@ -31,6 +31,7 @@ template< unsigned int TDimension >
 TubeSpatialObject< TDimension > 
 ::TubeSpatialObject()  
 { 
+  m_ParentPoint = -1;
   m_Dimension = TDimension;
   m_TypeName = "TubeSpatialObject";
   m_Property->SetRed(1); 
@@ -108,6 +109,7 @@ TubeSpatialObject< TDimension >
   os << indent << "TubeSpatialObject(" << this << ")" << std::endl; 
   os << indent << "ID: " << m_Id << std::endl; 
   os << indent << "nb of points: "<< static_cast<unsigned long>( m_Points.size() )<< std::endl;
+  os << indent << "Parent Point : " << m_ParentPoint << std::endl; 
   Superclass::PrintSelf( os, indent ); 
 } 
  
@@ -340,69 +342,6 @@ TubeSpatialObject< TDimension >
 
   return true; 
 } 
-
-/** Compute the normal of the tangent of the centerline of the tube */ 
-/*template< unsigned int TDimension >
-bool  
-TubeSpatialObject< TDimension >  
-::CalcNormal( void ) 
-{ 
-  itkDebugMacro( "Computing the normal vectors of the tube" );
- 
-  if( m_Points.size() == 0 )
-  {
-    return false; 
-  }
-  VectorType t;
-  VectorType n1;
-  VectorType n2; 
-    
-  typename PointListType::iterator it1,it2; 
-  it1 = m_Points.begin(); 
- 
-  while(it1 != m_Points.end())
-  {
-    t = (*it1).GetTangent(); 
- 
-    if (TDimension == 2)
-    { 
-      t = (*it1).GetTangent(); 
-      n1[0] = -t[1];
-      n1[1] = t[0];
-      (*it1).SetV1(n1); 
-    }
- 
-    it1++;
-  }
- 
-  it1 = m_Points.begin();
-  it2 = it1;
-  it2++;
-  n1 = (*it2).GetV1();
-  (*it1).SetV1(n1);
-   
-  if (TDimension == 3)
-  {
-    n2 = (*it2).GetV2();
-    (*it1).SetV2(n2);
-  }
-   
-  it1 = m_Points.end();
-  it1--;
-  it2 = it1;
-  it2--;
-  n1 = (*it2).GetV1();
-  (*it1).SetV1(n1);
-   
-  if (TDimension == 3)
-  {
-    n2 = (*it2).GetV2();
-    (*it1).SetV2(n2);  
-  }
- 
-  return true; 
-} 
-*/
 
 /** Return true if the tube is evaluable at a given point */
 template< unsigned int TDimension >

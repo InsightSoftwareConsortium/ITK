@@ -29,6 +29,10 @@ LineSpatialObjectPoint< TPointDimension >
 { 
   m_ID = 0;
   m_NumDimensions = TPointDimension;
+  for(unsigned int i=0;i<TPointDimension-1;i++)
+  {
+    m_NormalArray[i]=0;
+  }  
 }
 
 /** Destructor */
