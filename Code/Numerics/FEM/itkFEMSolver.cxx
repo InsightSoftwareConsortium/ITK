@@ -292,7 +292,7 @@ void Solver::AssembleK()
   {
     // Call the function that actually moves the element matrix
     // to the master matrix.
-    this->AssembleElementMatrix(*e);
+    this->AssembleElementMatrix(&**e);
   }
 
   this->FinalizeMatrixAfterAssembly();

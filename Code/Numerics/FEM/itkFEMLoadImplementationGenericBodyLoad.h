@@ -68,7 +68,7 @@ public:
     // Statically cast the passed pointer to the element base class and
     // call the real load implementation with the correct pointer types.
     // If cast fails, the passed pointer was of incompatible class.
-    Implementation(e,l0,Fe);
+    Implementation(static_cast<Element::ConstPointer>(e),l0,Fe);
   }
 
 private:
