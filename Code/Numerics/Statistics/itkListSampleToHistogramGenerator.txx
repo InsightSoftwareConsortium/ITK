@@ -112,6 +112,23 @@ ListSampleToHistogramGenerator< TListSample,
     }
 }
 
+template< class TListSample, 
+          class THistogramMeasurement, 
+          class TFrequencyContainer >
+void
+ListSampleToHistogramGenerator< TListSample, 
+                                THistogramMeasurement, 
+                                TFrequencyContainer>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << indent << "AutoMinMax: " << m_AutoMinMax << std::endl;
+  os << indent << "Sizes: " << m_Sizes << std::endl;
+  os << indent << "MarginalScale: "<< m_MarginalScale << std::endl;
+  os << indent << "HistogramMin: "<< m_HistogramMin << std::endl;
+  os << indent << "HistogramMax: "<< m_HistogramMax << std::endl;
+}
+
 } // end of namespace Statistics 
 } // end of namespace itk 
 

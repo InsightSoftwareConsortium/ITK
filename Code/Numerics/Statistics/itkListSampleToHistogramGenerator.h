@@ -124,6 +124,7 @@ protected:
   ListSampleToHistogramGenerator() ;
   virtual ~ListSampleToHistogramGenerator() {}
   void GenerateData() ;
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   const TListSample* m_List ;
