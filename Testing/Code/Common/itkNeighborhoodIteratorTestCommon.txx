@@ -83,7 +83,7 @@ void FillImage(itk::Image<itk::Index<N>,N> *img)
 
 namespace
 {
-TestImageType::Pointer GetTestImage(int x, int y, int z, int a)
+TestImageType::Pointer GetTestImage(int , int , int , int )
 {
   itk::Size<4>  sizeND;
    sizeND[0] = 10;
