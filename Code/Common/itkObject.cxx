@@ -16,132 +16,146 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 
-// Initialize static member that controls warning display
-static bool itkObjectGlobalWarningDisplay = 1;
 
-void 
-itkObject
-::SetGlobalWarningDisplay(bool val)
-{
-  itkObjectGlobalWarningDisplay = val;
-}
-
-bool 
-itkObject
-::GetGlobalWarningDisplay()
-{
-  return itkObjectGlobalWarningDisplay;
-}
-
-// avoid dll boundary problems
-#ifdef _WIN32
-void* 
-itkObject
-::operator new(size_t nSize, const char *, int)
-{
-  void* p=malloc(nSize);
-  return p;
-}
-
-void* 
-itkObject
-::operator new(size_t nSize)
-{
-  void* p=malloc(nSize);
-  return p;
-}
-
-void 
-itkObject
-::operator delete( void *p )
-{
-  free(p);
-}
-#endif 
-
+/**
+ * Define the object factory construction method.
+ */
 itkObject::Pointer 
 itkObject
 ::New()
 {
-  itkObject *ret = itkObjectFactory<itkObject>::Create();
-  if ( ret )
+  Self *ret = itkObjectFactory<Self>::Create();
+  if(ret != NULL)
     {
     return ret;
     }
-  return new itkObject;
+  return new Self;
 }
 
-// Create an object with Debug turned off and modified time initialized 
-// to zero.
-itkObject
-::itkObject()
-{
-  m_Debug = 0;
-  this->Modified(); // Insures modified time > than any other time
-  // initial reference count = 0 because smart pointer immediately increments it
-  m_ReferenceCount = 0;
-  m_DeleteMethod = NULL;
-}
 
-// Delete a itk object. This method should always be used to delete an object 
-// when the new operator was used to create it. Using the C++ delete method
-// will not work with reference counting.
+/**
+ * Turn debugging output on.
+ */
 void 
 itkObject
-::Delete() 
+::DebugOn()
 {
-  this->UnRegister();
+  m_Debug = true;
 }
 
-itkObject
-::~itkObject() 
-{
-  itkDebugMacro(<< "Destructing!");
 
-  // warn user if reference counting is on and the object is being referenced
-  // by another object
-  if ( m_ReferenceCount > 0)
+/**
+ * Turn debugging output off.
+ */
+void 
+itkObject
+::DebugOff()
+{
+  m_Debug = false;
+}
+
+
+/**
+ * Get the value of the debug flag.
+ */
+bool 
+itkObject
+::GetDebug() const
+{
+  return m_Debug;
+}
+
+
+/**
+ * Set the value of the debug flag. A non-zero value turns debugging on.
+ */
+void 
+itkObject
+::SetDebug(bool debugFlag)
+{
+  m_Debug = debugFlag;
+}
+
+
+/**
+ * Return the modification for this object.
+ */
+unsigned long 
+itkObject
+::GetMTime() 
+{
+  return m_MTime.GetMTime();
+}
+
+
+/**
+ * Make sure this object's modified time is greater than all others.
+ */
+void 
+itkObject
+::Modified()
+{
+  m_MTime.Modified();
+}
+
+
+/**
+ * Increase the reference count (mark as used by another object).
+ */
+void 
+itkObject
+::Register()
+{
+  m_ReferenceCount++;
+  itkDebugMacro(<< "Registered, "
+                << "ReferenceCount = " << m_ReferenceCount);
+
+  if(m_ReferenceCount <= 0)
     {
-    itkErrorMacro(<< "Trying to delete object with non-zero reference count.");
+    delete this;
     }
 }
 
-// This operator allows all subclasses of itkObject to be printed via <<.
-// It in turn invokes the Print method, which in turn will invoke the
-// PrintSelf method that all objects should define, if they have anything
-// interesting to print out.
-std::ostream& 
-operator<<(std::ostream& os, itkObject& o)
-{
-  o.Print(os);
-  return os;
-}
 
+/**
+ * Decrease the reference count (release by another object).
+ */
 void 
 itkObject
-::Print(std::ostream& os)
+::UnRegister()
 {
-  itkIndent indent;
+  itkDebugMacro(<< this << "UnRegistered, "
+  << "ReferenceCount = " << (m_ReferenceCount-1));
 
-  this->PrintHeader(os,0); 
-  this->PrintSelf(os, indent.GetNextIndent());
-  this->PrintTrailer(os,0);
+  if(--m_ReferenceCount <= 0)
+    {
+    /**
+     * If there is a delete method, invoke it.
+     */
+    if(m_DeleteMethod != NULL)
+      {
+      (*m_DeleteMethod)(this);
+      }
+    delete this;
+    }
 }
 
+
+/**
+ * Sets the reference count (use with care)
+ */
 void 
 itkObject
-::PrintHeader(std::ostream& os, itkIndent indent)
+::SetReferenceCount(int ref)
 {
-  os << indent << this->GetClassName() << " (" << this << ")\n";
+  m_ReferenceCount = ref;
+  itkDebugMacro(<< "Reference Count set to " << m_ReferenceCount);
 }
 
-void 
-itkObject
-::PrintTrailer(std::ostream& os, itkIndent indent)
-{
-  os << indent << std::endl;
-}
 
+/**
+ * Set the delete method, and update modification time if needed.
+ */
 void 
 itkObject
 ::SetDeleteMethod(void (*f)(void *))
@@ -153,8 +167,53 @@ itkObject
     }
 }
 
-// Chaining method to print an object's instance variables, as well as
-// its superclasses.
+
+/**
+ * Set the value of the global debug output control flag.
+ */
+void 
+itkObject
+::SetGlobalWarningDisplay(bool val)
+{
+  m_GlobalWarningDisplay = val;
+}
+
+
+/**
+ * Get the value of the global debug output control flag.
+ */
+bool 
+itkObject
+::GetGlobalWarningDisplay()
+{
+  return m_GlobalWarningDisplay;
+}
+
+
+/**
+ * Create an object with Debug turned off and modified time initialized 
+ * to the most recently modified object.
+ */
+itkObject
+::itkObject():
+  itkLightObject(),
+  m_Debug(false)
+{
+  this->Modified();
+}
+
+
+itkObject
+::~itkObject() 
+{
+  itkDebugMacro(<< "Destructing!");
+}
+
+
+/**
+ * Chaining method to print an object's instance variables, as well as
+ * its superclasses.
+ */
 void 
 itkObject
 ::PrintSelf(std::ostream& os, itkIndent indent)
@@ -173,103 +232,31 @@ itkObject
   os << indent << "Reference Count: " << m_ReferenceCount << std::endl;
 }
 
-// Return the modification for this object.
-unsigned long 
-itkObject
-::GetMTime() 
-{
-  return m_MTime.GetMTime();
-}
 
-// Turn debugging output on.
+/**
+ * Define a default print header for all objects.
+ */
 void 
 itkObject
-::DebugOn()
+::PrintHeader(std::ostream& os, itkIndent indent)
 {
-  m_Debug = 1;
+  os << indent << this->GetClassName() << " (" << this << ")\n";
 }
 
-// Turn debugging output off.
+
+/**
+ * Define a default print trailer for all objects.
+ */
 void 
 itkObject
-::DebugOff()
+::PrintTrailer(std::ostream& os, itkIndent indent)
 {
-  m_Debug = 0;
-}
-
-// Get the value of the debug flag.
-bool 
-itkObject
-::GetDebug() const
-{
-  return m_Debug;
-}
-
-// Set the value of the debug flag. A non-zero value turns debugging on.
-void 
-itkObject
-::SetDebug(bool debugFlag)
-{
-  m_Debug = debugFlag;
+  os << indent << std::endl;
 }
 
 
-// This method is called when itkErrorMacro executes. It allows 
-// the debugger to break on error.
-void 
-itkObject
-::BreakOnError()
-{
-  ;
-}
-
-// Sets the reference count (use with care)
-void 
-itkObject
-::SetReferenceCount(int ref)
-{
-  m_ReferenceCount = ref;
-  itkDebugMacro(<< "Reference Count set to " << m_ReferenceCount);
-}
-
-// Increase the reference count (mark as used by another object).
-void 
-itkObject
-::Register()
-{
-  m_ReferenceCount++;
-  itkDebugMacro(<< "Registered, "
-                << "ReferenceCount = " << m_ReferenceCount);
-
-  if (m_ReferenceCount <= 0)
-    {
-    delete this;
-    }
-}
-
-// Decrease the reference count (release by another object).
-void 
-itkObject
-::UnRegister()
-{
-  itkDebugMacro(<< this << "UnRegistered, "
-  << "ReferenceCount = " << (m_ReferenceCount-1));
-
-  if (--m_ReferenceCount <= 0)
-    {
-    // invoke the delete method
-    if ( m_DeleteMethod )
-      {
-      (*m_DeleteMethod)(this);
-      }
-    delete this;
-    }
-}
-
-void 
-itkObject
-::Modified()
-{
-  m_MTime.Modified();
-}
+/**
+ * Initialize static member that controls warning display.
+ */
+bool itkObject::m_GlobalWarningDisplay = true;
 

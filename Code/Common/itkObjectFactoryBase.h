@@ -57,7 +57,7 @@ public:
    * the factory was in the ITK_AUTOLOAD_PATH.  After the
    * first factory returns the object no other factories are asked.
    */
-  static itkObject* CreateInstance(const char* itkclassname);
+  static itkLightObject* CreateInstance(const char* itkclassname);
 
   /**
    * Re-check the ITK_AUTOLOAD_PATH for new factory libraries.
@@ -161,7 +161,7 @@ protected:
    * It should create the named itk object or return 0 if that object
    * is not supported by the factory implementation.
    */
-  virtual itkObject* CreateObject(const char* itkclassname );
+  virtual itkLightObject* CreateObject(const char* itkclassname );
   
   itkObjectFactoryBase();
   ~itkObjectFactoryBase();

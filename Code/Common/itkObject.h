@@ -14,9 +14,9 @@
 
 =========================================================================*/
 /**
- * itkObject is the highest level base class for most itk objects. It
- * implements reference counting, debug flags/methods, and defines an
- * API for object printing.
+ * itkObject is the second-highest level base class for most itk objects.
+ * It extends the base object functionality of itkLightObject by
+ * implementing debug flags/methods and modification time tracking.
  */
 
 #ifndef __itkObject_h
@@ -25,18 +25,20 @@
 #include <iostream>
 #include <typeinfo>
 
+#include "itkLightObject.h"
 #include "itkSmartPointer.h"
 #include "itkTimeStamp.h"
 #include "itkIndent.h"
 #include "itkSetGet.h"
 
-class ITK_EXPORT itkObject 
+class ITK_EXPORT itkObject: public itkLightObject
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer<itkObject> Pointer;
+  typedef itkObject              Self;
+  typedef itkSmartPointer<Self>  Pointer;
 
   /** 
    * Create an object with Debug turned off, modified time initialized to
@@ -45,39 +47,10 @@ public:
   static Pointer New();
 
   /** 
-   * Delete an itk object.  This method should always be used to delete an
-   * object when the new operator was used to create it. Using the C
-   *  delete method will not work with reference counting. 
+   * Standard part of all itk objects.
    */
-  virtual void Delete();
+  itkTypeMacro(itkObject, itkLightObject);
 
-  /** 
-   * Return the name of this class as a string. Used by the object factory
-   * (implemented in New()) to instantiate objects of a named type. Also
-   * used for debugging and other output information. 
-   */
-  virtual const char *GetClassName() const
-    {return "itkObject";}
-
-#ifdef _WIN32
-  /** 
-   * Used to avoid dll boundary problems. 
-   */
-  void* operator new( size_t tSize, const char *, int);
-  void* operator new( size_t tSize );
-  void operator delete( void* p );
-#endif 
-  
-  /** 
-   * Cause the object to print itself out.
-   */
-  void Print(std::ostream& os);
-
-  /** 
-   * Overload operator<< to cause the object to print itself out 
-   */
-  std::ostream& operator<< (std::ostream& os) {this->Print(os); return os;}
-    
   /** 
    * Turn debugging output on. 
    */
@@ -99,12 +72,6 @@ public:
   void SetDebug(bool debugFlag);
   
   /** 
-   * This method is called when itkErrorMacro executes. It allows 
-   * the debugger to break on error. 
-   */
-  static void BreakOnError();
-  
-  /** 
    * Return this objects modified time. 
    */
   virtual unsigned long GetMTime();
@@ -116,20 +83,9 @@ public:
   virtual void Modified();
   
   /** 
-   * This is a global flag that controls whether any debug, warning
-   *  or error messages are displayed. 
-   */
-  static void SetGlobalWarningDisplay(bool flag);
-  static void GlobalWarningDisplayOn()
-    {itkObject::SetGlobalWarningDisplay(1);}
-  static void GlobalWarningDisplayOff() 
-    {itkObject::SetGlobalWarningDisplay(0);}
-  static bool  GetGlobalWarningDisplay();
-  
-  /** 
    * Increase the reference count (mark as used by another object). 
    */
-  void Register();
+  virtual void Register();
 
   /** 
    * Decrease the reference count (release by another object). 
@@ -139,25 +95,37 @@ public:
   /** 
    * Gets the reference count (use with care) 
    */
-  int GetReferenceCount() const {return m_ReferenceCount;}
+  virtual int GetReferenceCount() const {return m_ReferenceCount;}
 
   /** 
    * Sets the reference count (use with care) 
    */
-  void SetReferenceCount(int);
+  virtual void SetReferenceCount(int);
 
   /** 
    * A callback for when the destructor is called. Scripting
    * languages use this to know when a C++ object has been freed.
    * This is not intended for any use other than scripting. 
    */
-  void SetDeleteMethod(void (*f)(void *));
+  virtual void SetDeleteMethod(void (*f)(void *));
+  
+  /** 
+   * This is a global flag that controls whether any debug, warning
+   *  or error messages are displayed. 
+   */
+  static void SetGlobalWarningDisplay(bool flag);
+  static bool GetGlobalWarningDisplay();
+
+  static void GlobalWarningDisplayOn()
+    { itkObject::SetGlobalWarningDisplay(true); }
+  static void GlobalWarningDisplayOff()
+    { itkObject::SetGlobalWarningDisplay(false); }
   
 protected:
   itkObject(); 
   virtual ~itkObject(); 
-  itkObject(const itkObject&) {};
-  void operator=(const itkObject&) {};
+  itkObject(const Self&) {}
+  void operator=(const Self&) {}
 
   /** 
    * Methods invoked by Print() to print information about the object
@@ -170,12 +138,20 @@ protected:
   virtual void PrintTrailer(std::ostream& os, itkIndent indent);
 
 private:
-  bool m_Debug;             /// Enable debug messages
-  itkTimeStamp m_MTime;     /// Keep track of modification time
-  int m_ReferenceCount;     /// Number of uses of this object by other objects
-  void (*m_DeleteMethod)(void *);
-
-  friend ITK_EXPORT std::ostream& operator<<(std::ostream& os, itkObject& o);
+  /**
+   * Enable/Disable debug messages.
+   */
+  bool m_Debug;
+  
+  /**
+   * Keep track of modification time.
+   */
+  itkTimeStamp m_MTime;
+  
+  /**
+   * Global object debug flag.
+   */
+  static bool m_GlobalWarningDisplay;
 };
 
 #endif

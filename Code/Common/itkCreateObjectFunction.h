@@ -27,7 +27,7 @@ class itkCreateObjectFunctionBase : public itkObject
 {
 public:
   typedef itkSmartPointer<itkCreateObjectFunctionBase> Pointer;
-  virtual itkObject* CreateObject() = 0;
+  virtual itkLightObject* CreateObject() = 0;
 };
 
 
@@ -37,7 +37,7 @@ class itkCreateObjectFunction : public itkCreateObjectFunctionBase
 public:
   // Methods from itkObject
   static Pointer New() { return new itkCreateObjectFunction<T>;}
-  itkObject* CreateObject()
+  itkLightObject* CreateObject()
     {
       return T::New();
     }

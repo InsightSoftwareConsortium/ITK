@@ -38,7 +38,7 @@ class itkObjectFactory : public itkObjectFactoryBase
 public:
   static T* Create()
     {
-    itkObject* ret = itkObjectFactory::CreateInstance(typeid(T).name());
+    itkLightObject* ret = itkObjectFactory::CreateInstance(typeid(T).name());
     if(ret)
       {
       try

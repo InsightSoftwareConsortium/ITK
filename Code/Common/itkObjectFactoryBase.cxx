@@ -68,7 +68,7 @@ std::list<itkObjectFactoryBase*>*
 //----------------------------------------------------------------------------
 // Create an instance of a named itk object using the loaded
 // factories
-itkObject* 
+itkLightObject* 
 itkObjectFactoryBase
 ::CreateInstance(const char* itkclassname)
 {
@@ -81,7 +81,7 @@ itkObjectFactoryBase
       i = m_RegisteredFactories->begin();
       i != m_RegisteredFactories->end(); ++i )
     {
-    itkObject* newobject = (*i)->CreateObject(itkclassname);
+    itkLightObject* newobject = (*i)->CreateObject(itkclassname);
     if(newobject)
       {
       return newobject;
@@ -383,7 +383,7 @@ itkObjectFactoryBase
 }
 
 //----------------------------------------------------------------------------
-itkObject* 
+itkLightObject* 
 itkObjectFactoryBase
 ::CreateObject(const char* itkclassname)
 {

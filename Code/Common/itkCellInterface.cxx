@@ -101,50 +101,11 @@ CellInterface< TPixelType , TCellType >
 
 
 /**
- * Increase the reference count (mark as used by another object).
- */
-template <typename TPixelType, typename TCellType>
-void
-CellInterface< TPixelType , TCellType >
-::Register(void)
-{
-  m_ReferenceCount++;
-  if(m_ReferenceCount <= 0)
-    {
-    delete this;
-    }
-}
-
-
-/**
- * Decrease the reference count (release by another object).
- * If there are no references left, delete ourself.
- */
-template <typename TPixelType, typename TCellType>
-void
-CellInterface< TPixelType , TCellType >
-::UnRegister(void)
-{
-  --m_ReferenceCount;
-  if(m_ReferenceCount <= 0)
-    {
-    // invoke the delete method
-//    if(m_DeleteMethod != NULL)
-//      {
-//      (*m_DeleteMethod)(this);
-//      }
-    delete this;
-    }
-}
-
-
-/**
- * Constructor.
- * Just initialize the reference count.
+ * Constructor:  Useless for now.
  */
 template <typename TPixelType, typename TCellType>
 CellInterface< TPixelType , TCellType >
-::CellInterface(): m_ReferenceCount(0)
+::CellInterface()
 {
 }
 

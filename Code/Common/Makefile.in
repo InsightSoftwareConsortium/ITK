@@ -9,6 +9,7 @@ itkExceptionObject \
 itkImageBase \
 itkIndent \
 itkNumericTraits \
+itkLightObject \
 itkObject \
 itkObjectFactoryBase \
 itkOutputWindow \

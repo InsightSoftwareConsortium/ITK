@@ -113,19 +113,19 @@ public:
    * which should be a container conforming to the STL "set" interface.
    */
   typedef VectorContainer< CellIdentifier , Cell::Pointer >
-  CellsContainer;
+        CellsContainer;
   typedef std::set< CellIdentifier >
-  PointCellLinksContainer;
+        PointCellLinksContainer;
   typedef VectorContainer< PointIdentifier , PointCellLinksContainer >
-  CellLinksContainer;
+        CellLinksContainer;
   typedef VectorContainer< PointIdentifier , PixelType >
-  PointDataContainer;
+        PointDataContainer;
   typedef VectorContainer< CellIdentifier , PixelType >
-  CellDataContainer;
+        CellDataContainer;
   typedef VectorContainer< BoundaryIdentifier , Cell::Pointer >
-  BoundariesContainer;
+        BoundariesContainer;
   typedef VectorContainer< BoundaryIdentifier , PixelType >
-  BoundaryDataContainer;
+        BoundaryDataContainer;
 };
 
 } // namespace itk

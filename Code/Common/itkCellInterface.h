@@ -20,6 +20,7 @@
 #ifndef __itkCellInterface_h
 #define __itkCellInterface_h
 
+#include "itkLightObject.h"
 #include "itkSmartPointer.h"
 
 namespace itk
@@ -38,7 +39,7 @@ template <
   typename TPixelType,
   typename TCellType
   >
-class CellInterface
+class CellInterface: public itkLightObject
 {
 public:
   /** 
@@ -138,9 +139,7 @@ public:
   /**
    * ITK standard routines.
    */
-  itkTypeMacro(Cell,none);
-  void Register(void);
-  void UnRegister(void);
+  itkTypeMacro(CellInterface, itkLightObject);
 
 protected:
   /**
@@ -156,9 +155,6 @@ protected:
    * Get the geometric position of a point.
    */
 //  bool GetPointPosition(PointsContainer*, int localId, Point*)=0;
-  
-private:
-  int m_ReferenceCount;     // Number of uses of this object by other objects.
 };
 
 
