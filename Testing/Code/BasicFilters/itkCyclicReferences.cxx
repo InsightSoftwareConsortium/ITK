@@ -64,7 +64,7 @@ public:
 class DeleteEvent
 {
 public:
-  void Delete(const itk::Object *caller, unsigned long event) 
+  void Delete(const itk::Object *caller, const itk::EventObject & event) 
     {std::cout << "Deleting: " << caller->GetNameOfClass() << std::endl;}
 };
 
@@ -86,14 +86,14 @@ int main()
   typedef itk::Image<float,2> FloatImage2DType;
 
   // Test the deletion of an image with native type.
-  // (scope operators cause automagic smart pointer destruction)
+  // (scope operators cause automatic smart pointer destruction)
   {//image
   itk::Image<float,2>::Pointer if2 = itk::Image<float,2>::New();
   DeleteEvent deleteEvent;
   itk::MemberCommand<DeleteEvent>::Pointer deleteCommand;
   deleteCommand = itk::MemberCommand<DeleteEvent>::New();
   deleteCommand->SetCallbackFunction(&deleteEvent, &DeleteEvent::Delete);
-  if2->AddObserver(itk::Command::DeleteEvent, deleteCommand);
+  if2->AddObserver(itk::DeleteEvent(), deleteCommand);
 
   //test unregister from vector of data objects
   {
@@ -111,7 +111,7 @@ int main()
   itk::MemberCommand<DeleteEvent>::Pointer deleteReaderCommand;
   deleteReaderCommand = itk::MemberCommand<DeleteEvent>::New();
   deleteReaderCommand->SetCallbackFunction(&deleteReader, &DeleteEvent::Delete);
-  reader->AddObserver(itk::Command::DeleteEvent, deleteReaderCommand);
+  reader->AddObserver(itk::DeleteEvent(), deleteReaderCommand);
   }//reader
   
   // Create another source object (in this case a random image generator).
@@ -126,7 +126,7 @@ int main()
   itk::MemberCommand<DeleteEvent>::Pointer deleteRandomCommand;
   deleteRandomCommand = itk::MemberCommand<DeleteEvent>::New();
   deleteRandomCommand->SetCallbackFunction(&deleteRandom, &DeleteEvent::Delete);
-  random->AddObserver(itk::Command::DeleteEvent, deleteRandomCommand);
+  random->AddObserver(itk::DeleteEvent(), deleteRandomCommand);
 
   // Create a filter...shrink the image by an integral amount. We also 
   // add some callbacks to the start, progress, and end filter execution
@@ -141,7 +141,7 @@ int main()
   itk::MemberCommand<DeleteEvent>::Pointer deleteShrinkCommand;
   deleteShrinkCommand = itk::MemberCommand<DeleteEvent>::New();
   deleteShrinkCommand->SetCallbackFunction(&deleteShrink, &DeleteEvent::Delete);
-  shrink->AddObserver(itk::Command::DeleteEvent, deleteShrinkCommand);
+  shrink->AddObserver(itk::DeleteEvent(), deleteShrinkCommand);
   
   // Create a mapper (in this case a writer). A mapper
   // is templated on the input type.
@@ -157,7 +157,7 @@ int main()
   itk::MemberCommand<DeleteEvent>::Pointer deleteWriterCommand;
   deleteWriterCommand = itk::MemberCommand<DeleteEvent>::New();
   deleteWriterCommand->SetCallbackFunction(&deleteWriter, &DeleteEvent::Delete);
-  writer->AddObserver(itk::Command::DeleteEvent, deleteWriterCommand);
+  writer->AddObserver(itk::DeleteEvent(), deleteWriterCommand);
   }//write
   }//shrink
   }//random

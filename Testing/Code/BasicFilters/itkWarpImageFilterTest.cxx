@@ -187,7 +187,7 @@ int main()
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch,
                                &ShowProgressObject::ShowProgress);
-  warper->AddObserver(itk::Command::ProgressEvent, command);
+  warper->AddObserver(itk::ProgressEvent(), command);
 
   warper->Print( std::cout );
   warper->Update();

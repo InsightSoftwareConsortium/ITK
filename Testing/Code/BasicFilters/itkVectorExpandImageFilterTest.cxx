@@ -163,7 +163,7 @@ int main()
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch,
                                &ShowProgressObject::ShowProgress);
-  expander->AddObserver(itk::Command::ProgressEvent, command);
+  expander->AddObserver(itk::ProgressEvent(), command);
 
   expander->Print( std::cout );
   expander->Update();

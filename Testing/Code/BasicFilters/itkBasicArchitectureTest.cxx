@@ -89,43 +89,48 @@ public:
 class AllEvents
 {
 public:
-  void WatchEvents(itk::Object *caller, unsigned long event)
+  void WatchEvents(itk::Object *caller, const itk::EventObject & event )
     {
       const char* eventName = 0;
-      switch(event)
+      if( typeid( event ) == typeid( itk::DeleteEvent ) )
         {
-        case itk::Command::DeleteEvent:
-          eventName = "DeleteEvent";
-          break;
-        case itk::Command::StartEvent:
-          eventName = "StartEvent";
-          break;
-        case itk::Command::EndEvent:
-          eventName = "EndEvent";
-          break;
-        case itk::Command::ProgressEvent:
-          {
-          itk::ProcessObject* obj = dynamic_cast<itk::ProcessObject*>(caller);
-          std::cout << "AnyEvent Progress " << obj->GetProgress() << std::endl;
-          eventName = "ProgressEvent";
-          break;
-          }
-        case itk::Command::PickEvent:
-          eventName = "PickEvent";
-          break;
-        case itk::Command::StartPickEvent:
-          eventName = "StartPickEvent";
-          break;
-        case itk::Command::AbortCheckEvent:
-          eventName = "AbortCheckEvent";
-          break;
-        case itk::Command::ExitEvent:
-          eventName = "ExitEvent";
-          break;
-        default:
-          eventName = "UserEvent";
+        eventName = "DeleteEvent";
         }
-      std::cout << "Event name: " << eventName << " Id: " << event << std::endl;
+      else if( typeid( event ) == typeid( itk::StartEvent ) )
+        {
+        eventName = "StartEvent";
+        }
+      else if( typeid( event ) == typeid( itk::EndEvent ) )
+        {
+        eventName = "EndEvent";
+        }
+      else if( typeid( event ) == typeid( itk::ProgressEvent ) )
+        {
+        itk::ProcessObject* obj = dynamic_cast<itk::ProcessObject*>(caller);
+        std::cout << "AnyEvent Progress " << obj->GetProgress() << std::endl;
+        eventName = "ProgressEvent";
+          }
+      else if( typeid( event ) == typeid( itk::PickEvent ) )
+        {
+        eventName = "PickEvent";
+        }
+      else if( typeid( event ) == typeid( itk::StartPickEvent ) )
+        {
+        eventName = "StartPickEvent";
+        }
+      else if( typeid( event ) == typeid( itk::AbortCheckEvent ) )
+        {
+        eventName = "AbortCheckEvent";
+        }
+      else if( typeid( event ) == typeid( itk::ExitEvent ) )
+        {
+        eventName = "ExitEvent";
+        }
+      else 
+        {
+        eventName = "UserEvent";
+        }
+      std::cout << "Event name: " << eventName << " Id: " << event.GetEventName() << std::endl;
     }
 };
 
@@ -180,20 +185,20 @@ int main()
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch,
                                &ShowProgressObject::ShowProgress);
-  shrink->AddObserver(itk::Command::ProgressEvent, command);
+  shrink->AddObserver(itk::ProgressEvent(), command);
   
   // Create a command to call StartEndEvent when start event is triggered
   StartEndEvent startEndWatch;
   itk::SimpleMemberCommand<StartEndEvent>::Pointer start;
   start = itk::SimpleMemberCommand<StartEndEvent>::New();
   start->SetCallbackFunction(&startEndWatch, &StartEndEvent::Start);
-  unsigned long tag = shrink->AddObserver(itk::Command::StartEvent, start);
+  unsigned long tag = shrink->AddObserver(itk::StartEvent(), start);
   
   // Create a command to call StartEndEvent when end event is triggered
   itk::SimpleMemberCommand<StartEndEvent>::Pointer end;
   end = itk::SimpleMemberCommand<StartEndEvent>::New();
   end->SetCallbackFunction(&startEndWatch, &StartEndEvent::End);
-  shrink->AddObserver(itk::Command::EndEvent, end);
+  shrink->AddObserver(itk::EndEvent(), end);
   
   // Create a command that to call AnyEvent when event is fired
   AllEvents allWatch;
@@ -201,7 +206,7 @@ int main()
   allEvents = itk::MemberCommand<AllEvents>::New();
   allEvents->SetCallbackFunction(&allWatch,
                                  &AllEvents::WatchEvents);
-  shrink->AddObserver(itk::Command::AnyEvent, allEvents);
+  shrink->AddObserver(itk::AnyEvent(), allEvents);
   
   // Create a mapper (in this case a writer). A mapper
   // is templated on the input type.
