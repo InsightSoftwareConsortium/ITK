@@ -24,15 +24,12 @@ namespace itk
 {
 /**
  * \class SobelEdgeDetectionImageFilter
- * \brief Implements the Sobel Edge Detection.The Sobel operator performs a 2D/ND spatial
- *  gradient  measurement on an image and so emphasizes regions of high spatial gradient 
- *  that correspond to edges. Typically it is used to find the approximate absolute gradient 
- *   magnitude at each point in an input greyscale image
- *  
- *  In this filter, the Sobel operator is first applied to each direction just
- *  like calculating the derivative image filters. then the the gradient magnitude is 
- *  calculated, which indicates where the edges are.
-
+ * \brief A 2D or 3D edge detection using the Sobel operator.
+ *
+ * This filter uses the Sobel operator to calculate the image gradient and then
+ * finds the magnitude of this gradient vector.  The Sobel gradient magnitude
+ * (square-root sum of squares) is an indication of edge strength.
+ * 
  * \sa ImageToImageFilter
  * \sa SobelOperator
  * \sa Neighborhood

@@ -49,7 +49,7 @@ SobelEdgeDetectionImageFilter<TInputImage,TOutputImage>
 
   // Build an operator so that we can determine the kernel size
   SobelOperator<OutputPixelType, ImageDimension> oper;
-  oper.CreateOperator();
+  oper.CreateDirectional();
 
   // get a copy of the input requested region (should equal the output
   // requested region)
@@ -123,7 +123,7 @@ SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
     
     // Set boundary condition and operator for this axis.
     opers[i].SetDirection(i);
-    opers[i].CreateOperator();
+    opers[i].CreateDirectional();
     opFilter[i]->OverrideBoundaryCondition(&nbc);
     opFilter[i]->SetOperator(opers[i]);
     
