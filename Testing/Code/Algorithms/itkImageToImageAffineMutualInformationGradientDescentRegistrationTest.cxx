@@ -147,10 +147,6 @@ int main()
   registrationMethod->SetTargetTransformationCenter( transCenter );
   registrationMethod->SetReferenceTransformationCenter( transCenter );
 
-  // set optimization related parameters
-  registrationMethod->SetNumberOfIterations( 1000 );
-  registrationMethod->SetLearningRate( 0.2 );
-
   //
   // only allow translation - since the metric will allow any
   // rotation without penalty as image is circular
@@ -169,11 +165,22 @@ int main()
 
 
   // set metric related parameters
-  registrationMethod->GetMetric()->SetTargetStandardDeviation( 20.0 );
-  registrationMethod->GetMetric()->SetReferenceStandardDeviation( 20.0 );
+  registrationMethod->GetMetric()->SetTargetStandardDeviation( 5.0 );
+  registrationMethod->GetMetric()->SetReferenceStandardDeviation( 5.0 );
   registrationMethod->GetMetric()->SetNumberOfSpatialSamples( 50 );
 
-  // start registration
+  // do the registration
+  // reduce learning rate as we go
+  registrationMethod->SetNumberOfIterations( 500 );
+  registrationMethod->SetLearningRate( 0.1 );
+  registrationMethod->StartRegistration();
+
+  registrationMethod->SetNumberOfIterations( 250 );
+  registrationMethod->SetLearningRate( 0.001 );
+  registrationMethod->StartRegistration();
+
+  registrationMethod->SetNumberOfIterations( 125 );
+  registrationMethod->SetLearningRate( 0.0001 );
   registrationMethod->StartRegistration();
 
   // get the results
@@ -186,7 +193,9 @@ int main()
   // check results to see if it is within range
   //
   bool pass = true;
-  double trueParameters[6] = { 1, 0, 0, 1, -7, -3 };
+  double trueParameters[6] = { 1, 0, 0, 1, 0, 0 };
+  trueParameters[4] = - displacement[0];
+  trueParameters[5] = - displacement[1];
   for( unsigned int j = 0; j < 4; j++ )
     {
     if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.02 )
