@@ -64,12 +64,6 @@ class Vector : public Array<T,TVectorDimension> {
    */
   typedef Array<T,TVectorDimension>  Superclass;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(Vector, Array);
-
-
   /**
    * ValueType can be used to declare a variable that is the same type
    * as a data element held in an Vector.  

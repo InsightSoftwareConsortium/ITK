@@ -55,13 +55,6 @@ class Point : public Array< TCoordRep, TPointDimension > {
    */
   typedef Array<TCoordRep,TPointDimension>  Superclass;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(Point, Array);
-
-
-
   /**
    * ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.  
