@@ -104,8 +104,8 @@ public:
   typedef typename TFunctionType::InputType TPositionType;
 
   /** Set the internal spatial function. */
-  void SetFunction( TFunctionType* pFunction )
-    {m_pFunction = pFunction;};
+  void SetFunction( TFunctionType* PixelFunction )
+    {m_PixelFunction = PixelFunction;};
 
 protected:
   SpatialFunctionImageEvaluatorFilter();
@@ -119,7 +119,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** The function that will be evaluated over the image */
-  TFunctionType* m_pFunction;
+  TFunctionType* m_PixelFunction;
 };
 
 } // end namespace itk

@@ -56,7 +56,7 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
   itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::SpatialFunctionImageEvaluatorFilter() called");
   
   // Set the internal function to null
-  this->m_pFunction = 0;
+  this->m_PixelFunction = 0;
 }
 
 
@@ -89,7 +89,7 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
     {
     typename TOutputImage::IndexType index = outIt.GetIndex();
     outputPtr->TransformIndexToPhysicalPoint(index, evalPoint );
-    value = m_pFunction->Evaluate(evalPoint);
+    value = m_PixelFunction->Evaluate(evalPoint);
 
     // Set the pixel value to the function value
     outIt.Set( (PixelType) value);
