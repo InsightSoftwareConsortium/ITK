@@ -27,7 +27,6 @@ INSTALL_FILES(/lib/InsightToolkit ".tcl" itkdata itkinteraction itktesting itkut
 IF(ITK_CMAKE_HAS_EXPLICIT_INSTALL_FILES)
   SET(ITK_TCL_PKGINDEX_FOR_INSTALL "${ITK_BINARY_DIR}/Wrapping/Tcl/Install/Hide/pkgIndex.tcl")
   INSTALL_FILES(/lib/InsightToolkit FILES "${ITK_TCL_PKGINDEX_FOR_INSTALL}")
-  INSTALL_FILES(/lib/InsightToolkit FILES "${CABLE_TCL_LIBRARY}")
 ENDIF(ITK_CMAKE_HAS_EXPLICIT_INSTALL_FILES)
 
 #-----------------------------------------------------------------------------
