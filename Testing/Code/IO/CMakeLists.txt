@@ -201,7 +201,7 @@ ADD_TEST(itkNumericSeriesFileNamesTest ${IO_TESTS}
 ADD_TEST(itkGE4 ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
             ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
-  itkGEImageIOTest
+  itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} 
             true 
 		GE4
             ${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001
@@ -211,7 +211,7 @@ ADD_TEST(itkGE4 ${IO_TESTS}
   ADD_TEST(itkGE5 ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
             ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
-  itkGEImageIOTest
+  itkGEImageIOTest ${ITK_TEST_OUTPUT_DIR} 
             true 
             GE5
             ${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001
@@ -220,7 +220,7 @@ ADD_TEST(itkGE4 ${IO_TESTS}
  ADD_TEST(itkGEAdw  ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
             ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
-  itkGEImageIOTest
+  itkGEImageIOTest ${ITK_TEST_OUTPUT_DIR} 
             true 
             GEAdw 
             ${ITK_DATA_ROOT}/Input/test_geadw/I.001
@@ -229,7 +229,7 @@ ADD_TEST(itkGE4 ${IO_TESTS}
  ADD_TEST(itkSiemens ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
             ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
-  itkGEImageIOTest
+  itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} 
             true 
             Siemens 
             ${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima
