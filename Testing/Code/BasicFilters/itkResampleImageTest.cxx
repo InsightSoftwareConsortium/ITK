@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 
 #include "itkAffineTransform.h"
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkResampleImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -52,7 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 enum {NDimensions = 2};
 
 typedef short                  PixelType;
-typedef itk::PhysicalImage<PixelType, NDimensions>     ImageType;
+typedef itk::Image<PixelType, NDimensions>     ImageType;
 typedef ImageType::IndexType                ImageIndexType;
 typedef ImageType::Pointer                  ImagePointerType;
 typedef ImageType::RegionType               ImageRegionType;

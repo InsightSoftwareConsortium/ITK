@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkOutputWindow.h"
 #include "itkRawImageIO.h"
 #include "itkFileIOToImageFilter.h"
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 
 // this class is used to send output to stdout and not the itk window
 class TextOutput : public itk::OutputWindow
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
   io->SetPixelType(itk::ITK_UCHAR);
   io->SetNumberOfComponents(3);
 
-  typedef itk::PhysicalImage<RGBPixelType,2> RGBImage2DType;
+  typedef itk::Image<RGBPixelType,2> RGBImage2DType;
   itk::FileIOToImageFilter<RGBImage2DType>::Pointer reader;
   reader = itk::FileIOToImageFilter<RGBImage2DType>::New();
   reader->SetFileName(argv[1]);

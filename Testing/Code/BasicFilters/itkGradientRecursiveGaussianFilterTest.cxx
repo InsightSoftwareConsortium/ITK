@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 
-#include <itkPhysicalImage.h>
+#include <itkImage.h>
 #include <itkGradientRecursiveGaussianImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
 #include <itkCovariantVector.h>
@@ -58,8 +58,8 @@ int main()
   typedef itk::CovariantVector<float, myDimension> myGradientType;
 
   // Declare the types of the images
-  typedef itk::PhysicalImage<float, myDimension>           myImageType;
-  typedef itk::PhysicalImage<myGradientType, myDimension>  myGradientImageType;
+  typedef itk::Image<float, myDimension>           myImageType;
+  typedef itk::Image<myGradientType, myDimension>  myGradientImageType;
 
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>             myIndexType;

@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 #include <iostream>
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 #include "itkVector.h"
 #include "itkRandomImageSource.h"
 #include "itkShrinkImageFilter.h"
@@ -135,18 +135,18 @@ int main()
 
   // Test the creation of an image with native type
   //
-  itk::PhysicalImage<float,2>::Pointer if2 = itk::PhysicalImage<float,2>::New();
+  itk::Image<float,2>::Pointer if2 = itk::Image<float,2>::New();
 
   std::cout << std::endl
-            << "Image dimension is " << itk::PhysicalImage<float,5>::ImageDimension
+            << "Image dimension is " << itk::Image<float,5>::ImageDimension
             << std::endl;
-  std::cout << "Image dimension is " << itk::PhysicalImage<short,1>::ImageDimension
+  std::cout << "Image dimension is " << itk::Image<short,1>::ImageDimension
             << std::endl;
 
   // Begin by creating a simple pipeline. Use a scalar ss a pixel.
   //
   // Create a typedef to make the code more digestable
-  typedef itk::PhysicalImage<float,2> FloatImage2DType;
+  typedef itk::Image<float,2> FloatImage2DType;
 
   // Create a source object (in this case a reader)
   itk::VTKImageReader<FloatImage2DType>::Pointer reader;

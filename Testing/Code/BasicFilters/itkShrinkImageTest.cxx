@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #include <iostream>
 #include "itkImage.h"
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkShrinkImageFilter.h"
 
@@ -53,7 +53,7 @@ int main()
             << simpleImage->GetSpacing()[1] << std::endl;
   
   // typedefs to simplify the syntax
-  typedef itk::PhysicalImage<short, 2>   ShortImage;
+  typedef itk::Image<short, 2>   ShortImage;
 
   // Test the creation of an image with native type
   ShortImage::Pointer if2 = ShortImage::New();

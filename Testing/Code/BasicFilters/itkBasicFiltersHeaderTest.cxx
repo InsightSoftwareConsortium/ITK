@@ -45,7 +45,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageFileReader.h"
 #include "itkImageWriter.h"
 #include "itkImportImageFilter.h"
-#include "itkImportPhysicalImageFilter.h"
 #include "itkLog10ImageFilter.h"
 #include "itkLogImageFilter.h"
 #include "itkMeshSource.h"

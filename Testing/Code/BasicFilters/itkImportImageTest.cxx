@@ -39,10 +39,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 #include <iostream>
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkShrinkImageFilter.h"
-#include "itkImportPhysicalImageFilter.h"
+#include "itkImportImageFilter.h"
 
 int main()
 {
@@ -54,8 +54,8 @@ int main()
     }
 
   // typdefs to simplify the syntax
-  typedef itk::ImportPhysicalImageFilter<short, 2>          ImportImageFilter;
-  typedef itk::PhysicalImage<short, 2>   ShortImage;
+  typedef itk::ImportImageFilter<short, 2>          ImportImageFilter;
+  typedef itk::Image<short, 2>   ShortImage;
     
   // Create an ImportImageFilter filter
   ImportImageFilter::Pointer import;
