@@ -41,6 +41,8 @@ int main()
 
   MatrixType matrix;
 
+  matrix.Fill( 0.0 );
+
   matrix.SetIdentity();
 
   VectorType v1;
