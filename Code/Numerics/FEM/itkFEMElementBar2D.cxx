@@ -50,7 +50,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkFEMUtility.h"
 #include "itkFEMObjectFactory.h"
 #include "vnl/vnl_vector_fixed.h"
-#include <cmath>
+#include "vnl/vnl_math.h"
 
 namespace itk {
 namespace fem {

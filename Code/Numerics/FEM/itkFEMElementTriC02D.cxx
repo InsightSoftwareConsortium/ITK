@@ -49,7 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkFEMLoadEdge.h"
 #include "itkFEMObjectFactory.h"
 #include "itkFEMUtility.h"
-#include <cmath>
+#include "vnl/vnl_math.h"
 
 namespace itk {
 namespace fem {
