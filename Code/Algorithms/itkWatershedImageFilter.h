@@ -202,7 +202,21 @@ public:
    * segmentation   */
   void SetLevel(double);
   itkGetMacro(Level, double);
-  
+
+  /** Get the basic segmentation from the Segmenter member filter. */
+  typename watershed::Segmenter<InputImageType>::OutputImageTypePointer
+  GetBasicSegmentation()
+    {
+      return m_Segmenter->GetOutputImage();
+    }
+
+  /** Get the segmentation tree from from the TreeGenerator member filter. */
+  typename watershed::SegmentTreeGenerator<ScalarType>::SegmentTreeTypePointer
+  GetSegmentTree()
+    {
+      return m_TreeGenerator->GetOutputSegmentTree();
+    }
+   
 protected:
   WatershedImageFilter();
   virtual ~WatershedImageFilter() {}
