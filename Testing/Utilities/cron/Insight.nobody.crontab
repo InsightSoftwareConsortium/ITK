@@ -1,0 +1,14 @@
+MAILTO=blezek@crd.ge.com
+SHELL=/bin/tcsh
+
+# run the doxygen update script automatically every night at 1 am
+0 1 * * * /home/httpd/cgi-bin/Update-Insight-Doxygen.sh
+
+# Open the insight dashboard at 3am
+5 3 * * * cd /insight/TestingTree/Insight-TestingResults;  make NightlyDashboardStart ; ./myconfig > /dev/null; make NightlyDashboardEnd
+
+#5 3 * * * cd /insight/TestingTree/Insight-TestingResults;  /usr/bin/tclsh Testing/Utilities/DashboardManager.tcl Nightly DashboardStart >& Log.txt;  ./myconfig >>& Log.txt; /usr/bin/tclsh Testing/Utilities/DashboardManager.tcl Nightly DashboardEnd >>& Log.txt
+	
+
+# Roll up each hour on the half hour
+0 0-2,4-23 * * * cd /insight/TestingTree/Insight-TestingResults; /usr/bin/tclsh Testing/Utilities/DashboardManager.tcl Nightly DashboardEnd >>& Log.txt
