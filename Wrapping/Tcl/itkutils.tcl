@@ -35,36 +35,33 @@ namespace eval itk {
   # Start with an empty object list.
   set _ObjectList_ {}
   
-  # Create an image viewing window.
-  proc createImageViewer2D {name image} {
-    # Create the display window.
-    toplevel $name
-    frame $name.xy
-    pack $name.xy -expand 1 -fill both -side left
-    canvas $name.xy.canvas -scrollregion "1 1 32 32" \
-                           -xscrollcommand "$name.xy.scrollx set" \
-                           -yscrollcommand "$name.xy.scrolly set"
-    scrollbar $name.xy.scrollx -orient horizontal \
-                               -command "$name.xy.canvas xview"
-    scrollbar $name.xy.scrolly -orient vertical \
-                               -command "$name.xy.canvas yview"
-    pack $name.xy.scrollx -side bottom -fill x
-    pack $name.xy.scrolly -side right -fill y
-    pack $name.xy.canvas -expand 1 -fill both
+  # Create an image viewer in a given frame.
+  proc createImageViewer2D {frame image} {
+    # Create the canvas.
+    canvas $frame.canvas -scrollregion "1 1 32 32" \
+                         -xscrollcommand "$frame.scrollx set" \
+                         -yscrollcommand "$frame.scrolly set"
+    scrollbar $frame.scrollx -orient horizontal \
+                             -command "$frame.canvas xview"
+    scrollbar $frame.scrolly -orient vertical \
+                             -command "$frame.canvas yview"
+    pack $frame.scrollx -side bottom -fill x
+    pack $frame.scrolly -side right -fill y
+    pack $frame.canvas -expand 1 -fill both
     
     # Create a Tk image on the canvas.
     set i [image create photo]
-    $name.xy.canvas create image 0 0 -image $i -anchor nw
+    $frame.canvas create image 0 0 -image $i -anchor nw
     
     # Setup the TkImageViewer2D instance.
     set viewer [itk::create TkImageViewer2D]
     $viewer SetInput $image
     $viewer SetInterpreter [cable::Interpreter]
     $viewer SetImageName $i
-    $viewer SetCanvasName $name.xy.canvas
+    $viewer SetCanvasName $frame.canvas
     return $viewer
   }
-  
+
   # Create a Tcl callback event.
   proc createTclCommand { cmd } {
     set command [itk::create TclCommand]
