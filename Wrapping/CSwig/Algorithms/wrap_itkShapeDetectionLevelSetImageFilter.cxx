@@ -26,6 +26,10 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkShapeDetectionLevelSetImageFilter);
   namespace wrappers
   {
+    ITK_WRAP_OBJECT2(SegmentationLevelSetImageFilter, image::F2, image::F2,
+                     itkSegmentationLevelSetImageFilterF2F2);
+    ITK_WRAP_OBJECT2(SegmentationLevelSetImageFilter, image::F3, image::F3,
+                     itkSegmentationLevelSetImageFilterF3F3);
     ITK_WRAP_OBJECT2(ShapeDetectionLevelSetImageFilter, image::F2, image::F2,
                      itkShapeDetectionLevelSetImageFilterF2F2);
     ITK_WRAP_OBJECT2(ShapeDetectionLevelSetImageFilter, image::F3, image::F3,
