@@ -60,14 +60,14 @@ public:
   /** 
    * Write access to the Red component
    */
-  static void Set( InternalType & output, const ExternalType & input ) 
+  static inline void Set( InternalType & output, const ExternalType & input ) 
     { output.SetRed( input ); }
 
 
   /** 
    * Read access to the Red component
    */
-  static ExternalType Get( const InternalType & input ) 
+  static inline ExternalType Get( const InternalType & input ) 
     { return input.GetRed(); }
 
 
