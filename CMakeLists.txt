@@ -22,6 +22,7 @@ SUBDIRS(Utilities Code)
 # DROP_SITE_PASSWORD and TRIGGER_SITE.
 # 
 IF (BUILD_TESTING)
+  ENABLE_TESTING()
   SUBDIRS(Testing)
 
   SET (DROP_SITE "public.kitware.com" CACHE INTERNAL "FTP site for submitting testing results")
@@ -65,18 +66,18 @@ ENDIF(RUN_CONFIGURE)
 # for win32 vc60, just copy files
 IF(NOT UNIX)
   IF(WIN32)
-    CONFIGURE_FILE_NOAUTOCONF(
+    CONFIGURE_FILE(
         ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vxl_config.h
-        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vxl_config.h)
-    CONFIGURE_FILE_NOAUTOCONF(
+        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vxl_config.h COPYONLY)
+    CONFIGURE_FILE(
         ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_compiler.h
-        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_compiler.h)
-    CONFIGURE_FILE_NOAUTOCONF(
+        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_compiler.h COPYONLY)
+    CONFIGURE_FILE(
         ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_headers.h
-        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_headers.h)
-    CONFIGURE_FILE_NOAUTOCONF(
+        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_headers.h COPYONLY)
+    CONFIGURE_FILE(
         ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_manual.h
-        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_manual.h)
+        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_manual.h COPYONLY)
   ENDIF(WIN32)
 ENDIF(NOT UNIX)
 
