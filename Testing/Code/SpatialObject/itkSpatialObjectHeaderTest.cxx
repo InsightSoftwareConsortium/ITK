@@ -54,6 +54,11 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSurfaceSpatialObjectPoint.txx"
 #include "itkTubeSpatialObject.txx"
 #include "itkTubeSpatialObjectPoint.txx"
+#include "itkAffineGeometryFrame.h"
+#include "itkAffineGeometryFrame.txx"
+#include "itkSpatialObjectTreeContainer.h"
+#include "itkSpatialObjectTreeContainer.txx"
+#include "itkSpatialObjectTreeNode.h"
 
 int main ( int , char*  )
 {
