@@ -16,7 +16,7 @@ See COPYRIGHT.txt for copyright details.
 #include <iostream>
 #include "itkScalar.h"
 
-int main()
+void main()
 {
   bool passed = true;
 
@@ -134,13 +134,13 @@ int main()
   if (passed)
     {
     std::cerr << "Scalar test passed." << std::endl;
+    exit(EXIT_SUCCESS);
     }
   else
     {
     std::cerr << "Scalar test failed." << std::endl;
+    exit(EXIT_FAILURE);
     }
-
-  return passed;
 }
 
 

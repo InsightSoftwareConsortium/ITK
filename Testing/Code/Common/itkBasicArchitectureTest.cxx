@@ -22,7 +22,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkWriteVTKImage.h"
 #include "itkReadVTKImage.h"
 
-int main()
+void main()
 {
   // Test the creation of an image with native type
   itk::Image<float,2>::Pointer if2 = itk::Image<float,2>::New();
@@ -60,7 +60,7 @@ int main()
   writer->DebugOn();
   writer->Write();
 
-  return 1;
+  exit(EXIT_SUCCESS);
 }
 
 

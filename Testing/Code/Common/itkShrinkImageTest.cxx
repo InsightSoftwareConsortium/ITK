@@ -19,7 +19,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkScalar.h"
 #include "itkShrinkImage.h"
 
-int main()
+void main()
 {
   // Test the creation of an image with native type
   itk::Image<itk::Scalar<short>,2>::Pointer
@@ -75,13 +75,14 @@ int main()
   if (passed)
     {
     std::cerr << "ShrinkImage test passed." << std::endl;
+    exit(EXIT_SUCCESS);
     }
   else
     {
     std::cerr << "ShrinkImage test failed." << std::endl;
+    exit(EXIT_FAILURE);
     }
 
-  return passed;
 }
 
 
