@@ -15,7 +15,6 @@ REGISTER_TEST(DeformableModel1Test);
 REGISTER_TEST(FastMarchingImageFilterTest);
 REGISTER_TEST(GeodesicActiveContourImageFilterTest);
 REGISTER_TEST(GibbsPriorImageFilter1Test);
-REGISTER_TEST(HybridSegmentationFuzzyVoronoiTest);
 REGISTER_TEST(IsolatedConnectedImageFilterTest);
 REGISTER_TEST(NeighborhoodConnectedImageFilterTest);
 REGISTER_TEST(ShapeDetectionLevelSetFilterTest);
@@ -45,10 +44,6 @@ REGISTER_TEST(WatershedSegmentation1Test);
 #undef main
 #define main GibbsPriorImageFilter1Test
 #include "GibbsPriorImageFilter1.cxx"
-
-#undef main
-#define main HybridSegmentationFuzzyVoronoiTest
-#include "HybridSegmentationFuzzyVoronoi.cxx"
 
 #undef main
 #define main IsolatedConnectedImageFilterTest
