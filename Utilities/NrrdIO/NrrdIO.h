@@ -61,7 +61,7 @@ extern "C" {
 #  pragma warning ( disable : 4723 )
 #endif
 
-#if defined(_WIN32) && !defined(__CYGWIN__)
+#if defined(_WIN32) && !defined(__CYGWIN__) && !defined(__MINGW32__)
 typedef signed __int64 airLLong;
 typedef unsigned __int64 airULLong;
 #define AIR_LLONG_FMT "%I64d"

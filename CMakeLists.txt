@@ -311,6 +311,10 @@ IF(CMAKE_SYSTEM MATCHES "IRIX.*")
   ENDIF(NOT CMAKE_COMPILER_IS_GNUCXX)
 ENDIF(CMAKE_SYSTEM MATCHES "IRIX.*")
 
+IF(MINGW)
+  LINK_LIBRARIES(gdi32)
+ENDIF(MINGW)
+
 # for the gnu compiler a -D_PTHREADS is needed on sun
 # for the native compiler a -mt flag is needed on the sun
 IF(CMAKE_USE_PTHREADS)

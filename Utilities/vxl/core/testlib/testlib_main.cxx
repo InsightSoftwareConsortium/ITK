@@ -4,7 +4,7 @@
 #include <vcl_string.h>
 #include <vcl_vector.h>
 
-#if defined(VCL_WIN32)
+#if defined(VCL_VC) || defined(VCL_BORLAND)
 #  include <crtdbg.h>
 #  include <windows.h>
 #  include <vcl_cstdio.h>

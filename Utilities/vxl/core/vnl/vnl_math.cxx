@@ -8,7 +8,7 @@
 #include "vnl_math.h"
 #include <vxl_config.h>
 
-#if defined(VCL_VC)
+#if defined(VCL_VC) || defined(__MINGW32__)
 // I don't think we need this, because <ieeefp.h> is available -- fsm
 # include <Float.h> // for 'isnan' and 'finite'
 // # define isnan _isnan
