@@ -82,7 +82,7 @@ int itkGEImageIOTest(int ac, char * av[])
     --ac;
     itksys::SystemTools::ChangeDirectory(testdir);
   }
-  if(ac != 4)
+  if(ac != 5)
     return 1;
   std::string failmode(av[1]);
   std::string filetype(av[2]);
