@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkCurvatureFlowImageFilter.h"
 #include "itkRandomImageSource.h"
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 #include "itkVTKImageWriter.h"
 
 
@@ -52,7 +52,7 @@ int main()
    * Create a random image of size 64 x 64
    */
   typedef float PixelType;
-  typedef itk::PhysicalImage<PixelType,2> ImageType;
+  typedef itk::Image<PixelType,2> ImageType;
   
   typedef itk::RandomImageSource<ImageType> SourceType;
 
