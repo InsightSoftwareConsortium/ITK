@@ -202,21 +202,21 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
           }
         }
       }
-    }
 
-  m_SpherePointsLoc[k].resize(m_SpherePointsNum[k]);
+    m_SpherePointsLoc[k].resize(m_SpherePointsNum[k]);
 
-  tti2 = 0;
-  for (i = -k - 2; i <= k + 2; i++)
-    {
-    for (j = -k - 2; j <= k + 2; j++)
+    tti2 = 0;
+    for (i = -k - 2; i <= k + 2; i++)
       {
-      if (ppptti1[(8+5) + i][(8+5) + j] == 2)
+      for (j = -k - 2; j <= k + 2; j++)
         {
-        ppptti1[(8+5) + i][(8+5) + j] = 1;
-        location = j,i,0;
-        m_SpherePointsLoc[k][tti2] = location;
-        tti2 = tti2+1;
+        if (ppptti1[(8+5) + i][(8+5) + j] == 2)
+          {
+          ppptti1[(8+5) + i][(8+5) + j] = 1;
+          location = j,i,0;
+          m_SpherePointsLoc[k][tti2] = location;
+          tti2 = tti2+1;
+          }
         }
       }
     }
@@ -681,7 +681,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
               if(temp[j]>m_FeaturesThreshold[j])
                 {
                 edge_flag = 1;
-                j = VectorDimension;
+                break;
                 }
               }
 
@@ -860,7 +860,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
           if(temp[j] > m_FeaturesThreshold[j])
             {
             edge_flag = 1;
-            j = VectorDimension;
+            break;
             }
           tti1 = tti1 + static_cast<int>(temp[j]*m_PowerValue[j]);
           }
@@ -894,7 +894,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
           if(temp[j] > m_FeaturesThreshold[j])
             {
             edge_flag = 1;
-            j = VectorDimension;
+            break;
             }
           tti1 = tti1 + static_cast<int>(temp[j]*m_PowerValue[j]);
           }
@@ -925,7 +925,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
           if(temp[j] > m_FeaturesThreshold[j])
             {
             edge_flag = 1;
-            j = VectorDimension;
+            break;
             }
           tti1 = tti1 + static_cast<int>(temp[j]*m_PowerValue[j]);
           }
@@ -977,7 +977,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
             if (temp[j] > m_ObjectsMaxDiff[object][j])
               {
               edge_flag = 1;
-              j = VectorDimension;
+              break;
               }
             tti1 = tti1 + static_cast<int>(temp[j]*ObjectsOffset[object][j]);
             }
