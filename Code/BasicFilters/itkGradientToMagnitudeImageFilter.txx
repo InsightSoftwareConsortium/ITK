@@ -80,15 +80,15 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
 
     for(int i = 0; i < NDimensions; i++)
       {
-      acc += inputPtr->GetPixel(index).GetVector()[i]
-        * inputPtr->GetPixel(index).GetVector()[i];
+      acc += inputPtr->GetPixel(index)[i]
+        * inputPtr->GetPixel(index)[i];
       }
 
     acc = sqrt(acc);
 
     // std::cout << "Magnitude is " << acc << "\n";
 
-    outputPtr->GetPixel(index).SetScalar(acc);
+    outputPtr->GetPixel(index) = acc;
 
     }
 

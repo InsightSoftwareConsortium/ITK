@@ -111,25 +111,23 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
   outputPtr->SetOrigin(origin);
   outputPtr->SetSpacing(spacing);
 
-  TVectorType outputVector;
+  TPositionType outputPosition;
 
   double value;
-  PixelType pixval;
 
   // walk the output image, and sample the input image
   for ( ; !outIt.IsAtEnd(); ++outIt)
     {
     // determine the index of the output pixel
-    outputIndex = outIt.GetIndex();
+    outputPosition = outIt.GetIndex();
 
     for (int ii = 0; ii < NDimensions; ++ii)
-      outputVector[ii] = outputIndex[ii]*spacing[ii]+origin[ii];
+      outputPosition[ii] = outputIndex[ii]*spacing[ii]+origin[ii];
 
     value = m_pFunction->Evaluate(&outputVector);
 
     // Set the pixel value to the function value
-    pixval.SetScalar(value);
-    outIt.Set(pixval);
+    outIt.Set( (TOutputImage::PixelType) value);
     
     } // end switch
 

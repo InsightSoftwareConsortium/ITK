@@ -123,7 +123,7 @@ public:
   /**
   * Typedef describing vector info
   */
-  typedef typename TFunctionType::TVectorType TVectorType;
+  typedef typename TFunctionType::TPositionType TPositionType;
 
   /** 
    * Run-time type information (and related methods).

@@ -43,7 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkImageToImageFilter.h"
 #include "itkPhysicalImage.h"
-#include "itkScalarVector.h"
 
 namespace itk
 {
@@ -54,11 +53,10 @@ namespace itk
  *
  * */
 
-template<typename TInputImage, typename TScalarType, typename TVectorType>
+template<typename TInputImage, typename TDataType>
 class ITK_EXPORT DifferenceOfGaussiansGradientImageFilter :
 public ImageToImageFilter<TInputImage,
-  PhysicalImage<ScalarVector< TScalarType, TVectorType, TInputImage::ImageDimension>,
-  TInputImage::ImageDimension> >
+  PhysicalImage<CovariantVector<TDataType>, TInputImage::ImageDimension> >
 {
 public:
    
@@ -71,9 +69,8 @@ public:
    * Output image typedef. The output image is always an n-dimensional
    * image of n-dimensional vectors of doubles.
    */
-  typedef PhysicalImage<ScalarVector<
-    TScalarType, TVectorType, TInputImage::ImageDimension> ,
-    TInputImage::ImageDimension> TOutputImage;
+  typedef PhysicalImage<CovariantVector<TDataType>, TInputImage::ImageDimension>
+    TOutputImage;
 
   /**
    * Standard "Superclass" typedef.

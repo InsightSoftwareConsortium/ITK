@@ -7,8 +7,8 @@
 
 namespace itk
 {
-template<typename TInputImage, typename TScalarType, typename TVectorType>
-DifferenceOfGaussiansGradientImageFilter< TInputImage, TScalarType, TVectorType >
+template<typename TInputImage, typename TDataType>
+DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
 ::DifferenceOfGaussiansGradientImageFilter()
 {
   std::cout << "DifferenceOfGaussiansGradientImageFilter::DifferenceOfGaussiansGradientImageFilter() called\n";
@@ -16,9 +16,9 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TScalarType, TVectorType 
   m_Width = 2;
 }
 
-template<typename TInputImage, typename TScalarType, typename TVectorType>
+template<typename TInputImage, typename TDataType>
 void
-DifferenceOfGaussiansGradientImageFilter< TInputImage, TScalarType, TVectorType >
+DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
 ::GenerateData()
 {
   std::cout << "DifferenceOfGaussiansGradientImageFilter::GenerateData() called\n";
@@ -70,9 +70,6 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TScalarType, TVectorType 
   typename TOutputImage::IndexType upperIndex;
   typename TOutputImage::IndexType lowerIndex;
 
-  // Accumulator for calculating gradient magnitude
-  double acc = 0;
-
   // walk the output image, and sample the input image
   for ( ; !outIt.IsAtEnd(); ++outIt)
     {
@@ -110,30 +107,16 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TScalarType, TVectorType 
             lowerIndex[j] = outputIndex[j];
             }
           }
-        outputPtr->GetPixel(outputIndex).GetVector()[i] =
-        inputPtr->GetPixel(upperIndex).GetScalar() -
-          inputPtr->GetPixel(lowerIndex).GetScalar();
+        // Remember, output type is a covariant vector of TDataType
+        outputPtr->GetPixel(outputIndex)[i] =
+        inputPtr->GetPixel(upperIndex) - inputPtr->GetPixel(lowerIndex);
         }
       }
     else // We're not in a safe position, gradient is zero
       {
       for (int i = 0; i < NDimensions; ++i)
-        outputPtr->GetPixel(outputIndex).GetVector()[i] = 0.0;
+        outputPtr->GetPixel(outputIndex)[i] = 0.0;
       }
-
-    // Now, compute the gradient magnitude
-    acc = 0;
-
-    for(int i = 0; i < NDimensions; i++)
-      {
-      acc += outputPtr->GetPixel(outputIndex).GetVector()[i]
-        * outputPtr->GetPixel(outputIndex).GetVector()[i];
-      }
-
-    acc = sqrt(acc);
-
-    outputPtr->GetPixel(outputIndex).SetScalar(acc);
-
     }
 
   std::cout << "DifferenceOfGaussiansGradientImageFilter::GenerateData() finished\n";

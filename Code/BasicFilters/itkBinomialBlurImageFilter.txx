@@ -22,14 +22,15 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   m_Repetitions = 1;
 }
 
-/**
- *
- */
 template< class TInputImage, class TOutputImage >
 void
 BinomialBlurImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
+  std::cout << "BinomialBlurImageFilter::GenerateInputRequestedRegion() called\n";
+  
+  Superclass::GenerateInputRequestedRegion();
+
   InputImagePointer inputPtr = this->GetInput(0);
   OutputImagePointer outputPtr = this->GetOutput(0);
 
@@ -47,9 +48,9 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   inputSize = inputRegion.GetSize();
   inputIndex = inputRegion.GetIndex();
 
-  inputLargestPossibleRegionIndex
+  typename TInputImage::RegionType::IndexType inputLargestPossibleRegionIndex
     = inputPtr->GetLargestPossibleRegion().GetIndex();
-  inputLargestPossibleRegionSize
+  typename TInputImage::RegionType::SizeType inputLargestPossibleRegionSize
     = inputPtr->GetLargestPossibleRegion().GetSize();
 
   for (unsigned int i=0; i < inputPtr->GetImageDimension(); ++i)
@@ -71,6 +72,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   inputRegion.SetSize( inputSize );
   
   inputPtr->SetRequestedRegion( inputRegion );
+  //inputPtr->SetRequestedRegion(inputPtr->GetLargestPossibleRegion());
 }
 
 
