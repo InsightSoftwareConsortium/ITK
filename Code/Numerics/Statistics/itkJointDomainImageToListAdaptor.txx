@@ -25,10 +25,6 @@ JointDomainImageToListAdaptor< TImage >
 ::JointDomainImageToListAdaptor()
 {
   m_NormalizationFactors.Fill( 1.0f ) ;
-  m_DistanceMetric = DistanceMetricType::New() ;
-  m_PreviousRadius = 0.0 ;
-  m_Cache = CacheType::New() ;
-  m_CacheAvailable = false ;
 }
 
 template < class TImage >
@@ -52,44 +48,19 @@ JointDomainImageToListAdaptor< TImage >
 }
 
 template < class TImage >
-void
-JointDomainImageToListAdaptor< TImage >
-::GenerateCache()
-{
-//   m_Cache->Resize( this->Size() ) ;
-
-//   for ( unsigned long id = 0 ; id < this->Size() ; ++id )
-//     {
-//     m_Cache->SetMeasurementVector( id, this->GetMeasurementVector( id ) ) ;
-//     }
-//   m_CacheAvailable = true ;
-}
-
-template < class TImage >
 inline typename JointDomainImageToListAdaptor< TImage >::MeasurementVectorType
 JointDomainImageToListAdaptor< TImage >
 ::GetMeasurementVector(const InstanceIdentifier &id)
 {
-//   if ( m_CacheAvailable )
-//     {
-//     return m_Cache->GetMeasurementVector( id ) ;
-//     }
-
-//  Point<MeasurementType, TImage::ImageDimension> point ;
-  ImageIndexType index = 
-    this->GetImage()->ComputeIndex( id ) ;
-//  this->GetImage()->TransformIndexToPhysicalPoint( index, point ) ;
+  m_TempIndex = this->GetImage()->ComputeIndex( id ) ;
   
-//   for ( unsigned int i = 0 ; i < TImage::ImageDimension ; ++i )
-//     {
-//     m_TempVector[i] = point[i] / m_NormalizationFactors[i] ;
-//     }
+  this->GetImage()->TransformIndexToPhysicalPoint( m_TempIndex, m_TempPoint ) ;
   
   for ( unsigned int i = 0 ; i < TImage::ImageDimension ; ++i )
     {
-    m_TempVector[i] = index[i] / m_NormalizationFactors[i] ;
+    m_TempVector[i] = m_TempPoint[i] / m_NormalizationFactors[i] ;
     }
-
+  
   if( m_UseBuffer )
     {
     m_TempRangeVector =  
@@ -100,14 +71,15 @@ JointDomainImageToListAdaptor< TImage >
     {
     m_TempRangeVector = 
       *(reinterpret_cast< RangeDomainMeasurementVectorType* >
-        (&(this->GetImage()->GetPixel( index ) ) ) ) ;
+        (&(this->GetImage()->GetPixel( m_TempIndex ) ) ) ) ;
     }
-
+  
   for ( unsigned int i = TImage::ImageDimension ; i < MeasurementVectorType::Length ; ++i )
     {
-    m_TempVector[i] = 
-      m_TempRangeVector[i - TImage::ImageDimension] / m_NormalizationFactors[i] ;
+    m_TempVector[i] = m_TempRangeVector[i - TImage::ImageDimension] 
+      / m_NormalizationFactors[i] ;
     }
+  
   return m_TempVector ;
 }
 
@@ -119,24 +91,29 @@ JointDomainImageToListAdaptor< TImage >
                 ImageRegionType& region)
 {
   ImageIndexType beginIndex ;
-  ImageIndexType endIndex ;
   ImageSizeType size ;
 
   for ( unsigned int i = 0 ; i < TImage::ImageDimension ; ++i )
     {
-    beginIndex[i] = (ImageIndexValueType) (mv[i] * m_NormalizationFactors[i]
-      - m_NormalizationFactors[i] * radius) ;
+    m_TempPoint[i] = m_NormalizationFactors[i] * (mv[i] - radius) ;
+    size[i] = (unsigned long)(2.0 * m_NormalizationFactors[i] * radius 
+                              / this->GetImage()->GetSpacing()[i]) ;
+    }
+
+  this->GetImage()->TransformPhysicalPointToIndex(m_TempPoint , beginIndex ) ;
+
+  for ( unsigned int i = 0 ; i < TImage::ImageDimension ; ++i )
+    {
     if ( beginIndex[i] < m_ImageBeginIndex[i] )
       {
       beginIndex[i] = m_ImageBeginIndex[i] ;
+      size[i] -= (m_ImageBeginIndex[i] - beginIndex[i]) ;
       }
-    endIndex[i] = (ImageIndexValueType) (mv[i] * m_NormalizationFactors[i] 
-      + m_NormalizationFactors[i] * radius) ;
-    if ( endIndex[i] > m_ImageEndIndex[i] )
+
+    if ( (beginIndex[i] + size[i] - 1) > m_ImageEndIndex[i] )
       {
-      endIndex[i] = m_ImageEndIndex[i] ;
+      size[i] = m_ImageEndIndex[i] - beginIndex[i] + 1 ;
       }
-    size[i] = endIndex[i] - beginIndex[i] + 1 ;
     }
   
   region.SetIndex( beginIndex ) ;
@@ -153,30 +130,37 @@ JointDomainImageToListAdaptor< TImage >
   ImageRegionType region ;
   this->ComputeRegion( mv, radius, region ) ;
 
-  typename DistanceMetricType::OriginType origin ;
-  for ( unsigned int i = 0 ; i < MeasurementVectorSize ; ++i )
-    {
-    origin[i] = mv[i] ;
-    }
-
-  m_DistanceMetric->SetOrigin( origin ) ;
-
   InstanceIdentifier id ;
   result.clear() ;
   ImageIteratorType iter( this->GetImage(), region ) ;
   iter.GoToBegin() ;
+  bool isWithinRange ;
+  double sum ;
+  double squaredRadius = radius * radius ;
+  double temp ;
   while ( !iter.IsAtEnd() )
     {
     id = this->GetImage()->ComputeOffset(iter.GetIndex()) ;
-     if ( m_DistanceMetric->IsWithinRange( this->GetMeasurementVector( id ),
-                                           radius ) ) 
+    m_TempVector = this->GetMeasurementVector( id ) ;
+    isWithinRange = true ; 
+    sum = 0.0 ;
+    for ( unsigned int i = 0 ; i < MeasurementVectorSize ; ++i )
       {
-        result.push_back(id) ;
+      temp = (m_TempVector[i] - mv[i]) ;
+      sum += temp * temp ;
+      if ( sum > squaredRadius )
+        {
+        isWithinRange = false ;
+        break ;
+        }
+      }
+
+    if ( isWithinRange )
+      {
+      result.push_back(id) ;
       }
     ++iter ;
     }
-
-//  std::cout << "DEBUG: search done." << std::endl ;
 }
 
 } // end of namespace Statistics 

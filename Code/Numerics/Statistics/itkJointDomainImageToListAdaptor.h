@@ -29,6 +29,13 @@
 namespace itk{ 
 namespace Statistics{
 
+/** \class ImageJointDomainTraits
+ *  \brief This class provides the type defintion for the measurement
+ *  vector in the joint domain (range domain -- pixel values + spatial
+ *  domain -- pixel index).
+ *
+ * \sa JointDomainImageToListAdaptor
+ */
 template< class TImage >
 struct ImageJointDomainTraits
 {
@@ -40,16 +47,19 @@ struct ImageJointDomainTraits
                       unsigned int, 
                       TImage::ImageDimension +
                       PixelTraitsType::Dimension ) ;
-  typedef JoinTraits< RangeDomainMeasurementType, float > JoinTraitsType ;
-
+  typedef float CoordinateRepType ;
+  typedef Point< CoordinateRepType, TImage::ImageDimension > PointType ;
+  typedef JoinTraits< RangeDomainMeasurementType, CoordinateRepType > 
+  JoinTraitsType ;
   typedef typename JoinTraitsType::ValueType MeasurementType ;
-
   typedef FixedArray< MeasurementType, itkGetStaticConstMacro(Dimension) >
   MeasurementVectorType ;
 } ; // end of ImageJointDomainTraits
 
 /** \class JointDomainImageToListAdaptor
- *  \brief This class provides ListSampleBase interfaces to ITK Image
+ *  \brief This adaptor returns measurement vectors composed of an
+ *  image pixel's range domain value (pixel value) and spatial domain
+ *  value (pixel's physical coordiantes).
  *
  * After calling SetImage(Image::Pointer) method to plug in the image object,
  * users can use Sample interfaces to access Image data.
@@ -84,11 +94,16 @@ class ITK_EXPORT JointDomainImageToListAdaptor
   typename ImageJointDomainTraits< TImage >::MeasurementVectorType >
 {
 public:
-  typedef ImageJointDomainTraits< TImage >
-  ImageJointDomainTraitsType ;
+  typedef ImageJointDomainTraits< TImage > ImageJointDomainTraitsType ;
   typedef typename ImageJointDomainTraitsType::MeasurementVectorType
   MeasurementVectorType ;
-
+  typedef typename ImageJointDomainTraitsType::MeasurementType
+  MeasurementType ;
+  typedef typename ImageJointDomainTraitsType::RangeDomainMeasurementType
+  RangeDomainMeasurementType ;
+  typedef typename ImageJointDomainTraitsType::PointType PointType ;
+  typedef typename ImageJointDomainTraitsType::CoordinateRepType 
+  CoordinateRepType ;
   /** Standard class typedefs */
   typedef JointDomainImageToListAdaptor Self;
   typedef ImageToListAdaptor< TImage, MeasurementVectorType > 
@@ -106,13 +121,8 @@ public:
                       unsigned int, 
                       ImageJointDomainTraitsType::Dimension) ;
 
-  /** Superclass typedefs for Measurement vector, measurement, 
+  /** typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */
-  typedef typename ImageJointDomainTraitsType::MeasurementType
-  MeasurementType ;
-  typedef typename ImageJointDomainTraitsType::RangeDomainMeasurementType
-  RangeDomainMeasurementType ;
-
   typedef typename Superclass::FrequencyType FrequencyType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier ;
 
@@ -123,7 +133,6 @@ public:
   typedef ImageRegionIteratorWithIndex< TImage > ImageIteratorType ;
 
   typedef MeasurementVectorType ValueType ;
-  typedef EuclideanDistance< MeasurementVectorType > DistanceMetricType ;
  
   itkStaticConstMacro(RangeDomainDimension, 
                       unsigned int, 
@@ -133,8 +142,6 @@ public:
   typedef FixedArray< RangeDomainMeasurementType, 
                       itkGetStaticConstMacro( RangeDomainDimension ) > 
   RangeDomainMeasurementVectorType ;
-
-  typedef ListSample< MeasurementVectorType > CacheType ;
 
   typedef std::vector< InstanceIdentifier > InstanceIdentifierVectorType ; 
 
@@ -152,8 +159,6 @@ public:
                      const double radius, 
                      InstanceIdentifierVectorType& result) ;
 
-  void GenerateCache() ;
-
 protected:
   JointDomainImageToListAdaptor() ;
   virtual ~JointDomainImageToListAdaptor() {}
@@ -164,14 +169,10 @@ private:
   void operator=(const Self&) ; //purposely not implemented
 
   NormalizationFactorsType m_NormalizationFactors ;
-  typename DistanceMetricType::Pointer m_DistanceMetric ;
-  int m_IndexSpaceRadius[TImage::ImageDimension] ;
-  double m_PreviousRadius ;
-
-  typename CacheType::Pointer m_Cache ;
-  bool m_CacheAvailable ;
 
   MeasurementVectorType m_TempVector ;
+  PointType m_TempPoint ;
+  ImageIndexType m_TempIndex ;
   RangeDomainMeasurementVectorType m_TempRangeVector ;
 } ; // end of class JointDomainImageToListAdaptor
 
