@@ -164,7 +164,7 @@ public:
       }
     else if (m_Dimension == 3)
       {
-      if (index[2] != m_PrevZ)
+      if (index[2] != m_PrevZ )
         {
         // normalized z [-1, 1]  
         double norm_z =  m_NormFactor[2] *
@@ -213,6 +213,10 @@ public:
     void Begin( void ) 
     { 
       m_IsAtEnd = false ;
+      for (unsigned int dim = 0 ; dim < m_Dimension ; dim++)
+   {
+          m_Index[dim] = 0 ;
+   }
     }
     
     bool IsAtEnd()
@@ -231,7 +235,7 @@ public:
           {
           if (dim == m_Dimension - 1 )
             {
-            m_IsAtEnd = true ;
+         m_IsAtEnd = true ;
             break ;
             }
           else
