@@ -17,6 +17,7 @@
 #define _genGeneratorBase_h
 
 #include "cableConfigurationRepresentation.h"
+#include <iostream>
 
 namespace gen
 {
