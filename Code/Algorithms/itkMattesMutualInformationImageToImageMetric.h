@@ -26,7 +26,7 @@
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkBSplineDeformableTransform.h"
-
+#include "itkArray2D.h"
 
 namespace itk
 {
@@ -199,8 +199,9 @@ protected:
     { FixedImagePointValue.Fill(0.0); }
     ~FixedImageSpatialSample() {};
 
-    FixedImagePointType            FixedImagePointValue;
+    FixedImagePointType           FixedImagePointValue;
     double                        FixedImageValue;
+    unsigned int                  FixedImageParzenWindowIndex;
   };
 
   /** FixedImageSpatialSample typedef support. */
@@ -216,7 +217,8 @@ protected:
 
   /** Transform a point from FixedImage domain to MovingImage domain.
    * This function also checks if mapped point is within support region. */
-  virtual void TransformPoint( const FixedImagePointType& fixedImagePoint,
+  virtual void TransformPoint( unsigned int sampleNumber,
+                               const ParametersType& parameters,
                                MovingImagePointType& mappedPoint, bool& sampleWithinSupportRegion,
                                double& movingImageValue ) const;
 
@@ -274,6 +276,9 @@ private:
   typename CubicBSplineDerivativeFunctionType::Pointer 
   m_CubicBSplineDerivativeKernel;
 
+  /** Precompute fixed image parzen window indices. */
+  virtual void ComputeFixedImageParzenWindowIndices( FixedImageSpatialSampleContainer& samples );
+
   /**
    * Types and variables related to image derivative calculations.
    * If a BSplineInterpolationFunction is used, this class obtain
@@ -307,8 +312,8 @@ private:
 
 
   /** Compute PDF derivative contribution for each parameter. */
-  virtual void ComputePDFDerivatives( const FixedImagePointType& fixedImagePoint,
-                                      int fixedImageParzenWindowIndex, int movingImageParzenWindowIndex,
+  virtual void ComputePDFDerivatives( unsigned int sampleNumber,
+                                      int movingImageParzenWindowIndex,
                                       const ImageDerivativesType& movingImageGradientValue,
                                       double cubicBSplineDerivativeValue ) const;
 
@@ -356,9 +361,30 @@ private:
    * Variables used when transform is of type BSpline deformable.
    */
   typename BSplineTransformType::Pointer m_BSplineTransform;
-  mutable BSplineTransformWeightsType    m_BSplineTransformWeights;
-  mutable BSplineTransformIndexArrayType m_BSplineTransformIndices;  
 
+  /**
+   * Cache pre-transformed points, weights, indices and 
+   * within support region flag.
+   */
+  typedef typename BSplineTransformWeightsType::ValueType WeightsValueType;
+  typedef          Array2D<WeightsValueType> BSplineTransformWeightsArrayType;
+  typedef typename BSplineTransformIndexArrayType::ValueType IndexValueType;
+  typedef          Array2D<IndexValueType> BSplineTransformIndicesArrayType;
+  typedef          std::vector<MovingImagePointType> MovingImagePointArrayType;
+  typedef          std::vector<bool> BooleanArrayType;
+
+  BSplineTransformWeightsArrayType      m_BSplineTransformWeightsArray;
+  BSplineTransformIndicesArrayType      m_BSplineTransformIndicesArray;
+  MovingImagePointArrayType             m_PreTransformPointsArray;
+  BooleanArrayType                      m_WithinSupportRegionArray;
+  
+  typedef FixedArray<unsigned long, 
+    ::itk::GetImageDimension<FixedImageType>::ImageDimension> ParametersOffsetType;
+  ParametersOffsetType                  m_ParametersOffset;
+
+  virtual void PreComputeTransformValues();
+
+  
 };
 
 } // end namespace itk
