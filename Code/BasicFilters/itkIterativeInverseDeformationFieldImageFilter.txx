@@ -35,7 +35,7 @@ namespace itk{
     ///////////////////////////////
     // some checks
     ///////////////////////////////
-    if (inputPtr == 0)
+    if (inputPtr.IsNull())
       {
       itkExceptionMacro("\n Input is missing.");
       }
