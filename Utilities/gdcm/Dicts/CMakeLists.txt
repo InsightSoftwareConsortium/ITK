@@ -16,7 +16,7 @@ INSTALL_FILES(/include/InsightToolkit/gdcm/ .dic
 
 # Following code contributing by Andy Cedilnik (Kitware)
 FILE(READ "dicomV3.dic" ENT)
-STRING(REGEX REPLACE "\n" ";" ENT "${ENT}")
+STRING(REGEX REPLACE "\r?\n" ";" ENT "${ENT}")
 SET(DICOM_DATA_DICTIONARY "")
 
 FOREACH(line ${ENT})
@@ -29,7 +29,7 @@ ENDFOREACH(line)
 SET(DICOM_DATA_DICTIONARY "${DICOM_DATA_DICTIONARY} \n {0,0,0,0,0}")
 
 FILE(READ "dicomTS.dic" ENT_TS)
-STRING(REGEX REPLACE "\n" ";" ENT_TS "${ENT_TS}")
+STRING(REGEX REPLACE "\r?\n" ";" ENT_TS "${ENT_TS}")
 SET(DICOM_TS_DICTIONARY "")
 
 FOREACH(line ${ENT_TS})
@@ -54,7 +54,7 @@ ENDFOREACH(line)
 FILE(READ "DicomDir.dic" ENT_DIR)
 STRING(REGEX REPLACE "\\\\" "\\\\\\\\" ENT_DIR "${ENT_DIR}")
 STRING(REGEX REPLACE ";" "/" ENT_DIR "${ENT_DIR}") # CMake doesn't like ';'
-STRING(REGEX REPLACE "\n" ";" ENT_DIR "${ENT_DIR}")
+STRING(REGEX REPLACE "\r?\n" ";" ENT_DIR "${ENT_DIR}")
 SET(DICOM_DIR_DICTIONARY "")
 
 FOREACH(line ${ENT_DIR})
