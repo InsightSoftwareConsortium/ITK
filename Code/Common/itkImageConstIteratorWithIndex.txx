@@ -100,7 +100,7 @@ ImageConstIteratorWithIndex<TImage>
 {
   m_Image = ptr;
 
-  const InternalPixelType * m_Buffer   = m_Image->GetBufferPointer();
+  const InternalPixelType * buffer   = m_Image->GetBufferPointer();
 
   m_BeginIndex        = region.GetIndex();
   m_PositionIndex     = m_BeginIndex;
@@ -111,7 +111,7 @@ ImageConstIteratorWithIndex<TImage>
 
   // Compute the start position
   long offs =  m_Image->ComputeOffset( m_BeginIndex );
-  m_Begin = m_Buffer + offs;
+  m_Begin = buffer + offs;
   
   // Compute the end offset
   m_Remaining = false;
@@ -126,7 +126,7 @@ ImageConstIteratorWithIndex<TImage>
       m_EndIndex[i] = m_BeginIndex[i] + size;
       pastEnd[i]    = m_BeginIndex[i] + size-1;
     }
-  m_End = m_Buffer + m_Image->ComputeOffset( pastEnd );
+  m_End = buffer + m_Image->ComputeOffset( pastEnd );
 
   m_DataAccessor = m_Image->GetDataAccessor();
 
@@ -222,10 +222,7 @@ void
 ImageConstIteratorWithIndex<TImage>
 ::GoToEnd()
 {
-  // Set the position at the end
 
-  m_Position       = m_End;
-  
   m_Remaining = false;
   for (unsigned int i=0; i < ImageDimension; ++i)
   {
@@ -237,6 +234,11 @@ ImageConstIteratorWithIndex<TImage>
     }
 
   }
+
+  // Set the position at the end
+  const InternalPixelType * buffer   = m_Image->GetBufferPointer();
+  const unsigned long       offset   = m_Image->ComputeOffset( m_PositionIndex );
+  m_Position = buffer + offset;
 
 }
 
