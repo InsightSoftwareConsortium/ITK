@@ -169,7 +169,7 @@ public:
   /** Set the current point to a barycentric combination of the two points
    * given as arguments.
    *
-   * \parameter \f$ \alpha \f$ = weight for the first point
+   * \param  \f$ \alpha \f$ = weight for the first point
    * 
    * The first point is multiplied by \f$ \alpha \f$, the second is multiplied 
    * by * \f$ (1-\alpha) \f$, and the sum is stored in the Point on which the
@@ -205,7 +205,7 @@ public:
                           +  (1-w_1-w_2 ) * \overrightarrow{P}_3 
    * \f]
    *
-   * If the two weight are \f$ \in [0,1], The resulting point will alway be placed 
+   * If the two weight are \f$ \in [0,1] \f$ , The resulting point will alway be placed 
    * inside the triangle formed by the three points given as arguments. */
   void SetToBarycentricCombination( const Point & A, const Point & B, const Point & C, 
                                     double weightA,  double weightB );
