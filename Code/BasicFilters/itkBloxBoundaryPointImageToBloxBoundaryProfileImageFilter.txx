@@ -3,13 +3,8 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.txx
   Language:  C++
-<<<<<<< itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.txx
   Date:      $Date$
   Version:   $Revision$
-=======
-  Date:      $Date$
-  Version:   $Revision$
->>>>>>> 1.3
 
   Copyright (c) 2002 Insight Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
@@ -29,8 +24,8 @@
 typedef vnl_matrix<double> MatrixType;
 typedef vnl_vector<double> VectorType;
 
-const double INV_SQRT_TWO_PI         = .398942280401; // 1/sqrt(2*pi)
-const double SQUARE_ROOT_OF_TWO      = 1.41421356237; // sqrt(2)
+const double INV_SQRT_TWO_PI         = 0.398942280401; // 1/sqrt(2*pi)
+const double SQUARE_ROOT_OF_TWO      = 1.41421356237;  // sqrt(2)
 
 namespace itk
 {
@@ -293,7 +288,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   for ( bpIt.GoToBegin(); !bpIt.IsAtEnd(); ++bpIt)
     {
     // The iterator for accessing linked list info
-    itk::BloxBoundaryPointPixel<NDimensions>::iterator bpiterator;
+    BloxBoundaryPointPixel<NDimensions>::iterator bpiterator;
 
     // Walk through all of the elements at the pixel
     for (bpiterator = bpIt.Value().begin(); bpiterator != bpIt.Value().end(); ++bpiterator)
@@ -307,7 +302,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       //---------Create and initialize a sampling spatial function-----------
 
       // Symmetric Ellipsoid spatial function typedef
-      typedef itk::SymmetricEllipsoidInteriorExteriorSpatialFunction<NDimensions> TFunctionType;
+      typedef SymmetricEllipsoidInteriorExteriorSpatialFunction<NDimensions> TFunctionType;
   
       // Point position typedef
       typedef TFunctionType::InputType TSymEllipsoidFunctionVectorType;
@@ -325,9 +320,9 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       spatialFunctionOriginVector.Set_vnl_vector( spatialFunctionOrigin.Get_vnl_vector() );
 
       // Set the orientation of the ellipsoid to the current boundary point gradient
-      itk::Vector<double, NDimensions> orientation;
+      Vector<double, NDimensions> orientation;
 
-      itk::CovariantVector<double, NDimensions> gradientNormalized;
+      CovariantVector<double, NDimensions> gradientNormalized;
       double gradientNorm = (*bpiterator)->GetGradient().GetNorm();
 
       gradientNormalized = (*bpiterator)->GetGradient()/gradientNorm;
@@ -353,7 +348,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       seedIndex.SetIndex(position);
 
       // Create and initialize a spatial function iterator
-      typedef itk::FloodFilledSpatialFunctionConditionalIterator<TSourceImage, TFunctionType> TIteratorType;
+      typedef FloodFilledSpatialFunctionConditionalIterator<TSourceImage, TFunctionType> TIteratorType;
       TIteratorType sfi = TIteratorType(sourcePtr, spatialFunc, seedIndex);
 
       // The index of the pixel
@@ -446,13 +441,10 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           boundaryProfile->SetMeanNormalized();    
           boundaryProfile->SetStandardDeviationNormalized();
           boundaryProfile->SetOptimalBoundaryLocation(spatialFunctionOriginVector.Get_vnl_vector(), orientationVNL.Get_vnl_vector());
-          
-          //set gradient of profile to be equal to the gradient of the bp
-          boundaryProfile->SetGradient((*bpiterator)->GetGradient());
 
           TPositionType optimalBoundaryLocation;
           for(unsigned int i = 0; i < NDimensions; i++)
-            optimalBoundaryLocation[i] = boundaryProfile->GetOptimalBoundaryLocation()[i]; 
+            optimalBoundaryLocation[i] = boundaryProfile->GetOptimalBoundaryLocation()[i];
 
           // Figure out the data space coordinates of the optimal boundary location
           IndexType boundaryProfilePosition;
@@ -550,9 +542,9 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 {
   m_FinalParameters = new double[BoundaryProfileCostFunction::SpaceDimension];
 
-  typedef  itk::LevenbergMarquardtOptimizer  OptimizerType;
+  typedef LevenbergMarquardtOptimizer OptimizerType;
 
-  typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
+  typedef OptimizerType::InternalOptimizerType vnlOptimizerType;
   
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  Optimizer = OptimizerType::New();
@@ -573,7 +565,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
     {
   Optimizer->SetCostFunction( costFunction.GetPointer() );
     }
-  catch( itk::ExceptionObject & e )
+  catch( ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error ocurred during Optimization" << std::endl;
@@ -614,7 +606,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
     {
     Optimizer->StartOptimization();
     }
-  catch( itk::ExceptionObject & e )
+  catch( ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error ocurred during Optimization" << std::endl;
@@ -622,40 +614,6 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
     std::cout << "Description = " << e.GetDescription() << std::endl;
   return EXIT_FAILURE;
     }
-
-  // Error codes taken from vxl/vnl/vnl_nonlinear_minimizer.h
-  /*
-  std::cout << "End condition   = ";
-  switch( vnlOptimizer->get_failure_code() )
-    {
-    case vnl_nonlinear_minimizer::ERROR_FAILURE: 
-                      std::cout << " Error Failure"; break;
-    case vnl_nonlinear_minimizer::ERROR_DODGY_INPUT: 
-                      std::cout << " Error Dogy Input"; break;
-    case  vnl_nonlinear_minimizer::CONVERGED_FTOL: 
-                      std::cout << " Converged F  Tolerance"; break;
-    case  vnl_nonlinear_minimizer::CONVERGED_XTOL: 
-                      std::cout << " Converged X  Tolerance"; break;
-    case  vnl_nonlinear_minimizer::CONVERGED_XFTOL:
-                      std::cout << " Converged XF Tolerance"; break;
-    case  vnl_nonlinear_minimizer::CONVERGED_GTOL: 
-                      std::cout << " Converged G  Tolerance"; break;
-    case  vnl_nonlinear_minimizer::FAILED_TOO_MANY_ITERATIONS:
-                      std::cout << " Too many iterations   "; break;
-    case  vnl_nonlinear_minimizer::FAILED_FTOL_TOO_SMALL:
-                      std::cout << " Failed F Tolerance too small "; break;
-    case  vnl_nonlinear_minimizer::FAILED_XTOL_TOO_SMALL:
-                      std::cout << " Failed X Tolerance too small "; break;
-    case  vnl_nonlinear_minimizer::FAILED_GTOL_TOO_SMALL:
-                      std::cout << " Failed G Tolerance too small "; break;
-    }
-  
-
-  std::cout << std::endl;
-  std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations() << std::endl;
-  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;    
-  std::cout << std::endl;
-*/
 
   OptimizerType::ParametersType finalPosition;
   finalPosition = Optimizer->GetCurrentPosition();
@@ -665,12 +623,6 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   m_FinalParameters[2] = finalPosition[2];
   m_FinalParameters[3] = finalPosition[3];
 
- /* std::cerr << std::endl << "m_FinalParameters = " 
-    << "   " << m_FinalParameters[0] 
-    << "   " << m_FinalParameters[1] 
-    << "   " << m_FinalParameters[2] 
-    << "   " << m_FinalParameters[3] << std::endl;
-*/
   return EXIT_SUCCESS;
 
 }
