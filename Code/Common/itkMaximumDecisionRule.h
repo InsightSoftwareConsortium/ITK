@@ -17,6 +17,8 @@
 #ifndef __itkMaximumDecisionRule_h
 #define __itkMaximumDecisionRule_h
 
+#include "itkWin32Header.h"
+
 #include <vector>
 #include "itkDecisionRuleBase.h"
 

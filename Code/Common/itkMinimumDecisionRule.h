@@ -17,6 +17,8 @@
 #ifndef __MinimumDecisionRule_h
 #define __MinimumDecisionRule_h
 
+#include "itkWin32Header.h"
+
 #include <vector>
 #include "vnl/vnl_matrix.h"
 #include "itkObject.h"
