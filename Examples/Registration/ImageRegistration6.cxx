@@ -18,13 +18,36 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \code{CenteredRigid2DTransform} for
-// performing rigid registration in $2D$. The code of this example is for the
-// most part identical to the one presented in
-// \ref{sec:IntroductionImageRegistration}.  The main difference is the use of
-// the \code{CenteredRigid2DTransform} here instead of the
-// \code{TranslationTransform}.
+// performing registration. The code of this example is for the most part
+// identical to the one presented in section~\ref{sec:RigidRegistrationIn2D}.
+// Even though this current example is done in $2D$, the class
+// \code{CenteredTransformInitializer} is quite generic and could be used in
+// other dimensions. The objective of the initializer class is to simplify the
+// computation of the center of rotation and translation required to initialize
+// certains transforms, like the \code{CenteredRigid2DTransform}. The
+// initializer accepts two images and one transform as inputs. The images are
+// considered to be the fixed and moving images of a registration problem,
+// while the transform is the one used to register the images.
+//
+// The \code{CenteredRigid2DTransform} supports two modes of operation. In the
+// first mode, the centers of the images are computed as space coordinates
+// using the image origin, size and spacing. The center of the moving image is
+// assigned as rotation center to the transform and the vector between both
+// image centers is passed as initial translation to the transform. In the
+// second mode, the image centers are not computed geometrically but using the
+// moments of the intensity gray levels. The center of mass of each image is
+// computed using the helper class \code{itk::ImageMomentsCalculator}.  The
+// center of mass of the moving image is passed as rotation center to the
+// transform while the vector between the centers of mass of the fixed and
+// moving images is passed as initial translation to the transform. This second
+// mode of operation is quite convenient when the anatomical structure is not
+// centered in the image since the association of the centers of mass provides
+// a rough initial registration. The validity of associating centers of mass
+// should be questioned when the two images are acquired in different imaging
+// modalities.
 //
 // \index{itk::CenteredRigid2DTransform!textbf}
+// \index{itk::ImageMomentsCalculator!textbf}
 //
 //
 // Software Guide : EndLatex 
@@ -39,8 +62,7 @@
 
 //  Software Guide : BeginLatex
 //  
-//  In addition to the headers included in previous examples, here the
-//  following header must be included.
+//  The following are the most relevant headers in this example.
 //
 //  \index{itk::CenteredRigid2DTransform!header}
 // 
@@ -212,13 +234,18 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  In this example, the input images are taken from readers. The code below
-  //  update the readers in order to ensure that the parameters of size, origin
-  //  and spacing of the images are valid when used to initialize the
-  //  transform.  We intend to use the center of the fixed image as the
-  //  rotation center and then use the vector between the fixed image center
-  //  and the moving image center as the initial translation to be applied
-  //  after the rotation.
+  //  The input images are taken from readers. It is not necessary here to
+  //  explicitly call \code{Update()} on the readers since the
+  //  \code{CenteredTransformInitializer} will do it as part of its
+  //  computations. The following code instantiates the type of the
+  //  initializer. This class is templated over the fixed and moving image type
+  //  as well as the transform type. An initializer is then constructed by
+  //  calling the \code{New()} method and assigning the result to a smart
+  //  pointer.
+  //
+  // \index{itk::CenteredRigid2DTransform!Instantiation}
+  // \index{itk::CenteredRigid2DTransform!New()}
+  // \index{itk::CenteredRigid2DTransform!SmartPointer}
   //
   //  Software Guide : EndLatex 
 
@@ -232,6 +259,16 @@ int main( int argc, char **argv )
   // Software Guide : EndCodeSnippet
 
 
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The initializer is now connected to the transform and to the fixed and
+  //  moving images.
+  //
+  //  Software Guide : EndLatex 
+
+
   // Software Guide : BeginCodeSnippet
   initializer->SetTransform(   transform );
 
@@ -239,6 +276,30 @@ int main( int argc, char **argv )
   initializer->SetMovingImage( movingImageReader->GetOutput() );
   // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
+  //
+  //  The use of the geometrical centers is selected by calling
+  //  \code{GeometryOn()} while the use of center of mass is selected by
+  //  calling \code{MomentsOn()}.  Below we select the center of mass mode.
+  //
+  //  \index{CenteredTransformInitializer!MomentsOn()}
+  //  \index{CenteredTransformInitializer!GeometryOn()}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  initializer->MomentsOn();
+  // Software Guide : EndCodeSnippet
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Finally, the computation of the center and translation is triggered by the
+  //  \code{InitializeTransform()} method. The resulting values will be passed
+  //  directly to the transform.
+  //
+  //  Software Guide : EndLatex 
 
 
   // Software Guide : BeginCodeSnippet
@@ -251,7 +312,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  Let's finally initialize the rotation with a zero angle.
+  //  The remaining parameters of the transform are initialized as before.
   //
   //  Software Guide : EndLatex 
 
@@ -265,7 +326,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  We pass now the parameter of the current transform as the initial
+  //  We pass now the parameters of the current transform as the initial
   //  parameters to be used when the registration process starts.
   //
   //  Software Guide : EndLatex 
@@ -279,17 +340,6 @@ int main( int argc, char **argv )
 
 
 
-  //  Software Guide : BeginLatex
-  //  
-  //  Keeping in mind that the scale of units in rotation and translation are
-  //  quite different, we take advantage of the scaling functionality provided
-  //  by the optimizers. We know that the first element of the parameters array
-  //  corresponds to the angle. For this reason we use small factors in the
-  //  scales associated with translations and the rotation center. 
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   typedef OptimizerType::ScalesType       OptimizerScalesType;
 
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
@@ -303,28 +353,12 @@ int main( int argc, char **argv )
   optimizerScales[4] = translationScale;
 
   optimizer->SetScales( optimizerScales );
-  // Software Guide : EndCodeSnippet
 
-
-
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  We set also the normal parameters of the optimization method. In this
-  //  case we are using A \code{RegularStepGradientDescentOptimizer}. Below, we
-  //  define the optimization parameters like initial step length, minimal step
-  //  length and number of iterations. These last two act as stopping criteria
-  //  for the optimization.
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   optimizer->SetMaximumStepLength( 0.1    ); 
   optimizer->SetMinimumStepLength( 0.001 );
 
   optimizer->SetNumberOfIterations( 200 );
-  // Software Guide : EndCodeSnippet
+
 
 
 
@@ -384,71 +418,121 @@ int main( int argc, char **argv )
   //  
   //  \begin{itemize}
   //  \item \code{BrainProtonDensitySliceBorder20.png} 
-  //  \item \code{BrainProtonDensitySliceRotated10.png}
+  //  \item \code{BrainProtonDensitySliceR10X13Y17.png}
   //  \end{itemize}
   //
   //  The second image is the result of intentionally rotating the first image
-  //  by $10$ degrees. Both images have unit-spacing and are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration5}. The registration takes $16$
+  //  by $10$ degrees and shifting it $13mm$ in $X$ and $17mm$ in $Y$. Both
+  //  images have unit-spacing and are shown in Figure
+  //  \ref{fig:FixedMovingImageRegistration5}. The registration takes $47$
   //  iterations and produce as result the parameters:
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [0.177491, 110.487, 128.489, 0.0111713, 0.00250842]
+  //  [0.174482, 123.182, 147.108, 9.57676, 17.922]
   //  \end{verbatim}
   //  \end{center}
   //
   //  That are interpreted as
   //
   //  \begin{itemize}
-  //  \item Angle         =                     $0.177491$   radians
-  //  \item Center        = $( 110.487     , 128.489      )$ millimeters
-  //  \item Translation   = $(   0.0111713,   0.00250842 )$ millimeters
+  //  \item Angle         =                     $0.174482$   radians
+  //  \item Center        = $( 123.182    , 147.108      )$ millimeters
+  //  \item Translation   = $(   9.57676  ,  17.922      )$ millimeters
   //  \end{itemize}
   //  
   // 
-  //  As expected, these values match pretty well the misalignment
-  //  intentionally introduced in the moving image. Since $10$ degrees is about
-  //  $0.174532$ radians.
+  //  Note that the reported translation is not the translation of $(13,17)$
+  //  that we may naively expecting. The reason is that the $5$ parameters of
+  //  the \code{CenteredRigid2DTransform} are redundant. The actual movement in
+  //  space is described by only $3$ parameters. This means that there are
+  //  infinite combinations of rotation center and translations that will
+  //  represent the same actual movement in space. It it more illustrative in
+  //  this case to take a look at the actual rotation matrix and offset
+  //  resulting form the $5$ parameters.
   //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  transform->SetParameters( finalParameters );
+
+  TransformType::MatrixType matrix = transform->GetRotationMatrix();
+  TransformType::OffsetType offset = transform->GetOffset();
+
+  std::cout << "Matrix = " << std::endl << matrix << std::endl;
+  std::cout << "Offset = " << std::endl << offset << std::endl;
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //
+  //  Which produces the following output.
+  //
+  //
+  //  \begin{verbatim}
+  //  Matrix =
+  //     0.984817 -0.173598
+  //     0.173598 0.984817
+  //
+  //  Offset =
+  //     36.9848  -1.22857
+  //  \end{verbatim}
+  //
+  //  Software Guide : EndLatex 
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  You may be wondering why if the actual movement is represented by three
+  //  parameters we take the long way of using five. In particular when that
+  //  results in having to deal with a $5$-dimensional space for the optimizer
+  //  instead of a $3$-dimensional one. The answer is that by using 5
+  //  parameters we have a much simpler way of initializing the transform with
+  //  an appropriate rotation matrix and offset. Using the minimum three
+  //  parameters is not obvious to find what the rotation and translations
+  //  should be.
+  //
+  //  Software Guide : EndLatex 
+
+
+  //  Software Guide : BeginLatex
+  //  
   // \begin{figure}
   // \center
   // \includegraphics[width=6cm]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceRotated10.eps}
+  // \includegraphics[width=6cm]{BrainProtonDensitySliceR10X13Y17.eps}
   // \caption{Fixed and Moving image provided as input to the registration
-  // method using CenteredRigid2D transform.}
-  // \label{fig:FixedMovingImageRegistration5}
+  // method using CenteredTransformInitializer.}
+  // \label{fig:FixedMovingImageRegistration6}
   // \end{figure}
   //
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=5cm]{ImageRegistration5Output.eps}
-  // \includegraphics[width=5cm]{ImageRegistration5DifferenceBefore.eps}
-  // \includegraphics[width=5cm]{ImageRegistration5DifferenceAfter.eps} 
+  // \includegraphics[width=5cm]{ImageRegistration6Output.eps}
+  // \includegraphics[width=5cm]{ImageRegistration6DifferenceBefore.eps}
+  // \includegraphics[width=5cm]{ImageRegistration6DifferenceAfter.eps} 
   // \caption{Resampled moving image (left). Differences between fixed and
   // moving images, before (center) and after (right) registration with the
-  // CenteredRigid2D transform.}
-  // \label{fig:ImageRegistration5Outputs}
+  // CenteredTransformInitializer.}
+  // \label{fig:ImageRegistration6Outputs}
   // \end{figure}
   //
-  // Figure \ref{fig:ImageRegistration5Outputs} shows the output of the
+  // Figure \ref{fig:ImageRegistration6Outputs} shows the output of the
   // registration. The right most image of this Figure shows the squared
   // magnitude of pixel differences between the fixed image and the resampled
-  // moving image. It can be seen on the difference image that the rotational
-  // component was solved but a centering miss-registration persists.
+  // moving image. 
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=5cm]{ImageRegistration5TraceMetric.eps}
-  // \includegraphics[height=5cm]{ImageRegistration5TraceAngle.eps}
-  // \includegraphics[height=5cm]{ImageRegistration5TraceTranslations.eps} 
-  // \caption{Plots of the Metric, rotation angle and translations during the registration using 
-  // CenteredRigid2D transform.}
-  // \label{fig:ImageRegistration5Plots}
+  // \includegraphics[height=5cm]{ImageRegistration6TraceMetric.eps}
+  // \includegraphics[height=5cm]{ImageRegistration6TraceAngle.eps}
+  // \includegraphics[height=5cm]{ImageRegistration6TraceTranslations.eps} 
+  // \caption{Plots of the Metric, rotation angle, center of rotation and
+  // translations during the registration using CenteredTransformInitializer.}
+  // \label{fig:ImageRegistration6Plots}
   // \end{figure}
   //
-  //  Figure \ref{fig:ImageRegistration5Plots} shows the plots of the main
+  //  Figure \ref{fig:ImageRegistration6Plots} shows the plots of the main
   //  output parameters of the registration process. The metric values at every
   //  iteration are shown on the top. The angle values are shown in the plot at
   //  left while the translation components of the registration are presented
@@ -535,97 +619,6 @@ int main( int argc, char **argv )
     writer2->Update();
     }
 
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  Let's now consider the case in which rotations and translations are
-  //  simultaneously present in the miss-registration. For example in the pair
-  //  of images:
-  //  
-  //  \begin{itemize}
-  //  \item \code{BrainProtonDensitySliceBorder20.png} 
-  //  \item \code{BrainProtonDensitySliceR10X13Y17.png}
-  //  \end{itemize}
-  //
-  //  The second image is the result of intentionally rotating the first image
-  //  by $10$ degrees and then translation it $13mm$ in $X$ and $17mm$ in $Y$.
-  //  Both images have unit-spacing and are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration5b}. In order to accelerate
-  //  convergence it is convenient here to use a larger step length. For
-  //  example, with the following change:
-  //
-  //  \code{optimizer->SetMaximumStepLength( 1.0 );}
-  //
-  //  The registration takes now $92$ iterations and produce as result the
-  //  parameters:
-  //
-  //  \begin{center}
-  //  \begin{verbatim}
-  //  [0.174474, 109.658, 129.124, 12.9044, 15.8459]
-  //  \end{verbatim}
-  //  \end{center}
-  //
-  //  That are interpreted as
-  //
-  //  \begin{itemize}
-  //  \item Angle         =                     $0.174474$   radians
-  //  \item Center        = $( 109.658     , 129.124      )$ millimeters
-  //  \item Translation   = $(  12.9044    ,  15.8459     )$ millimeters
-  //  \end{itemize}
-  //  
-  //  These values reasonably match the miss-registration intentionally
-  //  introduced in the moving image. Since $10$ degrees is about $0.174532$
-  //  radians. The horizontal translation is well resolved while the vertical
-  //  translation ends up being off by a bit more than one millimeter.
-  //
-  // \begin{figure}
-  // \center
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceR10X13Y17.eps}
-  // \caption{Fixed and Moving image provided as input to the registration
-  // method using CenteredRigid2D transform.}
-  // \label{fig:FixedMovingImageRegistration5b}
-  // \end{figure}
-  //
-  //
-  // \begin{figure}
-  // \center
-  // \includegraphics[width=5cm]{ImageRegistration5Output2.eps}
-  // \includegraphics[width=5cm]{ImageRegistration5DifferenceBefore2.eps}
-  // \includegraphics[width=5cm]{ImageRegistration5DifferenceAfter2.eps} 
-  // \caption{Resampled moving image (left). Differences between fixed and
-  // moving images, before (center) and after (right) registration with the
-  // CenteredRigid2D transform.}
-  // \label{fig:ImageRegistration5Outputs2}
-  // \end{figure}
-  //
-  // Figure \ref{fig:ImageRegistration5Outputs2} shows the output of the
-  // registration. The right most image of this Figure shows the squared
-  // magnitude of pixel differences between the fixed image and the resampled
-  // moving image. 
-  //
-  // \begin{figure}
-  // \center
-  // \includegraphics[height=5cm]{ImageRegistration5TraceMetric2.eps}
-  // \includegraphics[height=5cm]{ImageRegistration5TraceAngle2.eps}
-  // \includegraphics[height=5cm]{ImageRegistration5TraceTranslations2.eps} 
-  // \caption{Plots of the Metric, rotation angle and translations during the registration using 
-  // CenteredRigid2D transform on an image with rotation and translation miss-registration.}
-  // \label{fig:ImageRegistration5Plots2}
-  // \end{figure}
-  //
-  //  Figure \ref{fig:ImageRegistration5Plots2} shows the plots of the main
-  //  output parameters of the registration process for the rotation and
-  //  translations combined. The metric values at every iteration are shown on
-  //  the top. The angle values are shown in the plot at left while the
-  //  translation components of the registration are presented in the plot at
-  //  right. It can be seen from the smoothness of these plots that a larger
-  //  step length could have been easily supported by the optimizer. You may
-  //  want to play with this value in order to get a better feeling of how to
-  //  tune this parameters.
-  //
-  //  Software Guide : EndLatex 
 
 
   return 0;
