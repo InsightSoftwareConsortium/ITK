@@ -332,6 +332,8 @@ DerivativeType& derivative) const
     // get the image derivative for this B sample
     this->CalculateDerivatives( (*biter).FixedImagePointValue, derivB );
 
+    double totalWeight = 0.0;
+
     for( aiter = m_SampleA.begin(), aditer = sampleADerivatives.begin();
       aiter != aend; ++aiter, ++aditer )
       {
@@ -355,9 +357,12 @@ DerivativeType& derivative) const
       weight = ( weightMoving - weightJoint );
       weight *= (*biter).MovingImageValue - (*aiter).MovingImageValue;
 
-      derivative += ( derivB - (*aditer) ) * weight;
+      totalWeight += weight;
+      derivative -= (*aditer) * weight;
 
       } // end of sample A loop
+
+    derivative += derivB * totalWeight;
 
     } // end of sample B loop
 
