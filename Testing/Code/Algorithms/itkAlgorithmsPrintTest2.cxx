@@ -50,7 +50,7 @@
 #include "itkGroupSpatialObject.h"
 #include "itkRGBPixel.h"
 
-int itkAlgorithmsPrintTest2(int , char* [])
+int main(int , char* [])
 {
   typedef itk::Image<float,2> InputType; 
   typedef itk::Image<float,2> OutputType;

@@ -10,12 +10,19 @@ IF( NOT ITK_DISABLE_CXX_TESTING )
 
 SET(ALGORITHMS_TESTS ${CXX_TEST_PATH}/itkAlgorithmsTests)
 SET(ALGORITHMS_TESTS2 ${CXX_TEST_PATH}/itkAlgorithmsTests2)
-SET(ALGORITHMS_PRINT_TESTS ${CXX_TEST_PATH}/itkAlgorithmsPrintTests)
+
+SET(ALGORITHMS_PRINT_TEST ${CXX_TEST_PATH}/itkAlgorithmsPrintTest)
+SET(ALGORITHMS_PRINT_TEST2 ${CXX_TEST_PATH}/itkAlgorithmsPrintTest2)
+SET(ALGORITHMS_PRINT_TEST3 ${CXX_TEST_PATH}/itkAlgorithmsPrintTest3)
+SET(ALGORITHMS_PRINT_TEST4 ${CXX_TEST_PATH}/itkAlgorithmsPrintTest4)
+
 SET(ALGORITHMS_HEADER_TESTS ${CXX_TEST_PATH}/itkAlgorithmsHeaderTest)
 
-ADD_TEST(itkAlgorithmsPrintTest3 ${ALGORITHMS_PRINT_TESTS} itkAlgorithmsPrintTest3)
-ADD_TEST(itkAlgorithmsPrintTest ${ALGORITHMS_TESTS2} itkAlgorithmsPrintTest)
-ADD_TEST(itkAlgorithmsPrintTest2 ${ALGORITHMS_TESTS2} itkAlgorithmsPrintTest2)
+ADD_TEST(itkAlgorithmsPrintTest ${ALGORITHMS_PRINT_TEST})
+ADD_TEST(itkAlgorithmsPrintTest2 ${ALGORITHMS_PRINT_TEST2})
+ADD_TEST(itkAlgorithmsPrintTest3 ${ALGORITHMS_PRINT_TEST3})
+ADD_TEST(itkAlgorithmsPrintTest4 ${ALGORITHMS_PRINT_TEST4})
+
 ADD_TEST(itkAnisotropicFourthOrderLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkAnisotropicFourthOrderLevelSetImageFilterTest)
 ADD_TEST(itkAntiAliasBinaryImageFilterTest ${ALGORITHMS_TESTS} itkAntiAliasBinaryImageFilterTest)
 ADD_TEST(itkAutomaticTopologyMeshSourceTest ${ALGORITHMS_TESTS} itkAutomaticTopologyMeshSourceTest)
@@ -237,8 +244,6 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest.cxx
 )
 
 SET(AlgorithmsTest2_SRCS
-itkAlgorithmsPrintTest.cxx
-itkAlgorithmsPrintTest2.cxx
 itkCompareHistogramImageToImageMetricTest.cxx
 itkGradientDifferenceImageToImageMetricTest.cxx
 itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
@@ -264,12 +269,17 @@ itkWatershedImageFilterTest.cxx
 itkFFTTest.cxx
 )
 
-SET(AlgorithmsPrintTest_SRCS
-itkAlgorithmsPrintTest3.cxx
-)
-
-ADD_EXECUTABLE(itkAlgorithmsPrintTests itkAlgorithmsPrintTests.cxx ${AlgorithmsPrintTest_SRCS})
-TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTests ITKAlgorithms ITKIO 
+ADD_EXECUTABLE(itkAlgorithmsPrintTest itkAlgorithmsPrintTest.cxx)
+TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest ITKAlgorithms ITKIO 
+                                              ITKBasicFilters ITKFEM)
+ADD_EXECUTABLE(itkAlgorithmsPrintTest2 itkAlgorithmsPrintTest2.cxx)
+TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest2 ITKAlgorithms ITKIO 
+                                              ITKBasicFilters ITKFEM)
+ADD_EXECUTABLE(itkAlgorithmsPrintTest3 itkAlgorithmsPrintTest3.cxx)
+TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest3 ITKAlgorithms ITKIO 
+                                              ITKBasicFilters ITKFEM)
+ADD_EXECUTABLE(itkAlgorithmsPrintTest4 itkAlgorithmsPrintTest4.cxx)
+TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest4 ITKAlgorithms ITKIO 
                                               ITKBasicFilters ITKFEM)
 
 ADD_EXECUTABLE(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest.cxx)
