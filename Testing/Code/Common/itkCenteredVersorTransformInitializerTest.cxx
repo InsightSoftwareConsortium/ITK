@@ -107,11 +107,11 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
 
   internalIndex[0] = index[0] + 20;
   internalIndex[1] = index[1] + 30;
-  internalIndex[2] = index[2] + 40;
+  internalIndex[2] = index[2] + 10;
   
   internalSize[0]  = size[0] - 2 * 20;
   internalSize[1]  = size[1] - 2 * 30;
-  internalSize[2]  = size[2] - 2 * 40;
+  internalSize[2]  = size[2] - 2 * 10;
 
 
   internalRegion.SetSize(  internalSize  );
@@ -128,11 +128,11 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
     }
    
 
-  internalIndex[0] = index[0] + 40;
+  internalIndex[0] = index[0] + 10;
   internalIndex[1] = index[1] + 20;
   internalIndex[2] = index[2] + 30;
   
-  internalSize[0]  = size[0] - 2 * 40;
+  internalSize[0]  = size[0] - 2 * 10;
   internalSize[1]  = size[1] - 2 * 20;
   internalSize[2]  = size[2] - 2 * 30;
 
@@ -155,7 +155,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
 
   
   TransformType::Pointer transform = TransformType::New();
-
+  transform->SetIdentity();
 
 
   typedef itk::CenteredVersorTransformInitializer< 
@@ -169,66 +169,13 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   initializer->SetMovingImage( movingImage );
   initializer->SetTransform( transform );
                                     
-  transform->SetIdentity();
-  initializer->GeometryOn();
   initializer->InitializeTransform();
-
-  std::cout << std::endl << std::endl;
-  std::cout << "Testing Geometric Mode " << std::endl;
-  transform->Print( std::cout );
-
-  TransformType::InputPointType   center1      = transform->GetCenter();
-  TransformType::OutputVectorType translation1 = transform->GetTranslation();
-  TransformType::OffsetType       offset1      = transform->GetOffset();
-
-  const double tolerance = 1e-3;
-  
-  { // Verfications for the Geometry Mode
-  TransformType::InputPointType   fixedCenter;
-  TransformType::InputPointType   movingCenter;
-
-  for(unsigned int j=0; j < Dimension; j++ )
-    {
-    fixedCenter[j]  = fixedOrigin[j]  + size[j] * spacing[j] / 2.0 ;
-    movingCenter[j] = movingOrigin[j] + size[j] * spacing[j] / 2.0 ;
-    }
-  
-  TransformType::InputVectorType relativeCenter = movingCenter - fixedCenter;
-
-  for(unsigned int k=0; k < Dimension; k++ )
-    {
-    if( fabs( translation1[k] - relativeCenter[k] ) > tolerance )
-      {
-      std::cerr << "Translation differs from expected value" << std::endl;
-      std::cerr << "It should be " << relativeCenter << std::endl;
-      std::cerr << "but it is    " << translation1 << std::endl;
-      pass = false;
-      break;
-      }
-    if( fabs( offset1[k] - relativeCenter[k] ) > tolerance )
-      {
-      std::cerr << "Offset differs from expected value" << std::endl;
-      std::cerr << "It should be " << relativeCenter << std::endl;
-      std::cerr << "but it is    " << offset1 << std::endl;
-      pass = false;
-      break;
-      }
-    }
-  }
-
-  transform->SetIdentity();
-  initializer->MomentsOn();
-  initializer->InitializeTransform();
-
-  std::cout << std::endl << std::endl;
-  std::cout << "Testing Moments Mode " << std::endl;
-  transform->Print( std::cout );
 
   TransformType::InputPointType   center2      = transform->GetCenter();
   TransformType::OutputVectorType translation2 = transform->GetTranslation();
   TransformType::OffsetType       offset2      = transform->GetOffset();
 
-  { // Verfications for the Moments Mode
+  { // Verfications 
   TransformType::InputPointType   fixedCenter;
   TransformType::InputPointType   movingCenter;
 
@@ -241,6 +188,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   TransformType::InputVectorType relativeCenter = movingCenter - fixedCenter;
 
 
+  const double tolerance = 1e-3;
 
   for(unsigned int k=0; k < Dimension; k++ )
     {
