@@ -16,6 +16,7 @@ ADD_TEST(itkAutomaticTopologyMeshSourceTest ${ALGORITHMS_TESTS} itkAutomaticTopo
 ADD_TEST(itkBinaryMinMaxCurvatureFlowImageFilterTest ${ALGORITHMS_TESTS} itkBinaryMinMaxCurvatureFlowImageFilterTest )
 ADD_TEST(itkBinaryMask3DMeshSourceTest ${ALGORITHMS_TESTS} itkBinaryMask3DMeshSourceTest )
 ADD_TEST(itkBioGeneTest ${ALGORITHMS_TESTS} itkBioGeneTest )
+ADD_TEST(itkBioGeneNetworkTest ${ALGORITHMS_TESTS} itkBioGeneNetworkTest )
 ADD_TEST(itkCannySegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkCannySegmentationLevelSetImageFilterTest)
 ADD_TEST(itkDemonsRegistrationFilterTest ${ALGORITHMS_TESTS} itkDemonsRegistrationFilterTest)
 ADD_TEST(itkExtractMeshConnectedRegionsTest ${ALGORITHMS_TESTS} itkExtractMeshConnectedRegionsTest)
@@ -95,6 +96,7 @@ itkAutomaticTopologyMeshSourceTest.cxx
 itkBinaryMinMaxCurvatureFlowImageFilterTest.cxx
 itkBinaryMask3DMeshSourceTest.cxx
 itkBioGeneTest.cxx
+itkBioGeneNetworkTest.cxx
 itkCannySegmentationLevelSetImageFilterTest.cxx
 itkCurvatureFlowTest.cxx
 itkDemonsRegistrationFilterTest.cxx

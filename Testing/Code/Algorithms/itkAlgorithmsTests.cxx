@@ -14,6 +14,7 @@ REGISTER_TEST(itkAntiAliasBinaryImageFilterTest  );
 REGISTER_TEST(itkBinaryMinMaxCurvatureFlowImageFilterTest  );  
 REGISTER_TEST(itkBinaryMask3DMeshSourceTest  );  
 REGISTER_TEST(itkBioGeneTest  );  
+REGISTER_TEST(itkBioGeneNetworkTest  );  
 REGISTER_TEST(itkCannySegmentationLevelSetImageFilterTest );
 REGISTER_TEST(itkCurvatureFlowTest );
 REGISTER_TEST(itkDemonsRegistrationFilterTest );
