@@ -153,14 +153,18 @@ void
 PolygonCell< TPixelType , TCellTraits >
 ::BuildEdges(void){
   m_Edges.clear();
-  m_Edges.resize(m_NumberOfPoints);
-  for(int i = 1;i < m_NumberOfPoints; i++){
-    m_Edges[i][0]=i-1;
-    m_Edges[i][1]=i;
-  }
-  m_Edges[m_NumberOfPoints-1][0]=m_NumberOfPoints-1;
-  m_Edges[m_NumberOfPoints-1][1]=0;
-  m_NumberOfEdges=m_NumberOfPoints;
+  if( m_NumberOfPoints > 0 )
+    {
+    m_Edges.resize(m_NumberOfPoints);
+    for(int i = 1;i < m_NumberOfPoints; i++)
+      {
+      m_Edges[i][0]=i-1;
+      m_Edges[i][1]=i;
+      }
+    m_Edges[m_NumberOfPoints-1][0]=m_NumberOfPoints-1;
+    m_Edges[m_NumberOfPoints-1][1]=0;
+    m_NumberOfEdges=m_NumberOfPoints;
+    }
 }
 
 /**
@@ -194,7 +198,7 @@ PolygonCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 void
 PolygonCell< TPixelType , TCellTraits >
-::clearPoints(void)
+::ClearPoints(void)
 {
   m_NumberOfPoints=0;
   m_NumberOfEdges=0;

@@ -170,7 +170,7 @@ public:
   void AddPointId(PointIdentifier);
   void SetPointIds(int dummy, int num, PointIdConstIterator first);
   void BuildEdges(void);
-  void clearPoints(void);
+  void ClearPoints(void);
   
   virtual void SetPointId(int localId, PointIdentifier);
   virtual PointIdIterator      PointIdsBegin(void);
