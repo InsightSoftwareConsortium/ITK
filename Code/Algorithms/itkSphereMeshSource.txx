@@ -118,6 +118,7 @@ SphereMeshSource<TOutputMesh>
   }
 
   /* Cells allocation. */
+  this->GetOutput()->GetCells()->Reserve(numcells);
   p = 0;
   TriCellPointer testCell(TriCell::New());
 
