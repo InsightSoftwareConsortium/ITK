@@ -80,8 +80,8 @@ public:
   /** This method is called prior to each iteration of the solver. */
   virtual void InitializeIteration()
   {
-    m_K = this->GetAverageGradientMagnitudeSquared() *
-      this->GetConductanceParameter() * -1.0f;
+    m_K = this->GetAverageGradientMagnitudeSquared() * this->GetConductanceParameter() *
+      this->GetConductanceParameter() * -2.0f;
   }
   
 protected:
