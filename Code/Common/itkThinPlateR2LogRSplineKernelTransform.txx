@@ -31,13 +31,11 @@ ComputeG(const InputVectorType & x) const
   m_GMatrix.fill( NumericTraits< TScalarType >::Zero );
   const TScalarType R2logR = 
       ( r > 1e-8 )? r * r * log( r ) : NumericTraits<TScalarType>::Zero;
-  for(unsigned int i=0; i<NDimensions; i++)
-    {
-    m_GMatrix[i][i] = R2logR;
-    }
+
+  m_GMatrix.fill_diagonal( R2logR );
+ 
   return m_GMatrix;
 }
-
 
 
 template <class TScalarType, unsigned int NDimensions>
