@@ -83,55 +83,6 @@ SpatialObject< TDimension >
   m_Children.clear();
 }
 
-
-/** Set the spacing of the object */
-/*template< unsigned int TDimension >
-void
-SpatialObject< TDimension >
-::SetSpacing(const double spacing[ObjectDimension] )
-{
-  unsigned int i; 
-  for (i=0; i<ObjectDimension; i++)
-  {
-    if ( spacing[i] != m_Spacing[i] )
-    {
-      break;
-    }
-  } 
-  if ( i < ObjectDimension ) 
-  { 
-    for (i=0; i<ObjectDimension; i++)
-    {
-      m_Spacing[i] = spacing[i];
-    }
-  }
-
-  ComputeGlobalTransform();
-}
-*/
-/** Set the Scale of the spatial object */
-/*template< unsigned int TDimension >
-void
-SpatialObject< TDimension >
-::SetScale(const double scale[ObjectDimension] )
-{
-  unsigned int i; 
-  for (i=0; i<ObjectDimension; i++)
-  {
-    if ( scale[i] != m_Scale[i] )
-    {
-      break;
-    }
-  } 
-  if ( i < ObjectDimension ) 
-  { 
-    for (i=0; i<ObjectDimension; i++)
-    {
-      m_Scale[i] = scale[i];
-    }
-  }
-}
-*/
 /** Return the Derivative at a point given the order of the derivative */
 template< unsigned int TDimension >
 void
@@ -376,14 +327,14 @@ SpatialObject< TDimension >
 }
 
 /** Set the local to global transformation */
-/*template< unsigned int TDimension >
+template< unsigned int TDimension >
 void 
 SpatialObject< TDimension >
-::SetTransform(TransformType * transform )
+::SetObjectToParentTransform(TransformType * transform )
 {
-  m_Transform = transform;
-  ComputeGlobalTransform();
-}*/
+  m_ObjectToParentTransform = transform;
+  ComputeObjectToWorldTransform();
+}
 
 /** Compute the Global Transform */
 template< unsigned int TDimension >
@@ -466,50 +417,38 @@ SpatialObject< TDimension >
 ::SetObjectToWorldTransform(TransformType * transform )
 {
   m_ObjectToWorldTransform = transform;
-  //ComputeWorldToObjectTransform();
+  ComputeObjectToParentTransform();
 }
 
-/** Compute the Transform when the global tranform as been set*/
-/*template< unsigned int TDimension >
+/** Compute the Transform when the global tranform as been set
+ *  This does not change the IndexToObjectMatrix */
+template< unsigned int TDimension >
 void 
 SpatialObject< TDimension >
-::ComputeWorldToObjectTransform( )
+::ComputeObjectToParentTransform()
 {
-  m_Transform = m_GlobalTransform;
+  m_ObjectToParentTransform->SetMatrixComponent(m_ObjectToWorldTransform->GetMatrixComponent());
+  m_ObjectToParentTransform->SetOffsetComponent(m_ObjectToWorldTransform->GetOffsetComponent());
+  m_ObjectToParentTransform->SetCenterOfRotationComponent(m_ObjectToWorldTransform->GetCenterOfRotationComponent());
+  m_ObjectToParentTransform->SetScaleComponent(m_ObjectToWorldTransform->GetScaleComponent());
 
   if(m_Parent)
     {
-    m_Transform->Compose(dynamic_cast<const SpatialObject<TDimension>*>
-                         (m_Parent)->GetGlobalTransform()->Inverse(),true);
+    m_ObjectToParentTransform->Compose(dynamic_cast<const SpatialObject<TDimension>*>
+                         (m_Parent)->GetObjectToWorldTransform()->Inverse(),true);
     }
 
-  typename TransformType::MatrixType imatrix = m_Transform->GetMatrix();
-  typename TransformType::MatrixType igmatrix = m_GlobalTransform->GetMatrix();
-  typename TransformType::OffsetType offset = m_Transform->GetOffset();
-  typename TransformType::OffsetType goffset = m_GlobalTransform->GetOffset();
 
-  // matrix is changed to include the scaling
-  for(unsigned int i=0;i<TDimension;i++)
-    {
-    for(unsigned int j=0;j<TDimension;j++)
-      {
-      imatrix.GetVnlMatrix().put(i, j,
-          imatrix.GetVnlMatrix().get(i,j)*m_Spacing[i]);
-      igmatrix.GetVnlMatrix().put(i, j,
-          imgatrix.GetVnlMatrix().get(i,j)*m_Spacing[i]);
-      }
-    }
+  m_IndexToWorldTransform->SetMatrix(m_IndexToObjectTransform->GetMatrix());
+  m_IndexToWorldTransform->SetOffset(m_IndexToObjectTransform->GetOffset());
+  m_IndexToWorldTransform->Compose(m_ObjectToWorldTransform,false);
 
-  m_IndexTransform->SetMatrix(imatrix);
-  m_IndexTransform->SetOffset(offset);
+  m_WorldToIndexTransform->SetMatrix(
+                              m_IndexToWorldTransform->Inverse()->GetMatrix());
+  m_WorldToIndexTransform->SetOffset(
+                              m_IndexToWorldTransform->Inverse()->GetOffset());
 
-  m_IndexGlobalTransform->SetMatrix(igmatrix);
-  m_IndexGlobalTransform->SetOffset(goffset);
-
-  m_GlobalIndexTransform->SetMatrix(
-                              m_IndexGlobalTransform->Inverse()->GetMatrix());
-  m_GlobalIndexTransform->SetOffset(goffset);
-}*/
+}
 
 
 /** Get the global transformation */
@@ -767,7 +706,7 @@ unsigned long
 SpatialObject< TDimension >
 ::GetTransformMTime(void)
 {
-  return m_Transform->GetMTime();
+  return m_ObjectToParentTransform->GetMTime();
 }
 
 /** Return the Modified time of the GlobalToLocalTransform */
