@@ -279,7 +279,7 @@ void vnl_amoebaFit::amoeba(vnl_vector<double>& x)
     // Print debugging info
     if (verbose) {
       char buf[16383];
-      sprintf(buf, "iter %5d: %s ", cnt, how);
+      vcl_sprintf(buf, "iter %5d: %s ", cnt, how);
       vcl_cerr << buf;
       if (verbose > 1)
         vcl_cerr << vcl_endl << simplex << vcl_endl;

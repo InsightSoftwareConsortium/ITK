@@ -8,14 +8,13 @@
 #include <vcl_cassert.h>
 #include <vcl_complex.h>
 
-
 // moved here because 2.7 choked
 
 void vnl_matlab_print_scalar(int v,
                              char *buf,
                              vnl_matlab_print_format)
 {
-  sprintf(buf, "%4d ", v);
+  vcl_sprintf(buf, "%4d ", v);
 }
 
 void vnl_matlab_print_scalar(float v,
@@ -27,21 +26,21 @@ void vnl_matlab_print_scalar(float v,
   switch (format) {
   case vnl_matlab_print_format_long:
     if (v == 0.0)
-      sprintf(buf, "%8d ", 0);
+      vcl_sprintf(buf, "%8d ", 0);
     else
-      sprintf(buf, "%8.5f ", v);
+      vcl_sprintf(buf, "%8.5f ", v);
     break;
   case vnl_matlab_print_format_short:
     if (v == 0.0)
-      sprintf(buf, "%6d ", 0);
+      vcl_sprintf(buf, "%6d ", 0);
     else
-      sprintf(buf, "%6.3f ", v);
+      vcl_sprintf(buf, "%6.3f ", v);
     break;
   case vnl_matlab_print_format_long_e:
-    sprintf(buf, "%11.7e ", v);
+    vcl_sprintf(buf, "%11.7e ", v);
     break;
   case vnl_matlab_print_format_short_e:
-    sprintf(buf, "%8.4e ", v);
+    vcl_sprintf(buf, "%8.4e ", v);
     break;
   default:/*vnl_matlab_print_format_default:*/ vcl_abort(); break;
   }
@@ -56,21 +55,21 @@ void vnl_matlab_print_scalar(double v,
   switch (format) {
   case vnl_matlab_print_format_long:
     if (v == 0.0)
-      sprintf(buf, "%16d ", 0);
+      vcl_sprintf(buf, "%16d ", 0);
     else
-      sprintf(buf, "%16.13f ", v);
+      vcl_sprintf(buf, "%16.13f ", v);
     break;
   case vnl_matlab_print_format_short:
     if (v == 0.0)
-      sprintf(buf, "%8d ", 0);
+      vcl_sprintf(buf, "%8d ", 0);
     else
-      sprintf(buf, "%8.4f ", v);
+      vcl_sprintf(buf, "%8.4f ", v);
     break;
   case vnl_matlab_print_format_long_e:
-    sprintf(buf, "%20.14e ", v);
+    vcl_sprintf(buf, "%20.14e ", v);
     break;
   case vnl_matlab_print_format_short_e:
-    sprintf(buf, "%10.4e ", v);
+    vcl_sprintf(buf, "%10.4e ", v);
     break;
   default:/*vnl_matlab_print_format_default:*/ vcl_abort(); break;
   }
@@ -125,28 +124,28 @@ void vnl_matlab_print_scalar(vcl_complex<double> v,
   char fmt[1024];
   // Real part
   if (r == 0) {
-    sprintf(fmt, "%%" "%d" "d ", width);
-    sprintf(buf, fmt, 0);
+    vcl_sprintf(fmt, "%%" "%d" "d ", width);
+    vcl_sprintf(buf, fmt, 0);
 
   } else {
-    sprintf(fmt, "%%" "%d" "." "%d" "%c ", width, precision, conv);
-    sprintf(buf, fmt, r);
+    vcl_sprintf(fmt, "%%" "%d" "." "%d" "%c ", width, precision, conv);
+    vcl_sprintf(buf, fmt, r);
   }
 
   buf += strlen(buf);
 
   // Imaginary part.  Width is reduced as sign is taken care of separately
   if (i == 0) {
-    sprintf(fmt, " %%" "%d" "s  ", width-1);
-    sprintf(buf, fmt, "");
+    vcl_sprintf(fmt, " %%" "%d" "s  ", width-1);
+    vcl_sprintf(buf, fmt, "");
   } else {
     char sign = '+';
     if (i < 0) {
       sign = '-';
       i = -i;
     }
-    sprintf(fmt, "%c%%" "%d.%d%ci ", sign, width-1, precision, conv);
-    sprintf(buf, fmt, i);
+    vcl_sprintf(fmt, "%c%%" "%d.%d%ci ", sign, width-1, precision, conv);
+    vcl_sprintf(buf, fmt, i);
   }
 }
 
@@ -192,28 +191,28 @@ void vnl_matlab_print_scalar(vcl_complex<float> v,
   char fmt[1024];
   // Real part
   if (r == 0) {
-    sprintf(fmt, "%%" "%d" "d ", width);
-    sprintf(buf, fmt, 0);
+    vcl_sprintf(fmt, "%%" "%d" "d ", width);
+    vcl_sprintf(buf, fmt, 0);
 
   } else {
-    sprintf(fmt, "%%" "%d" "." "%d" "%c ", width, precision, conv);
-    sprintf(buf, fmt, r);
+    vcl_sprintf(fmt, "%%" "%d" "." "%d" "%c ", width, precision, conv);
+    vcl_sprintf(buf, fmt, r);
   }
 
   buf += strlen(buf);
 
   // Imaginary part.  Width is reduced as sign is taken care of separately
   if (i == 0) {
-    sprintf(fmt, " %%" "%d" "s  ", width-1);
-    sprintf(buf, fmt, "");
+    vcl_sprintf(fmt, " %%" "%d" "s  ", width-1);
+    vcl_sprintf(buf, fmt, "");
   } else {
     char sign = '+';
     if (i < 0) {
       sign = '-';
       i = -i;
     }
-    sprintf(fmt, "%c%%" "%d.%d%ci ", sign, width-1, precision, conv);
-    sprintf(buf, fmt, i);
+    vcl_sprintf(fmt, "%c%%" "%d.%d%ci ", sign, width-1, precision, conv);
+    vcl_sprintf(buf, fmt, i);
   }
 }
 

@@ -3,6 +3,10 @@
 
 // THIS IS A GENERATED FILE. DO NOT EDIT! -- Edit the source .hhh and run make instead
 
+// stderr
+#ifndef vcl_stderr
+#define vcl_stderr vcl_generic_cstdio_STD :: stderr
+#endif
 // FILE
 #ifndef vcl_FILE
 #define vcl_FILE vcl_generic_cstdio_STD :: FILE

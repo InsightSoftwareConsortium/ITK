@@ -3,6 +3,11 @@
 #endif
 
 // This is vxl/vnl/vnl_math.cxx
+#if defined(__BORLANDC__)
+extern "C" {
+#include "math.h"
+}
+#endif
 
 #include <vnl/vnl_math.h>
 #include <vxl_config.h>
@@ -24,7 +29,9 @@
 extern "C" int finite(double);
 
 #else
+#ifndef __BORLANDC__
 #warning finite() is not declared on this platform
+#endif
 static
 bool finite(double x)
 {
@@ -105,7 +112,7 @@ bool vnl_math_isfinite(double x) { return finite(x); }
 bool vnl_math_isfinite(long double x) { return finite(x); }
 #endif
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__BORLANDC__)
 inline bool isnan(double x)
 {
   return !(x == x);

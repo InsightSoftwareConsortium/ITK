@@ -88,7 +88,7 @@ void MultivariateLegendrePolynomial
 
 void MultivariateLegendrePolynomial
 ::SetCoefficients(CoefficientVector coefficients) 
-  throw (CoefficientVectorSizeMismatch)
+  throw (MultivariateLegendrePolynomial::CoefficientVectorSizeMismatch)
 {
   //  this->Initialize() ;
 

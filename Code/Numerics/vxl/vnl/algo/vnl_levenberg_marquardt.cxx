@@ -14,7 +14,9 @@
 #include <vcl_cstdio.h>
 #include <vcl_cstdlib.h>
 #include <vcl_iostream.h>
-
+#ifdef __BORLANDC__
+#include <stdio.h>
+#endif
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_matops.h>
