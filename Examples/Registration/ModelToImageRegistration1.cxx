@@ -316,7 +316,7 @@ public:
       ++it;
     }
 
-    std::cout << "Number of points in the metric = " << m_PointList.size() << std::endl;
+    std::cout << "Number of points in the metric = " << static_cast<unsigned long>( m_PointList.size() ) << std::endl;
   }
 
   unsigned int GetNumberOfParameters(void) const  {return SpaceDimension;};
