@@ -51,11 +51,6 @@ class DICOMParser
   bool ReadHeader();
 
   //
-  // Return the header structure.
-  //
-  DICOMHeaderValues* GetHeader() {return &Header;}
-  
-  //
   // Static method that returns true if DICOMFile is opened 
   // to a file that contains a DICOM image.
   //
@@ -173,12 +168,6 @@ class DICOMParser
   //
   void InitTypeMap();
   
-  //
-  // Stores particular values parsed by the parser.
-  // NEEDS TO MOVE TO READER
-  //
-  DICOMHeaderValues Header;
-
   //
   // Flags for byte swaping header values and 
   // image data.

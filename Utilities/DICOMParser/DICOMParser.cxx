@@ -61,7 +61,6 @@ DICOMParser::~DICOMParser() {
 bool DICOMParser::ReadHeader() {
 
   static int read_count = 0;
-  std::cout << "ReadHeader called: " << ++read_count << std::endl;
 
   bool dicom = this->IsDICOMFile(this->DataFile);
   if (!dicom)
@@ -104,7 +103,6 @@ bool DICOMParser::IsDICOMFile(DICOMFile* file) {
       }
     else
       {
-      std::cerr << "DICOMParser magic number is incorrect." << std::endl;
 
 #ifndef DICOMPARSER_IGNORE_MAGIC_NUMBER
       return false;
@@ -112,8 +110,6 @@ bool DICOMParser::IsDICOMFile(DICOMFile* file) {
       //
       // Try it anyways...
       //
-      std::cerr << "Ignoring bad magic number and restarting";
-      std::cerr << " parsing at start of file." << std::endl;
 
       file->SkipToStart();
 
@@ -121,6 +117,8 @@ bool DICOMParser::IsDICOMFile(DICOMFile* file) {
       bool dicom;
       if (group == 0x0002 || group == 0x0008)
         {
+        std::cerr << "No DICOM magic number found, but file appears to be DICOM." << std::endl;
+        std::cerr << "Proceeding without caution."  << std::endl;
         dicom = true;
         }
       else
