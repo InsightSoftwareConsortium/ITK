@@ -120,6 +120,10 @@ public:
   /** Tell the container to release any of its allocated memory. */
   void Initialize(void)
     { this->ValarrayType::resize( 0 ); };
+
+   /** Tell the container to release any of its allocated memory. */
+  void Fill(const TElement & value)
+    { this->ValarrayType::operator=( value ); };
   
 public:
   /** PrintSelf routine. Normally this is a protected internal method. It is
