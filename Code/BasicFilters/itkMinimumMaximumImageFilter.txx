@@ -23,6 +23,8 @@ eplace
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 
+#include <vector>
+
 namespace itk {
 
 template<class TInputImage>
@@ -146,11 +148,11 @@ MinimumMaximumImageFilter<TInputImage>
 {
   int numberOfThreads = this->GetNumberOfThreads();
 
-  // Resize the thread temporaries
-  m_ThreadMin.clear();
-  m_ThreadMin.resize(numberOfThreads,NumericTraits<PixelType>::max());
-  m_ThreadMax.clear();
-  m_ThreadMax.resize(numberOfThreads,NumericTraits<PixelType>::NonpositiveMin());
+  // Create the thread temporaries
+  m_ThreadMin = std::vector<PixelType>(numberOfThreads,
+                                       NumericTraits<PixelType>::max());
+  m_ThreadMax = std::vector<PixelType>(numberOfThreads,
+                                       NumericTraits<PixelType>::NonpositiveMin());
 }
 
 template<class TInputImage>
