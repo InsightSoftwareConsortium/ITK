@@ -362,7 +362,7 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   ++labeloutIt;
   }
 */
-  passTest = ((j1>85) && (j1 < 315));
+  passTest = ((j1 > 285) && (j1 < 315));
   if( passTest ) 
     {
     std::cout<< "Gibbs Prior Test Passed" << std::endl;
