@@ -59,22 +59,23 @@ int WriteTestFiles(void)
 #include "LittleEndian_img.h"
 #include "BigEndian_hdr.h"
 #include "BigEndian_img.h"
-  std::ofstream little_hdr("LittleEndian.hdr", std::ofstream::binary);
+  std::ofstream little_hdr("LittleEndian.hdr", std::ios::binary | std::ios::out);
   if(!little_hdr.is_open())
     return -1;
+  std::cout << "LittleEndian written" << std::endl;
   little_hdr.write(reinterpret_cast<const char *>(LittleEndian_hdr),sizeof(LittleEndian_hdr));
   little_hdr.close();
-  std::ofstream little_img("LittleEndian.img", std::ofstream::binary);
+  std::ofstream little_img("LittleEndian.img", std::ios::binary | std::ios::out);
   if(!little_img.is_open())
     return -1;
   little_img.write(reinterpret_cast<const char *>(LittleEndian_img),sizeof(LittleEndian_img));
   little_img.close();
-  std::ofstream big_hdr("BigEndian.hdr", std::ofstream::binary);
+  std::ofstream big_hdr("BigEndian.hdr", std::ios::binary | std::ios::out);
   if(!big_hdr.is_open())
     return -1;
   big_hdr.write(reinterpret_cast<const char *>(BigEndian_hdr),sizeof(BigEndian_hdr));
   big_hdr.close();
-  std::ofstream big_img("BigEndian.img", std::ofstream::binary);
+  std::ofstream big_img("BigEndian.img", std::ios::binary | std::ios::out);
   if(!big_img.is_open())
     return -1;
   big_img.write(reinterpret_cast<const char *>(BigEndian_img),sizeof(BigEndian_img));
