@@ -176,13 +176,14 @@ proc updatePipelines {} {
 
 # Procedure exeuted by the "..." button next to the file name entry box.
 proc selectInputFile {} {
-  global reader denoiser image inViewer fileName
+  global reader denoiser image inViewer fileName dir
   set types {{{PNG Files} {.png} }
              {{RAW Files} {.raw} }
              {{All Files} *      }}
 
   # Get the input file with a selection dialog.
-  set fname [ tk_getOpenFile -title "Select Input File" -filetypes $types ]
+  set fname [ tk_getOpenFile -title "Select Input File" -filetypes $types \
+                             -initialdir $dir]
 
   if {$fname == ""} { return }
 
