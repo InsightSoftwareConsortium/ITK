@@ -5,7 +5,7 @@
 #include <vcl_complex.h>
 #include <vcl_iostream.h>
 #include <vnl/algo/vnl_complex_eigensystem.h>
-
+#include <vnl/vnl_sample.h>
 #include <testlib/testlib_test.h>
 
 void test_complex_eigensystem1()
@@ -19,6 +19,8 @@ void test_complex_eigensystem1()
     5.6666,    2.0574,    5.3590,   -5.7207,    4.8913,    6.7848,
     3.6169,   -8.9946,    9.4169,    2.8698,   -4.6411,    2.5757
   };
+
+  vnl_sample_reseed(0x1234abcd);
   vnl_matrix<double> A_real(a_real,N,N);
 
   double a_imag[N*N] = {
