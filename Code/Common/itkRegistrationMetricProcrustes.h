@@ -37,8 +37,8 @@ namespace itk
 template <class TTransform, unsigned int NDimension>
 class ITK_EXPORT RegistrationMetricProcrustes : 
       public RegistrationMetric<
-        VectorContainer< unsigned long, Point<NDimension,double> >,
-        VectorContainer< unsigned long, Point<NDimension,double> >,
+        VectorContainer< unsigned long, Point<double,NDimension> >,
+        VectorContainer< unsigned long, Point<double,NDimension> >,
         RegistrationMapperProcrustes<TTransform,NDimension>,
         vnl_vector_fixed< double, NDimension >,
         vnl_matrix_fixed< double, NDimension, NDimension > > 
@@ -54,8 +54,8 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef RegistrationMetric<
-        VectorContainer< unsigned long, Point<NDimension,double> >,
-        VectorContainer< unsigned long, Point<NDimension,double> >,
+        VectorContainer< unsigned long, Point<double,NDimension> >,
+        VectorContainer< unsigned long, Point<double,NDimension> >,
         RegistrationMapperProcrustes<TTransform,NDimension>,
         vnl_vector< double >,
         vnl_matrix< double > >             Superclass;
@@ -70,13 +70,13 @@ public:
   /**
    *  Type of the Reference
    */
-   typedef VectorContainer< unsigned long, Point<NDimension,double> > ReferenceType;
+   typedef VectorContainer< unsigned long, Point<double,NDimension> > ReferenceType;
 
 
   /**
    *  Type of the Target
    */
-   typedef VectorContainer< unsigned long, Point<NDimension,double> > TargetType;
+   typedef VectorContainer< unsigned long, Point<double,NDimension> > TargetType;
  
 
   /**

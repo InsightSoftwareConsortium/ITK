@@ -31,7 +31,7 @@ namespace itk
 template <class TTransformation, unsigned int NDimension> 
 class ITK_EXPORT RegistrationMapperProcrustes : 
     public RegistrationMapper< 
-        VectorContainer< unsigned long, Point<NDimension,double> >,
+        VectorContainer< unsigned long, Point<double,NDimension> >,
         TTransformation >
 {
 public:
@@ -46,7 +46,7 @@ public:
    *  Type of the Domain
    */
   typedef VectorContainer< unsigned long, 
-                           Point<NDimension,double> >    DomainType;
+                           Point<double,NDimension> >    DomainType;
 
 
   /**
@@ -110,7 +110,7 @@ public:
   /**
    * Transform a point from one coordinate system
    */
-   Point<NDimension,double> Transform( const Point<NDimension,double> & );
+   Point<double,NDimension> Transform( const Point<double,NDimension> & );
 
 
   
