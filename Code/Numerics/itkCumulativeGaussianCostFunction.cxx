@@ -70,9 +70,7 @@ CumulativeGaussianCostFunction
 ::EvaluateCumulativeGaussian(double argument) const
 {
   // Evaluate the Cumulative Gaussian for a given argument.
-  int temp = 0;
   double erfValue = 0;
-  double slope = 0;
 
   // Tabulated error function evaluated for 0 to 299.
   double y[300] =
@@ -121,18 +119,18 @@ CumulativeGaussianCostFunction
     {
     if(argument > 0)
       {
-      temp = (int)(argument * 100);
+      int temp = (int)(argument * 100);
       if(argument == (int)temp) erfValue = .999976474;
       else
         {
-        slope = (y[temp + 1] - y[temp])/(((float)temp + 1)/100 - ((float)temp/100));
+        double slope = (y[temp + 1] - y[temp])/(((float)temp + 1)/100 - ((float)temp/100));
         erfValue = slope * (argument - ((float)temp + 1)/100) + y[temp+1];
         }
       }
       else
         {
-        temp = -(int)(argument * 100);
-        slope = (-y[temp + 1] + y[temp])/(-((float)temp + 1)/100 + ((float)temp/100));
+        int temp = -(int)(argument * 100);
+        double slope = (-y[temp + 1] + y[temp])/(-((float)temp + 1)/100 + ((float)temp/100));
         erfValue = (slope * (argument + ((float)temp + 1)/100) - y[temp+1]);
         }
     }
