@@ -101,6 +101,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkVTKImageExport.h"
 #include "itkVTKImageExportBase.h"
+#include "itkVTKImageImport.h"
 #include "itkVTKImageReader.h"
 #include "itkVTKImageWriter.h"
 #include "itkVectorAnisotropicDiffusionEquation.h"
