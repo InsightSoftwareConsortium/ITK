@@ -143,10 +143,6 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
   region.SetIndex(start);
  
   output->SetLargestPossibleRegion(region);
-  output->SetRequestedRegion(region);
-  output->SetBufferedRegion(region);
-  output->Allocate();
-
 }
 
 
@@ -157,6 +153,11 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
 {
 
   typename TOutputImage::Pointer output = this->GetOutput();
+
+  // allocate the output buffer
+  output->SetBufferedRegion( output->GetRequestedRegion() );
+  output->Allocate();
+
   // Tell the ImageIO to read the file
   //
   OutputImagePixelType *buffer = 
