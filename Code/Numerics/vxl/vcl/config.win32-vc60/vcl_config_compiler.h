@@ -132,7 +132,11 @@
 //
 //#define VCL_DEFINE_SPECIALIZATION /* template <> */
 //#define VCL_DEFINE_SPECIALIZATION template <>
+#if defined(__ICL)
+#define VCL_DEFINE_SPECIALIZATION /* template <> */
+#else
 #define VCL_DEFINE_SPECIALIZATION template <>
+#endif
 
 
 // -- VCL_NULL_TMPL_ARGS
