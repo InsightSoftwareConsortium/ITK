@@ -66,7 +66,19 @@
 #include "itkNormalizeImageFilter.h"
 // Software Guide : EndCodeSnippet
 
+//  Software Guide : BeginLatex
+//  
+//  Additionally, low pass filtering the images to be registered will
+//  also have to increase robustness against noise. In this example,
+//  we will use the \doxygen{DiscreteGaussianImageFilter} filter for the
+//  purpose. The characteristics of this filter has been discussed
+//  in section \ref{sec:BlurringFilters}.
+//
+//  Software Guide : EndLatex 
 
+// Software Guide : BeginCodeSnippet
+#include "itkDiscreteGaussianImageFilter.h"
+// Software Guide : EndCodeSnippet
 
 
 #include "itkImageFileReader.h"
@@ -289,12 +301,31 @@ int main( int argc, char *argv[] )
   MovingNormalizeFilterType::Pointer movingNormalizer = MovingNormalizeFilterType::New();
   // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
+  //  
+  //  The blurring filters are declared using the internal image type as both
+  //  the input and output types. In this example, we will set the variance
+  //  for both blurring filters to 2.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::DiscreteGaussianImageFilter<
+                      InternalImageType, InternalImageType> GaussianFilterType;
+  
+  GaussianFilterType::Pointer fixedSmoother  = GaussianFilterType::New();
+  GaussianFilterType::Pointer movingSmoother = GaussianFilterType::New();
+
+  fixedSmoother->SetVariance( 2.0 );
+  movingSmoother->SetVariance( 2.0 );
+  // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //  
-  //  The output of the readers is connected as input to the normalization
-  //  filters. The inputs to the registration method are taken from the
-  //  normalization filters. 
+  //  The output of the readers are connected as inputs to the normalization
+  //  filters. The outputs of the normalization filters are connected as inputs 
+  //  to the blurring filters. The inputs to the registration method are taken from the
+  //  blurring filters. 
   //
   //  Software Guide : EndLatex 
 
@@ -302,8 +333,11 @@ int main( int argc, char *argv[] )
   fixedNormalizer->SetInput(  fixedImageReader->GetOutput() );
   movingNormalizer->SetInput( movingImageReader->GetOutput() );
 
-  registration->SetFixedImage(    fixedNormalizer->GetOutput()    );
-  registration->SetMovingImage(   movingNormalizer->GetOutput()   );
+  fixedSmoother->SetInput( fixedNormalizer->GetOutput() );
+  movingSmoother->SetInput( movingNormalizer->GetOutput() );
+
+  registration->SetFixedImage(    fixedSmoother->GetOutput()    );
+  registration->SetMovingImage(   movingSmoother->GetOutput()   );
   // Software Guide : EndCodeSnippet
 
 
@@ -414,8 +448,8 @@ int main( int argc, char *argv[] )
   //  parameters:
   //
   //  \begin{verbatim}
-  //  Translation X = 13.55
-  //  Translation Y = 17.3635
+  //  Translation X = 12.8804
+  //  Translation Y = 16.7718
   //  \end{verbatim}
   // 
   //  These values are approximatedly within half pixel of 
