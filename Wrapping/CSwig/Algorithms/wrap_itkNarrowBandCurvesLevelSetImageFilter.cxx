@@ -27,9 +27,9 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2(NarrowBandCurvesLevelSetImageFilter, image::F2, image::F2,
-                     itkCurvesLevelSetImageFilterF2F2);
+                     itkNarrowBandCurvesLevelSetImageFilterF2F2);
     ITK_WRAP_OBJECT2(NarrowBandCurvesLevelSetImageFilter, image::F3, image::F3,
-                     itkCurvesLevelSetImageFilterF3F3);
+                     itkNarrowBandCurvesLevelSetImageFilterF3F3);
   }
 }
 
