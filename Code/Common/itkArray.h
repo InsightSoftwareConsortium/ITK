@@ -18,7 +18,6 @@
 #define __itkArray_h
 
 #include "itkMacro.h"
-#include "vnl/vnl_vector_ref.h"
 #include "vnl/vnl_vector.h"
 
 namespace itk
@@ -28,7 +27,7 @@ namespace itk
 /** \class Array
  *  \brief Array class with size defined at construction time.
  * 
- * This class derives from the vnl_vector_ref<> class. 
+ * This class derives from the vnl_vector<> class. 
  * Its size is assigned at construction time (run time) and can 
  * not be changed afterwards except by using assignment to another
  * Array.
@@ -42,7 +41,7 @@ namespace itk
  * \ingroup DataRepresentation 
  */
 template <typename TValueType >
-class Array : public vnl_vector_ref< TValueType >
+class Array : public vnl_vector< TValueType >
 {
 public:
  
@@ -58,8 +57,7 @@ public:
   /** Constructor with size. Size can only be changed by assignment */
   Array(unsigned int dimension);
 
-  /** Constructor with size and pointer to the data. 
-   *  This constructor does not make a copy of the data */
+  /** Constructor with size and a pointer to the data */
   Array(unsigned int dimension,TValueType* data);
 
   /** Set the all the elements of the array to the specified value */
@@ -86,14 +84,12 @@ public:
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
-  ~Array() {};
- 
-  /** Copy Operator : To avoid returning the reference we override this function*/
-  Array<TValueType> & operator= (const Array<TValueType> & rsh) const{}
-  Array<TValueType> operator= (Array<TValueType> const rhs);
+  ~Array();
+  
+private:
 
-  /** Copy Constructor : */ 
-  Array(Array<TValueType> const& v);
+  bool m_Array_Own_Data;
+
 };
 
 

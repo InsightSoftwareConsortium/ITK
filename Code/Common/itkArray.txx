@@ -18,73 +18,53 @@
 #define _itkArray_txx
 
 #include "itkArray.h"
-#include <iostream>
 
 namespace itk
 {
 
-
-
 /** Default constructor  */
 template < typename TValueType >
 Array<TValueType >
-::Array():vnl_vector_ref<TValueType>(1,vnl_c_vector<TValueType>::allocate_T(1))
+::Array():vnl_vector<TValueType>()
 {
-
+  m_Array_Own_Data = false;
 }
 
 
 /** Constructor with size */
 template < typename TValueType >
 Array<TValueType >
-::Array(unsigned int dimension):vnl_vector_ref<TValueType>(dimension,vnl_c_vector<TValueType>::allocate_T(dimension))
+::Array(unsigned int dimension):vnl_vector<TValueType>(dimension)
 {
+  m_Array_Own_Data = false;
 }
 
 /** Constructor with size and data */
 template < typename TValueType >
 Array<TValueType >
-::Array(unsigned int dimension,TValueType* data):vnl_vector_ref<TValueType>(dimension,data)
+::Array(unsigned int dimension,TValueType* data):vnl_vector<TValueType>(dimension)
 {
-
+  vnl_vector<TValueType>::data = data;
+  m_Array_Own_Data = true;
 }
 
-/** Copy Constructor */ 
+/** Destructor */
 template < typename TValueType >
 Array<TValueType >
-::Array(Array<TValueType> const& v) : vnl_vector_ref<TValueType>(v.Size(),vnl_c_vector<TValueType>::allocate_T(v.Size()))
+::~Array()
 {
- for (unsigned i = 0; i < this->num_elmts; i++)
-   {
-   this->data[i] = v.data[i];
-   }
-
+  if(m_Array_Own_Data)
+    {
+    vnl_vector<TValueType>::data = 0;
+    }
 }
 
+/** Set the size of the array */
 template < typename TValueType >
 void Array<TValueType >
 ::SetSize(unsigned int sz)
 {
   this->set_size(sz);
-}
-
-
-template < typename TValueType >
-Array<TValueType> Array<TValueType>::operator= (Array<TValueType> const rhs) 
-{
-if (this != &rhs) { // make sure *this != m
-    if (rhs.data) {
-      if (this->num_elmts != rhs.num_elmts)
-        this->set_size(rhs.size());
-      for (unsigned i = 0; i < this->num_elmts; i++)
-        this->data[i] = rhs.data[i];
-    }
-    else {
-      // rhs is default-constructed.
-      clear();
-    }
-  }
-  return *this;
 }
 
 
