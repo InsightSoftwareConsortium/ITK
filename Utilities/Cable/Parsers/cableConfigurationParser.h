@@ -131,6 +131,7 @@ private:
   void begin_Namespace(const Attributes&);
   void begin_Code(const Attributes&);
   void begin_Class(const Attributes&);
+  void begin_AlternateName(const Attributes&);
   void begin_Header(const Attributes&);
   void begin_Group(const Attributes&);
   
@@ -139,6 +140,7 @@ private:
   void end_Namespace();
   void end_Code();
   void end_Class();
+  void end_AlternateName();
   void end_Header();
   void end_Group();
   

@@ -631,6 +631,29 @@ Parser
 
 
 /**
+ * Begin handler for AlternateName element.
+ */
+void
+Parser
+::begin_AlternateName(const Attributes& atts)
+{
+  String name = atts.Get("name");
+
+  this->CurrentClass()->AddAlternateName(name);
+}
+
+
+/**
+ * End handler for AlternateName element.
+ */
+void
+Parser
+::end_AlternateName()
+{
+}
+
+
+/**
  * Begin handler for Group element.
  */
 void
@@ -703,6 +726,7 @@ Parser
   beginHandlers["Namespace"]          = &Parser::begin_Namespace;
   beginHandlers["Code"]               = &Parser::begin_Code;
   beginHandlers["Class"]              = &Parser::begin_Class;
+  beginHandlers["AlternateName"]      = &Parser::begin_AlternateName;
   beginHandlers["Header"]             = &Parser::begin_Header;
   beginHandlers["Group"]              = &Parser::begin_Group;
 
@@ -710,6 +734,7 @@ Parser
   endHandlers["Namespace"]          = &Parser::end_Namespace;
   endHandlers["Code"]               = &Parser::end_Code;
   endHandlers["Class"]              = &Parser::end_Class;
+  endHandlers["AlternateName"]      = &Parser::end_AlternateName;
   endHandlers["Header"]             = &Parser::end_Header;
   endHandlers["Group"]              = &Parser::end_Group;
   

@@ -185,8 +185,15 @@ Wrapper< _wrap_WRAPPED_TYPE >
   m_WrapperFacility->SetWrapper(m_WrappedTypeRepresentation, this);
   Tcl_CreateObjCommand(m_Interpreter,
                        const_cast<char*>(m_WrappedTypeName.c_str()),
-                       this->GetClassWrapperFunction(),
-                       (ClientData)NULL, (Tcl_CmdDeleteProc*)NULL);  
+                       this->GetClassWrapperFunction(), 0, 0);
+#ifdef _wrap_ALTERNATE_NAMES
+  static char* alternateNames[] = { _wrap_ALTERNATE_NAMES, 0 };
+  for(char** alternate = alternateNames; *alternate; ++alternate)
+    {
+    Tcl_CreateObjCommand(m_Interpreter, *alternate,
+                         this->GetClassWrapperFunction(), 0, 0);
+    }
+#endif
 }
 
 

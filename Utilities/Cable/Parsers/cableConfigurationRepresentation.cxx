@@ -126,7 +126,18 @@ Class
 {
   return new Class(in_name);
 }  
-  
+
+
+/**
+ * Add an alternate name for the class.
+ */
+void
+Class
+::AddAlternateName(const String& in_name)
+{
+  m_AlternateNames.insert(in_name);
+}
+
 
 /**
  * Create a new Namespace and return a pointer to it.

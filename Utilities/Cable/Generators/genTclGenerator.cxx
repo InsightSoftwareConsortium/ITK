@@ -252,7 +252,7 @@ void TclGenerator::GenerateNamespace(const configuration::Namespace* ns)
     source::Class* c = m_GlobalNamespace->LookupClass(qualifedName);
     if(c)
       {
-      this->GenerateClassWrapper(c);
+      this->GenerateClassWrapper(c, *w);
       }
     else
       {
@@ -277,7 +277,8 @@ void TclGenerator::GenerateNamespace(const configuration::Namespace* ns)
 
 void
 TclGenerator
-::GenerateClassWrapper(const source::Class* c)
+::GenerateClassWrapper(const source::Class* c,
+                       const configuration::Class* classConfig)
 {
   String cName = c->GetQualifiedName();
   String noTemplate = cName.substr(0, cName.find_first_of("<"));
@@ -328,7 +329,7 @@ TclGenerator
   
   // Write out code to define the Wrapper template specialization
   // for this wrapped class.
-  this->WriteWrapperClassDefinition(c, methods);
+  this->WriteWrapperClassDefinition(c, methods, classConfig);
   
   m_Output <<
     "namespace _wrap_\n"
@@ -567,8 +568,17 @@ bool TclGenerator::ReturnsVoid(const source::Function* f) const
   return false;
 }
 
-void TclGenerator::WriteWrapperClassDefinition(const source::Class* c,
-                                               const Methods& methods) const
+
+/**
+ * Write the code to produce the class definition for this wrapper
+ * class.  Macros are defined which fill in information for the
+ * "wrapWrapperInclude.h" header template.
+ */
+void
+TclGenerator
+::WriteWrapperClassDefinition(const source::Class* c,
+                              const Methods& methods,
+                              const configuration::Class* classConfig) const
 {
   String cName = c->GetQualifiedName();
   m_Output <<
@@ -629,14 +639,38 @@ void TclGenerator::WriteWrapperClassDefinition(const source::Class* c,
     m_Output <<
       "  typedef int PlaceholderForNoMethodWrappers\n";
     }
+
+  // If there are any alternate names, write them now.
+  if(classConfig->AlternateNamesBegin() != classConfig->AlternateNamesEnd())
+    {    
+    m_Output <<
+      "#define _wrap_ALTERNATE_NAMES \\\n";
+    configuration::Class::AlternateNames::const_iterator
+      a = classConfig->AlternateNamesBegin();
+    m_Output <<
+      "  \"" << a->c_str() << "\"";
+    for(++a;a != classConfig->AlternateNamesEnd(); ++a)
+      {
+      m_Output << ", \\\n" <<
+        "  \"" << a->c_str() << "\"";
+      }
+    m_Output << "\n";
+    }
   
+  // Code to include the wrapper class definition header template.
   m_Output <<
     "\n"
     "// This include will produce a specialization of template class\n"
     "// Wrapper according to the macros we just defined.\n"
     "#include \"wrapWrapperInclude.h\"\n"
     "\n"
-    "// We are done with these macros.\n"
+    "// We are done with these macros.\n";
+  if(classConfig->AlternateNamesBegin() != classConfig->AlternateNamesEnd())
+    {
+    m_Output <<
+      "#undef _wrap_ALTERNATE_NAMES\n";
+    }
+  m_Output <<
     "#undef _wrap_METHOD_WRAPPER_PROTOTYPES\n"
     "#undef _wrap_WRAPPED_TYPE_NAME\n"
     "#undef _wrap_WRAPPED_TYPE\n"

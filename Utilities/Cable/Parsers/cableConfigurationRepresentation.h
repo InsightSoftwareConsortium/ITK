@@ -168,12 +168,21 @@ public:
   virtual TypeOfObject GetTypeOfObject() const { return Class_id; }
   
   static Pointer New(const String&);
+
+  typedef std::set<String> AlternateNames;
+  AlternateNames::const_iterator AlternateNamesBegin() const { return m_AlternateNames.begin(); }
+  AlternateNames::const_iterator AlternateNamesEnd() const { return m_AlternateNames.end(); }
+  
+  void AddAlternateName(const String&);
   
 protected:
   Class(const String& name): Named(name) {}
   Class(const Self&): Named("") {}
   void operator=(const Self&) {}
   virtual ~Class() {}
+  
+private:
+  AlternateNames m_AlternateNames;
 };
 
 
