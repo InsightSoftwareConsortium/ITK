@@ -66,15 +66,17 @@ public:
    *  This should be done before starting to call the IncreaseFrequency method. */
   void SetToZero() ;
 
-  /** Method to set the frequency of histogram using instance identifier */
-  void SetFrequency(const InstanceIdentifier id, const FrequencyType value) ;
+  /** Method to set the frequency of histogram using instance identifier. It
+   * returns false when the Id is out of bounds */
+  bool SetFrequency(const InstanceIdentifier id, const FrequencyType value) ;
 
   /** Method to increase the frequency by one.  This function is convinent
-   * to create histogram. */
-  void IncreaseFrequency(const InstanceIdentifier id, 
+   * to create a histogram. It returns false when the id is out of bounds. */
+  bool IncreaseFrequency(const InstanceIdentifier id, 
                          const FrequencyType value);
 
-  /** Method to get the frequency of a bin from the histogram */
+  /** Method to get the frequency of a bin from the histogram. It will return
+   * zero when the Id is out of bounds.  */
   FrequencyType GetFrequency(const InstanceIdentifier id) const ;
 
   FrequencyType GetTotalFrequency()

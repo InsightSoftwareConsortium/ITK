@@ -54,13 +54,18 @@ SparseFrequencyContainer< TFrequencyValue >
 }
 
 template< class TFrequencyValue >
-void
+bool
 SparseFrequencyContainer< TFrequencyValue >
 ::SetFrequency(const InstanceIdentifier id, const FrequencyType value)
 { 
+  if( id >= m_FrequencyContainer.size() )
+    {
+    return false;
+    }
   FrequencyType frequency = this->GetFrequency(id) ;
   m_FrequencyContainer[id] = value ; 
   m_TotalFrequency += (value - frequency) ;
+  return true;
 }
 
 template< class TFrequencyValue >
@@ -75,17 +80,24 @@ SparseFrequencyContainer< TFrequencyValue >
     return iter->second ;
     }
   else
+    {
     return 0;
+    }
 }
 
 template< class TFrequencyValue >
-void
+bool
 SparseFrequencyContainer< TFrequencyValue >
 ::IncreaseFrequency(const InstanceIdentifier id, const FrequencyType value)
 {
+  if( id >= m_FrequencyContainer.size() )
+    {
+    return false;
+    }
   FrequencyType frequency = this->GetFrequency(id) ;
   m_FrequencyContainer[id] = frequency + value ; 
   m_TotalFrequency += value ;
+  return true;
 }
 
 template< class TFrequencyValue >

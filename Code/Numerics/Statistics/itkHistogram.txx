@@ -474,51 +474,42 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
-inline void
+inline bool
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::SetFrequency(const IndexType &index, const FrequencyType value) 
 {
-  this->SetFrequency( this->GetInstanceIdentifier(index), value) ;
+  return this->SetFrequency( this->GetInstanceIdentifier(index), value) ;
 }
   
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
-inline void
+inline bool
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::SetFrequency(const MeasurementVectorType &measurement, const FrequencyType value) 
 {
-  this->SetFrequency( this->GetInstanceIdentifier(GetIndex(measurement)), value) ;
+  return this->SetFrequency( this->GetInstanceIdentifier(GetIndex(measurement)), value) ;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
-inline void
+inline bool
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::IncreaseFrequency(const IndexType &index, const FrequencyType value)
 {
-  this->IncreaseFrequency( this->GetInstanceIdentifier(index), value) ;
+  const bool result = 
+      this->IncreaseFrequency( this->GetInstanceIdentifier(index), value) ;
+  return result;
 }
   
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
-inline void
+inline bool
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::IncreaseFrequency(const MeasurementVectorType &measurement, const FrequencyType value) 
 {
-  
-  try
-    {
-    IndexType index;
-    this->GetIndex( measurement, index );
-    this->IncreaseFrequency( this->GetInstanceIdentifier( index ), value );
-    }
-  catch( ExceptionObject & )
-    {
-    // the measurement was outside the histogram range,
-    // there is nothing to increment in this case
-    return;
-    }
-  
+  IndexType index;
+  this->GetIndex( measurement, index );
+  return this->IncreaseFrequency( this->GetInstanceIdentifier( index ), value );
 }
 
 

@@ -50,13 +50,18 @@ DenseFrequencyContainer< TFrequencyValue >
 }
 
 template< class TFrequencyValue >
-void
+bool
 DenseFrequencyContainer< TFrequencyValue >
 ::SetFrequency(const InstanceIdentifier id, const FrequencyType value)
 { 
+  if( id >= m_FrequencyContainer->Size() )
+    {
+    return false;
+    }
   FrequencyType frequency = this->GetFrequency(id) ;
   (*m_FrequencyContainer)[id] = value ; 
   m_TotalFrequency += (value - frequency) ;
+  return true;
 }
 
 template< class TFrequencyValue >
@@ -64,17 +69,26 @@ typename DenseFrequencyContainer< TFrequencyValue >::FrequencyType
 DenseFrequencyContainer< TFrequencyValue >
 ::GetFrequency(const InstanceIdentifier id) const
 {
+  if( id >= m_FrequencyContainer->Size() )
+    {
+    return NumericTraits< FrequencyType >::Zero;
+    }
   return (*m_FrequencyContainer)[id];
 }
 
 template< class TFrequencyValue >
-void
+bool
 DenseFrequencyContainer< TFrequencyValue >
 ::IncreaseFrequency(const InstanceIdentifier id, const FrequencyType value)
 {
+  if( id >= m_FrequencyContainer->Size() )
+    {
+    return false;
+    }
   FrequencyType frequency = this->GetFrequency(id) ;
   (*m_FrequencyContainer)[id] = frequency + value ; 
   m_TotalFrequency += value ;
+  return true;
 }
 
 template< class TFrequencyValue >

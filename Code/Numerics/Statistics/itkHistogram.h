@@ -236,33 +236,36 @@ public:
   /** Method to set the frequency of histogram */
   void SetFrequency(const FrequencyType value) ;
 
-  /** Method to set the frequency of histogram */
-  void SetFrequency(const InstanceIdentifier &id, const FrequencyType value) 
-  { m_FrequencyContainer->SetFrequency(id, value) ; }
+  /** Method to set the frequency of histogram. It returns false if the bin is
+   * out of bounds. */
+  bool SetFrequency(const InstanceIdentifier &id, const FrequencyType value) 
+  { return m_FrequencyContainer->SetFrequency(id, value) ; }
 
-  /** Method to set the frequency of histogram */
-  void SetFrequency(const IndexType &index, 
+  /** Method to set the frequency of histogram. It returns false if the bin is
+   * out of bounds. */
+  bool SetFrequency(const IndexType &index, 
                     const FrequencyType value) ;
   
-  /** Method to set the frequency corresponding to gray levels measurement */
-  void SetFrequency(const MeasurementVectorType &measurement, 
+  /** Method to set the frequency corresponding to gray levels measurement. It
+   * returns false if the bin is out of bounds. */
+  bool SetFrequency(const MeasurementVectorType &measurement, 
                     const FrequencyType value) ;
 
 
   /** Method to increase the frequency by one.  This function is convinent
-   * to create histogram. */
-  void IncreaseFrequency(const InstanceIdentifier &id,
+   * to create a histogram. It returns false if the bin is out of bounds. */
+  bool IncreaseFrequency(const InstanceIdentifier &id,
                          const FrequencyType value) 
-  { m_FrequencyContainer->IncreaseFrequency(id, value) ; }
+  { return m_FrequencyContainer->IncreaseFrequency(id, value) ; }
 
   /** Method to increase the frequency by one.  This function is convinent
    * to create histogram. */
-  void IncreaseFrequency(const IndexType &index, 
+  bool IncreaseFrequency(const IndexType &index, 
                          const FrequencyType value) ;
   
   /** Method to increase the frequency by one.  This function is convinent
    * to create histogram. */
-  void IncreaseFrequency(const MeasurementVectorType &measurement, 
+  bool IncreaseFrequency(const MeasurementVectorType &measurement, 
                          const FrequencyType value) ;
   
   /** Method to get measurement from the histogram using an instance identifier */
@@ -320,9 +323,9 @@ public:
       return  m_Histogram->GetFrequency(m_Id) ;
     }
     
-    void SetFrequency(const FrequencyType value) 
+    bool SetFrequency(const FrequencyType value) 
     { 
-      m_Histogram->SetFrequency(m_Id, value); 
+      return m_Histogram->SetFrequency(m_Id, value); 
     }
 
     InstanceIdentifier GetInstanceIdentifier() const
@@ -387,9 +390,9 @@ public:
       return  m_Histogram->GetFrequency(m_Id) ;
     }
     
-    void SetFrequency(const FrequencyType value) 
+    bool SetFrequency(const FrequencyType value) 
     { 
-      m_Histogram->SetFrequency(m_Id, value); 
+      return m_Histogram->SetFrequency(m_Id, value); 
     }
 
     InstanceIdentifier GetInstanceIdentifier() const
