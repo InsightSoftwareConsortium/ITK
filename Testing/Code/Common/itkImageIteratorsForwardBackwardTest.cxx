@@ -42,8 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkImage.h"
 #include "itkNumericTraits.h"
-#include "itkSimpleImageRegionIterator.h"
-#include "itkSimpleImageRegionConstIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 
 
 
@@ -74,9 +74,9 @@ int main()
   myImage->SetRequestedRegion( region );
   myImage->Allocate();
 
-  typedef itk::SimpleImageRegionIterator< ImageType > IteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
 
-  typedef itk::SimpleImageRegionConstIterator< ImageType > ConstIteratorType;
+  typedef itk::ImageRegionConstIteratorWithIndex< ImageType > ConstIteratorType;
 
 
   IteratorType it( myImage, region );

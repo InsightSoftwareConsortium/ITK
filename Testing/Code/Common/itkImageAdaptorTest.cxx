@@ -15,7 +15,7 @@
 
 
 #include <itkImageAdaptor.h>
-#include <itkSimpleImageRegionIterator.h>
+#include <itkImageRegionIteratorWithIndex.h>
 #include <itkRGBPixel.h>
 #include <itkRedPixelAccessor.h>
 
@@ -32,9 +32,9 @@ typedef itk::RedPixelAccessor<float> myRedAccessorType;
 
 typedef itk::ImageAdaptor< myImageType, myRedAccessorType > myRedAdaptorType;
 
-typedef itk::SimpleImageRegionIterator< myImageType >       myIteratorType;
+typedef itk::ImageRegionIteratorWithIndex< myImageType >       myIteratorType;
 
-typedef itk::SimpleImageRegionIterator< myRedAdaptorType >  myRedIteratorType;
+typedef itk::ImageRegionIteratorWithIndex< myRedAdaptorType >  myRedIteratorType;
 
 
 

@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkPhysicalImage.h"
 #include "itkVector.h"
 #include "itkImageRegionIterator.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include <time.h>
 
 int main()
@@ -168,9 +168,9 @@ int main()
     passed = false;
     }
 
-  // SimpleImageRegionIterator
+  // ImageRegionIteratorWithIndex
   start = clock();
-  itk::SimpleImageRegionIterator<ScalarImage> it2(o3, region);
+  itk::ImageRegionIteratorWithIndex<ScalarImage> it2(o3, region);
 
   i = 0;
   for ( it2.Begin(); !it2.IsAtEnd(); ++it2)
@@ -181,7 +181,7 @@ int main()
   end = clock();
   elapsedTime = (end - start) / (double) CLOCKS_PER_SEC;
 
-  std::cout << "SimpleImageRegionIterator" << std::endl;
+  std::cout << "ImageRegionIteratorWithIndex" << std::endl;
   std::cout << "\tTime   = " << elapsedTime << std::endl;
   std::cout << "\tPixels = " << i << std::endl;
 

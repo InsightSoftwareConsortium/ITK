@@ -41,13 +41,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include <time.h>
 #include "itkImage.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkVector.h"
 
 void AdaptorSupportedIteratorSpeed(itk::Image<float, 3> *img)
 {
-  itk::SimpleImageRegionIterator<itk::Image<float, 3> >
+  itk::ImageRegionIteratorWithIndex<itk::Image<float, 3> >
     it (img, img->GetRequestedRegion());
 
   it.Begin();
@@ -72,7 +72,7 @@ void NoAdaptorSupportIteratorSpeed(itk::Image<float, 3> *img)
 
 void AdaptorSupportedModifyScalars(itk::Image<float, 3> *img)
 {
-  itk::SimpleImageRegionIterator<itk::Image<float, 3> >
+  itk::ImageRegionIteratorWithIndex<itk::Image<float, 3> >
     it (img, img->GetRequestedRegion());
 
   it.Begin();
@@ -100,7 +100,7 @@ void NoAdaptorSupportModifyScalars(itk::Image<float, 3> *img)
 
 void BypassAdaptorSupportModifyScalars(itk::Image<float, 3> *img)
 {
-  itk::SimpleImageRegionIterator< itk::Image<float, 3> >
+  itk::ImageRegionIteratorWithIndex< itk::Image<float, 3> >
     it (img, img->GetRequestedRegion());
 
   it.Begin();
@@ -118,7 +118,7 @@ void AdaptorSupportedModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
   unsigned int i;
   VectorType temp_vector;
   
-  itk::SimpleImageRegionIterator<itk::Image<VectorType, 3> >
+  itk::ImageRegionIteratorWithIndex<itk::Image<VectorType, 3> >
     it (img, img->GetRequestedRegion());
   
   it.Begin();
@@ -164,7 +164,7 @@ void BypassAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img
   const unsigned int N = 3;
   unsigned int i;
   
-  itk::SimpleImageRegionIterator< itk::Image<VectorType, 3> >
+  itk::ImageRegionIteratorWithIndex< itk::Image<VectorType, 3> >
     it (img, img->GetRequestedRegion());
   
   it.Begin();
