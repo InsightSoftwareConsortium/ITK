@@ -47,7 +47,6 @@ ADD_TEST(itkInterpolateTest ${ALGORITHMS_TESTS} itkInterpolateTest)
 ADD_TEST(itkKalmanLinearEstimatorTest ${ALGORITHMS_TESTS} itkKalmanLinearEstimatorTest)
 ADD_TEST(itkKmeansModelEstimatorTest ${ALGORITHMS_TESTS} itkKmeansModelEstimatorTest)
 ADD_TEST(itkLaplacianSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkLaplacianSegmentationLevelSetImageFilterTest)
-ADD_TEST(itkLevelSetShapeDetectionTest ${ALGORITHMS_TESTS} itkLevelSetShapeDetectionTest)
 ADD_TEST(itkMattesMutualInformationImageToImageMetricTest ${ALGORITHMS_TESTS} itkMattesMutualInformationImageToImageMetricTest)
 ADD_TEST(itkMeanSquaresImageMetricTest ${ALGORITHMS_TESTS} itkMeanSquaresImageMetricTest)
 ADD_TEST(itkMinimumMaximumImageCalculatorTest ${ALGORITHMS_TESTS} itkMinimumMaximumImageCalculatorTest)
@@ -68,6 +67,7 @@ ADD_TEST(itkNormalizedCorrelationImageMetricTest ${ALGORITHMS_TESTS} itkNormaliz
 ADD_TEST(itkOtsuThresholdImageCalculatorTest ${ALGORITHMS_TESTS} itkOtsuThresholdImageCalculatorTest)
 ADD_TEST(itkPatternIntensityImageMetricTest ${ALGORITHMS_TESTS}  itkPatternIntensityImageMetricTest)
 ADD_TEST(itkRegionGrow2DTest ${ALGORITHMS_TESTS} itkRegionGrow2DTest)
+ADD_TEST(itkShapeDetectionLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkShapeDetectionLevelSetImageFilterTest)
 ADD_TEST(itkSpatialObjectToImageRegistrationTest ${ALGORITHMS_TESTS} itkSpatialObjectToImageRegistrationTest)
 ADD_TEST(itkSupervisedImageClassifierTest ${ALGORITHMS_TESTS} itkSupervisedImageClassifierTest)
 ADD_TEST(itkThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkThresholdSegmentationLevelSetImageFilterTest)
@@ -117,7 +117,6 @@ itkInterpolateTest.cxx
 itkKalmanLinearEstimatorTest.cxx
 itkKmeansModelEstimatorTest.cxx
 itkLaplacianSegmentationLevelSetImageFilterTest.cxx
-itkLevelSetShapeDetectionTest.cxx
 itkMattesMutualInformationImageToImageMetricTest.cxx
 itkMeanSquaresImageMetricTest.cxx
 itkMinimumMaximumImageCalculatorTest.cxx
@@ -135,6 +134,7 @@ itkNormalizedCorrelationImageMetricTest.cxx
 itkOtsuThresholdImageCalculatorTest.cxx
 itkPatternIntensityImageMetricTest.cxx
 itkRegionGrow2DTest.cxx
+itkShapeDetectionLevelSetImageFilterTest.cxx
 itkSpatialObjectToImageRegistrationTest.cxx
 itkSupervisedImageClassifierTest.cxx
 itkThresholdSegmentationLevelSetImageFilterTest.cxx

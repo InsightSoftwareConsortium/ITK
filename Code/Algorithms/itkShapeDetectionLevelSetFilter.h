@@ -86,7 +86,7 @@ namespace itk
  *
  * \sa EdgePotentialImageFilter
  *
- * \ingroup LevelSetSegmentation 
+ * \ingroup Deprecated
  */
 template <class TLevelSet, class TEdgeImage>
 class ITK_EXPORT ShapeDetectionLevelSetFilter :
