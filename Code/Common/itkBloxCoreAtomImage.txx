@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkBloxCoreAtomImage_txx
 
 #include <iostream>
-#include "VNL/vnl_vector_fixed.h"
+#include "vnl/vnl_vector_fixed.h"
 #include "itkScalarVector.h"
 #include "itkBloxCoreAtomImage.h"
 
@@ -154,7 +154,7 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
     // std::cout << "Successfully created a conical iterator\n";
 
     // Create and initialize a spatial function iterator
-    typedef itk::FloodFilledSpatialFunctionIterator<TBoundaryPointImage, TFunctionType> TSphereItType;
+    typedef itk::FloodFilledSpatialFunctionConditionalIterator<TBoundaryPointImage, TFunctionType> TSphereItType;
     TSphereItType sfi = TSphereItType(m_BoundaryPointImage, spatialFunc, seedPos);
 
     // Walk the spatial function
