@@ -50,7 +50,7 @@ std::string Semaphore::GetUniqueName()
 {
   char s[255];  
   time_t t = time(0);
-  snprintf(s,255,"MACSEM%d%d\0",t,m_SemaphoreCount); 
+  snprintf(s,254,"MACSEM%d%d",static_cast<int>(t),m_SemaphoreCount); 
   return std::string(s); 
 }
 #endif
