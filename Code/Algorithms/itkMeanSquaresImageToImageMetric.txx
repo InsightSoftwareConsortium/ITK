@@ -76,7 +76,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
       const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
       const RealType fixedValue   = ti.Get();
       m_NumberOfPixelsCounted++;
-      const RealType diff = fixedValue - movingValue; 
+      const RealType diff = movingValue - fixedValue; 
       measure += diff * diff; 
       }
 
@@ -169,7 +169,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
       
       const RealType fixedValue     = ti.Value();
       m_NumberOfPixelsCounted++;
-      const RealType diff = fixedValue - movingValue; 
+      const RealType diff = movingValue - fixedValue; 
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
@@ -285,7 +285,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
       const RealType fixedValue     = ti.Value();
       m_NumberOfPixelsCounted++;
 
-      const RealType diff = fixedValue - movingValue; 
+      const RealType diff = movingValue - fixedValue; 
   
       measure += diff * diff;
 
