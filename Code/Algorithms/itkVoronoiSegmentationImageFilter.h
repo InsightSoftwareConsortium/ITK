@@ -43,7 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkVoronoiSegmentationImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkVoronoi2DDiagram.h"
 #include "itkVoronoiSegmentationImageFilterBase.h"
 #include "itkImage.h"
 

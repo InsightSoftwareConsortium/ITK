@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkVoronoiSegmentationImageFilterBase_txx
 
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkVoronoiDiagram2DGenerator.h"
 #include <math.h>
 
 namespace itk
@@ -85,11 +86,13 @@ InitializeSegment(void){
   m_OutputImage->Allocate();  
 
   m_WorkingVD=VoronoiDiagram::New();
+  m_VDGenerator=VoronoiDiagramGenerator::New();
+ 
   VoronoiDiagram::PointType VDsize;
   VDsize[0] = (VoronoiDiagram::CoordRepType)(m_Size[0]-0.1);
   VDsize[1] = (VoronoiDiagram::CoordRepType)(m_Size[1]-0.1);
-  m_WorkingVD->SetBoundary(VDsize);
-  m_WorkingVD->SetRandomSeeds(m_NumberOfSeeds);
+  m_VDGenerator->SetBoundary(VDsize);
+  m_VDGenerator->SetRandomSeeds(m_NumberOfSeeds);
   m_StepsRuned = 0;
 }
 
@@ -378,7 +381,8 @@ RunSegmentOneStep(void){
   m_NumberOfPixels.resize(m_NumberOfSeeds);
   m_Label.resize(m_NumberOfSeeds);
   m_SeedsToAdded.clear();
-  m_WorkingVD->GenerateDiagram();
+  m_VDGenerator->GenerateData();
+  m_WorkingVD=m_VDGenerator->GetOutput();
   ClassifyDiagram();
   GenerateAddingSeeds();
   m_NumberOfSeedsToAdded = m_SeedsToAdded.size();
@@ -396,7 +400,7 @@ RunSegment(void){
 	  ok=0;
     }
     while( (m_NumberOfSeedsToAdded != 0) && ok){
-	  m_WorkingVD->AddSeeds(m_NumberOfSeedsToAdded,m_SeedsToAdded.begin());
+	  m_VDGenerator->AddSeeds(m_NumberOfSeedsToAdded,m_SeedsToAdded.begin());
 	  m_LastStepSeeds = m_NumberOfSeeds;
 	  m_NumberOfSeeds += m_NumberOfSeedsToAdded;
       RunSegmentOneStep();
@@ -412,7 +416,7 @@ RunSegment(void){
     }
 	int i = 1;
 	while((i<m_Steps) && ok){
-	  m_WorkingVD->AddSeeds(m_NumberOfSeedsToAdded, m_SeedsToAdded.begin());
+	  m_VDGenerator->AddSeeds(m_NumberOfSeedsToAdded, m_SeedsToAdded.begin());
 	  m_LastStepSeeds = m_NumberOfSeeds;
 	  m_NumberOfSeeds += m_NumberOfSeedsToAdded;
       RunSegmentOneStep();
@@ -437,7 +441,7 @@ template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
 BeforeNextStep(void){ 
-  m_WorkingVD->AddSeeds(m_NumberOfSeedsToAdded, m_SeedsToAdded.begin()); 
+  m_VDGenerator->AddSeeds(m_NumberOfSeedsToAdded, m_SeedsToAdded.begin()); 
   m_LastStepSeeds = m_NumberOfSeeds; 
   m_NumberOfSeeds += m_NumberOfSeedsToAdded; 
 } 

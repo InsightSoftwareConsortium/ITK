@@ -43,7 +43,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkVoronoiSegmentationImageFilterBase_h
 
 #include "itkImageToImageFilter.h"
-#include "itkVoronoi2DDiagram.h"
+#include "itkVoronoiDiagram2D.h"
+#include "itkVoronoiDiagram2DGenerator.h"
 #include "itkImage.h"
 
 namespace itk
@@ -102,7 +103,8 @@ public:
   typedef typename TInputImage::SizeType SizeType;
   typedef typename TInputImage::RegionType RegionType;
   typedef typename TInputImage::PixelType PixelType;
-  typedef Voronoi2DDiagram<double> VoronoiDiagram;
+  typedef VoronoiDiagram2D<double> VoronoiDiagram;
+  typedef VoronoiDiagram2DGenerator<double> VoronoiDiagramGenerator;
   
   typedef typename VoronoiDiagram::PointType PointType;
   typedef typename VoronoiDiagram::Cell Cell;
@@ -113,8 +115,8 @@ public:
   typedef typename VoronoiDiagram::SeedsType SeedsType;
   typedef typename VoronoiDiagram::SeedsIterator SeedsIterator;
   typedef typename VoronoiDiagram::NeighborIdIterator NeighborIdIterator;
-  typedef typename VoronoiDiagram::EdgeIterator EdgeIterator;
-  typedef typename VoronoiDiagram::FortuneEdgeInfo EdgeInfo;
+  typedef typename VoronoiDiagram::VorEdgeIterator EdgeIterator;
+  typedef typename VoronoiDiagram::VorEdge EdgeInfo;
   typedef std::vector<PointType> PointTypeVector;
   typedef std::deque<PointType> PointTypeDeque;
   typedef itk::Image<bool,2>  BinaryObjectImage;
@@ -242,6 +244,7 @@ protected:
   typename InputImageType::Pointer m_InputImage;
   typename OutputImageType::Pointer m_OutputImage;
   typename VoronoiDiagram::Pointer m_WorkingVD;
+  typename VoronoiDiagramGenerator::Pointer m_VDGenerator;
 
   std::vector<PointType> m_SeedsToAdded;
 

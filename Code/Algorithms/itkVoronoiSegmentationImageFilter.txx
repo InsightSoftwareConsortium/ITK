@@ -132,11 +132,13 @@ InitializeSegment(void){
   m_OutputImage->Allocate();  
 
   m_WorkingVD=VoronoiDiagram::New();
+  m_VDGenerator=VoronoiDiagramGenerator::New();
+
   VoronoiDiagram::PointType VDsize;
   VDsize[0] = (VoronoiDiagram::CoordRepType)(m_Size[0]-0.1);
   VDsize[1] = (VoronoiDiagram::CoordRepType)(m_Size[1]-0.1);
-  m_WorkingVD->SetBoundary(VDsize);
-  m_WorkingVD->SetRandomSeeds(m_NumberOfSeeds);
+  m_VDGenerator->SetBoundary(VDsize);
+  m_VDGenerator->SetRandomSeeds(m_NumberOfSeeds);
   m_StepsRuned = 0;
 }
 
@@ -231,7 +233,7 @@ void
 VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
 Reset(void)
 {
-  m_WorkingVD->SetRandomSeeds(m_NumberOfSeeds);
+  m_VDGenerator->SetRandomSeeds(m_NumberOfSeeds);
   m_StepsRuned = 0;
   m_LastStepSeeds=m_NumberOfSeeds;
   m_NumberOfSeedsToAdded=0;
