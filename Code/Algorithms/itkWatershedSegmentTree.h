@@ -156,6 +156,11 @@ public:
   
   /** Helper method for debugging.   */
   //  void PrintDeque();
+
+  /** Standard DataObject routine to initialize.  Returns the segment
+   * tree to a default state, deallocating memory. */
+  void Initialize();
+  
 protected:
   SegmentTree() {}
   virtual ~SegmentTree() {}

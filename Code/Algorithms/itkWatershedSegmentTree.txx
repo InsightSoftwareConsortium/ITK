@@ -64,6 +64,23 @@ SegmentTree<TScalarType>
   m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;
 }
 
+template<class TScalarType>
+void 
+SegmentTree<TScalarType>
+::Initialize()
+{
+  //
+  // We don't modify ourselves because the "ReleaseData" methods depend upon
+  // no modification when initialized.
+  //
+
+  // Call the superclass method
+  Superclass::Initialize();
+
+  // Clear the segment tree
+  this->Clear();
+}
+
 template <class TScalarType>
 void 
 SegmentTree<TScalarType>
