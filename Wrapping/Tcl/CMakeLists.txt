@@ -1,6 +1,7 @@
 INCLUDE(${CMAKE_ROOT}/Modules/FindTCL.cmake)
 
 INCLUDE_DIRECTORIES(${TCL_INCLUDE_PATH}
+                    ${TK_INCLUDE_PATH}
                     ${CABLE_INCLUDE_DIR}
                     ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/doc
                     ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vnl
