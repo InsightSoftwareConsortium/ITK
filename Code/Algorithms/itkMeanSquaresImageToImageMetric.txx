@@ -36,7 +36,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
  * Get the match Measure
  */
 template <class TFixedImage, class TMovingImage> 
-MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
+typename MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
 MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValue( const TransformParametersType & parameters ) const
 {
@@ -66,10 +66,10 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    InputPointType inputPoint;
+    typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
@@ -129,7 +129,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
                                           FixedImageType> FixedIteratorType;
 
   typedef  itk::ImageRegionConstIteratorWithIndex<
-                                        GradientImageType> GradientIteratorType;
+                                        typename Superclass::GradientImageType> GradientIteratorType;
 
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
@@ -154,10 +154,10 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    InputPointType inputPoint;
+    typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
@@ -173,7 +173,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
-      OutputPointType tempPoint = 
+      typename Superclass::OutputPointType tempPoint = 
                movingImageTransform->TransformPoint( transformedPoint );
 
       typename MovingImageType::IndexType mappedIndex; 
@@ -242,7 +242,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
                                           FixedImageType> FixedIteratorType;
 
   typedef  itk::ImageRegionConstIteratorWithIndex<
-                                        GradientImageType> GradientIteratorType;
+                                        typename Superclass::GradientImageType> GradientIteratorType;
 
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
@@ -269,10 +269,10 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    InputPointType inputPoint;
+    typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {

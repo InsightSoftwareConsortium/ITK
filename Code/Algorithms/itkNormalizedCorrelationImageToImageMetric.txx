@@ -36,7 +36,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
  * Get the match Measure
  */
 template <class TFixedImage, class TMovingImage> 
-NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
+typename NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
 NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValue( const TransformParametersType & parameters ) const
 {
@@ -60,7 +60,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   this->SetTransformParameters( parameters );
 
-  typedef  NumericTraits< MeasureType >::AccumulateType AccumulateType;
+  typedef  typename NumericTraits< MeasureType >::AccumulateType AccumulateType;
 
   AccumulateType sff = NumericTraits< AccumulateType >::Zero;
   AccumulateType smm = NumericTraits< AccumulateType >::Zero;
@@ -71,10 +71,10 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    InputPointType inputPoint;
+    typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
@@ -134,7 +134,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
 
   typedef  itk::ImageRegionConstIteratorWithIndex<
-                                        GradientImageType> GradientIteratorType;
+                                        typename Superclass::GradientImageType> GradientIteratorType;
 
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
@@ -147,7 +147,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   this->SetTransformParameters( parameters );
 
-  typedef  NumericTraits< MeasureType >::AccumulateType AccumulateType;
+  typedef  typename NumericTraits< MeasureType >::AccumulateType AccumulateType;
 
   AccumulateType sff  = NumericTraits< AccumulateType >::Zero;
   AccumulateType smm  = NumericTraits< AccumulateType >::Zero;
@@ -175,10 +175,10 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    InputPointType inputPoint;
+    typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
@@ -200,10 +200,10 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    InputPointType inputPoint;
+    typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
@@ -215,7 +215,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
-      OutputPointType tempPoint = 
+      typename Superclass::OutputPointType tempPoint = 
                movingImageTransform->TransformPoint( transformedPoint );
 
       typename MovingImageType::IndexType mappedIndex; 
@@ -292,7 +292,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
 
   typedef  itk::ImageRegionConstIteratorWithIndex<
-                                        GradientImageType> GradientIteratorType;
+                                        typename Superclass::GradientImageType> GradientIteratorType;
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
 
@@ -304,7 +304,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   this->SetTransformParameters( parameters );
 
-  typedef  NumericTraits< MeasureType >::AccumulateType AccumulateType;
+  typedef  typename NumericTraits< MeasureType >::AccumulateType AccumulateType;
 
   AccumulateType sff  = NumericTraits< AccumulateType >::Zero;
   AccumulateType smm  = NumericTraits< AccumulateType >::Zero;
@@ -333,10 +333,10 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    InputPointType inputPoint;
+    typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
@@ -359,10 +359,10 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    InputPointType inputPoint;
+    typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
@@ -374,7 +374,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
-      OutputPointType tempPoint = 
+      typename Superclass::OutputPointType tempPoint = 
                movingImageTransform->TransformPoint( transformedPoint );
 
       typename MovingImageType::IndexType mappedIndex; 

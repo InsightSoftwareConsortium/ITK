@@ -48,7 +48,7 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
  * Get the match Measure
  */
 template <class TFixedImage, class TMovingImage> 
-PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
+typename PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
 PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValue( const TransformParametersType & parameters ) const
 {
@@ -84,10 +84,10 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    InputPointType inputPoint;
+    typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
