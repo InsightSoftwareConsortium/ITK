@@ -1,7 +1,7 @@
 /*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCentralDerivativeImageFunction.txx
+  Module:    itkCentralDifferenceImageFunction.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -37,8 +37,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef _itkCentralDerivativeImageFunction_txx
-#define _itkCentralDerivativeImageFunction_txx
+#ifndef _itkCentralDifferenceImageFunction_txx
+#define _itkCentralDifferenceImageFunction_txx
 
 namespace itk
 {
@@ -47,8 +47,8 @@ namespace itk
  * Constructor
  */
 template <class TInputImage>
-CentralDerivativeImageFunction<TInputImage>
-::CentralDerivativeImageFunction()
+CentralDifferenceImageFunction<TInputImage>
+::CentralDifferenceImageFunction()
 {
   for( unsigned int j = 0; j < ImageDimension; j++ )
     {
@@ -64,7 +64,7 @@ CentralDerivativeImageFunction<TInputImage>
  */
 template <class TInputImage>
 void
-CentralDerivativeImageFunction<TInputImage>
+CentralDifferenceImageFunction<TInputImage>
 ::SetInputImage( const InputImageType * ptr )
 {
   this->Superclass::SetInputImage( ptr );
@@ -82,7 +82,7 @@ CentralDerivativeImageFunction<TInputImage>
  */
 template <class TInputImage>
 void
-CentralDerivativeImageFunction<TInputImage>
+CentralDifferenceImageFunction<TInputImage>
 ::SetImageSpacing( const double * spacing )
 {
   for( unsigned int j = 0; j < ImageDimension; j++ )
@@ -97,7 +97,7 @@ CentralDerivativeImageFunction<TInputImage>
  */
 template<class TInputImage>
 void
-CentralDerivativeImageFunction<TInputImage>
+CentralDifferenceImageFunction<TInputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
@@ -110,7 +110,7 @@ CentralDerivativeImageFunction<TInputImage>
  */
 template <class TInputImage>
 double
-CentralDerivativeImageFunction<TInputImage>
+CentralDifferenceImageFunction<TInputImage>
 ::Evaluate(
 const IndexType& index,
 unsigned int dim ) const

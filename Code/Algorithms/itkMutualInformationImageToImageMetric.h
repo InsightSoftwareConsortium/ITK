@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkIndex.h"
 #include "itkKernelFunction.h"
-#include "itkCentralDerivativeImageFunction.h"
+#include "itkCentralDifferenceImageFunction.h"
 #include "itkImageMapper.h"
 
 namespace itk
@@ -389,7 +389,7 @@ private:
    */
   void CalculateDerivatives(TargetPointType& , DerivativeType& );
 
-  typedef CentralDerivativeImageFunction< ReferenceType >
+  typedef CentralDifferenceImageFunction< ReferenceType >
     DerivativeFunctionType;
 
   typename DerivativeFunctionType::Pointer  m_DerivativeCalculator;

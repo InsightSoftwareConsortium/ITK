@@ -1,7 +1,7 @@
 /*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCentralDerivativeImageFunction.h
+  Module:    itkCentralDifferenceImageFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -37,8 +37,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef _itkCentralDerivativeImageFunction_h
-#define _itkCentralDerivativeImageFunction_h
+#ifndef _itkCentralDifferenceImageFunction_h
+#define _itkCentralDifferenceImageFunction_h
 
 #include "itkImageFunction.h"
 
@@ -46,7 +46,7 @@ namespace itk
 {
 
 /**
- * \class CentralDerivativeImageFunction
+ * \class CentralDifferenceImageFunction
  * \brief Calculate the derivative by central differencing
  *
  * This class is templated over the input image type.
@@ -55,14 +55,14 @@ namespace itk
  * - the use of Neighborhood operators may improve efficiency.
  */
 template <class TInputImage >
-class ITK_EXPORT CentralDerivativeImageFunction :
+class ITK_EXPORT CentralDifferenceImageFunction :
   public ImageFunction< TInputImage, double >
 {
 public:
   /**
    * Standard "Self" typedef
    */
-  typedef CentralDerivativeImageFunction Self;
+  typedef CentralDifferenceImageFunction Self;
 
   /**
    * Standard "Superclass" typedef
@@ -127,10 +127,10 @@ public:
 
 
 protected:
-  CentralDerivativeImageFunction();
-  CentralDerivativeImageFunction( const Self& ){};
+  CentralDifferenceImageFunction();
+  CentralDifferenceImageFunction( const Self& ){};
 
-  ~CentralDerivativeImageFunction(){};
+  ~CentralDifferenceImageFunction(){};
 
   void operator=( const Self& ){};
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -145,7 +145,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCentralDerivativeImageFunction.txx"
+#include "itkCentralDifferenceImageFunction.txx"
 #endif
 
 #endif

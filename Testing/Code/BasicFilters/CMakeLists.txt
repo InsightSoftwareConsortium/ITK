@@ -96,7 +96,6 @@ CABLE_PACKAGE(BasicFilters ITKBasicFiltersTest)
 CABLE_SOURCE_FILES(
 itkAcosImageFilter
 itkAddImageFilter
-itkAffineTransformMeshFilter
 itkAnisotropicDiffusionImageFilter
 itkAsinImageFilter
 itkAtan2ImageFilter
@@ -141,6 +140,7 @@ itkTernaryImageFilter
 itkTernaryMagnitudeImageFilter
 itkTernaryMagnitudeSquaredImageFilter
 itkThresholdImageFilter
+itkTransformMeshFilter
 itkUnaryImageFilter
 itkVTKImageReader
 itkVTKImageWriter
