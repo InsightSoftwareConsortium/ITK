@@ -125,7 +125,7 @@ public:
   typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
   typedef typename OutputImageType::RegionType     OutputImageRegionType;
   typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  typedef typename itk::SpatialOrientation::ValidCoordinateOrientationFlags
+  typedef SpatialOrientation::ValidCoordinateOrientationFlags
   CoordinateOrientationCode;
   /** Axes permuter type. */
   typedef PermuteAxesImageFilter< TInputImage > PermuterType;
@@ -182,7 +182,7 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
 
   /*** Member functions used by GenerateData: */
-  void DeterminePermutationsAndFlips(const itk::SpatialOrientation::ValidCoordinateOrientationFlags fixed_orient, const itk::SpatialOrientation::ValidCoordinateOrientationFlags moving_orient);
+  void DeterminePermutationsAndFlips(const SpatialOrientation::ValidCoordinateOrientationFlags fixed_orient, const SpatialOrientation::ValidCoordinateOrientationFlags moving_orient);
   bool NeedToPermute();
   bool NeedToFlip();
 

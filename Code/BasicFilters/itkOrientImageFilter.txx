@@ -258,7 +258,7 @@ OrientImageFilter<TInputImage, TOutputImage>
 
   const unsigned int Dimension = 3;
 
-  typedef Image< typename InputImageType::PixelType, Dimension > CubeImageType;
+  typedef Image< InputImageType::PixelType, Dimension > CubeImageType;
 
   typename InputImageType::SizeType originalSize;
   originalSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
