@@ -28,7 +28,7 @@ namespace itk
 * This class is parametrized over the type of the input image
 * and the type of the output image.
 *
-* This Filter computes the distance map of the input image 
+* This filter computes the distance map of the input image 
 * as an approximation with pixel accuracy to the Euclidean distance.
 *
 * The input is assumed to contain numeric codes defining objects.
@@ -43,7 +43,7 @@ namespace itk
 *   to this pixel. Given that the components of the distance are
 *   computed in "pixels", the vector is represented by an itk::Offset
 *
-* This filter is N-Dimensional and it is know to be efficient
+* This filter is N-Dimensional and it is known to be efficient
 * in computational time.
 *
 * \todo Add the reference to the journal paper where this method was published
@@ -113,13 +113,17 @@ public:
   /** Set On/Off if the distance is squared. */
   itkBooleanMacro( SquaredDistance );
 
-  /** Set if the input is binary. */
+  /** Set if the input is binary. If this variable is set, each
+   * nonzero pixel in the input image will be given a unique numeric
+   * code to be used by the Voronoi partition.  If the image is binary
+   * but you are not interested in the Voronoi regions of the
+   * different white pixels, then you need not set this.  */
    itkSetMacro( InputIsBinary, bool );
 
-  /** Get if the input is binary. */
+  /** Get if the input is binary.  See SetInputIsBinary(). */
   itkGetConstReferenceMacro( InputIsBinary, bool );
 
-  /** Set On/Off if the input is binary. */
+  /** Set On/Off if the input is binary.  See SetInputIsBinary(). */
   itkBooleanMacro( InputIsBinary );
 
   /** Get Voronoi Map
@@ -156,7 +160,7 @@ protected:
   /**  Compute Voronoi Map. */
   void ComputeVoronoiMap();  
 
-  /** Update distance map locally. */
+  /** Update distance map locally.  Used by GenerateData(). */
   void UpdateLocalDistance(VectorImageType*,
                            const IndexType&,
                            const OffsetType&);

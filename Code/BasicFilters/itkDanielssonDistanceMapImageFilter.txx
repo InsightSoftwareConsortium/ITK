@@ -17,12 +17,12 @@
 #ifndef _itkDanielssonDistanceMapImageFilter_txx
 #define _itkDanielssonDistanceMapImageFilter_txx
 
+#include <iostream>
 
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkReflectiveImageRegionConstIterator.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-
 
 namespace itk
 {
@@ -282,14 +282,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
       {
       distance += distanceVector[i] * distanceVector[i];
       }
-      if( m_SquaredDistance )
-        {
-        dt.Set( static_cast<typename OutputImageType::PixelType>( distance ) );
-        }
-      else
-        {
-        dt.Set( static_cast<typename OutputImageType::PixelType>(sqrt( distance )) );
-        }
+    dt.Set( static_cast<typename OutputImageType::PixelType>(sqrt( distance )) );
     ++ot;
     ++ct;
     ++dt;
@@ -298,7 +291,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 }
 
 /**
- *  Update locally the distance
+ *  Locally update the distance.
  */
 template <class TInputImage,class TOutputImage>
 void
@@ -309,7 +302,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage>
 {
   IndexType  there            = here + offset;
   OffsetType offsetValueHere  = components->GetPixel( here  );
-  OffsetType offsetValueThere = components->GetPixel( there );
+  OffsetType offsetValueThere = components->GetPixel( there ) + offset;
 
   double norm1 = 0.0;
   double norm2 = 0.0;
@@ -323,8 +316,9 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage>
   
   if( norm1 > norm2 ) 
     {
-    components->GetPixel( here ) = offsetValueThere + offset;
+    components->GetPixel( here ) = offsetValueThere;
     }
+
 }
 
 
@@ -348,17 +342,21 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   SizeType    size    = region.GetSize();
   OffsetType  offset;
 
-  // Pixels on the border should not be 
-  // processed because they lack neighbors.
-  // Prepare an output region 1 pixel narrower than
-  // the input region
+  // Pixels on the border should not be processed because they lack
+  // neighbors.  Prepare an output region 1 pixel narrower than the
+  // input region.  Also, each pixel is visited 2^InputImageDimension
+  // times, so the number of visits per pixel needs to be computed for
+  // progress reporting.
+  unsigned long visitsPerPixel = 1;
+  {  // Restrict 'dim' to this block.
   for(unsigned int dim=0; dim<InputImageDimension; dim++)
     {
     start [ dim ] += 1;
     size  [ dim ] -= 2;
     offset[ dim ] = 0;
+    visitsPerPixel *= 2;
     }
-
+  }
   
   typename InputImageType::RegionType internalRegion;  
   internalRegion.SetIndex( start );
@@ -367,13 +365,13 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   itkDebugMacro (<< "Region to process: " << internalRegion);
 
   ReflectiveImageRegionConstIterator< VectorImageType > 
-                                it( distanceComponents, internalRegion );
+    it( distanceComponents, internalRegion );
 
   it.GoToBegin();
 
-  // support progress methods/callbacks
+  // Support progress methods/callbacks.
   unsigned long updateVisits, i=0;
-  updateVisits = internalRegion.GetNumberOfPixels()/10;
+  updateVisits = internalRegion.GetNumberOfPixels() * visitsPerPixel / 10;
   if ( updateVisits < 1 ) 
     {
     updateVisits = 1;
@@ -406,17 +404,17 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
         offset[dim]=0;
         }
       }
-      ++it;
-      ++i;
-      }
+    ++it;
+    ++i;
+    }
   
   itkDebugMacro(<< "GenerateData: ComputeVoronoiMap");
 
   OffsetType zeroOffset;
   zeroOffset.Fill( 0 );
 
-  ImageRegionExclusionIteratorWithIndex< VectorImageType >  eit( distanceComponents,
-                                                                 region );
+  ImageRegionExclusionIteratorWithIndex< VectorImageType >
+    eit( distanceComponents, region );
   eit.SetExclusionRegion( internalRegion );
   eit.GoToBegin();
   while( !eit.IsAtEnd() )
