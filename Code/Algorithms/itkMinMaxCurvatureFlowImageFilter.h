@@ -104,15 +104,6 @@ public:
   /** Set/Get the stencil radius. */
   itkSetMacro( StencilRadius, RadiusValueType );
   itkGetMacro( StencilRadius, RadiusValueType );
-
-  /** Set/Get use block neighborhood boolean flag. If true,
-   * an N-dimensional block neighborhood is used to compute the
-   * neighborhood average. If false, an N-dimensional spherical
-   * neighborhood is used. Using a spherical neighborhood is more
-   * computationally demanding than using a block neighborhood. */
-  itkSetMacro( UseBlockNeighborhood, bool );
-  itkGetMacro( UseBlockNeighborhood, bool );
-  itkBooleanMacro( UseBlockNeighborhood );
   
 protected:
   MinMaxCurvatureFlowImageFilter();
@@ -128,7 +119,6 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   RadiusValueType    m_StencilRadius;
-  bool               m_UseBlockNeighborhood;
   
 };
 
