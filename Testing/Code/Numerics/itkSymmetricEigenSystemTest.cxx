@@ -20,12 +20,9 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkSymmetricEigenSystem.h"
 
-#define NO_OF_DIMENSIONS 2
-typedef double ValueType ;
-
 int itkSymmetricEigenSystemTest(int argc, char* argv[] )
 {
-  typedef itk::SymmetricEigenSystem< ValueType, NO_OF_DIMENSIONS > EigenSystemType ;
+  typedef itk::SymmetricEigenSystem< double, 2 > EigenSystemType ;
   
   EigenSystemType::Pointer eigen = EigenSystemType::New() ;
 
