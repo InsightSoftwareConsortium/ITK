@@ -32,7 +32,7 @@ SparseFrequencyContainer< TFrequencyValue >
 template< class TFrequencyValue >
 void
 SparseFrequencyContainer< TFrequencyValue >
-::Initialize(unsigned long length) 
+::Initialize(unsigned long) 
 {   
 }
 
