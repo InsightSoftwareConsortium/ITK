@@ -24,6 +24,7 @@
 #include <fstream>
 #include "itkImageIOBase.h"
 #include <stdio.h>
+#include <zlib.h>
 
 namespace itk
 {
@@ -82,10 +83,12 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   void SwapBytesIfNecessary(void* buffer, unsigned long numberOfPixels);
- 
+  bool CheckExtension(const char*);
+
   std::ifstream   m_Ifstream;
   std::ofstream   m_Ofstream;
-  
+  bool            m_IsCompressed;
+  gzFile          m_GzFile;
 };
 
 } // end namespace itk
