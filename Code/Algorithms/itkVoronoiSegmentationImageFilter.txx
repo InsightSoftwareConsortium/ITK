@@ -197,7 +197,7 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
       ++ait;
       ++iit;
       }
-  }
+    }
 
   m_Mean = addp/num;
   m_STD = sqrt((addpp - (addp*addp)/num)/(num-1));
