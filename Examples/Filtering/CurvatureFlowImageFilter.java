@@ -1,5 +1,5 @@
 /**
- *  Example on the use of the MeanImageFilter
+ *  Example on the use of the CurvatureFlowImageFilter
  *
  */
 
