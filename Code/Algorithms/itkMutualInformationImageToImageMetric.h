@@ -96,7 +96,8 @@ namespace itk
  * It is can be shown that around the optimal variance, the mutual
  * information estimate is relatively insensitive to small changes
  * of the variance. In our experiments, we have found that a
- * variance of 0.1 works well for images normalized between 0 and 1.
+ * variance of 0.4 works well for images normalized to have a mean
+ * of zero and standard deviation of 1.0.
  * The variance can be set via methods SetTargetStandardDeviation()
  * and SetReferenceStandardDeviation().
  *
@@ -204,32 +205,31 @@ public:
 
   /** Set/Get the reference image intensitiy standard deviation. This defines
    * the kernel bandwidth used in the joint probability distribution
-   * calculation. Default value is 0.1 which works well for image intensities
-   * normalized to between 0 and 1.  Value is clamped to be always greater
-   * than zero. */
+   * calculation. Default value is 0.4 which works well for image intensities
+   * normalized to a mean of 0 and standard deviation of 1.0.  
+   * Value is clamped to be always greater than zero. */
   itkSetClampMacro( ReferenceStandardDeviation, double, 
     NumericTraits<double>::min(), NumericTraits<double>::max() );
   itkGetConstMacro( ReferenceStandardDeviation, double );
 
-  /** Set/Get the target image intensitiy standard deviation. This defines the
-   * kernel bandwidth used in the joint probability distribution
-   * calculation. Default value is 0.1 which works well for image intensities
-   * normalized to between 0 and 1. Value is clamped to be always greater
-   * than zero. */
+  /** Set/Get the target image intensitiy standard deviation. This defines
+   * the kernel bandwidth used in the joint probability distribution
+   * calculation. Default value is 0.4 which works well for image intensities
+   * normalized to a mean of 0 and standard deviation of 1.0.  
+   * Value is clamped to be always greater than zero. */
   itkSetClampMacro( TargetStandardDeviation, double,
     NumericTraits<double>::min(), NumericTraits<double>::max() );
   itkGetMacro( TargetStandardDeviation, double );
 
   /** Set/Get the kernel function. This is used to calculate the joint
    * probability distribution. Default is the GaussianKernelFunction. */
-  void SetKernelFunction( KernelFunction * ptr )
-    { m_KernelFunction = ptr; }
-  KernelFunction * GetKernelFunction( void )
-    { return m_KernelFunction; }
+  itkSetObjectMacro( KernelFunction, KernelFunction );
+  itkGetObjectMacro( KernelFunction, KernelFunction );
 
 protected:
   MutualInformationImageToImageMetric();
   virtual ~MutualInformationImageToImageMetric() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   MutualInformationImageToImageMetric(const Self&); //purposely not implemented

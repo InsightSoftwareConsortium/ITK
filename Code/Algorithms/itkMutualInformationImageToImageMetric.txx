@@ -63,8 +63,8 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
   m_KernelFunction  = dynamic_cast<KernelFunction*>(
     GaussianKernelFunction::New().GetPointer() );
 
-  m_TargetStandardDeviation = 0.1;
-  m_ReferenceStandardDeviation = 0.1;
+  m_TargetStandardDeviation = 0.4;
+  m_ReferenceStandardDeviation = 0.4;
 
   m_MinProbability = 0.0001;
 
@@ -73,7 +73,23 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
   // calculating image derivatives
   m_DerivativeCalculator = DerivativeFunctionType::New();
 
+}
 
+
+template < class TTarget, class TMapper  >
+void
+MutualInformationImageToImageMetric<TTarget,TMapper>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "NumberOfSpatialSamples: ";
+  os << m_NumberOfSpatialSamples << std::endl;
+  os << indent << "TargetStandardDeviation: ";
+  os << m_TargetStandardDeviation << std::endl;
+  os << indent << "ReferenceStandardDeviation: ";
+  os << m_ReferenceStandardDeviation << std::endl;
+  os << indent << "KernelFunction: ";
+  os << m_KernelFunction.GetPointer() << std::endl;
 }
 
 
