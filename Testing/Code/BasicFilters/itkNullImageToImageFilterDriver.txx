@@ -151,8 +151,8 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
   m_Filter->SetInput(ip);
 
   // print out the ouput object so we can see it modified times and regions
-  std::cout << "Output object before filter execution" << std::endl
-            << m_Filter->GetOutput() << std::endl;
+  //  std::cout << "Output object before filter execution" << std::endl
+  //            << m_Filter->GetOutput() << std::endl;
 
   typedef ImageToImageFilter<TInputImage, TOutputImage> ImageFilterType;
   typename ImageFilterType::Pointer sourceBefore = 
