@@ -776,7 +776,7 @@ ProcessObject
    * GenerateData this object - we have not aborted yet, and our progress
    * before we start to execute is 0.0.
    */
-  m_AbortGenerateData = 0;
+  m_AbortGenerateData = false;
   m_Progress = 0.0;
   if (m_Inputs.size() < m_NumberOfRequiredInputs)
     {
@@ -791,9 +791,8 @@ ProcessObject
    * If we ended due to aborting, push the progress up to 1.0 (since
    * it probably didn't end there)
    *
-   * FIXME: Comment doesn't match the code.
    */
-  if ( !m_AbortGenerateData )
+  if ( m_AbortGenerateData )
     {
     this->UpdateProgress(1.0);
     }
