@@ -93,9 +93,14 @@ IF (WIN32)
   IF (BUILD_SHARED_LIBS)
     ADD_DEFINITIONS(-DJPEGDLL)
   ELSE (BUILD_SHARED_LIBS)
-    ADD_DEFINITIONS(-DJPEGSTATIC)
+    SET(JPEGSTATIC 1)
   ENDIF (BUILD_SHARED_LIBS)
 ENDIF (WIN32)
+
+CONFIGURE_FILE(${ITKJPEG_SOURCE_DIR}/.NoDartCoverage
+               ${ITKJPEG_BINARY_DIR}/.NoDartCoverage)
+CONFIGURE_FILE(${ITKJPEG_SOURCE_DIR}/jpegDllConfig.h.in
+               ${ITKJPEG_BINARY_DIR}/jpegDllConfig.h)
 
 # Generate three libraries: jpeg 8bits, 12bits and 16bits
 # using only one source directory
