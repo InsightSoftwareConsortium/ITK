@@ -1,3 +1,4 @@
+INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c|ce|wrap_).*$")
 INCLUDE(${CMAKE_ROOT}/Modules/FindCABLE.cmake)
 
 IF(NOT CABLE)
