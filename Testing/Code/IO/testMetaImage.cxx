@@ -16,7 +16,7 @@ int testMetaImage(int argc, char *argv[])
     if(i != tIm.ElementData(i))
       {
       std::cout << "Assigned Element Values Maintained: FAIL" << std::endl;
-      return 0;
+      return 1;
       }
     }
 
@@ -30,10 +30,10 @@ int testMetaImage(int argc, char *argv[])
     if(i != tIm.ElementData(i))
       {
       std::cout << "Read Element Values: FAIL" << std::endl;
-      return 0;
+      return 1;
       }
     }
 
 
-  return 1;
+  return 0;
   }

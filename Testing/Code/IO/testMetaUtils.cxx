@@ -224,5 +224,5 @@ int testMetaUtils(int argc, char *argv[])
   else
     std::cout << "DirNames not defined" << std::endl;
 
-  return 1;
+  return 0;
   }

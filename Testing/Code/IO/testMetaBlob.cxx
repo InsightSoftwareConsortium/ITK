@@ -51,5 +51,5 @@ int testMetaBlob(int argc, char *argv[])
   }
 
   std::cout << "done" << std::endl;
-  return 1;
+  return 0;
 }

@@ -62,7 +62,7 @@ int testMetaObject(int argc, char *argv[])
   if(strcmp(name,"Julien"))
   {
     std::cout << "MyName: FAIL" << std::endl;
-    return 0;
+    return 1;
   }
 
   int* array = static_cast<int*>(tObj.GetUserField("MyArray"));
@@ -72,7 +72,7 @@ int testMetaObject(int argc, char *argv[])
     if(array[i] != i+1)
     {
       std::cout << "MyArray: FAIL" << std::endl;
-      return 0;
+      return 1;
     }
   }
 
@@ -128,5 +128,5 @@ int testMetaObject(int argc, char *argv[])
     std::cout << "ElementSpacing: PASS" << std::endl;
     }
 
-  return 1;
+  return 0;
   }
