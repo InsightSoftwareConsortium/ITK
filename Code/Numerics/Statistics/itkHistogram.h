@@ -126,8 +126,15 @@ public:
   void Initialize(const SizeType &size, MeasurementVectorType& lowerBound,
                   MeasurementVectorType& upperBound) ;
 
-  /** returns the index of histogram corresponding to measurement value */
+  /** returns the index of histogram corresponding to measurement value
+   *  \deprecated Use GetIndex(const MeasurementVectorType & measurement,
+   *                           IndexType & index ) const instead.*/
   const IndexType & GetIndex(const MeasurementVectorType& measurement) const;
+
+  /** returns true if the index of histogram corresponding to measurement value is valid
+   *  and false if the measurement is outside the histogram */
+  bool GetIndex(const MeasurementVectorType & measurement,
+                IndexType & index ) const;
   
   /** returns the index that is uniquely labelled by an instance identifier
    * The corresponding id is the offset of the index 

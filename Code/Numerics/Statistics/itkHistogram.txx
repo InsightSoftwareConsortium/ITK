@@ -101,8 +101,8 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
   float interval ;
   for ( unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
     {
-    interval = (float) (upperBound[i] - lowerBound[i]) / 
-      static_cast< MeasurementType >(size[i]) ;
+    interval = (float) (upperBound[i] - lowerBound[i]) / static_cast< MeasurementType >(size[i]) ;
+
     // Set the min vector and max vector
     for (unsigned int j = 0; j < (size[i] - 1) ; j++)
       {
@@ -138,7 +138,7 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
       {
       // one of measurement is below the minimum
       m_TempIndex[dim] = (long) m_Size[dim] ;
-      itkExceptionMacro(<<"One of the measurement components is below the minimum");
+      itkWarningMacro(<<"One of the measurement components is below the minimum");
       }
 
     end = m_Min[dim].size() - 1 ;
@@ -146,7 +146,7 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
       {
       // one of measurement is above the maximum
       m_TempIndex[dim] = (long) m_Size[dim] ;
-      itkExceptionMacro(<<"One of the measurement components is above the maximum");
+      itkWarningMacro(<<"One of the measurement components is above the maximum");
       }
 
     mid = (end + 1) / 2 ;
@@ -180,6 +180,75 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
   return m_TempIndex;
 }
 
+
+
+/** */
+template< class TMeasurement, unsigned int VMeasurementVectorSize,
+          class TFrequencyContainer>
+bool Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
+::GetIndex(const MeasurementVectorType & measurement,IndexType & index ) const
+{
+  // now using something similar to binary search to find
+  // index.
+  unsigned int dim ;
+  
+  int begin, mid, end ;
+  MeasurementType median ;
+  MeasurementType tempMeasurement ;
+
+  for (dim = 0 ; dim < MeasurementVectorSize ; dim++)
+    {
+    tempMeasurement = measurement[dim] ;
+    begin = 0 ;
+    if (tempMeasurement < m_Min[dim][begin])
+      {
+      // one of measurement is below the minimum
+      index[dim] = (long) m_Size[dim] ;
+      return false;
+      }
+
+    end = m_Min[dim].size() - 1 ;
+    if (tempMeasurement >= m_Max[dim][end])
+      {
+      // one of measurement is above the maximum
+      index[dim] = (long) m_Size[dim] ;
+      return false;
+      }
+
+    mid = (end + 1) / 2 ;
+    median = m_Min[dim][mid];
+
+    while(true)
+      {
+      if (tempMeasurement < median )
+        {
+        end = mid - 1 ;
+        } 
+      else if (tempMeasurement > median)
+        {
+        if (tempMeasurement < m_Max[dim][mid])
+          {
+          index[dim] = mid ;
+          break ;
+          }
+              
+        begin = mid + 1 ;
+        }
+      else
+        {
+        // measurement[dim] = m_Min[dim][med] 
+        index[dim] = mid ;
+        break ;
+        }
+      mid = begin + (end - begin) / 2 ;
+      median = m_Min[dim][mid] ;
+      } // end of while
+    } // end of for()
+  return true;
+}
+
+
+
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer>
 inline const typename Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>::IndexType&
@@ -197,6 +266,7 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
   
   return m_TempIndex;
 }
+
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer >
@@ -429,7 +499,8 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
   
   try
     {
-    const IndexType & index = this->GetIndex( measurement );
+    IndexType index;
+    this->GetIndex( measurement, index );
     this->IncreaseFrequency( this->GetInstanceIdentifier( index ), value );
     }
   catch( ExceptionObject & )
