@@ -134,7 +134,7 @@ protected:
   ~FiniteDifferenceImageFilter() {}
   FiniteDifferenceImageFilter(const Self&) {}
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * This method allocates a temporary update container in the subclass.

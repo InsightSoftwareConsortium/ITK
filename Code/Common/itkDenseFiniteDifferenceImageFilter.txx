@@ -148,7 +148,6 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 ::CalculateChangeThreaderCallback( void * arg )
 {
   DenseFDThreadStruct * str;
-  TimeStepType dt;
   int total, threadId, threadCount;
 
   threadId = ((ThreadInfoStruct *)(arg))->ThreadID;
@@ -317,7 +316,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   os << indent << "DenseFiniteDifferenceImageFilter";
   Superclass::PrintSelf(os, indent.GetNextIndent());

@@ -135,7 +135,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   os << indent << "FiniteDifferenceImageFilter";
   Superclass::PrintSelf(os, indent.GetNextIndent());

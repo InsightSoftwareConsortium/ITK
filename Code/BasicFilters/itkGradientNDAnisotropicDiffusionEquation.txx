@@ -59,9 +59,7 @@ GradientNDAnisotropicDiffusionEquation<TImage>
   
  // Slice the neighborhood
   m_Center =  it.Size() / 2;
-  x_slice[ImageDimension];
-  xa_slice[ImageDimension];
-  xd_slice[ImageDimension];
+
   for (i = 0; i< ImageDimension; ++i)
     {
       m_Stride[i]   = it.GetStride(i);

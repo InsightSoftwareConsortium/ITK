@@ -153,7 +153,7 @@ protected:
   ~FiniteDifferenceEquation() {}
   FiniteDifferenceEquation(const Self&) {}
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent)
+  void PrintSelf(std::ostream& os, Indent indent) const
   {
     os << indent << "FiniteDifferenceEquation";
     Superclass::PrintSelf(os, indent.GetNextIndent() );
