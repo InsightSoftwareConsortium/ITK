@@ -198,7 +198,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
       bool inRange = true;
       for( unsigned int j = 0; j < SetDimension; j++ )
         {
-        if( node.index[j] > size[j] )
+        if( node.index[j] > (signed long) size[j] )
           {
           inRange = false;
           break;
