@@ -111,6 +111,10 @@ void DICOMImageIO2::Read(void* buffer)
   AppHelper->GetImageData(newData, newType, imageDataLength);
 
   memcpy(buffer, newData, imageDataLength);
+
+  AppHelper->ClearSliceNumberMap();
+  AppHelper->ClearSeriesUIDMap();
+
 }
 
 
@@ -206,7 +210,10 @@ void DICOMImageIO2::ReadImageInformation()
         }
       }
 
-    this->SetNumberOfComponents(num_comp);
+  this->SetNumberOfComponents(num_comp);
+  AppHelper->ClearSliceNumberMap();
+  AppHelper->ClearSeriesUIDMap();
+
 }
 
 /** Print Self Method */
