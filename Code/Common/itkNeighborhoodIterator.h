@@ -17,7 +17,7 @@
 #define __itkNeighborhoodIterator_h
 
 #include <vector>
-#include <cstring>
+#include <string.h>
 #include <iostream>
 #include "itkImage.h"
 #include "itkSize.h"
@@ -106,6 +106,7 @@ public:
    * Scalar data type typedef support
    */
   typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
+
   /**
    * itk::Image typedef support.
    */
@@ -130,6 +131,11 @@ public:
    * Run-time type information (and related methods).
    */
   itkTypeMacro(NeighborhoodIterator, NeighborhoodBase);
+
+  /**
+   * Size object typedef support
+   */
+  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
 
   /**
    * Default constructor.

@@ -83,6 +83,11 @@ public:
   NeighborhoodOperator() : m_Direction(0) {}
   
   /**
+   * Size object typedef support
+   */
+  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
+
+  /**
    * Sets the dimensional direction of a directional operator.
    */
   void SetDirection(const unsigned long &direction)

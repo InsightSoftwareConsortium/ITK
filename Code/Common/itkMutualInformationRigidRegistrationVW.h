@@ -119,6 +119,39 @@ public:
     DefaultCalculatorType;
 
   /**
+   * RefImageType typedef support.
+   */
+  typedef TRefImage RefImageType;
+  typedef typename RefImageType::Pointer RefImagePointer;
+
+  /**
+   * TestImageType typedef support.
+   */
+  typedef TTestImage TestImageType;
+  typedef typename TestImageType::Pointer TestImagePointer;
+
+  /**
+   * DerivImageType typedef support.
+   */
+  typedef TDerivImage DerivImageType;
+  typedef typename DerivImageType::Pointer DerivImagePointer;
+
+  /**
+   * ImageDimension enumeration.
+   */
+  enum { ImageDimension = TRefImage::ImageDimension };
+
+  /**
+   * MatrixType typedef support.
+   */
+  typedef vnl_matrix_fixed<double,ImageDimension,ImageDimension> MatrixType;
+
+  /**
+   * VectorType typedef support.
+   */
+  typedef vnl_vector_fixed<double,ImageDimension> VectorType;
+
+  /**
    * Set the input reference image.
    */
   void SetReferenceImage( RefImageType *ptr );

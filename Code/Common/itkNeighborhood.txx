@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
-#include <cmath>
+#include <math.h>
 #include <iostream>
 
 namespace itk {

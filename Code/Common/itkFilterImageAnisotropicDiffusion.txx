@@ -79,7 +79,7 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
       grad_mag_avg = this->AverageGradientMagnitudeScalar(this->GetOutput(),
                      this->GetOutput()->GetRequestedRegion());
 
-      cout << grad_mag_avg << endl;
+      std::cout << grad_mag_avg << std::endl;
       
       k_adj = grad_mag_avg * this->GetConductanceParameter() * -1.0f;
 
@@ -169,16 +169,16 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
       grad_mag_y_sq = dy_forward*dy_forward + 0.25f*(dx+dx_aug)*(dx+dx_aug);
       grad_mag_xd_sq= dx_backward*dx_backward + 0.25f*(dy+dy_dim)*(dy+dy_dim);
       grad_mag_yd_sq= dy_backward*dy_backward + 0.25f*(dx+dx_dim)*(dx+dx_dim);
-      grad_mag_x    = std::sqrt(grad_mag_x_sq);
-      grad_mag_y    = std::sqrt(grad_mag_y_sq);
-      grad_mag_xd   = std::sqrt(grad_mag_xd_sq);
-      grad_mag_yd   = std::sqrt(grad_mag_yd_sq);
+      grad_mag_x    = sqrt(grad_mag_x_sq);
+      grad_mag_y    = sqrt(grad_mag_y_sq);
+      grad_mag_xd   = sqrt(grad_mag_xd_sq);
+      grad_mag_yd   = sqrt(grad_mag_yd_sq);
       
       // Conductance terms
-      Cx = std::exp( grad_mag_x_sq / k );
-      Cy = std::exp( grad_mag_y_sq / k );
-      Cxd= std::exp( grad_mag_xd_sq / k );
-      Cyd= std::exp( grad_mag_yd_sq / k );
+      Cx = exp( grad_mag_x_sq / k );
+      Cy = exp( grad_mag_y_sq / k );
+      Cxd= exp( grad_mag_xd_sq / k );
+      Cyd= exp( grad_mag_yd_sq / k );
 
       // Normalized finite-difference, conductance products (1st order)
       if ( grad_mag_x != Zero )
@@ -202,7 +202,7 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
 
       // Final product
       (*it.GetOutputBuffer())
-        = std::sqrt(dx*dx + dy*dy) * ( speed_x + speed_y);
+        = sqrt(dx*dx + dy*dy) * ( speed_x + speed_y);
     }
 }
 
@@ -264,16 +264,16 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
       dx_dim     = it.SlicedInnerProduct(xd_slice, dx_op);
       dy_dim     = it.SlicedInnerProduct(yd_slice, dy_op);
 
-      Cx = std::exp( (dx_forward*dx_forward + 0.25f*(dy+dy_aug)*(dy+dy_aug))
+      Cx = exp( (dx_forward*dx_forward + 0.25f*(dy+dy_aug)*(dy+dy_aug))
                      / k );
       
-      Cy = std::exp( (dy_forward*dy_forward + 0.25f*(dx+dx_aug)*(dx+dx_aug))
+      Cy = exp( (dy_forward*dy_forward + 0.25f*(dx+dx_aug)*(dx+dx_aug))
                      / k );
       
-      Cxd= std::exp( (dx_backward*dx_backward + 0.25f*(dy+dy_dim)*(dy+dy_dim))
+      Cxd= exp( (dx_backward*dx_backward + 0.25f*(dy+dy_dim)*(dy+dy_dim))
                      / k );
       
-      Cyd= std::exp( (dy_backward*dy_backward + 0.25f*(dx+dx_dim)*(dx+dx_dim))
+      Cyd= exp( (dy_backward*dy_backward + 0.25f*(dx+dx_dim)*(dx+dx_dim))
                      / k );
       
       dx_forward  *= Cx;
@@ -360,27 +360,27 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
       dy_dim     = it.SlicedInnerProduct(yd_slice, dy_op);
       dz_dim     = it.SlicedInnerProduct(zd_slice, dz_op);
 
-      Cx = std::exp( (dx_forward*dx_forward + 0.25f*(dy+dy_aug)*(dy+dy_aug)
+      Cx = exp( (dx_forward*dx_forward + 0.25f*(dy+dy_aug)*(dy+dy_aug)
                       +0.25f*(dz+dz_aug)*(dz+dz_aug))
                      / k );
       
-      Cy = std::exp( (dy_forward*dy_forward + 0.25f*(dx+dx_aug)*(dx+dx_aug)
+      Cy = exp( (dy_forward*dy_forward + 0.25f*(dx+dx_aug)*(dx+dx_aug)
                       +0.25f*(dz+dz_aug)*(dz+dz_aug))
                      / k );
       
-      Cz = std::exp( (dz_forward*dz_forward + 0.25f*(dx+dx_aug)*(dx+dx_aug)
+      Cz = exp( (dz_forward*dz_forward + 0.25f*(dx+dx_aug)*(dx+dx_aug)
                       +0.25f*(dy+dy_aug)*(dy+dy_aug))
                      / k );
       
-      Cxd= std::exp( (dx_backward*dx_backward + 0.25f*(dy+dy_dim)*(dy+dy_dim)
+      Cxd= exp( (dx_backward*dx_backward + 0.25f*(dy+dy_dim)*(dy+dy_dim)
                       +0.25f*(dz+dz_dim)*(dz+dz_dim))
                      / k );
       
-      Cyd= std::exp( (dy_backward*dy_backward + 0.25f*(dx+dx_dim)*(dx+dx_dim)
+      Cyd= exp( (dy_backward*dy_backward + 0.25f*(dx+dx_dim)*(dx+dx_dim)
                       +0.25f*(dz+dz_dim)*(dz+dz_dim))
                      / k );
 
-      Czd= std::exp( (dz_backward*dz_backward + 0.25f*(dx+dx_dim)*(dx+dx_dim)
+      Czd= exp( (dz_backward*dz_backward + 0.25f*(dx+dx_dim)*(dx+dx_dim)
                       +0.25f*(dy+dy_dim)*(dy+dy_dim))
                      / k );
       
@@ -465,8 +465,8 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
                   accum_d += 0.25f * (dx[j]+dx_dim[j]) * (dx[j]+dx_dim[j]);
                 }
             }
-          Cx[i] = std::exp(( dx_forward[i] * dx_forward[i]  + accum)  / k);
-          Cxd[i]= std::exp((dx_backward[i] * dx_backward[i] + accum_d)/ k);
+          Cx[i] = exp(( dx_forward[i] * dx_forward[i]  + accum)  / k);
+          Cxd[i]= exp((dx_backward[i] * dx_backward[i] + accum_d)/ k);
           dx_forward[i]  *= Cx[i];
           dx_backward[i] *= Cxd[i];
           delta += dx_forward[i] + dx_backward[i];

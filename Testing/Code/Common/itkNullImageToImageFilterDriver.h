@@ -158,7 +158,7 @@ template <class TOutputImage>
 void
 NullImageSource<TOutputImage>::GenerateData()
 {
-  cout << "Generate data from NUllImageSource" << endl;
+  std::cout << "Generate data from NUllImageSource" << std::endl;
   typename TOutputImage::Pointer image = this->GetOutput(0);
   image->SetBufferedRegion( image->GetRequestedRegion() );
   image->Allocate();
@@ -304,11 +304,11 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
   source->SetImageSize(m_ImageSize);
   m_Filter->SetInput(source->GetOutput());
   sink->SetInput(m_Filter->GetOutput());
-  std::clock_t start = std::clock();
+  //  std::clock_t start = std::clock();
   sink->Write();
-  std::clock_t stop = std::clock();
-  std::cout << "Approximate filtering time was " << stop-start
-            << " clock cycles"  << std::endl;
+  //  std::clock_t stop = std::clock();
+  //  std::cout << "Approximate filtering time was " << stop-start
+  //            << " clock cycles"  << std::endl;
 }
 
 }  // end namespace itk

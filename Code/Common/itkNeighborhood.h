@@ -16,7 +16,7 @@
 #ifndef __itkNeighborhood_h
 #define __itkNeighborhood_h
 
-#include <cstring>
+#include <string.h>
 #include <valarray>
 #include "itkMacro.h"
 #include "itkNeighborhoodBase.h"

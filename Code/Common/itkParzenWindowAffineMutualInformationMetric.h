@@ -124,6 +124,21 @@ public:
   typedef itk::Index<ImageDimension> IndexType;
 
   /**
+   * TestImage typedef support.
+   */
+  typedef TTestImage TestImageType;
+
+  /**
+   * MatrixType typedef support.
+   */
+  typedef vnl_matrix_fixed<double,ImageDimension,ImageDimension> MatrixType;
+
+  /**
+   * VectorType typedef support.
+   */
+  typedef vnl_vector_fixed<double,ImageDimension> VectorType;
+
+  /**
    * Set the input test image.
    * Caveat: requires the whole dataset to be in the image buffer.
    */

@@ -54,7 +54,27 @@ public:
   itkTypeMacro(RegionBoundaryNeighborhoodIterator,
                SmartRegionNeighborhoodIterator);
 
-   /**
+  /**
+   * itk::Image typedef support.
+   */
+  typedef Image<TPixel, VDimension> ImageType;
+
+  /**
+   * Region typedef support.
+   */
+  typedef ImageRegion<VDimension> RegionType;
+  
+  /**
+   * Size object typedef support
+   */
+  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
+
+  /**
+   * Size object typedef support
+   */
+  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
+
+  /**
    * Constructor establishes a neighborhood of iterators of a specified
    * dimension to walk a particular image and a particular region of
    * that image.

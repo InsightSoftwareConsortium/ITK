@@ -59,6 +59,31 @@ public:
    */
   typedef NeighborhoodIterator<TPixel, VDimension> Superclass;
   
+  /**
+   * itk::Image typedef support.
+   */
+  typedef Image<TPixel, VDimension> ImageType;
+
+  /**
+   * Region typedef support.
+   */
+  typedef ImageRegion<VDimension> RegionType;
+  
+  /**
+   * Size object typedef support
+   */
+  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
+
+  /**
+   * Scalar data type typedef support
+   */
+  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
+
+  /**
+   * itk::Neighborhood typedef support
+   */
+  typedef Neighborhood<TPixel, VDimension> NeighborhoodType;
+  
   /** 
    * Run-time type information (and related methods).
    */

@@ -58,6 +58,11 @@ public:
    */
   typedef typename TOutputImage::ScalarValueType OutputImageScalarValueType;
 
+  /**
+   * Typedef to describe the output image region type.
+   */
+  typedef typename TOutputImage::RegionType OutputImageRegionType;
+
   /** 
    * Run-time type information (and related methods).
    */
@@ -132,8 +137,8 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent);
   
   virtual void 
-  ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                       int threadId );
+  ThreadedGenerateData(const OutputImageRegionType& 
+		       outputRegionForThread, int threadId );
   virtual void GenerateOutputInformation();
 
 private:
