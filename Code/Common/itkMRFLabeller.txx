@@ -89,8 +89,8 @@ MRFLabeller<TInputImage, TClassifiedImage>
 ::GenerateOutputInformation()
 {
 
-  TInputImage::Pointer input = this->GetInput();
-  TClassifiedImage::Pointer output = this->GetOutput();
+  typename TInputImage::Pointer input = this->GetInput();
+  typename TClassifiedImage::Pointer output = this->GetOutput();
   output->SetLargestPossibleRegion( input->GetLargestPossibleRegion() );
 
 }
@@ -237,7 +237,7 @@ MRFLabeller<TInputImage, TClassifiedImage>
 template<class TInputImage, class TClassifiedImage>
 void
 MRFLabeller<TInputImage, TClassifiedImage>
-::SetBeta()
+::SetBeta( double* )
 {
 
   // Set the beta matrix of a 3x3x3 kernel

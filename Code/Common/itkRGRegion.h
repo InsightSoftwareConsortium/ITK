@@ -80,7 +80,7 @@ public:
   /**
    * Type definition for an double vector.
    */
-  typedef typename vnl_matrix<double> VecDblType;
+  typedef vnl_matrix<double> VecDblType;
 
   /**
    * Define a virtual RGRegion function that is meant to be

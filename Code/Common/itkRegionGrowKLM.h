@@ -246,7 +246,7 @@ public:
   /**
    * Storage type for the mean region intensity.
    */
-  typedef typename vnl_matrix<double> VecDblType;
+  typedef vnl_matrix<double> VecDblType;
 
   /**
    * Type definition for the smart border type.

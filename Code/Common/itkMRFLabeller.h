@@ -167,8 +167,7 @@ public:
   /**
    * Type definitions for classifier to be used for the MRF lavbelling.
    */
-  typedef itk::Classifier<TInputImage,TClassifiedImage> 
-    ClassifierType;
+  typedef Classifier<TInputImage,TClassifiedImage> ClassifierType;
 
   /**
    * Pointer to the classifier to be used for the MRF lavbelling.
@@ -254,14 +253,14 @@ public:
    * matrix is provided. However, the user is allowed to override it
    * with their choice of weights for a 3 x 3 x 3 matrix.
    */
-  virtual void SetBeta();
+  virtual void SetBeta( double* );
 
   /**
    * Get Beta matrix
    */
-  void GetBeta()
+  double* GetBeta()
   {
-    retrun m_Beta3x3x3;
+    return m_Beta3x3x3;
   }
 
   /**

@@ -105,8 +105,8 @@ RegionGrowKLM<TInputImage,TOutputImage>
 ::GenerateOutputInformation()
 {
 
-  TInputImage::Pointer  input  = this->GetInput();
-  TOutputImage::Pointer output = this->GetOutput();
+  typename TInputImage::Pointer  input  = this->GetInput();
+  typename TOutputImage::Pointer output = this->GetOutput();
   output->SetLargestPossibleRegion( input->GetLargestPossibleRegion() );
 }
 

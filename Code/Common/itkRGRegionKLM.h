@@ -93,6 +93,12 @@ class RGBorderKLM;
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT RGRegionKLM : public RGRegion<TInputImage,TOutputImage>
 {
+ private:
+  /**
+   * Type definition for an double vector.
+   */
+  typedef vnl_matrix<double> VecDblType;
+
 public:
   /**
    * Standard "Self" typedef.
@@ -242,10 +248,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent);
 
 private:
-  /**
-   * Type definition for an double vector.
-   */
-  typedef typename vnl_matrix<double> VecDblType;
 
   RegionBorderVecType    m_RegionBorderVec;
 
