@@ -26,7 +26,7 @@ int main()
 
 //------------------------------------------------------------
 // Create two simple images
-// Two Gaussians with one translated 5 pixels from another
+// Two Gaussians with one translated (7,3) pixels from another
 //------------------------------------------------------------
 
   //Allocate Images
@@ -69,8 +69,8 @@ int main()
 
   // Set the displacement
   itk::Vector<double,2> displacement;
-  displacement[0] = 5;
-  displacement[1] =	0;
+  displacement[0] = 7;
+  displacement[1] =	3;
 
   ReferenceIteratorType ri(imgReference,region);
   TargetIteratorType ti(imgTarget,region);
@@ -161,7 +161,7 @@ int main()
   // check results to see if it is within range
   //
   bool pass = true;
-  double trueParameters[6] = { 1, 0, 0, 1, -5, 0 };
+  double trueParameters[6] = { 1, 0, 0, 1, -7, -3 };
   for( unsigned int j = 0; j < 4; j++ )
     {
     if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.01 )
