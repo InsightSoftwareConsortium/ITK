@@ -1,11 +1,3 @@
-/**
-  \page Modules
- 
-  Insight methods can be classified by a number of different characteristics.
-  This page is an auxiliary index that will help users to find the classes they
-  need.  
- */
-
 /** 
  \defgroup DataRepresentation Data Representation Objects
  The Insight Toolkit includes several data representation objects such as 
