@@ -52,6 +52,13 @@ IF( USE_FFTW )
     FIND_PACKAGE( FFTW )
 ENDIF( USE_FFTW )
 
+# Deal with SCSL Options
+OPTION(USE_SCSL "Use the SCSL library" OFF)
+MARK_AS_ADVANCED(USE_SCSL)
+IF( USE_SCSL )
+    FIND_PACKAGE( SCSL )
+ENDIF( USE_SCSL )
+
 # Put "." in the rpath of all ITK shared libraries.
 LINK_DIRECTORIES(.)
 
