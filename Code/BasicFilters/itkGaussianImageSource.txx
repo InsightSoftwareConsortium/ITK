@@ -43,8 +43,8 @@ GaussianImageSource<TOutputImage>
 
   // Gaussian parameters, defined so that the gaussian
   // is centered in the default image
-  m_Mean = TArrayType::Filled(32.0);
-  m_Sigma = TArrayType::Filled(16.0);
+  m_Mean = ArrayType::Filled(32.0);
+  m_Sigma = ArrayType::Filled(16.0);
   m_Scale = 255.0;
   m_Normalized = false;
 
