@@ -88,13 +88,15 @@ int itkGaussianSpatialObjectTest(int, char* [])
   offset.Fill(10);
 
   myGaussian->GetObjectToWorldTransform()->SetOffset(offset);
+  myGaussian->ComputeObjectToParentTransform();
 
   GaussianType::TransformType::OffsetType offset2;
   offset2.Fill(15);
   myGaussian2->GetObjectToWorldTransform()->SetOffset(offset2);
-  myGaussian2->ComputeObjectToParentTransform();\
+  myGaussian2->ComputeObjectToParentTransform();
 
   GaussianType::TransformType::OffsetType offset3;
+  
   offset3 = myGaussian2->GetObjectToParentTransform()->GetOffset();
 
   if( (offset3[0]!=5) || (offset3[1]!=5) 
@@ -106,14 +108,15 @@ int itkGaussianSpatialObjectTest(int, char* [])
     }
   std::cout<<"[PASSED]"<<std::endl;
 
+
   std::cout << "ComputeBoundingBox: ";
   myGaussian->ComputeBoundingBox();
   GaussianType::BoundingBoxType * boundingBox = myGaussian->GetBoundingBox();
 
   for(unsigned int i=0;i<3;i++)
     {
-    if( (boundingBox->GetBounds()[2*i] != -3 )
-        || (boundingBox->GetBounds()[2*i+1] != 3 )
+    if( (boundingBox->GetBounds()[2*i] != 7 )
+        || (boundingBox->GetBounds()[2*i+1] != 16 )
       )
       {
       std::cout<<"[FAILED]"<<std::endl;
