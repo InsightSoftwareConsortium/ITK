@@ -166,7 +166,7 @@ FiniteDifferenceImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 typename FiniteDifferenceImageFilter<TInputImage, TOutputImage>::TimeStepType
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>
-::ResolveTimeStep(const TimeStepType *list, const bool *valid, int size)
+::ResolveTimeStep(const TimeStepType *timeStepList, const bool *valid, int size)
 {  
   TimeStepType min;
   bool flag;

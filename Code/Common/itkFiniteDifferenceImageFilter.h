@@ -238,8 +238,8 @@ protected:
    * \param size The size of "list" and "valid"
    *
    * The default is to return the minimum value in the list. */
-  virtual TimeStepType ResolveTimeStep(const TimeStepType* list, const bool* valid,
-                                    int size);
+  virtual TimeStepType ResolveTimeStep(const TimeStepType* timeStepList, 
+                                       const bool* valid,int size);
 
   /** Set the number of elapsed iterations of the filter. */
   itkSetMacro(ElapsedIterations, unsigned int);
