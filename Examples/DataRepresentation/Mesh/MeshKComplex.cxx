@@ -491,9 +491,9 @@ int main()
   //  \begin{tabular}{ | c || c | c | c | }
   //  \hline
   //  Dimension & CellType & FeatureId range & Cell Ids \\ \hline\hline
-  //  0 & VertexCell & [0:3] & \{1,2,3,4\} \\   \hline 
+  //  0 & VertexCell & [0:3] & \{11,12,13,14\} \\   \hline 
   //  1 & LineCell & [0:5] & \{5,6,7,8,9,10\} \\   \hline 
-  //  2 & TriangleCell & [0:3] & \{11,12,13,14\} \\ \hline 
+  //  2 & TriangleCell & [0:3] & \{1,2,3,4\} \\ \hline 
   //  \end{tabular}
   //  \end{center}
   // 
