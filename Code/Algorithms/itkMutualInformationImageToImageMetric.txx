@@ -442,14 +442,12 @@ DerivativeType& derivatives )
 
   MovingImagePointType mappedPoint = m_Transform->TransformPoint( point );
   
-  /*** FIXME: figure how to do this with the image's PhysicalToIndexTransform.
-   Problem: can't GetPhysicalToIndexTransform because it is not const and
-   this metic holds a const pointerto the moving image ******/
+  MovingImagePointType tempPoint = 
+    m_MovingImage->GetPhysicalToIndexTransform()->TransformPoint( mappedPoint );
   MovingImageIndexType mappedIndex; 
   for( unsigned int j = 0; j < MovingImageDimension; j++ )
     {
-    mappedIndex[j] = static_cast<long>( vnl_math_rnd( ( mappedPoint[j] - 
-      m_MovingImage->GetOrigin()[j] ) / m_MovingImage->GetSpacing()[j] ) );
+    mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempPoint[j] ) );
     }
 
   CovariantVector<double,MovingImageDimension> imageDerivatives;

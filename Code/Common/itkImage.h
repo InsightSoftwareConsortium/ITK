@@ -261,14 +261,14 @@ public:
    * This method returns an Transform which defines the
    * transformation from index coordinates to physical coordinates
    * determined by the origin and spacing of this image. */
-  TransformPointer GetIndexToPhysicalTransform(void);
+  TransformPointer GetIndexToPhysicalTransform(void) const;
 
   /** Get the physical-to-index coordinate transformation
    *
    * This method returns an Transform which defines the
    * transformation from physical coordinates to index coordinates
    * determined by the origin and spacing of this image. */
-  TransformPointer GetPhysicalToIndexTransform(void);
+  TransformPointer GetPhysicalToIndexTransform(void) const;
 
   /** Gets and sets for affine transforms. */
   itkSetObjectMacro(IndexToPhysicalTransform, TransformType );

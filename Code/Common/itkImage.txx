@@ -313,14 +313,8 @@ Image<TPixel, VImageDimension>
 template<class TPixel, unsigned int VImageDimension>
 typename Image<TPixel, VImageDimension>::TransformPointer
 Image<TPixel, VImageDimension>
-::GetIndexToPhysicalTransform(void)
-{
-  
-  if ( !m_IndexToPhysicalTransform )
-    {
-    RebuildTransforms();
-    }
-      
+::GetIndexToPhysicalTransform(void) const
+{     
   return m_IndexToPhysicalTransform.GetPointer();
 }
 
@@ -329,14 +323,8 @@ Image<TPixel, VImageDimension>
 template<class TPixel, unsigned int VImageDimension>
 typename Image<TPixel, VImageDimension>::TransformPointer
 Image<TPixel, VImageDimension>
-::GetPhysicalToIndexTransform(void)
+::GetPhysicalToIndexTransform(void) const
 {
-
-  if ( !m_PhysicalToIndexTransform )
-    {
-    RebuildTransforms();
-    }
-
   return m_PhysicalToIndexTransform.GetPointer();
 }
 
