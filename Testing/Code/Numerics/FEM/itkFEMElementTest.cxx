@@ -24,6 +24,8 @@
 #include "itkFEMSolver.h"
 #include "itkFEMLinearSystemWrapper.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
+#include "itkFEMLinearSystemWrapperVNL.h"
+#include "itkFEMLinearSystemWrapperDenseVNL.h"
 #include "itkExceptionObject.h"
 
 #include <iostream>
@@ -59,6 +61,10 @@ int itkFEMElementTest(int ac, char** av)
   char buffer[80] = {'\0'};
   int numfiles = 0;
   char *fname = NULL;
+
+  // Solvers being tested
+  int numsolvers = 3;
+  int currsolver = -1;
 
   if (ac < 2)
   // Display the menu
@@ -108,6 +114,13 @@ int itkFEMElementTest(int ac, char** av)
     
     // Print the name of the user-specified problem
     std::cout << std::endl << "FEM Input: " << fname << std::endl;
+
+    // Check if a solver is specified as well
+    if (ac == 3) {
+      currsolver = *av[2];
+      std::cout << "currsolver = " << currsolver << std::endl;
+    }
+      
   }
     
   // Open a file handle & associate it with the input file
@@ -139,10 +152,10 @@ int itkFEMElementTest(int ac, char** av)
     S.GenerateGFN();          // Generate global freedom numbers for system DOFs
 
     // Select the LinearSystemWrapperItpack for the Solver
-    std::cout << "Using LinearSystemWrapperItpack" << std::endl;
-    LinearSystemWrapperItpack lsw_itpack;
-    lsw_itpack.SetMaximumNonZeroValuesInMatrix(1000);
-    S.SetLinearSystemWrapper(&lsw_itpack);
+//     std::cout << "Using LinearSystemWrapperItpack" << std::endl;
+//     LinearSystemWrapperItpack lsw_itpack;
+//     lsw_itpack.SetMaximumNonZeroValuesInMatrix(1000);
+//     S.SetLinearSystemWrapper(&lsw_itpack);
 
     std::cout << "AssembleK()" << std::endl;
     S.AssembleK();            // Assemble the global stiffness matrix K
