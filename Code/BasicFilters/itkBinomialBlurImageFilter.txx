@@ -72,7 +72,6 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   inputRegion.SetSize( inputSize );
   
   inputPtr->SetRequestedRegion( inputRegion );
-  //inputPtr->SetRequestedRegion(inputPtr->GetLargestPossibleRegion());
 }
 
 

@@ -66,7 +66,7 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
   typename TOutputImage::IndexType index;
 
   // walk the output image, and sample the input image
-  for ( ; !outIt.IsAtEnd(); ++outIt)
+  for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
     {
     double acc = 0;
 
