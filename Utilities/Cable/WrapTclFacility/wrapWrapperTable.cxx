@@ -88,28 +88,4 @@ WrapperTable::GetWrapper(const Type* type) const
 }
 
 
-/**
- * Get an WrapperTable object set up to deal with the given Tcl interpreter.
- * If one exists, it will be returned.  Otherwise, a new one will be
- * created.
- */
-WrapperTable* WrapperTable::GetForInterpreter(Tcl_Interp* interp)
-{
-  // See if an WrapperTable exists for the given interpreter.
-  if(interpreterWrapperTableMap.count(interp) == 0)
-    {
-    // No, we must create a new WrapperTable for this interpreter.
-    interpreterWrapperTableMap[interp] = new WrapperTable(interp);
-    }
-  
-  // Return the WrapperTable.
-  return interpreterWrapperTableMap[interp];  
-}
-
-
-/**
- * Map from a Tcl interpreter to the WrapperTable for it.
- */
-WrapperTable::InterpreterWrapperTableMap WrapperTable::interpreterWrapperTableMap;
-
 } // namespace _wrap_

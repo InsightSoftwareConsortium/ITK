@@ -74,13 +74,6 @@ private:
    * Map from type to wrapper function.
    */
   WrapperMap m_WrapperMap;
-  
-public:
-  static WrapperTable* GetForInterpreter(Tcl_Interp*);
-  
-private:
-  typedef std::map<const Tcl_Interp*, WrapperTable*>  InterpreterWrapperTableMap;
-  static InterpreterWrapperTableMap interpreterWrapperTableMap;
 };
 
 } // namespace _wrap_

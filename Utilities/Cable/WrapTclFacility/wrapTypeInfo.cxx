@@ -99,6 +99,13 @@ CvPredefinedType<const volatile T>::type = GetFundamentalType(FundamentalType::I
  */
 void TypeInfo::Initialize()
 {
+  static bool initialized = false;
+  
+  if(initialized)
+    {
+    return;
+    }
+  
 #ifdef _wrap_NO_CV_VOID
   CvPredefinedType<void>::type = GetFundamentalType(FundamentalType::Void, false, false);
 #else
@@ -124,6 +131,8 @@ void TypeInfo::Initialize()
   CvPredefinedType<const char*>::type  = GetPointerType(CvPredefinedType<const char>::type, false, false);
   CvPredefinedType<volatile char*>::type  = GetPointerType(CvPredefinedType<volatile char>::type, false, false);
   CvPredefinedType<const volatile char*>::type  = GetPointerType(CvPredefinedType<const volatile char>::type, false, false);
+  
+  initialized = true;
 }
 
 

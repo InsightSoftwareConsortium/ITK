@@ -14,6 +14,7 @@ wrapStaticMethod
 wrapTypeInfo
 wrapUtils
 wrapWrapperBase
+wrapWrapperFacility
 wrapWrapperTable
 )
 

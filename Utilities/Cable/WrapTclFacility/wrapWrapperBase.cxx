@@ -50,6 +50,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "wrapConversionTable.h"
 #include "wrapInstanceTable.h"
 #include "wrapWrapperTable.h"
+#include "wrapWrapperFacility.h"
 #include "wrapException.h"
 
 #include <queue>
@@ -66,11 +67,15 @@ namespace _wrap_
 WrapperBase::WrapperBase(Tcl_Interp* interp, const String& wrappedTypeName):
   m_Interpreter(interp),
   m_WrappedTypeName(wrappedTypeName),
-  m_ConversionTable(ConversionTable::GetForInterpreter(m_Interpreter)),
-  m_InstanceTable(InstanceTable::GetForInterpreter(m_Interpreter)),
-  m_WrapperTable(WrapperTable::GetForInterpreter(m_Interpreter)),
   m_WrappedTypeRepresentation(NULL)
 {
+  WrapperFacility* wrapperFacility =
+    WrapperFacility::GetForInterpreter(m_Interpreter);
+  
+  m_ConversionTable = wrapperFacility->GetConversionTable();
+  m_InstanceTable = wrapperFacility->GetInstanceTable();
+  m_WrapperTable = wrapperFacility->GetWrapperTable();
+  
   String noTemplate = m_WrappedTypeName.substr(0, m_WrappedTypeName.find_first_of("<"));
   m_ConstructorName = noTemplate.substr(noTemplate.find_last_of(":") + 1);
 }

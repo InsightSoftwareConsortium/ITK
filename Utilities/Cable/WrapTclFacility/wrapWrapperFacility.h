@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrapInit.cxx
+  Module:    wrapWrapperFacility.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,18 +38,44 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "wrapWrapperFacility.h"
+#ifndef _wrapWrapperFacility_h
+#define _wrapWrapperFacility_h
 
-// Make sure wrapper initialization function has external C-style linkage.
-extern "C" { _wrap_EXPORT int Wrap_Init(Tcl_Interp*); }
+#include "wrapUtils.h"
+
+namespace _wrap_
+{
+
+class ConversionTable;
+class InstanceTable;
+class WrapperTable;
 
 /**
- * When the WrapTclFacilitator library is loaded by a Tcl interpreter,
- * this is called to initialize it.  This just passes the call to
- * TclWrapperFacility::InitializeInterpreter.
+ *
  */
-_wrap_EXPORT int Wrap_Init(Tcl_Interp* interp)
+class _wrap_EXPORT WrapperFacility
 {
-  _wrap_::WrapperFacility::GetForInterpreter(interp);
-  return TCL_OK;
-}
+public:
+  static WrapperFacility* GetForInterpreter(Tcl_Interp*);
+
+  Tcl_Interp* GetInterpreter() const;
+  ConversionTable* GetConversionTable() const;
+  InstanceTable* GetInstanceTable() const;
+  WrapperTable* GetWrapperTable() const;
+  
+private:
+  WrapperFacility(Tcl_Interp*);
+  ~WrapperFacility();
+
+  void Initialize();
+
+  Tcl_Interp* m_Interpreter;
+  ConversionTable* m_ConversionTable;
+  InstanceTable* m_InstanceTable;
+  WrapperTable* m_WrapperTable;
+};
+
+
+} // namespace _wrap_
+
+#endif

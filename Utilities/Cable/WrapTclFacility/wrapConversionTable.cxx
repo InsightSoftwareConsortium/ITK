@@ -187,28 +187,4 @@ void ConversionTable::InitializePredefinedConversions()
 }
 
 
-/**
- * Get an ConversionTable object set up to deal with the given Tcl interpreter.
- * If one exists, it will be returned.  Otherwise, a new one will be
- * created.
- */
-ConversionTable* ConversionTable::GetForInterpreter(Tcl_Interp* interp)
-{
-  // See if an ConversionTable exists for the given interpreter.
-  if(interpreterConversionTableMap.count(interp) == 0)
-    {
-    // No, we must create a new ConversionTable for this interpreter.
-    interpreterConversionTableMap[interp] = new ConversionTable();
-    }
-  
-  // Return the ConversionTable.
-  return interpreterConversionTableMap[interp];  
-}
-
-
-/**
- * Map from a Tcl interpreter to the ConversionTable for it.
- */
-ConversionTable::InterpreterConversionTableMap ConversionTable::interpreterConversionTableMap;
-
 } // namespace _wrap_

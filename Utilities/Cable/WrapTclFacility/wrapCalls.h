@@ -50,6 +50,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "wrapConversionTable.h"
 #include "wrapInstanceTable.h"
 #include "wrapWrapperTable.h"
+#include "wrapWrapperFacility.h"
 #include "wrapConverters.h"
 #include "wrapException.h"
 #include "wrapTypeInfo.h"

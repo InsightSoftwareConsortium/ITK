@@ -108,13 +108,6 @@ private:
   unsigned int m_TempNameNumber;
   
   void CheckExists(const String& name) const;
-  
-public:
-  static InstanceTable* GetForInterpreter(Tcl_Interp*);
-  
-private:
-  typedef std::map<const Tcl_Interp*, InstanceTable*>  InterpreterInstanceTableMap;
-  static InterpreterInstanceTableMap interpreterInstanceTableMap;
 };
 
 

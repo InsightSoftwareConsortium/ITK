@@ -210,28 +210,4 @@ void InstanceTable::CheckExists(const String& name) const
 }
 
 
-/**
- * Get an InstanceTable object set up to deal with the given Tcl interpreter.
- * If one exists, it will be returned.  Otherwise, a new one will be
- * created.
- */
-InstanceTable* InstanceTable::GetForInterpreter(Tcl_Interp* interp)
-{
-  // See if an InstanceTable exists for the given interpreter.
-  if(interpreterInstanceTableMap.count(interp) == 0)
-    {
-    // No, we must create a new InstanceTable for this interpreter.
-    interpreterInstanceTableMap[interp] = new InstanceTable(interp);
-    }
-  
-  // Return the InstanceTable.
-  return interpreterInstanceTableMap[interp];  
-}
-
-
-/**
- * Map from a Tcl interpreter to the InstanceTable for it.
- */
-InstanceTable::InterpreterInstanceTableMap InstanceTable::interpreterInstanceTableMap;
-
 } // namespace _wrap_
