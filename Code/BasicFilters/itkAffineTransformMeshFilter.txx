@@ -56,8 +56,8 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
   typedef typename TInputMesh::PointsContainerPointer  InputPointsContainerPointer;
   typedef typename TOutputMesh::PointsContainerPointer OutputPointsContainerPointer;
 
-  InputMeshPointer    inputMesh      =  GetInput();
-  OutputMeshPointer   outputMesh     =  GetOutput();
+  InputMeshPointer    inputMesh      =  this->GetInput();
+  OutputMeshPointer   outputMesh     =  this->GetOutput();
   
   if( !inputMesh )
   {
@@ -102,10 +102,12 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
   
   unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
 
-  for( unsigned int i=0; i < maxDimension; i++ )
+  for( unsigned int dim = 0; dim < maxDimension; dim++ )
   {
-    outputMesh->SetBoundaries(    i, inputMesh->GetBoundaries(i)   );
-    outputMesh->SetBoundaryData(  i, inputMesh->GetBoundaryData(i) );
+    outputMesh->SetBoundaries(    dim, inputMesh->GetBoundaries(dim)   );
+    outputMesh->SetBoundaryData(  dim, inputMesh->GetBoundaryData(dim) );
+    outputMesh->SetBoundaryAssignments(  dim,
+                                  inputMesh->GetBoundaryAssignments(dim) );
   }
   
 
