@@ -188,7 +188,6 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   vnl_vector<double> eigenValues = 
     applyPCAShapeEstimator->GetEigenValues();
 
-  unsigned int numEigVal =  eigenValues.size();
 
   for(unsigned int i= 0; i< NUMLARGESTPC ; i++ )
     {
@@ -196,6 +195,9 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
     }  
   std::cout << "" << std::endl;
   std::cout << "" << std::endl;
+
+  unsigned int numEigVal =  eigenValues.size();
+  std::cout << "Number of returned eign-values: " << numEigVal << std::endl;
   
   //Print the MeanImage
   OutputImageType::Pointer outImage = applyPCAShapeEstimator->GetOutput( 0 );
