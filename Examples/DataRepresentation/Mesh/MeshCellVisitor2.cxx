@@ -323,7 +323,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  // \index{itk::Mesh!CellInterfaceVisitorImplementation}
+  // \index{itk::Mesh!Cell\-Interface\-Visitor\-Implementation}
   // \index{itk::Mesh!CellInterfaceVisitor}
   // \index{itk::Mesh!CellVisitor}
   // \index{CellVisitor}
