@@ -46,7 +46,7 @@ MinMaxCurvatureFlowFunction<TImage>
 {
   if ( m_StencilRadius == value ) { return; }
 
-  m_StencilRadius = vnl_math_max( value, RadiusValueType(1) );
+  m_StencilRadius = (value > 1) ? value:  1;
   RadiusType radius;
   unsigned int j;
 
