@@ -7,4 +7,5 @@
 void RegisterTests()
 {
   REGISTER_TEST(itkHistogramTest);
+  REGISTER_TEST(itkDenseFrequencyContainerTest);
 }
