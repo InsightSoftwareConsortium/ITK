@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkListSampleToHistogramImporter.h
+  Module:    itkListSampleToHistogramFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkListSampleToHistogramImporter_h
-#define __itkListSampleToHistogramImporter_h
+#ifndef __itkListSampleToHistogramFilter_h
+#define __itkListSampleToHistogramFilter_h
 
 #include "itkObject.h"
 #include "itkListSample.h"
@@ -24,7 +24,7 @@
 namespace itk{
   namespace Statistics{
 
-/** \class ListSampleToHistogramImporter
+/** \class ListSampleToHistogramFilter
  *  \brief Imports data from ListSample object to Histogram object
  *
  * Before beginning import process, users should prepare the Histogram object
@@ -34,33 +34,19 @@ namespace itk{
  * To do: selective importing for subset of feature vector dimensions
  */
 template< class TListSample, class THistogram >
-class ITK_EXPORT ListSampleToHistogramImporter :
+class ITK_EXPORT ListSampleToHistogramFilter :
       public Object
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
-  typedef ListSampleToHistogramImporter Self;
-  
-  /**
-   * Standard "Superclass" typedef
-   */
+  /** Standard typedefs */
+  typedef ListSampleToHistogramFilter Self;
   typedef Object Superclass;
-  
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   
-  /**
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(ImageListSampleAdaptor, ListSample) ;
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ListSampleToHistogramFilter, Object) ;
   
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self) ;
 
   typedef TListSample ListSampleType ;
@@ -68,30 +54,20 @@ public:
   typedef THistogram HistogramType ;
   typedef typename THistogram::Pointer HistogramPointer ;
 
-  /**
-   * plug in the ListSample object
-   */
+  /** plug in the ListSample object */
   void SetListSample(ListSamplePointer list)
-  {
-    m_List = list ;
-  }
+  { m_List = list ; }
 
-  /**
-   * plug in the Histogram object
-   */
+  /** plug in the Histogram object */
   void SetHistogram(HistogramPointer histogram)
-  {
-    m_Histogram = histogram ;
-  }
+  { m_Histogram = histogram ;  }
 
-  /**
-   * starts import procedure
-   */
+  /** starts import procedure */
   void Run() ;
 
 protected:
-  ListSampleToHistogramImporter() ;
-  virtual ~ListSampleToHistogramImporter() {}
+  ListSampleToHistogramFilter() ;
+  virtual ~ListSampleToHistogramFilter() {}
 private:
   ListSamplePointer m_List ;
   HistogramPointer m_Histogram ;
@@ -101,7 +77,7 @@ private:
 } // end of namespace itk 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkListSampleToHistogramImporter.txx"
+#include "itkListSampleToHistogramFilter.txx"
 #endif
 
 #endif
