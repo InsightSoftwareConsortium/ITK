@@ -338,7 +338,7 @@ public:
    * \sa AffineTransform 
    */
   template<class TCoordRep> 
-  void GetContinuousIndex(Point<TCoordRep, VImageDimension>& point, 
+  void TransformPhysicalPointToContinuousIndex(Point<TCoordRep, VImageDimension>& point, 
    ContinuousIndex<TCoordRep, VImageDimension>& index)
   {
     typedef AffineTransform<TCoordRep, VImageDimension> TransformType ;
@@ -382,7 +382,7 @@ public:
    * \sa AffineTransform 
    */
   template<class TCoordRep> 
-  void GetPhysicalPoint(ContinuousIndex<TCoordRep, VImageDimension>& index, 
+  void TransformContinuousIndexToPhysicalPoint(ContinuousIndex<TCoordRep, VImageDimension>& index, 
    Point<TCoordRep, VImageDimension>& point)
   {
     typedef AffineTransform<TCoordRep, VImageDimension> TransformType ;
