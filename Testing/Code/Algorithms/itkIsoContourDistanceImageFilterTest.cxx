@@ -112,7 +112,7 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
   IsoContourType::Pointer isocontour = IsoContourType::New();
   isocontour->SetInput( multiplier->GetOutput() );
   isocontour->SetFarValue(10);
-  isocontour->SetNumberOfThreads(8);
+  //  isocontour->SetNumberOfThreads(8);
 
   ShowProgressObject progressWatch(isocontour);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
@@ -175,7 +175,7 @@ try {
 
  // Run isocontour with narrowband
  isocontour->NarrowBandingOn();
- isocontour->SetNumberOfThreads(8);
+ // isocontour->SetNumberOfThreads(8);
  isocontour->SetNarrowBand(band.GetPointer());
 
  try {
