@@ -118,7 +118,7 @@ Element::LoadVectorType LoadGravImplementationHexahedronC03D(HexahedronC03D::Con
   /**
    * Handle gravity loads
    */
-  vnl_vector<Float> pt(2), f(2);
+  vnl_vector<Float> pt(3), f(3);
 
   pt.fill(0.0);
 
