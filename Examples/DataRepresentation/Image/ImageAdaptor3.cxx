@@ -22,12 +22,19 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use ImageAdaptors and PixelAccessors for
-// getting access to the components of a vector image. It shows in particular
-// how to manage PixelAccessors with internal parameters.
+// This example illustrates the use of \code{ImageAdaptors} and
+// \code{PixelAccessors} for getting access to the components of a vector
+// image. It shows in particular how to manage \code{PixelAccessors} with
+// internal parameters. In this example we create an image of vectors by using
+// a gradient filter. Then, we use an image adaptor in order extract one of the
+// components of the vector image. The vector type used by the gradient filter
+// is the \doxygen{CovariantVector} class. 
+//
+// We start by including the relevant headers.
 // 
 // \index{itk::ImageAdaptor!Instantiation}
 // \index{itk::ImageAdaptor!Header}
+// \index{itk::PixelAccessors!with parameters}
 //
 // Software Guide : EndLatex 
 
@@ -50,13 +57,13 @@
 
 //  Software Guide : BeginLatex
 //
-//  PixelAccessors may have internal parameters that affect the operations they
-//  perform on input pixel data. ImageAdaptors allow to set up the parameters
-//  of their internal PixelAccessors by using the assignment operator. Any
-//  PixelAccessors having internal parameters must henceforth implement the
-//  assignment operator. A PixelAccessors suitable for extracting components of
-//  a vector pixel is shown below. The \code{m\_Index} member variable is used
-//  to select the vector component to be returned.
+//  \code{PixelAccessors} may have internal parameters that affect the
+//  operations they perform on input pixel data. \code{ImageAdaptors} allow to
+//  set up the parameters of their internal \code{PixelAccessors} by using the
+//  assignment operator. Any \code{PixelAccessor} having internal parameters must
+//  henceforth implement the assignment operator. A \code{PixelAccessor} suitable for
+//  extracting components from a vector pixel is shown below. The \code{m\_Index}
+//  member variable is used to select the vector component to be returned.
 //
 //  Software Guide : EndLatex 
 
@@ -66,7 +73,7 @@
     {
     public:
       typedef itk::CovariantVector<float,2>   InternalType;
-      typedef                      float    ExternalType;
+      typedef                      float      ExternalType;
 
       void operator=( const VectorPixelAccessor & vpa )
         {
@@ -108,10 +115,11 @@ int main( int argc, char *argv[] )
 {
 
 
-  if( argc < 3 )
+  if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << "ImageAdaptor1   inputFileName outputComponentFileName" << std::endl;
+    std::cerr << "ImageAdaptor1   inputFileName outputComponentFileName ";
+    std::cerr << " indexOfComponentToExtract" << std::endl;
     return -1;
     }
 
@@ -121,8 +129,9 @@ int main( int argc, char *argv[] )
 //
 //  In order to test the image accessor, we generate an image of vectors using
 //  the \doxygen{GradientRecursiveGaussianImageFilter}. To be precise, this
-//  class produces an image of \doxygen{CovariantVectors} since they represent
-//  the normals to iso-values manifolds.
+//  class produces an image having \doxygen{CovariantVector} as its pixel type.
+//  Covariant vectors are the natural representation for gradients since they
+//  are the equivalent of normals to iso-values manifolds.
 //
 //  Software Guide : EndLatex 
 
@@ -131,10 +140,10 @@ int main( int argc, char *argv[] )
   typedef unsigned char  InputPixelType;
   const   unsigned int   Dimension = 2;
 
-  typedef itk::Image< InputPixelType, Dimension  >   InputImageType;
+  typedef itk::Image< InputPixelType,  Dimension  >   InputImageType;
 
-  typedef itk::CovariantVector< float, Dimension >   VectorPixelType; 
-  typedef itk::Image< VectorPixelType, Dimension  >  VectorImageType;
+  typedef itk::CovariantVector< float, Dimension  >   VectorPixelType; 
+  typedef itk::Image< VectorPixelType, Dimension  >   VectorImageType;
 
   typedef itk::GradientRecursiveGaussianImageFilter< 
                                              InputImageType,
@@ -143,6 +152,17 @@ int main( int argc, char *argv[] )
 
   GradientFilterType::Pointer gradient = GradientFilterType::New();
 // Software Guide : EndCodeSnippet
+
+
+
+//  Software Guide : BeginLatex
+//
+//  We instantiate the \doxygen{ImageAdaptor} using the Vector image type as
+//  first template parameter and the pixel accessor as second template
+//  parameter.
+//
+//  Software Guide : EndLatex 
+
 
 
 // Software Guide : BeginCodeSnippet
@@ -155,12 +175,22 @@ int main( int argc, char *argv[] )
 
 
 
+//  Software Guide : BeginLatex
+//
+//  In order to set the index of the vector component to be extracted, we get
+//  the value from the command line, create a pixel accessor, set this index
+//  value and finally assign the pixel accessor to the image adaptor.
+//
+//  Software Guide : EndLatex 
+
+
+
 // Software Guide : BeginCodeSnippet
-VectorPixelAccessor  accessor;
+  VectorPixelAccessor  accessor;
 
-accessor.SetIndex( atoi( argv[3] ) );
+  accessor.SetIndex( atoi( argv[3] ) );
 
-adaptor->GetPixelAccessor() = accessor;
+  adaptor->SetPixelAccessor( accessor );
 // Software Guide : EndCodeSnippet
 
 
@@ -168,8 +198,8 @@ adaptor->GetPixelAccessor() = accessor;
 
 //  Software Guide : BeginLatex
 //
-//  We create a reader whose output will have the appropiate type for the
-//  \emph{adapted} image type.
+//  We create a reader that will load an image and pass it as input to the
+//  gradient filter.
 //
 //  Software Guide : EndLatex 
 
@@ -177,19 +207,32 @@ adaptor->GetPixelAccessor() = accessor;
 // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< InputImageType >   ReaderType;
   ReaderType::Pointer reader = ReaderType::New();  
+
+  gradient->SetInput( reader->GetOutput() );
 // Software Guide : EndCodeSnippet
 
 
+//  Software Guide : BeginLatex
+//
+//  The filename to be read is passed to the reader and we proceed to update
+//  the gradient filter.
+//
+//  Software Guide : EndLatex 
+
+
+//  Software Guide : BeginCodeSnippet
   reader->SetFileName( argv[1] );
 
-  gradient->SetInput( reader->GetOutput() );
   gradient->Update();
+//  Software Guide : EndCodeSnippet 
 
 
 
 //  Software Guide : BeginLatex
 //
-//  and now connect the output of the reader as input of the image adaptor.
+//  We now connect the output of the reader as input of the image adaptor.  The
+//  adaptor appears as a scalar image whose pixel values are taken from the
+//  selected component of the vector image.
 //
 //  Software Guide : EndLatex 
 
@@ -203,7 +246,7 @@ adaptor->GetPixelAccessor() = accessor;
 //  Software Guide : BeginLatex
 //
 //  We instantiate a \doxygen{RescaleIntensityImageFilter} and a
-//  \doxygen{ImageFileWriter} to rescale the dinamic range of the pixel values
+//  \doxygen{ImageFileWriter} to rescale the dynamic range of the pixel values
 //  and send the extracted channel to an image file. Note that the image type
 //  used for the rescaling filter is the \code{ImageAdaptorType} itself. That
 //  is, the adaptor type is used as an image type, not as a filter type.
@@ -252,9 +295,23 @@ adaptor->GetPixelAccessor() = accessor;
 
 //  Software Guide : BeginLatex
 //
+// \begin{figure} \center
+// \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
+// \includegraphics[width=0.32\textwidth]{ImageAdaptorToVectorImageComponentX.eps}
+// \includegraphics[width=0.32\textwidth]{ImageAdaptorToVectorImageComponentY.eps}
+// \itkcaption[Image Adaptor to Vector Image]{Illustration on the use of
+// \doxygen{ImageAdaptor} for getting access to the components of a vector
+// image. The input image at left was passed through a gradient image filter
+// and the two components of the resulting vector image were extracted using an
+// image adaptor.}
+// \label{fig:ImageAdaptorToVectorImage}
+// \end{figure}
+//
 //  Note that the adaptor is used as an image would have been used, not as a
 //  filter. The \doxygen{ImageAdaptor} conforms to the API of the
-//  \doxygen{Image}.
+//  \doxygen{Image}.  Figure \ref{fig:ImageAdaptorToVectorImage} illustrates
+//  the result of applying the current code for extracting both components of a
+//  two dimensional gradient.
 //
 //  Software Guide : EndLatex 
 
