@@ -65,6 +65,18 @@ namespace itk
  * value. The algorithm terminates when the current arrival time being
  * processed is greater than the stopping value.
  *
+ * There are two ways to specify the output image information 
+ * ( LargestPossibleRegion, Spacing, Origin): (a) it is copied directly from
+ * the input speed image or (b) it is specified by the user. Default values
+ * are used if the user does not specify all the information.
+ *
+ * The output information is computed as follows.
+ * If the speed image is NULL or if the OverrideOutputInformation is set to
+ * true, the output information is set from user specified parameters. These 
+ * parameters can be specified using methods SetOutputRegion(), SetOutputSpacing()
+ * and SetOutputOrigin(). Else if the speed image is not NULL, the output information
+ * is copied from the input speed image.
+ *
  * Possible Improvements:
  * In the current implemenation, std::priority_queue only allows 
  * taking nodes out from the front and putting nodes in from the back.
@@ -107,6 +119,10 @@ public:
   typedef typename LevelSetType::NodeType NodeType;
   typedef typename LevelSetType::NodeContainer NodeContainer;
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
+  typedef typename LevelSetImageType::SizeType    OutputSizeType;
+  typedef typename LevelSetImageType::RegionType  OutputRegionType;
+  typedef typename LevelSetImageType::SpacingType OutputSpacingType;
+  typedef typename LevelSetImageType::PointType   OutputPointType;
 
   /** Dimension of the level set. */
   itkStaticConstMacro(SetDimension, unsigned int,
@@ -207,14 +223,26 @@ public:
   NodeContainerPointer GetProcessedPoints() const
   { return m_ProcessedPoints; }
 
-  /** Set the output level set size. Defines the size of the output
-   * level set. */
-  void SetOutputSize( const typename LevelSetImageType::SizeType& size )
-  { m_OutputSize = size; }
 
-  /** Get the output level set size. */
-  const typename LevelSetImageType::SizeType & GetOutputSize() const
-  { return m_OutputSize; }
+  /** The output largeset possible, spacing and origin is computed as follows.
+   * If the speed image is NULL or if the OverrideOutputInformation is true, 
+   * the output information is set from user specified parameters. These 
+   * parameters can be specified using methods SetOutputRegion(), SetOutputSpacing()
+   * and SetOutputOrigin(). Else if the speed image is not NULL, the output information
+   * is copied from the input speed image. */
+  virtual void SetOutputSize( const OutputSizeType& size )
+  { m_OutputRegion = size; }
+  virtual OutputSizeType GetOutputSize() const
+  { return m_OutputRegion.GetSize(); }
+  itkSetMacro( OutputRegion, OutputRegionType );
+  itkGetConstMacro( OutputRegion, OutputRegionType );
+  itkSetMacro( OutputSpacing, OutputSpacingType );
+  itkGetConstMacro( OutputSpacing, OutputSpacingType );
+  itkSetMacro( OutputOrigin, OutputPointType );
+  itkGetConstMacro( OutputOrigin, OutputPointType );
+  itkSetMacro( OverrideOutputInformation, bool );
+  itkGetConstMacro( OverrideOutputInformation, bool );
+  itkBooleanMacro( OverrideOutputInformation );
 
 protected:
   FastMarchingImageFilter();
@@ -243,6 +271,10 @@ protected:
       max() of the pixel type used to represent the time-crossing map. */
   itkGetConstMacro( LargeValue, PixelType );
 
+  OutputRegionType                              m_BufferedRegion;
+  typename LevelSetImageType::IndexType         m_StartIndex;
+  typename LevelSetImageType::IndexType         m_LastIndex;
+
 
 private:
   FastMarchingImageFilter(const Self&); //purposely not implemented
@@ -260,7 +292,12 @@ private:
   bool                                          m_CollectPoints;
   NodeContainerPointer                          m_ProcessedPoints;
 
-  typename LevelSetImageType::SizeType          m_OutputSize;
+  OutputRegionType                              m_OutputRegion;
+  OutputSpacingType                             m_OutputSpacing;
+  OutputPointType                               m_OutputOrigin;
+  bool                                          m_OverrideOutputInformation;
+
+
   typename LevelSetImageType::PixelType         m_LargeValue;
   NodeType                                      m_NodesUsed[SetDimension];
 

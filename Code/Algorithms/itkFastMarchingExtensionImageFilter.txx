@@ -102,8 +102,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
   for ( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     AuxImageType * ptr = this->GetAuxiliaryImage(k);
-    ptr->SetLargestPossibleRegion( 
-      primaryOutput->GetLargestPossibleRegion() );
+    ptr->CopyInformation( primaryOutput );
     }
 
 }
@@ -142,8 +141,6 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 {
 
   this->Superclass::Initialize( output );
-
-  const typename LevelSetImageType::SizeType size = this->GetOutputSize();
 
   AuxImagePointer auxImages[AuxDimension];
   
@@ -195,16 +192,10 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
       auxVec = auxIter.Value();
 
       // check if node index is within the output level set
-      bool inRange = true;
-      for ( unsigned int j = 0; j < SetDimension; j++ )
+      if ( !m_BufferedRegion.IsInside( node.GetIndex() ) ) 
         {
-        if ( node.GetIndex()[j] > (signed long) size[j] )
-          {
-          inRange = false;
-          break;
-          }
+        continue;
         }
-      if ( !inRange ) continue;
     
       for ( unsigned int k = 0; k < VAuxDimension; k++ )
         {
@@ -226,16 +217,10 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
       auxVec = auxIter.Value();
 
       // check if node index is within the output level set
-      bool inRange = true;
-      for ( unsigned int j = 0; j < SetDimension; j++ )
+      if ( !m_BufferedRegion.IsInside( node.GetIndex() ) ) 
         {
-        if ( node.GetIndex()[j] > (signed long) size[j] )
-          {
-          inRange = false;
-          break;
-          }
+        continue;
         }
-      if ( !inRange ) continue;
 
       for ( unsigned int k = 0; k < VAuxDimension; k++ )
         {
