@@ -183,10 +183,10 @@ protected:
    * calculated from this method. */
   virtual TimeStepType CalculateChange() = 0;
 
-  /** A simple method to copy the data from the input to the output.  ( Supports
-   * "read-only" image adaptors in the case where the input image type converts
-   * to a different output image type. )  */
-  virtual void CopyInputToOutput();
+  /** This method can be defined in subclasses as needed to copy the input
+   * to the output. See DenseFiniteDifferenceImageFilter for an
+   * implementation. */
+  virtual void CopyInputToOutput() = 0;
   
   /** This is the default, high-level algorithm for calculating finite
    * difference solutions.  It calls virtual methods in its subclasses
