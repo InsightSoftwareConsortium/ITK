@@ -3,7 +3,7 @@ alyassin
 anonymous
 avants
 aylward
-blezek
+blezek:Danny Blezek:blezek@crd.ge.com
 blue
 bruno
 burgiss
@@ -21,7 +21,7 @@ jin
 jjomier
 jrgold
 kellyae
-king
+king:Brad King:brad.king@kitware.com
 lawcc:Charles Law:charles.law@kitware.com
 lng:Lydia Ng:lng@insightful.com
 lorensen
