@@ -33,7 +33,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
   std::cout << "Testing Points : ";
   typedef MetaMesh::PointListType PointListType;
   PointListType::const_iterator it2 = _mesh->GetPoints().begin();
-  for(j=0;j< _mesh->GetPoints().size();j++)
+  for(j=0;j< static_cast<int>(_mesh->GetPoints().size());j++)
     {
     if( ((*it2)->m_Id != j)
       || ((*it2)->m_X[0] != j)
@@ -54,7 +54,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
   std::cout << "Testing Cells : ";
   typedef MetaMesh::CellListType CellListType;
   CellListType::const_iterator it3 = _mesh->GetCells(MET_TETRAHEDRON_CELL).begin();
-  for(j=0;j< _mesh->GetCells(MET_TETRAHEDRON_CELL).size();j++)
+  for(j=0;j< static_cast<int>(_mesh->GetCells(MET_TETRAHEDRON_CELL).size());j++)
     {
     if( ((*it3)->m_Dim != 4)
       || ((*it3)->m_Id != j)
@@ -65,7 +65,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
       return 1;
       }
     
-    for(unsigned int k=0;k<(*it3)->m_Dim;k++)
+    for(int k=0;k<static_cast<int>((*it3)->m_Dim);k++)
       {
       if((*it3)->m_PointsId[k] != j+k)
         {
@@ -77,7 +77,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
       it3++;
     }
   it3 = _mesh->GetCells(MET_TRIANGLE_CELL).begin();
-  for(j=0;j< _mesh->GetCells(MET_TRIANGLE_CELL).size();j++)
+  for(j=0;j< static_cast<int>(_mesh->GetCells(MET_TRIANGLE_CELL).size());j++)
     {
     if( ((*it3)->m_Dim != 3)
       || ((*it3)->m_Id != j)
@@ -87,7 +87,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
       std::cout << "[FAILED]" << std::endl;
       return 1;
       }
-    for(unsigned int k=0;k<(*it3)->m_Dim;k++)
+    for(int k=0;k<static_cast<int>((*it3)->m_Dim);k++)
       {
       if((*it3)->m_PointsId[k] != j+k)
         {
@@ -104,7 +104,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
   std::cout << "Testing CellLinks : ";
   typedef MetaMesh::CellLinkListType CellLinkListType;
   CellLinkListType::const_iterator it_link = _mesh->GetCellLinks().begin();
-  for(j=0;j< _mesh->GetCellLinks().size();j++)
+  for(j=0;j< static_cast<int>(_mesh->GetCellLinks().size());j++)
     {
     if((*it_link)->m_Id != j)
       {
@@ -130,7 +130,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
   std::cout << "Testing PointData : ";
   typedef MetaMesh::PointDataListType PointDataListType;
   PointDataListType::const_iterator it_pd = _mesh->GetPointData().begin();
-  for(j=0;j< _mesh->GetPointData().size();j++)
+  for(j=0;j< static_cast<int>(_mesh->GetPointData().size());j++)
     {
     if(((*it_pd)->m_Id != j) || ((int)(static_cast<MeshData<int>*>(*it_pd)->m_Data) != j))
       {
@@ -147,7 +147,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
   typedef MetaMesh::CellDataListType CellDataListType;
   CellDataListType::const_iterator it_cd = _mesh->GetCellData().begin();
   float f = (float)(0.1);
-  for(j=0;j< _mesh->GetCellData().size();j++)
+  for(j=0;j< static_cast<int>(_mesh->GetCellData().size());j++)
     {
     if(((*it_cd)->m_Id != j) || (fabs((float)(static_cast<MeshData<float>*>(*it_cd)->m_Data)-f)>0.001))
       {
@@ -256,7 +256,7 @@ int testMetaMesh(int , char * [])
   ListType * list = myScene2.GetObjectList();
   ListType::iterator it = list->begin();
  
-  for(i=0;i< list->size();i++)
+  for(i=0;i< static_cast<int>(list->size());i++)
     {
     if(!strncmp((*it)->ObjectTypeName(),"Mesh",4))
       {
@@ -287,7 +287,7 @@ int testMetaMesh(int , char * [])
   list = myScene3.GetObjectList();
   it = list->begin();
  
-  for(i=0;i< list->size();i++)
+  for(i=0;i< static_cast<int>(list->size());i++)
     {
     if(!strncmp((*it)->ObjectTypeName(),"Mesh",4))
       {
