@@ -22,9 +22,9 @@
 namespace itk {
 
 /**
- *
- *
- * 
+ * \brief A refinement of the standard level-set function which computes a
+ * speed term and advection term based on pseudo-Canny edges.  See
+ * CannySegmentationLevelSetImageFilter for complete information.
  */
 template <class TImageType, class TFeatureImageType = TImageType>
 class ITK_EXPORT CannySegmentationLevelSetFunction
