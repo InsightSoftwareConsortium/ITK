@@ -89,23 +89,19 @@ FilterImageTernary<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction
 ::GenerateData( void )
 {
 
-  m_OutputImage->SetImageSize(  this->m_Image1->GetImageSize() );
-  m_OutputImage->SetBufferSize( this->m_Image1->GetBufferSize() );
+  m_OutputImage->SetLargestPossibleRegion( 
+      this->m_Image1->GetLargestPossibleRegion() );
+
+  m_OutputImage->SetBufferedRegion( 
+      this->m_Image1->GetBufferedRegion() );
+
   m_OutputImage->Allocate();
-  m_OutputImage->SetImageStartIndex(  this->m_Image1->GetImageStartIndex() );
-  m_OutputImage->SetBufferStartIndex( this->m_Image1->GetBufferStartIndex() );
 
-  Image1Iterator it1(this->m_Image1, this->m_Image1->GetBufferStartIndex(),
-                     this->m_Image1->GetBufferSize());
+  Image1Iterator it1(this->m_Image1, this->m_Image1->GetBufferedRegion() );
+  Image2Iterator it2(this->m_Image2, this->m_Image2->GetBufferedRegion() );
+  Image3Iterator it3(this->m_Image3, this->m_Image3->GetBufferedRegion() );
 
-  Image2Iterator it2(this->m_Image2, this->m_Image2->GetBufferStartIndex(),
-                     this->m_Image2->GetBufferSize());
-
-  Image3Iterator it3(this->m_Image3, this->m_Image3->GetBufferStartIndex(),
-                     this->m_Image3->GetBufferSize());
-
-  ImageOutputIterator ot(m_OutputImage, m_OutputImage->GetBufferStartIndex(),
-                         m_OutputImage->GetBufferSize());
+  ImageOutputIterator ot(m_OutputImage, m_OutputImage->GetBufferedRegion());
 
   it1.Begin();
   it2.Begin();

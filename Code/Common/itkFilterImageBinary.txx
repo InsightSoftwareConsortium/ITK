@@ -74,20 +74,18 @@ FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::GenerateData( void )
 {
 
-  m_OutputImage->SetImageSize(  m_Image1->GetImageSize() );
-  m_OutputImage->SetBufferSize( m_Image1->GetBufferSize() );
-  m_OutputImage->Allocate();
-  m_OutputImage->SetImageStartIndex(  m_Image1->GetImageStartIndex() );
-  m_OutputImage->SetBufferStartIndex( m_Image1->GetBufferStartIndex() );
+  m_OutputImage->SetLargestPossibleRegion(  
+      m_Image1->GetLargestPossibleRegion() );
 
-  Image1Iterator it1(m_Image1, m_Image1->GetBufferStartIndex(),
-                     m_Image1->GetBufferSize());
-  
-  Image2Iterator it2(m_Image2, m_Image2->GetBufferStartIndex(),
-                     m_Image2->GetBufferSize());
-  
-  ImageOutputIterator ot(m_OutputImage, m_OutputImage->GetBufferStartIndex(),
-                     m_OutputImage->GetBufferSize());
+  m_OutputImage->SetBufferedRegion( 
+      m_Image1->GetBufferedRegion() );
+
+  m_OutputImage->Allocate();
+
+  Image1Iterator it1(m_Image1, m_Image1->GetBufferedRegion() );
+  Image2Iterator it2(m_Image2, m_Image2->GetBufferedRegion() );
+
+  ImageOutputIterator ot(m_OutputImage, m_OutputImage->GetBufferedRegion() );
 
   it1.Begin();
   it2.Begin();
