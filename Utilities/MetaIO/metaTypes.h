@@ -22,7 +22,7 @@
 //    <variable> = <value>
 //       where <variable> is a designated fieldname/keyword (e.g., NDims)
 //          and value is an instance of that fieldname's associated valueType
-#define MET_NUM_VALUE_TYPES 23
+#define MET_NUM_VALUE_TYPES 25
 
 typedef enum
    {
@@ -44,7 +44,9 @@ typedef enum
    MET_SHORT_ARRAY,
    MET_USHORT_ARRAY,
    MET_INT_ARRAY, 
-   MET_UINT_ARRAY, 
+   MET_UINT_ARRAY,
+   MET_LONG_ARRAY,
+   MET_ULONG_ARRAY,
    MET_FLOAT_ARRAY, 
    MET_DOUBLE_ARRAY,
    MET_FLOAT_MATRIX,
@@ -53,7 +55,7 @@ typedef enum
 
 
 const unsigned char MET_ValueTypeSize[MET_NUM_VALUE_TYPES] = {
-   0, 1, 1, 1, 2, 2, 4, 4, 4, 4, 4, 8, 1, 1, 1, 2, 2, 4, 4, 4, 8, 4, 0 };
+   0, 1, 1, 1, 2, 2, 4, 4, 4, 4, 4, 8, 1, 1, 1, 2, 2, 4, 4, 4, 4, 4, 8, 4, 0 };
 
 const char MET_ValueTypeName[MET_NUM_VALUE_TYPES][17] = {
    {'M','E','T','_','N','O','N','E','\0',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -75,6 +77,8 @@ const char MET_ValueTypeName[MET_NUM_VALUE_TYPES][17] = {
    {'M','E','T','_','U','S','H','O','R','T','_','A','R','R','A','Y','\0'},
    {'M','E','T','_','I','N','T','_','A','R','R','A','Y','\0',' ',' ',' '},
    {'M','E','T','_','U','I','N','T','_','A','R','R','A','Y','\0',' ',' '},
+   {'M','E','T','_','L','O','N','G','_','A','R','R','A','Y','\0',' ',' '},
+   {'M','E','T','_','U','L','O','N','G','_','A','R','R','A','Y','\0',' '},
    {'M','E','T','_','F','L','O','A','T','_','A','R','R','A','Y','\0',' '},
    {'M','E','T','_','D','O','U','B','L','E','_','A','R','R','A','Y','\0'},
    {'M','E','T','_','F','L','O','A','T','_','M','A','T','R','I','X','\0'},
