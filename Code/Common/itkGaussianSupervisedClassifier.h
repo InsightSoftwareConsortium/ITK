@@ -229,8 +229,8 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent);
 
 private:
-  typedef typename vnl_matrix<double> MatrixType; 
-  typedef typename vnl_vector<double> VectorType;
+  typedef vnl_matrix<double> MatrixType; 
+  typedef vnl_vector<double> VectorType;
 
   MatrixType      m_Means;
   MatrixType      m_NumSamples;
