@@ -50,7 +50,7 @@ ADD_TEST(itkMetaImageIOTest ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd
   itkMetaImageIOTest
-            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mdh
+            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd)
 ADD_TEST(itkGiplImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.gpil
