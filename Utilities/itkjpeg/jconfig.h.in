@@ -63,3 +63,7 @@ typedef unsigned char boolean;
 /* names mangling */
 
 #include "@BITS_TYPE_JPEG_MANGLE_NAME@"
+
+#if defined(__BORLANDC__)
+#pragma warn -8004 /* Disable "foo is assigned a value that is never used." */
+#endif
