@@ -91,3 +91,6 @@ TARGET_LINK_LIBRARIES(ImageMutualInformation1 ITKIO ITKCommon )
 ADD_EXECUTABLE(ScalarImageKmeansModelEstimator ScalarImageKmeansModelEstimator.cxx )
 TARGET_LINK_LIBRARIES(ScalarImageKmeansModelEstimator ITKIO ITKCommon )
 
+ADD_EXECUTABLE(ScalarImageKmeansClassifier ScalarImageKmeansClassifier.cxx )
+TARGET_LINK_LIBRARIES(ScalarImageKmeansClassifier ITKIO ITKCommon )
+
