@@ -27,14 +27,25 @@ namespace _cable_
   ITK_WRAP_GROUP(itkDenseFiniteDifferenceImageFilter);
   namespace wrappers
   {
-    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::F2, image::F2,
-                       itkDenseFiniteDifferenceImageFilterF2F2);
-    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::US2,image::F2,
-                       itkDenseFiniteDifferenceImageFilterUS2F2);
-    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::F3, image::F3,
-                       itkDenseFiniteDifferenceImageFilterF3F3);
-    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::US3, image::F3,
-                       itkDenseFiniteDifferenceImageFilterUS3F3);
+    //===========2D Wrapped Filters==============
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::F2 , image::F2 , itkDenseFiniteDifferenceImageFilterF2F2  );
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::D2 , image::D2 , itkDenseFiniteDifferenceImageFilterD2D2  );
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::UC2, image::UC2, itkDenseFiniteDifferenceImageFilterUC2UC2);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::US2, image::US2, itkDenseFiniteDifferenceImageFilterUS2US2);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::UI2, image::UI2, itkDenseFiniteDifferenceImageFilterUI2UI2);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::SC2, image::SC2, itkDenseFiniteDifferenceImageFilterSC2SC2);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::SS2, image::SS2, itkDenseFiniteDifferenceImageFilterSS2SS2);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::SI2, image::SI2, itkDenseFiniteDifferenceImageFilterSI2SI2);
+
+    //===========3D Wrapped Filters==============
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::F3 , image::F3 , itkDenseFiniteDifferenceImageFilterF3F3  );
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::D3 , image::D3 , itkDenseFiniteDifferenceImageFilterD3D3  );
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::UC3, image::UC3, itkDenseFiniteDifferenceImageFilterUC3UC3);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::US3, image::US3, itkDenseFiniteDifferenceImageFilterUS3US3);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::UI3, image::UI3, itkDenseFiniteDifferenceImageFilterUI3UI3);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::SC3, image::SC3, itkDenseFiniteDifferenceImageFilterSC3SC3);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::SS3, image::SS3, itkDenseFiniteDifferenceImageFilterSS3SS3);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::SI3, image::SI3, itkDenseFiniteDifferenceImageFilterSI3SI3);
   }
 }
 

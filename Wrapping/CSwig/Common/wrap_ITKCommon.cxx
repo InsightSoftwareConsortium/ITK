@@ -44,6 +44,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkImageSource),
     ITK_WRAP_GROUP(itkImageToImageFilter_2D),
     ITK_WRAP_GROUP(itkImageToImageFilter_3D),
+    ITK_WRAP_GROUP(itkInPlaceImageFilter),
     ITK_WRAP_GROUP(itkIndex),
     ITK_WRAP_GROUP(itkLevelSet),
     ITK_WRAP_GROUP(itkNeighborhood),
