@@ -81,9 +81,9 @@ void
 itkImageBase
 ::SetSize(unsigned long *size)
 {
-  bool modified;
+  bool modified = false;
 
-  for (int i=0; i<this->GetDimension(); i++)
+  for (unsigned int i=0; i<this->GetDimension(); i++)
     {
     if ( m_Size[i] != size[i] )
       {
@@ -103,9 +103,9 @@ void
 itkImageBase
 ::SetSpacing(float *spacing)
 {
-  bool modified;
+  bool modified = false;
 
-  for (int i=0; i<this->GetDimension(); i++)
+  for (unsigned int i=0; i<this->GetDimension(); i++)
     {
     if ( m_Spacing[i] != spacing[i] )
       {
@@ -125,9 +125,9 @@ void
 itkImageBase
 ::SetOrigin(float *origin)
 {
-  bool modified;
+  bool modified = false;
 
-  for (int i=0; i<this->GetDimension(); i++)
+  for (unsigned int i=0; i<this->GetDimension(); i++)
     {
     if ( m_Origin[i] != origin[i] )
       {
