@@ -148,7 +148,7 @@ public:
    * **/
   virtual const JacobianType & GetJacobian(const InputPointType  &point ) const
     { 
-    m_Jacobian = JacobianType(NInputDimensions,1); 
+    m_Jacobian = JacobianType(NDimensions,1); 
     m_Jacobian.Fill(0.0); 
     return m_Jacobian;
     }
@@ -156,7 +156,7 @@ public:
 
 
 protected:
-  IdentityTransform():Transform<TScalarType,NDimensions,1>(NDimensions,1) {}; 
+  IdentityTransform():Transform<TScalarType,NDimensions,NDimensions>(NDimensions,1) {}; 
   virtual ~IdentityTransform() {};
 
 
