@@ -36,7 +36,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   m_ProgressCommand = CommandType::New();
   m_ProgressCommand->SetCallbackFunction( this, & Self::ReportProgress );
-  m_Progress  = 0.0;
+  m_Progress  = 0.0f;
 
   for( unsigned int i = 0; i<ImageDimension-1; i++ )
   {
