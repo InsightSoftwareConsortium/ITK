@@ -60,8 +60,12 @@ ELSE(UNIX)
     itkjpeg8 
     itkjpeg12
     itkjpeg16
-    Wsock32.lib   #doesn't exist on cygwin
   )
+  IF(NOT BORLAND)
+    TARGET_LINK_LIBRARIES(itkgdcm 
+     Wsock32.lib   #doesn't exist on cygwin
+    )
+  ENDIF(NOT BORLAND)
 ENDIF(UNIX)
 
 INSTALL_FILES(/include/InsightToolkit "\\.h$")
