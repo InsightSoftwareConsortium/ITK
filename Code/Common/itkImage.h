@@ -101,7 +101,6 @@ public:
    */
   typedef TPixel PixelType;
 
-
   /** 
    * Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
@@ -110,15 +109,11 @@ public:
    */
   typedef TPixel InternalPixelType;
 
-
-
   /** 
    *  Accessor type that convert data between internal and external
    *  representations.
    */
   typedef itk::DataAccessor< InternalPixelType, PixelType > AccessorType;
-
-
 
   /** 
    * Pixel (scalar) value typedef support. The scalar value is the native
@@ -162,17 +157,17 @@ public:
   /** 
    * Index typedef support. An index is used to access pixel values.
    */
-  typedef Index<VImageDimension>  Index;
+  typedef Index<VImageDimension>  IndexType;
 
   /** 
    * Size typedef support. A size is used to define region bounds.
    */
-  typedef Size<VImageDimension>  Size;
+  typedef Size<VImageDimension>  SizeType;
 
   /** 
    * Region typedef support. A region is used to specify a subset of an image.
    */
-  typedef ImageRegion<VImageDimension>  Region;
+  typedef ImageRegion<VImageDimension>  RegionType;
   
   /** 
    * Run-time type information (and related methods).
@@ -198,7 +193,7 @@ public:
    * conditions.
    * \sa ImageRegion, SetBufferedRegion(), SetRequestedRegion()
    */
-  void SetLargestPossibleRegion(const Region &region);
+  void SetLargestPossibleRegion(const RegionType &region);
 
   /**
    * Get the region object that defines the size and starting index
@@ -208,7 +203,7 @@ public:
    * conditions.
    * \sa ImageRegion, GetBufferedRegion(), GetRequestedRegion()
    */
-  const Region& GetLargestPossibleRegion()
+  const RegionType& GetLargestPossibleRegion()
     { return m_LargestPossibleRegion;};
 
   /**
@@ -216,14 +211,14 @@ public:
    * of the region of the image currently loaded in memory. 
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
    */
-  void SetBufferedRegion(const Region &region);
+  void SetBufferedRegion(const RegionType &region);
 
   /**
    * Get the region object that defines the size and starting index
    * of the region of the image currently loaded in memory. 
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
    */
-  const Region& GetBufferedRegion()
+  const RegionType& GetBufferedRegion()
   { return m_BufferedRegion;};
   
   /**
@@ -232,7 +227,7 @@ public:
    * image to be operated on by a filter).
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
    */
-  void SetRequestedRegion(const Region &region);
+  void SetRequestedRegion(const RegionType &region);
 
   /**
    * Get the region object that defines the size and starting index
@@ -240,7 +235,7 @@ public:
    * image to be operated on by a filter).
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
    */
-  const Region& GetRequestedRegion()
+  const RegionType& GetRequestedRegion()
   { return m_RequestedRegion;};
 
   /**
@@ -253,7 +248,7 @@ public:
   /**
    * Set a pixel value.
    */
-  void SetPixel(const Index &index, const TPixel& value)
+  void SetPixel(const IndexType &index, const TPixel& value)
   {
     unsigned long offset = this->ComputeOffset(index);
     (*m_Buffer)[offset] = value;
@@ -262,7 +257,7 @@ public:
   /**
    * Get a pixel (read only version).
    */
-  const TPixel& GetPixel(const Index &index) const
+  const TPixel& GetPixel(const IndexType &index) const
   {
     // std::cerr << "Const GetPixel()" << std::endl;
     unsigned long offset = this->ComputeOffset(index);
@@ -272,7 +267,7 @@ public:
   /**
    * Get a pixel for editing. 
    */
-  TPixel& GetPixel(const Index &index)
+  TPixel& GetPixel(const IndexType &index)
   {
     unsigned long offset = this->ComputeOffset(index);
     return ( (*m_Buffer)[offset] );
@@ -281,13 +276,13 @@ public:
   /**
    * Access a pixel. This version can be an lvalue.
    */
-  TPixel & operator[](const Index &index)
+  TPixel & operator[](const IndexType &index)
      { return this->GetPixel(index); }
   
   /**
    * Access a pixel. This version can only be an rvalue.
    */
-  const TPixel& operator[](const Index &index) const
+  const TPixel& operator[](const IndexType &index) const
      { return this->GetPixel(index); }
 
   /** 
@@ -348,11 +343,11 @@ public:
    * Compute an offset from the beginning of the buffer for a pixel
    * at the specified index.
    */
-  unsigned long ComputeOffset(const Index &ind) const
+  unsigned long ComputeOffset(const IndexType &ind) const
   {
     // need to add bounds checking for the region/buffer?
     unsigned long offset=0;
-    const Index &bufferedRegionIndex = m_BufferedRegion.GetIndex();
+    const IndexType &bufferedRegionIndex = m_BufferedRegion.GetIndex();
   
     // data is arranged as [][][][slice][row][col]
     // with Index[0] = col, Index[1] = row, Index[2] = slice
@@ -369,10 +364,10 @@ public:
    * Compute the index of the pixel at a specified offset from the
    * beginning of the buffered region.
    */
-  Index ComputeIndex(unsigned long offset) const
+  IndexType ComputeIndex(unsigned long offset) const
   {
-    Index index;
-    const Index &bufferedRegionIndex = m_BufferedRegion.GetIndex();
+    IndexType index;
+    const IndexType &bufferedRegionIndex = m_BufferedRegion.GetIndex();
     
     for (int i=VImageDimension-1; i > 0; i--)
       {
@@ -412,9 +407,9 @@ private:
   
   unsigned long   m_OffsetTable[VImageDimension+1];
 
-  Region          m_LargestPossibleRegion;
-  Region          m_RequestedRegion;
-  Region          m_BufferedRegion;
+  RegionType          m_LargestPossibleRegion;
+  RegionType          m_RequestedRegion;
+  RegionType          m_BufferedRegion;
 
   float           m_Spacing[VImageDimension];
   float           m_Origin[VImageDimension];

@@ -65,7 +65,7 @@ WriteVTKImage<TInputImage>
   //
   *fptr << "DATASET STRUCTURED_POINTS\n";
 
-  const typename InputImage::Size& dims =
+  const typename InputImage::SizeType& dims =
     input->GetLargestPossibleRegion().GetSize();
   *fptr << "DIMENSIONS"; 
   for (i=0; i < TInputImage::ImageDimension; i++)
@@ -213,7 +213,7 @@ static void WriteDataArray(std::ostream *fp, TInputImage *image, int fileType)
     ImageRegionIterator<InputImagePixelType, TInputImage::ImageDimension>
     InputIterator;
 
-  typename TInputImage::Region region = image->GetLargestPossibleRegion();
+  typename TInputImage::RegionType region = image->GetLargestPossibleRegion();
 
   InputIterator inIt(image, region);
 

@@ -71,9 +71,9 @@ ShrinkImage<TInputImage,TOutputImage>
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
-  typename OutputImage::Index outputIndex;
-  typename InputImage::Index inputIndex;
-  typename OutputImage::Index factorIndex;
+  typename OutputImage::IndexType outputIndex;
+  typename InputImage::IndexType inputIndex;
+  typename OutputImage::IndexType factorIndex;
 
   for (i=0; i < InputImage::ImageDimension; i++)
     {
@@ -126,13 +126,13 @@ ShrinkImage<TInputImage,TOutputImage>
 
   // we need to compute the input requested region (size and start index)
   int i;
-  const typename OutputImage::Size& outputRequestedRegionSize
+  const typename OutputImage::SizeType& outputRequestedRegionSize
     = outputPtr->GetRequestedRegion().GetSize();
-  const typename OutputImage::Index& outputRequestedRegionStartIndex
+  const typename OutputImage::IndexType& outputRequestedRegionStartIndex
     = outputPtr->GetRequestedRegion().GetIndex();
   
-  typename InputImage::Size  inputRequestedRegionSize;
-  typename InputImage::Index inputRequestedRegionStartIndex;
+  typename InputImage::SizeType  inputRequestedRegionSize;
+  typename InputImage::IndexType inputRequestedRegionStartIndex;
   
   for (i = 0; i < InputImage::ImageDimension; i++)
     {
@@ -142,7 +142,7 @@ ShrinkImage<TInputImage,TOutputImage>
       = outputRequestedRegionStartIndex[i] * (long)m_ShrinkFactor;
     }
 
-  typename InputImage::Region inputRequestedRegion;
+  typename InputImage::RegionType inputRequestedRegion;
   inputRequestedRegion.SetSize( inputRequestedRegionSize );
   inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
 
@@ -168,14 +168,14 @@ ShrinkImage<TInputImage,TOutputImage>
   // output image start index
   int i;
   const float              *inputSpacing = inputPtr->GetSpacing();
-  const typename InputImage::Size&   inputSize
+  const typename InputImage::SizeType&   inputSize
     = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename InputImage::Index&  inputStartIndex
+  const typename InputImage::IndexType&  inputStartIndex
     = inputPtr->GetLargestPossibleRegion().GetIndex();
   
   float                          outputSpacing[OutputImage::ImageDimension];
-  typename OutputImage::Size     outputSize;
-  typename OutputImage::Index    outputStartIndex;
+  typename OutputImage::SizeType     outputSize;
+  typename OutputImage::IndexType    outputStartIndex;
   
   for (i = 0; i < OutputImage::ImageDimension; i++)
     {
@@ -189,7 +189,7 @@ ShrinkImage<TInputImage,TOutputImage>
 
   outputPtr->SetSpacing( outputSpacing );
 
-  typename OutputImage::Region outputLargestPossibleRegion;
+  typename OutputImage::RegionType outputLargestPossibleRegion;
   outputLargestPossibleRegion.SetSize( outputSize );
   outputLargestPossibleRegion.SetIndex( outputStartIndex );
 

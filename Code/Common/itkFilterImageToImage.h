@@ -85,7 +85,7 @@ public:
    */
   typedef TInputImage InputImage;
   typedef typename InputImage::Pointer InputImagePointer;
-  typedef typename InputImage::Region InputImageRegion; 
+  typedef typename InputImage::RegionType InputImageRegion; 
   typedef typename InputImage::PixelType InputImagePixelType; 
 
   /** 

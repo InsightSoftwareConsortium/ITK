@@ -861,7 +861,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * First check if the boundary has been explicitly assigned.
    */
-  Boundary::Pointer boundary;
+  BoundaryType::Pointer boundary;
   if(GetAssignedCellBoundaryIfOneExists(dimension, cellId, featureId, &boundary))
     {
     return boundary;
@@ -929,7 +929,7 @@ Mesh<TPixelType,TMeshType>
       {
       cellSet->erase(cellSet->begin(), cellSet->end());
       
-      for(Boundary::UsingCellsContainerIterator usingCell = 
+      for(BoundaryType::UsingCellsContainerIterator usingCell = 
             boundary->UsingCellsBegin() ;
           usingCell != boundary->UsingCellsEnd() ; ++usingCell)
         {
@@ -978,7 +978,7 @@ Mesh<TPixelType,TMeshType>
    * Now get the cell links for the first point.  Also allocate a second set
    * for temporary storage during set intersections below.
    */
-  Boundary::PointIdConstIterator pointId = boundary->PointIdsBegin();
+  BoundaryType::PointIdConstIterator pointId = boundary->PointIdsBegin();
   PointCellLinksContainer*  currentCells =
     new PointCellLinksContainer(m_CellLinksContainer->GetElement(*pointId++));
   PointCellLinksContainer*  tempCells = new PointCellLinksContainer();

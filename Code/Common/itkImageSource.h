@@ -64,7 +64,7 @@ public:
    */
   typedef TOutputImage OutputImage;
   typedef typename OutputImage::Pointer OutputImagePointer;
-  typedef typename OutputImage::Region OutputImageRegion;
+  typedef typename OutputImage::RegionType OutputImageRegion;
   typedef typename OutputImage::PixelType OutputImagePixelType;
   
   /** 

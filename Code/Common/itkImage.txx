@@ -72,7 +72,7 @@ Image<TPixel, VImageDimension, TPixelContainer>
 ::ComputeOffsetTable()
 {
   unsigned long num=1;
-  const Size& bufferSize = m_BufferedRegion.GetSize();
+  const SizeType& bufferSize = m_BufferedRegion.GetSize();
   
   m_OffsetTable[0] = num;
   for (unsigned int i=0; i < VImageDimension; i++)
@@ -167,11 +167,11 @@ Image<TPixel, VImageDimension, TPixelContainer>
 ::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
   unsigned int i;
-  const Index &requestedRegionIndex = m_RequestedRegion.GetIndex();
-  const Index &bufferedRegionIndex = m_BufferedRegion.GetIndex();
+  const IndexType &requestedRegionIndex = m_RequestedRegion.GetIndex();
+  const IndexType &bufferedRegionIndex = m_BufferedRegion.GetIndex();
 
-  const Size& requestedRegionSize = m_RequestedRegion.GetSize();
-  const Size& bufferedRegionSize = m_BufferedRegion.GetSize();
+  const SizeType& requestedRegionSize = m_RequestedRegion.GetSize();
+  const SizeType& bufferedRegionSize = m_BufferedRegion.GetSize();
   
   for (i=0; i< VImageDimension; i++)
     {
@@ -196,11 +196,11 @@ Image<TPixel, VImageDimension, TPixelContainer>
   unsigned int i;
 
   // Is the region within the image?
-  const Index &requestedRegionIndex = m_RequestedRegion.GetIndex();
-  const Index &largestPossibleRegionIndex = m_LargestPossibleRegion.GetIndex();
+  const IndexType &requestedRegionIndex = m_RequestedRegion.GetIndex();
+  const IndexType &largestPossibleRegionIndex = m_LargestPossibleRegion.GetIndex();
 
-  const Size& requestedRegionSize = m_RequestedRegion.GetSize();
-  const Size& largestPossibleRegionSize = m_LargestPossibleRegion.GetSize();
+  const SizeType& requestedRegionSize = m_RequestedRegion.GetSize();
+  const SizeType& largestPossibleRegionSize = m_LargestPossibleRegion.GetSize();
   
   for (i=0; i< VImageDimension; i++)
     {
@@ -221,7 +221,7 @@ Image<TPixel, VImageDimension, TPixelContainer>
 template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
 void
 Image<TPixel, VImageDimension, TPixelContainer>
-::SetBufferedRegion(const Region &region)
+::SetBufferedRegion(const RegionType &region)
 {
   if (m_BufferedRegion != region)
     {
@@ -236,7 +236,7 @@ Image<TPixel, VImageDimension, TPixelContainer>
 template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
 void
 Image<TPixel, VImageDimension, TPixelContainer>
-::SetRequestedRegion(const Region &region)
+::SetRequestedRegion(const RegionType &region)
 {
   if (m_RequestedRegion != region)
     {
@@ -249,7 +249,7 @@ Image<TPixel, VImageDimension, TPixelContainer>
 template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
 void
 Image<TPixel, VImageDimension, TPixelContainer>
-::SetLargestPossibleRegion(const Region &region)
+::SetLargestPossibleRegion(const RegionType &region)
 {
   if (m_LargestPossibleRegion != region)
     {

@@ -108,12 +108,12 @@ ImageSource<TOutputImage>
 {
   // Get the output pointer
   OutputImagePointer outputPtr = this->GetOutput();
-  const typename OutputImage::Size& requestedRegionSize 
+  const typename OutputImage::SizeType& requestedRegionSize 
     = outputPtr->GetRequestedRegion().GetSize();
 
   int splitAxis;
-  typename OutputImage::Index splitIndex;
-  typename OutputImage::Size splitSize;
+  typename OutputImage::IndexType splitIndex;
+  typename OutputImage::SizeType splitSize;
 
   // Initialize the splitRegion to the output requested region
   splitRegion = outputPtr->GetRequestedRegion();
@@ -213,7 +213,7 @@ ImageSource<TOutputImage>
 
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
-  typename OutputImage::Region splitRegion;
+  typename OutputImage::RegionType splitRegion;
   total = str->Filter->SplitRequestedRegion(threadId, threadCount,
                                             splitRegion);
   

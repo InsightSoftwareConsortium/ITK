@@ -79,13 +79,13 @@ RandomImageSource<TOutputImage>
 ::GenerateOutputInformation()
 {
   TOutputImage *output;
-  typename TOutputImage::Index index = {0};
-  typename TOutputImage::Size size = {0};
+  typename TOutputImage::IndexType index = {0};
+  typename TOutputImage::SizeType size = {0};
   size.SetSize( m_Size );
   
   output = this->GetOutput(0);
 
-  typename TOutputImage::Region largestPossibleRegion;
+  typename TOutputImage::RegionType largestPossibleRegion;
   largestPossibleRegion.SetSize( size );
   largestPossibleRegion.SetIndex( index );
   output->SetLargestPossibleRegion( largestPossibleRegion );

@@ -72,12 +72,12 @@ public:
   /** 
    * Index typedef support. An index is used to access pixel values.
    */
-  typedef Index<VImageDimension>  Index;
+  typedef Index<VImageDimension>  IndexType;
 
   /** 
    * Size typedef support. A size is used to define region bounds
    */
-  typedef Size<VImageDimension>  Size;
+  typedef Size<VImageDimension>  SizeType;
   
   /** 
    * Return the region type. Images are described with structured regions.
@@ -114,26 +114,26 @@ public:
   /**
    * Set the index defining the corner of the region.
    */
-  void SetIndex(const Index &index) 
+  void SetIndex(const IndexType &index) 
   { m_Index = index; };
 
   /**
    * Get index defining the corner of the region.
    */
-  const Index& GetIndex() const
+  const IndexType& GetIndex() const
   { return m_Index; };
   
   /** 
    * Set the size of the region. This plus the index determines the
    * rectangular shape, or extent, of the region.
    */
-  void SetSize(const Size &size)
+  void SetSize(const SizeType &size)
   { m_Size = size; };
 
   /** 
    * Get the size of the region.
    */
-  const Size& GetSize() const
+  const SizeType& GetSize() const
   { return m_Size;}
 
   /**
@@ -171,8 +171,8 @@ public:
 protected:
 
 private:
-  Index           m_Index;
-  Size            m_Size;
+  IndexType           m_Index;
+  SizeType            m_Size;
 
 };
 
