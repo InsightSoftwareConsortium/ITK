@@ -53,11 +53,11 @@ public:
   /** Some convenient typedefs. */
   typedef TFunction   FunctorType;
   typedef TInputImage1 Input1ImageType;
-  typedef typename Input1ImageType::Pointer Input1ImagePointer;
+  typedef typename Input1ImageType::ConstPointer Input1ImagePointer;
   typedef typename Input1ImageType::RegionType Input1ImageRegionType; 
   typedef typename Input1ImageType::PixelType Input1ImagePixelType; 
   typedef TInputImage2 Input2ImageType;
-  typedef typename Input2ImageType::Pointer Input2ImagePointer;
+  typedef typename Input2ImageType::ConstPointer Input2ImagePointer;
   typedef typename Input2ImageType::RegionType Input2ImageRegionType; 
   typedef typename Input2ImageType::PixelType Input2ImagePixelType; 
   typedef TOutputImage OutputImageType;
@@ -66,10 +66,10 @@ public:
   typedef typename OutputImageType::PixelType OutputImagePixelType;
 
   /** Connect one of the operands for pixel-wise addition */
-   void SetInput1( TInputImage1 * image1);
+   void SetInput1( const TInputImage1 * image1);
 
   /** Connect one of the operands for pixel-wise addition */
-   void SetInput2( TInputImage2 * image2);
+   void SetInput2( const TInputImage2 * image2);
 
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
@@ -83,7 +83,7 @@ public:
    * This method requires an operator!=() be defined on the functor
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
-  void SetFunctor(FunctorType& functor)
+  void SetFunctor(const FunctorType& functor)
   {
     if ( m_Functor != functor )
       {

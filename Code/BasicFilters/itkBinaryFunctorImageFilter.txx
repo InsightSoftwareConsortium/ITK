@@ -19,6 +19,7 @@
 
 #include "itkBinaryFunctorImageFilter.h"
 #include <itkImageRegionIterator.h>
+#include <itkImageRegionConstIterator.h>
 
 namespace itk
 {
@@ -42,9 +43,10 @@ template <class TInputImage1, class TInputImage2,
           class TOutputImage, class TFunction  >
 void
 BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
-::SetInput1( TInputImage1 * image1 ) 
+::SetInput1( const TInputImage1 * image1 ) 
 {
-  SetNthInput(0, image1);
+  // Process object is not const-correct so the const casting is required.
+  SetNthInput(0, const_cast<TInputImage1 *>( image1 ));
 }
 
 
@@ -55,9 +57,10 @@ template <class TInputImage1, class TInputImage2,
           class TOutputImage, class TFunction  >
 void
 BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
-::SetInput2( TInputImage2 * image2 ) 
+::SetInput2( const TInputImage2 * image2 ) 
 {
-  SetNthInput(1, image2);
+  // Process object is not const-correct so the const casting is required.
+  SetNthInput(1, const_cast<TInputImage2 *>( image2 ));
 }
 
 
@@ -75,13 +78,14 @@ BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>
   // ImageToImageFilter::GetInput(int) always returns a pointer to a
   // TInputImage1 so it cannot be used for the second input.
   Input1ImagePointer inputPtr1
-    = dynamic_cast<TInputImage1*>((ProcessObject::GetInput(0)).GetPointer());
+    = dynamic_cast<const TInputImage1*>((ProcessObject::GetInput(0)).GetPointer());
   Input2ImagePointer inputPtr2
-    = dynamic_cast<TInputImage2*>((ProcessObject::GetInput(1)).GetPointer());
+    = dynamic_cast<const TInputImage2*>((ProcessObject::GetInput(1)).GetPointer());
   OutputImagePointer outputPtr = this->GetOutput(0);
   
-  ImageRegionIterator<TInputImage1> inputIt1(inputPtr1, outputRegionForThread);
-  ImageRegionIterator<TInputImage2> inputIt2(inputPtr2, outputRegionForThread);
+  ImageRegionConstIterator<TInputImage1> inputIt1(inputPtr1, outputRegionForThread);
+  ImageRegionConstIterator<TInputImage2> inputIt2(inputPtr2, outputRegionForThread);
+
   ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);
 
   // support progress methods/callbacks
