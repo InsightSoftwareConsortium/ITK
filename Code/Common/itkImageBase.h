@@ -19,6 +19,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkDataObject.h"
 #include "itkProcessObject.h"
 #include "itkIndex.h"
+#include "itkOffset.h"
 #include "itkSize.h"
 #include "itkImageRegion.h"
 
@@ -87,6 +88,13 @@ public:
    * Index typedef support. An index is used to access pixel values.
    */
   typedef Index<VImageDimension>  IndexType;
+
+  /** 
+   * Offset typedef support. An offset represent relative position
+   * between indices.
+   */
+  typedef Offset<VImageDimension>  OffsetType;
+
 
   /** 
    * Size typedef support. A size is used to define region bounds.
