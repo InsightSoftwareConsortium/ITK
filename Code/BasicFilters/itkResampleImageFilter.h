@@ -18,11 +18,10 @@
 #define __itkResampleImageFilter_h
 
 #include "itkTransform.h"
-#include "itkAffineTransform.h"
 #include "itkImageFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageToImageFilter.h"
-#include "itkLinearInterpolateImageFunction.h"
+#include "itkInterpolateImageFunction.h"
 #include "itkSize.h"
 
 namespace itk
@@ -49,12 +48,7 @@ namespace itk
  *
  * \ingroup GeometricTransforms
  */
-template <
-    class TInputImage,
-    class TOutputImage,
-    class TTransform=AffineTransform<double, TInputImage::ImageDimension>,
-    class TInterpolator=LinearInterpolateImageFunction<TInputImage,double>
-    >
+template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ResampleImageFilter:
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -64,6 +58,8 @@ public:
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  typedef TInputImage InputImageType;
+  typedef TOutputImage OutputImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -79,11 +75,11 @@ public:
    * \todo Check that input and output images have the same number of 
    * dimensions; this is required by the current implementation of 
    * AffineTransform. */
-  typedef TTransform TransformType;
+  typedef Transform<double, ImageDimension, ImageDimension> TransformType;
   typedef typename TransformType::Pointer TransformPointerType;
 
   /** Interpolator typedef. */
-  typedef TInterpolator   InterpolatorType;
+  typedef InterpolateImageFunction<InputImageType, double> InterpolatorType;
   typedef typename InterpolatorType::Pointer  InterpolatorPointerType;
 
   /** Image size typedef. */

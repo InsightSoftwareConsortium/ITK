@@ -73,8 +73,8 @@ int itkResampleImageTest(int, char**)
   resample = itk::ResampleImageFilter< ImageType, ImageType >::New();
   resample->SetInput(image);
   resample->SetSize(size);
-  resample->SetTransform(aff);
-  resample->SetInterpolator(interp);
+  resample->SetTransform(aff.GetPointer());
+  resample->SetInterpolator(interp.GetPointer());
 
   // Run the resampling filter
   resample->Update();

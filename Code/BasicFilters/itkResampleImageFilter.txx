@@ -21,6 +21,8 @@
 
 #include "itkResampleImageFilter.h"
 #include "itkObjectFactory.h"
+#include "itkAffineTransform.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 namespace itk
 {
@@ -28,9 +30,8 @@ namespace itk
 /**
  * Initialize new instance
  */
-template <class TInputImage, class TOutputImage, class TTransform,
-    class TInterpolator>
-ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
+template <class TInputImage, class TOutputImage>
+ResampleImageFilter<TInputImage, TOutputImage>
 ::ResampleImageFilter()
 {
   for (int i = 0; i < ImageDimension; i++)
@@ -39,9 +40,9 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
     m_OutputSpacing[i] = 1.0;
     m_OutputOrigin[i] = 0.0;
     }
-
-  m_Transform = TransformType::New();
-  m_Interpolator = InterpolatorType::New();
+  
+  m_Transform = AffineTransform<double, ImageDimension>::New();
+  m_Interpolator = LinearInterpolateImageFunction<InputImageType, double>::New();
   m_DefaultPixelValue = 0;
 }
 
@@ -51,10 +52,9 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
  *
  * \todo Add details about this class
  */
-template <class TInputImage, class TOutputImage, class TTransform,
-    class TInterpolator>
+template <class TInputImage, class TOutputImage>
 void 
-ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
+ResampleImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -95,10 +95,9 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
 /**
  * Set the output image spacing.
  */
-template <class TInputImage, class TOutputImage, class TTransform,
-    class TInterpolator>
+template <class TInputImage, class TOutputImage>
 void 
-ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
+ResampleImageFilter<TInputImage,TOutputImage>
 ::SetOutputSpacing(
 const double spacing[ImageDimension] )
 {
@@ -126,10 +125,9 @@ const double spacing[ImageDimension] )
 /**
  * Set the output image origin.
  */
-template <class TInputImage, class TOutputImage, class TTransform,
-    class TInterpolator>
+template <class TInputImage, class TOutputImage>
 void 
-ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
+ResampleImageFilter<TInputImage,TOutputImage>
 ::SetOutputOrigin(
 const double origin[ImageDimension] )
 {
@@ -160,10 +158,9 @@ const double origin[ImageDimension] )
  * InterpolatorType::SetInputImage is not thread-safe and hence
  * has to be setup before ThreadedGenerateData
  */
-template <class TInputImage, class TOutputImage, class TTransform,
-    class TInterpolator>
+template <class TInputImage, class TOutputImage>
 void 
-ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
+ResampleImageFilter<TInputImage,TOutputImage>
 ::BeforeThreadedGenerateData()
 {
 
@@ -182,10 +179,9 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
 /**
  * ThreadedGenerateData
  */
-template <class TInputImage, class TOutputImage, class TTransform,
-    class TInterpolator>
+template <class TInputImage, class TOutputImage>
 void 
-ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
+ResampleImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(
   const OutputImageRegionType& outputRegionForThread,
   int threadId)
@@ -265,10 +261,9 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
  * when we cannot assume anything about the transform being used.
  * So we do the easy thing and request the entire input image.
  */
-template <class TInputImage, class TOutputImage, class TTransform,
-    class TInterpolator>
+template <class TInputImage, class TOutputImage>
 void 
-ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
+ResampleImageFilter<TInputImage,TOutputImage>
 ::GenerateInputRequestedRegion()
 {
   // call the superclass's implementation of this method
@@ -296,10 +291,9 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
 /** 
  * Inform pipeline of required output region
  */
-template <class TInputImage, class TOutputImage, class TTransform,
-    class TInterpolator>
+template <class TInputImage, class TOutputImage>
 void 
-ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
+ResampleImageFilter<TInputImage,TOutputImage>
 ::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
