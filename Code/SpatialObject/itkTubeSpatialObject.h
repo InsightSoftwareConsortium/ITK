@@ -58,7 +58,8 @@ public:
     typedef double                                      ScalarType;
     typedef unsigned int                                IdentifierType;
     typedef TubePoint< TDimension >                     TubePointType;
-    typedef std::list < TubePointType::Pointer >        PointListType;
+    typedef typename TubePointType::Pointer             TubePointPointer; 
+    typedef std::list < TubePointPointer >              PointListType;
     typedef PointListType *                             PointListPointer;
     typedef VectorContainer<unsigned long,PointType>    PointContainerType;
     typedef SmartPointer<PointContainerType>            PointContainerPointer;
