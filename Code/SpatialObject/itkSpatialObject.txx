@@ -51,6 +51,7 @@ SpatialObject< TDimension >
   // Initialize the spacing to 1 by default
   for (unsigned int i=0; i<ObjectDimension; i++)
   {
+    m_Scale[i] = 1;
     m_Spacing[i] = 1;
     m_CenterOfRotation[i] = 0;
   }
@@ -113,6 +114,29 @@ SpatialObject< TDimension >
   }
 
   ComputeGlobalTransform();
+}
+
+/** Set the Scale of the spatial object */
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::SetScale(const double scale[ObjectDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<ObjectDimension; i++)
+  {
+    if ( scale[i] != m_Scale[i] )
+    {
+      break;
+    }
+  } 
+  if ( i < ObjectDimension ) 
+  { 
+    for (i=0; i<ObjectDimension; i++)
+    {
+      m_Scale[i] = scale[i];
+    }
+  }
 }
 
 /** Return the Derivative at a point given the order of the derivative */
