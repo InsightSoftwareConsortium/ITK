@@ -1,5 +1,6 @@
 SUBDIRS(vxl)
 
+IF (TCL_TCLSH)
 ADD_TEST(PrintSelf-Numerics ${TCL_TCLSH}
          ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
          ${ITK_SOURCE_DIR}/Code/Algorithms)
