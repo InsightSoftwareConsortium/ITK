@@ -16,9 +16,10 @@ void RegisterTests()
 #endif
 }
 
+#ifndef __BORLANDC__
 #undef main
 #define main  ImageRegistration13Test
 #undef CommandIterationUpdate
 #define CommandIterationUpdate CommandIterationUpdate5
 #include "ImageRegistration13.cxx"
-
+#endif
