@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkUnaryImageFilter_txx
 
 #include "itkUnaryImageFilter.h"
-#include <itkSimpleImageRegionIterator.h>
+#include <itkImageRegionIterator.h>
 
 namespace itk
 {
@@ -58,62 +58,45 @@ UnaryImageFilter<TInputImage,TOutputImage,TFunction>
 
 
 /**
- * Connect one of the operands for pixel-wise addition
+ * ThreadedGenerateData Performs the pixel-wise addition
  */
 template <class TInputImage, class TOutputImage, class TFunction  >
 void
 UnaryImageFilter<TInputImage,TOutputImage,TFunction>
-::SetInput( TInputImage * image ) 
+::ThreadedGenerateData( const OutputImageRegionType &outputRegionForThread,
+                        int threadId)
 {
-  SetNthInput(0, image );
-}
-
-
-
-/**
- * GenerateData Performs the pixel-wise addition
- */
-template <class TInputImage, class TOutputImage, class TFunction  >
-void
-UnaryImageFilter<TInputImage,TOutputImage,TFunction>
-::GenerateData( void )
-{
+  InputImagePointer  inputPtr = this->GetInput();
+  OutputImagePointer outputPtr = this->GetOutput(0);
   
-  typename TOutputImage::Pointer outputImage = dynamic_cast<TOutputImage *>(
-                      (ProcessObject::GetOutput( 0 )).GetPointer());
+  ImageRegionIterator<TInputImage>  inputIt(inputPtr, outputRegionForThread);
+  ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);
 
-  typename TInputImage::Pointer  inputImage  = dynamic_cast<TInputImage  *>(
-                      (ProcessObject::GetInput(  0 )).GetPointer());
-
-  outputImage->SetLargestPossibleRegion( 
-                  inputImage->GetLargestPossibleRegion() );
-
-  outputImage->SetBufferedRegion( 
-                  inputImage->GetBufferedRegion() );
-
-  outputImage->SetRequestedRegion( 
-                  inputImage->GetRequestedRegion() );
-
-  outputImage->Allocate();
-
-  typename TOutputImage::RegionType region  = outputImage->GetRequestedRegion();
-
-  SimpleImageRegionIterator< TInputImage >  it( inputImage,  region );
-  SimpleImageRegionIterator< TOutputImage > ot( outputImage, region );
-
-  it.Begin();
-  ot.Begin();
-
+  // support progress methods/callbacks
+  unsigned long updateVisits = 0, i=0;
+  if ( threadId == 0 )
+    {
+    updateVisits = 
+      outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
+    }
+        
   TFunction function;
 
-  while( !it.IsAtEnd() ) 
-  {
-    ot.Set( function( it.Get() ) );
-    ++it;
-    ++ot;
-  }
+  inputIt.GoToBegin();
+  outputIt.GoToBegin();
+  i = 0;
+  while( !inputIt.IsAtEnd() ) 
+    {
+    if ( threadId == 0 && !(i % updateVisits ) )
+      {
+      this->UpdateProgress((float)i/(float(updateVisits)*10.0));
+      }
 
-
+    outputIt.Set( function( inputIt.Get() ) );
+    ++inputIt;
+    ++outputIt;
+    ++i;
+    }
 }
 
 

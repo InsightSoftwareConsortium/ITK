@@ -50,14 +50,12 @@ namespace itk
 /** \class BinaryImageFilter
  * \brief Implements pixel-wise generic operation of two images.
  *
- * This class is parametrized over the types of the two 
- * input images and the type of the output image. 
- * It is also parametrized by the operation to be applied. 
- * A Functor style is used.
+ * This class is parameterized over the types of the two input images
+ * and the type of the output image.  It is also parameterized by the
+ * operation to be applied.  A Functor style is used.
  * 
  * \ingroup IntensityImageFilters
- *
- */
+ * */
 
 template <class TInputImage1, class TInputImage2, 
           class TOutputImage, class TFunction    >
@@ -82,16 +80,31 @@ public:
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
   /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
   
-  /**
-   * Method for execute the algorithm
+  /** 
+   * Run-time type information (and related methods).
    */
-   void GenerateData(void);
+  itkTypeMacro(BinaryImageFilter, ImageToImageFilter);
+
+  /** 
+   * Some typedefs.
+   */
+  typedef TInputImage1 Input1ImageType;
+  typedef typename Input1ImageType::Pointer Input1ImagePointer;
+  typedef typename Input1ImageType::RegionType Input1ImageRegionType; 
+  typedef typename Input1ImageType::PixelType Input1ImagePixelType; 
+  typedef TInputImage2 Input2ImageType;
+  typedef typename Input2ImageType::Pointer Input2ImagePointer;
+  typedef typename Input2ImageType::RegionType Input2ImageRegionType; 
+  typedef typename Input2ImageType::PixelType Input2ImagePixelType; 
+  typedef TOutputImage OutputImageType;
+  typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename OutputImageType::PixelType OutputImagePixelType;
 
   /**
    * Connect one of the operands for pixel-wise addition
@@ -104,12 +117,25 @@ public:
    void SetInput2( TInputImage2 * image2);
 
 protected:
-
   BinaryImageFilter();
   virtual ~BinaryImageFilter() {};
   BinaryImageFilter(const Self&) {}
   void operator=(const Self&) {}
 
+  /**
+   * BinaryImageFilter can be implemented as a multithreaded filter.
+   * Therefore, this implementation provides a ThreadedGenerateData() routine
+   * which is called for each processing thread. The output image data is
+   * allocated automatically by the superclass prior to calling
+   * ThreadedGenerateData().  ThreadedGenerateData can only write to the
+   * portion of the output image specified by the parameter
+   * "outputRegionForThread"
+   *
+   * \sa ImageToImageFilter::ThreadedGenerateData(),
+   *     ImageToImageFilter::GenerateData() 
+   */
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+                            int threadId );
 
 };
 

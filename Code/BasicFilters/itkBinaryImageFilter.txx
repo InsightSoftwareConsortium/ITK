@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkBinaryImageFilter_txx
 
 #include "itkBinaryImageFilter.h"
-#include <itkSimpleImageRegionIterator.h>
+#include <itkImageRegionIterator.h>
 
 namespace itk
 {
@@ -67,7 +67,7 @@ void
 BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::SetInput1( TInputImage1 * image1 ) 
 {
-  SetNthInput(0, image1 );
+  SetNthInput(0, image1);
 }
 
 
@@ -80,75 +80,61 @@ void
 BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::SetInput2( TInputImage2 * image2 ) 
 {
-  SetNthInput(1, image2 );
+  SetNthInput(1, image2);
 }
 
 
 
 /**
- * GenerateData Performs the pixel-wise addition
+ * ThreadedGenerateData Performs the pixel-wise addition
  */
-template <class TInputImage1, class TInputImage2, 
-          class TOutputImage, class TFunction  >
+template <class TInputImage1, class TInputImage2, class TOutputImage, class TFunction  >
 void
-BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
-::GenerateData( void )
+BinaryImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>
+::ThreadedGenerateData( const OutputImageRegionType &outputRegionForThread,
+                        int threadId)
 {
+  // We use dynamic_cast since inputs are stored as DataObjects.  The
+  // ImageToImageFilter::GetInput(int) always returns a pointer to a
+  // TInputImage1 so it cannot be used for the second input.
+  Input1ImagePointer inputPtr1
+    = dynamic_cast<TInputImage1*>((ProcessObject::GetInput(0)).GetPointer());
+  Input2ImagePointer inputPtr2
+    = dynamic_cast<TInputImage2*>((ProcessObject::GetInput(1)).GetPointer());
+  OutputImagePointer outputPtr = this->GetOutput(0);
   
-  typename TOutputImage::Pointer outputImage = GetOutput();
+  ImageRegionIterator<TInputImage1> inputIt1(inputPtr1, outputRegionForThread);
+  ImageRegionIterator<TInputImage2> inputIt2(inputPtr2, outputRegionForThread);
+  ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);
 
-
-  typename TInputImage1::Pointer inputImage1  = 
-				dynamic_cast<TInputImage1  *>(
-                      (ProcessObject::GetInput(  0 )).GetPointer());
-
-  typename TInputImage2::Pointer inputImage2  = 
-				dynamic_cast<TInputImage2  *>(
-                      (ProcessObject::GetInput(  1 )).GetPointer());
-
-
-  outputImage->SetLargestPossibleRegion( 
-      inputImage1->GetLargestPossibleRegion() );
-
-  outputImage->SetBufferedRegion( 
-      inputImage1->GetBufferedRegion() );
-
-  outputImage->SetRequestedRegion( 
-      inputImage1->GetRequestedRegion() );
-
-  outputImage->Allocate();
-
-  typedef typename TOutputImage::RegionType RegionType;
-
-  RegionType region  = outputImage->GetRequestedRegion();
-  RegionType region1 = inputImage1->GetRequestedRegion();
-  RegionType region2 = inputImage2->GetRequestedRegion();
-
-  SimpleImageRegionIterator< TInputImage1 > it1( inputImage1, region1 );
-  SimpleImageRegionIterator< TInputImage2 > it2( inputImage2, region2 );
-  SimpleImageRegionIterator< TOutputImage > ot(  outputImage, region  );
-
-  it1.Begin();
-  it2.Begin();
-
-  ot.Begin();
-
+  // support progress methods/callbacks
+  unsigned long updateVisits = 0, i=0;
+  if ( threadId == 0 )
+    {
+    updateVisits = 
+      outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
+    }
+        
   TFunction function;
 
-  while( !it1.IsAtEnd() ) 
-  {
-    ot.Set( function( it1.Get(), it2.Get()  ) );
-    ++it1;
-    ++it2;
-    ++ot;
-  }
+  inputIt1.GoToBegin();
+  inputIt2.GoToBegin();
+  outputIt.GoToBegin();
+  i = 0;
+  while( !inputIt1.IsAtEnd() ) 
+    {
+    if ( threadId == 0 && !(i % updateVisits ) )
+      {
+      this->UpdateProgress((float)i/(float(updateVisits)*10.0));
+      }
 
-
+    outputIt.Set( function( inputIt1.Get(), inputIt2.Get() ) );
+    ++inputIt1;
+    ++inputIt2;
+    ++outputIt;
+    ++i;
+    }
 }
-
-
-
-
 
 } // end namespace itk
 

@@ -48,16 +48,14 @@ namespace itk
 {
   
 /** \class TernaryImageFilter
- * \brief Implements pixel-wise generic operation of two images.
+ * \brief Implements pixel-wise generic operation of three images.
  *
- * This class is parametrized over the types of the two 
- * input images and the type of the output image. 
- * It is parametrized too by the operation to be applied. 
- * A Functor style is used.
+ * This class is parameterized over the types of the two input images
+ * and the type of the output image.  It is also parameterized by the
+ * operation to be applied, using a Functor style.
  * 
  * \ingroup IntensityImageFilters
- *
- */
+ * */
 
 template <class TInputImage1, class TInputImage2, 
           class TInputImage3, class TOutputImage, class TFunction    >
@@ -86,11 +84,31 @@ public:
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
-  
-  /**
-   * Method for execute the algorithm
+
+  /** 
+   * Run-time type information (and related methods).
    */
-   void GenerateData(void);
+  itkTypeMacro(TernaryImageFilter, ImageToImageFilter);
+
+  /** 
+   * Some typedefs.
+   */
+  typedef TInputImage1 Input1ImageType;
+  typedef typename Input1ImageType::Pointer Input1ImagePointer;
+  typedef typename Input1ImageType::RegionType Input1ImageRegionType; 
+  typedef typename Input1ImageType::PixelType Input1ImagePixelType; 
+  typedef TInputImage2 Input2ImageType;
+  typedef typename Input2ImageType::Pointer Input2ImagePointer;
+  typedef typename Input2ImageType::RegionType Input2ImageRegionType; 
+  typedef typename Input2ImageType::PixelType Input2ImagePixelType; 
+  typedef TInputImage2 Input3ImageType;
+  typedef typename Input3ImageType::Pointer Input3ImagePointer;
+  typedef typename Input3ImageType::RegionType Input3ImageRegionType; 
+  typedef typename Input3ImageType::PixelType Input3ImagePixelType; 
+  typedef TOutputImage OutputImageType;
+  typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename OutputImageType::PixelType OutputImagePixelType;
 
   /**
    * Connect one of the operands for pixel-wise addition
@@ -109,13 +127,25 @@ public:
 
 
 protected:
-
   TernaryImageFilter();
   virtual ~TernaryImageFilter() {};
   TernaryImageFilter(const Self&) {}
   void operator=(const Self&) {}
 
-
+  /**
+   * TernaryImageFilter can be implemented as a multithreaded filter.
+   * Therefore, this implementation provides a ThreadedGenerateData() routine
+   * which is called for each processing thread. The output image data is
+   * allocated automatically by the superclass prior to calling
+   * ThreadedGenerateData().  ThreadedGenerateData can only write to the
+   * portion of the output image specified by the parameter
+   * "outputRegionForThread"
+   *
+   * \sa ImageToImageFilter::ThreadedGenerateData(),
+   *     ImageToImageFilter::GenerateData() 
+   */
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+                            int threadId );
 };
 
 } // end namespace itk

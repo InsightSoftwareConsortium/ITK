@@ -50,14 +50,12 @@ namespace itk
 /** \class UnaryImageFilter
  * \brief Implements pixel-wise generic operation on one image.
  *
- * This class is parametrized over the type of the 
- * input image and the type of the output image. 
- * It is also parametrized by the operation to be applied,
- * using a Functor style.
+ * This class is parameterized over the type of the input image and
+ * the type of the output image.  It is also parameterized by the
+ * operation to be applied, using a Functor style.
  * 
  * \ingroup IntensityImageFilters
- *
- */
+ * */
 
 template <class TInputImage, class TOutputImage, class TFunction >
 class ITK_EXPORT UnaryImageFilter : public ImageToImageFilter<TInputImage,TOutputImage> 
@@ -86,23 +84,43 @@ public:
    */
   itkNewMacro(Self);
   
-  /**
-   * Method for execute the algorithm
+  /** 
+   * Run-time type information (and related methods).
    */
-   void GenerateData(void);
+  itkTypeMacro(UnaryImageFilter, ImageToImageFilter);
 
-  /**
-   * Connect the input image
+  /** 
+   * Some typedefs.
    */
-   void SetInput( TInputImage * image);
+  typedef TInputImage Input1ImageType;
+  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef typename InputImageType::RegionType InputImageRegionType; 
+  typedef typename InputImageType::PixelType InputImagePixelType; 
+  typedef TOutputImage OutputImageType;
+  typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename OutputImageType::PixelType OutputImagePixelType;
 
 protected:
-
   UnaryImageFilter();
   virtual ~UnaryImageFilter() {};
   UnaryImageFilter(const Self&) {}
   void operator=(const Self&) {}
 
+  /**
+   * UnaryImageFilter can be implemented as a multithreaded filter.
+   * Therefore, this implementation provides a ThreadedGenerateData() routine
+   * which is called for each processing thread. The output image data is
+   * allocated automatically by the superclass prior to calling
+   * ThreadedGenerateData().  ThreadedGenerateData can only write to the
+   * portion of the output image specified by the parameter
+   * "outputRegionForThread"
+   *
+   * \sa ImageToImageFilter::ThreadedGenerateData(),
+   *     ImageToImageFilter::GenerateData() 
+   */
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+                            int threadId );
 
 };
 
