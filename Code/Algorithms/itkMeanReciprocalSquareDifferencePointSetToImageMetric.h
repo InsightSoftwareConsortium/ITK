@@ -17,7 +17,7 @@
 #ifndef __itkMeanReciprocalSquareDifferencePointSetToImageMetric_h
 #define __itkMeanReciprocalSquareDifferencePointSetToImageMetric_h
 
-#include "itkSimilarityRegistrationMetric.h"
+#include "itkPointSetToImageMetric.h"
 #include "itkCovariantVector.h"
 #include "itkPoint.h"
 
@@ -28,85 +28,76 @@ namespace itk
 /** \class MeanReciprocalSquareDifferencePointSetToImageMetric
  * \brief Computes similarity between two objects to be registered
  *
- * This Class is templated over the type of the objects to be registered and
- * over the type of transformation to be used.
- *
- * SmartPointer to this three objects are received, and using them, this
- * class computes a value(s) that measures the similarity of the target
- * against the reference object once the transformation is applied to it.
- *
+ * This metric computes the correlation between point values in the fixed
+ * point-set and pixel values in the moving image. The correlation is
+ * normalized by the autocorrelation values of both the point-set and the
+ * moving image. The spatial correspondence between the point-set and the image
+ * is established through a Transform. Pixel values are taken from the fixed
+ * point-set. Their positions are mapped to the moving image and result in
+ * general in non-grid position on it.  Values at these non-grid position of
+ * the moving image are interpolated using a user-selected Interpolator.
+ 
  * \ingroup RegistrationMetrics
  */
-template < class TTarget, class TMapper > 
+template < class TFixedPointSet, class TMovingImage > 
 class ITK_EXPORT MeanReciprocalSquareDifferencePointSetToImageMetric : 
-    public SimilarityRegistrationMetric< TTarget, TMapper, double,
-                                         CovariantVector<double, TMapper::SpaceDimension > >
+    public PointSetToImageMetric< TFixedPointSet, TMovingImage>
 {
 public:
-  /** Space dimension is the dimension of parameters space. */
-  itkStaticConstMacro(SpaceDimension, unsigned int,
-                      TMapper::SpaceDimension);
-  itkStaticConstMacro(RangeDimension, unsigned int, 9);
-
-  /**  Type of the match measure. */
-  typedef double              MeasureType;
-
-  /**  Type of the derivative of the match measure. */
-  typedef CovariantVector<MeasureType, itkGetStaticConstMacro(SpaceDimension) >
-  DerivativeType;
 
   /** Standard class typedefs. */
-  typedef MeanReciprocalSquareDifferencePointSetToImageMetric  Self;
-  typedef SimilarityRegistrationMetric<TTarget, TMapper,
-                                       MeasureType,DerivativeType >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef  MeanReciprocalSquareDifferencePointSetToImageMetric    Self;
+  typedef PointSetToImageMetric<TFixedPointSet, TMovingImage >  Superclass;
+
+  typedef SmartPointer<Self>         Pointer;
+  typedef SmartPointer<const Self>   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
  
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeanReciprocalSquareDifferencePointSetToImageMetric, Object);
+  itkTypeMacro( MeanReciprocalSquareDifferencePointSetToImageMetric, Object);
 
-  /**  Type of the mapper. */
-  typedef TMapper             MapperType;
-  
-  /**  Type of the reference. */
-  typedef typename MapperType::DomainType     ReferenceType;
+ 
+  /** Types transferred from the base class */
+  typedef typename Superclass::RealType                   RealType;
+  typedef typename Superclass::TransformType              TransformType;
+  typedef typename Superclass::TransformPointer           TransformPointer;
+  typedef typename Superclass::TransformParametersType    TransformParametersType;
+  typedef typename Superclass::TransformJacobianType      TransformJacobianType;
+  typedef typename Superclass::GradientPixelType          GradientPixelType;
 
-  /**  Type of the target. */
-  typedef TTarget             TargetType;
+  typedef typename Superclass::MeasureType                MeasureType;
+  typedef typename Superclass::DerivativeType             DerivativeType;
+  typedef typename Superclass::FixedPointSetType          FixedPointSetType;
+  typedef typename Superclass::MovingImageType            MovingImageType;
+  typedef typename Superclass::FixedPointSetConstPointer  FixedPointSetConstPointer;
+  typedef typename Superclass::MovingImageConstPointer    MovingImageConstPointer;
 
-  /**  Pointer type for the reference.  */
-  typedef typename ReferenceType::ConstPointer         ReferenceConstPointer;
+  typedef typename Superclass::PointIterator              PointIterator;
+  typedef typename Superclass::PointDataIterator          PointDataIterator;
 
-  /**  Pointer type for the target.  */
-  typedef typename TargetType::ConstPointer            TargetConstPointer;
-
-  /**  Pointer type for the mapper. */
-  typedef typename MapperType::Pointer            MapperPointer;
-
-  /**  Parameters type. */
-  typedef typename  TMapper::ParametersType       ParametersType;
 
   /** Get the derivatives of the match measure. */
-  const DerivativeType & GetDerivative( const ParametersType & parameters );
+  void GetDerivative( const TransformParametersType & parameters,
+                      DerivativeType & Derivative ) const;
 
   /**  Get the value for single valued optimizers. */
-  MeasureType    GetValue( const ParametersType & parameters );
+  MeasureType GetValue( const TransformParametersType & parameters ) const;
 
-  /**  Get the value and derivatives for multiple valued optimizers.. */
-  void GetValueAndDerivative( const ParametersType & parameters,
-                              MeasureType& Value, DerivativeType& Derivative);
+  /**  Get value and derivatives for multiple valued optimizers. */
+  void GetValueAndDerivative( const TransformParametersType & parameters,
+                              MeasureType& Value, DerivativeType& Derivative ) const;
 
-  /**  Set/Get the lambda distance.  */
+  /**  Set/Get the lambda distance. (controls the capture radius of the metric).  */
   itkSetMacro( Lambda, double );
-  itkGetReferenceConstMacro( Lambda, double );
+  itkGetMacro( Lambda, double );
  
+
 protected:
   MeanReciprocalSquareDifferencePointSetToImageMetric();
   virtual ~MeanReciprocalSquareDifferencePointSetToImageMetric() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
   
 private:
   MeanReciprocalSquareDifferencePointSetToImageMetric(const Self&); //purposely not implemented
