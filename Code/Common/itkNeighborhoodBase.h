@@ -68,7 +68,7 @@ public:
   /**
    * Slice iterator typedef support
    */
-  typedef SliceIterator<TPixel, Self> SliceIterator;
+  typedef SliceIterator<TPixel, Self> SliceIteratorType;
 
   /** 
    * Run-time type information (and related methods).
@@ -190,6 +190,7 @@ public:
    */
   Self &operator=(const Self& orig)
   {
+    this->resize(orig.size());
     Superclass::operator=(orig);
     memcpy(m_Radius.m_Size, orig.m_Radius.m_Size,
            sizeof(unsigned long) * VDimension);
