@@ -18,7 +18,7 @@
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to read a DICOM series into a volume
-//  and then save this volume in another file format.
+//  and then print most of the DICOM header information (binary field are skipped)
 //
 //  Software Guide : EndLatex 
 
@@ -103,7 +103,8 @@ int main( int argc, char* argv[] )
 //  Software Guide : EndLatex 
 
 
-    std::string entryId = "Patient Name";
+    //std::string entryId = "Patient Name"; //DICOM 2002
+    std::string entryId = "Patient's Name"; //DICOM 2003
     itk::MetaDataObjectBase::ConstPointer  entry = dictionary[entryId];
 
     MetaDataStringType::ConstPointer entryvalue = 
