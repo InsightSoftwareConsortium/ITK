@@ -126,6 +126,7 @@ bool DICOMParser::ReadHeader() {
   this->Elements.clear();
   this->Datatypes.clear();
 
+  long fileSize = DataFile->GetSize();
   do 
     {
     this->ReadNextRecord(group, element, datatype);
@@ -134,7 +135,7 @@ bool DICOMParser::ReadHeader() {
     this->Elements.push_back(element);
     this->Datatypes.push_back(datatype);
 
-    } while (DataFile->Tell() < DataFile->GetSize());
+    } while (DataFile->Tell() < fileSize);
 
 
   return true;
@@ -312,7 +313,7 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
     std::pair<const DICOMMapKey,DICOMMapValue> p = *iter;
     DICOMMapValue mv = p.second;
 
-    bool doSwap = (this->ToggleByteSwapImageData ^ this->DataFile->GetByteSwap()) && callbackType == VR_OW;
+    bool doSwap = (this->ToggleByteSwapImageData ^ this->DataFile->GetPlatformIsBigEndian()) && callbackType == VR_OW;
 
     if (group == 0x7FE0 &&
         element == 0x0010 )
@@ -323,7 +324,7 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
         std::cout << "==============================" << std::endl;
         std::cout << "TOGGLE BS FOR IMAGE" << std::endl;
         std::cout << " ToggleByteSwapImageData : " << this->ToggleByteSwapImageData << std::endl;
-        std::cout << " DataFile Byte Swap : " << this->DataFile->GetByteSwap() << std::endl;
+        std::cout << " DataFile Byte Swap : " << this->DataFile->GetPlatformIsBigEndian() << std::endl;
         std::cout << "==============================" << std::endl;
 #endif
         DICOMFile::swapShorts((ushort*) tempdata, (ushort*) tempdata, length/sizeof(ushort));
@@ -334,7 +335,7 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
         std::cout << "==============================" << std::endl;
         std::cout << " AT IMAGE DATA " << std::endl;
         std::cout << " ToggleByteSwapImageData : " << this->ToggleByteSwapImageData << std::endl;
-        std::cout << " DataFile Byte Swap : " << this->DataFile->GetByteSwap() << std::endl;
+        std::cout << " DataFile Byte Swap : " << this->DataFile->GetPlatformIsBigEndian() << std::endl;
 #endif
 
         int t2 = int((0x0000FF00 & callbackType) >> 8);
@@ -357,7 +358,7 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
       }
     else
       {
-      if (this->DataFile->GetByteSwap() == true)  
+      if (this->DataFile->GetPlatformIsBigEndian() == true)  
         { 
         switch (callbackType)
           {
@@ -371,7 +372,7 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
           case DICOMParser::VR_FD:
             // std::cout << "Float byte swap needed!" << std::endl;
             /*
-            if (this->DataFile->GetByteSwap())
+            if (this->DataFile->GetPlatformIsBigEndian())
               {
               DICOMFile::swapShorts((ushort*) tempdata, (ushort*) tempdata, length/sizeof(ushort));
               }

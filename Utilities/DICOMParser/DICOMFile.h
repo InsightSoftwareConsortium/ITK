@@ -147,14 +147,14 @@ class DICOMFile
     return static_cast<float> (atof((const char*) data));
     }
 
-  bool GetByteSwap()
+  bool GetPlatformIsBigEndian()
     {
-    return ByteSwap;
+    return PlatformIsBigEndian;
     }
 
-  void SetByteSwap(bool v)
+  void SetPlatformIsBigEndian(bool v)
     {
-    this->ByteSwap = v;
+    this->PlatformIsBigEndian = v;
     }
 
   //
@@ -220,7 +220,7 @@ class DICOMFile
   //
   // Flag for swaping bytes.
   //
-  bool ByteSwap;
+  bool PlatformIsBigEndian;
 
   //
   // Platform endianness

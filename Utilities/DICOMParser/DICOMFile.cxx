@@ -15,28 +15,24 @@
 
 #include "DICOMFile.h"
 
-#ifdef WIN32
-#define DICOM_PLATFORM_WORDS_LITTLE_ENDIAN
-#endif
-#ifdef __CYGWIN__
-#define DICOM_PLATFORM_WORDS_LITTLE_ENDIAN
-#endif
-#ifdef __FreeBSD__
-#define DICOM_PLATFORM_WORDS_LITTLE_ENDIAN
-#endif
-
-
 DICOMFile::DICOMFile() : inputStream()
 {
-  // Filename = NULL;
-#ifdef DICOM_PLATFORM_WORDS_LITTLE_ENDIAN
-  PlatformEndian = "LittleEndian";
-  ByteSwap = false;
-#else
-  PlatformEndian = "BigEndian";
-  ByteSwap = true;
-#endif  
-
+  /* Are we little or big endian?  From Harbison&Steele.  */
+  union
+  {
+    long l;
+    char c[sizeof (long)];
+  } u;
+  u.l = 1;
+  PlatformIsBigEndian = (u.c[sizeof (long) - 1] == 1);
+  if (PlatformIsBigEndian)
+    {
+    PlatformEndian = "BigEndian";
+    }
+  else
+    {
+    PlatformEndian = "LittleEndian";
+    }
 }
 
 DICOMFile::~DICOMFile()
@@ -109,7 +105,7 @@ doublebyte DICOMFile::ReadDoubleByte()
   doublebyte sh = 0;
   int sz = sizeof(doublebyte);
   this->Read((char*)&(sh),sz); 
-  if (ByteSwap) 
+  if (PlatformIsBigEndian) 
     {
     sh = swapShort(sh);
     }
@@ -121,9 +117,10 @@ doublebyte DICOMFile::ReadDoubleByteAsLittleEndian()
   doublebyte sh = 0;
   int sz = sizeof(doublebyte);
   this->Read((char*)&(sh),sz); 
-#ifndef DICOM_PLATFORM_WORDS_LITTLE_ENDIAN
-   sh = swapShort(sh);
-#endif
+  if (PlatformIsBigEndian)
+    {
+    sh = swapShort(sh);
+    }
   return(sh);
 }
 
@@ -132,7 +129,7 @@ quadbyte DICOMFile::ReadQuadByte()
   quadbyte sh;
   int sz = sizeof(quadbyte);
   this->Read((char*)&(sh),sz);
-  if (ByteSwap) 
+  if (PlatformIsBigEndian) 
     {
     sh = swapLong(sh);
     }

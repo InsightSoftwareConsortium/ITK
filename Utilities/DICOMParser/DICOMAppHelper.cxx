@@ -363,15 +363,15 @@ void DICOMAppHelper::ArrayCallback(DICOMParser *parser,
         HeaderFile << uival;
         break;
       //case DICOMParser::VR_IS:
-      //  ival = DICOMFile::ReturnAsSignedLong(val, parser->GetDICOMFile()->GetByteSwap()); 
+      //  ival = DICOMFile::ReturnAsSignedLong(val, parser->GetDICOMFile()->GetPlatformIsBigEndian()); 
       //  HeaderFile << ival;
       //  break;
       case DICOMParser::VR_SS:
-        ival = DICOMFile::ReturnAsSignedShort(val, parser->GetDICOMFile()->GetByteSwap()); 
+        ival = DICOMFile::ReturnAsSignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian()); 
         HeaderFile << ival;
         break;
       case DICOMParser::VR_US: // unsigned short
-        uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetByteSwap()); 
+        uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian()); 
         HeaderFile << uival;
         break;
       default:
@@ -577,7 +577,7 @@ void DICOMAppHelper::BitsAllocatedCallback(DICOMParser *parser,
                                            unsigned char* val,
                                            quadbyte) 
 {
-  this->BitsAllocated = parser->GetDICOMFile()->ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetByteSwap());
+  this->BitsAllocated = parser->GetDICOMFile()->ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "Bits allocated: " << this->BitsAllocated << std::endl;
 #endif
@@ -594,11 +594,11 @@ void DICOMAppHelper::ToggleSwapBytesCallback(DICOMParser *parser,
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "ToggleSwapBytesCallback" << std::endl;
 #endif
-  bool bs = parser->GetDICOMFile()->GetByteSwap();
-  parser->GetDICOMFile()->SetByteSwap(!bs);
+  bool bs = parser->GetDICOMFile()->GetPlatformIsBigEndian();
+  parser->GetDICOMFile()->SetPlatformIsBigEndian(!bs);
 
 #ifdef DEBUG_DICOM_APP_HELPER
-  std::cout << "Set byte swap to: " << parser->GetDICOMFile()->GetByteSwap() << std::endl;
+  std::cout << "Set byte swap to: " << parser->GetDICOMFile()->GetPlatformIsBigEndian() << std::endl;
 #endif
 
   long pos = parser->GetDICOMFile()->Tell();
@@ -617,7 +617,7 @@ void DICOMAppHelper::PixelSpacingCallback(DICOMParser *parser,
                                           unsigned char* val,
                                           quadbyte) 
 {
-  float fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetByteSwap());
+  float fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
 
   if (group == 0x0028 && element == 0x0030)
     {
@@ -636,7 +636,7 @@ void DICOMAppHelper::WidthCallback(DICOMParser *parser,
                                    unsigned char* val,
                                    quadbyte)
 {
-  unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetByteSwap()); 
+  unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian()); 
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "Width: " << uival << std::endl;
 #endif
@@ -652,7 +652,7 @@ void DICOMAppHelper::HeightCallback(DICOMParser *parser,
                                     unsigned char* val,
                                     quadbyte) 
 {
-  unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetByteSwap()); 
+  unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian()); 
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "Height: " << uival << std::endl;
 #endif
@@ -668,7 +668,7 @@ void DICOMAppHelper::PixelRepresentationCallback( DICOMParser *parser,
                                                   unsigned char* val,
                                                   quadbyte)
 {
-  unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetByteSwap());
+  unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "Pixel Representation: " << (uival ? "Signed" : "Unsigned") << std::endl;
 #endif
@@ -835,7 +835,7 @@ void DICOMAppHelper::RescaleOffsetCallback( DICOMParser *parser,
                                             unsigned char* val,
                                             quadbyte)
 {
-  float fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetByteSwap());
+  float fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
   this->RescaleOffset = fval;
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "Pixel offset: " << this->RescaleOffset << std::endl;
@@ -895,7 +895,8 @@ void DICOMAppHelper::RescaleSlopeCallback(DICOMParser *parser,
                                           unsigned char* val,
                                           quadbyte )
 {
-  float fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetByteSwap());
+  float fval = DICOMFile::ReturnAsFloat(val,
+                                        parser->GetDICOMFile()->GetPlatformIsBigEndian ());
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "Rescale slope: " << fval << std::endl;
 #endif
