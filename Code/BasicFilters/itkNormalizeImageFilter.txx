@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkStatisticsImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
+#include "itkCommand.h"
 
 namespace itk
 {
