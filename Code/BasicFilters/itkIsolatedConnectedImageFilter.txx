@@ -120,7 +120,17 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
       }
     guess = (upper + lower) /2;
     }
-    m_IsolatedValue = guess;
+
+  // now rerun the algorithm with the threshold that separates the seeds.
+  outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
+  function->ThresholdBetween ( m_Lower, lower);
+  it.GoToBegin();
+  while( !it.IsAtEnd())
+    {
+    it.Set(m_ReplaceValue);
+    ++it;
+    }
+  m_IsolatedValue = lower;
 }
 
 } // end namespace itk
