@@ -25,39 +25,30 @@
 // \index{itk::Statistics::ScalarImageToListAdaptor|textbf}
 // \index{itk::Statistics::JointDomainImageToListAdaptor|textbf}
 //
-// In this example, we use the
-// \subdoxygen{Statistics}{ImageToListAdaptor} class that requires the
-// type of input \doxygen{Image} object as the template argument. To
-// the users of the \subdoxygen{Statistics}{ImageToListAdaptor}, the
-// pixels of the input \doxygen{Image} object are treated as
-// measurement vectors. The
-// \subdoxygen{Statistics}{ImageToListAdaptor} is one of two adaptor
-// classes among the subclasses of the
-// \subdoxygen{Statistics}{Sample}. That means an
-// \subdoxygen{Statistics}{ImageToListAdaptor} object doesn't store
-// any real data. The data comes from other Insight data container
-// classes. In this case, an \doxygen{Image} object is the source of
-// data.
+// In this example, we use the ImageToListAdaptor class that requires the
+// input type of Image as the template argument. To users of the
+// ImageToListAdaptor, the pixels of the input image are treated as
+// measurement vectors. The ImageToListAdaptor is one of two adaptor classes
+// among the subclasses of the \subdoxygen{Statistics}{Sample}. That means an
+// ImageToListAdaptor object does not store any real data. The data comes
+// from other ITK data container classes. In this case, an instance of the
+// Image class is the source of the data.
 //
-// To use an \subdoxygen{Statistics}{ImageToListAdaptor} object, you
-// should include the header file for the class.  Since we are using
-// an adaptor, we also should include the header file for the
-// \doxygen{Image} class.  For illustration, we use the
-// \doxygen{RandomImageSource} that generates an \doxygen{Image}
-// object with random pixel values. So, we need to include the header
-// file for this class.  Another convenient filter is the
-// \doxygen{ScalarToArrayCastImageFilter} which creates an
-// \doxygen{Image} object with pixels of array type from one or more
-// input \doxygen{Image} objects that has pixels of scalar type.
-// Since an element of a \subdoxygen{Statistics}{Sample} object is a
-// measurement \emph{vector}, you cannot plug-in an \doxygen{Image}
-// object of scalar pixels. However, if we want to use an image with
-// scalar pixels without the help from the
-// \doxygen{ScalarToArrayCastImageFilter}, we can use the
-// \subdoxygen{Statistics}{ScalarImageToListAdaptor} class that is
-// derived from the \subdoxygen{Statistics}{ImageToListAdaptor}. The
-// usage of the \code{ScalarImageToListAdaptor} is identical to that of
-// the \code{ImageToListAdaptor}.
+// To use an ImageToListAdaptor object, include the header file for the
+// class.  Since we are using an adaptor, we also should include the header
+// file for the Image class.  For illustration, we use the
+// \doxygen{RandomImageSource} that generates an image with random pixel
+// values. So, we need to include the header file for this class.  Another
+// convenient filter is the \doxygen{ScalarToArrayCastImageFilter} which
+// creates an image with pixels of array type from one or more input images
+// have pixels of scalar type.  Since an element of a
+// Sample object is a measurement \emph{vector}, you
+// cannot plug-in an image of scalar pixels. However, if we
+// want to use an image with scalar pixels without the help from the
+// ScalarToArrayCastImageFilter, we can use the
+// \subdoxygen{Statistics}{ScalarImageToListAdaptor} class that is derived
+// from the \subdoxygen{Statistics}{ImageToListAdaptor}. The usage of the
+// ScalarImageToListAdaptor is identical to that of the ImageToListAdaptor.
 //
 // Software Guide : EndLatex 
 
@@ -73,9 +64,9 @@ int main()
 {
   // Software Guide : BeginLatex
   //
-  // We assume you already know how to create an \doxygen{Image} object (see
-  // section \ref{sec:CreatingAnImageSection} otherwise. The following code
-  // snippet will create a 2D image of float pixels filled with random values.
+  // We assume you already know how to create an image (see
+  // Section~\ref{sec:CreatingAnImageSection}). The following code snippet
+  // will create a 2D image of float pixels filled with random values.
   // 
   // Software Guide :EndLatex
 
@@ -99,24 +90,25 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // We now have an \doxygen{Image} object and need to cast it to an
-  // \doxygen{Image} object with array type (anything derived from the
+  //
+  // We now have an instance of Image and need to cast it to an
+  // Image object with an array pixel type (anything derived from the
   // \doxygen{FixedArray} class such as \doxygen{Vector},
   // \doxygen{Point}, \doxygen{RGBPixel}, and
-  // \doxygen{CovarinatVector}) pixels.
+  // \doxygen{CovarinatVector}).
   //
-  // Since, the \doxygen{Image} object's pixel type is \code{float},
-  // We will use single element \code{float} \doxygen{FixedArray} as
+  // Since in this example the image pixel type is \code{float},
+  // we will use single element a \code{float} FixedArray as
   // our measurement vector type. And that will also be our pixel type
   // for the cast filter.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::FixedArray< float, 1 > MeasurementVectorType;
   typedef itk::Image< MeasurementVectorType, 2 > ArrayImageType;
-  typedef itk::ScalarToArrayCastImageFilter< 
-                                      FloatImage2DType, 
-                                      ArrayImageType >    CasterType;
+  typedef itk::ScalarToArrayCastImageFilter< FloatImage2DType, ArrayImageType >
+    CasterType;
 
   CasterType::Pointer caster = CasterType::New();
   caster->SetInput( random->GetOutput() );
@@ -125,8 +117,8 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // Up to now, we have spent most of our time preparing an \doxygen{Image}
-  // object suitable for the adaptor. Actually, the hard part of this example
+  // Up to now, we have spent most of our time creating an image
+  // suitable for the adaptor. Actually, the hard part of this example
   // is done. Now, we just define an adaptor with the image type and
   // instantiate an object.
   //
@@ -138,9 +130,11 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // The final thing we have to do is to plug in the image object to
+  //
+  // The final task is to plug in the image object to
   // the adaptor.  After that, we can use the common methods and
-  // iterator interfaces shown in section \ref{sec:SampleInterface}.
+  // iterator interfaces shown in Section~\ref{sec:SampleInterface}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -148,9 +142,10 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // If we are interested only in pixel values, the
-  // \code{ScalarImageToListAdatpor} (scalar pixels) and the
-  // \code{ImageToListAdaptor} (vector pixels) would be
+  // ScalarImageToListAdaptor (scalar pixels) and the
+  // ImageToListAdaptor (vector pixels) would be
   // sufficient. However, if we want to perform some statistical
   // analysis on spatial information (image index or pixel's physical
   // location) and pixel values altogether, we want to have a
@@ -158,16 +153,17 @@ int main()
   // position. In that case, we can use the
   // \subdoxygen{Statistics}{JointDomainImageToListAdaptor}
   // class. With that class, when we call the
-  // \code{GetMeasurementVector} method, the returned measurement
+  // \code{GetMeasurementVector()} method, the returned measurement
   // vector is composed of the physical coordinates and pixel
   // values. The usage is almost the same as with
-  // \code{ImageToListAdaptor}. One important difference between the
-  // \code{JointDomainImageToListAdaptor} and the other two image
-  // adaptors is that the \code{JointDomainImageToListAdaptor} has the
-  // \code{SetNormalizationFactors} method. Each component of a
-  // measurement vector from the \code{JointDomainImageToListAdaptor}
+  // ImageToListAdaptor. One important difference between 
+  // JointDomainImageToListAdaptor and the other two image
+  // adaptors is that the JointDomainImageToListAdaptor is the
+  // \code{SetNormalizationFactors()} method. Each component of a
+  // measurement vector from the JointDomainImageToListAdaptor
   // is divided by the corresponding component value from the supplied
   // normalization factors.
+  //
   // Software Guide : EndLatex
 
   return 0;

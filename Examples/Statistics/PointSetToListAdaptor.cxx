@@ -17,23 +17,22 @@
 
 // Software Guide : BeginLatex
 //
-// We will decribe how to use \doxygen{PointSet} as a \code{Sample} 
-// using an adaptor in this example.
+// We will decribe how to use \doxygen{PointSet} as a
+// \subdoxygen{Statistics}{Sample} using an adaptor in this example.
 //
 // \index{itk::Statistics::PointSetToListAdaptor|textbf}
 //
-// The \subdoxygen{Statistics}{PointSetToListAdaptor} class requires
-// the type of input \doxygen{PointSet} object. The \doxygen{PointSet}
-// class is an associative data container. Each point in a
-// \code{PointSet} object can have an associated data value
-// optionally. For the statistics subsystem, the current implementation of
-// \code{PointSetToListAdaptor} takes only the point part into
-// consideration. In other words, the measurement vectors from a
-// \code{PointSetToListAdaptor} object are points from the
-// \code{PointSet} object that is plugged into the adaptor object.
+// The \subdoxygen{Statistics}{PointSetToListAdaptor} class requires a
+// PointSet as input. The PointSet class is an associative data
+// container. Each point in a PointSet object can have an associated
+// optional data value. For the statistics subsystem, the current
+// implementation of PointSetToListAdaptor takes only the point part
+// into consideration. In other words, the measurement vectors from a
+// PointSetToListAdaptor object are points from the PointSet
+// object that is plugged into the adaptor object.
 //
-// To use an \subdoxygen{Statistics}{PointSetToListAdatpr} object, we
-// include the header file for the class.
+// To use an PointSetToListAdatpor class, we include the header file for the
+// class.
 //
 // Software Guide : EndLatex 
 
@@ -43,8 +42,10 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // Since we are using an adaptor, we also include the header file for
-// the \doxygen{PointSet} class.
+// the PointSet class.
+//
 // Software Guide :EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -56,9 +57,9 @@ int main()
 {
   // Software Guide : BeginLatex
   //
-  // We assume you already know how to create an \doxygen{PointSet} object (see
-  // section~\ref{sec:CreatingAPointSet} otherwise). The following code snippet
-  // will create a \code{PointSet} object. that stores points (its coordinate
+  // Next we create a PointSet object (see
+  // Section~\ref{sec:CreatingAPointSet} otherwise). The following code
+  // snippet will create a PointSet object that stores points (its coordinate
   // value type is float) in 3D space.
   // 
   // Software Guide :EndLatex
@@ -72,13 +73,12 @@ int main()
   //
   // Note that the \code{short} type used in the declaration of
   // \code{PointSetType} pertains to the pixel type associated with every
-  // point, not to the type used to represent point coordinates.  If we want to
-  // change the type of Point in terms of the coordinate value and/or
+  // point, not to the type used to represent point coordinates.  If we want
+  // to change the type of point in terms of the coordinate value and/or
   // dimension, we have to modify the \code{TMeshTraits} (one of the optional
-  // template arguments for the \code{PointSet} class. The easiest way of
-  // having a custom mesh traits instance is specialization of the existing
-  // \doxygen{DefaultStaticMeshTraits}. Among the template arguments of the
-  // \code{DefaultStaticMeshTraits}, by specifying the TCoordRep template
+  // template arguments for the \code{PointSet} class). The easiest way of
+  // create a custom mesh traits instance is to specialize the existing
+  // \doxygen{DefaultStaticMeshTraits}. By specifying the TCoordRep template
   // argument, we can change the coordinate value type of a point.  By
   // specifying the VPointDimension template argument, we can change the
   // dimension of the point. As mentioned earlier, a
@@ -93,8 +93,10 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // To make the example a little bit realistic, we add two point 
   // into the \code{pointSet}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -113,10 +115,12 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // We have a \code{PointSet} object that has two points in it. And the 
-  // \code{pointSet} is ready for plugging-in.
-  // First, we create an instance of the \code{PointSetToListAdaptor} class
-  // with the type of the input \code{PointSet} object.
+  //
+  // Now we have a PointSet object that has two points in it. And the 
+  // pointSet is ready to be plugged into the adaptor.
+  // First, we create an instance of the PointSetToListAdaptor class
+  // with the type of the input PointSet object.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -125,11 +129,13 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // Second, just as we did with \code{ImageToListAdaptor} example in
-  // section \ref{sec:ImageToListAdaptor}, all we have to do is to
-  // plug in the \code{PointSet} object to the adaptor.  After that,
+  //
+  // Second, just as we did with the ImageToListAdaptor example in
+  // Section~\ref{sec:ImageToListAdaptor}, all we have to do is to
+  // plug in the PointSet object to the adaptor.  After that,
   // we can use the common methods and iterator interfaces shown in
-  // the section \ref{sec:SampleInterface}.
+  // Section~\ref{sec:SampleInterface}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet

@@ -17,31 +17,28 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the common interface of the \code{Sample} classes
+// This example illustrates the common interface of the \code{Sample} class
 // in Insight.
 //
 // \index{itk::Sample!Interfaces|textbf}
 // \index{itk::Statistics::ListSample|textbf}
 //
-// Different subclasses of \subdoxygen{Statistics}{Sample} expect
-// different sets of template arguments. In this example, we use the
+// Different subclasses of \subdoxygen{Statistics}{Sample} expect different
+// sets of template arguments. In this example, we use the
 // \subdoxygen{Statistics}{ListSample} class that requires the type of
-// measurement vectors. The \subdoxygen{Statistics}{ListSample} uses
+// measurement vectors. The ListSample uses
 // \href{http://www.sgi.com/tech/stl/}{STL} \code{vector} to store
-// measurement vectors. This class conforms to
-// the common iterface of \subdoxygen{Statistics}{Sample}.  Most methods
-// of the \subdoxygen{Statistics}{Sample} class interface are for
-// retrieving measurement vectors, the size of a container, and the
-// total frequency. In this example, we will see those information
-// retrieving methods in addition to methods specific to the
-// \subdoxygen{Statistics}{ListSample} class for data input.
+// measurement vectors. This class conforms to the common iterface of Sample.
+// Most methods of the Sample class interface are for retrieving measurement
+// vectors, the size of a container, and the total frequency. In this
+// example, we will see those information retrieving methods in addition to
+// methods specific to the ListSample class for data input.
 //
-// To use an \subdoxygen{Statistics}{ListSample} object, we include the
-// header file for the class.
+// To use the ListSample class, we include the header file for the class.
 //
 // We need another header for measurement vectors. We are going to use
 // the \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}
-// in this example. 
+// class.
 //
 // Software Guide : EndLatex 
 
@@ -66,11 +63,9 @@ int main()
   SampleType::Pointer sample = SampleType::New() ;
   // Software Guide : EndCodeSnippet
 
-  // Software Guide : BeginLatex
-  // In the above code snippet, the namespace specifier for 
-  // \subdoxygen{Statistics}{ListSample} is \code{itk::Statistics::} 
-  // instead of the usual
-  // namespace specifier for other Insight classes, \code{itk::}.
+  // Software Guide : BeginLatex In the above code snippet, the namespace
+  // specifier for ListSample is \code{itk::Statistics::} instead of the
+  // usual namespace specifier for other ITK classes, \code{itk::}.
   //
   // The newly instantiated object does not have any data in it.  We
   // have two different ways of storing data elements. The first method
@@ -87,15 +82,17 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // The previous code increases the size of the container by one and
   // stores \code{mv} as the first data element in it.
   //
-  // The other way to store data elements is calling the \code{Resize} method 
-  // and then calling the \code{SetMeasurementVector} method with a measurement
-  // vector. The following code snippet increases the size of the container 
-  // to three and stores two measurement vectors at the second and the third
-  // slot. The measurement vector stored using the \code{PushBack} method above
-  // is still at the first slot.
+  // The other way to store data elements is calling the \code{Resize} method
+  // and then calling the \code{SetMeasurementVector()} method with a
+  // measurement vector. The following code snippet increases the size of the
+  // container to three and stores two measurement vectors at the second and
+  // the third slot. The measurement vector stored using the \code{PushBack}
+  // method above is still at the first slot.  
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -113,43 +110,45 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // Now that we have seen how to create an
-  // \subdoxygen{Statistics}{ListSample} object and store measurement
-  // vectors using \subdoxygen{Statistics}{ListSample}-specific
-  // interface. The following code shows the common interface of the
-  // \subdoxygen{Statistics}{Sample}. The \code{Size} method returns
-  // the number of measurement vectors in the sample.  The primary
-  // data stored in an \subdoxygen{Statistics}{Sample} subclasses are
-  // measurement vectors. However, each measurement vector has its
-  // associated frequency of occurence within the sample. For the
-  // \subdoxygen{Statistics}{ListSample} and the adaptor classes (see
+  //
+  // Now that we have seen how to create an ListSample object and store
+  // measurement vectors using the ListSample-specific interface. The
+  // following code shows the common interface of the Sample class. The
+  // \code{Size} method returns the number of measurement vectors in the
+  // sample.  The primary data stored in Sample subclasses are measurement
+  // vectors. However, each measurement vector has its associated frequency
+  // of occurence within the sample. For the
+  // ListSample and the adaptor classes (see Section
   // \ref{sec:SampleAdaptors}), the frequency value is always one.
   // \subdoxygen{Statistics}{Histogram} can have a varying frequency
-  // (\code{float} type) for each measurement vector. We retrieve
-  // measurement vectors using the \code{GetMeasurementVector(unsigned
-  // long instance identifier)}, and frequency using the
-  // \code{GetFrequency(unsigned long instance identifier)}.
+  // (\code{float} type) for each measurement vector. We retrieve measurement
+  // vectors using the \code{GetMeasurementVector(unsigned long instance
+  // identifier)}, and frequency using the \code{GetFrequency(unsigned long
+  // instance identifier)}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   for ( unsigned long i = 0 ; i < sample->Size() ; ++i )
     {
-      std::cout << "id = " << i 
-                << "\t measurement vector = " 
-                << sample->GetMeasurementVector(i) 
-                << "\t frequency = " 
-                << sample->GetFrequency(i) 
-                << std::endl ;
+    std::cout << "id = " << i 
+              << "\t measurement vector = " 
+              << sample->GetMeasurementVector(i) 
+              << "\t frequency = " 
+              << sample->GetFrequency(i) 
+              << std::endl ;
     }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // The output should look like the following:\newline
   // \code{id = 0   measurement vector = 1  2  4     frequency = 1}\newline
   // \code{id = 1   measurement vector = 2  4  5     frequency = 1}\newline
   // \code{id = 2   measurement vector = 3  8  6     frequency = 1}\newline
   //
   // We can get the same result with its iterator.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -157,29 +156,29 @@ int main()
 
   while( iter != sample->End() )
     {
-      std::cout << "id = " << iter.GetInstanceIdentifier()  
-                << "\t measurement vector = " 
-                << iter.GetMeasurementVector() 
-                << "\t frequency = " 
-                << iter.GetFrequency() 
-                << std::endl ;
-      ++iter ;
+    std::cout << "id = " << iter.GetInstanceIdentifier()  
+              << "\t measurement vector = " 
+              << iter.GetMeasurementVector() 
+              << "\t frequency = " 
+              << iter.GetFrequency() 
+              << std::endl ;
+    ++iter ;
     }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // The last method defined in the \subdoxygen{Statistics}{Sample} is
-  // the \code{GetTotalFrequency(void)} method that returns the sum of
+  // The last method defined in the Sample class
+  // is the \code{GetTotalFrequency()} method that returns the sum of
   // frequency values associated with every measurement vector in a
-  // container.  In the case of \subdoxygen{Statistics}{ListSample}
-  // and the adaptor classes, the return value should be exactly the same
-  // as that of the \code{Size()} method, because the frequency values are
-  // always one for each measurement vector. However, for the
-  // \subdoxygen{Statistics}{Histogram}, the frequency values can
-  // vary.  Therefore, if we want to develop a general algorithm to
-  // calculate the sample mean, we must use the
-  // \code{GetTotalFrequency} method instead of the \code{Size}
-  // method.
+  // container.  In the case of ListSample and the
+  // adaptor classes, the return value should be exactly the same as that of
+  // the \code{Size()} method, because the frequency values are always one
+  // for each measurement vector. However, for the
+  // \subdoxygen{Statistics}{Histogram}, the frequency values can vary.
+  // Therefore, if we want to develop a general algorithm to calculate the
+  // sample mean, we must use the \code{GetTotalFrequency()} method instead of
+  // the \code{Size()} method.  
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet

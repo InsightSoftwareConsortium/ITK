@@ -21,9 +21,9 @@
 // \index{itk::Statistics::KdTreeGenerator|textbf}
 // \index{itk::Statistics::WeightedCentroidKdTreeGenerator|textbf}
 //
-// A kd-tree is a tree that separates samples in a $k$-dimension space.  The
-// \code{std::vector} class is used here as the container for the measurement
-// vectors from a sample.
+// The \subdoxygen{Statistics}{KdTree} implements a data structure that
+// separates samples in a $k$-dimension space.  The \code{std::vector} class
+// is used here as the container for the measurement vectors from a sample.
 //
 // Software Guide : EndLatex
 
@@ -38,11 +38,12 @@
 
 int main()
 {
-
   // Software Guide : BeginLatex
+  // 
   // We define the measurement vector type and instantiate a
-  // \code{ListSample} object. Then put 1000 measurement vectors in the
-  // object.  
+  // \subdoxygen{Statistics}{ListSample} object, and then put 1000
+  // measurement vectors in the object.
+  // 
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -61,26 +62,27 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // The following code snippet shows how to create two \code{KdTree}
-  // objects. The first tree from the \code{treeGenerator} has smaller
-  // set of information (partition dimension, partition value, and pointers
-  // to the left and right child nodes). The second tree from the
-  // \code{centroidTreeGenerator} has additional information such as
-  // the number of children under each node, and the vector sum of the
-  // measurement vectors belonging to children of a particular node.
   // 
-  // The \subdoxygen{Statistics}{WeightedCentroidKdTreeGenerator} and
-  // the resulting k-d tree structure were implemented based on the
-  // description given in the paper by Kanungo et al \cite{Kanungo2000}.
+  // The following code snippet shows how to create two KdTree objects. The
+  // first object \subdoxygen{Statistics}{KdTreeGenerator} has a minimal set
+  // of information (partition dimension, partition value, and pointers to
+  // the left and right child nodes). The second tree from the
+  // \subdoxygen{Statistics}{WeightedCentroidKdTreeGenerator} has additional
+  // information such as the number of children under each node, and the
+  // vector sum of the measurement vectors belonging to children of a
+  // particular node.  WeightedCentroidKdTreeGenerator and the resulting k-d
+  // tree structure were implemented based on the description given in the
+  // paper by Kanungo et al \cite{Kanungo2000}.
   //
   // The instantiation and input variables are exactly the same for both
-  // tree generators. Using the \code{SetSample} method we plug-in the
+  // tree generators. Using the \code{SetSample()} method we plug-in the
   // source sample. The bucket size input specifies the limit on the
   // maximum number of measurement vectors that can be stored in a
   // terminal (leaf) node. A bigger bucket size results in a smaller number of
   // nodes in a tree. It also affects the efficiency of search. With
   // many small leaf nodes, we might experience slower search
   // performance because of excessive boundary comparisons.
+  // 
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -91,9 +93,8 @@ int main()
   treeGenerator->SetBucketSize( 16 );
   treeGenerator->Update();
 
-  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< 
-                                                   SampleType > 
-                                                    CentroidTreeGeneratorType;
+  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType > 
+    CentroidTreeGeneratorType;
 
   CentroidTreeGeneratorType::Pointer centroidTreeGenerator = 
                                          CentroidTreeGeneratorType::New();
@@ -113,8 +114,8 @@ int main()
   // we call the \code{Left()} or the \code{Right()} method of a node
   // (these methods do not belong to the kd-tree but to the nodes).
   //
-  // We can get other information about a node by calling the methods listed
-  // below in addition to the child node pointers.
+  // We can get other information about a node by calling the methods
+  // described below in addition to the child node pointers.
   //
   // Software Guide : EndLatex 
 
@@ -166,10 +167,10 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // In the following code snippet, we query the three nearest neighbors of the
-  // \code{queryPoint} on the two tree. The results and procedures are exacly
-  // the same for both. First we define the point from which distances will be
-  // measured.
+  // In the following code snippet, we query the three nearest neighbors of
+  // the \code{queryPoint} on the two tree. The results and procedures are
+  // exacly the same for both. First we define the point from which distances
+  // will be measured.
   //
   // Software Guide : EndLatex
 
@@ -180,7 +181,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   // Software Guide : BeginLatex
   //
   // Then we instantiate the type of a distance metric, create an object of
@@ -189,10 +189,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::EuclideanDistance< 
-                                MeasurementVectorType 
-                                                > DistanceMetricType;
-
+  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > 
+    DistanceMetricType;
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
 
   DistanceMetricType::OriginType origin;
@@ -204,11 +202,10 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   // Software Guide : BeginLatex
   //
   // We can now set the number of neighbors to be located and the point
-  // coordinates to be used as reference system.
+  // coordinates to be used as a reference system.
   //
   // Software Guide : EndLatex
 
@@ -232,12 +229,10 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
-  // As we already said, the interface for finding nearest neighbors in the
-  // centroid tree is very similar.
+  // As previously indicated, the interface for finding nearest neighbors in
+  // the centroid tree is very similar.
   //
   // Software Guide : EndLatex
 
@@ -258,12 +253,11 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   // Software Guide : BeginLatex
   //
   // KdTree also supports searching points within a hyper-spherical
-  // kernel. We specify the radius and call the \code{Search()} method.  In the
-  // case of the KdTree, this is done with the following lines of code.
+  // kernel. We specify the radius and call the \code{Search()} method.  In
+  // the case of the KdTree, this is done with the following lines of code.
   //
   // Software Guide : EndLatex
 
@@ -289,7 +283,7 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // In the case of the centroid KdTree, the \code{Search} is used as
+  // In the case of the centroid KdTree, the \code{Search()} method is used as
   // illustrated by the following code.
   //
   // Software Guide : EndLatex

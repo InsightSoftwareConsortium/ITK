@@ -20,23 +20,24 @@
 // object and use it.
 //
 // \index{itk::Sample!Histogram|textbf}
-// we call an instance in a \code{Histogram} object a ``\emph{bin}''.  The
-// \code{Histogram} differs from the
+//
+// We call an instance in a \code{Histogram} object a \emph{bin}.  The
+// Histogram differs from the
 // \subdoxygen{Statistics}{ListSample},
 // \subdoxygen{Statistics}{ImageToListAdaptor}, or
 // \subdoxygen{Statistics}{PointSetToListAdaptor} in significant ways.
-// \code{Histogram} can have varying frequency value (\code{float}
+// Histogram can have a variable number of values (\code{float}
 // type) for each measurement vector, while the three other classes
-// have a fixed value (one) for all measurement vectors in them. Also
+// have a fixed value (one) for all measurement vectors. Also
 // those array-type containers can have multiple instances (data
 // elements) that have identical measurement vector values. However,
-// in a \code{Histogram} object, there is one unique instance for any
-// given measurement vector value.
+// in a Histogram object, there is one unique instance for any
+// given measurement vector.
 //
 // \begin{figure}
 // \centering
 // \includegraphics[width=0.4\textwidth]{Histogram.eps}
-// \itkcaption[Histogram]{Conceptual histogram data structure}
+// \itkcaption[Histogram]{Conceptual histogram data structure.}
 // \protect\label{fig:StatHistogram}
 // \end{figure}
 // Software Guide : EndLatex 
@@ -48,7 +49,10 @@
 int main() 
 {
   // Software Guide : BeginLatex
-  // Here we create a \code{Histogram} object with 2-component measurement vectors.
+  //
+  // Here we create a histogram with 2-component measurement
+  // vectors.
+  //
   // Software Guide : EndLatex 
  
   // Software Guide : BeginCodeSnippet
@@ -58,7 +62,9 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // We initialize it as a 3 x 3 histogram with equal size intervals.
+  //
+  // We initialize it as a $3\times3$ histogram with equal size intervals.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -75,20 +81,20 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // Now the histogram is ready for storing frequency values. We will
-  // fill the each bin's frequency according to the previous figure
+  // fill the each bin's frequency according to the Figure
   // \ref{fig:StatHistogram}. There are three ways of accessing data
-  // elements in the \code{histogram}:
+  // elements in the histogram:
   // \begin{itemize}
-  //   \item using instance identifiers - just like any other
-  // \code{Sample} object
-  //   \item using n-dimensional indices - just like an \doxygen{Image} object
-  //   \item using an iterator - just like any other \code{Sample}
-  // object.
+  //   \item using instance identifiers---just like any other Sample object;
+  //   \item using n-dimensional indices---just like an Image object;
+  //   \item using an iterator---just like any other Sample object.
   // \end{itemize}
-  // In this example, the index (0, 0) refers the same bin as the instance
-  // identifier (0) refers. The instance identifier of the index (0,
+  // In this example, the index $(0, 0)$ refers the same bin as the instance
+  // identifier (0) refers to. The instance identifier of the index (0,
   // 1) is (3), (0, 2) is (6), (2, 2) is (8), and so on. 
+  //
   // Software Guide : EndLatex 
   
   // Software Guide : BeginCodeSnippet
@@ -104,10 +110,11 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // Let us examine if the frequency is set correctly by calling the
   // \code{GetFrequency(index)} method. We can use the
-  // \code{GetFrequency(instance identifier)} method for the same
-  // purpose.
+  // \code{GetFrequency(instance identifier)} method for the same purpose.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -121,8 +128,10 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // For the test purpose, we create a measurement vector and an index
-  // that belong to the center bin.
+  //
+  // For test purposes, we create a measurement vector and an index
+  // that belongs to the center bin.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -133,8 +142,10 @@ int main()
   // Software Guide : EndCodeSnippet
   
   // Software Guide : BeginLatex
+  //
   // We retrieve the measurement vector at the index value (1, 1), the center
   // bin's measurement vector. The output is [4.1, 5.6]. 
+  //
   // Software Guide : EndLatex 
  
   // Software Guide : BeginCodeSnippet
@@ -143,9 +154,11 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // Since all the measurement vectors are unique in a \code{Histogram}
-  // object, we can determine the index from a measurement vector.
-  // Software Guide : EndLatex 
+  //
+  // Since all the measurement vectors are unique in the Histogram class, we
+  // can determine the index from a measurement vector.  
+  //
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   std::cout << "Index of the measurement vector " << mv 
@@ -153,7 +166,9 @@ int main()
   // Software Guide : EndCodeSnippet
   
   // Software Guide : BeginLatex
+  //
   // In a similar way, we can get the instance identifier from the index.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -163,19 +178,16 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
   // If we want to check if an index is a valid one, we use the method
-  // \code{IsIndexOutOfBounds(index)}. The following code snippet fills
-  // the index variable with (100, 100). It is obviously not a valid index.
+  // \code{IsIndexOutOfBounds(index)}. The following code snippet fills the
+  // index variable with (100, 100). It is obviously not a valid index.
   //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   index.Fill(100) ;
-  
   if ( histogram->IsIndexOutOfBounds(index) )
     {
     std::cout << "Index " << index << "is out of bounds." << std::endl ;
@@ -183,12 +195,10 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
-  // From the following code snippets, it is clear that the return
-  // values from the \code{Size()} and \code{GetSize()} methods.
+  // The following code snippets show how to get the histogram size
+  // and frequency dimension.
   //
   // Software Guide : EndLatex 
 
@@ -199,13 +209,11 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
-  // The \code{Histogram} class has a quantile calculation method,
-  // \code{Quantile(dimension, percent)}. The following code returns 50th
-  // percentile along the first dimension. Note that the quatile calculation
+  // The Histogram class has a quantile calculation method,
+  // \code{Quantile(dimension, percent)}. The following code returns the 50th
+  // percentile along the first dimension. Note that the quantile calculation
   // considers only one dimension.
   //
   // Software Guide : EndLatex 
