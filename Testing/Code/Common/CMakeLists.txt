@@ -38,6 +38,8 @@ ADD_TEST(itkEuler3DTransformTest ${COMMON_TESTS} itkEuler3DTransformTest)
 ADD_TEST(itkExceptionObjectTest ${COMMON_TESTS} itkExceptionObjectTest)
 ADD_TEST(itkFileOutputWindowTest ${COMMON_TESTS} itkFileOutputWindowTest)
 ADD_TEST(itkFloodFilledSpatialFunctionTest ${COMMON_TESTS} itkFloodFilledSpatialFunctionTest)
+ADD_TEST(itkGaussianBlurImageFunctionTest ${COMMON_TESTS} itkGaussianBlurImageFunctionTest)
+ADD_TEST(itkGaussianDerivativeImageFunctionTest ${COMMON_TESTS} itkGaussianDerivativeImageFunctionTest)
 ADD_TEST(itkCommonHeaderTest ${COMMON_HEADER_TEST})
 ADD_TEST(itkHashTableTest ${COMMON_TESTS} itkHashTableTest)
 ADD_TEST(itkImageAdaptorTest ${COMMON_TESTS} itkImageAdaptorTest)
@@ -64,6 +66,7 @@ ADD_TEST(itkMeshFstreamTest ${COMMON_TESTS} itkMeshFstreamTest)
 ADD_TEST(itkMinimumDecisionRuleTest ${COMMON_TESTS} itkMinimumDecisionRuleTest)
 ADD_TEST(itkNeighborhoodTest ${COMMON_TESTS} itkNeighborhoodTest)
 ADD_TEST(itkNeighborhoodIteratorTest ${COMMON_TESTS} itkNeighborhoodIteratorTest)
+ADD_TEST(itkNeighborhoodOperatorImageFunctionTest ${COMMON_TESTS} itkNeighborhoodOperatorImageFunctionTest)
 ADD_TEST(itkNeighborhoodOperatorTest ${COMMON_TESTS} itkNeighborhoodOperatorTest)
 ADD_TEST(itkNumericTraitsTest ${COMMON_TESTS} itkNumericTraitsTest)
 ADD_TEST(itkPeriodicBoundaryConditionTest ${COMMON_TESTS} itkPeriodicBoundaryConditionTest)
@@ -170,6 +173,8 @@ itkFileOutputWindowTest.cxx
 itkFixedArrayTest.cxx
 itkFixedCenterOfRotationAffineTransformTest.cxx
 itkFloodFilledSpatialFunctionTest.cxx
+itkGaussianBlurImageFunctionTest.cxx
+itkGaussianDerivativeImageFunctionTest.cxx
 itkHashTableTest.cxx
 itkImageAdaptorTest.cxx
 itkImageIteratorTest.cxx
@@ -195,6 +200,7 @@ itkMeshFstreamTest.cxx
 itkMinimumDecisionRuleTest.cxx
 itkNeighborhoodTest.cxx
 itkNeighborhoodIteratorTest.cxx
+itkNeighborhoodOperatorImageFunctionTest.cxx
 itkNeighborhoodOperatorTest.cxx
 itkNumericTraitsTest.cxx
 itkObjectStoreTest.cxx
