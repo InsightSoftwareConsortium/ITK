@@ -168,8 +168,13 @@ public:
   };
   
   /** Default constructor */
-  ShapedNeighborhoodIterator();
-
+  ShapedNeighborhoodIterator()
+  {
+    m_BeginIterator = Iterator(this);
+    m_EndIterator = Iterator(this);
+    m_EndIterator.GoToEnd();
+  }
+  
   /** Virtual destructor */
   virtual ~ShapedNeighborhoodIterator() {}
 
@@ -197,6 +202,8 @@ public:
   Self &operator=(const Self& orig)
   {
     Superclass::operator=(orig);
+    m_EndIterator = orig.m_EndIterator;
+    m_BeginIterator = orig.m_BeginIterator;
     return *this;
   }
 
