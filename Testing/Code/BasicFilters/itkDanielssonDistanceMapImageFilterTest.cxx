@@ -182,6 +182,34 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   }
 
 
+  /* Test Squared Distance functionality */
+
+  filter2D->SetSquaredDistance( true );
+  filter2D->Update();
+
+  /* Show Squared Distance map */
+  std::cout << "Squared Distance Map " << std::endl;
+  
+  it2D2.GoToBegin();
+  it2D2.SetFirstDirection ( 0 );
+  it2D2.SetSecondDirection( 1 );
+
+  while( !it2D2.IsAtEnd() ) 
+  {
+    while( !it2D2.IsAtEndOfSlice() ) 
+    {
+      while( !it2D2.IsAtEndOfLine() ) 
+      {
+        std::cout.width(5);
+        std::cout << it2D2.Get() << "\t";
+        ++it2D2;
+      }
+      std::cout << std::endl;
+      it2D2.NextLine();
+    }
+    it2D2.NextSlice();
+  }
+
 
   return EXIT_SUCCESS;
 
