@@ -48,11 +48,12 @@ int main( int argc, char ** argv )
 {
 
 
-  if( argc < 4 )
+  if( argc < 6 )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  ";
-    std::cerr << " outputImageFileErosion  outputImageFileDilation" << std::endl;
+    std::cerr << " outputImageFileErosion  outputImageFileDilation";
+    std::cerr << " lowerThreshold upperThreshold " << std::endl;
     return 1;
     }
 
@@ -197,18 +198,20 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex 
 
+  const InputPixelType lowerThreshold = atoi( argv[4] );
+  const InputPixelType upperThreshold = atoi( argv[5] );
 
   // Software Guide : BeginCodeSnippet
   thresholder->SetInput( reader->GetOutput() );
 
-  InputPixelType background =  10;
-  InputPixelType foreground = 240;
+  InputPixelType background =   0;
+  InputPixelType foreground = 255;
 
   thresholder->SetOutsideValue( background );
   thresholder->SetInsideValue(  foreground );
 
-  thresholder->SetLowerThreshold( 128 );
-  thresholder->SetUpperThreshold( 255 );
+  thresholder->SetLowerThreshold( lowerThreshold );
+  thresholder->SetUpperThreshold( upperThreshold );
   // Software Guide : EndCodeSnippet
 
 
