@@ -215,14 +215,17 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
    
     // 15 degrees in radians
     const double angle = 15.0 * atan( 1.0f ) / 45.0; 
-    const double sinth = sin( angle );
-    const double costh = cos( angle );
+    const double sinth2 = sin( angle / 2.0 );
+    const double costh2 = cos( angle / 2.0 );
+
+    const double sinth  = sin( angle );
+    const double costh  = cos( angle );
 
     // around the positive Z axis 
-    qrotation[0] =    0.0;
-    qrotation[1] =    0.0;
-    qrotation[2] =  sinth;
-    qrotation[3] =  costh;
+    qrotation[0] =     0.0;
+    qrotation[1] =     0.0;
+    qrotation[2] =  sinth2;
+    qrotation[3] =  costh2;
 
     rotation->SetRotation( qrotation );
 
@@ -284,8 +287,8 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       TransformType::InputPointType p = pInit;
       TransformType::InputPointType q;
 
-      q[0] =  p[0] * costh + p[1] * sinth;
-      q[1] = -p[0] * sinth + p[1] * costh;
+      q[0] =  p[0] * costh - p[1] * sinth;
+      q[1] =  p[0] * sinth + p[1] * costh;
       q[2] =  p[2];
 
       TransformType::OutputPointType r;
@@ -317,8 +320,8 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       TransformType::InputVectorType p = pInit;
 
       TransformType::InputPointType q;
-      q[0] =  p[0] * costh + p[1] * sinth;
-      q[1] = -p[0] * sinth + p[1] * costh;
+      q[0] =  p[0] * costh - p[1] * sinth;
+      q[1] =  p[0] * sinth + p[1] * costh;
       q[2] =  p[2];
 
       TransformType::OutputVectorType r;
@@ -350,8 +353,8 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       TransformType::InputCovariantVectorType p = pInit;
       TransformType::OutputCovariantVectorType q;
 
-      q[0] =  p[0] * costh + p[1] * sinth;
-      q[1] = -p[0] * sinth + p[1] * costh;
+      q[0] =  p[0] * costh - p[1] * sinth;
+      q[1] =  p[0] * sinth + p[1] * costh;
       q[2] =  p[2];
 
       TransformType::OutputCovariantVectorType r;
@@ -388,8 +391,8 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
 
       TransformType::OutputVnlVectorType q;
 
-      q[0] =  p[0] * costh + p[1] * sinth;
-      q[1] = -p[0] * sinth + p[1] * costh;
+      q[0] =  p[0] * costh - p[1] * sinth;
+      q[1] =  p[0] * sinth + p[1] * costh;
       q[2] =  p[2];
 
 
