@@ -179,8 +179,8 @@ int main()
   distanceMetric->SetOrigin( origin ) ;
 
   unsigned int numberOfNeighbors = 3 ;
-  TreeType::InstanceIdentifierVectorType neighbors = 
-    tree->Search( queryPoint, numberOfNeighbors ) ; 
+  TreeType::InstanceIdentifierVectorType neighbors ;
+  tree->Search( queryPoint, numberOfNeighbors, neighbors ) ; 
   
   std::cout << "kd-tree knn search result:" << std::endl 
             << "query point = [" << queryPoint << "]" << std::endl
@@ -193,7 +193,7 @@ int main()
               << distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors[i])) << std::endl ;
     }
 
-  neighbors = centeroidTree->Search( queryPoint, numberOfNeighbors ) ; 
+  centeroidTree->Search( queryPoint, numberOfNeighbors, neighbors ) ; 
   std::cout << "weighted centeroid kd-tree knn search result:" << std::endl 
             << "query point = [" << queryPoint << "]" << std::endl
             << "k = " << numberOfNeighbors << std::endl ;
@@ -208,7 +208,7 @@ int main()
 
   double radius = 437.0 ;
 
-  neighbors = tree->Search( queryPoint, radius ) ; 
+  tree->Search( queryPoint, radius, neighbors ) ; 
   
   std::cout << "kd-tree radius search result:" << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
@@ -221,7 +221,7 @@ int main()
               << distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors[i])) << std::endl ;
     }    
 
-  neighbors = centeroidTree->Search( queryPoint, radius ) ; 
+  centeroidTree->Search( queryPoint, radius, neighbors ) ; 
   std::cout << "weighted centeroid kd-tree radius search result:" << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "search radius = " << radius << std::endl ;
