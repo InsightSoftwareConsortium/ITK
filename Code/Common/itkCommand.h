@@ -320,6 +320,76 @@ protected:
 };
 
 
+/** \Class SimpleConstMemberCommand
+ *  \brief Command subclass that calls a pointer to a member function
+ *
+ *  SimpleConstMemberCommand calls a pointer to a member function with no 
+ *  arguments.   
+ *
+ * \ingroup ITKSystemObjects
+ */
+template <class T>
+class SimpleConstMemberCommand : public Command
+{ 
+public:
+  typedef  void (T::*TMemberFunctionPointer)() const; 
+   /**
+   * Standard "Self" typedef.
+   */
+  typedef SimpleConstMemberCommand         Self;
+
+  /**
+   * Smart pointer typedef support.
+   */
+  typedef SmartPointer<Self>  Pointer;
+
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(SimpleConstMemberCommand,Command);
+
+  /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);
+
+
+  void SetCallbackFunction(const T* object,  
+                           TMemberFunctionPointer memberFunction)
+    {
+      m_This = object;
+      m_MemberFunction = memberFunction;
+    }
+  
+  virtual void Execute(Object *, unsigned long)
+    { 
+      if( m_MemberFunction ) 
+      {
+        ((*m_This).*(m_MemberFunction))();
+      }
+    }
+
+  virtual void Execute(const Object *, unsigned long)
+    { 
+      if( m_MemberFunction ) 
+      {
+        ((*m_This).*(m_MemberFunction))();
+      }
+    }
+
+
+protected:
+  const T* m_This;
+  TMemberFunctionPointer m_MemberFunction;
+  SimpleConstMemberCommand(){
+    m_MemberFunction = 0;
+  }; 
+  virtual ~SimpleConstMemberCommand(){}; 
+  SimpleConstMemberCommand(const Self&) {}
+  void operator=(const Self&) {}
+};
+
+
 /** \Class CStyleCommand
  *  \brief Command subclass that calls a pointer to a C function
  *
