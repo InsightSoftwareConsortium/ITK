@@ -157,9 +157,6 @@ ImageViewer<TInputImage>
 ::PrepareBuffer()
 {
   
-  
-  BufferPixelType * buffer =  m_Window->GetBuffer();
-
   const InputImageType * image = this->GetInput();
 
   if( m_LastImageModifiedTime < image->GetMTime() )
@@ -194,21 +191,29 @@ ImageViewer<TInputImage>
   IteratorType it( image, region );
   it.GoToBegin();
 
-  switch( m_Direction )
+  it.SetFirstDirection(0);
+  it.SetSecondDirection(1);
+
+  if( image->GetImageDimension() == 3 )
     {
-    case 0:
-      it.SetFirstDirection(1);
-      it.SetSecondDirection(2);
-      break;
-    case 1:
-      it.SetFirstDirection(2);
-      it.SetSecondDirection(0);
-      break;
-    case 2:
-      it.SetFirstDirection(0);
-      it.SetSecondDirection(1);
-      break;
+    switch( m_Direction )
+      {
+      case 0:
+        it.SetFirstDirection(1);
+        it.SetSecondDirection(2);
+        break;
+      case 1:
+        it.SetFirstDirection(2);
+        it.SetSecondDirection(0);
+        break;
+      case 2:
+        it.SetFirstDirection(0);
+        it.SetSecondDirection(1);
+        break;
+      }
     }
+
+  BufferPixelType * buffer =  m_Window->GetBuffer();
 
   while( !it.IsAtEnd() )
     {
@@ -225,7 +230,6 @@ ImageViewer<TInputImage>
     it.NextSlice();
     }
 
- 
 }
 
 
