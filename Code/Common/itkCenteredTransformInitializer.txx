@@ -32,14 +32,17 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
   // Sanity check
   if( !m_FixedImage )
     {
+    itkExceptionMacro( "Fixed Image has not been set" );
     return;
     }
   if( !m_MovingImage )
     {
+    itkExceptionMacro( "Moving Image has not been set" );
     return;
     }
   if( !m_Transform )
     {
+    itkExceptionMacro( "Transform has not been set" );
     return;
     }
 
