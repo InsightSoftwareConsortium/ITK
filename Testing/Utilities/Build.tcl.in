@@ -108,7 +108,7 @@ set WarningMatches [list \
   		    {^ld([^:])*:([ \t])*WARNING([^:])*:} \
 		    {([^ :]+) : warning}
 		 ]
-set WarningExceptions [list ]
+set WarningExceptions [list "WARNING 84 :"]
 
 puts "\tParsing Build Log"
 set Line 1
