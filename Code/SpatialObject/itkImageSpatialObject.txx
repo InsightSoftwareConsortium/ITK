@@ -36,7 +36,6 @@ namespace itk
   ImageSpatialObject< NDimensions, TransformType, PixelType >
   ::~ImageSpatialObject()
   {
-    m_Image->Delete();
   }
 
   template< unsigned int NDimensions, class TransformType, class PixelType >

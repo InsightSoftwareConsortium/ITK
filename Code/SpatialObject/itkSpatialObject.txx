@@ -145,11 +145,8 @@ namespace itk
   SpatialObject< NDimensions, TransformType, OutputType >
   ::~SpatialObject( void )
   {
-    m_Bounds->Delete();
-    m_LocalToGlobalTransform->Delete();
-    m_GlobalToLocalTransform->Delete();
-    delete(m_LocalToGlobalTransformList);
-    delete(m_GlobalToLocalTransformList);
+    delete m_LocalToGlobalTransformList;
+    delete m_GlobalToLocalTransformList;
   }
 
 
