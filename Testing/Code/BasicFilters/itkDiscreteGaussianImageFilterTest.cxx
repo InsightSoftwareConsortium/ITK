@@ -38,12 +38,13 @@ int itkDiscreteGaussianImageFilterTest(int argc, char **argv)
       itk::Size<3> sz;
       sz[0] = 100 ; //atoi(argv[1]);
       sz[1] = 100 ; // atoi(argv[2]);
-      sz[2] = 1;
+      sz[2] = 40;
       //      sz[2] = 10;//atoi(argv[3]);
       //      sz[3] = 5;//atoi(argv[4]);
       itk::NullImageToImageFilterDriver< ImageType, ImageType > test1;
       test1.SetImageSize(sz);
       test1.SetFilter(filter.GetPointer());
+
       test1.Execute();
     }
   catch(itk::ExceptionObject &err)
