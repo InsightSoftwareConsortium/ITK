@@ -45,7 +45,7 @@ namespace itk
 template <typename TElementIdentifier, typename TElement>
 class MapContainer:
   public Object,
-  public std::map< TElementIdentifier , TElement >
+  private std::map< TElementIdentifier , TElement >
 {
 public:
   /** Standard class typedefs. */
@@ -92,11 +92,11 @@ public:
 
   /** Cast the container to a STL container type */
   STLContainerType & CastToSTLContainer() {
-     return static_cast<STLContainerType &>(*this); }
+     return dynamic_cast<STLContainerType &>(*this); }
 
   /** Cast the container to a const STL container type */
   const STLContainerType & CastToSTLConstContainer() const {
-     return static_cast<const STLContainerType &>(*this); }
+     return dynamic_cast<const STLContainerType &>(*this); }
 
   /** Declare iterators to container. */
   class Iterator;
