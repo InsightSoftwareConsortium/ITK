@@ -144,7 +144,7 @@ public:
    * This method creates and returns a new ScaleTransform object
    * which is the inverse of self.  If self is not invertible,
    * false is returned. */
-  virtual bool GetInverse(Self* inverse) const;
+  bool GetInverse(Self* inverse) const;
 
   /** Set the transformation to an Identity
    *

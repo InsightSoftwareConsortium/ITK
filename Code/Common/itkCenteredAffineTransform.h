@@ -101,7 +101,7 @@ public:
    * This method creates and returns a new CenteredAffineTransform object
    * which is the inverse of self.  If self is not invertible,
    * an exception is thrown.   **/
-  virtual bool GetInverse(Self* inverse) const;
+  bool GetInverse(Self* inverse) const;
 
   /** Print contents of an CenteredAffineTransform */
   void PrintSelf(std::ostream &s, Indent indent) const;

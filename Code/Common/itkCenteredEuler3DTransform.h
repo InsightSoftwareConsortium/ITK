@@ -132,7 +132,7 @@ public:
    * which is the inverse of self.  If self is not invertible,
    * false is returned.
    **/
-  virtual bool GetInverse(Self* inverse) const;
+  bool GetInverse(Self* inverse) const;
 
   /** Set the parameters to the IdentityTransform */
   virtual void SetIdentity(void);

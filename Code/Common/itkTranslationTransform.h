@@ -134,7 +134,7 @@ public:
    * This method creates and returns a new TranslationTransform object
    * which is the inverse of self.  If self is not invertible,
    * false is returned.  */
-  virtual bool GetInverse(Self* inverse) const;
+  bool GetInverse(Self* inverse) const;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
