@@ -48,8 +48,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using namespace std;
 
 #include <itkImage.h>
-#include <itkFileIOMetaImage.h>
-#include <itkWriteMetaImage.h>
 #include <itkFileIOToImageFilter.h>
 #include "itkTranslationTransform.h"
 #include "itkMeanSquaresImageToImageMetric.h"
@@ -82,13 +80,16 @@ namespace fem
 template<class TReference,class TTarget> 
 class LoadImagePairBase : public LoadGrav
 {
+FEM_CLASS_SP(LoadImagePairBase,LoadGrav)
 public:
-  typedef LoadImagePairBase             Self;                   
-  typedef LoadGrav Superclass;         
-  typedef SmartPointer<Self>       Pointer;   
-  typedef SmartPointer<const Self> ConstPointer;  
-  itkTypeMacro(LoadImagePairBase,LoadGrav);
+//  typedef LoadImagePairBase                Self;                   
+//  typedef LoadGrav                Superclass;         
+//  typedef SmartPointer<Self>            Pointer;   
+//  typedef SmartPointer<const Self> ConstPointer;  
+//  itkTypeMacro(LoadImagePairBase,LoadGrav);
 //  itkNewMacro(Self);   // need light object
+
+  typedef Element::Float Float;
 
   typedef TReference ReferenceType;
   typedef TTarget       TargetType;
@@ -110,11 +111,6 @@ public:
 
   typedef   itk::Array<Float>  ParametersType;
   
-  /** Standard "Self" typedef.*/
-  typedef LoadImagePairBase    Self;
-
-  /** Standard "Superclass" typedef.*/
-  typedef LoadGrav   Superclass;
 
 // IMAGE DATA
   typedef   typename  ReferenceType::PixelType RefPixelType;
@@ -128,9 +124,6 @@ public:
   typedef   itk::Image< PixelType, ImageDimension >            ImageType;
   typedef   vnl_vector<Float>                                   VectorType;
 
-// FILE INPUT 
-  typedef   itk::FileIOToImageFilter<RefImageType> FilterType; 
-
 
   // Transform Type
   typedef itk::TranslationTransform< PixelType,ImageDimension >  TransformType;
@@ -138,14 +131,14 @@ public:
   
 
 // FUNCTIONS
- /** Implements the LoadGrav Fg function using the gradient of a gaussian smoothed image. */
+ /** Implements the LoadGrav Fg using the given images. */
   VectorType Fg(VectorType);
 
   LoadImagePairBase(); 
  // LoadImagePairBase(const char * rfn,const char * tfn, Float sigma);
 
   
-  inline void SetReferenceImage(typename RefImageType::Pointer R) 
+  inline void SetReferenceImage(ReferenceType* R ) 
   { 
     m_RefImage = R; 
      // GET DATA SIZE  BUG!! FIXME!! MUST BE BETTER WAY TO GET SIZE
@@ -153,16 +146,16 @@ public:
     IterType Iter (m_RefImage,m_RefImage->GetLargestPossibleRegion() );
     Iter.GoToEnd();
     typename ReferenceType::IndexType Ind = Iter.GetIndex();    
-    typename ReferenceType::SizeType m_RefSize={{Ind[0]+1,Ind[1]+1}};
+    m_RefSize={{Ind[0]+1,Ind[1]+1}};
   };
-  inline void SetTargetImage(typename TarImageType::Pointer T ) 
+  inline void SetTargetImage(TargetType* T ) 
   {    // GET DATA SIZE  BUG!! FIXME!! MUST BE BETTER WAY TO GET SIZE
     m_TarImage=T; 
     typedef ImageRegionIteratorWithIndex<TTarget>  IterType;
     IterType Iter (m_RefImage,m_RefImage->GetLargestPossibleRegion() );
     Iter.GoToEnd();
     typename ReferenceType::IndexType Ind = Iter.GetIndex();    
-    typename ReferenceType::SizeType m_RefSize={{Ind[0]+1,Ind[1]+1}};
+    m_TarSize={{Ind[0]+1,Ind[1]+1}};
   };
 
 protected:
@@ -184,6 +177,7 @@ private:
 };
 
 
+//template LoadImagePairBase< Image<unsigned char,2>,Image<unsigned char,2> > LMS1;
 
 }} // end namespace itk
 
