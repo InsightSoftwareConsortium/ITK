@@ -50,7 +50,8 @@ public:
   typedef typename Superclass::FeatureScalarType FeatureScalarType;
 
   /** Extract some parameters from the superclass. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      Superclass::ImageDimension);
 
   /** Set/Get threshold values */
   void SetUpperThreshold(FeatureScalarType f)

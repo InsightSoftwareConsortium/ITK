@@ -75,11 +75,11 @@ public:
   itkTypeMacro(BoundaryResolver, ProcessObject);
   
   /** Expose the image dimension at run time. */
-  enum {ImageDimension = TDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int, TDimension);
 
   /** Some convenient typedefs.   */
   typedef TPixelType PixelType;
-  typedef Boundary<PixelType, ImageDimension> BoundaryType;
+  typedef Boundary<PixelType, TDimension> BoundaryType;
   typedef EquivalencyTable EquivalencyTableType;
   typedef Segmenter<Image<TPixelType, TDimension> > SegmenterType;
   typedef DataObject::Pointer DataObjectPointer;

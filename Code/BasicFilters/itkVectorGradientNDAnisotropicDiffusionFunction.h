@@ -59,8 +59,10 @@ public:
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
 
   /** Extract vector and image dimension from superclass. */
-  enum { ImageDimension = Superclass::ImageDimension };
-  enum { VectorDimension= Superclass::VectorDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      Superclass::ImageDimension );
+  itkStaticConstMacro(VectorDimension, unsigned int,
+                      Superclass::VectorDimension );
 
   /** Type of a value in a vector (double, float, etc.) */
   typedef typename PixelType::ValueType  ScalarValueType;
@@ -102,7 +104,8 @@ private:
   std::slice xd_slice[ImageDimension][ImageDimension];
 
   /** Derivative operators. */
-  DerivativeOperator<ScalarValueType, ImageDimension> dx_op;
+  DerivativeOperator<ScalarValueType,
+                     itkGetStaticConstMacro(ImageDimension)> dx_op;
 
   /** Modified global average gradient magnitude term. */
   ScalarValueType m_K;

@@ -38,11 +38,6 @@ class ITK_EXPORT BloxBoundaryPointImage :
 public:
   /** Standard class typedefs. */
   typedef BloxBoundaryPointImage  Self;
-
-  /** Dimension of the image.  This enum is used by functions that are
-   * templated over image type (as opposed to being templated over pixel
-   * type and dimension) when they need compile time access to the dimension
-   * of the image. */
   typedef BloxImage<BloxBoundaryPointPixel<VImageDimension>,
                     VImageDimension >  Superclass;
   typedef SmartPointer<Self>  Pointer;

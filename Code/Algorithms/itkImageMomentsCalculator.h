@@ -63,17 +63,19 @@ public:
   typedef ImageMomentsCalculator<TImage>   Self;
 
   /** Extract the dimension of the image. */
-  enum { ImageDimension = TImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TImage::ImageDimension);
 
   /** Standard scalar type within this class. */
   typedef double                       ScalarType;
 
   /** Standard vector type within this class. */
-  typedef Vector<ScalarType,ImageDimension>         VectorType;
+  typedef Vector<ScalarType,itkGetStaticConstMacro(ImageDimension)> VectorType;
 
   /** Standard matrix type within this class. */
   typedef Matrix<ScalarType,
-                 ImageDimension,ImageDimension>   MatrixType;
+                 itkGetStaticConstMacro(ImageDimension),
+                 itkGetStaticConstMacro(ImageDimension)>   MatrixType;
 
   /** Standard image type within this class. */
   typedef TImage ImageType;
@@ -86,7 +88,7 @@ public:
   typedef typename TransformType::Pointer            TransformPointer;
 
   /** Affine transform for mapping to and from principal axis */
-  typedef AffineTransform<double,ImageDimension>     AffineTransformType;
+  typedef AffineTransform<double,itkGetStaticConstMacro(ImageDimension)> AffineTransformType;
   typedef typename AffineTransformType::Pointer      AffineTransformPointer;
 
   /** Compute moments of a new or modified image.

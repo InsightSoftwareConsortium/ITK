@@ -70,7 +70,8 @@ public:
   typedef typename EigenVectorImageType::PixelType  EigenVectorImagePixelType;
 
   /** Image dimension. */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Connect the image containting the elements [0,0]
    * of the input 2D matrix */

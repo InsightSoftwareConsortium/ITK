@@ -72,7 +72,8 @@ public:
   typedef typename NumericTraits<OutputImagePixelType>::RealType RealType;
       
   /** Image related typedefs. */
-  enum { ImageDimension = TInputImage::ImageDimension } ;
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension ) ;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShiftScaleImageFilter, ImageToImageFilter);

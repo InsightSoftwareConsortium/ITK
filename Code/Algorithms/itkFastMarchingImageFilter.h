@@ -79,8 +79,7 @@ namespace itk
  */
 template <
   class TLevelSet, 
-  class TSpeedImage = Image<float,TLevelSet::ImageDimension>
->
+  class TSpeedImage = Image<float,::itk::GetImageDimension<TLevelSet>::ImageDimension> >
 class ITK_EXPORT FastMarchingImageFilter :
   public ImageToImageFilter<TSpeedImage,TLevelSet>
 {
@@ -107,10 +106,11 @@ public:
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
 
   /** Dimension of the level set. */
-  enum { SetDimension = LevelSetType::SetDimension };
+  itkStaticConstMacro(SetDimension, unsigned int,
+                      LevelSetType::SetDimension);
 
   /** Index typedef support. */
-  typedef Index<SetDimension> IndexType;
+  typedef Index<itkGetStaticConstMacro(SetDimension)> IndexType;
 
   /** SpeedImage typedef support. */
   typedef TSpeedImage SpeedImageType;
@@ -126,7 +126,7 @@ public:
   enum LabelType { FarPoint, AlivePoint, TrialPoint };
 
   /** LabelImage typedef support. */
-  typedef Image<unsigned char, SetDimension> LabelImageType;
+  typedef Image<unsigned char, itkGetStaticConstMacro(SetDimension)> LabelImageType;
 
   /** LabelImagePointer typedef support. */
   typedef typename LabelImageType::Pointer LabelImagePointer;

@@ -106,10 +106,11 @@ public:
   typedef typename DeformationFieldType::Pointer DeformationFieldPointer;
 
   /** ImageDimension. */
-  enum { ImageDimension = FixedImageType::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      FixedImageType::ImageDimension);
 
   /** Internal float image type. */
-  typedef Image<float,ImageDimension> FloatImageType;
+  typedef Image<float,itkGetStaticConstMacro(ImageDimension)> FloatImageType;
 
   /** The internal registration type. */
   typedef PDEDeformableRegistrationFilter<

@@ -90,7 +90,7 @@ public:
    * templated over image type (as opposed to being templated over pixel
    * type and dimension) when they need compile time access to the dimension
    * of the image. */
-  enum { ImageDimension = VImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
   /** Convenient typedefs obtained from Superclass. */
   typedef typename Superclass::PixelContainer PixelContainer;

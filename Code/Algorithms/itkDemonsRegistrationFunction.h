@@ -85,7 +85,7 @@ public:
     DeformationFieldTypePointer;
 
   /** Inherit some enums from the superclass. */
-  enum{ ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Inherit some enums from the superclass. */
   typedef typename Superclass::PixelType     PixelType;
@@ -105,7 +105,7 @@ public:
     DefaultInterpolatorType;
 
   /** Covariant vector type. */
-  typedef CovariantVector<double,ImageDimension> CovariantVectorType;
+  typedef CovariantVector<double,itkGetStaticConstMacro(ImageDimension)> CovariantVectorType;
 
   /** Gradient calculator type. */
   typedef CentralDifferenceImageFunction<FixedImageType> GradientCalculatorType;

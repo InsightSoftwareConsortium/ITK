@@ -87,8 +87,9 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Dimension of the domain space. */
-  enum { SpaceDimension = NDimensions,
-         ParametersDimension = NDimensions * (NDimensions+1) };
+  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
+  itkStaticConstMacro(ParametersDimension, unsigned int,
+                      NDimensions * (NDimensions+1) );
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro( AzimuthElevationToCartesianTransform, AffineTransform);
@@ -110,7 +111,8 @@ public:
   typedef  typename Superclass::OutputPointType    OutputPointType;
   
   /** Standard matrix type for this class.   */
-  typedef Matrix<TScalarType, SpaceDimension, SpaceDimension> MatrixType;
+  typedef Matrix<TScalarType, itkGetStaticConstMacro(SpaceDimension),
+                 itkGetStaticConstMacro(SpaceDimension)> MatrixType;
 
   /** Set the transformation parameters.  **/
   void SetAzimuthElevationToCartesianParameters( const double sampleSize, 

@@ -128,7 +128,8 @@ public:
   itkSetMacro( ObjectLabel, LabelType );
 
   /** Extract the input image dimension. */
-  enum {ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   itkSetMacro(StartPoint, IndexType); 
 

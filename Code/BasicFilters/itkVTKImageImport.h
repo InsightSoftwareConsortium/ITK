@@ -75,7 +75,8 @@ public:
   typedef typename OutputImageType::RegionType OutputRegionType;
 
   /** The output image dimension. */
-  enum { OutputImageDimension = OutputImageType::ImageDimension };
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      OutputImageType::ImageDimension);
 
   /** These are function pointer types for the pipeline connection
    * callbacks. */

@@ -34,13 +34,16 @@ namespace itk
  */
 template<typename TInputImage>
 class ITK_EXPORT GradientImageToBloxBoundaryPointImageFilter :
-public ImageToImageFilter<TInputImage, BloxBoundaryPointImage<TInputImage::ImageDimension> >
+public ImageToImageFilter<TInputImage, BloxBoundaryPointImage< ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
+  /** Number of dimensions */
+  itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
+
   /** Standard class typedefs. */
   typedef GradientImageToBloxBoundaryPointImageFilter Self;
   typedef ImageToImageFilter<TInputImage,
-    BloxBoundaryPointImage<TInputImage::ImageDimension> > Superclass;
+    BloxBoundaryPointImage<itkGetStaticConstMacro(NDimensions)> > Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -50,19 +53,16 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( GradientImageToBloxBoundaryPointImageFilter, ImageToImageFilter );
 
-  /** Number of dimensions */
-  enum {NDimensions = TInputImage::ImageDimension};
-
   /** typedef for images */
   typedef TInputImage                             InputImageType;
-  typedef BloxBoundaryPointImage<NDimensions>     TOutputImage;
-  typedef BloxBoundaryPointImage<NDimensions>     OutputImageType;
+  typedef BloxBoundaryPointImage<itkGetStaticConstMacro(NDimensions)>     TOutputImage;
+  typedef BloxBoundaryPointImage<itkGetStaticConstMacro(NDimensions)>     OutputImageType;
   typedef typename OutputImageType::Pointer       OutputImagePointer;
   typedef typename InputImageType::Pointer        InputImagePointer;
   typedef typename InputImageType::ConstPointer   InputImageConstPointer;
 
   /** Image size typedef */
-  typedef Size<TOutputImage::ImageDimension> SizeType;
+  typedef Size<itkGetStaticConstMacro(NDimensions)> SizeType;
 
   /** Image index typedef */
   typedef typename TOutputImage::IndexType IndexType;
@@ -74,7 +74,7 @@ public:
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** The type of vector used to convert between physical and blox space */
-  typedef Point<double, NDimensions> TPositionType;
+  typedef Point<double, itkGetStaticConstMacro(NDimensions)> TPositionType;
 
   /** Get and set the number of times to repeat the filter. */
   itkSetMacro(Threshold, double);

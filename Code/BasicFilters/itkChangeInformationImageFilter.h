@@ -77,10 +77,11 @@ public:
   typedef typename TInputImage::OffsetType InputImageOffsetType;
 
   /** Image related typedefs. */
-  enum { ImageDimension = TInputImage::ImageDimension } ;
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Typedef of double containers */
-  typedef FixedArray<double, ImageDimension> ArrayType;
+  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ChangeInformationImageFilter, ImageToImageFilter);

@@ -74,13 +74,13 @@ public:
   itkTypeMacro(Relabeler, ProcessObject);
 
   /** Expose the ImageDimension template parameter at run time */
-  enum {ImageDimension = TImageDimension};
+  itkStaticConstMacro(ImageDimension, unsigned int,TImageDimension);
   
   /** Some convenient typedefs */
   typedef TScalarType ScalarType;
-  typedef Image<unsigned long, ImageDimension> ImageType;
+  typedef Image<unsigned long, TImageDimension> ImageType;
   typedef SegmentTree<ScalarType> SegmentTreeType;
-  typedef Segmenter<Image<ScalarType, ImageDimension> > SegmenterType;
+  typedef Segmenter<Image<ScalarType, TImageDimension> > SegmenterType;
   typedef DataObject::Pointer DataObjectPointer;
 
   /** Standard itk::ProcessObject subclass method. */

@@ -46,12 +46,15 @@ namespace itk
  */
 template< typename TSourceImage >
 class ITK_EXPORT BloxBoundaryPointImageToBloxBoundaryProfileImageFilter :
-public ImageToImageFilter<TSourceImage,BloxBoundaryProfileImage<TSourceImage::ImageDimension> >
+public ImageToImageFilter<TSourceImage,BloxBoundaryProfileImage< ::itk::GetImageDimension<TSourceImage>::ImageDimension> >
 {
 public:
+  /** Number of dimensions */
+  itkStaticConstMacro(NDimensions, unsigned int, TSourceImage::ImageDimension);
+
   /** Standard class typedefs */
   typedef BloxBoundaryPointImageToBloxBoundaryProfileImageFilter  Self;
-  typedef ImageToImageFilter<TSourceImage,BloxBoundaryProfileImage<TSourceImage::ImageDimension> >  Superclass;
+  typedef ImageToImageFilter<TSourceImage,BloxBoundaryProfileImage<itkGetStaticConstMacro(NDimensions)> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -61,11 +64,8 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro(itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter, ImageToImageFilter);
 
-  /** Number of dimensions */
-  enum {NDimensions = TSourceImage::ImageDimension};
-
   /** Typedef for boundary point image */
-  typedef BloxBoundaryPointImage<NDimensions> BoundaryPointImageType;
+  typedef BloxBoundaryPointImage<itkGetStaticConstMacro(NDimensions)> BoundaryPointImageType;
   typedef typename BoundaryPointImageType::Pointer BoundaryPointImagePointer;
   typedef typename BoundaryPointImageType::RegionType BoundaryPointImageRegionType; 
   typedef typename BoundaryPointImageType::PixelType BoundaryPointImagePixelType; 
@@ -79,19 +79,19 @@ public:
   typedef typename SourceImageType::ConstPointer SourceImageConstPointer;
 
   /** Typedef for profile image */
-  typedef BloxBoundaryProfileImage<NDimensions> OutputImageType;
+  typedef BloxBoundaryProfileImage<itkGetStaticConstMacro(NDimensions)> OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType OutputImagePixelType;
 
   /** Image index typedef */
-  typedef typename BloxBoundaryProfileImage<NDimensions>::IndexType IndexType;
+  typedef typename BloxBoundaryProfileImage<itkGetStaticConstMacro(NDimensions)>::IndexType IndexType;
 
   /** Image pixel value typedef */
-  typedef typename BloxBoundaryProfileImage<NDimensions>::PixelType PixelType;
+  typedef typename BloxBoundaryProfileImage<itkGetStaticConstMacro(NDimensions)>::PixelType PixelType;
 
   /** The type of vector used to convert between physical and blox space */
-  typedef Point<double, NDimensions> PositionType;
+  typedef Point<double, itkGetStaticConstMacro(NDimensions)> PositionType;
 
   /** Vector typedef */
   typedef typename PositionType::VectorType VectorType;
@@ -111,9 +111,6 @@ public:
   /** Find boundary profiles from input images and store them */
   void FindBoundaryProfiles();
 
-  /** Find boundary profiles given a specific boundary point */
-  void FindBoundaryProfilesAtBoundaryPoint(BloxBoundaryPointItem<NDimensions>* pItem);
-  
   /** Add weighted pixel value to appropriate bin number in splat accumulator and normalizer */
   bool AddSplatToAccumulatorAndNormalizer(int binNumber, double weight, double sourcePixelValue);
 

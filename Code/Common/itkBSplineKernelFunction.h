@@ -54,12 +54,12 @@ public:
   itkTypeMacro(BSplineKernelFunction, KernelFunction); 
 
   /** Enum of for spline order. */
-  enum { SplineOrder = VSplineOrder };
+  itkStaticConstMacro(SplineOrder, unsigned int, VSplineOrder);
 
   /** Evaluate the function. */
   inline double Evaluate( const double & u ) const
     {
-    return this->Evaluate( Dispatch<SplineOrder>(), u );
+    return this->Evaluate( Dispatch<VSplineOrder>(), u );
     }
 
 protected:

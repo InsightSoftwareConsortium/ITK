@@ -48,19 +48,23 @@ namespace itk
 template <class TInputImage, class TOperatorValueType=float, class TOutputValueType=float>
 class ITK_EXPORT GradientImageFilter :
     public ImageToImageFilter< TInputImage,
-                               Image<CovariantVector<TOutputValueType, TInputImage::ImageDimension>,  TInputImage::ImageDimension> >
+                               Image<CovariantVector<TOutputValueType, ::itk::GetImageDimension<TInputImage>::ImageDimension>,  ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
   /** Extract dimension from input image. */
-  enum {InputImageDimension = TInputImage::ImageDimension};
-  enum {OutputImageDimension = TInputImage::ImageDimension};
-
-  /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage InputImageType;
-  typedef Image<CovariantVector<TOutputValueType, OutputImageDimension>,  OutputImageDimension> OutputImageType;
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Standard class typedefs. */
   typedef GradientImageFilter Self;
+
+  /** Convenient typedefs for simplifying declarations. */
+  typedef TInputImage InputImageType;
+  typedef Image<CovariantVector<TOutputValueType, itkGetStaticConstMacro(OutputImageDimension)>,  itkGetStaticConstMacro(OutputImageDimension)> OutputImageType;
+
+  /** Standard class typedefs. */
   typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -75,7 +79,7 @@ public:
   typedef typename InputImageType::PixelType InputPixelType;
   typedef TOperatorValueType OperatorValueType;
   typedef TOutputValueType OutputValueType;
-  typedef CovariantVector<OutputValueType, OutputImageDimension> OutputPixelType;
+  typedef CovariantVector<OutputValueType, itkGetStaticConstMacro(OutputImageDimension)> OutputPixelType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   
   /** GradientImageFilter needs a larger input requested region than

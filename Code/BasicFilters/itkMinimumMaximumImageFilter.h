@@ -38,8 +38,10 @@ class ITK_EXPORT MinimumMaximumImageFilter :
 {
 public:
   /** Extract dimension from input image. */
-  enum {InputImageDimension = TInputImage::ImageDimension};
-  enum {OutputImageDimension = TInputImage::ImageDimension};
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Standard class typedefs. */
   typedef MinimumMaximumImageFilter Self;

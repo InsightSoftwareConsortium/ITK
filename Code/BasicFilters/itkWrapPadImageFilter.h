@@ -68,7 +68,8 @@ public:
   typedef typename Superclass::InputImageSizeType InputImageSizeType;
   
   /** ImageDimension enumeration. */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension );
   
 protected:
   WrapPadImageFilter() {};

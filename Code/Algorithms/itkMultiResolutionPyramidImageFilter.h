@@ -124,7 +124,8 @@ public:
   typedef Array2D<unsigned int>  ScheduleType;
 
   /** ImageDimension enumeration. */
-  enum{ ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Inherit types from Superclass. */
   typedef typename Superclass::InputImageType InputImageType;

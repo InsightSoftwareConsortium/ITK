@@ -92,7 +92,8 @@ public:
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** ImageDimension enumeration. */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Inherit some types from superclass. */
   typedef typename Superclass::InputImageType  InputImageType;

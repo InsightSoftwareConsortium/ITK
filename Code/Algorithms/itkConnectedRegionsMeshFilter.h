@@ -66,7 +66,7 @@ public:
   typedef TOutputMesh OutputMeshType;
   typedef typename TInputMesh::Pointer InputMeshPointer;
   typedef typename TOutputMesh::Pointer OutputMeshPointer;
-  enum {PointDimension = TInputMesh::PointDimension};
+  itkStaticConstMacro(PointDimension, unsigned int,TInputMesh::PointDimension);
   typedef typename TInputMesh::PointType InputMeshPointType;
   typedef typename TInputMesh::PointIdentifier InputMeshPointIdentifier;
   typedef typename TInputMesh::PointsContainerPointer 

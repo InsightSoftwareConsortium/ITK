@@ -64,6 +64,7 @@ public:
 
   /**  Type of the moving Image. */
   typedef TMovingImage                               MovingImageType;
+  typedef typename TMovingImage::PixelType           MovingImagePixelType;
   typedef typename MovingImageType::ConstPointer     MovingImageConstPointer;
 
   /**  Type of the fixed Image. */
@@ -71,11 +72,16 @@ public:
   typedef typename FixedImageType::ConstPointer      FixedImageConstPointer;
   typedef typename FixedImageType::RegionType        FixedImageRegionType;
 
-
+  /** Constants for the image dimensions */
+  itkStaticConstMacro(MovingImageDimension, unsigned int,
+                      TMovingImage::ImageDimension);
+  itkStaticConstMacro(FixedImageDimension, unsigned int,
+                      TFixedImage::ImageDimension);
+  
   /**  Type of the Transform Base class */
   typedef Transform<CoordinateRepresentationType, 
-         ExtractImageDimension<MovingImageType>::ImageDimension,
-         ExtractImageDimension<FixedImageType>::ImageDimension > TransformType;
+                    itkGetStaticConstMacro(MovingImageDimension),
+                    itkGetStaticConstMacro(FixedImageDimension)> TransformType;
 
   typedef typename TransformType::Pointer            TransformPointer;
   typedef typename TransformType::InputPointType     InputPointType;
@@ -89,14 +95,17 @@ public:
                       CoordinateRepresentationType > InterpolatorType;
 
 
-  /** Gaussian filter to compute the gradrient of the Moving Image */
-  typedef GradientRecursiveGaussianImageFilter< 
-                                   MovingImageType > GradientImageFilterType;  
-  typedef typename GradientImageFilterType::Pointer  GradientImageFilterPointer;
-  typedef typename GradientImageFilterType::OutputImageType  GradientImageType;
-  typedef typename GradientImageType::Pointer        GradientImagePointer;
-  typedef typename GradientImageType::PixelType      GradientPixelType;
-  typedef typename GradientImageFilterType::RealType RealType;
+  /** Gaussian filter to compute the gradient of the Moving Image */
+  typedef typename NumericTraits<MovingImagePixelType>::RealType RealType;
+  typedef CovariantVector<RealType,
+          itkGetStaticConstMacro(MovingImageDimension)> GradientPixelType;
+  typedef Image<GradientPixelType,
+               itkGetStaticConstMacro(MovingImageDimension)> GradientImageType;
+  typedef SmartPointer<GradientImageType>     GradientImagePointer;
+  typedef GradientRecursiveGaussianImageFilter< MovingImageType,
+                                                GradientImageType >
+          GradientImageFilterType;  
+  typedef typename GradientImageFilterType::Pointer GradientImageFilterPointer;
 
 
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
@@ -184,7 +193,6 @@ private:
 
   // This is the Sigma value to be used by the Gradient Filter
   RealType                    m_ScaleGradient;
-
 };
 
 } // end namespace itk

@@ -74,7 +74,8 @@ public:
   itkTypeMacro(HistogramMatchingImageFilter, ImageToImageFilter);
 
   /** ImageDimension enumeration. */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;

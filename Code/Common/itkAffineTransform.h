@@ -27,6 +27,8 @@
 
 namespace itk
 {
+
+
 /**
  * Affine transformation of a vector space (e.g. space coordinates)
  *
@@ -115,9 +117,11 @@ public:
   itkNewMacro( Self );
 
   /** Dimension of the domain space. */
-  enum { SpaceDimension = NDimensions,
-         ParametersDimension = NDimensions * (NDimensions+1) };
+  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
+  itkStaticConstMacro(ParametersDimension, unsigned int,
+                      NDimensions*(NDimensions+1));
 
+  
   /** Parameters Type   */
   typedef typename Superclass::ParametersType  ParametersType;
 
@@ -128,23 +132,32 @@ public:
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Standard vector type for this class   */
-  typedef Vector<TScalarType, SpaceDimension>  InputVectorType;
-  typedef Vector<TScalarType, SpaceDimension>  OutputVectorType;
+  typedef Vector<TScalarType,
+                 itkGetStaticConstMacro(SpaceDimension)>  InputVectorType;
+  typedef Vector<TScalarType,
+                 itkGetStaticConstMacro(SpaceDimension)>  OutputVectorType;
   
   /** Standard covariant vector type for this class   */
-  typedef CovariantVector<TScalarType, SpaceDimension>  InputCovariantVectorType;
-  typedef CovariantVector<TScalarType, SpaceDimension>  OutputCovariantVectorType;
+  typedef CovariantVector<TScalarType,
+                          itkGetStaticConstMacro(SpaceDimension)>  InputCovariantVectorType;
+  typedef CovariantVector<TScalarType,
+                          itkGetStaticConstMacro(SpaceDimension)>  OutputCovariantVectorType;
   
   /** Standard vnl_vector type for this class   */
-  typedef vnl_vector_fixed<TScalarType, SpaceDimension>  InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType, SpaceDimension>  OutputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType,
+                           itkGetStaticConstMacro(SpaceDimension)> InputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType,
+                           itkGetStaticConstMacro(SpaceDimension)> OutputVnlVectorType;
   
   /** Standard coordinate point type for this class   */
-  typedef Point<TScalarType, SpaceDimension> InputPointType;
-  typedef Point<TScalarType, SpaceDimension> OutputPointType;
+  typedef Point<TScalarType,
+                itkGetStaticConstMacro(SpaceDimension)> InputPointType;
+  typedef Point<TScalarType,
+                itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
   
   /** Standard matrix type for this class   */
-  typedef Matrix<TScalarType, SpaceDimension, SpaceDimension> MatrixType;
+  typedef Matrix<TScalarType, itkGetStaticConstMacro(SpaceDimension),
+                 itkGetStaticConstMacro(SpaceDimension)> MatrixType;
 
   /** Standard offset type for this class   */
   typedef     OutputVectorType    OffsetType;

@@ -76,7 +76,8 @@ public:
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** ImageDimension enumeration. */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension );
 
   /** Set the shrink factors. Values are clamped to 
    * a minimum value of 1. Default is 1 for all dimensions. */

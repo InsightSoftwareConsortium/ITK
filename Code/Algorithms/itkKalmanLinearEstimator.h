@@ -43,7 +43,8 @@ class KalmanLinearEstimator
 public:
   /**  Dimension of the vector of parameters to be estimated.
    *  It is equivalent to the number of parameters to estimate. */  
-  enum { Dimension = VEstimatorDimension };
+  itkStaticConstMacro( Dimension, unsigned int,
+                       VEstimatorDimension);
 
   /**  Vector type defines a generic vector type that is used
    *  for the matricial operations performed during estimation. */

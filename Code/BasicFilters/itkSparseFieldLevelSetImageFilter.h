@@ -72,7 +72,8 @@ public:
   typedef TNeighborhoodType NeighborhoodType;
   typedef typename NeighborhoodType::OffsetType OffsetType;
   typedef typename NeighborhoodType::RadiusType RadiusType;
-  enum { Dimension = NeighborhoodType::Dimension };
+  itkStaticConstMacro(Dimension, unsigned int,
+                      NeighborhoodType::Dimension );
 
   const RadiusType &GetRadius() const
   { return m_Radius; }
@@ -238,7 +239,8 @@ public:
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
   typedef typename OutputImageType::IndexType IndexType;
-  enum { ImageDimension = TOutputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
 
   /** The data type used in numerical computations.  Derived from the output
    *  image type. */
@@ -259,7 +261,8 @@ public:
   
   /** The type of the image used to index status information.  Necessary for
    *  the internals of the algorithm. */
-  typedef Image<StatusType, ImageDimension> StatusImageType;
+  typedef Image<StatusType, itkGetStaticConstMacro(ImageDimension)>
+    StatusImageType;
 
   /** Memory pre-allocator used to manage layer nodes in a multi-threaded
    *  environment. */

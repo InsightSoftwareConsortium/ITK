@@ -88,10 +88,11 @@ public:
   typedef typename RegionType::SizeType   SizeType;
   
   /** The dimension of the input image. */
-  enum { InputImageDimension = InputImageType::ImageDimension };
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      InputImageType::ImageDimension);
 
   /** Pointer Type for the vector distance image */
-  typedef Image< OffsetType, InputImageDimension > VectorImageType;
+  typedef Image< OffsetType, itkGetStaticConstMacro(InputImageDimension)> VectorImageType;
 
   /** Pointer Type for input image. */
   typedef typename InputImageType::ConstPointer InputImagePointer;

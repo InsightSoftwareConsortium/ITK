@@ -157,7 +157,8 @@ public:
   typedef ImageRegionConstIterator<TInputImage>      InputImageRegionConstIterator;
 
   /** Image dimension */
-  enum{ InputImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Type definitions for the training image. */
   typedef typename TClassifiedImage::Pointer         TrainingImagePointer;
@@ -189,16 +190,17 @@ public:
     LabelledImageRegionIterator;
 
   /** Labelled Image dimension */
-  enum{ ClassifiedImageDimension = TClassifiedImage::ImageDimension };
+  itkStaticConstMacro(ClassifiedImageDimension, unsigned int,
+                      TClassifiedImage::ImageDimension);
 
   /** Type definitions for classifier to be used for the MRF lavbelling. */
   typedef ImageClassifierBase<TInputImage,TClassifiedImage> ClassifierType;
 
   /** Size and value typedef support. */
-  typedef Size<InputImageDimension> SizeType;
+  typedef typename TInputImage::SizeType SizeType;
 
   /** Radius typedef support. */
-  typedef Size<InputImageDimension> NeighborhoodRadiusType;
+  typedef typename TInputImage::SizeType NeighborhoodRadiusType;
 
   /** Input image neighborhood iterator and kernel size typedef */
   typedef ConstNeighborhoodIterator< TInputImage >
@@ -255,7 +257,7 @@ public:
   itkGetMacro(SmoothingFactor, double);
 
   /** Set the neighborhood radius */
-  void SetNeighborhoodRadius(const SizeType &);  
+  void SetNeighborhoodRadius(const NeighborhoodRadiusType &);  
 
   /** Sets the radius for the neighborhood, calculates size from the
    * radius, and allocates storage. */
@@ -302,7 +304,7 @@ protected:
   /** Minimization algorithm to be used. */
   virtual void MinimizeFunctional();
 
-  typedef Image<int,InputImageDimension > LabelStatusImageType;
+  typedef Image<int,itkGetStaticConstMacro(InputImageDimension) > LabelStatusImageType;
   typedef typename LabelStatusImageType::IndexType LabelStatusIndexType;
   typedef typename LabelStatusImageType::RegionType LabelStatusRegionType;
   typedef typename LabelStatusImageType::Pointer LabelStatusImagePointer;

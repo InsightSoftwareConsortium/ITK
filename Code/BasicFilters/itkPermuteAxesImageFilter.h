@@ -61,7 +61,8 @@ public:
   itkTypeMacro(PermuteAxesImageFilter, ImageToImageFilter);
 
   /** ImageDimension enumeration */
-  enum { ImageDimension = TImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TImage::ImageDimension );
 
   /** Inherited types */
   typedef typename Superclass::InputImagePointer InputImagePointer;
@@ -69,7 +70,7 @@ public:
   typedef typename Superclass::OutputImageRegionType    OutputImageRegionType;
 
   /** PermuteOrderArray type. */
-  typedef FixedArray<unsigned int, ImageDimension> PermuteOrderArrayType;
+  typedef FixedArray<unsigned int, itkGetStaticConstMacro(ImageDimension)> PermuteOrderArrayType;
 
   /** Set the permutation order.  The elements of order must be
    * a rearrangement of the numbers from 0 to ImageDimension - 1.*/

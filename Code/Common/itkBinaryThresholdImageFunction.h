@@ -61,7 +61,7 @@ public:
   typedef typename TInputImage::PixelType PixelType;
 
   /** Dimension underlying input image. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Point typedef support. */
   typedef typename Superclass::PointType PointType;

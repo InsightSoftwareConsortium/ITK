@@ -124,7 +124,8 @@ public:
   typedef typename DerivImageType::Pointer DerivImagePointer;
 
   /** Determine the image dimension. */
-  enum { SetDimension = TLevelSet::ImageDimension };
+  itkStaticConstMacro(SetDimension, unsigned int,
+                      TLevelSet::ImageDimension);
 
   /** Set the inflation strength. The parameter control the 
    * the strength of the optional ballon force. If PropagateOutward

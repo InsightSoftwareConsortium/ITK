@@ -68,7 +68,8 @@ public:
   itkTypeMacro(PadImageFilter, ImageToImageFilter);
 
   /** ImageDimension enumeration. */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension );
 
   /** Set/Get the output image padding.  Default is no padding 
    *  (same as input). */

@@ -47,7 +47,8 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Inherit some parameters from the superclass type. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      Superclass::ImageDimension );
 
   /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::ImageType ImageType;

@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
  
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PatternIntensityImageToImageMetric, Object);
+  itkTypeMacro(PatternIntensityImageToImageMetric, ImageToImageMetric);
 
  
   /** Types transferred from the base class */

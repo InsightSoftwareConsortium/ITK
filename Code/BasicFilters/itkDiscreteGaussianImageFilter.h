@@ -72,7 +72,8 @@ public:
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  enum { ImageDimension = TOutputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
   
   /** Standard get/set macros for filter parameters. */
   itkSetVectorMacro(Variance, double, ImageDimension);

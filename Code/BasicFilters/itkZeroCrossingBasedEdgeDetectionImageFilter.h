@@ -96,7 +96,8 @@ public:
   itkTypeMacro(ZeroCrossingBasedEdgeDetectionImageFilter, ImageToImageFilter);
   
   /** ImageDimension enumeration   */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension );
   
   /** Standard get/set macros for Gaussian filter parameters.  */
   itkSetVectorMacro(Variance, double, ImageDimension);

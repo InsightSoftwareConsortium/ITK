@@ -71,12 +71,13 @@ public:
   itkTypeMacro(SimpleFuzzyConnectednessImageFilterBase,ImageToImageFilter);
 
   /** Capture the image dimension from the input template parameters. */
-  enum {ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Convenient typedefs. */
   typedef TInputImage InputImageType;
   typedef TOutputImage OutputImageType;
-  typedef Image <unsigned short, ImageDimension> UShortImage;
+  typedef Image <unsigned short, itkGetStaticConstMacro(ImageDimension)> UShortImage;
   typedef typename TInputImage::IndexType IndexType;
   typedef typename TInputImage::SizeType SizeType;
   typedef typename TInputImage::PixelType PixelType;

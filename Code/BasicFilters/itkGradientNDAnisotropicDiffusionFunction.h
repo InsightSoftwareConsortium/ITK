@@ -84,7 +84,7 @@ public:
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
 
   /** Inherit some parameters from the superclass type. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Compute the equation value. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
@@ -122,7 +122,7 @@ protected:
   std::slice xd_slice[ImageDimension][ImageDimension];
 
   /** Derivative operator. */
-  DerivativeOperator<PixelType, ImageDimension> dx_op;
+  DerivativeOperator<PixelType, itkGetStaticConstMacro(ImageDimension)> dx_op;
 
   /** Modified global average gradient magnitude term. */
   PixelType m_K;

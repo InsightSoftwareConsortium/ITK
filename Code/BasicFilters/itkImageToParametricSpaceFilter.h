@@ -81,7 +81,8 @@ public:
   typedef typename PointDataContainer::Iterator     PointDataContainerIterator;
 
   /** The dimension of the output mesh. */
-  enum { PointDimension = TOutputMesh::PointDimension };
+  itkStaticConstMacro(PointDimension, unsigned int,
+                      TOutputMesh::PointDimension);
 
   /** Some typedefs associated with the output mesh. */
   void GenerateData(void);

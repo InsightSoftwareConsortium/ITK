@@ -83,7 +83,7 @@ public:
   typedef Superclass::MeasureType       MeasureType;
 
   /** Not used, but expected by SingleValuedNonLinearOptimizer class. */
-  enum { SpaceDimension = 3 };
+  itkStaticConstMacro(SpaceDimension, unsigned int, 3);
 
   /** The type of the internal energy function. */
   typedef CompositeValleyFunction InternalEnergyFunction ;
@@ -212,7 +212,8 @@ public:
   itkTypeMacro(MRIBiasFieldCorrectionFilter, ImageToImageFilter);
 
   /** The dimension of the image. */
-  enum { ImageDimension = TOutputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
 
   /** Input and output image related type definitions. */
   typedef TOutputImage OutputImageType ;
@@ -234,7 +235,7 @@ public:
   typedef typename ImageMaskType::RegionType ImageMaskRegionType ;
 
   /** Internal (temporary) image related type definitions. */
-  typedef Image< float, ImageDimension > InternalImageType ;
+  typedef Image< float, itkGetStaticConstMacro(ImageDimension) > InternalImageType ;
   typedef typename InternalImageType::PixelType InternalImagePixelType ;
   typedef typename InternalImageType::Pointer InternalImagePointer ;
   typedef typename InternalImageType::RegionType InternalImageRegionType ;

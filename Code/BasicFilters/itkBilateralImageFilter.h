@@ -98,7 +98,8 @@ public:
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  enum { ImageDimension = TOutputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
   
   /** Neighborhood iterator types. */
   typedef ConstNeighborhoodIterator<TInputImage> 
@@ -107,14 +108,16 @@ public:
     SmartNeighborhoodIteratorType ;
   
   /** Kernel typedef. */
-  typedef Neighborhood<double, ImageDimension> KernelType;
+  typedef
+     Neighborhood<double, itkGetStaticConstMacro(ImageDimension)> KernelType;
   
   /** Kernel iterator. */
   typedef typename KernelType::Iterator KernelIteratorType ;
   typedef typename KernelType::ConstIterator KernelConstIteratorType ;
 
   /** Gaussian image type */
-  typedef Image<double, ImageDimension> GaussianImageType;
+  typedef
+     Image<double, itkGetStaticConstMacro(ImageDimension)> GaussianImageType;
   
   /** Standard get/set macros for filter parameters.
    * DomainSigma is specified in the same units as the Image spacing.

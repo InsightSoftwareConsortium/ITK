@@ -75,10 +75,11 @@ public:
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
 
   /** The dimension of the level set. */
-  enum { SetDimension = LevelSetType::SetDimension};
+  itkStaticConstMacro(SetDimension, unsigned int,LevelSetType::SetDimension);
 
   /** AuxVarType typedef support. */
-  typedef AuxVarTypeDefault<TAuxValue,VAuxDimension,SetDimension> AuxVarType;
+  typedef AuxVarTypeDefault<TAuxValue,VAuxDimension,
+                            itkGetStaticConstMacro(SetDimension)> AuxVarType;
   typedef typename AuxVarType::AuxValueType AuxValueType;
   typedef typename AuxVarType::AuxValueVectorType AuxValueVectorType;
   typedef typename AuxVarType::AuxValueContainer AuxValueContainer;
@@ -87,7 +88,7 @@ public:
   typedef typename AuxVarType::AuxImageConstPointer AuxImageConstPointer;
 
   /** Number of velocity images to be extended. */
-  enum { AuxDimension = VAuxDimension };
+  itkStaticConstMacro(AuxDimension, unsigned int,VAuxDimension);
 
   /** Set/Get one of the input velocity images to be extended. */
   void SetInputVelocityImage(const AuxImageType * ptr, unsigned int idx = 0);
@@ -110,9 +111,13 @@ private:
   ExtensionVelocitiesImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  /** Internal typedefs. SpeedImageType defined to work around the Borland
+   * compiler's improper handling of default template parameters that use
+   * dependent non-type templates. */
+  typedef Image<float, itkGetStaticConstMacro(SetDimension) > SpeedImageType;
   typedef LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension> 
     LocatorType;
-  typedef FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension> 
+  typedef FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,SpeedImageType> 
     FastMarchingImageFilterType;
 
   typename LocatorType::Pointer                    m_Locator;

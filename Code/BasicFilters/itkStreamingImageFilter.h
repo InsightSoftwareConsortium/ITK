@@ -67,10 +67,12 @@ public:
   typedef typename OutputImageType::PixelType OutputImagePixelType; 
 
   /** Dimension of input image. */
-  enum { InputImageDimension = InputImageType::ImageDimension };
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      InputImageType::ImageDimension);
 
   /** SmartPointer to a region splitting object */
-  typedef ImageRegionSplitter<InputImageDimension> SplitterType;
+  typedef ImageRegionSplitter<itkGetStaticConstMacro(InputImageDimension)>
+    SplitterType;
   typedef typename SplitterType::Pointer RegionSplitterPointer;
   
   /** Set the number of pieces to divide the input.  The upstream pipeline

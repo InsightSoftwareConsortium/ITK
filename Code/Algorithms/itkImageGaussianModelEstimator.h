@@ -142,8 +142,9 @@ private:
   typedef typename TInputImage::SizeType InputImageSizeType;
 
   /** Dimension of the each individual pixel vector. */
-  enum{ VectorDimension = InputImagePixelType::VectorDimension };
-  typedef vnl_matrix_fixed<double,1,VectorDimension> ColumnVectorType;
+  itkStaticConstMacro(VectorDimension, unsigned int,
+                      InputImagePixelType::VectorDimension);
+  typedef vnl_matrix_fixed<double,1,itkGetStaticConstMacro(VectorDimension)> ColumnVectorType;
 
   MatrixType            m_NumberOfSamples;
   MatrixType            m_Means;

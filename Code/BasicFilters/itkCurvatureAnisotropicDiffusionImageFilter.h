@@ -62,7 +62,8 @@ public:
   typedef typename Superclass::UpdateBufferType UpdateBufferType;
   
   /** Extract superclass image dimension. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      Superclass::ImageDimension);
   
 protected:
   CurvatureAnisotropicDiffusionImageFilter()

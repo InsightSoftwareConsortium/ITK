@@ -54,7 +54,7 @@ public:
   itkTypeMacro(BSplineDerivativeKernelFunction, KernelFunction); 
 
   /** Enum of for spline order. */
-  enum { SplineOrder = VSplineOrder };
+  itkStaticConstMacro(SplineOrder, unsigned int, VSplineOrder);
 
   /** Evaluate the function. */
   inline double Evaluate( const double & u ) const
@@ -65,7 +65,8 @@ public:
 
 protected:
 
-  typedef BSplineKernelFunction<SplineOrder - 1> KernelType;
+  typedef BSplineKernelFunction<itkGetStaticConstMacro(SplineOrder) - 1>
+      KernelType;
 
   BSplineDerivativeKernelFunction()
     {

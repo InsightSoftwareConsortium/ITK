@@ -94,7 +94,8 @@ public:
   typedef typename Superclass::InputImageType InputImageType;
 
   /** Dimension underlying input image. */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Index typedef support. */
   typedef typename TInputImage::IndexType IndexType;

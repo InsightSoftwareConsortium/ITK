@@ -43,8 +43,8 @@ namespace itk
 template <typename TInputImage, 
           typename TOutputImage= Image< CovariantVector< 
                       ITK_TYPENAME NumericTraits< ITK_TYPENAME TInputImage::PixelType>::RealType,
-                      ExtractImageDimension<TInputImage>::ImageDimension >,
-                          ExtractImageDimension<TInputImage>::ImageDimension > >
+                      ::itk::GetImageDimension<TInputImage>::ImageDimension >,
+                          ::itk::GetImageDimension<TInputImage>::ImageDimension > >
 class ITK_EXPORT GradientRecursiveGaussianImageFilter:
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
@@ -79,7 +79,8 @@ public:
   /**  Pointer to the Output Image */
   typedef typename TOutputImage::Pointer          OutputImagePointer;                                  
   /** Image dimension. */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Type of the output Image */
   typedef TOutputImage      OutputImageType;

@@ -50,7 +50,7 @@ namespace itk {
 template<class TImage>
 class ITK_EXPORT ConstNeighborhoodIterator
   :  public Neighborhood<ITK_TYPENAME TImage::InternalPixelType *,
-                                           TImage::ImageDimension>
+                         ::itk::GetImageDimension<TImage>::ImageDimension>
 {
 public:
   /** Extract image type information. */
@@ -58,23 +58,23 @@ public:
   typedef typename TImage::PixelType PixelType;
     
   /** Save the image dimension. */
-  enum {Dimension = TImage::ImageDimension };
+  itkStaticConstMacro(Dimension, unsigned int, TImage::ImageDimension);
   
   /** Standard class typedefs. */
   typedef ConstNeighborhoodIterator Self;
-  typedef Neighborhood<InternalPixelType *, Dimension> Superclass;
+  typedef Neighborhood<InternalPixelType *, itkGetStaticConstMacro(Dimension)> Superclass;
   
   /** Typedef support for common objects */
   typedef typename Superclass::SizeType SizeType;
   typedef typename Superclass::SizeValueType SizeValueType;
   typedef TImage ImageType;
   typedef typename TImage::RegionType RegionType;
-  typedef Index<Dimension> IndexType;
+  typedef Index<itkGetStaticConstMacro(Dimension)> IndexType;
   typedef typename IndexType::IndexValueType IndexValueType;
-  typedef Offset<Dimension> OffsetType;
+  typedef Offset<itkGetStaticConstMacro(Dimension)> OffsetType;
   typedef typename OffsetType::OffsetValueType OffsetValueType;
   typedef typename Superclass::RadiusType RadiusType;
-  typedef Neighborhood<PixelType, Dimension> NeighborhoodType;
+  typedef Neighborhood<PixelType, itkGetStaticConstMacro(Dimension)> NeighborhoodType;
   typedef typename Superclass::Iterator Iterator;
     
   /** Support for internal iterator types.  Only const iteration is supported
@@ -270,7 +270,7 @@ public:
    *
    * This method is only relevant in iterators that have the capability
    * to handle boundary conditions. */
-  virtual void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
+  virtual void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType)
     { /* default case is do nothing */ }
  
   /** This method positions the iterator at an indexed location in the

@@ -91,20 +91,24 @@ class Segmenter
   : public ProcessObject
 {
 public:
+  /** Standard self typedefs */
+  typedef Segmenter Self;
+
   /** Define image types and dimensionality  */
   typedef TInputImage InputImageType;
-  enum { ImageDimension = InputImageType::ImageDimension };
-  typedef Image<unsigned long, ImageDimension> OutputImageType;
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  typedef Image<unsigned long, itkGetStaticConstMacro(ImageDimension)> OutputImageType;
   typedef typename InputImageType::RegionType ImageRegionType;
   typedef typename InputImageType::PixelType  InputPixelType;
-  typedef Boundary<InputPixelType, ImageDimension> BoundaryType;
+  typedef Boundary<InputPixelType, itkGetStaticConstMacro(ImageDimension)> BoundaryType;
   typedef typename BoundaryType::IndexType BoundaryIndexType;
+  typedef typename BoundaryType::FlatHashValueType BoundaryFlatHashValueType;
   typedef SegmentTable<InputPixelType> SegmentTableType;
   typedef DataObject::Pointer DataObjectPointer;
   
   /** Methods to implement smart pointers and work with the itk object factory
    */
-  typedef Segmenter Self;
   typedef ProcessObject Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;

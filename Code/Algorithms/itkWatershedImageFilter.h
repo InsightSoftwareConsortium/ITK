@@ -151,7 +151,7 @@ namespace itk
 template <class TInputImage>
 class ITK_EXPORT WatershedImageFilter :
     public ImageToImageFilter< TInputImage, Image<unsigned long,
-    TInputImage::ImageDimension> >
+    ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
   /** Standard "Self" typedef.   */
@@ -161,10 +161,11 @@ public:
   typedef TInputImage InputImageType;
 
   /** Dimension of the input and output images. */
-  enum {ImageDimension = InputImageType::ImageDimension };
+  itkStaticConstMacro (ImageDimension, unsigned int,
+                       TInputImage::ImageDimension);
   
   /** The type of output image.   */
-  typedef Image<unsigned long, ImageDimension> OutputImageType;
+  typedef Image<unsigned long, itkGetStaticConstMacro(ImageDimension)> OutputImageType;
 
   /** Other convenient typedefs   */
   typedef typename InputImageType::RegionType RegionType;
@@ -258,7 +259,7 @@ private:
    * not unneccessarily repeated. */
   typename watershed::Segmenter<InputImageType>::Pointer m_Segmenter;
   typename watershed::SegmentTreeGenerator<ScalarType>::Pointer m_TreeGenerator;
-  typename watershed::Relabeler<ScalarType, ImageDimension>::Pointer m_Relabeler;
+  typename watershed::Relabeler<ScalarType, itkGetStaticConstMacro(ImageDimension)>::Pointer m_Relabeler;
 
   unsigned long m_ObserverTag;
   bool m_FirstExecution;

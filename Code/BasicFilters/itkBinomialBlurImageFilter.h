@@ -52,7 +52,7 @@ public:
   itkTypeMacro( BinomialBlurImageFilter, ImageToImageFilter );
 
   /** Number of dimensions */
-  enum {NDimensions = TInputImage::ImageDimension};
+  itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
 
   /** typedef for images */
   typedef TInputImage                             InputImageType;
@@ -62,7 +62,7 @@ public:
   typedef typename InputImageType::ConstPointer   InputImageConstPointer;
 
   /** Image size typedef */
-  typedef Size<TOutputImage::ImageDimension> SizeType;
+  typedef Size<itkGetStaticConstMacro(NDimensions)> SizeType;
 
   /** Image index typedef */
   typedef typename TOutputImage::IndexType IndexType;

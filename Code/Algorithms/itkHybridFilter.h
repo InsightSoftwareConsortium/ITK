@@ -65,7 +65,8 @@ public:
   typedef ImageRegionIteratorWithIndex< TOutputImage > OutputImageIterator;
   
   /** Image dimension. */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Set potential of the balloon force filter 
    * using the output of gibbs prior filter */

@@ -83,12 +83,14 @@ public:
   typedef typename TInputImage::SizeType InputImageSizeType;
 
   /** ImageDimension enumeration */
-  enum { InputImageDimension = TInputImage::ImageDimension };
-  enum { OutputImageDimension = TOutputImage::ImageDimension };
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
 
   typedef 
-    ImageToImageFilterDetail::ExtractImageFilterRegionCopier<InputImageDimension, 
-                     OutputImageDimension> ExtractImageFilterRegionCopierType;
+    ImageToImageFilterDetail::ExtractImageFilterRegionCopier<itkGetStaticConstMacro(InputImageDimension), 
+                                                             itkGetStaticConstMacro(OutputImageDimension)> ExtractImageFilterRegionCopierType;
 
   /** Set/Get the output image region. 
    *  If any of the ExtractionRegion.Size = 0 for any particular dimension dim,
@@ -107,8 +109,8 @@ public:
    * \sa ProcessObject::GenerateOutputInformaton()  */
   virtual void GenerateOutputInformation();
 
-  virtual void CallCopyRegion(ImageRegion<InputImageDimension> &destRegion,
-                              const ImageRegion<OutputImageDimension> &srcRegion);
+  virtual void CallCopyRegion(InputImageRegionType &destRegion,
+                              const OutputImageRegionType &srcRegion);
 protected:
   ExtractImageFilter();
   ~ExtractImageFilter() {};

@@ -87,7 +87,7 @@ public:
   typedef FixedArray< CoordRepType, VPointDimension*2 >  BoundsArrayType;
   
   /** Hold on to the dimensions specified by the template parameters. */
-  enum { PointDimension = VPointDimension };
+  itkStaticConstMacro(PointDimension, unsigned int,  VPointDimension);
 
   /** Convenient typedefs.*/
   typedef typename

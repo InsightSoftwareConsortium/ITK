@@ -67,7 +67,8 @@ public:
   typedef typename Superclass::PointType PointType;
 
   /** Dimension of the underlying image. */
-  enum { ImageDimension = InputImageType::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      InputImageType::ImageDimension);
 
   /** Evalulate the function at specified index */
   virtual double EvaluateAtIndex( const IndexType& index ) const

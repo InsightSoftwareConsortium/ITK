@@ -63,7 +63,8 @@ public:
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
 
   /** Extract superclass dimension. */
-  enum { ImageDimension = Superclass::ImageDimension };  
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      Superclass::ImageDimension);
 
   /** Typedef support for the stencil radius. */
   typedef typename RadiusType::SizeValueType RadiusValueType;
@@ -91,7 +92,7 @@ protected:
   MinMaxCurvatureFlowFunction();
   ~MinMaxCurvatureFlowFunction() {}
 
-  typedef Neighborhood<PixelType,ImageDimension> StencilOperatorType;
+  typedef Neighborhood<PixelType,itkGetStaticConstMacro(ImageDimension)> StencilOperatorType;
   StencilOperatorType  m_StencilOperator;
 
   /** Initialize the stencil opearator to be an N-Dimensional sphere

@@ -63,7 +63,7 @@ public:
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
 
   /** Extract superclass dimension. */
-  enum { ImageDimension = Superclass::ImageDimension };  
+  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);  
 
   /** Set/Get the threshold value. */
   void SetThreshold( const double thresh )

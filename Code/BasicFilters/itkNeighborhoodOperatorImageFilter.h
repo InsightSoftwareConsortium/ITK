@@ -67,7 +67,8 @@ public:
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  enum { ImageDimension = TOutputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
   
   /** Image typedef support. */
   typedef TInputImage  InputImageType;
@@ -76,14 +77,18 @@ public:
   /** Typedef for generic boundary condition pointer. */
   typedef ImageBoundaryCondition<OutputImageType> *
    ImageBoundaryConditionPointerType;
-  
+
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
+  /** Neighborhood types */
+  typedef Neighborhood<OutputPixelType, itkGetStaticConstMacro(ImageDimension)> OutputNeighborhoodType;
+  typedef Neighborhood<InputPixelType, itkGetStaticConstMacro(ImageDimension)> InputNeighborhoodType;
+  
   /** Sets the operator that is used to filter the image. Note
    * that the operator is stored as an internal COPY (it
    * is not part of the pipeline). */
-  void SetOperator(const Neighborhood<OutputPixelType, ImageDimension> &p)
+  void SetOperator(const OutputNeighborhoodType &p)
     {
     m_Operator = p;
     this->Modified();
@@ -132,7 +137,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** Pointer to the internal operator used to filter the image. */
-  Neighborhood<InputPixelType, ImageDimension> m_Operator;
+  InputNeighborhoodType m_Operator;
 
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */

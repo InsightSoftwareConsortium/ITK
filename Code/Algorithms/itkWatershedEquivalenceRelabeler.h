@@ -54,15 +54,15 @@ class EquivalenceRelabeler
 {
 public:
   /** Expose templated image dimension parameter at run time */
-  enum {ImageDimension = TImageDimension};
+  itkStaticConstMacro(ImageDimension, unsigned int,TImageDimension);
   
   /**  Some convenient typedefs.   */
-  typedef Image<unsigned long, ImageDimension> ImageType;
+  typedef Image<unsigned long, TImageDimension> ImageType;
   typedef EquivalenceRelabeler Self;
   typedef ProcessObject Superclass;
   typedef TScalarType ScalarType;
   typedef EquivalencyTable EquivalencyTableType;
-  typedef Segmenter<Image<ScalarType, ImageDimension> > SegmenterType;
+  typedef Segmenter<Image<ScalarType, TImageDimension> > SegmenterType;
   typedef DataObject::Pointer DataObjectPointer;
   
   /**  Define smart pointers for this object.   */

@@ -79,7 +79,8 @@ public:
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
 
   /** SetDimension enumeration. */
-  enum { SetDimension = LevelSetType::SetDimension};
+  itkStaticConstMacro(SetDimension, unsigned int,
+                      LevelSetType::SetDimension);
 
   /** Set/Get the value of the level set to be located. The default value is
    *  0. */
@@ -124,8 +125,12 @@ protected:
   ~ReinitializeLevelSetImageFilter(){};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  /** Internal typedefs. SpeedImageType defined to work around the Borland
+   * compiler's improper handling of default template parameters that use
+   * dependent non-type templates. */
+  typedef Image<float, itkGetStaticConstMacro(SetDimension) > SpeedImageType;
   typedef LevelSetNeighborhoodExtractor<TLevelSet> LocatorType;
-  typedef FastMarchingImageFilter<TLevelSet> FastMarchingImageFilterType;
+  typedef FastMarchingImageFilter<TLevelSet, SpeedImageType> FastMarchingImageFilterType;
 
   void GenerateData();
   virtual void GenerateDataFull();

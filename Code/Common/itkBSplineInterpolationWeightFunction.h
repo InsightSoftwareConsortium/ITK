@@ -66,10 +66,10 @@ public:
   itkTypeMacro(BSplineInterpolationWeightFunction, FunctionBase);
 
   /** Space dimension. */
-  enum { SpaceDimension = VSpaceDimension };
+  itkStaticConstMacro(SpaceDimension, unsigned int, VSpaceDimension);
 
   /** Spline order. */
-  enum { SplineOrder = VSplineOrder };
+  itkStaticConstMacro(SplineOrder, unsigned int, VSplineOrder);
 
   /** OutputType typedef support. */
   typedef Array<double> WeightsType;
@@ -124,7 +124,8 @@ private:
   TableType m_OffsetToIndexTable;
 
   /** Interpolation kernel type. */
-  typedef BSplineKernelFunction<SplineOrder> KernelType;
+  typedef BSplineKernelFunction<itkGetStaticConstMacro(SplineOrder)>
+     KernelType;
   
   /** Interpolation kernel. */
   typename KernelType::Pointer m_Kernel;

@@ -133,7 +133,8 @@ public:
   itkSetMacro(ObjectLabel, unsigned int);
 
   /** The image dimension. */
-  enum {ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Methods to control the algorithm. */
   void SetStartPoint (int x, int y, int z); 

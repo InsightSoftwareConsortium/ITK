@@ -112,8 +112,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(CannyEdgeDetectionImageFilter, ImageToImageFilter);
   
-  /** ImageDimension enumeration    */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  /** ImageDimension constant    */
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
   
   /** Standard get/set macros for filter parameters. */
   itkSetVectorMacro(Variance, double, ImageDimension); 
@@ -257,9 +258,9 @@ private:
 
   /** Function objects that are used in the inner loops of derivative
       calculations. */
-  DerivativeOperator<OutputImagePixelType,ImageDimension>
+  DerivativeOperator<OutputImagePixelType,itkGetStaticConstMacro(ImageDimension)>
     m_ComputeCannyEdge1stDerivativeOper;
-  DerivativeOperator<OutputImagePixelType,ImageDimension>
+  DerivativeOperator<OutputImagePixelType,itkGetStaticConstMacro(ImageDimension)>
     m_ComputeCannyEdge2ndDerivativeOper;
 
   std::slice  m_ComputeCannyEdgeSlice[ImageDimension];

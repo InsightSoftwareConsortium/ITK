@@ -104,7 +104,8 @@ public:
     DeformationFieldType>  PDEDeformableRegistrationFunctionType;
 
   /** Inherit some enums and typedefs from the superclass. */
-  enum{ ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      Superclass::ImageDimension);
 
   /** Set the fixed image. */
   void SetFixedImage( const FixedImageType * ptr );

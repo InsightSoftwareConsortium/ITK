@@ -56,8 +56,8 @@ ExtractImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void 
 ExtractImageFilter<TInputImage,TOutputImage>
-::CallCopyRegion(ImageRegion<InputImageDimension> &destRegion,
-                 const ImageRegion<OutputImageDimension> &srcRegion)
+::CallCopyRegion(InputImageRegionType &destRegion,
+                 const OutputImageRegionType &srcRegion)
 {
   ExtractImageFilterRegionCopierType extractImageRegionCopier;
   extractImageRegionCopier(destRegion, srcRegion, m_ExtractionRegion);

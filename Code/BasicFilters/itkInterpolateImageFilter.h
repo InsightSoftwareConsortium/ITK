@@ -62,12 +62,14 @@ public:
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   /** Number of dimensions. */
-  enum {ImageDimension = TOutputImage::ImageDimension};
-  enum {IntermediateImageDimension = ImageDimension + 1};
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
+  itkStaticConstMacro(IntermediateImageDimension, unsigned int,
+                      TOutputImage::ImageDimension + 1);
 
   /** Interpolator typedef. */
   typedef typename TInputImage::PixelType InputPixelType;
-  typedef Image<InputPixelType,IntermediateImageDimension> IntermediateImageType;
+  typedef Image<InputPixelType,itkGetStaticConstMacro(IntermediateImageDimension)> IntermediateImageType;
   typedef InterpolateImageFunction<IntermediateImageType> InterpolatorType;
 
   /** Input image type. */

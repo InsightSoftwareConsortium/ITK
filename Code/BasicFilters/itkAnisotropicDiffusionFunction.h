@@ -152,7 +152,7 @@ public:
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
 
   /** Inherit some parameters from the superclass type */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** This method is called before each iteration.  It calculates a scalar
       value that is the average of the gradient magnitude squared at each pixel 

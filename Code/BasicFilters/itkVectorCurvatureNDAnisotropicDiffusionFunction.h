@@ -61,8 +61,10 @@ public:
   typedef typename PixelType::ValueType ScalarValueType;
   
   /** Extract the image and vector dimension. */
-  enum { ImageDimension = Superclass::ImageDimension };
-  enum { VectorDimension = Superclass::VectorDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      Superclass::ImageDimension);
+  itkStaticConstMacro(VectorDimension, unsigned int,
+                      Superclass::VectorDimension);
 
   /** Compute the equation value. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
@@ -103,7 +105,7 @@ private:
   std::slice xd_slice[ImageDimension][ImageDimension];
 
   /** Derivative operator */
-  DerivativeOperator<ScalarValueType, ImageDimension> dx_op;
+  DerivativeOperator<ScalarValueType, itkGetStaticConstMacro(ImageDimension)> dx_op;
 
   /** Modified global average gradient magnitude term. */
   double m_K;

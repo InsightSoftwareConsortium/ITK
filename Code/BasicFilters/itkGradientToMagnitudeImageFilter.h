@@ -49,10 +49,10 @@ public:
   itkTypeMacro( GradientToMagnitudeImageFilter, ImageToImageFilter );
 
   /** Number of dimensions, */
-  enum {NDimensions = TInputImage::ImageDimension};
+  itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
 
   /** Image size typedef. */
-  typedef Size<TOutputImage::ImageDimension> SizeType;
+  typedef typename TInputImage::SizeType SizeType;
 
   /** Image index typedef. */
   typedef typename TOutputImage::IndexType IndexType;

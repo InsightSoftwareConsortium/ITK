@@ -85,7 +85,7 @@
   typedef typename Superclass::CellGeometry            CellGeometry;  \
   typedef typename Superclass::ParametricCoordArrayType  ParametricCoordArrayType;  \
   typedef typename Superclass::ShapeFunctionsArrayType   ShapeFunctionsArrayType;  \
-  enum { PointDimension = Superclass::PointDimension }
+  itkStaticConstMacro(PointDimension, unsigned int, Superclass::PointDimension)
  
 
 
@@ -138,7 +138,7 @@ public:
   typedef typename CellTraits::UsingCellsContainer     UsingCellsContainer;
     
   /** Save the dimension from the template parameters. */
-  enum { PointDimension = CellTraits::PointDimension };
+  itkStaticConstMacro(PointDimension, unsigned int,CellTraits::PointDimension);
 
   /** An iterator through the UsingCellsContainer. */
   typedef typename UsingCellsContainer::iterator  UsingCellsContainerIterator;
@@ -422,7 +422,7 @@ template <int VPointDimension, typename TCoordRep,
 class CellTraitsInfo
 {
 public:
-  enum { PointDimension = VPointDimension };
+  itkStaticConstMacro(PointDimension, unsigned int, VPointDimension);
   typedef TCoordRep               CoordRepType;
   typedef TInterpolationWeight    InterpolationWeightType;
   typedef TPointIdentifier        PointIdentifier;
@@ -436,7 +436,8 @@ public:
 };
 
 #define itkMakeCellTraitsMacro \
-  CellTraitsInfo<PointDimension, CoordRepType, InterpolationWeightType,  \
+  CellTraitsInfo<itkGetStaticConstMacro(PointDimension), CoordRepType, \
+               InterpolationWeightType,  \
                PointIdentifier, CellIdentifier, CellFeatureIdentifier, \
                PointType, PointsContainer, UsingCellsContainer>
 

@@ -109,7 +109,8 @@ public:
   typedef typename OutputImageType::PixelType        PixelType;
 
   /** Determine the image dimension. */
-  enum { ImageDimension = OutputImageType::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TOutputImage::ImageDimension );
 
   /** Deformation field typedef support. */
   typedef TDeformationField    DeformationFieldType;
@@ -124,7 +125,7 @@ public:
     DefaultInterpolatorType;
 
   /** Point type */
-  typedef Point<CoordRepType,ImageDimension> PointType;
+  typedef Point<CoordRepType,itkGetStaticConstMacro(ImageDimension)> PointType;
 
   /** Set the deformation field. */
   void SetDeformationField( DeformationFieldType * field );

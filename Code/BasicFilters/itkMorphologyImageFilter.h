@@ -89,7 +89,8 @@ public:
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
   
   /** Image related typedefs. */
-  enum { ImageDimension = TInputImage::ImageDimension } ;
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Neighborhood iterator type. */
   typedef ConstNeighborhoodIterator<TInputImage> 

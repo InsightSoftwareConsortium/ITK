@@ -210,10 +210,11 @@ public:
   typedef typename TOutputImage::PixelType::VectorType OutputImageVectorType;
 
   /** The dimension of the labeled image. */
-  enum { LabelImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(LabelImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Type definition for the labelled image pixel type. */
-  typedef Image<unsigned short,LabelImageDimension> LabelImageType;
+  typedef Image<unsigned short,itkGetStaticConstMacro(LabelImageDimension)> LabelImageType;
 
   /** Type definition for the labelled image pointer.  */
   typedef typename LabelImageType::Pointer LabelImagePointer;

@@ -64,7 +64,7 @@ public:
   typedef typename Superclass::TimeStepType TimeStepType;
 
   /** Extract superclass dimension. */
-  enum { ImageDimension = Superclass::ImageDimension };  
+  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
  /** Computes the time step for an update given a global data structure.
    * The data used in the computation may take different forms depending on

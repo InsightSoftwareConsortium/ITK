@@ -73,7 +73,8 @@ public:
   itkTypeMacro(VoronoiSegmentationImageFilterBase,ImageToImageFilter);
 
   /** Get the image dimension from the template parameter. */
-  enum {ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
   
   /** Convenient typedefs. */
   typedef TInputImage InputImageType;

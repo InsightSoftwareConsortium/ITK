@@ -53,7 +53,7 @@ template <
   class TLevelSet, 
   class TAuxValue,
   unsigned int VAuxDimension = 1,
-  class TSpeedImage = Image<float,TLevelSet::ImageDimension>
+  class TSpeedImage = Image<float,::itk::GetImageDimension<TLevelSet>::ImageDimension>
 >
 class ITK_EXPORT FastMarchingExtensionImageFilter :
   public FastMarchingImageFilter<TLevelSet,TSpeedImage>
@@ -77,13 +77,15 @@ public:
   typedef typename Superclass::LevelSetImageType  LevelSetImageType;
 
   /** The dimension of the level set. */
-  enum { SetDimension = Superclass::SetDimension};
+  itkStaticConstMacro(SetDimension, unsigned int,Superclass::SetDimension);
 
   /** Number of auxiliary variables to be extended. */
-  enum { AuxDimension = VAuxDimension };
+  itkStaticConstMacro(AuxDimension, unsigned int,VAuxDimension);
 
   /** AuxVarType typedef support. */
-  typedef AuxVarTypeDefault<TAuxValue,AuxDimension,SetDimension> AuxVarType;
+  typedef AuxVarTypeDefault<TAuxValue,
+                            itkGetStaticConstMacro(AuxDimension),
+                            itkGetStaticConstMacro(SetDimension)> AuxVarType;
   typedef typename AuxVarType::AuxValueType AuxValueType;
   typedef typename AuxVarType::AuxValueVectorType AuxValueVectorType;
   typedef typename AuxVarType::AuxValueContainer AuxValueContainer;
@@ -91,7 +93,7 @@ public:
   typedef typename AuxVarType::AuxImagePointer AuxImagePointer;
 
   /** Index typedef support. */
-  typedef Index<SetDimension> IndexType;
+  typedef Index<itkGetStaticConstMacro(SetDimension)> IndexType;
 
   /** Get one of the extended auxiliary variable image. */
   AuxImageType * GetAuxiliaryImage( unsigned int idx );

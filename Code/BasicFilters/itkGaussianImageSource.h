@@ -55,10 +55,10 @@ public:
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** Dimensionality of the output image */
-  enum { NDimensions = TOutputImage::ImageDimension };
+  itkStaticConstMacro(NDimensions, unsigned int, TOutputImage::ImageDimension);
 
   /** Type used to store gaussian parameters. */
-  typedef FixedArray<double, NDimensions> ArrayType;
+  typedef FixedArray<double, itkGetStaticConstMacro(NDimensions)> ArrayType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GaussianImageSource,ImageSource);
@@ -67,24 +67,24 @@ public:
   itkNewMacro(Self);
   
   /** Specify the size of the output image. */
-  virtual void SetSize( const unsigned long values[TOutputImage::ImageDimension]);
+  virtual void SetSize( const unsigned long values[NDimensions]);
 
   /** Get the size of the output image. */
-  itkGetVectorMacro(Size,const unsigned long,TOutputImage::ImageDimension);
+  itkGetVectorMacro(Size,const unsigned long,NDimensions);
   
   /** Specify the spacing of the output image. */
-  virtual void SetSpacing( const float values[TOutputImage::ImageDimension]);
-  virtual void SetSpacing( const double values[TOutputImage::ImageDimension]);
+  virtual void SetSpacing( const float values[NDimensions]);
+  virtual void SetSpacing( const double values[NDimensions]);
   
   /** Get the spacing of the output image. */
-  itkGetVectorMacro(Spacing,const double,TOutputImage::ImageDimension);
+  itkGetVectorMacro(Spacing,const double,NDimensions);
 
   /** Specify the origin of the output image. */
-  virtual void SetOrigin( const float values[TOutputImage::ImageDimension]);
-  virtual void SetOrigin( const double values[TOutputImage::ImageDimension]);
+  virtual void SetOrigin( const float values[NDimensions]);
+  virtual void SetOrigin( const double values[NDimensions]);
 
   /** Get the origin of the output image. */
-  itkGetVectorMacro(Origin,const double,TOutputImage::ImageDimension);
+  itkGetVectorMacro(Origin,const double,NDimensions);
 
     /** Gets and sets for gaussian parameters */
   itkSetMacro(Scale, double);
@@ -108,9 +108,9 @@ private:
   GaussianImageSource(const GaussianImageSource&); //purposely not implemented
   void operator=(const GaussianImageSource&); //purposely not implemented
 
-  unsigned long  m_Size[TOutputImage::ImageDimension];    //size of the output image
-  double         m_Spacing[TOutputImage::ImageDimension]; //spacing
-  double         m_Origin[TOutputImage::ImageDimension];  //origin
+  unsigned long  m_Size[NDimensions];    //size of the output image
+  double         m_Spacing[NDimensions]; //spacing
+  double         m_Origin[NDimensions];  //origin
 
   /** Parameters for the Gaussian. */
   

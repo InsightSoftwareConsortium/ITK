@@ -60,9 +60,10 @@ public:
   typedef ImageRegionIterator<OutputImageType>     OutputImageIterator;
 
   /** Image dimension. */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
-  typedef itk::Image<double, ImageDimension>  InternalImageType;
+  typedef itk::Image<double, itkGetStaticConstMacro(ImageDimension)>  InternalImageType;
   typedef typename InternalImageType::Pointer InternalImagePointer;
   typedef ImageRegionIterator<InternalImageType> InternalImageIterator;
 

@@ -85,10 +85,10 @@ public:
   itkTypeMacro( BSplineDeformableTransform, Transform );
 
   /** Dimension of the domain space. */
-  enum { SpaceDimension  = NDimensions };
+  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
 
   /** The BSpline order. */
-  enum { SplineOrder = VSplineOrder };
+  itkStaticConstMacro(SplineOrder, unsigned int, VSplineOrder);
 
   /** Standard scalar type for this class. */
   typedef typename Superclass::ScalarType ScalarType;
@@ -100,20 +100,28 @@ public:
   typedef typename Superclass::JacobianType JacobianType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, SpaceDimension> InputVectorType;
-  typedef Vector<TScalarType, SpaceDimension> OutputVectorType;
+  typedef Vector<TScalarType,
+                 itkGetStaticConstMacro(SpaceDimension)> InputVectorType;
+  typedef Vector<TScalarType,
+                 itkGetStaticConstMacro(SpaceDimension)> OutputVectorType;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector<TScalarType, SpaceDimension> InputCovariantVectorType;
-  typedef CovariantVector<TScalarType, SpaceDimension> OutputCovariantVectorType;
+  typedef CovariantVector<TScalarType,
+                          itkGetStaticConstMacro(SpaceDimension)> InputCovariantVectorType;
+  typedef CovariantVector<TScalarType,
+                          itkGetStaticConstMacro(SpaceDimension)> OutputCovariantVectorType;
   
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalarType, SpaceDimension> InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType, SpaceDimension> OutputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType,
+                           itkGetStaticConstMacro(SpaceDimension)> InputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType,
+                           itkGetStaticConstMacro(SpaceDimension)> OutputVnlVectorType;
   
   /** Standard coordinate point type for this class. */
-  typedef Point<TScalarType, SpaceDimension> InputPointType;
-  typedef Point<TScalarType, SpaceDimension> OutputPointType;
+  typedef Point<TScalarType,
+                itkGetStaticConstMacro(SpaceDimension)> InputPointType;
+  typedef Point<TScalarType,
+                itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
   
   /** This method sets the parameters of the transform.
    * For a BSpline deformation transform, the parameters are the BSpline 
@@ -138,7 +146,7 @@ public:
   virtual const ParametersType& GetParameters(void) const;
 
   /** Typedefs for specificing the extend to the grid. */
-  typedef ImageRegion<SpaceDimension>    RegionType;
+  typedef ImageRegion<itkGetStaticConstMacro(SpaceDimension)>    RegionType;
   typedef typename RegionType::IndexType IndexType;
   typedef typename RegionType::SizeType  SizeType;
   typedef FixedArray<double> SpacingType;
@@ -157,8 +165,9 @@ public:
   itkGetMacro( GridOrigin, OriginType );
 
   /** Typedef of the bulk transform. */
-  typedef Transform<ScalarType,SpaceDimension,SpaceDimension> BulkTransformType;
-  typedef typename BulkTransformType::ConstPointer            BulkTransformPointer;
+  typedef Transform<ScalarType,itkGetStaticConstMacro(SpaceDimension),
+                    itkGetStaticConstMacro(SpaceDimension)> BulkTransformType;
+  typedef typename BulkTransformType::ConstPointer  BulkTransformPointer;
 
   /** This method specifies the bulk transform to be applied. 
    * The default is the identity transform.
@@ -170,8 +179,9 @@ public:
   OutputPointType  TransformPoint(const InputPointType  &point ) const;
 
   /** Interpolation weights function type. */
-  typedef BSplineInterpolationWeightFunction<ScalarType,SpaceDimension,SplineOrder> 
-    WeightsFunctionType;
+  typedef BSplineInterpolationWeightFunction<ScalarType,
+                                             itkGetStaticConstMacro(SpaceDimension),
+                                             itkGetStaticConstMacro(SplineOrder)> WeightsFunctionType;
   typedef typename WeightsFunctionType::WeightsType WeightsType;
   typedef typename WeightsFunctionType::ContinuousIndexType ContinuousIndexType;
 
@@ -180,24 +190,26 @@ public:
    * deformation and startIndex contains the support region of coefficient
    * used to compute the deformation.
    */
-  void TransformPoint( const InputPointType & inputPoint, OutputPointType &
-    outputPoint, WeightsType & weights, IndexType & startIndex, bool & inside ) const;
+  void TransformPoint( const InputPointType & inputPoint,
+                       OutputPointType & outputPoint,
+                       WeightsType & weights,
+                       IndexType & startIndex, bool & inside ) const;
 
   /** Get number of weights. */
   unsigned long GetNumberOfWeights() const
     { return m_WeightsFunction->GetNumberOfWeights(); }
 
   /**  Method to transform a vector - not applicable for this type of transform. */
-  virtual OutputVectorType    TransformVector(const InputVectorType &vector) const
+  virtual OutputVectorType TransformVector(const InputVectorType &vector) const
     { 
-      itkExceptionMacro( << "Method not applicable for deformable transform." );
+      itkExceptionMacro(<< "Method not applicable for deformable transform." );
       return OutputVectorType(); 
     }
 
   /**  Method to transform a vnl_vector - not applicable for this type of transform */
   virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &vector) const
     { 
-      itkExceptionMacro( << "Method not applicable for deformable transform. " );
+      itkExceptionMacro(<< "Method not applicable for deformable transform. ");
       return OutputVnlVectorType(); 
     }
 
@@ -205,7 +217,7 @@ public:
   virtual OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType &vector) const
     { 
-      itkExceptionMacro( << "Method not applicable for deformable transfrom. " );
+      itkExceptionMacro(<< "Method not applicable for deformable transfrom. ");
       return OutputCovariantVectorType(); 
     } 
     
@@ -213,7 +225,7 @@ public:
   void PrintSelf(std::ostream &os, Indent indent) const;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
+  virtual const JacobianType& GetJacobian(const InputPointType  &point ) const;
 
   /** Return the number of parameters that completely define the Transfom */
   unsigned int virtual GetNumberOfParameters(void) const;
@@ -242,13 +254,14 @@ private:
 
   /** Parameters as SpaceDimension number of images. */
   typedef typename ParametersType::ValueType PixelType;
-  typedef Image<PixelType,SpaceDimension> ImageType;
+  typedef Image<PixelType,itkGetStaticConstMacro(SpaceDimension)> ImageType;
   
   typename ImageType::Pointer   m_CoefficientImage[SpaceDimension];
 
   /** Jacobian as SpaceDimension number of images. */
   typedef typename JacobianType::ValueType JacobianPixelType;
-  typedef Image<JacobianPixelType,SpaceDimension> JacobianImageType;
+  typedef Image<JacobianPixelType,
+                itkGetStaticConstMacro(SpaceDimension)> JacobianImageType;
  
   typename JacobianImageType::Pointer m_JacobianImage[SpaceDimension];
 

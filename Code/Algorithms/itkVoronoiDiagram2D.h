@@ -75,8 +75,10 @@ public:
   typedef DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType> MeshTraits;
 
   /** Dimensions of the points and topology. */
-  enum {PointDimension = MeshTraits::PointDimension};
-  enum {MaxTopologicalDimension = MeshTraits::MaxTopologicalDimension};
+  itkStaticConstMacro(PointDimension, unsigned int,
+                      MeshTraits::PointDimension);
+  itkStaticConstMacro(MaxTopologicalDimension, unsigned int,
+                      MeshTraits::MaxTopologicalDimension);
 
   /** Typedefs from itkMesh */
   typedef typename MeshTraits::PixelType               PixelType;  
@@ -97,9 +99,9 @@ public:
   typedef typename MeshTraits::BoundariesContainer     BoundariesContainer;
   typedef typename MeshTraits::BoundaryDataContainer   BoundaryDataContainer;
   typedef typename MeshTraits::CellAutoPointer         genericCellPointer;
-  typedef PointLocator<PointIdentifier,PointDimension,
+  typedef PointLocator<PointIdentifier,itkGetStaticConstMacro(PointDimension),
                        CoordRepType,PointsContainer>  PointLocatorType;
-  typedef BoundingBox<PointIdentifier,PointDimension,
+  typedef BoundingBox<PointIdentifier,itkGetStaticConstMacro(PointDimension),
                       CoordRepType,PointsContainer>   BoundingBoxType;
   typedef typename PointsContainer::Pointer       PointsContainerPointer;
   typedef typename CellsContainer::Pointer        CellsContainerPointer;

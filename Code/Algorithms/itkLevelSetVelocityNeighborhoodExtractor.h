@@ -77,13 +77,14 @@ public:
   typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
 
   /** The dimension of the level set. */
-  enum { SetDimension = LevelSetType::SetDimension};
+  itkStaticConstMacro(SetDimension, unsigned int,
+                      LevelSetType::SetDimension);
 
   /** Index typedef support */
-  typedef Index<SetDimension> Index;
+  typedef Index<itkGetStaticConstMacro(SetDimension)> Index;
 
   /** AuxVarType typedef support. */
-  typedef AuxVarTypeDefault<TAuxValue,VAuxDimension,SetDimension> AuxVarType;
+  typedef AuxVarTypeDefault<TAuxValue,VAuxDimension,itkGetStaticConstMacro(SetDimension)> AuxVarType;
   typedef typename AuxVarType::AuxValueType AuxValueType;
   typedef typename AuxVarType::AuxValueVectorType AuxValueVectorType;
   typedef typename AuxVarType::AuxValueContainer AuxValueContainer;

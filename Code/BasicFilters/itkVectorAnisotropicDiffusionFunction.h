@@ -70,8 +70,10 @@ public:
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
 
   /** Inherit some parameters from the superclass type */
-  enum { ImageDimension = Superclass::ImageDimension };
-  enum { VectorDimension = PixelType::VectorDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      Superclass::ImageDimension );
+  itkStaticConstMacro(VectorDimension, unsigned int, 
+                      PixelType::VectorDimension );
 
   /** Compute the average gradient magnitude squared. */
   virtual void CalculateAverageGradientMagnitudeSquared(TImage *);

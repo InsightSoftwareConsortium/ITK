@@ -87,7 +87,8 @@ public:
   typedef typename TInputImage2::PixelType InputImage2PixelType;
   
   /** Image related typedefs. */
-  enum { ImageDimension = TInputImage1::ImageDimension } ;
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage1::ImageDimension );
 
   /** Type to use form computations. */
   typedef typename NumericTraits<InputImage1PixelType>::RealType RealType;

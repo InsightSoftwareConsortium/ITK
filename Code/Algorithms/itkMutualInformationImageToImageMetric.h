@@ -125,7 +125,8 @@ public:
   typedef typename TransformType::OutputPointType       MovingImagePointType;
 
   /** Enum of the moving image dimension. */
-  enum { MovingImageDimension = MovingImageType::ImageDimension };
+  itkStaticConstMacro(MovingImageDimension, unsigned int,
+                      MovingImageType::ImageDimension);
 
   /** Get the derivatives of the match measure. */
   void GetDerivative( 

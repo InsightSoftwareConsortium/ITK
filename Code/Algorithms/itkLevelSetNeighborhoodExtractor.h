@@ -80,10 +80,11 @@ public:
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
 
   /** SetDimension enumeration. */
-  enum { SetDimension = LevelSetType::SetDimension};
+  itkStaticConstMacro(SetDimension, unsigned int,
+                      LevelSetType::SetDimension);
 
   /** Index typedef support. */
-  typedef Index<SetDimension> IndexType;
+  typedef Index<itkGetStaticConstMacro(SetDimension)> IndexType;
 
   /** Set the input level set. */
   itkSetConstObjectMacro( InputLevelSet, LevelSetImageType );

@@ -65,8 +65,9 @@ public:
   typedef typename Superclass::OutputImageSizeType OutputImageSizeType;
   typedef typename Superclass::InputImageSizeType InputImageSizeType;
 
-  /** ImageDimension enumeration */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  /** ImageDimension constant */
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Set/Get the pad value.  Default is Zero. */
   itkSetMacro(Constant, OutputImagePixelType);

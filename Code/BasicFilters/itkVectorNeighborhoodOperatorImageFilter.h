@@ -78,7 +78,8 @@ public:
   typedef typename OutputPixelType::ValueType      ScalarValueType;
   
   /** Determine image dimension. */
-  enum { ImageDimension = TOutputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TOutputImage::ImageDimension );
 
   /** Image typedef support */
   typedef TInputImage  InputImageType;
@@ -94,7 +95,8 @@ public:
   /** Sets the operator that is used to filter the image. Note
    * that the operator is stored as an internal COPY (it
    * is not part of the pipeline). */
-  void SetOperator(const Neighborhood<ScalarValueType, ImageDimension> &p)
+  void SetOperator(const Neighborhood<ScalarValueType,
+                   itkGetStaticConstMacro(ImageDimension)> &p)
     {
     m_Operator = p;
     this->Modified();
@@ -141,7 +143,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** Pointer to the internal operator used to filter the image. */
-  Neighborhood<ScalarValueType, ImageDimension> m_Operator;
+  Neighborhood<ScalarValueType, itkGetStaticConstMacro(ImageDimension)> m_Operator;
 
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */

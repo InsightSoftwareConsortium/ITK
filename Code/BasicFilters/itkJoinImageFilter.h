@@ -49,18 +49,24 @@ public:
   JoinFunctor() {}
   ~JoinFunctor() {}
 
+  /** Standard typedefs */
+  typedef JoinFunctor Self;
+  
   /** Typedefs for the output join type. */
   typedef typename PixelTraits<TPixel1>::ValueType ValueType1;
   typedef typename PixelTraits<TPixel2>::ValueType ValueType2;
   typedef typename JoinTraits<ValueType1, ValueType2>::ValueType JoinValueType;
 
   /** Capture the dimensions of the image. */
-  enum {Dimension1 = PixelTraits<TPixel1>::Dimension};
-  enum {Dimension2 = PixelTraits<TPixel2>::Dimension};
-  enum {JoinDimension = Dimension1 + Dimension2};
+  itkStaticConstMacro(Dimension1, unsigned int,
+                      PixelTraits<TPixel1>::Dimension);
+  itkStaticConstMacro(Dimension2, unsigned int,
+                      PixelTraits<TPixel2>::Dimension);
+  itkStaticConstMacro(JoinDimension, unsigned int,
+                      Dimension1 + Dimension2);
 
   /** A vector of the join dimension. */
-  typedef Vector<JoinValueType, JoinDimension> JoinType;
+  typedef Vector<JoinValueType, itkGetStaticConstMacro(JoinDimension)> JoinType;
 
   /** operator().  This is the "call" method of the functor. */
   inline JoinType operator()( const TPixel1 & A, const TPixel2 & B)
@@ -170,19 +176,22 @@ template <class TInputImage1, class TInputImage2>
 class ITK_EXPORT JoinImageFilter:
     public BinaryFunctorImageFilter<TInputImage1,
                                     TInputImage2,
-                                    Image< ITK_TYPENAME Functor::JoinFunctor<ITK_TYPENAME TInputImage1::PixelType,  ITK_TYPENAME TInputImage2::PixelType>::JoinType, TInputImage1::ImageDimension>,
+                                    Image< ITK_TYPENAME Functor::JoinFunctor<ITK_TYPENAME TInputImage1::PixelType,  ITK_TYPENAME TInputImage2::PixelType>::JoinType, ::itk::GetImageDimension<TInputImage1>::ImageDimension>,
                                     Functor::JoinFunctor< ITK_TYPENAME TInputImage1::PixelType, ITK_TYPENAME TInputImage2::PixelType> >
 {
 public:
   /** Capture the output image dimension. */
-  enum {OutputImageDimension = TInputImage1::ImageDimension};
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TInputImage1::ImageDimension);
+
+  /** Standard class typedefs. */
+  typedef JoinImageFilter  Self;
 
   /** Output typedefs. */
   typedef typename Functor::JoinFunctor< typename TInputImage1::PixelType,  typename TInputImage2::PixelType>::JoinType OutputImagePixelType;
-  typedef Image<OutputImagePixelType, OutputImageDimension> OutputImageType;
+  typedef Image<OutputImagePixelType, itkGetStaticConstMacro(OutputImageDimension)> OutputImageType;
   
   /** Standard class typedefs. */
-  typedef JoinImageFilter  Self;
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2, OutputImageType,
       Functor::JoinFunctor< typename TInputImage1::PixelType,
                             typename TInputImage2::PixelType> > Superclass; 

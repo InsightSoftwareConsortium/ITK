@@ -43,7 +43,8 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> constPointer;
 
-  enum { ImageDimension = TImageType::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TImageType::ImageDimension );
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

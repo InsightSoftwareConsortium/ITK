@@ -47,8 +47,10 @@ class ITK_EXPORT MedianImageFilter :
 {
 public:
   /** Extract dimension from input and output image. */
-  enum {InputImageDimension = TInputImage::ImageDimension};
-  enum {OutputImageDimension = TOutputImage::ImageDimension};
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
 
   /** Convenient typedefs for simplifying declarations. */
   typedef TInputImage InputImageType;

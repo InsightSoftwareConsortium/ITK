@@ -37,7 +37,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
   
   m_Locator = LocatorType::New();
   m_Marcher = FastMarchingImageFilterType::New();
-
+  
   m_NarrowBanding = false;
   m_InputNarrowBandwidth = 12.0;
   m_OutputNarrowBandwidth = 12.0;

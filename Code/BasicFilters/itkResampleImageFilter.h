@@ -68,14 +68,15 @@ public:
   itkTypeMacro(ResampleImageFilter, ImageToImageFilter);
 
   /** Number of dimensions. */
-  enum {ImageDimension = TOutputImage::ImageDimension};
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
 
   /** Transform typedef.
    *
    * \todo Check that input and output images have the same number of 
    * dimensions; this is required by the current implementation of 
    * AffineTransform. */
-  typedef Transform<double, ImageDimension, ImageDimension> TransformType;
+  typedef Transform<double, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension)> TransformType;
   typedef typename TransformType::Pointer TransformPointerType;
 
   /** Interpolator typedef. */
@@ -83,7 +84,7 @@ public:
   typedef typename InterpolatorType::Pointer  InterpolatorPointerType;
 
   /** Image size typedef. */
-  typedef Size<ImageDimension> SizeType;
+  typedef Size<itkGetStaticConstMacro(ImageDimension)> SizeType;
 
   /** Image index typedef. */
   typedef typename TOutputImage::IndexType IndexType;

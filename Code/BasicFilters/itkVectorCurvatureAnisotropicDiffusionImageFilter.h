@@ -52,7 +52,8 @@ public:
   typedef typename Superclass::UpdateBufferType UpdateBufferType;
 
   /** Determine the image dimension. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      Superclass::ImageDimension );
   
 protected:
   VectorCurvatureAnisotropicDiffusionImageFilter()

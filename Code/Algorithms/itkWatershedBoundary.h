@@ -60,7 +60,7 @@ public:
    * of a set of planes, it has dimensionality 2.  If the boundary is
    * a set of lines, it has dimensionality 1.  Dimensionality is one less
    * than the image chunks from which the boundary is derived.   */
-  enum {Dimension = TDimension};
+  itkStaticConstMacro(Dimension, unsigned int, TDimension);
 
   /** A pair of values used to index into the boundary data structure.
    * The IndexType.first is the dimension of the face and IndexType.second is a
@@ -115,11 +115,12 @@ public:
   
   /** The face data structure.  This is just an Image of face pixel
       types. */
-  typedef Image<face_pixel_t, Dimension> face_t;
+  typedef Image<face_pixel_t, TDimension> face_t;
 
   /** A hash table holding flat region data structures.   */
   typedef itk::hash_map<unsigned long, flat_region_t,
-    itk::hash<unsigned long> > flat_hash_t;
+                        itk::hash<unsigned long> > flat_hash_t;
+  typedef flat_hash_t::value_type FlatHashValueType;
   
   /** Itk typedefs and macros defining smart pointer and type identification.
    */

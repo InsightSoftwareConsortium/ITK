@@ -100,7 +100,8 @@ public:
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      Superclass::ImageDimension);
 
   /** Typedef support for the neighbour radius. */
   typedef typename FiniteDifferenceFunctionType::RadiusType RadiusType;

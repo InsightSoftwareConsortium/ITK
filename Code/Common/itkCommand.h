@@ -234,14 +234,14 @@ public:
     }
   
   /** Invoke the callback function. */
-  virtual void Execute(Object *,const EventObject & event ) 
+  virtual void Execute(Object *,const EventObject & ) 
     { 
       if( m_MemberFunction ) 
       {
         ((*m_This).*(m_MemberFunction))();
       }
     }
-  virtual void Execute(const Object *,const EventObject & event ) 
+  virtual void Execute(const Object *,const EventObject & ) 
     { 
       if( m_MemberFunction ) 
       {

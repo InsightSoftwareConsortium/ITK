@@ -91,7 +91,8 @@ public:
   typedef typename TInputImage2::PixelType InputImage2PixelType;
   
   /** Image related typedefs. */
-  enum { ImageDimension = TInputImage1::ImageDimension } ;
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage1::ImageDimension);
 
   /** Type to use form computations. */
   typedef typename NumericTraits<InputImage1PixelType>::RealType RealType;
@@ -142,7 +143,7 @@ protected:
   DirectedHausdorffDistanceImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  typedef Image<RealType,ImageDimension> DistanceMapType;
+  typedef Image<RealType,itkGetStaticConstMacro(ImageDimension)> DistanceMapType;
   
   typename DistanceMapType::Pointer   m_DistanceMap;
   Array<RealType>                     m_MaxDistance;

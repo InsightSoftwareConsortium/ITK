@@ -63,7 +63,7 @@ public:
   itkTypeMacro(FlipImageFilter, ImageToImageFilter);
 
   /** ImageDimension enumeration */
-  enum { ImageDimension = TImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
   /** Inherited types */
   typedef typename Superclass::InputImagePointer InputImagePointer;
@@ -75,7 +75,7 @@ public:
   typedef typename IndexType::IndexValueType IndexValueType;
 
   /** FlipAxesArray type */
-  typedef FixedArray<bool,ImageDimension> FlipAxesArrayType;
+  typedef FixedArray<bool,itkGetStaticConstMacro(ImageDimension)> FlipAxesArrayType;
 
   /** Set/Get the axis to be flipped. The image is flipped along axes
    * for which array[i] is true. */

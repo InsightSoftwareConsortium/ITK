@@ -34,17 +34,22 @@ namespace itk
 template<typename TInputImage, typename TDataType>
 class ITK_EXPORT DifferenceOfGaussiansGradientImageFilter :
 public ImageToImageFilter<TInputImage,
-  Image< CovariantVector<TDataType, ExtractImageDimension<TInputImage>::ImageDimension>, 
-         ExtractImageDimension<TInputImage>::ImageDimension> >
+  Image< CovariantVector<TDataType, ::itk::GetImageDimension<TInputImage>::ImageDimension>, 
+         ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
-  /** Output image typedef. The output image is always an n-dimensional
-   * image of n-dimensional vectors of doubles. */
-  typedef Image<CovariantVector<TDataType, TInputImage::ImageDimension>, TInputImage::ImageDimension>
-    TOutputImage;
+  /** Number of dimensions. */
+  itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
 
   /** Standard class typedefs. */
   typedef DifferenceOfGaussiansGradientImageFilter Self;
+
+  /** Output image typedef. The output image is always an n-dimensional
+   * image of n-dimensional vectors of doubles. */
+  typedef Image<CovariantVector<TDataType, itkGetStaticConstMacro(NDimensions)>, itkGetStaticConstMacro(NDimensions)>
+    TOutputImage;
+
+  /** Standard class typedefs. */
   typedef ImageToImageFilter<TInputImage, TOutputImage>  Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -55,11 +60,8 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( DifferenceOfGaussiansGradientImageFilter, ImageToImageFilter );
 
-  /** Number of dimensions. */
-  enum {NDimensions = TInputImage::ImageDimension};
-
   /** Image size typedef. */
-  typedef Size<TInputImage::ImageDimension> SizeType;
+  typedef Size<itkGetStaticConstMacro(NDimensions)> SizeType;
 
   /** Image index typedef. */
   typedef typename TInputImage::IndexType IndexType;

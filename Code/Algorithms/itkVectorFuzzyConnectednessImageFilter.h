@@ -175,18 +175,22 @@ public:
   typedef typename InputPixelType::VectorType InputVectorType;
 
   /** Extract the image and vector dimension from the template parameters. */
-  enum {ImageDimension = TInputImage::ImageDimension };
-  enum {VectorDimension = InputPixelType::VectorDimension};
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  itkStaticConstMacro(VectorDimension, unsigned int,
+                      InputPixelType::VectorDimension);
 
   /** Vector and matrix related typedefs. */
-  typedef   Matrix<double,VectorDimension,VectorDimension>               MatrixType;
-  typedef   Vector<int,VectorDimension>                    VDVector;
-  typedef   Vector<int,ImageDimension>                     IDVector;
+  typedef   Matrix<double,itkGetStaticConstMacro(VectorDimension),
+                   itkGetStaticConstMacro(VectorDimension)>
+            MatrixType;
+  typedef   Vector<int,itkGetStaticConstMacro(VectorDimension)> VDVector;
+  typedef   Vector<int,itkGetStaticConstMacro(ImageDimension)>  IDVector;
 
   /** Convenient typedefs. */
   typedef   TInputImage                           InputImageType;
   typedef   TOutputImage                          OutputImageType;
-  typedef   Image <unsigned short,ImageDimension> UShortImage;
+  typedef   Image <unsigned short,itkGetStaticConstMacro(ImageDimension)> UShortImage;
   typedef   typename TInputImage::IndexType       IndexType;
   typedef   typename TInputImage::SizeType        SizeType;
   typedef   typename TOutputImage::RegionType     RegionType;

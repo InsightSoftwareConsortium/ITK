@@ -83,7 +83,8 @@ public:
   itkTypeMacro(ZeroCrossingImageFilter, ImageToImageFilter);
   
   /** ImageDimension enumeration   */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension );
   
   /** ZeroCrossingImageFilter needs a larger input requested
    * region than the output requested region (larger by the kernel

@@ -79,7 +79,8 @@ protected:
   typedef typename InputImageType::RegionType InputRegionType;
   typedef typename InputRegionType::SizeType InputSizeType;
   typedef typename InputRegionType::IndexType InputIndexType;
-  enum { InputImageDimension = InputImageType::ImageDimension };
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      InputImageType::ImageDimension );
   
   InputImageType * GetInput(void);
   
