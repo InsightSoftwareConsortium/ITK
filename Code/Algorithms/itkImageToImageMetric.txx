@@ -107,6 +107,8 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   os << indent << "MatchMeasureDerivatives: ";
   os << m_MatchMeasureDerivatives << std::endl;
 
+  os << indent << "Number of Pixels Counted: " << m_NumberOfPixelsCounted << std::endl;
+
 }
 
 
