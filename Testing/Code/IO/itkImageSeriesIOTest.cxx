@@ -21,7 +21,7 @@
 #include "itkImageSeriesWriter.h"
 #include "itkImage.h"
 
-int itkImageSeriesIOTest(int argc, char *argv[])
+int itkImageSeriesIOTest(int , char *)
 {
   // Create a typedef to make the code more digestable
   //
