@@ -989,7 +989,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.30\textwidth]{BrainMidSagittalSlice.eps}
   // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput5.eps}
   // \itkcaption[GeodesicActiveContourShapePriorImageFilter input image and initial model]{ 
-  // The input image to the GeodesicActivContourShapePriorLevelSetImageFilter is a 
+  // The input image to the GeodesicActiveContourShapePriorLevelSetImageFilter is a 
   // synthesized MR-T1 mid-sagittal slice ($217 \times 180$ pixels, $1 \times 1$ mm spacing)
   // of the brain (left) and the initial best-fit shape
   // (right) choosen to roughly overlap the corpus callosum in the image to be segmented.}
