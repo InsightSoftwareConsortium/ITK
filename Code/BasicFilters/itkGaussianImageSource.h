@@ -58,7 +58,7 @@ public:
   enum { NDimensions = TOutputImage::ImageDimension };
 
   /** Type used to store gaussian parameters. */
-  typedef Array<double, NDimensions> ArrayType;
+  typedef FixedArray<double, NDimensions> ArrayType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GaussianImageSource,ImageSource);

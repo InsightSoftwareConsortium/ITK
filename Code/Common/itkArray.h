@@ -32,7 +32,7 @@ public:
   enum { Length = Last-First+1 };
 };
   
-/** \class Array
+/** \class FixedArray
  *  \brief Simulate a standard C array with copy semnatics.
  *
  * Simulates a standard C array, except that copy semantics are used instead
@@ -40,7 +40,7 @@ public:
  * assigned to one another, and size information is known for function
  * returns.
  *
- * Template parameters for class Array:
+ * Template parameters for class FixedArray:
  *
  * - TValueType = Element type stored at each location in the array.
  *
@@ -49,22 +49,22 @@ public:
  * \ingroup DataRepresentation 
  */
 template <typename TValueType, unsigned long VLength>
-class Array
+class FixedArray
 {
 public:
-  /** A class which behaves as a reference to this Array type. */
+  /** A class which behaves as a reference to this FixedArray type. */
   class Reference;
 
-  /** A class which behaves as a const reference to this Array type. */
+  /** A class which behaves as a const reference to this FixedArray type. */
   class ConstReference;
   
-  /** The element type stored at each location in the Array. */
+  /** The element type stored at each location in the FixedArray. */
   typedef TValueType  ValueType;
   
-  /** The number of elements in the Array. */
+  /** The number of elements in the FixedArray. */
   enum { Length = VLength };
 
-  /** A type representing the C-array version of this Array. */
+  /** A type representing the C-array version of this FixedArray. */
   typedef ValueType         CArray[Length];
   
   /** An iterator through the array. */
@@ -118,36 +118,36 @@ public:
   typedef unsigned long   SizeType;
   
 public:
-  Array();
-  Array(const Array& r);
-  Array(const Reference& r);
-  Array(const ConstReference& r);
-  Array(const ValueType r[Length]);
+  FixedArray();
+  FixedArray(const FixedArray& r);
+  FixedArray(const Reference& r);
+  FixedArray(const ConstReference& r);
+  FixedArray(const ValueType r[Length]);
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
-  ~Array();
+  ~FixedArray();
   
   /** Operator= defined for a variety of types. */
-  Array& operator= (const Array& r);
-  Array& operator= (const Reference& r);
-  Array& operator= (const ConstReference& r);
-  Array& operator= (const ValueType r[Length]);
+  FixedArray& operator= (const FixedArray& r);
+  FixedArray& operator= (const Reference& r);
+  FixedArray& operator= (const ConstReference& r);
+  FixedArray& operator= (const ValueType r[Length]);
     
   /** Operators == and != are used to compare whether two arrays are equal.
    * Note that arrays are equal when the number of components (size) is the
    * same, and each component value is equal. */
-  bool operator==(const Array& r ) const;
+  bool operator==(const FixedArray& r ) const;
   bool operator==(const Reference& r ) const;
   bool operator==(const ConstReference& r ) const;
-  bool operator!=(const Array& r ) const
+  bool operator!=(const FixedArray& r ) const
     { return !operator==(r); }
   bool operator!=(const Reference& r ) const
     { return !operator==(r); }
   bool operator!=(const ConstReference& r ) const
     { return !operator==(r); }
   
-  /** Allow the Array to be indexed normally.  No bounds checking is done.
+  /** Allow the FixedArray to be indexed normally.  No bounds checking is done.
    * The separate versions are a work-around for an integer conversion bug in
    * Visual C++. */
         reference operator[](short index)                { return m_InternalArray[index]; }
@@ -179,23 +179,23 @@ public:
   SizeType      Size() const;
   void Fill(const ValueType&);
     
-  /** Return a reference to a sub-range of the Array, specified by the
+  /** Return a reference to a sub-range of the FixedArray, specified by the
    * template parameters. */
   template <SizeType VFirst, SizeType VLast>
-  typename Array<ValueType, (VLast-VFirst+1)>::Reference
+  typename FixedArray<ValueType, (VLast-VFirst+1)>::Reference
   operator[](Range<VFirst, VLast>)
     {
-    return Array<ValueType, (VLast-VFirst+1)>
+    return FixedArray<ValueType, (VLast-VFirst+1)>
       ::Reference(m_InternalArray+VFirst);
     }
 
-  /** Return a reference to a sub-range of the Array, specified by the
+  /** Return a reference to a sub-range of the FixedArray, specified by the
    * template parameters. */
   template <SizeType VFirst, SizeType VLast>
-  typename Array<ValueType, (VLast-VFirst+1)>::ConstReference
+  typename FixedArray<ValueType, (VLast-VFirst+1)>::ConstReference
   operator[](Range<VFirst, VLast>) const
     {
-    return Array<ValueType, (VLast-VFirst+1)>
+    return FixedArray<ValueType, (VLast-VFirst+1)>
       ::ConstReference(m_InternalArray+VFirst);
     }
   
@@ -206,21 +206,21 @@ private:
 public:
   /** \brief Provide reference semantics for the array.
    *
-   * Identical to Array class, but uses reference semantics.  This can
-   * reference either an Array, or a C-style array. */
+   * Identical to FixedArray class, but uses reference semantics.  This can
+   * reference either an FixedArray, or a C-style array. */
   class Reference
   {
   public:
     /** Constructor copies only the array pointer since this is a reference
      *  type.  */
-    Reference(Array& r) : m_InternalArray(r.Begin()) {}
+    Reference(FixedArray& r) : m_InternalArray(r.Begin()) {}
     Reference(const Reference& r) : m_InternalArray(r.m_InternalArray) {}
     Reference(ValueType r[Length]) : m_InternalArray(r) {}
     
-    /** Assignment operator copies all Array values.
+    /** Assignment operator copies all FixedArray values.
      * Values are copied individually instead of with a binary copy.  This
      * allows the ValueType's assignment operator to be executed.   */
-    Reference& operator= (const Array& r)
+    Reference& operator= (const FixedArray& r)
       {
       if(r.Begin() == m_InternalArray) return *this;
       ConstIterator input = r.Begin();
@@ -249,7 +249,7 @@ public:
       return *this;
       }    
     
-    /** Allow the Array to be indexed normally.
+    /** Allow the FixedArray to be indexed normally.
      * No bounds checking is done.
      * The separate versions are a work-around for an integer conversion
      * bug in Visual C++. */
@@ -270,19 +270,19 @@ public:
     ValueType* GetDataPointer() { return m_InternalArray; }
     const ValueType* GetDataPointer() const { return m_InternalArray; }
     
-    /** Get an Iterator for the beginning of the Array.   */
+    /** Get an Iterator for the beginning of the FixedArray.   */
     Iterator Begin()
       { return Iterator(m_InternalArray); }
 
-    /** Get a ConstIterator for the beginning of the Array.   */
+    /** Get a ConstIterator for the beginning of the FixedArray.   */
     ConstIterator Begin() const
       { return ConstIterator(m_InternalArray); }
 
-    /** Get an Iterator for the end of the Array.   */
+    /** Get an Iterator for the end of the FixedArray.   */
     Iterator End()
       { return Iterator(m_InternalArray+Length); }
 
-    /** Get a ConstIterator for the end of the Array.   */
+    /** Get a ConstIterator for the end of the FixedArray.   */
     ConstIterator End() const
       { return ConstIterator(m_InternalArray+Length); }
 
@@ -302,7 +302,7 @@ public:
     ConstReverseIterator rEnd() const 
       { return ConstReverseIterator(m_InternalArray); }
 
-    /** Get the size of the Array.   */
+    /** Get the size of the FixedArray.   */
     SizeType      Size() const 
       { return Length; }
 
@@ -310,23 +310,23 @@ public:
     void Fill(const ValueType& value)
       { for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = value; }
     
-    /** Return a reference to a sub-range of the Array, specified by the
+    /** Return a reference to a sub-range of the FixedArray, specified by the
      * template parameters.   */
     template <SizeType VFirst, SizeType VLast>
-    typename Array<ValueType, (VLast-VFirst+1)>::Reference
+    typename FixedArray<ValueType, (VLast-VFirst+1)>::Reference
     operator[](Range<VFirst, VLast>)
       {
-      return Array<ValueType, (VLast-VFirst+1)>
+      return FixedArray<ValueType, (VLast-VFirst+1)>
         ::Reference(m_InternalArray+VFirst);
       }    
     
-    /** Return a reference to a sub-range of the Array, specified by the
+    /** Return a reference to a sub-range of the FixedArray, specified by the
      * template parameters.   */
     template <SizeType VFirst, SizeType VLast>
-    typename Array<ValueType, (VLast-VFirst+1)>::ConstReference
+    typename FixedArray<ValueType, (VLast-VFirst+1)>::ConstReference
     operator[](Range<VFirst, VLast>) const
       {
-      return Array<ValueType, (VLast-VFirst+1)>
+      return FixedArray<ValueType, (VLast-VFirst+1)>
         ::ConstReference(m_InternalArray+VFirst);
       }
     
@@ -337,19 +337,19 @@ public:
   
   /** \brief Provide const reference to an array.
    *
-   * Identical to Array<TValueType, VLength>::Reference class, but serves
+   * Identical to FixedArray<TValueType, VLength>::Reference class, but serves
    * as a const reference. */
   class ConstReference
   {
   public:
     /** Constructor copies only the array pointer since this is a reference
      *  type.  */
-    ConstReference(const Array& r) : m_InternalArray(r.Begin()) {}
+    ConstReference(const FixedArray& r) : m_InternalArray(r.Begin()) {}
     ConstReference(const Reference& r) : m_InternalArray(r.Begin()) {}
     ConstReference(const ConstReference& r) : m_InternalArray(r.Begin()) {}
     ConstReference(const ValueType r[Length]) : m_InternalArray(r) {}
         
-    /** Allow the Array to be indexed normally.
+    /** Allow the FixedArray to be indexed normally.
      * No bounds checking is done.
      * The separate versions are a work-around for an integer conversion
      * bug in Visual C++. */
@@ -363,11 +363,11 @@ public:
     /** Return a pointer to the data. */
     const ValueType* GetDataPointer() const { return m_InternalArray; }
     
-    /** Get a ConstIterator for the beginning of the Array.   */
+    /** Get a ConstIterator for the beginning of the FixedArray.   */
     ConstIterator  Begin() const 
       { return ConstIterator(m_InternalArray); }
     
-    /** Get a ConstIterator for the end of the Array.   */
+    /** Get a ConstIterator for the end of the FixedArray.   */
     ConstIterator  End() const
       { return ConstIterator(m_InternalArray+Length); }
     
@@ -379,17 +379,17 @@ public:
     ConstReverseIterator  rEnd() const
       { return ConstReverseIterator(m_InternalArray); }
     
-    /** Get the size of the Array.   */
+    /** Get the size of the FixedArray.   */
     SizeType       Size() const
       { return Length; }
 
-    /** Return a reference to a sub-range of the Array, specified by the
+    /** Return a reference to a sub-range of the FixedArray, specified by the
      * template parameters.   */
     template <SizeType VFirst, SizeType VLast>
-    typename Array<ValueType, (VLast-VFirst+1)>::ConstReference
+    typename FixedArray<ValueType, (VLast-VFirst+1)>::ConstReference
     operator[](Range<VFirst, VLast>) const
       {
-      return Array<ValueType, (VLast-VFirst+1)>
+      return FixedArray<ValueType, (VLast-VFirst+1)>
         ::ConstReference(m_InternalArray+VFirst);
       }
 
@@ -398,11 +398,11 @@ public:
     const ValueType * const m_InternalArray;
   };
   
-  static Array Filled(const ValueType&);
+  static FixedArray Filled(const ValueType&);
 };
   
 template <typename TValueType, unsigned long VLength>
-std::ostream & operator<<(std::ostream &os, const Array<TValueType,VLength> &arr)
+std::ostream & operator<<(std::ostream &os, const FixedArray<TValueType,VLength> &arr)
 {
   os << "[";
   for (unsigned int i=0; i < VLength - 1; ++i)

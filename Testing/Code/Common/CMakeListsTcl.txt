@@ -30,7 +30,7 @@ ADD_LIBRARY(ITKCommonTestTcl1)
 CABLE_WRAP_TCL(ITKCommonTestTcl1
   "itk::AcosImageAdaptor<$Image, $Double>"
   "itk::AffineTransform<>"
-  "itk::Array<$Float, $Dimension>"
+  "itk::FixedArray<$Float, $Dimension>"
   "itk::AsinImageAdaptor<$Image, $Double>"
   "itk::AtanImageAdaptor<$Image, $Double>"
   "itk::AzimuthElevationToCartesianTransform<>"

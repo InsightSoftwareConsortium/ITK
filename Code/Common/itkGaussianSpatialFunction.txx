@@ -27,8 +27,8 @@ template <typename TOutput, unsigned int VImageDimension, typename TInput>
 GaussianSpatialFunction<TOutput, VImageDimension, TInput>
 ::GaussianSpatialFunction()
 {
-  m_Mean = TArrayType::Filled(10.0);
-  m_Sigma = TArrayType::Filled(5.0);
+  m_Mean = ArrayType::Filled(10.0);
+  m_Sigma = ArrayType::Filled(5.0);
   m_Scale = 1.0;
   m_Normalized = false;
 }

@@ -135,7 +135,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   InputImagePixelType zero = NumericTraits<InputImagePixelType>::Zero;
 
   unsigned long center;
-  Array<long, 2 * ImageDimension> offset;
+  FixedArray<long, 2 * ImageDimension> offset;
 
   //Set the offset of the neighbors to the center pixel.
   for ( i = 0 ; i < 2 * ImageDimension; i+= 2)

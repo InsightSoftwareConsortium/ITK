@@ -61,11 +61,11 @@ namespace itk
  */
 
 template<class T, unsigned int NCovariantVectorDimension=3>
-class CovariantVector : public Array<T,NCovariantVectorDimension> {
+class CovariantVector : public FixedArray<T,NCovariantVectorDimension> {
  public:
   /** Standard class typedefs. */
   typedef CovariantVector  Self;
-  typedef Array<T,NCovariantVectorDimension>  Superclass;
+  typedef FixedArray<T,NCovariantVectorDimension>  Superclass;
     
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an CovariantVector.   */
@@ -78,7 +78,7 @@ class CovariantVector : public Array<T,NCovariantVectorDimension> {
   typedef Self CovariantVectorType;
   
   /** The Array type from which this CovariantVector is derived. */
-  typedef Array<T, NCovariantVectorDimension>                BaseArray;
+  typedef FixedArray<T, NCovariantVectorDimension>                BaseArray;
     
   /** Get the dimension (size) of the vector. */
   static unsigned int GetCovariantVectorDimension() 

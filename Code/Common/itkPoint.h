@@ -39,12 +39,12 @@ namespace itk
  * \sa Image \sa Mesh \sa Vector \sa CovariantVector \sa Matrix
  */
 template<class TCoordRep, unsigned int NPointDimension=3>
-class Point : public Array< TCoordRep, NPointDimension >
+class Point : public FixedArray< TCoordRep, NPointDimension >
 {
 public:
   /** Standard class typedefs. */
   typedef Point  Self;
-  typedef Array<TCoordRep,NPointDimension>  Superclass;
+  typedef FixedArray<TCoordRep,NPointDimension>  Superclass;
   
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.   */
@@ -55,12 +55,12 @@ public:
   enum { PointDimension = NPointDimension };
 
   /** The Array type from which this Vector is derived. */
-  typedef Array<TCoordRep, NPointDimension>         BaseArray;
+  typedef FixedArray<TCoordRep, NPointDimension>         BaseArray;
   typedef typename BaseArray::Iterator              Iterator;
   typedef typename BaseArray::ConstIterator         ConstIterator;
     
   /** Get the dimension (size) of the point. */
-  static unsigned int GeNPointDimension() 
+  static unsigned int GetPointDimension() 
     { return NPointDimension; }
   
   /** VectorType define the difference between two Points */

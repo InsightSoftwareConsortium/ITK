@@ -62,7 +62,7 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Type used to store gaussian parameters. */
-  typedef Array<double, VImageDimension> TArrayType;
+  typedef FixedArray<double, VImageDimension> ArrayType;
 
   /** Evaluate the function at a given position. */
   OutputType Evaluate(const TInput& position) const;
@@ -72,10 +72,10 @@ public:
   itkGetMacro(Scale, double);
   itkSetMacro(Normalized, bool);
   itkGetMacro(Normalized, bool);
-  itkSetMacro(Sigma, TArrayType);
-  itkGetMacro(Sigma, TArrayType);
-  itkSetMacro(Mean, TArrayType);
-  itkGetMacro(Mean, TArrayType);
+  itkSetMacro(Sigma, ArrayType);
+  itkGetMacro(Sigma, ArrayType);
+  itkSetMacro(Mean, ArrayType);
+  itkGetMacro(Mean, ArrayType);
 
 protected:
   GaussianSpatialFunction();
@@ -87,10 +87,10 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** The standard deviation in each direction. */
-  TArrayType m_Sigma;
+  ArrayType m_Sigma;
 
   /** The mean in each direction. */
-  TArrayType m_Mean;
+  ArrayType m_Mean;
 
   /** A scale factor multiplied by the true value of the Gaussian. */
   double m_Scale;

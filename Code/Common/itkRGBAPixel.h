@@ -49,15 +49,15 @@ namespace itk
  */
 
 template < typename TComponent = unsigned short >
-class RGBAPixel: public Array<TComponent,4>
+class RGBAPixel: public FixedArray<TComponent,4>
 {
 public:
   /** Standard class typedefs. */
   typedef RGBAPixel  Self;
-  typedef Array<TComponent, 4> Super;
+  typedef FixedArray<TComponent, 4> Super;
     
   /** Convenience typedefs. */
-  typedef Array<TComponent, 4> BaseArray;
+  typedef FixedArray<TComponent, 4> BaseArray;
   
   /**  Define the component type. */
   typedef TComponent ComponentType;

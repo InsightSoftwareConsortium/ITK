@@ -74,7 +74,7 @@ public:
   typedef typename Superclass::JacobianType  JacobianType;
 
   /** Standard vector type for this class. */
-  typedef Array<TScalarType, SpaceDimension> ScaleType;
+  typedef FixedArray<TScalarType, SpaceDimension> ScaleType;
 
   /** Standard vector type for this class. */
   typedef Vector<TScalarType, SpaceDimension> InputVectorType;

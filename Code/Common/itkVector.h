@@ -53,12 +53,12 @@ namespace itk
  * \sa Matrix
  */
 template<class T, unsigned int NVectorDimension=3>
-class Vector : public Array<T,NVectorDimension>
+class Vector : public FixedArray<T,NVectorDimension>
 {
 public:
   /** Standard class typedefs. */
   typedef Vector  Self;
-  typedef Array<T,NVectorDimension>  Superclass;
+  typedef FixedArray<T,NVectorDimension>  Superclass;
   
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Vector.   */
@@ -71,7 +71,7 @@ public:
   typedef Self VectorType;
   
   /** The Array type from which this vector is derived. */
-  typedef Array<T, NVectorDimension>                BaseArray;
+  typedef FixedArray<T, NVectorDimension>                BaseArray;
     
   /** Get the dimension (size) of the vector. */
   static unsigned int GetVectorDimension() 

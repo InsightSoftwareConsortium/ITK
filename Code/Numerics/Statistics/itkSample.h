@@ -82,7 +82,7 @@ public:
   itkTypeMacro(Sample, Object);
 
   /** MeasurementVector typedef support */ 
-  typedef Array<TMeasurement, VMeasurementVectorSize> MeasurementVectorType ;
+  typedef FixedArray<TMeasurement, VMeasurementVectorSize> MeasurementVectorType ;
 
   /** typedef for each element in a measurement vector*/ 
   typedef TMeasurement MeasurementType ;
