@@ -222,7 +222,7 @@ private:
   ProjectionAxisArrayType m_ProjectionAxes ;
 
   /** Histogram parameters */
-  int m_HistogramNumberOfBins ;
+  unsigned int m_HistogramNumberOfBins ;
   bool m_HistogramUseEquiProbableBins ;
   double m_HistogramExtent ;
   double m_HistogramBinOverlap ;
