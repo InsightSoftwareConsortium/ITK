@@ -56,58 +56,44 @@ public:
   /** Add an object to the list of children. */ 
   void AddSpatialObject( NDimensionalSpatialObject<> * pointer ); 
      
-  /** 
-   * Remove the object passed as arguments from the list of 
-   * children. May this function 
-   * should return a false value if the object to remove is 
-   * not found in the list. */ 
+  /** Remove the object passed as arguments from the list of 
+   *  children. May this function 
+   *  should return a false value if the object to remove is 
+   *  not found in the list. */ 
   void RemoveSpatialObject( NDimensionalSpatialObject<> * object ); 
 
-  /** 
-   * Returns a list of pointer to the children affiliated to this object. 
-   */ 
+  /** Returns a list of pointer to the children affiliated to this object.*/ 
   ChildrenListType & GetChildren( void );
 
-  /**
-  * Returns the number of children currently assigned to the Scene object.
-  */ 
+  /** Returns the number of children currently assigned to the Scene object.*/ 
   unsigned int GetNumberOfChildren( void ); 
 
-  /** 
-  * Set the list of pointers to children to the list passed as argument. 
-  */ 
+  /** Set the list of pointers to children to the list passed as argument.*/ 
   void SetChildren( ChildrenListType & children ); 
 
-  /**
-  * Returns the latest modified time of all the objects contained in this Scene
-  * object.
-  */
+  /** Returns the latest modified time of all the objects contained in this Scene
+   *  object. */
   unsigned long GetMTime( void ) const;
 
   /** Get/Set the ParentID */
   void SetParentId(int parentid) {m_ParentId=parentid;}
   int  GetParentId(void) {return m_ParentId;}
 
+  /** Return a SpatialObject in the scene given its ID */
+  NDimensionalSpatialObject<> * GetObjectById(int Id);
+
 protected: 
 
-  /**
-  * List of the children object plug to the Scene spatial object.
-  */
+  /** List of the children object plug to the Scene spatial object. */
   ChildrenListType m_Children; 
 
-  /** 
-  * constructor 
-  */ 
+  /** constructor */ 
   Scene(); 
 
-  /** 
-  * destructor 
-  */ 
+  /** destructor */ 
   virtual ~Scene();
 
-  /**
-  * Print the object informations in a stream.
-  */
+  /** Print the object informations in a stream. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const; 
 
   /** Parent ID : default = -1 */
