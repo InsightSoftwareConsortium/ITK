@@ -314,9 +314,16 @@ void PropertyConfigurator::parseCategory(
       logger->setLevel(OptionConverter::toLevel(levelStr, Level::DEBUG));
     }
 
-    LogLog::debug(_T("Category ") + loggerName +
-      _T(" set to ") + ((logger->getLevel() != 0 )? 
-      logger->getLevel()->toString() : _T("null")));
+
+    String temp = _T("null");
+
+    if(logger->getLevel() != 0) 
+      { 
+      temp = logger->getLevel()->toString();
+      }
+    
+    LogLog::debug(_T("Category ") + loggerName + _T(" set to ") + temp);
+
   }
 
   // Begin by removing all existing appenders.

@@ -16,6 +16,11 @@
  
 #include <log4cxx/config.h>
 
+#ifdef __BORLANDC__
+#define HAVE_MS_THREAD 1
+#endif
+
+
 #if defined(HAVE_MS_THREAD)
 #include <windows.h>
 #endif
@@ -205,7 +210,7 @@ long Thread::InterlockedIncrement(volatile long * val)
   sparc_atomic_add_32(val, 1);
   return *val;
 #elif defined(HAVE_MS_THREAD)
-#if _MSC_VER == 1200  // MSDEV 6
+#if _MSC_VER == 1200  || __BORLANDC__ // MSDEV 6
   return ::InterlockedIncrement((long *)val);
 #else
   return ::InterlockedIncrement(val);
@@ -231,7 +236,7 @@ long Thread::InterlockedDecrement(volatile long * val)
   sparc_atomic_add_32(val, -1);
   return *val;
 #elif defined(HAVE_MS_THREAD)
-#if _MSC_VER == 1200  // MSDEV 6
+#if _MSC_VER == 1200 || __BORLANDC__  // MSDEV 6
   return ::InterlockedDecrement((long *)val);
 #else
   return ::InterlockedDecrement(val);

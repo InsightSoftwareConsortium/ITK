@@ -18,7 +18,9 @@
 #define _LOG4CXX_HELPER_OPTION_CONVERTER_H
 
 #include <log4cxx/helpers/tchar.h>
+#include <log4cxx/appender.h>
 #include <log4cxx/helpers/objectptr.h>
+
 
 namespace log4cxx
 {

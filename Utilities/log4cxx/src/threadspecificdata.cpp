@@ -16,6 +16,10 @@
  
 #include <log4cxx/config.h>
 
+#ifdef __BORLANDC__
+#define HAVE_MS_THREAD 1
+#endif
+
 #ifdef HAVE_PTHREAD
 #include <pthread.h>
 #elif defined(HAVE_MS_THREAD)

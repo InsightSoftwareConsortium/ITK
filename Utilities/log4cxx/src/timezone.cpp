@@ -17,6 +17,9 @@
 #include <log4cxx/helpers/timezone.h>
 #include <locale>
 
+#ifdef __BORLANDC__
+#include <time.h>
+#endif
 
 int getYear(int64_t date)
 {

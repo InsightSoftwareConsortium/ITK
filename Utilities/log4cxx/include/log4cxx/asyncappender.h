@@ -155,7 +155,7 @@ namespace log4cxx
     DECLARE_ABSTRACT_LOG4CXX_OBJECT(Dispatcher)
     BEGIN_LOG4CXX_CAST_MAP()
       LOG4CXX_CAST_ENTRY(Dispatcher)
-      LOG4CXX_CAST_ENTRY_CHAIN(Thread)
+      LOG4CXX_CAST_ENTRY_CHAIN(helpers::Thread)
     END_LOG4CXX_CAST_MAP()
 
     Dispatcher(helpers::BoundedFIFOPtr bf, AsyncAppender * container);

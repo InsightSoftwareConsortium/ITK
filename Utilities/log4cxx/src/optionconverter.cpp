@@ -20,7 +20,6 @@
 #include <algorithm>
 #include <ctype.h>
 #include <log4cxx/helpers/stringhelper.h>
-#include <log4cxx/helpers/exception.h>
 #include <stdlib.h>
 #include <log4cxx/helpers/properties.h>
 #include <log4cxx/helpers/loglog.h>
@@ -31,6 +30,7 @@
 #include <log4cxx/helpers/system.h>
 #include <log4cxx/propertyconfigurator.h>
 #include <log4cxx/xml/domconfigurator.h>
+#include <log4cxx/helpers/exception.h>
 
 using namespace log4cxx;
 using namespace log4cxx::helpers;
@@ -38,6 +38,7 @@ using namespace log4cxx::spi;
 #ifdef HAVE_XML
 using namespace log4cxx::xml;
 #endif
+
 
 String OptionConverter::DELIM_START = _T("${");
 TCHAR OptionConverter::DELIM_STOP  = _T('}');
@@ -55,7 +56,7 @@ namespace {
 String OptionConverter::convertSpecialChars(const String& s)
 {
   TCHAR c;
-    int len = s.length();
+  //  int len = s.length();
     StringBuffer sbuf;
   
   String::const_iterator i = s.begin();
