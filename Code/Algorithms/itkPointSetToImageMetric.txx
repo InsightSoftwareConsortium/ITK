@@ -109,6 +109,16 @@ PointSetToImageMetric<TFixedPointSet,TMovingImage>
 
     gradientFilter->SetInput( m_MovingImage );
 
+    const double * spacing = m_MovingImage->GetSpacing();
+    double maximumSpacing=0.0;
+    for(unsigned int i=0; i<MovingImageDimension; i++)
+      {
+      if( spacing[i] > maximumSpacing )
+        {
+        maximumSpacing = spacing[i];
+        }
+      }
+    gradientFilter->SetSigma( maximumSpacing );
     gradientFilter->SetNormalizeAcrossScale( true );
 
     gradientFilter->Update();
