@@ -17,6 +17,7 @@
 #include "itkMesh.h"
 #include "itkTetrahedronCell.h"
 #include "itkHexahedronCell.h"
+#include "itkQuadraticEdgeCell.h"
 #include "itkBoundingBox.h"
 
 #include <iostream>
@@ -38,10 +39,11 @@ typedef MeshType::CellTraits  CellTraits;
  * use the defaults for the other parameters.  Note that a cell's template
  * parameters must match those of the mesh into which it is inserted.
  */
-typedef itk::CellInterface< int, CellTraits >    CellInterfaceType;
-typedef itk::LineBoundary<CellInterfaceType>     LineBoundaryType;
-typedef itk::TetrahedronCell<CellInterfaceType>  TetraCellType;
-typedef itk::HexahedronCell<CellInterfaceType>   HexaCellType;
+typedef itk::CellInterface< int, CellTraits >       CellInterfaceType;
+typedef itk::LineBoundary<CellInterfaceType>        LineBoundaryType;
+typedef itk::TetrahedronCell<CellInterfaceType>     TetraCellType;
+typedef itk::HexahedronCell<CellInterfaceType>      HexaCellType;
+typedef itk::QuadraticEdgeCell<CellInterfaceType>   QuadraticEdgeCellType;
 
 /**
  * Typedef the generic cell type for the mesh.  It is an abstract class,
@@ -280,6 +282,68 @@ int itkMeshTest(int, char**)
     std::cout << std::endl;
     }
   
+  /**
+   * Create a higher order  test cell.
+   */
+  testCell = new QuadraticEdgeCellType; // polymorphism
+  testCell.TakeOwnership();
+  unsigned long quadraticEdgePoints[3] = {0,1,2};
+  testCell->SetPointIds(quadraticEdgePoints);
+  mesh->SetCell(2, testCell ); // Internally transfers ownership to the mesh
+
+  CellAutoPointer quadraticdEdgeCell;
+  if(  mesh->GetCell(2, quadraticdEdgeCell) )
+    {
+    std::cout << "Quadratic Edge cell recovered" << std::endl;
+    std::cout << "GetNameOfClass()    = " << quadraticdEdgeCell->GetNameOfClass() << std::endl;
+    std::cout << "GetNumberOfPoints() = " << quadraticdEdgeCell->GetNumberOfPoints() << std::endl;
+    }
+  else
+    {
+    std::cout << "Failure: QuadraticEdge cell was not recovered" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  CellAutoPointer vertexPointer;
+  /**
+   * Try getting one of the QuadraticEdge's vertices.
+   */
+  const bool vertexExists = mesh->GetCellBoundaryFeature(
+                0,    // Topological dimension of boundary.
+                2,    // CellIdentifier.
+                0,    // CellFeatureIdentifier
+                vertexPointer ); // CellPointer to return the result
+
+  std::cout << typeid( vertexPointer ).name() << std::endl;
+  std::cout << typeid( vertexPointer.GetPointer() ).name() << std::endl;
+  std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << vertexPointer.IsOwner() << std::endl;
+  
+  QuadraticEdgeCellType::VertexType * vertex = 0;
+  try
+    {
+    vertex = dynamic_cast<QuadraticEdgeCellType::VertexType *>(  vertexPointer.GetPointer() );
+    std::cout << "Vertex from the QuadraticEdge recovered " << std::endl;
+    std::cout << vertex->GetNameOfClass() << std::endl;
+    }
+  catch(...)
+    {
+    std::cout << "CellPointer cannot be down-cast to a VertexCellType" << std::endl;
+    vertex = 0;
+    }
+  if( vertex )
+    {
+    std::cout << "CellPointer was safely down-casted to a VertexCellType" << std::endl;
+    }
+  if( vertexExists ) 
+    {
+    std::cout << "Vertex number of points = " << vertexPointer->GetNumberOfPoints() << std::endl;
+    std::cout << "Vertex namd of class    = " << vertexPointer->GetNameOfClass() << std::endl;
+    }
+  else 
+    {
+    std::cout << "Vertex of the QuadraticEdge couldn't be extracted " << std::endl;
+    }
+ 
 
   /**
    * Perform some geometric operations (coordinate transformations)
