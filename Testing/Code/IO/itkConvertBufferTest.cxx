@@ -89,7 +89,7 @@ int itkConvertBufferTest(int, char* [])
     itk::DefaultConvertPixelTraits<float> >::
     Convert(iarray, 1, farray, arraySize);
   // print out all arrays after conversion
-  int i = 0;
+  int i;
   std::cerr << "int array   : ";
   for(i =0; i < arraySize; ++i)
     {
