@@ -371,25 +371,19 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   zeroCrossFilter->Update();
   zeroCross = zeroCrossFilter->GetOutput();
  
-  cout<<"zerocrossing finished"<<endl;
   this->Compute2ndDerivativePos();      
-  cout<<"derivative pos finished"<<endl;
-
+  
   //4 Hysteresis Thresholding
   //First get all the edges corresponding to zerocrossings
   multFilter->SetInput1(m_UpdateBuffer1);
   multFilter->SetInput2(zeroCross);
   multFilter->Update();
 
-  cout<<"multiplication done"<<endl;
-
   this->GraftOutput(multFilter->GetOutput());
 
   //Then do the double threshoulding upon the edge reponses
   this->HysteresisThresholding();
   
-  cout<<"thresholding done"<<endl;
-
   this->GraftOutput(m_UpdateBuffer);
   
 }
