@@ -23,7 +23,7 @@
 int itkDICOMSeriesFileNamesTest(int ac, char* av[])
 {
 
-  if(ac < 1)
+  if(ac < 2)
   {
     std::cerr << "Usage: " << av[0] << " DicomDirectory\n";
     return EXIT_FAILURE;
