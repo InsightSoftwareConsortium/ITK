@@ -50,7 +50,8 @@ public:
   void ShowIteration()
     { 
     std::cout << m_Filter->GetElapsedIterations() << ": ";
-    std::cout << m_Filter->GetCurrentParameters() << std::endl;
+    std::cout << m_Filter->GetCurrentParameters() << " ";
+    std::cout << m_Filter->GetRMSChange() << std::endl;
     }
   
   typename TFilter::Pointer m_Filter;
@@ -292,12 +293,17 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   CostFunctionType::ArrayType mean( shape->GetNumberOfShapeParameters() );
   CostFunctionType::ArrayType stddev( shape->GetNumberOfShapeParameters() );
 
-  // Assume the pca component has a mean value of 0 and std dev of 3
+  // Assume the pca component has a mean value of -15.0 and std dev of 3
   mean[0]   = -15.0;
   stddev[0] = 3.0;
   
   costFunction->SetShapeParameterMeans( mean );
   costFunction->SetShapeParameterStandardDeviations( stddev );
+
+  CostFunctionType::WeightsType weights;
+  weights.Fill( 1.0 );
+  weights[1] = 10.0;
+  costFunction->SetWeights( weights );
 
   // Set up the optimizer
   optimizer->SetFunctionConvergenceTolerance( 0.1 );
@@ -313,10 +319,10 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   parameters[2] = 1.0; // center of model already located at center of image
 
   // Set up the scaling between the level set terms
-  filter->SetPropagationScaling( 1.0 );
-  filter->SetAdvectionScaling( 0.01 );
-  filter->SetCurvatureScaling( 0.01 );
-  filter->SetShapePriorScaling( 1.0 );
+  filter->SetPropagationScaling( 0.5 );
+  filter->SetAdvectionScaling( 1.00 );
+  filter->SetCurvatureScaling( 1.00 );
+  filter->SetShapePriorScaling( 0.1 );
 
   // Hook up components to the filter
   filter->SetInput( fastMarching->GetOutput() );  // initial level set
@@ -326,8 +332,9 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   filter->SetOptimizer( optimizer );
   filter->SetInitialParameters( parameters );
 
-  filter->SetMaximumRMSError( 0.05 );
-  filter->SetMaximumIterations( 200 );
+  filter->SetNumberOfLayers( 4 );
+  filter->SetMaximumRMSError( 0.01 );
+  filter->SetMaximumIterations( 400 );
 
   /**
    * Connect an observer to the filter

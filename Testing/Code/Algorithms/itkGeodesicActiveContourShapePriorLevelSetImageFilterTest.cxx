@@ -49,7 +49,8 @@ public:
   void ShowIteration()
     { 
     std::cout << m_Filter->GetElapsedIterations() << ": ";
-    std::cout << m_Filter->GetCurrentParameters() << std::endl;
+    std::cout << m_Filter->GetCurrentParameters() << " ";
+    std::cout << m_Filter->GetRMSChange() << std::endl;
     }
   
   typename TFilter::Pointer m_Filter;
@@ -228,6 +229,11 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest( int, char *[])
   costFunction->SetShapeParameterMeans( mean );
   costFunction->SetShapeParameterStandardDeviations( stddev );
 
+  CostFunctionType::WeightsType weights;
+  weights.Fill( 1.0 );
+  weights[1] = 10.0;
+  costFunction->SetWeights( weights );
+
   // Set up the optimizer
   optimizer->SetFunctionConvergenceTolerance( 0.1 );
   optimizer->SetParametersConvergenceTolerance( 0.5 );
@@ -241,10 +247,10 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest( int, char *[])
   parameters[2] = 64; // center of the image
 
   // Set up the scaling between the level set terms
-  filter->SetPropagationScaling( 1.0 );
-  filter->SetAdvectionScaling( 0.01 );
-  filter->SetCurvatureScaling( 0.01 );
-  filter->SetShapePriorScaling( 1.0 );
+  filter->SetPropagationScaling( 0.5 );
+  filter->SetAdvectionScaling( 1.00 );
+  filter->SetCurvatureScaling( 1.00 );
+  filter->SetShapePriorScaling( 0.1 );
 
   // Hook up components to the filter
   filter->SetInput( fastMarching->GetOutput() );  // initial level set
@@ -254,8 +260,9 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest( int, char *[])
   filter->SetOptimizer( optimizer );
   filter->SetInitialParameters( parameters );
 
-  filter->SetMaximumRMSError( 0.05 );
-  filter->SetMaximumIterations( 200 );
+  filter->SetNumberOfLayers( 4 );
+  filter->SetMaximumRMSError( 0.01 );
+  filter->SetMaximumIterations( 400 );
 
   /**
    * Connect an observer to the filter
