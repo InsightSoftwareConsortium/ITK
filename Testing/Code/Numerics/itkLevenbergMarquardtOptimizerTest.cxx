@@ -193,15 +193,24 @@ int main()
   
   
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  OptimizerType::Pointer  Optimizer = OptimizerType::New();
 
 
   // Declaration of the CostFunction adaptor
   myCostFunction::Pointer costFunction = myCostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
-
+  try 
+    {
+  Optimizer->SetCostFunction( costFunction.GetPointer() );
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cout << "Exception thrown ! " << std::endl;
+    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << e << std::endl;
+    return EXIT_FAILURE;
+    }
   
   const double F_Tolerance      = 1e-15;  // Function value tolerance
   const double G_Tolerance      = 1e-17;  // Gradient magnitude tolerance 
@@ -209,8 +218,7 @@ int main()
   const double Epsilon_Function = 1e-10;  // Step
   const int    Max_Iterations   =    20;  // Maximum number of iterations
 
-
-  vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
+  vnlOptimizerType * vnlOptimizer = Optimizer->GetOptimizer();
 
   vnlOptimizer->set_f_tolerance( F_Tolerance );
   vnlOptimizer->set_g_tolerance( G_Tolerance );
@@ -229,12 +237,11 @@ int main()
 
   currentValue = initialValue;
 
-  itkOptimizer->SetInitialPosition( currentValue );
-
+  Optimizer->SetInitialPosition( currentValue );
 
   try 
     {
-    itkOptimizer->StartOptimization();
+    Optimizer->StartOptimization();
     }
   catch( itk::ExceptionObject & e )
     {
@@ -278,7 +285,7 @@ int main()
 
 
   OptimizerType::ParametersType finalPosition;
-  finalPosition = itkOptimizer->GetCurrentPosition();
+  finalPosition = Optimizer->GetCurrentPosition();
 
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << "," ;
