@@ -264,6 +264,7 @@ class DICOMAppHelper
   DICOMMemberCallback<DICOMAppHelper>* TransferSyntaxCB;
   DICOMMemberCallback<DICOMAppHelper>* BitsAllocatedCB;
   DICOMMemberCallback<DICOMAppHelper>* PixelSpacingCB;
+  DICOMMemberCallback<DICOMAppHelper>* HeightCB;
   DICOMMemberCallback<DICOMAppHelper>* WidthCB;
   DICOMMemberCallback<DICOMAppHelper>* PixelRepresentationCB;
   DICOMMemberCallback<DICOMAppHelper>* PhotometricInterpretationCB;

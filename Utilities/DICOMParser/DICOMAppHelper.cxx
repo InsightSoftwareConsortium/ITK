@@ -36,6 +36,7 @@ DICOMAppHelper::DICOMAppHelper()
   this->TransferSyntaxCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->BitsAllocatedCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->PixelSpacingCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->HeightCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->WidthCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->PixelRepresentationCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->PhotometricInterpretationCB = new DICOMMemberCallback<DICOMAppHelper>;
@@ -78,12 +79,13 @@ DICOMAppHelper::~DICOMAppHelper()
   delete this->TransferSyntaxCB;
   delete this->BitsAllocatedCB;
   delete this->PixelSpacingCB;
+  delete this->HeightCB;
   delete this->WidthCB;
   delete this->PixelRepresentationCB;
   delete this->PhotometricInterpretationCB;
   delete this->RescaleOffsetCB;
   delete this->RescaleSlopeCB;
-
+  delete this->PixelDataCB;
 }
 
 void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
@@ -114,7 +116,6 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
   WidthCB->SetCallbackFunction(this, &DICOMAppHelper::WidthCallback);
   parser->AddDICOMTagCallback(0x0028, 0x0011, DICOMParser::VR_US, WidthCB);
 
-  DICOMMemberCallback<DICOMAppHelper>* HeightCB = new DICOMMemberCallback<DICOMAppHelper>;
   HeightCB->SetCallbackFunction(this, &DICOMAppHelper::HeightCallback);
   parser->AddDICOMTagCallback(0x0028, 0x0010, DICOMParser::VR_US, HeightCB);
 
@@ -175,7 +176,6 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     DICOMTagInfo tagStruct = dicom_tags[j];
     doublebyte group = tagStruct.group;
     doublebyte element = tagStruct.element;
-    DICOMParser::VRTypes datatype = tagStruct.datatype;
 
     std::pair<doublebyte, doublebyte> gePair(group, element);
     std::pair<std::pair<doublebyte, doublebyte>, DICOMTagInfo> mapPair(gePair, tagStruct);
@@ -416,13 +416,13 @@ void DICOMAppHelper::TransferSyntaxCallback(doublebyte,
                                             unsigned char* val,
                                             quadbyte) 
 {
+
+#ifdef DEBUG_DICOM_APP_HELPER
 #ifdef WIN32
   char platformByteOrder = 'L';
 #else
   char platformByteOrder = 'B';
 #endif
-
-#ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "Platform byte order: " << platformByteOrder << std::endl;
 #endif
 
@@ -614,7 +614,7 @@ void DICOMAppHelper::PixelDataCallback( doublebyte,
 #endif
     if (this->ImageData)
       {
-      delete [] this->ImageData;
+      delete [] (static_cast<char*> (this->ImageData));
       }
     this->ImageData = new float[numPixels];
     floatOutputData = static_cast<float*> (this->ImageData);
@@ -659,7 +659,7 @@ void DICOMAppHelper::PixelDataCallback( doublebyte,
       {
       if (this->ImageData)
         {
-        delete [] this->ImageData;
+        delete [] (static_cast<char*> (this->ImageData));
         }
       this->ImageData = new char[numPixels];
   
@@ -683,7 +683,7 @@ void DICOMAppHelper::PixelDataCallback( doublebyte,
       {
       if (this->ImageData)
         {
-        delete [] this->ImageData;
+        delete [] (static_cast<char*> (this->ImageData));
         }
       this->ImageData = new short[numPixels];
       short* shortOutputData = static_cast<short*> (this->ImageData);
