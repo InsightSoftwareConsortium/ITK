@@ -117,7 +117,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
     return 100000;
   } 
 
-  m_MatchMeasure = m_MatchMeasure / ( count * 1e2 );     
+  m_MatchMeasure = m_MatchMeasure / count;     
   return m_MatchMeasure;
 
 }
@@ -146,7 +146,6 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
     testPoint[i] += 2*delta;
     const MeasureType valuep1 = GetValue( testPoint );
     m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2 * delta );
-    m_MatchMeasureDerivatives[i] /= 1e5;  // FIX this is an arbitrary value
     testPoint[i] = parameters[i];
   }
 
