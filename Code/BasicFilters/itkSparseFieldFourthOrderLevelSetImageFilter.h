@@ -182,7 +182,9 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
                      itkGetStaticConstMacro(ImageDimension));
   }
 
-  void SetNumberOfLayers( unsigned int n )
+  /** This overrides SparseFieldLevelSetImageFilter's SetNumberOfLayers to make
+      sure we have enough layers to do what we need. */
+  virtual void SetNumberOfLayers( const unsigned int n )
   {
     unsigned int nm = vnl_math_max (this->GetMinimumNumberOfLayers (), n );
     if (nm != this->GetNumberOfLayers())
