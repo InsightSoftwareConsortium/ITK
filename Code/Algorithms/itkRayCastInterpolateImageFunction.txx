@@ -102,7 +102,7 @@ void
 RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::RecordVolumeDimensions(void) const
 {
-  const double *spacing=m_Image->GetSpacing();
+  typename InputImageType::SpacingType spacing=m_Image->GetSpacing();
   SizeType dim=m_Image->GetLargestPossibleRegion().GetSize();
 
   m_NumberOfVoxelsInX = dim[0];
@@ -515,10 +515,10 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
   if( nSidesCrossed >= 5 )
     {
-    cerr << "WARNING: No. of sides crossed equals: " << nSidesCrossed << endl;
+    std::cerr << "WARNING: No. of sides crossed equals: " << nSidesCrossed << std::endl;
     }
 #ifdef DEBUG_RAY_CAST_INTERPOLATOR_PATH
-  cout << endl << "No. of sides crossed: " << nSidesCrossed << endl;
+  std::cout << endl << "No. of sides crossed: " << nSidesCrossed << std::endl;
 #endif
 
   // If 'nSidesCrossed' is larger than 2, this means that the ray goes through
@@ -592,7 +592,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 {
 
   // Store the position and direction of the ray
-  const double *spacing=m_Image->GetSpacing();
+  typename TInputImage::SpacingType spacing=m_Image->GetSpacing();
   SizeType dim=m_Image->GetLargestPossibleRegion().GetSize();
 
   // we need to translate the _center_ of the volume to the origin
@@ -1531,7 +1531,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 {
   int iRayPoint = 0;
   double intensity;
-  double posn3D_x, posn3D_y, posn3D_z;
+//  double posn3D_x, posn3D_y, posn3D_z;
 
   integral = 0.;
 
