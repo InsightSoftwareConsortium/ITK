@@ -201,8 +201,7 @@ public:
   void SetIndex(const IndexValueType val[VIndexDimension])
     { memcpy(m_Index, val, sizeof(IndexValueType)*VIndexDimension); }
 
-  /** Set an element of the index.
-   * sets the value of one of the elements in the index
+  /** Sets the value of one of the elements in the index.
    * This method is mainly intended to facilitate the access to elements
    * from Tcl and Python where C++ notation is not very convenient.
    * \warning No bound checking is performed
@@ -211,8 +210,7 @@ public:
   void SetElement(unsigned long element, IndexValueType val )
     { m_Index[ element ] = val;  }
 
-  /** Get an element of the index.
-   * gets the value of one of the elements in the index.
+  /** Gets the value of one of the elements in the index.
    * This method is mainly intended to facilitate the access to elements
    * from Tcl and Python where C++ notation is not very convenient.
    * \warning No bound checking is performed
