@@ -831,8 +831,8 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
     int elementNumberOfBytes = elementSize*m_ElementNumberOfChannels;
     if(!strcmp(m_ElementDataFileName, "LOCAL"))
       {
-      m_WriteStream->write((char *)m_ElementData,
-                          m_Quantity*elementNumberOfBytes); 
+      m_WriteStream->write( (char *)m_ElementData,
+                            m_Quantity * elementNumberOfBytes ); 
       m_WriteStream->close();
       return true;
       }
@@ -867,8 +867,8 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
       else
         {
         writeStreamTemp->open(dataFileName, std::ios::binary | std::ios::out);
-        writeStreamTemp->write((char *)m_ElementData,
-             m_Quantity*m_ElementNumberOfChannels*elementNumberOfBytes);
+        writeStreamTemp->write( (char *)m_ElementData, 
+                                m_Quantity * elementNumberOfBytes );
         writeStreamTemp->close();
         return true;
         }
@@ -1217,7 +1217,7 @@ bool MetaImage
   if(!strcmp(m_ElementDataFileName, "LOCAL"))
     {
     m_WriteStream->write((char *)m_ElementData,
-                        m_Quantity*elementNumberOfBytes); 
+                        m_Quantity * elementNumberOfBytes); 
     m_WriteStream->close();
     return true;
     }
@@ -1253,8 +1253,8 @@ bool MetaImage
     else
       {
       writeStreamTemp->open(dataFileName, std::ios::binary | std::ios::out);
-      writeStreamTemp->write((char *)m_ElementData,
-           m_Quantity*m_ElementNumberOfChannels*elementNumberOfBytes);
+      writeStreamTemp->write( (char *)m_ElementData,
+                              m_Quantity * elementNumberOfBytes);
       writeStreamTemp->close();
       return true;
       }
