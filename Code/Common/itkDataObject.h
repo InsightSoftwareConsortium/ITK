@@ -236,7 +236,7 @@ public:
   /** More internal methods to update the pipeline. */
   void SetPipelineMTime(unsigned long time) 
     {m_PipelineMTime = time;}
-  itkGetMacro(PipelineMTime,unsigned long);
+  itkGetConstMacro(PipelineMTime,unsigned long);
   
   /** Setup a DataObject to receive new data.  This method is called
    * by the pipeline mechanism on each output of filter that needs
