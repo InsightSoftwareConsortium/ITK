@@ -17,7 +17,7 @@
 #define __itkAtan2ImageFilter_h
 
 #include "itkBinaryImageFilter.h"
-#include "cmath"
+#include "vnl/vnl_math.h"
 
 namespace itk
 {

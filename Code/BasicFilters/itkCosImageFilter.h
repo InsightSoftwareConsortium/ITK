@@ -17,7 +17,7 @@
 #define __itkCosImageFilter_h
 
 #include "itkUnaryImageFilter.h"
-#include "cmath"
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
