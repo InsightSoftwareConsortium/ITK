@@ -126,7 +126,7 @@ ProcessObject
   for(std::vector<DataObjectPointer>::const_iterator i = m_Inputs.begin();
       i < (m_Inputs.begin() + num); ++i)
     {
-    if(*i != 0)
+    if((*i).IsNotNull())
       {
       count++;
       }
