@@ -61,7 +61,7 @@ class DefaultConvertPixelTraits
 {
 public:
   typedef typename PixelType::ComponentType ComponentType;
-  static int GetNumberOfComponents() 
+  static unsigned int GetNumberOfComponents() 
     { return PixelType::GetNumberOfComponents();}
   static ComponentType GetNthComponent(int c, const PixelType& pixel) 
     {
@@ -83,7 +83,7 @@ class DefaultConvertPixelTraits<type>                                    \
 {                                                                        \
 public:                                                                  \
   typedef type ComponentType;                                            \
-  static int GetNumberOfComponents()                                     \
+  static unsigned int GetNumberOfComponents()                                     \
     {                                                                    \
       return 1;                                                          \
     }                                                                    \
