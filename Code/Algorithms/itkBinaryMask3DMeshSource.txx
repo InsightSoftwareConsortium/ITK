@@ -2332,18 +2332,24 @@ BinaryMask3DMeshSource<TOutputMesh>
       {
       m_PointFound = 1;
 
-      typedef typename InputImageType::IndexType::IndexValueType IndexValueType;
-      typename InputImageType::IndexType indTemp;
-      indTemp[0] = static_cast<IndexValueType>(m_LocationOffset[nodesid[i]][0])
+      OPointType indTemp;
+      indTemp[0] = m_LocationOffset[nodesid[i]][0]
         + ( index % m_ImageWidth );
-      indTemp[1] = static_cast<IndexValueType>(m_LocationOffset[nodesid[i]][1])
+      indTemp[1] = m_LocationOffset[nodesid[i]][1]
         + ( (index % (m_ImageWidth*m_ImageHeight)) / m_ImageWidth );
-      indTemp[2] = static_cast<IndexValueType>(m_LocationOffset[nodesid[i]][2])
+      indTemp[2] = m_LocationOffset[nodesid[i]][2]
         + ( index / (m_ImageWidth*m_ImageHeight) );
 
       // We transform the point to the physical space since the mesh does not have the notion
       // of spacing and origin
-      this->GetInput(0)->TransformIndexToPhysicalPoint(indTemp,new_p);
+      //this->GetInput(0)->TransformIndexToPhysicalPoint(indTemp,new_p);
+
+      InputImageType::SpacingType spacing = this->GetInput(0)->GetSpacing();
+      InputImageType::PointType origin = this->GetInput(0)->GetOrigin();
+      
+      new_p[0] = indTemp[0]*spacing[0]+origin[0];
+      new_p[1] = indTemp[1]*spacing[1]+origin[1];
+      new_p[2] = indTemp[2]*spacing[2]+origin[2];
 
       this->GetOutput()->SetPoint( m_NumberOfNodes, new_p );
 
