@@ -324,9 +324,43 @@ int main( int argc, char *argv[] )
   TransformType::InputPointType     inputPoint;
   TransformType::OutputPointType    outputPoint;
   TransformType::OutputVectorType   displacementVector;
+  // Software Guide : EndCodeSnippet
 
-  TransformType::ImagePointer * coefficientImages = transformHigh->GetCoefficientImage();
 
+  //  Software Guide : BeginLatex
+  //  
+  // The following lines force the internal generation of the coefficient
+  // images and recover the array of such images.
+  //  
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  transformHigh->SetParameters( parametersHigh );
+  
+  TransformType::ImagePointer * coefficientImages = transformLow->GetCoefficientImage();
+  // Software Guide : EndCodeSnippet
+
+
+  if( coefficientImages == NULL )
+    {
+    std::cerr << "Problem found while getting the coefficients images" << std::endl;
+    return 2;
+    }
+
+  if( coefficientImages[0].GetPointer() == NULL )
+    {
+    std::cerr << "Problem found while getting the first coefficients images" << std::endl;
+    return 3;
+    }
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Now we proceed to do the actual resampling and to set the resulting
+  //  parameters in the high resolution transform.
+  //  
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   TransformType::ImagePointer coefficientImage = coefficientImages[0];
 
   typedef itk::ImageRegionIterator< TransformType::ImageType > IteratorType;
@@ -347,6 +381,7 @@ int main( int argc, char *argv[] )
       parametersHigh[ ImageDimension * currentGridNode + i ] = displacementVector[i];
       }
     currentGridNode++;
+    ++cit;
     }
   
   transformHigh->SetParameters( parametersHigh );
@@ -364,7 +399,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( transformHigh->GetParameters() );
-  registration->SetTransform( transformLow );
+  registration->SetTransform( transformHigh );
 
   try 
     { 
