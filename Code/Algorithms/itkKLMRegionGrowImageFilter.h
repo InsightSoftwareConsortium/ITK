@@ -39,8 +39,8 @@ namespace itk
  * itkKLMRegionGrowImageFilter is the base class for the KLMRegionGrowImageFilter objects.
  * This object performs energy-based region growing for multiband images.
  * Since this is based on G. Koepfler,C. Lopez and J. M. Morel's work
- * described below, the acronym KLM is added at the end of the object name
- * .
+ * described below, the acronym KLM is added at the end of the object name.
+ *
  * The ApplyRegionGrowImageFilter() function implements the segmentation algorithm
  * that partitions the input image into non-overlapping regions
  * by minimizing an energy functional which trades off the similarity
