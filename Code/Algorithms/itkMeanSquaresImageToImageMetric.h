@@ -59,6 +59,8 @@ namespace itk
  * class computes a value(s) that measures the similarity of the target
  * against the reference object once the transformation is applied to it.
  *
+ * \ingroup RegistrationMetrics
+ *
  */
 
 template < class TTarget, class TMapper > 

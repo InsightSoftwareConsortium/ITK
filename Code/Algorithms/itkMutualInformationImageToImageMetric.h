@@ -117,6 +117,9 @@ namespace itk
  * It should be removed once the feature has been implemented in
  * the mapper.
  *
+ *
+ * \ingroup RegistrationMetrics
+ *
  */
 template <
 class TTarget,

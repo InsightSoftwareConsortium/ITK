@@ -57,6 +57,9 @@ namespace itk
  * them by minimizing the sum of square distances between 
  * point pairs
  *  
+ *
+ * \ingroup RegistrationMetrics
+ *
  */
 
 template <class TTransform, unsigned int NDimension>

@@ -59,6 +59,9 @@ namespace itk
  * The class is templated over the kind of value that can be produced as
  * measure of similarity. That allows to cover methods that produce residuals
  * as well as methods that produces just one double as result.
+ *
+ * \ingroup RegistrationMetrics
+ *
  */
 
 template <class TTarget,  class TMapper, 
