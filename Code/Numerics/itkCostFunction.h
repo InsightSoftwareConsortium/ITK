@@ -47,7 +47,8 @@ public:
 
   /**  ParametersType typedef.
    *  It defines a position in the optimization search space. */
-  typedef Array<double>                 ParametersType;
+  typedef double                        ParametersValueType;
+  typedef Array<ParametersValueType>    ParametersType;
 
  
   /** Return the number of parameters required to compute 

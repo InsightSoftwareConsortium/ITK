@@ -56,10 +56,7 @@ public:
   typedef SmartPointer<const Self>        ConstPointer;
 
   /** Type used for representing point components  */
-  typedef double        CoordinateRepresentationType;
-
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  typedef Superclass::ParametersValueType CoordinateRepresentationType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToImageMetric, SingleValuedCostFunction);

@@ -55,7 +55,7 @@ public:
   }
 
 
-  MeasureType  GetValue( const ParametersType & parameters ) const
+  MeasureType  GetValue( const ParametersType & parameters )
   { 
     
     this->SetParameters( parameters );
@@ -74,7 +74,7 @@ public:
 
   }
 
-  DerivativeType  GetDerivative( const ParametersType & parameters ) const
+  DerivativeType  GetDerivative( const ParametersType & parameters )
   {
 
     this->SetParameters( parameters );
@@ -96,15 +96,6 @@ public:
   }
 
  
-  void GetValueAndDerivative( const ParametersType & parameters,
-    MeasureType& value, DerivativeType& deriv ) const
-  {
-    value = this->GetValue( parameters );
-    deriv = this->GetDerivative( parameters );
-  }
-
-
-
   unsigned int GetNumberOfParameters(void) const
     {
     return SpaceDimension;

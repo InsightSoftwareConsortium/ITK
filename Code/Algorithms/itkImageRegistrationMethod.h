@@ -127,9 +127,16 @@ public:
   itkSetObjectMacro( Interpolator, InterpolatorType );
   itkGetObjectMacro( Interpolator, InterpolatorType );
 
+  /** Set/Get the initial transformation parameters. */
+  itkSetMacro( InitialTransformParameters, ParametersType );
+  itkGetMacro( InitialTransformParameters, ParametersType );
+
+  /** Get the last transformation parameters visited by 
+   * the optimizer. */
+  itkGetMacro( LastTransformParameters, ParametersType );
 
 protected:
-  ImageRegistrationMethod() {};
+  ImageRegistrationMethod();
   virtual ~ImageRegistrationMethod() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -148,6 +155,9 @@ private:
 
   TransformPointer                 m_Transform;
   InterpolatorPointer              m_Interpolator;
+
+  ParametersType                   m_InitialTransformParameters;
+  ParametersType                   m_LastTransformParameters;
   
 };
 

@@ -124,7 +124,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
  * Get the Derivative Measure
  */
 template < class TFixedImage, class TMovingImage> 
-const NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>::DerivativeType &
+NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>::DerivativeType
 NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetDerivative( const TransformParametersType & parameters )
 {

@@ -81,8 +81,8 @@ RegularStepGradientDescentBaseOptimizer
 ::ResumeOptimization( void )
 {
   
-  const unsigned int  spaceDimension =
-                m_CostFunction->GetNumberOfParameters();
+//  const unsigned int  spaceDimension =
+//                m_CostFunction->GetNumberOfParameters();
 
   m_Stop = false;
 

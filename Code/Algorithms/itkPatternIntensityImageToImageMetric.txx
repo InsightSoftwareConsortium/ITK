@@ -108,7 +108,7 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
  * Get the Derivative Measure
  */
 template < class TFixedImage, class TMovingImage> 
-const PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>::DerivativeType &
+PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>::DerivativeType
 PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
 ::GetDerivative( const TransformParametersType & parameters )
 {

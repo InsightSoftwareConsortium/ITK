@@ -74,7 +74,7 @@ public:
   }
 
 
-  MeasureType GetValue( const ParametersType & parameters ) const
+  MeasureType GetValue( const ParametersType & parameters )
   { 
     
     std::cout << "GetValue( " << parameters << " ) = ";
@@ -114,7 +114,7 @@ public:
   }
 
   DerivativeType  GetDerivative( 
-                     const ParametersType & parameters ) const
+                     const ParametersType & parameters )
   {
 
     this->SetParameters( parameters );

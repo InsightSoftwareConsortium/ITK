@@ -76,7 +76,7 @@ GradientDescentOptimizer
 
   m_CurrentIteration   = 0;
 
-  this->SetCurrentPosition( GetInitialPosition() );
+  this->SetCurrentPosition( this->GetInitialPosition() );
   this->ResumeOptimization();
 
 }
@@ -100,7 +100,7 @@ GradientDescentOptimizer
     try
       {
       m_CostFunction->GetValueAndDerivative( 
-        GetCurrentPosition(), m_Value, m_Gradient );
+        this->GetCurrentPosition(), m_Value, m_Gradient );
       }
     catch( ExceptionObject& err )
       {

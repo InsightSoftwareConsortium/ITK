@@ -23,6 +23,27 @@
 namespace itk
 {
 
+/**
+ * Constructor
+ */
+template < typename TFixedImage, typename TMovingImage >
+ImageRegistrationMethod<TFixedImage,TMovingImage>
+::ImageRegistrationMethod()
+{
+
+  m_FixedImage   = 0; // has to be provided by the user.
+  m_MovingImage  = 0; // has to be provided by the user.
+  m_Transform    = 0; // has to be provided by the user.
+  m_Interpolator = 0; // has to be provided by the user.
+  m_Metric       = 0; // has to be provided by the user.
+  m_Optimizer    = 0; // has to be provided by the user.
+
+
+  m_InitialTransformParameters = ParametersType(0);
+  m_LastTransformParameters = ParametersType(0);
+
+}
+
 
 /**
  * Initialize by setting the interconnects between components. 
@@ -73,6 +94,15 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
   // Setup the optimizer
   m_Optimizer->SetCostFunction( m_Metric );
 
+  // Validate initial transform parameters
+  if ( m_InitialTransformParameters.Size() != 
+    m_Transform->GetNumberOfParameters() )
+    {
+    itkExceptionMacro(<<"Size mismatch between initial parameter and transform"); 
+    }
+
+  m_Optimizer->SetInitialPosition( m_InitialTransformParameters );
+
 }
 
 
@@ -84,9 +114,39 @@ void
 ImageRegistrationMethod<TFixedImage,TMovingImage>
 ::StartRegistration( void )
 { 
-  this->Initialize();
 
-//  itkWarningMacro(<<"This function has not be fully implemented" );
+  try
+    {
+    // initialize the interconnects between components
+    this->Initialize();
+    }
+  catch( ExceptionObject& err )
+    {
+    m_LastTransformParameters = ParametersType(0 );
+
+    // pass exception to caller
+    throw err;
+    }
+
+
+  try
+    {
+    // do the optimization
+    m_Optimizer->StartOptimization();
+    }
+  catch( ExceptionObject& err )
+    {
+      // An error has occurred in the optimization.
+      // Update the parameters
+      m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
+
+      // Pass exception to caller
+      throw err;
+    }
+
+
+  // get the results
+  m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
 
 }
 

@@ -75,7 +75,7 @@ public:
     m_b[1]    = -8;
     }
 
-  double GetValue( const ParametersType & parameters ) const
+  double GetValue( const ParametersType & parameters )
     {
     this->SetParameters( parameters );
     VectorType v( parameters.Size() );
@@ -91,7 +91,7 @@ public:
     return val;
     }
 
-  DerivativeType GetDerivative( const ParametersType & parameters ) const
+  DerivativeType GetDerivative( const ParametersType & parameters )
     {
     this->SetParameters( parameters );
     VectorType v( parameters.Size() );

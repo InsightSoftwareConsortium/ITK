@@ -42,10 +42,10 @@ public:
   typedef Object                    Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-
+  
  /** Run-time type information (and related methods). */
   itkTypeMacro(Optimizer, Object);
 
@@ -75,6 +75,9 @@ public:
 
   /** Get current position of the optimization. */
   itkGetConstMacro( CurrentPosition, ParametersType );
+
+  /** Start optimization. */
+  virtual void StartOptimization() {};
 
 protected:
   Optimizer() {};

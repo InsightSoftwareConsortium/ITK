@@ -108,7 +108,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
  * Get the Derivative Measure
  */
 template < class TFixedImage, class TMovingImage> 
-const MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>::DerivativeType &
+MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>::DerivativeType
 MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 ::GetDerivative( const TransformParametersType & parameters )
 {

@@ -41,8 +41,7 @@ public:
   typedef CostFunction                 Superclass;
   typedef SmartPointer<Self>           Pointer;
   typedef SmartPointer<const Self>     ConstPointer;
-  
-  
+   
   /** Run-time type information (and related methods). */
   itkTypeMacro( SingleValuedCostFunction, CostFunction );
 
@@ -60,27 +59,21 @@ public:
 
   /** This method returns the value of the cost function corresponding
     * to the specified parameters.    */ 
-  virtual MeasureType GetValue( const ParametersType & parameters ) const
-      { return NumericTraits< MeasureType >::Zero; }
+  virtual MeasureType GetValue( const ParametersType & parameters ) = 0;
 
   /** This method returns the derivative of the cost function corresponding
     * to the specified parameters.   */ 
-  virtual DerivativeType GetDerivative( const ParametersType & parameters ) const
-      { DerivativeType derivative( parameters.Size() );
-        derivative.Fill( NumericTraits< MeasureType >::Zero );
-        return derivative;  
-      }
+  virtual DerivativeType GetDerivative( const ParametersType & parameters ) = 0;
 
   /** This method returns the value and derivative of the cost function corresponding
     * to the specified parameters    */ 
   virtual void GetValueAndDerivative( const ParametersType & parameters,
                                             MeasureType & value,
-                                            DerivativeType & derivative ) const
-      { value = NumericTraits< MeasureType >::Zero; 
-        derivative.Fill( NumericTraits< MeasureType >::Zero );
-      }
-
-
+                                            DerivativeType & derivative )
+    {
+     value = this->GetValue( parameters );
+     derivative = this->GetDerivative( parameters );
+    };
   
 protected:
   SingleValuedCostFunction() {};

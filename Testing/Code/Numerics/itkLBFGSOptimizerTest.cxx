@@ -61,7 +61,7 @@ public:
   {
   }
 
-  double GetValue( const ParametersType & position ) const
+  double GetValue( const ParametersType & position )
   { 
 
     this->SetParameters( position );
@@ -80,7 +80,7 @@ public:
     return val;
   }
 
-  DerivativeType GetDerivative( const ParametersType & position ) const
+  DerivativeType GetDerivative( const ParametersType & position )
   {
 
     this->SetParameters( position );

@@ -157,10 +157,14 @@ int main()
                                           OnePlusOneEvolutionaryOptimizerType::New();
 
 
+  if ( !pass )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
-
 
 }
 
