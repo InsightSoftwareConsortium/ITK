@@ -82,7 +82,6 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
   // set default parameters
   m_NumberOfIterations = 1000;
   m_LearningRate = 1.0;
-  m_TranslationScale = 1.0;
   
 }
 
@@ -96,7 +95,6 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
 :Superclass( other )
 {
   m_Parameters = other.m_Parameters;
-  m_TranslationScale = other.m_TranslationScale;
 }
 
 
@@ -122,7 +120,6 @@ ImageToImageAffineMutualInformationGradientDescentRegistration< TReference, TTar
 {
   Superclass::operator=( other );
   m_Parameters = other.m_Parameters;
-  m_TranslationScale = other.m_TranslationScale;
   return *this;
 }
 

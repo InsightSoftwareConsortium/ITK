@@ -70,7 +70,6 @@ MultiResolutionMutualInformationAffineRegistration<TReference,TTarget>
   this->Superclass::SetNumberOfLevels( num );
   m_NumberOfIterations.resize( num );
   m_LearningRates.resize( num );
-  m_TranslationScales.resize( num );
 }
 
 
@@ -91,33 +90,6 @@ unsigned int level )
   this->GetInternalRegistrationMethod()->SetLearningRate(
     m_LearningRates[ level ] );
 
-  this->GetInternalRegistrationMethod()->SetTranslationScale(
-    m_TranslationScales[ level ] );
-
-  // set up the initial solution
-  typename RegistrationType::ParametersType parameters =
-		this->GetInternalRegistrationMethod()->GetParameters();
-
-  // correct for change in translation scale parameters
-  double correction;
-  if( level == 0 )
-    {
-      correction = 1.0 / m_TranslationScales[ level ];
-    }
-  else
-    {
-      correction = m_TranslationScales[ level - 1 ] /
-      m_TranslationScales[ level ];
-    }
-
-  int start = TargetImageDimension*TargetImageDimension;
-  int end   = start + TargetImageDimension;
-  for( int j = start; j < end; j++ )
-    {
-      parameters[j] *= correction;
-    }
-    this->GetInternalRegistrationMethod()->SetParameters( parameters );
-
 }
  
 
@@ -130,24 +102,6 @@ MultiResolutionMutualInformationAffineRegistration<TReference,TTarget>
 ::OneLevelPostRegistration(
 unsigned int level )
 {
-
-  if( level == this->GetNumberOfLevels() - 1 )
-    {
-
-    typename RegistrationType::ParametersType parameters =
-	  	this->GetInternalRegistrationMethod()->GetParameters();
-
-    double correction = m_TranslationScales[ level ];
-    int start = TargetImageDimension*TargetImageDimension;
-    int end   = start + TargetImageDimension;
-    for( int j = start; j < end; j++ )
-      {
-	parameters[j] *= correction;
-      }
-
-    this->GetInternalRegistrationMethod()->SetParameters( parameters );
-
-    }
 
 }
  

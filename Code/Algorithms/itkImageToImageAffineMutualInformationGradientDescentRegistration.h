@@ -147,8 +147,7 @@ public:
  *
  * Since the parameters of the linear part is different in magnitude
  * to the parameters in the offset part, scaling is required
- * to improve convergence. The scaling can set via SetTranslationScale().
- * The default is 1.0 but should be set to the maximum expected translation.
+ * to improve convergence. The scaling can set via the optimizer.
  *
  * NB: In the Viola and Wells paper, the scaling is specified by
  * using different learning rates for the linear and offset part.
@@ -312,16 +311,6 @@ public:
     { return m_Parameters; }
 
   /**
-   * Set the translation scale
-   */
-  itkSetMacro( TranslationScale, double );
-
-  /**
-   * Get the translation scale
-   */
-  itkGetConstMacro( TranslationScale, double );
-
-  /**
    * Set the learning rate. This is used in the optimization scheme.
    * Typically, the learning rate needs to be annealed (decreased over
    * time). Default is 1.0.
@@ -360,7 +349,6 @@ private:
   // -------------------------------
   // Optimization related variables
   // -------------------------------
-  double                     m_TranslationScale;
   double                     m_LearningRate;
   unsigned int               m_NumberOfIterations;
 
