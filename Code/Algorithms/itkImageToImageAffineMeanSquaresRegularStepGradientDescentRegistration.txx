@@ -132,20 +132,22 @@ ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration<TReference, 
     m_Parameters[ k++ ] = 0.0;
   }
 
-  typename TransformationType::Pointer transformation =
-            this->GetMetric()->GetMapper()->GetTransform();
 
-  transformation->SetTranslationScale( m_TranslationScale );
-
-  ParametersType  parametersScale;
+  typename OptimizerType::TransformType::ParametersType  parametersScale;
   parametersScale.Fill( 1.0 );
+  for(unsigned int trans=ImageDimension*ImageDimension; 
+      trans<ImageDimension*(ImageDimension+1); trans++)
+  {
+    parametersScale[trans] = 1.0;   // put here the scale for translations
+  }
 
+  
   typename OptimizerType::Pointer optimizer;
   optimizer = this->GetOptimizer();
 
   optimizer->SetCostFunction( this->GetMetric() );
   optimizer->SetMinimize();
-  optimizer->SetScale( parametersScale );
+  optimizer->GetTransform()->SetScale( parametersScale );
   optimizer->SetGradientMagnitudeTolerance( 1e-9 );
   optimizer->SetMaximumStepLength( 1e-3  );
   optimizer->SetMinimumStepLength( 1e-6 );
