@@ -117,6 +117,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkJoinImageFilter.h"
 #include "itkLaplacianImageFilter.txx"
 #include "itkLaplacianRecursiveGaussianImageFilter.txx"
+#include "itkLevelSetFunctionWithRefitTerm.txx"
 #include "itkLog10ImageFilter.h"
 #include "itkLogImageFilter.h"
 #include "itkMaskImageFilter.h"
