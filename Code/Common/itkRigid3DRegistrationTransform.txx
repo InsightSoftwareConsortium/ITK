@@ -42,7 +42,7 @@ template <class TScalarType,class TParameters>
 Rigid3DRegistrationTransform<TScalarType,TParameters>
 ::Rigid3DRegistrationTransform( const Self & other )
 {
-  m_RigidTransform   = other.m_RigidTransform;
+  m_Transform   = other.m_Transform;
   m_TranslationScale = other.m_TranslationScale;
 }
 
@@ -55,7 +55,7 @@ const Rigid3DRegistrationTransform<TScalarType,TParameters> &
 Rigid3DRegistrationTransform<TScalarType,TParameters>
 ::operator=( const Self & other )
 {
-  m_RigidTransformation = other.m_RigidTransformation;
+  m_Transformation = other.m_Transformation;
   m_TranslationScale = other.m_TranslationScale;
   return *this;
 }
@@ -65,11 +65,11 @@ Rigid3DRegistrationTransform<TScalarType,TParameters>
  * Transform a Point
  */
 template <class TScalarType,class TParameters>
-Rigid3DRegistrationTransform<TScalarType,TParameters>::PointType
+Rigid3DRegistrationTransform<TScalarType,TParameters>::OutputPointType
 Rigid3DRegistrationTransform<TScalarType,TParameters>
-::Transform( const PointType & point ) const
+::Transform( const InputPointType & point ) const
 {
-  return m_RigidTransform.Transform( point );
+  return m_Transform.Transform( point );
 }
 
 
@@ -91,8 +91,8 @@ Rigid3DRegistrationTransform<TScalarType,TParameters>
 
   m_Parameters = parameters;
   
-  typename RigidTransformType::VectorType  axis;
-  typename RigidTransformType::VectorType  translation;
+  typename TransformType::VectorType  axis;
+  typename TransformType::VectorType  translation;
 
   // get the axis of rotation
   unsigned int counter = 0;
@@ -134,11 +134,11 @@ Rigid3DRegistrationTransform<TScalarType,TParameters>
     translation[i] = m_Parameters[counter++] * m_TranslationScale;
   }
 
-  m_RigidTransform.Rotate( axis, angle );
-  m_RigidTransform.SetOffset( translation );
+  m_Transform.Rotate( axis, angle );
+  m_Transform.SetOffset( translation );
 
 //  std::cout << "SetParameters = " << std::endl;
-//  std::cout << m_RigidTransform << std::endl;
+//  std::cout << m_Transform << std::endl;
 }
 
 
@@ -147,15 +147,15 @@ Rigid3DRegistrationTransform<TScalarType,TParameters>
 template<class ScalarType, class TParameters>
 const Rigid3DRegistrationTransform<ScalarType, TParameters>::JacobianType &
 Rigid3DRegistrationTransform<ScalarType, TParameters>::
-GetJacobian( const PointType & p ) const
+GetJacobian( const InputPointType & p ) const
 {
 
   // reset Jacobian
   m_Jacobian.Fill( 0.0 );
 
   // compute derivatives with respect to rotation
-  typename RigidTransformType::VnlQuaternionType Q =
-    m_RigidTransform.GetRotation();
+  typename TransformType::VnlQuaternionType Q =
+    m_Transform.GetRotation();
 
   // compute Jacobian with respect to quaternion parameters
   vnl_matrix_fixed<double,3,4> dX_dQ;

@@ -78,23 +78,28 @@ public:
   /** 
    * Rigid Transform Type
    */
-  typedef  Rigid3DTransform<TScalarType,SpaceDimension>    RigidTransformType;
+  typedef  Rigid3DTransform<TScalarType,SpaceDimension>    TransformType;
 
 
   /** 
-   * Point Type
+   * Input Point Type
    */
-  typedef  typename RigidTransformType::PointType     PointType;
+  typedef  typename TransformType::InputPointType     InputPointType;
+
+  /** 
+   * Output Point Type
+   */
+  typedef  typename TransformType::OutputPointType     OutputPointType;
 
 
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(Rigid3DRegistrationTransform, Transform);
+  itkTypeMacro(Rigid3DRegistrationTransform, Object);
 
 
   /** 
-   * Run-time type information (and related methods).
+   * Type for the Jacobian matrix
    */
   typedef Matrix<TScalarType, SpaceDimension, 
                               ParametersDimension > JacobianType;
@@ -109,7 +114,7 @@ public:
   /**
    * Transform a Point using the Rigid transformation
    */
-  PointType Transform( const PointType & point ) const;
+  OutputPointType Transform( const InputPointType & point ) const;
 
   /**
    * Set the Transformation Parameters
@@ -135,7 +140,7 @@ public:
    * given point or vector, returning the transformed point or
    * vector.
    **/
-  const JacobianType & GetJacobian(const PointType  &point ) const;
+  const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 protected:
 
@@ -150,7 +155,7 @@ private:
   /**
    *  Internal transformation
    */
-  RigidTransformType                 m_RigidTransform;
+  TransformType                        m_Transform;
   
   /**
    *  List of parameters that unambiguosly define the transformation
