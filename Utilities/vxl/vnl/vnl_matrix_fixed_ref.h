@@ -183,7 +183,7 @@ class vnl_matrix_fixed_ref : public vnl_matrix<T>
   vnl_matrix_fixed_ref(T *space = (T*)0) {
     Base::data = rowspace;  // thf. can't derive this from matrixref
     if (!space) space = vnl_c_vector<T>::allocate_T(m*n);
-    for (int i = 0; i < m; ++i)
+    for (unsigned i = 0; i < m; ++i)
       Base::data[i] = space + i * n;
     Base::num_rows = m;
     Base::num_cols = n;
