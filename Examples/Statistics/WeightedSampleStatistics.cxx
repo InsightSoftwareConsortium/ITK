@@ -75,11 +75,11 @@ public:
   {
     if ( input[0] < 3.0 )
       {
-      return 1.0 ;
+      return 0.5 ;
       }
     else
       {
-      return 0.0 ;
+      return 0.01 ;
       }
   }
 
@@ -115,6 +115,16 @@ int main()
   mv[1] = 8.0 ;
   mv[2] = 6.0 ;
   sample->PushBack( mv ) ;
+
+  mv[0] = 2.0 ;
+  mv[1] = 7.0 ;
+  mv[2] = 4.0 ;
+  sample->PushBack( mv ) ;
+
+  mv[0] = 3.0 ;
+  mv[1] = 2.0 ;
+  mv[2] = 7.0 ;
+  sample->PushBack( mv ) ;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -134,8 +144,9 @@ int main()
     WeightedMeanAlgorithmType ;
 
   WeightedMeanAlgorithmType::WeightArrayType weightArray( sample->Size() ) ;
-  weightArray.Fill( 1.0 ) ;
-  weightArray[2] = 0.0 ;
+  weightArray.Fill( 0.5 ) ;
+  weightArray[2] = 0.01 ;
+  weightArray[4] = 0.01 ;
 
   WeightedMeanAlgorithmType::Pointer weightedMeanAlgorithm = 
     WeightedMeanAlgorithmType::New() ;
@@ -190,5 +201,16 @@ int main()
   std::cout << "Sample weighted covariance = " << std::endl ; 
   std::cout << *(weightedCovarianceAlgorithm->GetOutput()) << std::endl ;
   // Software Guide : EndCodeSnippet
+
+  weightedCovarianceAlgorithm->SetMean( 0 ) ;
+  weightedCovarianceAlgorithm->SetWeightFunction( weightFunction ) ;
+  weightedCovarianceAlgorithm->Update() ;
+
+  std::cout << "Without using the mean calculator:" << std::endl ;
+  std::cout << "Sample weighted covariance = " << std::endl ; 
+  std::cout << *(weightedCovarianceAlgorithm->GetOutput()) << std::endl ;
+
+  std::cout << "Sample weighted mean = " 
+            << *(weightedCovarianceAlgorithm->GetMean()) << std::endl ;
   return 0 ;
 }
