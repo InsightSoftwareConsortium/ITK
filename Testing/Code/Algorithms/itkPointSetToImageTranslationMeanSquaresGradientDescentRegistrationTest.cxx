@@ -136,14 +136,15 @@ int main()
   ti.Begin();
   while(!ti.IsAtEnd() && numPoints < numberOfSamples )
   {
-    if( counter < numPixelsToSkip ) 
+    if( counter >= numPixelsToSkip ) 
     {
       PointSetType::PointType point;
       point[0] = ti.GetIndex()[0];
       point[1] = ti.GetIndex()[1];
-      points->SetElement( counter, point    );
-      data->SetElement(   counter, ti.Get() );
+      points->SetElement( numPoints, point    );
+      data->SetElement(   numPoints, ti.Get() );
       numPoints++;
+      counter = 0;
     }
     ++ti;
     ++counter;
@@ -163,11 +164,37 @@ int main()
   registrationMethod->StartRegistration();
 
 
-  std::cout << "The correct answer should be : " << std::endl;
-  std::cout << -displacement << std::endl;
-  
+  std::cout << std::endl << "After  " << 
+    registrationMethod->GetOptimizer()->GetCurrentNumberOfIterations()
+    << "  Iterations " << std::endl;
 
+  // get the results
+  RegistrationType::ParametersType solution = 
+    registrationMethod->GetOptimizer()->GetCurrentPosition();
+
+  std::cout << "Solution is: " << solution << std::endl;
+
+  //
+  // check results to see if it is within range
+  //
+  bool pass = true;
+  double trueParameters[2] = { -7, -3 };
+  for( unsigned int j = 0; j < 2; j++ )
+    {
+    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.02 )
+      pass = false;
+    }
+  
+  if( !pass )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
+
+
 
 }
 
