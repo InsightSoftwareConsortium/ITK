@@ -100,7 +100,7 @@ public:
   /**
    * Method for Start the optimization
    */
-   void StartOptimization(void);
+   virtual void StartOptimization(void);
   
 
   /**
