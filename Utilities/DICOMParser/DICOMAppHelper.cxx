@@ -40,16 +40,45 @@
 class DICOMAppHelperImplementation
 {
 public:
-  // map from series UID to vector of files in the series 
-  dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr> SeriesUIDMap;
+  // map from series UID to vector of instance UIDs in the series
+  typedef dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr> SeriesUIDToInstanceUIDMapType;
+  SeriesUIDToInstanceUIDMapType SeriesUIDToInstanceUIDMap;
 
-  // map from filename to intraseries sortable tags
-  dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr> SliceOrderingMap;
+  // map from an instance UID to a series UID
+  typedef dicom_stl::map<dicom_stl::string, dicom_stl::string, ltstdstr> InstanceUIDToSeriesUIDMapType;
+  InstanceUIDToSeriesUIDMapType InstanceUIDToSeriesUIDMap;
 
+  // map from an instance UID to a filename
+  typedef dicom_stl::map<dicom_stl::string, dicom_stl::string, ltstdstr> InstanceUIDToFileNameMapType;
+  InstanceUIDToFileNameMapType InstanceUIDToFileNameMap;
+  
+  // map from instance UID to intraseries sortable tags
+  typedef dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr> InstanceUIDToSliceOrderingMapType;
+  InstanceUIDToSliceOrderingMapType InstanceUIDToSliceOrderingMap;
+
+  // map for (group, element) to tag info
   typedef dicom_stl::map<dicom_stl::pair<doublebyte, doublebyte>, DICOMTagInfo> TagMapType;
   TagMapType TagMap;
 
-}; 
+  // data structure for a contour (store points as x,y,z,x,y,z,...)
+  // Do we want to have different contour types? POINT, OPEN_PLANAR, CLOSED_PLANAR
+  typedef dicom_stl::vector<float> ContourType;
+
+  // vector of contours
+  typedef dicom_stl::vector<ContourType> ContoursVectorType;
+
+  // map from series UID to vector of contours in that series
+  typedef dicom_stl::map<dicom_stl::string, ContoursVectorType, ltstdstr> SeriesUIDToContoursMapType;
+  SeriesUIDToContoursMapType SeriesUIDToContoursMap;
+
+  // vector of instance UIDs
+  typedef dicom_stl::vector<dicom_stl::string> InstanceUIDVectorType;
+  
+  // map from series UID to referenced instance uid
+  typedef dicom_stl::map<dicom_stl::string, InstanceUIDVectorType, ltstdstr> SeriesUIDToReferencedInstanceUIDMapType;
+  SeriesUIDToReferencedInstanceUIDMapType SeriesUIDToReferencedInstanceUIDMap;
+};
+
 
 struct lt_pair_int_string
 {
@@ -79,12 +108,15 @@ DICOMAppHelper::DICOMAppHelper()
   this->Dimensions[0] = this->Dimensions[1] = 0;
   this->PhotometricInterpretation = NULL;
   this->TransferSyntaxUID = NULL;
+  this->CurrentSeriesUID = "";
+  this->InstanceUID = "";
   this->RescaleOffset = 0.0;
   this->RescaleSlope = 1.0;
   this->ImageData = NULL;
   this->ImageDataLengthInBytes = 0;
 
   this->SeriesUIDCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->InstanceUIDCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->SliceNumberCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->SliceLocationCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->ImagePositionPatientCB = new DICOMMemberCallback<DICOMAppHelper>;
@@ -101,10 +133,14 @@ DICOMAppHelper::DICOMAppHelper()
   this->RescaleSlopeCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->PixelDataCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->ROIContourSequenceCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->ContourImageSequenceCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->ContourSequenceCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->ContourDataCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->NumberOfContourPointsCB = new DICOMMemberCallback<DICOMAppHelper>;
-
+  this->ContourGeometricTypeCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->ReferencedInstanceUIDCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->DefaultCB = new DICOMMemberCallback<DICOMAppHelper>;
+  
   this->Implementation = new DICOMAppHelperImplementation;
 }
 
@@ -131,6 +167,7 @@ DICOMAppHelper::~DICOMAppHelper()
     }
 
   delete this->SeriesUIDCB;
+  delete this->InstanceUIDCB;
   delete this->SliceNumberCB;
   delete this->SliceLocationCB;
   delete this->ImagePositionPatientCB;
@@ -147,9 +184,13 @@ DICOMAppHelper::~DICOMAppHelper()
   delete this->RescaleSlopeCB;
   delete this->PixelDataCB;
   delete this->ROIContourSequenceCB;
+  delete this->ContourImageSequenceCB;
   delete this->ContourSequenceCB;
   delete this->ContourDataCB;
   delete this->NumberOfContourPointsCB;
+  delete this->ContourGeometricTypeCB;
+  delete this->ReferencedInstanceUIDCB;
+  delete this->DefaultCB;
 
   delete this->Implementation;
 }
@@ -161,14 +202,25 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     dicom_stream::cerr << "Null parser!" << dicom_stream::endl;
     }
 
+  // Default callback. Typically used to register a callback for
+  // sequences where we are not interested in the sequence itself but
+  // an element within the sequence.
+  DefaultCB->SetCallbackFunction(this, &DICOMAppHelper::DefaultCallback);
+
+  //
+  //
+  //
   SeriesUIDCB->SetCallbackFunction(this, &DICOMAppHelper::SeriesUIDCallback);
   parser->AddDICOMTagCallback(0x0020, 0x000e, DICOMParser::VR_UI, SeriesUIDCB);
+
+  InstanceUIDCB->SetCallbackFunction(this, &DICOMAppHelper::InstanceUIDCallback);
+  parser->AddDICOMTagCallback(0x0008, 0x0018, DICOMParser::VR_UI, InstanceUIDCB);
 
   SliceNumberCB->SetCallbackFunction(this, &DICOMAppHelper::SliceNumberCallback);
   parser->AddDICOMTagCallback(0x0020, 0x0013, DICOMParser::VR_IS, SliceNumberCB);
 
   SliceLocationCB->SetCallbackFunction(this, &DICOMAppHelper::SliceLocationCallback);
-  parser->AddDICOMTagCallback(0x0020, 0x1041, DICOMParser::VR_CS, SliceLocationCB);
+  parser->AddDICOMTagCallback(0x0020, 0x1041, DICOMParser::VR_DS, SliceLocationCB);
 
   ImagePositionPatientCB->SetCallbackFunction(this, &DICOMAppHelper::ImagePositionPatientCallback);
   parser->AddDICOMTagCallback(0x0020, 0x0032, DICOMParser::VR_SH, ImagePositionPatientCB);
@@ -201,10 +253,10 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
   parser->AddDICOMTagCallback(0x0028, 0x0004, DICOMParser::VR_CS, PhotometricInterpretationCB);
 
   RescaleOffsetCB->SetCallbackFunction(this, &DICOMAppHelper::RescaleOffsetCallback);
-  parser->AddDICOMTagCallback(0x0028, 0x1052, DICOMParser::VR_CS, RescaleOffsetCB);
+  parser->AddDICOMTagCallback(0x0028, 0x1052, DICOMParser::VR_DS, RescaleOffsetCB);
 
   RescaleSlopeCB->SetCallbackFunction(this, &DICOMAppHelper::RescaleSlopeCallback);
-  parser->AddDICOMTagCallback(0x0028, 0x1053, DICOMParser::VR_FL, RescaleSlopeCB);
+  parser->AddDICOMTagCallback(0x0028, 0x1053, DICOMParser::VR_DS, RescaleSlopeCB);
 
   ROIContourSequenceCB->SetCallbackFunction(this, &DICOMAppHelper::ROIContourSequenceCallback);
   parser->AddDICOMTagCallback(0x3006, 0x0039, DICOMParser::VR_SQ, ROIContourSequenceCB);
@@ -212,11 +264,24 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
   ContourSequenceCB->SetCallbackFunction(this, &DICOMAppHelper::ContourSequenceCallback);
   parser->AddDICOMTagCallback(0x3006, 0x0040, DICOMParser::VR_SQ, ContourSequenceCB);
 
+  ContourGeometricTypeCB->SetCallbackFunction(this, &DICOMAppHelper::ContourGeometricTypeCallback);
+  parser->AddDICOMTagCallback(0x3006, 0x0042, DICOMParser::VR_CS, ContourGeometricTypeCB);
+
   NumberOfContourPointsCB->SetCallbackFunction(this, &DICOMAppHelper::NumberOfContourPointsCallback);
   parser->AddDICOMTagCallback(0x3006, 0x0046, DICOMParser::VR_IS, NumberOfContourPointsCB);
 
   ContourDataCB->SetCallbackFunction(this, &DICOMAppHelper::ContourDataCallback);
   parser->AddDICOMTagCallback(0x3006, 0x0050, DICOMParser::VR_DS, ContourDataCB);
+
+  ContourImageSequenceCB->SetCallbackFunction(this, &DICOMAppHelper::ContourImageSequenceCallback);
+  parser->AddDICOMTagCallback(0x3006, 0x0016, DICOMParser::VR_SQ, ContourImageSequenceCB);
+
+  ReferencedInstanceUIDCB->SetCallbackFunction(this, &DICOMAppHelper::ReferencedInstanceUIDCallback);
+  parser->AddDICOMTagCallback(0x0008, 0x1155, DICOMParser::VR_UI, ReferencedInstanceUIDCB);
+
+  
+  // Add in default callbacks for tags we need to see but not cache
+  //parser->AddDICOMTagCallback(0x3006, 0x0012, DICOMParser::VR_DS, DefaultCB);
   
 
   DICOMTagInfo dicom_tags[] = {
@@ -242,7 +307,7 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     {0x0020, 0x0013, DICOMParser::VR_IS, "Image number"},
     {0x0020, 0x0032, DICOMParser::VR_SH, "Patient position"},
     {0x0020, 0x0037, DICOMParser::VR_SH, "Patient position cosines"},
-    {0x0020, 0x1041, DICOMParser::VR_CS, "Slice location"},
+    {0x0020, 0x1041, DICOMParser::VR_SS, "Slice location"},
     {0x0028, 0x0010, DICOMParser::VR_FL, "Num rows"},
     {0x0028, 0x0011, DICOMParser::VR_FL, "Num cols"},
     {0x0028, 0x0030, DICOMParser::VR_FL, "pixel spacing"},
@@ -290,6 +355,81 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
 
 }
 
+void DICOMAppHelper::DefaultCallback(DICOMParser *parser,
+                                     doublebyte,
+                                     doublebyte,
+                                     DICOMParser::VRTypes,
+                                     unsigned char*,
+                                     quadbyte)
+{
+#ifdef DEBUG_DICOM_APP_HELPER  
+  dicom_stream::cout << "Default callback " << dicom_stream::endl;
+#endif
+}
+
+void DICOMAppHelper::InstanceUIDCallback(DICOMParser *parser,
+                                       doublebyte,
+                                       doublebyte,
+                                       DICOMParser::VRTypes,
+                                       unsigned char* val,
+                                       quadbyte) 
+{
+  char* newString = (char*) val;
+  dicom_stl::string newStdString(newString);
+
+  // cache the instance UID
+  this->InstanceUID = newStdString;
+  
+#ifdef DEBUG_DICOM_APP_HELPER  
+  dicom_stream::cout << "Instance UID: " << newStdString << dicom_stream::endl;
+#endif
+
+  // Put the instance UID into the internal database mapping instance UIDs
+  // to filenames
+  this->Implementation
+    ->InstanceUIDToFileNameMap.insert(dicom_stl::pair<const dicom_stl::string, dicom_stl::string>(this->InstanceUID, parser->GetFileName() ));
+}
+
+
+void DICOMAppHelper::ReferencedInstanceUIDCallback(DICOMParser *parser,
+                                                   doublebyte,
+                                                   doublebyte,
+                                                   DICOMParser::VRTypes,
+                                                   unsigned char* val,
+                                                   quadbyte) 
+{
+  char* newString = (char*) val;
+  dicom_stl::string newStdString(newString);
+
+#ifdef DEBUG_DICOM_APP_HELPER  
+  dicom_stream::cout << "Referenced Instance UID: " << newStdString << dicom_stream::endl;
+#endif
+  
+  // store the referenced instance UID in the map for this series.
+  // This vector of referenced instance UIDs should be in lock step
+  // with the contours
+  this->Implementation->SeriesUIDToReferencedInstanceUIDMap[this->CurrentSeriesUID].push_back( newStdString );
+}
+
+void DICOMAppHelper::ContourImageSequenceCallback(DICOMParser *parser,
+                                                  doublebyte,
+                                                  doublebyte,
+                                                  DICOMParser::VRTypes,
+                                                  unsigned char* val,
+                                                  quadbyte) 
+{
+  char* newString = (char*) val;
+  dicom_stl::string newStdString(newString);
+
+  // Add a contour to the list of contours
+  DICOMAppHelperImplementation::ContourType contour;
+  this->Implementation->SeriesUIDToContoursMap[this->CurrentSeriesUID].push_back(contour);
+
+#ifdef DEBUG_DICOM_APP_HELPER
+  dicom_stream::cout << "Contour Image Sequence. " << dicom_stream::endl;
+#endif
+}
+
 void DICOMAppHelper::SeriesUIDCallback(DICOMParser *parser,
                                        doublebyte,
                                        doublebyte,
@@ -299,26 +439,60 @@ void DICOMAppHelper::SeriesUIDCallback(DICOMParser *parser,
 {
   char* newString = (char*) val;
   dicom_stl::string newStdString(newString);
-  dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr>::iterator iter = this->Implementation->SeriesUIDMap.find(newStdString);
-  if ( iter == this->Implementation->SeriesUIDMap.end())
+
+#ifdef DEBUG_DICOM_APP_HELPER  
+  dicom_stream::cout << "Series UID: " << newStdString << dicom_stream::endl;
+#endif
+
+  // Put the series UID into the internal database mapping instance
+  // UIDs to SeriesUIDs
+  this->Implementation
+    ->InstanceUIDToSeriesUIDMap.insert(dicom_stl::pair<const dicom_stl::string, dicom_stl::string>(this->InstanceUID, newStdString ));
+  
+  // Put the series UID into the internal database mapping series UIDs
+  // to InstanceUIDs
+  DICOMAppHelperImplementation::SeriesUIDToInstanceUIDMapType::iterator iiter = this->Implementation->SeriesUIDToInstanceUIDMap.find(newStdString);
+  if ( iiter == this->Implementation->SeriesUIDToInstanceUIDMap.end())
     {
     dicom_stl::vector<dicom_stl::string> newVector;
-
-    newVector.push_back(parser->GetFileName());
-    this->Implementation->SeriesUIDMap.insert(dicom_stl::pair<const dicom_stl::string, dicom_stl::vector<dicom_stl::string> > (newStdString, newVector));
+    
+    newVector.push_back(this->InstanceUID);
+    this->Implementation->SeriesUIDToInstanceUIDMap.insert(dicom_stl::pair<const dicom_stl::string, dicom_stl::vector<dicom_stl::string> > (newStdString, newVector));
     }
   else
     {
-    (*iter).second.push_back(parser->GetFileName());
+    (*iiter).second.push_back(this->InstanceUID);
     }
-} 
+  
+  // Put the series UID into the internal database mapping series UIDs
+  // to contours
+  DICOMAppHelperImplementation::SeriesUIDToContoursMapType::iterator citer = this->Implementation->SeriesUIDToContoursMap.find(newStdString);
+  if ( citer == this->Implementation->SeriesUIDToContoursMap.end())
+    {
+    DICOMAppHelperImplementation::ContoursVectorType newVector;
+    
+    this->Implementation->SeriesUIDToContoursMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMAppHelperImplementation::ContoursVectorType> (newStdString, newVector));
+    }
+  // Put the series UID into the internal database mapping series UIDs
+  // to referenced instance UIDs
+  DICOMAppHelperImplementation::SeriesUIDToReferencedInstanceUIDMapType::iterator riter = this->Implementation->SeriesUIDToReferencedInstanceUIDMap.find(newStdString);
+  if ( riter == this->Implementation->SeriesUIDToReferencedInstanceUIDMap.end())
+    {
+    DICOMAppHelperImplementation::InstanceUIDVectorType newVector;
+    
+    this->Implementation->SeriesUIDToReferencedInstanceUIDMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMAppHelperImplementation::InstanceUIDVectorType> (newStdString, newVector));
+    }
+  // cache the current series UID
+  this->CurrentSeriesUID = newStdString;
+}
+
 
 void DICOMAppHelper::OutputSeries()
 {
   dicom_stream::cout << dicom_stream::endl << dicom_stream::endl;
         
-  for (dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr >::iterator iter = this->Implementation->SeriesUIDMap.begin();
-       iter != this->Implementation->SeriesUIDMap.end();
+  for (DICOMAppHelperImplementation::SeriesUIDToInstanceUIDMapType::iterator iter = this->Implementation->SeriesUIDToInstanceUIDMap.begin();
+       iter != this->Implementation->SeriesUIDToInstanceUIDMap.end();
        iter++)
     {
     dicom_stream::cout << "SERIES: " << (*iter).first.c_str() << dicom_stream::endl;
@@ -328,14 +502,25 @@ void DICOMAppHelper::OutputSeries()
          v_iter != v_ref.end();
          v_iter++)
       {
-      dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = Implementation->SliceOrderingMap.find(*v_iter);
+      DICOMAppHelperImplementation::InstanceUIDToSliceOrderingMapType::iterator sn_iter = Implementation->InstanceUIDToSliceOrderingMap.find(*v_iter);
 
       int slice = -1;
-      if (sn_iter != Implementation->SliceOrderingMap.end())
+      if (sn_iter != Implementation->InstanceUIDToSliceOrderingMap.end())
         {
         slice = (*sn_iter).second.SliceNumber;
         }
-      dicom_stream::cout << "\t" << (*v_iter).c_str() << " [" << slice << "]" <<  dicom_stream::endl;
+      dicom_stream::cout << "\t" << (*v_iter).c_str() << " : "
+                         << this->Implementation->InstanceUIDToFileNameMap[*v_iter] << " : ";
+      if (slice != -1)
+        {
+        dicom_stream::cout << " [SliceNumber = " << slice<< "] ";
+        }
+      if (this->Implementation->SeriesUIDToContoursMap[(*iter).first].size() != 0)
+        {
+        dicom_stream::cout << " [Number of contours = "
+                           << this->Implementation->SeriesUIDToContoursMap[(*iter).first].size() << "] ";
+        }
+      dicom_stream::cout << dicom_stream::endl;
       }
                 
     }
@@ -463,17 +648,17 @@ void DICOMAppHelper::SliceNumberCallback(DICOMParser *parser,
                                          unsigned char* val,
                                          quadbyte) 
 {
-  // Look for the current file in the map of slice ordering data
-  dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator it;
-  it = this->Implementation->SliceOrderingMap.find(parser->GetFileName());
-  if (it == Implementation->SliceOrderingMap.end())
+  // Look for the current instance UID in the map of slice ordering data
+  DICOMAppHelperImplementation::InstanceUIDToSliceOrderingMapType::iterator it;
+  it = this->Implementation->InstanceUIDToSliceOrderingMap.find( this->InstanceUID );
+  if (it == Implementation->InstanceUIDToSliceOrderingMap.end())
     {
-    // file not found, create a new entry
+    // instance UID not found, create a new entry
     DICOMOrderingElements ord;
     ord.SliceNumber = atoi( (char *) val);
 
     // insert into the map
-    this->Implementation->SliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(parser->GetFileName(), ord));
+    this->Implementation->InstanceUIDToSliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(this->InstanceUID, ord));
     }
   else
     {
@@ -493,17 +678,17 @@ void DICOMAppHelper::SliceLocationCallback(DICOMParser *parser,
                                            unsigned char* val,
                                            quadbyte) 
 {
-  // Look for the current file in the map of slice ordering data
-  dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator it;
-  it = this->Implementation->SliceOrderingMap.find(parser->GetFileName());
-  if (it == Implementation->SliceOrderingMap.end())
+  // Look for the current instance UID in the map of slice ordering data
+  DICOMAppHelperImplementation::InstanceUIDToSliceOrderingMapType::iterator it;
+  it = this->Implementation->InstanceUIDToSliceOrderingMap.find( this->InstanceUID );
+  if (it == Implementation->InstanceUIDToSliceOrderingMap.end())
     {
-    // file not found, create a new entry
+    // instance UID not found, create a new entry
     DICOMOrderingElements ord;
     ord.SliceLocation = (float)atof( (char *) val);
 
     // insert into the map
-    this->Implementation->SliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(parser->GetFileName(), ord));
+    this->Implementation->InstanceUIDToSliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(this->InstanceUID, ord));
     }
   else
     {
@@ -519,12 +704,12 @@ void DICOMAppHelper::ImagePositionPatientCallback(DICOMParser *parser,
                                                   unsigned char* val,
                                                   quadbyte) 
 {
-  // Look for the current file in the map of slice ordering data
-  dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator it;
-  it = this->Implementation->SliceOrderingMap.find(parser->GetFileName());
-  if (it == Implementation->SliceOrderingMap.end())
+  // Look for the current instance UID in the map of slice ordering data
+  DICOMAppHelperImplementation::InstanceUIDToSliceOrderingMapType::iterator it;
+  it = this->Implementation->InstanceUIDToSliceOrderingMap.find( this->InstanceUID );
+  if (it == Implementation->InstanceUIDToSliceOrderingMap.end())
     {
-    // file not found, create a new entry
+    // instance UID not found, create a new entry
     DICOMOrderingElements ord;
     sscanf( (char*)(val), "%f\\%f\\%f",
             &ord.ImagePositionPatient[0],
@@ -532,7 +717,7 @@ void DICOMAppHelper::ImagePositionPatientCallback(DICOMParser *parser,
             &ord.ImagePositionPatient[2] );
     
     // insert into the map
-    this->Implementation->SliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(parser->GetFileName(), ord));
+    this->Implementation->InstanceUIDToSliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(this->InstanceUID, ord));
 
     // cache the value
     memcpy( this->ImagePositionPatient, ord.ImagePositionPatient,
@@ -560,12 +745,12 @@ void DICOMAppHelper::ImageOrientationPatientCallback(DICOMParser *parser,
                                                      unsigned char* val,
                                                      quadbyte) 
 {
-  // Look for the current file in the map of slice ordering data
-  dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator it;
-  it = this->Implementation->SliceOrderingMap.find(parser->GetFileName());
-  if (it == Implementation->SliceOrderingMap.end())
+  // Look for the current instance UID in the map of slice ordering data
+  DICOMAppHelperImplementation::InstanceUIDToSliceOrderingMapType::iterator it;
+  it = this->Implementation->InstanceUIDToSliceOrderingMap.find(this->InstanceUID);
+  if (it == Implementation->InstanceUIDToSliceOrderingMap.end())
     {
-    // file not found, create a new entry
+    // instance UID not found, create a new entry
     DICOMOrderingElements ord;
     sscanf( (char*)(val), "%f\\%f\\%f\\%f\\%f\\%f",
             &ord.ImageOrientationPatient[0],
@@ -576,7 +761,7 @@ void DICOMAppHelper::ImageOrientationPatientCallback(DICOMParser *parser,
             &ord.ImageOrientationPatient[5] );
     
     // insert into the map
-    this->Implementation->SliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(parser->GetFileName(), ord));
+    this->Implementation->InstanceUIDToSliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(this->InstanceUID, ord));
     }
   else
     {
@@ -764,13 +949,24 @@ void DICOMAppHelper::PixelDataCallback( DICOMParser *,
                                         quadbyte len)
 {
   int numPixels = this->Dimensions[0] * this->Dimensions[1] * this->GetNumberOfComponents();
-  if (len < numPixels)
+
+  // if length was undefined, i.e. 0xffff, then use numpixels
+  if (len == 0xffff)
     {
-    numPixels = len;
+    numPixels = numPixels;
     }
-  if (numPixels < 0)
+  else
     {
-    numPixels = 0;
+    // length was specified, but only read up to len bytes (as
+    // opposed to the image size times number of components)
+    if (len < numPixels)
+      {
+      numPixels = len;
+      }
+    if (numPixels < 0)
+      {
+      numPixels = 0;
+      }
     }
 
 #ifdef DEBUG_DICOM_APP_HELPER
@@ -787,7 +983,6 @@ void DICOMAppHelper::PixelDataCallback( DICOMParser *,
   
   bool isFloat = this->RescaledImageDataIsFloat();
 
-    dicom_stream::cout << this->RescaleSlope << ", " << this->RescaleOffset << dicom_stream::endl;
   if (isFloat)
     {
 #ifdef DEBUG_DICOM_APP_HELPER
@@ -892,11 +1087,11 @@ void DICOMAppHelper::ROIContourSequenceCallback( DICOMParser *,
                                         doublebyte,
                                         DICOMParser::VRTypes,
                                         unsigned char*,
-                                        quadbyte)
+                                        quadbyte )
 {
 
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicom_stream::cout << "ROIContourSequence : " << len << dicom_stream::endl;
+  dicom_stream::cout << "ROIContourSequence. " << dicom_stream::endl;
 #endif
 
 }
@@ -910,7 +1105,21 @@ void DICOMAppHelper::ContourSequenceCallback( DICOMParser *,
 {
   
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicom_stream::cout << "ContourSequence : " << len << dicom_stream::endl;
+  dicom_stream::cout << "ContourSequence." << dicom_stream::endl;
+#endif
+
+}
+
+void DICOMAppHelper::ContourGeometricTypeCallback( DICOMParser *,
+                                                   doublebyte,
+                                                   doublebyte,
+                                                   DICOMParser::VRTypes,
+                                                   unsigned char*,
+                                                   quadbyte)
+{
+  
+#ifdef DEBUG_DICOM_APP_HELPER
+  dicom_stream::cout << "ContourGeometricType." << dicom_stream::endl;
 #endif
 
 }
@@ -920,17 +1129,73 @@ void DICOMAppHelper::ContourDataCallback( DICOMParser *,
                                         doublebyte,
                                         DICOMParser::VRTypes,
                                         unsigned char* data,
-                                        quadbyte)
+                                        quadbyte len)
 {
 
-  float p[3];
-  sscanf( (char*)(data), "%f\\%f\\%f", &p[0], &p[1], &p[2]);
-  // Need to cache the point somewhere.  Could keep track of all
-  // points on all contours
+  // If we haven't added a contour yet, then we must have missed the tag
+  // to start the contour
+  if (this->Implementation->SeriesUIDToContoursMap[this->CurrentSeriesUID].size() == 0)
+    {
+    dicom_stream::cerr << "DICOMAppHelper:: Found contour data tag (0x3006, 0x0050) without a matching contour sequence tag (0x3006, 0x0040)." << dicom_stream::endl;
+    }
+  // If the number of points in the contour is zero, then we were not
+  // expecting any data or we missed the tag for the number of contour
+  // points.
+  else if (this->Implementation->SeriesUIDToContoursMap[this->CurrentSeriesUID].back().size() == 0)  // Note the test for equality
+    {
+    dicom_stream::cerr << "DICOMAppHelper:: Found contour data tag (0x3006, 0x0050) without a matching number of contour points tag (0x3006, 0x0046)." << dicom_stream::endl;
+    }
+  else
+    {
+    // read the number of points Contours.back().size()
+    //
+    //
+    unsigned int i;
+    float p;
+    
+    // get a reference to the contour 
+    DICOMAppHelperImplementation::ContourType
+      &contour = this->Implementation->SeriesUIDToContoursMap[this->CurrentSeriesUID].back();
+
+    // read the coordinates. the space for the points has already been
+    // allocated in NumberOfContourPointsCallback().  we just need to
+    // parse the (x, y, z) values and put them in the contour vector.
+    // Points are stored in a vector of floats (x, y, z, x, y, z, ...)
+    //
+
+    // create a temporary (null terminated) buffer that we can tokenize
+    unsigned char *tdata = new unsigned char[len+1];
+    memcpy((char *) tdata, (char *)data, len);
+    tdata[len] = '\0';
+
+    // tokenize and parse the buffer
+    unsigned char *tPtr;
+    tPtr = (unsigned char *)strtok((char *)tdata, "\\");
+    for (i=0; i < contour.size(); i += 3)
+      {
+      sscanf( (char*)(tPtr), "%f", &p);
+      contour[i] = p;
+      tPtr = (unsigned char *)strtok(NULL, "\\");
+      sscanf( (char*)(tPtr), "%f", &p);
+      contour[i+1] = p;
+      tPtr = (unsigned char *)strtok(NULL, "\\");
+      sscanf( (char*)(tPtr), "%f", &p);
+      contour[i+2] = p;
+      tPtr = (unsigned char *)strtok(NULL, "\\");
+      }
+
+    delete [] tdata;
+    }
+
 
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicom_stream::cout << "ContourData : " ;
-  dicom_stream::cout << "[" << p[0] << ", " << p[1] << ", " << p[2] << "]" << dicom_stream::endl;
+  DICOMAppHelperImplementation::ContourType contour = this->Implementation->SeriesUIDToContoursMap[this->CurrentSeriesUID].back();
+  dicom_stream::cout << "Contour with " << contour.size() / 3 << " points." << dicom_stream::endl;
+  for (unsigned int i=0; i < contour.size(); i+=3)
+    {
+    dicom_stream::cout << "[" << contour[i] << ", " << contour[i+1] << ", " << contour[i+2] << "]"
+                      << dicom_stream::endl;
+    }
 #endif
 
 }
@@ -945,8 +1210,30 @@ void DICOMAppHelper::NumberOfContourPointsCallback( DICOMParser *,
 
   int n;
   sscanf( (char*)(data), "%d", &n);
-  // Need to cache the number of points for the contour
 
+
+  // If we haven't added a contour yet, then we must have missed the tag
+  // to start the contour
+  if (this->Implementation->SeriesUIDToContoursMap[this->CurrentSeriesUID].size() == 0)
+    {
+    dicom_stream::cerr << "DICOMAppHelper:: Found number of contour points tag (0x3006, 0x0046) without a matching contour sequence tag (0x3006, 0x0040)." << dicom_stream::endl;
+    }
+  // If the last contour is not empty, then we haven't started the
+  // current contour.  A preceding call to ContourSequenceCallback()
+  // would have created an empty contour at the end of the Contour
+  // list.
+  else if (this->Implementation->SeriesUIDToContoursMap[this->CurrentSeriesUID].back().size() != 0) 
+    {
+    dicom_stream::cerr << "DICOMAppHelper:: Found number of contour points tag (0x3006, 0x0046) without a matching contour geometric type tag (0x3006, 0x0042)." << dicom_stream::endl;
+    }
+  else
+    {
+    // reserve enough space for the points in the contour (3 floats
+    // per point).  note that we trigger off this size later to parse
+    // the coordinates of the contours
+    this->Implementation->SeriesUIDToContoursMap[this->CurrentSeriesUID].back().resize( 3*n ); 
+    }
+  
 #ifdef DEBUG_DICOM_APP_HELPER
   dicom_stream::cout << "NumberOfContourPoints : " ;
   dicom_stream::cout << n << dicom_stream::endl;
@@ -1074,32 +1361,48 @@ bool DICOMAppHelper::RescaledImageDataIsSigned()
   return (rescaleSigned || pixelRepSigned || offsetSigned);
 }
 
+dicom_stl::string
+DICOMAppHelper::GetFileName( const dicom_stl::string &instanceUID )
+{
+  dicom_stl::string ret("");
+
+  DICOMAppHelperImplementation::InstanceUIDToFileNameMapType::iterator
+    it = this->Implementation->InstanceUIDToFileNameMap.find( instanceUID );
+
+  if (it != this->Implementation->InstanceUIDToFileNameMap.end() )
+    {
+    ret = (*it).second;
+    }
+
+  return ret;
+}
+
 
 void DICOMAppHelper::GetSliceNumberFilenamePairs(const dicom_stl::string &seriesUID,
                                                  dicom_stl::vector<dicom_stl::pair<int, dicom_stl::string> >& v)
 {
   v.clear();
 
-  dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr >::iterator miter  = this->Implementation->SeriesUIDMap.find(seriesUID);
+  DICOMAppHelperImplementation::SeriesUIDToInstanceUIDMapType::iterator miter  = this->Implementation->SeriesUIDToInstanceUIDMap.find(seriesUID);
 
-  if (miter == this->Implementation->SeriesUIDMap.end() )
+  if (miter == this->Implementation->SeriesUIDToInstanceUIDMap.end() )
     {
     return;
     }
 
-  // grab the filenames for the specified series
-  dicom_stl::vector<dicom_stl::string> files = (*miter).second;
+  // grab the instance uids for the specified series
+  dicom_stl::vector<dicom_stl::string> instanceUIDs = (*miter).second;
 
-  for (dicom_stl::vector<dicom_stl::string>::iterator fileIter = files.begin();
-       fileIter != files.end();
-       fileIter++)
+  for (dicom_stl::vector<dicom_stl::string>::iterator instanceIter = instanceUIDs.begin();
+       instanceIter != instanceUIDs.end();
+       instanceIter++)
        {
        dicom_stl::pair<int, dicom_stl::string> p;
-       p.second = dicom_stl::string(*fileIter);
+       p.second = dicom_stl::string(this->Implementation->InstanceUIDToFileNameMap[*instanceIter]);
        int slice_number;
-       dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = Implementation->SliceOrderingMap.find(*fileIter);
+       DICOMAppHelperImplementation::InstanceUIDToSliceOrderingMapType::iterator sn_iter = Implementation->InstanceUIDToSliceOrderingMap.find(*instanceIter);
        // Only store files that have a valid slice number
-       if (sn_iter != Implementation->SliceOrderingMap.end())
+       if (sn_iter != Implementation->InstanceUIDToSliceOrderingMap.end())
         {
         slice_number = (*sn_iter).second.SliceNumber;
         p.first = slice_number;
@@ -1112,9 +1415,9 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(const dicom_stl::string &series
 void DICOMAppHelper::GetSliceNumberFilenamePairs(dicom_stl::vector<dicom_stl::pair<int, dicom_stl::string> >& v)
 {
   // Default to using the first series
-  if (this->Implementation->SeriesUIDMap.size() > 0)
+  if (this->Implementation->SeriesUIDToInstanceUIDMap.size() > 0)
     {
-    this->GetSliceNumberFilenamePairs( (*this->Implementation->SeriesUIDMap.begin()).first, v );
+    this->GetSliceNumberFilenamePairs( (*this->Implementation->SeriesUIDToInstanceUIDMap.begin()).first, v );
     }
   else
     {
@@ -1127,26 +1430,26 @@ void DICOMAppHelper::GetSliceLocationFilenamePairs(const dicom_stl::string &seri
 {
   v.clear();
 
-  dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr >::iterator miter  = this->Implementation->SeriesUIDMap.find(seriesUID);
+  DICOMAppHelperImplementation::SeriesUIDToInstanceUIDMapType::iterator miter  = this->Implementation->SeriesUIDToInstanceUIDMap.find(seriesUID);
 
-  if (miter == this->Implementation->SeriesUIDMap.end() )
+  if (miter == this->Implementation->SeriesUIDToInstanceUIDMap.end() )
     {
     return;
     }
 
-  // grab the filenames for the specified series
-  dicom_stl::vector<dicom_stl::string> files = (*miter).second;
+  // grab the instance UIDs for the specified series
+  dicom_stl::vector<dicom_stl::string> instanceUIDs = (*miter).second;
 
-  for (dicom_stl::vector<dicom_stl::string>::iterator fileIter = files.begin();
-       fileIter != files.end();
-       fileIter++)
+  for (dicom_stl::vector<dicom_stl::string>::iterator instanceIter = instanceUIDs.begin();
+       instanceIter != instanceUIDs.end();
+       instanceIter++)
        {
        dicom_stl::pair<float, dicom_stl::string> p;
-       p.second = dicom_stl::string(*fileIter);
+       p.second = dicom_stl::string(this->Implementation->InstanceUIDToFileNameMap[*instanceIter]);
        float slice_location;
-       dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = Implementation->SliceOrderingMap.find(*fileIter);
+       DICOMAppHelperImplementation::InstanceUIDToSliceOrderingMapType::iterator sn_iter = Implementation->InstanceUIDToSliceOrderingMap.find(*instanceIter);
 
-       if (sn_iter != Implementation->SliceOrderingMap.end())
+       if (sn_iter != Implementation->InstanceUIDToSliceOrderingMap.end())
         {
         slice_location = (*sn_iter).second.SliceLocation;
         p.first = slice_location;
@@ -1159,9 +1462,9 @@ void DICOMAppHelper::GetSliceLocationFilenamePairs(const dicom_stl::string &seri
 void DICOMAppHelper::GetSliceLocationFilenamePairs(dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> >& v)
 {
   // Default to using the first series
-  if (this->Implementation->SeriesUIDMap.size() > 0)
+  if (this->Implementation->SeriesUIDToInstanceUIDMap.size() > 0)
     {
-    this->GetSliceLocationFilenamePairs( (*this->Implementation->SeriesUIDMap.begin()).first,
+    this->GetSliceLocationFilenamePairs( (*this->Implementation->SeriesUIDToInstanceUIDMap.begin()).first,
                                          v );
     }
   else
@@ -1174,29 +1477,29 @@ void DICOMAppHelper::GetImagePositionPatientFilenamePairs(const dicom_stl::strin
 {
   v.clear();
 
-  dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr >::iterator miter  = this->Implementation->SeriesUIDMap.find(seriesUID);
+  DICOMAppHelperImplementation::SeriesUIDToInstanceUIDMapType::iterator miter  = this->Implementation->SeriesUIDToInstanceUIDMap.find(seriesUID);
 
-  if (miter == this->Implementation->SeriesUIDMap.end() )
+  if (miter == this->Implementation->SeriesUIDToInstanceUIDMap.end() )
     {
     return;
     }
 
-  // grab the filenames for the specified series
-  dicom_stl::vector<dicom_stl::string> files = (*miter).second;
+  // grab the instance UIDs for the specified series
+  dicom_stl::vector<dicom_stl::string> instanceUIDs = (*miter).second;
 
-  for (dicom_stl::vector<dicom_stl::string>::iterator fileIter = files.begin();
-       fileIter != files.end();
-       fileIter++)
+  for (dicom_stl::vector<dicom_stl::string>::iterator instanceIter = instanceUIDs.begin();
+       instanceIter != instanceUIDs.end();
+       instanceIter++)
        {
        dicom_stl::pair<float, dicom_stl::string> p;
-       p.second = dicom_stl::string(*fileIter);
+       p.second = dicom_stl::string(this->Implementation->InstanceUIDToFileNameMap[*instanceIter]);
 
        float image_position;
        float normal[3];
        
-       dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = Implementation->SliceOrderingMap.find(*fileIter);
+       DICOMAppHelperImplementation::InstanceUIDToSliceOrderingMapType::iterator sn_iter = Implementation->InstanceUIDToSliceOrderingMap.find(*instanceIter);
 
-       if (sn_iter != Implementation->SliceOrderingMap.end())
+       if (sn_iter != Implementation->InstanceUIDToSliceOrderingMap.end())
         {
         // compute the image patient position wrt to the slice image
         // plane normal
@@ -1228,9 +1531,9 @@ void DICOMAppHelper::GetImagePositionPatientFilenamePairs(const dicom_stl::strin
 void DICOMAppHelper::GetImagePositionPatientFilenamePairs(dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> >& v)
 {
   // Default to using the first series
-  if (this->Implementation->SeriesUIDMap.size() > 0)
+  if (this->Implementation->SeriesUIDToInstanceUIDMap.size() > 0)
     {
-    this->GetImagePositionPatientFilenamePairs( (*this->Implementation->SeriesUIDMap.begin()).first, v );
+    this->GetImagePositionPatientFilenamePairs( (*this->Implementation->SeriesUIDToInstanceUIDMap.begin()).first, v );
     }
   else
     {
@@ -1238,13 +1541,74 @@ void DICOMAppHelper::GetImagePositionPatientFilenamePairs(dicom_stl::vector<dico
     }
 }
 
+
+void DICOMAppHelper::GetContours(const dicom_stl::string &seriesUID,
+                                 dicom_stl::vector<dicom_stl::vector<float> >& v)
+{
+  v.clear();
+
+  DICOMAppHelperImplementation::SeriesUIDToContoursMapType::iterator iter = this->Implementation->SeriesUIDToContoursMap.find(seriesUID);
+  
+  if (iter == this->Implementation->SeriesUIDToContoursMap.end() )
+    {
+    return;
+    }
+
+  // All we need to do is copy the contours to the output
+  v = (*iter).second;
+}
+
+void DICOMAppHelper::GetContours(dicom_stl::vector<dicom_stl::vector<float> >& v)
+{
+  // Default to using the first series
+  if (this->Implementation->SeriesUIDToInstanceUIDMap.size() > 0)
+    {
+    this->GetContours( (*this->Implementation->SeriesUIDToInstanceUIDMap.begin()).first, v );
+    }
+  else
+    {
+    v.clear();
+    }
+}
+
+
+void DICOMAppHelper::GetReferencedInstanceUIDs(const dicom_stl::string &seriesUID,
+                                 dicom_stl::vector<dicom_stl::string>& v)
+{
+  v.clear();
+
+  DICOMAppHelperImplementation::SeriesUIDToReferencedInstanceUIDMapType::iterator iter = this->Implementation->SeriesUIDToReferencedInstanceUIDMap.find(seriesUID);
+  
+  if (iter == this->Implementation->SeriesUIDToReferencedInstanceUIDMap.end() )
+    {
+    return;
+    }
+
+  // All we need to do is copy the referenced instanced to the output
+  v = (*iter).second;
+}
+
+void DICOMAppHelper::GetReferencedInstanceUIDs(dicom_stl::vector<dicom_stl::string>& v)
+{
+  // Default to using the first series
+  if (this->Implementation->SeriesUIDToInstanceUIDMap.size() > 0)
+    {
+    this->GetReferencedInstanceUIDs( (*this->Implementation->SeriesUIDToReferencedInstanceUIDMap.begin()).first, v );
+    }
+  else
+    {
+    v.clear();
+    }
+}
+
+
 void DICOMAppHelper::GetSeriesUIDs(dicom_stl::vector<dicom_stl::string> &v)
 {
   v.clear();
 
-  dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr >::iterator miter;
+  DICOMAppHelperImplementation::SeriesUIDToInstanceUIDMapType::iterator miter;
 
-  for (miter = this->Implementation->SeriesUIDMap.begin(); miter != this->Implementation->SeriesUIDMap.end();
+  for (miter = this->Implementation->SeriesUIDToInstanceUIDMap.begin(); miter != this->Implementation->SeriesUIDToInstanceUIDMap.end();
        ++miter)
     {
     v.push_back( (*miter).first );
@@ -1253,8 +1617,12 @@ void DICOMAppHelper::GetSeriesUIDs(dicom_stl::vector<dicom_stl::string> &v)
 
 void DICOMAppHelper::Clear()
 { 
-  this->Implementation->SliceOrderingMap.clear();
-  this->Implementation->SeriesUIDMap.clear();
+  this->Implementation->InstanceUIDToSeriesUIDMap.clear();
+  this->Implementation->InstanceUIDToSliceOrderingMap.clear();
+  this->Implementation->SeriesUIDToInstanceUIDMap.clear();
+  this->Implementation->SeriesUIDToContoursMap.clear();
+  this->CurrentSeriesUID = "";
+  this->InstanceUID = "";
 }
 
 #ifdef _MSC_VER

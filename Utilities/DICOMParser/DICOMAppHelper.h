@@ -42,6 +42,7 @@ struct ltstdstr
   }
 };
 
+
 // Helper structure for DICOM elements
 struct DICOMTagInfo
 {
@@ -50,7 +51,6 @@ struct DICOMTagInfo
   DICOMParser::VRTypes datatype;
   const char* description;
 };
-
 
 // Helper class use for ordering DICOM images based on different
 // (group, element) tags.
@@ -164,6 +164,13 @@ public:
                                  unsigned char* val,
                                  quadbyte len) ;
   
+  virtual void InstanceUIDCallback(DICOMParser *parser,
+                                   doublebyte group,
+                                   doublebyte element,
+                                   DICOMParser::VRTypes type,
+                                   unsigned char* val,
+                                   quadbyte len) ;
+  
   virtual void TransferSyntaxCallback(DICOMParser *parser,
                                       doublebyte group,
                                       doublebyte element,
@@ -248,12 +255,19 @@ public:
                                         unsigned char* val,
                                         quadbyte);
 
-  virtual void ContourDataCallback( DICOMParser *parser,
-                                    doublebyte,
-                                    doublebyte,
-                                    DICOMParser::VRTypes,
-                                    unsigned char* val,
-                                    quadbyte);
+  virtual void ContourImageSequenceCallback( DICOMParser *parser,
+                                             doublebyte,
+                                             doublebyte,
+                                             DICOMParser::VRTypes,
+                                             unsigned char* val,
+                                             quadbyte);
+
+  virtual void ContourGeometricTypeCallback( DICOMParser *parser,
+                                             doublebyte,
+                                             doublebyte,
+                                             DICOMParser::VRTypes,
+                                             unsigned char* val,
+                                             quadbyte);
 
   virtual void NumberOfContourPointsCallback( DICOMParser *parser,
                                               doublebyte,
@@ -262,8 +276,29 @@ public:
                                               unsigned char* val,
                                               quadbyte);
   
+  virtual void ContourDataCallback( DICOMParser *parser,
+                                    doublebyte,
+                                    doublebyte,
+                                    DICOMParser::VRTypes,
+                                    unsigned char* val,
+                                    quadbyte);
+
+  virtual void ReferencedInstanceUIDCallback( DICOMParser *parser,
+                                              doublebyte,
+                                              doublebyte,
+                                              DICOMParser::VRTypes,
+                                              unsigned char* val,
+                                              quadbyte);
+
+  virtual void DefaultCallback( DICOMParser *parser,
+                                doublebyte,
+                                doublebyte,
+                                DICOMParser::VRTypes,
+                                unsigned char* val,
+                                quadbyte);
   
 
+  
   /** Register all the standard callbacks with the DICOM Parser.  This
    * associates a callback with each (group, element) tag pair in the
    * header of the file whose data needs to be cached. */
@@ -395,6 +430,9 @@ public:
     return this->SliceNumber;
     }
 
+  /** Get the series UID for the current file. */
+  std::string GetSeriesUID() { return this->CurrentSeriesUID; }
+
   /** Clear the internal databases. This will reset the internal
    * databases that are grouping filenames based on SeriesUID's and
    * ordering filenames based on image locations. */
@@ -431,6 +469,29 @@ public:
      series. Use the first series by default. */
   void GetImagePositionPatientFilenamePairs(dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> > &v);
 
+  /* Get the contours for a series.  A vector of contours is returned
+  where each contour is a vector of floats (x, y, z, x, y, z, x, y,
+  z...). */
+  void GetContours(const dicom_stl::string &seriesUID,
+                   dicom_stl::vector<dicom_stl::vector<float> > &v);
+
+  /* Get the contours for a series.  A vector of contours is returned
+  where each contour is a vector of floats (x, y, z, x, y, z, x, y,
+  z...). Use the first series by default. */
+  void GetContours(dicom_stl::vector<dicom_stl::vector<float> > &v);
+
+  /* Get the referenced instance UIDs for a series.  A vector of
+   * strings in returned. */
+  void GetReferencedInstanceUIDs(const dicom_stl::string &seriesUID,
+                                 dicom_stl::vector<dicom_stl::string> &v);
+  
+  /* Get the referenced instance UIDs for a series.  A vector of
+   * strings in returned. Use the first series by default. */
+  void GetReferencedInstanceUIDs(dicom_stl::vector<dicom_stl::string> &v);
+
+  /** Get the filename for a specific instance UID */
+  dicom_stl::string GetFileName( const dicom_stl::string &instanceUID );
+  
  protected:
   int BitsAllocated;
   bool ByteSwapData;
@@ -446,12 +507,6 @@ public:
   long VolumeVoxelCount;
   long VolumeSegmentCount;
 
-  // map from series UID to vector of files in the series 
-  // dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr> SeriesUIDMap;
-
-  // map from filename to intraseries sortable tags
-  // dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr> SliceOrderingMap;
-
   typedef dicom_stl::map<dicom_stl::pair<doublebyte, doublebyte>, DICOMTagInfo> TagMapType;
   // TagMapType TagMap;
 
@@ -462,6 +517,9 @@ public:
   int PixelRepresentation;
   dicom_stl::string* PhotometricInterpretation;
   dicom_stl::string* TransferSyntaxUID;
+  dicom_stl::string CurrentSeriesUID;
+  dicom_stl::string InstanceUID;
+  
   float RescaleOffset;
   float RescaleSlope;
   void* ImageData;
@@ -469,6 +527,7 @@ public:
   unsigned long ImageDataLengthInBytes;
 
   DICOMMemberCallback<DICOMAppHelper>* SeriesUIDCB;
+  DICOMMemberCallback<DICOMAppHelper>* InstanceUIDCB;
   DICOMMemberCallback<DICOMAppHelper>* SliceNumberCB;
   DICOMMemberCallback<DICOMAppHelper>* SliceLocationCB;
   DICOMMemberCallback<DICOMAppHelper>* ImagePositionPatientCB;
@@ -488,6 +547,10 @@ public:
   DICOMMemberCallback<DICOMAppHelper>* ContourSequenceCB;
   DICOMMemberCallback<DICOMAppHelper>* ContourDataCB;
   DICOMMemberCallback<DICOMAppHelper>* NumberOfContourPointsCB;
+  DICOMMemberCallback<DICOMAppHelper>* ContourGeometricTypeCB;
+  DICOMMemberCallback<DICOMAppHelper>* ContourImageSequenceCB;
+  DICOMMemberCallback<DICOMAppHelper>* ReferencedInstanceUIDCB;
+  DICOMMemberCallback<DICOMAppHelper>* DefaultCB;
   
 
   //

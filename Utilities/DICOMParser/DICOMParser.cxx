@@ -316,13 +316,16 @@ void DICOMParser::ReadNextRecord(DICOMSource &source, doublebyte& group, doubleb
   group = source.ReadDoubleByte();
   element = source.ReadDoubleByte();
 
-  // dicom_stream::cout << dicom_stream::hex << group << ", " << element << dicom_stream::endl;
+  //dicom_stream::cout << "(" << dicom_stream::hex << group << ", " << element << ") : " ;
   
   doublebyte representation = source.ReadDoubleByteAsLittleEndian();
   quadbyte length = 0;
   mytype = DICOMParser::VR_UNKNOWN;
   this->IsValidRepresentation(source, representation, length, mytype);
 
+//   dicom_stream::cout << "representation = " << representation << dicom_stream::dec << ", length = " << length
+//                      << dicom_stream::endl;
+  
   DICOMParserMap::iterator iter = 
     Implementation->Map.find(DICOMMapKey(group,element));
 
@@ -333,8 +336,50 @@ void DICOMParser::ReadNextRecord(DICOMSource &source, doublebyte& group, doubleb
     //
     // Only read the data if there's a registered callback.
     //
-    unsigned char* tempdata = (unsigned char*) source.ReadAsciiCharArray(length);
+    unsigned char* tempdata;
 
+    if (length != 0xfffffffful)
+      {
+      // length was specified
+      tempdata = (unsigned char*) source.ReadAsciiCharArray(length);
+      }
+    else
+      {
+      // unspecified length, read block as sequence
+      doublebyte dataelementtag[2];
+      quadbyte itemLength;
+      bool done = false;
+      dataelementtag[0] = source.ReadDoubleByte();
+      dataelementtag[1] = source.ReadDoubleByte();
+      while (dataelementtag[0] == 0xfffe && dataelementtag[1] == 0xe000) // item tag
+        {
+        //dicom_stream::cout << "Item tag: ";
+        
+        // read the length of the buffer
+        itemLength = source.ReadQuadByte();
+        //dicom_stream::cout << itemLength << dicom_stream::endl;
+        
+        // read the buffer
+        if (itemLength != 0)
+          {
+          tempdata = (unsigned char *) source.ReadAsciiCharArray(itemLength);
+          // should accumulate the block of memory in case the image
+          // is broken into several items
+          }
+
+        // read the delimination tag
+        dataelementtag[0] = source.ReadDoubleByte();
+        dataelementtag[1] = source.ReadDoubleByte();
+        }
+      // check for sequence delimination item
+      if (dataelementtag[0] == 0xfffe && dataelementtag[1] == 0xe0dd)
+        {
+        // read the empty length
+        source.ReadQuadByte();
+        }
+      }
+    
+    
     DICOMMapKey ge = (*iter).first;
     callbackType = VRTypes(((*iter).second.first));
   
@@ -495,7 +540,7 @@ void DICOMParser::InitTypeMap()
                               {0x0002, 0x0003, DICOMParser::VR_UI}, // Media storage SOP inst uid
                               {0x0002, 0x0010, DICOMParser::VR_UI}, // Transfer syntax uid
                               {0x0002, 0x0012, DICOMParser::VR_UI}, // Implementation class uid
-                              {0x0008, 0x0018, DICOMParser::VR_UI}, // Image UID
+                              {0x0008, 0x0018, DICOMParser::VR_UI}, // SOP Instance uid
                               {0x0008, 0x0020, DICOMParser::VR_DA}, // Series date
                               {0x0008, 0x0030, DICOMParser::VR_TM}, // Series time
                               {0x0008, 0x0060, DICOMParser::VR_SH}, // Modality
@@ -537,6 +582,7 @@ void DICOMParser::InitTypeMap()
     }
 
 }
+
 
 void DICOMParser::SetDICOMTagCallbacks(doublebyte group, doublebyte element, VRTypes datatype, dicom_stl::vector<DICOMCallback*>* cbVector)
 {
