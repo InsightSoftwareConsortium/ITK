@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __ONEPLUSONEEVOLUTIONARYOPTIMIZER_TXX
 #define __ONEPLUSONEEVOLUTIONARYOPTIMIZER_TXX
 
-#include <cmath>
+#include <vnl/vnl_math.h>
 
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 
