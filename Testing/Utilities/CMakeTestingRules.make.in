@@ -1,0 +1,9 @@
+#
+# Default rules for making dashboards from a site
+#
+
+XALAN = $(topdir)/Code/Insight3DParty/xalan/xalan.jar
+
+
+Build.html: XML/Build.xml
+	$(JAVA) -jar $(XALAN) -Q -OUT $@ -IN $< -XSL $(topdir)/Testing/Utilities/XSL/Build.xsl

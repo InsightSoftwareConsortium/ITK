@@ -14,12 +14,12 @@ java org.apache.xalan.xslt.Process -IN Build.xml -OUT Build.html -XSL /home/blez
   <title>Build log</title>
 </head>
 <body bgcolor="#ffffff">
-	<h2>Build started on <xsl:value-of select="/Build/StartDateTime"/></h2>
-	<h3>Found <xsl:value-of select="count(/Build/Error)"/> Errors and <xsl:value-of select="count(/Build/Warning)"/> Warnings</h3><br/>
+	<h2>Build started on <xsl:value-of select="///Build/StartDateTime"/></h2>
+	<h3>Found <xsl:value-of select="count(//Build/Error)"/> Errors and <xsl:value-of select="count(//Build/Warning)"/> Warnings</h3><br/>
 
 
 	<!-- Loop over Errors -->
-	<xsl:for-each select="Build/Error">
+	<xsl:for-each select="//Build/Error">
 		<h3>Error</h3> Build Log line <xsl:value-of select="BuildLogLine"/><br/>
 		<pre><xsl:value-of select="PreContext"/></pre>
 		<strong><xsl:value-of select="Text"/></strong><br/>
@@ -27,14 +27,13 @@ java org.apache.xalan.xslt.Process -IN Build.xml -OUT Build.html -XSL /home/blez
 	</xsl:for-each>
 
 	<!-- Loop over Warnings -->
-	<xsl:for-each select="Build/Warning">
+	<xsl:for-each select="//Build/Warning">
 		<h3>Warning</h3> Build Log line <xsl:value-of select="BuildLogLine"/><br/>
 		<pre><xsl:value-of select="PreContext"/></pre>
 		<strong><xsl:value-of select="Text"/></strong><br/>
 		<pre><xsl:value-of select="PostContext"/></pre>
 	</xsl:for-each>
 
-	<xsl:apply-templates/>
 </body>
 </html>
 </xsl:template>

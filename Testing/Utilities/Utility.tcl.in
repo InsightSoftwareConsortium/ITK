@@ -1,3 +1,14 @@
+proc MakeDateTimeStamp {} \
+{
+  return [clock format [clock seconds] -format %Y%m%d%H%M -gmt 1]
+}
+
+proc MakeDateStamp {} \
+{
+  return [clock format [clock seconds] -format %Y%m%d]
+}
+
+
 proc CompressFile { In Out } \
 {
   global CompressionCommand CompressionType

@@ -1,12 +1,42 @@
 # Automatically configured options for Build/Test process
 
-set MakeCommand @MAKECOMMAND@
-set CompressionCommand @COMPRESSIONCOMMAND@
-set CompressionType @COMPRESSIONCOMMAND@
-set CVSCommand @CVSCOMMAND@
-set GrepCommand @GREPCOMMAND@
 
-set SourceDirectory @top_srcdir@
+proc SetConfiguration { variable { value INSIGHTINVALIDVALUE } } \
+{
+  global TestingUtility
+  upvar \#0 $variable myvariable
+  
+  if { ![info exists TestingUtilyt(Valid)] } \
+  {
+    set TestingUtility(Valid) 0
+  }
+  
+  if { $value == "INSIGHTINVALIDVALUE" } \
+  {
+    set TestingUtility(Valid) 0
+  } \
+  else \
+  {
+    set TestingUtility($variable) $value
+    set myvariable $value
+  }
+}
+  
 
-set Site @SITE@
-set BuildName @BUILDNAME@
+
+SetConfiguration MakeCommand [list @MAKECOMMAND@ ]
+SetConfiguration CompressionCommand [list @COMPRESSIONCOMMAND@ ]
+SetConfiguration CompressionType [list @COMPRESSIONCOMMAND@ ]
+SetConfiguration CVSCommand [list @CVSCOMMAND@ ]
+SetConfiguration GrepCommand [list @GREPCOMMAND@ ]
+SetConfiguration TclshCommand [list @TCLSHCOMMAND@ ]
+
+SetConfiguration SourceDirectory [list @top_srcdir@ ]
+
+SetConfiguration Site [list @SITE@ ]
+SetConfiguration BuildName [list @BUILDNAME@ ]
+
+
+set HTMLDir [file join Testing HTML]
+set TempDir [file join Testing Temporary]
+

@@ -6,14 +6,17 @@
 
 # Must be run from root directory of Insight build, only by make
 
-source Testing/Utilities/Utility.conf
-source Testing/Utilities/Utility.tcl
+set UtilityDir [file join Testing Utilities]
 
-set BuildStamp [clock format [clock seconds] -format %Y%m%d%H%M]
+
+source [file join $UtilityDir Utility.conf]
+source [file join $UtilityDir Utility.tcl]
+
+set BuildStamp [MakeDateTimeStamp]
 
 set HTMLDir [file join Testing HTML]
 set BuildTempDir [file join Testing Temporary]
-set SiteDir [file join $HTMLDir TestingResults $Site]
+set SiteDir [file join $HTMLDir TestingResults Sites $Site]
 set BuildNameDir [file join $SiteDir $BuildName]
 set BuildStampDir [file join $BuildNameDir $BuildStamp]
 set XMLDir [file join $BuildStampDir XML]
@@ -30,6 +33,7 @@ set Out [open [file join $XMLDir Build.xml] w]
 
 puts $Out {<?xml version="1.0" encoding="UTF-8"?>}
 # puts $Out {<!DOCTYPE Insight>}
+puts $Out "<Site BuildName=\"$BuildName\" BuildStamp=\"$BuildStamp\" Name=\"$Site\">"
 puts $Out {<Build>}
 puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
 
@@ -139,7 +143,10 @@ puts $Out [Base64Encode [read $BuildLog ]]
 # puts $Out [Base64Encode [read $BuildLog]]
 puts $Out "\t</Log>"
 puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
+
 puts $Out "</Build>"
+puts $Out "</Site>"
+
 
 close $BuildLog
 close $Out
