@@ -54,7 +54,7 @@ template <class TInputImage, class TOutputImage, class TComputation>
 RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
 ::RecursiveGaussianImageFilter()
 {
-  this->SetSigma( 1.0 );
+  m_Sigma = 1.0;
 }
 
 
