@@ -292,11 +292,17 @@ public:
   }
   
 //Enum to get the stopping condition of the MRF filter
-typedef enum{
-  MaximumNumberOfIterations=1,
-  ErrorTolerance
+  typedef enum{
+    MaximumNumberOfIterations=1,
+    ErrorTolerance
   } StopConditionType;
-itkGetConstReferenceMacro( StopCondition, StopConditionType );
+  
+  /** Get condition that stops the MRF filter (Number of Iterations 
+   * / Error tolerance ) */
+  itkGetConstReferenceMacro( StopCondition, StopConditionType );
+  
+  /* Get macro for number of iterations */
+  itkGetConstReferenceMacro( NumberOfIterations, unsigned int );
   
 protected:
   MRFImageFilter();
@@ -335,9 +341,6 @@ protected:
   virtual void GenerateInputRequestedRegion();
   virtual void EnlargeOutputRequestedRegion( DataObject * );
   virtual void GenerateOutputInformation();
-
-  unsigned long                 m_NumberOfIterations;
-  StopConditionType             m_StopCondition;
   
 private:            
   MRFImageFilter(const Self&); //purposely not implemented
@@ -372,6 +375,8 @@ private:
   double                    m_ErrorTolerance;  
   double                    m_SmoothingFactor;
   double                    *m_ClassProbability; //Class liklihood
+  unsigned int              m_NumberOfIterations;
+  StopConditionType         m_StopCondition;
 
   LabelStatusImagePointer   m_LabelStatusImage;
 
