@@ -50,10 +50,19 @@ public:
   
 public:
 
-  
+  /** Default constructor. It is created with an empty array
+   *  it has to be allocated later by assignment              */
+  Array(); 
+
+  /** Constructor with size. Size can only be changed by assignment */
   Array(unsigned int dimension);
 
+  /** Set the all the elements of the array to the specified value */
   void Fill (TValueType const& v) { fill(v); }
+ 
+  /** Return the number of elements in the Array  */
+  unsigned int Size (void ) const { return size(); }
+  unsigned int GetNumberOfElements(void) const { return size(); }
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */

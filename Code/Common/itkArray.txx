@@ -29,6 +29,16 @@ namespace itk
  */
 template < typename TValueType >
 Array<TValueType >
+::Array():vnl_vector<TValueType>()
+{
+}
+
+
+/**
+ * Constructor with size
+ */
+template < typename TValueType >
+Array<TValueType >
 ::Array(unsigned int dimension):vnl_vector<TValueType>(dimension)
 {
 }
