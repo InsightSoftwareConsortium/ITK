@@ -89,6 +89,27 @@ int main( int argc, char * argv [] )
     std::cout << histogram->GetFrequency( bin, 0 ) << std::endl;
     }
 
+// Software Guide : BeginLatex
+//
+// It is also possible to use iterators in order to visit the values
+// of the histogram bins.
+//
+// Software Guide : EndLatex 
+
+
+  HistogramType::ConstIterator itr = histogram->Begin();
+  HistogramType::ConstIterator end = histogram->End();
+ 
+  unsigned int bin = 0;
+  while( itr != end )
+    {
+    std::cout << "bin = " << bin << " frequency = ";
+    std::cout << itr.GetFrequency() << std::endl;     
+    ++itr;
+    ++bin;
+    }
+
+
   return 0;
   
 }
