@@ -106,16 +106,19 @@ public:
   
   
 protected:
-  // These "constants" are initialized in the constructor
-  OffsetType  m_ZeroOffset; // = 0 for all dimensions
-  IndexType   m_ZeroIndex;  // = 0 for all dimensions
-  
   Path();
   ~Path(){}
+
+  itkGetConstMacro(ZeroOffset,OffsetType);
+  itkGetConstMacro(ZeroIndex,IndexType);
 
 private:
   Path(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+  
+  // These "constants" are initialized in the constructor
+  OffsetType  m_ZeroOffset; // = 0 for all dimensions
+  IndexType   m_ZeroIndex;  // = 0 for all dimensions
   
 };
 
