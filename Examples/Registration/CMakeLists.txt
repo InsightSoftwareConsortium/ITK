@@ -81,6 +81,7 @@ SET(REGISTRATION_EXAMPLES ${CXX_TEST_PATH}/RegistrationExamples)
 SET(REGISTRATION_EXAMPLES2 ${CXX_TEST_PATH}/RegistrationExamples2)
 SET(REGISTRATION_EXAMPLES3 ${CXX_TEST_PATH}/RegistrationExamples3)
 SET(REGISTRATION_EXAMPLES4 ${CXX_TEST_PATH}/RegistrationExamples4)
+SET(REGISTRATION_EXAMPLES5 ${CXX_TEST_PATH}/RegistrationExamples5)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -213,5 +214,8 @@ TARGET_LINK_LIBRARIES(RegistrationExamples3 ITKAlgorithms ITKFEM ITKStatistics I
 
 ADD_EXECUTABLE(RegistrationExamples4 RegistrationExamples4.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples4 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(RegistrationExamples5 RegistrationExamples5.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamples5 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
 

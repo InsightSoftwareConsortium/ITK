@@ -11,31 +11,10 @@
 void RegisterTests()
 {
   vnl_sample_reseed(8775070);
-  REGISTER_TEST(DeformableRegistration1Test);
-  REGISTER_TEST(DeformableRegistration2Test);
-  REGISTER_TEST(DeformableRegistration3Test);
   REGISTER_TEST(ModelToImageRegistration1Test);
   REGISTER_TEST(MultiResImageRegistration1Test);
   REGISTER_TEST(MultiResImageRegistration2Test);
 }
-
-#undef main
-#define main  DeformableRegistration1Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate1
-#include "DeformableRegistration1.cxx"
-
-#undef main
-#define main  DeformableRegistration2Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate2
-#include "DeformableRegistration2.cxx"
-
-#undef main
-#define main  DeformableRegistration3Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate3
-#include "DeformableRegistration3.cxx"
 
 #undef main
 #define main  ModelToImageRegistration1Test
