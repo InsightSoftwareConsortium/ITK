@@ -152,12 +152,12 @@ int main()
   initialPosition[0] =  100;
   initialPosition[1] = -100;
   
-  TransformParametersType parametersScale;
+  TransformParametersType parametersScale(2);
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
 
   itkOptimizer->MinimizeOn();
-  itkOptimizer->GetTransform()->SetScale( parametersScale );
+  itkOptimizer->GetTransform()->SetParameters( parametersScale );
   itkOptimizer->SetLearningRate( 0.1 );
   itkOptimizer->SetNumberOfIterations( 50 );
 
