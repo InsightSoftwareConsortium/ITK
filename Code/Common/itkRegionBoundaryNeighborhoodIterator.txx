@@ -29,7 +29,7 @@ const NeighborhoodIterator<TPixel, VDimension> &
 RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
 ::operator++()
 {
-  int i;
+  unsigned int i;
   Iterator it;
   const Iterator _end = this->end();
 
@@ -86,7 +86,7 @@ const NeighborhoodIterator<TPixel, VDimension> &
 RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
 ::operator--()
 {
-  int i;
+  unsigned int i;
   Iterator it;
   const Iterator _end = this->end();
 
@@ -163,7 +163,7 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
   Self it( *this );
 
   // Calculate the end index
-  for (int i = 0; i< VDimension; ++i)
+  for (unsigned int i = 0; i< VDimension; ++i)
     {
       endIndex.m_Index[i] = m_Bound[i] -1;
     }
