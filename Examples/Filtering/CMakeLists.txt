@@ -106,7 +106,7 @@ ADD_TEST( BinaryMinMaxCurvatureFlowImageFilterTest ${FILTERING_EXAMPLES}
   BinaryMinMaxCurvatureFlowImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/BinaryMinMaxCurvatureFlowImageFilter.png
-        10 .25 1 128
+        10 .125 1 128
 )
 ADD_TEST( BinaryThresholdImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/BinaryThresholdImageFilter.png
@@ -130,7 +130,7 @@ ADD_TEST( CurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
   CurvatureAnisotropicDiffusionImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/CurvatureAnisotropicDiffusionImageFilter.png
-        5 0.25 3.0
+        5 0.125 3.0
 )
 ADD_TEST( CurvatureFlowImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/CurvatureFlowImageFilter.png
@@ -138,7 +138,7 @@ ADD_TEST( CurvatureFlowImageFilterTest ${FILTERING_EXAMPLES}
   CurvatureFlowImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/CurvatureFlowImageFilter.png
-        5 0.25 3.0
+        5 0.125 3.0
 )
 ADD_TEST( DanielssonDistanceMapImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/DanielssonDistanceMapImageFilter.png
@@ -163,7 +163,7 @@ ADD_TEST( GradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
   GradientAnisotropicDiffusionImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/GradientAnisotropicDiffusionImageFilter.png
-        5 0.25 3.0
+        5 0.125 3.0
 )
 ADD_TEST( GradientMagnitudeImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/GradientMagnitudeImageFilter.png
@@ -284,7 +284,7 @@ ADD_TEST( VectorCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLE
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/VectorCurvatureAnisotropicDiffusionImageFilterOriginal.png
         ${ITK_BINARY_DIR}/Testing/Temporary/VectorCurvatureAnisotropicDiffusionImageFilter.png
-        .25 5
+        0.125 5
 )
 
 ADD_TEST( RGBGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
@@ -293,7 +293,7 @@ ADD_TEST( RGBGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
   RGBGradientAnisotropicDiffusionImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/RGBGradientAnisotropicDiffusionImageFilter.png
-        .25 20
+        0.125 20
 )
 
 ADD_TEST( RGBCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
@@ -302,7 +302,7 @@ ADD_TEST( RGBCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
   RGBCurvatureAnisotropicDiffusionImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/RGBCurvatureAnisotropicDiffusionImageFilter.png
-        .25 20
+        0.125 20
 )
 
 ADD_EXECUTABLE(FilteringExamples FilteringExamples.cxx ${FilteringExamples_SRCS})
