@@ -125,6 +125,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMeshRegion.h"
 #include "itkMultiThreader.h"
 #include "itkMutexLock.h"
+#include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkNeighborhood.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkNeighborhoodAllocator.h"
