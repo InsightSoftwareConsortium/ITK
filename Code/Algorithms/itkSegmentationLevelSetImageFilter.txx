@@ -24,7 +24,7 @@ namespace itk {
 template <class TInputImage, class TOutputImage>
 void
 SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream os, Indent indent) const
+::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "m_MaximumRMSError = "    << m_MaximumRMSError    << std::endl;

@@ -76,7 +76,7 @@ protected:
   virtual ~SegmentationLevelSetImageFilter() {}
   SegmentationLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Set the segmentation function.  This should only be called by a subclass
    *  of this object. */

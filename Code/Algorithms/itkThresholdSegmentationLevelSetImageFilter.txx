@@ -37,7 +37,7 @@ ThresholdSegmentationLevelSetImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 ThresholdSegmentationLevelSetImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream os, Indent indent) const
+::PrintSelf(std::ostream &os, Indent indent) const
 {
   //   Superclass::PrintSelf(os, indent);
 }
