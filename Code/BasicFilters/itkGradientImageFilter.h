@@ -80,11 +80,12 @@ public:
   enum {OutputImageDimension = TInputImage::ImageDimension};
 
   /** Convenient typedefs for simplifying declarations. */
+  typedef TInputImage InputImageType;
   typedef Image<CovariantVector<TOutputValueType, OutputImageDimension>,  OutputImageDimension> OutputImageType;
 
   /** Standard class typedefs. */
   typedef GradientImageFilter Self;
-  typedef ImageToImageFilter< TInputImage, OutputImageType> Superclass;
+  typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -95,7 +96,6 @@ public:
   itkTypeMacro(GradientImageFilter, ImageToImageFilter);
   
   /** Image typedef support. */
-  typedef TInputImage InputImageType;
   typedef typename InputImageType::PixelType InputPixelType;
   typedef TOperatorValueType OperatorValueType;
   typedef TOutputValueType OutputValueType;
