@@ -110,23 +110,24 @@ WatershedImageFilter<TInputImage>
   
   // Fiddle with the update command to accomodate filters that will and will
   // not execute.  This logic is not guaranteed to cover all update cases.
-  if (m_FirstExecution == false)
-    {      
-      unsigned long filtercount = 0;
+  //if (m_FirstExecution == false)
+  //    {      
+  //      unsigned long filtercount = 0;
       WatershedMiniPipelineProgressCommand::Pointer c =
         dynamic_cast<WatershedMiniPipelineProgressCommand *>(
                       m_TreeGenerator->GetCommand(m_ObserverTag) ); 
       c->SetCount(0.0);
+      c->SetNumberOfFilters(3);
       
-      if (m_Segmenter->GetMTime() > this->GetMTime() )
-        { filtercount++; }
-      if (m_TreeGenerator->GetMTime() > this->GetMTime() )
-        { filtercount++; }
-      if (m_Relabeler->GetMTime() > this->GetMTime() )
-        { filtercount++; }
-      c->SetNumberOfFilters(filtercount);
-    }
-  else m_FirstExecution = false;
+      //      if (m_Segmenter->GetMTime() > this->GetMTime() )
+      //        { filtercount++; }
+      //      if (m_TreeGenerator->GetMTime() > this->GetMTime() )
+      //        { filtercount++; }
+      //      if (m_Relabeler->GetMTime() > this->GetMTime() )
+      //        { filtercount++; }
+      //      c->SetNumberOfFilters(filtercount);
+      //    }
+      //  else m_FirstExecution = false;
   
   // Complete any necessary set up of the mini-pipeline.  We have to be careful 
   // not to cause time stamps to be updated unneccessarily.  Specifically, we
