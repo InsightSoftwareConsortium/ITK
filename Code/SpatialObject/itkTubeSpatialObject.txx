@@ -278,8 +278,8 @@ TubeSpatialObject< TDimension >
  
 
   // Compute the normal
-  VectorType n1;
-  VectorType n2; 
+  CovariantVectorType n1;
+  CovariantVectorType n2; 
     
   it1 = m_Points.begin(); 
  
@@ -292,7 +292,7 @@ TubeSpatialObject< TDimension >
       t = (*it1).GetTangent(); 
       n1[0] = -t[1];
       n1[1] = t[0];
-      (*it1).SetV1(n1); 
+      (*it1).SetNormal1(n1); 
     }
  
     it1++;
@@ -301,26 +301,26 @@ TubeSpatialObject< TDimension >
   it1 = m_Points.begin();
   it2 = it1;
   it2++;
-  n1 = (*it2).GetV1();
-  (*it1).SetV1(n1);
+  n1 = (*it2).GetNormal1();
+  (*it1).SetNormal1(n1);
    
   if (TDimension == 3)
   {
-    n2 = (*it2).GetV2();
-    (*it1).SetV2(n2);
+    n2 = (*it2).GetNormal2();
+    (*it1).SetNormal2(n2);
   }
    
   it1 = m_Points.end();
   it1--;
   it2 = it1;
   it2--;
-  n1 = (*it2).GetV1();
-  (*it1).SetV1(n1);
+  n1 = (*it2).GetNormal1();
+  (*it1).SetNormal1(n1);
    
   if (TDimension == 3)
   {
-    n2 = (*it2).GetV2();
-    (*it1).SetV2(n2);  
+    n2 = (*it2).GetNormal2();
+    (*it1).SetNormal2(n2);  
   }
 
 
