@@ -38,7 +38,7 @@ int main( int , char *[] )
 //
 // LandmarkSpatialObject is templated over the dimension of the space.
 //
-// Here we create a 3D Landmark.
+// Here we create a 3-dimensional landmark.
 //
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet
@@ -62,7 +62,7 @@ int main( int , char *[] )
   
 // Software Guide : BeginLatex
 //
-// We are now ready to add points into the LandmarkSpatialObject.  We first
+// We are now ready to add points into the landmark. We first
 // create a list of SpatialObjectPoint and for each point we set the position
 // and the color.
 //

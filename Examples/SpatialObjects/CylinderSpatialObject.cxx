@@ -22,7 +22,7 @@
 //
 // \index{itk::CylinderSpatialObject}
 //
-// This example shows how to create a \doxygen{CylinderSpatialObject}
+// This example shows how to create a \doxygen{CylinderSpatialObject}.
 // Let's begin by including the appropriate header file.
 //
 // Software Guide : EndLatex 
@@ -34,7 +34,7 @@
 int main(int, char* [])
 {
   // Software Guide : BeginLatex
-  // An \doxygen{CylinderSpatialObject} exists only in 3D. Therefore it is not templated.
+  // An \doxygen{CylinderSpatialObject} exists only in 3D, therefore, it is not templated.
   // Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
   typedef itk::CylinderSpatialObject   CylinderType;
@@ -66,7 +66,7 @@ int main(int, char* [])
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // Like any other \doxygen{SpatialObjects} the \code{IsInside()} function can
+  // Like any other \doxygen{SpatialObject}s, the \code{IsInside()} function can
   // be used to query if a point is inside or outside the cylinder.
   // Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet

@@ -50,7 +50,7 @@ int main( int, char *[] )
 {
 // Software Guide : BeginLatex
 //
-// First we declare some type definitions
+// First we declare some type definitions.
 //
 // Software Guide : EndLatex 
 

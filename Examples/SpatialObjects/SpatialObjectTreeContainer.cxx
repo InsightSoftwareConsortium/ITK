@@ -36,7 +36,7 @@
 int main( int , char *[] )
 {
   // Software Guide : BeginLatex
-  // Next we define the type of node and the type of tree we want to use.
+  // Next we define the type of node and the type of tree we plan to use.
   // Both are templated over the dimensionality of the space.
   // Let's create a 2-dimensional tree.
   // Software Guide : EndLatex
@@ -46,7 +46,8 @@ int main( int , char *[] )
   // Software Guide : EndCodeSnippet
   
   // Software Guide : BeginLatex
-  // Then, we can create three nodes and set their Ids.
+  // Then, we can create three nodes and set their corresponding identification
+  // numbers (using \code{SetId}).
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   NodeType::Pointer object0 = NodeType::New();
@@ -66,7 +67,7 @@ int main( int , char *[] )
   // Software Guide : EndCodeSnippet
    
   // Software Guide : BeginLatex
-  // After instantiation of the tree we can set its root
+  // After instantiation of the tree we set its root
   // using the \code{SetRoot()} function.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
@@ -75,7 +76,8 @@ int main( int , char *[] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // Using an \doxygen{LevelOrderTreeIterator} templated over the type of tree,
+  // The tree iterators described in a previous section of this guide can be used to parse the
+  // hierarchy. For example, via an \doxygen{LevelOrderTreeIterator} templated over the type of tree,
   // we can parse the hierarchy of SpatialObjects. We set the maximum level to 10
   // which is enough in this case since our hierarchy is only 2 deep.
   // Software Guide : EndLatex

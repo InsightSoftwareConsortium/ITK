@@ -81,7 +81,11 @@ int main( int , char *[] )
 // spacing, orientation, and offset of the indices).
 //
 // The ObjectToParentTransform transforms points from the object-specific 
-// ``physical" space to the ``physical" space of its parent object.   
+// ``physical" space to the ``physical" space of its parent object. As one can see from the
+// figure ~\ref{fig:SpatialObjectTransforms}, the ObjectToParentTransform is composed of two
+// transforms: ObjectToNodeTransform and NodeToParentNodeTransform. The ObjectToNodeTransform
+// is not applied to the children, but the ObjectToNodeTransform is. Therefore, if one
+// sets the ObjectToParentTransform, the ObjectToNodeTransform is modified.
 //
 // The ObjectToWorldTransform maps points from the reference system of the SpatialObject
 // into the global coordinate system. This is useful when the position of the object is known

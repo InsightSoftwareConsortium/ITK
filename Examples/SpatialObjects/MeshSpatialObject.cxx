@@ -47,7 +47,7 @@ int main(int, char * [] )
 {
   // Software Guide : BeginLatex
   //
-  // The MeshSpatialObject is a wraps an \doxygen{Mesh}, therefor we first 
+  // The MeshSpatialObject wraps an \doxygen{Mesh}, therefore we first 
   // create a mesh.
   // Software Guide : EndLatex 
 
@@ -107,7 +107,7 @@ int main(int, char * [] )
 
   // Software Guide : BeginLatex
   // The actual pointer to the passed mesh can be retreived using the
-  // GetMesh() function.
+  // \code{GetMesh()} function.
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet  
@@ -115,8 +115,8 @@ int main(int, char * [] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // Like any other SpatialObjects. The GetBoundingBox(), ValueAt(),
-  // IsInside() functions can be used to access important information.
+  // Like any other SpatialObjects. The \code{GetBoundingBox()}, \code{ValueAt()},
+  // \code{IsInside()} functions can be used to access important information.
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet  
@@ -139,7 +139,7 @@ int main(int, char * [] )
 
   // Software Guide : BeginLatex
   // Then we set the mesh spatial object and the name of the file and call the
-  // the Update() function.
+  // the \code{Update()} function.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet 
   writer->SetInput(myMeshSpatialObject);
@@ -200,7 +200,7 @@ int main(int, char * [] )
   //  Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex 
-  //  Then we can get the resulting binary image using the GetOutput() function.
+  //  Then we can get the resulting binary image using the \code{GetOutput()} function.
   //  Software Guide : EndLatex 
   //  Software Guide : BeginCodeSnippet
   ImageType::Pointer myBinaryMeshImage = imageFilter->GetOutput();

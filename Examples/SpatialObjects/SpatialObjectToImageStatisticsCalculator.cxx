@@ -23,7 +23,7 @@
 // \index{itk::SpatialObjectToImageStatisticsCalculator}
 // This example describes how to use the
 // \doxygen{SpatialObjectToImageStatisticsCalculator} to compute statistics
-// of an \doxygen{Image} only inside a given \doxygen{SpatialObject}.
+// of an \doxygen{Image} only in a region defined inside a given \doxygen{SpatialObject}.
 //
 // Software Guide : EndLatex 
 
@@ -77,15 +77,15 @@ int main(int, char * [] )
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// We pass the image to be used
+// We pass a pointer to the image to the calculator.
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
   calculator->SetImage(image);
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// and the SpatialObject. The statistics will be computed inside the SpatialObject.
-// Internally the calculator is using the \code{IsInside()} function.
+// And we also pass the SpatialObject. The statistics will be computed inside the SpatialObject 
+// (Internally the calculator is using the \code{IsInside()} function).
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
   calculator->SetSpatialObject(ellipse);
@@ -93,7 +93,7 @@ int main(int, char * [] )
 
 // Software Guide : BeginLatex
 // At the end we trigger the computation via the \code{Update()} function and we
-// can retrieve the mean and the covariance matrix using \code{GetMean} and \code{GetCovarianceMatrix}
+// can retrieve the mean and the covariance matrix using \code{GetMean()} and \code{GetCovarianceMatrix()}
 // respectively.
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet

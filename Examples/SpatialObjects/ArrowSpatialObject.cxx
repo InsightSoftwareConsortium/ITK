@@ -22,7 +22,7 @@
 //
 // \index{itk::ArrowSpatialObject}
 //
-// This example shows how to create a \doxygen{ArrowSpatialObject}
+// This example shows how to create a \doxygen{ArrowSpatialObject}.
 // Let's begin by including the appropriate header file.
 //
 // Software Guide : EndLatex 
@@ -35,8 +35,7 @@ int main( int , char *[] )
 {
 // Software Guide : BeginLatex
 // The \doxygen{ArrowSpatialObject}, like many SpatialObjects, is templated
-// over the dimensionality of the object. Like other SpatialObjects 
-// the creation is done via smart pointers.
+// over the dimensionality of the object.
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet
   typedef itk::ArrowSpatialObject<3>   ArrowType;

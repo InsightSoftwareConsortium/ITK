@@ -37,8 +37,8 @@ int main( int , char *[] )
 {
 // Software Guide : BeginLatex
 //
-// Like most of the SpatialObjects, the EllipseSpatialObject is templated
-// over the dimension of the space. In this example we create a 3D ellipse.
+// Like most of the SpatialObjects, the \doxygen{EllipseSpatialObject} is templated
+// over the dimension of the space. In this example we create a 3-dimensional ellipse.
 //
 // Software Guide : EndLatex 
 
@@ -49,7 +49,7 @@ int main( int , char *[] )
   
 // Software Guide : BeginLatex
 //
-// Then we set a radius for each dimension
+// Then we set a radius for each dimension. By default the radius is set to 1.
 //
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet

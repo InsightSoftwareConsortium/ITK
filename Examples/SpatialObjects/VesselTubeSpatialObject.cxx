@@ -23,7 +23,7 @@
 // \index{itk::VesselTubeSpatialObject}
 //
 // \doxygen{VesselTubeSpatialObject} derives from \doxygen{TubeSpatialObject}. 
-// It represents a fiber tracts from Diffusion Tensor Imaging.
+// It represents a blood vessel segmented from an image.
 // A VesselTubeSpatialObject is described as a list of centerline points which 
 // have a position, a radius, normals, 
 //
@@ -70,7 +70,7 @@ int main( int , char *[] )
 // \item The three alpha values corresponding to the eigen value of the Hessian
 //  using \code{SetAlpha1()},\code{SetAlpha2()} and \code{SetAlpha3()}.
 // \item The mark value using \code{SetMark()}.
-// \item The color of the point is set to red in our case.
+// \item The color of the point is set to red in this example with an opacity of 1.
 // \end{enumerate}
 //
 // Software Guide : EndLatex 

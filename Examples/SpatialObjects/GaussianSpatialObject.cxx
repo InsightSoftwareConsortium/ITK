@@ -23,8 +23,8 @@ PURPOSE.  See the above copyright notices for more information.
 // \index{itk::GaussianSpatialObject}
 //
 // This example shows how to create a \doxygen{GaussianSpatialObject} which
-// defines a gaussian in space. This object is particularly usefull
-// to query the ValueAt() a point in physical space
+// defines a gaussian in a N-dimensional space. This object is particularly useful
+// to query the value at a point in physical space.
 // Let's begin by including the appropriate header file.
 //
 // Software Guide : EndLatex 
@@ -61,7 +61,7 @@ int main(int, char* [])
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // The standard ValueAt() function is used to determine the value
+  // The standard \code{ValueAt()} function is used to determine the value
   // of the gaussian at a particular point in physical space.
   // Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet

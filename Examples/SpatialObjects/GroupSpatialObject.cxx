@@ -48,7 +48,7 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// We create an \doxygen{EllipseSpatialObject} and add it to
+// Next, we create an \doxygen{EllipseSpatialObject} and add it to
 // the group.
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet
@@ -60,8 +60,8 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// Next, we translate the group. Therefore the ellipse
-// is translated in physical space at the same time.
+// We then translate the groupby 10mm in each direction. 
+// Therefore the ellipse is translated in physical space at the same time.
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet
   GroupType::VectorType offset;
@@ -79,6 +79,7 @@ int main( int , char *[] )
   GroupType::PointType point;
   point.Fill(10);
   std::cout << "Is my point " << point << " inside?: " <<  myGroup->IsInside(point,2) << std::endl;
+// Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 // Like any other SpatialObjects we can remove the ellipse from the group
