@@ -175,6 +175,8 @@ public:
   void GetVarPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarPercentError[i];};
   void GetMean(double x[6]){for(int i=0;i<6;i++) x[i]=m_Mean[i];};
   void GetVar(double x[6]){for(int i=0;i<6;i++) x[i]=m_Var[i];};
+  void SetMean(double x[6]){for(int i=0;i<6;i++) m_Mean[i]=x[i];};
+  void SetVar(double x[6]){for(int i=0;i<6;i++) m_Var[i]=x[i];};
   void GetMeanTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanTolerance[i];};
   void GetVarTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarTolerance[i];};
 
