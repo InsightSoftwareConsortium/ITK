@@ -54,8 +54,8 @@ int itkMeshSpatialObjectIOTest(int, char*[])
   unsigned long tetraPoints[4] = {0,1,2,3};
   unsigned long hexaPoints[8] = {0,1,2,3,4,5,6,7};
 
-  unsigned int i=0;
-  unsigned int j=0;
+  unsigned int i;
+  unsigned int j;
   for(i=0; i < 8 ; ++i)
     {
     mesh->SetPoint(i, PointType(testPointCoords[i]));
