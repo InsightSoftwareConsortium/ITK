@@ -1,4 +1,4 @@
-/*=========================================================================
+ /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit (ITK)
   Module:    itkNeighborhoodAlgorithmTest.cxx
@@ -146,9 +146,9 @@ int main()
   orig3Dm[2] = 5;
   
   itk::Offset<4> origNDm;
-  origNDm[0] = 0;
-  origNDm[1] = 0;
-  origNDm[2] = 0;
+  origNDm[0] = 1;
+  origNDm[1] = 3;
+  origNDm[2] = 1;
   origNDm[3] = 1;
 
   itk::Size<2> sz2;
