@@ -49,6 +49,7 @@ int itkTubeSpatialObjectTest(int, char **)
   typedef TubeType::TubePointType                     TubePointType;
   typedef TubeType::PointListType                     TubePointListType;
   typedef std::list< itk::SpatialObject<3> * >        ChildrenListType;
+  typedef ChildrenListType *                          ChildrenListPointer;
 
   Vector axis, translation;
   Point in, out;
@@ -140,7 +141,8 @@ int itkTubeSpatialObjectTest(int, char **)
   std::cout<<"=================================="<<std::endl;
   std::cout<<"Testing GroupSpatialObject:"<<std::endl<<std::endl;
 
-  ChildrenListType childrenList, returnedList;
+  ChildrenListType childrenList;
+  ChildrenListPointer returnedList;
   unsigned int nbChildren;
 
   TubePointer tube2 = TubeType::New();
@@ -206,9 +208,9 @@ int itkTubeSpatialObjectTest(int, char **)
 
   returnedList = tubeNet1->GetChildren();
 
-  if( childrenList.size() == returnedList.size() )
+  if( childrenList.size() == returnedList->size() )
     {
-    ChildrenListType::iterator itTest = returnedList.begin();
+    ChildrenListType::iterator itTest = returnedList->begin();
     ChildrenListType::iterator it = childrenList.begin();
     ChildrenListType::iterator end = childrenList.end();
 
@@ -246,9 +248,9 @@ int itkTubeSpatialObjectTest(int, char **)
   tubeNet1->SetChildren(childrenList);
   returnedList = tubeNet1->GetChildren();
 
-  if( childrenList.size() == returnedList.size() )
+  if( childrenList.size() == returnedList->size() )
     {
-    ChildrenListType::iterator itTest = returnedList.begin();
+    ChildrenListType::iterator itTest = returnedList->begin();
     ChildrenListType::iterator it = childrenList.begin();
     ChildrenListType::iterator end = childrenList.end();
 

@@ -82,10 +82,12 @@ public:
   
   typedef VectorContainer< unsigned long int, PointType > VectorContainerType;
   
-  typedef BoundingBox< unsigned long int, NDimensions, ScalarType, VectorContainerType > BoundingBoxType; 
+  typedef BoundingBox< unsigned long int, NDimensions, ScalarType,
+                       VectorContainerType > BoundingBoxType; 
   typedef typename BoundingBoxType::Pointer BoundingBoxPointer; 
 
   typedef std::list< Self * > ChildrenListType; 
+  typedef ChildrenListType* ChildrenListPointer; 
 
   /** Dimension of the object.  This constant is used by functions that are
    * templated over spatialObject type when they need compile time access 
@@ -204,7 +206,7 @@ public:
    * A depth of 0 recurses to return children of children, etc.   A depth
    * of 1 returns the immediate childred. A depth of 2 returns the children
    * and those children's children. */ 
-  virtual ChildrenListType & GetChildren( unsigned int depth=0,
+  virtual ChildrenListType * GetChildren( unsigned int depth=0,
                                           char * name = NULL);
 
   /** Returns the number of children currently assigned to the object. */ 

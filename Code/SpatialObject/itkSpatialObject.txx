@@ -647,18 +647,15 @@ SpatialObject< NDimensions, PipelineDimension>
     }
   }
   
-/** Get the children list*/
+/** Get the children list.
+ * User is responsible for freeing the list, but not the elements of
+ * the list. */
 template< unsigned int NDimensions, unsigned int PipelineDimension >
-typename SpatialObject< NDimensions, PipelineDimension>::ChildrenListType &
+typename SpatialObject< NDimensions, PipelineDimension>::ChildrenListType *
 SpatialObject< NDimensions, PipelineDimension>
 ::GetChildren( unsigned int depth, 
                char * name)
 {
-  if( depth == 0 && name == NULL )
-    {
-    return m_Children;
-    }
-
   ChildrenListType * children = new ChildrenListType;
 
   typename ChildrenListType::const_iterator childrenListIt =
@@ -671,12 +668,12 @@ SpatialObject< NDimensions, PipelineDimension>
       }
     if( depth > 1 || depth == 0)
       {
-      children->merge((**childrenListIt).GetChildren(depth--, name));
+      children->merge(*((**childrenListIt).GetChildren(depth--, name)));
       }
     childrenListIt++;
     }
 
-  return * children;
+  return children;
 }
 
 /** Set children list*/
