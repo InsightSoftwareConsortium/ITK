@@ -39,6 +39,15 @@ StatisticsImageFilter<TInputImage>
 template<class TInputImage>
 void
 StatisticsImageFilter<TInputImage>
+::AllocateOutputs()
+{
+  // Pass the input through as the output
+  this->GraftOutput(this->GetInput());
+}
+
+template<class TInputImage>
+void
+StatisticsImageFilter<TInputImage>
 ::BeforeThreadedGenerateData()
 {
   unsigned int i;
@@ -123,10 +132,6 @@ StatisticsImageFilter<TInputImage>
     / (static_cast<RealType>(count) - 1);
   m_Sigma = sqrt(m_Variance);
 
-  // Pass the input through
-  // NOTE: GenerateData is still creating an IMage that will be discarded. The superclass
-  // GenerateData should handle this situation (and may someday).
-  this->GraftOutput(this->GetInput());
 }
 
 template<class TInputImage>
@@ -138,6 +143,15 @@ StatisticsImageFilter<TInputImage>
   RealType value;
   ImageRegionIterator<TInputImage> it (this->GetInput(), regionForThread);
   
+  // support progress methods/callbacks
+  unsigned long updateVisits = 0, i=0;
+  if ( threadId == 0 )
+    {
+    updateVisits = regionForThread.GetNumberOfPixels()/10;
+    if ( updateVisits < 1 ) updateVisits = 1;
+    }
+
+  // do the work
   while (!it.IsAtEnd())
     {
     value = static_cast<RealType>(it.Get());
@@ -154,6 +168,13 @@ StatisticsImageFilter<TInputImage>
     m_SumOfSquares[threadId] += (value * value);
     m_Count[threadId]++;
     ++it;
+
+    if ( threadId == 0 && !(i % updateVisits ) )
+      {
+      this->UpdateProgress( static_cast<float>(i) / 
+                            static_cast<float>(updateVisits * 10.0) );
+      }
+    ++i;
     }
 }
 
