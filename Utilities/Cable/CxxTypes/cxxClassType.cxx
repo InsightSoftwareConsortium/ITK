@@ -3,6 +3,17 @@
 namespace _cxx_
 {
 
+  
+/**
+ * Retrieve what kind of Type this is.
+ */
+RepresentationType
+ClassType
+::GetRepresentationType() const
+{
+  return ClassType_id;
+}
+
 
 /**
  * Constructor for ClassType just takes the name of the class.  This name

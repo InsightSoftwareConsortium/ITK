@@ -6,6 +6,8 @@
 namespace _cxx_
 {
 
+class CvQualifiedType;
+
 /**
  * Abstract interface to a C++ type representation.
  */
@@ -20,6 +22,9 @@ public:
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const = 0;
   
+  /**
+   * Let the CvQualifiedType class call CanConvertTo.
+   */
   friend CvQualifiedType;
 };
 

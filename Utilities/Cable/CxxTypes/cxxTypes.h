@@ -2,11 +2,13 @@
 #define _cxxTypes_h
 
 #include <string>
-#include <list>
 
 namespace _cxx_
 {
 
+/**
+ * A convenient string type.
+ */
 typedef std::string String;
 
 /**
@@ -20,25 +22,9 @@ enum RepresentationType {
 };
 
 
-class Type;
-class CvQualifiedType;
-class ClassType;
-class PointerType;
-class PointerToMemberType;
-class ReferenceType;
-class FundamentalType;
-class ArrayType;
-class FunctionType;
-
-/**
- * A list of class types.
- */
-typedef std::list<const ClassType*> ClassTypeList;
-typedef std::back_insert_iterator<ClassTypeList>  ClassTypeListInserter;
-
 } // namespace _cxx_
 
-#include "cxxType.h"
+// Include all the representation types.
 #include "cxxCvQualifiedType.h"
 #include "cxxClassType.h"
 #include "cxxPointerType.h"

@@ -13,15 +13,9 @@ namespace _cxx_
 class ReferenceType: public Type
 {
 public:
-  typedef ReferenceType Self;
+  virtual RepresentationType GetRepresentationType() const;
   
-  /**
-   * Retrieve what kind of Type this is.
-   */
-  virtual RepresentationType GetRepresentationType() const
-    { return ReferenceType_id; }
-  
-  ReferenceType(const CvQualifiedType& in_type): m_ReferencedType(in_type) {}
+  ReferenceType(const CvQualifiedType&);
   
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;

@@ -3,6 +3,15 @@
 namespace _cxx_
 {
 
+/**
+ * Retrieve what kind of Type this is.
+ */
+RepresentationType
+FunctionType
+::GetRepresentationType() const
+{
+  return FunctionType_id;
+}
 
 /**
  *

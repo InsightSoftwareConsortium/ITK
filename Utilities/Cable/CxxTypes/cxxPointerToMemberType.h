@@ -13,17 +13,9 @@ namespace _cxx_
 class PointerToMemberType: public PointerType
 {
 public:
-  typedef PointerToMemberType Self;
-  
-  /**
-   * Retrieve what kind of Type this is.
-   */
-  virtual RepresentationType GetRepresentationType() const
-    { return PointerToMemberType_id; }
+  virtual RepresentationType GetRepresentationType() const;
 
-  PointerToMemberType(const CvQualifiedType& in_type,
-                      const ClassType* in_class):
-    PointerType(in_type), m_ClassType(in_class) {}
+  PointerToMemberType(const CvQualifiedType&, const ClassType*);
   
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;

@@ -14,13 +14,7 @@ namespace _cxx_
 class FunctionType: public Type
 {
 public:
-  typedef FunctionType Self;
-  
-  /**
-   * Retrieve what kind of Type this is.
-   */
-  virtual RepresentationType GetRepresentationType() const
-    { return FunctionType_id; }  
+  virtual RepresentationType GetRepresentationType() const;
 
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;

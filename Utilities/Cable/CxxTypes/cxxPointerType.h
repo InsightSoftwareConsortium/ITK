@@ -13,13 +13,7 @@ namespace _cxx_
 class PointerType: public Type
 {
 public:
-  typedef PointerType Self;
-  
-  /**
-   * Retrieve what kind of Type this is.
-   */
-  virtual RepresentationType GetRepresentationType() const
-    { return PointerType_id; }
+  virtual RepresentationType GetRepresentationType() const;
   
   PointerType(const CvQualifiedType&);
   

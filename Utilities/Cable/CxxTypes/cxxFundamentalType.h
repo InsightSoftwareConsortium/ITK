@@ -13,8 +13,6 @@ namespace _cxx_
 class FundamentalType: public Type
 {
 public:
-  typedef FundamentalType Self;
-  
   /**
    * Enumerate the fundamental types.
    */
@@ -22,13 +20,9 @@ public:
             SignedChar, Char, ShortInt, Int, LongInt, WChar_t, Bool,
             Float, Double, LongDouble, Void };         
   
-  /**
-   * Retrieve what kind of Type this is.
-   */
-  virtual RepresentationType GetRepresentationType() const
-    { return FundamentalType_id; }  
+  virtual RepresentationType GetRepresentationType() const;
 
-  FundamentalType(Id in_id): m_Id(in_id) {}
+  FundamentalType(Id);
   
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;

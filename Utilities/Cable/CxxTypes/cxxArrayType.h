@@ -13,16 +13,9 @@ namespace _cxx_
 class ArrayType: public Type
 {
 public:
-  typedef ArrayType Self;
-  
-  /**
-   * Retrieve what kind of Type this is.
-   */
-  virtual RepresentationType GetRepresentationType() const
-    { return ArrayType_id; }
+  virtual RepresentationType GetRepresentationType() const;
 
-  ArrayType(const CvQualifiedType& in_elementType, unsigned long in_length):
-    m_ElementType(in_elementType), m_Length(in_length) {}
+  ArrayType(const CvQualifiedType&, unsigned long);
   
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;

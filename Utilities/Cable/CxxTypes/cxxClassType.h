@@ -6,6 +6,19 @@
 namespace _cxx_
 {
 
+class ClassType;
+
+/**
+ * A list of ClassType s.
+ */
+typedef std::list<const ClassType*> ClassTypeList;
+
+/**
+ * An insertion iterator for ClassTypeList.
+ */
+typedef std::back_insert_iterator<ClassTypeList>  ClassTypeListInserter;
+
+
 /**
  * Represents a C++ class type.  This could have been produced by a
  * class, struct, union, template full specialization, or template
@@ -14,13 +27,7 @@ namespace _cxx_
 class ClassType: public Type
 {
 public:
-  typedef ClassType Self;
-  
-  /**
-   * Retrieve what kind of Type this is.
-   */
-  virtual RepresentationType GetRepresentationType() const
-    { return ClassType_id; }
+  virtual RepresentationType GetRepresentationType() const;
 
   ClassType(const String&);
   
@@ -54,6 +61,7 @@ private:
    */
   CvQualifiedTypeList m_ConversionOperators;
 };
+
 
 } // namespace _cxx_
 

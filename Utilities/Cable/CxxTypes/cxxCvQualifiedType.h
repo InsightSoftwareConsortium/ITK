@@ -1,6 +1,8 @@
 #ifndef _cxxCvQualifiedType_h
 #define _cxxCvQualifiedType_h
 
+#include <list>
+
 #include "cxxType.h"
 
 namespace _cxx_
@@ -36,9 +38,24 @@ public:
     { return m_Type->CanConvertTo(t, m_Const, m_Volatile, m_Restrict); }
   
 private:
+  /**
+   * The type to which these cv-qualifiers apply.
+   */
   const Type* const m_Type;
+  
+  /**
+   * Flag for presence of "const" cv-qualifier.
+   */
   bool m_Const;
+
+  /**
+   * Flag for presence of "volatile" cv-qualifier.
+   */
   bool m_Volatile;
+
+  /**
+   * Flag for presence of "restrict" qualifier.
+   */
   bool m_Restrict;  
 };
 
