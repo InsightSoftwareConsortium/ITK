@@ -158,7 +158,7 @@ public:
     ConstIterator& operator-- ()   { --m_Pos; --m_Iter; return *this; }
     ConstIterator operator-- (int) { ConstIterator temp(*this); --m_Pos; --m_Iter; return temp; }
 
-    Iterator& operator = (Iterator& r) { m_Pos = r.m_Pos; m_Iter = r.m_Iter; return r; }
+    ConstIterator& operator = (const Iterator& r) { m_Pos = r.m_Pos; m_Iter = r.m_Iter; return *this; }
     
     bool operator == (const Iterator& r) const { return m_Iter == r.m_Iter; }
     bool operator != (const Iterator& r) const { return m_Iter != r.m_Iter; }
