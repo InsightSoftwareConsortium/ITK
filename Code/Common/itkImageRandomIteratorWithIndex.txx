@@ -17,6 +17,7 @@
 #ifndef _itkImageRandomIteratorWithIndex_txx
 #define _itkImageRandomIteratorWithIndex_txx
 
+#include "itkImageRandomIteratorWithIndex.h"
 
 namespace itk
 {
