@@ -97,6 +97,8 @@ int itkNormalizedCorrelationPointSetToImageMetricTest(int, char* [] )
 
   const unsigned int numberOfPoints = 100;
 
+  fixedPointSet->SetPointData( FixedPointSetType::PointDataContainer::New() );
+
   fixedPointSet->GetPoints()->Reserve( numberOfPoints );
   fixedPointSet->GetPointData()->Reserve( numberOfPoints );
 
