@@ -371,17 +371,20 @@ inline void* vnl_c_vector_alloc(int n, int size)
 #endif
 }
 
+#if VNL_C_VECTOR_USE_VNL_ALLOC
 inline void vnl_c_vector_dealloc(void* v, int n, int size)
 {
   //vcl_cerr<<"\ncall to vnl_c_vector_dealloc("<<v<<", "<<n<<", "<<size<<")\n";
-#if VNL_C_VECTOR_USE_VNL_ALLOC
   if (v)
     vnl_alloc::deallocate(v, (n == 0) ? 8 : (n * size));
-#else
-  delete [] static_cast<char*>(v);
-#endif
 }
-
+#else
+inline void vnl_c_vector_dealloc(void* v, int, int)
+{
+  //vcl_cerr<<"\ncall to vnl_c_vector_dealloc("<<v<<", "<<n<<", "<<size<<")\n";
+  delete [] static_cast<char*>(v);
+}
+#endif
 
 template<class T>
 T** vnl_c_vector<T>::allocate_Tptr(int n)
