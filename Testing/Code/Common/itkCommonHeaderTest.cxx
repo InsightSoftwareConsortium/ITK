@@ -176,6 +176,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMapContainer.txx"
 #include "itkMatrix.txx"
 #include "itkMaximumDecisionRule.h"
+#include "itkMaximumRatioDecisionRule.h"
 #include "itkMeanImageFunction.txx"
 #include "itkMedianImageFunction.txx"
 #include "itkMesh.txx"
