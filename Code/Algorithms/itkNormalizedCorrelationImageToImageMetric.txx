@@ -42,6 +42,8 @@ NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType & parameters )
 {
 
+  std::cout << "GetValue( " << parameters << " ) = ";
+
   TargetPointer target = Superclass::GetTarget();
 
   typename TTarget::RegionType  targetRegion = target->GetLargestPossibleRegion();
