@@ -179,7 +179,9 @@ int itkRegularStepGradientDescentOptimizerTest(int, char* [] )
   for( unsigned int j = 0; j < 2; j++ )
     {
     if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+      {
       pass = false;
+      }
     }
 
   if( !pass )
@@ -187,6 +189,51 @@ int itkRegularStepGradientDescentOptimizerTest(int, char* [] )
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
+
+
+  // Run now with a different relaxation factor
+ 
+  {
+  itkOptimizer->SetInitialPosition( initialPosition );
+
+  itkOptimizer->SetRelaxationFactor( 0.8 );
+  try 
+    {
+    itkOptimizer->StartOptimization();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cout << "Exception thrown ! " << std::endl;
+    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Description = " << e.GetDescription() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  finalPosition = itkOptimizer->GetCurrentPosition();
+  std::cout << "Solution        = (";
+  std::cout << finalPosition[0] << "," ;
+  std::cout << finalPosition[1] << ")" << std::endl;  
+
+  //
+  // check results to see if it is within range
+  //
+  pass = true;
+  for( unsigned int j = 0; j < 2; j++ )
+    {
+    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+      {
+      pass = false;
+      }
+    }
+
+  if( !pass )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
