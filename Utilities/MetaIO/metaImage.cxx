@@ -499,7 +499,7 @@ ConvertElementDataTo(MET_ValueEnumType _elementType,
   {
   int eSize;
   MET_SizeOfType(_elementType, &eSize);
-  void * newElementData = calloc(m_Quantity*m_ElementNumberOfChannels, eSize);
+  void * newElementData = new char[m_Quantity*m_ElementNumberOfChannels*eSize];//calloc(m_Quantity*m_ElementNumberOfChannels, eSize);
 
   ElementByteOrderFix();
   if(!ElementMinMaxValid())
