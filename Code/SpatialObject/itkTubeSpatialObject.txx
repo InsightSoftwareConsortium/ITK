@@ -248,14 +248,14 @@ TubeSpatialObject< TDimension >
     x1 = (*it1).GetPosition();
     x3 = (*it3).GetPosition();
     l=0;
-    for(int i=0; i<TDimension; i++)
+    for(unsigned int i=0; i<TDimension; i++)
       {
       t[i] = (x3[i] - x1[i])/2.0;
       l = l + t[i]*t[i];
       }
     
     l = sqrt(l); 
-    for(int i=0; i<TDimension; i++)
+    for(unsigned int i=0; i<TDimension; i++)
       {
       t[i] /= l;
       }

@@ -37,7 +37,7 @@ MetaGroupConverter<NDimensions>
 { 
   SpatialObjectPointer spatialObject = SpatialObjectType::New();
   double spacing[NDimensions];
-  int i;
+  unsigned int i;
   for(i=0; i<NDimensions; i++)
     {
     spacing[i] = group->ElementSpacing()[i];
