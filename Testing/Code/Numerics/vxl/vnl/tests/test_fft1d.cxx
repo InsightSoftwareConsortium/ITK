@@ -9,6 +9,7 @@
 //
 
 //-----------------------------------------------------------------------------
+#include <vcl_cmath.h>
 #include <vcl_cstdlib.h> // for abort
 #include <vcl_iostream.h>
 #include <vcl_complex.h>
