@@ -330,6 +330,8 @@ WriteFile()
   WriteEndElement("POLYGONGROUP",output);
   output << std::endl;
   output.close();
+
+  delete children;
   return 0;
 }
 
