@@ -77,7 +77,8 @@ public:
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
 
   /** Typede of the vector type to return derivatives */
-  typedef vnl_vector_fixed<double,ObjectDimension> VectorType;
+  typedef vnl_vector_fixed<double,
+                           itkGetStaticConstMacro(ObjectDimension)> VectorType;
 
   /**  Type of the match measure */
   typedef Superclass::MeasureType          MeasureType;
