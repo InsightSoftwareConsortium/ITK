@@ -304,7 +304,7 @@ private:
  * The subclass of WrapperBase::FunctionBase which is used for method
  * wrappers.
  */
-class WrapperBase::Method: public WrapperBase::FunctionBase
+class _wrap_EXPORT WrapperBase::Method: public WrapperBase::FunctionBase
 {
 public:
   // Pull a typedef out of the superclass.
@@ -329,7 +329,7 @@ private:
  * The subclass of WrapperBase::FunctionBase which is used for static
  * method wrappers.
  */
-class WrapperBase::StaticMethod: public WrapperBase::FunctionBase
+class _wrap_EXPORT WrapperBase::StaticMethod: public WrapperBase::FunctionBase
 {
 public:
   // Pull a typedef out of the superclass.
@@ -351,3 +351,4 @@ private:
 } // namespace _wrap_
 
 #endif
+
