@@ -115,12 +115,14 @@ public:
 
   /**  Type for the mask of the fixed image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  typedef SpatialObject< FixedImageDimension >       FixedImageMaskType;
+  typedef SpatialObject< itkGetStaticConstMacro(FixedImageDimension)
+                                             >       FixedImageMaskType;
   typedef typename  FixedImageMaskType::Pointer      FixedImageMaskPointer;
 
   /**  Type for the mask of the moving image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  typedef SpatialObject< MovingImageDimension >      MovingImageMaskType;
+  typedef SpatialObject< itkGetStaticConstMacro(MovingImageDimension)
+                                              >      MovingImageMaskType;
   typedef typename  MovingImageMaskType::Pointer     MovingImageMaskPointer;
 
 
