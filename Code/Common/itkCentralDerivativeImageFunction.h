@@ -81,11 +81,6 @@ public:
   itkNewMacro(Self);
 
   /**
-   * Dimension of the underlying image.
-   */
-  enum { ImageDimension = InputImageType::ImageDimension };
-
-  /**
    * InputImageType typedef support.
    */
   typedef TInputImage InputImageType;
@@ -99,6 +94,11 @@ public:
    * Index typedef support.
    */
   typedef typename Superclass::IndexType IndexType;
+
+  /**
+   * Dimension of the underlying image.
+   */
+  enum { ImageDimension = InputImageType::ImageDimension };
 
   /**
    * Set the input image.
