@@ -93,6 +93,9 @@ public:
    * value specified by the user. */
   void SetParameters(const ParametersType & parameters);
 
+  /** Get the Transformation Parameters. */
+  virtual const ParametersType& GetParameters(void) const;
+
   /** Set offset of an Translation Transform.
    * This method sets the offset of an TranslationTransform to a
    * value specified by the user. */
@@ -141,6 +144,11 @@ public:
 
   /** Set the parameters to the IdentityTransform */
   void SetIdentity(void);
+
+  /** Return the number of parameters that completely define the Transfom  */
+  unsigned int virtual GetNumberOfParameters(void) const 
+                      { return NDimensions; }
+
 
 protected:
   TranslationTransform();

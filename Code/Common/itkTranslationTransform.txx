@@ -47,10 +47,27 @@ void
 TranslationTransform<TScalarType, NDimensions>
 ::SetParameters( const ParametersType & parameters )
 {
+  Superclass::SetParameters( parameters );
   for( unsigned int i=0; i<SpaceDimension; i++ )
-  {
+    {
     m_Offset[i] = parameters[i];
-  }
+    }
+}
+
+
+
+
+// Get the parameters
+template <class TScalarType, unsigned int NDimensions>
+const TranslationTransform<TScalarType, NDimensions>::ParametersType &
+TranslationTransform<TScalarType, NDimensions>
+::GetParameters( void ) const
+{
+  for( unsigned int i=0; i<SpaceDimension; i++ )
+    {
+    m_Parameters[i] = m_Offset[i];
+    }  
+  return m_Parameters;
 }
 
 
