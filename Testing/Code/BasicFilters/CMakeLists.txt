@@ -191,12 +191,4 @@ ADD_EXECUTABLE(itkDiscreteGaussianImageFilterTest itkDiscreteGaussianImageFilter
 ADD_EXECUTABLE(itkWarpImageFilterTest itkWarpImageFilterTest)
 
 
-FIND_PATH(VW_RAW_DATA_PATH
-avfCROP.1023c.raw 
-${ITK_SOURCE_DIR}/../InsightData/VisibleWomanHead/CROPraw)
-
-IF(VW_RAW_DATA_PATH)
-ADD_TEST(itkRawImageIOTest itkRawImageIOTest ${VW_RAW_DATA_PATH}/avfCROP.1023c.raw)
-ADD_EXECUTABLE(itkRawImageIOTest itkRawImageIOTest)
-ENDIF(VW_RAW_DATA_PATH)
 
