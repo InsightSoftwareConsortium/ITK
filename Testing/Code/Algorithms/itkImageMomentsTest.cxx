@@ -200,7 +200,7 @@ itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
         trerr > maxerr;
 
     std::cout << std::endl;
-    bool pass = false; 
+    bool pass;
     if (stat)
       {
       std::cout << "Errors are larger than defined maximum value." << std::endl;

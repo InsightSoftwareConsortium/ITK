@@ -140,7 +140,6 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
 
   pyramid->SetInput( imgTarget );
 
-  bool pass = true;
   unsigned int numLevels;
   itk::Vector<unsigned int,ImageDimension> factors;
 
@@ -168,7 +167,6 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
 
   if( schedule != pyramid->GetSchedule() )
     {
-    pass = false;
     std::cout << "Schedule should be: " << std::endl;
     std::cout << schedule << std::endl;
     std::cout << "instead of: " << std::endl;
@@ -201,7 +199,6 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
 
   if( schedule != pyramid->GetSchedule() )
     {
-    pass = false;
     std::cout << "Schedule should be: " << std::endl;
     std::cout << schedule << std::endl;
     std::cout << "instead of: " << std::endl;
@@ -215,7 +212,6 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
     {
     if( ss[j] != factors[j] )
       {
-      pass = false;
       std::cout << "Returned starting factors incorrect" << std::endl;
       return EXIT_FAILURE;
       }
@@ -224,7 +220,6 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
   // test divisibility
   if( !PyramidType::IsScheduleDownwardDivisible( pyramid->GetSchedule() ) )
     {
-    pass = false;
     std::cout << "Schedule should be downward divisible" << std::endl;
     return EXIT_FAILURE;
     }
@@ -285,7 +280,6 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
 
   if( j != ImageDimension )
     {
-    pass = false;
     std::cout << "Output meta information incorrect." << std::endl;
     pyramid->GetInput()->Print(std::cout);
     pyramid->GetOutput( testLevel )->Print(std::cout);
@@ -296,7 +290,6 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
   if( pyramid->GetOutput(numLevels-1)->GetBufferedRegion() !=
     pyramid->GetOutput(numLevels-1)->GetLargestPossibleRegion() )
     {
-    pass = false;
     std::cout << "Output buffered region incorrect. " << std::endl;
     pyramid->GetOutput(numLevels-1)->Print(std::cout);
     return EXIT_FAILURE;
@@ -332,6 +325,7 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
   OutputIterator iter2( streamer->GetOutput(),
     streamer->GetOutput()->GetBufferedRegion() );
 
+  bool pass = true;
   while( !iter1.IsAtEnd() )
     {
     if( iter1.Get() != iter2.Get() )
@@ -342,16 +336,13 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
     ++iter1;
     ++iter2;
     }
-*/
-
-
 
   if( !pass )
     {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
-
+*/
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 

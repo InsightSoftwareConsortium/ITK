@@ -293,59 +293,57 @@ int itkFEMLinearSystemWrapperItpackTest( int , char * [] )
 
   
   
-  itpack::integer intRet;
-  itpack::doublereal dbRet;
   itpack::integer integerPass = 1;
   itpack::doublereal doublePass = 1.0;
  
   cout << "Test itpack parameter setting..." << endl;
 
   it.SetMaximumNumberIterations(integerPass);
-  intRet = it.GetMaximumNumberIterations();
-  intRet = it.GetErrorReportingLevel();
+  it.GetMaximumNumberIterations();
+  it.GetErrorReportingLevel();
   it.SetCommunicationSwitch(integerPass);
-  intRet = it.GetCommunicationSwitch();
-  intRet = it.GetOutputNumber();
+  it.GetCommunicationSwitch();
+  it.GetOutputNumber();
   it.SetSymmetricMatrixFlag(integerPass);
-  intRet = it.GetSymmetricMatrixFlag();
+  it.GetSymmetricMatrixFlag();
   it.SetAdaptiveSwitch(integerPass);
-  intRet = it.GetAdaptiveSwitch();
+  it.GetAdaptiveSwitch();
   it.SetAdaptiveCaseSwitch(integerPass);
-  intRet = it.GetAdaptiveCaseSwitch();
+  it.GetAdaptiveCaseSwitch();
   it.SetWorkspaceUsed(integerPass);
-  intRet = it.GetWorkspaceUsed();
+  it.GetWorkspaceUsed();
   it.SetRedBlackOrderingSwitch(integerPass);
-  intRet = it.GetRedBlackOrderingSwitch();
+  it.GetRedBlackOrderingSwitch();
   it.SetRemoveSwitch(integerPass);
-  intRet = it.GetRemoveSwitch();
+  it.GetRemoveSwitch();
   it.SetTimingSwitch(integerPass);
-  intRet = it.GetTimingSwitch();
+  it.GetTimingSwitch();
   it.SetErrorAnalysisSwitch(integerPass);
-  intRet = it.GetErrorAnalysisSwitch();
+  it.GetErrorAnalysisSwitch();
   it.SetAccuracy(doublePass);
-  dbRet = it.GetAccuracy();
+  it.GetAccuracy();
   it.SetLargestJacobiEigenvalueEstimate(doublePass);
-  dbRet = it.GetLargestJacobiEigenvalueEstimate();
+  it.GetLargestJacobiEigenvalueEstimate();
   it.SetSmallestJacobiEigenvalueEstimate(doublePass);
-  dbRet = it.GetSmallestJacobiEigenvalueEstimate();
+  it.GetSmallestJacobiEigenvalueEstimate();
   it.SetDampingFactor(doublePass);
-  dbRet = it.GetDampingFactor()   ;
+  it.GetDampingFactor()   ;
   it.SetOverrelaxationParameter(doublePass) ;
-  dbRet = it.GetOverrelaxationParameter()    ;
+  it.GetOverrelaxationParameter()    ;
   it.SetEstimatedSpectralRadiusSSOR(doublePass);
-  dbRet = it.GetEstimatedSpectralRadiusSSOR()    ;
+  it.GetEstimatedSpectralRadiusSSOR()    ;
   it.SetEstimatedSpectralRadiusLU(doublePass) ;
-  dbRet = it.GetEstimatedSpectralRadiusLU()   ; 
+  it.GetEstimatedSpectralRadiusLU()   ; 
   it.SetTolerance(doublePass) ;
-  dbRet = it.GetTolerance()    ;
+  it.GetTolerance()    ;
   it.SetTimeToConvergence(doublePass) ;
-  dbRet = it.GetTimeToConvergence()    ;
+  it.GetTimeToConvergence()    ;
   it.SetTimeForCall(doublePass) ;
-  dbRet = it.GetTimeForCall()   ;
+  it.GetTimeForCall()   ;
   it.SetDigitsInError(doublePass) ;
-  dbRet = it.GetDigitsInError()    ;
+  it.GetDigitsInError()    ;
   it.SetDigitsInResidual(doublePass) ;
-  dbRet = it.GetDigitsInResidual()   ;
+  it.GetDigitsInResidual()   ;
   it.JacobianConjugateGradient() ;
   it.JacobianSemiIterative() ;
   it.SuccessiveOverrelaxation() ;
@@ -354,10 +352,6 @@ int itkFEMLinearSystemWrapperItpackTest( int , char * [] )
   it.ReducedSystemConjugateGradient() ;
   it.ReducedSystemSemiIteration() ;
   
-  // Do something with the variables to avoid compile warnings.
-  intRet=intRet+1;
-  dbRet=dbRet+1.0;
-
   cout << "Done." << endl;
 
 
