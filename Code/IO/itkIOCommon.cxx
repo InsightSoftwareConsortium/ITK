@@ -289,18 +289,5 @@ namespace itk
     return realpath(path,resolved_path);
 #endif
   }
-  bool   IOCommon::
-  IsDir(const char *filename) {
-    struct stat fs;
-    if (stat(filename, &fs) != 0) 
-      {
-        return false;
-      }
-    else
-      {
-        return S_ISDIR(fs.st_mode);
-      }
-    
-  }
 
 } // namespace itk

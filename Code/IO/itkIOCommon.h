@@ -20,6 +20,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkIntTypes.h"
 #include "itkProcessObject.h"
 #include "itkObjectFactory.h"
+#include <sys/stat.h>
 #include <string>
 #ifdef MAXPATHLEN
 #undef MAXPATHLEN
@@ -114,7 +115,7 @@ namespace itk
       /** Given a filename determine whether it exists and 
        * return true if it does. */
       static bool FileExists(const char* filename);
-      static bool IsDir(const char *filename);
+
       /** Given a filename determine how large it is
        * \author Kent Williams
        * \param filename The name of the file to check
