@@ -4,11 +4,13 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include <iostream>
+#include "vnl/vnl_sample.h"
 #include "itkTestMain.h" 
 
 
 void RegisterTests()
 {
+  vnl_sample_reseed(8775070);
   REGISTER_TEST(ImageRegistration1Test);
   REGISTER_TEST(ImageRegistration2Test);
   REGISTER_TEST(ImageRegistration3Test);
