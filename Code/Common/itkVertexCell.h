@@ -70,7 +70,7 @@ public:
   typedef typename CellType::CoordRep         CoordRep;
   typedef typename CellType::PointIdentifier  PointIdentifier;
   enum { PointDimension = CellType::PointDimension };
-  typedef typename Cell::Pointer CellPointer;
+  typedef typename CellInterface<TPixelType,TCellType>::Pointer CellPointer;
 
   /** \enum
    * Vertex-specific topology numbers.
