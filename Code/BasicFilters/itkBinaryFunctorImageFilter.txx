@@ -18,8 +18,9 @@
 #define _itkBinaryFunctorImageFilter_txx
 
 #include "itkBinaryFunctorImageFilter.h"
-#include <itkImageRegionIterator.h>
-#include <itkImageRegionConstIterator.h>
+#include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -88,33 +89,19 @@ BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>
 
   ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);
 
-  // support progress methods/callbacks
-  unsigned long updateVisits = 0, i=0;
-  const float   numberOfUpdates = 100.0f;
-  if ( threadId == 0 )
-    {
-    updateVisits = static_cast<unsigned long>(
-      outputPtr->GetRequestedRegion().GetNumberOfPixels() / numberOfUpdates );
-    if ( updateVisits < 1 ) updateVisits = 1;
-    }
-        
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+
   inputIt1.GoToBegin();
   inputIt2.GoToBegin();
   outputIt.GoToBegin();
-  i = 0;
+
   while( !inputIt1.IsAtEnd() ) 
     {
-    if ( threadId == 0 && !(i % updateVisits ) )
-      {
-      this->UpdateProgress( static_cast<float>( i ) / 
-                            ( static_cast<float>(updateVisits)*numberOfUpdates ) );
-      }
-
     outputIt.Set( m_Functor( inputIt1.Get(), inputIt2.Get() ) );
     ++inputIt1;
     ++inputIt2;
     ++outputIt;
-    ++i;
+    progress.CompletedPixel();
     }
 }
 

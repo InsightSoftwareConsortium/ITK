@@ -23,6 +23,7 @@
 #include "itkNumericTraits.h"
 #include "itkMorphologyImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
+#include "itkProgressReporter.h"
 
 namespace itk {
 
@@ -96,19 +97,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   BC.SetConstant( NumericTraits<PixelType>::Zero );
 
   // Neighborhood iterators
-  NeighborhoodIteratorType n_iter;
   SmartNeighborhoodIteratorType b_iter;
-
-  // support progress methods/callbacks
-  unsigned long ii = 0;
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
-    }
 
   // Find the boundary "faces"
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
@@ -118,27 +107,13 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
   fit = faceList.begin();
 
-  // Process the non-boundary face
-  n_iter = NeighborhoodIteratorType(m_Kernel.GetRadius(),
-                                    this->GetInput(), *fit);
-  ImageRegionIterator<TOutputImage> o_iter(this->GetOutput(), *fit);
-  
-  n_iter.GoToBegin();
-  o_iter.GoToBegin() ;
-  while ( ! n_iter.IsAtEnd() )
-    {
-    if ( threadId == 0 && !(++ii % updateVisits ) )
-      {
-      this->UpdateProgress((float)ii / (float)totalPixels);
-      }
-
-    o_iter.Set ( this->Evaluate(n_iter, m_Kernel) );
-    ++n_iter ;
-    ++o_iter ;
-    }
+  ImageRegionIterator<TOutputImage> o_iter;
  
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+
   // Process the boundary faces, these are N-d regions which border the
   // edge of the buffer
+
   for (++fit; fit != faceList.end(); ++fit)
     { 
     b_iter = SmartNeighborhoodIteratorType(m_Kernel.GetRadius(),
@@ -150,14 +125,10 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     
     while ( ! b_iter.IsAtEnd() )
       {
-      if ( threadId == 0 && !(++ii % updateVisits ) )
-        {
-        this->UpdateProgress((float)ii / (float)totalPixels);
-        }
-    
       o_iter.Set( this->Evaluate(b_iter, m_Kernel) );
       ++b_iter;
       ++o_iter;
+      progress.CompletedPixel();
       }
     }
   

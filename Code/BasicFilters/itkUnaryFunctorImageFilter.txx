@@ -18,8 +18,9 @@
 #define _itkUnaryFunctorImageFilter_txx
 
 #include "itkUnaryFunctorImageFilter.h"
-#include <itkImageRegionIterator.h>
-#include <itkImageRegionConstIterator.h>
+#include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -50,31 +51,16 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
   ImageRegionConstIterator<TInputImage>  inputIt(inputPtr, outputRegionForThread);
   ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);
 
-  // support progress methods/callbacks
-  unsigned long updateVisits = 0, i=0;
-  const float numberOfUpdates = 100.0f;
-  if ( threadId == 0 )
-    {
-    updateVisits = static_cast<unsigned long>(
-      outputPtr->GetRequestedRegion().GetNumberOfPixels()/numberOfUpdates );
-    if ( updateVisits < 1 ) updateVisits = 1;
-    }
-        
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+
   inputIt.GoToBegin();
   outputIt.GoToBegin();
-  i = 0;
   while( !inputIt.IsAtEnd() ) 
     {
-    if ( threadId == 0 && !(i % updateVisits ) )
-      {
-      this->UpdateProgress( static_cast<float>(i) / 
-                            static_cast<float>(updateVisits * numberOfUpdates) );
-      }
-
     outputIt.Set( m_Functor( inputIt.Get() ) );
     ++inputIt;
     ++outputIt;
-    ++i;
+    progress.CompletedPixel();
     }
 }
 
