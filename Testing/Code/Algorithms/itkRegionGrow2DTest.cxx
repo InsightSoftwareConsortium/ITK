@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "itkImageRegionIterator.h"
+#include "itkOutputWindow.h"
 
 #include "itkKLMRegionGrowImageFilter.h"
 
@@ -56,9 +57,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define   STARTFRAME          0
 #define   NUM_BYTES_PER_PIXEL 1
 
-#define   REGIONGROW_NUMREGIONS    4
-#define   REGIONGROW_NUMREGIONS3D  4
-#define   REGIONGROW_LAMBDA      1000
+#define   REGIONGROW_NUMREGIONS      4
+#define   REGIONGROW_NUMREGIONS3D    4
+#define   REGIONGROW_LAMBDA       1000
 #define   REGIONGROW_ROW_GRIDSIZE    2
 #define   REGIONGROW_COL_GRIDSIZE    2
 #define   REGIONGROW_SLICE_GRIDSIZE  1
@@ -70,10 +71,23 @@ static unsigned int test_regiongrowKLM3D();
 // This test mutual information registration
 //
 
-
+// this class is used to send output to stdout and not the itk window
+class TextOutput : public itk::OutputWindow
+{
+public:
+  typedef TextOutput              Self;
+  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<const Self>  ConstPointer;
+  itkNewMacro(TextOutput);
+  virtual void DisplayText(const char* s)
+    {
+      std::cout << s << std::endl;
+    }
+};
 
 int main()
 {
+
 
   //test_regiongrowKLM3D();
 
@@ -293,8 +307,11 @@ unsigned int test_regiongrowKLM2D()
 } // End test_regiongrow2D()
 
 
+/*
 unsigned int test_regiongrowKLM3D()
 {
+
+  itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
@@ -479,6 +496,9 @@ unsigned int test_regiongrowKLM3D()
   applyRegionGrowImageFilterKLM->SetSliceGridSize( REGIONGROW_SLICE_GRIDSIZE );
 
 
+  // Turn on the debug operations
+  applyRegionGrowImageFilterKLM->DebugOff();
+
   //Kick off the Region grow function
   applyRegionGrowImageFilterKLM->Update();
 
@@ -568,3 +588,4 @@ unsigned int test_regiongrowKLM3D()
 } // End test_regiongrow3D()
 
 
+*/

@@ -344,6 +344,14 @@ private:
 
   typedef typename KLMSegmentationBorder::Pointer  KLMSegmentationBorderPtr;
 
+  /** Type definition for vector container that stores the borders
+   * associated with a current region. */             
+  typedef std::vector< SegmentationBorderPtr > BordersDynamicPointerType;
+
+  /** Type definition for the region border vector iterators to be used. */
+  typedef BordersDynamicPointerType::iterator BordersDynamicPointerIterator;
+
+
   unsigned int     m_MaxLambda;
   unsigned int     m_NumberOfBorders;
   unsigned int     m_NumRegions;
@@ -370,6 +378,11 @@ private:
    * basically a merge sort of the two regions. */
   void UnionBorders(KLMSegmentationRegion *pRegion1,
                     KLMSegmentationRegion *pRegion2);
+  
+  /** Function to check if the merging process led to more than one borders
+   * to be deleted. Logic is chech for any border pointer with a NULL region 
+   * and remove it from the list. */
+  void UpdateBordersDynamicPointer();
 
   /** Function to resolve the region labels.  Once region labels are
    * resolved, the unique labels are sorted and recorded. */

@@ -733,16 +733,16 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     itkDebugMacro( << "-------------------");  
     */
 
-    
+    /*
     std::cout << "-------------------" << std::endl;
     std::cout << "    After merge   " << std::endl;
     std::cout << "-------------------" << std::endl;
 
     for( unsigned int k = 0; k < initialNumberOfRegions; k++ )
       {
-      //m_RegionsPointer[k]->PrintRegionInfo(); 
+      m_RegionsPointer[k]->PrintRegionInfo(); 
       }
-      
+    */
     // since the number of borders decreases or increases, possibly
     // many times with each iteration, it is reasonable to check
     // for an invalid value 
@@ -1670,6 +1670,10 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // Merge the borders and region borders of two regions 
   this->UnionBorders( pRegion1, pRegion2 );
 
+  //See if the merging resulted in other pointers in the list
+  //that got removed.
+  this->UpdateBordersDynamicPointer();
+
   // For DEBUG purposes
   if ( this->GetDebug() )
     {
@@ -1685,7 +1689,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   
   //COMMENT OFF
-  bool smartPointerUseFlag = true;
+  //bool smartPointerUseFlag = true;
   //PrintAlgorithmBorderStats(smartPointerUseFlag);
 
   // Resort the border list based on the lambda values
@@ -1696,6 +1700,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //COMMENT OFF
   //bool smartPointerUseFlag = true;
   //PrintAlgorithmBorderStats(smartPointerUseFlag);
+
   // Sorted border counter
   // For DEBUG purposes
   if ( this->GetDebug() )
@@ -1706,8 +1711,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
     for(unsigned int k=0; k < m_NumberOfBorders; k++)
       {
-      //itkDebugMacro(<<"Stats for Border No: " << (k+1));
-      //m_BordersDynamicPointer[k].m_Pointer->PrintBorderInfo() ;                       
+      itkDebugMacro(<<"Stats for Border No: " << (k+1));
+      m_BordersDynamicPointer[k].m_Pointer->PrintBorderInfo() ;                       
       }//end region printloop
     }
   
@@ -2021,6 +2026,49 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
 }// end localfn_union_borders
 
+//----------------------------------------------------------------------
+
+template<class TInputImage, class TOutputImage>
+void
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
+::UpdateBordersDynamicPointer()
+{
+  int numberOfDeletedBorders = 0;
+
+  BordersDynamicPointerIterator 
+    bordersDynamicPointerIt = m_BordersDynamicPointer.begin();
+
+  BordersDynamicPointerIterator 
+    bordersDynamicPointerItEnd = m_BordersDynamicPointer.end();
+/* 
+  while( bordersDynamicPointerIt != bordersDynamicPointerItEnd )
+    {
+    if( ( *(bordersDynamicPointerIt)->GetRegion1() == NULL ) ||
+        ( *(bordersDynamicPointerIt)->GetRegion2() == NULL ) )
+      {  
+        m_BordersDynamicPointer.erase( bordersDynamicPointerIt );
+        numberOfDeletedBorders++;  
+        bordersDynamicPointerIt++;             
+      }//end region printloop        
+
+    }// end looping through the list
+*/
+  for( unsigned int k = 0; k < m_NumberOfBorders; k++)
+    {
+
+    if( ( m_BordersDynamicPointer[k].m_Pointer->GetRegion1() == NULL ) ||
+        ( m_BordersDynamicPointer[k].m_Pointer->GetRegion2() == NULL ) )
+      {  
+        m_BordersDynamicPointer.erase( bordersDynamicPointerIt + k);
+        numberOfDeletedBorders++; 
+        k=0;
+        m_NumberOfBorders -=  1;
+      }
+                                                 
+    }//end looping through the borders
+
+  
+}
 //----------------------------------------------------------------------
 
 template<class TInputImage, class TOutputImage>
