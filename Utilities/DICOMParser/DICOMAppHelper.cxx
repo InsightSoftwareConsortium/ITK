@@ -98,7 +98,7 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
   this->Parser = parser;
 
   SeriesUIDCB->SetCallbackFunction(this, &DICOMAppHelper::SeriesUIDCallback);
-  parser->AddDICOMTagCallback(0x0020, 0x000e, DICOMParser::VR_UI, SeriesUIDCB);
+  //parser->AddDICOMTagCallback(0x0020, 0x000e, DICOMParser::VR_UI, SeriesUIDCB);
 
   SliceNumberCB->SetCallbackFunction(this, &DICOMAppHelper::SliceNumberCallback);
   parser->AddDICOMTagCallback(0x0020, 0x0013, DICOMParser::VR_IS, SliceNumberCB);
