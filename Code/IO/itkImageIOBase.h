@@ -60,8 +60,9 @@ public:
 
   /** Enums used to manipulate the pixel and component type. (Typically a 
    * pixel is assumed to be made up of one or more components.) */
-  typedef  enum {UNKNOWN,UCHAR,CHAR,USHORT,SHORT,UINT,INT,ULONG,LONG,
-                 FLOAT,DOUBLE,RGB,RGBA} IODataType;
+  typedef  enum {UNKNOWN,UCHAR,CHAR,USHORT,SHORT,UINT,INT,
+                 ULONG,LONG, FLOAT,DOUBLE,
+                 RGB,RGBA,OFFSET,VECTOR,POINT,COVARIANTVECTOR} IODataType;
 
   /** Set/Get the file name. Subclasses may ignore this and use FilePrefix. */
   itkSetStringMacro(FileName);
