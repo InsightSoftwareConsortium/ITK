@@ -56,6 +56,7 @@ FEMRegistrationFilter<TReference,TTarget>::FEMRegistrationFilter( )
   m_Maxiters.resize(1);
   m_Maxiters[m_CurrentLevel]=1;  
   m_dT=1;
+  m_Temp=0.0;
 
   m_NumberOfIntegrationPoints.resize(1);
   m_NumberOfIntegrationPoints[m_CurrentLevel]=4;
@@ -120,8 +121,9 @@ void FEMRegistrationFilter<TReference,TTarget>::RunRegistration()
     m_Load->SetTargetImage(m_TarImg);
     m_Load->SetMetric(m_Metric);
     m_Load->InitializeMetric();
+    m_Load->SetTemp(m_Temp);
     ImageSizeType r;
-  for (unsigned int i=0; i<ImageDimension; i++) r[i]=m_MetricWidth[m_CurrentLevel];
+    for (unsigned int i=0; i<ImageDimension; i++) r[i]=m_MetricWidth[m_CurrentLevel];
     m_Load->SetMetricRadius(r);
     m_Load->SetNumberOfIntegrationPoints(m_NumberOfIntegrationPoints[m_CurrentLevel]);
     m_Load->GN=m_Solver.load.size()+1; //NOTE SETTING GN FOR FIND LATER
@@ -194,7 +196,7 @@ void FEMRegistrationFilter<TReference,TTarget>::SetTargetImage(TargetImageType* 
 
 
 template<class TReference,class TTarget>
-void FEMRegistrationFilter<TReference,TTarget>::ChooseMetric(unsigned int whichmetric)
+void FEMRegistrationFilter<TReference,TTarget>::ChooseMetric(float which)
 {
   // Choose the similarity metric
 
@@ -203,12 +205,12 @@ void FEMRegistrationFilter<TReference,TTarget>::ChooseMetric(unsigned int whichm
   typedef itk::PatternIntensityImageToImageMetric<ImageType,TargetImageType> MetricType2;
   typedef itk::MutualInformationImageToImageMetric<ImageType,TargetImageType> MetricType3;
 
-  
+  unsigned int whichmetric=(unsigned int) which;
   switch (whichmetric){
     case 0:
       m_Metric=MetricType0::New();
       m_Metric->SetScaleGradient(1.0); // this is the default(?)
-    std::cout << " Mean Square " << std::endl;
+      std::cout << " Mean Square " << std::endl;
     break;
     case 1:
       m_Metric=MetricType1::New();
@@ -228,7 +230,7 @@ void FEMRegistrationFilter<TReference,TTarget>::ChooseMetric(unsigned int whichm
     default:
       m_Metric=MetricType0::New();
       m_Metric->SetScaleGradient(1.0); 
-    std::cout << " Mean Square " << std::endl;
+      std::cout << " Mean Square  " <<std::endl;
   }
 
 }
@@ -300,8 +302,9 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
     }
 
     FEMLightObject::SkipWhiteSpace(f);
-    f >> ibuf;
-    this->ChooseMetric(ibuf);
+    f >> fbuf; 
+    this->ChooseMetric(fbuf);
+    f >> fbuf;   m_Temp=fbuf;
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> fbuf;
@@ -723,6 +726,7 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
   
   m_Load->SetMetric(m_Metric);
   m_Load->InitializeMetric();
+  m_Load->SetTemp(m_Temp);
   typename ImageType::SizeType r;
   for (unsigned int i=0; i < ImageDimension; i++) r[i]=m_MetricWidth[m_CurrentLevel];
   m_Load->SetMetricRadius(r);
@@ -763,8 +767,8 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
    if (DLS > 0 && (iters > 0 /*|| m_CurrentLevel !=0*/) && (iters % LSF) != 0) 
    {
      std::cout << " line search ";
-     if (DLS == 1 ) LastE=mySolver.GoldenSection(1.e-1,10);
-     else  LastE=mySolver.BrentsMethod(1.e-1,50);
+     if (DLS == 1 ) LastE=mySolver.GoldenSection(1.e-1,5);
+     else  LastE=mySolver.BrentsMethod(1.e-1,5);
      std::cout << " line search done " << std::endl;
    } else  LastE=mySolver.EvaluateResidual(mint);
 
@@ -1111,6 +1115,7 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
 
       m_Load->SetMetric(m_Metric);
       m_Load->InitializeMetric();
+      m_Load->SetTemp(m_Temp);
       ImageSizeType r;
       for (unsigned int dd=0; dd<ImageDimension; dd++) r[dd]=m_MetricWidth[m_CurrentLevel];
       m_Load->SetMetricRadius(r);
