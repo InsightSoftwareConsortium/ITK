@@ -1016,7 +1016,7 @@ TakeAPrior(BinaryObjectImage* aprior)
 	  }   
     }
 	m_TestVar[j]=tmp1[k];
-    tmp1[k]=tmp[5-j];
+    tmp1[k]=tmp1[5-j];
   }
 }
 

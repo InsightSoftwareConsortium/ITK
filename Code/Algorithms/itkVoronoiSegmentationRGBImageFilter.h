@@ -171,12 +171,12 @@ public:
   void SetMeanPercentError(double x[6]);
   void SetVarPercentError(double x[6]);
 
-  void GetMeanPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanPercentError[i]};
-  void GetVarPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarPercentError[i]};
-  void GetMean(double x[6]){for(int i=0;i<6;i++) x[i]=m_Mean[i]};
-  void GetVar(double x[6]){for(int i=0;i<6;i++) x[i]=m_Var[i]};
-  void GetMeanTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanTolerance[i]};
-  void GetVarTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarTolerance[i]};
+  void GetMeanPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanPercentError[i];};
+  void GetVarPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarPercentError[i];};
+  void GetMean(double x[6]){for(int i=0;i<6;i++) x[i]=m_Mean[i];};
+  void GetVar(double x[6]){for(int i=0;i<6;i++) x[i]=m_Var[i];};
+  void GetMeanTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanTolerance[i];};
+  void GetVarTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarTolerance[i];};
 
 
   itkSetMacro(UseBackgroundInAPrior, bool);
