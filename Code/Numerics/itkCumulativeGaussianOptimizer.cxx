@@ -250,10 +250,8 @@ CumulativeGaussianOptimizer
   // Add 0.5 to the mean of the sampled Gaussian curve to make up for the 0.5 
   // shift during derivation, then take the integral of the Gaussian sample
   // to produce a Cumulative Gaussian.
-  MeasureType * integral = new MeasureType();
-  integral->resize(sampledGaussianArraySize);
 
-  for(int i = sampledGaussianArraySize; i > 0; i--)
+  for(int i = sampledGaussianArraySize-1; i > 0; i--)
     sampledGaussianArray->put(i-1, sampledGaussianArray->get(i) - sampledGaussianArray->get(i-1));
 
   m_ComputedMean += 0.5;
