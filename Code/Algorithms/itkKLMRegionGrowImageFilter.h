@@ -21,7 +21,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkRegionGrowImageFilter.h"
 #include "itkKLMSegmentationRegion.h"
-#include "itkSegmentationBorder.h"
+#include "itkKLMSegmentationBorder.h"
 #include <algorithm>
 #include <functional>
 
