@@ -58,12 +58,9 @@ namespace itk {
 * are generally used to deal with texture at different spatial resolutions.
 *
 * This class calculates a 2-d histogram of all the co-occurence pairs in the
-* given image's requested region, for a given set of offsets. (Technically, 
-* only the pixel, offset pairs that lie fully within the image's buffered region
-* are calcualted.) Because the co-occurence relation is symmetric, if a pair
-* of (0, 255) is observed, it is entered into the histogram as both a measurement
-* of (0, 255) and (255, 0). Thus the resulting matrix (stored as a histogram)
-* is symmetric.
+* given image's requested region, for a given set of offsets. That is, if a given
+* offset falls outside of the requested region at a particular point, that
+* co-occurrence pair will not be added to the matrix.
 * 
 * The number of histogram bins on each axis can be set (defaults to 256). Also,
 * by default the histogram min and max corresponds to the largest and smallest
@@ -167,15 +164,15 @@ class ScalarImageToGreyLevelCooccurrenceMatrixGenerator : public Object
     ImagePointer           m_Image;
     HistogramPointer       m_Histogram;
     OffsetVectorPointer    m_Offsets;
-    
+    PixelType              m_Min, m_Max;
+
     
    private:
     void NormalizeHistogram( void );
-    
+  
     unsigned int           m_BinsPerAxis;
     MeasurementVectorType  m_LowerBound, m_UpperBound;
     bool                   m_Normalize;
-    PixelType              m_Min, m_Max;
 
   };
     
