@@ -89,11 +89,25 @@ public:
   /** Set current parameters scaling. */
   void SetScales(const ScalesType & scales);
 
+  /** Set/Get Negate cost function. The purpose of this boolean flag is to make
+   * possible to take certain VNL optimizers that are only minimizers, and use
+   * them for maximizing functions. When the boolean flag is set to true, the
+   * values returned by GetValue in the internal ITK cost function will be
+   * multiplied by -1 before returning it in the f() function. Similar
+   * operations will be done for the gradf() and compute() methods. When the
+   * boolean flag is set to false, then the values returned by the ITK cost
+   * function will be passed unchanged to the VNL optimizers. */
+   void SetNegateCostFunction( bool value );
+   bool GetNegateCostFunction() const;
+   void NegateCostFunctionOn() { m_NegateCostFunction = true; }
+   void NegateCostFunctionOff() { m_NegateCostFunction = false; }
+ 
 private:
 
   SingleValuedCostFunction::Pointer   m_CostFunction;
   bool                                m_ScalesInitialized;
   ScalesType                          m_Scales;
+  bool                                m_NegateCostFunction;
 
 };  // end of Class CostFunction
 

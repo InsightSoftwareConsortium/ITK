@@ -54,6 +54,23 @@ public:
    *  CostFunctionAdaptor when overloading this method  */
   virtual void SetCostFunction( SingleValuedCostFunction * costFunction ) = 0;
 
+  /** Methods to define whether the cost function will be maximized or
+   * minimized. By default the VNL amoeba optimizer is only a minimizer.
+   * Maximization is implemented here by notifying the CostFunctionAdaptor
+   * which in its turn will multiply the function values and its derivative by
+   * -1.0. */
+  itkGetConstReferenceMacro( Maximize, bool );
+  itkSetMacro( Maximize, bool );
+  itkBooleanMacro( Maximize );
+  bool GetMinimize( ) const
+  { return !m_Maximize; }
+  void SetMinimize(bool v)
+  { this->SetMaximize(!v); }
+  void MinimizeOn()
+  { this->MaximizeOff(); }
+  void MinimizeOff()
+  { this->MaximizeOn(); }
+ 
 protected:
   SingleValuedNonLinearVnlOptimizer();
   virtual ~SingleValuedNonLinearVnlOptimizer();
@@ -68,12 +85,16 @@ protected:
    *  const-correctness in VNL cost-functions and optimizers */
   CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor( void ) const;
 
+  /** Print out internal state */
+  void PrintSelf(std::ostream& os, Indent indent) const;
+  
 private:
   SingleValuedNonLinearVnlOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   CostFunctionAdaptorType * m_CostFunctionAdaptor;
 
+  bool                      m_Maximize;
 };
 
 } // end namespace itk

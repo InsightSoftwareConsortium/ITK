@@ -188,7 +188,12 @@ AmoebaOptimizer
     
   this->InvokeEvent( StartEvent() );
 
-  ParametersType initialPosition = GetInitialPosition();
+  if( this->GetMaximize() )
+    {
+    this->GetNonConstCostFunctionAdaptor()->NegateCostFunctionOn();
+    }
+
+  ParametersType initialPosition = this->GetInitialPosition();
 
   ParametersType parameters( initialPosition );
 

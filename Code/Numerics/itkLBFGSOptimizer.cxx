@@ -231,7 +231,12 @@ LBFGSOptimizer
   
   this->InvokeEvent( StartEvent() );
 
-  ParametersType initialPosition = GetInitialPosition();
+  if( this->GetMaximize() )
+    {
+    this->GetNonConstCostFunctionAdaptor()->NegateCostFunctionOn();
+    }
+
+  ParametersType initialPosition = this->GetInitialPosition();
   ParametersType parameters( initialPosition );  
 
   // If the user provides the scales then we set otherwise we don't

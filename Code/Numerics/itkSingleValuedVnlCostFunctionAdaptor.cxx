@@ -27,7 +27,8 @@ SingleValuedVnlCostFunctionAdaptor
 ::SingleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension):
   vnl_cost_function(spaceDimension) 
 { 
-  m_ScalesInitialized =false;
+  m_ScalesInitialized = false;
+  m_NegateCostFunction = false;
 }    
 
     
@@ -65,7 +66,13 @@ SingleValuedVnlCostFunctionAdaptor
     parameters.SetData(const_cast<double*>(inparameters.data_block()));
     }
 
-  const InternalMeasureType value = static_cast<InternalMeasureType>( m_CostFunction->GetValue( parameters ));
+  InternalMeasureType value = static_cast<InternalMeasureType>( m_CostFunction->GetValue( parameters ));
+
+  if( m_NegateCostFunction )
+    {
+    value *= -1.0;
+    }
+
   return value;
 }
   
@@ -134,7 +141,14 @@ SingleValuedVnlCostFunctionAdaptor
     }
   if( f ) // paranoids have longer lives...
     {
-    *f = static_cast<InternalMeasureType>( measure );  
+    if( !m_NegateCostFunction )
+      {
+      *f = static_cast<InternalMeasureType>( measure );  
+      }
+    else
+      {
+      *f = static_cast<InternalMeasureType>( - measure );  
+      }
     }
 }
   
@@ -149,11 +163,36 @@ SingleValuedVnlCostFunctionAdaptor
   output = InternalDerivativeType(size);
   for( unsigned int i=0; i<size; i++ ) 
     {
-    output[i] = input[i];
+    if( !m_NegateCostFunction )
+      {
+      output[i] = input[i];
+      }
+    else
+      {
+      output[i] = -input[i];
+      }
     }
 }
 
 
+/**  Set whether the cost function should be negated or not. This is useful for
+ * adapting optimizers that are only minimizers. */
+void 
+SingleValuedVnlCostFunctionAdaptor
+::SetNegateCostFunction( bool flag )
+{
+  m_NegateCostFunction = flag;
+}
+                                   
+ /**  Returns whether the cost function is going to be negated or not. 
+  *   This is useful for adapting optimizers that are only minimizers. */
+bool 
+SingleValuedVnlCostFunctionAdaptor
+::GetNegateCostFunction() const
+{
+  return m_NegateCostFunction;
+}
+ 
 } // end namespace itk
 
 

@@ -29,6 +29,7 @@ SingleValuedNonLinearVnlOptimizer
 ::SingleValuedNonLinearVnlOptimizer()
 {
   m_CostFunctionAdaptor = 0;
+  m_Maximize = false;
 }
 
 
@@ -94,6 +95,18 @@ SingleValuedNonLinearVnlOptimizer
   return m_CostFunctionAdaptor;
 }
 
+
+/**
+ * PrintSelf
+ */
+void
+SingleValuedNonLinearVnlOptimizer
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+  os << indent << "Maximize flag: "
+     << (m_Maximize ? "On" : "Off") << std::endl;
+}
 
 
 } // end namespace itk
