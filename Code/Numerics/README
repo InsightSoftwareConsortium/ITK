@@ -27,6 +27,9 @@ Next import:
 
 cvs -d :pserver:hoffman@public.kitware.com:/insight/cvsroot import -m "Import of VXL Numerics libraries " Insight/Code/Insight3DParty/vxl VXL VXL_2_0
 
+Next import:
+
+cvs -d :pserver:king@public.kitware.com:/insight/cvsroot import -m "Import of VXL Numerics libraries " Insight/Code/Numerics/vxl VXL VXL_APR_24_2001
 
 See instructions for vendor branches in cvs to 
 update to a new version of vxl numerics.
