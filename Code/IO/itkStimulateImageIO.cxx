@@ -560,6 +560,7 @@ void StimulateImageIO::Write(const void* buffer)
 void StimulateImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "\nDisplayRange: " << m_DisplayRange[0] << " " << m_DisplayRange[1];
 }
 
 

@@ -43,6 +43,7 @@ void NumericSeriesFileIterator
   os << indent << "Start Index: " << m_StartIndex << "\n";
   os << indent << "End Index: " << m_EndIndex << "\n";
   os << indent << "Number of files: " << m_NumberOfFiles << "\n";
+  os << indent << "ThrowExceptionOnMissingFile: " << m_ThrowExceptionOnMissingFile << "\n";
 
 }
 
