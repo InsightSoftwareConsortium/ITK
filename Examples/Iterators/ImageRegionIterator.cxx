@@ -245,9 +245,11 @@ int main( int argc, char *argv[] )
 // input and output file names, then the $x$, $y$ origin and the $x$, $y$ size
 // of the cropped subregion.
 //
+// \small
 // \begin{verbatim}
 // ImageRegionIterator FatMRISlice.png ImageRegionIteratorOutput.png 20 70 210 140
 // \end{verbatim}
+// \normalsize
 //
 // The output is the cropped subregion shown in figure~\ref{fig:ImageRegionIteratorOutput}.
 //
