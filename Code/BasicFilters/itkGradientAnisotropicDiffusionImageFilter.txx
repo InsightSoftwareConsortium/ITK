@@ -156,7 +156,7 @@ void AnisoDiffuseGradND<TInnerProduct, TIterator>
 
   // Slice the neighborhood
   unsigned long stride[ImageDimension];
-  const unsigned long center =  it.size() / 2;
+  const unsigned long center =  it.Size() / 2;
   std::slice x_slice[ImageDimension];
   std::slice xa_slice[ImageDimension];
   std::slice xd_slice[ImageDimension];
