@@ -24,37 +24,22 @@ namespace itk{
 namespace Statistics{
 
 /** \class ExpectationMaximizationMixtureModelEstimator 
- *  \brief Integration point for MembershipCalculator, DecisionRule, and 
- * target sample data.
+ *  \brief This class generates the parameter estimates for a mixture
+ *  model using expectation maximization strategy.
  *
- * The first template argument is the type of the target sample data 
- * that this classifier will assign a class label for each measurement 
- * vector. The second one is the type of a membership value calculator
- * for each. A membership calculator represents a specific knowledge about
- * a class. In other words, it should tell us how "likely" is that a
- * measurement vector (pattern) belong to the class. The third argument
- * is the type of decision rule. The main role of a decision rule is 
- * comparing the return values of the membership calculators. However,
- * decision rule can include some prior knowledge that can improve the
- * result. 
+ * The first template argument is the type of the target sample
+ * data. This estimator expects one or more mixture model component
+ * objects of the classes derived from the
+ * MixtureModelComponentBase. The actual component (or module)
+ * parameters are updated by each component. Users can think this
+ * class as a strategy or a integration point for the EM
+ * procedure. The initial proportion (SetInitialProportions), the
+ * input sample (SetSample), the mixture model components
+ * (AddComponent), and the maximum iteration (SetMaximumIteration) are
+ * required. The EM procedure terminates when the current iteration
+ * reaches the maximum iteration or the model parameters converge.
  *
- * Before you call the GenerateData method to start the classification process, 
- * you should plug in all necessary parts ( one or more membership 
- * calculators, a decision rule, and a target sample data). To plug in 
- * the decision rule, you use SetDecisionRule method, for the target sample
- * data, SetSample method, and for the membership calculators, use 
- * AddMembershipCalculator method.
- *
- * As the method name indicates, you can have more than one membership 
- * calculator. One for each classes. The order you put the membership 
- * calculator becomes the class label for the class that is represented
- * by the membership calculator.
- *
- * The classification result is stored in a vector of Subsample object.
- * Each class has its own class sample (Subsample object) that has 
- * InstanceIdentifiers for all measurement vectors belong to the class. 
- * The InstanceIdentifiers come from the target sample data. Therefore,
- * the Subsample objects act as separate class masks. 
+ * \sa MixtureModelComponentBase, GaussianMixtureModelComponent
  */
 
 template< class TSample >
