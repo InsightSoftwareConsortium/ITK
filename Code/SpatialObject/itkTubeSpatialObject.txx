@@ -177,7 +177,6 @@ TubeSpatialObject< TDimension >
 
   if(name == NULL || strstr(typeid(Self).name(), name) )
     {
-    double minSquareDist=999999.0;
     double tempSquareDist;
     typename PointListType::const_iterator it = m_Points.begin();
     typename PointListType::const_iterator it2 = m_Points.begin();
