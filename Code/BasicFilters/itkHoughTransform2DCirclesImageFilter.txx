@@ -260,9 +260,9 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
             {
             m_index[0] = (long int)(it_input.GetIndex()[0] + lenght * cos(angle));
             m_index[1] = (long int)(it_input.GetIndex()[1] + lenght * sin(angle));
-            if( ((m_index[0]<=(long)m_PostProcessImage->GetLargestPossibleRegion().GetSize()[0]) 
+            if( ((m_index[0]<(long)m_PostProcessImage->GetLargestPossibleRegion().GetSize()[0]) 
                  && (m_index[0]>=0)
-                 && (m_index[1]<=(long)m_PostProcessImage->GetLargestPossibleRegion().GetSize()[1]) 
+                 && (m_index[1]<(long)m_PostProcessImage->GetLargestPossibleRegion().GetSize()[1]) 
                  && (m_index[1]>=0)
                   )
               )
