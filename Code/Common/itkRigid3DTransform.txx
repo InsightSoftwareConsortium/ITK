@@ -48,8 +48,8 @@ namespace itk
 {
 
 // Constructor with default arguments
-template<class ScalarType>
-Rigid3DTransform<ScalarType>::
+template<class TScalarType>
+Rigid3DTransform<TScalarType>::
 Rigid3DTransform()
 {
   m_Offset.Fill( 0 );
@@ -61,9 +61,9 @@ Rigid3DTransform()
  
     
 // Copy Constructor
-template <class ScalarType>
-Rigid3DTransform<ScalarType>
-::Rigid3DTransform( const Rigid3DTransform<ScalarType> & other )
+template <class TScalarType>
+Rigid3DTransform<TScalarType>
+::Rigid3DTransform( const Self & other )
 {
   m_Offset    = other.m_Offset;
   m_Rotation  = other.m_Rotation;
@@ -73,17 +73,17 @@ Rigid3DTransform<ScalarType>
 }
 
 // Destructor
-template<class ScalarType>
-Rigid3DTransform<ScalarType>::
+template<class TScalarType>
+Rigid3DTransform<TScalarType>::
 ~Rigid3DTransform()
 {
 }
 
 
 // Assignment Operator
-template <class ScalarType>
-const Rigid3DTransform<ScalarType> &
-Rigid3DTransform<ScalarType>
+template <class TScalarType>
+const Rigid3DTransform<TScalarType> &
+Rigid3DTransform<TScalarType>
 ::operator=( const Self & other )
 {
   m_Offset    = other.m_Offset;
@@ -95,9 +95,9 @@ Rigid3DTransform<ScalarType>
 }
 
 // Set Center of Rotation
-template<class ScalarType>
+template<class TScalarType>
 void
-Rigid3DTransform<ScalarType>::
+Rigid3DTransform<TScalarType>::
 SetCenterOfRotation(const double* center) 
 {
   m_CenterOfRotation = center;
@@ -106,18 +106,18 @@ SetCenterOfRotation(const double* center)
 
 
 // Get Center of Rotation
-template<class ScalarType>
+template<class TScalarType>
 const double*
-Rigid3DTransform<ScalarType>::
+Rigid3DTransform<TScalarType>::
 GetCenterOfRotation(void) 
 {
   return m_CenterOfRotation;
 }
 
 // Print self
-template<class ScalarType>
+template<class TScalarType>
 std::ostream &
-Rigid3DTransform<ScalarType>::
+Rigid3DTransform<TScalarType>::
 PrintSelf(std::ostream &s) const
 {
   s << m_Offset   << std::endl;
@@ -127,9 +127,9 @@ PrintSelf(std::ostream &s) const
 }
 
 // Set rotation
-template<class ScalarType>
+template<class TScalarType>
 void
-Rigid3DTransform<ScalarType>::
+Rigid3DTransform<TScalarType>::
 SetRotation(const VnlQuaternionType &rotation )
 {
   m_Rotation      = rotation;
@@ -139,14 +139,14 @@ SetRotation(const VnlQuaternionType &rotation )
 }
 
 // Set rotation
-template<class ScalarType>
+template<class TScalarType>
 void
-Rigid3DTransform<ScalarType>::
-SetRotation(const Vector<ScalarType,3> & axis, double angle )
+Rigid3DTransform<TScalarType>::
+SetRotation(const Vector<TScalarType,3> & axis, double angle )
 {
   const double sinus   = sin(angle/2.0);
   const double cosinus = cos(angle/2.0);
-  Vector<ScalarType,3> norm;
+  Vector<TScalarType,3> norm;
   norm = axis;
   norm.Normalize();
   norm *= sinus;
@@ -159,9 +159,9 @@ SetRotation(const Vector<ScalarType,3> & axis, double angle )
 }
  
 // Compose with another affine transformation
-template<class ScalarType>
+template<class TScalarType>
 void
-Rigid3DTransform<ScalarType>::
+Rigid3DTransform<TScalarType>::
 Compose(const Self &other, bool )
 {
   m_Offset  += other.m_Offset;
@@ -173,9 +173,9 @@ Compose(const Self &other, bool )
 
 
 // Compose with a translation
-template<class ScalarType>
+template<class TScalarType>
 void
-Rigid3DTransform<ScalarType>::
+Rigid3DTransform<TScalarType>::
 Translate(const OffsetType &offset, bool pre)
 {
   m_Offset += offset;
@@ -184,9 +184,9 @@ Translate(const OffsetType &offset, bool pre)
 
 
 // Compose with a rotation
-template<class ScalarType>
+template<class TScalarType>
 void
-Rigid3DTransform<ScalarType>::
+Rigid3DTransform<TScalarType>::
 Rotate(const VnlQuaternionType &rotation, bool pre)
 {
   m_Rotation      = m_Rotation * rotation;
@@ -197,10 +197,10 @@ Rotate(const VnlQuaternionType &rotation, bool pre)
 
 
 // Compose with a rotation
-template<class ScalarType>
+template<class TScalarType>
 void
-Rigid3DTransform<ScalarType>::
-Rotate(const InputVectorType & axis, ScalarType angle )
+Rigid3DTransform<TScalarType>::
+Rotate(const InputVectorType & axis, TScalarType angle )
 {
   m_Rotation      = VnlQuaternionType( axis.Get_vnl_vector(), angle );
   m_DirectMatrix  = m_Rotation.rotation_matrix();
@@ -209,9 +209,9 @@ Rotate(const InputVectorType & axis, ScalarType angle )
 }
 
 // set Rotation Matrix using Euler's angle
-template<class ScalarType>
+template<class TScalarType>
 void
-Rigid3DTransform<ScalarType>::
+Rigid3DTransform<TScalarType>::
 SetEulerAngles(double alpha, double beta, double gamma)
 {
   const double ca = cos(alpha);
@@ -237,9 +237,9 @@ SetEulerAngles(double alpha, double beta, double gamma)
 
 
 // Transform a point
-template<class ScalarType>
-Rigid3DTransform<ScalarType>::OutputPointType
-Rigid3DTransform<ScalarType>::
+template<class TScalarType>
+Rigid3DTransform<TScalarType>::OutputPointType
+Rigid3DTransform<TScalarType>::
 TransformPoint(const InputPointType &point) const 
 {
   if(m_CenterOfRotation)
@@ -264,9 +264,9 @@ TransformPoint(const InputPointType &point) const
 
 
 // Transform a vector
-template<class ScalarType>
-Rigid3DTransform<ScalarType>::OutputVectorType
-Rigid3DTransform<ScalarType>::
+template<class TScalarType>
+Rigid3DTransform<TScalarType>::OutputVectorType
+Rigid3DTransform<TScalarType>::
 TransformVector(const InputVectorType &vect) const 
 {
   return  m_DirectMatrix * vect;
@@ -274,9 +274,9 @@ TransformVector(const InputVectorType &vect) const
 
 
 // Transform a vnl_vector_fixed
-template<class ScalarType>
-Rigid3DTransform<ScalarType>::OutputVnlVectorType
-Rigid3DTransform<ScalarType>::
+template<class TScalarType>
+Rigid3DTransform<TScalarType>::OutputVnlVectorType
+Rigid3DTransform<TScalarType>::
 TransformVnlVector(const InputVnlVectorType &vect) const 
 {
   return  m_DirectMatrix * vect;
@@ -284,9 +284,9 @@ TransformVnlVector(const InputVnlVectorType &vect) const
 
 
 // Transform a CovariantVector
-template<class ScalarType>
-Rigid3DTransform<ScalarType>::OutputCovariantVectorType
-Rigid3DTransform<ScalarType>::
+template<class TScalarType>
+Rigid3DTransform<TScalarType>::OutputCovariantVectorType
+Rigid3DTransform<TScalarType>::
 TransformCovariantVector(const InputCovariantVectorType &vect) const 
 {
   // Covariant vectors are transformed like contravariant
@@ -297,9 +297,9 @@ TransformCovariantVector(const InputCovariantVectorType &vect) const
 
 
 // Back transform a point
-template<class ScalarType>
-Rigid3DTransform<ScalarType>::InputPointType
-Rigid3DTransform<ScalarType>::
+template<class TScalarType>
+Rigid3DTransform<TScalarType>::InputPointType
+Rigid3DTransform<TScalarType>::
 BackTransform(const OutputPointType &point) const {
 
   if(m_CenterOfRotation)
@@ -325,28 +325,28 @@ BackTransform(const OutputPointType &point) const {
 }
 
 // Back transform a vector
-template<class ScalarType>
-Rigid3DTransform<ScalarType>::InputVectorType
-Rigid3DTransform<ScalarType>::
+template<class TScalarType>
+Rigid3DTransform<TScalarType>::InputVectorType
+Rigid3DTransform<TScalarType>::
 BackTransform(const OutputVectorType &vect ) const 
 {
     return  m_InverseMatrix * vect;
 }
 
 // Back transform a vnl_vector
-template<class ScalarType>
-Rigid3DTransform<ScalarType>::OutputVnlVectorType
-Rigid3DTransform<ScalarType>::
-BackTransform(const InputVnlVectorType &vect ) const 
+template<class TScalarType>
+Rigid3DTransform<TScalarType>::InputVnlVectorType
+Rigid3DTransform<TScalarType>::
+BackTransform(const OutputVnlVectorType &vect ) const 
 {
     return  m_InverseMatrix * vect;
 }
 
 
 // Back Transform a CovariantVector
-template<class ScalarType>
-Rigid3DTransform<ScalarType>::InputCovariantVectorType
-Rigid3DTransform<ScalarType>::
+template<class TScalarType>
+Rigid3DTransform<TScalarType>::InputCovariantVectorType
+Rigid3DTransform<TScalarType>::
 BackTransform(const OutputCovariantVectorType &vect) const 
 {
   return m_DirectMatrix * vect;
@@ -355,9 +355,9 @@ BackTransform(const OutputCovariantVectorType &vect) const
 
 
 // Create and return an inverse transformation
-template<class ScalarType>
-Rigid3DTransform<ScalarType>
-Rigid3DTransform<ScalarType>::
+template<class TScalarType>
+Rigid3DTransform<TScalarType>
+Rigid3DTransform<TScalarType>::
 Inverse( void ) const
 {
   Self result;
