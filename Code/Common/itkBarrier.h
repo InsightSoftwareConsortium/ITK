@@ -28,6 +28,12 @@ extern "C" {
 }
 #endif
 
+#ifdef ITK_USE_SPROC
+extern "C" {
+#include <ulocks.h>
+}
+#endif
+
 namespace itk {
 
 /**
