@@ -85,15 +85,17 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The main difference in the way cells and points are managed by the Mesh
-  //  is that points are stored by copy on the PointsContainer while cells are
-  //  stored in the CellsContainer using pointers. The reason for using
-  //  pointers is that cells use C++ polymorphism on the mesh. This means that
-  //  the mesh is only aware of having pointers to a generic cell which is the
-  //  base class of all the specific cell types. This architecture makes
-  //  possible to combine different cell types in the same mesh. Points, on the
-  //  other hand, are of a single type and have a small memory footprint, which
-  //  facilitates to copy them directly inside the container.
+  //  The main difference in the way cells and points are managed by
+  //  the Mesh is that points are stored by copy on the
+  //  PointsContainer while cells are stored in the CellsContainer
+  //  using pointers. The reason for using pointers is that cells use
+  //  C++ polymorphism on the mesh. This means that the mesh is only
+  //  aware of having pointers to a generic cell which is the base
+  //  class of all the specific cell types. This architecture makes it
+  //  possible to combine different cell types in the same
+  //  mesh. Points, on the other hand, are of a single type and have a
+  //  small memory footprint, which makes it efficient to copy them
+  //  directly inside the container.
   //
   //  \index{itk::Cell!CellAutoPointer}
   //  \index{itk::Mesh!CellAutoPointer}
@@ -105,7 +107,7 @@ int main()
   //  responsible for allocating and releasing the cells' memory. This protocol
   //  is implemented in the form of a specific type of pointer called the
   //  \code{CellAutoPointer}. This pointer, based on the \doxygen{AutoPointer},
-  //  differs in many senses from the SmartPointer. The CellAutoPointer has a
+  //  differs in many respects from the SmartPointer. The CellAutoPointer has a
   //  internal pointer to the actual object and a boolean flag that indicates
   //  if the CellAutoPointer is responsible for releasing the cell memory
   //  whenever the time comes for its own destruction. It is said that a

@@ -22,11 +22,11 @@
 //  Programming}.  This is sometimes perceived as \emph{too much of a good
 //  thing}! 
 //
-//  The toolkit has been designed to offer flexibility yet keeping the
+//  The toolkit has been designed to offer flexibility while keeping the
 //  complexity of the code to a moderate level. This is achieved in the Mesh by
 //  hidding most of its parameters and defining reasonable defaults for them.
 // 
-//  The generic concept of a mesh integrate many different elements. It is
+//  The generic concept of a mesh integrates many different elements. It is
 //  possible in principle to use independent types for every one of such
 //  elements. The mechanism used in generic programming for specifying the many
 //  different types involved in a concept is called \emph{traits}. They are
