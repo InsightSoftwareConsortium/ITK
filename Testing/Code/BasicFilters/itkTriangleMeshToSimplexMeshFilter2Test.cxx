@@ -67,7 +67,6 @@ int itkTriangleMeshToSimplexMeshFilter2Test(int argc, char *argv[] )
 
   typedef  SimplexMeshType::NeighborListType              NeighborsListType;
   NeighborsListType* neighbors;
-  NeighborsListType::iterator nIt, nEnd;
   
   for (int i=0; i < 9; i++)
   {  
