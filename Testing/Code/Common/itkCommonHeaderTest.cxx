@@ -42,7 +42,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkColorTable.h"
 #include "itkCommand.h"
 #include "itkConditionalIterator.h"
-#include "itkConeSpatialFunction.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkConstRandomAccessNeighborhoodIterator.h"

@@ -94,6 +94,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSegmentationRegion.h"
 #include "itkShapeDetectionLevelSetFilter.h"
 #include "itkSimilarityRegistrationMetric.h"
+#include "itkSimpleFuzzyConnectednessImageFilterBase.h"
 #include "itkSphereSource.h"
 #include "itkSupervisedClassifier.h"
 #include "itkUnsupervisedClassifier.h"
