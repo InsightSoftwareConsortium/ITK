@@ -50,7 +50,7 @@ int MirrorPadImageFilter<TInputImage,TOutputImage>
          std::vector<long> sizes[ImageDimension],
          OutputImageRegionType& outputRegion)
 {
-    int ctr;
+    unsigned int ctr;
     int done = 0;
     OutputImageIndexType nextIndex = outputRegion.GetIndex();
     OutputImageSizeType nextSize = outputRegion.GetSize();
@@ -103,7 +103,7 @@ int MirrorPadImageFilter<TInputImage,TOutputImage>
         std::vector<long> sizes[ImageDimension],
         InputImageRegionType& inputRegion)
 {
-  int ctr;
+  unsigned int ctr;
   int done = 0;
   InputImageIndexType nextIndex = inputRegion.GetIndex();
   InputImageSizeType nextSize = inputRegion.GetSize();
@@ -188,7 +188,7 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
                                  InputImageRegionType & inputRegion,
                                  int oddRegionArray[ImageDimension])
 {
-  int dimCtr;
+  unsigned int dimCtr;
   long a, b, c;  // Output region goes from a to a+b-1
                  // Input region goes from c to c+b-1
   OutputImageIndexType outputRegionStart = outputRegion.GetIndex();
@@ -456,7 +456,8 @@ void
 MirrorPadImageFilter<TInputImage,TOutputImage>
 ::GenerateInputRequestedRegion()
 {
-  int dimCtr, regCtr;
+  unsigned int dimCtr;
+  int regCtr;
   int numRegions=1; // Actual number of regions in our decomposed space.
 
   // call the superclass' implementation of this method
@@ -635,8 +636,9 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-  int dimCtr, regCtr, i=0;
-  int numRegions=1; // Actual number of regions in our decomposed space.
+  unsigned int dimCtr, i=0;
+  int regCtr;
+  int numRegions=1; // number of regions in our decomposed space.
   int goodInput, goodOutput;
                     // Are the regions non-empty?
   

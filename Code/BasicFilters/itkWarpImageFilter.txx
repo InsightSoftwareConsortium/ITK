@@ -37,7 +37,7 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
   this->SetNumberOfRequiredInputs( 2 );  
   
   // Setup default values
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     m_OutputSpacing[j] = 1.0;
     m_OutputOrigin[j] = 0.0;
@@ -65,7 +65,7 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 
   Superclass::PrintSelf(os, indent);
 
-  int j;
+  unsigned int j;
   os << indent << "OutputSpacing: [";
 
   for( j = 0; j < ImageDimension - 1; j++ )
@@ -101,7 +101,7 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 const double spacing[ImageDimension] )
 {
 
-  int j; 
+  unsigned int j; 
   for ( j = 0; j < ImageDimension; j++)
     {
     if ( spacing[j] != m_OutputSpacing[j] )
@@ -132,7 +132,7 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 const double origin[ImageDimension] )
 {
 
-  int j; 
+  unsigned int j; 
   for ( j = 0; j < ImageDimension; j++)
     {
     if ( origin[j] != m_OutputOrigin[j] )

@@ -36,7 +36,7 @@ ExpandImageFilter<TInputImage,TOutputImage>
 {
 
   // Set default factors to 1
-  for( int j = 0; j < ImageDimension; j++ )
+  for(unsigned int j = 0; j < ImageDimension; j++ )
     {
     m_ExpandFactors[j] = 1;
     }
@@ -64,7 +64,7 @@ ExpandImageFilter<TInputImage,TOutputImage>
 {
   Superclass::PrintSelf( os, indent );
 
-  int j;
+  unsigned int j;
   os << indent << "ExpandFactors: [" ;
   for( j = 0; j < ImageDimension - 1; j++ )
     {
@@ -94,7 +94,7 @@ ExpandImageFilter<TInputImage,TOutputImage>
 const unsigned int factors[] )
 {
 
-  int j;
+  unsigned int j;
   for( j = 0; j < ImageDimension; j++ )
     {
     if( factors[j] != m_ExpandFactors[j] ) break;
@@ -122,7 +122,7 @@ ExpandImageFilter<TInputImage,TOutputImage>
 const unsigned int factor )
 {
 
-  int j;
+  unsigned int j;
   for( j = 0; j < ImageDimension; j++ )
     {
     if( factor != m_ExpandFactors[j] ) break;
@@ -200,7 +200,7 @@ ExpandImageFilter<TInputImage,TOutputImage>
     // Determine the input pixel location associated with this output pixel.
     // Don't need to check for division by zero because the factors are
     // clamped to be minimum for 1.
-    for( int j = 0; j < ImageDimension; j++ )
+    for( unsigned int j = 0; j < ImageDimension; j++ )
       {
       inputIndex[j] = (double) outputIndex[j] /
         (double) m_ExpandFactors[j];
@@ -244,7 +244,7 @@ ExpandImageFilter<TInputImage,TOutputImage>
     }
 
   // We need to compute the input requested region (size and start index)
-  int i;
+  unsigned int i;
   const typename TOutputImage::SizeType& outputRequestedRegionSize
     = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
@@ -316,7 +316,7 @@ ExpandImageFilter<TInputImage,TOutputImage>
   typename TOutputImage::SizeType     outputSize;
   typename TOutputImage::IndexType    outputStartIndex;
 
-  for (int i = 0; i < TOutputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
     {
     outputSpacing[i] = inputSpacing[i] / (float) m_ExpandFactors[i];
     outputSize[i] = inputSize[i] * (unsigned long) m_ExpandFactors[i];

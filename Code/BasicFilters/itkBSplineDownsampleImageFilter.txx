@@ -95,7 +95,7 @@ BSplineDownsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
   OutputImagePointer outputPtr = this->GetOutput();
 
   // we need to compute the input requested region (size and start index)
-  int i;
+  unsigned int i;
   const typename TOutputImage::SizeType& outputRequestedRegionSize
     = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
@@ -138,7 +138,7 @@ BSplineDownsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
 
   // we need to compute the output spacing, the output image size, and the
   // output image start index
-  int i;
+  unsigned int i;
   const double              *inputSpacing = inputPtr->GetSpacing();
   const typename TInputImage::SizeType&   inputSize
     = inputPtr->GetLargestPossibleRegion().GetSize();

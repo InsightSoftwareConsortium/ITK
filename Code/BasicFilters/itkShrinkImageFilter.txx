@@ -69,7 +69,7 @@ void
 ShrinkImageFilter<TInputImage,TOutputImage>
 ::SetShrinkFactors(unsigned int factors[])
 {
-  int j = 0;
+  unsigned int j = 0;
   for( j = 0; j < ImageDimension; j++ )
     {
     if( factors[j] != m_ShrinkFactors[j] ) break;

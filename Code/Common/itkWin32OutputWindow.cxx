@@ -240,7 +240,7 @@ Win32OutputWindow
   const int maxsize = 5242880;
   
   SendMessage(Win32OutputWindow::m_OutputWindow, 
-              EM_LIMITTEXT, 5242880, 0L);
+              EM_LIMITTEXT, maxsize, 0L);
 
   
   /**

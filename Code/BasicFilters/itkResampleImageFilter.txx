@@ -35,7 +35,7 @@ template <class TInputImage, class TOutputImage>
 ResampleImageFilter<TInputImage, TOutputImage>
 ::ResampleImageFilter()
 {
-  for (int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; i++)
     {
     m_Size[i] = 0;
     m_OutputSpacing[i] = 1.0;
@@ -60,7 +60,7 @@ ResampleImageFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  int j;
+  unsigned int j;
   
  os << indent << "DefaultPixelValue: "
     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_DefaultPixelValue)
@@ -103,7 +103,7 @@ ResampleImageFilter<TInputImage,TOutputImage>
 const double spacing[ImageDimension] )
 {
 
-  int j; 
+  unsigned int j; 
   for ( j = 0; j < ImageDimension; j++)
     {
     if ( spacing[j] != m_OutputSpacing[j] )
@@ -133,7 +133,7 @@ ResampleImageFilter<TInputImage,TOutputImage>
 const double origin[ImageDimension] )
 {
 
-  int j; 
+  unsigned int j; 
   for ( j = 0; j < ImageDimension; j++)
     {
     if ( origin[j] != m_OutputOrigin[j] )
@@ -187,7 +187,7 @@ ResampleImageFilter<TInputImage,TOutputImage>
   const OutputImageRegionType& outputRegionForThread,
   int threadId)
 {
-  int i;
+  unsigned int i;
   
   itkDebugMacro(<<"Actually executing");
 
@@ -214,7 +214,7 @@ ResampleImageFilter<TInputImage,TOutputImage>
     {
     // Determine the index of the current output pixel
     outputIndex = outIt.GetIndex();
-    for (int ii = 0; ii < ImageDimension; ++ii)
+    for (unsigned int ii = 0; ii < ImageDimension; ++ii)
       {
       outputPoint[ii] = (double) outputIndex[ii] * m_OutputSpacing[ii] + 
         m_OutputOrigin[ii];

@@ -87,7 +87,7 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
     // of the image?
     bool isValidGrad = true;
 
-    for (int i = 0; i < NDimensions; ++i)
+    for (unsigned int i = 0; i < NDimensions; ++i)
       {
         const int width = static_cast<int>(m_Width);
         const int sizeDifference = 
@@ -104,10 +104,10 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
       {
       // We're in a safe position, so calculate the gradient for
       // each dimension
-      for (int i = 0; i < NDimensions; i++)
+      for (unsigned int i = 0; i < NDimensions; i++)
         {
         // Build the indices for each pixel
-        for (int j = 0; j < NDimensions; j++)
+        for (unsigned int j = 0; j < NDimensions; j++)
           {
           if(j == i)
             {
@@ -127,7 +127,7 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
       }
     else // We're not in a safe position, gradient is zero
       {
-      for (int i = 0; i < NDimensions; ++i)
+      for (unsigned int i = 0; i < NDimensions; ++i)
         outputPtr->GetPixel(outputIndex)[i] = 0.0;
       }
     progress.CompletedPixel();

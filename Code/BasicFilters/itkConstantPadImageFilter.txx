@@ -66,7 +66,7 @@ ConstantPadImageFilter<TInputImage,TOutputImage>
          OutputImageSizeType *sizes, 
          OutputImageRegionType& outputRegion)
 {
-  int ctr;
+  unsigned int ctr;
   int done = 0;
   OutputImageIndexType nextIndex = outputRegion.GetIndex();
   OutputImageSizeType nextSize = outputRegion.GetSize();
@@ -105,8 +105,8 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-  int dimCtr, regCtr, ctr=0;
-  int numRegions=1; // Actual number of regions in our decomposed space.
+  unsigned int dimCtr, regCtr, ctr=0;
+  unsigned int numRegions=1; // number of regions in our decomposed space.
   long sizeTemp;    // We need to calculate negative sizes.  This allows us to do so.
 
   itkDebugMacro(<<"Actually executing");

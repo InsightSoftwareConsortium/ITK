@@ -49,7 +49,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
         static_cast<InterpolatorType*>( interp.GetPointer() );
 
   // Set default padding value to zero
-  for( int k = 0; k < VectorDimension; k++ )
+  for( unsigned int k = 0; k < VectorDimension; k++ )
     {
     m_EdgePaddingValue[k] = NumericTraits<OutputValueType>::Zero;
     }
@@ -239,7 +239,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
       interpolatedValue = 
         m_Interpolator->EvaluateAtContinuousIndex( inputIndex );
 
-      for( int k = 0; k < VectorDimension; k++ )
+      for( unsigned int k = 0; k < VectorDimension; k++ )
         {
         outputValue[k] = static_cast<OutputValueType>(
           interpolatedValue[k] );
@@ -281,7 +281,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
     }
 
   // We need to compute the input requested region (size and start index)
-  int i;
+  unsigned int i;
   const typename TOutputImage::SizeType& outputRequestedRegionSize
     = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
@@ -353,7 +353,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
   typename TOutputImage::SizeType     outputSize;
   typename TOutputImage::IndexType    outputStartIndex;
 
-  for (int i = 0; i < TOutputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
     {
     outputSpacing[i] = inputSpacing[i] / (float) m_ExpandFactors[i];
     outputSize[i] = inputSize[i] * (unsigned long) m_ExpandFactors[i];

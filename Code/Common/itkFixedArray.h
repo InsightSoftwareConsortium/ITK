@@ -41,12 +41,12 @@ namespace itk
  *
  * \ingroup DataRepresentation 
  */
-template <typename TValueType, unsigned long VLength=3>
+template <typename TValueType, unsigned int VLength=3>
 class FixedArray
 {
 public:
   /** Length constant */
-  itkStaticConstMacro(Length, unsigned long, VLength);
+  itkStaticConstMacro(Length, unsigned int, VLength);
   
   /** The element type stored at each location in the FixedArray. */
   typedef TValueType  ValueType;
@@ -102,7 +102,7 @@ public:
   /** A const reference to the ValueType. */
   typedef const ValueType&  const_reference;
   
-  typedef unsigned long   SizeType;
+  typedef unsigned int   SizeType;
   
 public:
   /** Constructors */
@@ -166,7 +166,7 @@ public:
   static FixedArray Filled(const ValueType&);
 };
   
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 std::ostream & operator<<(std::ostream &os, const FixedArray<TValueType,VLength> &arr)
 {
   os << "[";

@@ -31,7 +31,7 @@ template <class TInputImage, class TOutputImage>
 PadImageFilter<TInputImage,TOutputImage>
 ::PadImageFilter()
 {
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     m_PadLowerBound[j] = 0;
     m_PadUpperBound[j] = 0;
@@ -55,7 +55,7 @@ PadImageFilter<TInputImage,TOutputImage>
     {
       os << m_PadLowerBound[0];
     }
-  for( int j = 1; j < ImageDimension; j++ )
+  for( unsigned int j = 1; j < ImageDimension; j++ )
     {
       os << ", " << m_PadLowerBound[j];
     } 
@@ -66,7 +66,7 @@ PadImageFilter<TInputImage,TOutputImage>
     {
       os << m_PadUpperBound[0];
     }
-  for( int j = 1; j < ImageDimension; j++ )
+  for( unsigned int j = 1; j < ImageDimension; j++ )
     {
       os << ", " << m_PadUpperBound[j];
     } 
@@ -103,7 +103,7 @@ PadImageFilter<TInputImage,TOutputImage>
     }
 
   // we need to compute the input requested region (size and start index)
-  int i;
+  unsigned int i;
   const typename TOutputImage::SizeType& outputRequestedRegionSize
     = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
@@ -193,7 +193,7 @@ PadImageFilter<TInputImage,TOutputImage>
 
   // we need to compute the output image size, and the
   // output image start index
-  int i;
+  unsigned int i;
   typename TOutputImage::SizeType     outputSize;
   typename TOutputImage::IndexType    outputStartIndex;
   typename TInputImage::SizeType      inputSize;

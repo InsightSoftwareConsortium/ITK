@@ -32,7 +32,7 @@ template <class TImage>
 PermuteAxesImageFilter<TImage>
 ::PermuteAxesImageFilter()
 {
-  for ( int j = 0; j < ImageDimension; j++ )
+  for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
     m_Order[j] = j;
     m_InverseOrder[m_Order[j]] = j;
@@ -51,7 +51,7 @@ PermuteAxesImageFilter<TImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  int j;
+  unsigned int j;
 
   os << indent << "Order: [";
   for( j = 0; j < ImageDimension - 1; j++ )
@@ -80,7 +80,7 @@ PermuteAxesImageFilter<TImage>
 ::SetOrder( const PermuteOrderArrayType& order )
 {
 
-  int j; 
+  unsigned int j; 
 
   // check if it the same as current
   if ( m_Order == order ) return;
@@ -149,7 +149,7 @@ PermuteAxesImageFilter<TImage>
   typename TImage::SizeType outputSize;
   typename TImage::IndexType outputStartIndex;
 
-  int j;
+  unsigned int j;
 
   for ( j = 0; j < ImageDimension; j++ )
     {
@@ -196,7 +196,7 @@ PermuteAxesImageFilter<TImage>
   typename TImage::SizeType inputSize;
   typename TImage::IndexType inputIndex;
 
-  int j;
+  unsigned int j;
   for ( j = 0; j < ImageDimension; j++ )
     {
     inputSize[j] = outputSize[m_InverseOrder[j]];
@@ -222,7 +222,7 @@ PermuteAxesImageFilter<TImage>
                        int threadId)
 {
   unsigned long i;
-  int j;
+  unsigned int j;
 
   // Get the input and output pointers
   typename Superclass::InputImageConstPointer inputPtr = this->GetInput();

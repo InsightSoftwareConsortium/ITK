@@ -78,7 +78,7 @@ BloxCoreAtomImage<dim>
   BloxCoreAtomPixel<NDimensions>::EigenvalueType sf_eigenvalues;
   BloxCoreAtomPixel<NDimensions>::EigenvectorType sf_eigenvectors;
 
-  int voterCount = 0;
+  unsigned int voterCount = 0;
   for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
     {
     // Get a pointer to the pixel
@@ -265,8 +265,6 @@ BloxCoreAtomImage<dim>
   // Results of eigenanalysis from each pixel
   BloxCoreAtomPixel<NDimensions>::EigenvalueType eigenvalues;
   BloxCoreAtomPixel<NDimensions>::EigenvalueType veigenvalues;
-
-  int voterCount = 0;
 
   std::cerr << "Index\t# Core Atoms\tEigen Values\t\t\tMean CA Length\tVoted Eigen Values\n" 
             << "-----\t------------\t------------\t\t\t--------------\t------------------\n" << std::endl;

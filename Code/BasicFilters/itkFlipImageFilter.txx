@@ -78,7 +78,7 @@ FlipImageFilter<TImage>
     
   double outputOrigin[ImageDimension];
 
-  int j;
+  unsigned int j;
 
   for ( j = 0; j < ImageDimension; j++ )
     {
@@ -129,7 +129,7 @@ FlipImageFilter<TImage>
   
   IndexType inputRequestedIndex;
 
-  int j;
+  unsigned int j;
   for ( j = 0; j < ImageDimension; j++ )
     {
     if ( m_FlipAxes[j] )
@@ -167,7 +167,7 @@ FlipImageFilter<TImage>
 {
 
   unsigned long i;
-  int j;
+  unsigned int j;
 
   // Get the input and output pointers
   InputImageConstPointer inputPtr = this->GetInput();

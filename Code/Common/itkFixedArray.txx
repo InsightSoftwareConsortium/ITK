@@ -26,7 +26,7 @@ namespace itk
  * Default constructor uses compiler's default initialization of memory.
  * For efficiency, no initialization to zero is done.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 FixedArray<TValueType, VLength>
 ::FixedArray()
 {
@@ -37,7 +37,7 @@ FixedArray<TValueType, VLength>
  * Values are copied individually instead of with a binary copy.  This
  * allows the ValueType's assignment operator to be executed.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 FixedArray<TValueType, VLength>
 ::FixedArray(const FixedArray& r)
 {
@@ -50,7 +50,7 @@ FixedArray<TValueType, VLength>
  * Values are copied individually instead of with a binary copy.  This
  * allows the ValueType's assignment operator to be executed.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 FixedArray<TValueType, VLength>
 ::FixedArray(const ValueType r[VLength])
 {
@@ -62,7 +62,7 @@ FixedArray<TValueType, VLength>
 /**
  * Destructor does nothing special.  Here for completeness.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 FixedArray<TValueType, VLength>
 ::~FixedArray()
 {
@@ -74,7 +74,7 @@ FixedArray<TValueType, VLength>
  * Values are copied individually instead of with a binary copy.  This
  * allows the ValueType's assignment operator to be executed.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 FixedArray<TValueType, VLength>&
 FixedArray<TValueType, VLength>
 ::operator= (const FixedArray& r)
@@ -91,7 +91,7 @@ FixedArray<TValueType, VLength>
  * Values are copied individually instead of with a binary copy.  This
  * allows the ValueType's assignment operator to be executed.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 FixedArray<TValueType, VLength>&
 FixedArray<TValueType, VLength>
 ::operator= (const ValueType r[VLength])
@@ -106,7 +106,7 @@ FixedArray<TValueType, VLength>
 /**
  * Operator != compares different types of arrays.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 bool
 FixedArray<TValueType, VLength>
 ::operator== (const FixedArray& r) const
@@ -125,7 +125,7 @@ FixedArray<TValueType, VLength>
 /**
  * Get an Iterator for the beginning of the FixedArray.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 typename FixedArray<TValueType, VLength>::Iterator
 FixedArray<TValueType, VLength>
 ::Begin()
@@ -137,7 +137,7 @@ FixedArray<TValueType, VLength>
 /**
  * Get a ConstIterator for the beginning of the FixedArray.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 typename FixedArray<TValueType, VLength>::ConstIterator
 FixedArray<TValueType, VLength>
 ::Begin() const
@@ -149,7 +149,7 @@ FixedArray<TValueType, VLength>
 /**
  * Get an Iterator for the end of the FixedArray.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 typename FixedArray<TValueType, VLength>::Iterator
 FixedArray<TValueType, VLength>
 ::End()
@@ -161,7 +161,7 @@ FixedArray<TValueType, VLength>
 /**
  * Get a ConstIterator for the end of the FixedArray.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 typename FixedArray<TValueType, VLength>::ConstIterator
 FixedArray<TValueType, VLength>
 ::End() const
@@ -173,7 +173,7 @@ FixedArray<TValueType, VLength>
 /**
  * Get a begin ReverseIterator.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 typename FixedArray<TValueType, VLength>::ReverseIterator
 FixedArray<TValueType, VLength>
 ::rBegin() 
@@ -185,7 +185,7 @@ FixedArray<TValueType, VLength>
 /**
  * Get a begin ConstReverseIterator.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 typename FixedArray<TValueType, VLength>::ConstReverseIterator
 FixedArray<TValueType, VLength>
 ::rBegin() const
@@ -197,7 +197,7 @@ FixedArray<TValueType, VLength>
 /**
  * Get an end ReverseIterator.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 typename FixedArray<TValueType, VLength>::ReverseIterator
 FixedArray<TValueType, VLength>
 ::rEnd() 
@@ -209,7 +209,7 @@ FixedArray<TValueType, VLength>
 /**
  * Get an end ConstReverseIterator.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 typename FixedArray<TValueType, VLength>::ConstReverseIterator
 FixedArray<TValueType, VLength>
 ::rEnd() const 
@@ -221,7 +221,7 @@ FixedArray<TValueType, VLength>
 /**
  * Get the size of the FixedArray.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 typename FixedArray<TValueType, VLength>::SizeType
 FixedArray<TValueType, VLength>
 ::Size() const
@@ -233,7 +233,7 @@ FixedArray<TValueType, VLength>
 /**
  * Fill all elements of the array with the given value.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 void
 FixedArray<TValueType, VLength>
 ::Fill(const ValueType& value)
@@ -245,7 +245,7 @@ FixedArray<TValueType, VLength>
 /**
  * Return an FixedArray with all elements assigned to the given value.
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned int VLength>
 FixedArray<TValueType, VLength>
 FixedArray<TValueType, VLength>
 ::Filled(const ValueType& value)

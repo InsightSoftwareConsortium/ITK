@@ -43,7 +43,7 @@ int WrapPadImageFilter<TInputImage,TOutputImage>
                            std::vector<long> sizes[ImageDimension],
                            OutputImageRegionType& outputRegion)
 {
-    int ctr;
+    unsigned int ctr;
     int done = 0;
     OutputImageIndexType nextIndex = outputRegion.GetIndex();
     OutputImageSizeType nextSize = outputRegion.GetSize();
@@ -99,7 +99,7 @@ int WrapPadImageFilter<TInputImage,TOutputImage>
                           std::vector<long> sizes[ImageDimension],
                           InputImageRegionType& inputRegion)
 {
-  int ctr;
+  unsigned int ctr;
   int done = 0;
   InputImageIndexType nextIndex = inputRegion.GetIndex();
   InputImageSizeType nextSize = inputRegion.GetSize();
@@ -355,7 +355,8 @@ void
 WrapPadImageFilter<TInputImage,TOutputImage>
 ::GenerateInputRequestedRegion()
 {
-  int dimCtr, regCtr;
+  unsigned int dimCtr;
+  int regCtr;
   int numRegions=1; // Actual number of regions in our decomposed space.
 
   // call the superclass' implementation of this method
@@ -534,7 +535,8 @@ WrapPadImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-  int dimCtr, regCtr;
+  unsigned int dimCtr;
+  int regCtr;
   int numRegions=1; // Actual number of regions in our decomposed space.
   int goodInput, goodOutput;
                     // Are the regions non-empty?

@@ -66,7 +66,7 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
     {
     RealType acc = NumericTraits< RealType >::Zero;
 
-    for(int i = 0; i < NDimensions; i++)
+    for(unsigned int i = 0; i < NDimensions; i++)
       {
       const RealType component = static_cast<RealType>( inIt.Get()[i]);
       acc += component * component;

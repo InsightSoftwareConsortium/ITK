@@ -226,7 +226,7 @@ InterpolateImageFilter<TInputImage,TOutputImage>
     {
     // Determine the intermediate image index
     outputIndex = outIt.GetIndex();
-    for (int j = 0; j< ImageDimension; ++j)
+    for (unsigned int j = 0; j< ImageDimension; ++j)
     {
     intermediateIndex[j] = (double) outputIndex[j];
     }

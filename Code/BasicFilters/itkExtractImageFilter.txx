@@ -71,7 +71,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
 {
   m_ExtractionRegion = extractRegion;
 
-  int nonzeroSizeCount = 0;
+  unsigned int nonzeroSizeCount = 0;
   InputImageSizeType inputSize = extractRegion.GetSize();
   OutputImageSizeType outputSize;
   OutputImageIndexType outputIndex;
@@ -80,7 +80,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
    * check to see if the number of non-zero entries in the extraction region
    * matches the number of dimensions in the output image.  
    **/
-  for (int i = 0; i < InputImageDimension; ++i)
+  for (unsigned int i = 0; i < InputImageDimension; ++i)
     {
     if (inputSize[i])
       { 
@@ -142,7 +142,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
     // Copy what we can from the image from spacing and origin of the input
     // This logic needs to be augmented with logic that select which
     // dimensions to copy
-    int i;
+    unsigned int i;
     const double *inputSpacing = inputPtr->GetSpacing();
     const double *inputOrigin = inputPtr->GetOrigin();
 

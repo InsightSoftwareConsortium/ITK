@@ -53,7 +53,7 @@ PlaheImageFilter<TImageType>
   output->SetLargestPossibleRegion(input->GetLargestPossibleRegion());
   output->Allocate();
   
-  int i;
+  unsigned int i;
 
   //Set the kernel value of PLAHE algorithm
   float kernel = 1;

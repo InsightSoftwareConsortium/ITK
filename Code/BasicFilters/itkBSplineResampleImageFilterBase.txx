@@ -581,7 +581,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 {
 //  typename TInputImage::SizeType DataLength = ptr->GetLargestPossibleRegion().GetSize();
   unsigned int maxLength = 0;
-  for ( int n = 0; n < ImageDimension; n++ )
+  for ( unsigned int n = 0; n < ImageDimension; n++ )
     {
     if ( DataLength[n] > maxLength )
       {

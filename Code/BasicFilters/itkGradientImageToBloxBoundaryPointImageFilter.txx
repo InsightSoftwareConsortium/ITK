@@ -33,7 +33,7 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
   // The default threshold level is 128 (for no particular reason)
   m_Threshold = 128;
 
-  for( int j = 0; j < NDimensions; j++ )
+  for( unsigned int j = 0; j < NDimensions; j++ )
     {
     m_BloxResolution[j] = 10.0;
     }
@@ -44,7 +44,7 @@ void
 GradientImageToBloxBoundaryPointImageFilter< TInputImage >
 ::SetBloxResolution(float bloxResolution[])
 {
-  int j = 0;
+  unsigned int j = 0;
   for( j = 0; j < NDimensions; j++ )
     {
     if( bloxResolution[j] != m_BloxResolution[j] ) break;
@@ -69,7 +69,7 @@ void
 GradientImageToBloxBoundaryPointImageFilter< TInputImage >
 ::SetBloxResolution(float bloxResolution)
 {
- int j = 0;
+  unsigned int j = 0;
   for( j = 0; j < NDimensions; j++ )
     {
     if( bloxResolution != m_BloxResolution[j] ) break;
@@ -236,7 +236,7 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
     // Figure out the magnitude of the gradient
     double mag = 0;
 
-    for(int i = 0; i < NDimensions; i++)
+    for(unsigned int i = 0; i < NDimensions; i++)
       {
       mag += inputIt.Get()[i] * inputIt.Get()[i];
       }
