@@ -72,6 +72,10 @@ EllipseSpatialObject< TDimension >
         {
         r += (transformedPoint[i]*transformedPoint[i])/(m_Radius[i]*m_Radius[i]);
         }
+      else if(transformedPoint[i]>0.0)
+        {
+        return false;
+        }
       }
   
     if(r<1)
