@@ -148,6 +148,56 @@ int main( int argc, char * argv [] )
 
 // Software Guide : BeginLatex
 //
+// We set now some of the parameters for the MRF filter. In particular, the
+// number of classes to be used during the classification, the maximum number
+// of iterations to be run in this filter and the error tolerance that will be
+// used as a criterion for convergence.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  mrfFilter->SetNumberOfClasses( numberOfClasses );
+  mrfFilter->SetMaximumNumberOfIterations( 200 );
+  mrfFilter->SetErrorTolerance( 1e-7 );
+// Software Guide : EndCodeSnippet
+
+
+
+// Software Guide : BeginLatex
+//
+// We also set the Smoothing factor. This factor will multiply the weights that
+// define the influecnce of neighbors on the classification of a given pixel.
+// The higher the value, the more uniform will be the regions resulting from
+// the classification refinement.
+// 
+// Software Guide : EndLatex 
+ 
+// Software Guide : BeginCodeSnippet
+  mrfFilter->SetSmoothingFactor( 1.0 );
+// Software Guide : EndCodeSnippet
+
+
+
+// Software Guide : BeginLatex
+//
+// and we set the neighborhood radius that will define the size of the clique
+// to be used in the computation of the neighbors' influence in the
+// classification of any given pixel. Note that despite the fact that we call
+// this a radius, it is actually the half size of an hypercube. That is, the
+// actual region of influence will not be circular but rather an N-Dimensional
+// box. For example, a neighborhood radius of 2 in a 3D image will result in a
+// clique of size 5x5x5 pixels.
+// 
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  mrfFilter->SetNeighborhoodRadius( 2 );
+// Software Guide : EndCodeSnippet
+
+
+
+// Software Guide : BeginLatex
+//
 // The output image profuced by the \doxygen{MRFImageFilter} has the same pixel
 // type as the labeled input image. In the following lines we use the
 // \code{OutputImageType} in order to instantiate the type of a
