@@ -176,7 +176,7 @@ int main()
   outit.GoToBegin();
   while( !outit.IsAtEnd() ) {
 	if ((k >= WIDTH) && (k+WIDTH < WIDTH*HEIGHT)) { 
-	  grad = (float) (0.5*sqrt((testImage[k-1]-testImage[k+1])*(testImage[k-1]-testImage[k+1])+
+	  grad = 0.5*sqrt((float)((testImage[k-1]-testImage[k+1])*(testImage[k-1]-testImage[k+1])+
 		(testImage[k-WIDTH]-testImage[k+WIDTH])*(testImage[k-WIDTH]-testImage[k+WIDTH])));
 	  outit.Set(grad);
 	} else {
@@ -198,8 +198,8 @@ int main()
 
   m_bfilter->SetCenter(SEEDX, SEEDY, 0);
   m_bfilter->SetNeighborRadius(5);
-  m_bfilter->SetStepThreshold1(20);
-  m_bfilter->SetStepThreshold2(30);
+//  m_bfilter->SetStepThreshold1(20);
+//  m_bfilter->SetStepThreshold2(30);
 
   itk::ImageRegionIteratorWithIndex <outImageType> ptit(ptimg, outregion);
 
@@ -254,9 +254,19 @@ int main()
   m_bfilter->Initialize();
   m_bfilter->SetStiffnessMatrix();
 
-  time(&btime);
-  m_bfilter->Update();
-  time(&etime);
+  for (k=0; k<30; k++) {
+    m_bfilter->ComputeNormals();
+    if (k > 20) m_bfilter->GradientFit();
+    else m_bfilter->ComputeForce();
+    m_bfilter->ComputeDt();
+    m_bfilter->Advance();
+    m_bfilter->NodesRearrange();
+	m_bfilter->ComputeOutput();
+  }
+  
+//  time(&btime);
+//  m_bfilter->Update();
+//  time(&etime);
 
   std::cout<<"Finished: "<<etime-btime<<" seconds."<<std::endl;
   

@@ -108,6 +108,8 @@ public:
    * Some typedefs.
    */
   typedef TInputMesh InputMeshType;
+  typedef TOutputMesh OutputMeshType;
+
   typedef typename InputMeshType::PointsContainerPointer
       InputPointsContainerPointer;
   typedef typename InputMeshType::PointsContainer::Iterator
@@ -129,15 +131,13 @@ public:
   typedef typename OutputMeshType::PointsContainer::Iterator
       OutputPointsContainerIterator;
 
-  typedef TOutputMesh OutputMeshType;
-
   typedef itk::Image<unsigned short, 3>		ImageType;
   typedef typename InputMeshType::Pointer	InputMeshPointer;
   typedef typename OutputMeshType::Pointer	OutputMeshPointer;
   typedef typename ImageType::Pointer		ImagePointer;
   typedef typename ImageType::IndexType		IndexType;
-  typedef typename itk::SimpleImageRegionIterator<ImageType>	ImageIterator;
 
+  typedef itk::SimpleImageRegionIterator<ImageType>	ImageIterator;
   typedef itk::Vector<float, 3>				FloatVector;
   typedef itk::Vector<int, 3>				IntVector;
 
