@@ -45,6 +45,12 @@ void MetaImageIO::PrintSelf(std::ostream& os, Indent indent) const
   }
 
 
+void MetaImageIO::SetDataFileName( const char* filename ) 
+  { 
+  m_MetaImage.ElementDataFileName( filename );
+  }
+
+ 
 // This method will only test if the header looks like a
 // MetaImage.  Some code is redundant with ReadImageInformation
 // a StateMachine could provide a better implementation

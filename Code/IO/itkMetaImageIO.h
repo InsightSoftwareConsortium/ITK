@@ -67,6 +67,10 @@ public:
    * that the IORegions has been set properly. */
   virtual void Write(const void* buffer);
 
+  /** Set the filename for the Data file. Setting this will make the
+      Writer to use the non-Local mode and save header and data in 
+      independent files */
+  virtual void SetDataFileName( const char * filename );
 
 protected:
   MetaImageIO();
