@@ -254,7 +254,7 @@ public:
     
     SimpleForwardIterator& operator++()
     {
-      for (unsigned int dim = 0 ; dim < m_Dimension ; dim++)
+      for (int dim = 0 ; dim < m_Dimension ; dim++)
         {
           if (m_Index[dim] < (m_DomainSize[dim] - 1))
             {
@@ -263,7 +263,7 @@ public:
             }
           else
             {
-              if (dim == m_Dimension - 1)
+              if (dim == m_Dimension - 1 )
                 {
                   m_IsAtEnd = true ;
                   break ;
