@@ -76,7 +76,7 @@ public:
   ImageIteratorWithIndex();
 
   /** Default Destructor */
-  virtual ~ImageIteratorWithIndex() {};
+  ~ImageIteratorWithIndex() {};
 
 
   /** Copy Constructor. The copy constructor is provided to make sure the
