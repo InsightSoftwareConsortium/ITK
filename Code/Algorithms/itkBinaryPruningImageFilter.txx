@@ -190,6 +190,7 @@ BinaryPruningImageFilter<TInputImage,TOutputImage>
   Superclass::PrintSelf(os,indent);
   
   os << indent << "Pruning image: " << std::endl;
+  os << indent << "Iteration: " << m_Iteration << std::endl;
 
 }
 
