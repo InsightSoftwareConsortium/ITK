@@ -366,7 +366,7 @@ ObjectFactoryBase
   if ( strcmp(factory->GetITKSourceVersion(), 
             Version::GetITKSourceVersion()) != 0 )
     {
-    itkWarningMacro(<< "Possible incompatible factory load:" 
+    itkGenericOutputMacro(<< "Possible incompatible factory load:" 
     << "\nRunning itk version :\n" << Version::GetITKSourceVersion() 
     << "\nLoaded Factory version:\n" << factory->GetITKSourceVersion()
     << "\nLoading factory:\n" << factory->m_LibraryPath << "\n");

@@ -194,7 +194,7 @@ Directory
 {
   if ( index >= m_Files.size() )
     {
-    itkErrorMacro( << "Bad index for GetFile on itk::Directory\n");
+    itkGenericOutputMacro( << "Bad index for GetFile on itk::Directory\n");
     return 0;
     }
   

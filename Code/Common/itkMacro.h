@@ -76,7 +76,7 @@ namespace itk
 
 /**
  * A convenience macro marks variables as not being used by a method,
- * avoiding compile-time errors.
+ * avoiding compile-time warnings.
  */
 #define itkNotUsed(x)
 
@@ -301,6 +301,44 @@ namespace itk
     return this->m_##name; \
   } 
 
+/**
+ * Define the standard object factory creation method.  This macro
+ * simply takes the type for which the New() method is being defined.
+ *
+ * This creation method first tries asking the object factory to create
+ * an instance, and then defaults to the standard "new" operator if the
+ * factory fails.
+ *
+ * This routine assigns the raw pointer to a smart pointer and then calls
+ * UnRegister() on the rawPtr to compensate for LightObject's constructor
+ * initializing an object's reference count to 1 (needed for proper
+ * initialization of process objects and data objects cycles).
+ */
+#define itkNewMacro(x) \
+static Pointer New(void) \
+{ \
+  Pointer smartPtr; \
+  x *rawPtr = ::itk::ObjectFactory<x>::Create(); \
+  if(rawPtr == NULL) \
+    { \
+    rawPtr = new x; \
+    } \
+  smartPtr = rawPtr; \
+  rawPtr->UnRegister(); \
+  return smartPtr; \
+}
+
+/** 
+ * Macro used to add standard methods to all classes, mainly type
+ * information.
+ */
+#define itkTypeMacro(thisClass,superclass) \
+    virtual const char *GetClassName() const \
+        {return #thisClass;}
+
+/** 
+ * The following is used to output debug, warning, and error messages.
+ */
 namespace itk
 {
 /**
@@ -334,42 +372,64 @@ extern ITK_EXPORT void OutputWindowDisplayText(const char*);
 
 
 /**
- * Define the standard object factory creation method.  This macro
- * simply takes the type for which the New() method is being defined.
- *
- * This creation method first tries asking the object factory to create
- * an instance, and then defaults to the standard "new" operator if the
- * factory fails.
- *
- * This routine assigns the raw pointer to a smart pointer and then calls
- * UnRegister() on the rawPtr to compensate for LightObject's constructor
- * initializing an object's reference count to 1 (needed for proper
- * initialization of process objects and data objects cycles).
+ * This macro is used to print warning information (i.e., unusual circumstance
+ * but not necessarily fatal.) Example usage looks like:
+ * itkWarningMacro(<< "this is warning info" << this->SomeVariable);
  */
-#define itkNewMacro(x) \
-static Pointer New(void) \
-{ \
-  Pointer smartPtr; \
-  x *rawPtr = ::itk::ObjectFactory<x>::Create(); \
-  if(rawPtr == NULL) \
-    { \
-    rawPtr = new x; \
-    } \
-  smartPtr = rawPtr; \
-  rawPtr->UnRegister(); \
-  return smartPtr; \
-}
-
+#ifdef ITK_LEAN_AND_MEAN
 #define itkWarningMacro(x)
+#else
+#define itkWarningMacro(x) \
+{ if (Object::GetGlobalWarningDisplay()) \
+    { char *itkmsgbuff; std::ostrstream itkmsg; \
+      itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
+             << this->GetClassName() << " (" << this << "): " x  \
+             << "\n\n" << std::ends; \
+      itkmsgbuff = itkmsg.str(); \
+      OutputWindowDisplayText(itkmsgbuff); \
+      itkmsg.rdbuf()->freeze(0);} \
+}
+#endif
 
+/**
+ * This macro is used to print error information (i.e., usually a condition
+ * that results in program failure). This macro is normally coupled with
+ * exceptions. Example usage looks like:
+ * itkErrorMacro(<< "this is error info" << this->SomeVariable);
+ */
+#ifdef ITK_LEAN_AND_MEAN
 #define itkErrorMacro(x)
+#else
+#define itkErrorMacro(x) \
+{ if (Object::GetGlobalWarningDisplay()) \
+    { char *itkmsgbuff; std::ostrstream itkmsg; \
+      itkmsg << "ERROR: In " __FILE__ ", line " << __LINE__ << "\n" \
+             << this->GetClassName() << " (" << this << "): " x  \
+             << "\n\n" << std::ends; \
+      itkmsgbuff = itkmsg.str(); \
+      OutputWindowDisplayText(itkmsgbuff); \
+      itkmsg.rdbuf()->freeze(0);} \
+}
+#endif
 
+/**
+ * This macro is used to print information where no "this->" pointer is
+ * available (e.g., static method or function). Example usage looks like:
+ * itkGenericOutputMacro(<< "this is output info" << SomeVariable);
+ */
+#ifdef ITK_LEAN_AND_MEAN
 #define itkGenericOutputMacro(x)
-
-#define itkTypeMacro(thisClass,superclass) \
-    virtual const char *GetClassName() const \
-        {return #thisClass;}
-
+#else
+#define itkGenericOutputMacro(x) \
+{ if (Object::GetGlobalWarningDisplay()) \
+    { char *itkmsgbuff; std::ostrstream itkmsg; \
+      itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
+             x << "\n\n" << std::ends; \
+      itkmsgbuff = itkmsg.str(); \
+      OutputWindowDisplayText(itkmsgbuff); \
+      itkmsg.rdbuf()->freeze(0);} \
+}
+#endif
 
 
 #endif
