@@ -160,8 +160,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVersion.h"
 #include "itkVertexCell.h"
 #include "itkWeakPointer.h"
-#include "itkWin32Header.h"
-#include "itkWin32OutputWindow.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itk_alloc.h"
 #include "itk_hash_map.h"
