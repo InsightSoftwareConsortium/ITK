@@ -121,9 +121,10 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       if (mapIt == m_LabelStatistics.end())
         {
         // create a new entry
+        typedef typename MapType::value_type MapValueType;
         mapIt
-          = m_LabelStatistics.insert(typename MapType::value_type((*threadIt).first,
-                                                   LabelStatistics())).first;
+          = m_LabelStatistics.insert(MapValueType((*threadIt).first,
+                                                  LabelStatistics())).first;
         }
 
       // accumulate the information from this thread
@@ -200,7 +201,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
     if (mapIt == m_LabelStatisticsPerThread[threadId].end())
       {
       // create a new statistics object
-      mapIt = m_LabelStatisticsPerThread[threadId].insert( typename MapType::value_type(label, LabelStatistics()) ).first;
+      typedef typename MapType::value_type MapValueType;
+      mapIt = m_LabelStatisticsPerThread[threadId].insert( MapValueType(label, LabelStatistics()) ).first;
       }
 
     // update the values for this label and this thread

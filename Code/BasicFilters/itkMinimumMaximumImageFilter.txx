@@ -222,10 +222,10 @@ MinimumMaximumImageFilter<TImage>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Minimum: "
-     << typename NumericTraits<PixelType>::PrintType(this->GetMinimum())
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMinimum())
      << std::endl;
   os << indent << "Maximum: "
-     << typename NumericTraits<PixelType>::PrintType(this->GetMaximum())
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMaximum())
      << std::endl;
 }
 
