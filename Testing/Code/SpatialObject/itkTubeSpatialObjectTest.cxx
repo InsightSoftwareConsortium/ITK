@@ -244,6 +244,8 @@ int itkTubeSpatialObjectTest(int, char **)
   tubeNet1->RemoveSpatialObject( tube2 );
   tubeNet1->RemoveSpatialObject( tube3 );
 
+  delete returnedList;
+
   // testing the SetChildren() function...
   tubeNet1->SetChildren(childrenList);
   returnedList = tubeNet1->GetChildren();
@@ -270,6 +272,7 @@ int itkTubeSpatialObjectTest(int, char **)
     passed = false;
     }
 
+  delete returnedList;
   std::cout<<"SetChildren()...";
   if( !passed )
     {
