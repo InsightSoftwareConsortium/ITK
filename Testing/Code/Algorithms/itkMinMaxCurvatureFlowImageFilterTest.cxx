@@ -36,6 +36,15 @@ public:
   itk::ProcessObject::Pointer m_Process;
 };
 
+#define MAXRUNS 5 // maximum number of runs
+
+template<unsigned int VImageDimension>
+int testMinMaxCurvatureFlow(
+  itk::Size<VImageDimension> & size, 
+  double radius,                    
+  int numberOfRuns,                  
+  unsigned int niter[],              
+  unsigned long radii[] );
 
 /**
  * This file tests the functionality of the MinMaxCurvatureFlowImageFilter.
@@ -51,8 +60,62 @@ public:
 int main()
 {
 
+  double radius;
+  int numberOfRuns;   
+  unsigned int niter[MAXRUNS];  
+  unsigned long radii[MAXRUNS]; 
+
+  itk::Size<2> size2D;
+  size2D[0] = 64; size2D[1] = 64;  
+  radius = 20.0;
+  numberOfRuns = 2;
+  niter[0] = 100; niter[1] = 100;
+  radii[0] = 1; radii[1] = 3;
+  int err2D = testMinMaxCurvatureFlow( size2D, radius, numberOfRuns,
+    niter, radii );
+
+
+  itk::Size<3> size3D;
+  size3D[0] = 32; size3D[1] = 32; size3D[2] = 32;
+  radius = 10.0;
+  numberOfRuns = 1;
+  niter[0] = 10;
+  radii[1] = 1;
+  int err3D = testMinMaxCurvatureFlow( size3D, radius, numberOfRuns,
+    niter, radii );
+
+  
+  itk::Size<4> size4D;
+  size4D[0] = 8; size4D[1] = 8; size4D[2] = 8; size4D[3] = 8;
+  radius = 2.6;
+  numberOfRuns = 1;
+  niter[0] = 5;
+  radii[1] = 1;
+  int err4D = testMinMaxCurvatureFlow( size4D, radius, numberOfRuns,
+    niter, radii );
+
+
+  if ( err2D || err3D  || err4D )
+    {
+    return EXIT_FAILURE;
+    }
+  return EXIT_SUCCESS;
+
+}
+
+
+template<unsigned int VImageDimension>
+int testMinMaxCurvatureFlow(
+  itk::Size<VImageDimension> & size, // ND image size
+  double radius,                     // ND-sphere radius
+  int numberOfRuns,                  // number of times to run the filter
+  unsigned int niter[],              // number of iterations
+  unsigned long radii[]              // stencil radius
+)
+{
+
   typedef float PixelType;
-  enum { ImageDimension = 2 };
+  enum { ImageDimension = VImageDimension };
   typedef itk::Image<PixelType, ImageDimension> ImageType;
   typedef itk::ImageRegionIterator<ImageType> IteratorType;
   typedef itk::MinMaxCurvatureFlowImageFilter<ImageType,ImageType> DenoiserType;
@@ -60,12 +123,11 @@ int main()
 
   int j;
 
-
   /**
    * Create an image containing a circle/sphere with intensity of 0
    * and background of 255 with added salt and pepper noise.
    */
-  double sqrRadius = vnl_math_sqr( 20.0 );  // radius of the circle/sphere
+  double sqrRadius = vnl_math_sqr( radius );  // radius of the circle/sphere
   double fractionNoise = 0.30;              // salt & pepper noise fraction
   PixelType foreground = 0.0;               // intensity value of the foreground
   PixelType background = 255.0;             // intensity value of the background
@@ -73,12 +135,6 @@ int main()
   std::cout << "Create an image of circle/sphere with noise" << std::endl;
   ImageType::Pointer circleImage = ImageType::New();
 
-  ImageType::SizeType size;
-  for ( j = 0; j < ImageDimension; j++ )
-    { 
-    size[j] = 64;
-    }
-//  size[2] = 16;
   
   ImageType::RegionType region;
   region.SetSize( size );
@@ -123,11 +179,6 @@ int main()
    * Run MinMaxCurvatureFlowImageFilter several times using the previous
    * output as the input in the next run.
    */
-#define MAXRUNS 5 // maximum number of runs
-
-  int numberOfRuns = 2;    // number of times to run the filter
-  unsigned int niter[MAXRUNS] = { 100, 100 };  // number of iterations
-  DenoiserType::RadiusValueType radii[MAXRUNS] = { 1, 3 }; // stencil radius
 
   std::cout << "Run MinMaxCurvatureFlowImageFiler.." << std::endl;
 

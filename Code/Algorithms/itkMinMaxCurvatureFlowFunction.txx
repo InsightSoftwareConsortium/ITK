@@ -461,6 +461,222 @@ MinMaxCurvatureFlowFunction<TImage>
 
 
 /**
+ * Compute the threshold by averaging the image intensity in 
+ * the direction perpendicular to the image gradient.
+ */
+template<class TImage>
+MinMaxCurvatureFlowFunction<TImage>::PixelType
+MinMaxCurvatureFlowFunction<TImage>
+::ComputeThreshold3D(const NeighborhoodType &it) const
+{
+
+  if ( m_StencilRadius == 0 ) { return it.GetCenterPixel(); }
+
+  PixelType threshold = NumericTraits<PixelType>::Zero;
+
+  // Compute gradient
+  PixelType gradient[ImageDimension];
+  PixelType gradMagnitude;
+  unsigned long strideY, strideZ;
+  unsigned long center;
+  unsigned long position[ImageDimension];
+  int j;
+
+  center  = it.Size()/2;
+  strideY = it.GetStride( 1 );
+  strideZ = it.GetStride( 2 );
+
+  gradient[0] = 0.5 * ( it.GetPixel( center + 1 ) -
+    it.GetPixel( center - 1) );
+  gradMagnitude = vnl_math_sqr( gradient[0] );
+
+  gradient[1] = 0.5 * ( it.GetPixel( center + strideY ) -
+    it.GetPixel( center - strideY ) );
+  gradMagnitude += vnl_math_sqr( gradient[1] );
+
+  gradient[2] = 0.5 * ( it.GetPixel( center + strideZ ) -
+    it.GetPixel( center - strideZ ) );
+  gradMagnitude += vnl_math_sqr( gradient[2] );
+
+  if ( gradMagnitude == 0.0 ) { return threshold; }
+
+  gradMagnitude = vnl_math_sqrt( gradMagnitude ) /
+   static_cast<PixelType>( m_StencilRadius );
+
+  for ( j = 0; j < ImageDimension; j++ )
+    {
+    gradient[j] /= gradMagnitude;
+    }
+
+  double theta, phi;
+  theta = acos( gradient[2] );
+  if ( gradient[0] == 0 )
+    {
+    phi = vnl_math::pi * 0.5;
+    }
+  else
+    {
+    phi = atan( gradient[1] / gradient[0] );
+    }
+
+  double cosTheta = cos( theta );
+  double sinTheta = sin( theta );
+  double cosPhi   = cos( phi );
+  double sinPhi   = sin( phi );
+
+  double rSinTheta       = m_StencilRadius * sinTheta;
+  double rCosThetaCosPhi = m_StencilRadius * cosTheta * cosPhi;
+  double rCosThetaSinPhi = m_StencilRadius * cosTheta * sinPhi;
+  double rSinPhi         = m_StencilRadius * sinPhi;
+  double rCosPhi         = m_StencilRadius * cosPhi;
+
+  // Point 1: angle = 0;
+  position[0] = vnl_math_rnd( m_StencilRadius + rCosThetaCosPhi );
+  position[1] = vnl_math_rnd( m_StencilRadius + rCosThetaSinPhi );
+  position[2] = vnl_math_rnd( m_StencilRadius - rSinTheta );
+
+  threshold += it.GetPixel( position[0] + 
+    strideY * position[1] + strideZ * position[2] );
+
+  // Point 2: angle = 90;
+  position[0] = vnl_math_rnd( m_StencilRadius - rSinPhi );
+  position[1] = vnl_math_rnd( m_StencilRadius + rCosPhi );
+  position[2] = m_StencilRadius;
+
+  threshold += it.GetPixel( position[0] + 
+    strideY * position[1] + strideZ * position[2] );
+
+  // Point 3: angle = 180;
+  position[0] = vnl_math_rnd( m_StencilRadius - rCosThetaCosPhi );
+  position[1] = vnl_math_rnd( m_StencilRadius - rCosThetaSinPhi );
+  position[2] = vnl_math_rnd( m_StencilRadius + rSinTheta );
+
+  threshold += it.GetPixel( position[0] + 
+    strideY * position[1] + strideZ * position[2] );
+
+  // Point 4: angle = 270;
+  position[0] = vnl_math_rnd( m_StencilRadius + rSinPhi );
+  position[1] = vnl_math_rnd( m_StencilRadius - rCosPhi );
+  position[2] = m_StencilRadius;
+
+  threshold += it.GetPixel( position[0] + 
+    strideY * position[1] + strideZ * position[2] );
+  
+  threshold *= 0.25;
+  return threshold;
+
+}
+
+
+/**
+ * Compute the threshold by averaging the image intensity in 
+ * the direction perpendicular to the image gradient.
+ */
+template<class TImage>
+MinMaxCurvatureFlowFunction<TImage>::PixelType
+MinMaxCurvatureFlowFunction<TImage>
+::ComputeThreshold3D(const BoundaryNeighborhoodType &it) const
+{
+
+  if ( m_StencilRadius == 0 ) { return it.GetCenterPixel(); }
+
+  PixelType threshold = NumericTraits<PixelType>::Zero;
+
+  // Compute gradient
+  PixelType gradient[ImageDimension];
+  PixelType gradMagnitude;
+  unsigned long strideY, strideZ;
+  unsigned long center;
+  unsigned long position[ImageDimension];
+  int j;
+
+  center  = it.Size()/2;
+  strideY = it.GetStride( 1 );
+  strideZ = it.GetStride( 2 );
+
+  gradient[0] = 0.5 * ( it.GetPixel( center + 1 ) -
+    it.GetPixel( center - 1) );
+  gradMagnitude = vnl_math_sqr( gradient[0] );
+
+  gradient[1] = 0.5 * ( it.GetPixel( center + strideY ) -
+    it.GetPixel( center - strideY ) );
+  gradMagnitude += vnl_math_sqr( gradient[1] );
+
+  gradient[2] = 0.5 * ( it.GetPixel( center + strideZ ) -
+    it.GetPixel( center - strideZ ) );
+  gradMagnitude += vnl_math_sqr( gradient[2] );
+
+  if ( gradMagnitude == 0.0 ) { return threshold; }
+
+  gradMagnitude = vnl_math_sqrt( gradMagnitude ) /
+   static_cast<PixelType>( m_StencilRadius );
+
+  for ( j = 0; j < ImageDimension; j++ )
+    {
+    gradient[j] /= gradMagnitude;
+    }
+
+  double theta, phi;
+  theta = acos( gradient[2] );
+  if ( gradient[0] == 0 )
+    {
+    phi = vnl_math::pi * 0.5;
+    }
+  else
+    {
+    phi = atan( gradient[1] / gradient[0] );
+    }
+
+  double cosTheta = cos( theta );
+  double sinTheta = sin( theta );
+  double cosPhi   = cos( phi );
+  double sinPhi   = sin( phi );
+
+  double rSinTheta       = m_StencilRadius * sinTheta;
+  double rCosThetaCosPhi = m_StencilRadius * cosTheta * cosPhi;
+  double rCosThetaSinPhi = m_StencilRadius * cosTheta * sinPhi;
+  double rSinPhi         = m_StencilRadius * sinPhi;
+  double rCosPhi         = m_StencilRadius * cosPhi;
+
+  // Point 1: angle = 0;
+  position[0] = vnl_math_rnd( m_StencilRadius + rCosThetaCosPhi );
+  position[1] = vnl_math_rnd( m_StencilRadius + rCosThetaSinPhi );
+  position[2] = vnl_math_rnd( m_StencilRadius - rSinTheta );
+
+  threshold += it.GetPixel( position[0] + 
+    strideY * position[1] + strideZ * position[2] );
+
+  // Point 2: angle = 90;
+  position[0] = vnl_math_rnd( m_StencilRadius - rSinPhi );
+  position[1] = vnl_math_rnd( m_StencilRadius + rCosPhi );
+  position[2] = m_StencilRadius;
+
+  threshold += it.GetPixel( position[0] + 
+    strideY * position[1] + strideZ * position[2] );
+
+  // Point 3: angle = 180;
+  position[0] = vnl_math_rnd( m_StencilRadius - rCosThetaCosPhi );
+  position[1] = vnl_math_rnd( m_StencilRadius - rCosThetaSinPhi );
+  position[2] = vnl_math_rnd( m_StencilRadius + rSinTheta );
+
+  threshold += it.GetPixel( position[0] + 
+    strideY * position[1] + strideZ * position[2] );
+
+  // Point 4: angle = 270;
+  position[0] = vnl_math_rnd( m_StencilRadius + rSinPhi );
+  position[1] = vnl_math_rnd( m_StencilRadius - rCosPhi );
+  position[2] = m_StencilRadius;
+
+  threshold += it.GetPixel( position[0] + 
+    strideY * position[1] + strideZ * position[2] );
+  
+  threshold *= 0.25;
+  return threshold;
+
+}
+
+
+/**
  * Update the solution at pixels which does not lie on the
  * data boundary.
  */
@@ -479,15 +695,17 @@ MinMaxCurvatureFlowFunction<TImage>
     return update;
     }
 
-  PixelType threshold;
-  
-  if ( ImageDimension == 2 )
+  PixelType threshold;  
+  switch (ImageDimension)
     {
-    threshold = this->ComputeThreshold2D( it ); 
-    }
-  else
-    {
-    threshold = this->ComputeThresholdND( it );
+    case 2:
+      threshold = this->ComputeThreshold2D( it );
+      break;
+    case 3:
+      threshold = this->ComputeThreshold3D( it );
+      break;
+    default:
+      threshold = this->ComputeThresholdND( it );
     }
 
   NeighborhoodInnerProduct<ImageType> innerProduct;
@@ -523,15 +741,17 @@ MinMaxCurvatureFlowFunction<TImage>
     return update;
     }
 
-  PixelType threshold;
-  
-  if ( ImageDimension == 2 )
+  PixelType threshold;  
+  switch (ImageDimension)
     {
-    threshold = this->ComputeThreshold2D( it ); 
-    }
-  else
-    {
-    threshold = this->ComputeThresholdND( it );
+    case 2:
+      threshold = this->ComputeThreshold2D( it );
+      break;
+    case 3:
+      threshold = this->ComputeThreshold3D( it );
+      break;
+    default:
+      threshold = this->ComputeThresholdND( it );
     }
 
   SmartNeighborhoodInnerProduct<ImageType> innerProduct;

@@ -104,6 +104,10 @@ private:
     const NeighborhoodType & neighborhood ) const;
   virtual PixelType ComputeThreshold2D( 
     const BoundaryNeighborhoodType & neighborhood ) const;
+  virtual PixelType ComputeThreshold3D( 
+    const NeighborhoodType & neighborhood ) const;
+  virtual PixelType ComputeThreshold3D( 
+    const BoundaryNeighborhoodType & neighborhood ) const;
   virtual PixelType ComputeThresholdND( 
     const NeighborhoodType & neighborhood ) const;
   virtual PixelType ComputeThresholdND( 
