@@ -520,7 +520,7 @@ while $dirHasListsFile; do
 	# look for a CMakeLists.txt file in the current directory
 	if test -e$currentDir/CMakeLists.txt; then
 	    # extract the SUBDIRS varible from the CMakeLists.txt file
-	    dirsInListsFile=`cat $currentDir/CMakeLists.txt | sed -e :a -e '/\\\\$/N; s/\\\\\\n//; ta' | grep SUBDIRS | sed -e "s/SUBDIRS//g; s/=//g" `
+	    dirsInListsFile=`cat $currentDir/CMakeLists.txt | sed -e :a -e '/SUBDIRS.*\\\\$/N; s/\\\\\\n//; ta' | grep SUBDIRS | sed -e "s/SUBDIRS//g; s/=//g" `
 	    # add the current directory to any sub dirs found
 	    # in the above search of CMakeLists.txt
 	    for subdir in $dirsInListsFile;do
