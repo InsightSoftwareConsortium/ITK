@@ -56,7 +56,7 @@ namespace itk
  * to a cell can be determined by intersection the sets of cells that use
  * the points defining the face. This is an inherent assumption on the
  * manifold relationship of the cells in the mesh.) In some cases, either
- * because the mesh is non-manifold, becasue we wish to explicitly store
+ * because the mesh is non-manifold, because we wish to explicitly store
  * information with the faces and edges of the mesh, or because performance
  * requirements demand that boundaries are explicitly represented (the set
  * intersection does not need to be performed); then Mesh can be further
@@ -335,7 +335,10 @@ public:
   GetBoundaryAssignments(int dimension);
     
   /** Access routines to fill the Cells container, and get information from
-   *  it.  */
+   *  it.  If SetCell is used to overwrite a cell currently in the
+   *  mesh, it the caller's responsibility to release the memory
+   *  for the cell currently at the CellIdentifier position prior to
+   *  calling SetCell. */
   void SetCell(CellIdentifier, CellAutoPointer & );
   bool GetCell(CellIdentifier, CellAutoPointer & ) const;
   

@@ -389,7 +389,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     {
     this->SetBoundaries(dimension, BoundariesContainer::New());
     }
-  
+
   /**
    * Insert the boundary into the container with the given identifier.
    */
@@ -708,11 +708,19 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     if( thecell->GetBoundaryFeature(dimension, featureId, boundary ) )
       {
       // If a container for this dimension doesn't exist, create one.
-      if( ! m_BoundariesContainers[dimension] )
-        {
-        m_BoundariesContainers[dimension] = BoundariesContainer::New();
-        }
-      m_BoundariesContainers[dimension]->InsertElement( featureId, boundary.ReleaseOwnership() );
+      // No need to do this code, see the note below
+      // if( ! m_BoundariesContainers[dimension] )
+      //   {
+      //   m_BoundariesContainers[dimension] = BoundariesContainer::New();
+      //   }
+
+      // the next line causes a memory leak if the implicit feature has already
+      // been created. this code is commented out so the implicit feature
+      // will be always created and will not be cached. Regardless of the
+      // memory leak, the code is incorrect because it needs to InsertElement
+      // at a "boundaryId" not a "featureId".  featureId's are relative to
+      // a cell.  boundaryId's are global to the mesh.
+      // m_BoundariesContainers[dimension]->InsertElement( featureId, boundary.ReleaseOwnership() );
       return true;
       }
     else
@@ -794,7 +802,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>
      */
     return (boundary->GetNumberOfUsingCells()-1);
     }
-  
+
+
   /**
    * An explicit assignment for the boundary was not found.  We use set
    * operations through point neighboring information to get the neighbors.
@@ -1184,6 +1193,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 ::ReleaseBoundariesMemory(unsigned int dimension)
 {
   itkDebugMacro("Mesh  ReleaseBoundariesMemory(unsigned int) method ");
+
   // Boundaries are stored as normal pointers in the CellContainer.
   //
   // The following cases are assumed here: 
@@ -1206,7 +1216,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 
   if( m_BoundariesContainers.size() == 0 )
     {
-    itkDebugMacro("\tNo boundaries to delete.");
+    itkDebugMacro("No boundaries to delete.");
     return; // there is nothing to be released
     }
 
@@ -1232,14 +1242,14 @@ Mesh<TPixelType, VDimension, TMeshTraits>
         {
         // The cells will be naturally destroyed when
         // the original array goes out of scope.
-        itkDebugMacro(<<"Boundaries allocated as static array.");
+        itkDebugMacro("Boundaries allocated as static array.");
         break;
         }
       case BoundariesAllocatedAsADynamicArray:
         {
         // the pointer to the first Cell is assumed to be the 
         // base pointer of the array
-        itkDebugMacro(<<"Boundaries allocated as dynamic array.");
+        itkDebugMacro("Boundaries allocated as dynamic array.");
         BoundariesContainerIterator first = boundariesContainer->Begin();
         CellType * baseOfBoundariesArray = first->Value();
         delete [] baseOfBoundariesArray;
@@ -1251,7 +1261,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
         // It is assumed that every cell was allocated independently.
         // A Cell iterator is created for going through the cells 
         // deleting one by one.
-        itkDebugMacro(<<"Boundaries allocated dynamically cell by cell.");
+        itkDebugMacro("Boundaries allocated dynamically cell by cell.");
         BoundariesContainerIterator cell  = boundariesContainer->Begin();
         BoundariesContainerIterator end   = boundariesContainer->End();
         while( cell != end )
@@ -1273,11 +1283,11 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     {
     if (!boundariesContainer)
       {
-      itkDebugMacro("\tBoundaries already deleted.");
+      itkDebugMacro("Boundaries already deleted.");
       }
     else
       {
-      itkDebugMacro("\tBoundaries container has a reference count of " << boundariesContainer->GetReferenceCount() );
+      itkDebugMacro("Boundaries container has a reference count of " << boundariesContainer->GetReferenceCount() );
       }
     }
 }
