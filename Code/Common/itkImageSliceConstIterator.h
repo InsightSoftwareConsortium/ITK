@@ -48,7 +48,38 @@ namespace itk
 /**
  * \class ImageSliceConstIterator
  * \brief Multi-dimensional image iterator which only walks a region.
+ *
+ * This is the typical use of this iterator in a loop:
+ *
+ * \code
+ *  
+ * ImageSliceConstIterator<ImageType> it( image, image->GetRequestedRegion() );
  * 
+ * it.SetFirstDirection(2);
+ * it.SetSecondDirection(0);
+ *
+ * it.GoToBegin();
+ * while( !it.IsAtEnd() )
+ * {
+ *   while( !it.IsAtEndOfSlice() )
+ *   {
+ *     while( !it.IsAtEndOfLine() )
+ *     {
+ *        value = it.Get();  // it.Set() doesn't exist in the Const Iterator
+ *        ++it;
+ *     }
+ *     it.NextLine();
+ *   }
+ *   it.NextSlice();
+ *  } 
+ *
+ *  \endcode
+ *
+ * \example  Common/itkImageSliceIterator.cxx
+ *
+ * \todo Implement operator-- for reverse iteration
+ *
+ *
  *
  */
 template<typename TImage>
