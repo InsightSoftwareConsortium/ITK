@@ -330,7 +330,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>
-::SetCellData(CellIdentifier cellId, PixelType data)
+::SetCellData(CellIdentifier cellId, CellPixelType data)
 {
   /**
    * Make sure a cell data container exists.
@@ -357,7 +357,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 Mesh<TPixelType, VDimension, TMeshTraits>
-::GetCellData(CellIdentifier cellId, PixelType* data) const
+::GetCellData(CellIdentifier cellId, CellPixelType* data) const
 {
   /**
    * If the cell data container doesn't exist, then the cell data doesn't
@@ -434,7 +434,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>
-::SetBoundaryData(int dimension, BoundaryIdentifier boundaryId, PixelType data)
+::SetBoundaryData(int dimension, BoundaryIdentifier boundaryId, CellPixelType data)
 {
   /**
    * Make sure a boundary data container exists.
@@ -462,7 +462,7 @@ template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetBoundaryData(int dimension, BoundaryIdentifier boundaryId,
-                  PixelType* data) const
+                  CellPixelType* data) const
 {
   /**
    * If the boundary data container doesn't exist, then the boundary

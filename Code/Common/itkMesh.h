@@ -128,6 +128,7 @@ public:
    */
   typedef TMeshTraits   MeshTraits;
   typedef typename MeshTraits::PixelType                PixelType;  
+  typedef typename MeshTraits::CellPixelType            CellPixelType;  
 
   /** 
    * Convenient typedefs obtained from TMeshTraits template parameter.
@@ -204,8 +205,8 @@ public:
   /**
    * The base cell type for cells in this mesh.
    */
-  typedef CellInterface<PixelType,CellTraits>  Cell;
-  typedef typename CellInterface<PixelType,CellTraits>::Pointer  CellPointer;
+  typedef CellInterface<CellPixelType,CellTraits>  Cell;
+  typedef typename    Cell::Pointer      CellPointer;
 
   /**
    * It happens that boundaries are also cells.
@@ -384,8 +385,8 @@ public:
    * Access routines to fill the CellData container, and get information
    * from it.
    */
-  void SetCellData(CellIdentifier, PixelType);
-  bool GetCellData(CellIdentifier, PixelType*) const;
+  void SetCellData(CellIdentifier, CellPixelType);
+  bool GetCellData(CellIdentifier, CellPixelType*) const;
   
   /**
    * Access routines to fill the Boundaries container, and get information
@@ -399,8 +400,8 @@ public:
    * Access routines to fill the BoundaryData container, and get information
    * from it.
    */
-  void SetBoundaryData(int dimension, BoundaryIdentifier, PixelType);
-  bool GetBoundaryData(int dimension, BoundaryIdentifier, PixelType*) const;
+  void SetBoundaryData(int dimension, BoundaryIdentifier, CellPixelType);
+  bool GetBoundaryData(int dimension, BoundaryIdentifier, CellPixelType*) const;
 
   /**
    * Access routines to fill the BoundaryAssignments container, and get

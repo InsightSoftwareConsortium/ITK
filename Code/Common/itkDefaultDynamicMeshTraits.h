@@ -84,7 +84,8 @@ template <
   int VPointDimension = 3,
   int VMaxTopologicalDimension = VPointDimension,
   typename TCoordRep = float,
-  typename TInterpolationWeight = float
+  typename TInterpolationWeight = float,
+  typename TCellPixelType = TPixelType
   >
 class DefaultDynamicMeshTraits
 {
@@ -97,7 +98,8 @@ public:
   /**
    * Just save all the template parameters.
    */
-  typedef TPixelType  PixelType;
+  typedef TPixelType      PixelType;
+  typedef TCellPixelType  CellPixelType;
   enum { PointDimension = VPointDimension };
   enum { MaxTopologicalDimension = VMaxTopologicalDimension };  
   typedef TCoordRep  CoordRepType;
@@ -156,7 +158,7 @@ public:
    * The interface to cells to be used by the mesh.
    * This should not be changed.
    */
-  typedef CellInterface< PixelType , CellTraits >  Cell;
+  typedef CellInterface< CellPixelType , CellTraits >  Cell;
   typedef typename Cell::Pointer CellPointer;
   
   /**
@@ -191,7 +193,7 @@ public:
    * The container type for use in storing cell data.  It must conform to
    * the IndexedContainer interface.
    */
-  typedef MapContainer< CellIdentifier , PixelType >
+  typedef MapContainer< CellIdentifier , CellPixelType >
         CellDataContainer;
 
   /**
@@ -205,7 +207,7 @@ public:
    * The container type for use in storing data for explicitly
    * created boundaries.  It must conform to the IndexedContainer interface.
    */
-  typedef MapContainer< BoundaryIdentifier , PixelType >
+  typedef MapContainer< BoundaryIdentifier , CellPixelType >
         BoundaryDataContainer;
 };
 
