@@ -486,14 +486,18 @@ void
 ObjectFactoryBase
 ::UnRegisterAllFactories()
 {
-  for ( std::list<ObjectFactoryBase*>::iterator i 
-        = m_RegisteredFactories->begin();
-      i != m_RegisteredFactories->end(); ++i )
+  
+  if ( ObjectFactoryBase::m_RegisteredFactories )
     {
-    (*i)->UnRegister();
+    for ( std::list<ObjectFactoryBase*>::iterator i 
+            = m_RegisteredFactories->begin();
+          i != m_RegisteredFactories->end(); ++i )
+      {
+      (*i)->UnRegister();
+      }
+    delete ObjectFactoryBase::m_RegisteredFactories;
+    ObjectFactoryBase::m_RegisteredFactories = 0;
     }
-  delete ObjectFactoryBase::m_RegisteredFactories;
-  ObjectFactoryBase::m_RegisteredFactories = 0;
 }
 
 
