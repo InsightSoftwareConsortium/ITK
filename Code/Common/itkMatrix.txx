@@ -113,7 +113,92 @@ Matrix<T, NRows, NColumns>
   return result;
 }
 
- 
+  
+/**
+ *  Matrix Addition 
+ */
+template<class T, unsigned int NRows, unsigned int NColumns >
+Matrix<T, NRows, NColumns>
+Matrix<T, NRows, NColumns>
+::operator+( const Self & matrix ) const
+{
+  Self result;
+  for( unsigned int r=0; r<NRows; r++) 
+    {
+    for( unsigned int c=0; c<NColumns; c++ ) 
+      {
+      result.m_Matrix(r,c) = m_Matrix(r,c) + matrix.m_Matrix(r,c);
+      }
+    }
+  return result;
+}
+
+  
+
+/**
+ *  Matrix Addition in-place
+ */
+template<class T, unsigned int NRows, unsigned int NColumns >
+const Matrix<T, NRows, NColumns> &
+Matrix<T, NRows, NColumns>
+::operator+=( const Self & matrix ) 
+{
+  for( unsigned int r=0; r<NRows; r++) 
+    {
+    for( unsigned int c=0; c<NColumns; c++ ) 
+      {
+      m_Matrix(r,c) += matrix.m_Matrix(r,c);
+      }
+    }
+  return *this;
+}
+
+
+
+  
+/**
+ *  Matrix Subtraction
+ */
+template<class T, unsigned int NRows, unsigned int NColumns >
+Matrix<T, NRows, NColumns>
+Matrix<T, NRows, NColumns>
+::operator-( const Self & matrix ) const
+{
+  Self result;
+  for( unsigned int r=0; r<NRows; r++) 
+    {
+    for( unsigned int c=0; c<NColumns; c++ ) 
+      {
+      result.m_Matrix(r,c) = m_Matrix(r,c) - matrix.m_Matrix(r,c);
+      }
+    }
+  return result;
+}
+
+
+
+/**
+ *  Matrix subtraction in-place 
+ */
+template<class T, unsigned int NRows, unsigned int NColumns >
+const Matrix<T, NRows, NColumns> &
+Matrix<T, NRows, NColumns>
+::operator-=( const Self & matrix ) 
+{
+  for( unsigned int r=0; r<NRows; r++) 
+    {
+    for( unsigned int c=0; c<NColumns; c++ ) 
+      {
+      m_Matrix(r,c) -= matrix.m_Matrix(r,c);
+      }
+    }
+  return *this;
+}
+
+
+
+
+
 /**
  *  Product by a vnl_matrix
  */

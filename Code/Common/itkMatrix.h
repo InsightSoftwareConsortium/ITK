@@ -65,6 +65,14 @@ public:
   /** Matrix by Matrix multiplication.  */
   Self operator*(const Self & matrix) const;
  
+  /** Matrix addition.  */
+  Self operator+(const Self & matrix) const;
+  const Self & operator+=(const Self & matrix );
+ 
+  /** Matrix addition.  */
+  Self operator-(const Self & matrix) const;
+  const Self & operator-=(const Self & matrix );
+ 
   /** Matrix by vnl_matrix multiplication.  */
   vnl_matrix<T> operator*(const vnl_matrix<T> & matrix) const;
 
