@@ -123,7 +123,7 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     itkSetMacro(GeometryData, GeometryMapPointer );
 
     /** returns the current map of geometrydata */
-    itkGetMacro(GeometryData, GeometryMapPointer );
+    itkGetConstMacro(GeometryData, GeometryMapPointer );
 
     /** Get the first free id for new cells*/
     itkSetMacro(LastCellId, unsigned long);

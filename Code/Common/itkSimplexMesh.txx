@@ -253,7 +253,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
     {
     os << indent << "cell id: " << cellIt->Index() << ", point ids: ";
     CellType *nextCell = cellIt->Value();
-    CellType::PointIdIterator pointIt = nextCell->PointIdsBegin() ;
+    typename CellType::PointIdIterator pointIt = nextCell->PointIdsBegin() ;
     while (pointIt != nextCell->PointIdsEnd() ) { os << *pointIt++ << "-"; }
     os << std::endl;
     cellIt++;
