@@ -123,6 +123,7 @@ protected:
 
 private:
   Size<ImageDimension>    m_ImageSize;
+  double                  m_ImageSpacing[ImageDimension];
 
 };
 

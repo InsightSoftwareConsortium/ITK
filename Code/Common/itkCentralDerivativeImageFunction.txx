@@ -55,6 +55,12 @@ CentralDerivativeImageFunction<TInputImage>
 
   m_ImageSize = 
     this->GetInputImage()->GetLargestPossibleRegion().GetSize();
+
+  for( unsigned int j = 0; j < ImageDimension; j++ )
+    {
+    m_ImageSpacing[j] =
+      this->GetInputImage()->GetSpacing()[j];
+    }
   
 }
 
@@ -111,6 +117,7 @@ unsigned int dim ) const
   derivative -= m_Image->GetPixel( neighIndex );
 
   derivative *= 0.5;
+  derivative /= m_ImageSpacing[dim];
 
   return ( derivative );
 
