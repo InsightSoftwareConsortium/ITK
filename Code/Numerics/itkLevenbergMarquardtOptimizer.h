@@ -16,7 +16,7 @@
 #ifndef __itkLevenbergMarquardtOptimizer_h
 #define __itkLevenbergMarquardtOptimizer_h
 
-#include "itkMultipleValuedNonLinearOptimizer.h"
+#include "itkMultipleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_levenberg_marquardt.h"
 
 namespace itk
@@ -29,7 +29,7 @@ namespace itk
 
 template <class TCostFunction>
 class ITK_EXPORT LevenbergMarquardtOptimizer : 
-          public MultipleValuedNonLinearOptimizer<TCostFunction> 
+          public MultipleValuedNonLinearVnlOptimizer<TCostFunction> 
 
 {
 public:
@@ -41,7 +41,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   MultipleValuedNonLinearOptimizer<TCostFunction> Superclass;
+  typedef   MultipleValuedNonLinearVnlOptimizer<TCostFunction> Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -50,8 +50,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
 
-
- /** 
+  /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro( LevenbergMarquardtOptimizer, 
@@ -63,11 +62,13 @@ public:
    */
   itkNewMacro(Self);
   
-
   /**
-   * VectorType typedef.
+   * ParametersType typedef.
    */
-  typedef   vnl_vector<double>     VectorType;
+  typedef typename TCostFunction::ParametersType    ParametersType;
+
+
+  typedef ParametersType::Pointer    ParametersPointer;
 
   /**
    * Internal Optimizer Type
@@ -82,8 +83,9 @@ public:
   /**
    * Start optimization with an initial value
    */
-  void StartOptimization( VectorType & );
+  void StartOptimization( ParametersPointer &);
  
+
 protected:
 
   LevenbergMarquardtOptimizer();

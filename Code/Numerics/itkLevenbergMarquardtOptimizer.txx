@@ -16,6 +16,7 @@
 #ifndef _itkLevenbergMarquardtOptimizer_txx
 #define _itkLevenbergMarquardtOptimizer_txx
 
+#include "itkLevenbergMarquardtOptimizer.h"
 
 namespace itk
 {
@@ -49,9 +50,11 @@ LevenbergMarquardtOptimizer<TCostFunction>
 template <class TCostFunction>
 void
 LevenbergMarquardtOptimizer<TCostFunction>
-::StartOptimization( VectorType & initialValue )
+::StartOptimization( ParametersPointer & initialValue )
 {
-  m_LevenbergMarquardt.minimize( initialValue );
+  InternalParametersType initialParameters;
+  VnlCostFunctionAdaptor::ConvertParameters( initialValue, initialParameters );
+  m_LevenbergMarquardt.minimize( initialParameters );
 }
 
 
