@@ -208,9 +208,9 @@ private:
   std::vector<long> m_Size;
 };
 
-#  ifndef ITKIO_EXPORTS
-   extern std::ostream & operator<<(std::ostream &os, const ImageIORegion &region); 
-#endif
+
+// Declare operator<<
+extern std::ostream & operator<<(std::ostream &os, const ImageIORegion &region); 
 
 } // end namespace itk
 
