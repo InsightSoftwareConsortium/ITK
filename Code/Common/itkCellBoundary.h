@@ -21,6 +21,10 @@
 namespace itk
 {
   
+/** \class TCell
+ * \brief Template parameter used to define superclass for CellBoundary.
+ */
+
 /** \class CellBoundary
  * \brief Wrap an ITK cell so that it behaves like a boundary cell.
  *
