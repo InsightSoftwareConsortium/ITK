@@ -61,13 +61,13 @@ EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::~EllipsoidInterior
 }
 
 template <class T, unsigned int VImageDimension>
-EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::TFunctionValueType
+EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::OutputType
 EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
-::Evaluate(TPositionType position)
+::Evaluate(const InputType& position) const
 {  
   double distanceSquared = 0; 
-  Vector<VectorType, VImageDimension> orientationVector;
-  Vector<VectorType, VImageDimension> pointVector;  
+  Vector<InputType, VImageDimension> orientationVector;
+  Vector<InputType, VImageDimension> pointVector;  
 
   // Project the position onto each of the axes, normalize by axis length, 
   // and determine whether position is inside ellipsoid. The length of axis0,

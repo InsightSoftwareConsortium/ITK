@@ -51,7 +51,7 @@ int main()
   typedef itk::EllipsoidInteriorExteriorSpatialFunction<double, 3> TEllipsoidFunctionType;
 
   // Point position typedef
-  typedef TEllipsoidFunctionType::TPositionType TEllipsoidFunctionVectorType;
+  typedef TEllipsoidFunctionType::InputType TEllipsoidFunctionVectorType;
 
   // Create an ellipsoid spatial function for the source image
   TEllipsoidFunctionType::Pointer spatialFunc = TEllipsoidFunctionType::New();

@@ -72,39 +72,50 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
-  
+   
+    
   /**
-   * Vector typedef.
+   * Input type for the function
    */
-  typedef T VectorType;
+  typedef typename Superclass::InputType InputType;
 
+  /**
+   * Output type for the function
+   */
+  typedef typename Superclass::OutputType OutputType;
+   
   /** 
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;  
+  typedef SmartPointer<const Self>  ConstPointer; 
   
-  typedef typename Superclass::TFunctionValueType TFunctionValueType;
-  typedef typename Superclass::TPositionType TPositionType;
-   
+  /** 
+   * Run-time type information (and related methods).
+   */
   itkTypeMacro(EllipsoidInteriorExteriorSpatialFunction,InteriorExteriorSpatialFunction);
 
   /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
+  
+  /**
+   * Vector typedef.
+   */
+  typedef T VectorType;
 
   /**
    * Get and set the center of the ellipsoid.
    */
-  itkGetMacro( Center, TPositionType);
-  itkSetMacro( Center, TPositionType);
+  itkGetMacro(Center, InputType);
+  itkSetMacro(Center, InputType);
 
   /**
    * Get and set the axes lengths of the ellipsoid.
    */
-  itkGetMacro( Axes, TPositionType);
-  itkSetMacro( Axes, TPositionType);
+  itkGetMacro(Axes, InputType);
+  itkSetMacro(Axes, InputType);
 
   /**
    * Set the orientation vectors (must be orthogonal) of the ellipsoid axes.
@@ -115,7 +126,7 @@ public:
   /**
    * Evaluates the function at a given position.
    */
-  TFunctionValueType Evaluate(TPositionType position);
+  OutputType Evaluate(const InputType& position) const;
      
 protected:
 
@@ -130,12 +141,12 @@ private:
   /**
    * The center of the ellipsoid.
    */
-  TPositionType m_Center;
+  InputType m_Center;
 
   /**
    * The axes lenths of the ellipsoid.
    */
-  TPositionType m_Axes;
+  InputType m_Axes;
 
   /**
    * The orientation vectors (must be orthogonal) of the ellipsoid axes.
