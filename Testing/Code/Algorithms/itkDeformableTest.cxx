@@ -183,33 +183,33 @@ int main()
   std::cout << " Done !" << std::endl;
 
 // allocating the input image data.
-  BFilter::Pointer m_bfilter = BFilter::New();
-  SphereSourceType::Pointer m_spheresource = SphereSourceType::New();
-  m_bfilter->SetInput(m_spheresource->GetOutput());
+  BFilter::Pointer bfilter = BFilter::New();
+  SphereSourceType::Pointer spheresource = SphereSourceType::New();
+  bfilter->SetInput(spheresource->GetOutput());
 
-  OPointType m_spherecenter;
-  OPointType m_scale;
-  m_spherecenter[0] = (double) SEEDX;
-  m_spherecenter[1] = (double) SEEDY;
-  m_spherecenter[2] = (double) SEEDZ;
-  m_scale[0] = 5;
-  m_scale[1] = 5;
-  m_scale[2] = 5;
-  m_spheresource->SetCenter(m_spherecenter);
-  m_spheresource->SetResolutionX(10);
-  m_spheresource->SetResolutionY(30);
-  m_spheresource->SetSquareness1(0.5);
-  m_spheresource->SetSquareness2(0.5);
-  m_spheresource->SetScale(m_scale);
-  m_spheresource->Update();
+  OPointType spherecenter;
+  OPointType scale;
+  spherecenter[0] = (double) SEEDX;
+  spherecenter[1] = (double) SEEDY;
+  spherecenter[2] = (double) SEEDZ;
+  scale[0] = 5;
+  scale[1] = 5;
+  scale[2] = 5;
+  spheresource->SetCenter(spherecenter);
+  spheresource->SetResolutionX(10);
+  spheresource->SetResolutionY(30);
+  spheresource->SetSquareness1(0.5);
+  spheresource->SetSquareness2(0.5);
+  spheresource->SetScale(scale);
+  spheresource->Update();
 
-  myIndexType m_center={{SEEDX, SEEDY, SEEDZ}};
-  m_bfilter->SetCenter(m_center);
-  m_bfilter->SetNeighborRadius(5);
-  m_bfilter->SetStiffnessV(0.00001);
-  m_bfilter->SetStiffnessH(0.04);
-  m_bfilter->SetTimeStep(0.001);
-  m_bfilter->SetZDistance(1.0);
+  myIndexType center={{SEEDX, SEEDY, SEEDZ}};
+  bfilter->SetCenter(center);
+  bfilter->SetNeighborRadius(5);
+  bfilter->SetStiffnessV(0.00001);
+  bfilter->SetStiffnessH(0.04);
+  bfilter->SetTimeStep(0.001);
+  bfilter->SetZDistance(1.0);
   itk::ImageRegionIteratorWithIndex <outImageType> ptit(ptimg, outregion);
   
   ptit.GoToBegin();
@@ -261,18 +261,18 @@ int main()
     ++outit;
   }
 
-  m_bfilter->SetPotential(ptimg);
-  m_bfilter->SetGradient(gdimg);
-  m_bfilter->SetImageOutput(outputimg);
-  m_bfilter->SetXResolution(10);
-  m_bfilter->SetYResolution(30);
-  m_bfilter->SetZResolution(1);
-  m_bfilter->SetStepThreshold(100);
-  m_bfilter->SetSliceDistanceThreshold(1.0);
-  m_bfilter->SetModelDistanceToBoundaryThreshold(0.0);
+  bfilter->SetPotential(ptimg);
+  bfilter->SetGradient(gdimg);
+  bfilter->SetImageOutput(outputimg);
+  bfilter->SetXResolution(10);
+  bfilter->SetYResolution(30);
+  bfilter->SetZResolution(1);
+  bfilter->SetStepThreshold(100);
+  bfilter->SetSliceDistanceThreshold(1.0);
+  bfilter->SetModelDistanceToBoundaryThreshold(0.0);
 
   time(&btime);
-  m_bfilter->Update();
+  bfilter->Update();
   time(&etime);
 
   std::cout<<"Finished: "<<etime-btime<<" seconds."<<std::endl;
