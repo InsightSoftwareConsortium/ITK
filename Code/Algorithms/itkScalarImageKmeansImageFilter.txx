@@ -172,6 +172,7 @@ ScalarImageKmeansImageFilter<TInputImage >
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "Final Means " << m_FinalMeans << std::endl;
+  os << indent << "Use Contiguous Labels " << m_UseNonContiguousLabels << std::endl;
 }
 
 } // end namespace itk
