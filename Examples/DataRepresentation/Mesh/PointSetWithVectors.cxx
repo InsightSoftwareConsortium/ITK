@@ -21,7 +21,7 @@
 //  particular pixel type. It is quite common to associate vector values with
 //  points for producing geometric representations.  The following code shows
 //  how vector values can be used as pixel type on the PointSet class.  The
-//  \code{itk::Vector} class is used here as the pixel type. This class is
+//  \doxygen{Vector} class is used here as the pixel type. This class is
 //  apropriate for representing the relative position between two points. It
 //  will then be the correct type for managing displacements --- for example.
 //  
@@ -49,7 +49,7 @@ int main()
   //  \piccaption[2]{Vectors as PixelType.\label{fig:PointSetWithVectors}}
   //  \parpic(6cm,4cm)[r]{\includegraphics[width=4cm]{PointSetWithVectors.eps}}
   //
-  //  The \code{itk::Vector} class is templated over the type used to represent
+  //  The \doxygen{Vector} class is templated over the type used to represent
   //  the spatial coordinates and over the space dimension.  Since the
   //  PixelType is independent of the PointType, we are free to select any
   //  dimension for the vectors to be used as pixel type. However, for the sake
@@ -87,7 +87,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The following code is generating a circle in 3D and assigning vector
+  //  The following code is generating a circle in $3D$ and assigning vector
   //  values to the points. The components of the vectors in this example are
   //  computed to represent the tangents to the circle as shown in figure
   //  \ref{fig:PointSetWithVectors}.
@@ -168,8 +168,8 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{itk::Vector} class has overloaded the \code{+} operator with
-  //  the \code{itk::Point}. In other words, vectors know how to get added to
+  //  The \doxygen{Vector} class has overloaded the \code{+} operator with
+  //  the \doxygen{Point}. In other words, vectors know how to get added to
   //  points in order to produce new points.  This property is exploited in the
   //  center of the loop in order to update the points positions with a single
   //  statement.
@@ -195,11 +195,11 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Note that \code{itk::Vector} will not be the apropiate class for representing
-  //  normals to surfaces and gradients of functions. This is due to the way in
-  //  which vectors behave under affine transforms. ITK has a specific class for
-  //  representing normals and function gradients. This is the
-  //  \code{itk::CovariantVector}.
+  //  Note that \doxygen{Vector} will not be the apropiate class for
+  //  representing normals to surfaces and gradients of functions. This is due
+  //  to the way in which vectors behave under affine transforms. ITK has a
+  //  specific class for representing normals and function gradients. This is
+  //  the \doxygen{CovariantVector}.
   //
   //  Software Guide : EndLatex 
 

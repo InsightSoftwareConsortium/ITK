@@ -19,10 +19,10 @@
 //
 //  It is common to represent geometic object by using points on their surfaces
 //  and normals associated with those points.  This structure can be easily 
-//  instantiated with the \code{itk::PointSet} class.
+//  instantiated with the \doxygen{PointSet} class.
 //
 //  The natural class for representing Normals to surfaces and gradients of
-//  functions is the \code{itk::CovariantVector}. A covariant vector differs
+//  functions is the \doxygen{CovariantVector}. A covariant vector differs
 //  from a vector in the way they behave under affine transforms. In particular
 //  under anisotropic scaling. The covariant vector is such that if it is
 //  representing the gradient of a function. The transformed covariant vector
@@ -31,14 +31,13 @@
 //  \index{itk::PointSet!itk::CovariantVector}
 //  \index{itk::CovariantVector!itk::PointSet}
 //
-//  The following code shows
-//  how vector values can be used as pixel type on the PointSet class.  The
-//  \code{itk::CovariantVector} class is used here as the pixel type. The example
-//  illustrates how a deformable model could move under the influence of the
-//  gradient of potential function.
+//  The following code shows how vector values can be used as pixel type on the
+//  PointSet class.  The \doxygen{CovariantVector} class is used here as the
+//  pixel type. The example illustrates how a deformable model could move under
+//  the influence of the gradient of potential function.
 //  
-//  In order to use the CovariantVector class it is necessary to include its
-//  header file along with the header of the point set.
+//  In order to use the \doxygen{CovariantVector} class it is necessary to
+//  include its header file along with the header of the point set.
 //
 //  \index{itk::CovariantVector!Header}
 //
@@ -58,7 +57,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{itk::CovariantVector} class is templated over the type used to
+  //  The \doxygen{CovariantVector} class is templated over the type used to
   //  represent the spatial coordinates and over the space dimension.  Since
   //  the PixelType is independent of the PointType, we are free to select any
   //  dimension for the covariant vectors to be used as pixel type. However, we
@@ -96,7 +95,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The following code generates a circle in 3D and assigns gradient values
+  //  The following code generates a circle in $3D$ and assigns gradient values
   //  to the points. The components of the CovariantVectors in this example are
   //  computed to represent the normals to the circle. 
   //
@@ -172,16 +171,16 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{itk::CovariantVector} class does not overload the \code{+}
-  //  operator with the \code{itk::Point}. In other words, CovariantVectors can
+  //  The \doxygen{CovariantVector} class does not overload the \code{+}
+  //  operator with the \doxygen{Point}. In other words, CovariantVectors can
   //  not be added to points in order to get new points. This is just like
   //  apples and oranges. Since we disrespect the physics on the example, we
   //  are also forced to do the illegal addition manually between the
   //  components of the gradient and the coordinates of the points. 
   //
-  //  Note that the absence of basic operators on the ITK geometry classes is
-  //  completely intentional with the aim of preventing the  incorrect use of
-  //  the mathematical concepts they represent.
+  //  Note that the absence of some basic operators on the ITK geometry classes
+  //  is completely intentional with the aim of preventing the  incorrect use
+  //  of the mathematical concepts they represent.
   //
   //  \index{itk::CovariantVector}
   //

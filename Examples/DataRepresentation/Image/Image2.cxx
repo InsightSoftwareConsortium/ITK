@@ -22,7 +22,7 @@
 //  Software Guide : BeginLatex
 //
 //  The first thing required for reading images from files is to include
-//  the header file of the itk::ImageFileReader class
+//  the header file of the \doxygen{ImageFileReader} class.
 //
 //  Software Guide : EndLatex 
 
@@ -55,17 +55,15 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginLatex
   //
-  // Using the image type it is now possible to instantiate
-  // the type of the image reader class. The type of the image
-  // used as template parameter defines how the file data will
-  // be represented once it gets loaded into memory. The type
-  // does not have to correspond directly to what it is stored 
-  // on the file. However, a straight forward conversion based
-  // on C-style type casting should be valid. Readers do not
-  // apply any transformation to the pixel data other than casting
-  // from the pixel type on the file to the pixel type of the 
-  // ImageFile Reader. The following line illustrates the typical
-  // instantiation of the ImageFileReader type.
+  // Using the image type it is now possible to instantiate the type of the
+  // image reader class. The type of the image used as template parameter
+  // defines how the file data will be represented once it gets loaded into
+  // memory. The type does not have to correspond directly to what it is stored
+  // on the file. However, a straight forward conversion based on C-style type
+  // casting should be valid. Readers do not apply any transformation to the
+  // pixel data other than casting from the pixel type on the file to the pixel
+  // type of the \code{ImageFileReader}. The following line illustrates the
+  // typical instantiation of the \code{ImageFileReader} type.
   //
   // \index{itk::ImageFileReader!Instantiation}
   // \index{itk::Image!read}
@@ -81,11 +79,10 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginLatex
   //
-  // The reader type can now be used to create one reader object.
-  // A smart pointer defined by the \code{::Pointer} notation
-  // is used to receive the reference to the newly created reader.
-  // The \code{New()} method of the reader type is invoked 
-  // to create the reader object.
+  // The reader type can now be used to create one reader object.  A
+  // \doxygen{SmartPointer} defined by the \code{::Pointer} notation is used to
+  // receive the reference to the newly created reader.  The \code{New()}
+  // method of the reader type is invoked to create the reader object.
   //
   // \index{itk::ImageFileReader!New()}
   // \index{itk::ImageFileReader!Pointer}

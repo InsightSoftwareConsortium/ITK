@@ -17,13 +17,14 @@
 
 //  Software Guide : BeginLatex
 //
-//  The PointSet class was designed to interact with the Image class. For this
-//  reason it was found convenient to allow the points in the set to hold
-//  values that could be computed from images. The value associated with the
-//  point is referred as \code{PixelType} in order to make it consisten with
-//  image terminology. Users can define the type as they please thanks to the
-//  flexibility offered by the Generic Programmin approach used in the toolkit.
-//  The \code{PixelType} is the first template parameter of the PointSet.
+//  The \doxygen{PointSet} class was designed to interact with the Image class.
+//  For this reason it was found convenient to allow the points in the set to
+//  hold values that could be computed from images. The value associated with
+//  the point is referred as \code{PixelType} in order to make it consisten
+//  with image terminology. Users can define the type as they please thanks to
+//  the flexibility offered by the Generic Programming approach used in the
+//  toolkit.  The \code{PixelType} is the first template parameter of the
+//  PointSet.
 //
 //  \index{itk::PointSet!PixelType}
 //
@@ -111,16 +112,17 @@ int main()
   //
   //  The \code{SetPointData()} and \code{GetPointData()} methods are not the
   //  most efficient way to get access to point data. It is far more efficient
-  //  to use the Iterators provided by the PointDataContainer. 
+  //  to use the Iterators provided by the \code{PointDataContainer}. 
   //
-  //  Data associated with points is internaly stored in PointDataContainers.
-  //  In the same way as with points, the actual container type used depend on
-  //  whether the style of the PointSet is static or dynamic. Static point sets
-  //  will use an \code{itk::VectorContainer} while dynamic point sets will use
-  //  an \code{MapContainer}.  The type of the data container is defined as one
-  //  of the traits in the PointSet. The following declaration illustrates how
-  //  the type can be taken from the traits and used to conveniently declare a
-  //  similar type on the global namespace.
+  //  Data associated with points is internaly stored in
+  //  \code{PointDataContainer}s.  In the same way as with points, the actual
+  //  container type used depend on whether the style of the PointSet is static
+  //  or dynamic. Static point sets will use an \doxygen{VectorContainer} while
+  //  dynamic point sets will use an \doxygen{MapContainer}.  The type of the
+  //  data container is defined as one of the traits in the PointSet. The
+  //  following declaration illustrates how the type can be taken from the
+  //  traits and used to conveniently declare a similar type on the global
+  //  namespace.
   //
   //  \index{itk::PointSet!PointDataContainer}
   //
@@ -223,7 +225,7 @@ int main()
   //  Software Guide : BeginLatex
   //
   //  The most efficient way to sequentially visit the data associated with
-  //  points is to use the iterators provided by PointDataContainer. The
+  //  points is to use the iterators provided by \code{PointDataContainer}. The
   //  \code{Iterator} type belongs to the traits of the PointsContainer
   //  classes. The iterator is not a reference counted class, so it is just
   //  created directly from the traits without using SmartPointers.
@@ -289,8 +291,8 @@ int main()
   //  Software Guide : BeginLatex
   //
   //  Note that as in STL, the iterator returned by the \code{End()} method is
-  //  not a valid iterator. This is called a past-end iterator in order to
-  //  indicate that it is the value resulting from advancing one step after
+  //  not a valid iterator. This is called a \emph{past-end} iterator in order
+  //  to indicate that it is the value resulting from advancing one step after
   //  visiting the last element in the container.
   // 
   //  Software Guide : EndLatex 

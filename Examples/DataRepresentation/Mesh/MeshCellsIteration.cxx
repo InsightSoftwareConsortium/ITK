@@ -17,8 +17,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  Cells are stored in the \code{itk::Mesh} as pointers to a generic cell
-//  \code{itk::CellInterface}.  This implies that only the virtual methods
+//  Cells are stored in the \doxygen{Mesh} as pointers to a generic cell
+//  \doxygen{CellInterface}.  This implies that only the virtual methods
 //  defined on this base cell class can be invoked. In order to use methods
 //  that are specific to each cell type it is necessary to down-cast the
 //  pointer to the actual type of the cell.  This can be done safely by taking
@@ -238,9 +238,9 @@ int main()
   //  The method \code{GetType()} returns one of these codes. It is then
   //  possible to test the type of the cell before down-casting its pointer to
   //  the actual type. For example, the following code visits all the cells in
-  //  the mesh and test which ones are actually of type LINE\_CELL. Only those
-  //  cells are down-casted to \code{LineType} cells and a method specific for
-  //  the \code{LineType} are invoked.
+  //  the mesh and test which ones are actually of type \code{LINE\_CELL}. Only
+  //  those cells are down-casted to \code{LineType} cells and a method
+  //  specific for the \code{LineType} are invoked.
   //
   //  Software Guide : EndLatex 
 

@@ -17,7 +17,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The Mesh class supports the representation of formal topologies. In
+//  The \doxygen{Mesh} class supports the representation of formal topologies. In
 //  particular the concept of \emph{K-Complex} can be correctly reprented in
 //  the Mesh. An informal definition of K-complex may be as follows: A
 //  K-Complex is a topological structure in which for every cell of dimension
@@ -25,7 +25,7 @@
 //  the structure.
 //
 //  This section illustrates how to instantiate a K-Complex structure using the
-//  \code{itk::Mesh}. The example structure is composed of one tetrahedron, its
+//  \doxygen{Mesh}. The example structure is composed of one tetrahedron, its
 //  four triangle faces, its six line edges and its four vertices.
 //
 //  \index{itk::Mesh!K-Complex}
@@ -62,7 +62,7 @@ int main()
   //  Software Guide : BeginLatex
   //  
   //  Then the PixelType is defined and the mesh type is instantiated with it.
-  //  Note that the dimension of the space is 3 in this case.
+  //  Note that the dimension of the space is $3$ in this case.
   //
   //  \index{itk::Mesh!Instantiation}
   //  \index{itk::Mesh!PixelType}
@@ -80,7 +80,7 @@ int main()
   //  Software Guide : BeginLatex
   //
   //  The cell type can now be instantiated using the traits
-  //  taken from the Mesh.  
+  //  taken from the \doxygen{Mesh}.  
   //
   //  \index{itk::LineCell!Instantiation}
   //  \index{itk::VertexCell!Instantiation}
@@ -104,9 +104,9 @@ int main()
   //
   //  The mesh is created and the points associated with the vertices are
   //  inserted.  Note that there is an important distintion between the points
-  //  in the mesh and the VertexCell concept. A VertexCell is a cell of
-  //  dimension zero. Its main difference with a point is that the cell can be
-  //  aware of neighborhood relationships with other cells. Points are not
+  //  in the mesh and the \doxygen{VertexCell} concept. A VertexCell is a cell
+  //  of dimension zero. Its main difference with a point is that the cell can
+  //  be aware of neighborhood relationships with other cells. Points are not
   //  aware of the existence of cells. In fact, from the pure topological point
   //  of view, the coordinates of points in the mesh are completely irrelevant.
   //  They may as well be absent from the mesh structure altogether.
@@ -241,10 +241,10 @@ int main()
 
   //  Software Guide : BeginLatex
   //  
-  //  Note how the \code{CellAutoPointer} is reused every time. The autopointer
-  //  losses ownership of the cell when it is passed as argument of the
-  //  \code{SetCell()} method. The AutoPointer is attached to a new cell by
-  //  using the \code{TakeOwnership()} method. 
+  //  Note how the \code{CellAutoPointer} is reused every time. The
+  //  \doxygen{AutoPointer} losses ownership of the cell when it is passed as
+  //  argument of the \code{SetCell()} method. The AutoPointer is attached to a
+  //  new cell by using the \code{TakeOwnership()} method. 
   //
   //  The construction of the K-Complex continues now with the creation of the
   //  six lines on the tetrahedron edges.
@@ -289,8 +289,8 @@ int main()
 
   //  Software Guide : BeginLatex
   //  
-  //  Finally the zero dimensional cells represented by the VertexCell are
-  //  created and inserted in the mesh.
+  //  Finally the zero dimensional cells represented by the
+  //  \doxygen{VertexCell} are created and inserted in the mesh.
   //
   //  Software Guide : EndLatex 
 
@@ -387,14 +387,14 @@ int main()
   //  Note that cells are stored as pointer to a generic cell type that is the
   //  base class of all the specific cell classes. This means that at this
   //  level we can only have access to the virtual methods defined in the
-  //  CellType. 
+  //  \code{CellType}. 
   //
   //  The point identifiers to which the cells have been associated can be
-  //  visited using iterators defined in the CellType trait. The following code
-  //  illustrates the use of the PointIdIterators. The \code{PointIdsBegin()}
-  //  method returns the iterator to the first point-identifier in the cell.
-  //  The \code{PointIdsEnd()} method returns the iterator to the past-end
-  //  point-identifier in the cell.
+  //  visited using iterators defined in the \code{CellType} trait. The
+  //  following code illustrates the use of the PointIdIterators. The
+  //  \code{PointIdsBegin()} method returns the iterator to the first
+  //  point-identifier in the cell.  The \code{PointIdsEnd()} method returns
+  //  the iterator to the past-end point-identifier in the cell.
   //
   //  \index{CellType!PointIdsBegin()}
   //  \index{CellType!PointIdsEnd()}
@@ -464,7 +464,7 @@ int main()
   //  by specifying that two triangles are not considered to be neighbors any
   //  more. 
   //
-  //  Neigborhood relationships are represented in the \code{itk::Mesh} by the
+  //  Neigborhood relationships are represented in the \doxygen{Mesh} by the
   //  notion of \emph{BoundaryFeature}. Every cell has a internal list of
   //  cell-identifiers pointing to other cells that are considered to be its
   //  neighbors. Boundary features are classified by dimension. For example, a
@@ -481,7 +481,7 @@ int main()
   //  Let's take in our current example the tetrahedron cell that was
   //  associated with the cell-identifier \code{0} and assign to it the four
   //  vertices as boundaries of dimension zero. This is done by invoking the
-  //  \code{SetBoundaryAssignment()} method on the \code{itk::Mesh}. 
+  //  \code{SetBoundaryAssignment()} method on the \doxygen{Mesh}. 
   //
   //  \index{itk::Mesh!SetBoundaryAssignment()}
   //  \index{SetBoundaryAssignment()!itk::Mesh}

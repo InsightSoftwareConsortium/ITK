@@ -66,8 +66,10 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{itk::LineCell} type can now be instantiated using the traits
-  //  taken from the Mesh.  \index{itk::LineCell!Instantiation}
+  //  The \doxygen{LineCell} type can now be instantiated using the traits
+  //  taken from the Mesh.  
+  //
+  //  \index{itk::LineCell!Instantiation}
   //
   //  Software Guide : EndLatex 
 
@@ -145,7 +147,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Data associated with cells is inserted in the \code{itk::Mesh} by using
+  //  Data associated with cells is inserted in the \doxygen{Mesh} by using
   //  the \code{SetCellData()} method.  It requires the user to provide an
   //  identifier and the value to be inserted. The identifier should match one
   //  of the inserted cells. In this simple example, the square of the cell
@@ -168,7 +170,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Cell data can be read from the \code{itk::Mesh} with the
+  //  Cell data can be read from the \doxygen{Mesh} with the
   //  \code{GetCellData()} method. It requires the user to provide the
   //  identifier of the cell for which the data is to be retrieved. The user
   //  should provide also a valid pointer to a location where the data can be
@@ -197,7 +199,7 @@ int main()
   //
   //  Neither \code{SetCellData()} or \code{GetCellData()} are efficient ways
   //  to access cell data. Massive access to cell data can be achieved
-  //  efficently by using the Iterators built-in the CellDataContainer. 
+  //  efficently by using the Iterators built-in the \code{CellDataContainer}. 
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellDataContainer::ConstIterator CellDataIterator;

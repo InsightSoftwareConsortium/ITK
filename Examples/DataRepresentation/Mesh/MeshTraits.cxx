@@ -17,8 +17,10 @@
 
 //  Software Guide : BeginLatex
 //
-//  This section illustrates the full power of Generic Programming. This is
-//  sometimes perceived as \emph{too much of a good thing}! 
+//  This section illustrates the full power of 
+//  \href{http://www.boost.org/more/generic_programming.html}{Generic
+//  Programming}.  This is sometimes perceived as \emph{too much of a good
+//  thing}! 
 //
 //  The toolkit has been designed to offer flexibility yet keeping the
 //  complexity of the code to a moderate level. This is achieved in the Mesh by
@@ -30,27 +32,28 @@
 //  different types involved in a concept is called \emph{traits}. They are
 //  basically the list of all types that interact with the current class.
 //
-//  The \code{itk::Mesh} is templated over three parameters. So far only two of
+//  The \doxygen{Mesh} is templated over three parameters. So far only two of
 //  them have been discussed, namely the \code{PixelType} and the
 //  \code{Dimension}. The third parameter is a class providing the set of
 //  traits required by the mesh. When the third parameter is omitted a default
-//  class is used. This default class is the
-//  \code{itk::DefaultStaticMeshTraits}. If you want to customize the types
-//  used by the mesh, the way to proceed is to modify the default traits and
-//  provide them as the third parameter of the Mesh class instantiation.
+//  class is used. This default class is the \doxygen{DefaultStaticMeshTraits}.
+//  If you want to customize the types used by the mesh, the way to proceed is
+//  to modify the default traits and provide them as the third parameter of the
+//  Mesh class instantiation.
 //
 //  There are two ways of achieving this. The first is to use the existing
-//  \code{itk::DefaultStaticMeshTraits} class. This class is itself templated
+//  \doxygen{DefaultStaticMeshTraits} class. This class is itself templated
 //  over six parameters.  Customizing those parameters could provide enough
 //  flexibility to define a very specific kind of mesh. The second way is to
 //  write a traits class from scratch, in which case the easiest way to proceed
-//  is to copy the itkDefaultStaticMeshTraits into another file and edit its
-//  content. Only the first approach is illustrated here. The second is
-//  discouraged unless you are familiar with generic programming and feel
-//  comptfortable with C++ templates. 
+//  is to copy the \code{itkDefaultStaticMeshTraits} into another file and edit
+//  its content. Only the first approach is illustrated here. The second is
+//  discouraged unless you are familiar with Generic Programming, feel
+//  comfortable with C++ templates and have access to an abundant supply of
+//  coffee. 
 //
 //  The first step in customizing the mesh is to include the header file of the
-//  Mesh and its StaticTraits.
+//  \doxygen{Mesh} and its StaticTraits.
 //  
 //  \index{itk::DefaultStaticMeshTraits!Header}
 //
@@ -87,13 +90,13 @@ int main()
   //  \end{itemize}
   //
   //  Let's define types and values for each one of those elements. For example
-  //  the following code will use points in 3D space as nodes of the Mesh. The
-  //  maximum dimension of the cells will be 2 which means that this is a 2D
-  //  manifold better know as a \emph{surface}. The data type associated with
-  //  points is defined to be a four dimensional vector. This type could
-  //  represent values of membership for a four-classes segmentation method.
-  //  The value selected for the cells are 4x3 matrices which could have for
-  //  example the derivative of the membership values with respect to
+  //  the following code will use points in $3D$ space as nodes of the
+  //  \doxygen{Mesh}. The maximum dimension of the cells will be 2 which means
+  //  that this is a 2D manifold better know as a \emph{surface}. The data type
+  //  associated with points is defined to be a four dimensional vector. This
+  //  type could represent values of membership for a four-classes segmentation
+  //  method.  The value selected for the cells are $4\times3$ matrices which could
+  //  have for example the derivative of the membership values with respect to
   //  coordinates in space. Finally a \code{double} type is selected for
   //  representing space coordinates on the mesh points and also for the weight
   //  used for interpolating values.
@@ -123,8 +126,10 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{itk::LineCell} type can now be instantiated using the traits
-  //  taken from the Mesh.  \index{itk::LineCell!Instantiation}
+  //  The \doxygen{LineCell} type can now be instantiated using the traits
+  //  taken from the Mesh.  
+  //
+  //  \index{itk::LineCell!Instantiation}
   //
   //  Software Guide : EndLatex 
 
@@ -138,9 +143,10 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Let's now create a Mesh and insert some points on it. Note that the
-  //  dimension of the points matches the dimension of the Mesh. Here we insert
-  //  a sequence of points that look like a plot of the $log()$ function.
+  //  Let's now create an \doxygen{Mesh} and insert some points on it. Note
+  //  that the dimension of the points matches the dimension of the Mesh. Here
+  //  we insert a sequence of points that look like a plot of the $log()$
+  //  function.
   //
   //  \index{itk::Mesh!New()}
   //  \index{itk::Mesh!SetPoint()}
@@ -203,7 +209,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Data associated with cells is inserted in the \code{itk::Mesh} by using
+  //  Data associated with cells is inserted in the \doxygen{Mesh} by using
   //  the \code{SetCellData()} method.  It requires the user to provide an
   //  identifier and the value to be inserted. The identifier should match one
   //  of the inserted cells. In this simple example, the square of the cell
@@ -226,7 +232,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Cell data can be read from the \code{itk::Mesh} with the
+  //  Cell data can be read from the \doxygen{Mesh} with the
   //  \code{GetCellData()} method. It requires the user to provide the
   //  identifier of the cell for which the data is to be retrieved. The user
   //  should provide also a valid pointer to a location where the data can be

@@ -17,26 +17,26 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \code{itk::Mesh} class is intended to represent shapes in space.  It
-//  derives from the \code{itk::PointSet} class and hence inherits all the
+//  The \doxygen{Mesh} class is intended to represent shapes in space.  It
+//  derives from the \doxygen{PointSet} class and hence inherits all the
 //  functionalities related with access to points and access to the pixel-data
 //  associated with those points.  The mesh class is also $N-Dimensional$ which
 //  allows a great flexibility in it use. 
 //
-//  In practice an \code{itk::Mesh} class can be seen as an
-//  \code{itk::PointSet} to which cells of many different dimensions and shapes
-//  have been added. Cells in the mesh are defined in terms of the existing
-//  points using their point-identifiers.
+//  In practice an \doxygen{Mesh} class can be seen as an \doxygen{PointSet} to
+//  which cells of many different dimensions and shapes have been added. Cells
+//  in the mesh are defined in terms of the existing points using their
+//  point-identifiers.
 //
-//  In the same way as for the \code{itk::PointSet}, two basic styles of
-//  Meshes are available in ITK. They are referred to as \emph{Static} and
+//  In the same way as for the \doxygen{PointSet}, two basic styles of Meshes
+//  are available in ITK. They are referred to as \emph{Static} and
 //  \emph{Dynamic}. The first one is used when the number of points in the set
 //  can be known in advance and it is not expected to change as a consecuence
 //  of the manipulations performed on the set. The dynamic style, on the other
 //  hand, is intended to support insertion and removal of points in an
 //  efficient manner. The reason for making the distinction between both styles
 //  is to facilitate the fine tunning of its behavior with the aim of
-//  optimizing performance and memory management. In the case of the Mesh, the 
+//  optimizing performance and memory management. In the case of the Mesh, the
 //  dynamic/static aspect is extended to the management of Cells.
 //
 //  \index{itk::Mesh}
@@ -71,11 +71,12 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The Mesh type uses extensively the capabilities provided by Generic
-  //  Programming. In particular the Mesh class is parametrized over the
+  //  The Mesh type uses extensively the capabilities provided by
+  //  \href{http://www.boost.org/more/generic_programming.html}{Generic
+  //  Programming}. In particular the Mesh class is parametrized over the
   //  PixelType and the dimension of the space. PixelType is the type of the
   //  value associated with every point just as it is done with the
-  //  \code{itk::PointSet}. The following line illustrates a typical
+  //  \doxygen{PointSet}. The following line illustrates a typical
   //  instantiation of the Mesh.
   //
   //  \index{itk::Mesh!Instantiation}
@@ -97,7 +98,7 @@ int main()
   //  are reference counted objects and are managed using SmartPointers. The
   //  following line illustrates how a mesh is created by invoking the
   //  \code{New()} method of the MeshType and the resulting object is assigned
-  //  to a SmartPointer.
+  //  to a \doxygen{SmartPointer}.
   //
   //  \index{itk::Mesh!New()}
   //  \index{itk::Mesh!Pointer()}
@@ -112,11 +113,11 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The management of points in the \code{itk::Mesh} is exactly the same as
-  //  in the \code{itk::PointSet}. The type point associated with the mesh can
-  //  be obtained through the \code{PointType} trait. The following code shows
-  //  the creation of points compatible with the mesh type defined above and
-  //  the assignment of values to its coordinates.
+  //  The management of points in the \doxygen{Mesh} is exactly the same as in
+  //  the \doxygen{PointSet}. The type point associated with the mesh can be
+  //  obtained through the \code{PointType} trait. The following code shows the
+  //  creation of points compatible with the mesh type defined above and the
+  //  assignment of values to its coordinates.
   //
   //  \index{itk::Mesh!PointType}
   //
@@ -139,10 +140,10 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The points can now be inserted in the mesh using the \code{SetPoint()}
+  //  The points can now be inserted in the Mesh using the \code{SetPoint()}
   //  method. Note that points are copied into the mesh structure. This means
   //  that the local instances of the points can now be modified without
-  //  affecting the mesh content.
+  //  affecting the Mesh content.
   //
   //  \index{itk::Mesh!SetPoint()}
   //
@@ -160,7 +161,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The current number of points in the mesh can be queried with the
+  //  The current number of points in the Mesh can be queried with the
   //  \code{GetNumberOfPoints()} method.
   //
   //  \index{itk::Mesh!GetNumberOfPoints()}
@@ -177,8 +178,8 @@ int main()
   //
   //  The points can now be efficiently accessed using the Iterator to the
   //  PointsContainer as it was done in the previous section for the
-  //  \code{itk::PointSet}.  First, the point iterator type is extracted
-  //  through the mesh traits.
+  //  \doxygen{PointSet}.  First, the point iterator type is extracted through
+  //  the mesh traits.
   //
   //  \index{PointsContainer!Iterator}
   //  \index{itk::Mesh!GetPoints()}

@@ -22,17 +22,20 @@
 
 //  Software Guide : BeginLatex
 //
-//  Thanks to the flexibility provided by the Generic Programming
-//  style on which ITK has been based, it is possible to instantiate
-//  images of arbitrary pixel type.  The following example illustrates
-//  how a color image with RGB pixels can be defined.
+//  Thanks to the flexibility provided by the
+//  \href{http://www.boost.org/more/generic_programming.html}{Generic
+//  Programming} style on which ITK has been based, it is possible to
+//  instantiate images of arbitrary pixel type.  The following example
+//  illustrates how a color image with RGB pixels can be defined.
 //
-//  A class intended to support the RGB pixel type is available in ITK.
-//  You could as well define your own pixel class and use it to instantiate 
-//  a custom image type. In order to use the itk::RGBPixel class it is 
+//  A class intended to support the RGB pixel type is available in ITK.  You
+//  could as well define your own pixel class and use it to instantiate a
+//  custom image type. In order to use the \doxygen{RGBPixel} class it is
 //  necessary to include its header file.
 //
+//  \index{itk::RGBPixel|textbf}
 //  \index{itk::RGBPixel!Image}
+//  \index{itk::RGBPixel!header}
 //
 //  Software Guide : EndLatex 
 
@@ -78,8 +81,8 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginLatex
   //
-  // The image type can be used for instantiating other filters. For example 
-  // an ImageFileReader object that will read the image from a file.
+  // The image type can be used for instantiating other filters. For example an
+  // \doxygen{ImageFileReader} object that will read the image from a file.
   //
   // \index{itk::ImageFileReader!RGB Image}
   //
@@ -111,6 +114,8 @@ int main( int argc, char ** argv )
   pixelIndex[1] = 35;  
   pixelIndex[2] =  5;  
 
+
+
   // Software Guide : BeginLatex
   //
   // Access to the color components on the pixels can now be performed 
@@ -136,8 +141,8 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginLatex
   //
-  // Or using the subindex notation since the RGBPixel inherits the 
-  // \code{[]} operator from the itk::Array class.
+  // Or using the subindex notation since the \doxygen{RGBPixel} inherits the
+  // \code{[]} operator from the \doxygen{FixedArray} class.
   //
   // Software Guide : EndLatex 
 
@@ -148,11 +153,10 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
   //
-  // Lets repeat that both SetPixel and GetPixel are extremly 
-  // inefficient and should only be used for debugging purposes
-  // or for implementing interactions with a graphical user interface
-  // for supporting features like quering the content of a pixels
-  // by clicking with the mouse.
+  // Lets repeat that both \code{SetPixel()} and \code{GetPixel()} are extremely
+  // inefficient and should only be used for debugging purposes or for
+  // implementing interactions with a graphical user interface for supporting
+  // features like quering the content of a pixels by clicking with the mouse.
   //
  
   return 0;

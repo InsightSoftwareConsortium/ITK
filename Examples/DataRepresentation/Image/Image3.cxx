@@ -17,12 +17,12 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the SetPixel and GetPixel methods.
-// These two methods are intended to provide direct access to pixels
-// data contained in the image. Be warned that these two methods have
-// a very low performance and should not be used to access massive 
-// amounts of data on the image. Image iterators are the appropriate
-// mechanism for accessing efficiently the image pixel data.
+// This example illustrates the use of the \code{SetPixel()} and
+// \code{GetPixel()} methods.  These two methods are intended to provide direct
+// access to pixels data contained in the image. Be warned that these two
+// methods have a very low performance and should not be used to access massive
+// amounts of data on the image. Image iterators are the appropriate mechanism
+// for accessing efficiently the image pixel data.
 //
 // Software Guide : EndLatex 
 
@@ -66,25 +66,22 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // The individual position of a pixel inside the image
-  // is identified by a unique index. An index is an array
-  // of integers that define the position of the pixel along
-  // each dimension of the image. The IndexType is automatically
-  // defined in the ImageType and can be accessed using the 
-  // scope operator like \code{::IndexType}. The length of
-  // the array will match the dimension of the associated image.
+  // The individual position of a pixel inside the image is identified by a
+  // unique index. An index is an array of integers that define the position of
+  // the pixel along each dimension of the image. The IndexType is
+  // automatically defined in the ImageType and can be accessed using the scope
+  // operator like \doxygen{Index}. The length of the array will match the
+  // dimension of the associated image.
   //
-  // The following code illustrates the declaration of an index
-  // variable and the assignment to each one of its components.
-  // Please note that indices do not use SmartPointers for its
-  // representation. The reason being that indices are pretty
-  // small objects not intended to be shared. It results more
-  // efficient to produce multiple copies of these small objects
-  // than trying to share them using the SmartPointer mechanisms. 
+  // The following code illustrates the declaration of an index variable and
+  // the assignment to each one of its components.  Please note that indices do
+  // not use SmartPointers for its representation. The reason being that
+  // indices are pretty small objects not intended to be shared. It results
+  // more efficient to produce multiple copies of these small objects than
+  // trying to share them using the SmartPointer mechanisms. 
   // 
-  // The following lines declare an instance of the index type
-  // and initialize its content in order to associate it with
-  // a pixel position in the image.
+  // The following lines declare an instance of the index type and initialize
+  // its content in order to associate it with a pixel position in the image.
   //
   // Software Guide : EndLatex 
 
@@ -102,9 +99,9 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // Having defined a pixel position with an index it is then
-  // possible to access the content of the pixel in the image.
-  // The SetPixel() method allows to set the value of the pixels.
+  // Having defined a pixel position with an index it is then possible to
+  // access the content of the pixel in the image.  The \code{SetPixel()}
+  // method allows to set the value of the pixels.
   //
   // \index{itk::Image!SetPixel()}
   // 
@@ -137,15 +134,14 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // Please note that \code{GetPixel() } returns the pixel value
-  // by copy not by reference. Hence, the method can not be used
-  // for indirectly modifying the image content.
+  // Please note that \code{GetPixel() } returns the pixel value by copy not by
+  // reference. Hence, the method can not be used for indirectly modifying the
+  // image content.
   //
-  // Lets repeat that both SetPixel and GetPixel are extremly 
-  // inefficient and should only be used for debugging purposes
-  // or for implementing interactions with a graphical user interface
-  // for supporting features like quering the content of a pixels
-  // by clicking with the mouse.
+  // Lets repeat that both \code{SetPixel()} and \code{GetPixel()} are extremly
+  // inefficient and should only be used for debugging purposes or for
+  // implementing interactions with a graphical user interface for supporting
+  // features like quering the content of a pixels by clicking with the mouse.
   //
   // Software Guide : EndLatex 
 

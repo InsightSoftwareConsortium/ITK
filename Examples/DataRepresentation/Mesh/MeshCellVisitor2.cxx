@@ -18,9 +18,10 @@
 //  Software Guide : BeginLatex
 //
 //  The following section illustrate a realistic example of the use of Cell
-//  visitors on the Mesh. A set of different visitors are defined here, each one
-//  associated with a particular type of cell. All the visitors are registered
-//  with a MultiVisitor class which is passed to the \code{itk::Mesh}.
+//  visitors on the \doxygen{Mesh}. A set of different visitors are defined
+//  here, each one associated with a particular type of cell. All the visitors
+//  are registered with a MultiVisitor class which is passed to the
+//  \doxygen{Mesh}.
 // 
 //  The first step is to include the \code{CellInterfaceVisitor} header file.
 //
@@ -390,8 +391,8 @@ int main()
   //  and the Visitor class defining what to do with the cell. 
   //
   //  A visitor implementation class can now be created using the normal
-  //  invokation to its \code{::New()} method and assigning the result to a
-  //  SmartPointer.
+  //  invokation to its \code{New()} method and assigning the result to a
+  //  \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex 
 
@@ -482,7 +483,7 @@ int main()
   //  Software Guide : BeginLatex
   //
   //  Finally, the iteration over the cells is triggered by calling the method
-  //  \code{Accept()} on the \code{itk::Mesh}.
+  //  \code{Accept()} on the \doxygen{Mesh}.
   // 
   //  \index{itk::Mesh!Accept()}
   //  \index{Accept()!itk::Mesh!}

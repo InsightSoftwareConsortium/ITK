@@ -17,7 +17,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The PointSet class uses an internal container to manage the storage of
+//  The \doxygen{PointSet} class uses an internal container to manage the storage of
 //  Points. It is more efficient, in general, to manage points by using the
 //  access methods provided directly on the points container. The following
 //  example illustrates how to interact with the point container and how to use
@@ -35,7 +35,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{PointContainer} type is defined among the \emph{traits} of the
+  //  The \code{PointContainer} type is defined among the \emph{Traits} of the
   //  PointSet class. The following line conveniently takes the
   //  \code{PointContainer} type from the PointSet traits and declare it on the
   //  global namespace.
@@ -52,17 +52,19 @@ int main()
   //
   //  The actual type of the \code{PointsContainer} depends on what style of
   //  \code{PointSet} is being used. Dynamic PointSet use the
-  //  \code{itk::MapContainer} while the Static PointSet uses the
-  //  \code{itk::VectorContainer}. The vector and map container are basically
-  //  ITK wrappers around the STL classes \code{std::map} and
-  //  \code{std::vector}. By default, the PointSet uses a Static style, hence
-  //  the default type of point container is an \code{itk::VectorContainer}.
-  //  Both the map and vector container are templated over the type of the
-  //  elements they contain. In this case they are templated over
-  //  \code{PointType}. Containers are reference counted object. They are
-  //  then created with the \code{New()} method and assigned to a SmartPointer
-  //  after creation.  The following line creates a point container compatible
-  //  with the type of the PointSet from which the trait has been taken.
+  //  \doxygen{MapContainer} while the Static PointSet uses the
+  //  \doxygen{VectorContainer}. The vector and map containers are basically ITK
+  //  wrappers around the \href{http://www.sgi.com/tech/stl/}{STL} classes
+  //  \href{http://www.sgi.com/tech/stl/Map.html}{\code{std::map}} and
+  //  \href{http://www.sgi.com/tech/stl/Vector.html}{\code{std::vector}}.  By
+  //  default, the PointSet uses a Static style, hence the default type of
+  //  point container is an \doxygen{VectorContainer}.  Both the map and
+  //  vector container are templated over the type of the elements they
+  //  contain. In this case they are templated over \code{PointType}.
+  //  Containers are reference counted object. They are then created with the
+  //  \code{New()} method and assigned to a SmartPointer after creation.  The
+  //  following line creates a point container compatible with the type of the
+  //  PointSet from which the trait has been taken.
   //
   //  \index{PointContainer!New()}
   //  \index{PointContainer!Pointer}
@@ -128,7 +130,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Finally the PointsContainer can be assigned to the PointSet. This will
+  //  Finally the \code{PointsContainer} can be assigned to the PointSet. This will
   //  substitute any previously existing PointContainer on the PointSet. The
   //  assignment is done using the \code{SetPoints()} method.
   //
@@ -147,9 +149,9 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The PointContainer can be obtained from the PointSet using the
-  //  \code{GetPoints()} method.  This method returns a SmartPointer to the
-  //  actual container owned by the PointSet.
+  //  The PointContainer object can be obtained from the PointSet using the
+  //  \code{GetPoints()} method.  This method returns a \doxygen{SmartPointer}
+  //  to the actual container owned by the PointSet.
   //
   //  \index{itk::PointSet!GetPoints()}
   //  \index{PointsContainer!Pointer}

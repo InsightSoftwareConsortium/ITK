@@ -17,20 +17,22 @@
 
 // Software Guide : BeginLatex
 //
-// Many image processing tasks require images of non-scalar 
-// pixel types. A typical example is the case of Images of
-// vectors. This is the image type required to represent the
-// gradient of a scalar image. The following code illustrates
-// how to instantiate and use an image whose pixels are of 
-// vector type.
+// Many image processing tasks require images of non-scalar pixel types. A
+// typical example is the case of Images of vectors. This is the image type
+// required to represent the gradient of a scalar image. The following code
+// illustrates how to instantiate and use an image whose pixels are of vector
+// type.
 //
-// For convenience we use here the itk::Vector class to define a pixel type.
-// The Vector class is intended to represent a geometrical vector
-// in space, not as an array container like the \texttt{std::vector} in STL.
-// If you are interested in containers, the itk::VectorContainer 
-// class may provide the functionalities you are looking for.
+// For convenience we use here the \doxygen{Vector} class to define a pixel
+// type.  The Vector class is intended to represent a geometrical vector in
+// space. It is not intended to be used as an array container like the
+// \href{http://www.sgi.com/tech/stl/Vector.html}{\code{std::vector}} in
+// href{http://www.sgi.com/tech/stl/}{STL}.  If you are interested in
+// containers, the \doxygen{VectorContainer} class may provide the
+// functionalities you are looking for.
 //
 // \index{itk::Vector}
+// \index{itk::Vector!header}
 //
 //
 // The first step is then to include the header file of the vector class.
@@ -50,12 +52,11 @@ int main()
 
   // Software Guide : BeginLatex
   // 
-  // The \texttt{itk::Vector} is templated over the type used to 
-  // represent the coordinate in space and over the space dimension. 
-  // In this example we want the vector dimension to match the image
-  // dimension but this is by no means a requirement. We could have
-  // defined a four dimensional image with three dimensional vectors
-  // as pixels. 
+  // The \doxygen{Vector} class is templated over the type used to represent
+  // the coordinate in space and over the space dimension.  In this example we
+  // want the vector dimension to match the image dimension but this is by no
+  // means a requirement. We could have defined a four dimensional image with
+  // three dimensional vectors as pixels. 
   //
   // \index{itk::Vector!Instantiation}
   // \index{itk::Vector!itk::Image}
@@ -112,8 +113,8 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // The itk::Vector inherits the operator \texttt{[]} from the
-  // itk::Array class. It is then possible to access its components
+  // The \doxygen{Vector} inherits the operator \code{[]} from the
+  // \doxygen{FixedArray} class. It is then possible to access its components
   // using index notation as follows.
   //
   // Software Guide : EndLatex 
@@ -131,9 +132,10 @@ int main()
   // Software Guide : BeginLatex
   //
   // We can now store this vector in one of the image pixels 
-  // by defining an index and invoking the \texttt{SetPixel()} method.
+  // by defining an index and invoking the \code{SetPixel()} method.
   //
   // Software Guide : EndLatex 
+
   // Software Guide : BeginCodeSnippet
   image->SetPixel(   pixelIndex,   pixelValue  );
   // Software Guide : EndCodeSnippet
@@ -148,11 +150,10 @@ int main()
 
 
   //
-  // Lets repeat that both SetPixel and GetPixel are extremly 
-  // inefficient and should only be used for debugging purposes
-  // or for implementing interactions with a graphical user interface
-  // for supporting features like quering the content of a pixels
-  // by clicking with the mouse.
+  // Lets repeat that both \code{SetPixel()} and \code{GetPixel()} are extremly
+  // inefficient and should only be used for debugging purposes or for
+  // implementing interactions with a graphical user interface for supporting
+  // features like quering the content of a pixels by clicking with the mouse.
   //
 
 

@@ -17,14 +17,15 @@
 
 //  Software Guide : BeginLatex
 //
-//  A Mesh can contain a variety of cells types. Typical cells are the
-//  LineCell, TriangleCell, QuadrilateralCell and TetrahedronCell. A large
-//  flexibility is provided for managing cells at the price of a bit more of
-//  complexity than in the case of point management.
+//  An \doxygen{Mesh} can contain a variety of cells types. Typical cells are
+//  the \doxygen{LineCell}, \doxygen{TriangleCell}, \doxygen{QuadrilateralCell}
+//  and \doxygen{TetrahedronCell}. A large flexibility is provided for managing
+//  cells at the price of a bit more of complexity than in the case of point
+//  management.
 //
 //  The following code creates a polygonal line in order to illustrate the
 //  simplest case of cell management in a Mesh. The only cell type used here is
-//  the \code{itk::LineCell}. The header file of this class has to be included.
+//  the \doxygen{LineCell}. The header file of this class has to be included.
 //
 //  \index{itk::LineCell!Header}
 //
@@ -70,8 +71,10 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{itk::LineCell} type can now be instantiated using the traits
-  //  taken from the Mesh.  \index{itk::LineCell!Instantiation}
+  //  The \doxygen{LineCell} type can now be instantiated using the traits
+  //  taken from the Mesh.  
+  //
+  //  \index{itk::LineCell!Instantiation}
   //
   //  Software Guide : EndLatex 
 
@@ -101,14 +104,14 @@ int main()
   //  since it is now necessary to stablish a protocol to make clear who is
   //  responsible for allocating and releasing the cells' memory. This protocol
   //  is implemented in the form of a specific type of pointer called the
-  //  \code{CellAutoPointer}. This pointer differ in many senses from the
-  //  SmartPointer. The CellAutoPointer has a internal pointer to the actual
-  //  object and a boolean flag that indicates if the CellAutoPointer is
-  //  responsible for releasing the cell memory whenever the time comes for its
-  //  own destruction. It is said that a \code{CellAutoPointer} \emph{owns} the
-  //  cell when it is responsible for its destruction. Many CellAutoPointer can
-  //  point to the same cell but at any given time, only \textbf{one}
-  //  CellAutoPointer can own the cell. 
+  //  \code{CellAutoPointer}. This pointer, based on the \doxygen{AutoPointer},
+  //  differs in many senses from the SmartPointer. The CellAutoPointer has a
+  //  internal pointer to the actual object and a boolean flag that indicates
+  //  if the CellAutoPointer is responsible for releasing the cell memory
+  //  whenever the time comes for its own destruction. It is said that a
+  //  \code{CellAutoPointer} \emph{owns} the cell when it is responsible for
+  //  its destruction. Many CellAutoPointer can point to the same cell but at
+  //  any given time, only \textbf{one} CellAutoPointer can own the cell. 
   //
   //  The \code{CellAutoPointer} trait is defined in the MeshType and can be
   //  extracted as illustrated in the following line.
@@ -161,7 +164,7 @@ int main()
   //
   //  The following code creates two CellAutoPointers and initialize them with
   //  newly created cell objects. The actual cell type created in this case is
-  //  \code{itk::LineCell}. Note that cells are created with the normal
+  //  \doxygen{LineCell}. Note that cells are created with the normal
   //  \code{new} C++ operator. The CellAutoPointer takes ownership of the
   //  received pointer by using the method \code{TakeOwnership()}. Even though
   //  this may seem verbose on the code, it results to be necessary to make
@@ -189,12 +192,12 @@ int main()
   //  The LineCells should now be associated with points in the mesh. This is
   //  done using the identifiers assigned to points when they were inserted in
   //  the mesh. Every cell type has a specific number of points to be
-  //  associated with. For example a \code{LineCell} requires two points, a
-  //  \code{TriangleCell} requires three and a \code{TetrahedronCell} requires
-  //  four. Cells use an internal numbering system for points. It is simple an
-  //  index in the range $\{0,NumberOfPoints-1\}$. The association of points
-  //  and cells is done by the \code{SetPointId()} method which requires the
-  //  user to provide the internal index of the point in the cell and the
+  //  associated with. For example a \doxygen{LineCell} requires two points, a
+  //  \doxygen{TriangleCell} requires three and a \doxygen{TetrahedronCell}
+  //  requires four. Cells use an internal numbering system for points. It is
+  //  simple an index in the range $\{0,NumberOfPoints-1\}$. The association of
+  //  points and cells is done by the \code{SetPointId()} method which requires
+  //  the user to provide the internal index of the point in the cell and the
   //  corresponding pointIdentifier in the Mesh. The internal cell index is the
   //  first parameter of \code{SetPointId()} while the mesh point-identifier is
   //  the second.

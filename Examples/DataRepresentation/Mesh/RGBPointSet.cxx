@@ -20,7 +20,7 @@
 //  The following example illustrates how a point set can be parametrized to
 //  manage a particular pixel type. In this case, pixels of RGB type are used.
 //  The first step is then to include the header files of the
-//  \code{itk::RGBPixel} and \code{itk::PointSet} classes.
+//  \doxygen{RGBPixel} and \doxygen{PointSet} classes.
 //
 //  \index{itk::PointSet!RGBPixel}
 //
@@ -69,9 +69,11 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
+
+
   //  Software Guide : BeginLatex
   //
-  //  The following code is generating a circle in 3D and assigning RGB values
+  //  The following code is generating a circle in $3D$ and assigning RGB values
   //  to the points. The components of the RGB values in this example are
   //  computed to represent the position of the points.
   //
@@ -123,6 +125,9 @@ int main()
     ++pointIterator;                      
     }
   // Software Guide : EndCodeSnippet
+
+
+
 
   //  Software Guide : BeginLatex
   //

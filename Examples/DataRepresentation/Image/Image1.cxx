@@ -17,9 +17,9 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \code{itk::Image} class.
-// The following code is the minimal procedure required to 
-// instantiate, declare and create an image class.
+// This example illustrates the use of the \doxygen{Image} class.  The
+// following code is the minimal procedure required to instantiate, declare and
+// create an image class.
 //
 // \index{itk::Image!Instantiation|textbf}
 // \index{itk::Image!Header|textbf}
@@ -56,7 +56,7 @@ int main()
   //
   // The image can then be created by invoking the \code{New()} operator
   // from the corresponding image type and assigning the result
-  // to a \code{SmartPointer}. 
+  // to a \doxygen{SmartPointer}. 
   //
   // \index{itk::Image!Pointer|textbf}
   // \index{itk::Image!New()|textbf}
@@ -76,9 +76,9 @@ int main()
   // later to manage partitions of an image in order to process
   // selected regions. 
   //   
-  // The starting point of the image is defined by an N-Dimensional 
-  // array where each component is an integer indicating the
-  // grid coordinates of the initial pixel of the image.
+  // The starting point of the image is defined by an \doxygen{Index} class,
+  // which is an N-Dimensional array where each component is an integer
+  // indicating the grid coordinates of the initial pixel of the image.
   //
   // \index{itk::Image!Size|textbf}
   // \index{itk::Image!SizeType}
@@ -94,10 +94,11 @@ int main()
   // Software Guide : EndCodeSnippet 
 
   // Software Guide : BeginLatex
-  // The image size is defined by an SizeType which is simply
-  // an array of the same dimension of the image. The components 
-  // of the array are integeres indicating the extent in pixels
-  // of the image along every dimension.
+  //
+  // The image size is defined by an \doxygen{Size} class which is simply an
+  // array of the same dimension of the image. The components of the array are
+  // integeres indicating the extent in pixels of the image along every
+  // dimension.
   //
   // \index{itk::Image!Index|textbf}
   // \index{itk::Image!IndexType}
@@ -113,6 +114,7 @@ int main()
   // Software Guide : EndCodeSnippet 
 
   // Software Guide : BeginLatex
+  //
   // Having defined the starting index and the image size, these
   // two parameters are used to create an ImageRegion object which
   // basically handles both concepts together. The region is initalized
@@ -131,6 +133,7 @@ int main()
   // Software Guide : EndCodeSnippet 
 
   // Software Guide : BeginLatex
+  //
   // Finally the region is passed to the image object in order to
   // define its extent and origin. So far, no memory allocation has
   // been made for the pixel data. It is then necessary to invoke

@@ -18,13 +18,13 @@
 //  Software Guide : BeginLatex
 //
 //  In order to facilitate access to particular cell types, a convenience
-//  mechanism has been built-in on the \code{itk::Mesh}. This mechanism is
+//  mechanism has been built-in on the \doxygen{Mesh}. This mechanism is
 //  based on the \emph{Visitor Pattern} presented  in \cite{Gamma1995}. The
 //  visitor pattern is designed to facilitate the process of walking through an
 //  heterogeneous list of objects sharing a common base class.
 // 
-//  The first requirement for using the CellVisitor mechanism it to include the
-//  \code{CellInterfaceVisitor} header file.
+//  The first requirement for using the \code{CellVisitor} mechanism it to
+//  include the \code{CellInterfaceVisitor} header file.
 //
 //  \index{itk::Mesh!CellVisitor}
 //  \index{itk::Mesh!CellInterfaceVisitor}
@@ -274,8 +274,8 @@ int main()
   //  and the Visitor class that defines with will be done with the cell. 
   //
   //  A vistor implementation class can now be created using the normal
-  //  invokation to its \code{::New()} method and assigning the result to a
-  //  SmartPointer.
+  //  invokation to its \code{New()} method and assigning the result to a
+  //  \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex 
 
