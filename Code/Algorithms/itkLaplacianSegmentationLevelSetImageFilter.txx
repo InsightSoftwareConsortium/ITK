@@ -28,7 +28,7 @@ LaplacianSegmentationLevelSetImageFilter<TInputImage, TFeatureImage,
 {
   m_LaplacianFunction = LaplacianFunctionType::New();
 
-  this->SetSegmentationFunction(m_LaplacianFunction.GetPointer());
+  this->SetSegmentationFunction(m_LaplacianFunction);
 }
   
 template <class TInputImage, class TFeatureImage, class TOutputPixelType>
