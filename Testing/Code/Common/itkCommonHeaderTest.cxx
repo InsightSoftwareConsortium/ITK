@@ -213,6 +213,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkObjectFactory.h"
 #include "itkObjectFactoryBase.h"
 #include "itkObjectStore.txx"
+#include "itkOctree.txx"
+#include "itkOctreeNode.h"
 #include "itkOffset.h"
 #include "itkOutputWindow.h"
 #include "itkParametricPath.txx"
