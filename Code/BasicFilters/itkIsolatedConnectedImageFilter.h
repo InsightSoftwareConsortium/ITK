@@ -96,7 +96,7 @@ public:
   itkGetMacro(ReplaceValue, OutputImagePixelType);
 
   /** Get value that isolates the two seeds. */
-  itkGetMacro(IsolatedValue, OutputImagePixelType);
+  itkGetMacro(IsolatedValue, InputImagePixelType);
 
 protected:
   IsolatedConnectedImageFilter();
