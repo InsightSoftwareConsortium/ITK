@@ -60,6 +60,8 @@ SOURCE_FILES(FEM_SRCS
 
   itkFEMSolver.cxx
   itkFEMLinearSystemWrapperVNL.cxx
+  itkFEMItpackLinearSystemWrapper.cxx
+  itkFEMItpackSparseMatrix.cxx
 
   itkFEMLightObject.cxx
   itkFEMException.cxx
@@ -115,6 +117,8 @@ SOURCE_FILES(FEM_SRCS
 
   itkFEMLinearSystemWrapper.h
   itkFEMLinearSystemWrapperVNL.h
+  itkFEMItpackLinearSystemWrapper.h
+  itkFEMItpackSparseMatrix.h
   
   itkFEM.h
   itkFEMLightObject.h
