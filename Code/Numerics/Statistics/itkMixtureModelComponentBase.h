@@ -20,6 +20,7 @@
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 
+#include "itkArray.h"
 #include "itkObject.h"
 #include "itkMembershipFunctionBase.h"
 
