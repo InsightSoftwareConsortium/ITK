@@ -31,7 +31,6 @@
  */
 #include "tiffiop.h"
 
-#ifndef TIFFSwabShort
 void
 TIFFSwabShort(uint16* wp)
 {
@@ -40,9 +39,7 @@ TIFFSwabShort(uint16* wp)
 
         t = cp[1]; cp[1] = cp[0]; cp[0] = t;
 }
-#endif
 
-#ifndef TIFFSwabLong
 void
 TIFFSwabLong(uint32* lp)
 {
@@ -52,9 +49,7 @@ TIFFSwabLong(uint32* lp)
         t = cp[3]; cp[3] = cp[0]; cp[0] = t;
         t = cp[2]; cp[2] = cp[1]; cp[1] = t;
 }
-#endif
 
-#ifndef TIFFSwabArrayOfShort
 void
 TIFFSwabArrayOfShort(uint16* wp, register u_long n)
 {
@@ -68,9 +63,7 @@ TIFFSwabArrayOfShort(uint16* wp, register u_long n)
                 wp++;
         }
 }
-#endif
 
-#ifndef TIFFSwabArrayOfLong
 void
 TIFFSwabArrayOfLong(register uint32* lp, register u_long n)
 {
@@ -85,9 +78,7 @@ TIFFSwabArrayOfLong(register uint32* lp, register u_long n)
                 lp++;
         }
 }
-#endif
 
-#ifndef TIFFSwabDouble
 void
 TIFFSwabDouble(double *dp)
 {
@@ -97,9 +88,7 @@ TIFFSwabDouble(double *dp)
         TIFFSwabArrayOfLong(lp, 2);
         t = lp[0]; lp[0] = lp[1]; lp[1] = t;
 }
-#endif
 
-#ifndef TIFFSwabArrayOfDouble
 void
 TIFFSwabArrayOfDouble(double* dp, register u_long n)
 {
@@ -112,7 +101,6 @@ TIFFSwabArrayOfDouble(double* dp, register u_long n)
                 lp += 2;
         }
 }
-#endif
 
 /*
  * Bit reversal tables.  TIFFBitRevTable[<byte>] gives
