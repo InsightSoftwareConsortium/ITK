@@ -125,10 +125,10 @@ private:
   void operator=(const Self&); //purposely not implemented
 };
 
+} // end namespace itk
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkIsotropicFourthOrderLevelSetImageFilter.txx"
 #endif
-
-} // end namespace itk
 
 #endif
