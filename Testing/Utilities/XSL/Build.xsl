@@ -7,25 +7,22 @@
         <title>Build log</title>
       </head>
       <body bgcolor="#ffffff">
-        <h2>Build started on <xsl:value-of select="///Build/StartDateTime"/></h2>
+        <h2>Build started on <xsl:value-of select="Site/Build/StartDateTime"/></h2>
         <h3>Found 
-        <a>
-          <xsl:attribute name="href">#Error</xsl:attribute>
-          <xsl:value-of select="count(//Build/Error)"/> Errors
+        <a href="#Error">
+          <xsl:value-of select="count(Site/Build/Error)"/> Errors
         </a>
         and 
-        <a>
-          <xsl:attribute name="href">#Warning</xsl:attribute>
-          <xsl:value-of select="count(//Build/Warning)"/> Warnings
+        <a href="#Warning">
+          <xsl:value-of select="count(Site/Build/Warning)"/> Warnings
         </a>
       </h3>
       <br/>
       <hr/>
-      <a>
-        <xsl:attribute name="name">Error</xsl:attribute>
+      <a name="Error">
         <h2>Errors</h2>
       </a>
-      <xsl:for-each select="//Build/Error">
+      <xsl:for-each select="Site/Build/Error">
         <h3>Error</h3> Build Log line <xsl:value-of select="BuildLogLine"/><br/>
         <pre><xsl:value-of select="PreContext"/></pre>
         <strong><xsl:value-of select="Text"/></strong><br/>
@@ -33,8 +30,7 @@
       </xsl:for-each>
 
       <hr/>
-      <a>
-        <xsl:attribute name="name">Warning</xsl:attribute>
+      <a name="Warning">
         <h2>Warnings</h2>
       </a>
       <xsl:for-each select="//Build/Warning">
@@ -49,8 +45,4 @@
   </html>
 </xsl:template>
 	
-<!-- Match Log, StartDateTime, and EndDateTime to keep them from appearing in the output -->
-<xsl:template match="/Build/Log | /Build/StartDateTime | /Build/EndDateTime"/>
-<xsl:template match="/Build/Error | /Build/Warning"/>
-
 </xsl:stylesheet>

@@ -7,13 +7,17 @@
         <title>Test log</title>
       </head>
       <body bgcolor="#ffffff">
-        <h2>Testing started on <xsl:value-of select="//Testing/StartDateTime"/></h2>
+        <h2>Testing started on <xsl:value-of select="Site/Testing/StartDateTime"/></h2>
         <h3>
-          <a><xsl:attribute name="href">#Passed</xsl:attribute><xsl:value-of select="count(//Testing/Test[@Status='passed'])"/></a> passed, 
-          <a><xsl:attribute name="href">#Failed</xsl:attribute><xsl:value-of select="count(//Testing/Test[@Status='failed'])"/></a> failed </h3>
+          <a href="#Passed">
+            <xsl:value-of select="count(Site/Testing/Test[@Status='passed'])"/>
+          </a> passed, 
+          <a href="#Failed">
+            <xsl:value-of select="count(Site/Testing/Test[@Status='failed'])"/>
+          </a> failed </h3>
           <br/>
           <ul>
-            <xsl:for-each select="//Testing/Test">
+            <xsl:for-each select="Site/Testing/Test">
               <xsl:sort select="@Status"/>
               <li>
                 <a><xsl:attribute name="HREF">#<xsl:value-of select="generate-id()"/></xsl:attribute><xsl:value-of select="Name"/></a>
