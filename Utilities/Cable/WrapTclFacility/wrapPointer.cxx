@@ -28,8 +28,8 @@ String Pointer::GetStringRep() const
 {
   char addrBuf[(sizeof(m_Object)*2+sizeof(const Type*)*2)+9];
   const Type* type = m_Type.GetType();
-  int pcv = (m_Const << 1) | m_Volatile;
-  int ocv = (m_Type.IsConst() << 1) | m_Type.IsVolatile();
+  int pcv = (int(m_Const) << 1) | int(m_Volatile);
+  int ocv = (int(m_Type.IsConst()) << 1) | int(m_Type.IsVolatile());
   sprintf(addrBuf, "_ptr%d_%p_%p%d", pcv, m_Object, type, ocv);
   return String(addrBuf);
 }

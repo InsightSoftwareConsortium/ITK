@@ -28,7 +28,7 @@ String Reference::GetStringRep() const
 {
   char addrBuf[(sizeof(m_Object)*2+sizeof(const Type*)*2)+7];
   const Type* type = m_Type.GetType();
-  int ocv = (m_Type.IsConst() << 1) | m_Type.IsVolatile();
+  int ocv = (int(m_Type.IsConst()) << 1) | int(m_Type.IsVolatile());
   sprintf(addrBuf, "_ref_%p_%p%d", m_Object, type, ocv);
   return String(addrBuf);
 }
