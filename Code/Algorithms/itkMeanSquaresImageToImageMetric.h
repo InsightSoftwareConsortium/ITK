@@ -91,11 +91,19 @@ public:
   /**
    *  Type of the derivative of the match measure
    */
-  typedef itk::VectorContainer<unsigned int,TDerivative>  DerivativeType;
+  typedef VectorContainer<unsigned int,TDerivative>  DerivativeType;
+
+
+  /**
+   *  Pointer to the derivative of the match measure
+   */
+  typedef  typename DerivativeType::Pointer       DerivativePointer;
 
 
 
-  typedef itk::VectorContainer<unsigned int,TMeasure>     VectorMeasureType;
+  typedef itk::VectorContainer<unsigned int,TMeasure> VectorMeasureType;
+
+  typedef typename VectorMeasureType::Pointer      VectorMeasurePointer;
 
   /**
    *  Pointer type for the Reference 
@@ -119,6 +127,12 @@ public:
    *  Parameters type
    */
   typedef itk::VectorContainer<unsigned int,double> ParametersType;
+
+
+  /**
+   *  Pointer to Parameters type
+   */
+  typedef typename ParametersType::Pointer    ParametersPointer;
 
 
   /** 
@@ -145,12 +159,12 @@ public:
   /**
    * Get the Derivatives of the Match Measure
    */
-  DerivativeType::Pointer GetDerivative( void );
+  DerivativePointer GetDerivative( void );
 
   /**
    *  Get the Value for SingleValue Optimizers
    */
-   MeasureType    GetValue( void );
+  MeasureType    GetValue( void );
 
   /**
    *  Get the Value for MultipleValuedOptimizers
@@ -179,9 +193,9 @@ protected:
   TargetPointer               m_Target;
   MapperPointer               m_Mapper;
   MeasureType                 m_MatchMeasure;
-  VectorMeasureType::Pointer  m_VectorMatchMeasure;        
-  DerivativeType::Pointer     m_MatchMeasureDerivatives;
-  ParametersType::Pointer     m_Parameters;
+  VectorMeasurePointer        m_VectorMatchMeasure;        
+  DerivativePointer           m_MatchMeasureDerivatives;
+  ParametersPointer           m_Parameters;
 
   MeanSquaresImageToImageMetric();
   virtual ~MeanSquaresImageToImageMetric() {};

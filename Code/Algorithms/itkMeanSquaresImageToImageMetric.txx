@@ -86,7 +86,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 
   m_MatchMeasure=0;
   
-  ParametersType::Pointer scaleParameters= ParametersType::New();
+  ParametersPointer scaleParameters= ParametersType::New();
   scaleParameters->Reserve(m_Parameters->Size());
 
   /* Scale the parameters and assume that the translation is at the end*/
@@ -98,15 +98,15 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
   while (pit != m_Parameters->End())
   {
     spit.Value() = pit.Value();
-	if( (i >= TTarget::ImageDimension * TTarget::ImageDimension) \
-	    || (m_Parameters->Size() == TTarget::ImageDimension) )
-	{
-	  spit.Value() *= m_Target_region.GetSize()[0];
-	}
+  if( (i >= TTarget::ImageDimension * TTarget::ImageDimension) \
+      || (m_Parameters->Size() == TTarget::ImageDimension) )
+  {
+    spit.Value() *= m_Target_region.GetSize()[0];
+  }
     std::cout  <<  spit.Value() << " ";
-	spit++;
-	i++;
-	pit++;
+  spit++;
+  i++;
+  pit++;
   }
  
   std::cout<< std::endl; 
@@ -121,7 +121,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
     index = ti.GetIndex();
     for(unsigned int i=0 ; i<TTarget::ImageDimension ; i++)
     {
-	  Point[i]=index[i];
+    Point[i]=index[i];
     }
 
     insidePoint = true;
@@ -147,11 +147,11 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 
  if(count == 0) {
     std::cout << "All the mapped image is outside !" << std::endl;
-	return 100000;
+  return 100000;
   } 
 
 
-  m_MatchMeasure = m_MatchMeasure / ( count * 1e2 );	   
+  m_MatchMeasure = m_MatchMeasure / ( count * 1e2 );     
   std::cout<<"m_MatchMeasure= "<<m_MatchMeasure<<std::endl; 
   return m_MatchMeasure;
 
@@ -164,7 +164,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 template < class TTarget, class TMapper, class TMeasure,  class TDerivative > 
 void
 MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
-::GetValue(VectorMeasureType::Pointer & matchMeasure)
+::GetValue(VectorMeasurePointer & matchMeasure)
 {
   typename TTarget::RegionType  m_Target_region = m_Target->GetLargestPossibleRegion();
   itk::Point<double, TTarget::ImageDimension> Point;  
@@ -182,7 +182,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 
   m_MatchMeasure=0;
   
-  ParametersType::Pointer scaleParameters= ParametersType::New();
+  ParametersPointer scaleParameters= ParametersType::New();
   scaleParameters->Reserve(m_Parameters->Size());
 
   /* Scale the parameters */
@@ -194,17 +194,17 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
   while (pit != m_Parameters->End())
   {
     spit.Value() = pit.Value();
-	
-	if( (i >= TTarget::ImageDimension * TTarget::ImageDimension) \
-	    || (m_Parameters->Size() == TTarget::ImageDimension) )
-	{
-	  spit.Value() *= m_Target_region.GetSize()[0];
-	}
+  
+  if( (i >= TTarget::ImageDimension * TTarget::ImageDimension) \
+      || (m_Parameters->Size() == TTarget::ImageDimension) )
+  {
+    spit.Value() *= m_Target_region.GetSize()[0];
+  }
 
     std::cout  <<  spit.Value() << " ";
-	i++;
-	spit++;
-	pit++;
+  i++;
+  spit++;
+  pit++;
   }
  
   std::cout<< std::endl; 
@@ -218,9 +218,9 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
   {
     index = ti.GetIndex();
      for (unsigned i=0; i<TTarget::ImageDimension ;i++)
-	 {
-	   Point[i]=index[i];
-	 }
+   {
+     Point[i]=index[i];
+   }
     
     insidePoint = true;
 
@@ -245,19 +245,19 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 
  if(count == 0) {
     std::cout << "All the mapped image is outside !" << std::endl;
-	m_MatchMeasure=100000;
+  m_MatchMeasure=100000;
   } 
 
    
   m_MatchMeasure = m_MatchMeasure / ( count * 1e2 ); 
-  	   
+       
   std::cout<< "m_MatchMeasure= " << m_MatchMeasure <<std::endl;
    
   VectorMeasureType::Iterator it = matchMeasure->Begin();
   while(it != matchMeasure->End() )
   {
     it.Value() = m_MatchMeasure;
-	it++;
+  it++;
   }
 
 }
@@ -269,14 +269,14 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
  * Get the Derivative Measure
  */
 template < class TTarget, class TMapper, class TMeasure,  class TDerivative > 
-MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>::DerivativeType::Pointer
+MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>::DerivativePointer
 MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 ::GetDerivative( void )
 {
   const double delta = 0.00011;
 
   /* Maybe move that into the constructor */
-  ParametersType::Pointer derivative =  ParametersType::New();
+  ParametersPointer derivative =  ParametersType::New();
   derivative->Reserve(m_Parameters->Size());
   
   DerivativeType::Iterator dit = m_MatchMeasureDerivatives->Begin();
@@ -288,14 +288,14 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
   { 
   
     it.Value() -= delta; 
-	valuepd0 = (double)GetValue();
+  valuepd0 = (double)GetValue();
     it.Value() = it.Value()+2*delta; 
     valuepd1 = (double)GetValue();
     it.Value() -= delta; // to restore the original parameter 
-	dit.Value() = (double) ( valuepd1 - valuepd0 ) / (2*delta);  
+  dit.Value() = (double) ( valuepd1 - valuepd0 ) / (2*delta);  
     dit.Value() /= 1e5 ;
-	dit++;
-	it++;
+  dit++;
+  it++;
   }
 
   std::cout<<"m_MatchMeasureDerivatives= ";
@@ -303,8 +303,8 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
   dit = m_MatchMeasureDerivatives->Begin();
   while( dit !=  m_MatchMeasureDerivatives->End() ) 
   { 
-	std::cout << dit.Value() << " ";
-	dit++;
+  std::cout << dit.Value() << " ";
+  dit++;
   }
       
   std::cout << std::endl;
