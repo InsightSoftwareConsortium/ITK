@@ -820,9 +820,9 @@ void FEMRegistrationFilter<TReference,TTarget>::GetVectorField(SolverType& mySol
 {
   std::cout << " computing vector field " << std::endl;
   Element::ArrayType* el = &(mySolver.el);
-  vnl_vector<double> Pos(0.0);  // solution at the point
-  vnl_vector<double> Sol(0.0);  // solution at the local point
-  vnl_vector<double> Gpt(0.0);  // global position given by local point
+  vnl_vector<double> Pos;  // solution at the point
+  vnl_vector<double> Sol;  // solution at the local point
+  vnl_vector<double> Gpt;  // global position given by local point
   FieldIterator m_FieldIter( m_Field, m_FieldRegion );
   m_FieldIter.GoToBegin();
   typename ImageType::IndexType rindex = m_FieldIter.GetIndex();
@@ -921,7 +921,7 @@ void FEMRegistrationFilter<TReference,TTarget>::GetVectorField(SolverType& mySol
           if (x !=0) temp=(long int) ((x)*(Float)m_ImageScaling[f]+0.5); else temp=0;// round after scaling
           rindex[f]=temp;
           disp[f] =(Float) 1.0*Sol[f]*((Float)m_ImageScaling[f]); 
-          if ( temp < 0 || temp > m_FieldSize[f]-1)  inimage=false;
+          if ( temp < 0 || temp > (long int) m_FieldSize[f]-1)  inimage=false;
         }
 //        if (fabs(r) == 1.0 && fabs(s)==1.0 && fabs(t)==1.0 ) std::cout << " rindex " << rindex << " sol " << Sol << std::endl;
         if (inimage) m_Field->SetPixel(rindex, disp );
@@ -1009,7 +1009,7 @@ void FEMRegistrationFilter<TReference,TTarget>::SampleVectorFieldAtNodes(SolverT
     { 
       if (coord[ii] != 0) rindex[ii]=(long int) ((Float)coord[ii]*(Float)m_ImageScaling[ii]+0.5)-1;
       else rindex[ii]=0;
-      if ( rindex[ii] < 0 || rindex[ii]  > m_FieldSize[ii]-1  || inimage == false){ 
+      if ( (long int)rindex[ii] < (long int)0 || (long int)rindex[ii]  > (long int)m_FieldSize[ii]-1 ){ 
         inimage=false;      
       SolutionAtNode[ii]=0;
       }
