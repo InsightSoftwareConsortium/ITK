@@ -13,9 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * WriteImage is the base class for writers that write images.
- */
 #ifndef __itkWriteImage_h
 #define __itkWriteImage_h
 
@@ -24,14 +21,23 @@
 namespace itk
 {
 
+/** \class WriteImage
+ * \brief Base class for all writers that write images.
+ *
+ * WriteImage is the base class for writers that write images.
+ */
 template <class TInputImage>
 class ITK_EXPORT WriteImage : public Writer
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef WriteImage          Self;
+
   /** 
    * Smart pointer typedef support.
    */
-  typedef WriteImage          Self;
   typedef SmartPointer<Self>  Pointer;
 
   /**

@@ -13,10 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * WriteVTKImage writes 1-3D images in VTK file format. You can specify
- * binary or ASCII output types.
- */
 #ifndef __itkWriteVTKImage_h
 #define __itkWriteVTKImage_h
 
@@ -26,14 +22,24 @@
 namespace itk
 {
 
+/** \class WriteVTKImage
+ * \brief Write an image (dimension 1-3D) in VTK format.
+ *
+ * WriteVTKImage writes 1-3D images in VTK file format. You can specify
+ * binary or ASCII output types.
+ */
 template <class TInputImage>
 class ITK_EXPORT WriteVTKImage : public WriteImage<TInputImage>
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef WriteVTKImage       Self;
+
   /** 
    * Smart pointer typedef support.
    */
-  typedef WriteVTKImage       Self;
   typedef SmartPointer<Self>  Pointer;
 
   /** 

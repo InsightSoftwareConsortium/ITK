@@ -13,10 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * Writer is the base class for all Insight data writers. You can specify
- * binary or ASCII output types, as well as the output file name.
- */
 #ifndef __itkWriter_h
 #define __itkWriter_h
 
@@ -28,13 +24,23 @@
 namespace itk
 {
 
+/** \class ProcessObject
+ * \brief The base class for all data writers.
+ *
+ * Writer is the base class for all Insight data writers. You can specify
+ * binary or ASCII output types, as well as the output file name.
+ */
 class ITK_EXPORT Writer : public ProcessObject
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef Writer              Self;
+
   /** 
    * Smart pointer typedef support.
    */
-  typedef Writer              Self;
   typedef SmartPointer<Self>  Pointer;
 
   /** 
