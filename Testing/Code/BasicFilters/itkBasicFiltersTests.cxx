@@ -14,6 +14,7 @@ void RegisterTests()
   REGISTER_TEST(itkBasicArchitectureTest );
   REGISTER_TEST(itkBinaryDilateImageFilterTest );
   REGISTER_TEST(itkBinaryMagnitudeImageFilterTest );
+  REGISTER_TEST(itkBinaryThresholdImageFilterTest );
   REGISTER_TEST(itkBloxBoundaryPointImageTest );
   REGISTER_TEST(itkBloxCoreAtomTest );
   REGISTER_TEST(itkChangeInformationImageFilterTest );
