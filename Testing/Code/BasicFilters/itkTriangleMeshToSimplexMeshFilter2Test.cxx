@@ -74,7 +74,7 @@ int itkTriangleMeshToSimplexMeshFilter2Test(int , char *[] )
     itk::TimeProbe * timeProbe = new itk::TimeProbe(); 
     
     timeProbe->Start();
-    for (int pointIndex = 0; pointIndex < simplexMesh->GetPoints()->Size(); pointIndex++)
+    for (unsigned int pointIndex = 0; pointIndex < simplexMesh->GetPoints()->Size(); pointIndex++)
     {
       neighbors = simplexMesh->GetNeighbors( pointIndex, i );
     }
