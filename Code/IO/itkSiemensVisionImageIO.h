@@ -111,7 +111,7 @@ namespace itk
       //      void PrintSelf(std::ostream& os, Indent indent) const;
       virtual struct GEImageHeader *ReadHeader(const char *FileNameToRead);
     private:
-      typedef enum SiemensVisionHeaderInfo {
+      typedef enum {
         HDR_STUDY_YEAR= 0,      // Study date year, u_int
         HDR_STUDY_YEAR_LEN= 4,
         HDR_STUDY_MONTH= 4,     // Study date month, u_int
@@ -405,7 +405,7 @@ namespace itk
         TEXT_START_SEC= 6091,   // Scan start time - second, char
         TEXT_START_SEC_LEN= 2,
         HDR_TOTAL_LENGTH= 6144, // Total length of Siemens Header
-      };
+      } SiemensVisionHeaderInfo ;
       SiemensVisionImageIO(const Self&); //purposely not implemented
       void operator=(const Self&); //purposely not implemented
     };
