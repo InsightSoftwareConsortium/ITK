@@ -36,20 +36,25 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   Superclass::PrintSelf(os, indent);
   os << indent << "Number Of Points: " 
      << ((m_PointsContainer.GetPointer()) ?  m_PointsContainer->Size() : 0) << std::endl;
-    os << indent << "Number Of Cell Links: " 
-       << ((m_CellLinksContainer) ?  m_CellLinksContainer->Size() : 0) << std::endl;
-    os << indent << "Number Of Cells: " 
-       << ((m_CellsContainer) ?  m_CellsContainer->Size() : 0) << std::endl;
-    os << indent << "Size of Cell Data Container: " 
-       << ((m_CellDataContainer) ?  m_CellDataContainer->Size() : 0) << std::endl;
-    os << indent << "Size of boundary container vector: " << static_cast<unsigned long>(m_BoundariesContainers.size()) << std::endl;
-    os << indent << "Size of boundaries data container vector: " 
-       << static_cast<unsigned long>( m_BoundaryDataContainers.size() ) << std::endl;
-    os << indent << "Number of explicit cell boundary assignments: " 
-       << static_cast<unsigned long>( m_BoundaryAssignmentsContainers.size() ) << std::endl;
-
+  os << indent << "Number Of Cell Links: " 
+     << ((m_CellLinksContainer) ?  m_CellLinksContainer->Size() : 0) << std::endl;
+  os << indent << "Number Of Cells: " 
+     << ((m_CellsContainer) ?  m_CellsContainer->Size() : 0) << std::endl;
+  os << indent << "Size of Cell Data Container: " 
+     << ((m_CellDataContainer) ?  m_CellDataContainer->Size() : 0) << std::endl;
+  os << indent << "Size of boundary container vector: "
+     << static_cast<unsigned long>(m_BoundariesContainers.size()) << std::endl;
+  os << indent << "Size of boundaries data container vector: " 
+     << static_cast<unsigned long>( m_BoundaryDataContainers.size() ) << std::endl;
+  os << indent << "Number of explicit cell boundary assignments: " 
+     << static_cast<unsigned long>( m_BoundaryAssignmentsContainers.size() ) << std::endl;
+  
+  os << indent << "CellsAllocationMethod: " 
+     << m_CellsAllocationMethod << std::endl;
+  os << indent << "BoundariesAllocationMethod: " 
+     << m_BoundariesAllocationMethod << std::endl;
   os << indent << "Requested Number Of Regions: " 
-  << m_RequestedNumberOfRegions << std::endl;
+     << m_RequestedNumberOfRegions << std::endl;
   os << indent << "Requested Region: " << m_RequestedRegion << std::endl;
   os << indent << "Maximum Number Of Regions: " 
      << m_MaximumNumberOfRegions << std::endl;

@@ -58,7 +58,14 @@ ElasticBodySplineKernelTransform<TScalarType, NDimensions>
   return m_GMatrix;
 }
 
-
+template <class TScalarType, unsigned int NDimensions>
+void
+ElasticBodySplineKernelTransform<TScalarType, NDimensions>
+::PrintSelf(std::ostream& os, Indent indent) const
+  {
+  Superclass::PrintSelf(os,indent);
+  os << indent << "m_Alpha: " << m_Alpha << std::endl;
+  }
 
 } // namespace itk
 #endif

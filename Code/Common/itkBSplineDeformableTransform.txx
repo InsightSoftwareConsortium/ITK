@@ -284,6 +284,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
      << m_InputParametersPointer << std::endl;
   os << indent << "ValidRegion: " << m_ValidRegion << std::endl;
   os << indent << "LastJacobianIndex: " << m_LastJacobianIndex << std::endl;
+  os << indent << "BulkTransform: " << m_BulkTransform << std::endl;
 }
 
 
