@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAffineTransformMeshFilter.txx
+  Module:    itkTransformMeshFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,10 +38,10 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef _itkAffineTransformMeshFilter_txx
-#define _itkAffineTransformMeshFilter_txx
+#ifndef _itkTransformMeshFilter_txx
+#define _itkTransformMeshFilter_txx
 
-#include "itkAffineTransformMeshFilter.h"
+#include "itkTransformMeshFilter.h"
 #include "itkExceptionObject.h"
 
 namespace itk
@@ -51,8 +51,8 @@ namespace itk
  *
  */
 template <class TInputMesh, class TOutputMesh>
-AffineTransformMeshFilter<TInputMesh,TOutputMesh>
-::AffineTransformMeshFilter()
+TransformMeshFilter<TInputMesh,TOutputMesh>
+::TransformMeshFilter()
 {
 }
 
@@ -62,7 +62,7 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
  */
 template <class TInputMesh, class TOutputMesh>
 void 
-AffineTransformMeshFilter<TInputMesh,TOutputMesh>
+TransformMeshFilter<TInputMesh,TOutputMesh>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -74,7 +74,7 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
  */
 template <class TInputMesh, class TOutputMesh>
 void 
-AffineTransformMeshFilter<TInputMesh,TOutputMesh>
+TransformMeshFilter<TInputMesh,TOutputMesh>
 ::GenerateData(void) 
 {
   
@@ -88,14 +88,14 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
   OutputMeshPointer   outputMesh     =  this->GetOutput();
   
   if( !inputMesh )
-  {
+    {
     throw ExceptionObject();
-  }
+    }
 
   if( !outputMesh )
-  {
+    {
     throw ExceptionObject();
-  }
+    }
 
   InputPointsContainerPointer  inPoints  = inputMesh->GetPoints();
   OutputPointsContainerPointer outPoints = outputMesh->GetPoints();
@@ -108,14 +108,13 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
   typename OutputPointsContainer::Iterator      outputPoint = outPoints->Begin();
 
   while( inputPoint != inPoints->End() ) 
-  {
-
+    {
     outputPoint.Value() = 
-	           m_AffineTransform.TransformPoint( inputPoint.Value() );
+	           m_Transform.TransformPoint( inputPoint.Value() );
 
     ++inputPoint;
     ++outputPoint;
-  }
+    }
 
 
   // Create duplicate references to the rest of data on the mesh
@@ -131,19 +130,13 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
   unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
 
   for( unsigned int dim = 0; dim < maxDimension; dim++ )
-  {
+    {
     outputMesh->SetBoundaries(    dim, inputMesh->GetBoundaries(dim)   );
     outputMesh->SetBoundaryData(  dim, inputMesh->GetBoundaryData(dim) );
     outputMesh->SetBoundaryAssignments(  dim,
-                                  inputMesh->GetBoundaryAssignments(dim) );
-  }
-  
-
-
+                                         inputMesh->GetBoundaryAssignments(dim) );
+    }
 }
-
-
-
 
 } // end namespace itk
 

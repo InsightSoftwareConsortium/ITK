@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAffineTransformMeshFilter.h
+  Module:    itkTransformMeshFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,19 +38,19 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkAffineTransformMeshFilter_h
-#define __itkAffineTransformMeshFilter_h
+#ifndef __itkTransformMeshFilter_h
+#define __itkTransformMeshFilter_h
 
 #include "itkMeshToMeshFilter.h"
-#include "itkAffineTransform.h"
+#include "itkTransform.h"
 
 namespace itk
 {
 
-/** \class AffineTransformMeshFilter
+/** \class TransformMeshFilter
  * \brief 
  *
- * AffineTransformMeshFilter applies an Affine Transform to all the points
+ * TransformMeshFilter applies an  Transform to all the points
  * of a mesh.
  *
  * The additional content of the mesh is passed untouched. Including the 
@@ -61,14 +61,14 @@ namespace itk
  * 
  */
 template <class TInputMesh, class TOutputMesh>
-class ITK_EXPORT AffineTransformMeshFilter : 
-                              public MeshToMeshFilter<TInputMesh,TOutputMesh>
+class ITK_EXPORT TransformMeshFilter : 
+    public MeshToMeshFilter<TInputMesh,TOutputMesh>
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef AffineTransformMeshFilter  Self;
+  typedef TransformMeshFilter  Self;
 
   /**
    * Standard "Superclass" typedef.
@@ -81,13 +81,11 @@ public:
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
   /** 
-   * Type of the Affine Transform
+   * Type of the  Transform
    */
-  typedef AffineTransform< typename TInputMesh::CoordRepType,
-                           TInputMesh::PointDimension> AffineTransformType;
-
+  typedef Transform< typename TInputMesh::CoordRepType,
+                     TInputMesh::PointDimension> TransformType;
 
   /**
    * Method for creation through the object factory.
@@ -97,7 +95,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(AffineTransformMeshFilter,MeshToMeshFilter);
+  itkTypeMacro(TransformMeshFilter,MeshToMeshFilter);
 
   /** 
    * Generate Requested Data
@@ -105,36 +103,36 @@ public:
   virtual void GenerateData( void );
 
   /** 
-   * Set Affine Transform
+   * Set transform.
    */
-  void SetAffineTransform( const AffineTransformType & transform ) 
-  { m_AffineTransform = transform;  this->Modified(); }
+  void SetTransform( const TransformType & transform ) 
+    { m_Transform = transform;  this->Modified(); }
 
   /** 
-   * Get Affine Transform
+   * Get transform.
    */
-  const AffineTransformType & GetAffineTransform( void ) const
-  { return m_AffineTransform; }
+  const TransformType & GetTransform( void ) const
+    { return m_Transform; }
 
 
 protected:
-  AffineTransformMeshFilter();
-  ~AffineTransformMeshFilter() {};
-  AffineTransformMeshFilter(const AffineTransformMeshFilter&) {};
-  void operator=(const AffineTransformMeshFilter&) {};
+  TransformMeshFilter();
+  ~TransformMeshFilter() {};
+  TransformMeshFilter(const TransformMeshFilter&) {};
+  void operator=(const TransformMeshFilter&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   
  /**
-  *  Affine transform to apply to all the mesh points
+  *   transform to apply to all the mesh points
   */
-  AffineTransformType         m_AffineTransform;
+  TransformType         m_Transform;
 
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAffineTransformMeshFilter.txx"
+#include "itkTransformMeshFilter.txx"
 #endif
 
 #endif

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAffineTransformMeshFilterTest.cxx
+  Module:    itkTransformMeshFilterTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,12 +38,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-
-
-
-#include <itkAffineTransformMeshFilter.h>
+#include <itkTransformMeshFilter.h>
 #include <itkMesh.h>
-
+#include <itkAffineTransform.h>
 
 int main() 
 {
@@ -53,13 +50,11 @@ int main()
   // with each mesh point. (not used on this filter test)
   typedef int PixelType;
   
-  
   // Declare the types of the Mesh
   // By default it is a 3D mesh using itk::Point<float,3>
   // on the vertices, and an itk::VectorContainter
   // as containter for points
   typedef itk::Mesh<PixelType>  MeshType;
-
 
   // Declare the type for PointsContainer
   typedef MeshType::PointsContainer     PointsContainerType;
@@ -67,16 +62,11 @@ int main()
   // Declare the type for PointsContainerPointer
   typedef MeshType::PointsContainerPointer     
                                         PointsContainerPointer;
-
   // Declare the type for Points
   typedef MeshType::PointType           PointType;
-  
-
-
 
   // Create an input Mesh
   MeshType::Pointer inputMesh  = MeshType::New();
-  
 
   // Insert data on the Mesh
   PointsContainerPointer  points = inputMesh->GetPoints();
@@ -86,11 +76,11 @@ int main()
   PointsContainerType::ElementIdentifier  count = 0; // count them
 
   for(int x= -n; x <= n; x++)
-  {
-    for(int y= -n; y <= n; y++)
     {
-      for(int z= -n; z <= n; z++)
+    for(int y= -n; y <= n; y++)
       {
+      for(int z= -n; z <= n; z++)
+        {
         PointType p;
         p = (float)x,(float)y,(float)z;
         std::cout << "Inserting point # ";
@@ -100,52 +90,43 @@ int main()
         std::cout.width( 4); std::cout << p[2] << std::endl;
         points->InsertElement( count, p );
         count++;
+        }
       }
     }
-  }
-      
   
   std::cout << "Input Mesh has " << inputMesh->GetNumberOfPoints();
   std::cout << "   points " << std::endl;
 
-
   // Declare the type for the filter
-  typedef itk::AffineTransformMeshFilter<
+  typedef itk::TransformMeshFilter<
                                 MeshType,
                                 MeshType  >       FilterType;
             
+  typedef itk::AffineTransform<float,3> TransformType;
 
   // Create a Filter                                
   FilterType::Pointer filter = FilterType::New();
-
-
-  // Create an Affine Transform 
+  
+  // Create an  Transform 
   // (it doesn't use smart pointers)
-  FilterType::AffineTransformType   affineTransform;
-
+  TransformType   affineTransform;
   affineTransform.Scale( 3.5 );
-
-  FilterType::AffineTransformType::VectorType   translation;
-
+  TransformType::VectorType   translation;
   translation = 100.0, 200.0, 300.0;
-
   affineTransform.Translate( translation );
 
   // Connect the inputs
   filter->SetInput( inputMesh ); 
-  filter->SetAffineTransform( affineTransform ); 
+  filter->SetTransform( affineTransform ); 
 
   // Execute the filter
   filter->Update();
 
-
   // Get the Smart Pointer to the Filter Output 
   MeshType::Pointer outputMesh = filter->GetOutput();
- 
 
   std::cout << "Output Mesh has " << outputMesh->GetNumberOfPoints();
   std::cout << "   points " << std::endl;
-
 
   // Get the the point container
   MeshType::PointsContainerPointer  
@@ -154,13 +135,13 @@ int main()
 
   PointsContainerType::ConstIterator it = transformedPoints->Begin();
   while( it != transformedPoints->End() )
-  {
+    {
     PointType p = it.Value();
     std::cout.width( 5 ); std::cout << p[0] << ", ";
     std::cout.width( 5 ); std::cout << p[1] << ", ";
     std::cout.width( 5 ); std::cout << p[2] << std::endl;
     ++it;
-  }
+    }
   
   // All objects should be automatically destroyed at this point
 

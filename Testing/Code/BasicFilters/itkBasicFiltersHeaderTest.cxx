@@ -19,7 +19,6 @@ See COPYRIGHT.txt for copyright details.
 
 #include "itkAcosImageFilter.h"
 #include "itkAddImageFilter.h"
-#include "itkAffineTransformMeshFilter.h"
 #include "itkAnisotropicDiffusionImageFilter.h"
 #include "itkAsinImageFilter.h"
 #include "itkAtan2ImageFilter.h"
@@ -64,6 +63,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkTernaryMagnitudeImageFilter.h"
 #include "itkTernaryMagnitudeSquaredImageFilter.h"
 #include "itkThresholdImageFilter.h"
+#include "itkTransformMeshFilter.h"
 #include "itkUnaryImageFilter.h"
 #include "itkVTKImageReader.h"
 #include "itkVTKImageWriter.h"
