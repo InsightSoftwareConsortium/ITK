@@ -60,10 +60,10 @@ public:
 	     const vnl_fftxd_prime_factors<T>  &, int dir);         // 'raw' r. I defaults to 0.0
   
   // complex-constructors
-#ifndef VCL_WIN32
-  vnl_fft1d (const vnl_vector<vnl_complex<T> > &c, const vnl_fftxd_prime_factors<T> &, int dir);          //  complex vnl_vector
-  vnl_fft1d (const vnl_complex<T> *cdata, unsigned len, const vnl_fftxd_prime_factors<T> &, int dir);  // 'raw' complex data
+#ifndef VCL_VC
+  vnl_fft1d (const vnl_vector<vcl_complex<T> > &c, const vnl_fftxd_prime_factors<T> &, int dir);          //  complex vnl_vector
 #endif
+  vnl_fft1d (const vcl_complex<T> *cdata, unsigned len, const vnl_fftxd_prime_factors<T> &, int dir);  // 'raw' complex data
 
   // static member function: avoid copy-overhead
   static int doFFT_IP (vnl_complex<T> *cdata, unsigned len, 

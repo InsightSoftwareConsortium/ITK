@@ -97,7 +97,7 @@ vnl_fft1d<T>::vnl_fft1d (const T *RData, const T *IData, unsigned iLen,
   doFFT (oPF, dir);
 }
 
-#ifndef VCL_WIN32
+#ifndef VCL_VC
 // -- init to given complex vnl_vector
 template<class T> 
 vnl_fft1d<T>::vnl_fft1d (vnl_vector<vnl_complex<T> > const& C, 
@@ -106,6 +106,7 @@ vnl_fft1d<T>::vnl_fft1d (vnl_vector<vnl_complex<T> > const& C,
 {
   doFFT (oPF, dir);
 }
+#endif
 
 // -- create new complex given 'raw' complex c(CData)
 template<class T> 
@@ -115,7 +116,7 @@ vnl_fft1d<T>::vnl_fft1d (vnl_complex<T> const *CData, unsigned iLen,
 {
   doFFT (oPF, dir);
 }
-#endif
+
 
 /************************************************************
 ************************************************************

@@ -76,8 +76,10 @@ void test_fft1d () {
   vnl_fft1d<fsm_real> oFFTRealMTwiddle(fTestArray, oPFx, +1);
   // real/imag matrices
   vnl_fft1d<fsm_real> oFFTRIMTwiddle (fTestArray, fZeroArray, oPFx, +1);
+#ifndef VCL_VC
   // complex matrix
   vnl_fft1d<fsm_real> oFFTComplMTwiddle(fTestArrayComplex, oPFx, +1);
+#endif
   /******************************* arrays of data *******************************/
   // real data
   vnl_fft1d<fsm_real> oFFTrealDTwiddle(realArray, ciArraySizeX, 
@@ -94,7 +96,9 @@ void test_fft1d () {
   Assert ("test forward 1", oFFTSimple == oFFTSimpleComplex);  
   Assert ("test forward 2", oFFTSimple == oFFTRealMTwiddle);
   Assert ("test forward 3", oFFTSimple == oFFTRIMTwiddle);
+#ifndef VCL_VC
   Assert ("test forward 4", oFFTSimple == oFFTComplMTwiddle);
+#endif
   Assert ("test forward 5", oFFTSimple == oFFTrealDTwiddle);
   Assert ("test forward 6", oFFTSimple == oFFTimagDTwiddle);
   //awfasabove; Assert ("test forward 7", oFFTSimple == oFFTcomplDTwiddle);
@@ -116,8 +120,10 @@ void test_fft1d () {
   // real/imag matrices
   vnl_fft1d<fsm_real> oFFTBackRIMTwiddle (fBackRealMat, fBackImagMat, 
 					  oPFx, -1);
+#ifndef VCL_VC
   // complex matrix
   vnl_fft1d<fsm_real> oFFTBackComplMTwiddle(oFFTSimple, oPFx, -1);
+#endif
   /******************************* arrays of data *******************************/
   // real/imag data
   vnl_fft1d<fsm_real> oFFTBackimagDTwiddle(realBackArray, imagBackArray, 
@@ -127,7 +133,9 @@ void test_fft1d () {
   vnl_fft1d<fsm_real> oFFTBackcomplDTwiddle(complBackArray, ciArraySizeX, oPFx, -1);
 
   Assert ("test 1 back", oFFTBackSimpleComplex == oFFTBackRIMTwiddle);
+#ifndef VCL_VC
   Assert ("test 2 back", oFFTBackSimpleComplex == oFFTBackComplMTwiddle);
+#endif
   Assert ("test 3 back", oFFTBackSimpleComplex == oFFTBackimagDTwiddle);  
   Assert ("test 4 back", oFFTBackSimpleComplex == oFFTBackcomplDTwiddle);
 

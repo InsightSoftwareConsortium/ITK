@@ -60,9 +60,11 @@ void test_cplx(vnl_fftxd_prime_factors<fsm_real> const &prx,
 	       vnl_matrix<vnl_complex<fsm_real> > const &M, 
 	       int dir)
 {
+#ifndef VCL_VC
   vnl_fft2d<fsm_real> fft_matrix(M, prx, pry, dir);
   vnl_fft2d<fsm_real> fft_array (M.begin(), M.rows(), M.cols(), prx, pry, dir);
   Assert ("test cplx", fft_matrix == fft_array);  
+#endif
 }
 
 
@@ -127,12 +129,14 @@ void test_fft2d () {
 
   // verify that backwards * forwards is multiplication by .size().
   {
+#ifndef VCL_VC
     vnl_fft2d<fsm_real> fwd(cplx_matrix, prx, pry, +1);
     vnl_fft2d<fsm_real> bwd(fwd, prx, pry, -1);
     
     double error = (bwd - vnl_double_complex(cplx_matrix.size())*cplx_matrix).fro_norm();
     vcl_cout << "error = " << error << vcl_endl;
     Assert ("fwd-bwd error", error < 1e-7); // increase for float
+#endif
   }
 }
 

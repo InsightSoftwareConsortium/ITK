@@ -18,13 +18,6 @@
 #ifndef vcl_complex
 # define vcl_complex std :: complex
 #endif
-//using std :: complex; // better to #define vcl_complex std::complex?
-//using std :: sqrt;
-//using std :: arg;
-//using std :: polar;
-//using std :: conj;
-//using std :: real;
-//using std :: imag;
 
 template <class T> inline
 T norm(vcl_complex<T> const &z) 
@@ -55,24 +48,7 @@ inline  vcl_complex<T> sqrt(vcl_complex<T> const &x)
   return vcl_complex<T> (nr, ni);
 }
 
-// now for the stream operators :
-// these were needed with old iostreams, they cause ambiguity now
-// template <class T> inline 
-// vcl_ostream &operator<<(vcl_ostream &os, vcl_complex<T> const &z)
-// { return os << '(' << z.real() << ',' << ')'; }
-//template <class T> inline 
-//vcl_istream &operator>>(vcl_istream &is, vcl_complex<T> &z) 
-//{ abort(); T r(0), i(0); is >> r >> i; z = vcl_complex<T>(r,i); return is; } // FIXME
-
-# ifndef vcl_abs
-#  define vcl_abs  std::abs
-# endif
-# ifndef vcl_sqrt
-#  define vcl_sqrt ::sqrt
-# endif
-# define vcl_arg   std::arg
-# define vcl_conj  std::conj
-# define vcl_norm  std::norm
-# define vcl_polar std::polar
+#define vcl_generic_complex_STD std
+#include "../generic/vcl_complex.h"
 
 #endif // vcl_win32_complex_h_
