@@ -26,19 +26,40 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
 ::BinaryDilateImageFilter()
 {
   m_DilateValue = NumericTraits<PixelType>::max();
+  m_KernelCenterPixelOn = false;
 }
+
+
+template<class TInputImage, class TOutputImage, class TKernel>
+void
+BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
+::BeforeThreadedGenerateData()
+{
+  // Cache whether the center pixel in the kernel is set
+  m_KernelCenterPixelOn = (this->GetKernel().GetCenterValue() > 0);
+}
+
 
 template<class TInputImage, class TOutputImage, class TKernel>
 typename BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
 ::Evaluate(const NeighborhoodIteratorType &nit,
-           const KernelType &kernel)
+           const KernelIteratorType kernelBegin,
+           const KernelIteratorType kernelEnd)
 {
+  // Early exit test.  Most structuring elements will have the center
+  // pixel on. So test the center pixel first to see if it is already
+  // the dilate value and if so, exit without iterating over the
+  // kernel.
+  if (m_KernelCenterPixelOn && (nit.GetCenterPixel() == m_DilateValue))
+    {
+    return m_DilateValue;
+    }
+  
   unsigned int i;
   KernelIteratorType kernel_it;
-  const KernelIteratorType kernelEnd = kernel.End();
 
-  for (i=0, kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++i)
+  for (i=0, kernel_it=kernelBegin; kernel_it<kernelEnd; ++kernel_it, ++i)
     {
     // if structuring element is positive, use the pixel under that element
     // in the image

@@ -84,7 +84,8 @@ protected:
    * element in the structuring element is positive. This version of
    * Evaluate is used for non-boundary pixels. */
   PixelType Evaluate(const NeighborhoodIteratorType &nit,
-                     const KernelType &kernel);
+                     const KernelIteratorType kernelBegin,
+                     const KernelIteratorType kernelEnd);
 
 private:
   GrayscaleDilateImageFilter(const Self&); //purposely not implemented
