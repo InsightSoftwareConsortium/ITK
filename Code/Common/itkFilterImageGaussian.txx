@@ -264,30 +264,11 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
   typedef ImageLinearIterator< TOutputType,
 							   TOutputImage::ImageDimension> OutputIteratorType;
 
+  typedef ImageRegion< TInputImage::ImageDimension > RegionType;
+    
   const typename TInputImage::Pointer   inputImage(    GetInputImage ()   );
         typename TOutputImage::Pointer  outputImage(   GetOutput()        );
     
- 
-  bool needToAllocate = false;
-
-  if( inputImage->GetLargestPossibleRegion().GetSize() != 
-      outputImage->GetLargestPossibleRegion().GetSize()    )
-  {
-	  needToAllocate = true;
-  }
-
-  if( inputImage->GetBufferedRegion().GetSize() != 
-      outputImage->GetBufferedRegion().GetSize()    )
-  {
-	  needToAllocate = true;
-  }
-
-  if( needToAllocate )
-  {       
-    outputImage->SetLargestPossibleRegion( inputImage->GetLargestPossibleRegion()  );
-    outputImage->SetBufferedRegion( inputImage->GetBufferedRegion() );
-    outputImage->Allocate();
-  }
  
   const unsigned int imageDimension = inputImage->GetImageDimension();
 
@@ -302,18 +283,16 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
   
   SetUp();
   
-  InputIteratorType inputIterator( inputImage,
-                          inputImage->GetBufferedRegion() );
+  RegionType region = inputImage->GetRequestedRegion();
 
-  OutputIteratorType outputIterator( outputImage,
-                           outputImage->GetBufferedRegion());
-
+  InputIteratorType  inputIterator(  inputImage,  region );
+  OutputIteratorType outputIterator( outputImage, region );
 
   inputIterator.SetDirection(  this->m_Direction );
   outputIterator.SetDirection( this->m_Direction );
 
   
-  const unsigned int ln = inputIterator.GetRegion().GetSize()[ this->m_Direction ];
+  const unsigned int ln = region.GetSize()[ this->m_Direction ];
 
   TComputation *inps = 0;
   TComputation *outs = 0;
