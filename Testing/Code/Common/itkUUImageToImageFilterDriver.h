@@ -21,7 +21,6 @@
 #include "itkWriteImage.h"
 #include "itkImageSource.h"
 #include "itkFilterImageToImage.h"
-#include "itkRandomImageSource.h"
 #include "itkSize.h"
 #include "itkImageRegion.h"
 #include "itkIndex.h"
@@ -148,6 +147,7 @@ template <class TOutputImage>
 void
 NullImageSource<TOutputImage>::GenerateData()
 {
+  cout << "Generate data from NUllImageSource" << endl;
   typename TOutputImage::Pointer image = this->GetOutput(0);
   image->SetBufferedRegion( image->GetRequestedRegion() );
   image->Allocate();
@@ -172,7 +172,8 @@ NullImageSource<TOutputImage>::NonPipelineExecute()
   m_NonPipelineOutput->SetLargestPossibleRegion(rg);
   m_NonPipelineOutput->SetRequestedRegion(rg);
   m_NonPipelineOutput->Allocate();
-  FillRegionSequential<typename TOutputImage::PixelType, 3>(m_NonPipelineOutput);
+  FillRegionSequential<typename TOutputImage::PixelType,
+    TOutputImage::ImageDimension> (m_NonPipelineOutput);
 }
 
 
@@ -210,6 +211,7 @@ void
 UUImageToImageFilterDriver<TInputImage, TOutputImage>
 ::NonPipelineExecute()
 {
+  // Isolate from pipeline bugs and instability of developing pipeline
   NullImageSource< TInputImage >::Pointer source = NullImageSource<
     TInputImage >::New();
   source->SetImageSize(m_ImageSize);
@@ -233,8 +235,6 @@ UUImageToImageFilterDriver<TInputImage, TOutputImage>
     NullImageSource< TInputImage >::Pointer source = NullImageSource<
       TInputImage >::New();
 
-    //  RandomImageSource< TInputImage >::Pointer source
-    //        = RandomImageSource<TInputImage>::New();
    NullImageWriter< TOutputImage >::Pointer sink = NullImageWriter<
     TOutputImage >::New();
 
