@@ -143,7 +143,7 @@ namespace itk
        * \return nothing
        */
       void  DefineHeaderObjectDataType(void);
-      void ReorientIfNecessary(char *p);
+//      void ReorientIfNecessary(char *p);
       struct ipl_dimensions {
         unsigned int slicestride;
         unsigned int rowstride;

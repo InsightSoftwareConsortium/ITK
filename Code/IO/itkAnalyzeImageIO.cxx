@@ -67,16 +67,25 @@ enum DataTypeIndex  {
   ANALYZE_DT_INDEX_ALL           =9,
   ANALYZE_DT_INDEX_UNSIGNED_SHORT=10
 };
-
+//The following was inserted based on Bill Hoffman's CMake
+//implementation.
 #if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
 #include <stdlib.h>
 #define _unlink unlink
 #else
 #include <unistd.h>
 #endif
-static inline int Remove(const char *fname)
+/**
+ * \author Kent Williams <Bill Hoffman>
+ * Remove file with name fname from the file system
+ * \param fname  The name of the file to remove
+ * \return true if successful, false if not successful.
+ */
+//NOTE: After further testing, this should probably be added to the
+//Directory manipulation section of ITK.
+static inline bool RemoveFile(const char *fname)
 {
-  return unlink(fname);
+  return (unlink(fname) != 0)? false: true;
 }
 
 //GetExtension from uiig library.
@@ -745,6 +754,7 @@ namespace itk
     dim.zsize = this->GetDimensions(2);
   }
 
+#if 0
   //Convert images into canonical Coronal view
   //////////////////////////////////////////////////////////////////////////
   // Programmer: Kent Williams
@@ -860,6 +870,7 @@ namespace itk
       }
     delete [] swapbuffer;
   }
+#endif
 
   void AnalyzeImageIO::Read(void* buffer)
   {
@@ -918,8 +929,8 @@ namespace itk
     // read image in
     ::gzread( file_p, p, this->GetImageSizeInBytes());
     gzclose( file_p );
-    this->ReorientIfNecessary(p);
 #if 0
+    this->ReorientIfNecessary(p);
     {
       unsigned int i;
       for(i = 0; i < this->GetImageSizeInBytes(); i++) 
@@ -1277,7 +1288,7 @@ namespace itk
             ::gzwrite( file_p,p,this->GetImageSizeInBytes());
           }
         ::gzclose( file_p );
-        //Remove FileNameToRead.img so that it does not get confused with 
+        //RemoveFile FileNameToRead.img so that it does not get confused with 
         //FileNameToRead.img.gz
         //The following is a hack that can be used to remove ambiguity when an
         //uncompressed image is read, and then written as compressed.
@@ -1286,7 +1297,7 @@ namespace itk
         //DEBUG -- Will this work under windows?
         std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
         unusedbaseimgname+=".img";
-        Remove(unusedbaseimgname.c_str());
+        RemoveFile(unusedbaseimgname.c_str());
       }
     else 
       {
@@ -1312,14 +1323,14 @@ namespace itk
             exception.SetDescription(ErrorMessage.c_str());
             throw exception;
           }
-        //Remove FileNameToRead.img.gz so that it does not get confused with FileNameToRead.img
+        //RemoveFile FileNameToRead.img.gz so that it does not get confused with FileNameToRead.img
         //The following is a hack that can be used to remove ambiguity when an
         //uncompressed image is read, and then written as compressed.
         //This results in one *.hdr file being assosiated with a *.img and a *.img.gz image file.
         //DEBUG -- Will this work under windows?
         std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
         unusedbaseimgname+=".img.gz";
-        Remove(unusedbaseimgname.c_str());
+        RemoveFile(unusedbaseimgname.c_str());
       }
   }
 } // end namespace itk
