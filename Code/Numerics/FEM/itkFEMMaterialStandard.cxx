@@ -46,7 +46,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkFEMMaterialStandard.h"
 #include "itkFEMUtility.h"
-#include <stdexcept>
 
 namespace itk {
 namespace fem {

@@ -52,7 +52,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkFEMUtility.h"
 #include "itkFEMObjectFactory.h"
-#include <stdexcept>
 
 namespace itk {
 namespace fem {

@@ -48,7 +48,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkFEMLightObject.h"
 #include "itkFEMPArray.h"
-#include <stdexcept>
 #include <iostream>
 //#include "itkLightObject.h"
 
