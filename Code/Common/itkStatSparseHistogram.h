@@ -59,7 +59,7 @@ public:
  /**
   * Iterator typedef support
   */
-  typedef HistogramType::iterator HistogramIterator;   
+  typedef typename HistogramType::iterator HistogramIterator;   
 
  /**
   * Run-time type information (and related methods).
