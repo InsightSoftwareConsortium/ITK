@@ -28,3 +28,6 @@ ADD_EXECUTABLE( testMeta7Line ${testMeta7Line_SRCS} )
 
 SET( testMeta8Scene_SRCS testMeta8Scene.cxx )
 ADD_EXECUTABLE( testMeta8Scene ${testMeta8Scene_SRCS} )
+
+SET( testMeta9Landmark_SRCS testMeta9Landmark.cxx )
+ADD_EXECUTABLE( testMeta9Landmark${testMeta9Landmark_SRCS} )
