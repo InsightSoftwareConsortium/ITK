@@ -259,6 +259,23 @@ Examples of these types of segmentation methods in ITK include: curvature flow-b
  \ingroup Filters
 */  
 
+/**
+ \defgroup RegistrationComponents Components of Registration Methods
+ Registration methods are implemented by combining basic components. This framework allows
+ great flexibility in the construction of registration methods, and maximize code reuse.
+ The basic components of a registration method are described in \ref RegistrationPage
+ \ingroup RegistrationFilters
+*/  
+
+/**
+ \defgroup RegistrationMetrics Similarity Metrics of Registration Methods
+ Similarity metrics are the objects that evaluate how similar two objects are. They are
+ used in registration to quantify how well a transform is mapping the reference object 
+ on top of the target object.
+ \ingroup RegistrationComponents
+
+*/  
+
 
 /**
  \defgroup ImageRegistration Image Registration Methods
