@@ -115,7 +115,7 @@ namespace itk
 
       for(unsigned int i=0; it!= end; it++, i++ ) 
         {     
-        points->InsertElement(i,(*it)->GetReferenceToCenterLinePoint());
+        points->InsertElement(i,(*it)->GetCenterLinePoint());
         } 
 
       m_Bounds->ComputeBoundingBox();
@@ -152,7 +152,7 @@ namespace itk
 
     for(unsigned int i=0; it!= end; it++,i++)
       {  
-      if( (tempSquareDist=transformedPoint.SquaredEuclideanDistanceTo((*it)->GetReferenceToCenterLinePoint())) < minSquareDist)
+      if( (tempSquareDist=transformedPoint.SquaredEuclideanDistanceTo((*it)->GetCenterLinePoint())) < minSquareDist)
         {
         minSquareDist = tempSquareDist;
         min = it; 
@@ -205,7 +205,7 @@ namespace itk
       j++; 
       k = i; 
       k--; 
-      t = ((*j)->GetReferenceToCenterLinePoint().Get_vnl_vector()) - ((*k)->GetReferenceToCenterLinePoint().Get_vnl_vector()); 
+      t = ((*j)->GetCenterLinePoint().Get_vnl_vector()) - ((*k)->GetCenterLinePoint().Get_vnl_vector()); 
       t(1) /= 2; 
       t(2) /= 2; 
       t(3) /= 2; 
