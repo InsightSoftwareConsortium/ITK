@@ -49,7 +49,7 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
   double radius[3];
   center[0][0]=50;
   center[0][1]=50;
-  radius[0] = 20;
+  radius[0] = 15;
 
   for(double i=0;i<=radius[0];i+=0.1)
   {
@@ -63,7 +63,7 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
 
   center[1][0]=25;
   center[1][1]=25;
-  radius[1] = 10;
+  radius[1] = 7;
 
   for(double i=0;i<=radius[1];i+=0.1)
   {
@@ -137,11 +137,10 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
   }
 
   houghFilter->SetMinimumRadius(0);
-  houghFilter->SetMaximumRadius(25);
+  houghFilter->SetMaximumRadius(20);
   houghFilter->SetSigmaGradient(1);
   houghFilter->Update();
   HoughImageType::Pointer m_Accumulator= houghFilter->GetOutput();
-
 
   HoughImageType::Pointer m_RadiusImage= houghFilter->GetRadiusImage();
 
