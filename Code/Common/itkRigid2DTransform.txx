@@ -82,7 +82,7 @@ SetRotationMatrix(const MatrixType & matrix )
   typename MatrixType::InternalMatrixType test = 
     matrix.GetVnlMatrix() * matrix.GetTranspose();
 
-  const double tolerance = 1e-10;
+  const double tolerance = 1e-6;
   if( !test.is_identity( tolerance ) ) 
     {
     itk::ExceptionObject ex;
