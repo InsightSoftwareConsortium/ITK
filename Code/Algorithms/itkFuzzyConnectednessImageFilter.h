@@ -94,6 +94,7 @@ public:
   typedef TInputImage InputImageType;
   typedef TOutputImage OutputImageType;
   typedef Image <unsigned short, ImageDimension> UShortImage;
+  typedef typename UShortImage::Pointer UShortImagePointer;
   typedef typename TInputImage::IndexType IndexType;
   typedef typename TInputImage::SizeType SizeType;
 
@@ -101,7 +102,7 @@ public:
 
   typedef typename TOutputImage::RegionType RegionType;
   
-  UShortImage::Pointer GetFuzzyScene(void){ return m_FuzzyScene;};
+  UShortImagePointer GetFuzzyScene(void){ return m_FuzzyScene;};
 
   /**
    * Set the Estimation of the mean pixel value for the object.
