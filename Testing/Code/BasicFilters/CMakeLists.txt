@@ -10,6 +10,9 @@ ${ITK_BINARY_DIR}/Code/BasicFilters
 LINK_LIBRARIES (
 ITKBasicFilters 
 ITKCommon
+ITKIO
+itkpng
+itkzlib
 )
 
 IF(ITK_WRAP_TCL)
@@ -32,6 +35,7 @@ ADD_TEST(itkBinaryDilateImageFilterTest itkBinaryDilateImageFilterTest)
 ADD_TEST(itkBinaryMagnitudeImageFilterTest itkBinaryMagnitudeImageFilterTest)
 ADD_TEST(itkBloxBoundaryPointImageTest itkBloxBoundaryPointImageTest)
 ADD_TEST(itkBloxCoreAtomTest itkBloxCoreAtomTest)
+ADD_TEST(itkConnectedThresholdImageFilterTest itkConnectedThresholdImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png)
 ADD_TEST(itkCosImageFilterAndAdaptorTest itkCosImageFilterAndAdaptorTest)
 ADD_TEST(itkCurvatureAnisotropicDiffusionImageFilterTest itkCurvatureAnisotropicDiffusionImageFilterTest)
 ADD_TEST(itkCyclicReferences itkCyclicReferences)
@@ -111,6 +115,7 @@ ADD_EXECUTABLE(itkBinaryDilateImageFilterTest itkBinaryDilateImageFilterTest)
 ADD_EXECUTABLE(itkBinaryMagnitudeImageFilterTest itkBinaryMagnitudeImageFilterTest)
 ADD_EXECUTABLE(itkBloxBoundaryPointImageTest itkBloxBoundaryPointImageTest)
 ADD_EXECUTABLE(itkBloxCoreAtomTest itkBloxCoreAtomTest)
+ADD_EXECUTABLE(itkConnectedThresholdImageFilterTest itkConnectedThresholdImageFilterTest)
 ADD_EXECUTABLE(itkCosImageFilterAndAdaptorTest itkCosImageFilterAndAdaptorTest)
 ADD_EXECUTABLE(itkCurvatureAnisotropicDiffusionImageFilterTest itkCurvatureAnisotropicDiffusionImageFilterTest)
 ADD_EXECUTABLE(itkCyclicReferences itkCyclicReferences)
