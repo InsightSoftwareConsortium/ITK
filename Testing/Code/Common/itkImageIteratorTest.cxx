@@ -77,7 +77,7 @@ int IterateOverRegion( itk::ImageBufferIterator<itk::PhysicalImage<T, VImageDime
     // set "it" to the beginning of the dim projection
     for (i=0; i < it.GetRegion().GetSize()[dim]; i++)
       {
-      itkGenericOutputMacro(<< "Looping over " << dim);
+      //std::cout << "Looping over " << dim << std::endl;
       
       IterateOverRegion(it, dim-1);
       // increment the iterator
