@@ -143,10 +143,6 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
     }
   int k = 0;
 
-  MembershipFunctionPointerVector 
-    membershipFunctions = this->GetMembershipFunctions();
-
-
   for ( inIt.GoToBegin(); ! inIt.IsAtEnd(); ++inIt, ++classifiedIt, ++k ) 
     {
 
@@ -160,7 +156,7 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
     for (classIndex = 0 ; classIndex < numberOfClasses ; classIndex++)
       {
       discriminantScores[classIndex] = 
-        (membershipFunctions[classIndex])->Evaluate(inputImagePixel) ;
+        (this->GetMembershipFunction(classIndex))->Evaluate(inputImagePixel) ;
       }
 
     
@@ -216,12 +212,10 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
     m_PixelMembershipValue.resize( numberOfClasses );
     }
   
-  MembershipFunctionPointerVector
-    membershipFunctions = this->GetMembershipFunctions();
   for (unsigned int classIndex = 0 ; classIndex < numberOfClasses ; classIndex++)
     {
     m_PixelMembershipValue[classIndex] = 
-      (membershipFunctions[classIndex])->Evaluate(inputImagePixel) ;
+      (this->GetMembershipFunction(classIndex))->Evaluate(inputImagePixel) ;
     }
  
   //Return the membership value of the 
