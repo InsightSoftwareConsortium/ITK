@@ -179,17 +179,18 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     ++normals;
   }
 
-  for (int i=0; i<m_NumberOfNodes-2; i++  )
-  {
-  m_Forces->SetPointData(i, 1.0);
-  m_Locations->SetPointData(i, 0.0);
-  m_Derives->SetPointData(i, 0.0);
-  m_Displacements->SetPointData(i, 0.0);
-  }
+  for (unsigned int i=0; i+2 < m_NumberOfNodes; i++  )
+    {
+    m_Forces->SetPointData(i, 1.0);
+    m_Locations->SetPointData(i, 0.0);
+    m_Derives->SetPointData(i, 0.0);
+    m_Displacements->SetPointData(i, 0.0);
+    }
 
-  for (int i = 0; i < m_NewNodeLimit; i++) {
-  m_NewNodes[i] = (float*) malloc(sizeof(float)*5);
-  }
+  for (unsigned int j = 0; j < m_NewNodeLimit; j++) 
+    {
+    m_NewNodes[j] = (float*) malloc(sizeof(float)*5);
+    }
    
   while( derives != myDerives->End() )
   {
@@ -1086,8 +1087,11 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     tmp_co_2[1] = coord2[1];
 
 
-    if ( (coord[0] >= 0) && (coord[1] >= 0) && 
-        (coord2[0] < m_ImageWidth) && (coord2[1] < m_ImageHeight) ) {      
+    if ( (coord[0] >= 0) && 
+         (coord[1] >= 0) && 
+         (static_cast<unsigned int>( coord2[0] ) < m_ImageWidth) && 
+         (static_cast<unsigned int>( coord2[1] ) < m_ImageHeight) ) 
+      {      
       vec_for[0] = m_Gradient->GetPixel(coord)[0];
       vec_for[1] = m_Gradient->GetPixel(coord)[1];
 
