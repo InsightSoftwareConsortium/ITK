@@ -14,7 +14,27 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {ResampleImageFilterOutput1.png}
+//    0
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {ResampleImageFilterOutput2.png}
+//    1
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {ResampleImageFilterOutput3.png}
+//    2
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {ResampleImageFilterOutput4.png}
+//    3
+//  Software Guide : EndCommandLineArgs
+//  
 //  Software Guide : BeginLatex
 //
 //  Resampling an image is a very important task in image analysis. It is
@@ -305,7 +325,7 @@ int main( int argc, char * argv[] )
   //  Figure \ref{fig:ResampleImageFilterOutput1Analysis} clarifies the
   //  situation. It shows the two same images placed on a equally scaled
   //  coordinate system.  It becomes clear here that an identity transform is
-  //  being used to map the image data, and that simply, we has requested to
+  //  being used to map the image data, and that simply, we have requested to
   //  resample additional empty space around the image. The input image is
   //  $181 \times 217$ pixels in size and we have requested an output of $300
   //  \times 300$ pixels. In this case, the input and output images both have

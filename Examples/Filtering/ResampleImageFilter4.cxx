@@ -14,7 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {ResampleImageFilterOutput10.png}
+//    -15
+//  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginLatex
 //
 //  The following example illustrates how to rotate an image around its

@@ -14,6 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+//  Software Guide : BeginCommandLineArgs
+//  INPUTS: {VisibleWomanHeadSlice.png}
+//  OUTPUTS: {RGBGradientAnisotropicDiffusionImageFilterOutput.png}
+//  20 0.125
+//  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginLatex
 //
