@@ -11,7 +11,9 @@
 void RegisterTests()
 {
   vnl_sample_reseed(8775070);
+#ifndef __BORLANDC__
   REGISTER_TEST(ImageRegistration13Test);
+#endif
 }
 
 #undef main
