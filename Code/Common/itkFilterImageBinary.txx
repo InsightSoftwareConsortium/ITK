@@ -65,7 +65,7 @@ FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
 
 
 /**
- * GenerateDatas filter. Performs the pixel-wise addition
+ * GenerateData Performs the pixel-wise addition
  */
 template <class TInputImage1, class TInputImage2, 
           class TOutputImage, class TFunction  >
@@ -74,18 +74,12 @@ FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::GenerateData( void )
 {
 
-  m_OutputImage->SetLargestPossibleRegion(  
-      m_Image1->GetLargestPossibleRegion() );
+  ImageRegion region = m_OutputImage->GetRequestedRegion();
 
-  m_OutputImage->SetBufferedRegion( 
-      m_Image1->GetBufferedRegion() );
+  Image1Iterator it1(m_Image1, region );
+  Image2Iterator it2(m_Image2, region );
 
-  m_OutputImage->Allocate();
-
-  Image1Iterator it1(m_Image1, m_Image1->GetBufferedRegion() );
-  Image2Iterator it2(m_Image2, m_Image2->GetBufferedRegion() );
-
-  ImageOutputIterator ot(m_OutputImage, m_OutputImage->GetBufferedRegion() );
+  ImageOutputIterator ot(m_OutputImage, region );
 
   it1.Begin();
   it2.Begin();
