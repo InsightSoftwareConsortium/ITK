@@ -51,9 +51,11 @@ set Counter 0
 
 proc GCov { file } \
 {
+  puts "Running gcov on $file"
   set dir [pwd]
   cd [file dir $file]
-  catch { exec gcov -l [file tail $file] }
+  catch { exec gcov -l [file tail $file] } Result
+  puts $Result
   cd $dir
 }
 
@@ -180,7 +182,7 @@ proc RollUpCoverage { id } \
 # First run gcov on each *.da file
 # Next index all *.cxx, *.h, *.txx, *.c
 cd $BuildRoot
-FileMap [glob *] [list *.bb] GCov
+FileMap [glob *] [list *.da] GCov
 FileMap [glob *] [list *.gcov] AddFile
 
 set Coverage(UnCovered) 0

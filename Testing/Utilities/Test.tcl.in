@@ -59,6 +59,14 @@ cd $SourceDirectory
 FindTests .
 cd $OldDir
 
+proc RemoveFile { file } \
+{
+  puts "Removing $file"
+  file delete -force -- $file
+}
+
+# Delete any old coverage files
+FileMap [glob *] [list *.da *.gcov] RemoveFile
 
 # Write the list
 puts $Out "\t<TestList>"
