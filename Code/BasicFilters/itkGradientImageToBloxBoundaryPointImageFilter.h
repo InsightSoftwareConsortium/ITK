@@ -80,7 +80,16 @@ public:
   itkSetMacro(Threshold, double);
   itkGetMacro(Threshold, double);
 
+  /** Get and set the resolution of the blox
+   *  This is the number of input pixels "contained" within
+   *  each blox pixel
+   */
+  void SetBloxResolution( float bloxResolution[] );
+  void SetBloxResolution( float bloxResolution );
+
   void GenerateInputRequestedRegion();
+
+  virtual void GenerateOutputInformation();
 
 protected:
   GradientImageToBloxBoundaryPointImageFilter();
@@ -97,6 +106,9 @@ private:
   /** The threshold used to decide whether or not a gradient indicates
     * a boundary point that should be included */
   double m_Threshold;
+
+  /** The resolution of the blox in each dimension */
+  float m_BloxResolution[NDimensions];
 };
 
 } // end namespace itk

@@ -31,6 +31,60 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
 
   // The default threshold level is 128 (for no particular reason)
   m_Threshold = 128;
+
+  for( int j = 0; j < NDimensions; j++ )
+    {
+    m_BloxResolution[j] = 10.0;
+    }
+}
+
+template< typename TInputImage >
+void
+GradientImageToBloxBoundaryPointImageFilter< TInputImage >
+::SetBloxResolution(float bloxResolution[])
+{
+  int j = 0;
+  for( j = 0; j < NDimensions; j++ )
+    {
+    if( bloxResolution[j] != m_BloxResolution[j] ) break;
+    }
+  if( j < NDimensions )
+    {
+    this->Modified();
+    for( j = 0; j < ImageDimension; j++ )
+      {
+      m_BloxResolution[j] = bloxResolution[j];
+      if( m_BloxResolution[j] < 1 ) 
+        {
+        m_BloxResolution[j] = 1;
+        }
+      }
+    }
+}
+
+
+template< typename TInputImage >
+void
+GradientImageToBloxBoundaryPointImageFilter< TInputImage >
+::SetBloxResolution(float bloxResolution)
+{
+ int j = 0;
+  for( j = 0; j < NDimensions; j++ )
+    {
+    if( bloxResolution != m_BloxResolution[j] ) break;
+    }
+  if( j < NDimensions )
+    {
+    this->Modified();
+    for( j = 0; j < NDimensions; j++ )
+      {
+      m_BloxResolution[j] = bloxResolution;
+      if( m_BloxResolution[j] < 1 ) 
+        {
+        m_BloxResolution[j] = 1;
+        }
+      }
+    }
 }
 
 template< typename TInputImage >
@@ -40,9 +94,97 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
 {
   itkDebugMacro(<< "GradientImageToBloxBoundaryPointImageFilter::GenerateInputRequestedRegion() called");
   
+    // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
+  
+  // get pointers to the input and output
+  InputImagePointer  inputPtr = 
+      const_cast< TInputImage * >( this->GetInput().GetPointer() );
+  OutputImagePointer outputPtr = this->GetOutput();
+  
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
+  
+  // we need to compute the input requested region (size and start index)
+  int i;
+  const typename TOutputImage::SizeType& outputRequestedRegionSize
+    = outputPtr->GetRequestedRegion().GetSize();
+  const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
+    = outputPtr->GetRequestedRegion().GetIndex();
+  
+  typename TInputImage::SizeType  inputRequestedRegionSize;
+  typename TInputImage::IndexType inputRequestedRegionStartIndex;
+  
+  for (i = 0; i < TInputImage::ImageDimension; i++)
+    {
+    inputRequestedRegionSize[i]
+      = outputRequestedRegionSize[i] * m_BloxResolution[i];
+    inputRequestedRegionStartIndex[i]
+      = outputRequestedRegionStartIndex[i] * m_BloxResolution[i];
+    }
+  
+  typename TInputImage::RegionType inputRequestedRegion;
+  inputRequestedRegion.SetSize( inputRequestedRegionSize );
+  inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
+  
+  inputPtr->SetRequestedRegion( inputRequestedRegion );
 }
 
+template< typename TInputImage >
+void
+GradientImageToBloxBoundaryPointImageFilter< TInputImage >
+::GenerateOutputInformation()
+{
+  // call the superclass' implementation of this method
+  Superclass::GenerateOutputInformation();
+  
+  // get pointers to the input and output
+  InputImageConstPointer  inputPtr  = this->GetInput();
+  OutputImagePointer      outputPtr = this->GetOutput();
+
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
+  
+  // we need to compute the output spacing, the output image size, and the
+  // output image start index
+  int i;
+  const double *inputSpacing = inputPtr->GetSpacing();
+  const typename TInputImage::SizeType&   inputSize
+    = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType&  inputStartIndex
+    = inputPtr->GetLargestPossibleRegion().GetIndex();
+  
+  float    outputSpacing[TOutputImage::ImageDimension];
+  typename TOutputImage::SizeType     outputSize;
+  typename TOutputImage::IndexType    outputStartIndex;
+  
+  for (i = 0; i < TOutputImage::ImageDimension; i++)
+    {
+    
+    outputSpacing[i] = inputSpacing[i] * m_BloxResolution[i];
+
+    outputSize[i] = (unsigned long) floor( (float) inputSize[i] / m_BloxResolution[i]);
+    if( outputSize[i] < 1 )
+      {
+      outputSize[i] = 1;
+      }
+    
+    outputStartIndex[i] = (long)
+      ceil( (float) inputStartIndex[i] / m_BloxResolution[i] );
+    }
+  
+  outputPtr->SetSpacing( outputSpacing );
+  
+  typename TOutputImage::RegionType outputLargestPossibleRegion;
+  outputLargestPossibleRegion.SetSize( outputSize );
+  outputLargestPossibleRegion.SetIndex( outputStartIndex );
+  
+  outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
+}
 
 template< typename TInputImage >
 void
