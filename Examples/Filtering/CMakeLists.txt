@@ -180,6 +180,7 @@ TARGET_LINK_LIBRARIES(VectorIndexSelection ITKCommon ITKBasicFilters ITKIO)
 
 SET(FILTERING_EXAMPLES ${CXX_TEST_PATH}/FilteringExamples)
 SET(FILTERING_EXAMPLES2 ${CXX_TEST_PATH}/FilteringExamples2)
+SET(FILTERING_EXAMPLES3 ${CXX_TEST_PATH}/FilteringExamples3)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Filtering)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -632,11 +633,104 @@ ADD_TEST( RGBCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
         0.125 20
 )
 
+ADD_TEST( MorphologicalImageEnhancementTest ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/MorphologicalImageEnhancement.png
+            ${TEMP}/MorphologicalImageEnhancement.png
+  MorphologicalImageEnhancementTest
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/peppers.png
+        ${TEMP}/MorphologicalImageEnhancement.png
+        3
+)
+
+ADD_TEST( OtsuThresholdImageFilterTest ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/OtsuThresholdImageFilter.png
+            ${TEMP}/OtsuThresholdImageFilter.png
+  OtsuThresholdImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/OtsuThresholdImageFilter.png
+        255 0
+)
+
+ADD_TEST( OtsuMultipleThresholdImageFilterTest ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/OtsuMultipleThresholdOutput002.png
+            ${TEMP}/OtsuMultipleThresholdOutput002.png
+  OtsuMultipleThresholdImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/OtsuMultipleThresholdOutput
+        png 3
+)
+
+ADD_TEST( AntiAliasBinaryImageFilterTest ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/AntiAliasBinaryImageFilter.png
+            ${TEMP}/AntiAliasBinaryImageFilter.png
+  AntiAliasBinaryImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VentricleModel.png
+        ${TEMP}/AntiAliasBinaryImageFilter.png
+        .001 50
+)
+
+ADD_TEST( CannyEdgeDetectionImageFilterTest ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/CannyEdgeDetectionImageFilter.png
+            ${TEMP}/CannyEdgeDetectionImageFilter.png
+  CannyEdgeDetectionImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/CannyEdgeDetectionImageFilter.png
+        9
+)
+
+ADD_TEST( FlipImageFilterTest1 ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/FlipImageFilterX.png
+            ${TEMP}/FlipImageFilterX.png
+  FlipImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/FlipImageFilterX.png
+        1 0
+)
+
+ADD_TEST( FlipImageFilterTest2 ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/FlipImageFilterY.png
+            ${TEMP}/FlipImageFilterY.png
+  FlipImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/FlipImageFilterY.png
+        0 1
+)
+
+ADD_TEST( FlipImageFilterTest3 ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/FlipImageFilterXY.png
+            ${TEMP}/FlipImageFilterXY.png
+  FlipImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/FlipImageFilterXY.png
+        1 1
+)
+
+ADD_TEST( GaussianBlurImageFunctionTest ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/GaussianBlurImageFunction.mha
+            ${TEMP}/GaussianBlurImageFunction.mha
+  GaussianBlurImageFunctionTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VentricleModel.png
+        ${TEMP}/GaussianBlurImageFunction.mha
+        2 3
+)
+
+ADD_TEST( FFTImageFilterTest ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/FFTImageFilterReal.png
+            ${TEMP}/FFTImageFilterReal.png
+  FFTImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/FatMRISlice.png
+        ${TEMP}/FFTImageFilterReal.png
+        ${TEMP}/FFTImageFilterImaginary.png
+)
+
 ADD_EXECUTABLE(FilteringExamples FilteringExamples.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples ITKIO ITKBasicFilters ITKCommon)
 
 ADD_EXECUTABLE(FilteringExamples2 FilteringExamples2.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples2 ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(FilteringExamples3 FilteringExamples3.cxx)
+TARGET_LINK_LIBRARIES(FilteringExamples3 ITKIO ITKBasicFilters ITKCommon)
 
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
