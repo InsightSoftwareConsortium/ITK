@@ -70,20 +70,12 @@ int itkDeformableTest(int, char**)
   typedef itk::Image<myGradientType, myDimension>  myGradientImageType;
 
 
-  unsigned short *TestImage = new unsigned short[WIDTH*HEIGHT];
-  unsigned char  *Test = new unsigned char[WIDTH*HEIGHT*DEPTH];
-
-
   typedef itk::SphereMeshSource<DMesh>               SphereSourceType;
   typedef itk::DeformableMesh3DFilter<DMesh, DMesh>  BFilter;
-//  typedef itk::SphereSource<DMesh>            SphereSourceType;
-//  typedef itk::DeformableMeshFilter<DMesh, DMesh>     BFilter;
 
   outImageType::Pointer ptimg=outImageType::New();
   myGradientImageType::Pointer gdimg=myGradientImageType::New();
   outImageType::Pointer outputimg = outImageType::New();
-//  outImageType::Pointer gdimg=outImageType::New();
-//  outImageType::Pointer outputimg = outImageType::New();
 
   outImageType::SizeType outsize={{WIDTH,HEIGHT,DEPTH}};
   outImageType::IndexType index=outImageType::IndexType::ZeroIndex;
