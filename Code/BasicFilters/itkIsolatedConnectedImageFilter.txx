@@ -35,6 +35,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>
   m_Seed1.Fill(0);
   m_Seed2.Fill(0);
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
+  m_IsolatedValueTolerance = NumericTraits<InputImagePixelType >::One;
 }
 
 /**
@@ -100,7 +101,8 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
     function->SetInputImage ( inputImage );
 
   InputImagePixelType lower = m_Lower;
-  InputImagePixelType upper = NumericTraits<InputImagePixelType>::max();
+//  InputImagePixelType upper = NumericTraits<InputImagePixelType>::max();
+  InputImagePixelType upper = inputImage->GetPixel( m_Seed2 );
   InputImagePixelType guess = upper;
   IteratorType it = IteratorType ( outputImage, function, m_Seed1 );
 
@@ -108,7 +110,7 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
   // two seeds.
   itkDebugMacro (<< "GetPixel(m_Seed1): " << inputImage->GetPixel(m_Seed1));
   itkDebugMacro (<< "GetPixel(m_Seed2): " << inputImage->GetPixel(m_Seed2));
-  while (lower < guess)
+  while (lower + m_IsolatedValueTolerance < guess)
     {
     itkDebugMacro( << "lower, upper, guess: " << lower << ", " << upper << ", " << guess);
     outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );

@@ -79,6 +79,11 @@ public:
   itkSetMacro(Lower, InputImagePixelType);
   itkGetMacro(Lower, InputImagePixelType);
 
+  /** Set/Get the precision required for the intensity threshold value. The default is 1. */
+  itkSetMacro(IsolatedValueTolerance, InputImagePixelType);
+  itkGetMacro(IsolatedValueTolerance, InputImagePixelType);
+
+
   /** Set/Get value to replace thresholded pixels. Pixels that lie *
    *  within Lower and Upper (inclusive) will be replaced with this
    *  value. The default is 1. */
@@ -96,6 +101,7 @@ protected:
   InputImagePixelType m_Lower;
   OutputImagePixelType m_ReplaceValue;
   InputImagePixelType m_IsolatedValue;
+  InputImagePixelType m_IsolatedValueTolerance;
 
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();
