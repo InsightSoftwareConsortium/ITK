@@ -204,18 +204,6 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
   m_VarTolerance = m_Var*m_VarPercentError;
 }
 
-
-template <class TInputImage, class TOutputImage>
-void
-VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
-::Reset(void)
-{
-  m_VDGenerator->SetRandomSeeds(m_NumberOfSeeds);
-  m_StepsRuned = 0;
-  m_LastStepSeeds=m_NumberOfSeeds;
-  m_NumberOfSeedsToAdded=0;
-}
-
 } //end namespace
 
 #endif

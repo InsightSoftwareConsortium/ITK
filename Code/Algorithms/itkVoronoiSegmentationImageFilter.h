@@ -105,8 +105,6 @@ public:
    * binary object. */
   void TakeAPrior(BinaryObjectImage* aprior);
   
-  /** Reset the segmentation, ready for taking aprior from itself. */
-  void Reset(void); 
   
 protected:
   VoronoiSegmentationImageFilter();

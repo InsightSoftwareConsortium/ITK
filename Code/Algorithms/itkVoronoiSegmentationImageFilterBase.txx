@@ -36,6 +36,8 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   m_MeanDeviation = 0.8;
   m_UseBackgroundInAPrior = 0;
   m_OutputBoundary = 0;
+  m_WorkingVD=VoronoiDiagram::New();
+  m_VDGenerator=VoronoiDiagramGenerator::New();
 }
 
 /* Destructor. */
@@ -400,7 +402,6 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   this->ClassifyDiagram();
   this->GenerateAddingSeeds();
   m_NumberOfSeedsToAdded = m_SeedsToAdded.size();
-  m_StepsRuned++;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -457,13 +458,6 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     ->SetBufferedRegion( this->GetOutput()->GetRequestedRegion() );
   this->GetOutput()->Allocate();
 
-  // Create the diagram generators.  This was in the InitializeSegmentation()
-  // method.  But that method does not fit into the pipeline mechanism.
-  // I am assuming that these need to generated each time the filter
-  // executes.  - JVM
-  m_WorkingVD=VoronoiDiagram::New();
-  m_VDGenerator=VoronoiDiagramGenerator::New();
-
   // This ivar should be necessary
   m_Size = this->GetInput()->GetRequestedRegion().GetSize();
 
@@ -472,7 +466,6 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   VDsize[1] = (VoronoiDiagram::CoordRepType)(m_Size[1]-0.1);
   m_VDGenerator->SetBoundary(VDsize);
   m_VDGenerator->SetRandomSeeds(m_NumberOfSeeds);
-  m_StepsRuned = 0;
 
   this->RunSegment();
   if(m_OutputBoundary)

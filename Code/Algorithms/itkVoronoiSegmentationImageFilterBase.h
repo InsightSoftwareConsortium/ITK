@@ -77,6 +77,7 @@ public:
   
   /** Convenient typedefs. */
   typedef TInputImage InputImageType;
+  typedef TInputImage::Pointer InputImagePointer;
   typedef TOutputImage OutputImageType;
   typedef typename TInputImage::IndexType IndexType;
   typedef typename TInputImage::SizeType SizeType;
@@ -169,8 +170,8 @@ public:
   /** Draw the Voronoi Diagram structure. */
   void DrawDiagram(VDImagePointer result,unsigned char incolor, 
                    unsigned char outcolor,unsigned char boundcolor); 
+
   void BeforeNextStep(void); 
-  virtual void Reset(void){}; 
 
   /** This filter does not stream and needs the entire image as input.
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
@@ -196,7 +197,6 @@ protected:
   int m_NumberOfBoundary;
   std::vector<int> m_NumberOfPixels;
   std::vector<unsigned char> m_Label;
-  int m_StepsRuned;
   double m_MeanDeviation;
   bool m_UseBackgroundInAPrior;
   bool m_OutputBoundary; //if =1 then output the boundaries, if = 0 then output the object.

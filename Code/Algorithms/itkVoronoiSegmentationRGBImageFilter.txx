@@ -30,7 +30,7 @@ VoronoiSegmentationRGBImageFilter(){
   unsigned int i;
   for(i=0;i<6;i++){
     m_Mean[i] = 0;
-  m_Var[i] = 0;
+    m_Var[i] = 0;
     m_MeanTolerance[i] = 10;
     m_VarTolerance[i] = 10;
     m_MeanPercentError[i] = 0.10;
@@ -58,7 +58,7 @@ VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
 SetMeanPercentError(double x[6]){
   for(unsigned int i=0;i<6;i++){
     m_MeanPercentError[i] = x[i];
-    m_MeanTolerance[i] = x[i]*m_Mean[i];
+    m_MeanTolerance[i] = fabs(x[i]*m_Mean[i]);
   }
 }
 
@@ -76,20 +76,19 @@ SetVarPercentError(double x[6]){
 /* Initialization for the segmentation. */
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
-InitializeSegment(void){
-  m_InputImage = this->GetInput();
-  m_OutputImage = this->GetOutput(); 
+VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>
+::SetInput(InputImagePointer input)
+{
+//  m_InputImage = this->GetInput();
+//  m_OutputImage = this->GetOutput(); 
 
-  m_Size = m_InputImage->GetLargestPossibleRegion().GetSize();
+  Superclass::SetInput(input);
+
+  m_Size = this->GetInput()->GetLargestPossibleRegion().GetSize();
   IndexType index = IndexType::ZeroIndex;
   RegionType region;
   region.SetSize(m_Size);
   region.SetIndex(index);
-  m_OutputImage->SetLargestPossibleRegion( region );
-  m_OutputImage->SetBufferedRegion( region );
-  m_OutputImage->SetRequestedRegion( region );
-  m_OutputImage->Allocate();  
 
   m_WorkingImage=RGBHCVImage::New();
   m_WorkingImage->SetLargestPossibleRegion( region );
@@ -98,7 +97,7 @@ InitializeSegment(void){
   m_WorkingImage->Allocate();  
 
   itk::ImageRegionIteratorWithIndex <RGBHCVImage> wit(m_WorkingImage, region);
-  itk::ImageRegionIteratorWithIndex <InputImageType> iit(m_InputImage, region);
+  itk::ImageRegionIteratorWithIndex <InputImageType> iit(this->GetInput(), region);
   PixelType ipixel;
   RGBHCVPixel wpixel;
 
@@ -135,16 +134,6 @@ InitializeSegment(void){
     ++wit;
     ++iit;
   }
-
-  m_WorkingVD=VoronoiDiagram::New();
-  m_VDGenerator=VoronoiDiagramGenerator::New();
-
-  VoronoiDiagram::PointType VDsize;
-  VDsize[0] = (VoronoiDiagram::CoordRepType)(m_Size[0]-0.1);
-  VDsize[1] = (VoronoiDiagram::CoordRepType)(m_Size[1]-0.1);
-  m_VDGenerator->SetBoundary(VDsize);
-  m_VDGenerator->SetRandomSeeds(m_NumberOfSeeds);
-  m_StepsRuned = 0;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -179,6 +168,7 @@ TestHomogeneity(IndexList Plist)
   }
   }
 
+
   bool ok = 1;
   j = 0;
   double savem,savev;
@@ -195,6 +185,7 @@ TestHomogeneity(IndexList Plist)
     }
     j++;
   }
+
   if(ok)
   return 1;
   else
@@ -204,58 +195,10 @@ TestHomogeneity(IndexList Plist)
 template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
-Reset(void)
-{
-  RegionType region = m_InputImage->GetRequestedRegion();
-  m_VDGenerator->SetRandomSeeds(m_NumberOfSeeds);
-  m_StepsRuned = 0;
-  m_LastStepSeeds=m_NumberOfSeeds;
-  m_NumberOfSeedsToAdded=0;
-  itk::ImageRegionIteratorWithIndex <RGBHCVImage> wit(m_WorkingImage, region);
-  itk::ImageRegionIteratorWithIndex <InputImageType> iit(m_InputImage, region);
-  PixelType ipixel;
-  RGBHCVPixel wpixel;
-
-  double X;
-  double Y;
-  double Z;
-  double L;
-  double a;
-  double b;
-  double X0 = m_MaxValueOfRGB*0.982;
-  double Y0 = m_MaxValueOfRGB;
-  double Z0 = m_MaxValueOfRGB*1.183;
-
-  while( !iit.IsAtEnd()) {    
-    ipixel = iit.Get();
-    wpixel[0] = ipixel[0];
-    wpixel[1] = ipixel[1];
-    wpixel[2] = ipixel[2];
-
-    X =  0.607*ipixel[0] + 0.174*ipixel[1] + 0.201*ipixel[2];
-    Y =  0.299*ipixel[0] + 0.587*ipixel[1] + 0.114*ipixel[2];
-    Z =  0.066*ipixel[1] + 1.117*ipixel[2];
-    X = pow((X/X0),0.3333);
-    Y = pow((Y/Y0),0.3333);
-    Z = pow((Z/Z0),0.3333);
-    L = 116*Y - 16;
-    a = 500*(X - Y);
-    b = 200*(Y - Z);
-  
-    wpixel[3] = atan(b/a);     //H
-    wpixel[4] = sqrt(a*a+b*b); //C
-    wpixel[5] = L;             //V 
-    wit.Set(wpixel);
-    ++wit;
-    ++iit;
-  }
-}
-template <class TInputImage, class TOutputImage>
-void
-VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
 TakeAPrior(BinaryObjectImage* aprior)
 {
-  RegionType region = m_InputImage->GetRequestedRegion();
+
+  RegionType region = this->GetInput()->GetRequestedRegion();
   itk::ImageRegionIteratorWithIndex <BinaryObjectImage> ait(aprior, region);
   itk::ImageRegionIteratorWithIndex <RGBHCVImage> iit(m_WorkingImage, region);
 
@@ -345,7 +288,7 @@ TakeAPrior(BinaryObjectImage* aprior)
     if(m_UseBackgroundInAPrior)
       m_MeanTolerance[i] = diffMean[i]*m_Mean[i]*m_MeanDeviation;
     else
-      m_MeanTolerance[i] = m_Mean[i]*m_MeanPercentError[i];
+      m_MeanTolerance[i] = fabs(m_Mean[i]*m_MeanPercentError[i]);
   }
 
 /*  Sorting. */

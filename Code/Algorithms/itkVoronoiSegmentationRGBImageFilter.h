@@ -73,6 +73,7 @@ public:
   /** Convenient typedefs. */
   typedef typename Superclass::BinaryObjectImage BinaryObjectImage;
   typedef typename Superclass::IndexList IndexList;
+  typedef typename Superclass::InputImagePointer InputImagePointer;
   typedef Vector<float,6> RGBHCVPixel;
   typedef Image<RGBHCVPixel> RGBHCVImage;
 
@@ -112,13 +113,14 @@ public:
   void GetTestVar(unsigned int x[3]){
     x[0]=m_TestVar[0];x[1]=m_TestVar[1];x[2]=m_TestVar[2];
   }
-  void InitializeSegment(void);
   void TakeAPrior(BinaryObjectImage* aprior);
-  void Reset(void);
+
+  void SetInput(InputImagePointer input); 
 
 protected:
   VoronoiSegmentationRGBImageFilter();
   ~VoronoiSegmentationRGBImageFilter();
+
 
 private:
   double m_Mean[6];
