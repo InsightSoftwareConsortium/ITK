@@ -35,6 +35,7 @@ ADD_TEST(itkImageAdaptorTest itkCommonTests itkImageAdaptorTest)
 ADD_TEST(itkImageIteratorTest itkCommonTests itkImageIteratorTest)
 ADD_TEST(itkImageIteratorsForwardBackwardTest itkCommonTests itkImageIteratorsForwardBackwardTest)
 ADD_TEST(itkImageLinearIteratorTest itkCommonTests itkImageLinearIteratorTest)
+ADD_TEST(itkImageRandomIteratorTest itkCommonTests itkImageRandomIteratorTest)
 ADD_TEST(itkImageRegionTest itkCommonTests itkImageRegionTest)
 ADD_TEST(itkImageRegionExclusionIteratorWithIndexTest itkCommonTests itkImageRegionExclusionIteratorWithIndexTest)
 ADD_TEST(itkImageSliceIteratorTest itkCommonTests itkImageSliceIteratorTest)
@@ -95,6 +96,7 @@ itkImageAdaptorTest
 itkImageIteratorTest 
 itkImageIteratorsForwardBackwardTest 
 itkImageLinearIteratorTest 
+itkImageRandomIteratorTest 
 itkImageRegionTest 
 itkImageRegionExclusionIteratorWithIndexTest 
 itkImageSliceIteratorTest 
