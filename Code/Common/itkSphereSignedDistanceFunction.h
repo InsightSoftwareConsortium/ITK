@@ -90,7 +90,7 @@ private:
   SphereSignedDistanceFunction( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
-  typedef Vector<CoordRepType,SpaceDimension> VectorType;
+  typedef Vector<CoordRepType,itkGetStaticConstMacro(SpaceDimension)> VectorType;
 
   VectorType   m_Translation;
   double       m_Radius;
