@@ -593,7 +593,7 @@ static int Perform_Distributed_Task(int points,vnl_rnpoly_solve_cmplx sols[LEN][
   int icount[M];
   int j,i;
   int NumSols=0;
-  bool solflag=false;           // flag used to remember if a root is found
+  bool solflag;           // flag used to remember if a root is found
   int max_deg=P;
 #ifdef DEBUG
   char const* FILENAM = "/tmp/cont.results";
@@ -710,8 +710,6 @@ bool vnl_rnpoly_solve::compute()
   vnl_rnpoly_solve_cmplx ans[LEN][M];
   double coeff[M][T];
   int p = Read_Input(ideg,terms,polyn,coeff);
-  int totdegree = 1;
-  for (j=0;j<p;j++) totdegree *= ideg[j];
   int NumSols = Perform_Distributed_Task(p,ans,ideg,terms,polyn,coeff);
   // Print out the answers
   vnl_vector<double> * rp, *ip;

@@ -106,7 +106,7 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
   double best_f = 0;
   vnl_vector<double> best_x;
 
-  bool ok = true;
+  bool ok;
   this->num_evaluations_ = 0;
   this->num_iterations_ = 0;
   int iflag = 0;
