@@ -22,7 +22,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  void AnalyzeImageIOFactory::PrintSelf(std::ostream& os, Indent indent) const
+  void AnalyzeImageIOFactory::PrintSelf(std::ostream&, Indent) const
   {
 
   }

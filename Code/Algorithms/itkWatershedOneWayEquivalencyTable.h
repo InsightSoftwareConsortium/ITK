@@ -124,8 +124,8 @@ public:
 protected:
   OneWayEquivalencyTable()  {}
   virtual ~OneWayEquivalencyTable() {}
-  OneWayEquivalencyTable(const Self&) {}
-  void operator=(const Self&) {}
+  OneWayEquivalencyTable(const Self&); // purposely not implemented
+  void operator=(const Self&); // purposely not implemented
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   HashTableType m_HashMap;

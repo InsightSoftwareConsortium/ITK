@@ -52,7 +52,7 @@ vnl_lsqr::~vnl_lsqr()
 }
 
 // Requires number_of_residuals() of workspace in rw.
-int vnl_lsqr::aprod_(int* mode, int* m, int* n, double* x, double* y, int* leniw, int* lenrw, int* iw, double* rw )
+int vnl_lsqr::aprod_(int* mode, int* m, int* n, double* x, double* y, int*, int*, int*, double* rw )
 {
   vnl_lsqr* active = vnl_lsqr_Activate::current;
 

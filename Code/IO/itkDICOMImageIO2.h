@@ -69,11 +69,11 @@ public:
   virtual bool CanWriteFile(const char*) {return false;}
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void WriteImageInformation() {} ;
+  virtual void WriteImageInformation() {}
   
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  virtual void Write(const void* buffer) {};
+  virtual void Write(const void*) {}
 
 
 protected:

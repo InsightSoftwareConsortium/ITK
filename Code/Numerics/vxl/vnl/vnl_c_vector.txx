@@ -271,7 +271,7 @@ inline void* vnl_c_vector_alloc(int n, int size)
 #endif
 } 
 
-inline void vnl_c_vector_dealloc(void* v, int n, int size)
+inline void vnl_c_vector_dealloc(void* v, int, int)
 { 
 //  vcl_cerr << "\ncall to vnl_c_vector_dealloc(" << v << ", " << n
 //           << ", " << size << ")\n";

@@ -109,8 +109,8 @@ protected:
    * to be overrided by optimization methods in non-vector spaces
    * \sa AdvanceOneStep */
   virtual void StepAlongGradient( 
-                  double factor, 
-                  const DerivativeType & transformedGradient ) 
+                  double,
+                  const DerivativeType&)
     {
     ExceptionObject ex;
     ex.SetLocation(__FILE__);

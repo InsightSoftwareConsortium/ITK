@@ -167,6 +167,7 @@ unsigned int PNGImageIO::GetComponentSize() const
     case RGBA:
       return sizeof(unsigned char);
     case UNKNOWN:
+    default:
       {
       itkExceptionMacro ("Invalid type: " << m_PixelType 
                   << ", only unsigned char and unsigned short are allowed.");

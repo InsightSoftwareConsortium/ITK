@@ -82,7 +82,7 @@ public:
   
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  virtual void Write(const void* buffer)
+  virtual void Write(const void*)
     { return; }
 
   /** Methods that provide information about the data file. This

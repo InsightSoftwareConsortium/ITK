@@ -61,7 +61,7 @@ public:
   virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
 
   // FIXME: Write a proper implementation
-  virtual bool GetLocalFromGlobalCoordinates( const VectorType& globalPt, VectorType& localPt ) const
+  virtual bool GetLocalFromGlobalCoordinates( const VectorType&, VectorType& ) const
   { 
     throw;
     return false;

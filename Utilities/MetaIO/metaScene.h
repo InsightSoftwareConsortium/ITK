@@ -59,7 +59,7 @@ class MetaScene : public MetaObject
 
     bool Write(const char *_headName=NULL);
 
-    bool Append(const char *_headName=NULL) {std::cout << "Not Implemented !" << std::endl;return true;}
+    bool Append(const char* =NULL) {std::cout << "Not Implemented !" << std::endl;return true;}
 
     void  Clear(void);
 

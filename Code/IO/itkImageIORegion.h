@@ -92,7 +92,7 @@ public:
 
   /** Copy constructor. ImageIORegion is a lightweight object that is not
    * reference counted, so the copy constructor is public. */
-  ImageIORegion(const Self& region)
+  ImageIORegion(const Self& region): Region()
     { 
       m_Index =region.m_Index; 
       m_Size = region.m_Size; 

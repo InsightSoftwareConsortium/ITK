@@ -59,9 +59,6 @@ DICOMParser::~DICOMParser() {
 }
 
 bool DICOMParser::ReadHeader() {
-
-  static int read_count = 0;
-
   bool dicom = this->IsDICOMFile(this->DataFile);
   if (!dicom)
     {

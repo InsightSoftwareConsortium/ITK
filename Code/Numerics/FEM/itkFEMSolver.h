@@ -303,7 +303,7 @@ public:
    *
    * \param dt New time step.
    */
-  virtual void SetTimeStep(Float dt) {}
+  virtual void SetTimeStep(Float) {}
 
 protected:
 

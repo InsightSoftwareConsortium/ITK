@@ -565,7 +565,7 @@ const char* DICOMAppHelper::TransferSyntaxUIDDescription(const char* uid)
 }
 
 
-void DICOMAppHelper::RescaleSlopeCallback(doublebyte group,
+void DICOMAppHelper::RescaleSlopeCallback(doublebyte,
                      doublebyte ,
                      DICOMParser::VRTypes ,
                      unsigned char* val,

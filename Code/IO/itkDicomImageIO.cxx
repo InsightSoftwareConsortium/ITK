@@ -138,7 +138,7 @@ bool DicomImageIO::GoToTheEndOfHeader(std::ifstream & inputStream,
  *  otherwise.
  */
 bool DicomImageIO::GoToTag(std::ifstream & inputStream,int subtagref1,
-                           int subtagref2,long int& i,long int& max,
+                           int subtagref2,long int& i,long int&,
                            Tag & tagcurrent) const
 {
   unsigned char current[4]; 

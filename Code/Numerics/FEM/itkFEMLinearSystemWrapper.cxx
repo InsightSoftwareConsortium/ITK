@@ -455,7 +455,7 @@ FEMExceptionLinearSystem::FEMExceptionLinearSystem(const char *file, unsigned in
 }
 
 
-FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription, unsigned int index1) :
+FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string, std::string moreDescription, unsigned int index1) :
   FEMException(file,lineNumber)
 {
   OStringStream buf;
@@ -465,7 +465,7 @@ FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char *file,
 }
 
 
-FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription, unsigned int index1, unsigned int index2) :
+FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string, std::string, unsigned int index1, unsigned int index2) :
   FEMException(file,lineNumber)
 {
   OStringStream buf;

@@ -128,8 +128,8 @@ public:
 protected:
   EquivalencyTable()  {}
   virtual ~EquivalencyTable() {}
-  EquivalencyTable(const Self&) {}
-  void operator=(const Self&) {}
+  EquivalencyTable(const Self&); // purposely not implemented
+  void operator=(const Self&); // purposely not implemented
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   HashTableType m_HashMap;

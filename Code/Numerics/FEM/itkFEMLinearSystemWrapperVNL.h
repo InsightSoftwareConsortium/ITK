@@ -65,7 +65,7 @@ public:
   virtual void  InitializeSolution(unsigned int solutionIndex);
   virtual bool  IsSolutionInitialized(unsigned int solutionIndex);
   virtual void  DestroySolution(unsigned int solutionIndex);
-  virtual void  SetMaximumNonZeroValuesInMatrix(unsigned int maxNonZeros, unsigned int matrixIndex) {}
+  virtual void  SetMaximumNonZeroValuesInMatrix(unsigned int, unsigned int) {}
 
 
   /* assembly & solving routines */

@@ -118,6 +118,7 @@ const std::type_info& ImageIOBase::GetPixelType() const
     case RGBA:
       return typeid(RGBAPixel<unsigned char>);
     case UNKNOWN:
+    default:
       itkExceptionMacro ("Unknown pixel type: " << m_PixelType);
     }
   return typeid(ImageIOBase::UnknownType);
@@ -383,6 +384,7 @@ ImageIOBase::GetSizeOfType(IODataType t) const
     case RGBA:
       return sizeof(RGBAPixel<unsigned char>);
     case UNKNOWN:
+    default:
       itkExceptionMacro ("Unknown pixel type: " << t);
     }
   return 0;
@@ -417,6 +419,7 @@ unsigned int ImageIOBase::GetPixelSize() const
     case RGBA:
       return sizeof(RGBAPixel<unsigned char>);
     case UNKNOWN:
+    default:
       itkExceptionMacro ("Unknown pixel type: " << m_ComponentType);
     }
 
@@ -452,6 +455,7 @@ unsigned int ImageIOBase::GetComponentSize() const
     case RGBA:
       return sizeof(RGBAPixel<unsigned char>);
     case UNKNOWN:
+    default:
       itkExceptionMacro ("Unknown pixel type: " << m_ComponentType);
     }
 
@@ -488,6 +492,7 @@ std::string ImageIOBase::ReturnTypeAsString(IODataType t) const
     case RGBA:
       return (s = "rgba");
     case UNKNOWN:
+    default:
       itkExceptionMacro ("Unknown pixel type: " << t);
     }
   return (s="unknown");

@@ -3,7 +3,7 @@
 #include <vnl/vnl_copy.h>
 
 VCL_DEFINE_SPECIALIZATION
-vnl_svd<long double>::vnl_svd(vnl_matrix<long double> const& M, double zero_out_tol):
+vnl_svd<long double>::vnl_svd(vnl_matrix<long double> const& M, double):
   m_(M.rows()),
   n_(M.columns()),
   U_(m_, n_),

@@ -78,7 +78,7 @@ private:
 
 
   // You can't assign one of these from a matrix, cos' you don't have any space
-  vnl_matrix_ref(vnl_matrix_ref<T> const &) {}
+  vnl_matrix_ref(vnl_matrix_ref<T> const &): vnl_matrix<T>() {}
   vnl_matrix_ref<T>& operator=(vnl_matrix<T> const &) { return *this; }
 };
 

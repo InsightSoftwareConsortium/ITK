@@ -73,8 +73,8 @@ public:
   virtual void GetMassMatrix( MatrixType& Me ) const;
   HANDLE_ELEMENT_LOADS();
 
-  virtual void GetStrainDisplacementMatrix( MatrixType& B, const MatrixType& shapeDgl ) const {}
-  virtual void GetMaterialMatrix( MatrixType& D ) const {}
+  virtual void GetStrainDisplacementMatrix( MatrixType&, const MatrixType& ) const {}
+  virtual void GetMaterialMatrix( MatrixType& ) const {}
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -96,7 +96,7 @@ public:
 
   virtual VectorType ShapeFunctions( const VectorType& pt ) const;
   virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
-  virtual bool GetLocalFromGlobalCoordinates( const VectorType& globalPt ,VectorType& localPt) const
+  virtual bool GetLocalFromGlobalCoordinates( const VectorType&, VectorType& ) const
   {
     return false;
   }

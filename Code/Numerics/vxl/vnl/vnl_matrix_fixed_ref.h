@@ -84,8 +84,8 @@ private:
   // - capes Nov 99
 
   // You can't assign one of these from a matrix, cos' you don't have any space
-  vnl_matrix_fixed_ref(const vnl_matrix<T>&) {}
-  vnl_matrix_fixed_ref(const vnl_matrix_fixed_ref<T,m,n>&) {}
+  vnl_matrix_fixed_ref(const vnl_matrix<T>&): vnl_matrix<T>() {}
+  vnl_matrix_fixed_ref(const vnl_matrix_fixed_ref<T,m,n>&): vnl_matrix<T>() {}
 };
 
 #endif // vnl_matrix_fixed_ref_h_
