@@ -40,9 +40,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkLinearInterpolateImageFunction_h
 #define _itkLinearInterpolateImageFunction_h
 
-#include "itkImageFunction.h"
+#include "itkContinuousImageFunction.h"
 #include "itkPoint.h"
-#include "itkSize.h"
 
 namespace itk
 {
@@ -52,14 +51,14 @@ namespace itk
  * \brief Linearly interpolate an image.
  *
  * LinearInterpolateImageFunction linearly interpolates image intensity at
- * a integer or non-integer pixel position. This class is templated
+ * a non-integer pixel position. This class is templated
  * over the input image type.
  *
  * This function works for N-dimensional images.
  * */
 template <class TInputImage >
 class ITK_EXPORT LinearInterpolateImageFunction : 
-  public ImageFunction<TInputImage,double> 
+  public ContinuousImageFunction<TInputImage,double> 
 {
 public:
   /**
@@ -70,7 +69,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageFunction<TInputImage,double> Superclass;
+  typedef ContinuousImageFunction<TInputImage,double> Superclass;
 
   /** 
    * Smart pointer typedef support.
@@ -96,50 +95,27 @@ public:
   /**
    * Index typedef support.
    */
-  typedef typename Superclass::IndexType IndexType;
+  typedef typename InputImageType::IndexType IndexType;
 
   /**
    * Point typedef support.
    */
-  typedef Point<double,ImageDimension>  PointType;
-
-  /** 
-   * Set the input image.
-   *
-   * Specify the image to be interpolated.
-   *
-   * This method is NOT thread safe.
-   */
-  virtual void SetInputImage( const InputImageType * ptr );
-
-  /**
-   * Evaluate the function at specified index.
-   *
-   * Returns the image intensity at a specified integer
-   * coordinate position, or zero if the indicated position
-   * is outside the image.
-   *
-   * This method is believed to be thread safe.
-   */
-  virtual double Evaluate( const IndexType& index ) const;
+  typedef typename Superclass::PointType  PointType;
 
   /**
    * Evaluate the function at a Point position
    *
-   * Returns the linearly interpolated image intensity at a specified
-   * coordinate position, which need not be integer-valued.  Pixels
-   * outside the image are considered to be zero.
+   * Returns the linearly interpolated image intensity at a 
+   * specified point position. No bounds checking is done.
+   * The point is assume to lie within the image buffer.
    *
-   * This method is believed to be thread safe.
+   * Superclass::IsInsideBuffer() can be used to check bounds before
+   * calling the method.
    */
   virtual double Evaluate( const PointType & point ) const;
 
-
-  virtual double EvaluateFromBaseAndAlpha() const;
-
-
 protected:
-  LinearInterpolateImageFunction(){};
+  LinearInterpolateImageFunction();
   LinearInterpolateImageFunction( const Self& ){};
 
   ~LinearInterpolateImageFunction(){};
@@ -149,11 +125,7 @@ protected:
 
 private:
 
-  Size<ImageDimension>   m_ImageSize;  // Dimensions of the image
   unsigned long          m_Neighbors;  // Size of interpolation neighborhood
-
-  mutable long           m_Base[ImageDimension];      
-  mutable double         m_Alpha[ImageDimension];      
 
 };
 

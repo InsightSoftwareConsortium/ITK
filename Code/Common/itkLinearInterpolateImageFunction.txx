@@ -40,27 +40,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkLinearInterpolateImageFunction_txx
 #define _itkLinearInterpolateImageFunction_txx
 
-#include <iostream>
-
-#include "itkPixelTraits.h"
-#include "itkIndex.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
 {
 
 /**
- *
+ * Constructor
  */
 template<class TInputImage>
-void
 LinearInterpolateImageFunction<TInputImage>
-::SetInputImage( const InputImageType *ptr )
+::LinearInterpolateImageFunction()
 {
-  this->Superclass::SetInputImage( ptr );
-
-  m_ImageSize =
-    this->GetInputImage()->GetLargestPossibleRegion().GetSize();
 
   m_Neighbors = 1UL << ImageDimension;
 
@@ -68,7 +59,7 @@ LinearInterpolateImageFunction<TInputImage>
 
 
 /**
- *
+ * PrintSelf
  */
 template<class TInputImage>
 void
@@ -81,140 +72,68 @@ LinearInterpolateImageFunction<TInputImage>
 
 
 /**
- *
+ * Evaluate
  */
 template<class TInputImage>
 double
 LinearInterpolateImageFunction<TInputImage>
 ::Evaluate(
-const IndexType& index ) const
+const PointType& point) const
 {
-  double value = 0.0;    // Value of interpolated pixel
+  unsigned int dim;  // index over dimension
 
-  /* Check if indices are within image; immediately return 0 if not */
-  for( int j = 0; j < ImageDimension; j++ )
+  /**
+   * Compute base index = closet index below point
+   * Compute distance from point to base index
+   */
+  IndexType baseIndex;
+  VectorType distance;
+  for( dim = 0; dim < ImageDimension; dim++ )
     {
-    if( (unsigned long)index[j] >= m_ImageSize[j] )
+    double coord = ( point[dim] - m_ImageOrigin[dim] ) / m_ImageSpacing[dim];
+    baseIndex[dim] = (long) floor( coord );
+
+    distance[dim] = coord - double( baseIndex[dim] );
+    }
+  
+  /**
+   * Interpolated value is the weight some of each of the surrounding
+   * neighbors. The weight for each neighbour is the fraction overlap
+   * of the neighbor pixel with respect to a pixel centered on point.
+   */
+  double value = 0.0;
+
+  for( unsigned int counter = 0; counter < m_Neighbors; counter++ )
+    {
+
+    double overlap = 1.0;   // fraction overlap
+    unsigned int upper = counter;  // each bit indicates upper/lower neighbour
+    IndexType neighIndex;
+
+    // get neighbor index and overlap fraction
+    for( dim = 0; dim < ImageDimension; dim++ )
       {
-        return 0;
-      }
-    }
 
-  /* Otherwise return the appropriate pixel value */
-  value = (double)this->GetInputImage()->GetPixel( index );
-  return ( value );
-}
-
-
-/**
- *
- */
-template<class TInputImage>
-double
-LinearInterpolateImageFunction<TInputImage>
-::Evaluate(
-const PointType & point ) const
-{
-
-  /* Prepare coordinates; check whether inside image or not. */
-
-
-  for (int j = 0; j < ImageDimension; j++)
-  {
-    m_Base[j]  = (long)floor(point[j]);
-    m_Alpha[j] = point[j] - m_Base[j];
-  }
-
-  return EvaluateFromBaseAndAlpha();
-
-}
-
-
-
-/**
- *
- */
-template<class TInputImage>
-double
-LinearInterpolateImageFunction<TInputImage>
-::EvaluateFromBaseAndAlpha() const
-{
-  int j;        // Index over coordinates
-
-  /* Prepare coordinates; check whether inside image or not.
-     If completely outside image, return 0 immediately. */
-
-  bool partial = false;                 // Partially inside image?
-
-  for (j = 0; j < ImageDimension; j++) {
-    if ( m_Base[j] < -1 || (unsigned long)m_Base[j] >= m_ImageSize[j] ) {
-      // Completely outside
-      return 0; }
-    else if ( m_Base[j] < 0 || (unsigned long)m_Base[j] >= m_ImageSize[j]-1) {
-      // Overlaps the boundary
-      partial = true; }
-  }
-
-  IndexType neighIndex;
-  double value = 0.0;            // Interpolated pixel value
-  typename InputImageType::ConstPointer image = this->GetInputImage();
-
-  /* Case 1: Interpolation neighborhood overlaps the image boundary */
-  if (partial) {
-    for (unsigned int counter = 0; counter < m_Neighbors; counter++) {
-      double alf = 1.0;          // Inter parameter for each neighbor
-      int upper = counter;       // Each bit indicates upper/lower neighbor
-      for (j = 0; j < ImageDimension; j++) {
-
-        neighIndex[j] = m_Base[j];
-
-        if (upper & 1) {
-          if ( m_Base[j] >= 0 &&
-               (unsigned long)m_Base[j] > m_ImageSize[j] - 2 ) {
-            alf = 0.0;
-            break; }
-          else {
-            neighIndex[j] += 1;
-            alf *= m_Alpha[j]; }
-          }
-        else {
-          if ( m_Base[j] < 0 ) {
-            alf = 0.0;
-            break;  }
-          else
-            alf *= 1.0 - m_Alpha[j];
+      if ( upper & 1 )
+        {
+        neighIndex[dim] = baseIndex[dim] + 1;
+        overlap *= distance[dim];
         }
-        upper >>= 1;
+      else
+        {
+        neighIndex[dim] = baseIndex[dim];
+        overlap *= 1.0 - distance[dim];
+        }
+
+      upper >>= 1;
+
       }
 
-      value += alf * (double)image->GetPixel( neighIndex );
+    value += overlap * (double) m_Image->GetPixel( neighIndex );
+
     }
-  }
-
-  /* Case 2: Interpolation neighborhood is completely inside the image */
-  else {
-    for (unsigned int counter = 0; counter < m_Neighbors; counter++) {
-      double alf = 1.0;              // Interp parameter for each neighbor
-      unsigned int upper = counter;  // Each bit indicates upper/lower neighbor
-      for (j = 0; j < ImageDimension; j++) {
-
-        if (upper & 1) {
-          neighIndex[j] = m_Base[j] + 1;
-          alf *= m_Alpha[j];
-        }
-        else {
-          neighIndex[j] = m_Base[j];
-          alf *= 1.0 - m_Alpha[j];
-        }
-        upper >>= 1;
-      }
-
-      value += alf * (double) image->GetPixel( neighIndex );
-    }
-  }
 
   return ( value );
-
 }
 
 } // namespace itk
