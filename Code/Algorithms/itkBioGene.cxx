@@ -63,8 +63,12 @@ Gene
                            gene.m_ControlDomains.begin(),
                            gene.m_ControlDomains.end()    );
 
-  m_ProteinDomains.insert( gene.m_ProteinDomains.begin(),
-                           gene.m_ProteinDomains.end()    );
+
+  ProteinDomainsType::value_type first = (*gene.m_ProteinDomains.begin());
+  ProteinDomainsType::value_type last = (*gene.m_ProteinDomains.end());
+  m_ProteinDomains.insert(
+                           &first,
+                           &last);
   
 }
 
