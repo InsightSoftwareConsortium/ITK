@@ -33,7 +33,7 @@ RegistrationOptimizerLevenbergMarquardt<TMetric>
  */
 template <class TMetric>
 vnl_levenberg_marquardt & 
-RegistrationOptimizerConjugateGradient<TMetric>
+RegistrationOptimizerLevenbergMarquardt<TMetric>
 ::GetOptimizer()
 {
   return m_LevenbergMarquardt;

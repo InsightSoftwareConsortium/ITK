@@ -101,10 +101,11 @@ SupervisedClassifier<TInputImage, TClassifiedImage>
   ClassifiedImageType classifiedImage =  TClassifiedImage::New();   
   this->SetClassifiedImage(classifiedImage);
 
-  TClassifiedImage::IndexType classifiedImageIndex 
-    = TClassifiedImage::IndexType::ZeroIndex;
+  typedef typename TClassifiedImage::IndexType myIndex;
+  typename TClassifiedImage::IndexType classifiedImageIndex 
+    = myIndex::ZeroIndex;
 
-  TClassifiedImage::RegionType classifiedImageRegion;
+  typename TClassifiedImage::RegionType classifiedImageRegion;
 
   classifiedImageRegion.SetSize( inputImageSize );
   classifiedImageRegion.SetIndex( classifiedImageIndex );
