@@ -34,7 +34,7 @@ namespace itk
 
 template <class TInputImage, class TOutputImage, class TComputation>
 class ITK_EXPORT RecursiveSeparableImageFilter :
-    public ImageSource<TOutputImage> 
+    public ImageToImageFilter<TInputImage,TOutputImage> 
 
 {
 public:
@@ -46,7 +46,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageSource<TOutputImage>   Superclass;
+  typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
 
   /** 
    * Smart pointer typedef support 
