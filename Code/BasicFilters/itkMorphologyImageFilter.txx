@@ -113,6 +113,9 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   // Process the boundary faces, these are N-d regions which border the
   // edge of the buffer
 
+  const KernelIteratorType kernelBegin = m_Kernel.Begin();
+  const KernelIteratorType kernelEnd = m_Kernel.End();
+  
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
     b_iter = NeighborhoodIteratorType(m_Kernel.GetRadius(),
@@ -124,7 +127,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     
     while ( ! b_iter.IsAtEnd() )
       {
-      o_iter.Set( this->Evaluate(b_iter, m_Kernel) );
+      o_iter.Set( this->Evaluate(b_iter, kernelBegin, kernelEnd) );
       ++b_iter;
       ++o_iter;
       progress.CompletedPixel();

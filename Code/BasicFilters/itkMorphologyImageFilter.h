@@ -133,7 +133,8 @@ protected:
   /** Evaluate image neighborhood with kernel to find the new value 
    * for the center pixel value. */
   virtual PixelType Evaluate(const NeighborhoodIteratorType &nit,
-                             const KernelType &kernel)=0;
+                             const KernelIteratorType kernelBegin,
+                             const KernelIteratorType kernelEnd)=0;
 
 private:
   MorphologyImageFilter(const Self&); //purposely not implemented
