@@ -58,17 +58,7 @@
         <hr/>
         <h3>Error # <xsl:number level="single" count="Site/Build/Error" format="1"/>: Build Log line <xsl:value-of select="BuildLogLine"/></h3>
         <br/>
-        <table>       
-          <tr>
-            <td>
-              <pre>
-                <xsl:value-of select="PreContext"/>
-                <b><xsl:value-of select="Text"/></b>
-                <xsl:value-of select="PostContext"/>
-              </pre>
-            </td>
-          </tr>
-        </table>
+        <xsl:call-template name="FormatContext"/>
       </xsl:for-each>
 
       <hr/>
@@ -76,18 +66,26 @@
         <h2>Warnings</h2>
       </a>
       <xsl:for-each select="//Build/Warning">
-       <hr/> <h3>Warning # <xsl:number level="single" count="//Build/Warning" format="1"/>: Build Log line <xsl:value-of select="BuildLogLine"/></h3><br/>
-      <table>
-      <tr><pre><xsl:value-of select="PreContext"/></pre></tr>
-      <tr><strong><xsl:value-of select="Text"/></strong></tr>
-      <tr><pre><xsl:value-of select="PostContext"/></pre></tr></table>
+        <hr/>
+        <h3>Warning # <xsl:number level="single" count="//Build/Warning" format="1"/>: Build Log line <xsl:value-of select="BuildLogLine"/></h3>
+        <br/>
+        <xsl:call-template name="FormatContext"/>
       </xsl:for-each>
-</td>
-</tr>
+    </td>
+  </tr>
 </table>
       
-    </body>
-  </html>
+</body>
+</html>
 </xsl:template>
 	
+
+<xsl:template name="FormatContext">
+  <pre>
+    <xsl:value-of select="PreContext"/>
+    <b><xsl:value-of select="Text"/></b>
+    <xsl:value-of select="PostContext"/>
+  </pre>
+</xsl:template>
+
 </xsl:stylesheet>

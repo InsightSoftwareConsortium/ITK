@@ -89,7 +89,7 @@
                       <th align="center" bgcolor="#eeeeee">Site</th>
                       <th align="center" bgcolor="#eeeeee">Build Name</th>
                       <th align="center" bgcolor="#eeeeee" width="80">Percentage</th>
-                      <th align="center" bgcolor="#eeeeee">Coverage</th>
+                      <th align="center" bgcolor="#eeeeee">Files Covered</th>
                       <th align="center" bgcolor="#eeeeee">Date</th>
                     </tr>
                     <!--
