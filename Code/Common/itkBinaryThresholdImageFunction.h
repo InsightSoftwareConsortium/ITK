@@ -23,17 +23,17 @@ namespace itk
 {
 
 /** \class BinaryThresholdImageFunction
- * \brief Base class for all image interpolaters.
- *
- * BinaryThresholdImageFunction is the base for all ImageFunctions that
- * interpolates image intensity at a non-integer pixel position. 
- * This class is templated over the input image type.
- *
- * \warning This heirarchy of functions work only for images 
- * with scalar pixel types. For images of vector pixel types
- * use VectorBinaryThresholdImageFunctions. 
- *
- * \sa VectorBinaryThresholdImageFunction
+ * \brief Returns true is the value of an image lies within a range of thresholds
+This ImageFunction returns true (or false) if the pixel value lies
+within (outside) a lower and upper threshold value. The threshold
+range can be set with the ThresholdBelow, ThresholdBetween or
+ThresholdAbove methods.  The input image is set via method
+SetInputImage().
+
+Methods Evaluate, EvaluateAtIndex and EvaluateAtContinuousIndex
+respectively evaluate the function at an geometric point, image index
+and continuous image index.
+
  * \ingroup ImageFunctions
  * 
  * */
