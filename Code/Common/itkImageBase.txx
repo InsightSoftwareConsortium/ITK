@@ -101,11 +101,19 @@ ImageBase<VImageDimension>
     {
     this->GetSource()->UpdateOutputInformation();
     }
-  // If we don't have a source, then let's make our Image
-  // span our buffer
   else
     {
-    m_LargestPossibleRegion = m_BufferedRegion;
+    // If we don't have a source, we should set our Image to span our
+    // buffer (by setting our LargestPossibleRegion to equal our
+    // BufferedRegion). However, if the buffer is empty, we leave the
+    // LargestPossibleRegion at its prior value.  This allows InPlace
+    // filters to overwrite their inputs safely (taking ownership of
+    // the pixel buffers), yet respond to subsequent requests for
+    // information.
+    if (m_BufferedRegion.GetNumberOfPixels() > 0)
+      {
+      m_LargestPossibleRegion = m_BufferedRegion;
+      }
     }
   
   // Now we should know what our largest possible region is. If our 
