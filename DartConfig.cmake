@@ -21,3 +21,10 @@ SET (DOXYGEN_URL "http://${DROP_SITE}/Insight/Doxygen/html/" )
 
 SET (USE_GNATS "On")
 SET (GNATS_WEB_URL "http://${DROP_SITE}/cgi-bin/gnatsweb.pl/Insight/")
+
+# Continuous email delivery variables
+SET (DELIVER_CONTINUOUS_EMAIL "Off")
+SET (CONTINUOUS_FROM "lorensen@crd.ge.com")
+SET (SMTP_MAILHOST "public.kitware.com")
+SET (CONTINUOUS_MONITOR_LIST "lorensen@crd.ge.com millerjv@crd.ge.com")
+SET (CONTINUOUS_BASE_URL "http://www.itk.org/")
