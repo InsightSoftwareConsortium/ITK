@@ -34,21 +34,6 @@ BSplineDownsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
 
 }
 
-/**
- * Standard "PrintSelf" method
- */
-template <class TInputImage, class TOutputImage, class ResamplerType>
-void
-BSplineDownsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
-::PrintSelf(
-std::ostream& os, 
-Indent indent) const
-{
-  Superclass::PrintSelf( os, indent );
-  os << indent << "Spline Order: " << m_SplineOrder << std::endl;
-
-}
-
 template <class TInputImage, class TOutputImage, class ResamplerType>
 void
 BSplineDownsampleImageFilter<TInputImage,TOutputImage, ResamplerType>

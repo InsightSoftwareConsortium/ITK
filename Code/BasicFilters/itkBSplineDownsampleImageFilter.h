@@ -123,7 +123,6 @@ protected:
 
   BSplineDownsampleImageFilter();
   virtual ~BSplineDownsampleImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
     
 private:
   BSplineDownsampleImageFilter( const Self& ); //purposely not implemented
