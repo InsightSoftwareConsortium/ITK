@@ -1216,9 +1216,7 @@ namespace itk
       }
 
     //NOTE: voidp is defined by zlib.h
-    //NOTE: This should not need to be a const_cast, but this seems to make it work.
-    //      and overall access rights are maintained.
-    const ::voidp p = const_cast<const ::voidp >(buffer);
+    const voidp p = static_cast<voidp>(buffer);
     const std::string ImageFileName = GetImageFileName( m_FileName );
     const std::string fileExt=GetExtension( m_FileName );
     // Check case where image is acually a compressed image
