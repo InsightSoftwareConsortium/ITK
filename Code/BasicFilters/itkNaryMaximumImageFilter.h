@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkNaryMaximumImageFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
 #ifndef __itkNaryMaximumImageFilter_h
 #define __itkNaryMaximumImageFilter_h
 
@@ -11,12 +28,12 @@ namespace itk
 /** \class NaryMaximumImageFilter
  * \brief Implements an operator computing the pixel-wise maximum of several images.
  *
- * This class is parametrized over the types of the input images and the type of
- * the output image. 
- * Numeric conversions (castings) are done by the C++ defaults.
+ * This class is parametrized over the types of the input images and the type
+ * of the output image.  Numeric conversions (castings) are done by the C++
+ * defaults.
  *
- * The pixel type of the output images must have a valid defintion of
- * the operator<. This condition is required because internally this filter will
+ * The pixel type of the output images must have a valid defintion of the
+ * operator<. This condition is required because internally this filter will
  * perform an operation similar to:
  *
  *    const OutputPixelType query_value = static_cast<OutputPixelType>(pixel_from_input_n);
@@ -30,6 +47,13 @@ namespace itk
  * 
  * For example, this filter could be used directly to find a "maximum projection"
  * of a series of images, often used in preliminary analysis of time-series data.
+ *
+ * \author Zachary Pincus
+ *
+ * This filter was contributed by Zachary Pincus from the Department of
+ * Biochemistry and Program in Biomedical Informatics at Stanford University
+ * School of Medicine
+ *
  * \ingroup IntensityImageFilters  Multithreaded
  */
 
