@@ -65,6 +65,10 @@ int itkFEMElementTest(int ac, char** av)
   // Solvers being tested
   int numsolvers = 3;
   int currsolver = -1;
+  int s = 0;
+  LinearSystemWrapperDenseVNL lsw_dvnl;
+  LinearSystemWrapperItpack lsw_itpack;
+  LinearSystemWrapperVNL lsw_vnl;
 
   if (ac < 2)
   // Display the menu
@@ -151,63 +155,89 @@ int itkFEMElementTest(int ac, char** av)
     std::cout << "GenerateGFN()" << std::endl;
     S.GenerateGFN();          // Generate global freedom numbers for system DOFs
 
-    // Select the LinearSystemWrapperItpack for the Solver
-//     std::cout << "Using LinearSystemWrapperItpack" << std::endl;
-//     LinearSystemWrapperItpack lsw_itpack;
-//     lsw_itpack.SetMaximumNonZeroValuesInMatrix(1000);
-//     S.SetLinearSystemWrapper(&lsw_itpack);
-
-    std::cout << "AssembleK()" << std::endl;
-    S.AssembleK();            // Assemble the global stiffness matrix K
-    
-#if DEBUG_FEM_TESTS
-
-    // Print K - the global stiffness matrix
-    LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
-
-    std::cout << "k=[" << std::endl;
-    for (int j=0; j < lsw->GetSystemOrder(); j++) {
-      for (int k=0; k < lsw->GetSystemOrder(); k++)
-        std::cout << lsw->GetMatrixValue(j,k) << "  ";
-      std::cout << std::endl;
-    }
-    std::cout << "];" << std::endl;
-
-#endif
-    
-    std::cout << "DecomposeK()" << std::endl;
-    S.DecomposeK();           // Invert K
-    
-    std::cout << "AssembleF()" << std::endl;
-    S.AssembleF();            // Assemble the global load vector F
-    
-#if DEBUG_FEM_TESTS
-
-    // Print F - the global load vector
-
-    std::cout << "f=[" << std::endl;
-    for (int j=0; j < lsw->GetSystemOrder(); j++)
-      std::cout << lsw->GetVectorValue(j) << "  ";
-    std::cout << "];" << std::endl;
-
-#endif    
-
-    std::cout << "Solve()"<< std::endl;
-    S.Solve();                // Solve the system Ku=F for u
-    
-    std::cout << "Done" << std::endl;
-
-    // Print the displacements
-    
-    std::cout << "Print displacements: " << std::endl;
-    for( ::itk::fem::Solver::NodeArray::iterator n = S.node.begin(); n!=S.node.end(); n++) {
-      std::cout<<"Node "<<(*n)->GN<<": ";
-      /** For each DOF in the node... */
-      for( unsigned int d=0, dof; (dof=(*n)->GetDegreeOfFreedom(d))!=::itk::fem::Element::InvalidDegreeOfFreedomID; d++ ) {
-        std::cout<<S.GetSolution(dof);
-        std::cout<<",  ";
+    for (s=0; s < numsolvers; s++) {
+ 
+      if (s == 2) {
+        // Itpack 
+        std::cout  << std::endl << ">>>>>Using LinearSystemWrapperItpack" << std::endl;
+        lsw_itpack.SetMaximumNonZeroValuesInMatrix(1000);
+        S.SetLinearSystemWrapper(&lsw_itpack);
       }
-      std::cout << std::endl;
+      else if (s == 1) {
+        // Dense VNL
+        std::cout << std::endl << ">>>>>Using LinearSystemWrapperDenseVNL" << std::endl;
+        S.SetLinearSystemWrapper(&lsw_dvnl);
+      }
+      else {
+        // Sparse VNL - default
+        std::cout << std::endl << ">>>>>Using LinearSystemWrapperVNL" << std::endl;
+        S.SetLinearSystemWrapper(&lsw_vnl);
+      }
+
+      std::cout << "AssembleK()" << std::endl;
+      S.AssembleK();            // Assemble the global stiffness matrix K
+    
+#if DEBUG_FEM_TESTS
+
+      // Print K - the global stiffness matrix
+      LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
+      
+      std::cout << "k" << s << "=[" << std::endl;
+      for (int j=0; j < lsw->GetSystemOrder(); j++) {
+        for (int k=0; k < lsw->GetSystemOrder(); k++)
+          std::cout << lsw->GetMatrixValue(j,k) << "  ";
+        std::cout << std::endl;
+      }
+      std::cout << "];" << std::endl;
+      
+#endif
+      
+      std::cout << "DecomposeK()" << std::endl;
+      S.DecomposeK();           // Invert K
+      
+      std::cout << "AssembleF()" << std::endl;
+      S.AssembleF();            // Assemble the global load vector F
+      
+#if DEBUG_FEM_TESTS
+      
+      // Print F - the global load vector
+      
+      std::cout << "f" << s << "=[" << std::endl;
+      for (int j=0; j < lsw->GetSystemOrder(); j++)
+        std::cout << lsw->GetVectorValue(j) << "  ";
+      std::cout << "];" << std::endl;
+      
+#endif    
+      
+      std::cout << "Solve()"<< std::endl;
+      S.Solve();                // Solve the system Ku=F for u
+      
+      std::cout << "Done" << std::endl;
+      
+      // Print the nodal coordinates and displacements
+      
+      std::cout << "Print nodal coordinates: " << std::endl;
+      std::cout << "xyz" << s << "=[" << std::endl;
+      for (Solver::NodeArray::iterator n = S.node.begin(); n != S.node.end(); n++) {
+  
+  ;
+      }
+      std::cout << "];" << std::endl;
+
+      std::cout << std::endl << "Print displacements: " << std::endl;
+      std::cout << "u" << s << "=[" << std::endl;
+      for( ::itk::fem::Solver::NodeArray::iterator n = S.node.begin(); n!=S.node.end(); n++) {
+        //std::cout<<"Node "<<(*n)->GN<<": ";
+        /** For each DOF in the node... */
+        for( unsigned int d=0, dof; (dof=(*n)->GetDegreeOfFreedom(d))!=::itk::fem::Element::InvalidDegreeOfFreedomID; d++ ) {
+          std::cout<<S.GetSolution(dof);
+          std::cout<<",  ";
+        }
+        std::cout << std::endl;
+      }
+      std::cout << "];" << std::endl;
+
+      std::cout << "Test PASSED" << std::endl;
     }
   }
   catch (::itk::ExceptionObject &err) {
@@ -215,7 +245,6 @@ int itkFEMElementTest(int ac, char** av)
     std::cout << "Test FAILED" << std::endl;
     return EXIT_FAILURE;
   }
-
-  std::cout << "Test PASSED" << std::endl;
+  
   return EXIT_SUCCESS;
 }
