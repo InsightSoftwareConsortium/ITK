@@ -115,33 +115,7 @@ public:
    * will be set to be one pixel past the end of the region.
    * \sa operator++(int)
    */
-  Self &
-  operator++()
-  {
-
-    m_Remaining = false;
-    for( unsigned int in=0; in<VImageDimension; in++ )
-    {
-      m_PositionIndex[ in  ]++;
-      if( m_PositionIndex[ in ] < m_EndIndex[ in ] )
-      {
-        m_Position ++;
-        m_Remaining = true;
-        break;
-      }
-      else 
-      {
-        m_PositionIndex[ in ] = m_BeginIndex[ in ]; 
-      }
-    }
-
-    if( !m_Remaining ) // It will not advance here otherwise
-    {
-      m_Position = m_End;
-    }
-
-    return *this;
-  }
+  Self & operator++();
 
 };
 
