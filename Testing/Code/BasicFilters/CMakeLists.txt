@@ -795,6 +795,7 @@ IF(ITK_CSWIG_JAVA)
      BinaryDilateImageFilter
      BinaryErodeImageFilter
      CannyEdgeDetectionImageFilter
+     CastImageFilter
      CurvatureFlowImageFilter
      CurvatureAnisotropicDiffusionImageFilter
      GradientAnisotropicDiffusionImageFilter
@@ -831,7 +832,12 @@ IF(ITK_CSWIG_JAVA)
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilterJavaTest.png 5 0.125 )  
 
-  ADD_TEST(CurvatureFlowImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+  ADD_TEST(CastImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+           CastImageFilter
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/CastImageFilterJavaTest.png )  
+
+ ADD_TEST(CurvatureFlowImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            CurvatureFlowImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterJavaTest.png 5 0.125 )  
