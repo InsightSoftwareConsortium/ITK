@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCurvatureFlowImageFilter.h
+  Module:    $RCSfile: itkCurvatureFlowImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,13 +38,14 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef _itkCurvatureFlowImageFilter_h
-#define _itkCurvatureFlowImageFilter_h
+#ifndef __itkCurvatureFlowImageFilter_h_
+#define __itkCurvatureFlowImageFilter_h_
 
-#include "itkLevelSetImageFilter.h"
+#include "itkDenseFiniteDifferenceImageFilter.h"
+#include "itkCurvatureFlowFunction.h"
 
-namespace itk
-{
+namespace itk {
+
 
 /** \class CurvatureFlowImageFilter
   * \brief Denoise an image using curvature driven flow.
@@ -60,27 +61,32 @@ namespace itk
   * the image to be denoised is already the level set and can be set
   * directly as the input using the SetInput() method.
   *
-  * Narrowbanding is not supported in this class.
-  * 
+  * This filter has two parameters: the number of update iterations to 
+  * be performed and the timestep between each update.
+  *
+  * This filter make use of the finite difference solver hierarchy.
+  *
+  * Caveats: 
+  * This filter assumes that the input and output types
+  * have the same dimension.
+  *
   * Reference:
   * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
   * Cambridge Press, Chapter 16, Second edition, 1999.
   *
-  * Possible improvements:
-  * - At each iteration, the algorithm is highly parallelizable.
-  * Future implementation should take advantage of this.
-  *
-  * \sa LevelSetImageFilter
+  * \sa DenseFiniteDifferenceImageFilter
+  * \sa CurvatureFlow2DEquation
+  * \sa CurvatureFlow3DEquation
   *
   * \ingroup ImageEnhancement 
-  * \ingroup LevelSetSegmentation 
   *
   */
-template <class TLevelSet> 
-class ITK_EXPORT CurvatureFlowImageFilter : 
-  public LevelSetImageFilter<TLevelSet>
+template <class TInputImage, class TOutputImage>
+class CurvatureFlowImageFilter
+  : public DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:
+
   /**
    * Standard "Self" typedef
    */
@@ -89,7 +95,8 @@ public:
   /**
    * Standard "Superclass" typedef
    */
-  typedef LevelSetImageFilter<TLevelSet> Superclass;
+  typedef DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
+   Superclass;
 
   /**
    * Smart pointer typedef support
@@ -100,42 +107,137 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(CurvatureFlowImageFilter, LevelSetImageFilter);
+  itkTypeMacro(CurvatureFlowImageFilter,
+               DenseFiniteDifferenceImageFilter);
 
   /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
 
-  /**
-   * Typedef support for level set related types.
+  /** 
+   * InputImage type
    */
-  typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
-  typedef typename LevelSetType::LevelSetImageType  LevelSetImageType;
-  typedef typename LevelSetType::LevelSetPointer  LevelSetPointer;
-  typedef typename LevelSetType::PixelType  PixelType;
+  typedef typename Superclass::InputImageType  InputImageType;
 
   /**
-   * Index typedef support
+   * OutputImage type
    */
-  typedef Index<LevelSetType::SetDimension> IndexType;
+  typedef typename Superclass::OutputImageType OutputImageType;
 
+  /**
+   * FiniteDifferenceEquation type
+   */
+  typedef typename Superclass::FiniteDifferenceEquationType
+    FiniteDifferenceEquationType;
+
+  /**
+   * CurvatureFlowFunction type
+   */
+  typedef CurvatureFlowFunction<OutputImageType>
+    CurvatureFlowFunctionType;
+
+  /**
+   * Dimensionality of input and output data is assumed to be the same.
+   * It is inherited from the superclass.
+   */
+  enum { ImageDimension = Superclass::ImageDimension };
+
+  /**
+   * The pixel type of the output image will be used in computations.
+   * Inherited from the superclass.
+   */
+  typedef typename Superclass::PixelType PixelType;
+
+  /**
+   * The time step type. Inherited from the superclass.
+   */
+  typedef typename Superclass::TimeStepType TimeStepType;
+
+  /**
+   * Set the number of iterations to be performed.
+   */
+  itkSetMacro(Iterations, unsigned int);
+
+  /**
+   * Get the number of iterations to be performed.
+   */
+  itkGetMacro(Iterations, unsigned int);
+
+  /**
+   * Set the timestep parameter.
+   */
+  itkSetMacro(TimeStep, TimeStepType);
+
+  /**
+   * Get the timestep parameter.
+   */
+  itkGetMacro(TimeStep, TimeStepType);
+  
 protected:
-  CurvatureFlowImageFilter();
-  ~CurvatureFlowImageFilter(){};
-  CurvatureFlowImageFilter(const Self&){};
-  void operator=(const Self&) {};
 
-  virtual void Initialize();
-  void GenerateData();
+  /**
+   * Constructor
+   */
+  CurvatureFlowImageFilter()
+    {
+      m_Iterations = 0;
+      m_TimeStep   = 0.125f;
+
+      typename CurvatureFlowFunctionType::Pointer p;
+      p = CurvatureFlowFunctionType::New();
+      this->SetDifferenceEquation( p );
+    }
+
+  /**
+   * Destructor 
+   */
+  ~CurvatureFlowImageFilter() {}
+
+  CurvatureFlowImageFilter(const Self&) {}
+  void operator=(const Self&) {}
+
+  /**
+   * Standard PrintSelf method.
+   */
+  void PrintSelf(std::ostream& os, Indent indent)
+    {
+      Superclass::PrintSelf(os, indent);
+      os << indent << "CurvatureFlowImageFilter";
+      os << indent << "No. iterations: " << m_Iterations;
+      os << indent << "Time step: " << m_TimeStep;
+    }
+  
+  /**
+   * Supplies the halting criteria for this class of filters.  The
+   * algorithm will stop after a user-specified number of iterations.
+   */
+  virtual bool Halt()
+    {
+      if (this->GetElapsedIterations() == m_Iterations) return true;
+      else return false;
+    }
+
+  /**
+   * Initialize the state of filter and equation before each iteration.
+   */
+  virtual void InitializeIteration()
+    {
+      CurvatureFlowFunctionType *f = 
+        dynamic_cast<CurvatureFlowFunctionType *>
+        (this->GetDifferenceEquation().GetPointer());
+      f->SetTimeStep( m_TimeStep );
+
+      this->Superclass::InitializeIteration();           
+    }
+  
+private:
+
+  unsigned int    m_Iterations;
+  TimeStepType    m_TimeStep;
 
 };
 
-
-} // namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCurvatureFlowImageFilter.txx"
-#endif
+} // end namspace itk
 
 #endif

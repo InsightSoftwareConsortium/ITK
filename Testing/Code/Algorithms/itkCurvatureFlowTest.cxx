@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkCurvatureFlowImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkImage.h"
-#include "itkVTKImageWriter.h"
+#include "itkRawImageWriter.h"
 
 
 int main()
@@ -52,13 +52,14 @@ int main()
    * Create a random image of size 64 x 64
    */
   typedef float PixelType;
-  typedef itk::Image<PixelType,2> ImageType;
+  enum { ImageDimension = 2 };
+  typedef itk::Image<PixelType, ImageDimension> ImageType;
   
   typedef itk::RandomImageSource<ImageType> SourceType;
 
   SourceType::Pointer source = SourceType::New();
   
-  unsigned long size[2] = {64,64};
+  unsigned long size[ImageDimension] = {64,64};
   source->SetSize( size );
   source->SetMin(0.0);
   source->SetMax(1.0);
@@ -66,21 +67,22 @@ int main()
   /* ---------------------------------------------
    * Create a curvature flow object
    */
-  typedef itk::CurvatureFlowImageFilter<ImageType> DenoiserType;
+  typedef itk::CurvatureFlowImageFilter<ImageType,ImageType> DenoiserType;
   DenoiserType::Pointer denoiser = DenoiserType::New();
 
   denoiser->SetInput( source->GetOutput() );
-  denoiser->SetTimeStepSize( 1.0 );
-  denoiser->SetNumberOfIterations( 8 );
+  denoiser->SetTimeStep( 0.15 );
+  denoiser->SetIterations( 8 );
 
   /* ------------------------------------------
    * Write output to file
    */
-  typedef itk::VTKImageWriter<ImageType> WriterType;
+  typedef itk::RawImageWriter<ImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetInput( denoiser->GetOutput() );
-  writer->SetFileName("CurvatureFlowImageFilterImage.vtk");
+  writer->SetFileName("CurvatureFlowImageFilterImage.raw");
+  writer->SetFileTypeToBinary();
   writer->Write();
   
   return EXIT_SUCCESS;
