@@ -64,6 +64,10 @@ public:
   typedef typename TInputImage::PixelType  InputPixelType;
   typedef typename TOutputImage::PixelType OutputPixelType;
   
+  /** Input and Output image types */
+  typedef typename Superclass::InputImageType   InputImageType;
+  typedef typename Superclass::OutputImageType  OutputImageType;
+
   /** Type of the Measurement */
   typedef InputPixelType   MeasurementVectorType;
 
