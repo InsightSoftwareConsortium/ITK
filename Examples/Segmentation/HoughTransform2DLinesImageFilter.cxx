@@ -148,7 +148,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   std::cout << "Computing Hough Map" << std::endl;
   typedef itk::HoughTransform2DLinesImageFilter<AccumulatorPixelType,
-                                                AccumulatorPixelType>   HoughTransformFilterType;
+                                                AccumulatorPixelType>   
+                                                         HoughTransformFilterType;
   HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -224,8 +225,10 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
-    HoughTransformFilterType::LineType::PointListType points_list = (*it_lines)->GetPoints();
-    HoughTransformFilterType::LineType::PointListType::const_iterator it_points = points_list.begin();
+    HoughTransformFilterType::LineType::PointListType 
+                                              points_list = (*it_lines)->GetPoints();
+    HoughTransformFilterType::LineType::PointListType::const_iterator 
+                                              it_points = points_list.begin();
     
     double u[2];
     u[0] = (*it_points).GetPosition()[0];
@@ -252,8 +255,10 @@ int main( int argc, char *argv[] )
       m_Index[0]=(long int)(u[0]+i*v[0]);
       m_Index[1]=(long int)(u[1]+i*v[1]);
 
-      if(m_Index[0]>=0 && m_Index[0]<(long)m_OutputImage->GetLargestPossibleRegion().GetSize()[0]
-         && m_Index[1]>=0 && m_Index[1]<(long)m_OutputImage->GetLargestPossibleRegion().GetSize()[1])
+      if(m_Index[0]>=0 
+         && m_Index[0]<(long)m_OutputImage->GetLargestPossibleRegion().GetSize()[0]
+         && m_Index[1]>=0 
+         && m_Index[1]<(long)m_OutputImage->GetLargestPossibleRegion().GetSize()[1])
       {
         m_OutputImage->SetPixel(m_Index,255);
       }

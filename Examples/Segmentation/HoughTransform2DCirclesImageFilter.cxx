@@ -113,7 +113,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   std::cout << "Computing Hough Map" << std::endl;
   typedef itk::HoughTransform2DCirclesImageFilter<PixelType,
-                                                  AccumulatorPixelType>   HoughTransformFilterType;
+                                                  AccumulatorPixelType>   
+                                                         HoughTransformFilterType;
   HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -205,7 +206,8 @@ int main( int argc, char *argv[] )
   HoughTransformFilterType::CirclesListType::const_iterator it_circles = circles.begin();
   while(it_circles != circles.end())
     {
-    std::cout << "Center: " << (*it_circles)->GetObjectToParentTransform()->GetOffset() << std::endl;
+    std::cout << "Center: ";
+    std::cout << (*it_circles)->GetObjectToParentTransform()->GetOffset() << std::endl;
     std::cout << "Radius: " << (*it_circles)->GetRadius()[0] << std::endl;
   
     
@@ -218,11 +220,15 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
     for(double angle = 0;angle <= 2*PI;angle+=PI/60)
       {
-      m_Index[0]=(long int)((*it_circles)->GetObjectToParentTransform()->GetOffset()[0] + (*it_circles)->GetRadius()[0]*cos(angle));
-      m_Index[1]=(long int)((*it_circles)->GetObjectToParentTransform()->GetOffset()[1] + (*it_circles)->GetRadius()[0]*sin(angle));
+      m_Index[0]=(long int)((*it_circles)->GetObjectToParentTransform()->GetOffset()[0]
+                                                + (*it_circles)->GetRadius()[0]*cos(angle));
+      m_Index[1]=(long int)((*it_circles)->GetObjectToParentTransform()->GetOffset()[1] 
+                                                + (*it_circles)->GetRadius()[0]*sin(angle));
 
-      if(m_Index[0]>=0 && m_Index[0]<(long)m_OutputImage->GetLargestPossibleRegion().GetSize()[0]
-         && m_Index[1]>=0 && m_Index[1]<(long)m_OutputImage->GetLargestPossibleRegion().GetSize()[1])
+      if(m_Index[0]>=0 
+        && m_Index[0]<(long)m_OutputImage->GetLargestPossibleRegion().GetSize()[0]
+         && m_Index[1]>=0 
+         && m_Index[1]<(long)m_OutputImage->GetLargestPossibleRegion().GetSize()[1])
         {
           m_OutputImage->SetPixel(m_Index,255);
         }
