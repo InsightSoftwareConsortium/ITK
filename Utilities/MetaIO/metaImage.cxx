@@ -1270,6 +1270,10 @@ M_SetupReadFields(void)
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "ImagePosition", MET_FLOAT_ARRAY, false, nDimsRecNum);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "SequenceID", MET_INT_ARRAY, false, nDimsRecNum);
   m_Fields.push_back(mF);
 
@@ -1287,6 +1291,10 @@ M_SetupReadFields(void)
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ElementSize", MET_FLOAT_ARRAY, false, nDimsRecNum);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;  // Set but not used...
+  MET_InitReadField(mF, "ElementNBits", MET_INT, false);
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
@@ -1638,6 +1646,16 @@ M_Read(void)
     for(i=0; i<m_NDims; i++)
       {
       m_SequenceID[i] = (float)(mF->value[i]);
+      }
+    }
+
+  mF = MET_GetFieldRecord("ImagePosition", &m_Fields);
+  if(mF && mF->defined)
+    {
+    int i;
+    for(i=0; i<m_NDims; i++)
+      {
+      m_Offset[i] = static_cast<double>(mF->value[i]);
       }
     }
 

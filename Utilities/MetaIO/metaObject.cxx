@@ -1009,6 +1009,10 @@ M_SetupReadFields(void)
   MET_InitReadField(mF, "Comment", MET_STRING, false);
   m_Fields.push_back(mF);
 
+  mF = new MET_FieldRecordType;  // Set but not used
+  MET_InitReadField(mF, "AcquisitionDate", MET_STRING, false);
+  m_Fields.push_back(mF);
+
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ObjectType", MET_STRING, false);
   m_Fields.push_back(mF);
