@@ -82,7 +82,7 @@ public:
   typedef TCoordRep   CoordRep;
   enum { PointDimension = VPointDimension };
   typedef TPointsContainer PointsContainer;
-  typedef PointsContainer::Pointer PointsContainerPointer;
+  typedef typename PointsContainer::Pointer PointsContainerPointer;
   typedef Point< PointDimension , CoordRep >  Point;
 
   /**

@@ -145,7 +145,7 @@ protected:
 
   void PrintSelf(std::ostream& os, Indent indent);
 
-  typedef PointsContainer::const_iterator  ConstIterator; 
+  typedef typename PointsContainer::const_iterator  ConstIterator; 
 
 private:
   PointsContainerPointer m_PointsContainer;
