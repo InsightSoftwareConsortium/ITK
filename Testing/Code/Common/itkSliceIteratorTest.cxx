@@ -17,6 +17,7 @@
 #include "itkImage.h"
 #include "itkNeighborhood.h"
 #include "itkSliceIterator.h"
+#include "itkConstSliceIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodIterator.h"
 #include <iostream>
@@ -127,6 +128,7 @@ void PrintSlice(TContainer s)
 int itkSliceIteratorTest(int, char* [] )
 {
 
+  // tests non-const slice iterator
   try {
     
       itk::ImageRegion<2> reg;
@@ -144,6 +146,9 @@ int itkSliceIteratorTest(int, char* [] )
       itk::Neighborhood<int, 2> temp;
       itk::SliceIterator<int, itk::Neighborhood<int,2> > hnsi(&temp, hslice);
       itk::SliceIterator<int, itk::Neighborhood<int,2> > vnsi(&temp, vslice);
+      itk::ConstSliceIterator<int, itk::Neighborhood<int,2> > hnsi2(&temp, hslice);
+      itk::ConstSliceIterator<int, itk::Neighborhood<int,2> > vnsi2(&temp, vslice);
+      
       itk::Neighborhood<int, 2> op;
       op.SetRadius(hoodRadius);
       
@@ -168,12 +173,17 @@ int itkSliceIteratorTest(int, char* [] )
           temp.Print(std::cout);
           PrintSlice(hnsi);
           PrintSlice(vnsi);
+          PrintSlice(hnsi2);
+          PrintSlice(vnsi2);
         }
+
+
   }
   catch (itk::ExceptionObject &err)
     {
       (&err)->Print(std::cerr);
       return 2;
     }
+
   return EXIT_SUCCESS;
 }
