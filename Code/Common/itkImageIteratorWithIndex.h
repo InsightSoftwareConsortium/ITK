@@ -248,6 +248,22 @@ public:
     { m_DataAccessor.Set(*m_Position,value); }
 
   /**
+   * Return a const reference to the pixel 
+   * This method will provide the fastest access to pixel
+   * data, but it will NOT support ImageAdaptors.
+   */
+  const PixelType & Value(void) const  
+    { return *m_Position; }
+ 
+  /**
+   * Return a reference to the pixel 
+   * This method will provide the fastest access to pixel
+   * data, but it will NOT support ImageAdaptors.
+   */
+  PixelType & Value(void) 
+    { return *m_Position; }
+ 
+  /**
    * Move an iterator to the beginning of the region.
    */
   void Begin();
