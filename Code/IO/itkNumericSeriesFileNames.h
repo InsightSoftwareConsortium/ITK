@@ -26,9 +26,6 @@
 #include "itkExceptionObject.h"
 #include <vector>
 
-#include "DICOMParser.h"
-#include "DICOMAppHelper.h"
-
 namespace itk
 {
 
