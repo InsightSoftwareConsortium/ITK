@@ -18,25 +18,14 @@
 #include "itkRandomImageSource.h"
 #include "itkThresholdImageFilter.h"
 #include "itkCommand.h"
-#include "itkOutputWindow.h"
+#include "itkTextOutput.h"
 
 
-// this class is used to send output to stdout and not the itk window
-class TextOutput : public itk::OutputWindow
-{
-public:
-  typedef itk::SmartPointer<TextOutput> Pointer;
-  itkNewMacro(TextOutput);
-  virtual void DisplayText(const char* s)
-    {
-      std::cout << s << std::endl;
-    }
-};
 
 int itkThresholdImageFilterTest(int, char**)
 {
   // Comment the following if you want to use the itk text output window
-  itk::OutputWindow::SetInstance(TextOutput::New());
+  itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();

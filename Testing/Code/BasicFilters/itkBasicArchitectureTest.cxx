@@ -20,22 +20,9 @@
 #include "itkRandomImageSource.h"
 #include "itkShrinkImageFilter.h"
 #include "itkCommand.h"
-#include "itkOutputWindow.h"
+#include "itkTextOutput.h"
 
 
-// this class is used to send output to stdout and not the itk window
-class TextOutput : public itk::OutputWindow
-{
-public: 
-  typedef TextOutput              Self;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
-  itkNewMacro(TextOutput);
-  virtual void DisplayText(const char* s)
-    {
-      std::cout << s << std::endl;
-    }
-};
 
 // The following three classes are used to support callbacks
 // on the shrink filter in the pipeline that follows later
@@ -111,7 +98,8 @@ public:
 int itkBasicArchitectureTest(int, char**)
 {
   // Comment the following if you want to use the itk text output window
-  itk::OutputWindow::SetInstance( TextOutput::New().GetPointer() );
+  itk::OutputWindow::SetInstance( itk::TextOutput::New() );
+
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 

@@ -16,23 +16,10 @@
 =========================================================================*/
 #include "itkPermuteAxesImageFilter.h"
 #include "itkImage.h"
-#include "itkOutputWindow.h"
+#include "itkTextOutput.h"
 #include "itkCommand.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
-// this class is used to send output to stdout and not the itk window
-class TextOutput : public itk::OutputWindow
-{
-public:
-  typedef TextOutput              Self;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
-  itkNewMacro(TextOutput);
-  virtual void DisplayText(const char* s)
-    {
-      std::cout << s << std::endl;
-    }
-};
 
 // The following classe is used to support callbacks
 // on the filter in the pipeline that follows later
@@ -49,7 +36,7 @@ public:
 int itkPermuteAxesImageFilterTest(int, char**)
 {
 
-  itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
+  itk::OutputWindow::SetInstance( itk::TextOutput::New() );
 
   typedef unsigned char PixelType;
   enum { ImageDimension = 4 };

@@ -18,25 +18,14 @@
 #include "itkConfidenceConnectedImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkPNGImageIOFactory.h"
-#include "itkOutputWindow.h"
+#include "itkTextOutput.h"
 #include "itkImageRegionIterator.h"
 
-// this class is used to send output to stdout and not the itk window
-class TextOutput : public itk::OutputWindow
-{
-public:
-  typedef itk::SmartPointer<TextOutput> Pointer;
-  itkNewMacro(TextOutput);
-  virtual void DisplayText(const char* s)
-    {
-      std::cout << s << std::endl;
-    }
-};
 
 int itkConfidenceConnectedImageFilterTest(int ac, char** av)
 {
   // Comment the following if you want to use the itk text output window
-  itk::OutputWindow::SetInstance(TextOutput::New());
+  itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
   if(ac < 3)
     {
