@@ -266,7 +266,7 @@ template <typename T> int MakeImage()
 
 //template int MakeImage<char>();
 
-int itkAnalyzeImageIOTest(int, char**)
+int itkAnalyzeImageIOTest(int, char*[])
 {
   int rval = 0;
   int cur_return;
