@@ -105,7 +105,26 @@ int itkRGBPixelTest(int, char* [] )
 
   pc = pa * 3.2;
   std::cout << "product by scalar = " << pc << std::endl;
-  
 
-  return 0;
+  
+  std::cout << "Test luminance conversion" << std::endl;
+
+  itk::RGBPixel< float > rgbl;
+  rgbl[0] = 100;
+  rgbl[1] = 150;
+  rgbl[2] = 120;
+
+  const float luminance = rgbl.GetLuminance();
+  const float realLuminance = rgbl[0] * 0.30 +
+                              rgbl[1] * 0.59 +
+                              rgbl[2] * 0.11;
+  const float tolerance = 1e-4;
+
+  if( fabs( luminance - realLuminance ) > tolerance )
+    {
+    std::cerr << "Error in luminance conversion" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  return EXIT_SUCCESS;
 }
