@@ -132,9 +132,6 @@ public:
     itkExceptionMacro( << "This optimizer does not support scales." );
     }
 
-  /** Get the current cost function value. */
-  itkGetConstMacro( Value, MeasureType );
-
   /** Get the current iteration number. */
   itkGetConstMacro( CurrentIteration, unsigned int );
 
@@ -160,7 +157,6 @@ private:
   unsigned int          m_MaximumNumberOfCorrections;
   bool                  m_Trace;
 
-  MeasureType           m_Value;
   unsigned int          m_CurrentIteration;
 
 

@@ -102,6 +102,8 @@ LBFGSBOptimizer
 
   os << indent << "MaximumNumberOfCorrections: " << 
     m_MaximumNumberOfCorrections << std::endl;
+
+  os << indent << "CurrentIteration: " << m_CurrentIteration << std::endl;
 }
 
 /**
@@ -244,7 +246,6 @@ LBFGSBOptimizer
   Array<double> dsave(29);
 
   // Initialize
-  bool ok = true;
   unsigned int numberOfEvaluations = 0;
   m_CurrentIteration = 0;
   bool EvaluateFunction = false;
@@ -297,7 +298,6 @@ LBFGSBOptimizer
         (ftnlen)48, (ftnlen)48) == 0 )
         {
         itkDebugMacro( << "Convergence: gradient tolerance reached." );
-        ok = true;
         break;
         }
 
@@ -305,20 +305,17 @@ LBFGSBOptimizer
         (ftnlen)47, (ftnlen)47) == 0 )
         {
         itkDebugMacro( << "Convergence: function tolerance reached." );
-        ok = true;
         break;
         }
 
       if ( s_cmp(task, "ERROR", (ftnlen)5, (ftnlen)5) == 0 )
         {
         itkDebugMacro( << "Error: dodgy input." );
-        ok = false;
         break;
         }
 
       // unknown error
       itkDebugMacro( << "Unknown error." );
-      ok = false;
       break;
         
       }
@@ -328,7 +325,6 @@ LBFGSBOptimizer
       m_CurrentIteration > m_MaximumNumberOfIterations ) 
       {
       itkDebugMacro( << "Exceeded maximum number of iterations." );
-      ok = false;
       break;
       }
 

@@ -432,6 +432,7 @@ actorization in formt;\002,/,\002   refresh the lbfgs memory and restart the\
     static doublereal stp, cpu1, cpu2;
 
     /* Fortran I/O blocks */
+/*
     static cilist io___62 = { 0, 6, 0, fmt_1002, 0 };
     static cilist io___63 = { 0, 0, 0, fmt_1003, 0 };
     static cilist io___64 = { 0, 6, 0, fmt_1001, 0 };
@@ -441,6 +442,7 @@ actorization in formt;\002,/,\002   refresh the lbfgs memory and restart the\
     static cilist io___71 = { 0, 6, 0, fmt_1008, 0 };
     static cilist io___75 = { 0, 6, 0, fmt_1004, 0 };
     static cilist io___76 = { 0, 6, 0, fmt_1007, 0 };
+*/
 
 
 /*     ************ */
@@ -1516,6 +1518,7 @@ oint \002,1p,2(1x,d11.4))";
     static integer col2;
 
     /* Fortran I/O blocks */
+/*
     static cilist io___88 = { 0, 6, 0, 0, 0 };
     static cilist io___96 = { 0, 6, 0, fmt_3010, 0 };
     static cilist io___105 = { 0, 6, 0, fmt_1010, 0 };
@@ -1530,6 +1533,7 @@ oint \002,1p,2(1x,d11.4))";
     static cilist io___130 = { 0, 6, 0, fmt_6010, 0 };
     static cilist io___131 = { 0, 6, 0, fmt_1010, 0 };
     static cilist io___132 = { 0, 6, 0, fmt_2010, 0 };
+*/
 
 
 /*     ************ */
@@ -3403,7 +3407,7 @@ the projected gradient\002,/,\002f     = function value\002,/,/,\002        \
 
     }
     }
-#endif 0
+#endif
     return 0;
 } /* prn1lb_ */
 
@@ -3935,11 +3939,13 @@ OX\002)";
     static integer js, jy, pointr, ibd, col2;
 
     /* Fortran I/O blocks */
+/*
     static cilist io___233 = { 0, 6, 0, fmt_1001, 0 };
     static cilist io___247 = { 0, 6, 0, fmt_1002, 0 };
     static cilist io___248 = { 0, 6, 0, 0, 0 };
     static cilist io___249 = { 0, 6, 0, fmt_1003, 0 };
     static cilist io___250 = { 0, 6, 0, fmt_1004, 0 };
+*/
 
 
 /*     ************ */
@@ -4886,9 +4892,11 @@ doublereal *stpmin, *stpmax;
 /* Subroutine */ int timer_(ttime)
 doublereal *ttime;
 {
+/*
     static real temp;
     extern doublereal etime_();
     static real tarray[2];
+*/
 
 /*     ********* */
 
