@@ -110,7 +110,7 @@ public:
 
   }
 
-//private:
+private:
   static const bool registered;
 };
 

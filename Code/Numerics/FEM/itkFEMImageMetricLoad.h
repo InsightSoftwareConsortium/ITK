@@ -245,10 +245,6 @@ public:
   }
 
 
-  ImageMetricLoad(const ImageMetricLoad& I) 
-  { 
-    std::cout << " copy " << I.m_RefSize << std::endl;
-  };  
 
 protected:
 
