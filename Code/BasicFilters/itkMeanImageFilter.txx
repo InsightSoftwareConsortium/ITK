@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkMeanImageFilter_txx
 #define _itkMeanImageFilter_txx
+#include "itkMeanImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkConstSmartNeighborhoodIterator.h"

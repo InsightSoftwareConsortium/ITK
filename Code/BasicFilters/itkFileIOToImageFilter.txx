@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkFileIOToImageFilter_txx
 #define _itkFileIOToImageFilter_txx
+#include "itkFileIOToImageFilter.h"
 
 #include "itkObjectFactory.h"
 #include "itkImageRegionIteratorWithIndex.h"
