@@ -27,7 +27,7 @@
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkDefaultStaticMeshTraits.h"
 
-int itkSimplexMeshToTriangleMeshFilterTest( int argc, char * argv[] )
+int itkSimplexMeshToTriangleMeshFilterTest( int , char * [] )
 { 
   
   // Declare the type of the input and output mesh
