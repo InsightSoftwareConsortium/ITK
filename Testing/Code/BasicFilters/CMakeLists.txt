@@ -62,6 +62,7 @@ ADD_TEST(itkGradientRecursiveGaussianFilterTest ${BASIC_FILTERS_TESTS} itkGradie
 ADD_TEST(itkGradientToMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkGradientToMagnitudeImageFilterTest)
 ADD_TEST(itkHardConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS} itkHardConnectedComponentImageFilterTest)
 ADD_TEST(itkHausdorffDistanceImageFilterTest ${BASIC_FILTERS_TESTS} itkHausdorffDistanceImageFilterTest)
+ADD_TEST(itkHoughTransform2DLinesImageTest ${BASIC_FILTERS_TESTS} itkHoughTransform2DLinesImageTest)
 ADD_TEST(itkImageAdaptorNthElementTest ${BASIC_FILTERS_TESTS} itkImageAdaptorNthElementTest)
 ADD_TEST(itkImageAdaptorPipeLineTest ${BASIC_FILTERS_TESTS} itkImageAdaptorPipeLineTest)
 ADD_TEST(itkImageToParametricSpaceFilterTest ${BASIC_FILTERS_TESTS} itkImageToParametricSpaceFilterTest)
@@ -286,6 +287,7 @@ itkGradientRecursiveGaussianFilterTest.cxx
 itkGradientToMagnitudeImageFilterTest.cxx
 itkHardConnectedComponentImageFilterTest.cxx
 itkHausdorffDistanceImageFilterTest.cxx
+itkHoughTransform2DLinesImageTest.cxx
 itkImageAdaptorNthElementTest.cxx
 itkImageAdaptorPipeLineTest.cxx
 itkImageToParametricSpaceFilterTest.cxx

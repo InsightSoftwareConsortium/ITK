@@ -83,6 +83,7 @@ void RegisterTests()
   REGISTER_TEST(itkGradientToMagnitudeImageFilterTest );
   REGISTER_TEST(itkHardConnectedComponentImageFilterTest );
   REGISTER_TEST(itkHausdorffDistanceImageFilterTest );
+  REGISTER_TEST(itkHoughTransform2DLinesImageFilterTest );
   REGISTER_TEST(itkImageAdaptorNthElementTest );
   REGISTER_TEST(itkImageAdaptorPipeLineTest );
   REGISTER_TEST(itkImageToParametricSpaceFilterTest );
