@@ -36,9 +36,8 @@ namespace itk
  * as well as methods that produces just one double as result.
  */
 
-template <class TReference, class TTarget, 
-          class TMapper, class TMeasure,
-          class TDerivative > 
+template <class TTarget,  class TMapper, 
+          class TMeasure, class TDerivative > 
 class ITK_EXPORT SimilarityRegistrationMetric : public Object 
 
 {
@@ -63,7 +62,8 @@ public:
   /**
    *  Type of the Reference
    */
-  typedef TReference            ReferenceType;
+  typedef typename TMapper::DomainType     ReferenceType;
+  typedef typename ReferenceType::Pointer  ReferencePointer;
 
 
   /**
@@ -88,12 +88,6 @@ public:
    *  Type of the measure
    */
   typedef TDerivative           DerivativeType;
-
-
-  /**
-   *  Pointer type for the Reference 
-   */
-  typedef typename ReferenceType::Pointer ReferencePointer;
 
 
   /**
@@ -133,15 +127,21 @@ public:
 
 
   /**
+   * Return the Reference 
+   */
+   ReferencePointer  GetReference( void );
+
+
+  /**
    * Connect the Target 
    */
-   void SetTarget( TargetType * );
+   itkSetObjectMacro( Target, TargetType );
 
-   
+
   /**
-   * Connect the Mapper
+   * Get the Target
    */
-   void SetMapper( MapperType * );
+   itkGetObjectMacro( Target, TargetType );
 
 
   /**
@@ -155,19 +155,35 @@ public:
    */
    itkGetMacro( MatchMeasureDerivatives, DerivativeType );
 
+  
+  /**
+   * Connect the Mapper
+   */
+   itkSetObjectMacro( Mapper, MapperType );
+
+
+   /**
+    * Get a pointer to the Mapper
+    */
+   itkGetObjectMacro( Mapper, MapperType );
+
 
 protected:
-
-  ReferencePointer            m_Reference;
-  TargetPointer               m_Target;
-  MapperPointer               m_Mapper;
-  MeasureType                 m_MatchMeasure;
-  DerivativeType              m_MatchMeasureDerivatives;
 
   SimilarityRegistrationMetric();
   virtual ~SimilarityRegistrationMetric() {};
   SimilarityRegistrationMetric(const Self&) {}
   void operator=(const Self&) {}
+
+private:
+
+  TargetPointer               m_Target;
+  MapperPointer               m_Mapper;
+
+protected:
+
+  MeasureType                 m_MatchMeasure;
+  DerivativeType              m_MatchMeasureDerivatives;
 
 
 };

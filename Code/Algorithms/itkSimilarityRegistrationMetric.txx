@@ -24,54 +24,40 @@ namespace itk
 /**
  * Constructor
  */
-template <class TReference, class TTarget, 
-          class TMapper, class TMeasure, class TDerivative>
-SimilarityRegistrationMetric<TReference,TTarget,TMapper,TMeasure,TDerivative>
+template <class TTarget, class TMapper, 
+          class TMeasure, class TDerivative>
+SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>
 ::SimilarityRegistrationMetric()
 {
+  m_Target = TargetType::New();
+  m_Mapper = MapperType::New();
 }
 
 
 /**
  * Set Reference 
  */
-template <class TReference, class TTarget, 
-          class TMapper, class TMeasure,class TDerivative>
+template <class TTarget, class TMapper, 
+          class TMeasure,class TDerivative>
 void
-SimilarityRegistrationMetric<TReference,TTarget,TMapper,TMeasure,TDerivative>
-::SetReference( TReference * reference ) 
+SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>
+::SetReference( ReferenceType * reference ) 
 {
-  this->m_Reference = reference;
-}
-
-
-
-/**
- * Set Target 
- */
-template <class TReference, class TTarget, 
-          class TMapper, class TMeasure, class TDerivative>
-void
-SimilarityRegistrationMetric<TReference,TTarget,TMapper,TMeasure,TDerivative>
-::SetTarget( TTarget * target ) 
-{
-  this->m_Target = target;
+  this->m_Mapper->SetDomain( reference );
 }
 
 
 /**
- * Set Mapper
+ * Get Reference 
  */
-template <class TReference, class TTarget, 
-          class TMapper, class TMeasure, class TDerivative>
-void
-SimilarityRegistrationMetric<TReference,TTarget,TMapper,TMeasure,TDerivative>
-::SetMapper( TMapper * mapper ) 
+template <class TTarget, class TMapper, 
+          class TMeasure,class TDerivative>
+typename SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>::ReferencePointer
+SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>
+::GetReference( void )
 {
-  this->m_Mapper = mapper;
+  return this->m_Mapper->GetDomain();
 }
-
-
 
 
 
@@ -79,10 +65,10 @@ SimilarityRegistrationMetric<TReference,TTarget,TMapper,TMeasure,TDerivative>
 /**
  * GenerateData Performs the evaluation of similarity
  */
-template <class TReference, class TTarget, 
-          class TMapper, class TMeasure, class TDerivative>
+template <class TTarget, class TMapper, 
+          class TMeasure, class TDerivative>
 void
-SimilarityRegistrationMetric<TReference,TTarget,TMapper,TMeasure,TDerivative>
+SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>
 ::Compute( void )
 {
   // Evaluate similarity here...
