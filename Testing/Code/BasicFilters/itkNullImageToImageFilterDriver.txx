@@ -143,7 +143,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
   ip->Allocate();
 
   // Construct a pixel to fill the image
-  TInputImage::PixelType pixel;
+  InputPixelType pixel;
   this->InitializePixel(pixel);
   ip->FillBuffer(pixel);
   
