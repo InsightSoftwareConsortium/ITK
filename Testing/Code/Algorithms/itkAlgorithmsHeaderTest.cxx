@@ -62,6 +62,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSupervisedClassifier.h"
 #include "itkUnsupervisedClassifier.h"
 #include "itkVoronoi2DDiagram.h"
+#include "itkVoronoiSegmentationImageFilter.h"
 #include "itkWatershedImageFilter.h"
 
 int main ( int argc, char* argv )
