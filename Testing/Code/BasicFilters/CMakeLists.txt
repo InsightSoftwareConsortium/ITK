@@ -9,12 +9,13 @@ ENDIF(ITK_BINARY_DIR)
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
 SET(BASIC_FILTERS_TESTS ${CXX_TEST_PATH}/itkBasicFiltersTests)
+SET(BASIC_FILTERS_TESTS2 ${CXX_TEST_PATH}/itkBasicFiltersTests2)
 SET(BASIC_FILTERS_HEADER_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderTest)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/BasicFilters)
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
-ADD_TEST(itkBasicFiltersPrintTest ${BASIC_FILTERS_TESTS} itkBasicFiltersPrintTest)
-ADD_TEST(itkBasicFiltersPrintTest2 ${BASIC_FILTERS_TESTS} itkBasicFiltersPrintTest2)
+ADD_TEST(itkBasicFiltersPrintTest ${BASIC_FILTERS_TESTS2} itkBasicFiltersPrintTest)
+ADD_TEST(itkBasicFiltersPrintTest2 ${BASIC_FILTERS_TESTS2} itkBasicFiltersPrintTest2)
 
 ADD_TEST(itkAcosImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAcosImageFilterAndAdaptorTest)
 ADD_TEST(itkAbsImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAbsImageFilterAndAdaptorTest)
@@ -453,8 +454,6 @@ ADD_TEST(itkVectorResampleImageFilterTest ${BASIC_FILTERS_TESTS}
 ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
-itkBasicFiltersPrintTest.cxx
-itkBasicFiltersPrintTest2.cxx
 itkAcosImageFilterAndAdaptorTest.cxx
 itkAbsImageFilterAndAdaptorTest.cxx
 itkAdaptImageFilterTest.cxx
@@ -638,12 +637,19 @@ itkNarrowBandImageFilterBaseTest.cxx
 
 )
 
+SET(BasicFilters2_SRCS
+itkBasicFiltersPrintTest.cxx
+itkBasicFiltersPrintTest2.cxx
+)
+
 
 ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})
 ADD_EXECUTABLE(itkBasicFiltersHeaderTest itkBasicFiltersHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkBasicFiltersHeaderTest ITKIO ITKNumerics ITKBasicFilters)
 ADD_EXECUTABLE(itkBasicFiltersTests itkBasicFiltersTests.cxx ${BasicFilters_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests ITKIO ITKNumerics ITKBasicFilters)
+ADD_EXECUTABLE(itkBasicFiltersTests2 itkBasicFiltersTests2.cxx ${BasicFilters2_SRCS})
+TARGET_LINK_LIBRARIES(itkBasicFiltersTests2 ITKIO ITKNumerics ITKBasicFilters)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

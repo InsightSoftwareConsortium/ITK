@@ -26,8 +26,6 @@
 
 void RegisterTests()
 {
-  REGISTER_TEST(itkBasicFiltersPrintTest );
-  REGISTER_TEST(itkBasicFiltersPrintTest2 );
   REGISTER_TEST(itkAbsImageFilterAndAdaptorTest );
   REGISTER_TEST(itkAcosImageFilterAndAdaptorTest );
   REGISTER_TEST(itkAdaptImageFilterTest );
