@@ -83,10 +83,11 @@ public:
    */
   typedef TInputMesh InputMeshType;
   typedef TOutputMesh OutputMeshType;
-  typedef typename typename TInputMesh::Pointer InputMeshPointer;
-  typedef typename typename TOutputMesh::Pointer OutputMeshPointer;
+  typedef typename TInputMesh::Pointer InputMeshPointer;
+  typedef typename TOutputMesh::Pointer OutputMeshPointer;
   enum {PointDimension = TInputMesh::PointDimension};
-  typedef typename TInputMesh::PointType PointType;
+  typedef typename TInputMesh::PointType InputMeshPointType;
+  typedef typename TInputMesh::PointIdentifier InputMeshPointIdentifier;
   typedef typename TInputMesh::PointsContainerPointer 
                    InputMeshPointsContainerPointer;
   typedef typename TInputMesh::CellsContainer InputMeshCellsContainer;
@@ -186,7 +187,7 @@ public:
    * Use to specify x-y-z point coordinates when extracting the region 
    * closest to a specified point.
    */
-  void SetClosestPoint(PointType& p)
+  void SetClosestPoint(InputMeshPointType& p)
     {
       if ( m_ClosestPoint != p )
         {
@@ -194,7 +195,7 @@ public:
         this->Modified();
         }
     }
-  PointType& GetClosestPoint(PointType& p) const
+  InputMeshPointType& GetClosestPoint(InputMeshPointType& p) const
     {return m_ClosestPoint;}
 
   /**
@@ -204,7 +205,7 @@ public:
 
 protected:
   ConnectedRegionsMeshFilter();
-  virtual ~ConnectedRegionsMeshFilter() {};
+  virtual ~ConnectedRegionsMeshFilter() {}
   ConnectedRegionsMeshFilter(const Self&) {}
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -214,7 +215,7 @@ protected:
 
 private:  
   int                        m_ExtractionMode;
-  PointType                  m_ClosestPoint;
+  InputMeshPointType         m_ClosestPoint;
   std::vector<unsigned long> m_SeedList;
   std::vector<unsigned long> m_RegionList;
   std::vector<unsigned long> m_RegionSizes;

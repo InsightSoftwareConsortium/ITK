@@ -235,7 +235,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
       InputMeshCellLinksContainerPointer cellLinks;
       cellLinks = input->GetCellLinks();
       InputMeshCellLinksContainer links;
-      std::set<TInputMesh::CellIdentifier>::iterator citer;
+      std::set<InputMeshCellIdentifier>::iterator citer;
       
       for (std::vector<unsigned long>::iterator i = m_SeedList.begin();
            i != m_SeedList.end(); ++i)
@@ -262,8 +262,8 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
       {
       // find the closest point
       double minDist2=NumericTraits<double>::max(), dist2;
-      TInputMesh::PointIdentifier minId = 0;
-      TInputMesh::PointType x;
+      InputMeshPointIdentifier minId = 0;
+      InputMeshPointType x;
       for (PointsContainerConstIterator piter=inPts->Begin();
            piter != inPts->End(); ++piter)
         {
@@ -277,9 +277,9 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
         }
 
       // get the cells using the closest point and use them as seeds
-      TInputMesh::CellLinksContainerPointer cellLinks;
+      InputMeshCellLinksContainerPointer cellLinks;
       cellLinks = input->GetCellLinks();
-      TInputMesh::PointCellLinksContainer links;
+      InputMeshCellLinksContainer links;
       std::set<InputMeshCellIdentifier>::iterator citer;
       
       links = cellLinks->ElementAt(minId);
