@@ -36,6 +36,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBSplineInterpolationWeightFunction.txx"
 #include "itkBSplineKernelFunction.h"
 #include "itkBackwardDifferenceOperator.txx"
+#include "itkBarrier.h"
 #include "itkBinaryBallStructuringElement.txx"
 #include "itkBinaryThresholdImageFunction.txx"
 #include "itkBloxBoundaryPointImage.txx"
