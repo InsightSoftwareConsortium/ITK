@@ -296,15 +296,14 @@ GetJacobian( const InputPointType & p ) const
   
 // Create and return an inverse transformation
 template<class TScalarType>
-typename CenteredRigid2DTransform<TScalarType>::Pointer
+void
 CenteredRigid2DTransform<TScalarType>::
-Inverse( void ) const
+CloneInverseTo( Pointer & result ) const
 {
-  Pointer result = New();
+  result = New();
   result->SetCenter( m_Center );  // inverse have the same center
   result->SetAngle( -m_Angle );
   result->SetTranslation( -( m_InverseMatrix * m_Translation ) );
-  return result;
 }
 
 // Print self

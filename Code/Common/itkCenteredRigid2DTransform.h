@@ -157,7 +157,7 @@ public:
    * This method creates and returns a new CenteredRigid2DTransform object
    * which is the inverse of self.
    **/
-  Pointer Inverse( void ) const;
+  void CloneInverseTo( Pointer & newinverse ) const;
 
 protected:
   CenteredRigid2DTransform();

@@ -137,7 +137,8 @@ int itkCenteredRigid2DTransformTest(int ,char *[] )
       transform->TransformPoint( p1 );
 
     // Get inverse transform and transform point p2 to obtain point p3
-    CenteredRigidTransformType::Pointer inverse = transform->Inverse();
+    CenteredRigidTransformType::Pointer inverse;
+    transform->CloneInverseTo( inverse );
 
     CenteredRigidTransformType::OutputPointType p3 = 
       inverse->TransformPoint( p2 );
