@@ -80,6 +80,13 @@ bool JPEGImageIO::CanReadFile(const char* file)
     extensionFound = true;
     }
 
+  JPEGPos = filename.rfind(".JPEG");
+  if ((JPEGPos != std::string::npos)
+      && (JPEGPos == filename.length() - 5))
+    {
+    extensionFound = true;
+    }
+
   JPEGPos = filename.rfind(".jpg");
   if ((JPEGPos != std::string::npos)
       && (JPEGPos == filename.length() - 4))
@@ -87,6 +94,12 @@ bool JPEGImageIO::CanReadFile(const char* file)
     extensionFound = true;
     }
 
+  JPEGPos = filename.rfind(".JPG");
+  if ((JPEGPos != std::string::npos)
+      && (JPEGPos == filename.length() - 4))
+    {
+    extensionFound = true;
+    }
 
   if( !extensionFound )
     {
@@ -406,7 +419,22 @@ bool JPEGImageIO::CanWriteFile( const char * name )
     return true;
     }
 
+  JPEGPos = filename.rfind(".JPEG");
+  if ( (JPEGPos != std::string::npos)
+       && (JPEGPos == filename.length() - 5) )
+    {
+    return true;
+    }
+
   JPEGPos = filename.rfind(".jpg");
+  if ( (JPEGPos != std::string::npos)
+       && (JPEGPos == filename.length() - 4) )
+    {
+    return true;
+    }
+
+
+  JPEGPos = filename.rfind(".JPG");
   if ( (JPEGPos != std::string::npos)
        && (JPEGPos == filename.length() - 4) )
     {
