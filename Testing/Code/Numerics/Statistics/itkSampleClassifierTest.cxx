@@ -161,7 +161,7 @@ int itkSampleClassifierTest(int argc, char* argv[] )
   // following three lines to increase test coverage of the
   // DecisionRuleBase
   std::cout << "Decision rule base class = " 
-            << decisionRule->itk::DecisionRuleBase::GetNameOfClass() 
+            << decisionRule->DecisionRuleType::Superclass::GetNameOfClass() 
             << std::endl ;
 
   return EXIT_SUCCESS;
