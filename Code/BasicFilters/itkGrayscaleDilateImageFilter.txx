@@ -29,7 +29,7 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>
            const KernelType &kernel)
 {
   PixelType max = NumericTraits<PixelType>::NonpositiveMin();
-  PixelType temp = max ;
+  PixelType temp;
 
   typename NeighborhoodIteratorType::ConstIterator neigh_it;
   KernelIteratorType kernel_it;
@@ -60,7 +60,7 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>
 {
   unsigned int i;
   PixelType max = NumericTraits<PixelType>::NonpositiveMin();
-  PixelType temp = max ;
+  PixelType temp;
 
   KernelIteratorType kernel_it;
   const KernelIteratorType kernelEnd = kernel.End();
