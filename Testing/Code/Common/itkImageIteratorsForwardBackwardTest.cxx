@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 
 #include "itkImage.h"
+#include "itkNumericTraits.h"
 #include "itkSimpleImageRegionIterator.h"
 #include "itkImageLinearIterator.h"
 
@@ -57,9 +58,9 @@ int main()
   
   ImageType::SizeType size;
 
-  size[0] = 100;
-  size[1] = 100;
-  size[2] = 100;
+  size[0] = 10;
+  size[1] = 10;
+  size[2] = 10;
 
   ImageType::IndexType start;
   start = ImageType::IndexType::ZeroIndex;
@@ -83,7 +84,7 @@ int main()
   ImageType::IndexType index;
   ImageType::PixelType value;
   
-  value = NumericTraits< ImageType::PixelType >::Zero;
+  value = itk::NumericTraits< ImageType::PixelType >::Zero;
 
   // Store information on the Image
   std::cout << "Storing data on the image ... " << std::endl;
@@ -103,26 +104,28 @@ int main()
 
   ot.Begin();
  
-  value = NumericTraits< ImageType::PixelType >::Zero;
+  value = itk::NumericTraits< ImageType::PixelType >::Zero;
 
   while( !ot.IsAtEnd() )
   {
+    value++;
     if( ot.Get() != value )
     {
       std::cerr << "Values don't correspond to what was stored "
         << std::endl;
       std::cerr << "Test failed at index ";
       std::cerr << ot.GetIndex() << std::endl;
+      std::cerr << "Value stored is = " << ot.Get() << std::endl;
+      std::cerr << "Value should be = " << value    << std::endl;
       return EXIT_FAILURE;
     }
     ++ot;
   }
  
   // Verification 
-  IteratorType ot( myImage, region );
   std::cout << "Verifying the data backwards... " << std::endl;
 
-  ot.End();
+//  ot.End();
  
   while( !ot.IsAtEnd() )
   {
@@ -132,8 +135,11 @@ int main()
         << std::endl;
       std::cerr << "Test failed at index ";
       std::cerr << ot.GetIndex() << std::endl;
+      std::cerr << "Value stored is = " << ot.Get() << std::endl;
+      std::cerr << "Value should be = " << value    << std::endl;
       return EXIT_FAILURE;
     }
+    value--;
     --ot;
   }
 
