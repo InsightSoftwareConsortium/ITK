@@ -116,7 +116,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   // output.
   filter->GraftOutput( output );
   swapPtrA = const_cast< TInputImage * >( this->GetInput() );
-  for (unsigned int i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < m_FilterDimensionality; ++i)
     {
     // Set up the operator for this dimension
     oper->SetDirection(i);
@@ -153,6 +153,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   os << indent << "Variance: " << m_Variance << std::endl;
   os << indent << "MaximumError: " << m_MaximumError << std::endl;
   os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
+  os << indent << "FilterDimensionality: " << m_FilterDimensionality << std::endl;
 }
 
 } // end namespace itk

@@ -83,6 +83,8 @@ public:
   itkGetVectorMacro(MaximumError, const double, ImageDimension);
   itkGetMacro(MaximumKernelWidth, int);
   itkSetMacro(MaximumKernelWidth, int);
+  itkGetMacro(FilterDimensionality, unsigned int);
+  itkSetMacro(FilterDimensionality, unsigned int);
   
   /** Convenience get/set methods for setting all dimensional parameters to the
    * same values.  */
@@ -132,6 +134,7 @@ protected:
       m_MaximumError[i] = 0.01f;
       m_MaximumKernelWidth = 32;
       }
+    m_FilterDimensionality = ImageDimension;
     }
   virtual ~DiscreteGaussianImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -159,6 +162,9 @@ private:
   /** Maximum allowed kernel width for any dimension of the discrete Gaussian
       approximation */
   int m_MaximumKernelWidth;
+
+  /** Number of dimensions to process. Default is all dimensions */
+  unsigned int m_FilterDimensionality;
 };
   
 } // end namespace itk
