@@ -3,7 +3,8 @@ SET(WRAP_SOURCES
   wrap_itkAnisotropicDiffusionImageFilter
   wrap_itkBinaryThresholdImageFilter
   wrap_itkCannyEdgeDetectionImageFilter
-  wrap_itkCastImageFilter
+  wrap_itkCastImageFilter_2D
+  wrap_itkCastImageFilter_3D
   wrap_itkConfidenceConnectedImageFilter
   wrap_itkChangeInformationImageFilter
   wrap_itkConnectedThresholdImageFilter
