@@ -234,13 +234,26 @@ public:
 /** \class ScalarTraits<Index<unsigned int VDimension>>
  * \brief Define (pixel) scalar traits for type <Index<unsigned int VDimension> >.
  */
-template <unsigned int VDimension>
-class ScalarTraits< Index<VDimension> > {
+template <>
+class ScalarTraits< Index<2> > {
 public:
-  typedef  Index<VDimension>  ValueType;
-  typedef  Index<VDimension>  ScalarValueType;
-  static ScalarValueType& GetScalar( Index<VDimension> & v) {return v;}
-  static void SetScalar( Index<VDimension> & data, ScalarValueType const& v) {data = v;}
+  typedef  Index<2>  ValueType;
+  typedef  Index<2>  ScalarValueType;
+  static ScalarValueType& GetScalar( Index<2> & v) {return v;}
+  static void SetScalar( Index<2> & data, ScalarValueType const& v) {data = v;}
+};
+
+
+/** \class ScalarTraits<Index<unsigned int VDimension>>
+ * \brief Define (pixel) scalar traits for type <Index<unsigned int VDimension> >.
+ */
+template <>
+class ScalarTraits< Index<3> > {
+public:
+  typedef  Index<3>  ValueType;
+  typedef  Index<3>  ScalarValueType;
+  static ScalarValueType& GetScalar( Index<3> & v) {return v;}
+  static void SetScalar( Index<3> & data, ScalarValueType const& v) {data = v;}
 };
 
 
@@ -424,14 +437,28 @@ public:
 /** \class VectorTraits<Index<unsigned int VDimension>>
  * \brief Define (pixel) vector traits for type Index<unsigned int VDimension>
  */
-template <unsigned int VDimension>
-class VectorTraits< Index<VDimension> > {
+template <>
+class VectorTraits< Index<2> > {
 public:
-  typedef Index<VDimension> ValueType;
-  typedef Index<VDimension> VectorValueType;
-  static VectorValueType& GetVector(Index<VDimension>& v) {return v;}
-  static void SetVector(Index<VDimension>& data, VectorValueType const & v) {data = v;}
+  typedef Index<2> ValueType;
+  typedef Index<2> VectorValueType;
+  static VectorValueType& GetVector(Index<2>& v) {return v;}
+  static void SetVector(Index<2>& data, VectorValueType const & v) {data = v;}
 };
+
+
+/** \class VectorTraits<Index<unsigned int VDimension>>
+ * \brief Define (pixel) vector traits for type Index<unsigned int VDimension>
+ */
+template <>
+class VectorTraits< Index<3> > {
+public:
+  typedef Index<3> ValueType;
+  typedef Index<3> VectorValueType;
+  static VectorValueType& GetVector(Index<3>& v) {return v;}
+  static void SetVector(Index<3>& data, VectorValueType const & v) {data = v;}
+};
+
 
 
 /** \class VectorTraits<RGBPixel<float>>
