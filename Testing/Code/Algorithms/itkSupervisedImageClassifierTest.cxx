@@ -94,42 +94,42 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   //Slice 1
   //Vector no. 1
   VecImagePixelType vec;
-  vec = 21,19; outIt.Set( vec ); ++outIt;
+  vec = 21; outIt.Set( vec ); ++outIt;
   //Vector no. 2
-  vec = 20,20; outIt.Set( vec ); ++outIt;
+  vec = 20; outIt.Set( vec ); ++outIt;
   //Vector no. 3
-  vec = 8,11; outIt.Set( vec ); ++outIt;
+  vec = 8; outIt.Set( vec ); ++outIt;
   //Vector no. 4
-  vec = 10,12; outIt.Set( vec ); ++outIt;
+  vec = 10; outIt.Set( vec ); ++outIt;
   //Slice 2
   //Vector no. 1
-  vec = 22,21; outIt.Set( vec ); ++outIt;
+  vec = 22; outIt.Set( vec ); ++outIt;
   //Vector no. 2
-  vec = 21,22; outIt.Set( vec ); ++outIt;
+  vec = 21; outIt.Set( vec ); ++outIt;
   //Vector no. 3
-  vec = 11,12; outIt.Set( vec ); ++outIt;
+  vec = 11; outIt.Set( vec ); ++outIt;
   //Vector no. 4
-  vec = 9,10; outIt.Set( vec ); ++outIt;
+  vec = 9; outIt.Set( vec ); ++outIt;
   
   //Slice 3
   //Vector no. 1 
-  vec = 19,20; outIt.Set( vec ); ++outIt;
+  vec = 19; outIt.Set( vec ); ++outIt;
   //Vector no. 2
-  vec = 19,21; outIt.Set( vec ); ++outIt;
+  vec = 19; outIt.Set( vec ); ++outIt;
   //Vector no. 3
-  vec = 11,11; outIt.Set( vec ); ++outIt;
+  vec = 11; outIt.Set( vec ); ++outIt;
   //Vector no. 4
-  vec = 11,10; outIt.Set( vec ); ++outIt;
+  vec = 11; outIt.Set( vec ); ++outIt;
   
   //Slice 4
   //Vector no. 1
-  vec = 18,18; outIt.Set( vec ); ++outIt;
+  vec = 18; outIt.Set( vec ); ++outIt;
   //Vector no. 2
-  vec = 18,20; outIt.Set( vec ); ++outIt;
+  vec = 18; outIt.Set( vec ); ++outIt;
   //Vector no. 3
-  vec = 12,10; outIt.Set( vec ); ++outIt;
+  vec = 12; outIt.Set( vec ); ++outIt;
   //Vector no. 4
-  vec = 14,13; outIt.Set( vec ); ++outIt;
+  vec = 14; outIt.Set( vec ); ++outIt;
 
   //---------------------------------------------------------------
   //Generate the training data
