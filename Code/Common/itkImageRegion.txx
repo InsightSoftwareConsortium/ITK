@@ -103,7 +103,7 @@ ImageRegion<VImageDimension>
 {
   unsigned long radiusVector[VImageDimension];
 
-  for (int i=0; i < VImageDimension; ++i)
+  for (unsigned int i=0; i < VImageDimension; ++i)
     {
       radiusVector[i] = radius;
     }
