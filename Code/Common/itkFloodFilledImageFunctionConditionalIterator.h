@@ -101,8 +101,4 @@ public:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFloodFilledImageFunctionConditionalIterator.txx"
-#endif
-
 #endif 
