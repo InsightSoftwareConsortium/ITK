@@ -98,6 +98,41 @@ namespace itk
 #   define itkGetStaticConstMacro(name) (Self::name)
 #endif
 
+/** Set an input. This defines the Set"name"Input() method */
+#define itkSetInputMacro(name, type, number) \
+  virtual void Set##name##Input(const type *_arg) \
+  { \
+    itkDebugMacro("setting input " #name " to " << _arg); \
+    if (_arg != static_cast<type *>(this->ProcessObject::GetInput( number ))) \
+      { \
+      this->ProcessObject::SetNthInput( number, const_cast<type *>(_arg) ); \
+      this->Modified(); \
+      } \
+  } \
+  virtual void SetInput##number(const type *_arg) \
+  { \
+    itkDebugMacro("setting input " #number " to " << _arg); \
+    if (_arg != static_cast<type *>(this->ProcessObject::GetInput( number ))) \
+      { \
+      this->ProcessObject::SetNthInput( number, const_cast<type *>(_arg) ); \
+      this->Modified(); \
+      } \
+  } 
+
+
+/** Get an input. This defines the Get"name"Input() method */
+#define itkGetInputMacro(name, type, number) \
+  virtual const type * Get##name##Input() const \
+  { \
+    itkDebugMacro("returning input " << #name " of " << static_cast<const type *>(this->ProcessObject::GetInput( number )) ); \
+    return static_cast<const type *>(this->ProcessObject::GetInput( number )); \
+  } \
+  virtual const type * GetInput##number() const \
+  { \
+    itkDebugMacro("returning input " << #number " of " << static_cast<const type *>(this->ProcessObject::GetInput( number )) ); \
+    return static_cast<const type *>(this->ProcessObject::GetInput( number )); \
+  } 
+
 
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */
 #define itkSetMacro(name,type) \
@@ -269,14 +304,19 @@ namespace itk
     return this->m_##name; \
   } 
 
-/** Define the standard object factory creation method.  This macro
- * simply takes the type for which the New() method is being defined.
+/** Define two object creation methods.  The first method, New(),
+ * creates an object from a class, potentially deferring to a factory.
+ * The second method, CreateAnother(), creates an object from an
+ * instance, potentially deferring to a factory.  This second method
+ * allows you to create an instance of an object that is exactly the
+ * same type as the referring object.  This is useful in cases where
+ * an object has been cast back to a base class.
  *
- * This creation method first tries asking the object factory to create
- * an instance, and then defaults to the standard "new" operator if the
+ * These creation methods first try asking the object factory to create
+ * an instance, and then default to the standard "new" operator if the
  * factory fails.
  *
- * This routine assigns the raw pointer to a smart pointer and then calls
+ * These routines assigns the raw pointer to a smart pointer and then call
  * UnRegister() on the rawPtr to compensate for LightObject's constructor
  * initializing an object's reference count to 1 (needed for proper
  * initialization of process objects and data objects cycles). */
@@ -292,11 +332,28 @@ static Pointer New(void) \
   smartPtr = rawPtr; \
   rawPtr->UnRegister(); \
   return smartPtr; \
+} \
+virtual LightObject::Pointer CreateAnother(void) const \
+{ \
+  LightObject::Pointer smartPtr; \
+  smartPtr = x::New().GetPointer(); \
+  return smartPtr; \
 }
 
-/** Define the virtual constructor without object factory creation method.
+
+/** Define two object creation methods.  The first method, New(),
+ * creates an object from a class but does not defer to a factory.
+ * The second method, CreateAnother(), creates an object from an
+ * instance, again without deferring to a factory.  This second method
+ * allows you to create an instance of an object that is exactly the
+ * same type as the referring object.  This is useful in cases where
+ * an object has been cast back to a base class.
  *
- * This routine assigns the raw pointer to a smart pointer and then calls
+ * These creation methods first try asking the object factory to create
+ * an instance, and then default to the standard "new" operator if the
+ * factory fails.
+ *
+ * These routines assigns the raw pointer to a smart pointer and then call
  * UnRegister() on the rawPtr to compensate for LightObject's constructor
  * initializing an object's reference count to 1 (needed for proper
  * initialization of process objects and data objects cycles). */
@@ -307,6 +364,12 @@ static Pointer New(void) \
   x *rawPtr = new x; \
   smartPtr = rawPtr; \
   rawPtr->UnRegister(); \
+  return smartPtr; \
+} \
+virtual LightObject::Pointer CreateAnother(void) const \
+{ \
+  LightObject::Pointer smartPtr; \
+  smartPtr = x::New().GetPointer(); \
   return smartPtr; \
 }
 

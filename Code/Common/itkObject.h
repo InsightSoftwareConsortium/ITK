@@ -53,6 +53,13 @@ public:
   /** Method for creation through the object factory. */
   static Pointer New();
 
+  /** Create an object from an instance, potentially deferring to a
+   * factory.  This method allows you to create an instance of an
+   * object that is exactly the same type as the referring object.
+   * This is useful in cases where an object has been cast back to a
+   * base class. */
+  virtual LightObject::Pointer CreateAnother() const;
+
   /** Standard part of all itk objects. */
   itkTypeMacro(Object, LightObject);
 

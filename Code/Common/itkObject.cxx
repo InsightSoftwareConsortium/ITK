@@ -212,7 +212,14 @@ Object::New()
   rawPtr->UnRegister();
   return smartPtr;
 }
-  
+
+LightObject::Pointer
+Object::CreateAnother() const
+{
+  return Object::New().GetPointer();
+}
+
+
 /**
  * Turn debugging output on.
  */

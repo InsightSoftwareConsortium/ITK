@@ -38,6 +38,12 @@ LightObject::New()
   return smartPtr;
 }
 
+LightObject::Pointer
+LightObject::CreateAnother() const
+{
+  return LightObject::New();
+}
+
 /**
  * Delete a itk object. This method should always be used to delete an object 
  * when the new operator was used to create it. Using the C++ delete method
