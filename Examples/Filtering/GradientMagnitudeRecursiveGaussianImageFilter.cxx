@@ -42,7 +42,7 @@
 //  Gaussian kernel and then applying a differential operator.  The user
 //  selects the value of $\sigma$.
 //
-//  Internally this is done by applying an IIR \footnote{Infinite Impulsional
+//  Internally this is done by applying an IIR \footnote{Infinite Impulse
 //  Response} filter that approximates a convolution with the derivative of the
 //  Gaussian kernel.  Traditional convolution will produce a more accurate
 //  result, but the IIR approach is much faster, especially using large

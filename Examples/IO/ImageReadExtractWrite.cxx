@@ -160,7 +160,7 @@ int main( int argc, char ** argv )
   //  pixels the region has along each dimension. In order to extract a $2D$
   //  image from a $3D$ data set, it is enough to set the size of the region
   //  to $0$ in one dimension.  This will indicate to
-  //  ExtractImageFilter that a dimensional reduction has been //
+  //  ExtractImageFilter that a dimensional reduction has been
   //  specified. Here we take the region from the largest possible region of
   //  the input image. Note that Update() is being called first on the
   //  reader, since otherwise the output would have invalid data.

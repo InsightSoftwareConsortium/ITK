@@ -34,7 +34,7 @@
 //
 //  The \doxygen{RecursiveGaussianImageFilter} implements an approximation of
 //  convolution with the Gaussian and its derivatives by using
-//  IIR\footnote{Infinite Impulsional Response} filters. In practice this filter
+//  IIR\footnote{Infinite Impulse Response} filters. In practice this filter
 //  requires a constant number of operations for approximating the convolution,
 //  regardless of the $\sigma$ value \cite{Deriche1990,Deriche1993}.
 //
