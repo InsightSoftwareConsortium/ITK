@@ -17,126 +17,148 @@
 #ifndef __itkNeighborhoodAlgorithm_h
 #define __itkNeighborhoodAlgorithm_h
 
-#include "itkNeighborhoodOperator.h"
-#include "itkRegionNeighborhoodIterator.h"
-#include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkImage.h"
+#include "itkNeighborhoodOperator.h"
 #include "itkExceptionObject.h"
-#include "itkVectorComponentDataAccessor.h"
 
 namespace itk
 {
   
 namespace NeighborhoodAlgorithm
+{      
+
+template<class TContainer>
+struct ScalarOperation
 {
+  typedef typename TContainer::PixelType InternalType;
+  typedef typename TContainer::ScalarValueType ScalarType;
+
+  /**
+   *
+   */
+  virtual ScalarType operator()(std::slice &, TContainer &, 
+                                     std::valarray<ScalarType>&) const= 0;
   
   /**
- * Walks across the region defined in the iterator argument and
- * calculates the inner product of each pixel neighborhood
- * with the operator.  Writes scalar output to the corresponding
- * pixel in the output image.
- *
- * Assumes that the output image region, buffer, and image sizes and starting
- * indicies match those of the input image.
- *
- * This function handles boundary conditions.
- */
-template < class TPixel, unsigned long VDimension>
-void
-DoUnSynchedInnerProduct(Image<TPixel, VDimension> *in,
-                      Image<TPixel, VDimension> *out,
-                      Neighborhood<TPixel, VDimension> &op);
+   *
+   */
+  virtual ScalarType operator()(TContainer &,
+                                     std::valarray<ScalarType>&) const= 0;
+};
+
 
 /**
- * Walks across the region defined in the iterator argument and
- * calculates the inner product of each pixel neighborhood
- * with the operator.  Writes scalar output to the corresponding
- * pixel in the output image.
  *
- * The output image buffer size and
- * starting index must match the output image region size and
- * starting index ( output region must be contiguous in memory ).
- * Output region size and starting index must match input region
- * size and starting index.
- *
- * This function does not handle boundary conditions.
  */
-template < class TNeighborhoodIterator, class TImageIterator,
-    class TNeighborhood>
-void
-DoUnsynchedInnerProduct(TNeighborhoodIterator &it, TImageIterator op,
-                        TNeighborhood &oper)
+template<class TContainer>
+struct InnerProduct : public ScalarOperation<TContainer>
 {
-  const TNeighborhoodIterator itEnd = it.End();
-  for (it = it.Begin(); it < itEnd; ++it, ++op)
-    {
-      *op = it.InnerProduct(oper);
-    }
-}
-  
+  virtual ScalarType operator()(TContainer &,
+                                     std::valarray<ScalarType>& ) const;
+  virtual ScalarType operator()(std::slice &, TContainer &,
+                                     std::valarray<ScalarType>&)  const;
+};
+
 /**
- * Walks across the region defined in the iterator argument and
- * calculates the inner product of each pixel neighborhood
- * with the operator.  Writes scalar output to the corresponding
- * pixel in the output image.
  *
- * Assumes that the output image region, buffer, and image sizes and starting
- * indicies match those of the input image.
- *
- * This function does not handle boundary conditions.
  */
-template < class TNeighborhoodIterator, class TNeighborhood>
-void
-DoSynchedInnerProduct(TNeighborhoodIterator &it, TNeighborhood &oper)
+template<class TContainer>
+struct VectorComponentInnerProduct
+  : public ScalarOperation<TContainer>
 {
-  const TNeighborhoodIterator itEnd = it.End();
-  for (it = it.Begin(); it < itEnd; ++it)
-    {
-      *( it.GetOutputBuffer() ) = it.InnerProduct(oper);
-    }
-}
+  typedef typename TContainer::PixelType VectorType;
+  enum { VectorDimension = VectorType::VectorDimension };
 
-/**
- * Walks across the region defined in the iterator argument and
- * calculates the inner product of each pixel neighborhood
- * with the operator.  Writes scalar output to the corresponding
- * pixel in the output image.
- *
- * Assumes that the output image region, buffer, and image sizes and starting
- * indicies match those of the input image.
- *
- * This function handles boundary conditions.
- */
-template < class TPixel, unsigned long VDimension>
-void
-DoSynchedInnerProduct(Image<TPixel, VDimension> *in,
-                      Image<TPixel, VDimension> *out,
-                      Neighborhood<TPixel, VDimension> &op);
+  VectorComponentInnerProduct() : m_VisibleComponent(0) {}
   
+  virtual ScalarType operator()(TContainer &,
+                                     std::valarray<ScalarType>& ) const;
+  virtual ScalarType operator()(std::slice &, TContainer &,
+                                     std::valarray<ScalarType>&)  const;
+
+  unsigned int m_VisibleComponent;
+  void SetVisibleComponent(unsigned int v) { m_VisibleComponent = v; }
+};
 
 /**
  *
  */
-template<class TPixel, unsigned int VDimension>
-typename Neighborhood<TPixel, VDimension>::ScalarValueType
-InnerProduct(Neighborhood<TPixel, VDimension> &,
-             std::valarray<typename Neighborhood<TPixel,
-             VDimension>::ScalarValueType> &v,
-             VectorComponentDataAccessor<TPixel, typename Neighborhood<TPixel,
-             VDimension>::ScalarValueType> &accessor);
-
+template<class TIterator>
+struct IteratorInnerProduct : public ScalarOperation<TIterator>
+{
+  virtual ScalarType operator()(TIterator &,
+                                     std::valarray<ScalarType>& ) const;
+  virtual ScalarType operator()(std::slice &, TIterator &,
+                                     std::valarray<ScalarType>&)  const;
+};
 
 /**
- *
+
  */
-template <class TNeighborhoodIterator, class TInternalType, class TExternalType>
-TExternalType
-AverageGradientMagnitudeSquared(typename TNeighborhoodIterator::ImageType *,
-                                typename
-                                TNeighborhoodIterator::ImageType::RegionType,
-           VectorComponentDataAccessor<TInternalType, TExternalType> accessor);
+template<class TIterator>
+struct BoundsCheckingIteratorInnerProduct
+  : public ScalarOperation<TIterator>
+{
+  typedef typename TIterator::ImageType ImageType;
+  typedef typename ImageType::PixelType PixelType;
+  enum { Dimension = ImageType::ImageDimension };
+  
+  virtual ScalarType operator()(TIterator &,
+                                     std::valarray<ScalarType>& ) const;
+  virtual ScalarType operator()(std::slice &, TIterator &,
+                                     std::valarray<ScalarType>&)  const;
+};
+
+template<class TIterator>
+struct VectorComponentIteratorInnerProduct
+  : public ScalarOperation<TIterator>
+{
+  typedef typename TIterator::ImageType ImageType;
+  typedef typename ImageType::PixelType VectorType;
+  enum { VectorDimension = VectorType::VectorDimension };
+
+  VectorComponentIteratorInnerProduct() : m_VisibleComponent(0) {}
+  
+  virtual ScalarType operator()(TIterator &,
+                                     std::valarray<ScalarType>& ) const;
+  virtual ScalarType operator()(std::slice &, TIterator &,
+                                     std::valarray<ScalarType>&)  const;
+
+  unsigned int m_VisibleComponent;
+  void SetVisibleComponent(unsigned int v) { m_VisibleComponent = v; }
+};
+
+template<class TIterator>
+struct BoundsCheckingVectorComponentIteratorInnerProduct
+  : public VectorComponentIteratorInnerProduct<TIterator>
+{
+  enum { Dimension = ImageType::ImageDimension };
+
+  virtual ScalarType operator()(TIterator &,
+                                     std::valarray<ScalarType>& ) const;
+  virtual ScalarType operator()(std::slice &, TIterator &,
+                                     std::valarray<ScalarType>&)  const;
+};
+
+template<class TOperation, class TIterator>
+struct ApplyOperatorToEach
+{
+  typedef typename TIterator::ImageType ImageType;
+  typedef typename ImageType::PixelType PixelType;
+  typedef typename ImageType::ScalarValueType ScalarValueType;
+  enum { ImageDimension = ImageType::ImageDimension };
+
+  void operator()(ImageType *, ImageType *,
+                  Neighborhood<ScalarValueType, ImageDimension> &) const;
+};
 
 
+template<class TImage>
+struct CalculateOutputWrapOffsetModifiers
+{
+  inline void operator()(long int *, TImage *, TImage *) const;
+};
+  
 } // end namespace NeighborhoodAlgorithm
   
 } // end namespace itk

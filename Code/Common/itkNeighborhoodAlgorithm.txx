@@ -15,188 +15,317 @@
 =========================================================================*/
 #include "itkImageRegionIterator.h"
 #include "itkImageRegion.h"
-#include "itkDerivativeOperator.h"
 
 namespace itk
 {
   
 namespace NeighborhoodAlgorithm
 {
-
-template < class TPixel, unsigned long VDimension>
-void
-DoUnsynchedInnerProduct(Image<TPixel, VDimension> *ip,
-                      Image<TPixel, VDimension> *op,
-                      Neighborhood<TPixel, VDimension> &oper)
+  
+template<class TContainer>
+typename InnerProduct<TContainer>::ScalarType
+InnerProduct<TContainer>
+::operator()(TContainer &d, std::valarray<ScalarType> &v) const
 {
-  typedef Image<TPixel, VDimension> ImageType;
-  typedef Index<VDimension> IndexType;
-  typedef Size<VDimension> SizeType;
-  typedef ImageRegion<VDimension> RegionType;
-
-  const SizeType&   hoodRadius  = oper.GetRadius();
-  const RegionType& imageRegion = ip->GetRequestedRegion();
-
-  int i; 
-  SizeType  size;
-  IndexType start;
-
-  // Apply operator to non-boundary pixels using a fast Neighborhood iterator
-  // and an image iterator
-  for ( i = 0; i < ImageType::ImageDimension; ++i)
+  ScalarType sum = NumericTraits<ScalarType>::Zero;
+  InternalType *it;
+  typename TContainer::Iterator this_it;
+  const InternalType *_end = &(v[v.size()]);
+  
+  for (it = &(v[0]), this_it = d.begin(); it < _end; ++it, ++this_it)
     {
-    start[i]  = imageRegion.GetIndex()[i] + hoodRadius[i];
-    size[i]   = imageRegion.GetSize()[i]  - hoodRadius[i] * 2;
+      sum += *it * *this_it;
     }
-  RegionType iterRegion;
-  iterRegion.SetSize(size);
-  iterRegion.SetIndex(start);
-
-  RegionNeighborhoodIterator<TPixel, VDimension>
-    nbi(hoodRadius, ip, iterRegion);
-  ImageRegionIterator<TPixel, VDimension> rsi(op, iterRegion);
-  rsi = rsi.Begin();
- 
-  DoUnsynchedInnerProduct< RegionNeighborhoodIterator<TPixel, VDimension>,
-    ImageRegionIterator<TPixel, VDimension>, 
-    Neighborhood<TPixel, VDimension> >( nbi, rsi, oper );
-
-  // Apply operator to boundary pixels using bounds checking boundary iterators
-  RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
-    bi(hoodRadius, ip, imageRegion);
-  RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
-    obi(hoodRadius, ip, imageRegion);
-
-  const RegionBoundaryNeighborhoodIterator<TPixel, VDimension> biEnd= bi.End();
-  for (bi = bi.Begin(), obi = obi.Begin();
-       bi < biEnd; ++bi, ++obi)
-    {
-      *(obi.CenterPointer()) = bi.InnerProduct(oper);
-    }
-
-}
-
-template < class TPixel, unsigned long VDimension>
-void
-DoSynchedInnerProduct(Image<TPixel, VDimension> *ip,
-                      Image<TPixel, VDimension> *op,
-                      Neighborhood<TPixel, VDimension> &oper)
-
-{
-  typedef Image<TPixel, VDimension> ImageType;
-  typedef Index<VDimension> IndexType;
-  typedef ImageRegion<VDimension> RegionType;
-  typedef Size<VDimension> SizeType;
-
-  const SizeType&   hoodRadius  = oper.GetRadius();
-  const RegionType& imageRegion = ip->GetRequestedRegion();
-
-  int i; 
-  unsigned long bound[VDimension];
-  IndexType start;
-  SizeType  size;
-
-  // Apply operator to non-boundary pixels using fast Neighborhood iterator
-  for ( i = 0; i < ImageType::ImageDimension; ++i)
-    {
-      start[i] = imageRegion.GetIndex()[i] + hoodRadius[i];
-      size[i]  = imageRegion.GetSize()[i]  - hoodRadius[i] * 2;
-    }
-  RegionType iterRegion;
-  iterRegion.SetSize(size);
-  iterRegion.SetIndex(start);
-
-  RegionNeighborhoodIterator<TPixel, VDimension>
-    nbi(hoodRadius, ip, iterRegion);
-  nbi.SetOutputBuffer( op->GetBufferPointer() + op->ComputeOffset(start) );
-  
-  DoSynchedInnerProduct< RegionNeighborhoodIterator<TPixel, VDimension>,
-    Neighborhood<TPixel, VDimension> >( nbi, oper );
-  
-  // Apply operator to boundary pixels using bounds checking Boundary iterator
-  RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
-    bi( hoodRadius, ip, imageRegion);
-  bi.SetOutputBuffer( op->GetBufferPointer() );
-  
-  DoSynchedInnerProduct<RegionBoundaryNeighborhoodIterator<TPixel, VDimension>,
-    Neighborhood<TPixel, VDimension> >( bi, oper );
-}
-
-
-template<class TPixel, unsigned int VDimension>
-typename Neighborhood<TPixel, VDimension>::ScalarValueType
-InnerProduct(Neighborhood<TPixel, VDimension> &n,
-             std::valarray<typename Neighborhood<TPixel,
-             VDimension>::ScalarValueType> &v, 
-             VectorComponentDataAccessor<TPixel, typename Neighborhood<TPixel,
-             VDimension>::ScalarValueType> &accessor)
-{
-  typedef typename Neighborhood<TPixel, VDimension>::ScalarValueType
-    ExternalType;
-  
-  ExternalType sum  = NumericTraits<ExternalType>::Zero; 
-  
-  ExternalType *it;
-  TPixel *this_it;
-  
-  const ExternalType *itEnd = &(v[v.size()]);
-  for (it = &(v[0]), this_it = n.Begin(); it < itEnd;
-       ++it, ++this_it)
-    {
-      sum += *it * accessor.Get(*this_it);
-    }
-  
   return sum;
 }
 
-template <class TNeighborhoodIterator, class TInternalType, class TExternalType>
-TExternalType
-AverageGradientMagnitudeSquared(typename TNeighborhoodIterator::ImageType *ip,
-                        typename TNeighborhoodIterator::ImageType::RegionType region,
-        VectorComponentDataAccessor<TInternalType, TExternalType> accessor)
+template<class TContainer>
+typename InnerProduct<TContainer>::ScalarType
+InnerProduct<TContainer>
+::operator()(std::slice &s, TContainer &d,
+             std::valarray<ScalarType> &v) const
 {
-  typedef  typename TNeighborhoodIterator::ImageType ImageType;
+  ScalarType sum = NumericTraits<ScalarType>::Zero;
+  InternalType *it;
+  typename TContainer::SliceIteratorType slice_it(&d, s);
 
-  TExternalType accumulator;
-  TExternalType val;
-  unsigned long counter;
-  TNeighborhoodIterator iterator_list[ImageType::ImageDimension];
-   DerivativeOperator<TExternalType, ImageType::ImageDimension>
-    operator_list[ImageType::ImageDimension];
-
-  // Set up the derivative operators and their iterators
-  for (int i = 0; i < ImageType::ImageDimension; ++i)
+  slice_it = slice_it.Begin();;
+  const InternalType *itEnd = &(v[v.size()]);
+  for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
     {
-      operator_list[i].SetOrder(1);
-      operator_list[i].SetDirection(i);
-      operator_list[i].CreateDirectional();
-      iterator_list[i] =
-        RegionNeighborhoodIterator<TInternalType, ImageType::ImageDimension>
-                                   (operator_list[i].GetRadius(), ip, region);
-      iterator_list[i] = iterator_list[i].Begin();
+      sum += *it * *slice_it;
     }
 
-  // Now do the actual processing
-  accumulator = NumericTraits<TExternalType>::Zero;
-  counter     = 0;
-  const RegionNeighborhoodIterator<TInternalType, ImageType::ImageDimension>
-                                         iterator_end = iterator_list[0].End();
-  for (iterator_list[0] = iterator_list[0].Begin();
-       iterator_list[0] < iterator_end; ++counter)
-    {
-      for (int i = 0; i < ImageType::ImageDimension; ++i)
-        {
-          val = iterator_list[i].InnerProduct(operator_list[i], accessor);
-          accumulator += val * val;
-          ++iterator_list[i];
-        }
+  return sum;
+}
+
+template<class TContainer>
+typename VectorComponentInnerProduct<TContainer>::ScalarType
+VectorComponentInnerProduct<TContainer>
+::operator()(TContainer &d, std::valarray<ScalarType> &v) const
+{
+  ScalarType sum = NumericTraits<ScalarType>::Zero;
+  ScalarType *it;
+  typename TContainer::Iterator this_it;
+  const ScalarType *_end = &(v[v.size()]);
+  
+  for (it = &(v[0]), this_it = d.begin(); it < _end; ++it, ++this_it)
+    {     
+      sum += *it * (*this_it)[m_VisibleComponent];
     }
-
-    return (accumulator / counter);
-
+  return sum;
 }
 
 
+template<class TContainer>
+typename VectorComponentInnerProduct<TContainer>::ScalarType
+VectorComponentInnerProduct<TContainer>
+::operator()(std::slice &s, TContainer &d,
+             std::valarray<ScalarType> &v) const
+{
+  ScalarType sum = NumericTraits<ScalarType>::Zero;
+  ScalarType *it;
+  typename TContainer::SliceIteratorType slice_it(&d, s);
+
+  slice_it = slice_it.Begin();;
+  const ScalarType *itEnd = &(v[v.size()]);
+  for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
+    {
+      sum += *it * (*slice_it)[m_VisibleComponent];
+    }
+
+  return sum;
+}
+
+template<class TIterator>
+typename IteratorInnerProduct<TIterator>::ScalarType
+IteratorInnerProduct<TIterator>
+::operator()(TIterator &d, std::valarray<ScalarType> &v) const
+{
+  ScalarType sum = NumericTraits<ScalarType>::Zero;
+  ScalarType *it;
+  typename TIterator::Iterator this_it;
+  const ScalarType *_end = &(v[v.size()]);
+  
+  for (it = &(v[0]), this_it = d.begin(); it < _end; ++it, ++this_it)
+    {
+      sum += *it * **this_it;
+    }
+  return sum;
+}
+
+template<class TIterator>
+typename IteratorInnerProduct<TIterator>::ScalarType
+IteratorInnerProduct<TIterator>
+::operator()(std::slice &s, TIterator &d,
+             std::valarray<ScalarType> &v) const
+{
+  ScalarType sum = NumericTraits<ScalarType>::Zero;
+  ScalarType *it;
+  typename TIterator::SliceIteratorType slice_it(&d, s);
+
+  slice_it = slice_it.Begin();;
+  const ScalarType *itEnd = &(v[v.size()]);
+  for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
+    {
+      sum += *it * **slice_it;
+    }
+
+  return sum;
+}
+
+template<class TIterator>
+typename BoundsCheckingIteratorInnerProduct<TIterator>::ScalarType
+BoundsCheckingIteratorInnerProduct<TIterator>
+::operator()(TIterator &d, std::valarray<ScalarType> &v) const
+{
+  InnerProduct<Neighborhood<PixelType, Dimension> > IP;
+  
+  if ( d.InBounds() )
+    {
+      ScalarType sum = NumericTraits<ScalarType>::Zero;
+      ScalarType *it;
+      typename TIterator::Iterator this_it;
+      const ScalarType *_end = &(v[v.size()]);
+      
+      for (it = &(v[0]), this_it = d.begin(); it < _end; ++it, ++this_it)
+        {
+          sum += *it * **this_it;
+        }
+      return sum;
+    }
+  else
+    {
+      Neighborhood<PixelType, Dimension> N = d.GetNeighborhood();
+      return IP(N, v);;
+    }
+}
+
+template<class TIterator>
+typename BoundsCheckingIteratorInnerProduct<TIterator>::ScalarType
+BoundsCheckingIteratorInnerProduct<TIterator>
+::operator()(std::slice &s, TIterator &d,
+             std::valarray<ScalarType> &v) const
+{
+  InnerProduct<Neighborhood<PixelType, Dimension> > IP;
+  ScalarType sum;
+  ScalarType *it;
+  typename TIterator::SliceIteratorType slice_it(&d, s);
+  
+  if ( d.InBounds() )
+    {
+      sum = NumericTraits<ScalarType>::Zero;
+        
+      slice_it = slice_it.Begin();;
+      const ScalarType *itEnd = &(v[v.size()]);
+      for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
+        {
+          sum += *it * **slice_it;
+        }
+      
+      return sum;
+    }
+  else
+    {
+      Neighborhood<PixelType, Dimension> N = d.GetNeighborhood();
+      return IP(s, N, v);
+    }
+}
+
+template<class TIterator>
+typename VectorComponentIteratorInnerProduct<TIterator>::ScalarType
+VectorComponentIteratorInnerProduct<TIterator>
+::operator()(TIterator &d, std::valarray<ScalarType> &v) const
+{
+  ScalarType sum = NumericTraits<ScalarType>::Zero;
+  ScalarType *it;
+  typename TIterator::Iterator this_it;
+  const ScalarType *_end = &(v[v.size()]);
+  
+  for (it = &(v[0]), this_it = d.begin(); it < _end; ++it, ++this_it)
+    {
+     
+      sum += *it * (**this_it)[m_VisibleComponent];
+    }
+  return sum;
+}
+
+template<class TIterator>
+typename VectorComponentIteratorInnerProduct<TIterator>::ScalarType
+VectorComponentIteratorInnerProduct<TIterator>
+::operator()(std::slice &s, TIterator &d,
+             std::valarray<ScalarType> &v) const
+{
+  ScalarType sum = NumericTraits<ScalarType>::Zero;
+  ScalarType *it;
+  typename TIterator::SliceIteratorType slice_it(&d, s);
+
+  slice_it = slice_it.Begin();;
+  const ScalarType *itEnd = &(v[v.size()]);
+  for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
+    {
+      sum += *it * (**slice_it)[m_VisibleComponent];
+    }
+
+  return sum;
+}
+
+template<class TIterator>
+typename BoundsCheckingVectorComponentIteratorInnerProduct<TIterator>
+::ScalarType
+BoundsCheckingVectorComponentIteratorInnerProduct<TIterator>
+::operator()(TIterator &d, std::valarray<ScalarType> &v) const
+{
+  VectorComponentInnerProduct<Neighborhood<VectorType, Dimension> > IP;
+  ScalarType *it;
+  typename TIterator::Iterator this_it;
+  if ( d.InBounds() )
+    { 
+      ScalarType sum = NumericTraits<ScalarType>::Zero; 
+      const ScalarType *_end = &(v[v.size()]);
+      
+      for (it = &(v[0]), this_it = d.begin(); it < _end; ++it, ++this_it)
+        {
+          
+          sum += *it * (**this_it)[m_VisibleComponent];
+        }
+      return sum;
+    }
+  else
+    {
+      Neighborhood<VectorType, Dimension> N = d.GetNeighborhood();
+      IP(N, v);
+    }
+}
+
+template<class TIterator>
+typename BoundsCheckingVectorComponentIteratorInnerProduct<TIterator>
+::ScalarType
+BoundsCheckingVectorComponentIteratorInnerProduct<TIterator>
+::operator()(std::slice &s, TIterator &d,
+             std::valarray<ScalarType> &v) const
+{
+  VectorComponentInnerProduct<Neighborhood<VectorType, Dimension> > IP;
+  ScalarType *it;
+  typename TIterator::SliceIteratorType slice_it(&d, s);
+  if ( d.InBounds() )
+    {
+      ScalarType sum = NumericTraits<ScalarType>::Zero;
+      slice_it = slice_it.Begin();;
+      const ScalarType *itEnd = &(v[v.size()]);
+      for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
+        {
+          sum += *it * (**slice_it)[m_VisibleComponent];
+        }
+      return sum;
+    }
+  else
+    {
+      Neighborhood<VectorType, Dimension> N = d.GetNeighborhood();
+      IP(s, N, v);
+    }
+}
+
+
+template<class TOperation, class TIterator>
+void ApplyOperatorToEach<TOperation, TIterator>
+::operator()(ImageType *in, ImageType *out,
+             Neighborhood<ScalarValueType, ImageDimension> &o)
+  const
+{
+  TOperation OP;
+  CalculateOutputWrapOffsetModifiers<ImageType> OM;
+
+  // Create iterator.  The output buffer pointer of the iterator is set up
+  // to account for any differences in the buffer sizes of the two images.
+  long int *mod = new long int[ImageDimension];
+  TIterator it(o.GetRadius(), in, in->GetRequestedRegion());
+  it.SetOutputBuffer(out->GetBufferPointer() +
+                     out->ComputeOffset(it.GetRegion().GetIndex()));
+  OM(mod, in, out);
+  it.SetOutputWrapOffsetModifier(mod);
+  delete[] mod;
+  
+  // Process image to output.
+  it = it.Begin();
+  const TIterator _end = it.End();
+  
+  while( it != _end )
+    {
+      *( it.GetOutputBuffer() ) = OP(it, o);
+      ++it;
+    }
+}
+
+template<class TImage>
+void CalculateOutputWrapOffsetModifiers<TImage>
+::operator()(long int *ans, TImage *input, TImage *output) const
+{
+  const Size<TImage::ImageDimension> isz =  input->GetBufferedRegion().GetSize();
+  const Size<TImage::ImageDimension> osz = output->GetBufferedRegion().GetSize();
+
+  for (int i=0; i<TImage::ImageDimension; ++i) ans[i] = osz[i] - isz[i];
+}
 
 } // end namespace NeighborhoodAlgorithm
 } // end namespace itk
