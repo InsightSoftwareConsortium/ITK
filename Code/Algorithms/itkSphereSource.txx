@@ -76,12 +76,12 @@ SphereSource<TOutputMesh>
   int signu, signv; 
 
 // calculate the number os cells and points
-  numpts = m_Resolution[0]*m_Resolution[1] + 2; 
-  numcells = 2 * (m_Resolution[0]-1) *m_Resolution[1] + 2*m_Resolution[1]; 
+  numpts = m_ResolutionX*m_ResolutionY + 2; 
+  numcells = 2 * (m_ResolutionX-1) *m_ResolutionY + 2*m_ResolutionY; 
 
 // calculate the steps using resolution
-  ustep = vnl_math::pi / (m_Resolution[0]+1); 
-  vstep = 2.0*vnl_math::pi / m_Resolution[1]; 
+  ustep = vnl_math::pi / (m_ResolutionX+1); 
+  vstep = 2.0*vnl_math::pi / m_ResolutionY; 
   ubeg = (-vnl_math::pi/2.0) + ustep; 
   vbeg = -vnl_math::pi; 
 
@@ -97,27 +97,27 @@ SphereSource<TOutputMesh>
   PointsContainerPointer  myPoints = this->GetOutput()->GetPoints();
   typename PointsContainer::Iterator   point = myPoints->Begin();
 
-  PointType p1;
+  OPointType p1;
 
 // calculate all regular nodes
   while( point != myPoints->End() ) 
     { 
-    for (u=ubeg, i=0; i < m_Resolution[0]; u += ustep, i++) { 
-      for (v=vbeg, j=0; j < m_Resolution[1]; v += vstep, j++) { 
+    for (u=ubeg, i=0; i < m_ResolutionX; u += ustep, i++) { 
+      for (v=vbeg, j=0; j < m_ResolutionY; v += vstep, j++) { 
         if (cos(u) > 0) {signu = 1;} else {signu = -1;}
         if (cos(v) > 0) {signv = 1;} else {signv = -1;}
 
-        p1[0] = m_Scale[0]*signu*(pow((float)(fabs(cos(u))), m_Shape[0]))*signv* 
-            (pow((float)(fabs(cos(v))), m_Shape[1])) + m_Center[0]; 
+        p1[0] = m_Scale[0]*signu*(pow((float)(fabs(cos(u))), m_Squareness1))*signv* 
+            (pow((float)(fabs(cos(v))), m_Squareness2)) + m_Center[0]; 
 
         if (sin(v) > 0) {signv = 1;} else {signv = -1;}
 
-        p1[1] = m_Scale[1]*signu*(pow((float)(fabs(cos(u))), m_Shape[0]))*signv* 
-            (pow((float)(fabs(sin(v))), m_Shape[1])) + m_Center[1]; 
+        p1[1] = m_Scale[1]*signu*(pow((float)(fabs(cos(u))), m_Squareness1))*signv* 
+            (pow((float)(fabs(sin(v))), m_Squareness2)) + m_Center[1]; 
 
         if (sin(u) > 0) {signu = 1;} else {signu = -1;}
 
-        p1[2] = m_Scale[2]*signu*(pow((float)(fabs(sin(u))), m_Shape[0])) + 
+        p1[2] = m_Scale[2]*signu*(pow((float)(fabs(sin(u))), m_Squareness1)) + 
             m_Center[2];
 
         point.Value() = p1;
@@ -152,49 +152,49 @@ SphereSource<TOutputMesh>
   TriCellPointer testCell(TriCell::New());
 
 // store all regular cells
-  for(int i=0; i < m_Resolution[0]-1 ; i++) {
-    for (int j=0; j<m_Resolution[1]; j++) {
-      jn = (j+1)%m_Resolution[1]; 
-      tripoints[0] = i*m_Resolution[1]+j; 
+  for(int i=0; i < m_ResolutionX-1 ; i++) {
+    for (int j=0; j<m_ResolutionY; j++) {
+      jn = (j+1)%m_ResolutionY; 
+      tripoints[0] = i*m_ResolutionY+j; 
       tripoints[1] = tripoints[0]-j+jn; 
-      tripoints[2] = tripoints[0]+m_Resolution[1]; 
+      tripoints[2] = tripoints[0]+m_ResolutionY; 
       testCell->SetPointIds(tripoints);
       this->GetOutput()->SetCell(p, testCell);
-      this->GetOutput()->SetCellData(p, (PixelType)3.0);
+      this->GetOutput()->SetCellData(p, (OPixelType)3.0);
       p++;
       testCell = TriCell::New();
       tripoints[0] = tripoints[1]; 
-      tripoints[1] = tripoints[0]+m_Resolution[1]; 
+      tripoints[1] = tripoints[0]+m_ResolutionY; 
       testCell->SetPointIds(tripoints);
       this->GetOutput()->SetCell(p, testCell);
-      this->GetOutput()->SetCellData(p, (PixelType)3.0);
+      this->GetOutput()->SetCellData(p, (OPixelType)3.0);
       p++;
       testCell = TriCell::New();
     }
   }
  
 // store cells containing the south pole nodes
-  for (int j=0; j<m_Resolution[1]; j++) {
-    jn = (j+1)%m_Resolution[1]; 
+  for (int j=0; j<m_ResolutionY; j++) {
+    jn = (j+1)%m_ResolutionY; 
     tripoints[0] = numpts-2; 
     tripoints[1] = jn; 
     tripoints[2] = j; 
     testCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(p, testCell);
-    this->GetOutput()->SetCellData(p, (PixelType)1.0);
+    this->GetOutput()->SetCellData(p, (OPixelType)1.0);
     p++;
     testCell = TriCell::New();
   }
 
 // store cells containing the north pole nodes
-  for (int j=0; j<m_Resolution[1]; j++) {
-    jn = (j+1)%m_Resolution[1]; 
-    tripoints[2] = (m_Resolution[0]-1)*m_Resolution[1]+j; 
+  for (int j=0; j<m_ResolutionY; j++) {
+    jn = (j+1)%m_ResolutionY; 
+    tripoints[2] = (m_ResolutionX-1)*m_ResolutionY+j; 
     tripoints[1] = numpts-1; 
     tripoints[0] = tripoints[2]-j+jn; 
     testCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(p, testCell);
-    this->GetOutput()->SetCellData(p, (PixelType)2.0);
+    this->GetOutput()->SetCellData(p, (OPixelType)2.0);
     p++;
     testCell = TriCell::New();
   }

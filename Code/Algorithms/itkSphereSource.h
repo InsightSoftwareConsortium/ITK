@@ -86,7 +86,6 @@ public:
   typedef typename OutputMeshType::CellTraits CellTraits;
   typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
   typedef typename OutputMeshType::PointsContainer   PointsContainer;
-  typedef typename OutputMeshType::PointType     PointType;
   
   /** Define the triangular cell types which forms the surface of the model
    * and will be used in FEM application. */
@@ -97,8 +96,10 @@ public:
    * test easier */
   itkSetMacro(ResolutionX, int);
   itkSetMacro(ResolutionY, int);
+
   itkSetMacro(Center, OPointType);
   itkSetMacro(Scale,  OPointType);
+
   itkSetMacro(Squareness1, double);
   itkSetMacro(Squareness2, double);
 
@@ -119,6 +120,7 @@ protected:
   /** model scales */
   OPointType m_Scale;
   
+  /** model squareness */
   double m_Squareness1;
   double m_Squareness2;
 
