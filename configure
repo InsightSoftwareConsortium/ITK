@@ -2962,7 +2962,7 @@ case $system in
     HP-UX-*.08.*|HP-UX-*.09.*|HP-UX-*.10.*)
         echo $ac_n "checking whether ${CC} accepts -Aa""... $ac_c" 1>&6
         echo 'void f(){}' > conftest.c
-        if test -z "`${CC} -Aa -c conftest.cc 2>&1`"; then
+        if test -z "`${CC} -Aa -c conftest.c 2>&1`"; then
           echo "$ac_t""yes" 1>&6
           ANSI_CFLAGS="-Aa"
         else
@@ -2993,6 +2993,49 @@ if test $ac_cv_prog_gxx = no; then
     echo "$ac_t""yes" 1>&6
     CMAKE_TEMPLATE_FLAGS="-instances=static"
   else
+    echo "$ac_t""no" 1>&6
+  fi
+fi
+
+
+# check no g++ compilers to see if they have the standard 
+# ansi stream files (without the .h)
+if test $ac_cv_prog_gxx = no; then
+  echo $ac_n "checking ansi standard C++ stream headers ""... $ac_c" 1>&6
+echo "configure:3006: checking ansi standard C++ stream headers " >&5 
+  echo "******"
+  rm -rf conftest.*
+  cat > conftest.cc <<!
+#include <iostream>
+!
+  if test -z "`${CXX} -c conftest.cc 2>&1`"; then
+    echo "$ac_t""yes" 1>&6
+  else
+    cat >> confdefs.h <<\EOF
+#define CMAKE_NO_STD_NAMESPACE 1
+EOF
+
+    echo "$ac_t""no" 1>&6
+  fi
+fi
+
+# check to see if stl is in the std namespace
+if test $ac_cv_prog_gxx = no; then
+  echo "******"
+  echo $ac_n "checking ansi standard namespace support ""... $ac_c" 1>&6
+echo "configure:3027: checking ansi standard namespace support " >&5 
+  rm -rf conftest.*
+  cat > conftest.cc <<!
+#include <list>
+void foo() { std::list<int> l; }
+!
+  if test -z "`${CXX} -c conftest.cc 2>&1`"; then
+    echo "$ac_t""yes" 1>&6
+  else
+    cat >> confdefs.h <<\EOF
+#define CMAKE_NO_ANSI_STREAM_HEADERS 1
+EOF
+
     echo "$ac_t""no" 1>&6
   fi
 fi
@@ -3099,7 +3142,7 @@ fi
 # Extract the first word of "hostname", so it can be a program name with args.
 set dummy hostname; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3103: checking for $ac_word" >&5
+echo "configure:3146: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_HOSTNAME'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3135,7 +3178,7 @@ fi
 # Extract the first word of "nslookup", so it can be a program name with args.
 set dummy nslookup; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3139: checking for $ac_word" >&5
+echo "configure:3182: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_NSLOOKUP'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3204,7 +3247,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3208: checking for $ac_word" >&5
+echo "configure:3251: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_MAKECOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3244,7 +3287,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3248: checking for $ac_word" >&5
+echo "configure:3291: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_CVSCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3284,7 +3327,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3288: checking for $ac_word" >&5
+echo "configure:3331: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_GREPCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3324,7 +3367,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3328: checking for $ac_word" >&5
+echo "configure:3371: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_COMPRESSIONCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3364,7 +3407,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3368: checking for $ac_word" >&5
+echo "configure:3411: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_TCLSHCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3404,7 +3447,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3408: checking for $ac_word" >&5
+echo "configure:3451: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_GUNZIPCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3453,7 +3496,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3457: checking for $ac_word" >&5
+echo "configure:3500: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_JAVACOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3597,7 +3640,7 @@ done
 ac_given_srcdir=$srcdir
 ac_given_INSTALL="$INSTALL"
 
-trap 'rm -fr `echo "Makefile:CMake/CMakeMakefileTemplate.in
+trap 'rm -fr `echo "Makefile:CMake/CMakeTopMakefileTemplate.in
 CMakeTargets.make:CMake/CMakeTargets.make.in 
 CMake/CMakeSimpleRules.make 
 CMake/CMakeMaster.make 
@@ -3617,7 +3660,7 @@ Testing/Utilities/Test.tcl
 Testing/Utilities/Submit.tcl
 Testing/Utilities/Coverage.tcl
 Testing/Utilities/ftp.tcl
- itkConfigure.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
+ CMake/Source/cmConfigure.h itkConfigure.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
 
@@ -3737,7 +3780,7 @@ EOF
 
 cat >> $CONFIG_STATUS <<EOF
 
-CONFIG_FILES=\${CONFIG_FILES-"Makefile:CMake/CMakeMakefileTemplate.in
+CONFIG_FILES=\${CONFIG_FILES-"Makefile:CMake/CMakeTopMakefileTemplate.in
 CMakeTargets.make:CMake/CMakeTargets.make.in 
 CMake/CMakeSimpleRules.make 
 CMake/CMakeMaster.make 
@@ -3838,7 +3881,7 @@ ac_eD='%g'
 if test "${CONFIG_HEADERS+set}" != set; then
 EOF
 cat >> $CONFIG_STATUS <<EOF
-  CONFIG_HEADERS="itkConfigure.h"
+  CONFIG_HEADERS="CMake/Source/cmConfigure.h itkConfigure.h"
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 fi
@@ -4050,3 +4093,13 @@ fi
 # for makes other than gnu.
 rm -f CMake/Source/CMakeBuildTargets
 rm -f CMake/Source/CMakeBuildTargets.exe
+# build the CMakeBuildTargets program
+(cd CMake/Source; make CMakeBuildTargets)
+# if there is no cache file then create one
+if test ! -f $CMAKE_CONFIG_DIR/CMakeCache.txt; then
+        echo  CMake/Source/CMakeBuildTargets.exe ${fullSrcDir}/CMakeLists.txt -MakeCache -S${fullSrcDir} -O${CMAKE_CONFIG_DIR} -H${fullSrcDir} -B${CMAKE_CONFIG_DIR}
+        CMake/Source/CMakeBuildTargets.exe ${fullSrcDir}/CMakeLists.txt -MakeCache -S${fullSrcDir} -O${CMAKE_CONFIG_DIR} -H${fullSrcDir} -B${CMAKE_CONFIG_DIR}
+fi
+echo CMakeCache.txt location: ${CMAKE_CONFIG_DIR}/CMakeCache.txt
+
+

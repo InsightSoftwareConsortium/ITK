@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_INIT()
 
-AC_CONFIG_HEADER(itkConfigure.h)
+AC_CONFIG_HEADER(CMake/Source/cmConfigure.h itkConfigure.h)
 
 CMAKE_CONFIG_DIR=`pwd`
 AC_SUBST(CMAKE_CONFIG_DIR)
@@ -476,7 +476,7 @@ case $system in
     HP-UX-*.08.*|HP-UX-*.09.*|HP-UX-*.10.*)
         echo $ac_n "checking whether ${CC} accepts -Aa""... $ac_c" 1>&6
         echo 'void f(){}' > conftest.c
-        if test -z "`${CC} -Aa -c conftest.cc 2>&1`"; then
+        if test -z "`${CC} -Aa -c conftest.c 2>&1`"; then
           echo "$ac_t""yes" 1>&6
           ANSI_CFLAGS="-Aa"
         else
@@ -511,6 +511,41 @@ if test $ac_cv_prog_gxx = no; then
   fi
 fi
 AC_SUBST(CMAKE_TEMPLATE_FLAGS)
+
+# check no g++ compilers to see if they have the standard 
+# ansi stream files (without the .h)
+if test $ac_cv_prog_gxx = no; then
+  AC_MSG_CHECKING( ansi standard C++ stream headers ) 
+  echo "******"
+  rm -rf conftest.*
+  cat > conftest.cc <<!
+#include <iostream>
+!
+  if test -z "`${CXX} -c conftest.cc 2>&1`"; then
+    echo "$ac_t""yes" 1>&6
+  else
+    AC_DEFINE(CMAKE_NO_STD_NAMESPACE)
+    echo "$ac_t""no" 1>&6
+  fi
+fi
+
+# check to see if stl is in the std namespace
+if test $ac_cv_prog_gxx = no; then
+  echo "******"
+  AC_MSG_CHECKING( ansi standard namespace support ) 
+  rm -rf conftest.*
+  cat > conftest.cc <<!
+#include <list>
+void foo() { std::list<int> l; }
+!
+  if test -z "`${CXX} -c conftest.cc 2>&1`"; then
+    echo "$ac_t""yes" 1>&6
+  else
+    AC_DEFINE(CMAKE_NO_ANSI_STREAM_HEADERS)
+    echo "$ac_t""no" 1>&6
+  fi
+fi
+
 
 if test "$CC" = "gcc" -o `$CC -v 2>&1 | grep -c gcc` != "0" ; then
   SHLIB_CFLAGS="-fPIC"
@@ -655,7 +690,7 @@ AC_SUBST(JAVACOMMAND)
 
 
 AC_OUTPUT(
-Makefile:CMake/CMakeMakefileTemplate.in
+Makefile:CMake/CMakeTopMakefileTemplate.in
 CMakeTargets.make:CMake/CMakeTargets.make.in 
 CMake/CMakeSimpleRules.make 
 CMake/CMakeMaster.make 
@@ -694,3 +729,13 @@ fi
 # for makes other than gnu.
 rm -f CMake/Source/CMakeBuildTargets
 rm -f CMake/Source/CMakeBuildTargets.exe
+# build the CMakeBuildTargets program
+(cd CMake/Source; make CMakeBuildTargets)
+# if there is no cache file then create one
+if test ! -f $CMAKE_CONFIG_DIR/CMakeCache.txt; then
+        echo  CMake/Source/CMakeBuildTargets.exe ${fullSrcDir}/CMakeLists.txt -MakeCache -S${fullSrcDir} -O${CMAKE_CONFIG_DIR} -H${fullSrcDir} -B${CMAKE_CONFIG_DIR}
+        CMake/Source/CMakeBuildTargets.exe ${fullSrcDir}/CMakeLists.txt -MakeCache -S${fullSrcDir} -O${CMAKE_CONFIG_DIR} -H${fullSrcDir} -B${CMAKE_CONFIG_DIR}
+fi
+echo CMakeCache.txt location: ${CMAKE_CONFIG_DIR}/CMakeCache.txt
+
+
