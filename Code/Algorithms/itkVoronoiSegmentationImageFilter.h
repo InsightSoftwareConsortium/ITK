@@ -209,6 +209,9 @@ public:
   itkSetMacro(UseBackgroundInAPrior, bool);
   itkGetMacro(UseBackgroundInAPrior, bool);
 
+  itkSetMacro(OutputBoundary, bool);
+  itkGetMacro(OutputBoundary, bool);
+
 
   itkSetMacro(MeanDeviation, double);
   itkGetMacro(MeanDeviation, double);
@@ -264,6 +267,8 @@ public:
 	void BeforeNextStep(void);
 
   void Reset(void); //reset the segmentation, ready for taking aprior from itself
+  
+  void GenerateData(void);
 
 protected:
   VoronoiSegmentationImageFilter();
@@ -288,6 +293,7 @@ private:
   std::vector<unsigned char> m_Label;
   int m_StepsRuned;
   bool m_UseBackgroundInAPrior;
+  bool m_OutputBoundary;
 
   typename InputImageType::Pointer m_InputImage;
   typename OutputImageType::Pointer m_OutputImage;

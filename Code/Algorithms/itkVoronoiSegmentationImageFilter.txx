@@ -59,6 +59,7 @@ VoronoiSegmentationImageFilter(){
   m_MeanDeviation = 0.8;
   m_VarPercentError = 1.5;
   m_UseBackgroundInAPrior = 1;
+  m_OutputBoundary = 0;
 }
 
 /* destructor */
@@ -148,15 +149,15 @@ GetStats(PointTypeDeque vertlist, double *savemean, double *savevar, int *nump)
 
 
   int vsize = vertlist.size();
-  double beginx;
-  double beginy;
+  double beginx=0;
+  double beginy=0;
   double endx;
   double endy;
   double leftendy;
   double rightendy;
   double offset;
-  double leftDx;
-  double rightDx;
+  double leftDx=0;
+  double rightDx=0;
   bool RorL;
   bool saveRorL;
   int intbeginx;
@@ -264,7 +265,6 @@ GetStats(PointTypeDeque vertlist, double *savemean, double *savevar, int *nump)
 	intbeginy = (int)(beginy);
 	intendy = (int)(endy);
 	if(intbeginy == intendy){
-      i = i; //donothing;
 	}
 	else{
 	  intbeginy++;
@@ -445,7 +445,18 @@ ExcuteSegment(void){
 	  i++;
 	}
   }	  
-  MakeSegmentBoundary();
+}
+
+template <class TInputImage, class TOutputImage>
+void
+VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
+GenerateData(void){
+  InitializeSegment();
+  ExcuteSegment();
+  if(m_OutputBoundary)
+    MakeSegmentBoundary();
+  else
+    MakeSegmentObject();
 }
 
 template <class TInputImage, class TOutputImage>
