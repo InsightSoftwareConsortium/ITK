@@ -54,7 +54,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-
 /**
  * \class WatershedSegmentBasicOutput
  * \brief Structure that holds a segmentation produced by the
@@ -193,7 +192,14 @@ public:
    * The type of output image.
    */
   typedef TOutputImage OutputImageType;
-  
+
+  /**
+   * Some common typedefs
+   */
+  typedef typename InputImageType::RegionType RegionType;
+  typedef typename InputImageType::SizeType   SizeType;
+  typedef typename InputImageType::IndexType  IndexType;
+
   /**
    * Standard super class typedef support.
    */
@@ -386,6 +392,14 @@ protected:
   static void CreateBasicSegmentation2D(InputImageType *, OutputImageType *, const
                           OutputScalarType);
 
+
+  /**
+   *
+   */
+  static void FillBorderPixels(InputImageType *, const RegionType &,
+                               OutputScalarType);
+
+  
   /**
    * Part of the basic segmentation.  Finds and labels all single pixel minima
    * and all flat regions (groups of pixels with at least one neighbor that has 

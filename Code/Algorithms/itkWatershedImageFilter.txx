@@ -41,8 +41,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkWatershedImageFilter_txx
 #define _itkWatershedImageFilter_txx
 
-#include "itkRegionNeighborhoodIterator.h"
-#include "itkRegionBoundaryNeighborhoodIterator.h"
+#include "itkConstNeighborhoodIterator.h"
+#include "itkConstRandomAccessNeighborhoodIterator.h"
+#include "itkNeighborhoodIterator.h"
+#include "itkSmartNeighborhoodIterator.h"
 #include "itkRandomAccessNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkOffset.h"
@@ -132,25 +134,20 @@ WatershedImageFilter<TInputImage, TOutputImage>
   Self::MinimumThresholdImage(
    static_cast<InputScalarType>(thresholdValue), input, thresholded_input );
   
-  for (int i = 0; i < ImageDimension; ++i) // Build a "retaining wall" around
-    {                                      // the border of the image.
-      unaryRadius[i] = 1;
-    }
   const ImageRegion<ImageDimension> tempRegion =
     thresholded_input->GetRequestedRegion();
   thresholded_input->SetRequestedRegion(thresholded_input->GetBufferedRegion());
 
-  RegionBoundaryNeighborhoodIterator<InputImageType>
-    bni(unaryRadius, thresholded_input, expandedOutputRegion);
   maxImageValue += NumericTraits<InputScalarType>::One;
-  for (bni = bni.Begin(); bni < bni.End(); ++bni)
-    {
-      *(bni.CenterPointer()) = maxImageValue;
-    }
-  thresholded_input->SetRequestedRegion(tempRegion);
 
+  this->FillBorderPixels(thresholded_input, expandedOutputRegion,
+                         maxImageValue);
+  
+  thresholded_input->SetRequestedRegion(tempRegion);
+ 
   Self::CreateBasicSegmentation2D(thresholded_input, basic_output,
-                           NumericTraits<OutputScalarType>::Zero);
+                                  NumericTraits<OutputScalarType>::Zero);
+  
   Self::CreateSegmentTable(m_BaseSegmentTable, thresholded_input,
                            basic_output,
                            NumericTraits<OutputScalarType>::Zero );
@@ -165,18 +162,39 @@ WatershedImageFilter<TInputImage, TOutputImage>
   Self::ExtractMergeHeirarchy(m_BaseSegmentTable, m_MergeHeap,
                               m_MergeHeirarchy, floodLevel,
                               NumericTraits<OutputScalarType>::Zero);
-
+  
   sort_comp comp;
   std::sort(m_MergeHeirarchy.begin(), m_MergeHeirarchy.end(), comp);
+ 
   basic_output->SetMergeList(m_MergeHeirarchy);
   basic_output->SetMaxDepth(maxImageValue-minImageValue);
 
-  // Copy basic_output labeled image to output
+  //  Copy basic_output labeled image to output
   Self::CopyOutputToOutput(output, basic_output);
   Self::RelabelImage(output,
                      Self::ExtractEquivalencyTable(m_MergeHeirarchy,
                                                    floodLevel));
-  //thresholded_input->Delete();
+}
+
+template <class TInputImage, class TOutputImage>
+void
+WatershedImageFilter<TInputImage, TOutputImage>
+::FillBorderPixels(TInputImage *img, const RegionType &region,
+                   OutputScalarType val)
+{
+  unsigned int i;
+  typename SmartNeighborhoodIterator<TInputImage>::RadiusType
+    unaryRadius;
+  for (i=0; i < ImageDimension; ++i) unaryRadius[i] = 1;
+  
+  SmartNeighborhoodIterator<TInputImage> it(unaryRadius, img, region);
+  it.GoToBegin();
+
+  while ( ! it.IsAtEnd() )
+    {
+      if (! it.InBounds() ) it.SetCenterPixel(val);
+      ++it;
+    }
 }
 
 template< class TInputImage, class TOutputImage>
@@ -192,9 +210,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
 
   out_it = out_it.Begin();
   for (in_it = in_it.Begin(); in_it  < in_it.End(); ++in_it, ++out_it)
-    {
-    out_it.Set( in_it.Get() );
-    }
+    {    out_it.Set( in_it.Get() );    }
 }
 
 template< class TInputImage, class TOutputImage>
@@ -424,13 +440,15 @@ WatershedImageFilter<TInputImage, TOutputImage>
     {                   
       hoodRadius[i]  = 1;
     }
-  RegionNeighborhoodIterator<OutputImageType> searchIt(hoodRadius, input, output->GetRequestedRegion());
-  RegionNeighborhoodIterator<OutputImageType> labelIt(hoodRadius, output, output->GetRequestedRegion());
+  ConstNeighborhoodIterator<OutputImageType>
+    searchIt(hoodRadius, input, output->GetRequestedRegion());
+  NeighborhoodIterator<OutputImageType>
+    labelIt(hoodRadius, output, output->GetRequestedRegion());
 
   unsigned long hoodCenter = searchIt.Size() >> 1;
   unsigned long hoodSize   = searchIt.Size();
-  
-  for (searchIt.SetToBegin(), labelIt.SetToBegin(); ! searchIt.IsAtEnd();
+
+  for (searchIt.GoToBegin(), labelIt.GoToBegin(); ! searchIt.IsAtEnd();
        ++searchIt, ++labelIt)
     {
       segment_label = *labelIt[hoodCenter];
@@ -480,25 +498,29 @@ WatershedImageFilter<TInputImage, TOutputImage>
         }
 
     }
-
   // Find the depth of each segment. Depth is defined as the difference between
   // the minimum of a region and the minimum edge value.  Also record the
   // minimum edge value.
+
     for (segment_ptr = segments.begin(); segment_ptr != segments.end();
        ++segment_ptr)
-      {
-        edge_ptr = (*segment_ptr).second.EdgeTable.begin();
+      { 
+        edge_ptr = (*segment_ptr).second.EdgeTable.begin();        
         lowest_edge = (*edge_ptr).second;
+
         for (++edge_ptr; edge_ptr != (*segment_ptr).second.EdgeTable.end();
              ++edge_ptr)
           {
             if ((*edge_ptr).second < lowest_edge)
               lowest_edge = (*edge_ptr).second;
           }
+
         (*segment_ptr).second.Depth
           = lowest_edge - (*segment_ptr).second.Minimum;
+
         (*segment_ptr).second.MinimumEdgeValue = lowest_edge;
-    }  
+
+      }
 }
   
 template< class TInputImage, class TOutputImage >  
@@ -596,8 +618,10 @@ WatershedImageFilter<TInputImage, TOutputImage>
       zeroRadius[i] = 0;
     }
 
-  RandomAccessNeighborhoodIterator<InputImageType> valueIt(hoodRadius, input, output->GetRequestedRegion());
-  RandomAccessNeighborhoodIterator<OutputImageType> labelIt(zeroRadius, output, output->GetRequestedRegion());
+  ConstRandomAccessNeighborhoodIterator<InputImageType>
+    valueIt(hoodRadius, input, output->GetRequestedRegion());
+  RandomAccessNeighborhoodIterator<OutputImageType>
+    labelIt(zeroRadius, output, output->GetRequestedRegion());
   
   ImageRegionIterator<OutputImageType>
     it(output, output->GetRequestedRegion());
@@ -634,7 +658,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
           newLabel = UNLABELED_PIXEL;          // Follow the path of steep-
           while( newLabel == UNLABELED_PIXEL ) // est descent until a label
             {                                  // is found.
-              updateStack.push(labelIt.CenterPointer());
+              updateStack.push(labelIt.GetCenterPointer());
               minVal = *valueIt[0];
               moveIndex = mT[0];
               for (unsigned int i= 1; i < hoodSize; ++i)
@@ -647,7 +671,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
                 }
               valueIt += moveIndex;
               labelIt += moveIndex;
-              newLabel = *(labelIt.CenterPointer());
+              newLabel = *(labelIt.GetCenterPointer());
             }
         }
 
@@ -684,13 +708,15 @@ WatershedImageFilter<TInputImage, TOutputImage>
     {                   
       hoodRadius[i]  = 1; // Radius of 1 gives the 8-neighbors in 2D case
     }                   
-  RegionNeighborhoodIterator<InputImageType> searchIt ( hoodRadius, input, input->GetRequestedRegion());
-  RegionNeighborhoodIterator<OutputImageType> labelIt ( hoodRadius, output, input->GetRequestedRegion());
+  ConstNeighborhoodIterator<InputImageType>
+    searchIt ( hoodRadius, input, input->GetRequestedRegion());
+  NeighborhoodIterator<OutputImageType>
+    labelIt ( hoodRadius, output, input->GetRequestedRegion());
   
   unsigned int hoodSize   = searchIt.Size();
   unsigned int hoodCenter = hoodSize >> 1;
   
-  for (searchIt.SetToBegin(), labelIt.SetToBegin(); ! searchIt.IsAtEnd();
+  for (searchIt.GoToBegin(), labelIt.GoToBegin(); ! searchIt.IsAtEnd();
        ++searchIt, ++labelIt)
     {
       foundSinglePixelMinimum = true;
@@ -762,7 +788,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
         }
       else if (foundSinglePixelMinimum)
         {
-          *(labelIt.CenterPointer()) = labelCounter;
+          *(labelIt.GetCenterPointer()) = labelCounter;
           labelCounter = labelCounter + NumericTraits<OutputScalarType>::One;
         } 
     }
@@ -770,6 +796,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
   // Merge identical flat regions and relabel the image.  This step is
   // necessary because the image was labeled in a single pass from top
   // to bottom and some flat regions may not have been linked.
+  
   LabelTableType equivalentLabels
     =  Self::MergeLabelPairs(equivalentLabelStack);
   Self::MergeFlatRegions(equivalentLabels, flatRegionTable);

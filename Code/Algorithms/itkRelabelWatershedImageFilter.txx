@@ -59,8 +59,8 @@ RelabelWatershedImageFilter<TInputImage, TOutputImage>
     ::CopyOutputToOutput(output, this->GetInput());
   WatershedImageFilter<TInputImage, TOutputImage>
     ::RelabelImage(output,
-                   WatershedImageFilter<TInputImage, TOutputImage>
-                   ::ExtractEquivalencyTable(this->GetInput()->GetMergeList(),
+             WatershedImageFilter<TInputImage, TOutputImage>
+            ::ExtractEquivalencyTable(this->GetInput()->GetMergeList(),
                              (m_Level * this->GetInput()->GetMaxDepth())));
 }
 
