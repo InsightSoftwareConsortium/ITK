@@ -90,7 +90,7 @@ class Vector : public Array<T,TVectorDimension> {
   Vector(const Self& r): BaseArray(r) {}
   Vector(const typename BaseArray::Reference& r): BaseArray(r) {}
   Vector(const typename BaseArray::ConstReference& r): BaseArray(r) {}
-  Vector(const ValueType r[Length]): BaseArray(r) {}  
+  Vector(const ValueType r[VectorDimension]): BaseArray(r) {}  
   //@}
   
   /*@{
@@ -99,7 +99,7 @@ class Vector : public Array<T,TVectorDimension> {
   Vector& operator= (const Self& r);
   Vector& operator= (const BaseArray::Reference& r);
   Vector& operator= (const BaseArray::ConstReference& r);
-  Vector& operator= (const ValueType r[Length]);
+  Vector& operator= (const ValueType r[VectorDimension]);
   ArrayCommaListCopier operator= (const ValueType& r);
   //@}
   

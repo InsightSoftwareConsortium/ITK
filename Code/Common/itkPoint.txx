@@ -53,7 +53,7 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 Point<T, TPointDimension>&
 Point<T, TPointDimension>
-::operator= (const ValueType r[Length])
+::operator= (const ValueType r[PointDimension])
 {
   BaseArray::operator=(r);
   return *this;

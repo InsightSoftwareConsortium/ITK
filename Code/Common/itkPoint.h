@@ -88,7 +88,7 @@ class Point : public Array< T, TPointDimension > {
   Point(const Self& r): BaseArray(r) {}
   Point(const typename BaseArray::Reference& r): BaseArray(r) {}
   Point(const typename BaseArray::ConstReference& r): BaseArray(r) {}
-  Point(const ValueType r[Length]): BaseArray(r) {}  
+  Point(const ValueType r[PointDimension]): BaseArray(r) {}  
   //@}
   
   /*@{
@@ -97,7 +97,7 @@ class Point : public Array< T, TPointDimension > {
   Point& operator= (const Self& r);
   Point& operator= (const typename BaseArray::Reference& r);
   Point& operator= (const typename BaseArray::ConstReference& r);
-  Point& operator= (const ValueType r[Length]);
+  Point& operator= (const ValueType r[PointDimension]);
   ArrayCommaListCopier operator= (const ValueType& r);
   //@}
   
