@@ -120,7 +120,7 @@ protected:
 private:
 
   AffineTransformType      m_AffineTransform;
-  ParametersType::Pointer       m_Parameters;
+  typename ParametersType::Pointer       m_Parameters;
 
 };
 
