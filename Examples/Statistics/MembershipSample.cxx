@@ -135,7 +135,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MembershipSampleType::Iterator iter = membershipSample->Begin();
+  MembershipSampleType::ConstIterator iter = membershipSample->Begin();
   while ( iter != membershipSample->End() )
     {
     std::cout << "instance identifier = " << iter.GetInstanceIdentifier() 

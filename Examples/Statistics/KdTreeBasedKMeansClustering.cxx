@@ -356,7 +356,7 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   ClassifierType::OutputType* membershipSample = classifier->GetOutput();
-  ClassifierType::OutputType::Iterator iter = membershipSample->Begin();
+  ClassifierType::OutputType::ConstIterator iter = membershipSample->Begin();
 
   while ( iter != membershipSample->End() )
     {
