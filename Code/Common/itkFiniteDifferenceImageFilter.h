@@ -179,12 +179,12 @@ public:
   /** Set/Get the maximum error allowed in the solution.  This may not be
       defined for all solvers and its meaning may change with the application. */
   itkSetMacro(MaximumRMSError, double);
-  itkGetMacro(MaximumRMSError, double);
+  itkGetConstMacro(MaximumRMSError, double);
 
   /** Set/Get the root mean squared change of the previous iteration. May not
       be used by all solvers. */
   itkSetMacro(RMSChange, double);
-  itkGetMacro(RMSChange, double);
+  itkGetConstMacro(RMSChange, double);
 
   /** Set the state of the filter to INITIALIZED */
   void SetStateToInitialized()
