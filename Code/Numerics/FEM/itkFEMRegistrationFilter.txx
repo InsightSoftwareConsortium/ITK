@@ -23,9 +23,10 @@
 #pragma warning(disable: 4786)
 #endif
 #include <fstream>
+
 #include "itkFEMRegistrationFilter.h"
-#include "itkImageFileWriter.h"
-#include "itkRawImageIO.h"
+
+
 namespace itk {
 namespace fem {
 
@@ -126,7 +127,7 @@ void FEMRegistrationFilter<TReference,TTarget>::RunRegistration()
     IterativeSolve(m_Solver);
 
     GetVectorField(m_Solver);
-    WarpImage(); 
+    WarpImage(m_RefImg); 
   }
   else 
   {
@@ -318,13 +319,12 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
       f >> ibuf;
       this->m_MaxLevel = ibuf;
     
-    this->m_MeshElementsPerDimensionAtEachResolution.resize(m_NumLevels);
-      for (unsigned int jj=0; jj<this->m_NumLevels; jj++) 
-    {
+      this->m_MeshElementsPerDimensionAtEachResolution.resize(m_NumLevels);
+      for (unsigned int jj=0; jj<this->m_NumLevels; jj++) {
         FEMLightObject::SkipWhiteSpace(f);
         f >> ibuf;
         this->m_MeshElementsPerDimensionAtEachResolution(jj) = ibuf;
-    }
+      }
     }
     else { this->DoMultiRes(false); }
 
@@ -362,7 +362,8 @@ int FEMRegistrationFilter<TReference,TTarget>::WriteDisplacementField(unsigned i
   // Write the single-index field to a file
   //   itk::ImageRegionIteratorWithIndex<FloatImageType> it( fieldImage, fieldImage->GetLargestPossibleRegion() );
   //   for (; !it.IsAtEnd(); ++it) { std::cout << it.Get() << "\t"; }
-  typedef typename itk::RawImageIO<float,ImageDimension> IOType;
+  typedef typename FloatImageType::PixelType FType;
+  typedef typename itk::RawImageIO<FType,ImageDimension> IOType;
   IOType::Pointer io = IOType::New();
   typedef typename itk::ImageFileWriter<FloatImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();
@@ -378,7 +379,7 @@ int FEMRegistrationFilter<TReference,TTarget>::WriteDisplacementField(unsigned i
 
 
 template<class TReference,class TTarget>
-void FEMRegistrationFilter<TReference,TTarget>::WarpImage()
+void FEMRegistrationFilter<TReference,TTarget>::WarpImage(ImageType* ImageToWarp)
 {
  // -------------------------------------------------------
   std::cout << "Warping image" << std::endl;
@@ -416,7 +417,7 @@ void FEMRegistrationFilter<TReference,TTarget>::WarpImage()
 
       if (InImage)
       {
-        ImageDataType t = (ImageDataType) m_RefImg->GetPixel(tindex);
+        ImageDataType t = (ImageDataType) ImageToWarp->GetPixel(tindex);
         m_WarpedImage->SetPixel(rindex, t );
       }
       else m_WarpedImage->SetPixel(rindex,1);
@@ -437,11 +438,11 @@ void FEMRegistrationFilter<TReference,TTarget>::WarpImage()
   InterpolatorType1::Pointer interpolator = InterpolatorType1::New();
   
   warper = WarperType::New();
-  warper->SetInput( m_RefImg );
+  warper->SetInput( ImageToWarp );
   warper->SetDeformationField( m_Field );
   warper->SetInterpolator( interpolator );
-  warper->SetOutputSpacing( m_RefImg->GetSpacing() );
-  warper->SetOutputOrigin( m_RefImg->GetOrigin() );
+  warper->SetOutputSpacing( ImageToWarp->GetSpacing() );
+  warper->SetOutputOrigin( ImageToWarp->GetOrigin() );
   typename ImageType::PixelType padValue = 1;
   warper->SetEdgePaddingValue( padValue );
   warper->Update();
@@ -468,7 +469,19 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(ImageSizeType MeshOri
     ElementsPerDimension[i]=(double)ElementsPerSide;
   }
 
-// FIXME when mesh input is available
+/*  if (m_ReadMeshFile)
+  {
+    ifstream meshstream(m_MeshFileName); 
+    mySolver.Read(meshtream);
+    itk::fem::MaterialLinearElasticity::Pointer m=mySolver.mat.Find(0);
+    m->E=this->GetElasticity();  // Young modulus -- used in the membrane ///
+    m->A=1.0;     // Crossection area ///
+    m->h=1.0;     // Crossection area ///
+    m->I=1.0;    // Moment of inertia ///
+    m->nu=0.; //.0;    // poissons -- DONT CHOOSE 1.0!!///
+    m->RhoC=1.0;
+  }
+  else*/ 
   if (ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral*>(m_Element) != NULL)
   {
     Generate2DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDimension); 
@@ -675,7 +688,7 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
    iters++;
    // uncomment to write out every deformation SLOW due to interpolating vector field everywhere.
    //GetVectorField();
-   //WarpImage();
+   //WarpImage(m_RefImg);
    //WriteWarpedImage(m_ResultsFileName);
    
    m_TotalIterations++;
@@ -910,7 +923,7 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
 
     //for (unsigned int m=0; m < m_MeshLevels; m++) // mesh resolution loop
     {
-      double MeshResolution=m_MeshResolution/ m_ImageScaling[0]; //pow((double)m_MeshStep,(double)m_MeshLevels-1.0-(double)m);
+      double MeshResolution=(double)this->m_MeshElementsPerDimensionAtEachResolution(i);//m_MeshResolution/ m_ImageScaling[0]; //pow((double)m_MeshStep,(double)m_MeshLevels-1.0-(double)m);
 
       Rcaster2 = CasterType2::New();// Weird - don't know why but this worked
       Tcaster2 = CasterType2::New();// and declaring the casters outside the loop did not.
@@ -921,8 +934,7 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
       SSS.SetRho(m_Rho);     
       SSS.SetAlpha(m_Alpha);    
 
-      CreateMesh(m_ImageOrigin,Isz,
-      (double)this->m_MeshElementsPerDimensionAtEachResolution(i),SSS); 
+      CreateMesh(m_ImageOrigin,Isz,MeshResolution,SSS); 
       SSS.GenerateGFN();
       ApplyLoads(SSS,Isz);
  
@@ -972,7 +984,7 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
       if ( i == m_MaxLevel-1) 
       { 
       //  m_RefImg=Tcaster2->GetOutput(); // for testing
-        WarpImage();     
+        WarpImage(m_RefImg);     
       } 
       
     }// end mesh resolution loop

@@ -22,6 +22,8 @@
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
 
 #include "itkImage.h"
+#include "itkImageFileWriter.h" 
+#include "itkRawImageIO.h" 
 #include "itkCastImageFilter.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkVector.h"
@@ -99,7 +101,7 @@ namespace fem {
 */
 
 template<class TReference,class TTarget> 
-class FEMRegistrationFilter //: public ImageToImageFilter<TReference, TTarget>
+class /* ITK_EXPORT */ FEMRegistrationFilter //: public ImageToImageFilter<TReference, TTarget>
 {
 public:
   typedef FEMRegistrationFilter                              Self;
@@ -122,7 +124,7 @@ public:
   typedef typename ImageType::SizeType              ImageSizeType;
   typedef ImageToImageMetric<TTarget,TReference >   MetricBaseType;
   typedef typename MetricBaseType::Pointer          MetricBaseTypePointer;
-  typedef itk::Vector<Float,ImageDimension>         VectorType;
+  typedef itk::Vector<float,ImageDimension>         VectorType;
   typedef itk::Image<VectorType,ImageDimension>     FieldType;
   typedef itk::WarpImageFilter<ImageType,ImageType, FieldType> WarperType;
   typedef itk::ImageRegionIteratorWithIndex<ImageType>         ImageIterator; 
@@ -183,14 +185,14 @@ public:
   /** This is used for changing between mesh resolutions. */
   void      SampleVectorFieldAtNodes(SolverType& S);
 
-  /** Applies the warp to the reference image. */
-  void      WarpImage();      
+  /** Applies the warp to the input image. */
+  void      WarpImage(ImageType* R);      
 
   /** Writes the displacement field to a file. */
   int       WriteDisplacementField(unsigned int index);
 
   /** Set the following parameters to run the example */
-  /** One can set the referencen file names to read images from files */
+  /** One can set the reference file names to read images from files */
   void      SetReferenceFile(const char* r) {m_ReferenceFileName=r;}
   const char* GetReferenceFile() {return m_ReferenceFileName;}
   void      SetTargetFile(const char* t) {m_TargetFileName=t;}
@@ -202,6 +204,8 @@ public:
   void SetTargetImage(TargetImageType* T);
   ImageType* GetReferenceImage(){return m_RefImg;}
   TargetImageType* GetTargetImage(){return m_TarImg;}
+  ImageType* GetWarpedImage(){return m_WarpedImage;}
+  FieldType* GetDeformationField(){return m_Field;}
 
   void      SetLandmarkFile(const char* l) {m_LandmarkFileName=l; }
   void      SetResultsFile(const char* r) {m_ResultsFileName=r;}
