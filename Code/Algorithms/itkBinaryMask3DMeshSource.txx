@@ -46,6 +46,7 @@ BinaryMask3DMeshSource<TOutputMesh>
   m_CurrentRow = 0;
   m_LastRowNum = 0;
   m_LastFrameNum = 0;
+  m_LastFrame = 0;
   m_CurrentRowNum = 200;
   m_CurrentFrameNum = 2000;
   this->GetOutput()->GetPoints()->Reserve(m_NodeLimit);
@@ -75,6 +76,14 @@ BinaryMask3DMeshSource<TOutputMesh>
       free(m_CurrentRow[i]);
       }
     free (m_CurrentRow);
+    }
+  if (m_LastFrame)
+    {
+    for (i = 0; i < m_LastFrameNum; i++)
+      {
+      free(m_LastFrame[i]);
+      }
+    free (m_LastFrame);
     }
 }
 
@@ -1182,6 +1191,7 @@ BinaryMask3DMeshSource<TOutputMesh>
       for ( i=0; i<m_LastFrameNum; i++ ) 
           free (m_LastFrame[i]);
       free (m_LastFrame);
+      m_LastFrame = 0;
     }
   } 
 
@@ -2186,6 +2196,8 @@ BinaryMask3DMeshSource<TOutputMesh>
   for ( i=0; i<4; i++ ) free (currentframetmp[i]);
   free (currentframetmp);
 
+  free (tp);
+  free (tpl);
   m_LastVoxel[4] = m_CurrentVoxel[2]; 
   m_LastVoxel[9] = m_CurrentVoxel[10];
   m_LastVoxel[8] = m_CurrentVoxel[6];
