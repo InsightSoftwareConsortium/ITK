@@ -20,8 +20,6 @@
 #include "itkTransformation.h"
 #include "itkPoint.h"
 #include "itkVector.h"
-#include "itkVectorContainer.h"
-//#include "itkAffineTransformation.h"
 #include "itkAffineTransform.h"
 
 namespace itk
@@ -34,7 +32,8 @@ namespace itk
  *
  */
 
-template <class TScalarType,unsigned int NDimensions>
+template <class TScalarType,unsigned int NDimensions,
+          class TParameters=Point<TScalarType,NDimensions*(NDimensions+1)> >
 class ITK_EXPORT  AffineRegistrationTransform : 
             public Transformation<TScalarType,NDimensions>
 				
@@ -72,20 +71,14 @@ public:
   /** 
    * Type of the input parameters
    */
-  typedef VectorContainer<unsigned int,TScalarType>  ParametersType;
-
-
-  /** 
-   * Pointer Type to input parameters
-   */
-  typedef  typename ParametersType::Pointer  ParametersPointer;
+  typedef  TParameters     ParametersType;
 
 
   /** 
    * Affine Transform Type
    */
-//typedef  AffineTransformation<TScalarType,NDimensions>      AffineTransformType;
-  typedef  AffineTransform<TScalarType,NDimensions>           AffineTransformType;
+  typedef  AffineTransform<TScalarType,NDimensions>    AffineTransformType;
+
 
   /** 
    * Point Type
@@ -115,13 +108,13 @@ public:
   /**
    * Transform a Point using the Affine transformation
    */
-  PointType Transform( PointType & point );
+  PointType Transform( const PointType & point ) const;
 
   /**
    * Set the Transformation Parameters
    * and update the internal transformation
    */
-  void SetParameters(const ParametersPointer &);
+  void SetParameters(const ParametersType &);
 
 
   /**
@@ -144,7 +137,7 @@ protected:
 private:
 
   AffineTransformType                 m_AffineTransform;
-  typename ParametersType::Pointer    m_Parameters;
+  ParametersType                      m_Parameters;
 
   mutable JacobianType                m_Jacobian;     
 

@@ -30,8 +30,7 @@ template <class TScalarType,unsigned int NDimensions>
 AffineRegistrationTransform<TScalarType,NDimensions>
 ::AffineRegistrationTransform()
 { 
-  m_Parameters = ParametersType::New();
-  m_Parameters->Reserve(ParametersDimension);
+
 }
 
 
@@ -65,7 +64,7 @@ AffineRegistrationTransform<TScalarType,NDimensions>
 template <class TScalarType,unsigned int NDimensions>
 AffineRegistrationTransform<TScalarType,NDimensions>::PointType
 AffineRegistrationTransform<TScalarType,NDimensions>
-::Transform( PointType & point )
+::Transform( const PointType & point ) const
 {
   return m_AffineTransform.Transform( point );
 }
@@ -78,37 +77,23 @@ AffineRegistrationTransform<TScalarType,NDimensions>
 template <class TScalarType,unsigned int NDimensions>
 void
 AffineRegistrationTransform<TScalarType,NDimensions>
-::SetParameters(const ParametersPointer & parameters )
+::SetParameters(const ParametersType & parameters )
 {
 
-  if( parameters->Size() != m_Parameters->Size() )
-  {
-    throw ExceptionObject();
-  }
+  m_Parameters = parameters;
   
-
-  // Copy Parameters Vector
-  ParametersType::ConstIterator it = parameters->Begin();
-  ParametersType::Iterator      ot = m_Parameters->Begin();
-  while( it != parameters->End() )
-  {
-    ot.Value() = it.Value();
-    ++it;
-    ++ot;
-  }
-
+  typename AffineTransformType::MatrixType  linear;
+  typename AffineTransformType::VectorType  constant;
   
-  typename AffineTransformType::MatrixType linear;
-  typename AffineTransformType::VectorType constant;
-  
-  ParametersType::ConstIterator pit = m_Parameters->Begin();
-
   // Transfer the linear part
+  unsigned int par = 0;
+
   for(unsigned int row=0; row<NDimensions; row++) 
   {
     for(unsigned int col=0; col<NDimensions; col++) 
     {
-      linear[row][col] = pit.Value();
+      linear[row][col] = m_Parameters[par];
+      ++par;
       ++pit;
     }
   }
@@ -116,7 +101,8 @@ AffineRegistrationTransform<TScalarType,NDimensions>
   // Transfer the constant part
   for(unsigned int i=0; i<NDimensions; i++) 
   {
-    constant[i] = pit.Value();
+    constant[i] = m_Parameters[par];
+    ++par;
     ++pit;
   }
 
