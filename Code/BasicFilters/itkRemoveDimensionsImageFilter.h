@@ -45,13 +45,13 @@ namespace itk
 template <class TInputImage, unsigned int outputImageDimension>
 class ITK_EXPORT RemoveDimensionsImageFilter:
   public ImageToImageFilter<TInputImage, 
-                            Image< TInputImage::PixelType, outputImageDimension> >
+                            Image< typename TInputImage::PixelType, outputImageDimension> >
 {
 public:
   /** Standard class typedefs. */
   typedef RemoveDimensionsImageFilter Self;
   typedef ImageToImageFilter<TInputImage, 
-                             Image<TInputImage::PixelType, outputImageDimension> >  Superclass;
+                             Image<typename TInputImage::PixelType, outputImageDimension> >  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -62,7 +62,7 @@ public:
   itkTypeMacro(RemoveDimensionsImageFilter, ImageToImageFilter);
 
   /** typedef the output image type */
-  typedef Image< TInputImage::PixelType, outputImageDimension>  TOutputImage;
+  typedef Image< typename TInputImage::PixelType, outputImageDimension>  TOutputImage;
 
 
   /** Typedef to describe the output and input image region types. */
