@@ -116,7 +116,9 @@ ENDIF(USE_VTK)
 # Add an option to use or not use FLTK (http://www.fltk.org)
 OPTION(USE_FLTK "Use FLTK (The Fast Light Toolkit) for GUI (some examples need this)" 0)
 IF(USE_FLTK)
-  INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindFLTK.cmake)
+  IF(USE_FLTK_VERSION_1.0.11)
+    MESSAGE(SEND_ERROR "FLTK Version 1.0.11 is no longer supported in ITK. Please upgrade to FLTK version 1.1")
+  ENDIF(USE_FLTK_VERSION_1.0.11)
 ENDIF(USE_FLTK)
 
 
