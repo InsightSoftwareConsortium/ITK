@@ -103,7 +103,7 @@ private:
   GaussianFilterPointer         m_SmoothingFilters[ImageDimension-1];
   GaussianFilterPointer         m_DerivativeFilter;
 
-  CumulativeImageType::Pointer  m_CumulativeImage;
+  typename CumulativeImageType::Pointer  m_CumulativeImage;
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 
