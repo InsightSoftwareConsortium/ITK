@@ -318,7 +318,7 @@ int main( int argc, char *argv[] )
   //  We also set the optimizer to do minimization by calling the
   //  \code{MinimizeOn()} method.
   //
-  //  \index{itk::RegularStepGradientDescentOptimizer!MinimizeOn()}
+  //  \index{itk::Regular\-Step\-Gradient\-Descent\-Optimizer!MinimizeOn()}
   //
   //  Software Guide : EndLatex 
 
