@@ -51,7 +51,7 @@
     ParametersType  initialMeans( numberOfClasses );
     for(unsigned int cl=0; cl<numberOfClasses; cl++)
       {
-      initialMeans[0] = this->m_InitialMeans[cl];
+      initialMeans[cl] = this->m_InitialMeans[cl];
       }
 
     estimator->SetParameters( initialMeans );
