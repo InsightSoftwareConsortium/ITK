@@ -202,7 +202,7 @@ int main( int argc, char ** argv )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=12cm]{ResampleImageFilterTransformComposition1.eps}
+  // \includegraphics[width=14cm]{ResampleImageFilterTransformComposition1.eps}
   // \caption{Effect of selecting the origin of the output image}
   // \label{fig:ResampleImageFilterTransformComposition1}
   // \end{figure}
@@ -256,7 +256,7 @@ int main( int argc, char ** argv )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=12cm]{ResampleImageFilterTransformComposition2.eps}
+  // \includegraphics[width=14cm]{ResampleImageFilterTransformComposition2.eps}
   // \caption{Effect of selecting the origin of the output image}
   // \label{fig:ResampleImageFilterTransformComposition2}
   // \end{figure}
@@ -282,7 +282,7 @@ int main( int argc, char ** argv )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=12cm]{ResampleImageFilterTransformComposition3.eps}
+  // \includegraphics[width=14cm]{ResampleImageFilterTransformComposition3.eps}
   // \caption{Effect of selecting the origin of the input image}
   // \label{fig:ResampleImageFilterTransformComposition3}
   // \end{figure}
@@ -300,6 +300,109 @@ int main( int argc, char ** argv )
     writer->Update();
     }
 
+
+  //  Software Guide : BeginLatex
+  //
+  //  Let's consider now the effect of the spacing on the process of image
+  //  resampling.   //  In order to simplify the analysis, let's put the origin back to zero in
+  //  both the input and output images. 
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  origin[0] = 0.0;  // X space coordinate of origin
+  origin[1] = 0.0;  // Y space coordinate of origin
+
+  filter->SetOutputOrigin( origin );
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Then, setup a specific spacing for the output image.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  spacing[0] = 2.0; // pixel spacing in millimeters along X
+  spacing[1] = 3.0; // pixel spacing in millimeters along Y
+
+  filter->SetOutputSpacing( spacing );
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  and reduce a bit the image extent, since the new pixels are covering a
+  //  larger area of $2.0\mbox{mm} \times 3.0\mbox{mm}$.
+  //
+  //  Software Guide : EndLatex 
+
+
+  // Software Guide : BeginCodeSnippet
+  size[0] = 80;  // number of pixels along X
+  size[1] = 50;  // number of pixels along Y
+
+  filter->SetSize( size );
+  // Software Guide : EndCodeSnippet
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  With these new parameters the physical extent of the image is $160$
+  //  millimeters by $150$ millimeters. 
+  //
+  //  Software Guide : EndLatex 
+
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Before attempting to analyze the effect of the resampling image filter it
+  //  is important to make sure that the image viewer used to display the input
+  //  and output images take the spacing into account and use it to
+  //  apropriately scale the images on the screen. Please note that images in
+  //  formats like PNG are not capable of representing origin and spacing. The
+  //  tookit assume trivial default values for them. Figure
+  //  \ref{fig:ResampleImageFilterOutput7}(center) illustrates the effect of
+  //  using a naive viewer that does not take pixel spacing into accout. A
+  //  correct display is presented at the right in the same figure.
+  // 
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=4cm]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=4cm]{ResampleImageFilterOutput7.eps}
+  // \includegraphics[width=4cm]{ResampleImageFilterOutput7b.eps}
+  // \caption{Resampling with different spacing seen by naive viewer (center) and a correct viewer (right)}
+  // \label{fig:ResampleImageFilterOutput7}
+  // \end{figure}
+  //
+  //
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=14cm]{ResampleImageFilterTransformComposition4.eps}
+  // \caption{Effect of selecting the spacing on the output image}
+  // \label{fig:ResampleImageFilterTransformComposition4}
+  // \end{figure}
+  //
+  // The same output is analyzed in a common coordinate system on figure
+  // \ref{fig:ResampleImageFilterTransformComposition4}. In this figure pixel
+  // $I=(33,27)$ of the output image is located at coordinates $P=(66.0,81.0)$
+  // of the physical space. The identity transform maps this point to
+  // $Q=(66.0,81.0)$ in the input image physical space. The point $Q$ is then
+  // associated to the pixel of index $I=(66,81)$ on the input image, because
+  // this image has zero origin and unit spacing.
+  //
+  //  Software Guide : EndLatex 
+
+
+
+  if( exampleAction == 3 )
+    {
+    writer->Update();
+    }
 
   return 0;
 
