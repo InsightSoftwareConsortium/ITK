@@ -52,6 +52,24 @@ namespace itk{
 /** /class SimpleFuzzyConnectednessImageFilterBase
  * \brief Base class for FuzzyConnectednessImageFilter object.
  *
+ * Fuzzy connectedness image filter works on multi-dimensional image.
+ * Fuzzy affinity is defined between two nearby pixels in a image, it has
+ * higher value when the two pixel are closer, and the pixel value is similar
+ * also both of them are similar to the defined object pixels.
+ * Strength of a "path" between two pixels was defined as the weakest affinity
+ * between pairs of connected pixels along the "path",
+ * Fuzzy Connectedness of two pixels was defined as the strongest path strength
+ * among all possible paths between the two pixels.
+ * A fuzzy object was defined as the collection of pixels that within this collection
+ * each pair of pixel have a strong fuzzy connectedness (say, above some threshold)
+ * any pixel outside the object will have a weak fuzzy connectedness to any pixels
+ * inside the object.
+ * The simple fuzzy connectedness image filter implents the compute of a fuzzy 
+ * object by given prior information of the object.
+ * this is the base class, all sub-classes should implement the definition of
+ * fuzzy affinity between two nearby pixels. In this segmenation, all fuzzy affinity
+ * was only defined between the 4-connected neighbor pixels.
+ *
  * Detail information about this algorithm can be found in:
  *  "Fuzzy Connectedness and Object Definition: Theory, Algorithms,
  *    and Applications in Image Segmentation", J. Udupa and S. Samarasekera
