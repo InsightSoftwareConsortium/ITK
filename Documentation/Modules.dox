@@ -1,0 +1,333 @@
+/**
+  \page Modules
+ 
+  Insight methods can be classified by a number of different characteristics.
+  This page is an auxiliary index that will help users to find the classes they
+  need.
+  
+ */
+
+/**
+
+  \defgroup Geometry Geometry
+  This category include the objects required to represent geometrical entities
+  like positions, distances and mappings.
+*/
+ 
+/**
+
+  \defgroup Filters Filters
+  Filters implement the operations on the pipeline architecture.
+*/
+
+/**
+  \defgroup ImageFilters Image Filters
+  \ingroup Filters
+
+  Image filters process input images and produce output images. Inputs are
+  unmodified. The pipeline architecture make provisions for supporting
+  streaming by using packets of data defined by regions
+  \sa Image
+  \sa PhysicalImage
+  \sa ImageRegion
+
+*/
+
+/**
+  \defgroup MeshFilters Mesh Filters
+  \ingroup Filters
+
+  Mesh filters process input meshes and produce output meshes. Inputs are
+  unmodified. 
+  \sa Mesh
+
+*/
+
+/**
+  \defgroup IntensityImageFilters Intensity Image Filters 
+  \ingroup ImageFilters
+
+  Intensity Image filters only alter the values stored in image pixels.
+  \sa Image
+  \sa PhysicalImage
+  \sa ImageRegion
+
+*/
+
+
+
+/**
+\defgroup Functions Functions
+Functions provide an eficient mechanism for computing values
+*/
+
+/**
+\defgroup ImageFunctions Image Functions
+\ingroup Functions
+Image functions compute single values using data from a previously
+specified Image. The value is computed in a position of
+the image grid space defined by an Index.
+
+\sa Image
+\sa Index
+\sa ImageFunction
+*/
+
+/**
+\defgroup ContinuousImageFunctions Continuous Image Functions
+\ingroup ImageFunctions
+Continuous image functions compute single values using data from an
+Image previously specified. The value is computed in a position of
+the continuous space defined by a Point.
+\sa Image
+\sa Point
+\sa ImageFunction
+*/
+
+
+/**
+\defgroup Operators Operators
+Operators implements the abstraction of performing an operation using data
+froma a neighborhood of a pixel. ITK Operators work in conjunction with
+Neighborhood iterators in order to walk over an image.
+*/
+
+
+/**
+
+\defgroup Algorithms Algorithms
+Algorithms are classes that implement a procedure.  
+*/
+
+/**
+ \defgroup ImageEnhancement Image Enhancement Algorithms
+ \ingroup Algorithms
+ Image enhancement algorithms process an image to enhance the apperance 
+ of an image either for visualization purposes or for further processing.
+ Examples of image enhancement algorithms available in ITK are: anistropic diffusion,
+ gaussian filter, and histogram equalization.
+*/  
+
+/**
+ \defgroup ImageFeatureExtraction Image Feature Extraction Algorithms
+ \ingroup Algorithms
+ Image feature extraction algorithms process an image to extract features of interest
+ such as gradients, edges, distances, etc. 
+ Examples of image feature extraction algorithms available in ITK are: image gradients, 
+ first and second derivatives, and Danielson distance.
+*/  
+
+
+/**
+ \defgroup ImageSegmentation Image Segmentation Algorithms
+ \ingroup Algorithms
+ Image segmentation algorithms process an image to 
+ partition it into meaningful regions. Various types of image segmentation algorithms 
+ are available in ITK - some examples are, unsupervised pixel classification methods, region-growing methods, 
+ watershed-based methods, deformable-model based methods, and level-set based methods. 
+*/  
+
+/**
+ \defgroup IntensityImageSegmentation Intensity-Based Image Segmentation Algorithms
+ \ingroup ImageSegmentation
+ Intensity based image segmentation algorithms use intensity values  
+ of image pixels to segment an image. Typically, spatial continguity is not not considered in 
+ intensity-based segmentation algorithms. 
+ Examples of intensity based algorithms in ITK are supervised and unsupervised pixel classification algorithms.
+*/  
+
+/**
+ \defgroup ClassificationAlgorithms Classification Algorithms
+ \ingroup IntensityImageSegmentation
+  Classification algorithms use statistical classification algorithms to assign a label to 
+a given image pixel. Classification algorithms can be supervised when training data is available 
+or unsupervised when no training data is available. 
+*/  
+
+/**
+ \defgroup SupervisedClassificationAlgorithms Supervised Classification Algorithms
+ \ingroup ClassificationAlgorithms
+ Supervised classification algorithms rely on the existence of training data to classify 
+ pixels into different types. An example of supervised classification algorithms in ITK is
+ the Gaussian classifier which uses the training data to build Gaussian models of intensity distributions.
+*/  
+
+/**
+ \defgroup UnSupervisedClassificationAlgorithms Unsupervised Classification Algorithms
+ \ingroup ClassificationAlgorithms
+ Unsupervised classification algorithm typically cluster the image intensity data into different groups. 
+ An example of unsupervised classification algorithm in ITK is the K-Means clustering algorithm. 
+*/
+
+/**
+ \defgroup WatershedSegmentation Watershed-based Segmentation Algorithms
+ \ingroup IntensityImageSegmentation
+ These algorithms segment an image based on intensity values usign the watershed algorithm.  
+*/  
+
+
+/**
+ \defgroup RegionBasedSegmentation Region-Based Segmentation Algorithms
+ \ingroup IntensityImageSegmentation
+ These algorithms segment an image based on similarity of intensity values between spatially adjacent 
+ pixels. Examples of region-based segmentation algorithms in ITK include fuzzy connectedness, region growing, and 
+ Markov Random Fields.
+*/
+
+/**
+ \defgroup FuzzyConnectednessSegmentation  Fuzzy Connectedness-based Segmentation Algorithms
+ \ingroup RegionBasedSegmentation
+ These algorithms segment an image based on fuzzy connectedness principles. Here you typically 
+start with one or more seed points and grow regions around these seed points based on fuzzy affinity.
+*/  
+
+/**
+ \defgroup RegionGrowingSegmentation Region Growing Algorithms
+ \ingroup RegionBasedSegmentation
+Typically region growing involves starting several small regions on an image and merging them iteratively based on some 
+pixel intensity similarity critereon. ITK provides a intensity and edge-based region growing algorithm for segmentation.
+*/
+
+
+/**
+ \defgroup MRFAlgorithms Markov Random Field-based Algorithms
+ \ingroup RegionBasedSegmentation
+Markov Random Field (MRF)-based algorithms assume that the segmented image is Markovian in nature, i.e., adjacent 
+pixels are likely to be of the same class. These methods typically combine intensity-based algorithms with MRF prior 
+models also known as Gibbs prior models.
+*/
+
+
+
+/**
+ \defgroup ModelImageSegmentation Model-Based Image Segmentation Algorithms
+ \ingroup ImageSegmentation
+ These algorithms segment an image by starting with a model and then updating the model based on 
+image features and the updates are typically constrained by a-priori knowledge about the models. 
+Examples of these types of algorithms in ITK include: deformable model (snakes)-based algorithms and level-set based
+algorithms.
+*/  
+
+/**
+ \defgroup MeshSegmentation Mesh Segmentation Algorithms
+ \ingroup ModelImageSegmentation
+These algorithms represent models using a mesh and update the models based on image features. 
+Examples of this type of filter in ITK include: balloon force filter and the deformable mesh filter.
+*/  
+
+/**
+ \defgroup LevelSetSegmentation Level Set-Based Segmentation Algorithms
+ \ingroup ModelImageSegmentation
+ These algorithms represent models implicitly using level-sets and update the models based on image features. 
+Examples of these types of segmentation methods in ITK include: curvature flow-based algorithms, 
+  fast marching algorithms, and shape-detection algorithms.
+*/  
+
+
+
+/**
+ \defgroup RegistrationAlgorithms Registration Algorithms
+ \ingroup Algorithms
+*/  
+
+
+/**
+ \defgroup ImageRegistration Image Registration Methods
+ \ingroup RegistrationAlgorithms
+*/  
+
+/**
+ \defgroup RigidImageRegistration Rigid Registration Methods
+ \ingroup ImageRegistration
+*/  
+
+/**
+ \defgroup AffineImageRegistration Affine Registration Methods
+ \ingroup ImageRegistration
+*/  
+
+
+/**
+ \defgroup DeformableImageRegistration Deformable Registration Methods
+ \ingroup ImageRegistration
+*/  
+
+/**
+ \defgroup ModelImageRegistration Model - Image Registration Methods
+ \ingroup RegistrationAlgorithms
+*/  
+
+/**
+ \defgroup PointSetToImageRegistration PointSet to Image Registration Methods
+ \ingroup ModelImageRegistration
+*/  
+
+/**
+ \defgroup GeometricTransforms Geometric Transformation Algorithms
+ \ingroup Algorithms
+ Geometric transformation algorithms transform the coordinates of an image in various ways. 
+ Examples of geometric transformation algorithms available in ITK are: image shrinking, and 
+ affine transformation.
+
+*/  
+
+
+
+/**
+
+  \defgroup PipeLine Pipeline Architecture
+  Insight is committed to supporting large data sets. Insight uses
+  a data pipeline mechanism that can process large datasets by sequentially
+  sending subregions to process objects.
+  
+*/
+
+/**
+  \defgroup DataObjects Data Objects
+ 
+ Data Objects are containers for bulk data. Data objects are passed between
+ process objects serving as links or connections in the data pipeline.
+ 
+ */
+
+/**
+  \defgroup Numerics Numerics
+ 
+  Insight provides support for numerical operations at two levels. First, 
+  Insight uses an external library called VNL which is one component of
+  the VXL toolkit. This library provides linear algebra, optimization, 
+  and fft's. Second, Insight provides numerical optimizers
+  designed for the registration framework and statistical
+  classes designed to be used for classification and segmentation.
+ 
+ */
+
+
+/**
+ \defgroup ThreadSafe Thread Safe classes
+ \ingroup ThreadSafety
+*/  
+
+/**
+
+  \defgroup ThreadSafety  Thread Safety
+  This groups catalog classes according to its compliance with thread safety.
+  ITK is designed to be thread-safe, but in some particular cases this
+  capability can not be supported and for this reason a classification is
+  needed.
+
+*/  
+
+
+/**
+ \defgroup ThreadUnSafe Thread Unsafe classes
+ \ingroup ThreadSafety
+*/  
+
+/**
+ \defgroup ThreadSafetyUnknown
+ \ingroup ThreadSafety
+*/
+
+
+
