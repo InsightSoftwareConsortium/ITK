@@ -61,35 +61,49 @@ int main(
     char *argv[])
 {
 
-		const double ACCEPTABLE_ERROR = 1E-10;
+    const double ACCEPTABLE_ERROR = 1E-10;
 
     typedef itk::RT3DTransform<> RT3DTransformType;
 
-		RT3DTransformType::Pointer transform = RT3DTransformType::New();
-		transform->SetRT3DParameters(1,5,45,45);
-		PointType p;
-		p[0] = 3;
-		p[1] = 3;
-		p[2] = 25;
+    RT3DTransformType::Pointer transform = RT3DTransformType::New();
+    transform->SetRT3DParameters(1,5,45,45);
+    PointType p;
+    p[0] = 3;
+    p[1] = 3;
+    p[2] = 25;
+
+    std::cout<< "original values of (theta,phi,r) p = "<<std::endl;
+    PrintPoint(p);
+
+    transform->SetForwardIsIndexToPhysical();
+
+    PointType answer = transform->TransformPoint(p);
+    PrintPoint(answer);
+
+    PointType answerBackwards = transform->BackTransformPoint(answer);
+    PrintPoint(answerBackwards);
+
+    transform->SetForwardIsPhysicalToIndex();
+    PointType reverseDirectionAnswer = transform->BackTransformPoint(answerBackwards);
+    PrintPoint(reverseDirectionAnswer);
+
+    PointType reverseDirectionAnswerBackwards = transform->TransformPoint(reverseDirectionAnswer);
+    PrintPoint(reverseDirectionAnswerBackwards);
+
 		
-		std::cout<< "original values of (theta,phi,r) p = "<<std::endl;
-		PrintPoint(p);
-
-		PointType answer = transform->TransformPoint(p);
-		PrintPoint(answer);
-
-		PointType answerBackwards = transform->BackTransform(answer);
-		PrintPoint(answerBackwards);
 
     bool same=true;
     for (unsigned int i=0; i < p.PointDimension && same; i++)
-			{ 
-			same = (abs(p[i] - answerBackwards[i]) < ACCEPTABLE_ERROR);
-			}
-    if (!same) {
-			std::cout << "itkRT3DTransformTest failed" <<std::endl;
-			return EXIT_FAILURE;
-		}
-		std::cout << "itkRT3DTransformTest passed" <<std::endl;
-		return EXIT_SUCCESS;
+      { 
+      same = ((abs(p[i] - answerBackwards[i]) < ACCEPTABLE_ERROR) && 
+      (abs(p[i] - reverseDirectionAnswerBackwards[i]) < ACCEPTABLE_ERROR) && 
+      (abs(answer[i] - reverseDirectionAnswer[i]) < ACCEPTABLE_ERROR)) ;
+      }
+    if (!same) 
+      {
+      std::cout << "itkRT3DTransformTest failed" <<std::endl;
+      return EXIT_FAILURE;
+      }
+    std::cout << "itkRT3DTransformTest passed" <<std::endl;
+    return EXIT_SUCCESS;
 }
