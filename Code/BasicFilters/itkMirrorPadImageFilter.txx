@@ -509,9 +509,7 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
   // For n dimensions, there are k^n combinations of before, between, and
   // after on these regions.  We are keeping this flexible so that we 
   // can handle other blockings imposed by the mirror and wrap algorithms.
-  long inRegIndices[ImageDimension];
   long inRegLimit[ImageDimension];
-  long outRegIndices[ImageDimension];
   long outRegLimit[ImageDimension];
   long minIndex[ImageDimension], maxIndex[ImageDimension];
   int numPre[ImageDimension], numPost[ImageDimension], numIn[ImageDimension];
@@ -537,9 +535,7 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
         outputIndex[dimCtr]-inputIndex[dimCtr]
         - static_cast<long>(inputSize[dimCtr]));
       inRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
-      inRegIndices[dimCtr] = inRegLimit[dimCtr] - 1;
       outRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
-      outRegIndices[dimCtr] = outRegLimit[dimCtr] - 1;
       numRegions *= outRegLimit[dimCtr];
       outputRegionStart[dimCtr].resize(outRegLimit[dimCtr]);
       outputRegionSizes[dimCtr].resize(outRegLimit[dimCtr]);
