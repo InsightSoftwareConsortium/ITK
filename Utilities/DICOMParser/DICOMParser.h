@@ -76,33 +76,33 @@ class DICOMParser
   enum VRTypes 
     {
       VR_UNKNOWN = 0x0,
-      VR_OB=0x424f,
-      VR_AW=0x5741,
-      VR_AE=0x4541,
-      VR_AS=0x5341,
-      VR_CS=0x5343,
-      VR_UI=0x4955,
-      VR_DA=0x4144,
-      VR_DS=0x5344,
-      VR_DT=0x5444,
-      VR_IS=0x5349,
-      VR_LO=0x4f4c,
-      VR_LT=0x544c,
-      VR_OW=0x574f,
-      VR_PN=0x4e50,
-      VR_ST=0x5453,
-      VR_TM=0x4d54,
+      VR_OB=0x424f, // Other byte string (string of bytes, insensitive to byte order)
+      VR_AW=0x5741, 
+      VR_AE=0x4541, // Application Entity (char string)
+      VR_AS=0x5341, // Age string (char string)
+      VR_CS=0x5343, // Code string (char string, leading/trailing spaces insignificant)
+      VR_UI=0x4955, // UID (character string)
+      VR_DA=0x4144, // Date (char string)
+      VR_DS=0x5344, // Decimal string (char string representing a fixed/floating pt number)
+      VR_DT=0x5444, // Date Time (char string)
+      VR_IS=0x5349, // Integer string (char string representing an integer)
+      VR_LO=0x4f4c, // Long string (character string padded with leading/trailing spaces)
+      VR_LT=0x544c, // Long text (character string with one or more paragraphs.)
+      VR_OW=0x574f, // Other word string (sensitive to byte order, transfer syntax)
+      VR_PN=0x4e50, // Person name (character string)
+      VR_ST=0x5453, // Short text (character string, one or more paragraphs)
+      VR_TM=0x4d54, // Time (character string)
       VR_UN=0x4e55,
-      VR_UT=0x5455,
-      VR_SQ=0x5153,
-      VR_SH=0x4853,
-      VR_FL=0x4c46,
-      VR_SL=0x4c53,
-      VR_AT=0x5441,
-      VR_UL=0x4c55,
-      VR_US=0x5355,
-      VR_SS=0x5353,
-      VR_FD=0x4446
+      VR_UT=0x5455, // Unlimited text (character string)
+      VR_SQ=0x5153, // Sequence of items
+      VR_SH=0x4853, // Short string (character string with leading/trailing spaces).
+      VR_FL=0x4c46, // Floating point single precision
+      VR_SL=0x4c53, // Signed long, (signed 32bits, 2's complement form.)
+      VR_AT=0x5441, // Attribute tag (ordered pair 16 bit unsigned)
+      VR_UL=0x4c55, // Unsigned long (unsigned 32 bits)
+      VR_US=0x5355, // Unsigned short (unsigned 16 bits)
+      VR_SS=0x5353, // Signed short, (signed 16bits, 2's complement)
+      VR_FD=0x4446  // Floating point double precision
     };
 
   //
