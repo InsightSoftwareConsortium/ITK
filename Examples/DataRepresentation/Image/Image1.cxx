@@ -21,8 +21,8 @@
 // following code is the minimal procedure required to instantiate, declare and
 // create an image class.
 //
-// \index{itk::Image!Instantiation|textbf}
-// \index{itk::Image!Header|textbf}
+// \index{itk::Image!Instantiation}
+// \index{itk::Image!Header}
 //
 // First, the header file of the Image class must be included.
 //
@@ -58,8 +58,8 @@ int main()
   // from the corresponding image type and assigning the result
   // to a \doxygen{SmartPointer}. 
   //
-  // \index{itk::Image!Pointer|textbf}
-  // \index{itk::Image!New()|textbf}
+  // \index{itk::Image!Pointer}
+  // \index{itk::Image!New()}
   // 
   // Software Guide : EndLatex 
   //
@@ -80,17 +80,17 @@ int main()
   // which is an N-Dimensional array where each component is an integer
   // indicating the grid coordinates of the initial pixel of the image.
   //
-  // \index{itk::Image!Size|textbf}
+  // \index{itk::Image!Size}
   // \index{itk::Image!SizeType}
   //
   // Software Guide : EndLatex 
   //
   // Software Guide : BeginCodeSnippet 
-  ImageType::SizeType  size;
+  ImageType::IndexType start;
 
-  size[0]  = 200;  // size along X
-  size[1]  = 200;  // size along Y
-  size[2]  = 200;  // size along Z
+  start[0] =   0;  // first index on X
+  start[1] =   0;  // first index on Y
+  start[2] =   0;  // first index on Z
   // Software Guide : EndCodeSnippet 
 
   // Software Guide : BeginLatex
@@ -100,17 +100,17 @@ int main()
   // integeres indicating the extent in pixels of the image along every
   // dimension.
   //
-  // \index{itk::Image!Index|textbf}
+  // \index{itk::Image!Index}
   // \index{itk::Image!IndexType}
   //
   // Software Guide : EndLatex 
   // 
   // Software Guide : BeginCodeSnippet 
-  ImageType::IndexType start;
+  ImageType::SizeType  size;
 
-  start[0] =   0;  // first index on X
-  start[1] =   0;  // first index on Y
-  start[2] =   0;  // first index on Z
+  size[0]  = 200;  // size along X
+  size[1]  = 200;  // size along Y
+  size[2]  = 200;  // size along Z
   // Software Guide : EndCodeSnippet 
 
   // Software Guide : BeginLatex
@@ -141,7 +141,7 @@ int main()
   // any arguments since all the information needed for memory 
   // allocation has already been provided by the region.
   //
-  // \index{itk::Image!Allocate()|textbf}
+  // \index{itk::Image!Allocate()}
   // \index{itk::Image!SetRegions()}
   //
   // Software Guide : EndLatex 
