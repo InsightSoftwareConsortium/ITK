@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<WrapperConfiguration source="itkDirectory.xml" dest="itkDirectory_wrap">
+  <WrapType name="itk::Directory">
+  </WrapType>
+</WrapperConfiguration>
