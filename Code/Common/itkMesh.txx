@@ -15,6 +15,7 @@
 =========================================================================*/
 #include "itkMesh.h"
 #include <algorithm>
+#include "itkProcessObject.h"
 
 namespace itk
 {
@@ -1189,20 +1190,14 @@ Mesh<TPixelType,TMeshType>
 
 
 //----------------------------------------------------------------------------
-void 
 template <typename TPixelType, typename TMeshType>
+void 
 Mesh<TPixelType,TMeshType>
 ::UpdateInformation()
 {
-  if (m_Source)
+  if (this->GetSource())
     {
-    m_Source->UpdateInformation();
-    }
-  // If we don't have a source, then let's make our whole
-  // extent equal to our extent. 
-  else
-    {
-    memcpy( m_WholeExtent, m_Extent, m_Dimension*2*sizeof(int) );
+    this->GetSource()->UpdateInformation();
     }
   
   // Now we should know what our whole extent is. If our update extent
@@ -1217,8 +1212,8 @@ Mesh<TPixelType,TMeshType>
 }
 
 //----------------------------------------------------------------------------
-void 
 template <typename TPixelType, typename TMeshType>
+void 
 Mesh<TPixelType,TMeshType>
 ::SetUpdateExtentToWholeExtent()
 {
@@ -1227,17 +1222,27 @@ Mesh<TPixelType,TMeshType>
 }
 
 //----------------------------------------------------------------------------
-void 
 template <typename TPixelType, typename TMeshType>
+void 
 Mesh<TPixelType,TMeshType>
 ::CopyInformation(DataObject *data)
 {
-  m_MaximumNumberOfPieces = data->GetMaximumNumberOfPieces();
+  Mesh *mesh;
+  
+  try
+    {
+    mesh = dynamic_cast<Mesh*>(data);
+    m_MaximumNumberOfPieces = mesh->GetMaximumNumberOfPieces();
+    }
+  catch (...)
+    {
+    return;
+    }
 }
 
 //----------------------------------------------------------------------------
-bool 
 template <typename TPixelType, typename TMeshType>
+bool 
 Mesh<TPixelType,TMeshType>
 ::UpdateExtentIsOutsideOfTheExtent()
 {
@@ -1252,8 +1257,8 @@ Mesh<TPixelType,TMeshType>
   return false;
 }
 
-bool 
 template <typename TPixelType, typename TMeshType>
+bool 
 Mesh<TPixelType,TMeshType>
 ::VerifyUpdateExtent()
 {
@@ -1280,10 +1285,5 @@ Mesh<TPixelType,TMeshType>
 
   return retval;
 }
-
-
-
-
-
 
 } // end namespace itk
