@@ -97,23 +97,28 @@ int main()
   std::cout << "Input Mesh has " << inputMesh->GetNumberOfPoints();
   std::cout << "   points " << std::endl;
 
+  
+  // Declare the transform type
+  typedef itk::AffineTransform<float,3> TransformType;
+  
+
   // Declare the type for the filter
   typedef itk::TransformMeshFilter<
                                 MeshType,
-                                MeshType  >       FilterType;
+                                MeshType,
+                                TransformType  >       FilterType;
             
-  typedef itk::AffineTransform<float,3> TransformType;
 
   // Create a Filter                                
   FilterType::Pointer filter = FilterType::New();
   
   // Create an  Transform 
   // (it doesn't use smart pointers)
-  TransformType   affineTransform;
-  affineTransform.Scale( 3.5 );
-  TransformType::VectorType   translation;
+  TransformType::Pointer   affineTransform = TransformType::New();
+  affineTransform->Scale( 3.5 );
+  TransformType::OffsetType   translation;
   translation = 100.0, 200.0, 300.0;
-  affineTransform.Translate( translation );
+  affineTransform->Translate( translation );
 
   // Connect the inputs
   filter->SetInput( inputMesh ); 
