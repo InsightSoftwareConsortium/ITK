@@ -21,21 +21,21 @@
 //
 // The \doxygen{CannySegmentationLevelSetImageFilter} defines a speed term that
 // minimizes distance to Canny edges in an image.  The initial level-set
-// model moves through to a gradient advection field until it locks onto those edges.
+// model moves through a gradient advection field until it locks onto those edges.
 // This filter is more suitable for refining existing segmentations than as a
 // region-growing algorithm.
 //
 // The two terms defined for the \doxygen{CannySegmentationLevelSetImageFilter}
 // are the advection term and the propagation term from
 // equation~\ref{eqn:LevelSetEquation}.  The advection term is constructed by
-// minimizing the squared distance transform from the Canny edges.
+// minimizing the squared distance transform from the Canny edges,
 //
 // \begin{equation}
 // \label{eqn:CannySegmentationLevelSetImageFilterAdvection}
 // \mbox{min} \int D^2 \Rightarrow D \nabla D
-// \end{equation}
+// \end{equation},
 //
-// where the distance transform $D$ is calculated using
+// where the distance transform $D$ is calculated using a
 // \doxygen{DanielssonDistanceMapImageFilter} applied to the output of the
 // \doxygen{CannyEdgeDetectionImageFilter}.
 //
@@ -62,7 +62,7 @@
 // \begin{figure} \center
 // \includegraphics[width=15cm]{CannySegmentationLevelSetImageFilterCollaborationDiagram1.eps}
 // \caption[CannySegmentationLevelSetImageFilter collaboration
-// diagram]{Collaboration diagram of the CannySegmentationLevelSetImageFilter
+// diagram]{Collaboration diagram for the CannySegmentationLevelSetImageFilter
 // applied to a segmentation task.}
 // \label{fig:CannySegmentationLevelSetImageFilterDiagram}
 // \end{figure}
@@ -193,7 +193,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The maximum number of iterations is set from the command line.  It may
-  //  not be desireable in some applications to run the filter until
+  //  not be desirable in some applications to run the filter to
   //  convergence.  Only a few iterations may be required.
   //  
   //  Software Guide : EndLatex
@@ -207,8 +207,8 @@ int main( int argc, char *argv[] )
   //
   //  There are two parameters in the
   //  \doxygen{CannySegmentationLevelSetImageFilter} to control the behavior of
-  //  the Canny edge detection.  The \em{variance} parameter controls the
-  //  amount of Gaussian smoothing on the input image.  The \em{threshold}
+  //  the Canny edge detection.  The {\it variance} parameter controls the
+  //  amount of Gaussian smoothing on the input image.  The {\it threshold}
   //  parameter indicates the lowest allowed value in the output image.
   //  Thresholding is used to suppress Canny edges whose gradient magnitudes
   //  fall below a certain value.
@@ -236,7 +236,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The filters are now connected in a pipeline indicated in
-  //  Figure~\ref{fig:CannyLevelSetSegmentationCollaborationDiagram1}.
+  //  Figure~\ref{fig:CannyLevelSetSegmentationCollaborationDiagram}.
   //
   //  Software Guide : EndLatex 
   
@@ -287,8 +287,8 @@ int main( int argc, char *argv[] )
   //  \code{threshold} of $7.0$, \code{variance} of $0.1$, \code{advection
   //  weight} of $10.0$, and an initial isosurface value of $127.5$.  One case
   //  was run for $15$ iterations and the second was run to convergence.
-  //  Compare the results in the two, right-most images of
-  //  figure~\ref{CannyLevelSetSegmentationImageFilter} with the ventricle
+  //  Compare the results in the two rightmost images of
+  //  figure~\ref{CannySegmentationLevelSetImageFilter} with the ventricle
   //  segmentation from figure~\ref{ThresholdSegmentationLevelSetImageFilter}
   //  shown in the middle.  Jagged edges are straightened and the small spur at
   //  the upper right-hand side of the mask has been removed.
@@ -299,7 +299,7 @@ int main( int argc, char *argv[] )
   //  \includegraphics[width=4cm]{CannySegmentationLevelSetImageFilterVentricle1.eps}
   //  \includegraphics[width=4cm]{CannySegmentationLevelSetImageFilterVentricle2.eps}
   //  \caption[Segmentation results of CannyLevelSetImageFilter]{Results of
-  //  applying CannySegmentationLevelSetImageFilter to a prior ventricle
+  //  applying \code{CannySegmentationLevelSetImageFilter} to a prior ventricle
   //  segmentation.  Shown from left to right are the original image, the
   //  prior segmentation of the ventricle from
   //  figure~\ref{ThresholdSegmentationLevelSetImageFilter}, $15$ iterations of
