@@ -82,7 +82,7 @@ public:
    */
   typedef SmartPointer<Self>  Pointer;
   
-  /** \typedef
+  /** \typedef PixelType
    * Hold on to the type information specified by the template parameters.
    */
   typedef TMeshType   MeshType;

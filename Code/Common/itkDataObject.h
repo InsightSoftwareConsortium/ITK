@@ -13,18 +13,6 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * DataObject is the base class for all data objects in the Insight
- * data processing pipeline. A data object is an object that represents
- * and provides access to data. ProcessObjects operate on data object,
- * producing new data objects as output. ProcessObject and DataObject
- * can be connected together into data flow pipelines.
- * 
- * \sa ProcessObject
- * \sa ImageBase
- * \sa MeshBase
- */
-
 #ifndef __itkDataObject_h
 #define __itkDataObject_h
 
@@ -36,6 +24,17 @@ namespace itk
 
 class ProcessObject;
 
+/** \class DataObject
+ * This is the base class for all data objects in the Insight
+ * data processing pipeline. A data object is an object that represents
+ * and provides access to data. ProcessObjects operate on data object,
+ * producing new data objects as output. ProcessObject and DataObject
+ * can be connected together into data flow pipelines.
+ * 
+ * \sa ProcessObject
+ * \sa ImageBase
+ * \sa MeshBase
+ */
 class ITK_EXPORT DataObject : public Object
 {
 public:
