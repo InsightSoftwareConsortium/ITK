@@ -86,6 +86,7 @@ int itkImageRegistrationMethodTest(int, char**)
 
   registration->SetInitialTransformParameters( initialParameters );
 
+  std::cout << registration;
   /****************************************************
    * Test out initialization errors
    ****************************************************/
