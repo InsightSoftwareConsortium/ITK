@@ -2,6 +2,10 @@ LINK_LIBRARIES (
 ITKCommon ITKBasicFilters
 )
 
+LINK_DIRECTORIES(
+${ITK_BINARY_DIR}/Code/BasicFilters
+)
+
 INCLUDE_DIRECTORIES(
 ${ITK_SOURCE_DIR}/Code/BasicFilters
 ${ITK_SOURCE_DIR}/Code/Algorithms
@@ -87,6 +91,14 @@ itkVoronoi2DDiagram
 itkVoronoiSegmentationImageFilter
 itkVoronoiSegmentationRGBImageFilter
 itkWatershedImageFilter
+)
+
+# Sources from other directories whose .txx files are needed for
+# instantiations of classes here.
+CABLE_SOURCE_FILES(
+itkImageToImageFilter
+itkImageIteratorWithIndex
+itkSimpleImageRegionIterator
 )
 
 # All our classes are in the "itk" namespace.
