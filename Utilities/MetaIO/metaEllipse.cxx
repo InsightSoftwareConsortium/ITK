@@ -1,8 +1,8 @@
-#include <cstdio>
+#include <stdio.h>
 #include <ctype.h>
 #include <iostream>
 #include <fstream>
-#include <string.h>
+#include <string>
 
 #include <metaUtils.h>
 #include <metaObject.h>

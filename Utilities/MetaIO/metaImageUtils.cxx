@@ -1,6 +1,7 @@
 #ifndef METAIMAGEUTILS_H
 #define METAIMAGEUTILS_H
 
+#include <stdio.h>
 #include <cstring>
 #include <metaImageTypes.h>
 
