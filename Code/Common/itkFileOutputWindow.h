@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkOutputWindow.h"
 #include "itkObjectFactory.h"
+#include <fstream>
 
 namespace itk
 {
