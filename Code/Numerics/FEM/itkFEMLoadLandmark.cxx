@@ -33,10 +33,10 @@ void LoadLandmark::Read( std::istream& f, void* info )
   int n1, n2;
   vnl_vector<Float> pu;
   vnl_vector<Float> pd;
-  bool isFound = false;
+  //  bool isFound = false;
 
   // Convert the info pointer to a usable objects
-  ReadInfoType::ElementArrayPointer elements=static_cast<ReadInfoType*>(info)->m_el;
+  //  ReadInfoType::ElementArrayPointer elements=static_cast<ReadInfoType*>(info)->m_el;
 
   // first call the parent's read function 
   Superclass::Read(f,info);
