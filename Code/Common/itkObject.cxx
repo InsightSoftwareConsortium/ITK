@@ -93,7 +93,7 @@ SubjectImplementation::
 AddObserver(const EventObject & event,
       Command* cmd)
 {
-  Observer* ptr = new Observer(cmd, event.New(), m_Count);
+  Observer* ptr = new Observer(cmd, event.MakeObject(), m_Count);
   m_Observers.push_back(ptr);
   m_Count++;
   return ptr->m_Tag;

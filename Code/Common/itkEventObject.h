@@ -116,7 +116,7 @@ public:
    *  This method work as a Factory for creating
    *  events of each particular type.
    */
-  virtual  EventObject * New(void) const
+  virtual  EventObject * MakeObject(void) const
   {
     return new EventObject;
   }
@@ -198,7 +198,7 @@ inline std::ostream& operator<<(std::ostream& os, EventObject &e)
      virtual ~classname() {} \
      virtual const char * GetName(void) { \
       return "classname"; } \
-     virtual ::itk::EventObject * New(void) const { \
+     virtual ::itk::EventObject * MakeObject(void) const { \
         return new classname; } \
  }
 
