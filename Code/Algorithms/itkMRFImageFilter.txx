@@ -25,16 +25,16 @@ MRFImageFilter<TInputImage,TClassifiedImage>
 ::MRFImageFilter(void):
       m_NumberOfClasses(0),
       m_MaximumNumberOfIterations(50),
+      m_ErrorCounter(0),
+      m_NeighborhoodSize(27),
+      m_TotalNumberOfValidPixelsInOutputImage(1),
+      m_TotalNumberOfPixelsInInputImage(1),
       m_ErrorTolerance(0.2),
       m_ClassProbability(0),
-      m_ClassifierPtr(0),
-      m_ErrorCounter(0),
-      m_TotalNumberOfPixelsInInputImage(1),
-      m_TotalNumberOfValidPixelsInOutputImage(1),
-      m_NeighborhoodSize(27)
+      m_ClassifierPtr(0)
 {
 
-  if( InputImageDimension != ClassifiedImageDimension )
+  if( (int)InputImageDimension != (int)ClassifiedImageDimension )
     throw ExceptionObject(__FILE__, __LINE__);
 
   m_MRFNeighborhoodWeight.resize(0);
@@ -317,7 +317,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     m_NeighborhoodSize *= (2*m_InputImageNeighborhoodRadius[i]+1);
     }
 
-  if( m_NeighborhoodSize != betaMatrix.size() )
+  if( m_NeighborhoodSize != static_cast<int>(betaMatrix.size()) )
     {
     throw ExceptionObject(__FILE__, __LINE__);
     }
@@ -573,7 +573,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   int index;
   
  //Begin neighborhood processing. Calculate the prior for each label
-  for( unsigned int i = 0; i < m_NeighborhoodSize; ++i )
+  for( int i = 0; i < m_NeighborhoodSize; ++i )
     {
 
     labelledPixel = labelledIter.GetPixel( i );
@@ -611,7 +611,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   if( pixLabel != (int) ( *previousLabel ) )
     {
     labelledIter.SetCenterPixel( pixLabel );
-    for( unsigned int i = 0; i < m_NeighborhoodSize; ++i )
+    for( int i = 0; i < m_NeighborhoodSize; ++i )
       {
       labelStatusIter.SetPixel( i, 1 );
       }//End neighborhood processing    
