@@ -358,6 +358,10 @@ int test2D_Standard_L2_NthOrderSpline_filter(unsigned int splineOrder)
     {
     sameResults = VerifyResultsLowerOrderSpline(outImage2, ExpectedResults);
     }
+  else if( splineOrder == 0 ) 
+    {
+    sameResults = VerifyResultsLowerOrderSpline(outImage2, ExpectedResults);
+    }
 
   if (!sameResults)
     {
@@ -620,10 +624,12 @@ itkBSplineResampleImageFilterTest(
   flag += test2D_Standard_l2_filter();
   flag += test2D_Centered_l2_filter();
 
-  //Test for Standard L2 BSplines for different orders (5,3,1)
+  //Test for Standard L2 BSplines for different orders (5,3,1,0)
   flag += test2D_Standard_L2_NthOrderSpline_filter( 5 ); 
   flag += test2D_Standard_L2_NthOrderSpline_filter( 3 );
   flag += test2D_Standard_L2_NthOrderSpline_filter( 1 );
+  flag += test2D_Standard_L2_NthOrderSpline_filter( 0 );
+  
 
   //Test for Centered L2 BSplines for different orders (4,3,2,1)
   flag += test2D_Centered_L2_NthOrderSpline_filter( 4 ); 
