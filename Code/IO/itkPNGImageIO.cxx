@@ -28,17 +28,17 @@ namespace itk
 struct PNGFileWrapper
 {
   PNGFileWrapper(const char* fname, const char *openMode)
-    {
-      m_FilePointer = fopen(fname, openMode);
-    }
+  {
+    m_FilePointer = fopen(fname, openMode);
+  }
   FILE* m_FilePointer;
   ~PNGFileWrapper()
-    {
-      if(m_FilePointer)
-        {
-        fclose(m_FilePointer);
-        }
-    }
+  {
+    if(m_FilePointer)
+      {
+      fclose(m_FilePointer);
+      }
+  }
 };
 
 bool PNGImageIO::CanReadFile(const char* file) 
@@ -137,10 +137,10 @@ const std::type_info& PNGImageIO::GetPixelType() const
     case RGBA:
       return typeid(RGBAPixel<unsigned char>);
     default:
-      {
-      itkExceptionMacro ("Invalid type: " << m_PixelType << ", only unsigned char, unsigned short, RGB<unsigned char> are allowed.");
-      return this->ConvertToTypeInfo(m_PixelType);      
-      }
+    {
+    itkExceptionMacro ("Invalid type: " << m_PixelType << ", only unsigned char, unsigned short, RGB<unsigned char> are allowed.");
+    return this->ConvertToTypeInfo(m_PixelType);      
+    }
     case UNKNOWN:
       itkExceptionMacro ("Unknown pixel type: " << m_PixelType);
     }
@@ -178,11 +178,11 @@ unsigned int PNGImageIO::GetComponentSize() const
       return sizeof(unsigned char);
     case UNKNOWN:
     default:
-      {
-      itkExceptionMacro ("Invalid type: " << m_PixelType 
-                  << ", only unsigned char and unsigned short are allowed.");
-      return 0;
-      }
+    {
+    itkExceptionMacro ("Invalid type: " << m_PixelType 
+                       << ", only unsigned char and unsigned short are allowed.");
+    return 0;
+    }
     }
   return 1;
 }
@@ -203,7 +203,7 @@ void PNGImageIO::Read(void* buffer)
   if(!fp)
     {
     itkExceptionMacro("Error PNGImageIO could not open file: " 
-                  << this->GetFileName());
+                      << this->GetFileName());
     return;
     }
   unsigned char header[8];
@@ -279,7 +279,7 @@ void PNGImageIO::Read(void* buffer)
 #endif
     }
 
-   // have libpng handle interlacing
+  // have libpng handle interlacing
   //int number_of_passes = png_set_interlace_handling(png_ptr);
   // update the info now that we have defined the filters
   png_read_update_info(png_ptr, info_ptr);
@@ -570,9 +570,9 @@ void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer)
   int rowInc = width*numComp*bitDepth/8;
   for (unsigned int ui = 0; ui < height; ui++)
     {
-    row_pointers[height - ui - 1] = (png_byte *)outPtr;
+    row_pointers[height - ui - 1] = const_cast<png_byte *>(outPtr);
     //row_pointers[ui] = (png_byte *)outPtr;
-    outPtr = (unsigned char *)outPtr + rowInc;
+    outPtr = const_cast<unsigned char *>(outPtr) + rowInc;
     }
   png_write_image(png_ptr, row_pointers);
   png_write_end(png_ptr, info_ptr);
