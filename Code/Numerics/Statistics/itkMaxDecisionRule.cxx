@@ -60,14 +60,11 @@ unsigned int MaxDecisionRule::Evaluate(std::vector< double > discriminantScores)
   return maxIndex ;
 }
 
-void MaxDecisionRulePrintSelf(std::ostream& os, Indent indent) const 
+void MaxDecisionRule::PrintSelf(std::ostream& os, Indent indent) const 
 { 
   Superclass::PrintSelf(os, indent) ; 
 }
  
-} ; // end of class
-
-
   } // end of namespace Statistics 
 } // end of namespace itk
 
