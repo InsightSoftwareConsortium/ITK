@@ -427,8 +427,6 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   InputPixelType* endInput = inputData + size * 4;
   while(inputData != endInput)
     {
-    OutputComponentType alpha =
-      static_cast<OutputComponentType>(inputData[3]);
     OutputConvertTraits
       ::SetNthComponent(0, *outputData, 
                         static_cast<OutputComponentType>
@@ -462,8 +460,6 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   InputPixelType* endInput = inputData + size*4;
   while(inputData != endInput)
     {
-    OutputComponentType alpha =
-      static_cast<OutputComponentType>(inputData[3]);
     OutputConvertTraits
       ::SetNthComponent(0, *outputData, 
                         static_cast<OutputComponentType>
