@@ -69,11 +69,6 @@ int main( int argc, char ** argv )
   output->SetRegions(reader->GetOutput()->GetRequestedRegion());
   output->Allocate();
 
-// Software Guide : BeginLatex
-//
-// Software Guide : EndLatex
-  
-// Software Guide : BeginCodeSnippet   
   typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType> FaceCalculatorType;
   
   FaceCalculatorType faceCalculator;
@@ -84,16 +79,7 @@ int main( int argc, char ** argv )
   radius.Fill(element_radius);
   
   faceList = faceCalculator(reader->GetOutput(), output->GetRequestedRegion(), radius);
-// Software Guide : EndCodeSnippet 
 
-// Software Guide : BeginLatex
-//
-// 
-//
-// Software Guide : EndLatex
-
-
-// Software Guide : BeginCodeSnippet
   IteratorType out;
   ShapedNeighborhoodIteratorType it;
   const float rad = static_cast<float>(element_radius);
@@ -105,7 +91,7 @@ int main( int argc, char ** argv )
     {
     it = ShapedNeighborhoodIteratorType( radius, reader->GetOutput(), *fit );
     out = IteratorType( output, *fit );
-
+    
     // Creates a circular structuring element by activating all the pixels less
     // than radius distance from the center of the neighborhood.
     for (float y = -rad; y <= rad; y++)
@@ -121,58 +107,54 @@ int main( int argc, char ** argv )
           off[1] = static_cast<int>(y);
           it.ActivateOffset(off);
           }
-
-        // Deactivate the center element
-        off[0] = off[1] = 0;
-        it.DeactivateOffset(off);
         }
-      }
+      
 
-    // Implements dilation
-    for (it.GoToBegin(), out.GoToBegin(); !it.IsAtEnd(); ++it, ++out)
-      {
-      ShapedNeighborhoodIteratorType::ConstIterator ci;
-
-      bool flag = false;
-      for (ci = it.Begin(); ci != it.End(); ci++)
-        {
-        if (ci.Get() != background_value)
-          {
-          flag = true;
-          break;
-          }
-        }
-      if (flag == true)
-        {
-        out.Set(foreground_value);
-        }
-      else
-        {
-        out.Set(background_value);
-        }
-      }
-    }
-  
-  //  ShapedNeighborhoodIteratorType::IndexType idx = {{100, 100}};
-  //  it.SetLocation( idx );
-  //  itk::ShapedNeighborhoodIterator<ImageType>::Iterator ci;
-
-  //  for (ci = it.Begin(); ci != it.End(); ci++)
-  //    {
-  //    ci.Set(255);
-  //    }
-    
-// Software Guide : EndCodeSnippet
-
-  
 // Software Guide : BeginLatex
 //
-// The output is rescaled and written as in the previous example.  Filter the
-// BLAH BLAH image in the $X$ direction give the same result as in Figure~BLAH BLAH
+// The logic in the inner loop of this example can be rewritten to perform
+// dilation.  Dilation of the set $I$ by $E$ is the set of all $x$ such that
+// $E$ positioned at $x$ contains at least one element in $I$.
 //
 // Software Guide : EndLatex
-
+      
 // Software Guide : BeginCodeSnippet
+      // Implements dilation
+      for (it.GoToBegin(), out.GoToBegin(); !it.IsAtEnd(); ++it, ++out)
+        {
+        ShapedNeighborhoodIteratorType::ConstIterator ci;
+        
+        bool flag = false;
+        for (ci = it.Begin(); ci != it.End(); ci++)
+          {
+          if (ci.Get() != background_value)
+            {
+            flag = true;
+            break;
+            }
+          }
+        if (flag == true)
+          {
+          out.Set(foreground_value);
+          }
+        else
+          {
+          out.Set(background_value);
+          }
+        }
+      }
+// Software Guide : EndCodeSnippet
+
+
+// Software Guide : BeginLatex
+//
+// The output image is written and visualized directly as a binary image of
+// \code{unsigned chars}.  Figure~\ref{fig:??????????????????????????????????}
+// illustrates some results of erosion and dilation on the image
+// \code{Insight\Examples\Data\BinaryImage.png}.  Applying erosion and dilation
+// in sequence effects the morphological operations of opening and closing.
+//
+// Software Guide : EndLatex
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   
@@ -189,7 +171,6 @@ int main( int argc, char ** argv )
     std::cout << err << std::endl;
     return -1;
     }
-// Software Guide : EndCodeSnippet
 
   return 0;
 }
