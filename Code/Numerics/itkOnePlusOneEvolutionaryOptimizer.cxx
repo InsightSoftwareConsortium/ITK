@@ -87,10 +87,8 @@ OnePlusOneEvolutionaryOptimizer
 
   this->InvokeEvent( StartEvent() );
   m_Stop = false ;
-  double pvalue = 0.0 ;
-  double cvalue = 0.0 ;
+
   double adjust = 0.0 ;
-  double fro_norm = 0.0 ;
 
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
@@ -119,7 +117,7 @@ OnePlusOneEvolutionaryOptimizer
     }
 
   itkDebugMacro(<< ": initial position: " << parentPosition) ; 
-  pvalue = m_CostFunction->GetValue(parentPosition);
+  double pvalue = m_CostFunction->GetValue(parentPosition);
   this->SetCurrentPosition(parentPosition) ;
   m_CurrentIteration = 0 ;
   for (unsigned int iter = 0 ; iter < m_MaximumIteration ; iter++) 
@@ -145,11 +143,12 @@ OnePlusOneEvolutionaryOptimizer
         {
           childPosition[i] = child[i];
         }
-      cvalue = m_CostFunction->GetValue(childPosition);
+      double cvalue = m_CostFunction->GetValue(childPosition);
 
       itkDebugMacro(<< iter << ": parent: " << pvalue 
                     << " child: "<< cvalue );
 
+      double adjust = m_ShrinkFactor ;
       if(m_Maximize)
       {
         if (cvalue > pvalue) 
@@ -166,10 +165,6 @@ OnePlusOneEvolutionaryOptimizer
           this->SetCurrentPosition(parentPosition) ;
           
         } 
-        else 
-        {
-          adjust = m_ShrinkFactor ;
-        }
       }
       else
       {
@@ -187,10 +182,6 @@ OnePlusOneEvolutionaryOptimizer
           this->SetCurrentPosition(parentPosition) ;
           
         } 
-        else 
-        {
-          adjust = m_ShrinkFactor ;
-        }
       }
      
 
@@ -198,7 +189,7 @@ OnePlusOneEvolutionaryOptimizer
       // convergence criterion: f-norm of A < epsilon_A
       // Compute double precision sum of absolute values of 
       // a single precision vector
-      fro_norm = A.fro_norm() ;
+      double fro_norm = A.fro_norm() ;
       itkDebugMacro(<< "A f-norm:" << fro_norm);
       if (fro_norm <= m_Epsilon) 
         {
