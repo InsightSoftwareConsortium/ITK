@@ -49,7 +49,7 @@ public:
 
   /** Typedef for inputting filters */
   typedef ProcessObject              GenericFilterType;
-  typedef GenericFilterType::Pointer GenericFilterPointer;
+  typedef ProcessObject::Pointer     GenericFilterPointer;
 
   /** Standard New method. */
   itkNewMacro(Self);  
@@ -98,7 +98,7 @@ private:
   struct FilterRecord 
     {
     // Pointer to the filter
-    GenericFilterPointer Filter;
+    GenericFilterType *  Filter;
 
     // The weight of the filter in total progress of the mini-pipeline
     float                Weight;
