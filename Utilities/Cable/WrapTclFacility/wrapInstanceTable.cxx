@@ -62,8 +62,7 @@ void InstanceTable::DeleteObject(const String& name)
   // Make sure we know how to delete this object.
   if(m_DeleteFunctionMap.count(type) < 1)
     {
-    // throw _wrap_UndefinedObjectTypeException(type->GetName());
-    throw _wrap_UndefinedObjectTypeException("");
+    throw _wrap_UndefinedObjectTypeException(type->Name());
     }
   
   // Remove the object's address from our table.
