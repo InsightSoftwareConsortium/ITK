@@ -112,7 +112,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkWatershedSegmentTreeGenerator.txx"
 #include "itkWatershedSegmenter.txx"
 
-int main ( int argc, char* argv )
+int main ( int , char*  )
 {
   
   return 0;

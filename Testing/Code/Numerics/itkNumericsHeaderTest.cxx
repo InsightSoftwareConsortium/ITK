@@ -47,7 +47,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSymmetricEigenSystem.txx"
 #include "itkVersorTransformOptimizer.h"
 
-int main ( int argc, char* argv )
+int main ( int , char*  )
 {
   
   return 0;
