@@ -53,10 +53,12 @@ public:
   typedef Superclass::ParametersValueType CoordinateRepresentationType;
 
   /** Image dimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      FixedImageType::ImageDimension);
  
   /** Object dimension enumeration. */
-  itkStaticConstMacro(ObjectDimension, unsigned int, MovingSpatialObjectType::ObjectDimension);
+  itkStaticConstMacro(ObjectDimension, unsigned int,
+                      MovingSpatialObjectType::ObjectDimension);
  
   /**  Type of the Transform Base class */
   typedef Transform<CoordinateRepresentationType, 
@@ -134,7 +136,8 @@ public:
 
   /** Get Value and Derivatives for MultipleValuedOptimizers */
   virtual void GetValueAndDerivative( const ParametersType & parameters,
-                                      MeasureType & Value, DerivativeType  & Derivative ) const =0;
+                                      MeasureType & Value, 
+                                      DerivativeType  & Derivative ) const =0;
 
   /** Initialize the metric */
   virtual void Initialize(void) {}
