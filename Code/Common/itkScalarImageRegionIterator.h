@@ -102,6 +102,11 @@ public:
    */
   typedef typename Superclass::AccessorType     AccessorType;
 
+  /**
+   * Scalar value type typedef
+   */
+  typedef typename ScalarTraits<PixelType>::ScalarValueType ScalarValueType;
+  
   /** 
    * Run-time type information (and related methods).
    */
@@ -135,14 +140,14 @@ public:
   /**
    * Get the pixel value
    */
-  typename ScalarTraits<PixelType>::ScalarValueType Get(void) const  
+  ScalarValueType Get(void) const  
   { return ScalarTraits<PixelType>
       ::GetScalar(m_DataAccessor.Get(*(m_Buffer + m_Offset))); }
   
   /**
    * Set the pixel value
    */
-  void Set( const ScalarTraits<PixelType>::ScalarValueType value) const  
+  void Set( const ScalarValueType value) const  
   {
     PixelType p;
     ScalarTraits<PixelType>::SetScalar( p, value );
