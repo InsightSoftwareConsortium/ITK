@@ -27,7 +27,7 @@ FilterImageGradientMagnitude<TPixel, VDimension>
   // Allocate output
   typename ImageType::Pointer output = this->GetOutput();
   typename ImageType::Pointer input  = this->GetInput();
- 
+
   // Need to allocate output buffer memory.
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
@@ -76,16 +76,10 @@ FilterImageGradientMagnitude<TPixel, VDimension>
     {
       for (int i = 0; i < VDimension; ++i)
         {
-          //          std::cout << "output image size i = " <<
-          //            output->GetRequestedRegion().GetSize()[i] << std::endl;
-          //          std::cout << "input image size i = " <<
-          //            input->GetRequestedRegion().GetSize()[i] << std::endl;
           sz[i] = output->GetRequestedRegion().GetSize()[i]
             -   2 * radius[i];
           idx[i] = output->GetRequestedRegion().GetIndex()[i]
             + radius[i];
-          //          std::cout << "sz[i]  =" << sz[i] << std::endl;
-          //          std::cout << "idx[i] =" << idx[i] << std::endl;
         }
       region.SetSize(sz);
       region.SetIndex(idx);
@@ -100,7 +94,6 @@ FilterImageGradientMagnitude<TPixel, VDimension>
     {
       bufferSizeDifference[i] = output->GetBufferedRegion().GetSize()[i]
         - input->GetBufferedRegion().GetSize()[i];
-      //      std::cout << "bufferSizeDifference = " << bufferSizeDifference[i] << std::endl;
     }
   it->SetOutputBuffer(output->GetBufferPointer()
                       + output->ComputeOffset(it->GetRegion().GetIndex()));
