@@ -165,7 +165,7 @@ void RegisterTests()
   REGISTER_TEST(itkShiftScaleImageFilterTest );
   REGISTER_TEST(itkShiftScaleInPlaceImageFilterTest );
   REGISTER_TEST(itkSimplexMeshToTriangleMeshFilterTest);
-//  REGISTER_TEST(itkSimplexMeshAdaptTopologyFilterTest);
+  REGISTER_TEST(itkSimplexMeshAdaptTopologyFilterTest);
   REGISTER_TEST(itkShrinkImageTest );
   REGISTER_TEST(itkSigmoidImageFilterTest );
   REGISTER_TEST(itkSimilarityIndexImageFilterTest );

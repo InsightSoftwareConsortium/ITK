@@ -159,7 +159,7 @@ ADD_TEST(itkShrinkImageTest ${BASIC_FILTERS_TESTS} itkShrinkImageTest)
 ADD_TEST(itkSigmoidImageFilterTest ${BASIC_FILTERS_TESTS} itkSigmoidImageFilterTest)
 ADD_TEST(itkSimilarityIndexImageFilterTest ${BASIC_FILTERS_TESTS} itkSimilarityIndexImageFilterTest)
 ADD_TEST(itkSimplexMeshToTriangleMeshFilterTest ${BASIC_FILTERS_TESTS} itkSimplexMeshToTriangleMeshFilterTest)
-#ADD_TEST(itkSimplexMeshAdaptTopologyFilterTest ${BASIC_FILTERS_TESTS} itkSimplexMeshAdaptTopologyFilterTest)
+ADD_TEST(itkSimplexMeshAdaptTopologyFilterTest ${BASIC_FILTERS_TESTS} itkSimplexMeshAdaptTopologyFilterTest)
 ADD_TEST(itkSinImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkSinImageFilterAndAdaptorTest)
 ADD_TEST(itkSobelEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS} itkSobelEdgeDetectionImageFilterTest)
 ADD_TEST(itkSmoothingRecursiveGaussianImageFilterTest ${BASIC_FILTERS_TESTS} itkSmoothingRecursiveGaussianImageFilterTest)
@@ -601,7 +601,7 @@ itkShrinkImageTest.cxx
 itkSigmoidImageFilterTest.cxx
 itkSimilarityIndexImageFilterTest.cxx
 itkSimplexMeshToTriangleMeshFilterTest.cxx
-#itkSimplexMeshAdaptTopologyFilterTest.cxx
+itkSimplexMeshAdaptTopologyFilterTest.cxx
 itkSinImageFilterAndAdaptorTest.cxx
 itkSobelEdgeDetectionImageFilterTest.cxx
 itkSmoothingRecursiveGaussianImageFilterTest.cxx
