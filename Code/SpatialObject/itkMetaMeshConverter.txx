@@ -309,21 +309,25 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
   // Add cell links
   typedef typename MeshType::CellLinksContainer  CellLinksContainer;
   const CellLinksContainer* links = mesh->GetCellLinks();
-  typename MeshType::CellLinksContainer::ConstIterator it_celllinks = links->Begin();
- 
-  while(it_celllinks != links->End())
-    {
-    MeshCellLink* link = new MeshCellLink();
-    link->m_Id = (*it_celllinks)->Index();
 
-    typename MeshType::PointCellLinksContainer::const_iterator it = (*it_celllinks)->Value().begin();
-    while(it != (*it_celllinks)->Value().end())
+  if(links)
+    {
+    typename MeshType::CellLinksContainer::ConstIterator it_celllinks = links->Begin();
+ 
+    while(it_celllinks != links->End())
       {
-      link->m_Links.push_back(*it);
-      it++;
+      MeshCellLink* link = new MeshCellLink();
+      link->m_Id = (*it_celllinks)->Index();
+
+      typename MeshType::PointCellLinksContainer::const_iterator it = (*it_celllinks)->Value().begin();
+      while(it != (*it_celllinks)->Value().end())
+        {
+        link->m_Links.push_back(*it);
+        it++;
+        }
+      metamesh->GetCellLinks().push_back(link);
+      it_celllinks++;
       }
-    metamesh->GetCellLinks().push_back(link);
-    it_celllinks++;
     }
 
   // Add point data
