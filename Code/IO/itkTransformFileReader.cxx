@@ -58,7 +58,7 @@ namespace itk
 
 
 #define ITK_CONVERTMETATOITKTRANSFORM(name,scalartype)\
-  if( (!strcmp(metaTransform->ObjectSubTypeName(),(char *)(#name))) )\
+  if( (!strcmp(metaTransform->ObjectSubTypeName(),#name)) )\
   { \
     typedef itk::name<scalartype> InternalTransformType;\
     transform = InternalTransformType::New();\
@@ -66,7 +66,7 @@ namespace itk
   } \
 
 #define ITK_CONVERTMETATOITKTRANSFORM_2(name,scalartype,dimension)\
-  if( (!strcmp(metaTransform->ObjectSubTypeName(),(char *)(#name))) \
+  if( (!strcmp(metaTransform->ObjectSubTypeName(),#name)) \
     && (metaTransform->NDims() == (int)(dimension)) \
     ) \
   { \
@@ -76,7 +76,7 @@ namespace itk
   } \
 
 #define ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(name,scalartype,dimension)\
-  if((!strcmp(metaTransform->ObjectSubTypeName(),(char *)(#name)))\
+  if((!strcmp(metaTransform->ObjectSubTypeName(),#name))\
     && (metaTransform->NDims() == (int)(dimension))\
     )\
   {\
@@ -89,7 +89,7 @@ namespace itk
   } 
 
 #define ITK_CONVERTMETATO_ITK_BSPLINEDEFORMABLETRANSFORM(name,scalartype,dimension,order)\
-  if( (!strcmp(metaTransform->ObjectSubTypeName(),(char *)(#name))) \
+  if( (!strcmp(metaTransform->ObjectSubTypeName(),#name)) \
     && (metaTransform->NDims() == (int)(dimension)) \
     && (metaTransform->TransformOrder() == (int)(order))\
     ) \
