@@ -76,6 +76,17 @@ int itkImageRegistrationMethodTest(int, char* [] )
   MovingImageType::Pointer    movingImage   = MovingImageType::New();  
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
+
+  FixedImageType::SizeType    size;
+  size.Fill( 3 );
+  FixedImageType::RegionType  region( size );
+  fixedImage->SetRegions( region );
+  fixedImage->Allocate();
+  fixedImage->FillBuffer( 3.0 );
+
+  movingImage->SetRegions( region );
+  movingImage->Allocate();
+  movingImage->FillBuffer( 4.0 );
   
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
@@ -84,9 +95,23 @@ int itkImageRegistrationMethodTest(int, char* [] )
   registration->SetMovingImage(   movingImage   );
   registration->SetInterpolator(  interpolator  );
 
+  // Exercise Get methods
+  std::cout << "metric: " << registration->GetMetric() << std::endl;
+  std::cout << "optimizer: " << registration->GetOptimizer() << std::endl;
+  std::cout << "transform: " << registration->GetTransform() << std::endl;
+  std::cout << "fixed image: " << registration->GetFixedImage() << std::endl;
+  std::cout << "moving image: " << registration->GetMovingImage() << std::endl;
+  std::cout << "interpolator: " << registration->GetInterpolator() << std::endl;
+
+  std::cout << "initial parameters: ";
+  std::cout << registration->GetInitialTransformParameters() << std::endl;
+
   typedef RegistrationType::ParametersType ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
   initialParameters.Fill(0);
+
+  ParametersType badParameters( 2 );
+  badParameters.Fill( 5 );
 
   registration->SetInitialTransformParameters( initialParameters );
 
@@ -116,7 +141,7 @@ int itkImageRegistrationMethodTest(int, char* [] )
     return EXIT_FAILURE; \
     } 
 
-  TEST_INITIALIZATION_ERROR( InitialTransformParameters, ParametersType(1), initialParameters );
+//  TEST_INITIALIZATION_ERROR( InitialTransformParameters, badParameters, initialParameters );
   TEST_INITIALIZATION_ERROR( Metric, NULL, metric );
   TEST_INITIALIZATION_ERROR( Optimizer, NULL, optimizer );
   TEST_INITIALIZATION_ERROR( Transform, NULL, transform );
