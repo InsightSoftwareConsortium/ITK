@@ -105,7 +105,10 @@ NeighborhoodIterator<TImage, TBoundaryCondition>
     {
     temp = this->ComputeInternalIndex(n);
       
-    // Calculate overlap
+    // Calculate overlap.
+    // Here, we are checking whether the particular pixel in the
+    // neighborhood is within the bounds (when the neighborhood is not
+    // completely in bounds, it is usually partly in bounds)
     for (i=0; i<Dimension; i++)
       {
       if (! m_InBounds[i]) // Part of dimension spills out of bounds
