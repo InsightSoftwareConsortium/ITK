@@ -58,8 +58,8 @@ int main(int argc, char * argv[] )
 
   typedef PointSetType::PointsContainer  PointsContainer;
 
-  PointsContainer::Pointer fixedPointContainer  = fixedPointSet->GetPoints();
-  PointsContainer::Pointer movingPointContainer = movingPointSet->GetPoints();
+  PointsContainer::Pointer fixedPointContainer  = PointsContainer::New();
+  PointsContainer::Pointer movingPointContainer = PointsContainer::New();
 
   PointType fixedPoint;
   PointType movingPoint;
@@ -83,13 +83,14 @@ int main(int argc, char * argv[] )
     fixedFile >> fixedPoint;
     pointId++;
     }
+  fixedPointSet->SetPoints( fixedPointContainer );
   std::cout << "Number of fixed Points = " << fixedPointSet->GetNumberOfPoints() << std::endl;
 
 
 
   // Read the file containing coordinates of moving points.
   std::ifstream   movingFile;
-  movingFile.open( argv[1] );
+  movingFile.open( argv[2] );
   if( movingFile.fail() )
     {
     std::cerr << "Error opening points file with name : " << std::endl;
@@ -105,6 +106,7 @@ int main(int argc, char * argv[] )
     movingFile >> movingPoint;
     pointId++;
     }
+  movingPointSet->SetPoints( movingPointContainer );
   std::cout << "Number of moving Points = " << movingPointSet->GetNumberOfPoints() << std::endl;
 
 
@@ -152,10 +154,10 @@ int main(int argc, char * argv[] )
   scales.Fill( 1.0 );
 
   
-  unsigned long   numberOfIterations =   1000;
-  double          gradientTolerance  =  1e-1; // convergence criterion
-  double          valueTolerance =  1e-1; // convergence criterion
-  double          epsilonFunction =  1e-9; // convergence criterion
+  unsigned long   numberOfIterations =  100;
+  double          gradientTolerance  =  1e-5;   // convergence criterion
+  double          valueTolerance     =  1e-5;   // convergence criterion
+  double          epsilonFunction    =  1e-5;   // convergence criterion
 
 
   optimizer->SetScales( scales );
@@ -179,20 +181,6 @@ int main(int argc, char * argv[] )
   registration->SetFixedPointSet( fixedPointSet );
   registration->SetMovingPointSet(   movingPointSet   );
 
-
-//------------------------------------------------------------
-// Set up transform parameters
-//------------------------------------------------------------
-  ParametersType parameters( transform->GetNumberOfParameters() );
-
-  // initialize the offset/vector part
-  for( unsigned int k = 0; k < 2; k++ )
-    {
-    parameters[k]= 10.0;
-    }
-
-  transform->SetParameters( parameters );
-  registration->SetInitialTransformParameters( transform->GetParameters() );
 
   try 
     {
