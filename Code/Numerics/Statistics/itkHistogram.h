@@ -293,7 +293,7 @@ public:
    * If p is greater than or equal to 0.5
    * the percentile value = 
    * max - ((pp - p) / pb) * interval  */
-  double Quantile(const unsigned int dimension, const double &p) ;
+  double Quantile(const unsigned int dimension, const double &p) const;
 
   /** iterator support */
 

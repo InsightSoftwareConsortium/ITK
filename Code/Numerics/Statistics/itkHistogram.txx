@@ -578,7 +578,7 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer >
 double
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
-::Quantile(const unsigned int dimension, const double &p)
+::Quantile(const unsigned int dimension, const double &p) const
 {
   InstanceIdentifier n ;
   const unsigned int size = this->GetSize(dimension) ;
@@ -586,7 +586,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
   double p_n ;
   double f_n ;
   double cumulated = 0 ;
-  double totalFrequency = double(this->GetTotalFrequency()) ;
+  double totalFrequency = double( this->GetTotalFrequency() ) ;
   double binProportion ;
   double min, max, interval ;
 
@@ -606,8 +606,8 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 
     binProportion = f_n / totalFrequency ;
 
-    min = double(GetBinMin(dimension, n - 1)) ;
-    max = double(GetBinMax(dimension, n - 1)) ;
+    min = double( this->GetBinMin(dimension, n - 1) ) ;
+    max = double( this->GetBinMax(dimension, n - 1) ) ;
     interval = max - min ;
     return min + ((p - p_n_prev) / binProportion) * interval ;
     }
@@ -618,7 +618,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
     p_n      = NumericTraits< double >::One ;
     do 
       {
-      f_n = GetFrequency(n, dimension) ;
+      f_n = this->GetFrequency(n, dimension) ;
       cumulated += f_n ;
       p_n_prev = p_n ;
       p_n = NumericTraits< double >::One - cumulated / totalFrequency ;
@@ -628,8 +628,8 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
     while( m < size && p_n > p);
 
     binProportion = f_n / totalFrequency ;
-    double min = double(GetBinMin(dimension, n + 1)) ;
-    double max = double(GetBinMax(dimension, n + 1)) ;
+    double min = double( this->GetBinMin(dimension, n + 1) ) ;
+    double max = double( this->GetBinMax(dimension, n + 1) ) ;
     double interval = max - min ;
     return max - ((p_n_prev - p) / binProportion) * interval ;
     }
