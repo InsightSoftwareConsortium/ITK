@@ -43,8 +43,6 @@ SpatialObject< NDimensions, PipelineDimension>
   }
   
   SetParent(NULL);
-  BuildLocalToGlobalTransformList(m_LocalToGlobalTransformList,false);
-  BuildGlobalToLocalTransformList(m_GlobalToLocalTransformList,false);
 }
 
 /** Destructor */
@@ -52,6 +50,7 @@ template< unsigned int NDimensions, unsigned int PipelineDimension >
 SpatialObject< NDimensions, PipelineDimension>
 ::~SpatialObject( void )
 {
+  this->Clear();
 }
 
 /** Clear the spatial object by deleting all lists of children and subchildren */
@@ -66,9 +65,11 @@ SpatialObject< NDimensions, PipelineDimension>
 
   for(; it!=end; it++)
   {
-    (*it)->Clear(); 
-  } 
-
+    if((*it))
+    {
+      (*it)->Delete();
+    }
+  }
 }
 
 
@@ -239,9 +240,10 @@ void
 SpatialObject< NDimensions, PipelineDimension>
 ::SetParent( const Superclass * parent )
 {
-  m_Parent = dynamic_cast<const Self*>(parent);
+  m_Parent = parent;
   RebuildAllTransformLists();
 }
+
 
 /** Print self */
 template< unsigned int NDimensions, unsigned int PipelineDimension >
@@ -253,7 +255,7 @@ SpatialObject< NDimensions, PipelineDimension>
   typename TransformListType::const_iterator end;
 
   Superclass::PrintSelf(os, indent);
-  os << indent << "Parent: " << m_Parent.GetPointer() << std::endl << std::endl;
+  os << indent << "Parent: " << m_Parent << std::endl << std::endl;
   os << "Bounding Box:" << std::endl;
   os << indent << m_Bounds << std::endl;
   os << "Geometric properties:" << std::endl;
@@ -315,6 +317,8 @@ void
 SpatialObject< NDimensions, PipelineDimension> 
 ::AddSpatialObject( Self * pointer )
 {
+  pointer->Register(); // increase the reference count.
+
   typename ChildrenListType::iterator it;
 
   it = std::find(m_Children.begin(),m_Children.end(),pointer);
@@ -323,7 +327,7 @@ SpatialObject< NDimensions, PipelineDimension>
   {
     m_Children.push_back( pointer );
     m_NDimensionalChildrenList.push_back( pointer );
-    pointer->SetParent( this );
+    pointer->SetParent( this ); 
   }
   else
   { 
@@ -388,7 +392,7 @@ SpatialObject< NDimensions, PipelineDimension>
 
   if( HasParent() )
   {
-    dynamic_cast<const Self*>(m_Parent.GetPointer())->BuildLocalToGlobalTransformList(list,true);
+    dynamic_cast<const Self*>(m_Parent)->BuildLocalToGlobalTransformList(list,true);
   }
 }
 
@@ -402,7 +406,7 @@ SpatialObject< NDimensions, PipelineDimension>
 
   if( HasParent() )
   {
-    dynamic_cast<const Self*>(m_Parent.GetPointer())->BuildGlobalToLocalTransformList(list,true);
+    dynamic_cast<const Self*>(m_Parent)->BuildGlobalToLocalTransformList(list,true);
   }
 }
 
