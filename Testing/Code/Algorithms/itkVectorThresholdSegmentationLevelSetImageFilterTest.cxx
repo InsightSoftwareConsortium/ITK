@@ -77,9 +77,9 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   typedef FilterType::MeanVectorType  MeanVectorType; 
   MeanVectorType  mean = MeanVectorType(3); 
   
-  mean[0] = 44.7841;
-  mean[1] = 37.5714;
-  mean[2] = 29.5385;
+  mean[0] = 44.7504;
+  mean[1] = 37.5443;
+  mean[2] = 29.5179;
 
   filter->SetMean( mean );
 
@@ -87,12 +87,12 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   typedef FilterType::CovarianceMatrixType  CovarianceMatrixType; 
   CovarianceMatrixType  covariance = CovarianceMatrixType( 3, 3 ); 
 
-  covariance[0][0] = 81.2391;
-  covariance[1][1] = 82.3301;
-  covariance[2][2] = 51.9178;
-  covariance[0][1] = 74.0973;
-  covariance[0][2] = 59.0182;
-  covariance[1][2] = 62.9698;
+  covariance[0][0] = 79.2225;
+  covariance[1][1] = 81.0314;
+  covariance[2][2] = 51.1744;
+  covariance[0][1] = 72.4737;
+  covariance[0][2] = 57.7892;
+  covariance[1][2] = 61.9859;
   covariance[1][0] = covariance[0][1];
   covariance[2][0] = covariance[0][2];
   covariance[2][1] = covariance[1][2];
