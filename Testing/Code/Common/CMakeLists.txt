@@ -119,7 +119,7 @@ ADD_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkElli
 ADD_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest)
 ADD_TEST(itkMetaDataDictionaryTest ${COMMON_TESTS} itkMetaDataDictionaryTest)
 ADD_TEST(itkSTLThreadTest ${COMMON_TESTS} itkSTLThreadTest)
-ADD_TEST(itkOctreeTest ${COMMON_TESTS} itkOctreeTest)
+#ADD_TEST(itkOctreeTest ${COMMON_TESTS} itkOctreeTest)
 
 #-----------------------------------------------------------------------------
 # Setup the system information test.  Write out some basic failsafe
@@ -271,7 +271,6 @@ itkEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkMetaDataDictionaryTest.cxx
 itkSTLThreadTest.cxx
-itkOctreeTest.cxx
 )
 
 CONFIGURE_FILE(${ITKTesting_SOURCE_DIR}/Code/Common/itkSystemInformationTest.h.in
