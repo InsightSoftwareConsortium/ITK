@@ -61,18 +61,14 @@ ListSampleToHistogramImporter< TListSample, THistogram >
   typename THistogram::IndexType index ;
   while (iter != last)
     {
-      try
+      index = m_Histogram->GetIndex(iter.GetMeasurementVector()) ;
+      if (!m_Histogram->IsIndexOutOfBound(index))
         {
           // if the measurement vector is out of bound then
-          // the GetIndex method returns RangeError
+          // the GetIndex method returns index with the sizes of each dimension
           // and doesn't increase the frequency
-          index = m_Histogram->GetIndex(iter.GetMeasurementVector()) ;
           id = m_Histogram->GetInstanceIdentifier(index) ;
           m_Histogram->IncreaseFrequency(id, 1) ;
-        }
-      catch (RangeError)
-        {
-        // do nothing 
         }
       ++iter ;
     }
