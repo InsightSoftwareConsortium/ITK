@@ -168,34 +168,6 @@ const unsigned int factors[] )
 
 
 /**
- * Set expand factors from a single unsigned int
- */
-template <class TInputImage, class TOutputImage>
-void
-VectorExpandImageFilter<TInputImage,TOutputImage>
-::SetExpandFactors(
-const unsigned int factor )
-{
-
-  unsigned int j;
-  for( j = 0; j < ImageDimension; j++ )
-    {
-    if( factor != m_ExpandFactors[j] ) break;
-    }
-  if( j < ImageDimension )
-    {
-    this->Modified();
-    for( j = 0; j < ImageDimension; j++ )
-      {
-      m_ExpandFactors[j] = (ExpandFactorsType)factor;
-      if( m_ExpandFactors[j] < 1 ) m_ExpandFactors[j] = 1;
-      }
-    }
-
-}
-
-
-/**
  * Set the edge padding value
  */
 template <class TInputImage, class TOutputImage>

@@ -137,7 +137,6 @@ public:
   virtual void SetExpandFactors( const ExpandFactorsType factors[] );
   virtual void SetExpandFactors( const ExpandFactorsType factor );
   virtual void SetExpandFactors( const unsigned int factors[] );
-  virtual void SetExpandFactors( const unsigned int factor );
 
   /** Get the expand factors. */
   const ExpandFactorsType * GetExpandFactors() const
