@@ -148,7 +148,8 @@ public:
     typedef Matrix<TScalarType, SpaceDimension, SpaceDimension> MatrixType;
 
     /// Standard coordinate point type for this class
-    typedef Point<TScalarType, SpaceDimension> PointType;
+    typedef Point<TScalarType, SpaceDimension> InputPointType;
+    typedef Point<TScalarType, SpaceDimension> OutputPointType;
 
 
     /**
@@ -344,9 +345,9 @@ public:
      * given point or vector, returning the transformed point or
      * vector.
      **/
-    PointType      TransformPoint(const PointType  &point ) const;
-    VectorType     TransformVector(const VectorType &vector) const;
-    VnlVectorType  TransformVector(const VnlVectorType &vector) const;
+    OutputPointType  TransformPoint(const InputPointType  &point ) const;
+    VectorType       TransformVector(const VectorType &vector) const;
+    VnlVectorType    TransformVector(const VnlVectorType &vector) const;
 
     CovariantVectorType TransformVector(
                                    const CovariantVectorType &vector) const;
@@ -358,7 +359,7 @@ public:
      * point or vector under the affine transformation defined by
      * self.  If no such point exists, an exception is thrown.
      **/
-    inline PointType           BackTransform(const PointType  &point ) const;
+    inline InputPointType      BackTransform(const OutputPointType  &point ) const;
     inline VectorType          BackTransform(const VectorType &vector) const;
     inline VnlVectorType       BackTransform(const VnlVectorType &vector) const;
 
@@ -378,7 +379,7 @@ public:
      * The TransformPoint method is deprecated (as of 2001-01-02)
      * but will be retained a little while for compatibility.
      **/
-    PointType  TransformPoint(const PointType  &point);
+    OutputPointType  TransformPoint(const OutputPointType  &point);
     VectorType TransformPoint(const VectorType &vector);
 
     /**
@@ -392,7 +393,7 @@ public:
      * The BackTransformPoint method was deprecated on 2001-01-02
      * but will be retained a little while for compatibility.
      **/
-    PointType  BackTransformPoint(const PointType  &point);
+    InputPointType  BackTransformPoint(const OutputPointType  &point);
     VectorType BackTransformPoint(const VectorType &point);
 
     /**
@@ -405,7 +406,7 @@ public:
      * The TransformVector method is deprecated (as of 2001-01-02)
      * but will be retained a little while for compatibility.
      **/
-    PointType  TransformVector(const PointType  &point);
+    OutputPointType  TransformVector(const InputPointType  &point);
     VectorType TransformVector(const VectorType &point);
 
     /**
@@ -418,7 +419,7 @@ public:
      * The BackTransformVector method is deprecated (as of 2001-01-02)
      * but will be retained a little while for compatibility.
      **/
-    PointType  BackTransformVector(const PointType  &point);
+    InputPointType  BackTransformVector(const OutputPointType  &point);
     VectorType BackTransformVector(const VectorType &point);
 
     // FIXME: Add transformation of a matrix?

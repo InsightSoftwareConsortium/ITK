@@ -363,9 +363,9 @@ Shear(int axis1, int axis2, double coef, bool pre)
 
 // Transform a point
 template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::PointType
+AffineTransform<ScalarType, NDimensions>::OutputPointType
 AffineTransform<ScalarType, NDimensions>::
-TransformPoint(const PointType &point) const 
+TransformPoint(const InputPointType &point) const 
 {
   return m_Matrix * point + m_Offset;
 }
@@ -423,25 +423,14 @@ TransformVector(const VectorType &point)
 }
 
 
-// Transform a given point which is represented as type PointType
-// FIXME: Deprecated on 2001-01-02
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::PointType
-AffineTransform<ScalarType, NDimensions>::
-TransformPoint(const PointType &point) 
-{
-  return m_Matrix * point;
-}
-
-
 
 // Back transform a point
 template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::PointType
+AffineTransform<ScalarType, NDimensions>::InputPointType
 AffineTransform<ScalarType, NDimensions>::
-BackTransform(const PointType &point) const 
+BackTransform(const OutputPointType &point) const 
 {
-  PointType result;       // Converted point
+  InputPointType result;       // Converted point
   ScalarType temp[NDimensions];
   unsigned int i, j;
 
@@ -515,11 +504,11 @@ BackTransform(const CovariantVectorType &vec) const
 // Back transform a given point which is represented as type PointType
 // FIXME: deprecated on 2001-01-02
 template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::PointType
+AffineTransform<ScalarType, NDimensions>::InputPointType
 AffineTransform<ScalarType, NDimensions>::
-BackTransformPoint(const PointType &point) 
+BackTransformPoint(const OutputPointType &point) 
 {
-  PointType result;       // Converted point
+  InputPointType result;       // Converted point
   ScalarType temp[NDimensions];
   unsigned int i, j;
   

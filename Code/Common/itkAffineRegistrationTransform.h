@@ -105,7 +105,8 @@ public:
   /** 
    * Point Type
    */
-  typedef  typename AffineTransformType::PointType     PointType;
+  typedef  typename AffineTransformType::InputPointType     InputPointType;
+  typedef  typename AffineTransformType::OutputPointType    OutputPointType;
 
 
   /** 
@@ -130,7 +131,7 @@ public:
   /**
    * Transform a Point using the Affine transformation
    */
-  PointType Transform( const PointType & point ) const;
+  OutputPointType Transform( const InputPointType & point ) const;
 
   /**
    * Set the Transformation Parameters
@@ -156,7 +157,7 @@ public:
    * given point or vector, returning the transformed point or
    * vector.
    **/
-  const JacobianType & GetJacobian(const PointType  &point ) const;
+  const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 protected:
 

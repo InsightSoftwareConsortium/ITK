@@ -89,11 +89,11 @@ AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
  * Transform a Point
  */
 template <class TScalarType,unsigned int NDimensions, class TParameters>
-AffineRegistrationTransform<TScalarType,NDimensions,TParameters>::PointType
+AffineRegistrationTransform<TScalarType,NDimensions,TParameters>::OutputPointType
 AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
-::Transform( const PointType & point ) const
+::Transform( const InputPointType & point ) const
 {
-  return m_AffineTransform.Transform( point );
+  return m_AffineTransform.TransformPoint( point );
 }
 
 
@@ -144,7 +144,7 @@ AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 template<class ScalarType, unsigned int NDimensions, class TParameters>
 const AffineRegistrationTransform<ScalarType, NDimensions,TParameters>::JacobianType &
 AffineRegistrationTransform<ScalarType, NDimensions,TParameters>::
-GetJacobian( const PointType & p ) const
+GetJacobian( const InputPointType & p ) const
 {
   
   // The Jacobian of the affine transform is composed of
