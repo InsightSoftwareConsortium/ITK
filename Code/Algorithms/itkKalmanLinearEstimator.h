@@ -57,6 +57,9 @@ namespace itk
  * number of parameters. Recursive estimation is a fast mechanism for getting
  * information about a system for which we only have access to measures that
  * are linearly related with the parameters we want to estimate.  
+ *
+ * \ingroup Numerics
+ *
  */
 template <class T, unsigned int VEstimatorDimension>
 class KalmanLinearEstimator 
