@@ -161,7 +161,7 @@ public:
 
   /** Get the Gaussian smoothing standard deviations. */
   const double * GetStandardDeviations() 
-    { return (double *) m_StandardDeivations; }
+    { return (double *) m_StandardDeviations; }
 
 protected:
   PDEDeformableRegistrationFilter();

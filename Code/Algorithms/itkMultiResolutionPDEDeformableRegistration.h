@@ -205,6 +205,9 @@ public:
   /** Get number of multi-resolution levels. */
   itkGetMacro( NumberOfLevels, unsigned int );
 
+  /** Get the current resolution level being processed. */
+  itkGetMacro( CurrentLevel, unsigned int );
+
   /** Set number of iterations per multi-resolution levels. */
   itkSetVectorMacro( NumberOfIterations, unsigned int, m_NumberOfLevels );
 
@@ -249,6 +252,7 @@ private:
   FieldExpanderPointer       m_FieldExpander;
 
   unsigned int               m_NumberOfLevels;
+  unsigned int               m_CurrentLevel;
   std::vector<unsigned int>  m_NumberOfIterations;
 
 };

@@ -76,6 +76,7 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
     {
     m_NumberOfIterations[ilevel] = 10;
     }
+  m_CurrentLevel = 0;
 
 }
 
@@ -171,9 +172,10 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "No. of Levels: " << m_NumberOfLevels << std::endl;
+  os << indent << "NumberOfLevels: " << m_NumberOfLevels << std::endl;
+  os << indent << "CurrentLevel: " << m_CurrentLevel << std::endl;
 
-  os << indent << "No. of Iterations: [";
+  os << indent << "NumberOfIterations: [";
   unsigned int ilevel;
   for( ilevel = 0; ilevel < m_NumberOfLevels - 1; ilevel++ )
     {
@@ -181,9 +183,12 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
     }
   os << m_NumberOfIterations[ilevel] << "]" << std::endl;
   
-  os << indent << "RegistrationFilter: " << m_RegistrationFilter << std::endl;
-  os << indent << "ReferencePyramid: " << m_ReferencePyramid << std::endl;
-  os << indent << "TargetPyramid: " << m_TargetPyramid << std::endl;
+  os << indent << "RegistrationFilter: ";
+  os << m_RegistrationFilter.GetPointer() << std::endl;
+  os << indent << "ReferencePyramid: ";
+  os << m_ReferencePyramid.GetPointer() << std::endl;
+  os << indent << "TargetPyramid: ";
+  os << m_TargetPyramid.GetPointer() << std::endl;
 
 }
 
@@ -236,23 +241,25 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
   m_FieldExpander->SetInput( m_RegistrationFilter->GetOutput() );
 
 
-  unsigned int ilevel, refLevel, targetLevel;
+  unsigned int refLevel, targetLevel;
   int idim;
   unsigned int lastShrinkFactors[ImageDimension];
   unsigned int expandFactors[ImageDimension];
 
   DeformationFieldPointer tempField = DeformationFieldType::New();
 
-  for( ilevel = 0; ilevel < m_NumberOfLevels; ilevel++ )
+  for( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels; 
+       m_CurrentLevel++ )
     {
-    this->UpdateProgress( (float) ilevel / (float) m_NumberOfLevels );
+    this->UpdateProgress( (float) m_CurrentLevel / 
+      (float) m_NumberOfLevels );
    
-    refLevel = vnl_math_min( (int) ilevel, 
+    refLevel = vnl_math_min( (int) m_CurrentLevel, 
       (int) m_ReferencePyramid->GetNumberOfLevels() );
-    targetLevel = vnl_math_min( (int) ilevel, 
+    targetLevel = vnl_math_min( (int) m_CurrentLevel, 
       (int) m_TargetPyramid->GetNumberOfLevels() );
 
-    if( ilevel == 0 )
+    if( m_CurrentLevel == 0 )
       {
        /**
          * \todo What to do if there is an input deformation field?
@@ -294,7 +301,7 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
     m_RegistrationFilter->SetTarget( m_TargetPyramid->GetOutput(targetLevel) );
 
     m_RegistrationFilter->SetNumberOfIterations(
-      m_NumberOfIterations[ilevel] );
+      m_NumberOfIterations[m_CurrentLevel] );
 
     // cache shrink factors for computing the next expand factors.
     for( idim = 0; idim < ImageDimension; idim++ )
@@ -303,7 +310,7 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
         m_TargetPyramid->GetSchedule()[targetLevel][idim];
       }
 
-    if( ilevel < m_NumberOfLevels - 1)
+    if( m_CurrentLevel < m_NumberOfLevels - 1)
       {
 
       // compute new deformation field
@@ -342,10 +349,12 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
 
         }
       
-      } // end if ilevel
-    } // end ilevel loop
+      } // end if m_CurrentLevel
+    } // end m_CurrentLevel loop
 
 
+   // Reset the m_CurrentLevel to zero
+   m_CurrentLevel = 0;
 }
 
 
