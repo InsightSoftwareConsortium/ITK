@@ -169,6 +169,7 @@ int main()
 
   itkOptimizer->SetInitialPosition( currentValue );
   itkOptimizer->StartOptimization();
+  std::cout << "Optimizer: " << itkOptimizer;
 
   std::cout << "Number of evals = " << vnlOptimizer.get_num_evaluations() << std::endl;    
 
