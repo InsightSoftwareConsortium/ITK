@@ -387,9 +387,9 @@ TriangleCell< TCellInterface >
 template <typename TCellInterface>
 bool
 TriangleCell< TCellInterface >
-::EvaluatePosition(CoordRepType x[PointDimension],
+::EvaluatePosition(CoordRepType x[Self::PointDimension],
                                 PointsContainer* points,
-                                CoordRepType closestPoint[PointDimension],
+                                CoordRepType closestPoint[Self::PointDimension],
                                 CoordRepType pcoord[3],
                                 double* minDist2,
                                 InterpolationWeightType* weights)
