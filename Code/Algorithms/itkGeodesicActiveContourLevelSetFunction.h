@@ -82,6 +82,7 @@ public:
   typedef typename Superclass::FeatureScalarType FeatureScalarType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
+  typedef typename Superclass::VectorImageType VectorImageType;
 
   /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
