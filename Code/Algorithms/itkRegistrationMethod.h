@@ -26,20 +26,12 @@ namespace itk
  * \brief Base class for Registration Methods
  *
  * This Class define the generic interface for a registration method.
- * The basic elements of a registration method are:
- *   - Metric to compare the reference and the target
- *   - Transformation used to register the reference against the target
- *   - Optimization method used to search for the best transformation
+ * The basic elements of a registration method are defined in a Traits
+ * class
  * 
- * Registration is not limited to Images, and for this reason
- * this class is templated over the type of the reference object,
- * the target object and the transformation. This types are obtained
- * from the Metric type, to reduce the number of redundant
- * template parameters
- *
  */
 
-template <class TReference, class TTarget>
+template <class TTraits>
 class ITK_EXPORT RegistrationMethod : public ProcessObject 
 {
 public:
@@ -62,25 +54,46 @@ public:
    typedef SmartPointer<const Self>  ConstPointer;
 
   /**
-   *  Type of the Reference
-   */
-   typedef TReference  ReferenceType;
-
-  /**
    *  Type of the Target
    */
-   typedef TTarget TargetType;
+   typedef typename TTraits::TargetType              TargetType;
+   typedef typename TargetType::Pointer              TargetPointer;
 
   /**
-   *  Pointer type for the Reference 
+   *  Type of the Metric
    */
-   typedef typename ReferenceType::Pointer ReferencePointer;
+   typedef typename TTraits::MetricType              MetricType;
 
-  
   /**
-   *  Pointer type for the Target 
+   *  Type of the Mapper
    */
-   typedef typename TargetType::Pointer TargetPointer;
+   typedef typename TTraits::MapperType              MapperType;
+
+  /**
+   *  Type of the Transformation
+   */
+   typedef typename TTraits::TransformationType TransformationType;
+
+
+  /**
+   *  Type of the Reference
+   */
+   typedef typename TTraits::ReferenceType         ReferenceType;
+   typedef typename ReferenceType::Pointer         ReferencePointer;
+
+
+  /**
+   *  Type of the Optimizer
+   */
+   typedef typename TTraits::OptimizerType         OptimizerType;
+
+
+  /**
+   *  Type of the Transformation parameters
+   *  This is the same type used to represent the search
+   *  space of the optimization algorithm
+   */
+   typedef typename TTraits::ParametersType         ParametersType;
 
 
   /** 
@@ -104,42 +117,73 @@ public:
   /**
    * Set the Target
    */
-   itkSetObjectMacro( Target, TargetType );
+   void SetTarget( TargetType * Target );
+
 
   /**
    * Set the Reference
    */
-   itkSetObjectMacro( Reference,  ReferenceType );
+   void SetReference( ReferenceType * Reference );
+
+
+  /**
+   * Set the Optimizer
+   */
+   itkSetObjectMacro( Optimizer,  OptimizerType );
+
+
+  /**
+   * Set the Metric
+   */
+   itkSetObjectMacro( Metric, MetricType );
+
 
   /**
    * Get the Reference
    */
-   itkGetObjectMacro( Reference, ReferenceType );
+   ReferencePointer GetReference( void );
    
+
   /**
    * Get the Target
    */
-   itkGetObjectMacro( Target, TargetType );
+   TargetPointer     GetTarget( void );
+
+
+  /**
+   * Get the Optimizer
+   */
+   itkGetObjectMacro( Optimizer, OptimizerType );
+
+
+  /**
+   * Get the Metric
+   */
+   itkGetObjectMacro( Metric, MetricType );
 
 
 protected:
 
-  RegistrationMethod(){};
-  virtual ~RegistrationMethod(){};
+  RegistrationMethod();
+  virtual ~RegistrationMethod();
   RegistrationMethod(const Self&);
   const Self & operator=(const Self&);
  
 
 private:
 
-  TargetPointer              m_Target;
-  ReferencePointer           m_Reference;
+  typename MetricType::Pointer              m_Metric;
+  typename OptimizerType::Pointer           m_Optimizer;
 
 };
 
 
 } // end namespace itk
 
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkRegistrationMethod.txx"
+#endif
 
 #endif
 
