@@ -14,12 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include "itkMutualInformationImageToImageMetric.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
 
-#include "itkImageMapper.h"
 #include "itkAffineTransform.h"
-#include "itkMutualInformationImageToImageMetric.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 #include <iostream>
 
@@ -40,32 +40,32 @@ int main()
 //------------------------------------------------------------
 
   //Allocate Images
-  typedef itk::Image<unsigned char,2>           ReferenceType;
-  typedef itk::Image<unsigned char,2>           TargetType;
-  enum { ImageDimension = ReferenceType::ImageDimension };
+  typedef itk::Image<unsigned char,2>           MovingImageType;
+  typedef itk::Image<unsigned char,2>           FixedImageType;
+  enum { ImageDimension = MovingImageType::ImageDimension };
 
-  ReferenceType::SizeType size = {{100,100}};
-  ReferenceType::IndexType index = {{0,0}};
-  ReferenceType::RegionType region;
+  MovingImageType::SizeType size = {{100,100}};
+  MovingImageType::IndexType index = {{0,0}};
+  MovingImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
 
-  ReferenceType::Pointer imgReference = ReferenceType::New();
-  imgReference->SetLargestPossibleRegion( region );
-  imgReference->SetBufferedRegion( region );
-  imgReference->SetRequestedRegion( region );
-  imgReference->Allocate();
+  MovingImageType::Pointer imgMoving = MovingImageType::New();
+  imgMoving->SetLargestPossibleRegion( region );
+  imgMoving->SetBufferedRegion( region );
+  imgMoving->SetRequestedRegion( region );
+  imgMoving->Allocate();
 
-  TargetType::Pointer imgTarget = TargetType::New();
-  imgTarget->SetLargestPossibleRegion( region );
-  imgTarget->SetBufferedRegion( region );
-  imgTarget->SetRequestedRegion( region );
-  imgTarget->Allocate();
+  FixedImageType::Pointer imgFixed = FixedImageType::New();
+  imgFixed->SetLargestPossibleRegion( region );
+  imgFixed->SetBufferedRegion( region );
+  imgFixed->SetRequestedRegion( region );
+  imgFixed->Allocate();
 
   // Fill images with a 2D gaussian
-  typedef  itk::ImageRegionIterator<ReferenceType>
+  typedef  itk::ImageRegionIterator<MovingImageType>
     ReferenceIteratorType;
-  typedef  itk::ImageRegionIterator<TargetType>
+  typedef  itk::ImageRegionIterator<FixedImageType>
     TargetIteratorType;
 
   itk::Point<double,2> center;
@@ -82,8 +82,8 @@ int main()
   displacement[0] = 5;
   displacement[1] = 0;
 
-  ReferenceIteratorType ri(imgReference,region);
-  TargetIteratorType ti(imgTarget,region);
+  ReferenceIteratorType ri(imgMoving,region);
+  TargetIteratorType ti(imgFixed,region);
   ri.Begin();
   while(!ri.IsAtEnd())
     {
@@ -113,46 +113,44 @@ int main()
 //-----------------------------------------------------------
 // Set up a transformer
 //-----------------------------------------------------------
-  enum{ ParametersDimension = ImageDimension * ( ImageDimension + 1 ) };
-  typedef itk::Vector<double,ParametersDimension> ParametersType;
   typedef itk::AffineTransform<
-    double, ImageDimension, ParametersType > TransformType;
+    double, ImageDimension > TransformType;
+  typedef TransformType::ParametersType ParametersType;
 
   TransformType::Pointer transformer = TransformType::New();
 
 //------------------------------------------------------------
-// Set up a mapper
+// Set up a interpolator
 //------------------------------------------------------------
-  typedef itk::ImageMapper< ReferenceType, TransformType >
-     MapperType;
+  typedef itk::LinearInterpolateImageFunction< MovingImageType, double >
+    InterpolatorType;
 
-  MapperType::Pointer mapper = MapperType::New();
+  InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  // connect the transformer to the mapper
-  mapper->SetTransform( transformer );
-
-  // connect the reference image to the mapper
-  mapper->SetDomain( imgReference );
-
-  mapper->Print( std::cout );
+  // connect the moving image to the interpolator
+  interpolator->SetInputImage( imgMoving );
 
 //------------------------------------------------------------
 // Set up the metric
 //------------------------------------------------------------
   typedef itk::MutualInformationImageToImageMetric<
-    TargetType, MapperType > MetricType;
+    FixedImageType, MovingImageType > MetricType;
 
   MetricType::Pointer metric = MetricType::New();
 
-  // connect the mapper to the metric
-  metric->SetMapper( mapper );
+  // connect the interpolator
+  metric->SetInterpolator( interpolator );
 
-  // connect the target image to the mapper
-  metric->SetTarget( imgTarget );
+  // connect the transform
+  metric->SetTransform( transformer );
+
+  // connect the images to the metric
+  metric->SetFixedImage( imgFixed );
+  metric->SetMovingImage( imgMoving );
 
   // set the standard deviations
-  metric->SetTargetStandardDeviation( 5.0 );
-  metric->SetReferenceStandardDeviation( 5.0 );
+  metric->SetFixedImageStandardDeviation( 5.0 );
+  metric->SetMovingImageStandardDeviation( 5.0 );
 
   // set the number of samples to use
   metric->SetNumberOfSpatialSamples( 100 );
@@ -160,30 +158,31 @@ int main()
 //------------------------------------------------------------
 // Set up a affine transform parameters
 //------------------------------------------------------------
-  ParametersType parameters;
+  unsigned int numberOfParameters = transformer->GetNumberOfParameters();
+  ParametersType parameters( numberOfParameters );
 
   // set the parameters to the identity
-  ParametersType::Iterator it = parameters.Begin();
+  unsigned long count = 0;
 
      // initialize the linear/matrix part
   for( unsigned int row = 0; row < ImageDimension; row++ )
     {
     for( unsigned int col = 0; col < ImageDimension; col++ )
       {
-      *it = 0;
+      parameters[count] = 0;
       if( row == col )
         {
-        *it = 1;
+        parameters[count] = 1;
         }
-      ++it;
+      ++count;
       }
     }
 
      // initialize the offset/vector part
   for( unsigned int k = 0; k < ImageDimension; k++ )
     {
-    *it = 0;
-    ++it;
+    parameters[count] = 0;
+    ++count;
     }
 
 
@@ -193,7 +192,7 @@ int main()
 //---------------------------------------------------------
 
   MetricType::MeasureType measure;
-  MetricType::DerivativeType derivative;
+  MetricType::DerivativeType derivative( numberOfParameters );
 
   printf("%s\t%s\t%s\n", "param[4]", "MI", "dMI/dparam[4]" );
 
@@ -218,10 +217,10 @@ int main()
     metric->GetNameOfClass() << std::endl;
   std::cout << "No. of samples used = " << 
     metric->GetNumberOfSpatialSamples() << std::endl;
-  std::cout << "Target std dev = " <<
-    metric->GetTargetStandardDeviation() << std::endl;
-  std::cout << "Reference std dev = " <<
-    metric->GetReferenceStandardDeviation() << std::endl;
+  std::cout << "Fixed image std dev = " <<
+    metric->GetFixedImageStandardDeviation() << std::endl;
+  std::cout << "Moving image std dev = " <<
+    metric->GetMovingImageStandardDeviation() << std::endl;
 
   metric->Print( std::cout );
 
@@ -231,7 +230,7 @@ int main()
 
   std::cout << "Try causing a exception by making std dev too small";
   std::cout << std::endl;
-  metric->SetTargetStandardDeviation( 0.001 );
+  metric->SetFixedImageStandardDeviation( 0.001 );
   try
     {
     std::cout << "Value = " << metric->GetValue( parameters );
@@ -243,10 +242,10 @@ int main()
     }
 
   // reset standard deviation
-  metric->SetTargetStandardDeviation( 5.0 );
+  metric->SetFixedImageStandardDeviation( 5.0 );
 
   std::cout << "Check case when Target is NULL" << std::endl;
-  metric->SetTarget( NULL );
+  metric->SetFixedImage( NULL );
   std::cout << "Value = " << metric->GetValue( parameters );
   std::cout << std::endl;
   

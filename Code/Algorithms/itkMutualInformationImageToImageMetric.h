@@ -17,7 +17,7 @@
 #ifndef __itkMutualInformationImageToImageMetric_h
 #define __itkMutualInformationImageToImageMetric_h
 
-#include "itkSimilarityRegistrationMetric.h"
+#include "itkImageToImageMetric.h"
 #include "itkCovariantVector.h"
 #include "itkPoint.h"
 
@@ -33,23 +33,23 @@ namespace itk
  * \brief Computes the mutual information between two images to be registered
  *
  * MutualInformationImageToImageMetric computes the mutual information
- * between a target and reference image to be registered.
+ * between a fixed and moving image to be registered.
  *
- * This class is templated over two types:
- *    TTarget = the target image type,
- *    TMapper = the mapper type,
+ * This class is templated over the FixedImage type and the MovingImage type.
  *
- * For a given set of transform parameters, the mapper calculates the
- * transformed reference image value at a target domain point.
- * The transform parameters can be defined via SetParameters().
+ * The fixed and moving images are set via methods SetFixedImage() and
+ * SetMovingImage(). This metric makes use of user specified Transform and
+ * Interpolator. The Transform is used to map points from the fixed image to
+ * the moving image domain. The Interpolator is used to evaluate the image
+ * intensity at user specified geometric points in the moving image.
+ * The Transform and Interpolator are set via methods SetTransform() and
+ * SetInterpolator().
  *
- * The methods SetTarget() and SetMapper() are used to define the
- * the target image and the mapper. Note that the reference image has
- * to connected to the mapper (outside of this class) before the
- * mutual information value can be calculated.
+ * \warning This metric assumes that the moving image has already been
+ * connected to the interpolator outside of this class. 
  *
- * The method GetValue() evokes the calculation of the mutual information
- * while method GetValueAndDerivative() evokes the calculation of
+ * The method GetValue() computes of the mutual information
+ * while method GetValueAndDerivative() computes
  * both the mutual information and its derivatives with respect to the
  * transform parameters.
  *
@@ -74,57 +74,28 @@ namespace itk
  * of the variance. In our experiments, we have found that a
  * variance of 0.4 works well for images normalized to have a mean
  * of zero and standard deviation of 1.0.
- * The variance can be set via methods SetTargetStandardDeviation()
- * and SetReferenceStandardDeviation().
+ * The variance can be set via methods SetFixedImageStandardDeviation()
+ * and SetMovingImageStandardDeviation().
  *
  * Implementaton of this class is based on:
  * Viola, P. and Wells III, W. (1997).
  * "Alignment by Maximization of Mutual Information"
  * International Journal of Computer Vision, 24(2):137-154
  *
- * Caveat:
- * Calculating the mutual information works for all transform type.
- * However, in order to calculate the derivatives, the mapper has to
- * have the ability to provide derivatives of the reference intensity
- * with respect to the transform parameters.
- *
- * This feature is still to be implemented.
- *
- * A temporary solution for has been implemented in this class.
- * It should be removed once the feature has been implemented in
- * the mapper.
- *
  * \sa KernelFunction
  * \sa GaussianKernelFunction
  *
  * \ingroup RegistrationMetrics
  */
-template <class TTarget,class TMapper >
+template <class TFixedImage,class TMovingImage >
 class ITK_EXPORT MutualInformationImageToImageMetric :
-  public SimilarityRegistrationMetric< TTarget, TMapper, double,
-    CovariantVector< double, TMapper::SpaceDimension > >
+  public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
-  /**  Type of the match measure. */
-  typedef double  MeasureType;
-
-  /** Space dimension is the dimension of parameters space. */
-   enum { SpaceDimension = TMapper::SpaceDimension };
-
-  /**  Type of the derivative of the match measure. */
-  typedef CovariantVector<MeasureType,SpaceDimension>  DerivativeType;
-
-  /**  Type of the mapper */
-  typedef TMapper MapperType;
-
-  /**  Type of the target. */
-  typedef TTarget TargetType;
 
   /** Standard class typedefs. */
   typedef MutualInformationImageToImageMetric  Self;
-  typedef SimilarityRegistrationMetric< 
-      TargetType, MapperType, 
-      MeasureType, DerivativeType >  Superclass;
+  typedef ImageToImageMetric< TFixedImage, TMovingImage > Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -132,39 +103,34 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MutualInformationImageToImageMetric, 
-               SimilarityRegistrationMetric);
+  itkTypeMacro(MutualInformationImageToImageMetric, ImageToImageMetric);
 
-  /**  Type of the reference. */
-  typedef typename MapperType::DomainType  ReferenceType;
+  /** Types inherited from Superclass. */
+  typedef typename Superclass::TransformType            TransformType;
+  typedef typename Superclass::TransformPointer         TransformPointer;
+  typedef typename Superclass::TransformJacobianType    TransformJacobianType;
+  typedef typename Superclass::InterpolatorType         InterpolatorType;
+  typedef typename Superclass::MeasureType              MeasureType;
+  typedef typename Superclass::DerivativeType           DerivativeType;
+  typedef typename Superclass::ParametersType           ParametersType;
+  typedef typename Superclass::FixedImageType           FixedImageType;
+  typedef typename Superclass::MovingImageType          MovingImageType;
+  typedef typename Superclass::FixedImagePointer        FixedImagePointer;
+  typedef typename Superclass::MovingImagePointer       MovingImagePointer;
 
-  /** TargetImageDimension enumeration. */
-  enum { TargetImageDimension = TargetType::ImageDimension };
+  /** Index and Point typedef support. */
+  typedef typename FixedImageType::IndexType            FixedImageIndexType;
+  typedef typename FixedImageIndexType::IndexValueType  FixedImageIndexValueType;
+  typedef typename MovingImageType::IndexType           MovingImageIndexType;
+  typedef typename TransformType::InputPointType        FixedImagePointType;
+  typedef typename TransformType::OutputPointType       MovingImagePointType;
 
-  /** Type of the transform. */
-  typedef typename MapperType::TransformType TransformType;
-
-  /**  Parameters type. */
-  typedef typename MapperType::ParametersType ParametersType;
-
-  /**  Pointer type for the reference. */
-  typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
-
-  /**  Pointer type for the target. */
-  typedef typename TargetType::ConstPointer TargetConstPointer;
-
-  /**  Pointer type for the mapper. */
-  typedef typename MapperType::Pointer MapperPointer;
-
-  /** TargetIndex typedef support. */
-  typedef Index<TargetImageDimension> TargetIndexType;
-  typedef typename TargetIndexType::IndexValueType TargetIndexValueType;
-
-  /** TargetPoint typedef support. */
-  typedef typename MapperType::OutputPointType TargetPointType;
+  /** Enum of the moving image dimension. */
+  enum { MovingImageDimension = MovingImageType::ImageDimension };
 
   /** Get the derivatives of the match measure. */
-  const DerivativeType& GetDerivative( const ParametersType& parameters );
+  const DerivativeType& GetDerivative( 
+    const ParametersType& parameters );
 
   /**  Get the value. */
   MeasureType GetValue( const ParametersType& parameters );
@@ -182,23 +148,23 @@ public:
   /** Get the number of spatial samples. */
   itkGetConstMacro( NumberOfSpatialSamples, unsigned int );
 
-  /** Set/Get the reference image intensitiy standard deviation. This defines
+  /** Set/Get the moving image intensitiy standard deviation. This defines
    * the kernel bandwidth used in the joint probability distribution
    * calculation. Default value is 0.4 which works well for image intensities
    * normalized to a mean of 0 and standard deviation of 1.0.  
    * Value is clamped to be always greater than zero. */
-  itkSetClampMacro( ReferenceStandardDeviation, double, 
-    NumericTraits<double>::min(), NumericTraits<double>::max() );
-  itkGetConstMacro( ReferenceStandardDeviation, double );
+  itkSetClampMacro( MovingImageStandardDeviation, double, 
+    NumericTraits<double>::NonpositiveMin(), NumericTraits<double>::max() );
+  itkGetConstMacro( MovingImageStandardDeviation, double );
 
-  /** Set/Get the target image intensitiy standard deviation. This defines
+  /** Set/Get the fixed image intensitiy standard deviation. This defines
    * the kernel bandwidth used in the joint probability distribution
    * calculation. Default value is 0.4 which works well for image intensities
    * normalized to a mean of 0 and standard deviation of 1.0.  
    * Value is clamped to be always greater than zero. */
-  itkSetClampMacro( TargetStandardDeviation, double,
-    NumericTraits<double>::min(), NumericTraits<double>::max() );
-  itkGetMacro( TargetStandardDeviation, double );
+  itkSetClampMacro( FixedImageStandardDeviation, double,
+    NumericTraits<double>::NonpositiveMin(), NumericTraits<double>::max() );
+  itkGetMacro( FixedImageStandardDeviation, double );
 
   /** Set/Get the kernel function. This is used to calculate the joint
    * probability distribution. Default is the GaussianKernelFunction. */
@@ -222,9 +188,9 @@ private:
     SpatialSample(){};
     ~SpatialSample(){};
 
-    TargetPointType                  TargetPointValue;
-    double                           TargetValue;
-    double                           ReferenceValue;
+    FixedImagePointType              FixedImagePointValue;
+    double                           FixedImageValue;
+    double                           MovingImageValue;
   };
 
   /** SpatialSampleContainer typedef support. */
@@ -238,40 +204,24 @@ private:
    * information value. */
   SpatialSampleContainer              m_SampleB;
 
-  /** DerivativeContainer typedef support. */
-  typedef std::vector<DerivativeType> DerivativeContainer;
-
-  /** Container to store sample set A image derivatives. */
-  DerivativeContainer                 m_SampleADerivatives;
-
   unsigned int                        m_NumberOfSpatialSamples;
-  double                              m_ReferenceStandardDeviation;
-  double                              m_TargetStandardDeviation;
+  double                              m_MovingImageStandardDeviation;
+  double                              m_FixedImageStandardDeviation;
   typename KernelFunction::Pointer    m_KernelFunction;
   double                              m_MinProbability;
 
-  /** Uniformly select samples from the target image buffer. */
-  void SampleTargetDomain( SpatialSampleContainer& samples );
+  /** Uniformly select samples from the fixed image buffer. */
+  void SampleFixedImageDomain( SpatialSampleContainer& samples );
 
-  //-----------------------------------------------------------
-  // The following methods and variables are related to
-  // calculating the reference image intensity derivatives
-  // with respect to the transform parameters.
-  //
-  // This should really be done by the mapper.
-  //
-  // This is a temporary solution until it has been
-  // implementation in the mappper.
-  // This solution only works with a transform that has a
-  // GetJacobian() API.
-  //----------------------------------------------------------
   /**
    * Calculate the intensity derivatives at a point
    */
-  void CalculateDerivatives(TargetPointType& , DerivativeType& );
+  void CalculateDerivatives( const FixedImagePointType& , DerivativeType& );
 
-  typedef CentralDifferenceImageFunction< ReferenceType >
-    DerivativeFunctionType;
+  typedef typename Superclass::CoordinateRepresentationType  
+    CoordinateRepresentationType;
+  typedef CentralDifferenceImageFunction< MovingImageType, 
+    CoordinateRepresentationType > DerivativeFunctionType;
 
   typename DerivativeFunctionType::Pointer  m_DerivativeCalculator;
 

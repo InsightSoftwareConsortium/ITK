@@ -29,8 +29,8 @@ namespace itk
 /**
  * Constructor
  */
-template < class TTarget, class TMapper  >
-MutualInformationImageToImageMetric<TTarget,TMapper>
+template < class TFixedImage, class TMovingImage >
+MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::MutualInformationImageToImageMetric()
 {
 
@@ -40,8 +40,8 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
   m_KernelFunction  = dynamic_cast<KernelFunction*>(
     GaussianKernelFunction::New().GetPointer() );
 
-  m_TargetStandardDeviation = 0.4;
-  m_ReferenceStandardDeviation = 0.4;
+  m_FixedImageStandardDeviation = 0.4;
+  m_MovingImageStandardDeviation = 0.4;
 
   m_MinProbability = 0.0001;
 
@@ -53,18 +53,18 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 }
 
 
-template < class TTarget, class TMapper  >
+template < class TFixedImage, class TMovingImage  >
 void
-MutualInformationImageToImageMetric<TTarget,TMapper>
+MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "NumberOfSpatialSamples: ";
   os << m_NumberOfSpatialSamples << std::endl;
-  os << indent << "TargetStandardDeviation: ";
-  os << m_TargetStandardDeviation << std::endl;
-  os << indent << "ReferenceStandardDeviation: ";
-  os << m_ReferenceStandardDeviation << std::endl;
+  os << indent << "FixedImageStandardDeviation: ";
+  os << m_FixedImageStandardDeviation << std::endl;
+  os << indent << "MovingImageStandardDeviation: ";
+  os << m_MovingImageStandardDeviation << std::endl;
   os << indent << "KernelFunction: ";
   os << m_KernelFunction.GetPointer() << std::endl;
 }
@@ -73,9 +73,9 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 /**
  * Set the number of spatial samples
  */
-template < class TTarget, class TMapper  >
+template < class TFixedImage, class TMovingImage  >
 void
-MutualInformationImageToImageMetric<TTarget,TMapper>
+MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::SetNumberOfSpatialSamples( 
 unsigned int num )
 {
@@ -94,23 +94,19 @@ unsigned int num )
 
 
 /**
- * Uniformly sample the target domain. Each sample consists of:
- *  - the target image value
- *  - the corresponding reference value
- *  - the derivatives of reference intensity wrt to the transform parameters
+ * Uniformly sample the fixed image domain. Each sample consists of:
+ *  - the fixed image value
+ *  - the corresponding moving image value
  */
-template < class TTarget, class TMapper  >
+template < class TFixedImage, class TMovingImage  >
 void
-MutualInformationImageToImageMetric<TTarget,TMapper>
-::SampleTargetDomain(
+MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+::SampleFixedImageDomain(
 SpatialSampleContainer& samples )
 {
 
-  typename TargetType::ConstPointer target = this->GetTarget();
-  typename MapperType::Pointer mapper = this->GetMapper();
-
   double range =
-   double( target->GetBufferedRegion().GetNumberOfPixels() ) - 1.0;
+   double( m_FixedImage->GetBufferedRegion().GetNumberOfPixels() ) - 1.0;
 
   typename SpatialSampleContainer::iterator iter;
   typename SpatialSampleContainer::const_iterator end = samples.end();
@@ -122,27 +118,27 @@ SpatialSampleContainer& samples )
     // generate a random number between [0,range)
     unsigned long offset = (unsigned long) vnl_sample_uniform( 0.0, range );
 
-    // translate offset to index in the target domain
-    TargetIndexType index = target->ComputeIndex( offset );
+    // translate offset to index in the fixed image domain
+    FixedImageIndexType index = m_FixedImage->ComputeIndex( offset );
 
-    // get target image value
-    (*iter).TargetValue = target->GetPixel( index );
+    // get fixed image value
+    (*iter).FixedImageValue = m_FixedImage->GetPixel( index );
 
-    // get reference image value
-    for( unsigned int j = 0; j < TargetImageDimension; j++ )
+    // get moving image value
+    m_FixedImage->TransformIndexToPhysicalPoint( index, 
+      (*iter).FixedImagePointValue );
+
+    MovingImagePointType mappedPoint = 
+      m_Transform->TransformPoint( (*iter).FixedImagePointValue );
+
+    if( m_Interpolator->IsInsideBuffer( mappedPoint ) )
       {
-      (*iter).TargetPointValue[j] = ( double(index[j]) *
-        target->GetSpacing()[j] ) + target->GetOrigin()[j];
-      }
-
-    if( mapper->IsInside( (*iter).TargetPointValue ) )
-      {
-      (*iter).ReferenceValue = mapper->Evaluate();
+      (*iter).MovingImageValue = m_Interpolator->Evaluate( mappedPoint );
       allOutside = false;
       }
     else
       {
-      (*iter).ReferenceValue = 0;
+      (*iter).MovingImageValue = 0;
       }
 
     }
@@ -162,29 +158,27 @@ SpatialSampleContainer& samples )
 /**
  * Get the match Measure
  */
-template < class TTarget, class TMapper  >
-MutualInformationImageToImageMetric<TTarget,TMapper>::MeasureType
-MutualInformationImageToImageMetric<TTarget,TMapper>
+template < class TFixedImage, class TMovingImage  >
+MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+::MeasureType
+MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValue( const ParametersType& parameters )
 {
 
-  TargetConstPointer target = this->GetTarget();
-  MapperPointer mapper = this->GetMapper();
-
-  if( !target || !mapper )
+  if( !m_FixedImage || !m_Interpolator || !m_Transform )
     {
     m_MatchMeasure = 0;
     return m_MatchMeasure;
     }
 
-  // make sure the mapper has the current parameters
-  mapper->GetTransform()->SetParameters( parameters );
+  // make sure the transform has the current parameters
+  m_Transform->SetParameters( parameters );
 
   // collect sample set A
-  this->SampleTargetDomain( m_SampleA );
+  this->SampleFixedImageDomain( m_SampleA );
 
   // collect sample set B
-  this->SampleTargetDomain( m_SampleB );
+  this->SampleFixedImageDomain( m_SampleB );
 
   // calculate the mutual information
   double dLogSumTarget = 0.0;
@@ -207,12 +201,12 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
       double valueTarget;
       double valueRef;
 
-      valueTarget = ( (*biter).TargetValue - (*aiter).TargetValue ) /
-        m_TargetStandardDeviation;
+      valueTarget = ( (*biter).FixedImageValue - (*aiter).FixedImageValue ) /
+        m_FixedImageStandardDeviation;
       valueTarget = m_KernelFunction->Evaluate( valueTarget );
 
-      valueRef = ( (*biter).ReferenceValue - (*aiter).ReferenceValue ) /
-        m_ReferenceStandardDeviation;
+      valueRef = ( (*biter).MovingImageValue - (*aiter).MovingImageValue ) /
+        m_MovingImageStandardDeviation;
       valueRef = m_KernelFunction->Evaluate( valueRef );
 
       dSumTarget += valueTarget;
@@ -253,9 +247,9 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 /**
  * Get the both Value and Derivative Measure
  */
-template < class TTarget, class TMapper  >
+template < class TFixedImage, class TMovingImage  >
 void
-MutualInformationImageToImageMetric<TTarget,TMapper>
+MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueAndDerivative(
 const ParametersType& parameters,
 MeasureType& value,
@@ -266,28 +260,28 @@ DerivativeType& derivative)
   m_MatchMeasureDerivatives.Fill(0);
   m_MatchMeasure = 0;
 
-  MapperPointer mapper = this->GetMapper();
-  TargetConstPointer target = this->GetTarget();
-
-  // check if target and mapper are valid
-  if( !target || !mapper )
+  // check if inputs are valid
+  if( !m_FixedImage || !m_MovingImage || !m_Interpolator || !m_Transform )
     {
     value = m_MatchMeasure;
     derivative = m_MatchMeasureDerivatives;
     return;
     }
 
-  // make sure the mapper has the current parameters
-  mapper->GetTransform()->SetParameters( parameters );
+  // make sure the transform has the current parameters
+  m_Transform->SetParameters( parameters );
+  unsigned int numberOfParameters = m_Transform->GetNumberOfParameters();
+  m_MatchMeasureDerivatives = DerivativeType( numberOfParameters );
+  m_MatchMeasureDerivatives.Fill( 0 );
 
   // set the DerivativeCalculator
-  m_DerivativeCalculator->SetInputImage( mapper->GetDomain() );
+  m_DerivativeCalculator->SetInputImage( m_MovingImage );
 
   // collect sample set A
-  this->SampleTargetDomain( m_SampleA );
+  this->SampleFixedImageDomain( m_SampleA );
 
   // collect sample set B
-  this->SampleTargetDomain( m_SampleB );
+  this->SampleFixedImageDomain( m_SampleB );
 
 
   // calculate the mutual information
@@ -301,18 +295,23 @@ DerivativeType& derivative)
   typename SpatialSampleContainer::const_iterator bend = m_SampleB.end();
 
   // precalculate all the image derivatives for sample A
-  m_SampleADerivatives.resize( m_NumberOfSpatialSamples );
+  typedef typename std::vector<DerivativeType> DerivativeContainer;
+  DerivativeContainer sampleADerivatives;
+  sampleADerivatives.resize( m_NumberOfSpatialSamples );
 
   typename DerivativeContainer::iterator aditer;
+  DerivativeType tempDeriv( numberOfParameters );
 
-  for( aiter = m_SampleA.begin(), aditer = m_SampleADerivatives.begin();
+  for( aiter = m_SampleA.begin(), aditer = sampleADerivatives.begin();
     aiter != aend; ++aiter, ++aditer )
     {
-    this->CalculateDerivatives( (*aiter).TargetPointValue, (*aditer) );
+    /**** FIXME: is there a way to avoid the extra copying step? *****/
+    this->CalculateDerivatives( (*aiter).FixedImagePointValue, tempDeriv );
+    (*aditer) = tempDeriv;
     }
 
 
-  DerivativeType derivB;
+  DerivativeType derivB(numberOfParameters);
 
   for( biter = m_SampleB.begin(); biter != bend; ++biter )
     {
@@ -326,12 +325,12 @@ DerivativeType& derivative)
       double valueTarget;
       double valueRef;
 
-      valueTarget = ( (*biter).TargetValue - (*aiter).TargetValue )
-        / m_TargetStandardDeviation;
+      valueTarget = ( (*biter).FixedImageValue - (*aiter).FixedImageValue )
+        / m_FixedImageStandardDeviation;
       valueTarget = m_KernelFunction->Evaluate( valueTarget );
 
-      valueRef = ( (*biter).ReferenceValue - (*aiter).ReferenceValue )
-        / m_ReferenceStandardDeviation;
+      valueRef = ( (*biter).MovingImageValue - (*aiter).MovingImageValue )
+        / m_MovingImageStandardDeviation;
       valueRef = m_KernelFunction->Evaluate( valueRef );
 
       dDenominatorRef += valueRef;
@@ -346,9 +345,9 @@ DerivativeType& derivative)
     dLogSumJoint  -= log( dDenominatorJoint );
 
     // get the image derivative for this B sample
-    this->CalculateDerivatives( (*biter).TargetPointValue, derivB );
+    this->CalculateDerivatives( (*biter).FixedImagePointValue, derivB );
 
-    for( aiter = m_SampleA.begin(), aditer = m_SampleADerivatives.begin();
+    for( aiter = m_SampleA.begin(), aditer = sampleADerivatives.begin();
       aiter != aend; ++aiter, ++aditer )
       {
       double valueTarget;
@@ -357,19 +356,19 @@ DerivativeType& derivative)
       double weightJoint;
       double weight;
 
-      valueTarget = ( (*biter).TargetValue - (*aiter).TargetValue ) /
-        m_TargetStandardDeviation;
+      valueTarget = ( (*biter).FixedImageValue - (*aiter).FixedImageValue ) /
+        m_FixedImageStandardDeviation;
       valueTarget = m_KernelFunction->Evaluate( valueTarget );
 
-      valueRef = ( (*biter).ReferenceValue - (*aiter).ReferenceValue ) /
-        m_ReferenceStandardDeviation;
+      valueRef = ( (*biter).MovingImageValue - (*aiter).MovingImageValue ) /
+        m_MovingImageStandardDeviation;
       valueRef = m_KernelFunction->Evaluate( valueRef );
 
       weightRef = valueRef / dDenominatorRef;
       weightJoint = valueRef * valueTarget / dDenominatorJoint;
 
       weight = ( weightRef - weightJoint );
-      weight *= (*biter).ReferenceValue - (*aiter).ReferenceValue;
+      weight *= (*biter).MovingImageValue - (*aiter).MovingImageValue;
 
       m_MatchMeasureDerivatives += ( derivB - (*aditer) ) * weight;
 
@@ -397,7 +396,7 @@ DerivativeType& derivative)
   m_MatchMeasure += log( nsamp );
 
   m_MatchMeasureDerivatives /= nsamp;
-  m_MatchMeasureDerivatives /= vnl_math_sqr( m_ReferenceStandardDeviation );
+  m_MatchMeasureDerivatives /= vnl_math_sqr( m_MovingImageStandardDeviation );
 
   value = m_MatchMeasure;
   derivative =  m_MatchMeasureDerivatives;
@@ -408,9 +407,11 @@ DerivativeType& derivative)
 /**
  * Get the match measure derivative
  */
-template < class TTarget, class TMapper  >
-const MutualInformationImageToImageMetric<TTarget,TMapper>::DerivativeType&
-MutualInformationImageToImageMetric<TTarget,TMapper>
+template < class TFixedImage, class TMovingImage  >
+const 
+MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+::DerivativeType&
+MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetDerivative( const ParametersType& parameters )
 {
   MeasureType value;
@@ -432,36 +433,46 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
  * in the mapper. This solution only works for any transform
  * that support GetJacobian()
  */
-template < class TTarget, class TMapper  >
+template < class TFixedImage, class TMovingImage  >
 void
-MutualInformationImageToImageMetric<TTarget,TMapper>
+MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::CalculateDerivatives(
-TargetPointType& point,
+const FixedImagePointType& point,
 DerivativeType& derivatives )
 {
 
-  TargetPointType refPoint;
-  TargetIndexType refIndex;
-
-  typename MapperType::Pointer mapper = this->GetMapper();
-  typename ReferenceType::ConstPointer reference = mapper->GetDomain();
-
-  refPoint = mapper->GetTransform()->TransformPoint( point );
-
-  for( unsigned int j = 0; j < TargetImageDimension; j++ )
+  MovingImagePointType mappedPoint = m_Transform->TransformPoint( point );
+  
+  /*** FIXME: figure how to do this with the image's PhysicalToIndexTransform.
+   Problem: can't GetPhysicalToIndexTransform because it is not const and
+   this metic holds a const reference to the moving image ******/
+  MovingImageIndexType mappedIndex; 
+  for( unsigned int j = 0; j < MovingImageDimension; j++ )
     {
-    refIndex[j] = (long) vnl_math_rnd( ( refPoint[j] - reference->GetOrigin()[j] ) /
-      reference->GetSpacing()[j] );
+    mappedIndex[j] = static_cast<long>( vnl_math_rnd( ( mappedPoint[j] - 
+      m_MovingImage->GetOrigin()[j] ) / m_MovingImage->GetSpacing()[j] ) );
     }
 
-  CovariantVector<double,TargetImageDimension> imageDerivatives;
-  for( unsigned int j = 0; j < TargetImageDimension; j++ )
+  CovariantVector<double,MovingImageDimension> imageDerivatives;
+  for ( int j = 0; j < MovingImageDimension; j++ )
     {
-    imageDerivatives[j] = m_DerivativeCalculator->EvaluateAtIndex( refIndex, j );
+    imageDerivatives[j] = 
+      m_DerivativeCalculator->EvaluateAtIndex( mappedIndex, j );
     }
 
-  derivatives.Set_vnl_vector( mapper->GetTransform()->
-   GetJacobian( point ).GetTranspose() * imageDerivatives.Get_vnl_vector() );
+  typedef typename TransformType::JacobianType JacobianType;
+  const JacobianType& jacobian = m_Transform->GetJacobian( point );
+
+  unsigned int numberOfParameters = m_Transform->GetNumberOfParameters();
+
+  for ( unsigned int k = 0; k < numberOfParameters; k++ )
+    {
+    derivatives[k] = 0.0;
+    for ( int j = 0; j < MovingImageDimension; j++ )
+      {
+      derivatives[k] += jacobian[j][k] * imageDerivatives[j];
+      }
+    } 
 
 }
 
