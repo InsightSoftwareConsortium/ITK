@@ -37,7 +37,7 @@
 #include "itkShrinkImageFilter.h"
 #include "itkBinaryMask3DMeshSource.h"
 
-int itkDeformableTest(int argc, char **argv)
+int itkDeformableTest(int , char *[])
 {
   int WIDTH = 32;
   int HEIGHT = 32;
