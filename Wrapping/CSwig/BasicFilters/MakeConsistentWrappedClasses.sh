@@ -11,7 +11,7 @@ Postfix=.cxx
 
 MAKE_ALL_FILTER_TYPES="MedianImageFilter NeighborhoodConnectedImageFilter IsolatedConnectedImageFilter GradientMagnitudeImageFilter FastMarchingImageFilter AnisotropicDiffusionImageFilter"
 
-MAKE_ONLY_FLOAT_TYPES="MinMaxCurvatureFlowImageFilter CurvatureFlowImageFilter"
+MAKE_ONLY_FLOAT_TYPES=""
 
 for WRAP_OBJECT2_TARGET in ${MAKE_ALL_FILTER_TYPES}; do
 CURRFILE=${Prefix}${WRAP_OBJECT2_TARGET}${Postfix}
@@ -22,8 +22,8 @@ cat > ${CURRFILE} << FILE_EOF
   Program:   Insight Segmentation & Registration Toolkit
   Module:    \MakeConsistentWrappedClasses.sh{WRAP_OBJECT2_TARGET}.cxx,v \$
   Language:  C++
-  Date:      \$Date: 2003-11-24 12:49:29 $
-  Version:   \$Revision: 1.2 $
+  Date:      \$Date: 2003-11-26 22:06:07 $
+  Version:   \$Revision: 1.3 $
 
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
@@ -83,8 +83,8 @@ cat > ${CURRFILE} << FILE_EOF
   Program:   Insight Segmentation & Registration Toolkit
   Module:    \MakeConsistentWrappedClasses.sh{WRAP_OBJECT2_TARGET}.cxx,v \$
   Language:  C++
-  Date:      \$Date: 2003-11-24 12:49:29 $
-  Version:   \$Revision: 1.2 $
+  Date:      \$Date: 2003-11-26 22:06:07 $
+  Version:   \$Revision: 1.3 $
 
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
