@@ -124,7 +124,7 @@ CurvatureFlowFunction<TImage>
       }
 
     // accumlate the gradient magnitude squared
-    magnitudeSqr += vnl_math_sqr( firstderiv[i] );
+    magnitudeSqr += vnl_math_sqr( (double)firstderiv[i] );
 
     }
 
@@ -147,7 +147,7 @@ CurvatureFlowFunction<TImage>
       temp += secderiv[j];
       }
     
-    update += temp * vnl_math_sqr( firstderiv[i] );
+    update += temp * vnl_math_sqr( (double)firstderiv[i] );
     }
 
   // accumlate -2 * dx * dy * dxy terms
