@@ -6,6 +6,7 @@ itkBoundingBoxTest
 itkByteSwapTest
 itkCyclicReferences
 itkCurvatureFlowTest
+itkCovariantVectorTest
 itkDataTypeTest
 itkExceptionObjectTest
 itkExtractMeshConnectedRegionsTest
