@@ -1,5 +1,4 @@
 #include "itkConfigure.h"
-#include "itkCSwigConfigure.h"
 
 #define ITK_WRAP_GROUP(x) #x
 
