@@ -178,8 +178,9 @@ int main( int argc, char *argv[] )
 //  Software Guide : BeginLatex
 //
 //  In order to set the index of the vector component to be extracted, we get
-//  the value from the command line, create a pixel accessor, set this index
-//  value and finally assign the pixel accessor to the image adaptor.
+//  the value from the command line, create a pixel accessor, set its index
+//  value and finally assign the pixel accessor to the image adaptor using the
+//  \code{SetPixelAccessor()} method.
 //
 //  Software Guide : EndLatex 
 
@@ -245,7 +246,7 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  We instantiate a \doxygen{RescaleIntensityImageFilter} and a
+//  We instantiate an \doxygen{RescaleIntensityImageFilter} and an
 //  \doxygen{ImageFileWriter} to rescale the dynamic range of the pixel values
 //  and send the extracted channel to an image file. Note that the image type
 //  used for the rescaling filter is the \code{ImageAdaptorType} itself. That
@@ -309,9 +310,9 @@ int main( int argc, char *argv[] )
 //
 //  Note that the adaptor is used as an image would have been used, not as a
 //  filter. The \doxygen{ImageAdaptor} conforms to the API of the
-//  \doxygen{Image}.  Figure \ref{fig:ImageAdaptorToVectorImage} illustrates
-//  the result of applying the current code for extracting both components of a
-//  two dimensional gradient.
+//  \doxygen{Image} class. Figure~\ref{fig:ImageAdaptorToVectorImage}
+//  illustrates the result of applying the current code for extracting both
+//  components of a two dimensional gradient.
 //
 //  Software Guide : EndLatex 
 
