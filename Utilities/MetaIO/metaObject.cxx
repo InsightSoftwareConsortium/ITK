@@ -1177,7 +1177,7 @@ M_SetupWriteFields(void)
     }
 
   bool valSet = false;
-  int i = 0;
+  int i;
   for(i=0; i<4; i++)
     {
     if(m_Color[i] != 1)
