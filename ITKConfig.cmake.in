@@ -17,14 +17,6 @@
 # ITK_DEFINITIONS       - Preprocessor macros needed for including ITK headers.
 # ITK_LIBRARIES         - Link libraries for all of ITK.
 #
-# ITK_Common_LIBS       - Link libraries for Common components of ITK.
-# ITK_BasicFilters_LIBS - Link libraries for BasicFilters components of ITK.
-# ITK_Numerics_LIBS     - Link libraries for Numerics components of ITK.
-# ITK_Algorithms_LIBS   - Link libraries for Algorithms components of ITK.
-# ITK_Statistics_LIBS   - Link libraries for Statistics components of ITK.
-# ITK_IO_LIBS           - Link libraries for IO components of ITK.
-# ITK_FEM_LIBS          - Link libraries for FEM components of ITK.
-#
 # ITK_C_COMPILER        - The C compiler used to build ITK.
 # ITK_C_FLAGS           - The C compiler flags used to build ITK.
 # ITK_CXX_COMPILER      - The C++ compiler used to build ITK.
@@ -58,9 +50,19 @@
 #
 # TARGET_LINK_LIBRARIES(MyExecutable ${ITK_LIBRARIES})
 #
-# Advanced users can fine-tune the libraries that are linked by using
-# the ITK_*_LIBS settings described above.
+# Advanced users can fine-tune the libraries that are linked by
+# specifying their name directly.  The supported libraries are:
 #
+#   ITKCommon       - Common components, used by everything.
+#   ITKBasicFilters - Basic image/mesh processing filters.
+#   ITKNumerics     - Optimizer implementations (wrap VNL optimizers).
+#   ITKStatistics   - Statistics support classes.
+#   ITKAlgorithms   - Primary segmentation/registration algorithms.
+#   ITKIO           - Image reader/writer filters.
+#   ITKFEM          - Finite Element Methods and related classes.
+#
+# While others are shown below, they should not be used directly
+# by applications.
 #-----------------------------------------------------------------------------
 
 # The ITK include file directories.
@@ -98,35 +100,24 @@ SET(ITK_USE_SYSTEM_STDLIB "@ITK_USE_SYSTEM_STDLIB@")
 # Whether ITK was built with shared libraries.
 SET(ITK_BUILD_SHARED "@BUILD_SHARED_LIBS@")
 
-# The thread libraries used to build ITK.
-SET(ITK_THREAD_LIBS "@CMAKE_THREAD_LIBS@")
+# The list of library dependencies used by CMake for automatic
+# chainging of dependent libraries.
+SET(ITKAlgorithms_LIB_DEPENDS "@ITKAlgorithms_LIB_DEPENDS@")
+SET(ITKBasicFilters_LIB_DEPENDS "@ITKBasicFilters_LIB_DEPENDS@")
+SET(ITKCommon_LIB_DEPENDS "@ITKCommon_LIB_DEPENDS@")
+SET(ITKFEM_LIB_DEPENDS "@ITKFEM_LIB_DEPENDS@")
+SET(ITKIO_LIB_DEPENDS "@ITKIO_LIB_DEPENDS@")
+SET(ITKNumerics_LIB_DEPENDS "@ITKNumerics_LIB_DEPENDS@")
+SET(ITKStatistics_LIB_DEPENDS "@ITKStatistics_LIB_DEPENDS@")
+SET(ITKMetaIO_LIB_DEPENDS "@ITKMetaIO_LIB_DEPENDS@")
+SET(VXLNumerics_LIB_DEPENDS "@VXLNumerics_LIB_DEPENDS@")
+SET(itkpng_LIB_DEPENDS "@itkpng_LIB_DEPENDS@")
+SET(itkzlib_LIB_DEPENDS "@itkzlib_LIB_DEPENDS@")
+SET(Cio_LIB_DEPENDS "@Cio_LIB_DEPENDS@")
 
-# The dl libraries used to build ITK.
-SET(ITK_DL_LIBS "@CMAKE_DL_LIBS@")
-
-# The list of libraries needed for using components of each library.
-SET(ITK_stdlib_LIBS        "@ITK_stdlib_LIB@")
-SET(ITK_zlib_LIBS          "@ITK_zlib_LIB@")
-SET(ITK_png_LIBS           "@ITK_png_LIB@" ${ITK_zlib_LIBS})
-SET(ITK_MetaIO_LIBS        ITKMetaIO       ${ITK_stdlib_LIBS})
-SET(ITK_VXLNumerics_LIBS   VXLNumerics     ${ITK_stdlib_LIBS}
-                                           ${ITK_THREAD_LIBS}
-                                           ${ITK_DL_LIBS})
-SET(ITK_Common_LIBS        ITKCommon       ${ITK_VXLNumerics_LIBS})
-SET(ITK_BasicFilters_LIBS  ITKBasicFilters ${ITK_Common_LIBS})
-SET(ITK_Numerics_LIBS      ITKNumerics     ${ITK_Common_LIBS})
-SET(ITK_Algorithms_LIBS    ITKAlgorithms   ${ITK_Numerics_LIBS})
-SET(ITK_Statistics_LIBS    ITKStatistics   ${ITK_Common_LIBS})
-SET(ITK_IO_LIBS ITKIO      ITKMetaIO       ${ITK_Common_LIBS}
-                                           ${ITK_png_LIBS})
-SET(ITK_FEM_LIBS           ITKFEM          ${ITK_BasicFilters_LIBS}
-                                           ${ITK_Numerics_LIBS}
-                                           ${ITK_IO_LIBS})
-
-# A list of all libraries for ITK.
-SET(ITK_LIBRARIES ${ITK_Algorithms_LIBS}
-                  ${ITK_Statistics_LIBS}
-                  ${ITK_FEM_LIBS})
+# A list of all libraries for ITK.  Those listed here should
+# automatically pull in their dependencies.
+SET(ITK_LIBRARIES ITKAlgorithms ITKStatistics ITKFEM)
 
 # Check if the compiler matches the one used to build ITK.
 IF(CMAKE_CXX_COMPILER STRLESS ITK_CXX_COMPILER)
