@@ -17,6 +17,7 @@
 #define __itkSqrtImageAdaptor_h
 
 #include <itkImageAdaptor.h>
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
