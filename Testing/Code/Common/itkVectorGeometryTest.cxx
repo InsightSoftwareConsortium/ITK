@@ -25,6 +25,14 @@
 #include <vnl/vnl_vector_ref.h>
 #include <iostream>
 
+//-------------------------
+//
+//   Main code
+//
+//-------------------------
+int itkVectorGeometryTest(int, char**) 
+{
+
   // Dimension & Type
   const     unsigned int    N = 3;
   typedef   double          ValueType;
@@ -33,14 +41,6 @@
   typedef    itk::Vector< ValueType, N >    VectorType;
 
 
-
-//-------------------------
-//
-//   Main code
-//
-//-------------------------
-int itkVectorGeometryTest(int, char**) 
-{
 
 /*
   VectorType vv;
