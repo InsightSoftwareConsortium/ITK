@@ -25,11 +25,31 @@ namespace itk
       \brief Computes normalized mutual information between two images to
       be registered using the histograms of the intensities in the images.
 
+      The type of Normalize Mutual Information implemented in this class
+      is given by the equation
+
+      \f[  \frac{ H(A) + H(B) }{ H(A,B) }  \f]
+
+      Where \$ H(A) \$ is the entropy of image \$ A \$, 
+            \$ H(B) \$ is the entropy of image \$ B \$,  and
+            \$ H(A,B) \$ is the joing entropy of images \$ A \$ and \$ B \$.  
+
+      Details of this implementation can be found in the book 
+
+      "Medical Image Registration" by Hajnal, Hill and Hawkes. 
+
+      The book is available online at
+
+               http://www-ipg.umds.ac.uk/d.hill/hhh/ 
+
+      The implementation of this class corresponds to equation (30) in
+      Chapter 3 of this book. Note that by slightly changing this class
+      it will be trivial to compute the Normalized Mutual Information
+      measures defined in equations (28) and (29) of the same book.
+
+
       This class is templated over the type of the fixed and moving
       images to be compared.
-
-      This metric computes the similarity measure between pixels in the
-      moving image and pixels in the fixed images using a histogram.
 
       \ingroup RegistrationMetrics */
 template <class TFixedImage, class TMovingImage>
