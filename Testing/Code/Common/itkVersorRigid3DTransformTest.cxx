@@ -117,20 +117,22 @@ int main()
         break;    
       }
     }
+
     if( !Ok )
     { 
       std::cerr << "Get Offset  differs from null in rotation " << std::endl;
       return EXIT_FAILURE;
     }
 
+    VersorType versor;
+    versor.Set( axis, angle );
+    
     {
       // Rotate an itk::Point
       TransformType::InputPointType p;
       p = 1,4,9;
       TransformType::OutputPointType q;
-      q[0] = p[1];
-      q[1] = p[2];
-      q[2] = p[0];
+      q = versor.Transform( p );
 
       TransformType::OutputPointType r;
       r = rotation->TransformPoint( p );
@@ -160,9 +162,7 @@ int main()
       TransformType::InputVectorType p;
       p = 1,4,9;
       TransformType::OutputVectorType q;
-      q[0] = p[1];
-      q[1] = p[2];
-      q[2] = p[0];
+      q = versor.Transform( p );
 
       TransformType::OutputVectorType r;
       r = rotation->TransformVector( p );
@@ -193,9 +193,7 @@ int main()
       TransformType::InputCovariantVectorType p;
       p = 1,4,9;
       TransformType::OutputCovariantVectorType q;
-      q[0] = p[1];
-      q[1] = p[2];
-      q[2] = p[0];
+      q = versor.Transform( p );
 
       TransformType::OutputCovariantVectorType r;
       r = rotation->TransformCovariantVector( p );
@@ -229,10 +227,7 @@ int main()
       p[2] = 9;
 
       TransformType::OutputVnlVectorType q;
-
-      q[0] = p[1];
-      q[1] = p[2];
-      q[2] = p[0];
+      q = versor.Transform( p );
 
       TransformType::OutputVnlVectorType r;
       r = rotation->TransformVnlVector( p );
