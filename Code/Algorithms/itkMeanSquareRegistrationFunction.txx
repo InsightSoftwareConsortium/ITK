@@ -145,12 +145,14 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   // Get moving image related information
   double movingValue;
   PointType mappedPoint;
+  typename DeformationFieldType::PixelType itvec=m_DeformationField->GetPixel(index);
 
   for( j = 0; j < ImageDimension; j++ )
     {
      mappedPoint[j] = double( index[j] ) * m_FixedImageSpacing[j] + 
       m_FixedImageOrigin[j];
-     mappedPoint[j] += it.GetCenterPixel()[j];
+//     mappedPoint[j] += it.GetCenterPixel()[j];
+      mappedPoint[j] += itvec[j];
     }
   if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
     {
@@ -187,7 +189,7 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   for( j = 0; j < ImageDimension; j++ )
     {
     update[j] = speedValue * fixedGradient[j] * vnl_math_sqr(m_FixedImageSpacing[j]) / 
-      (denominator*m_GradientStep);
+      denominator*m_GradientStep;
     }
 
   return update;

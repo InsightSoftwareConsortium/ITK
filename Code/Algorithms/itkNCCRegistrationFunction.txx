@@ -255,7 +255,7 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   }
 
 
-  return update/m_GradientStep;
+  return update*m_GradientStep;
 }
 
 
