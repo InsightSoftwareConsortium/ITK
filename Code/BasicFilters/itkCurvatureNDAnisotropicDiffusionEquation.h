@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCurvature2DAnisotropicDiffusionEquation.h
+  Module:    itkCurvatureNDAnisotropicDiffusionEquation.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,8 +38,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkCurvature2DAnisotropicDiffusionEquation_h_
-#define __itkCurvature2DAnisotropicDiffusionEquation_h_
+#ifndef __itkCurvatureNDAnisotropicDiffusionEquation_h_
+#define __itkCurvatureNDAnisotropicDiffusionEquation_h_
 
 #include "itkScalarAnisotropicDiffusionEquation.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -49,30 +49,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 /**
- * \class Curvature2DAnisotropicDiffusionEquation
+ * \class CurvatureNDAnisotropicDiffusionEquation
  *  
- * \ingroup Operators 
- *
- * This is a class of AnisotropicDiffusionEquation whose conductance
- * term varies inversely with curvature in the image.  Areas with high
- * curvature undergo less diffusion.
- *
- *
- *
- *
- *
+ *  
+ * \sa AnisotropicDiffusionEquation
+ * \sa Curvature2DAnisotropicDiffusionEquation
+ * \ingroup Operators
  * \todo DOCUMENT! References
- * 
  */ 
 template <class TImage>
-class Curvature2DAnisotropicDiffusionEquation :
+class CurvatureNDAnisotropicDiffusionEquation :
     public ScalarAnisotropicDiffusionEquation<TImage>
 {
 public:
  /**
    * Standard itk Self & Superclass typedefs
    */
-  typedef Curvature2DAnisotropicDiffusionEquation Self;
+  typedef CurvatureNDAnisotropicDiffusionEquation Self;
   typedef ScalarAnisotropicDiffusionEquation<TImage> Superclass;
 
   /**
@@ -83,9 +76,10 @@ public:
   typedef typename Superclass::TimeStepType     TimeStepType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
+  typedef typename Superclass::BoundaryNeighborhoodType
+  BoundaryNeighborhoodType;
+  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
   enum { ImageDimension = Superclass::ImageDimension };
-  typedef typename Superclass::FloatOffsetType FloatOffsetType;
   /** 
    * Smart pointer support for this class.
    */
@@ -95,7 +89,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro( Curvature2DAnisotropicDiffusionEquation,
+  itkTypeMacro( CurvatureNDAnisotropicDiffusionEquation,
                 ScalarAnisotropicDiffusionEquation );
   
   /**
@@ -107,16 +101,17 @@ public:
    *
    */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
-                                  void * globalData,
-                             const FloatOffsetType& offset = m_ZeroOffset) const;
+                                  void *globalData,
+                                  const FloatOffsetType& offset = m_ZeroOffset
+                                  ) const;
 
   /**
    *
    */
   virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
-                                  &neighborhood, void * globalData, const
-                                  FloatOffsetType& offset = m_ZeroOffset)
-    const;
+                                  &neighborhood, void *globalData,
+                                  const FloatOffsetType& offset = m_ZeroOffset
+                                  ) const;
 
 
   /**
@@ -129,9 +124,9 @@ public:
     }
   
 protected:
-  Curvature2DAnisotropicDiffusionEquation();
-  ~Curvature2DAnisotropicDiffusionEquation() {}
-  Curvature2DAnisotropicDiffusionEquation(const Self&) {}
+  CurvatureNDAnisotropicDiffusionEquation();
+  ~CurvatureNDAnisotropicDiffusionEquation() {}
+  CurvatureNDAnisotropicDiffusionEquation(const Self&) {}
   void operator=(const Self&) {}
 
   /**
@@ -146,29 +141,32 @@ protected:
   SmartNeighborhoodInnerProduct<ImageType> m_SmartInnerProduct;
 
   /**
-   * Slices for the 2D neighborhood.
-   * 0  1  2  3  4
-   * 5  6 *7* 8  9
-   * 10 11 12 13 14
+   * Slices for the ND neighborhood.
    */
-  std::slice  x_slice; // (6,3,1)
-  std::slice  y_slice; // (2,3,5)
-  std::slice xa_slice; // (7,3,1)
-  std::slice ya_slice; // (3,3,5)
-  std::slice xd_slice; // (5,3,1)
-  std::slice yd_slice; // (1,3,5)
+  std::slice  x_slice[ImageDimension];
+  std::slice xa_slice[ImageDimension];
+  std::slice xd_slice[ImageDimension];
 
   /**
-   * Derivative operators.
+   * Derivative operator
    */
-  DerivativeOperator<PixelType, 2> dx_op;
-  DerivativeOperator<PixelType, 2> dy_op;
+  DerivativeOperator<PixelType, ImageDimension> dx_op;
 
   /**
    * Modified global average gradient magnitude term.
    */
   PixelType m_k;
-  
+
+  /**
+   * 
+   */
+  unsigned long m_Center;
+
+  /**
+   *
+   */
+  unsigned long m_Stride[ImageDimension];
+
 };
 
 
@@ -176,7 +174,7 @@ protected:
 }// end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCurvature2DAnisotropicDiffusionEquation.txx"
+#include "itkCurvatureNDAnisotropicDiffusionEquation.txx"
 #endif
 
 #endif

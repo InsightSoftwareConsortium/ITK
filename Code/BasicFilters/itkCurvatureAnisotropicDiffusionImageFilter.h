@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkAnisotropicDiffusionImageFilter.h"
 #include "itkCurvature2DAnisotropicDiffusionEquation.h"
+#include "itkCurvatureNDAnisotropicDiffusionEquation.h"
 
 namespace itk {
 
@@ -86,9 +87,9 @@ protected:
         }
       else
         {
-          std::cerr << "ND Curvature Anisotropic diffusion not yet implemented."
-                    << std::endl;
-          throw ExceptionObject();
+          CurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer q
+            = CurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
+          this->SetDifferenceEquation(q);
         }
     }
   ~CurvatureAnisotropicDiffusionImageFilter() {}
