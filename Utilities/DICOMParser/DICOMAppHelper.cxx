@@ -60,6 +60,7 @@ DICOMAppHelper::DICOMAppHelper()
   this->ImagePositionPatientCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->ImageOrientationPatientCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->TransferSyntaxCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->ToggleSwapBytesCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->BitsAllocatedCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->PixelSpacingCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->HeightCB = new DICOMMemberCallback<DICOMAppHelper>;
@@ -100,6 +101,7 @@ DICOMAppHelper::~DICOMAppHelper()
   delete this->ImagePositionPatientCB;
   delete this->ImageOrientationPatientCB;
   delete this->TransferSyntaxCB;
+  delete this->ToggleSwapBytesCB;
   delete this->BitsAllocatedCB;
   delete this->PixelSpacingCB;
   delete this->HeightCB;
@@ -135,6 +137,8 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
   
   TransferSyntaxCB->SetCallbackFunction(this, &DICOMAppHelper::TransferSyntaxCallback);
   parser->AddDICOMTagCallback(0x0002, 0x0010, DICOMParser::VR_UI, TransferSyntaxCB);
+
+  ToggleSwapBytesCB->SetCallbackFunction(this, &DICOMAppHelper::ToggleSwapBytesCallback);
 
   BitsAllocatedCB->SetCallbackFunction(this, &DICOMAppHelper::BitsAllocatedCallback);
   parser->AddDICOMTagCallback(0x0028, 0x0100, DICOMParser::VR_US, BitsAllocatedCB);
@@ -548,14 +552,11 @@ void DICOMAppHelper::TransferSyntaxCallback(DICOMParser *parser,
 
   static char* TRANSFER_UID_EXPLICIT_BIG_ENDIAN = "1.2.840.10008.1.2.2";
 
-
-  DICOMMemberCallback<DICOMAppHelper>* cb = new DICOMMemberCallback<DICOMAppHelper>;
-  cb->SetCallbackFunction(this, &DICOMAppHelper::ToggleSwapBytesCallback);
-
+  // Only add the ToggleSwapBytes callback when we need it.
   if (strcmp(TRANSFER_UID_EXPLICIT_BIG_ENDIAN, (char*) val) == 0)
     {
     this->ByteSwapData = true;
-    parser->AddDICOMTagCallback(0x0800, 0x0000, DICOMParser::VR_UNKNOWN, cb);
+    parser->AddDICOMTagCallback(0x0800, 0x0000, DICOMParser::VR_UNKNOWN, ToggleSwapBytesCB);
 #ifdef DEBUG_DICOM_APP_HELPER
     std::cerr <<"Registering callback for swapping bytes." << std::endl;
 #endif

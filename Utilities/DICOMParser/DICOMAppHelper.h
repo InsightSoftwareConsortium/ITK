@@ -424,6 +424,7 @@ public:
   DICOMMemberCallback<DICOMAppHelper>* ImagePositionPatientCB;
   DICOMMemberCallback<DICOMAppHelper>* ImageOrientationPatientCB;
   DICOMMemberCallback<DICOMAppHelper>* TransferSyntaxCB;
+  DICOMMemberCallback<DICOMAppHelper>* ToggleSwapBytesCB;
   DICOMMemberCallback<DICOMAppHelper>* BitsAllocatedCB;
   DICOMMemberCallback<DICOMAppHelper>* PixelSpacingCB;
   DICOMMemberCallback<DICOMAppHelper>* HeightCB;
