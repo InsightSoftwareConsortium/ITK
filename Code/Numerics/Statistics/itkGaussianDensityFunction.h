@@ -1,17 +1,17 @@
 /*=========================================================================
 
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkGaussianDensityFunction.h
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkGaussianDensityFunction.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-Copyright (c) 2002 Insight Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-PURPOSE.  See the above copyright notices for more information.
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkGaussianDensityFunction_h
@@ -37,8 +37,8 @@ namespace Statistics{
  * of an instance (pattern) .  
  * If the all element of the covariance matrix is zero the "usual" density 
  * calculations ignored. if the measurement vector to be evaluated is equal to
- * the mean, then the Evaluate method will return maximum value of double and return 0 
- * for others 
+ * the mean, then the Evaluate method will return maximum value of
+ * double and return 0 for others 
  *
  */
 
@@ -63,33 +63,36 @@ public:
   itkStaticConstMacro(VectorDimension, unsigned int,
                       TMeasurementVector::Length);
 
+  /** Type of the mean vector */
   typedef Vector< double, itkGetStaticConstMacro(VectorDimension) > MeanType ;
-  typedef Matrix< double, itkGetStaticConstMacro(VectorDimension), itkGetStaticConstMacro(VectorDimension) > CovarianceType ;
+  
+  /** Type of the covariance matrix */
+  typedef Matrix< double, itkGetStaticConstMacro(VectorDimension), 
+                  itkGetStaticConstMacro(VectorDimension) > CovarianceType ;
 
-  /** Method to set mean */
+  /** Sets the mean */
   void SetMean(MeanType* mean)
   {
     if ( m_Mean != mean) 
       {
-        m_Mean = mean ;
-        this->Modified() ;
+      m_Mean = mean ;
+      this->Modified() ;
       }
   }
   
-  /** Method to get mean */
+  /** Gets the mean */
   MeanType* GetMean() const
   { return m_Mean ; }
 
-  /** Method to set covariance matrix
+  /** Sets the covariance matrix.
    * Also, this function calculates inverse covariance and pre factor of 
    * Gaussian Distribution to speed up GetProbability */
   void SetCovariance(CovarianceType* cov); 
   
-  /** Method to get covariance matrix */
+  /** Gets the covariance matrix */
   CovarianceType* GetCovariance() const ;
 
-  /**y Method to get probability of an instance. The return value is the
-   * value of the density function, not probability. */
+  /** Gets the probability density of a measurement vector. */
   double Evaluate(const MeasurementVectorType &measurement) const ;
   
 protected:
