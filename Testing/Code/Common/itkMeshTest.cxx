@@ -99,6 +99,8 @@ int itkMeshTest(int, char**)
    */
   MeshType::Pointer mesh = MeshType::New();  
 
+  mesh->DebugOn();
+
   /**
    * Add our test points to the mesh.
    * mesh->SetPoint(pointId, point)
@@ -492,8 +494,6 @@ int itkMeshTest(int, char**)
   bbox->SetPoints(mesh->GetPoints());
   bbox->ComputeBoundingBox();
   std::cout << bbox << std::endl;
-
-  mesh->Initialize();
 
   return 0;  
 }
