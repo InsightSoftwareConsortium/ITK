@@ -408,7 +408,7 @@ void Segmenter<TInputImage>
   // NOTE: For ease of initial implementation, this method does
   // not support arbitrary connectivity across boundaries (yet). 10-8-01 jc
   //
-  unsigned int nSize, nCenter, i, nPos, cPos;
+  unsigned int nCenter, i, nPos, cPos;
   bool isSteepest;
   ConstNeighborhoodIterator<InputImageType>          searchIt;
   NeighborhoodIterator<OutputImageType>               labelIt;
@@ -642,7 +642,7 @@ void Segmenter<TInputImage>
 ::LabelMinima(typename InputImageType::Pointer img, ImageRegionType region,
               Self::flat_region_table_t &flatRegions, InputPixelType Max)
 {
-  unsigned int i, j, nSize, nCenter, nPos;
+  unsigned int i, nSize, nCenter, nPos;
   bool foundSinglePixelMinimum, foundFlatRegion;
   InputPixelType maxValue = Max;
   

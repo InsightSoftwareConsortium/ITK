@@ -212,7 +212,7 @@ void SegmentTreeGenerator<TScalarType>
 
   unsigned  counter;
   typename SegmentTreeType::merge_comp comp;
-  typename SegmentTableType::DataType  *toSeg, *fromSeg;
+  typename SegmentTableType::DataType  *toSeg;
   typename SegmentTreeType::ValueType  tempMerge;
   unsigned long  toSegLabel, fromSegLabel;
 
@@ -256,7 +256,6 @@ void SegmentTreeGenerator<TScalarType>
       // Otherwise, ignore this particular entry.
       if ( fromSegLabel == topMerge.from && fromSegLabel != toSegLabel )
         {
-          fromSeg = segments->Lookup( fromSegLabel );
           toSeg   = segments->Lookup( toSegLabel );
 
           topMerge.from = fromSegLabel;
