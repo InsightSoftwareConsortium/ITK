@@ -35,6 +35,11 @@ void FileIteratorBase::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
+  os << indent << "Write Mode: ";
+  if ( m_WriteMode ) os << "On\n";
+  else os << "Off\n";
+    
+  os << indent << "Series Format: " << m_SeriesFormat << "\n";
   os << indent << "Current File Name: " << m_CurrentFileName << "\n";
 }
 

@@ -18,9 +18,26 @@
 #define __itkNumericSeriesFileIterator_h
 
 #include "itkFileIteratorBase.h"
+#include "itkExceptionObject.h"
 
 namespace itk
 {
+
+/** \brief Exception class for missing file in series. */
+class NumericSeriesException : public ExceptionObject 
+{
+public:
+  /** Run-time information. */
+  itkTypeMacro( NumericSeriesException, ExceptionObject );
+
+  /** Constructor. */
+  NumericSeriesException(const char *file, unsigned int line, 
+                         const char* message = "Missing file in series") : 
+    ExceptionObject(file, line)
+    {
+      SetDescription(message);
+    }
+};
 
 /** \class NumericSeriesFileIterator
  * \brief Generate an ordered sequence of filenames.
@@ -115,14 +132,19 @@ protected:
   /** The number of files in the sequence. */
   unsigned long m_NumberOfFiles;
 
-  /** The number of files in the sequence. */
+  /** The number of files in the sequence; the current number of files 
+   * in the series. */
   unsigned long m_CurrentIndex;
+  unsigned long m_CurrentNumberOfFiles;
 
   /** Throw an exception if the sequence ordering is interrupted. */
   bool m_ThrowExceptionOnMissingFile;
 
   /** A helper function produces filenames from the series format. */
   const std::string& ProduceNextFileName(unsigned long idx);
+
+  /** A helper function determines whether a file exists. */
+  bool FileExists(const char* filename);
 
 private:
   NumericSeriesFileIterator(const Self&); //purposely not implemented

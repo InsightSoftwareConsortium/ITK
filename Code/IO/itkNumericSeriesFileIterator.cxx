@@ -18,6 +18,7 @@
 #define _itkNumericSeriesFileIterator_h
 
 #include "itkNumericSeriesFileIterator.h"
+#include "itkIOCommon.h"
 #include <stdio.h>
 
 namespace itk
@@ -60,7 +61,8 @@ const std::string& NumericSeriesFileIterator::Begin()
 {
   if ( m_SeriesFormat == "" )
     {
-    itkExceptionMacro(<< "No series format defined!");
+    throw NumericSeriesException(__FILE__, __LINE__,
+                                 "No series format defined!");
     }
 
   if ( m_WriteMode )
@@ -71,6 +73,30 @@ const std::string& NumericSeriesFileIterator::Begin()
 
   else //in read mode
     {
+    // Find the first filename in the series
+    for ( unsigned long idx=m_StartIndex; idx < m_EndIndex; idx++ )
+      {
+      this->ProduceNextFileName( idx );
+      if ( ! IOCommon::FileExists(m_CurrentFileName.c_str()) )
+        {
+        if ( m_ThrowExceptionOnMissingFile )
+          {
+          throw NumericSeriesException(__FILE__, __LINE__);
+          }
+        }
+      else
+        {
+        break;
+        }
+      }
+
+    if ( idx >= m_EndIndex )
+      {
+      throw NumericSeriesException(__FILE__, __LINE__, "No files in series");
+      }
+
+    m_CurrentIndex = idx;
+    m_CurrentNumberOfFiles = 1;
     return m_CurrentFileName;
     }
 }
@@ -79,16 +105,46 @@ const std::string& NumericSeriesFileIterator::operator++()
 {
   if ( m_SeriesFormat == "" )
     {
-    itkExceptionMacro(<< "No series format defined!");
+    throw NumericSeriesException(__FILE__, __LINE__,
+                                 "No series format defined!");
     }
 
   if ( m_WriteMode )
     {
-    return this->ProduceNextFileName(++m_CurrentIndex);
+    return this->ProduceNextFileName( ++m_CurrentIndex );
     }
 
   else //in read mode
     {
+    // Find next filename in the series
+    for ( unsigned long idx=m_CurrentIndex; 
+          idx < m_EndIndex && m_CurrentNumberOfFiles < m_NumberOfFiles; 
+          idx++ )
+      {
+      this->ProduceNextFileName( idx );
+      if ( ! IOCommon::FileExists(m_CurrentFileName.c_str()) )
+        {
+        if ( m_ThrowExceptionOnMissingFile )
+          {
+          throw NumericSeriesException(__FILE__, __LINE__);
+          }
+        }
+      else
+        {
+        break;
+        }
+      }
+
+    if ( idx >= m_EndIndex || m_CurrentNumberOfFiles > m_NumberOfFiles )
+      {
+      m_CurrentFileName = "";
+      }
+    else
+      {
+      m_CurrentIndex = idx;
+      m_CurrentNumberOfFiles++;
+      }
+    
     return m_CurrentFileName;
     }
 }
@@ -97,7 +153,8 @@ const std::string& NumericSeriesFileIterator::operator--()
 {
   if ( m_SeriesFormat == "" )
     {
-    itkExceptionMacro(<< "No series format defined!");
+    throw NumericSeriesException(__FILE__, __LINE__, 
+                                 "No series format defined!");
     }
 
   if ( m_WriteMode )
@@ -116,6 +173,35 @@ const std::string& NumericSeriesFileIterator::operator--()
 
   else  //in read mode
     {
+    // Find previous filename in the series
+    for ( unsigned long idx=m_CurrentIndex; 
+          idx >= m_StartIndex; idx-- )
+      {
+      this->ProduceNextFileName( idx );
+      if ( ! IOCommon::FileExists(m_CurrentFileName.c_str()) )
+        {
+        if ( m_ThrowExceptionOnMissingFile )
+          {
+          throw NumericSeriesException(__FILE__, __LINE__);
+          }
+        }
+      else
+        {
+        break;
+        }
+      }
+
+    if ( idx < m_EndIndex )
+      {
+      m_CurrentIndex = m_StartIndex;
+      m_CurrentFileName = "";
+      }
+    else
+      {
+      m_CurrentIndex = idx;
+      m_CurrentNumberOfFiles--;
+      }
+    
     return m_CurrentFileName;
     }
 }
