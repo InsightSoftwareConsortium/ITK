@@ -7,4 +7,4 @@ IF(ITK_WRAP_TCL)
                       ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vnl)
 ENDIF(ITK_WRAP_TCL)
 
-SUBDIRS( Numerics Common BasicFilters Algorithms IO SpatialObject )
+SUBDIRS( Numerics Common BasicFilters Algorithms IO )
