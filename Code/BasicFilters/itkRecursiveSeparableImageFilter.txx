@@ -80,7 +80,6 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
 ::FilterDataArray(TComputation *outs,const TComputation *data,unsigned int ln) 
 {
 
-  unsigned int i;
 
   if( !outs || !data ) return;
 
@@ -113,26 +112,26 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
    */
 
   // this value is assumed to exist from the border to infinity.
-  TComputation outV = data[0];
+  const TComputation outV1 = data[0];
 
   /**
    * Initialize borders
    */
-  s1[0] = TComputation( m_N00 * outV    + m_N11 * outV    + m_N22 * outV    + m_N33 * outV    );
-  s1[1] = TComputation( m_N00 * data[1] + m_N11 * outV    + m_N22 * outV    + m_N33 * outV    );
-  s1[2] = TComputation( m_N00 * data[2] + m_N11 * data[1] + m_N22 * outV    + m_N33 * outV    );
-  s1[3] = TComputation( m_N00 * data[3] + m_N11 * data[2] + m_N22 * data[1] + m_N33 * outV    );
+  s1[0] = TComputation( m_N00 * outV1   + m_N11 * outV1   + m_N22 * outV1   + m_N33 * outV1    );
+  s1[1] = TComputation( m_N00 * data[1] + m_N11 * outV1   + m_N22 * outV1   + m_N33 * outV1    );
+  s1[2] = TComputation( m_N00 * data[2] + m_N11 * data[1] + m_N22 * outV1   + m_N33 * outV1    );
+  s1[3] = TComputation( m_N00 * data[3] + m_N11 * data[2] + m_N22 * data[1] + m_N33 * outV1    );
 
-  // note that the outV value is multiplied by the Boundary coefficients m_BNi
-  s1[0] -= TComputation( m_BN1 * outV  + m_BN2 * outV  + m_BN3 * outV   + m_BN4 * outV );
-  s1[1] -= TComputation( m_D11 * s1[0] + m_BN2 * outV  + m_BN3 * outV   + m_BN4 * outV );
-  s1[2] -= TComputation( m_D11 * s1[1] + m_D22 * s1[0] + m_BN3 * outV   + m_BN4 * outV );
-  s1[3] -= TComputation( m_D11 * s1[2] + m_D22 * s1[1] + m_D33 * s1[0]  + m_BN4 * outV );
+  // note that the outV1 value is multiplied by the Boundary coefficients m_BNi
+  s1[0] -= TComputation( m_BN1 * outV1 + m_BN2 * outV1 + m_BN3 * outV1  + m_BN4 * outV1 );
+  s1[1] -= TComputation( m_D11 * s1[0] + m_BN2 * outV1 + m_BN3 * outV1  + m_BN4 * outV1 );
+  s1[2] -= TComputation( m_D11 * s1[1] + m_D22 * s1[0] + m_BN3 * outV1  + m_BN4 * outV1 );
+  s1[3] -= TComputation( m_D11 * s1[2] + m_D22 * s1[1] + m_D33 * s1[0]  + m_BN4 * outV1 );
 
   /**
    * Recursively filter the rest
    */
-  for( i=4; i<ln; i++ ) 
+  for( unsigned int i=4; i<ln; i++ ) 
     {
     s1[i]  = TComputation( m_N00 * data[i] + m_N11 * data[i-1] + m_N22 * data[i-2] + m_N33 * data[i-3] );
     s1[i] -= TComputation( m_D11 * s1[i-1] + m_D22 *   s1[i-2] + m_D33 *   s1[i-3] + m_D44 *   s1[i-4] );
@@ -143,26 +142,26 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
    */
 
   // this value is assumed to exist from the border to infinity.
-  outV = data[ln-1];
+  const TComputation outV2 = data[ln-1];
 
   /**
    * Initialize borders
    */
-  s2[ln-1] = TComputation( m_M11 * outV       + m_M22 * outV       + m_M33 * outV       + m_M44 * outV );
-  s2[ln-2] = TComputation( m_M11 * data[ln-1] + m_M22 * outV       + m_M33 * outV       + m_M44 * outV ); 
-  s2[ln-3] = TComputation( m_M11 * data[ln-2] + m_M22 * data[ln-1] + m_M33 * outV       + m_M44 * outV ); 
-  s2[ln-4] = TComputation( m_M11 * data[ln-3] + m_M22 * data[ln-2] + m_M33 * data[ln-1] + m_M44 * outV );
+  s2[ln-1] = TComputation( m_M11 * outV2      + m_M22 * outV2      + m_M33 * outV2      + m_M44 * outV2);
+  s2[ln-2] = TComputation( m_M11 * data[ln-1] + m_M22 * outV2      + m_M33 * outV2      + m_M44 * outV2); 
+  s2[ln-3] = TComputation( m_M11 * data[ln-2] + m_M22 * data[ln-1] + m_M33 * outV2      + m_M44 * outV2); 
+  s2[ln-4] = TComputation( m_M11 * data[ln-3] + m_M22 * data[ln-2] + m_M33 * data[ln-1] + m_M44 * outV2);
 
-  // note that the outV value is multiplied by the Boundary coefficients m_BMi
-  s2[ln-1] -= TComputation( m_BM1 * outV     + m_BM2 * outV     + m_BM3 * outV     + m_BM4 * outV );
-  s2[ln-2] -= TComputation( m_D11 * s2[ln-1] + m_BM2 * outV     + m_BM3 * outV     + m_BM4 * outV );
-  s2[ln-3] -= TComputation( m_D11 * s2[ln-2] + m_D22 * s2[ln-1] + m_BM3 * outV     + m_BM4 * outV );
-  s2[ln-4] -= TComputation( m_D11 * s2[ln-3] + m_D22 * s2[ln-2] + m_D33 * s2[ln-1] + m_BM4 * outV );
+  // note that the outV2value is multiplied by the Boundary coefficients m_BMi
+  s2[ln-1] -= TComputation( m_BM1 * outV2    + m_BM2 * outV2    + m_BM3 * outV2    + m_BM4 * outV2);
+  s2[ln-2] -= TComputation( m_D11 * s2[ln-1] + m_BM2 * outV2    + m_BM3 * outV2    + m_BM4 * outV2);
+  s2[ln-3] -= TComputation( m_D11 * s2[ln-2] + m_D22 * s2[ln-1] + m_BM3 * outV2    + m_BM4 * outV2);
+  s2[ln-4] -= TComputation( m_D11 * s2[ln-3] + m_D22 * s2[ln-2] + m_D33 * s2[ln-1] + m_BM4 * outV2);
 
   /**
    * Recursively filter the rest
    */
-  for( i=ln-4; i>0; i-- ) 
+  for( unsigned int i=ln-4; i>0; i-- ) 
     {
     s2[i-1]  = TComputation( m_M11 * data[i] + m_M22 * data[i+1] + m_M33 * data[i+2] + m_M44 * data[i+3] );
     s2[i-1] -= TComputation( m_D11 *   s2[i] + m_D22 *   s2[i+1] + m_D33 *   s2[i+2] + m_D44 *   s2[i+3] );
@@ -173,7 +172,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
   /**
    * Combine Causal and AntiCausal parts
    */
-  for( i=0; i<ln; i++ ) 
+  for( unsigned int i=0; i<ln; i++ ) 
     {
     outs[i] = TComputation( m_K * ( s1[i] + s2[i] ) );
     }
