@@ -135,42 +135,6 @@ inline void FindSampleBound(const TSample* ,
 
 /** The endIndex should points one point after the last elements. */
 template< class TSubsample >
-inline void FindSampleBound(const TSubsample* sample,
-                            int beginIndex,
-                            int endIndex,
-                            typename TSubsample::MeasurementVectorType &min,
-                            typename TSubsample::MeasurementVectorType &max)
-{    
-  enum { Dimension = TSubsample::MeasurementVectorSize } ;
-
-  unsigned int dimension ;
-  typename TSubsample::MeasurementVectorType temp ;
-
-  min = max = temp = sample->GetMeasurementVectorByIndex(beginIndex) ;
-  while (true)
-    {
-    for (dimension= 0 ; dimension < Dimension ; dimension++) 
-      {
-      if ( temp[dimension] < min[dimension]) 
-        {
-        min[dimension] = temp[dimension] ;
-        }
-      else if (temp[dimension] > max[dimension]) 
-        {
-        max[dimension] = temp[dimension] ;
-        }
-      }
-    ++beginIndex ;
-    if (beginIndex == endIndex)
-      {
-      break ;
-      }
-    temp = sample->GetMeasurementVectorByIndex(beginIndex) ;
-    } // end of while
-}
-
-/** The endIndex should points one point after the last elements. */
-template< class TSubsample >
 inline void 
 FindSampleBoundAndMean(const TSubsample* sample,
                        int beginIndex,

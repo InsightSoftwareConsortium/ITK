@@ -32,14 +32,14 @@ template< class TValue >
 TValue MedianOfThree(const TValue a, const TValue b, const TValue c) ;
 
 template< class TSample >
-void FindSampleBound(TSample* sample,
+void FindSampleBound(const TSample* sample,
                      typename TSample::ConstIterator begin,
                      typename TSample::ConstIterator end,
                      typename TSample::MeasurementVectorType &min,
                      typename TSample::MeasurementVectorType &max) ;
   
 template< class TSubsample >
-void FindSampleBoundAndMean(TSubsample* sample,
+void FindSampleBoundAndMean(const TSubsample* sample,
                             int beginIndex,
                             int endIndex,
                             typename TSubsample::MeasurementVectorType &min,
