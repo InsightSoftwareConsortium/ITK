@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkMeanSquaresImageToImageMetric_txx
 
 #include "itkMeanSquaresImageToImageMetric.h"
+#include "itkSimpleImageRegionConstIterator.h"
 
 namespace itk
 {
@@ -69,7 +70,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
 
   std::cout << "GetValue( " << parameters << " ) = ";
 
-  TargetPointer target = Superclass::GetTarget();
+  TargetConstPointer target = Superclass::GetTarget();
 
   typename TTarget::RegionType  targetRegion = target->GetLargestPossibleRegion();
   itk::Point<double, TTarget::ImageDimension> Point;  
@@ -77,7 +78,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
   double ReferenceValue;
   double TargetValue;
 
-  typedef  itk::SimpleImageRegionIterator<TTarget> TargetIteratorType;
+  typedef  itk::SimpleImageRegionConstIterator<TTarget> TargetIteratorType;
 
 
   TargetIteratorType ti( target, targetRegion );

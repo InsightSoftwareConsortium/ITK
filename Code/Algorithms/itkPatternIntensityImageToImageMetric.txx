@@ -42,6 +42,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkPatternIntensityImageToImageMetric_txx
 
 #include "itkPatternIntensityImageToImageMetric.h"
+#include "itkSimpleImageRegionConstIterator.h"
+
+
 
 namespace itk
 {
@@ -67,7 +70,7 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType & parameters )
 {
 
-  TargetPointer target = Superclass::GetTarget();
+  TargetConstPointer target = Superclass::GetTarget();
 
   typename TTarget::RegionType  targetRegion = target->GetLargestPossibleRegion();
   itk::Point<double, TTarget::ImageDimension> Point;  
@@ -75,7 +78,7 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
   double ReferenceValue;
   double TargetValue;
 
-  typedef  itk::SimpleImageRegionIterator<TTarget> TargetIteratorType;
+  typedef  itk::SimpleImageRegionConstIterator<TTarget> TargetIteratorType;
 
 
   TargetIteratorType ti( target, targetRegion );
