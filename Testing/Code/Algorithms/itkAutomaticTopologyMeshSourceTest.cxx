@@ -87,7 +87,7 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
   }
 
   // PROBLEM LINE
-  meshSource->AddLine( idArray[6], idArray[7] );
+  meshSource->AddLine( idArray[0], idArray[1] );
 
   // Print out the resulting mesh data.
   std::cout << MeshType::Pointer(meshSource->GetOutput()) << std::endl;
