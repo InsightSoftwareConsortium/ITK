@@ -1,0 +1,103 @@
+/*=========================================================================
+
+  Program:   itkUNC
+  Module:    SpatialObjectTreeContainer.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 CADDLab @ UNC. All rights reserved.
+  See itkUNCCopyright.txt for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
+// Software Guide : BeginLatex
+//
+// \index{itk::SpatialObjectTreeContainer}
+// This example describes how top use the \doxygen{SpatialObjectTreeContainer}
+// to form a hierarchy of SpatialObjects.
+// First we include the appropriate header file.
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+#include "itkSpatialObjectTreeContainer.h"
+// Software Guide : EndCodeSnippet
+
+#include "itkGroupSpatialObject.h"
+#include "itkLevelOrderTreeIterator.h"
+
+int main( int , char *[] )
+{
+  // Software Guide : BeginLatex
+  // We then define the type of Node and the type of tree we want to use.
+  // Both are templated over the dimensionality of the space. Here we are in 2D.
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
+  typedef itk::GroupSpatialObject<2> NodeType;
+  typedef itk::SpatialObjectTreeContainer<2> TreeType;
+  // Software Guide : EndCodeSnippet
+  
+  // Software Guide : BeginLatex
+  // Then, we can create three nodes and set their Ids.
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
+  NodeType::Pointer object0 = NodeType::New();
+  object0->SetId(0);
+  NodeType::Pointer object1 = NodeType::New();
+  object1->SetId(1);
+  NodeType::Pointer object2 = NodeType::New();
+  object2->SetId(2);
+  // Software Guide : EndCodeSnippet
+
+  // Software Guide : BeginLatex
+  // We can create a hierarchy using the AddSpatialObject() function.
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
+  object0->AddSpatialObject(object1);
+  object1->AddSpatialObject(object2);
+  // Software Guide : EndCodeSnippet
+   
+  // Software Guide : BeginLatex
+  // After instantiation of the tree we can set the root of the tree
+  // using the SetRoot() function.
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
+  TreeType::Pointer tree = TreeType::New();
+  tree->SetRoot(object0.GetPointer());
+  // Software Guide : EndCodeSnippet
+
+  // Software Guide : BeginLatex
+  // Using a \doxygen{LevelOrderTreeIterator} templated over the type of tree,
+  // we can go trough the hierarchy of SpatialObjects.
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
+  itk::LevelOrderTreeIterator<TreeType> levelIt(tree,10);
+  levelIt.GoToBegin();
+  while(!levelIt.IsAtEnd())
+    {
+    std::cout << levelIt.Get()->GetId() << " ("<< levelIt.GetLevel() << ")" << std::endl;;
+    ++levelIt;
+    }
+  // Software Guide : EndCodeSnippet
+
+  // Software Guide : BeginLatex
+  // Tree iterators can also be used to add spatial objects to the hierarchy. Here we show
+  // how to use the \doxygen{PreOrderTreeIterator} to a fourth object to the tree.
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
+  NodeType::Pointer object4 = NodeType::New();
+  itk::PreOrderTreeIterator<TreeType> preIt( tree );
+  preIt.Add(object4.GetPointer());
+  // Software Guide : EndCodeSnippet
+
+
+  return EXIT_SUCCESS;
+}
+
