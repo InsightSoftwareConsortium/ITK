@@ -30,7 +30,7 @@ noe:Aljaz Noe:noe@grasp.cis.upenn.edu
 parks:Sungwook Parks:parks@cs.unc.edu
 ratiu:Peter Ratiu:ratiu@bwh.harvard.edu
 rondot:Pascale Rondot:rondot@crd.ge.com
-shelton:Damion Shelton:dmsst59@pitt.edu
+shelton:Damion Shelton:dmshelto@andrew.cmu.edu
 siqueira:Marcelo Siqueira:marcelos@gradient.cis.upenn.edu
 spathak:Sayan Pathak:spathak@insightful.com
 stetten:George Stetten:george@stetten.com
