@@ -25,14 +25,12 @@ PURPOSE.  See the above copyright notices for more information.
 #endif
 
 #include <vector>
+#include <map>
 #include <string>
 #include "itkMetaDataObjectBase.h"
 
 namespace itk
 {
-  // Forward declare the datastructure that will be used to hold the
-  // dictionary. This is a private implementation.
-  class MetaDataDictionaryMapType;
 
   /**
    * \author Hans J. Johnson
@@ -50,6 +48,16 @@ namespace itk
          * \param os An output stream
          */
         virtual void Print(std::ostream& os) const;
+
+        // Declare the datastructure that will be used to hold the
+        // dictionary. 
+        class MetaDataDictionaryMapType 
+          : public std::map<std::string, MetaDataObjectBase::Pointer>
+        {
+        };
+
+        typedef MetaDataDictionaryMapType::iterator       Iterator;
+        typedef MetaDataDictionaryMapType::const_iterator ConstIterator;
 
         // Constructor
         MetaDataDictionary();
@@ -72,6 +80,17 @@ namespace itk
         // API. The implementation will be in the DLL.
         MetaDataObjectBase::Pointer &operator [](const std::string &);
         bool HasKey (const std::string &);
+
+
+        /** Returns an iterator to the beginning of the map */
+        Iterator  Begin();
+        ConstIterator  Begin() const;
+
+        /** Returns an iterator to the end of the map */
+        Iterator  End();
+        ConstIterator  End() const;
+
+
     private:
         MetaDataDictionaryMapType *m_Dictionary;
     };

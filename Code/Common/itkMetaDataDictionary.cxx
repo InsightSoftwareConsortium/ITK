@@ -15,15 +15,8 @@
 
 =========================================================================*/
 #include "itkMetaDataDictionary.h"
-#include <map>
 
 namespace itk{
-
-class MetaDataDictionaryMapType 
-  : public std::map<std::string, MetaDataObjectBase::Pointer>
-{
-};
-
 
 MetaDataDictionary
 ::MetaDataDictionary()
@@ -96,6 +89,39 @@ MetaDataDictionary
 
   return ans;
 }
+
+MetaDataDictionary::Iterator
+MetaDataDictionary
+::Begin()
+{
+  return m_Dictionary->begin();
+}
+
+
+MetaDataDictionary::ConstIterator
+MetaDataDictionary
+::Begin() const
+{
+  return m_Dictionary->begin();
+}
+
+
+MetaDataDictionary::Iterator
+MetaDataDictionary
+::End()
+{
+  return m_Dictionary->end();
+}
+
+
+MetaDataDictionary::ConstIterator
+MetaDataDictionary
+::End() const
+{
+  return m_Dictionary->end();
+}
+
+
 
 }; // namespace
 
