@@ -73,7 +73,12 @@ public:
    */
    typedef typename TTransformation::ParametersType   ParametersType;
 
-   
+  /**
+   *  Pointer type for the Reference 
+   */
+  typedef typename Superclass::DomainPointer DomainPointer;
+
+
   /**
    * Typedef of the exception
     */
@@ -116,6 +121,13 @@ public:
    */
    typedef LinearInterpolateImageFunction<ImageType>  InterpolatorType;
 
+
+  /**
+   * Type of the interpolation function
+   */
+   typedef typename  InterpolatorType::Pointer  InterpolatorPointer;
+
+
   /** 
    * Run-time type information (and related methods).
    */
@@ -153,7 +165,7 @@ protected:
   const double *            m_Spacing;
   IndexType                 m_Start;
   SizeType                  m_Size;
-  InterpolatorType::Pointer m_Interpolator;
+  InterpolatorPointer       m_Interpolator;
 
   ImageMapper();
   ~ImageMapper(){};
