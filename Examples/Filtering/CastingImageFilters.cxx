@@ -21,53 +21,51 @@
 //  \href{http://www.boost.org/more/generic_programming.html}{Generic
 //  Programming} in the toolkit, most types are resolved at compile-time. Few
 //  decisions regarding type conversion are left to run-time. It is up to the
-//  user to anticipate the pixel type conversions required in the data
+//  user to anticipate the pixel type-conversions required in the data
 //  pipeline. In medical imaging applications it is usually not desirable
 //  to use a general pixel type since this may result in the loss of
 //  valuable information.
 //
-//  This section introduces the mechanisms for implementing explicit casting
-//  on the images that flow through the pipeline. The following four filters
-//  are treated in this section: \doxygen{CastImageFilter},
-//  \doxygen{RescaleIntensityImageFilter}, \doxygen{ShiftScaleImageFilter}
-//  and \doxygen{NormalizeImageFilter}.  These filters are not directly
-//  related to each other except that they all modify pixel values. They
-//  are presented together here with the purpose of comparing their
-//  individual features.
+//  This section introduces the mechanisms for explicit casting of images that
+//  flow through the pipeline. The following four filters are treated in this
+//  section: \doxygen{CastImageFilter}, \doxygen{RescaleIntensityImageFilter},
+//  \doxygen{ShiftScaleImageFilter} and \doxygen{NormalizeImageFilter}.  These
+//  filters are not directly related to each other except that they all modify
+//  pixel values.  They are presented together here with the purpose of
+//  comparing their individual features.
 //
-//  The \doxygen{CastImageFilter} is a very simple filter that will act
-//  pixel-wise on an input image by casting every pixel value to the pixel
-//  type of the output image. Note that this filter does not perform any
-//  arithmetical operation on the intensities. The actual effect of the
-//  filter is equivalent to blindly performing \code{C-Style} casting on
-//  every pixel.
+//  The CastImageFilter is a very simple filter that acts pixel-wise on an
+//  input image, casting every pixel to the type of the output image. Note that
+//  this filter does not perform any arithmetic operation on the
+//  intensities. Applying CastImageFilter is equivalent to performing a
+//  \code{C-Style} cast on every pixel.
 //
 //  \code{ outputPixel = static\_cast<OutputPixelType>( inputPixel ) }
 //
-//  The \doxygen{RescaleIntensityImageFilter} acts by linearly scaling the
-//  pixels values in such a way that the minimum and maximum values of the
-//  input image will be mapped to a minimum and maximum values provided by the
-//  user. This is a typical action for forcing the dynamic range of the image
-//  to fit in a particular scale and is a common operation in image display.
+//  The RescaleIntensityImageFilter linearly scales the
+//  pixel values in such a way that the minimum and maximum values of the
+//  input are mapped to minimum and maximum values provided by the
+//  user. This is a typical process for forcing the dynamic range of the image
+//  to fit within a particular scale and is common for image display.
 //  The linear transformation applied by this filter can be expressed as 
 //
 //  \[ outputPixel = ( inputPixel - inpMin) \times 
 //                    \frac{(inpMax-inpMin)}{(outMax - outMin )} + outMin \]
 //
-//  The \doxygen{ShiftScaleImageFilter} also applies a linear transformation to
-//  the intensities of the input image. However the transformation is specified
+//  The ShiftScaleImageFilter also applies a linear transformation to
+//  the intensities of the input image, but the transformation is specified
 //  by the user in the form of a multiplying factor and a value to be added.
-//  This can be expresses as 
+//  This can be expressed as 
 //
 //  \[  outputPixel = inputPixel \times Scale + Shift \].
 //
-//  The \doxygen{NormalizeImageFilter} applies a linear transformation to the
-//  intensities of the input image. The parameters of the transformation are
-//  computed internally in such a way that the statistical distribution of gray
-//  levels on the output image will have zero mean and a variance of one. This
-//  intensity correction is particularly useful in registration applications as
-//  a pre-processing step leading to the evaluation of mutual information
-//  metrics. The linear transformation of this filter can be described as
+//  The parameters of the linear transformation applied by the
+//  NormalizeImageFilter are computed internally such that the
+//  statistical distribution of gray levels in the output image have zero
+//  mean and a variance of one. This intensity correction is particularly
+//  useful in registration applications as a preprocessing step to the
+//  evaluation of mutual information metrics. The linear transformation of
+//  NormalizeImageFilter is given as
 //
 //  \[ outputPixel = \frac{( inputPixel - mean )}{ \sqrt{ variance } } \]
 //
@@ -178,7 +176,7 @@ int main( int argc, char * argv[] )
   CastFilterType::Pointer       castFilter       = CastFilterType::New();
   RescaleFilterType::Pointer    rescaleFilter    = RescaleFilterType::New();
   ShiftScaleFilterType::Pointer shiftFilter      = ShiftScaleFilterType::New();
-  NormalizeFilterType::Pointer  normzalizeFilter = NormalizeFilterType::New();
+  NormalizeFilterType::Pointer  normalizeFilter = NormalizeFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -201,7 +199,7 @@ int main( int argc, char * argv[] )
   castFilter->SetInput(       reader->GetOutput() );
   shiftFilter->SetInput(      reader->GetOutput() );
   rescaleFilter->SetInput(    reader->GetOutput() );
-  normzalizeFilter->SetInput( reader->GetOutput() );
+  normalizeFilter->SetInput( reader->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
@@ -209,8 +207,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  Next we proceed to setup the parameters required by each filter. The
-  //  \doxygen{CastImageFilter} and the \doxygen{NormalizeImageFilter} do not
-  //  require any parameters. The \doxygen{RescaleIntensityImageFilter}, on
+  //  CastImageFilter and the NormalizeImageFilter do not
+  //  require any parameters. The RescaleIntensityImageFilter, on
   //  the other hand, requires the user to provide the desired minimum and
   //  maximum pixel values of the output image. This is done by using the
   //  \code{SetOutputMinimum()} and \code{SetOutputMaximum()} methods as
@@ -231,10 +229,9 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{ShiftScaleImageFilter} requires the user to provide a
-  //  factor to multiply all the pixels values and an additional value to be
-  //  added after the multiplication. The methods \code{SetShift()} and
-  //  \code{SetScale()} are used for this purpose.
+  //  The ShiftScaleImageFilter requires a multiplication factor (scale) and a
+  //  post-scaling additive value (shift). The methods \code{SetScale()} and
+  //  \code{SetShift()} are used, respectively, to set these values.
   //
   //  \index{itk::ShiftScaleImageFilter!SetShift()}
   //  \index{itk::ShiftScaleImageFilter!SetScale()}
@@ -244,15 +241,14 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  shiftFilter->SetShift( 25 );
   shiftFilter->SetScale( 1.2 );
+  shiftFilter->SetShift( 25 );
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  Finally, the execution of the filters can be triggered by invoking the
-  //  \code{Update()} method.
+  //  Finally, the filters are executed by invoking the \code{Update()} method.
   //
   //  \index{itk::ShiftScaleImageFilter!Update()}
   //  \index{itk::RescaleIntensityImageFilter!Update()}
@@ -266,7 +262,7 @@ int main( int argc, char * argv[] )
   castFilter->Update();
   shiftFilter->Update();
   rescaleFilter->Update();
-  normzalizeFilter->Update();
+  normalizeFilter->Update();
   // Software Guide : EndCodeSnippet
 
 
