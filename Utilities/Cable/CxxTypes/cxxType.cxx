@@ -45,17 +45,6 @@ namespace _cxx_
 
 
 /**
- * Return the pointer that is used to identify this type.
- * For now, the "this" pointer is the correct value.  Future support for
- * typedefs may take advantage of this method, however.
- */
-const Type* Type::Id() const
-{
-  return this;
-}
-  
-
-/**
  * Given cv-qualifiers, construct the CvQualifiedType referring to
  * this type.
  */

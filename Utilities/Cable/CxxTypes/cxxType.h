@@ -86,12 +86,8 @@ public:
   bool IsEitherPointerType() const   { return (this->IsPointerType() || this->IsPointerToMemberType()); }
   //@}
   
-  virtual const Type* Id() const;  
   virtual CvQualifiedType GetCvQualifiedType(bool, bool) const;
 
-  /**
-   * Get the name of the type.
-   */
   String Name() const;
   String CvName(bool isConst, bool isVolatile) const;
 
@@ -102,6 +98,11 @@ public:
   virtual String GenerateDeclaration(const String& name,
                                      bool isConst, bool isVolatile) const;
   
+  ///! Compare two types for equality.
+  static bool Equal(const Type* l, const Type* r) { return l == r; }
+
+  ///! Provide an ordering function for types.
+  static bool Less(const Type* l, const Type* r) { return l < r; }
 protected:
   Type() {}
   virtual ~Type() {}

@@ -121,13 +121,13 @@ bool Conversions::IsValidQualificationConversion(const PointerType* from,
   const Type* t2 = to;
   
   // Follow each PointerType until two identical types are reached.
-  while(t1->Id() != t2->Id())
+  while(!Type::Equal(t1, t2))
     {
     // Make sure they are not conflicting pointer types.
     if((t1->IsPointerType() && t2->IsPointerType())
        || ((t1->IsPointerToMemberType() && t2->IsPointerToMemberType())
-           && (PointerToMemberType::SafeDownCast(t1)->GetClassType()->Id()
-               == PointerToMemberType::SafeDownCast(t2)->GetClassType()->Id())))
+           && Type::Equal(PointerToMemberType::SafeDownCast(t1)->GetClassType(),
+                          PointerToMemberType::SafeDownCast(t2)->GetClassType())))
       {
       // Dereference the pointer types.
       const PointerType* p1 = PointerType::SafeDownCast(t1);

@@ -252,7 +252,7 @@ bool FunctionSelector::CxxConversionPossible(const CvQualifiedType& from,
     return false;
     }
   // If the types are identical, the argument/parameter pair is valid.
-  else if(to->Id() == from.GetType()->Id())
+  else if(Type::Equal(to, from.GetType()))
     {
     return true;
     }

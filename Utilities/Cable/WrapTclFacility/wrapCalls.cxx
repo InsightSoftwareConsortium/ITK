@@ -177,7 +177,7 @@ ArgumentAsInstanceBase
 ::FindConversionFunction(const CvQualifiedType& from)
 {
   // If the "from" and "to" types are the same, we can use an identity.
-  if(m_To->Id() == from.GetType()->Id())
+  if(Type::Equal(m_To, from.GetType()))
     {
     return true;
     }
