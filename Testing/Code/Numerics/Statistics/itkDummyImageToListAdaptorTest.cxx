@@ -31,79 +31,6 @@
 #include "itkMacro.h"
 #include "itkPixelTraits.h"
 
-template<class TPixelType>
-struct MeasurementVectorTraits
-{
-  typedef TPixelType VectorType;
-};
-
-/** Specialization of MeasurementVectorTraitss for scalar images. */
-template <>
-struct MeasurementVectorTraits<bool>
-{
-  typedef itk::FixedArray< bool, 1 > VectorType;
-};
-
-template <>
-struct MeasurementVectorTraits<char>
-{
-  typedef itk::FixedArray< char, 1 > VectorType;
-};
-
-template <>
-struct MeasurementVectorTraits<unsigned char>
-{
-  typedef itk::FixedArray< unsigned char, 1 > VectorType;
-};
-
-template <>
-struct MeasurementVectorTraits<short>
-{
-  typedef itk::FixedArray< short, 1 > VectorType;
-};
-
-template <>
-struct MeasurementVectorTraits<unsigned short>
-{
-  typedef itk::FixedArray< unsigned short, 1 > VectorType;
-};
-
-template <>
-struct MeasurementVectorTraits<int>
-{
-  typedef itk::FixedArray< int, 1 > VectorType;
-};
-
-template <>
-struct MeasurementVectorTraits<unsigned int>
-{
-  typedef itk::FixedArray< unsigned int, 1 > VectorType;
-};
-
-template <>
-struct MeasurementVectorTraits<long>
-{
-  typedef itk::FixedArray< long, 1 > VectorType;
-};
-
-template <>
-struct MeasurementVectorTraits<unsigned long>
-{
-  typedef itk::FixedArray< unsigned long, 1 > VectorType;
-};
-
-template <>
-struct MeasurementVectorTraits<float>
-{
-  typedef itk::FixedArray< float, 1 > VectorType;
-};
-
-template <>
-struct MeasurementVectorTraits<double>
-{
-  typedef itk::FixedArray< double, 1 > VectorType;
-};
-
 template < class TImage, class TMeasurementVector = ITK_TYPENAME TImage::PixelType >
 class ITK_EXPORT DummyImageToListAdaptor : 
   public itk::Statistics::ListSampleBase< TMeasurementVector >
@@ -132,7 +59,7 @@ public:
   { return 1 ;}
   
   float GetFrequency(const unsigned long& id) const
-  { return 1.0f ; }
+  { return id ; }
 
   virtual MeasurementVectorType GetMeasurementVector(const unsigned long& id)
   {
@@ -207,7 +134,7 @@ public:
       {
       m_TempVector[0] = m_Image->GetPixel( m_Image->ComputeIndex( id ) )  ;
       }
-      return m_TempVector  ;
+    return m_TempVector  ;
   }
 protected:
   DummyScalarImageToListAdaptor() {}
@@ -217,6 +144,8 @@ protected:
 template< class TImage, class TCoordRep >
 struct ImageJointDomainTraits
 {
+  typedef ImageJointDomainTraits Self ;
+
   typedef itk::PixelTraits< typename TImage::PixelType > PixelTraitsType ;
   itkStaticConstMacro(Size, 
                       unsigned int, 
@@ -241,7 +170,7 @@ class ITK_EXPORT DummyJointDomainImageToListAdaptor :
 public:
   typedef DummyJointDomainImageToListAdaptor Self ;
   typedef DummyImageToListAdaptor< TImage,
-    ImageJointDomainTraits< TImage, TCoordRep >::MeasurementVectorType > 
+                                   ImageJointDomainTraits< TImage, TCoordRep >::MeasurementVectorType > 
   Superclass ;
   
   typedef itk::SmartPointer< Self > Pointer ;
@@ -253,8 +182,13 @@ public:
   typedef typename Superclass::MeasurementType MeasurementType ;
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
 
-  typedef itk::FixedArray< MeasurementType, 
-    itk::PixelTraits< typename TImage::PixelType >::Dimension > 
+  itkStaticConstMacro(RangeDomainDimension, 
+                      unsigned int, 
+                      itk::PixelTraits< 
+                      typename TImage::PixelType >::Dimension) ;
+  typedef typename itk::FixedArray< 
+    MeasurementType, 
+    itkGetStaticConstMacro( RangeDomainDimension ) > 
   RangeDomainMeasurementVectorType ;
   
   MeasurementVectorType GetMeasurementVector(const unsigned long& id)
@@ -423,8 +357,8 @@ int itkDummyImageToListAdaptorTest(int, char* [] )
   begin = clock() ;
   for ( unsigned long i = 0 ; i < size[0] * size[1] * size[2] ; ++i )
     {
-      std::cout << jointDomainImageList->GetMeasurementVector( i ) 
-                << std::endl ;
+    std::cout << jointDomainImageList->GetMeasurementVector( i ) 
+              << std::endl ;
     }
   end = clock() ;
 
