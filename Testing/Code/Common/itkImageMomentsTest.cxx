@@ -91,30 +91,30 @@ main(
 
     /* Report the various non-central moments */
     // FIXME:  Indentation is not handled correctly in matrix output
-    cout << "\nTotal mass = " << ctm << "\n";
-    cout << "True total mass = " << ttm << "\n";
-    cout << "\nFirst moments about index origin =\n";
-    cout << "   " << moments.GetFirstMoments() << "\n";
-    cout << "\nSecond moments about index origin =\n";
-    cout << "   " << moments.GetSecondMoments() << "\n";
+    std::cout << "\nTotal mass = " << ctm << "\n";
+    std::cout << "True total mass = " << ttm << "\n";
+    std::cout << "\nFirst moments about index origin =\n";
+    std::cout << "   " << moments.GetFirstMoments() << "\n";
+    std::cout << "\nSecond moments about index origin =\n";
+    std::cout << "   " << moments.GetSecondMoments() << "\n";
 
     /* Report the center of gravity and central moments */
-    cout << "\nCenter of gravity =\n";
-    cout << "   " << ccg << "\n";
-    cout << "True center of gravity =\n";
-    cout << "   " << tcg << "\n";
-    cout << "\nSecond central moments =\n";
-    cout << "   " << moments.GetCentralMoments() << "\n";
+    std::cout << "\nCenter of gravity =\n";
+    std::cout << "   " << ccg << "\n";
+    std::cout << "True center of gravity =\n";
+    std::cout << "   " << tcg << "\n";
+    std::cout << "\nSecond central moments =\n";
+    std::cout << "   " << moments.GetCentralMoments() << "\n";
 
     /* Report principal moments and axes */
-    cout << "\nPrincipal moments = \n";
-    cout << "   " << cpm << "\n";
-    cout << "True principal moments = \n";
-    cout << "   " << tpm << "\n";
-    cout << "\nPrincipal axes = \n";
-    cout << "   " << cpa << "\n";
-    cout << "True principal axes = \n";
-    cout << "   " << tpa << "\n";
+    std::cout << "\nPrincipal moments = \n";
+    std::cout << "   " << cpm << "\n";
+    std::cout << "True principal moments = \n";
+    std::cout << "   " << tpm << "\n";
+    std::cout << "\nPrincipal axes = \n";
+    std::cout << "   " << cpa << "\n";
+    std::cout << "True principal axes = \n";
+    std::cout << "   " << tpa << "\n";
 
     /* Compute and report max abs error in computed */
     double tmerr = abs(ttm - ctm);  // Error in total mass
@@ -131,19 +131,19 @@ main(
                 paerr = abs(cpa[i][j] - tpa[i][j]);
         }
     }
-    cout << "\nMaximum absolute errors in:\n";
-    cout << "   Total mass        = " << tmerr << "\n";
-    cout << "   Center of gravity = " << cgerr << "\n";
-    cout << "   Principal moments = " << pmerr << "\n";
-    cout << "   Principal axes    = " << paerr << "\n";
+    std::cout << "\nMaximum absolute errors in:\n";
+    std::cout << "   Total mass        = " << tmerr << "\n";
+    std::cout << "   Center of gravity = " << cgerr << "\n";
+    std::cout << "   Principal moments = " << pmerr << "\n";
+    std::cout << "   Principal axes    = " << paerr << "\n";
 
     /* Return error if differences are too large */
     int stat = 
         tmerr > maxerr || cgerr > maxerr ||
         pmerr > maxerr || paerr > maxerr;
     if (stat)
-        cout << "\n*** Errors are larger than defined maximum value.\n";
+        std::cout << "\n*** Errors are larger than defined maximum value.\n";
     else
-        cout << "\n*** Errors are acceptable.\n";
+        std::cout << "\n*** Errors are acceptable.\n";
     return stat;
 }

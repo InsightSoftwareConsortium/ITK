@@ -326,7 +326,7 @@ namespace itk
     void
     ImageMoments<TPixel, VRank>::
     Error (const char *string) {
-	cerr << string << "\n";
+	std::cerr << string << "\n";
 	abort();
     }
 
