@@ -206,9 +206,7 @@ function tree_close() {
 
 <xsl:template name="JavaScriptFooter">
 <script LANGUAGE="JavaScript">
-
 <xsl:text disable-output-escaping="yes">
-
 <![CDATA[<!--
 	// Set the initial state if no current state or length changed
 	if (current == "" || current.length != (db.length-1)) {
