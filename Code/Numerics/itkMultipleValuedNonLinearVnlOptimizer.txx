@@ -34,3 +34,4 @@ MultipleValuedNonLinearVnlOptimizer<TCostFunction>
 } // end namespace itk
 
 #endif
+
