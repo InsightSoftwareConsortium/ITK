@@ -87,8 +87,10 @@ Image<TPixel, VImageDimension>
   // Call the superclass which should initialize the BufferedRegion ivar.
   Superclass::Initialize();
 
-  // Release the memory for the buffer
-  m_Buffer->Initialize();
+  // Replace the handle to the buffer. This is the safest thing to do,
+  // since the same container can be shared by multiple images (e.g.
+  // Grafted outputs and in place filters).
+  m_Buffer = PixelContainer::New();
 }
 
 
