@@ -21,6 +21,7 @@
 #define __itkWriteVTKImage_h
 
 #include "itkWriteImage.h"
+#include <vector>
 
 template <class TInputImage>
 class ITK_EXPORT itkWriteVTKImage : public itkWriteImage<TInputImage>
