@@ -168,7 +168,7 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
     TSphereItType sfi = TSphereItType(m_InputPtr, spatialFunc, seedIndex);
 
     // Walk the spatial function
-    for( ; !( sfi.IsAtEnd() ); ++sfi)
+    for( sfi.GoToBegin(); !( sfi.IsAtEnd() ); ++sfi)
       {
       // The iterator for accessing linked list info
       itk::BloxBoundaryPointPixel<NDimensions>::const_iterator bpiterator;

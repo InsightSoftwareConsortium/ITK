@@ -46,8 +46,12 @@ class BloxPixel : public std::list<TItemType*>
 {
 public:
 
-  // Delete all entries in the list, then clear the list
+  /** Delete all entries in the list, then clear the list. */
   void DeleteListEntries();
+
+  /** Get the number of items stored in the blox. */
+  unsigned long int GetSize()
+    {return this->size(); }
 
   BloxPixel();
   ~BloxPixel();

@@ -28,6 +28,7 @@ BloxCoreAtomPixel<NDimensions>
 {
   m_Eigenvalues.fill(0.0);
   m_Eigenvectors.fill(0.0);
+  m_RawCMatrix.fill(0);
   
   m_MeanCoreAtomDiameter = 0;
 }
@@ -89,12 +90,6 @@ BloxCoreAtomPixel<NDimensions>
   // The iterator for accessing linked list info
   itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
 
-  // The CMatrix - this is the matrix that we do eigen analysis on
-  vnl_matrix_fixed<double, NDimensions, NDimensions> cMatrix;
-
-  // Initialize the CMatrix to 0
-  cMatrix.fill(0);
-
   // The number of items stored in the pixel
   unsigned long int numItems = 0;
 
@@ -119,12 +114,12 @@ BloxCoreAtomPixel<NDimensions>
     TVectorType cVector = P2 - P1;
     cVector.normalize();
 
-    // Now, add to the cMatrix
+    // Now, add to m_RawCMatrix
     for(unsigned int r = 0; r < NDimensions; r++) // row loop
       {
       for(unsigned int c = 0; c < NDimensions; c++) // column loop
         {
-        cMatrix(r,c) += cVector[c]*cVector[r];
+        m_RawCMatrix(r,c) += cVector[c]*cVector[r];
         } // end column loop
       } // end row loop
 
@@ -133,7 +128,7 @@ BloxCoreAtomPixel<NDimensions>
     } // end walk all of the items in the pixel
 
   // Divide through by the number of items
-  cMatrix /= numItems;
+  m_RawCMatrix /= numItems;
 
   // Create an identity matrix of size n
   vnl_matrix_fixed<double, NDimensions, NDimensions> identMatrix;
@@ -146,7 +141,7 @@ BloxCoreAtomPixel<NDimensions>
     } // end row loop
 
   // Do eigen analysis
-  vnl_generalized_eigensystem* pEigenSys = new vnl_generalized_eigensystem(cMatrix, identMatrix);
+  vnl_generalized_eigensystem* pEigenSys = new vnl_generalized_eigensystem(m_RawCMatrix, identMatrix);
 
   // Now, store the results
   
@@ -157,8 +152,6 @@ BloxCoreAtomPixel<NDimensions>
   for(unsigned int i = 0; i < NDimensions; i++)
     {
     m_Eigenvalues[i] = pEigenSys->D(i,i);
-    // Print the eigen values
-    itkGenericOutputMacro(<< "Eigenvalue " << i << "=" << m_Eigenvalues[i]);
     }
 
   delete pEigenSys;

@@ -94,8 +94,14 @@ private:
    * Each eigenvector is a row? of this matrix */
   TEigenvectorType m_Eigenvectors;
 
-  /** Average (arithmetic mean) of core atom diameters stored in this pixel */
+  /** Average (arithmetic mean) of core atom diameters stored in this pixel. */
   double m_MeanCoreAtomDiameter;
+
+  /** The raw CMatrix - this is the matrix that we do eigen analysis on. */
+  vnl_matrix_fixed<double, NDimensions, NDimensions> m_RawCMatrix;
+
+  /** The CMatrix that collects votes cast by other blox. */
+  vnl_matrix_fixed<double, NDimensions, NDimensions> m_VotedCMatrix;
 };
 
 

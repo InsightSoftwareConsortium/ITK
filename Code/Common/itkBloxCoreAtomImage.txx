@@ -91,7 +91,7 @@ BloxCoreAtomImage<dim>
     // Compute first length
     axisLengthArray[0] = 0.5 * pPixel->GetMeanCoreAtomDiameter();
 
-    printf("Mean core atom diameter is %f\n", pPixel->GetMeanCoreAtomDiameter() );
+    // printf("Mean core atom diameter is %f\n", pPixel->GetMeanCoreAtomDiameter() );
 
     // Precompute alphaOne
     double alphaOne = 1 - eigenvalues[0];
@@ -112,12 +112,21 @@ BloxCoreAtomImage<dim>
       printf("Axis length %i is %f\n", i, axisLengthArray[i]);
       }
 
+    // Dump the ellipsoid orientation
+    for(int i = 0; i < NDimensions; i++)
+      {
+      printf("Axis %i has orientation ", i);
+      for(int j = 0; j < NDimensions; j++)
+        {
+        printf("%f ", eigenvectors.get_column(i)[j]);
+        }
+      printf("\n");
+      }
+
+ 
     // Build the ellipsoid voting region
     typedef EllipsoidInteriorExteriorSpatialFunction<NDimensions, TPositionType> TVoteFunctionType;
     TVoteFunctionType::Pointer ellipsoid = TVoteFunctionType::New();
-
-    ellipsoid->SetOrientations(eigenvectors);
-    ellipsoid->SetAxes(axisLengthArray);
 
     // Create an iterator to traverse the ellipsoid region
     typedef FloodFilledSpatialFunctionConditionalIterator
@@ -127,14 +136,75 @@ BloxCoreAtomImage<dim>
     // since this is always at the center of the voting ellipsoid
     Self::IndexType seedPos = bloxIt.GetIndex();
     
+    // Figure out the center of the ellipsoid, which is the center
+    // of the voting pixel
+    TVoteFunctionType::InputType centerPosition;
+
+    ContinuousIndex<double, dim> contIndex;
+
+    for(int i = 0; i < dim; i ++ )
+      {
+      contIndex[i] = (double)seedPos[i] + 0.5;
+      }
+
+    // Get the physical location of this center index
+    this->TransformContinuousIndexToPhysicalPoint(contIndex, centerPosition);
+
+    ellipsoid->SetCenter(centerPosition);
+    ellipsoid->SetOrientations(eigenvectors);
+    ellipsoid->SetAxes(axisLengthArray);
+    
     // Instantiate the iterator
     TItType sfi = TItType(this, ellipsoid, seedPos);
 
-    // Iterate through the ellipsoid and cast votes
-    for( ; !( sfi.IsAtEnd() ); ++sfi)
-      {
+    // Get the position of the voting blox
+    typedef Point<double, NDimensions> TPosition;
+    TPosition voterPosition;
+    Self::IndexType voterIndex = bloxIt.GetIndex();
+    this->TransformIndexToPhysicalPoint(voterIndex, voterPosition);
 
+    int voteeCount = 0;
+
+    sfi.SetCenterInclusionStrategy();
+
+    // Iterate through the ellipsoid and cast votes
+    for( sfi.GoToBegin(); !( sfi.IsAtEnd() ); ++sfi)
+      {
+      voteeCount ++;
+
+      // The voting process and variables are explained in
+      // IEEE TRANSACTIONS ON MEDICAL IMAGING, VOL. 18, NO. 10, OCTOBER 1999
+      // page 1029 
+
+      // The votee does not get voted for if it's empty
+      if( sfi.Get().GetSize() == 0 )
+        continue;
+
+      // get the position of the current votee (the dereferenced sfi)
+      TPosition voteePosition;
+      Self::IndexType voteeIndex = sfi.GetIndex();
+      this->TransformIndexToPhysicalPoint(voteeIndex, voteePosition);
+
+      // vector from voting blox to current votee
+      TPosition::VectorType dbar = voterPosition - voteePosition;
+
+      // form the ellipsoidal distance de
+      double de = 0;
+
+      for (int i = 0; i < NDimensions; i++)
+        {
+        de += pow((dot_product(eigenvectors.get_column(i), dbar.Get_vnl_vector() ) /
+          axisLengthArray[i] ), 2);
+        }
+
+      de = sqrt(de);
+
+      printf("De = %f\n", de);
+
+      // vote strength
       }
+
+    printf("Blox voted for %i other pixels\n", voteeCount);
     }
 }
 
