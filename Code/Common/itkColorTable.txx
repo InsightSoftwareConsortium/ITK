@@ -61,8 +61,11 @@ ColorTable<TPixel>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "m_NumberOfColors = " << m_NumberOfColors << std::endl;
-  os << indent << "m_Color = " << (int)m_Color << std::endl;
-  os << indent << "m_ColorName = " << (int)m_ColorName << std::endl;
+  os << indent << "m_Color = " << m_Color << std::endl;
+  for (unsigned int i = 0; i < m_NumberOfColors; i++)
+    {
+    os << indent << "m_ColorName[" << i << "] = " << m_ColorName[i] << std::endl;
+    }
   }
 
 template<class TPixel>
