@@ -258,8 +258,8 @@ ImageBase<VImageDimension>
   for (i=0; i< VImageDimension; i++)
     {
     if ( (requestedRegionIndex[i] < bufferedRegionIndex[i]) ||
-         ((requestedRegionIndex[i] + requestedRegionSize[i])
-          > (bufferedRegionIndex[i] + bufferedRegionSize[i])) )
+         ((requestedRegionIndex[i] + static_cast<long>(requestedRegionSize[i]))
+          > (bufferedRegionIndex[i] + static_cast<long>(bufferedRegionSize[i]))) )
       {
       return true;
       }
@@ -290,8 +290,8 @@ ImageBase<VImageDimension>
   for (i=0; i< VImageDimension; i++)
     {
     if ( (requestedRegionIndex[i] < largestPossibleRegionIndex[i]) ||
-         ((requestedRegionIndex[i] + (int)requestedRegionSize[i])
-          > (largestPossibleRegionIndex[i]+(int)largestPossibleRegionSize[i])))
+         ((requestedRegionIndex[i] + static_cast<long>(requestedRegionSize[i]))
+          > (largestPossibleRegionIndex[i]+static_cast<long>(largestPossibleRegionSize[i]))))
       {
       itkErrorMacro( << "Region does not lie within the image" );
       retval = false;
