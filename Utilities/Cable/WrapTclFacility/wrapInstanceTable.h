@@ -13,8 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef _wrapInstances_h
-#define _wrapInstances_h
+#ifndef _wrapInstanceTable_h
+#define _wrapInstanceTable_h
 
 #include "wrapUtils.h"
 #include "wrapReference.h"
@@ -26,7 +26,7 @@ namespace _wrap_
 /**
  * A class to maintain a table of object instances for a Tcl interpreter.
  */
-class _wrap_EXPORT Instances
+class _wrap_EXPORT InstanceTable
 {
 public:
   /**
@@ -34,7 +34,7 @@ public:
    */
   typedef void (*DeleteFunction)(void*);
   
-  Instances(Tcl_Interp*);
+  InstanceTable(Tcl_Interp*);
   
   void SetObject(const String& name, void* object, const CvQualifiedType&);
   void DeleteObject(const String& name);
@@ -49,7 +49,7 @@ public:
 private:
 
   /**
-   * The Tcl interpreter to which this Instances object is attached.
+   * The Tcl interpreter to which this InstanceTable object is attached.
    */
   Tcl_Interp* m_Interpreter;
   
@@ -86,12 +86,12 @@ private:
   void CheckExists(const String& name) const;
   
 public:
-  static Instances* GetInterpreterInstances(Tcl_Interp*);
+  static InstanceTable* GetInterpreterInstanceTable(Tcl_Interp*);
   
 private:
-  typedef std::map<const Tcl_Interp*, Instances*,
-                   PointerCompare<const Tcl_Interp> >  InterpreterInstancesMap;
-  static InterpreterInstancesMap interpreterInstancesMap;
+  typedef std::map<const Tcl_Interp*, InstanceTable*,
+                   PointerCompare<const Tcl_Interp> >  InterpreterInstanceTableMap;
+  static InterpreterInstanceTableMap interpreterInstanceTableMap;
 };
 
 

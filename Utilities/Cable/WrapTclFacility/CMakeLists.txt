@@ -2,7 +2,7 @@ LIBRARY(WrapTclFacility)
 
 SOURCE_FILES(
 wrapInit
-wrapInstances
+wrapInstanceTable
 wrapPointer
 wrapReference
 wrapUtils
