@@ -194,7 +194,7 @@ void Brains2MaskImageIO::Read(void* buffer)
   local_InputStream.close();
   //DEBUG: Now just convert the octree into an image for returning!!!
   //DEBUG:  This is written for 3D octreees only right now
-  char * const p = static_cast<char *>(buffer);
+  unsigned char * const p = static_cast<unsigned char *>(buffer);
   for(unsigned int k=0; k< this->m_Dimensions[2]; k++)
     {
     const unsigned int slice_offset=k*this->m_Dimensions[1]*this->m_Dimensions[0];
