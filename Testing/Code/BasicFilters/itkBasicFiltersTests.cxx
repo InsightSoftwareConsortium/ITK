@@ -75,7 +75,6 @@ void RegisterTests()
   REGISTER_TEST(itkCyclicReferences );
   REGISTER_TEST(itkDanielssonDistanceMapImageFilterTest );
   REGISTER_TEST(itkDerivativeImageFilterTest );
-  REGISTER_TEST(itkDeformationFieldInverseImageFilterTest );
   REGISTER_TEST(itkDeformationFieldSourceTest );
   REGISTER_TEST(itkDifferenceOfGaussiansGradientTest );
   REGISTER_TEST(itkDiscreteGaussianImageFilterTest );
@@ -120,6 +119,8 @@ void RegisterTests()
   REGISTER_TEST(itkInteriorExteriorMeshFilterTest  );
   REGISTER_TEST(itkInterpolateImageFilterTest );
   REGISTER_TEST(itkInterpolateImagePointsFilterTest );
+  REGISTER_TEST(itkInverseDeformationFieldImageFilterTest );
+  REGISTER_TEST(itkIterativeInverseDeformationFieldImageFilterTest );
   REGISTER_TEST(itkIsolatedConnectedImageFilterTest  );
   REGISTER_TEST(itkJoinImageFilterTest );
   REGISTER_TEST(itkLaplacianImageFilterTest );

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkDeformationFieldInverseImageFilter.txx
+  Module:    itkInverseDeformationFieldImageFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -16,10 +16,10 @@
 =========================================================================*/
 
 
-#ifndef _itkDeformationFieldInverseImageFilter_txx
-#define _itkDeformationFieldInverseImageFilter_txx
+#ifndef _itkInverseDeformationFieldImageFilter_txx
+#define _itkInverseDeformationFieldImageFilter_txx
 
-#include "itkDeformationFieldInverseImageFilter.h"
+#include "itkInverseDeformationFieldImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
 #include "itkThinPlateSplineKernelTransform.h"
@@ -33,8 +33,8 @@ namespace itk
  * Initialize new instance
  */
 template <class TInputImage, class TOutputImage>
-DeformationFieldInverseImageFilter<TInputImage, TOutputImage>
-::DeformationFieldInverseImageFilter()
+InverseDeformationFieldImageFilter<TInputImage, TOutputImage>
+::InverseDeformationFieldImageFilter()
 {
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
@@ -60,7 +60,7 @@ DeformationFieldInverseImageFilter<TInputImage, TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-DeformationFieldInverseImageFilter<TInputImage, TOutputImage>
+InverseDeformationFieldImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -81,7 +81,7 @@ DeformationFieldInverseImageFilter<TInputImage, TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-DeformationFieldInverseImageFilter<TInputImage,TOutputImage>
+InverseDeformationFieldImageFilter<TInputImage,TOutputImage>
 ::SetOutputSpacing(
   const double spacing[ImageDimension] )
 {
@@ -95,7 +95,7 @@ DeformationFieldInverseImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-DeformationFieldInverseImageFilter<TInputImage,TOutputImage>
+InverseDeformationFieldImageFilter<TInputImage,TOutputImage>
 ::SetOutputOrigin(
   const double origin[ImageDimension] )
 {
@@ -111,7 +111,7 @@ DeformationFieldInverseImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-DeformationFieldInverseImageFilter<TInputImage,TOutputImage>
+InverseDeformationFieldImageFilter<TInputImage,TOutputImage>
 ::PrepareKernelBaseSpline()
 {
 
@@ -226,7 +226,7 @@ DeformationFieldInverseImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-DeformationFieldInverseImageFilter<TInputImage,TOutputImage>
+InverseDeformationFieldImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
 
@@ -301,7 +301,7 @@ DeformationFieldInverseImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-DeformationFieldInverseImageFilter<TInputImage,TOutputImage>
+InverseDeformationFieldImageFilter<TInputImage,TOutputImage>
 ::GenerateInputRequestedRegion()
 {
   // call the superclass's implementation of this method
@@ -331,7 +331,7 @@ DeformationFieldInverseImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-DeformationFieldInverseImageFilter<TInputImage,TOutputImage>
+InverseDeformationFieldImageFilter<TInputImage,TOutputImage>
 ::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
@@ -363,7 +363,7 @@ DeformationFieldInverseImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 unsigned long 
-DeformationFieldInverseImageFilter<TInputImage,TOutputImage>
+InverseDeformationFieldImageFilter<TInputImage,TOutputImage>
 ::GetMTime( void ) const
 {
   unsigned long latestTime = Object::GetMTime(); 

@@ -56,8 +56,11 @@ ADD_TEST(itkCurvatureAnisotropicDiffusionImageFilterTest ${BASIC_FILTERS_TESTS} 
 ADD_TEST(itkCyclicReferences ${BASIC_FILTERS_TESTS} itkCyclicReferences)
 ADD_TEST(itkDanielssonDistanceMapImageFilterTest ${BASIC_FILTERS_TESTS} itkDanielssonDistanceMapImageFilterTest)
 ADD_TEST(itkDerivativeImageFilterTest ${BASIC_FILTERS_TESTS} itkDerivativeImageFilterTest)
-ADD_TEST(itkDeformationFieldInverseImageFilterTest ${BASIC_FILTERS_TESTS} itkDeformationFieldInverseImageFilterTest
-           ${TEMP}/itkDeformationFieldInverseImageFilterTest.mha
+ADD_TEST(itkInverseDeformationFieldImageFilterTest ${BASIC_FILTERS_TESTS} itkInverseDeformationFieldImageFilterTest
+           ${TEMP}/itkInverseDeformationFieldImageFilterTest.mha
+           )
+ADD_TEST(itkIterativeInverseDeformationFieldImageFilterTest ${BASIC_FILTERS_TESTS} itkIterativeInverseDeformationFieldImageFilterTest
+           ${TEMP}/itkIterativeInverseDeformationFieldImageFilterTest.mha
            )
 ADD_TEST(itkDeformationFieldSourceTest ${BASIC_FILTERS_TESTS} itkDeformationFieldSourceTest
            ${TEMP}/itkDeformationFieldSourceTestLandmarks.txt
@@ -496,7 +499,6 @@ itkCurvatureAnisotropicDiffusionImageFilterTest.cxx
 itkCyclicReferences.cxx
 itkDanielssonDistanceMapImageFilterTest.cxx
 itkDerivativeImageFilterTest.cxx
-itkDeformationFieldInverseImageFilterTest.cxx
 itkDeformationFieldSourceTest.cxx
 itkDifferenceOfGaussiansGradientTest.cxx
 itkDiscreteGaussianImageFilterTest.cxx
@@ -541,6 +543,8 @@ itkIntensityWindowingImageFilterTest.cxx
 itkInteriorExteriorMeshFilterTest.cxx
 itkInterpolateImageFilterTest.cxx
 itkInterpolateImagePointsFilterTest.cxx
+itkInverseDeformationFieldImageFilterTest.cxx
+itkIterativeInverseDeformationFieldImageFilterTest.cxx
 itkIsolatedConnectedImageFilterTest.cxx
 itkJoinImageFilterTest.cxx
 itkLaplacianImageFilterTest.cxx

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkDeformationFieldInverseImageFilter.h
+  Module:    itkInverseDeformationFieldImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkDeformationFieldInverseImageFilter_h
-#define __itkDeformationFieldInverseImageFilter_h
+#ifndef __itkInverseDeformationFieldImageFilter_h
+#define __itkInverseDeformationFieldImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkKernelTransform.h"
@@ -24,10 +24,10 @@
 namespace itk
 {
 
-/** \class DeformationFieldInverseImageFilter
+/** \class InverseDeformationFieldImageFilter
  * \brief Computes the inverse of a deformation field.
  *
- * DeformationFieldInverseImageFilter takes a deformation field as input and
+ * InverseDeformationFieldImageFilter takes a deformation field as input and
  * computes the deformation field that is its inverse. If the input deformation
  * field was mapping coordinates from a space A into a space B, the output of
  * this filter will map coordinates from the space B into the space A.
@@ -61,12 +61,12 @@ namespace itk
  * \ingroup ImageToImageFilter
  */
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT DeformationFieldInverseImageFilter:
+class ITK_EXPORT InverseDeformationFieldImageFilter:
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef DeformationFieldInverseImageFilter         Self;
+  typedef InverseDeformationFieldImageFilter         Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -81,7 +81,7 @@ public:
   itkNewMacro(Self);  
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DeformationFieldInverseImageFilter, ImageToImageFilter);
+  itkTypeMacro(InverseDeformationFieldImageFilter, ImageToImageFilter);
 
   /** Number of dimensions. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -147,15 +147,15 @@ public:
   itkSetMacro( SubsamplingFactor, unsigned int );
   itkGetMacro( SubsamplingFactor, unsigned int );
 
-  /** DeformationFieldInverseImageFilter produces an image which is a different size
+  /** InverseDeformationFieldImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model.  The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation();
 
-  /** DeformationFieldInverseImageFilter needs a different input requested region than
-   * the output requested region.  As such, DeformationFieldInverseImageFilter needs
+  /** InverseDeformationFieldImageFilter needs a different input requested region than
+   * the output requested region.  As such, InverseDeformationFieldImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
    * in order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
@@ -165,8 +165,8 @@ public:
   unsigned long GetMTime( void ) const;
 
 protected:
-  DeformationFieldInverseImageFilter();
-  ~DeformationFieldInverseImageFilter() {};
+  InverseDeformationFieldImageFilter();
+  ~InverseDeformationFieldImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** 
@@ -181,7 +181,7 @@ protected:
   void PrepareKernelBaseSpline();
 
 private:
-  DeformationFieldInverseImageFilter(const Self&); //purposely not implemented
+  InverseDeformationFieldImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   SizeType                      m_Size;              // Size of the output image
@@ -196,7 +196,7 @@ private:
 } // end namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDeformationFieldInverseImageFilter.txx"
+#include "itkInverseDeformationFieldImageFilter.txx"
 #endif
   
 #endif

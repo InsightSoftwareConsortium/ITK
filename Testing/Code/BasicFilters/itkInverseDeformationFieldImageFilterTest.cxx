@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkDeformationFieldInverseImageFilterTest.cxx
+  Module:    itkInverseDeformationFieldImageFilterTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -18,13 +18,13 @@
 
 #include "itkImage.h"
 #include "itkVector.h"
-#include "itkDeformationFieldInverseImageFilter.h"
+#include "itkInverseDeformationFieldImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageFileWriter.h"
 #include "itkFilterWatcher.h"
 
 
-int itkDeformationFieldInverseImageFilterTest( int argc, char * argv[] )
+int itkInverseDeformationFieldImageFilterTest( int argc, char * argv[] )
 {
 
   if( argc < 2 )
@@ -42,7 +42,7 @@ int itkDeformationFieldInverseImageFilterTest( int argc, char * argv[] )
 
   typedef itk::Image< VectorType,  Dimension >   DeformationFieldType;
 
-  typedef itk::DeformationFieldInverseImageFilter<
+  typedef itk::InverseDeformationFieldImageFilter<
                                     DeformationFieldType, 
                                     DeformationFieldType 
                                              >  FilterType;
