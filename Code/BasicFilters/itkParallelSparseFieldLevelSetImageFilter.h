@@ -516,9 +516,12 @@ protected:
    *  supplied by the multithreading mechanism.  */
   virtual TimeStepType ThreadedCalculateChange(unsigned int ThreadId);
 
-  /** Updates the values (in the output-image) of the nodes in the active layer
-   *  and constructs the up/down lists for nodes that are moving out of the
-   *  active layer. */
+  /** 1. Updates the values (in the output-image) of the nodes in the active layer
+   *  that are moving OUT of the active layer. These values are used in the 
+   *  ThreadedProcessFirstLayerStatusLists() method to assign values for new nodes
+   *  that are moving IN the active layer.
+   *  2. This function also constructs the up/down lists for nodes that are moving
+   *  out of the active layer. */
   void ThreadedUpdateActiveLayerValues(TimeStepType dt, LayerType *StatusUpList,
                                        LayerType *StatusDownList, unsigned int ThreadId);
   
@@ -554,13 +557,19 @@ protected:
                                             unsigned int InOrOut,
                                             unsigned int BufferLayerNumber, unsigned int ThreadId);
   
-  /** */
+  /** Push each index in the input list into its appropriate status layer
+   *  (ChangeToStatus) and update the status image value at that index.
+   *  Also examine the neighbors of the index, (with status SearchForStatus) to determine
+   *  which need to go onto the output list.
+   */
   void ThreadedProcessStatusList(unsigned int InputLayerNumber, unsigned int OutputLayerNumber,
                                  StatusType ChangeToStatus, StatusType SearchForStatus,
                                  unsigned int InOrOut,
                                  unsigned int BufferLayerNumber, unsigned int ThreadId);
   
-  /** */
+  /** Push each index in the input list into its appropriate status layer
+   *  (ChangeToStatus) and ... ... update the status image value at that index
+   */
   void ThreadedProcessOutsideList(unsigned int InputLayerNumber, StatusType ChangeToStatus,
                                   unsigned int InOrOut, unsigned int BufferLayerNumber, unsigned int ThreadId);
   
@@ -572,7 +581,11 @@ protected:
    *  the output. */
   void GetThreadRegionSplitUniformly(unsigned int ThreadId, ThreadRegionType& ThreadRegion);
   
-  /** */
+  /** Assign background pixels INSIDE the sparse field layers to a new level set
+   *  with value less than the innermost layer.  Assign background pixels
+   *  OUTSIDE the sparse field layers to a new level set with value greater than
+   *  the outermost layer.
+   */
   void ThreadedPostProcessOutput(const ThreadRegionType & regionToProcess);
   
   /** Check if the load is fairly balanced among the threads.
@@ -598,7 +611,7 @@ protected:
   void WaitForNeighbor (unsigned int SemaphoreArrayNumber, unsigned int ThreadId);
   
   /** If child classes need an entry point to the start of every iteration step
-      they can override this method. This method is defined but empty in this class. */
+   * they can override this method. This method is defined but empty in this class. */
   virtual void ThreadedInitializeIteration (unsigned int ThreadId);
   
   /**  For debugging.  Writes the active layer set (grid-points closest to evolving
