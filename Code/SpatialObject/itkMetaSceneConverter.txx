@@ -71,9 +71,11 @@ void
 MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::SetTransform(MetaObject* obj, TransformType* transform)
 {
-  TransformType::MatrixType matrix = transform->GetMatrix();
-  TransformType::OffsetType offset = transform->GetOffset();
-  TransformType::InputPointType center = 
+  typename SpatialObjectType::TransformType::MatrixType matrix =
+                                     transform->GetMatrix();
+  typename SpatialObjectType::TransformType::OffsetType offset =
+                                     transform->GetOffset();
+  typename SpatialObjectType::TransformType::InputPointType center = 
                                      transform->GetCenterOfRotationComponent();
 
   unsigned int p = 0;
@@ -105,9 +107,9 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
   typename SpatialObjectType::TransformType::Pointer transform = 
     SpatialObjectType::TransformType::New() ;
 
-  TransformType::MatrixType matrix;
-  TransformType::OffsetType offset;
-  TransformType::InputPointType center;
+  typename SpatialObjectType::TransformType::MatrixType matrix;
+  typename SpatialObjectType::TransformType::OffsetType offset;
+  typename SpatialObjectType::TransformType::InputPointType center;
 
   unsigned int p = 0;
   for ( unsigned int row = 0 ; row<NDimensions; row++)
