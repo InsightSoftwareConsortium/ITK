@@ -2,7 +2,7 @@ IF(ITK_BINARY_DIR)
   IF(TCL_TCLSH)
     ADD_TEST(PrintSelf-FEM ${TCL_TCLSH}
              ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
-             ${ITK_SOURCE_DIR}/Code/Numerics/Statistics)
+             ${ITK_SOURCE_DIR}/Code/Numerics/FEM)
   ENDIF(TCL_TCLSH)
 ENDIF(ITK_BINARY_DIR)
 
