@@ -131,7 +131,8 @@ NeighborhoodOperatorImageFilter<TInputImage,TOutputImage>
 template< class TInputImage, class TOutputImage>
 void
 NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
-::GenerateData()
+::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+                       int threadId)
 {
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>
     BFC;
@@ -146,28 +147,40 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
   OutputImageType *output = this->GetOutput();
   InputImageType *input   = this->GetInput();
  
-  // Need to allocate output buffer memory.
-  output->SetBufferedRegion(output->GetRequestedRegion());
-  output->Allocate();
- 
   // Break the input into a series of regions.  The first region is free
   // of boundary conditions, the rest with boundary conditions. Note,
   // we pass in the input image and the OUTPUT requested region. We are
   // only concerned with centering the neighborhood operator at the
   // pixels that correspond to output pixels.
-  faceList = faceCalculator(input, output->GetRequestedRegion(),
+  faceList = faceCalculator(input, outputRegionForThread,
                             m_Operator.GetRadius());
   typename FaceListType::iterator fit = faceList.begin();
 
+  // support progress methods/callbacks
+  unsigned long i = 0;
+  unsigned long updateVisits = 0;
+  unsigned long totalPixels = 0;
+  if ( threadId == 0 )
+    {
+    totalPixels = output->GetRequestedRegion().GetNumberOfPixels();
+    updateVisits = totalPixels / 10;
+    if( updateVisits < 1 ) updateVisits = 1;
+    }
+  
   // Process non-boundary region
   ConstNeighborhoodIterator<InputImageType>
     nit(m_Operator.GetRadius(), input, *fit);
   ImageRegionIterator<OutputImageType> it(output, *fit);
   nit.GoToBegin();
   it.GoToBegin();
-  //  nit.Print(std::cout);
+  
   while( ! nit.IsAtEnd() )
     {
+    if ( threadId == 0 && !(i % updateVisits ) )
+      {
+      this->UpdateProgress((float)i++ / (float)totalPixels);
+      }
+
     it.Value() = innerProduct(nit, m_Operator);
     ++nit;
     ++it;
@@ -186,6 +199,11 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
     bit.GoToBegin();
     while ( ! bit.IsAtEnd() )
       {
+      if ( threadId == 0 && !(i % updateVisits ) )
+        {
+        this->UpdateProgress((float)i++ / (float)totalPixels);
+        }
+      
       it.Value() = smartInnerProduct(bit, m_Operator);
       ++bit;
       ++it;
