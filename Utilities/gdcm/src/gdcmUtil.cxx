@@ -520,7 +520,7 @@ int GetMacAddrSys ( unsigned char *addr )
 
 
 // implementation for POSIX system
-#ifdef __sun
+#if defined(CMAKE_HAVE_NET_IF_ARP_H) && defined(__sun)
    //The POSIX version is broken anyway on Solaris, plus would require full
    //root power
    struct  arpreq          parpreq;
