@@ -54,15 +54,8 @@ int main(int argc,char *argv[])
 
   typedef itk::Rigid3DTransform<double>  TransformType;
 
-  typedef  itk::Vector<double,3>     VectorType;
-
-
-  VectorType                   vector1;
-
   const double epsilon = 1e-10;
   const unsigned int N = 3;
-
-  vector1 = 3,4,6;
 
 
   bool Ok = true;
@@ -173,7 +166,33 @@ int main(int argc,char *argv[])
       }
     }
 
+    {
+      // Translate an itk::CovariantVector
+      TransformType::InputCovariantVectorType p;
+      p = 10,10,10;
+      TransformType::OutputCovariantVectorType q;
+      q = translation->TransformCovariantVector( p );
+      for(unsigned int i=0; i<N; i++)
+      {
+        if( fabs( q[i]- p[i] ) > epsilon )
+        {
+          Ok = false;
+          break;    
+        }
+      }
+      if( !Ok )
+      { 
+        std::cerr << "Error translating covariant vector: " << p << std::endl;
+        std::cerr << "Reported Result is      : " << q << std::endl;
+        return EXIT_FAILURE;
+      }
+      else
+      {
+        std::cout << "Ok translating an itk::CovariantVector " << std::endl;
+      }
+    }
 
+    
     {
       // Translate a vnl_vector
       TransformType::InputVnlVectorType p;
@@ -292,7 +311,7 @@ int main(int argc,char *argv[])
       if( !Ok )
       { 
         std::cerr << "Error rotating vector : " << p << std::endl;
-        std::cerr << "Result should is      : " << q << std::endl;
+        std::cerr << "Result should be      : " << q << std::endl;
         std::cerr << "Reported Result is    : " << r << std::endl;
         return EXIT_FAILURE;
       }
@@ -303,6 +322,39 @@ int main(int argc,char *argv[])
     }
 
 
+    {
+      // Translate an itk::CovariantVector
+      TransformType::InputCovariantVectorType p;
+      p = 1,4,9;
+      TransformType::OutputCovariantVectorType q;
+      q[0] = p[1];
+      q[1] = p[2];
+      q[2] = p[0];
+
+      TransformType::OutputCovariantVectorType r;
+      r = rotation->TransformCovariantVector( p );
+      for(unsigned int i=0; i<N; i++)
+      {
+        if( fabs( q[i] - r[i] ) > epsilon )
+        {
+          Ok = false;
+          break;    
+        }
+      }
+      if( !Ok )
+      { 
+        std::cerr << "Error rotating covariant vector : " << p << std::endl;
+        std::cerr << "Result should be                : " << q << std::endl;
+        std::cerr << "Reported Result is              : " << r << std::endl;
+        return EXIT_FAILURE;
+      }
+      else
+      {
+        std::cout << "Ok rotating an itk::CovariantVector " << std::endl;
+      }
+    }
+
+    
     {
       // Translate a vnl_vector
       TransformType::InputVnlVectorType p;
