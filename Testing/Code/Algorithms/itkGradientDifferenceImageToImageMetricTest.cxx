@@ -62,13 +62,13 @@ int itkGradientDifferenceImageToImageMetricTest(int , char*[] )
   movingImageSource->SetOrigin(movingImageOrigin);
   movingImageSource->SetSpacing(movingImageSpacing);
   movingImageSource->SetNormalized(false);
-  movingImageSource->SetScale(250.0f);
+  movingImageSource->SetScale(200.0f);
     
   fixedImageSource->SetSize(fixedImageSize);
   fixedImageSource->SetOrigin(fixedImageOrigin);
   fixedImageSource->SetSpacing(fixedImageSpacing);
   fixedImageSource->SetNormalized(false);
-  fixedImageSource->SetScale(250.0f);
+  fixedImageSource->SetScale(150.0f);
     
   movingImageSource->Update(); // Force the filter to run
   fixedImageSource->Update();  // Force the filter to run
