@@ -49,8 +49,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   m_LabelImage = LabelImageType::New();
 
   typedef typename LevelSetImageType::PixelType PixelType;
-  m_LargeValue = NumericTraits<PixelType>::max() / 2.0;
-  m_StoppingValue =  static_cast<double>( m_LargeValue );
+  m_LargeValue    = static_cast<PixelType>( NumericTraits<PixelType>::max() / 2.0 );
+  m_StoppingValue = static_cast<double>( m_LargeValue );
   m_CollectPoints = false;
 
   m_NormalizationFactor = 1.0;
@@ -515,12 +515,12 @@ LevelSetImageType * output )
   if ( solution < m_LargeValue )
   {
   // write solution to m_OutputLevelSet
-  outputPixel = solution;
+  outputPixel = static_cast<PixelType>( solution );
   output->SetPixel( index, outputPixel );
 
     // insert point into trial heap
   m_LabelImage->SetPixel( index, TrialPoint );
-  node.SetValue( solution );
+  node.SetValue( static_cast<PixelType>( solution ) );
   node.SetIndex( index );
   m_TrialHeap.push( node );
   }
