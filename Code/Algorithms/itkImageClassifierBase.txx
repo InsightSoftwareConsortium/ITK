@@ -143,8 +143,6 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
     }
   int k = 0;
 
-  double s1;
-
   MembershipFunctionPointerVector 
     membershipFunctions = this->GetMembershipFunctions();
 
@@ -163,7 +161,6 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
       {
         discriminantScores[classIndex] = 
           (membershipFunctions[classIndex])->Evaluate(inputImagePixel) ;
-        s1 = discriminantScores[classIndex];
       }
 
     
