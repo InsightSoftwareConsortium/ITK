@@ -97,6 +97,10 @@ public:
 #ifdef FEM_BUILD_VISUALIZATION
   void Draw(CDC* pDC, Solution::ConstPointer sol) const;
 #endif
+  /**
+   * Function that returns the global coordinate at the selected node.
+   */
+  vnl_vector<Float> GetNodalCoordinates( unsigned int n ) const;
 
   /**
    * Function that returns a point in the global coordinate

@@ -62,6 +62,18 @@ MembraneC02D::MembraneC02D(  Node::ConstPointer n1_,
 
 }
 
+ /**
+   * Function that returns the global coordinate at the selected node.
+   */
+vnl_vector<MembraneC02D::Float> MembraneC02D::GetNodalCoordinates( unsigned int n ) const
+{
+
+  vnl_vector<Float> coord(2,0.0);
+
+  coord[0]=m_node[n]->X;
+  coord[1]=m_node[n]->Y;
+  return coord;
+}
 
 
 
