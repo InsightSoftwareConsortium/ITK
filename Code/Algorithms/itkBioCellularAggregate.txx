@@ -60,6 +60,7 @@ template<unsigned int NSpaceDimension>
 CellularAggregate<NSpaceDimension>
 ::~CellularAggregate()
 {
+  m_Mesh->DebugOn();
   this->KillAll();
 }
 
@@ -117,12 +118,12 @@ CellularAggregate<NSpaceDimension>
 {
   BioCellType * cell = dynamic_cast<BioCellType *>( cellbase );
   if( !cell )
-  {
+    {
     itk::ExceptionObject exception;
     exception.SetDescription("Trying to remove a null pointer to cell");
     exception.SetLocation("CellularAggregate::Remove(BioCellType*)");
     throw exception;
-  }
+    }
   
   IdentifierType id = cell->GetSelfIdentifier();
 
@@ -143,6 +144,23 @@ CellularAggregate<NSpaceDimension>
       typename VoronoiRegionType::PointIdIterator end      = realRegion->PointIdsEnd();
       while( neighbor != end )
         {
+        const IdentifierType neighborId = (*neighbor);
+        typename MeshType::CellAutoPointer cellPointer;
+        bool neighborVoronoiExist = m_Mesh->GetCell( neighborId, cellPointer );
+        if( neighborVoronoiExist ) 
+          {
+          VoronoiRegionType * region =
+             dynamic_cast < VoronoiRegionType * >( cellPointer.GetPointer() );
+          if( !region )
+            {
+            std::cerr << "CellularAggregate::Add() Failed to find a region"  << std::endl;
+            }
+          else
+            {
+            std::cout << "removing" << std::endl;
+            region->RemovePointId( id );
+            }
+          }
         neighbor++;
         }
       }
@@ -293,9 +311,7 @@ CellularAggregate<NSpaceDimension>
 
     VoronoiRegionAutoPointer parentVoronoi;
     this->GetVoronoi( newcellparentId, parentVoronoi );
-    CellAutoPointer parentClone;
-    parentVoronoi->MakeCopy( parentClone );
-    itk::TransferAutoPointer( selfVoronoi, parentClone );
+    parentVoronoi->MakeCopy( selfVoronoi );
     }
 
   position += perturbation;
