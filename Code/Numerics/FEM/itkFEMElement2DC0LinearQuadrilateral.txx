@@ -18,7 +18,7 @@
 #ifndef __itkFEMElement2DC0LinearQuadrilateral_txx
 #define __itkFEMElement2DC0LinearQuadrilateral_txx
 
-#include <cmath>
+#include "vnl/vnl_math.h"
 
 namespace itk {
 namespace fem {

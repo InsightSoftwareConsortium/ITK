@@ -42,6 +42,22 @@ FEM_CLASS_SP( Element2DC0LinearQuadrilateral, TemplatedParentClass )
 public:
 
 
+  // Repeat typedefs and enums from parent class
+  typedef typename Superclass::Float Float;
+  typedef typename Superclass::MatrixType MatrixType;
+  typedef typename Superclass::VectorType VectorType;
+  typedef typename Superclass::LoadElementType LoadElementType;
+  typedef typename Superclass::LoadElementPointer LoadElementPointer;
+  typedef typename Superclass::PointIDType PointIDType;
+  typedef typename Superclass::DegreeOfFreedomIDType DegreeOfFreedomIDType;
+  typedef typename Superclass::NodeDefinitionType NodeDefinitionType;
+  typedef typename Superclass::PointClass PointClass;
+  enum{ InvalidDegreeOfFreedomID = Superclass::InvalidDegreeOfFreedomID };
+  enum{ NumberOfPoints=Superclass::NumberOfPoints };
+  enum{ NumberOfNodes=Superclass::NumberOfNodes };
+  enum{ NumberOfDegreesOfFreedomPerNode=Superclass::NumberOfDegreesOfFreedomPerNode };
+  enum{ NDOF=Superclass::NDOF };
+  
 
 //////////////////////////////////////////////////////////////////////////
   /*
