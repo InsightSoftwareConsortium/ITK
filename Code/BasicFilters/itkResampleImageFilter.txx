@@ -170,7 +170,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   typedef typename InterpolatorType::OutputType OutputType;
 
   // Walk the output region
-  const PixelType minValue =  itk::NumericTraits<PixelType >::min();
+  const PixelType minValue =  itk::NumericTraits<PixelType >::NonpositiveMin();
   const PixelType maxValue =  itk::NumericTraits<PixelType >::max();
   for (i=0; !outIt.IsAtEnd(); ++outIt, i++ )
     {
