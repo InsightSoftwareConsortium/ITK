@@ -65,8 +65,8 @@ int itkRGBToVectorAdaptImageFilterTest(int, char* [] ) {
 
 
   RGBImageType::SizeType size;
-  size[0] = 2;
-  size[1] = 2;
+  size[0] = 100;
+  size[1] = 100;
 
   RGBImageType::IndexType index;
   index[0] = 0;
@@ -98,19 +98,6 @@ int itkRGBToVectorAdaptImageFilterTest(int, char* [] ) {
     ++it1;
     }
 
-  // Reading the values to verify the image content
-  std::cout << "--- Initial image --- " << std::endl;
-  it1.GoToBegin();
-  while( !it1.IsAtEnd() )
-    {
-    const RGBImageType::PixelType c( it1.Get() );
-    std::cout << c.GetRed()   << "  ";
-    std::cout << c.GetGreen() << "  ";
-    std::cout << c.GetBlue()  << std::endl;
-    ++it1;
-    }
-
-
   bool passed = true;
 
   // Convert to a Vector image
@@ -133,7 +120,6 @@ int itkRGBToVectorAdaptImageFilterTest(int, char* [] ) {
   it1.GoToBegin();
   while( !it.IsAtEnd() )
   {
-  std::cout << it.Get()   << std::endl;
   VectorPixelType v =   it.Get();
   RGBPixelType    c =  it1.Get();
   
