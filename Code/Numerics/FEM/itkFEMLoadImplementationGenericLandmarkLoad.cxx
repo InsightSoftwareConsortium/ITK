@@ -58,7 +58,15 @@ LoadImplementationGenericLandmarkLoad
   new_source += disp;
   
   // Calculate the new force
-  force = ( (load->m_target - new_source) / (load->eta * load->eta) );
+  force = ( (load->m_target-new_source) / (load->eta * load->eta) );
+  std::cout << "force = " << force << std::endl;
+  std::cout << "element " << element->GetNodeCoordinates(0) << std::endl;
+
+  float fmag = 0.0;
+  for (unsigned int i=0; i < element->GetNumberOfDegreesOfFreedom(); i++) {
+    fmag += force[i]*force[i];
+  }
+  //force /= sqrt(fmag);
   
   // "Integrate" at the location of the point load
   // FIXME: is this really all that is necessary?  Where should the shape funcs be calculated?
