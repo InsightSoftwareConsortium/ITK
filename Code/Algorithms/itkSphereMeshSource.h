@@ -51,16 +51,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/** \class itkSphere Source
+/** \class itkSphereMesh Source
  * \brief 
  *
  * Input parameters are:
- * (1) The Center of the sphere
- * (2) The resolutions of the spatial sampling on the sphere surface in both 
+ * (1) The Center of the SphereMesh
+ * (2) The resolutions of the spatial sampling on the SphereMesh surface in both 
  *     verizon and horizon directions.
  * The cell surface is triangulated. 
  * The scale in the x, y, z directions can be reset.
- * Squearness1 and Squearness2 control the shape of the sphere, 
+ * Squearness1 and Squearness2 control the shape of the SphereMesh, 
  * when considered as a quadric surface. */
 template <class TOutputMesh>
 class ITK_EXPORT SphereMeshSource : public MeshSource<TOutputMesh>
