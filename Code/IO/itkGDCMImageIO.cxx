@@ -269,6 +269,8 @@ void GDCMImageIO::Read(void* buffer)
       RescaleFunction(dbuffer, dsource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
+     default:
+      itkExceptionMacro(<< "Unknown component type :" << m_ComponentType);
     }
 
   delete[] source;
