@@ -48,11 +48,15 @@ template <typename OutputIterator>
 void AddTypeNamesFromFunction(const Function* f, OutputIterator o)
 {
   const Type* t=NULL;
+  
   if(f->GetReturns() && f->GetReturns()->GetType())
     {
     t = f->GetReturns()->GetType();
     *o++ = t->GetName();
-    if(t->IsPointerType())
+    if(t->IsFunctionPointer())
+      {
+      }
+    else if(t->IsPointerType())
       {
       const PointerType* pt = (PointerType*)t;
       *o++ = pt->GetPointedToType()->GetName();
@@ -68,7 +72,10 @@ void AddTypeNamesFromFunction(const Function* f, OutputIterator o)
       ++a)
     {
     t = (*a)->GetType();
-    if(t->IsPointerType())
+    if(t->IsFunctionPointer())
+      {
+      }
+    else if(t->IsPointerType())
       {
       const PointerType* pt = (PointerType*)t;
       *o++ = pt->GetPointedToType()->GetName();
@@ -77,6 +84,10 @@ void AddTypeNamesFromFunction(const Function* f, OutputIterator o)
       {
       const ReferenceType* rt = (ReferenceType*)t;
       *o++ = rt->GetReferencedType()->GetName();
+      }
+    else
+      {
+      *o++ = t->GetName();
       }
     }
 }
@@ -180,7 +191,6 @@ void OutputFileHeader(FILE* outFile,
             "methodMap_%s;\n"
             "\n",
             (*c)->GetQualifiedName().c_str(),
-            (*c)->GetQualifiedName().c_str(),
             GetWrapName(*c).c_str());
     }
 }
@@ -222,6 +232,45 @@ void OutputFileFooter(FILE* outFile)
 }
 
 
+// Remove the reference type and any qualifiers like const
+String GetNonReferenceType(const Type* t)
+{
+  String ret = t->GetNameWithoutCV();
+  return ret.substr(0, ret.length()-1);
+}
+
+bool IsBuiltin(String const& type)
+{
+  const char* builtin[] = { "double&", "int&", "long&", "unsigned&",
+			    "unsigned long&", "unsigned long int&",
+			    "short&", "unsigned short&", "char&", 0
+  };
+  cerr  << "check built in " << type.c_str() << endl;
+  for(int i=0; builtin[i]; i++)
+    {
+    if(type == builtin[i])
+      {
+      return true;
+      }
+    }
+  return false;
+}
+
+bool IsBuiltinConstReference(const ReferenceType* t)
+{
+  if(t->GetReferencedType()->IsConst() )
+    {
+    String realtype = t->GetNameWithoutCV();
+    if( IsBuiltin(realtype))
+      {
+      cout << "IsBuiltin " << t->GetName() << " " << realtype.c_str() << endl;
+      return true;
+      }
+    
+    }
+  return false;
+}
+
 //----------------------------------------------------------------------------
 // Begin temporary area.  Code in this area must be changed later to handle
 // overload resolution correctly.  Also must be updated to deal with
@@ -246,19 +295,37 @@ void OutputMethodTest(FILE* outFile, const Function* func, const char* indent)
       {
       const PointerType* pt = (PointerType*)t;
       String innerType = pt->GetPointedToType()->GetName();
-      fprintf(outFile, "ObjectCanBePointerTo<%s>::Test(interp, objv[%d])",
-              innerType.c_str(), argNum+2);
+      // if it is a char* then do not check the type, but
+      // rather just use the tcl string later
+      if(innerType != "char")
+	{
+	fprintf(outFile, "ObjectCanBePointerTo<%s >::Test(interp, objv[%d])",
+		innerType.c_str(), argNum+2);
+	}
+      else
+	{
+	fprintf(outFile, "true");
+	}
       }
     else if(t->IsReferenceType())
       {
       const ReferenceType* rt = (ReferenceType*)t;
-      String innerType = rt->GetReferencedType()->GetName();
-      fprintf(outFile, "ObjectCanBeReferenceTo<%s>::Test(interp, objv[%d])",
-              innerType.c_str(), argNum+2);
+      // if it is a const reference, then treat it like a real type
+      if(IsBuiltinConstReference(rt))
+	{
+	fprintf(outFile, "ObjectCanBe<%s >::Test(interp, objv[%d])",
+		GetNonReferenceType(t).c_str(), argNum+2);
+	}
+      else
+	{
+	String innerType = rt->GetReferencedType()->GetName();
+	fprintf(outFile, "ObjectCanBeReferenceTo<%s >::Test(interp, objv[%d])",
+		innerType.c_str(), argNum+2);
+	}
       }
     else
       {
-      fprintf(outFile, "ObjectCanBe<%s>::Test(interp, objv[%d])",
+      fprintf(outFile, "ObjectCanBe<%s >::Test(interp, objv[%d])",
               t->GetName().c_str(), argNum+2);
       }
 
@@ -285,24 +352,47 @@ void OutputMethodCall(FILE* outFile, const Function* func)
     if(returnType->IsPointerType())
       {
       const PointerType* pt = (PointerType*)returnType;
-      String innerType = pt->GetPointedToType()->GetName();
-      fprintf(outFile, "ReturnPointerTo<%s>::From(interp,\n      ",
+      // BUG FIX ME, I have to get rid of const here for some reason
+      String innerType = pt->GetPointedToType()->GetNameWithoutCV();
+      // ReturnPointerTo<const type> causes a syntax error...
+      fprintf(outFile, "ReturnPointerTo<%s >::From(interp,\n      ",
               innerType.c_str());
+      // if it is a pointer, then use const_cast for the case of const char*
+      if(innerType == "char")
+	{
+	fprintf(outFile, "const_cast<%s*>(",
+		innerType.c_str());
+	}
+      else
+	{
+	fprintf(outFile, "(",
+		innerType.c_str());
+	}
+      
       }
     else if(returnType->IsReferenceType())
       {
       const ReferenceType* rt = (ReferenceType*)returnType;
-      String innerType = rt->GetReferencedType()->GetName();
-      fprintf(outFile, "ReturnReferenceTo<%s>::From(interp,\n      ",
-              innerType.c_str());
+      // if it is a const reference, then treat it like a real type
+      if(IsBuiltin(rt->GetName())) // GetNonReferenceType(rt)))
+	{
+	fprintf(outFile, "ReturnInstanceOf<%s >::From(interp,\n      ",
+		GetNonReferenceType(returnType).c_str());
+	}
+      else
+	{
+	String innerType = rt->GetReferencedType()->GetNameWithoutCV();
+	fprintf(outFile, "ReturnReferenceTo<%s >::From(interp,\n      ",
+		innerType.c_str());
+	}
+      
       }
     else
       {
-      fprintf(outFile, "ReturnInstanceOf<%s>::From(interp,\n      ",
+      fprintf(outFile, "ReturnInstanceOf<%s >::From(interp,\n      ",
               returnType->GetName().c_str());
       }
     }
-
   fprintf(outFile, "instance.%s(",
           func->GetCallName().c_str());
 
@@ -315,19 +405,36 @@ void OutputMethodCall(FILE* outFile, const Function* func)
       {
       const PointerType* pt = (PointerType*)t;
       String innerType = pt->GetPointedToType()->GetName();
-      fprintf(outFile, "ObjectAsPointerTo<%s>::Get(interp, objv[%d])",
-              innerType.c_str(), argNum+2);
+      // For char* arguments, just use the tcl string and don't convert
+      if(innerType == "char")
+	{
+	fprintf(outFile, "objv[%d]->bytes",  argNum+2);
+	}
+      else
+	{
+	fprintf(outFile, "ObjectAsPointerTo<%s >::Get(interp, objv[%d])",
+		innerType.c_str(), argNum+2);
+	}
       }
     else if(t->IsReferenceType())
       {
       const ReferenceType* rt = (ReferenceType*)t;
-      String innerType = rt->GetReferencedType()->GetName();
-      fprintf(outFile, "ObjectAsReferenceTo<%s>::Get(interp, objv[%d])",
-              innerType.c_str(), argNum+2);
+      // if it is a const reference, then treat it like a real type
+      if(IsBuiltinConstReference(rt))
+	{
+	fprintf(outFile, "ObjectAs<%s >::Get(interp, objv[%d])",
+		GetNonReferenceType(t).c_str(), argNum+2);
+	}
+      else
+	{
+	String innerType = rt->GetReferencedType()->GetName();
+	fprintf(outFile, "ObjectAsReferenceTo<%s >::Get(interp, objv[%d])",
+		innerType.c_str(), argNum+2);
+	}
       }
     else
       {
-      fprintf(outFile, "ObjectAs<%s>::Get(interp, objv[%d])",
+      fprintf(outFile, "ObjectAs<%s >::Get(interp, objv[%d])",
               t->GetName().c_str(), argNum+2);
       }
 
@@ -335,15 +442,39 @@ void OutputMethodCall(FILE* outFile, const Function* func)
     if(argNum != func->GetArgumentCount())
       fprintf(outFile, ",\n        ");
     }
-  
   if(returnType)
     {
+    // close the const cast
+    if(returnType->IsPointerType())
+      {
+      fprintf(outFile, ")");
+      }
     fprintf(outFile, "));\n");
     }
   else
     {
     fprintf(outFile, ");\n");
     }
+}
+
+/**
+ *  Check to see if the function can be wrapped in tcl.
+ *  Currently functions that pass pointers to functions can not
+ *  be wrapped.
+ */
+bool FunctionCanBeWrapped(Function const* f)
+{ 
+  for(ArgumentsIterator a = f->GetArguments().begin();
+      a != f->GetArguments().end();
+      ++a)
+    {
+    const Type* t = (*a)->GetType();
+    if(t->IsFunctionPointer())
+      {
+      return false;
+      }
+    }
+  return true;
 }
 
 
@@ -361,7 +492,7 @@ void wrapMethodGroup(FILE* outFile, const Class* aClass,
   
   InputIterator currentFunctionIterator = first;
   const Function* func = *currentFunctionIterator++;
-  
+
   fprintf(outFile,
           "/**\n"
           " * Wrap %s::%s() methods.\n"
@@ -390,17 +521,16 @@ void wrapMethodGroup(FILE* outFile, const Class* aClass,
   while(currentFunctionIterator != last)
     {
     func = *currentFunctionIterator++;
-    
     fprintf(outFile,
-            "  else if(");
+	    "  else if(");
     OutputMethodTest(outFile, func, "          ");
     fprintf(outFile,
-            ")\n");
+	    ")\n");
     fprintf(outFile,
-            "    {\n");
-    OutputMethodCall(outFile, func);
+	    "    {\n");
+    OutputMethodCall(outFile, func); 
     fprintf(outFile,
-            "    }\n");
+	    "    }\n");
     }
   
   fprintf(outFile,
@@ -449,7 +579,7 @@ void OutputMethodWrapper(FILE* outFile,const Class* aClass)
           "    // Create a new instance.\n"
           "    char* instanceName = Tcl_GetStringFromObj(objv[1], NULL);\n"
           "    \n"
-          "    InstanceSet(instanceName, NewObjectOf<%s>::Create(), \"%s\");\n"
+          "    InstanceSet(instanceName, NewObjectOf<%s >::Create(), \"%s\");\n"
           "    Tcl_CreateObjCommand(interp, instanceName, WrapperFor_%s,\n"
           "                         (ClientData)NULL, (Tcl_CmdDeleteProc*)NULL);\n"
           "    return TCL_OK;\n"
@@ -470,22 +600,44 @@ void OutputMethodWrapper(FILE* outFile,const Class* aClass)
           "      {\n"
           "      if(InstanceExists(commandName))\n"
           "        {\n"
-          "        methodMap_%s[methodName](InstanceAs<%s>::Get(commandName), interp, objc, objv);\n"
+          "        methodMap_%s[methodName](InstanceAs<%s >::Get(commandName), interp, objc, objv);\n"
           "        }\n"
           "      else if(ReferenceExists(commandName))\n"
           "        {\n"
-          "        methodMap_%s[methodName](ReferenceAs<%s>::Get(commandName), interp, objc, objv);\n"
+          "        methodMap_%s[methodName](ReferenceAs<%s >::Get(commandName), interp, objc, objv);\n"
           "        }\n"
-          "      else\n"
+	  "      else\n"
           "        {\n"
           "        throw _wrap_UnknownCommandNameException(commandName);\n"
           "        }\n"
-          "      }\n"
-          "    else\n"
-          "      {\n"
-          "      throw UnknownMethodError(interp, \"%s\", methodName, objv+2, objc-2);\n"
-          "      }\n"
-          "    }\n"
+          "      }\n",  
+	  GetWrapName(aClass).c_str(),
+          GetWrapName(aClass).c_str(),
+          aClass->GetQualifiedName().c_str(),
+          GetWrapName(aClass).c_str(),
+          aClass->GetQualifiedName().c_str()); 
+  // output code to chain up the base classes
+  fprintf(outFile,
+          "  else\n"
+          "    {\n"   
+	  "    String methodName = Tcl_GetStringFromObj(objv[1], NULL);\n");
+  for(BaseClassContainer::const_iterator i = aClass->GetBaseClasses().begin();
+      i != aClass->GetBaseClasses().end(); ++i)
+    {
+    fprintf(outFile,
+	    "    if(WrapperExists(\"%s\"))\n"
+	    "      {\n"
+	    "      return WrapperFunction(\"%s\")(clientData, interp, objc, objv);\n"
+	    "      }\n",  (*i)->GetQualifiedName().c_str(), (*i)->GetQualifiedName().c_str());
+    }
+  fprintf(outFile,
+	  "    throw UnknownMethodError(interp, \"%s\", methodName, objv+2, objc-2);\n"
+	  "    }\n",
+          aClass->GetQualifiedName().c_str(),
+          aClass->GetQualifiedName().c_str());
+  
+  fprintf(outFile,   
+          "  }\n"
           "  catch(String error)\n"
           "    {\n"
           "    ReportErrorMessage(interp, error);\n"
@@ -496,13 +648,7 @@ void OutputMethodWrapper(FILE* outFile,const Class* aClass)
           "  FreeTemporaries(interp, objv, objc);\n"
           "  return TCL_OK;\n"
           "}\n"
-          "\n",
-          GetWrapName(aClass).c_str(),
-          GetWrapName(aClass).c_str(),
-          aClass->GetQualifiedName().c_str(),
-          GetWrapName(aClass).c_str(),
-          aClass->GetQualifiedName().c_str(),
-          aClass->GetQualifiedName().c_str());
+          "\n");
 }
 
 
@@ -546,7 +692,8 @@ void WrapClass(FILE* outFile, const WrapType* wrapType)
     {
     const Method* method = *methodItr;
     if((method->IsMethod() || method->IsOperatorMethod())
-       && (method->GetAccess() == Public))
+       && (method->GetAccess() == Public )
+       && (FunctionCanBeWrapped(method) ))
       {
       methodMap[method->GetName()].push_back(method);
       }
@@ -588,7 +735,7 @@ void WrapClass(FILE* outFile, const WrapType* wrapType)
           "                       (ClientData)NULL, (Tcl_CmdDeleteProc*)NULL);\n"
           "  \n"
           "  RegisterWrapperFunction(\"%s\", WrapperFor_%s);\n"
-          "  RegisterDeleteFunction(\"%s\", OldObjectOf<%s>::Delete);\n",
+          "  RegisterDeleteFunction(\"%s\", OldObjectOf<%s >::Delete);\n",
           aClass->GetQualifiedName().c_str(),
           GetWrapName(aClass).c_str(),
           aClass->GetQualifiedName().c_str(),
