@@ -38,6 +38,8 @@
 //  operation on the intensities. The actual effect of the filter is just
 //  equivalent to blindly performing C-Style casting on every pixel.
 //
+//  \code{ outputPixel = static\_cast<OutputPixelType>( inputPixel ) }
+//
 //  The \code{itk::RescaleIntensityImageFilter} acts by linearly scaling the
 //  pixels values in such a way that the minimum and maximum values of the
 //  input image will be mapped to a minimum and maximum values provided by the
@@ -45,15 +47,15 @@
 //  to fit in a particular scale. This is common in image display, for example.
 //  The linear transformation applied by this filter can be expressed as 
 //
-//  \[ outputPixel = \frac{( inputPixel - inpMin)}{(inpMax-inpMin)} * (outMax -
-//  outMin ) + outMin \]
+//  \[ outputPixel = ( inputPixel - inpMin) \times 
+//                    \frac{(inpMax-inpMin)}{(outMax - outMin )} + outMin \]
 //
 //  The \code{itk::ShiftScaleImageFilter} also applies a linear transformation
 //  to the intensities of the input image. However the transformation is
 //  specified by the user in the form of a multiplying factor and a value to be
 //  added. This can be expresses as 
 //
-//  \[  outputValue = inputPixel \times Scale + Shift \].
+//  \[  outputPixel = inputPixel \times Scale + Shift \].
 //
 //  The \code{itk::NormalizeImageFilter} applies a linear transformation to the
 //  intensities of the input image. The parameters of the transformation are
