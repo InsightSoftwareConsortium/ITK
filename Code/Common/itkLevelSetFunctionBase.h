@@ -23,15 +23,12 @@
 namespace itk {
 
 /** \class LevelSetFunctionBase
+  *
+ * This class is a base class for the LeveSetFunction object.  See
+ * LevelSetFunction object for complete information.
  *
- * \f$\phi_{t} = \alpha \stackrel{\rightharpoonup}{F}(\mathbf{x})\cdot\nabla\phi
- * + \beta G(\mathbf{x})\mid\nabla\phi\mid + \gamma Z(\mathbf{x})\kappa\f$
- *
- * References: Sethian Chap 6, Vispack documentation, insight documents
- * level set arch proposal
- *
- * MORE DOCUMENTATION IN THE WORKS!
  * \ingroup FiniteDifferenceFunctions
+ * \ingroup Functions
  */
 template <class TImageType>
 class LevelSetFunctionBase : public FiniteDifferenceFunction<TImageType>
@@ -72,8 +69,9 @@ public:
                                     &neighborhood, const FloatOffsetType &
                                     ) const
     { return m_ZeroVectorConstant; }
-  
-  /** Propagation speed.  Default implementation returns zero. */
+
+  /** Propagation speed.  This term controls surface expansion/contraction.
+   *  Default implementation returns zero. */ 
   virtual ScalarValueType PropagationSpeed(
     const NeighborhoodType& neighborhood,
     const FloatOffsetType ) const
@@ -83,7 +81,8 @@ public:
     &neighborhood, const FloatOffsetType &) const
     { return NumericTraits<ScalarValueType>::Zero; }
 
-  /** Curvature speed.  Default implementation returns one. */
+  /** Curvature speed.  Can be used to spatially modify the effects of
+      curvature . The default implementation returns one. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType
                                          &neighborhood, const FloatOffsetType &
                                          ) const
@@ -94,19 +93,19 @@ public:
                                          ) const
     { return NumericTraits<ScalarValueType>::One; }
 
-  /** Alpha. */
+  /** Alpha.  Scales all advection term values.*/ 
   void SetAdvectionWeight(const ScalarValueType a)
     { m_AdvectionWeight = a; }
   ScalarValueType GetAdvectionWeight() const
     { return m_AdvectionWeight; }
   
-  /** Beta. */
+  /** Beta.  Scales all propagation term values. */
   void SetPropagationWeight(const ScalarValueType p)
     { m_PropagationWeight = p; }
   ScalarValueType GetPropagationWeight() const
     { return m_PropagationWeight; }
   
-  /** Gamma. */
+  /** Gamma. Scales all curvature weight values */
   void SetCurvatureWeight(const ScalarValueType c)
     { m_CurvatureWeight = c; }
   ScalarValueType GetCurvatureWeight() const

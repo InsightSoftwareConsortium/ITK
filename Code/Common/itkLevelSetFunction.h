@@ -22,25 +22,45 @@
 namespace itk {
 
 /** \class LevelSetFunction
+  * \brief The LevelSetFunction class is a generic function object which can be
+ * used to create a level set method filter when combined with an appropriate
+ * finite difference image filter.  (See FiniteDifferenceImageFilter.)
  *
- * \f$\phi_{t} = \alpha \stackrel{\rightharpoonup}{F}(\mathbf{x})\cdot\nabla\phi
- * + \beta G(\mathbf{x})\mid\nabla\phi\mid + \gamma Z(\mathbf{x})\kappa\f$
+ * LevelSetFunction implements a generic level set function.  This function is
+ * an expanded form of the basic equation developed in [1].
  *
- * MORE DOCUMENTATION IN THE WORKS!
- * 
+ * \f$\phi_{t} = \alpha
+ * \stackrel{\rightharpoonup}{A}(\mathbf{x})\cdot\nabla\phi + \beta
+ * P(\mathbf{x})\mid\nabla\phi\mid + \gamma Z(\mathbf{x})\kappa\f$
+ *
+ * where \f$ \stackrel{\rightharpoonup}{A} \f$ is an advection term, \f$ P \f$
+ * is a propagation (growth) term, and \f$ Z \f$ is a spatial modifier term for
+ * the mean curvature \f$ \kappa \f$.  \f$ \alpha \f$, \f$ \beta \f$, and \f$
+ * \gamma \f$ are all scalar constants.
+ *
+ * Terms in the equation above are supplied through virtual methods, which must
+ * be subclassed to complete an implementation.  Terms can be eliminated from
+ * the equation by setting the corresponding constants to zero. A wide variety
+ * of level set methods can be implemented by subclassing this basic equation.
+ *
+ * In ITK, the usual sign convention is that the INSIDE of a surface contains
+ * POSITIVE values and the OUTSIDE of the surface contains NEGATIVE values.
+ *
  * \warning You MUST call Initialize() in the constructor of subclasses of this
  * object to set it up properly to do level-set Calculations.  The argument
  * that you pass Initialize is the radius of the neighborhood needed to perform
  * the calculations.  If your subclass does not do any additional neighborhood
  * processing, then the default radius should be 1 in each direction.
  *
- * \todo Account for variable curvature term in the CFL Condition when
- *       calculating the time step.
+ * \par REFERENCES
+ * \par
+ * [1] Sethian, J.A. Level Set Methods. Cambridge University Press. 1996.
  *
+ * \ingroup FiniteDifferenceFunctions
  * \ingroup Functions
  */
 template <class TImageType>
-class LevelSetFunction
+class ITK_EXPORT LevelSetFunction
   : public LevelSetFunctionBase<TImageType>
 {
 public:
