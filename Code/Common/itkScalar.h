@@ -33,8 +33,8 @@ namespace itk
  * GetScalar()/SetScalar() methods. If not, a compile time error will occur.
  *
  * For efficiency sake, Scalar does not define a default constructor, a
- * copy constructor, or an operator=. We rely on the compiler to provide
- * efficient bitwise copies.
+ * copy constructor, or many operators. We rely on the compiler to provide
+ * efficient methods.
  *
  * If you wish more complex pixel types, you can use Vector, which
  * represents an array values of the same data type. There is also an
@@ -84,17 +84,19 @@ public:
 
   /**
    * Operator to get (cast) the scalar value. This version can be used as
-   * an rvalue.
+   * an lvalue. Note that by returning a reference to T, the compiler now
+   * has a way to implicitly create operator==, operator>, operator+,
+   * operator+=, etc.
    */
   operator T& ()
   { return m_Scalar; };
 
   /**
-   * Operator to get the scalar value as an lvalue.
+   * Operator to get the scalar value as an rvalue.
    */
-  operator const T& () const
+  operator T () const
   { return m_Scalar; };
-
+  
   /**
    * Set the scalar value.
    * \sa GetScalar()
@@ -104,7 +106,8 @@ public:
   /**
    * Operator to set the scalar value.
    */
-  const T & operator= (const T &val) { m_Scalar = val; return m_Scalar; }
+  Self& operator= (const T &val) { m_Scalar = val; return *this;}
+  
   
 private:
   T m_Scalar;
