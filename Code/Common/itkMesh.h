@@ -13,6 +13,32 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+
+/**
+ * itkMesh implements the N-dimensional mesh structure for ITK.  It provides
+ * an API to perform operations on points, cells, boundaries, etc., but
+ * does not tie down the underlying implementation and storage.  A
+ * "MeshType" structure is used to define the container and identifier
+ * types that will be used to access the mesh.  See itkMeshTypeDefault.h
+ * for the set of type definitions needed.  All types that are defined
+ * in the "MeshType" structure will have duplicate typedefs in the resulting
+ * mesh itself.
+ *
+ * itkMesh has two template parameters.  The first is the pixel type, or the
+ * type of data stored (optionally) with points, cells, and/or boundaries.
+ * The second is the "MeshType" structure controlling type information for
+ * the mesh.  Most users will be happy with the defaults, and will not have
+ * to worry about this second argument.
+ *
+ * One of the most important parts of using this mesh is how to create cells
+ * to insert into it.  The cells for the mesh take two template parameters.
+ * The first is the pixel type, and should correspond exactly to that type
+ * given to the mesh.  The second is a "CellType" which holds a sub-set of the
+ * "MeshType" structure definitions, and is also a member of them.  Any
+ * cell which is to be inserted to a mesh should have MeshType::CellType
+ * as its second template parameter.
+ */
+
 #ifndef __itkMesh_h
 #define __itkMesh_h
 
@@ -25,10 +51,6 @@
 #include "itkCell.h"
 #include "itkMeshTypeDefault.h"
 #include "itkMapContainer.h"
-
-/**
- * itkMesh ....
- */
 
 template <
   /**
@@ -240,11 +262,11 @@ protected:
    * The vector is indexed by the topological dimension of the cell boundary.
    * The container for each topological dimension holds boundary identifiers
    * of the assigned boundaries.  The containers are keyed by
-   * BoundaryAssignmentIdentifier objects (see above).  The boundary identifiers
-   * can be used to access the boundaries themselves in the containers
-   * stored in the Boundaries vector.  They can also be used to access
-   * the data stored by a particular boundary through the containers in
-   * the BoundaryData vector.
+   * BoundaryAssignmentIdentifier objects (see above).  The boundary
+   * identifiers can be used to access the boundaries themselves in the
+   * containers stored in the Boundaries vector.  They can also be used
+   * to access the data stored by a particular boundary through the
+   * containers in the BoundaryData vector.
    */
   typedef itkMapContainer< BoundaryAssignmentIdentifier , BoundaryIdentifier >
         BoundaryAssignmentsContainer;
@@ -322,8 +344,9 @@ public:
    * from it.
    */
   void SetBoundary(int dimension, BoundaryIdentifier, Boundary*);
-  bool GetBoundary(int dimension, BoundaryIdentifier, Boundary::Pointer*) const;
-
+  bool GetBoundary(int dimension, BoundaryIdentifier, Boundary::Pointer*)
+    const;
+  
   /**
    * Access routines to fill the BoundaryData container, and get information
    * from it.

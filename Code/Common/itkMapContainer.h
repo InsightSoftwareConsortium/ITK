@@ -13,6 +13,13 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+/**
+ * itkMapContainer
+ *
+ * Define a front-end to the STL "map" container that conforms to the
+ * itkIndexedContainer interface.  This is a full-fleged itkObject, so
+ * there is modification time, debug, and reference count information.
+ */
 #ifndef __itkMapContainer_h
 #define __itkMapContainer_h
 
@@ -21,12 +28,6 @@
 #include "itkObject.h"
 #include "itkSmartPointer.h"
 
-/**
- * itkMapContainer
- *
- * Define a front-end to the STL "map" container that conforms to the
- * itkIndexedContainer interface.
- */
 template <typename TElementIdentifier, typename TElement>
 class itkMapContainer:
   public itkObject,

@@ -13,6 +13,13 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+/**
+ * itkVectorContainer
+ *
+ * Define a front-end to the STL "vector" container that conforms to the
+ * itkIndexedContainer interface.  This is a full-fleged itkObject, so
+ * there is modification time, debug, and reference count information.
+ */
 #ifndef __itkVectorContainer_h
 #define __itkVectorContainer_h
 
@@ -22,12 +29,6 @@
 #include "itkObject.h"
 #include "itkSmartPointer.h"
 
-/**
- * itkVectorContainer
- *
- * Define a front-end to the STL "vector" container that conforms to the
- * itkIndexedContainer interface.
- */
 template <
   /**
    * An INTEGRAL type for use in indexing the vector.

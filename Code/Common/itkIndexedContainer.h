@@ -13,15 +13,27 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+/**
+ * Define the "itkIndexedContainer" interface.  This should only be used for
+ * reference when writing containers conforming to this interface.  ITK
+ * uses generic programming to allow container type substitution, so
+ * polymorphism is not needed to use containers through this interface.  This
+ * means that a container conforming to this interface need not be derived
+ * from it.  However, the container must derive from itkObject in order to
+ * support the reference counting, modification time, and debug information
+ * required by this interface.
+ *
+ * Note that many comments refer to a "default element" or "default element
+ * value".  This value is equal to the default contstructor of the
+ * Element type.  Also note that all non-const methods assume that the
+ * container was modified, and update the modification time.
+ */
 #ifndef __itkIndexedContainer_h
 #define __itkIndexedContainer_h
 
 #include "itkObject.h"
 #include "itkSmartPointer.h"
 
-/**
- * Define the "itkIndexedContainer" interface.
- */
 template <typename TElementIdentifier, typename TElement>
 class itkIndexedContainer: public itkObject
 {
@@ -89,6 +101,10 @@ public:
 
   /**
    * Combine the GetElement and IndexExists into one method.
+   * If false is returned, then no element with the given identifier was found.
+   * If true is returned, then the identifier was found.  In this case,
+   * if the element pointer given as input is not null, the element is filled
+   * in with the value of the element found.
    */
   virtual bool GetElementIfIndexExists(ElementIdentifier, Element*) const =0;
   
@@ -102,6 +118,11 @@ public:
 
   /**
    * Delete the entry in the container corresponding to the given identifier.
+   *
+   * It is NOT guaranteed that IndexExists(id) will return false if called
+   * right after DeleteIndex(id).  This behavior is implementation-defined.
+   * If the identifier's location is left behind, though, it will have the
+   * value of the default element.
    */
   virtual void DeleteIndex(ElementIdentifier)=0;
   

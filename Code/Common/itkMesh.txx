@@ -543,7 +543,8 @@ itkMesh< TPixelType , TMeshType >
   /**
    * Ask the container if the boundary identifier exists.
    */
-  return m_Boundaries[dimension]->GetElementIfIndexExists(boundaryId, boundary);
+  return m_Boundaries[dimension]->
+    GetElementIfIndexExists(boundaryId, boundary);
 }
 
 
@@ -586,8 +587,8 @@ itkMesh< TPixelType , TMeshType >
 		  PixelType* data) const
 {
   /**
-   * If the boundary data container doesn't exist, then the boundary data doesn't
-   * either.
+   * If the boundary data container doesn't exist, then the boundary
+   * data doesn't either.
    */
   if(m_BoundaryData[dimension] == NULL)
     return false;
@@ -1010,6 +1011,7 @@ itkMesh< TPixelType , TMeshType >
   m_CellLinks(NULL),
   m_Boundaries(BoundariesContainerVector(MaxTopologicalDimension)),
   m_BoundaryData(BoundaryDataContainerVector(MaxTopologicalDimension)),
-  m_BoundaryAssignments(BoundaryAssignmentsContainerVector(MaxTopologicalDimension))
+  m_BoundaryAssignments(
+    BoundaryAssignmentsContainerVector(MaxTopologicalDimension))
 {}
 

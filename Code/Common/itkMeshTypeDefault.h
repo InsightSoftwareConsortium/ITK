@@ -13,16 +13,19 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+/**
+ * itkMeshTypeDefault is a simple structure that holds type information
+ * for a mesh and its cells.  It is used to avoid the passing of many
+ * template parameters while still enjoying the benefits of generic
+ * programming.
+ */
+
 #ifndef __itkMeshTypeDefault_h
 #define __itkMeshTypeDefault_h
 
 #include <set>
+#include "itkCell.h"
 #include "itkVectorContainer.h"
-
-/**
- * itkMeshTypeDefault is a simple structure that holds type information for a mesh
- * and its cells.
- */
 
 template <
   /**
@@ -57,21 +60,12 @@ public:
   typedef TCoordRep  CoordRep;
   
   /**
-   * The type to be used for identification of a cell.  If a cell container
-   * is provided to the mesh, it must be indexed by this type.
-   */
-  typedef unsigned long  CellIdentifier;
-  
-  /**
-   * The type to be used for identification of a point.  If a point container
-   * is provided to the mesh, it must be indexed by this type.
+   * The types to be used for identification of points, cells, and
+   * boundaries.  If a corresponding container type is provided, it must
+   * be indexed by this identifier type.
    */
   typedef unsigned long  PointIdentifier;
-  
-  /**
-   * The type to be used for identification of a boundary.  If any boundary
-   * containers are provided to the mesh, they must be indexed by this type.
-   */
+  typedef unsigned long  CellIdentifier;
   typedef unsigned long  BoundaryIdentifier;
 
   /**
@@ -84,18 +78,18 @@ public:
   /**
    * Define the container type that will be used to store points.
    */
-  typedef itkPoint< PointDimension , CoordRep >              Point;
+  typedef itkPoint< PointDimension , CoordRep >          Point;
   typedef itkVectorContainer< PointIdentifier , Point >  PointsContainer;
 
   /**
    * Define the container type that will be used to store boundary links
-   * back to cells.
+   * back to cells.  This must conform to the STL "set" interface.
    */
   typedef std::set< CellIdentifier >            UsingCellsContainer;
   
   /**
-   * The information needed for a cell type is defined.
-   * Define the cell type now.
+   * The information needed for a cell type is now defined, so we can
+   * define the cell type.
    */
   typedef MakeCellType                          CellType;
   typedef itkCell< PixelType , CellType >       Cell;
@@ -103,14 +97,24 @@ public:
   /**
    * Define the container types that will be used to store:
    * Cells, CellLinks, PointData, CellData, Boundaries, and BoundaryData.
+   *
+   * The CellLinks container should be a container of PointCellLinksContainer,
+   * which should be a container conforming to the STL "set" interface.
    */
-  typedef itkVectorContainer< CellIdentifier , Cell::Pointer >             CellsContainer;
-  typedef std::set< CellIdentifier >                                           PointCellLinksContainer;
-  typedef itkVectorContainer< PointIdentifier , PointCellLinksContainer >  CellLinksContainer;
-  typedef itkVectorContainer< PointIdentifier , PixelType >                PointDataContainer;
-  typedef itkVectorContainer< CellIdentifier , PixelType >                 CellDataContainer;
-  typedef itkVectorContainer< BoundaryIdentifier , Cell::Pointer >         BoundariesContainer;
-  typedef itkVectorContainer< BoundaryIdentifier , PixelType >             BoundaryDataContainer;
+  typedef itkVectorContainer< CellIdentifier , Cell::Pointer >  
+                                                       CellsContainer;
+  typedef std::set< CellIdentifier >                                      
+                                                       PointCellLinksContainer;
+  typedef itkVectorContainer< PointIdentifier , PointCellLinksContainer > 
+                                                       CellLinksContainer;
+  typedef itkVectorContainer< PointIdentifier , PixelType >              
+                                                       PointDataContainer;
+  typedef itkVectorContainer< CellIdentifier , PixelType >                
+                                                       CellDataContainer;
+  typedef itkVectorContainer< BoundaryIdentifier , Cell::Pointer >        
+                                                       BoundariesContainer;
+  typedef itkVectorContainer< BoundaryIdentifier , PixelType >          
+                                                       BoundaryDataContainer;
 };
 
 
