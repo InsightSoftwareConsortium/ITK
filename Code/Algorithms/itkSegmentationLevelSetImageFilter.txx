@@ -27,8 +27,10 @@ SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "m_MaximumRMSError = "    << m_MaximumRMSError    << std::endl;
-  os << indent << "m_MaximumIterations = "  << m_MaximumIterations  << std::endl;
+  os << indent << "m_MaximumRMSError = "      << m_MaximumRMSError     << std::endl;
+  os << indent << "m_MaximumIterations = "    << m_MaximumIterations   << std::endl;
+  os << indent << "m_UseNegativeFeatures = "  << m_UseNegativeFeatures << std::endl;
+  os << indent << "m_FeatureScaling = "   << m_FeatureScaling  << std::endl;  
 }
 
 template <class TInputImage, class TOutputImage>
@@ -36,10 +38,10 @@ SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
 ::SegmentationLevelSetImageFilter()
 {
   this->SetNumberOfLayers(ImageDimension);
-  
   m_SegmentationFunction = 0;
+  m_FeatureScaling = NumericTraits<ValueType>::One;
   
-  this->SetIsoSurfaceValue(0.0);
+  this->SetIsoSurfaceValue(NumericTraits<ValueType>::Zero);
   
   // Provide some reasonable defaults which will at least prevent infinite
   // looping.
@@ -60,9 +62,6 @@ SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
   for (i = 0; i < ImageDimension; ++i)  r[i] = 1;
   
   m_SegmentationFunction->Initialize(r);
-  m_SegmentationFunction->SetAdvectionWeight( NumericTraits<ValueType>::Zero);
-  m_SegmentationFunction->SetPropagationWeight( NumericTraits<ValueType>::One);
-  m_SegmentationFunction->SetCurvatureWeight(NumericTraits<ValueType>::One);
   this->SetDifferenceFunction(m_SegmentationFunction);
   this->Modified();
 }
@@ -75,13 +74,26 @@ SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
   if (m_SegmentationFunction == 0)
     {itkExceptionMacro("No finite difference function was specified.");}  
 
+  // Set the propagation speed scaling
+  m_SegmentationFunction->SetPropagationWeight(m_FeatureScaling);
+  
+  // A positive speed value implies positive outside, negative inside: the
+  //  opposite of the default.
+  if ( (m_UseNegativeFeatures == true &&
+        this->GetSegmentationFunction()->GetPropagationWeight() < 0)
+       || (m_UseNegativeFeatures == false &&
+           this->GetSegmentationFunction()->GetPropagationWeight() > 0) )
+    {
+      this->GetSegmentationFunction()->SetPropagationWeight(
+              -1.0 * this->GetSegmentationFunction()->GetPropagationWeight() );
+    }
+
   m_SegmentationFunction->AllocateSpeedImage();
   m_SegmentationFunction->CalculateSpeedImage();
 
   // Start the solver
   Superclass::GenerateData();
 }
-
 
 template <class TInputImage, class TOutputImage>
 bool
