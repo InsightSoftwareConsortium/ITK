@@ -58,6 +58,11 @@ FileOutputWindow
 FileOutputWindow
 ::~FileOutputWindow()
 {
+  if (m_Stream)
+    {
+    delete m_Stream;
+    m_Stream = 0;
+    }
 }
 
 void 
