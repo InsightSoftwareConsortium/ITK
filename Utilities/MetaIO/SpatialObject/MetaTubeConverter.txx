@@ -56,6 +56,7 @@ MetaTubeConverter<NDimensions>
   tub->SetSpacing(spacing);
   tub->GetProperty()->SetName((char*)tube->Name());
   tub->SetParentId(tube->ParentID());
+  tub->SetParentPoint(tube->ParentPoint());
   tub->SetId(tube->ID());
   tub->GetProperty()->SetRed(tube->Color()[0]);
   tub->GetProperty()->SetGreen(tube->Color()[1]);
@@ -188,6 +189,8 @@ MetaTubeConverter<NDimensions>
   tube->Color(color);
   tube->ID( spatialObject->GetId());
   tube->ParentID(spatialObject->GetParentId());
+  
+  tube->ParentPoint(spatialObject->GetParentPoint());
   tube->NPoints(tube->GetPoints().size());
 
   for(unsigned int i=0;i<dim;i++)
