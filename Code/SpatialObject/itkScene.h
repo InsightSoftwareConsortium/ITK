@@ -28,8 +28,8 @@ namespace itk
 /** \class Scene
 * \brief a Scene has a list of SpatialObjects
 *
-* This class represent a Scene object to which it's possible
-* to plug any kind of spatial object.
+* This class represent a Scene object into which one can
+* plug any kind of spatial object.
 *
 * \also SpatialObject
 */ 

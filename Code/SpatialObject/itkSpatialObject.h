@@ -35,17 +35,18 @@ namespace itk
 * \class SpatialObject
 * \brief Implementation of the composite pattern
 *
-* The purpose of this class is to implement the composite pattern within itk,  
-* so that it becomes easy to create a whole environment, 
-* and to manipulate this one, or any of the objects inside it.  
-* An object has a list of transformations to transform local coordinates to 
-* the corresponding coordinates in the real world coordinates system, and a
-* list of inverse transformation to go backward.
-* Any spatial objects can be plugged to a spatial object. 
-* To implement your own spatial object, you need to derive from the following class,
-* which imply the definition of just a few pure virtual function, like for instance
-* ValueAt(), IsEvaluableAt(), and IsInside() which are specific to each particular
-* object.
+* The purpose of this class is to implement the composite pattern
+* within itk, so that it becomes easy to create an environment, and to
+* manipulate the environment as a whole or any of its components.  An
+* object has a list of transformations to transform local coordinates
+* to the corresponding coordinates in the real world coordinate
+* system, and a list of inverse transformation to go backward.  Any
+* spatial objects can be plugged to a spatial object as children.  To
+* implement your own spatial object, you need to derive from the
+* following class, which requires the definition of just a few pure
+* virtual functions.  Examples of such functions are ValueAt(),
+* IsEvaluableAt(), and IsInside(), each of which has a meaning
+* specific to each particular object type.
 */ 
  
 template< unsigned int NDimensions = 3, 
@@ -166,10 +167,27 @@ public:
   /** Returns the list of local to global transforms */
   TransformListType & GetGlobalTransformList( void );
 
-  /** This function has to be implemented in the deriving class. 
-   *  It should provide a method to get the boundaries of 
-   *  a specific object. Basically, this function need to be called
-   *  every time one of the object component is changed.  */ 
+  /** 
+   * Compute an axis-aligned bounding box for the object and its selected
+   * children, down to a specified depth.  After computation, the
+   * resulting bounding box is stored in this->m_Bounds.  Once this
+   * function is called with a specific value of \p depth and \p name,
+   * future calls, irrespective of the parameters, will leave the
+   * bounding box unchanged until the spatial object is modified and the
+   * modification time updated.
+   *
+   * This function has to be implemented in the deriving class. 
+   *
+   * \param depth Include children down to this depth.  If \p depth = 0,
+   * include only the object itself.
+   * \param name Include only objects whose type string contains \p
+   * name.  
+   * \return \c true if, after the function completes, the bounding box
+   * reflects object information, and \c false if the bounding box is
+   * still in an initial state.  The return value is mainly used by recursive
+   * calls of this function.
+   *  every time one of the object component is changed.  
+   */ 
   virtual bool ComputeBoundingBox( unsigned int depth=0,
                                    char * name = NULL);
 
