@@ -51,6 +51,10 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
   for (i = 0; i < VectorDimension; i++)
     { os << m_ComponentWeights[i] << " "; }
   os << std::endl;
+  os << indent << "m_NeighborhoodRadius = "          << m_NeighborhoodRadius
+     << std::endl;
+  os << indent << "m_RealValuedInputImage = "          << m_RealValuedInputImage
+     << std::endl;
 }
   
 template <typename TInputImage, typename TRealType, typename TOutputImage>
