@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 // \index{Statistics!k-means clustering (using k-d tree)}
 //
-// \index{itk::Statistics::KdTreeBasedKmeansEstimator}
+// \index{itk::Statistics::KdTree\-Based\-Kmeans\-Estimator}
 //
 // The k-means clustering is popular among clustering algorithms
 // because it is simple and usually converges to a reasonable

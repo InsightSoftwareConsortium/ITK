@@ -17,8 +17,8 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::Statistics::WeightedMeanCalculator}
-// \index{itk::Statistics::WeightedCovarianceCalculator}
+// \index{itk::Statistics::Weighted\-Mean\-Calculator}
+// \index{itk::Statistics::Weighted\-Covariance\-Calculator}
 // \index{Statistics!Weighted mean}
 // \index{Statistics!Weighted covariance}
 //
