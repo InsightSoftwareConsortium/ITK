@@ -24,6 +24,7 @@ template< class TSample >
 MembershipSample< TSample >
 ::MembershipSample()
 {
+  m_Sample = 0 ;
   m_CurrentClassLabel = 0 ;
 }
 
@@ -176,7 +177,16 @@ MembershipSample< TSample >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Sample: " << m_Sample << std::endl;
+  os << indent << "Sample: " ;
+  if ( m_Sample != 0 )
+    {
+    os << m_Sample << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
   os << indent << "CurrentClassLabel: " << m_CurrentClassLabel << std::endl;
   os << indent << "ClassLabelHolder: " << &m_ClassLabelHolder << std::endl;
 }
