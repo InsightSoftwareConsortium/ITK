@@ -43,7 +43,7 @@ OtsuThresholdImageFilter<TInputImage, TOutputImage>
   progress->SetMiniPipelineFilter(this);
 
   // Compute the Otsu Threshold for the input image
-  OtsuThresholdImageCalculator<TInputImage>::Pointer otsu =
+  typename OtsuThresholdImageCalculator<TInputImage>::Pointer otsu =
     OtsuThresholdImageCalculator<TInputImage>::New();
   otsu->SetImage (this->GetInput());
   otsu->SetNumberOfHistogramBins (m_NumberOfHistogramBins);
