@@ -201,7 +201,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   // the necessary pixels.
   //
 
-  // Allocate the output and initialize to zeros
+  // Allocate the output
   this->AllocateOutputs();
 
   // Remap the labels.  Note we only walk the region of the output
@@ -223,6 +223,10 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
       // lookup the mapped label
       outputValue = static_cast<OutputPixelType>(relabelMap[inputValue]); 
       oit.Set( outputValue );
+      }
+    else
+      {
+      oit.Set( inputValue );
       }
 
     // increment the iterators
