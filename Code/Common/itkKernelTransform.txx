@@ -86,7 +86,7 @@ ComputeG( const InputVectorType & vect ) const
   //
   // Should an Exception be thrown here  ?
   //
-  std::cerr << "WARNING: ComputeG() should be reimplemented in the subclass !!";
+  itkWarningMacro(<< "ComputeG() should be reimplemented in the subclass !!");
   GMatrixType matrix;
   return matrix;
 }

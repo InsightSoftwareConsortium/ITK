@@ -67,15 +67,14 @@ void
 BloxBoundaryPointImage<TSourceImage, TImageTraits>
 ::UpdateSourceParameters()
 {
-
   m_SourceOrigin = m_SourceImage->GetOrigin();
   m_SourceSpacing = m_SourceImage->GetSpacing();
 
-  std::cout << "m_SourceOrigin = " << m_SourceOrigin[0] << "," << m_SourceOrigin[1] << ","
-    << m_SourceOrigin[2] << "\n";
+  itkDebugMacro(<< "m_SourceOrigin = " << m_SourceOrigin[0] << "," 
+                << m_SourceOrigin[1] << "," << m_SourceOrigin[2]);
 
-  std::cout << "m_SourceSpacing = " << m_SourceSpacing[0] << "," << m_SourceSpacing[1] << ","
-    << m_SourceSpacing[2] << "\n";
+  itkDebugMacro(<< "m_SourceSpacing = " << m_SourceSpacing[0] << "," 
+                << m_SourceSpacing[1] << "," << m_SourceSpacing[2]);
 
 }
 
@@ -84,7 +83,7 @@ void
 BloxBoundaryPointImage<TSourceImage, TImageTraits>
 ::FindBoundaryPoints()
 {
-  std::cout << "BloxBoundaryPointImage::FindBoundaryPoints() called\n";
+  itkDebugMacro(<< "BloxBoundaryPointImage::FindBoundaryPoints() called");
 
   // Update origin and spacing of the source image
   this->UpdateSourceParameters();
@@ -147,10 +146,10 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
       }
     }
  
-  std::cout << "Finished looking for boundary points\n";
-  std::cout << "I found " << numBP << " points\n";
-  std::cout << "I added " << numBPadded << " points\n";
-}
+  itkDebugMacro(<< "Finished looking for boundary points\n"
+                << "I found " << numBP << " points\n"
+                << "I added " << numBPadded << " points\n");
+} 
 
 } // end namespace itk
 

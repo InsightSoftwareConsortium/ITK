@@ -51,7 +51,7 @@ template<typename TInputImage, typename TDataType>
 DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
 ::DifferenceOfGaussiansGradientImageFilter()
 {
-  std::cout << "DifferenceOfGaussiansGradientImageFilter::DifferenceOfGaussiansGradientImageFilter() called\n";
+  itkDebugMacro(<< "DifferenceOfGaussiansGradientImageFilter::DifferenceOfGaussiansGradientImageFilter() called");
 
   m_Width = 2;
 }
@@ -165,7 +165,7 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
       }
     }
 
-  std::cout << "DifferenceOfGaussiansGradientImageFilter::GenerateData() finished\n";
+  itkDebugMacro(<< "DifferenceOfGaussiansGradientImageFilter::GenerateData() finished");
 }
 
 } // end namespace

@@ -54,7 +54,7 @@ template< class TInputImage, class TOutputImage >
 GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
 ::GradientToMagnitudeImageFilter()
 {
-  std::cout << "GradientToMagnitudeImageFilter::GradientToMagnitudeImageFilter() called\n";
+  itkDebugMacro(<< "GradientToMagnitudeImageFilter::GradientToMagnitudeImageFilter() called");
 
 }
 
@@ -99,10 +99,7 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
 
     acc = sqrt(acc);
 
-    // std::cout << "Magnitude is " << acc << "\n";
-
     outputPtr->GetPixel(index) = acc;
-
     }
 
   itkDebugMacro(<< "GradientToMagnitudeImageFilter::GenerateData() finished");

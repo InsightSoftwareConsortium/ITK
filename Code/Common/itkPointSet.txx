@@ -410,9 +410,9 @@ PointSet<TPixelType, VDimension, TMeshTraits>
   else
     {
     // pointer could not be cast back down
-    std::cerr << "itk::PointSet::CopyInformation() cannot cast "
-              << typeid(data).name() << " to "
-              << typeid(PointSet*).name() << std::endl;
+    itkErrorMacro(<< "itk::PointSet::CopyInformation() cannot cast "
+                  << typeid(data).name() << " to "
+                  << typeid(PointSet*).name() );
     }
 }
 

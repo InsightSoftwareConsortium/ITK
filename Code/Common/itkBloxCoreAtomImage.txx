@@ -75,7 +75,7 @@ void
 BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
 ::FindCoreAtoms()
 {
-  std::cout << "BloxCoreAtomImage::FindCoreAtoms() called\n";
+  itkDebugMacro(<< "BloxCoreAtomImage::FindCoreAtoms() called");
 
   // Make sure we're getting everything
   m_BoundaryPointImage->SetRequestedRegionToLargestPossibleRegion();
@@ -97,7 +97,6 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
       {
       this->FindCoreAtomsAtBoundaryPoint( *bpiterator );
       }
-
     }
 
   // Compute mean core atom diameter
@@ -106,12 +105,11 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
 
   for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
     {
-      ( &bloxIt.Value() )->CalcMeanCoreAtomDiameter();
+    ( &bloxIt.Value() )->CalcMeanCoreAtomDiameter();
     }
 
- 
-  std::cout << "Finished looking for core atoms\n";
-  std::cout << "I found " << m_NumCoreAtoms << " core atoms\n";
+  itkDebugMacro(<< "Finished looking for core atoms\n"
+                << "I found " << m_NumCoreAtoms << " core atoms\n");
 }
 
 template<class TBoundaryPointImage, class TImageTraits>

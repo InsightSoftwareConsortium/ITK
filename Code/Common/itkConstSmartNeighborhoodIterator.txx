@@ -96,12 +96,12 @@ template<class TImage, class TBoundaryCondition>
 ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
 ::ConstSmartNeighborhoodIterator(const Self& orig)
   : ConstNeighborhoodIterator<TImage>(orig)
-{ std::cout << "CALLING constNeighboIt copy constructor " << std::endl;
+{ 
   m_InternalBoundaryCondition = orig.m_InternalBoundaryCondition;
 
   for (unsigned int i = 0; i < Dimension; ++i)
     {
-      m_InBounds[i] = orig.m_InBounds[i];
+    m_InBounds[i] = orig.m_InBounds[i];
     }
 
   m_InnerBoundsLow  = orig.m_InnerBoundsLow;
@@ -112,9 +112,11 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
   if ( orig.m_BoundaryCondition ==
        (ImageBoundaryConditionPointerType)&orig.m_InternalBoundaryCondition )
     {
-      this->ResetBoundaryCondition();
+    this->ResetBoundaryCondition();
     }
-  else m_BoundaryCondition = orig.m_BoundaryCondition;  
+  else 
+    { m_BoundaryCondition = orig.m_BoundaryCondition; }
+  
 }
 
 template<class TImage,class TBoundaryCondition>

@@ -377,9 +377,9 @@ Image<TPixel, VImageDimension, TImageTraits>
   else
     {
     // pointer could not be cast back down
-    std::cerr << "itk::Image::CopyInformation() cannot cast "
+    itkWarningMacro(<< "itk::Image::CopyInformation() cannot cast "
               << typeid(data).name() << " to "
-              << typeid(ImageBase<VImageDimension>*).name() << std::endl;
+              << typeid(ImageBase<VImageDimension>*).name() );
     }
 }
 

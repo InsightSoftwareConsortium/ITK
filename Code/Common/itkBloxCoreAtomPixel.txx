@@ -182,7 +182,7 @@ BloxCoreAtomPixel<NDimensions>
     {
     m_Eigenvalues[i] = pEigenSys->D(i,i);
     // Print the eigen values
-    std::cout << "Eigenvalue " << i << "=" << m_Eigenvalues[i] << "\n";
+    itkGenericOutputMacro(<< "Eigenvalue " << i << "=" << m_Eigenvalues[i]);
     }
 
   delete pEigenSys;

@@ -168,7 +168,6 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
     bit =
       ConstSmartNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(),
                                                      input, *fit);
-    //  bit.Print(std::cout);
     it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.GoToBegin();
     while ( ! bit.IsAtEnd() )

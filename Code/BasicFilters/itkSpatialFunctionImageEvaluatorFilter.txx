@@ -53,7 +53,7 @@ template< class TSpatialFunction, class TInputImage, class TOutputImage >
 SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage >
 ::SpatialFunctionImageEvaluatorFilter()
 {
-  std::cout << "SpatialFunctionImageEvaluatorFilter::SpatialFunctionImageEvaluatorFilter() called\n";
+  itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::SpatialFunctionImageEvaluatorFilter() called");
   
   // Set the internal function to null
   this->m_pFunction = 0;
@@ -131,7 +131,7 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
     
     } // end switch
 
-  std::cout << "SpatialFunctionImageEvaluatorFilter::GenerateData() finished\n";
+  itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::GenerateData() finished");
 }
 
 } // end namespace
