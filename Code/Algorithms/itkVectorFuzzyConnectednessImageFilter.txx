@@ -28,15 +28,15 @@ namespace itk {
 template <class TInputImage, class TOutputImage>
 VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::VectorFuzzyConnectednessImageFilter()
-  : m_SpherePointsNum(0),
-    m_SpherePointsLoc(0),
-    m_ObjectsMean(0),
-    m_ObjectsSeed(0),
-    m_ObjectsCovMatrix(0),
-    m_ObjectsMap(0),
-    m_ObjectsMaxDiff(0),
+  : m_SpherePointsLoc(0),
+    m_SpherePointsNum(0),
     m_Objects(1),
-    m_SelectedObject(0)
+    m_SelectedObject(0),
+    m_ObjectsCovMatrix(0),
+    m_ObjectsMean(0),
+    m_ObjectsMaxDiff(0),
+    m_ObjectsMap(0),
+    m_ObjectsSeed(0)
 {
 }
 
@@ -217,7 +217,9 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
         if (ppptti1[(8+5) + i][(8+5) + j] == 2)
           {
           ppptti1[(8+5) + i][(8+5) + j] = 1;
-          location = j,i,0;
+          location[0] = j;
+          location[1] = i;
+          location[2] = 0;
           m_SpherePointsLoc[k][tti2] = location;
           tti2 = tti2+1;
           }
@@ -775,7 +777,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
         {
         iscale = (int) m_ScaleArray[slice * prow * pcol + row * pcol + col];
         count = 0.0;
-        mean = 0,0,0;
+        mean.Fill(0);
 
         for (k = 0; k < iscale; k++)
           {
