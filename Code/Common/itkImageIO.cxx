@@ -51,9 +51,9 @@ ImageIO::ImageIO()
 void ImageIO::Reset(const bool freeDynamic)
 {
   m_Initialized = false;
-  m_FullFileName = "";
+  m_FileName = "";
   m_PixelType = ITK_DOUBLE;
-  m_ComponentsPerPixel = 0;
+  m_NumberOfComponents = 0;
   m_NumberOfDimensions = 0;
   for (unsigned int i=0; i < ITK_MAX_DIMENSIONS; i++)
     {
@@ -80,8 +80,8 @@ void ImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Filename: " << m_FullFileName << std::endl;
-  os << indent << "# Components/Pixel: " << m_ComponentsPerPixel;
+  os << indent << "Filename: " << m_FileName << std::endl;
+  os << indent << "# Components/Pixel: " << m_NumberOfComponents;
   os << ", PixelType: " << AtomicPixelTypeToString(m_PixelType) << std::endl;
   os << indent << "Dimensions: ( ";
   for (unsigned int i=0; i < m_NumberOfDimensions; i++)
@@ -112,7 +112,7 @@ void ImageIO::ComputeStrides()
   unsigned int i;
 
   m_Strides[0] = CalcSizeOfAtomicPixelType(m_PixelType);
-  m_Strides[1] = m_ComponentsPerPixel * m_Strides[0];
+  m_Strides[1] = m_NumberOfComponents * m_Strides[0];
   for (i = 2; i <= m_NumberOfDimensions; i++)
     {
     m_Strides[i] = m_Dimensions[i-2] * m_Strides[i-1];
@@ -144,7 +144,7 @@ unsigned int ImageIO::ImageSizeInPixels() const
 
 unsigned int ImageIO::ImageSizeInComponents() const
 {
-  return ImageSizeInPixels() * m_ComponentsPerPixel;
+  return ImageSizeInPixels() * m_NumberOfComponents;
 }
 
 unsigned int ImageIO::ImageSizeInBytes () const

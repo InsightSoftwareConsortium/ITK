@@ -52,6 +52,8 @@ namespace itk
  * \class RawImageIO
  * \brief Read and write raw binary images.
  *
+ * This class reads 2D or 3D images.
+ *
  * \sa FileIOToImageFilter
  * */
 
@@ -74,6 +76,80 @@ public:
    */
   itkNewMacro(Self);
 
+  /** 
+   * Specify file prefix for the image file(s). You should specify either
+   * a FileName or FilePrefix. Use FilePrefix if the data is stored
+   * in multiple files. (Note: the FileName ivar is available from the
+   * superclass.)
+   */
+  itkSetStringMacro(FilePrefix);
+  itkGetStringMacro(FilePrefix);
+
+  /**
+   * The sprintf format used to build filename from FilePrefix and number.
+   */
+  itkSetStringMacro(FilePattern);
+  itkGetStringMacro(FilePattern);
+
+  /**
+   * Get/Set the extent of the data on disk.  
+   */
+  itkSetVectorMacro(DataExtent,unsigned long,6);
+  itkGetVectorMacro(DataExtent,const unsigned long,6);
+  
+  /**
+   * Set/get the data VOI. You can limit the reader to only
+   * read a subset of the data. 
+   */
+  itkSetVectorMacro(DataVOI,unsigned long,6);
+  itkGetVectorMacro(DataVOI,const unsigned long,6);
+  
+  /** 
+   * The number of dimensions stored in a file. This defaults to two.
+   */
+  itkSetMacro(FileDimensionality, unsigned long);
+  itkGetMacro(FileDimensionality, unsigned long);
+  
+  /**
+   * Get the size of the header computed by this object.
+   */
+  unsigned long GetHeaderSize();
+  unsigned long GetHeaderSize(unsigned long slice);
+
+  /**
+   * If there is a tail on the file, you want to explicitly set the
+   * header size.
+   */
+  void SetHeaderSize(unsigned long size);
+  
+  /**
+   * Set/Get the Data mask.
+   */
+  itkGetConstMacro(DataMask,unsigned short);
+  void SetDataMask(unsigned long val) 
+    {if (val == m_DataMask) { return; }
+    m_DataMask = ((unsigned short)(val)); this->Modified();}
+  
+  /**
+   * These methods indicate the byte ordering of the file you are trying
+   * to read in. These methods will then either swap or not swap
+   * the bytes depending on the byte ordering of the machine it is
+   * being run on. For example, reading in a BigEndian file on a
+   * BigEndian machine will result in no swapping. Trying to read
+   * the same file on a LittleEndian machine will result in swapping.
+   * Note: most UNIX machines are BigEndian while PC's
+   * and VAX's are LittleEndian. So if the file you are reading
+   * in was generated on a VAX or PC, SetDataByteOrderToLittleEndian 
+   * otherwise SetDataByteOrderToBigEndian. 
+   */
+  void SetDataByteOrderToBigEndian();
+  void SetDataByteOrderToLittleEndian();
+  ByteOrder GetDataByteOrder();
+  void SetDataByteOrder(ByteOrder);
+
+  //---------------------------------------------------------------------
+  // The following methods satisfy the ImageIO abstract API
+  
   /**
    * Default load; do whatever is appropriate for the filetype.
    */
@@ -112,7 +188,7 @@ public:
   /**
    * Read a file's header to determine image dimensions, etc.
    */
-  virtual void ReadHeader (const std::string fileName="");
+  virtual void ReadHeader (const std::string fileName="") {};
 
   /**
    * Returns the file extension that a particular ImageIO subclass
@@ -144,6 +220,14 @@ protected:
 private:
   float m_ImageOrigin[3];
   float m_ImageSpacing[3];
+  
+  std::string m_FilePrefix;
+  std::string m_FilePattern;
+  unsigned long m_DataExtent[6];
+  unsigned long m_DataVOI[6];
+  unsigned long m_FileDimensionality;
+  unsigned long m_HeaderSize;
+  unsigned short m_DataMask;
   
 };
 

@@ -78,7 +78,7 @@ public:
   virtual void Load() = 0;
 
   /**
-   * Load a 2D image. If fileName="" (the default), will read from m_FileName
+   * Load a 2D image. If fileName="" (the default), will read from m_FileName.
    */
   virtual void Load2D(const std::string fileName="") = 0;
 
@@ -146,12 +146,12 @@ public:
   /**
    * Set the filename.
    */
-  itkSetStringMacro(FullFileName);
+  itkSetStringMacro(FileName);
 
   /**
    * Get the filename.
    */
-  itkGetStringMacro(FullFileName);
+  itkGetStringMacro(FileName);
 
   /**
    * Set the number of dimensions in an image
@@ -165,27 +165,39 @@ public:
   unsigned int GetDimensions(unsigned int i) const;
 
   /**
-   * Return the guts of this class, FileData, which holds the raw
+   * The guts of this class. Returns FileData, which holds the raw
    * pixels of the image loaded from disk.
    */
   void* GetFileData();
 
   /**
-   * Convenient method for accessing # bytes to get to the next pixel.
-   * Returns m_Strides[1];
+   * Set the number of components per pixel in the image. This may
+   * be set by the reading process.
+   */
+  itkSetMacro(NumberOfComponents,unsigned int);
+  
+  /**
+   * Return the number of components per pixel in the image.
+   */
+  itkGetConstMacro(NumberOfComponents,unsigned int);
+  
+  /**
+   * Convenient method for accessing the number of bytes to get to 
+   * the next pixel. Returns m_Strides[1];
    */
   unsigned int GetPixelStride () const;
 
-protected:
   /**
-   * Default constructor.
+   * Convenient enum for specifyin byte order.
    */
-  ImageIO();
+  enum ByteOrder {LittleEndian, BigEndian};
 
-  /**
-   * Destructor.
-   */
+protected:
+  ImageIO();
   ~ImageIO();
+  ImageIO(const Self&) {}
+  void operator=(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * Does the ImageIO object have enough info to be of use?
@@ -195,7 +207,7 @@ protected:
   /**
    * Full filename: pathname + filename + file extension.
    */
-  std::string m_FullFileName;
+  std::string m_FileName;
 
   /**
    * Atomic pixel type being stored.
@@ -206,12 +218,7 @@ protected:
    * Stores the number of components per pixel. This will be 1 for 
    * grayscale images, 3 for RGBPixel images, and 4 for RGBPixelA images.
    */
-  unsigned int m_ComponentsPerPixel;
-
-  /**
-   * Set the number of components per pixel.
-   */
-  itkSetMacro(ComponentsPerPixel, unsigned int);
+  unsigned int m_NumberOfComponents;
 
   /**
    * The number of dimensions in the image.
@@ -235,11 +242,6 @@ protected:
   void* m_FileData;
 
   /**
-   * Print info about myself
-   */
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
-  /**
    * Return the object to an initialized state, ready to be used
    */
   virtual void Reset(const bool freeDynamic = true);
@@ -261,35 +263,36 @@ protected:
   void ComputeStrides();
 
   /**
-   * Return the # of pixels in the image
+   * Return the number of pixels in the image.
    */
   unsigned int ImageSizeInPixels() const;
 
   /**
-   * Return the # of components in the image
+   * Return the number of pixels times the number 
+   * of components in the image.
    */
   unsigned int ImageSizeInComponents() const;
 
   /**
-   * Return the # of bytes in the image
+   * Return the number of bytes in the image.
    */
   unsigned int ImageSizeInBytes() const;
 
   /**
-   * Convenient method for accessing # bytes to get to the next pixel component.
-   * Returns m_Strides[0];
+   * Convenient method for accessing number of bytes to get to the next pixel 
+   * component. Returns m_Strides[0].
    */
   unsigned int GetComponentStride() const;
 
   /**
-   * Convenient method for accessing # bytes to get to the next row.
-   * Returns m_Strides[2];
+   * Convenient method for accessing the number of bytes to get to the 
+   * next row. Returns m_Strides[2].
    */
   unsigned int GetRowStride () const;
 
   /**
-   * Convenient method for accessing # bytes to get to the next slice.
-   * Returns m_Strides[3];
+   * Convenient method for accessing the number of bytes to get to the 
+   * next slice. Returns m_Strides[3].
    */
   unsigned int GetSliceStride () const;
 

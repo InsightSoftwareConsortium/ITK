@@ -99,10 +99,6 @@ void RawImageIO::Save3D(const std::string headerFile,
 {
 }
 
-void RawImageIO::ReadHeader(const std::string fileName)
-{
-}
-
 RawImageIO::FileExtensionsListType& 
 RawImageIO::GetSupportedFileExtensions() const
 {

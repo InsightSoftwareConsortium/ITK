@@ -89,18 +89,17 @@ void FileIOToImageFilter<TOutputImage>::LoadFile()
     throw FileIOException();
     }
 
-  m_IO->SetFullFileName(m_FileToLoad.c_str());
+  m_IO->SetFileName(m_FileToLoad.c_str());
   m_IO->Load();
 }
 
 template <class TOutputImage>
 void FileIOToImageFilter<TOutputImage>::GenerateData()
 {
-  typename TOutputImage::Pointer m_OutputImage = GetOutput();
-
+  typename TOutputImage::Pointer m_OutputImage = this->GetOutput();
   Size dimSize;
 
-  LoadFile();
+  this->LoadFile();
 
   for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
     {
@@ -122,9 +121,7 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
   m_OutputImage->SetOrigin( m_IO->GetImageOrigin() );
   m_OutputImage->SetSpacing( m_IO->GetImageSpacing() );
 
-
   typedef typename TOutputImage::PixelType  OutputPixelType;
-
   typedef SimpleImageRegionIterator< TOutputImage> IteratorType;
 
   IteratorType it(m_OutputImage,
@@ -132,11 +129,9 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
 
   OutputPixelType* source = (OutputPixelType*) m_IO->GetFileData();
 
-  it.Begin();
-  while(!it.IsAtEnd())
+  for ( it.Begin(); !it.IsAtEnd(); ++it )
     {
     it.Set(*source++);
-    ++it;
     }
 }
 
