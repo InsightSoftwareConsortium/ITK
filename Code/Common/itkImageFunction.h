@@ -129,7 +129,7 @@ public:
   /** Check if an index is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image is done. */
-  inline bool IsInsideBuffer( const IndexType & index ) const
+  virtual bool IsInsideBuffer( const IndexType & index ) const
     { 
       for ( unsigned int j = 0; j < ImageDimension; j++ )
         {
@@ -142,7 +142,7 @@ public:
   /** Check if a continuous index is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image is done. */
-  inline bool IsInsideBuffer( const ContinuousIndexType & index ) const
+  virtual bool IsInsideBuffer( const ContinuousIndexType & index ) const
     { 
       for ( unsigned int j = 0; j < ImageDimension; j++ )
         {
@@ -155,7 +155,7 @@ public:
   /** Check if a point is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image pointer is done. */
-  inline bool IsInsideBuffer( const PointType & point ) const
+  virtual bool IsInsideBuffer( const PointType & point ) const
     { 
     ContinuousIndexType index;
     m_Image->TransformPhysicalPointToContinuousIndex( point, index );
