@@ -40,7 +40,7 @@ void itkShrinkImage<TInputImage,TOutputImage>
 {
   itkImageToImageFilter<TInputImage,TOutputImage>::PrintSelf(os,indent);
 
-  os << indent << "Shrink Factor: " << m_ShrinkFactor << endl;
+  os << indent << "Shrink Factor: " << m_ShrinkFactor << std::endl;
 }
 
 //----------------------------------------------------------------------------

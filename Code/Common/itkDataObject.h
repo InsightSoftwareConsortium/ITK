@@ -91,9 +91,11 @@ public:
    * behavior of all itkDataObjects and itkProcessObjects.
    */
   static void SetGlobalReleaseDataFlag(const bool val);
-  void GlobalReleaseDataFlagOn() {this->SetGlobalReleaseDataFlag(true);};
-  void GlobalReleaseDataFlagOff() {this->SetGlobalReleaseDataFlag(false);};
   static bool GetGlobalReleaseDataFlag();
+  void GlobalReleaseDataFlagOn() 
+    {this->SetGlobalReleaseDataFlag(true);};
+  void GlobalReleaseDataFlagOff() 
+    {this->SetGlobalReleaseDataFlag(false);};
 
   /** 
    * Release data back to system to conserve memory resource. Used during
@@ -126,7 +128,7 @@ public:
 
   // Methods to update the pipeline.
   virtual void UpdateInformation();
-  virtual void PropogateUpdateExtent();
+  virtual void PropagateUpdateExtent();
   virtual void TriggerAsynchronousUpdate();
   virtual void UpdateData();
 
@@ -136,7 +138,8 @@ public:
   unsigned long GetPipelineMTime() const
     {itkGetMacro(m_PipelineMTime);}
 
-  virtual void PropagateUpdateExtent();
+  virtual int GetExtentType() 
+    {return ITK_UNSTRUCTURED_EXTENT;}
   void SetUpdateExtentToWholeExtent();
   virtual void PrepareForNewData() 
     {this->Initialize();};
@@ -145,6 +148,8 @@ public:
   unsigned long GetEstimatedPipelineMemorySize();
   virtual unsigned long GetEstimatedMemorySize();
   void CopyInformation(itkDataObject *data);
+  virtual bool UpdateExtentIsOutsideOfTheExtent();
+  virtual bool VerifyUpdateExtent();
 
   /** 
    * Handle the source/data loop. 
@@ -184,23 +189,23 @@ private:
 
   unsigned int m_Dimension; ///The dimension of the data (1, 2, 3, or n-D)
 
-  // If the ExtentType is ITK_STRUCTURED_EXTENT, then these three extent variables
-  // represent the whole extent, the extent currently in memory, and the
-  // requested update extent. The extent is given as m_Dimension min/max pairs.
+  // If the ExtentType is ITK_STRUCTURED_EXTENT, then these three extent 
+  // variables represent the whole extent, the extent currently in memory, 
+  // and the requested update extent. The extent is given as m_Dimension 
+  // min/max pairs (i.e., the image is n-dimensional).
   int *m_WholeExtent;
   int *m_Extent;
   int *m_UpdateExtent;
 
-  // If the ExtentType is ITK_UNSTRUCTURED_EXTENT, then these three variables 
+  // If the ExtentType is ITK_UNSTRUCTURED_EXTENT, then these three variables
   // represent the maximum number of pieces that the data object can be
-  // broken into, which piece out of how many is currently in the extent,
-  // and the number of pieces and the specific piece requested for the 
-  // update. Data objects that do not support any division
-  // of the data (such as a itkPiecewiseFunction) can simply leave the 
-  // MaximumNumberOfPieces as 1. The NumberOfPieces and Piece are similar
-  // to the Extent. The UpdateNumberOfPieces and UpdatePiece are similar to
-  // the UpdateExtent. The WholeExtent is always piece = 0 and number of 
-  // pieces = 1;
+  // broken into, which piece out of how many is currently in the extent, and
+  // the number of pieces and the specific piece requested for the
+  // update. Data objects that do not support any division of the data can
+  // simply leave the MaximumNumberOfPieces as 1. The NumberOfPieces and
+  // Piece are similar to the Extent. The UpdateNumberOfPieces and
+  // UpdatePiece are similar to the UpdateExtent. The WholeExtent is always
+  // piece = 0 and number of pieces = 1;
   int m_MaximumNumberOfPieces;
   int m_NumberOfPieces;
   int m_Piece;
@@ -208,8 +213,11 @@ private:
   int m_UpdatePiece;
 
   // How many upstream filters are local to the process.
-  // This supports distributed processing.
+  // This supports distributed processing (i.e., asynchronous updates).
   float m_Locality;  
+
+  // Was the update extent propagated down the pipeline
+  bool m_LastUpdateExtentWasOutsideOfTheExtent;
 
 };
 

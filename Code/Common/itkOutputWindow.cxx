@@ -40,7 +40,7 @@ void itkOutputWindow::PrintSelf(std::ostream& os, itkIndent indent)
   this->itkObject::PrintSelf(os, indent);
 
   os << indent << "itkOutputWindow (single instance): "
-     << (void*)itkOutputWindow::m_Instance << endl;
+     << (void*)itkOutputWindow::m_Instance << std::endl;
 
   os << indent << "Prompt User: " << (m_PromptUser ? "On\n" : "Off\n");
 }
@@ -53,7 +53,7 @@ void itkOutputWindow::DisplayText(const char* txt)
     {
     char c = 'n';
     std::cerr << "\nDo you want to suppress any further messages (y,n)?." 
-              << endl;
+              << std::endl;
     std::cin >> c;
     if ( c == 'y' || c == 'Y' )
       {

@@ -148,10 +148,10 @@ void itkDataObject::UnRegister()
 void itkDataObject::PrintSelf(std::ostream& os, itkIndent indent)
 {
   int i;
-	
+        
   itkObject::PrintSelf(os,indent);
 
-  os << indent << "Dimension: " << m_Dimension << endl;
+  os << indent << "Dimension: " << m_Dimension << std::endl;
 
   if ( m_Source )
     {
@@ -171,27 +171,29 @@ void itkDataObject::PrintSelf(std::ostream& os, itkIndent indent)
   os << indent << "Global Release Data: " 
      << (itkDataObjectGlobalReleaseDataFlag ? "On\n" : "Off\n");
 
-  os << indent << "PipelineMTime: " << m_PipelineMTime << endl;
-  os << indent << "UpdateTime: " << m_UpdateTime << endl;
+  os << indent << "PipelineMTime: " << m_PipelineMTime << std::endl;
+  os << indent << "UpdateTime: " << m_UpdateTime << std::endl;
   
-  os << indent << "Update Number Of Pieces: " << m_UpdateNumberOfPieces << endl;
-  os << indent << "Update Piece: " << m_UpdatePiece << endl;
-  os << indent << "Maximum Number Of Pieces: " << m_MaximumNumberOfPieces << endl;
+  os << indent << "Update Number Of Pieces: " << m_UpdateNumberOfPieces << std::endl;
+  os << indent << "Update Piece: " << m_UpdatePiece << std::endl;
+  os << indent << "Maximum Number Of Pieces: " << m_MaximumNumberOfPieces << std::endl;
 
   os << indent << "UpdateExtent: ( ";
   for (i=0; i<m_Dimension; i++)
     {
-    os << m_UpdateExtent[2*i] << "," << m_UpdateExtent[2*i+1] << " " << endl;
+    os << m_UpdateExtent[2*i] << "," << m_UpdateExtent[2*i+1] << " " << std::endl;
     }
   os << " )";
 
   os << indent << "WholeExtent: ( ";
   for (i=0; i<m_Dimension; i++)
     {
-    os << m_WholeExtent[2*i] << "," << m_WholeExtent[2*i+1] << " " << endl;
+    os << m_WholeExtent[2*i] << "," << m_WholeExtent[2*i+1] << " " << std::endl;
     }
   os << " )";
 
+  os << indent << "LastUpdateExtentWasOutsideOfTheExtent: " << 
+    m_LastUpdateExtentWasOutsideOfTheExtent << std::endl;
 }
 
 // The follwing methods are used for updating the data processing pipeline.
@@ -201,7 +203,7 @@ void itkDataObject::PrintSelf(std::ostream& os, itkIndent indent)
 void itkDataObject::Update()
 {
   this->UpdateInformation();
-  this->PropogateUpdateExtent();
+  this->PropagateUpdateExtent();
   this->TriggerAsynchronousUpdate();
   this->UpdateData();
 }
@@ -209,11 +211,73 @@ void itkDataObject::Update()
 //----------------------------------------------------------------------------
 void itkDataObject::UpdateInformation()
 {
+  if (m_Source)
+    {
+    m_Source->UpdateInformation();
+    }
+  // if we don't have a source, then let's make our whole
+  // extent equal to our extent. This way if someone created
+  // a vtkStructuredPoints (for example), we will have a
+  // valid whole extent.
+  else
+    {
+    memcpy( m_WholeExtent, m_Extent, m_Dimension*2*sizeof(int) );
+    }
+  
+  // Now we should know what our whole extent is. If our update extent
+  // was not set yet, (or has been set to something invalid - with no 
+  // data in it ) then set it to the whole extent.
+  switch ( this->GetExtentType() )
+    {
+    case ITK_UNSTRUCTURED_EXTENT:
+      if ( m_UpdatePiece == -1 && m_UpdateNumberOfPieces == 0 )
+        {
+        this->SetUpdateExtentToWholeExtent();
+        }
+      break;
+      
+    case ITK_STRUCTURED_EXTENT:
+      for (int i=0; i<m_Dimension; i++)
+        {
+        if ( m_UpdateExtent[2*i+1] < m_UpdateExtent[2*i] )
+          {
+          this->SetUpdateExtentToWholeExtent();
+          }
+        break; //out of for loop
+        }
+      break;
+    }
+  
+  m_LastUpdateExtentWasOutsideOfTheExtent = 0;
 }
 
 //----------------------------------------------------------------------------
-void itkDataObject::PropogateUpdateExtent()
+void itkDataObject::PropagateUpdateExtent()
 {
+  // If we need to update due to PipelineMTime, or the fact that our
+  // data was released, then propagate the update extent to the source 
+  // if there is one.
+  if ( m_UpdateTime < m_PipelineMTime || m_DataReleased ||
+       this->UpdateExtentIsOutsideOfTheExtent() || 
+       m_LastUpdateExtentWasOutsideOfTheExtent)
+    {
+    if (m_Source)
+      {
+      m_Source->PropagateUpdateExtent(this);
+      }
+    }
+  
+  // update the value of this ivar
+  m_LastUpdateExtentWasOutsideOfTheExtent = 
+    this->UpdateExtentIsOutsideOfTheExtent();
+  
+  // Check that the update extent lies within the whole extent
+  if ( ! this->VerifyUpdateExtent() )
+    {
+    // invalid update piece - this should not occur!
+    return;
+    }
+
 }
 
 //----------------------------------------------------------------------------
@@ -223,11 +287,6 @@ void itkDataObject::TriggerAsynchronousUpdate()
 
 //----------------------------------------------------------------------------
 void itkDataObject::UpdateData()
-{
-}
-
-//----------------------------------------------------------------------------
-void itkDataObject::PropagateUpdateExtent()
 {
 }
 
@@ -265,3 +324,98 @@ void itkDataObject::CopyInformation(itkDataObject *data)
 }
 
 
+bool itkDataObject::UpdateExtentIsOutsideOfTheExtent()
+{
+  switch ( this->GetExtentType() )
+    {
+    case ITK_UNSTRUCTURED_EXTENT:
+      if ( m_UpdatePiece != m_Piece ||
+	   m_UpdateNumberOfPieces != m_NumberOfPieces )
+	{
+        return true;
+	}
+      break;
+
+    case ITK_STRUCTURED_EXTENT:
+      if ( m_UpdateExtent[0] < m_Extent[0] ||
+	   m_UpdateExtent[1] > m_Extent[1] ||
+	   m_UpdateExtent[2] < m_Extent[2] ||
+	   m_UpdateExtent[3] > m_Extent[3] ||
+	   m_UpdateExtent[4] < m_Extent[4] ||
+	   m_UpdateExtent[5] > m_Extent[5] )
+	{
+        return true;
+	}
+      break;
+
+    // We should never have this case occur
+    default:
+      itkErrorMacro( << "Internal error - invalid extent type!" );
+      break;
+    }
+  return false;
+}
+
+bool itkDataObject::VerifyUpdateExtent()
+{
+  bool retval = true;
+
+  switch ( this->GetExtentType() )
+    {
+    // Are we asking for more pieces than we can get?
+    case ITK_UNSTRUCTURED_EXTENT:
+      if ( m_UpdateNumberOfPieces > m_MaximumNumberOfPieces )
+	{
+	itkErrorMacro( << "Cannot break object into " <<
+	               m_UpdateNumberOfPieces << ". The limit is " <<
+	               m_MaximumNumberOfPieces );
+	retval = false;
+	}
+
+      if ( m_UpdatePiece >= m_UpdateNumberOfPieces ||
+	   m_UpdatePiece < 0 )
+	{
+	  itkErrorMacro( << "Invalid update piece " << m_UpdatePiece
+	                 << ". Must be between 0 and " 
+	                 << m_UpdateNumberOfPieces - 1);
+	retval = false;
+	}
+      break;
+
+    // Is our update extent within the whole extent?
+    case ITK_STRUCTURED_EXTENT:
+      if ( m_UpdateExtent[0] < m_WholeExtent[0] ||
+	   m_UpdateExtent[1] > m_WholeExtent[1] ||
+	   m_UpdateExtent[2] < m_WholeExtent[2] ||
+	   m_UpdateExtent[3] > m_WholeExtent[3] ||
+	   m_UpdateExtent[4] < m_WholeExtent[4] ||
+	   m_UpdateExtent[5] > m_WholeExtent[5] )
+	{
+	itkErrorMacro( << "Update extent does not lie within whole extent" );
+	itkErrorMacro( << "Update extent is: " <<
+	m_UpdateExtent[0] << ", " <<
+	m_UpdateExtent[1] << ", " <<
+	m_UpdateExtent[2] << ", " <<
+	m_UpdateExtent[3] << ", " <<
+	m_UpdateExtent[4] << ", " <<
+	m_UpdateExtent[5]);
+	itkErrorMacro( << "Whole extent is: " <<
+	m_WholeExtent[0] << ", " <<
+	m_WholeExtent[1] << ", " <<
+	m_WholeExtent[2] << ", " <<
+	m_WholeExtent[3] << ", " <<
+	m_WholeExtent[4] << ", " <<
+	m_WholeExtent[5]);
+	
+	retval = false;
+	}
+      break;
+
+    // We should never have this case occur
+    default:
+      itkErrorMacro( << "Internal error - invalid extent type!" );
+      break;
+    }
+
+  return retval;
+}

@@ -14,7 +14,7 @@ int main()
   vec[0] = 1; vec[1] = 3; vec[2] = 2; vec[3] = 4;
   
   s.SetScalar( 5.1 );
-  cout << "Scalar value = " << s.GetScalar() << endl;
+  cout << "Scalar value = " << s.GetScalar() << std::endl;
 
   v.SetVector( vec );
   cout << "Vector value = ";
@@ -26,7 +26,7 @@ int main()
       cout << ", ";
       }
     }
-  cout << endl;
+  cout << std::endl;
   
   return 0;
 }

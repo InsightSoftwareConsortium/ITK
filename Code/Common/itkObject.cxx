@@ -110,7 +110,7 @@ void itkObject::PrintHeader(std::ostream& os, itkIndent indent)
 
 void itkObject::PrintTrailer(std::ostream& os, itkIndent indent)
 {
-  os << indent << endl;
+  os << indent << std::endl;
 }
 
 void itkObject::SetDeleteMethod(void (*f)(void *))

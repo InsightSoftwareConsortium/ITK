@@ -541,7 +541,7 @@ void itkProcessObject::PrintSelf(std::ostream& os, itkIndent indent)
   itkObject::PrintSelf(os,indent);
 
   os << indent << "Number Of Required Inputs: "
-     << m_NumberOfRequiredInputs << endl;
+     << m_NumberOfRequiredInputs << std::endl;
 
   if ( m_NumberOfInputs)
     {
