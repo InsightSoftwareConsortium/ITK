@@ -1,8 +1,5 @@
 #ifndef vnl_cost_function_h_
 #define vnl_cost_function_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_cost_function.h
 
 //: \file

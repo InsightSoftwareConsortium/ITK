@@ -1,8 +1,5 @@
 #ifndef vnl_gaussian_kernel_1d_h_
 #define vnl_gaussian_kernel_1d_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 //:
 //  \file

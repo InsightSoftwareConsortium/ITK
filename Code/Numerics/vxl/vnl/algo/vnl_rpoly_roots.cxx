@@ -1,6 +1,3 @@
-#ifdef __GNUC__
-#pragma implementation
-#endif
 //
 // vnl_rpoly_roots
 // Author: Andrew W. Fitzgibbon, Oxford RRG

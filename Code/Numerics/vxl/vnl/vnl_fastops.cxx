@@ -1,9 +1,6 @@
 // This is vxl/vnl/vnl_fastops.cxx
 
 //-*- c++ -*-------------------------------------------------------------------
-#ifdef __GNUC__
-#pragma implementation
-#endif
 //
 // vnl_fastops
 // Author: Andrew W. Fitzgibbon, Oxford RRG

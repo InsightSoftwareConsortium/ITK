@@ -3,9 +3,6 @@
 /*
   fsm@robots.ox.ac.uk
 */
-#ifdef __GNUC__
-#pragma implementation
-#endif
 #include "vnl_binary.h"
 
 #include <vcl_iostream.h>

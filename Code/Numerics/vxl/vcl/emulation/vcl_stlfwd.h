@@ -1,9 +1,6 @@
 //-*- c++ -*-------------------------------------------------------------------
 #ifndef vcl_emulation_stdfwd_h
 #define vcl_emulation_stdfwd_h
-#ifdef __GNUC__
-#pragma interface
-#endif
 // include vcl_compiler.h to get the settings for this system and compiler
 #include <vcl_compiler.h> 
 

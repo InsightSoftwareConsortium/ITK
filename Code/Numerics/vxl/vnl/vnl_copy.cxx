@@ -3,9 +3,6 @@
 /*
   fsm@robots.ox.ac.uk
 */
-#ifdef __GNUC__
-#pragma implementation
-#endif
 #include "vnl_copy.h"
 #include <vcl_cassert.h>
 #include <vcl_complex.h>

@@ -1,8 +1,5 @@
 #ifndef vnl_determinant_h_
 #define vnl_determinant_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_determinant.h
 
 //: \file

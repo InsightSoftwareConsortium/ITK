@@ -3,9 +3,6 @@
 /*
   fsm@robots.ox.ac.uk
 */
-#ifdef __GNUC__
-#pragma implementation
-#endif
 #include "vnl_matlab_write.h"
 
 #include <vcl_iostream.h>

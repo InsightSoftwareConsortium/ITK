@@ -1,8 +1,5 @@
 #ifndef vnl_fft_base_h_
 #define vnl_fft_base_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 /*
   fsm@robots.ox.ac.uk
 */

@@ -1,9 +1,6 @@
 // This is vxl/vnl/vnl_cross_product_matrix.cxx
 
 //-*- c++ -*-------------------------------------------------------------------
-#ifdef __GNUC__
-#pragma implementation
-#endif
 //
 // vnl_cross_product_matrix
 // Author: Andrew W. Fitzgibbon, Oxford RRG

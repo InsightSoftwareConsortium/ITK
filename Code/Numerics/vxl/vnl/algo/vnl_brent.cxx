@@ -1,6 +1,3 @@
-#ifdef __GNUC__
-#pragma implementation
-#endif
 #include <vcl_cmath.h>
 #include <vcl_iostream.h>
 #include <vcl_algorithm.h>

@@ -1,8 +1,5 @@
 #ifndef vnl_fft_2d_h_
 #define vnl_fft_2d_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 /*
   fsm@robots.ox.ac.uk
 */

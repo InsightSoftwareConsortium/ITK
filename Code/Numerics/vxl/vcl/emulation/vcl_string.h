@@ -29,9 +29,6 @@
 // Written by Jason Merrill based upon the specification by Takanori Adachi
 // in ANSI X3J16/94-0013R2.
 
-#ifdef __GNUG__
-#pragma interface
-#endif
 
 #include <vcl_cstddef.h>   // For ptrdiff_t
 #include <vcl_iosfwd.h>

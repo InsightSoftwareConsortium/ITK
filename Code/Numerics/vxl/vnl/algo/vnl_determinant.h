@@ -1,8 +1,5 @@
 #ifndef vnl_algo_determinant_h_
 #define vnl_algo_determinant_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 
 //:

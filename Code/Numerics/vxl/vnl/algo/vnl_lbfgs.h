@@ -1,8 +1,5 @@
 #ifndef vnl_lbfgs_h_
 #define vnl_lbfgs_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 //:
 //  \file

@@ -1,8 +1,5 @@
 #ifndef vnl_lsqr_h_
 #define vnl_lsqr_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 //:
 // \file
 // \brief Linear least squares

@@ -1,8 +1,5 @@
 #ifndef vnl_transpose_h_
 #define vnl_transpose_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_transpose.h
 
 //:

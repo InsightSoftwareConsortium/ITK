@@ -1,8 +1,5 @@
 #ifndef vnl_netlib_h_
 #define vnl_netlib_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 //:
 //  \file

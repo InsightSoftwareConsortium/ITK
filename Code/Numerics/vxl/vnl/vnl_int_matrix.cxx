@@ -1,9 +1,6 @@
 // This is vxl/vnl/vnl_int_matrix.cxx
 
 //-*- c++ -*-------------------------------------------------------------------
-#ifdef __GNUC__
-#pragma implementation
-#endif
 //
 // vnl_int_matrix
 // Author: Andrew W. Fitzgibbon, Oxford RRG

@@ -1,8 +1,5 @@
 #ifndef vnl_cross_product_matrix_h_
 #define vnl_cross_product_matrix_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_cross_product_matrix.h
 
 //: \file

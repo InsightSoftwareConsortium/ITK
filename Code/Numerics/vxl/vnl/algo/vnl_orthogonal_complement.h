@@ -1,8 +1,5 @@
 #ifndef vnl_orthogonal_complement_h_
 #define vnl_orthogonal_complement_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 //: 
 // \file

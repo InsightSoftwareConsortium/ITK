@@ -1,8 +1,5 @@
 #ifndef vnl_fwd_h_
 #define vnl_fwd_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_fwd.h
 
 /*

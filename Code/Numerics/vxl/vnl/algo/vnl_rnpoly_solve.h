@@ -1,8 +1,5 @@
 #ifndef vnl_rnpoly_solve_h_
 #define vnl_rnpoly_solve_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 //:
 //  \file

@@ -1,8 +1,5 @@
 #ifndef vnl_matops_h_
 #define vnl_matops_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_matops.h
 
 //: \file

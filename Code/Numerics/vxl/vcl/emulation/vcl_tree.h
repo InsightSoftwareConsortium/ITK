@@ -53,9 +53,6 @@
 #ifndef vcl_emulation_tree_h
 #define vcl_emulation_tree_h
 
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 /*
 

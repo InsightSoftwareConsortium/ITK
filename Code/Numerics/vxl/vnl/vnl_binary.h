@@ -1,8 +1,5 @@
 #ifndef vnl_binary_h_
 #define vnl_binary_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_binary.h
 
 //: \file

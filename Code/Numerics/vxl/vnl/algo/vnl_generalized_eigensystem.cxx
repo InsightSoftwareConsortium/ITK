@@ -1,6 +1,3 @@
-#ifdef __GNUC__
-#pragma implementation
-#endif
 //
 // vnl_generalized_eigensystem
 // Author: Andrew W. Fitzgibbon, Oxford RRG

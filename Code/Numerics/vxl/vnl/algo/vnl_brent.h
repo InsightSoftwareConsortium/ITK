@@ -1,9 +1,6 @@
 //-*- c++ -*-------------------------------------------------------------------
 #ifndef vnl_brent_h_
 #define vnl_brent_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // Author: awf@robots.ox.ac.uk
 // Created: 07 Dec 00
 

@@ -1,8 +1,5 @@
 #ifndef vnl_c_vector_h_
 #define vnl_c_vector_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_c_vector.h
 
 //: \file

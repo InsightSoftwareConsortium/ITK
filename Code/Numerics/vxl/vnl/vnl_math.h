@@ -1,8 +1,5 @@
 #ifndef vnl_math_h_
 #define vnl_math_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_math.h
 
 //: \file

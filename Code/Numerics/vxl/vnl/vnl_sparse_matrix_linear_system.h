@@ -1,8 +1,5 @@
 #ifndef vnl_sparse_matrix_linear_system_h_
 #define vnl_sparse_matrix_linear_system_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_sparse_matrix_linear_system.h
 
 //: \file

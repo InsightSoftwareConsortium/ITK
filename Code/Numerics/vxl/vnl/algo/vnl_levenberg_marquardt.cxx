@@ -1,6 +1,3 @@
-#ifdef __GNUC__
-#pragma implementation
-#endif
 //
 // vnl_levenberg_marquardt
 // Author: Andrew W. Fitzgibbon, Oxford RRG

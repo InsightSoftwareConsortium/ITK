@@ -1,8 +1,5 @@
 #ifndef vnl_copy_h_
 #define vnl_copy_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_copy.h
 
 //:  \file

@@ -1,6 +1,3 @@
-#ifdef __GNUG__
-#pragma implementation
-#endif
 
 // This is vxl/vnl/vnl_math.cxx
 #if defined(__BORLANDC__)

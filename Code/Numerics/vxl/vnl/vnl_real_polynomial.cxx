@@ -1,6 +1,3 @@
-#ifdef __GNUC__
-#pragma implementation
-#endif
 
 // This is vxl/vnl/vnl_real_polynomial.cxx
 

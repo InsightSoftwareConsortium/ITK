@@ -1,8 +1,5 @@
 #ifndef vnl_cholesky_h_
 #define vnl_cholesky_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 //:
 //  \file
 //  \brief vnl_cholesky - Decomposition of symmetric matrix

@@ -1,7 +1,4 @@
 //-*- c++ -*-------------------------------------------------------------------
-#ifdef __GNUC__
-#pragma implementation
-#endif
 //
 // vnl_real_eigensystem
 // Author: Andrew W. Fitzgibbon, Oxford RRG

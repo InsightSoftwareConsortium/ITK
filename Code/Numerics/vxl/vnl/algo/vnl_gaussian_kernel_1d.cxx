@@ -1,7 +1,4 @@
 //-*- c++ -*-------------------------------------------------------------------
-#ifdef __GNUC__
-#pragma implementation
-#endif
 //
 // vnl_gaussian_kernel_1d
 // Author: Andrew W. Fitzgibbon, Oxford RRG

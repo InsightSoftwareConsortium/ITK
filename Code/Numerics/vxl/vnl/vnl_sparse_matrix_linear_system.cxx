@@ -1,9 +1,6 @@
 // This is vxl/vnl/vnl_sparse_matrix_linear_system.cxx
 
 //-*- c++ -*-------------------------------------------------------------------
-#ifdef __GNUC__
-#pragma implementation
-#endif
 
 #include "vnl_sparse_matrix_linear_system.h"
 #include <vcl_cassert.h>

@@ -3,9 +3,6 @@
 /*
   fsm@robots.ox.ac.uk
 */
-#ifdef __GNUC__
-#pragma implementation
-#endif
 
 // Adapted from awf's MatOps class.
 

@@ -3,9 +3,6 @@
 /*
   fsm@robots.ox.ac.uk
 */
-#ifdef __GNUC__
-#pragma implementation
-#endif
 #include "vnl_trace.h"
 
 #include <vnl/vnl_matrix.h>

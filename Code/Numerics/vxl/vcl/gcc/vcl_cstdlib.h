@@ -1,9 +1,6 @@
 #ifndef vcl_gcc_cstdlib_h_
 #define vcl_gcc_cstdlib_h_
 
-#ifdef __GNUG__
-#pragma interface
-#endif
 
 // Include system stdlib.h
 #if defined(VCL_CXX_HAS_HEADER_CSTDLIB) && !VCL_CXX_HAS_HEADER_CSTDLIB

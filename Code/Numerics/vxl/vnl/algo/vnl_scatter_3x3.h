@@ -1,8 +1,5 @@
 #ifndef vnl_scatter_3x3_h_
 #define vnl_scatter_3x3_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 //:
 //  \file 
 //  \brief 

@@ -1,8 +1,5 @@
 #ifndef vnl_double_4_h_
 #define vnl_double_4_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_double_4.h
 
 //: \file

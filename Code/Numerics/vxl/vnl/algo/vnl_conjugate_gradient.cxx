@@ -1,7 +1,4 @@
 //-*- c++ -*-------------------------------------------------------------------
-#ifdef __GNUC__
-#pragma implementation
-#endif
 //
 // vnl_conjugate_gradient
 // Author: Geoffrey Cross, Oxford RRG

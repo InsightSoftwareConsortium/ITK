@@ -1,8 +1,5 @@
 #ifndef vnl_matrix_inverse_h_
 #define vnl_matrix_inverse_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 //:
 //  \file

@@ -1,9 +1,6 @@
 //-*- c++ -*-------------------------------------------------------------------
 #ifndef vnl_powell_h_
 #define vnl_powell_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // Author: awf@robots.ox.ac.uk
 // Created: 05 Dec 00
 

@@ -1,8 +1,5 @@
 #ifndef vnl_quaternion_h_
 #define vnl_quaternion_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_quaternion.h
 
 //: \file

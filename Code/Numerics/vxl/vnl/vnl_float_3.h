@@ -1,8 +1,5 @@
 #ifndef vnl_float_3_h_
 #define vnl_float_3_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_float_3.h
 
 //: \file

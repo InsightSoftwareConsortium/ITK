@@ -1,8 +1,5 @@
 #ifndef vnl_svd_h_
 #define vnl_svd_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 //:
 //  \file

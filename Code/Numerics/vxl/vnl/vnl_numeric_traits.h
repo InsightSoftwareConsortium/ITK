@@ -1,8 +1,5 @@
 #ifndef vnl_numeric_traits_h_
 #define vnl_numeric_traits_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_numeric_traits.h
 
 //: \file

@@ -1,8 +1,5 @@
 #ifndef vnl_rpoly_roots_h_
 #define vnl_rpoly_roots_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 //:
 //  \file

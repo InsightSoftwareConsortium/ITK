@@ -1,8 +1,5 @@
 #ifndef vnl_generalized_eigensystem_h_
 #define vnl_generalized_eigensystem_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 //:
 //  \file

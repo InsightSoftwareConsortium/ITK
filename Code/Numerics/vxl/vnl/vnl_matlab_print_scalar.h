@@ -1,8 +1,5 @@
 #ifndef vnl_matlab_print_scalar_h_
 #define vnl_matlab_print_scalar_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 /*
   fsm@robots.ox.ac.uk
 */

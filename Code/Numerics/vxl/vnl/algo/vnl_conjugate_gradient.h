@@ -1,8 +1,5 @@
 #ifndef vnl_conjugate_gradient_h_
 #define vnl_conjugate_gradient_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 //:
 //  \file
 //  \brief  vnl_conjugate_gradient - real function minimization

@@ -1,6 +1,3 @@
-#ifdef __GNUC__
-#pragma implementation
-#endif
 
 // This is vxl/vnl/vnl_least_squares_function.cxx
 

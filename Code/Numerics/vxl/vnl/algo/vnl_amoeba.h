@@ -1,8 +1,5 @@
 #ifndef vnl_amoeba_h_
 #define vnl_amoeba_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 //:
 //  \file
 //  \brief Nelder-Meade downhill simplex.

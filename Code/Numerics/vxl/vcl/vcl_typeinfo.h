@@ -2,9 +2,6 @@
 
 #ifndef vcl_typeinfo_h_
 #define vcl_typeinfo_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 //:
 // \file
 // \brief Provide a uniform interface to the variously supported RTTI's

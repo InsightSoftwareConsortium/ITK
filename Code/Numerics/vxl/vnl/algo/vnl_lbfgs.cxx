@@ -1,7 +1,4 @@
 //-*- c++ -*-------------------------------------------------------------------
-#ifdef __GNUC__
-#pragma implementation
-#endif
 //
 // vnl_lbfgs
 // Author: Andrew W. Fitzgibbon, Oxford RRG

@@ -1,9 +1,6 @@
 /*
   fsm@robots.ox.ac.uk
 */
-#ifdef __GNUC__
-#pragma implementation "vnl_fft"
-#endif
 #include "vnl_fft.h"
 
 #include <vnl/algo/vnl_netlib.h>

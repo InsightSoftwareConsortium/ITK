@@ -1,9 +1,6 @@
 // This is vxl/vnl/vnl_unary_function.cxx
 
 //-*- c++ -*-------------------------------------------------------------------
-#ifdef __GNUC__
-#pragma implementation
-#endif
 //
 // UnaryFunction
 // Author: Andrew W. Fitzgibbon, Oxford RRG

@@ -1,8 +1,5 @@
 #ifndef vnl_sparse_symmetric_eigensystem_h_
 #define vnl_sparse_symmetric_eigensystem_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 //:
 //  \file

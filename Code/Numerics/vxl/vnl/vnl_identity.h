@@ -1,8 +1,5 @@
 #ifndef vnl_identity_h_
 #define vnl_identity_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_identity.h
 
 //: \file

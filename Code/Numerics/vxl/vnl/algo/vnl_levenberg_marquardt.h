@@ -1,8 +1,5 @@
 #ifndef vnl_levenberg_marquardt_h_
 #define vnl_levenberg_marquardt_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 //:
 //  \file

@@ -1,8 +1,5 @@
 #ifndef vnl_complex_ops_h_
 #define vnl_complex_ops_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_complex_ops.h
 
 //: \file

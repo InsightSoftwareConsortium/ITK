@@ -1,8 +1,5 @@
 #ifndef vnl_chi_squared_h_
 #define vnl_chi_squared_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 //:
 //  \file

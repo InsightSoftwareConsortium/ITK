@@ -1,8 +1,5 @@
 #ifndef vnl_real_npolynomial_h_
 #define vnl_real_npolynomial_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 
 // This is vxl/vnl/vnl_real_npolynomial.h
 

@@ -1,6 +1,3 @@
-#ifdef __GNUC__
-#pragma implementation
-#endif
 
 #include "vnl_sparse_symmetric_eigensystem.h"
 #include <vcl_cassert.h>

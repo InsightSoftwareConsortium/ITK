@@ -1,8 +1,5 @@
 #ifndef vnl_vector_dereference_h_
 #define vnl_vector_dereference_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 // This is vxl/vnl/vnl_vector_dereference.h
 
 //: 

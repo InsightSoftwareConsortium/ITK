@@ -1,6 +1,3 @@
-#ifdef __GNUC__
-#pragma implementation
-#endif
 #include "vnl_chi_squared.h"
 
 #include <vcl_cmath.h>

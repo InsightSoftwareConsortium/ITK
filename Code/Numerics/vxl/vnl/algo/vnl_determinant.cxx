@@ -1,9 +1,6 @@
 /*
   fsm@robots.ox.ac.uk
 */
-#ifdef __GNUC__
-#pragma implementation
-#endif
 #include "vnl_determinant.h"
 
 #include <vcl_cassert.h>

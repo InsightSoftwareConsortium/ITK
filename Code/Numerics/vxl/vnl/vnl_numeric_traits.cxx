@@ -1,9 +1,6 @@
 // This is vxl/vnl/vnl_numeric_traits.cxx
 
 //-*- c++ -*-------------------------------------------------------------------
-#ifdef __GNUC__
-#pragma implementation
-#endif
 //
 // vnl_numeric_traits
 // Author: Andrew W. Fitzgibbon, Oxford RRG

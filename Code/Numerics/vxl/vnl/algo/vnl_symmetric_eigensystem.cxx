@@ -1,6 +1,3 @@
-#ifdef __GNUC__
-#pragma implementation
-#endif
 //
 // vnl_symmetric_eigensystem
 // Author: Andrew W. Fitzgibbon, Oxford RRG
