@@ -111,7 +111,7 @@ public:
     typedef AffineTransform<ScalarType, ImageDimension> AffineTransformType;
 
     /// Standard affine transform type for this class
-    typedef AffineTransformType::Pointer AffineTransformPointer;
+    typedef typename AffineTransformType::Pointer AffineTransformPointer;
 
 
     /**
