@@ -76,7 +76,7 @@ FlipImageFilter<TImage>
   const typename TImage::IndexType& inputStartIndex =
     inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  TImage::PointType outputOrigin;
+  typename TImage::PointType outputOrigin;
 
   unsigned int j;
 
