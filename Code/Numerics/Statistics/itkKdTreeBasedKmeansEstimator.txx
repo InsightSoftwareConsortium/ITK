@@ -147,7 +147,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   int closest ;
   ParameterType individualPoint ;
   
-  if (node->GetNodeType() == KdTreeNodeType::Terminal)
+  if ( node->IsTerminal() )
     {
       // terminal node
       if (node == m_KdTree->GetEmptyTerminalNode())
