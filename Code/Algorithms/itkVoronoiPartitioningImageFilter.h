@@ -56,6 +56,13 @@ public:
   typedef typename Superclass::IndexType IndexType;
   typedef typename Superclass::RegionType RegionType;
   typedef typename Superclass::InputImageType InputImageType;
+  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::PointType PointType;
+  typedef typename Superclass::PointTypeDeque PointTypeDeque;
+  typedef typename Superclass::PointIdIterator PointIdIterator;
+  typedef typename Superclass::CellAutoPointer CellAutoPointer;
+  typedef typename Superclass::EdgeIterator EdgeIterator;
+  typedef typename Superclass::NeighborIdIterator NeighborIdIterator;
 
   /** Create the output results.  */
   virtual void MakeSegmentBoundary(void);
