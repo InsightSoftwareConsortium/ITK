@@ -133,37 +133,34 @@ GetJacobian( const PointType & p ) const
   vnl_matrix_fixed<double,3,4> dXdQ;
 
   // compute dX / dQ
-  dXdQ(0,0) =   Q.x() * p[0] + Q.y() * p[1] + Q.z() * p[2];
-  dXdQ(0,1) = - Q.y() * p[0] + Q.x() * p[1] - Q.r() * p[2];
-  dXdQ(0,2) = - Q.z() * p[0] + Q.r() * p[1] + Q.x() * p[2];
-  dXdQ(0,3) =   Q.r() * p[0] + Q.z() * p[1] - Q.y() * p[2];
+  dXdQ(0,0) = 2.0 * (  Q.x() * p[0] + Q.y() * p[1] + Q.z() * p[2]);
+  dXdQ(0,1) = 2.0 * (- Q.y() * p[0] + Q.x() * p[1] - Q.r() * p[2]);
+  dXdQ(0,2) = 2.0 * (- Q.z() * p[0] + Q.r() * p[1] + Q.x() * p[2]);
+  dXdQ(0,3) = 2.0 * (  Q.r() * p[0] + Q.z() * p[1] - Q.y() * p[2]);
 
-  dXdQ(1,0) =   Q.y() * p[0] - Q.x() * p[1] - Q.r() * p[2];
-  dXdQ(1,1) =   Q.x() * p[0] + Q.y() * p[1] + Q.z() * p[2];
-  dXdQ(1,2) = - Q.r() * p[0] - Q.z() * p[1] + Q.y() * p[2];
-  dXdQ(1,3) = - Q.z() * p[0] + Q.r() * p[1] - Q.x() * p[2];
+  dXdQ(1,0) = - dXdQ(0,1);
+  dXdQ(1,1) =   dXdQ(0,0);
+  dXdQ(1,2) = - dXdQ(0,3);
+  dXdQ(1,3) =   dXdQ(0,2);
 
-  dXdQ(2,0) =   Q.z() * p[0] - Q.r() * p[1] - Q.x() * p[2];
-  dXdQ(2,1) =   Q.r() * p[0] + Q.z() * p[1] - Q.y() * p[2];
-  dXdQ(2,2) =   Q.x() * p[0] + Q.y() * p[1] + Q.z() * p[2];
-  dXdQ(2,3) =   Q.y() * p[0] - Q.x() * p[1] + Q.r() * p[2];
+  dXdQ(2,0) = - dXdQ(0,2);
+  dXdQ(2,1) =   dXdQ(0,3);
+  dXdQ(2,2) =   dXdQ(0,0);
+  dXdQ(2,3) = - dXdQ(0,1);
 
-  dXdQ *= 2.0;
 
   // compute dQ / dParameters
-  vnl_matrix_fixed<double,4,4> dQdP;
-  dQdP.fill( 0.0 );
-
-  double cosAlpha = cos( m_Parameters[3] / 2 );
+  double factor   = 0.5 * cos( m_Parameters[3] / 2 );
   double sinAlpha = sin( m_Parameters[3] / 2 );
 
-  dQdP(0,0) = sinAlpha;
-  dQdP(1,1) = sinAlpha;
-  dQdP(2,2) = sinAlpha;
+  vnl_matrix_fixed<double,4,4> dQdP;
+  dQdP.fill( 0.0 );
+  dQdP.fill_diagonal( sinAlpha );
 
-  dQdP(0,3) = 0.5 * m_Parameters[0] * cosAlpha;
-  dQdP(1,3) = 0.5 * m_Parameters[1] * cosAlpha;
-  dQdP(2,3) = 0.5 * m_Parameters[2] * cosAlpha;
+
+  dQdP(0,3) = factor * m_Parameters[0];
+  dQdP(1,3) = factor * m_Parameters[1];
+  dQdP(2,3) = factor * m_Parameters[2];
   dQdP(3,3) = - 0.5 * sinAlpha;
 
   // compute dX / dParameters
@@ -171,7 +168,6 @@ GetJacobian( const PointType & p ) const
 
   m_Jacobian.Fill(0.0);
   m_Jacobian.GetVnlMatrix().update( dXdP, 0, 0 );
-
 
   // compute derivatives for the translation part
   unsigned int blockOffset = 4;
