@@ -187,8 +187,11 @@ bool
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 ::Halt()
 {
-  this->UpdateProgress( static_cast<float>( this->GetElapsedIterations() ) /
-                        static_cast<float>( m_NumberOfIterations ) );
+  if (m_NumberOfIterations != 0)
+    {
+    this->UpdateProgress( static_cast<float>( this->GetElapsedIterations() ) /
+                          static_cast<float>( m_NumberOfIterations ) );
+    }
 
   if (this->GetElapsedIterations() >= m_NumberOfIterations)
     {
