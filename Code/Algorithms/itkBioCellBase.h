@@ -60,7 +60,7 @@ public:
 
 protected:
   CellBase();
-  ~CellBase();
+  virtual ~CellBase();
 
   virtual void Grow(void);
   virtual void DNAReplication(void);
