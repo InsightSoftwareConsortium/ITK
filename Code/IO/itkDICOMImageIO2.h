@@ -1,3 +1,4 @@
+
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
@@ -78,11 +79,11 @@ public:
 
 protected:
   DICOMImageIO2();
-  ~DICOMImageIO2();
+  virtual ~DICOMImageIO2();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  DICOMParser Parser;
-  DICOMAppHelper AppHelper; 
+  DICOMParser* Parser;
+  DICOMAppHelper* AppHelper; 
 
   void ReadDataCallback(doublebyte group,
                         doublebyte element,

@@ -32,7 +32,6 @@
 
 #include "DICOMCallback.h"
 
-
 namespace itk
 {
 
@@ -42,28 +41,31 @@ DICOMImageIO2::DICOMImageIO2()
   this->SetNumberOfDimensions(2);
   m_PixelType  = UCHAR;
   m_ByteOrder = BigEndian;
+  this->Parser = new DICOMParser();
+  this->AppHelper = new DICOMAppHelper();
 }
 
 
 /** Destructor */
 DICOMImageIO2::~DICOMImageIO2()
 {
+  delete this->Parser;
+  delete this->AppHelper;
 }
-
 
 bool DICOMImageIO2::CanReadFile( const char* filename ) 
 { 
-  bool open = Parser.OpenFile((char*) filename);
+  bool open = Parser->OpenFile((char*) filename);
   if (!open)
     {
     std::cerr << "Couldn't open file: " << filename << std::endl;
     return false;
     }
   bool magic = false;
-  magic = Parser.IsDICOMFile();
+  magic = Parser->IsDICOMFile();
   return magic;
 }
-  
+
 void DICOMImageIO2::ReadDataCallback( doublebyte,
                                       doublebyte,
                                       DICOMParser::VRTypes,
@@ -85,55 +87,61 @@ void DICOMImageIO2::ReadDataCallback( doublebyte,
 
 void DICOMImageIO2::Read(void* buffer)
 {
-  Parser.ClearAllDICOMTagCallbacks();
-  AppHelper.RegisterCallbacks(&Parser);
+  Parser->ClearAllDICOMTagCallbacks();
+  AppHelper->RegisterCallbacks(Parser);
 
-  AppHelper.SetFileName(m_FileName.c_str());
+  AppHelper->SetFileName(m_FileName.c_str());
     
-  bool open = Parser.OpenFile((char*) m_FileName.c_str());
+  bool open = Parser->OpenFile((char*) m_FileName.c_str());
   if (!open)
     {
     std::cerr << "Couldn't open file: " << m_FileName << std::endl;
     return;
     }
 
-  AppHelper.SetDICOMDataFile(Parser.GetDICOMFile());
+  AppHelper->SetDICOMDataFile(Parser->GetDICOMFile());
 
-  DICOMMemberCallback<DICOMImageIO2>* cb = new DICOMMemberCallback<DICOMImageIO2>;
-  cb->SetCallbackFunction(this, &DICOMImageIO2::ReadDataCallback);
-  this->Parser.AddDICOMTagCallback(0x7FE0, 0x0010, DICOMParser::VR_OW, cb);  
-
-  this->ImageDataBuffer = (unsigned char*) buffer;
+  AppHelper->RegisterPixelDataCallback();
   
   std::cout << "DICOMImageIO2::Read" << std::endl;
-  Parser.ReadHeader();
+  Parser->ReadHeader();
+
+  void* newData;
+  DICOMParser::VRTypes newType;
+  unsigned long imageDataLength = 0;
+
+
+  AppHelper->GetImageData(newData, newType, imageDataLength);
+
+  memcpy(buffer, newData, imageDataLength);
 }
+
 
 /** 
  *  Read Information about the dicom file
  */
 void DICOMImageIO2::ReadImageInformation()
 {
-    Parser.ClearAllDICOMTagCallbacks();
-    AppHelper.RegisterCallbacks(&Parser);
+    Parser->ClearAllDICOMTagCallbacks();
+    AppHelper->RegisterCallbacks(Parser);
 
-    AppHelper.SetFileName(m_FileName.c_str());
+    AppHelper->SetFileName(m_FileName.c_str());
     
-    bool open = Parser.OpenFile((char*) m_FileName.c_str());
+    bool open = Parser->OpenFile((char*) m_FileName.c_str());
     if (!open)
       {
       std::cerr << "Couldn't open file: " << m_FileName << std::endl;
       return;
       }
 
-    AppHelper.SetDICOMDataFile(Parser.GetDICOMFile());
+    AppHelper->SetDICOMDataFile(Parser->GetDICOMFile());
 
-    Parser.ReadHeader();
+    Parser->ReadHeader();
 
-    float* spacing = AppHelper.GetPixelSpacing();
+    float* spacing = AppHelper->GetPixelSpacing();
     float origin[3] = {0.0, 0.0, 0.0};
 
-    int* dims = AppHelper.GetDimensions();
+    int* dims = AppHelper->GetDimensions();
 
     for (int i = 0; i < 2; i++)
       {
@@ -142,28 +150,56 @@ void DICOMImageIO2::ReadImageInformation()
       this->SetDimensions(i, dims[i]);
       }
 
-    int numBits = AppHelper.GetBitsAllocated();
-    int sign = AppHelper.GetPixelRepresentation();
-
-    if (numBits == 8)
+    int numBits = AppHelper->GetBitsAllocated();
+    int sign = AppHelper->GetPixelRepresentation();
+    bool isFloat = AppHelper->RescaledImageDataIsFloat();
+    int num_comp = AppHelper->GetNumberOfComponents();
+      
+    if (isFloat)
       {
-      if (sign)
+      this->SetPixelType(ImageIOBase::FLOAT);
+      this->SetComponentType(ImageIOBase::FLOAT);
+      }
+    else if (num_comp == 3)
+      {
+      if (numBits == 8)
         {
-        this->SetPixelType(ImageIOBase::CHAR);
-        this->SetComponentType(ImageIOBase::CHAR);
+        this->SetComponentType(ImageIOBase::UCHAR);
+        this->SetPixelType(ImageIOBase::UCHAR);
         }
       else
         {
-        this->SetPixelType(ImageIOBase::UCHAR);
-        this->SetComponentType(ImageIOBase::UCHAR);
+        this->SetComponentType(ImageIOBase::USHORT);
+        this->SetPixelType(ImageIOBase::USHORT);
         }
       }
-    else if (numBits == 16)
+    else
       {
-      if (sign)
+      if (numBits == 8)
         {
-        this->SetPixelType(ImageIOBase::SHORT);
-        this->SetComponentType(ImageIOBase::SHORT);
+        if (sign)
+          {
+          this->SetPixelType(ImageIOBase::CHAR);
+          this->SetComponentType(ImageIOBase::CHAR);
+          }
+        else
+          {
+          this->SetPixelType(ImageIOBase::UCHAR);
+          this->SetComponentType(ImageIOBase::UCHAR);
+          }
+        }
+      else if (numBits == 16)
+        {
+        if (sign)
+          {
+          this->SetPixelType(ImageIOBase::SHORT);
+          this->SetComponentType(ImageIOBase::SHORT);
+          }
+        else
+          {
+          this->SetPixelType(ImageIOBase::USHORT);
+          this->SetComponentType(ImageIOBase::USHORT);
+          }
         }
       else
         {
@@ -171,16 +207,9 @@ void DICOMImageIO2::ReadImageInformation()
         this->SetComponentType(ImageIOBase::USHORT);
         }
       }
-    else
-      {
-      this->SetPixelType(ImageIOBase::USHORT);
-      this->SetComponentType(ImageIOBase::USHORT);
-      }
 
-    int num_comp = AppHelper.GetNumberOfComponents();
     this->SetNumberOfComponents(num_comp);
 }
-
 
 /** Print Self Method */
 void DICOMImageIO2::PrintSelf(std::ostream& os, Indent indent) const
@@ -198,10 +227,9 @@ void DICOMImageIO2::PrintSelf(std::ostream& os, Indent indent) const
   {
     os << m_Origin[i] << " ";
   }
-  os << " )" << std::endl;
-  
+  os << " )" << std::endl; 
 }
 
-
-
 } // end namespace itk
+
+
