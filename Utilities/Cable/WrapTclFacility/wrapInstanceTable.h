@@ -137,7 +137,7 @@ struct OldObjectOf
   static void Delete(const void* object)
     {
     // Use delete operator by default.
-    delete static_cast<const T*>(object);
+    delete const_cast<T*>(static_cast<const T*>(object));
     }
 };
 
