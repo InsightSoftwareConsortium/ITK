@@ -19,8 +19,10 @@ TARGET_LINK_LIBRARIES(ConnectedThresholdImageFilter ITKCommon ITKNumerics VXLNum
 ADD_EXECUTABLE(HybridSegmentationFuzzyVoronoi HybridSegmentationFuzzyVoronoi.cxx )
 TARGET_LINK_LIBRARIES(HybridSegmentationFuzzyVoronoi ITKCommon ITKNumerics VXLNumerics ITKIO)
 
-
 ADD_EXECUTABLE(FastMarchingImageFilter FastMarchingImageFilter.cxx )
 TARGET_LINK_LIBRARIES(FastMarchingImageFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
+
+ADD_EXECUTABLE(ShapeDetectionLevelSetFilter ShapeDetectionLevelSetFilter.cxx )
+TARGET_LINK_LIBRARIES(ShapeDetectionLevelSetFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
 
 
