@@ -19,7 +19,7 @@
 
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkCovariantVector.h"
-#include "vnl/vnl_sample.h"
+#include "itkImageRandomConstIteratorWithIndex.h"
 #include "vnl/vnl_math.h"
 #include "itkGaussianKernelFunction.h"
 
@@ -105,24 +105,26 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 SpatialSampleContainer& samples ) const
 {
 
-  double range =
-   double( m_FixedImage->GetBufferedRegion().GetNumberOfPixels() ) - 1.0;
+  typedef ImageRandomConstIteratorWithIndex<FixedImageType> RandomIterator;
+  RandomIterator randIter( m_FixedImage, this->GetFixedImageRegion() );
+
+  randIter.GoToBegin();
+  randIter.SetNumberOfSamples( m_NumberOfSpatialSamples );
+
 
   typename SpatialSampleContainer::iterator iter;
   typename SpatialSampleContainer::const_iterator end = samples.end();
 
   bool allOutside = true;
 
-  for( iter = samples.begin(); iter != end; ++iter )
+  for( iter = samples.begin(); iter != end; ++iter, ++randIter )
     {
-    // generate a random number between [0,range)
-    unsigned long offset = (unsigned long) vnl_sample_uniform( 0.0, range );
 
-    // translate offset to index in the fixed image domain
-    FixedImageIndexType index = m_FixedImage->ComputeIndex( offset );
+    // get sampled index
+    FixedImageIndexType index = randIter.GetIndex();
 
-    // get fixed image value
-    (*iter).FixedImageValue = m_FixedImage->GetPixel( index );
+    // get sampled fixed image value
+    (*iter).FixedImageValue = randIter.Get();
 
     // get moving image value
     m_FixedImage->TransformIndexToPhysicalPoint( index, 
@@ -142,6 +144,7 @@ SpatialSampleContainer& samples ) const
       }
 
     }
+
 
   if( allOutside )
     {

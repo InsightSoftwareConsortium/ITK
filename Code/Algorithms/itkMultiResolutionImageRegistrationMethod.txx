@@ -137,6 +137,8 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
   m_Metric->SetFixedImage( m_FixedImagePyramid->GetOutput(m_CurrentLevel) );
   m_Metric->SetTransform( m_Transform );
   m_Metric->SetInterpolator( m_Interpolator );
+  m_Metric->SetFixedImageRegion( m_FixedImagePyramid->GetOutput(m_CurrentLevel)->
+    GetBufferedRegion() );
   m_Metric->Initialize();
 
   // Setup the optimizer

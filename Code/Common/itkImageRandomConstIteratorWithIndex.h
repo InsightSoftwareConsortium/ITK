@@ -77,7 +77,7 @@ class ImageRandomConstIteratorWithIndex : public ImageConstIteratorWithIndex<TIm
 public:
   /** Standard class typedefs. */
   typedef ImageRandomConstIteratorWithIndex Self;
-  typedef ImageIteratorWithIndex<TImage>  Superclass;
+  typedef ImageConstIteratorWithIndex<TImage>  Superclass;
   
   /** Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
@@ -117,8 +117,8 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRandomConstIteratorWithIndex. */
-  ImageRandomConstIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it)
-    { this->ImageIteratorWithIndex<TImage>::operator=(it); }
+  ImageRandomConstIteratorWithIndex( const ImageConstIteratorWithIndex<TImage> &it)
+    { this->ImageConstIteratorWithIndex<TImage>::operator=(it); }
 
   /** Move an iterator to the beginning of the region. */
   virtual void GoToBegin(void);

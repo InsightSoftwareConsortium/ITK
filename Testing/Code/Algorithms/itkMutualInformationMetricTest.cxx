@@ -155,6 +155,9 @@ int itkMutualInformationMetricTest(int, char**)
   // set the number of samples to use
   metric->SetNumberOfSpatialSamples( 100 );
 
+  // set the region over which to compute metric
+  metric->SetFixedImageRegion( imgFixed->GetBufferedRegion() );
+
 //------------------------------------------------------------
 // Set up a affine transform parameters
 //------------------------------------------------------------
