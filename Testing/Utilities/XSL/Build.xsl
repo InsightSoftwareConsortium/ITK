@@ -33,6 +33,7 @@
       <xsl:call-template name="InsightHeader">
         <xsl:with-param name="Title">Insight Errors</xsl:with-param>
         <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
+         <xsl:with-param name="DashboardDir">../../../../Dashboard/</xsl:with-param>
       </xsl:call-template>
      <p><b><xsl:text>Site:</xsl:text></b><xsl:value-of select="Site/@Name"/></p><p>
 <b><xsl:text>Build Name:</xsl:text></b><xsl:value-of select="Site/@BuildName"/></p> 
