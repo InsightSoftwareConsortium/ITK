@@ -458,25 +458,42 @@ These objects are the basic system objects used in building ITK.
 
 
 /**
+  \defgroup MultithreadingGroup   Support for Multithreading
+  This category classifies filters according to their support 
+  for performing processing in multiple threadS
+*/
+
+
+/**
   \defgroup Multithreaded   Multithreaded Filters
+  \ingroup Multithreading
   Filters on this category divide processing across several threads.
 */
 
 
 /**
   \defgroup Singlethreaded  Singlethreaded Filters 
+  \ingroup Multithreading
   Filter on this category perform all its processing in a single thread
 */
 
 
 /**
   \defgroup ShouldBeThreaded Filters that can potentialy be modified to be Threaded 
+  \ingroup Multithreading
   Filter on this category could be implemented to use several processing threads
 */
 
 
 /** 
+  \defgroup Streaming     Processing images region by region 
+  This category classifies filters according to their capatity for supporting
+  Streaming. 
+*/
+
+/** 
   \defgroup Streamed      Filters supporting Streaming    
+  \ingroup StreamingGroup
   Filter can respond to a request for a portion of the output using 
   only a portion of the input.
 */
@@ -484,12 +501,14 @@ These objects are the basic system objects used in building ITK.
 
 /**
   \defgroup CannotBeStreamed  Filters that cannot be streamed      
+  \ingroup StreamingGroup
   Filter requires either all the input or produces all the output.
 */
 
 
 /**
   \defgroup ShouldBeStreamed  Filters that could be implemented to be streamed 
+  \ingroup StreamingGroup
   Filters that can potentially be modified to support streaming but currently 
   are not supporting it.
 */
