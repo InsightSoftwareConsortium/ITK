@@ -166,12 +166,12 @@ public:
   /**
    * Set the number of classes.
    */
-  itkSetMacro(NumClasses, unsigned int);
+  itkSetMacro(NumberOfClasses, unsigned int);
 
   /**
    * Get the number of classes.
    */
-  itkGetMacro(NumClasses, unsigned int);
+  itkGetMacro(NumberOfClasses, unsigned int);
 
   /**
    * Define a virtual function to train a classifier. This is to be
@@ -209,35 +209,17 @@ public:
 
 
 protected:
-  /**
-   * Constructor
-   */
   Classifier();
-
-  /**
-   * Destructor
-   */
   ~Classifier();
-
-  /**
-   * Copy constructor
-   */
   Classifier(const Self&) {}
-
-  /**
-   * Print self identity
-   */  
+  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Assignment operator
-   */
-  void operator=(const Self&) {}
+  unsigned int        m_NumberOfClasses;
 
 private:
   InputImageType      m_InputImage;
   ClassifiedImageType m_ClassifiedImage;
-  unsigned int        m_NumClasses;
 
 }; // class Classifier
 

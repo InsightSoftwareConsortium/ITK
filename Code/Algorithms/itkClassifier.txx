@@ -50,6 +50,7 @@ Classifier<TInputImage,TClassifiedImage>
 {
   m_InputImage      = NULL;
   m_ClassifiedImage = NULL;
+  m_NumberOfClasses  = 0;
 }
 
 template<class TInputImage,  class TClassifiedImage>
@@ -68,8 +69,6 @@ Classifier<TInputImage,TClassifiedImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
-
-  os << indent << "Classifier / Clusterer" << std::endl;
 
 }// end PrintSelf
 

@@ -159,12 +159,12 @@ public:
   /**
    * Set the number of iterations to be performed.
    */
-  itkSetMacro(Iterations, unsigned int);
+  itkSetMacro(NumberOfIterations, unsigned int);
 
   /**
    * Get the number of iterations to be performed.
    */
-  itkGetMacro(Iterations, unsigned int);
+  itkGetMacro(NumberOfIterations, unsigned int);
 
   /**
    * Set the timestep parameter.
@@ -190,7 +190,7 @@ protected:
    */
   virtual bool Halt()
     {
-      if (this->GetElapsedIterations() == m_Iterations) return true;
+      if (this->GetElapsedIterations() == m_NumberOfIterations) return true;
       else return false;
     }
 
@@ -202,7 +202,7 @@ protected:
   
 private:
 
-  unsigned int    m_Iterations;
+  unsigned int    m_NumberOfIterations;
   TimeStepType    m_TimeStep;
 
 };

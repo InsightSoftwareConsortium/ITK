@@ -123,8 +123,6 @@ public:
 
   typedef typename TInputImage::PixelType PixelType;
 
-  void GenerateData(void);
- 
   /**
    * Seting and geting the parameters
    */
@@ -165,6 +163,8 @@ protected:
   FuzzyConnectednessRGBImageFilter();
   ~FuzzyConnectednessRGBImageFilter();
 
+  void GenerateData(void);
+ 
 private:
   double m_Mean[3];
   double m_Var[3][3]; //covariance matrix of the RGB channels.(estimated)
@@ -175,7 +175,7 @@ private:
   double m_Var_Det;
   double m_Diff_Var_Det;
 
-  double FuzzyAffinity(const PixelType f1, const PixelType f2);
+  virtual double FuzzyAffinity(const PixelType f1, const PixelType f2);
 };
 
 
