@@ -11,6 +11,7 @@
   <xsl:variable name="DashboardDir" select="concat('../../../../Dashboard/', $DashboardStamp)"/>
 
   <xsl:variable name="CVSWebURL">http://public.kitware.com/cgi-bin/itkcvsweb.cgi/Insight/</xsl:variable>
+  <xsl:include href="Insight.xsl"/>
 
   <xsl:template match="/Update">
     <html>
@@ -27,7 +28,7 @@
         <table border="4" cellpading="0" cellspacing="2" width="100%">
           <tr>
             <td width="140">
-              <a href="Dashboard.html"> <img src="../../Icons/Logo.gif" border="0"></img></a>
+              <a href="Dashboard.html"><img src="../../Icons/Logo.gif" border="0"></img></a>
             </td>
             <td>
               <h1>Insight Nightly Testing Dashboard</h1>
@@ -74,40 +75,25 @@
           </td>	    
           <td>		       
           <h3>Insight Changed Files - <xsl:value-of select="StartDateTime"/></h3>
-          <table border="4" cellpadding="0" cellspacing="2" width="250">
-            <tr>
-              <td align="left" width="180">Update/Patched file(s)</td>
-              <td align="center">
-                <a><xsl:attribute name="HREF">#Updated</xsl:attribute><xsl:value-of select="count(Updated)"/></a>
-              </td>
-            </tr>
-            <tr> 
-              <td align="left">Conflicting file(s)</td>
-              <td align="center">
-                <a><xsl:attribute name="HREF">#Conflicting</xsl:attribute><xsl:value-of select="count(Conflicting)"/></a> 
-              </td>
-            </tr>
-            <tr>
-              <td align="left"> Locally modified file(s)</td>
-              <td align="center">
-                <a><xsl:attribute name="HREF">#Locallymodified</xsl:attribute><xsl:value-of select="count(Modified)"/></a>
-              </td>
-            </tr>
-          </table>	    
-          <hr/>
-          <a name="Updated"></a><h2>Updated/Patched file</h2>
-          
-          <h2><a><xsl:attribute name="name">Updated</xsl:attribute>Updated</a></h2>
-          <xsl:apply-templates select="Updated"/>
-          <hr/>
+          <xsl:call-template name="JavaScriptHeader"/>
+          <script LANGUAGE="JavaScript">
+            dbAdd (true, "Updated files  (<xsl:value-of select="count(Updated)"/>)", "", 0, "", 0)
 
-          <h2><a><xsl:attribute name="name">Modified</xsl:attribute>Modified</a></h2>
-          <xsl:apply-templates select="Modified"/>
-          <hr/>
+            <xsl:for-each select="Updated">
+              <xsl:call-template name="dbAdd"/>
+            </xsl:for-each>
+            dbAdd (true, "Modified files  (<xsl:value-of select="count(Modified)"/>)", "", 0, "", 0)
+            <xsl:for-each select="Modified">
+              <xsl:call-template name="dbAdd"/>
+            </xsl:for-each>
+            dbAdd (true, "Conflicting files  (<xsl:value-of select="count(Conflicting)"/>)", "", 0, "", 0)
+            <xsl:for-each select="Conflicting">
+              <xsl:call-template name="dbAdd"/>
+            </xsl:for-each>
 
-          <h2><a><xsl:attribute name="name">Conflicting</xsl:attribute>Conflicting</a></h2>
-          <xsl:apply-templates select="Conflicting"/>
-          <hr/>
+          </script>
+          <xsl:call-template name="JavaScriptFooter"/>
+
         </td>
       </tr>
     </table>
@@ -138,6 +124,11 @@
   </xsl:template>
 -->
 
+  <xsl:template name="dbAdd">
+    dbAdd (true, "<xsl:value-of select="File/@Directory"/><xsl:text>   </xsl:text><b><xsl:value-of select="File"/></b>", "<xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>.diff?r1=<xsl:value-of select="PriorRevision"/>&amp;r2=<xsl:value-of select="Revision"/>", 1, "", 0)
+    dbAdd ( false, "Author: <xsl:value-of select="Author"/>", "", 2, "", 0 )
+    dbAdd ( false, "Log: <xsl:value-of select="normalize-space ( Log )"/>", "", 2, "", 0 )
+  </xsl:template>
 
 <xsl:template match="Updated|Conflicting|Modified">
   <hr/>
@@ -175,5 +166,6 @@
   <br/>
   </xsl:for-each>
 </xsl:template>
+
 
 </xsl:stylesheet>
