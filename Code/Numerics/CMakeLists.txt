@@ -25,6 +25,7 @@ itkVersorTransformOptimizer
 
 LINK_LIBRARIES (
 VXLNumerics
+ITKCommon
 )
 
 SET(HAS_FEM 0 CACHE INTERNAL "Support for FEM")
