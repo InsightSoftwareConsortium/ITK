@@ -169,17 +169,14 @@ ImageConstIteratorWithIndex<TImage>
   m_Position       = m_Begin;
   m_PositionIndex  = m_BeginIndex;
  
-  m_Remaining = false;
-  for (unsigned int i=0; i < ImageDimension; ++i)
+  if( m_Region.GetNumberOfPixels() > 0 )
     {
-    unsigned long size = m_Region.GetSize()[i];
-    if( size > 0 )
-      {
-      m_Remaining = true;
-      }
-
+    m_Remaining = true;
     }
-
+  else
+    {
+    m_Remaining = false;
+    }
 
 }
 
@@ -207,17 +204,20 @@ ImageConstIteratorWithIndex<TImage>
 ::GoToReverseBegin()
 {
 
-  m_Remaining = false;
   for (unsigned int i=0; i < ImageDimension; ++i)
     {
     m_PositionIndex[i]  = m_EndIndex[i]-1;
-    unsigned long size = m_Region.GetSize()[i];
-    if( size > 0 )
-      {
-      m_Remaining = true;
-      }
-
     }
+ 
+  if( m_Region.GetNumberOfPixels() > 0 )
+    {
+    m_Remaining = true;
+    }
+  else
+    {
+    m_Remaining = false;
+    }
+
 
   // Set the position at the end
   const InternalPixelType * buffer   = m_Image->GetBufferPointer();
