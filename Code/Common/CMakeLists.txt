@@ -64,8 +64,18 @@ IF (WIN32)
    SET(ITKCommon_SRCS ${ITKCommon_SRCS};itkWin32OutputWindow.cxx;itkSmartPointerForwardReferenceProcessObject.cxx)
 ENDIF (WIN32)
 
+# Instantiations not provided by vnl but used by ITK.
+ADD_LIBRARY(itkvnl_inst
+  vnl_matrix_fixed_ref+double.4.3-.cxx
+  vnl_matrix_fixed_ref+double.4.4-.cxx
+  vnl_matrix_fixed_ref+double.2.3-.cxx
+  vnl_matrix_fixed_ref+double.2.2-.cxx
+  vnl_matrix_fixed_ref+double.3.12-.cxx
+  vnl_matrix_fixed+double.3.12-.cxx
+  )
+
 ADD_LIBRARY(ITKCommon ${ITK_COMMON_BUILD_TYPE} ${ITKCommon_SRCS})
-TARGET_LINK_LIBRARIES (ITKCommon ${VXL_NUMERICS_LIBRARIES} itksys)
+TARGET_LINK_LIBRARIES (ITKCommon itkvnl_inst ${VXL_NUMERICS_LIBRARIES} itksys)
 IF(UNIX)
   TARGET_LINK_LIBRARIES(ITKCommon ${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS} -lm)
 ENDIF(UNIX)
