@@ -26,13 +26,6 @@ ImageBase<VImageDimension>
 ::ImageBase()
 {
   memset( m_OffsetTable, 0, (VImageDimension+1)*sizeof(unsigned long) );
-
-  unsigned int i;
-  for (i=0; i < VImageDimension; i++)
-    {
-    m_Spacing[i] = 1.0;
-    m_Origin[i] = 0.0;
-    }
 }
 
 
@@ -45,129 +38,6 @@ ImageBase<VImageDimension>
 {
   this->Initialize();
 }
-
-
-//----------------------------------------------------------------------------
-template<unsigned int VImageDimension>
-void 
-ImageBase<VImageDimension>
-::SetSpacing(const double spacing[VImageDimension] )
-{
-  unsigned int i; 
-  for (i=0; i<VImageDimension; i++)
-    {
-    if ( spacing[i] != m_Spacing[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < VImageDimension ) 
-    { 
-    this->Modified(); 
-    for (i=0; i<VImageDimension; i++)
-      {
-      m_Spacing[i] = spacing[i];
-      }
-    } 
-}
-
-//----------------------------------------------------------------------------
-template<unsigned int VImageDimension>
-void 
-ImageBase<VImageDimension>
-::SetSpacing(const float spacing[VImageDimension] )
-{
-  unsigned int i; 
-  for (i=0; i<VImageDimension; i++)
-    {
-    if ( (double)spacing[i] != m_Spacing[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < VImageDimension ) 
-    { 
-    this->Modified(); 
-    for (i=0; i<VImageDimension; i++)
-      {
-      m_Spacing[i] = spacing[i];
-      }
-    } 
-}
-
-
-
-//----------------------------------------------------------------------------
-template<unsigned int VImageDimension>
-const double *
-ImageBase<VImageDimension>
-::GetSpacing() const
-{
-  return m_Spacing;
-}
-
-
-
-
-//----------------------------------------------------------------------------
-template<unsigned int VImageDimension>
-void 
-ImageBase<VImageDimension>
-::SetOrigin(const double origin[VImageDimension] )
-{
-  unsigned int i; 
-  for (i=0; i<VImageDimension; i++)
-    {
-    if ( origin[i] != m_Origin[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < VImageDimension ) 
-    { 
-    this->Modified(); 
-    for (i=0; i<VImageDimension; i++)
-      {
-      m_Origin[i] = origin[i];
-      }
-    } 
-}
-
-
-//----------------------------------------------------------------------------
-template<unsigned int VImageDimension>
-void 
-ImageBase<VImageDimension>
-::SetOrigin(const float origin[VImageDimension] )
-{
-  unsigned int i; 
-  for (i=0; i<VImageDimension; i++)
-    {
-    if ( (double)origin[i] != m_Origin[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < VImageDimension ) 
-    { 
-    this->Modified(); 
-    for (i=0; i<VImageDimension; i++)
-      {
-      m_Origin[i] = origin[i];
-      }
-    } 
-}
-
-
-//----------------------------------------------------------------------------
-template<unsigned int VImageDimension>
-const double *
-ImageBase<VImageDimension>
-::GetOrigin() const
-{
-  return m_Origin;
-}
-
 
 
 /**
@@ -385,56 +255,6 @@ ImageBase<VImageDimension>
     m_LargestPossibleRegion = region;
     this->Modified();
     }
-}
-
-//---------------------------------------------------------------------------
-template<unsigned int VImageDimension>
-ImageBase<VImageDimension>::AffineTransformType
-ImageBase<VImageDimension>::
-GetIndexToPhysicalTransform()
-{
-  AffineTransformType::MatrixType matrix;
-  AffineTransformType::VectorType offset;
-  for (unsigned int i = 0; i < VImageDimension; i++)
-    {
-    for (unsigned int j = 0; j < VImageDimension; j++)
-      {
-      matrix[i][j] = 0.0;
-      }
-    matrix[i][i] = m_Spacing[i];
-    offset[i]    = m_Origin [i];
-    }
-
-  AffineTransformType result(matrix, offset);
-  result.SetMatrix(matrix);
-  result.SetOffset(offset);
-
-  return result;
-}
-
-
-//---------------------------------------------------------------------------
-template<unsigned int VImageDimension>
-ImageBase<VImageDimension>::AffineTransformType
-ImageBase<VImageDimension>::
-GetPhysicalToIndexTransform()
-{
-  AffineTransformType::MatrixType matrix;
-  AffineTransformType::VectorType offset;
-
-  for (unsigned int i = 0; i < VImageDimension; i++)
-    {
-    for (unsigned int j = 0; j < VImageDimension; j++)
-      {
-      matrix[i][j] = 0.0;
-      }
-    matrix[i][i] = 1.0 / m_Spacing[i];
-    offset[i]    = -m_Origin[i] / m_Spacing[i];
-    }
-
-  AffineTransformType result(matrix, offset);
-
-  return result;
 }
 
 

@@ -21,7 +21,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkIndex.h"
 #include "itkSize.h"
 #include "itkImageRegion.h"
-#include "itkAffineTransform.h"
 
 namespace itk
 {
@@ -49,11 +48,7 @@ namespace itk
  * [RegionIndex, RegionSize] C [BufferIndex, BufferSize]
  *                           C [ImageIndex, ImageSize]
  *
- * ImageBase also stores the data origin and the pixel spacing (pixel/voxel
- * width, height, depth) and provides methods to convert from index coordinates
- * (i, j, k) to physical coordinates (mm).
- * 
- */
+  */
 
 template<unsigned int VImageDimension=2>
 class ITK_EXPORT ImageBase : public DataObject
@@ -103,16 +98,6 @@ public:
    */
   typedef ImageRegion<VImageDimension>  RegionType;
 
-  /** 
-   * Typedef for associated AffineTransform
-   *
-   * This is used specifically as the type of the index-to-physical and
-   * physical-to-index transforms associated with the origin and spacing
-   * for the image, and more generally as any affine transformation of
-   * the image.
-   */
-  typedef AffineTransform<double, VImageDimension> AffineTransformType;
-  
   /** 
    * Run-time type information (and related methods).
    */
@@ -190,59 +175,6 @@ public:
   virtual const RegionType& GetRequestedRegion() const
   { return m_RequestedRegion;};
 
-  /** 
-   * Set the spacing (size of a pixel) of the image. The
-   * spacing is the geometric distance between image samples.
-   * It is stored internally as double, but may be set from
-   * float.
-   * \sa GetSpacing()
-   */
-  virtual void SetSpacing( const double values[VImageDimension] );
-  virtual void SetSpacing( const float values[VImageDimension] );
-
-  /** 
-   * Get the spacing (size of a pixel) of the image. The
-   * spacing is the geometric distance between image samples.
-   * The value returned is a pointer to a double array.
-   * \sa SetSpacing()
-   */
-  virtual const double* GetSpacing() const;
-  
-  /** 
-   * Set the origin of the image. The origin is the geometric
-   * coordinates of the image origin.  It is stored internally
-   * as double but may be set from float.
-   * \sa GetOrigin()
-   */
-  virtual void SetOrigin( const double values[VImageDimension] );
-  virtual void SetOrigin( const float values[VImageDimension] );
-
-  /** 
-   * Get the origin of the image. The origin is the geometric
-   * coordinates of the image origin.  The value returned is
-   * a pointer to a double array.
-   * \sa SetOrigin()
-   */
-  virtual const double * GetOrigin() const;
-
-  /** 
-   * Get the index-to-physical coordinate transformation
-   *
-   * This method returns an AffineTransform which defines the
-   * transformation from index coordinates to physical coordinates
-   * determined by the origin and spacing of this image.
-   */
-  AffineTransformType GetIndexToPhysicalTransform();
-
-  /** 
-   * Get the physical-to-index coordinate transformation
-   *
-   * This method returns an AffineTransform which defines the
-   * transformation from physical coordinates to index coordinates
-   * determined by the origin and spacing of this image.
-   */
-  AffineTransformType GetPhysicalToIndexTransform();
-  
   /**
    * Get the offset table.  The offset table gives increments for
    * moving from one pixel to next in the current row, column, slice,
@@ -325,9 +257,6 @@ private:
   RegionType          m_LargestPossibleRegion;
   RegionType          m_RequestedRegion;
   RegionType          m_BufferedRegion;
-
-  double              m_Spacing[VImageDimension];
-  double              m_Origin[VImageDimension];
 };
 
 } // end namespace itk
