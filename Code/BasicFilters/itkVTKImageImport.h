@@ -51,7 +51,7 @@ namespace itk
  * \ingroup IOFilters
  * \sa VTKImageImport 
  */
-template <typename TOutputImage, typename TVTKRealType=float>
+template <typename TOutputImage>
 class ITK_EXPORT VTKImageImport: public ImageSource<TOutputImage>
 {
 public:
@@ -66,10 +66,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageImport, ImageSource);
 
-  /** Typedef for VTK interface.  VTK 4.2 uses floats for positions,
-   * VTK 4.4 uses doubles. */
-  typedef TVTKRealType vtkRealType;
-
   /** Convenient typedefs from the output image. */
   typedef TOutputImage OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
@@ -77,14 +73,6 @@ public:
   typedef typename OutputImageType::SizeType OutputSizeType;
   typedef typename OutputImageType::IndexType OutputIndexType;
   typedef typename OutputImageType::RegionType OutputRegionType;
-
-  /** VTK 4.2 uses float for representing origin and spacing
-   *  after version 4.2 the types switched to double. */
-  typedef vtkRealType   VTKSpacingType;
-  typedef vtkRealType   VTKOriginType;
-  //  typedef double   VTKSpacingType;
-  //  typedef double   VTKOriginType;
-
 
   /** The output image dimension. */
   itkStaticConstMacro(OutputImageDimension, unsigned int,
@@ -95,14 +83,18 @@ public:
   typedef void (*UpdateInformationCallbackType)(void*);
   typedef int (*PipelineModifiedCallbackType)(void*);
   typedef int* (*WholeExtentCallbackType)(void*);
-  typedef VTKSpacingType * (*SpacingCallbackType)(void*);
-  typedef VTKOriginType  * (*OriginCallbackType)(void*);
+  typedef double* (*SpacingCallbackType)(void*);
+  typedef double* (*OriginCallbackType)(void*);
   typedef const char* (*ScalarTypeCallbackType)(void*); 
   typedef int (*NumberOfComponentsCallbackType)(void*);
   typedef void (*PropagateUpdateExtentCallbackType)(void*, int*);
   typedef void (*UpdateDataCallbackType)(void*);
   typedef int* (*DataExtentCallbackType)(void*);
   typedef void* (*BufferPointerCallbackType)(void*);
+
+  /** Compatibility for VTK older than 4.4.  */
+  typedef float* (*FloatSpacingCallbackType)(void*);
+  typedef float* (*FloatOriginCallbackType)(void*);
   
   /** What to do when receiving UpdateInformation(). */
   itkSetMacro(UpdateInformationCallback, UpdateInformationCallbackType);
@@ -119,10 +111,18 @@ public:
   /** What to do when receiving SetSpacing(). */
   itkSetMacro(SpacingCallback, SpacingCallbackType);
   itkGetMacro(SpacingCallback, SpacingCallbackType);
+  itkSetMacro(FloatSpacingCallback, FloatSpacingCallbackType);
+  itkGetMacro(FloatSpacingCallback, FloatSpacingCallbackType);
+  void SetSpacingCallback(FloatSpacingCallbackType f)
+    { this->SetFloatSpacingCallback(f); }
   
   /** What to do when receiving SetOrigin(). */
   itkSetMacro(OriginCallback, OriginCallbackType);
   itkGetMacro(OriginCallback, OriginCallbackType);
+  itkSetMacro(FloatOriginCallback, FloatOriginCallbackType);
+  itkGetMacro(FloatOriginCallback, FloatOriginCallbackType);
+  void SetOriginCallback(FloatOriginCallbackType f)
+    { this->SetFloatOriginCallback(f); }
   
   /** What to do when receiving UpdateInformation(). */
   itkSetMacro(ScalarTypeCallback, ScalarTypeCallbackType);
@@ -171,7 +171,9 @@ private:
   PipelineModifiedCallbackType      m_PipelineModifiedCallback;
   WholeExtentCallbackType           m_WholeExtentCallback;
   SpacingCallbackType               m_SpacingCallback;
+  FloatSpacingCallbackType          m_FloatSpacingCallback;
   OriginCallbackType                m_OriginCallback;
+  FloatOriginCallbackType           m_FloatOriginCallback;
   ScalarTypeCallbackType            m_ScalarTypeCallback;
   NumberOfComponentsCallbackType    m_NumberOfComponentsCallback;  
   PropagateUpdateExtentCallbackType m_PropagateUpdateExtentCallback;  

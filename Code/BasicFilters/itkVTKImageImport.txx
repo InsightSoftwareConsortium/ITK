@@ -23,8 +23,8 @@ namespace itk
 {
 
 
-template <typename TOutputImage, typename TVTKRealType>
-VTKImageImport<TOutputImage, TVTKRealType>
+template <typename TOutputImage>
+VTKImageImport<TOutputImage>
 ::VTKImageImport()
 {
   typedef typename OutputImageType::PixelType ScalarType;
@@ -91,9 +91,9 @@ VTKImageImport<TOutputImage, TVTKRealType>
 /**
  *
  */
-template <typename TOutputImage, typename TVTKRealType>
+template <typename TOutputImage>
 void 
-VTKImageImport<TOutputImage, TVTKRealType>
+VTKImageImport<TOutputImage>
 ::PropagateRequestedRegion(DataObject* outputPtr)
 {
   OutputImageType* output = dynamic_cast<OutputImageType*>(outputPtr);
@@ -125,9 +125,9 @@ VTKImageImport<TOutputImage, TVTKRealType>
     }
 }
 
-template <typename TOutputImage, typename TVTKRealType>
+template <typename TOutputImage>
 void 
-VTKImageImport<TOutputImage, TVTKRealType>
+VTKImageImport<TOutputImage>
 ::UpdateOutputInformation()
 {
   // If set, use the callbacks to propagate pipeline update information.
@@ -149,9 +149,9 @@ VTKImageImport<TOutputImage, TVTKRealType>
 /** 
  *
  */
-template <typename TOutputImage, typename TVTKRealType>
+template <typename TOutputImage>
 void 
-VTKImageImport<TOutputImage, TVTKRealType>
+VTKImageImport<TOutputImage>
 ::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
@@ -179,7 +179,17 @@ VTKImageImport<TOutputImage, TVTKRealType>
     }
   if (m_SpacingCallback)
     {
-    VTKSpacingType * inSpacing = (m_SpacingCallback)(m_CallbackUserData);
+    double* inSpacing = (m_SpacingCallback)(m_CallbackUserData);
+    typename TOutputImage::SpacingType  outSpacing;
+    for(unsigned int i=0;i < OutputImageDimension;++i)
+      {
+      outSpacing[i] = inSpacing[i];
+      }
+    output->SetSpacing(outSpacing);
+    }
+  else if (m_FloatSpacingCallback)
+    {
+    float* inSpacing = (m_FloatSpacingCallback)(m_CallbackUserData);
     typename TOutputImage::SpacingType  outSpacing;
     for(unsigned int i=0;i < OutputImageDimension;++i)
       {
@@ -189,7 +199,17 @@ VTKImageImport<TOutputImage, TVTKRealType>
     }
   if (m_OriginCallback)
     {
-    VTKOriginType * inOrigin = (m_OriginCallback)(m_CallbackUserData);
+    double* inOrigin = (m_OriginCallback)(m_CallbackUserData);
+    typename TOutputImage::PointType  outOrigin;
+    for(unsigned int i=0;i < OutputImageDimension;++i)
+      {
+      outOrigin[i] = inOrigin[i];
+      }
+    output->SetOrigin(outOrigin);
+    }
+  else if (m_FloatOriginCallback)
+    {
+    float* inOrigin = (m_FloatOriginCallback)(m_CallbackUserData);
     typename TOutputImage::PointType  outOrigin;
     for(unsigned int i=0;i < OutputImageDimension;++i)
       {
@@ -223,9 +243,9 @@ VTKImageImport<TOutputImage, TVTKRealType>
 /**
  *
  */
-template <typename TOutputImage, typename TVTKRealType>
+template <typename TOutputImage>
 void 
-VTKImageImport<TOutputImage, TVTKRealType>
+VTKImageImport<TOutputImage>
 ::GenerateData()
 {
   // Normally, GenerateData() allocates memory.  However, the application
@@ -281,9 +301,9 @@ VTKImageImport<TOutputImage, TVTKRealType>
     }
 }
 
-template <typename TOutputImage, typename TVTKRealType>
+template <typename TOutputImage>
 void 
-VTKImageImport<TOutputImage, TVTKRealType>
+VTKImageImport<TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
