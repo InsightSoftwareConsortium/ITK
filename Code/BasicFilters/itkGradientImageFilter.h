@@ -68,7 +68,7 @@ namespace itk
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
  * 
- * \ingroup ImageFeatureExtraction 
+ * \ingroup GradientFilters 
  *
  */
 

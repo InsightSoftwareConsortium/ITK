@@ -53,7 +53,7 @@ namespace itk {
  *\todo Document.
  * 
  * \ingroup ImageEnhancement
- * \ingroup ImageFeatureExtraction
+ * \ingroup GradientFilters
  *
  */
 template <class TInputImage, class TOutputImage>

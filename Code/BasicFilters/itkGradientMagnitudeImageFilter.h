@@ -56,7 +56,7 @@ namespace itk
  * \todo Rewrite for multithreading
  *
  * 
- * \ingroup ImageFeatureExtraction
+ * \ingroup GradientFilters
  *
  * \sa Image
  * \sa Neighborhood

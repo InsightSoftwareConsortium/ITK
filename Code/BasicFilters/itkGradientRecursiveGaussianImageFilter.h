@@ -55,7 +55,8 @@ namespace itk
  * filters
  *
  * 
- * \ingroup ImageFeatureExtraction   Singlethreaded
+ * \ingroup GradientFilters   
+ * \ingroup Singlethreaded
  *
  */
 template <class TInputImage, class TOutputImage, class TComputation>
