@@ -73,34 +73,36 @@ void
 CxxGenerator
 ::GeneratePackage(const Package* package)
 {
-  String fileName = "Cxx/"+package->GetName()+"_cxx.cxx";
+  String wrapperFile = "Cxx/"+package->GetName()+"_cxx.h";
+  String instantiationFile = "Cxx/"+package->GetName()+"_cxx.cxx";
   
-  // Open the output file.
-  ofstream out(fileName.c_str());
-  if(!out)
-    {
-    // ERROR!
-    return;
-    }
+  // Open the output files.
+  ofstream wrapperStream(wrapperFile.c_str());
+  if(!wrapperStream) { return; }
+  ofstream instantiationStream(instantiationFile.c_str());
+  if(!instantiationStream) { return; }
   
   // Be sure to include needed headers.
-  this->GenerateHeaderIncludes(out, package->GetHeaders());
+  this->GenerateIncludes(wrapperStream, instantiationStream,
+                         package->GetHeaders());
   
   // Begin the recursive generation at the global namespace.
-  this->GenerateNamespace(out, Indent(-2),
+  this->GenerateNamespace(wrapperStream, instantiationStream, Indent(-2),
                           package->GetGlobalNamespace());
   
-  out.close();
+  instantiationStream.close();
+  wrapperStream.close();
 }
 
 
 /**
- * Generate the needed #includes.
+ * Generate the needed #include statements for the wrappers.
  */
 void
 CxxGenerator
-::GenerateHeaderIncludes(std::ostream& os,
-                         const Headers* headers)
+::GenerateIncludes(std::ostream& wrapperStream,
+                   std::ostream& instantiationStream,
+                   const Headers* headers)
 {
   // Make sure we have headers to write out.
   if(!headers)
@@ -108,11 +110,22 @@ CxxGenerator
     return;
     }
   
-  // Include every header specified.
+  // Include every header specified for each purpose.
   for(Headers::FilesIterator header = headers->BeginFiles();
       header != headers->EndFiles(); ++header)
     {
-    os << "#include \"" << header->c_str() << "\"" << std::endl;
+    if(header->purpose == "" || header->purpose == "all")
+      {
+      wrapperStream << "#include \"" << header->name.c_str() << "\""
+                    << std::endl;
+      instantiationStream << "#include \"" << header->name.c_str() << "\""
+                          << std::endl;
+      }
+    else if(header->purpose == "instantiate")
+      {
+      instantiationStream << "#include \"" << header->name.c_str() << "\""
+                          << std::endl;
+      }
     }
 }
 
@@ -123,7 +136,9 @@ CxxGenerator
  */
 void
 CxxGenerator
-::GenerateNamespace(std::ostream& os, const Indent& indent,
+::GenerateNamespace(std::ostream& wrapperStream,
+                    std::ostream& instantiationStream,
+                    const Indent& indent,
                     const PackageNamespace* ns)
 {
   // If the namespace has nothing to wrap in it, don't print anything.
@@ -135,8 +150,10 @@ CxxGenerator
   // Only print namespace begin code if not global namespace.
   if(!ns->IsGlobalNamespace())
     {
-    os << indent << "namespace " << ns->GetName() << std::endl
-       << indent << "{" << std::endl;
+    wrapperStream << indent << "namespace " << ns->GetName() << std::endl
+                  << indent << "{" << std::endl;
+    instantiationStream << indent << "namespace " << ns->GetName() << std::endl
+                        << indent << "{" << std::endl;
     }
 
   for(PackageNamespace::WrapperIterator wIter = ns->BeginWrappers();
@@ -145,29 +162,30 @@ CxxGenerator
     const Named* wrapper = *wIter;
     if(wrapper->IsPackageNamespace())
       {
-      this->GenerateNamespace(os, indent.Next(),
+      this->GenerateNamespace(wrapperStream,
+                              instantiationStream,
+                              indent.Next(),
                               dynamic_cast<const PackageNamespace*>(wrapper));
       }
     else if(wrapper->IsWrapperSet())
       {
-      this->GenerateWrapperSet(os, indent.Next(),
+      this->GenerateWrapperSet(wrapperStream, indent.Next(),
                                dynamic_cast<const WrapperSet*>(wrapper));
       }
     else if(wrapper->IsInstantiationSet())
       {
-      this->GenerateInstantiationSet(os, indent.Next(),
+      this->GenerateInstantiationSet(instantiationStream, indent.Next(),
                                      dynamic_cast<const InstantiationSet*>(wrapper));
-      }
-    else
-      {
-      os << "ERROR!!!\n";
       }
     }
   
   // Only print namespace end code if not global namespace.  
   if(!ns->IsGlobalNamespace())
     {
-    os << indent << "} // namespace " << ns->GetName() << std::endl;
+    wrapperStream << indent << "} // namespace " << ns->GetName()
+                  << std::endl;
+    instantiationStream << indent << "} // namespace " << ns->GetName()
+                        << std::endl;
     }
 }
 
@@ -177,7 +195,7 @@ CxxGenerator
  */
 void
 CxxGenerator
-::GenerateWrapperSet(std::ostream& os, const Indent& indent,
+::GenerateWrapperSet(std::ostream& wrapperStream, const Indent& indent,
                      const WrapperSet* wrapperSet)
 {
   for(WrapperSet::ConstIterator wrapper = wrapperSet->Begin();
@@ -186,8 +204,8 @@ CxxGenerator
     // Only display the wrapper's typedef if the names are different.
     if(wrapper->first != wrapper->second)
       {
-      os << indent << "typedef " << wrapper->second << " "
-         << wrapper->first << ";" << std::endl;
+      wrapperStream << indent << "typedef " << wrapper->second << " "
+                    << wrapper->first << ";" << std::endl;
       }
     }
 }
@@ -198,15 +216,17 @@ CxxGenerator
  */
 void
 CxxGenerator
-::GenerateInstantiationSet(std::ostream& os, const Indent& indent,
-                     const InstantiationSet* instantiationSet)
+::GenerateInstantiationSet(std::ostream& instantiationStream,
+                           const Indent& indent,
+                           const InstantiationSet* instantiationSet)
 {
   for(InstantiationSet::ConstIterator wrapper = instantiationSet->Begin();
       wrapper != instantiationSet->End(); ++wrapper)
     {
     if(wrapper->first != wrapper->second)
       {
-      os << indent << "template " << wrapper->second << ";" << std::endl;
+      instantiationStream << indent << "template " << wrapper->second << ";"
+                          << std::endl;
       }
     }
 }

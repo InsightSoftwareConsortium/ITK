@@ -36,8 +36,9 @@ public:
   void Generate();
 private:
   void GeneratePackage(const configuration::Package*);  
-  void GenerateHeaderIncludes(std::ostream&, const configuration::Headers*);  
-  void GenerateNamespace(std::ostream&, const Indent&,
+  void GenerateIncludes(std::ostream&, std::ostream&,
+                        const configuration::Headers*);  
+  void GenerateNamespace(std::ostream&, std::ostream&, const Indent&,
                          const configuration::PackageNamespace*);
   void GenerateWrapperSet(std::ostream&, const Indent&,
                           const configuration::WrapperSet*);
