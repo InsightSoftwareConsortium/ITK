@@ -73,10 +73,12 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     m_InputImageNeighborhoodRadius << std::endl;
 
   os << indent <<" Number of elements in MRF neighborhood :" <<
-    m_MRFNeighborhoodWeight.size() << std::endl;
+    static_cast<unsigned long>( m_MRFNeighborhoodWeight.size() ) << std::endl;
 
   os << indent <<" Neighborhood weight : [";
-  for (i=0; i < m_MRFNeighborhoodWeight.size() - 1; i++)
+  const unsigned int neighborhoodWeightSize = 
+           static_cast<unsigned int>( m_MRFNeighborhoodWeight.size() );
+  for (i=0; i+1 < neighborhoodWeightSize; i++)
     {
     os << m_MRFNeighborhoodWeight[i] << ", ";
     }
@@ -209,7 +211,7 @@ void
 MRFImageFilter<TInputImage, TClassifiedImage>
 ::SetClassifier( typename ClassifierType::Pointer ptrToClassifier )
 {
-  if( ( ptrToClassifier == 0 ) || (m_NumberOfClasses <= 0) )
+  if( ( ptrToClassifier.IsNull() ) || (m_NumberOfClasses <= 0) )
     throw ExceptionObject(__FILE__, __LINE__);
 
   m_ClassifierPtr = ptrToClassifier;

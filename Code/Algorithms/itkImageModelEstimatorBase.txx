@@ -110,7 +110,7 @@ ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 ::AddMembershipFunction(MembershipFunctionPointer function)
 {
   m_MembershipFunctions.push_back(function) ;
-  return m_MembershipFunctions.size() ;
+  return static_cast<unsigned int>( m_MembershipFunctions.size() );
 }
 
 } // namespace itk

@@ -79,7 +79,7 @@ void DICOMImageIO2::ReadDataCallback( doublebyte,
     {
     len = 0;
     }
-  if (len < imageBytes)
+  if (len < static_cast<int>( imageBytes ) )
     {
     imageBytes = len;
     }

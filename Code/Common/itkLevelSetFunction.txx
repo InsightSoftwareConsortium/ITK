@@ -142,13 +142,15 @@ LevelSetFunction< TImageType >
 
   for( i = 0 ; i < ImageDimension; i++)
     {
-      dx[i] = 0.5 * (it.GetPixel(m_Center + m_xStride[i]) - 
-                     it.GetPixel(m_Center - m_xStride[i]));
+    const unsigned int positionA = 
+       static_cast<unsigned int>( m_Center + m_xStride[i]);    
+    const unsigned int positionB = 
+       static_cast<unsigned int>( m_Center - m_xStride[i]);    
+    dx[i] = 0.5 * (it.GetPixel( positionA ) - 
+                   it.GetPixel( positionB )    );
       
-      dx_forward[i] = it.GetPixel(m_Center + m_xStride[i]) - 
-        temp_value;
-      
-      dx_backward[i] =  temp_value - it.GetPixel(m_Center - m_xStride[i]);
+    dx_forward[i]  = it.GetPixel( positionA ) - temp_value;
+    dx_backward[i] = temp_value - it.GetPixel( positionB );
     }
   
   int k = 0;
@@ -157,18 +159,30 @@ LevelSetFunction< TImageType >
   
   for (i = 0; i < ImageDimension; i++)
     {
-      dxx[i] = it.GetPixel(m_Center + m_xStride[i])
-        + it.GetPixel(m_Center - m_xStride[i]) - 2.0 * temp_value;
+    const unsigned int positionAI = 
+       static_cast<unsigned int>( m_Center + m_xStride[i]);    
+    const unsigned int positionBI = 
+       static_cast<unsigned int>( m_Center - m_xStride[i]);    
+      dxx[i] = it.GetPixel( positionAI )
+             + it.GetPixel( positionBI ) - 2.0 * temp_value;
       
       for(unsigned int j = i+1; j < ImageDimension; j++)
         {
-          dxy[k] = 0.25 *( it.GetPixel(m_Center - m_xStride[i] - m_xStride[j])
-            - it.GetPixel(m_Center - m_xStride[i]+ m_xStride[j])
-            - it.GetPixel(m_Center + m_xStride[i] - m_xStride[j])
-            + it.GetPixel(m_Center + m_xStride[i] + m_xStride[j]));
+        const unsigned int positionA = static_cast<unsigned int>( 
+                                m_Center - m_xStride[i] - m_xStride[j] );    
+        const unsigned int positionB = static_cast<unsigned int>( 
+                                m_Center - m_xStride[i] + m_xStride[j] );    
+        const unsigned int positionC = static_cast<unsigned int>( 
+                                m_Center + m_xStride[i] - m_xStride[j] );    
+        const unsigned int positionD = static_cast<unsigned int>( 
+                                m_Center + m_xStride[i] + m_xStride[j] );    
+        dxy[k] = 0.25 *( it.GetPixel( positionA )
+                       - it.GetPixel( positionB )
+                       - it.GetPixel( positionC )
+                       + it.GetPixel( positionD )  );
          
-          curve -= 2.0 * dx[i]*dx[j] * dxy[k]; 
-          k++;
+        curve -= 2.0 * dx[i] * dx[j] * dxy[k]; 
+        k++;
         }
     }
 

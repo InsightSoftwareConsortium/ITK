@@ -47,7 +47,8 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
                         int threadId)
 {
 
-  const unsigned int numberOfInputImages = this->GetNumberOfInputs();
+  const unsigned int numberOfInputImages = 
+          static_cast< unsigned int >( this->GetNumberOfInputs() );
   
   OutputImagePointer outputPtr = this->GetOutput(0);
   ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);

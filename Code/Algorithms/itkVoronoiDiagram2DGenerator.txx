@@ -302,7 +302,7 @@ ConstructDiagram(void)
     buildEdges.push_back(curr);
     EdgeInfo front=curr;
     EdgeInfo back=curr;
-    int maxStop=rawEdges[i].size();
+    int maxStop= static_cast< int >( rawEdges[i].size() );
     while(!(rawEdges[i].empty()))
       {
       maxStop--;

@@ -297,7 +297,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   /**
    * If the cells container doesn't exist, then the cell doesn't exist.
    */
-  if( m_CellsContainer == 0 )
+  if( m_CellsContainer.IsNull() )
     {
     cellPointer.Reset();
     return false;
@@ -701,7 +701,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   /**
    * It was not explicitly assigned, so ask the cell to construct it.
    */
-  if((m_CellsContainer != 0) && m_CellsContainer->IndexExists(cellId))
+  if(( !m_CellsContainer.IsNull() ) && m_CellsContainer->IndexExists(cellId))
     {
     // Don't take ownership
     CellType * thecell = m_CellsContainer->GetElement(cellId);
@@ -903,7 +903,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   /**
    * Return the number of neighboring cells that were put into the set.
    */
-  return cellSet->size();
+  return static_cast<unsigned long>( cellSet->size() );
 }
 
 
@@ -920,8 +920,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>
                                      CellFeatureIdentifier featureId,
                                      BoundaryAutoPointer & boundary) const
 {
-  if((m_BoundaryAssignmentsContainers[dimension] != 0) &&
-     (m_BoundariesContainers[dimension] != 0))
+  if((m_BoundaryAssignmentsContainers[dimension].IsNotNull() ) &&
+     (m_BoundariesContainers[dimension].IsNotNull()))
     {
     BoundaryAssignmentIdentifier assignId(cellId, featureId);
     BoundaryIdentifier boundaryId;

@@ -551,7 +551,9 @@ public:
   IUEi_STL_INLINE void resize(size_type num_elements_hint);
   void clear() { super::clear(); }
 private:
-    size_type next_size(size_type n) const { return next_prime(n); }
+    size_type next_size(size_type n) const { 
+       return static_cast<size_type>( 
+          next_prime( static_cast<unsigned long>(n) ) ); }
 
     void initialize_buckets(size_type n)
     {

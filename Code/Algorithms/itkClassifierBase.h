@@ -139,7 +139,7 @@ public:
   /** Method to get mean */
   unsigned int GetNumberOfMembershipFunctions() 
     {
-    return m_MembershipFunctions.size();
+    return static_cast<unsigned int>( m_MembershipFunctions.size() );
     }
 
   /** Stores a MembershipCalculator of a class in its internal vector */

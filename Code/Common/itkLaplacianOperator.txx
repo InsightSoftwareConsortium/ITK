@@ -91,8 +91,8 @@ LaplacianOperator<TPixel, VDimension, TAllocator>
   
   for ( i = 0 ; i < 2 * VDimension; i+= 2)
     {
-      offset[i] = - this->GetStride(i/2);
-      offset[i+1] = this->GetStride(i/2);
+      offset[i] = - static_cast<long>( this->GetStride(i/2) );
+      offset[i+1] = static_cast<long>( this->GetStride(i/2) );
     }
 
   //Set the coefficients 

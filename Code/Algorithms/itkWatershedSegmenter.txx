@@ -962,7 +962,7 @@ void Segmenter<TInputImage>
         }
 
       // Copy into the segment list
-      listsz = (*edge_table_entry_ptr).second.size();
+      listsz = static_cast<unsigned long>( (*edge_table_entry_ptr).second.size() );
       segment_ptr->edge_list.resize(listsz);
       edge_ptr = (*edge_table_entry_ptr).second.begin();
       list_ptr = segment_ptr->edge_list.begin();

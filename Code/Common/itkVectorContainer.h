@@ -166,7 +166,7 @@ public:
     bool operator != (const ConstIterator& r) const { return m_Iter != r.m_Iter; }
     
     /** Get the index into the VectorContainer associated with this iterator.   */
-    ElementIdentifier Index(void) const { return m_Pos; }
+    ElementIdentifier Index(void) const { return static_cast<ElementIdentifier>( m_Pos ); }
     
     /** Get the value at this iterator's location in the VectorContainer.   */
     const Element& Value(void) const { return *m_Iter; }

@@ -213,9 +213,9 @@ public:
   void LineListClear(){ f_LineList.clear();};
   void EdgeListClear(){ f_EdgeList.clear();};
   void VertexListClear(){ f_VertexList.clear();};
-  int LineListSize(){ return f_LineList.size();}; 
-  int EdgeListSize(){ return f_EdgeList.size();}; 
-  int VertexListSize(){ return f_VertexList.size();}; 
+  int LineListSize(){ return static_cast<int>( f_LineList.size() );}; 
+  int EdgeListSize(){ return static_cast<int>( f_EdgeList.size() );}; 
+  int VertexListSize(){ return static_cast<int>( f_VertexList.size() );}; 
   void AddLine(EdgeInfo x){ f_LineList.push_back(x);};
   void AddEdge(VoronoiEdge x){ f_EdgeList.push_back(x);};
   void AddVert(PointType x){ f_VertexList.push_back(x);};

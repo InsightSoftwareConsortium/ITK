@@ -55,8 +55,8 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
   os << m_InputImage.GetPointer() << std::endl;
 
   signed int i;
-  const unsigned int length = m_PixelMembershipValue.size();
-  const signed int last = (unsigned int) length - 1;
+  const unsigned int length = static_cast<unsigned int>( m_PixelMembershipValue.size() );
+  const signed int last = static_cast<int>( length ) - 1;
 
   os << indent << "Pixel membership: [" ;
   for ( i = 0; i < last; i++)

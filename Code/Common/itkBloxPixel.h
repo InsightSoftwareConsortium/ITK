@@ -51,7 +51,7 @@ public:
 
   /** Get the number of items stored in the blox. */
   unsigned long int GetSize()
-    {return this->size(); }
+    {return static_cast<unsigned long>( this->size() ); }
 
   BloxPixel();
   ~BloxPixel();

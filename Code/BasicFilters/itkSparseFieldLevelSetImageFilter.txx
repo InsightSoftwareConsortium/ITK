@@ -198,8 +198,8 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // Now we are left with the lists of indicies which must be
   // brought into the outermost layers.  Bring UpList into last inside layer
   // and DownList into last outside layer.
-  this->ProcessOutsideList(UpList[k], m_Layers.size() -2);
-  this->ProcessOutsideList(DownList[k], m_Layers.size() -1);
+  this->ProcessOutsideList(UpList[k], static_cast<int>( m_Layers.size()) -2);
+  this->ProcessOutsideList(DownList[k], static_cast<int>( m_Layers.size()) -1);
 
   // Finally, we update all of the layer values (excluding the active layer,
   // which has already been updated).
@@ -1025,8 +1025,8 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
          << m_Layers[i]->Size() << std::endl;
       os << indent << m_Layers[i];
     }
-  os << indent << "m_UpdateBuffer: size=" << m_UpdateBuffer.size()
-     << " capacity=" << m_UpdateBuffer.capacity() << std::endl;
+  os << indent << "m_UpdateBuffer: size=" << static_cast<unsigned long>(m_UpdateBuffer.size())
+     << " capacity=" << static_cast<unsigned long>( m_UpdateBuffer.capacity()) << std::endl;
 }
 
 } // end namespace itk

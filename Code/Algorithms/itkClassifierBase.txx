@@ -86,7 +86,7 @@ ClassifierBase< TDataContainer >
 ::AddMembershipFunction(MembershipFunctionType * function)
 {
   m_MembershipFunctions.push_back(function) ;
-  return m_MembershipFunctions.size() ;
+  return static_cast<unsigned int>( m_MembershipFunctions.size() );
 }
 
 

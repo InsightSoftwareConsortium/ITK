@@ -115,7 +115,7 @@ public:
   /** Method to number of membership functions */
   unsigned int GetNumberOfMembershipFunctions() 
     {
-    return m_MembershipFunctions.size();
+    return static_cast<unsigned int>( m_MembershipFunctions.size() );
     }
 
   /** Method to reset the membership fucntion mean */

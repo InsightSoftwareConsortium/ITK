@@ -283,7 +283,7 @@ SpatialObject< TDimension >
   os << "Object properties: " << std::endl;
   os << m_Property << std::endl;
   os << indent << "Number of children: " 
-     << m_Children.size() << std::endl;
+     << static_cast<unsigned long>( m_Children.size() )<< std::endl;
   os << indent << "List of children: ";
 
   typename ChildrenListType::const_iterator it_children = m_Children.begin();

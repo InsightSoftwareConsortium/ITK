@@ -193,7 +193,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     beginy=endy;
     }
 
-  int vsize=vertlist.size();
+  int vsize = static_cast<int>( vertlist.size() );
   while(vsize>2)
     {
     vsize--;
@@ -339,7 +339,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 
     PixelPool.clear();
     this->GetPixelIndexFromPolygon(VertList,&PixelPool);
-    m_NumberOfPixels[i] = PixelPool.size();
+    m_NumberOfPixels[i] = static_cast<int>( PixelPool.size() );
     m_Label[i] = this->TestHomogeneity(PixelPool);
     }
 
@@ -405,7 +405,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   m_WorkingVD=m_VDGenerator->GetOutput();
   this->ClassifyDiagram();
   this->GenerateAddingSeeds();
-  m_NumberOfSeedsToAdded = m_SeedsToAdded.size();
+  m_NumberOfSeedsToAdded = static_cast<int>( m_SeedsToAdded.size() );
 
   if (m_InteractiveSegmentation)
     {
@@ -713,7 +713,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     beginy=endy;
     }
 
-  int vsize=vertlist.size();
+  int vsize = static_cast<int>( vertlist.size() );
   while(vsize>2)
     {
     vsize--;

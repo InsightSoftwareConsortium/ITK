@@ -62,12 +62,12 @@ void
 KdTreeGenerator< TSample >
 ::GenerateData()
 {
-  if (m_SourceSample == 0)
+  if ( m_SourceSample == 0 )
     {
       return ;
     }
   
-  if (m_Tree == 0)
+  if ( m_Tree.IsNull() )
     {
       m_Tree = KdTreeType::New() ;
       m_Tree->SetSample(m_SourceSample) ;

@@ -256,7 +256,7 @@ TobogganImageFilter<TInputImage>
         LabelForRegion = MinimumNeighborClass;
         CurrentPositionIndex = MinimumNeighborIndex;
         }
-      itkDebugMacro (  << "Filling in: " << Visited.size()
+      itkDebugMacro (  << "Filling in: " << static_cast<unsigned int>( Visited.size() )
                        << " with: " << LabelForRegion );
       // Loop over all the visited positions, setting their label
       for ( i = 0; i < Visited.size(); i++ )

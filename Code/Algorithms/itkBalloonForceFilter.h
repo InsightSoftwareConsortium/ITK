@@ -188,16 +188,16 @@ private:
   IndexType m_Center;
   float   m_MiniT;        // variabel help to stop the model when near potential estimation
   int   m_Step;         // the number of iteration 
-  int   m_NumberOfNodes;
-  int   m_NumberOfCells;
-  int   m_NumNewNodes;      // for adding new nodes, now disabled for further tests
-  int   *m_GapLocations;
-  float   **m_NewNodes;
-  int   m_NewNodesExisted;
-  int   m_NewNodeLimit;
-  int   m_ImageWidth;       // input image size
-  int   m_ImageHeight;
-  int   m_ImageDepth;
+  unsigned int   m_NumberOfNodes;
+  unsigned int   m_NumberOfCells;
+  unsigned int   m_NumNewNodes;      // for adding new nodes, now disabled for further tests
+  int            *m_GapLocations;
+  float          **m_NewNodes;
+  int            m_NewNodesExisted;
+  unsigned int   m_NewNodeLimit;
+  unsigned int   m_ImageWidth;       // input image size
+  unsigned int   m_ImageHeight;
+  unsigned int   m_ImageDepth;
   int   m_ModelXUpLimit;    // the following 4 variables record the size of the model
   int   m_ModelXDownLimit;
   int   m_ModelYUpLimit;
