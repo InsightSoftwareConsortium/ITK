@@ -95,21 +95,6 @@ virtual type *Get##name () \
   return this->name; \
   } 
 
-// Set built-in type where value is constrained between min/max limits.
-// Create member Set"name"() (e.q., SetRadius()). #defines are 
-// convienience for clamping open-ended values.
-//
-#define vtkSetClampMacro(name,type,min,max) \
-virtual void Set##name (type _arg) \
-  { \
-  vtkDebugMacro(<< this->GetClassName() << " (" << this << "): setting " << #name " to " << _arg ); \
-  if (this->name != (_arg<min?min:(_arg>max?max:_arg))) \
-    { \
-    this->name = (_arg<min?min:(_arg>max?max:_arg)); \
-    this->Modified(); \
-    } \
-  } 
-
 // Use a global function which actually calls:
 // itkOutputWindow::GetInstance()->DisplayText();
 // This is to avoid itkObject #include of itkOutputWindow
@@ -125,7 +110,7 @@ extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
 
 #define itkNotUsed(x)
 
-#define itkTestSetMacro(ivarValue,value) \
+#define itkSetMacro(ivarValue,value) \
 {if ( ivarValue != value ) \
   {\
   this->Modified();\
@@ -133,7 +118,21 @@ extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
   }\
 }
 
-#define itkTestSetClampMacro(ivarValue,value,min,max) \
+#define itkGetMacro(ivarValue) \
+{
+  return ivarValue;
+}
+
+#define itkGetObjectMacro(ivarObjectPtr) \
+{
+  return ivarObjectPtr;
+}
+
+// Set built-in type where value is constrained between min/max limits.
+// Create member Set"name"() (e.q., SetRadius()). #defines are 
+// convienience for clamping open-ended values.
+//
+#define itkSetClampMacro(ivarValue,value,min,max) \
 {\
   value = (value < min ? min : (value > max ? max : value));\
   if ( ivarValue != value ) \

@@ -13,7 +13,6 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-///superclass of all process objects in the Insight data processing pipeline
 /**
  * itkDataSet is the base class for all process objects (source, filters, 
  * mappers) in the Insight data processing pipeline.
@@ -59,70 +58,105 @@ class itkDataObject;
 class ITK_EXPORT itkProcessObject : public itkObject
 {
 public:
-  /** Smart pointer typedef support */
+  /** 
+   * Smart pointer typedef support. 
+   */
   typedef itkSmartPointer<itkProcessObject> Pointer;
 
-  /** Instantiate object with no start, end, or progress methods. */
+  /** 
+   * Instantiate object with no start, end, or progress methods. 
+   */
   static itkProcessObject::Pointer New();
 
-  /** Return an array with all the inputs of this process object.
-   *  This is useful for tracing back in the pipeline to construct
-   *  graphs etc. */
+  /** 
+   * Return an array with all the inputs of this process object.
+   * This is useful for tracing back in the pipeline to construct
+   * graphs etc. 
+   */
   itkDataObject **GetInputs() {return m_Inputs;};
   int GetNumberOfInputs() {return m_NumberOfInputs;}
 
-  /** Return an array with all the inputs of this process object.
+  /** 
+   * Return an array with all the inputs of this process object.
    * This is useful for tracing back in the pipeline to contruct
-   * graphs etc. */
+   * graphs etc. 
+   */
   itkDataObject **GetOutputs();
   int GetNumberOfOutputs() {return m_NumberOfOutputs;}
     
-  /** Specify function to be called before object executes. */
+  /** 
+   * Specify function to be called before object executes. 
+   */
   void SetStartMethod(void (*f)(void *), void *arg);
 
-  /** Specify function to be called to show progress of filter. */
+  /** 
+   * Specify function to be called to show progress of filter. 
+   */
   void SetProgressMethod(void (*f)(void *), void *arg);
 
-  /** Specify function to be called after object executes. */
+  /** 
+   * Specify function to be called after object executes. 
+   */
   void SetEndMethod(void (*f)(void *), void *arg);
 
-  /** Set the arg delete method. This is used to free user memory. */
+  /** 
+   * Set the arg delete method. This is used to free user memory. 
+   */
   void SetStartMethodArgDelete(void (*f)(void *));
 
-  /** Set the arg delete method. This is used to free user memory. */
+  /** 
+   * Set the arg delete method. This is used to free user memory. 
+   */
   void SetProgressMethodArgDelete(void (*f)(void *));
 
-  /** Set the arg delete method. This is used to free user memory. */
+  /** 
+   * Set the arg delete method. This is used to free user memory. 
+   */
   void SetEndMethodArgDelete(void (*f)(void *));
 
-  /** Set/Get the AbortExecute flag for the process object. Process objects
-   *  may handle premature termination of execution in different ways. */
-  void SetAbortExecute(bool flag) {itkTestSetMacro(m_AbortExecute,flag);}
-  bool GetAbortExecute(bool flag) {return m_AbortExecute;}
+  /** 
+   * Set/Get the AbortExecute flag for the process object. Process objects
+   *  may handle premature termination of execution in different ways. 
+   */
+  void SetAbortExecute(bool flag) {itkSetMacro(m_AbortExecute,flag);}
+  bool GetAbortExecute(bool flag) {itkGteMacro;}
   void AbortExecuteOn() {this->SetAbortExecute(true);}
   void AbortExecuteOff() {this->SetAbortExecute(false);}
   
-  /** Set/Get the execution progress of a process object. */
-  void SetProgress(float progress) {itkTestSetClampMacro(m_Progress,progress,0.0,1.0);}
-  float GetProgress() {return m_Progress;}
+  /** 
+   * Set/Get the execution progress of a process object. The progress is
+   * a floating number between (0,1), 0 meaning no progress; 1 meaning
+   * the filter has completed execution.
+   */
+  void SetProgress(float progress) 
+    {itkSetClampMacro(m_Progress,progress,0.0,1.0);}
+  float GetProgress() {itkGetMacro(m_Progress);}
 
-  /** Update the progress of the process object. If a ProgressMethod exists,
-   *  executes it.  Then set the Progress ivar to amount. The parameter amount
-   *  should range between (0,1). */
+  /** 
+   * Update the progress of the process object. If a ProgressMethod exists,
+   * executes it.  Then set the Progress ivar to amount. The parameter amount
+   * should range between (0,1). 
+   */
   void UpdateProgress(float amount);
   
-  /** Turn on/off flag to control whether this object's data is released
-   *  after being used by a source. */
+  /** 
+   * Turn on/off flag to control whether this object's data is released
+   * after being used by a source. 
+   */
   virtual void SetReleaseDataFlag(bool flag);
   virtual bool GetReleaseDataFlag();
   void ReleaseDataFlagOn() {SetReleaseDataFlag(true);}
   void ReleaseDataFlagOff() {SetReleaseDataFlag(false);}
 
-  /** Handle the source/data loop. */
+  /** 
+   * Handle the source/data loop. 
+   */
   void UnRegister() {};
   
-  /** Test to see if this object is in a reference counting loop. */
-  virtual int InRegisterLoop(itkObject *) {return 0;};
+  /** 
+   * Test to see if this object is in a reference counting loop. 
+   */
+  virtual const int InRegisterLoop(itkObject *) {return 0;}
 
 protected:
   itkProcessObject();

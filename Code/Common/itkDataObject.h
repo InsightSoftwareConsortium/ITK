@@ -13,10 +13,16 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-///superclass of all data objects in the Insight data processing pipeline
 /**
  * itkDataObject is the base class for all data objects in the Insight
- * data processing pipeline.
+ * data processing pipeline. A data object is an object that represents
+ * and provides access to data. itkProcessObjects operate on data object,
+ * producing new data objects as output. itkProcessObject and itkDataObject
+ * can be connected together into data flow pipelines.
+ * 
+ * \sa itkProcessObject
+ * \sa itkImageBase
+ * \sa itkMeshBase
  */
 
 #ifndef __itkDataObject_h
@@ -32,59 +38,91 @@ class itkProcessObject;
 class ITK_EXPORT itkDataObject : public itkObject
 {
 public:
-  /** Smart pointer typedef support */
+  /** 
+   * Smart pointer typedef support.
+   */
   typedef itkSmartPointer<itkDataObject> Pointer;
 
-  /** Instantiate object */
+  /** 
+   * Instantiate object.
+   */
   static itkDataObject::Pointer New();
 
-  /** Set/Get the source object creating this data object. */
+  /** 
+   * Set/Get the source object creating this data object. 
+   */
   void SetSource(itkProcessObject *s);
-  itkProcessObject *GetSource() {return m_Source;}
+  itkProcessObject *GetSource() 
+    {itkGetObjectMacro( m_Source);}
   
-  /** Set the dimension of the data */
-  virtual void SetDimension(int dim) {itkTestSetMacro(m_Dimension,dim);}
+  /** 
+   * Set the dimension (number of independent variables) of the data.
+   */
+  virtual void SetDimension(int dim) {itkSetMacro(m_Dimension,dim);}
 
-  /** Get the dimension of the data */
-  int GetDimension() {return m_Dimension;}
+  /** 
+   * Get the dimension of the data.
+   */
+  const int GetDimension() 
+    {itkGetMacro(m_Dimension);}
 
-  /** Restore data object to initial state, */
+  /** 
+   * Restore the data object to its initial state. This means releasing
+   * memory.
+   */
   virtual void Initialize();
 
-  /** Release data back to system to conserve memory resource. Used during
-   *  visualization network execution.  Releasing this data does not make 
-   *  down-stream data invalid, so it does not modify the MTime of this 
-   *  data object. */
-  void ReleaseData();
-
-  /** Return flag indicating whether data should be released after use  
-   *  by a filter. */
-  bool ShouldIReleaseData();
-
-  /** Get the flag indicating the data has been released. */
-  bool GetDataReleased() {return m_DataReleased;}
-  
-  /** Turn on/off flag to control whether this object's data is released
-   *  after being used by a filter. */
-  void SetReleaseDataFlag(bool flag) {m_ReleaseDataFlag = flag;};
-  bool GetReleaseDataFlag() {return m_ReleaseDataFlag;}
+  /** 
+   * Turn on/off a flag to control whether this object's data is released
+   * after being used by a filter. 
+   */
+  void SetReleaseDataFlag(const bool flag) 
+    {itkSetMacro(m_ReleaseDataFlag,flag);};
+  const bool GetReleaseDataFlag() {itkGetMacro(m_ReleaseDataFlag);}
   void ReleaseDataFlagOn() {this->SetReleaseDataFlag(true);}
   void ReleaseDataFlagOff() {this->SetReleaseDataFlag(false);}
 
-  /** Turn on/off flag to control whether every object releases its data
-   *  after being used by a filter. */
-  static void SetGlobalReleaseDataFlag(bool val);
-  void GlobalReleaseDataFlagOn() {this->SetGlobalReleaseDataFlag(1);};
-  void GlobalReleaseDataFlagOff() {this->SetGlobalReleaseDataFlag(0);};
-  static bool GetGlobalReleaseDataFlag();
+  /** 
+   * Turn on/off a flag to control whether every object releases its data
+   * after being used by a filter. Being a global flag, it controls the
+   * behavior of all itkDataObjects and itkProcessObjects.
+   */
+  static void SetGlobalReleaseDataFlag(const bool val);
+  void GlobalReleaseDataFlagOn() {this->SetGlobalReleaseDataFlag(true);};
+  void GlobalReleaseDataFlagOff() {this->SetGlobalReleaseDataFlag(false);};
+  static const bool GetGlobalReleaseDataFlag();
 
-  /** Handle the source/data loop. */
+  /** 
+   * Release data back to system to conserve memory resource. Used during
+   * visualization network execution.  Releasing this data does not make
+   * down-stream data invalid, so it does not modify the MTime of this data
+   * object.  
+   */
+  void ReleaseData();
+
+  /** 
+   * Return flag indicating whether data should be released after use  
+   * by a filter. 
+   */
+  const bool ShouldIReleaseData();
+
+  /** 
+   * Get the flag indicating the data has been released. 
+   */
+  const bool GetDataReleased() {return m_DataReleased;}
+  
+  /** 
+   * Handle the source/data loop. 
+   */
   void UnRegister();
 
-  /** Get the net reference count. That is the count minus
-   *  any self created loops. This is used in the Source/Data
-   *  registration to properly free the objects. */
-  virtual int GetNetReferenceCount() {return this->GetReferenceCount();}
+  /** 
+   * Get the net reference count. That is the count minus
+   * any self created loops. This is used in the Source/Data
+   * registration to properly free the objects. 
+   */
+  virtual const int GetNetReferenceCount() 
+    {return this->GetReferenceCount();}
 
 protected:
   itkDataObject();
