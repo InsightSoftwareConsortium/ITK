@@ -65,7 +65,7 @@ GaussianGoodnessOfFitComponent< TInputSample >
 
   bool changed = false ;
 
-  int i = 0 ;
+  unsigned int i = 0 ;
   while ( i < MeasurementVectorSize )
     {
       if ( m_Mean[i] != parameters[i] )
@@ -127,7 +127,7 @@ void
 GaussianGoodnessOfFitComponent< TInputSample >
 ::CalculateProjectionAxes()
 {
-  int i, j ;
+  unsigned int i, j ;
 
   m_CovarianceCalculator->SetInputSample(this->GetResampledSample()) ;
   m_Covariance.Fill(0.0) ;
@@ -219,7 +219,7 @@ void
 GaussianGoodnessOfFitComponent< TInputSample >
 ::PrintParameters(std::ostream &os) const
 {
-  int i, j ;
+  unsigned int i, j ;
   os << m_Mean ;
   for( i = 0 ; i < MeasurementVectorSize ; i++)
     {
@@ -239,14 +239,14 @@ GaussianGoodnessOfFitComponent< TInputSample >
   ParametersType params(MeasurementVectorSize + 
                         MeasurementVectorSize * MeasurementVectorSize) ;
 
-  int index = 0 ;
+  unsigned int index = 0 ;
   while ( index < MeasurementVectorSize )
     {
       params[index] = m_Mean[index] ;
       ++index ;
     }
 
-  int i, j ;
+  unsigned int i, j ;
   for( i = 0 ; i < MeasurementVectorSize ; i++)
     {
       for( j = 0 ; j < MeasurementVectorSize ; j++)

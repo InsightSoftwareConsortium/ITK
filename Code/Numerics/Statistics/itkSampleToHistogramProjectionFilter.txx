@@ -221,7 +221,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
     }
 
   HistogramType::InstanceIdentifier binId ;
-  int dimension ;
+  unsigned int dimension ;
   float coordinateDistance ;
   float squaredDistance ;
   float marginalDistance ;

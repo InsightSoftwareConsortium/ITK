@@ -71,7 +71,7 @@ public:
   typedef typename Superclass::MeanType MeanType ;
   typedef typename Superclass::StandardDeviationType StandardDeviationType ;
   typedef typename Superclass::ResampledSampleType ResampledSampleType ;
-  typedef typename Superclass::ParametersType ParametersType ;
+  typedef Array< double > ParametersType ;
 
   /** Weight function type. The density values are used as weights of 
    * each instance (measurement vector) for the Covariance calulator */

@@ -65,7 +65,7 @@ NeighborhoodSampler< TSample >
 
   m_Subsample->SetSample(this->GetInputSample()) ;
 
-  int j ;
+  unsigned int j ;
   double squaredRadius ;
   double distance ;
   double coordinateDistance ;
