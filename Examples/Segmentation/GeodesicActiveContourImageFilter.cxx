@@ -19,8 +19,13 @@
 //
 // The following example illustrates the use of the
 // \doxygen{GeodesicActiveContourImageFilter}.  The implementation of this
-// filter in ITK is based on the paper by Caselles \cite{Caselles1997}.  This
-// filter expects three inputs. The first is an initial Level Set in the form
+// filter in ITK is based on the paper by Caselles \cite{Caselles1997}.  
+// This implementation extends the funtionality of \doxygen{ShapeDetectionLevelSetFilter}
+// by the addition of a third doublet term which attracts the level set to
+// the object boundaries.
+//
+// \doxygen{GeodesicActiveContourImageFilter} expects three inputs. 
+// The first is an initial Level Set in the form
 // of an \doxygen{Image}. The second input is an edge potential image which
 // basically follows the same rules used for the
 // \doxygen{ShapeDetectionLevelSetFilter} discussed in

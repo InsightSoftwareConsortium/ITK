@@ -17,9 +17,14 @@
 
 // Software Guide : BeginLatex
 //
+// When the differential equation governing the level set evolution has
+// of a very simple form, a fast evolution algorithm call fast marching
+// can be used.
+//
 // The following example illustrates the use of the
-// \doxygen{FastMarchingImageFilter}. This filter implements a Level Set
-// approach to segmentation.  In this case, the the speed term used in the
+// \doxygen{FastMarchingImageFilter}. This filter implements a fast marching
+// solution to a simple level set evolution problem.  
+// In this example, the the speed term used in the
 // differential equation is expected to be provided by the user in the form of
 // an image.  This image is typically computed as a function of the gradient
 // magnitude.  Several mappings are popular in the literature, for example the
@@ -45,7 +50,7 @@
 //
 // The application of a threshold in the output image is then equivalent to
 // taking a snapshot of the contour at a particular time during its evolution.
-// It is to expect that the contour will take longer times trying to cross over
+// It is to expect that the contour will take a longer time trying to cross over
 // the edges of a particular anatomical structure. This should result in large
 // changes on the time-crossing map values close to the structure edges.
 // Segmentation is performed with this filter by locating a time range in which
@@ -483,10 +488,10 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //
   //  The \doxygen{FastMarchingImageFilter} requires the user to provide a seed
-  //  point from which the level set will be generated. The user can actually
+  //  point from which the contour will expand. The user can actually
   //  pass not only one seed point but a set of them. A good set of seed points
-  //  increases the changes of segmenting a complex object without missing
-  //  parts. The use of multiple seed also helps to reduce the amount of time
+  //  increases the chances of segmenting a complex object without missing
+  //  parts. The use of multiple seesd also help to reduce the amount of time
   //  needed by the front to visit a whole object and hence reduce the risks of
   //  leaks on the edges of regions visited early. For example, when segmenting
   //  an elongated object it is undesirable to place a single seed in one
@@ -494,9 +499,9 @@ int main( int argc, char **argv )
   //  to the other end of the object. Placing several seeds along the axis of
   //  the object will probably be the best strategy to ensure that all the
   //  object is captured early in the expansion of the front. One of the
-  //  important properties of Level Sets is their natural hability for fusing
-  //  several front without producing topological dissorders. The use of
-  //  multiple seeds takes good advantage of such property.
+  //  important properties of Level Sets is their natural ability for fusing
+  //  several front implicitly without any extra bookkeeping. The use of
+  //  multiple seeds takes good advantage of this property.
   //
   //  \index{itk::FastMarchingImageFilter!Multiple seeds}
   //

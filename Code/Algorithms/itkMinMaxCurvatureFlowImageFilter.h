@@ -45,7 +45,8 @@ namespace itk {
   * the noise to be removed.
   *
   * The threshold value \f$ T_{threshold} \f$ is the average intensity obtained
-  * in the direction perpendicular to the gradient at point \f$ x \f$..
+  * in the direction perpendicular to the gradient at point \f$ x \f$ at the
+  * extrema of the local neighborhood.
   *
   * This filter make use of the multi-threaded finite difference solver
   * hierarchy.  Updates are computed using a MinMaxCurvatureFlowFunction object.

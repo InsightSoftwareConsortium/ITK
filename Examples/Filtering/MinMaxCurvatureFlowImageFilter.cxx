@@ -24,11 +24,9 @@
 //  \parpic(7cm,6cm)[r]{\includegraphics[width=6cm]{MinMaxCurvatureFlowFunctionDiagram.eps}}
 //
 //  The \doxygen{MinMaxCurvatureFlowImageFilter} applies a variant of the
-//  \doxygen{CurvatureFlowImageFilter} algorithm. The basic difference is that
-//  the term speed is choosen as $\min(\kappa,0)$ or $\max(\kappa,0)$ depending
-//  on the average intensity of the pixel neighborhood. This prevents small
-//  oscilations from happening on regions of the contour containing wiggeling
-//  sections. The speed is given by
+//  \doxygen{CurvatureFlowImageFilter} algorithm where diffusion is turned on 
+//  or off depending of the scale of the noise that one wants to remove. 
+//  The evolution speed is switched between $\min(\kappa,0)$ and $\max(\kappa,0)$ such that:
 //
 //  \begin{equation}
 //  I_t = F |\nabla I|
@@ -42,29 +40,23 @@
 //             \end{array} \right.
 //  \end{equation}
 //
-// The $Average$ is computed over a neighborhood of the pixel and the
-// $Threshold$ is calculated as the average of pixel intensities along the
-// direction perpendicular to the gradient. This can be seen as the mean value
-// of the pixels lying on the iso-contour of the current pixel. With this
-// calculation, if the pixel in question happens to be down-hill on the
-// intensity topography, the average along the iso-countour will produce a
-// threshold value lower than the average intensity on the neighbor and will
-// make that only negative curvatures will be considered for contributing to
-// the force. If the pixels happens to be up-hill on the intensities, its
-// average along the iso-contour will presumably be higher that the average of
-// the neighborhood, and hence only positive curvatures will be considered for
-// contributing to the force. The final effect of this approach is that a
-// notion of scale is included in the computation of the force applied to the
-// contour. Only those directions of movement that are consistent with a
-// larger-scale view of the contour will have an effect on the applied force.
+// The $Average$ is the average intensity computed over a neighborhood of a user
+// specified raduis of the pixel. The choice of the radius governs the scale of the
+// noise to be removed. The $Threshold$ is calculated as the average of pixel intensities 
+// along the direction perpendicular to the gradient at the \emph{extrema} of the local neighborhood.
 //
+// A speed of $F = max(\kappa,0)$ will cause small dark regions in a predominantly light region to shrink.
+// Conversely, a speed of $F = min(\kappa,0)$, will cause light regions in a predominantly dark region 
+// to shrink. Comparison between the neighborhood average and the threshold is used to select the
+// the right speed function to used. This switching prevents the unwanted diffusion of the 
+// simple curvature flow method.
 //
 // Figure~\ref{fig:MinMaxCurvatureFlowFunctionDiagram} shows the main elements
 // involved in the computation. The set of square pixels represent the
 // neighborhood over which the average intensity is being computed. The gray
 // pixels are those lying close to the direction perpendicular to the gradient.
-// The average of these pixels is used as the threshold value in the equation
-// above. The integer radius of the neighborhood is selected by the user.
+// The pixels which intersects the neighborhood bounds are used to compute the threshold value 
+// in the equation above. The integer radius of the neighborhood is selected by the user.
 //
 //  \index{itk::MinMaxCurvatureFlowImageFilter|textbf}
 //
@@ -266,7 +258,9 @@ int main( int argc, char ** argv )
   //  the effect of this filter on a MRI proton density image of the brain. In
   //  this example the filter was run with a time step of $0.25$, $10$
   //  iterations and a radius of $1$.  The figure shows how homogeneous regions
-  //  are smoothed and edges are preserved.
+  //  are smoothed and edges are preserved. Notice also, that the results in the
+  //  above figure has shaper edges than the same example using simple curvature
+  //  flow in Figure \ref{fig:CurvatureFlowImageFilterInputOutput}.
   //
   //
   //  Software Guide : EndLatex 

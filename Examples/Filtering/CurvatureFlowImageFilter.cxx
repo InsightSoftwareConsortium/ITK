@@ -17,23 +17,27 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{CurvatureFlowImageFilter} performs anisotropic diffusion on
-//  the image.  Diffusion is controled by a factor dependent on the image
-//  gradient.  This limits diffusion from happening in regions of high
-//  gradients that are typically associated with edges on the image. The result
-//  is to smooth pixel values on the homogeneous regions while leaving the
-//  contours almost unmodified.
-//
-//  This filter assimilates each iso-contour of the graylevel image as a level
-//  set. The level sets evolved under the control of a diffusion equation where
-//  the speed is proportional to the curvature of the contour. The speed term
-//  is given by 
+//  The \doxygen{CurvatureFlowImageFilter} performs edge-preserving smoothing
+//  in a similar fashion to the classical anisotropic diffusion. The filter
+//  uses a level set formulation where the iso-intensity contours in a image
+//  are view as level sets, where pixels of a particular intensity form one
+//  level set. The level set function is then evolved under the control of
+//  a diffusion equation where the speed is proportional to the 
+//  curvature of the contour:
 //
 //  \begin{equation}
 //  I_t = \kappa |\nabla I|
 //  \end{equation}
 //
 //  where $ \kappa $ is the curvature.
+//
+//  Areas of high curvature will diffuse faster than areas of low curvature. 
+//  Hence, small jaggered noise artifacts will disappear quickly, while
+//  large scale interfaces will be slow to evolve, thereby preserving sharp
+//  boundaries between objects. However, it should be noted that although the 
+//  evolution at the boundary is slow, some diffusion still occur. Thus, continual
+//  application of this curvature flow scheme will eventually result is the removal
+//  of information as each contour shrinks to a point and disappears.
 //
 //  \index{itk::CurvatureFlowImageFilter|textbf}
 //

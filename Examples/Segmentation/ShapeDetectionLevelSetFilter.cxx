@@ -19,8 +19,17 @@
 //
 // The following example illustrates the use of the
 // \doxygen{ShapeDetectionLevelSetFilter}.  The implementation of this filter
-// in ITK is based on the paper by Malladi \cite{Malladi1995}.  This filter
-// expects two inputs, the first is an initial Level Set in the form of an
+// in ITK is based on the paper by Malladi et al\cite{Malladi1995}.
+// In this implementation, the governing differential equation has an additional
+// curvature based term. This term act as a smoothing term, where areas of
+// high curvature, assumed to be due to noise, is smoothed out. A length penalty
+// strength parameter can be used to control the degree of smoothing.
+// One consequent of this additional curvature term is that the fast marching
+// algorithm is no longer applicable because the contour is no longer guaranteed
+// to be always expanding. Instead, the whole level set function is updated iteratively.
+//
+// The \doxygen{ShapeDetectionLevelSetFilter} expects two inputs, 
+// the first is an initial Level Set in the form of an
 // \doxygen{Image}, the second input is an edge potential image which basically
 // follows the same rules applicable to the speed image used for the
 // \doxygen{FastMarchingImageFilter} discussed in
@@ -68,6 +77,13 @@
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 #include "itkSigmoidImageFilter.h"
 // Software Guide : EndCodeSnippet
+
+//  Software Guide : BeginLatex
+//
+// The edge potential map is generated using these filter as per the previous 
+// example.
+//
+//  Software Guide : EndLatex 
 
 
 //  Software Guide : BeginLatex
@@ -556,7 +572,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  Since the \doxygen{FastMarchingImageFilter} is used here just as a
-  //  Distance Map generator. It does not require a speed image as input.
+  //  distance map generator. It does not require a speed image as input.
   //  Instead the constant value $1.0$ is passed using the
   //  \code{SetSpeedConstant()} method.
   //
@@ -638,7 +654,7 @@ int main( int argc, char **argv )
   //  Several parameters should be set in the
   //  \doxygen{ShapeDetectionLevelSetFilter}. In particular, the number of
   //  iterations to perform and the time step for solving the differential
-  //  equation. The time step should be choosed in such a way that the zero set
+  //  equation. The time step should be choosen in such a way that the zero set
   //  does not move more than one pixel at each iteration. A typical value in
   //  $2D$ is $0.25$. The number of iterations is a critical value since
   //  technically the level set will never converge. Instead the front keeps
@@ -766,6 +782,11 @@ int main( int argc, char **argv )
   //  which is finally used as the edge potential for the
   //  \doxygen{ShapeDetectionLevelSetFilter}.
   //
+  //  Notice that in Figure~\ref{fig:ShapeDetectionLevelSetOutput2} the segmented shapes
+  //  are rounder than the results in Figure~\ref{fig:FastMarchingImageFilterOutput2} due
+  //  to the effects of the curvature term in the driving equation. As with the previous
+  //  example, segmentation of the gray matter is still problematic.
+  //
   // \begin{figure} \center
   // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=6cm]{ShapeDetectionLevelSetFilterOutput1.eps}
@@ -782,8 +803,7 @@ int main( int argc, char **argv )
   //
   //  A larger number of iterations is reguired for segmenting large structures
   //  since it takes longer for the front to propagate and cover the region to
-  //  be segmented.  It can be noticed that the gray matter is not being
-  //  completly segmented.  This drawback can be easily mitigated by setting
+  //  be segmented. This drawback can be easily mitigated by setting
   //  many seed points in the initialization of the
   //  \doxygen{FastMarchingImageFilter}. This will generate an initial level
   //  set much closer in shape to the object to be segmented and hence
