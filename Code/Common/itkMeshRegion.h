@@ -91,7 +91,7 @@ public:
   /** 
    * Return the region type. Meshes are described with unstructured regions.
    */
-  virtual Superclass::RegionType GetRegionType() const
+  virtual RegionType GetRegionType() const
     {return Superclass::ITK_UNSTRUCTURED_REGION;}
 
   /** 
