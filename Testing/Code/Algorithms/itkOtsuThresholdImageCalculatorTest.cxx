@@ -85,6 +85,8 @@ int itkOtsuThresholdImageCalculatorTest(int, char* [] )
     calculator->Compute();
 
     std::cout << "calculator: " << calculator;
+    std::cout << "NumberOfHistogramBins: " << calculator->GetNumberOfHistogramBins();
+    std::cout << std::endl;
 
     /* Return minimum of intensity */
     short thresholdResult = calculator->GetThreshold();

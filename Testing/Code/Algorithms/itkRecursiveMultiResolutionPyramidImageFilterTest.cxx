@@ -332,6 +332,12 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  // Set schedule to all ones and update
+  schedule = pyramid->GetSchedule();
+  schedule.Fill( 1 );
+  pyramid->SetSchedule( schedule );
+  pyramid->Update();
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 

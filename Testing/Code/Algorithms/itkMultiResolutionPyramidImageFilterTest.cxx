@@ -20,7 +20,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkCommand.h"
 #include "itkCastImageFilter.h"
-#include "itkStreamingImageFilter.h"
 
 #include <iostream>
 
@@ -295,54 +294,19 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  // run in streamed mode
-  std::cout << "Run ImagePyramid with streamer";
-  std::cout << std::endl;
+  // Test schedule checking code
+  factors.Fill( 0 );
+  pyramid->SetStartingShrinkFactors( factors.Begin() );
+
+  schedule = pyramid->GetSchedule();
+  pyramid->SetSchedule( schedule );
+  schedule.Fill( 0 );
+  pyramid->SetSchedule( schedule );
+
+  ScheduleType temp2( pyramid->GetNumberOfLevels() - 1, ImageDimension );
+  temp2.Fill( 1 );
+  pyramid->SetSchedule( temp2 );
   
-  typedef itk::CastImageFilter<InputImageType,InputImageType> CasterType;
-  CasterType::Pointer caster = CasterType::New();
-
-  caster->SetInput( pyramid->GetInput() );
-
-  PyramidType::Pointer pyramid2 = PyramidType::New();
-  pyramid2->SetInput( caster->GetOutput() );
-  pyramid2->SetNumberOfLevels( pyramid->GetNumberOfLevels() );
-  pyramid2->SetSchedule( pyramid->GetSchedule() );
-
-  typedef itk::StreamingImageFilter<OutputImageType,OutputImageType>
-    StreamerType;
-  StreamerType::Pointer streamer = StreamerType::New();
-  streamer->SetInput( pyramid2->GetOutput( testLevel ) );
-  streamer->SetNumberOfStreamDivisions( 3 );
-  streamer->Update();
-
-// comment out for now until streaming issues are fixed
-/*
-  std::cout << "Compare standalone and streamed outputs" << std::endl;
-  typedef itk::ImageRegionIterator<OutputImageType> OutputIterator;
-  OutputIterator iter1( pyramid->GetOutput( testLevel ),
-    pyramid->GetOutput( testLevel )->GetBufferedRegion() );
-  OutputIterator iter2( streamer->GetOutput(),
-    streamer->GetOutput()->GetBufferedRegion() );
-
-  bool pass = true;
-  while( !iter1.IsAtEnd() )
-    {
-    if( iter1.Get() != iter2.Get() )
-      {
-      std::cout << "Streamed output is different!!!" << std::endl;
-      pass = false;
-      }
-    ++iter1;
-    ++iter2;
-    }
-
-  if( !pass )
-    {
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-    }
-*/
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
