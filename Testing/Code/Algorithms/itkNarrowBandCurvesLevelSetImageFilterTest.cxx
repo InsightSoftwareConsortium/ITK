@@ -148,8 +148,8 @@ int itkNarrowBandCurvesLevelSetImageFilterTest(int, char* [] )
   curvesFilter->SetFeatureImage( sigmoid->GetOutput() );
 
   // set the weights between the propagation, curvature and advection terms
-  curvesFilter->SetPropagationScaling( 0.8 );
-  curvesFilter->SetCurvatureScaling( 0.3 );
+  curvesFilter->SetPropagationScaling( 0.3 );
+  curvesFilter->SetCurvatureScaling( 0.5 );
   curvesFilter->SetAdvectionScaling( 0.5 );
 
   // set the convergence criteria
