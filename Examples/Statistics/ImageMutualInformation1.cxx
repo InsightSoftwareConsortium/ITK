@@ -104,8 +104,6 @@ int main( int argc, char * argv [] )
 
   std::cout << "Histogram size   = " << histogramSize << std::endl;
 
-  unsigned int channel = 0;  // first channel
-
   // Compute the Entropy of the distribution of intensities
   HistogramType::ConstIterator itr = histogram->Begin();
   HistogramType::ConstIterator end = histogram->End();
@@ -134,8 +132,6 @@ int main( int argc, char * argv [] )
   histogramGenerator->SetNumberOfBins( size );
   histogramGenerator->SetMarginalScale( 10.0 );
   histogramGenerator->Compute();
-
-  channel = 1;  // second channel
 
   itr = histogram->Begin();
   end = histogram->End();

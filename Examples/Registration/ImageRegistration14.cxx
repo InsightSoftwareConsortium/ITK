@@ -197,7 +197,6 @@ int main( int argc, char *argv[] )
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
   const double translationScale = 1.0 / 100.0;
-  const double centerScale = 1000.0;  // prevent the center from changing
 
   optimizerScales[0] = 1.0;
   optimizerScales[1] = translationScale;

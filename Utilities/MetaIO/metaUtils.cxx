@@ -801,6 +801,8 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
       case MET_UCHAR_ARRAY:
       case MET_SHORT_ARRAY:
       case MET_USHORT_ARRAY:
+      case MET_LONG_ARRAY:
+      case MET_ULONG_ARRAY:
       case MET_INT_ARRAY:
       case MET_UINT_ARRAY:
         {
