@@ -68,7 +68,7 @@ public:
 
   /** Typedef for VTK interface.  VTK 4.2 uses floats for positions,
    * VTK 4.4 uses doubles. */
-  typedef TVTKRealType vtkFloatingPointType;
+  typedef TVTKRealType vtkRealType;
 
   /** Convenient typedefs from the output image. */
   typedef TOutputImage OutputImageType;
@@ -80,8 +80,8 @@ public:
 
   /** VTK 4.2 uses float for representing origin and spacing
    *  after version 4.2 the types switched to double. */
-  typedef vtkFloatingPointType   VTKSpacingType;
-  typedef vtkFloatingPointType   VTKOriginType;
+  typedef vtkRealType   VTKSpacingType;
+  typedef vtkRealType   VTKOriginType;
   //  typedef double   VTKSpacingType;
   //  typedef double   VTKOriginType;
 
