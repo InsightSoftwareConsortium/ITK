@@ -15,7 +15,7 @@ See COPYRIGHT.txt for copyright details.
 =========================================================================*/
 #include "itkPhysicalImage.h"
 #include "itkSimpleImageRegionIterator.h"
-#include "itkImageToImageAffineMeanSquaresRegistration.h"
+#include "itkImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration.h"
 
 /** 
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
@@ -23,9 +23,9 @@ See COPYRIGHT.txt for copyright details.
  *  therefore the solution of the registration is |-7 -3|
  *  This test uses LevenbergMarquart Optimizer but
  *  conjugate gradient optimizer tolerances are also defined
- *  in the itkImageToImageAffineMeanSquaresRegistration.txx file
+ *  in the itkImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration.txx file
  *  (you need to change the type of the optimizer in the header file
- *  ie itkImageToImageAffineMeanSquaresRegistration.h)
+ *  ie itkImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration.h)
  */ 
 
 int main()
@@ -36,7 +36,7 @@ int main()
   typedef itk::PhysicalImage<unsigned char,2>           ReferenceType;
   typedef itk::PhysicalImage<unsigned char,2>           TargetType;
 
-  typedef itk::ImageToImageAffineMeanSquaresRegistration<ReferenceType,TargetType> RegistrationType;
+  typedef itk::ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration<ReferenceType,TargetType> RegistrationType;
 
   ReferenceType::SizeType size = {{100,100}};
   ReferenceType::IndexType index = {{0,0}};
