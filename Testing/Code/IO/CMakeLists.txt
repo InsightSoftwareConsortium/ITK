@@ -362,7 +362,7 @@ ADD_TEST(itkGiplImageIOTest2 ${IO_TESTS} itkGiplImageIOTest
 IF(USE_GDCM)
   INCLUDE_DIRECTORIES( ${GDCM_INCLUDE_DIR})
   ADD_EXECUTABLE(itkGDCMImageIOTest itkGDCMImageIOTest.cxx)
-  TARGET_LINK_LIBRARIES(itkGDCMImageIOTest ITKIO ITKCommon ${GDCM_SHARED_LIBRARY})
+  TARGET_LINK_LIBRARIES(itkGDCMImageIOTest ITKIO ITKCommon)
   ADD_TEST(itkGDCMImageIOTest1 ${CXX_TEST_PATH}/itkGDCMImageIOTest
             ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
             ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
@@ -384,7 +384,7 @@ IF(USE_GDCM)
             ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.png
             ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest4.dcm)
   ADD_EXECUTABLE(itkGDCMSeriesReadImageWrite itkGDCMSeriesReadImageWrite.cxx)
-  TARGET_LINK_LIBRARIES(itkGDCMSeriesReadImageWrite ITKIO ITKCommon ${GDCM_SHARED_LIBRARY})
+  TARGET_LINK_LIBRARIES(itkGDCMSeriesReadImageWrite ITKIO ITKCommon)
   ADD_TEST(itkGDCMSeriesReadImageWrite ${CXX_TEST_PATH}/itkGDCMSeriesReadImageWrite
             ${ITK_DATA_ROOT}/Input/DicomSeries
             ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesReadImageWrite.vtk
