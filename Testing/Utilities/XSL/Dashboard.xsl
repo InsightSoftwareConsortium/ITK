@@ -65,8 +65,8 @@
         <td><xsl:value-of select="count(BuildStamp/Build/BuildStamp)"/></td>
       </tr>
       <tr>
-        <td><xsl:value-of select="sum(/Dashboard/BuildStamp/Build/ErrorCount)"/></td>
         <td>Reported Errors</td>
+        <td><xsl:value-of select="sum(/Dashboard/BuildStamp/Build/ErrorCount)"/></td>
       </tr>
       <tr>
         <td>Reported Warnings</td>
