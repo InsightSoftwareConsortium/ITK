@@ -17,6 +17,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkVOLImageIOFactory.h"
+#include "itkImage.h"
 
 int itkVOLImageIOTest(int ac, char** av)
 {

@@ -17,6 +17,7 @@
 
 #include <fstream>
 #include "itkImageFileReader.h"
+#include "itkImage.h"
 #include "itkMetaImageIOFactory.h"
 
 

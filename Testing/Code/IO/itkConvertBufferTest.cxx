@@ -19,6 +19,7 @@
 #include "itkRGBAPixel.h"
 #include "itkConvertPixelBuffer.h"
 #include "itkDefaultConvertPixelTraits.h"
+#include "itkImage.h"
 #include <iostream>
 
 int itkConvertBufferTest(int, char**)
