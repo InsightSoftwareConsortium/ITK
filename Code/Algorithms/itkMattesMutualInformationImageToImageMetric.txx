@@ -372,7 +372,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 template < class TFixedImage, class TMovingImage >
 void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::SampleFixedImageDomain( FixedImageSpatialSampleContainer& samples ) const
+::SampleFixedImageDomain( FixedImageSpatialSampleContainer& samples )
 {
 
   // Set up a random interator within the user specified fixed image region.

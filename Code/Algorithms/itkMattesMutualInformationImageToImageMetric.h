@@ -33,7 +33,7 @@ namespace itk
 
 /** \class MattesMutualInformationImageToImageMetric
  * \brief Computes the mutual information between two images to be 
- * registered using the methof of Mattes et al.
+ * registered using the method of Mattes et al.
  *
  * MattesMutualInformationImageToImageMetric computes the mutual 
  * information between a fixed and moving image to be registered.
@@ -137,6 +137,8 @@ public:
   typedef typename Superclass::MovingImageType          MovingImageType;
   typedef typename Superclass::FixedImageConstPointer   FixedImageConstPointer;
   typedef typename Superclass::MovingImageConstPointer  MovingImageCosntPointer;
+  typedef typename Superclass::CoordinateRepresentationType
+  CoordinateRepresentationType;
 
   /** Index and Point typedef support. */
   typedef typename FixedImageType::IndexType            FixedImageIndexType;
@@ -156,7 +158,7 @@ public:
    *  (2) uniformly select NumberOfSpatialSamples within
    *      the FixedImageRegion, and 
    *  (3) allocate memory for pdf data structures. */
-  void Initialize(void) throw ( ExceptionObject );
+  virtual void Initialize(void) throw ( ExceptionObject );
 
   /** Get the derivatives of the match measure. */
   void GetDerivative( 
@@ -173,23 +175,18 @@ public:
   /** Number of spatial samples to used to compute metric */
   itkSetClampMacro( NumberOfSpatialSamples, unsigned long,
                     1, NumericTraits<unsigned long>::max() );
-  itkGetMacro( NumberOfSpatialSamples, unsigned long); 
+  itkGetConstMacro( NumberOfSpatialSamples, unsigned long); 
 
   /** Number of bins to used in the histogram. Typical value is 50. */
   itkSetClampMacro( NumberOfHistogramBins, unsigned long,
                     1, NumericTraits<unsigned long>::max() );
-  itkGetMacro( NumberOfHistogramBins, unsigned long);   
+  itkGetConstMacro( NumberOfHistogramBins, unsigned long);   
   
 protected:
 
   MattesMutualInformationImageToImageMetric();
   virtual ~MattesMutualInformationImageToImageMetric() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
-
-private:
-
-  MattesMutualInformationImageToImageMetric(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
 
   /**
    * A fixed image spatial sample consists of the fixed domain point 
@@ -210,11 +207,23 @@ private:
   FixedImageSpatialSampleContainer;
 
   /** Container to store a set of points and fixed image values. */
-  mutable FixedImageSpatialSampleContainer    m_FixedImageSamples;
+  FixedImageSpatialSampleContainer    m_FixedImageSamples;
 
   /** Uniformly select a sample set from the fixed image domain. */
-  void SampleFixedImageDomain( 
-    FixedImageSpatialSampleContainer& samples) const;
+  virtual void SampleFixedImageDomain( 
+    FixedImageSpatialSampleContainer& samples);
+
+  /** Transform a point from FixedImage domain to MovingImage domain.
+   * This function also checks if mapped point is within support region. */
+  virtual void TransformPoint( const FixedImagePointType& fixedImagePoint,
+                               MovingImagePointType& mappedPoint, bool& sampleWithinSupportRegion,
+                               double& movingImageValue ) const;
+
+private:
+
+  MattesMutualInformationImageToImageMetric(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 
   /** The marginal PDFs are stored as std::vector. */
   typedef float PDFValueType;
@@ -281,8 +290,6 @@ private:
   bool m_InterpolatorIsBSpline;
 
   /** Typedefs for using BSpline interpolator. */
-  typedef typename Superclass::CoordinateRepresentationType
-  CoordinateRepresentationType;
   typedef
   BSplineInterpolateImageFunction<MovingImageType,
                                   CoordinateRepresentationType> BSplineInterpolatorType;
@@ -297,11 +304,6 @@ private:
   /** Pointer to central difference calculator. */
   typename DerivativeFunctionType::Pointer m_DerivativeCalculator;
 
-  /** Transform a point from FixedImage domain to MovingImage domain.
-   * This function also checks if mapped point is within support region. */
-  virtual void TransformPoint( const FixedImagePointType& fixedImagePoint,
-                               MovingImagePointType& mappedPoint, bool& sampleWithinSupportRegion,
-                               double& movingImageValue ) const;
 
   /** Compute PDF derivative contribution for each parameter. */
   virtual void ComputePDFDerivatives( const FixedImagePointType& fixedImagePoint,
