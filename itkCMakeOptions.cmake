@@ -18,6 +18,8 @@ ${ITK_SOURCE_DIR}/Utilities/zlib
 
 # set link libraries
 LINK_DIRECTORIES(
+${ITK_BINARY_DIR}/Utilities/zlib
+${ITK_BINARY_DIR}/Utilities/png
 ${ITK_BINARY_DIR}/Code/Common 
 ${ITK_BINARY_DIR}/Code/Numerics/vxl )
 
