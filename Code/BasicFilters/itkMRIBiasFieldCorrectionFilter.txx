@@ -172,7 +172,7 @@ namespace itk
     m_OptimizerShrinkFactor = 0 ;
     
     m_EnergyFunction = 0 ;
-    m_Optimizer = Optimizer::New() ;
+    m_Optimizer = OptimizerType::New() ;
     
     if (ImageDimension == 3)
       {
@@ -502,37 +502,6 @@ namespace itk
     return true ;
   }
 
-  template<class TInputImage, class TOutputImage>
-  template<class TSource, class TTarget>
-  void 
-  MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
-  ::CopyAndConvertImage(typename TSource::Pointer source, 
-                        typename TTarget::Pointer target)
-  {
-    typedef ImageRegionIterator<TSource> SourceIterator ;
-    typedef ImageRegionIterator<TTarget> TargetIterator ;
-    typedef typename TTarget::PixelType TargetPixelType ;
-
-    typename TSource::RegionType s_region = 
-      source->GetLargestPossibleRegion() ;
-    
-    typename TTarget::RegionType t_region = s_region ;
-
-    target->SetLargestPossibleRegion(t_region) ;
-    target->SetBufferedRegion(t_region) ;
-    target->Allocate() ;
-
-    SourceIterator s_iter(source, s_region) ;
-    TargetIterator t_iter(target, t_region) ;
-    
-    while (!s_iter.IsAtEnd())
-      {
-        t_iter.Set(s_iter.Get()) ;
-        ++s_iter ;
-        ++t_iter ;
-      }
-    
-  }
 
   template<class TInputImage, class TOutputImage>
   void 
@@ -602,6 +571,7 @@ namespace itk
           biasSize.push_back(size[dim]) ;
       }
   }
+
 
 } // end namespace itk
 

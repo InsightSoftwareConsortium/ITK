@@ -54,6 +54,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
+
   /** \class MRIBiasEnergyFunction
    * \brief a cost function for optimization
    *
@@ -254,13 +255,13 @@ namespace itk
     /**
      * internal (temporary) image related type defintions
      */
-    typedef Image<float, ImageDimension> InternalImageType ;
+    typedef Image< float, ImageDimension > InternalImageType ;
     typedef InternalImageType::PixelType InternalImagePixelType ;
     typedef InternalImageType::Pointer InternalImagePointer ;
     typedef InternalImageType::RegionType InternalImageRegionType ;
 
     /** 
-     * Smart pointer typedef support 
+     * Smart pointer typedef support b
      */
     typedef SmartPointer<Self> Pointer;
     typedef SmartPointer<const Self>  ConstPointer;
@@ -291,8 +292,7 @@ namespace itk
      * Optimizer type definition
      */
     typedef OnePlusOneEvolutionaryOptimizer<EnergyFunction, 
-      FastRandomUnitNormalVariateGenerator> Optimizer ;
-    
+      FastRandomUnitNormalVariateGenerator> OptimizerType ;
 
     /**
      * Sets the input mask image pointer
@@ -504,6 +504,7 @@ namespace itk
      */
     void CorrectInterSliceIntensityInhomogeneity(InputImageRegionType region) ;
 
+
   protected:
 
     /**
@@ -524,14 +525,7 @@ namespace itk
      */
     bool CheckMaskImage(ImageMaskPointer mask) ;
 
-    /**
-     * Allocates memory to the target image object, converts pixel type
-     * , and copies image data from source to target 
-     */
-    template<class TSource, class TTarget>
-    void CopyAndConvertImage(typename TSource::Pointer source,
-                             typename TTarget::Pointer target) ;
-
+protected:
     /**
      * Converts image data from source to target applying log(pixel + 1)
      * to all pixels. If the source pixel has negative value, it sets 
@@ -559,7 +553,8 @@ namespace itk
                           BiasField::DomainSizeType& domainSize) ;
     
     
-    void GenerateData()  ;
+    void GenerateData() ;
+
   private:
     
     /**
@@ -570,7 +565,7 @@ namespace itk
     /**
      * Optimizer object smart pointer 
      */
-    Optimizer::Pointer m_Optimizer ;
+    OptimizerType::Pointer m_Optimizer ;
     
     /**
      * Input mask image smart pointer
@@ -675,7 +670,43 @@ namespace itk
     std::vector<double> m_TissueClassSigmas ;
 
   };
+
   
+  // ==================================
+
+  /**
+   * Allocates memory to the target image object, converts pixel type
+   * , and copies image data from source to target.
+   */
+  template<class TSource, class TTarget>
+  void CopyAndConvertImage(typename TSource::Pointer source,
+                           typename TTarget::Pointer target)
+  {
+    typedef ImageRegionIterator<TSource> SourceIterator ;
+    typedef ImageRegionIterator<TTarget> TargetIterator ;
+    typedef typename TTarget::PixelType TargetPixelType ;
+    
+    typename TSource::RegionType s_region = 
+      source->GetLargestPossibleRegion() ;
+    
+    typename TTarget::RegionType t_region = s_region ;
+    
+    target->SetLargestPossibleRegion(t_region) ;
+    target->SetBufferedRegion(t_region) ;
+    target->Allocate() ;
+    
+    SourceIterator s_iter(source, s_region) ;
+    TargetIterator t_iter(target, t_region) ;
+    
+    while (!s_iter.IsAtEnd())
+      {
+        t_iter.Set(s_iter.Get()) ;
+        ++s_iter ;
+        ++t_iter ;
+      }
+    
+  }
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
