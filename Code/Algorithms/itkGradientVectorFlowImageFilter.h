@@ -13,7 +13,7 @@
 namespace itk
 {
 
-/** \class GradientVectorFlow
+/** \class GradientVectorFlowImageFilter
  * \brief 
  *
  *
