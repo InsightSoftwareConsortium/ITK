@@ -20,6 +20,19 @@ namespace _cxx_
 
 
 /**
+ * Default constructor.  This only exists to allow CvQualifiedType instances
+ * to be stored in STL containers.
+ */
+CvQualifiedType
+::CvQualifiedType():
+  m_Type(NULL),
+  m_Const(false),
+  m_Volatile(false)
+{
+}
+
+
+/**
  * Don't call this.  CvQualifiedType instances should be obtained from
  * Type::GetCvQualifiedType().
  * Constructor takes a pointer to the type to which these qualifiers

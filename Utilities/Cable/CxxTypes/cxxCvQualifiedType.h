@@ -32,6 +32,7 @@ class CvQualifiedType
 public:
   typedef CvQualifiedType Self;
   
+  CvQualifiedType();
   CvQualifiedType(const Type*);
   CvQualifiedType(const Type*, bool, bool);
   CvQualifiedType(const Self&);
