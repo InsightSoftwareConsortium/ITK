@@ -101,11 +101,12 @@ public:
   virtual TOutput EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const;
 
-  /** The variance for the discrete Gaussian kernel.  Sets the variance
-   * independently for each dimension, but 
-   * see also SetVariance(const double v). The default is 0.0 in each
-   * dimension. If UseImageSpacing is true, the units are the physical units
-   * of your image.  If UseImageSpacing is false then the units are pixels.*/
+  /** The standard deviation for the discrete Gaussian kernel.  Sets the
+   * standard deviation independently for each dimension.
+   * The default is 1.0 in each dimension. 
+   * If UseImageSpacing is true (default), the units are the physical units
+   * of your image.  If UseImageSpacing is false then the units are pixels.
+   */
   void SetSigma( const double sigma[ImageDimension] );
   void SetSigma( const float sigma[ImageDimension] );
   void SetSigma( const double sigma);
