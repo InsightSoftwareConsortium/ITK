@@ -71,7 +71,7 @@ KdTreeWeightedCenteroidNonterminalNode< TSample >
   m_Right = right ;
   m_WeightedCenteroid = centeroid ;
 
-  for (int i = 0 ; i < TSample::MeasurementVectorSize ; i++)
+  for (unsigned int i = 0 ; i < TSample::MeasurementVectorSize ; i++)
     {
       m_Centeroid[i] = m_WeightedCenteroid[i] / double(size) ;
     }
