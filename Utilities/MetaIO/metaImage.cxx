@@ -847,7 +847,11 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
 
   if(!m_WriteStream)
   {
-    m_WriteStream = new std::ofstream;
+    {
+    std::ofstream tFile(m_FileName,std::ios::binary | std::ios::out);
+    tFile.close();                    
+    }
+  m_WriteStream = new std::ofstream;
   }
   m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
   if(!m_WriteStream->is_open())
