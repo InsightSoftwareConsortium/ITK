@@ -1,0 +1,7 @@
+NDims = 3
+DimSize = 181 217 181 
+ElementSize = 1 1 1
+ElementSpacing = 1 1 1
+ElementType = MET_SHORT
+ElementByteOrderMSB = True
+ElementDataFile = brainweb.T1.1mm.9.0.raw
