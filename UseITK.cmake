@@ -1,6 +1,6 @@
 #
-# This module add the VTK include paths to a project
-# It should be included after the FindVTK module
+# This module add the ITK include paths to a project
+# It should be included after the FindITK module
 #
 IF (ITK_BINARY_PATH)
   LOAD_CACHE(${ITK_BINARY_PATH} 
@@ -22,8 +22,9 @@ IF (ITK_BINARY_PATH)
     INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/BasicFilters)
     INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/Algorithms)
     LINK_DIRECTORIES(${ITK_LIBRARY_PATH})
-ENDIF (VTK_BINARY_PATH)
+ENDIF (ITK_BINARY_PATH)
 
 IF (UNIX)
   LINK_LIBRARIES(${THREAD_LIBS} ${DL_LIBS} -lm)
 ENDIF (UNIX)
+
