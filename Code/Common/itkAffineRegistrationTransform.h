@@ -17,11 +17,11 @@
 #define __itkAffineRegistrationTransform_h
 
 #include "itkObject.h"
-#include "itkTransform.h"
+#include "itkTransformation.h"
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkVectorContainer.h"
-#include "itkAffineTransform.h"
+#include "itkAffineTransformation.h"
 
 
 namespace itk
@@ -31,16 +31,13 @@ namespace itk
  * \brief Generic Affine Transformation for a registration method
  *
  * This Class define the generic interface for an Affine Transformation 
- * It provides Transform() and InverseTransform() methods that works 
- * over Points and Vectors.
  *
  */
 
-template <unsigned int NDimensions>
+template <class TScalarType,unsigned int NDimensions>
 class ITK_EXPORT  AffineRegistrationTransform : 
-        public Transform<
-                  VectorContainer<unsigned int,double> >
-
+            public Transformation<TScalarType,NDimensions>
+				
 {
 public:
   /**
@@ -52,7 +49,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Transform< VectorContainer< unsigned int, double> > Superclass;
+  typedef Transformation<TScalarType,NDimensions> Superclass;
 
 
   /** 
@@ -65,34 +62,28 @@ public:
   /** 
    * Type of the input parameters
    */
-  typedef    VectorContainer<unsigned int, double>   ParametersType;
+  typedef VectorContainer<unsigned int,TScalarType>  ParametersType;
 
 
- /** 
+  /** 
    * Pointer Type to input parameters
    */
-  typedef    typename ParametersType::Pointer  ParametersPointer;
+  typedef  typename ParametersType::Pointer  ParametersPointer;
 
 
- /** 
+  /** 
    * Affine Transform Type
    */
-  typedef  AffineTransform<double,NDimensions>      AffineTransformType;
+  typedef  AffineTransformation<TScalarType,NDimensions>      AffineTransformType;
 
 
- /** 
+  /** 
    * Point Type
    */
   typedef  typename AffineTransformType::PointType     PointType;
 
 
- /** 
-   * Vector Type
-   */
-  typedef  typename AffineTransformType::VectorType   VectorType;
-
-
- /** 
+  /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro(AffineRegistrationTransform, Transform);
@@ -107,33 +98,15 @@ public:
   /**
    * Transform a Point using the Affine transformation
    */
-   PointType Transform( const PointType & point );
-
-
-  /**
-   * Transform a Vector using the Affine transformation
-   */
-   VectorType Transform( const VectorType & point );
-
-
-  /**
-   * Inverse Transform a Point using the Affine transformation
-   */
-   PointType InverseTransform( const PointType & point );
-
-
-  /**
-   * Inverse Transform a Vector using the Affine transformation
-   */
-   VectorType InverseTransform( const VectorType & point );
-
+  PointType Transform( PointType & point );
 
   /**
    * Set the Transformation Parameters
    * and update the internal transformation
    */
-   void SetParameters(const ParametersType *);
+  void SetParameters(const ParametersPointer &);
 
+  enum { ParametersDimension = NDimensions * (NDimensions + 1)};
 
 
 protected:
@@ -146,7 +119,7 @@ protected:
 
 private:
 
-  AffineTransformType           m_AffineTransform;
+  AffineTransformType      m_AffineTransform;
   ParametersType::Pointer       m_Parameters;
 
 };

@@ -17,6 +17,8 @@
 #define _itkAffineRegistrationTransform_txx
 
 #include <itkExceptionObject.h>
+#include "itkAffineRegistrationTransform.h"
+
 
 namespace itk
 {
@@ -24,19 +26,20 @@ namespace itk
 /**
  * Constructor
  */
-template <unsigned int NDimensions>
-AffineRegistrationTransform<NDimensions>
+template <class TScalarType,unsigned int NDimensions>
+AffineRegistrationTransform<TScalarType,NDimensions>
 ::AffineRegistrationTransform()
-{
-  m_Parameters->Reserve( NDimensions * ( NDimensions + 1 ) );
+{ 
+  m_Parameters = ParametersType::New();
+  m_Parameters->Reserve(ParametersDimension);
 }
 
 
 /**
  * Constructor
  */
-template <unsigned int NDimensions>
-AffineRegistrationTransform<NDimensions>
+template <class TScalarType,unsigned int NDimensions>
+AffineRegistrationTransform<TScalarType,NDimensions>
 ::AffineRegistrationTransform( const Self & other )
 {
   m_AffineTransform = other.m_AffineTransform;
@@ -46,12 +49,12 @@ AffineRegistrationTransform<NDimensions>
 /**
  * Assignment Operator
  */
-template <unsigned int NDimensions>
-const AffineRegistrationTransform<NDimensions> &
-AffineRegistrationTransform<NDimensions>
+template <class TScalarType,unsigned int NDimensions>
+const AffineRegistrationTransform<TScalarType,NDimensions> &
+AffineRegistrationTransform<TScalarType,NDimensions>
 ::operator=( const Self & other )
 {
-  m_AffineTransform = other.m_AffineTransform;
+  m_AffineTransformation = other.m_AffineTransformation;
   return *this;
 }
 
@@ -59,63 +62,23 @@ AffineRegistrationTransform<NDimensions>
 /**
  * Transform a Point
  */
-template <unsigned int NDimensions>
-AffineRegistrationTransform<NDimensions>::PointType
-AffineRegistrationTransform<NDimensions>
-::Transform(const PointType & point )
+template <class TScalarType,unsigned int NDimensions>
+AffineRegistrationTransform<TScalarType,NDimensions>::PointType
+AffineRegistrationTransform<TScalarType,NDimensions>
+::Transform( PointType & point )
 {
-  return m_AffineTransform.TransformPoint ( point );
+  return m_AffineTransform.Transform( point );
 }
-
-
-
-
-/**
- * Transform a Vector
- */
-template <unsigned int NDimensions>
-AffineRegistrationTransform<NDimensions>::VectorType
-AffineRegistrationTransform<NDimensions>
-::Transform(const VectorType & vector )
-{
-  return m_AffineTransform.TransformVector( vector );
-}
-
-
-/**
- * Inverse Transform a Point
- */
-template <unsigned int NDimensions>
-AffineRegistrationTransform<NDimensions>::PointType
-AffineRegistrationTransform<NDimensions>
-::InverseTransform(const PointType & point )
-{
-  return m_AffineTransform.BackTransformPoint( point );
-}
-
-
-
-/**
- * Inverse Transform a Vector
- */
-template <unsigned int NDimensions>
-AffineRegistrationTransform<NDimensions>::VectorType
-AffineRegistrationTransform<NDimensions>
-::InverseTransform(const VectorType & vector )
-{
-  return m_AffineTransform.BackTransformVector( vector );
-}
-
 
 
 
 /**
  * Set the transformation parameters
  */
-template <unsigned int NDimensions>
+template <class TScalarType,unsigned int NDimensions>
 void
-AffineRegistrationTransform<NDimensions>
-::SetParameters(const ParametersType * parameters )
+AffineRegistrationTransform<TScalarType,NDimensions>
+::SetParameters(const ParametersPointer & parameters )
 {
 
   if( parameters->Size() != m_Parameters->Size() )
@@ -135,7 +98,7 @@ AffineRegistrationTransform<NDimensions>
   }
 
   
-  typename AffineTransformType::MatrixType linear;
+  typename AffineTransformType::LinearType linear;
   typename AffineTransformType::VectorType constant;
   
   ParametersType::ConstIterator pit = m_Parameters->Begin();
@@ -157,11 +120,13 @@ AffineRegistrationTransform<NDimensions>
     ++pit;
   }
 
-  m_AffineTransform.SetMatrix( linear);
+  m_AffineTransform.SetLinear( linear );
   m_AffineTransform.SetOffset( constant );
 
 }
 
+
 } // end namespace itk
 
 #endif
+
