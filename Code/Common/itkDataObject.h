@@ -18,6 +18,7 @@ See COPYRIGHT.txt for copyright details.
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
+#include "itkSmartPointerForwardReference.h"
 
 namespace itk
 {
@@ -70,9 +71,11 @@ public:
    * been disconnected from the pipeline, or the data object
    * was created manually. (Note: we cannot use the GetObjectMacro()
    * defined in itkMacro because the mutual dependency of
-   * DataObject and ProcessObject causes compile problems.)
+   * DataObject and ProcessObject causes compile problems. Also,
+   * a forward reference smart pointer is returned, not a smart pointer, 
+   * because of the circular dependency between the process and data object.)
    */
-  SmartPointer<ProcessObject> GetSource();
+  SmartPointerForwardReference<ProcessObject> GetSource();
   
   /** 
    * Restore the data object to its initial state. This means releasing
@@ -144,7 +147,7 @@ public:
   itkGetMacro(PipelineMTime,unsigned long);
 
   virtual void PrepareForNewData() 
-    {this->Initialize();};
+    {this->Initialize();}
   void DataHasBeenGenerated();
   void ComputeEstimatedPipelineMemorySize(unsigned long sizes[3]);
   unsigned long GetEstimatedPipelineMemorySize();
@@ -157,6 +160,11 @@ public:
   virtual bool VerifyRequestedRegion() = 0;
 
   /** 
+   * Handle the process object/data object reference-counting loop. 
+   */
+  virtual void UnRegister();
+
+  /** 
    * Get the net reference count. This is the number of
    * external references to the DatObject/SourceObject pair.
    * (An external reference is a reference via a smart pointer.)
@@ -166,6 +174,14 @@ public:
    */
   virtual int GetNetReferenceCount() const;
 
+  /**
+   * Turn on and off the UnderConstruction ivar. Set by a
+   * process object during construction to avoid nasty
+   * reference counting behavior.
+   */
+  void UnderConstructionOn()
+    {m_UnderConstruction = true;}
+  
 protected:
   DataObject();
   ~DataObject();
@@ -181,7 +197,7 @@ protected:
   bool m_RequestedRegionInitialized;  
 
 private:
-  SmartPointer<ProcessObject> m_Source; ///Who generated this data as output?
+  SmartPointerForwardReference<ProcessObject> m_Source; ///Who generates this data?
 
   TimeStamp m_UpdateTime;  ///When was this data last generated?
 
@@ -199,11 +215,13 @@ private:
   // How many upstream filters are local to the process.
   // This supports distributed processing (i.e., asynchronous updates).
   float m_Locality;  
-
   
-  /**
-   * Static member that controls global data release after use by filter
-   */
+  // Special ivar used during construction by data objects to prevent
+  // nasty cyclic reference counting behavior.
+  bool m_UnderConstruction;
+
+  // Static member that controls global data release after use by filter.
+  //
   static bool m_GlobalReleaseDataFlag;
 };
 

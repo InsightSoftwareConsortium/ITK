@@ -16,11 +16,11 @@ See COPYRIGHT.txt for copyright details.
 #include "itkDataObject.h"
 #include "itkProcessObject.h"
 #include "itkObjectFactory.h"
+#include "itkSmartPointerForwardReference.txx"
 
 namespace itk
 {
 
-// Initialize static member that controls global data release 
 // after use by filter
 bool DataObject::m_GlobalReleaseDataFlag = false;
 
@@ -38,8 +38,9 @@ DataObject()
 
   m_PipelineMTime = 0;
   
+  m_UnderConstruction = false;
+
   m_RequestedRegionInitialized = false;
-  
 }
 
 //----------------------------------------------------------------------------
@@ -113,7 +114,7 @@ DataObject
   itkDebugMacro( << this->GetClassName() << " (" 
                  << this << "): setting Source to " << arg ); 
 
-  if (m_Source != arg) 
+  if ( m_Source != arg ) 
     {
     m_Source = arg; 
     this->Modified(); 
@@ -122,13 +123,13 @@ DataObject
 
 //----------------------------------------------------------------------------
 
-SmartPointer<ProcessObject>
+SmartPointerForwardReference<ProcessObject>
 DataObject
 ::GetSource()
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): returning Source address " << this->m_Source );
-  return this->m_Source;
+                << "): returning Source address " << m_Source );
+  return m_Source;
 }
 
 
@@ -147,6 +148,9 @@ DataObject
     {
     os << indent << "Source: (none)\n";
     }
+
+  os << indent << "Under Construction: " 
+     << (m_UnderConstruction ? "On\n" : "Off\n");
 
   os << indent << "Release Data: " 
      << (m_ReleaseDataFlag ? "On\n" : "Off\n");
@@ -190,7 +194,7 @@ DataObject
        m_LastRequestedRegionWasOutsideOfTheBufferedRegion)
     {
 
-    if (m_Source)
+    if ( m_Source )
       {
       m_Source->PropagateRequestedRegion(this);
       }
@@ -220,7 +224,7 @@ DataObject
   if ( m_UpdateTime < m_PipelineMTime || m_DataReleased ||
        this->RequestedRegionIsOutsideOfTheBufferedRegion())
     {
-    if (m_Source)
+    if ( m_Source )
       {
       m_Source->UpdateOutputData(this);
       } 
@@ -291,20 +295,62 @@ DataObject
 }
 
 //----------------------------------------------------------------------------
-// This object is reference counted by the source, and it in turn refers
-// back to the source. That gives a new reference count of 0.
+// The net reference count is the number of external references to the data object/
+// process object cycle. Note that ProcessObject::GetNetReferenceCount() is the
+// method that actually computes the number of reference counts, we delegate it
+// to this method.
 int 
 DataObject
 ::GetNetReferenceCount() const
 {
   if ( m_Source )
     {
-    return this->GetReferenceCount() - 1;
+    return m_Source->GetNetReferenceCount();
     }
   else
     {
     return this->GetReferenceCount();
     }
+}
+
+//----------------------------------------------------------------------------
+void 
+DataObject
+::UnRegister()
+{
+  // Determine the number of external references to the expected reference
+  // count cycle between the process objects and its outputs.
+  int refCount = this->GetNetReferenceCount();
+
+  // We are decrementing the external reference count by 1. So if the net 
+  // (external) reference count (combined process/data object count)
+  // is <= 1, then we are going to be destroyed.
+  if ( refCount <= 1 && ! m_UnderConstruction ) 
+    {
+    // The following magic statement temporarily ups the reference
+    // count so that the SetSource() method, which results in a recursive
+    // UnRegister(), does not enter into this if(refCount<=1) loop the
+    // next time. We UnRegister() when we are done with the outputs.
+    Superclass::Register();
+
+    // Break reference count cycle to source
+    if ( m_Source.GetPointer() )
+      {
+      this->SetSource(0); //side effect: unregisters the source!
+      }
+
+    // Release block for recursive UnRegister()
+    Superclass::UnRegister();
+    }//if deleting
+
+  // Turn off the flag indicating first time construction
+  if ( m_UnderConstruction )
+    {
+    m_UnderConstruction = false;
+    }
+
+  // Cycle is broken, propagate normal behavior to superclass
+  Superclass::UnRegister();
 }
 
 } // end namespace itk

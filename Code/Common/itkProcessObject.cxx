@@ -48,13 +48,6 @@ ProcessObject
 ProcessObject
 ::~ProcessObject()
 {
-  for (int idx = 0; idx < m_Inputs.size(); ++idx)
-    {
-    if ( m_Inputs[idx] )
-      {
-      m_Inputs[idx]->UnRegister();
-      }
-    }
 }
 
 typedef DataObject *DataObjectPointer;
@@ -923,6 +916,9 @@ ProcessObject
 }
 
 //----------------------------------------------------------------------------
+// This code determines the number of external (or net) references to the cycle
+// of mutual references between data objects and process objects.
+//
 int 
 ProcessObject
 ::GetNetReferenceCount() const
@@ -934,7 +930,11 @@ ProcessObject
     if ( m_Outputs[idx] )
       {
       // subtract one (per each data object) because the data object references me
-      refCount += m_Outputs[idx]->GetNetReferenceCount() - 1;
+      refCount -= 1;
+      
+      // Now take into account the reference counts on the data objects.
+      // Subtract one because I refer to the data object.
+      refCount += m_Outputs[idx]->GetReferenceCount() - 1;
       }
     }
   return refCount;

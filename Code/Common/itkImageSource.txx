@@ -25,12 +25,11 @@ template<class TOutputImage>
 ImageSource<TOutputImage>
 ::ImageSource()
 {
-  /**
-   * Create the output
-   */
+  // Create the output.
   typename TOutputImage::Pointer output = TOutputImage::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
+  output->UnderConstructionOn();
 }
 
 
@@ -76,7 +75,6 @@ ImageSource<TOutputImage>
   this->ProcessObject::SetNthOutput(0, output);
 }
 
-
 /**
  *
  */
@@ -87,7 +85,6 @@ ImageSource<TOutputImage>
 {
   Superclass::GenerateInputRequestedRegion();
 }
-
 
 /**
  *
