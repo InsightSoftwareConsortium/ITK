@@ -43,4 +43,5 @@ itkGradientAnisotropicDiffusionImageFilterTest
 itkGradientMagnitudeImageFilterTest
 itkNeighborhoodOperatorImageFilterTest
 itkDerivativeImageFilterTest
+itkDiscreteGaussianImageFilterTest
 )
