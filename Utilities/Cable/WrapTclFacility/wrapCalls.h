@@ -262,7 +262,7 @@ struct  ReturnReferenceTo<const double>
  * Base class for ArgumentAsInstanceOf to implement non-templated
  * portion of the functor.
  */
-class ArgumentAsInstanceBase
+class _wrap_EXPORT ArgumentAsInstanceBase
 {
 protected:
   ArgumentAsInstanceBase(const WrapperBase* wrapper, const Type* type):
@@ -287,7 +287,7 @@ protected:
  * Base class for ArgumentAsPointerTo and ArgumentAsPointerToFunction
  * to implement non-templated portion of the functors.
  */
-class ArgumentAsPointerBase
+class _wrap_EXPORT ArgumentAsPointerBase
 {
 protected:
   ArgumentAsPointerBase(const WrapperBase* wrapper, const Type* type):
@@ -312,7 +312,7 @@ protected:
  * Base class for ArgumentAsPointerTo_array to implement non-templated
  * portion of the functor.
  */
-class ArgumentAsPointerBase_array
+class _wrap_EXPORT ArgumentAsPointerBase_array
 {
 protected:
   ArgumentAsPointerBase_array(const WrapperBase* wrapper, const Type* type,
@@ -346,7 +346,7 @@ protected:
  * Base class for ArgumentAsReferenceTo to implement non-templated
  * portion of the functor.
  */
-class ArgumentAsReferenceBase
+class _wrap_EXPORT ArgumentAsReferenceBase
 {
 protected:
   ArgumentAsReferenceBase(const WrapperBase* wrapper, const Type* type):
@@ -372,7 +372,8 @@ protected:
  * Base class for ArgumentAsReferenceTo_const to implement
  * non-templated portion of the functor.
  */
-class ArgumentAsReferenceBase_const: public ArgumentAsReferenceBase
+class _wrap_EXPORT ArgumentAsReferenceBase_const:
+  public ArgumentAsReferenceBase
 {
 protected:
   ArgumentAsReferenceBase_const(const WrapperBase* wrapper, const Type* type,
