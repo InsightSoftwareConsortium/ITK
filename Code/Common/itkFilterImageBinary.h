@@ -70,6 +70,12 @@ public:
   typedef typename TOutputImage::Pointer ImageOutputPointer;
 
   /**
+   *  Region
+   */
+  typedef typename TOutputImage::Region ImageRegion;
+
+
+  /**
    *  Iterator type for first input image
    */
   typedef itk::ImageRegionSimpleIterator< typename TInputImage1::PixelType, TInputImage1::ImageDimension> Image1Iterator;
