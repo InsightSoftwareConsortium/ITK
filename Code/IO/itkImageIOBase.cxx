@@ -223,18 +223,28 @@ const std::type_info& ImageIOBase::GetComponentTypeInfo() const
 bool ImageIOBase::SetPixelTypeInfo(const std::type_info& ptype)
 {
   this->SetNumberOfComponents(1);
+  this->SetPixelType(ImageIOBase::UNKNOWNPIXELTYPE);
+  this->SetComponentType(ImageIOBase::UNKNOWNCOMPONENTTYPE);
 
   if itkCheckPTypeMacro(char, CHAR)
   else if itkCheckPTypeMacro(unsigned char, UCHAR)
   else if itkCheckPTypeMacro(short, SHORT)
   else if itkCheckPTypeMacro(unsigned short, USHORT)
   else if itkCheckPTypeMacro(int, INT)
-  else if itkCheckPTypeMacro(unsigned int, UINT)
+
+  // Breaking up the if-else chain due to 
+  // nesting level limitations of Visual Studio.
+  
+  if itkCheckPTypeMacro(unsigned int, UINT)
   else if itkCheckPTypeMacro(long, LONG)
   else if itkCheckPTypeMacro(unsigned long, ULONG)
   else if itkCheckPTypeMacro(float, FLOAT)
   else if itkCheckPTypeMacro(double, DOUBLE)
-  else if ( ptype == typeid(Offset<2>) )
+
+  // Breaking up the if-else chain due to 
+  // nesting level limitations of Visual Studio.
+
+  if ( ptype == typeid(Offset<2>) )
     {
     this->SetNumberOfComponents(2);
     this->SetPixelType(ImageIOBase::OFFSET);
@@ -252,13 +262,16 @@ bool ImageIOBase::SetPixelTypeInfo(const std::type_info& ptype)
     this->SetPixelType(ImageIOBase::OFFSET);
     this->SetComponentType(ImageIOBase::LONG);
     }
-  else
+
+
+
+  if( this->GetPixelType()     == ImageIOBase::UNKNOWNPIXELTYPE    ||
+      this->GetComponentType() == ImageIOBase::UNKNOWNCOMPONENTTYPE )
     {
     itkExceptionMacro("Pixel type currently not supported.");
-    this->SetPixelType(ImageIOBase::UNKNOWNPIXELTYPE);
-    this->SetComponentType(ImageIOBase::UNKNOWNCOMPONENTTYPE);
     return false;
     }
+
   return true;
 }
 
