@@ -26,7 +26,8 @@ public class VoronoiSegmentationImageFilter
     itkVoronoiSegmentationImageFilterUC2UC2UC2_Pointer filter = 
       itkVoronoiSegmentationImageFilterUC2UC2UC2.itkVoronoiSegmentationImageFilterUC2UC2UC2_New();
 
-    filter.SetMeanPercentError( 
+    filter.SetMeanPercentError( Integer.parseInt( argv[3] ) );
+    filter.SetSTDPercentError(  Integer.parseInt( argv[4] ) );
 
     itkImageFileWriterUC2_Pointer writer = itkImageFileWriterUS2.itkImageFileWriterUS2_New();
 
