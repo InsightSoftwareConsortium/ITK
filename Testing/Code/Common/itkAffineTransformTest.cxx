@@ -31,7 +31,7 @@ main(
     int i, j;
 
     /* FIXME: This is still mostly an empty shell for testing */
-    any = 1;
+    any = 0;
     std::cout << "The AffineTransform class is still being implemented"
               << std::endl;
 
