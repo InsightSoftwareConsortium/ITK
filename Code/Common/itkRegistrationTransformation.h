@@ -84,10 +84,11 @@ public:
    */
   itkGetMacro( Parameters, ParametersPointer );
  
+
   /**
    * Set Parameters
    */
-  void SetParameters( const ParametersType * );
+  virtual void SetParameters( const ParametersType * ) = 0;
  
 
   

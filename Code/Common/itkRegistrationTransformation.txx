@@ -25,6 +25,7 @@ template <class TParameters>
 RegistrationTransformation<TParameters>
 ::RegistrationTransformation()
 {
+  m_Parameters = ParametersType::New();
 }
 
 
@@ -47,18 +48,6 @@ RegistrationTransformation<TParameters>
 ::operator=( const Self & other )
 {
   return *this;
-}
-
-
-/**
- * Set Parameters
- */
-template <class TParameters>
-void
-RegistrationTransformation<TParameters>
-::SetParameters( const TParameters * parameters )
-{
-  m_Parameters       =   parameters;
 }
 
 
