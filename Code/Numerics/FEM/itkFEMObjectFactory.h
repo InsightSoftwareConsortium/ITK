@@ -59,7 +59,7 @@ namespace fem {
  * and make it static. So a complete registration of a derived class
  * looks like:
  *
- *  - namespace { static Base* NewDerivedClass() { return new DerivedClass; } } \n
+ *  - namespace { static Base* NewDerivedClass() { return new DerivedClass; } }
  *    const int OF_Derived=FEMObjectFactory<BaseClass>::Register( NewDerivedClass, "NewDerivedObjectName" );
  *
  */
