@@ -46,7 +46,8 @@ itkShrinkImageTest
 itkSliceIteratorTest
 itkSmartPointerTest
 itkSupervisedClassifierTest
-itkTraitsTest
+itkThresholdImageFilterTest
+itkTraitsTest  
 itkUnsupervisedClassifierTest
 itkVectorGeometryTest
 itkVectorTest)
