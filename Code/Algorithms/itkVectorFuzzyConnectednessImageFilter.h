@@ -64,10 +64,12 @@ public:
   itkNewMacro(Self);
 
   enum {ImageDimension = TInputImage::ImageDimension };
+  enum {VectorDimension = TInputImage::PixelType::VectorType::VectorDimension};
 
   
-  typedef   itk::Matrix<double,3,3>               MatrixType;
-  typedef   itk::Vector<int,3>                    IntVector;
+  typedef   itk::Matrix<double,VectorDimension,VectorDimension>               MatrixType;
+  typedef   itk::Vector<int,VectorDimension>                    VDVector;
+  typedef   itk::Vector<int,ImageDimension>                     IDVector;
 
 
   typedef   TInputImage                           InputImageType;
@@ -78,7 +80,7 @@ public:
   typedef   typename TOutputImage::RegionType     RegionType;
 
   typedef   std::list<IndexType>                  ListType;
-  typedef   std::vector<IntVector>                OffsetType;
+  typedef   std::vector<IDVector>                 OffsetType;
   typedef   std::vector<float>                    FloatType;
   
   /**
@@ -103,7 +105,7 @@ public:
    * Setting the covariance matrix for specified object:
    */
   void SetObjectsMatrix(const MatrixType object_max,const int object_num);
-  
+
   /**
    * Setting the seed points for specified object.
    */
@@ -112,7 +114,7 @@ public:
   /**
    * Setting the seed points for specified object.
    */
-  void SetObjectsMean(const IntVector, const int object_num);
+  void SetObjectsMean(const VDVector, const int object_num);
 
   /**
    * Allocate the variate in terms of the number of Objects
@@ -131,24 +133,23 @@ protected:
 
 private:
 
-
   SizeType                       m_Size;
   OffsetType                     *m_SpherePointsLoc;
   int                            *m_SpherePointsNum;
 
   double                         m_Mask[3][3];
   double                         m_MaskTotal;
-  IntVector                      m_HomoMaxDiff;
-  IntVector                      m_FeaturesThreshold;
-  IntVector                      m_PowerValue;
+  VDVector                       m_HomoMaxDiff;
+  VDVector                       m_FeaturesThreshold;
+  VDVector                       m_PowerValue;
   
   int                            m_Objects;
   int                            m_SelectedObject;
 
   MatrixType                     *m_ObjectsCovMatrix;
-  IntVector                      *m_ObjectsMean;
+  VDVector                       *m_ObjectsMean;
 
-  IntVector                      *m_ObjectsMaxDiff;
+  VDVector                       *m_ObjectsMaxDiff;
   FloatType                      *m_ObjectsMap;
   ListType                       *m_ObjectsSeed;
 
@@ -160,7 +161,7 @@ private:
 
 
   typename InputImageType::Pointer   m_InputImage;
-  typename InputImageType::Pointer   m_FilterImage; 
+  typename InputImageType::Pointer   m_FilterImage;
   typename UShortImage::Pointer      m_ObjectFuzzyScene;
   typename UShortImage::Pointer      m_BackgroundFuzzyScene;
   typename OutputImageType::Pointer  m_SegmentObject; 
