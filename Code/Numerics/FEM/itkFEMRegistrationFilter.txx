@@ -281,11 +281,13 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
     }
 
     FEMLightObject::SkipWhiteSpace(f);
+    this->m_NumberOfIntegrationPoints.resize(m_NumLevels);
     for(jj=0; jj< m_NumLevels; jj++){ 
     f >> ibuf;
     this->SetNumberOfIntegrationPoints(ibuf,jj);}
 
     FEMLightObject::SkipWhiteSpace(f);
+    this->m_MetricWidth.resize(m_NumLevels);
     for(jj=0; jj< m_NumLevels; jj++){ 
     f >> ibuf;
     this->SetWidthOfMetricRegion(ibuf,jj);}
@@ -761,7 +763,7 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
    if (DLS > 0 && (iters > 0 /*|| m_CurrentLevel !=0*/) && (iters % LSF) != 0) 
    {
      std::cout << " line search ";
-     if (DLS == 1 ) LastE=mySolver.GoldenSection(1.e-1,50);
+     if (DLS == 1 ) LastE=mySolver.GoldenSection(1.e-1,10);
      else  LastE=mySolver.BrentsMethod(1.e-1,50);
      std::cout << " line search done " << std::endl;
    } else  LastE=mySolver.EvaluateResidual(mint);
