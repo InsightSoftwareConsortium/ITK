@@ -173,9 +173,10 @@ public:
   /** The generic level set function type */
   typedef SegmentationLevelSetFunction<OutputImageType, FeatureImageType>
   SegmentationFunctionType;
-
+    
   /** The type used for the advection field */
   typedef typename SegmentationFunctionType::VectorImageType VectorImageType;
+  typedef typename SegmentationFunctionType::ImageType       SpeedImageType;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(SegmentationLevelSetImageFilter, SparseFieldLevelSetImageFilter);
@@ -213,23 +214,23 @@ public:
   /** This function is for advanced applications.  Set the image sampled as the
    * speed term of this segmentation method.  In  general, the speed image is 
    * generated automatically by a subclass of this filter. */
-  void SetSpeedImage( typename SegmentationFunctionType::ImageType *s)
+  void SetSpeedImage( SpeedImageType *s )
   {  m_SegmentationFunction->SetSpeedImage( s ); }
 
   /** This function is for advanced applications.  Set the image sampled as the
    * advection term of this segmentation method.  In general, the advection image
    * is generated automatically by a subclass of this filter. */
-  void SetAdvectionImage( typename SegmentationFunctionType::VectorImageType *v)
+  void SetAdvectionImage( VectorImageType *v)
   { m_SegmentationFunction->SetAdvectionImage( v ); }
 
   /** Return a pointer to the image sampled as the speed term of the
    * segmentation algorithm. */
-  virtual const typename SegmentationFunctionType::ImageType *GetSpeedImage() const
+  virtual const SpeedImageType *GetSpeedImage() const
   { return m_SegmentationFunction->GetSpeedImage(); }
 
   /** Return a pointer to the image sampled as the advection term of the
    * segmentation algorithm. */
-  virtual const typename SegmentationFunctionType::VectorImageType *GetAdvectionImage() const
+  virtual const VectorImageType *GetAdvectionImage() const
   { return m_SegmentationFunction->GetAdvectionImage(); }
 
   /** THIS METHOD IS DEPRECATED AND SHOULD NOT BE USED.  This method reverses
