@@ -2,7 +2,7 @@
 #define METAIMAGEUTILS_H
 
 #include <stdio.h>
-#include <cstring>
+#include <string.h>
 #include <metaImageTypes.h>
 
 bool MET_StringToImageModality(const char * _str,
