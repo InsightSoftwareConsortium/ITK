@@ -58,6 +58,7 @@ public:
   typedef VectorContainer<unsigned long,PointType>     PointContainerType;
   typedef SmartPointer<PointContainerType>             PointContainerPointer;
   typedef typename Superclass::VectorType              VectorType;
+  typedef typename Superclass::CovariantVectorType     CovariantVectorType;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
