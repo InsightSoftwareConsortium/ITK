@@ -27,7 +27,7 @@ namespace itk
 template< typename TImage >
 ReflectiveImageRegionIterator<TImage>
 ::ReflectiveImageRegionIterator()
-    : ImageLinearConstIteratorWithIndex<TImage>() 
+    : ReflectiveImageRegionConstIterator<TImage>() 
 {
 
 
@@ -38,7 +38,7 @@ ReflectiveImageRegionIterator<TImage>
 template< typename TImage >
 ReflectiveImageRegionIterator<TImage>
 ::ReflectiveImageRegionIterator(ImageType *ptr, const RegionType& region) :
-    ImageLinearConstIteratorWithIndex<TImage>(   ptr, region ) 
+    ReflectiveImageRegionConstIterator<TImage>(   ptr, region ) 
 {
 
 
@@ -49,15 +49,15 @@ ReflectiveImageRegionIterator<TImage>
 template< typename TImage >
 ReflectiveImageRegionIterator<TImage>
 ::ReflectiveImageRegionIterator( const ImageIteratorWithIndex<TImage> &it):
-                                        ImageLinearConstIteratorWithIndex<TImage>(it)
+                                        ReflectiveImageRegionConstIterator<TImage>(it)
 { 
 }
 
  
 template< typename TImage >
 ReflectiveImageRegionIterator<TImage>
-::ReflectiveImageRegionIterator( const ImageLinearConstIteratorWithIndex<TImage> &it):
-                                        ImageLinearConstIteratorWithIndex<TImage>(it)
+::ReflectiveImageRegionIterator( const ReflectiveImageRegionConstIterator<TImage> &it):
+                                        ReflectiveImageRegionConstIterator<TImage>(it)
 { 
 }
 
@@ -65,9 +65,9 @@ ReflectiveImageRegionIterator<TImage>
 template< typename TImage >
 ReflectiveImageRegionIterator<TImage> &
 ReflectiveImageRegionIterator<TImage>
-::operator=( const ImageLinearConstIteratorWithIndex<TImage> &it)
+::operator=( const ReflectiveImageRegionConstIterator<TImage> &it)
 { 
-  this->ImageLinearConstIteratorWithIndex<TImage>::operator=(it);
+  this->ReflectiveImageRegionConstIterator<TImage>::operator=(it);
   return *this;
 }
 

@@ -17,7 +17,7 @@
 #ifndef __itkReflectiveImageRegionIterator_h
 #define __itkReflectiveImageRegionIterator_h
 
-#include "itkImageLinearConstIteratorWithIndex.h"
+#include "itkReflectiveImageRegionConstIterator.h"
 #include "itkImageIteratorWithIndex.h"
 
 namespace itk
@@ -31,23 +31,23 @@ namespace itk
  * ReflectiveImageRegionIterator is constrained to walk only within the 
  * specified region and along a line parallel to one of the coordinate axis.
  *
- * Most of the functionality is inherited from the ImageLinearConstIteratorWithIndex.
+ * Most of the functionality is inherited from the ReflectiveImageRegionConstIterator.
  * The current class only adds write access to image pixels.
  *
  * 
- * \sa ImageLinearConstIteratorWithIndex
+ * \sa ReflectiveImageRegionConstIterator
  *
  * \ingroup ImageIterators
  *
  *
  */
 template<typename TImage>
-class ReflectiveImageRegionIterator : public ImageLinearConstIteratorWithIndex<TImage>
+class ReflectiveImageRegionIterator : public ReflectiveImageRegionConstIterator<TImage>
 {
 public:
   /** Standard class typedefs. */
   typedef ReflectiveImageRegionIterator Self;
-  typedef ImageLinearConstIteratorWithIndex<TImage>  Superclass;
+  typedef ReflectiveImageRegionConstIterator<TImage>  Superclass;
   
    /** Types inherited from the Superclass */
   typedef typename Superclass::IndexType              IndexType;
@@ -93,8 +93,8 @@ public:
 protected:
   /** the construction from a const iterator is declared protected
       in order to enforce const correctness. */
-  ReflectiveImageRegionIterator( const ImageLinearConstIteratorWithIndex<TImage> &it);
-  Self & operator=(const ImageLinearConstIteratorWithIndex<TImage> & it);
+  ReflectiveImageRegionIterator( const ReflectiveImageRegionConstIterator<TImage> &it);
+  Self & operator=(const ReflectiveImageRegionConstIterator<TImage> & it);
  
 
 };
