@@ -88,30 +88,74 @@ template<class TInputImage>
 double
 LinearInterpolateImageFunction<TInputImage>
 ::Evaluate(
-double * dblIndex )
+double * dblIndex ) const
+{
+
+  /* Prepare coordinates; check whether inside image or not.  */
+
+  for (int j = 0; j < ImageDimension; j++) 
+  {
+    m_Base[j]  = (long)floor(dblIndex[j]);
+    m_Alpha[j] = dblIndex[j] - m_Base[j];
+  }
+  
+  return EvaluateFromBaseAndAlpha();
+
+}
+
+
+/**
+ *
+ */
+template<class TInputImage>
+double
+LinearInterpolateImageFunction<TInputImage>
+::Evaluate(
+const PointType & point ) const
+{
+
+  /* Prepare coordinates; check whether inside image or not. */
+
+
+  for (int j = 0; j < ImageDimension; j++) 
+  {
+    m_Base[j]  = (long)floor(point[j]);
+    m_Alpha[j] = point[j] - m_Base[j];
+  }
+  
+  return EvaluateFromBaseAndAlpha();
+
+}
+
+
+
+/**
+ *
+ */
+template<class TInputImage>
+double
+LinearInterpolateImageFunction<TInputImage>
+::EvaluateFromBaseAndAlpha() const
 {
   int j;        // Index over coordinates
 
   /* Prepare coordinates; check whether inside image or not.
      If completely outside image, return 0 immediately. */
-  long base[ImageDimension];            // Base of interp neighborhood
-  double alpha[ImageDimension];         // Interpolation parameter
+
   bool partial = false;                 // Partially inside image?
 
   for (j = 0; j < ImageDimension; j++) {
-    base[j]  = (long)floor(dblIndex[j]);
-    alpha[j] = dblIndex[j] - base[j];
-    if ( base[j] < -1 || (unsigned long)base[j] >= m_ImageSize[j] ) {
+    if ( m_Base[j] < -1 || (unsigned long)m_Base[j] >= m_ImageSize[j] ) {
       // Completely outside
       return 0; }
-    else if ( base[j] < 0 || (unsigned long)base[j] >= m_ImageSize[j]-1) {
+    else if ( m_Base[j] < 0 || (unsigned long)m_Base[j] >= m_ImageSize[j]-1) {
       // Overlaps the boundary
       partial = true; }
   }
 
   IndexType neighIndex;
   double value = 0.0;            // Interpolated pixel value
-  typename InputImageType::Pointer image = this->GetInputImage();
+  typename InputImageType::ConstPointer image = this->GetInputImage();
 
   /* Case 1: Interpolation neighborhood overlaps the image boundary */
   if (partial) {
@@ -120,23 +164,23 @@ double * dblIndex )
       int upper = counter;       // Each bit indicates upper/lower neighbor
       for (j = 0; j < ImageDimension; j++) {
 
-        neighIndex[j] = base[j];
+        neighIndex[j] = m_Base[j];
 
         if (upper & 1) {
-          if ( base[j] >= 0 &&
-               (unsigned long)base[j] > m_ImageSize[j] - 2 ) {
+          if ( m_Base[j] >= 0 &&
+               (unsigned long)m_Base[j] > m_ImageSize[j] - 2 ) {
             alf = 0.0; 
             break; }
           else {
             neighIndex[j] += 1;
-            alf *= alpha[j]; }
+            alf *= m_Alpha[j]; }
           }
         else {
-          if ( base[j] < 0 ) {
+          if ( m_Base[j] < 0 ) {
             alf = 0.0;
             break;  }
           else
-            alf *= 1.0 - alpha[j];
+            alf *= 1.0 - m_Alpha[j];
         }
         upper >>= 1;
       }
@@ -153,12 +197,12 @@ double * dblIndex )
       for (j = 0; j < ImageDimension; j++) {
 
         if (upper & 1) {
-          neighIndex[j] = base[j] + 1;
-          alf *= alpha[j];
+          neighIndex[j] = m_Base[j] + 1;
+          alf *= m_Alpha[j];
         }
         else {
-          neighIndex[j] = base[j];
-          alf *= 1.0 - alpha[j];
+          neighIndex[j] = m_Base[j];
+          alf *= 1.0 - m_Alpha[j];
         }
         upper >>= 1;
       }
@@ -170,7 +214,6 @@ double * dblIndex )
   return ( value );
 
 }
-
 
 } // namespace itk
 

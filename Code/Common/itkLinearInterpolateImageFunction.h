@@ -72,6 +72,13 @@ public:
    */
   typedef Index<ImageDimension> IndexType;
 
+
+  /**
+   * Point typedef support.
+   */
+  typedef Point<double,ImageDimension> PointType;
+
+
   /** 
    * Set the input image.
    *
@@ -101,7 +108,22 @@ public:
    *
    * This method is believed to be thread safe.
    */
-  virtual double Evaluate( double * dblIndex );
+  virtual double Evaluate( double * dblIndex ) const;
+
+  /**
+   * Evaluate the function at a Point position
+   *
+   * Returns the linearly interpolated image intensity at a specified
+   * coordinate position, which need not be integer-valued.  Pixels
+   * outside the image are considered to be zero.
+   *
+   * This method is believed to be thread safe.
+   */
+  virtual double Evaluate( const PointType & point ) const;
+
+
+  virtual double EvaluateFromBaseAndAlpha() const;
+
 
 protected:
   LinearInterpolateImageFunction(){};
@@ -116,6 +138,9 @@ private:
 
   Size<ImageDimension>   m_ImageSize;  // Dimensions of the image
   unsigned long          m_Neighbors;  // Size of interpolation neighborhood
+
+  mutable long           m_Base[ImageDimension];      
+  mutable double         m_Alpha[ImageDimension];      
 
 };
 
