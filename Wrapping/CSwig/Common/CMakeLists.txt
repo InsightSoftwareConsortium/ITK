@@ -36,6 +36,8 @@ SET(WRAP_SOURCES
   wrap_itkVersorTransform
 )
 
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+
 SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
                        "${WrapITK_BINARY_DIR}/Common/ITKCommon.mdx"
 )
