@@ -30,6 +30,7 @@ void RegisterTests()
   REGISTER_TEST(testMetaBlob);
   REGISTER_TEST(testMetaImage);
   REGISTER_TEST(testMetaLine);
+  REGISTER_TEST(testMetaLandmark);
   REGISTER_TEST(testMetaObject);
   REGISTER_TEST(testMetaScene);
   REGISTER_TEST(testMetaSurface);
