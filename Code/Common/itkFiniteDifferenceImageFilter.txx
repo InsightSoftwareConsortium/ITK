@@ -105,6 +105,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {  
   TimeStepType min;
   bool flag;
+  min = NumericTraits<TimeStepType>::Zero;
   
   // grab first valid value
   flag = false;

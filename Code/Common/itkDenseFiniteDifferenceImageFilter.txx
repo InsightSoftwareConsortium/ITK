@@ -134,7 +134,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 
   // Multithread the execution
   this->GetMultiThreader()->SingleMethodExecute();
-  
+
   // Resolve the single value time step to return
   dt = this->ResolveTimeStep(str.TimeStepList, str.ValidTimeStepList, threadCount);
   delete [] str.TimeStepList;
@@ -183,6 +183,9 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   ImageRegionIterator<UpdateBufferType> u(m_UpdateBuffer,    regionToProcess);
   ImageRegionIterator<OutputImageType>  o(this->GetOutput(), regionToProcess);
 
+  u = u.Begin();
+  o = o.Begin();
+
   while ( !u.IsAtEnd() )
     {
     o.Value() += u.Value() * dt;  // no adaptor support here
@@ -206,14 +209,15 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   typedef typename FiniteDifferenceEquationType::NeighborhoodType
     NeighborhoodIteratorType;
   typedef ImageRegionIterator<UpdateBufferType> UpdateIteratorType;
-  
+
   typename OutputImageType::Pointer output = this->GetOutput();
   unsigned int i, j;
   TimeStepType timeStep;
-  
+  void *globalData;
+
   // First we analyze the regionToProcess to determine if any of its faces are
   // along a buffer boundary (we have no data in the buffer for pixels
-  // that are outside the boundary, but within the neighborhood radius and will
+  // that are outside the boundary and within the neighborhood radius so will
   // have to treat them differently).  We also determine the size of the non-
   // boundary region that will be processed.
   const typename FiniteDifferenceEquationType::Pointer df
@@ -277,7 +281,14 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   nbRegion.SetIndex(nbStart);
 
   // Initialize the time step.
-  timeStep = df->GetInitialTimeStep();
+  //  timeStep = df->GetInitialTimeStep();
+
+  // Ask the function object for a pointer to a data structure it
+  // will use to manage any global values it needs.  We'll pass this
+  // back to the function object at each calculation and then
+  // again so that the function object can use it to determine a
+  // time step for this iteration.
+  globalData = df->GetGlobalDataPointer();
 
   // Process the non-boundary region.
   NeighborhoodIteratorType nD(radius, output, nbRegion);
@@ -285,7 +296,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   nD.GoToBegin();
   while( !nD.IsAtEnd() )
     {
-      nU.Value() = df->ComputeUpdate(nD, timeStep);
+      nU.Value() = df->ComputeUpdate(nD, globalData);
       ++nD;
       ++nU;
     }
@@ -303,11 +314,19 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
       bU.GoToBegin();
       while ( !bD.IsAtEnd() )
         {
-          bU.Value() = df->ComputeUpdate(bD, timeStep);
+          bU.Value() = df->ComputeUpdate(bD, globalData);
           ++bD;
           ++bU;
         }
     }
+
+  // Ask the finite difference function to compute the time step for
+  // this iteration.  We give it the global data pointer to use, then
+  // ask it to free the global data memory.
+  timeStep = df->ComputeGlobalTimeStep(globalData);
+
+  df->ReleaseGlobalDataPointer(globalData);
+  
   return timeStep;
 }
 
