@@ -148,6 +148,12 @@ const double* VOLImageIO::GetSpacing() const
 }
 
 
+const double** VOLImageIO::GetMt_tp() const
+{
+	return (const double**)m_Mt_tp;
+}
+
+
 VOLImageIO::VOLImageIO()
 {
   m_VOLPixelType = UCHAR;
