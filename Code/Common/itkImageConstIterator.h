@@ -280,7 +280,7 @@ public:
   Self Begin(void) const;
 
  /** Move an iterator to the beginning of the region. "Begin" is
-  * defined as the first pixel in the region. /
+  * defined as the first pixel in the region. */
   void GoToBegin(void)
     {
     m_Offset = m_BeginOffset;
@@ -291,7 +291,7 @@ public:
   Self End(void) const;
 
  /** Move an iterator to the end of the region. "End" is defined as
-  * one pixel past the last pixel of the region. /
+  * one pixel past the last pixel of the region. */
   void GoToEnd(void)
     {
     m_Offset = m_EndOffset;

@@ -118,7 +118,7 @@ public:
   class Iterator;
   class ConstIterator;
     
-  /** Friends to this class.
+  /** Friends to this class. */
   friend class Iterator;
   friend class ConstIterator;
   
