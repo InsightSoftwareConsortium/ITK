@@ -20,7 +20,7 @@
 #include "itkWindowedSincInterpolateImageFunction.h"
 
 #include "vnl/vnl_math.h"
-using namespace std;
+
 namespace itk
 {
 
