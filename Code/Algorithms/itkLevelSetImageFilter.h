@@ -100,11 +100,6 @@ public:
   itkTypeMacro(LevelSetImageFilter, ImageToImageFilter);
 
   /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
    * LevelSetType typedef support.
    */
   typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
@@ -167,7 +162,7 @@ public:
   int GetNarrowBandSize()
     { 
     if( !m_NarrowBanding ) return 0;
-    return m_NarrowBand->Size();
+    return m_InputNarrowBand->Size();
     }
 
   /**
