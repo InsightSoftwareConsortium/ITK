@@ -220,7 +220,7 @@ int main( int argc, char *argv[] )
   //  
   //  We get the list of points which consists of two points to represent a straight line.
   //  Then, from these two points, we compute a fixed point $u$ and a unit 
-  //  vector \vec{v} to parameterize the line.
+  //  vector $\vec{v}$ to parameterize the line.
   //
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
