@@ -29,22 +29,50 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
     }
 
   typedef unsigned char PixelType;
-  typedef itk::Image<PixelType, 2> myImage;
+  const unsigned int dimension = 2;
+  typedef itk::Image<PixelType, dimension> myImage;
   itk::ImageFileReader<myImage>::Pointer input 
     = itk::ImageFileReader<myImage>::New();
   input->SetFileName(av[1]);
   
   // Create a filter
   typedef itk::BilateralImageFilter<myImage,myImage> FilterType;
-
+  
   FilterType::Pointer filter = FilterType::New();
-    filter->SetInput(input->GetOutput());
+  filter->SetInput(input->GetOutput());
+  
+  // these settings reduce the amount of noise by a factor of 10
+  // when the original signal to noise level is 5
+  filter->SetDomainSigma( 4.0 );
+  filter->SetRangeSigma( 50.0 );
+  
+  
+  // Test itkSetVectorMacro
+  float domainSigma[dimension];
+  for (unsigned int i = 0; i < dimension; i++)
+    {
+      domainSigma[i] = 4.0f;
+    }
+  filter->SetDomainSigma(domainSigma);
 
-    // these settings reduce the amount of noise by a factor of 10
-    // when the original signal to noise level is 5
-    filter->SetDomainSigma( 4.0 );
-    filter->SetRangeSigma( 50.0 );
-    
+  // Test itkGetVectorMacro
+  const double * domainSigma2 = filter->GetDomainSigma();
+  std::cout << "filter->GetDomainSigma(): " << domainSigma2 << std::endl;
+
+  // Test itkSetMacro
+  double filterDimensionality = dimension;
+  unsigned long  numberOfRangeGaussianSamples = 100;
+  filter->SetFilterDimensionality(filterDimensionality); 
+  filter->SetNumberOfRangeGaussianSamples(numberOfRangeGaussianSamples);
+  
+  // Test itkGetMacro
+  const double rangeSigma2 = filter->GetRangeSigma();
+  std::cout << "filter->GetRangeSigma(): " << rangeSigma2 << std::endl;
+  double filterDimensionality2 = filter->GetFilterDimensionality();
+  std::cout << "filter->GetFilterDimensionality(): " << filterDimensionality2 << std::endl;
+  unsigned long numberOfRangeGaussianSamples2 = filter->GetNumberOfRangeGaussianSamples();
+  std::cout << "filter->GetNumberOfRangeGaussianSamples(): " << numberOfRangeGaussianSamples2 << std::endl;
+  
   try
     {
     input->Update();

@@ -147,13 +147,6 @@ ADD_TEST(itkBilateralImageFilterTest3 ${BASIC_FILTERS_TESTS}
             ${ITK_DATA_ROOT}/Input/cake_easy.png
             ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest3.png)
 
-ADD_TEST(itkBilateralImageFilterTest4 ${BASIC_FILTERS_TESTS}
-  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest4.png
-            ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest4.png
-  itkBilateralImageFilterTest4
-            ${ITK_DATA_ROOT}/Input/cake_easy.png
-            ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest4.png)
-
 ADD_TEST(itkConfidenceConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConfidenceConnectedImageFilterTest.png
              ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest.png
@@ -257,7 +250,6 @@ itkBasicArchitectureTest.cxx
 itkBilateralImageFilterTest.cxx
 itkBilateralImageFilterTest2.cxx
 itkBilateralImageFilterTest3.cxx
-itkBilateralImageFilterTest4.cxx
 itkBinaryDilateImageFilterTest.cxx
 itkBinaryErodeImageFilterTest.cxx
 itkBinaryMagnitudeImageFilterTest.cxx
