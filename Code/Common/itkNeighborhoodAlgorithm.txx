@@ -42,12 +42,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkNeighborhoodAlgorithm_txx
 #include "itkImageRegionIterator.h"
 #include "itkImageRegion.h"
+#include "itkConstSliceIterator.h"
 
 namespace itk
 {
-  
-namespace NeighborhoodAlgorithm
-{
+
+namespace NeighborhoodAlgorithm {
   
 template<class TContainer, class TArray>
 typename InnerProduct<TContainer, TArray>::ScalarType

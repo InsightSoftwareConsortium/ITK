@@ -43,6 +43,56 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 template<class TImage, class TBoundaryCondition>
+SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>::PixelType
+SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
+::GetPixel(unsigned long n) const
+{
+  register unsigned int i;
+  OffsetType OverlapLow, OverlapHigh, temp, offset;
+  bool flag;
+
+  // Is this whole neighborhood in bounds?
+  if (this->InBounds()) return (*(this->operator[](n)));
+  else
+    {
+     temp = this->ComputeInternalIndex(n);
+      
+      // Calculate overlap
+      for (i=0; i<Dimension; i++)
+        {
+          OverlapLow[i] = m_InnerBoundsLow[i] - m_Loop[i];
+          OverlapHigh[i]=
+            this->GetSize(i) - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i] );
+        }
+
+      flag = true;
+
+      // Is this pixel in bounds?
+      for (i=0; i<Dimension; ++i)
+        {
+          if (m_InBounds[i]) offset[i] = 0; // this dimension in bounds
+          else  // part of this dimension spills out of bounds
+            {
+              if (temp[i] < OverlapLow[i])
+                {
+                  flag = false;
+                  offset[i] = OverlapLow[i] - temp[i];
+                }
+              else if ( OverlapHigh[i] < temp[i] )
+                {
+                  flag = false;
+                  offset[i] =  OverlapHigh[i] - temp[i];
+                }
+              else offset[i] = 0;
+            }
+        }
+
+      if (flag) return ( *(this->operator[](n)) ) ;
+      else return( m_BoundaryCondition->operator()(temp, offset, this) );
+    } 
+}
+  
+template<class TImage, class TBoundaryCondition>
 SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
 ::SmartRegionNeighborhoodIterator(const Self& orig)
   : NeighborhoodIterator<TImage>(orig)
@@ -92,7 +142,7 @@ SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
 template<class TImage, class TBoundaryCondition>
 bool
 SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
-::InBounds()
+::InBounds() const
 { 
   bool ans = true;
   for (unsigned int i=0; i<Dimension; i++)
@@ -109,16 +159,16 @@ template<class TImage, class TBoundaryCondition>
 typename SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
 ::NeighborhoodType
 SmartRegionNeighborhoodIterator<TImage, TBoundaryCondition>
-::GetNeighborhood()
+::GetNeighborhood() const
 {
   register unsigned int i;
   OffsetType OverlapLow, OverlapHigh, temp, offset;
   bool flag;
 
-  const Iterator _end = this->end();
+  const ConstIterator _end = this->end();
   NeighborhoodType ans;
   typename NeighborhoodType::Iterator ans_it;
-  Iterator this_it;
+  ConstIterator this_it;
 
   ans.SetRadius( this->GetRadius() );
   

@@ -67,11 +67,8 @@ namespace itk {
  * \sa NeighborhoodIterator
  * \sa Neighborhood
  */
-template<class TImage,
-  class TBoundaryCondition
-   = ZeroFluxNeumannBoundaryCondition<TImage,
-                         Neighborhood<ITK_TYPENAME TImage::InternalPixelType*,
-                         TImage::ImageDimension> >  >
+template<class TImage,  class TBoundaryCondition
+                       = ZeroFluxNeumannBoundaryCondition<TImage>  >
 class ITK_EXPORT SmartRegionNeighborhoodIterator
   :  public NeighborhoodIterator<TImage>
 {
@@ -80,8 +77,7 @@ public:
    * Standard "Self" & Superclass typdef.
    */
   typedef SmartRegionNeighborhoodIterator Self;
-  typedef NeighborhoodIterator<TImage>
-  Superclass;
+  typedef NeighborhoodIterator<TImage> Superclass;
 
   /**
    * Extract image type information.
@@ -103,10 +99,8 @@ public:
   /**
    * Typedef for generic boundary condition pointer
    */
-  typedef ImageBoundaryCondition<ImageType,
-    Neighborhood<typename ImageType::InternalPixelType *,
-    ImageType::ImageDimension> > *
-  ImageBoundaryConditionPointerType;
+  typedef typename Superclass::ImageBoundaryConditionPointerType
+         ImageBoundaryConditionPointerType;
   
   /**
    * Scalar data type typedef support
@@ -137,8 +131,8 @@ public:
   SmartRegionNeighborhoodIterator(const SizeType& radius,
                                   ImageType *ptr,
                                   const RegionType& region)
-  {  this->ResetBoundaryCondition();
-     this->Initialize(radius, ptr, region);  }
+    { this->ResetBoundaryCondition();
+      this->Initialize(radius, ptr, region);  }
 
   /**
    * Return an iterator for the beginning of the region.
@@ -165,22 +159,14 @@ public:
    * "Dereferences" the iterator. Returns the Neighborhood of values in the
    * itk::Image masked by the iterator.
    */
-  NeighborhoodType GetNeighborhood();
+  NeighborhoodType GetNeighborhood() const;
 
   /**
-   * Returns the pixel value referenced by a linear array location.
+   * Returns the pixel value referenced by a linear array location.  Unlike
+   * operator[], this is a safe operation that will automatically detect and
+   * handle boundary conditions.
    */
-  virtual PixelType GetPixel(unsigned long i)
-  {
-    if (this->InBounds())
-      {
-        return Superclass::GetPixel(i);
-      }
-    else
-      {
-        return (this->GetNeighborhood())[i];
-      }
-  }
+  virtual PixelType GetPixel(unsigned long i) const;
   
   /**
    * Sets the values in the itk::Image at the iterator location to the values
@@ -199,7 +185,7 @@ public:
    * otherwise.  Also updates an internal boolean array indicating
    * which of the iterator's faces are out of bounds.
    */
-  bool InBounds();
+  bool InBounds() const;
   
   /**
    * Allows a user to override the internal boundary condition. Care should
@@ -251,7 +237,7 @@ protected:
    * Denotes which of the iterators dimensional sides spill outside
    * region of interest boundaries.
    */
-  bool m_InBounds[Dimension];
+  mutable bool m_InBounds[Dimension];
 
   /**
    * Default boundary condition.

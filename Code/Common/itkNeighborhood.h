@@ -135,7 +135,14 @@ public:
     m_DataBuffer = other.m_DataBuffer;
     return *this;
   }
-  
+
+
+  /**
+   *
+   */
+  unsigned int GetDimension() const
+    { return VDimension; }
+      
   /**
    * Returns the radius of the neighborhood.
    */

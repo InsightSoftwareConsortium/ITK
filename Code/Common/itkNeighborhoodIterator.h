@@ -155,10 +155,8 @@ public:
   /**
    * Typedef for generic boundary condition pointer
    */
-  typedef ImageBoundaryCondition<ImageType,
-    Neighborhood<typename ImageType::InternalPixelType *,
-    ImageType::ImageDimension> > *
-  ImageBoundaryConditionPointerType;
+  typedef ImageBoundaryCondition<ImageType> *
+   ImageBoundaryConditionPointerType;
   
   /**
    * Scalar data type typedef support
@@ -189,7 +187,7 @@ public:
                        ImageType * ptr,
                        const RegionType &region
                        )
-  {   this->Initialize(radius, ptr, region);  }
+    { this->Initialize(radius, ptr, region);  }
 
   /**
    * Standard print method
@@ -202,6 +200,13 @@ public:
    */
   virtual void Initialize(const SizeType &radius, ImageType *ptr,
                           const RegionType &region);
+
+
+  /**
+   * Computes the internal, N-d offset of a pixel array position n from 
+   * (0,0, ..., 0) in the "upper-left" corner of the neighborhood.
+   */
+  OffsetType ComputeInternalIndex(unsigned int n) const;
   
   /**
    * Increments the pointers in the NeighborhoodIterator,
@@ -241,12 +246,12 @@ public:
    * subclass according to how that subclass handles boundary
    * conditions.
    */
-  virtual NeighborhoodType GetNeighborhood() = 0;
+  virtual NeighborhoodType GetNeighborhood() const = 0;
   
   /**
    * Returns the pixel value referenced at a linear array location.
    */
-  virtual PixelType GetPixel(const unsigned long i)
+  virtual PixelType GetPixel(const unsigned long i) const
   {  return *(this->operator[](i));  }
 
   /**
@@ -457,6 +462,15 @@ public:
  
 protected:
   /**
+   * Computes the internal table of stride lengths.
+   */
+  void ComputeStrideTable()
+    {
+      for (unsigned int i = 0; i < Dimension; ++i)
+        { m_StrideTable[i] = this->GetStride(i); }
+    }
+  
+  /**
    * Default method for setting the coordinate location of the iterator.
    * Loop indicies correspond to the actual Image region index.
    * This correspondence is a coincidental feature that will not
@@ -551,6 +565,12 @@ protected:
    */
   InternalPixelType *m_EndPointer;
 
+  /**
+   * A table containing the stride length (step size in memory units)
+   * for each dimension.  Computed once at construction.
+   */
+  unsigned long m_StrideTable[Dimension];
+  
 };
 
 } // namespace itk

@@ -114,7 +114,7 @@ public:
   RegionNeighborhoodIterator(const SizeType &radius,
                              ImageType *ptr,
                              const RegionType &region)
-  {  this->Initialize(radius, ptr, region);   }
+    { this->Initialize(radius, ptr, region);   }
 
   /**
    * Return an iterator for the beginning of the region.
@@ -144,7 +144,7 @@ public:
    * \sa SetPixelValues
    * \sa Neighborhood
    */
-  NeighborhoodType GetNeighborhood();
+  NeighborhoodType GetNeighborhood() const;
 
   /**
    * Sets the values in the referenced image to the values contained in

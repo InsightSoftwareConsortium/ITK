@@ -43,6 +43,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 template<class TImage>
+NeighborhoodIterator<TImage>::OffsetType
+NeighborhoodIterator<TImage>
+::ComputeInternalIndex(unsigned int n) const
+{
+  OffsetType ans;
+  long D = (long)Dimension;
+  unsigned long r;
+  r = (unsigned long)n;
+  for (long i = D-1; i >= 0 ; --i)
+    {
+      ans[i] = r / m_StrideTable[i];
+      r = r % m_StrideTable[i];
+    }
+  return ans;
+}
+ 
+template<class TImage>
 void
 NeighborhoodIterator<TImage>
 ::PrintSelf(std::ostream &os, Indent indent) const
@@ -110,6 +127,8 @@ NeighborhoodIterator<TImage>
   m_Buffer     = orig.m_Buffer;
   m_StartIndex = orig.m_StartIndex;
   m_EndPointer = orig.m_EndPointer;
+  for (unsigned int i = 0; i < Dimension; ++i)
+    m_StrideTable[i] = orig.m_StrideTable[i];
   return *this;
 }
 
@@ -126,6 +145,8 @@ NeighborhoodIterator<TImage>
   m_Buffer     = orig.m_Buffer;
   m_StartIndex = orig.m_StartIndex;
   m_EndPointer = orig.m_EndPointer;
+  for (unsigned int i = 0; i < Dimension; ++i)
+    m_StrideTable[i] = orig.m_StrideTable[i];
 }
   
 template<class TImage>
@@ -142,6 +163,7 @@ void NeighborhoodIterator<TImage>
   this->SetLocation(region.GetIndex());
   this->SetBound(region.GetSize());
   this->SetEnd();
+  this->ComputeStrideTable();
 }
 
 template<class TImage>

@@ -46,12 +46,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkNeighborhood.h"
 #include "itkNeighborhoodOperator.h"
 #include "itkExceptionObject.h"
+#include "itkNeighborhoodIterator.h"
 
 namespace itk
 {
   
 namespace NeighborhoodAlgorithm
 {      
+
 /**
  * \class ScalarOperation
  *
@@ -149,11 +151,11 @@ struct ITK_EXPORT VectorComponentInnerProduct
 template<class TIterator, class TArray>
 struct ITK_EXPORT IteratorInnerProduct : public ScalarOperation<TIterator, TArray>
 {
-
   typedef ScalarOperation<TIterator, TArray> Superclass;
   typedef typename Superclass::ScalarType ScalarType;
   virtual ScalarType operator()(TIterator &, TArray &) const;
-  virtual ScalarType operator()(std::slice &, TIterator &, TArray &) const;
+  virtual ScalarType operator()(std::slice &, TIterator &,
+                                TArray &) const;
 };
 
 /**

@@ -46,12 +46,12 @@ template<class TImage>
 typename 
 RegionNeighborhoodIterator<TImage>::NeighborhoodType
 RegionNeighborhoodIterator<TImage>
-::GetNeighborhood()
+::GetNeighborhood() const
 {
   NeighborhoodType ans;
   typename NeighborhoodType::Iterator ans_it;
-  Iterator this_it;
-  const Iterator _end = this->end();
+  ConstIterator this_it;
+  const ConstIterator _end = this->end();
 
   ans.SetRadius( this->GetRadius() );
 
