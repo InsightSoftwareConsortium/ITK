@@ -86,6 +86,7 @@ public:
                      TFrequencyContainer > HistogramType ;
 
   typedef typename HistogramType::SizeType HistogramSizeType ;
+  typedef typename HistogramType::MeasurementVectorType  MeasurementVectorType;
 
   /** plug in the ListSample object */
   void SetListSample(const TListSample* list)
@@ -103,6 +104,22 @@ public:
   void Update() 
   { this->GenerateData() ; }
 
+  itkSetMacro(AutoMinMax,bool);
+  itkGetConstMacro(AutoMinMax,bool);
+
+  void SetHistogramMin(const MeasurementVectorType & histogramMin)
+    {
+    m_HistogramMin = histogramMin;
+    m_AutoMinMax = false;
+    }
+
+  void SetHistogramMax(const MeasurementVectorType & histogramMax)
+    {
+    m_HistogramMax = histogramMax;
+    m_AutoMinMax = false;
+    }
+
+
 protected:
   ListSampleToHistogramGenerator() ;
   virtual ~ListSampleToHistogramGenerator() {}
@@ -113,6 +130,9 @@ private:
   typename HistogramType::Pointer m_Histogram ;
   HistogramSizeType m_Sizes ;
   float m_MarginalScale ;
+  MeasurementVectorType m_HistogramMin;
+  MeasurementVectorType m_HistogramMax;
+  bool m_AutoMinMax;
 
 } ; // end of class
 

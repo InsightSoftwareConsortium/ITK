@@ -31,7 +31,10 @@ ListSampleToHistogramGenerator< TListSample,
   m_Sizes.Fill(0) ;
   m_Histogram = HistogramType::New() ;
   m_MarginalScale = 100 ;
-}
+  m_HistogramMin.Fill(0);
+  m_HistogramMax.Fill(0);
+  m_AutoMinMax = true;
+}  
 
 
 template< class TListSample, 
@@ -43,36 +46,39 @@ ListSampleToHistogramGenerator< TListSample,
                                 TFrequencyContainer>
 ::GenerateData()
 {
-  typename TListSample::MeasurementVectorType upper ;
-  typename TListSample::MeasurementVectorType lower ;
+  typename TListSample::MeasurementVectorType lower;
+  typename TListSample::MeasurementVectorType upper;
 
-  FindSampleBound(m_List, m_List->Begin(),
-                  m_List->End(), lower, upper) ;
+  typename HistogramType::MeasurementVectorType h_upper  = m_HistogramMax;
+  typename HistogramType::MeasurementVectorType h_lower = m_HistogramMin;
 
-  typename HistogramType::MeasurementVectorType h_upper ;
-  typename HistogramType::MeasurementVectorType h_lower ;
-
-  float margin ;
-
-  for ( unsigned int i = 0 ; i < TListSample::MeasurementVectorSize ; i++ )
+  if(m_AutoMinMax)
     {
-    // integer and char type has usually 0 for the epsilon
-    if ( NumericTraits< THistogramMeasurement >::epsilon() > 
-         NumericTraits< THistogramMeasurement >::Zero )
+    FindSampleBound(m_List, m_List->Begin(),
+                    m_List->End(), lower, upper) ;
+    
+    float margin ;
+
+    for ( unsigned int i = 0 ; i < TListSample::MeasurementVectorSize ; i++ )
       {
-      margin = 
-        ( (THistogramMeasurement)(upper[i] - lower[i]) / 
-          (THistogramMeasurement) m_Sizes[i] ) / 
-        (THistogramMeasurement) m_MarginalScale ;
-      h_upper[i] = (THistogramMeasurement) (upper[i] + 
-        margin) ;
+      // integer and char type has usually 0 for the epsilon
+      if ( NumericTraits< THistogramMeasurement >::epsilon() > 
+           NumericTraits< THistogramMeasurement >::Zero )
+        {
+        margin = 
+          ( (THistogramMeasurement)(upper[i] - lower[i]) / 
+            (THistogramMeasurement) m_Sizes[i] ) / 
+          (THistogramMeasurement) m_MarginalScale ;
+        h_upper[i] = (THistogramMeasurement) (upper[i] + 
+          margin) ;
+        }
+      else
+        {
+        h_upper[i] = ((THistogramMeasurement) upper[i]) + 
+          NumericTraits< THistogramMeasurement >::One ;
+        }
+      h_lower[i] = ( THistogramMeasurement) lower[i] ;
       }
-    else
-      {
-      h_upper[i] = ((THistogramMeasurement) upper[i]) + 
-        NumericTraits< THistogramMeasurement >::One ;
-      }
-    h_lower[i] = ( THistogramMeasurement) lower[i] ;
     }
 
   // initialize the Histogram object using the sizes and
@@ -93,7 +99,7 @@ ListSampleToHistogramGenerator< TListSample,
       hvector[i] = (THistogramMeasurement) lvector[i] ;
       }
 
-    index = m_Histogram->GetIndex(hvector) ;
+    m_Histogram->GetIndex(hvector,index);
     if (!m_Histogram->IsIndexOutOfBounds(index))
       {
       // if the measurement vector is out of bound then
