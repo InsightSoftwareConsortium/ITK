@@ -182,7 +182,7 @@ void EquivalenceRelabeler<TScalarType, TImageDimension>
 template <class TScalarType, unsigned int TImageDimension>
 typename EquivalenceRelabeler<TScalarType, TImageDimension>::DataObjectPointer
 EquivalenceRelabeler<TScalarType, TImageDimension>
-::MakeOutput(unsigned int idx)
+::MakeOutput(unsigned int )
 {
   return static_cast<DataObject*>(ImageType::New().GetPointer());
 }
