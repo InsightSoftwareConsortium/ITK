@@ -7,7 +7,7 @@ INCLUDES = -I$(EXPAT)/xmlparse -I$(EXPAT)/xmltok
 PARSER_OBJS= sourceParser.o \
              configurationParser.o \
              xmlAttributes.o \
-             internalRep.o \
+             sourceRep.o \
              configRep.o \
              $(EXPAT)/xmlparse/hashtable.o \
              $(EXPAT)/xmlparse/xmlparse.o \
@@ -24,7 +24,7 @@ EXECUTABLES = generateWrappers
 all: $(EXECUTABLES)
 
 -include generateWrappers.d
--include internalRep.d
+-include sourceRep.d
 -include configRep.d
 -include xmlAttributes.d
 -include sourceParser.d

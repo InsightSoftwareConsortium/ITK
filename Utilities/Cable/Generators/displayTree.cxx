@@ -1,6 +1,6 @@
 #include <cstdio>
 
-#include "internalRep.h"
+#include "sourceRep.h"
 #include "configRep.h"
 
 /**

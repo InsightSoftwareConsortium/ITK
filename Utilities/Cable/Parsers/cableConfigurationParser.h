@@ -1,5 +1,5 @@
-#ifndef _xmlConfigurationParser_h
-#define _xmlConfigurationParser_h
+#ifndef _configurationParser_h
+#define _configurationParser_h
 
 #include "xmlParseException.h"
 #include "xmlAttributes.h"

@@ -1,5 +1,5 @@
-#ifndef _internalRep_h
-#define _internalRep_h
+#ifndef _sourceRep_h
+#define _sourceRep_h
 
 #include <cstdio>
 #include <string>

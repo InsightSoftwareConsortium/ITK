@@ -1,9 +1,9 @@
-#ifndef _xmlSourceParser_h
-#define _xmlSourceParser_h
+#ifndef _sourceParser_h
+#define _sourceParser_h
 
 #include "xmlParseException.h"
 #include "xmlAttributes.h"
-#include "internalRep.h"
+#include "sourceRep.h"
 
 #include <stack>
 
