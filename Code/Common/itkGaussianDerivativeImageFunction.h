@@ -36,7 +36,7 @@ namespace itk
  */
 template <class TInputImage,class TOutput=double>
 class ITK_EXPORT GaussianDerivativeImageFunction :
-public ImageFunction< TInputImage, Vector<TOutput,TInputImage::ImageDimension> >
+public ImageFunction< TInputImage, Vector<TOutput,::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
 
@@ -44,7 +44,7 @@ public:
   typedef GaussianDerivativeImageFunction Self;
 
   /** Standard "Superclass" typedef*/
-  typedef ImageFunction<TInputImage,Vector<TOutput,TInputImage::ImageDimension> > Superclass;
+  typedef ImageFunction<TInputImage,Vector<TOutput,::itk::GetImageDimension<TInputImage>::ImageDimension> > Superclass;
 
   /** Smart pointer typedef support. */
   typedef SmartPointer<Self> Pointer;
