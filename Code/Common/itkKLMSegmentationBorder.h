@@ -134,9 +134,6 @@ class KLMSegmentationRegion;
 
 class ITKCommon_EXPORT KLMSegmentationBorder : public SegmentationBorder
 {
-private:
-  /** Type definition for an double vector. */
-  typedef vnl_vector<double> MeanRegionIntensityType;
 
 public:
   /** Standard class typedefs. */
