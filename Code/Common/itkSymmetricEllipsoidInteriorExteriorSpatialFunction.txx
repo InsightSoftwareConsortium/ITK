@@ -71,6 +71,13 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
   double symmetricTerm = 0;  // Term in ellipsoid equation for symmetric axes  
   Vector<VectorType, VImageDimension> pointVector;
   Vector<VectorType, VImageDimension> symmetricVector;
+  
+  VectorType projOntoMajorAxis;
+  
+  projOntoMajorAxis = m_Orientation * pointVector;
+
+  // The ratio of the point's projection onto the unique axis to the unique axis length.
+  m_VectorRatio = (projOntoMajorAxis + m_UniqueAxis/2)/m_UniqueAxis; 
 
   // Project the position onto the major axis, normalize by axis length, 
   // and determine whether position is inside ellipsoid.
