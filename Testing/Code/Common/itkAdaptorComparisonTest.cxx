@@ -188,6 +188,7 @@ int itkAdaptorComparisonTest(int, char**)
   scalar_image->SetBufferedRegion(region);
   scalar_image->SetRequestedRegion(region);
   scalar_image->Allocate();
+  scalar_image->FillBuffer(0);
 
   vector_image->SetLargestPossibleRegion(region);
   vector_image->SetBufferedRegion(region);
