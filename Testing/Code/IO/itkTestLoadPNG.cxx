@@ -1,4 +1,5 @@
 #include "itkImageFileReader.h"
+#include "itkPNGImageIOFactory.h"
 
 #ifdef ITK_HAS_VTK
 #include "vtkImageImport.h"
@@ -15,6 +16,10 @@ int main(int ac, char** av)
     {
     std::cerr << "Usage: " << av[0] << " Image\n";
     }
+  
+  // Register one Factory of PNG readers
+  itk::PNGImageIOFactory::RegisterOneFactory();
+  
   typedef itk::Image<unsigned char, 2> myImage;
   itk::ImageFileReader<myImage>::Pointer reader 
     = itk::ImageFileReader<myImage>::New();

@@ -1,4 +1,7 @@
+
+
 #include "itkImageFileReader.h"
+#include "itkMetaImageIOFactory.h"
 
 
 int main(int ac, char** av)
@@ -13,6 +16,9 @@ int main(int ac, char** av)
   itk::ImageFileReader<myImage>::Pointer reader 
                                   = itk::ImageFileReader<myImage>::New();
   
+  // Register on factory capable of creating MetaImage readers
+  itk::MetaImageIOFactory::RegisterOneFactory();
+
   reader->DebugOn();
   reader->SetFileName(av[1]);
   

@@ -40,6 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 
 #include "itkImageFileReader.h"
+#include "itkVOLImageIOFactory.h"
 
 int main(int ac, char** av)
 {
@@ -49,6 +50,9 @@ int main(int ac, char** av)
 		return 1;
 	}
 	
+  // Register at least one factory capable of producing 
+  // VOL image file readers
+  itk::VOLImageIOFactory::RegisterOneFactory();
 
 	typedef itk::Image<unsigned char, 4> myImage;
   itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
