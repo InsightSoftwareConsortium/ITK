@@ -164,7 +164,12 @@ public:
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const =0;
   
 protected:
-  FiniteDifferenceFunction() {}
+  FiniteDifferenceFunction() 
+  {
+    // initialize variables
+    m_Radius.Fill( 0 );
+  }
+
   ~FiniteDifferenceFunction() {}
   void PrintSelf(std::ostream& os, Indent indent) const
   {
