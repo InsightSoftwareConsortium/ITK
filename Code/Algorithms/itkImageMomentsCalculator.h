@@ -53,8 +53,6 @@ namespace itk
  *
  * FIXME: It's not yet clear how multi-echo images should be handled here.
  *
- * FIXME: The current implementation supports rank 3 images only.
- *
  */
 
 // FIXME:  Find right incantation to doxygenate the template parameters
@@ -66,10 +64,10 @@ class ImageMomentsCalculator
 public:
 
     /// Standard self typedef
-    typedef ImageMomentsCalculator<TPixel, VRank>            Self;
+    typedef ImageMomentsCalculator<TPixel, VRank>   Self;
 
     /// Standard scalar type within this class.
-    typedef double                                 ScalarType;
+    typedef double                       ScalarType;
 
     /// Standard vector type within this class.
     typedef Vector<double,VRank>         VectorType;
@@ -91,15 +89,13 @@ public:
      * moments and related parameters can then be retrieved by using
      * other methods of this object.
      *
-     *  FIXME: Algorithm works for rank 3 images only.
-     *
      */
     void ComputeMoments(ImageType &image);
 
     /**
      * Return the total mass (or zeroth moment) of an image.
      *
-     * This method returns the sun of pixel intensities (also known as
+     * This method returns the sum of pixel intensities (also known as
      * the zeroth moment or the total mass) of the image whose moments
      * were last computed by this object.
      */

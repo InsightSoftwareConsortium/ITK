@@ -7,7 +7,7 @@
   Version:   $Revision$
 
 
-  Copyright (c) 2000 National Library of Medicine
+  Copyright (c) 2000-2001 National Library of Medicine
   All rights reserved.
 
   See COPYRIGHT.txt for copyright details.
@@ -58,18 +58,16 @@ namespace itk
     ComputeMoments(
 	ImageType &image)
     {
-	/* FIXME:  Algorithm currently works for 3D only */
-	if ( VRank != 3) {
-	    Error("Sorry! Currently supported for 3D only");
-	    }
+
+        /* Check for a *positive* number of dimensions */
+        if (VRank <= 0)
+            Error("Sorry! Number of dimensions may not be zero");
 
 	/* Determine image dimensions */
 	const Size<VRank>& size = image->GetLargestPossibleRegion().GetSize();
-	const unsigned long nslices = size[0];
-	const unsigned long nrows   = size[1];
-        const unsigned long ncols   = size[2];
+        unsigned long ncol = size[VRank-1];
 
-	/* Zero moments before accumlating new ones */
+	/* Zero moments before accumulating new ones */
 	m_m0 = 0;
 	for (int i = 0; i < VRank; i++) {
 	    m_m1[i] = 0;
@@ -78,50 +76,57 @@ namespace itk
 	    }
 	}
 
-	/* Loop over all rows and pixels to compute non-central moments */
-	/* FIXME:  Find or write an iterator that does this in n-D */
+	/* Loop over all rows of the image */
 	double pix;
-	Index<3> index;
-	unsigned long coord[3];
+	Index<VRank> index;
+	unsigned long coord[VRank];
+        int iaxis = 0;
+        int i, j;
+        
+        for (i = 0; i < VRank; i++)
+            coord[i] = 0;
+        do {
 
-	for (unsigned long z = 0; z < nslices; z++) {
-	    coord[0] = z;
-	    for (unsigned long y = 0; y < nrows; y++) {
-		coord[1] = y;
+            /* Compute moments for current row */
+            double r0 = 0, rx = 0, rxx = 0;
+            for (unsigned long x = 0; x < ncol; x++) {
 
-		/* Compute moments for current row */
-		double r0 = 0, rx = 0, rxx = 0;
-		for (unsigned long x = 0; x < ncols; x++) {
+                /* Get the next pixel from the image */
+                coord[VRank-1] = x;
+                index.SetIndex(coord);
+                pix = image->GetPixel(index);
 
-		    /* Get the next pixel from the image */
-		    coord[2] = x;
-		    index.SetIndex(coord);
-		    pix = image->GetPixel(index);
-
-		    /* Accumulate moments within current row */
-		    r0  += pix;
-		    rx  += x*pix;
-		    rxx += (double)x*x*pix;
-		}
+                /* Accumulate moments within current row */
+                r0  += pix;
+                rx  += x*pix;
+                rxx += (double)x*x*pix;
+            }
 		
-		/* Accumulate moments over entire image */
-		m_m0  += r0;
-		m_m1[2]  += rx;
-		m_m1[1]  += y * r0;
-		m_m1[0]  += z * r0;
-		m_m2[2][2] += rxx;
-		m_m2[2][1] += y * rx;
-		m_m2[2][0] += z * rx;
-		m_m2[1][1] += (double)y * y * r0;
-		m_m2[0][0] += (double)z * z * r0;
-		m_m2[1][0] += (double)y * z * r0;
-	    }
-	}
+            /* Accumulate moments over entire image */
+            m_m0  += r0;
+            m_m1[VRank-1]  += rx;
+            m_m2[VRank-1][VRank-1] += rxx;
+            for (i = 0; i < VRank-1; i++) {
+                m_m1[i] += coord[i] * r0;
+                m_m2[VRank-1][i] += coord[i] * rx;
+                for (j = 0; j <= i; j++) {
+                    m_m2[i][j] += (double)coord[i] * coord[j] * r0;
+                }
+            }
+
+            /* Step to next row in the image */
+            for (iaxis = VRank-2; iaxis >= 0; iaxis--) {
+                if ( ++(coord[iaxis]) < size[iaxis] )
+                    break;
+                else
+                    coord[iaxis] = 0;
+            } 
+	} while (iaxis >= 0);
 
 	/* Reflect across diagonal */
-	m_m2[1][2] = m_m2[2][1];
-	m_m2[0][2] = m_m2[2][0];
-	m_m2[0][1] = m_m2[1][0];
+        for (i = 0; i < VRank-1; i++)
+            for (j = i+1; j < VRank; j++) 
+                m_m2[i][j] = m_m2[j][i];
 
 	/* Compute center of gravity and central moments */
 	for (int r = 0; r < VRank; r++) {
