@@ -17,6 +17,8 @@
 #ifndef __itkSample_h
 #define __itkSample_h
 
+#include <vector>
+
 #include "itkMacro.h"
 #include "itkPoint.h"
 #include "itkSize.h"
@@ -97,6 +99,9 @@ public:
    * in a Sample subclass.*/ 
   typedef unsigned long InstanceIdentifier ;
 
+  itkStaticConstMacro( MeasurementVectorSize, unsigned int,
+                       TMeasurementVector::Length ) ;
+
   virtual unsigned int Size() const = 0 ;
 
   /** returns the measurement of the instance which is identified by the 'id'*/
@@ -108,6 +113,7 @@ public:
   /** returns the total frequency for the 'd' dimension*/
   virtual FrequencyType GetTotalFrequency() const 
     = 0 ;
+
   
 protected:
   Sample() {}
