@@ -52,7 +52,7 @@ int itkBlobSpatialObjectTest(int, char**)
   blob->GetProperty()->SetName("Blob 1");
   blob->SetId(1);
   blob->SetPoints(list);
-  blob->ComputeBounds();
+  blob->ComputeBoundingBox();
 
   // Number of points
   std::cout << "Testing Consistency: " << std::endl;

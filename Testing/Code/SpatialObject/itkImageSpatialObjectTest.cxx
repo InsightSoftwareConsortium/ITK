@@ -39,6 +39,7 @@
 int itkImageSpatialObjectTest(int, char**)
 {
   #define NDimensions 3
+
   typedef double ScalarType;
   typedef unsigned short Pixel;
   typedef itk::Image<Pixel,NDimensions> Image;

@@ -16,7 +16,7 @@
 =========================================================================*/
 
 /*
-* itkTubeSpatialObject, and itkTubeNetworkSpatialObject test file.
+* itkTubeSpatialObject test file.
 * This test file test also the basic functions of the CompositeSpatialObject class,
 * like Add/RemoveSpatialObject(...), Get/SetChildren(...), etc...
 */
@@ -29,7 +29,7 @@
 #include "itkAffineTransform.h"
 #include "itkTubeSpatialObjectPoint.h"
 #include "itkTubeSpatialObject.h"
-#include "itkTubeNetworkSpatialObject.h"
+#include "itkGroupSpatialObject.h"
 #include "itkExceptionObject.h"
 
 #include <vnl/vnl_math.h>
@@ -44,9 +44,9 @@ int itkTubeSpatialObjectTest(int, char **)
   typedef itk::Matrix< ScalarType, 3, 3>              Matrix;
   typedef itk::TubeSpatialObject<3>                   TubeType;
   typedef itk::SmartPointer< TubeType >               TubePointer;
+  typedef itk::GroupSpatialObject<3>                  GroupType;
+  typedef itk::SmartPointer< GroupType >              GroupPointer;
   typedef TubeType::TubePointType                     TubePointType;
-  typedef itk::TubeNetworkSpatialObject<3>            TubeNetType;
-  typedef itk::SmartPointer< TubeNetType >            TubeNetPointer;
   typedef TubeType::PointListType                     TubePointListType;
   typedef std::list< itk::SpatialObject<3> * >        ChildrenListType;
 
@@ -81,7 +81,7 @@ int itkTubeSpatialObjectTest(int, char **)
   tube1->GetProperty()->SetName("Tube 1");
   tube1->SetId(1);
   tube1->SetPoints(list);
-  tube1->ComputeBounds();
+  tube1->ComputeBoundingBox();
 
   in.Fill(15);
   out.Fill(5);
@@ -138,7 +138,7 @@ int itkTubeSpatialObjectTest(int, char **)
   //==============================================
   
   std::cout<<"=================================="<<std::endl;
-  std::cout<<"Testing TubeNetworkSpatialObject:"<<std::endl<<std::endl;
+  std::cout<<"Testing GroupSpatialObject:"<<std::endl<<std::endl;
 
   ChildrenListType childrenList, returnedList;
   unsigned int nbChildren;
@@ -147,15 +147,15 @@ int itkTubeSpatialObjectTest(int, char **)
   tube2->GetProperty()->SetName("Tube 2");
   tube2->SetId(2);
   tube2->SetPoints(list);
-  tube2->ComputeBounds();
+  tube2->ComputeBoundingBox();
   
   TubePointer tube3 = TubeType::New();
   tube3->GetProperty()->SetName("Tube 3");
   tube3->SetId(3);
   tube3->SetPoints(list);
-  tube3->ComputeBounds();
+  tube3->ComputeBoundingBox();
 
-  TubeNetPointer tubeNet1 = TubeNetType::New();
+  GroupPointer tubeNet1 = GroupType::New();
   tubeNet1->GetProperty()->SetName("tube network 1");
   
  
@@ -169,7 +169,7 @@ int itkTubeSpatialObjectTest(int, char **)
   std::cout<<"AddSpatialObject()...";
   if( nbChildren != 3 )
     {
-    std::cout<<"[FAILED]"<<std::endl;
+    std::cout<<"[FAILED] ["<< nbChildren << "!= 3]" << std::endl;
     return EXIT_FAILURE;
     }
   else
@@ -279,7 +279,7 @@ int itkTubeSpatialObjectTest(int, char **)
     std::cout<<"[PASSED]"<<std::endl;
     }
   
-  tubeNet1->ComputeBounds();
+  tubeNet1->ComputeBoundingBox();
 
   std::cout<<"HasParent()...";
   if( !tube1->HasParent() )
@@ -318,7 +318,7 @@ int itkTubeSpatialObjectTest(int, char **)
   p2[0]=5;
 
   std::cout<<"IsInside()...";
-  if( !tubeNet1->IsInside(in) || tubeNet1->IsInside(out) )
+  if( !tubeNet1->IsInside(in, true) || tubeNet1->IsInside(out, true) )
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -331,7 +331,7 @@ int itkTubeSpatialObjectTest(int, char **)
   std::cout<<"DerivativeAt()...";
   try
     {
-    tubeNet1->DerivativeAt(in,(unsigned short)1,derivative);
+    tubeNet1->DerivativeAt(in,(unsigned short)1,derivative,true);
     }
   catch(...)
     {
@@ -357,7 +357,7 @@ int itkTubeSpatialObjectTest(int, char **)
   std::cout<<"Testing references behavior for SpatialObject:"<<std::endl<<std::endl;
 
   TubePointer tube = TubeType::New();
-  TubeNetPointer net = TubeNetType::New();
+  GroupPointer net = GroupType::New();
 
   unsigned int tubeCount, netCount;
   tubeCount = tube->GetReferenceCount();
@@ -387,7 +387,7 @@ int itkTubeSpatialObjectTest(int, char **)
     }
   else
     {
-    TubeNetPointer localNet = net;
+    GroupPointer localNet = net;
     netCount = net->GetReferenceCount();
     if( netCount != 2 )
       {

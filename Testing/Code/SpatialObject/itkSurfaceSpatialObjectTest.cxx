@@ -60,7 +60,7 @@ int itkSurfaceSpatialObjectTest(int, char**)
   Surface->SetId(1);
   Surface->SetPoints(list);
 
-  Surface->ComputeBounds();
+  Surface->ComputeBoundingBox();
 
  // Number of points
   std::cout << "Testing Consistency: " << std::endl;
