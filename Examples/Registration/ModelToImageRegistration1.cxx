@@ -128,7 +128,7 @@
 
 
 #include "itkDiscreteGaussianImageFilter.h"
-#include <itkNormalVariateGenerator.h> 
+#include "itkNormalVariateGenerator.h" 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkCastImageFilter.h"
