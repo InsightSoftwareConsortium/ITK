@@ -118,7 +118,7 @@ PlaheImageFilter<TPixel, VImageDimension>
   // This pre-calculation reduce computation time even though this method use huge 
   // array.  If the cumulative array can not be assigned, the cumulative function
   // will be calculated each time.
-  typedef map<float, float> FloatFloatMapType;
+  typedef std::map<float, float> FloatFloatMapType;
   FloatFloatMapType row;
   itFloat = itFloat.Begin();
   while ( !itFloat.IsAtEnd() )
@@ -126,9 +126,9 @@ PlaheImageFilter<TPixel, VImageDimension>
     row.insert( FloatFloatMapType::value_type(*itFloat,0 ) );
     ++itFloat;
     }
-  typedef map < float, FloatFloatMapType > ArrayMapType;
+  typedef std::map < float, FloatFloatMapType > ArrayMapType;
   ArrayMapType CumulativeArray;
-  pair<ArrayMapType::iterator, bool> array;
+  std::pair<ArrayMapType::iterator, bool> array;
   itFloat = itFloat.Begin();
   while ( !itFloat.IsAtEnd() )
     {
@@ -198,7 +198,7 @@ PlaheImageFilter<TPixel, VImageDimension>
     }
   
   // Map stores (number of pixel)/(window size) for each gray value. 
-  typedef map<float, float> MapType;
+  typedef std::map<float, float> MapType;
   MapType count;
   MapType::iterator itMap;
   
