@@ -210,6 +210,75 @@ public:
    * Get a vnl_vector_ref referencing the same memory block
    */
   vnl_vector_ref<TCoordRep> Get_vnl_vector( void );
+
+
+  /**
+   * Set to median point between the two points
+   * given as arguments
+   *
+   * This method computes:
+   *
+   * \f[
+   *   \overrightarrow{P}=\frac{(\overrightarrow{A}+\overrightarrow{B})}{2}
+   * \f]
+   *
+   * using the two Points given as arguments, and store the result in 
+   * the Point on which the method is invoked.
+   */
+  void SetToMedian( const Point &, const Point &  );
+
+
+  /**
+   * Set the current point to a barycentric combination of the two points
+   * given as arguments.
+   *
+   * \parameter \f$ \alpha \f$ = weight for the first point
+   * 
+   * The first point is multiplied by \f$ \alpha \f$, the second is multiplied 
+   * by * \f$ (1-\alpha) \f$, and the sum is stored in the Point on which the
+   * method is invoked.
+   *
+   * \f[
+   *   \overrightarrow{P}=\alpha * \overrightarrow{A}+ (1-\alpha)*\overrightarrow{B}
+   * \f]
+   *
+   * If the value of \f$ \alpha \in [0,1] \f$, the resulting point will be placed
+   * in the line segment \f$ \overline{AB} \f$ joining  \f$ \overrightarrow{A} \f$ 
+   * and \f$  \overrightarrow{A} \f$
+   * 
+   * If the value of \f$ \alpha < 0 \f$ the resulting point will be placed outside 
+   * the line segment   \f$ \overline{AB} \f$ on the side of \f$ \overrightarrow{A} \f$.
+   *
+   * If the value of \f$ \alpha > 1 \f$ the resulting point will be placed outside 
+   * the line segment   \f$ \overline{AB} \f$ on the side of \f$ \overrightarrow{B} \f$.
+   *
+   * \sa SetToMedian
+   */
+  void SetToBarycentricCombination( const Point & A, const Point & B, double alpha   );
+ 
+
+  /**
+   * Set the current point to a barycentric combination of three points
+   * Two values are expected to weight the contribution of the first two points,
+   * the weight of for the third point is computed to ensure that the three weights
+   * sum 1.
+   *
+   * This method computes:
+   *
+   * \f[
+   *   \overrightarrow{P}=     w_1        * \overrightarrow{P}_1 
+                          +    w_2        * \overrightarrow{P}_2 
+                          +  (1-w_1-w_2 ) * \overrightarrow{P}_3 
+   * \f]
+   *
+   * If the two weight are \f$ \in [0,1], The resulting point will alway be placed 
+   * inside the triangle formed by the three points given as arguments.
+   * 
+   * 
+   */
+  void SetToBarycentricCombination( const Point & A, const Point & B, const Point & C, 
+                                    double weightA,  double weightB );
+ 
 };
 
   

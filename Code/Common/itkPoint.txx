@@ -219,7 +219,7 @@ typename Point<T, TPointDimension>::ValueType
 Point<T, TPointDimension>
 ::SquaredEuclideanDistanceTo( const Point<T, TPointDimension> & pnt )  const
 {
-  ValueType sum = 0;  // consider to use a trait for null here...
+  ValueType sum = NumericTraits<ValueType>::Zero;
   for( unsigned int i=0; i<TPointDimension; i++) 
   {
     const ValueType difference = (*this)[i] - pnt[i];
@@ -244,6 +244,72 @@ Point<T, TPointDimension>
 }
  
 
+
+/*
+ * Set the point to the median point of the two arguments
+ */
+template<class T, unsigned int TPointDimension>
+void
+Point<T, TPointDimension>
+::SetToMedian( const Point<T, TPointDimension> & A,
+               const Point<T, TPointDimension> & B )  
+{
+  ValueType sum = NumericTraits<ValueType>::Zero; 
+  for( unsigned int i=0; i<TPointDimension; i++) 
+  {
+    (*this)[i] = ( A[i] + B[i] ) /2.0;
+  }
+}
+
+
+
+
+
+/*
+ * Set the point to the barycentric combination of two points
+ */
+template<class T, unsigned int TPointDimension>
+void
+Point<T, TPointDimension>
+::SetToBarycentricCombination( const Point<T, TPointDimension> & A,
+                               const Point<T, TPointDimension> & B,
+                               double alpha )  
+{
+  const double wa = alpha;
+  const double wb = 1.0 - alpha;
+  ValueType sum = NumericTraits<ValueType>::Zero; 
+  for( unsigned int i=0; i<TPointDimension; i++) 
+  {
+    (*this)[i] =  wa * A[i] + wb * B[i];
+  }
+}
+
+
+
+/*
+ * Set the point to the barycentric combination of three points
+ */
+template<class T, unsigned int TPointDimension>
+void
+Point<T, TPointDimension>
+::SetToBarycentricCombination( const Point<T, TPointDimension> & A,
+                               const Point<T, TPointDimension> & B,
+                               const Point<T, TPointDimension> & C,
+                               double weightForA, 
+                               double weightForB  )
+{
+  const double weightForC = 1.0 - weightForA - weightForB;
+  ValueType sum = NumericTraits<ValueType>::Zero; 
+  for( unsigned int i=0; i<TPointDimension; i++) 
+  {
+    (*this)[i] =  weightForA * A[i] + weightForB * B[i] + weightForC * C[i];
+  }
+}
+
+
+
+
+
 /*
  * Print content to an ostream
  */
@@ -257,6 +323,7 @@ operator<<(std::ostream& os,const Point<T,TPointDimension> & vct )
   }
   return os;
 }
+
 
 
 /*
