@@ -112,6 +112,8 @@ int main( int argc, char* argv[] )
   it->SetOutputDirectory( argv[3] );
   swriter->SetFileNames( it->GetOutputFileNames() );
 
+  swriter->SetMetaDataDictionaryArray( reader->GetMetaDataDictionaryArray() );
+
   // Try to write the serie:
   try
     {
