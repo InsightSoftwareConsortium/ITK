@@ -139,8 +139,10 @@ public:
      * Set the transformation from a container of parameters
      * This is typically used by optimizers.
      *
-     * There are 6 parameters. The first three represent the
-     * versor and the last three represents the offset.
+     * There are 3 parameters. They represent the components
+     * of the right part of the versor. This can be seen
+     * as the components of the vector parallel to the rotation
+     * axis and multiplied by sin( angle / 2 ).
      *
      **/
     void SetParameters( const ParametersType & parameters );
