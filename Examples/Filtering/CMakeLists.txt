@@ -22,6 +22,9 @@ TARGET_LINK_LIBRARIES(ThresholdImageFilter ITKCommon ITKIO)
 ADD_EXECUTABLE(CastingImageFilters CastingImageFilters.cxx )
 TARGET_LINK_LIBRARIES(CastingImageFilters ITKCommon ITKIO)
 
+ADD_EXECUTABLE(CannyEdgeDetectionImageFilter CannyEdgeDetectionImageFilter.cxx )
+TARGET_LINK_LIBRARIES(CannyEdgeDetectionImageFilter ITKCommon ITKIO)
+
 ADD_EXECUTABLE(DerivativeImageFilter DerivativeImageFilter.cxx )
 TARGET_LINK_LIBRARIES(DerivativeImageFilter ITKCommon ITKIO)
 
@@ -51,6 +54,9 @@ TARGET_LINK_LIBRARIES(BinaryMinMaxCurvatureFlowImageFilter ITKCommon ITKBasicFil
 
 ADD_EXECUTABLE(DiscreteGaussianImageFilter DiscreteGaussianImageFilter.cxx )
 TARGET_LINK_LIBRARIES(DiscreteGaussianImageFilter ITKCommon ITKBasicFilters ITKIO)
+
+ADD_EXECUTABLE(GaussianBlurImageFunction GaussianBlurImageFunction.cxx )
+TARGET_LINK_LIBRARIES(GaussianBlurImageFunction ITKCommon ITKBasicFilters ITKIO)
 
 ADD_EXECUTABLE(SmoothingRecursiveGaussianImageFilter SmoothingRecursiveGaussianImageFilter.cxx )
 TARGET_LINK_LIBRARIES(SmoothingRecursiveGaussianImageFilter ITKCommon ITKBasicFilters ITKIO)
