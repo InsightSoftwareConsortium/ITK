@@ -52,8 +52,8 @@ public:
   typedef typename TInputHistogram::MeasurementType MeasurementType;
   typedef typename TInputHistogram::FrequencyType FrequencyType;
 
-  typedef typename std::vector<MeasurementType> MeanVectorType;
-  typedef typename std::vector<FrequencyType> FrequencyVectorType;
+  typedef std::vector<MeasurementType> MeanVectorType;
+  typedef std::vector<FrequencyType> FrequencyVectorType;
 
   typedef typename TInputHistogram::InstanceIdentifier InstanceIdentifierType;
   typedef std::vector<InstanceIdentifierType> InstanceIdentifierVectorType;
