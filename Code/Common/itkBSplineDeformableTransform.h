@@ -30,14 +30,14 @@ namespace itk
 /** \class BSplineDeformableTransform
  * \brief Deformable transform using a BSpline representation
  *
- * This class encapsulates a deformable transform of point from one N-dimensional
+ * This class encapsulates a deformable transform of points from one N-dimensional
  * one space to another N-dimensional space.
- * The deformation field is modeled using BSplines. 
+ * The deformation field is modeled using B-splines. 
  * A deformation is defined on a sparse regular grid of control points
  * \f$ \vec{\lambda}_j \f$ and is varied by defining a deformation 
  * \f$ \vec{g}(\vec{\lambda}_j) \f$ of each control point. 
  * The deformation \f$ D(\vec{x}) \f$ at any point \f$ \vec{x} \f$
- * is obtained by using a BSpline interpolation kernel.
+ * is obtained by using a B-spline interpolation kernel.
  *
  * The deformation field grid is defined by a user specified GridRegion, 
  * GridSpacing and GridOrigin. Each grid/control point has associated with it

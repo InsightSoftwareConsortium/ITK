@@ -46,7 +46,7 @@ namespace itk
  *
  * \sa Point
  * \sa Index
- * \sa Continuous
+ * \sa ContinuousIndex
  *
  * \ingroup ImageFunctions
  */
