@@ -53,9 +53,11 @@ namespace itk
  * interpolates image intensity at a non-integer pixel position. 
  * This class is templated over the input image type.
  *
- * \warning This function work only for images with scalar pixel
- * types. 
+ * \warning This heirarchy of functions work only for images 
+ * with scalar pixel types. For images of vector pixel types
+ * use VectorInterpolateImageFunctions. 
  *
+ * \sa VectorInterpolateImageFunction
  * \ingroup ImageFunctions
  * 
  * */

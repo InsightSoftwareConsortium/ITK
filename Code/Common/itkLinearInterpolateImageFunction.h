@@ -56,7 +56,9 @@ namespace itk
  * This function works for N-dimensional images.
  *
  * \warning This function work only for images with scalar pixel
- * types. 
+ * types. For vector images use VectorLinearInterpolateImageFunction.
+ *
+ * \sa VectorLinearInterpolateImageFunction
  *
  * \ingroup ImageFunctions
  * 
