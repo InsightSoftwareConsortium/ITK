@@ -20,6 +20,14 @@
 #include "vcl_hash_map.txx"
 #include <iostream>
 
+/**
+ * Helper function to prevent compiler's unused variable warning.
+ */
+template <typename T>
+void IgnoreUnusedVariable(const T&)
+{
+}
+
 extern "C" {
 #include "string.h"
 }
@@ -132,6 +140,8 @@ int main()
   //  MapCopy == months;  -- Removed until I can track down why IRIX compiler
   //                         does not find this during link phase. cates 3/20/01
 
+  IgnoreUnusedVariable(hsh_it);
+  IgnoreUnusedVariable(map_it);
   
   return 1;
 }
