@@ -15,11 +15,13 @@ INCLUDE (${ITK_SOURCE_DIR}/itkCMakeOptions.cmake)
 
 # Walk into these directories before Testing or Unsupported.
 SUBDIRS(Utilities Code)
+SUBDIR_DEPENDS(Code Utilities)
 
 # Include the standard Dart testing module
 INCLUDE (${CMAKE_ROOT}/Modules/Dart.cmake)
 IF (BUILD_TESTING)
   SUBDIRS(Testing)
+  SUBDIR_DEPENDS(Testing Code)
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/InsightLogo.gif ${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Icons/Logo.gif COPYONLY)
 ENDIF (BUILD_TESTING)
 
@@ -27,14 +29,16 @@ ENDIF (BUILD_TESTING)
 # Add an option to build or not build the Examples
 OPTION(BUILD_EXAMPLES "Build the examples directory")
 IF(BUILD_EXAMPLES)
-SUBDIRS(Examples)
+  SUBDIRS(Examples)
+  SUBDIR_DEPENDS(Examples Code)
 ENDIF(BUILD_EXAMPLES)
 
 
 # Add an option to build or not build the Unsupported stuff
 OPTION(BUILD_UNSUPPORTED "Build the unsupported directory")
 IF(BUILD_UNSUPPORTED)
-SUBDIRS(Unsupported)
+  SUBDIRS(Unsupported)
+  SUBDIR_DEPENDS(Unsupported Code)
 ENDIF(BUILD_UNSUPPORTED)
 
 # Configure files
@@ -80,5 +84,6 @@ OPTION(ITK_WRAP_TCL "Build Tcl wrapper support." OFF)
 
 IF(ITK_WRAP_TCL)
   SUBDIRS(Wrapping)
+  SUBDIR_DEPENDS(Wrapping Code)
 ENDIF(ITK_WRAP_TCL)
 
