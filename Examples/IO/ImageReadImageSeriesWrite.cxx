@@ -33,9 +33,9 @@
 
 int main( int argc, char *argv[] )
 {
-  if (argc < 3 )
+  if (argc < 4 )
     {
-    std::cout << "Usage: ImageReadImageSeriesWrite inputFile outputPrefix" << std::endl;
+    std::cout << "Usage: ImageReadImageSeriesWrite inputFile outputPrefix outputExtension" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -103,7 +103,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   std::string format = argv[2];
-  format += "%03d.png";
+  format += "%03d.";
+  format += argv[3];   // filename extension
   // Software Guide : EndCodeSnippet
 
 
