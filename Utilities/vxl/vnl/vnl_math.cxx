@@ -15,6 +15,16 @@
 # define finite _finite
 # define finitef _finite
 # define isnan _isnan
+
+#elif defined(__APPLE_CC__)
+extern "C" {
+#include "math.h"
+}
+# define finitef finite
+inline bool isnan(double x)
+{
+  return !(x == x);
+}
 #elif VXL_IEEEFP_HAS_FINITE
 # include <ieeefp.h>
 # ifndef finitef
@@ -36,7 +46,7 @@ extern "C" int finitef(float);
 #  define finitef finite
 # endif
 
-#elif defined(__BORLANDC__)
+#elif defined(__BORLANDC__) 
 extern "C" {
 #include "math.h"
 }

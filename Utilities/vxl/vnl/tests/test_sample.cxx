@@ -12,7 +12,7 @@ void test_sample()
   double mu = 1.552;
   double sigma = 3.729;
 
-  double X[N];
+  double* X = new double[N];
   for (unsigned i=0; i<N; ++i)
     X[i] = vnl_sample_normal(mu, sigma);
 
@@ -44,6 +44,7 @@ void test_sample()
   vcl_cout << "repeat normal: " << nval0 << " " << nval1 << vcl_endl;
   vcl_cout << "repeat uniform: " << uval0 << " " << uval1 << vcl_endl;
   TEST("seed repeat", nval0 == nval1 && uval0 == uval1, true);
+  delete [] X;
 }
 
 TESTMAIN(test_sample);
