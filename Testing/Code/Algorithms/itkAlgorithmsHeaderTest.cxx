@@ -53,6 +53,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageMomentsCalculator.txx"
 #include "itkImageRegistrationMethod.txx"
 #include "itkImageToImageMetric.txx"
+#include "itkImageToSpatialObjectMetric.txx"
+#include "itkImageToSpatialObjectRegistrationMethod.txx"
 #include "itkKLMRegionGrowImageFilter.txx"
 #include "itkKalmanLinearEstimator.h"
 #include "itkLaplacianSegmentationLevelSetFunction.txx"
