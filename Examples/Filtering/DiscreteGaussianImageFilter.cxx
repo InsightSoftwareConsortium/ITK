@@ -17,8 +17,19 @@
 
 //  Software Guide : BeginLatex
 //
-//  The discrete gaussian image filter computes the convolution of the input
-//  image with a Gaussian kernet by taking advantage of its separability. 
+//  \piccaption[2]{Discretized Gaussian.\label{fig:DiscretizedGaussian}}
+//  \parpic(7cm,4cm)[r]{\includegraphics[width=6cm]{DiscreteGaussian.eps}}
+//
+//  The discrete Gaussian image filter computes the convolution of the input
+//  image with a Gaussian kernel by taking advantage of its separability. A
+//  one-dimensional Gaussian function is discretized on a convolution kernel.
+//  The size of the kernel is extended until there are enough discrete points
+//  in the Gaussian to ensure that a user-provided minimum error is reached.
+//  Since the size of the kernel is unkown a priory it is necesary to impose a
+//  limit to its growth. The user can then provide a value to be the maximum
+//  admisible size of the kernel. The discretization errror is defined as the
+//  difference between the area under the discrete Gaussian curve and the area
+//  under the continuous Gaussian. 
 //
 //  \index{itk::DiscreteGaussianImageFilter|textbf}
 //
@@ -60,27 +71,18 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Types should be choosen for the pixels of the input and output images.
+  //  Image types can be instantiated using the pixel type and dimension.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef    float    InputPixelType;
   typedef    float    OutputPixelType;
-  // Software Guide : EndCodeSnippet
 
-
-
-
-  //  Software Guide : BeginLatex
-  //
-  //  With them, the input and output image types can be instantiated.
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
   typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
   // Software Guide : EndCodeSnippet
+
 
 
 
@@ -138,7 +140,8 @@ int main( int argc, char ** argv )
   //  associated with the Gaussian kernel. The method \code{SetVariance()} is
   //  used for this purpose. The Gaussian is dicretized over the pixels of a
   //  convolution kernel. The maximum value of the kernel size can be set by
-  //  the user.
+  //  the user. Note that the combination of variance and kernel-size values
+  //  may result in truncating the borders of the discretized Gaussian kernel.
   //
   //  \index{itk::DiscreteGaussianImageFilter!SetVariance()}
   //  \index{itk::DiscreteGaussianImageFilter!SetMaximumKernelWidth()}
@@ -173,8 +176,8 @@ int main( int argc, char ** argv )
   //
   //  If the output of this filter has been connected to other filters down the
   //  pipeline, updating any of the downstream filters would have triggered the
-  //  execution of this one. For example, a writer filter could have been used
-  //  after the gradient magnitude.
+  //  execution of this one. For example, a writer could have been used after
+  //  the filter.
   //
   //  Software Guide : EndLatex 
 
