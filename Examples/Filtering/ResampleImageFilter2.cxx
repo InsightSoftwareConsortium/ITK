@@ -405,12 +405,14 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  \itkpiccaption[ResampleImageFilter naive viewers]{Input image with $2 \times
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=0.42\textwidth]{BrainProtonDensitySlice2x3.eps}
+  // \includegraphics[width=0.42\textwidth]{BrainProtonDensitySlice2x3b.eps}
+  // \itkcaption[ResampleImageFilter naive viewers]{Input image with $2 \times
   //  3 \mbox{mm}$ spacing as seen with a naive viewer (left) and a correct
-  //  viewer (right).\label{fig:ResampleImageFilterInput2}} 
-  //  \parpic(12cm,6cm)[r]{
-  //  \includegraphics[width=5cm]{BrainProtonDensitySlice2x3.eps}
-  //  \includegraphics[width=5cm]{BrainProtonDensitySlice2x3b.eps} }
+  //  viewer (right).\label{fig:ResampleImageFilterInput2}}
+  // \end{figure}
   //
   //  The input image spacing is also an important factor in the process of
   //  resampling an image. The following example illustrates the effect of
