@@ -18,6 +18,7 @@
 #include "itkImage.h"
 #include "itkDerivativeImageFilter.h"
 #include "itkNullImageToImageFilterDriver.txx"
+#include "itkFilterWatcher.h"
 
 int itkDerivativeImageFilterTest(int , char * [] )
 {
@@ -28,6 +29,8 @@ int itkDerivativeImageFilterTest(int , char * [] )
       // Set up filter
       itk::DerivativeImageFilter<ImageType, ImageType>::Pointer filter
         = itk::DerivativeImageFilter<ImageType, ImageType>::New();
+      FilterWatcher watcher(filter);
+
       filter->SetOrder(1);
       filter->SetDirection(1);
       std::cout << "About to execute" << std::endl;
