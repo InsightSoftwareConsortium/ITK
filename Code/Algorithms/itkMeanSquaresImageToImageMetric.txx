@@ -84,12 +84,9 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
     OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
 
-    InterpolatorType::PointType tempPoint;
-    tempPoint.CastFrom( transformedPoint );
-
-    if( m_Interpolator->IsInsideBuffer( tempPoint ) )
+    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      MovingValue  = m_Interpolator->Evaluate( tempPoint );
+      MovingValue  = m_Interpolator->Evaluate( transformedPoint );
       FixedValue     = ti.Get();
       m_NumberOfPixelsCounted++;
       const double diff = MovingValue - FixedValue; 
