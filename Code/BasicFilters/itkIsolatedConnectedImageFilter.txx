@@ -115,7 +115,7 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
   IteratorType it = IteratorType ( outputImage, function, m_Seed1 );
 
   const unsigned int estimatedNumberOfIterations =
-                         log( ( upper - lower ) / m_IsolatedValueTolerance ) / 
+                         log( static_cast<double>(( upper - lower ) / m_IsolatedValueTolerance )) / 
                          log ( 2.0 );
 
   // Worst-case scenario for the estimation of time to be completed.
