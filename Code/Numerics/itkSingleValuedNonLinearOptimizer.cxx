@@ -25,6 +25,7 @@ namespace itk
 SingleValuedNonLinearOptimizer
 ::SingleValuedNonLinearOptimizer()
 {
+  m_CostFunction = 0;
 }
 
 
@@ -36,16 +37,16 @@ SingleValuedNonLinearOptimizer
 ::SetCostFunction( CostFunctionType * costFunction )
 {
   if( m_CostFunction.GetPointer() == costFunction )
-  {
+    {
     return;
-  }
+    }
 
   itkDebugMacro("setting CostFunction  to " <<  costFunction);
 
   m_CostFunction = costFunction;
 
   if(!m_ScalesInitialized)
-  {
+    {
     const unsigned int numberOfParameters = 
                         m_CostFunction->GetNumberOfParameters();
 
@@ -53,7 +54,7 @@ SingleValuedNonLinearOptimizer
     scales.Fill( 1.0f );
     SetScales( scales );
     m_ScalesInitialized = true;
-  }
+    }
 
   this->Modified();
 }
@@ -64,7 +65,10 @@ SingleValuedNonLinearOptimizer
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Cost Function: " << m_CostFunction.GetPointer() << std::endl;
+  if (m_CostFunction)
+    {
+    os << indent << "Cost Function: " << m_CostFunction.GetPointer() << std::endl;
+    }
 }
 
 

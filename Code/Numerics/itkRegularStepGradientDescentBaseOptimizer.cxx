@@ -40,6 +40,7 @@ RegularStepGradientDescentBaseOptimizer
   m_NumberOfIterations = 100;
   m_CurrentIteration   =   0;
   m_Maximize = false;
+  m_CostFunction = 0;
 
   m_Gradient.Fill( 0.0f );
   m_PreviousGradient.Fill( 0.0f );
@@ -93,34 +94,34 @@ RegularStepGradientDescentBaseOptimizer
   this->InvokeEvent( StartEvent() );
 
   while( !m_Stop ) 
-  {
+    {
 
     ParametersType currentPosition = this->GetCurrentPosition();
     m_Value = m_CostFunction->GetValue( currentPosition );
 
     if( m_Stop )
-    {
+      {
       break;
-    }
+      }
 
     m_PreviousGradient = m_Gradient;
     m_CostFunction->GetDerivative( currentPosition, m_Gradient );
 
     if( m_Stop )
-    {
+      {
       break;
-    }
+      }
 
     this->AdvanceOneStep();
 
     m_CurrentIteration++;
 
     if( m_CurrentIteration == m_NumberOfIterations )
-    {
+      {
        m_StopCondition = MaximumNumberOfIterations;
        this->StopOptimization();
        break;
-    }
+      }
     
   }
     
@@ -174,51 +175,51 @@ RegularStepGradientDescentBaseOptimizer
 
   double magnitudeSquare = 0;
   for(unsigned int dim=0; dim<spaceDimension; dim++)
-  {
+    {
     const double weighted = transformedGradient[dim];
     magnitudeSquare += weighted * weighted;
-  }
+    }
     
   const double gradientMagnitude = vcl_sqrt( magnitudeSquare );
 
   if( gradientMagnitude < m_GradientMagnitudeTolerance ) 
-  {
+    {
     m_StopCondition = GradientMagnitudeTolerance;
     StopOptimization();
     return;
-  }
+    }
     
   double scalarProduct = 0;
 
   for(unsigned int i=0; i<spaceDimension; i++)
-  {
+    {
     const double weight1 = transformedGradient[i];
     const double weight2 = previousTransformedGradient[i];
     scalarProduct += weight1 * weight2;
-  }
+    }
    
   // If there is a direction change 
   if( scalarProduct < 0 ) 
-  {
+    {
     m_CurrentStepLength /= 2.0;
-  }
-
+    }
+  
   if( m_CurrentStepLength < m_MinimumStepLength )
-  {
+    {
     m_StopCondition = StepTooSmall;
     StopOptimization();
     return;
-  }
+    }
 
   double direction;
   if( this->m_Maximize ) 
-  {
+    {
     direction = 1.0;
-  }
+    }
   else 
-  {
+    {
     direction = -1.0;
-  }
+    }
 
   const double factor = 
                 direction * m_CurrentStepLength / gradientMagnitude;
@@ -252,8 +253,16 @@ RegularStepGradientDescentBaseOptimizer
      << m_Value << std::endl;
   os << indent << "Maximize: "
      << m_Maximize << std::endl;
-  os << indent << "CostFunction: "
-     << m_CostFunction << std::endl;
+  if (m_CostFunction)
+    {
+    os << indent << "CostFunction: "
+       << &m_CostFunction << std::endl;
+    }
+  else
+    {
+    os << indent << "CostFunction: "
+       << "(None)" << std::endl;
+    }
   os << indent << "CurrentStepLength: "
      << m_CurrentStepLength << std::endl;
   os << indent << "StopCondition: "
