@@ -44,7 +44,7 @@ int main( int argc, char * argv[] )
   setError.Fill( 0.01 );
   gaussianFunction->SetMaximumError( setError );
   gaussianFunction->SetSigma( atof( argv[3] ) );
-  gaussianFunction->SetMaximumKernelWidth( atof( argv[4] ) );
+  gaussianFunction->SetMaximumKernelWidth( atoi( argv[4] ) );
 
   it.GoToBegin();
   out.GoToBegin();
