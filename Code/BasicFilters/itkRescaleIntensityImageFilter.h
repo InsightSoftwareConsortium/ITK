@@ -70,7 +70,7 @@ namespace Functor {
  * \ingroup IntensityImageFilters  Multithreaded
  *
  */
-template <typename  TInputImage, typename  TOutputImage>
+template <typename  TInputImage, typename  TOutputImage=TInputImage>
 class ITK_EXPORT RescaleIntensityImageFilter :
     public
     UnaryFunctorImageFilter<TInputImage,TOutputImage, 
