@@ -11,7 +11,6 @@ void RegisterTests()
   REGISTER_TEST(test_math );
   REGISTER_TEST(test_vector );
   REGISTER_TEST(test_matrix );
-  REGISTER_TEST(test_matrix_fixed );
   REGISTER_TEST(test_rnpoly_roots );
   REGISTER_TEST(test_sparse_matrix );
   REGISTER_TEST(test_sample );

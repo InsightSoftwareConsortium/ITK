@@ -1,8 +1,10 @@
 
 IF( CXX_TEST_PATH )
   SET(VNL_TESTS ${CXX_TEST_PATH}/vnlTests)
+  SET(VNL_TESTS2 ${CXX_TEST_PATH}/vnlTests2)
 ELSE( CXX_TEST_PATH )
   SET(VNL_TESTS vnlTests)
+  SET(VNL_TESTS2 vnlTests2)
 ENDIF( CXX_TEST_PATH )
 
 SET(vnl_test_SRCS
@@ -11,7 +13,6 @@ test_fft2d.cxx
 test_math.cxx
 test_vector.cxx
 test_matrix.cxx
-test_matrix_fixed.cxx
 test_rnpoly_roots.cxx
 test_sparse_matrix.cxx
 test_sample.cxx
@@ -32,6 +33,10 @@ test_generalized_eigensystem.cxx
 test_matrix_exp.cxx
 )
 
+SET(vnl_test2_SRCS
+test_matrix_fixed.cxx
+)
+
 ADD_EXECUTABLE(vnlTests vnlTests.cxx ${vnl_test_SRCS})
 TARGET_LINK_LIBRARIES(vnlTests VXLNumerics ITKCommon)
 
@@ -40,7 +45,6 @@ ADD_TEST(test_fft2d ${VNL_TESTS} test_fft2d )
 ADD_TEST(test_math ${VNL_TESTS} test_math )
 ADD_TEST(test_vector ${VNL_TESTS} test_vector )
 ADD_TEST(test_matrix ${VNL_TESTS} test_matrix )
-ADD_TEST(test_matrix_fixed ${VNL_TESTS} test_matrix_fixed )
 ADD_TEST(test_rnpoly_roots ${VNL_TESTS} test_rnpoly_roots )
 ADD_TEST(test_sparse_matrix ${VNL_TESTS} test_sparse_matrix )
 ADD_TEST(test_sample ${VNL_TESTS} test_sample )
@@ -59,4 +63,9 @@ ADD_TEST(test_complex_eigensystem ${VNL_TESTS} test_complex_eigensystem )
 ADD_TEST(test_symmetric_eigensystem ${VNL_TESTS} test_symmetric_eigensystem )
 ADD_TEST(test_generalized_eigensystem ${VNL_TESTS}   test_generalized_eigensystem)
 ADD_TEST(test_matrix_exp ${VNL_TESTS} test_matrix_exp )
+
+ADD_EXECUTABLE(vnlTests2 vnlTests2.cxx ${vnl_test2_SRCS})
+TARGET_LINK_LIBRARIES(vnlTests2 VXLNumerics ITKCommon)
+
+ADD_TEST(test_matrix_fixed ${VNL_TESTS2} test_matrix_fixed )
 
