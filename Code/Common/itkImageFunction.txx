@@ -65,7 +65,7 @@ const InputImageType * ptr )
     {
     typedef typename IndexType::IndexValueType IndexValueType;
     CoordRepType epsilon = 5.0e-15;
-    InputImageType::SizeType size = ptr->GetBufferedRegion().GetSize();
+    typename InputImageType::SizeType size = ptr->GetBufferedRegion().GetSize();
     m_StartIndex = ptr->GetBufferedRegion().GetIndex();
 
     for ( unsigned int j = 0; j < ImageDimension; j++ )
