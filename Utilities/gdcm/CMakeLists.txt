@@ -45,5 +45,5 @@ CHECK_INCLUDE_FILE("stdint.h" CMAKE_HAVE_STDINT_H)
 CONFIGURE_FILE(${GDCM_SOURCE_DIR}/gdcmConfigure.h.in
                ${GDCM_BINARY_DIR}/gdcmConfigure.h @ONLY IMMEDIATE)
 
-INSTALL_FILES(/include .h gdcmConfigure.h)
+INSTALL_FILES(/include/InsightToolkit .h gdcmConfigure.h)
 

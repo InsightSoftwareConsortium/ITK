@@ -2,11 +2,11 @@
 # DICOM dictionary stuff
 
 
-INSTALL_FILES(${GDCM_DATA_DIR} FILES 
-  dicomV3.dic
-  dicomVR.dic
-  dicomTS.dic
-  DicomDir.dic
+INSTALL_FILES(/share/gdcm/ .dic
+  dicomV3
+  dicomVR
+  dicomTS
+  DicomDir
 )
 
 # Nice trick to avoid creating a .h file each time we compile gdcm

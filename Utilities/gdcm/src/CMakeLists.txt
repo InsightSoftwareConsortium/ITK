@@ -64,5 +64,5 @@ ELSE(UNIX)
   )
 ENDIF(UNIX)
 
-INSTALL_FILES(/include "\\.h$")
-INSTALL_TARGETS(/lib/ itkgdcm)
+INSTALL_FILES(/include/InsightToolkit "\\.h$")
+INSTALL_TARGETS(/lib/InsightToolkit itkgdcm)
