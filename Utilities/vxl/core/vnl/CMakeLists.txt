@@ -97,6 +97,7 @@ SET( vnl_sources
   vnl_float_3x4.h
   vnl_float_4x3.h
   vnl_float_4x4.h
+  vnl_double_1x1.h
   vnl_double_1x2.h
   vnl_double_2x1.h
   vnl_double_2x2.h
