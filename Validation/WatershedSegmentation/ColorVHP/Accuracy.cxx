@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
     std::cout << std::endl;
     variance = variance / (float) accuracy_vector.size();
     std::cout << "variance = " << variance << std::endl;
-    std_deviation = ::vnl_math_sqrt(variance);
+    std_deviation = ::vcl_sqrt(variance);
     std::cout << "std_deviation = " << std_deviation << std::endl;
   }
   catch (itk::ExceptionObject &e)

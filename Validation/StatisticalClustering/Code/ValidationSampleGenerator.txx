@@ -312,7 +312,7 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
   for ( i = 0 ; i < m_NumberOfMeasurements ; i++ )
     {
       m_ImageStandardDeviations[i] = 
-        vnl_math_sqrt(m_ImageStandardDeviations[i] / (double) sampleSize) ;
+        vcl_sqrt(m_ImageStandardDeviations[i] / (double) sampleSize) ;
       std::cout << "DEBUG: image standard deviations[" << i << "] = " 
                 << m_ImageStandardDeviations[i]
                 << std::endl ;

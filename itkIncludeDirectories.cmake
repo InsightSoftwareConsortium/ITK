@@ -1,35 +1,14 @@
-IF(VXL_FROM_UTILITIES)
- INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/vxl/vcl
-                      ${ITK_BINARY_DIR}/Utilities/vxl/vcl
-                      ${ITK_SOURCE_DIR}/Utilities/vxl/v3p/netlib
-                      ${ITK_BINARY_DIR}/Utilities/vxl
-                      ${ITK_SOURCE_DIR}/Utilities/vxl)
-  IF(WIN32)
-    IF(NOT CYGWIN)
-      INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/vxl/vcl/config.win32)
-    ENDIF(NOT CYGWIN)
-  ENDIF(WIN32)
-ELSE(VXL_FROM_UTILITIES)
-  INCLUDE_DIRECTORIES(
-  ${ITK_BINARY_DIR}/Code/Numerics/vxl 
-  ${ITK_SOURCE_DIR}/Code/Numerics/vxl 
-  ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl 
-  ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl 
-  )
-ENDIF(VXL_FROM_UTILITIES)
-
-
-
 #-----------------------------------------------------------------------------
 # Include directories for other projects installed on the system.
 SET(ITK_INCLUDE_DIRS_SYSTEM "")
 
 #-----------------------------------------------------------------------------
-# Include directories from the source tree.
-SET(ITK_INCLUDE_DIRS_SOURCE_TREE "")
+# Include directories from the build tree.
+SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_BINARY_DIR})
+
 
 # These directories are always needed.
-SET(ITK_INCLUDE_DIRS_SOURCE_TREE ${ITK_INCLUDE_DIRS_SOURCE_TREE}
+SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
   ${ITK_SOURCE_DIR}/Code/Algorithms
   ${ITK_SOURCE_DIR}/Code/BasicFilters
   ${ITK_SOURCE_DIR}/Code/Common 
@@ -45,47 +24,35 @@ SET(ITK_INCLUDE_DIRS_SOURCE_TREE ${ITK_INCLUDE_DIRS_SOURCE_TREE}
 
 # VXL include directories.
 IF(VXL_FROM_UTILITIES)
-  SET(ITK_INCLUDE_DIRS_SOURCE_TREE ${ITK_INCLUDE_DIRS_SOURCE_TREE}
+  SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
     ${ITK_SOURCE_DIR}/Utilities/vxl/vcl
     ${ITK_SOURCE_DIR}/Utilities/vxl/v3p/netlib
-    ${ITK_SOURCE_DIR}/Utilities/vxl
+    ${ITK_SOURCE_DIR}/Utilities/vxl 
+    ${ITK_BINARY_DIR}/Utilities/vxl/vcl
+    ${ITK_BINARY_DIR}/Utilities/vxl
   )
 
   IF(WIN32)
     IF(NOT CYGWIN)
-      SET(ITK_INCLUDE_DIRS_SOURCE_TREE ${ITK_INCLUDE_DIRS_SOURCE_TREE}
+      SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
         ${ITK_SOURCE_DIR}/Utilities/vxl/vcl/config.win32
       )
     ENDIF(NOT CYGWIN)
   ENDIF(WIN32)
 ELSE(VXL_FROM_UTILITIES)
-  SET(ITK_INCLUDE_DIRS_SOURCE_TREE ${ITK_INCLUDE_DIRS_SOURCE_TREE}
+  SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
     ${ITK_SOURCE_DIR}/Code/Numerics/vxl 
     ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl 
+    ${ITK_BINARY_DIR}/Code/Numerics/vxl 
+    ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl
   )
 ENDIF(VXL_FROM_UTILITIES)
 
 # Include directory for stdlib.
 IF(NOT ITK_USE_SYSTEM_STDLIB)
-  SET(ITK_INCLUDE_DIRS_SOURCE_TREE ${ITK_INCLUDE_DIRS_SOURCE_TREE}
+  SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
       ${ITK_SOURCE_DIR}/Utilities/stdlib)
 ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
-
-#-----------------------------------------------------------------------------
-# Include directories from the build tree.
-SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_BINARY_DIR})
-
-IF(VXL_FROM_UTILITIES)
-  SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
-    ${ITK_BINARY_DIR}/Utilities/vxl/vcl
-    ${ITK_BINARY_DIR}/Utilities/vxl
-  )
-ELSE(VXL_FROM_UTILITIES)
-  SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
-    ${ITK_BINARY_DIR}/Code/Numerics/vxl 
-    ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl
-  )
-ENDIF(VXL_FROM_UTILITIES)
 
 #-----------------------------------------------------------------------------
 # Include directories needed for .cxx files in ITK.  These include
@@ -109,18 +76,6 @@ SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
   ${ITK_INSTALL_INCLUDE_DIR}/Utilities/MetaIO/SpatialObject
   ${ITK_INSTALL_INCLUDE_DIR}/Utilities/DICOMParser
 )
-
-IF(VXL_FROM_UTILITIES)
-  SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
-    ${ITK_INSTALL_INCLUDE_DIR}/Utilities/vxl/vcl
-    ${ITK_INSTALL_INCLUDE_DIR}/Utilities/vxl
-  )
-ELSE(VXL_FROM_UTILITIES)
-  SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
-    ${ITK_INSTALL_INCLUDE_DIR}/Numerics/vxl 
-    ${ITK_INSTALL_INCLUDE_DIR}/Numerics/vxl/vcl
-  )
-ENDIF(VXL_FROM_UTILITIES)
 
 # Include directory for stdlib.
 IF(NOT ITK_USE_SYSTEM_STDLIB)

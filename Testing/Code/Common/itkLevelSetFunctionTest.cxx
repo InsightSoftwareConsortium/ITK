@@ -225,7 +225,7 @@ int itkLevelSetFunctionTest(int, char* [] )
   // Squash level sets everywhere but near the zero set.
   for (itr = itr.Begin(); ! itr.IsAtEnd(); ++itr)
   {
-    itr.Value() = itr.Value() /vnl_math_sqrt((5.0f +vnl_math_sqr(itr.Value())));
+    itr.Value() = itr.Value() /vcl_sqrt((5.0f +vnl_math_sqr(itr.Value())));
   
   }
  

@@ -61,7 +61,7 @@ DistanceToCentroidMembershipFunction< TVector >
     temp += tempDistance * tempDistance;
     }
 
-  temp = vnl_math_sqrt( temp );  
+  temp = vcl_sqrt( temp );  
   
   return temp ;
 }

@@ -147,7 +147,11 @@ MahalanobisDistanceMembershipFunction< TVector >
 
   // Compute |y - mean | * inverse(cov) * |y - mean|^T 
   //tmp = (m_TmpMat * (m_TmpVec.transpose()))[0][0];
-  temp = dot_product( m_TempMat, m_TempVec ); 
+  temp = dot_product( vnl_vector_ref<double>( m_TempMat.size(), m_TempMat.begin()),
+                      vnl_vector_ref<double>( m_TempVec.size(), m_TempVec.begin()));
+  // should be this, but to remain comatible with the old vnl for
+  // some time, the above is used
+//  temp = dot_product( m_TempMat.as_ref(), m_TempVec.as_ref() ); 
   
   return temp ;
 }

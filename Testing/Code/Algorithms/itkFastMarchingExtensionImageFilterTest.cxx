@@ -149,7 +149,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
       {
       distance += tempIndex[j] * tempIndex[j];
       }
-    distance = vnl_math_sqrt( distance );
+    distance = vcl_sqrt( distance );
 
     output = (float) iterator.Get();
 

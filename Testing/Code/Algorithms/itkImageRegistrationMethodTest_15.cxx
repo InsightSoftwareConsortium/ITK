@@ -360,7 +360,7 @@ double F( itk::Vector<double,3> & v )
   const double s = 50;
   double value = 200.0 * exp( - ( x*x + y*y + z*z )/(s*s) );
   x -= 8; y += 3; z += 0;
-  double r = vnl_math_sqrt( x*x + y*y + z*z );
+  double r = vcl_sqrt( x*x + y*y + z*z );
   if( r > 35 )
     {
     value = 2 * ( vnl_math_abs( x ) +
