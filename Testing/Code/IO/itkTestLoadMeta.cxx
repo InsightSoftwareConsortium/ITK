@@ -9,7 +9,7 @@ int main(int ac, char** av)
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<unsigned char, 2> myImage;
+  typedef itk::Image<unsigned char, 3> myImage;
   itk::ImageFileReader<myImage>::Pointer reader 
                                   = itk::ImageFileReader<myImage>::New();
   
