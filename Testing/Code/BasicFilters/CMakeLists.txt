@@ -127,6 +127,7 @@ ADD_TEST(itkMeanImageFilterTest ${BASIC_FILTERS_TESTS} itkMeanImageFilterTest)
 ADD_TEST(itkMedianImageFilterTest ${BASIC_FILTERS_TESTS} itkMedianImageFilterTest)
 ADD_TEST(itkMinimumImageFilterTest ${BASIC_FILTERS_TESTS} itkMinimumImageFilterTest)
 ADD_TEST(itkMinimumMaximumImageCalculatorTest ${BASIC_FILTERS_TESTS} itkMinimumMaximumImageCalculatorTest)
+ADD_TEST(itkMinimumMaximumConditionalImageCalculatorTest ${BASIC_FILTERS_TESTS2} itkMinimumMaximumConditionalImageCalculatorTest)
 ADD_TEST(itkMinimumMaximumImageFilterTest ${BASIC_FILTERS_TESTS} itkMinimumMaximumImageFilterTest)
 ADD_TEST(itkMirrorPadImageTest ${BASIC_FILTERS_TESTS} itkMirrorPadImageTest)
 ADD_TEST(itkMultiplyImageFilterTest ${BASIC_FILTERS_TESTS} itkMultiplyImageFilterTest)
@@ -654,6 +655,7 @@ itkNarrowBandImageFilterBaseTest.cxx
 SET(BasicFilters2_SRCS
 itkBasicFiltersPrintTest.cxx
 itkBasicFiltersPrintTest2.cxx
+itkMinimumMaximumConditionalImageCalculatorTest.cxx
 itkTanImageFilterAndAdaptorTest.cxx
 itkTernaryMagnitudeImageFilterTest.cxx
 itkThresholdImageFilterTest.cxx
