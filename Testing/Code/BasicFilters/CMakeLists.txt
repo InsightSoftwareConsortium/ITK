@@ -702,7 +702,7 @@ IF(ITK_CSWIG_PYTHON)
            ${ITK_SOURCE_DIR}/Examples/Filtering/BinaryThresholdImageFilter.py
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterPythonTest.png
-           0 255 150 )
+           0 255 150 180)
 
 ENDIF(ITK_CSWIG_PYTHON)
 
