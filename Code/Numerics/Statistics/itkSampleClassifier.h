@@ -22,6 +22,7 @@
 #include "itkObject.h"
 #include "itkExceptionObject.h"
 #include "itkSubsample.h"
+#include "itkClassifierBase.h"
 
 namespace itk{ 
   namespace Statistics{
@@ -60,39 +61,27 @@ namespace itk{
  * the Subsample objects act as separate class masks. 
  */
 
-template< class TSample, class TMembershipCalculator, class TDecisionRule >
+template< class TSample >
 class ITK_EXPORT SampleClassifier : 
-      public Object
+      public ClassifierBase< TSample >
 {
 public:
   /** Standard class typedef*/
   typedef SampleClassifier Self;
-  typedef Object Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef ClassifierBase< TSample > Superclass;
+  typedef SmartPointer< Self > Pointer;
 
  /** Standard macros */
   itkTypeMacro(SampleClassifier, Object);
   itkNewMacro(Self) ;
 
-  /** TSample template argument related typedefs */
+  /** TSample template argument related ypedefs */
   typedef TSample SampleType ;
   typedef typename TSample::Pointer SamplePointer ;
-
-  /** TMembershipCalculator template argument related typedefs */
-  typedef TMembershipCalculator MembershipCalculatorType ;
-  typedef typename TMembershipCalculator::Pointer MembershipCalculatorPointer ;
-
-  /** TDecisionRule template argument related typedefs */
-  typedef TDecisionRule DecisionRuleType ;
-  typedef typename TDecisionRule::Pointer DecisionRulePointer ;
 
   /** Output type for GetClassSample method */
   typedef MembershipSample< TSample > OutputType ;
   typedef typename OutputType::Pointer OutputPointer ;
-
-  /** Container of the pointers of MembershipCalculator objects */
-  typedef std::vector< MembershipCalculatorPointer > 
-    MembershipCalculatorVectorType ;
 
   /** typedefs from TSample object */
   typedef typename TSample::MeasurementType MeasurementType ;
@@ -100,30 +89,15 @@ public:
 
   enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
 
+  /** typedefs from Superclass */
+  typedef typename Superclass::MembershipFunctionPointerVector 
+    MembershipFunctionPointerVector ;
+
   /** Sets the target data that will be classified by this */
   void SetSample(SamplePointer sample) ;
 
   /** Returns the target data */
   SamplePointer GetSample() ;
-
-  /** Stores a MembershipCalculator of a class in its internal vector */
-  unsigned int AddMembershipCalculator(MembershipCalculatorPointer function) ;
-
-  int GetNumberOfClasses() 
-  { return m_MembershipCalculators.size() ; }
-
-  MembershipCalculatorVectorType GetMembershipCalculatorVector()
-  { return m_MembershipCalculators ; } 
-
-  /** Stores the decision rule that makes the real decision using 
-   * informations from MembershipCalculators and other prior knowledge */
-  void SetDecisionRule(DecisionRulePointer decisionRule) ;
-
-  /** Returns the DecisionRule object pointer */
-  DecisionRulePointer GetDecisionRule() ;
-
-  /** Starts the classification process */
-  void GenerateData() ;
 
   /** Returns the classification result */
   OutputPointer GetOutput() ;
@@ -133,15 +107,11 @@ protected:
   virtual ~SampleClassifier() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  /** Starts the classification process */
+  void GenerateData() ;
 private:
   /** Target data sample pointer*/
   SamplePointer m_Sample ;
-
-  /** DecisionRule poitner */
-  DecisionRulePointer m_DecisionRule ;
-
-  /** Container for MembershipCalculators' pointers */
-  MembershipCalculatorVectorType m_MembershipCalculators ;
 
   /** Output pointer (MembershipSample) */
   OutputPointer m_Output ;
