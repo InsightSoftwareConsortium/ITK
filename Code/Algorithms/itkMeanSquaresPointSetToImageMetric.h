@@ -24,6 +24,7 @@
 
 namespace itk
 {
+
 /** \class MeanSquaresPointSetToImageMetric
  * \brief Computes similarity between pixel values of a point set and 
  * intensity values of an image.
