@@ -327,6 +327,7 @@ PowellOptimizer
         }
       }
 
+    this->SetCurrentLinePoint(x, fx);
     this->InvokeEvent( IterationEvent() );
 
     }
@@ -416,7 +417,7 @@ PowellOptimizer
     for (unsigned int j = 0; j < m_SpaceDimension; ++j)
       {
       ptt[j] = 2.0*p[j] - pt[j];
-      xit[j] = p[j] - pt[j];
+      xit[j] = (p[j] - pt[j]) * this->GetScales()[j];
       pt[j] = p[j];
       }
 
