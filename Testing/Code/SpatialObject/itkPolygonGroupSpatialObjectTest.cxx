@@ -24,8 +24,11 @@ static float points[11][2] =
     {1.75,1.5},{1.5,1.5},{1.5,2},{2,2},{2,1},{1,1}
   };
 
+typedef itk::PolygonGroupSpatialObject<3> PolygonGroup3DType;
+typedef PolygonGroup3DType::Pointer PolygonGroup3DPointer;
+
 int
-buildPolygonGroup(itk::PolygonGroupSpatialObject<3>::Pointer &PolygonGroup)
+buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
 {
   try
     {
@@ -206,9 +209,7 @@ buildPolygonGroup(itk::PolygonGroupSpatialObject<3>::Pointer &PolygonGroup)
 
 int itkPolygonGroupSpatialObjectTest(int, char *[])
 {
-  
-  itk::PolygonGroupSpatialObject<3>::Pointer PolygonGroup = 
-    itk::PolygonGroupSpatialObject<3>::New();
+  PolygonGroup3DPointer PolygonGroup = PolygonGroup3DType::New();
 
   if(PolygonGroup->NumberOfStrands() != 0)
     {
@@ -255,5 +256,6 @@ int itkPolygonGroupSpatialObjectTest(int, char *[])
     std::cerr << "1.6,1.3,11.5" << "is not inside PolygonGroup, IsInside returns true"
               << std::endl;
     }
+
   return 0;
 }
