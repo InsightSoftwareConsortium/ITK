@@ -59,7 +59,6 @@ fi
 #
 
 
-CMAKE_shared_ok="yes"
 # the following is an excerpt from the tcl7.5b2 configure.in
 #--------------------------------------------------------------------
 #	The statements below define a collection of symbols related to
@@ -105,7 +104,6 @@ case $system in
 	# AIX: can't link shared library extensions unless Tcl and Tk are
 	# also shared libraries.
 	CMAKE_SHLIB_CFLAGS=""
-	CMAKE_SHLIB_LD_LIBS='${LIBS}'
 	CMAKE_SHLIB_SUFFIX="..o"
 	CMAKE_DL_LIBS=""
         AC_CHECK_LIB(ld,printf, CMAKE_DL_LIBS="-lld")
@@ -117,10 +115,10 @@ case $system in
 	CMAKE_SHLIB_SUFFIX=".sl"
 	CMAKE_DL_LIBS="-ldld"
 	CMAKE_SHLIB_BUILD_FLAGS='+Z -Wl,-E -Wl,-b'
-	CMAKE_SHLIB_LINK_FLAGS='-Wl,+s -Wl,+b,${LIB_RUNTIME_DIR}'
+	CMAKE_SHLIB_LINK_FLAGS='-Wl,+s -Wl,+b,'
         if test "$CC" = "gcc" -o `$CC -v 2>&1 | grep -c gcc` != "0" ; then
   	  CMAKE_SHLIB_BUILD_FLAGS='-shared -Wl,-E -Wl,-b'
-	  CMAKE_SHLIB_LINK_FLAGS='-Wl,+s -Wl,+b,${LIB_RUNTIME_DIR}'
+	  CMAKE_SHLIB_LINK_FLAGS='-Wl,+s -Wl,+b,'
         fi
 	;;
     IRIX-5.*)
@@ -218,7 +216,7 @@ case $system in
 	CMAKE_SHLIB_SUFFIX=".so"
 	CMAKE_DL_LIBS=""
 	CMAKE_SHLIB_BUILD_FLAGS='-shared -Wl,-expect_unresolved,"*"'
-	CMAKE_SHLIB_LINK_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
+	CMAKE_SHLIB_LINK_FLAGS='-Wl,-rpath,'
 	;;
     RISCos-*)
 	CMAKE_SHLIB_CFLAGS="-G 0"
@@ -250,18 +248,17 @@ case $system in
 	CMAKE_SHLIB_SUFFIX=".so"
 	CMAKE_DL_LIBS="-ldl"
 	CMAKE_SHLIB_BUILD_FLAGS='-shared -Wl,-r -nostdlib'
-	CMAKE_SHLIB_LINK_FLAGS='-Wl,-L${LIB_RUNTIME_DIR}'
+	CMAKE_SHLIB_LINK_FLAGS='-Wl,-L'
 	;;
     SunOS-5*)
 	CMAKE_SHLIB_CFLAGS="-KPIC"
-	CMAKE_SHLIB_LD_LIBS='${LIBS}'
 	CMAKE_SHLIB_SUFFIX=".so"
 	CMAKE_DL_LIBS="-ldl"
 	CMAKE_SHLIB_BUILD_FLAGS='-G'
-	CMAKE_SHLIB_LINK_FLAGS='-R ${LIB_RUNTIME_DIR}'
+	CMAKE_SHLIB_LINK_FLAGS='-R '
         if test "$CC" = "gcc" -o `$CC -v 2>&1 | grep -c gcc` != "0" ; then
 	  CMAKE_SHLIB_BUILD_FLAGS='-Wl,-G'
-	  CMAKE_SHLIB_LINK_FLAGS='-Wl,-R,${LIB_RUNTIME_DIR}'
+	  CMAKE_SHLIB_LINK_FLAGS='-Wl,-R,'
         fi
 	;;
     ULTRIX-4.*)
@@ -293,9 +290,6 @@ case $system in
     CMAKE_SHLIB_CFLAGS=""
     ;;
 esac
-
-CMAKE_SHLIB_CFLAGS="${SHLIB_CFLAGS}"
-CMAKE_LD_SEARCH_FLAGS="${LD_SEARCH_FLAGS}"
 
 
 AC_SUBST(CMAKE_SHLIB_LINK_FLAGS)
