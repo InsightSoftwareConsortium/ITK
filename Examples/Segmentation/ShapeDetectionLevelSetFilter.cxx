@@ -372,7 +372,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   smoothing->SetTimeStep( 0.125 );
   smoothing->SetNumberOfIterations(  5 );
-  smoothing->SetConductanceParameter( 3.0 );
+  smoothing->SetConductanceParameter( 9.0 );
   // Software Guide : EndCodeSnippet
 
 

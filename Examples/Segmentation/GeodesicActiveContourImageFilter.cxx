@@ -298,7 +298,7 @@ int main( int argc, char *argv[] )
   
   smoothing->SetTimeStep( 0.125 );
   smoothing->SetNumberOfIterations(  5 );
-  smoothing->SetConductanceParameter( 3.0 );
+  smoothing->SetConductanceParameter( 9.0 );
 
 
   //  The GradientMagnitudeRecursiveGaussianImageFilter performs the
