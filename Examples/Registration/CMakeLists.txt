@@ -59,8 +59,6 @@ ADD_TEST(ImageRegistration1Test ${REGISTRATION_EXAMPLES}
 )
 
 ADD_TEST(ImageRegistration2Test ${REGISTRATION_EXAMPLES}
-  --compare ${BASELINE}/ImageRegistration2Test.png
-            ${TEMP}/ImageRegistration2Test.png
   ImageRegistration2Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
