@@ -29,7 +29,7 @@ namespace itk
  * inserted into the image via a scalar iterator (i.e., the pixel type
  * must support GetScalar()/SetScalar()).
  */
-template <class TOutputImage>
+template <typename TOutputImage>
 class ITK_EXPORT RandomImageSource : public ImageSource<TOutputImage>
 {
 public:
@@ -42,7 +42,11 @@ public:
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;
-  
+
+  /**
+   * typename typedef for the output image PixelType
+   */
+  typedef typename TOutputImage::PixelType OutputImagePixelType;
   /** 
    * Run-time type information (and related methods).
    */

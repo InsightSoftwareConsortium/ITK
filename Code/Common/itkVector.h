@@ -18,6 +18,7 @@
 #include "itkMacro.h"
 #include "vnl/vnl_vector.txx"
 #include "vnl/vnl_vector_fixed.txx"
+#include "vnl/vnl_c_vector.txx"
 
 #include <memory.h>
 

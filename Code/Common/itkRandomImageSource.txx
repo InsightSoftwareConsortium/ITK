@@ -71,7 +71,7 @@ RandomImageSource<TOutputImage>
 /**
  *
  */
-template <class TOutputImage>
+template <typename TOutputImage>
 void 
 RandomImageSource<TOutputImage>
 ::Execute()
@@ -86,7 +86,7 @@ RandomImageSource<TOutputImage>
   scalarType min = NumericTraits<scalarType>::min();
   scalarType max = NumericTraits<scalarType>::max();
 
-  ImageScalarRegionIterator<TOutputImage::PixelType, TOutputImage::ImageDimension>
+  ImageScalarRegionIterator<OutputImagePixelType, TOutputImage::ImageDimension>
     scalarIterator(image, image->GetRegionStartIndex(),image->GetRegionSize());
 
   itkDebugMacro(<<"Generating a random image of scalars");
