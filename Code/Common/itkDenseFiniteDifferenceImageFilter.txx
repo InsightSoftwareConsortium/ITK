@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <list>
 #include "itkImageRegionIterator.h"
+#include "itkNumericTraits.h"
 
 namespace itk {
 

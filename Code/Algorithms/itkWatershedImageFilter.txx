@@ -48,6 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkRandomAccessNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkOffset.h"
+#include "itkNumericTraits.h"
 #include <algorithm>
 namespace itk
 {

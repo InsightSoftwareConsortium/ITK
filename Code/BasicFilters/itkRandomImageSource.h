@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkRandomImageSource_h
 
 #include "itkImageSource.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
