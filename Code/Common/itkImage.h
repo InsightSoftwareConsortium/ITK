@@ -320,7 +320,6 @@ public:
       this->GetLargestPossibleRegion().IsInside( index );
 
     return isInside;
-
     }
 
   /** Get the index (discrete) from a physical point.
@@ -347,10 +346,12 @@ public:
     typename TransformType::InputPointType inputPoint =
                           m_PhysicalToIndexTransform->TransformPoint(point) ;
 
+    typedef typename IndexType::IndexValueType IndexValueType;
+
     // Update the output index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       { 
-      index[i] = static_cast<long>(inputPoint[i]);
+      index[i] = static_cast<IndexValueType>(inputPoint[i]);
       }
     
     // Now, check to see if the index is within allowed bounds
