@@ -14,6 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifdef _WIN32
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itkLaplacianSegmentationLevelSetImageFilter.h"
 //#include "itkImageFileWriter.h"
 //#include "itkRawImageIO.h"
