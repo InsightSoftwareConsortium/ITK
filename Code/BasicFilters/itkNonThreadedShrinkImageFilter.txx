@@ -20,6 +20,7 @@
 #include "itkNonThreadedShrinkImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -31,7 +32,10 @@ template <class TInputImage, class TOutputImage>
 NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
 ::NonThreadedShrinkImageFilter()
 {
-  m_ShrinkFactor = 1;
+  for( unsigned int j = 0; j < ImageDimension; j++ )
+    {
+    m_ShrinkFactors[j] = 1;
+    }
 }
 
 
@@ -45,9 +49,69 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Shrink Factor: " << m_ShrinkFactor << std::endl;
+  os << indent << "Shrink Factor: ";
+  for( unsigned int j = 0; j < ImageDimension; j++ )
+    {
+    os << m_ShrinkFactors[j] << " ";
+    } 
+  os << std::endl;
 }
 
+
+/**
+ *
+ */
+template <class TInputImage, class TOutputImage>
+void 
+NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
+::SetShrinkFactors(unsigned int factors[])
+{
+  unsigned int j;
+  for( j = 0; j < ImageDimension; j++ )
+    {
+    if( factors[j] != m_ShrinkFactors[j] ) break;
+    }
+  if( j < ImageDimension )
+    {
+    this->Modified();
+    for( j = 0; j < ImageDimension; j++ )
+      {
+      m_ShrinkFactors[j] = factors[j];
+      if( m_ShrinkFactors[j] < 1 ) 
+        {
+        m_ShrinkFactors[j] = 1;
+        }
+      }
+    }
+}
+
+
+/**
+ *
+ */
+template <class TInputImage, class TOutputImage>
+void 
+NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
+::SetShrinkFactors(unsigned int factor)
+{
+  unsigned int j;
+  for( j = 0; j < ImageDimension; j++ )
+    {
+    if( factor != m_ShrinkFactors[j] ) break;
+    }
+  if( j < ImageDimension )
+    {
+    this->Modified();
+    for( j = 0; j < ImageDimension; j++ )
+      {
+      m_ShrinkFactors[j] = factor;
+      if( m_ShrinkFactors[j] < 1 ) 
+        {
+        m_ShrinkFactors[j] = 1;
+        }
+      }
+    }
+}
 
 /**
  *
@@ -60,7 +124,7 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
   itkDebugMacro(<<"Actually executing");
 
   // Get the input and output pointers
-  typename Superclass::InputImagePointer  inputPtr = this->GetInput();
+  typename Superclass::InputImageConstPointer  inputPtr = this->GetInput();
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   // Since we are providing a GenerateData() method, we need to allocate the
@@ -84,11 +148,14 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
 
   for (int i=0; i < TInputImage::ImageDimension; i++)
     {
-    factorSize[i] = m_ShrinkFactor;
+    factorSize[i] = m_ShrinkFactors[i];
     }
 
+  // support progress methods/callbacks
+  ProgressReporter progress(this, 0, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   // walk the output image, and sample the input image
-  for ( ; !outIt.IsAtEnd(); ++outIt)
+  while ( !outIt.IsAtEnd() ) 
     {
     // determine the index of the output pixel
     outputIndex = outIt.GetIndex();
@@ -98,6 +165,9 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
 
     // copy the input pixel to the output
     outIt.Set( inputPtr->GetPixel(inputIndex) );
+    ++outIt;
+
+    progress.CompletedPixel();
     }
 }
 
@@ -115,8 +185,13 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer  inputPtr = this->GetInput();
-  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
+  InputImageConstPointer  inputPtr = this->GetInput();
+  OutputImagePointer outputPtr = this->GetOutput();
+
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
 
   // we need to compute the input requested region (size and start index)
   int i;
@@ -131,9 +206,9 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
   for (i = 0; i < TInputImage::ImageDimension; i++)
     {
     inputRequestedRegionSize[i]
-      = outputRequestedRegionSize[i] * m_ShrinkFactor;
+      = outputRequestedRegionSize[i] * m_ShrinkFactors[i];
     inputRequestedRegionStartIndex[i]
-      = outputRequestedRegionStartIndex[i] * (int)m_ShrinkFactor;
+      = outputRequestedRegionStartIndex[i] * (long)m_ShrinkFactors[i];
     }
 
   typename TInputImage::RegionType inputRequestedRegion;
@@ -155,7 +230,7 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr = this->GetInput();
+  typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   // we need to compute the output spacing, the output image size, and the
@@ -173,12 +248,12 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
   
   for (i = 0; i < TOutputImage::ImageDimension; i++)
     {
-    outputSpacing[i] = inputSpacing[i] * (double) m_ShrinkFactor;
+    outputSpacing[i] = inputSpacing[i] * (double) m_ShrinkFactors[i];
     outputSize[i] = (unsigned int)
-      floor( ((double)(inputSize[i] - m_ShrinkFactor + 1))
-             / (double) m_ShrinkFactor);
+      floor( ((double)(inputSize[i] - m_ShrinkFactors[i] + 1))
+             / (double) m_ShrinkFactors[i]);
     outputStartIndex[i] = (int)
-      ceil( (double) inputStartIndex[i] / (double) m_ShrinkFactor );
+      ceil( (double) inputStartIndex[i] / (double) m_ShrinkFactors[i] );
     }
 
   outputPtr->SetSpacing( outputSpacing );

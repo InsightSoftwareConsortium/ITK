@@ -54,13 +54,33 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(NonThreadedShrinkImageFilter, ImageToImageFilter);
 
-  /** Set the shrink factor. The default value is 1. */
-  itkSetClampMacro(ShrinkFactor,unsigned int, 1,
-                   NumericTraits<unsigned int>::max());
+  /** Typedef to images */
+  typedef TOutputImage                                OutputImageType;
+  typedef TInputImage                                 InputImageType;
+  typedef typename OutputImageType::Pointer           OutputImagePointer;
+  typedef typename InputImageType::Pointer            InputImagePointer;
+  typedef typename InputImageType::ConstPointer       InputImageConstPointer;
+
+  /** Typedef to describe the output image region type. */
+  typedef typename TOutputImage::RegionType OutputImageRegionType;
+
+  /** ImageDimension enumeration. */
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension );
+
+  /** Set the shrink factors. Values are clamped to 
+   * a minimum value of 1. Default is 1 for all dimensions. */
+  void SetShrinkFactors( unsigned int factors[] );
+  void SetShrinkFactors( unsigned int factor );
+  void SetShrinkFactor( unsigned int i, unsigned int factor )
+  {
+    m_ShrinkFactors[i] = factor;
+  }
   
-  /** Get the shrink factor. */
-  itkGetMacro(ShrinkFactor,unsigned int);
-                 
+  /** Get the shrink factors. */
+  const unsigned int * GetShrinkFactors() const
+  { return m_ShrinkFactors; }
+
   /** NonThreadedShrinkImageFilter produces an image which is a
    * different resolution and with a different pixel spacing than its
    * input image.  As such, NonThreadedShrinkImageFilter needs to
@@ -89,7 +109,7 @@ private:
   NonThreadedShrinkImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  unsigned int m_ShrinkFactor;
+  unsigned int m_ShrinkFactors[ImageDimension];
 };
   
 } // end namespace itk
