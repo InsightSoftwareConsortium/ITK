@@ -80,12 +80,24 @@ VersorRigid3DTransform<TScalarType>
   
   AxisType axis;
 
+  double norm = parameters[0]*parameters[0];
   axis[0] = parameters[0];
+  norm += parameters[1]*parameters[1];
   axis[1] = parameters[1];
+  norm += parameters[2]*parameters[2];
   axis[2] = parameters[2];
+  if( norm > 0)
+    {
+    norm = sqrt(norm);
+    }
+
+  double epsilon = 1e-10;
+  if(norm >= 1.0-epsilon)
+    {
+    axis = axis / (norm+epsilon*norm);
+    }
 
   m_Versor.Set( axis );
-
 
   itkDebugMacro( <<"Versor is now " << m_Versor );
   
