@@ -312,23 +312,23 @@ ConstructDiagram(void)
   PointType corner[4];
   int cornerID[4];
 
-  corner[0][0]=f_xmin;
-  corner[0][1]=f_ymin;
+  corner[0][0]=f_pxmin;
+  corner[0][1]=f_pymin;
   cornerID[0]=f_nvert;
   f_nvert++;
   f_VertList.push_back(corner[0]);
-  corner[1][0]=f_xmin;
-  corner[1][1]=f_ymax;
+  corner[1][0]=f_pxmin;
+  corner[1][1]=f_pymax;
   cornerID[1]=f_nvert;
   f_nvert++;
   f_VertList.push_back(corner[1]);
-  corner[2][0]=f_xmax;
-  corner[2][1]=f_ymax;
+  corner[2][0]=f_pxmax;
+  corner[2][1]=f_pymax;
   cornerID[2]=f_nvert;
   f_nvert++;
   f_VertList.push_back(corner[2]);
-  corner[3][0]=f_xmax;
-  corner[3][1]=f_ymin;
+  corner[3][0]=f_pxmax;
+  corner[3][1]=f_pymin;
   cornerID[3]=f_nvert;
   f_nvert++;
   f_VertList.push_back(corner[3]);
@@ -577,7 +577,7 @@ Voronoi2DDiagram<TCoordRepType>::
 PQbucket(FortuneHalfEdge *task)
 {
   int bucket;
-  bucket = (task->m_ystar - f_ymin)/f_deltay * f_PQhashsize;
+  bucket = (task->m_ystar - f_pymin)/f_deltay * f_PQhashsize;
   if(bucket < 0) bucket = 0;
   if(bucket >= f_PQhashsize) bucket = f_PQhashsize -1;
   if(bucket < f_PQmin) f_PQmin = bucket;
@@ -640,7 +640,7 @@ Voronoi2DDiagram<TCoordRepType>::FortuneHalfEdge *
 Voronoi2DDiagram<TCoordRepType>::
 findLeftHE(PointType *p){
   int i;
-  int bucket = (((*p)[0]) - f_xmin)/f_deltax * f_ELhashsize;
+  int bucket = (((*p)[0]) - f_pxmin)/f_deltax * f_ELhashsize;
   if(bucket < 0) bucket = 0;
   if(bucket >= f_ELhashsize) bucket = f_ELhashsize - 1;
   FortuneHalfEdge *he = ELgethash(bucket);
@@ -1001,29 +1001,14 @@ GenerateVDFortune(void)
 	f_SeedSites[i].m_sitenbr = i;
   }
 /* Initialize Boundary */
-  f_xmin = 0;
-  f_ymin = 0;
-  f_xmax = m_VorBoundary[0];
-  f_ymax = m_VorBoundary[1];
+  f_pxmin = 0;
+  f_pymin = 0;
+  f_pxmax = m_VorBoundary[0];
+  f_pymax = m_VorBoundary[1];
 
-/*  f_ymin=m_Seeds[0][1];
-  f_ymax=m_Seeds[m_NumberOfSeeds-1][1];
-  f_xmin=f_xmax=m_Seeds[0][0];
-  for (i=0;i<m_NumberOfSeeds;i++){
-    if(m_Seeds[i][0]<f_xmin) f_xmin=m_Seeds[i][0];
-    if(m_Seeds[i][0]>f_xmax) f_xmax=m_Seeds[i][0];
-  }
-*/
-  f_deltay = f_ymax - f_ymin;
-  f_deltax = f_xmax - f_xmin;
+  f_deltay = f_pymax - f_pymin;
+  f_deltax = f_pxmax - f_pxmin;
   f_sqrtNSites = sqrt(m_NumberOfSeeds + 4);
-  double dy = f_ymax - f_ymin;
-  double dx = f_xmax - f_xmin;
-  double dd = ( dx > dy ? dx : dy) * 1.0;
-  f_pxmin = f_xmin - (dd - dx)/2.0;
-  f_pxmax = f_xmax + (dd - dx)/2.0;
-  f_pymin = f_ymin - (dd - dy)/2.0;
-  f_pymax = f_ymax + (dd - dy)/2.0;
 
 /* Initialize outputLists */
   f_nedges = 0;
