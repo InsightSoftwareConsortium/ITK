@@ -945,7 +945,7 @@ void
 ProcessObject
 ::UnRegister()
 {
-  int wasDeletedByOutput=0;
+  bool wasDeletedByOutput=false;
   int refCount = this->GetNetReferenceCount();
 
   // We are decrementing the count by 1. So if the net
@@ -957,12 +957,11 @@ ProcessObject
       {
       if ( m_Outputs[idx] )
         {
-        ProcessObject *ptr=m_Outputs[idx]->GetSource().GetPointer();
         if ( m_Outputs[idx]->GetSource().GetPointer() == this )
           {
-          wasDeletedByOutput = 1;
+          wasDeletedByOutput = true;
           }
-        m_Outputs[idx]->SetSource(0);
+        m_Outputs[idx]->SetSource(0); //side effect: deletes me!
         }
       }//for all outputs
     }//if deleting
