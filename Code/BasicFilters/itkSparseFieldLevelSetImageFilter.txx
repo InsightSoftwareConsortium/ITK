@@ -132,7 +132,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   m_LayerNodeStore = LayerNodeStorageType::New();
   m_LayerNodeStore->SetGrowthStrategyToExponential();
   this->SetRMSChange(static_cast<double>(m_ValueZero));
-  this->SetInterpolateSurfaceLocation(true);
+  m_InterpolateSurfaceLocation = true;
   m_BoundsCheckingActive = false;
 }
 
