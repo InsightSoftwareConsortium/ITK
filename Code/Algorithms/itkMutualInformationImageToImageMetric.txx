@@ -108,8 +108,8 @@ SpatialSampleContainer& samples )
     // get reference image value
     for( unsigned int j = 0; j < TargetImageDimension; j++ )
       {
-      (*iter).TargetPointValue[j] = double(index[j]) *
-        target->GetSpacing()[j];
+      (*iter).TargetPointValue[j] = ( double(index[j]) *
+        target->GetSpacing()[j] ) + target->GetOrigin()[j];
       }
 
     if( mapper->IsInside( (*iter).TargetPointValue ) )
@@ -402,7 +402,7 @@ DerivativeType& derivatives )
 
   for( unsigned int j = 0; j < TargetImageDimension; j++ )
     {
-    refIndex[j] = (long) vnl_math_rnd( refPoint[j] /
+    refIndex[j] = (long) vnl_math_rnd( ( refPoint[j] - reference->GetOrigin()[j] ) /
       reference->GetSpacing()[j] );
     }
 
