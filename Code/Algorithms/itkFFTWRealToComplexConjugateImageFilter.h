@@ -47,7 +47,10 @@ public:
 
 
 protected:
-  FFTWRealToComplexConjugateImageFilter() { M_PlanComputed = false; }
+  FFTWRealToComplexConjugateImageFilter() { 
+    M_PlanComputed = false; 
+    M_PlanComputedf = false; 
+  }
   ~FFTWRealToComplexConjugateImageFilter() 
   { 
     if(M_PlanComputed)
