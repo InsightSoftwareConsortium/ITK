@@ -3,7 +3,7 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkVoronoiSegmentationRGBImageFilter.h
   Language:  C++
-  Date:      $Date$
+    Date:      $Date$
   Version:   $Revision$
 
 Copyright (c) 2001 Insight Consortium
@@ -50,31 +50,28 @@ namespace itk
 
 /** \class VoronoiSegmentationRGBImageFilter
  * 
- * Perform the segmentation of 2D images (RGB image) by Voronoi Diagram.
- * Used as a node of the segmentation toolkits.
- * This is not a standard 3 channel image filter, it also investigates the 
- * HSV color space information. from RGBHSV, the user can specify or by giving
- * a prior binary mask, the algorithm will decide which 3 channels out of the
- * 6 channels will be used for homogeneity testing.
- * the homogeneity testing requires all the three testing channels to have the 
- * similar mean and variance value from the gold-standard in the sense that the
- * difference will be under the tolerance value.
+ * Segmentation of 2D RGB images using Voronoi Diagram.
+ * This is not a standard 3 channel image filter, it also investigates the  
+ * HSV color space information. from RGBHSV, the user can specify or by giving 
+ * a prior binary mask, the algorithm will decide which 3 channels out of the 
+ * 6 channels will be used for homogeneity testing. 
+ * the homogeneity testing requires all the three testing channels to have the  
+ * similar mean and variance value from the gold-standard in the sense that the 
+ * difference will be under the tolerance value. 
+ * 
+ * Input parameters are: 
+ * (1) Image data, in the format: itkImage<itkVector<PixelType,3>, 2>.
+ * (2) Object statistics: mean and standard deviation
+ * (3) Tolerance level for the classifier. This level is usually set
+ *     around the mean and standard deviation values.
  *
- * The parameters here are: 
- * 1. the estimation of the statistics of the object. (mean and std.)
- * 2. the tolerance for the classification. (around the mean ans
- *    std. estimated value).
+ * These parameters can also be automatically set by providing a binary image prior. 
  *
- * The parameters can also be automatically set by given a prior, as a binary
- * image.
- *
- * Detail information about this algorithm can be found in:
+ * Detailed information about this algorithm can be found in:
  *  " Semi-automated color segmentation of anatomical tissue,"
  *   C. Imelinska, M. Downes, and W. Yuan  
- *  Computerized Medical Imaging and Graphics, Vor.24, pp 173-180, 2000.
+ *  Computerized Medical Imaging and Graphics, Vol.24, pp 173-180, 2000.
  *
- * the input image should be in the format of:
- * itkImage<itkVector<PixelType,3>, 2>.
  *
  * \ingroup HybridSegmentation 
  */
