@@ -216,11 +216,11 @@ int main( int argc, char *argv[] )
 
   optimizer->SetNormalVariateGenerator( generator );
 
-  const double initialRadius = 0.01;
+  const double initialRadius = 0.05;
 
   optimizer->Initialize( initialRadius );
   optimizer->SetEpsilon( 0.001 );
-  optimizer->SetMaximumIteration( 4000 );
+  optimizer->SetMaximumIteration( 500 );
 
 
   // Create the Command observer and register it with the optimizer.
