@@ -233,10 +233,12 @@ public:
   /** This method specifies the grid spacing or resolution. */
   virtual void SetGridSpacing( const SpacingType& spacing );
   itkGetMacro( GridSpacing, SpacingType );
+  itkGetConstMacro( GridSpacing, SpacingType );
 
   /** This method specifies the grid origin. */
   virtual void SetGridOrigin( const OriginType& origin );
   itkGetMacro( GridOrigin, OriginType );
+  itkGetConstMacro( GridOrigin, OriginType );
 
   /** Typedef of the bulk transform. */
   typedef Transform<ScalarType,itkGetStaticConstMacro(SpaceDimension),

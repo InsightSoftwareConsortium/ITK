@@ -96,13 +96,21 @@ void TransformFileWriter
       transform->TransformOrder(3);
       
       double* gridRegionSize = new double[(*it)->GetInputSpaceDimension()];
+      double* gridOrigin = new double[(*it)->GetInputSpaceDimension()];
+      double* gridSpacing = new double[(*it)->GetInputSpaceDimension()];
       for(unsigned int i = 0; i< (*it)->GetInputSpaceDimension(); i++)
         {
         gridRegionSize[i] = reinterpret_cast<const itk::BSplineDeformableTransform<>*>(*it)->GetGridRegion().GetSize()[i];
+        gridOrigin[i] = reinterpret_cast<const itk::BSplineDeformableTransform<>*>(*it)->GetGridOrigin()[i];
+        gridSpacing[i] = reinterpret_cast<const itk::BSplineDeformableTransform<>*>(*it)->GetGridSpacing()[i];
         }
       
       transform->GridRegionSize(gridRegionSize);
-      delete gridRegionSize;
+      transform->GridOrigin(gridOrigin);
+      transform->GridSpacing(gridSpacing);
+      delete[] gridRegionSize;
+      delete[] gridOrigin;
+      delete[] gridSpacing;
       }    
     
     scene.AddObject(transform);
