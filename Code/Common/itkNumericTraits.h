@@ -115,9 +115,9 @@ public:
   static const char Zero;
   static const char One;
 
-  static char min() { return 0; }
+  static char min() { return -128; }
   static char max() { return 127; }
-  static char NonpositiveMin() { return -128; }
+  static char NonpositiveMin() { return min(); }
   static bool IsPositive(char val) { return val > Zero; }
   static bool IsNonpositive(char val) { return val <= Zero; }
   static bool IsNegative(char val) { return val < Zero; }
@@ -225,6 +225,7 @@ public:
   static const unsigned int Zero;
   static const unsigned int One;
 
+  static unsigned int min(void) { return 0; }
   static unsigned int max(void) { return static_cast<unsigned int>( -1 ); }
   static unsigned int NonpositiveMin() { return 0; }
   static bool IsPositive(unsigned int val) { return val != Zero; }
