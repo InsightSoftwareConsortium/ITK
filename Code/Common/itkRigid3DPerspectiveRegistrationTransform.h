@@ -150,6 +150,27 @@ public:
    **/
   const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
+
+  /**
+   *  Set the Focal Distance
+   */
+  void SetFocalDistance( double focal )
+  { m_Transform.SetFocalDistance( focal ); }
+   
+  
+  /**
+   *  Set width
+   */
+  void SetWidth( double width )
+  { m_Transform.SetWidth( width ); }
+  
+
+  /**
+   *  Set height
+   */
+  void SetHeight( double height )
+  { m_Transform.SetHeight( height ); }
+   
 protected:
 
   Rigid3DPerspectiveRegistrationTransform();
