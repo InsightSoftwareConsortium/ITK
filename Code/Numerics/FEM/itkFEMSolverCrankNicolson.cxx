@@ -30,6 +30,8 @@
 namespace itk {
 namespace fem {
 
+#define LOCE
+
 void SolverCrankNicolson::InitializeForSolution() 
 {
   m_ls->SetSystemOrder(NGFN+NMFC);
@@ -192,16 +194,18 @@ void SolverCrankNicolson::AssembleFforTimeStep(int dim) {
 
 
 
-
 void  SolverCrankNicolson::RecomputeForceVector(unsigned int index)
 {// 
   Float ft   = m_ls->GetVectorValue(index,ForceTIndex);
   Float ftm1 = m_ls->GetVectorValue(index,ForceTMinus1Index);
   Float utm1 = m_ls->GetVectorValue(index,DiffMatrixBySolutionTMinus1Index);
-  m_ls->SetVectorValue(index , m_deltaT*(m_alpha*ft+(1.-m_alpha)*ftm1)+utm1 , ForceTIndex);
-  m_ls->AddVectorValue(index , m_deltaT*(m_alpha*ft+(1.-m_alpha)*ftm1)+utm1 , ForceTotalIndex);
+  Float f=m_deltaT*(m_alpha*ft+(1.-m_alpha)*ftm1)+utm1;
+  m_ls->SetVectorValue(index , f, ForceTIndex);
+  m_ls->AddVectorValue(index , f, ForceTotalIndex);
   m_ls->SetVectorValue(index ,ft,ForceTMinus1Index); // now set t minus one force vector correctly
 }
+
+
 
 /*
  * Solve for the displacement vector u
@@ -226,9 +230,10 @@ void SolverCrankNicolson::GoldenSection()
   Float Glimit=100.0;
   Float Tiny=1.e-20;
   
-  Float ax=0., bx=1.0, cx=1.01,fc=0.0;
+  Float ax=1.e-4, bx=1.0, cx=bx+ax,fc=0.0;
   Float fa=EvaluateResidual(ax);
   Float fb=EvaluateResidual(bx);
+  
   Float ulim=1.0,u=1.0,r=1.0,q=1.0,fu=1.0,dum=1.0;
 
   if ( fb > fa ) 
@@ -291,7 +296,7 @@ void SolverCrankNicolson::GoldenSection()
   // where b gives the minimum energy position;
 
   Float xmin=1.0;
-  if (fb!=0.0)
+  //if (fb!=0.0)
   {
   Float f0=1.0,f1=1.0,f2=1.0,f3=1.0,x0=1.0,x1=1.0,x2=1.0,x3=1.0,fmin=1.0;
 
@@ -330,10 +335,14 @@ void SolverCrankNicolson::GoldenSection()
   }
   for (unsigned int j=0; j<NGFN; j++)
   {
-    Float SolVal;
+    Float SolVal=0.0;
+#ifdef LOCE
     SolVal=xmin*m_ls->GetSolutionValue(j,SolutionTIndex)
     +(1.-xmin)*m_ls->GetSolutionValue(j,SolutionTMinus1Index);
-//    SolVal=xmin*m_ls->GetSolutionValue(j,SolutionTIndex);// FOR TOT E
+#endif
+#ifdef TOTE
+    SolVal=xmin*m_ls->GetSolutionValue(j,SolutionTIndex);// FOR TOT E
+#endif 
     m_ls->SetSolutionValue(j,SolVal,SolutionTIndex);
   }
 }
@@ -342,29 +351,36 @@ void SolverCrankNicolson::GoldenSection()
 Element::Float SolverCrankNicolson::EvaluateResidual(Float t)
 {
  
-  Float ForceEnergy=0.0;
+  Float ForceEnergy=0.0,FVal=0.0;
   Float DeformationEnergy=0.0;
   Float iSolVal=0.0,jSolVal=0.0;
 
   for (unsigned int i=0; i<NGFN; i++)
   {
 // forming  U^T F
+#ifdef LOCE
     iSolVal=t*(m_ls->GetSolutionValue(i,SolutionTIndex))
        +(1.-t)*m_ls->GetSolutionValue(i,SolutionTMinus1Index);
-    ForceEnergy+=iSolVal*m_ls->GetVectorValue(i,ForceTIndex);
-//    iSolVal=t*(m_ls->GetSolutionValue(i,SolutionTIndex))
-//        +m_ls->GetSolutionValue(i,TotalSolutionIndex);// FOR TOT E
-//    ForceEnergy+=iSolVal*m_ls->GetVectorValue(i,ForceTotalIndex);// FOR TOT E
-
+    FVal=m_ls->GetVectorValue(i,ForceTIndex);
+    ForceEnergy+=iSolVal*FVal;
+#endif
+#ifdef TOTE
+    iSolVal=t*(m_ls->GetSolutionValue(i,SolutionTIndex))
+        +m_ls->GetSolutionValue(i,TotalSolutionIndex);// FOR TOT E
+    ForceEnergy+=iSolVal*m_ls->GetVectorValue(i,ForceTotalIndex);// FOR TOT E
+#endif
 // forming U^T K U
     Float TempRowVal=0.0;
     for (unsigned int j=0; j<NGFN; j++)
     {
+#ifdef LOCE
       jSolVal=t*(m_ls->GetSolutionValue(j,SolutionTIndex))
          +(1.-t)*m_ls->GetSolutionValue(j,SolutionTMinus1Index);
-//        jSolVal=t*(m_ls->GetSolutionValue(j,SolutionTIndex))
-//       +m_ls->GetSolutionValue(j,TotalSolutionIndex);// FOR TOT E
-
+#endif
+#ifdef TOTE
+      jSolVal=t*(m_ls->GetSolutionValue(j,SolutionTIndex))
+       +m_ls->GetSolutionValue(j,TotalSolutionIndex);// FOR TOT E
+#endif
       TempRowVal+=m_ls->GetMatrixValue(i,j,SumMatrixIndex)*jSolVal;
     }
     DeformationEnergy+=iSolVal*TempRowVal;
@@ -392,10 +408,14 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
     if (CurrentSolution < mins2 )  mins2=CurrentSolution;
     else if (CurrentSolution > maxs2 )  maxs2=CurrentSolution;
 //  note: set rather than add - i.e. last solution of system not total solution  
+#ifdef LOCE
     m_ls->SetVectorValue(i,CurrentSolution,SolutionVectorTMinus1Index);   
     m_ls->SetSolutionValue(i,CurrentSolution,SolutionTMinus1Index);  
-//    m_ls->AddVectorValue(i,CurrentSolution,SolutionVectorTMinus1Index); // FOR TOT E   
-//    m_ls->AddSolutionValue(i,CurrentSolution,SolutionTMinus1Index);  // FOR TOT E 
+#endif
+#ifdef TOTE
+    m_ls->AddVectorValue(i,CurrentSolution,SolutionVectorTMinus1Index); // FOR TOT E   
+    m_ls->AddSolutionValue(i,CurrentSolution,SolutionTMinus1Index);  // FOR TOT E 
+#endif
     m_ls->AddSolutionValue(i,CurrentSolution,TotalSolutionIndex);
     CurrentSolution=m_ls->GetSolutionValue(i,TotalSolutionIndex);
     if (CurrentSolution < mins )  mins=CurrentSolution;
