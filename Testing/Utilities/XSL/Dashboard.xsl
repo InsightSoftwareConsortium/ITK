@@ -14,8 +14,8 @@
 	<tr>
 	<th>Site</th>
 	<th>Instance</th>
-	<th>Build Warnings</th>
 	<th>Build Errors</th>
+	<th>Build Warnings</th>
 	<th>Passed</th>
 	<th>Failed</th>
 	</tr>
