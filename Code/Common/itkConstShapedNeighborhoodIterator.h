@@ -231,6 +231,10 @@ public:
   Self &operator=(const Self& orig)
   {
     Superclass::operator=(orig);
+    m_ActiveIndexList = orig.m_ActiveIndexList;
+    m_ConstEndIterator = orig.m_ConstEndIterator;
+    m_ConstBeginIterator = orig.m_ConstBeginIterator;
+    m_CenterIsActive = orig.m_CenterIsActive;
     return *this;
   }
 
