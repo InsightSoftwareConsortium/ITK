@@ -28,6 +28,8 @@ namespace _cxx_
 class _cxx_EXPORT Conversions
 {
 public:
+  static bool IsValidQualificationConversion(const PointerType* from,
+                                             const PointerType* to);
   static bool CanConvert(const CvQualifiedType& from,
                          const CvQualifiedType& to);
 private:

@@ -15,10 +15,75 @@
 =========================================================================*/
 #include "cxxConversions.h"
 
+#include <iostream>
+
 namespace _cxx_
 {
 
 // public functions:
+
+
+/**
+ * Determine if the given PointerType "from" can conver to the given
+ * PointerType "to" according to section 4.4 of the C++ standard.
+ */
+bool Conversions::IsValidQualificationConversion(const PointerType* from,
+                                                 const PointerType* to)
+{
+  bool allConst = true;
+  const Type* t1 = from;
+  const Type* t2 = to;
+  
+  // Follow each PointerType until two identical types are reached.
+  while(t1->Id() != t2->Id())
+    {
+    // Make sure they are not conflicting pointer types.
+    if((t1->IsPointerType() && t2->IsPointerType())
+       || ((t1->IsPointerToMemberType() && t2->IsPointerToMemberType())
+           && (PointerToMemberType::SafeDownCast(t1)->GetClassType()->Id()
+               == PointerToMemberType::SafeDownCast(t2)->GetClassType()->Id())))
+      {
+      // Dereference the pointer types.
+      const PointerType* p1 = PointerType::SafeDownCast(t1);
+      const PointerType* p2 = PointerType::SafeDownCast(t2);
+      CvQualifiedType deRef1 = p1->GetPointedToType();
+      CvQualifiedType deRef2 = p2->GetPointedToType();
+      t1 = deRef1.GetType();
+      t2 = deRef2.GetType();      
+      
+      // Check for cv-qualifier adjustment correctness.
+      // See 4.4/4.
+      bool t1_const = deRef1.IsConst();
+      bool t1_volatile = deRef1.IsVolatile();
+      bool t2_const = deRef2.IsConst();
+      bool t2_volatile = deRef2.IsVolatile();
+      // If const is in cv_1_j, then const is in cv_2_j, and similarly
+      // for volatile.
+      if((t1_const && !t2_const) || (t1_volatile && !t2_volatile))
+        {
+        return false;
+        }
+      // If cv_1_j and cv_2_j are different, then const is in every
+      // cv_2_k for k < j.
+      if(((t1_const != t2_const) || (t1_volatile != t2_volatile)) 
+         && !allConst)
+        {
+        return false;
+        }
+      if(!t2_const)
+        {
+        allConst = false;
+        }
+      }
+    else
+      {
+      // Mismatch of Type.  Given types are not similar.
+      return false;
+      }
+    }
+  return true;
+}
+
 
 /**
  * Test if an object of type "from" can be bound to a function parameter
