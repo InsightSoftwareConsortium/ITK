@@ -24,15 +24,12 @@ PURPOSE.  See the above copyright notices for more information.
 #pragma warning ( disable : 4786 )
 #endif
 
+#include <map>
 #include <string>
 #include "itkMetaDataObjectBase.h"
 
 namespace itk
 {
-  // Forward declare the datastructure that will be used to hold the
-  // dictionary. This is a private implementation.
-  class MetaDataDictionaryMapType;
-
   /**
    * \author Hans J. Johnson
    * The MetaDataDictionary, along with the MetaDataObject derived template
@@ -41,19 +38,23 @@ namespace itk
    * associate arbitrary data elements with itk DataObjects.
    */
   class ITKCommon_EXPORT MetaDataDictionary
+    :private std::map<std::string, MetaDataObjectBase::Pointer>
     {
       public:
         typedef MetaDataDictionary Self;
+        typedef std::map<std::string, itk::MetaDataObjectBase::Pointer>  Superclass;
+        typedef Self * Pointer;
+        typedef const Self * ConstPointer;
         /**
          * Defines the default behavior for printing out this element
          * \param os An output stream
          */
         virtual void Print(std::ostream& os) const;
-
-        // Constructor
-        MetaDataDictionary();
-
-        // Destructor
+        //NOTE: Currently this is blank, but it is here to allow the
+        //implementation of future functionality that may become apparent
+        //at a latter date.
+        //Right now, I can not think of any neccessary functionality that is
+        //not available from the std::map class.
         virtual ~MetaDataDictionary();
 
         // Implement map's api. On some Micorsoft compilers, stl containers
@@ -62,9 +63,6 @@ namespace itk
         // API. The implementation will be in the DLL.
         MetaDataObjectBase::Pointer &operator [](const std::string &);
         bool HasKey (const std::string &);
-        
-    private:
-        MetaDataDictionaryMapType *m_Dictionary;
     };
 }
 #endif// MetaDataDictionary_h_h
