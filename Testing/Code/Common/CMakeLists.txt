@@ -1,3 +1,7 @@
+LINK_LIBRARIES (
+ITKCommon
+)
+
 TESTS(
 itkAffineTransformTest
 itkArrayTest

@@ -17,7 +17,6 @@ ${CMAKE_BINARY_DIR}/Code/Common
 ${CMAKE_BINARY_DIR}/Code/Numerics/vxl )
 
 LINK_LIBRARIES (
-ITKCommon 
 VXLNumerics
 )
 
@@ -26,6 +25,8 @@ ${THREAD_LIBS}
 ${DL_LIBS} 
 -lm
 )
+
+
 
 
 # Add commands to generate configure file when no

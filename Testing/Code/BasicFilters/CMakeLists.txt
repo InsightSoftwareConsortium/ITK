@@ -9,7 +9,6 @@ ${CMAKE_BINARY_DIR}/Code/BasicFilters
 
 LINK_LIBRARIES (
 ITKBasicFilters 
-VXLNumerics
 ITKCommon
 )
 
