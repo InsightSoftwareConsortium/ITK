@@ -12,6 +12,7 @@ ADD_EXECUTABLE(itkConvertBufferTest itkConvertBufferTest)
 ADD_EXECUTABLE(itkPNGImageIOTest itkPNGImageIOTest)
 ADD_EXECUTABLE(itkMetaImageIOTest itkMetaImageIOTest)
 ADD_EXECUTABLE(itkVOLImageIOTest itkVOLImageIOTest)
+ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest)
 #ADD_EXECUTABLE(itkRawImageIOTest itkRawImageIOTest)
 
 
