@@ -595,7 +595,7 @@ protected:
     /**
      * Optimizer object smart pointer 
      */
-    OptimizerType::Pointer m_Optimizer ;
+    typename OptimizerType::Pointer m_Optimizer ;
     
     /**
      * Input mask image smart pointer
