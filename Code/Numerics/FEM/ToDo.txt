@@ -31,3 +31,21 @@
 
 4. - Nonlinear elements
    - C1 elements
+
+
+Stated Assignments for 05/07/2002 Meeting
+
+Aljaz  - continued examination of element restructuring
+
+Tessa  - testing of elements
+       - addition of landmarks to registration example (with Brian)
+	   - check-in of DenseVNL linear system wrapper
+	   - check-in of testing code
+
+Brian  - development of "reasonable" registration example
+
+Jeff   - clean-up testing code for linear system wrappers
+       - add testing code for VNL dense linear system wrapper
+	   - further examination of itpack solver limitations
+	   - implement Cuthill-McKee Ordering
+
