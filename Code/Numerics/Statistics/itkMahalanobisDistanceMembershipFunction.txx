@@ -31,7 +31,7 @@ MahalanobisDistanceMembershipFunction< TVector >
   m_DoubleMax( 1e+20 ),
   m_ValidInverseCovarianceFlag( false )
 {
-  m_Mean              = NULL;
+  m_Mean.fill( 0.0f );
   m_Covariance.set_identity();
   m_InverseCovariance.set_identity();
 }
