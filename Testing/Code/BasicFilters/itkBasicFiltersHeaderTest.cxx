@@ -22,6 +22,7 @@ See COPYRIGHT.txt for copyright details.
 // Test to include each header file for Insight
 
 #include "itkAbsImageFilter.h"
+#include "itkAbsoluteValueDifferenceImageFilter.h"
 #include "itkAcosImageFilter.h"
 #include "itkAdaptImageFilter.h"
 #include "itkAdaptiveHistogramEqualizationImageFilter.txx"
@@ -133,6 +134,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkLabelStatisticsImageFilter.txx"
 #include "itkLaplacianImageFilter.txx"
 #include "itkLaplacianRecursiveGaussianImageFilter.txx"
+#include "itkLaplacianSharpeningImageFilter.txx"
 #include "itkLazyEdgeDetectionImageFilter3D.txx"
 #include "itkLevelSetFunctionWithRefitTerm.txx"
 #include "itkLog10ImageFilter.h"
@@ -216,6 +218,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkTernaryMagnitudeSquaredImageFilter.h"
 #include "itkThresholdImageFilter.txx"
 #include "itkThresholdLabelerImageFilter.txx"
+#include "itkTileImageFilter.txx"
 #include "itkTobogganImageFilter.txx"
 #include "itkTransformMeshFilter.txx"
 #include "itkTriangleMeshToSimplexMeshFilter.txx"
@@ -236,6 +239,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVectorIndexSelectionCastImageFilter.h"
 #include "itkVectorNeighborhoodOperatorImageFilter.txx"
 #include "itkVectorResampleImageFilter.txx"
+#include "itkVectorRescaleIntensityImageFilter.txx"
 #include "itkWarpImageFilter.txx"
 #include "itkWarpVectorImageFilter.txx"
 #include "itkWeightedAddImageFilter.h"
