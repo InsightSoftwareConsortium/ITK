@@ -79,7 +79,7 @@ protected:
   virtual ~MeanShiftModeSeekerBase() ;
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  inline virtual void ComputeMode(MeasurementVectorType queryPoint,
+  virtual void ComputeMode(MeasurementVectorType queryPoint,
                            MeasurementVectorType& newPoint) = 0 ;
 
   
