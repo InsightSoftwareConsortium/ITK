@@ -89,7 +89,10 @@ NeighborhoodIterator<TImage, TBoundaryCondition>
   typename OffsetType::OffsetValueType OverlapLow, OverlapHigh;
 
   if (this->m_NeedToUseBoundaryCondition == false)
-    { *(this->operator[](n)) = v; }
+    {
+    status = true;
+    *(this->operator[](n)) = v;
+    }
   
   // Is this whole neighborhood in bounds?
   else if (this->InBounds())
