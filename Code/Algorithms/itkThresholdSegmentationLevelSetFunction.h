@@ -90,7 +90,44 @@ public:
     this->SetPropagationWeight(-1.0 * NumericTraits<ScalarValueType>::One);
     this->SetCurvatureWeight(NumericTraits<ScalarValueType>::One);
   }
+
+  void SetEdgeWeight(const ScalarValueType p)
+  {
+    m_EdgeWeight = p;
+  }
+  ScalarValueType GetEdgeWeight() const
+  {
+    return m_EdgeWeight;
+  }
+
+  void SetSmoothingConductance(const ScalarValueType p)
+  {
+    m_SmoothingConductance = p;
+  }
+  ScalarValueType GetSmoothingConductance() const
+  {
+    return m_SmoothingConductance;
+  }
   
+
+  void SetSmoothingIterations(const int p)
+  {
+    m_SmoothingIterations = p;
+  }
+  int GetSmoothingIterations() const
+  {
+    return m_SmoothingIterations;
+  }
+  
+  void SetSmoothingTimeStep(const ScalarValueType i)
+  {
+    m_SmoothingTimeStep = i;
+  }
+  ScalarValueType GetSmoothingTimeStep() const
+  {
+    return m_SmoothingTimeStep;
+  }
+
 protected:
   ThresholdSegmentationLevelSetFunction()
   {
@@ -99,6 +136,10 @@ protected:
     this->SetAdvectionWeight(0.0);
     this->SetPropagationWeight(1.0);
     this->SetCurvatureWeight(1.0);
+    this->SetSmoothingIterations(5);
+    this->SetSmoothingConductance(0.8);
+    this->SetSmoothingTimeStep(0.1);
+    this->SetEdgeWeight(0.0);
   }
   virtual ~ThresholdSegmentationLevelSetFunction(){}
 
@@ -110,10 +151,18 @@ protected:
     Superclass::PrintSelf(os, indent );
     os << indent << "UpperThreshold: " << m_UpperThreshold << std::endl;
     os << indent << "LowerThreshold: " << m_LowerThreshold << std::endl;
+    os << indent << "EdgeWeight: " << m_EdgeWeight << std::endl;
+    os << indent << "SmoothingTimeStep: " << m_SmoothingTimeStep << std::endl;
+    os << indent << "SmoothingIterations: " << m_SmoothingIterations << std::endl;
+    os << indent << "SmoothingConductance: " << m_SmoothingConductance << std::endl;
   }
   
   FeatureScalarType m_UpperThreshold;
   FeatureScalarType m_LowerThreshold;
+  ScalarValueType   m_EdgeWeight;
+  ScalarValueType   m_SmoothingConductance;
+  int               m_SmoothingIterations;
+  ScalarValueType   m_SmoothingTimeStep;
 };
   
 } // end namespace itk

@@ -125,7 +125,47 @@ public:
   {
     return m_ThresholdFunction->GetLowerThreshold();
   }
-    
+
+  void SetEdgeWeight(ValueType v)
+  {
+    this->m_ThresholdFunction->SetEdgeWeight(v);
+    this->Modified();
+  }
+    ValueType GetEdgeWeight() const
+  {
+    return m_ThresholdFunction->GetEdgeWeight();
+  }
+
+  void SetSmoothingIterations(int v)
+  {
+    this->m_ThresholdFunction->SetSmoothingIterations(v);
+    this->Modified();
+  }
+  int GetSmoothingIterations() const
+  {
+    return m_ThresholdFunction->GetSmoothingIterations();
+  }
+
+  void SetSmoothingTimeStep(ValueType v)
+  {
+    this->m_ThresholdFunction->SetSmoothingTimeStep(v);
+    this->Modified();
+  }
+  ValueType GetSmoothingTimeStep() const
+  {
+    return m_ThresholdFunction->GetSmoothingTimeStep();
+  }
+  
+  void SetSmoothingConductance(ValueType v)
+  {
+    this->m_ThresholdFunction->SetSmoothingConductance(v);
+    this->Modified();
+  }
+    ValueType GetSmoothingConductance() const
+  {
+    return m_ThresholdFunction->GetSmoothingConductance();
+  }
+  
 protected:
   ~ThresholdSegmentationLevelSetImageFilter() {}
   ThresholdSegmentationLevelSetImageFilter();
