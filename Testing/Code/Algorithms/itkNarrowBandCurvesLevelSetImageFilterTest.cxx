@@ -45,8 +45,8 @@ int itkNarrowBandCurvesLevelSetImageFilterTest(int, char* [] )
   typedef itk::Image<InternalPixelType,ImageDimension> InternalImageType;
 
   ImageType::SizeType imageSize;
-  imageSize[0] = 128;
-  imageSize[1] = 128;
+  imageSize[0] = 64;
+  imageSize[1] = 64;
 
   ImageType::RegionType imageRegion;
   imageRegion.SetSize( imageSize );
@@ -64,9 +64,9 @@ int itkNarrowBandCurvesLevelSetImageFilterTest(int, char* [] )
   inputImage->FillBuffer( background );
 
   ImageType::IndexType squareStart;
-  squareStart.Fill( 20 );
+  squareStart.Fill( 10 );
   ImageType::SizeType squareSize;
-  squareSize.Fill( 60 );
+  squareSize.Fill( 30 );
   ImageType::RegionType squareRegion;
   squareRegion.SetIndex( squareStart );
   squareRegion.SetSize( squareSize );
@@ -119,11 +119,11 @@ int itkNarrowBandCurvesLevelSetImageFilterTest(int, char* [] )
 
   // Choose an initial contour that overlaps the square to be segmented.
   InternalImageType::IndexType seedPosition;
-  seedPosition[0] = 47;
-  seedPosition[1] = 47;
+  seedPosition[0] = 23;
+  seedPosition[1] = 23;
 
   NodeType node;
-  node.SetValue( -29.5 );
+  node.SetValue( -15 );
   node.SetIndex( seedPosition );
 
   seeds->Initialize();
@@ -148,13 +148,13 @@ int itkNarrowBandCurvesLevelSetImageFilterTest(int, char* [] )
   curvesFilter->SetFeatureImage( sigmoid->GetOutput() );
 
   // set the weights between the propagation, curvature and advection terms
-  curvesFilter->SetPropagationScaling( 1.0 );
-  curvesFilter->SetCurvatureScaling( 0.1 );
+  curvesFilter->SetPropagationScaling( 0.8 );
+  curvesFilter->SetCurvatureScaling( 0.3 );
   curvesFilter->SetAdvectionScaling( 0.5 );
 
   // set the convergence criteria
   curvesFilter->SetMaximumRMSError( 0.03 );
-  curvesFilter->SetMaximumIterations( 100 );
+  curvesFilter->SetMaximumIterations( 50 );
 
   /**
    * Threshold the output level set to display the final contour.
@@ -188,7 +188,7 @@ int itkNarrowBandCurvesLevelSetImageFilterTest(int, char* [] )
   /** 
    * Uncomment to write out image files.
    */
-/*
+  /*
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
 
@@ -219,7 +219,7 @@ int itkNarrowBandCurvesLevelSetImageFilterTest(int, char* [] )
   writer->SetInput( thresholder->GetOutput() );
   writer->SetFileName( "initialLevelSet.png" );
   writer->Update();
-*/
+  */
 
   // Check if overlap is above threshold
   if ( overlap->GetSimilarityIndex() > 0.90 )
@@ -241,6 +241,5 @@ int itkNarrowBandCurvesLevelSetImageFilterTest(int, char* [] )
 
   std::cout << "Test Passed. " << std::endl;
   return EXIT_SUCCESS;
-
 }
  
