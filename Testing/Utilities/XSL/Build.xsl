@@ -81,6 +81,14 @@
 	
 
 <xsl:template name="FormatContext">
+  <xsl:choose>
+    <xsl:when test="SourceFile != ''">
+      File: 
+      <b><xsl:value-of select="SourceFile"/></b>
+      Line: 
+      <b><xsl:value-of select="SourceLineNumber"/></b>
+    </xsl:when>
+  </xsl:choose>
   <pre>
     <xsl:value-of select="PreContext"/>
     <b><xsl:value-of select="Text"/></b>
