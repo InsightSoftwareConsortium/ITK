@@ -60,7 +60,7 @@ public:
  
   /**  Type of the Transform Base class */
   typedef Transform<CoordinateRepresentationType, 
-    ObjectDimension,
+    itkGetStaticConstMacro(ObjectDimension),
     itkGetStaticConstMacro(ImageDimension) > TransformType;
 
   typedef typename TransformType::Pointer            TransformPointer;
