@@ -19,6 +19,7 @@
 #include "itkImageFileReader.h"
 #include "itkPNGImageIOFactory.h"
 #include "itkOutputWindow.h"
+#include "itkImageRegionIterator.h"
 
 // this class is used to send output to stdout and not the itk window
 class TextOutput : public itk::OutputWindow
