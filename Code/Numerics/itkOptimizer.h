@@ -62,7 +62,7 @@ public:
   typedef Array<double>             ScalesType;
 
   /**  Set the position to initialize the optimization. */
-  itkSetMacro(InitialPosition, ParametersType);
+  virtual void SetInitialPosition( const ParametersType & param );
 
   /** Get the position to initialize the optimization. */
   itkGetConstMacro(InitialPosition, ParametersType);
@@ -85,7 +85,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Set the current position. */
-  itkSetMacro( CurrentPosition, ParametersType );
+  virtual void SetCurrentPosition( const ParametersType & param );
 
   bool                    m_ScalesInitialized;
 

@@ -46,6 +46,30 @@ Optimizer
 }
 
 /**
+ * Set the initial position
+ */
+void 
+Optimizer
+::SetInitialPosition( const ParametersType & param )
+{
+  m_InitialPosition = param;
+  this->Modified();
+}
+
+
+/**
+ * Set the current position
+ */
+void 
+Optimizer
+::SetCurrentPosition( const ParametersType &  param )
+{
+  m_CurrentPosition = param;
+  this->Modified();
+}
+
+
+/**
  * Print Self method
  */
 void
