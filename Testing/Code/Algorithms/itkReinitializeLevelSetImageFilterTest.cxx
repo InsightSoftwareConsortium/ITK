@@ -19,6 +19,7 @@
 #include "itkShiftScaleImageFilter.h"
 #include "itkDifferenceImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
+#include "itkMultiplyImageFilter.h"
 
 #include "itkCommand.h"
 #include "vnl/vnl_math.h"
@@ -96,6 +97,7 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
   MultiplierType::Pointer multiplier = MultiplierType::New();
   multiplier->SetInput( image );
   multiplier->SetScale( 0.5 );
+  //multiplier->SetShift( 0.0 );
 
   // Set up reinitialize level set image filter
   typedef itk::ReinitializeLevelSetImageFilter<ImageType> ReinitializerType;
@@ -109,8 +111,25 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
                                &ShowProgressObject::ShowProgress);
   reinitializer->AddObserver( itk::ProgressEvent(), command);
 
+  // For debugging
+/*
+  {
+  typedef itk::ImageFileWriter<ImageType> WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput( image );
+  writer->SetFileName( "input.mhd" );
+  writer->Write();
+  }
+  {
+  typedef itk::ImageFileWriter<ImageType> WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput( reinitializer->GetOutput() );
+  writer->SetFileName( "output.mhd" );
+  writer->Write();
+  }
+*/
 
-  // Check the output
+  // Check the output signed distance map is within threshold
   typedef itk::DifferenceImageFilter<ImageType,ImageType> DifferenceType;
   DifferenceType::Pointer difference = DifferenceType::New();
   difference->SetTestInput( image );
@@ -135,10 +154,35 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  // Check if inside/outside points remain the same after reinitialization
+  typedef itk::MultiplyImageFilter<ImageType,ImageType,ImageType> CheckerType;
+  CheckerType::Pointer checker = CheckerType::New();
+  checker->SetInput1( image );
+  checker->SetInput2( reinitializer->GetOutput() );
+  checker->Update();
+
+  calculator->SetImage( checker->GetOutput() );
+  calculator->Compute();
+  double minValue = calculator->GetMinimum();
+  double maxValue = calculator->GetMaximum();
+
+  std::cout << "Min. product = " << minValue << std::endl;
+  std::cout << "Max. product = " << maxValue << std::endl;
+ 
+  if ( minValue < 0.0 )
+    { 
+    std::cout << "Inside/Outside mismatch at ";
+    std::cout << calculator->GetIndexOfMinimum() << std::endl;
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   // Exercise other member functions
   reinitializer->Print( std::cout );
  
+  // Exercise the narrowband version
   reinitializer->SetLevelSetValue( 1.0 );
+  reinitializer->SetLevelSetValue( 0.0 );
   reinitializer->NarrowBandingOn();
   reinitializer->SetNarrowBandwidth( 8 );
   reinitializer->Update();
@@ -151,14 +195,27 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
   std::cout << "Narrow bandwidth = " << reinitializer->GetOutputNarrowBandwidth() << std::endl;
   std::cout << "No. nodes = " << nodes->Size() << std::endl;
 
-/*
-  // For debugging
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( difference->GetOutput() );
-  writer->SetFileName( "output.mhd" );
-  writer->Write();
-*/
+  // We will use the output narrowband from the last run as the input narrowband
+  reinitializer->SetInputNarrowBand( nodes );
+  reinitializer->Update();
+
+  // Check if inside/outside points remain the same after reinitialization
+  checker->Update();
+
+  calculator->Compute();
+  minValue = calculator->GetMinimum();
+  maxValue = calculator->GetMaximum();
+
+  std::cout << "Min. product = " << minValue << std::endl;
+  std::cout << "Max. product = " << maxValue << std::endl;
+
+  if ( minValue < 0.0 )
+    { 
+    std::cout << "Inside/Outside mismatch at ";
+    std::cout << calculator->GetIndexOfMinimum() << std::endl;
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
