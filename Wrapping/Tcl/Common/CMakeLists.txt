@@ -23,7 +23,7 @@ CABLE_WRAP_TCL(ITKCommonTcl
 LINK_LIBRARIES(
 ITKCommon
 VXLNumerics
-WrapTclFacility
+${CABLE_TCL_LIBRARY}
 ${TCL_LIBRARY}
 )
 

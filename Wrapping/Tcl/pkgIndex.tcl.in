@@ -7,22 +7,6 @@
 # string, or with a random, unintended substitution if variable names
 # happen to match.
 
-package ifneeded WrapTclFacility 1.0 {
-  global tcl_platform
-  if {$tcl_platform(platform) == "unix"} {
-    set libPrefix "lib"
-  } else {
-    set libPrefix ""
-  }
-
-  # CABLE_TCL_FACILITY_DIR is replaced by CMake's CONFIGURE_FILE command.
-  set facilityDir "${CABLE_TCL_FACILITY_DIR}"
-  set libName "WrapTclFacility"
-  set libExt [info sharedlibextension]
-  set libFile [file join $facilityDir $libPrefix$libName$libExt]
-  if {[catch { load $libFile } errorMessage ]} { puts $errorMessage }
-}
-
 package ifneeded ItkTclUtils 1.0 {
   set utilsDir "${ITK_TCL_UTILS_DIR}"
   set tclFile [file join $utilsDir "itkTclUtils.tcl"]
