@@ -18,14 +18,15 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{VersorRigid3DTransform}
-// class for performing registration. The example code is for the most part
-// identical to the code presented in
-// Section~\ref{sec:RigidRegistrationIn2D}.
+// class for performing registration of two $3D$ images. The example code is
+// for the most part identical to the code presented in
+// Section~\ref{sec:RigidRegistrationIn2D}.  The major difference is that this
+// example is done in $3D$. The class \doxygen{CenteredTransformInitializer} is
+// used to initialize the center and translation of the transform.  The case of
+// rigid registration of 3D images is probably one of the most commonly found
+// casses of image registration.
 //
-// The major difference is that this example is done in $3D$. The class
-// \doxygen{CenteredTransformInitializer} is used to initialize
-// the center and translation of the transform.
-//
+/
 // \index{itk::VersorRigid3DTransform}
 // \index{itk::CenteredTransformInitializer!In 3D}
 //
@@ -42,7 +43,8 @@
 //  
 //  The following are the most relevant headers to this example.
 //
-//  \index{itk::CenteredRigid2DTransform!header}
+//  \index{itk::VersorRigid3DTransform!header}
+//  \index{itk::CenteredTransformInitializer!header}
 // 
 //  Software Guide : EndLatex 
 
@@ -57,10 +59,12 @@
 //  space, due to the fact that addition is not a closed operation in the space
 //  of versor components. This precludes the use of standard gradient descent
 //  algorithms for optimizing the parameter space of this transform. A special
-//  optimizer should be used in this registration configuration. This optimizer
-//  uses Versor composition for updating the first three components of the
-//  parameters array, and Vector addition for updating the last three
-//  components of the parameters array.
+//  optimizer should be used in this registration configuration. The optimizer
+//  designed for this transform is the
+//  \doxygen{VersorRigid3DTransformOptimizer}. This optimizer uses Versor
+//  composition for updating the first three components of the parameters
+//  array, and Vector addition for updating the last three components of the
+//  parameters array.
 //
 //  \index{itk::VersorRigid3DTransformOptimizer!header}
 // 
@@ -140,7 +144,7 @@ int main( int argc, char *argv[] )
   //  template parameter to this class is the representation type of the
   //  space coordinates.
   //
-  //  \index{itk::CenteredRigid2DTransform!Instantiation}
+  //  \index{itk::VersorRigid3DTransform!Instantiation}
   //
   //  Software Guide : EndLatex 
 
@@ -180,8 +184,8 @@ int main( int argc, char *argv[] )
   //  The transform object is constructed below and passed to the registration
   //  method.
   //
-  //  \index{itk::CenteredRigid2DTransform!New()}
-  //  \index{itk::CenteredRigid2DTransform!Pointer}
+  //  \index{itk::VersorRigid3DTransform!New()}
+  //  \index{itk::VersorRigid3DTransform!Pointer}
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
   //  Software Guide : EndLatex 
@@ -219,17 +223,20 @@ int main( int argc, char *argv[] )
   //  calling the \code{New()} method and assigning the result to a smart
   //  pointer.
   //
-  // \index{itk::CenteredRigid2DTransform!Instantiation}
-  // \index{itk::CenteredRigid2DTransform!New()}
-  // \index{itk::CenteredRigid2DTransform!SmartPointer}
+  // \index{itk::CenteredTransformInitializer!Instantiation}
+  // \index{itk::CenteredTransformInitializer!New()}
+  // \index{itk::CenteredTransformInitializer!SmartPointer}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CenteredTransformInitializer< TransformType, FixedImageType, 
-    MovingImageType >  TransformInitializerType;
+  typedef itk::CenteredTransformInitializer< TransformType, 
+                                             FixedImageType, 
+                                             MovingImageType 
+                                                 >  TransformInitializerType;
+
   TransformInitializerType::Pointer initializer = 
-    TransformInitializerType::New();
+                                          TransformInitializerType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -292,6 +299,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef TransformType::VersorType  VersorType;
   typedef VersorType::VectorType     VectorType;
+
   VersorType     rotation;
   VectorType     axis;
   
@@ -300,7 +308,9 @@ int main( int argc, char *argv[] )
   axis[2] = 1.0;
 
   const double angle = 0;
+
   rotation.Set(  axis, angle  );
+
   transform->SetRotation( rotation );
   // Software Guide : EndCodeSnippet
 
@@ -316,6 +326,8 @@ int main( int argc, char *argv[] )
   registration->SetInitialTransformParameters( transform->GetParameters() );
   // Software Guide : EndCodeSnippet
 
+  std::cout << "Intial Parameters = " << std::endl;
+  std::cout << transform->GetParameters() << std::endl;
 
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
@@ -327,13 +339,10 @@ int main( int argc, char *argv[] )
   optimizerScales[3] = translationScale;
   optimizerScales[4] = translationScale;
   optimizerScales[5] = translationScale;
-  optimizerScales[6] = translationScale;
-  optimizerScales[7] = translationScale;
-  optimizerScales[8] = translationScale;
 
   optimizer->SetScales( optimizerScales );
 
-  optimizer->SetMaximumStepLength( 0.1    ); 
+  optimizer->SetMaximumStepLength( 1.000  ); 
   optimizer->SetMinimumStepLength( 0.001 );
 
   optimizer->SetNumberOfIterations( 200 );
@@ -344,6 +353,7 @@ int main( int argc, char *argv[] )
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
+  std::cout << std::endl << "Starting Registration" << std::endl;
 
   try 
     { 
@@ -363,12 +373,9 @@ int main( int argc, char *argv[] )
   const double versorX              = finalParameters[0];
   const double versorY              = finalParameters[1];
   const double versorZ              = finalParameters[2];
-  const double finalCenterX         = finalParameters[3];
-  const double finalCenterY         = finalParameters[4];
-  const double finalCenterZ         = finalParameters[5];
-  const double finalTranslationX    = finalParameters[6];
-  const double finalTranslationY    = finalParameters[7];
-  const double finalTranslationZ    = finalParameters[8];
+  const double finalTranslationX    = finalParameters[3];
+  const double finalTranslationY    = finalParameters[4];
+  const double finalTranslationZ    = finalParameters[5];
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
 
@@ -381,9 +388,6 @@ int main( int argc, char *argv[] )
   std::cout << " versor X      = " << versorX  << std::endl;
   std::cout << " versor Y      = " << versorY  << std::endl;
   std::cout << " versor Z      = " << versorZ  << std::endl;
-  std::cout << " Center X      = " << finalCenterX  << std::endl;
-  std::cout << " Center Y      = " << finalCenterY  << std::endl;
-  std::cout << " Center Z      = " << finalCenterZ  << std::endl;
   std::cout << " Translation X = " << finalTranslationX  << std::endl;
   std::cout << " Translation Y = " << finalTranslationY  << std::endl;
   std::cout << " Translation Z = " << finalTranslationZ  << std::endl;
@@ -402,30 +406,32 @@ int main( int argc, char *argv[] )
   //  \end{itemize}
   //
   //  The second image is the result of intentionally rotating the first image
-  //  by $10$ degrees and shifting it $15mm$ in $Y$.  The registration takes
-  //  $47$ iterations and produces:
+  //  by $10$ degrees around the origin and shifting it $15mm$ in $X$.  The
+  //  registration takes $19$ iterations and produces:
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [0.174482, 123.182, 147.108, 9.57676, 17.922]
+  //  [-2.84486e-05, 5.73525e-05, -0.0870955, -0.112467, -17.5025, -0.00222232]
   //  \end{verbatim}
   //  \end{center}
   //
   //  That are interpreted as
   //
   //  \begin{itemize}
-  //  \item Angle         =                     $0.174482$   radians
-  //  \item Center        = $( 123.182    , 147.108      )$ millimeters
-  //  \item Translation   = $(   9.57676  ,  17.922      )$ millimeters
+  //  \item Versor        = $(-2.84e-05, 5.73e-05, -0.08709, 0.9962 )$
+  //  \item Translation   = $(  -0.1124, -17.5025, -0.0022    )$ millimeters
   //  \end{itemize}
   //  
+  //  This Versor is equivalent to a rotaion of $9.98$ degrees around the $Z$
+  //  axis.
   // 
-  //  Note that the reported translation is not the translation of $(13,17)$
-  //  that we may naively expecting. The reason is that the $5$ parameters of
-  //  the \doxygen{CenteredRigid2DTransform} are redundant. The actual
-  //  movement in space is described by only $3$ parameters. This means that
-  //  there are infinite combinations of rotation center and translations
-  //  that will represent the same actual movement in space. It it more
+  //  Note that the reported translation is not the translation of $(15.0,0.0)$
+  //  that we may be naively expecting. The reason is that the
+  //  \code{VersorRigid3DTransform} is applying the rotation around the center
+  //  found by the \code{CenteredTransformInitializer} and then adding the
+  //  translation vector shown above.
+  //
+  //  It is more
   //  illustrative in this case to take a look at the actual rotation matrix
   //  and offset resulting form the $5$ parameters.
   //
@@ -448,20 +454,19 @@ int main( int argc, char *argv[] )
   //
   //  \begin{verbatim}
   //  Matrix =
-  //     0.984817 -0.173598
-  //     0.173598 0.984817
-  //
+  //    0.984829       0.173529      0.000119225
+  //    -0.173529      0.984829      4.66908e-05
+  //    -0.000109314  -6.66714e-05   1
   //  Offset =
-  //     36.9848  -1.22857
+  //    -15.0025  -0.0170743  0.0141555
   //  \end{verbatim}
   //
   //  This output illustrates how counter intuitive is the mix of center of
-  //  rotation and translations. Figure
-  //  \ref{fig:TranslationAndRotationCenter} will clarify this situation. The
-  //  figures shows at left an original image. A rotation of $10^{\circ}$
-  //  around the center of the image is shown in the middle. The same
-  //  rotation performed around the origin of coordinates is shown at
-  //  right. It can be seen here that changing the center of rotation
+  //  rotation and translations. Figure \ref{fig:TranslationAndRotationCenter}
+  //  will clarify this situation. The figures shows at left an original image.
+  //  A rotation of $10^{\circ}$ around the center of the image is shown in the
+  //  middle. The same rotation performed around the origin of coordinates is
+  //  shown at right. It can be seen here that changing the center of rotation
   //  introduced additional translations.
   //
   //  Let's analyze what happens to the center of the image that we just
