@@ -23,7 +23,7 @@
 #include "vnl/vnl_matrix.h"
 
 #include "itkImageToImageFilter.h"
-#include "itkSupervisedClassifier.h"
+//#include "itkSupervisedClassifier.h"
 #include "itkMRFImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
@@ -85,7 +85,8 @@ public:
   typedef typename TClassifiedImage::IndexType       LabelledImageIndexType;
 
   /** Type definitions for classifier to be used for the MRF lavbelling. */
-  typedef Classifier<TInputImage,TClassifiedImage> ClassifierType;
+  typedef typename Superclass::ClassifierType ClassifierType;
+//  typedef Classifier<TInputImage,TClassifiedImage> ClassifierType;
 
   /** Pointer to the classifier to be used for the MRF lavbelling. */
   typename ClassifierType::Pointer m_ClassifierPtr;
