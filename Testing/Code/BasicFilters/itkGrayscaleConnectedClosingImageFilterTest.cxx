@@ -20,6 +20,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkFilterWatcher.h"
 
 #include "itkGrayscaleConnectedClosingImageFilter.h"
 
@@ -66,6 +67,7 @@ int itkGrayscaleConnectedClosingImageFilterTest( int argc, char * argv[] )
   
   // Create the filter
   ConnectedClosingFilterType::Pointer  connectedClosing = ConnectedClosingFilterType::New();
+  FilterWatcher watcher(connectedClosing, "connectedClosing");
 
   // Setup the input and output files
   reader->SetFileName( argv[1] );

@@ -21,7 +21,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
-
+#include "itkFilterWatcher.h"
 #include "itkHMaximaImageFilter.h"
 #include "itkHMinimaImageFilter.h"
 
@@ -74,6 +74,7 @@ int itkHMaximaMinimaImageFilterTest( int argc, char * argv[] )
   
   // Create the filters
   HmaximaFilterType::Pointer  hmaxima = HmaximaFilterType::New();
+  FilterWatcher watchHmaxima(hmaxima,"hmaxima");
   HminimaFilterType::Pointer  hminima = HminimaFilterType::New();
 
   // Setup the input and output files
