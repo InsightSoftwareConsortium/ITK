@@ -118,7 +118,16 @@ public:
    */
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
  
+  /**
+   * Neighborhood iterator type
+   */
+  typedef typename Superclass::SmartNeighborhoodIteratorType SmartNeighborhoodIteratorType ;
 
+
+  /**
+   * Kernel typedef
+   */
+  typedef typename Superclass::KernelType KernelType;
 
 
 protected:

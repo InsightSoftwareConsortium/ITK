@@ -109,7 +109,18 @@ public:
    */
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
 
-protected:
+  /**
+   * Neighborhood iterator type
+   */
+  typedef typename Superclass::SmartNeighborhoodIteratorType SmartNeighborhoodIteratorType ;
+
+
+  /**
+   * Kernel typedef
+   */
+  typedef typename Superclass::KernelType KernelType;
+
+ protected:
 
   /**
    * Evaluate image neighborhood with kernel to find the new value 

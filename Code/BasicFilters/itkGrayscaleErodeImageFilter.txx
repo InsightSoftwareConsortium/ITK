@@ -54,7 +54,7 @@ GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
   PixelType min = NumericTraits<PixelType>::max() ;
   PixelType temp = min ;
 
-  SmartNeighborhoodIteratorType::ConstIterator neigh_it;
+  typename SmartNeighborhoodIteratorType::ConstIterator neigh_it;
   KernelIteratorType kernel_it;
   const KernelIteratorType kernelEnd = kernel.End();
 
