@@ -42,7 +42,7 @@ GoodnessOfFitMixtureModelCostFunction< TInputSample >
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "Function  " << m_Function << std::endl;
-  for ( int i = 0 ; i < m_Components.size() ; i++)
+  for ( unsigned int i = 0 ; i < m_Components.size() ; i++)
     {
       os << indent << "Components["<< i <<"]  "  << m_Components[i]  << std::endl;
     }
@@ -90,15 +90,14 @@ typename GoodnessOfFitMixtureModelCostFunction< TInputSample >::MeasureType
 GoodnessOfFitMixtureModelCostFunction< TInputSample >
 ::GetValue(const ParametersType &parameters) const
 {
-  int i = 0 ; 
-  int j = 0 ;
+  unsigned int i = 0 ; 
 
   double value = 0.0 ;
  
-  int index = 0 ;
+  unsigned int index = 0 ;
   unsigned int paramSize = 0 ;
   ComponentType* component ;
-  for ( int componentIndex = 0 ; componentIndex < m_Components.size() ;
+  for ( unsigned int  componentIndex = 0 ; componentIndex < m_Components.size() ;
         componentIndex++ )
     {
       component = m_Components[componentIndex] ;

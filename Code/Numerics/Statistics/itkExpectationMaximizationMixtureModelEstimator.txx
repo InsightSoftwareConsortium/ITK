@@ -127,7 +127,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 {
   bool componentModified  = false ;
 
-  for (int i = 0 ; i < m_ComponentVector.size() ; i++)
+  for (unsigned int i = 0 ; i < m_ComponentVector.size() ; i++)
     {
       if ( (m_ComponentVector[i])->AreParametersModified() )
         {
@@ -233,7 +233,7 @@ bool
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::UpdateComponentParameters()
 {
-  int componentIndex ;
+  unsigned int componentIndex ;
   bool updated = false ;
   ComponentType* component ;
 

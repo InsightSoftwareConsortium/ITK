@@ -74,8 +74,8 @@ GaussianMixtureModelComponent< TSample >
 {
   Superclass::SetParameters(parameters) ;
 
-  int paramIndex = 0 ;
-  int i, j ;
+  unsigned int paramIndex = 0 ;
+  unsigned int i, j ;
 
   bool changed = false ;
 
@@ -112,7 +112,7 @@ double
 GaussianMixtureModelComponent< TSample >
 ::CalculateParametersChange()
 {
-  int i, j ;
+  unsigned int i, j ;
 
   MeanType meanEstimate = *(m_MeanEstimator->GetOutput()) ;
   CovarianceType covEstimate = *(m_CovarianceEstimator->GetOutput()) ;

@@ -140,7 +140,7 @@ void
 GoodnessOfFitComponentBase< TInputSample >
 ::SetHistogramNumberOfBins(int numberOfBins)
 {
-  if ( m_HistogramNumberOfBins != numberOfBins )
+  if ( m_HistogramNumberOfBins != (unsigned int)numberOfBins )
     {
       m_HistogramNumberOfBins = numberOfBins ;
       m_HistogramSizeChanged = true ;
