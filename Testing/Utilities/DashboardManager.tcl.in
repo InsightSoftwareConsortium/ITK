@@ -99,6 +99,7 @@ foreach Command $Commands \
     Build - \
     Test - \
     Coverage - \
+    Purify - \
     Submit \
     {
       puts "$Command $Model"
@@ -300,7 +301,7 @@ foreach Command $Commands \
 
 	puts $DashboardFile "<BuildStamp>"
 	
-	foreach XML [list Build Test Coverage CoverageLog] \
+	foreach XML [list Build Test Coverage CoverageLog Purify] \
 	{
 	  if { ![file exists [file join XML $XML.xml]] } \
 	  {
@@ -319,7 +320,7 @@ foreach Command $Commands \
 	
 	cd $CurrentDir
 
-	foreach Summary [list BuildSummary TestSummary CoverageSummary] \
+	foreach Summary [list BuildSummary TestSummary CoverageSummary PurifySummary] \
 	{
 	  XMLConcat $DashboardFile [file join $Dir $NightlyBuild $Summary.xml]
 	}

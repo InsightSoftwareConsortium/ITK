@@ -70,7 +70,7 @@
             <a>
               <xsl:attribute name="href">
                 <xsl:call-template name="TranslateTestName">
-                  <xsl:with-param name="Prefix"><xsl:value-of select="$DashboardDir"/>/Purify/</xsl:with-param>
+                  <xsl:with-param name="Prefix"><xsl:value-of select="$TestDocDir"/>/Purify/</xsl:with-param>
                   <xsl:with-param name="TestName" select="FullName"/>
                   <xsl:with-param name="Postfix">.html</xsl:with-param>
                 </xsl:call-template>
@@ -162,17 +162,16 @@
 
 
 <xsl:template name="Summary">
-  <redirect:write select="concat(string('{$TestDocDir}'), '/BuildSummary.xml' )">
-    <Build>
+  <redirect:write select="concat(string('{$TestDocDir}'), '/PurifySummary.xml' )">
+    <Purify>
       <SiteName><xsl:value-of select="Site/@Name"/></SiteName>
       <BuildName><xsl:value-of select="Site/@BuildName"/></BuildName>
       <BuildStamp><xsl:value-of select="Site/@BuildStamp"/></BuildStamp>
-      <StartDateTime><xsl:value-of select="Site/Build/StartDateTime"/></StartDateTime>
+      <StartDateTime><xsl:value-of select="Site/Purify/StartDateTime"/></StartDateTime>
 
-      <WarningCount><xsl:value-of select="count(Site/Build/Warning)"/></WarningCount>
-      <ErrorCount><xsl:value-of select="count(Site/Build/Error)"/></ErrorCount>
-      <EndDateTime><xsl:value-of select="Site/Build/EndDateTime"/></EndDateTime>
-    </Build>
+      <DefectCount><xsl:value-of select="count(Site/Purify/Test/Results/MLK)+count(Site/Purify/Test/Results/ABR)+count(Site/Purify/Test/Results/ABW)+count(Site/Purify/Test/Results/COR)+count(Site/Purify/Test/Results/FMM)+count(Site/Purify/Test/Results/FUM)+count(Site/Purify/Test/Results/FUM)+count(Site/Purify/Test/Results/FMR)+count(Site/Purify/Test/Results/FMW)+count(Site/Purify/Test/Results/MAF)+count(Site/Purify/Test/Results/UMC)+count(Site/Purify/Test/Results/UMR)"/></DefectCount>
+      <EndDateTime><xsl:value-of select="Site/Purify/EndDateTime"/></EndDateTime>
+    </Purify>
   </redirect:write>
 </xsl:template>
 

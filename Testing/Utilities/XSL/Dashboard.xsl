@@ -173,19 +173,19 @@
 
         </table>
             
-              <xsl:choose>
-                <xsl:when test="count(BuildStamp/Coverage)">
-                  <h3>Coverage</h3>
-                  <table border="4" cellpadding="0" cellspacing="2" width="100%">
-                    <tr>
-                      <th align="center" bgcolor="#eeeeee">Site</th>
-                      <th align="center" bgcolor="#eeeeee">Build Name</th>
-                      <th align="center" bgcolor="#eeeeee" width="80">Percentage</th>
-                      <th align="center" bgcolor="#eeeeee">Passed</th>
-                      <th align="center" bgcolor="#eeeeee">Failed</th>
-                      <th align="center" bgcolor="#eeeeee">Date</th>
-                      <th align="center" bgcolor="#eeeeee">Submission Date</th>
-                    </tr>
+        <xsl:choose>
+          <xsl:when test="count(BuildStamp/Coverage)">
+            <h3>Coverage</h3>
+            <table border="4" cellpadding="0" cellspacing="2" width="100%">
+              <tr>
+                <th align="center" bgcolor="#eeeeee">Site</th>
+                <th align="center" bgcolor="#eeeeee">Build Name</th>
+                <th align="center" bgcolor="#eeeeee" width="80">Percentage</th>
+                <th align="center" bgcolor="#eeeeee">Passed</th>
+                <th align="center" bgcolor="#eeeeee">Failed</th>
+                <th align="center" bgcolor="#eeeeee">Date</th>
+                <th align="center" bgcolor="#eeeeee">Submission Date</th>
+              </tr>
                     <!--
                          Loop over each instance
                          -->
@@ -227,6 +227,53 @@
                   <h3>No coverage information</h3><br/>
                 </xsl:otherwise>
               </xsl:choose>
+
+        <xsl:choose>
+          <xsl:when test="count(BuildStamp/Purify)">
+            <h3>Coverage</h3>
+            <table border="4" cellpadding="0" cellspacing="2" width="100%">
+              <tr>
+                <th align="center" bgcolor="#eeeeee">Site</th>
+                <th align="center" bgcolor="#eeeeee">Build Name</th>
+                <th align="center" bgcolor="#eeeeee">Defect Count</th>
+                <th align="center" bgcolor="#eeeeee">Date</th>
+                <th align="center" bgcolor="#eeeeee">Submission Date</th>
+              </tr>
+              <!--
+                   Loop over each instance
+                   -->
+              <xsl:for-each select="BuildStamp">
+                <xsl:sort select="Purify/SiteName"/>
+                <xsl:sort select="Purify/BuildName"/>
+                <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Purify/SiteName"/>/<xsl:value-of select="Purify/BuildName"/>/<xsl:value-of select="Purify/BuildStamp"/></xsl:variable>
+                <tr>
+                  <td align="left"><xsl:value-of select="Purify/SiteName"/></td>
+                  <td align="left"><xsl:value-of select="Purify/BuildName"/></td>
+                  <td align="center">
+                    <xsl:choose>
+                      <xsl:when test="Purify/PercentCoverage != 0">
+                        <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
+                      </xsl:when>
+                      <xsl:otherwise>
+                        <xsl:attribute name="bgcolor"><xsl:value-of select="$NormalColor"/></xsl:attribute>
+                      </xsl:otherwise>
+                    </xsl:choose>
+                    <a>
+                      <xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Purify.html</xsl:attribute><b><xsl:value-of select="Purify/DefectCount"/></b>
+                    </a>
+                  </td>
+                  <td align="left"><xsl:value-of select="Purify/StartDateTime"/></td>
+                  <td align="left"><xsl:value-of select="PurifySubmissionDateTime"/></td>
+                </tr>
+              </xsl:for-each>
+            </table>
+          </xsl:when>
+          <xsl:otherwise>
+            <h3>No purify information</h3><br/>
+          </xsl:otherwise>
+        </xsl:choose>
+
+
               <xsl:if test="Information/Yesterday != ''">
                 <h3>
                   <a>
