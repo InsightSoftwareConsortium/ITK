@@ -17,7 +17,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{RGBGibbsPriorFilter},
+// This example illustrates the use of the \doxygen{RGBGibbsPriorFilter}.  
 // The filter outputs a binary segmentation that can be improved by the
 // deformable model. It is the first part of our hybrid framework.
 //
@@ -67,8 +67,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The input is a single channel 2D image, the channel number is  
-  //  NUMBANDS = 1, NDIMENSION is set to 3.
+  //  The input is a single channel 2D image; the channel number is  
+  //  \code{NUMBANDS} = 1, and \code{NDIMENSION} is set to 3.
   //
   //  Software Guide : EndLatex
 
@@ -81,11 +81,11 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The Gibbs Prior segmentation is performed first to generate a
+  //  The Gibbs prior segmentation is performed first to generate a
   //  rough segmentation that yields a sample of tissue from a region 
   //  to be segmented, which will be combined to form the input for the
-  //  marching cube method. We define the pixel type of the output of 
-  //  Gibbs Prior filter to be unsigned short
+  //  marching cubes method. We define the pixel type of the output of 
+  //  the Gibbs prior filter to be unsigned short.
   //
   //  Software Guide : EndLatex 
   
@@ -224,7 +224,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  Then we define the classifier that is needed
-  //  for the Gibbs Prior model to make correct segmenting decision
+  //  for the Gibbs prior model to make correct segmenting decisions.
   //
   //  Software Guide : EndLatex 
 
@@ -255,8 +255,7 @@ int main( int argc, char *argv[] )
   //Set the Gibbs Prior labeller
   //  Software Guide : BeginLatex
   //  
-  //  After that we can define the multi-channel Gibbs Prior 
-  //  model. 
+  //  After that we can define the multi-channel Gibbs prior model. 
   //
   //  Software Guide : EndLatex 
 
@@ -268,10 +267,10 @@ int main( int argc, char *argv[] )
   // Set the MRF labeller parameters
   //  Software Guide : BeginLatex
   //  
-  //  The parameters for Gibbs Prior filter are defined below. The NumberOfClass
-  //  indicates how many different objects are in the image; the maximum number of 
-  //  iteration is the number of minimization steps; the cluster size set the 
-  //  lower limitation of the object's size; the boundary gradient is the estimation
+  //  The parameters for the Gibbs prior filter are defined below. \code{NumberOfClass}
+  //  indicates how many different objects are in the image.  The maximum number of 
+  //  iterations is the number of minimization steps.  \code{ClusterSize} sets the 
+  //  lower limit on the object's size.  The boundary gradient is the estimate
   //  of the variance between objects and background at the boundary region.
   //
   //  Software Guide : EndLatex 
@@ -286,10 +285,10 @@ int main( int argc, char *argv[] )
   
   //  Software Guide : BeginLatex
   //  
-  //  Set the input, classifier for the Gibbs Prior filter
-  //  and the input for the classifier. The classifer will calculate the
-  //  mean and variance of the object using the classimage, the results 
-  //  will be used as parameters for the Gibbs Prior model
+  //  We now set the input classifier for the Gibbs prior filter
+  //  and the input to the classifier. The classifer will calculate the
+  //  mean and variance of the object using the class image, and the results 
+  //  will be used as parameters for the Gibbs prior model.
   //
   //  Software Guide : EndLatex 
 
@@ -302,7 +301,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Execution of the Gibbs Prior filter using the Update() method.
+  //  Finally we execute the Gibbs prior filter using the Update() method.
   //
   //  Software Guide : EndLatex 
 
@@ -324,13 +323,13 @@ int main( int argc, char *argv[] )
   //  GibbsGuide.exe brainweb89.png brainweb89_train.png brainweb_gp.png
   //  \end{verbatim}
   //
-  //  brainweb89train is a training image that helps to estimate the object statistics.
+  //  \code{brainweb89train} is a training image that helps to estimate the object statistics.
   //
-  //  Note that in order to segment successfully other images, one has to create suitable
-  //  training image.
+  //  Note that in order to  successfully segment other images, one has to create suitable
+  //  training images for them.
   // 
-  //  We can segment color (RGB) and other multi-channel images. Examples illustrating
-  //  it will be posted soon on the ITK site.
+  //  We can also segment color (RGB) and other multi-channel images. Examples illustrating
+  //  ithis will be posted soon on the ITK site.
   //
   //  Software Guide : EndLatex 
 
