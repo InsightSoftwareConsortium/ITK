@@ -37,7 +37,7 @@ int itkDicomImageIOTest(int ac, char* av[])
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR 
   // THE RESULTING IMAGE
-  typedef unsigned short PixelType;
+  typedef short PixelType;
   
   typedef itk::Image<PixelType, 2> myImage;
 
