@@ -53,7 +53,7 @@ int main( int argc, char * argv[] )
     { 
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputRGBImageFile  outputGrayscaleImageFile " << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   const unsigned int Dimension = 2;
@@ -98,6 +98,6 @@ int main( int argc, char * argv[] )
     std::cerr << excp << std::endl;
     }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 

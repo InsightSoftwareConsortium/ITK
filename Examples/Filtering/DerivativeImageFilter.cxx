@@ -63,7 +63,7 @@ int main( int argc, char * argv[] )
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile   outputImageFile  normalizedOutputImageFile ";
     std::cerr << " derivativeOrder direction" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
 
@@ -191,6 +191,6 @@ int main( int argc, char * argv[] )
   normalizedWriter->SetFileName( argv[3] );
   normalizedWriter->Update();
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 

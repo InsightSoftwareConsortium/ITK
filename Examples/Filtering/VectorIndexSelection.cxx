@@ -37,7 +37,7 @@ int main( int argc, char * argv[] )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputImageFile  outputImageFile component" << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
 
@@ -115,12 +115,12 @@ int main( int argc, char * argv[] )
     { 
     std::cout << "ExceptionObject caught !" << std::endl; 
     std::cout << err << std::endl; 
-    return -1;
+    return EXIT_FAILURE;
     } 
   // Software Guide : EndCodeSnippet
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 

@@ -48,7 +48,7 @@ int main( int argc, char * argv[] )
     std::cerr << " outputVoronoiMapImageFilter ";
     std::cerr << " outputVectorMapImageFilter ";
     std::cerr << std::endl;  
-    return 1;
+    return EXIT_FAILURE;
     }
 
   //  Then we must decide what pixel types to use for the input and output
@@ -169,6 +169,6 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 

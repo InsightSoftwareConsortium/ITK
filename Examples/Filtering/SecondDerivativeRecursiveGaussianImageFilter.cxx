@@ -46,7 +46,7 @@ int main(int argc, char * argv [] )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << "SecondDerivativeRecursiveGaussianImageFilter inputImage outputPrefix  [sigma] " << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
   typedef float            PixelType;
@@ -84,7 +84,7 @@ int main(int argc, char * argv [] )
     {
     std::cerr << "Problem reading the input file" << std::endl;
     std::cerr << excp << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
   FilterType::Pointer ga = FilterType::New();
@@ -211,7 +211,7 @@ int main(int argc, char * argv [] )
 
   // Software Guide : EndCodeSnippet
   
-return 0;
+return EXIT_SUCCESS;
 }
 
 

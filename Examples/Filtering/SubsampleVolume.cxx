@@ -45,7 +45,7 @@ int main( int argc, char * argv[] )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile factorX factorY factorZ" << std::endl; 
-    return 1;
+    return EXIT_FAILURE;
     }
 
   const     unsigned int    Dimension = 3;
@@ -200,6 +200,6 @@ int main( int argc, char * argv[] )
 
 // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 

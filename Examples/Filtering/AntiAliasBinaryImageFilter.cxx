@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputImage outputImage [RMS] [numberOfIterations]" << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
    
   const char * inputFilename  = argv[1];
@@ -159,11 +159,11 @@ int main(int argc, char* argv[])
     { 
     std::cout << "ExceptionObject caught !" << std::endl; 
     std::cout << err << std::endl; 
-    return -1;
+    return EXIT_FAILURE;
     } 
 
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }

@@ -29,7 +29,7 @@ int main( int argc, char * argv[] )
   if( argc < 5 ) {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile sigma maxKernelWidth" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
   }
 
   typedef itk::Image< float, 2 >   ImageType;
@@ -80,6 +80,6 @@ int main( int argc, char * argv[] )
   writer->SetInput(output);
   writer->Update();
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 

@@ -53,7 +53,7 @@ int main( int argc, char * argv[] )
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  ";
     std::cerr << " outputImageFile radius " << std::endl;
-    return 1;
+    return EXIT_FAILURE;
   }
 
 
@@ -143,7 +143,7 @@ int main( int argc, char * argv[] )
   std::cout<<"Problems reading input image"<<std::endl;
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl; 
-    return -1;
+    return EXIT_FAILURE;
     }
   
   // Setup the opening and closing methods
@@ -178,10 +178,10 @@ int main( int argc, char * argv[] )
     {
     std::cout<<"ExceptionObject caught !"<<std::endl;
     std::cout<< err <<std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
   
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

@@ -304,7 +304,7 @@ int main( int argc, char ** argv )
     { 
       std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
       std::cerr << err << std::endl; 
-      return -1;
+      return EXIT_FAILURE;
     } 
 
     image = reader->GetOutput();
@@ -420,7 +420,7 @@ int main( int argc, char ** argv )
       
       std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
       std::cerr << err << std::endl; 
-      return -1;
+      return EXIT_FAILURE;
       } 
 #endif
   }
@@ -712,6 +712,6 @@ int main( int argc, char ** argv )
     filter->Update();
     }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 

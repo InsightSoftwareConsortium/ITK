@@ -48,7 +48,7 @@ int main( int argc, char * argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImageFile outputImageFileBase ";  
     std::cerr << "  outputImageFileExtension numberOfThresholdsToCalculate "  << std::endl;  
-    return 1;
+    return EXIT_FAILURE;
     }
   
   //Convenience typedefs
@@ -179,6 +179,6 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
     }
   // Software Guide : EndCodeSnippet
-  return 0;
+  return EXIT_SUCCESS;
 }
 

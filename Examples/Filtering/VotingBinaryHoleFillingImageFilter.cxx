@@ -54,7 +54,7 @@ int main( int argc, char * argv[] )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile outputImageFile radiusX radiusY" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
 
@@ -217,6 +217,6 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
