@@ -59,9 +59,27 @@ public:
   /** Plug in a Cost Function into the optimizer  */
   virtual void SetCostFunction( SingleValuedCostFunction * costFunction );
 
+  /** Set/Get the maximum number of iterations. The optimization algorithm will
+   * terminate after the maximum number of iterations has been reached. */
+  virtual void SetMaximumNumberOfIterations( unsigned int n );
+  itkGetMacro( MaximumNumberOfIterations, unsigned int );
+
+  /** Set/Get the parameters convergence tolerance. The optimization algorithm
+   * will terminate when the simplex diameter falls below the user specified 
+   * threshold. */
+  virtual void SetParametersConvergenceTolerance( double tol );
+  itkGetMacro( ParametersConvergenceTolerance, double );
+  
+  /** Set/Get the function convergence tolerance. The optimization algorithm
+   * will terminate when the difference in the cost function within the simple
+   * falls below the user specified threshold. */
+  virtual void SetFunctionConvergenceTolerance( double tol );
+  itkGetMacro( FunctionConvergenceTolerance, double );
+
 protected:
   AmoebaOptimizer();
   virtual ~AmoebaOptimizer();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   typedef Superclass::CostFunctionAdaptorType   CostFunctionAdaptorType;
 
@@ -71,7 +89,9 @@ private:
   
   bool                          m_OptimizerInitialized;
   InternalOptimizerType       * m_VnlOptimizer;
-
+  unsigned int                  m_MaximumNumberOfIterations;
+  double                        m_ParametersConvergenceTolerance;
+  double                        m_FunctionConvergenceTolerance;
 };
 
 } // end namespace itk

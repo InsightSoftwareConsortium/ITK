@@ -131,12 +131,18 @@ int itkAmoebaOptimizerTest(int, char* [] )
   typedef  itk::AmoebaOptimizer  OptimizerType;
 
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
-
-  
   
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
+  // set optimizer parameters
+  itkOptimizer->SetMaximumNumberOfIterations( 10 );
+
+  double xTolerance = 0.01;
+  itkOptimizer->SetParametersConvergenceTolerance( xTolerance );
+
+  double fTolerance = 0.001;
+  itkOptimizer->SetFunctionConvergenceTolerance( fTolerance );
 
   // Declaration of the CostFunction adaptor
   amoebaCostFunction::Pointer costFunction = amoebaCostFunction::New();
@@ -150,7 +156,7 @@ int itkAmoebaOptimizerTest(int, char* [] )
 
   OptimizerType::ParametersType initialValue(2);       // constructor requires vector size
 
-  initialValue[0] =  100;             // We start not so far from  | 2 -2 |
+  initialValue[0] =  100;             // We start not far from  | 2 -2 |
   initialValue[1] = -100;
 
   OptimizerType::ParametersType currentValue(2);
@@ -158,10 +164,26 @@ int itkAmoebaOptimizerTest(int, char* [] )
   currentValue = initialValue;
 
   itkOptimizer->SetInitialPosition( currentValue );
+  
 
   try 
     {
+
+    vnlOptimizer->verbose = true;
+ 
+    std::cout << "Run for " << itkOptimizer->GetMaximumNumberOfIterations();
+    std::cout << " iterations." << std::endl;
+
     itkOptimizer->StartOptimization();
+
+
+    std::cout << "Continue for " << itkOptimizer->GetMaximumNumberOfIterations();
+    std::cout << " iterations." << std::endl;
+
+    itkOptimizer->SetMaximumNumberOfIterations( 100 );
+    itkOptimizer->SetInitialPosition( itkOptimizer->GetCurrentPosition() );
+    itkOptimizer->StartOptimization();
+
     }
   catch( itk::ExceptionObject & e )
     {
@@ -192,7 +214,7 @@ int itkAmoebaOptimizerTest(int, char* [] )
   
   for( unsigned int j = 0; j < 2; j++ )
     {
-    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > xTolerance )
       pass = false;
     }
 
