@@ -122,29 +122,29 @@ public:
   typedef ImageRegion<TOutputImage::ImageDimension>  Region;
 
   /**
-   * Set m_IO
+   * Set the ImageIO helper class.
    */
-  void SetIO(ImageIO* io);
+  itkSetObjectMacro(IO,ImageIO);
 
-	/**
-	 * Get m_IO
-	 */
-	ImageIO* GetIO();
+  /**
+   * Get the ImageIO helper class.
+   */
+  itkGetObjectMacro(IO,ImageIO);
 
-	/**
-	 * Set m_FileToLoad
-	 */
-	itkSetStringMacro(FileToLoad);
+  /**
+   * Set m_FileToLoad
+   */
+  itkSetStringMacro(FileToLoad);
 
 protected:
   void GenerateData();
   FileIOToImageFilter();
-	~FileIOToImageFilter();
-	void LoadFile();
+  ~FileIOToImageFilter();
+  void LoadFile();
 
-  ImageIO* m_IO;
-	LightObject::Pointer m_LightObjectIO;
-	std::string m_FileToLoad;
+  ImageIO::Pointer m_IO;
+  LightObject::Pointer m_LightObjectIO;
+  std::string m_FileToLoad;
 };
 
 } //namespace ITK

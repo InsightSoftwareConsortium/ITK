@@ -53,9 +53,9 @@ FileIOToImageFilter<TOutputImage>::FileIOToImageFilter(std::string fileName)
   m_LightObjectIO = ObjectFactoryBase::CreateInstance(ExtractFileExtension(fileName.c_str()));
   m_IO = dynamic_cast<ImageIO*>((LightObject*) m_LightObjectIO);
   if (m_IO == NULL)
-  {
+    {
     return;
-  }
+    }
 
   m_IO->SetFullFileName(fileName.c_str());
   m_IO->Load();
@@ -77,17 +77,17 @@ template <class TOutputImage>
 void FileIOToImageFilter<TOutputImage>::LoadFile()
 {
   if (m_FileToLoad == "")
-  {
+    {
     throw FileIOException();
-  }
+    }
 
   m_LightObjectIO = ObjectFactoryBase::CreateInstance(ExtractFileExtension(m_FileToLoad.c_str()));
   m_IO = dynamic_cast<ImageIO*>((LightObject*) m_LightObjectIO);
 
   if ( m_IO == 0 )
-  {
+    {
     throw FileIOException();
-  }
+    }
 
   m_IO->SetFullFileName(m_FileToLoad.c_str());
   m_IO->Load();
@@ -103,9 +103,9 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
   LoadFile();
 
   for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
-  {
+    {
     dimSize[i] = m_IO->GetDimensions(i);
-  }
+    }
 
   const unsigned long startPosition[] = { 0, 0, 0 };
   typename TOutputImage::IndexType start;
@@ -134,24 +134,12 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
 
   it.Begin();
   while(!it.IsAtEnd())
-  {
+    {
     it.Set(*source++);
     ++it;
-  }
+    }
 }
 
-
-template <class TOutputImage>
-void FileIOToImageFilter<TOutputImage>::SetIO(ImageIO *io)
-{
-  m_IO = io;
-}
-
-template <class TOutputImage>
-ImageIO* FileIOToImageFilter<TOutputImage>::GetIO()
-{
-  return m_IO;
-}
 
 } //namespace ITK
 
