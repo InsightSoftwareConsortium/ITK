@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/**
+/*
  * standard 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -36,7 +36,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
 }
 
-/**
+/*
  * standard 
  *
 template <typename TInputMesh, typename TOutputMesh>
@@ -50,7 +50,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 //  m_Locations->Delete();
 }*/
 
-/**
+/*
  * PrintSelf
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -64,7 +64,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
 }// end PrintSelf
 
-/**
+/*
  * set the stiffness parameter which would help 
  * to build the stiffness matrix
  */
@@ -77,7 +77,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_Stiffness[1] = b; 
 }
 
-/**
+/*
  * set the center point which would help 
  * to identify the interested object
  */
@@ -91,7 +91,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_Center[2] = c;
 }
 
-/**
+/*
  * set the input binary image 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -102,7 +102,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_Potential = potential; 
 }
 
-/**
+/*
  * set the input gradient image 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -113,7 +113,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_Gradient = gradient; 
 }
 
-/**
+/*
  * set the output model region image 
  *
 template <typename TInputMesh, typename TOutputMesh>
@@ -133,7 +133,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   return m_ImageOutput; 
 }*/
 
-/**
+/*
  * set the resolutions of the model, resolution[0] is the number of slices
  * resolution[1] is the number of nodes in each slices 
  */
@@ -147,7 +147,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_Resolution[2] = c;
 }
 
-/**
+/*
  * set default value of parameters and initialize local data container such as forces,
  * displacements and displacement derivatives
  */
@@ -279,7 +279,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   }
 } 
 
-/**
+/*
  * set the stiffness matrix 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -390,7 +390,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
 } 
 
-/**
+/*
  * compute force using the information from image 
  * and the balloon force. The calculation of the 
  * image force not included by far, it will be added 
@@ -563,7 +563,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
 }
 
-/**
+/*
  * compute the derivatives using d'- Kd = f 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -678,7 +678,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
    
 }
 
-/**
+/*
  * When there is new nodes added, must do a reset to reallocate
  * the memory and redistribute the nodes and reconstruct the cells,
  * now the mthod is only suitable for 2D models, it will be a much
@@ -893,7 +893,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   }
 }
 
-/**
+/*
  * update the displacements using d_{new} = d_{old} + timestep*d' 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -949,7 +949,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
 }
 
-/**
+/*
  * copy the content of m_Location into output 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -1002,7 +1002,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
 }
 
-/**
+/*
  * copy the content of m_Location into output 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -1024,7 +1024,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
 }
 
-/**
+/*
  * when almost all the nodes is at the estimated boundary, use
  * gapsearch to fit the model to more complicated shapes
  */
@@ -1092,7 +1092,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   this->Reset();        
 }
 
-/**
+/*
  * add new nodes into the model 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -1117,7 +1117,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_NewNodes[m_NumNewNodes-1][4] = (float) res;
 }
 
-/**
+/*
  * fit the model to the gradient information
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -1222,7 +1222,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
 }
 
-/**
+/*
  * fit the model to the gradient information
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -1314,7 +1314,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   }
 }
 
-/**
+/*
  * fit the model to the gradient information
  */
 template <typename TInputMesh, typename TOutputMesh>
