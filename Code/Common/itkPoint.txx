@@ -304,7 +304,7 @@ Point<T, TPointDimension>
  * Set the point to the barycentric combination of N points in a Container
  */
 template< class TPointContainer, class TWeightContainer >
-BarycentricCombination<TPointContainer,TWeightContainer>
+typename BarycentricCombination<TPointContainer,TWeightContainer>
 ::PointType 
 BarycentricCombination<TPointContainer,TWeightContainer>
 ::Evaluate( 

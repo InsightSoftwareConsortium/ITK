@@ -204,7 +204,7 @@ Versor<T>
   // Evaluate the quaternion ratio between them
   Self ratio = *this * v.GetReciprocal();
   
-  const itk::NumericTraits< T >::AccumulateType 
+  const typename itk::NumericTraits< T >::AccumulateType 
                         square = ratio.m_W * ratio.m_W;
   
   const double epsilon = 1e-300;
@@ -266,7 +266,7 @@ Versor<T>
  * Get Tensor part
  */
 template<class T>
-Versor<T>::ValueType
+typename Versor<T>::ValueType
 Versor<T>
 ::GetTensor( void ) const
 {
@@ -312,7 +312,7 @@ Versor<T>
  * Get Axis
  */
 template<class T>
-Versor<T>::VectorType 
+typename Versor<T>::VectorType 
 Versor<T>
 ::GetAxis( void ) const
 {
@@ -334,7 +334,7 @@ Versor<T>
  * Get Right part
  */
 template<class T>
-Versor<T>::VectorType 
+typename Versor<T>::VectorType 
 Versor<T>
 ::GetRight( void ) const
 {
@@ -354,7 +354,7 @@ Versor<T>
  * Get Scalar part
  */
 template<class T>
-Versor<T>::ValueType 
+typename Versor<T>::ValueType 
 Versor<T>
 ::GetScalar( void ) const
 {
@@ -367,7 +367,7 @@ Versor<T>
  * Get Angle (in radians)
  */
 template<class T>
-Versor<T>::ValueType
+typename Versor<T>::ValueType
 Versor<T>
 ::GetAngle( void ) const
 {
@@ -592,7 +592,7 @@ Versor<T>
  * Transform a Vector
  */
 template<class T>
-Versor<T>::VectorType 
+typename Versor<T>::VectorType 
 Versor<T>
 ::Transform( const VectorType & v ) const
 {
@@ -635,7 +635,7 @@ Versor<T>
  * CovariantVectors are transformed as vectors.
  */
 template<class T>
-Versor<T>::CovariantVectorType 
+typename Versor<T>::CovariantVectorType 
 Versor<T>
 ::Transform( const CovariantVectorType & v ) const
 {
@@ -675,7 +675,7 @@ Versor<T>
  * Transform a Point
  */
 template<class T>
-Versor<T>::PointType 
+typename Versor<T>::PointType 
 Versor<T>
 ::Transform( const PointType & v ) const
 {
@@ -715,7 +715,7 @@ Versor<T>
  * Transform a VnlVector
  */
 template<class T>
-Versor<T>::VnlVectorType 
+typename Versor<T>::VnlVectorType 
 Versor<T>
 ::Transform( const VnlVectorType & v ) const
 {
