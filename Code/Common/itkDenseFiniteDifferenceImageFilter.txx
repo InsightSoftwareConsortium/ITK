@@ -191,7 +191,6 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   typedef ImageRegionIterator<UpdateBufferType> UpdateIteratorType;
 
   typename OutputImageType::Pointer output = this->GetOutput();
-  unsigned int i, j;
   TimeStepType timeStep;
   void *globalData;
 
