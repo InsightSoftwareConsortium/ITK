@@ -88,8 +88,9 @@ public:
   typedef Image<double, 2>                                  FloatImageType; 
   typedef typename FloatImageType::Pointer                  FloatImagePointer;
   typedef ExtractOrthogonalSwath2DImageFilter<ImageType>          Filter1Type;    
-  typedef WrapPadImageFilter<ImageType, ImageType>                Filter2Type;    
-  typedef DiscreteGaussianImageFilter<ImageType,FloatImageType>   Filter3Type;
+  typedef WrapPadImageFilter<ImageType, FloatImageType>           Filter2Type;    
+  typedef DiscreteGaussianImageFilter<FloatImageType,FloatImageType>
+                                                                  Filter3Type;
   typedef DerivativeImageFilter<FloatImageType,FloatImageType>    Filter4Type;
   
 protected:
