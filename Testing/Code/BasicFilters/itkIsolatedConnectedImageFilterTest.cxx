@@ -20,6 +20,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
+#include "itkFilterWatcher.h"
 
 int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
 {
@@ -39,6 +40,8 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   typedef itk::IsolatedConnectedImageFilter<myImage,myImage> FilterType;
 
   FilterType::Pointer filter = FilterType::New();
+  FilterWatcher watcher(filter);
+
   filter->SetInput(input->GetOutput());
   
   FilterType::IndexType seed1;
