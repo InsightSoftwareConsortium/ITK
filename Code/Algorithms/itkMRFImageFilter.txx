@@ -42,7 +42,8 @@ MRFImageFilter<TInputImage,TClassifiedImage>
   m_InputImageNeighborhoodRadius.Fill(0);
   m_MRFNeighborhoodWeight.resize(0);
   m_NeighborInfluence.resize(0);
-  SetMRFNeighborhoodWeight( 0 );
+  m_DummyVector.resize(0);
+  SetMRFNeighborhoodWeight( m_DummyVector );
 }
 
 template<class TInputImage, class TClassifiedImage>
@@ -272,7 +273,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 template<class TInputImage, class TClassifiedImage>
 void
 MRFImageFilter<TInputImage, TClassifiedImage>
-::SetMRFNeighborhoodWeight( double* )
+::SetDefaultMRFNeighborhoodWeight( )
 {
 
   // Set the beta matrix of a 3x3x3 kernel
@@ -284,23 +285,50 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   //-----------------------------------------------------
   //Determine the default neighborhood size
-  //-----------------------------------------------------    
-  m_MRFNeighborhoodWeight.resize( m_NeighborhoodSize );
+  //-----------------------------------------------------   
+  m_NeighborhoodSize = 1;
+  int neighborhoodRadius = 1; //Default assumes a radius of 1 
+  for( unsigned int i = 0; i < InputImageDimension; i++ )
+    {
+    m_NeighborhoodSize *= (2*neighborhoodRadius+1);
+    }
+  if( (InputImageDimension == 3) )
+    {
+    //Assumes a default 3x3x3 window size
+    m_MRFNeighborhoodWeight.resize( m_NeighborhoodSize );
 
-  for( int i = 0; i < 9; i++ ) 
-    m_MRFNeighborhoodWeight[i] = 1.3 * m_SmoothingFactor;
+    for( int i = 0; i < 9; i++ ) 
+        m_MRFNeighborhoodWeight[i] = 1.3 * m_SmoothingFactor;
 
-  for( int i = 9; i < 18; i++ )
-    m_MRFNeighborhoodWeight[i] = 1.7 * m_SmoothingFactor;
+    for( int i = 9; i < 18; i++ )
+        m_MRFNeighborhoodWeight[i] = 1.7 * m_SmoothingFactor;
 
-  for( int i = 18; i < 27; i++ )
-    m_MRFNeighborhoodWeight[i] = 1.3 * m_SmoothingFactor;
+    for( int i = 18; i < 27; i++ )
+        m_MRFNeighborhoodWeight[i] = 1.3 * m_SmoothingFactor;
 
-  // Change the center weights
-  m_MRFNeighborhoodWeight[4]  = 1.5 * m_SmoothingFactor;
-  m_MRFNeighborhoodWeight[13] = 0.0;
-  m_MRFNeighborhoodWeight[22] = 1.5 * m_SmoothingFactor;
+    // Change the center weights
+    m_MRFNeighborhoodWeight[4]  = 1.5 * m_SmoothingFactor;
+    m_MRFNeighborhoodWeight[13] = 0.0;
+    m_MRFNeighborhoodWeight[22] = 1.5 * m_SmoothingFactor;
+    }
+  if(  (InputImageDimension == 2) )
+    {
+    //Assumes a default 3x3x3 window size
+    m_MRFNeighborhoodWeight.resize( m_NeighborhoodSize );
 
+    for( int i = 0; i < m_NeighborhoodSize; i++ ) 
+        m_MRFNeighborhoodWeight[i] = 1.7 * m_SmoothingFactor;
+
+    // Change the center weights
+    m_MRFNeighborhoodWeight[4]  = 0;
+    } else
+  if( (InputImageDimension > 3) )
+    {
+    for( int i = 0; i < m_NeighborhoodSize; i++ ) 
+      {
+      m_MRFNeighborhoodWeight[i] = 1;
+      }
+    }
 }// SetMRFNeighborhoodWeight
 
 template<class TInputImage, class TClassifiedImage>
@@ -308,26 +336,34 @@ void
 MRFImageFilter<TInputImage, TClassifiedImage>
 ::SetMRFNeighborhoodWeight( std::vector<double> betaMatrix)
 {
-  
-  m_NeighborhoodSize = 1;
-  for( unsigned int i = 0; i < InputImageDimension; i++ )
+  if( betaMatrix.size() == 0 )
     {
-    m_NeighborhoodSize *= (2*m_InputImageNeighborhoodRadius[i]+1);
+    //Call a the function to set the default neighborhood
+    SetDefaultMRFNeighborhoodWeight();
     }
-
-  if( m_NeighborhoodSize != static_cast<int>(betaMatrix.size()) )
+  else
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+    m_NeighborhoodSize = 1;
+    for( unsigned int i = 0; i < InputImageDimension; i++ )
+      {
+      m_NeighborhoodSize *= (2*m_InputImageNeighborhoodRadius[i]+1);
+      }
+
+    if( m_NeighborhoodSize != static_cast<int>(betaMatrix.size()) )
+      {
+      throw ExceptionObject(__FILE__, __LINE__);
+      }
+
+    //Allocate memory for the weights of the 3D MRF algorithm
+    // and corresponding memory offsets.
+    m_MRFNeighborhoodWeight.resize( m_NeighborhoodSize );
+
+    for( unsigned int i = 0; i < betaMatrix.size(); i++ ) 
+      {
+      m_MRFNeighborhoodWeight[i] = (betaMatrix[i] * m_SmoothingFactor);
+      }
     }
-
-  //Allocate memory for the weights of the 3D MRF algorithm
-  // and corresponding memory offsets.
-  
-  m_MRFNeighborhoodWeight.resize( m_NeighborhoodSize );
-
-  for( unsigned int i = 0; i < betaMatrix.size(); i++ ) 
-    m_MRFNeighborhoodWeight[i] = (betaMatrix[i] * m_SmoothingFactor);
-}// end SetMRFNeighborhoodWeight
+}// end SetDefaultMRFNeighborhoodWeight
 
 
 //-------------------------------------------------------
@@ -625,12 +661,5 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
 
 } // namespace itk
-
-
-
-
-
-
-
 
 #endif

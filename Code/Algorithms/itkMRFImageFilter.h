@@ -118,7 +118,10 @@ namespace itk
  * in the previous iteration. The pixels' classification is updated using a 
  * synchronous scheme (iteration by iteration) until the error reaches
  * less than the threshold or the number of iteration exceed the maximum set
- * number of iterations. 
+ * number of iterations. Note: The current implementation supports betaMatrix
+ * default weight for two and three dimensional images only. The default for
+ * higher dimension is set to unity. This should be over ridded by custom
+ * weights after filter initialization.
  *
  * \ingroup MRFFilters
  * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
@@ -365,6 +368,7 @@ private:
   std::vector<double>       m_MRFNeighborhoodWeight;
   std::vector<double>       m_NeighborInfluence;
   std::vector<double>       m_MahalanobisDistance;
+  std::vector<double>       m_DummyVector;
 
   /** Pointer to the classifier to be used for the MRF labelling. */
   typename ClassifierType::Pointer m_ClassifierPtr;
@@ -373,11 +377,10 @@ private:
   /** Set/Get the weighting parameters (Beta Matrix). A default 3 x 3 x 3 
    * matrix is provided. However, the user is allowed to override it
    * with their choice of weights for a 3 x 3 x 3 matrix. */
-  virtual void SetMRFNeighborhoodWeight( double* );
+  virtual void SetDefaultMRFNeighborhoodWeight(  );
 
   //Function implementing the ICM algorithm to label the images
   void ApplyICMLabeller();
-
 
 }; // class MRFImageFilter
 
@@ -387,8 +390,6 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMRFImageFilter.txx"
 #endif
-
-
 
 #endif
 
