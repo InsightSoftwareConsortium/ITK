@@ -14,14 +14,15 @@
  * for the other template parameters.
  */
 typedef itkMesh<int>             Mesh;
+typedef Mesh::CellType           CellType;
 
 /**
  * Define a few cell types which uses a PixelType of "int".  Again,
  * use the defaults for the other parameters.  Note that a cell's template
  * parameters must match those of the mesh into which it is inserted.
  */
-typedef itkTetrahedronCell<int>    TetraCell;
-typedef itkHexahedronCell<int>     HexaCell;
+typedef itkTetrahedronCell<int, CellType>    TetraCell;
+typedef itkHexahedronCell<int, CellType>     HexaCell;
 
 /**
  * Typedef the generic cell type for the mesh.  It is an abstract class,
@@ -102,7 +103,8 @@ int main(void)
     2,    // Topological dimension of boundary.
     1,    // CellIdentifier.
     0);   // CellFeatureIdentifier
-  
+
+
   return 0;  
 }
 
