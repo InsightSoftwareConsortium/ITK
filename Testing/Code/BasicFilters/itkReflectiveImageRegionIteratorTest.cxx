@@ -19,6 +19,7 @@
 #include "itkImage.h"
 #include "itkNumericTraits.h"
 #include "itkReflectiveImageRegionIterator.h"
+#include "itkReflectiveImageRegionConstIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 
@@ -75,7 +76,7 @@ int itkReflectiveImageRegionIteratorTest(int, char**)
   
 
 
-  typedef itk::ReflectiveImageRegionIterator< ImageType > 
+  typedef itk::ReflectiveImageRegionConstIterator< ImageType > 
                                                   ReflectiveIteratorType;
   ReflectiveIteratorType rit( myImage, region );
 
@@ -93,7 +94,6 @@ int itkReflectiveImageRegionIteratorTest(int, char**)
     {
     PixelType value = rit.Get();
     ImageType::IndexType index = rit.GetIndex();
-
     rvt.Set( rvt.Get() + 1 );
     if( value != index ) 
       {
