@@ -117,6 +117,7 @@ ADD_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS}
 ADD_TEST(itkCannyEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS} itkCannyEdgeDetectionImageFilterTest)
 ADD_TEST(itkHardConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS} itkHardConnectedComponentImageFilterTest)
 ADD_TEST(itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest ${BASIC_FILTERS_TESTS} itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest)
+ADD_TEST(itkTobogganImageFilterTest ${BASIC_FILTERS_TESTS} itkTobogganImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/TobogganImageFilterTest.png)
 
 
 SET(BasicFilters_SRCS
@@ -226,6 +227,7 @@ itkDiscreteGaussianImageFilterTest.cxx
 itkWarpImageFilterTest.cxx
 itkHardConnectedComponentImageFilterTest.cxx
 itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest.cxx
+itkTobogganImageFilterTest.cxx
 )
 
 

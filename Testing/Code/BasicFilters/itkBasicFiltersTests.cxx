@@ -111,5 +111,6 @@ void RegisterTests()
   REGISTER_TEST(itkSobelEdgeDetectionImageFilterTest );
   REGISTER_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest );
   REGISTER_TEST(itkCannyEdgeDetectionImageFilterTest );
+  REGISTER_TEST(itkTobogganImageFilterTest );
 }
 
