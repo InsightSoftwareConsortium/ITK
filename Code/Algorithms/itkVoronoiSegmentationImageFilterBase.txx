@@ -1038,19 +1038,19 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
   int x2=(int)(p2[0]+0.5); 
   int y1=(int)(p1[1]+0.5); 
   int y2=(int)(p2[1]+0.5); 
-  if(x1==m_Size[0])
+  if(x1==(int)m_Size[0])
     {
     x1--;
     }
-  if(x2==m_Size[0])
+  if(x2==(int)m_Size[0])
     {
     x2--;
     }
-  if(y1==m_Size[1])
+  if(y1==(int)m_Size[1])
     {
     y1--;
     }
-  if(y2==m_Size[1])
+  if(y2==(int)m_Size[1])
     {
     y2--;
     }
