@@ -25,7 +25,7 @@ namespace itk{
 namespace Statistics{
   
 /** \class SampleMeanShiftBlurringFilter
- * \brief This filter blurres the input sample data using mean shift
+ * \brief This filter blurs the input sample data using mean shift
  * algorithm.
  *
  * The mode seeking part is done by any class derived from the

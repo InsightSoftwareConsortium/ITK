@@ -24,8 +24,21 @@ namespace itk{
 namespace Statistics{
   
 /** \class SampleSelectiveMeanShiftBlurringFilter
- * \brief Calculates the covariance matrix of the target sample data.
+ * \brief This filter blurs the input sample data using mean shift
+ * algorithm selectively.
  *
+ * The blurring process is identical to that of the
+ * SampleMeanShiftBlurringFilter except that users can specify which
+ * components of a measurement vector is affected by the blurring.
+ * The mean mode seeking behavior is not changed. The component
+ * selection affects only the generation of the final mode point. To
+ * specify the components to be blurred, users use the
+ * SetComponentSelections method. The size of the selection vector
+ * should be same as the size of a measurement vector. Only the
+ * components of the selection vector whose flag value is true will be
+ * blurred.
+ * 
+ * \sa MeanModeSeekerBase, SampleMeanShiftBlurringFilter
  */
 
 template< class TSample >
@@ -54,8 +67,9 @@ public:
   typedef Vector< bool, itkGetStaticConstMacro(MeasurementVectorSize) >
   ComponentSelectionsType ;
 
+  /** Set/Gets the vector of flags that indicate which components
+   * are selected for blurring */
   void SetComponentSelections(ComponentSelectionsType selections) ;
-
   void GetComponentSelections()
   { return m_ComponentSelections ; }
 
