@@ -68,6 +68,8 @@
 #ifndef itk_emulation_hashtable_h
 #define itk_emulation_hashtable_h
 
+#if !defined(__GNUC__) || !((__GNUC__==3) && (__GNUC_MINOR__>=1))
+
 /** \brief Hashtable class, used to implement the hashed associative containers
  * itk_hash_set, itk_hash_map, itk_hash_multiset, and itk_hash_multimap.
  */
@@ -1062,6 +1064,8 @@ namespace std {
   struct select1st : public itk_Select1st<_Pair> { };
   template <class _Pair> struct select2nd : public itk_Select2nd<_Pair> { };
 };
+
+#endif
 
 #endif
 
