@@ -78,7 +78,7 @@ RegularStepGradientDescentOptimizer<TCostFunction>
 
     m_PreviousRegularStepGradient = m_Gradient;
   
-    CostFunctionType::DerivativeType derivative =
+    typename CostFunctionType::DerivativeType derivative =
             m_CostFunction->GetDerivative( GetCurrentPosition() );
 
     for( unsigned int i=0; i<CostFunctionType::SpaceDimension; i++)
