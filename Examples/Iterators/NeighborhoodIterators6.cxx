@@ -199,10 +199,18 @@ int main( int argc, char ** argv )
 // for several seed points.  The effect of the additive noise is visible in
 // the perturbations of the descent paths.
 //
+// \begin{figure} \centering
+// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6a.eps}
+// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6b.eps}
+// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6c.eps}
+// \itkcaption[Finding local minima]{Paths traversed by the neighborhood
+// iterator to find the local miminim in the image from several different seed
+// points.  The minimum is at the center of the image.  The effects of noise in
+// the image are seen as small perturbations in the paths.}
+// \protect\label{fig:NeighborhoodExamples6}
+// \end{figure}
+//
 // Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
-
 
   typedef unsigned char WritePixelType;
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
@@ -230,7 +238,5 @@ int main( int argc, char ** argv )
     std::cout << err << std::endl;
     return -1;
     }
-// Software Guide : EndCodeSnippet
-
   return 0;
 }
