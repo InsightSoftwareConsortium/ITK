@@ -17,110 +17,61 @@
 #ifndef _itkReflectiveImageRegionIterator_txx
 #define _itkReflectiveImageRegionIterator_txx
 
-
 #include "itkReflectiveImageRegionIterator.h"
 
 namespace itk
 {
 
-template<class TImage>
+
+
+template< typename TImage >
 ReflectiveImageRegionIterator<TImage>
-::ReflectiveImageRegionIterator() : ImageIteratorWithIndex<TImage>() 
+::ReflectiveImageRegionIterator()
+    : ImageLinearConstIteratorWithIndex<TImage>() 
 {
-  this->GoToBegin();
-}
 
-
-
-template<class TImage>
-ReflectiveImageRegionIterator<TImage>
-::ReflectiveImageRegionIterator(TImage *ptr, const RegionType& region) :
-  ImageIteratorWithIndex<TImage>(ptr, region)
-{
-  this->GoToBegin();
-}
-
-
-template<class TImage>
-void
-ReflectiveImageRegionIterator<TImage>
-::GoToBegin( void ) 
-{
-  ImageIteratorWithIndex<TImage>::GoToBegin();
-
-  for(unsigned int i=0;i<TImage::ImageDimension;i++) 
-    {
-    m_IsFirstPass[i] = true;
-    }
 
 }
 
 
 
-
-template<class TImage>
-bool
+template< typename TImage >
 ReflectiveImageRegionIterator<TImage>
-::IsReflected(unsigned int dim) const
+::ReflectiveImageRegionIterator(ImageType *ptr, const RegionType& region) :
+    ImageLinearConstIteratorWithIndex<TImage>(   ptr, region ) 
 {
-  return !m_IsFirstPass[ dim ];
+
+
 }
 
 
+ 
+template< typename TImage >
+ReflectiveImageRegionIterator<TImage>
+::ReflectiveImageRegionIterator( const ImageIteratorWithIndex<TImage> &it):
+                                        ImageLinearConstIteratorWithIndex<TImage>(it)
+{ 
+}
 
-//----------------------------------------------------------------------
-//  Advance along the line
-//----------------------------------------------------------------------
-template<class TImage>
+ 
+template< typename TImage >
+ReflectiveImageRegionIterator<TImage>
+::ReflectiveImageRegionIterator( const ImageLinearConstIteratorWithIndex<TImage> &it):
+                                        ImageLinearConstIteratorWithIndex<TImage>(it)
+{ 
+}
+
+ 
+template< typename TImage >
 ReflectiveImageRegionIterator<TImage> &
 ReflectiveImageRegionIterator<TImage>
-::operator++()
-{
-  
-  m_Remaining = false;
-  for( unsigned int in=0; in<TImage::ImageDimension; in++ )
-    {    
-    if( m_IsFirstPass[ in ] ) 
-      {
-      m_PositionIndex[ in  ]++;
-      if( m_PositionIndex[ in ] < m_EndIndex[ in ] )
-        {
-        m_Position += m_OffsetTable[in];
-        m_Remaining = true;
-        break;
-        }
-      else 
-        {
-        m_PositionIndex[ in ] = m_EndIndex[ in ]-1; 
-        m_IsFirstPass[ in ] = false;
-        m_Remaining = true;
-        break;
-        }
-      }
-    else 
-      {
-      m_PositionIndex[ in  ]--;
-      if( m_PositionIndex[ in ] >= m_BeginIndex[ in ] )
-        {
-        m_Position -= m_OffsetTable[in];
-        m_Remaining = true;
-        break;
-        }
-      else 
-        {
-        m_PositionIndex[ in ] = m_BeginIndex[ in ]; 
-        m_IsFirstPass[ in ] = true;
-        }
-      }
-    }
-
-  if( !m_Remaining ) // It will not advance here otherwise
-    {
-    m_Position = m_End;
-    }
-
+::operator=( const ImageLinearConstIteratorWithIndex<TImage> &it)
+{ 
+  this->ImageLinearConstIteratorWithIndex<TImage>::operator=(it);
   return *this;
 }
+
+
 
 } // end namespace itk
 

@@ -19,7 +19,7 @@
 
 
 #include "itkDanielssonDistanceMapImageFilter.h"
-#include "itkReflectiveImageRegionIterator.h"
+#include "itkReflectiveImageRegionConstIterator.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
@@ -359,7 +359,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   itkDebugMacro (<< "Region to process: " << internalRegion);
 
-  ReflectiveImageRegionIterator< VectorImageType > 
+  ReflectiveImageRegionConstIterator< VectorImageType > 
                                 it( distanceComponents, internalRegion );
 
   it.GoToBegin();
