@@ -59,7 +59,6 @@ int itkAlgorithmsPrintTest3(int , char* [])
 {
   typedef itk::Image<float,2> InputType; 
   typedef itk::Image<float,2> OutputType;
-  typedef itk::Image<bool,2> BinaryImageType;
   typedef itk::Image<unsigned short,2> UShortImageType;
   typedef itk::Image<unsigned char,2> CharType;
   
@@ -99,12 +98,12 @@ int itkAlgorithmsPrintTest3(int , char* [])
     itk::SimpleFuzzyConnectednessImageFilterBase<InputType,OutputType>::New();
   std:: cout << "-------------SimpleFuzzyConnectednessImageFilterBase " << SimpleFuzzyConnectednessImageFilterBaseObj;
 
-  itk::SimpleFuzzyConnectednessRGBImageFilter<VectorImageType,BinaryImageType>::Pointer SimpleFuzzyConnectednessRGBImageFilterObj =
-    itk::SimpleFuzzyConnectednessRGBImageFilter<VectorImageType,BinaryImageType>::New();
+  itk::SimpleFuzzyConnectednessRGBImageFilter<VectorImageType,CharType>::Pointer SimpleFuzzyConnectednessRGBImageFilterObj =
+    itk::SimpleFuzzyConnectednessRGBImageFilter<VectorImageType,CharType>::New();
   std:: cout << "-------------SimpleFuzzyConnectednessRGBImageFilter " << SimpleFuzzyConnectednessRGBImageFilterObj;
 
-  itk::SimpleFuzzyConnectednessScalarImageFilter<UShortImageType,BinaryImageType>::Pointer SimpleFuzzyConnectednessScalarImageFilterObj =
-    itk::SimpleFuzzyConnectednessScalarImageFilter<UShortImageType,BinaryImageType>::New();
+  itk::SimpleFuzzyConnectednessScalarImageFilter<UShortImageType,CharType>::Pointer SimpleFuzzyConnectednessScalarImageFilterObj =
+    itk::SimpleFuzzyConnectednessScalarImageFilter<UShortImageType,CharType>::New();
   std:: cout << "-------------SimpleFuzzyConnectednessScalarImageFilter " << SimpleFuzzyConnectednessScalarImageFilterObj;
 
   itk::SphereMeshSource<MeshType>::Pointer SphereMeshSourceObj =
@@ -143,8 +142,8 @@ int itkAlgorithmsPrintTest3(int , char* [])
     itk::VoronoiSegmentationImageFilterBase<InputType,OutputType>::New();
   std:: cout << "-------------VoronoiSegmentationImageFilterBase " << VoronoiSegmentationImageFilterBaseObj;
 #if 0
-  itk::VoronoiSegmentationRGBImageFilter<VectorImageType,BinaryImageType>::Pointer VoronoiSegmentationRGBImageFilterObj =
-    itk::VoronoiSegmentationRGBImageFilter<VectorImageType,BinaryImageType>::New();
+  itk::VoronoiSegmentationRGBImageFilter<VectorImageType,CharType>::Pointer VoronoiSegmentationRGBImageFilterObj =
+    itk::VoronoiSegmentationRGBImageFilter<VectorImageType,CharType>::New();
   std:: cout << "-------------VoronoiSegmentationRGBImageFilter " << VoronoiSegmentationRGBImageFilterObj;
 #endif
   itk::watershed::Boundary<double,3>::Pointer WatershedBoundaryObj =
