@@ -133,6 +133,10 @@ private:
   typename RGBHCVImage::Pointer m_WorkingImage;
 
   virtual bool TestHomogeneity(IndexList Plist);
+  
+private:
+  VoronoiSegmentationRGBImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented  
 };
 
 }//end namespace
