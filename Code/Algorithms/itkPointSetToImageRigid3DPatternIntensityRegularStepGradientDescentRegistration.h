@@ -23,7 +23,7 @@
 #include "itkImage.h"
 #include "itkImageMapper.h"
 #include "itkPointSet.h"
-#include "itkRigid3DTransform.h"
+#include "itkVersorRigid3DTransform.h"
 
 
 namespace itk
@@ -56,11 +56,6 @@ public:
    enum { ImageDimension = ReferenceType::ImageDimension };
 
   /**
-   * Parameters Dimension
-   */
-   enum { ParametersDimension = 7 }; // one quaternion + one vector
-
-  /**
    *  Type of the parameters
    */
    typedef Point<double,ParametersDimension>   ParametersType;
@@ -68,8 +63,13 @@ public:
   /**
    *  Type of the Transformation
    */
-   typedef Rigid3DTransform< double > TransformationType;
+   typedef VersorRigid3DTransform< double > TransformationType;
 	  
+  /**
+   * Parameters Dimension
+   */
+   enum { ParametersDimension = TransformationType::ParametersDimension }; 
+
   /**
    *  Type of the Mapper
    */
