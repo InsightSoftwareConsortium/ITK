@@ -254,7 +254,7 @@ public:
    * Set the index. No bounds checking is performed.
    * \sa GetIndex
    */
-  void SetIndex(const Index &ind)
+  virtual void SetIndex(const Index &ind)
     { m_Offset = m_Image->ComputeOffset( ind ); }
 
 
