@@ -56,7 +56,7 @@ template<class TPixel, unsigned int VDimension>
 void RegionNeighborhoodIterator<TPixel, VDimension>
 ::PrintSelf()  
 {          
-  int i;   
+  unsigned int i;   
   //NeighborhoodBase<TPixel, VDimension>::PrintSelf();
   std::cout << "RegionNeighborhoodIterator" << std::endl;
   std::cout << "        this = " << this << std::endl;
@@ -77,7 +77,7 @@ void RegionNeighborhoodIterator<TPixel, VDimension>
   Size<VDimension> bufferSize = m_Image->GetBufferedRegion().GetSize();
 
   // Set the bounds and the wrapping offsets
-  for (int i=0; i<VDimension; ++i)
+  for (unsigned int i=0; i<VDimension; ++i)
     {
       m_Bound[i]      = m_StartIndex[i]+size[i];
       m_WrapOffset[i] = (bufferSize[i] - (m_Bound[i] - m_StartIndex[i]))
@@ -110,7 +110,7 @@ RegionNeighborhoodIterator<TPixel, VDimension>
   RegionNeighborhoodIterator it( *this );
 
   // Calculate the end index
-  for (int i = 0; i< VDimension; ++i)
+  for (unsigned int i = 0; i< VDimension; ++i)
     {
       endIndex.m_Index[i] = m_Bound[i] -1;
     }
