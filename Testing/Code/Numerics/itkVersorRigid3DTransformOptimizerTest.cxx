@@ -48,11 +48,11 @@
  *
  *
  */ 
-class versorCostFunction : public itk::SingleValuedCostFunction 
+class versorRigid3DCostFunction : public itk::SingleValuedCostFunction 
 {
 public:
 
-  typedef versorCostFunction                  Self;
+  typedef versorRigid3DCostFunction           Self;
   typedef itk::SingleValuedCostFunction       Superclass;
   typedef itk::SmartPointer<Self>             Pointer;
   typedef itk::SmartPointer<const Self>       ConstPointer;
@@ -60,7 +60,7 @@ public:
   typedef itk::VersorRigid3DTransform<double>        TransformType;
     
   itkNewMacro( Self );
-  itkTypeMacro( versorCostFunction, SingleValuedCostFunction );
+  itkTypeMacro( versorRigid3DCostFunction, SingleValuedCostFunction );
 
   itkStaticConstMacro( SpaceDimension, unsigned int, 6 );
   
@@ -75,7 +75,7 @@ public:
   typedef double MeasureType;
 
 
-  versorCostFunction()
+  versorRigid3DCostFunction()
   {
     m_Transform = TransformType::New();
 
@@ -109,7 +109,7 @@ public:
     
     std::cout << "GetValue( " << parameters << " ) = ";
 
-    TransformType::ParametersType p;
+    TransformType::ParametersType p( itkGetStaticConstMacro( SpaceDimension ));
     for(unsigned int i=0; i<6; i++)
       {
       p[i] = parameters[i];
@@ -171,13 +171,13 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
 
 
   // Declaration of the CostFunction adaptor
-  versorCostFunction::Pointer costFunction = versorCostFunction::New();
+  versorRigid3DCostFunction::Pointer costFunction = versorRigid3DCostFunction::New();
 
 
   itkOptimizer->SetCostFunction( costFunction );
 
   
-  typedef versorCostFunction::ParametersType    ParametersType;
+  typedef versorRigid3DCostFunction::ParametersType    ParametersType;
 
   typedef itk::VersorRigid3DTransform< double > TransformType;
 
@@ -272,7 +272,7 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   VersorType trueRotation;
   trueRotation.Set( trueAxis, trueAngle );
     
-  ParametersType trueParameters(spaceDimensions);
+  ParametersType trueParameters( spaceDimensions );
   trueParameters[0] = trueRotation.GetX();
   trueParameters[1] = trueRotation.GetY();
   trueParameters[2] = trueRotation.GetZ();
