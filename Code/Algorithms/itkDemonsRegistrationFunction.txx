@@ -65,7 +65,6 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
 
   m_TimeStep = 1.0;
   m_EpsilonDenominator = 1e-9;
-  m_MinimumIntensityDifferenceThreshold = 0.01;
   m_Reference = NULL;
   m_Target = NULL;
   m_TargetSpacing = NULL;
@@ -184,8 +183,7 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
     targetGradientSquaredMagnitude;
   double absSpeed = vnl_math_abs( speedValue );
 
-  if( denominator < m_EpsilonDenominator && 
-      absSpeed < m_MinimumIntensityDifferenceThreshold  )
+  if ( denominator < m_EpsilonDenominator )
     {
     for( j = 0; j < ImageDimension; j++ )
       {
@@ -196,7 +194,8 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
 
   for( j = 0; j < ImageDimension; j++ )
     {
-    update[j] = speedValue * targetGradient[j] / denominator;
+    update[j] = speedValue * targetGradient[j] * m_TargetSpacing[j] / 
+      denominator;
     }
 
   return update;

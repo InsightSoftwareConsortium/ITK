@@ -216,7 +216,7 @@ int main()
  
   unsigned int numLevel = 5;
   unsigned int numIterations[10];
-  numIterations[0] = 512;
+  numIterations[0] = 128;
 
   unsigned int ilevel;
   for( ilevel = 1; ilevel < numLevel; ilevel++ )
