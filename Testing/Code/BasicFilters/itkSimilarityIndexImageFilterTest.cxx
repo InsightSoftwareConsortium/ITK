@@ -110,15 +110,37 @@ int itkSimilarityIndexImageFilterTest(int, char* [] )
   std::cout << " True index: " << trueOverlap << std::endl;
   std::cout << " Computed index: " << overlap << std::endl;
 
-  if ( vnl_math_abs( trueOverlap - overlap ) < 0.1 )
-    {
-    std::cout << "Test passed. " << std::endl;
-    return EXIT_SUCCESS;
-    }
-  else
+  if ( vnl_math_abs( trueOverlap - overlap ) > 0.1 )
     {
     std::cout << "Test failed. " << std::endl;
     return EXIT_FAILURE;
     }
- 
+
+  // test case where both images are zero
+ Image1Type::Pointer image3 = Image1Type::New();
+ Image2Type::Pointer image4 = Image2Type::New();
+
+ image3->SetRegions( image1->GetBufferedRegion() );
+ image3->Allocate();
+ image3->FillBuffer( 0 );
+
+ image4->SetRegions( image2->GetBufferedRegion() );
+ image4->Allocate();
+ image4->FillBuffer( 0 );
+
+ filter->SetInput1( image3 );
+ filter->SetInput2( image4 );
+ filter->Update();
+
+ if ( filter->GetSimilarityIndex() != 0 )
+    {
+    std::cout << "Overlap: " << filter->GetSimilarityIndex() << std::endl;
+    std::cout << "Zero overlap expected." << std::endl;
+    std::cout << "Test failed. " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test passed. " << std::endl;
+  return EXIT_SUCCESS;
+  
 }

@@ -125,6 +125,10 @@ int itkPermuteAxesImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  // exercise Get methods
+  std::cout << "Order: " << permuter->GetOrder() << std::endl;
+  std::cout << "InverseOrder: " << permuter->GetInverseOrder() << std::endl;
+
   // test SetOrder logic - repeating indices
   passed = false;
   order[0] = order[1];

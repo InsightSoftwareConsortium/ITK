@@ -73,8 +73,8 @@ int itkResampleImageTest(int, char* [] )
   resample = itk::ResampleImageFilter< ImageType, ImageType >::New();
   resample->SetInput(image);
   resample->SetSize(size);
-  resample->SetTransform(aff.GetPointer());
-  resample->SetInterpolator(interp.GetPointer());
+  resample->SetTransform(aff);
+  resample->SetInterpolator(interp);
 
   // Run the resampling filter
   resample->Update();
@@ -98,17 +98,42 @@ int itkResampleImageTest(int, char* [] )
     }
   }
 
-  // Exercise other member functions
-  resample->Print( std::cout );
-
   // Report success or failure
-  if (passed) {
-    std::cout << "Resampling test was successful" << std::endl;
-    return EXIT_SUCCESS;
-  }
-  else {
+  if (!passed) {
     std::cout << "Resampling test failed" << std::endl;
     return EXIT_FAILURE;
   }
+
+  // Exercise other member functions
+  resample->Print( std::cout );
+  std::cout << "Transform: " << resample->GetTransform() << std::endl;
+  std::cout << "Interpolator: " << resample->GetInterpolator() << std::endl;
+  std::cout << "Size: " << resample->GetSize() << std::endl;
+  std::cout << "DefaultPixelValue: " << resample->GetDefaultPixelValue() << std::endl;
+
+  // Exercise error handling
+  
+  try
+    {
+    std::cout << "Setting interpolator to NULL" << std::endl;
+    passed = false;
+    resample->SetInterpolator( NULL );
+    resample->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << err << std::endl;
+    passed = true;
+    resample->ResetPipeline();
+    resample->SetInterpolator( interp );
+    }
+
+  if (!passed) {
+    std::cout << "Resampling test failed" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+ std::cout << "Test passed." << std::endl;
+ return EXIT_SUCCESS;
 
 }

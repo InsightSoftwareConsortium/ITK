@@ -71,7 +71,6 @@ BinaryThresholdImageFilter<TInputImage, TOutputImage>
   if ( m_LowerThreshold > m_UpperThreshold )
     {
     itkExceptionMacro(<<"Lower threshold cannot be greater than upper threshold.");
-    return;
     }
 
   // set up the functor values

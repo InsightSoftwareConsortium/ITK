@@ -132,6 +132,14 @@ int itkVectorExpandImageFilterTest(int, char* [] )
 
   expander->SetInput( input );
 
+  typedef itk::VectorLinearInterpolateImageFunction<ImageType,double> InterpolatorType;
+  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+
+  expander->SetInterpolator( interpolator );
+  std::cout << "Interpolator: " << expander->GetInterpolator() << std::endl;
+
+  expander->SetExpandFactors( 5 );
+
   unsigned int factors[ImageDimension] = {2,3};
   expander->SetExpandFactors( factors );
 
@@ -261,19 +269,60 @@ int itkVectorExpandImageFilterTest(int, char* [] )
 
     ++outIter;
     ++streamIter;
-    }
+    }  
 
-  
-
-  if ( testPassed )
-    {
-    std::cout << "Test passed." << std::endl;
-    return EXIT_SUCCESS;
-    }
-  else 
+  if ( !testPassed )
     {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
+
+  // Test error handling
+
+  try
+    {
+    testPassed = false;
+    std::cout << "Setting Input to NULL" << std::endl;
+    expander->SetInput( NULL );
+    expander->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << err << std::endl;
+    expander->ResetPipeline();
+    expander->SetInput( input );
+    testPassed = true;
+    }
+
+  if ( !testPassed )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  try
+    {
+    testPassed = false;
+    std::cout << "Setting Interpolator to NULL" << std::endl;
+    expander->SetInterpolator( NULL );
+    expander->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << err << std::endl;
+    expander->ResetPipeline();
+    expander->SetInterpolator( interpolator );
+    testPassed = true;
+    }
+
+  if ( !testPassed )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test passed." << std::endl;
+  return EXIT_SUCCESS;
 
 }
