@@ -41,7 +41,7 @@ class ITK_EXPORT EllipsoidInteriorExteriorSpatialFunction
 public:
   /** Standard class typedefs. */
   typedef EllipsoidInteriorExteriorSpatialFunction Self;
-  typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
+  typedef InteriorExteriorSpatialFunction<VImageDimension, TInput> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer; 
       
