@@ -112,7 +112,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  An optimizer if required to explore the parameter space of the transform
-  //  in search of optimal values of the metric..
+  //  in search of optimal values of the metric.
   //
   //  Software Guide : EndLatex 
 
@@ -123,9 +123,9 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The metric will compare how well the two images match. Metric types are
-  //  usually parametrized by the image types as can be seen in the following
-  //  type declaration.
+  //  The metric will compare how well the two images match each other. Metric
+  //  types are usually parametrized by the image types as can be seen in the
+  //  following type declaration.
   //
   //  Software Guide : EndLatex 
 
@@ -235,10 +235,13 @@ int main( int argc, char **argv )
   //  
   //  The registration can be restricted to consider only a particular region
   //  of the fixed image as input to the metric computation. This region is
-  //  defined by the \code{SetFixedImageRegion()} method.  In this example we
-  //  use the full available content of the image. This region is identified by
-  //  the \code{BufferedRegion} of the fixed image. Note that for this region
-  //  to be valid the reader must first invoke its \code{Update()} method.
+  //  defined by the \code{SetFixedImageRegion()} method.  You could use this
+  //  feature to reduce the computational time of the registration or to avoid
+  //  unwanted objects present in the image to affect the registration outcome.
+  //  In this example we use the full available content of the image. This
+  //  region is identified by the \code{BufferedRegion} of the fixed image.
+  //  Note that for this region to be valid the reader must first invoke its
+  //  \code{Update()} method.
   //
   //  \index{itk::ImageRegistrationMethod!SetFixedImageRegion()}
   //  \index{itk::Image!GetBufferedRegion()}
@@ -293,13 +296,13 @@ int main( int argc, char **argv )
   //  It is usually desirable to fine tune the parameters of the optimizer.
   //  Each optimizer have particular parameters that must be interpreted in the
   //  context of the optimization strategy it implements. The optimizer used in
-  //  this example is a variant of gradient descent that attempts to prevent too
-  //  large steps to be taken.  At each iteration this optimizer will make an
-  //  step along the direction of the \code{ImageMetric} derivative. The
-  //  initial lenght of the step is defined by the user. Each time that the
+  //  this example is a variant of gradient descent that attempts to prevent
+  //  too large steps to be taken.  At each iteration this optimizer will take
+  //  a step along the direction of the \code{ImageMetric} derivative. The
+  //  initial length of the step is defined by the user. Each time that the
   //  direction of the derivative changes abruptly the optimizer assumes that a
-  //  local extrema has been passed and reacts by reducing the step lenght by a
-  //  half. After several reduction of the step lenght the optimizer may be
+  //  local extrema has been passed and reacts by reducing the step length by a
+  //  half. After several reductions of the step length the optimizer may be
   //  moving in a very restricted area of the transform parameters space . The
   //  user can define how small the step length should be to consider that the
   //  method has converged. This is equivalent to define the precision with
@@ -324,7 +327,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  In case the optimizer never succed in reaching the desired precision
+  //  In case the optimizer never succeed in reaching the desired precision
   //  tolerance it is prudent to establish a limit to the number of iterations
   //  to be performed. This maximum number is defined with the method
   //  \code{SetNumberOfIterations()}.
@@ -368,8 +371,8 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   // In a real application you may attempt to recover from the error in the
-  // catch block. Here we are simply printing a message and cowardly refusing
-  // to continue with the execution of the program.
+  // catch block. Here we are simply printing a message out and cowardly
+  // refusing to continue with the execution of the program.
   //
   //  Software Guide : EndLatex 
 
@@ -384,7 +387,7 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  ParametersType result = registration->GetLastTransformParameters();
+  ParametersType finalParameters = registration->GetLastTransformParameters();
   // Software Guide : EndCodeSnippet
 
 
@@ -398,25 +401,25 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  const double TranslationAlongX = result[0];
-  const double TranslationAlongY = result[1];
+  const double TranslationAlongX = finalParameters[0];
+  const double TranslationAlongY = finalParameters[1];
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //  
-  //  The optimizer cat be queried for the actual number of iterations.  The
-  //  \code{GetCurrentIteration()} method returns this value. A large value of
-  //  iterations may be an indication that the maximum step length has been set
-  //  too small, which is undesirable since it results in long computational
-  //  times.
+  //  The optimizer can be queried for the actual number of iterations
+  //  performed to reach convergence.  The \code{GetCurrentIteration()} method
+  //  returns this value. A large value of iterations may be an indication that
+  //  the maximum step length has been set too small, which is undesirable
+  //  since it results in long computational times.
   //
   //  \index{itk::RegularStepGradientDescentOptimizer!GetCurrentIteration()}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  const int numberOfIterations = optimizer->GetCurrentIteration();
+  const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
   // Software Guide : EndCodeSnippet
 
 
@@ -432,7 +435,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  Let's execute this example over the some of the images provided in
+  //  Let's execute this example over some of the images provided in
   //  \code{Insight/Examples/Data}, for example:
   //  
   //  \begin{itemize}
@@ -441,13 +444,17 @@ int main( int argc, char **argv )
   //  \end{itemize}
   //
   //  The second image is the result of intentionally tranlating the first
-  //  image by $(13,17)$ millimeters assuming unit-spacing. Both images are
-  //  shown in Figure \ref{fig:FixedMovingImageRegistration1}. The registration
-  //  takes 18 iterations and produce as result the parameters:
+  //  image by $(13,17)$ millimeters. Both images having unit-spacing. These
+  //  images are shown in Figure \ref{fig:FixedMovingImageRegistration1}. The
+  //  registration takes 18 iterations and produce as result the parameters:
   //
-  //  \code{Translation X = 12.9903}
-  //  \code{Translation Y = 17.0001}
+  //  \begin{verbatim}
+  //  Translation X = 12.9903
+  //  Translation Y = 17.0001
+  //  \end{verbatim}
   // 
+  //  As expected, these values match pretty well the initial miss-registration
+  //  intentionally introduced in the moving image.
   //
   // \begin{figure}
   // \center
@@ -494,7 +501,7 @@ int main( int argc, char **argv )
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer finalTransform = TransformType::New();
 
-  finalTransform->SetParameters( result );
+  finalTransform->SetParameters( finalParameters );
   // Software Guide : EndCodeSnippet
 
   
@@ -523,12 +530,12 @@ int main( int argc, char **argv )
   //  As described in section \ref{sec:ResampleFilterType}, the
   //  \code{ResampleImageFilter} requires additional parameters to be
   //  specified. In particular the spacing, origin and size of the output
-  //  image.
+  //  image. The default pixel value is also set to a distinct gray level in
+  //  order to make visible the regions that are outside of the mapped image. 
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
@@ -557,8 +564,8 @@ int main( int argc, char **argv )
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   
   typedef itk::CastImageFilter< 
-                    FixedImageType,
-                    OutputImageType > CastFilterType;
+                        FixedImageType,
+                        OutputImageType > CastFilterType;
                     
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
   // Software Guide : EndCodeSnippet
@@ -574,8 +581,8 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  WriterType::Pointer writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  WriterType::Pointer      writer =  WriterType::New();
+  CastFilterType::Pointer  caster =  CastFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -602,17 +609,17 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  The fixed image and the transformed moving image can easily be compared
-  //  using the \code{itk::SquaredDiffernceImageFilter}. This pixel-wise filter
-  //  compute the square value of the difference between homologous pixels of
-  //  its input images.
+  //  using the \code{itk::SquaredDifferenceImageFilter}. This pixel-wise
+  //  filter computes the squared value of the difference between homologous
+  //  pixels of its input images.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef itk::SquaredDifferenceImageFilter< 
-                                FixedImageType, 
-                                FixedImageType, 
-                                OutputImageType > DifferenceFilterType;
+                                  FixedImageType, 
+                                  FixedImageType, 
+                                  OutputImageType > DifferenceFilterType;
 
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
@@ -656,11 +663,13 @@ int main( int argc, char **argv )
   //
   //  Figure \ref{fig:ImageRegistration1Output} left shows the result of
   //  resampling the moving image in order to map it onto the fixed image
-  //  space. The center image shows the squared differences between the fixed
-  //  image and the moving image. The right image shows the squared differences
-  //  between the fixed image and the transformed moving image. Both difference
-  //  images are displayed negated in order to accentuate the pixels where
-  //  differences exist.
+  //  space. The top and right borders of the image appear in the gray level
+  //  selected with the \code{SetDefaultPixelValue()} in the
+  //  \code{ResampleImageFilter}. The center image shows the squared
+  //  differences between the fixed image and the moving image. The right image
+  //  shows the squared differences between the fixed image and the transformed
+  //  moving image.  Both difference images are displayed negated in order to
+  //  accentuate pixels where differences exist. 
   //
   //  Software Guide : EndLatex 
 
