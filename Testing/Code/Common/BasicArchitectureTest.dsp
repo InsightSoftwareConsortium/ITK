@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
+# ADD CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c /I ../../../Code/Common
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /MD /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
+# ADD CPP /nologo /MD /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c  /I ../../../Code/Common
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -85,47 +85,47 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=..\..\Testing\Common\itkBasicArchitectureTest.cxx
+SOURCE=itkBasicArchitectureTest.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkDataObject.cxx
+SOURCE=..\..\..\Code\Common\itkDataObject.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkImageBase.cxx
+SOURCE=..\..\..\Code\Common\itkImageBase.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkIndent.cxx
+SOURCE=..\..\..\Code\Common\itkIndent.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkObject.cxx
+SOURCE=..\..\..\Code\Common\itkObject.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkOutputWindow.cxx
+SOURCE=..\..\..\Code\Common\itkOutputWindow.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkProcessObject.cxx
+SOURCE=..\..\..\Code\Common\itkProcessObject.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkTimeStamp.cxx
+SOURCE=..\..\..\Code\Common\itkTimeStamp.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkVersion.cxx
+SOURCE=..\..\..\Code\Common\itkVersion.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkWin32OutputWindow.cxx
+SOURCE=..\..\..\Code\Common\itkWin32OutputWindow.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkWriter.cxx
+SOURCE=..\..\..\Code\Common\itkWriter.cxx
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -133,107 +133,107 @@ SOURCE=..\..\Code\Common\itkWriter.cxx
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkDataObject.h
+SOURCE=..\..\..\Code\Common\itkDataObject.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkImage.h
+SOURCE=..\..\..\Code\Common\itkImage.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkImageBase.h
+SOURCE=..\..\..\Code\Common\itkImageBase.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkImageIterator.h
+SOURCE=..\..\..\Code\Common\itkImageIterator.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkImageSource.h
+SOURCE=..\..\..\Code\Common\itkImageSource.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkImageToImageFilter.h
+SOURCE=..\..\..\Code\Common\itkImageToImageFilter.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkImageWriter.h
+SOURCE=..\..\..\Code\Common\itkImageWriter.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkIndent.h
+SOURCE=..\..\..\Code\Common\itkIndent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkIndex.h
+SOURCE=..\..\..\Code\Common\itkIndex.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkMeshBase.h
+SOURCE=..\..\..\Code\Common\itkMeshBase.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkObject.h
+SOURCE=..\..\..\Code\Common\itkObject.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkOutputWindow.h
+SOURCE=..\..\..\Code\Common\itkOutputWindow.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkProcessObject.h
+SOURCE=..\..\..\Code\Common\itkProcessObject.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkRandomImageSource.h
+SOURCE=..\..\..\Code\Common\itkRandomImageSource.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkScalar.h
+SOURCE=..\..\..\Code\Common\itkScalar.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkSetGet.h
+SOURCE=..\..\..\Code\Common\itkSetGet.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkShrinkImage.h
+SOURCE=..\..\..\Code\Common\itkShrinkImage.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkSmartPointer.h
+SOURCE=..\..\..\Code\Common\itkSmartPointer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkTimeStamp.h
+SOURCE=..\..\..\Code\Common\itkTimeStamp.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkVector.h
+SOURCE=..\..\..\Code\Common\itkVector.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkVersion.h
+SOURCE=..\..\..\Code\Common\itkVersion.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkVTKImageReader.h
+SOURCE=..\..\..\Code\Common\itkVTKImageReader.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkVTKImageWriter.h
+SOURCE=..\..\..\Code\Common\itkVTKImageWriter.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkWin32Header.h
+SOURCE=..\..\..\Code\Common\itkWin32Header.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkWin32OutputWindow.h
+SOURCE=..\..\..\Code\Common\itkWin32OutputWindow.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Code\Common\itkWriter.h
+SOURCE=..\..\..\Code\Common\itkWriter.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
