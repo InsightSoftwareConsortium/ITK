@@ -149,9 +149,6 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   derivative = DerivativeType( ParametersDimension );
   derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
-  typename MovingImageType::TransformPointer movingImageTransform = 
-                                 m_MovingImage->GetPhysicalToIndexTransform();
-
   ti.GoToBegin();
 
   while(!ti.IsAtEnd())
@@ -178,13 +175,18 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
-      typename Superclass::OutputPointType tempPoint = 
-               movingImageTransform->TransformPoint( transformedPoint );
+      typedef typename Superclass::OutputPointType OutputPointType;
+      typedef typename OutputPointType::CoordRepType CoordRepType;
+      typedef ContinuousIndex<CoordRepType,MovingImageType::ImageDimension>
+        MovingImageContinuousIndexType;
+
+      MovingImageContinuousIndexType tempIndex;
+      m_MovingImage->TransformPhysicalPointToContinuousIndex( transformedPoint, tempIndex );
 
       typename MovingImageType::IndexType mappedIndex; 
       for( unsigned int j = 0; j < MovingImageType::ImageDimension; j++ )
         {
-        mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempPoint[j] ) );
+        mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempIndex[j] ) );
         }
 
       const GradientPixelType gradient = 
@@ -266,9 +268,6 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   derivative = DerivativeType( ParametersDimension );
   derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
-  typename MovingImageType::TransformPointer movingImageTransform = 
-                                 m_MovingImage->GetPhysicalToIndexTransform();
-
   ti.GoToBegin();
 
   while(!ti.IsAtEnd())
@@ -298,13 +297,18 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
-      typename Superclass::OutputPointType tempPoint = 
-               movingImageTransform->TransformPoint( transformedPoint );
+      typedef typename Superclass::OutputPointType OutputPointType;
+      typedef typename OutputPointType::CoordRepType CoordRepType;
+      typedef ContinuousIndex<CoordRepType,MovingImageType::ImageDimension>
+        MovingImageContinuousIndexType;
+
+      MovingImageContinuousIndexType tempIndex;
+      m_MovingImage->TransformPhysicalPointToContinuousIndex( transformedPoint, tempIndex );
 
       typename MovingImageType::IndexType mappedIndex; 
       for( unsigned int j = 0; j < MovingImageType::ImageDimension; j++ )
         {
-        mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempPoint[j] ) );
+        mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempIndex[j] ) );
         }
 
       const GradientPixelType gradient = 
