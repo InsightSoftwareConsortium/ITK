@@ -180,7 +180,7 @@ LBFGSOptimizer::MeasureType
 LBFGSOptimizer
 ::GetValue()
 {
-  return this->GetCostFunctionAdaptor()->f(this->GetCurrentPosition());
+  return this->GetNonConstCostFunctionAdaptor()->f(this->GetCurrentPosition());
 }
 
 /**
@@ -242,7 +242,7 @@ LBFGSOptimizer
   if(m_ScalesInitialized)
     {
     ScalesType scales = this->GetScales();
-    this->GetCostFunctionAdaptor()->SetScales(scales);
+    this->GetNonConstCostFunctionAdaptor()->SetScales(scales);
     for(unsigned int i=0;i<parameters.size();i++)
       {
       parameters[i] *= scales[i]; 

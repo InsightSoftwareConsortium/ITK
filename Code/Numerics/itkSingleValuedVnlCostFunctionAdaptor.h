@@ -59,16 +59,18 @@ public:
   /** Constructor with size */
   SingleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension);
 
+
   /** Set the CostFunction deriving from SingleValuedCostFunction */
   void SetCostFunction( SingleValuedCostFunction * costFunction )
   { m_CostFunction = costFunction; }
-    
+
   /** Get the CostFunction deriving from SingleValuedCostFunction */
   const SingleValuedCostFunction * GetCostFunction( void ) const
   { return m_CostFunction; }
-    
+
+
   /**  Delegate computation of the value to the CostFunction. */
-  virtual InternalMeasureType f( const InternalParametersType & inparameters ) const;
+  virtual InternalMeasureType f( const InternalParametersType & inparameters );
     
   /**  Delegate computation of the gradient to the costFunction.  */
   virtual void gradf(const InternalParametersType   & inparameters,
@@ -82,7 +84,7 @@ public:
   /**  Convert external derviative measures into internal type   */
   void ConvertExternalToInternalGradient(
     const DerivativeType         & input,
-    InternalDerivativeType & output );
+    InternalDerivativeType & output ) const;
 
   /** Set current parameters scaling. */
   void SetScales(const ScalesType & scales);
@@ -90,8 +92,8 @@ public:
 private:
 
   SingleValuedCostFunction::Pointer   m_CostFunction;
-  bool                    m_ScalesInitialized;
-  ScalesType              m_Scales;
+  bool                                m_ScalesInitialized;
+  ScalesType                          m_Scales;
 
 };  // end of Class CostFunction
 

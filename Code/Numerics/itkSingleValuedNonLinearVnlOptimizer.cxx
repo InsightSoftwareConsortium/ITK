@@ -85,6 +85,16 @@ SingleValuedNonLinearVnlOptimizer
 }
 
 
+/** The purpose of this method is to get around the lack of
+ *  const-correctness in VNL cost-functions and optimizers */
+SingleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType * 
+SingleValuedNonLinearVnlOptimizer
+::GetNonConstCostFunctionAdaptor( void ) const
+{
+  return m_CostFunctionAdaptor;
+}
+
+
 
 } // end namespace itk
 

@@ -44,7 +44,7 @@ SingleValuedVnlCostFunctionAdaptor
 /**  Delegate computation of the value to the CostFunction. */
 SingleValuedVnlCostFunctionAdaptor::InternalMeasureType 
 SingleValuedVnlCostFunctionAdaptor
-::f( const InternalParametersType & inparameters ) const
+::f( const InternalParametersType & inparameters )
 {
   if( !m_CostFunction )
     {
@@ -75,7 +75,7 @@ SingleValuedVnlCostFunctionAdaptor
 void 
 SingleValuedVnlCostFunctionAdaptor
 ::gradf(  const InternalParametersType   & inparameters,
-          InternalDerivativeType   & gradient       ) 
+          InternalDerivativeType   & gradient       )
 {
   if( !m_CostFunction )
     {
@@ -109,7 +109,7 @@ void
 SingleValuedVnlCostFunctionAdaptor
 ::compute( const InternalParametersType   & x,
            InternalMeasureType      * f, 
-           InternalDerivativeType   * g   )
+           InternalDerivativeType   * g   ) 
 {
   // delegate the computation to the CostFunction
   DerivativeType externalGradient;
@@ -142,8 +142,8 @@ SingleValuedVnlCostFunctionAdaptor
 /**  Convert external derviative measures into internal type  */
 void 
 SingleValuedVnlCostFunctionAdaptor
-::ConvertExternalToInternalGradient( const DerivativeType         & input,
-                                     InternalDerivativeType & output )
+::ConvertExternalToInternalGradient( const DerivativeType   & input,
+                                     InternalDerivativeType & output ) const
 {
   const unsigned int size = input.size();
   output = InternalDerivativeType(size);

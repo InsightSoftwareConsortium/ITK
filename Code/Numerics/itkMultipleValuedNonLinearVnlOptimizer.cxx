@@ -87,6 +87,16 @@ MultipleValuedNonLinearVnlOptimizer
   return m_CostFunctionAdaptor;
 }
 
+/** The purpose of this method is to get around the lack of const 
+ * correctness in vnl cost_functions and optimizers */
+MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType * 
+MultipleValuedNonLinearVnlOptimizer
+::GetNonConstCostFunctionAdaptor( void ) const
+{
+  return m_CostFunctionAdaptor;
+}
+
+
 void
 MultipleValuedNonLinearVnlOptimizer
 ::SetUseCostFunctionGradient( bool useGradient ) 

@@ -77,6 +77,10 @@ protected:
   const CostFunctionAdaptorType * GetCostFunctionAdaptor( void ) const;
   CostFunctionAdaptorType * GetCostFunctionAdaptor( void );
 
+  /** The purpose of this method is to get around the lack of const 
+   *  correctness in vnl cost_functions and optimizers */
+  CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor( void ) const;
+
 private:
   MultipleValuedNonLinearVnlOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

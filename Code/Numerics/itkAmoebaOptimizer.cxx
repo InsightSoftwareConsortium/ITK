@@ -76,7 +76,7 @@ AmoebaOptimizer
 ::GetValue() const
 {
   const ParametersType & parameters = this->GetCurrentPosition();
-  return this->GetCostFunctionAdaptor()->f( parameters );
+  return this->GetNonConstCostFunctionAdaptor()->f( parameters );
 }
 
 /**
@@ -200,7 +200,7 @@ AmoebaOptimizer
   if(m_ScalesInitialized)
     {
     ScalesType scales = this->GetScales();
-    this->GetCostFunctionAdaptor()->SetScales(scales);
+    this->GetNonConstCostFunctionAdaptor()->SetScales(scales);
     for(unsigned int i=0;i<parameters.size();i++)
       {
       parameters[i] *= scales[i]; 
