@@ -53,7 +53,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     m_MinMovedGradient[iDimension] = 0;
     m_MaxMovedGradient[iDimension] = 0;
     }
-
 }
 
 
@@ -65,6 +64,7 @@ void
 GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 ::Initialize(void) throw ( ExceptionObject )
 {
+
   int iFilter;                        // Index of Sobel filters for each dimension
 
 
@@ -101,18 +101,14 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
   // Compute the gradient of the fixed image
 
+  ZeroFluxNeumannBoundaryCondition< FixedGradientImageType > fixedBoundCond;
 
   for (iFilter=0; iFilter<FixedImageDimension; iFilter++)
     {
-    m_CastFixedImageFilter = CastFixedImageFilterType::New();
     m_CastFixedImageFilter->SetInput( m_FixedImage );
-
-    m_FixedSobelFilters[iFilter] = FixedSobelFilter::New();
 
     m_FixedSobelOperators[iFilter].SetDirection( iFilter );
     m_FixedSobelOperators[iFilter].CreateOperator();
-
-    ZeroFluxNeumannBoundaryCondition< FixedGradientImageType > fixedBoundCond;
 
     m_FixedSobelFilters[iFilter]->OverrideBoundaryCondition( &fixedBoundCond );
     m_FixedSobelFilters[iFilter]->SetOperator( m_FixedSobelOperators[iFilter] );
@@ -128,18 +124,15 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
   // Compute the gradient of the transformed moving image
 
+  ZeroFluxNeumannBoundaryCondition< MovedGradientImageType > movedBoundCond;
+
 
   for (iFilter=0; iFilter<MovedImageDimension; iFilter++) 
     {
-    m_CastMovedImageFilter = CastMovedImageFilterType::New();
     m_CastMovedImageFilter->SetInput( m_MovedImage );
-
-    m_MovedSobelFilters[iFilter] = MovedSobelFilter::New();
 
     m_MovedSobelOperators[iFilter].SetDirection( iFilter );
     m_MovedSobelOperators[iFilter].CreateOperator();
-
-    ZeroFluxNeumannBoundaryCondition< MovedGradientImageType > movedBoundCond;
 
     m_MovedSobelFilters[iFilter]->OverrideBoundaryCondition( &movedBoundCond );
     m_MovedSobelFilters[iFilter]->SetOperator( m_MovedSobelOperators[iFilter] );
@@ -445,12 +438,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   //     whenever GetValue() is called. 
 
   ComputeMovedGradientRange();
-
-  // Write the gradient images to a files
-
-#if 1
-  WriteGradientImagesToFiles();
-#endif
 
   // Compute the scale factor step size
 

@@ -19,11 +19,11 @@
 
 #include "itkImageToImageMetric.h"
 
+#include "itkPoint.h"
 #include "itkCastImageFilter.h"
 #include "itkResampleImageFilter.h"
-#include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkSobelOperator.h"
-#include "itkPoint.h"
+#include "itkNeighborhoodOperatorImageFilter.h"
 
 
 namespace itk
@@ -159,6 +159,26 @@ protected:
   MeasureType ComputeMeasure( const TransformParametersType &parameters,
                               const double *subtractionFactor ) const;
 
+  typedef NeighborhoodOperatorImageFilter<
+    FixedGradientImageType, FixedGradientImageType > FixedSobelFilter;
+
+  typedef NeighborhoodOperatorImageFilter<
+    MovedGradientImageType, MovedGradientImageType > MovedSobelFilter;
+
+private:
+  GradientDifferenceImageToImageMetric(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
+  /** The variance of the moving image gradients. */
+  mutable MovedGradientPixelType m_Variance[FixedImageDimension];
+
+  /** The range of the moving image gradients. */
+  mutable MovedGradientPixelType m_MinMovedGradient[MovedImageDimension];
+  mutable MovedGradientPixelType m_MaxMovedGradient[MovedImageDimension];
+  /** The range of the fixed image gradients. */
+  mutable FixedGradientPixelType m_MinFixedGradient[FixedImageDimension];
+  mutable FixedGradientPixelType m_MaxFixedGradient[FixedImageDimension];
+
   /** The filter for transforming the moving image. */
   typename TransformMovingImageFilterType::Pointer m_TransformMovingImageFilter;
  
@@ -176,51 +196,21 @@ protected:
 
 
   /** The Sobel gradients of the fixed image */
-
-  typedef typename FixedGradientImageType::PixelType FixedGradientPixelType;
-
-  typename CastFixedImageFilterType::Pointer m_CastFixedImageFilter;
+  CastFixedImageFilterType m_CastFixedImageFilter;
 
   SobelOperator< FixedGradientPixelType, 
                  itkGetStaticConstMacro(FixedImageDimension) >
                m_FixedSobelOperators[FixedImageDimension];
-
-  typedef NeighborhoodOperatorImageFilter< FixedGradientImageType,
-                                           FixedGradientImageType > 
-                                                                 FixedSobelFilter;
-
-  typename FixedSobelFilter::Pointer m_FixedSobelFilters[FixedImageDimension];
+  FixedSobelFilter m_FixedSobelFilters[FixedImageDimension];
 
 
   /** The Sobel gradients of the moving image */
-
-  typedef typename MovedGradientImageType::PixelType MovedGradientPixelType;
-
-  typename CastMovedImageFilterType::Pointer m_CastMovedImageFilter;
+  CastMovedImageFilterType m_CastMovedImageFilter;
 
   SobelOperator< MovedGradientPixelType, 
                  itkGetStaticConstMacro(MovedImageDimension) >
                m_MovedSobelOperators[MovedImageDimension];
-
-  typedef NeighborhoodOperatorImageFilter< MovedGradientImageType,
-                                           MovedGradientImageType > 
-                                                                 MovedSobelFilter;
-
-  typename MovedSobelFilter::Pointer m_MovedSobelFilters[MovedImageDimension];
-
-  /** The variance of the moving image gradients. */
-  mutable MovedGradientPixelType m_Variance[FixedImageDimension];
-
-  /** The range of the moving image gradients. */
-  mutable MovedGradientPixelType m_MinMovedGradient[MovedImageDimension];
-  mutable MovedGradientPixelType m_MaxMovedGradient[MovedImageDimension];
-  /** The range of the fixed image gradients. */
-  mutable FixedGradientPixelType m_MinFixedGradient[FixedImageDimension];
-  mutable FixedGradientPixelType m_MaxFixedGradient[FixedImageDimension];
-
-private:
-  GradientDifferenceImageToImageMetric(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  MovedSobelFilter m_MovedSobelFilters[MovedImageDimension];
 
 };
 
