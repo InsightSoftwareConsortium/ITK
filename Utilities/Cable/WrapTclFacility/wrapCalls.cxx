@@ -15,6 +15,8 @@
 =========================================================================*/
 #include "wrapCalls.h"
 
+#include <string.h>
+
 namespace _wrap_
 {
 
@@ -59,11 +61,31 @@ void Return<unsigned long>::From(unsigned long result, WrapperBase* wrapper)
   Tcl_SetLongObj(Tcl_GetObjResult(wrapper->GetInterpreter()), longValue);
 }
 
+void Return<float>::From(float result, WrapperBase* wrapper)
+{
+  double doubleValue;
+  Tcl_SetDoubleObj(Tcl_GetObjResult(wrapper->GetInterpreter()), doubleValue);
+}  
+
 void Return<double>::From(double result, WrapperBase* wrapper)
 {
   Tcl_SetDoubleObj(Tcl_GetObjResult(wrapper->GetInterpreter()), result);
 }
   
+
+void ReturnPointerTo<char>::From(char* result, WrapperBase* wrapper)
+{
+  Tcl_SetStringObj(Tcl_GetObjResult(wrapper->GetInterpreter()), result, -1);
+}
+
+void ReturnPointerTo<const char>::From(const char* result,
+                                       WrapperBase* wrapper)
+{
+  Tcl_SetStringObj(Tcl_GetObjResult(wrapper->GetInterpreter()),
+                   const_cast<char*>(result), -1);
+}
+
+
 
 #if 0
 /**

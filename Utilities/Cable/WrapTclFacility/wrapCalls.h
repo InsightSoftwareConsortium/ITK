@@ -86,6 +86,10 @@ struct _wrap_EXPORT Return<unsigned long>
 { static void From(unsigned long result, WrapperBase* wrapper); };
 
 template <>
+struct _wrap_EXPORT  Return<float>
+{ static void From(float result, WrapperBase* wrapper); };
+
+template <>
 struct _wrap_EXPORT  Return<double>
 { static void From(double result, WrapperBase* wrapper); };
 //@}
@@ -116,6 +120,24 @@ struct ReturnPointerTo
     }
 };
  
+
+/**
+ * A specialization of ReturnPointerTo for char* to convert to a Tcl String
+ * object.
+ */
+template <>
+struct ReturnPointerTo<char>
+{ static void From(char* result, WrapperBase* wrapper); };
+
+
+/**
+ * A specialization of ReturnPointerTo for const char* to convert to a
+ * Tcl String object.
+ */
+template <>
+struct ReturnPointerTo<const char>
+{ static void From(const char* result, WrapperBase* wrapper); };
+
 
 /**
  * When a method returns a reference type, the wrapper function calls this to
