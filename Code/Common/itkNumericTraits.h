@@ -225,6 +225,7 @@ public:
   static const unsigned int Zero;
   static const unsigned int One;
 
+  static unsigned int max(void) { return static_cast<unsigned int>( -1 ); }
   static unsigned int NonpositiveMin() { return min(); }
   static bool IsPositive(unsigned int val) { return val != Zero; }
   static bool IsNonpositive(unsigned int val) { return  val == Zero; }
