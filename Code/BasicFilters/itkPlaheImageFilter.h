@@ -63,7 +63,15 @@ public:
   itkGetVectorMacro(Window, const unsigned int, ImageDimension);
 
 protected:
-  PlaheImageFilter(){m_Alpha = .3; m_Beta = .3;}
+  PlaheImageFilter()
+    {
+    m_Alpha = .3;
+    m_Beta = .3;
+    for (unsigned int i = 0; i <ImageDimension; i++)
+      {
+      m_Window[i] = 0;
+      }
+    }
   virtual ~PlaheImageFilter(){}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
