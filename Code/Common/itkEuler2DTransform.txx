@@ -105,7 +105,28 @@ Euler2DTransform<TScalarType>
   this->SetOffset( offset );
 }
 
+  
 
+/** */
+template <class TScalarType>
+void
+Euler2DTransform<TScalarType>
+::SetRotationMatrix(const MatrixType &matrix)
+{
+  Superclass::SetRotationMatrix(matrix);
+  this->ComputeAngleFromMatrix();
+}
+ 
+
+/** Compose with another Euler transform */
+template <class TScalarType>
+void
+Euler2DTransform<TScalarType>
+::Compose(const Self *other, bool pre)
+{
+  Superclass::Compose(other,pre);
+  this->ComputeAngleFromMatrix();
+}
 
 // Set Rotational Part
 template <class TScalarType>
@@ -134,6 +155,19 @@ Euler2DTransform<TScalarType>
 
 }
 
+/** Compute the Angle from the Rotation Matrix */
+template <class TScalarType>
+void
+Euler2DTransform<TScalarType>
+::ComputeAngleFromMatrix( void )
+{
+  m_Angle = acos(m_RotationMatrix[0][0]); 
+
+  if(m_RotationMatrix[1][0]-sin(m_Angle) > 0.000001)
+    {
+    std::cout << "Bad Rotation Matrix" << std::endl;
+    }
+}
 
 // Set parameters
 template<class TScalarType>

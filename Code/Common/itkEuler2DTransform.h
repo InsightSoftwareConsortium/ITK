@@ -105,7 +105,23 @@ public:
   /** Set the transformation to an Identity
    * This sets the matrix to identity and the Offset to null. */
   virtual void SetIdentity( void );
+  
+  /** Compute the angle from the rotation matrix */
+  void ComputeAngleFromMatrix();
 
+  /**
+   * Set the rotation Matrix of a Rigid2D Transform
+   *
+   * This method sets the 2x2 matrix representing a rotation
+   * in the transform.  The Matrix is expected to be orthogonal
+   * with a certain tolerance.
+   * \warning This method will throw an exception is the matrix
+   * provided as argument is not orthogonal.
+   **/
+  void SetRotationMatrix(const MatrixType &matrix);
+
+  /** Compose with another Euler transform */
+  void Compose(const Self *other, bool pre=false);
 
 protected:
   Euler2DTransform();
