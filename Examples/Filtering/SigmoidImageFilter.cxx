@@ -82,7 +82,7 @@ int main( int argc, char ** argv )
 {
 
 
-  if( argc < 3 )
+  if( argc < 7 )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile   outputImageFile";
