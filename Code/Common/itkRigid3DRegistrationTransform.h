@@ -20,7 +20,7 @@
 #include "itkTransformation.h"
 #include "itkPoint.h"
 #include "itkVector.h"
-#include "itkAffineTransform.h"
+#include "itkRigid3DTransform.h"
 
 namespace itk
 {
@@ -29,7 +29,7 @@ namespace itk
  * \brief Generic Rigid Transformation for a registration method
  *
  * This Class define the generic interface for an Rigid Transformation .
- * It uses an instance of an Affine transform, and only the Rigid aspects
+ * It uses an instance of an Rigid3D transform, and only the Rigid aspects
  * of the transform are used. This is reflected by the fact that the number
  * of parameters is reduced.
  *
@@ -77,7 +77,7 @@ public:
   /** 
    * Rigid Transform Type
    */
-  typedef  AffineTransform<TScalarType,SpaceDimension>    RigidTransformType;
+  typedef  Rigid3DTransform<TScalarType,SpaceDimension>    RigidTransformType;
 
 
   /** 
