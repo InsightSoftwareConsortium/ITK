@@ -14,10 +14,15 @@ ITKCommon
 )
 
 TESTS(
+itkAsinImageFilterAndAdaptorTest
+itkAcosImageFilterAndAdaptorTest
+itkAtanImageFilterAndAdaptorTest
 itkBasicArchitectureTest
 itkCovariantVectorGeometryTest
+itkCosImageFilterAndAdaptorTest
 itkCurvatureAnisotropicDiffusionImageFilterTest
 itkCyclicReferences
+itkExpImageFilterAndAdaptorTest
 itkFilterDispatchTest
 itkFilterImageAddTest
 itkFilterImageGradientMagnitudeTest
@@ -25,7 +30,13 @@ itkFilterImageSingleOperatorTest
 itkBasicFiltersHeaderTest
 itkImageAdaptorPipeLineTest
 itkImportImageTest
+itkLog10ImageFilterAndAdaptorTest
+itkLogImageFilterAndAdaptorTest
 itkShrinkImageTest
+itkSinImageFilterAndAdaptorTest
+itkSubtractImageFilterTest
+itkTanImageFilterAndAdaptorTest
+itkTernaryMagnitudeImageFilterTest
 itkThresholdImageFilterTest
 itkVectorAnisotropicDiffusionImageFilterTest
 )
