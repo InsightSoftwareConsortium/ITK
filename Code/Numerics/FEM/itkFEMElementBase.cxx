@@ -30,9 +30,109 @@ namespace fem {
 
 
 #ifdef FEM_BUILD_VISUALIZATION
+
 /** Global scale factor for drawing on the DC */
-double& Element::DC_Scale=Node::DC_Scale;
+double Element::DC_Scale=1000.0;
+
+/** Global scale factor for drawing on the DC */
+double &Element::Node::DC_Scale=Element::DC_Scale;
+
+
+/**
+ * draws the node on DC
+ */
+void Element::Node::Draw(CDC* pDC, Solution::ConstPointer sol) const 
+{
+  // We can only draw 2D nodes here
+  if(m_coordinates.size()!=2) { return; }
+
+  
+  // Normally we draw a white circle.
+  CPen pen(PS_SOLID, 0, (COLORREF) RGB(0,0,0) );
+  CBrush brush( RGB(255,255,255) );
+
+  CPen* pOldpen=pDC->SelectObject(&pen);
+  CBrush* pOldbrush=pDC->SelectObject(&brush);
+
+  int x1=m_coordinates[0]*DC_Scale;
+  int y1=m_coordinates[1]*DC_Scale;
+  x1+=sol->GetSolutionValue(this->GetDegreeOfFreedom(0))*DC_Scale;
+  y1+=sol->GetSolutionValue(this->GetDegreeOfFreedom(1))*DC_Scale;
+
+  CPoint r1=CPoint(0,0);
+  CPoint r=CPoint(5,5);
+
+  pDC->DPtoLP(&r1);
+  pDC->DPtoLP(&r);
+  r=r-r1;
+
+  pDC->Ellipse(x1-r.x, y1-r.y, x1+r.x, y1+r.y);
+
+  pDC->SelectObject(pOldbrush);
+  pDC->SelectObject(pOldpen);
+
+}
+
 #endif
+
+
+
+
+/*
+ * Read the Node from the input stream
+ */
+void Element::Node::Read(  std::istream& f, void* info )
+{
+  unsigned int n;
+
+  /*
+   * First call the parent's read function
+   */
+  Self::Superclass::Read(f,info);
+
+  /*
+   * Read and set node coordinates
+   */
+  SkipWhiteSpace(f); f>>n; if(!f) goto out;
+  this->m_coordinates.resize(n);
+  SkipWhiteSpace(f); f>>this->m_coordinates; if(!f) goto out;
+
+out:
+
+  if( !f )
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"Element::Node::Read()","Error reading FEM node!");
+  }
+
+}
+
+
+
+
+/*
+ * Write the Node to the output stream
+ */
+void Element::Node::Write( std::ostream& f ) const 
+{
+  /**
+   * First call the parent's write function
+   */
+  Self::Superclass::Write(f);
+
+  /**
+   * Write actual data (node, and properties numbers)
+   */
+  
+  /* write the value of dof */
+  f<<"\t"<<this->m_coordinates.size();
+  f<<" "<<this->m_coordinates<<"\t% Node coordinates"<<"\n";
+
+  /** check for errors */
+  if (!f)
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"Element::Node::Write()","Error writing FEM node!");
+  }
+}
 
 
 
@@ -52,8 +152,8 @@ double& Element::DC_Scale=Node::DC_Scale;
  *     a
  *
  * using the Gaussian numeric integration method. The function calls
- * GetIntegrationPoint() / GetNumberOfIntegrationPoints() to obtain the
- * integration points. It also calls the GetStrainDisplacementMatrix()
+ * GetIntegrationPointAndWeight() / GetNumberOfIntegrationPoints() to obtain
+ * the integration points. It also calls the GetStrainDisplacementMatrix()
  * and GetMaterialMatrix() member functions.
  *
  * \param Ke Reference to the resulting stiffnes matrix.
@@ -64,32 +164,40 @@ double& Element::DC_Scale=Node::DC_Scale;
  */
 void Element::GetStiffnessMatrix(MatrixType& Ke) const
 {
-  // Number of DOFs
-  const unsigned int N = GetNumberOfDegreesOfFreedom();
-
   // B and D matrices
   MatrixType B,D;
   this->GetMaterialMatrix( D );
 
-  Ke.resize(N,N); // resize the target matrix object
-  Ke.fill(0.0);
-  unsigned int Nip=this->GetTotalNumberOfIntegrationPoints();
+  unsigned int Nip=this->GetNumberOfIntegrationPoints();
 
   VectorType ip;
+  Float w;
   MatrixType J;
   MatrixType shapeDgl;
   MatrixType shapeD;
 
-  for(unsigned int i=0; i<Nip; i++)
+  // Calculate the contribution of 1st int. point to initialize
+  // the Ke matrix to proper number of elements.
+  this->GetIntegrationPointAndWeight(0,ip,w);
+  this->ShapeFunctionDerivatives(ip,shapeD);
+  this->Jacobian(ip,J,&shapeD);
+  this->ShapeFunctionGlobalDerivatives(ip,shapeDgl,&J,&shapeD);
+
+  this->GetStrainDisplacementMatrix( B, shapeDgl );
+  Float detJ=this->JacobianDeterminant( ip, &J );
+  Ke=detJ*w*B.transpose()*D*B; // FIXME: write a more efficient way of computing this.
+
+  // Add contributions of other int. points to the Ke
+  for(unsigned int i=1; i<Nip; i++)
   {
-    ip=this->GetIntegrationPoint(i);
+    this->GetIntegrationPointAndWeight(i,ip,w);
     this->ShapeFunctionDerivatives(ip,shapeD);
     this->Jacobian(ip,J,&shapeD);
     this->ShapeFunctionGlobalDerivatives(ip,shapeDgl,&J,&shapeD);
 
     this->GetStrainDisplacementMatrix( B, shapeDgl );
     Float detJ=this->JacobianDeterminant( ip, &J );
-    Ke+=detJ*GetWeightAtIntegrationPoint(i)*B.transpose()*D*B; // FIXME: write a more efficient way of computing this.
+    Ke+=detJ*w*B.transpose()*D*B; // FIXME: write a more efficient way of computing this.
   }
 }
 
@@ -108,21 +216,8 @@ void Element::GetMassMatrix( MatrixType& Me ) const
 
 
 
-Element::MatrixType
-Element::Me() const
-{
-  /*
-   * If the function is not overiden, we return 0 matrix. This means that
-   * by default the elements are static.
-   */
-  return MatrixType( this->GetNumberOfDegreesOfFreedom(), this->GetNumberOfDegreesOfFreedom(), 0.0 );
-}
-
-
-
-
 Element::VectorType
-Element::InterpolateSolution( const VectorType& pt, const Solution& sol , unsigned int solutionIndex ) const
+Element::InterpolateSolution( const VectorType& pt, const Solution& sol, unsigned int solutionIndex  ) const
 {
 
   VectorType vec( GetNumberOfDegreesOfFreedomPerNode() );
@@ -138,7 +233,7 @@ Element::InterpolateSolution( const VectorType& pt, const Solution& sol , unsign
 
     for(unsigned int n=0; n<Nnodes; n++)
     {
-      value+=shapef[n] * sol.GetSolutionValue( this->GetDegreeOfFreedomAtNode(n,f), solutionIndex );
+      value+=shapef[n] * sol.GetSolutionValue( this->GetNode(n)->GetDegreeOfFreedom(f) , solutionIndex);
     }
 
     vec[f]=value;
@@ -162,7 +257,7 @@ Element::InterpolateSolutionN( const VectorType& pt, const Solution& sol, unsign
   unsigned int Nnodes=this->GetNumberOfNodes();
   for(unsigned int n=0; n<Nnodes; n++)
   {
-    value+=shapef[n] * sol.GetSolutionValue( this->GetDegreeOfFreedomAtNode(n,f), solutionIndex );
+    value+=shapef[n] * sol.GetSolutionValue( this->GetNode(n)->GetDegreeOfFreedom(f), solutionIndex );
   }
   return value;
 
@@ -192,13 +287,13 @@ Element::Jacobian( const VectorType& pt, MatrixType& J, const MatrixType* pshape
   }
 
   const unsigned int Nn=pshapeD->columns();
-  const unsigned int Ndims=pshapeD->rows();
+  const unsigned int Ndims=this->GetNumberOfSpatialDimensions();
 
   MatrixType coords(Nn, Ndims);
 
   for( unsigned int n=0; n<Nn; n++ )
   {
-    VectorType p=this->GetNodalCoordinates(n);
+    VectorType p=this->GetNodeCoordinates(n);
     coords.set_row(n,p);
   }
 
@@ -302,12 +397,11 @@ void Element::ShapeFunctionGlobalDerivatives( const VectorType& pt, MatrixType& 
 Element::VectorType
 Element::GetGlobalFromLocalCoordinates( const VectorType& pt ) const
 {
-  MatrixType nc;
-
   unsigned int Nnodes=this->GetNumberOfNodes();
+  MatrixType nc(this->GetNumberOfSpatialDimensions(),Nnodes);
   for(unsigned int n=0; n<Nnodes; n++)
   {
-    nc.set_column( n,this->GetNodalCoordinates(n) );
+    nc.set_column( n,this->GetNodeCoordinates(n) );
   }
   
   VectorType shapeF = ShapeFunctions(pt);
@@ -319,21 +413,47 @@ Element::GetGlobalFromLocalCoordinates( const VectorType& pt ) const
 
 
 
-//////////////////////////////////////////////////////////////////////////
-/*
- * DOF management
- */
-
-void Element::ClearDegreesOfFreedom(void)
+// Gauss-Legendre integration rule constants
+const Element::Float Element::gaussPoint[gaussMaxOrder+1][gaussMaxOrder]=
 {
-  for(unsigned int i=0;i<GetNumberOfDegreesOfFreedom();i++)
-  {
-    SetDegreeOfFreedom(i,InvalidDegreeOfFreedomID);
-  }
+  { 0.0 },
+  { 0.000000000000000 },
+  { 0.577350269189626,-0.577350269189626 },
+  { 0.774596669241483, 0.000000000000000,-0.774596669241483 },
+  { 0.861136311594053, 0.339981043584856,-0.339981043584856,-0.861136311594053 },
+  { 0.906179845938664, 0.538469310105683, 0.000000000000000,-0.538469310105683,-0.906179845938664},
+  { 0.932469514203152, 0.661209386466264, 0.238619186083197,-0.238619186083197,-0.661209386466264,-0.932469514203152 },
+  { 0.949107912342759, 0.741531185599394, 0.405845151377397, 0.000000000000000,-0.405845151377397,-0.741531185599394,-0.949107912342759 },
+  { 0.960289856497536, 0.796666477413627, 0.525532409916329, 0.183434642495650,-0.183434642495650,-0.525532409916329,-0.796666477413627,-0.960289856497536 },
+  { 0.968160239507626, 0.836031107326636, 0.613371432700590, 0.324253423403809, 0.000000000000000,-0.324253423403809,-0.613371432700590,-0.836031107326636,-0.968160239507626 },
+  { 0.973906528517172, 0.865063366688985, 0.679409568299024, 0.433395394129247, 0.148874338981631,-0.148874338981631,-0.433395394129247,-0.679409568299024,-0.865063366688985,-0.973906528517172 }
+};
 
-}
+const Element::Float Element::gaussWeight[gaussMaxOrder+1][gaussMaxOrder]=
+{
+  { 0.0 },
+  { 2.000000000000000 },
+  { 1.000000000000000, 1.000000000000000 },
+  { 0.555555555555555, 0.888888888888889, 0.555555555555555 },
+  { 0.347854845137454, 0.652145154862546, 0.652145154862546, 0.347854845137454 },
+  { 0.236926885056189, 0.478628670499366, 0.568888888888889, 0.478628670499366, 0.236926885056189 },
+  { 0.171324492379170, 0.360761573048139, 0.467913934572691, 0.467913934572691, 0.360761573048139, 0.171324492379170 },
+  { 0.129484966168869, 0.279705391489277, 0.381830050505119, 0.417959183673469, 0.381830050505119, 0.279705391489277, 0.129484966168869 },
+  { 0.101228536290376, 0.222381034453374, 0.313706645877887, 0.362683783378362, 0.362683783378362, 0.313706645877887, 0.222381034453374, 0.101228536290376 },
+  { 0.081274388361575, 0.180648160694858, 0.260610696402935, 0.312347077040003, 0.330239355001260, 0.312347077040003, 0.260610696402935, 0.180648160694858, 0.081274388361575 },
+  { 0.066671344308688, 0.149451349150581, 0.219086362515982, 0.269266719309996, 0.295524224714753, 0.295524224714753, 0.269266719309996, 0.219086362515982, 0.149451349150581, 0.066671344308688 }
+};
 
-Element::DegreeOfFreedomIDType Element::m_DOFCounter;
+
+
+// Register Node class with FEMObjectFactory
+#ifndef FEM_USE_SMART_POINTERS
+namespace { static Element::Node::Baseclass::Pointer NewNodeObect() { return new Element::Node; } }
+const int Element::Node::CLID=FEMObjectFactory<Element::Node::Baseclass>::Register( NewNodeObect, "Node" );
+#else
+namespace { static Element::Node::Baseclass::Pointer NewNodeObect() { return Element::Node::New(); } }
+const int Element::Node::CLID=FEMObjectFactory<Element::Node::Baseclass>::Register( NewNodeObect, "Node" );
+#endif
 
 
 

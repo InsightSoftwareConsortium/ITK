@@ -14,21 +14,7 @@ ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl
 
 SOURCE_FILES(FEM_SRCS 
 
-  itkFEMNodeBase.cxx
-  itkFEMNodeXY.cxx
-  itkFEMNodeXYrotZ.cxx
-  itkFEMNodeXYZ.cxx
-  
   itkFEMElementBase.cxx
-  itkFEMElementNewBase.cxx
-  itkFEMElementBar2D.cxx
-  itkFEMElementBeam2D.cxx
-  itkFEMElementTriC02D.cxx
-  itkFEMElementMembraneC02D.cxx
-  itkFEMElementQuadC02D.cxx
-  itkFEMElementTetrahedronC03D.cxx
-  itkFEMElementHexahedronC03D.cxx
-  itkFEMElementC1IsoCurve2D.cxx
 
   itkFEMElement2DC0LinearLine.cxx
   itkFEMElement2DC0LinearLineStress.cxx
@@ -45,7 +31,6 @@ SOURCE_FILES(FEM_SRCS
   itkFEMElement3DC0LinearTetrahedronStrain.cxx
 
   itkFEMMaterialBase.cxx
-  itkFEMMaterialStandard.cxx
   itkFEMMaterialLinearElasticity.cxx
 
   itkFEMLoadBase.cxx
@@ -58,24 +43,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadPoint.cxx
  
   itkFEMLoadImplementationsRegister.cxx
-  itkFEMLoadImplementationGravBar2D.cxx
-  itkFEMLoadImplementationGravBeam2D.cxx
-  itkFEMLoadImplementationGravMembraneC02D.cxx
-  itkFEMLoadImplementationImageMetricMembraneC02D.cxx
-  itkFEMLoadImplementationGravQuadC02D.cxx
-  itkFEMLoadImplementationGravTriC02D.cxx
-  itkFEMLoadImplementationGravTetrahedronC03D.cxx
-  itkFEMLoadImplementationGravHexahedronC03D.cxx
   itkFEMLoadImplementationGenericBodyLoad.cxx
-
-  itkFEMLoadImplementationEdgeTriC02D.cxx
-  itkFEMLoadImplementationEdgeQuadC02D.cxx
-
-  itkFEMLoadImplementationPointBar2D.cxx
-  itkFEMLoadImplementationPointBeam2D.cxx
-
-  itkFEMLoadImplementationC1IsoCurve2D.cxx
-
 
   itkFEMSolver.cxx
   itkFEMSolverHyperbolic.cxx
@@ -101,25 +69,9 @@ IF(NOT UNIX)
 IF(WIN32)
 SOURCE_FILES(FEM_SRCS 
 
-  itkFEMNodes.h
-  itkFEMNodeBase.h
-  itkFEMNodeXY.h
-  itkFEMNodeXYZ.h
-  itkFEMNodeXYrotZ.h
-
   itkFEMElements.h
   itkFEMElementBase.h
-  itkFEMElementNewBase.h
-  itkFEMElementStandard.h
   itkFEMElementStd.h
-  itkFEMElementBar2D.h
-  itkFEMElementBeam2D.h
-  itkFEMElementTriC02D.h
-  itkFEMElementQuadC02D.h
-  itkFEMElementMembraneC02D.h
-  itkFEMElementTetrahedronC03D.h
-  itkFEMElementHexahedronC03D.h
-  itkFEMElementC1IsoCurve2D.h
 
   itkFEMElement1DStress.h
   itkFEMElement2DStress.h
@@ -145,7 +97,6 @@ SOURCE_FILES(FEM_SRCS
 
   itkFEMMaterials.h
   itkFEMMaterialBase.h
-  itkFEMMaterialStandard.h
   itkFEMMaterialLinearElasticity.h
 
   itkFEMLoads.h
@@ -159,7 +110,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadPoint.h
   itkFEMImageMetricLoad.h
 
-  itkFEMLoadImplementationTestBar2D.h
+  itkFEMLoadImplementationTest.h
   itkFEMImageMetricLoadImplementation.h
 
   itkFEMLoadTest.h
@@ -170,6 +121,7 @@ SOURCE_FILES(FEM_SRCS
 
   itkFEMSolution.h
 
+  itkFEMLinearSystemWrappers.h
   itkFEMLinearSystemWrapper.h
   itkFEMLinearSystemWrapperVNL.h
   itkFEMLinearSystemWrapperDenseVNL.h

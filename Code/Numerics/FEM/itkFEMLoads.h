@@ -32,4 +32,4 @@
 #include "itkFEMImageMetricLoad.h"
 
 #include "itkFEMLoadTest.h"
-#include "itkFEMLoadImplementationTestBar2D.h"
+#include "itkFEMLoadImplementationTest.h"

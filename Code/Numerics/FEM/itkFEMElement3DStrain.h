@@ -18,7 +18,7 @@
 #ifndef __itkFEMElement3DStrain_h
 #define __itkFEMElement3DStrain_h
 
-#include "itkFEMElementNewBase.h"
+#include "itkFEMElementBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
 
 namespace itk {
@@ -41,7 +41,7 @@ namespace fem {
  *                to use this class at any level of element definition.
  *                If not specified, it defaults to the Element base class.
  */
-template<class TBaseClass=ElementNew>
+template<class TBaseClass=Element>
 class Element3DStrain : public TBaseClass
 {
 FEM_ABSTRACT_CLASS(Element3DStrain,TBaseClass)

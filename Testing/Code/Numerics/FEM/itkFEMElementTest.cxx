@@ -25,8 +25,6 @@
 
 #include "itkFEMLinearSystemWrappers.h"
 
-#include "itkFEMNodes.h"
-
 #include "itkExceptionObject.h"
 
 #include <iostream>

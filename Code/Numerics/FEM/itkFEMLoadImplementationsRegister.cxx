@@ -26,15 +26,6 @@
 #include "itkFEMLoadGrav.h"
 #include "itkFEMLoadEdge.h"
 
-#include "itkFEMElementBar2D.h"
-#include "itkFEMElementBeam2D.h"
-#include "itkFEMElementTriC02D.h"
-#include "itkFEMElementQuadC02D.h"
-#include "itkFEMElementMembraneC02D.h"
-#include "itkFEMElementC1IsoCurve2D.h"
-#include "itkFEMElementHexahedronC03D.h"
-#include "itkFEMElementTetrahedronC03D.h"
-
 #include "itkFEMElement2DC0LinearLineStress.h"
 #include "itkFEMElement2DC1Beam.h"
 #include "itkFEMElement2DC0LinearTriangularStress.h"
@@ -59,13 +50,13 @@ namespace fem {
  *
  * \sa LoadImplementationGenericBodyLoad()
  */
-extern ElementNew::VectorType LoadImplementationGenericBodyLoad(ElementNew::ConstPointer, LoadGrav::Pointer);
+extern Element::VectorType LoadImplementationGenericBodyLoad(Element::ConstPointer, LoadGrav::Pointer);
 namespace {
 template<class TElementClass>
 class GenericBodyLoad
 {
 public:
-  static ElementNew::VectorType HandleBodyLoad(typename TElementClass::ConstPointer e, ElementNew::LoadElementPointer l)
+  static Element::VectorType HandleBodyLoad(typename TElementClass::ConstPointer e, Element::LoadElementPointer l)
   {
     LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*l);
     if ( !l0 )
@@ -73,7 +64,7 @@ public:
       // Passed load object was not of class LoadGrav!
       throw FEMException(__FILE__, __LINE__, "FEM error");
     }
-    ElementNew::ConstPointer e0=e;
+    Element::ConstPointer e0=e;
 
     return LoadImplementationGenericBodyLoad(e0,l0);
   }
@@ -85,11 +76,11 @@ public:
 
 /* This macro makes registering Load implementations easier. */
 #define REGISTER_LOAD_EX(ElementClass,LoadClass,FunctionName) \
-  VisitorDispatcher<ElementClass, ElementClass::LoadElementType, ElementClass::LoadVectorType (*)(ElementClass::ConstPointer,ElementClass::LoadElementPointer)> \
+  VisitorDispatcher<ElementClass, ElementClass::LoadElementType, ElementClass::VectorType (*)(ElementClass::ConstPointer,ElementClass::LoadElementPointer)> \
   ::RegisterVisitor((LoadClass*)0, &FunctionName);
 /* Use this macro to also automatically declare load implementation function. */
 #define REGISTER_LOAD(ElementClass,LoadClass,FunctionName) \
-  extern ElementClass::LoadVectorType FunctionName(ElementClass::ConstPointer, ElementClass::LoadElementPointer); \
+  extern ElementClass::VectorType FunctionName(ElementClass::ConstPointer, ElementClass::LoadElementPointer); \
   REGISTER_LOAD_EX(ElementClass,LoadClass,FunctionName)
 
 
@@ -101,34 +92,6 @@ public:
  */
 void LoadImplementationsRegister(void)
 {
-
-  // Loads acting on Bar2D element
-  REGISTER_LOAD( Bar2D,        LoadGravConst,    LoadGravImplementationBar2D    );
-  REGISTER_LOAD( Bar2D,        LoadPoint,        LoadPointImplementationBar2D   );
-
-  // Loads acting on Beam2D element
-  REGISTER_LOAD( Beam2D,       LoadGravConst,    LoadGravImplementationBeam2D   );
-  REGISTER_LOAD( Beam2D,       LoadPoint,        LoadPointImplementationBeam2D  );
-
-  // Loads acting on TriC02D element
-  REGISTER_LOAD( TriC02D,      LoadGravConst,    LoadGravImplementationTriC02D  );
-  REGISTER_LOAD( TriC02D,      LoadEdge,         LoadEdgeImplementationTriC02D  );
-
-  // Loads acting on QuadC02D element
-  REGISTER_LOAD( QuadC02D,     LoadGravConst,    LoadGravImplementationQuadC02D );
-  REGISTER_LOAD( QuadC02D,     LoadEdge,         LoadEdgeImplementationQuadC02D );
-
-  // Loads acting on MembraneC02D element
-  REGISTER_LOAD( MembraneC02D, LoadGrav,         LoadGravImplementationMembraneC02D );
-  
-  // Loads acting on C1IsoCurve2D element
-  REGISTER_LOAD( C1IsoCurve2D, LoadElement,      LoadImplementationC1IsoCurve2D );
-
-  // Loads acting on HexahedronC03D element
-  REGISTER_LOAD( HexahedronC03D, LoadGravConst,  LoadGravImplementationHexahedronC03D );
-
-  // Loads acting on TetrahedronC03D element
-  REGISTER_LOAD( TetrahedronC03D, LoadGravConst, LoadGravImplementationTetrahedronC03D );
 
   // Loads acting on LineStress element
   REGISTER_LOAD_EX(Element2DC0LinearLineStress,LoadGravConst,GenericBodyLoad<Element2DC0LinearLineStress>::HandleBodyLoad);

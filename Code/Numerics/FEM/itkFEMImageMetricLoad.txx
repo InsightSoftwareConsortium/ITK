@@ -105,14 +105,14 @@ ImageMetricLoad<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
   
   vnl_vector_fixed<Float,2*ImageDimension> InVec(0.0);
    
-  ElementNew::VectorType ip;
-  ElementNew::Float w;
+  Element::VectorType ip;
+  Element::Float w;
   
   for(  Element::ArrayType::iterator elt=el->begin(); elt!=el->end(); elt++) 
   {
     for(unsigned int i=0; i<m_NumberOfIntegrationPoints; i++)
     {
-      dynamic_cast<ElementNew*>(&*(*elt))->GetIntegrationPointAndWeight(i,ip,w,m_NumberOfIntegrationPoints); // FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
+      dynamic_cast<Element*>(&*(*elt))->GetIntegrationPointAndWeight(i,ip,w,m_NumberOfIntegrationPoints); // FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
       Gpt=(*elt)->GetGlobalFromLocalCoordinates(ip);
       Sol=(*elt)->InterpolateSolution(ip,*m_Solution,m_SolutionIndex);
 

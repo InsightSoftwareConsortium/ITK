@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLoadImplementationTestBar2D.h
+  Module:    itkFEMLoadImplementationTest.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -15,10 +15,10 @@
 
 =========================================================================*/
 
-#ifndef __itkFEMLoadImplementationTestBar2D_h
-#define __itkFEMLoadImplementationTestBar2D_h
+#ifndef __itkFEMLoadImplementationTest_h
+#define __itkFEMLoadImplementationTest_h
 
-#include "itkFEMElementBar2D.h"
+#include "itkFEMElement2DC0LinearLineStress.h"
 #include "itkFEMLoadTest.h"
 
 namespace itk {
@@ -28,7 +28,7 @@ namespace fem {
 
 
 /**
- * \class LoadImplementationTestBar2D
+ * \class LoadImplementationTest
  * \brief Example implementation of templated LoadTest class.
  *
  * This is an example of how to define the implementation of a templated
@@ -45,13 +45,13 @@ namespace fem {
  * instantiation is normally done like this:
  *
  *     typedef LoadTest<...> MyLoadTestClass;
- *     template class LoadImplementationTestBar2D<MyLoadTestClass>;
+ *     template class LoadImplementationTest<MyLoadTestClass>;
  */
 template<class TLoadClass>
-class LoadImplementationTestBar2D
+class LoadImplementationTest
 {
 public:
-  static Element::LoadVectorType impl(Bar2D::ConstPointer element, Element::LoadElementPointer load)
+  static Element::VectorType impl(Element2DC0LinearLineStress::ConstPointer element, Element::LoadElementPointer load)
   {
     // We must dynamically cast the given load pointer to the
     // correct templated load class, which is given as
@@ -75,13 +75,13 @@ private:
 // Instantiating the implementation function will also instantiate the
 // corresponding Load class.
 template<class TLoadClass>
-const bool LoadImplementationTestBar2D<TLoadClass>::registered=
-  VisitorDispatcher<Bar2D,Element::LoadElementType,Bar2D::VectorType (*)(Bar2D::ConstPointer,ElementNew::LoadElementPointer)>
-  ::RegisterVisitor((TLoadClass*)0, &LoadImplementationTestBar2D<TLoadClass>::impl);
+const bool LoadImplementationTest<TLoadClass>::registered=
+  VisitorDispatcher<Element2DC0LinearLineStress,Element::LoadElementType,Element2DC0LinearLineStress::VectorType (*)(Element2DC0LinearLineStress::ConstPointer,Element::LoadElementPointer)>
+  ::RegisterVisitor((TLoadClass*)0, &LoadImplementationTest<TLoadClass>::impl);
 
 
 
 
 }} // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLoadImplementationTestBar2D_h
+#endif // #ifndef __itkFEMLoadImplementationTest_h

@@ -20,7 +20,7 @@
 #pragma warning(disable: 4786)
 #endif
 
-#include "itkFEMElementNewBase.h"
+#include "itkFEMElementBase.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStress.h"
 #include "itkFEMLoadGrav.h"
 
@@ -38,7 +38,7 @@ namespace fem {
  * It is also assumed, that element's local DOFs are numbered with respect
  * to node ID. If this is not the case, you should not use this function.
  */
-Element::VectorType LoadImplementationGenericBodyLoad(ElementNew::ConstPointer element, LoadGrav::Pointer load)
+Element::VectorType LoadImplementationGenericBodyLoad(Element::ConstPointer element, LoadGrav::Pointer load)
 {
   // Order of integration
   // FIXME: Allow changing the order of integration by setting a 
@@ -49,10 +49,10 @@ Element::VectorType LoadImplementationGenericBodyLoad(ElementNew::ConstPointer e
   const unsigned int Ndofs=element->GetNumberOfDegreesOfFreedomPerNode();
   const unsigned int Nnodes=element->GetNumberOfNodes();
 
-  ElementNew::VectorType Fe(element->GetNumberOfDegreesOfFreedom(),0.0),
+  Element::VectorType Fe(element->GetNumberOfDegreesOfFreedom(),0.0),
                          force(Ndofs,0.0),
                          ip,gip,force_tmp,shapeF;
-  ElementNew::Float w,detJ;
+  Element::Float w,detJ;
 
   for(unsigned int i=0; i<Nip; i++)
   {

@@ -18,7 +18,6 @@
 #define __itkFEMLoadBase_h
 
 #include "itkFEMElementBase.h"
-#include "itkFEMNodeBase.h"
 #include "itkFEMSolution.h"
 #include "itkFEMPArray.h"
 

@@ -24,7 +24,7 @@
 
 #include "itkFEMLoadNode.h"
 #include "itkFEMLoadElementBase.h"
-#include "itkFEMElementNewBase.h"
+#include "itkFEMElementBase.h"
 #include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"
 
@@ -196,25 +196,23 @@ void Solver::Write( std::ostream& f ) {
  */
 void Solver::GenerateGFN() {
 
-  // Clear the list of elements in nodes
+  // Clear the list of elements and global freedom numbers in nodes
   // FIXME: should be removed once Mesh is there
   for(NodeArray::iterator n=node.begin(); n!=node.end(); n++)
   {
    (*n)->m_elements.clear();
+   (*n)->ClearDegreesOfFreedom();
   }
 
-  // first we have to clear the global freedom numbers (GFN) in all DOF
   for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) // step over all elements
   {
-    // Clear DOF IDs in an element
-    (*e)->ClearDegreesOfFreedom();
 
     // Add the elemens in the nodes list of elements
     // FIXME: should be removed once Mesh is there
-    unsigned int Npts=(*e)->GetNumberOfPoints();
+    unsigned int Npts=(*e)->GetNumberOfNodes();
     for(unsigned int pt=0; pt<Npts; pt++)
     {
-      (*e)->GetPoint(pt)->m_elements.insert(*e);
+      (*e)->GetNode(pt)->m_elements.insert(*e);
     }
   }
 
@@ -226,143 +224,21 @@ void Solver::GenerateGFN() {
   // Start numbering DOFs from 0
   NGFN=0;
 
-  Element::NodeDefinitionType ndef,nndef;
-
   // Step over all elements
   for(ElementArray::iterator e=el.begin(); e!=el.end(); e++)
   {
-
-    // Handle DOFs in new elements
-    // FIXME:
-    if(ElementNew::Pointer elem=dynamic_cast<ElementNew*>(&**e))
+    // FIXME: Write a code that checks if two elements are compatible, when they share a node
+    for(unsigned int n=0; n<(*e)->GetNumberOfNodes(); n++)
     {
-      for(unsigned int n=0; n<elem->GetNumberOfNodes(); n++)
+      for(unsigned int dof=0; dof<(*e)->GetNumberOfDegreesOfFreedomPerNode(); dof++)
       {
-        for(unsigned int dof=0; dof<elem->GetNumberOfDegreesOfFreedomPerNode(); dof++)
+        if( (*e)->GetNode(n)->GetDegreeOfFreedom(dof)==Element::InvalidDegreeOfFreedomID )
         {
-          if( elem->GetNode(n)->GetDegreeOfFreedom(dof)==ElementNew::InvalidDegreeOfFreedomID )
-          {
-            elem->GetNode(n)->SetDegreeOfFreedom(dof,NGFN);
-            NGFN++;
-          }
-        }
-      }
-      continue;
-    }
-
-    // FIXME: Write a code that checks if two elements are compatible, when they share a node.
-
-    // Define some frequently used constants
-    const unsigned int Nnodes=(*e)->GetNumberOfNodes();
-    const unsigned int Npoints=(*e)->GetNumberOfPoints();
-    const unsigned int NDOFsperNode=(*e)->GetNumberOfDegreesOfFreedomPerNode();
-
-    // We step over all nodes in current element
-    // and try to find a matching node in neighboring element
-    for( unsigned int n=0; n<Nnodes; n++ )
-    {
-      // Get the definition of a current node
-      (*e)->GetNodeDefinition(n,ndef);
-      std::sort(ndef.begin(),ndef.end());
-
-      // Flag to exit subsequent for loops before they finish
-      bool not_done=true;
-
-      // Try to find the matching node definition in neighborhood elements
-
-      // Step over all neighboring elements
-      for( unsigned int pt=0; pt<Npoints && not_done; pt++ )
-      {
-        Element::PointIDType p=(*e)->GetPoint(pt);
-
-        Node::SetOfElements::const_iterator el_it_end=p->m_elements.end();
-        for( Node::SetOfElements::const_iterator el_it=p->m_elements.begin();
-             el_it!=el_it_end && not_done;
-             el_it++ )
-        {
-          // Skip current element
-          if((*el_it)==(&**e)) continue;
-
-          // Step over all nodes in this neigboring element
-          for( int nn=(*el_it)->GetNumberOfNodes()-1; nn>=0 && not_done; nn-- )
-          {
-            // Get the definition of a node
-            (*el_it)->GetNodeDefinition(nn,nndef);
-            std::sort(nndef.begin(),nndef.end());
-
-            if(ndef==nndef)
-            {
-              // We found a node that is shared between elements.
-              // Copy the DOFs from the neighboring element's node
-              // since they have to be the same.
-              //
-              // Note that neighboring node may contain more or less DOFs.
-              // If it has more, we simply ignore the rest, if it has less,
-              // we'll get invalid DOF id from GetDegreeOfFreedomAtNode function.
-
-              // If all DOF IDs are set from the neighboring elements,
-              // we can terminate the loop over all nodes in
-              // neighboring elements.
-              not_done=false;
-
-              for(int d=NDOFsperNode-1; d>=0; d--)
-              {
-                // Get the DOF from the node at neighboring element
-                Element::DegreeOfFreedomIDType global_dof = (*el_it)->GetDegreeOfFreedomAtNode(nn,d);
-
-                // Set the corresponding DOF in current element only if
-                // we find a valid DOF id in the neighboring element
-                if( global_dof!=Element::InvalidDegreeOfFreedomID )
-                {
-                  // Error checking
-                  if( (*e)->GetDegreeOfFreedomAtNode(n,d)!=Element::InvalidDegreeOfFreedomID && 
-                      (*e)->GetDegreeOfFreedomAtNode(n,d)!=global_dof)
-                  {
-                    // Something got screwed.
-                    // FIXME: Write a better error handler or remove it completely,
-                    //        since this should never happen.
-                    throw FEMException(__FILE__, __LINE__, "FEM error");
-                  }
-
-                  (*e)->SetDegreeOfFreedomAtNode(n,d,global_dof);
-
-                }
-                else
-                {
-                  // Whenever we find an invalid DOF ID, we are not done yet.
-                  not_done=true;
-                }
-
-              } // end for d
-
-            } // end if ndef==nndef
-
-          } // end for nn
-  
-        } // end for el_it
-
-      } // end for pt
-
-
-      // Now all DOFs in current element for node n are matched with those
-      // in the neghboring elements. However, if none of the neighboring
-      // objects defines these DOFs, we need to assign new DOF IDs here.
-      for(unsigned int d=0; d<NDOFsperNode; d++) // step over all DOFs at node n
-      {
-        if( (*e)->GetDegreeOfFreedomAtNode(n,d)==Element::InvalidDegreeOfFreedomID )
-        {
-          // Found a undefined DOF. We need obtain a unique id,
-          // which we set with the SetDegreeOfFreedom function.
-          (*e)->SetDegreeOfFreedomAtNode(n,d,NGFN);
+          (*e)->GetNode(n)->SetDegreeOfFreedom(dof,NGFN);
           NGFN++;
         }
-
-      } // end for d
-
-    } // end for n
-
-
-
+      }
+    }
   } // end for e
 
 //  NGFN=Element::GetGlobalDOFCounter()+1;
@@ -439,7 +315,8 @@ void Solver::InitializeMatrixForAssembly(unsigned int N)
 void Solver::AssembleElementMatrix(Element::Pointer e)
 {
   // Copy the element stiffness matrix for faster access.
-  Element::MatrixType Ke=e->Ke();
+  Element::MatrixType Ke;
+  e->GetStiffnessMatrix(Ke);
 
   // ... same for number of DOF
   int Ne=e->GetNumberOfDegreesOfFreedom();
@@ -523,10 +400,11 @@ void Solver::AssembleF(int dim) {
       }
 
       // we simply copy the load to the force vector
-      for(unsigned int dof=0; dof < (l1->m_element->GetNumberOfDegreesOfFreedomPerNode()); dof++)
+      for(unsigned int d=0; d < (l1->m_element->GetNumberOfDegreesOfFreedomPerNode()); d++)
       {
+        Element::DegreeOfFreedomIDType dof=l1->m_element->GetNode(l1->m_pt)->GetDegreeOfFreedom(d);
         // error checking
-        if ( l1->m_element->GetDegreeOfFreedomAtNode(l1->m_pt,dof) >= NGFN )
+        if ( dof >= NGFN )
         {
           throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
         }
@@ -537,7 +415,7 @@ void Solver::AssembleF(int dim) {
          * FIXME: We assume that the implementation of force vector inside the LoadNode class is correct for given
          * number of dimensions.
          */
-        m_ls->AddVectorValue(l1->m_element->GetDegreeOfFreedomAtNode(l1->m_pt,dof) , l1->F[dof+l1->m_element->GetNumberOfDegreesOfFreedomPerNode()*dim]);
+        m_ls->AddVectorValue(dof , l1->F[d+l1->m_element->GetNumberOfDegreesOfFreedomPerNode()*dim]);
       }
 
       // that's all there is to DOF loads, go to next load in an array
@@ -563,7 +441,7 @@ void Solver::AssembleF(int dim) {
           const Element* el0=(*i);
           // call the Fe() function of the element that we are applying the load to.
           // we pass a pointer to the load object as a paramater.
-          vnl_vector<Float> Fe = el0->Fe(Element::LoadElementPointer(l1));
+          Element::VectorType Fe = el0->GetLoadVector(Element::LoadElementPointer(l1));
           unsigned int Ne=el0->GetNumberOfDegreesOfFreedom();          // ... element's number of DOF
           for(unsigned int j=0; j<Ne; j++)    // step over all DOF
           {
@@ -586,7 +464,7 @@ void Solver::AssembleF(int dim) {
          */
         for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) // step over all elements in a system
         {
-          vnl_vector<Float> Fe=(*e)->Fe(Element::LoadElementPointer(l1));  // ... element's force vector
+          Element::VectorType Fe=(*e)->GetLoadVector(Element::LoadElementPointer(l1));  // ... element's force vector
           unsigned int Ne=(*e)->GetNumberOfDegreesOfFreedom();          // ... element's number of DOF
 
           for(unsigned int j=0; j<Ne; j++)        // step over all DOF

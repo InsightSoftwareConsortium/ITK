@@ -23,7 +23,6 @@
  * in place when using FEM classes.
  */
 #include "itkFEMElements.h"
-#include "itkFEMNodes.h"
 #include "itkFEMLoads.h"
 #include "itkFEMMaterials.h"
 

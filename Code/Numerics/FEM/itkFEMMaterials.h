@@ -23,5 +23,4 @@
  * just include this header file.
  */
 #include "itkFEMMaterialBase.h"
-#include "itkFEMMaterialStandard.h"
 #include "itkFEMMaterialLinearElasticity.h"

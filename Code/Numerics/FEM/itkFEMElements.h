@@ -22,15 +22,6 @@
  *
  * To make sure you have everything, just include this header file.
  */
-#include "itkFEMElementBar2D.h"
-#include "itkFEMElementBeam2D.h"
-#include "itkFEMElementTriC02D.h"
-#include "itkFEMElementQuadC02D.h"
-#include "itkFEMElementMembraneC02D.h"
-#include "itkFEMElementC1IsoCurve2D.h"
-#include "itkFEMElementHexahedronC03D.h"
-#include "itkFEMElementTetrahedronC03D.h"
-
 #include "itkFEMElement2DC0LinearLineStress.h"
 #include "itkFEMElement2DC1Beam.h"
 #include "itkFEMElement2DC0LinearTriangularStress.h"
