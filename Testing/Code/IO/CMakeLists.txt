@@ -225,6 +225,13 @@ ADD_TEST(itkTIFFImageIOTest10 ${IO_TESTS}
             ${ITK_DATA_ROOT}/Input/RGBTestImageZIP.tif
             ${ITK_TEST_OUTPUT_DIR}/RGBTestImageZIP.tif)
 
+ADD_TEST(itkTIFFImageIOMultiPagesTest ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.tif
+            ${ITK_TEST_OUTPUT_DIR}/ramp.tif
+  itkTIFFImageIOTest 
+            ${ITK_DATA_ROOT}/Input/ramp.tif
+            ${ITK_TEST_OUTPUT_DIR}/ramp.tif)
+
 ADD_TEST(itkDICOMImageSeriesTest ${IO_TESTS} 
   itkDICOMImageSeriesTest
             ${ITK_DATA_ROOT}/Input/DicomSeries 0)
