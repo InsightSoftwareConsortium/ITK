@@ -36,6 +36,7 @@ namespace itk
  *
  * Example usage:
  *
+ * \code
  *   ProgressReporter progress(this, threadId,
  *                             threadRegion.GetNumberOfPixels(), 100);
  *   for( each pixel )
@@ -43,8 +44,16 @@ namespace itk
  *     ...
  *     progress.CompletedPixel();
  *     }
+ * \endcode
  *
  * When used in a non-threaded filter, the threadId argument should be 0.
+ *
+ * \sa
+ * This class is a tool for filter implementers to equip a filter to
+ * report on its progress.  For information on how to acquire this
+ * progress information, see:
+ *  - ProcessObject::ReportProgress()
+ *  - Object::AddObserver()
  */
 class ProgressReporter
 {

@@ -48,6 +48,8 @@ namespace itk
  * itk::EventObject carries information in its own type, it relies on the 
  * appropiate use of the RTTI (Run Time Type Information).
  *
+ * A set of standard EventObjects is defined near the end of itkIndent.h.
+ *
  * \sa itk::Command
  * \sa itk::ExceptionObject
  *

@@ -57,8 +57,47 @@ public:
   typedef typename OutputImageType::Pointer OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType OutputImagePixelType;
-    
-  /** Get the image output of this process object.  */
+
+  /** Get the output data of this process object.  The output of this
+   * function is not valid until an appropriate Update() method has
+   * been called, either explicitly or implicitly.  Both the filter
+   * itself and the data object have Update() methods, and both
+   * methods update the data.  Here are three ways to use
+   * GetOutput() and make sure the data is valid.  In these
+   * examples, \a image is a pointer to some Image object, and the
+   * particular ProcessObjects involved are filters.  The same
+   * examples apply to non-image (e.g. Mesh) data as well.
+   *
+   * \code
+   *   anotherFilter->SetInput( someFilter->GetOutput() );
+   *   anotherFilter->Update();
+   * \endcode
+   *
+   * In this situation, \a someFilter and \a anotherFilter are said
+   * to constitute a \b pipeline.  
+   *
+   * \code
+   *   image = someFilter->GetOutput();
+   *   image->Update();
+   * \endcode
+   *
+   * \code
+   *   someFilter->Update();
+   *   image = someFilter->GetOutput();
+   * \endcode
+   * (In the above example, the two lines of code can be in
+   * either order.)
+   *
+   * Note that Update() is not called automatically except within a
+   * pipeline as in the first example.  When \b streaming (using a 
+   * StreamingImageFilter) is activated, it may be more efficient to
+   * use a pipeline than to call Update() once for each filter in
+   * turn.
+   *
+   * For an image, the data generated is for the requested
+   * Region, which can be set using ImageBase::SetRequestedRegion().
+   * By default, the largest possible region is requested.
+   */
   OutputImageType * GetOutput(void);
   OutputImageType * GetOutput(unsigned int idx);
   
