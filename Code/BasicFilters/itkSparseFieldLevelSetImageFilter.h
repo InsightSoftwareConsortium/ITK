@@ -86,6 +86,9 @@ public:
 
   const unsigned int &GetSize() const
   { return m_Size; }
+
+  int GetStride(unsigned int i)
+  { return m_StrideTable[i]; }
   
   SparseFieldCityBlockNeighborList();
   ~SparseFieldCityBlockNeighborList() {}
@@ -97,6 +100,10 @@ private:
   RadiusType m_Radius;
   std::vector<unsigned int> m_ArrayIndex;
   std::vector<OffsetType>   m_NeighborhoodOffset;
+
+  /** An internal table for keeping track of stride lengths in a neighborhood,
+      i.e. the memory offsets between pixels along each dimensional axis. */
+  unsigned m_StrideTable[Dimension];
 };
 
   
@@ -285,7 +292,20 @@ public:
    *  the square root of the average square of the change value of all pixels
    *  updated during the previous iteration. */
   itkGetMacro(RMSChange, ValueType);
-    
+
+  /** Get/Set the value of the InterpolateSurfaceLocation flag.  This flag
+      tells the solver whether or not to interpolate for the surface location
+      when calculating change at a voxel location.  Turned on by default.  Some
+      applications may not use this value and can safely turn the flag off.*/
+  itkSetMacro(InterpolateSurfaceLocation, bool);
+  itkGetMacro(InterpolateSurfaceLocation, bool);
+
+  /** See Get/SetInterpolateSurfaceLocation */
+  void InterpolateSurfaceLocationOn()
+  { this->SetInterpolateSurfaceLocation(true); }
+  void InterpolateSurfaceLocationOff()
+  { this->SetInterpolateSurfaceLocation(false); }
+  
 protected:
   SparseFieldLevelSetImageFilter();
   ~SparseFieldLevelSetImageFilter();
@@ -438,10 +458,15 @@ protected:
    *  during the current iteration.  Calculated in ApplyUpdate. */
   ValueType m_RMSChange;  
 
+  /** This flag tells the solver whether or not to interpolate for the actual
+      surface location when calculating change at each active layer node.  By
+      default this is turned on. Subclasses which do not sample propagation
+      (speed), advection, or curvature terms should turn this flag off. */
+  bool m_InterpolateSurfaceLocation;
+
 private:
   SparseFieldLevelSetImageFilter(const Self&);//purposely not implemented
   void operator=(const Self&);      //purposely not implemented
-
 };
   
   

@@ -18,6 +18,7 @@
 #define __itkSegmentationLevelSetFunction_h_
 
 #include "itkLevelSetFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 namespace itk {
 
@@ -65,6 +66,12 @@ public:
   typedef typename FeatureImageType::PixelType FeatureScalarType;
   typedef typename ImageType::IndexType IndexType;
 
+
+  /** Define an interpolator */
+  typedef LinearInterpolateImageFunction<FeatureImageType>  InterpolatorType;
+
+  /** Continuous index type recognized by the interpolator */
+  typedef typename InterpolatorType::ContinuousIndexType ContinuousIndexType;
   
   /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
@@ -73,7 +80,7 @@ public:
   virtual FeatureImageType *GetFeatureImage() const
   { return m_FeatureImage.GetPointer(); }
   virtual void SetFeatureImage(FeatureImageType *f)
-  { m_FeatureImage = f; }
+  {    m_FeatureImage = f;  }
   
   /** Get the image used as the speed function in the level set equation */
   virtual ImageType *GetSpeedImage() const
@@ -99,28 +106,23 @@ protected:
   typename FeatureImageType::Pointer m_FeatureImage;
   typename ImageType::Pointer        m_SpeedImage;
 
- /** Returns the propagation speed from the precalculated speed image.*/
- virtual ScalarValueType PropagationSpeed(
-                            const NeighborhoodType& neighborhood,
-                            const FloatOffsetType
-                          ) const
-    {
-      IndexType idx = neighborhood.GetIndex();
-      return m_SpeedImage->GetPixel(idx);
-    }
-  
+  /** Returns the propagation speed from the precalculated speed image.*/
+  virtual ScalarValueType PropagationSpeed(const NeighborhoodType&,
+                                           const FloatOffsetType&) const;
+
   /** Returns the propagation speed from the precalculated speed image. */
-  virtual ScalarValueType PropagationSpeed(const BoundaryNeighborhoodType
-                               &neighborhood, const FloatOffsetType &
-                                           ) const
-  {
-    IndexType idx = neighborhood.GetIndex();
-    return m_SpeedImage->GetPixel(idx);
-  }
+  virtual ScalarValueType PropagationSpeed(const BoundaryNeighborhoodType&,
+                                           const FloatOffsetType &) const;
 
   virtual ~SegmentationLevelSetFunction() {}
   SegmentationLevelSetFunction()
-  { m_SpeedImage = ImageType::New(); }  
+  {
+    m_SpeedImage = ImageType::New();
+    m_Interpolator = InterpolatorType::New();
+  }
+
+  typename InterpolatorType::Pointer m_Interpolator;
+  
 };
 
 } // end namespace

@@ -74,7 +74,7 @@ public:
    *  Default implementation returns zero. */ 
   virtual ScalarValueType PropagationSpeed(
     const NeighborhoodType& neighborhood,
-    const FloatOffsetType ) const
+    const FloatOffsetType & ) const
     { return NumericTraits<ScalarValueType>::Zero; }
   virtual ScalarValueType PropagationSpeed(
     const BoundaryNeighborhoodType
