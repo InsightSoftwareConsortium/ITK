@@ -24,8 +24,6 @@
 #include "itkFEMLinearSystemWrapper.h"
 #include "itkFEMItpackSparseMatrix.h"
 #include <vector>
-#include <memory>
-
 
 namespace itk {
 namespace fem {
@@ -58,20 +56,21 @@ public:
   /** vector of matrices typedef */
   typedef std::vector<MatrixRepresentation> MatrixHolder;
 
-  /** auto pointer to vector of matrices typedef */
-  typedef std::auto_ptr<MatrixHolder> MatrixArrayPtr;
+  /* auto pointer to vector of matrices typedef */
+  /* typedef std::auto_ptr<MatrixHolder> MatrixArrayPtr; */
 
   /** vector representation typedef */
-  typedef std::auto_ptr<doublereal> VectorRepresentation;
+  /* typedef std::auto_ptr<doublereal> VectorRepresentation; */
+  typedef doublereal* VectorRepresentation;
 
   /** vector of vector typedef */
   typedef std::vector<VectorRepresentation> VectorHolder;
 
-  /** auto pointer to vector of vectors typedef */
-  typedef std::auto_ptr<VectorHolder> VectorArrayPtr;
+  /* auto pointer to vector of vectors typedef */
+  /* typedef std::auto_ptr<VectorHolder> VectorArrayPtr; */
 
-  /** pointer to array of unsigned int typedef */
-  typedef std::auto_ptr<unsigned int> UnsignedIntegerArrayPtr;
+  /* pointer to array of unsigned int typedef */
+  /* typedef std::auto_ptr<unsigned int> UnsignedIntegerArrayPtr; */
 
   /* -----------------------------------------------------------------
    * 
@@ -399,7 +398,7 @@ public:
   /**
    * destructor
    */
-  ~ItpackLinearSystemWrapper() {}
+  ~ItpackLinearSystemWrapper();
 
 
   /* memory management routines */
@@ -452,17 +451,18 @@ public:
 
 private:
 
-  /** auto pointer to vector of matrices */
-  MatrixArrayPtr m_Matrices;
+  /** pointer to vector of matrices */
+  MatrixHolder *m_Matrices;
 
-  /** auto pointer to vector of force vectors */
-  VectorArrayPtr m_Vectors;
+  /** pointer to vector of force arrays */
+  VectorHolder *m_Vectors;
 
-  /** auto pointer to vector of solution vectors */
-  VectorArrayPtr m_Solutions;
+  /** pointer to vector of solution arrays */
+  VectorHolder *m_Solutions;
 
   /** pointer to array of unsigned int's indicating max number of entries in each matrix */
-  UnsignedIntegerArrayPtr m_MaximumNonZeroValues;
+  //UnsignedIntegerArrayPtr m_MaximumNonZeroValues;
+  unsigned int *m_MaximumNonZeroValues;
 
   /** Array of pointers to available solver functions */
   int (*m_Methods[7])(integer *, integer *, integer *, doublereal *, doublereal *, doublereal *, integer *, integer *, doublereal *, 

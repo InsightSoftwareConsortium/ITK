@@ -47,17 +47,21 @@ ItpackLinearSystemWrapper::ItpackLinearSystemWrapper()
   m_IPARM[1] = -1;   /* no error message output */
   m_IPARM[4] = 1;    /* non-symmetric matrix */
 
+  m_MaximumNonZeroValues = 0;
+  m_Matrices = 0;
+  m_Vectors = 0;
+
 }
 
 
 void ItpackLinearSystemWrapper::SetMaximumNonZeroValuesInMatrix(unsigned int matrixIndex, unsigned int maxNonZeros)
 {
-  if (m_MaximumNonZeroValues.get() == 0)
+  if (m_MaximumNonZeroValues == 0)
   {
-    m_MaximumNonZeroValues = std::auto_ptr<unsigned int>(new unsigned int [m_NumberOfMatrices]);
+    m_MaximumNonZeroValues = new unsigned int [m_NumberOfMatrices];
   }
 
-  m_MaximumNonZeroValues.get()[matrixIndex] = maxNonZeros;
+  m_MaximumNonZeroValues[matrixIndex] = maxNonZeros;
 }
 
 
@@ -65,17 +69,18 @@ void ItpackLinearSystemWrapper::InitializeMatrix(unsigned int matrixIndex)
 {
 
   // FIX ME
-  if (!m_Order || !(m_MaximumNonZeroValues.get()) ) return;
+  if (!m_Order || !m_MaximumNonZeroValues) return;
 
   // allocate if necessay
-  if (m_Matrices.get() == 0)
+  if (m_Matrices == 0)
   {
-    m_Matrices = MatrixArrayPtr( new MatrixHolder(m_NumberOfMatrices) );
+    //m_Matrices = MatrixArrayPtr( new MatrixHolder(m_NumberOfMatrices) );
+    m_Matrices = new MatrixHolder(m_NumberOfMatrices);
   }
 
   /* Set required variables */
   (*m_Matrices)[matrixIndex].SetOrder(m_Order);
-  (*m_Matrices)[matrixIndex].SetMaxNonZeroValues( m_MaximumNonZeroValues.get()[matrixIndex] );
+  (*m_Matrices)[matrixIndex].SetMaxNonZeroValues( m_MaximumNonZeroValues[matrixIndex] );
 
 }
 
@@ -84,18 +89,18 @@ void ItpackLinearSystemWrapper::InitializeVector(unsigned int vectorIndex)
 {
 
   /* allocate if necessay */
-  if (m_Vectors.get() == NULL)
+  if (m_Vectors == 0)
   {
-    m_Vectors = VectorArrayPtr(new VectorHolder(m_NumberOfVectors));
+    m_Vectors = new VectorHolder(m_NumberOfVectors);
   }
   
   /* insert new vector */
-  (*m_Vectors)[vectorIndex] = VectorRepresentation(new doublereal [m_Order]);
+  (*m_Vectors)[vectorIndex] = new doublereal [m_Order];
 
   /* fill with zeros */
   for (int i=0; i<m_Order; i++)
   {
-    (*m_Vectors)[vectorIndex].get()[i] = 0.0;
+    (*m_Vectors)[vectorIndex][i] = 0.0;
   }
 
 }
@@ -105,18 +110,18 @@ void ItpackLinearSystemWrapper::InitializeSolution(unsigned int solutionIndex)
 {
 
   // allocate if necessay
-  if (m_Solutions.get() == 0)
+  if (m_Solutions == 0)
   {
-    m_Solutions = VectorArrayPtr(new VectorHolder(m_NumberOfSolutions));
+    m_Solutions = new VectorHolder(m_NumberOfSolutions);
   }
 
   /* insert new vector */
-  (*m_Solutions)[solutionIndex] = VectorRepresentation(new doublereal [m_Order]);
+  (*m_Solutions)[solutionIndex] = new doublereal [m_Order];
 
   /* fill with zeros */
   for (int i=0; i<m_Order; i++)
   {
-    (*m_Solutions)[solutionIndex].get()[i] = 0.0;
+    (*m_Solutions)[solutionIndex][i] = 0.0;
   }
 
 }
@@ -136,7 +141,7 @@ void ItpackLinearSystemWrapper::DestroyVector(unsigned int vectorIndex)
   // FIX ME: error checking
 
   //this->InitializeVector(vectorIndex);
-  if (m_Vectors.get() == NULL)
+  if (m_Vectors == NULL)
   {
     return;
   }
@@ -152,7 +157,7 @@ void ItpackLinearSystemWrapper::DestroySolution(unsigned int solutionIndex)
   // FIX ME: error checking
 
   //this->InitializeVector(vectorIndex);
-  if (m_Solutions.get() == NULL)
+  if (m_Solutions == 0)
   {
     return;
   }
@@ -191,7 +196,7 @@ ItpackLinearSystemWrapper::Float ItpackLinearSystemWrapper::GetVectorValue(unsig
 {
   // FIX ME: error checking
 
-  return ((*m_Vectors)[vectorIndex].get())[i];
+  return (*m_Vectors)[vectorIndex][i];
 }
 
 
@@ -199,7 +204,7 @@ void ItpackLinearSystemWrapper::SetVectorValue(unsigned int i, Float value, unsi
 {
   // FIX ME: error checking
 
-  ((*m_Vectors)[vectorIndex].get())[i] = value;
+  (*m_Vectors)[vectorIndex][i] = value;
 }
 
 
@@ -207,7 +212,7 @@ void ItpackLinearSystemWrapper::AddVectorValue(unsigned int i, Float value, unsi
 {
   // FIX ME: error checking
 
-  ((*m_Vectors)[vectorIndex].get())[i] += value;
+  (*m_Vectors)[vectorIndex][i] += value;
 }
 
 
@@ -215,7 +220,7 @@ ItpackLinearSystemWrapper::Float ItpackLinearSystemWrapper::GetSolutionValue(uns
 {
   // FIX ME: error checking
 
-  return ((*m_Solutions)[solutionIndex].get())[i];
+  return (*m_Solutions)[solutionIndex][i];
 }
 
 
@@ -223,7 +228,7 @@ void ItpackLinearSystemWrapper::SetSolutionValue(unsigned int i, Float value, un
 {
   // FIX ME: error checking
 
-  ((*m_Solutions)[solutionIndex].get())[i] = value;
+  (*m_Solutions)[solutionIndex][i] = value;
 
 }
 
@@ -232,7 +237,7 @@ void ItpackLinearSystemWrapper::AddSolutionValue(unsigned int i, Float value, un
 {
   // FIX ME: error checking
 
-  ((*m_Solutions)[solutionIndex].get())[i] += value;
+  (*m_Solutions)[solutionIndex][i] += value;
 }
 
 
@@ -331,7 +336,7 @@ void ItpackLinearSystemWrapper::Solve(void)
 
   /* call to itpack solver routine */
   (*m_Methods[m_Method])( &N, (*m_Matrices)[0].GetIA(), (*m_Matrices)[0].GetJA(), (*m_Matrices)[0].GetA(), 
-    (*m_Vectors)[0].get(), (*m_Solutions)[0].get(), &(IWKSP[0]), &NW, &(WKSP[0]), &(m_IPARM[0]), &(m_RPARM[0]), &IERR);
+    (*m_Vectors)[0], (*m_Solutions)[0], &(IWKSP[0]), &NW, &(WKSP[0]), &(m_IPARM[0]), &(m_RPARM[0]), &IERR);
 
   delete [] IWKSP;
   delete [] WKSP;
@@ -380,6 +385,8 @@ void ItpackLinearSystemWrapper::SwapMatrices(unsigned int matrixIndex1, unsigned
   (*m_Matrices)[matrixIndex1].SetMaxNonZeroValues ( nz );
   (*m_Matrices)[matrixIndex1].SetCompressedRow(ia, ja, a);
 
+
+
 }
 
 
@@ -409,7 +416,7 @@ void ItpackLinearSystemWrapper::CopySolution2Vector(unsigned solutionIndex, unsi
   /* copy values */
   for (int i=0; i<m_Order; i++)
   {
-    (*m_Vectors)[vectorIndex].get()[i] = (*m_Solutions)[solutionIndex].get()[i];
+    (*m_Vectors)[vectorIndex][i] = (*m_Solutions)[solutionIndex][i];
   }
 }
 
@@ -425,7 +432,43 @@ void ItpackLinearSystemWrapper::MultiplyMatrixMatrix(unsigned int resultMatrixIn
 void ItpackLinearSystemWrapper::MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex)
 {
 
-  (*m_Matrices)[matrixIndex].mult( (*m_Vectors)[vectorIndex].get(), (*m_Vectors)[resultVectorIndex].get() );
+  (*m_Matrices)[matrixIndex].mult( (*m_Vectors)[vectorIndex], (*m_Vectors)[resultVectorIndex] );
+
+}
+
+
+ItpackLinearSystemWrapper::~ItpackLinearSystemWrapper(void)
+{
+  delete [] m_MaximumNonZeroValues;
+  delete m_Matrices;
+
+  int i;
+  if (m_Vectors != 0)
+  {
+    for (i=0; i<m_NumberOfVectors; i++)
+    {
+      if ( (*m_Vectors)[i] != 0 )
+      {
+        delete [] (*m_Vectors)[i];
+      }
+    }
+    delete [] m_Vectors;
+  }
+
+  
+  if (m_Solutions != 0)
+  {
+    for (i=0; i<m_NumberOfSolutions; i++)
+    {
+      if ( (*m_Solutions)[i] != 0 )
+      {
+        delete [] (*m_Solutions)[i];
+      }
+    }
+    delete [] m_Solutions;
+  }
+  
+
 
 }
 
