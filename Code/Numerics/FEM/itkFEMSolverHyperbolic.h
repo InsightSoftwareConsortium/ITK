@@ -69,6 +69,9 @@ public:
    */
   virtual void Solve( void );
 
+  virtual Float GetTimeStep( void ) const { return m_deltaT; }
+  virtual void SetTimeStep(Float dt) { this->m_deltaT=dt; }
+
   /**
    * Constants that specify, where matrices are strored.
    */

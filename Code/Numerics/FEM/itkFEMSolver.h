@@ -222,6 +222,18 @@ public:
    */
   virtual void InitializeLinearSystemWrapper(void);
 
+  /**
+   * Returns the time step used for dynamic problems.
+   */
+  virtual Float GetTimeStep( void ) const { return 0.0; }
+
+  /**
+   * Sets the time step used for dynamic problems.
+   *
+   * \param dt New time step.
+   */
+  virtual void SetTimeStep(Float dt) {}
+
 protected:
 
   /**
