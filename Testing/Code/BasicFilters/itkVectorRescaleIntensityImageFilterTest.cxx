@@ -55,6 +55,8 @@ int itkVectorRescaleIntensityImageFilterTest(int, char* [] )
   pixelValue[1] = 20;
   pixelValue[2] = 30;
 
+  inputImage->SetRegions(region);
+  inputImage->Allocate();
   inputImage->FillBuffer( pixelValue );
 
   typedef itk::VectorRescaleIntensityImageFilter< 
@@ -96,13 +98,17 @@ int itkVectorRescaleIntensityImageFilterTest(int, char* [] )
     const OutputPixelType outputValue = ot.Get();
     for(unsigned int k=0; k < VectorDimension; k++)
       {
-      if( fabs( outputValue[k] - pixelValue[k] * factor ) / outputValue[k] - 1.0 > tolerance )
+      if (outputValue[k] != 0)
         {
-        std::cerr << "Test FAILED !" << std::endl;
-        std::cerr << "Input  Pixel Value = " << pixelValue  << std::endl;
-        std::cerr << "Output Pixel Value = " << outputValue << std::endl;
+        if( fabs( outputValue[k] - pixelValue[k] * factor ) / outputValue[k] - 1.0 > tolerance )
+          {
+          std::cerr << "Test FAILED !" << std::endl;
+          std::cerr << "Input  Pixel Value = " << pixelValue  << std::endl;
+          std::cerr << "Output Pixel Value = " << outputValue << std::endl;
+          }
         }
       }
+    ot++;
     }
     
   std::cout << "Test PASSED ! " << std::endl;
