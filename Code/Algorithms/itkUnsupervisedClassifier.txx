@@ -64,7 +64,7 @@ UnsupervisedClassifier<TInputImage,TClassifiedImage>
 template <class TInputImage, class TClassifiedImage>
 void
 UnsupervisedClassifier<TInputImage,TClassifiedImage>
-::PrintSelf( std::ostream& os, Indent indent )
+::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
 

@@ -311,7 +311,7 @@ protected:
   /**
    * Print self identity
    */      
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * Allocate memory for the Output Model
