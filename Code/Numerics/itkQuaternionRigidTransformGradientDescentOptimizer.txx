@@ -78,13 +78,15 @@ QuaternionRigidTransformGradientDescentOptimizer<TCostFunction>
 
   ParametersType newPosition;
   const ParametersType & currentPosition = GetCurrentPosition();
+  DerivativeType transformedGradient = 
+            GetTransform()->TransformCovariantVector( m_Gradient );
 
   // compute new quaternion value
   vnl_quaternion<double> newQuaternion;
   for( unsigned int j=0; j < 4; j++ )
     {
     newQuaternion[j] = currentPosition[j] + direction * m_LearningRate *
-      m_Scale[j] * m_Gradient[j];
+      transformedGradient[j];
     }
 
   newQuaternion.normalize();
@@ -99,7 +101,7 @@ QuaternionRigidTransformGradientDescentOptimizer<TCostFunction>
   for(unsigned int j=4; j<SpaceDimension; j++)
   {
     newPosition[j] = currentPosition[j] + 
-      direction * m_LearningRate * m_Scale[j] * m_Gradient[j];
+      direction * m_LearningRate * transformedGradient[j];
   }
 
   SetCurrentPosition( newPosition );
