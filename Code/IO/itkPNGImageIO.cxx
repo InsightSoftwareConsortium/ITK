@@ -100,6 +100,7 @@ const std::type_info& PNGImageIO::GetPixelType() const
     case DOUBLE:
     case RGB:
     case RGBA:
+    default:
       {
       itkExceptionMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
       return this->ConvertToTypeInfo(m_PixelType);      
@@ -337,8 +338,8 @@ void PNGImageIO::ReadImageInformation()
   // update the info now that we have defined the filters
   png_read_update_info(png_ptr, info_ptr);
   this->SetNumberOfDimensions(2);
-  this->m_Dimensions[0] = width;
-  this->m_Dimensions[1] = height;
+  m_Dimensions[0] = width;
+  m_Dimensions[1] = height;
   if (bitDepth <= 8)
     {
     m_PixelType = UCHAR;
