@@ -35,6 +35,7 @@
 #include "itkImageFileWriter.h"
 #include "itkScalarImageToHistogramGenerator.h"
 #include "itkBinaryThresholdImageFilter.h"
+#include "itkNumericTraits.h"
 
 #include <stdio.h>
 int main( int argc, char * argv[] )
@@ -151,7 +152,7 @@ int main( int argc, char * argv[] )
     {
     std::cout << "OtsuThreshold["
       << (int)(itNum - thresholdVector.begin())
-      << "] = " << *itNum << std::endl;  
+      << "] = " << static_cast<itk::NumericTraits<CalculatorType::MeasurementType>::PrintType>(*itNum) << std::endl;  
   // Software Guide : EndCodeSnippet
     
     upperThreshold = (*itNum);
