@@ -43,7 +43,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkCurvatureFlowImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkImage.h"
-#include "itkVTKImageWriter.h"
+#include "itkImageFileWriter.h"
+#include "itkVTKImageIO.h"
 #include "itkOutputWindow.h"
 #include "itkCommand.h"
 #include "itkCastImageFilter.h"
@@ -156,12 +157,10 @@ return(0);
     return EXIT_FAILURE;
     }
  
-  typedef itk::VTKImageWriter<ImageType> WriterType;
+  typedef itk::ImageFileWriter<ImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();
-
   writer->SetInput( streamer->GetOutput() );
   writer->SetFileName("CurvatureFlowImageFilterImage.vtk");
-//  writer->SetFileTypeToBinary();
   writer->Write();
 
 

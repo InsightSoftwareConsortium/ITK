@@ -1,6 +1,7 @@
 
 INCLUDE_DIRECTORIES(
 ${ITK_SOURCE_DIR}/Code/BasicFilters
+${ITK_SOURCE_DIR}/Code/IO
 ${ITK_SOURCE_DIR}/Code/Algorithms
 )
 
@@ -9,6 +10,7 @@ ${ITK_BINARY_DIR}/Code/BasicFilters
 )
 
 LINK_LIBRARIES (
+ITKIO
 ITKBasicFilters
 ITKCommon
 VXLNumerics

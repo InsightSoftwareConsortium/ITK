@@ -1,3 +1,4 @@
+INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/BasicFilters)
 INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/IO)
 INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/zlib)
 INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/png)
@@ -12,7 +13,9 @@ ADD_EXECUTABLE(itkConvertBufferTest itkConvertBufferTest)
 ADD_EXECUTABLE(itkPNGImageIOTest itkPNGImageIOTest)
 ADD_EXECUTABLE(itkMetaImageIOTest itkMetaImageIOTest)
 ADD_EXECUTABLE(itkVOLImageIOTest itkVOLImageIOTest)
+ADD_EXECUTABLE(itkVTKImageIOTest itkVTKImageIOTest)
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest)
+
 #ADD_EXECUTABLE(itkRawImageIOTest itkRawImageIOTest)
 
 

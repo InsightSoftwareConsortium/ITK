@@ -43,9 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkVector.h"
 #include "itkRandomImageSource.h"
 #include "itkShrinkImageFilter.h"
-#include "itkVTKImageWriter.h"
-#include "itkRawImageWriter.h"
-#include "itkVTKImageReader.h"
 #include "itkCommand.h"
 #include "itkOutputWindow.h"
 
@@ -157,12 +154,7 @@ int main()
   // Create a typedef to make the code more digestable
   typedef itk::Image<float,2> FloatImage2DType;
 
-  // Create a source object (in this case a reader)
-  itk::VTKImageReader<FloatImage2DType>::Pointer reader;
-  reader = itk::VTKImageReader<FloatImage2DType>::New();
-  reader->SetFileName("junkInput.vtk");
-
-  // Create another source object (in this case a random image generator).
+  // Create a source object (in this case a random image generator).
   // The source object is templated on the output type.
   //
   itk::RandomImageSource<FloatImage2DType>::Pointer random;
@@ -207,24 +199,7 @@ int main()
   allEvents->SetCallbackFunction(&allWatch,
                                  &AllEvents::WatchEvents);
   shrink->AddObserver(itk::AnyEvent(), allEvents);
-  
-  // Create a mapper (in this case a writer). A mapper
-  // is templated on the input type.
-  //
-  itk::VTKImageWriter<FloatImage2DType>::Pointer writer;
-  writer = itk::VTKImageWriter<FloatImage2DType>::New();
-  writer->SetInput(shrink->GetOutput());
-  writer->SetFileName("BasicArchitectureImage.vtk");
-  writer->SetFileTypeToASCII();
-  writer->Write();
-
-  itk::RawImageWriter<FloatImage2DType>::Pointer rawWriter;
-  rawWriter = itk::RawImageWriter<FloatImage2DType>::New();
-  rawWriter->SetInput(shrink->GetOutput());
-  rawWriter->SetFileName("BasicArchitectureImage.dat");
-  rawWriter->SetFileTypeToBinary();
-  rawWriter->SetByteOrderToBigEndian();
-  rawWriter->Write();
+  shrink->Update();
 
   // test RemoveObserver code
   shrink->RemoveObserver( tag );

@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #include <iostream>
 #include "itkOutputWindow.h"
-#include "itkRawImageIO.h"
+//#include "itkRawImageIO.h"
 #include "itkFileIOToImageFilter.h"
 #include "itkRGBPixel.h"
 #include "itkImage.h"
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
     itkGenericOutputMacro(<<"Need a file to process");
     return 1;
     }
-
+#if 0
 
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(TextOutput::New());
@@ -96,6 +96,7 @@ int main(int argc, char *argv[])
   reader->SetFileName(argv[1]);
   reader->SetIO(io);
   reader->Update();
+#endif
 
   return EXIT_SUCCESS;
 }

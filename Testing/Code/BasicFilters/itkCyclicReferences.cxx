@@ -42,8 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImage.h"
 #include "itkRandomImageSource.h"
 #include "itkShrinkImageFilter.h"
-#include "itkVTKImageWriter.h"
-#include "itkVTKImageReader.h"
 #include "itkCommand.h"
 #include "itkOutputWindow.h"
 
@@ -102,18 +100,6 @@ int main()
   }
   }//image
 
-  // Create a source object (in this case a reader)
-  {//Reader
-  itk::VTKImageReader<FloatImage2DType>::Pointer reader;
-  reader = itk::VTKImageReader<FloatImage2DType>::New();
-  reader->SetFileName("junkInput.vtk");
-  DeleteEvent deleteReader;
-  itk::MemberCommand<DeleteEvent>::Pointer deleteReaderCommand;
-  deleteReaderCommand = itk::MemberCommand<DeleteEvent>::New();
-  deleteReaderCommand->SetCallbackFunction(&deleteReader, &DeleteEvent::Delete);
-  reader->AddObserver(itk::DeleteEvent(), deleteReaderCommand);
-  }//reader
-  
   // Create another source object (in this case a random image generator).
   // The source object is templated on the output type.
   //
@@ -142,24 +128,8 @@ int main()
   deleteShrinkCommand = itk::MemberCommand<DeleteEvent>::New();
   deleteShrinkCommand->SetCallbackFunction(&deleteShrink, &DeleteEvent::Delete);
   shrink->AddObserver(itk::DeleteEvent(), deleteShrinkCommand);
-  
-  // Create a mapper (in this case a writer). A mapper
-  // is templated on the input type.
-  //
-  {//write
-  itk::VTKImageWriter<FloatImage2DType>::Pointer writer;
-  writer = itk::VTKImageWriter<FloatImage2DType>::New();
-  writer->SetInput(shrink->GetOutput());
-  writer->SetFileName("BasicArchitectureImage.vtk");
-  writer->SetFileTypeToASCII();
-  writer->Write();
-  DeleteEvent deleteWriter;
-  itk::MemberCommand<DeleteEvent>::Pointer deleteWriterCommand;
-  deleteWriterCommand = itk::MemberCommand<DeleteEvent>::New();
-  deleteWriterCommand->SetCallbackFunction(&deleteWriter, &DeleteEvent::Delete);
-  writer->AddObserver(itk::DeleteEvent(), deleteWriterCommand);
-  }//write
   }//shrink
+
   }//random
   
   return EXIT_SUCCESS;
