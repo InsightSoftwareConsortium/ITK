@@ -136,6 +136,11 @@ class CovariantVector : public Array<T,TCovariantVectorDimension> {
    */
   vnl_vector_ref<T> Get_vnl_vector( void );
 
+  /**
+   * Get a vnl_vector with a copy of the internal memory block
+   */
+  vnl_vector<T> Get_vnl_vector( void ) const;
+
 
   /**
    * Default constructor has nothing to do.

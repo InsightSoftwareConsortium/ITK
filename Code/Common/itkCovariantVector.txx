@@ -327,6 +327,24 @@ CovariantVector<T, TCovariantVectorDimension>
 }
 
 
+/**
+ * Return a vnl_vector const
+ */
+template<class T, unsigned int TCovariantVectorDimension>
+vnl_vector< T >
+CovariantVector<T, TCovariantVectorDimension>
+::Get_vnl_vector( void ) const 
+{
+  vnl_vector< T > result(TCovariantVectorDimension);
+  for(unsigned int i=0; i<TCovariantVectorDimension; i++)
+  {
+    result[i] = (*this)[i];
+  }
+  return result;
+}
+ 
+
+
 } // end namespace itk
 
 
