@@ -280,7 +280,7 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
   case GE_AXIAL:
       //curImage->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
       //curImage->origin = itk::IOCommon::ITK_ORIGIN_ILP;
-      curImage->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAS;
+      curImage->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAI;
       break;
   default:
       //curImage->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;

@@ -165,7 +165,7 @@ struct GEImageHeader *GEAdwImageIO::ReadHeader(const char *FileNameToRead)
     case GE_AXIAL:
       //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
       //hdr->origin = itk::IOCommon::ITK_ORIGIN_SLA;
-      hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAS;
+      hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAI;
       break;
     default:
       //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;

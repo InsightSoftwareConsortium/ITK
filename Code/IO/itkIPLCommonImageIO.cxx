@@ -336,14 +336,15 @@ void IPLCommonImageIO::ReadImageInformation()
     }
   switch(m_ImageHeader->coordinateOrientation)
     {
-    case itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAS:  //Axial needs to descend
-      sortImageListDescend ();
+    case itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAI:  //Axial needed to descend, but no longer?
+      sortImageListAscend ();
       break;
     case itk::IOCommon::ITK_COORDINATE_ORIENTATION_RSP: //Coronal and Sagittal should ascend
     case itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR:
       sortImageListAscend ();
       break;
     default:
+      std::cout <<"DEBUG:  anomalous m_ImageHeader->coordinateOrientation code, at ReadImageInformation in IPLCommonImageIO." <<std::endl;
       break;
     }
   //

@@ -163,7 +163,7 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
     {
     //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
     //hdr->origin = itk::IOCommon::ITK_ORIGIN_SRA;  //was SLP in the brains2 filter.
-    hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAS;
+    hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAI;
     }
   else
     {
