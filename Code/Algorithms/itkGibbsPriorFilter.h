@@ -13,15 +13,20 @@
 namespace itk
 {
 
-/** \class MRFImageFilter
+/** \class GibbsPriorFilter
  * \brief 
  *
- * MRFImageFilter is the base class for all process objects that output
- * mesh data, and require mesh data as input. Specifically, this class
- * defines the SetInput() method for defining the input to a filter.
+ * GibbsPriorFilter is a class that apply Gibbs Prior model into 
+ * segmentation of MRF images. The core of the method is to minimize
+ * a Gibbsian form energy function.
+ * The function can be divided into three part: f = f_1 + f_2 + f_3;
+ * f_1 for the object homogeneity, f_2 for the boundary smoothness,
+ * f_3 is the noise model. f_1 and f_3 is minimized in the function
+ * GradientEnergy and f_2 is minized in the function GibbsTotalEnergy
  */
 template <class TInputImage, class TClassifiedImage>
-class ITK_EXPORT GibbsPriorFilter : public MRFImageFilter<TInputImage, TClassifiedImage>
+class ITK_EXPORT GibbsPriorFilter : public MRFImageFilter<TInputImage, 
+	TClassifiedImage>
 {
 public:
   /**
@@ -165,17 +170,13 @@ public:
    */
   itkGetMacro(ErrorTollerance, double);
 
+/**
+ *  Threshold of the object size
+ */
 
-  /**
-   *  Pointer type for output image
-   */
-//  typedef typename TClassifiedImage::Pointer OutputImage;
   itkSetMacro(ClusterSize, unsigned int);
-  /**
-   *  Region
-   */
-//  typedef typename TClassifiedImage::RegionType RegionType;
-   enum {ImageDimension = TInputImage::ImageDimension };
+
+  enum {ImageDimension = TInputImage::ImageDimension };
 
   void SetStartPoint (int x, int y, int z); 
   void SetBoundaryGradient(int a);
@@ -196,11 +197,11 @@ protected:
   TrainingImageType      m_TrainingImage;
   LabelledImageType      m_LabelledImage;
 
-  float m_BoundaryWt; 
-  float m_GibbsPriorWt; 
-  int m_StartRadius;
+  float	m_BoundaryWt; 
+  float	m_GibbsPriorWt; 
+  int	m_StartRadius;
 
-//  OutputImage m_OutputImage;
+//  Parameter definitions
 	 
   int m_StartPoint[3]; 
   int m_StartModelSize; 
@@ -210,16 +211,16 @@ protected:
 
   unsigned int           m_NumClasses;
   unsigned int           m_MaxNumIter;
-  unsigned int           m_KernelSize;
+//  unsigned int           m_KernelSize;
   unsigned int           *m_LabelStatus;
   
   double                 m_ErrorTollerance;
   double                 *m_ClassProbability; //Class liklihood
-  double                 *m_Beta3x3x3;
+  //double                 *m_Beta3x3x3;
 
 
   int                    m_ErrorCounter;
-  int                    *m_Offset;
+//  int                    *m_Offset;
   int                    m_kWidth;
   int                    m_kHeight;
   int                    m_kDepth;
@@ -228,22 +229,23 @@ protected:
   int                    m_imgDepth;
   int					 m_ClusterSize;
 
-  int                    *m_WidthOffset;
-  int                    *m_HeightOffset;
-  int                    *m_DepthOffset;
+//  int                    *m_WidthOffset;
+//  int                    *m_HeightOffset;
+//  int                    *m_DepthOffset;
 
   unsigned short		 *m_Region;
   unsigned short		 *m_RegionCount;
 
+// function defintions
   void  GenerateInputRequestedRegion();
   void  EnlargeOutputRequestedRegion( DataObject * );
   void  GenerateOutputInformation();
-  float GradientEnergy (InputImageVectorType x, int n); 
+//  float GradientEnergy (InputImageVectorType x, int n); 
   void  GibbsTotalEnergy(int i);
   int   GreyScalarBoundary(LabelledImageIndexType Index3D); 
   float GibbsEnergy(int i, int k, int k1);
-  int	Mini(int i); 
-  int	Maxi(int i); 
+//  int	Mini(int i); 
+//  int	Maxi(int i); 
   int	Sim(int a, int b);
   int	LabelRegion(int i, int l, int change);
   void	RegionEraser();
