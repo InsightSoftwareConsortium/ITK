@@ -715,16 +715,16 @@ MetaImageIO
   m_Ofstream << "NDims = " << numberOfDimensions << std::endl;
 
   m_Ofstream << "DimSize = ";
-  for( unsigned int dim=0; dim< numberOfDimensions; dim++ )
+  for( unsigned int i=0; i< numberOfDimensions; i++ )
     {
-    m_Ofstream <<  this->GetDimensions( dim ) << "  ";  
+    m_Ofstream <<  this->GetDimensions( i ) << "  ";  
     }
   m_Ofstream << std::endl;
 
   m_Ofstream << "ElementSpacing = ";
-  for( unsigned int dim=0; dim< numberOfDimensions; dim++ )
+  for( unsigned int j=0; j< numberOfDimensions; j++ )
     {
-    m_Ofstream <<  this->GetSpacing( dim ) << "  ";  
+    m_Ofstream <<  this->GetSpacing( j ) << "  ";  
     }
   m_Ofstream << std::endl;
 
