@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkNeighborhood.h"
 #include "itkSliceIterator.h"
 #include "itkImageRegionIterator.h"
-#include "itkSmartRegionNeighborhoodIterator.h"
+#include "itkSmartNeighborhoodIterator.h"
 #include <iostream>
 
 template< class T, unsigned int N >
@@ -184,10 +184,10 @@ int main()
       FillRegionSequential<int, 2>(ip);
       PrintRegion<int,2>(ip);
       
-      itk::SmartRegionNeighborhoodIterator<itk::Image<int,2> >
+      itk::SmartNeighborhoodIterator<itk::Image<int,2> >
         it(hoodRadius, ip, reg);
       
-      for (it = it.Begin(); !it.IsAtEnd(); ++it)
+      for (it.GoToBegin(); !it.IsAtEnd(); ++it)
         {
           temp = it.GetNeighborhood();
           temp.Print(std::cout);
