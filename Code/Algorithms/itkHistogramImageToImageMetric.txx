@@ -123,9 +123,9 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
   itkDebugMacro("GetValue( " << parameters << " ) ");
 
   typename HistogramType::Pointer pHistogram = HistogramType::New();
-  ComputeHistogram(parameters, *pHistogram);
+  this->ComputeHistogram(parameters, *pHistogram);
     
-  return EvaluateMeasure(*pHistogram);
+  return this->EvaluateMeasure(*pHistogram);
 }
 
 template <class TFixedImage, class TMovingImage>
@@ -153,27 +153,27 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
     }
 
   typename HistogramType::Pointer pHistogram = HistogramType::New();
-  ComputeHistogram(parameters, *pHistogram);
+  this->ComputeHistogram(parameters, *pHistogram);
 
   for (unsigned int i = 0; i < ParametersDimension; i++)
     {
     typename HistogramType::Pointer pHistogram2 = HistogramType::New();
-    CopyHistogram(*pHistogram2, *pHistogram);
+    this->CopyHistogram(*pHistogram2, *pHistogram);
       
     TransformParametersType newParameters = parameters;
     newParameters[i] -=
       m_DerivativeStepLength/m_DerivativeStepLengthScales[i];
-    ComputeHistogram(newParameters, *pHistogram2);
+    this->ComputeHistogram(newParameters, *pHistogram2);
 
     MeasureType e0 = EvaluateMeasure(*pHistogram2);
       
     pHistogram2 = HistogramType::New();
-    CopyHistogram(*pHistogram2, *pHistogram);
+    this->CopyHistogram(*pHistogram2, *pHistogram);
 
     newParameters = parameters;
     newParameters[i] +=
       m_DerivativeStepLength/m_DerivativeStepLengthScales[i];
-    ComputeHistogram(newParameters, *pHistogram2);
+    this->ComputeHistogram(newParameters, *pHistogram2);
 
     MeasureType e1 = EvaluateMeasure(*pHistogram2);
 
@@ -266,9 +266,14 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
   typename HistogramType::SizeType size = source.GetSize();
 
   for (unsigned int i = 0; i < min.Size(); i++)
+    {
     min[i] = source.GetBinMin(i, 0);
+    }
+  
   for (unsigned int i = 0; i < max.Size(); i++)
+    {
     max[i] = source.GetBinMax(i, size[i] - 1);
+    }
 
   target.Initialize(size, min, max);
 
@@ -283,7 +288,9 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
     typename HistogramType::FrequencyType freq = sourceIt.GetFrequency();
       
     if (freq > 0)
+      {
       targetIt.SetFrequency(freq);
+      }
       
     ++sourceIt;
     ++targetIt;
