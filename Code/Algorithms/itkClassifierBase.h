@@ -72,7 +72,7 @@ namespace itk
  * decision rule is comparing the return values of the membership
  * calculators. However,
  * decision rule can include some prior knowledge that can improve the
- * result. To plug in the decision rule, use SetDecisionRulePointer method.  
+ * result. To plug in the decision rule, use SetDecisionRule method.  
  *
  * Before you call the GenerateData method to start the classification process, 
  * you should plug in all necessary parts ( one or more membership 
@@ -116,21 +116,22 @@ public:
   /** Type alias for decision rule */
   typedef DecisionRuleBase DecisionRuleType;
 
-  /** Set the pointer to the classifer being used.
+  /** Set the pointer to the decision rule.
    * Stores the decision rule that makes the real decision using 
    * informations from MembershipFunctions and other prior knowledge */
-  void SetDecisionRule( typename DecisionRuleType::Pointer ptrToDecisionRule )
+  void SetDecisionRule( DecisionRuleType* ptrToDecisionRule )
   {
     m_DecisionRulePointer = ptrToDecisionRule;
   }
 
-  /** Set the pointer to the classifer being used. */
-  DecisionRuleType * GetDecisionRule(void)
+  /** Get the pointer to the decision rule being used. */
+  DecisionRuleType* GetDecisionRule(void)
   {
-    return m_DecisionRulePointer;
+    return m_DecisionRulePointer.GetPointer() ;
   }
   
-  /** Method to get mean */
+  /** Method to get the set of MembershipFunction that are plugged in by
+   * the AddMembershipFunction method*/
   const MembershipFunctionPointerVector GetMembershipFunctions() const
   {
     return m_MembershipFunctions;
