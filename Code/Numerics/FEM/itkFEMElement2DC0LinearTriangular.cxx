@@ -149,7 +149,7 @@ Element2DC0LinearTriangular
 
 void
 Element2DC0LinearTriangular
-::ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const
+::ShapeFunctionDerivatives( const VectorType&, MatrixType& shapeD ) const
 {
   // Matrix of shape functions derivatives is an
   // identity matrix for linear triangular element.

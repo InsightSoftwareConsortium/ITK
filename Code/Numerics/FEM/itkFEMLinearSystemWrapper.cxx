@@ -154,7 +154,7 @@ void LinearSystemWrapper::MultiplyMatrixVector(unsigned int resultVector, unsign
 }
 
 
-void LinearSystemWrapper::GetColumnsOfNonZeroMatrixElementsInRow( unsigned int row, ColumnArray& cols, unsigned int matrixIndex )
+void LinearSystemWrapper::GetColumnsOfNonZeroMatrixElementsInRow( unsigned int, ColumnArray& cols, unsigned int )
 {
   // By default we assume full matrices and return indices of all columns
   cols=ColumnArray(m_Order);

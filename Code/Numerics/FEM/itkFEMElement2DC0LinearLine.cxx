@@ -81,7 +81,7 @@ Element2DC0LinearLine
 
 void
 Element2DC0LinearLine
-::ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const
+::ShapeFunctionDerivatives( const VectorType&, MatrixType& shapeD ) const
 {
   shapeD.resize(1,2);
 
@@ -94,7 +94,7 @@ Element2DC0LinearLine
 
 void
 Element2DC0LinearLine
-::Jacobian( const VectorType& pt, MatrixType& J, const MatrixType* pshapeD ) const
+::Jacobian( const VectorType&, MatrixType& J, const MatrixType*) const
 {
   // Since the line element defines only one global coordinate
   // and lives in 2D space, we need to provide a custom Jacobian.
@@ -117,6 +117,7 @@ Element2DC0LinearLine
 {
 
   // FIXME: write proper implementation
+  localPt=globalPt;
 
   return false;
 }

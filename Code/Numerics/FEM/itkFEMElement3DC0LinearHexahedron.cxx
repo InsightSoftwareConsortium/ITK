@@ -198,6 +198,7 @@ Element3DC0LinearHexahedron
 //  Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
 //        A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
 
+  localPt=globalPt;
   localPt.resize(3);
   localPt.fill(0.0);
 

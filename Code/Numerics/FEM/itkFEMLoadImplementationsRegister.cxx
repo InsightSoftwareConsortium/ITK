@@ -49,8 +49,10 @@ namespace fem {
 
 /* This macro makes registering Load implementations easier. */
 #define REGISTER_LOAD_EX(ElementClass,LoadClass,FunctionName) \
-  VisitorDispatcher<ElementClass, ElementClass::LoadType, ElementClass::LoadImplementationFunctionPointer> \
-  ::RegisterVisitor((LoadClass*)0, &FunctionName);
+  { ElementClass::LoadImplementationFunctionPointer fp=&FunctionName; \
+    /* NOTE: Borland compiler (bcc 5.5.1) crashes if the pointer to templated function is not stored in a variable, before it is used in a function call below. */ \
+    VisitorDispatcher<ElementClass, ElementClass::LoadType, ElementClass::LoadImplementationFunctionPointer> \
+    ::RegisterVisitor((LoadClass*)0, fp); }
 /* Use this macro to also automatically declare load implementation function. */
 #define REGISTER_LOAD(ElementClass,LoadClass,FunctionName) \
   extern void FunctionName(ElementClass::ConstPointer, ElementClass::LoadPointer, ElementClass::VectorType& ); \
@@ -65,7 +67,6 @@ namespace fem {
  */
 void LoadImplementationsRegister(void)
 {
-
   // Loads acting on LineStress element
   REGISTER_LOAD_EX(Element2DC0LinearLineStress,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
 

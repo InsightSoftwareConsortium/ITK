@@ -189,20 +189,20 @@ public:
    *
    *   bool Dummy = VisitorDispatcher<Bar,Load>::RegisterVisitor((LoadGrav*)0, &LoadGravImpl);
    * 
-   * \param ptr Dummy class pointer that automatically generates
-   *            the correct template parameter TVisitorClass.
-   *            Technically we would like to call Add function as
-   *            VisitorDispatcher<...>::Add<MyVisitorClass>(...),
-   *            but MS C compiler crashes if we do this. This is
-   *            a work around. You should pass null pointer casted
-   *            to the TVisitorClass when calling this function.
-   *
    * \param visitor_function Pointer to a visitor function.
+   *
+   * \note Dummy class pointer must be passed as a first parameter to
+   *       automatically deduct the correct template parameter TVisitorClass.
+   *       Technically we would like to call the this function as
+   *       VisitorDispatcher<...>::RegisterVisitor<MyVisitorClass>(...),
+   *       but MS C compiler crashes if we do this. This is a work around.
+   *       You should pass null pointer casted to the TVisitorClass when
+   *       calling this function.
    *
    * \sa Visit
    */
   template<class TVisitorClass>
-  inline static bool RegisterVisitor(TVisitorClass* ptr, VisitFunctionPointerType visitor_function)
+  inline static bool RegisterVisitor(TVisitorClass*, VisitFunctionPointerType visitor_function)
   {
     typedef TVisitorClass VisitorClass;
     bool status;

@@ -153,7 +153,7 @@ return( *b >= 0 ? x : -x);
  * do with I/O. Since we don't want ITPACK to output
  * anything, the functions do nothing.
  */
-integer do_fio(ftnint *number, char *ptr, ftnlen len)
+integer do_fio(ftnint *, char *, ftnlen )
 {
   return 0;
 }
@@ -163,7 +163,7 @@ integer e_wsfe(void)
   return 0;
 }
 
-integer s_wsfe(cilist *a)
+integer s_wsfe(cilist *)
 {
   return 0;
 }
@@ -8490,7 +8490,7 @@ L30:
     return 0;
 } /* omeg_ */
 
-logical omgchg_(integer *ndummy)
+logical omgchg_(integer *)
 {
     /* System generated locals */
     doublereal d__1, d__2, d__3, d__4, d__5, d__6;
@@ -8556,7 +8556,7 @@ L10:
     return ret_val;
 } /* omgchg_ */
 
-logical omgstr_(integer *ndummy)
+logical omgstr_(integer *)
 {
     /* Format strings */
     static char fmt_20[] = "(/30x,\002OMEGA-STAR, AN ALTERNATE ESTIMATE O\
@@ -10502,7 +10502,7 @@ L50:
     return 0;
 } /* prsblk_ */
 
-/* Subroutine */ int prsred_(integer *nnb, integer *nnr, integer *ia, integer 
+/* Subroutine */ int prsred_(integer *, integer *nnr, integer *ia, integer 
     *ja, doublereal *a, doublereal *ub, doublereal *vr)
 {
     /* System generated locals */
@@ -11974,7 +11974,7 @@ L80:
     return 0;
 } /* sbini_ */
 
-/* Subroutine */ int sbsij_(integer *n, integer *nz, integer *ia, integer *ja,
+/* Subroutine */ int sbsij_(integer *n, integer *, integer *ia, integer *ja,
      doublereal *a, integer *iwork, integer *ii, integer *jj, doublereal *
     vall, integer *mode, integer *levell, integer *noutt, integer *ierr)
 {
@@ -12513,7 +12513,7 @@ doublereal tau_(integer *ii)
     return ret_val;
 } /* tau_ */
 
-doublereal timer_(real *timdmy)
+doublereal timer_(real *)
 {
     /* System generated locals */
     real ret_val;

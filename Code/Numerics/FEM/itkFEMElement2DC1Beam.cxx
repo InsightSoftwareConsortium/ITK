@@ -106,7 +106,7 @@ Element2DC1Beam
 
 void
 Element2DC1Beam
-::ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const
+::ShapeFunctionDerivatives( const VectorType&, MatrixType& shapeD ) const
 {
   // FIXME: write proper implementation, since we need the 2nd
   //        order derivatives
@@ -119,7 +119,7 @@ Element2DC1Beam
 
 Element2DC1Beam::Float
 Element2DC1Beam
-::JacobianDeterminant( const VectorType& pt, const MatrixType* pJ ) const
+::JacobianDeterminant( const VectorType&, const MatrixType* ) const
 {
   // FIXME: this is only temporary implementation, so that GenericBodyLoads
   //        implementation works. Write the proper geometric definition

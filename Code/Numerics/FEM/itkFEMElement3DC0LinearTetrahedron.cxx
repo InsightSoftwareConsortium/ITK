@@ -31,7 +31,7 @@ namespace fem {
 
 void
 Element3DC0LinearTetrahedron
-::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
+::GetIntegrationPointAndWeight( unsigned int, VectorType& pt, Float& w, unsigned int ) const
 {
   // FIXME: Write rules for other integration orders
   pt.resize(3);
@@ -51,7 +51,7 @@ Element3DC0LinearTetrahedron
 
 unsigned int
 Element3DC0LinearTetrahedron
-::GetNumberOfIntegrationPoints(unsigned int order) const
+::GetNumberOfIntegrationPoints( unsigned int ) const
 {
   return 1;
 }
@@ -93,7 +93,7 @@ Element3DC0LinearTetrahedron
 
 void
 Element3DC0LinearTetrahedron
-::ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const
+::ShapeFunctionDerivatives( const VectorType&, MatrixType& shapeD ) const
 {
   /** functions at directions r and s.  */
   shapeD.resize(3,4);
@@ -120,6 +120,7 @@ Element3DC0LinearTetrahedron
 //   Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
 //         A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
 
+  localPt=globalPt;
   localPt.resize(3);
   localPt.fill(0.0);
 
