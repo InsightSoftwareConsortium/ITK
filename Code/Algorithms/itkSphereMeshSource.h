@@ -27,7 +27,7 @@
 namespace itk
 {
 
-/** \class itkSphere Source
+/** \class SphereMeshSource
  * \brief 
  *
  * Input the center and resolutions in 2 direction(verizon and horizon)
