@@ -63,9 +63,9 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::~Symmetri
 }
 
 template <class T, unsigned int VImageDimension>
-SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::TFunctionValueType
+SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::OutputType 
 SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
-::Evaluate(TPositionType position)
+::Evaluate(const InputType& position) const
 {
   double uniqueTerm = 0;  // Term in ellipsoid equation for unique axis    
   double symmetricTerm = 0;  // Term in ellipsoid equation for symmetric axes  
@@ -99,7 +99,6 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
 }
 
 template <class T, unsigned int VImageDimension>
-
 void SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::SetOrientation(itk::Vector<VectorType> orientation,
                                                                                            VectorType uniqueAxis,
                                                                                            VectorType symmetricAxes)

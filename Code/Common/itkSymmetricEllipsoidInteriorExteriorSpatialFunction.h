@@ -74,21 +74,23 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
-  
+    
   /**
-   * Vector typedef.
+   * Input type for the function
    */
-  typedef T VectorType;
+  typedef typename Superclass::InputType InputType;
 
+  /**
+   * Output type for the function
+   */
+  typedef typename Superclass::OutputType OutputType;
+    
   /** 
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;  
-  
-  typedef typename Superclass::TFunctionValueType TFunctionValueType;
-  typedef typename Superclass::TPositionType TPositionType;
-   
+  typedef SmartPointer<const Self>  ConstPointer; 
+
   itkTypeMacro(SymmetricEllipsoidInteriorExteriorSpatialFunction,InteriorExteriorSpatialFunction);
 
   /**
@@ -97,16 +99,26 @@ public:
   itkNewMacro(Self);
 
   /**
+   * Evaluates the function at a given position.
+   */
+  OutputType Evaluate(const InputType& position) const;
+
+  /**
+   * Vector typedef.
+   */
+  typedef T VectorType;
+
+  /**
    * Get and set the center of the ellipsoid.
    */
-  itkGetMacro( Center, TPositionType);
-  itkSetMacro( Center, TPositionType);
+  itkGetMacro(Center, InputType);
+  itkSetMacro(Center, InputType);
 
   /**
    * Get the vector ratio. The ratio of the point's projection onto the 
    * unique axis to the unique axis length.
    */
-  itkGetMacro( VectorRatio, VectorType);  
+  itkGetMacro(VectorRatio, VectorType);  
 
   /**
    * Set the orientation vector of the ellipsoid's unique axis and axes lengths.
@@ -114,10 +126,6 @@ public:
    */
   void SetOrientation(Vector<VectorType> orientation, VectorType uniqueAxis, VectorType symmetricAxes);
 
-  /**
-   * Evaluates the function at a given position.
-   */
-  TFunctionValueType Evaluate(TPositionType position);
      
 protected:
 
@@ -132,7 +140,7 @@ private:
   /**
    * The center of the ellipsoid.
    */
-  TPositionType m_Center;
+  InputType m_Center;
 
   /**
    * The unique axis length of the ellipsoid.
