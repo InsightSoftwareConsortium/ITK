@@ -96,6 +96,13 @@ public:
    * value specified by the user. */
   void SetParameters(const ParametersType & parameters);
 
+  /** Get the parameters that uniquely define the transform
+   * This is typically used by optimizers.
+   * There are 4 parameters. The first one represents the
+   * rotation, the second one the scale and the last 
+   * two represent the offset. */
+  const ParametersType & GetParameters( void ) const;
+
   /** Get the Jacobian matrix. */
   const JacobianType & GetJacobian( const InputPointType & point ) const;
 

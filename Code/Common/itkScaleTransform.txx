@@ -49,9 +49,30 @@ ScaleTransform<ScalarType, NDimensions>
 ::SetParameters( const ParametersType & parameters )
 {
   for( unsigned int i=0; i<SpaceDimension; i++ )
-  {
+    {
     m_Scale[i] = parameters[i];
+    }
+  m_Parameters = parameters;
+}
+
+
+// Get Parameters
+template <class TScalarType,unsigned int NDimensions>
+const typename ScaleTransform<TScalarType,NDimensions>::ParametersType &
+ScaleTransform<TScalarType,NDimensions>
+::GetParameters( void ) const
+{
+  itkDebugMacro( << "Getting parameters ");
+
+  // Transfer the translation part
+  for(unsigned int i=0; i < SpaceDimension; i++) 
+  {
+    m_Parameters[i] = m_Scale[i];
   }
+
+  itkDebugMacro(<<"After getting parameters " << m_Parameters );
+
+  return m_Parameters;
 }
 
 
