@@ -143,6 +143,13 @@ For a detailed description of iterators rationale see \ref ImageIteratorsPage
 */  
 
 /**
+ \defgroup GradientFilters Image Gradient Filters
+ \ingroup ImageFeatureExtraction
+ These filters compute local gradients of images. 
+*/  
+
+
+/**
  \defgroup GeometricTransforms Geometric Transformation Filters
  \ingroup Filters
  Geometric transformation Filters transform the coordinates of an image in various ways. 
