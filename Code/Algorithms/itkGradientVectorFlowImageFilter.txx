@@ -16,7 +16,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
 
-  TOutputImage::Pointer output = this->GetOutput();
+  typename TOutputImage::Pointer output = this->GetOutput();
 
   output->SetLargestPossibleRegion( this->GetInput()->GetLargestPossibleRegion() );
   output->SetBufferedRegion( this->GetInput()->GetLargestPossibleRegion() );
