@@ -258,10 +258,10 @@ void ImageSeriesReader<TOutputImage>
     reader->UpdateLargestPossibleRegion();
 
     // Deep copy the MetaDataDictionary into the array
-    if (m_ImageIO)
+    if ( reader->GetImageIO() )
       {
       DictionaryRawPointer newDictionary = new DictionaryType;
-      *newDictionary = m_ImageIO->GetMetaDataDictionary();
+      *newDictionary = reader->GetImageIO()->GetMetaDataDictionary();
       m_MetaDataDictionaryArray.push_back( newDictionary );
       }
 
