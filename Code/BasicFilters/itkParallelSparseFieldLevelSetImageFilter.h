@@ -311,7 +311,17 @@ public:
   /** Set/Get the value of the isosurface to use in the input image. */
   itkSetMacro(IsoSurfaceValue, ValueType);
   itkGetMacro(IsoSurfaceValue, ValueType);
-
+  
+  LayerPointerType GetActiveListForIndex (const IndexType index)
+  {
+  // get the 'z' value for the index
+  const unsigned int indexZ= index[m_SplitAxis];
+  // get the thread in whose region the index lies
+  const unsigned int ThreadNum= this->GetThreadNumber (indexZ);
+  // get the active list for that thread
+  return m_Data[ThreadNum].m_Layers[0];
+  }
+  
 protected:
   ParallelSparseFieldLevelSetImageFilter();
   ~ParallelSparseFieldLevelSetImageFilter() {}
