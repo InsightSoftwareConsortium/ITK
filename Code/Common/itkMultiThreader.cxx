@@ -25,9 +25,7 @@
 #endif
 #ifdef _WIN32
 #include "itkWindows.h"
-// when we start using _beginthreadex() instead of CreateThread we'll need
-// this include file
-//#include <process.h>
+#include <process.h>
 #endif
 // These are the includes necessary for multithreaded rendering on an SGI
 // using the sproc() call
@@ -219,9 +217,9 @@ void MultiThreader::SingleMethodExecute()
   // (the default)  
 
 #ifdef ITK_USE_WIN32_THREADS
-  // Using CreateThread on a PC
+  // Using _beginthreadex on a PC
   //
-  // We want to use CreateThread to start m_NumberOfThreads - 1 
+  // We want to use _beginthreadex to start m_NumberOfThreads - 1 
   // additional threads which will be used to call this->SingleMethod().
   // The parent thread will also call this routine.  When it is done,
   // it will wait for all the children to finish. 
@@ -232,18 +230,12 @@ void MultiThreader::SingleMethodExecute()
     {
     m_ThreadInfoArray[thread_loop].UserData    = m_SingleData;
     m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
-    process_id[thread_loop] = 
-      CreateThread(NULL, 0, m_SingleMethod, 
-                   ((void *)(&m_ThreadInfoArray[thread_loop])), 0, &threadId);
-// Found an article that said we should not use CreateThread but should
-// _beginthreadex() so that the CRT and exceptions are handled properly.
-// Not quite ready to try this.
-//    
-//     process_id[thread_loop] = (void *)
-//       _beginthreadex(NULL, 0,
-//                      (unsigned int (__stdcall *)(void *))m_SingleMethod, 
-//                      ((void *)(&m_ThreadInfoArray[thread_loop])), 0,
-//                      (unsigned int *)&threadId);
+
+    process_id[thread_loop] = (void *)
+      _beginthreadex(NULL, 0,
+                     (unsigned int (__stdcall *)(void *))m_SingleMethod, 
+                     ((void *)(&m_ThreadInfoArray[thread_loop])), 0,
+                     (unsigned int *)&threadId);
     if (process_id == NULL)
       {
       itkExceptionMacro("Error in thread creation !!!");
@@ -413,13 +405,13 @@ void MultiThreader::MultipleMethodExecute()
       }
     }
 
-  // We are using sproc (on SGIs), pthreads(on Suns), CreateThread
+  // We are using sproc (on SGIs), pthreads(on Suns), _beginthreadex
   // on a PC or a single thread (the default)  
 
 #ifdef ITK_USE_WIN32_THREADS
-  // Using CreateThread on a PC
+  // Using _beginthreadex on a PC
   //
-  // We want to use CreateThread to start m_NumberOfThreads - 1 
+  // We want to use _beginthreadex to start m_NumberOfThreads - 1 
   // additional threads which will be used to call the NumberOfThreads-1
   // methods defined in this->MultipleMethods[](). The parent thread
   // will call m_MultipleMethods[NumberOfThreads-1]().  When it is done,
@@ -432,9 +424,13 @@ void MultiThreader::MultipleMethodExecute()
     m_ThreadInfoArray[thread_loop].UserData = 
       m_MultipleData[thread_loop];
     m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
-    process_id[thread_loop] = 
-      CreateThread(NULL, 0, m_MultipleMethod[thread_loop], 
-       ((void *)(&m_ThreadInfoArray[thread_loop])), 0, &threadId);
+
+    process_id[thread_loop] = (void *)
+      _beginthreadex(NULL, 0,
+            (unsigned int (__stdcall *)(void *))m_MultipleMethod[thread_loop],
+            ((void *)(&m_ThreadInfoArray[thread_loop])), 0,
+            (unsigned int *)&threadId);
+
     if (process_id == NULL)
       {
       itkExceptionMacro("Error in thread creation !!!");
@@ -608,14 +604,15 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
     m_SpawnedThreadActiveFlagLock[id];
 
   // We are using sproc (on SGIs), pthreads(on Suns or HPs), 
-  // CreateThread (on win32), or generating an error  
+  // _beginthreadex (on win32), or generating an error  
 
 #ifdef ITK_USE_WIN32_THREADS
-  // Using CreateThread on a PC
+  // Using _beginthreadex on a PC
   //
-  m_SpawnedThreadProcessID[id] = 
-      CreateThread(NULL, 0, f, 
-       ((void *)(&m_SpawnedThreadInfoArray[id])), 0, &threadId);
+  m_SpawnedThreadProcessID[id] = (void *)
+      _beginthreadex(NULL, 0, (unsigned int (__stdcall *)(void *))f, 
+                     ((void *)(&m_SpawnedThreadInfoArray[id])), 0,
+                     (unsigned int *)&threadId);
   if (m_SpawnedThreadProcessID[id] == NULL)
     {
     itkExceptionMacro("Error in thread creation !!!");
