@@ -124,7 +124,7 @@ public:
 protected:
   VoronoiSegmentationRGBImageFilter();
   ~VoronoiSegmentationRGBImageFilter();
-
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   double m_Mean[6];

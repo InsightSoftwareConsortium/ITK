@@ -43,8 +43,21 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Balloon Force Filter" << std::endl;
-
+  os << indent << "YResolution = " << m_YResolution << std::endl;
+  os << indent << "StiffnessH = " << m_StiffnessH << std::endl;
+  os << indent << "StiffnessV = " << m_StiffnessV << std::endl;
+  os << indent << "Center = " << m_Center << std::endl;
+  os << indent << "Potential = " << m_Potential << std::endl;
+  os << indent << "XResolution = " << m_XResolution << std::endl;
+  os << indent << "TimeStep = " << m_TimeStep << std::endl;
+  os << indent << "Gradient = " << m_Gradient << std::endl;
+  os << indent << "ZResolution = " << m_ZResolution << std::endl;
+  os << indent << "FirstSlice = " << m_FirstSlice << std::endl;
+  os << indent << "Normals = " << m_Normals << std::endl;
+  os << indent << "NeighborRadius = " << m_NeighborRadius << std::endl;
+  os << indent << "StepThreshold1 = " << m_StepThreshold1 << std::endl;
+  os << indent << "StepThreshold2 = " << m_StepThreshold2 << std::endl;
+  os << indent << "ImageOutput = " << m_ImageOutput << std::endl;
 }/* end PrintSelf. */
 
 /* Set default value of parameters and initialize local data container 

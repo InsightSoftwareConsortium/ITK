@@ -249,7 +249,10 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "GradientVectorFlowImageFilter" << std::endl;
+  os << indent << "NoiseLevel: " << m_NoiseLevel << std::endl;
+  os << indent << "IterationNum: " << m_IterationNum << std::endl;
+  os << indent << "TimeStep: " << m_TimeStep << std::endl;
+  os << indent << "LaplacianFilter: " << m_LaplacianFilter << std::endl;
 }
 
 } // namespace itk

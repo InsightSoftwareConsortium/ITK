@@ -83,6 +83,18 @@ SimpleFuzzyConnectednessScalarImageFilter<TInputImage,TOutputImage>
   }
 }
 
+template <class TInputImage, class TOutputImage>
+void
+SimpleFuzzyConnectednessScalarImageFilter<TInputImage,TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Mean = " << m_Mean << std::endl;
+  os << indent << "Diff_Mean = " << m_Diff_Mean << std::endl;
+  os << indent << "Variance = " << m_Variance << std::endl;
+  os << indent << "Diff_Variance = " << m_Diff_Variance << std::endl;
+
+}
 } /* end namespace itk. */
 
 

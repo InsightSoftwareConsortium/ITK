@@ -238,6 +238,16 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   MakeSegmentObject();
 }
 
+template <class TInputImage, class TOutputImage>
+void 
+SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Weight: " << m_Weight << std::endl;
+  os << indent << "Threshold: " << m_Threshold << std::endl;
+}
+
 } /* end namespace itk. */
 
 #endif

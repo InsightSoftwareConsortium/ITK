@@ -110,6 +110,7 @@ public:
 protected:
   SimpleFuzzyConnectednessImageFilterBase();
   ~SimpleFuzzyConnectednessImageFilterBase();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Standard pipeline method.*/
   void GenerateData();

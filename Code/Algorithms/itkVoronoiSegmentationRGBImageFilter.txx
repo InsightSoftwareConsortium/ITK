@@ -326,7 +326,17 @@ TakeAPrior(BinaryObjectImage* aprior)
     tmp1[k]=tmp1[5-j];
   }
 }
+template <class TInputImage, class TOutputImage>
+void
+VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "MaxValueOfRGB: " << m_MaxValueOfRGB << std::endl;
+  os << indent << "Mean: " << m_Mean << std::endl;
+  os << indent << "Diff_Mean: " << m_Diff_Mean << std::endl;
 
+}
 } //end namespace
 
 #endif

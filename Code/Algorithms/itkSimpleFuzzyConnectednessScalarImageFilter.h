@@ -132,6 +132,7 @@ public:
 protected:
   SimpleFuzzyConnectednessScalarImageFilter();
   ~SimpleFuzzyConnectednessScalarImageFilter();
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   double m_Mean; 
   double m_Variance; //estimation of the Variance.

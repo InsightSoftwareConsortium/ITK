@@ -112,6 +112,8 @@ BoundaryResolver<TPixelType, TDimension>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+
+  os << indent << "Face = " << m_Face << std::endl;
 }
 
 

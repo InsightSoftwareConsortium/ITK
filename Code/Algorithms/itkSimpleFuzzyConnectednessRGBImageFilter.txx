@@ -163,16 +163,15 @@ SimpleFuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateData();            
 }
 
+template <class TInputImage, class TOutputImage>
+void
+SimpleFuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Mean = " << m_Mean << std::endl;
+  os << indent << "Diff_Mean = " << m_Diff_Mean << std::endl;
+}
 } /* end namespace itk. */
 
 #endif
-
-
-
-
-
-  
-
-
-
-

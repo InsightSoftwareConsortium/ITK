@@ -135,6 +135,7 @@ public:
 protected:
   SimpleFuzzyConnectednessRGBImageFilter();
   ~SimpleFuzzyConnectednessRGBImageFilter();
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   void GenerateData(void);
  

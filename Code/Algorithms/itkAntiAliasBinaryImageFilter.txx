@@ -31,6 +31,7 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
   os << indent << "m_MaximumRMSError = "  << m_MaximumRMSError  << std::endl;
   os << indent << "m_UpperBinaryValue = " << m_UpperBinaryValue << std::endl;
   os << indent << "m_LowerBinaryValue = " << m_LowerBinaryValue << std::endl;
+  os << indent << "m_MaximumIterations = " << m_MaximumIterations << std::endl;
 }
 
 

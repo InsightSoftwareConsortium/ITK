@@ -60,8 +60,13 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Balloon Force Filter" << std::endl;
-
+  os << indent << "Resolution = " << m_Resolution << std::endl;
+  os << indent << "NeighborRadius = " << m_NeighborRadius << std::endl;
+  os << indent << "StepThreshold1 = " << m_StepThreshold1 << std::endl;
+  os << indent << "StepThreshold2 = " << m_StepThreshold2 << std::endl;
+  os << indent << "Normals = " << m_Normals << std::endl;
+  os << indent << "FirstSlice = " << m_FirstSlice << std::endl;
+  os << indent << "ImageOutput = " << m_ImageOutput << std::endl;
 }// end PrintSelf
 
 /*
