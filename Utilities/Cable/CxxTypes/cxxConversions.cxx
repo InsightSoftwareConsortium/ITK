@@ -37,7 +37,18 @@ bool Conversions::ReferenceCanBindAsIdentity(const CvQualifiedType& from,
     {
     return true;
     }
-  
+  if(from.GetType()->IsReferenceType())
+    {
+    CvQualifiedType fromType = ReferenceType::SafeDownCast(from.GetType())->GetReferencedType();
+    if((toType == fromType)
+       || (toType == fromType.GetMoreQualifiedType(true, false))
+       || (toType == fromType.GetMoreQualifiedType(false, true))
+       || (toType == fromType.GetMoreQualifiedType(true, true)))
+      {
+      return true;
+      }
+    }
+ 
   return false;
 }
 
