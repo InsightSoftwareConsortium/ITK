@@ -24,6 +24,11 @@ namespace itk{
 
 /** /class ConnectedThresholdImageFilter
  * 
+ * ConnectedThresholdImageFilter labels pixels with ReplaceValue that are
+ * connected to an initial Seed AND lie within a Lower and Upper
+ * threshold range.
+ *
+ * \ingroup RegionGrowingSegmentation 
  */
 template <class TInputImage, class TOutputImage>
 class ConnectedThresholdImageFilter:
@@ -67,15 +72,18 @@ public:
       }
   };
 
-  /** Set/Get the lower threshold */
+  /** Set/Get the lower threshold. The default is 0. */
   itkSetMacro(Lower, InputImagePixelType);
   itkGetMacro(Lower, InputImagePixelType);
 
-  /** Set/Get the upper threshold */
+  /** Set/Get the upper threshold. The default is the largest possible
+   *  value for the InputPixelType. */
   itkSetMacro(Upper, InputImagePixelType);
   itkGetMacro(Upper, InputImagePixelType);
   
-  /** Set/Get value to replace thresholded pixels */
+  /** Set/Get value to replace thresholded pixels. Pixels that lie *
+   *  within Lower and Upper (inclusive) will be replaced with this
+   *  value. The default is 1. */
   itkSetMacro(ReplaceValue, OutputImagePixelType);
   itkGetMacro(ReplaceValue, OutputImagePixelType);
 
@@ -95,7 +103,6 @@ private:
   void operator=(const Self&); //purposely not implemented
 
 };
-
 
 } // end namespace itk
 

@@ -18,11 +18,8 @@
 #define __itkConnectedThresholdImageFilter_txx_
 
 #include "itkConnectedThresholdImageFilter.h"
-#include "itkExceptionObject.h"
-#include "itkImageRegionIterator.h"
 #include "itkBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
-#include "itkImageRegionIterator.h"
 
 namespace itk
 {
