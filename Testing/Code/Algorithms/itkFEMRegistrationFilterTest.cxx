@@ -42,22 +42,6 @@
   typedef itk::fem::VisitorDispatcher<ElementType,ElementLoadType, LoadImpFP>   
                                                           DispatcherType;
 
-namespace{
-
-  
-// The following class is used to support callbacks
-// on the filter in the pipeline that follows later
-class ShowProgressObject
-{
-public:
-  ShowProgressObject(itk::ProcessObject* o)
-    {m_Process = o;}
-  void ShowProgress()
-    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
-  itk::ProcessObject::Pointer m_Process;
-};
-}
-
 // Template function to fill in an image with a value
 template <class TImage>
 void

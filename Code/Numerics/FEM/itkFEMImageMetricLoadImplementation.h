@@ -163,6 +163,10 @@ private:
 };
 
 
+template<class TLoadClass>
+const bool ImageMetricLoadImplementation<TLoadClass>::registered = false;
+
+
 // When the templated load implementation function is instantiated,
 // it will automatically be registered with the VisitorDispatcher so 
 // that it is called as required.
