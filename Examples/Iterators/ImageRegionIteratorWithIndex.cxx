@@ -171,8 +171,8 @@ int main( int argc, char *argv[] )
 // image has been mirrored across its $x$-axis in the output.
 //
 // \begin{figure} \center
-// \includegraphics[width=4cm]{VisibleWomanEyeSlice.eps}
-// \includegraphics[width=4cm]{ImageRegionIteratorWithIndexOutput.eps}
+// \includegraphics[width=0.44\textwidth]{VisibleWomanEyeSlice.eps}
+// \includegraphics[width=0.44\textwidth]{ImageRegionIteratorWithIndexOutput.eps}
 // \caption[Using the ImageRegionIteratorWithIndex]{Results of using ImageRegionIteratorWithIndex to mirror an image
 // across an axis. The original image is shown at left.  The mirrored output is
 // shown at right.}
