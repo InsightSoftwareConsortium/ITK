@@ -88,6 +88,9 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
+
+  typedef typename Superclass::TFunctionValueType TFunctionValueType;
+  typedef typename Superclass::TVectorType TVectorType;
   
   /** 
    * Smart pointer typedef support.

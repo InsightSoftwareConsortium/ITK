@@ -41,8 +41,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkConicShellInteriorExteriorSpatialFunction_txx
 #define __itkConicShellInteriorExteriorSpatialFunction_txx
 
-#include "vnl_vector.h"
-#include "vnl_vector_fixed.h"
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_vector_fixed.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
 
 namespace itk
@@ -66,7 +66,8 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>::~ConicShellInteriorE
 }
 
 template <unsigned int VImageDimension>
-bool ConicShellInteriorExteriorSpatialFunction<VImageDimension>
+ConicShellInteriorExteriorSpatialFunction<VImageDimension>::TFunctionValueType
+ConicShellInteriorExteriorSpatialFunction<VImageDimension>
 ::Evaluate(TVectorType* position)
 {
   // As from the header...

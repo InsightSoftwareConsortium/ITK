@@ -155,7 +155,7 @@ public:
   /*
    * Set the boundary point image from which we derive core atoms
    */
-  void SetBoundaryPointImage(TBoundaryPointImage::Pointer pSource){
+  void SetBoundaryPointImage(typename TBoundaryPointImage::Pointer pSource){
     m_BoundaryPointImage = pSource;
     m_BPImageOrigin = m_BoundaryPointImage->GetOrigin();
     m_BPImageSpacing = m_BoundaryPointImage->GetSpacing(); };
@@ -198,7 +198,7 @@ private:
   /**
    * Pointer to the image that holds boundary points
    */
-  TBoundaryPointImage::Pointer m_BoundaryPointImage;
+  typename TBoundaryPointImage::Pointer m_BoundaryPointImage;
 
   /**
    * The origin of the boundary point image

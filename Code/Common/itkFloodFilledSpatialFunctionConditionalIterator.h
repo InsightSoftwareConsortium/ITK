@@ -104,6 +104,14 @@ public:
   typedef typename TImage::PixelType   PixelType;
 
   /**
+   * Dimension of the image the iterator walks.  This enum is needed so that
+   * functions that are templated over image iterator type (as opposed to
+   * being templated over pixel type and dimension) can have compile time
+   * access to the dimension of the image that the iterator walks.
+   */
+  enum { NDimensions = TImage::ImageDimension };
+
+  /**
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
@@ -187,7 +195,7 @@ protected: //made protected so other iterators can access
    * 3 = pixel is inside the function, neighbor check complete
    */
   typedef Image<unsigned char, NDimensions> TTempImage;
-  TTempImage::Pointer tempPtr;
+  typename TTempImage::Pointer tempPtr;
 
   /**
    * A known seed location to start the recursive fill

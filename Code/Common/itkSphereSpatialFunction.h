@@ -78,6 +78,9 @@ public:
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
+  typedef typename Superclass::TFunctionValueType TFunctionValueType;
+  typedef typename Superclass::TVectorType TVectorType;
+
   itkTypeMacro(SphereSpatialFunction,InteriorExteriorSpatialFunction);
 
   /**

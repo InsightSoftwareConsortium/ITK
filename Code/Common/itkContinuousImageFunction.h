@@ -173,7 +173,7 @@ public:
   /**
    * Evaluate the function at continuous index position
    */
-  virtual TOutput Evaluate( const ContinuousIndexType& index )
+  virtual TOutput Evaluate( const ContinuousIndexType& index ) const
     {
     PointType point;
     this->ConvertContinuousIndexToPoint( index, point );
