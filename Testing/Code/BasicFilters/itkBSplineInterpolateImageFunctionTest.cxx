@@ -318,6 +318,8 @@ int test2DSpline()
     InterpolatorType2D::Pointer interp = InterpolatorType2D::New();
     interp->SetSplineOrder(splineOrder);
 
+    std::cout << "SplineOrder: " << interp->GetSplineOrder() << std::endl;
+
     interp->SetInputImage(image);
     interp->Print( std::cout );
 

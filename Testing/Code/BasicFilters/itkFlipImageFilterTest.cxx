@@ -70,6 +70,7 @@ int itkFlipImageFilterTest(int, char* [] )
   FlipperType::FlipAxesArrayType flipAxes( bArray );
  
   flipper->SetFlipAxes( flipAxes );
+  std::cout << "FlipAxes: " << flipper->GetFlipAxes() << std::endl;
   flipper->SetInput( inputImage );
   flipper->Update();
 
