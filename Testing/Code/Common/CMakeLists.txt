@@ -10,7 +10,6 @@ itkDataTypeTest
 itkExceptionObjectTest
 itkExtractMeshConnectedRegionsTest
 itkFastMarchingTest
-itkFileIOTest
 itkFilterImageAddTest
 itkFilterDispatchTest
 itkFilterImageAnisotropicDiffusionTest
