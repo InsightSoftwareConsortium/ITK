@@ -120,12 +120,12 @@ public:
   typedef typename VoronoiDiagram::VoronoiEdge EdgeInfo;
   typedef std::vector<PointType> PointTypeVector;
   typedef std::deque<PointType> PointTypeDeque;
-  typedef itk::Image<bool,2>  BinaryObjectImage;
+  typedef Image<bool,2>  BinaryObjectImage;
   typedef typename BinaryObjectImage::Pointer  BinaryObjectImagePointer;
   typedef std::vector<IndexType> IndexList;
 
   /** To output the drawing of Voronoi Diagram (VD) . */ 
-  typedef itk::Image<unsigned char,2>  VDImage; 
+  typedef Image<unsigned char,2>  VDImage; 
   typedef typename VDImage::Pointer  VDImagePointer; 
     
   /** Set/Get the initial number of seeds for VD. */
