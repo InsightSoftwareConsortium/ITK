@@ -120,6 +120,7 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
   m_OutputImage->SetBufferedRegion(region);
   m_OutputImage->Allocate();
   m_OutputImage->SetOrigin( m_IO->GetImagePosition() );
+  m_OutputImage->SetSpacing( m_IO->GetImageSpacing() );
 
 
   typedef typename TOutputImage::PixelType  OutputPixelType;
