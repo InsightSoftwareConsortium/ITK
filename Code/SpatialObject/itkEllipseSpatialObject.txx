@@ -58,7 +58,7 @@ bool
 EllipseSpatialObject< TDimension > 
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const 
 {
-  itkDebugMacro( "Checking the point [" << point << "is inside the tube" );
+  itkDebugMacro( "Checking the point [" << point << "] is inside the Ellipse" );
     
   if(name == NULL || strstr(typeid(Self).name(), name) )
     {
