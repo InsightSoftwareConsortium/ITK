@@ -206,8 +206,11 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   
   // update the metric
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
-  globalData->m_SumOfSquaredDifference += vnl_math_sqr( speedValue );
-  globalData->m_NumberOfPixelsProcessed += 1;
+  if ( globalData )
+    {
+    globalData->m_SumOfSquaredDifference += vnl_math_sqr( speedValue );
+    globalData->m_NumberOfPixelsProcessed += 1;
+    }
 
   double denominator = vnl_math_sqr( speedValue ) / m_Normalizer + 
     fixedGradientSquaredMagnitude;
@@ -225,7 +228,10 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   for( j = 0; j < ImageDimension; j++ )
     {
     update[j] = speedValue * fixedGradient[j] / denominator;
-    globalData->m_SumOfSquaredChange += vnl_math_sqr( update[j] );
+    if ( globalData )
+      {
+      globalData->m_SumOfSquaredChange += vnl_math_sqr( update[j] );
+      }
     }
 
   return update;
