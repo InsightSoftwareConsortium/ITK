@@ -194,7 +194,7 @@ OES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
+    integer s_wsfe(cilist *), e_wsfe(void), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
     static integer n, n3, nb, ib1, ib2, ib3, ib4, ib5, ier;
@@ -810,7 +810,7 @@ OES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
+    integer s_wsfe(cilist *), e_wsfe(void), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
     static integer n, n3, nb, ib1, ib2, ib3, ier;
@@ -1402,7 +1402,7 @@ OES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
+    integer s_wsfe(cilist *), e_wsfe(void), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
     static integer n, n3, nb, ib1, ib2, ib3, ier;
@@ -1972,7 +1972,7 @@ CH UNDOES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
     doublereal d__1;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
+    integer s_wsfe(cilist *), e_wsfe(void), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
     static integer n, n3, nb, ib1, ib2, ib3, ib4, ib5, ib6, ib7, ier;
@@ -2622,7 +2622,7 @@ CH UNDOES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
     doublereal d__1;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
+    integer s_wsfe(cilist *), e_wsfe(void), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
     static integer n, n3, nb, ib1, ib2, ib3, ib4, ib5, ier;
@@ -3247,7 +3247,7 @@ H UNDOES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
+    integer s_wsfe(cilist *), e_wsfe(void), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
     static integer n, n3, nb, nr, ib1, ib2, ib3, ib4, ib5, jb3, ier;
@@ -3920,7 +3920,7 @@ H UNDOES THE RED-BLACK PERMUTATION   \002/\002 \002,\002    IER = \002,i5)";
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
+    integer s_wsfe(cilist *), e_wsfe(void), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
     static integer n, n3, nb, nr, ib1, ib2, jb3, ier;
@@ -5843,7 +5843,7 @@ TURNED OFF AT ITERATION \002,i5/10x,\002FINAL ESTIMATE OF MAXIMUM EIGENVALUE\
     doublereal d__1;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
     double sqrt(doublereal);
 
     /* Local variables */
@@ -6066,7 +6066,7 @@ TION TO RAYLEIGH QUOTIENT    =\002,d15.7/35x,\002NEW ESTIMATE FOR CME       \
 
     /* Builtin functions */
     double sqrt(doublereal);
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
 
     /* Local variables */
     static doublereal zm1, zm2;
@@ -6330,7 +6330,7 @@ MATE OF SME            =\002,d15.7/35x,\002SECOND ESTIMATE OF SME           =\
     /* Builtin functions */
     double sqrt(doublereal), pow_di(doublereal *, integer *), pow_dd(
       doublereal *, doublereal *);
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
 
     /* Local variables */
     static doublereal q, z__;
@@ -6912,7 +6912,7 @@ L20:
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
+    integer s_wsfe(cilist *), e_wsfe(void), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
     static integer i__, n, np1, nzro;
@@ -7162,7 +7162,7 @@ AB  =\002,d15.8,8x,\002RPARM(7)\002/35x,\002BETADT =\002,l15,8x,\002IPARM(6\
 //)";
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
 
     /* Fortran I/O blocks */
     static cilist io___421 = { 0, 0, 0, fmt_10, 0 };
@@ -7469,7 +7469,7 @@ NE INCREASING \002)";
 
     /* Builtin functions */
     double sqrt(doublereal);
-    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
+    integer s_wsfe(cilist *), e_wsfe(void), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
     static doublereal f;
@@ -7855,7 +7855,7 @@ TION \002,i5)";
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
+    integer s_wsfe(cilist *), e_wsfe(void), do_fio(integer *, char *, ftnlen);
     double pow_dd(doublereal *, doublereal *);
 
     /* Local variables */
@@ -8238,7 +8238,7 @@ PECTRAL RADIUS =\002,d15.7/)";
 
     /* Builtin functions */
     double sqrt(doublereal);
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
 
     /* Local variables */
     static doublereal zm1, zm2, temp;
@@ -8441,7 +8441,7 @@ E             =\002,d15.7/35x,\002NEW ESTIMATE FOR OMEGA           =\002,d15\
 
     /* Builtin functions */
     double sqrt(doublereal), log(doublereal);
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
 
     /* Local variables */
     static doublereal temp, temp1, omstar;
@@ -9022,7 +9022,7 @@ ACK ROUTINE PRBNDX   \002)";
     integer i__1, i__2;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
 
     /* Local variables */
     static integer i__, j, k, n, ip, jp, jaj, ier, ipp, npl1, ibgn, iend;
@@ -9297,7 +9297,7 @@ DUAL) =\002,f5.1,2x,\002(DIGIT2)\002)";
 
     /* Builtin functions */
     double d_lg10(doublereal *);
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
 
     /* Local variables */
     static integer n;
@@ -9954,7 +9954,7 @@ L60:
     integer i__1, i__2, i__3, i__4;
 
     /* Builtin functions */
-    integer i_sign(integer *, integer *), s_wsfe(cilist *), e_wsfe();
+    integer i_sign(integer *, integer *), s_wsfe(cilist *), e_wsfe(void);
 
     /* Local variables */
     static integer i__, j, k, n, old, ibgn, iend, nred, last, next, type__, 
@@ -11134,7 +11134,7 @@ L240:
     integer i__1;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
 
     /* Local variables */
     static integer i__, j, np1, ier, ntn, nto, now, nadd, nout, level, naddp1;
@@ -11284,7 +11284,7 @@ T VALUE = \002,d15.8)";
     doublereal d__1, d__2, d__3;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
 
     /* Local variables */
     static integer n;
@@ -11880,7 +11880,7 @@ L80:
 \002)";
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
 
     /* Local variables */
     static integer i__, j, ier;
@@ -12137,7 +12137,7 @@ L130:
     integer i__1, i__2;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
     double sqrt(doublereal);
 
     /* Local variables */
@@ -12806,7 +12806,7 @@ L20:
     integer i__1, i__2;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), e_wsfe(), do_fio(integer *, char *, ftnlen);
+    integer s_wsfe(cilist *), e_wsfe(void), do_fio(integer *, char *, ftnlen);
 
     /* Local variables */
     static integer i__, j, k, jm1, nout, kupper;
@@ -12971,7 +12971,7 @@ ORITHM FAILED TO CONVERGE   \002/\002 \002,\002    IN\002,i6,\002 ITERATIONS \
     /* Builtin functions */
     double pow_di(doublereal *, integer *), d_sign(doublereal *, doublereal *)
       ;
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe();
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
 
     /* Local variables */
     static doublereal a, b, c__, d__, e, p, q, r__, s, t, fa, fb, fc;
