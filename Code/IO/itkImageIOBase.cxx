@@ -322,7 +322,7 @@ ImageIOBase::ConvertToTypeInfo(IODataType t ) const
     case RGB:
       return typeid(RGBPixel<unsigned char>);
     case RGBA:
-      return typeid(RGBAPixel<unsgined char>);
+      return typeid(RGBAPixel<unsigned char>);
     default:
       itkErrorMacro (<< "Invalid type: " << m_PixelType );
     }
