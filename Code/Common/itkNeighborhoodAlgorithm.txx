@@ -64,7 +64,15 @@ ImageBoundaryFacesCalculator<TImage>
         if ( j == i ) fSize[j] = -overlapLow;// NOTE: this algorithm
         else          fSize[j] = rSize[j];   // results in a single
         }                                      // duplicate
-      nbSize[i]  -= fSize[i];                  // pixel at corners between
+      // avoid unsigned overflow if the non-boundary region is too small to process
+      if (fSize[i] > nbSize[i])
+        {
+        nbSize[i] = 0;
+        }
+      else
+        {
+        nbSize[i]  -= fSize[i];                  // pixel at corners between
+        }
       nbStart[i] += -overlapLow;               // adjacent faces.  
       fRegion.SetIndex(fStart);
       fRegion.SetSize(fSize);
@@ -85,7 +93,15 @@ ImageBoundaryFacesCalculator<TImage>
           fSize[j] = rSize[j];
           }
         }
-      nbSize[i] -= fSize[i];
+      // avoid unsigned overflow if the non-boundary region is too small to process
+      if (fSize[i] > nbSize[i])
+        {
+        nbSize[i] = 0;
+        }
+      else
+        {
+        nbSize[i] -= fSize[i];
+        }
       fRegion.SetIndex(fStart);
       fRegion.SetSize(fSize);
       faceList.push_back(fRegion);
