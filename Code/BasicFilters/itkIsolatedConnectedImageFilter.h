@@ -110,7 +110,7 @@ public:
    *  This method is deprecated, please use AddSeed() */
   void SetSeed1(const IndexType & seed)
   {
-    m_Seeds1.clear();
+    this->ClearSeeds1();
     this->AddSeed1( seed );
   };
 
@@ -133,7 +133,7 @@ public:
    *  This method is deprecated, please use AddSeed() */
   void SetSeed2(const IndexType & seed)
   {
-    m_Seeds2.clear();
+    this->ClearSeeds2();
     this->AddSeed2( seed );
   };
 
