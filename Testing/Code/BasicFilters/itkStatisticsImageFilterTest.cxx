@@ -42,7 +42,7 @@ int itkStatisticsImageFilterTest(int, char**)
   float fillValue = -100.0;
   image->SetRegions( region );
   image->Allocate();
-  image->FillBuffer(fillValue);
+  image->FillBuffer( static_cast< FloatImage::PixelType >( fillValue ) );
 
   typedef itk::StatisticsImageFilter<FloatImage> FilterType;
   FilterType::Pointer filter = FilterType::New();
@@ -84,8 +84,8 @@ int itkStatisticsImageFilterTest(int, char**)
   float minValue = -100.0;
   float maxValue = 1000.0;
 
-  source->SetMin(minValue);
-  source->SetMax(maxValue);
+  source->SetMin( static_cast< FloatImage::PixelType >( minValue ) );
+  source->SetMax( static_cast< FloatImage::PixelType >( maxValue ) );
 
   filter->SetInput(source->GetOutput());
   filter->UpdateLargestPossibleRegion();
