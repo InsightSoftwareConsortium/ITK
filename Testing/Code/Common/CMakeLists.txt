@@ -2,6 +2,12 @@ LINK_LIBRARIES (
 ITKCommon
 )
 
+IF (TCL_TCLSH)
+ADD_TEST(PrintSelf-Common ${TCL_TCLSH}
+         ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+         ${ITK_SOURCE_DIR}/Code/Common)
+ENDIF (TCL_TCLSH)
+
 ADD_TEST(itkAdaptorComparisonTest itkAdaptorComparisonTest)
 ADD_TEST(itkAffineTransformTest itkAffineTransformTest)
 ADD_TEST(itkArrayTest itkArrayTest)

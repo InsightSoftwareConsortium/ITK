@@ -12,6 +12,12 @@ ITKBasicFilters
 ITKCommon
 )
 
+IF (TCL_TCLSH)
+ADD_TEST(PrintSelf-Common ${TCL_TCLSH}
+         ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+         ${ITK_SOURCE_DIR}/Code/BasicFilters)
+ENDIF (TCL_TCLSH)
+
 ADD_TEST(itkAsinImageFilterAndAdaptorTest itkAsinImageFilterAndAdaptorTest)
 ADD_TEST(itkAcosImageFilterAndAdaptorTest itkAcosImageFilterAndAdaptorTest)
 ADD_TEST(itkAtanImageFilterAndAdaptorTest itkAtanImageFilterAndAdaptorTest)

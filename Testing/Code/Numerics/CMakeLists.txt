@@ -1,5 +1,10 @@
 SUBDIRS(vxl)
 
+ADD_TEST(PrintSelf-Common ${TCL_TCLSH}
+         ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+         ${ITK_SOURCE_DIR}/Code/Algorithms)
+ENDIF (TCL_TCLSH)
+
 ADD_TEST(itkAmoebaOptimizerTest itkAmoebaOptimizerTest)
 ADD_TEST(itkConjugateGradientOptimizerTest itkConjugateGradientOptimizerTest)
 ADD_TEST(itkGradientDescentOptimizerTest itkGradientDescentOptimizerTest)
