@@ -95,25 +95,17 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 ImagePCAShapeModelEstimator<TInputImage,TOutputImage>
-::EnlargeOutputRequestedRegion( DataObject * output )
+::EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) )
 {
 
-  // this filter requires the all of the output image to be in
+  // this filter requires the all of the output images to be in
   // the buffer
-  TOutputImage *imgData;
-  imgData = dynamic_cast<TOutputImage*>( output );
-  if ( imgData )
+  for ( unsigned int idx = 0; idx < this->GetNumberOfOutputs(); ++idx)
     {
-    imgData->SetRequestedRegionToLargestPossibleRegion();
-    }
-  else
-    {
-    // pointer could not be cast to TOutputImage *
-    itkWarningMacro(<< "itk::ImagePCAShapeModelEstimator" <<
-              "::EnlargeOutputRequestedRegion cannot cast "
-              << typeid(output).name() << " to "
-              << typeid(TOutputImage*).name() );
-
+    if ( this->GetOutput(idx) )
+      {
+      this->GetOutput(idx)->SetRequestedRegionToLargestPossibleRegion();
+      }
     }
 
 }
@@ -158,9 +150,9 @@ ImagePCAShapeModelEstimator<TInputImage,TOutputImage>
         InputImagePointer ptr = const_cast<TInputImage *>( this->GetInput(idx) );
         ptr->SetRequestedRegion( requestedRegion );
 
-        } // if ( this->GetOutput(idx))
+        } // if ( this->GetIntput(idx))
       } // for idx
-    } // if( this->GetOutput(0) )
+    } // if( this->GetInput(0) )
 
 }
 

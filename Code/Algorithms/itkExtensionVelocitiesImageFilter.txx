@@ -120,31 +120,12 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) )
 {
 
+  // This filter requires all of the output images in the buffer.
   for ( unsigned int j = 0; j < this->GetNumberOfOutputs(); j++ )
     {
-
-    // Set all output requested region to largest possible
-    if ( j == 0 ) 
+    if ( this->GetOutput(j) )
       {
-      this->Superclass::EnlargeOutputRequestedRegion( this->GetOutput(j) );
-      }
-    else if ( j <= VAuxDimension )
-      {
-      AuxImageType * imgData;
-      imgData = dynamic_cast<AuxImageType*>( this->GetOutput(j) );
-      if (imgData)
-        {
-        imgData->SetRequestedRegionToLargestPossibleRegion();
-        }
-      else
-        {
-        // Pointer could not be cast to AuxImageType *
-        itkWarningMacro(<< "itk::ExtensionVelocitiesImageFilter" <<
-                        "::EnlargeOutputRequestedRegion cannot cast "
-                        << typeid(this->GetOutput(j)).name() << " to "
-                        << typeid(AuxImageType*).name() );    
-
-        }
+      this->GetOutput(j)->SetRequestedRegionToLargestPossibleRegion();
       }
     }
 
