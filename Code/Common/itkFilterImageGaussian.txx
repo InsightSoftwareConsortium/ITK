@@ -256,8 +256,9 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
 {
 
   typedef typename TOutputImage::PixelType  TOutputType;
+  typedef typename TInputImage::PixelType   TInputType;
 
-  typedef ImageLinearIterator< typename TInputImage::PixelType,
+  typedef ImageLinearIterator< TInputType,
 							   TInputImage::ImageDimension>  InputIteratorType;
 
   typedef ImageLinearIterator< TOutputType,
