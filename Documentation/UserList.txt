@@ -15,7 +15,7 @@ danny
 gash
 gee
 hoffman:Bill Hoffman:bill.hoffman@kitware.com
-hughett
+hughett:Paul Hughett:hughett@mercur.uphs.upenn.edu
 ibanez:Luis Ibanez:ibanez@cs.unc.edu
 jin
 jjomier
