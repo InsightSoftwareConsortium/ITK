@@ -1,6 +1,4 @@
 ADD_LIBRARY(ITKAlgorithms
-  itkWatershedEquivalencyTable.cxx
-  itkWatershedOneWayEquivalencyTable.cxx
   itkWatershedMiniPipelineProgressCommand.cxx
   itkBioGene.cxx
   itkBioGeneNetwork.cxx
