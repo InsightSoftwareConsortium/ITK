@@ -20,6 +20,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkDICOMImageIO2Factory.h"
 
 int itkDICOMImageIO2Test(int ac, char* av[])
 {
