@@ -245,7 +245,6 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
       value = (double) inBuffIt.Get();
       value += updateValue;
 
-      tempPixel = outBuffIt.Get();
       tempPixel = value;
       outBuffIt.Set( tempPixel );
 

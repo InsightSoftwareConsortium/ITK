@@ -115,8 +115,8 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 typename DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::ComputeUpdate(const NeighborhoodType &it, void * globalData,
-                const FloatOffsetType& offset) const
+::ComputeUpdate(const NeighborhoodType &it, void * itkNotUsed(globalData),
+                const FloatOffsetType& itkNotUsed(offset)) const
 {
 
   PixelType update;
@@ -191,8 +191,8 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 typename DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::ComputeUpdate(const BoundaryNeighborhoodType &it, void * globalData,
-                const FloatOffsetType& offset) const
+::ComputeUpdate(const BoundaryNeighborhoodType &it, void * itkNotUsed(globalData),
+                const FloatOffsetType& itkNotUsed(offset)) const
 {
 
   PixelType update;

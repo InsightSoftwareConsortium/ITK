@@ -571,8 +571,8 @@ int testInteger3DSpline()
 
 int 
 itkBSplineInterpolateImageFunctionTest(
-    int argc,
-    char **argv)
+    int itkNotUsed(argc),
+    char ** itkNotUsed(argv) )
 {
   int flag = 0;           /* Did this test program work? */
 

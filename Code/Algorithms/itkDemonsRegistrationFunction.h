@@ -120,7 +120,7 @@ public:
     { return m_MovingImageInterpolator; }
 
   /** This class uses a constant timestep of 1. */
-  virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const
+  virtual TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const
     { return m_TimeStep; }
 
   /** Return a pointer to a global data structure that is passed to

@@ -29,7 +29,7 @@ typedef CalculatorType::AffineTransformType AffineTransformType;
 
 
 int 
-itkImageMomentsTest( int argc, char **argv )
+itkImageMomentsTest( int itkNotUsed(argc), char ** itkNotUsed(argv) )
 {
     /* Define acceptable (absolute) error in computed results.
        All the calculations are done in double and are well-conditioned,

@@ -149,7 +149,7 @@ public:
   const MovingImageType * GetMovingImage(void);
 
   /** Set initial deformation field. */
-  virtual void SetInitialDeformationField( DeformationFieldType * ptr )
+  virtual void SetInitialDeformationField( DeformationFieldType * itkNotUsed(ptr) )
     {
     itkExceptionMacro( << "This feature not implemented yet"  );
     // this->SetInput( ptr ); 

@@ -141,7 +141,7 @@ int itkMultiResolutionPyramidImageFilterTest(int, char**)
   pyramid->SetInput( imgTarget );
 
   bool pass = true;
-  unsigned int numLevels = 3;
+  unsigned int numLevels;
   itk::Vector<unsigned int,ImageDimension> factors;
 
   // set schedule by specifying the number of levels;
