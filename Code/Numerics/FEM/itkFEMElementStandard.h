@@ -50,6 +50,7 @@ namespace fem {
 template<unsigned int VNumberOfPoints,unsigned int VNumberOfDOFsPerPoint, class TNodeClass>
 class ElementStandard : public Element
 {
+FEM_CLASS_SP(ElementStandard,Element)
 public:
 
   /**
@@ -68,7 +69,7 @@ public:
    * Node class that is used to specify points that define
    * the geometry of the element.
    */
-  typedef typename TNodeClass NodeClass;
+  typedef TNodeClass NodeClass;
 
   /**
    * Total number of degrees of freedom in an element
@@ -86,11 +87,6 @@ public:
     }
   }
   
-  /**
-   * Array of pointers to node objects that define the element
-   */
-  NodeClass::ConstPointer m_node[NDOF];
-
   /*
    * Methods that define geometry of an element
    * FIXME: These should be implemented in Cell/Mesh
@@ -99,7 +95,7 @@ public:
   { return NumberOfPoints; }
   virtual Node::ConstPointer GetPoint(unsigned int pt) const
   {
-    if(pt>=NDOF)
+    if(pt>=NumberOfPoints)
     {
       return 0;
     }
@@ -124,6 +120,13 @@ public:
     m_dof[local_dof]=global_dof;
   }
 
+
+
+
+  /**
+   * Array of pointers to node objects that define the element
+   */
+  typename NodeClass::ConstPointer m_node[NDOF];
 
 private:
   /**
