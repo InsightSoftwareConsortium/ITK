@@ -317,9 +317,13 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
       f >> ibuf;
       this->m_MaxLevel = ibuf;
     
-      FEMLightObject::SkipWhiteSpace(f);
-      f >> ibuf;
-      this->m_MeshLevels = ibuf;
+    this->m_MeshElementsPerDimensionAtEachResolution.resize(m_NumLevels);
+      for (unsigned int jj=0; jj<this->m_NumLevels; jj++) 
+    {
+        FEMLightObject::SkipWhiteSpace(f);
+        f >> ibuf;
+        this->m_MeshElementsPerDimensionAtEachResolution(jj) = ibuf;
+    }
     }
     else { this->DoMultiRes(false); }
 
@@ -916,7 +920,8 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
       SSS.SetRho(m_Rho);     
       SSS.SetAlpha(m_Alpha);    
 
-      CreateMesh(m_ImageOrigin,Isz,MeshResolution,SSS); 
+      CreateMesh(m_ImageOrigin,Isz,
+      (double)this->m_MeshElementsPerDimensionAtEachResolution(i),SSS); 
       SSS.GenerateGFN();
       ApplyLoads(SSS,Isz);
  
