@@ -46,10 +46,10 @@ inline unsigned short MET_ByteOrderSwapShort(unsigned short x)
 
 inline unsigned long MET_ByteOrderSwapLong(unsigned int x)
   {
-  return (((x<<24) & 0xf000) |
-          ((x<<8) & 0x0f00) |
-          ((x>>8) & 0x00f0) |
-          ((x>>24) & 0x000f));
+  return (((x<<24) & 0xff000000) |
+          ((x<<8)  & 0x00ff0000) |
+          ((x>>8)  & 0x0000ff00) |
+          ((x>>24) & 0x000000ff));
   }
 
 inline unsigned long MET_ByteOrderSwap8(unsigned long x)
