@@ -24,8 +24,8 @@ namespace itk
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
-Image<TPixel, VImageDimension, TPixelContainer>
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+Image<TPixel, VImageDimension, TImageTraits>
 ::Image()
 : m_DataAccessor ()
 {
@@ -36,17 +36,17 @@ Image<TPixel, VImageDimension, TPixelContainer>
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
-Image<TPixel, VImageDimension, TPixelContainer>
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+Image<TPixel, VImageDimension, TImageTraits>
 ::~Image()
 {
 }
 
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 void 
-Image<TPixel, VImageDimension, TPixelContainer>
+Image<TPixel, VImageDimension, TImageTraits>
 ::Allocate()
 {
   unsigned long num;
@@ -61,9 +61,9 @@ Image<TPixel, VImageDimension, TPixelContainer>
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 void 
-Image<TPixel, VImageDimension, TPixelContainer>
+Image<TPixel, VImageDimension, TImageTraits>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
   Superclass::PrintSelf(os,indent);

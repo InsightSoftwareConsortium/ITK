@@ -78,8 +78,9 @@ namespace itk
  * \sa ImageContainerInterface
  * */
 
-template <class TPixel, unsigned int VImageDimension=2, class TPixelContainer=ValarrayImageContainer<unsigned long, TPixel> >
-class ITK_EXPORT PhysicalImage : public Image<TPixel, VImageDimension, TPixelContainer>
+template <class TPixel, unsigned int VImageDimension=2,
+          class TImageTraits = DefaultImageTraits<TPixel, VImageDimension> >
+class ITK_EXPORT PhysicalImage : public Image<TPixel, VImageDimension, TImageTraits>
 {
 public:
   /**
@@ -90,13 +91,85 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Image<TPixel, VImageDimension, TPixelContainer>  Superclass;
-
+  typedef Image<TPixel, VImageDimension, TImageTraits>  Superclass;
+  
   /** 
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+
+  /** 
+   * Pixel typedef support. Used to declare pixel type in filters
+   * or other operations.
+   */
+  typedef TPixel PixelType;
+
+  /** 
+   * Internal Pixel representation. Used to maintain a uniform API
+   * with Image Adaptors and allow to keep a particular internal
+   * representation of data while showing a different external 
+   * representation.
+   */
+  typedef TPixel InternalPixelType;
+
+  /** 
+   *  Accessor type that convert data between internal and external
+   *  representations.
+   */
+  typedef DefaultDataAccessor< PixelType > AccessorType;
+
+  /** 
+   * Pixel (scalar) value typedef support. The scalar value is the native
+   * type that the scalar portion of the pixels are composed of; usually 
+   * something like float, int, etc. ScalarTraits typically needs to be
+   * specialized for a given PixelType. If a PixelType does not have
+   * scalar values, ScalarTraits provides an opportunity to define what
+   * the scalar type would be if the PixelType had scalars.  For instance,
+   * the ScalarValueType for a PixelType that only has a vector may be
+   * defined to match the vector value type.
+   */
+  typedef typename ScalarTraits<TPixel>::ValueType ScalarValueType;
+
+  /** 
+   * Pixel (vector) value typedef support. The vector value is the native
+   * type that the vector portion of the pixels are composed of; usually 
+   * something like float, int, etc. VectorTraits typically needs to be
+   * specialized for a given PixelType. If a PixelType does not have
+   * vector values, VectorTraits provides an opportunity to define what
+   * the vector value type would be if the PixelType had a vector.  For
+   * instance, the VectorValueType for a PixelType that only has a scalar may
+   * be defined to match the vector value type.
+   */
+  typedef typename VectorTraits<TPixel>::ValueType VectorValueType;
+
+  /**
+   * Dimension of the image.  This enum is used by functions that are
+   * templated over image type (as opposed to being templated over pixel
+   * type and dimension) when they need compile time access to the dimension
+   * of the image.
+   */
+  enum { ImageDimension = VImageDimension };
+
+  /**
+   * The ImageTraits for this image.
+   */
+  typedef TImageTraits ImageTraits;
+
+  /*@{
+   * Convenient typedefs obtained from TImageTraits template parameter.
+   */
+  typedef typename ImageTraits::PixelContainer PixelContainer;
+  typedef typename ImageTraits::SizeType SizeType;
+  typedef typename ImageTraits::IndexType IndexType;
+  typedef typename ImageTraits::OffsetType OffsetType;
+  typedef typename ImageTraits::RegionType RegionType;
+  //@}
+
+  /**
+   * A pointer to the pixel container.
+   */
+  typedef typename PixelContainer::Pointer PixelContainerPointer;
 
   /** 
    * Typedef for associated AffineTransform
@@ -106,7 +179,7 @@ public:
    * for the image, and more generally as any affine transformation of
    * the image.
    */
-  typedef AffineTransform<double, VImageDimension> AffineTransformType;
+  typedef AffineTransform<double, ImageDimension> AffineTransformType;
 
   /** 
    * Run-time type information (and related methods).
@@ -125,8 +198,8 @@ public:
    * float.
    * \sa GetSpacing()
    */
-  virtual void SetSpacing( const double values[VImageDimension] );
-  virtual void SetSpacing( const float values[VImageDimension] );
+  virtual void SetSpacing( const double values[ImageDimension] );
+  virtual void SetSpacing( const float values[ImageDimension] );
 
   /** 
    * Get the spacing (size of a pixel) of the image. The
@@ -142,8 +215,8 @@ public:
    * as double but may be set from float.
    * \sa GetOrigin()
    */
-  virtual void SetOrigin( const double values[VImageDimension] );
-  virtual void SetOrigin( const float values[VImageDimension] );
+  virtual void SetOrigin( const double values[ImageDimension] );
+  virtual void SetOrigin( const float values[ImageDimension] );
 
   /** 
    * Get the origin of the image. The origin is the geometric
@@ -179,8 +252,8 @@ protected:
   
 private:
 
-  double              m_Spacing[VImageDimension];
-  double              m_Origin[VImageDimension];
+  double              m_Spacing[ImageDimension];
+  double              m_Origin[ImageDimension];
 };
 
   

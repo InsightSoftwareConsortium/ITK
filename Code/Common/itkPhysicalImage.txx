@@ -24,8 +24,8 @@ namespace itk
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
-PhysicalImage<TPixel, VImageDimension, TPixelContainer>
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+PhysicalImage<TPixel, VImageDimension, TImageTraits>
 ::PhysicalImage()
 {
   unsigned int i;
@@ -40,16 +40,16 @@ PhysicalImage<TPixel, VImageDimension, TPixelContainer>
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
-PhysicalImage<TPixel, VImageDimension, TPixelContainer>
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+PhysicalImage<TPixel, VImageDimension, TImageTraits>
 ::~PhysicalImage()
 {
 }
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 void 
-PhysicalImage<TPixel, VImageDimension, TPixelContainer>
+PhysicalImage<TPixel, VImageDimension, TImageTraits>
 ::SetSpacing(const double spacing[VImageDimension] )
 {
   unsigned int i; 
@@ -71,9 +71,9 @@ PhysicalImage<TPixel, VImageDimension, TPixelContainer>
 }
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 void 
-PhysicalImage<TPixel, VImageDimension, TPixelContainer>
+PhysicalImage<TPixel, VImageDimension, TImageTraits>
 ::SetSpacing(const float spacing[VImageDimension] )
 {
   unsigned int i; 
@@ -97,9 +97,9 @@ PhysicalImage<TPixel, VImageDimension, TPixelContainer>
 
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 const double *
-PhysicalImage<TPixel, VImageDimension, TPixelContainer>
+PhysicalImage<TPixel, VImageDimension, TImageTraits>
 ::GetSpacing() const
 {
   return m_Spacing;
@@ -109,9 +109,9 @@ PhysicalImage<TPixel, VImageDimension, TPixelContainer>
 
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 void 
-PhysicalImage<TPixel, VImageDimension, TPixelContainer>
+PhysicalImage<TPixel, VImageDimension, TImageTraits>
 ::SetOrigin(const double origin[VImageDimension] )
 {
   unsigned int i; 
@@ -134,9 +134,9 @@ PhysicalImage<TPixel, VImageDimension, TPixelContainer>
 
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 void 
-PhysicalImage<TPixel, VImageDimension, TPixelContainer>
+PhysicalImage<TPixel, VImageDimension, TImageTraits>
 ::SetOrigin(const float origin[VImageDimension] )
 {
   unsigned int i; 
@@ -159,18 +159,18 @@ PhysicalImage<TPixel, VImageDimension, TPixelContainer>
 
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 const double *
-PhysicalImage<TPixel, VImageDimension, TPixelContainer>
+PhysicalImage<TPixel, VImageDimension, TImageTraits>
 ::GetOrigin() const
 {
   return m_Origin;
 }
 
 //---------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
-PhysicalImage<TPixel, VImageDimension, TPixelContainer>::AffineTransformType
-PhysicalImage<TPixel, VImageDimension, TPixelContainer>::
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+PhysicalImage<TPixel, VImageDimension, TImageTraits>::AffineTransformType
+PhysicalImage<TPixel, VImageDimension, TImageTraits>::
 GetIndexToPhysicalTransform(void) const
 {
   typename AffineTransformType::MatrixType matrix;
@@ -194,9 +194,9 @@ GetIndexToPhysicalTransform(void) const
 
 
 //---------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
-PhysicalImage<TPixel, VImageDimension, TPixelContainer>::AffineTransformType
-PhysicalImage<TPixel, VImageDimension, TPixelContainer>::
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+PhysicalImage<TPixel, VImageDimension, TImageTraits>::AffineTransformType
+PhysicalImage<TPixel, VImageDimension, TImageTraits>::
 GetPhysicalToIndexTransform(void) const
 {
   typename AffineTransformType::MatrixType matrix;

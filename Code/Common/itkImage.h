@@ -18,7 +18,7 @@
 
 #include "itkImageBase.h"
 #include "itkPixelTraits.h"
-#include "itkValarrayImageContainer.h"
+#include "itkDefaultImageTraits.h"
 #include "itkDefaultDataAccessor.h"
 
 
@@ -73,7 +73,8 @@ namespace itk
  * \sa ImageContainerInterface
  * */
 
-template <class TPixel, unsigned int VImageDimension=2, class TPixelContainer=ValarrayImageContainer<unsigned long, TPixel> >
+template <class TPixel, unsigned int VImageDimension=2,
+          class TImageTraits=DefaultImageTraits< TPixel, VImageDimension > >
 class ITK_EXPORT Image : public ImageBase<VImageDimension>
 {
 public:
@@ -145,32 +146,25 @@ public:
    */
   enum { ImageDimension = VImageDimension };
   
-  /** 
-   * PixelContainer typedef support. Used to construct a container for
-   * the pixel data.
+  /**
+   * The ImageTraits for this image.
    */
-  typedef TPixelContainer PixelContainer;
+  typedef TImageTraits ImageTraits;
+
+  /*@{
+   * Convenient typedefs obtained from TImageTraits template parameter.
+   */
+  typedef typename ImageTraits::PixelContainer PixelContainer;
+  typedef typename ImageTraits::SizeType SizeType;
+  typedef typename ImageTraits::IndexType IndexType;
+  typedef typename ImageTraits::OffsetType OffsetType;
+  typedef typename ImageTraits::RegionType RegionType;
+  //@}
+
+  /**
+   * A pointer to the pixel container.
+   */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
-
-  /** 
-   * Index typedef support. An index is used to access pixel values.
-   */
-  typedef Index<VImageDimension>  IndexType;
-
-  /** 
-   * Offset typedef support. An offset is used to access pixel values.
-   */
-  typedef Offset<VImageDimension>  OffsetType;
-
-  /** 
-   * Size typedef support. A size is used to define region bounds.
-   */
-  typedef Size<VImageDimension>  SizeType;
-
-  /** 
-   * Region typedef support. A region is used to specify a subset of an image.
-   */
-  typedef ImageRegion<VImageDimension>  RegionType;
 
   /** 
    * Run-time type information (and related methods).
