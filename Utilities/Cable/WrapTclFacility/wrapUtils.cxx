@@ -50,6 +50,16 @@ bool TclObjectTypeIsInt(Tcl_Obj* o)
   
 
 /**
+ * Check whether the given object's type is "long".
+ */
+bool TclObjectTypeIsLong(Tcl_Obj* o)
+{
+  return (!TclObjectTypeIsNULL(o)
+          && (strcmp("long", (o)->typePtr->name)==0));
+}
+  
+
+/**
  * Check whether the given object's type is "double".
  */
 bool TclObjectTypeIsDouble(Tcl_Obj* o)

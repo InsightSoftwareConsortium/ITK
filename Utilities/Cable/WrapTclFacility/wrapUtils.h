@@ -45,6 +45,7 @@ namespace _wrap_
 _wrap_EXPORT bool TclObjectTypeIsNULL(Tcl_Obj*);
 _wrap_EXPORT bool TclObjectTypeIsBoolean(Tcl_Obj*);
 _wrap_EXPORT bool TclObjectTypeIsInt(Tcl_Obj*);
+_wrap_EXPORT bool TclObjectTypeIsLong(Tcl_Obj*);
 _wrap_EXPORT bool TclObjectTypeIsDouble(Tcl_Obj*);
 _wrap_EXPORT bool TclObjectTypeIsString(Tcl_Obj*);
 _wrap_EXPORT bool TclObjectTypeIsCmdName(Tcl_Obj*);
