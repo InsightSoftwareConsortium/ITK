@@ -162,7 +162,7 @@ itkImage<TPixel, TImageDimension>
 {
   Iterator ind;
   long indexOrigin[TImageDimension];
-  unsigned long size = this->GetSize();
+  unsigned long *size = this->GetSize();
 
   memset(indexOrigin, 0, TImageDimension*sizeof(long));
   
