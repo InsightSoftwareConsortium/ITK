@@ -18,24 +18,20 @@ namespace itk
 
 template<class TInputImage, class TClassifiedImage>
 MRFLabeller<TInputImage,TClassifiedImage>
-::MRFLabeller(void)
+::MRFLabeller(void):
+      m_InputImage(0),
+      m_TrainingImage(0),
+      m_LabelledImage(0),
+      m_NumClasses(0),
+      m_LabelStatus(0),
+      m_ErrorCounter(0),
+      m_MaxNumIter(50),
+      m_ClassifierPtr(0),
+      m_kWidth(3), // Default values of the kernel size of the beta matrix
+      m_kHeight(3), 
+      m_kDepth(3), 
+      m_KernelSize(m_kWidth * m_kHeight * m_kDepth)
 {
-  m_InputImage      = NULL;
-  m_TrainingImage   = NULL;
-  m_LabelledImage   = NULL;
-  m_NumClasses      = NULL;
-  m_LabelStatus     = NULL;
-  m_ErrorCounter    = NULL;
-  m_MaxNumIter      = 50;
-
-  m_ClassifierPtr   = NULL;
-
-  // Default values of the kernel size of the beta matrix
-  m_kWidth  = 3; 
-  m_kHeight = 3; 
-  m_kDepth  = 3; 
-  m_KernelSize = m_kWidth * m_kHeight * m_kDepth;
-
   SetBeta( 0 );
 }
 
@@ -161,7 +157,7 @@ void
 MRFLabeller<TInputImage, TClassifiedImage>
 ::SetClassifier( typename ClassifierType::Pointer ptrToClassifier )
 {
-  if( ( ptrToClassifier == NULL ) || (m_NumClasses <= NULL) )
+  if( ( ptrToClassifier == 0 ) || (m_NumClasses <= 0) )
     throw ExceptionObject();
 
   m_ClassifierPtr = ptrToClassifier;
@@ -202,7 +198,7 @@ void
 MRFLabeller<TInputImage, TClassifiedImage>
 ::Allocate()
 {
-  if( m_NumClasses <= NULL )
+  if( m_NumClasses <= 0 )
   {
     throw ExceptionObject();
   }
