@@ -22,13 +22,13 @@
 namespace itk
 {
   /** \class KullbackLeiblerCompareHistogramImageToImageMetric 
-    *  \brief Computes the Kubler Lieblach(KullbackLeibler) metric between the histogram
+    *  \brief Computes the Kubler Lieblach(KL) metric between the histogram
     *  of the two images to be registered and a training histogram.
     *
     *  This class is templated over the type of the fixed and moving
     *  images to be compared.
     *
-    *  This class computers the KullbackLeibler-metric by comparing the histograms
+    *  This class computers the KL-metric by comparing the histograms
     *  of the testing histogram formed by the overlap of intensities in
     *  the images, to a training histogram. It is based on the
     *  following paper:
@@ -38,6 +38,11 @@ namespace itk
     *  Minimising Kullback-Leibler Distance, In Medical Image Computing
     *  and Computer-Assisted Intervention - MICCAI 2002, LNCS 2489,
     *  pp. 525 - 532.
+    *
+    *  The metric is given by KL(P_test||P_train) 
+    *  = Sum_{i1,i2} P_test(i1,i2) log (P_test(i1,i2)/P_train(i1,i2))
+    *  where P_test and P_train are probabilities given my normalized
+    *  histograms, and i1 and i2 are the intensity bins in the histogram.
     *
     *  \par PARAMETERS 
     *  Epsilon is added to every bin in both histograms. This prevents
