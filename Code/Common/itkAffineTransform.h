@@ -148,7 +148,8 @@ public:
     typedef TScalarType ScalarType;
 
     /// Dimension of the domain space
-    enum { SpaceDimension = NDimensions };
+    enum { SpaceDimension = NDimensions,
+           ParametersDimension = NDimensions * (NDimensions+1) };
 
 
     /**
@@ -287,7 +288,16 @@ public:
         { m_Matrix = matrix; RecomputeInverse(); return; }
 
 
-    
+    /**
+     * Set the transformation from a container of parameters
+     *
+     * This is typically used by optimizers
+     *
+     **/
+    void SetParameters( const ParametersType & parameters );
+
+
+
     /**
      * Compose with another AffineTransform
      *

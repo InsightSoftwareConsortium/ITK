@@ -642,6 +642,41 @@ RecomputeInverse( void )
   return;
 }
 
+
+
+// Set parameters
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+void
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+SetParameters( const ParametersType & parameters )
+{
+
+  // Transfer the linear part
+  unsigned int par = 0;
+
+  for(unsigned int row=0; row<NDimensions; row++) 
+  {
+    for(unsigned int col=0; col<NDimensions; col++) 
+    {
+      m_Matrix[row][col] = parameters[par];
+      ++par;
+    }
+  }
+
+  // Transfer the constant part
+  for(unsigned int i=0; i<NDimensions; i++) 
+  {
+    m_Offset[i] = parameters[par];
+    ++par;
+  }
+
+
+}
+
+
+ 
+
 } // namespace
 
 #endif
