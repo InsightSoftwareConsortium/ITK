@@ -40,11 +40,12 @@ template< class TImage >
 class FixedArrayMeasurementVectorSpecification
 {
 public:
+  typedef FixedArrayMeasurementVectorSpecification Self;
   typedef typename TImage::PixelType PixelType ;
   typedef typename itk::PixelTraits< PixelType >::ValueType MeasurementType ;
   itkStaticConstMacro( MeasurementVectorSize, unsigned int, 
                        itk::PixelTraits< PixelType >::Dimension ) ;
-  typedef typename itk::FixedArray< MeasurementType, MeasurementVectorSize >
+  typedef itk::FixedArray< MeasurementType, itkGetStaticConstMacro(MeasurementVectorSize) >
   MeasurementVectorType ;
 } ; // end of class
 
