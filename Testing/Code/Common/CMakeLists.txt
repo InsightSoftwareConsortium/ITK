@@ -97,7 +97,6 @@ itkModifiedTimeTest.cxx
 itkAdaptorComparisonTest.cxx
 itkAffineTransformTest.cxx
 itkArrayTest.cxx
-itkArray2Test.cxx
 itkArray2DTest.cxx
 itkAutoPointerTest.cxx
 itkAzimuthElevationToCartesianTransformTest.cxx
@@ -116,6 +115,7 @@ itkDynamicMeshTest.cxx
 itkEuler2DTransformTest.cxx
 itkEuler3DTransformTest.cxx
 itkExceptionObjectTest.cxx
+itkFixedArrayTest.cxx
 itkHashTableTest.cxx
 itkImageAdaptorTest.cxx
 itkImageIteratorTest.cxx

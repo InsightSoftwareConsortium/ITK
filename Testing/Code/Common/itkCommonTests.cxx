@@ -10,7 +10,6 @@ REGISTER_TEST(itkModifiedTimeTest );
 REGISTER_TEST(itkAdaptorComparisonTest );
 REGISTER_TEST(itkAffineTransformTest );
 REGISTER_TEST(itkArrayTest );
-REGISTER_TEST(itkArray2Test );
 REGISTER_TEST(itkArray2DTest );
 REGISTER_TEST(itkAutoPointerTest );
 REGISTER_TEST(itkAzimuthElevationToCartesianTransformTest );
