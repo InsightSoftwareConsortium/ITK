@@ -25,6 +25,9 @@ TARGET_LINK_LIBRARIES(SecondDerivativeRecursiveGaussianImageFilter ITKCommon ITK
 ADD_EXECUTABLE(BinaryThresholdImageFilter BinaryThresholdImageFilter.cxx )
 TARGET_LINK_LIBRARIES(BinaryThresholdImageFilter ITKCommon ITKIO)
 
+ADD_EXECUTABLE(BinaryMedianImageFilter BinaryMedianImageFilter.cxx )
+TARGET_LINK_LIBRARIES(BinaryMedianImageFilter ITKCommon ITKIO)
+
 ADD_EXECUTABLE(OtsuThresholdImageFilter OtsuThresholdImageFilter.cxx )
 TARGET_LINK_LIBRARIES(OtsuThresholdImageFilter ITKCommon ITKIO)
 
@@ -191,6 +194,30 @@ ADD_TEST( BinaryThresholdImageFilterTest ${FILTERING_EXAMPLES}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/BinaryThresholdImageFilter.png
         150 180 0 255
+)
+ADD_TEST( BinaryMedianImageFilterTest1 ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/BinaryMedianImageFilter1.png
+            ${TEMP}/BinaryMedianImageFilter1.png
+  BinaryMedianImageFilterTest
+        ${BASELINE}/BinaryThresholdImageFilter.png
+        ${TEMP}/BinaryMedianImageFilter1.png
+        1 1
+)
+ADD_TEST( BinaryMedianImageFilterTest2 ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/BinaryMedianImageFilter2.png
+            ${TEMP}/BinaryMedianImageFilter2.png
+  BinaryMedianImageFilterTest
+        ${BASELINE}/BinaryThresholdImageFilter.png
+        ${TEMP}/BinaryMedianImageFilter2.png
+        2 2
+)
+ADD_TEST( BinaryMedianImageFilterTest3 ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/BinaryMedianImageFilter3.png
+            ${TEMP}/BinaryMedianImageFilter3.png
+  BinaryMedianImageFilterTest
+        ${BASELINE}/BinaryThresholdImageFilter.png
+        ${TEMP}/BinaryMedianImageFilter3.png
+        3 3
 )
 ADD_TEST( BinomialBlurImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${BASELINE}/BinomialBlurImageFilter.png

@@ -6,6 +6,7 @@
 
 void RegisterTests()
 {
+REGISTER_TEST(BinaryMedianImageFilterTest);
 REGISTER_TEST(LaplacianSharpeningImageFilterTest);
 REGISTER_TEST(ResampleImageFilterTest);
 REGISTER_TEST(ResampleImageFilter2Test);
@@ -22,6 +23,10 @@ REGISTER_TEST(VectorGradientAnisotropicDiffusionImageFilterTest);
 REGISTER_TEST(VectorIndexSelectionTest);
 REGISTER_TEST(ResampleVolumesToBeIsotropicTest);
 }
+#undef main
+#define main BinaryMedianImageFilterTest
+#include "BinaryMedianImageFilter.cxx"
+
 #undef main
 #define main ResampleImageFilterTest
 #include "ResampleImageFilter.cxx"
