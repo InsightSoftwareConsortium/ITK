@@ -120,20 +120,24 @@ operator=( const Self & other )
 // Print self
 template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
-std::ostream &
+void
 AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-PrintSelf(std::ostream &s) const
+PrintSelf(std::ostream &os, Indent indent) const
 {
+  Superclass::PrintSelf(os,indent);
+
   unsigned int i, j;
+  
+  os << indent << "Matrix: " << std::endl;
   for (i = 0; i < NDimensions; i++) 
     {
+    os << indent.GetNextIndent();
     for (j = 0; j < NDimensions; j++)
       {
-      s << m_Matrix[i][j] << " ";
+      os << m_Matrix[i][j] << " ";
       }
-    s << m_Offset[i] << std::endl;
+    os << m_Offset[i] << std::endl;
     }
-    return s;
 }
 
 

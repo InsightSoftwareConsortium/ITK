@@ -101,17 +101,18 @@ Rigid3DPerspectiveTransform<TScalarType>
 
 // Print self
 template<class TScalarType>
-std::ostream &
+void
 Rigid3DPerspectiveTransform<TScalarType>::
-PrintSelf(std::ostream &s) const
+PrintSelf(std::ostream &os, Indent indent) const
 {
-  s << m_Offset   << std::endl;
-  s << m_Rotation << std::endl;
-  s << m_Focal << std::endl;
-  s << m_Height << std::endl;
-  s << m_Width << std::endl;
-  s << m_DirectMatrix   << std::endl;
-  return s;
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Offset: "       << m_Offset   << std::endl;
+  os << indent << "Rotation: "     << m_Rotation << std::endl;
+  os << indent << "FocalDistance: "<< m_FocalDistance << std::endl;
+  os << indent << "Height: "       << m_Height << std::endl;
+  os << indent << "Width: "        << m_Width << std::endl;
+  os << indent << "DirectMatrix: " << m_DirectMatrix   << std::endl;
 }
 
 

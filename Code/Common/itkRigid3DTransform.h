@@ -214,7 +214,7 @@ public:
      **/
     OutputPointType     TransformPoint(const InputPointType  &point ) const;
     OutputVectorType    TransformVector(const InputVectorType &vector) const;
-    OutputVnlVectorType TransformVnlVector(const InputVnlVectorType &vector) const;
+    OutputVnlVectorType    TransformVector(const InputVnlVectorType &vector) const;
 
     OutputCovariantVectorType TransformCovariantVector(
                                    const InputCovariantVectorType &vector) const;
@@ -236,7 +236,7 @@ public:
     /**
      * Print contents of an Rigid3DTransform
      **/
-    std::ostream & PrintSelf(std::ostream &s) const;
+    void PrintSelf(std::ostream &os, Indent indent) const;
 
 
     /**
@@ -290,23 +290,6 @@ private:
     OffsetType          m_Offset;   
 
 }; //class Rigid3DTransform
-
-
-/**
- * Print the offset of a Rigid3DTransform
- * This method prints the offset of the
- * Rigid3DTransform as n vector.
- **/
-                                                              
- template<class ScalarType >
- inline
- std::ostream &
- operator<< (std::ostream &s, Rigid3DTransform<ScalarType > &rigid)
- {
-   s << rigid.m_Offset << std::endl;
-   s << rigid.m_Rotation << std::endl;
-   return s;
- }
 
 
 }  // namespace itk

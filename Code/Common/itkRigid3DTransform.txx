@@ -92,13 +92,15 @@ Rigid3DTransform<TScalarType>
 
 // Print self
 template<class TScalarType>
-std::ostream &
+void
 Rigid3DTransform<TScalarType>::
-PrintSelf(std::ostream &s) const
+PrintSelf(std::ostream &os, Indent indent) const
 {
-  s << m_Offset   << std::endl;
-  s << m_DirectMatrix   << std::endl;
-  return s;
+
+  Superclass::PrintSelf(os,indent);
+  
+  os << indent << "Offset: " << m_Offset   << std::endl;
+  os << indent << "DirectMatrix: " << m_DirectMatrix   << std::endl;
 }
 
 
@@ -160,7 +162,7 @@ TransformVector(const InputVectorType &vect) const
 template<class TScalarType>
 Rigid3DTransform<TScalarType>::OutputVnlVectorType
 Rigid3DTransform<TScalarType>::
-TransformVnlVector(const InputVnlVectorType &vect) const 
+TransformVector(const InputVnlVectorType &vect) const 
 {
   return  m_DirectMatrix * vect;
 }

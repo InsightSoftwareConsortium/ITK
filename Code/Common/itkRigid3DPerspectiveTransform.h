@@ -87,7 +87,6 @@ public:
     { 
       InputSpaceDimension      = 3,
       OutputSpaceDimension     = 2,
-      ParametersDimension      = NDimensions * (NDimensions+1)
     };
 
 
@@ -280,7 +279,7 @@ public:
     /**
      * Print contents of an Rigid3DPerspectiveTransform
      **/
-    std::ostream & PrintSelf(std::ostream &s) const;
+    void PrintSelf(std::ostream &os, Indent indent) const;
 
 private:
 
@@ -305,22 +304,6 @@ private:
 
 }; //class Rigid3DPerspectiveTransform:
 
-
-/**
- * Print the offset of a Rigid3DPerspectiveTransform
- * This method prints the offset of the
- * Rigid3DPerspectiveTransform as n vector.
- **/
-                                                              
- template<class ScalarType>
- inline
- std::ostream &
- operator<< (std::ostream &s, Rigid3DPerspectiveTransform<ScalarType> &transf)
- {
-     s << transf.GetOffset() << std::endl;
-     s << transf.GetRotation() << std::endl;
-     return s;
- }
 
 
 }  // namespace itk

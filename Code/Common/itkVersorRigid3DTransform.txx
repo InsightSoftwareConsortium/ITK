@@ -207,6 +207,18 @@ GetJacobian( const InputPointType & p ) const
 
 }
   
+// Print self
+template<class TScalarType>
+void
+VersorRigid3DTransform<TScalarType>::
+PrintSelf(std::ostream &os, Indent indent) const
+{
+
+  Superclass::PrintSelf(os,indent);
+  
+  os << indent << "Versor: " << m_Versor  << std::endl;
+}
+
 } // namespace
 
 #endif

@@ -188,7 +188,12 @@ public:
     const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 
-protected:
+    /**
+     * Print contents of a VersorRigid3DTransform
+     **/
+    void PrintSelf(std::ostream &os, Indent indent) const;
+
+ protected:
     /**
      * Construct an VersorRigid3DTransform object
      *
@@ -229,23 +234,6 @@ private:
     VersorType    m_Versor;
 
 }; //class VersorRigid3DTransform
-
-
-/**
- * Print the offset of a VersorRigid3DTransform
- * This method prints the offset of the
- * VersorRigid3DTransform as n vector.
- **/
-                                                              
- template<class ScalarType >
- inline
- std::ostream &
- operator<< (std::ostream &s, VersorRigid3DTransform<ScalarType > &rigid)
- {
-   //s << rigid.m_Offset << std::endl;
-   //s << rigid.m_Rotation << std::endl;
-   return s;
- }
 
 
 }  // namespace itk

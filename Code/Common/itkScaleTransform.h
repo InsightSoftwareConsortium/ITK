@@ -199,7 +199,7 @@ public:
      **/
     OutputPointType     TransformPoint(const InputPointType  &point ) const;
     OutputVectorType    TransformVector(const InputVectorType &vector) const;
-    OutputVnlVectorType TransformVnlVector(const InputVnlVectorType &vector) const;
+    OutputVnlVectorType TransformVector(const InputVnlVectorType &vector) const;
 
     OutputCovariantVectorType TransformCovariantVector(
                                    const InputCovariantVectorType &vector) const;
@@ -220,7 +220,7 @@ public:
     /**
      * Print contents of an ScaleTransform
      **/
-    std::ostream & PrintSelf(std::ostream &s) const;
+    void PrintSelf(std::ostream &os, Indent indent) const;
 
     /**
      * Find inverse of an affine transformation
@@ -263,24 +263,6 @@ private:
 
 
 }; //class ScaleTransform
-
-
-/**
- * Print the offset of a ScaleTransform
- * This method prints the offset of the
- * ScaleTransform as n vector.
- **/
-                                                              
- template<class ScalarType, unsigned int NDimensions,
-          class TParameters, class TJacobianType>
- inline
- std::ostream &
- operator<< (std::ostream &s, ScaleTransform<ScalarType, 
-                                 NDimensions, TParameters, 
-                                 TJacobianType> &scale)
- {
-     return scale.PrintSelf(s);
- }
 
 
 }  // namespace itk

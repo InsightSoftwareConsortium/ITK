@@ -528,7 +528,7 @@ public:
     /**
      * Print contents of an AffineTransform
      **/
-    std::ostream & PrintSelf(std::ostream &s) const;
+    void PrintSelf(std::ostream &s, Indent indent) const;
     
 
   /**
@@ -593,28 +593,6 @@ private:
 
 
 }; //class AffineTransform
-
-
-/**
- * Print the matrix and offset of an AffineTransform
- *
- * This method prints the matrix and offset of the
- * AffineTransform as an n x (n+1) matrix, with the
- * offset as the last column.  This is the same as
- * the conventional homogeneous coordinate representation,
- * except that the last row is omitted.
- **/
-template<class TScalarType, unsigned int NDimensions,
- class TParameters, class TJacobianType >
-inline
-std::ostream &
-operator<< (std::ostream &s, AffineTransform< TScalarType,
-                                              NDimensions, 
-                                              TParameters,
-                                              TJacobianType > &affine)
-{
-    return affine.PrintSelf(s);
-}
 
 
 }  // namespace itk

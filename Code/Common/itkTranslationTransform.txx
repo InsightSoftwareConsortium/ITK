@@ -113,12 +113,13 @@ TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>
 // Print self
 template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-std::ostream &
+void
 TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-PrintSelf(std::ostream &s) const
+PrintSelf(std::ostream &os, Indent indent) const
 {
-  s << m_Offset << std::endl;
-  return s;
+  Superclass::PrintSelf(os,indent);
+  
+  os << indent << "Offset: " << m_Offset << std::endl;
 }
 
 
@@ -177,7 +178,7 @@ template<class TScalarType, unsigned int NDimensions,
 TranslationTransform<TScalarType, NDimensions,
                      TParameters,TJacobianType>::OutputVnlVectorType
 TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-TransformVnlVector(const InputVnlVectorType &vect) const 
+TransformVector(const InputVnlVectorType &vect) const 
 {
   return  vect;
 }

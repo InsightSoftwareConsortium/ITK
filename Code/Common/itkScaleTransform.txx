@@ -111,12 +111,13 @@ ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>
 // Print self
 template<class ScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-std::ostream &
+void
 ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
-PrintSelf(std::ostream &s) const
+PrintSelf(std::ostream &os, Indent indent) const
 {
-  s << m_Scale << std::endl;
-  return s;
+  Superclass::PrintSelf(os, indent);
+  
+  os << indent << "Scale: " << m_Scale << std::endl;
 }
 
 
@@ -191,7 +192,7 @@ template<class ScalarType, unsigned int NDimensions,
 ScaleTransform<ScalarType, NDimensions,
                      TParameters,TJacobianType>::OutputVnlVectorType
 ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
-TransformVnlVector(const InputVnlVectorType &vect) const 
+TransformVector(const InputVnlVectorType &vect) const 
 {
   OutputVnlVectorType result;
   for( unsigned int i=0; i<SpaceDimension; i++ )

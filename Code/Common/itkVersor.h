@@ -289,7 +289,13 @@ private:
 
 template< class T>  
 ITK_EXPORT std::ostream& operator<<( std::ostream& os, 
-                                     const Versor<T> & v); 
+                                     const Versor<T> & v)
+{
+  os << "[";
+  os << v.GetX() << ", " << v.GetY () << ", " << v.GetZ() << ", " << v.GetW();
+  os << "]" << std::endl;
+  return os;
+}
 
 template< class T>
 ITK_EXPORT std::istream& operator>>(std::istream& is, 
