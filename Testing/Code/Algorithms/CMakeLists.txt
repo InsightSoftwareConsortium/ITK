@@ -72,6 +72,7 @@ ADD_TEST(itkOtsuThresholdImageCalculatorTest ${ALGORITHMS_TESTS} itkOtsuThreshol
 ADD_TEST(itkPatternIntensityImageMetricTest ${ALGORITHMS_TESTS}  itkPatternIntensityImageMetricTest)
 ADD_TEST(itkPointSetToImageRegistrationTest_1 ${ALGORITHMS_TESTS}  itkPointSetToImageRegistrationTest_1)
 ADD_TEST(itkRegionGrow2DTest ${ALGORITHMS_TESTS} itkRegionGrow2DTest)
+ADD_TEST(itkReinitializeLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkREinitializeLevelSetImageFilterTest)
 ADD_TEST(itkShapeDetectionLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkShapeDetectionLevelSetImageFilterTest)
 ADD_TEST(itkShapeDetectionLevelSetImageFilterTest_2 ${ALGORITHMS_TESTS} itkShapeDetectionLevelSetImageFilterTest_2)
 ADD_TEST(itkSpatialObjectToImageRegistrationTest ${ALGORITHMS_TESTS} itkSpatialObjectToImageRegistrationTest)
@@ -153,6 +154,7 @@ itkOtsuThresholdImageCalculatorTest.cxx
 itkPatternIntensityImageMetricTest.cxx
 itkPointSetToImageRegistrationTest_1.cxx
 itkRegionGrow2DTest.cxx
+itkReinitializeLevelSetImageFilterTest.cxx
 itkShapeDetectionLevelSetImageFilterTest.cxx
 itkShapeDetectionLevelSetImageFilterTest_2.cxx
 itkSpatialObjectToImageRegistrationTest.cxx

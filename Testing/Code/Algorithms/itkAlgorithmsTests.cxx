@@ -68,6 +68,7 @@ REGISTER_TEST(itkOtsuThresholdImageCalculatorTest );
 REGISTER_TEST(itkPatternIntensityImageMetricTest  );
 REGISTER_TEST(itkPointSetToImageRegistrationTest_1  );
 REGISTER_TEST(itkRegionGrow2DTest );
+REGISTER_TEST(itkReinitializeLevelSetImageFilterTest );
 REGISTER_TEST(itkShapeDetectionLevelSetImageFilterTest );
 REGISTER_TEST(itkShapeDetectionLevelSetImageFilterTest_2 );
 REGISTER_TEST(itkSpatialObjectToImageRegistrationTest );
