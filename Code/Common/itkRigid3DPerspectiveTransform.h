@@ -148,13 +148,16 @@ public:
     typedef Vector<TScalarType, InputSpaceDimension> OffsetType;
 
     /// Standard vector type for this class
-    typedef Vector<TScalarType, InputSpaceDimension> VectorType;
+    typedef Vector<TScalarType, InputSpaceDimension> InputVectorType;
+    typedef Vector<TScalarType, OutputSpaceDimension> OutputVectorType;
 
     /// Standard coordinate point type for this class
     typedef Point<TScalarType, InputSpaceDimension>    InputPointType;
-
-    /// Standard coordinate point type for this class
     typedef Point<TScalarType, OutputSpaceDimension>    OutputPointType;
+
+    /// Standard covariant vector type for this class
+    typedef CovariantVector<TScalarType, InputSpaceDimension> InputCovariantVectorType;
+    typedef CovariantVector<TScalarType, OutputSpaceDimension> OutputCovariantVectorType;
 
     /// Standard vnl_quaternion type
     typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
