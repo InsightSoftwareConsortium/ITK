@@ -18,17 +18,18 @@
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
+#include "itkCSwigBinaryBallStructuringElement.h"
 namespace _cable_
 {
   const char* const group = ITK_WRAP_GROUP(itkBinaryBallStructuringElement);
   namespace wrappers
   {
-    typedef itk::BinaryBallStructuringElement<float, 2 >::Self itkBinaryBallStructuringElementF2;
-    typedef itk::BinaryBallStructuringElement<float, 3 >::Self itkBinaryBallStructuringElementF3;
-    typedef itk::BinaryBallStructuringElement<unsigned char, 2 >::Self itkBinaryBallStructuringElementUC2;
-    typedef itk::BinaryBallStructuringElement<unsigned char, 3 >::Self itkBinaryBallStructuringElementUC3;
-    typedef itk::BinaryBallStructuringElement<unsigned short, 2 >::Self itkBinaryBallStructuringElementUS2;
-    typedef itk::BinaryBallStructuringElement<unsigned short, 3 >::Self itkBinaryBallStructuringElementUS3;
+    typedef structuringElement::F2     itkBinaryBallStructuringElementF2;
+    typedef structuringElement::F3     itkBinaryBallStructuringElementF3;
+    typedef structuringElement::UC2    itkBinaryBallStructuringElementUC2;
+    typedef structuringElement::UC3    itkBinaryBallStructuringElementUC3;
+    typedef structuringElement::US2    itkBinaryBallStructuringElementUS2;
+    typedef structuringElement::US3    itkBinaryBallStructuringElementUS3;
   }
 }
 #endif
