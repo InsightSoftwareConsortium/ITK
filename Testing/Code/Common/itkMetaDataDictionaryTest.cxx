@@ -137,8 +137,8 @@ int itkMetaDataDictionaryTest(int , char * [])
     }
   }
 
-  itk::EncapsulateMetaData<float>(MyDictionary,"ASimpleFloatChanged",static_cast<const float>(-1000.234560F));
-  itk::EncapsulateMetaData<double>(MyDictionary,"ASimpleFloatChanged",static_cast<const float>(-0.000000001F));
+  itk::EncapsulateMetaData<float>(MyDictionary,"ASimpleFloatChanged",static_cast<float>(-1000.234560F));
+  itk::EncapsulateMetaData<double>(MyDictionary,"ASimpleFloatChanged",static_cast<float>(-0.000000001F));
 
   //-------Char pointers --  These can be tricky, so be careful!
   itk::EncapsulateMetaData<const char *>(MyDictionary,"charconst*","Value String");
