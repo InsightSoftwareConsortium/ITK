@@ -151,7 +151,16 @@ public:
    * 
    */
   virtual void GraftOutput(OutputImageType *output);
-  virtual void GraftNthOutput( unsigned int num, OutputImageType *output );
+
+  /**
+   * Graft the specified data object onto this ProcessObject's idx'th
+   * output. This is the similar to GraftOutput method except is
+   * allows you specify which output is affected. The specified index
+   * must be a valid output number (less than
+   * ProcessObject::GetNumberOfOutputs()). See the GraftOutput for
+   * general usage information.
+   */
+  virtual void GraftNthOutput(unsigned int idx, OutputImageType *output);
 
   /**
    * Make a DataObject of the correct type to used as the specified

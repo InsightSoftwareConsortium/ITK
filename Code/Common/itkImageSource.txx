@@ -125,21 +125,7 @@ void
 ImageSource<TOutputImage>
 ::GraftOutput(TOutputImage *graft)
 {
-  OutputImagePointer output = this->GetOutput();
-
-  if (output && graft)
-    {
-    // grab a handle to the bulk data of the specified data object
-    output->SetPixelContainer( graft->GetPixelContainer() );
-    
-    // copy the region ivars of the specified data object
-    output->SetRequestedRegion( graft->GetRequestedRegion() );
-    output->SetLargestPossibleRegion( graft->GetLargestPossibleRegion() );
-    output->SetBufferedRegion( graft->GetBufferedRegion() );
-
-    // copy the meta-information
-    output->CopyInformation( graft );
-    }
+  this->GraftNthOutput(0, graft);
 }
 
 
@@ -149,22 +135,25 @@ ImageSource<TOutputImage>
 template<class TOutputImage>
 void
 ImageSource<TOutputImage>
-::GraftNthOutput(unsigned int num, TOutputImage *graft)
+::GraftNthOutput(unsigned int idx, TOutputImage *graft)
 {
-  OutputImagePointer output = this->GetOutput(num);
-
-  if (output && graft)
+  if (idx < this->GetNumberOfOutputs())
     {
-    // grab a handle to the bulk data of the specified data object
-    output->SetPixelContainer( graft->GetPixelContainer() );
-    
-    // copy the region ivars of the specified data object
-    output->SetRequestedRegion( graft->GetRequestedRegion() );
-    output->SetLargestPossibleRegion( graft->GetLargestPossibleRegion() );
-    output->SetBufferedRegion( graft->GetBufferedRegion() );
+    OutputImagePointer output = this->GetOutput(idx);
 
-    // copy the meta-information
-    output->CopyInformation( graft );
+    if (output && graft)
+      {
+      // grab a handle to the bulk data of the specified data object
+      output->SetPixelContainer( graft->GetPixelContainer() );
+      
+      // copy the region ivars of the specified data object
+      output->SetRequestedRegion( graft->GetRequestedRegion() );
+      output->SetLargestPossibleRegion( graft->GetLargestPossibleRegion() );
+      output->SetBufferedRegion( graft->GetBufferedRegion() );
+      
+      // copy the meta-information
+      output->CopyInformation( graft );
+      }
     }
 }
 
