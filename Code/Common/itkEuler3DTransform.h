@@ -86,7 +86,8 @@ public:
   /** VnlVector type. */
   typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
-  
+  typedef typename Superclass::MatrixType           MatrixType;
+
   /** Set/Get the transformation from a container of parameters
    * This is typically used by optimizers.  There are 6 parameters. The first
    * three represent the angles to rotate around the coordinate axis, and the
@@ -105,6 +106,13 @@ public:
 
   void ComputeZYX(bool compute) {m_ComputeZYX = compute;}
 
+  virtual void SetRotationMatrix(const MatrixType &matrix);
+
+  virtual void Compose(const Superclass *other, bool pre=false);
+  
+  virtual void SetIdentity(void);
+
+
 protected:
   Euler3DTransform();
   ~Euler3DTransform(){};
@@ -112,6 +120,7 @@ protected:
 
   /** Compute the components of the rotation matrix in the superclass. */
   void ComputeMatrix(void);
+  void ComputeAnglesFromMatrix(void);
 
 private:
   Euler3DTransform(const Self&); //purposely not implemented

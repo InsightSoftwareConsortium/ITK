@@ -100,6 +100,67 @@ Euler3DTransform<TScalarType>
 }
 
 
+// Set the rotation matrix
+template <class TScalarType>
+void
+Euler3DTransform<TScalarType>
+::SetRotationMatrix(const MatrixType &matrix)
+{
+  Superclass::SetRotationMatrix(matrix);
+  this->ComputeAnglesFromMatrix();
+}
+
+// Compose
+template <class TScalarType>
+void
+Euler3DTransform<TScalarType>
+::Compose(const Superclass *other, bool pre)
+{
+  Superclass::Compose(other,pre);
+  this->ComputeAnglesFromMatrix();
+}
+  
+// Compose
+template <class TScalarType>
+void
+Euler3DTransform<TScalarType>
+::SetIdentity(void)
+{
+  Superclass::SetIdentity();
+  m_AngleX = 0;
+  m_AngleY = 0;
+  m_AngleZ = 0;
+}
+
+
+// Compute angles from the rotation matrix
+template <class TScalarType>
+void
+Euler3DTransform<TScalarType>
+::ComputeAnglesFromMatrix(void)
+{
+  m_AngleX = asin(m_RotationMatrix[2][1]);
+  double A = cos(m_AngleX);
+  if(fabs(A)>0.00005)
+    {
+    double x = m_RotationMatrix[2][2] / A;
+    double y = -m_RotationMatrix[2][0] / A;
+    m_AngleY = atan2(y,x);
+
+    x = m_RotationMatrix[1][1] / A;
+    y = -m_RotationMatrix[0][1] / A;
+    m_AngleZ = atan2(y,x);
+    }
+  else
+    {
+    m_AngleZ = 0;
+    double x = m_RotationMatrix[0][0];
+    double y = m_RotationMatrix[1][0];
+    m_AngleY = atan2(y,x);
+    }
+}
+
+
 // Compute the matrix
 template <class TScalarType>
 void
