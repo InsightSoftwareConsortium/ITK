@@ -185,6 +185,11 @@ KdTree< TSample >
 ::Search(MeasurementVectorType &query, unsigned int k,
          InstanceIdentifierVectorType& result)
 {
+  if (k > this->Size())
+    {
+    itkExceptionMacro(<<"The k value for the nearest neighbor search should be less than or equal to the number of the measurement vectors.");
+    }
+
   m_NearestNeighbors.resize(k) ;
 
   MeasurementVectorType lowerBound ;
@@ -280,7 +285,7 @@ KdTree< TSample >
     // search the closer child node
     tempValue = lowerBound[partitionDimension] ;
     lowerBound[partitionDimension] = partitionValue ;
-    if (SearchLoop(node->Right(), query, lowerBound, upperBound))
+    if (NearestNeighborSearchLoop(node->Right(), query, lowerBound, upperBound))
       {
       return 1 ;
       }
