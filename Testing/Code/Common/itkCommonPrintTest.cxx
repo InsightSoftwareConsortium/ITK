@@ -63,6 +63,7 @@
 #include "itkExpNegativeImageAdaptor.h"
 #include "itkFastMutexLock.h"
 #include "itkFileOutputWindow.h"
+#include "itkFiniteCylinderSpatialFunction.h"
 #include "itkFrustumSpatialFunction.h"
 #include "itkGaussianBlurImageFunction.h"
 #include "itkGaussianDerivativeImageFunction.h"
@@ -317,6 +318,10 @@ int itkCommonPrintTest(int , char* [])
   itk::FileOutputWindow::Pointer FileOutputWindowObj =
     itk::FileOutputWindow::New();
   std::cout << "------------FileOutputWindow" << FileOutputWindowObj;
+
+  itk::FiniteCylinderSpatialFunction<2,PointType>::Pointer FiniteCylinderSpatialFunctionObj = 
+    itk::FiniteCylinderSpatialFunction<2,PointType>::New();
+  std::cout << "------------FiniteCylinderSpatialFunction" << FiniteCylinderSpatialFunctionObj;
   
   itk::FrustumSpatialFunction<2,PointType>::Pointer FrustumSpatialFunctionObj =
     itk::FrustumSpatialFunction<2,PointType>::New();

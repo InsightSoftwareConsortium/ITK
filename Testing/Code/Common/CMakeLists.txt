@@ -44,6 +44,7 @@ ADD_TEST(itkEuler3DTransformTest ${COMMON_TESTS} itkEuler3DTransformTest)
 ADD_TEST(itkEventObjectTest ${COMMON_TESTS} itkEventObjectTest)
 ADD_TEST(itkExceptionObjectTest ${COMMON_TESTS} itkExceptionObjectTest)
 ADD_TEST(itkFileOutputWindowTest ${COMMON_TESTS} itkFileOutputWindowTest)
+ADD_TEST(itkFiniteCylinderSpatialFunctionTest ${COMMON_TESTS} itkFiniteCylinderSpatialFunctionTest)
 ADD_TEST(itkFloodFilledSpatialFunctionTest ${COMMON_TESTS} itkFloodFilledSpatialFunctionTest)
 ADD_TEST(itkFourierSeriesPathTest ${COMMON_TESTS} itkFourierSeriesPathTest)
 ADD_TEST(itkGaussianBlurImageFunctionTest ${COMMON_TESTS} itkGaussianBlurImageFunctionTest)
@@ -205,6 +206,7 @@ itkEuler3DTransformTest.cxx
 itkEventObjectTest.cxx
 itkExceptionObjectTest.cxx
 itkFileOutputWindowTest.cxx
+itkFiniteCylinderSpatialFunctionTest.cxx
 itkFixedArrayTest.cxx
 itkFixedCenterOfRotationAffineTransformTest.cxx
 itkFloodFilledSpatialFunctionTest.cxx

@@ -41,6 +41,7 @@ REGISTER_TEST(itkEuler3DTransformTest );
 REGISTER_TEST(itkEventObjectTest );
 REGISTER_TEST(itkExceptionObjectTest );
 REGISTER_TEST(itkFileOutputWindowTest );
+REGISTER_TEST(itkFiniteCylinderSpatialFunctionTest );
 REGISTER_TEST(itkFixedArrayTest );
 REGISTER_TEST(itkFixedCenterOfRotationAffineTransformTest );
 REGISTER_TEST(itkFloodFilledSpatialFunctionTest );
