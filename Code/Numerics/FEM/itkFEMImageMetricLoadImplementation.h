@@ -79,7 +79,7 @@ public:
                          ip,gip,gsol,force_tmp,shapeF;
     Element::Float w,detJ;
 
-    Fe.resize(element->GetNumberOfDegreesOfFreedom()*2);
+    Fe.resize(element->GetNumberOfDegreesOfFreedom());
     Fe.fill(0.0);
 
     for(unsigned int i=0; i<Nip; i++)
@@ -87,7 +87,7 @@ public:
       element->GetIntegrationPointAndWeight(i,ip,w,order);
       gip=element->GetGlobalFromLocalCoordinates(ip);
       gsol=element->InterpolateSolution(ip,*S,TotalSolutionIndex);
-
+      //std::cout << gsol << std::endl;
       shapeF=element->ShapeFunctions(ip);
       detJ=element->JacobianDeterminant(ip);
 
