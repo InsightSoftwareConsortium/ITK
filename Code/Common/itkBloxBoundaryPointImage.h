@@ -150,7 +150,7 @@ public:
    * Methods for getting/setting the physical image that this Blox-derived
    * image stores information about.
    */
-  void SetSourceImage(TSourceImage::Pointer pSource){m_SourceImage = pSource;};
+  void SetSourceImage(typename TSourceImage::Pointer pSource){m_SourceImage = pSource;};
   //@}
 
   /**
@@ -187,7 +187,7 @@ private:
   /**
    * Pointer to the image that we store info. about
    */
-  TSourceImage::Pointer m_SourceImage;
+  typename TSourceImage::Pointer m_SourceImage;
 
   /**
    * The gradient-magnitude intensity threshold (minimum) for
