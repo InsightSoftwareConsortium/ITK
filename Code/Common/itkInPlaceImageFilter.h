@@ -97,6 +97,17 @@ public:
   itkGetMacro(InPlace, bool);
   itkBooleanMacro(InPlace);
 
+  /** Can the filter run in place? To do so, the filter's first input
+   * and output must have the same dimension and pixel type. This
+   * method can be used in conjunction with the InPlace ivar to
+   * determine whether a particular use of the filter is really
+   * running in place. Some filters may be able to optimize their
+   * operation if the InPlace is true and CanRunInPlace is true. */
+   bool CanRunInPlace() const
+     {
+       return (typeid(TInputImage) == typeid(TOutputImage));
+     };
+
  protected:
   InPlaceImageFilter();
   ~InPlaceImageFilter();

@@ -53,7 +53,7 @@ InPlaceImageFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "InPlace: " << (m_InPlace ? "On" : "Off") << std::endl;
-  if ( typeid(TInputImage) == typeid(TOutputImage))
+  if ( this->CanRunInPlace())
     {
     os << indent << "The input and output to this filter are the same type. The filter can be run in place." << std::endl;
     }
