@@ -19,6 +19,7 @@
 #define __itkFEMElementBeam2D_h
 
 #include "itkFEMElementBase.h"
+#include "itkFEMLoadElementBase.h"
 #include "itkFEMMaterialStandard.h"
 #include "itkFEMNodeXYrotZ.h"
 
@@ -56,10 +57,10 @@ public:
    */
   vnl_matrix<Float> Ke() const;
 
-  /**
-   * Function that handles all external loads applied to the element
+  /*
+   * Macro that defines a specific version of the Fe() function
    */
-  vnl_vector<Float> Fe(LoadElementPointer l) const;
+  LOAD_FUNCTION();
 
   /**
    * Pointers to DOF displacements, which are stored in node classes.

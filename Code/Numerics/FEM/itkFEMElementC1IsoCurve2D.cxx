@@ -67,33 +67,6 @@ C1IsoCurve2D::C1IsoCurve2D(  Node::ConstPointer nn1_,
 }
 
 
-/**
- * Computes the element load vector and adds to the appropriate nodes
- */
-vnl_vector<Node::Float> C1IsoCurve2D::Fe(LoadElementPointer L)  const{
-
-  vnl_vector<Float> fvec(N()*NI(),0.0);
-  
-  return fvec;
-  //Superclass::Fe(L);  // we can't handle this load, pass it over to the parent class
-/* FIX ME!!
-  Float fx=0.;  
-  Float fy=0.;
-  const_cast<C1IsoCurve2D*>(this)->current_match_index=GN;
-  ( dynamic_cast<itkActiveContourLoad*> (L))->DistForce(
-    &(const_cast<C1IsoCurve2D*>(this)->current_match_index),
-    cur_node->X,cur_node->Y, 0. , 0. , &fx,&fy);
-
-  // apply only to cur_node -- all others zero
-  fvec[2]=  cur_node->X + fx;
-  fvec[3]=  cur_node->Y + fy;
-  
-  return fvec;
-*/
-
-}           
-
-
 
 
 /**

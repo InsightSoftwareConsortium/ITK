@@ -19,6 +19,7 @@
 #define __itkElementC1IsoCurve2D_h
 
 #include "itkFEMElementBase.h"
+#include "itkFEMLoadElementBase.h"
 #include "itkFEMLoadGrav.h"
 #include "itkFEMObjectFactory.h"
 #include "itkFEMUtility.h"
@@ -76,10 +77,10 @@ public:
    */
   vnl_matrix<Float> Ke() const;
 
-  /**
-   * Function that handles all external loads applied to the element
+  /*
+   * Macro that defines a specific version of the Fe() function
    */
-  vnl_vector<Float> Fe(LoadElementPointer L) const;
+  LOAD_FUNCTION();
 
   /**
    * Pointers to DOF displacements, which are stored in node classes.

@@ -22,6 +22,7 @@
 #include "itkFEMPArray.h"
 #include "itkFEMNodeBase.h"
 #include "itkFEMMaterialBase.h"
+#include "itkVisitorDispatcher.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
 #include <iostream>
@@ -60,6 +61,18 @@ namespace fem {
 /* We need forward declaration of the LoadElement base class. */
 class LoadElement;
 
+/**
+ * \def LOAD_FUNCTION()
+ * \brief Macro that simplifies the the Fe function definitions.
+ *
+ * NOTE: This macro must be called in declaration of ALL
+ *       derived Element classes.
+ */
+#define LOAD_FUNCTION() \
+  virtual LoadVectorType Fe( LoadElementPointer l ) const \
+  { return VisitorDispatcher<Self,LoadElement,LoadVectorType>::Visit(this,l); }
+
+
 class Element : public FEMLightObject
 {
 FEM_CLASS_SP(Element,FEMLightObject)
@@ -81,6 +94,17 @@ public:
   typedef FEMPArray<Element> ArrayType;
 
   /**
+   * Class used to store the element stiffness matrix
+   */
+  typedef vnl_matrix<Float> StiffnesMatrixType;
+
+  /**
+   * Class to store the element load vector
+   */
+  typedef vnl_vector<Float> LoadVectorType;
+
+
+  /**
    * Return the number of degrees of freedom (DOF) for a derived element class
    */
   virtual int N() const = 0;
@@ -88,7 +112,7 @@ public:
   /**
    * Compute and return element stiffnes matrix in global coordinate system
    */
-  virtual vnl_matrix<Float> Ke() const = 0;
+  virtual StiffnesMatrixType Ke() const = 0;
 
   /**
    * Compute and return element mass matrix in global coordinate system.
@@ -114,38 +138,33 @@ public:
   typedef SmartPointer<FEMLightObject> LoadElementPointer;
 #endif
 
-
-  /** 
-   * Compute and return the element force vector. Basically this is the contribution
-   * of this element on the right side of the master matrix equation. Returned vector
-   * should include only nodal forces that correspond to the given Load object.
-   * Within the function definition you should use the dynamic_cast operator on the 
-   * provided pointer to the Load object to obtain the pointer to the derived class
-   * and act accordingly. If the implementation of the Fe function does not handle
-   * given Load class (dynamic_cast returns 0), parent's Fe member should be called.
-   * Several types of loads can be implemented using several if statements.
+  /**
+   * Compute and return the element load vector for a given external load.
+   * The class of load object determines the type of load acting on the
+   * elemnent. Basically this is the contribution of this element on the right
+   * side of the master matrix equation, due to the specified load. 
+   * Returned vector includes only nodal forces that correspond to the given
+   * Load object.
    *
-   * Example:
+   * Visitor design pattern is used in the loads implementation. This function
+   * only selects and calls the proper function based on the given class of
+   * load object. The code that performs the actual conversion to the
+   * corresponding nodal loads is defined elswhere.
    *
-   *  class Quad2D : public Element {
-   *    ...
-   *    vnl_vector<Float> Fe(LoadElement* l) {
-   *      if (LoadGravity l0=dynamic_cast<LoadGravity*>(l)) {
-   *        ... implement the gravity load using l0 pointer
-   *      } else
-   *        return Element::Fe(l);
-   *    }
-   *    ...
-   *  };
+   * \note Each deriver class must implement its own version of this function.
+   *       This is automated by calling the LOAD_FUNCTION() macro within the
+   *       class declaration (in the public: block).
+   *
+   * For example on how to define specific element load, see funtion
+   * LoadImplementationPoint_Bar2D.
+   *
+   * \note: Before a load can be applied to an element, the function that
+   *        implements a load must be registered with the VisitorDispactcher
+   *        class.
+   *
+   * \sa VisitorDispatcher
    */
-  virtual vnl_vector<Float> Fe(LoadElementPointer l) const {
-    /**
-     * If this function is not defined in the derived class we return a vector
-     * containing all zeros. it has the dimension of N(). This quietly accepts
-     * all load classes, but they have no affect on the element.
-     */
-    return vnl_vector<Float>( N(), 0.0 );
-  };
+  virtual LoadVectorType Fe(LoadElementPointer l) const = 0;
 
   /**
    * Pure virtual function that returns a pointer to an allocated memory that stores displacement

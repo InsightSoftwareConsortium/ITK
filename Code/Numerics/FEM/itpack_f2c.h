@@ -24,6 +24,10 @@
  * itpack_dsrc2c.c files.
  */
 
+namespace itk {
+namespace fem {
+namespace itpack {
+
 
 
 
@@ -46,5 +50,9 @@ typedef struct
     ftnint cirec;
 } cilist;
 
+
+
+
+}}} // end namespace itk::fem::itpack
 
 #endif

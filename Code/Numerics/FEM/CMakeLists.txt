@@ -25,7 +25,22 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadElementBase.cxx
   itkFEMLoadGrav.cxx
   itkFEMLoadEdge.cxx
-  itkFEMLoadPoint.cxx  
+  itkFEMLoadPoint.cxx
+  
+  itkFEMLoadImplementationsRegister.cxx
+  itkFEMLoadImplementationGrav_Bar2D.cxx
+  itkFEMLoadImplementationGrav_Beam2D.cxx
+  itkFEMLoadImplementationGrav_QuadC02D.cxx
+  itkFEMLoadImplementationGrav_TriC02D.cxx
+
+  itkFEMLoadImplementationEdge_TriC02D.cxx
+  itkFEMLoadImplementationEdge_QuadC02D.cxx
+
+  itkFEMLoadImplementationPoint_Bar2D.cxx
+  itkFEMLoadImplementationPoint_Beam2D.cxx
+
+  itkFEMLoadImplementation_C1IsoCurve2D.cxx
+
 
   itkFEMSolver.cxx
   itkFEMLinearSystemWrapperVNL.cxx
@@ -87,6 +102,8 @@ SOURCE_FILES(FEM_SRCS
   itkFEMMacro.h
   itkFEMUtility.h
   itkFEMException.h
+
+  itkVisitorDispatcher.h
 
   ReadMe.txt
   ToDo.txt

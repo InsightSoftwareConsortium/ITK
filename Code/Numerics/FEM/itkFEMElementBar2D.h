@@ -19,6 +19,7 @@
 #define __itkFEMElementBar2D_h
 
 #include "itkFEMElementBase.h"
+#include "itkFEMLoadElementBase.h"
 #include "itkFEMNodeXY.h"
 #include "itkFEMMaterialStandard.h"
 
@@ -58,10 +59,10 @@ public:
    */
   vnl_matrix<Float> Ke() const;
 
-  /**
-   * Function that handles all external loads applied to the element
+  /*
+   * Macro that defines a specific version of the Fe() function
    */
-  vnl_vector<Float> Fe(LoadElementPointer l) const;
+  LOAD_FUNCTION();
 
   /**
    * Pointers to DOF displacements, which are stored in node classes.
@@ -126,7 +127,7 @@ public:
    * Pointer to geometric and material properties of the element
    */
   MaterialStandard::ConstPointer m_mat;
-
+  
 };
 
 FEM_CLASS_INIT(Bar2D)

@@ -409,23 +409,6 @@ TetrahedronC03D::ComputeDBMatrix(const vnl_matrix<Float>& D, const vnl_matrix<Fl
 
 
 /**
- * Return the force vector for TetrahedronC03D element
- */
-vnl_vector<TetrahedronC03D::Float> TetrahedronC03D::Fe(LoadElementPointer l) const {
-
-  /**
-   * We can't handle this load, pass it over to the parent class 
-   * FIXME: write code that handles loads.
-   */
-  return Superclass::Fe(l);  
-
-}
-
-
-
-
-
-/**
  * Read the element from input stream
  */
 void TetrahedronC03D::Read( std::istream& f, void* info )

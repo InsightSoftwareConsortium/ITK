@@ -504,22 +504,6 @@ HexahedronC03D::ComputeDBMatrix(const vnl_matrix<Float>& D, const vnl_matrix<Flo
 
 
 /**
- * Return the force vector for HexahedronC03D element.
- */
-vnl_vector<HexahedronC03D::Float> HexahedronC03D::Fe(LoadElementPointer l) const {
-
-  /**
-   * We can't handle this load, pass it over to the parent class
-   * FIXME: write code that handles loads.
-   */
-  return Superclass::Fe(l);
-
-}
-
-
-
-
-/**
  * Read the element from input stream
  */
 void HexahedronC03D::Read(std::istream& f, void* info)

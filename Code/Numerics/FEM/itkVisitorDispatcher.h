@@ -84,13 +84,13 @@
  * The Visitor class is templated over several classes that make its use
  * generic and simple.
  *
- * \param TVisitedClass Class of objects that will be visited.
+ *  - TVisitedClass Class of objects that will be visited.
  *
- * \param TVisitorBase  Base class of Visitor objects. Objects of class
- *                      TVisitedClass will be visited by object of any
- *                      registered class that is derived from TVisitorBase.
+ *  - TVisitorBase  Base class of Visitor objects. Objects of class
+ *                  TVisitedClass will be visited by object of any
+ *                  registered class that is derived from TVisitorBase.
  *
- * \param TReturnType   Return type of all visitor functions.
+ *  - TReturnType   Return type of all visitor functions.
  *
  */
 template<class TVisitedClass, class TVisitorBase, class TReturnType>
@@ -119,6 +119,7 @@ public:
    *
    */
   typedef VisitedClass::Pointer VisitedClassPointer;
+  typedef VisitedClass::ConstPointer VisitedClassConstPointer;
   typedef VisitorBase::Pointer VisitorBasePointer;
 
 
@@ -126,7 +127,7 @@ public:
   /**
    * Type that holds pointers to visitor functions
    */
-  typedef ReturnType (*VisitFunctionPointerType)(VisitedClassPointer, VisitorBasePointer);
+  typedef ReturnType (*VisitFunctionPointerType)(VisitedClassConstPointer, VisitorBasePointer);
 
   /**
    * Type that holds class IDs. Pointer to type_info object provides a
@@ -155,7 +156,7 @@ public:
    *
    * \sa RegisterVisitor
    */
-  static ReturnType Visit(VisitedClassPointer e, VisitorBasePointer l);
+  static ReturnType Visit(VisitedClassConstPointer e, VisitorBasePointer l);
 
   /**
    * Adds function visitor_function to the VisitorDispatcher class and
@@ -168,25 +169,26 @@ public:
    *
    *   int Dummy = VisitorDispatcher<Bar,Load>::RegisterVisitor((LoadGrav*)0, &LoadGravImpl);
    * 
-   * \param TVisitorClass* Dummy class pointer that automatically generates
-   *                       the correct template parameter TVisitorClass.
-   *                       Technically we would like to call Add function as
-   *                       VisitorDispatcher<...>::Add<MyVisitorClass>(...),
-   *                       but MS C compiler crashes if we do this. This is
-   *                       a work around.
+   * \param ptr Dummy class pointer that automatically generates
+   *            the correct template parameter TVisitorClass.
+   *            Technically we would like to call Add function as
+   *            VisitorDispatcher<...>::Add<MyVisitorClass>(...),
+   *            but MS C compiler crashes if we do this. This is
+   *            a work around. You should pass null pointer casted
+   *            to the TVisitorClass.
    *
    * \param visitor_function Pointer to a visitor function.
    *
    * \sa Visit
    */
   template<class TVisitorClass>
-  inline static void RegisterVisitor(TVisitorClass*, VisitFunctionPointerType visitor_function)
+  inline static void RegisterVisitor(TVisitorClass* ptr, VisitFunctionPointerType visitor_function)
   {
     typedef TVisitorClass VisitorClass;
     if ( Instance().visitors.insert(VisitorsArrayType::value_type(&typeid(VisitorClass),visitor_function)).second )
     {
       // Visitor class was successfully registered
-//      std::cout<<"Visitor "<<typeid(VisitorClass).name()<<" that operates on objects of "<<typeid(VisitedClass).name()<<" was sucessfully registered\n";
+      std::cout<<"Visitor "<<typeid(VisitorClass).name()<<" that operates on objects of "<<typeid(VisitedClass).name()<<" was sucessfully registered\n";
 //      std::cout<<"Debug info: "<<typeid(TVisitedClass).name()<<", "<<typeid(TVisitorBase).name()<<", "<<typeid(TReturnType).name()<<"\n";
       return;
     }
@@ -249,7 +251,7 @@ VisitorDispatcher<TVisitedClass, TVisitorBase, TReturnType>&  VisitorDispatcher<
 
 
 template<class TVisitedClass, class TVisitorBase, class TReturnType>
-VisitorDispatcher<TVisitedClass, TVisitorBase, TReturnType>::ReturnType VisitorDispatcher<TVisitedClass, TVisitorBase, TReturnType>::Visit(VisitedClassPointer e, VisitorBasePointer l)
+VisitorDispatcher<TVisitedClass, TVisitorBase, TReturnType>::ReturnType VisitorDispatcher<TVisitedClass, TVisitorBase, TReturnType>::Visit(VisitedClassConstPointer e, VisitorBasePointer l)
 {
   VisitorsArrayType::const_iterator i = Instance().visitors.find(&typeid(*l));
   if( i==Instance().visitors.end() )

@@ -20,6 +20,7 @@
 #define __itkElementTetrahedronC03D_h
 
 #include "itkFEMElementBase.h"
+#include "itkFEMLoadElementBase.h"
 #include "itkFEMNodeXYZ.h"
 #include "itkFEMMaterialStandard.h"
 #include "vnl/vnl_matrix.h"
@@ -55,10 +56,10 @@ public:
    */
   vnl_matrix<Float> Ke() const;
 
-  /** 
-   * Element force vector 
+  /*
+   * Macro that defines a specific version of the Fe() function
    */
-  vnl_vector<Float> Fe(LoadElementPointer l) const;
+  LOAD_FUNCTION();
 
   /**
    * Pointers to DOF displacements, which are stored
