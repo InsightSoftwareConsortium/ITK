@@ -28,7 +28,11 @@ public:
   {
     m_Start = 0; m_End = 0; m_Process = o; m_Steps = 0; m_Comment = comment;
     m_TestAbort = false;
+#if defined(_COMPILER_VERSION) && (_COMPILER_VERSION == 730)
+    m_Quiet = true;
+#else
     m_Quiet = false;
+#endif
     itk::SimpleMemberCommand<FilterWatcher>::Pointer startFilterCommand;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer endFilterCommand;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer progressFilterCommand;
