@@ -4,6 +4,10 @@ LINK_LIBRARIES (
 ITKCommon
 )
 
+INCLUDE_DIRECTORIES(
+${ITK_SOURCE_DIR}/Code/BasicFilters
+)
+
 SOURCE_FILES(
 itkWriter
 )
