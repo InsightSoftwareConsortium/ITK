@@ -83,17 +83,6 @@ ImageSource<TOutputImage>
 }
 
 
-/**
- *
- */
-template<class TOutputImage>
-void 
-ImageSource<TOutputImage>
-::SetOutput(TOutputImage *output)
-{
-  itkWarningMacro(<< "SetOutput(): This method is slated to be removed from ITK.  Please use GraftOutput() in possible combination with DisconnectPipeline() instead." );
-  this->ProcessObject::SetNthOutput(0, output);
-}
 
 
 /**
@@ -240,6 +229,7 @@ ImageSource<TOutputImage>
   // Call a method that can be overridden by a subclass to perform
   // some calculations after all the threads have completed
   this->AfterThreadedGenerateData();
+
 }
 
 

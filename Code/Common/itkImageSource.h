@@ -101,11 +101,6 @@ public:
   OutputImageType * GetOutput(void);
   OutputImageType * GetOutput(unsigned int idx);
   
-  /** Set the image output of this process object. This call is slated
-   * to be removed from ITK. You should GraftOutput() and possible
-   * DataObject::DisconnectPipeline() to properly change the output. */
-  void SetOutput(OutputImageType *output);
-
   /** Graft the specified DataObject onto this ProcessObject's output.
    * This method grabs a handle to the specified DataObject's bulk
    * data to used as its output's own bulk data. It also copies the
@@ -227,7 +222,7 @@ protected:
    * varying resolution. Or a filter may want to process data in place by
    * grafting its input to its output.*/
   virtual void AllocateOutputs();
-  
+
   /** If an imaging filter needs to perform processing after the buffer
    * has been allocated but before threads are spawned, the filter can
    * can provide an implementation for BeforeThreadedGenerateData(). The
