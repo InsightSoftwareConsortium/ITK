@@ -17,7 +17,6 @@
 #ifndef _itkReflectiveImageRegionIterator_txx
 #define _itkReflectiveImageRegionIterator_txx
 
-
 #include "itkReflectiveImageRegionIterator.h"
 
 namespace itk
@@ -27,12 +26,7 @@ template<class TImage>
 ReflectiveImageRegionIterator<TImage>
 ::ReflectiveImageRegionIterator()
 {
-  for(unsigned int i=0;i<TImage::ImageDimension;i++) 
-    {
-    m_Reflecting[i] = false;
-    m_Done[i] = false;
-    }
-  m_Fastest = 0;
+  this->GoToBegin();
 }
 
 template<class TImage>
@@ -40,7 +34,24 @@ ReflectiveImageRegionIterator<TImage>
 ::ReflectiveImageRegionIterator(TImage *ptr, const RegionType& region) :
   ImageIteratorWithIndex<TImage>(ptr, region)
 {
-  for(unsigned int i=0;i<TImage::ImageDimension;i++) 
+  this->GoToBegin();
+}
+
+template<class TImage>
+bool
+ReflectiveImageRegionIterator<TImage>
+::IsReflected(unsigned int dim) const
+{
+  return m_Reflecting[dim];
+}
+
+template<class TImage>
+void
+ReflectiveImageRegionIterator<TImage>
+::GoToBegin()
+{
+  Superclass::GoToBegin();
+  for(unsigned int i = 0;i < TImage::ImageDimension; i++) 
     {
     m_Reflecting[i] = false;
     m_Done[i] = false;
@@ -49,22 +60,16 @@ ReflectiveImageRegionIterator<TImage>
 }
 
 template<class TImage>
-bool
-ReflectiveImageRegionIterator<TImage>
-::IsReflected(unsigned int dim) const
-{
-  return m_Reflecting[ dim ];
-}
-
-template<class TImage>
 void
 ReflectiveImageRegionIterator<TImage>
 ::IncrementLoop(unsigned int dim)
 {
+  // Stop the recursion
   if (dim == TImage::ImageDimension)
     {
     return;
     }
+  // Don't increment the Fastest dimension here
   if (dim != m_Fastest)
     {
     if (m_PositionIndex[dim] < m_EndIndex[dim])
@@ -94,7 +99,7 @@ ReflectiveImageRegionIterator<TImage>
 {
   int i;
 
-  // which way should the inner most index be moved?
+  // Which way should the inner most index be moved?
   if (m_Reflecting[m_Fastest])
     {
     m_PositionIndex[m_Fastest]--;
@@ -104,13 +109,13 @@ ReflectiveImageRegionIterator<TImage>
     m_PositionIndex[m_Fastest]++;
     }
 
-  // finished forward?
+  // Finished forward?
   if (m_PositionIndex[m_Fastest] == m_EndIndex[m_Fastest])
     {
     m_Reflecting[m_Fastest] = true;
     m_PositionIndex[m_Fastest]--;
     }
-  // finished backward?
+  // Finished backward?
   else if (m_PositionIndex[m_Fastest] < m_BeginIndex[m_Fastest])
     {
     m_Reflecting[m_Fastest] = false;
@@ -119,16 +124,16 @@ ReflectiveImageRegionIterator<TImage>
     this->IncrementLoop(0);
     }
 
-  // shall we move the fastest index
-  int done;
-  for(done = 0, i = 0; i < TImage::ImageDimension; i++) 
+  // Shall we increment the fastest index
+  bool allDone = true;
+  for(i = 0; i < TImage::ImageDimension; i++) 
     {
-    if (m_Done[i])
+    if (!m_Done[i])
       {
-      done++;
+      allDone = false;
       }
     }
-  if (done == TImage::ImageDimension)
+  if (allDone)
     {
     m_Fastest++;
     if (m_Fastest < TImage::ImageDimension)

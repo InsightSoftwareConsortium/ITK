@@ -99,6 +99,9 @@ public:
    * \sa operator++(int) */
   Self & operator++();
 
+  /** Reset iterator */
+  void GoToBegin();
+
 private:
   bool m_Reflecting[TImage::ImageDimension];
   bool m_Done[TImage::ImageDimension];
