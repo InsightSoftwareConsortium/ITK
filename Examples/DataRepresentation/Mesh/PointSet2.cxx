@@ -103,7 +103,7 @@ int main()
   //  Software Guide : BeginLatex
   //
   //  The created points can be inserted in the PointsContainer using the generic
-  //  method \code{InsertElement()} which requires an identified to be provided
+  //  method \code{InsertElement()} which requires an identifier to be provided
   //  for each point.
   //
   //  \index{PointsContainer!InsertElement()}
@@ -214,7 +214,7 @@ int main()
   //  The \code{++} operator on the iterator can be used to advance from one
   //  point to the next. The actual value of the Point to which the iterator is
   //  pointing can be obtained with the \code{Value()} method. The loop for
-  //  walking through all the points can be controled by comparing the current
+  //  walking through all the points can be controlled by comparing the current
   //  iterator with the iterator returned by the \code{End()} method of the
   //  PointsContainer. The following lines illustrate the typical loop for
   //  walking through the points.

@@ -216,7 +216,7 @@ int main()
   //  The \code{++} operator on the iterator is now used to advance from one
   //  point to the next. The actual value of the Point to which the iterator is
   //  pointing can be obtained with the \code{Value()} method. The loop for
-  //  walking through all the points is controled by comparing the current
+  //  walking through all the points is controlled by comparing the current
   //  iterator with the iterator returned by the \code{End()} method of the
   //  PointsContainer. The following lines illustrate the typical loop for
   //  walking through the points.

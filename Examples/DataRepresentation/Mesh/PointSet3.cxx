@@ -20,7 +20,7 @@
 //  The \doxygen{PointSet} class was designed to interact with the Image class.
 //  For this reason it was found convenient to allow the points in the set to
 //  hold values that could be computed from images. The value associated with
-//  the point is referred as \code{PixelType} in order to make it consisten
+//  the point is referred as \code{PixelType} in order to make it consistent
 //  with image terminology. Users can define the type as they please thanks to
 //  the flexibility offered by the Generic Programming approach used in the
 //  toolkit.  The \code{PixelType} is the first template parameter of the
@@ -266,7 +266,7 @@ int main()
   //  The \code{++} operator on the iterator can be used to advance from one
   //  data point to the next. The actual value of the PixelType to which the
   //  iterator is pointing can be obtained with the \code{Value()} method. The
-  //  loop for walking through all the point data can be controled by comparing
+  //  loop for walking through all the point data can be controlled by comparing
   //  the current iterator with the iterator returned by the \code{End()}
   //  method of the PointsContainer. The following lines illustrate the typical
   //  loop for walking through the point data.

@@ -119,8 +119,8 @@ int main()
   ImageType::PixelType   pixelValue;
 
   pixelValue[0] =  1.345;   // x component
-  pixelValue[0] =  6.841;   // y component
-  pixelValue[0] =  3.295;   // x component
+  pixelValue[1] =  6.841;   // y component
+  pixelValue[2] =  3.295;   // x component
   // Software Guide : EndCodeSnippet
 
 
