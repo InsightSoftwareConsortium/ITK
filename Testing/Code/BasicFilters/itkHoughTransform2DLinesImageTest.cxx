@@ -130,8 +130,42 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
 
   houghFilter->SetInput(threshFilter->GetOutput());
+  
+  houghFilter->SetThreshold(0.0f);
+  if(houghFilter->GetThreshold() != 0.0f)
+  {
+    std::cout << "Failure" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  houghFilter->SetAngleResolution(500.0f);
+
+  houghFilter->SetAngleAxisSize(500);
+  if(houghFilter->GetAngleAxisSize() != 500)
+  {
+    std::cout << "Failure" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  houghFilter->SetDiscRadius(10.0f);
+  if(houghFilter->GetDiscRadius() != 10.0f)
+  {
+    std::cout << "Failure" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  houghFilter->SetVariance(10.0f);
+  if(houghFilter->GetVariance() != 10.0f)
+  {
+    std::cout << "Failure" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   houghFilter->Update();
-  HoughImageType::Pointer m_Accumulator= houghFilter->GetOutput();
+  houghFilter->Simplify();
+  
+  HoughImageType::Pointer m_SimplifyAccumulator = houghFilter->GetSimplifyAccumulator();
+  HoughImageType::Pointer m_Accumulator = houghFilter->GetOutput();
 
   /** Blur the accumulator in order to find the maximum */
   HoughImageType::Pointer m_PostProcessImage = HoughImageType::New();
@@ -222,6 +256,9 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
     } 
     it_list++;  
   }
+
+  std::cout << "Printing Hough Fiter information:" << std::endl;
+  std::cout << houghFilter << std::endl;
 
 
   std::cout << "Hough Transform Successful" << std::endl;
