@@ -193,12 +193,6 @@ main(
     InterpolatorType::Pointer interp = InterpolatorType::New();
     interp->SetInputImage(image);
 
-    //
-    // FIXME: remove these when GetSpacing/GetOrigin has been
-    // added to itk::Image
-    interp->SetImageSpacing( image->GetSpacing() );
-    interp->SetImageOrigin( image->GetOrigin() );
-
 
     /* Test evaluation at continuous indices and corresponding
        gemetric points */
