@@ -100,11 +100,11 @@ int itkSampleClassifierTest(int argc, char** argv)
   classifier->SetDecisionRule((itk::DecisionRuleBase::Pointer) decisionRule) ;
   classifier->SetNumberOfClasses(numberOfClasses) ;
   classifier->SetSample(sample.GetPointer()) ;
-  std::vector< MembershipFunctionType::Pointer > membershipFunctions(numberOfClasses) ;
+  std::vector< MembershipFunctionType::Pointer > membershipFunctions ;
   std::vector< unsigned int > classLabels ;
   for ( i = 0 ; i < numberOfClasses ; i++ ) 
     {
-      membershipFunctions[i] = MembershipFunctionType::New() ;
+      membershipFunctions.push_back(MembershipFunctionType::New()) ;
       classLabels.push_back(i + 1) ;
       for ( j = 0 ; j < DataSampleType::MeasurementVectorSize ; j++ )
         {

@@ -126,15 +126,15 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char** argv)
   typedef stat::GaussianGoodnessOfFitComponent< DataSampleType >
     ComponentType ;
 
-  std::vector< ComponentType::Pointer > components(numberOfClasses) ;
+  std::vector< ComponentType::Pointer > components ;
 
   for ( i = 0 ; i < numberOfClasses ; i++)
     {
-      components[i] = ComponentType::New() ;
+      components.push_back(ComponentType::New()) ;
       components[i]->SetHistogramNumberOfBins(6) ;
       components[i]->SetHistogramExtent(histogramExtent) ;
       components[i]->SetHistogramBinOverlap(histogramOverlap) ;
-      components[i]->SetInputSample(sample) ;
+      components[i]->SetInputSample(sample.GetPointer()) ;
 
       costFunction->AddComponent(components[i].GetPointer()) ;
     }

@@ -137,18 +137,16 @@ int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char** argv)
   /* Preparing the gaussian mixture components */
   typedef ComponentType::Pointer ComponentPointer ;
   std::vector< ComponentPointer > components ;
-  components.resize(numberOfClasses) ;
-
   for ( i = 0 ; i < numberOfClasses ; i++ )
     {
-      components[i] = ComponentType::New() ;
+      components.push_back(ComponentType::New()) ;
       (components[i])->SetSample(sample.GetPointer()) ;
       (components[i])->SetParameters(initialParameters[i]) ;
     }
   
   /* Estimating */
   EstimatorType::Pointer estimator = EstimatorType::New() ;
-  estimator->SetSample(sample) ;
+  estimator->SetSample(sample.GetPointer()) ;
   estimator->SetMaximumIteration(maximumIteration) ;
   estimator->SetInitialProportions(initialProportions) ;
 
