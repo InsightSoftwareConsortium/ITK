@@ -25,27 +25,24 @@
  * copy constructor, or an operator=. We rely on the compiler to provide
  * efficient bitwise copies.
  *
+ * If you wish more complex pixel types, you can use itkVector, which
+ * represents an array values of the same data type. There is also an
+ * itkScalarVector, which supports (for a given pixel) a single scalar value
+ * plus an array of vector values. (The scalar and vectors can be of
+ * different data type.)
+ * 
  * \sa itkImage
  * \sa itkMesh
  * \sa itkVector
- * \sa itkScalarVector
- * \sa itkTensor
- * \sa itkScalarTensor
- * \sa itkVectorTensor
- * \sa itkScalarVectorTensor 
+ * \sa itkScalarVector 
  */
-
-// To compile / test this class
-// Windows: cl itkDataTypeTest.cxx; .\itkDataTypeTest.exe
-// linux:   c++ itkDataTypeTest.cxx; ./a.out
-// other:   CCcompiler itkDataTypeTest.cxx;  ./a.out
 
 #ifndef __itkScalar_h
 #define __itkScalar_h
 
 template<class T>
 class itkScalar {
- public:
+public:
   /**
    * ValueType can be used to declare a variable that is the same type
    * as the data held in an itkScalar.
@@ -72,7 +69,7 @@ class itkScalar {
    */
   void SetScalar(const T &val) { m_Scalar = val; }
 
- private:
+private:
   T m_Scalar;
 };
 

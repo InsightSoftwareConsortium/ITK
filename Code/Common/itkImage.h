@@ -14,16 +14,16 @@
 
 =========================================================================*/
 /**
- * itkImage is the templated image class. Currently the class is templated
- * over the pixel type and the image dimension. The pixel type may be one
- * of the native types; or it can be a Insight-defined class type such
- * as itkScalar or itkVector; or a user-defined type. Note that depending
- * on the type of pixel that you use, the process objects (i.e., those
- * filters processing data objects), may not operate on the image and/or
- * pixel type. This becomes apparant at run-time either because operator
- * overloading is not supported, or the filter may only process scalars
- * (meaning it supports the GetScalar() method), or vectors (supports
- * GetVector()).
+ * itkImage is the templated image class. The class is templated over the
+ * pixel type and the image dimension (i.e., the image class is
+ * n-dimensional). The pixel type may be one of the native types; or it can
+ * be a Insight-defined class type such as itkScalar or itkVector; or a
+ * user-defined type. Note that depending on the type of pixel that you use,
+ * the process objects (i.e., those filters processing data objects), may not
+ * operate on the image and/or pixel type. This becomes apparant at run-time
+ * either because operator overloading (for the pixel type) is not supported;
+ * or the filter may only process scalars (meaning it supports the
+ * GetScalar() method), or vectors (supports GetVector()).  
  */
 
 #ifndef __itkImage_h

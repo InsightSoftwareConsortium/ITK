@@ -13,35 +13,29 @@
   
 ==========================================================================*/
 /**
- * itkVector is a templated class that holds a single vector.  itkVector
- * can be used as the data type held at each pixel in an itkImage or at each
- * vertex of an itkMesh. The template parameter can be any data type that
- * behaves like a primitive (or atomic) data type (int, short, float, complex).
- * itk filters that rely on vector data assume the data type held at each
- * pixel or each vertex responds to GetVector()/SetVector() methods. If not,
- * a compile time error will occur.
+ * itkVector is a templated class that holds a single vector (i.e., an array
+ * of values).  itkVector can be used as the data type held at each pixel in
+ * an itkImage or at each vertex of an itkMesh. The template parameter T can
+ * be any data type that behaves like a primitive (or atomic) data type (int,
+ * short, float, complex).  The TVectorDimension defines the number of
+ * components in the vector array. itk filters that rely on vector data
+ * assume the data type held at each pixel or each vertex responds to
+ * GetVector()/SetVector() methods. If not, a compile time error will occur.
  *
  * itkVector is not a dynamically extendible array like std::vector. It is
  * intended to be used like a mathematical vector.
  *
- * For efficiency sake, itkVector does not define a default constructor, a
- * copy constructor, or an operator=. We rely on the compiler to provide
- * efficient bitwise copies.
- *
+ * If you wish a simpler pixel types, you can use itkScalar, which represents
+ * a single data value at a pixel. There is also the more complex type
+ * itkScalarVector, which supports (for a given pixel) a single scalar value
+ * plus an array of vector values. (The scalar and vectors can be of
+ * different data type.)
+ * 
  * \sa itkImage
  * \sa itkMesh
  * \sa itkVector
- * \sa itkScalarVector
- * \sa itkTensor
- * \sa itkScalarTensor
- * \sa itkVectorTensor
- * \sa itkScalarVectorTensor
+ * \sa itkScalarVector 
  */
-
-// To compile / test this class
-// Windows: cl itkDataTypeTest.cxx; .\itkDataTypeTest.exe
-// linux:   c++ itkDataTypeTest.cxx; ./a.out
-// other:   CCcompiler itkDataTypeTest.cxx;  ./a.out
 
 #ifndef __itkVector_h
 #define __itkVector_h
