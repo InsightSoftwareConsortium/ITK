@@ -25,6 +25,7 @@
 #include "itkFEMMaterialStandard.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
+#include "vnl/vnl_vector_fixed.h"
 
 
 namespace itk {
@@ -45,6 +46,7 @@ class MembraneC02D : public ElementStandard<4,2,NodeXY>
 typedef ElementStandard<4,2,NodeXY> TemplatedParentClass;
 FEM_CLASS(MembraneC02D,TemplatedParentClass)
 public:
+  typedef vnl_vector<Float> VectorType;
   /**
    * 8 DOF constant for faster access within the class
    */
@@ -113,6 +115,22 @@ public:
    * the geometry of this finite element at a given point.
    */
   vnl_vector<Float> ComputeShapeFunctionsAt(Float[]) const;
+
+ /** This method interpolates a scalar function from values of that function at the nodes.  
+  *   The interpolation is done with the shape functions
+  */
+  Float InterpolateScalarWithShapeFunctions(VectorType point,VectorType ValuesToInterpolateFrom);
+ 
+  /** This method interpolates a function at a point in local coordinates on the interior 
+  *   of the element from values of that function at the nodes.  
+  *   The interpolation is done with the shape functions
+  */
+  VectorType InterpolateWithShapeFunctions(VectorType ShapeFunctionsEvaluatedAtPoint ,VectorType ValuesToInterpolateFrom);
+
+ /** This method interpolates the current solution at 
+  *   a point in local coordinates.
+  */
+  VectorType InterpolateSolutionAt(VectorType ShapeFunctionsEvaluatedAtPoint,Solution* S);
 
   /**
    * Function that computes the derivatives of the shape

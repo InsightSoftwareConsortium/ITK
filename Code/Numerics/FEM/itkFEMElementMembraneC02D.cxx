@@ -340,6 +340,64 @@ MembraneC02D::ComputeShapeFunctionsAt(Float x[]) const
   return shapeF;
 }
 
+MembraneC02D::Float 
+MembraneC02D::InterpolateScalarWithShapeFunctions(VectorType shapeF,VectorType Vals)
+{
+
+  return Vals[0]*shapeF[0]+Vals[1]*shapeF[1]+Vals[2]*shapeF[2]+Vals[3]*shapeF[3];
+  
+}
+
+ /* This method interpolates a function at a point in local coordinates on the interior 
+  *   of the element from values of that function at the nodes.  
+  *   The interpolation is done with the shape functions
+  */
+MembraneC02D::VectorType 
+MembraneC02D::InterpolateWithShapeFunctions(VectorType shapeF,VectorType Vals)
+{
+
+  unsigned int vsz=Vals.size();
+  unsigned int numfuns=vsz / 4;
+  vnl_vector<Float> f(numfuns,0.0);
+  Float temp=0.0;
+
+  for (unsigned int i=0; i<numfuns; i++) 
+  {
+    std::cout << " sols " << 
+                 shapeF[0] << " " <<
+                 shapeF[1] << " " << 
+                 shapeF[2] << " " << 
+                 shapeF[3] << std::endl;
+
+    std::cout << " vals " << 
+                 Vals[4*i+0] << " " <<
+                 Vals[4*i+1] << " " << 
+                 Vals[4*i+2] << " " << 
+                 Vals[4*i+3] << std::endl;
+   
+    temp=Vals[4*i+0]*shapeF[0]+Vals[4*i+1]*shapeF[1]+Vals[4*i+2]*shapeF[2]+Vals[4*i+3]*shapeF[3];
+    f[i]=temp;
+  }
+  return f;
+
+}
+
+
+MembraneC02D::VectorType MembraneC02D::InterpolateSolutionAt(VectorType shapeF,Solution* S)
+{
+  vnl_vector_fixed<Float,2> sol(0.0);
+
+  sol[0]=S->GetSolutionValue(GetDegreeOfFreedom(0))*shapeF[0]
+        +S->GetSolutionValue(GetDegreeOfFreedom(2))*shapeF[1]
+        +S->GetSolutionValue(GetDegreeOfFreedom(4))*shapeF[2]
+        +S->GetSolutionValue(GetDegreeOfFreedom(6))*shapeF[3];
+  sol[1]=S->GetSolutionValue(GetDegreeOfFreedom(1))*shapeF[0]
+        +S->GetSolutionValue(GetDegreeOfFreedom(3))*shapeF[1]
+        +S->GetSolutionValue(GetDegreeOfFreedom(5))*shapeF[2]
+        +S->GetSolutionValue(GetDegreeOfFreedom(7))*shapeF[3];
+
+  return sol;
+}
 
 
 /**
