@@ -7,6 +7,9 @@ TARGET_LINK_LIBRARIES(GradientMagnitudeImageFilter ITKCommon ITKIO ITKMetaIO itk
 ADD_EXECUTABLE(BinaryThresholdImageFilter BinaryThresholdImageFilter.cxx )
 TARGET_LINK_LIBRARIES(BinaryThresholdImageFilter ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
 
+ADD_EXECUTABLE(ThresholdImageFilter ThresholdImageFilter.cxx )
+TARGET_LINK_LIBRARIES(ThresholdImageFilter ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
 ADD_EXECUTABLE(CastingImageFilters CastingImageFilters.cxx )
 TARGET_LINK_LIBRARIES(CastingImageFilters ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
 
