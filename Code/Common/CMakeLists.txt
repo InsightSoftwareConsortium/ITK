@@ -19,6 +19,7 @@ itkProcessObject
 itkRegion 
 itkTimeStamp 
 itkVersion 
+itkVector
 itkImageIOCommon
 itkImageIO
 itkLightProcessObject
