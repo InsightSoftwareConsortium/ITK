@@ -31,7 +31,7 @@ ByteSwap
 ::Swap4BE(void *ptr)
 {
   char one_byte;
-  char *p = (char *)ptr;
+  char *p = reinterpret_cast<char *>(ptr);
 
   one_byte    = p[0];
   p[0] = p[3];
@@ -54,7 +54,7 @@ ByteSwap
 ::Swap4BERange(void *ptr, int num)
 {
   char one_byte;
-  char *pos = (char *)ptr;
+  char *pos = reinterpret_cast<char *>(ptr);
   int i;
 
   for (i = 0; i < num; i++)
@@ -82,7 +82,7 @@ ByteSwap
   int i;
   char *cpy;
   int chunkSize = 1000000;
-  char *p = (char *)ptr;
+  char *p = reinterpret_cast<char *>(ptr);
 
   if (num < chunkSize)
     {
@@ -106,7 +106,7 @@ ByteSwap
       pos[2] = one_byte;
       pos = pos + 4;
       }
-    fp->write((char *)cpy, 4*chunkSize);
+    fp->write(reinterpret_cast<char *>(cpy), 4*chunkSize);
     p += chunkSize*4;
     num -= chunkSize;
     if (num < chunkSize)
@@ -117,7 +117,7 @@ ByteSwap
 
   delete [] cpy;
 #else
-  fp->write((void *)ptr, 4*num);
+  fp->write(reinterpret_cast<char *>(ptr), 4*num);
 #endif
 }
 
@@ -168,7 +168,7 @@ ByteSwap
 ::Swap4LERange(void *p, int num)
 {
   char one_byte;
-  char *pos = (char *)p;
+  char *pos = reinterpret_cast<char *>(p);
   int i;
   
   for (i = 0; i < num; i++)
@@ -200,7 +200,7 @@ ByteSwap
 ::Swap2BE(void *ptr)
 {
   unsigned short h1,h2;
-  char *p = (char *)ptr;
+  char *p = reinterpret_cast<char *>(ptr);
 
   h1 = (unsigned short)*p << 8;
   h2 = (unsigned short)*p >> 8;
@@ -220,7 +220,7 @@ ByteSwap
 ::Swap2BERange(void *ptr, int num)
 {
   char one_byte;
-  char *pos = (char *)ptr;
+  char *pos = reinterpret_cast<char *>(ptr);
   int i;
   
   for (i = 0; i < num; i++)
@@ -240,7 +240,7 @@ ByteSwap
 ::Swap2LERange(void *p, int num)
 {
   char one_byte;
-  char *pos = (char *)p;
+  char *pos = reinterpret_cast<char *>(p);
   int i;
   
   for (i = 0; i < num; i++)
@@ -269,7 +269,7 @@ ByteSwap
   int i;
   char *cpy;
   int chunkSize = 1000000;
-  char *p = (char *) ptr;
+  char *p = reinterpret_cast<char *>(ptr);
 
   if (num < chunkSize)
     {
@@ -289,7 +289,7 @@ ByteSwap
       pos[1] = one_byte;
       pos = pos + 2;
       }
-    fp->write((char *)cpy, 2*chunkSize);
+    fp->write(reinterpret_cast<char *>(cpy), 2*chunkSize);
     p += chunkSize * 2;
     num -= chunkSize;
     if (num < chunkSize)
@@ -301,7 +301,7 @@ ByteSwap
   delete [] cpy;
   
 #else
-  fp->write((void *)ptr, 2*num);
+  fp->write(reinterpret_cast<char *>(ptr), 2*num);
 #endif
 }
 
