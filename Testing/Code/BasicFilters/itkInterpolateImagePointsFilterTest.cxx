@@ -146,7 +146,8 @@ int test2DInterpolateImagePointsFilter()
   while ( !outIter.IsAtEnd() )
     {
     double value = outIter.Get();
-    printf(" %.9f\n",value);
+    std::cout.width(10);
+    std::cout << value << std::endl;
     if( vnl_math_abs( value - truth[i] ) > 1e-9 )
       {
       std::cout << "*** Error: value should be " << truth[i] << std::endl;
