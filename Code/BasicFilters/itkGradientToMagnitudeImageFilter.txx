@@ -62,6 +62,7 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
 
   inIt.GoToBegin();
 
+  TComputation component;
   // walk the output image, and sample the input image
   for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++inIt )
     {
@@ -69,7 +70,7 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
 
     for(int i = 0; i < NDimensions; i++)
       {
-      const TComputation component = static_cast<TComputation>( inIt.Get()[i]);
+      component = static_cast<TComputation>( inIt.Get()[i]);
       acc += component * component;
       }
 

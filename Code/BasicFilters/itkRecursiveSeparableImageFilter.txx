@@ -111,22 +111,22 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
   /**
    * Initialize borders
    */
-  s1[0] = TComputation( n00 * data[0] + n11 * data[1] + n22 * data[2] + n33 * data[3] );
-  s1[1] = TComputation( n00 * data[1] + n11 * data[0] + n22 * data[1] + n33 * data[2] );
-  s1[2] = TComputation( n00 * data[2] + n11 * data[1] + n22 * data[0] + n33 * data[1] );
-  s1[3] = TComputation( n00 * data[3] + n11 * data[2] + n22 * data[1] + n33 * data[0] );
+  s1[0] = TComputation( m_N00 * data[0] + m_N11 * data[1] + m_N22 * data[2] + m_N33 * data[3] );
+  s1[1] = TComputation( m_N00 * data[1] + m_N11 * data[0] + m_N22 * data[1] + m_N33 * data[2] );
+  s1[2] = TComputation( m_N00 * data[2] + m_N11 * data[1] + m_N22 * data[0] + m_N33 * data[1] );
+  s1[3] = TComputation( m_N00 * data[3] + m_N11 * data[2] + m_N22 * data[1] + m_N33 * data[0] );
 
-  s1[1] -= TComputation( d11 * s1[0] );
-  s1[2] -= TComputation( d11 * s1[1] + d22 * s1[0] );
-  s1[3] -= TComputation( d11 * s1[2] + d22 * s1[1] + d33 * s1[0] );
+  s1[1] -= TComputation( m_D11 * s1[0] );
+  s1[2] -= TComputation( m_D11 * s1[1] + m_D22 * s1[0] );
+  s1[3] -= TComputation( m_D11 * s1[2] + m_D22 * s1[1] + m_D33 * s1[0] );
 
   /**
    * Recursively filter the rest
    */
   for( i=4; i<ln; i++ ) 
     {
-    s1[i]  = TComputation( n00 * data[i] + n11 * data[i-1] + n22 * data[i-2] + n33 * data[i-3] );
-    s1[i] -= TComputation( d11 * s1[i-1] + d22 *   s1[i-2] + d33 *   s1[i-3] + d44 *   s1[i-4] );
+    s1[i]  = TComputation( m_N00 * data[i] + m_N11 * data[i-1] + m_N22 * data[i-2] + m_N33 * data[i-3] );
+    s1[i] -= TComputation( m_D11 * s1[i-1] + m_D22 *   s1[i-2] + m_D33 *   s1[i-3] + m_D44 *   s1[i-4] );
     }
 
   /**
@@ -136,22 +136,22 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
   /**
    * Initialize borders
    */
-  s2[ln-1] = TComputation( m11 * data[ln-2] + m22 * data[ln-3] + m33 * data[ln-4] );
-  s2[ln-2] = TComputation( m11 * data[ln-1] + m22 * data[ln-2] + m33 * data[ln-3] ); 
-  s2[ln-3] = TComputation( m11 * data[ln-2] + m22 * data[ln-1] + m33 * data[ln-2] ); 
-  s2[ln-4] = TComputation( m11 * data[ln-3] + m22 * data[ln-2] + m33 * data[ln-1] );
+  s2[ln-1] = TComputation( m_M11 * data[ln-2] + m_M22 * data[ln-3] + m_M33 * data[ln-4] );
+  s2[ln-2] = TComputation( m_M11 * data[ln-1] + m_M22 * data[ln-2] + m_M33 * data[ln-3] ); 
+  s2[ln-3] = TComputation( m_M11 * data[ln-2] + m_M22 * data[ln-1] + m_M33 * data[ln-2] ); 
+  s2[ln-4] = TComputation( m_M11 * data[ln-3] + m_M22 * data[ln-2] + m_M33 * data[ln-1] );
 
-  s2[ln-2] -= TComputation( d11 * s2[ln-1] );
-  s2[ln-3] -= TComputation( d11 * s2[ln-2] + d22 * s2[ln-1] );
-  s2[ln-4] -= TComputation( d11 * s2[ln-3] + d22 * s2[ln-2] + d33 * s2[ln-1] );
+  s2[ln-2] -= TComputation( m_D11 * s2[ln-1] );
+  s2[ln-3] -= TComputation( m_D11 * s2[ln-2] + m_D22 * s2[ln-1] );
+  s2[ln-4] -= TComputation( m_D11 * s2[ln-3] + m_D22 * s2[ln-2] + m_D33 * s2[ln-1] );
 
   /**
    * Recursively filter the rest
    */
   for( i=ln-4; i>0; i-- ) 
     {
-    s2[i-1]  = TComputation( m11 * data[i] + m22 * data[i+1] + m33 * data[i+2] + m44 * data[i+3] );
-    s2[i-1] -= TComputation( d11 *   s2[i] + d22 *   s2[i+1] + d33 *   s2[i+2] + d44 *   s2[i+3] );
+    s2[i-1]  = TComputation( m_M11 * data[i] + m_M22 * data[i+1] + m_M33 * data[i+2] + m_M44 * data[i+3] );
+    s2[i-1] -= TComputation( m_D11 *   s2[i] + m_D22 *   s2[i+1] + m_D33 *   s2[i+2] + m_D44 *   s2[i+3] );
     }
 
 
@@ -161,7 +161,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
    */
   for( i=0; i<ln; i++ ) 
     {
-    outs[i] = TComputation( K * ( s1[i] + s2[i] ) );
+    outs[i] = TComputation( m_K * ( s1[i] + s2[i] ) );
     }
 
   delete [] s1;  

@@ -30,18 +30,17 @@ void
 SecondDerivativeRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
 ::SetUp(void)
 {
-  a0 = TComputation( -1.3310 );
-  a1 = TComputation(  3.6610 );
-  b0 = TComputation(  1.2400 );
-  b1 = TComputation(  1.3140 );
-  c0 = TComputation(  0.3225 );
-  c1 = TComputation( -1.7380 );
-  w0 = TComputation(  0.7480 );
-  w1 = TComputation(  2.1660 );
+  m_A0 = TComputation( -1.3310 );
+  m_A1 = TComputation(  3.6610 );
+  m_B0 = TComputation(  1.2400 );
+  m_B1 = TComputation(  1.3140 );
+  m_C0 = TComputation(  0.3225 );
+  m_C1 = TComputation( -1.7380 );
+  m_W0 = TComputation(  0.7480 );
+  m_W1 = TComputation(  2.1660 );
   
   const TComputation sigmad = GetSigma() / m_Spacing;
-//K = 1.0 / ( sigmad * sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
-  K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0 ) ) ) );
+  m_K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0 ) ) ) );
   
   const bool symmetric = true;
   ComputeFilterCoefficients(symmetric); 

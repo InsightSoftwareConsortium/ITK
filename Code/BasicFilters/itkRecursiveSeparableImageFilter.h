@@ -105,38 +105,38 @@ private:
 
 protected:
   /**  Normalization factor. */
-  TComputation K;                       
+  TComputation m_K;                       
 
   /** Spacing along the direction of filtering. */   
   TComputation m_Spacing;
 
   /**  Parameter of exponential series. */
-  TComputation a0;
-  TComputation a1;
-  TComputation b0;
-  TComputation b1;
-  TComputation c0;
-  TComputation c1;
-  TComputation w0;
-  TComputation w1; 
+  TComputation m_A0;
+  TComputation m_A1;
+  TComputation m_B0;
+  TComputation m_B1;
+  TComputation m_C0;
+  TComputation m_C1;
+  TComputation m_W0;
+  TComputation m_W1; 
 
   /** Causal coefficients. */
-  TComputation n00;
-  TComputation n11;
-  TComputation n22;
-  TComputation n33; 
+  TComputation m_N00;
+  TComputation m_N11;
+  TComputation m_N22;
+  TComputation m_N33; 
   
   /** Causal coefficients == Anticausal coefficients. */
-  TComputation d11;
-  TComputation d22;
-  TComputation d33;
-  TComputation d44; 
+  TComputation m_D11;
+  TComputation m_D22;
+  TComputation m_D33;
+  TComputation m_D44; 
   
   /** Anti-Causal coefficients (symmetric case). */
-  TComputation m11;
-  TComputation m22;
-  TComputation m33;
-  TComputation m44; 
+  TComputation m_M11;
+  TComputation m_M22;
+  TComputation m_M33;
+  TComputation m_M44; 
 
 };
 

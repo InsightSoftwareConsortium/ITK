@@ -45,21 +45,21 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
 ::SetUp(void)
 {
   
-  this->a0 = TComputation(  1.680  );
-  this->a1 = TComputation(  3.735  );
-  this->b0 = TComputation(  1.783  );
-  this->b1 = TComputation(  1.723  );
-  this->c0 = TComputation( -0.6803 );
-  this->c1 = TComputation( -0.2598 );
-  this->w0 = TComputation(  0.6318 );
-  this->w1 = TComputation(  1.9970 );
+  m_A0 = TComputation(  1.680  );
+  m_A1 = TComputation(  3.735  );
+  m_B0 = TComputation(  1.783  );
+  m_B1 = TComputation(  1.723  );
+  m_C0 = TComputation( -0.6803 );
+  m_C1 = TComputation( -0.2598 );
+  m_W0 = TComputation(  0.6318 );
+  m_W1 = TComputation(  1.9970 );
   
   if( m_Spacing < TComputation( 0.0001 ) ) return;
   
   const TComputation sigmad = m_Sigma/m_Spacing;
 
 //  K = 1.0 / ( sigmad * sigmad * sqrt( 2.0 * ( 4.0 * atan(1.0f) )));
-  K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
+  m_K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
   
   const bool symmetric = true;
   ComputeFilterCoefficients(symmetric);
@@ -79,36 +79,36 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
 
   const TComputation sigmad = m_Sigma/m_Spacing;
   
-  n00  = a0 + c0;
-  n11  = exp(-b1/sigmad)*(c1*sin(w1/sigmad)-(c0+2*a0)*cos(w1/sigmad)); 
-  n11 += exp(-b0/sigmad)*(a1*sin(w0/sigmad)-(a0+2*c0)*cos(w0/sigmad)); 
-  n22  = ((a0+c0)*cos(w1/sigmad)*cos(w0/sigmad));
-  n22 -= (a1*cos(w1/sigmad)*sin(w0/sigmad)+c1*cos(w0/sigmad)*sin(w1/sigmad));
-  n22 *= 2*exp(-(b0+b1)/sigmad);
-  n22 += c0*exp(-2*b0/sigmad) + a0*exp(-2*b1/sigmad);
-  n33  = exp(-(b1+2*b0)/sigmad)*(c1*sin(w1/sigmad)-c0*cos(w1/sigmad));
-  n33 += exp(-(b0+2*b1)/sigmad)*(a1*sin(w0/sigmad)-a0*cos(w0/sigmad));
+  m_N00  = m_A0 + m_C0;
+  m_N11  = exp(-m_B1/sigmad)*(m_C1*sin(m_W1/sigmad)-(m_C0+2*m_A0)*cos(m_W1/sigmad)); 
+  m_N11 += exp(-m_B0/sigmad)*(m_A1*sin(m_W0/sigmad)-(m_A0+2*m_C0)*cos(m_W0/sigmad)); 
+  m_N22  = ((m_A0+m_C0)*cos(m_W1/sigmad)*cos(m_W0/sigmad));
+  m_N22 -= (m_A1*cos(m_W1/sigmad)*sin(m_W0/sigmad)+m_C1*cos(m_W0/sigmad)*sin(m_W1/sigmad));
+  m_N22 *= 2*exp(-(m_B0+m_B1)/sigmad);
+  m_N22 += m_C0*exp(-2*m_B0/sigmad) + m_A0*exp(-2*m_B1/sigmad);
+  m_N33  = exp(-(m_B1+2*m_B0)/sigmad)*(m_C1*sin(m_W1/sigmad)-m_C0*cos(m_W1/sigmad));
+  m_N33 += exp(-(m_B0+2*m_B1)/sigmad)*(m_A1*sin(m_W0/sigmad)-m_A0*cos(m_W0/sigmad));
   
-  d44  = exp(-2*(b0+b1)/sigmad);
-  d33  = -2*cos(w0/sigmad)*exp(-(b0+2*b1)/sigmad);
-  d33 += -2*cos(w1/sigmad)*exp(-(b1+2*b0)/sigmad);
-  d22  =  4*cos(w1/sigmad)*cos(w0/sigmad)*exp(-(b0+b1)/sigmad);
-  d22 +=  exp(-2*b1/sigmad)+exp(-2*b0/sigmad);
-  d11  =  -2*exp(-b1/sigmad)*cos(w1/sigmad)-2*exp(-b0/sigmad)*cos(w0/sigmad);
+  m_D44  = exp(-2*(m_B0+m_B1)/sigmad);
+  m_D33  = -2*cos(m_W0/sigmad)*exp(-(m_B0+2*m_B1)/sigmad);
+  m_D33 += -2*cos(m_W1/sigmad)*exp(-(m_B1+2*m_B0)/sigmad);
+  m_D22  =  4*cos(m_W1/sigmad)*cos(m_W0/sigmad)*exp(-(m_B0+m_B1)/sigmad);
+  m_D22 +=  exp(-2*m_B1/sigmad)+exp(-2*m_B0/sigmad);
+  m_D11  =  -2*exp(-m_B1/sigmad)*cos(m_W1/sigmad)-2*exp(-m_B0/sigmad)*cos(m_W0/sigmad);
   
   if( symmetric )
     {
-    m11 = n11 - d11 * n00;
-    m22 = n22 - d22 * n00;
-    m33 = n33 - d33 * n00;
-    m44 =     - d44 * n00;
+    m_M11 = m_N11 - m_D11 * m_N00;
+    m_M22 = m_N22 - m_D22 * m_N00;
+    m_M33 = m_N33 - m_D33 * m_N00;
+    m_M44 =     - m_D44 * m_N00;
     }
   else
     {
-    m11 = -( n11 - d11 * n00 );
-    m22 = -( n22 - d22 * n00 );
-    m33 = -( n33 - d33 * n00 );
-    m44 =          d44 * n00;
+    m_M11 = -( m_N11 - m_D11 * m_N00 );
+    m_M22 = -( m_N22 - m_D22 * m_N00 );
+    m_M33 = -( m_N33 - m_D33 * m_N00 );
+    m_M44 =          m_D44 * m_N00;
     }
 
 }
