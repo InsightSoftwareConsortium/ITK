@@ -86,7 +86,7 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 SpatialSampleContainer& samples )
 {
 
-  typename TargetType::Pointer target = GetTarget();
+  typename TargetType::ConstPointer target = GetTarget();
   typename MapperType::Pointer mapper = GetMapper();
 
   double range =
@@ -230,7 +230,7 @@ DerivativeType& derivative)
   m_MatchMeasure = 0;
 
   typename MapperType::Pointer mapper = GetMapper();
-  typename TargetType::Pointer target = GetTarget();
+  typename TargetType::ConstPointer target = GetTarget();
 
   // check if target and mapper are valid
   if( !target || !mapper )
@@ -398,7 +398,7 @@ DerivativeType& derivatives )
   TargetIndexType refIndex;
 
   typename MapperType::Pointer mapper = GetMapper();
-  typename TargetType::Pointer reference = mapper->GetDomain();
+  typename ReferenceType::ConstPointer reference = mapper->GetDomain();
 
   refPoint = mapper->GetTransformation()->Transform( point );
 
