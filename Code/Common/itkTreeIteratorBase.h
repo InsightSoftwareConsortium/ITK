@@ -141,7 +141,7 @@ public:
     }
 
   /** Clone the iterator */
-  virtual TreeIteratorBase<TTreeType>* Clone() = NULL;
+  virtual TreeIteratorBase<TTreeType>* Clone() = 0;
 
   /** Enumerations */
   enum{
