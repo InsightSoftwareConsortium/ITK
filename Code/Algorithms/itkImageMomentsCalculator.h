@@ -71,10 +71,10 @@ public:
     typedef double                                 ScalarType;
 
     /// Standard vector type within this class.
-    typedef vnl_vector_fixed<double,VRank>         VectorType;
+    typedef Vector<double,VRank>         VectorType;
 
     /// Standard matrix type within this class.
-    typedef vnl_matrix_fixed<double,VRank,VRank>   MatrixType;
+    typedef Matrix<double,VRank,VRank>   MatrixType;
 
     /// Standard image type within this class.
     typedef typename Image<TPixel, VRank>::Pointer ImageType;
