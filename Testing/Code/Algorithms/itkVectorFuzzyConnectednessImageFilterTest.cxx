@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkImage.h"
+
 #include "itkVectorFuzzyConnectednessImageFilter.h"
 
 
@@ -21,38 +21,39 @@ const int LENGTH = 1;
 const int HEIGHT = 20;
 const int WIDTH = 20;
 
-const int objects_num = 2;
-const int selected_object = 1;
+const int OBJECTS_NUM = 2;
+const int SELECTED_OBJECT = 1;
 
-int mean1[3] = {213,194,140};
-int mean2[3] = {83,50, 27};
+const int FEATURES_NUM = 3;
 
+int mean1[FEATURES_NUM] = {213,194,140};
+int mean2[FEATURES_NUM] = {83,50, 27};
 
-double object_cov1[3][3] = 
-  {
-    {255.27,  340.36,  268.36},
-    {340.36,  514.63,  422.18},
-    {268.36,  422.18,  358.63},
-  };
-double object_cov2[3][3] = 
-  {
-    {213.54,  -28.63, -21.27},
-    {-28.63,  193.5,  132.14},
-    {-21.27,  132.14, 100.63},
-  };
+double object_cov1[FEATURES_NUM][FEATURES_NUM] = 
+{
+  {255.27, 340.36, 268.36},
+  {340.36,514.63, 422.18},
+  {268.36,422.18, 358.63},
+}
+double object_cov2[FEATURES_NUM][FEATURES_NUM] = 
+{
+  {213.54,  -28.63, -21.27},
+  {-28.63,  193.5,  132.14},
+  {-21.27,  132.14, 100.63},
+};
 
-long Seed1[1][3] = 
-  {
-    {5, 15,0},
-  };
-long Seed2[1][3] = 
-  {
-    {15,5, 0},
-  };
+itk::Image<itk::Vector<int,3>,3>::IndexValueType Seed1[1][3] = 
+{
+  {5, 15,0},
+};
+itk::Image<itk::Vector<int,3>,3>::IndexValueType  Seed2[1][3] = 
+{
+  {15,5, 0},
+};
 
 // this data array is from part of visible human data
 const int data[400][3] = 
-{ 
+{
   {201, 178, 127}, {201, 177, 131}, {198, 178, 131}, {196, 172, 123}, {190, 148, 93}, {175, 117, 67}, {153, 96, 47}, {133, 65, 33}, {106, 56, 32}, {91, 47, 26}, 
   {81, 45, 25}, {79, 42, 23}, {74, 38, 21}, {69, 35, 19}, {64, 39, 19}, {68, 51, 26}, {80, 62, 38}, {89, 66, 40}, {94, 62, 33}, {88, 52, 29}, 
   {206, 184, 133}, {205, 183, 134}, {201, 184, 135}, {199, 177, 129}, {193, 162, 108}, {184, 129, 75}, {163, 105, 55}, {141, 72, 33}, {112, 58, 28}, {95, 58, 32}, 
@@ -97,17 +98,19 @@ const int data[400][3] =
 
 int main()
 {
-  
-  typedef itk::Vector<int,3> IntVector;
-  typedef itk::Matrix<double,3>  MatrixType;
+  typedef itk::Vector<int,FEATURES_NUM> IntVector;
+  typedef itk::Matrix<double,FEATURES_NUM,FEATURES_NUM>  MatrixType;
   typedef itk::Image<bool,3> BinaryImage3D;
   typedef itk::Image<IntVector,3> VectorImage3D;
   typedef itk::VectorFuzzyConnectednessImageFilter<VectorImage3D,BinaryImage3D> FuzzyImage;
 
-  itk::Size<3> size = {WIDTH, HEIGHT, LENGTH};
-  double spacing[3] = { 0.33,  0.33, 1.0};
+  itk::Size<3> size; 
 
+  size[0] = WIDTH; 
+  size[1] = HEIGHT; 
+  size[2] = LENGTH; 
   
+  double spacing[3] = { 0.3,  0.3, 0.3};
   FuzzyImage::Pointer testFuzzy=FuzzyImage::New();
   VectorImage3D::Pointer inputimg=VectorImage3D::New();
   VectorImage3D::IndexType index=VectorImage3D::IndexType::ZeroIndex;
@@ -121,76 +124,58 @@ int main()
   inputimg->SetRequestedRegion( region );
   inputimg->SetSpacing(spacing);
   inputimg->Allocate();
-
-/*  local test passed
-
-  FILE *fin, *fout;
-  char Input[80],output[80];
-  strcpy(output,"bin.raw");
-  strcpy(Input, "fat.raw");
-  unsigned char *data;
-
-  fin = fopen(Input,"rb");
-  data = new unsigned char[DEEP*HEIGHT*WIDTH*3];
-  fread(data,1,DEEP*HEIGHT*WIDTH*3,fin);
-*/
   itk::ImageRegionIteratorWithIndex <VectorImage3D> it(inputimg, region);
-  //it.Begin();
 
   int k=0;
   IntVector value;
 
   while( !it.IsAtEnd()) 
-    {
-      value[0] = data[k][0];
-      value[1] = data[k][1];
-      value[2] = data[k][2];
-      k = k+1;
-      it.Set(value);
-      ++it;
-    }
+  {
+    value[0] = data[k][0];
+    value[1] = data[k][1];
+    value[2] = data[k][2];
+    k = k+1;
+    it.Set(value);
+    ++it;
+  }
 
-//  fclose(fin);
-//  delete data;
-      
   testFuzzy->SetInput(inputimg);
-  testFuzzy->SetObjects(objects_num);
-  testFuzzy->SetSelectedObject(selected_object);
+  testFuzzy->SetObjects(OBJECTS_NUM);
+  testFuzzy->SetSelectedObject(SELECTED_OBJECT);
   testFuzzy->Initialization();
 
   testFuzzy->SetObjectsMean(mean1,0);
   testFuzzy->SetObjectsMean(mean2,1);
-
   MatrixType matrix1;
   matrix1.GetVnlMatrix().set((double *)object_cov1);
   testFuzzy->SetObjectsMatrix(matrix1,0);
   matrix1.GetVnlMatrix().set((double *)object_cov2);
   testFuzzy->SetObjectsMatrix(matrix1,1);
 
+  for ( int i = 0; i < 1; i++) 
+  {
+    index.SetIndex(Seed1[i]);
+    testFuzzy->SetObjectsSeed(index,0);
+  }
 
   for ( int i = 0; i < 1; i++) 
-    {
-      index.SetIndex(Seed1[i]);
-      testFuzzy->SetObjectsSeed(index,0);
-    }
+  {
+    index.SetIndex(Seed2[i]);
+    testFuzzy->SetObjectsSeed(index,1);
+  }
 
-  for ( int i = 0; i < 1; i++) 
-    {
-      index.SetIndex(Seed2[i]);
-      testFuzzy->SetObjectsSeed(index,1);
-    }
-  
   testFuzzy->Update();
 
   itk::ImageRegionIteratorWithIndex <BinaryImage3D> ot(testFuzzy->GetOutput(), region);
 
   for(int i = 0;i < LENGTH*HEIGHT*WIDTH; i++)
-    {
-      if((i%WIDTH) == 0)
-        std::cout<<std::endl;
+  {
+    if((i%WIDTH) == 0)
+      std::cout<<std::endl;
       std::cout<<ot.Get();
       ++ot;
-    }
+  } 
 
-  return 1;
+  return 0;
 }
+
