@@ -9,7 +9,11 @@
   <tbody>
     <tr valign="Top">
       <td align="Center">
-      <h1><img src="./Documentation/Art/itkLogoMediumTransparentBackground.gif" alt="ITK Logo" width="200" height="128" align="Top"></h1>
+      <h1>
+      <a href="http://public.kitware.com/Insight">
+      <img src="./Documentation/Art/itkLogoMediumTransparentBackground.gif" 
+      alt="ITK Logo" width="200" height="128" align="Top" border=0></a>
+      </h1>
       </td>
       <td>
       <h1>An Introduction to the <br>
@@ -27,7 +31,7 @@ This document provides a brief description of the project, its history, and
 references to additional information describing how to use, develop, and
 contribute to ITK. <br>
 <h2>Introduction</h2>
-<h3>What is ITK?</h3>
+<h3>What is <a href="http://public.kitware.com/Insight">ITK</a>?</h3>
 ITK is an open-source software toolkit for performing registration and segmentation.
 Segmentation is the process of identifying and classifying data found in
 a digitally sampled representation. Typically the sampled representation
@@ -54,24 +58,32 @@ are communication and testing. Communication among the members of the ITK
 community is what helps manage the rapid evolution of the software. Testing
 is what keeps the software stable. In ITK, an extensive testing process is
 in place that measures the quality on a daily basis.<br>
+
 <h3>What are ITK's origins?</h3>
-In 1999 the US National Library of Medicine of the National Institutes of
+In 1999 the US
+<a href="http://www.nlm.nih.gov/nlmhome.html">National Library of Medicine</a>
+of the National Institutes of
 Health awarded a three-year contract to develop an open-source registration
 and segmentation toolkit, which eventually came to be known as the Insight
-Toolkit (ITK). ITK's NLM Project Manager was Dr. Terry Yoo, who coordinated<br>
-<br>
-the six prime contractors who made up the Insight consortium. These consortium
-members included the three commercial partners GE Corporate R&amp;D, Kitware,
-Inc., and MathSoft; and the three academic partners University of North Carolina
-(UNC), University of Tennessee (UT), and University of Pennsylvania (UPenn).
-The Principle Investigators for these partners were, respectively, Bill Lorensen
-at GE CRD, Will Schroeder at Kitware, Vikram Chalana at Mathsoft, Stephen
-Aylward with Luis Ibanez at UNC, Ross Whitaker at UT, and Dimitri Metaxas
-at UPenn. In addition, several subcontractors rounded out the consortium
-including Peter Raitu at Brigham &amp; Women's Hospital, Pat Molholt and
-Celina Imielinska at Columbia University, Jim Gee at UPenn's Grasp Lab, and
-George Stetton at University of Pittsburgh. (Note: Ross Whitaker subsequently
-moved to University of Utah in 2000.)<br>
+Toolkit (ITK). The primary purpose of the project is to support the 
+<a href="http://www.nlm.nih.gov/research/visible/visible_human.html">
+Visible Human Project</a> by providing software tools to process and work with
+the project data.
+ITK's NLM Project Manager was Dr. Terry Yoo, who coordinated
+the six prime contractors who made up the Insight consortium. These
+consortium members included the three commercial partners GE Corporate
+R&amp;D, Kitware, Inc., and MathSoft; and the three academic partners
+University of North Carolina (UNC), University of Tennessee (UT), and
+University of Pennsylvania (UPenn).  The Principle Investigators for these
+partners were, respectively, Bill Lorensen at GE CRD, Will Schroeder at
+Kitware, Vikram Chalana at Mathsoft, Stephen Aylward with Luis Ibanez at UNC,
+Ross Whitaker at UT, and Dimitri Metaxas at UPenn. In addition, several
+subcontractors rounded out the consortium including Peter Raitu at Brigham
+&amp; Women's Hospital, Pat Molholt and Celina Imielinska at Columbia
+University, Jim Gee at UPenn's Grasp Lab, and George Stetton at University of
+Pittsburgh. (Note: Ross Whitaker subsequently moved to University of Utah in
+2000.)<br>
+
 <h3> Who are the developers?</h3>
 The best way to determine the names of developers is to view the CVS source
 code repository logs. Most of the early developers are listed in the following,
@@ -141,7 +153,11 @@ the toolkit is capable of processing other types.<br>
 (arbitrary dimension) and (unstructured) meshes.<br>
  </li>
   <li>The toolkit does not address visualization or graphical user interface.
-These are left to other toolkits (such as VTK, VisPack, MetaImage, etc.)
+These are left to other toolkits (such as 
+<a href="http://www.kitware.com/vtk.html">VTK</a>, 
+<a href="http://rolle.engr.utk.edu/~vision/vispack/">VisPack</a>, 
+<a href="http://mipgsun.mipg.upenn.edu/~Vnews/">3DViewnix</a>,
+MetaImage, etc.)
   </li>
   <li> The toolkit provides minimal tools for file interface. Again, this
 is left to other toolkits/libraries to provide. </li>
@@ -170,22 +186,27 @@ The following are key features of the toolkit implementation philosophy.<br>
 heavily templated C++ code challenges many compilers; hence development was
 carried out with the latest &nbsp; &nbsp; versions of the MSVC, Sun, gcc,
 and SGI compilers.</li>
-  <li> </li>
   <li>The toolkit is cross-platform (Unix and Windows).</li>
-  <li> </li>
   <li> The toolkit supports multiple language bindings, including such languages
 as Tcl, Python, and Java. These bindings are generated automatically using
 an auto-wrap process.</li>
-  <li> </li>
   <li> The memory model depends on "smart pointers" that maintain a reference
 count to objects. Smart pointers can be allocated on the stack, and when
 scope is exited, the smart pointers disappear and decrement their reference
 count to the object that they refer to. </li>
 </ul>
 <h3>Build Environment</h3>
-Insight uses the CMake (cross-platform make) build environment. CMake uses
+Insight uses the 
+<a href="http://public.kitware.com/CMake">CMake</a>
+(cross-platform make) build environment. CMake uses
 configure and make on Unix and generates projects and workspaces in the windows
 environment.<br>
+<h3>Testing Environment</h3>
+Insight supports an extensive testing environment. The code is tested daily
+on many hardware/operating system/compiler combinations and the results are
+posted daily on the 
+<a href="http://public.kitware.com/Insight/Testing/HTML/TestingResults/Dashboard/MostRecentResults-Nightly/Dashboard.html">Insight Quality Dashboard<a>.
+<br>
 <h3>Background References </h3>
 <h4>C++ Patterns and Generics</h4>
 Insight uses many advanced design patterns and generic programming. You may find these references useful in understanding the design and syntax of Insight.
@@ -198,21 +219,20 @@ by Matthew H. Austern </li>
 <li><b>C++ Report</b></li>
 </ul>
 
-<h4>Image Processing</h4>
-<h4>Segmentation</h4>
-<h4>Registration</h4>
-
 
 <h2>FURTHER INFORMATION</h2>
-The following information is available from the Insight CVS repository.<br>
-<br>
- ( To download Insight using CVS, use the following steps.<br>
-cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot login<br>
+Refer to the 
+<a href="http://public.kitware.com/Insight">Insight homepage</a>
+for more information.
+Also, grab the code from the
+<a href="http://public.kitware.com/Insight/Web/HTML/Download.htm">
+Insight CVS repository</a>. To download Insight using CVS, use the 
+following procedure:<br> 
+<pre>   cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot login</pre>
 with password "insight"...then get the source/documentation as follows:<br>
 <br>
-cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot checkout Insight
-)<br>
-<br>
+<pre>   cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot checkout Insight</pre>
+
 Once you have done this, look for the following documents:
 <ul>
   <li>Insight/Documents/InsightStart.doc|.pdf (Word/PDF). <br>
@@ -224,11 +244,21 @@ compiling Insight.<br>
 </ul>
 <blockquote>
   <ul>
-    <li>CMake (CMake.doc|.pdf (Word/PDF)</li>
+    <li>CMake (CMake.rtf|.pdf (Word/PDF)</li>
     <li> Requirements (Requirements.doc|.pdf)</li>
     <li>Style Guide (a must read for coders) (Style.ppt|.pdf)</li>
   </ul>
   </blockquote>
+Additional documentation is being developed in a separate CVS
+checkout directory (InsightDocuments). While this is not complete, you
+may find useful information (including a coding style document).
+If you would like to access this directory, use the following procedure:
+
+<pre>   cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot login</pre>
+with password "insight"...then get the source/documentation as follows:<br>
+<br>
+<pre>   cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot checkout InsightDocuments</pre>
+
   <h3> Contacts</h3>
   <ul>
     <li>Terry Yoo (NLM/NIH Insight Project Manager yoo@fluorite.nlm.nih.gov)</li>
