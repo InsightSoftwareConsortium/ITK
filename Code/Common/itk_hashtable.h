@@ -59,7 +59,7 @@
 #include "itk_alloc.h"
 #include <vector>
 #include <utility>
-#include <memory.h>
+#include <memory>
 #include "vcl_compiler.h"
 #include <functional>
 #include <algorithm>
