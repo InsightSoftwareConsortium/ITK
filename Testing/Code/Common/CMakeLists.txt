@@ -49,6 +49,7 @@ ADD_TEST(itkGaussianBlurImageFunctionTest ${COMMON_TESTS} itkGaussianBlurImageFu
 ADD_TEST(itkGaussianDerivativeImageFunctionTest ${COMMON_TESTS} itkGaussianDerivativeImageFunctionTest)
 ADD_TEST(itkCommonHeaderTest ${COMMON_HEADER_TEST})
 ADD_TEST(itkHashTableTest ${COMMON_TESTS} itkHashTableTest)
+ADD_TEST(itkIdentityTransformTest ${COMMON_TESTS} itkIdentityTransformTest)
 ADD_TEST(itkImageAdaptorTest ${COMMON_TESTS} itkImageAdaptorTest)
 ADD_TEST(itkImageDuplicatorTest ${COMMON_TESTS} itkImageDuplicatorTest)
 ADD_TEST(itkImageIteratorTest ${COMMON_TESTS} itkImageIteratorTest)
@@ -208,6 +209,7 @@ itkFourierSeriesPathTest.cxx
 itkGaussianBlurImageFunctionTest.cxx
 itkGaussianDerivativeImageFunctionTest.cxx
 itkHashTableTest.cxx
+itkIdentityTransformTest.cxx
 itkImageAdaptorTest.cxx
 itkImageDuplicatorTest.cxx
 itkImageIteratorTest.cxx

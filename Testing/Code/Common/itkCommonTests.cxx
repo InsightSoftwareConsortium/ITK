@@ -47,6 +47,7 @@ REGISTER_TEST(itkFourierSeriesPathTest );
 REGISTER_TEST(itkGaussianBlurImageFunctionTest);
 REGISTER_TEST(itkGaussianDerivativeImageFunctionTest);
 REGISTER_TEST(itkHashTableTest );
+REGISTER_TEST(itkIdentityTransformTest );
 REGISTER_TEST(itkImageAdaptorTest );
 REGISTER_TEST(itkImageDuplicatorTest );
 REGISTER_TEST(itkImageIteratorTest );
