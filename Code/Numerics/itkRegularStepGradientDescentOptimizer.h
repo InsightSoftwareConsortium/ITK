@@ -189,9 +189,6 @@ public:
   itkGetConstMacro( StopCondition, StopConditionType );
   itkGetConstMacro( Value, MeasureType );
 
-  void SetScale( const ParametersType & scale )
-          { m_Scale = scale; this->Modified(); }
-
   itkSetObjectMacro( CostFunction, CostFunctionType );
 
 protected:
@@ -203,9 +200,8 @@ protected:
 
 private:
 
-  ParametersType                m_Gradient; 
-  ParametersType                m_PreviousGradient; 
-  ParametersType                m_Scale;
+  DerivativeType                m_Gradient; 
+  DerivativeType                m_PreviousGradient; 
 
   bool                          m_Stop;
   bool                          m_Maximize;

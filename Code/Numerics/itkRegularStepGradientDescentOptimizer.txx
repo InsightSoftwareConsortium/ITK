@@ -174,10 +174,16 @@ RegularStepGradientDescentOptimizer<TCostFunction>
 ::AdvanceOneStep( void )
 { 
 
+  DerivativeType transformedGradient =
+    GetTransform()->TransformCovariantVector( m_Gradient );
+
+  DerivativeType previousTransformedGradient =
+    GetTransform()->TransformCovariantVector( m_PreviousGradient );
+
   double magnitudeSquare = 0;
   for(unsigned int dim=0; dim<SpaceDimension; dim++)
   {
-    const double weighted = m_Gradient[dim] * m_Scale[dim];
+    const double weighted = transformedGradient[dim];
     magnitudeSquare += weighted * weighted;
   }
     
@@ -194,8 +200,8 @@ RegularStepGradientDescentOptimizer<TCostFunction>
 
   for(unsigned int i=0; i<SpaceDimension; i++)
   {
-    const double weight1 = m_Gradient[i]         * m_Scale[i]; 
-    const double weight2 = m_PreviousGradient[i] * m_Scale[i]; 
+    const double weight1 = transformedGradient[i];
+    const double weight2 = previousTransformedGradient[i];
     scalarProduct += weight1 * weight2;
   }
    
@@ -229,7 +235,7 @@ RegularStepGradientDescentOptimizer<TCostFunction>
 
   for(unsigned int j=0; j<SpaceDimension; j++)
   {
-    newPosition[j] = currentPosition[j] + m_Gradient[j] * factor;
+    newPosition[j] = currentPosition[j] + transformedGradient[j] * factor;
   }
 
   SetCurrentPosition( newPosition );
