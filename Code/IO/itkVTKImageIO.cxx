@@ -78,7 +78,11 @@ bool VTKImageIO::OpenVTKFile(std::ofstream& os, const char* filename,
 #ifdef _WIN32
   openMode |= std::ios::binary;
 #endif
+#if defined(__GNUC__) && __GNUC__ >= 3
+  os.open(filename, static_cast<std::ios_base::openmode>(openMode));
+#else
   os.open(filename, openMode);
+#endif
   if ( os.fail() )
     {
     itkErrorMacro(<< "Could not open file: " << filename);
