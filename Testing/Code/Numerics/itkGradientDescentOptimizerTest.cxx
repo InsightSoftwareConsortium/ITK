@@ -153,6 +153,10 @@ int main()
   typedef  itk::GradientDescentOptimizer< 
                                 CostFunction >  OptimizerType;
 
+  typedef OptimizerType::TransformType   TransformType;
+  typedef TransformType::ParametersType  TransformParametersType;
+
+
     
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
@@ -172,12 +176,12 @@ int main()
   initialPosition[0] =  100;
   initialPosition[1] = -100;
   
-  ParametersType  parametersScale;
+  TransformParametersType parametersScale;
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
 
   itkOptimizer->SetMinimize();
-  itkOptimizer->SetScale( parametersScale );
+  itkOptimizer->GetTransform()->SetScale( parametersScale );
   itkOptimizer->SetLearningRate( 0.1 );
   itkOptimizer->SetNumberOfIterations( 50 );
 

@@ -158,19 +158,22 @@ int main()
   itkOptimizer->SetCostFunction( costFunction );
 
   
-   typedef CostFunction::ParametersType    ParametersType;
+  typedef CostFunction::ParametersType    ParametersType;
+
+  typedef OptimizerType::TransformType   TransformType;
+  typedef TransformType::ParametersType  TransformParametersType;
 
   // We start not so far from  | 2 -2 |
   ParametersType  initialPosition;
   initialPosition[0] =  100;
   initialPosition[1] = -100;
   
-  ParametersType  parametersScale;
+  TransformParametersType parametersScale;
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
 
   itkOptimizer->SetMinimize();
-  itkOptimizer->SetScale( parametersScale );
+  itkOptimizer->GetTransform()->SetScale( parametersScale );
   itkOptimizer->SetGradientMagnitudeTolerance( 1e-6 );
   itkOptimizer->SetMaximumStepLength( 30.0 );
   itkOptimizer->SetMinimumStepLength( 1e-6 );
