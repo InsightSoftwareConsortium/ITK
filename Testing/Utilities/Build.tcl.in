@@ -244,7 +244,8 @@ set BuildLog [open $BuildLogCompressedFilename r]
 fconfigure $BuildLog -translation binary
 
 puts $Out "\t<Log Encoding=\"base64\" Compression=\"$CompressionType\">"
-puts $Out [Base64Encode [read $BuildLog ]]
+# For the moment, Don't include the build log
+# puts $Out [Base64Encode [read $BuildLog ]]
 puts $Out "\t</Log>"
 puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
 
