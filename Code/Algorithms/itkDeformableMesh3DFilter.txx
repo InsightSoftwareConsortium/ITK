@@ -29,6 +29,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   m_Step = 0;
   m_FirstSlice = 0;
   m_NewNode = 0;
+  m_ZDistance = 1;
+  m_ModelDistanceToBoundary = 5.0;
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
@@ -43,7 +45,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Balloon Force Filter" << std::endl;
+  os << indent << "Deformable Mesh 3D Filter" << std::endl;
 
 }/** End PrintSelf. */
 
@@ -484,6 +486,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
   i = 0;
   
+  m_ModelDistanceToBoundary = 0;
   while( i < m_NumNodes ) {
     xs = ys = zs = 1.0; 
     x = points.Value();
@@ -588,6 +591,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
       t += 1.0;
     }
 
+    m_ModelDistanceToBoundary += t;
+
     if (t < 2) pointstatus.Value() = 1.0;
     else {
       pointstatus.Value() = 0.0;
@@ -608,6 +613,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     ++normals;
     ++i;
   }
+
+  m_ModelDistanceToBoundary = m_ModelDistanceToBoundary/m_NumNodes;
 }
 
 /** Compute the derivatives using d'- Kd = f. */
@@ -720,7 +727,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   }   
 }
 
-/**When new nodes areadded, we must do a reset to reallocate
+/**When new nodes are added, we must do a reset to reallocate
  * the memory, redistribute the nodes and reconstruct the cells.
  * This method is only suitable for 2D models. */
 template <typename TInputMesh, typename TOutputMesh>
@@ -946,20 +953,34 @@ void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::GenerateData() 
 {
+  int i, j;
   this->Initialize();
   this->SetStiffnessMatrix();
 
-  while (m_Step < m_StepThreshold2) {
+  while (m_Step < m_StepThreshold) {
     this->ComputeNormals();
-    if (m_Step > m_StepThreshold1) this->GradientFit();
-    else  this->ComputeForce();
+    if (m_ModelDistanceToBoundary < m_ModelDistanceToBoundaryThreshold) this->GradientFit();
+    else this->ComputeForce();
     this->ComputeDt();
     this->Advance();
-    this->ACDSearch();
-    this->NodesRearrange();
+//    this->ACDSearch();
+    this->Resample();
     this->ComputeOutput();
     m_Step++;
+
+    if ( m_Step%70 == 0 ) {
+      i = 0;
+      while (i < m_XResolution-1) {
+        j = i+1;
+        this->ComputeSliceDistance(i, j);
+        i++;
+      }
+    }
+
+    if (m_Step == 145) this->NodeAddition();
+
   }
+
 }
 
 /** When almost all the nodes are at the estimated boundary locations,
@@ -985,7 +1006,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
-::SliceAddition(int i) 
+::SliceAddition(int i, double dis) 
 {
   typename TInputMesh::PointType s, s1, d1, d2;
   InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
@@ -1069,9 +1090,15 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     while ( j < m_YResolution ) {
       d1 = displacements.Value();
       d2 = normals.Value();
-      s[0] = 0.5*(d1[0]+d2[0]);
-      s[1] = 0.5*(d1[1]+d2[1]); 
-      s[2] = 0.5*(d1[2]+d2[2]);
+      if (dis > 2.0) {
+        s[0] = ((dis-0.7)*d1[0]+0.7*d2[0])/dis;
+        s[1] = ((dis-0.7)*d1[1]+0.7*d2[1])/dis; 
+        s[2] = ((dis-0.7)*d1[2]+0.7*d2[2])/dis;
+      } else {
+        s[0] = 0.5*(d1[0]+d2[0]);
+        s[1] = 0.5*(d1[1]+d2[1]); 
+        s[2] = 0.5*(d1[2]+d2[2]);
+      }
       normals.Value() = s;   
       ++displacements;
       ++normals;
@@ -1295,10 +1322,14 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   normals = myNormals->Begin();
   while( normals != myNormals->End() ) {
     v1 = normals.Value();
-    absvec = sqrt ((double) ((v1[0]*v1[0]) + (v1[1]*v1[1]) + (v1[2]*v1[2])));
+
+    absvec = sqrt ((double) ((v1[0]*v1[0]) + (v1[1]*v1[1]) + 
+        (v1[2]*v1[2])));
     v1[0] = v1[0]/absvec;
     v1[1] = v1[1]/absvec;
     v1[2] = v1[2]/absvec;
+
+    v1[2] = v1[2]/m_ZDistance;
     normals.Value() = v1;
     ++normals;
   }
@@ -1309,12 +1340,19 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
-::NodesRearrange()
+::Resample()
 {
   int i, j, k, new_node=1;
-  double dis, l1, l2, d;
+  double dis, l1, l2;
   double* length;
-  InputPointType v1, v2, v3, v4, v_southpole, v_northpole;
+  InputPointType v, v1, v2, v3, v4, v_southpole, v_northpole;
+//  InputPointType v, v1, v2, v3, n1, n2, n3, northpole, southpole;
+  InputPointType* v1_pt;
+  InputPointType* v2_pt;
+  InputPointType* v3_pt;
+  v1_pt = &v1;
+  v2_pt = &v2;
+  v3_pt = &v3;
 
   typename TInputMesh::PointType s, s1, d1, d2;
 
@@ -1333,6 +1371,137 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointsContainerPointer   myForces = m_Forces->GetPoints();
   InputPointsContainerIterator  forces = myForces->Begin();
   InputPointsContainerIterator  forcescopy;
+
+  length = (double*) malloc(sizeof(double)*m_YResolution);
+
+  i = 0;
+  while ( i < m_YResolution ) {
+    ++locations;
+    i++;
+  }
+
+  while ( i < m_NumNodes-2 ) {
+    normals.Value() = locations.Value();
+    ++normals;
+    ++locations;
+    i++;
+  }
+
+  v_southpole = locations.Value();
+  ++locations;
+  v_northpole = locations.Value();
+
+  normals = myNormals->Begin();
+  locations = myLocations->Begin();
+  i = 0;
+
+  for ( i=0; i<m_YResolution; i++ ) {
+    v1 = locations.Value();
+    v2 = normals.Value();
+    dis = sqrt( (v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1])+(v1[2]-v2[2])*(v1[2]-v2[2]) );
+    dis += sqrt( (v1[0]-v_southpole[0])*(v1[0]-v_southpole[0])+
+        (v1[1]-v_southpole[1])*(v1[1]-v_southpole[1])+(v1[2]-v_southpole[2])*(v1[2]-v_southpole[2]) );
+    length[i] = dis;
+    ++normals;
+    ++locations;
+  }
+
+  i = 0;
+  j = 0;
+
+  for (i=0; i<m_XResolution-2; i++) {
+    for (j=0; j<m_YResolution; j++) {
+      v1 = locations.Value();
+      v2 = normals.Value();
+      dis = sqrt( (v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1])+(v1[2]-v2[2])*(v1[2]-v2[2]) );
+      length[j] += dis;
+      ++normals;
+      ++locations;
+    }
+  }
+
+  for (j=0; j<m_YResolution; j++) {
+    v1 = locations.Value();
+    dis = sqrt( (v1[0]-v_northpole[0])*(v1[0]-v_northpole[0])+
+        (v1[1]-v_northpole[1])*(v1[1]-v_northpole[1])+(v1[2]-v_northpole[2])*(v1[2]-v_northpole[2]) );
+    length[j] += dis;
+    length[j] = length[j]/(m_XResolution+1);
+    ++locations;
+  }
+
+  for (j = 0; j < m_YResolution; j++) {
+    i = 0;
+    k = 0;
+    l1 = 0;
+    l2 = 0;
+    v[0] = v_southpole[0];
+    v[1] = v_southpole[1];
+    v[2] = v_southpole[2];
+    while ( i < m_XResolution ) {
+      m_Locations->GetPoint(i*m_YResolution+j, v1_pt);
+      l2 = -1*l1;
+      dis= sqrt((v1[0]-v[0])*(v1[0]-v[0])+(v1[1]-v[1])*(v1[1]-v[1])+(v1[2]-v[2])*(v1[2]-v[2]));
+      l1 += dis;
+      while (l1 > length[j]) {
+        v2[0] = v[0] + (length[j]+l2)*(v1[0] - v[0])/dis;
+        v2[1] = v[1] + (length[j]+l2)*(v1[1] - v[1])/dis;
+        v2[2] = v[2] + (length[j]+l2)*(v1[2] - v[2])/dis;
+        m_Normals->SetPoint(k*m_YResolution+j, v2);
+        k++;
+        if (k==m_XResolution) break;
+        l2 += length[j];
+        l1 -= length[j];
+      }
+      if (k==m_XResolution) break;
+      v[0] = v1[0];
+      v[1] = v1[1];
+      v[2] = v1[2];
+      i++;
+    }
+    if (k==m_XResolution) continue;
+    v1[0] = v_northpole[0];
+    v1[1] = v_northpole[1];
+    v1[2] = v_northpole[2];
+    l2 = -1*l1;
+    dis= sqrt((v1[0]-v[0])*(v1[0]-v[0])+(v1[1]-v[1])*(v1[1]-v[1])+(v1[2]-v[2])*(v1[2]-v[2]));
+    l1 += dis;
+    while (l1 > length[j]) {
+      v2[0] = v[0] + (length[j]+l2)*(v1[0] - v[0])/dis;
+      v2[1] = v[1] + (length[j]+l2)*(v1[1] - v[1])/dis;
+      v2[2] = v[2] + (length[j]+l2)*(v1[2] - v[2])/dis;
+      m_Normals->SetPoint(k*m_YResolution+j, v2);
+      k++;
+      if (k==m_XResolution) break;
+      l2 += length[j];
+      l1 -= length[j];
+    }
+  }
+
+  locations = myLocations->Begin();
+  normals = myNormals->Begin();
+  i=0;
+
+  while ( i < m_NumNodes-2 ) {
+    v1 = locations.Value();
+    v2 = normals.Value();
+    v3 = displacements.Value();
+    v[0] = v3[0] + v2[0] - v1[0];
+    v[1] = v3[1] + v2[1] - v1[1];
+    v[2] = v3[2] + v2[2] - v1[2]; 
+    locations.Value() = v2;
+    displacements.Value() = v;
+    ++normals;
+    ++locations;
+    i++;
+  }
+
+  free(length);
+
+  locations = myLocations->Begin();
+  normals = myNormals->Begin();
+  displacements = myDisplacements->Begin();
+  i = 0;
+  k = 0;
 
   length = (double*) malloc(sizeof(double)*m_XResolution);
 
@@ -1380,7 +1549,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
         v2[1] = v2[1] + dis * d1[1];
         v2[2] = v2[2] + dis * d1[2];
       }
-
       forces.Value() = v2;
       i++;
       ++forces;
@@ -1423,7 +1591,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
       v2[1] = v2[1] + dis * d1[1];
       v2[2] = v2[2] + dis * d1[2];
     }
-  
     forces.Value() = v2;
     ++forces;
 
@@ -1463,7 +1630,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
       v2[1] = v2[1] + dis * d1[1];
       v2[2] = v2[2] + dis * d1[2];
     }
-
     forcescopy.Value() = v2;
   }
 
@@ -1576,8 +1742,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
       normals.Value() = s;
       ++normals;
       k++;
-      l2 += length[j]/d;
-      l1 -= length[j]/d;
+      l2 += length[j];
+      l1 -= length[j];
     }
 
   }
@@ -1633,6 +1799,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   free(length);
 }
 
+/** use acd grid to search if there is abnormality on the model surface and fix it*/
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -1784,6 +1951,290 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   }
   free(m_ACD);
   
+}
+
+/** smooth the model surface by averaging the node location 
+template <typename TInputMesh, typename TOutputMesh>
+void
+DeformableMesh3DFilter<TInputMesh, TOutputMesh>
+::Smooth()
+{
+  InputPointType v, v1, v2, v3, n1, n2, n3, northpole, southpole;
+  InputPointType* v1_pt;
+  InputPointType* v2_pt;
+  InputPointType* v3_pt;
+  v1_pt = &v1;
+  v2_pt = &v2;
+  v3_pt = &v3;
+  
+  double* length;
+  double  dis, l1, l2;
+  int i, j, k;
+
+  InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
+  InputPointsContainerIterator  locations = myLocations->Begin();
+
+  InputPointsContainerPointer   myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator  normals = myNormals->Begin();
+
+  InputPointsContainerPointer   myDisplacements = m_Displacements->GetPoints();
+  InputPointsContainerIterator  displacements = myDisplacements->Begin();
+
+  InputCellsContainerPointer       myCells = m_Input->GetCells();
+  InputCellsContainerIterator      cells = myCells->Begin(); 
+  
+  InputCellDataContainerPointer    myCellData = m_Input->GetCellData();
+  InputCellDataContainerIterator   celldata = myCellData->Begin(); 
+  
+  length = (double*) malloc(sizeof(double)*m_YResolution);
+
+  i = 0;
+  while ( i < m_YResolution ) {
+    ++locations;
+    i++;
+  }
+
+  while ( i < m_NumNodes-2 ) {
+    normals.Value() = locations.Value();
+    ++normals;
+    ++locations;
+    i++;
+  }
+
+  southpole = locations.Value();
+  ++locations;
+  northpole = locations.Value();
+
+  normals = myNormals->Begin();
+  locations = myLocations->Begin();
+  i = 0;
+
+  for ( i=0; i<m_YResolution; i++ ) {
+    v1 = locations.Value();
+    v2 = normals.Value();
+    dis = sqrt( (v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1])+(v1[2]-v2[2])*(v1[2]-v2[2]) );
+    dis += sqrt( (v1[0]-southpole[0])*(v1[0]-southpole[0])+
+        (v1[1]-southpole[1])*(v1[1]-southpole[1])+(v1[2]-southpole[2])*(v1[2]-southpole[2]) );
+    length[i] = dis;
+    ++normals;
+    ++locations;
+  }
+
+  i = 0;
+  j = 0;
+
+  for (i=0; i<m_XResolution-2; i++) {
+    for (j=0; j<m_YResolution; j++) {
+      v1 = locations.Value();
+      v2 = normals.Value();
+      dis = sqrt( (v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1])+(v1[2]-v2[2])*(v1[2]-v2[2]) );
+      length[j] += dis;
+      ++normals;
+      ++locations;
+    }
+  }
+
+  for (j=0; j<m_YResolution; j++) {
+    v1 = locations.Value();
+    dis = sqrt( (v1[0]-northpole[0])*(v1[0]-northpole[0])+
+        (v1[1]-northpole[1])*(v1[1]-northpole[1])+(v1[2]-northpole[2])*(v1[2]-northpole[2]) );
+    length[j] += dis;
+    length[j] = length[j]/(m_XResolution+1);
+    ++locations;
+  }
+
+  for (j = 0; j < m_YResolution; j++) {
+    i = 0;
+    k = 0;
+    l1 = 0;
+    l2 = 0;
+    v[0] = southpole[0];
+    v[1] = southpole[1];
+    v[2] = southpole[2];
+    while ( i < m_XResolution ) {
+      m_Locations->GetPoint(i*m_YResolution+j, v1_pt);
+      l2 = -1*l1;
+      dis= sqrt((v1[0]-v[0])*(v1[0]-v[0])+(v1[1]-v[1])*(v1[1]-v[1])+(v1[2]-v[2])*(v1[2]-v[2]));
+      l1 += dis;
+      while (l1 > length[j]) {
+        v2[0] = v[0] + (length[j]+l2)*(v1[0] - v[0])/dis;
+        v2[1] = v[1] + (length[j]+l2)*(v1[1] - v[1])/dis;
+        v2[2] = v[2] + (length[j]+l2)*(v1[2] - v[2])/dis;
+        m_Normals->SetPoint(k*m_YResolution+j, v2);
+        k++;
+        if (k==m_XResolution) break;
+        l2 += length[j];
+        l1 -= length[j];
+      }
+      if (k==m_XResolution) break;
+      v[0] = v1[0];
+      v[1] = v1[1];
+      v[2] = v1[2];
+      i++;
+    }
+    if (k==m_XResolution) continue;
+    v1[0] = northpole[0];
+    v1[1] = northpole[1];
+    v1[2] = northpole[2];
+    l2 = -1*l1;
+    dis= sqrt((v1[0]-v[0])*(v1[0]-v[0])+(v1[1]-v[1])*(v1[1]-v[1])+(v1[2]-v[2])*(v1[2]-v[2]));
+    l1 += dis;
+    while (l1 > length[j]) {
+      v2[0] = v[0] + (length[j]+l2)*(v1[0] - v[0])/dis;
+      v2[1] = v[1] + (length[j]+l2)*(v1[1] - v[1])/dis;
+      v2[2] = v[2] + (length[j]+l2)*(v1[2] - v[2])/dis;
+      m_Normals->SetPoint(k*m_YResolution+j, v2);
+      k++;
+      if (k==m_XResolution) break;
+      l2 += length[j];
+      l1 -= length[j];
+    }
+  }
+
+  locations = myLocations->Begin();
+  normals = myNormals->Begin();
+  i=0;
+
+  while ( i < m_NumNodes-2 ) {
+    v1 = locations.Value();
+    v2 = normals.Value();
+    v3 = displacements.Value();
+    v[0] = v3[0] + v2[0] - v1[0];
+    v[1] = v3[1] + v2[1] - v1[1];
+    v[2] = v3[2] + v2[2] - v1[2]; 
+    locations.Value() = v2;
+    displacements.Value() = v;
+    ++normals;
+    ++locations;
+    i++;
+  }
+
+/*
+  const unsigned long *tp;
+  InputPointType* v1_pt;
+  InputPointType* v2_pt;
+  InputPointType* v3_pt;
+  v1_pt = &v1;
+  v2_pt = &v2;
+  v3_pt = &v3;
+  InputPointType* n1_pt;
+  InputPointType* n2_pt;
+  InputPointType* n3_pt;
+  n1_pt = &n1;
+  n2_pt = &n2;
+  n3_pt = &n3;
+
+  double d = 0;
+  while( cells != myCells->End() ) {
+    tp = cells.Value()->GetPointIds();
+    ++cells;
+    d = celldata.Value();
+    ++celldata;
+
+    m_Locations->GetPoint(tp[0], v1_pt);
+    m_Locations->GetPoint(tp[1], v2_pt);
+    m_Locations->GetPoint(tp[2], v3_pt);
+    m_Normals->GetPoint(tp[0], n1_pt);
+    m_Normals->GetPoint(tp[1], n2_pt);
+    m_Normals->GetPoint(tp[2], n3_pt);
+    
+    int i;
+    if ( d == 1.0 ) {
+      for ( i=0; i<3; i++ ) {
+        n1[i] += (v2[i] + v3[i])/(2.0*m_YResolution);
+        n2[i] += v1[i]/12.0 + v3[i]/24.0;
+        n3[i] += v1[i]/12.0 + v2[i]/24.0;
+      }
+    }
+
+    if ( d == 2.0 ) {
+      for ( i=0; i<3; i++ ) {
+        n2[i] += (v1[i] + v3[i])/(2.0*m_YResolution);
+        n1[i] += v2[i]/12.0 + v3[i]/24.0;
+        n3[i] += v2[i]/12.0 + v1[i]/24.0;
+      }
+    }
+
+    if ( d == 3.0 ) {
+      for ( i=0; i<3; i++ ) {
+        n1[i] += (v2[i] + v3[i])/24.0;
+        n2[i] += (v1[i] + v3[i])/24.0;
+        n3[i] += (v1[i] + v2[i])/24.0;
+      }
+    }
+
+    m_Normals->SetPoint(tp[0], n1);
+    m_Normals->SetPoint(tp[1], n2);
+    m_Normals->SetPoint(tp[2], n3);
+  }
+  
+  locations = myLocations->Begin();
+  normals = myNormals->Begin();
+
+  while ( normals != myNormals->End() ) {
+    v1 = locations.Value();
+    v2 = normals.Value();
+    v3 = displacements.Value();
+    v[0] = v3[0] + v2[0] - v1[0];
+    v[1] = v3[1] + v2[1] - v1[1];
+    v[2] = v3[2] + v2[2] - v1[2]; 
+    locations.Value() = v2;
+    displacements.Value() = v;
+    ++normals;
+    ++locations;
+  }
+}
+*/
+
+/** Calculate the distance between 2 slices */
+template <typename TInputMesh, typename TOutputMesh>
+void
+DeformableMesh3DFilter<TInputMesh, TOutputMesh>
+::ComputeSliceDistance(int i, int j)
+{
+  typename TInputMesh::PointType d1, d2;
+  InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
+  InputPointsContainerIterator  locations = myLocations->Begin();
+  InputPointsContainerIterator  slice1 = myLocations->Begin();
+  InputPointsContainerIterator  slice2 = myLocations->Begin();
+
+  double distance = 0.0;
+  int k1, k2, k, l;
+
+  if (i > j) {
+    k1 = j;
+    k2 = i;
+  } else {
+    k2 = j;
+    k1 = i;
+  }
+  
+  k = 0;
+  while ( k < k2+1 ) {
+    l = 0;
+    if (k == k1) slice1 = locations;
+    if (k == k2) slice2 = locations;
+    while (l < m_YResolution ) {
+      ++locations;
+      l++;
+    }
+    k++;
+  }
+
+  k = 0;
+  l = 0;
+  while (l < m_YResolution) {
+    d1 = slice1.Value();
+    d2 = slice2.Value();
+    distance += d1[2]-d2[2];
+    ++slice1;
+    ++slice2;
+    l++;
+  }
+
+  distance = abs(distance/m_YResolution);
+
+  if (distance > m_SliceDistanceThreshold) this->SliceAddition(k2, distance); 
 }
 
 } /** end namespace itk. */
