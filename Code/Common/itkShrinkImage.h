@@ -66,13 +66,13 @@ public:
   /** 
    * Set the shrink factor. The default value is 1.
    */
-  itkSetClampMacro(ShrinkFactor,unsigned int, 1,
-                   NumericTraits<unsigned int>::max());
+  itkSetClampMacro(ShrinkFactor,int, 1,
+                   NumericTraits<int>::max());
   
   /** 
    * Get the shrink factor.
    */
-  itkGetMacro(ShrinkFactor,unsigned int);
+  itkGetMacro(ShrinkFactor,int);
                  
   /**
    * ShrinkImage produces an image which is a different resolution and
@@ -105,7 +105,7 @@ public:
   void GenerateData();
 
 private:
-  unsigned int m_ShrinkFactor;
+  int m_ShrinkFactor;
 };
 
   

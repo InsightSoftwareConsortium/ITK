@@ -67,7 +67,7 @@ ShrinkImage<TInputImage,TOutputImage>
 
   // Define/declare an iterator that will walk the output region
   typedef
-    ImageRegionIterator<OutputImage::PixelType, OutputImage::ImageDimension>
+    ImageRegionIterator<typename OutputImage::PixelType, OutputImage::ImageDimension>
     OutputIterator;
 
   OutputIterator outIt = OutputIterator(outputPtr,
@@ -76,9 +76,9 @@ ShrinkImage<TInputImage,TOutputImage>
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
-  OutputImage::Index outputIndex;
-  InputImage::Index inputIndex = inputPtr->GetRegionStartIndex();
-  InputImage::Index factorIndex;
+  typename OutputImage::Index outputIndex;
+  typename InputImage::Index inputIndex = inputPtr->GetRegionStartIndex();
+  typename InputImage::Index factorIndex;
 
   for (int i=0; i < InputImage::ImageDimension; i++)
     {
@@ -119,11 +119,11 @@ ShrinkImage<TInputImage,TOutputImage>
   // we need to compute the input requested region (size and start index)
   int i;
   const unsigned long *outputRequestedRegionSize = outputPtr->GetRegionSize();
-  const OutputImage::Index& outputRequestedRegionStartIndex
+  const typename OutputImage::Index& outputRequestedRegionStartIndex
     = outputPtr->GetRegionStartIndex();
   
   unsigned long     inputRequestedRegionSize[InputImage::ImageDimension];
-  InputImage::Index inputRequestedRegionStartIndex;
+  typename InputImage::Index inputRequestedRegionStartIndex;
   
   for (i = 0; i < InputImage::ImageDimension; i++)
     {
@@ -157,11 +157,11 @@ ShrinkImage<TInputImage,TOutputImage>
   int i;
   const float              *inputSpacing = inputPtr->GetSpacing();
   const unsigned long      *inputSize = inputPtr->GetImageSize();
-  const InputImage::Index&  inputStartIndex = inputPtr->GetImageStartIndex();
+  const typename InputImage::Index&  inputStartIndex = inputPtr->GetImageStartIndex();
   
   float                     outputSpacing[OutputImage::ImageDimension];
   unsigned long             outputSize[OutputImage::ImageDimension];
-  OutputImage::Index        outputStartIndex;
+  typename OutputImage::Index        outputStartIndex;
   
   for (i = 0; i < OutputImage::ImageDimension; i++)
     {
