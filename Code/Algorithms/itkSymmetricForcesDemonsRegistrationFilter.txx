@@ -96,6 +96,52 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationFie
 }
 
 /*
+ * 
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+double
+SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::GetIntensityDifferenceThreshold() const
+{
+ 
+  DemonsRegistrationFunctionType *drfp = 
+    dynamic_cast<DemonsRegistrationFunctionType *>
+      (this->GetDifferenceFunction().GetPointer());
+ 
+  if( !drfp )
+   {
+   itkExceptionMacro( << 
+     "Could not cast difference function to DemonsRegistrationFunction" );
+   }
+   
+  return drfp->GetIntensityDifferenceThreshold();
+
+}
+
+/*
+ * 
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+void
+SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::SetIntensityDifferenceThreshold(double threshold) 
+{
+ 
+  DemonsRegistrationFunctionType *drfp = 
+    dynamic_cast<DemonsRegistrationFunctionType *>
+      (this->GetDifferenceFunction().GetPointer());
+ 
+  if( !drfp )
+   {
+   itkExceptionMacro( << 
+     "Could not cast difference function to SymmetricDemonsRegistrationFunction" );
+   }
+   
+  drfp->SetIntensityDifferenceThreshold(threshold);
+
+}
+
+/*
  * Get the metric value from the difference function
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -142,6 +188,17 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationFie
   this->SetRMSChange( drfp->GetRMSChange() );
    
 }
+
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+void
+SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::PrintSelf(std::ostream& os, Indent indent) const
+{ 
+  Superclass::PrintSelf( os, indent );
+  os << indent << "Intensity difference threshold: " <<
+    this->GetIntensityDifferenceThreshold() << std::endl;
+}
+
 
 } // end namespace itk
 

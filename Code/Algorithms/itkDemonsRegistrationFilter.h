@@ -115,6 +115,13 @@ public:
   itkGetMacro( UseMovingImageGradient, bool );
   itkBooleanMacro( UseMovingImageGradient );
 
+  /** Set/Get the threshold below which the absolute difference of
+   * intensity yields a match. When the intensities match between a
+   * moving and fixed image pixel, the update vector (for that
+   * iteration) will be the zero vector. Default is 0.001. */
+  virtual void SetIntensityDifferenceThreshold(double);
+  virtual double GetIntensityDifferenceThreshold() const;
+  
 protected:
   DemonsRegistrationFilter();
   ~DemonsRegistrationFilter() {}

@@ -183,6 +183,7 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   registrator->SetStandardDeviations( 1.0 );
   registrator->SetMaximumError( 0.08 );
   registrator->SetMaximumKernelWidth( 10 );
+  registrator->SetIntensityDifferenceThreshold( 0.001 );
 
   // turn on inplace execution
   registrator->InPlaceOn();

@@ -117,12 +117,17 @@ public:
   virtual double GetMetric() const;
   virtual double GetRMSChange() const;
 
+  /** Set/Get the threshold below which the absolute difference of
+   * intensity yields a match. When the intensities match between a
+   * moving and fixed image pixel, the update vector (for that
+   * iteration) will be the zero vector. Default is 0.001. */
+  virtual void SetIntensityDifferenceThreshold(double);
+  virtual double GetIntensityDifferenceThreshold() const;
 
 protected:
   SymmetricForcesDemonsRegistrationFilter();
   ~SymmetricForcesDemonsRegistrationFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-  { Superclass::PrintSelf( os, indent ); }
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Initialize the state of filter and equation before each iteration. */
   virtual void InitializeIteration();

@@ -104,6 +104,29 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 }
 
 
+/**
+ *
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+void
+DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+::SetIntensityDifferenceThreshold(double threshold)
+{
+  m_IntensityDifferenceThreshold = threshold;
+}
+
+/**
+ *
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+double
+DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+::GetIntensityDifferenceThreshold() const
+{
+  return m_IntensityDifferenceThreshold;
+}
+
+
 /*
  * Set the function state values before each iteration
  */

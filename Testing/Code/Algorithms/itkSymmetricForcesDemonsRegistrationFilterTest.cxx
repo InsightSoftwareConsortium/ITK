@@ -166,8 +166,10 @@ int itkSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
   registrator->SetNumberOfIterations( 150 );
   registrator->SetStandardDeviations( 2.0 );
   registrator->SetStandardDeviations( 1.0 );
+  registrator->SetIntensityDifferenceThreshold( 0.001 );
   registrator->Print( std::cout );
 
+  std::cout << "\n\n\nPrinting function" << std::endl;
   typedef RegistrationType::DemonsRegistrationFunctionType FunctionType;
   FunctionType * fptr;
   fptr = dynamic_cast<FunctionType *>(
