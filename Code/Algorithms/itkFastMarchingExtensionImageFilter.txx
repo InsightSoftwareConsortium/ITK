@@ -67,7 +67,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
   class TSpeedImage>
-FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
+typename FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::AuxImageType *
 FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::GetAuxiliaryImage( unsigned int idx )
