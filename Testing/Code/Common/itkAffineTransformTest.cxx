@@ -29,7 +29,8 @@ main(
     vnl_vector_fixed<double,2>   vector2;
     int i, j;
 
-    /* FIXME: This is still mostly an empty shell for testing */
+    /* FIXME: This code exercises most of the methods but doesn't
+       actually check that the results are correct. */
     any = 0;
     std::cout << "The AffineTransform class is still being implemented"
               << std::endl;
@@ -83,17 +84,88 @@ main(
     std::cout << "Setting the offset in an existing  transform:"
               << std::endl << vector2 << std::endl;
 
-    /* Try composition of two transformation */
-    /* FIXME: Self with self isn't a very rigorous test */
+    /* Try composition of two transformations */
     aff2.Compose(aff2);
     std::cout << "Result of a composition:"
               << std::endl << aff2;
-    //matrix2 = aff2.GetMatrix();
-    //vector2 = aff2.GetOffset();
-    //std::cout << "Matrix of a composition:"
-    //          << std::endl << matrix2;
-    //std::cout << "Offset of a composition:"
-    //          << std::endl << vector2 << std::endl;
+
+    /* Compose with a translation */
+    vnl_vector_fixed<double, 2> trans;
+    trans[0] = 1;
+    trans[1] = 2;
+    aff2.Translate(trans);
+    std::cout << "Result of a translation:"
+              << std::endl << aff2;
+
+    /* Compose with an isotropic scaling */
+    aff2.Scale(.3, 1);
+    std::cout << "Result of isotropic scaling:"
+              << std::endl << aff2;
+
+    /* Compose with an anisotropic scaling */
+    vnl_vector_fixed<double, 2> scale;
+    scale[0] = .3;
+    scale[1] = .2;
+    aff2.Scale(scale);
+    std::cout << "Result of anisotropic scaling:"
+              << std::endl << aff2;
+
+    /* Compose with a general N-D rotation */
+    aff2.Rotate(0, 1, 0.57, 1);
+    std::cout << "Result of general rotation:"
+              << std::endl << aff2;
+
+    /* Compose with a 2-D rotation */
+    aff2.Rotate(0, 1, -0.57, 1);
+    std::cout << "Result of 2-D rotation:"
+              << std::endl << aff2;
+
+    /* Compose with a shear */
+    aff2.Shear(1, 0, .2);
+    std::cout << "Result of shear:"
+              << std::endl << aff2;
+
+    /* Transform a point */
+    itk::Point<2, double> u2, v2;
+    u2[0] = 3;
+    u2[1] = 5;
+    v2 = aff2.Transform(u2);
+    std::cout << "Transform a point:" << std::endl
+              << v2 << std::endl;
+
+    /* Back transform a point */
+    v2 = aff2.BackTransform(u2);
+    std::cout << "Back transform a point:" << std::endl
+              << v2 << std::endl;
+
+    /* Transform a vector */
+    vnl_vector_fixed<double, 2> x2, y2;
+    x2[0] = 1;
+    x2[1] = 2;
+    y2 = aff2.Transform(x2);
+    std::cout << "Transform a vector:" << std::endl
+              << y2 << std::endl;
+
+    /* Back transform a vector */
+    y2 = aff2.BackTransform(x2);
+    std::cout << "Back transform a vector:" << std::endl
+              << y2 << std::endl;
+
+    /* Create a 3D transform and rotate in 3D */
+    itk::AffineTransform<double,3> aff3;
+    vnl_vector_fixed<double,3> axis;
+    axis[0] = .707;
+    axis[1] = .707;
+    axis[2] = .707;
+    aff3.Rotate3D(axis, 1.0, 1);
+    std::cout << "Create and rotate a 3D transform:" << std::endl
+              << aff3;
+
+    /* Generate inverse transform */
+    itk::AffineTransform<double,3> inv3;
+    inv3 = aff3.Inverse();
+    std::cout << "Create an inverse transformation:"
+              << std::endl << inv3;
 
     return any;
 }
