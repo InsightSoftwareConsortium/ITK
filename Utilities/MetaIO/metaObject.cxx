@@ -62,8 +62,8 @@ MetaObject::
     delete field;
   }
   
+  m_Fields.clear();
 
-  this->ClearFields();
 }
 
 
@@ -624,7 +624,7 @@ Clear(void)
     delete * fieldIter;
     if(META_DEBUG) std::cout << " has been deleted." << std::endl;
     }
-  this->ClearFields();
+  m_Fields.clear();
   }
 
 bool MetaObject::
