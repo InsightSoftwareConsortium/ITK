@@ -82,8 +82,8 @@ class MetaImage : public MetaObject
 
     bool  M_Read(void);
 
-    unsigned char *m_CompressedElementData;
-z_stream z;
+    unsigned char * m_CompressedElementData;
+    unsigned char * PerformCompression(unsigned char *source,int quantity);
 
   /////
   //

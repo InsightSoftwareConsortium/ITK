@@ -601,6 +601,7 @@ ElementDataFileName(const char * _elementDataFileName)
 bool MetaImage::
 Read(const char *_headerName, bool _readElements, void * _buffer)
   {
+  std::cout << "MetaImageRead!" << std::endl;
   M_Destroy();
 
   MetaImage::Clear();
@@ -801,6 +802,73 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
   return true;
   }
 
+
+/** Perform the compression */
+unsigned char * MetaImage::
+PerformCompression(unsigned char *source,int quantity)
+{
+  z_stream z;
+  z.zalloc = (alloc_func)0;
+  z.zfree = (free_func)0;
+  z.opaque = (voidpf)0;
+
+  // Compression rate
+  // Choices are Z_BEST_SPEED,Z_BEST_COMPRESSION,Z_DEFAULT_COMPRESSION
+  int compression_rate =  Z_DEFAULT_COMPRESSION;
+
+  unsigned char *input_buffer   = source;
+
+  // The buffer size is big
+  int buffer_size = quantity;
+  unsigned char * compressedData   = new unsigned char[quantity];
+  unsigned char *output_buffer = new unsigned char[buffer_size];
+
+  deflateInit(&z,compression_rate);
+
+  z.avail_in = quantity;
+  z.next_in = input_buffer;
+  z.next_out = output_buffer;
+  z.avail_out = buffer_size;
+   
+  int count;
+  unsigned long j=0;
+  // Perform the compression 
+  for ( ; ; ) 
+    {
+    if ( z.avail_in == 0 ) 
+      {
+      deflate( &z, Z_FINISH );
+      count = buffer_size - z.avail_out;
+      if ( count ) 
+        {
+        memcpy((char*)compressedData+j,(char *)output_buffer,count);
+        }
+      break;
+      }
+      deflate( &z, Z_NO_FLUSH );
+      count = buffer_size - z.avail_out;
+      memcpy((char*)compressedData+j,(char*)output_buffer,count);
+      j += count;
+      z.next_out = output_buffer;
+      z.avail_out = buffer_size;
+    }
+    
+  delete output_buffer;
+  m_CompressedDataSize = z.total_out;
+
+  // Print the result
+  fprintf(stderr, "Compressed data: raw data %lu, compressed %lu, factor %.2f, compression level (default = -1) %d, buffer size %d\n",
+  z.total_in, z.total_out,
+  z.total_in == 0 ? 0.0 :
+  (double)z.total_out / z.total_in,
+  compression_rate,
+  buffer_size);
+  deflateEnd(&z);
+
+  return compressedData;  
+}
+
+
 //
 //
 //
@@ -894,67 +962,13 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
     }
   else // perform compression
     {
-    if(_writeElements)
+    if(_writeElements && localData)
       {
       int elementSize;
       MET_SizeOfType(m_ElementType, &elementSize);
       int elementNumberOfBytes = elementSize*m_ElementNumberOfChannels;
 
-    // Compression rate
-    // Choices are Z_BEST_SPEED,Z_BEST_COMPRESSION,Z_DEFAULT_COMPRESSION
-    int compression_rate =  Z_DEFAULT_COMPRESSION;
-
-    unsigned char *input_buffer   = (unsigned char *)m_ElementData;
-
-    // The buffer size is big
-    int buffer_size = m_Quantity * elementNumberOfBytes;
-   
-    m_CompressedElementData   = new unsigned char[m_Quantity * elementNumberOfBytes];
-
-    unsigned char *output_buffer = new unsigned char[buffer_size];
-
-   deflateInit(&z,compression_rate);
-
-    z.avail_in = m_Quantity * elementNumberOfBytes;
-    z.next_in = input_buffer;
-    z.next_out = output_buffer;
-    z.avail_out = buffer_size;
-   
-    int count;
-
-    unsigned long j=0;
-    // Perform the compression 
-    for ( ; ; ) 
-      {
-      if ( z.avail_in == 0 ) 
-        {
-        deflate( &z, Z_FINISH );
-        count = buffer_size - z.avail_out;
-        if ( count ) 
-          {
-          memcpy((char*)m_CompressedElementData+j,(char *)output_buffer,count);
-          }
-        break;
-        }
-        deflate( &z, Z_NO_FLUSH );
-        count = buffer_size - z.avail_out;
-        memcpy((char*)m_CompressedElementData+j,(char*)output_buffer,count);
-        j += count;
-        z.next_out = output_buffer;
-        z.avail_out = buffer_size; 
-    }
-     
-      m_CompressedDataSize = z.total_out;
-
-      // Print the result
-      fprintf(stderr, "Compressed data: raw data %lu, compressed %lu, factor %.2f, compression level (default = -1) %d, buffer size %d\n",
-      z.total_in, z.total_out,
-      z.total_in == 0 ? 0.0 :
-      (double)z.total_out / z.total_in,
-      compression_rate,
-      buffer_size);
-      deflateEnd(&z);
-
+      m_CompressedElementData = this->PerformCompression((unsigned char *)m_ElementData,m_Quantity * elementNumberOfBytes);
       }
     //Now that we know the size of the compresse stream we write the header
     M_SetupWriteFields();
@@ -968,9 +982,6 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
     int elementNumberOfBytes = elementSize*m_ElementNumberOfChannels;
     if(localData)
       {
-      std::cout << "Writing meta" << std::endl;
-
-
       if(!m_CompressedData)
         {
         m_WriteStream->write( (char *)m_ElementData,
@@ -980,6 +991,8 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
         {
         m_WriteStream->write( (char *)m_CompressedElementData,
                              (int)m_CompressedDataSize);  
+        delete m_CompressedElementData;
+        m_CompressedElementData = NULL;
         }
       
       m_WriteStream->close();
@@ -991,7 +1004,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
         }
       return true;
       }
-    else
+    else // write the data in a separate file
       {
       m_WriteStream->close();
       delete m_WriteStream;
@@ -1007,7 +1020,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
         {
         strcpy(dataFileName, m_ElementDataFileName);
         }
-      if(strstr(dataFileName, "%"))
+      if(strstr(dataFileName, "%")) // write slice by slice
         {
         int i;
         char fName[255];
@@ -1024,14 +1037,31 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
           }
 #endif
           writeStreamTemp->open(fName, std::ios::binary | std::ios::out);
-          writeStreamTemp->write(
-                           &(((char *)m_ElementData)[i*sliceNumberOfBytes]),
-                           sliceNumberOfBytes);
+
+          if(!m_CompressedData)
+            {
+            writeStreamTemp->write(
+                        &(((char *)m_ElementData)[(i-1)*sliceNumberOfBytes]),
+                        sliceNumberOfBytes);
+            } 
+          else
+            {
+            // Compress the data
+            m_CompressedElementData = this->PerformCompression( &(((unsigned char *)m_ElementData)[(i-1)*sliceNumberOfBytes]),sliceNumberOfBytes);
+            // Write the compressed data
+            writeStreamTemp->write( (char *)m_CompressedElementData,
+                                  (int)m_CompressedDataSize);  
+            delete m_CompressedElementData;
+            m_CompressedElementData = NULL;
+            }
+        
+
           writeStreamTemp->close();
           delete writeStreamTemp;
+          writeStreamTemp = new std::ofstream;
           }
         }
-      else
+      else // write the image in one unique other file
         {
   // Some older sgi compilers have a error in the ofstream constructor
   // that requires a file to exist for output
@@ -1042,8 +1072,22 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
         }
 #endif
         writeStreamTemp->open(dataFileName, std::ios::binary | std::ios::out);
-        writeStreamTemp->write( (char *)m_ElementData, 
-                                m_Quantity * elementNumberOfBytes );
+   
+        if(!m_CompressedData)
+        {
+        writeStreamTemp->write( (char *)m_ElementData,
+                              m_Quantity * elementNumberOfBytes );  
+        } 
+        else
+        {
+        m_CompressedElementData = this->PerformCompression((unsigned char *)m_ElementData,m_Quantity * elementNumberOfBytes);
+        m_WriteCompressedDataSize = false;
+        writeStreamTemp->write( (char *)m_CompressedElementData,
+                             (int)m_CompressedDataSize); 
+        delete m_CompressedElementData;
+        m_CompressedElementData = NULL;
+        }     
+        
         writeStreamTemp->close();
         delete writeStreamTemp; 
         if(!userDataFileName)
@@ -1355,8 +1399,17 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
     }
 
   // If compressed we inflate
-  if(m_CompressedData && (m_CompressedDataSize>0))
+  if(m_CompressedData)
     {
+    // if m_CompressedDataSize is not defined we assume the size of the file is the size of the 
+    // compressed data
+    if(m_CompressedDataSize==0)
+      {
+      _fstream->seekg(0, std::ios::end);
+      m_CompressedDataSize = _fstream->tellg();
+      _fstream->seekg(0, std::ios::beg);
+      }
+
     unsigned char* compr = new unsigned char[(unsigned int)(m_CompressedDataSize)];
     _fstream->read((char *)compr, (int)m_CompressedDataSize);
     
