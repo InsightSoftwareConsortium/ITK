@@ -28,7 +28,7 @@ using namespace itk::fem;
 using namespace std;
 
 /* Testing for linear system wrappers */
-int itkFEMLinearSystemWrapperVNLTest( int argc, char **argv ) 
+int itkFEMLinearSystemWrapperVNLTest( int, char ** ) 
 {
 
   /* loop vars for printing */
