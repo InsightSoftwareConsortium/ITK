@@ -65,8 +65,14 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
             }
         }
 
-      if (flag) return ( *(this->operator[](n)) ) ;
-      else return( m_BoundaryCondition->operator()(temp, offset, this) );
+      if (flag) 
+        {
+        return ( *(this->operator[](n)) ) ;
+        }
+      else 
+        {
+        return( m_BoundaryCondition->operator()(temp, offset, this) );
+        }
     } 
 }
   
