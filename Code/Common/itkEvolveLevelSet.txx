@@ -133,7 +133,7 @@ bool outputOnly)
     m_OutputBuffer = TLevelSet::New();
     }
 
-  typedef itk::Index<TLevelSet::ImageDimension> IndexType;
+  typedef Index<TLevelSet::ImageDimension> IndexType;
 
   const typename TLevelSet::RegionType largestRegion = 
     inputPtr->GetLargestPossibleRegion();

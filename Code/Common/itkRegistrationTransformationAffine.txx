@@ -160,8 +160,4 @@ RegistrationTransformationAffine<NDimensions>
 
 }
 
-
-
-
-
 } // end namespace itk

@@ -231,19 +231,19 @@ public:
   {
     if (VDimension == 2)
       {
-      return itk::Convolve2D<TPixel, VDimension>(*this, B, 0);
+      return Convolve2D<TPixel, VDimension>(*this, B, 0);
       }
     else if (VDimension == 3)
       {
-      return itk::Convolve3D<TPixel, VDimension>(*this, B, 0);
+      return Convolve3D<TPixel, VDimension>(*this, B, 0);
       }
     else if (VDimension == 1)
       {
-      return itk::Convolve1D<TPixel, VDimension>(*this, B, 0);
+      return Convolve1D<TPixel, VDimension>(*this, B, 0);
       }
     else
       {
-      return itk::ConvolveND<TPixel, VDimension>(*this, B, 0);
+      return ConvolveND<TPixel, VDimension>(*this, B, 0);
       }
   }
 
@@ -261,19 +261,19 @@ public:
   {
     if (VDimension == 2)
       {
-      return itk::Convolve2D<TPixel, VDimension>(*this, B, 1);
+      return Convolve2D<TPixel, VDimension>(*this, B, 1);
       }
     else if (VDimension == 3)
       {
-      return itk::Convolve3D<TPixel, VDimension>(*this, B, 1);
+      return Convolve3D<TPixel, VDimension>(*this, B, 1);
       }
     else if (VDimension == 1)
       {
-      return itk::Convolve1D<TPixel, VDimension>(*this, B, 1);
+      return Convolve1D<TPixel, VDimension>(*this, B, 1);
       }
     else
       {
-      return itk::ConvolveND<TPixel, VDimension>(*this, B, 1);
+      return ConvolveND<TPixel, VDimension>(*this, B, 1);
       }
   }
    

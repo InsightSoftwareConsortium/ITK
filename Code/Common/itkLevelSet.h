@@ -70,7 +70,7 @@ public:
   }
 
   TPixel                     value;
-  itk::Index<VSetDimension>  index;
+  Index<VSetDimension>  index;
   
 };
 
@@ -116,12 +116,12 @@ public:
   /**
    * Node typdef support.
    */
-  typedef itk::LevelSetNode<ScalarValueType, SetDimension> NodeType;
+  typedef LevelSetNode<ScalarValueType, SetDimension> NodeType;
 
   /**
    * NodeContainer typedef support.
    */
-  typedef itk::VectorContainer<int,NodeType> NodeContainer;
+  typedef VectorContainer<int,NodeType> NodeContainer;
 
   /**
    * NodeContainerPointer typedef support.

@@ -113,7 +113,7 @@ public:
    *  Accessor type that convert data between internal and external
    *  representations.
    */
-  typedef itk::DataAccessor< InternalPixelType, PixelType > AccessorType;
+  typedef DataAccessor< InternalPixelType, PixelType > AccessorType;
 
   /** 
    * Pixel (scalar) value typedef support. The scalar value is the native

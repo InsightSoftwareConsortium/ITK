@@ -194,7 +194,7 @@ Convolve3D(Neighborhood<TPixel, VDimension> &A,
            Neighborhood<TPixel, VDimension> &B, int Mode)
 {
   enum {COL, ROW, SLI};
-  typedef itk::Neighborhood<TPixel, VDimension> Neighborhood;
+  typedef Neighborhood<TPixel, VDimension> Neighborhood;
   
   register unsigned int is;
   register unsigned int ir;

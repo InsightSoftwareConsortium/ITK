@@ -121,7 +121,7 @@ ImageSliceIterator<TImage>
 {
   if( direction >= VImageDimension )
   {
-    throw itk::ExceptionObject();
+    throw ExceptionObject();
   }
   m_Direction_A = direction;
   m_Jump_A = m_OffsetTable[ m_Direction_A ];
@@ -140,7 +140,7 @@ ImageSliceIterator<TImage>
 {
   if( direction >= VImageDimension )
   {
-    throw itk::ExceptionObject();
+    throw ExceptionObject();
   }
   m_Direction_B = direction;
   m_Jump_B = m_OffsetTable[ m_Direction_B ];
