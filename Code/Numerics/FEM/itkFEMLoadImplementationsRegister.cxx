@@ -33,10 +33,13 @@
 #include "itkFEMElement2DC0LinearLineStress.h"
 #include "itkFEMElement2DC1Beam.h"
 #include "itkFEMElement2DC0LinearTriangularStress.h"
+#include "itkFEMElement2DC0LinearTriangularMembrane.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStress.h"
 #include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
 #include "itkFEMElement3DC0LinearTetrahedronStrain.h"
 #include "itkFEMElement3DC0LinearHexahedronStrain.h"
+#include "itkFEMElement3DC0LinearTetrahedronMembrane.h"
+#include "itkFEMElement3DC0LinearHexahedronMembrane.h"
 
 namespace itk {
 namespace fem {
@@ -81,13 +84,23 @@ void LoadImplementationsRegister(void)
   REGISTER_LOAD_EX(Element2DC0LinearTriangularStress,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
   REGISTER_LOAD_EX(Element2DC0LinearTriangularStress,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
 
+  // Loads acting on TriangularMembrane element
+  REGISTER_LOAD_EX(Element2DC0LinearTriangularMembrane,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
+  REGISTER_LOAD_EX(Element2DC0LinearTriangularMembrane,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
+
   // Loads acting on HexahedronStrain element
   REGISTER_LOAD_EX(Element3DC0LinearHexahedronStrain,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
   REGISTER_LOAD_EX(Element3DC0LinearHexahedronStrain,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
 
-  // Loads acting on TetrahedronStrain element
+  // Loads acting on HexahedronMembrane element
+  REGISTER_LOAD_EX(Element3DC0LinearHexahedronMembrane,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
+  REGISTER_LOAD_EX(Element3DC0LinearHexahedronMembrane,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
+
+  // Loads acting on Tetrahedron element
   REGISTER_LOAD_EX(Element3DC0LinearTetrahedronStrain,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
   REGISTER_LOAD_EX(Element3DC0LinearTetrahedronStrain,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
+  REGISTER_LOAD_EX(Element3DC0LinearTetrahedronMembrane,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
+  REGISTER_LOAD_EX(Element3DC0LinearTetrahedronMembrane,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
 
 
   // Add any additional loads here in a similar fashion...
