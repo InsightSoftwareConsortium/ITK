@@ -43,8 +43,8 @@ CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::CenteredAffineRegistrationTransform( const Self & other )
 {
   m_AffineTransform = other.m_AffineTransform;
-  m_DomainTransformationCenter = other.DomainTransformationCenter;
-  m_RangeTransformationCenter = other.RangeTransformationCenter;
+  m_DomainTransformationCenter = other.m_DomainTransformationCenter;
+  m_RangeTransformationCenter = other.m_RangeTransformationCenter;
 }
 
 
@@ -57,7 +57,9 @@ CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters> &
 CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::operator=( const Self & other )
 {
-  m_AffineTransform = other.m_AffineTransforma;
+  m_AffineTransform = other.m_AffineTransform;
+  m_DomainTransformationCenter = other.m_DomainTransformationCenter;
+  m_RangeTransformationCenter = other.m_RangeTransformationCenter;
   return *this;
 }
 
@@ -151,7 +153,7 @@ CenteredAffineRegistrationTransform<TScalarType, NDimensions,TParameters>
 
   for(unsigned int dim=0; dim < SpaceDimension; dim++ )
   {
-     m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
+     m_Jacobian[ dim ][ blockOffset + dim ] = 1;
   }
 
   return m_Jacobian;
