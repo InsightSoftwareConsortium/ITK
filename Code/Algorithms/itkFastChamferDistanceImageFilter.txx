@@ -31,7 +31,8 @@ template <class TInputImage,class TOutputImage>
 FastChamferDistanceImageFilter<TInputImage,TOutputImage>
 ::FastChamferDistanceImageFilter()
 {
-  int i, dim = ImageDimension;
+  unsigned int i;
+  unsigned int dim = ImageDimension;
 
   switch (ImageDimension)  
     {
@@ -44,7 +45,7 @@ FastChamferDistanceImageFilter<TInputImage,TOutputImage>
       break;
     default:
       itkWarningMacro(<< "Dimension " << ImageDimension << " with Default weights ");
-      for( i=1; i<=ImageDimension; i++ )
+      for( i=1; i <= ImageDimension; i++ )
         {
         m_Weights[i-1] = sqrt((float)i);
         }
@@ -58,19 +59,20 @@ template <class TInputImage,class TOutputImage>
 void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
 ::GenerateDataND() 
 {
-  const int SIGN_MASK  = 1;
-  const int INNER_MASK  = 2;
+  const int SIGN_MASK = 1;
+  const int INNER_MASK = 2;
   
   typename NeighborhoodIterator<TInputImage>::RadiusType r;
-  bool                in_bounds;
+  bool in_bounds;
   
   r.Fill(1);
   NeighborhoodIterator<TInputImage> it(r, this->GetOutput(), m_RegionToProcess);
   
   const unsigned int  center_voxel = it.Size()/2;
-  int        *neighbor_type; neighbor_type = new int[it.Size()];
-  unsigned int        i,n;
-  register float      val[ImageDimension];
+  int *neighbor_type;
+  neighbor_type = new int[ it.Size() ];
+  int i,n;
+  register float val[ImageDimension];
   register PixelType  center_value;
   register int  neighbor_start,neighbor_end;
   BandNodeType node;
@@ -78,23 +80,21 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
   /** 1st Scan , using neighbors from center_voxel+1 to it.Size()-1 */
 
   /** Precomputing the neighbor types */ 
-  neighbor_start = center_voxel+1;
-  neighbor_end   = it.Size()-1;
+  neighbor_start = center_voxel + 1;
+  neighbor_end   = it.Size() - 1;
 
-  for(i = neighbor_start; i<=neighbor_end;i++)
+  for ( i = neighbor_start; i <= neighbor_end; i++)
     {
       neighbor_type[i] = -1;
-      for(n=0; n<ImageDimension; n++) 
+      for( n = 0; n < static_cast<int>(ImageDimension); n++ ) 
         {
-          neighbor_type[i] += (it.GetOffset(i)[n] != 0);
+        neighbor_type[i] += (it.GetOffset(i)[n] != 0);
         }
-      //cout << "neighbor_type[" << i << "] = " << neighbor_type[i] << std::endl;
     }
   
   /** Scan the image */
   for ( it.GoToBegin(); ! it.IsAtEnd(); ++it )
     {
-    
     center_value = it.GetPixel(center_voxel);
     if (center_value>= m_MaximumDistance)
       {
@@ -151,15 +151,16 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
   neighbor_start = 0;
   neighbor_end   = center_voxel-1;
   
-  for(i = neighbor_start; i<=neighbor_end;i++)
+  for( i = neighbor_start; i <= neighbor_end; i++ )
     {
     neighbor_type[i] = -1;
-    for(n=0; n<ImageDimension; n++) {
-    neighbor_type[i] += (it.GetOffset(i)[n] != 0);
-    }
+    for (n=0; n < ImageDimension; n++)
+      {
+      neighbor_type[i] += (it.GetOffset(i)[n] != 0);
+      }
     }
   
-
+  
   /** Scan the image */
   for (it.GoToEnd(), --it; ! it.IsAtBegin(); --it)
     {
@@ -220,7 +221,7 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
       for (i = neighbor_start; i <= neighbor_end; i++)
         {
         // Experiment an InlineGetPixel()
-        if (val[neighbor_type[i]]>it.GetPixel(i)) 
+        if ( val[neighbor_type[i]] > it.GetPixel(i) ) 
           {
           it.SetPixel(i,val[neighbor_type[i]],in_bounds);
           }
@@ -243,8 +244,10 @@ FastChamferDistanceImageFilter<TInputImage,TOutputImage>
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
   
-  ImageRegionIterator<TOutputImage>      out(this->GetOutput(),this->GetInput()->GetRequestedRegion());
-  ImageRegionConstIterator<TOutputImage> in( this->GetInput(), this->GetInput()->GetRequestedRegion());
+  ImageRegionIterator<TOutputImage>
+    out(this->GetOutput(),this->GetInput()->GetRequestedRegion());
+  ImageRegionConstIterator<TOutputImage>
+    in( this->GetInput(), this->GetInput()->GetRequestedRegion());
   
   for(in.GoToBegin(),out.GoToBegin(); !in.IsAtEnd(); ++in,++out)
     {
@@ -269,16 +272,15 @@ void
 FastChamferDistanceImageFilter<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  int i;
+  unsigned int i;
   Superclass::PrintSelf(os,indent);
   
-  for(i=0;i<ImageDimension;i++) 
+  for ( i = 0; i < ImageDimension; i++ ) 
     {
     os << indent << "Chamfer weight " << i << ": " << m_Weights[i] << std::endl;
     }
   
   os << indent << "Maximal computed distance   : " << m_MaximumDistance << std::endl;
-  
 }
 
 } // end namespace itk
