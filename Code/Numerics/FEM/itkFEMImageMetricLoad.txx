@@ -83,15 +83,69 @@ ImageMetricLoad<TReference , TTarget>::ImageMetricLoad()
   m_Metric=NULL;
   m_Transform = NULL;
   m_SolutionIndex=1;
+  m_SolutionIndex2=0;
+  m_Sign=1.0;
 
   for (int i=0; i<ImageDimension; i++)
   {
-    m_RefRadius[i] = 1;
-    m_TarRadius[i] = 1;
+    m_MetricRadius[i] = 1;
   }
 
 }
 
+/*
+template<class TReference,class TTarget>
+ImageMetricLoad<TReference , TTarget>::ImageMetricLoad(const ImageMetricLoad& LMS)
+{ 
+  m_RefImage=LMS.m_RefImage;
+  m_TarImage=LMS.m_TarImage;
+  m_MetricRadius=LMS.m_MetricRadius;
+  m_NumberOfIntegrationPoints=LMS.m_NumberOfIntegrationPoints;
+
+  m_Transform = LMS.m_Transform;
+  m_Metric = LMS.m_Metric;
+
+  m_Metric->SetMovingImage( m_RefImage );
+  m_Metric->SetFixedImage( m_TarImage );
+
+  typename TargetType::RegionType requestedRegion;
+  typename TargetType::SizeType  size;
+  typename TargetType::IndexType tindex;
+  for( unsigned int k = 0; k < ImageDimension; k++ )
+  { 
+  //Set the size of the image region
+    size[k] = 1;
+    tindex[k]=0;
+  }
+
+
+// Set the associated region
+  requestedRegion.SetSize(size);
+  requestedRegion.SetIndex(tindex);
+  m_TarImage->SetRequestedRegion(requestedRegion);  
+  m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
+  
+  m_Metric->SetTransform( m_Transform.GetPointer() );
+  m_Interpolator = InterpolatorType::New();
+  m_Interpolator->SetInputImage( m_RefImage );
+  m_Metric->SetInterpolator( m_Interpolator.GetPointer() );
+
+  
+//------------------------------------------------------------
+// This call is mandatory before start querying the Metric
+// This method do all the necesary connections between the 
+// internal components: Interpolator, Transform and Images
+//------------------------------------------------------------
+  try 
+  {
+    m_Metric->Initialize();
+  } catch( ExceptionObject & e )
+  {
+    std::cout << "Metric initialization failed" << std::endl;
+    std::cout << "Reason " << e.GetDescription() << std::endl;
+  }
+
+}*/
 
 template<class TReference,class TTarget>
 ImageMetricLoad<TReference , TTarget>::Float 
@@ -99,7 +153,7 @@ ImageMetricLoad<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
 {
   Float energy=0.0; 
 
-  vnl_vector_fixed<Float,ImageDimension> Sol(0.0);  // solution at the local point
+  vnl_vector_fixed<Float,ImageDimension> Sol(0.0);  // total solution at the local point plus incremental solution at the local point
   vnl_vector_fixed<Float,ImageDimension> Gpt(0.0);  // global position given by local point
   vnl_vector_fixed<Float,ImageDimension> Pos(0.0);  // solution at the point
   
@@ -114,7 +168,8 @@ ImageMetricLoad<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
     {
       dynamic_cast<Element*>(&*(*elt))->GetIntegrationPointAndWeight(i,ip,w,m_NumberOfIntegrationPoints); // FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
       Gpt=(*elt)->GetGlobalFromLocalCoordinates(ip);
-      Sol=(*elt)->InterpolateSolution(ip,*m_Solution,m_SolutionIndex);
+      // interpolate the total solution and the incremental solution
+      Sol=(*elt)->InterpolateSolution(ip,*m_Solution,m_SolutionIndex)+step*(*elt)->InterpolateSolution(ip,*m_Solution,m_SolutionIndex2);
 
       for (unsigned int ii=0; ii < ImageDimension; ii++)
       { 
@@ -130,62 +185,6 @@ ImageMetricLoad<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
 
 }
 
-
-template<class TReference,class TTarget>
-ImageMetricLoad<TReference , TTarget>::VectorType 
-ImageMetricLoad<TReference , TTarget>
-::Fe1(VectorType  InVec) 
-{
-// We assume the vector input is of size 2*ImageDimension.
-// The 0 to ImageDimension-1 elements contain the position, p,
-// in the reference image.  The next ImageDimension to 2*ImageDimension-1
-// elements contain the value of the vector field at that point, v(p).
-//
-// Thus, we evaluate the derivative at the point p+v(p) with respect to
-// some region of the target (fixed) image by calling the metric with 
-// the translation parameters as provided by the vector field at p.
-//------------------------------------------------------------
-// Set up transform parameters
-//------------------------------------------------------------
-  int temp=1;
-  ParametersType parameters( m_Transform->GetNumberOfParameters() );
-  typename TargetType::RegionType requestedRegion;
-  typename TargetType::IndexType tindex;
-  typename ReferenceType::IndexType rindex;
-  VectorType OutVec(ImageDimension,0.0); // gradient direction
-
-  for( unsigned int k = 0; k < ImageDimension; k++ )
-  { 
-  //Set the size of the image region
-    parameters[k]= InVec[k+ImageDimension]; // this gives the translation by the vector field 
-    tindex[k] =InVec[k]+InVec[k+ImageDimension];  // where the piece of reference image currently lines up under the above translation
-    rindex[k]= InVec[k];  // position in reference image
-  }
-
-// Set the associated region
-
-  requestedRegion.SetSize(m_TarRadius);
-  requestedRegion.SetIndex(tindex);
-
-  m_TarImage->SetRequestedRegion(requestedRegion);  
-  m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
-
-//--------------------------------------------------------
-// Get metric values
-
-  MetricBaseType::MeasureType     measure;
-  MetricBaseType::DerivativeType  derivative;
-
-  m_Metric->GetValueAndDerivative( parameters, measure, derivative );
-  for( unsigned int k = 0; k < ImageDimension; k++ )
-  {
-    OutVec[k]= 1.*derivative[k];
-  }
- 
-  //std::cout   << " deriv " << derivative <<  " val " << measure << endl;
- 
-  return OutVec;
-}
 
 
 template<class TReference,class TTarget>
@@ -221,7 +220,7 @@ ImageMetricLoad<TReference , TTarget>::Fe
 
 // Set the associated region
 
-  requestedRegion.SetSize(m_TarRadius);
+  requestedRegion.SetSize(m_MetricRadius);
   requestedRegion.SetIndex(tindex);
 
   m_TarImage->SetRequestedRegion(requestedRegion);  
@@ -236,9 +235,10 @@ ImageMetricLoad<TReference , TTarget>::Fe
   m_Metric->GetValueAndDerivative( parameters, measure, derivative );
   for( unsigned int k = 0; k < ImageDimension; k++ )
   {
-    OutVec[k]= 1.*derivative[k];
+    OutVec[k]= m_Sign*derivative[k];
   }
- 
+ // NOTE : POSSIBLE THAT DERIVATIVE DIRECTION POINTS UP OR DOWN HILL!
+ // IN FACT, IT SEEMS MEANSQRS AND NCC POINT IN DIFFT DIRS
   //std::cout   << " deriv " << derivative <<  " val " << measure << endl;
  
   return OutVec;
@@ -278,7 +278,7 @@ ImageMetricLoad<TReference , TTarget>::GetMetric
 
 // Set the associated region
 
-  requestedRegion.SetSize(m_TarRadius);
+  requestedRegion.SetSize(m_MetricRadius);
   requestedRegion.SetIndex(tindex);
 
   m_TarImage->SetRequestedRegion(requestedRegion);  
@@ -288,11 +288,8 @@ ImageMetricLoad<TReference , TTarget>::GetMetric
 // Get metric values
 
   MetricBaseType::MeasureType     measure;
-  MetricBaseType::DerivativeType  derivative;
 
-  m_Metric->GetValueAndDerivative( parameters, measure, derivative );
- 
-  //std::cout   << " deriv " << derivative <<  " val " << measure << endl;
+  measure=m_Metric->GetValue( parameters);
  
   return (Float) measure;
 }

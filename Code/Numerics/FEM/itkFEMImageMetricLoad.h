@@ -82,7 +82,7 @@ namespace fem
  * The metrics return both a scalar similarity value and vector-valued derivative.  
  * The derivative is what gives us the force to drive the FEM registration.
  * These values are computed with respect to some region in the Target image.
- * This region size may be set by the user by calling SetTargetRadius.
+ * This region size may be set by the user by calling SetMetricRadius.
  * As the metric derivative computation evolves, performance should improve
  * and more functionality will be available (such as scale selection).
  */ 
@@ -154,9 +154,9 @@ public:
   typedef   PatternIntensityImageToImageMetric<  TargetType, ReferenceType  > PatternIntensityMetricType;
 
 //  typedef typename MutualInformationMetricType             DefaultMetricType;
-  typedef typename NormalizedCorrelationMetricType             DefaultMetricType;
+//  typedef typename NormalizedCorrelationMetricType             DefaultMetricType;
 //  typedef typename PatternIntensityMetricType             DefaultMetricType;
-//  typedef typename MeanSquaresMetricType             DefaultMetricType;
+  typedef typename MeanSquaresMetricType             DefaultMetricType;
   typedef typename DefaultTransformType::ParametersType         ParametersType;
   typedef typename DefaultTransformType::JacobianType           JacobianType;
 
@@ -198,11 +198,10 @@ public:
   ReferencePointer GetReferenceImage() { return m_RefImage; };
   TargetPointer GetTargetImage() { return m_TarImage; };
 
-  /** Define the reference (moving) image region size. */
-  void SetReferenceRadius(ReferenceRadiusType R) {m_RefRadius  = R; };
-  
-  /** Define the target (fixed) image region size. */ 
-  void SetTargetRadius(TargetRadiusType T) {m_TarRadius  = T; };       
+  /** Define the metric region size. */ 
+  void SetMetricRadius(ReferenceRadiusType T) {m_MetricRadius  = T; };    
+  /** Get the metric region size. */ 
+  ReferenceRadiusType GetMetricRadius() { return m_MetricRadius; };       
   
   /** Set/Get methods for the number of integration points to use 
     * in each 1-dimensional line integral when evaluating the load.
@@ -211,6 +210,10 @@ public:
   void SetNumberOfIntegrationPoints(unsigned int i){ m_NumberOfIntegrationPoints=i;}
   unsigned int GetNumberOfIntegrationPoints(){ return m_NumberOfIntegrationPoints;}
 
+  /** Set the direction of the gradient (uphill or downhill). 
+    * E.g. the mean squares metric should be minimized while NCC and PR should be maximized.
+    */ 
+  void SetSign(Float s) {m_Sign=s;}
 
   void SetSolution(Solution::ConstPointer ptr) {  m_Solution=ptr; }
   Solution::ConstPointer GetSolution() {  return m_Solution; }
@@ -226,9 +229,12 @@ public:
     return m_Solution->GetSolutionValue(i,which); 
   }
   
+// define the copy constructor 
+//  ImageMetricLoad(const ImageMetricLoad& LMS);
+
   void InitializeMetric(void);
   ImageMetricLoad(); // cannot be private until we always use smart pointers
-  Float EvaluateMetricGivenSolution ( Element::ArrayType* el, Float step);
+  Float EvaluateMetricGivenSolution ( Element::ArrayType* el, Float step=1.0);
  
 /**
  * Compute the image based load - implemented with ITK metric derivatives.
@@ -263,12 +269,13 @@ private:
   typename CovariantVectorImageType::Pointer          m_DerivativeImage;
   ReferencePointer                                    m_RefImage;
   TargetPointer                                       m_TarImage;
-  ReferenceRadiusType                                 m_RefRadius; /** used by the neighborhood iterator */
-  TargetRadiusType                                    m_TarRadius; /** used by the metric to set region size for fixed image*/ 
+  ReferenceRadiusType                                 m_MetricRadius; /** used by the metric to set region size for fixed image*/ 
   typename ReferenceType::SizeType                    m_RefSize;
   typename TargetType::SizeType                       m_TarSize;
   unsigned int                                        m_NumberOfIntegrationPoints;
   unsigned int                                        m_SolutionIndex;
+  unsigned int                                        m_SolutionIndex2;
+  Float                                               m_Sign;
 
   typename Solution::ConstPointer                     m_Solution;
   typename MetricBaseTypePointer                      m_Metric;
