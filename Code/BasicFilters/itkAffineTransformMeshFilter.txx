@@ -99,10 +99,17 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
   outputMesh->SetCells(  inputMesh->GetCells() );
   outputMesh->SetCellData(  inputMesh->GetCellData() );
   
-  outputMesh->SetBoundaries(  inputMesh->GetBoundaries() );
-  outputMesh->SetBoundarieData(  inputMesh->GetBoundarieData() );
-
   
+  unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
+
+  for( unsigned int i=0; i < maxDimension; i++ )
+  {
+    outputMesh->SetBoundaries(    i, inputMesh->GetBoundaries(i)   );
+    outputMesh->SetBoundaryData(  i, inputMesh->GetBoundaryData(i) );
+  }
+  
+
+
 }
 
 
