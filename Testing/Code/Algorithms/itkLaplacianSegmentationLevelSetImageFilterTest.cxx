@@ -198,10 +198,6 @@ int itkLaplacianSegmentationLevelSetImageFilterTest(int, char * [] )
         filter->SetMaximumIterations(20);
         filter->Update();
         std::cout << "Done second trial" << std::endl;
-    // Repeat once more just for fun
-        filter->SetMaximumIterations(21);
-        filter->Update();
-        std::cout << "Done third trial" << std::endl;
     
     // Write the output for debugging purposes
     //        itk::ImageFileWriter<LSIFTN::ImageType>::Pointer writer
