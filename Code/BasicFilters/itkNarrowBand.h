@@ -35,6 +35,7 @@ public:
   TDataType m_Data;
   TIndexType m_Index;
   signed char m_NodeState;
+  BandNode() { m_NodeState = 0; }
 };  
 
 
