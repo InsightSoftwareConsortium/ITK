@@ -213,7 +213,7 @@ public:
   /**
    * TargetPoint typedef support
    */
-  typedef typename MapperType::PointType TargetPointType;
+  typedef typename MapperType::OutputPointType TargetPointType;
 
   /**
    * Run-time type information (and related methods).
