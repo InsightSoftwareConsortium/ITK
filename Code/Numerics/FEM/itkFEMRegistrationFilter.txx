@@ -357,9 +357,10 @@ int FEMRegistrationFilter<TReference,TTarget>::WriteDisplacementField(unsigned i
   // Write the single-index field to a file
   //   itk::ImageRegionIteratorWithIndex<FloatImageType> it( fieldImage, fieldImage->GetLargestPossibleRegion() );
   //   for (; !it.IsAtEnd(); ++it) { std::cout << it.Get() << "\t"; }
-
-  itk::RawImageIO<Float,ImageDimension>::Pointer io = itk::RawImageIO<Float,ImageDimension>::New();
-  itk::ImageFileWriter<FloatImageType>::Pointer writer = itk::ImageFileWriter<FloatImageType>::New();
+  typedef typename itk::RawImageIO<float,ImageDimension> IOType;
+  IOType::Pointer io = IOType::New();
+  typedef typename itk::ImageFileWriter<FloatImageType> WriterType;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetInput(fieldImage);
   writer->SetImageIO(io);
   writer->SetFileName(outfile);
