@@ -74,7 +74,7 @@ public:
               >  MeshTraits;
   
   /** Mesh Traits */
-  typedef itk::Mesh<  typename MeshTraits::PixelType,
+  typedef itk::Mesh<  PointPixelType,
                       NSpaceDimension,
                       MeshTraits  >               MeshType;
 
