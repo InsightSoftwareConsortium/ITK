@@ -7,17 +7,21 @@ ITK_WRAP_TCL(ITKBasicFiltersTcl
   wrap_ITKBasicFilters.cxx
   wrap_itkAnisotropicDiffusionImageFilter.cxx
   wrap_itkBinaryThresholdImageFilter.cxx
+  wrap_itkCannyEdgeDetectionImageFilter.cxx
   wrap_itkCastImageFilter.cxx
   wrap_itkConfidenceConnectedImageFilter.cxx
   wrap_itkConnectedThresholdImageFilter.cxx
   wrap_itkCurvatureAnisotropicDiffusionImageFilter.cxx
   wrap_itkGradientAnisotropicDiffusionImageFilter.cxx
+  wrap_itkLaplacianImageFilter.cxx
+  wrap_itkMinimumMaximumImageCalculator.cxx
   wrap_itkNaryAddImageFilter.cxx
   wrap_itkRandomImageSource.cxx
   wrap_itkRecursiveGaussianImageFilter.cxx
   wrap_itkRecursiveSeparableImageFilter.cxx
   wrap_itkResampleImageFilter.cxx
   wrap_itkRescaleIntensityImageFilter.cxx
+  wrap_itkSobelEdgeDetectionImageFilter.cxx
   wrap_itkTernaryMagnitudeImageFilter.cxx
 )
 
