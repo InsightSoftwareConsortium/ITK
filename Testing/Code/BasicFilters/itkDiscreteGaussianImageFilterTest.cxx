@@ -37,6 +37,17 @@ int itkDiscreteGaussianImageFilterTest(int , char * [] )
         itk::DiscreteGaussianImageFilter<ImageType, ImageType>::New();
       FilterWatcher watcher(filter);
 
+      // Test other set/get functions
+      itk::DiscreteGaussianImageFilter<ImageType, ImageType>::ArrayType array;
+      array[0] = 0.05;
+      array[1] = 0.06;
+      array[2] = 0.07;
+      filter->SetMaximumError( array );
+
+      array.Fill( 0.04 );
+      filter->SetMaximumError( array.GetDataPointer() );
+
+      // set some parameters
       filter->SetVariance(1.0);
       filter->SetMaximumError(.01);
       

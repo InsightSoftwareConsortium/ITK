@@ -142,24 +142,24 @@ public:
       this->SetVariance(dv);
     }
 
-  void SetMaxiumumError (const double *v)
+  void SetMaximumError (const double *v)
     {
       ArrayType dv;
       for (unsigned int i = 0; i < ImageDimension; i++)
         {
         dv[i] = v[i];
         }
-      this->SetMaxiumumError(dv);
+      this->SetMaximumError(dv);
     }
 
-  void SetMaxiumumError (const float *v)
+  void SetMaximumError (const float *v)
     {
       ArrayType dv;
       for (unsigned int i = 0; i < ImageDimension; i++)
         {
         dv[i] = v[i];
         }
-      this->SetMaxiumumError(dv);
+      this->SetMaximumError(dv);
     }
 
   /** Use the image spacing information in calculations. Use this option if you
