@@ -33,8 +33,10 @@
 #include "itkFEMElement2DC0LinearLineStress.h"
 #include "itkFEMElement2DC1Beam.h"
 #include "itkFEMElement2DC0LinearTriangularStress.h"
+#include "itkFEMElement2DC0LinearTriangularStrain.h"
 #include "itkFEMElement2DC0LinearTriangularMembrane.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStress.h"
+#include "itkFEMElement2DC0LinearQuadrilateralStrain.h"
 #include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
 #include "itkFEMElement3DC0LinearTetrahedronStrain.h"
 #include "itkFEMElement3DC0LinearHexahedronStrain.h"
@@ -77,6 +79,10 @@ void LoadImplementationsRegister(void)
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
 
+  // Loads acting on QuadrilateralStrain element
+  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStrain,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
+  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStrain,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
+
   // Loads acting on QuadrilateralMembrane element
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralMembrane,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralMembrane,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
@@ -84,6 +90,10 @@ void LoadImplementationsRegister(void)
   // Loads acting on TriangularStress element
   REGISTER_LOAD_EX(Element2DC0LinearTriangularStress,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
   REGISTER_LOAD_EX(Element2DC0LinearTriangularStress,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
+
+  // Loads acting on TriangularStrain element
+  REGISTER_LOAD_EX(Element2DC0LinearTriangularStrain,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
+  REGISTER_LOAD_EX(Element2DC0LinearTriangularStrain,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
 
   // Loads acting on TriangularMembrane element
   REGISTER_LOAD_EX(Element2DC0LinearTriangularMembrane,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);

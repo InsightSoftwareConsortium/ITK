@@ -10,11 +10,14 @@ SET(FEM_SRCS
   itkFEMElement2DC0LinearQuadrilateral.cxx
   itkFEMElement2DC0LinearQuadrilateralMembrane.cxx
   itkFEMElement2DC0LinearQuadrilateralStress.cxx
+  itkFEMElement2DC0LinearQuadrilateralStrain.cxx
   itkFEMElement2DC0LinearTriangular.cxx
   itkFEMElement2DC0LinearTriangularMembrane.cxx
   itkFEMElement2DC0LinearTriangularStress.cxx
+  itkFEMElement2DC0LinearTriangularStrain.cxx
   itkFEMElement2DC0QuadraticTriangular.cxx
   itkFEMElement2DC0QuadraticTriangularStress.cxx
+  itkFEMElement2DC0QuadraticTriangularStrain.cxx
   itkFEMElement3DC0LinearHexahedron.cxx
   itkFEMElement3DC0LinearHexahedronMembrane.cxx
   itkFEMElement3DC0LinearHexahedronStrain.cxx
