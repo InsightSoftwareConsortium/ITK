@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkVOLImageIO_h
 
 #include "itkImageIOBase.h"
-#include "vcl/vcl_cstdio.h"
+#include "stdio.h"
 #ifndef VOL_MAGIC_NUMBER
 #define VOL_MAGIC_NUMBER 0x21654387
 #endif
