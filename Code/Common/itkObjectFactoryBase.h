@@ -170,11 +170,6 @@ protected:
 public:
   struct OverrideInformation
   {
-    bool operator==(const OverrideInformation& lhs)
-      {
-	return (m_Description == lhs.m_Description
-		&& m_OverrideWithName == lhs.m_OverrideWithName);
-      }
     std::string m_Description;
     std::string m_OverrideWithName;
     bool m_EnabledFlag;
@@ -218,6 +213,14 @@ private:
   unsigned long m_LibraryDate;
   std::string m_LibraryPath;
 };
+
+
+bool operator==(const itkObjectFactoryBase::OverrideInformation& rhs, 
+		const itkObjectFactoryBase::OverrideInformation& lhs)
+      {
+	return (rhs.m_Description == lhs.m_Description
+		&& rhs.m_OverrideWithName == lhs.m_OverrideWithName);
+      }
 
 
 #endif
