@@ -44,6 +44,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include "vnl/vnl_vector_fixed.h"
 #include "itkScalarVector.h"
+#include "itkImageRegionIterator.h"
+#include "itkConicShellInteriorExteriorSpatialFunction.h"
+#include "itkFloodFilledSpatialFunctionConditionalIterator.h"
+#include "itkBloxBoundaryPointItem.h"
+#include "itkBloxCoreAtomItem.h"
 #include "itkBloxCoreAtomImage.h"
 
 namespace itk
