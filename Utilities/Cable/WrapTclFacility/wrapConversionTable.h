@@ -187,27 +187,6 @@ struct PointerDerivedToBase
 // Conversion functions returning references:
 
 /**
- * A few details needed for the CastHack class.
- * The sizeof(check) hack is adapted from the boost type_traits library in
- * cb_type_traits.h.
- */
-namespace CastHackDetails
-{
-  template <int> struct void_caster;
-  template <> struct void_caster<0> { inline static void* Cast(void* v) { return v; } };
-  template <> struct void_caster<1> { inline static const void* Cast(void* v) { return const_cast<const void*>(v); } };
-  
-  struct Checker
-  {
-    typedef char (&no)[1];
-    typedef char (&yes)[2];
-    static no check(void*);
-    static yes check(const void*);
-  };
-};
-
-
-/**
  * A bug in GCC 2.95.3 prevents static_cast from adding a const like this:
  * void* v; const int* i = static_cast<const int*>(v);
  * However, we can't use a const_cast to add it because it is not allowed
@@ -216,17 +195,26 @@ namespace CastHackDetails
  *
  * A simple "is_const" class uses partial specialization.  Therefore,
  * we use this ultra-hack version.
+ * The sizeof(check) hack is adapted from the boost type_traits library in
+ * cb_type_traits.h.
  */
-template <typename T>
-class CastHack
+namespace CastHack
 {
-private:
-  static T t;
-  enum { isconst = (sizeof(CastHackDetails::Checker::check(&t))
-                    == sizeof(CastHackDetails::Checker::yes)) };
-public:
-  typedef CastHackDetails::void_caster<isconst> Caster;
-};
+  typedef char (&no)[1];
+  typedef char (&yes)[2];
+  struct Checker { static no check(void*); static yes check(const void*); };
+  template <size_t> struct void_caster;
+  template <> struct void_caster<sizeof(no)> { inline static void* Cast(void* v) { return v; } };
+  template <> struct void_caster<sizeof(yes)> { inline static const void* Cast(void* v) { return const_cast<const void*>(v); } };
+  template <typename T>
+  class GetCaster
+  {
+    static T t;
+    enum { result = sizeof(Checker::check(&t)) };
+  public:
+    typedef void_caster<result> Caster;
+  };
+} // namespace CastHack
 
 
 /**
@@ -240,7 +228,7 @@ struct ReferenceIdentity
     // This should be
     // return *static_cast<To*>(in);
     // but GCC doesn't like static_cast to add a const qualifier.
-    return *static_cast<To*>(CastHack<To>::Caster::Cast(in));
+    return *static_cast<To*>(CastHack::GetCaster<To>::Caster::Cast(in));
     }
   inline static ConversionFunction GetConversionFunction()
     {
