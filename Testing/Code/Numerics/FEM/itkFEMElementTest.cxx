@@ -281,7 +281,7 @@ int itkFEMElementTest(int ac, char** av)
       std::cout << comment << "AssembleF()" << std::endl;
       S.AssembleF();            // Assemble the global load vector F
       
-      std::cout << comment << "Solve()"<< std::endl;
+      std::cout << comment << "Calling Solver::Solve()"<< std::endl;
       S.Solve();                // Solve the system Ku=F for u
       
 #if DEBUG_FEM_TESTS
