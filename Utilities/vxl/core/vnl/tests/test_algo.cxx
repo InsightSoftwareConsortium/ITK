@@ -120,7 +120,7 @@ void test_algo()
     TEST_NEAR("vnl_discrete_diff_sym", J(0,1), -18, 1e-6);
   }
   {
-    vnl_matrix<float> A(4,4), B(4,4), L(4,4), R(4,4);
+    vnl_matrix<float> A(4,4,0), B(4,4,0), L(4,4,0), R(4,4,0);
     vnl_vector<float> ar(4), ai(4), b(4);
     vnl_generalized_schur(&A, &B, &ar, &ai, &b, &L, &R);
     TEST("vnl_generalized_schur", true, true);
