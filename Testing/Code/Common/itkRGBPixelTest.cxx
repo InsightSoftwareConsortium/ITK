@@ -26,9 +26,9 @@ int itkRGBPixelTest(int, char* [] )
   
   float val[3] = {1, 0, .5};
   itk::RGBPixel<float> pixel(val);
-  char pixelInit0[3] = {255, 255, 255};
-  char pixelInit1[3] = {255, 255, 244};
-  itk::RGBPixel<char> pixelArray[2];
+  unsigned char pixelInit0[3] = {255, 255, 255};
+  unsigned char pixelInit1[3] = {255, 255, 244};
+  itk::RGBPixel<unsigned char> pixelArray[2];
   pixelArray[0] = pixelInit0;
   pixelArray[1] = pixelInit1;
   

@@ -35,7 +35,7 @@ int itkListSampleTest(int, char* [] )
     {
       for (unsigned int j = 0 ; j < 3 ; j++ )
         {
-          mv[j] = (float)rand() / (float)(RAND_MAX+1)  ;
+          mv[j] = rand() / (RAND_MAX+1.0)  ;
         }
       sample->PushBack(mv) ;
     }

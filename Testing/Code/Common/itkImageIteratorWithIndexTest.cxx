@@ -104,7 +104,7 @@ int itkImageIteratorWithIndexTest(int, char* [] )
   // test the iterators on them
 
   std::cout << "Testing with Image< char, 3 > " << std::endl;
-  IteratorTester< char > TesterC( 255 );
+  IteratorTester< char > TesterC( 127 );
   TesterC.TestIterator();
   TesterC.TestConstIterator();
 
@@ -146,7 +146,7 @@ int itkImageIteratorWithIndexTest(int, char* [] )
   std::cout << "Testing with Image< itk::Vector<char,4>, 3 > " << std::endl;
   typedef itk::Vector<char,4> VC;
   VC vc;
-  vc.Fill( 255 );
+  vc.Fill( 127 );
   IteratorTester< VC > TesterVC( vc );
   TesterVC.TestIterator();
   TesterVC.TestConstIterator();
