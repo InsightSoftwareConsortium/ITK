@@ -130,8 +130,9 @@ const std::type_info& ImageIOBase::GetComponentTypeInfo() const
 #define itkCheckPTypeMacro(type, ntype) \
     ( ptype == typeid(type) ) \
     { \
-    this->SetPixelType(ImageIOBase::SCALAR); \
+    this->SetNumberOfComponents(1); \
     this->SetComponentType(ImageIOBase::ntype); \
+    this->SetPixelType(ImageIOBase::SCALAR); \
     } \
   else if ( ptype == typeid(RGBPixel<type>) ) \
     { \
@@ -222,10 +223,12 @@ const std::type_info& ImageIOBase::GetComponentTypeInfo() const
 
 bool ImageIOBase::SetPixelTypeInfo(const std::type_info& ptype)
 {
+
   this->SetNumberOfComponents(1);
   this->SetPixelType(ImageIOBase::UNKNOWNPIXELTYPE);
   this->SetComponentType(ImageIOBase::UNKNOWNCOMPONENTTYPE);
 
+  
   if itkCheckPTypeMacro(char, CHAR)
   else if itkCheckPTypeMacro(unsigned char, UCHAR)
   else if itkCheckPTypeMacro(short, SHORT)
@@ -265,12 +268,18 @@ bool ImageIOBase::SetPixelTypeInfo(const std::type_info& ptype)
 
 
 
-  if( this->GetPixelType()     == ImageIOBase::UNKNOWNPIXELTYPE    ||
-      this->GetComponentType() == ImageIOBase::UNKNOWNCOMPONENTTYPE )
+  if( this->GetPixelType()     == ImageIOBase::UNKNOWNPIXELTYPE )
     {
-    itkExceptionMacro("Pixel type currently not supported.");
+    itkExceptionMacro("Pixel type currently not supported. typeid.name = " << ptype.name() );
     return false;
     }
+
+  if( this->GetComponentType() == ImageIOBase::UNKNOWNCOMPONENTTYPE )
+    {
+    itkExceptionMacro("Pixel Component type currently not supported. typeid.name = " << ptype.name() );
+    return false;
+    }
+
 
   return true;
 }
