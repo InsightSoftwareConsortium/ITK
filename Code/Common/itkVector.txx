@@ -212,14 +212,15 @@ Vector<T, TVectorDimension>
  * Returns vector's Squared Euclidean Norm
  */
 template<class T, unsigned int TVectorDimension>
-T
+typename Vector<T, TVectorDimension>::ValueType
 Vector<T, TVectorDimension>
 ::GetSquaredNorm( void ) const
 {
-  T sum = 0;  // consider a trait for null here ?
+  ITK_FUNCTION_REQUIRES2(int, ValueType, ConvertibleConcept);
+  ValueType sum = 0;  // consider a trait for null here ?
   for( unsigned int i=0; i<TVectorDimension; i++) 
   {
-    const T value = (*this)[i];
+    const ValueType value = (*this)[i];
     sum += value * value;
   }
   return sum;
@@ -231,11 +232,13 @@ Vector<T, TVectorDimension>
  * Returns vector's Euclidean Norm
  */
 template<class T, unsigned int TVectorDimension>
-T
+typename Vector<T, TVectorDimension>::ValueType
 Vector<T, TVectorDimension>
 ::GetNorm( void ) const
 {
-  return T(sqrt( double(this->GetSquaredNorm()) )); 
+  ITK_FUNCTION_REQUIRES2(ValueType, double, ConvertibleConcept);
+  ITK_FUNCTION_REQUIRES2(double, ValueType, ConvertibleConcept);
+  return ValueType(sqrt( double(this->GetSquaredNorm()) )); 
 }
 
 

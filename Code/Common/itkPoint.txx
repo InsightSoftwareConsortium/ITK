@@ -175,14 +175,15 @@ Point<T, TPointDimension>
  * Returns Squared Euclidean distance between two points
  */
 template<class T, unsigned int TPointDimension>
-T
+typename Point<T, TPointDimension>::ValueType
 Point<T, TPointDimension>
 ::SquaredEuclideanDistanceTo( const Point<T, TPointDimension> & pnt )  const
 {
-  T sum = 0;  // consider to use a trait for null here...
+  ITK_FUNCTION_REQUIRES2(int, ValueType, ConvertibleConcept);
+  ValueType sum = 0;  // consider to use a trait for null here...
   for( unsigned int i=0; i<TPointDimension; i++) 
   {
-    const T difference = (*this)[i] - pnt[i];
+    const ValueType difference = (*this)[i] - pnt[i];
     sum += difference * difference;
   }
   return sum;
@@ -194,13 +195,15 @@ Point<T, TPointDimension>
  * Returns Euclidean distance between two points
  */
 template<class T, unsigned int TPointDimension>
-T
+typename Point<T, TPointDimension>::ValueType
 Point<T, TPointDimension>
 ::EuclideanDistanceTo( const Point<T, TPointDimension> & pnt )  const
 {
+  ITK_FUNCTION_REQUIRES2(ValueType, double, ConvertibleConcept);
+  ITK_FUNCTION_REQUIRES2(double, ValueType, ConvertibleConcept);
   const double distance = sqrt( 
                 static_cast<double>( SquaredEuclideanDistanceTo( pnt ) ) ) ;
-  return static_cast<T>( distance );
+  return static_cast<ValueType>( distance );
 }
  
 

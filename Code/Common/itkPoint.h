@@ -43,8 +43,10 @@ namespace itk
  */
 
 template<class TCoordRep, unsigned int TPointDimension=3>
-class Point : public Array< TCoordRep, TPointDimension > {
- public:
+class Point : public Array< TCoordRep, TPointDimension >
+{
+  ITK_CLASS_REQUIRES(TCoordRep, AdditiveOperatorsConcept);
+public:
   /**
    * Standard "Self" typedef.
    */
