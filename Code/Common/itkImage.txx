@@ -21,7 +21,6 @@
 #define _itkImage_txx
 #include "itkImage.h"
 #include "itkProcessObject.h"
-#include "itkImageRegionIterator.h"
 namespace itk
 {
 
@@ -92,11 +91,12 @@ void
 Image<TPixel, VImageDimension>
 ::FillBuffer (const TPixel& value)
 {
-  ImageRegionIterator<Self> it(this,this->GetBufferedRegion());
-  while(!it.IsAtEnd())
+  const unsigned long numberOfPixels =
+          this->GetBufferedRegion().GetNumberOfPixels();
+
+  for(unsigned int i=0; i<numberOfPixels; i++) 
     {
-    it.Set(value);
-    ++it;
+    m_Buffer[i] = value;
     }
 }
 
