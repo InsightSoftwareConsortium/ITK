@@ -271,7 +271,7 @@ EXCLUDE_PATTERNS      =
 # directories that contain example code fragments that are included (see 
 # the \include command). 
 
-EXAMPLE_PATH          = 
+EXAMPLE_PATH          = "@ITK_SOURCE_DIR@/Testing/Code"
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the 
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
@@ -284,7 +284,7 @@ EXAMPLE_PATTERNS      =
 # directories that contain image that are included in the documentation (see 
 # the \image command). 
 
-IMAGE_PATH            = 
+IMAGE_PATH            = "@ITK_SOURCE_DIR@/Documentation/Art"
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should 
 # invoke to filter for each input file. Doxygen will invoke the filter program 
