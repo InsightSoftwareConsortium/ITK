@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkNonThreadedShrinkImageFilter_txx
 
 #include "itkNonThreadedShrinkImageFilter.h"
+#include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
 
 namespace itk
