@@ -77,7 +77,7 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
   m_ThreadMatches.resize( this->GetNumberOfThreads() );
   m_ThreadCounts.resize( this->GetNumberOfThreads() );
 
-  std::vector<MeasureType>::iterator mIt;
+  typename std::vector<MeasureType>::iterator mIt;
   std::vector<unsigned long>::iterator cIt;
   for (mIt = m_ThreadMatches.begin(), cIt = m_ThreadCounts.begin();
        mIt != m_ThreadMatches.end(); ++mIt, ++cIt)
