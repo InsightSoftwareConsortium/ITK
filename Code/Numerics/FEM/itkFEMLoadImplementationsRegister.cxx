@@ -27,6 +27,8 @@
 #include "itkFEMLoadEdge.h"
 #include "itkFEMLoadLandmark.h"
 
+#include "itkFEMLoadImplementationGenericBodyLoad.h"
+
 #include "itkFEMElement2DC0LinearLineStress.h"
 #include "itkFEMElement2DC1Beam.h"
 #include "itkFEMElement2DC0LinearTriangularStress.h"
@@ -39,40 +41,6 @@ namespace fem {
 
 
 
-
-/**
- * \class GenericBodyLoad
- * \brief Templated class that holds a generic body load implementation.
- *
- * The only useful part of this class is a static function HandleLoad
- * This function is declared within a class only to avoid problems with
- * MS compiler. The real gravyty load implementation is in function
- * LoadImplementationGenericBodyLoad.
- *
- * \sa LoadImplementationGenericBodyLoad()
- */
-extern Element::VectorType LoadImplementationGenericBodyLoad(Element::ConstPointer, LoadGrav::Pointer);
-
-namespace {
-template<class TElementClass>
-class GenericBodyLoad
-{
-public:
-  static Element::VectorType HandleBodyLoad(typename TElementClass::ConstPointer e, Element::LoadElementPointer l)
-  {
-    LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*l);
-    if ( !l0 )
-    {
-      // Passed load object was not of class LoadGrav!
-      throw FEMException(__FILE__, __LINE__, "FEM error");
-    }
-    Element::ConstPointer e0=e;
-
-    return LoadImplementationGenericBodyLoad(e0,l0);
-  }
-
-};
-} // end namespace
 
 /* This macro makes registering Load implementations easier. */
 #define REGISTER_LOAD_EX(ElementClass,LoadClass,FunctionName) \
@@ -94,25 +62,25 @@ void LoadImplementationsRegister(void)
 {
 
   // Loads acting on LineStress element
-  REGISTER_LOAD_EX(Element2DC0LinearLineStress,LoadGravConst,GenericBodyLoad<Element2DC0LinearLineStress>::HandleBodyLoad);
+  REGISTER_LOAD_EX(Element2DC0LinearLineStress,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
 
   // Loads acting on Beam element
-  REGISTER_LOAD_EX(Element2DC1Beam,LoadGravConst,GenericBodyLoad<Element2DC1Beam>::HandleBodyLoad);
+  REGISTER_LOAD_EX(Element2DC1Beam,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
 
   // Loads acting on QuadrilateralStress element
-  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,LoadGravConst,GenericBodyLoad<Element2DC0LinearQuadrilateralStress>::HandleBodyLoad);
+  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
 
   // Landmark loads acting on QuadrilateralStress elements
   REGISTER_LOAD(Element2DC0LinearQuadrilateralStress,LoadLandmark,LoadImplementationLandmarkLoadOnElement2DC0LinearQuadrilateralStress);
 
   // Loads acting on TriangularStress element
-  REGISTER_LOAD_EX(Element2DC0LinearTriangularStress,LoadGravConst,GenericBodyLoad<Element2DC0LinearTriangularStress>::HandleBodyLoad);
+  REGISTER_LOAD_EX(Element2DC0LinearTriangularStress,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
 
   // Loads acting on HexahedronStrain element
-  REGISTER_LOAD_EX(Element3DC0LinearHexahedronStrain,LoadGravConst,GenericBodyLoad<Element3DC0LinearHexahedronStrain>::HandleBodyLoad);
+  REGISTER_LOAD_EX(Element3DC0LinearHexahedronStrain,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
 
   // Loads acting on TetrahedronStrain element
-  REGISTER_LOAD_EX(Element3DC0LinearTetrahedronStrain,LoadGravConst,GenericBodyLoad<Element3DC0LinearTetrahedronStrain>::HandleBodyLoad);
+  REGISTER_LOAD_EX(Element3DC0LinearTetrahedronStrain,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
   
 
   // Add any additional loads here in a similar fashion...

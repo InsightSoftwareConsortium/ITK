@@ -20,9 +20,7 @@
 #pragma warning(disable: 4786)
 #endif
 
-#include "itkFEMElementBase.h"
-#include "itkFEMElement2DC0LinearQuadrilateralStress.h"
-#include "itkFEMLoadGrav.h"
+#include "itkFEMLoadImplementationGenericBodyLoad.h"
 
 namespace itk {
 namespace fem {
@@ -30,7 +28,7 @@ namespace fem {
 
 
 
-/**
+/*
  * Handle LoadGrav in element by integrating over the element domain.
  * This implementation requires that the element has the shape functions
  * and integration routines defined.
@@ -38,7 +36,9 @@ namespace fem {
  * It is also assumed, that element's local DOFs are numbered with respect
  * to node ID. If this is not the case, you should not use this function.
  */
-Element::VectorType LoadImplementationGenericBodyLoad(Element::ConstPointer element, LoadGrav::Pointer load)
+Element::VectorType
+LoadImplementationGenericBodyLoad
+::Implementation(Element::ConstPointer element, LoadGrav::Pointer load)
 {
   // Order of integration
   // FIXME: Allow changing the order of integration by setting a 

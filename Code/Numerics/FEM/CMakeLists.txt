@@ -113,6 +113,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadLandmark.h
   itkFEMImageMetricLoad.h
 
+  itkFEMLoadImplementationGenericBodyLoad.h
   itkFEMLoadImplementationTest.h
   itkFEMImageMetricLoadImplementation.h
 
