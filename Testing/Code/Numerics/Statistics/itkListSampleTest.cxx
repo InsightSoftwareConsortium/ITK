@@ -76,6 +76,34 @@ int itkListSampleTest(int, char* [] )
       whereFail = "Iterator: End()" ;
     }
 
+
+
+  // ConstIterator test
+  {
+  SampleType::ConstIterator s_iter = sample->Begin();
+  SampleType::ConstIterator s_end = sample->End();
+  unsigned int id = 0 ;
+  while ( s_iter != s_end )
+    {
+      if (sample->GetMeasurementVector(id) != 
+          s_iter.GetMeasurementVector())
+        {
+          pass = false ;
+          whereFail = "Iterator: GetMeasurementVector()" ;
+        }
+      ++id ;
+      ++s_iter ;
+    }
+
+  if (s_iter != sample->End())
+    {
+      pass = false ;
+      whereFail = "Iterator: End()" ;
+    }
+
+  }
+
+
   SampleType::SearchResultVectorType searchResult ;
   sample->Search(sample->GetMeasurementVector(25), 0.01, searchResult) ;
 
