@@ -270,6 +270,8 @@ int main(void)
   bbox->ComputeBoundingBox();
   std::cout << bbox << std::endl;
 
+  mesh->Initialize();
+
   return 0;  
 }
 
