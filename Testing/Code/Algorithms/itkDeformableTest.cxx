@@ -37,8 +37,7 @@
 #include "itkShrinkImageFilter.h"
 #include "itkBinaryMask3DMeshSource.h"
 
-
-int itkDeformableTest(int , char *[])
+int itkDeformableTest(int argc, char **argv)
 {
   int WIDTH = 32;
   int HEIGHT = 32;
@@ -259,13 +258,13 @@ int itkDeformableTest(int , char *[])
   m_stiff[1] = 0.1;
 
   double3DVector m_scale;
-  m_scale[0] = 4;
-  m_scale[1] = 4; 
-  m_scale[2] = 3;
+  m_scale[0] = 1;
+  m_scale[1] = 1; 
+  m_scale[2] = 1;
   m_dfilter->SetStiffness(m_stiff);
   m_dfilter->SetGradientMagnitude(1.0);
   m_dfilter->SetTimeStep(0.01);
-  m_dfilter->SetStepThreshold(360);
+  m_dfilter->SetStepThreshold(100);
   m_dfilter->SetScale(m_scale);
   m_dfilter->SetObjectLabel(1);
   m_dfilter->SetPotentialOn(0);
