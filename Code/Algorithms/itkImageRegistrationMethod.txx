@@ -50,6 +50,18 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
+/*
+ * Set the initial transform parameters
+ */
+template < typename TFixedImage, typename TMovingImage >
+void
+ImageRegistrationMethod<TFixedImage,TMovingImage>
+::SetInitialTransformParameters( const ParametersType & param )
+{
+  m_InitialTransformParameters = param;
+  this->Modified();
+}
+
 
 /*
  * Set the region of the fixed image to be considered for registration

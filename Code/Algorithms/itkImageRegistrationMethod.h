@@ -131,7 +131,7 @@ public:
   itkGetObjectMacro( Interpolator, InterpolatorType );
 
   /** Set/Get the initial transformation parameters. */
-  itkSetMacro( InitialTransformParameters, ParametersType );
+  virtual void SetInitialTransformParameters( const ParametersType & param );
   itkGetConstReferenceMacro( InitialTransformParameters, ParametersType );
 
   /** Get the last transformation parameters visited by 
