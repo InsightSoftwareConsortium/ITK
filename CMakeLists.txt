@@ -25,12 +25,14 @@ IF (BUILD_TESTING)
   ENABLE_TESTING()
   SUBDIRS(Testing)
 
+  # Dart server to submit results (used by client)
   SET (DROP_SITE "public.kitware.com" CACHE INTERNAL "FTP site for submitting testing results")
   SET (DROP_LOCATION "/incoming" CACHE INTERNAL "Directory on FTP site to place testing results")
   SET (DROP_SITE_USER "anonymous" CACHE INTERNAL "Username for FTP site for submitting testing results")
   SET (DROP_SITE_PASSWORD "insight-tester@somewhere.com" CACHE INTERNAL "Password for FTP site for submitting testing results")
   SET (TRIGGER_SITE "http://${DROP_SITE}/cgi-bin/Submit-Insight-TestingResults.pl" CACHE INTERNAL "Web site to signal when testing results have been submitted")
 
+  # Dart server configuration 
   SET (CVS_WEB_URL "http://${DROP_SITE}/cgi-bin/itkcvsweb.cgi/Insight/" CACHE INTERNAL "URL for revision control system")
   SET (DOXYGEN_URL "http://${DROP_SITE}/Insight/Doxygen/html/" CACHE INTERNAL "URL for source code documentation")
   SET (GNATS_WEB_URL "http://${DROP_SITE}/cgi-bin/gnatsweb.pl/Insight/" CACHE INTERNAL "URL for bug tracker")
