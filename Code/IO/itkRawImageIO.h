@@ -81,10 +81,6 @@ public:
   itkSetMacro(FileDimensionality, unsigned long);
   itkGetMacro(FileDimensionality, unsigned long);
   
-  /** Get the type of the pixel.  */
-  virtual const std::type_info& GetPixelTypeInfo() const
-  {return typeid(PixelType);}
-
   /** Get the component type of the pixel.  */
   virtual const std::type_info& GetComponentTypeInfo() const
   {return typeid(ComponentType);}
@@ -150,7 +146,8 @@ public:
   virtual bool SetPixelType(const std::type_info& )
   { return true; }
 
-  virtual void SetPixelType(const IODataType ) {}
+  virtual void SetPixelType(const IOPixelType ) {}
+  virtual void SetComponentType(const IOComponentType ) {}
 protected:
   RawImageIO();
   ~RawImageIO();
