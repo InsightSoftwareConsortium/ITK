@@ -57,7 +57,6 @@ typename CovarianceImageFunction<TInputImage,TCoordRep>
 CovarianceImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(const IndexType& index) const
 {
-  RealType covariance;
   typedef  typename TInputImage::PixelType  PixelType;
   typedef  typename PixelType::ValueType    PixelComponentType;
 
@@ -66,11 +65,13 @@ CovarianceImageFunction<TInputImage,TCoordRep>
   const unsigned int VectorDimension = 
       ::itk::GetVectorDimension< PixelType >::VectorDimension;
 
-  covariance = vnl_matrix< PixelComponentRealType >( VectorDimension, VectorDimension );
-  covariance.fill( NumericTraits< PixelComponentRealType >::Zero );
+  RealType covariance = RealType( VectorDimension, VectorDimension );
   
+
+
   if( !m_Image )
     {
+    itkExceptionMacro( << "No image connected to CovarianceImageFunction");
     covariance.fill( NumericTraits< PixelComponentRealType >::max() );
     return covariance;
     }
@@ -80,6 +81,13 @@ CovarianceImageFunction<TInputImage,TCoordRep>
     covariance.fill( NumericTraits< PixelComponentRealType >::max() );
     return covariance;
     }
+
+  covariance.fill( NumericTraits< PixelComponentRealType >::Zero );
+
+
+  typedef vnl_vector< PixelComponentRealType >    MeanVectorType;
+  MeanVectorType mean = MeanVectorType( VectorDimension ); 
+  mean.fill( NumericTraits< PixelComponentRealType >::Zero );
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
   typename InputImageType::SizeType kernelSize;
@@ -95,21 +103,31 @@ CovarianceImageFunction<TInputImage,TCoordRep>
   const unsigned int size = it.Size();
   for (unsigned int i = 0; i < size; ++i)
     {
+    const PixelType pixel = it.GetPixel(i);
+
     for(unsigned int dimx=0; dimx<VectorDimension; dimx++)
       {
+      mean[ dimx ] += pixel[ dimx ];
       for(unsigned int dimy=0; dimy<VectorDimension; dimy++)
         {
         covariance[dimx][dimy] += 
-            static_cast<PixelComponentRealType>( it.GetPixel(i)[dimx] ) *
-            static_cast<PixelComponentRealType>( it.GetPixel(i)[dimy] );
+            static_cast<PixelComponentRealType>( pixel[dimx] ) *
+            static_cast<PixelComponentRealType>( pixel[dimy] );
         }
       }
     }
+
+  const PixelComponentRealType rsize = 
+          static_cast< PixelComponentRealType >( size );
+
+  mean /= rsize;
+
   for(unsigned int dimx=0; dimx<VectorDimension; dimx++)
     {
     for(unsigned int dimy=0; dimy<VectorDimension; dimy++)
       {
-      covariance[dimx][dimy] /= double(it.Size());
+      covariance[dimx][dimy] /= rsize;
+      covariance[dimx][dimy] -= mean[dimx] * mean[dimy];
       }
     }
              
