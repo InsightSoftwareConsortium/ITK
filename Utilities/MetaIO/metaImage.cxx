@@ -902,7 +902,14 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
       {
       MET_SetFileSuffix(m_FileName, "mhd");
       strcpy(m_ElementDataFileName, m_FileName);
-      MET_SetFileSuffix(m_ElementDataFileName, "raw");
+      if(m_CompressedData)
+        {
+        MET_SetFileSuffix(m_ElementDataFileName, "zraw");
+        }
+      else
+        {
+        MET_SetFileSuffix(m_ElementDataFileName, "raw");
+        }
       }
     }
   else if(_dataName != NULL)
