@@ -31,7 +31,7 @@ namespace itk
  * are performed in the precison of the input pixel's RealType. Before
  * assigning the computed value to the output pixel, the value is clamped
  * at the NonpositiveMin and max of the pixel type.
- * \ingroup GeometricTransforms
+ * \ingroup IntensityImageFilters
  *
  */
 template <class TInputImage, class TOutputImage>
