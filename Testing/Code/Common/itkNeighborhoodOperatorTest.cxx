@@ -65,13 +65,17 @@ int itkNeighborhoodOperatorTest(int, char* [] )
   a.CreateOperator();
   a.Print(std::cout);
 
-  println("Testing SobelOperator");
+  println("Testing SobelOperator2D");
   itk::SobelOperator<float, 2, vnl_vector<float> > c;
   c.SetDirection(0);
   c.CreateDirectional();
   c.Print(std::cout);
 
-
+  println("Testing SobelOperator3D");
+  itk::SobelOperator<float, 3, vnl_vector<float> > c2;
+  c2.SetDirection(0);
+  c2.CreateDirectional();
+  c2.Print(std::cout);
 
   return 0;
 }
