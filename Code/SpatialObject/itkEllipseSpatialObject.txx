@@ -101,13 +101,13 @@ EllipseSpatialObject< TDimension >
         {   
         if(m_Radius[i]>0)
           {
-          pnt[i]=m_Radius[i];
-          pnt2[i]=-m_Radius[i];
+          pnt[i]=-m_Radius[i];
+          pnt2[i]=m_Radius[i];
           }
         else
           {
-          pnt[i]=-m_Radius[i];
-          pnt2[i]=m_Radius[i];
+          pnt[i]=m_Radius[i];
+          pnt2[i]=-m_Radius[i];
           }
         } 
     
