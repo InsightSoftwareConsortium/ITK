@@ -211,7 +211,7 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
   m_Spacing[2] = 1.0;
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
-  m_Origin[2] = 1.0;
+  m_Origin[2] = 0.0;
 
   if ( text.find("DIMENSIONS") < text.length() || 
        text.find("dimensions") < text.length() )
@@ -484,7 +484,7 @@ void VTKImageIO::Write(const void* buffer)
       ByteSwapper<float>::SwapRangeFromSystemToBigEndian(reinterpret_cast<float *>(tempmemory), this->GetImageSizeInComponents() );
       }
       break;
-      case 6:
+      case 8:
       {
       ByteSwapper<double>::SwapRangeFromSystemToBigEndian(reinterpret_cast<double *>(tempmemory), this->GetImageSizeInComponents() );
       }
