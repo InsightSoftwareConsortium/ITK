@@ -376,7 +376,7 @@ DataObject
     // invalid requested region, throw an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     OStringStream msg;
-    msg << (char *)this->GetNameOfClass()
+    msg << static_cast<const char *>(this->GetNameOfClass())
         << "::PropagateRequestedRegion()";
     e.SetLocation(msg.str().c_str());
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
