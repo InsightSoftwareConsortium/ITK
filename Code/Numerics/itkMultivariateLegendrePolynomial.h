@@ -93,13 +93,6 @@ public:
   /** Destructor. */
   virtual ~MultivariateLegendrePolynomial();
 
-  /** Constructor calls this function. So there is no need to
-   * call separately. However, if you want to set parameters to
-   * zeros, call this.
-   * Allocates memory for the internal coefficients array 
-   * and caches. */
-  void Initialize(void) ;
-
   /** Gets the dimension. */
   unsigned int GetDimension(void) const 
   { return m_Dimension ; }
@@ -138,7 +131,7 @@ public:
    * \warning The number of coefficients provided should
    * match the number returned by GetNumberOfCoefficients()
    * otherwise an exception is thrown.  */
-  void SetCoefficients(const CoefficientArrayType & coef) 
+  void SetCoefficients(const CoefficientArrayType& coef) 
     throw (CoefficientVectorSizeMismatch) ;
 
   /** Gets Legendre polynomials' coefficients. */
@@ -153,14 +146,14 @@ public:
       if (index[1] != m_PrevY)
         {
         // normalized y [-1, 1]
-        double norm_y =  (*m_NormFactor)[1] *
+        double norm_y =  m_NormFactor[1] *
           static_cast<double>( index[1] - 1 );
         CalculateXCoef(norm_y, m_CoefficientArray) ;
         m_PrevY = index[1] ;
         }
         
       // normalized x [-1, 1]
-      double norm_x =  (*m_NormFactor)[0] *
+      double norm_x =  m_NormFactor[0] *
         static_cast<double>( index[0] - 1 );
         
       return LegendreSum(norm_x, m_Degree, m_CachedXCoef) ;
@@ -170,7 +163,7 @@ public:
       if (m_PrevZ != index[2])
         {
         // normalized z [-1, 1]  
-        double norm_z =  (*m_NormFactor)[2] *
+        double norm_z =  m_NormFactor[2] *
           static_cast<double>( index[2] - 1 );
         CalculateYCoef(norm_z, m_CoefficientArray) ;
         m_PrevZ = index[2] ;
@@ -179,14 +172,14 @@ public:
       if (m_PrevY != index[1])
         {
         // normalized y [-1, 1]
-        double norm_y =  (*m_NormFactor)[1] *
+        double norm_y =  m_NormFactor[1] *
           static_cast<double>( index[1] - 1 ); 
         CalculateXCoef(norm_y, m_CachedYCoef) ;
         m_PrevY = index[1] ;
         }
         
       // normalized x [-1, 1]
-      double norm_x =  (*m_NormFactor)[0] *
+      double norm_x =  m_NormFactor[0] *
         static_cast<double>( index[0] - 1 ); 
       return LegendreSum(norm_x, m_Degree, m_CachedXCoef) ;
       }
@@ -258,10 +251,10 @@ public:
   } ; // end of class Iterator 
   
 protected:
-  double LegendreSum(const double x, int n, const CoefficientArrayType* coef,
+  double LegendreSum(const double x, int n, const CoefficientArrayType& coef,
                      int offset = 0); 
-  void CalculateXCoef(double norm_y, const CoefficientArrayType* coef);
-  void CalculateYCoef(double norm_z, const CoefficientArrayType* coef);
+  void CalculateXCoef(double norm_y, const CoefficientArrayType& coef);
+  void CalculateYCoef(double norm_z, const CoefficientArrayType& coef);
 
 private:
   DomainSizeType m_DomainSize;
@@ -271,11 +264,15 @@ private:
   bool m_MultiplicativeBias; 
   
   //   CoefficientVectorType   m_CoefficientVector;
-  CoefficientArrayType* m_CoefficientArray;
-  CoefficientArrayType* m_CachedXCoef;
-  CoefficientArrayType* m_CachedYCoef;
-  CoefficientArrayType* m_CachedZCoef;
-  DoubleArrayType* m_NormFactor;
+  CoefficientArrayType m_CoefficientArray;
+  CoefficientArrayType m_CachedXCoef;
+  CoefficientArrayType m_CachedYCoef;
+  CoefficientArrayType m_CachedZCoef;
+//   CoefficientArrayType* m_CoefficientArray;
+//   CoefficientArrayType* m_CachedXCoef;
+//   CoefficientArrayType* m_CachedYCoef;
+//   CoefficientArrayType* m_CachedZCoef;
+  DoubleArrayType m_NormFactor;
   long m_PrevY ;
   long m_PrevZ ;
 } ; // end of class
