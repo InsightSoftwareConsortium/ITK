@@ -21,7 +21,6 @@ int itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTest(int, char* [
   
   //Data definitions 
   const unsigned int  HISTOGRAM_AXIS_LEN =  25;
-  const unsigned int  NDIMENSION       =  2;
 
 
   //------------------------------------------------------
