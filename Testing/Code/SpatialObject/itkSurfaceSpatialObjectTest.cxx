@@ -43,14 +43,14 @@ int itkSurfaceSpatialObjectTest(int, char**)
 
   for( unsigned int i=0; i<10; i++)
   {
-    SurfacePointType::Pointer p = SurfacePointType::New();
-    p->SetPosition(i,i+1,i+2);
+    SurfacePointType p;
+    p.SetPosition(i,i+1,i+2);
     VectorType normal;
     for(unsigned int j=0;j<3;j++)
     {
       normal[j]=j;
     }
-    p->SetNormal(normal);
+    p.SetNormal(normal);
     list.push_back(p);
   }
 
@@ -86,13 +86,13 @@ int itkSurfaceSpatialObjectTest(int, char**)
   {
     for(unsigned int d=0;d<3;d++)
     {
-      if((*it)->GetPosition()[d]!=i+d)
+      if((*it).GetPosition()[d]!=i+d)
       {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
       }
 
-      if((*(*it)->GetNormal())[d]!=d)
+      if((*it).GetNormal()[d]!=d)
       {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;

@@ -43,7 +43,7 @@ int itkImageSpatialObjectTest(int, char**)
   typedef unsigned short Pixel;
   typedef itk::AffineTransform<ScalarType, NDimensions> Transform;
   typedef itk::Image<Pixel,NDimensions> Image;
-  typedef itk::ImageSpatialObject<NDimensions,Transform,Pixel> ImageSpatialObject;
+  typedef itk::ImageSpatialObject<NDimensions,Pixel> ImageSpatialObject;
   typedef ImageSpatialObject::BoundingBoxType BoundingBox;
   typedef itk::ImageRegionIterator<Image> Iterator;
   typedef itk::Point<ScalarType,NDimensions> Point;

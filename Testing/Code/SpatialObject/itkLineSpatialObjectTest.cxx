@@ -40,8 +40,8 @@ int itkLineSpatialObjectTest(int, char**)
 
   for( unsigned int i=0; i<10; i++)
   {
-    LinePointType::Pointer p = LinePointType::New();
-    p->SetPosition(i,i+1,i+2);
+    LinePointType p;
+    p.SetPosition(i,i+1,i+2);
     VectorType normal1;
     VectorType normal2;
     for(unsigned int j=0;j<3;j++)
@@ -50,8 +50,8 @@ int itkLineSpatialObjectTest(int, char**)
       normal2[j]=j*2;
     }
     
-    p->SetNormal(normal1,0);
-    p->SetNormal(normal2,1);
+    p.SetNormal(normal1,0);
+    p.SetNormal(normal2,1);
     list.push_back(p);
   }
 
@@ -87,19 +87,19 @@ int itkLineSpatialObjectTest(int, char**)
   {
     for(unsigned int d=0;d<3;d++)
     {
-      if((*it)->GetPosition()[d]!=i+d)
+      if((*it).GetPosition()[d]!=i+d)
       {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
       }
 
-      if(((*it)->GetNormal(0))[d]!=d)
+      if(((*it).GetNormal(0))[d]!=d)
       {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
       }
       
-      if(((*it)->GetNormal(1))[d]!=2*d)
+      if(((*it).GetNormal(1))[d]!=2*d)
       {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
