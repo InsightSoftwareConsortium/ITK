@@ -118,8 +118,8 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 typename MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::ComputeUpdate(const NeighborhoodType &it, void * globalData,
-                const FloatOffsetType& offset) 
+::ComputeUpdate(const NeighborhoodType &it, void * itkNotUsed(globalData),
+                const FloatOffsetType& itkNotUsed(offset)) 
 {
 
 //std::cout << " Update " << std::endl;

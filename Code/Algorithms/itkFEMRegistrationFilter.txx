@@ -1500,7 +1500,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::EnforceDiffeomorphism(floa
        std::cout << " source " << m_LandmarkArray[lmind]->GetSource() << " target " << m_LandmarkArray[lmind]->GetTarget() << std::endl;
        
        LoadLandmark::Pointer l5=(dynamic_cast<LoadLandmark::Pointer>(m_LandmarkArray[lmind]->Clone()));
-       mySolver.load.push_back[lmind]=(FEMP<Load>(l5));
+       mySolver.load.push_back(FEMP<Load>(l5));
 
      }
      std::cout << " warping landmarks done " << std::endl;

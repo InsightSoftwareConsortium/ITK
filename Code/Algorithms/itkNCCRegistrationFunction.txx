@@ -122,8 +122,8 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 typename NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::ComputeUpdate(const NeighborhoodType &it, void * globalData,
-                const FloatOffsetType& offset) 
+::ComputeUpdate(const NeighborhoodType &it, void * itkNotUsed(globalData),
+                const FloatOffsetType& itkNotUsed(offset)) 
 {
 
   PixelType update;
@@ -146,8 +146,8 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   double sff=0.0;
   double smm=0.0;
   double sfm=0.0;
-  double fixedValue=0.0;
-  double movingValue=0.0;
+  double fixedValue;
+  double movingValue;
 
   double derivativeF[ImageDimension];
   double derivativeM[ImageDimension];
