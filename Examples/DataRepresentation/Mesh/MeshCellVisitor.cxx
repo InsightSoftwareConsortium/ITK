@@ -39,8 +39,11 @@
 #include "itkTetrahedronCell.h"
 
 
-int main()
-{
+
+
+// Software Guide : BeginCodeSnippet
+#include "itkCellInterfaceVisitor.h"
+// Software Guide : EndCodeSnippet
 
 
   typedef float                             PixelType;
@@ -52,6 +55,32 @@ int main()
   typedef itk::LineCell< CellType >         LineType;
   typedef itk::TriangleCell< CellType >     TriangleType;
   typedef itk::TetrahedronCell< CellType >  TetrahedronType;
+
+  // Software Guide : BeginCodeSnippet
+  class CustomTriangleVisitor
+    {
+    public:
+      typedef itk::TriangleCell<CellType>      TriangleType;
+
+    public:
+    void Visit(unsigned long cellId, TriangleType * t )
+      {
+      CellType::PointIdIterator pit = t->PointIdsBegin();
+      CellType::PointIdIterator end = t->PointIdsEnd();
+      std::cout << t->GetNumberOfPoints() << " points = ";
+      while( pit != end )
+        {
+        std::cout <<  *pit << "  ";
+        ++pit;
+        }
+      std::cout << std::endl;
+      }
+    };
+  // Software Guide : EndCodeSnippet
+
+int main()
+{
+
 
   MeshType::Pointer  mesh = MeshType::New();
 
@@ -256,6 +285,98 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  A more convinient approach for visiting the cells in the mesh is provided
+  //  by the implementation of the \emph{Visitor Pattern} discussed in
+  //  \cite{Gamma1995}. The visitor pattern is designed to facilitate to walk
+  //  through an heterogeneous list of object sharing a common base class. A
+  //  visitor class is defined and passed to the Mesh.The mesh will iterate
+  //  through its cells and attempt to pass every cell to the visitor. The
+  //  visitor class is capable of recognizing the cells of its interest and
+  //  operation only on them.
+  //
+  // \index{itk::Mesh!CellInterfaceVisitorImplementation}
+  // \index{itk::Mesh!CellInterfaceVisitor}
+  // \index{itk::Mesh!CellVisitor}
+  // \index{CellVisitor}
+  //
+  //  The following code illustrates how to define a cell visitor. In this
+  //  particular example we create a class \code{CustomTriangleVisitor} which
+  //  will be invoked each time a triangle cell is found while the mesh
+  //  iterates over the cells.
+  //
+  //  Software Guide : EndLatex 
+
+
+  typedef CustomTriangleVisitor CustomVisitorType;
+
+
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::CellInterfaceVisitorImplementation<
+                              PixelType, 
+                              MeshType::CellTraits, 
+                              TriangleType,
+                              CustomVisitorType
+                                       > TriangleVisitorInterfaceType;
+  // Software Guide : EndCodeSnippet
+
+  // Software Guide : BeginCodeSnippet
+  TriangleVisitorInterfaceType::Pointer  triangleVisitor =
+                                   TriangleVisitorInterfaceType::New();
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  A multivisitor class must be instantiated 
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef CellType::MultiVisitor CellMultiVisitorType;
+
+  CellMultiVisitorType::Pointer multiVisitor = CellMultiVisitorType::New();  
+  // Software Guide : EndCodeSnippet
+
+
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The visitor is registered with the Mesh using the \code{AddVisitor()}
+  //  method.
+  //  
+  //  \index{itk::Mesh!AddVisitor()}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  multiVisitor->AddVisitor( triangleVisitor );
+  // Software Guide : EndCodeSnippet
+
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The iteration over the cells is triggered by calling the method
+  //  \code{Accept()} on the \code{itk::Mesh}.
+  // 
+  //  \index{itk::Mesh!Accept()}
+  //
+  //  Software Guide : EndLatex 
+
+
+  // Software Guide : BeginCodeSnippet
+  mesh->Accept( multiVisitor );
+  // Software Guide : EndCodeSnippet
+
+  
 
   return 0;
 
