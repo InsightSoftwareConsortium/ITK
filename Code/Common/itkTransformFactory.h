@@ -17,69 +17,32 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkTransformFactoryBase_h
-#define __itkTransformFactoryBase_h
+#ifndef __itkTransformFactory_h
+#define __itkTransformFactory_h
 
-#include "itkObjectFactoryBase.h"
+#include "itkTransformFactoryBase.h"
 
 namespace itk
 {
-/** \class TransformFactoryBase
+/** \class TransformFactory
  * \brief Create instances of Transforms
  */
 
-class ITKCommon_EXPORT TransformFactory : public ObjectFactoryBase
+template <class T>
+class ITKCommon_EXPORT TransformFactory : public TransformFactoryBase
 {
 public:  
-  /** Standard class typedefs. */
-  typedef TransformFactory   Self;
-  typedef ObjectFactoryBase  Superclass;
-  typedef SmartPointer< Self >   Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
-  
-  /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion(void) const;
-  virtual const char* GetDescription(void) const;
-
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(AnalyzeImageIOFactory, ObjectFactoryBase);
-
-  /** Method for class instantiation. */
-  itkFactorylessNewMacro(Self);
-
-  /** Register all builtin transforms */
-  static void RegisterDefaultTransforms();
-
-  /** Register this transform */
-  template <class T>
-    static void RegisterTransform (T* notused = 0 )
+  static void RegisterTransform ()
     {
-    // Search for singleton, create if not existing
-    if ( m_Factory == 0 )
-      {
-      // Make and register the factory
-      TransformFactory::Pointer p = TransformFactory::New();
-      m_Factory = p.GetPointer();
-      ObjectFactoryBase::RegisterFactory ( p );
-      p->RegisterDefaultTransforms ();
-      }
     typename T::Pointer t = T::New();
-    std::cout << "Registering: " << t->GetTransformTypeAsString() << std::endl;
-    m_Factory->RegisterOverride ( t->GetTransformTypeAsString().c_str(),
-                                  t->GetTransformTypeAsString().c_str(),
-                                  t->GetTransformTypeAsString().c_str(),
-                                  1,
-                                  CreateObjectFunction<T>::New() );
+    // std::cout << "Registering: " << t->GetTransformTypeAsString() << std::endl;
+    TransformFactoryBase::Pointer f = TransformFactoryBase::GetFactory();
+    f->RegisterTransform ( t->GetTransformTypeAsString().c_str(),
+                          t->GetTransformTypeAsString().c_str(),
+                          t->GetTransformTypeAsString().c_str(),
+                          1,
+                          CreateObjectFunction<T>::New() );
     };
-
-protected:
-  TransformFactory();
-  virtual ~TransformFactory();
-
-private:
-  TransformFactory(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  static TransformFactory* m_Factory;
 };
 } // end namespace itk
 

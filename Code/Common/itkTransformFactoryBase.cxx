@@ -1,7 +1,7 @@
 /*=========================================================================
 
 Program:   Insight Segmentation & Registration Toolkit
-Module:    itkTransformFactory.cxx
+Module:    itkTransformFactoryBase.cxx
 Language:  C++
 Date:      $Date$
 Version:   $Revision$
@@ -14,6 +14,7 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include "itkTransformFactoryBase.h"
 #include "itkTransformFactory.h"
 #include "itkVersion.h"
 #include "itkCenteredRigid2DTransform.h"
@@ -21,35 +22,38 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  TransformFactory* TransformFactory::m_Factory = 0;
+  TransformFactoryBase* TransformFactoryBase::m_Factory = 0;
 
-TransformFactory::TransformFactory()
+
+
+
+TransformFactoryBase::TransformFactoryBase()
 {
 }
 
-TransformFactory::~TransformFactory()
+TransformFactoryBase::~TransformFactoryBase()
 {
 }
 
-void TransformFactory::RegisterDefaultTransforms()
+void TransformFactoryBase::RegisterDefaultTransforms()
 {
   if ( !m_Factory )
     {
-    TransformFactory::RegisterTransform<CenteredRigid2DTransform < float > >();
-    TransformFactory::RegisterTransform<AffineTransform<double,3> > ();
+    TransformFactory<CenteredRigid2DTransform < float > >::RegisterTransform();
+    TransformFactory<AffineTransform<double,3> >::RegisterTransform ();
     }
 }
 
 const char*
-TransformFactory::GetITKSourceVersion(void) const
+TransformFactoryBase::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char*
-TransformFactory::GetDescription() const
+TransformFactoryBase::GetDescription() const
 {
-  return "Transform Factory";
+  return "Transform FactoryBase";
 }
 
 } // end namespace itk

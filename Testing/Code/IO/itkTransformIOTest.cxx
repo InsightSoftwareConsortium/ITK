@@ -21,19 +21,32 @@
 #include "itkTransformFileWriter.h"
 #include "itkTransformFileReader.h"
 #include "itkAffineTransform.h"
+#include "itkTransformFactory.h"
 #include "itkSimilarity2DTransform.h"
 #include "itkBSplineDeformableTransform.h"
 
 int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
 {
-  typedef itk::AffineTransform<double,3> AffineTransformType;
+  unsigned int i;
+  // Create an odd type of transform, and register it
+  typedef itk::AffineTransform<double,6> AffineTransformType;
+  itk::TransformFactory<AffineTransformType>::RegisterTransform();
   AffineTransformType::Pointer affine = AffineTransformType::New();
   AffineTransformType::InputPointType cor;
-  cor[0] = 1.0;
-  cor[1] = 2.0;
-  cor[2] = 3.0;
-  affine->SetCenter(cor);
 
+  // Set it's parameters
+  AffineTransformType::ParametersType p = affine->GetParameters();
+  for ( i = 0; i < p.GetSize(); i++ )
+    {
+    p[i] = i;
+    }
+  affine->SetParameters ( p );
+  p = affine->GetFixedParameters ();
+  for ( i = 0; i < p.GetSize(); i++ )
+    {
+    p[i] = i;
+    }
+  affine->SetFixedParameters ( p );
   itk::TransformFileWriter::Pointer writer;
   itk::TransformFileReader::Pointer reader;
   reader = itk::TransformFileReader::New();

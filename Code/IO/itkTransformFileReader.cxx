@@ -19,7 +19,7 @@
 
 #include "itkTransformFileReader.h"
 #include "itkTransformBase.h"
-#include "itkTransformFactory.h"
+#include "itkTransformFactoryBase.h"
 
 namespace itk
 {
@@ -43,7 +43,7 @@ TransformFileReader
 ::TransformFileReader()
 {
   m_FileName = "";
-  TransformFactory::RegisterDefaultTransforms();
+  TransformFactoryBase::RegisterDefaultTransforms();
 }
 
 /** Destructor */

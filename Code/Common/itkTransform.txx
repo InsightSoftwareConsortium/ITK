@@ -50,6 +50,7 @@ template < class TScalarType,
 Transform< TScalarType,NInputDimensions,NOutputDimensions>
 ::Transform(unsigned int dimension,unsigned int numberOfParameters):
   m_Parameters(numberOfParameters),
+  m_FixedParameters(numberOfParameters),
   m_Jacobian(dimension,numberOfParameters)
 {
 }

@@ -36,12 +36,12 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
   m_MatrixMTime.Modified();
   m_Offset.Fill( 0 );
   m_Center.Fill( 0 );
-  // Cause m_FixedParameters to be filled
-  this->SetCenter ( m_Center );
   m_Translation.Fill( 0 );
   m_Singular = false;
   m_InverseMatrix.SetIdentity();
   m_InverseMatrixMTime = m_MatrixMTime;
+  m_FixedParameters.SetSize ( NInputDimensions );
+  this->UpdateFixedParameters();
 }
 
 
@@ -316,6 +316,20 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
     c[i] = this->m_FixedParameters[i];
     }
   this->SetCenter ( c );
+}
+
+// Get fixed parameters
+template<class TScalarType, unsigned int NInputDimensions,
+                            unsigned int NOutputDimensions>
+void
+MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+  ::UpdateFixedParameters( )
+{
+  this->m_FixedParameters.SetSize ( NInputDimensions );
+  for ( unsigned int i = 0; i < NInputDimensions; i++ )
+    {
+    this->m_FixedParameters[i] = this->m_Center[i];
+    }
 }
 
 /** Get the Fixed Parameters. */
