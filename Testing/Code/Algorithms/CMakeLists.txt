@@ -43,7 +43,7 @@ ADD_TEST(itkImageRegistrationMethodTest_14 ${ALGORITHMS_TESTS} itkImageRegistrat
 ADD_TEST(itkInterpolateTest ${ALGORITHMS_TESTS} itkInterpolateTest)
 ADD_TEST(itkKalmanLinearEstimatorTest ${ALGORITHMS_TESTS} itkKalmanLinearEstimatorTest)
 ADD_TEST(itkKmeansModelEstimatorTest ${ALGORITHMS_TESTS} itkKmeansModelEstimatorTest)
-ADD_TEST(itkLaplacianSegmentationLevelSetImageFunctionTest ${ALGORITHMS_TESTS} itkLaplacianSegmentationLevelSetImageFunctionTest)
+ADD_TEST(itkLaplacianSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkLaplacianSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkLevelSetShapeDetectionTest ${ALGORITHMS_TESTS} itkLevelSetShapeDetectionTest)
 ADD_TEST(itkMeanSquaresImageMetricTest ${ALGORITHMS_TESTS} itkMeanSquaresImageMetricTest)
 ADD_TEST(itkMinimumMaximumImageCalculatorTest ${ALGORITHMS_TESTS} itkMinimumMaximumImageCalculatorTest)
