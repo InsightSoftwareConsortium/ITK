@@ -53,6 +53,8 @@
       <tr><td colspan="9" valign="center"><h3>Nightly Builds</h3></td></tr>
       <xsl:call-template name="BuildTableHeader"/>
       <xsl:for-each select="BuildStamp">
+        <xsl:sort select="Build/SiteName"/>
+        <xsl:sort select="Build/BuildName"/>
         <xsl:if test="contains(Build/BuildStamp,'Nightly')">
           <xsl:call-template name="BuildStamp"/>
         </xsl:if>
@@ -63,6 +65,8 @@
         <tr><td colspan="9" valign="center"><h3>Experimental Builds</h3></td></tr>
           <xsl:call-template name="BuildTableHeader"/>
           <xsl:for-each select="BuildStamp">
+            <xsl:sort select="Build/SiteName"/>
+            <xsl:sort select="Build/BuildName"/>
             <xsl:if test="not ( contains(Build/BuildStamp,'Nightly') )">
               <xsl:call-template name="BuildStamp"/>
             </xsl:if>
@@ -93,6 +97,8 @@
                          Loop over each instance
                          -->
                     <xsl:for-each select="BuildStamp">
+                      <xsl:sort select="Build/SiteName"/>
+                      <xsl:sort select="Build/BuildName"/>
                       <xsl:if test="Coverage/LOC != ''">
                         <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Coverage/SiteName"/>/<xsl:value-of select="Coverage/BuildName"/>/<xsl:value-of select="Coverage/BuildStamp"/></xsl:variable>
                         <tr>
