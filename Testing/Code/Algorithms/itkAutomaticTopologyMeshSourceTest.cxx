@@ -347,6 +347,18 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  // Check that the output is not destroyed when calling Update()
+  meshSource->Update();
+  
+  numPoints = meshSource->GetOutput()->GetNumberOfPoints();
+  numCells  = meshSource->GetOutput()->GetNumberOfCells();
+  if( numPoints != 17 || numCells != 68 )
+    {
+    std::cerr << "Mesh is being changed when invoking Update()" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  
   return EXIT_SUCCESS;
 
 }
