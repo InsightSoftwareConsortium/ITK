@@ -485,7 +485,9 @@ public:
    */
   virtual bool ComputeBoundingBox() const;
   virtual bool ComputeLocalBoundingBox() const 
-    {std::cout << "SpatialObject::ComputeLocalBoundingBox Not Implemented!" << std::endl;
+    {
+    std::cerr << "SpatialObject::ComputeLocalBoundingBox Not Implemented!" 
+              << std::endl;
      return false;
     }
   
