@@ -140,8 +140,8 @@ public:
 
   /** Set/Get the maximum number of iterations of the Iterated Conditional
    * Mode (ICM) algorithm. A default value is set at 50 iterations. */
-  itkSetMacro(MaxNumIter, unsigned int);
-  itkGetMacro(MaxNumIter, unsigned int);
+  itkSetMacro(MaximumNumberOfIterations, unsigned int);
+  itkGetMacro(MaximumNumberOfIterations, unsigned int);
 
   /** Set/Get the error tolerance level which is used as a threshold
    * to quit the iterations. */
@@ -165,6 +165,7 @@ public:
 protected:
   GibbsPriorFilter();
   ~GibbsPriorFilter() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void MinimizeFunctional();
   virtual void GenerateData();
@@ -176,8 +177,8 @@ protected:
   TrainingImageType      m_TrainingImage;
   LabelledImageType      m_LabelledImage;
 
-  float m_BoundaryWt; 
-  float m_GibbsPriorWt; 
+  float m_BoundaryWeight; 
+  float m_GibbsPriorWeight; 
   int m_StartRadius;
 
   int m_StartPoint[3]; 
@@ -187,7 +188,7 @@ protected:
   int m_RecursiveNum;
 
   unsigned int          m_NumberOfClasses;
-  unsigned int          m_MaxNumIter;
+  unsigned int          m_MaximumNumberOfIterations;
   unsigned int          *m_LabelStatus;
   
   double                m_ErrorTolerance;

@@ -64,8 +64,8 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 // can be overridden by subclasses
   m_BoundaryGradient = 7;
   m_GibbsNeighborsThreshold = 1;
-  m_BoundaryWt = 1;
-  m_GibbsPriorWt = 1;
+  m_BoundaryWeight = 1;
+  m_GibbsPriorWeight = 1;
   m_StartPoint[0] = 128;
   m_StartPoint[1] = 128;
   m_StartPoint[2] = 0;
@@ -406,7 +406,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
     x1 = x1 + (fi[0] - f[j])*(fi[0] - f[j])*(1 - dif) + dif*m_BoundaryGradient;
   }
 
-  x1 = m_BoundaryWt*x1;
+  x1 = m_BoundaryWeight*x1;
   x2 = (fi[0] - di)*(fi[0] - di);
 
   energy = x1 + x2;
@@ -670,7 +670,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
     MinimizeFunctional(); // minimize f_1 and f_3;
     numIter += 1;
     } 
-  while(( numIter < m_MaxNumIter ) && ( m_ErrorCounter >maxNumPixelError ) ); 
+  while(( numIter < m_MaximumNumberOfIterations ) && ( m_ErrorCounter >maxNumPixelError ) ); 
 
   RegionEraser();
 
@@ -914,6 +914,31 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 
   return count;
       
+}
+
+template<class TInputImage, class TClassifiedImage>
+void
+GibbsPriorFilter<TInputImage, TClassifiedImage>
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << indent << "BoundaryGradient: "
+     << m_BoundaryGradient << std:endl;
+  os << indent << "GibbsNeighborhoodThreshold: "
+     << m_GibbsNeighborhoodThreshold << std:endl;
+  os << indent << "BoundaryWeight: "
+     << m_BoundaryWeight << std:endl;
+  os << indent << "MaximumNumberOfIterations: "
+     << m_MaximumNumberOfIterations << std:endl;
+  os << indent << "ErrorTolerance: "
+     << m_ErrorTolerance << std:endl;
+  os << indent << "ObjectLabel: "
+     << m_ObjectLabel << std:endl;
+  os << indent << "ClusterSize: "
+     << m_ClusterSize << std:endl;
+  os << indent << "NumberOfClasses: "
+     << m_NumberOfClasses << std:endl;
+
 }
 
 } // end namespace itk
