@@ -18,7 +18,7 @@
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{SigmoidImageFilter} is commonly used as an intensity
-//  transform.  It maps a specifig range of intensity values into a new
+//  transform.  It maps a specific range of intensity values into a new
 //  intensity range by making a very smooth and continuous transition in the
 //  borders of the range.  Sigmoids are widely use as a mechanism for focusing
 //  attention in a particular set of values and progressively attenuate the
@@ -250,7 +250,7 @@ int main( int argc, char * argv[] )
   //  application of this filter as pre-processing for segmentation is
   //  presented in section~\ref{sec:FastMarchingImageFilter}.
   //
-  //  Sigmoid are ubiquitous in nature. The represent the curve of sensitivity
+  //  Sigmoid are ubiquitous in nature. They represent the curve of sensitivity
   //  to any stimulus. They are also the integral curve of the Gaussian and
   //  henceforth appear naturally as the response to signals whose distribution
   //  is Gaussian.

@@ -17,10 +17,10 @@
 
 // Software Guide : BeginLatex
 //
-// In this example, we will solve the our simple multi-modality problem using
-// another implementation of mutual information. One of main difference between
+// In this example, we will solve a simple multi-modality problem using
+// another implementation of mutual information. One of main differences between
 // \doxygen{MattesMutualInformationImageToImageMetric} and
-// \doxygen{MutualInformationImageToImageMetric} is than only one spatial
+// \doxygen{MutualInformationImageToImageMetric} is that only one spatial
 // sample set is used for the whole registration process instead of using new
 // samples every iteration. The use of a single sample set results in a much
 // smoother cost function and hence allows the use of more intelligent

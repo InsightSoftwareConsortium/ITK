@@ -72,7 +72,7 @@ int main()
   // In ITK images exist in combination with one or more \emph{regions}. A
   // region is a subset of the image and indicates a portion of the image
   // that may be processed by other classes in the system. One of the most
-  // common regions is known as the the \emph{LargestPossibleRegion} that
+  // common regions is known as the \emph{LargestPossibleRegion} that
   // defines the image in its entirety. Other important regions found in ITK
   // are the \emph{BufferedRegion}, which is the portion of the image
   // actually maintained in memory, and the \emph{RequestedRegion}, which

@@ -37,7 +37,7 @@
 //  Software Guide : BeginLatex
 //  
 //  The filter used to extract a region from an image is the
-//  \doxygen{ExtractImageFilter}. It header is included below.
+//  \doxygen{ExtractImageFilter}. Its header is included below.
 //
 //  \index{itk::ExtractImageFilter!header}
 //

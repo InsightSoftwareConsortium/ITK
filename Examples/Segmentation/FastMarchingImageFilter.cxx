@@ -24,7 +24,7 @@
 // The following example illustrates the use of the
 // \doxygen{FastMarchingImageFilter}. This filter implements a fast marching
 // solution to a simple level set evolution problem.  
-// In this example, the the speed term used in the
+// In this example, the speed term used in the
 // differential equation is expected to be provided by the user in the form of
 // an image.  This image is typically computed as a function of the gradient
 // magnitude.  Several mappings are popular in the literature, for example the

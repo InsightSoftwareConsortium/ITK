@@ -192,7 +192,7 @@ int main( int argc, char * argv[] )
   //  $3D$ images. The number of iterations can be usually around $10$, more
   //  iterations will result in further smoothing and will increase linearly
   //  the computing time. The edge-preserving is not an absolute on this
-  //  filter, some degradation will ocurr on the edges and will accentuate as
+  //  filter, some degradation will occur on the edges and will accentuate as
   //  the number of iterations is increased. 
   //
   //  Software Guide : EndLatex 

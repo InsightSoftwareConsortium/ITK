@@ -138,7 +138,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  Since each one of the newly created filters has the potential to perform
-  //  filtering along any dimension, we have to restric each one to a
+  //  filtering along any dimension, we have to restrict each one to a
   //  particular direction. This is done with the \code{SetDirection} method.
   //
   //  \index{RecursiveGaussianImageFilter!SetDirection()}

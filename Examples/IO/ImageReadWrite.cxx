@@ -67,7 +67,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Then, as usual, a decision should be made about the type of pixel used to
-  //  represent the images. Note that, when reading and image, this pixel type
+  //  represent the images. Note that, when reading an image, this pixel type
   //  \textbf{is not necessarily} the pixel type of the image stored in the file.
   //  Instead, it is the type that will be used to store the image as soon as
   //  it is read into memory. Your choice of the pixel type should be driven

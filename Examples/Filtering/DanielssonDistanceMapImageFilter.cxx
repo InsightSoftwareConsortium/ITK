@@ -19,7 +19,7 @@
 //
 // This example illustrates the use of the
 // \doxygen{DanielssonDistanceMapImageFilter}.  This filter generates a
-// distance map form the input image using the algorithm developed by
+// distance map from the input image using the algorithm developed by
 // Danielsson \cite{Danielsson1980}. As secondary outputs, a Voronoi partition
 // if the input elements is produced, as well as a vector image with the
 // components of the distance vector to the closest point. The input to the map

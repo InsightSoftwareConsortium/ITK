@@ -34,7 +34,7 @@
 // simple statistics of the current region. First, the algorithm computes the
 // mean and standard deviation of intensity values for all the pixels currently
 // included in the region. A user-provided factor is used to multiply the
-// standard deviation and define a range aroun the mean. Neighbor pixels whose
+// standard deviation and define a range around the mean. Neighbor pixels whose
 // intensity values fall inside the range are accepted to be included in the
 // region. When no more neighbor pixes are found that can satisfy the
 // criterion, the algorithm considered to have finished its first iteration. At
@@ -42,7 +42,7 @@
 // recomputed using all the pixels currently included in the region. These mean
 // and standard deviation define a new intensity range that is used for
 // visiting the current neighbors in search of pixels whose intensity falls
-// inside the range.  This iterative process is repated a number of times as
+// inside the range.  This iterative process is repeated a number of times as
 // defined by the user. The following equation illustrates the inclusion 
 // criterion used by this filter.
 //

@@ -244,7 +244,7 @@ int main( int argc, char **argv )
   //  variance of the object intensities are also provided with the methods
   //  \code{SetMean()} and \code{SetVariance()}, respectively. A threshold value
   //  for generating the binary object is preset with the method
-  //  \code{SetThreshold()}.  For details describing the role of the the mean and
+  //  \code{SetThreshold()}.  For details describing the role of the mean and
   //  variance on the computation of the segmentation see \cite{Udupa1996}. 
   //
   //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetObjectsSeed()}

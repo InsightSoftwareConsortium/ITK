@@ -19,7 +19,7 @@
 //
 // Given the numerous parameters involved in tuning a registration method for
 // a particular application it is common to be faced with  a registration
-// process that runs for several minutes and ends up with a usless result.  In
+// process that runs for several minutes and ends up with a useless result.  In
 // order to avoid this situation it is quite helpful to track the evolution of
 // the registration as it progresses. The following section illustrates the
 // mechanisms provided in ITK for monitoring the activity of the

@@ -194,7 +194,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  A binary image is provided as input to the filters. This image can be,
-  //  for example, the the output of a binary threshold image filter.
+  //  for example, the output of a binary threshold image filter.
   //
   //  Software Guide : EndLatex 
 

@@ -166,7 +166,7 @@ int main( int argc, char * argv[] )
   //  The \doxygen{MinMaxCurvatureFlowImageFilter} requires the two normal
   //  parameters of the CurvatureFlow image, the number of iterations to be
   //  performed and the time step used in the computation of the level set
-  //  evolution. In addition the them, the radius of the neighborhood is also
+  //  evolution. In addition to them, the radius of the neighborhood is also
   //  required. This last parameter is passes using the
   //  \code{SetStencilRadius()} method. Note that the radius is provided as an
   //  integer number since it is refering to a number of pixels from the center
@@ -198,7 +198,7 @@ int main( int argc, char * argv[] )
   //  iterations will result in further smoothing and will increase linearly
   //  the computing time. The radius of the stencil can be typically $1$. The
   //  \emph{edge-preserving} characteristic is not perfect on this filter, some
-  //  degradation will ocurr on the edges and will accentuate as the number of
+  //  degradation will occur on the edges and will accentuate as the number of
   //  iterations are increased. 
   //
   //  Software Guide : EndLatex 

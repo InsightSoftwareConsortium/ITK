@@ -190,7 +190,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  A grayscale image is provided as input to the filters. This image can be,
-  //  for example, the the output of a reader.
+  //  for example, the output of a reader.
   //
   //  Software Guide : EndLatex 
 

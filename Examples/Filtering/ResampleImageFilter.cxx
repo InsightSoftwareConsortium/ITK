@@ -435,7 +435,7 @@ int main( int argc, char * argv[] )
   // \begin{figure}
   // \center
   // \includegraphics[width=12cm]{ResampleImageFilterOutput3Analysis.eps}
-  // \caption{ResampleImageFilter highlighthing image borders with SetDefaultPixelValue().}
+  // \caption{ResampleImageFilter highlighting image borders with SetDefaultPixelValue().}
   // \label{fig:ResampleImageFilterOutput3Analysis}
   // \end{figure}
   //

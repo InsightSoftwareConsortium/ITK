@@ -37,7 +37,7 @@
 // section~\ref{sec:FastMarchingImageFilter}. 
 //
 // In this example we use an \doxygen{FastMarchingImageFilter} for producing
-// the initial LevelSet as the the distance funcition to a set of user-provided
+// the initial LevelSet as the distance function to a set of user-provided
 // seeds. The \doxygen{FastMarchingImageFilter} is run with its option for a
 // constant speed value which allows to use this filter as a distance map
 // calculator.
@@ -476,7 +476,7 @@ int main( int argc, char **argv )
   //
   //  The \doxygen{FastMarchingImageFilter} requires the user to provide a seed
   //  point from which the level set will be generated. The user can actually
-  //  pass not only one seed point but a set of them. Note the the
+  //  pass not only one seed point but a set of them. Note the
   //  \doxygen{FastMarchingImageFilter} is used here only as a helper in the
   //  determination of an initial Level Set. We could have used the
   //  \doxygen{DanielssonDistanceMapImageFilter} in the same way.
