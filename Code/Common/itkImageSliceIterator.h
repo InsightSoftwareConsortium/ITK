@@ -26,8 +26,8 @@ namespace itk
  * 
  *
  */
-template<typename TPixel, unsigned int VImageDimension=2>
-class ImageSliceIterator : public ImageIteratorWithIndex<TPixel, VImageDimension>
+template<typename TImage>
+class ImageSliceIterator : public ImageIteratorWithIndex<TImage>
 {
 public:
   /**
@@ -38,7 +38,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageIteratorWithIndex<TPixel,VImageDimension>  Superclass;
+  typedef ImageIteratorWithIndex<TImage>  Superclass;
 
   /** 
    * Index typedef support. While this was already typdef'ed in the superclass
@@ -46,7 +46,7 @@ public:
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index.
    */
-  typedef itk::Index<VImageDimension> Index;
+  typedef typename TImage::Index Index;
 
   /**
    * Image typedef support. While this was already typdef'ed in the superclass
@@ -54,25 +54,26 @@ public:
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index.
    */
-  typedef itk::Image<TPixel, VImageDimension> Image;
+  typedef TImage Image;
 
   /**
    * Default constructor. Needed since we provide a cast constructor.
    */
-  ImageSliceIterator() : ImageIteratorWithIndex<TPixel, VImageDimension>() {}
+  ImageSliceIterator() : ImageIteratorWithIndex<TImage>() {}
   
   /**
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
   ImageSliceIterator(const SmartPointer<Image> &ptr,
-                      const Index &start,
-                      const unsigned long size[VImageDimension])
-    : ImageIteratorWithIndex<TPixel, VImageDimension>(ptr, start, size) 
+                      const Region & region)
+    : ImageIteratorWithIndex<TImage>(ptr, region) 
     {
       m_Direction_A = 0;
       m_Direction_B = 1;
     }
+
+
 
   /**
    * Constructor that can be used to cast from an ImageIterator to an
@@ -82,8 +83,8 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageSliceIterator.
    */
-  ImageSliceIterator( const ImageIteratorWithIndex<TPixel, VImageDimension> &it)
-    { this->ImageIteratorWithIndex<TPixel, VImageDimension>::operator=(it); }
+  ImageSliceIterator( const ImageIteratorWithIndex<TImage> &it)
+    { this->ImageIteratorWithIndex<TImage>::operator=(it); }
 
 
 

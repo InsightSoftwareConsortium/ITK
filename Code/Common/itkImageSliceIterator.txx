@@ -21,9 +21,9 @@ namespace itk
 //----------------------------------------------------------------------
 //  Advance to Next Line
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TImage>
 void 
-ImageSliceIterator<TPixel, VImageDimension>
+ImageSliceIterator<TImage>
 ::NextLine(void)
 {
   // Move to next line
@@ -41,9 +41,9 @@ ImageSliceIterator<TPixel, VImageDimension>
 //----------------------------------------------------------------------
 //  Advance to next slice
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TImage>
 void 
-ImageSliceIterator<TPixel, VImageDimension>
+ImageSliceIterator<TImage>
 ::NextSlice(void)
 {
 
@@ -52,7 +52,7 @@ ImageSliceIterator<TPixel, VImageDimension>
   m_Position -= m_OffsetTable[ m_Direction_B + 1 ]; 
   
 
-  for( unsigned int n=0; n<VImageDimension; n++ )
+  for( unsigned int n=0; n<TImage::ImageDimension; n++ )
   {
 
     m_Remaining = false;
@@ -85,9 +85,9 @@ ImageSliceIterator<TPixel, VImageDimension>
 //----------------------------------------------------------------------
 //  Test for end of line
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TImage>
 bool 
-ImageSliceIterator<TPixel, VImageDimension>
+ImageSliceIterator<TImage>
 ::IsAtEndOfLine(void) 
 {
   return m_PositionIndex[m_Direction_A] >= m_EndIndex[m_Direction_A];
@@ -99,9 +99,9 @@ ImageSliceIterator<TPixel, VImageDimension>
 //----------------------------------------------------------------------
 //  Test for end of slice
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TImage>
 bool
-ImageSliceIterator<TPixel, VImageDimension>
+ImageSliceIterator<TImage>
 ::IsAtEndOfSlice(void) 
 {
   return m_PositionIndex[m_Direction_B] >= m_EndIndex[m_Direction_B];
@@ -114,9 +114,9 @@ ImageSliceIterator<TPixel, VImageDimension>
 //----------------------------------------------------------------------
 //  Select the fastest changing direction
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TImage>
 void 
-ImageSliceIterator<TPixel, VImageDimension>
+ImageSliceIterator<TImage>
 ::SetFirstDirection(unsigned int direction) 
 {
   if( direction >= VImageDimension )
@@ -133,9 +133,9 @@ ImageSliceIterator<TPixel, VImageDimension>
 //----------------------------------------------------------------------
 //  Select the second fastest changing direction
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TImage>
 void 
-ImageSliceIterator<TPixel, VImageDimension>
+ImageSliceIterator<TImage>
 ::SetSecondDirection(unsigned int direction) 
 {
   if( direction >= VImageDimension )
@@ -151,9 +151,9 @@ ImageSliceIterator<TPixel, VImageDimension>
 //----------------------------------------------------------------------
 //  Advance along a line
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-ImageSliceIterator<TPixel, VImageDimension> &
-ImageSliceIterator<TPixel, VImageDimension>
+template<class TImage>
+ImageSliceIterator<TImage> &
+ImageSliceIterator<TImage>
 ::operator++()
 {
   m_PositionIndex[ m_Direction_A ]++;
@@ -165,3 +165,4 @@ ImageSliceIterator<TPixel, VImageDimension>
 
 
 } // end namespace itk
+

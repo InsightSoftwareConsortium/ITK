@@ -25,9 +25,9 @@ namespace itk
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TImage>
 void 
-ImageLinearIterator<TPixel, VImageDimension>
+ImageLinearIterator<TImage>
 ::NextLine(void)
 {
 
@@ -35,7 +35,7 @@ ImageLinearIterator<TPixel, VImageDimension>
   m_Position -= m_OffsetTable[ m_Direction+1 ]; 
   
 
-  for( unsigned int n=0; n<VImageDimension; n++ )
+  for( unsigned int n=0; n<TImage::ImageDimension; n++ )
   {
 
     m_Remaining = false;
@@ -66,9 +66,9 @@ ImageLinearIterator<TPixel, VImageDimension>
 //----------------------------------------------------------------------
 //  Test for end of line
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TImage>
 bool 
-ImageLinearIterator<TPixel, VImageDimension>
+ImageLinearIterator<TImage>
 ::IsAtEndOfLine(void) 
 {
   return m_PositionIndex[m_Direction] >= (int)m_Region.GetSize()[m_Direction];
@@ -79,12 +79,12 @@ ImageLinearIterator<TPixel, VImageDimension>
 //----------------------------------------------------------------------
 //  Set direction of movement
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TImage>
 void 
-ImageLinearIterator<TPixel, VImageDimension>
+ImageLinearIterator<TImage>
 ::SetDirection(unsigned int direction) 
 {
-  if( direction >= VImageDimension )
+  if( direction >= TImage::ImageDimension )
   {
     throw itk::ExceptionObject();
   }
@@ -94,12 +94,14 @@ ImageLinearIterator<TPixel, VImageDimension>
  
 
 
+
+
 //----------------------------------------------------------------------
 //  Advance along the line
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-ImageLinearIterator<TPixel, VImageDimension>  & 
-ImageLinearIterator<TPixel, VImageDimension>
+template<class TImage>
+ImageLinearIterator<TImage>  & 
+ImageLinearIterator<TImage>
 ::operator++()
 {
   m_PositionIndex[m_Direction]++;

@@ -24,8 +24,8 @@ namespace itk
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-ImageIteratorWithIndex<TPixel, VImageDimension>
+template<class TImage>
+ImageIteratorWithIndex<TImage>
 ::ImageIteratorWithIndex()
 {
   m_Position  = 0;
@@ -39,8 +39,8 @@ ImageIteratorWithIndex<TPixel, VImageDimension>
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-ImageIteratorWithIndex<TPixel, VImageDimension>
+template<class TImage>
+ImageIteratorWithIndex<TImage>
 ::ImageIteratorWithIndex(const Self& it)
 {
   m_Image = it.m_Image;     // copy the smart pointer
@@ -50,7 +50,8 @@ ImageIteratorWithIndex<TPixel, VImageDimension>
   m_EndIndex          = it.m_EndIndex;
   m_Region            = it.m_Region;
 
-  memcpy(m_OffsetTable, it.m_OffsetTable, (VImageDimension+1)*sizeof(unsigned long));
+  memcpy(m_OffsetTable, it.m_OffsetTable, 
+          (ImageIteratorDimension+1)*sizeof(unsigned long));
   
   m_Position    = it.m_Position;
   m_Begin       = it.m_Begin;
@@ -63,18 +64,21 @@ ImageIteratorWithIndex<TPixel, VImageDimension>
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-ImageIteratorWithIndex<TPixel, VImageDimension>
-::ImageIteratorWithIndex(const SmartPointer<Image> &ptr,
+template<class TImage>
+ImageIteratorWithIndex<TImage>
+::ImageIteratorWithIndex(const SmartPointer<TImage> &ptr,
               const Region & region )
 {
   m_Image = ptr;
-  TPixel * m_Buffer   = m_Image->GetBufferPointer();
+
+  InternalPixelType * m_Buffer   = m_Image->GetBufferPointer();
+
   m_BeginIndex        = region.GetIndex();
   m_PositionIndex     = m_BeginIndex;
   m_Region            = region;
 
-  memcpy(m_OffsetTable, m_Image->GetOffsetTable(), (VImageDimension+1)*sizeof(unsigned long));
+  memcpy(m_OffsetTable, m_Image->GetOffsetTable(), 
+        (ImageIteratorDimension+1)*sizeof(unsigned long));
 
   // Compute the start position
   long offs =  m_Image->ComputeOffset( m_BeginIndex );
@@ -82,7 +86,7 @@ ImageIteratorWithIndex<TPixel, VImageDimension>
   
   // Compute the end offset
   Index pastEnd;
-  for (unsigned int i=0; i < VImageDimension; ++i)
+  for (unsigned int i=0; i < ImageIteratorDimension; ++i)
     {
     m_EndIndex[i] = m_BeginIndex[i] + region.GetSize()[i];
     pastEnd[i]    = m_BeginIndex[i] + region.GetSize()[i]-1;
@@ -97,9 +101,9 @@ ImageIteratorWithIndex<TPixel, VImageDimension>
 //----------------------------------------------------------------------
 //    Assignment Operator
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-ImageIteratorWithIndex<TPixel, VImageDimension> &
-ImageIteratorWithIndex<TPixel, VImageDimension> 
+template<class TImage>
+ImageIteratorWithIndex<TImage> &
+ImageIteratorWithIndex<TImage>
 ::operator=(const Self& it)
 {
   m_Image = it.m_Image;     // copy the smart pointer
@@ -108,7 +112,8 @@ ImageIteratorWithIndex<TPixel, VImageDimension>
   m_EndIndex          = it.m_EndIndex;
   m_PositionIndex     = it.m_PositionIndex;
 
-  memcpy(m_OffsetTable, it.m_OffsetTable, (VImageDimension+1)*sizeof(unsigned long));
+  memcpy(m_OffsetTable, it.m_OffsetTable, 
+        (ImageIteratorDimension+1)*sizeof(unsigned long));
   
   m_Position    = it.m_Position;
   m_Begin       = it.m_Begin;
@@ -124,9 +129,9 @@ ImageIteratorWithIndex<TPixel, VImageDimension>
 //----------------------------------------------------------------------------
 // Begin() is the first pixel in the region.
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template<class TImage>
 void
-ImageIteratorWithIndex<TPixel, VImageDimension>
+ImageIteratorWithIndex<TImage>
 ::Begin()
 {
   // Set the position at begin

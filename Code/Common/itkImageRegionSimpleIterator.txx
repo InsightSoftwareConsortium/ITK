@@ -22,14 +22,14 @@ namespace itk
 //----------------------------------------------------------------------
 //  Advance along the line
 //----------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-ImageRegionSimpleIterator<TPixel, VImageDimension>  & 
-ImageRegionSimpleIterator<TPixel, VImageDimension>
+template<class TImage>
+ImageRegionSimpleIterator<TImage> &
+ImageRegionSimpleIterator<TImage>
 ::operator++()
 {
   
   m_Remaining = false;
-  for( unsigned int in=0; in<VImageDimension; in++ )
+  for( unsigned int in=0; in<TImage::ImageDimension; in++ )
   {
     m_PositionIndex[ in  ]++;
     if( m_PositionIndex[ in ] < m_EndIndex[ in ] )

@@ -25,9 +25,9 @@ namespace itk
  * \brief Multi-dimensional image iterator which only walks a region.
  * 
  * ImageLinearIterator is a templated class to represent a multi-dimensional
- * iterator. ImageLinearIterator is templated over the dimension of the image
- * and the data type of the image. ImageLinearIterator is constrained to walk
- * only within the specified region.
+ * iterator. ImageLinearIterator is templated over the image type
+ * ImageLinearIterator is constrained to walk only within the 
+ * specified region.
  *
  * ImageLinearIterator is a multi-dimensional iterator, requiring more
  * information be specified before the iterator can be used than conventional
@@ -55,8 +55,8 @@ namespace itk
  *         }
  *
  */
-template<typename TPixel, unsigned int VImageDimension=2>
-class ImageLinearIterator : public ImageIteratorWithIndex<TPixel, VImageDimension>
+template<typename TImage>
+class ImageLinearIterator : public ImageIteratorWithIndex<TImage>
 {
 public:
   /**
@@ -67,7 +67,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageIteratorWithIndex<TPixel,VImageDimension>  Superclass;
+  typedef ImageIteratorWithIndex<TImage>  Superclass;
 
   /** 
    * Index typedef support. While this was already typdef'ed in the superclass
@@ -75,7 +75,7 @@ public:
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index.
    */
-  typedef itk::Index<VImageDimension> Index;
+  typedef typename TImage::Index   Index;
 
   /**
    * Region typedef support. While this was already typdef'ed in the superclass
@@ -83,7 +83,7 @@ public:
    * Note that we have to rescope Region back to itk::ImageRegion so that is
    * it not confused with ImageIterator::Index.
    */
-  typedef itk::ImageRegion<VImageDimension> Region;
+  typedef typename TImage::Region Region;
   
   /**
    * Image typedef support. While this was already typdef'ed in the superclass
@@ -91,12 +91,12 @@ public:
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index.
    */
-  typedef itk::Image<TPixel, VImageDimension> Image;
+  typedef TImage Image;
 
   /**
    * Default constructor. Needed since we provide a cast constructor.
    */
-  ImageLinearIterator() : ImageIteratorWithIndex<TPixel, VImageDimension>() {}
+  ImageLinearIterator() : ImageIteratorWithIndex<TImage>() {}
   
   /**
    * Constructor establishes an iterator to walk a particular image and a
@@ -104,7 +104,7 @@ public:
    */
   ImageLinearIterator(const SmartPointer<Image> &ptr,
                             const Region& region)
-    : ImageIteratorWithIndex<TPixel, VImageDimension>( ptr, region ) {}
+    : ImageIteratorWithIndex<TImage>( ptr, region ) {}
 
   /**
    * Constructor that can be used to cast from an ImageIterator to an
@@ -114,8 +114,8 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageLinearIterator.
    */
-  ImageLinearIterator( const ImageIteratorWithIndex<TPixel, VImageDimension> &it)
-    { this->ImageIteratorWithIndex<TPixel, VImageDimension>::operator=(it); }
+  ImageLinearIterator( const ImageIteratorWithIndex<TImage> &it)
+    { this->ImageIteratorWithIndex<TImage>::operator=(it); }
 
   /**
    * Go to the next line
