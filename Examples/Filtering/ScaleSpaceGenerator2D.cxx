@@ -87,7 +87,7 @@ int main( int argc, char * argv[] )
   char filename[2000];
 
   int numberOfSlices = atoi(argv[3]);
-  for( unsigned int slice=0; slice < numberOfSlices; slice++ )
+  for( int slice=0; slice < numberOfSlices; slice++ )
     {
     sprintf( filename, "%s%03d.mhd", argv[2], slice );
 
