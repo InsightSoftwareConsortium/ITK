@@ -66,7 +66,7 @@ template <class T>
 class ObjectFactory : public ObjectFactoryBase
 {
 public:
-  static T::Pointer Create()
+  static typename T::Pointer Create()
   {
     LightObject::Pointer ret = ObjectFactory::CreateInstance(typeid(T).name());
     return dynamic_cast<T*>(ret.GetPointer());
