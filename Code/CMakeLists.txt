@@ -4,7 +4,7 @@ LINK_LIBRARIES (
 VXLNumerics
 )
 
-# All the CABLE sets defined here will be inherited into the
+# All the CABLE sets defined here will be inherited by the
 # subdirectories for convenient use in their CMakeLists files.
 
 # For now, we just want one combination of scalar type and dimension
@@ -27,6 +27,9 @@ CABLE_OPEN_NAMESPACE(itk)
                    SOURCE_FILES itkVector vnl/vnl_vector vnl/vnl_c_vector)
 
   CABLE_DEFINE_SET(PixelType $ScalarType)
+
+  CABLE_DEFINE_SET(PointSetType "PointSet<$PixelType>"
+                   SOURCE_FILES itkPointSet)
 
   CABLE_DEFINE_SET(MeshType "Mesh<$PixelType>"
                    SOURCE_FILES itkMesh)

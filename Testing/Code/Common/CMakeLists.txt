@@ -24,6 +24,7 @@ itkNeighborhoodIteratorTest
 itkNeighborhoodOperatorTest
 itkPixelAccessTest
 itkPointGeometryTest
+itkPointSetTest
 itkScalarTest
 itkSliceIteratorTest
 itkSmartPointerTest

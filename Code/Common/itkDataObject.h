@@ -17,7 +17,6 @@ See COPYRIGHT.txt for copyright details.
 #define __itkDataObject_h
 
 #include "itkObject.h"
-#include "itkObjectFactory.h"
 #include "itkSmartPointerForwardReference.h"
 #include "itkWeakPointer.h"
 

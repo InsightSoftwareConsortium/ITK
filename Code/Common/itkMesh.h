@@ -16,23 +16,15 @@
 #ifndef __itkMesh_h
 #define __itkMesh_h
 
-#include "itkObject.h"
-#include "itkDataObject.h"
-#include "itkObjectFactory.h"
-#include "itkSmartPointer.h"
-#include "itkPoint.h"
+#include "itkPointSet.h"
 #include "itkCellInterface.h"
-#include "itkDefaultStaticMeshTraits.h"
 #include "itkMapContainer.h"
-#include "itkPointLocator.h"
-#include "itkBoundingBox.h"
 #include <vector>
 #include <set>
 
 
 namespace itk
 {
-
 
 /** \class Mesh
  * \brief Implements the N-dimensional mesh structure.
@@ -74,7 +66,7 @@ template <
   typename TPixelType,
   typename TMeshTraits = DefaultStaticMeshTraits< TPixelType >
   >
-class Mesh: public DataObject
+class Mesh : public PointSet<TPixelType, TMeshTraits>
 {
 public:
   /**
@@ -85,7 +77,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef DataObject  Superclass;
+  typedef PointSet<TPixelType,TMeshTraits>  Superclass;
 
   /**
    * Smart pointer typedef support.
@@ -101,15 +93,8 @@ public:
   /**
    * Standard part of every itk Object.
    */
-  itkTypeMacro(Mesh, Object);
+  itkTypeMacro(Mesh, PointSet);
 
-  /**
-   * Get the maximum number of regions that this data can be
-   * separated into.
-   */
-  int GetMaximumNumberOfRegions() const
-    {return m_MaximumNumberOfRegions;}
-      
   /** 
    * Hold on to the type information specified by the template parameters.
    */
@@ -146,7 +131,7 @@ public:
   typedef BoundingBox<PointIdentifier,PointDimension,
                       CoordRepType,PointsContainer>   BoundingBoxType;
 
-					  /**
+  /**
    * Create types that are pointers to each of the container types.
    */
   typedef typename PointsContainer::Pointer        PointsContainerPointer;
@@ -158,7 +143,6 @@ public:
   typedef typename BoundaryDataContainer::Pointer  BoundaryDataContainerPointer;  
   typedef typename PointLocatorType::Pointer       PointLocatorPointer;
   typedef typename BoundingBoxType::Pointer        BoundingBoxPointer;
-
 
   /**
    * Create types that are iterators for each of the container types.
@@ -202,7 +186,7 @@ public:
   typedef CellPointer BoundaryPointer;
   
   /**
-   * Visiting cells
+   * Visiting cells.
    */
   typedef typename Cell::MultiVisitor CellMultiVisitorType;
 
@@ -263,20 +247,6 @@ protected:
       }
   }; // End Class: Mesh::BoundaryAssignmentIdentifier
 
-  /**
-   * An object containing points used by the mesh.  Individual points are
-   * accessed through point identifiers.
-   */
-  PointsContainerPointer  m_PointsContainer;
-
-  /**
-   * An object containing data associated with the mesh's points.
-   * Optionally, this can be NULL, indicating that no data are associated with
-   * the points.  The data for a point can be accessed through its point
-   * identifier.
-   */
-  PointDataContainerPointer  m_PointDataContainer;
- 
   /**
    * An object containing cells used by the mesh.  Individual cells are
    * accessed through cell identifiers.
@@ -341,26 +311,13 @@ protected:
         BoundaryAssignmentsContainerVector;
   BoundaryAssignmentsContainerVector  m_BoundaryAssignmentsContainers;
   
-  /**
-   * PointLocator is used to accelerate the search for points. This
-   * supports the FindClosestPoint() method. 
-   */
-  PointLocatorPointer m_PointLocator;
-  
-  /**
-   * The bounding box (xmin,xmax, ymin,ymax, ...) of the mesh. The 
-   * bounding box is used for searching, picking, display, etc.
-   */
-  BoundingBoxPointer m_BoundingBox;
-
 public:
   /**
    * Mesh-level operation interface.
    */
-  void PassStructure(Self* in_mesh);
+  void PassStructure(Self* inputMesh);
   void ReInitialize(void);
 
-  unsigned long GetNumberOfPoints(void);
   unsigned long GetNumberOfCells(void);
 
   /**
@@ -368,12 +325,6 @@ public:
    * Methods also exist to add points, cells, etc. one at a time
    * rather than through an entire container.
    */
-  void SetPoints(PointsContainer*);
-  PointsContainerPointer GetPoints(void);
-
-  void SetPointData(PointDataContainer*);
-  PointDataContainerPointer GetPointData(void);
-
   void SetCellLinks(CellLinksContainer*);
   CellLinksContainerPointer GetCellLinks(void);
 
@@ -390,24 +341,10 @@ public:
   BoundaryDataContainerPointer GetBoundaryData(int dimension);
   
   void SetBoundaryAssignments(int dimension,
-			      BoundaryAssignmentsContainer*);
+                              BoundaryAssignmentsContainer*);
   BoundaryAssignmentsContainerPointer
   GetBoundaryAssignments(int dimension);
   
-  /**
-   * Access routines to fill the Points container, and get information
-   * from it.
-   */
-  void SetPoint(PointIdentifier, PointType);
-  bool GetPoint(PointIdentifier, PointType*) const;
-
-  /**
-   * Access routines to fill the PointData container, and get information
-   * from it.
-   */
-  void SetPointData(PointIdentifier, PixelType);
-  bool GetPointData(PointIdentifier, PixelType*) const;
-
   /**
    * Access routines to fill the Cells container, and get information
    * from it.
@@ -467,26 +404,13 @@ public:
   void BuildCellLinks(void);
   
   /**
-   * Get the bounding box of the mesh. The methods return a pointer to
-   * the user-supplied bounding box as a convenience.
-   */
-  BoundingBoxPointer GetBoundingBox();
-
-  /**
    * Get the bounding box of a cell in the mesh. The user
    * must supply the bounding box. The methods return a pointer to
    * the user-supplied bounding box as a convenience.
    */
-  BoundingBoxPointer GetCellBoundingBox(CellIdentifier cellId, BoundingBoxPointer bbox);
+  BoundingBoxPointer GetCellBoundingBox(CellIdentifier cellId, 
+                                        BoundingBoxPointer bbox);
   
-  /**
-   * Geometric operations convert between coordinate systems, perform 
-   * interpolation, and locate points and cells.
-   */
-  bool FindClosestPoint(CoordRepType coords[PointDimension],
-                        PointIdentifier* pointId);
-  // FindCell(.........)
-
   /**
    *  This method iterates over all the cells in the mesh and has
    *  each cell Accept the MultiVisitor. See MultiVisitor for more 
@@ -500,6 +424,13 @@ public:
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
   virtual bool VerifyRequestedRegion();
 
+  /**
+   * Get the maximum number of regions that this data can be
+   * separated into.
+   */
+  int GetMaximumNumberOfRegions() const
+    {return m_MaximumNumberOfRegions;}
+      
   /**
    * Set the requested region from this data object to match the requested
    * region of the data object passed in as a parameter.  This method 
@@ -518,22 +449,6 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent);
   
-  // If the RegionType is ITK_UNSTRUCTURED_REGION, then the following
-  // variables represent the maximum number of region that the data
-  // object can be broken into, which region out of how many is
-  // currently in the buffered region, and the number of regions and
-  // the specific region requested for the update. Data objects that
-  // do not support any division of the data can simply leave the
-  // MaximumNumberOfRegions as 1. The RequestedNumberOfRegions and
-  // RequestedRegion are used to define the currently requested
-  // region. The LargestPossibleRegion is always requested region = 0
-  // and number of regions = 1;
-  int m_MaximumNumberOfRegions;
-  int m_NumberOfRegions;
-  int m_BufferedRegion;
-  int m_RequestedNumberOfRegions;
-  int m_RequestedRegion;
-
 }; // End Class: Mesh
 
 } // end namespace itk

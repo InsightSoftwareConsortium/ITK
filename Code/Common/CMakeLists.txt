@@ -89,6 +89,7 @@ itkPhysicalImage
 itkPhysicalImageAdaptor
 itkPoint
 itkPointLocator
+itkPointSet
 itkQuadrilateralCell
 itkRGBPixel
 itkRandomAccessNeighborhoodIterator
@@ -132,6 +133,7 @@ CABLE_OPEN_NAMESPACE(itk)
     $VectorType
     $PointType
     $ImageType
+    $PointSetType
     $MeshType
     "PhysicalImage<$PixelType, $Dimension>"
     "ImageRegion<$Dimension>"
