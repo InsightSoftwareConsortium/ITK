@@ -66,15 +66,6 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
   // Get the input and output pointers
   InputImageConstPointer  m_InputImage = this->GetInput(0);
   OutputImagePointer m_OutputImage = this->GetOutput(0);
-/*
-  typedef fltk::Image2DViewer<float> ViewerType;
-  ViewerType::Pointer viewer = ViewerType::New();
-  viewer->SetLabel("Intermediate Image");
-  viewer->SetImage(this->GetInput(0));
-  viewer->Show();
-
-  Fl::run();
-  return;*/
 
   // Allocate the output
   typename InputImageType::RegionType region;
@@ -226,7 +217,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
   variance[1] = m_Variance;
   gaussianFilter->SetVariance(variance);
   gaussianFilter->Update();
-  InternalImageType::Pointer m_PostProcessImage = gaussianFilter->GetOutput();
+  typename InternalImageType::Pointer m_PostProcessImage = gaussianFilter->GetOutput();
 
   typedef MinimumMaximumImageCalculator<InternalImageType> MinMaxCalculatorType;
   typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
