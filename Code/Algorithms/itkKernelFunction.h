@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkKernelFunction_h
 
 #include "vnl/vnl_math.h"
+#include "itkFunctionBase.h"
 
 namespace itk
 {
@@ -49,9 +50,9 @@ namespace itk
  * \class KernelFunction
  * \brief Kernel used for kernel function/density estimation.
  * 
- * \ingroup Operators
+ * \ingroup Functions
  */
-class ITK_EXPORT KernelFunction : public Object
+class ITK_EXPORT KernelFunction : public FunctionBase<double,double>
 {
 public:  
   /**
@@ -62,7 +63,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Object Superclass;
+  typedef FunctionBase<double,double> Superclass;
 
   /** 
    * Smart pointer typedef support.
@@ -73,7 +74,7 @@ public:
   /**
    * Evaluate the function.
    */
-  virtual double Evaluate (const double u) = 0;
+  virtual double Evaluate (const double& u) const = 0;
 
 protected:  
   KernelFunction(){};  
@@ -85,7 +86,7 @@ protected:
  * \class GaussianKernelFunction
  * \brief Gaussian kernel used for kernel function/density estimation.
  *
- * \ingroup Operators
+ * \ingroup Functions
  *
  */
 class ITK_EXPORT GaussianKernelFunction : public KernelFunction
@@ -114,7 +115,7 @@ public:
   /**
    * Evaluate the function.
    */
-  inline double Evaluate (const double u)
+  inline double Evaluate (const double& u) const
   {
     return ( exp( -0.5 * vnl_math_sqr( u ) ) * m_Factor );
   }
