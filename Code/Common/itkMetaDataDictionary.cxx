@@ -15,14 +15,38 @@
 
 =========================================================================*/
 #include "itkMetaDataDictionary.h"
+#include <map>
+
 namespace itk{
+
+class MetaDataDictionaryMapType 
+  : public std::map<std::string, MetaDataObjectBase::Pointer>
+{
+};
+
+
+MetaDataDictionary
+::MetaDataDictionary()
+{
+  m_Dictionary = new MetaDataDictionaryMapType;
+}
+
+MetaDataDictionary
+::~MetaDataDictionary()
+{
+  if (m_Dictionary)
+    {
+    delete m_Dictionary;
+    m_Dictionary = 0;
+    }
+}
 
 void
 MetaDataDictionary
 ::Print(std::ostream& os) const
 {
-  for(MetaDataDictionary::const_iterator it=this->begin();
-      it != this->end();
+  for(MetaDataDictionaryMapType::const_iterator it=m_Dictionary->begin();
+      it != m_Dictionary->end();
       it++)
     {
     os << it->first <<  "  " ;
@@ -30,22 +54,17 @@ MetaDataDictionary
     }
 }
 
-MetaDataDictionary
-::~MetaDataDictionary()
-{
-}
-
 MetaDataObjectBase::Pointer &
 MetaDataDictionary
 ::operator [](const std::string &key)
 {
-return Superclass::operator[](key);
+  return (*m_Dictionary)[key];
 }
 
 bool
 MetaDataDictionary
 ::HasKey(const std::string &key)
 {
-  return Superclass::find(key) != Superclass::end();
+  return m_Dictionary->find(key) != m_Dictionary->end();
 }
 }; // namespace
