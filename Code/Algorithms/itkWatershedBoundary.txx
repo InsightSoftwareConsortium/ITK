@@ -58,29 +58,6 @@ Boundary<TScalarType, TDimension>
     }
 }
   
-template<class TScalarType,  unsigned int TDimension >
-void
-Boundary<TScalarType, TDimension>
-::UpdateOutputInformation()
-{
-  if (this->GetSource())
-    {
-    this->GetSource()->UpdateOutputInformation();
-    }
-  else
-    {
-      
-    }
-  
-  // Now we should know what our largest possible region is. If our 
-  // requested region was not set yet, (or has been set to something 
-  // invalid - with no data in it ) then set it to the largest possible
-  // region.
-  if ( ! m_RequestedRegionInitialized)
-    {
-    this->SetRequestedRegionToLargestPossibleRegion();
-    }
-}
 
 template<class TScalarType,  unsigned int TDimension >
 void 

@@ -94,29 +94,6 @@ bool SegmentTable<TScalarType>
 //  std::cout << "Verified " << i << " entries" << std::endl;
 //}
   
-template <class TScalarType>
-void
-SegmentTable<TScalarType>
-::UpdateOutputInformation()
-{
-  if (this->GetSource())
-    {
-    this->GetSource()->UpdateOutputInformation();
-    }
-  else
-    {
-      
-    }
-  
-  // Now we should know what our largest possible region is. If our 
-  // requested region was not set yet, (or has been set to something 
-  // invalid - with no data in it ) then set it to the largest possible
-  // region.
-  if ( ! m_RequestedRegionInitialized)
-    {
-    this->SetRequestedRegionToLargestPossibleRegion();
-    }
-}
 
 template <class TScalarType>
 void 

@@ -206,13 +206,6 @@ protected:
   HashMapType m_HashMap;
   ScalarType m_MaximumDepth;
   
-  /** Methods required of an itk DataObject   */
-  void UpdateOutputInformation();
-  bool VerifyRequestedRegion() { return true; }
-  void SetRequestedRegionToLargestPossibleRegion () {m_RequestedRegionInitialized = true;}
-  bool RequestedRegionIsOutsideOfTheBufferedRegion () { return false; }
-  void SetRequestedRegion (itk::DataObject *) {}
-
 private:
   void operator=(const Self&) {}
   
