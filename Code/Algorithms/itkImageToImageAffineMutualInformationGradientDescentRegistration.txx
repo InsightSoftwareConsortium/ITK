@@ -61,8 +61,13 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
     ++sit;
   }
 
+  // set default parameters
   m_NumberOfIterations = 1000;
   m_LearningRate = 1.0;
+  PointType center;
+  center.Fill( 0 );
+  this->SetTargetTransformationCenter( center );
+  this->SetReferenceTransformationCenter( center );
 
 }
 
@@ -169,7 +174,7 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
 
   // get the results
   m_Parameters = optimizer->GetCurrentPosition();
-  
+
   return 0;
 
 }
