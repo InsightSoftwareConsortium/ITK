@@ -144,9 +144,9 @@ LaplacianSharpeningImageFilter< TInputImage, TOutputImage >
   filter->Update();
   
   // determine how the data will need to scaled to be properly combined
-  MinimumMaximumImageCalculator<InputImageType>::Pointer inputCalculator
+  typename MinimumMaximumImageCalculator<InputImageType>::Pointer inputCalculator
     = MinimumMaximumImageCalculator<InputImageType>::New();
-  MinimumMaximumImageCalculator<RealImageType>::Pointer filteredCalculator
+  typename MinimumMaximumImageCalculator<RealImageType>::Pointer filteredCalculator
     = MinimumMaximumImageCalculator<RealImageType>::New();
 
   inputCalculator->SetImage(this->GetInput());
