@@ -51,7 +51,7 @@ void SegmentTable<TScalarType>
 ::PruneEdgeLists(ScalarType maximum_saliency)
 {
   Iterator it;
-  edge_list_t::iterator e;
+  typename edge_list_t::iterator e;
   for (it = this->Begin(); it != this->End(); ++it)
     {
       for (e = (*it).second.edge_list.begin();
