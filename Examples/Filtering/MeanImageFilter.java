@@ -20,8 +20,15 @@ public class MeanImageFilter
     filter.SetInput( reader.GetOutput() );
     writer.SetInput( filter.GetOutput() );
 
-    reader.SetFileName( argv[1] );
-    writer.SetFileName( argv[2] );
+    System.out.println("Reading input image"+argv[0]);
+    reader.SetFileName( argv[0] );
+    reader.Update();
+
+    System.out.println("Running Mean filter");
+    filter.Update();
+
+    System.out.println("Writin output image"+argv[1]);
+    writer.SetFileName( argv[1] );
 
     writer.Update();
   }
