@@ -75,6 +75,31 @@ bool MetaImageIO::CanReadFile( const char* filename )
     inputStream.close();
     return true;
     }
+  if( strcmp(key,"ObjectType")==0 ) 
+    {
+    inputStream.close();
+    return true;
+    }
+  if( strcmp(key,"TransformType")==0 ) 
+    {
+    inputStream.close();
+    return true;
+    }
+  if( strcmp(key,"ID")==0 ) 
+    {
+    inputStream.close();
+    return true;
+    }
+  if( strcmp(key,"ParentID")==0 ) 
+    {
+    inputStream.close();
+    return true;
+    }
+  if( strcmp(key,"BinaryData")==0 ) 
+    {
+    inputStream.close();
+    return true;
+    }
 
   inputStream.close();
   return false;
