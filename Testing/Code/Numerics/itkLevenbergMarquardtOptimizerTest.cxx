@@ -221,10 +221,10 @@ int main()
 
 
   // Declaration of the CostFunction adaptor
-  CostFunction costFunction;
+  CostFunction::Pointer costFunction = CostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( &costFunction );
+  itkOptimizer->SetCostFunction( costFunction );
 
   
   const double F_Tolerance      = 1e-15;  // Function value tolerance
@@ -282,7 +282,7 @@ int main()
   std::cout << std::endl;
 
   ParametersType finalPosition;
-  finalPosition = costFunction.GetParameters();
+  finalPosition = costFunction->GetParameters();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << "," ;
   std::cout << finalPosition[1] << "," ;

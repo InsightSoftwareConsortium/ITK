@@ -159,10 +159,10 @@ int main()
 
 
   // Declaration of the CostFunction adaptor
-  CostFunction costFunction;
+  CostFunction::Pointer costFunction = CostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( &costFunction );
+  itkOptimizer->SetCostFunction( costFunction );
 
   
    typedef CostFunction::ParametersType    ParametersType;
@@ -185,7 +185,7 @@ int main()
   itkOptimizer->StartOptimization();
 
   ParametersType finalPosition;
-  finalPosition = costFunction.GetParameters();
+  finalPosition = costFunction->GetParameters();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << "," ;
   std::cout << finalPosition[1] << ")" << std::endl;  
