@@ -96,6 +96,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkGrayscaleGeodesicErodeImageFilter.txx"
 #include "itkHardConnectedComponentImageFilter.txx"
 #include "itkHausdorffDistanceImageFilter.txx"
+#include "itkHoughTransform2DCirclesImageFilter.txx"
 #include "itkHoughTransform2DLinesImageFilter.txx"
 #include "itkImageToMeshFilter.txx"
 #include "itkImageToParametricSpaceFilter.txx"
