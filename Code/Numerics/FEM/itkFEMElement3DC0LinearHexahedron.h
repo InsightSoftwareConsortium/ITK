@@ -57,7 +57,7 @@ public:
 
   virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
 
-  virtual VectorType GetLocalFromGlobalCoordinates( const VectorType& pt ) const;
+  virtual bool GetLocalFromGlobalCoordinates( const VectorType& pt , VectorType& Lpt) const;
 
   /**
    * Draw the element on the specified device context

@@ -170,16 +170,16 @@ Element2DC0LinearQuadrilateral
 
 
 
-
-Element2DC0LinearQuadrilateral::VectorType
+bool
 Element2DC0LinearQuadrilateral
-::GetLocalFromGlobalCoordinates( const VectorType& pt ) const
+::GetLocalFromGlobalCoordinates( const VectorType& pt , VectorType& Lpt) const
 {
 
   Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
         A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
 
-  VectorType lpt(2);
+  Lpt.resize(2);
+  Lpt.fill(0.0);
 
   x1 = this->m_node[0]->GetCoordinates()[0];   y1 = this->m_node[0]->GetCoordinates()[1];
   x2 = this->m_node[1]->GetCoordinates()[0];   y2 = this->m_node[1]->GetCoordinates()[1];
@@ -210,10 +210,14 @@ Element2DC0LinearQuadrilateral
   ce = (dx * yce) - (dy * xce);
   cn = (dx * ycn) - (dy * xcn);
 
-  lpt[0] = (2 * ce) / (-sqrt((be * be) - (2 * J1 * ce)) - be);
-  lpt[1] = (2 * cn) / ( sqrt((bn * bn) + (2 * J2 * cn)) - bn);
+  Lpt[0] = (2 * ce) / (-sqrt((be * be) - (2 * J1 * ce)) - be);
+  Lpt[1] = (2 * cn) / ( sqrt((bn * bn) + (2 * J2 * cn)) - bn);
 
-  return lpt;
+  bool IsInside=true;
+
+  if (Lpt[0] < -1.0 || Lpt[0] > 1.0 || Lpt[1] < -1.0 || Lpt[1] > 1.0 ) IsInside=false;
+
+  return IsInside;
 }
 
 

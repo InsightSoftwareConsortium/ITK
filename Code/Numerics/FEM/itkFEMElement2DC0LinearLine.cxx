@@ -111,16 +111,14 @@ Element2DC0LinearLine
 
 
 
-Element2DC0LinearLine::VectorType
+bool
 Element2DC0LinearLine
-::GetLocalFromGlobalCoordinates( const VectorType& pt ) const
+::GetLocalFromGlobalCoordinates( const VectorType& pt , VectorType& Lpt) const
 {
-
-  VectorType lpt(1);
 
   // FIXME: write proper implementation
 
-  return lpt;
+  return false;
 }
 
 

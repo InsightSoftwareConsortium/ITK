@@ -190,17 +190,16 @@ Element3DC0LinearHexahedron
 }
 
 
-
-
-Element3DC0LinearHexahedron::VectorType
+bool
 Element3DC0LinearHexahedron
-::GetLocalFromGlobalCoordinates( const VectorType& pt ) const
+::GetLocalFromGlobalCoordinates( const VectorType& pt , VectorType& Lpt ) const
 {
 
 //  Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
 //        A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
 
-  VectorType lpt(3);
+  Lpt.resize(3);
+  Lpt.fill(0.0);
 
   // FIXME!
 
@@ -236,7 +235,10 @@ Element3DC0LinearHexahedron
 //   lpt[0] = (2 * ce) / (-sqrt((be * be) - (2 * J1 * ce)) - be);
 //   lpt[1] = (2 * cn) / ( sqrt((bn * bn) + (2 * J2 * cn)) - bn);
 
-  return lpt;
+  // FIXME
+  bool IsInside=false;
+
+  return IsInside;
 }
 
 

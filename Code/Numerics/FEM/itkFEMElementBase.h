@@ -469,11 +469,11 @@ public:
   virtual VectorType GetGlobalFromLocalCoordinates( const VectorType& pt ) const;
 
   /**
-   * Transforms the given global element coordinates into local.
+   * Transforms the given global element coordinates into local.  Returns false if the point is outside.
    *
-   * \param pt Point in global (world) coordinates.
+   * \param pt Point in global (world) coordinates.  The local coordinate is returned in LocalPt
    */
-  virtual VectorType GetLocalFromGlobalCoordinates( const VectorType& pt ) const = 0;
+  virtual bool GetLocalFromGlobalCoordinates( const VectorType& GlobalPt , VectorType& LocalPt ) const = 0;
 
   /**
    * Returns the number of dimensions of space in which the element is
