@@ -1,10 +1,10 @@
 aborning:Andrea Borning:aborning@insightful.com
-alyassin
+alyassin:Majeid Alyassin:alyassin@crd.ge.com
 anonymous
 avants
 aylward
-blezek:Danny Blezek:blezek@crd.ge.com
-blue
+blezek:Dan Blezek:blezek@crd.ge.com
+blue:Rusty Blue:blue@crd.ge.com
 bruno
 burgiss
 cates:Josh Cates:cates@cs.utah.edu
@@ -20,15 +20,15 @@ ibanez:Luis Ibanez:ibanez@cs.unc.edu
 jin
 jjomier
 jrgold
-kellyae
+kellyae:Anne Kelly:kellyae@crd.ge.com
 king:Brad King:brad.king@kitware.com
 lawcc:Charles Law:charles.law@kitware.com
 lng:Lydia Ng:lng@insightful.com
-lorensen
+lorensen:Bill Lorensen:lorensen@crd.ge.com
 martink:Ken Martin:ken.martin@kitware.com
-millerjv
+millerjv:Jim Miller:millerjv@crd.ge.com
 parks
-ratiu
+ratiu:Peter Ratiu:ratiu@bwh.harvard.edu
 rondot
 Rystrom
 siqueira
@@ -37,11 +37,11 @@ spathak:Sayan Pathak:spathak@insightful.com
 stetten:George Stetten:george@stetten.com
 tamburo:Robert Tamburo:rjtst21@pitt.edu
 tpan
-turek
+turek:Matt Turek:turek@crd.ge.com
 vikram:Vikram Chalana:vikram@insightful.com
-volpe
+volpe:Chris Volpe:volpecr@crd.ge.com
 whitaker
 will:Will Schroeder:will.schroeder@kitware.com
-yamrom
+yamrom:Boris Yamrom:yamrom@crd.ge.com
 ying
 yoo:Terry S. Yoo:yoo@flourite.nlm.nih.gov
