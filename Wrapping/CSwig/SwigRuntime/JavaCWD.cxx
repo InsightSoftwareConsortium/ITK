@@ -38,3 +38,17 @@ const char* JavaCWD::GetCWD()
   return buffer;
 }
 #endif
+
+#if defined(__linux__)
+# include <dlfcn.h>
+
+int JavaCWD::Load(const char* lib)
+{
+  return dlopen(lib, RTLD_GLOBAL|RTLD_NOW)? 1:0;
+}
+#else
+int JavaCWD::Load(const char* lib)
+{
+  return 0;
+}
+#endif

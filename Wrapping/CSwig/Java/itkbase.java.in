@@ -62,6 +62,7 @@ public class itkbase
     JavaCWD.SetCWD(libDir);
     String sep = System.getProperty("file.separator");
     String lib = System.mapLibraryName(name);
+    JavaCWD.Load(libDir + sep + lib);
     Runtime.getRuntime().load(libDir + sep + lib);
     JavaCWD.SetCWD(old);
     }
