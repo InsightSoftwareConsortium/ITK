@@ -25,6 +25,8 @@
 #include <string.h>
 #include <limits.h>
 #include <stdlib.h>
+#include <time.h>
+#include <assert.h>
 #include <vector>
 
 //From uiig library "The University of Iowa Imaging Group-UIIG"
@@ -126,8 +128,12 @@ namespace itk
     // GE images are stored in separate files per slice.
     char imagePath[MAXPATHLEN+1];
     char imageMask[MAXPATHLEN+1];
+#if 0
     if(realpath(FileNameToRead,imagePath) == NULL)
       RAISE_EXCEPTION();
+#else
+    strcpy (imagePath, FileNameToRead);
+#endif
     strcpy(imageMask,imagePath);
     char *lastslash = strrchr(imagePath,'/');
     if(lastslash == NULL)
@@ -194,8 +200,7 @@ namespace itk
   sortImageListAscend (&m_fnlist);
   break;
       default:
-  assert( 0==1 );
-  break;
+      break;
       }
     //
     //
