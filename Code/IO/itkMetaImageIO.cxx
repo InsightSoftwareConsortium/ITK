@@ -38,7 +38,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include <fstream.h>
+
 #include "itkMetaImageIO.h"
 #include "itkExceptionObject.h"
 
@@ -57,6 +57,7 @@ MetaImageIO::MetaImageIO()
 
 MetaImageIO::~MetaImageIO()
 {
+  m_Ifstream.close();
 }
 
 
@@ -160,6 +161,25 @@ unsigned int MetaImageIO::GetComponentSize() const
   
 void MetaImageIO::Load(void* buffer)
 {
+  unsigned int dimensions = this->GetNumberOfDimensions();
+  unsigned int numberOfPixels = 1;
+  for( unsigned int dim=0; dim< dimensions; dim++ )
+    {
+    numberOfPixels *= m_Dimensions[ dim ];
+    }
+
+  unsigned int pixelSize =  this->GetComponentSize();
+
+  char * p = static_cast<char *>(buffer);
+  for( unsigned int pixelnumber = 0; pixelnumber< numberOfPixels; pixelnumber++)
+  {
+    for(unsigned int bytes=0; bytes<pixelSize; bytes++)
+    {
+      m_Ifstream.get(*p);
+      p++;
+    }
+  }
+
 }
 
 
@@ -167,71 +187,93 @@ void MetaImageIO::Load(void* buffer)
 
 bool MetaImageIO::ReadHeader(const char* fname)
 {
-  std::ifstream metaFile;
-  metaFile.open( fname );
+  m_Ifstream.open( fname );
 
-  if( metaFile.fail() )
+  if( m_Ifstream.fail() )
   {
     return false;
   }
 
   char key[8000];
 
-  while( !metaFile.eof() )
+  while( !m_Ifstream.eof() )
   {
 
-  metaFile >> key;
+  m_Ifstream >> key;
 
-  if( metaFile.eof() )
+  if( m_Ifstream.eof() )
     {
     return false;
     }
 
-  if( strcmp( key, "DATA" ) == 0 )
-    {
-    // end of header : succesful read
-    this->SetFileName(fname); 
-    return true;
-    }
-
-  if( strcmp(key,"NDIMS")==0 ) 
+  if( strcmp(key,"NDims")==0 ) 
     {
     unsigned int dimension;
-    metaFile >> dimension;
+    m_Ifstream >> key;
+    if( strcmp( key, "=" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
+    m_Ifstream >> dimension;
     this->SetNumberOfDimensions( dimension );
     continue;
     }
 
   if( strcmp(key,"DimSize")==0 ) 
     {
+    m_Ifstream >> key;
+    if( strcmp( key, "=" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
     for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ )
       {
-      metaFile >> m_Dimensions[ dim ];
+      m_Ifstream >> m_Dimensions[ dim ];
       }
     continue;
     }
 
   if( strcmp(key,"ElementSize")==0 ) 
     {
+    m_Ifstream >> key;
+    if( strcmp( key, "=" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
     for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ )
       {
-      metaFile >> m_Spacing[ dim ];
+      m_Ifstream >> m_Spacing[ dim ];
       }
     continue;
     }
 
   if( strcmp(key,"ElementNBits")==0 ) 
     {
+    m_Ifstream >> key;
+    if( strcmp( key, "=" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
     unsigned long elmentNumberOfBits;
-    metaFile >> elmentNumberOfBits;
+    m_Ifstream >> elmentNumberOfBits;
     continue;
     }
 
   
   if( strcmp(key,"ElementType")==0 ) 
     {
+    m_Ifstream >> key;
+    if( strcmp( key, "=" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
     char elementType[512];
-    metaFile >> elementType;
+    m_Ifstream >> elementType;
 
     if( strcmp( elementType, "MET_UCHAR" ) == 0 )
       {
@@ -277,8 +319,28 @@ bool MetaImageIO::ReadHeader(const char* fname)
     continue;
     }
 
+  if( strcmp( key, "ElementDataFile" ) == 0 )
+    {
+    m_Ifstream >> key;
+    if( strcmp( key, "=" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
+    m_Ifstream >> key;
+    if( strcmp( key, "LOCAL" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
+    // end of header : succesful read
+    this->SetFileName(fname); 
+    return true;
+    }
+
+
     // Unknown code, get the rest of the line
-    metaFile.getline(key,2000,'\n');
+    m_Ifstream.getline(key,2000,'\n');
 
   }
 

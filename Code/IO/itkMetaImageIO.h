@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkMetaImageIO_h
 #define __itkMetaImageIO_h
 
+#include <fstream>
 #include "itkImageIOBase.h"
 
 namespace itk
@@ -113,6 +114,9 @@ protected:
   ComponentType m_MetaPixelType;
   double m_Spacing[10];
   double m_Origin[10];
+
+  std::ifstream   m_Ifstream;
+  
 };
 
 } // end namespace itk
