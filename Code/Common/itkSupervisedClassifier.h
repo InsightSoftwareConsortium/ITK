@@ -93,8 +93,7 @@ public:
    * Type definition for the vector associated with
    * input image pixel type.
    */     
-  typedef typename TInputImage::PixelType::VectorType    
-    InputImageVectorType;
+  typedef typename TInputImage::PixelType InputImageVectorType;
 
   /**
    * Type definitions for the training image.

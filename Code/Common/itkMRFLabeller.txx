@@ -18,22 +18,25 @@ namespace itk
 
 template<class TInputImage, class TClassifiedImage>
 MRFLabeller<TInputImage,TClassifiedImage>
-::MRFLabeller(void):
-  m_InputImage(NULL),
-  m_TrainingImage(NULL),
-  m_LabelledImage(NULL),
-  m_NumClasses(0),
-  m_LabelStatus(NULL),
-  m_ErrorCounter(0),
-  m_MaxNumIter(50),
-  m_ClassifierPtr(NULL),
-  // Default values of the kernel size of the beta matrix
-  m_kWidth(3),
-  m_kHeight(3),
-  m_kDepth(3),
-  m_KernelSize(m_kWidth*m_kHeight*m_kDepth)
+::MRFLabeller(void)
 {
-  SetBeta();
+  m_InputImage      = NULL;
+  m_TrainingImage   = NULL;
+  m_LabelledImage   = NULL;
+  m_NumClasses      = NULL;
+  m_LabelStatus     = NULL;
+  m_ErrorCounter    = NULL;
+  m_MaxNumIter      = 50;
+
+  m_ClassifierPtr   = NULL;
+
+  // Default values of the kernel size of the beta matrix
+  m_kWidth  = 3; 
+  m_kHeight = 3; 
+  m_kDepth  = 3; 
+  m_KernelSize = m_kWidth * m_kHeight * m_kDepth;
+
+  SetBeta( 0 );
 }
 
 template<class TInputImage, class TClassifiedImage>
@@ -129,7 +132,7 @@ MRFLabeller<TInputImage, TClassifiedImage>
   LabelledImageIterator  
     labelledImageIt( m_LabelledImage, m_LabelledImage->GetBufferedRegion() );
 
-  LabelledImageIterator  labelledIt    = labelledImageIt.Begin();
+  labelledImageIt.Begin();
 
   //--------------------------------------------------------------------
   // Set the iterators to the output image buffer
@@ -137,18 +140,17 @@ MRFLabeller<TInputImage, TClassifiedImage>
   LabelledImageIterator  
     outImageIt( outputPtr, outputPtr->GetBufferedRegion() );
 
+  outImageIt.Begin();
+
   //--------------------------------------------------------------------
 
   while ( !outImageIt.IsAtEnd() )
   {
     LabelledImagePixelType labelvalue = 
-      ( LabelledImagePixelType ) ScalarTraits<LabelledImagePixelType>::
-        GetScalar( *labelledIt );
+      ( LabelledImagePixelType ) labelledImageIt.Get();
 
-    ScalarTraits<LabelledImagePixelType>
-      ::SetScalar( *outImageIt, labelvalue );
-
-    ++labelledIt;
+    outImageIt.Set( labelvalue );
+    ++labelledImageIt;
     ++outImageIt;
   }// end while
         
@@ -159,7 +161,7 @@ void
 MRFLabeller<TInputImage, TClassifiedImage>
 ::SetClassifier( typename ClassifierType::Pointer ptrToClassifier )
 {
-  if( (ptrToClassifier == NULL) || (m_NumClasses <= 0) )
+  if( ( ptrToClassifier == NULL ) || (m_NumClasses <= NULL) )
     throw ExceptionObject();
 
   m_ClassifierPtr = ptrToClassifier;
@@ -200,7 +202,7 @@ void
 MRFLabeller<TInputImage, TClassifiedImage>
 ::Allocate()
 {
-  if( m_NumClasses <= 0 )
+  if( m_NumClasses <= NULL )
   {
     throw ExceptionObject();
   }
@@ -234,7 +236,7 @@ MRFLabeller<TInputImage, TClassifiedImage>
 template<class TInputImage, class TClassifiedImage>
 void
 MRFLabeller<TInputImage, TClassifiedImage>
-::SetBeta( double* = 0)
+::SetBeta( double* )
 {
 
   // Set the beta matrix of a 3x3x3 kernel
@@ -370,8 +372,7 @@ MRFLabeller<TInputImage, TClassifiedImage>
   //-------------------------------------------------------------------
   InputImageIterator  inputImageIt(m_InputImage, m_InputImage->GetBufferedRegion() );
 
-  InputImageIterator  inputIt    = inputImageIt.Begin();
-  InputImageIterator  inputItEnd = inputImageIt.End();
+  inputImageIt.Begin();
  
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the classified image
@@ -379,8 +380,7 @@ MRFLabeller<TInputImage, TClassifiedImage>
   LabelledImageIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
-  LabelledImageIterator  labelledIt    = labelledImageIt.Begin();
-  LabelledImageIterator  labelledItEnd = labelledImageIt.End();
+  labelledImageIt.Begin();
  
   //---------------------------------------------------------------------
   // Loop through the data set and classify the data
@@ -403,8 +403,8 @@ MRFLabeller<TInputImage, TClassifiedImage>
   //the MRF classification
   LabelledImagePixelType outLabelledPix;
 
-  //Variable for temporary labelled image iterator storage
-  LabelledImagePixelType *tempLabelledIt;
+  //Variable for temporary labelled image pixel
+  LabelledImagePixelType tempLabelled;
 
   int imageFrame = m_imgWidth * m_imgHeight;
 
@@ -412,7 +412,7 @@ MRFLabeller<TInputImage, TClassifiedImage>
   {
     for( int j = 0; j < m_imgHeight; j++ )
     {
-      for( int i = 0; i < m_imgWidth; i++, ++inputIt, ++labelledIt )
+      for( int i = 0; i < m_imgWidth; i++, ++inputImageIt, ++labelledImageIt )
       {
         int labelStatusPtrOffset = i + j * m_imgHeight + d * imageFrame;
 
@@ -422,7 +422,7 @@ MRFLabeller<TInputImage, TClassifiedImage>
         //Current status returns the best possible result with the
         //flag check suspended
 
-        inputPixelVec = *inputIt;
+        inputPixelVec = inputImageIt.Get();
         double *dist = m_ClassifierPtr->GetPixelDistance( inputPixelVec );
                       
         for( int index = 0; index <= m_NumClasses ;index++ ) 
@@ -444,12 +444,11 @@ MRFLabeller<TInputImage, TClassifiedImage>
                      m_DepthOffset[k] * imageFrame;
 
             //Read the classified pixels from the labelled image
-            tempLabelledIt = &(*labelledIt);
-            tempLabelledIt += offset;
+            tempLabelled = labelledImageIt.Get();
+            tempLabelled += offset;
+            labelledImageIt.Set( tempLabelled );
 
-            labelledPixel = ( LabelledImagePixelType ) 
-              ScalarTraits<LabelledImagePixelType>::
-                GetScalar( *tempLabelledIt );
+            labelledPixel = tempLabelled;
                 
             //Assuems that the MRF label is an image with 1 value
             //per pixel and is treated as a vector with 1 entry pervector
@@ -480,8 +479,7 @@ MRFLabeller<TInputImage, TClassifiedImage>
                       
         //Read the current pixel label
         labelledPixel = 
-          ( LabelledImagePixelType ) ScalarTraits<LabelledImagePixelType>::
-            GetScalar( *labelledIt );
+          ( LabelledImagePixelType ) labelledImageIt.Get();
 
         //Check if the label has changed then set the change flag in all the 
         //neighborhood of the current pixel
@@ -489,9 +487,7 @@ MRFLabeller<TInputImage, TClassifiedImage>
         {
           //While the distance array starts with 0, the actual index starts from 1
           outLabelledPix = pixLabel;
-
-          ScalarTraits<LabelledImagePixelType>::
-            SetScalar(*labelledIt, outLabelledPix );
+          labelledImageIt.Set( outLabelledPix );
 
           for( int k = 0; k < m_KernelSize; k++ )
           {

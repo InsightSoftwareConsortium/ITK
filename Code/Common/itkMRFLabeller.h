@@ -180,16 +180,13 @@ public:
   typedef typename TClassifiedImage::PixelType LabelledImagePixelType;
 
   typedef
-    ImageRegionIterator< InputImagePixelType, 
-                         TInputImage::ImageDimension>  
-      InputImageIterator;
-  typedef
-    ImageRegionIterator< TrainingImagePixelType, 
-                         TClassifiedImage::ImageDimension> 
-      LabelledImageIterator;
+    ImageRegionSimpleIterator< TInputImage > InputImageIterator;
 
-  typedef typename TInputImage::PixelType::VectorType 
-    InputImageVectorType;
+  typedef
+    ImageRegionSimpleIterator< TClassifiedImage > LabelledImageIterator;
+
+
+  typedef typename TInputImage::PixelType    InputImageVectorType;
 
   /**
    * Set the image required for training type classifiers

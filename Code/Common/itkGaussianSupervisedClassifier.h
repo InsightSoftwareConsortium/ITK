@@ -25,6 +25,7 @@
 #include "itkSupervisedClassifier.h"
 #include <math.h>
 #include <float.h>
+#include "itkImageRegionSimpleIterator.h"
 
 
 namespace itk
@@ -141,18 +142,15 @@ public:
   typedef typename TClassifiedImage::PixelType ClassifiedImagePixelType;  
   
   typedef
-    ImageRegionIterator< InputImagePixelType, TInputImage::ImageDimension>  
-          InputImageIterator;
+    ImageRegionSimpleIterator< TInputImage >  InputImageIterator;
   typedef
-    ImageRegionIterator< TrainingPixelType, TClassifiedImage::ImageDimension> 
-      TrainingImageIterator;
+    ImageRegionSimpleIterator< TClassifiedImage > TrainingImageIterator;
 
   /**
    * Type definition for the vector associated with
    * input image pixel type.
    */     
-  typedef typename TInputImage::PixelType::VectorType    
-    InputImageVectorType;
+  typedef typename TInputImage::PixelType  InputImageVectorType;
 
   /**
    * Train multivariate Gaussian classifier. 

@@ -17,11 +17,13 @@
 #define _itkClassifier_h
 
 #include "itkObject.h"
+#include "itkImageRegionSimpleIterator.h"
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_math.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 //#include "vnl/vnl_numeric_limits.h"
+
 namespace itk
 {
 
@@ -95,8 +97,7 @@ public:
    * Type definition for the vector associated with
    * input image pixel type.
    */   
-  typedef typename TInputImage::PixelType::VectorType    
-    InputImageVectorType;
+  typedef typename TInputImage::PixelType InputImageVectorType;
 
   /**
    * Type definitions for the training image pixel type.
