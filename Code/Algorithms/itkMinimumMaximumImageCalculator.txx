@@ -47,16 +47,17 @@ MinimumMaximumImageCalculator<TInputImage>
   m_Maximum = NumericTraits<PixelType>::min() ;
   m_Minimum = NumericTraits<PixelType>::max() ;
 
+
   while( !it.IsAtEnd() )
   {
-    if (it.Get() > m_Maximum) 
+    const PixelType value = it.Get();  
+    if (value > m_Maximum) 
     {
-      m_Maximum = it.Get();
+      m_Maximum = value;
     }
-
-    if (it.Get() < m_Minimum) 
+    if (value < m_Minimum) 
     {
-      m_Minimum = it.Get();
+      m_Minimum = value;
     }
    ++it;
   }
@@ -76,9 +77,10 @@ MinimumMaximumImageCalculator<TInputImage>
 
   while( !it.IsAtEnd() )
   {
-    if (it.Get() < m_Minimum) 
+    const PixelType value = it.Get();  
+    if (value < m_Minimum) 
     {
-      m_Minimum = it.Get();
+      m_Minimum = value;
     }
     ++it;
   }
@@ -98,9 +100,10 @@ MinimumMaximumImageCalculator<TInputImage>
 
   while( !it.IsAtEnd() )
   {
-    if (it.Get() > m_Maximum) 
+    const PixelType value = it.Get();  
+    if (value > m_Maximum) 
     {
-      m_Maximum = it.Get();
+      m_Maximum = value;
     }
     ++it;
   }
