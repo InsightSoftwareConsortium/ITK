@@ -72,15 +72,7 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
   InputImagePointer  inputImage  = 
     dynamic_cast<const TInputImage  *>( ProcessObject::GetInput(0) );
 
-  thinImage->SetLargestPossibleRegion( 
-    inputImage->GetLargestPossibleRegion() );
-
-  thinImage->SetBufferedRegion( 
-    inputImage->GetBufferedRegion() );
-
-  thinImage->SetRequestedRegion( 
-    inputImage->GetRequestedRegion() );
-
+  thinImage->SetBufferedRegion( thinImage->GetRequestedRegion() );
   thinImage->Allocate();
 
   typename OutputImageType::RegionType region  = thinImage->GetRequestedRegion();
