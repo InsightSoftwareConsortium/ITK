@@ -139,13 +139,8 @@ int itkGradientDescentOptimizerTest(int, char**)
 
   initialPosition[0] =  100;
   initialPosition[1] = -100;
-  
-  ScalesType    parametersScale( spaceDimension );
-  parametersScale[0] = 1.0;
-  parametersScale[1] = 1.0;
 
   itkOptimizer->MinimizeOn();
-  itkOptimizer->SetScales( parametersScale );
   itkOptimizer->SetLearningRate( 0.1 );
   itkOptimizer->SetNumberOfIterations( 50 );
 
