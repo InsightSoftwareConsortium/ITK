@@ -189,11 +189,29 @@ bool ImageIOBase::SetPixelTypeInfo(const std::type_info& ptype)
     this->SetPixelType(ImageIOBase::RGB);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
+  else if ( ptype == typeid(RGBPixel<double>) )
+    {
+    this->SetNumberOfComponents(3);
+    this->SetPixelType(ImageIOBase::RGB);
+    this->SetComponentType(ImageIOBase::DOUBLE);
+    }
   else if ( ptype == typeid(RGBAPixel<unsigned char>) )
     {
     this->SetNumberOfComponents(4);
     this->SetPixelType(ImageIOBase::RGBA);
     this->SetComponentType(ImageIOBase::UCHAR);
+    }
+  else if ( ptype == typeid(RGBAPixel<float>) )
+    {
+    this->SetNumberOfComponents(4);
+    this->SetPixelType(ImageIOBase::RGBA);
+    this->SetComponentType(ImageIOBase::FLOAT);
+    }
+  else if ( ptype == typeid(RGBAPixel<double>) )
+    {
+    this->SetNumberOfComponents(4);
+    this->SetPixelType(ImageIOBase::RGBA);
+    this->SetComponentType(ImageIOBase::DOUBLE);
     }
   else if ( ptype == typeid(Offset<2>) )
     {
@@ -231,6 +249,24 @@ bool ImageIOBase::SetPixelTypeInfo(const std::type_info& ptype)
     this->SetPixelType(ImageIOBase::COVARIANTVECTOR);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
+  else if ( ptype == typeid(CovariantVector<double,2>) )
+    {
+    this->SetNumberOfComponents(2);
+    this->SetPixelType(ImageIOBase::COVARIANTVECTOR);
+    this->SetComponentType(ImageIOBase::DOUBLE);
+    }
+  else if ( ptype == typeid(CovariantVector<double,3>) )
+    {
+    this->SetNumberOfComponents(3);
+    this->SetPixelType(ImageIOBase::COVARIANTVECTOR);
+    this->SetComponentType(ImageIOBase::DOUBLE);
+    }
+  else if ( ptype == typeid(CovariantVector<double,4>) )
+    {
+    this->SetNumberOfComponents(4);
+    this->SetPixelType(ImageIOBase::COVARIANTVECTOR);
+    this->SetComponentType(ImageIOBase::DOUBLE);
+    }
   else if ( ptype == typeid(Vector<float,2>))
     {
     this->SetNumberOfComponents(2);
@@ -248,6 +284,24 @@ bool ImageIOBase::SetPixelTypeInfo(const std::type_info& ptype)
     this->SetNumberOfComponents(4);
     this->SetPixelType(ImageIOBase::VECTOR);
     this->SetComponentType(ImageIOBase::FLOAT);
+    }
+  else if ( ptype == typeid(Vector<double,2>))
+    {
+    this->SetNumberOfComponents(2);
+    this->SetPixelType(ImageIOBase::VECTOR);
+    this->SetComponentType(ImageIOBase::DOUBLE);
+    }
+  else if ( ptype == typeid(Vector<double,3>))
+    {
+    this->SetNumberOfComponents(3);
+    this->SetPixelType(ImageIOBase::VECTOR);
+    this->SetComponentType(ImageIOBase::DOUBLE);
+    }
+  else if ( ptype == typeid(Vector<double,4>))
+    {
+    this->SetNumberOfComponents(4);
+    this->SetPixelType(ImageIOBase::VECTOR);
+    this->SetComponentType(ImageIOBase::DOUBLE);
     }
   else
     {
