@@ -14,6 +14,7 @@
 #include <fstream>
 #include <vector>
 
+#include "DICOMConfig.h"
 #include "DICOMFile.h"
 #include "DICOMTypes.h"
 #include "DICOMParserMap.h"
@@ -28,7 +29,7 @@ template <class T> class DICOMMemberCallback;
 //
 
 
-class DICOMParser
+class DICOM_EXPORT DICOMParser
 {
  public:
 
@@ -45,12 +46,12 @@ class DICOMParser
   //
   // Opens a file and initializes the parser.
   //
-  bool OpenFile(const std::string& filename);
+  bool OpenFile(const dicomstd::string& filename);
 
   //
   // Return the name of the file last processed.
   //
-  const std::string& GetFileName();
+  const dicomstd::string& GetFileName();
   
   //
   // This method kicks off the parser.
@@ -118,8 +119,8 @@ class DICOMParser
   //
   void ModalityTag(doublebyte group, doublebyte element, VRTypes datatype, unsigned char* tempdata, quadbyte length);
 
-  void SetDICOMTagCallbacks(doublebyte group, doublebyte element, VRTypes datatype, std::vector<DICOMCallback*>* cbVector);
-  void AddDICOMTagCallbacks(doublebyte group, doublebyte element, VRTypes datatype, std::vector<DICOMCallback*>* cbVector);
+  void SetDICOMTagCallbacks(doublebyte group, doublebyte element, VRTypes datatype, dicomstd::vector<DICOMCallback*>* cbVector);
+  void AddDICOMTagCallbacks(doublebyte group, doublebyte element, VRTypes datatype, dicomstd::vector<DICOMCallback*>* cbVector);
   void AddDICOMTagCallback (doublebyte group, doublebyte element, VRTypes datatype, DICOMCallback* cb);
   void AddDICOMTagCallbackToAllTags(DICOMCallback* cb);
 
@@ -138,9 +139,9 @@ class DICOMParser
                               unsigned char* val,
                               quadbyte) ;
 
-  void GetGroupsElementsDatatypes(std::vector<doublebyte>& groups,
-                                  std::vector<doublebyte>& elements,
-                                  std::vector<VRTypes>& datatypes);
+  void GetGroupsElementsDatatypes(dicomstd::vector<doublebyte>& groups,
+                                  dicomstd::vector<doublebyte>& elements,
+                                  dicomstd::vector<VRTypes>& datatypes);
 
  protected:
 
@@ -155,7 +156,7 @@ class DICOMParser
   // Print a tag.
   //
   // void DumpTag(doublebyte group, doublebyte element, VRTypes datatype, unsigned char* data, quadbyte length);
-  void DumpTag(std::ostream& out, doublebyte group, doublebyte element, VRTypes vrtype, unsigned char* tempdata, quadbyte length);
+  void DumpTag(dicomstd::ostream& out, doublebyte group, doublebyte element, VRTypes vrtype, unsigned char* tempdata, quadbyte length);
 
   //
   // Hack to check out dynamic modality tags.
@@ -209,19 +210,19 @@ class DICOMParser
   //
   // Used for outputting debug information.
   //
-  std::ofstream ParserOutputFile;
+  dicomstd::ofstream ParserOutputFile;
 
   //
   // Pointer to the DICOMFile we're parsing.
   //
   DICOMFile* DataFile;
-  std::string FileName;
+  dicomstd::string FileName;
   
   bool ToggleByteSwapImageData;
 
-  std::vector<doublebyte> Groups;
-  std::vector<doublebyte> Elements;
-  std::vector<VRTypes> Datatypes;
+  dicomstd::vector<doublebyte> Groups;
+  dicomstd::vector<doublebyte> Elements;
+  dicomstd::vector<VRTypes> Datatypes;
 
   DICOMMemberCallback<DICOMParser>* TransferSyntaxCB;
 

@@ -13,6 +13,7 @@
 #include <iomanip>
 #include <iostream>
 
+#include "DICOMConfig.h"
 #include "DICOMTypes.h"
 #include "DICOMParser.h"
 #include "DICOMCallback.h"
@@ -21,7 +22,7 @@
 // Function object for sorting strings
 struct ltstdstr
 {
-  bool operator()(const std::string s1, const std::string s2) const
+  bool operator()(const dicomstd::string s1, const dicomstd::string s2) const
   {
     return s1 < s2;
   }
@@ -39,7 +40,7 @@ struct DICOMTagInfo
 
 // Helper class use for ordering DICOM images based on different
 // (group, element) tags.
-class DICOMOrderingElements
+class DICOM_EXPORT DICOMOrderingElements
 {
 public:
   DICOMOrderingElements()
@@ -88,7 +89,7 @@ public:
  * application is collecting all the images from one series into a
  * volume.
  */
-class DICOMAppHelper
+class DICOM_EXPORT DICOMAppHelper
 {
 public:
   /** Standard constructor */
@@ -304,8 +305,8 @@ public:
     // be ignored for CS types.  We don't handle this
     // well yet.
     //
-    std::string str1(*this->PhotometricInterpretation);
-    std::string rgb("RGB ");
+    dicomstd::string str1(*this->PhotometricInterpretation);
+    dicomstd::string rgb("RGB ");
 
     if (str1 == rgb)
       {
@@ -319,7 +320,7 @@ public:
 
   /** Get the transfer syntax UID for the last image processed by the
    *  DICOMParser. */
-  std::string GetTransferSyntaxUID()
+  dicomstd::string GetTransferSyntaxUID()
     {
     return *(this->TransferSyntaxUID);
     }
@@ -357,34 +358,34 @@ public:
 
   /** Get the series UIDs for the files processed since the last
    * clearing of the cache. */
-  void GetSeriesUIDs(std::vector<std::string> &v); 
+  void GetSeriesUIDs(dicomstd::vector<dicomstd::string> &v); 
   
   /** Get the filenames for a series ordered by slice number. */
-  void GetSliceNumberFilenamePairs(const std::string &seriesUID,
-                              std::vector<std::pair<int, std::string> > &v);
+  void GetSliceNumberFilenamePairs(const dicomstd::string &seriesUID,
+                              dicomstd::vector<dicomstd::pair<int, dicomstd::string> > &v);
 
   /** Get the filenames for a series order by slice number.  Use the
       first series by default. */
-  void GetSliceNumberFilenamePairs(std::vector<std::pair<int, std::string> > &v);
+  void GetSliceNumberFilenamePairs(dicomstd::vector<dicomstd::pair<int, dicomstd::string> > &v);
 
   /* Get the filenames for a series ordered by slice location. */
-  void GetSliceLocationFilenamePairs(const std::string &seriesUID,
-                              std::vector<std::pair<float, std::string> > &v);
+  void GetSliceLocationFilenamePairs(const dicomstd::string &seriesUID,
+                              dicomstd::vector<dicomstd::pair<float, dicomstd::string> > &v);
 
   /* Get the filenames for a series ordered by slice location. Use the
    * first series by default. */
-  void GetSliceLocationFilenamePairs(std::vector<std::pair<float, std::string> > &v);
+  void GetSliceLocationFilenamePairs(dicomstd::vector<dicomstd::pair<float, dicomstd::string> > &v);
 
   /* Get the filenames for a series ordered by image position
      patient. This is the most reliable way to order the images in a
      series. */
-  void GetImagePositionPatientFilenamePairs(const std::string &seriesUID,
-                            std::vector<std::pair<float, std::string> > &v);
+  void GetImagePositionPatientFilenamePairs(const dicomstd::string &seriesUID,
+                            dicomstd::vector<dicomstd::pair<float, dicomstd::string> > &v);
 
   /* Get the filenames for a series ordered by image position
      patient. This is the most reliable way to order the images in a
      series. Use the first series by default. */
-  void GetImagePositionPatientFilenamePairs(std::vector<std::pair<float, std::string> > &v);
+  void GetImagePositionPatientFilenamePairs(dicomstd::vector<dicomstd::pair<float, dicomstd::string> > &v);
 
  protected:
   int BitsAllocated;
@@ -397,21 +398,21 @@ public:
   float ImagePositionPatient[3];
 
   // map from series UID to vector of files in the series 
-  std::map<std::string, std::vector<std::string>, ltstdstr> SeriesUIDMap;
+  dicomstd::map<dicomstd::string, dicomstd::vector<dicomstd::string>, ltstdstr> SeriesUIDMap;
 
   // map from filename to intraseries sortable tags
-  std::map<std::string, DICOMOrderingElements, ltstdstr> SliceOrderingMap;
+  dicomstd::map<dicomstd::string, DICOMOrderingElements, ltstdstr> SliceOrderingMap;
 
-  typedef std::map<std::pair<doublebyte, doublebyte>, DICOMTagInfo> TagMapType;
+  typedef dicomstd::map<dicomstd::pair<doublebyte, doublebyte>, DICOMTagInfo> TagMapType;
   TagMapType TagMap;
 
-  std::ofstream HeaderFile;
+  dicomstd::ofstream HeaderFile;
   
   // 0 unsigned
   // 1 2s complement (signed)
   int PixelRepresentation;
-  std::string* PhotometricInterpretation;
-  std::string* TransferSyntaxUID;
+  dicomstd::string* PhotometricInterpretation;
+  dicomstd::string* TransferSyntaxUID;
   float RescaleOffset;
   float RescaleSlope;
   void* ImageData;
