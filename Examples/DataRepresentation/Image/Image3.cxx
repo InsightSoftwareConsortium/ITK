@@ -32,7 +32,7 @@
 
 #include "itkImage.h"
 
-int main()
+int main(int, char *[])
 {
   // First the image type should be declared
   typedef itk::Image< unsigned short, 3 > ImageType;

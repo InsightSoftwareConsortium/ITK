@@ -96,7 +96,7 @@ int main( int , char ** argv )
 
   pixelIndex[0] = 25;  
   pixelIndex[1] = 35;  
-  pixelIndex[2] =  5;  
+  pixelIndex[2] =  0;  
 
 
   // Software Guide : BeginLatex

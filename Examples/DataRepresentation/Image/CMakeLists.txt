@@ -1,5 +1,7 @@
 PROJECT(ImageExamples)
 
+SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+
 ADD_EXECUTABLE(Image1 Image1.cxx )
 TARGET_LINK_LIBRARIES(Image1 ITKCommon)
 
@@ -33,3 +35,59 @@ TARGET_LINK_LIBRARIES(ImageAdaptor3 ITKCommon ITKIO)
 ADD_EXECUTABLE(ImageAdaptor4 ImageAdaptor4.cxx )
 TARGET_LINK_LIBRARIES(ImageAdaptor4 ITKCommon ITKIO)
 
+SET(IMAGE_EXAMPLES ${CXX_TEST_PATH}/ImageExamples)
+
+ADD_TEST(Image1Test ${IMAGE_EXAMPLES}
+  Image1Test
+)
+
+ADD_TEST(Image2Test ${IMAGE_EXAMPLES}
+  Image2Test ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
+
+)
+
+ADD_TEST(Image3Test ${IMAGE_EXAMPLES}
+  Image3Test
+)
+
+ADD_TEST(Image4Test ${IMAGE_EXAMPLES}
+  Image4Test
+)
+
+ADD_TEST(Image5Test ${IMAGE_EXAMPLES}
+  Image5Test ${TEMP}/Image5Test.mhd
+)
+
+ADD_TEST(ImageAdaptor1Test ${IMAGE_EXAMPLES}
+  ImageAdaptor1Test ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
+)
+
+ADD_TEST(ImageAdaptor2Test ${IMAGE_EXAMPLES}
+  ImageAdaptor2Test
+    ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+    ${TEMP}/ImageAdaptor2Test.png
+)
+
+ADD_TEST(ImageAdaptor3Test ${IMAGE_EXAMPLES}
+  ImageAdaptor3Test
+    ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+    ${TEMP}/ImageAdaptor3Test.mhd 2
+)
+
+ADD_TEST(ImageAdaptor4Test ${IMAGE_EXAMPLES}
+  ImageAdaptor4Test
+    ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+    ${TEMP}/ImageAdaptor4Test.png 127
+)
+
+
+ADD_TEST(RGBImageTest ${IMAGE_EXAMPLES}
+  RGBImageTest ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+)
+
+ADD_TEST(VectorImageTest ${IMAGE_EXAMPLES}
+  VectorImageTest
+)
+
+ADD_EXECUTABLE(ImageExamples ImageExamples.cxx )
+TARGET_LINK_LIBRARIES(ImageExamples ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)

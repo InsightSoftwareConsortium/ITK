@@ -59,7 +59,7 @@
 #include "itkImage.h"
 #include "itkPoint.h"
 
-int main()
+int main(int, char *[])
 {
   typedef itk::Image< unsigned short, 3 > ImageType;
 
