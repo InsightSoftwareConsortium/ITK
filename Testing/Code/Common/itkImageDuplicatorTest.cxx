@@ -22,6 +22,7 @@
 #include <itkImageRegionIterator.h>
 #include "itkImageDuplicator.h"
 #include <itkRGBPixel.h>
+#include "itkShiftScaleImageFilter.h"
 
 int itkImageDuplicatorTest(int, char* [] )
 {
@@ -54,6 +55,13 @@ int itkImageDuplicatorTest(int, char* [] )
     ++it;
     }
 
+  typedef itk::ShiftScaleImageFilter<ImageType, ImageType> ShiftType;
+  ShiftType::Pointer shift = ShiftType::New();
+  shift->SetInput( m_Image );
+  shift->SetShift( 0.0 );
+  shift->SetScale( 1.0 );
+  shift->Update(); // need to update before duplicator can run
+  
   std::cout << "[DONE]" << std::endl;
 
   // Test the duplicator
@@ -61,7 +69,7 @@ int itkImageDuplicatorTest(int, char* [] )
   typedef itk::ImageDuplicator<ImageType> DuplicatorType;
   DuplicatorType::Pointer duplicator = DuplicatorType::New();
 
-  duplicator->SetInputImage(m_Image);
+  duplicator->SetInputImage(shift->GetOutput());
   duplicator->Update();
   ImageType::Pointer ImageCopy = duplicator->GetOutput();
 
@@ -75,6 +83,27 @@ int itkImageDuplicatorTest(int, char* [] )
     if(it2.Get() != i)
       {
       std::cout << "Error: Pixel value mismatched: " << it2.Get() << " vs. " << i << std::endl;
+      return EXIT_FAILURE;
+      }
+    i++;
+    ++it2;
+    }
+
+  std::cout << "[DONE]" << std::endl;
+
+  /** Test duplicator after modifying the bulk data of the input */
+  std::cout << "Modifying input, testing duplicator again: ";
+  shift->SetShift(1);
+  shift->Update(); // need to update before duplicator
+  duplicator->Update();
+  
+  it2.GoToBegin();
+  i = 0;
+  while(!it2.IsAtEnd())
+    {
+    if(it2.Get() != i+1)
+      {
+      std::cout << "Error: Pixel value mismatched: " << it2.Get() << " vs. " << i+1 << std::endl;
       return EXIT_FAILURE;
       }
     i++;
