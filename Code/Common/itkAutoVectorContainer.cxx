@@ -145,30 +145,14 @@ itkAutoVectorContainer< TElementIdentifier , TElement >
 
 /**
  * Pass through calls for begin/end iterator requests to underlying
- * container.
+ * container and use the result to construct our own iterator.
  */
-template <typename TElementIdentifier, typename TElement>
-itkAutoVectorContainer< TElementIdentifier , TElement >::Iterator
-itkAutoVectorContainer< TElementIdentifier , TElement >
-::Begin(void)
-{
-  return this->Vector::begin();
-}
-
 template <typename TElementIdentifier, typename TElement>
 itkAutoVectorContainer< TElementIdentifier , TElement >::ConstIterator
 itkAutoVectorContainer< TElementIdentifier , TElement >
 ::Begin(void) const
 {
-  return this->Vector::begin();
-}
-
-template <typename TElementIdentifier, typename TElement>
-itkAutoVectorContainer< TElementIdentifier , TElement >::Iterator
-itkAutoVectorContainer< TElementIdentifier , TElement >
-::End(void)
-{
-  return this->Vector::end();
+  return ConstIterator(0, this->Vector::begin());
 }
 
 template <typename TElementIdentifier, typename TElement>
@@ -176,6 +160,6 @@ itkAutoVectorContainer< TElementIdentifier , TElement >::ConstIterator
 itkAutoVectorContainer< TElementIdentifier , TElement >
 ::End(void) const
 {
-  return this->Vector::end();
+  return ConstIterator(this->Vector::size()-1, this->Vector::end());
 }
 

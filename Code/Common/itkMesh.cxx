@@ -867,7 +867,9 @@ itkMesh< TPixelType , TMeshType >
     {
     this->SetCellLinksContainer(CellLinksContainer::New());
     }
-  
+  /**
+   * Loop over every cell, and add its identifier to 
+   */
 }
 
 

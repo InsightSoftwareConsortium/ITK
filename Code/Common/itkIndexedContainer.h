@@ -69,16 +69,15 @@ public:
   virtual void DeleteIndex(ElementIdentifier)=0;
   
   /**
-   * Support iteration operations through container.
+   * Support const iteration operations through container.
    *
-   * Dereferencing the iterator must produce just the stored value, not
-   * a pair of the value with its key.  As a result, special iterators
-   * may need to be defined for class wrappers like std::map<>.
+   * Dereferencing the iterator must produce a pair whose first member is the
+   * element identifier, and whose second is the element itself.
+   * This is similar to STL map iterators.
    */
-  // typedef UnderlyingContainer::iterator        Iterator;
   // typedef UnderlyingContainer::const_iterator  ConstIterator; 
-  // Iterator Begin(), ConstIterator Begin()
-  // Iterator End(), ConstIterator End()
+  // ConstIterator Begin()
+  // ConstIterator End()
 };
 
 #endif

@@ -79,41 +79,7 @@ public:
   /**
    * Define types needed for the interface.
    */
-  class Iterator
-  {
-  public:
-    typedef Iterator Self;
-
-    Iterator(const Map::iterator& r): iter(r) {}
-    Iterator(const Self& r): iter(r.iter) {}
-    Iterator& operator=(const Self& r) { iter = r.iter; }
-    Element&  operator* () { return iter->second; }
-    Iterator& operator++()    { ++iter; return *this; }
-    Iterator  operator++(int) { Self tmp = *this;  ++iter;  return tmp; }
-    Iterator& operator--()    { --iter; return *this; }
-    Iterator  operator--(int) { Self tmp = *this;  --iter;  return tmp; }
-    
-  private:
-    Map::iterator iter;
-  };
-  class ConstIterator
-  {
-  public:
-    typedef ConstIterator Self;
-
-    ConstIterator(const Map::const_iterator& r): iter(r) {}
-    ConstIterator(const Self& r): iter(r.iter) {}
-    const ConstIterator& operator=(const Self& r) { iter = r.iter; }
-    const Element&  operator* () const { return iter->second; }
-    ConstIterator& operator++()    { ++iter; return *this; }
-    ConstIterator  operator++(int) { Self tmp = *this;  ++iter;  return tmp; }
-    ConstIterator& operator--()    { --iter; return *this; }
-    ConstIterator  operator--(int) { Self tmp = *this;  --iter;  return tmp; }
-    
-  private:
-    Map::const_iterator iter;
-  };
-
+  typedef Map::const_iterator  ConstIterator;
   
   /**
    * Declare the public interface routines.
@@ -125,9 +91,7 @@ public:
   bool GetElementIfIndexExists(ElementIdentifier, Element*) const;
   void CreateIndex(ElementIdentifier);
   void DeleteIndex(ElementIdentifier);
-  Iterator      Begin(void);
   ConstIterator Begin(void) const;
-  Iterator      End(void);
   ConstIterator End(void) const;  
 };
 

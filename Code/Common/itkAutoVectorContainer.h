@@ -16,6 +16,7 @@
 #ifndef __itkAutoVectorContainer_h
 #define __itkAutoVectorContainer_h
 
+#include <utility>
 #include <vector>
 
 #include "itkObject.h"
@@ -88,8 +89,31 @@ public:
   /**
    * Define types needed for the interface.
    */
-  typedef Vector::iterator        Iterator;
-  typedef Vector::const_iterator  ConstIterator;
+  typedef std::pair< const ElementIdentifier , Element >  ValueType;
+  
+  /**
+   * Create a const iterator which simulates the identifier being in the
+   * container with the element.
+   */
+  class ConstIterator
+  {
+  public:
+    typedef ConstIterator Self;
+
+    ConstIterator(ElementIdentifier p, const Vector::const_iterator& r):
+      iter(r), pos(p) {}
+    ConstIterator(const Self& r): iter(r.iter), pos(r.pos) {}
+    ConstIterator& operator=(const Self& r) { iter = r.iter; }
+    const ValueType operator* () const { return ValueType(pos, *iter); }
+    ConstIterator& operator++()    { ++iter; ++pos; return *this; }
+    ConstIterator  operator++(int) { Self tmp = *this; ++iter; ++pos; return tmp; }
+    ConstIterator& operator--()    { --iter; --pos; return *this; }
+    ConstIterator  operator--(int) { Self tmp = *this; --iter; --pos; return tmp; }
+    
+  private:
+    Vector::const_iterator iter;
+    ElementIdentifier pos;
+  };
   
   /**
    * Declare the public interface routines.
@@ -101,9 +125,7 @@ public:
   bool GetElementIfIndexExists(ElementIdentifier, Element*) const;
   void CreateIndex(ElementIdentifier);
   void DeleteIndex(ElementIdentifier);  
-  Iterator      Begin(void);
   ConstIterator Begin(void) const;
-  Iterator      End(void);
   ConstIterator End(void) const;  
 };
 
