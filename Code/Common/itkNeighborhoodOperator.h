@@ -34,20 +34,13 @@ namespace itk {
  * defined on the Neighborhood object (convolution, inner product, etc.).
  *
  * NeighborhoodOperator is a pure virtual object that must be
- * subclassed to be used.  A user's subclass must implement four methods:
+ * subclassed to be used.  A user's subclass must implement two methods:
  *
  * (1) GenerateCoefficients -- the algorithm that computes the coefficients
  *  of the operator.
  *
  * (2) Fill -- the algorithm that places the coefficients into the memory
  *  buffer of the operator (arranges them spatially in the neighborhood).
- *
- * (3) New() -- returns a pointer to a new operator of the user defined
- *  type (supports copying operators of unknown type).
- *
- * (4) Copy() -- returns a pointer to a new operator that is a copy of
- *  the user defined operator (supports copying operators of unknown
- *  type).
  *
  * NeighborhoodOperator supports the concept of a "directional operator."
  * A directional operator is defined in this context to be an operator
@@ -75,7 +68,7 @@ public:
    *  Standard "Self" typedef.
    */ 
   typedef NeighborhoodOperator Self;
-  
+
   /**
    * Constructor.
    */
@@ -125,22 +118,6 @@ public:
    * \sa Fill
    */
   virtual void CreateToRadius(const unsigned long &);
-
-  /**
-   * Virtual function that returns a pointer to a new instance of
-   * a NeighborhoodOperator subclass.  Use to get a pointer
-   * to the correct subclass of NeighborhoodOperator when the
-   * particular subclass type is unknown.
-   */
-  virtual NeighborhoodOperator *New() const = 0;
-
-  /**
-   * Virtual function that returns a pointer to a copy of the
-   * instance of NeighborhoodOperator subclass.  Use this
-   * function to get a copy of a NeighborhoodOperator subclass
-   * when the particular subclass type is unknown.
-   */
-  virtual NeighborhoodOperator *Copy() const = 0;
 
   /**
    * Prints some debugging information.

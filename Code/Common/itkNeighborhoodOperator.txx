@@ -101,8 +101,7 @@ NeighborhoodOperator<TPixel, VDimension>
       temp_slice = new std::slice(start, size, stride);
       it = coeff.begin() - sizediff;
     }
-  NeighborhoodOperator<TPixel, VDimension>
-    ::SliceIterator data(this, *temp_slice);
+  typename Self::SliceIteratorType data(this, *temp_slice);
   delete temp_slice;
 
   // Copy the coefficients into the neighborhood, truncating them if there
