@@ -18,6 +18,7 @@ void RegisterTests()
   REGISTER_TEST(itkMultivariateLegendrePolynomialTest);
   REGISTER_TEST(itkNumericsTest);
   REGISTER_TEST(itkOptimizersHierarchyTest);
+  REGISTER_TEST(itkPowellOptimizerTest);
   REGISTER_TEST(itkRegularStepGradientDescentOptimizerTest);
   REGISTER_TEST(itkSymmetricEigenSystemTest);
   REGISTER_TEST(itkVersorTransformOptimizerTest);

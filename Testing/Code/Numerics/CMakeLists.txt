@@ -26,6 +26,7 @@ ADD_TEST(itkLBFGSOptimizerTest ${NUMERICS_TESTS} itkLBFGSOptimizerTest)
 ADD_TEST(itkMultivariateLegendrePolynomialTest ${NUMERICS_TESTS} itkMultivariateLegendrePolynomialTest)
 ADD_TEST(itkNumericsTest ${NUMERICS_TESTS} itkNumericsTest)
 ADD_TEST(itkOptimizersHierarchyTest ${NUMERICS_TESTS} itkOptimizersHierarchyTest)
+ADD_TEST(itkPowellOptimizerTest ${NUMERICS_TESTS} itkPowellOptimizerTest)
 ADD_TEST(itkRegularStepGradientDescentOptimizerTest ${NUMERICS_TESTS} itkRegularStepGradientDescentOptimizerTest)
 ADD_TEST(itkSymmetricEigenSystemTest ${NUMERICS_TESTS} itkSymmetricEigenSystemTest)
 ADD_TEST(itkVersorTransformOptimizerTest ${NUMERICS_TESTS} itkVersorTransformOptimizerTest)
@@ -45,6 +46,7 @@ itkLBFGSOptimizerTest.cxx
 itkMultivariateLegendrePolynomialTest.cxx
 itkNumericsTest.cxx
 itkOptimizersHierarchyTest.cxx
+itkPowellOptimizerTest.cxx
 itkRegularStepGradientDescentOptimizerTest.cxx
 itkSymmetricEigenSystemTest.cxx
 itkVersorTransformOptimizerTest.cxx
