@@ -60,6 +60,10 @@ To run scripts.
                 package require InsightToolkit
                 package require itkinteraction
 
+        Java:
+               - set CLASSPATH to include ITK-build/Wrapping/CSwig/Java/InsightToolkit.jar
+
+                         
         There are a few examples in Insight/Wrapping/CSwig/Tests.
 
 
@@ -67,5 +71,6 @@ KNOWN ISSUES:
         - dependency information is not available in visual studio until
           after the first build, and cmake is run again.
         - Python must be built Release of RelWithDebInfo on windows.
+        - Java on Linux requires at least the JDK version 1.4.2_04.
 
 
