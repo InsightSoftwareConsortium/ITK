@@ -70,13 +70,13 @@ itkMinimumMaximumImageFilterTest(int argc,char **argv)
     index[2] = 10;
     image->SetPixel(index, maximum);
 
-    // Create and initialize the calculator
-    MinMaxFilterType::Pointer calculator = MinMaxFilterType::New();
-    calculator->SetInput(image);
-    calculator->Update();
+    // Create and initialize the filter
+    MinMaxFilterType::Pointer filter = MinMaxFilterType::New();
+    filter->SetInput(image);
+    filter->Update();
 
     // Return minimum of intensity
-    short minimumResult = calculator->GetMinimum();
+    short minimumResult = filter->GetMinimum();
     std::cout << "The Minimum intensity value is : " << minimumResult << std::endl;
 
     if(minimumResult != minimum)
@@ -87,7 +87,7 @@ itkMinimumMaximumImageFilterTest(int argc,char **argv)
     }
   
     // Return maximum of intensity
-    short maximumResult = calculator->GetMaximum();
+    short maximumResult = filter->GetMaximum();
     std::cout << "The Maximum intensity value is : " << maximumResult << std::endl;
 
     if(maximumResult != maximum)
