@@ -83,7 +83,7 @@ public:
     { return m_Pointer; }
   
   /** Test if the pointer has been initialized */
-  bool IsInitialized() const
+  bool IsNotNull() const
   { return m_Pointer != 0; }
   bool IsNull() const
   { return m_Pointer == 0; }
