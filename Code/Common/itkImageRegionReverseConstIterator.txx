@@ -27,7 +27,13 @@ ImageRegionReverseConstIterator<TImage>
 ImageRegionReverseConstIterator<TImage>
 ::Begin() const
 { 
-  return this->Superclass::Begin();
+  // Copy the current iterator
+  Self it( *this );
+
+  // Set the iterator to the beginning of the region
+  it.GoToBegin();
+  
+  return it;
 }
 
 
@@ -37,7 +43,13 @@ ImageRegionReverseConstIterator<TImage>
 ImageRegionReverseConstIterator<TImage>
 ::End() const
 { 
-  return this->Superclass::End();
+  // Copy the current iterator
+  Self it( *this );
+
+  // Set the iterator to the end of the region
+  it.GoToEnd();
+  
+  return it;
 }
 
 

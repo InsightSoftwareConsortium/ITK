@@ -203,14 +203,39 @@ public:
     m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(m_Region.GetSize()[0]);
   }
 
-  /** Return an iterator for the beginning of the region. "Begin"
-   * is defined as the first pixel in the region.
+ /** Move an iterator to the beginning of the region. "Begin" for a reverse
+  * iterator is the last pixel in the region. */
+  void GoToBegin()
+  {
+    Superclass::GoToBegin();
+
+    // reset the span offsets
+    m_SpanBeginOffset = m_BeginOffset;
+    m_SpanEndOffset   = m_BeginOffset
+      - static_cast<long>(m_Region.GetSize()[0]);
+  };
+  
+ /** Move an iterator to the end of the region. "End" for a reverse iterator
+  * is defined as one pixel before the first pixel in the region. */
+  void GoToEnd()
+  {
+    Superclass::GoToEnd();
+    
+    // reset the span offsets
+    m_SpanEndOffset = m_EndOffset;
+    m_SpanBeginOffset = m_SpanEndOffset
+      + static_cast<long>(m_Region.GetSize()[0]);
+  };
+
+  /** Return an iterator for the beginning of the region. "Begin" for a reverse
+   * iterator is the last pixel in the region.
    * \deprecated Use GoToBegin() instead */
   Self Begin(void) const;
 
-   /** Return an iterator for the end of the region. "End" is defined
-   * as one pixel past the last pixel of the region. 
-   * \deprecated Use GoToEnd() instead */
+  /** Return an iterator for the end of the region. "End" for a
+  * reverse iterator is one pixel before the first pixel in the
+  * region.
+  * \deprecated Use GoToEnd() instead */
   Self End(void) const;
 
 
