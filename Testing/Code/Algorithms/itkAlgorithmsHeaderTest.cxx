@@ -41,6 +41,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkHybridFilter.h"
 #include "itkImageMapper.h"
 #include "itkImageMomentsCalculator.h"
+#include "itkImageToImageMetric.h"
 #include "itkImageToImageAffineMeanSquaresGradientDescentRegistration.h"
 #include "itkImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration.h"
 #include "itkImageToImageAffineMutualInformationGradientDescentRegistration.h"
