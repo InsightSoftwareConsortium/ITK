@@ -99,7 +99,15 @@ LevenbergMarquardtOptimizer
                                             GetInitialPosition(), 
                                             parameters     );
 
-  m_VnlOptimizer->minimize( parameters );
+  if( this->GetCostFunctionAdaptor()->GetUseGradient() )
+    {
+    m_VnlOptimizer->minimize_using_gradient( parameters );
+    }
+  else
+    {
+    m_VnlOptimizer->minimize_without_gradient( parameters );
+    }
+
   // InternalParametersType is different than ParametersType....
   ParametersType p(parameters.size());
   for(unsigned int i=0; i < parameters.size(); ++i)

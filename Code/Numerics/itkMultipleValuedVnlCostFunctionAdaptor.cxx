@@ -143,9 +143,9 @@ MultipleValuedVnlCostFunctionAdaptor
 {
   const unsigned int rows = input.rows();
   const unsigned int cols = input.cols();
-  for( unsigned int i=0; i<cols; i++ ) 
+  for( unsigned int i=0; i<rows; i++ ) 
     {
-    for( unsigned int j=0; j<rows; j++ ) 
+    for( unsigned int j=0; j<cols; j++ ) 
       {
       output(i,j) = input(i,j);
       }
@@ -167,6 +167,30 @@ MultipleValuedVnlCostFunctionAdaptor
     }
 }
   
+
+/**  Define if the cost function will provide a Gradient computation */
+void 
+MultipleValuedVnlCostFunctionAdaptor
+::SetUseGradient( bool useGradient )
+{
+  // delegate the task to the base class
+  this->vnl_least_squares_function::use_gradient_ = useGradient;
+
+}
+ 
+
+
+/**  Return true if the cost function will provide a Gradient computation */
+bool 
+MultipleValuedVnlCostFunctionAdaptor
+::GetUseGradient() const
+{
+  // delegate the task to the base class
+  return this->vnl_least_squares_function::has_gradient();
+
+}
+ 
+
 
 } // end namespace itk
 

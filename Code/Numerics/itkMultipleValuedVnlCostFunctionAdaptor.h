@@ -102,6 +102,13 @@ public:
                             const MeasureType         & input,
                                   InternalMeasureType & output );
 
+  /**  Define if the Cost function should provide a customized 
+       Gradient computation or the gradient can be computed internally
+       using a default approach  */
+  void SetUseGradient(bool);
+  void UseGradientOn()  { this->SetUseGradient( true  ); };
+  void UseGradientOff() { this->SetUseGradient( false ); };
+  bool GetUseGradient() const;
 
 private:
 

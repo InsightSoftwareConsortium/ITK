@@ -59,6 +59,15 @@ public:
    *  CostFunctionAdaptor when overloading this method  */
   virtual void SetCostFunction( MultipleValuedCostFunction * costFunction ) = 0;
 
+  /**  Define if the Cost function should provide a customized 
+       Gradient computation or the gradient can be computed internally
+       using a default approach  */
+  void SetUseCostFunctionGradient(bool);
+  void UseCostFunctionGradientOn()  { this->SetUseCostFunctionGradient( true  ); }
+  void UseCostFunctionGradientOff() { this->SetUseCostFunctionGradient( false ); };
+  bool GetUseCostFunctionGradient() const;
+
+
 protected:
   MultipleValuedNonLinearVnlOptimizer();
   virtual ~MultipleValuedNonLinearVnlOptimizer();

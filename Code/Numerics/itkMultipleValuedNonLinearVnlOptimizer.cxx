@@ -79,6 +79,42 @@ MultipleValuedNonLinearVnlOptimizer
 
 
 
+void
+MultipleValuedNonLinearVnlOptimizer
+::SetUseCostFunctionGradient( bool useGradient ) 
+{
+  if( m_CostFunctionAdaptor )
+    {
+    m_CostFunctionAdaptor->SetUseGradient( useGradient );
+    }
+  else
+    {
+    itkGenericExceptionMacro("Calling SetUseCostFunctionGradient() but CostFunction has not been provided yet");  
+    }
+}
+
+
+
+
+
+bool
+MultipleValuedNonLinearVnlOptimizer
+::GetUseCostFunctionGradient() const
+{
+  if( m_CostFunctionAdaptor )
+    {
+    return m_CostFunctionAdaptor->GetUseGradient();
+    }
+  else
+    {
+    itkGenericExceptionMacro("Calling GetUseCostFunctionGradient() but CostFunction has not been provided yet");  
+    }
+}
+
+
+
+
+
 
 
 } // end namespace itk
