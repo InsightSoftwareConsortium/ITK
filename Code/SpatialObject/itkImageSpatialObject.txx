@@ -38,6 +38,7 @@ ImageSpatialObject< TDimension,  PixelType >
     }
 
   ComputeBoundingBox();
+  m_PixelType = typeid(PixelType).name();
 }
 
 /** Destructor */

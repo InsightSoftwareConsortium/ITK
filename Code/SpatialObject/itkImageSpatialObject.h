@@ -101,6 +101,11 @@ public:
   int GetSlicePosition(unsigned int dimension) 
   {return m_SlicePosition[dimension];}
 
+  const char* GetPixelType()
+    {
+    return m_PixelType.c_str();
+    }
+
 protected:
 
   ImagePointer m_Image;
@@ -111,6 +116,7 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   int* m_SlicePosition;
+  std::string m_PixelType;
 };
 
 } // end of namespace itk
