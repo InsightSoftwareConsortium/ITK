@@ -46,6 +46,7 @@ SET(ITKCommon_SRCS
   itkXMLFileOutputWindow.cxx
   itkMetaDataObjectBase.cxx
   itkMetaDataDictionary.cxx
+  itkOctreeNode.cxx
 )
 
 IF (WIN32)
