@@ -21,9 +21,9 @@
 
 namespace itk {
 
-template <class TInputImage, class TFeatureImage, class TOutputPixelType>
+template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
 void
-SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -32,8 +32,8 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
   os << indent << "m_SegmentationFunction = " << m_SegmentationFunction << std::endl;
 }
 
-template <class TInputImage, class TFeatureImage, class TOutputPixelType>
-SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
 ::SegmentationLevelSetImageFilter()
 {
   this->SetNumberOfRequiredInputs(2);
@@ -49,9 +49,9 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
   m_ReverseExpansionDirection = false;
 }
 
-template <class TInputImage, class TFeatureImage, class TOutputPixelType>
+template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
 void
-SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
 ::SetSegmentationFunction(SegmentationFunctionType *s)
 {
   unsigned int i;
@@ -69,27 +69,27 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
   this->Modified();
 }
 
-template <class TInputImage, class TFeatureImage, class TOutputPixelType>
+template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
 void
-SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
 ::GenerateSpeedImage()
 {
     m_SegmentationFunction->AllocateSpeedImage();
     m_SegmentationFunction->CalculateSpeedImage();
 }
 
-template <class TInputImage, class TFeatureImage, class TOutputPixelType>
+template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
 void
-SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
 ::GenerateAdvectionImage()
 {
     m_SegmentationFunction->AllocateAdvectionImage();
     m_SegmentationFunction->CalculateAdvectionImage();
 }
 
-template <class TInputImage, class TFeatureImage, class TOutputPixelType>
+template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
 void
-SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
 ::GenerateData()
 {
   if (m_SegmentationFunction == 0)

@@ -104,13 +104,15 @@ template <class TInputImage,
           class TOutputPixelType = float >
 class ITK_EXPORT GeodesicActiveContourLevelSetImageFilter
   : public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, 
-                                            TOutputPixelType>
+                                            TOutputPixelType, Image<TOutputPixelType, 
+                                            ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
   /** Standard class typedefs */
   typedef GeodesicActiveContourLevelSetImageFilter Self;
   typedef SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, 
-                                           TOutputPixelType> Superclass;
+                                           TOutputPixelType, Image<TOutputPixelType, 
+                                           ::itk::GetImageDimension<TInputImage>::ImageDimension> > Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
