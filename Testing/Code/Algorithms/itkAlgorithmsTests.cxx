@@ -52,6 +52,7 @@ REGISTER_TEST(itkMattesMutualInformationImageToImageMetricTest );
 REGISTER_TEST(itkMeanSquaresImageMetricTest );
 REGISTER_TEST(itkMinMaxCurvatureFlowImageFilterTest );
 REGISTER_TEST(itkMRFImageFilterTest );
+REGISTER_TEST(itkMRIBiasFieldCorrectionFilterTest );
 REGISTER_TEST(itkMultiResolutionPyramidImageFilterTest );
 REGISTER_TEST(itkRecursiveMultiResolutionPyramidImageFilterTest );
 REGISTER_TEST(itkMultiResolutionPDEDeformableRegistrationTest );
