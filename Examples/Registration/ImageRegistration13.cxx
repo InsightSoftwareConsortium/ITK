@@ -173,17 +173,19 @@ int main( int argc, char *argv[] )
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
   const double translationScale = 1.0 / 1000.0;
+  const double centerScale      = 1000.0; // prevents it from moving 
+                                          // during the optimization
 
   optimizerScales[0] = 1.0;
-  optimizerScales[1] = translationScale;
-  optimizerScales[2] = translationScale;
+  optimizerScales[1] = centerScale;
+  optimizerScales[2] = centerScale;
   optimizerScales[3] = translationScale;
   optimizerScales[4] = translationScale;
 
   optimizer->SetScales( optimizerScales );
 
-  optimizer->SetMaximumStepLength( 0.1    ); 
-  optimizer->SetMinimumStepLength( 0.001 );
+  optimizer->SetMaximumStepLength( 0.5   ); 
+  optimizer->SetMinimumStepLength( 0.0001 );
   optimizer->SetNumberOfIterations( 400 );
 
   // Create the Command observer and register it with the optimizer.
@@ -216,7 +218,6 @@ int main( int argc, char *argv[] )
   unsigned int numberOfIterations = optimizer->GetCurrentIteration();
   
   double bestValue = optimizer->GetValue();
-
 
   // Print out results
   //
