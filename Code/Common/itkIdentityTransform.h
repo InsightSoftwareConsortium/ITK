@@ -24,6 +24,7 @@
 #include "vnl/vnl_vector_fixed.h"
 #include "itkArray.h"
 #include "itkArray2D.h"
+#include "itkTransform.h"
 
 #include "itkObjectFactory.h"
 
