@@ -129,6 +129,11 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
   // Call the parent implementation
   Superclass::SetInputImage(image);
 
+  if( image == NULL )
+    {
+    return;
+    }
+
   // Set the radius for the neighborhood
   Size<ImageDimension> radius;
   radius.Fill(VRadius);
