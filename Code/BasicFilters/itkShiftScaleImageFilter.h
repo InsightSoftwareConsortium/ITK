@@ -90,6 +90,12 @@ public:
   itkGetMacro(UnderflowCount,long);
   itkGetMacro(OverflowCount,long);
 
+
+protected:
+  ShiftScaleImageFilter();
+  ~ShiftScaleImageFilter();
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
   /** Initialize some accumulators before the threads run. */
   void BeforeThreadedGenerateData ();
   
@@ -100,12 +106,6 @@ public:
   void  ThreadedGenerateData (const OutputImageRegionType& 
                               outputRegionForThread,
                               int threadId) ;
-
- protected:
-  ShiftScaleImageFilter();
-  ~ShiftScaleImageFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
 private:
   ShiftScaleImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
