@@ -107,15 +107,23 @@ protected:
    * element in the structuring element is positive. This version
    * of Evaluate is used for non-boundary pixels. */
   PixelType Evaluate(const NeighborhoodIteratorType &nit,
-                     const KernelType &kernel);
+                     const KernelIteratorType kernelBegin,
+                     const KernelIteratorType kernelEnd);
 
-  
-private:
+  /** Cache some information that can be used to by each thread and
+   * each call to Evaluate() */
+  virtual void BeforeThreadedGenerateData();
+
+ private:
   BinaryErodeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   PixelType m_ErodeValue;
   
+  // Cache whether the center pixel of the kernel is on (for
+  // optimization).
+  bool m_KernelCenterPixelOn;
+
 } ; // end of class
 
 } // end namespace itk

@@ -26,13 +26,24 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
 ::BinaryErodeImageFilter()
 {
   m_ErodeValue = NumericTraits<PixelType>::NonpositiveMin();
+  m_KernelCenterPixelOn = false;
+}
+
+template<class TInputImage, class TOutputImage, class TKernel>
+void
+BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
+::BeforeThreadedGenerateData()
+{
+  // Cache whether the center pixel in the kernel is set
+  m_KernelCenterPixelOn = (this->GetKernel().GetCenterValue() > 0);
 }
 
 template<class TInputImage, class TOutputImage, class TKernel>
 typename BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
 ::Evaluate(const NeighborhoodIteratorType &nit,
-           const KernelType &kernel)
+           const KernelIteratorType kernelBegin,
+           const KernelIteratorType kernelEnd)
 {
   unsigned int i;
   PixelType min = NumericTraits<PixelType>::max();
@@ -43,25 +54,21 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
                                     // over background pixels
   
   KernelIteratorType kernel_it;
-  const KernelIteratorType kernelEnd = kernel.End();
 
-  for (i=0, kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++i)
+  for (i=0, kernel_it=kernelBegin; kernel_it<kernelEnd; ++kernel_it, ++i)
     {
     // if structuring element is positive, use the pixel under that element
     // in the image
     if (*kernel_it > 0)
       {
       // if the image pixel is not the erode value, note we use GetPixel()
-      // on the SmartNeighborhoodIterator in order to respect boundary
-      // conditions
+      // on the NeighborhoodIterator in order to respect boundary conditions
       nitValue = nit.GetPixel(i);
       if (nitValue != m_ErodeValue)
         {
         erode = true;
         
-        // if the image pixel is less than current min,  note we use GetPixel()
-        // on the NeighborhoodIterator in order to respect boundary
-        // conditions
+        // if the image pixel is less than current min, keep track of it
         if (min > nitValue)
           {
           min = nitValue;
@@ -100,7 +107,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
       }
     else
       {
-      if (kernel.GetCenterValue() > 0)
+      if (m_KernelCenterPixelOn)
         {
         // case #3, center pixel is "on"
         return min;

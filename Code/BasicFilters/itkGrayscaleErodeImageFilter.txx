@@ -25,16 +25,16 @@ template<class TInputImage, class TOutputImage, class TKernel>
 typename GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
 ::Evaluate(const NeighborhoodIteratorType &nit,
-           const KernelType &kernel)
+           const KernelIteratorType kernelBegin,
+           const KernelIteratorType kernelEnd)
 {
   unsigned int i;
   PixelType min = NumericTraits<PixelType>::max() ;
   PixelType temp;
 
   KernelIteratorType kernel_it;
-  const KernelIteratorType kernelEnd = kernel.End();
 
-  for (i=0, kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++i)
+  for (i=0, kernel_it=kernelBegin; kernel_it<kernelEnd; ++kernel_it, ++i)
     {
     // if structuring element is positive, use the pixel under that element
     // in the image
