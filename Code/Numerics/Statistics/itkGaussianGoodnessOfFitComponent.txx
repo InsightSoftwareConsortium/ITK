@@ -48,6 +48,7 @@ GaussianGoodnessOfFitComponent< TInputSample >
   m_ProjectionAxisCalculator = ProjectionAxisCalculatorType::New() ;
   m_ProjectionAxisCalculator->SetMatrix(&m_Covariance) ;
 
+  m_LargestEigenValue = 0.0 ;
 }
 
 template< class TInputSample >
@@ -55,6 +56,27 @@ GaussianGoodnessOfFitComponent< TInputSample >
 ::~GaussianGoodnessOfFitComponent()
 {
 }
+
+template< class TInputSample >
+void
+GaussianGoodnessOfFitComponent< TInputSample >
+::PrintSelf(std::ostream& os, Indent indent) const 
+{
+  Superclass::PrintSelf(os,indent) ;
+
+  os << indent << "Mean: " << m_Mean << std::endl ;
+  os << indent << "Covariance: " << m_Covariance << std::endl ;
+  os << indent << "StandardDeviation: " << m_StandardDeviation << std::endl ;
+  os << indent << "Center: " << m_Center << std::endl ;
+  os << indent << "Radius: " << m_Radius << std::endl ;
+  os << indent << "NumberOfParameters: " << m_NumberOfParameters << std::endl ;
+  os << indent << "ProbabilityDensityFunction: " << m_ProbabilityDensityFunction << std::endl ;
+  os << indent << "CovarianceCalculator: " << m_CovarianceCalculator << std::endl ;
+  os << indent << "ProjectionAxisCalculator: " << m_ProjectionAxisCalculator << std::endl ;
+  os << indent << "LongestAxisIndex: " << m_LongestAxisIndex << std::endl ;
+  os << indent << "LargestEigenValue: " << m_LargestEigenValue << std::endl ;
+}
+
 
 template< class TInputSample >
 void

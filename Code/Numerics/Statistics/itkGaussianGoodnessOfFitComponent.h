@@ -122,6 +122,7 @@ public:
 protected:
   GaussianGoodnessOfFitComponent() ;
   virtual ~GaussianGoodnessOfFitComponent() ;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ;
 
   /** Calculates the base axes for projection */
   virtual void CalculateProjectionAxes() ;
