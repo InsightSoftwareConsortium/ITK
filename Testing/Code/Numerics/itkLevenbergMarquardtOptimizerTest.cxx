@@ -309,7 +309,7 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
 }
 
 
-int itkLevenbergMarquardtOptimizerTest(int argc, char** argv ) 
+int itkLevenbergMarquardtOptimizerTest(int argc, char* argv[] ) 
 {
   std::cout << "Levenberg Marquardt optimizer test \n \n"; 
 

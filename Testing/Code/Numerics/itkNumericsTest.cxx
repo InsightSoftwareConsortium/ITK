@@ -61,7 +61,7 @@ int test_svd() {
   return 0;
 }
 
-int itkNumericsTest(int, char**)
+int itkNumericsTest(int, char* [] )
 {
   test_svd();
   double data[] = { 1, 1, 1,  1, 2, 3,  1, 3, 6};

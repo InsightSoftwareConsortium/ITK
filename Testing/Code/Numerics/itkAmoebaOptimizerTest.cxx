@@ -123,7 +123,7 @@ private:
 
 
 
-int itkAmoebaOptimizerTest(int, char**) 
+int itkAmoebaOptimizerTest(int, char* [] ) 
 {
 
   std::cout << "Amoeba Optimizer Test \n \n";

@@ -181,7 +181,7 @@ private:
 
 
 
-int itkVersorTransformOptimizerTest(int, char**) 
+int itkVersorTransformOptimizerTest(int, char* [] ) 
 {
   std::cout << "VersorTransform Optimizer Test ";
   std::cout << std::endl << std::endl;

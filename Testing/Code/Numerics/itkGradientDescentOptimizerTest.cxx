@@ -109,7 +109,7 @@ private:
 
 
 
-int itkGradientDescentOptimizerTest(int, char**) 
+int itkGradientDescentOptimizerTest(int, char* [] ) 
 {
   std::cout << "Gradient Descent Optimizer Test ";
   std::cout << std::endl << std::endl;

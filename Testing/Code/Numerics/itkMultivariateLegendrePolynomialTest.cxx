@@ -30,7 +30,7 @@
  */ 
 
 
-int itkMultivariateLegendrePolynomialTest(int , char **)
+int itkMultivariateLegendrePolynomialTest(int , char* [] )
 {
   
   typedef itk::MultivariateLegendrePolynomial PolynomialType;
