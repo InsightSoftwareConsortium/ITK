@@ -46,7 +46,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef NonLinearOptimizer<TCostFunction> Superclass;
+  typedef SingleValuedNonLinearVnlOptimizer<TCostFunction> Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -114,6 +114,12 @@ public:
 
 
   /**
+   * Vnl Cost Function Adaptor Type
+   */
+  typedef typename Superclass::VnlCostFunctionAdaptor     
+                                   VnlCostFunctionAdaptorType;
+
+  /**
    * Method for getting access to the internal optimizer
    */
   vnl_amoeba & GetOptimizer(void);
@@ -134,7 +140,7 @@ protected:
 
   InternalOptimizerType             m_Amoeba;
 
-  VnlCostFunctionAdaptor            m_CostFunction;
+  VnlCostFunctionAdaptorType        m_CostFunction;
 
 
 };

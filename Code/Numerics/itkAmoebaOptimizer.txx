@@ -42,7 +42,7 @@ AmoebaOptimizer<TCostFunction>
 
   InternalParametersType initialParameters( SpaceDimension );
   
-  VnlCostFunctionAdaptor::ConvertExternalToInternalParameters( 
+  VnlCostFunctionAdaptorType::ConvertExternalToInternalParameters( 
                             GetInitialPosition(), 
                             initialParameters     );
 
