@@ -311,7 +311,7 @@ public:
    * therefore an expensive operation.
    * \sa SetIndex
    */
-  const IndexType GetIndex()
+  const IndexType GetIndex() const
     { return m_Image->ComputeIndex( static_cast<OffsetValueType>(m_Offset) );  }
 
   /**
