@@ -164,6 +164,7 @@ public:
     void SetParameters(const ParametersType & parameters);
 
 
+    const JacobianType & GetJacobian( const InputPointType & point ) const;
     /**
      * Set offset of an Scale Transform
      *

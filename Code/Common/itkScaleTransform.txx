@@ -307,8 +307,25 @@ Inverse(void) const
   return result;
 }
 
-
+// Compute the Jacobian of the transformation
+// It follows the same order of Parameters vector 
+template<class ScalarType,
+	 unsigned int NDimensions,
+         class TParameters,
+	 class TJacobianType>
+const ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::JacobianType &
+ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>
+::GetJacobian( const InputPointType & p ) const
+{
   
+  m_Jacobian.Fill(0);
+  m_Jacobian[0][0] = p[0];
+  m_Jacobian[1][1] = p[1];
+  m_Jacobian[2][2] = p[2];
+  return m_Jacobian;
+
+ }
+
 } // namespace
 
 #endif
