@@ -18,12 +18,11 @@
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{MeanImageFilter} is commonly used for noise reduction. The
-//  filter computes the value of each output pixel by taking a neighborhood
-//  of the input pixel and finding the statistical mean of the values in the
-//  neighborhood. The following figure illustrates the local effect of this
-//  filter in a $2D$ case. The statistical mean of the neighborhood on the
-//  left is passed as the output value associated with the pixel at the
-//  center of the neighborhood.
+//  filter computes the value of each output pixel by finding the statistical
+//  mean of the neighborhood of the corresponding input pixel.  The following
+//  figure illustrates the local effect of the MeanImageFilter in a $2D$
+//  case. The statistical mean of the neighborhood on the left is passed as the
+//  output value associated with the pixel at the center of the neighborhood.
 //
 //  \begin{center}
 //  \begin{picture}(200,46)
@@ -43,10 +42,10 @@
 //  \end{picture}
 //  \end{center}
 //
-//  Note that this filter is sensitive to the presence of outliers in the
+//  Note that this algorithm is sensitive to the presence of outliers in the
 //  neighborhood.  This filter will work on images of any dimension thanks to
-//  the internal use of \doxygen{SmartNeighborhoodIterator}s and
-//  \doxygen{NeighborhoodOperator}s.  The size of the neighborhood over which
+//  the internal use of \doxygen{SmartNeighborhoodIterator} and
+//  \doxygen{NeighborhoodOperator}.  The size of the neighborhood over which
 //  the mean is computed can be set by the user.
 //
 //  \index{itk::MeanImageFilter}
@@ -86,8 +85,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Then the pixel types for input and output image must be defined and with
-  //  them the image types can be instantiated.
+  //  Then the pixel types for input and output image must be defined and, with
+  //  them, the image types can be instantiated.
   //
   //  Software Guide : EndLatex 
 
@@ -155,7 +154,7 @@ int main( int argc, char * argv[] )
   //
   //  The input to the filter can be taken from any other filter, for example
   //  a reader. The output can be passed down the pipeline to other filters,
-  //  for example a writer. An update call on any downstream filter will
+  //  for example, a writer. An update call on any downstream filter will
   //  trigger the execution of the mean filter.
   //
   //  \index{itk::MeanImageFilter!SetInput()}
