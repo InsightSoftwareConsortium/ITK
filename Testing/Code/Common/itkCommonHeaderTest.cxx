@@ -206,6 +206,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkObjectStore.txx"
 #include "itkOffset.h"
 #include "itkOutputWindow.h"
+#include "itkPeriodicBoundaryCondition.txx"
 #include "itkPixelAccessor.h"
 #include "itkPixelTraits.h"
 #include "itkPoint.txx"
