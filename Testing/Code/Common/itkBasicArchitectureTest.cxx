@@ -160,6 +160,8 @@ int main()
     for(int c = 0; c < mat.rows(); c++)
       std::cout << mat(r, c) << " " << std::endl;
   
+  // Test the creation of an image with native type
+  itkImage<float,2>::Pointer if2 = itkImage<float,2>::New();
   
   // Begin by creating a simple pipeline
   //
