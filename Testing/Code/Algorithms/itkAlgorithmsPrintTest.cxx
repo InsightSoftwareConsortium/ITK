@@ -163,57 +163,63 @@ int itkAlgorithmsPrintTest(int , char* [])
     itk::CurvatureFlowFunction<InputType>::New();
   std:: cout << "-------------CurvatureFlowFunction " << CurvatureFlowFunctionObj;
 
-#if 0
   itk::CurvatureFlowImageFilter<InputType,OutputType>::Pointer CurvatureFlowImageFilterObj =
     itk::CurvatureFlowImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------CurvatureFlowImageFilter " << CurvatureFlowImageFilterObj;
 
-  itk::DeformableMesh3DFilter<InputType,OutputType>::Pointer DeformableMesh3DFilterObj =
-    itk::DeformableMesh3DFilter<InputType,OutputType>::New();
+#if 0
+  itk::DeformableMesh3DFilter<MeshType,MeshType>::Pointer DeformableMesh3DFilterObj =
+    itk::DeformableMesh3DFilter<MeshType,MeshType>::New();
   std:: cout << "-------------DeformableMesh3DFilter " << DeformableMesh3DFilterObj;
 
-  itk::DeformableMeshFilter<InputType,OutputType>::Pointer DeformableMeshFilterObj =
-    itk::DeformableMeshFilter<InputType,OutputType>::New();
+  itk::DeformableMeshFilter<MeshType,MeshType>::Pointer DeformableMeshFilterObj =
+    itk::DeformableMeshFilter<MeshType,MeshType>::New();
   std:: cout << "-------------DeformableMeshFilter " << DeformableMeshFilterObj;
+#endif
 
-  itk::DemonsRegistrationFilter<InputType,OutputType>::Pointer DemonsRegistrationFilterObj =
-    itk::DemonsRegistrationFilter<InputType,OutputType>::New();
+  itk::DemonsRegistrationFilter<InputType,OutputType,VectorImageType>::Pointer DemonsRegistrationFilterObj =
+    itk::DemonsRegistrationFilter<InputType,OutputType,VectorImageType>::New();
   std:: cout << "-------------DemonsRegistrationFilter " << DemonsRegistrationFilterObj;
 
-  itk::DemonsRegistrationFunction<InputType,OutputType>::Pointer DemonsRegistrationFunctionObj =
-    itk::DemonsRegistrationFunction<InputType,OutputType>::New();
+  itk::DemonsRegistrationFunction<InputType,OutputType,VectorImageType>::Pointer DemonsRegistrationFunctionObj =
+    itk::DemonsRegistrationFunction<InputType,OutputType,VectorImageType>::New();
   std:: cout << "-------------DemonsRegistrationFunction " << DemonsRegistrationFunctionObj;
 
-  itk::ExtensionVelocitiesImageFilter<InputType,OutputType>::Pointer ExtensionVelocitiesImageFilterObj =
-    itk::ExtensionVelocitiesImageFilter<InputType,OutputType>::New();
+  itk::ExtensionVelocitiesImageFilter<InputType,float,1>::Pointer ExtensionVelocitiesImageFilterObj =
+    itk::ExtensionVelocitiesImageFilter<InputType,float,1>::New();
   std:: cout << "-------------ExtensionVelocitiesImageFilter " << ExtensionVelocitiesImageFilterObj;
 
+#if 0
   itk::FEMRegistrationFilter<InputType,OutputType>::Pointer FEMRegistrationFilterObj =
     itk::FEMRegistrationFilter<InputType,OutputType>::New();
   std:: cout << "-------------FEMRegistrationFilter " << FEMRegistrationFilterObj;
+#endif
 
-  itk::FastMarchingExtensionImageFilter<InputType,OutputType>::Pointer FastMarchingExtensionImageFilterObj =
-    itk::FastMarchingExtensionImageFilter<InputType,OutputType>::New();
+  itk::FastMarchingExtensionImageFilter<InputType,float>::Pointer FastMarchingExtensionImageFilterObj =
+    itk::FastMarchingExtensionImageFilter<InputType,float>::New();
   std:: cout << "-------------FastMarchingExtensionImageFilter " << FastMarchingExtensionImageFilterObj;
 
-  itk::FastMarchingImageFilter<InputType,OutputType>::Pointer FastMarchingImageFilterObj =
-    itk::FastMarchingImageFilter<InputType,OutputType>::New();
+  itk::FastMarchingImageFilter<InputType>::Pointer FastMarchingImageFilterObj =
+    itk::FastMarchingImageFilter<InputType>::New();
   std:: cout << "-------------FastMarchingImageFilter " << FastMarchingImageFilterObj;
 
-  itk::GeodesicActiveContourLevelSetFunction<InputType,OutputType>::Pointer GeodesicActiveContourLevelSetFunctionObj =
-    itk::GeodesicActiveContourLevelSetFunction<InputType,OutputType>::New();
+  itk::GeodesicActiveContourLevelSetFunction<InputType>::Pointer GeodesicActiveContourLevelSetFunctionObj =
+    itk::GeodesicActiveContourLevelSetFunction<InputType>::New();
   std:: cout << "-------------GeodesicActiveContourLevelSetFunction " << GeodesicActiveContourLevelSetFunctionObj;
 
   itk::GeodesicActiveContourLevelSetImageFilter<InputType,OutputType>::Pointer GeodesicActiveContourLevelSetImageFilterObj =
     itk::GeodesicActiveContourLevelSetImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------GeodesicActiveContourLevelSetImageFilter " << GeodesicActiveContourLevelSetImageFilterObj;
 
+#if 0
   itk::GibbsPriorFilter<InputType,OutputType>::Pointer GibbsPriorFilterObj =
     itk::GibbsPriorFilter<InputType,OutputType>::New();
   std:: cout << "-------------GibbsPriorFilter " << GibbsPriorFilterObj;
 
-  itk::GradientVectorFlowImageFilter<InputType,OutputType>::Pointer GradientVectorFlowImageFilterObj =
-    itk::GradientVectorFlowImageFilter<InputType,OutputType>::New();
+  typedef itk::CovariantVector<double, 3> GradientType;
+  typedef itk::Image<GradientType, 3>   GradientImageType;
+  itk::GradientVectorFlowImageFilter<InputType,GradientImageType>::Pointer GradientVectorFlowImageFilterObj =
+    itk::GradientVectorFlowImageFilter<InputType,GradientImageType>::New();
   std:: cout << "-------------GradientVectorFlowImageFilter " << GradientVectorFlowImageFilterObj;
 
   itk::HistogramMatchingImageFilter<InputType,OutputType>::Pointer HistogramMatchingImageFilterObj =
