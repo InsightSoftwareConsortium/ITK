@@ -93,6 +93,7 @@ GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>
     m_Direction = i;
     gradient[i]=this->Evaluate(position);
     } 
+  return gradient;
 }
 
 template <typename TOutput, unsigned int VImageDimension, typename TInput>
