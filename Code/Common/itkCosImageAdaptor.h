@@ -109,6 +109,14 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( CosImageAdaptor, ImageAdaptor );
+
+ protected:
+  CosImageAdaptor() {}
+  virtual ~CosImageAdaptor() {}
+  
+ private:
+  CosImageAdaptor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace itk

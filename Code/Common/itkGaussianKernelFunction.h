@@ -83,6 +83,9 @@ protected:
     { Superclass::PrintSelf( os, indent ); }  
 
 private:
+  GaussianKernelFunction(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   static const double m_Factor;
 
 };
