@@ -18,8 +18,7 @@
 #include "itkNumericTraits.h"
 
 
-// using namespace itk;
-template<class T> CheckTraits(char *name, T var)
+template<class T> void CheckTraits(char *name, T)
 {
   std::cout << "itk::NumericTraits<" << name << ">" << std::endl;
   std::cout << "\tmin(): " << static_cast<itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min()) << std::endl;
@@ -29,16 +28,16 @@ template<class T> CheckTraits(char *name, T var)
 
 int itkNumericTraitsTest(int, char* [] )
 {
-  CheckTraits("char", char (0));
-  CheckTraits("unsigned char", unsigned char(0));
-  CheckTraits("short", short (0));
-  CheckTraits("unsigned short", unsigned short(0));
-  CheckTraits("int", int(0));
-  CheckTraits("unsigned int", unsigned int(0));
-  CheckTraits("long", long(0));
-  CheckTraits("unsigned long", unsigned long(0));
-  CheckTraits("float", float(0));
-  CheckTraits("double", double(0));
+  CheckTraits("char", static_cast<char>(0));
+  CheckTraits("unsigned char", static_cast<unsigned char>(0));
+  CheckTraits("short", static_cast<short>(0));
+  CheckTraits("unsigned short", static_cast<unsigned short>(0));
+  CheckTraits("int", static_cast<int>(0));
+  CheckTraits("unsigned int", static_cast<unsigned int>(0));
+  CheckTraits("long", static_cast<long>(0));
+  CheckTraits("unsigned long", static_cast<unsigned long>(0));
+  CheckTraits("float", static_cast<float>(0));
+  CheckTraits("double", static_cast<double>(0));
 
   return 0;
 }
