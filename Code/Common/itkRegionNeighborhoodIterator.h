@@ -17,7 +17,6 @@
 #define __itkRegionNeighborhoodIterator_h
 
 #include "itkNeighborhoodIterator.h"
-#include "itkVectorComponentDataAccessor.h"
 
 namespace itk {
 
@@ -152,28 +151,6 @@ public:
    * std::cout for debugging purposes.
    */
   void PrintSelf();
-
-
-  /**
-   * Calculates the inner product of the neighborhood of referenced pixel
-   * values with a valarray (and therefore also any NeighborhoodBase subclass).
-   * Returns a scalar value.  Innerproduct is re-implemented for
-   * the NeighborhoodPointer to avoid the penalty of creating a temporary
-   * Neighborhood when such a step is not needed by an algorithm.
-   *
-   * \sa Neighborhood
-   * \sa SlicedInnerProduct
-   */
-  ScalarValueType InnerProduct(std::valarray<TPixel> &);
-  ScalarValueType InnerProduct(std::valarray<ScalarValueType> &,
-                                     VectorComponentDataAccessor<TPixel,
-                                     ScalarValueType> &);
-  ScalarValueType SlicedInnerProduct(const std::slice &s,
-                                           std::valarray<TPixel> &v);
-
-  ScalarValueType SlicedInnerProduct(const std::slice &,
-                                           std::valarray<ScalarValueType> &,
-              VectorComponentDataAccessor<TPixel, ScalarValueType> &);
 
   /**
    * Assignment operator

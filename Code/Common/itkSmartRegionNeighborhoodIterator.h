@@ -161,26 +161,6 @@ public:
   void PrintSelf();
 
   /**
-   * Calculates the inner product of the neighborhood of referenced pixel
-   * values with a valarray (and therefore also any NeighborhoodBase subclass).
-   * Returns a scalar value.  Innerproduct is re-implemented for
-   * the NeighborhoodIterator's to avoid the penalty of creating a temporary
-   * Neighborhood when such a step is not needed by an algorithm.
-   *
-   * \sa Neighborhood
-   * \sa SlicedInnerProduct
-   */
-  ScalarValueType InnerProduct(std::valarray<TPixel> &);
-  ScalarValueType InnerProduct(std::valarray<ScalarValueType> &,
-                                     VectorComponentDataAccessor<TPixel,
-                                     ScalarValueType> &);
-  ScalarValueType SlicedInnerProduct(const std::slice &s,
-                                           std::valarray<TPixel> &v);
-  ScalarValueType SlicedInnerProduct(const std::slice &,
-                                     std::valarray<ScalarValueType> &,
-              VectorComponentDataAccessor<TPixel, ScalarValueType> &); 
-
-  /**
    * Assignment operator
    */
   Self &operator=(const Self& orig)
@@ -194,19 +174,18 @@ public:
     return *this;
   }
 
-  
-protected:
-  /**
-   * Sets loop boundaries for iteration.
-   */
-  void SetBound(const SizeType&);
-
   /**
    * Returns false if the iterator overlaps region boundaries, true
    * otherwise.  Also updates an internal boolean array indicating
    * which of the iterator's sides are out of bounds.
    */
   bool InBounds();
+  
+protected:
+  /**
+   * Sets loop boundaries for iteration.
+   */
+  void SetBound(const SizeType&);
 
   /**
    * Lower threshold of in-bounds loop counter values.
