@@ -13,7 +13,6 @@ void RegisterTests()
   vnl_sample_reseed(8775070);
   REGISTER_TEST(ImageRegistration8Test);
   REGISTER_TEST(ImageRegistration9Test);
-  REGISTER_TEST(ImageRegistration12Test);
   REGISTER_TEST(IterativeClosestPoint1Test);
   REGISTER_TEST(IterativeClosestPoint2Test);
   REGISTER_TEST(IterativeClosestPoint3Test);
@@ -62,11 +61,3 @@ void RegisterTests()
 #undef CommandIterationUpdate
 #define CommandIterationUpdate CommandIterationUpdate16
 #include "BSplineWarping1.cxx"
-
-#undef main
-#define main  ImageRegistration12Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate17
-#include "ImageRegistration12.cxx"
-
-

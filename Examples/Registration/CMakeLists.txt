@@ -80,6 +80,7 @@ TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilter
 SET(REGISTRATION_EXAMPLES ${CXX_TEST_PATH}/RegistrationExamples)
 SET(REGISTRATION_EXAMPLES2 ${CXX_TEST_PATH}/RegistrationExamples2)
 SET(REGISTRATION_EXAMPLES3 ${CXX_TEST_PATH}/RegistrationExamples3)
+SET(REGISTRATION_EXAMPLES4 ${CXX_TEST_PATH}/RegistrationExamples4)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -154,16 +155,6 @@ ADD_TEST(ImageRegistration9Test ${REGISTRATION_EXAMPLES3}
         ${TEMP}/ImageRegistration9Test.png
 )
 
-ADD_TEST(ImageRegistration12Test ${REGISTRATION_EXAMPLES3}
-  --compare ${BASELINE}/ImageRegistration12Test.png
-            ${TEMP}/ImageRegistration12Test.png
-  ImageRegistration12Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
-        ${TEMP}/ImageRegistration12Test.png
-)
-
 ADD_TEST(MultiResImageRegistration1Test ${REGISTRATION_EXAMPLES2}
   --compare ${BASELINE}/MultiResImageRegistration1Test.png
             ${TEMP}/MultiResImageRegistration1Test.png
@@ -201,6 +192,16 @@ ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES3}
         ${TEMP}/BSplineWarping1Test.png
 )
 
+ADD_TEST(ImageRegistration12Test ${REGISTRATION_EXAMPLES4}
+  --compare ${BASELINE}/ImageRegistration12Test.png
+            ${TEMP}/ImageRegistration12Test.png
+  ImageRegistration12Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
+        ${TEMP}/ImageRegistration12Test.png
+)
+
 ADD_EXECUTABLE(RegistrationExamples RegistrationExamples.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
 
@@ -209,5 +210,8 @@ TARGET_LINK_LIBRARIES(RegistrationExamples2 ITKAlgorithms ITKFEM ITKStatistics I
 
 ADD_EXECUTABLE(RegistrationExamples3 RegistrationExamples3.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(RegistrationExamples4 RegistrationExamples4.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamples4 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
 
