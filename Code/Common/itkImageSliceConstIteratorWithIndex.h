@@ -129,10 +129,10 @@ public:
   bool IsAtEndOfSlice(void);
 
   /** Test if the index is at the begin of line */
-  bool IsAtBeginOfLine(void);
+  bool IsAtReverseEndOfLine(void);
 
   /** Test if the index is at the begin of the slice */
-  bool IsAtBeginOfSlice(void);
+  bool IsAtReverseEndOfSlice(void);
 
   /** Set the fastest direction of movement */
   void SetFirstDirection(unsigned int direction);

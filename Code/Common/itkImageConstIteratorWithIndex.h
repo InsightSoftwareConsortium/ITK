@@ -214,14 +214,14 @@ public:
   void GoToBegin(void);
 
   /** Move an iterator to the End of the region.
-   * \deprecated Use GoToEnd() instead */
+   * \deprecated Use GoToReverseBegin() instead */
   Self End(void) const;
 
   /** Move an iterator to the End of the region. */
-  void GoToEnd(void);
+  void GoToReverseBegin(void);
 
   /** Is the iterator at the beginning of the region? */
-  bool IsAtBegin(void) const
+  bool IsAtReverseEnd(void) const
     {
       return !m_Remaining;
     }

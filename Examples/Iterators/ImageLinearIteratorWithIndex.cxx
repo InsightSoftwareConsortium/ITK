@@ -54,20 +54,20 @@
 // dimension of the subspace of the image that excludes the selected dimension.
 //
 // \index{itk::ImageLinearIteratorWithIndex!GoToBeginOfLine()}
-// \index{itk::ImageLinearIteratorWithIndex!GoToEndOfLine()}
+// \index{itk::ImageLinearIteratorWithIndex!GoToReverseBeginOfLine()}
 //
 // \item \textbf{\code{GoToBeginOfLine()}} Moves the iterator to the beginning
 // pixel of the current line.
 //
-// \item \textbf{\code{GoToEndOfLine()}}  Move the iterator to \emph{one
-// position past} the last valid pixel of the current line.
+// \item \textbf{\code{GoToReverseBeginOfLine()}}  Move the iterator to the
+// last valid pixel of the current line.
 //
 //
-// \index{itk::ImageLinearIteratorWithIndex!IsAtBeginOfLine()}
+// \index{itk::ImageLinearIteratorWithIndex!IsAtReverseEndOfLine()}
 // \index{itk::ImageLinearIteratorWithIndex!IsAtEndOfLine()}
 //
-// \item \textbf{\code{IsAtBeginOfLine()}} Returns true if the iterator points
-// to the beginning pixel of the current line.
+// \item \textbf{\code{IsAtReverseEndOfLine()}} Returns true if the iterator points
+// to \emph{one position before} the beginning pixel of the current line.
 //
 // \item \textbf{\code{IsAtEndOfLine()}}  Returns true if the iterator points to
 // \emph{one position past} the last valid pixel of the current line.
@@ -187,8 +187,7 @@ int main( int argc, char *argv[] )
         outputIt.NextLine(),  inputIt.NextLine())
     {
       inputIt.GoToBeginOfLine();
-      outputIt.GoToEndOfLine();
-      --outputIt;
+      outputIt.GoToReverseBeginOfLine();
       while ( ! inputIt.IsAtEndOfLine() )
         {
           outputIt.Set( inputIt.Get() );

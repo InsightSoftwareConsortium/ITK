@@ -157,15 +157,15 @@ int itkImageSliceIteratorTest(int, char* [] )
 
   IteratorType ior( myImage, region );
 
-  ior.GoToEnd();
+  ior.GoToReverseBegin();
   ior.SetFirstDirection( 0 );  // 0=x, 1=y, 2=z
   ior.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
  
-  while( !ior.IsAtBegin() )
+  while( !ior.IsAtReverseEnd() )
   {
-    while( !ior.IsAtBeginOfSlice() )
+    while( !ior.IsAtReverseEndOfSlice() )
     {
-      while( !ior.IsAtBeginOfLine() )
+      while( !ior.IsAtReverseEndOfLine() )
       {
         index = ior.GetIndex();
         if( ior.Get() != index )
@@ -192,15 +192,15 @@ int itkImageSliceIteratorTest(int, char* [] )
 
   ConstIteratorType cor( myImage, region );
 
-  cor.GoToEnd();
+  cor.GoToReverseBegin();
   cor.SetFirstDirection( 0 );  // 0=x, 1=y, 2=z
   cor.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
  
-  while( !cor.IsAtBegin() )
+  while( !cor.IsAtReverseEnd() )
   {
-    while( !cor.IsAtBeginOfSlice() )
+    while( !cor.IsAtReverseEndOfSlice() )
     {
-      while( !cor.IsAtBeginOfLine() )
+      while( !cor.IsAtReverseEndOfLine() )
       {
         index = cor.GetIndex();
         if( cor.Get() != index )
@@ -310,15 +310,15 @@ int itkImageSliceIteratorTest(int, char* [] )
 
   IteratorType ior( myImage, region );
 
-  ior.GoToEnd();
+  ior.GoToReverseBegin();
   ior.SetFirstDirection( 0 );  // 0=x, 1=y, 2=z
   ior.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
  
-  while( !ior.IsAtBegin() )
+  while( !ior.IsAtReverseEnd() )
   {
-    while( !ior.IsAtBeginOfSlice() )
+    while( !ior.IsAtReverseEndOfSlice() )
     {
-      while( !ior.IsAtBeginOfLine() )
+      while( !ior.IsAtReverseEndOfLine() )
       {
         index = ior.GetIndex();
         if( ior.Get() != index )
@@ -345,15 +345,15 @@ int itkImageSliceIteratorTest(int, char* [] )
 
   ConstIteratorType cor( myImage, region );
 
-  cor.GoToEnd();
+  cor.GoToReverseBegin();
   cor.SetFirstDirection( 0 );  // 0=x, 1=y, 2=z
   cor.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
  
-  while( !cor.IsAtBegin() )
+  while( !cor.IsAtReverseEnd() )
   {
-    while( !cor.IsAtBeginOfSlice() )
+    while( !cor.IsAtReverseEndOfSlice() )
     {
-      while( !cor.IsAtBeginOfLine() )
+      while( !cor.IsAtReverseEndOfLine() )
       {
         index = cor.GetIndex();
         if( cor.Get() != index )

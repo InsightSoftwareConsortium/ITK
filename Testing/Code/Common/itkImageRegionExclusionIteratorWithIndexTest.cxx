@@ -166,9 +166,9 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
   std::cout << "Testing the iterator backwars... ";
 
   numberOfPixelsVisited = 0;
-  ev.GoToEnd();
-  ei.GoToEnd();
-  while( !ev.IsAtBegin() )
+  ev.GoToReverseBegin();
+  ei.GoToReverseBegin();
+  while( !ev.IsAtReverseEnd() )
     {
     if( ei.Get() != ei.GetIndex() )
       {
@@ -251,9 +251,9 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
   std::cout << "Testing the Const iterator backwars... ";
 
   numberOfPixelsVisited = 0;
-  cev.GoToEnd();
-  cei.GoToEnd();
-  while( !cev.IsAtBegin() )
+  cev.GoToReverseBegin();
+  cei.GoToReverseBegin();
+  while( !cev.IsAtReverseEnd() )
     {
     if( cei.Get() != cei.GetIndex() )
       {

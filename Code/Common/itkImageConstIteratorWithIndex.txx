@@ -193,18 +193,18 @@ ImageConstIteratorWithIndex<TImage>
 ::End() const
 {
   Self it( *this );
-  it.GoToEnd();
+  it.GoToReverseBegin();
   return it;
 }
 
 
 //----------------------------------------------------------------------------
-// GoToEnd() is the last pixel in the region.
+// GoToReverseBegin() is the last pixel in the region.
 //----------------------------------------------------------------------------
 template<class TImage>
 void
 ImageConstIteratorWithIndex<TImage>
-::GoToEnd()
+::GoToReverseBegin()
 {
 
   m_Remaining = false;

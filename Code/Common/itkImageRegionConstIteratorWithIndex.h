@@ -59,7 +59,7 @@ namespace itk
  *
  *  it.Begin();
  *
- *  while( it.IsNotAtEnd() ) 
+ *  while( ! it.IsAtEnd() ) 
  *  {  
  *    it.Set( 100.0 + it.Get() );
  *    ++it;

@@ -54,9 +54,9 @@
 // fastest increasing dimension of the image subspace which excludes the first
 // and second dimensions of the iterator.
 //
-// \index{itk::ImageSliceIteratorWithIndex!IsAtBeginOfSlice()}
-// \item \textbf{\code{IsAtBeginOfSlice()}} Returns true if the iterator
-// points to the beginning pixel of the current slice.
+// \index{itk::ImageSliceIteratorWithIndex!IsAtReverseEndOfSlice()}
+// \item \textbf{\code{IsAtReverseEndOfSlice()}} Returns true if the iterator
+// points to \emph{one position before} the beginning pixel of the current slice.
 //
 // \index{itk::ImageSliceIteratorWithIndex!IsAtEndOfSlice()}
 // \item \textbf{\code{IsAtEndOfSlice()}} Returns true if the iterator points

@@ -140,13 +140,13 @@ int itkImageLinearIteratorTest(int, char* [] )
 
   IteratorType ior( myImage, region );
 
-  ior.GoToEnd();
+  ior.GoToReverseBegin();
   ior.SetDirection( 0 ); // 0=x, 1=y, 2=z
  
 
-  while( !ior.IsAtBegin() )
+  while( !ior.IsAtReverseEnd() )
   {
-    while( !ior.IsAtBeginOfLine() )
+    while( !ior.IsAtReverseEndOfLine() )
     {
       index = ior.GetIndex();
       if( ior.Get() != index )
@@ -170,13 +170,13 @@ int itkImageLinearIteratorTest(int, char* [] )
 
   ConstIteratorType cor( myImage, region );
 
-  cor.GoToEnd();
+  cor.GoToReverseBegin();
   cor.SetDirection( 0 ); // 0=x, 1=y, 2=z
  
 
-  while( !cor.IsAtBegin() )
+  while( !cor.IsAtReverseEnd() )
   {
-    while( !cor.IsAtBeginOfLine() )
+    while( !cor.IsAtReverseEndOfLine() )
     {
       index = cor.GetIndex();
       if( cor.Get() != index )

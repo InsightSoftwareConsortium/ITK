@@ -131,7 +131,7 @@ ImageLinearConstIteratorWithIndex<TImage>
 template<class TImage>
 bool 
 ImageLinearConstIteratorWithIndex<TImage>
-::IsAtBeginOfLine(void) 
+::IsAtReverseEndOfLine(void) 
 {
   return m_PositionIndex[m_Direction] < m_BeginIndex[m_Direction];
 }
@@ -166,7 +166,7 @@ ImageLinearConstIteratorWithIndex<TImage>
 template<class TImage>
 void 
 ImageLinearConstIteratorWithIndex<TImage>
-::GoToEndOfLine(void)
+::GoToReverseBeginOfLine(void)
 {
 
   long distanceToEnd = 

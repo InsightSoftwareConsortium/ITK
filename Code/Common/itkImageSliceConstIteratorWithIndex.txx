@@ -187,7 +187,7 @@ ImageSliceConstIteratorWithIndex<TImage>
 template<class TImage>
 bool 
 ImageSliceConstIteratorWithIndex<TImage>
-::IsAtBeginOfLine(void) 
+::IsAtReverseEndOfLine(void) 
 {
   return m_PositionIndex[m_Direction_A] < m_BeginIndex[m_Direction_A];
 }
@@ -201,7 +201,7 @@ ImageSliceConstIteratorWithIndex<TImage>
 template<class TImage>
 bool
 ImageSliceConstIteratorWithIndex<TImage>
-::IsAtBeginOfSlice(void) 
+::IsAtReverseEndOfSlice(void) 
 {
   return m_PositionIndex[m_Direction_B] < m_BeginIndex[m_Direction_B];
 }

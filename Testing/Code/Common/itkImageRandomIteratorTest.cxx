@@ -80,9 +80,9 @@ int itkImageRandomIteratorTest(int, char* [] )
   
   // Sample the image 
   RandomIteratorType ot( myImage, region );
-
-  ot.GoToBegin();
   ot.SetNumberOfSamples( numberOfSamples ); 
+  ot.GoToBegin();
+
  
   std::cout << "Verifying non-const iterator... ";
   std::cout << "Random walk of the Iterator over the image " << std::endl;
@@ -105,9 +105,9 @@ int itkImageRandomIteratorTest(int, char* [] )
   
   // Verification 
   RandomConstIteratorType cot( myConstImage, region );
-
-  cot.GoToBegin();
   cot.SetNumberOfSamples( numberOfSamples ); 
+  cot.GoToBegin();
+
  
   std::cout << "Verifying const iterator... ";
   std::cout << "Random walk of the Iterator over the image " << std::endl;
@@ -131,13 +131,14 @@ int itkImageRandomIteratorTest(int, char* [] )
 
 
   // Verification 
-  std::cout << "Verifying iterator in reverse direction... ";
+  std::cout << "Verifying iterator in reverse direction... " << std::endl;
   std::cout << "Should be a random walk too (a different one)" << std::endl;
 
   RandomIteratorType ior( myImage, region );
-
-  ior.GoToEnd();
   ior.SetNumberOfSamples( numberOfSamples ); 
+  ior.GoToEnd();
+
+  --ior;
  
 
   while( !ior.IsAtBegin() )
@@ -154,6 +155,7 @@ int itkImageRandomIteratorTest(int, char* [] )
     std::cout << index << std::endl;
     --ior;
   }
+  std::cout << index << std::endl; // print the value at the beginning index
   std::cout << "   Done ! " << std::endl;
 
 
@@ -162,10 +164,10 @@ int itkImageRandomIteratorTest(int, char* [] )
   std::cout << "Verifying const iterator in reverse direction... ";
 
   RandomConstIteratorType cor( myImage, region );
-
-  cor.GoToEnd();
   cor.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
- 
+  cor.GoToEnd();
+
+  --cor; // start at the end position 
 
   while( !cor.IsAtBegin() )
     {
@@ -181,13 +183,41 @@ int itkImageRandomIteratorTest(int, char* [] )
     std::cout << index << std::endl;
     --cor;
     }
+  std::cout << index << std::endl; // print the value at the beginning index
   std::cout << "   Done ! " << std::endl;
 
+ // Verification 
+  std::cout << "Verifying const iterator in both directions... ";
 
+  RandomConstIteratorType dor( myImage, region );
+  dor.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
+  dor.GoToEnd();
+
+  --dor; // start at the last valid pixel position 
+
+  for (unsigned int counter = 0; ! dor.IsAtEnd(); ++counter)
+    {
+      index = dor.GetIndex();
+      if( dor.Get() != index )
+        {
+          std::cerr << "Values don't correspond to what was stored "
+                    << std::endl;
+          std::cerr << "Test failed at index ";
+          std::cerr << index << " value is " << dor.Get() <<  std::endl;
+          return EXIT_FAILURE;
+        }
+      std::cout << index << std::endl;
+      if (counter < 6)  { --dor; }
+      else { ++dor; }
+    }
+  std::cout << index << std::endl; // print the value at the beginning index
+  std::cout << "   Done ! " << std::endl;
+  
 
   // Verification of the Iterator in a subregion of the image
   {
-  std::cout << "Verifying Iterator in a Region smaller than the whole image... ";
+    std::cout << "Verifying Iterator in a Region smaller than the whole image... "
+              << std::endl;
 
     ImageType::IndexType start;
     start[0] = 10;
@@ -237,7 +267,8 @@ int itkImageRandomIteratorTest(int, char* [] )
 
   // Verification of the Const Iterator in a subregion of the image
   {
-  std::cout << "Verifying Const Iterator in a Region smaller than the whole image... ";
+    std::cout << "Verifying Const Iterator in a Region smaller than the whole image... "
+              << std::endl;
 
     ImageType::IndexType start;
     start[0] = 10;

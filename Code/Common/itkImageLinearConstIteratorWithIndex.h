@@ -134,18 +134,18 @@ public:
   inline void PreviousLine(void);
 
   /** Go to the beginning pixel of the current line.
-   * \sa GoToEndOfLine \sa operator++ \sa operator-- \sa NextLine \sa EndOfLine */
+   * \sa GoToReverseBeginOfLine \sa operator++ \sa operator-- \sa NextLine \sa EndOfLine */
   void GoToBeginOfLine(void);
 
   /** Go to the past end pixel of the current line.
    * \sa GoToBeginOfLine \sa operator++ \sa operator-- \sa NextLine \sa EndOfLine */
-  void GoToEndOfLine(void);
+  void GoToReverseBeginOfLine(void);
 
   /** Test if the index is at the end of line */
   inline bool IsAtEndOfLine(void);
 
   /** Test if the index is at the begin of line */
-  inline bool IsAtBeginOfLine(void);
+  inline bool IsAtReverseEndOfLine(void);
 
   /** Set the direction of movement */
   inline void SetDirection(unsigned int direction) ;

@@ -100,10 +100,10 @@ int itkImageIteratorsForwardBackwardTest(int, char* [] )
   // Verification 
   std::cout << "Verifying the data backwards... ";
 
-  ot.GoToEnd();
+  ot.GoToReverseBegin();
   --ot;
   --value;
-  while( !ot.IsAtBegin() )
+  while( !ot.IsAtReverseEnd() )
   {
 
     if( ot.Get() != value )
@@ -154,10 +154,10 @@ int itkImageIteratorsForwardBackwardTest(int, char* [] )
   // Verification 
   std::cout << "Const Iterator : Verifying the data backwards... ";
 
-  cot.GoToEnd();
+  cot.GoToReverseBegin();
   --cot;
   --value;
-  while( !cot.IsAtBegin() )
+  while( !cot.IsAtReverseEnd() )
   {
 
     if( cot.Get() != value )
