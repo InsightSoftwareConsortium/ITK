@@ -31,6 +31,7 @@ public:
   typedef SmartPointer < Self >                      Pointer;
   typedef SmartPointer < const Self >                ConstPointer;
   typedef typename Superclass::PointType             PointType;
+  typedef typename Superclass::TransformType         TransformType;
   typedef typename Superclass::PointListType         PointListType;
   typedef typename Superclass::BlobPointType         BlobPointType;
   /** Method for creation through the object factory. */

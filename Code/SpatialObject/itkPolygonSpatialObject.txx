@@ -410,6 +410,9 @@ PolygonSpatialObject<TDimension>
       throw exception;
     }
 
+  const TransformType * giT = GetWorldToIndexTransform();
+  PointType transformedPoint = giT->TransformPoint(point);
+
   PointListType &points = const_cast<Self *>(this)->GetPoints();
   typename PointListType::iterator it = points.begin();
   typename PointListType::iterator itend = points.end();
@@ -435,7 +438,7 @@ PolygonSpatialObject<TDimension>
       {
       end = (*it).GetPosition();
       }
-    double x = point[X]; double y = point[Y];
+    double x = transformedPoint[X]; double y = transformedPoint[Y];
 
     if((start[Y] < y && end[Y] >= y) ||
        (end[Y] < y && start[Y] >= y))
