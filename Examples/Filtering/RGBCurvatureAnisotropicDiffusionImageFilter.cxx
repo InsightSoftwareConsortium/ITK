@@ -232,9 +232,30 @@ int main( int argc, char ** argv )
   //  illustrates the effect of this filter on a RGB image from a cryogenic
   //  section of the Visible Woman data set.  In this example the filter was
   //  run with a time step of 0.25, and 20 iterations.  The input image has
-  //  570x670 pixels and the processing took 4 minutes on a Pentium 4 2Ghz. 
+  //  570x670 pixels and the processing took 4 minutes on a Pentium 4 at 2Ghz. 
   //
   //  Software Guide : EndLatex 
+
+  //  Software Guide : BeginLatex
+  //  
+  // \begin{figure} \center
+  // \includegraphics[width=4cm]{VisibleWomanEyeSlice.eps}
+  // \includegraphics[width=4cm]{RGBGradientAnisotropicDiffusionImageFilterOutput2.eps}
+  // \includegraphics[width=4cm]{RGBCurvatureAnisotropicDiffusionImageFilterOutput2.eps}
+  // \caption{Comparison between Gradient(center) and Curvature(right)
+  // Anistropic Diffusion filters. Original image at left.}
+  // \label{fig:ComparisionGradientCurvatureRGBAnisotropicDiffusion}
+  // \end{figure}
+  //
+  //  Figure \ref{fig:ComparisionGradientCurvatureRGBAnisotropicDiffusion}
+  //  Compares the effect of the Gradient and Curvature anisotropic diffusion
+  //  filters on a small region of the same cryogenic slice used in figure
+  //  \ref{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}. The
+  //  region used in this figure is only  127x162 pixels and took 14 seconds to
+  //  compute on the same platform.
+  //
+  //  Software Guide : EndLatex 
+
 
 
   return 0;
