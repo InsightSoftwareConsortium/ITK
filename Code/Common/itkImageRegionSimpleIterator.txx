@@ -27,7 +27,6 @@ ImageRegionSimpleIterator<TPixel, VImageDimension>  &
 ImageRegionSimpleIterator<TPixel, VImageDimension>
 ::operator++()
 {
-  const Size& size = m_Region.GetSize();
   
   m_Remaining = false;
   for( unsigned int in=0; in<VImageDimension; in++ )
@@ -41,7 +40,7 @@ ImageRegionSimpleIterator<TPixel, VImageDimension>
     }
     else 
     {
-      m_Position -= m_OffsetTable[ in ] * ( size[in]-1 );
+      m_Position -= m_OffsetTable[ in ] * ( m_Region.GetSize()[in]-1 );
       m_PositionIndex[ in ] = m_BeginIndex[ in ]; 
     }
   }

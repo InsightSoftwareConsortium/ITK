@@ -104,7 +104,7 @@ public:
    * particular region of that image.
    */
   ImageRegionSimpleIterator(const SmartPointer<Image> &ptr,
-                            const Region& region);
+                            const Region& region)
     : ImageIteratorWithIndex<TPixel, VImageDimension>(ptr, region) {}
 
   /**
