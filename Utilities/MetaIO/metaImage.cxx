@@ -21,6 +21,7 @@ MetaImage()
   MetaImage::Clear();
   m_AutoFreeElementData = 0;
   m_ElementData = NULL;
+  strcpy(m_ElementDataFileName, "");
 }
 
 //
@@ -805,7 +806,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
     }
 
   bool userDataFileName = true;
-  if(_dataName == NULL)// && strlen(m_ElementDataFileName)==0)
+  if(_dataName == NULL && strlen(m_ElementDataFileName)==0)
     {
     userDataFileName = false;
     int sPtr = 0;
@@ -873,6 +874,10 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
   m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
   if(!m_WriteStream->is_open())
     {
+    if(!userDataFileName)
+      {
+      ElementDataFileName("");
+      }
     return false;
     }
 
@@ -890,6 +895,10 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
       m_WriteStream->close();
       delete m_WriteStream;
       m_WriteStream = 0;
+      if(!userDataFileName)
+        {
+        ElementDataFileName("");
+        }
       return true;
       }
     else
@@ -947,6 +956,10 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
                                 m_Quantity * elementNumberOfBytes );
         writeStreamTemp->close();
         delete writeStreamTemp; 
+        if(!userDataFileName)
+          {
+          ElementDataFileName("");
+          }
         return true;
         }
       delete writeStreamTemp; 
