@@ -235,4 +235,6 @@ int main()
   stop = clock();
   std::cout << (stop - start) << "\t compensated = " << (stop-start) -
     adaptor_comp <<std::endl;
+
+  return 0;
 }
