@@ -133,32 +133,32 @@ void DICOMImageIO2::ReadImageInformation()
       {
       if (sign)
         {
-        this->SetPixelType(IODataType::CHAR);
-        this->SetComponentType(IODataType::CHAR);
+        this->SetPixelType(ImageIOBase::CHAR);
+        this->SetComponentType(ImageIOBase::CHAR);
         }
       else
         {
-        this->SetPixelType(IODataType::UCHAR);
-        this->SetComponentType(IODataType::UCHAR);
+        this->SetPixelType(ImageIOBase::UCHAR);
+        this->SetComponentType(ImageIOBase::UCHAR);
         }
       }
     else if (numBits == 16)
       {
       if (sign)
         {
-        this->SetPixelType(IODataType::SHORT);
-        this->SetComponentType(IODataType::SHORT);
+        this->SetPixelType(ImageIOBase::SHORT);
+        this->SetComponentType(ImageIOBase::SHORT);
         }
       else
         {
-        this->SetPixelType(IODataType::USHORT);
-        this->SetComponentType(IODataType::USHORT);
+        this->SetPixelType(ImageIOBase::USHORT);
+        this->SetComponentType(ImageIOBase::USHORT);
         }
       }
     else
       {
-      this->SetPixelType(IODataType::USHORT);
-      this->SetComponentType(IODataType::USHORT);
+      this->SetPixelType(ImageIOBase::USHORT);
+      this->SetComponentType(ImageIOBase::USHORT);
       }
 
     int num_comp = AppHelper.GetNumberOfComponents();
