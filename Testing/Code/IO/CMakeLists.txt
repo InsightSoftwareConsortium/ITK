@@ -230,7 +230,12 @@ IF(USE_GDCM)
   TARGET_LINK_LIBRARIES(itkGDCMImageIOTest ITKIO ITKCommon ${GDCM_SHARED_LIBRARY})
   ADD_TEST(itkGDCMImageIOTest ${CXX_TEST_PATH}/itkGDCMImageIOTest
             ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm)
+            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
+            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.png)
+  ADD_TEST(itkGDCMImageIOTest2 ${CXX_TEST_PATH}/itkGDCMImageIOTest
+            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
+            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.dcm
+            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.png)
 ENDIF(USE_GDCM)
 
 

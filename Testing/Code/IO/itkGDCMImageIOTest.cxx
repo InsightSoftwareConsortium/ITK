@@ -28,9 +28,9 @@
 int main(int ac, char* av[])
 {
 
-  if(ac < 3)
+  if(ac < 4)
     {
-    std::cerr << "Usage: " << av[0] << " DicomImage OutputImage\n";
+    std::cerr << "Usage: " << av[0] << " DicomImage OutputDicomImage OutputImage\n";
     return EXIT_FAILURE;
     }
 
@@ -63,6 +63,37 @@ int main(int ac, char* av[])
     return EXIT_FAILURE;
     }
   
+
+  // Rewrite the image in DICOM format
+  //
+  typedef itk::ImageFileWriter< InputImageType >  Writer1Type;
+
+  Writer1Type::Pointer writer1 = Writer1Type::New();
+
+  writer1->SetFileName( av[2] );
+ 
+  
+  writer1->SetInput( reader->GetOutput() );
+  
+  writer1->SetImageIO( gdcmImageIO );
+
+  try
+    {
+    writer1->Update();
+    }
+  catch (itk::ExceptionObject & e)
+    {
+    std::cerr << "exception in file writer " << std::endl;
+    std::cerr << e.GetDescription() << std::endl;
+    std::cerr << e.GetLocation() << std::endl;
+    return EXIT_FAILURE;
+    }
+ 
+
+
+
+  // Rescale intensities and rewrite the image in another format
+  //
   typedef unsigned char WritePixelType;
 
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
@@ -76,21 +107,18 @@ int main(int ac, char* av[])
   rescaler->SetOutputMaximum( 255 );
   
 
-  typedef itk::ImageFileWriter< WriteImageType >  WriterType;
+  typedef itk::ImageFileWriter< WriteImageType >  Writer2Type;
 
-  WriterType::Pointer writer = WriterType::New();
+  Writer2Type::Pointer writer2 = Writer2Type::New();
 
-  writer->SetFileName( av[2] );
+  writer2->SetFileName( av[3] );
  
-  // Software Guide : BeginCodeSnippet
   rescaler->SetInput( reader->GetOutput() );
-  writer->SetInput( rescaler->GetOutput() );
-  
-  writer->SetImageIO( gdcmImageIO );
+  writer2->SetInput( rescaler->GetOutput() );
 
   try
     {
-    writer->Update();
+    writer2->Update();
     }
   catch (itk::ExceptionObject & e)
     {
@@ -100,6 +128,8 @@ int main(int ac, char* av[])
     return EXIT_FAILURE;
     }
  
+
   return EXIT_SUCCESS;
 
 }
+
