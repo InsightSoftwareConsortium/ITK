@@ -103,7 +103,7 @@ public:
    * Run-time type information (and related methods)
    */
   itkTypeMacro( VectorGradient2DAnisotropicDiffusionEquation,
-                ScalarAnisotropicDiffusionEquation );
+                VectorAnisotropicDiffusionEquation );
   
   /**
    * Method for creation through the object factory.
