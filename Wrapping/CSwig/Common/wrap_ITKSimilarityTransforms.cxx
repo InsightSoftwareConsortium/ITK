@@ -15,14 +15,14 @@
 
 =========================================================================*/
 #include "itkSimilarity2DTransform.h"
-#include "itkCentereddSimilarity2DTransform.h"
+#include "itkCenteredSimilarity2DTransform.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
 
 #define ITK_WRAP_TRANSFORM_1(x) \
   ITK_WRAP_OBJECT1(x, double, itk##x)
-    
+
 namespace _cable_
 {
   const char* const group = ITK_WRAP_GROUP(ITKSimilarityTransforms);
