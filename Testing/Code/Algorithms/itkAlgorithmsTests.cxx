@@ -15,7 +15,6 @@ REGISTER_TEST(itkGeodesicActiveContoursTest );
 REGISTER_TEST(itkGradientVectorFlowImageFilterTest );
 REGISTER_TEST(itkSimpleFuzzyConnectednessScalarImageFilterTest );
 REGISTER_TEST(itkHistogramMatchingImageFilterTest );
-REGISTER_TEST(itkImageMapperTest );
 REGISTER_TEST(itkImageMomentsTest );
 REGISTER_TEST(itkImageRegistrationMethodTest     );
 REGISTER_TEST(itkImageRegistrationMethodTest_1 );
