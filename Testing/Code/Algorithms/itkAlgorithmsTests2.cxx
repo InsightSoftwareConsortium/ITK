@@ -14,6 +14,7 @@ void RegisterTests()
   REGISTER_TEST(itkCompareHistogramImageToImageMetricTest   );
   REGISTER_TEST(itkDeformableSimplexMesh3DFilterTest   );
   REGISTER_TEST(itkDeformableSimplexMesh3DBalloonForceFilterTest  );
+  REGISTER_TEST(itkGradientDifferenceImageToImageMetricTest );
   REGISTER_TEST(itkKullbackLeiblerCompareHistogramImageToImageMetricTest );
   REGISTER_TEST(itkImagePCAShapeModelEstimatorTest);
   REGISTER_TEST(itkImagePCADecompositionCalculatorTest);
