@@ -26,6 +26,10 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkNarrowBandLevelSetImageFilter);
   namespace wrappers
   {
+    ITK_WRAP_OBJECT2(NarrowBandImageFilterBase, image::F2, image::F2,
+                     itkNarrowBandImageFilterBaseF2F2);
+    ITK_WRAP_OBJECT2(NarrowBandImageFilterBase, image::F3, image::F3,
+                     itkNarrowBandImageFilterBaseF3F3);
     ITK_WRAP_OBJECT2(NarrowBandLevelSetImageFilter, image::F2, image::F2,
                      itkNarrowBandLevelSetImageFilterF2F2);
     ITK_WRAP_OBJECT2(NarrowBandLevelSetImageFilter, image::F3, image::F3,

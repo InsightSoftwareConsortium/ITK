@@ -26,13 +26,13 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkExpNegativeImageFilter);
   namespace wrappers
   {
-    ITK_WRAP_OBJECT2(ExpNegativeImageFilter, image::F2, image::F2,
+    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(ExpNegativeImageFilter, image::F2, image::F2,
                      itkExpNegativeImageFilterF2F2);
-    ITK_WRAP_OBJECT2(ExpNegativeImageFilter, image::F3, image::F3,
+    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(ExpNegativeImageFilter, image::F3, image::F3,
                      itkExpNegativeImageFilterF3F3);
-    ITK_WRAP_OBJECT2(ExpNegativeImageFilter, image::US2, image::US2,
+    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(ExpNegativeImageFilter, image::US2, image::US2,
                      itkExpNegativeImageFilterUS2US2);
-    ITK_WRAP_OBJECT2(ExpNegativeImageFilter, image::US3, image::US3,
+    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(ExpNegativeImageFilter, image::US3, image::US3,
                      itkExpNegativeImageFilterUS3US3);
   }
 }

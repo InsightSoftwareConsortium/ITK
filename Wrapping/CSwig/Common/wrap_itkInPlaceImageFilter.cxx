@@ -37,6 +37,7 @@ namespace _cable_
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::SS2, image::SS2, itkInPlaceImageFilterSS2SS2);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::SI2, image::SI2, itkInPlaceImageFilterSI2SI2);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::F2 , image::VF2, itkInPlaceImageFilterF2VF2 );
+    ITK_WRAP_OBJECT2(InPlaceImageFilter, image::VF2 , image::VF2, itkInPlaceImageFilterVF2VF2 );
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::US2, image::VF2, itInPlaceeImageFilterUS2VF2);
 
     //===========Same type 3D Wrapped Filters==============
@@ -50,6 +51,7 @@ namespace _cable_
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::SS3, image::SS3, itkInPlaceImageFilterSS3SS3);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::SI3, image::SI3, itkInPlaceImageFilterSI3SI3);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::F3 , image::VF3, itkInPlaceImageFilterF3VF3 );
+    ITK_WRAP_OBJECT2(InPlaceImageFilter, image::VF3 , image::VF3, itkInPlaceImageFilterVF3VF3 );
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::US3, image::VF3, itInPlaceeImageFilterUS3VF3);
 
     //===========Same type 2D->3D Wrapped Filters==============

@@ -72,10 +72,19 @@ namespace _cable_
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::US2, image::UC2, itkImageToImageFilterUS2UC2);
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::UC2, image::US2, itkImageToImageFilterUC2US2);
 
+    //Unsigned short to CovariantVector
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::US2, image::CVD2, itkImageToImageFilterUS2CVD2);
+
+    // float to unsigned long
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::F2, image::UL2, itkImageToImageFilterF2UL2);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::D2, image::UL2, itkImageToImageFilterD2UL2);
+    
+
     // Image to Image of vectors
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::F2 , image::VF2 ,itkImageToImageFilterF2VF2 );
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::US2, image::VF2, itkImageToImageFilterUS2VF2);
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::F2 , image::CVF2 ,itkImageToImageFilterF2CVF2 );
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::F2 , image::CVD2 ,itkImageToImageFilterF2CVD2 );
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::US2, image::CVF2, itkImageToImageFilterUS2CVF2);
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::V2F2, image::V2F2, itkImageToImageFilterV2F2V2F2);
 

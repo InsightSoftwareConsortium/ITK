@@ -26,6 +26,12 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkDemonsRegistrationFilter);
   namespace wrappers
   {
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter,
+                     image::VF2, image::VF2, 
+                     itkDenseFiniteDifferenceImageFilterVF2VF2);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter,
+                     image::VF3, image::VF3, 
+                     itkDenseFiniteDifferenceImageFilterVF3VF3);
     ITK_WRAP_OBJECT3(DemonsRegistrationFilter, image::F2, image::F2, image::VF2,
                      itkDemonsRegistrationFilterF2F2);
     ITK_WRAP_OBJECT3(DemonsRegistrationFilter, image::F3, image::F3, image::VF3,

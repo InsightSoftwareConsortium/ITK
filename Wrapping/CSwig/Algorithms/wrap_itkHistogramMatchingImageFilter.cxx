@@ -16,6 +16,7 @@
 =========================================================================*/
 #include "itkImage.h"
 #include "itkHistogramMatchingImageFilter.h"
+#include "itkSpatialObject.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"

@@ -26,6 +26,7 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkVTKImageImport);
   namespace wrappers
   {
+
     ITK_WRAP_OBJECT1(VTKImageImport, image::F2,
                                      itkVTKImageImportF2);
     ITK_WRAP_OBJECT1(VTKImageImport, image::UC2,

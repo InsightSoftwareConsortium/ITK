@@ -26,10 +26,22 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkThresholdSegmentationLevelSetImageFilter);
   namespace wrappers
   {
-    ITK_WRAP_OBJECT2(ThresholdSegmentationLevelSetImageFilter, image::F2, image::F2,
-                     itkThresholdSegmentationLevelSetImageFilterF2F2);
+    
+    ITK_WRAP_OBJECT1(LevelSetFunction,image::F2,itkLevelSetFunctionF2);
+    ITK_WRAP_OBJECT1(LevelSetFunction,image::F3,itkLevelSetFunctionF3);
+
+    ITK_WRAP_OBJECT1(FiniteDifferenceFunction,image::F2, itkFiniteDifferenceFunctionF2);
+    ITK_WRAP_OBJECT1(FiniteDifferenceFunction,image::F3, itkFiniteDifferenceFunctionF3);
+
     ITK_WRAP_OBJECT2(ThresholdSegmentationLevelSetImageFilter, image::F3, image::F3,
                      itkThresholdSegmentationLevelSetImageFilterF3F3);
+    ITK_WRAP_OBJECT2(ThresholdSegmentationLevelSetImageFilter, image::F2, image::F2,
+                     itkThresholdSegmentationLevelSetImageFilterF2F2);
+
+    ITK_WRAP_OBJECT2(SparseFieldLevelSetImageFilter,image::F2,image::F2,
+                     itkSparseFieldLevelSetImageFilterF2F2);
+    ITK_WRAP_OBJECT2(SparseFieldLevelSetImageFilter,image::F3,image::F3,
+                     itkSparseFieldLevelSetImageFilterF3F3);
   }
 }
 
