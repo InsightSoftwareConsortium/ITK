@@ -57,12 +57,12 @@ class NonUniformBSpline
   typedef SmartPointer < Self >                        Pointer;
   typedef SmartPointer < const Self >                  ConstPointer;
   typedef double                                       ScalarType;
-  typedef itk::Point< ScalarType, TDimension >                     PointType;
+  typedef itk::Point< ScalarType, TDimension >         PointType;
   typedef std::vector < PointType >                    PointListType;
   typedef PointListType *                              PointListPointer;
   typedef std::vector < double >                       KnotListType;
   typedef std::vector<double>                          CoordinateListType;
-  typedef itk::Point<double, TDimension>               ControlPointType;
+  typedef itk::Point<double, TDimension >              ControlPointType;
   typedef std::vector< ControlPointType >              ControlPointListType;
   typedef ControlPointListType *                       ControlPointListPointer;
   typedef std::vector<double>                          ChordLengthListType;

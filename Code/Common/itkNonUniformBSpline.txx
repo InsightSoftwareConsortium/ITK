@@ -337,9 +337,8 @@ NonUniformBSpline< TDimension >::ComputeControlPoints()
   return;
 }
 
-
 template< unsigned int TDimension >
-itk::Point<double, TDimension >
+typename NonUniformBSpline<TDimension>::PointType
 NonUniformBSpline< TDimension >
 ::EvaluateSpline(const itk::Array<double> & p) const
 {
@@ -349,7 +348,7 @@ NonUniformBSpline< TDimension >
 }
 
 template< unsigned int TDimension >
-itk::Point<double, TDimension >
+typename NonUniformBSpline<TDimension>::PointType
 NonUniformBSpline< TDimension >
 ::EvaluateSpline(double t) const
 {
@@ -387,7 +386,6 @@ NonUniformBSpline< TDimension >
   
   return sum;
 }
-
 
 } // end namespace itk 
 
