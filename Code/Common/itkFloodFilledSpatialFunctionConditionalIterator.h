@@ -172,8 +172,10 @@ protected: //made protected so other iterators can access
   /** Location vector used in the flood algorithm */
   FunctionInputType m_LocationVector;
 
-
+  /** Indicates whether or not we've found a neighbor that needs to be checked. */
   bool m_FoundUncheckedNeighbor;
+
+  /** Indicates whether or not an index is valid (inside an image)/ */
   bool m_IsValidIndex;
 };
 
