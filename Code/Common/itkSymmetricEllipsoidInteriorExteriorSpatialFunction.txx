@@ -74,7 +74,7 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
   
   // Project the position onto the major axis, normalize by axis length, 
   // and determine whether position is inside ellipsoid.
-  for(int i = 0; i < VImageDimension; i++)
+  for(unsigned int i = 0; i < VImageDimension; i++)
     {
     pointVector[i] = position[i] - m_Center[i];
     }
