@@ -26,7 +26,7 @@
 // rigid registration of 3D images is probably one of the most commonly found
 // casses of image registration.
 //
-/
+//
 // \index{itk::VersorRigid3DTransform}
 // \index{itk::CenteredTransformInitializer!In 3D}
 //
@@ -425,7 +425,7 @@ int main( int argc, char *argv[] )
   //  This Versor is equivalent to a rotaion of $9.98$ degrees around the $Z$
   //  axis.
   // 
-  //  Note that the reported translation is not the translation of $(15.0,0.0)$
+  //  Note that the reported translation is not the translation of $(15.0,0.0,0.0)$
   //  that we may be naively expecting. The reason is that the
   //  \code{VersorRigid3DTransform} is applying the rotation around the center
   //  found by the \code{CenteredTransformInitializer} and then adding the
@@ -447,60 +447,7 @@ int main( int argc, char *argv[] )
   std::cout << "Offset = " << std::endl << offset << std::endl;
   // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
-  //
-  //  Which produces the following output.
-  //
-  //
-  //  \begin{verbatim}
-  //  Matrix =
-  //    0.984829       0.173529      0.000119225
-  //    -0.173529      0.984829      4.66908e-05
-  //    -0.000109314  -6.66714e-05   1
-  //  Offset =
-  //    -15.0025  -0.0170743  0.0141555
-  //  \end{verbatim}
-  //
-  //  This output illustrates how counter intuitive is the mix of center of
-  //  rotation and translations. Figure \ref{fig:TranslationAndRotationCenter}
-  //  will clarify this situation. The figures shows at left an original image.
-  //  A rotation of $10^{\circ}$ around the center of the image is shown in the
-  //  middle. The same rotation performed around the origin of coordinates is
-  //  shown at right. It can be seen here that changing the center of rotation
-  //  introduced additional translations.
-  //
-  //  Let's analyze what happens to the center of the image that we just
-  //  registered. Under the point of view of rotating $10^{\circ}$ around the
-  //  center and then applying a translation of $(13mm,17mm)$. The image has a
-  //  size of $(221 \times 257)$ pixels and unit spacing. Hence its center has
-  //  coordinates $(110.5,128.5)$. Since the rotation is done around this
-  //  point, the center behaves as the fixed point of the transformation and
-  //  passed unchanged. Then with the  $(13mm,17mm)$ translation it is mapped
-  //  to $(123.5,145.5)$ which becomes its final position.
-  //
-  //  The matrix and offset that we obtained at the end of the registration
-  //  indicates that this should be equivalent to a rotation of $10^{\circ}$
-  //  around the origin, followed by a translations of $(36.98,-1.22)$. Let's
-  //  compute this in detail. First the rotation of the image center by
-  //  $10^{\circ}$ around the origin will move the point to
-  //  $(86.52,147.97)$. Now, applying a translation of $(36.98,-1.22)$ maps
-  //  this point to $(123.5,146.75)$. Which is pretty close to the result of
-  //  our previous computation.
-  //
-  //  It is unlikely that we could have chosen such translation as an initial
-  //  guess, since we tend to think about image in a coordinate system whose
-  //  origin is in the center of the image.
-  // 
-  // \begin{figure}
-  // \center
-  // \includegraphics[width=\textwidth]{TranslationAndRotationCenter.eps}
-  // \itkcaption[Effect of changing the center of rotation]{Effect of changing
-  // the center of rotation.}
-  // \label{fig:TranslationAndRotationCenter}
-  // \end{figure}
-  //
-  //  Software Guide : EndLatex 
-
+#define TUMBUKTU
 
   //  Software Guide : BeginLatex
   //
@@ -523,39 +470,39 @@ int main( int argc, char *argv[] )
   // \itkcaption[CenteredTransformInitializer input images]{Fixed and moving image
   // provided as input to the registration method using
   // CenteredTransformInitializer.}
-  // \label{fig:FixedMovingImageRegistration6}
+  // \label{fig:FixedMovingImageRegistration8}
   // \end{figure}
   //
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration6Output.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration6DifferenceBefore.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration6DifferenceAfter.eps} 
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration8Output.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration8DifferenceBefore.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration8DifferenceAfter.eps} 
   // \itkcaption[CenteredTransformInitializer output images]{Resampled moving
   // image (left). Differences between fixed and moving images, before (center)
   // and after (right) registration with the
   // CenteredTransformInitializer.}
-  // \label{fig:ImageRegistration6Outputs}
+  // \label{fig:ImageRegistration8Outputs}
   // \end{figure}
   //
-  // Figure \ref{fig:ImageRegistration6Outputs} shows the output of the
+  // Figure \ref{fig:ImageRegistration8Outputs} shows the output of the
   // registration. The right most image of this figure shows the squared
   // magnitude of pixel differences between the fixed image and the resampled
   // moving image. 
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration6TraceMetric.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration6TraceAngle.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration6TraceTranslations.eps} 
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration8TraceMetric.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration8TraceAngle.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration8TraceTranslations.eps} 
   // \itkcaption[CenteredTransformInitializer output plots]{Plots of the metric,
   // rotation angle, center of rotation and translations during the
   // registration using CenteredTransformInitializer.}
-  // \label{fig:ImageRegistration6Plots}
+  // \label{fig:ImageRegistration8Plots}
   // \end{figure}
   //
-  //  Figure \ref{fig:ImageRegistration6Plots} shows the plots of the main
+  //  Figure \ref{fig:ImageRegistration8Plots} shows the plots of the main
   //  output parameters of the registration process. The metric values at every
   //  iteration are shown on the top. The angle values are shown in the plot at
   //  left while the translation components of the registration are presented
