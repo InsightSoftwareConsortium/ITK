@@ -40,6 +40,10 @@ int itkSpatialFunctionTest(int, char* [] )
   center[1]=10;
   center[2]=10;
   spatialFunc->SetCenter(center);
+  
+  // Test the Get macros as well
+  spatialFunc->GetCenter();
+  spatialFunc->GetRadius();
 
   std::cout << "Sphere spatial function created\n";
 
