@@ -18,7 +18,7 @@ class metaEvent
 public:
 
   metaEvent(){m_Level = -1;};
-  ~metaEvent(){};
+  virtual ~metaEvent(){};
 
   virtual void SetCurrentIteration(unsigned int n) {m_CurrentIteration = n;}
   virtual void StartReading(unsigned int n) 
