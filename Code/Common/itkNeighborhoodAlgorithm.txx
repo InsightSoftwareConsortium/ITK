@@ -294,13 +294,11 @@ void ApplyOperatorToEach<TOperation, TIterator>
 
   // Create iterator.  The output buffer pointer of the iterator is set up
   // to account for any differences in the buffer sizes of the two images.
-  long int *mod = new long int[ImageDimension];
   TIterator it(o.GetRadius(), in, in->GetRequestedRegion());
   it.SetOutputBuffer(out->GetBufferPointer() +
                      out->ComputeOffset(it.GetRegion().GetIndex()));
-  OM(mod, in, out);
+  Offset<ImageDimension> mod = OM(in, out);
   it.SetOutputWrapOffsetModifier(mod);
-  delete[] mod;
   
   // Process image to output.
   it = it.Begin();
@@ -312,13 +310,16 @@ void ApplyOperatorToEach<TOperation, TIterator>
 }
 
 template<class TImage>
-void CalculateOutputWrapOffsetModifiers<TImage>
-::operator()(long int *ans, TImage *input, TImage *output) const
+typename CalculateOutputWrapOffsetModifiers<TImage>::OffsetType
+CalculateOutputWrapOffsetModifiers<TImage>
+::operator()(TImage *input, TImage *output) const
 {
+  OffsetType ans;
   const Size<TImage::ImageDimension> isz =  input->GetBufferedRegion().GetSize();
   const Size<TImage::ImageDimension> osz = output->GetBufferedRegion().GetSize();
 
   for (int i=0; i<TImage::ImageDimension; ++i) ans[i] = osz[i] - isz[i];
+  return ans;
 }
 
 

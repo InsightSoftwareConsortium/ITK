@@ -49,18 +49,40 @@ NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 }
 
 template<class TImage, class TAllocator, class TDerefAllocator>
+void 
+NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
+::SetOutputWrapOffsetModifier(const OffsetType &o)
+{
+  for (unsigned int i = 0; i < Dimension; ++i)
+    {      m_OutputWrapOffsetModifier[i] = o[i];    }
+}
+
+template<class TImage, class TAllocator, class TDerefAllocator>
+NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>::
+NeighborhoodIterator()
+: m_OutputBuffer(0)
+{
+  m_OutputWrapOffsetModifier.Fill(0);
+  m_WrapOffset.Fill(0);
+  m_Loop.Fill(0);
+  m_StartIndex.Fill(0);
+  m_Bound.Fill(0);
+  m_EndPointer = 0;
+}
+
+template<class TImage, class TAllocator, class TDerefAllocator>
 NeighborhoodIterator<TImage, TAllocator, TDerefAllocator> &
 NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 ::operator=(const Self& orig)
 {
   Superclass::operator=(orig);
-  memcpy(m_WrapOffset, orig.m_WrapOffset, sizeof(unsigned long) *
-         Dimension);
-  memcpy(m_Bound, orig.m_Bound, sizeof(unsigned long) * Dimension);
-  memcpy(m_Loop, orig.m_Loop, sizeof(unsigned long) * Dimension);
+  
+  m_WrapOffset = orig.m_WrapOffset;
+  m_Bound      = orig.m_Bound;
+  m_Loop       = orig.m_Loop;
   m_OutputBuffer = orig.m_OutputBuffer;
-  m_Image = orig.m_Image;
-  m_Buffer = orig.m_Buffer;
+  m_Image      = orig.m_Image;
+  m_Buffer     = orig.m_Buffer;
   m_StartIndex = orig.m_StartIndex;
   m_EndPointer = orig.m_EndPointer;
   return *this;
@@ -71,13 +93,12 @@ NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 ::NeighborhoodIterator(const Self& orig)
   : Neighborhood<InternalPixelType *, Dimension, TAllocator>(orig)
 {
-  memcpy(m_WrapOffset, orig.m_WrapOffset, sizeof(unsigned long) *
-         Dimension);
-  memcpy(m_Bound, orig.m_Bound, sizeof(unsigned long) * Dimension);
-  memcpy(m_Loop, orig.m_Loop, sizeof(unsigned long) * Dimension);
+  m_WrapOffset = orig.m_WrapOffset;
+  m_Bound      = orig.m_Bound;
+  m_Loop       = orig.m_Loop;
   m_OutputBuffer = orig.m_OutputBuffer;
-  m_Image = orig.m_Image;
-  m_Buffer = orig.m_Buffer;
+  m_Image      = orig.m_Image;
+  m_Buffer     = orig.m_Buffer;
   m_StartIndex = orig.m_StartIndex;
   m_EndPointer = orig.m_EndPointer;
 }
@@ -88,7 +109,7 @@ void NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 {
   m_Region = region;
   m_OutputBuffer = 0;
-  memset(m_OutputWrapOffsetModifier, 0, sizeof(long) * Dimension);
+  m_OutputWrapOffsetModifier.Fill(0);
   this->SetRadius(radius);
   m_Image = ptr;
   m_Buffer = m_Image->GetBufferPointer();
@@ -100,26 +121,26 @@ void NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 
 template<class TImage, class TAllocator, class TDerefAllocator>
 void NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
-::SetPixelPointers(const IndexType &offset)
+::SetPixelPointers(const IndexType &pos)
 {
   const Iterator _end = this->end();
   unsigned int i;
   Iterator Nit;
   InternalPixelType * Iit;
-  unsigned long loop[Dimension];
+  Index<Dimension> loop;
   const SizeType size = this->GetSize();
   const unsigned long *OffsetTable = m_Image->GetOffsetTable();
-  memset(loop, 0, sizeof(long) * Dimension);
+  loop.Fill(0);
   const SizeType radius = this->GetRadius();
   
   // Find first "upper-left-corner"  pixel address of neighborhood
-  Iit = m_Buffer + m_Image->ComputeOffset(offset);
+  Iit = m_Buffer + m_Image->ComputeOffset(pos);
   
   for (i = 0; i<Dimension; ++i)
     {
       Iit -= radius[i] * OffsetTable[i];
     }
-  
+
   // Compute the rest of the pixel addresses
   for (Nit = this->begin(); Nit != _end; ++Nit)
     {
@@ -135,7 +156,7 @@ void NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
               loop[i]= 0;
             }
           else break;
-        }      
+        }
     }
 }
   
@@ -164,7 +185,7 @@ NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
       m_Loop[i]++;
       if ( m_Loop[i] == m_Bound[i] )
         {
-          m_Loop[i]= m_StartIndex[i];
+          m_Loop[i] = m_StartIndex[i];
           for (it = this->begin(); it < _end; ++it)
             {
               (*it) += m_WrapOffset[i];

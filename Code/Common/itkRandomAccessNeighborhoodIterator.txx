@@ -57,7 +57,7 @@ RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
 template<class TImage, class TAccessor, class TDerefAccessor>
 RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> &
 RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
-::operator+=(const Index<Dimension> & idx)
+::operator+=(const OffsetType & idx)
 {
   unsigned int i;
   Iterator it;
@@ -89,10 +89,7 @@ RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
     }
 
   // Update loop counter values
-  for (i=0; i<Dimension; ++i)
-    {
-      m_Loop[i]+= idx[i];
-    }
+  m_Loop += idx;
 
   return *this;
 }
@@ -100,7 +97,7 @@ RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
 template<class TImage, class TAccessor, class TDerefAccessor>
 RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> &
 RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> 
-::operator-=(const Index<Dimension> & idx)
+::operator-=(const OffsetType & idx)
 {
   unsigned int i;
   Iterator it;
@@ -132,10 +129,7 @@ RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
     }
 
   // Update loop counter values
-  for (i=0; i<Dimension; ++i)
-    {
-      m_Loop[i]-= idx[i];
-    }
+  m_Loop -= idx;
 
   return *this;
 }

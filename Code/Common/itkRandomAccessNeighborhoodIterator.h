@@ -77,6 +77,7 @@ public:
   typedef typename Superclass::SizeType SizeType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::OffsetType OffsetType;
   
   /**
    * Scalar data type typedef support
@@ -139,25 +140,24 @@ public:
   }
 
   /**
-   * Addition of an itk::Index
+   * Addition of an itk::Offset.  Note that this method does not do any bounds
+   * checking.  Adding an offset that moves the iterator out of its assigned
+   * region will produce undefined results.
    */
-  Self &operator+=(const Index<Dimension> &);
+  Self &operator+=(const OffsetType &);
 
   /**
-   * Subtraction of an itk::Index
+   * Subtraction of an itk::Offset. Note that this method does not do any bounds
+   * checking.  Subtracting an offset that moves the iterator out of its
+   * assigned region will produce undefined results.
    */
-  Self &operator-=(const Index<Dimension> &);
+  Self &operator-=(const OffsetType &);
 
   /**
    * Distance between two iterators
    */
-  Index<Dimension> operator-(const Self& b)
-  {
-    Index<Dimension> idx;
-    for (unsigned int i = 0; i < Dimension; ++i)
-      idx[i] = m_Loop[i] - b.m_Loop[i]; 
-    return idx;
-  }
+  OffsetType operator-(const Self& b)
+  {  return m_Loop - b.m_Loop;  }
   
   /**
    * Standard print method.
@@ -174,7 +174,7 @@ inline RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
 operator+(const RandomAccessNeighborhoodIterator<TImage, TAccessor, 
           TDerefAccessor> &it,
           const typename RandomAccessNeighborhoodIterator<TImage, TAccessor,
-          TDerefAccessor>::IndexType &ind)
+          TDerefAccessor>::OffsetType &ind)
 {
   RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> ret;
   ret = it;
@@ -185,7 +185,7 @@ operator+(const RandomAccessNeighborhoodIterator<TImage, TAccessor,
 template<class TImage, class TAccessor, class TDerefAccessor>
 inline RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
 operator+(const typename RandomAccessNeighborhoodIterator<TImage, TAccessor,
-          TDerefAccessor>::IndexType &ind,
+          TDerefAccessor>::OffsetType &ind,
           const RandomAccessNeighborhoodIterator<TImage, TAccessor, 
           TDerefAccessor> &it)
 {  return (it + ind); }
@@ -196,7 +196,7 @@ inline RandomAccessNeighborhoodIterator<TImage, TAccessor,
 operator-(const RandomAccessNeighborhoodIterator<TImage, TAccessor, 
           TDerefAccessor> &it,
           const typename RandomAccessNeighborhoodIterator<TImage, TAccessor,
-          TDerefAccessor>::IndexType &ind)
+          TDerefAccessor>::OffsetType &ind)
 {
   RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> ret;
   ret = it;
@@ -212,4 +212,3 @@ operator-(const RandomAccessNeighborhoodIterator<TImage, TAccessor,
 #endif
 
 #endif 
-

@@ -262,7 +262,8 @@ struct ITK_EXPORT ApplyOperatorToEach
 template<class TImage>
 struct ITK_EXPORT CalculateOutputWrapOffsetModifiers
 {
-  inline void operator()(long int *, TImage *, TImage *) const;
+  typedef Offset<TImage::ImageDimension> OffsetType;
+  OffsetType operator()(TImage *, TImage *) const;
 };
   
 } // end namespace NeighborhoodAlgorithm

@@ -24,11 +24,12 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
 ::SmartRegionNeighborhoodIterator(const Self& orig)
   : NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>(orig)
 {
-  memcpy(m_InnerBoundsLow, orig.m_InnerBoundsLow, sizeof(long int) *
-         Dimension);
-  memcpy(m_InnerBoundsHigh, orig.m_InnerBoundsHigh, sizeof(long int) *
-         Dimension);
-  memcpy(m_InBounds, orig.m_InBounds, sizeof(bool) * Dimension);
+  m_InnerBoundsLow = orig.m_InnerBoundsLow;
+  m_InnerBoundsHigh = orig.m_InnerBoundsHigh;
+  for (unsigned int i = 0; i < Dimension; ++i)
+    {
+      m_InBounds[i] = orig.m_InBounds[i];
+    }
   m_InternalBoundaryCondition = orig.m_InternalBoundaryCondition;
 
   // Check to see if the default boundary conditions have been
@@ -50,11 +51,12 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
 ::operator=(const Self& orig)
 {
   Superclass::operator=(orig);
-  memcpy(m_InnerBoundsLow, orig.m_InnerBoundsLow, sizeof(long int) *
-         Dimension);
-  memcpy(m_InnerBoundsHigh, orig.m_InnerBoundsHigh, sizeof(long int) *
-         Dimension);
-  memcpy(m_InBounds, orig.m_InBounds, sizeof(bool) * Dimension);
+  m_InnerBoundsLow = orig.m_InnerBoundsLow;
+  m_InnerBoundsHigh = orig.m_InnerBoundsHigh;
+  for (unsigned int i = 0; i < Dimension; ++i)
+    {
+      m_InBounds[i] = orig.m_InBounds[i];
+    }
 
   // Check to see if the default boundary conditions
   // have been overridden.
@@ -94,8 +96,7 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
 ::GetNeighborhood()
 {
   register unsigned int i;
-  int OverlapLow[Dimension], OverlapHigh[Dimension], temp[Dimension],
-    offset[Dimension];
+  OffsetType OverlapLow, OverlapHigh, temp, offset;
   bool flag;
 
   const Iterator _end = this->end();
@@ -116,9 +117,9 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
       // Calculate overlap & initialize index
       for (i=0; i<Dimension; i++)
         {
-          OverlapLow[i] = (long int)m_InnerBoundsLow[i] - (long int)m_Loop[i];
-          OverlapHigh[i]= (long int)this->GetSize(i)
-            - ( ((long int)m_Loop[i]+2) - (long int)m_InnerBoundsHigh[i]);
+          OverlapLow[i] = m_InnerBoundsLow[i] - m_Loop[i];
+          OverlapHigh[i]=
+            this->GetSize(i) - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i] );
           temp[i] = 0;
         }
 
@@ -154,7 +155,7 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
           for (i=0; i<Dimension; ++i)  // Update index
             {
               temp[i]++;
-              if ( temp[i] == (int)this->GetSize(i) ) temp[i]= 0;
+              if ( temp[i] == this->GetSize(i) ) temp[i]= 0;
               else break;
             }
         } 
@@ -170,7 +171,7 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
 ::SetNeighborhood(NeighborhoodType &N)
 {
   register unsigned int i;
-  int OverlapLow[Dimension], OverlapHigh[Dimension], temp[Dimension];
+  OffsetType OverlapLow, OverlapHigh, temp;
   bool flag;
       
   const Iterator _end = this->end();
@@ -190,9 +191,9 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
       // Calculate overlap & initialize index
       for (i=0; i<Dimension; i++)
         {
-          OverlapLow[i] =(long int)m_InnerBoundsLow[i] - (long int)m_Loop[i];
-          OverlapHigh[i]= this->GetSize(i)
-            - (m_Loop[i]-(long int)m_InnerBoundsHigh[i])-1;
+          OverlapLow[i] =m_InnerBoundsLow[i] - m_Loop[i];
+          OverlapHigh[i]=
+            this->GetSize(i) - (m_Loop[i]-m_InnerBoundsHigh[i])-1;
           temp[i] = 0;
         }
       
@@ -219,7 +220,7 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
           for (i=0; i<Dimension; ++i)  // Update index
             {
               temp[i]++;
-              if ( temp[i] == (int)this->GetSize(i) ) temp[i]= 0;
+              if ( temp[i] == this->GetSize(i) ) temp[i]= 0;
               else break;
             }
         }

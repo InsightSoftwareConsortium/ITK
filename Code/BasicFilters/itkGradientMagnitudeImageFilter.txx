@@ -22,6 +22,7 @@
 #include "itkDerivativeOperator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
+#include "itkOffset.h"
 
 namespace itk
 {
@@ -49,13 +50,13 @@ GradientMagnitudeStrategy<TInnerProduct, TIterator>
 
   // Create an iterator. The output buffer pointer of the iterator is set
   // up to account for any differences in the buffer size of the two images.
-  long int *mod = new long int[ImageDimension];
+  Offset<ImageDimension> mod;
   TIterator it(radius, in, in->GetRequestedRegion());
   it.SetOutputBuffer(out->GetBufferPointer() +
                      out->ComputeOffset(it.GetRegion().GetIndex()));
-  OM(mod, in, out);
+  mod = OM(in, out);
   it.SetOutputWrapOffsetModifier(mod);
-  delete[] mod;
+
   it.OverrideBoundaryCondition(&nbc);
   
   // Slice the iterator

@@ -20,6 +20,7 @@
 #include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkRandomAccessNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
+#include "itkOffset.h"
 #include <algorithm>
 namespace itk
 {
@@ -559,7 +560,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
                       const OutputScalarType UNLABELED_PIXEL)
 {
   OutputScalarType newLabel;
-  Index<ImageDimension> moveIndex;
+  Offset<ImageDimension> moveIndex;
   Size<ImageDimension> hoodRadius;
   Size<ImageDimension> zeroRadius;
   InputScalarType minVal;
@@ -586,7 +587,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
   // 0 1 2
   // 3 4 5
   // 6 7 8
-  Index<ImageDimension> mT[9];
+  Offset<ImageDimension> mT[9];
   mT[0][0] = -1;  mT[0][1] = -1;
   mT[1][0] =  0;  mT[1][1] = -1;
   mT[2][0] =  1;  mT[2][1] = -1;

@@ -14,6 +14,7 @@ See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include "itkImage.h"
+#include "itkOffset.h"
 #include "vnl/vnl_vector.h"
 #include "itkNeighborhoodAllocator.h"
 #include "itkNeighborhood.h"
@@ -136,6 +137,8 @@ int main()
   itk::RegionNeighborhoodIterator<ImageTypeND> rniND(szN, imageND,
                                             imageND->GetRequestedRegion());
 
+  println("Done setting up neighborhood iterators");
+  
   rni2D.Print(std::cout);
   std::cout << std::endl;
   rni2D.Begin().Print(std::cout);
@@ -191,7 +194,7 @@ int main()
   std::cout << i << std::endl;
 
   println("Testing random access");
-  itk::Index<3> offset;
+  itk::Offset<3> offset;
   offset[0] = 12;
   offset[1] = 11;
   offset[2] = 2;

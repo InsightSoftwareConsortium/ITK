@@ -19,6 +19,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkRegionNonBoundaryNeighborhoodIterator.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 namespace itk
 {
 
@@ -27,7 +28,7 @@ void
 NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  typedef RegionNonBoundaryNeighborhoodIterator<OutputImageType> RNI;
+  typedef RegionNonBoundaryNeighborhoodIterator<OutputImageType > RNI;
   typedef RegionBoundaryNeighborhoodIterator<OutputImageType>  RBI;
   typedef NeighborhoodAlgorithm::IteratorInnerProduct<RNI,
     Neighborhood<OutputPixelType, ImageDimension> > SNIP;

@@ -20,6 +20,8 @@
 #include <string.h>
 #include <iostream>
 #include "itkImage.h"
+#include "itkIndex.h"
+#include "itkOffset.h"
 #include "itkSize.h"
 #include "itkImageRegion.h"
 #include "itkMacro.h"
@@ -119,7 +121,8 @@ public:
   typedef typename Superclass::SizeType SizeType;
   typedef TImage ImageType;
   typedef typename TImage::RegionType RegionType;
-  typedef typename TImage::IndexType  IndexType;
+  typedef Index<Dimension> IndexType;
+  typedef Offset<Dimension> OffsetType;
   // NOTE: the STL Allocator::recast method would eliminate the need
   // for this second Allocator template parameter.
   typedef Neighborhood<PixelType, Dimension, TDerefAllocator> NeighborhoodType;
@@ -146,12 +149,8 @@ public:
   /**
    * Default constructor.
    */
-  NeighborhoodIterator() : m_OutputBuffer(0)
-  {
-    memset(m_OutputWrapOffsetModifier, 0, sizeof(long) * Dimension);
-    m_EndPointer = 0;
-  }
-
+  NeighborhoodIterator();
+  
   /**
    * Copy constructor
    */
@@ -234,21 +233,20 @@ public:
   /**
    * Returns the offsets used to wrap across dimensional boundaries.
    */
-  const unsigned long* GetWrapOffset() const
+  OffsetType GetWrapOffset() const
   {  return m_WrapOffsets;  }
   
   /**
-   * Sets the offsets that will be used to adjust for differences in input
+   * Sets the offsets that will be used to adjust for any differences in input
    * and output buffer sizes.
    */
-  void SetOutputWrapOffsetModifier( const long* modifiers)
-  { memcpy( m_OutputWrapOffsetModifier, modifiers, sizeof(long) * Dimension); }
-  
+  void SetOutputWrapOffsetModifier( const OffsetType &modifiers);
+ 
   /**
    * Returns the offsets that will be used to adjust for differences in input
    * and output buffer sizes.
    */
-  const long* GetOutputWrapOffsetModifier() const
+  OffsetType GetOutputWrapOffsetModifier() const
   {  return m_OutputWrapOffsetModifier;  }
   
   /**
@@ -258,21 +256,21 @@ public:
    * edges because region memory is not necessarily contiguous within the
    * buffer.
    */
-  unsigned long GetWrapOffset(unsigned int n) const
+  long GetWrapOffset(unsigned int n) const
   {    return m_WrapOffsets[n];   }
 
   /**
    * Returns a const pointer to an internal array of upper loop bounds used
    * during iteration.
    */
-  const unsigned long* GetBound() const
+  IndexType GetBound() const
   {    return m_Bound;   }
 
   /**
    * Returns the internal loop bound used to define the edge of a single
    * dimension in the itk::Image region.
    */
-  unsigned long GetBound(unsigned int n) const
+  long GetBound(unsigned int n) const
   {    return m_Bound[n];  }
 
   /**
@@ -280,18 +278,14 @@ public:
    * the image.
    */
   virtual IndexType GetIndex() const
-  {
-    IndexType temp;
-    memcpy(temp.m_Index, m_Loop, sizeof(long int) * Dimension);
-    return temp;
-  }
+  { return m_Loop;  }
 
   /**
    * Returns the N-dimensional starting index of the iterator's position on
    * the image.
    */
-  virtual IndexType GetStartIndex() const
-  {    return m_StartIndex;  }
+  IndexType GetStartIndex() const
+  { return m_StartIndex; }
   
   /**
    * Returns a boolean == comparison of the memory addresses of the center
@@ -449,15 +443,15 @@ protected:
    * This correspondence is a coincidental feature that will not
    * necessarily be supported.
    */
-  virtual void SetLoop( const IndexType& position )
-  {    memcpy(m_Loop, position.m_Index, sizeof(long) * Dimension);  }
+  virtual void SetLoop( const IndexType& p )
+  {  m_Loop = p; }
   
   /**
    * Default method for setting the index of the first pixel in the
    * iteration region.
    */
   virtual void SetStartIndex( const IndexType& start)
-  {    m_StartIndex = start;  }
+  {  m_StartIndex = start;  }
   
   /**
    * Virtual method for setting internal loop boundaries.  This
@@ -465,7 +459,7 @@ protected:
    * each subclass may handle loop boundaries differently.
    */
   virtual void SetBound(const SizeType &) = 0;
-  
+
   /**
    * Default method for setting the values of the internal pointers
    * to itk::Image memory buffer locations.  This method should
@@ -483,17 +477,17 @@ protected:
    * The starting index for iteration within the itk::Image region
    * on which this NeighborhoodIterator is defined.
    */
-  IndexType  m_StartIndex;
+  IndexType m_StartIndex;
 
   /**
    * Array of loop counters used during iteration.
    */
-  unsigned long m_Loop[Dimension];
+  IndexType m_Loop;
 
   /**
    * An array of upper looping boundaries used during iteration.
    */
-  unsigned long m_Bound[Dimension];
+  IndexType m_Bound;
 
   /**
    * The internal array of offsets that provide support for regions of interest.
@@ -501,7 +495,7 @@ protected:
    * around region edges because region memory is not necessarily contiguous
    * within the buffer.
    */
-  unsigned long m_WrapOffset[Dimension];
+  OffsetType m_WrapOffset;
   
   /**
    * Modifiers that compensate for the difference in the sizes of the input
@@ -509,7 +503,7 @@ protected:
    * additional values when wrapping across dimensional boundaries during
    * iteration.
    */
-  long m_OutputWrapOffsetModifier[Dimension];
+  OffsetType m_OutputWrapOffsetModifier;
   
   /**
    * A pointer to an output buffer that, if set, is moved in synch with

@@ -19,6 +19,7 @@
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkGaussianOperator.h"
 #include "itkImageRegionIterator.h"
+
 namespace itk
 {
 

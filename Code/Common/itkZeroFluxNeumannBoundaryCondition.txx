@@ -20,10 +20,11 @@ namespace itk
 template<class TImage, class TNeighborhoodType>
 ZeroFluxNeumannBoundaryCondition<TImage, TNeighborhoodType>::PixelType
 ZeroFluxNeumannBoundaryCondition<TImage, TNeighborhoodType>
-::operator()(const int *point_index, const int *boundary_offset,
+::operator()(const OffsetType& point_index, const OffsetType& boundary_offset,
              const TNeighborhoodType *data) const
 {
   int linear_index = 0;
+  
   // Return the value of the pixel at the closest boundary point.
   int index[ImageDimension];
 

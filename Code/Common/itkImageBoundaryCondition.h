@@ -17,6 +17,8 @@
 #define __itkImageBoundaryCondition_h_
 
 #include "itkImage.h"
+#include "itkIndex.h"
+#include "itkOffset.h"
 #include "itkNeighborhood.h"
 
 namespace itk
@@ -55,6 +57,8 @@ public:
   typedef typename TImageType::PixelType PixelType;
   typedef typename TImageType::InternalPixelType *PixelPointerType;
   enum { ImageDimension = TImageType::ImageDimension };
+  typedef Index<ImageDimension> IndexType;
+  typedef Offset<ImageDimension> OffsetType;
 
   /**
    * Default constructor.
@@ -67,8 +71,8 @@ public:
    * the nearest image border pixel, and a neighborhood of pointers to pixel
    * values in the image. 
    */
-  virtual PixelType operator()(const int *point_index,
-                               const int *boundary_offset,
+  virtual PixelType operator()(const OffsetType& point_index,
+                               const OffsetType &boundary_offset,
                                  const TNeighborhoodType *data) const = 0;
 };
   

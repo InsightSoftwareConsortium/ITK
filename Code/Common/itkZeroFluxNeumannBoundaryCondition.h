@@ -73,6 +73,8 @@ public:
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::PixelPointerType PixelPointerType;
   enum { ImageDimension = Superclass::ImageDimension };
+  typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::OffsetType OffsetType;
 
   /**
    * Default constructor.
@@ -83,8 +85,8 @@ public:
    * Computes and returns a neighborhood of appropriate values from
    * neighborhood iterator data..
    */
-  virtual PixelType operator()(const int *point_index,
-                               const int *boundary_offset,
+  virtual PixelType operator()(const OffsetType& point_index,
+                               const OffsetType& boundary_offset,
                                const TNeighborhoodType *data) const; 
 };
 

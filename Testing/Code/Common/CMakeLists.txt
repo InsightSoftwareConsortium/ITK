@@ -26,6 +26,7 @@ itkNeighborhoodOperatorTest
 itkPixelAccessTest
 itkPointGeometryTest
 itkPointSetTest
+itkRandomAccessNeighborhoodIteratorTest
 itkScalarTest
 itkSliceIteratorTest
 itkSmartPointerTest
@@ -66,6 +67,7 @@ ADD_EXECUTABLE(itkTranslationTransformTest itkTranslationTransformTest)
 ADD_EXECUTABLE(itkVectorGeometryTest itkVectorGeometryTest)
 ADD_EXECUTABLE(itkVectorTest itkVectorTest)
 ADD_EXECUTABLE(itkSplineKernelTransformTest itkSplineKernelTransformTest)
+ADD_EXECUTABLE(itkRandomAccessNeighborhoodIteratorTest itkRandomAccessNeighborhoodIteratorTest)
 
 
 ADD_LIBRARY(ITKCommonTest)

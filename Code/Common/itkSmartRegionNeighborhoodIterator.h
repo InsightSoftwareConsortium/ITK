@@ -78,6 +78,7 @@ public:
   typedef typename Superclass::SizeType SizeType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::OffsetType OffsetType;
 
   /**
    * Typedef for generic boundary condition pointer
@@ -219,12 +220,12 @@ protected:
   /**
    * Lower threshold of in-bounds loop counter values.
    */
-  unsigned long int m_InnerBoundsLow[Dimension];
+  IndexType m_InnerBoundsLow;
   
   /**
    * Upper threshold of in-bounds loop counter values.
    */
-  unsigned long int m_InnerBoundsHigh[Dimension];
+  IndexType m_InnerBoundsHigh;
   
   /**
    * Denotes which of the iterators dimensional sides spill outside

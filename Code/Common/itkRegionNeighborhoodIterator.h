@@ -67,10 +67,11 @@ public:
   enum {Dimension = Superclass::Dimension };
   
   /**
-   * Some common itk object typedefs
+   * Copy superclass typedefs.
    */
   typedef typename Superclass::ImageType ImageType;
   typedef typename Superclass::RegionType RegionType;
+  typedef typename Superclass::OffsetType OffsetType;
   typedef typename Superclass::SizeType SizeType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::IndexType IndexType;

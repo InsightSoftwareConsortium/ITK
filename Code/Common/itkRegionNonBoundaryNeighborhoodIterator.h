@@ -72,6 +72,7 @@ public:
   typedef typename Superclass::SizeType SizeType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::OffsetType OffsetType;
 
   /**
    * Scalar data type typedef support
