@@ -15,6 +15,11 @@ sys.path.insert(1, @ITK_CSWIG_SCRIPT_DIR@)
 #
 #     sys.setdlopenflags(dl.RTLD_NOW|dl.RTLD_GLOBAL)
 #
-# Due to implicit template instantiation, we need this support in ITK.
-import dl
-sys.setdlopenflags(dl.RTLD_NOW|dl.RTLD_GLOBAL)
+# A bug in GCC 3.x fails to merge weak symbols correctly across dlopen'd shared
+# libraries without this flag.  Due to implicit template instantiation, we need
+# this support in ITK.
+import os
+if os.name == 'posix':
+  import dl
+  sys.setdlopenflags(dl.RTLD_NOW|dl.RTLD_GLOBAL)
+
