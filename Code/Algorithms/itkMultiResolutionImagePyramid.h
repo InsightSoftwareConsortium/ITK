@@ -193,7 +193,7 @@ public:
    * of the current level. The current level is clamped to be between
    * 0 and (NumberOfLevels - 1)
    */
-  itkSetClampMacro(CurrentLevel, int, 0,
+  itkSetClampMacro(CurrentLevel, unsigned int, 0,
     (this->GetNumberOfLevels() - 1) );
 
   /**
@@ -222,7 +222,7 @@ protected:
 
 private:
   unsigned int    m_NumberOfLevels;
-  int             m_CurrentLevel;
+  unsigned int    m_CurrentLevel;
   ScheduleType    m_Schedule;
 
 };

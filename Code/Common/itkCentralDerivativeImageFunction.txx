@@ -137,7 +137,7 @@ unsigned int dim ) const
 
   // bounds checking
   if( index[dim] < (signed long) m_ImageStart[dim] + 1 ||
-      index[dim] >= (signed long) m_ImageStart[dim] + m_ImageSize[dim] - 2 )
+      index[dim] >= (signed long)(m_ImageStart[dim] + m_ImageSize[dim]) - 2 )
     {
       return ( derivative );
     }
