@@ -234,7 +234,7 @@ public:
     }
 
     virtual void Read(  std::istream& f, void* info );
-    virtual void Write( std::ostream& f, int ofid=-1 ) const;
+    virtual void Write( std::ostream& f, int clid=-1 ) const;
 
   public:
     /**
@@ -657,7 +657,7 @@ public:
 };
 
 // Make sure that Element::Node class is registered with the object factory.
-static INITClass Initializer_ElementNewNode(ElementNew::Node::OFID);
+static INITClass Initializer_ElementNewNode(ElementNew::Node::CLID);
 
 // Alias for Node class
 typedef ElementNew::Node NodeNew;

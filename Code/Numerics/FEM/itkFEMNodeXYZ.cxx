@@ -74,15 +74,15 @@ out:
 /**
  * writes the NodeXYZ to the output stream
  */
-void NodeXYZ::Write( std::ostream& f, int ofid ) const
+void NodeXYZ::Write( std::ostream& f, int clid ) const
 {
 
   /**
-   * if not set already, se set the ofid
+   * if not set already, se set the clid
    */
-  if (ofid<0) 
+  if (clid<0) 
     {
-    ofid=OFID;
+    clid=CLID;
     }
 
   //std::cout << "TS: Writing node" << std::endl;
@@ -90,7 +90,7 @@ void NodeXYZ::Write( std::ostream& f, int ofid ) const
   /**
    * first call the parent's write function
    */
-  Superclass::Write(f,ofid);
+  Superclass::Write(f,clid);
 
   /**
    * then the actual data (node, and properties numbers)

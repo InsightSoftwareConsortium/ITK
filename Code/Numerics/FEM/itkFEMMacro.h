@@ -150,7 +150,7 @@ private:  // everything that follows from here is private by default (like in th
  *
  * This macro should be called immediately after the { in class declaration.
  * It first calls the #FEM_CLASS_SP macro. In addition it defines the Clone()
- * function, OFID member that holds the class ID for FEMObjectFactory. Also,
+ * function, CLID member that holds the class ID for FEMObjectFactory. Also,
  * the New() static member is defined, as required, for compatibility with
  * SmartPointer classes (itkNewMacro is called).
  *
@@ -171,7 +171,7 @@ private:  // everything that follows from here is private by default (like in th
     virtual Baseclass::Pointer Clone() const \
       { return new Self(*this); }            \
     /** Class ID for FEM object factory */   \
-    static const int OFID;                   \
+    static const int CLID;                   \
   private:  // everything that follows from here is private by default (like in the beginning of class)
 #else
   #define FEM_CLASS(thisClass,parentClass)   \
@@ -184,7 +184,7 @@ private:  // everything that follows from here is private by default (like in th
         o->SetReferenceCount(1);             \
         return o; }                          \
     /** Class ID for FEMObjectFactory */     \
-    static const int OFID;                   \
+    static const int CLID;                   \
     /** Object creation through itk's objectfactory  */ \
     itkNewMacro(Self)                        \
   private:  // everything that follows from here is private by default (like in the beginning of class)
@@ -198,9 +198,9 @@ private:  // everything that follows from here is private by default (like in th
  *
  * Registering is required for every class that the object factory will
  * later be able to create. The class must contain static const int
- * member OFID and must define or inherit Baseclass typedef. This is
+ * member CLID and must define or inherit Baseclass typedef. This is
  * automatic if #FEM_CLASS macro was used when declaring a class.
- * OFID is initialized to a value assigned by the FEMObjectFactory.
+ * CLID is initialized to a value assigned by the FEMObjectFactory.
  *
  * \param thisClass Name of the class that needs to be registered with
  *        FEMObjectFactory.
@@ -211,11 +211,11 @@ private:  // everything that follows from here is private by default (like in th
 #ifndef FEM_USE_SMART_POINTERS
   #define FEM_CLASS_REGISTER(thisClass) \
   namespace { static thisClass::Baseclass::Pointer New##thisClass() { return new thisClass; } }\
-  const int thisClass::OFID=FEMObjectFactory<thisClass::Baseclass>::Register( New##thisClass, #thisClass);
+  const int thisClass::CLID=FEMObjectFactory<thisClass::Baseclass>::Register( New##thisClass, #thisClass);
 #else
   #define FEM_CLASS_REGISTER(thisClass) \
   namespace { static thisClass::Baseclass::Pointer New##thisClass() { return thisClass::New(); } }\
-  const int thisClass::OFID=FEMObjectFactory<thisClass::Baseclass>::Register( New##thisClass, #thisClass);
+  const int thisClass::CLID=FEMObjectFactory<thisClass::Baseclass>::Register( New##thisClass, #thisClass);
 #endif
 
 
@@ -249,8 +249,8 @@ struct INITClass {
  * \brief Perform any initialization tasks for a class.
  *
  * This macro creates a static object of INITClass class that references
- * thisClass::OFID static member in a constructor. This insures that
- * any initialization code for OFID is always executed, and thisClass
+ * thisClass::CLID static member in a constructor. This insures that
+ * any initialization code for CLID is always executed, and thisClass
  * is properly registered with FEMObjectFactory.
  *
  * \param thisClass Name of the class that needs to be initialized.
@@ -259,7 +259,7 @@ struct INITClass {
  *       within itk::fem namespace.
  */
 #define FEM_CLASS_INIT(thisClass) \
-  static INITClass Initializer_##thisClass(thisClass::OFID);
+  static INITClass Initializer_##thisClass(thisClass::CLID);
 
 
 

@@ -117,7 +117,7 @@ public:
   virtual void Read( std::istream& f, void* info );
 
   /** write a LoadBCMFC object to the output stream*/
-  virtual void Write( std::ostream& f, int ofid ) const;
+  virtual void Write( std::ostream& f, int clid ) const;
 
 //private:  // FIXME: CrankNicolsonSolver class, which is derived from Solver class also needs access to Index.
   /** used internally by the Solver class */

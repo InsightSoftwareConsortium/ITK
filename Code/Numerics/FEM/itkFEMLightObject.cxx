@@ -57,16 +57,16 @@ out:
  * Here we just write the class name and GN.
  * This should be the first function called when writing object data, so
  * every derived class should first call the parent's write function.
- * Each derived class should also set the ofid to correct value only if
- * ofid  is <0.
+ * Each derived class should also set the clid to correct value only if
+ * clid  is <0.
  * This way the Write function in base (this one) class knows which class is
  * being written and can write the class name properly.
  */
-void FEMLightObject::Write( std::ostream& f, int ofid ) const
+void FEMLightObject::Write( std::ostream& f, int clid ) const
 {
 
-  /** check if somebody has defined the ofid */
-  if (ofid<0) {
+  /** check if somebody has defined the clid */
+  if (clid<0) {
     /**
      * Nope... This means that either no Write function is defined for
      * the derived class, or somebody was trying to write an abstract
@@ -76,7 +76,7 @@ void FEMLightObject::Write( std::ostream& f, int ofid ) const
   }
 
   /**  first write the class name */
-  f<<'<'<<FEMObjectFactory<Self>::ID2ClassName(ofid)<<">\n";
+  f<<'<'<<FEMObjectFactory<Self>::ID2ClassName(clid)<<">\n";
 
   /** then the global object number */
   f<<"\t"<<GN<<"\t% Global object number\n";

@@ -38,7 +38,7 @@ class MaterialLinearElasticity : public Material {
 FEM_CLASS(MaterialLinearElasticity,Material)
 public:
   virtual void Read(std::istream& f, void* info);
-  virtual void Write(std::ostream& f, int ofid) const;
+  virtual void Write(std::ostream& f, int clid) const;
 
   /* Data members of MaterialLinearElasticity class */
 

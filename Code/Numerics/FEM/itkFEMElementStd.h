@@ -159,7 +159,7 @@ public:
   /**
    * Write data for this class to output stream
    */
-  virtual void Write( std::ostream& f, int ofid ) const;
+  virtual void Write( std::ostream& f, int clid ) const;
 
 
 

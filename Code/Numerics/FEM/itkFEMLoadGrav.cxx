@@ -64,13 +64,13 @@ out:
 /**
  * Write the LoadGravConst to the output stream
  */
-void LoadGravConst::Write( std::ostream& f, int ofid ) const {
+void LoadGravConst::Write( std::ostream& f, int clid ) const {
 
-  /** if not set already, se set the ofid */
-  if (ofid<0) ofid=OFID;
+  /** if not set already, se set the clid */
+  if (clid<0) clid=CLID;
 
   /** first call the parent's write function */
-  LoadGrav::Write(f,ofid);
+  LoadGrav::Write(f,clid);
 
   /** then write the actual data force vector */
   f<<"\t"<<Fg_value.size()<<"\t% Size of the gravity force vector\n";

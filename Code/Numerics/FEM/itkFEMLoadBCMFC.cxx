@@ -104,14 +104,14 @@ out:
 /**
  * Write the LoadBCMFC object to the output stream
  */
-void LoadBCMFC::Write( std::ostream& f, int ofid ) const 
+void LoadBCMFC::Write( std::ostream& f, int clid ) const 
 {
 
-  /** if not set already, se set the ofid */
-  if (ofid<0) ofid=OFID;
+  /** if not set already, se set the clid */
+  if (clid<0) clid=CLID;
 
   /** first call the parent's write function */
-  Superclass::Write(f,ofid);
+  Superclass::Write(f,clid);
 
   /**
    * Write the actual Load data

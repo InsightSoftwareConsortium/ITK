@@ -49,7 +49,7 @@ public:
   /**
    * Write a Load object to the output stream
    */
-  virtual void Write( std::ostream& f, int ofid ) const;
+  virtual void Write( std::ostream& f, int clid ) const;
 
 public:
   /**

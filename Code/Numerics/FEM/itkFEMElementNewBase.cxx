@@ -120,21 +120,21 @@ out:
 /*
  * Write the Node to the output stream
  */
-void ElementNew::Node::Write( std::ostream& f, int ofid ) const 
+void ElementNew::Node::Write( std::ostream& f, int clid ) const 
 {
 
   /*
-   * If not set already, se set the ofid
+   * If not set already, se set the clid
    */
-  if (ofid<0) 
+  if (clid<0) 
   {
-    ofid=OFID;
+    clid=CLID;
   }
 
   /**
    * First call the parent's write function
    */
-  Self::Superclass::Write(f,ofid);
+  Self::Superclass::Write(f,clid);
 
   /**
    * Write actual data (node, and properties numbers)
@@ -459,10 +459,10 @@ const ElementNew::Float ElementNew::gaussWeight[gaussMaxOrder+1][gaussMaxOrder]=
 // Register Node class with FEMObjectFactory
 #ifndef FEM_USE_SMART_POINTERS
 namespace { static ElementNew::Node::Baseclass::Pointer NewNodeObect() { return new ElementNew::Node; } }
-const int ElementNew::Node::OFID=FEMObjectFactory<ElementNew::Node::Baseclass>::Register( NewNodeObect, "Node" );
+const int ElementNew::Node::CLID=FEMObjectFactory<ElementNew::Node::Baseclass>::Register( NewNodeObect, "Node" );
 #else
 namespace { static ElementNew::Node::Baseclass::Pointer NewNodeObect() { return ElementNew::Node::New(); } }
-const int ElementNew::Node::OFID=FEMObjectFactory<ElementNew::Node::Baseclass>::Register( NewNodeObect, "Node" );
+const int ElementNew::Node::CLID=FEMObjectFactory<ElementNew::Node::Baseclass>::Register( NewNodeObect, "Node" );
 #endif
 
 

@@ -187,13 +187,13 @@ out:
 /** 
  * Write the element to the output stream
  */
-void Beam2D::Write( std::ostream& f, int ofid ) const {
+void Beam2D::Write( std::ostream& f, int clid ) const {
 
-  /** If not set already, se set the ofid */
-  if (ofid<0) ofid=OFID;
+  /** If not set already, se set the clid */
+  if (clid<0) clid=CLID;
 
   /** First call the parent's write function */
-  Superclass::Write(f,ofid);
+  Superclass::Write(f,clid);
 
   /**
    * Then write the actual data (node, and material numbers).

@@ -47,7 +47,7 @@ public:
   NodeXYZ(Float X_, Float Y_, Float Z_) : X(X_), Y(Y_), Z(Z_) {}
   
   void Read(  std::istream& f, void* info );
-  void Write( std::ostream& f, int ofid ) const;
+  void Write( std::ostream& f, int clid ) const;
 
 #ifdef FEM_BUILD_VISUALIZATION
   /**

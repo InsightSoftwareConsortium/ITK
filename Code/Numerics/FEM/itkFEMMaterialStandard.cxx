@@ -134,13 +134,13 @@ out:
 /**
  * Write standard material object to stream
  */
-void MaterialStandard::Write( std::ostream& f, int ofid ) const {
+void MaterialStandard::Write( std::ostream& f, int clid ) const {
 
-  /** if not set already, se set the ofid */
-  if (ofid<0) ofid=OFID;
+  /** if not set already, se set the clid */
+  if (clid<0) clid=CLID;
 
   /** first call the parent's write function */
-  Superclass::Write(f,ofid);
+  Superclass::Write(f,clid);
 
   /** then the actual data (node, and properties numbers) */
   f<<"\tE  : "<<E<<"\t% Young modulus\n";

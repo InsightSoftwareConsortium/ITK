@@ -64,7 +64,7 @@ public:
   virtual void Read( std::istream& f, void* info );
 
   /** Write a LoadBC object to the output stream*/
-  virtual void Write( std::ostream& f, int ofid ) const;
+  virtual void Write( std::ostream& f, int clid ) const;
 
 };
 

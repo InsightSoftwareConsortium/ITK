@@ -93,21 +93,21 @@ public:
    * the data members in the current object to the output stream.
    * Here we also need to know which derived class we actually
    * are, so that we can write the class name. This is done by passing
-   * the ObjectFactory id in ofid from the most derived class.
+   * the ObjectFactory id in clid from the most derived class.
    *
    * Implementations of Write member funtion in derived classes should
-   * first sheck if ofid is negative. If it is, they should set it to
+   * first sheck if clid is negative. If it is, they should set it to
    * the correct id of a class. If it is not, they should just leave it
    * as it is.
    * Next thing to do is call the parent's implementation of Write (make
-   * sure that you also pass the ofid parameter), and finaly write
+   * sure that you also pass the clid parameter), and finaly write
    * whatever you need.
    *
    * When you are calling this member to write the class to ostream, you
-   * should omit the ofid member. It will be automatically set
+   * should omit the clid member. It will be automatically set
    * correctly in the most derived implementation of Write.
    */
-  virtual void Write( std::ostream& f, int ofid=-1 ) const;
+  virtual void Write( std::ostream& f, int clid=-1 ) const;
 
 
 #ifdef FEM_USE_SMART_POINTERS
