@@ -174,7 +174,7 @@ KdTree< TSample >
   InstanceIdentifier tempId ;
   double tempDistance ;
 
-  if (node->GetNodeType() == KdTreeNodeType::Terminal)
+  if ( node->IsTerminal() )
     {
       // terminal node
       if (node == m_EmptyTerminalNode)
@@ -333,7 +333,7 @@ void
 KdTree< TSample >
 ::DeleteNode(KdTreeNodeType *node)
 {
-  if (node->GetNodeType() == KdTreeNodeType::Terminal)
+  if ( node->IsTerminal() )
     {
       // terminal node
       if (node == m_EmptyTerminalNode)
@@ -356,7 +356,7 @@ KdTree< TSample >
 ::PrintTree(KdTreeNodeType *node, int level, unsigned int activeDimension)
 {
   level++ ;
-  if (node->GetNodeType() == KdTreeNodeType::Terminal)
+  if ( node->IsTerminal() )
     {
       // terminal node
       if (node == m_EmptyTerminalNode)

@@ -43,9 +43,7 @@ struct KdTreeNode
   typedef FixedArray< double, TSample::MeasurementVectorSize > CenteroidType ;
   typedef typename TSample::InstanceIdentifier InstanceIdentifier ;
 
-  enum NodeType { Terminal, Nonterminal } ;
-
-  virtual NodeType GetNodeType() = 0 ;
+  virtual bool IsTerminal() = 0 ;
 
   virtual void GetParameters(unsigned int &partitionDimension, 
                              MeasurementType &partitionValue) = 0 ;  
@@ -79,8 +77,8 @@ struct KdTreeNonterminalNode: public KdTreeNode< TSample >
 
   virtual ~KdTreeNonterminalNode() {}
   
-  NodeType GetNodeType()
-  { return NodeType(Nonterminal) ; }
+  virtual bool IsTerminal()
+  { return false ; }
 
   void GetParameters(unsigned int &partitionDimension, 
                      MeasurementType &partitionValue) ;
@@ -128,8 +126,8 @@ struct KdTreeWeightedCenteroidNonterminalNode: public KdTreeNode< TSample >
                                          unsigned int size) ;
   virtual ~KdTreeWeightedCenteroidNonterminalNode() {}
 
-  NodeType GetNodeType()
-  { return NodeType(Nonterminal) ; }
+  virtual bool IsTerminal()
+  { return false ; }
 
   void GetParameters(unsigned int &partitionDimension, 
                      MeasurementType &partitionValue) ;
@@ -175,8 +173,8 @@ struct KdTreeTerminalNode: public KdTreeNode< TSample >
 
   KdTreeTerminalNode() {}
 
-  NodeType GetNodeType()
-  { return NodeType(Terminal) ; }
+  bool IsTerminal()
+  { return true ; }
 
   void GetParameters(unsigned int &partitionDimension, 
                      MeasurementType &partitionValue) {}
