@@ -58,7 +58,7 @@ public:
   itkTypeMacro( Self, Superclass );
 
   /** Return a SpatialObjectPoint given its position in the list */
-  virtual const SpatialObjectPointType* GetPoint(unsigned long id) const
+  virtual const SpatialObjectPointType* GetPoint(unsigned long itkNotUsed(id)) const
     {
     itkWarningMacro(<<"PointBasedSpatialObject::GetPoint() is not implemented in the base class" << std::endl);
     return 0;
