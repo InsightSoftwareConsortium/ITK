@@ -838,7 +838,7 @@ IF(ITK_CSWIG_JAVA)
     OUTPUT  ${ITK_BINARY_DIR}/Examples/Filtering/${javatestfile}.class
     DEPENDS ${ITK_SOURCE_DIR}/Examples/Filtering/${javatestfile}.java
     COMMAND ${JAVA_COMPILE}
-    ARGS -classpath "${JAVACLASSPATH}" -d"${ITK_BINARY_DIR}/Examples/Filtering"
+    ARGS -classpath "${JAVACLASSPATH}" -d "${ITK_BINARY_DIR}/Examples/Filtering"
     ${ITK_SOURCE_DIR}/Examples/Filtering/${javatestfile}.java
     COMMENT "Java Class")
 
