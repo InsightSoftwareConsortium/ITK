@@ -107,9 +107,6 @@ int main(void){
   testVorseg->SetNumberOfSeeds(400);
   testVorseg->SetSteps(5);
 
-  std::cout << "Initializing segmentation" << std::endl;
-  testVorseg->InitializeSegment();
-
   std::cout << "Running algorithm" << std::endl;
   testVorseg->Update();
 
