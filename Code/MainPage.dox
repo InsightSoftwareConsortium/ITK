@@ -21,55 +21,179 @@
  */
 
 
+
+/**
+
+  \defgroup Filters Filters
+  Filters implement the operations on the pipeline architecture.
+*/
+
+/**
+  \defgroup ImageFilters Image Filters
+  \ingroup Filters
+
+  Image filters process input images and produce output images. Inputs are
+  unmodified. The pipeline architecture make provisions for supporting
+  streaming by using packets of data defined by regions
+  \sa Image
+  \sa PhysicalImage
+  \sa ImageRegion
+
+*/
+
+/**
+  \defgroup MeshFilters Mesh Filters
+  \ingroup Filters
+
+  Mesh filters process input meshes and produce output meshes. Inputs are
+  unmodified. 
+  \sa Mesh
+
+*/
+
+
+/**
+\defgroup Functions Functions
+Functions provide an eficient mechanism for computing values
+*/
+
+/**
+\defgroup ImageFunctions Image Functions
+\ingroup Functions
+Image functions compute single values using data from a previously
+specified Image. The value is computed in a position of
+the image grid space defined by an Index.
+
+\sa Image
+\sa Index
+\sa ImageFunction
+*/
+
+/**
+\defgroup ContinuousImageFunctions Continuous Image Functions
+\ingroup ImageFunctions
+Continuous image functions compute single values using data from an
+Image previously specified. The value is computed in a position of
+the continuous space defined by a Point.
+\sa Image
+\sa Point
+\sa ImageFunction
+*/
+
+
+/**
+\defgroup Operators Operators
+Operators implements the abstraction of performing an operation using data
+froma a neighborhood of a pixel. ITK Operators work in conjunction with
+Neighborhood iterators in order to walk over an image.
+*/
+
+
 /**
 
 \defgroup Algorithms Algorithms
-@{  
+Algorithms are classes that implement a procedure.  
+*/
 
+/**
   \defgroup SegmentationAlgorithms Segmentation Algorithms
-  @{
-    \defgroup ImageSegmentation Image Segmentation Algorithms
-    @{
-      \defgroup ImageSegmentation Image Segmentation Algorithms
-      @{
-        \defgroup IntensityImageSegmentation Intensity-Based Image Segmentation Algorithms
-        @{
-          \defgroup Classification Classification Algorithms
-          @{
-            \defgroup SupervisedClassification Supervised Classification Algorithms
-            \defgroup UnSupervisedClassification Unsupervised Classification Algorithms
-          @}
-        @}
-        \defgroup ModelImageSegmentation Model-Based Image Segmentation Algorithms
-      @}
-    @}
-    \defgroup MeshSegmentation Mesh Segmentation Algorithms
-  @}
-
-  \defgroup RegistrationAlgorithms Registration Algorithms
-  @{
-    \defgroup ImageRegistration Image Registration Methods
-    @{
-      \defgroup DeformableRegistration Deformable Registration Methods
-      \defgroup RigidRegistration Rigid Registration Methods
-    @}
-    \defgroup ModelImageRegistration Model - Image Registration Methods
-    @{
-      \defgroup PointSetToImageRegistration PointSet to Image Registration Methods
-    @}
-  @}
-@}
+  \ingroup Algorithms
+*/  
 
 
+/**
+ \defgroup ImageSegmentation Image Segmentation Algorithms
+ \ingroup SegmentationAlgorithms
+*/  
+
+/**
+ \defgroup IntensityImageSegmentation Intensity-Based Image Segmentation Algorithms
+ \ingroup ImageSegmentation
+*/  
+
+/**
+ \defgroup Classification Classification Algorithms
+ \ingroup IntensityImageSegmentation
+*/  
+
+/**
+ \defgroup SupervisedClassification Supervised Classification Algorithms
+ \ingroup Classification
+*/  
+
+/**
+ \defgroup UnSupervisedClassification Unsupervised Classification Algorithms
+ \ingroup Classification
+*/  
+
+/**
+ \defgroup ModelImageSegmentation Model-Based Image Segmentation Algorithms
+ \ingroup ImageSegmentation
+*/  
+
+
+/**
+ \defgroup MeshSegmentation Mesh Segmentation Algorithms
+ \ingroup ModelImageSegmentation
+*/  
+
+/**
+ \defgroup RegistrationAlgorithms Registration Algorithms
+ \ingroup Algorithms
+*/  
+
+/**
+ \defgroup ImageRegistration Image Registration Methods
+ \ingroup RegistrationAlgorithms
+*/  
+
+/**
+ \defgroup DeformableRegistration Deformable Registration Methods
+ \ingroup ImageRegistration
+*/  
+
+/**
+ \defgroup RigidRegistration Rigid Registration Methods
+ \ingroup ImageRegistration
+*/  
+
+/**
+ \defgroup ModelImageRegistration Model - Image Registration Methods
+ \ingroup RegistrationAlgorithms
+*/  
+
+/**
+ \defgroup PointSetToImageRegistration PointSet to Image Registration Methods
+ \ingroup ModelImageRegistration
+*/  
 
 
 
-\defgroupd ThreadSafety
-@{
-  \defgroupd ThreadSafe
-  \defgroupd ThreadUnSafe
-  \defgroupd ThreadSafetyUnknown
-@}
+
+/**
+
+  \defgroup ThreadSafety  Thread Safety
+  This groups catalog classes according to its compliance with thread safety.
+  ITK is designed to be thread-safe, but in some particular cases this
+  capability can not be supported and for this reason a classification is
+  needed.
+
+*/  
+
+/**
+ \defgroup ThreadSafe Thread Safe classes
+ \ingroup ThreadSafety
+*/  
+
+/**
+ \defgroup ThreadUnSafe Thread Unsafe classes
+ \ingroup ThreadSafety
+*/  
+
+/**
+ \defgroup ThreadSafetyUnknown
+ \ingroup ThreadSafety
+*/
 
 
 
