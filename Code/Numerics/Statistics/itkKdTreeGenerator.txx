@@ -138,7 +138,11 @@ KdTreeGenerator< TSample >
 
   // find median and partition this node using the quick select algorithm
   medianIndex = (endIndex - beginIndex) / 2 ;
-  partitionValue = QuickSelect< SubsampleType >(m_Subsample, partitionDimension, beginIndex, endIndex, medianIndex, m_TempMean[partitionDimension]) ;
+  partitionValue = 
+    QuickSelect< SubsampleType >(m_Subsample, 
+                                 partitionDimension, 
+                                 beginIndex, endIndex, medianIndex, 
+                                 m_TempMean[partitionDimension]) ;
   medianIndex += beginIndex - 1 ;
 
   // save bounds for cutting dimension
