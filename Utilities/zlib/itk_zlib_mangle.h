@@ -65,8 +65,10 @@ nm libitkzlib.a |grep " T "
 #define inflate_codes itk_inflate_codes
 #define inflate_codes_free itk_inflate_codes_free
 #define inflate_codes_new itk_inflate_codes_new
+#define inflate_copyright itk_inflate_copyright
 #define inflate_fast itk_inflate_fast
 #define inflate_flush itk_inflate_flush
+#define inflate_mask itk_inflate_mask
 #define inflate_set_dictionary itk_inflate_set_dictionary
 #define inflate_trees_bits itk_inflate_trees_bits
 #define inflate_trees_dynamic itk_inflate_trees_dynamic
@@ -76,5 +78,6 @@ nm libitkzlib.a |grep " T "
 #define zcalloc itk_zcalloc
 #define zcfree itk_zcfree
 #define zlibVersion itk_zlibVersion
+#define z_errmsg itk_z_errmsg
 
 #endif

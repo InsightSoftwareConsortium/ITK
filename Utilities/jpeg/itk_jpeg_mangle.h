@@ -84,6 +84,7 @@ nm libitkjpeg.a |grep " T "
 #define jpeg_mem_available itk_jpeg_mem_available
 #define jpeg_mem_init itk_jpeg_mem_init
 #define jpeg_mem_term itk_jpeg_mem_term
+#define jpeg_natural_order itk_jpeg_natural_order
 #define jpeg_new_colormap itk_jpeg_new_colormap
 #define jpeg_open_backing_store itk_jpeg_open_backing_store
 #define jpeg_quality_scaling itk_jpeg_quality_scaling
@@ -103,6 +104,7 @@ nm libitkjpeg.a |grep " T "
 #define jpeg_start_decompress itk_jpeg_start_decompress
 #define jpeg_start_output itk_jpeg_start_output
 #define jpeg_std_error itk_jpeg_std_error
+#define jpeg_std_message_table itk_jpeg_std_message_table
 #define jpeg_stdio_dest itk_jpeg_stdio_dest
 #define jpeg_stdio_src itk_jpeg_stdio_src
 #define jpeg_suppress_tables itk_jpeg_suppress_tables
