@@ -42,6 +42,8 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_DistanceForGradient = 0.0;
   m_Resolution = 0;
   m_K = 0;
+  m_NewNodes = 0;
+  m_NewNodeLimit = 0;
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
@@ -1142,7 +1144,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   if (m_NumNewNodes > m_NewNodeLimit)
     {
-    realloc( m_NewNodes, m_NewNodeLimit*sizeof(float*)*2 );
+    m_NewNodes = realloc( m_NewNodes, m_NewNodeLimit*sizeof(float*)*2 );
     for (int i = m_NewNodeLimit; i < 2*m_NewNodeLimit; i++)
       {
       m_NewNodes[i] = (float*) malloc(sizeof(float)*5);
