@@ -18,9 +18,11 @@
 
 #include "itkFixedArray.h"
 #include "itkImage.h"
+#include "itkImageAdaptor.h"
 #include "itkImageRegionIterator.h"
 #include "itkPixelTraits.h"
 
+#include "itkListSampleBase.h"
 #include "itkImageToListAdaptor.h"
 #include "itkScalarToArrayCastImageFilter.h"
 
@@ -29,38 +31,86 @@
 #include "itkMacro.h"
 #include "itkPixelTraits.h"
 
-template< class TImage >
-class DefaultMeasurementVectorSpecification
+template<class TPixelType>
+struct MeasurementVectorTraits
 {
-public:
-  typedef typename TImage::PixelType MeasurementVectorType ;
-} ; // end of class
+  typedef TPixelType VectorType;
+};
 
-template< class TImage >
-class FixedArrayMeasurementVectorSpecification
+/** Specialization of MeasurementVectorTraitss for scalar images. */
+template <>
+struct MeasurementVectorTraits<bool>
 {
-public:
-  typedef FixedArrayMeasurementVectorSpecification Self;
-  typedef typename TImage::PixelType PixelType ;
-  typedef typename itk::PixelTraits< PixelType >::ValueType MeasurementType ;
-  itkStaticConstMacro( MeasurementVectorSize, unsigned int, 
-                       itk::PixelTraits< PixelType >::Dimension ) ;
-  typedef itk::FixedArray< MeasurementType, itkGetStaticConstMacro(MeasurementVectorSize) >
-  MeasurementVectorType ;
-} ; // end of class
+  typedef itk::FixedArray< bool, 1 > VectorType;
+};
 
-template < class TImage, 
-           class TMeasurementVectorSpecification = 
-           DefaultMeasurementVectorSpecification< TImage > >
+template <>
+struct MeasurementVectorTraits<char>
+{
+  typedef itk::FixedArray< char, 1 > VectorType;
+};
+
+template <>
+struct MeasurementVectorTraits<unsigned char>
+{
+  typedef itk::FixedArray< unsigned char, 1 > VectorType;
+};
+
+template <>
+struct MeasurementVectorTraits<short>
+{
+  typedef itk::FixedArray< short, 1 > VectorType;
+};
+
+template <>
+struct MeasurementVectorTraits<unsigned short>
+{
+  typedef itk::FixedArray< unsigned short, 1 > VectorType;
+};
+
+template <>
+struct MeasurementVectorTraits<int>
+{
+  typedef itk::FixedArray< int, 1 > VectorType;
+};
+
+template <>
+struct MeasurementVectorTraits<unsigned int>
+{
+  typedef itk::FixedArray< unsigned int, 1 > VectorType;
+};
+
+template <>
+struct MeasurementVectorTraits<long>
+{
+  typedef itk::FixedArray< long, 1 > VectorType;
+};
+
+template <>
+struct MeasurementVectorTraits<unsigned long>
+{
+  typedef itk::FixedArray< unsigned long, 1 > VectorType;
+};
+
+template <>
+struct MeasurementVectorTraits<float>
+{
+  typedef itk::FixedArray< float, 1 > VectorType;
+};
+
+template <>
+struct MeasurementVectorTraits<double>
+{
+  typedef itk::FixedArray< double, 1 > VectorType;
+};
+
+template < class TImage, class TMeasurementVector = ITK_TYPENAME TImage::PixelType >
 class ITK_EXPORT DummyImageToListAdaptor : 
-//   public itk::Statistics::ListSampleBase< 
-//   itk::FixedArray< typename MyPixelTraits< typename TImage::PixelType >::ValueType, 
-//                    MyPixelTraits< typename TImage::PixelType >::Dimension > >
-  public itk::Object
+  public itk::Statistics::ListSampleBase< TMeasurementVector >
 {
 public:
   typedef DummyImageToListAdaptor Self ;
-  typedef itk::Object Superclass ;
+  typedef itk::Statistics::ListSampleBase< TMeasurementVector > Superclass ;
 
   typedef itk::SmartPointer< Self > Pointer ;
   typedef itk::SmartPointer< const Self > ConstPointer ;
@@ -73,67 +123,175 @@ public:
   itkStaticConstMacro( MeasurementVectorSize, unsigned int, 
                        itk::PixelTraits< PixelType >::Dimension ) ;
 
-  typedef typename TMeasurementVectorSpecification::MeasurementVectorType MeasurementVectorType ;
+  typedef TMeasurementVector MeasurementVectorType ;
 
-  void SetImage( TImage* image ) ;
-
-  MeasurementVectorType& GetMeasurementVector(int id) ;
+  unsigned int Size() const 
+  { return 1 ;} 
   
+  float GetTotalFrequency() const 
+  { return 1 ;}
+  
+  float GetFrequency(const unsigned long& id) const
+  { return 1.0f ; }
+
+  virtual MeasurementVectorType GetMeasurementVector(const unsigned long& id)
+  {
+    if( m_UseBuffer )
+      {
+      return *(reinterpret_cast< MeasurementVectorType* >
+               (&(*m_ImageBuffer)[id]))  ;
+      }
+    else
+      {
+      return *(reinterpret_cast< MeasurementVectorType* >
+               (&(m_Image->GetPixel( m_Image->ComputeIndex( id ))) ) )   ;
+      }
+  }
+  
+  void SetImage( TImage* image ) 
+  {
+    m_Image = image ;
+    m_ImageBuffer = m_Image->GetPixelContainer() ;
+    if ( strcmp( m_Image->GetNameOfClass(), "Image" ) != 0 ) 
+      {
+      m_UseBuffer = false ;
+      }
+    else
+      { 
+      m_UseBuffer = true ;
+      }
+  }
+
 protected:
-  DummyImageToListAdaptor() ;
+  DummyImageToListAdaptor()
+  { m_Image = 0 ; }
   
   virtual ~DummyImageToListAdaptor() {}
+
+  typename TImage::Pointer m_Image ;
+  typename TImage::PixelContainer* m_ImageBuffer ;
+  MeasurementVectorType m_TempVector ;
+  bool m_UseBuffer ;
 
 private:
   DummyImageToListAdaptor(const Self&) ; 
   void operator=(const Self&) ;
 
-  typename TImage::Pointer m_Image ;
-  typename TImage::PixelContainer* m_ImageBuffer ;
-  bool m_UseBuffer ;
 } ;
 
 
-template< class TImage, class TMeasurementVectorSpecification >
-DummyImageToListAdaptor< TImage, TMeasurementVectorSpecification >
-::DummyImageToListAdaptor()
+template < class TImage >
+class ITK_EXPORT DummyScalarImageToListAdaptor : 
+  public DummyImageToListAdaptor< TImage, itk::FixedArray< typename TImage::PixelType, 1> >
 {
-  m_Image = 0 ;
-}
+public:
+  typedef DummyScalarImageToListAdaptor Self ;
+  typedef DummyImageToListAdaptor< 
+    TImage, itk::FixedArray< typename TImage::PixelType, 1> > Superclass ;
 
-template< class TImage, class TMeasurementVectorSpecification >
-void
-DummyImageToListAdaptor< TImage, TMeasurementVectorSpecification >
-::SetImage( TImage* image )
-{
-  m_Image = image ;
-  m_ImageBuffer = m_Image->GetPixelContainer() ;
-  if ( strcmp( m_Image->GetNameOfClass(), "Image" ) != 0 ) 
-    {
-    m_UseBuffer = false ;
-    }
-  else
-    { 
-    m_UseBuffer = true ;
-    }
-}
+  typedef itk::SmartPointer< Self > Pointer ;
+  typedef itk::SmartPointer< const Self > ConstPointer ;
 
-template< class TImage, class TMeasurementVectorSpecification >
-DummyImageToListAdaptor< TImage, TMeasurementVectorSpecification >::MeasurementVectorType&
-DummyImageToListAdaptor< TImage, TMeasurementVectorSpecification >
-::GetMeasurementVector(int id)
+  itkTypeMacro( DummyScalarImageToListAdaptor, DummyImageToListAdaptor ) ;
+  itkNewMacro( Self ) ;
+
+  typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
+
+  MeasurementVectorType GetMeasurementVector(const unsigned long& id)
+  {
+    if( m_UseBuffer )
+      {
+      m_TempVector[0] = (*m_ImageBuffer)[id] ;
+      }
+    else
+      {
+      m_TempVector[0] = m_Image->GetPixel( m_Image->ComputeIndex( id ) )  ;
+      }
+      return m_TempVector  ;
+  }
+protected:
+  DummyScalarImageToListAdaptor() {}
+  virtual ~DummyScalarImageToListAdaptor() {}
+} ; // end of class 
+
+template< class TImage, class TCoordRep >
+struct ImageJointDomainTraits
 {
-  if( m_UseBuffer )
-    {
-    return *(reinterpret_cast< MeasurementVectorType* >
-             ( &(*m_ImageBuffer)[id] ) ) ;
-    }
-  else
-    {
-    return *(reinterpret_cast< MeasurementVectorType* >
-             ( &(m_Image->GetPixel( m_Image->ComputeIndex( id ) ) ) ) ) ;
-    }
-}
+  typedef itk::PixelTraits< typename TImage::PixelType > PixelTraitsType ;
+  itkStaticConstMacro(Size, 
+                      unsigned int, 
+                      TImage::ImageDimension +
+                      PixelTraitsType::Dimension ) ;
+  typedef itk::JoinTraits<
+    TCoordRep, 
+    PixelTraitsType::ValueType > JoinTraitsType ;
+
+  typedef JoinTraitsType::ValueType MeasurementType ;
+
+  typedef itk::FixedArray< MeasurementType, itkGetStaticConstMacro(Size) >
+  MeasurementVectorType ;
+} ; // end of ImageJointDomainTraits
+
+template < class TImage, class TCoordRep >
+class ITK_EXPORT DummyJointDomainImageToListAdaptor : 
+  public DummyImageToListAdaptor< TImage,
+                                  ImageJointDomainTraits< 
+  TImage, TCoordRep >::MeasurementVectorType >
+{
+public:
+  typedef DummyJointDomainImageToListAdaptor Self ;
+  typedef DummyImageToListAdaptor< TImage,
+    ImageJointDomainTraits< TImage, TCoordRep >::MeasurementVectorType > 
+  Superclass ;
+  
+  typedef itk::SmartPointer< Self > Pointer ;
+  typedef itk::SmartPointer< const Self > ConstPointer ;
+
+  itkTypeMacro( DummyJointDomainImageToListAdaptor, DummyImageToListAdaptor ) ;
+  itkNewMacro( Self ) ;
+
+  typedef typename Superclass::MeasurementType MeasurementType ;
+  typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
+
+  typedef itk::FixedArray< MeasurementType, 
+    itk::PixelTraits< typename TImage::PixelType >::Dimension > 
+  RangeDomainMeasurementVectorType ;
+  
+  MeasurementVectorType GetMeasurementVector(const unsigned long& id)
+  {
+    typename itk::Point<MeasurementType, TImage::ImageDimension> point ;
+    typename TImage::IndexType index = m_Image->ComputeIndex( id ) ;
+    m_Image->TransformIndexToPhysicalPoint( index, point ) ;
+    
+    for ( unsigned int i = 0 ; i < TImage::ImageDimension ; ++i )
+      {
+      m_TempVector[i] = point[i] ;
+      }
+
+    if( m_UseBuffer )
+      {
+      m_TempVector2 =  
+        *(reinterpret_cast< RangeDomainMeasurementVectorType* >
+          (&(*m_ImageBuffer)[id]))  ;
+      }
+    else
+      {
+      m_TempVector2 = 
+        *(reinterpret_cast< RangeDomainMeasurementVectorType* >
+          (&(m_Image->GetPixel( m_Image->ComputeIndex( id ) ) ) ) ) ;
+      }
+
+    for ( unsigned int i = TImage::ImageDimension ; i < MeasurementVectorType::Length ; ++i )
+      {
+      m_TempVector[i]= m_TempVector2[i - TImage::ImageDimension] ;
+      }
+    return m_TempVector ;
+  }
+protected:
+  DummyJointDomainImageToListAdaptor() {}
+  virtual ~DummyJointDomainImageToListAdaptor() {}
+  RangeDomainMeasurementVectorType m_TempVector2 ;
+} ; // end of class 
 
 int itkDummyImageToListAdaptorTest(int, char* [] ) 
 {
@@ -150,7 +308,7 @@ int itkDummyImageToListAdaptorTest(int, char* [] )
   typedef itk::ImageRegionIterator< VectorImageType > VectorImageIteratorType ;
 
   itk::Size< 3 > size ;
-  size.Fill(100) ;
+  size.Fill(10) ;
 
   ScalarImageType::Pointer scalarImage = ScalarImageType::New() ;
   scalarImage->SetRegions(size) ;
@@ -184,9 +342,7 @@ int itkDummyImageToListAdaptorTest(int, char* [] )
     ++v_iter ;
     }
 
-  typedef DummyImageToListAdaptor< ScalarImageType, 
-    FixedArrayMeasurementVectorSpecification< ScalarImageType> 
-    > ScalarListType ;
+  typedef DummyScalarImageToListAdaptor< ScalarImageType > ScalarListType ;
   ScalarListType::Pointer sList = ScalarListType::New() ;
   sList->SetImage( scalarImage ) ;
 
@@ -203,11 +359,22 @@ int itkDummyImageToListAdaptorTest(int, char* [] )
   ImageListType::Pointer imageList = ImageListType::New() ;
   imageList->SetImage( caster->GetOutput() ) ;
 
+  typedef DummyJointDomainImageToListAdaptor< VectorImageType, 
+    float > JointDomainImageListType ;
+  JointDomainImageListType::Pointer jointDomainImageList = 
+    JointDomainImageListType::New() ;
+  jointDomainImageList->SetImage( vectorImage ) ;
+
   std::cout << "Testing the each measurement values:" << std::endl ;
-  for ( int i = 0 ; i < size[0] * size[1] * size[2] ; ++i )
+  for ( unsigned long i = 0 ; i < size[0] * size[1] * size[2] ; ++i )
     {
-    if ( sList->GetMeasurementVector( i )[0] != vList->GetMeasurementVector( i )[0] 
-         || sList->GetMeasurementVector( i )[0] != imageList->GetMeasurementVector( i )[0] )
+    if ( sList->GetMeasurementVector( i )[0] != 
+         vList->GetMeasurementVector( i )[0] 
+         || sList->GetMeasurementVector( i )[0] != 
+         imageList->GetMeasurementVector( i )[0] 
+         || sList->GetMeasurementVector( i )[0] != 
+         jointDomainImageList->GetMeasurementVector( i )[3] 
+      )
       {
       std::cout << "ERROR: measurement mismatch!!!" << std::endl ;
       return EXIT_FAILURE ;
@@ -218,9 +385,9 @@ int itkDummyImageToListAdaptorTest(int, char* [] )
   
   std::cout << "Scalar image (casted) pixel access performance test:" << std::endl ;
   time_t begin = clock() ;
-  for ( int i = 0 ; i < size[0] * size[1] * size[2] ; ++i )
+  for ( unsigned long i = 0 ; i < size[0] * size[1] * size[2] ; ++i )
     {
-    ArrayPixelType& temp =  imageList->GetMeasurementVector( i )  ;
+    imageList->GetMeasurementVector( i )  ;
     }
   time_t end = clock() ;
 
@@ -230,9 +397,9 @@ int itkDummyImageToListAdaptorTest(int, char* [] )
 
   std::cout << "Scalar image pixel access performance test:" << std::endl ;
   begin = clock() ;
-  for ( int i = 0 ; i < size[0] * size[1] * size[2] ; ++i )
+  for ( unsigned long i = 0 ; i < size[0] * size[1] * size[2] ; ++i )
     {
-    ArrayPixelType& temp =  sList->GetMeasurementVector( i )  ;
+    sList->GetMeasurementVector( i )  ;
     }
   end = clock() ;
 
@@ -242,9 +409,9 @@ int itkDummyImageToListAdaptorTest(int, char* [] )
 
   std::cout << "Vector image pixel access performance test:" << std::endl ;
   begin = clock() ;
-  for ( int i = 0 ; i < size[0] * size[1] * size[2] ; ++i )
+  for ( unsigned long i = 0 ; i < size[0] * size[1] * size[2] ; ++i )
     {
-    VectorPixelType& temp =  vList->GetMeasurementVector( i )  ;
+    vList->GetMeasurementVector( i )  ;
     }
   end = clock() ;
 
@@ -252,6 +419,18 @@ int itkDummyImageToListAdaptorTest(int, char* [] )
             << (double(end - begin) /CLOCKS_PER_SEC) 
             << " seconds" << std::endl ;
 
+  std::cout << "Joint Domain Vector image pixel access performance test:" << std::endl ;
+  begin = clock() ;
+  for ( unsigned long i = 0 ; i < size[0] * size[1] * size[2] ; ++i )
+    {
+      std::cout << jointDomainImageList->GetMeasurementVector( i ) 
+                << std::endl ;
+    }
+  end = clock() ;
+
+  std::cout << "time: " 
+            << (double(end - begin) /CLOCKS_PER_SEC) 
+            << " seconds" << std::endl ;
 
   return EXIT_SUCCESS ;
 }
