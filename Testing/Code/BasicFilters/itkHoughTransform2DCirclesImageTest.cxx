@@ -14,6 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
 #include "itkHoughTransform2DCirclesImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkThresholdImageFilter.h"
