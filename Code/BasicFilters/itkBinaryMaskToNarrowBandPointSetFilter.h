@@ -103,8 +103,7 @@ public:
       every pixel to the border of the binary mask. It uses internally a 
       FastMarching filter for propagating a from from the edges of the binary
       mask.  */
-  typedef typename itk::ReinitializeLevelSetImageFilter< 
-                                            RealImageType >
+  typedef ReinitializeLevelSetImageFilter< RealImageType >
                                                     DistanceFilterType;
  
   typedef typename DistanceFilterType::Pointer                  DistanceFilterPointer; 
@@ -117,9 +116,7 @@ public:
   /** The ReinitializeLevelSetImageFilter expect the input to be binary
       withing the range [-0.5:0.5]. This filte will scale the input to
       fit in this range. */
-  typedef itk::RescaleIntensityImageFilter< 
-                                        InputImageType, 
-                                        RealImageType > RescaleFilterType;
+  typedef RescaleIntensityImageFilter< InputImageType, RealImageType > RescaleFilterType;
 
   typedef typename RescaleFilterType::Pointer         RescaleFilterPointer;
 
