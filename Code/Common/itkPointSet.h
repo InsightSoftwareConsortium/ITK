@@ -59,7 +59,8 @@ namespace itk
   
 template <
   typename TPixelType,
-  typename TMeshTraits = DefaultStaticMeshTraits< TPixelType >
+  unsigned int VDimension = 3,
+  typename TMeshTraits = DefaultStaticMeshTraits< TPixelType, VDimension >
   >
 class PointSet: public DataObject
 {

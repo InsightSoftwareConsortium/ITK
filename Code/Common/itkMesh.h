@@ -64,9 +64,10 @@ namespace itk
   
 template <
   typename TPixelType,
-  typename TMeshTraits = DefaultStaticMeshTraits< TPixelType >
+  unsigned int VDimension = 3,
+  typename TMeshTraits = DefaultStaticMeshTraits< TPixelType , VDimension >
   >
-class Mesh : public PointSet<TPixelType, TMeshTraits>
+class Mesh : public PointSet<TPixelType, VDimension, TMeshTraits>
 {
 public:
   /**
@@ -77,7 +78,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef PointSet<TPixelType,TMeshTraits>  Superclass;
+  typedef PointSet<TPixelType, VDimension, TMeshTraits>  Superclass;
 
   /**
    * Smart pointer typedef support.

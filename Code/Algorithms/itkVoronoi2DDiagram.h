@@ -42,8 +42,8 @@ namespace itk
  */
 template <typename TCoordType>
 class Voronoi2DDiagram:
-public Mesh <TCoordType, 
-DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType> >
+    public Mesh <TCoordType, 2,
+                 DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType> >
 {
 public:
   /**
@@ -54,8 +54,8 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Mesh <TCoordType, 
-    DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType> >
+  typedef Mesh <TCoordType, 2,
+                DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType> >
                   Superclass;
 
   /**

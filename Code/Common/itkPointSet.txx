@@ -23,9 +23,9 @@
 namespace itk
 {
   
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
   Superclass::PrintSelf(os, indent);
@@ -44,9 +44,9 @@ PointSet<TPixelType,TMeshTraits>
 /**
  * Access routine to set the points container.
  */
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::SetPoints(PointsContainer* points)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -62,9 +62,9 @@ PointSet<TPixelType,TMeshTraits>
 /**
  * Access routine to get the points container.
  */
-template <typename TPixelType, typename TMeshTraits>
-PointSet<TPixelType,TMeshTraits>::PointsContainerPointer
-PointSet<TPixelType,TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>::PointsContainerPointer
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetPoints(void)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -80,9 +80,9 @@ PointSet<TPixelType,TMeshTraits>
 /**
  * Access routine to set the point data container.
  */
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::SetPointData(PointDataContainer* pointData)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -98,9 +98,9 @@ PointSet<TPixelType,TMeshTraits>
 /**
  * Access routine to get the point data container.
  */
-template <typename TPixelType, typename TMeshTraits>
-PointSet<TPixelType,TMeshTraits>::PointDataContainerPointer
-PointSet<TPixelType,TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>::PointDataContainerPointer
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetPointData(void)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -114,9 +114,9 @@ PointSet<TPixelType,TMeshTraits>
  * Assign a point to a point identifier.  If a spot for the point identifier
  * does not exist, it will be created automatically.
  */
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::SetPoint(PointIdentifier ptId, PointType point)
 {
   /**
@@ -141,9 +141,9 @@ PointSet<TPixelType,TMeshTraits>
  * If "point" is NULL, then it is never set, but the existence of the point
  * is still returned.
  */
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetPoint(PointIdentifier ptId, PointType* point) const
 {
   /**
@@ -166,9 +166,9 @@ PointSet<TPixelType,TMeshTraits>
  * does not exist, it will be created automatically.  There is no check if
  * a point with the same identifier exists.
  */
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::SetPointData(PointIdentifier ptId, PixelType data)
 {
   /**
@@ -193,9 +193,9 @@ PointSet<TPixelType,TMeshTraits>
  * If "data" is NULL, then it is never set, but the existence of the point
  * data is still returned.
  */
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetPointData(PointIdentifier ptId, PixelType* data) const
 {
   /**
@@ -215,9 +215,9 @@ PointSet<TPixelType,TMeshTraits>
  * Copy the geometric and topological structure of the given input mesh.
  * The copying is done via reference counting.
  */
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::PassStructure(Self* in_mesh)
 {
   // IMPLEMENT ME
@@ -227,9 +227,9 @@ PointSet<TPixelType,TMeshTraits>
 /**
  * Get the number of points in the PointsContainer.
  */
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 unsigned long
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetNumberOfPoints(void)
 {  
   return m_PointsContainer->Size();
@@ -238,9 +238,9 @@ PointSet<TPixelType,TMeshTraits>
 /**
  * Get the bounding box of the entire mesh.
  */
-template <typename TPixelType, typename TMeshTraits>
-PointSet<TPixelType,TMeshTraits>::BoundingBoxPointer 
-PointSet<TPixelType,TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>::BoundingBoxPointer 
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetBoundingBox(void)
 {
   return m_BoundingBox;
@@ -253,9 +253,9 @@ PointSet<TPixelType,TMeshTraits>
  * a point is found, its PointIdentifier is set through the "pointId" pointer
  * (if it isn't NULL).
  */
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::FindClosestPoint(CoordRepType coords[PointDimension],
                    PointIdentifier* pointId)
 {
@@ -269,9 +269,9 @@ PointSet<TPixelType,TMeshTraits>
  * Restore the PointSet to its initial state.  Useful for data pipeline updates
  * without memory re-allocation.
  */
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::ReInitialize(void)
 {
   // IMPLEMENT ME
@@ -285,8 +285,8 @@ PointSet<TPixelType,TMeshTraits>
  * A protected default constructor allows the New() routine to create an
  * instance of PointSet.  All the containers are initialized to non-existent.
  */
-template <typename TPixelType, typename TMeshTraits>
-PointSet<TPixelType,TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::PointSet():
   m_PointsContainer(0),
   m_PointDataContainer(0)
@@ -306,9 +306,9 @@ PointSet<TPixelType,TMeshTraits>
 
 
 //----------------------------------------------------------------------------
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void 
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::UpdateOutputInformation()
 {
   if (this->GetSource())
@@ -329,9 +329,9 @@ PointSet<TPixelType,TMeshTraits>
 }
 
 //----------------------------------------------------------------------------
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void 
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::SetRequestedRegionToLargestPossibleRegion()
 {
   m_RequestedNumberOfRegions     = 1;
@@ -339,9 +339,9 @@ PointSet<TPixelType,TMeshTraits>
 }
 
 //----------------------------------------------------------------------------
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void 
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::CopyInformation(DataObject *data)
 {
   PointSet *mesh;
@@ -362,9 +362,9 @@ PointSet<TPixelType,TMeshTraits>
 }
 
 //----------------------------------------------------------------------------
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void 
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::SetRequestedRegion(DataObject *data)
 {
   PointSet *mesh;
@@ -387,9 +387,9 @@ PointSet<TPixelType,TMeshTraits>
 
 
 //----------------------------------------------------------------------------
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool 
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
   if ( m_RequestedRegion != m_BufferedRegion ||
@@ -401,9 +401,9 @@ PointSet<TPixelType,TMeshTraits>
   return false;
 }
 
-template <typename TPixelType, typename TMeshTraits>
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool 
-PointSet<TPixelType,TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::VerifyRequestedRegion()
 {
   bool retval = true;
