@@ -234,8 +234,8 @@ class Vector {
   { return m_Vector[i]; }
 
   
- private:
-  vnl_vector_fixed<T, TVectorDimension> m_Vector;
+  private:
+    VectorType       m_Vector;
 };
 
   
