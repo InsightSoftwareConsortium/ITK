@@ -27,7 +27,7 @@ namespace itk
  * \brief Decrease the number of dimensions in an image. 
  *
  * RemoveDimensionsImageFilter removes M number of dimensions in a image of
- * N dimensions.  The output image will have N-M dimensions (outputImageDimension).
+ * N dimensions.  The output image will have N-M dimensions (OutputImageDimension).
  * An array of unsigned int is passed in containing the dimensions to remove 
  * with the first dimension defined as 0, the second dimension as 1,...  
  * An itkIndex specifies what dimensions to remove.  The dimensions that are 
@@ -42,16 +42,17 @@ namespace itk
  * 
  * \ingroup GeometricTransforms
  */
-template <class TInputImage, unsigned int outputImageDimension>
+template <class TInputImage, unsigned int OutputImageDimension>
 class ITK_EXPORT RemoveDimensionsImageFilter:
   public ImageToImageFilter<TInputImage, 
-                            Image< typename TInputImage::PixelType, outputImageDimension> >
+                            Image< typename TInputImage::PixelType, OutputImageDimension> >
 {
 public:
   /** Standard class typedefs. */
   typedef RemoveDimensionsImageFilter Self;
   typedef ImageToImageFilter<TInputImage, 
-                             Image<typename TInputImage::PixelType, outputImageDimension> >  Superclass;
+                             Image<typename TInputImage::PixelType, OutputImageDimension> >  Superclass;
+
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -62,7 +63,7 @@ public:
   itkTypeMacro(RemoveDimensionsImageFilter, ImageToImageFilter);
 
   /** typedef the output image type */
-  typedef Image< typename TInputImage::PixelType, outputImageDimension>  TOutputImage;
+  typedef Image< typename TInputImage::PixelType, OutputImageDimension>  TOutputImage;
 
 
   /** Typedef to describe the output and input image region types. */
@@ -86,14 +87,20 @@ public:
   itkSetMacro(RemoveDimensionsIndex, InputImageIndexType);
   itkGetMacro(RemoveDimensionsIndex, InputImageIndexType);
                  
-  /** ExtractImageFilter produces an image which is a different resolution
-   * than its input image.  As such, ExtractImageFilter needs to
-   * provide an implementation for GenerateOutputInformation() in order
-   * to inform the pipeline execution model.  The original
-   * documentation of this method is below.
-   * \sa ProcessObject::GenerateOutputInformaton()  */
+  /** RemoveDimensionsImageFilter produces an image with different number of 
+   * dimension than the input image.  As such, RemoveDimensionsImageFilter 
+   * needs to provide an implementation for GenerateOutputInformation() in 
+   * order to inform the pipeline execution model.  The original documentation 
+   * of this method is below.
+   * \sa ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation();
-  void GenerateInputRequestedRegion();
+
+  /** RemoveDimensionsImageFilter needs different input requested region than 
+   * the output requested region.  As such, RemoveDimensionsImageFilter needs 
+   * to provide an implementation for GenerateInputRequestedRegion() in order 
+   * to inform the pipeline execution model.
+   * \sa ProcessObject::GenerateInputRequestedRegion() */
+  virtual void GenerateInputRequestedRegion();
 
 protected:
   RemoveDimensionsImageFilter();

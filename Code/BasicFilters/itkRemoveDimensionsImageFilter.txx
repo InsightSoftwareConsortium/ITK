@@ -29,8 +29,8 @@ namespace itk
 /**
  *
  */
-template <class TInputImage, unsigned int outputImageDimension>
-RemoveDimensionsImageFilter<TInputImage,outputImageDimension>
+template <class TInputImage, unsigned int OutputImageDimension>
+RemoveDimensionsImageFilter<TInputImage,OutputImageDimension>
 ::RemoveDimensionsImageFilter()
 {
 }
@@ -39,9 +39,9 @@ RemoveDimensionsImageFilter<TInputImage,outputImageDimension>
 /**
  *
  */
-template <class TInputImage, unsigned int outputImageDimension>
+template <class TInputImage, unsigned int OutputImageDimension>
 void 
-RemoveDimensionsImageFilter<TInputImage,outputImageDimension>
+RemoveDimensionsImageFilter<TInputImage,OutputImageDimension>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -49,75 +49,71 @@ RemoveDimensionsImageFilter<TInputImage,outputImageDimension>
 }
 
 
-/** 
- * RemoveDimensionsImageFilter produces an image which is a different 
- * resolution than its input image.  As such, 
- * RemoveDimensionsImageFilter needs to provide an implementation for 
- * GenerateOutputInformation() in order to inform the pipeline 
- * execution model.  The original documentation of this method is below.
- *
- * \sa ProcessObject::GenerateOutputInformaton() 
- */
+/** RemoveDimensionsImageFilter produces an image with different number of 
+ * dimension than the input image.  As such, RemoveDimensionsImageFilter 
+ * needs to provide an implementation for GenerateOutputInformation() in 
+ * order to inform the pipeline execution model.  The original documentation 
+ * of this method is below.
+ * \sa ProcessObject::GenerateOutputInformaton() */
 
-
-template <class TInputImage, unsigned int outputImageDimension>
+template <class TInputImage, unsigned int OutputImageDimension>
 void 
-RemoveDimensionsImageFilter<TInputImage,outputImageDimension>
+RemoveDimensionsImageFilter<TInputImage,OutputImageDimension>
 ::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
-
   Superclass::GenerateOutputInformation();
  
   // get pointers to the input and output
-  OutputImagePointer      outputPtr = this->GetOutput();
-  InputImageConstPointer  inputPtr  = this->GetInput();
+  OutputImagePointer outputPtr = this->GetOutput();
+  InputImageConstPointer inputPtr =  this->GetInput();
 
-  if ( !outputPtr || !inputPtr)
+  if ( !outputPtr || !inputPtr )
     {
     return;
     }
 
-  // Set the output image size to the same value as the extraction region.
-//  outputPtr->SetLargestPossibleRegion( m_ExtractionRegion );
+  //Get spacing and origin of the input image;
+  const double *inputSpacing = inputPtr->GetSpacing();
+  const double *inputOrigin = inputPtr->GetOrigin();
+
+  //Set the spacing and origin of the output image to correspond 
+  //to the input image
+  double outputSpacing[OutputImageDimension]; // output image spacing
+  double outputOrigin[OutputImageDimension];  // output image origin
+  int i;
+  int count = 0;
+  for (i=0; i < InputImageDimension; i++)
+    {
+    if (!m_RemoveDimensionsIndex[i])
+      {
+      outputSpacing[count] = inputSpacing[i];
+      outputOrigin[count] = inputOrigin[i];
+      count++;
+      }
+    }
+  outputPtr->SetSpacing(outputSpacing);
+  outputPtr->SetOrigin(outputOrigin);
 }
 
 
 
 
-//-----------------------------------------------------------------------
-//
-template <class TInputImage, unsigned int outputImageDimension>
+/** RemoveDimensionsImageFilter needs only a small portion of an input
+ * image.  For every dimension that is to be removed, we only need to
+ * look at one particular value in that dimension in order to get the 
+ * correct output.
+ */
+template <class TInputImage, unsigned int OutputImageDimension>
 void 
-RemoveDimensionsImageFilter<TInputImage,outputImageDimension>
+RemoveDimensionsImageFilter<TInputImage,OutputImageDimension>
 ::GenerateInputRequestedRegion()
 {
-  InputImagePointer inputPtr =  const_cast< InputImageType * >( this->GetInput().GetPointer() );
-  inputPtr->SetRequestedRegionToLargestPossibleRegion();
-}
-
-
-
-//-----------------------------------------------------------------------
-//
-template <class TInputImage, unsigned int outputImageDimension>
-void 
-RemoveDimensionsImageFilter<TInputImage,outputImageDimension>
-::GenerateData()
-{
   int i;
-
-  itkDebugMacro(<<"Actually executing");
-  
-  // Get the input and output pointers
-  InputImageConstPointer  inputPtr = this->GetInput();
+  InputImagePointer inputPtr =  const_cast< InputImageType * >( this->GetInput().GetPointer() );
   InputImageRegionType inputRegion = inputPtr->GetLargestPossibleRegion();
   InputImageSizeType inputSize = inputRegion.GetSize();
   InputImageIndexType inputIndex;
-  OutputImagePointer outputPtr = this->GetOutput();
-  OutputImageRegionType outputRegion = outputPtr->GetLargestPossibleRegion();
-  outputPtr->SetBufferedRegion(outputPtr->GetLargestPossibleRegion());
-  outputPtr->Allocate();
 
   //check if m_RemoveDimensionsIndex is consistent with input and output
   //image dimensions, and with the m_RemoveDimensionsIndex.  If they arent 
@@ -143,16 +139,37 @@ RemoveDimensionsImageFilter<TInputImage,outputImageDimension>
     }
   */
 
-  //now setup the start index for the input image region iterator
   inputIndex = m_RemoveDimensionsIndex;
   inputRegion.SetIndex(inputIndex);
   inputRegion.SetSize(inputSize);
+  inputPtr->SetRequestedRegion( inputRegion );
+
+}
+
+
+
+//-----------------------------------------------------------------------
+//
+template <class TInputImage, unsigned int OutputImageDimension>
+void 
+RemoveDimensionsImageFilter<TInputImage,OutputImageDimension>
+::GenerateData()
+{
+
+  itkDebugMacro(<<"Actually executing");
+  
+  // Get the input and output pointers
+  InputImageConstPointer  inputPtr = this->GetInput();
+  OutputImagePointer outputPtr = this->GetOutput();
+  OutputImageRegionType outputRegion = outputPtr->GetLargestPossibleRegion();
+  outputPtr->SetBufferedRegion(outputPtr->GetLargestPossibleRegion());
+  outputPtr->Allocate();
 
   // Define and setup the iterators.
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
   typedef ImageRegionConstIterator<TInputImage> InputIterator;
   OutputIterator outIt(outputPtr, outputRegion);
-  InputIterator inIt(inputPtr, inputRegion);
+  InputIterator inIt(inputPtr, inputPtr->GetRequestedRegion());
   
   //walk the input and output and set the output.
   for (outIt.GoToBegin(), inIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++inIt)
