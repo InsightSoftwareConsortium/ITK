@@ -107,11 +107,11 @@ Vector<T, TVectorDimension>
 template<class T, unsigned int TVectorDimension>
 const Vector<T, TVectorDimension> &
 Vector<T, TVectorDimension>
-::operator+=( const Vector<T, TVectorDimension> & vector )
+::operator+=( const Vector<T, TVectorDimension> & vec )
 {
   for( unsigned int i=0; i<TVectorDimension; i++) 
   {
-    (*this)[i] += vector[i];
+    (*this)[i] += vec[i];
   }
   return *this;
 }
@@ -123,11 +123,11 @@ Vector<T, TVectorDimension>
 template<class T, unsigned int TVectorDimension>
 const Vector<T, TVectorDimension> &
 Vector<T, TVectorDimension>
-::operator-=( const Vector<T, TVectorDimension> & vector )
+::operator-=( const Vector<T, TVectorDimension> & vec )
 {
   for( unsigned int i=0; i<TVectorDimension; i++) 
   {
-    (*this)[i] -= vector[i];
+    (*this)[i] -= vec[i];
   }
   return *this;
 }
@@ -157,12 +157,12 @@ Vector<T, TVectorDimension>
 template<class T, unsigned int TVectorDimension>
 Vector<T, TVectorDimension> 
 Vector<T, TVectorDimension>
-::operator+( const Vector<T, TVectorDimension> & vector ) const
+::operator+( const Vector<T, TVectorDimension> & vec ) const
 {
   Self result;
   for( unsigned int i=0; i<TVectorDimension; i++) 
   {
-    result[i] = (*this)[i] + vector[i];
+    result[i] = (*this)[i] + vec[i];
   }
   return result;
 }
@@ -175,12 +175,12 @@ Vector<T, TVectorDimension>
 template<class T, unsigned int TVectorDimension>
 Vector<T, TVectorDimension> 
 Vector<T, TVectorDimension>
-::operator-( const Vector<T, TVectorDimension> & vector )  const
+::operator-( const Vector<T, TVectorDimension> & vec )  const
 {
   Self result;
   for( unsigned int i=0; i<TVectorDimension; i++) 
   {
-    result[i] = (*this)[i] - vector[i];
+    result[i] = (*this)[i] - vec[i];
   }
   return result;
 }
