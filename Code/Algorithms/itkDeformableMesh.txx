@@ -19,7 +19,7 @@
 #include "itkMesh.h"
 #include "itkTriangleCell.h"
 #include "itkDeformableMesh.h"
-#include "vnl_math.h"
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
@@ -96,7 +96,7 @@ DeformableMesh<PixelType>
 //  this->GetCellData()->Reserve(numcells);
 
   PointsContainerPointer      myPoints = GetPoints();
-  PointsContainer::Iterator   point    = myPoints->Begin();
+  typename PointsContainer::Iterator   point    = myPoints->Begin();
 //  CellDataContainerPointer      myCellData = GetCellData();
 //  CellDataContainer::Iterator   celldata    = myCellData->Begin();
   PointType p1;
@@ -190,5 +190,3 @@ DeformableMesh<PixelType>
 }
 
 } // end namespace itk
-
-  
