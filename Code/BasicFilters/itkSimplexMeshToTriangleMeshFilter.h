@@ -28,7 +28,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkMeshToMeshFilter.h"
 #include "itkVectorContainer.h"
 #include "itkMapContainer.h"
-#include <itkAutomaticTopologyMeshSource.h>
+#include "itkAutomaticTopologyMeshSource.h"
 
 namespace itk
   {
