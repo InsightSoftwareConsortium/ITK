@@ -151,7 +151,7 @@ start:
 
   /**
    * Return a pointer to a newly created object if all was OK
-   * technically everithing should be fine here (a!=0), but we
+   * Technically everithing should be fine here (a!=0), but we
    * check again, just in case.
    */
   if (a) { return a; }
@@ -167,7 +167,7 @@ out:
   /**
    * Throw an IO exception
    */
-  throw std::runtime_error("Error reading system from stream!");
+  throw FEMExceptionIO(__FILE__,__LINE__,"Solver::ReadAnyObjectFromStream()","Error reading FEM problem stream!");
 
 }
 
@@ -232,7 +232,7 @@ void Solver::Read(std::istream& f) {
     o=0;
 
     /** then we throw an exception */
-    throw std::runtime_error("Error reading system from stream! Unknown object!");
+    throw FEMExceptionIO(__FILE__,__LINE__,"Solver::Read()","Error reading FEM problem stream!");
 
   } while ( o );
 

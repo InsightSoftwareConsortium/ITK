@@ -145,7 +145,7 @@ FEMPArray<T>::ClassTypePointer FEMPArray<T>::Find(int gn)
     for(i=begin(); i!=end() && (*i)->GN!=gn; i++);
 
     /**
-     * We din't find an object with that GN. Throw an exception.
+     * We din't find an object with that GN...
      */
     if(i==end())
     {

@@ -90,9 +90,17 @@ void LoadElement::Read( std::istream& f, void* info )
       int m;
       SkipWhiteSpace(f); f>>m; if(!f) goto out;
       Element::ConstPointer e;
-      if ( !(e=elements->Find(m)) )
-        throw std::runtime_error("Global element number not found!");
+      try
+      {
+        e=elements->Find(m);
+      }
+      catch ( FEMExceptionObjectNotFound e )
+      {
+        throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"LoadElementBase::Read()",e.m_baseClassName,e.m_GN);
+      }
+
       el.push_back(e);
+
     }
 
   }
@@ -100,7 +108,10 @@ void LoadElement::Read( std::istream& f, void* info )
   
 out:
 
-  if( !f ) throw std::runtime_error("Error reading load!");
+  if( !f )
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"LoadElementBase::Read()","Error reading FEM load!");
+  }
 
 }
 
@@ -132,7 +143,11 @@ void LoadElement::Write( std::ostream& f, int ofid ) const {
   }
 
   /** check for errors */
-  if (!f) { throw std::runtime_error("Error writing load!"); }
+  if (!f)
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"LoadElement::Write()","Error writing FEM load!");
+  }
+
 }
 
 FEM_CLASS_REGISTER(LoadElement)

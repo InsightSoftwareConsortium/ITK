@@ -57,7 +57,7 @@ namespace fem {
  * read the NodeXYZ from input stream
  */
 void NodeXYZ::Read(  std::istream& f, void* info )
-  {
+{
   Float d;
 
   std::cout << "TS: Reading node" << std::endl;
@@ -85,18 +85,21 @@ void NodeXYZ::Read(  std::istream& f, void* info )
   SkipWhiteSpace(f); f>>d; if(!f) goto out;
   Z=d;
 
-  out:
 
-  if( !f ) 
-    {
-    throw std::runtime_error("Error reading node!");
-    }
+out:
+
+  if( !f )
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"NodeXYZ::Read()","Error reading FEM node!");
   }
+
+}
 
 /**
  * writes the NodeXYZ to the output stream
  */
-void NodeXYZ::Write( std::ostream& f, int ofid ) const {
+void NodeXYZ::Write( std::ostream& f, int ofid ) const
+{
 
   /**
    * if not set already, se set the ofid
@@ -120,14 +123,16 @@ void NodeXYZ::Write( std::ostream& f, int ofid ) const {
   f<<"\t"<<this->Y<<"\t% Y"<<"\n";
   f<<"\t"<<this->Z<<"\t% Z"<<"\n";
 
-  /**
-   * check for errors
-   */
-  if (!f) 
-    {
-    throw std::runtime_error("Error writing node!");
-    }
-  }  
+  /** check for errors */
+  if (!f)
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"NodeXYZ::Write()","Error writing FEM node!");
+  }
+
+}
+
+
+
 
 /**
  * Windows visualization

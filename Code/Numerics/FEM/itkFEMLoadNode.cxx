@@ -70,8 +70,14 @@ void LoadNode::Read( std::istream& f, void* info )
 
   /** read and set pointer to node that we're applying the load to */
   SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(node=dynamic_cast<const Node*>( &*nodes->Find(n)) ) )
-    throw std::runtime_error("Global node number not found!");
+  try
+  {
+    node=dynamic_cast<const Node*>( &*nodes->Find(n));
+  }
+  catch ( FEMExceptionObjectNotFound e )
+  {
+    throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"LoadNode::Read()",e.m_baseClassName,e.m_GN);
+  }
   
   /** read and set the number of elements inside a force vector */
   SkipWhiteSpace(f); f>>n; if(!f) goto out;
@@ -82,7 +88,10 @@ void LoadNode::Read( std::istream& f, void* info )
 
 out:
 
-  if( !f ) { throw std::runtime_error("Error reading load!"); }
+  if( !f )
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"LoadNode::Read()","Error reading FEM load!");
+  }
 
 }
 
@@ -105,7 +114,11 @@ void LoadNode::Write( std::ostream& f, int ofid ) const {
   f<<"\t"<<F.size()<<" "<<F<<"\t% Force vector (first number is the size of a vector)\n";
 
   /** check for errors */
-  if (!f) { throw std::runtime_error("Error writing load!"); }
+  if (!f)
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"LoadNode::Write()","Error writing FEM load!");
+  }
+
 }
 
 FEM_CLASS_REGISTER(LoadNode)

@@ -84,7 +84,10 @@ void LoadEdge::Read( std::istream& f, void* info )
 
 out:
 
-  if( !f ) { throw std::runtime_error("Error reading load!"); }
+  if( !f )
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"LoadEdge::Read()","Error reading FEM load!");
+  }
 
 }
 
@@ -122,7 +125,10 @@ void LoadEdge::Write( std::ostream& f, int ofid ) const
   }
 
   /** check for errors */
-  if (!f) { throw std::runtime_error("Error writing load!"); }
+  if (!f)
+  { 
+    throw FEMExceptionIO(__FILE__,__LINE__,"LoadBCMFC::Write()","Error writing FEM load!");
+  }
 
 }
 

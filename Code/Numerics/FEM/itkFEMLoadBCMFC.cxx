@@ -91,8 +91,14 @@ void LoadBCMFC::Read( std::istream& f, void* info )
     /** read and set pointer to node that we're applying the load to */
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
     Node::ConstPointer node;
-    if ( !(node=dynamic_cast<const Node*>( &*nodes->Find(n)) ) )
-      throw std::runtime_error("Global node number not found!");
+    try
+    {
+      node=dynamic_cast<const Node*>( &*nodes->Find(n));
+    }
+    catch ( FEMExceptionObjectNotFound e )
+    {
+      throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"LoadBCMFC::Read()",e.m_baseClassName,e.m_GN);
+    }
 
     /** read the number of dof within that node */
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
@@ -111,7 +117,10 @@ void LoadBCMFC::Read( std::istream& f, void* info )
 
 out:
 
-  if( !f ) throw std::runtime_error("Error reading load!");
+  if( !f )
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"LoadBCMFC::Read()","Error reading FEM load!");
+  }
 
 }
 
@@ -150,7 +159,10 @@ void LoadBCMFC::Write( std::ostream& f, int ofid ) const
   f<<" "<<rhs<<"\t% rhs of MFC"<<"\n";
 
   /** check for errors */
-  if (!f) { throw std::runtime_error("Error writing load!"); }
+  if (!f)
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"LoadBCMFC::Write()","Error writing FEM load!");
+  }
 
 }
 

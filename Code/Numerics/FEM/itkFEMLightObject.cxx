@@ -67,7 +67,10 @@ void FEMLightObject::Read( std::istream& f, void* info )
 
 out:
 
-  if( !f ) { throw FEMExceptionIO(__FILE__,__LINE__,"FEMLightObject::Read","Error reading FEM object!"); }
+  if( !f )
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"FEMLightObject::Read","Error reading FEM object!");
+  }
 
 }
 

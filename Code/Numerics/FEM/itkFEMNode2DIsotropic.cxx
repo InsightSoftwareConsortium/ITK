@@ -73,27 +73,11 @@ void Node2DIsotropic::Read(  std::istream& f, void* info )
 
 out:
 
-  if( !f ) throw std::runtime_error("Error reading node!");
+  if( !f )
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"Node2DIsotropic::Read()","Error reading FEM node!");
+  }
 
-/*  int n;
-  Float d;
-
-  // read and set the global node number
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  GN=n;
-
-  // read and set first coordinate
-  SkipWhiteSpace(f); f>>d; if(!f) goto out;
-  X=d;
-
-  // read and set second coordinate
-  SkipWhiteSpace(f); f>>d; if(!f) goto out;
-  Y=d;
-
-out:
-
-  if( !f ) throw std::runtime_error("Error reading node!");
-*/
 }
 
 
@@ -122,7 +106,11 @@ void Node2DIsotropic::Write( std::ostream& f, int ofid ) const {
   f<<"\t"<<Y<<"\t% Y"<<"\n";
 
   /** check for errors */
-  if (!f) { throw std::runtime_error("Error writing node!"); }
+  if (!f)
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"Node2DIsotropic::Write()","Error writing FEM node!");
+  }
+
 }
 
 FEM_CLASS_REGISTER(Node2DIsotropic)

@@ -137,17 +137,19 @@ std::string::size_type b,e;
 
     /**
      * If we got here an unknown constant was reached.
-     * We reset the stream position and throw an exception.
+     * We reset the stream position and set the stream error.
      */
     f.seekg(l);
-    throw std::runtime_error("Error reading material!");
+    f.clear(std::ios::failbit);
 
   }
 
 out:
 
-  if( !f ) { throw std::runtime_error("Error reading material!"); }
-
+  if( !f )
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"MaterialStandard::Read()","Error reading FEM material!");
+  }
 
 }
 
@@ -173,7 +175,11 @@ void MaterialStandard::Write( std::ostream& f, int ofid ) const {
   f<<"\tEND:\t% End of material definition\n";
 
   /** check for errors */
-  if (!f) { throw std::runtime_error("Error writing material!"); }
+  if (!f)
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"MaterialStandard::Write()","Error writing FEM material!");
+  }
+
 }
 
 FEM_CLASS_REGISTER(MaterialStandard)

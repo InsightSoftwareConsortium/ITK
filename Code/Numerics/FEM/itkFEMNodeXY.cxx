@@ -57,7 +57,7 @@ namespace fem {
  * read the NodeXY from input stream
  */
 void NodeXY::Read(  std::istream& f, void* info )
-  {
+{
   Float d;
 
   /**
@@ -77,19 +77,21 @@ void NodeXY::Read(  std::istream& f, void* info )
   SkipWhiteSpace(f); f>>d; if(!f) goto out;
   Y=d;
 
-  out:
 
-    if( !f ) 
-      {
-      throw std::runtime_error("Error reading node!");
-      }  
+out:
+
+  if( !f )
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"NodeXY::Read()","Error reading FEM node!");
   }
+
+}
 
 /**
  * writes the NodeXY to the output stream
  */
 void NodeXY::Write( std::ostream& f, int ofid ) const 
-  {
+{
 
   /**
    * if not set already, se set the ofid
@@ -111,14 +113,13 @@ void NodeXY::Write( std::ostream& f, int ofid ) const
   f<<"\t"<<X<<"\t% X"<<"\n";
   f<<"\t"<<Y<<"\t% Y"<<"\n";
 
-  /**
-   * check for errors
-   */
+  /** check for errors */
   if (!f)
-    {  
-    throw std::runtime_error("Error writing node!");
-    }
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"NodeXY::Write()","Error writing FEM node!");
   }
+
+}
 
 
 /**

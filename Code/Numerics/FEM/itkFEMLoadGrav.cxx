@@ -75,7 +75,10 @@ void LoadGravConst::Read( std::istream& f, void* info )
   
 out:
 
-  if( !f ) { throw std::runtime_error("Error reading load!"); }
+  if( !f )
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"LoadGravConst::Read()","Error reading FEM load!");
+  }
 
 }
 
@@ -98,7 +101,10 @@ void LoadGravConst::Write( std::ostream& f, int ofid ) const {
   f<<"\t"<<Fg_value<<"\t% Gravity force vector\n";
 
   /** check for errors */
-  if (!f) { throw std::runtime_error("Error writing load!"); }
+  if (!f)
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"LoadGravConst::Write()","Error writing FEM load!");
+  }
 }
 
 FEM_CLASS_REGISTER(LoadGravConst)
