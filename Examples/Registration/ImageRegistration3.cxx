@@ -29,9 +29,9 @@
 // \cite{Gamma1995}. The classes involved in this implementation are the
 // \code{itk::Object}, \code{itk::Command} and \code{itk::Event} classes. The
 // \code{itk::Object} class is the base class of most ITK objects. This class
-// holds a linked list of pointers to eventual observers. The role of Observers
+// holds a linked list of pointers to event observers. The role of observers
 // is played by the \code{itk::Command} class.  Observer register themselves
-// after the \code{itk::Object} declaring that they are interested in receiving
+// with an \code{itk::Object} declaring that they are interested in receiving
 // notice when a particular event happens. A set of events are represented by
 // the hierarchy of the \code{itk::Event} class. Typical events are
 // \code{Start}, \code{End}, \code{Progress} and \code{Iteration}.
@@ -42,7 +42,7 @@
 // invoked by an object, this object goes through its list of registered
 // observers (\code{itk::Command}s) and checks if any one of them declared to
 // be interested in the current event type. Whenever such an observer is found,
-// its corresponding \code{Execute()} method is invoked.  On this context
+// its corresponding \code{Execute()} method is invoked.  In this context
 // \code{Execute()} methods should be considered as \emph{callbacks}. As such,
 // some of the common-sense rules of callbacks should be respected. For
 // example, \code{Execute()} methods should not perform heavy computational
@@ -250,7 +250,7 @@ public:
   //  Software Guide : BeginLatex
   //
   //  If the event type matches what we are looking for, we are ready for
-  //  querying data from the optimizer. Here, for example, we got the current
+  //  querying data from the optimizer. Here, for example, we get the current
   //  number of iterations, the current value of the cost function and the
   //  current position on the parameter space. All of these values are printed
   //  out to the standard output. You could imagine more elaborate actions like
