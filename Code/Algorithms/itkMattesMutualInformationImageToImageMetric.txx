@@ -58,6 +58,23 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   typename BSplineInterpolatorType::Pointer interpolator = BSplineInterpolatorType::New();
   this->SetInterpolator (interpolator);
+
+  // Initialize memory
+  m_MovingImageNormalizedMin = 0.0;
+  m_FixedImageNormalizedMin = 0.0;
+  m_MovingImageTrueMin = 0.0;
+  m_MovingImageTrueMax = 0.0;
+  m_FixedImageBinSize = 0.0;
+  m_MovingImageBinSize = 0.0;
+  m_CubicBSplineDerivativeKernel = NULL;
+  m_BSplineInterpolator = NULL;
+  m_DerivativeCalculator = NULL;
+  m_NumParametersPerDim = 0;
+  m_NumBSplineWeights = 0;
+  m_BSplineTransform = NULL;
+  m_BSplineTransformWeights.Fill( 0.0 );
+  m_BSplineTransformIndices( 0 );
+
 }
 
 

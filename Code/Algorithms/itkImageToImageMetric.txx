@@ -38,6 +38,8 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   m_GradientImage = 0; // will receive the output of the filter;
   m_ScaleGradient = 1.0f; // Default value of sigma for the gradient
   m_ComputeGradient = true; // metric computes gradient by default
+  m_NumberOfPixelsCounted = 0; // initialize to zero
+  m_GradientImage = NULL; // computed at initialization
 }
 
 
