@@ -62,9 +62,7 @@ ScaleTransform()
 template <class ScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
 ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>
-::ScaleTransform( const 
-    ScaleTransform<ScalarType, NDimensions, 
-                         TParameters, TJacobianType > & other )
+::ScaleTransform( const Self & other )
 {
   m_Scale    = other.m_Scale;
 }
