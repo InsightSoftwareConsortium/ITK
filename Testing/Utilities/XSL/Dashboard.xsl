@@ -26,7 +26,7 @@
 	<xsl:call-template name="BuildTableHeader"/>
 
           <xsl:for-each select="BuildStamp">
-            <xsl:if test="contains('Nightly',Build/BuildStamp)">
+            <xsl:if test="contains(Build/BuildStamp,'Nightly')">
               <xsl:call-template name="BuildStamp"/>
             </xsl:if>
           </xsl:for-each>
@@ -40,7 +40,7 @@
 	<xsl:call-template name="BuildTableHeader"/>
 
           <xsl:for-each select="BuildStamp">
-            <xsl:if test="not ( contains('Nightly',Build/BuildStamp) )">
+            <xsl:if test="not ( contains(Build/BuildStamp,'Nightly') )">
               <xsl:call-template name="BuildStamp"/>
             </xsl:if>
           </xsl:for-each>
