@@ -21,9 +21,10 @@
 #include "itkPoint.h"
 #include "itkSize.h"
 #include "itkObject.h"
+#include "itkFixedArray.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 /** \class Sample 
  *  \brief Sample defines common iterfaces for each subclasses
@@ -70,8 +71,7 @@ namespace itk{
  * supporting frequency is set to false. 
  */
 
-template < class TMeasurement = float, 
-  unsigned int VMeasurementVectorSize = 1 > 
+template < class TMeasurementVector >
 class ITK_EXPORT Sample : public Object
 {
 public:
@@ -82,13 +82,13 @@ public:
   itkTypeMacro(Sample, Object);
 
   /** MeasurementVector typedef support */ 
-  typedef FixedArray<TMeasurement, VMeasurementVectorSize> MeasurementVectorType ;
+  typedef TMeasurementVector MeasurementVectorType ;
 
   /** typedef for each element in a measurement vector*/ 
-  typedef TMeasurement MeasurementType ;
+  typedef typename TMeasurementVector::ValueType MeasurementType ;
 
   /** Alias for the number of measurement vector components */
-  enum { MeasurementVectorSize = VMeasurementVectorSize } ;
+  enum { MeasurementVectorSize = TMeasurementVector::Length } ;
 
   /** frequency value typedef*/
   typedef float FrequencyType ;
@@ -97,18 +97,6 @@ public:
    * this identifier will be unique sequential id for each measurement vector
    * in a Sample subclass.*/ 
   typedef unsigned long InstanceIdentifier ;
-
-//    /** size value type */
-//    typedef Size< VMeasurementVectorSize > SizeType ;
-//    typedef typename SizeType::SizeValueType SizeValueType ;
-
-//    /** returns SizeType object whose each element is the number of
-//     * elements in each dimension*/
-//    virtual SizeType GetSize() = 0 ;
-  
-//    /** returns SizeValueType value that is the number of elements in the
-//     * 'dimension' dimension.*/
-//    virtual SizeValueType GetSize(unsigned int dimension) = 0 ;
 
   virtual unsigned int Size() const = 0 ;
   virtual unsigned int Size(const unsigned int &dimension) const = 0 ;
@@ -123,24 +111,6 @@ public:
   /** returns the total frequency for the 'd' dimension*/
   virtual FrequencyType GetTotalFrequency(const unsigned int &dimension) const 
     = 0 ;
-
-  /** if a subclass of this class has its data sorted, return true* else, false.*/
-  bool IsSorted() { return m_Sorted ; }
-
-  /** sets the Sorted flag*/
-  void SetSortedFlag(bool flag) { m_Sorted = flag ; }
-
-  /** if a subclass of this class has frequency values associated with* each measurement and support GetFrequency mehtod, returns true,* else, false.*/
-  bool IsSupportingFrequency() { return m_SupportingFrequency ; }
-
-  /** sets the SupportingFrequency flag*/
-  void SetSupportingFrequencyFlag(bool flag) { m_SupportingFrequency = flag ; }
-
-  /** if a subclass of this class allowes duplicate measurement vectors, returns* true, else, false.*/
-  bool IsAllowingDuplicates() { return m_AllowingDuplicates ; }
-
-  /** sets the AllowingDuplicates flag*/
-  void SetAllowingDuplicatesFlag(bool flag) { m_AllowingDuplicates = flag ; }
   
 protected:
   Sample() {}
@@ -148,26 +118,15 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const
   {
     Superclass::PrintSelf(os,indent);
-
-    os << indent << "Sorted: " << m_Sorted << std::endl ;
-    os << indent << "SupportingFrequency: " << m_SupportingFrequency
-       << std::endl ;
-    os << indent << "AllowingDuplicates: " << m_AllowingDuplicates 
-       << std::endl ;
   }
 
   
 private:
   Sample(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
-
-  bool m_Sorted ;
-  bool m_SupportingFrequency ;
-  bool m_AllowingDuplicates ;
 } ; // end of class
 
-
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk
 
 #endif
