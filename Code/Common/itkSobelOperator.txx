@@ -108,24 +108,28 @@ SobelOperator<TPixel, VDimension, TAllocator>
   this->SetRadius(k);
   
   //calculate offset
-  unsigned int offset[6];
+  int offset[6];
 
-  offset[0] = this->GetStride(direction);
-  offset[1] = - this->GetStride(direction);
+  offset[0] =   static_cast<int>( this->GetStride(direction) );
+  offset[1] = - static_cast<int>( this->GetStride(direction) );
 
   if ( direction == 0)
     {
-      offset[2] = this->GetStride(direction) + this->GetStride(direction +1);
-      offset[3] =  this->GetStride(direction) - this->GetStride(direction +1) ;
-      offset[4] = - this->GetStride(direction) - this->GetStride(direction +1);
-      offset[5] = - this->GetStride(direction) + this->GetStride(direction +1) ;
+    const int strideA = static_cast<int>( this->GetStride(direction  ) );
+    const int strideB = static_cast<int>( this->GetStride(direction+1) );    
+    offset[2] =    strideA + strideB;
+    offset[3] =    strideA - strideB; 
+    offset[4] =  - strideA - strideB;
+    offset[5] =  - strideA + strideB;
     }
   else
     {
-      offset[2] = this->GetStride(direction) + this->GetStride(direction -1);
-      offset[3] = this->GetStride(direction) - this->GetStride(direction -1) ;
-      offset[4] = - this->GetStride(direction) - this->GetStride(direction -1);
-      offset[5] = - this->GetStride(direction) + this->GetStride(direction -1) ;
+    const int strideA = static_cast<int>( this->GetStride(direction  ) );
+    const int strideB = static_cast<int>( this->GetStride(direction-1) );    
+    offset[2] =    strideA + strideB;
+    offset[3] =    strideA - strideB;
+    offset[4] =  - strideA - strideB;
+    offset[5] =  - strideA + strideB;
     }
 
   coeff[w/2 + offset[0]] = 2.0;
@@ -137,7 +141,7 @@ SobelOperator<TPixel, VDimension, TAllocator>
 
   for ( i = 0; i < w; i ++)
     {
-      coeffP[i] = coeff[i]/8.0f;
+    coeffP[i] = coeff[i]/8.0f;
     }
 
  
