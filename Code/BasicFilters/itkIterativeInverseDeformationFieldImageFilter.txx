@@ -15,15 +15,6 @@ namespace itk{
   }
 
 
-  //----------------------------------------------------------------------------
-  // set input
-  template < class TInputImage, class TOutputImage >
-  void IterativeInverseDeformationFieldImageFilter<TInputImage, TOutputImage>
-  ::SetInput( const TInputImage *input ){
-    // The ProcessObject is not const-correct so the const_cast is required here
-    SetNthInput( 0, const_cast<TInputImage *>( input ) );
-  }
-
 
   //----------------------------------------------------------------------------
   template < class TInputImage, class TOutputImage >

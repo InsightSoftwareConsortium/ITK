@@ -96,13 +96,6 @@ namespace itk
     typedef typename FieldInterpolatorType::Pointer     FieldInterpolatorPointer;
     typedef typename FieldInterpolatorType::OutputType  FieldInterpolatorOutputType;
 
-    /** Functions. */
-    void SetInput(const InputImageType *input);
-    void SetInput( unsigned int i, const TInputImage * image)
-    {
-      Superclass::SetInput(i, image);
-    };
-
     itkSetMacro(NumberOfIterations, unsigned int);
     itkGetMacro(NumberOfIterations, unsigned int);
 
