@@ -507,17 +507,19 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
   else
     {
       n = size - 1 ;
+      InstanceIdentifier m = NumericTraits< InstanceIdentifier >::Zero;
       p_n_prev = NumericTraits< double >::One ;
-      p_n = NumericTraits< double >::One ;
+      p_n      = NumericTraits< double >::One ;
       do 
         {
           f_n = GetFrequency(n, dimension) ;
           cumulated += f_n ;
           p_n_prev = p_n ;
           p_n = NumericTraits< double >::One - cumulated / totalFrequency ;
-          n-- ;
+          n--;
+          m++;
         } 
-      while( n >= 0 && p_n > p) ;
+      while( m < size && p_n > p);
 
       binProportion = f_n / totalFrequency ;
       double min = double(GetBinMin(dimension, n + 1)) ;
