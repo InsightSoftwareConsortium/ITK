@@ -26,6 +26,7 @@ template< class TSample >
 MixtureModelComponentBase< TSample >
 ::MixtureModelComponentBase()
 {
+  m_MinimalParametersChange = 1.0e-06 ;
 }
 
 template< class TSample >
@@ -45,19 +46,31 @@ MixtureModelComponentBase< TSample >
 template< class TSample >
 void
 MixtureModelComponentBase< TSample >
-::SetSample(SamplePointer sample)
+::SetSample(TSample* sample)
 {
   m_Sample = sample ;
   this->CreateWeightArray() ;
 } 
 
 template< class TSample >
-MixtureModelComponentBase< TSample >::SamplePointer
+TSample*
 MixtureModelComponentBase< TSample >
 ::GetSample()
 {
   return m_Sample ;
 } 
+
+template< class TSample >
+void
+MixtureModelComponentBase< TSample >
+::SetParameters(const ParametersType &parameters)
+{
+  if ( m_Parameters != parameters )
+    {
+      m_Parameters = parameters ;
+      this->AreParametersModified(true) ;
+    }
+}
 
 template< class TSample >
 bool
@@ -102,13 +115,13 @@ MixtureModelComponentBase< TSample >
 template< class TSample >
 void
 MixtureModelComponentBase< TSample >
-::SetMembershipFunction(MembershipFunctionPointer function)
+::SetMembershipFunction(MembershipFunctionType* function)
 {
-  m_MembershipFunction = function;
+  m_MembershipFunction = function ;
 }
 
 template< class TSample >
-MixtureModelComponentBase< TSample >::MembershipFunctionPointer
+MixtureModelComponentBase< TSample >::MembershipFunctionType*
 MixtureModelComponentBase< TSample >
 ::GetMembershipFunction()
 {
