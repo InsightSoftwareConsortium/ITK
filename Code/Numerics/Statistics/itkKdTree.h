@@ -40,7 +40,10 @@ struct KdTreeNode
 {
   typedef KdTreeNode< TSample> Self ;
   typedef typename TSample::MeasurementType MeasurementType ;
-  typedef FixedArray< double, TSample::MeasurementVectorSize > CenteroidType ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TSample::MeasurementVectorSize) ;
+  typedef FixedArray< double, 
+                      itkGetStaticConstMacro(MeasurementVectorSize) > CenteroidType ;
   typedef typename TSample::InstanceIdentifier InstanceIdentifier ;
 
   virtual bool IsTerminal() = 0 ;
