@@ -107,6 +107,11 @@ public:
   }
 
   /**
+   * Default Destructor.
+   */
+  virtual ~ImageIterator() {};
+
+  /**
    * Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted.
    */
