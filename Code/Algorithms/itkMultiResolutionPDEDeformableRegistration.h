@@ -22,7 +22,7 @@
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkDemonsRegistrationFilter.h"
 #include "itkMultiResolutionPyramidImageFilter.h"
-#include "itkVectorExpandImageFilter.h"
+#include "itkVectorResampleImageFilter.h"
 
 #include <vector>
 
@@ -132,7 +132,7 @@ public:
   typedef typename MovingImagePyramidType::Pointer MovingImagePyramidPointer;
    
   /** The deformation field expander type. */
-  typedef VectorExpandImageFilter<
+  typedef VectorResampleImageFilter<
     DeformationFieldType, DeformationFieldType > FieldExpanderType;
   typedef typename FieldExpanderType::Pointer  FieldExpanderPointer;
 

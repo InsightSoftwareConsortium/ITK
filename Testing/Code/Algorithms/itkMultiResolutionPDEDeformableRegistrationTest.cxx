@@ -25,8 +25,7 @@
 #include "itkCommand.h"
 #include "vnl/vnl_math.h"
 
-// uncomment to output images
-//#include "itkRawImageWriter.h"
+#include "itkImageFileWriter.h"
 
 #include <iostream>
 #include <string>
@@ -143,16 +142,25 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char* [] )
   std::cout << "Generate input images and initial field";
   std::cout << std::endl;
 
-  unsigned long sizeArray[ImageDimension] = { 256,256 };
   SizeType size;
-  size.SetSize( sizeArray );
+  size.Fill( 256 );
+  size[1] = 251;
 
   IndexType index;
   index.Fill( 0 );
+  index[0] = 3;
  
   RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
+
+  ImageType::PointType origin;
+  origin.Fill( 0.0 );
+  origin[0] = 0.8;
+  
+  ImageType::SpacingType spacing;
+  spacing.Fill( 1.0 );
+  spacing[1] = 1.2;
   
   ImageType::Pointer moving = ImageType::New();
   ImageType::Pointer fixed = ImageType::New();
@@ -161,14 +169,20 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char* [] )
   moving->SetLargestPossibleRegion( region );
   moving->SetBufferedRegion( region );
   moving->Allocate();
+  moving->SetOrigin( origin );
+  moving->SetSpacing( spacing );
 
   fixed->SetLargestPossibleRegion( region );
   fixed->SetBufferedRegion( region );
   fixed->Allocate();
+  fixed->SetOrigin( origin );
+  fixed->SetSpacing( spacing );
   
   initField->SetLargestPossibleRegion( region );
   initField->SetBufferedRegion( region );
   initField->Allocate();
+  initField->SetOrigin( origin );
+  initField->SetSpacing( spacing );
 
   double center[ImageDimension];
   double radius;
@@ -199,9 +213,9 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char* [] )
   registrator->SetMovingImage( moving );
   registrator->SetFixedImage( fixed );
  
-  unsigned int numLevel = 5;
+  unsigned int numLevel = 3;
   unsigned int numIterations[10];
-  numIterations[0] = 128;
+  numIterations[0] = 64;
 
   unsigned int ilevel;
   for( ilevel = 1; ilevel < numLevel; ilevel++ )
@@ -258,21 +272,19 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char* [] )
 // uncomment to write out images
 /*
   std::cout << "Write images to file " << std::endl;
-  typedef itk::RawImageWriter<ImageType> WriterType;
+  typedef itk::ImageFileWriter<ImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();
-
-  writer->SetFileTypeToBinary();
   
   writer->SetInput( moving );
-  writer->SetFileName( "moving.raw" );
+  writer->SetFileName( "moving.png" );
   writer->Write();
 
   writer->SetInput( fixed );
-  writer->SetFileName( "fixed.raw" );
+  writer->SetFileName( "fixed.png" );
   writer->Write();
 
   writer->SetInput( warper->GetOutput() );
-  writer->SetFileName( "warp.raw" );
+  writer->SetFileName( "warp.png" );
   writer->Write();
 */
  

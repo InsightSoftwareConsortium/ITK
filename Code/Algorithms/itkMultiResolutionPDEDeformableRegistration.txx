@@ -221,7 +221,6 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
   unsigned int movingLevel, fixedLevel;
   unsigned int idim;
   float lastShrinkFactors[ImageDimension];
-  float expandFactors[ImageDimension];
 
   DeformationFieldPointer tempField = DeformationFieldType::New();
 
@@ -246,26 +245,22 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
     else
       {
 
-      // compute the expand factors for upsampling the deformation field
-      for( idim = 0; idim < ImageDimension; idim++ )
-        {
-        expandFactors[idim] = (float) 
-            ( 
-               (float)m_FixedImagePyramid->GetOutput( m_CurrentLevel )->GetLargestPossibleRegion().GetSize()[idim]/
-               (float)m_FixedImagePyramid->GetOutput( m_CurrentLevel-1 )->GetLargestPossibleRegion().GetSize()[idim]
- );
-        if( expandFactors[idim] < 1 )
-          {
-          expandFactors[idim] = 1;
-          }  
-std::cout << " expand factors " << expandFactors[idim] << std::endl;
-        }
-
       // graft a temporary image as the output of the expander
       // this is used to break the loop between the registrator
       // and expander
       m_FieldExpander->GraftOutput( tempField );
-      m_FieldExpander->SetExpandFactors( expandFactors ); 
+
+      // resample the field to be the same size as the fixed image
+      // at the current level
+      typename FloatImageType::Pointer fi = 
+        m_FixedImagePyramid->GetOutput(fixedLevel);
+      m_FieldExpander->SetSize( 
+        fi->GetLargestPossibleRegion().GetSize() );
+      m_FieldExpander->SetOutputStartIndex(
+        fi->GetLargestPossibleRegion().GetIndex() );
+      m_FieldExpander->SetOutputOrigin( fi->GetOrigin() );
+      m_FieldExpander->SetOutputSpacing( fi->GetSpacing());
+
       m_FieldExpander->UpdateLargestPossibleRegion();
 
       tempField = m_FieldExpander->GetOutput();
@@ -313,7 +308,15 @@ std::cout << " expand factors " << expandFactors[idim] << std::endl;
         // graft the output of the expander filter to
         // to output of this filter
         m_FieldExpander->GraftOutput( outputPtr );
-        m_FieldExpander->SetExpandFactors( lastShrinkFactors );
+
+        // resample the field to the same size as the fixed image
+        m_FieldExpander->SetSize( 
+          fixedImage->GetLargestPossibleRegion().GetSize() );
+        m_FieldExpander->SetOutputStartIndex(
+          fixedImage->GetLargestPossibleRegion().GetIndex() );
+        m_FieldExpander->SetOutputOrigin( fixedImage->GetOrigin() );
+        m_FieldExpander->SetOutputSpacing( fixedImage->GetSpacing());
+
         m_FieldExpander->UpdateLargestPossibleRegion();
         this->GraftOutput( m_FieldExpander->GetOutput() );
 
