@@ -19,6 +19,7 @@
 #include "itkDerivativeHalfBackwardOperator.h"
 #include "itkDerivativeOperator.h"
 #include "itkImageRegionIterator.h"
+#include <vnl/vnl_math.h>
 namespace itk
 {
 
@@ -78,14 +79,16 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
       grad_mag_avg = this->AverageGradientMagnitudeScalar(this->GetOutput(),
                      this->GetOutput()->GetRequestedRegion());
 
-      //      cout << grad_mag_avg << endl;
+      cout << grad_mag_avg << endl;
       
       k_adj = grad_mag_avg * this->GetConductanceParameter() * -1.0f;
 
       if (VDimension==2)
         {
-          this->AnisotropicDiffuse2D(rni, k_adj);
-          this->AnisotropicDiffuse2D(bni, k_adj);
+          this->CurvatureDiffuse2D(rni, k_adj);
+          this->CurvatureDiffuse2D(bni, k_adj);
+          //          this->AnisotropicDiffuse2D(rni, k_adj);
+          //          this->AnisotropicDiffuse2D(bni, k_adj);
         }
       else if(VDimension==3)
         {
@@ -102,6 +105,108 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
   delta->Delete();
 }
 
+template< class TPixel, unsigned int VDimension >
+template< class TNeighborhoodIterator >
+void
+FilterImageAnisotropicDiffusion<TPixel, VDimension>
+::CurvatureDiffuse2D(TNeighborhoodIterator it, const float k)
+{
+  const TPixelScalarValueType Zero =
+    NumericTraits<TPixelScalarValueType>::Zero;
+  const TPixelScalarValueType One =
+    NumericTraits<TPixelScalarValueType>::One;
+  enum { X=0, Y=1 };
+
+  TPixelScalarValueType Cx, Cy, Cxd, Cyd;
+  TPixelScalarValueType dx_forward, dx_backward, dy_forward, dy_backward;
+  TPixelScalarValueType dx_forward_Cn = One, dx_backward_Cn = One,
+    dy_forward_Cn = One, dy_backward_Cn = One;
+  TPixelScalarValueType dy, dx, dy_aug, dy_dim, dx_aug, dx_dim;
+  TPixelScalarValueType grad_mag_x, grad_mag_y, grad_mag_xd, grad_mag_yd;
+  TPixelScalarValueType grad_mag_x_sq, grad_mag_y_sq,
+    grad_mag_xd_sq, grad_mag_yd_sq;
+  TPixelScalarValueType speed_x, speed_y;
+
+  DerivativeOperator<TPixel, 2> dx_op;
+   dx_op.SetDirection(X);
+   dx_op.SetOrder(1);
+   dx_op.CreateDirectional();
+   
+  DerivativeOperator<TPixel, 2> dy_op;
+   dy_op.SetDirection(Y);
+   dy_op.SetOrder(1);
+   dy_op.CreateDirectional();
+
+  // Slice the neighborhood
+  // 0  1  2  3  4
+  // 5  6 *7* 8  9
+  // 10 11 12 13 14
+  std::slice  x_slice(6, 3, 1);
+  std::slice  y_slice(2, 3, 5);
+  std::slice xa_slice(7, 3, 1);
+  std::slice ya_slice(3, 3, 5);
+  std::slice xd_slice(5, 3, 1);
+  std::slice yd_slice(1, 3, 5);
+
+  // Process the image
+  const TNeighborhoodIterator it_end = it.End();
+  for (it = it.Begin(); it < it_end; ++it)
+    {
+      // Centralized differences
+      dx_forward = it.GetPixel(6) - it.GetPixel(7);
+      dx_backward= it.GetPixel(8) - it.GetPixel(7);
+      dy_forward = it.GetPixel(12) - it.GetPixel(7);
+      dy_backward= it.GetPixel(2) - it.GetPixel(7);
+      dx         = it.SlicedInnerProduct(x_slice, dx_op);
+      dy         = it.SlicedInnerProduct(y_slice, dy_op);
+      dx_aug     = it.SlicedInnerProduct(xa_slice, dx_op);
+      dy_aug     = it.SlicedInnerProduct(ya_slice, dy_op);
+      dx_dim     = it.SlicedInnerProduct(xd_slice, dx_op);
+      dy_dim     = it.SlicedInnerProduct(yd_slice, dy_op);
+
+      // Gradient magnitude approximations
+      grad_mag_x_sq = dx_forward*dx_forward + 0.25f*(dy+dy_aug)*(dy+dy_aug);
+      grad_mag_y_sq = dy_forward*dy_forward + 0.25f*(dx+dx_aug)*(dx+dx_aug);
+      grad_mag_xd_sq= dx_backward*dx_backward + 0.25f*(dy+dy_dim)*(dy+dy_dim);
+      grad_mag_yd_sq= dy_backward*dy_backward + 0.25f*(dx+dx_dim)*(dx+dx_dim);
+      grad_mag_x    = std::sqrt(grad_mag_x_sq);
+      grad_mag_y    = std::sqrt(grad_mag_y_sq);
+      grad_mag_xd   = std::sqrt(grad_mag_xd_sq);
+      grad_mag_yd   = std::sqrt(grad_mag_yd_sq);
+      
+      // Conductance terms
+      Cx = std::exp( grad_mag_x_sq / k );
+      Cy = std::exp( grad_mag_y_sq / k );
+      Cxd= std::exp( grad_mag_xd_sq / k );
+      Cyd= std::exp( grad_mag_yd_sq / k );
+
+      // Normalized finite-difference, conductance products (1st order)
+      if ( grad_mag_x != Zero )
+        {   dx_forward_Cn  = (dx_forward / grad_mag_x) * Cx; }
+      if ( grad_mag_y != Zero )
+        {   dy_forward_Cn  = (dy_forward / grad_mag_y) * Cy; }
+      if ( grad_mag_xd != Zero )
+        { dx_backward_Cn = (dx_backward/ grad_mag_xd)* Cxd;  }
+      if ( grad_mag_yd != Zero )
+        { dy_backward_Cn = (dy_backward/ grad_mag_yd)* Cyd;  }
+
+      // Conductance-modified curvature (2nd order, speed_x + speed_y)
+      speed_x = dx_forward_Cn + dx_backward_Cn;
+      speed_y = dy_forward_Cn + dy_backward_Cn;
+
+      // Upwind first derivatives
+      dx = ::vnl_math_max(Zero, speed_x) * dx_backward
+         + ::vnl_math_min(Zero, speed_x) * dx_forward; 
+      dy = ::vnl_math_max(Zero, speed_y) * dy_backward
+         + ::vnl_math_min(Zero, speed_y) * dy_forward;
+
+      // Final product
+      (*it.GetOutputBuffer())
+        = std::sqrt(dx*dx + dy*dy) * ( speed_x + speed_y);
+    }
+}
+
+  
 template< class TPixel, unsigned int VDimension >
 template< class TNeighborhoodIterator >
 void

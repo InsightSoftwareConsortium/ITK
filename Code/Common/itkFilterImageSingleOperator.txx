@@ -15,7 +15,7 @@
   =========================================================================*/
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkRegionNeighborhoodIterator.h"
-#include "vnl_math.h"
+#include <vnl/vnl_math.h>
 namespace itk
 {
 

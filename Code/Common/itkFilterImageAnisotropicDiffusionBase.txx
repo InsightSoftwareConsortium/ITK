@@ -36,6 +36,7 @@ FilterImageAnisotropicDiffusionBase<TPixel, VDimension>
   update = update.Begin();
   output = output.Begin();
 
+  //  cout << "multiplier = " << multiplier << endl;
   while ( ! update.IsAtEnd() )
     {
       //*output += *update * multiplier;
@@ -44,6 +45,8 @@ FilterImageAnisotropicDiffusionBase<TPixel, VDimension>
                ScalarTraits<TPixel>::GetScalar(*update)  *    multiplier);
       ++update;
       ++output;
+      //      cout << "output = " << *output << endl;
+      //      cout << "update = " << *update << endl;
     }
   
 }

@@ -96,6 +96,14 @@ protected:
   template < class TNeighborhoodIterator >
   void AnisotropicDiffuseND(TNeighborhoodIterator, const float);
 
+  /**
+   * Single iteration of the curvature-based diffusion algorithm for 2D
+   * images.
+   */
+  template < class TNeighborhoodIterator >
+  void CurvatureDiffuse2D(TNeighborhoodIterator, const float);
+
+  
 
 private:
 
