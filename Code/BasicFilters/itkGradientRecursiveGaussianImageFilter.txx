@@ -36,10 +36,12 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   {
     m_SmoothingFilters[ i ] = GaussianFilterType::New();
     m_SmoothingFilters[ i ]->SetOrder( GaussianFilterType::ZeroOrder );
+    m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
   }
 
   m_DerivativeFilter = GaussianFilterType::New();
   m_DerivativeFilter->SetOrder( GaussianFilterType::FirstOrder );
+  m_DerivativeFilter->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
   
 
   m_SmoothingFilters[0]->SetInput( this->GetInput() );

@@ -89,6 +89,10 @@ public:
   /** Set Sigma value */
   void SetSigma( RealType sigma );
 
+  /** Define which normalization factor will be used for the Gaussian */
+  itkSetMacro( NormalizeAcrossScale, bool );
+  itkGetMacro( NormalizeAcrossScale, bool );
+
 protected:
   GradientRecursiveGaussianImageFilter();
   virtual ~GradientRecursiveGaussianImageFilter() {};
@@ -103,6 +107,9 @@ private:
   GaussianFilterPointer         m_SmoothingFilters[ImageDimension-1];
   GaussianFilterPointer         m_DerivativeFilter;
   OutputImageAdaptorPointer     m_ImageAdaptor;
+
+  /** Normalize the image across scale space */
+  bool m_NormalizeAcrossScale; 
 
 };
 
