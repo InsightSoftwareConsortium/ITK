@@ -77,7 +77,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVTKImageReader.h"
 #include "itkVTKImageWriter.h"
 #include "itkVectorAnisotropicDiffusionEquation.h"
-#include "itkVectorAnisotropicDiffusionImageFilter.h"
 #include "itkVectorGradient2DAnisotropicDiffusionEquation.h"
 #include "itkVectorGradientAnisotropicDiffusionImageFilter.h"
 #include "itkVectorGradientNDAnisotropicDiffusionEquation.h"
