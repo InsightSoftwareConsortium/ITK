@@ -21,7 +21,6 @@
 #include "itkScalar.h"
 
 #include <queue>
-#include <cmath>
 
 namespace itk{
 
@@ -185,7 +184,7 @@ private:
   SizeType m_size;
 
   typename InputImageType::Pointer m_InputImage;
-  UShortImage::Pointer m_FuzzyScene;
+  typename UShortImage::Pointer m_FuzzyScene;
   typename OutputImageType::Pointer m_SegmentObject; 
   
   QueueType m_Queue;
@@ -204,12 +203,3 @@ private:
 #endif
 
 #endif
-
-
-
-
-	
-
-
-
-
