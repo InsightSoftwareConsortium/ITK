@@ -248,7 +248,7 @@ int itkDeformableTest(int , char *[])
 //  m_dfilter->SetGradient(m_GVFFilter->GetOutput());
   m_dfilter->SetGradient(gfilter->GetOutput());
 
-  m_bmmeshsource->SetBinaryImage( shrink->GetOutput() );
+  m_bmmeshsource->SetInput( shrink->GetOutput() );
   m_bmmeshsource->SetObjectValue( 255 );
 
   std::cout << "Deformable mesh created using Marching Cube!" << std::endl;

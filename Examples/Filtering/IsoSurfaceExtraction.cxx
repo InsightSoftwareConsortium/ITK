@@ -78,7 +78,7 @@ int main(int argc, char * argv[] )
 
   const PixelType isovalue = static_cast<PixelType>(atof( argv[2] ));
 
-  meshSource->SetBinaryImage( reader->GetOutput() );
+  meshSource->SetInput( reader->GetOutput() );
 
   meshSource->SetObjectValue( isovalue );
 

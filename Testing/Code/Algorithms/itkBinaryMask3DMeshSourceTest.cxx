@@ -125,7 +125,7 @@ int itkBinaryMask3DMeshSourceTest(int, char *[])
 */
   MeshSourceType::Pointer meshSource = MeshSourceType::New();
 
-  meshSource->SetBinaryImage( image );
+  meshSource->SetInput( image );
   meshSource->SetObjectValue( internalValue );
 
   try
