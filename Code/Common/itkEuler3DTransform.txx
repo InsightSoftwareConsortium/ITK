@@ -95,19 +95,19 @@ Euler3DTransform<TScalarType>
   const double cz = cos(m_AngleZ);
   const double sz = sin(m_AngleZ);
 
-  Matrix<double,3,3> RotationX;
+  Matrix<TScalarType,3,3> RotationX;
   RotationX[0][0]=1;RotationX[0][1]=0;RotationX[0][2]=0;
   RotationX[1][0]=0;RotationX[1][1]=cx;RotationX[1][2]=-sx;
   RotationX[2][0]=0;RotationX[2][1]=sx;RotationX[2][2]=cx;
 
 
-  Matrix<double,3,3> RotationY;
+  Matrix<TScalarType,3,3> RotationY;
   RotationY[0][0]=cy;RotationY[0][1]=0;RotationY[0][2]=sy;
   RotationY[1][0]=0;RotationY[1][1]=1;RotationY[1][2]=0;
   RotationY[2][0]=-sy;RotationY[2][1]=0;RotationY[2][2]=cy;
 
   
-  Matrix<double,3,3> RotationZ;
+  Matrix<TScalarType,3,3> RotationZ;
   RotationZ[0][0]=cz;RotationZ[0][1]=-sz;RotationZ[0][2]=0;
   RotationZ[1][0]=sz;RotationZ[1][1]=cz;RotationZ[1][2]=0;
   RotationZ[2][0]=0;RotationZ[2][1]=0;RotationZ[2][2]=1;
