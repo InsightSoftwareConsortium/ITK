@@ -46,7 +46,7 @@ int itkSTLThreadTest(int argc, char* argv[])
   if(argc > 2)
     {
     int ni = atoi(argv[2]);
-    if(ni > 0)
+    if(ni >= 0)
       {
       itkSTLThreadTestImpl::numberOfIterations = ni;
       }
