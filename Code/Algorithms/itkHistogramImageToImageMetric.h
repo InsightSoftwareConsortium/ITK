@@ -74,6 +74,7 @@ public:
   typedef Statistics::Histogram<double, 2> HistogramType;
   typedef typename HistogramType::MeasurementVectorType  MeasurementVectorType;
   typedef typename HistogramType::SizeType               HistogramSizeType;
+  typedef typename HistogramType::Pointer                HistogramPointer;
 
   /** Initializes the metric. */
   void Initialize() throw (ExceptionObject);
@@ -96,6 +97,11 @@ public:
   /** Returns the padding value. */
   itkGetConstReferenceMacro( PaddingValue, FixedImagePixelType );
 
+  /** Return the joint histogram. This is updated during every call to the 
+   *  GetValue() method. The histogram can for instance be used by the 
+   *  \doxygen{itk::HistogramToImageFilter} to plot the joint histogram. */
+  itkGetConstReferenceMacro( Histogram, HistogramPointer );
+  
   /** Set whether the padding value should be used to determine which pixels
       should be ignored when calculating the similarity measure. Those pixels
       in the fixed image which have the padding value will be ignored. */
@@ -183,6 +189,11 @@ private:
 
   /** The derivative step length scales. */
   ScalesType m_DerivativeStepLengthScales;
+
+  /** Pointer to the joint histogram. This is updated during every call to 
+   * GetValue() */
+  HistogramPointer  m_Histogram;
+  
 };
 
 } // end namespace itk

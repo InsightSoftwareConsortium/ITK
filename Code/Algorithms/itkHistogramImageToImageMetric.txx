@@ -37,6 +37,7 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
   m_DerivativeStepLengthScales.Fill(1);
   m_UpperBoundIncreaseFactor = 0.001;
   m_PaddingValue = NumericTraits<FixedImagePixelType>::Zero;
+  m_Histogram = HistogramType::New(); 
 }
 
 template <class TFixedImage, class TMovingImage>
@@ -117,10 +118,9 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
 {
   itkDebugMacro("GetValue( " << parameters << " ) ");
 
-  typename HistogramType::Pointer pHistogram = HistogramType::New();
-  this->ComputeHistogram(parameters, *pHistogram);
+  this->ComputeHistogram(parameters, *m_Histogram);
     
-  return this->EvaluateMeasure(*pHistogram);
+  return this->EvaluateMeasure(*m_Histogram);
 }
 
 template <class TFixedImage, class TMovingImage>
@@ -325,6 +325,8 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
   os << m_HistogramSize << std::endl;
   os << indent << "Histogram upper bound increase factor: ";
   os << m_UpperBoundIncreaseFactor << std::endl;
+  os << indent << "Histogram computed by GetValue(): ";
+  os << m_Histogram.GetPointer() << std::endl;
 }
 } // end namespace itk
 
