@@ -184,6 +184,10 @@ ADD_TEST(itkGiplImageIOTest2 ${IO_TESTS} itkGiplImageIOTest
   	${ITK_DATA_ROOT}/Input/test_geadw/I.001)
   ADD_TEST(itkSiemensFactoryTest  ${IO_TESTS} itkGEImageIOFactoryTest
   	${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima)
+  ADD_TEST(itkRegularExpressionSeriesFileNamesTest
+    ${IO_TESTS} itkRegularExpressionSeriesFileNamesTest
+    ${ITK_DATA_ROOT}/Input
+    )
 
 ENDIF(ITK_DATA_ROOT)
 

@@ -22,17 +22,17 @@
 int itkRegularExpressionSeriesFileNamesTest(int ac, char* av[])
 {
 
-  if(ac < 3)
+  if(ac < 2)
   {
-    std::cerr << "Usage: " << av[0] << " DicomDirectory\n";
+    std::cerr << "Usage: " << av[0] << " Directory\n";
     return EXIT_FAILURE;
   }
 
 
   itk::RegularExpressionSeriesFileNames::Pointer fit = itk::RegularExpressionSeriesFileNames::New();
   fit->SetDirectory(av[1]);
-  fit->SetRegularExpression(av[2]);
-  fit->SetSubMatch(atoi(av[3]));
+  fit->SetRegularExpression("[^.]*.(.*)");
+  fit->SetSubMatch(1);
 
   std::vector<std::string> names = fit->GetFileNames();
   std::vector<std::string>::iterator nit;
