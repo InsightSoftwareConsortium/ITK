@@ -23,12 +23,13 @@
 #include "itkLinearInterpolateImageFunction.h"
 
 
-typedef itk::Index<3>                              IndexType;
 typedef itk::Size<3>                               SizeType;
 typedef itk::PhysicalImage<unsigned short, 3>              ImageType;
 typedef itk::LinearInterpolateImageFunction<ImageType>  InterpolatorType;
+typedef InterpolatorType::IndexType                 IndexType;
+typedef InterpolatorType::PointType                 PointType;
 
-int 
+int
 main(
     int argc,
     char *argv[])
@@ -87,7 +88,7 @@ main(
     idx[0] = 0;
     value1 = interp->Evaluate(idx);
     std::cout << idx << value1 << std::endl;
-    if (value1 != 60) 
+    if (value1 != 60)
       {
       std::cout << "*** Error: correct value is 60" << std::endl;
       flag = 1;
@@ -96,26 +97,27 @@ main(
     idx[0] = 19;
     value1 = interp->Evaluate(idx);
     std::cout << idx << value1 << std::endl;
-    if (value1 != 79) 
+    if (value1 != 79)
       {
       std::cout << "*** Error: correct value is 79" << std::endl;
       flag = 1;
       }
-   
+
     /* Test evaluation outside the image */
     idx[0] = 20;
     value1 = interp->Evaluate(idx);
     std::cout << idx << value1 << std::endl;
-    if (value1 != 0) 
+    if (value1 != 0)
       {
       std::cout << "*** Error: correct value is 0" << std::endl;
       flag = 1;
       }
-    
+
 
     /* Test evaluation at non-integer coordinates */
     std::cout << "Evaluate at non-integer coordinates: ";
-    double point[3] = {5.25, 12.5, 42.0};
+    double darray[3] = {5.25, 12.5, 42.0};
+    PointType point(darray);
     double value2 = interp->Evaluate(point);
     std::cout << value2 << std::endl;
     if (value2 != 59.75) {
@@ -131,4 +133,14 @@ main(
         std::cout << "All tests successfully passed" << std::endl;
         return 0; }
 }
+
+
+
+
+
+
+
+
+
+
 
