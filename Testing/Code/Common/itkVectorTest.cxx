@@ -184,6 +184,19 @@ int main()
     passed = false;
     }
 
+  // Test operator=
+  s.Fill(10.0);
+  t = s;
+  if ( s != t )
+    {
+    passed = false;
+    }
+  t.Fill(20.0);
+  if ( s == t )
+    {
+    passed = false;
+    }
+
   if (passed)
     {
     std::cout << "Vector test passed." << std::endl;

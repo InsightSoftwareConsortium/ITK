@@ -40,11 +40,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkVector_h
 #define __itkVector_h
 
-
 #include "itkArray.h"
 #include "vnl/vnl_vector_ref.h"
 #include "itkIndent.h"
-
 
 namespace itk
 {
@@ -89,13 +87,13 @@ public:
    * as a data element held in an Vector.   */
   typedef T ValueType;
 
-  /** Dimension of the Space */
+  /** Dimension of the vector space. */
   enum { VectorDimension = TVectorDimension };
 
   /** I am a vector type. */
   typedef Self VectorType;
   
-  /** The Array type from which this Vector is derived. */
+  /** The Array type from which this vector is derived. */
   typedef Array<T, TVectorDimension>                BaseArray;
   typedef typename BaseArray::ArrayCommaListCopier  ArrayCommaListCopier;
     
@@ -141,7 +139,8 @@ public:
   /** Vector operator-=.  Subtracts a vector from a current vector. */
   const Self& operator-=(const Self &vec);
 
-  /** Vector negation.  Negate all the elements of a vector. Return a new vector */
+  /** Vector negation.  Negate all the elements of a vector. Return a new
+   *  vector */
   Self operator-() const;
 
   /** Vector addition. Add two vectors. Return a new vector. */
@@ -162,6 +161,15 @@ public:
    * Return a new vector. */
   Self operator/(const ValueType& val) const;
 
+  /** Operators == and != compare a vector component by component. All
+   * components must be equal for two vectors to be equal. (Of course
+   * compile-time constraints on the template parameters length and type
+   * prevent comparisons between vectors of different type and length.) */
+  bool operator==(const Self& v) const
+    { return Superclass::operator==(v); }
+  bool operator!=(const Self& v) const
+    { return !operator==(v); }
+   
   /** Returns the Euclidean Norm of the vector  */
   ValueType GetNorm( void ) const;
 

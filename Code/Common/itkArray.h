@@ -186,10 +186,22 @@ public:
   Array& operator= (const ValueType r[Length]);
   ArrayCommaListCopier operator= (const ValueType& r);
     
-  /** Allow the Array to be indexed normally.
-   * No bounds checking is done.
-   * The separate versions are a work-around for an integer conversion
-   * bug in Visual C++. */
+  /** Operators == and != are used to compare whether two arrays are equal.
+   * Note that arrays are equal when the number of components (size) is the
+   * same, and each component value is equal. */
+  bool operator==(const Array& r ) const;
+  bool operator==(const Reference& r ) const;
+  bool operator==(const ConstReference& r ) const;
+  bool operator!=(const Array& r ) const
+    { return !operator==(r); }
+  bool operator!=(const Reference& r ) const
+    { return !operator==(r); }
+  bool operator!=(const ConstReference& r ) const
+    { return !operator==(r); }
+  
+  /** Allow the Array to be indexed normally.  No bounds checking is done.
+   * The separate versions are a work-around for an integer conversion bug in
+   * Visual C++. */
         reference operator[](short index)                { return m_InternalArray[index]; }
   const_reference operator[](short index) const          { return m_InternalArray[index]; }
         reference operator[](unsigned short index)       { return m_InternalArray[index]; }
@@ -251,7 +263,8 @@ public:
   class Reference
   {
   public:
-    /** Constructor copies only the array pointer since this is a reference type.   */
+    /** Constructor copies only the array pointer since this is a reference
+     *  type.  */
     Reference(Array& r) : m_InternalArray(r.Begin()) {}
     Reference(const Reference& r) : m_InternalArray(r.m_InternalArray) {}
     Reference(ValueType r[Length]) : m_InternalArray(r) {}
@@ -266,7 +279,6 @@ public:
       for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
       return *this;
       }
-      
     Reference& operator= (const Reference& r)
       {
       if(r.Begin() == m_InternalArray) return *this;
@@ -274,7 +286,6 @@ public:
       for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
       return *this;
       }
-    
     Reference& operator= (const ConstReference& r)
       {
       if(r.Begin() == m_InternalArray) return *this;
@@ -282,7 +293,6 @@ public:
       for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
       return *this;
       }
-    
     Reference& operator= (const ValueType r[Length])
       {
       if(r == m_InternalArray) return *this;
@@ -382,15 +392,15 @@ public:
     ValueType * const m_InternalArray;
   };
   
-  
-  /** \brief Provide const reference.
+  /** \brief Provide const reference to an array.
    *
    * Identical to Array<TValueType, VLength>::Reference class, but serves
    * as a const reference. */
   class ConstReference
   {
   public:
-    /** Constructor copies only the array pointer since this is a reference type.   */
+    /** Constructor copies only the array pointer since this is a reference
+     *  type.  */
     ConstReference(const Array& r) : m_InternalArray(r.Begin()) {}
     ConstReference(const Reference& r) : m_InternalArray(r.Begin()) {}
     ConstReference(const ConstReference& r) : m_InternalArray(r.Begin()) {}

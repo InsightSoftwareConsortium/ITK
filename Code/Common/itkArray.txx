@@ -201,6 +201,56 @@ Array<TValueType, VLength>
   return ArrayCommaListCopier(this->Begin(), r);
 }
 
+/**
+ * Operator != compares different types of arrays.
+ */
+template <typename TValueType, unsigned long VLength>
+bool
+Array<TValueType, VLength>
+::operator== (const Array& r) const
+{
+  ConstIterator i = this->Begin();
+  ConstIterator j = r.Begin();
+  
+  for( ; i != this->End(); ++i )
+    {
+    if ( *i != *j ) {return false;}
+    }
+
+  return true;
+}
+
+template <typename TValueType, unsigned long VLength>
+bool
+Array<TValueType, VLength>
+::operator== (const Reference& r) const
+{
+  ConstIterator i = this->Begin();
+  ConstIterator j = r.Begin();
+  
+  for( ; i != this->End(); ++i )
+    {
+    if ( *i != *j ) {return false;}
+    }
+
+  return true;
+}
+
+template <typename TValueType, unsigned long VLength>
+bool
+Array<TValueType, VLength>
+::operator== (const ConstReference& r) const
+{
+  ConstIterator i = this->Begin();
+  ConstIterator j = r.Begin();
+  
+  for( ; i != this->End(); ++i )
+    {
+    if ( *i != *j ) {return false;}
+    }
+
+  return true;
+}
 
 /**
  * Get an Iterator for the beginning of the Array.

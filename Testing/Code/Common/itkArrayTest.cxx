@@ -137,6 +137,14 @@ int main(void)
   
   itk::Array<int, 4>::ConstReference ref5 = array5[itk::Range<1,4>()];
   Print_Array(ref5[itk::Range<1,3>()], std::cout);
+  
+  // Test operator!= and operator==
+  if ( array4 != array4 ) return 1; //should be equal
+  if ( array4 != ref1 ) return 1; //should be equal
+  if ( !(array4 != ref2) ) return 1; //should not be equal
+  if ( !(array4 == array4) ) return 1; //should be equal
+  if ( !(array4 == ref1) ) return 1; //should be equal
+  if ( array4 == ref2 ) return 1; //should not be equal
 
   return 0;
 }
