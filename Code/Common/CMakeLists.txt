@@ -7,7 +7,6 @@ itkDirectory
 itkDynamicLoader 
 itkExceptionObject 
 itkFastMutexLock 
-itkImageBase 
 itkIndent 
 itkLightObject 
 itkMeshRegion 
