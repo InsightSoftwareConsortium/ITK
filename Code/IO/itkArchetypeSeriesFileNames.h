@@ -30,42 +30,42 @@
 
 namespace itk
 {
-
-/* class ArchetypeSeriesFileNames
- \brief Generate an ordered sequence of filenames.
- 
- This class generates an ordered sequence of files based on an
- archetypical filename.  From the archetypical filename, a set of
- regular expressions is created to group filenames based on numeric
- substrings.  There can be multiple numeric substrings in the 
- archetype.  When this occurs, ArchetypeSeriesFileNames can not
- determine which numeric substring refers to the "image number" and
- which numeric substring refers to the "series" or "study". By
- default, the ArchetypeSeriesFileNames assumes the rightmost numeric
- substring refers to the image number, and this is the group of
- filenames returned by default.  However, the other groupings of
- filenames can also be queried by passing in a group number to the
- GetFileNames() method. Groups are numbered by the numeric substrings
- from right to left in the archetype.
-
- For example, if a directory contains the files
-
-         foo_5_1.png 
-         foo_5_2.png 
-         foo_5_3.png 
-         foo_6_1.png 
-         foo_6_2.png 
-         foo_6_3.png 
-
- and specifying an archetypical file foo_5_1.png, the filename list
- will contain
-
-         foo_5_1.png 
-         foo_5_2.png
-         foo_5_3.png
-
-  \ingroup IOFilters
-*/
+/** \class ArchetypeSeriesFileNames
+ * \brief Generate an ordered sequence of filenames.
+ *
+ * This class generates an ordered sequence of files based on an
+ * archetypical filename.  From the archetypical filename, a set of
+ * regular expressions is created to group filenames based on numeric
+ * substrings.  There can be multiple numeric substrings in the
+ * archetype.  When this occurs, ArchetypeSeriesFileNames can not
+ * determine which numeric substring refers to the "image number" and
+ * which numeric substring refers to the "series" or "study". By
+ * default, the ArchetypeSeriesFileNames assumes the rightmost numeric
+ * substring refers to the image number, and this is the group of
+ * filenames returned by default.  However, the other groupings of
+ * filenames can also be queried by passing in a group number to the
+ * GetFileNames() method. Groups are numbered by the numeric
+ * substrings from right to left in the archetype.
+ *
+ * For example, if a directory contains the files
+ *
+ *         foo_5_1.png 
+ *         foo_5_2.png 
+ *         foo_5_3.png 
+ *         foo_6_1.png 
+ *         foo_6_2.png 
+ *         foo_6_3.png 
+ *
+ * and specifying an archetypical file foo_5_1.png, the filename list
+ * will contain
+ *
+ *         foo_5_1.png 
+ *         foo_5_2.png
+ *         foo_5_3.png
+ *
+ *  \ingroup IOFilters
+ *
+ */
 
 
 class ITK_EXPORT ArchetypeSeriesFileNames : public Object
