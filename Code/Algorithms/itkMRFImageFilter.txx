@@ -95,6 +95,9 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   os << indent << "StopCondition: "
      << m_StopCondition << std::endl;
 
+  os << indent <<" Number of iterations: " << 
+    m_NumberOfIterations << std::endl;
+
 }// end PrintSelf
 
 /*
