@@ -95,14 +95,12 @@ class CompositeValleyFunction : public CacheableScalarFunction
 {
 public:
 
+  /** Superclass to this class. */
   typedef CacheableScalarFunction Superclass;
   
   /** Cost value type. */
   typedef  Superclass::MeasureType          MeasureType;
   typedef  Superclass::MeasureArrayType     MeasureArrayType;
-
-  /** Superclass to this class. */
-  typedef CacheableScalarFunction Superclass ;
 
   /** Constructor. */
   CompositeValleyFunction( const MeasureArrayType & classMeans, 
