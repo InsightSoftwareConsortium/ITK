@@ -24,7 +24,7 @@ namespace itk
 
 template<class TInputImage, class TOutputImage>
 RegionGrowImageFilter<TInputImage,TOutputImage>
-::RegionGrowImageFilter(void):
+::RegionGrowImageFilter()
 {
   m_GridSize.Fill( 2 );
   m_MaximumNumberOfRegions = 0;
