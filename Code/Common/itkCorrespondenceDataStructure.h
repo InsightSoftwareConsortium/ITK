@@ -55,9 +55,6 @@ public:
   typedef TItemType ItemType;
   itkStaticConstMacro(CliqueSize, unsigned int, VCliqueSize);
 
-  /** Virtual method required by DataObject interface.   */
-  void UpdateOutputInformation() {}
-
   /** The typedef for the CorrespondingPairList. */
   typedef CorrespondingList<TItemType, VCliqueSize> CorrespondingListType;
 
@@ -76,12 +73,6 @@ protected:
 
   /** Default Destructor. */
   ~CorrespondenceDataStructure() {};
-
-  /** Virtual methods required by DataObject interface. */
-  bool VerifyRequestedRegion() { return true; }
-  void SetRequestedRegionToLargestPossibleRegion () {}
-  bool RequestedRegionIsOutsideOfTheBufferedRegion () { return false; }
-  void SetRequestedRegion (DataObject *) {}
 };
 
 } // end namespace itk

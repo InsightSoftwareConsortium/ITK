@@ -94,41 +94,17 @@ public:
   /** Like Evaluate(), except always returns an index */
   virtual IndexType EvaluateToIndex( const InputType & input ) const = 0;
 
-  /** Increment the input variable passed by reference such that the ND index of
-   * the path  moves to its next vertex-connected (8-connected in 2D) neighbor. 
-   * Return the Index-space offset of the path from its prior input to its new
-   * input.  If the path is unable to increment, input is not changed and an
-   * offset of Zero is returned. Children are not required to implement general
-   * bounds checking, but are required to return an offset of zero when trying
-   * to increment from the final valid input value. */
+  /** Increment the input variable passed by reference such that the
+   * ND index of the path moves to its next vertex-connected
+   * (8-connected in 2D) neighbor.  Return the Index-space offset of
+   * the path from its prior input to its new input.  If the path is
+   * unable to increment, input is not changed and an offset of Zero
+   * is returned. Children are not required to implement general
+   * bounds checking, but are required to return an offset of zero
+   * when trying to increment from the final valid input value. */
   virtual OffsetType IncrementInput(InputType & input) const = 0;
   
   
-  
-  /**
-   * DataObject methods
-   * 
-   * All of these are either pure virtual functions or empty functions
-   * in itkDataObject
-   */
-  
-  /** Useful for data pipeline updates without memory re-allocation. */
-  virtual void Initialize(void);
-  
-  /** Methods to manage streaming. */
-  virtual void UpdateOutputInformation();
-  virtual void SetRequestedRegionToLargestPossibleRegion();
-  virtual void CopyInformation(const DataObject *data);
-  virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
-  virtual bool VerifyRequestedRegion();
-  
-  /** Set the requested region from this data object to match the requested
-   * region of the data object passed in as a parameter.  This method 
-   * implements the API from DataObject. The data object parameter must be
-   * castable to a PointSet. */
-  virtual void SetRequestedRegion(DataObject *data);
-
-
 protected:
   // These "constants" are initialized in the constructor
   OffsetType  m_ZeroOffset; // = 0 for all dimensions

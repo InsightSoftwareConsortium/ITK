@@ -47,9 +47,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MatrixResizeableDataObject, DataObject);
 
-  /** Virtual methods required by DataObject interface. */
-  void UpdateOutputInformation() {}
-
 protected:
 
     /** Default Constructor. */
@@ -57,13 +54,6 @@ protected:
 
   /** Default Destructor. */
   ~MatrixResizeableDataObject();
-
-  /** Virtual methods required by DataObject interface. */
-  bool VerifyRequestedRegion() { return true; }
-  void SetRequestedRegionToLargestPossibleRegion () {}
-  bool RequestedRegionIsOutsideOfTheBufferedRegion () { return false; }
-  void SetRequestedRegion (DataObject *) {}
-
 };
 
 } // end namespace itk

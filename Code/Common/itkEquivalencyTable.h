@@ -133,15 +133,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   HashTableType m_HashMap;
-  
-  void UpdateOutputInformation();
-  bool VerifyRequestedRegion() { return true; }
-  void SetRequestedRegionToLargestPossibleRegion () {m_RequestedRegionInitialized = true;}
-  bool RequestedRegionIsOutsideOfTheBufferedRegion () { return false; }
-  
-  void SetRequestedRegion (itk::DataObject *) {}
 };
-
 
 }// end namespace itk
 
