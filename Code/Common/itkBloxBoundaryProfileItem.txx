@@ -18,6 +18,7 @@ BloxBoundaryProfileItem<VImageDimension>
   m_StandardDeviationNormalized = 0;
   m_BoundaryPoint = 0;
   m_Gradient = 0;
+  m_Gradient2.Fill(0);
 }
 
 template <unsigned int VImageDimension>

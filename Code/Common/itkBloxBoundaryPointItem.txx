@@ -26,7 +26,8 @@ template <unsigned int VImageDimension>
 BloxBoundaryPointItem<VImageDimension>
 ::BloxBoundaryPointItem()
 {
-
+  m_PhysicalPosition.Fill(0);
+  m_Gradient.Fill(0);
 }
 
 template <unsigned int VImageDimension>
