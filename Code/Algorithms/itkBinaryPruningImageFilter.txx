@@ -126,7 +126,7 @@ BinaryPruningImageFilter<TInputImage,TOutputImage>
 
 
   
-  int count = 0;
+  unsigned int count = 0;
   while(count < m_Iteration)
     {
     ot.GoToBegin();

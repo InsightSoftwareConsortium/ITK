@@ -204,7 +204,7 @@ ActiveShapeModelCalculator<TImage>
       p[id] = position[id];
     }
 
-  unsigned int pointId = 0;
+  int pointId = 0;
   points->InsertElement( pointId, p );
   pointData->InsertElement( pointId, value1 );
   pointId++;
