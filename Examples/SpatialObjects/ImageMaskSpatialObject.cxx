@@ -118,10 +118,12 @@ int main(int, char* [])
 // Software Guide : BeginCodeSnippet
   ImageMaskSpatialObject::PointType  inside;
   inside.Fill(20);
-  std::cout << "Is my point " << inside << " inside my mask? " << maskSO->IsInside(inside) << std::endl;
+  std::cout << "Is my point " << inside << " inside my mask? " 
+    << maskSO->IsInside(inside) << std::endl;
   ImageMaskSpatialObject::PointType  outside;
   outside.Fill(45);
-  std::cout << "Is my point " << outside << " outside my mask? " << !maskSO->IsInside(outside) << std::endl;
+  std::cout << "Is my point " << outside << " outside my mask? " 
+    << !maskSO->IsInside(outside) << std::endl;
 // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

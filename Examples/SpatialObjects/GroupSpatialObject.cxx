@@ -78,7 +78,8 @@ int main( int , char *[] )
 // Software Guide : BeginCodeSnippet
   GroupType::PointType point;
   point.Fill(10);
-  std::cout << "Is my point " << point << " inside?: " <<  myGroup->IsInside(point,2) << std::endl;
+  std::cout << "Is my point " << point << " inside?: " 
+    <<  myGroup->IsInside(point,2) << std::endl;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex

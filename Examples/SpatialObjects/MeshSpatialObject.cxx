@@ -75,7 +75,8 @@ int main(int, char * [] )
     myMesh->SetPoint(i, PointType(testPointCoords[i]));
     }
 
-  myMesh->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
+  myMesh->SetCellsAllocationMethod( 
+      MeshType::CellsAllocatedDynamicallyCellByCell );
   CellAutoPointer testCell1; 
   testCell1.TakeOwnership(  new TetraCellType ); 
   testCell1->SetPointIds(tetraPoints);
@@ -94,7 +95,8 @@ int main(int, char * [] )
 
   // Software Guide : BeginCodeSnippet  
   typedef itk::MeshSpatialObject<MeshType>     MeshSpatialObjectType;
-  MeshSpatialObjectType::Pointer myMeshSpatialObject = MeshSpatialObjectType::New();
+  MeshSpatialObjectType::Pointer myMeshSpatialObject = 
+                                        MeshSpatialObjectType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -120,10 +122,12 @@ int main(int, char * [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet  
-  std::cout << "Mesh bounds : " << myMeshSpatialObject->GetBoundingBox()->GetBounds() << std::endl;
+  std::cout << "Mesh bounds : " << 
+    myMeshSpatialObject->GetBoundingBox()->GetBounds() << std::endl;
   MeshSpatialObjectType::PointType myPhysicalPoint;
   myPhysicalPoint.Fill(1);
-  std::cout << "Is my physical point inside? : " << myMeshSpatialObject->IsInside(myPhysicalPoint) << std::endl;
+  std::cout << "Is my physical point inside? : " << 
+    myMeshSpatialObject->IsInside(myPhysicalPoint) << std::endl;
   // Software Guide : EndCodeSnippet  
 
   // Software Guide : BeginLatex

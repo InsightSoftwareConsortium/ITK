@@ -130,7 +130,8 @@ int main( int , char *[] )
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  VesselTubeType::PointListType::const_iterator it = VesselTube->GetPoints().begin();
+  VesselTubeType::PointListType::const_iterator 
+            it = VesselTube->GetPoints().begin();
   i=0;
   while(it != VesselTube->GetPoints().end())
     {

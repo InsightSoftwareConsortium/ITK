@@ -72,7 +72,8 @@ int main(int, char * [] )
 // Then we can create the \doxygen{SpatialObjectToImageStatisticsCalculator}
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet
-  typedef itk::SpatialObjectToImageStatisticsCalculator<ImageType,EllipseType> CalculatorType;
+  typedef itk::SpatialObjectToImageStatisticsCalculator< 
+    ImageType, EllipseType > CalculatorType;
   CalculatorType::Pointer calculator = CalculatorType::New();
 // Software Guide : EndCodeSnippet
 

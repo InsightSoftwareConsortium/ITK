@@ -86,7 +86,8 @@ int main( int , char *[] )
   levelIt.GoToBegin();
   while(!levelIt.IsAtEnd())
     {
-    std::cout << levelIt.Get()->GetId() << " ("<< levelIt.GetLevel() << ")" << std::endl;;
+    std::cout << levelIt.Get()->GetId() << " ("<< levelIt.GetLevel() 
+      << ")" << std::endl;;
     ++levelIt;
     }
   // Software Guide : EndCodeSnippet

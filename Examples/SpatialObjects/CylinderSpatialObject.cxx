@@ -74,7 +74,8 @@ int main(int, char* [])
   insidePoint[0]=1;
   insidePoint[1]=2;
   insidePoint[2]=0;
-  std::cout << "Is my point "<< insidePoint << " inside the cylinder? : "  << myCylinder->IsInside(insidePoint) << std::endl;
+  std::cout << "Is my point "<< insidePoint << " inside the cylinder? : "  
+    << myCylinder->IsInside(insidePoint) << std::endl;
   // Software Guide : EndCodeSnippet
    
   // Software Guide : BeginLatex
