@@ -58,7 +58,7 @@
     virtual void Enforcer() { &Constraints::constraints; }
 #  define itkConceptMacro(name, concept) enum { name = sizeof concept }
 
-#elif define(ITK_CONCEPT_IMPLEMENTATION_CALL)
+#elif defined(ITK_CONCEPT_IMPLEMENTATION_CALL)
 
 /** Not implemented.  */
 #  define itkConceptConstraintsMacro()
