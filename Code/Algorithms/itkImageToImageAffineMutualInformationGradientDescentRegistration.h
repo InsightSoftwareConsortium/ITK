@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageToImageAffineMutualInformationRegistration.h
+  Module:    itkImageToImageAffineMutualInformationGradientDescentRegistration.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,8 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkImageToImageAffineMutualInformationRegistration_h
-#define __itkImageToImageAffineMutualInformationRegistration_h
+#ifndef __itkImageToImageAffineMutualInformationGradientDescentRegistration_h
+#define __itkImageToImageAffineMutualInformationGradientDescentRegistration_h
 
 #include "itkRegistrationMethod.h"
 #include "itkMutualInformationImageToImageMetric.h"
@@ -31,7 +31,8 @@ namespace itk
  *  used by this registration method
  */
 template <class TReference, class TTarget>
-class ITK_EXPORT ImageToImageAffineMutualInformationGradientDescentRegistrationTraits 
+class ITK_EXPORT 
+  ImageToImageAffineMutualInformationGradientDescentRegistrationTraits 
 {
   
 public:
@@ -88,10 +89,10 @@ public:
 
 
 /**
- * \class ImageToImageAffineMutualInformationRegistration
+ * \class ImageToImageAffineMutualInformationGradientDescentRegistration
  * \brief Register two images using mutual information.
  *
- * ImageToImageAffineMutualInformationRegistration performs an
+ * ImageToImageAffineMutualInformationGradientDescentRegistration performs an
  * affine registration
  * between a target and reference image using mutual information.
  * It uses the optimization method of Viola and Wells to find the
@@ -135,17 +136,17 @@ public:
  *
  */
 template <class TReference, class TTarget>
-class ITK_EXPORT ImageToImageAffineMutualInformationRegistration 
+class ITK_EXPORT 
+ImageToImageAffineMutualInformationGradientDescentRegistration 
 : public RegistrationMethod< 
-   ImageToImageAffineMutualInformationGradientDescentRegistrationTraits<
-               TReference,
-               TTarget>  >
+   ImageToImageAffineMutualInformationGradientDescentRegistrationTraits
+   <TReference, TTarget>  >
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-   typedef ImageToImageAffineMutualInformationRegistration  Self;
+   typedef ImageToImageAffineMutualInformationGradientDescentRegistration  Self;
 
   /**
    * Standard "Superclass" typedef.
@@ -244,7 +245,7 @@ public:
   /**
    * Run-time type information (and related methods).
    */
-   itkTypeMacro(ImageToImageAffineMutualInformationRegistration,
+   itkTypeMacro(ImageToImageAffineMutualInformationGradientDescentRegistration,
        RegistrationMethod);
 
   /**
@@ -331,9 +332,9 @@ public:
 
 protected:
 
-  ImageToImageAffineMutualInformationRegistration();
-  virtual ~ImageToImageAffineMutualInformationRegistration();
-  ImageToImageAffineMutualInformationRegistration(const Self&);
+  ImageToImageAffineMutualInformationGradientDescentRegistration();
+  virtual ~ImageToImageAffineMutualInformationGradientDescentRegistration();
+  ImageToImageAffineMutualInformationGradientDescentRegistration(const Self&);
   const Self & operator=(const Self&);
 
 private:
@@ -356,7 +357,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToImageAffineMutualInformationRegistration.txx"
+#include "itkImageToImageAffineMutualInformationGradientDescentRegistration.txx"
 #endif
 
 #endif

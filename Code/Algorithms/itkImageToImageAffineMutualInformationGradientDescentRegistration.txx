@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageToImageAffineMutualInformationRegistration.txx
+  Module:    itkImageToImageAffineMutualInformationGradientDescentRegistration.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,10 +13,10 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef _itkImageToImageAffineMutualInformationRegistration_txx
-#define _itkImageToImageAffineMutualInformationRegistration_txx
+#ifndef _itkImageToImageAffineMutualInformationGradientDescentRegistration_txx
+#define _itkImageToImageAffineMutualInformationGradientDescentRegistration_txx
 
-#include "itkImageToImageAffineMutualInformationRegistration.h"
+#include "itkImageToImageAffineMutualInformationGradientDescentRegistration.h"
 
 
 namespace itk
@@ -26,8 +26,8 @@ namespace itk
  * Constructor
  */
 template <class TReference, class TTarget>
-ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
-::ImageToImageAffineMutualInformationRegistration()
+ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarget>
+::ImageToImageAffineMutualInformationGradientDescentRegistration()
 {
 
   // initialize the parameter to be the identity transform
@@ -71,8 +71,8 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
  * Constructor
  */
 template <class TReference, class TTarget>
-ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
-::ImageToImageAffineMutualInformationRegistration( const Self & other )
+ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarget>
+::ImageToImageAffineMutualInformationGradientDescentRegistration( const Self & other )
 :Superclass( other )
 {
 }
@@ -83,8 +83,8 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
  * Destructor
  */
 template <class TReference, class TTarget>
-ImageToImageAffineMutualInformationRegistration<TReference,  TTarget>
-::~ImageToImageAffineMutualInformationRegistration()
+ImageToImageAffineMutualInformationGradientDescentRegistration<TReference,  TTarget>
+::~ImageToImageAffineMutualInformationGradientDescentRegistration()
 {
 }
 
@@ -94,8 +94,8 @@ ImageToImageAffineMutualInformationRegistration<TReference,  TTarget>
  * Assignment Operator
  */
 template <class TReference, class TTarget>
-const ImageToImageAffineMutualInformationRegistration< TReference, TTarget> &
-ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
+const ImageToImageAffineMutualInformationGradientDescentRegistration< TReference, TTarget> &
+ImageToImageAffineMutualInformationGradientDescentRegistration< TReference, TTarget>
 ::operator=( const Self & other )
 {
   Superclass::operator=( other );
@@ -110,7 +110,7 @@ ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
  */
 template <class TReference, class TTarget>
 void
-ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
+ImageToImageAffineMutualInformationGradientDescentRegistration< TReference, TTarget>
 ::SetTargetTransformationCenter( const PointType& center )
 {
   m_TargetTransformationCenter = center;
@@ -129,7 +129,7 @@ ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
  */
 template <class TReference, class TTarget>
 void
-ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
+ImageToImageAffineMutualInformationGradientDescentRegistration< TReference, TTarget>
 ::SetReferenceTransformationCenter( const PointType& center )
 {
   m_ReferenceTransformationCenter = center;
@@ -148,7 +148,7 @@ ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
  */
 template <class TReference, class TTarget>
 int
-ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
+ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarget>
 ::StartRegistration( void )
 {
 
