@@ -95,7 +95,9 @@ int main()
   std::cout << resultCovariantVector[2] << std::endl;
 
   vnlVectorType v2;
-  v2 = 3,4,5;
+  v2[0] = 3;
+  v2[1] = 4;
+  v2[2] = 5;
   
   vnlVectorType resultVnlVector = matrix * v2;
   std::cout << resultVnlVector[0] << ", ";
