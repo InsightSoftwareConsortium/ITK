@@ -14,6 +14,7 @@
 // # define isnan _isnan
 # define finite _finite
 # define finitef _finite
+# define finitel _finite
 # define isnan _isnan
 #elif VXL_IEEEFP_HAS_FINITE
 # include <ieeefp.h>
