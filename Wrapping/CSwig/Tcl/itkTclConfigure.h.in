@@ -1,0 +1,13 @@
+#ifndef _itkTclConfigure_h
+#define _itkTclConfigure_h
+
+#undef ITK_BINARY_DIR
+#define ITK_BINARY_DIR "${ITK_BINARY_DIR}"
+
+#undef ITK_TCL_EXE_DIR_BUILD
+#define ITK_TCL_EXE_DIR_BUILD "${ITK_TCL_EXE_DIR_BUILD}"
+
+#undef ITK_TCL_EXE_NAME_ROOT
+#define ITK_TCL_EXE_NAME_ROOT "${ITK_TCL_EXE_NAME_ROOT}"
+
+#endif
