@@ -1230,7 +1230,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     }
   
   unsigned int iter = str->Filter->GetElapsedIterations();
-  while (! (str->Filter->Halt()) )
+  while (! (str->Filter->ThreadedHalt(arg)) )
     {
     str->Filter->ThreadedInitializeIteration(ThreadId);
     

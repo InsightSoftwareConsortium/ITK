@@ -165,7 +165,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   threadCount = ((MultiThreader::ThreadInfoStruct *)(arg))->NumberOfThreads;
 
   unsigned int iter = 0;  
-  while ( ! (this->Halt()) )
+  while ( ! (this->ThreadedHalt(arg)) )
     {
     if (threadId == 0)
       {

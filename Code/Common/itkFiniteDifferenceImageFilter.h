@@ -113,7 +113,7 @@ namespace itk {
  * a list of values.  AllocateUpdateBuffer is responsible for creating the
  * \f$ \Delta \f$ container.  CalculateChange populates this buffer and
  * ApplyUpdate adds the buffer values to the output image (solution).  The
- * boolean Halt() method returns a true value to stop iteration.
+ * boolean Halt() (or ThreadedHalt) method returns a true value to stop iteration.
  *
  * \ingroup ImageFilter
  * \ingroup LevelSetSegmentation
@@ -257,6 +257,18 @@ protected:
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving.  Defined by a subclass. */
   virtual bool Halt();
+
+  /** This method is similar to Halt(), and its default implementation in this
+   * class is simply to call Halt(). However, this method takes as a parameter
+   * a void pointer to the MultiThreader::ThreadInfoStruct structure. If you
+   * override this method instead of overriding Halt, you will be able to get
+   * the current thread ID and handle the Halt method accordingly. This is useful
+   * if you are doing a lot of processing in Halt that you don't want parallelized.
+   * Notice that ThreadedHalt is only called by the multithreaded filters, so you
+   * still should implement Halt, just in case a non-threaded filter is used.
+   */
+  virtual bool ThreadedHalt(void *threadInfo) { return this->Halt(); }
+
   /** This method is optionally defined by a subclass and is called before
    * the loop of iterations of calculate_change & upate. It does the global
    * initialization, i.e. in the SparseFieldLevelSetImageFilter, initialize 
