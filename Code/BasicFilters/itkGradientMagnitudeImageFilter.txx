@@ -29,9 +29,9 @@
 namespace itk
 {
  
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TComputation>
 void 
-GradientMagnitudeImageFilter<TInputImage,TOutputImage>
+GradientMagnitudeImageFilter<TInputImage,TOutputImage,TComputation>
 ::GenerateInputRequestedRegion() throw(InvalidRequestedRegionError)
 {
   // call the superclass' implementation of this method
@@ -88,14 +88,14 @@ GradientMagnitudeImageFilter<TInputImage,TOutputImage>
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< class TInputImage, class TOutputImage, class TComputation>
 void
-GradientMagnitudeImageFilter< TInputImage, TOutputImage >
+GradientMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
   unsigned int i;
-  OutputPixelType a, g;
+  TComputation a, g;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
   ConstNeighborhoodIterator<TInputImage> nit;
@@ -168,7 +168,7 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
       g = IP(x_slice[i], nit, op);
       a += g * g;
       }
-    it.Value() = ::sqrt(a);
+    it.Value() = static_cast<OutputPixelType>(::sqrt(a));
     ++nit;
     ++it;
     }
@@ -196,7 +196,7 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
         g = SIP(x_slice[i], bit, op);
         a += g * g;
         }
-      it.Value() = ::sqrt(a);          
+      it.Value() = static_cast<OutputPixelType>(::sqrt(a));
       ++bit;
       ++it;
       }

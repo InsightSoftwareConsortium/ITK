@@ -30,7 +30,7 @@ namespace itk
  * 
  * \ingroup GradientFilters
  */
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TComputation=double>
 class ITK_EXPORT GradientToMagnitudeImageFilter :
    public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -57,7 +57,7 @@ public:
   typedef typename TOutputImage::IndexType IndexType;
 
   /** Image pixel value typedef. */
-  typedef typename TOutputImage::PixelType PixelType;
+  typedef typename TOutputImage::PixelType OutputImagePixelType;
 
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;

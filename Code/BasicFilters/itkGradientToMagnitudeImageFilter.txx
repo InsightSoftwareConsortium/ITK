@@ -26,8 +26,8 @@
 namespace itk
 {
 
-template< class TInputImage, class TOutputImage >
-GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
+template< class TInputImage, class TOutputImage, class TComputation >
+GradientToMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
 ::GradientToMagnitudeImageFilter()
 {
   itkDebugMacro(<< "GradientToMagnitudeImageFilter::GradientToMagnitudeImageFilter() called");
@@ -35,9 +35,9 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< class TInputImage, class TOutputImage, class TComputation >
 void
-GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
+GradientToMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
 ::GenerateData()
 {
   itkDebugMacro(<< "GradientToMagnitudeImageFilter::GenerateData() called");
@@ -62,28 +62,28 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
   // walk the output image, and sample the input image
   for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
     {
-    double acc = 0;
+    TComputation acc = 0;
 
     // determine the index of the output pixel
     index = outIt.GetIndex();
 
     for(int i = 0; i < NDimensions; i++)
       {
-      acc += inputPtr->GetPixel(index)[i]
-        * inputPtr->GetPixel(index)[i];
+      acc += static_cast<TComputation>(inputPtr->GetPixel(index)[i])
+        * static_cast<TComputation>(inputPtr->GetPixel(index)[i]);
       }
 
     acc = sqrt(acc);
 
-    outputPtr->GetPixel(index) = acc;
+    outputPtr->GetPixel(index) = static_cast<OutputImagePixelType>(acc);
     }
 
   itkDebugMacro(<< "GradientToMagnitudeImageFilter::GenerateData() finished");
 }
 
-template< class TInputImage, class TOutputImage >
+template< class TInputImage, class TOutputImage, class TComputation >
 void
-GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
+GradientToMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
