@@ -189,8 +189,12 @@ protected:
   virtual ~ImageRegistrationMethod() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** Method invoked by the pipeline in order to trigger the computation of the registration. */
+  /** Method invoked by the pipeline in order to trigger the computation of 
+   * the registration. */
   void  GenerateData ();
+
+  /** Provides derived classes with the ability to set this private var */
+  itkSetMacro( LastTransformParameters, ParametersType );
 
 
 private:
