@@ -175,6 +175,16 @@ public:
         { return m_Matrix; }
 
     /**
+     * Set the transformation to an Identity
+     *
+     * This sets the matrix to identity and the Offset to null
+     *
+     **/
+    void SetIdentity( void )
+    { m_Matrix.SetIdentity();
+      m_Offset.Fill( 0.0 ); }
+
+    /**
      * Get inverse matrix of an AffineTransform
      *
      * This method returns the value of the inverse matrix of
