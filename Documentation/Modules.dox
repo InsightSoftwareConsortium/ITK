@@ -110,6 +110,21 @@ For a detailed description of iterators rationale see \ref ImageIteratorsPage
 */
 
 /**
+  \defgroup MathematicalMorphologyImageFilters Mathematical Morphology Image Filters 
+  \ingroup IntensityImageFilters
+
+  Mathematical morphology filters are a particular class of cellular automata.
+  They modify the value of a pixel based on the values of a neighborhood. 
+  The neighborhood is now as the structured element.
+
+  \sa Image
+  \sa PhysicalImage
+  \sa ImageRegion
+  \sa BinaryMorphologicalFilterBase
+*/
+
+
+/**
  \defgroup ImageEnhancement Image Enhancement Filters
  \ingroup ImageFilters
  Image enhancement filters process an image to enhance the appearance 
