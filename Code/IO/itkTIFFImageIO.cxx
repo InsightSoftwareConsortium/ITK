@@ -151,12 +151,15 @@ bool TIFFImageIO::CanReadFile(const char* file)
     }
 
   // Now check if this is a valid TIFF image
+  TIFFErrorHandler save = TIFFSetErrorHandler(0);
   int res = m_InternalImage->Open(file);
   if (res)
     {
+    TIFFSetErrorHandler(save);
     return true;
     }
   m_InternalImage->Clean();
+  TIFFSetErrorHandler(save);
   return false;
 }
   
