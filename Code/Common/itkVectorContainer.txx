@@ -115,7 +115,7 @@ void
 VectorContainer< TElementIdentifier , TElement >
 ::InsertElement(ElementIdentifier id, Element element)
 {
-  if(id >= this->VectorType::size())
+  if(id >= static_cast<ElementIdentifier>(this->VectorType::size()))
     {
     this->CreateIndex(id);
     }
@@ -172,7 +172,7 @@ void
 VectorContainer< TElementIdentifier , TElement >
 ::CreateIndex(ElementIdentifier id)
 {
-  if(id >= this->VectorType::size())
+  if(id >= static_cast<ElementIdentifier>(this->VectorType::size()))
     {
     /**
      * The vector must be expanded to fit the
