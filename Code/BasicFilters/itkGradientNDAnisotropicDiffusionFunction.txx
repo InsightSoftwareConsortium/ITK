@@ -75,7 +75,7 @@ template<class TImage>
 typename GradientNDAnisotropicDiffusionFunction<TImage>::PixelType
 GradientNDAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void *,
-                const FloatOffsetType&) const
+                const FloatOffsetType&)
 {
   unsigned int i, j;
 

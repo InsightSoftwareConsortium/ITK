@@ -77,7 +77,7 @@ public:
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void * globalData,
                                   const FloatOffsetType& offset = FloatOffsetType(0.0)
-    ) const;
+    );
 
   /** This method is called prior to each iteration of the solver. */
   virtual void InitializeIteration()

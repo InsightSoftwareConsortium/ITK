@@ -73,7 +73,7 @@ template<class TImage>
 typename CurvatureNDAnisotropicDiffusionFunction<TImage>::PixelType
 CurvatureNDAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void *itkNotUsed(globalData),
-                const FloatOffsetType& itkNotUsed(offset)) const
+                const FloatOffsetType& itkNotUsed(offset))
 {
   unsigned int i, j;
   double speed, dx_forward_Cn, dx_backward_Cn, propagation_gradient;
