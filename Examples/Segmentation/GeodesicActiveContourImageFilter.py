@@ -53,8 +53,8 @@ def main():
     gradientMagnitude = gM
 
     sigmoid = itk.itkSigmoidImageFilterF2F2_New()
-    sigmoid.SetOutputMinimum(  0.0  );
-    sigmoid.SetOutputMaximum(  1.0  );
+    sigmoid.SetOutputMinimum(  0.0  )
+    sigmoid.SetOutputMaximum(  1.0  )
     
     fastMarching = itk.itkFastMarchingImageFilterF2F2_New()
     
@@ -100,8 +100,8 @@ def main():
 
     # same as image
     seedPosition = itk.itkIndex2()
-    seedPosition.SetElement(0, float(sys.argv[3]))
-    seedPosition.SetElement(1, float(sys.argv[4]))
+    seedPosition.SetElement(0, int(sys.argv[3]))
+    seedPosition.SetElement(1, int(sys.argv[4]))
 
     initialDistance = float(sys.argv[5])
     seedValue = - initialDistance
