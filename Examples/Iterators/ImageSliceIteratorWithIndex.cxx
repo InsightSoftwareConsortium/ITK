@@ -292,6 +292,19 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
+// Running this example code on the 3D image
+// Insight/Examples/Data/BrainProtonDensity3Slices.mha using the $z$-axis as
+// the axis of projection gives the image shown in
+// figure~\ref{fig:ImageSliceIteratorWithIndexOutput}.
+//
+// \begin{figure}
+// \centering
+// \includegraphics[width=0.4\textwidth]{ImageSliceIteratorWithIndexOutput.eps}
+// \caption[Maximum intensity projection using ImageSliceIteratorWithIndex]{The
+// maximum intensity projection through three slices of a volume..}
+// \protect\label{fig:ImageSliceIteratorWithIndexOutput}
+// \end{figure}
+// 
 //  
 // \index{itk::ImageSliceIteratorWithIndex!example of using|)}
 //
