@@ -97,6 +97,25 @@ public:
     return *this;
     }
 
+  /** Subtract a size from an index. This method models a random access Index. */
+  const Self
+  operator-(const SizeType &size) const
+    {
+    Self result;
+    for (unsigned int i=0; i < VIndexDimension; i++)
+      { result[i] = m_Index[i] - static_cast<IndexValueType>(size[i]); }
+    return result;
+    }
+
+  /** Decrement index by a size. This method models a random access Index. */
+  const Self &
+  operator-=(const SizeType &size)
+    {
+    for (unsigned int i=0; i < VIndexDimension; i++)
+      { m_Index[i] -= static_cast<IndexValueType>(size[i]); }
+    return *this;
+    }
+
   /** Add an offset to an index. */
   const Self
   operator+(const OffsetType &offset) const
