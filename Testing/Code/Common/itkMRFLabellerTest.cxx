@@ -19,7 +19,7 @@
 #include "itkScalar.h"
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageRegionSimpleIterator.h"
 #include "itkGaussianSupervisedClassifier.h"
 #include "itkMRFLabeller.h"
 
@@ -61,54 +61,117 @@ int main()
   typedef VecImageType::PixelType::VectorType VecPixelType;
 
   enum { VecImageDimension = VecImageType::ImageDimension };
-  typedef
-    itk::ImageRegionIterator< VecPixelType, VecImageDimension> VecIterator;
+  typedef itk::ImageRegionSimpleIterator< VecImageType > VecIterator;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
-  outIt = outIt.Begin();
+  outIt.Begin();
+
+  //Set up the vector to store the image  data
+  typedef VecImageType::PixelType     DataVector;
+  DataVector   dblVec; 
 
   //--------------------------------------------------------------------------
   //Manually create and store each vector
   //--------------------------------------------------------------------------
   //Slice 1
   //Vector no. 1
-  *outIt = 21,19; ++outIt;
+  dblVec[0] = 21; 
+  dblVec[1] = 19;
+  outIt.Set(dblVec); 
+  ++outIt;
+
   //Vector no. 2
-  *outIt = 20,20; ++outIt;
+  dblVec[0] = 20; 
+  dblVec[1] = 20;
+  outIt.Set(dblVec); 
+  ++outIt;
+
   //Vector no. 3
-  *outIt = 8,11; ++outIt;
+  dblVec[0] = 8; 
+  dblVec[1] = 11;
+  outIt.Set(dblVec); 
+  ++outIt;
+
   //Vector no. 4
-  *outIt = 10,12; ++outIt;
+  dblVec[0] = 10; 
+  dblVec[1] = 12;
+  outIt.Set(dblVec); 
+  ++outIt;
 
   //Slice 2
   //Vector no. 1
-  *outIt = 22,21; ++outIt;
+  dblVec[0] = 22; 
+  dblVec[1] = 21;
+  outIt.Set(dblVec); 
+  ++outIt;
+
   //Vector no. 2
-  *outIt = 21,22; ++outIt;
+  dblVec[0] = 21; 
+  dblVec[1] = 22;
+  outIt.Set(dblVec);
+  ++outIt;
+
   //Vector no. 3
-  *outIt = 11,12; ++outIt;
+  dblVec[0] = 11; 
+  dblVec[1] = 12;
+  outIt.Set(dblVec); 
+  ++outIt;
+
   //Vector no. 4
-  *outIt = 9,10; ++outIt;
+  dblVec[0] = 9; 
+  dblVec[1] = 10;
+  outIt.Set(dblVec); 
+  ++outIt;
 
   //Slice 3
   //Vector no. 1 
-  *outIt = 19,20; ++outIt;
+  dblVec[0] = 19; 
+  dblVec[1] = 20;
+  outIt.Set(dblVec); 
+  ++outIt;
+
   //Vector no. 2
-  *outIt = 19,21; ++outIt;
+  dblVec[0] = 19; 
+  dblVec[1] = 21;
+  outIt.Set(dblVec); 
+  ++outIt;
+
   //Vector no. 3
-  *outIt = 11,11; ++outIt;
+  dblVec[0] = 11; 
+  dblVec[1] = 11;
+  outIt.Set(dblVec); 
+  ++outIt;
+
   //Vector no. 4
-  *outIt = 11,10; ++outIt;
+  dblVec[0] = 11; 
+  dblVec[1] = 10;
+  outIt.Set(dblVec); 
+  ++outIt;
 
   //Slice 4
   //Vector no. 1
-  *outIt = 18,18; ++outIt;
+  dblVec[0] = 18; 
+  dblVec[1] = 18;
+  outIt.Set(dblVec); 
+  ++outIt;
+
   //Vector no. 2
-  *outIt = 18,20; ++outIt;
+  dblVec[0] = 18; 
+  dblVec[1] = 20;
+  outIt.Set(dblVec); 
+  ++outIt;
+  
   //Vector no. 3
-  *outIt = 12,10; ++outIt;
+  dblVec[0] = 12; 
+  dblVec[1] = 10;
+  outIt.Set(dblVec); 
+  ++outIt;
+  
   //Vector no. 4
-  *outIt = 14,13; ++outIt;
+  dblVec[0] = 14; 
+  dblVec[1] = 13;
+  outIt.Set(dblVec); 
+  ++outIt;
 
   //---------------------------------------------------------------
   //Generate the training data
@@ -133,102 +196,83 @@ int main()
 
   unsigned int ClassImageDimension = NDIMENSION;
 
-  typedef
-    itk::ImageRegionIterator<ClassImagePixelType, NDIMENSION>  
-      ClassImageIterator;
+  typedef  itk::ImageRegionSimpleIterator<ClassImageType>  ClassImageIterator;
 
-  ClassImageIterator 
-	  classoutIt( classImage, classImage->GetBufferedRegion() );
-  classoutIt = classoutIt.Begin();
+  ClassImageIterator classoutIt( classImage, classImage->GetBufferedRegion() );
+
+  classoutIt.Begin();
 
 
 
-  ClassImagePixelType outputPixel;
   //--------------------------------------------------------------------------
   //Manually create and store each vector
   //--------------------------------------------------------------------------
   //Slice 1
   //Pixel no. 1
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 2 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 2 );
   ++classoutIt;
 
   //Pixel no. 2 
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 2 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 2 );
   ++classoutIt;
 
   //Pixel no. 3
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 1 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 1 );
   ++classoutIt;
 
   //Pixel no. 4
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 1 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 1 );
   ++classoutIt;
 
   //Slice 2
   //Pixel no. 1
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 0 );
   ++classoutIt;
   
   //Pixel no. 2
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 0 );
   ++classoutIt;
 
   //Pixel no. 3
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 0 );
   ++classoutIt;
 
   //Pixel no. 4
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 0 );
   ++classoutIt;
 
   //Slice 3
   //Pixel no. 1 
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 2 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 2 );
   ++classoutIt;
 
   //Pixel no. 2
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 2 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 2 );
   ++classoutIt;
   
   //Pixel no. 3
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 1 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 1 );
   ++classoutIt;
 
   //Pixel no. 4
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 1 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 1 );
   ++classoutIt;
 
   //Slice 4
   //Pixel no. 1
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 0 );
   ++classoutIt;
   
   //Pixel no. 2
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 0 );
   ++classoutIt;
 
   //Pixel no. 3
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 0 );
   ++classoutIt;
 
   //Pixel no. 4
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
-  *classoutIt = outputPixel;
+  classoutIt.Set( 0 );
   ++classoutIt;
 
   //----------------------------------------------------------------------
@@ -272,19 +316,15 @@ int main()
 
   //Print the mrf labelled image
   ClassImageIterator labeloutIt( outClassImage, outClassImage->GetBufferedRegion() );
-  labeloutIt = labeloutIt.Begin();
-  ClassImageIterator labeloutItEnd = labeloutIt.End();
+  labeloutIt.Begin();
 
   //Verify if the results were as per expectation
-  labeloutIt = labeloutIt.Begin();
-  labeloutItEnd = labeloutIt.End();
   bool passTest = true;
 
   //Loop through the data set
-  while(labeloutIt != labeloutItEnd)
+  while( ! labeloutIt.IsAtEnd() )
   {
-    int classIndex = 
-      (int) itk::ScalarTraits<ClassImagePixelType>::GetScalar( *labeloutIt );
+    int classIndex = (int) labeloutIt.Get();
     if (classIndex != 2)
     {
       passTest = false;
@@ -292,8 +332,7 @@ int main()
     }
     ++labeloutIt;
 
-    classIndex = 
-      (int) itk::ScalarTraits<ClassImagePixelType>::GetScalar( *labeloutIt );
+    classIndex = (int) labeloutIt.Get();
     if (classIndex != 2)
     {
       passTest = false;
@@ -301,8 +340,7 @@ int main()
     }
     ++labeloutIt;
 
-    classIndex = 
-      (int) itk::ScalarTraits<ClassImagePixelType>::GetScalar( *labeloutIt );
+    classIndex = (int) labeloutIt.Get();
     if (classIndex != 1)
     {
       passTest = false;
@@ -310,8 +348,7 @@ int main()
     }
     ++labeloutIt;
 
-    classIndex = 
-      (int) itk::ScalarTraits<ClassImagePixelType>::GetScalar( *labeloutIt );
+    classIndex = (int) labeloutIt.Get();
     if (classIndex != 1)
     {
       passTest = false;
