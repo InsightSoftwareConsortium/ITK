@@ -159,6 +159,12 @@ public:
    EigenVectorImagePointer GetMaxEigenVector( void );
 
 
+  /**
+   *  Create the Output
+   */
+   DataObject::Pointer MakeOutput(unsigned int idx);
+     
+
 protected:
   EigenAnalysis2DImageFilter();
   virtual ~EigenAnalysis2DImageFilter() {};
