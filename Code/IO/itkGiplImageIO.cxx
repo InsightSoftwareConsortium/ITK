@@ -21,9 +21,18 @@
 #include <list>
 #include <string>
 #include <math.h>
+#include <zlib.h>
 
 namespace itk
 {
+
+  class GiplImageIOInternals 
+    {
+    public:
+     gzFile          m_GzFile;
+    };
+
+
 
 /*  IMAGE TYPE DEFINITIONS  */
 
@@ -74,8 +83,9 @@ namespace itk
 /** Constructor */
 GiplImageIO::GiplImageIO()
 {
+  m_Internal = new GiplImageIOInternals;
+  m_Internal->m_GzFile = NULL;
   m_ByteOrder = BigEndian;
-  m_GzFile = NULL;
   m_IsCompressed = false;
 }
 
@@ -85,16 +95,17 @@ GiplImageIO::~GiplImageIO()
 {
   if (m_IsCompressed)
     {
-    if (m_GzFile != NULL)
+    if (m_Internal->m_GzFile != NULL)
       {
-      ::gzclose(m_GzFile);  
-      m_GzFile = NULL;
+      ::gzclose(m_Internal->m_GzFile);  
+      m_Internal->m_GzFile = NULL;
       }
     }
   else
     {
     m_Ifstream.close();
     }
+  delete m_Internal;
 }
 
 
@@ -142,15 +153,15 @@ bool GiplImageIO::CanReadFile( const char* filename )
     }
   else
     {
-    m_GzFile = ::gzopen( filename, "rb" );
-     if( m_GzFile == NULL )
+    m_Internal->m_GzFile = ::gzopen( filename, "rb" );
+     if( m_Internal->m_GzFile == NULL )
       {
       return false;
       }
     
-    ::gzseek( m_GzFile, 252, SEEK_SET );
+    ::gzseek( m_Internal->m_GzFile, 252, SEEK_SET );
     unsigned int magic_number;
-    ::gzread( m_GzFile, (char*)&magic_number,sizeof(unsigned int));    
+    ::gzread( m_Internal->m_GzFile, (char*)&magic_number,sizeof(unsigned int));    
 
     if(m_ByteOrder == BigEndian)
       {
@@ -163,12 +174,12 @@ bool GiplImageIO::CanReadFile( const char* filename )
     
      if((magic_number == GIPL_MAGIC_NUMBER) || (magic_number == GIPL_MAGIC_NUMBER2))
       {
-      gzclose( m_GzFile );
-      m_GzFile = NULL;
+      gzclose( m_Internal->m_GzFile );
+      m_Internal->m_GzFile = NULL;
        return true;
       }
-    gzclose( m_GzFile );
-    m_GzFile = NULL;
+    gzclose( m_Internal->m_GzFile );
+    m_Internal->m_GzFile = NULL;
     }
   return false;
 }
@@ -213,7 +224,7 @@ void GiplImageIO::Read(void* buffer)
   char * p = static_cast<char *>(buffer);
   if (m_IsCompressed)
     {
-    ::gzread( m_GzFile, p,this->GetImageSizeInBytes() );   
+    ::gzread( m_Internal->m_GzFile, p,this->GetImageSizeInBytes() );   
     }
   else
     {
@@ -239,8 +250,8 @@ void GiplImageIO::Read(void* buffer)
 
   if (m_IsCompressed)
     {
-    ::gzclose(m_GzFile);
-    m_GzFile = NULL;
+    ::gzclose(m_Internal->m_GzFile);
+    m_Internal->m_GzFile = NULL;
     }
   else
     {
@@ -266,8 +277,8 @@ void GiplImageIO::ReadImageInformation()
 
   if (m_IsCompressed)
     {
-    m_GzFile = ::gzopen( m_FileName.c_str(), "rb" );
-     if( m_GzFile == NULL )
+    m_Internal->m_GzFile = ::gzopen( m_FileName.c_str(), "rb" );
+     if( m_Internal->m_GzFile == NULL )
        {
         ExceptionObject exception(__FILE__, __LINE__);
         exception.SetDescription("File cannot be read");
@@ -297,7 +308,7 @@ void GiplImageIO::ReadImageInformation()
     {
     if (m_IsCompressed)
       {
-        ::gzread( m_GzFile,(char*)&dims[i],sizeof(unsigned short));   
+        ::gzread( m_Internal->m_GzFile,(char*)&dims[i],sizeof(unsigned short));   
       }
     else
       {
@@ -341,7 +352,7 @@ void GiplImageIO::ReadImageInformation()
 
   if (m_IsCompressed)
     {
-    ::gzread( m_GzFile,(char*)&image_type,sizeof(unsigned short));   
+    ::gzread( m_Internal->m_GzFile,(char*)&image_type,sizeof(unsigned short));   
     }
   else
     {
@@ -374,7 +385,7 @@ void GiplImageIO::ReadImageInformation()
     {
     if (m_IsCompressed)
       {
-      ::gzread( m_GzFile,(char*)&pixdim[i],sizeof(float));   
+      ::gzread( m_Internal->m_GzFile,(char*)&pixdim[i],sizeof(float));   
       }
     else
       {
@@ -400,7 +411,7 @@ void GiplImageIO::ReadImageInformation()
     {
      if (m_IsCompressed)
       {
-        ::gzread( m_GzFile,(char*)&line1[i],sizeof(char));   
+        ::gzread( m_Internal->m_GzFile,(char*)&line1[i],sizeof(char));   
       }
       else
       {
@@ -414,7 +425,7 @@ void GiplImageIO::ReadImageInformation()
     {
      if (m_IsCompressed)
       {
-        ::gzread( m_GzFile,(char*)&matrix[i],sizeof(float));   
+        ::gzread( m_Internal->m_GzFile,(char*)&matrix[i],sizeof(float));   
       }
       else
       {
@@ -434,7 +445,7 @@ void GiplImageIO::ReadImageInformation()
   char    flag1;             /*  186    1  Orientation flag (below)    */
   if (m_IsCompressed)
       {
-      ::gzread( m_GzFile,(char*)&flag1,sizeof(char));   
+      ::gzread( m_Internal->m_GzFile,(char*)&flag1,sizeof(char));   
       }
     else
       {
@@ -453,7 +464,7 @@ void GiplImageIO::ReadImageInformation()
   char    flag2;             /*  187    1                              */
   if (m_IsCompressed)
     {
-    ::gzread( m_GzFile,(char*)&flag2,sizeof(char));   
+    ::gzread( m_Internal->m_GzFile,(char*)&flag2,sizeof(char));   
     }
   else
     {
@@ -473,7 +484,7 @@ void GiplImageIO::ReadImageInformation()
   double  min;               /*  188    8  Minimum voxel value         */   
   if (m_IsCompressed)
     {
-    ::gzread( m_GzFile,(char*)&min,sizeof(double));   
+    ::gzread( m_Internal->m_GzFile,(char*)&min,sizeof(double));   
     }
   else
     {
@@ -483,7 +494,7 @@ void GiplImageIO::ReadImageInformation()
   double  max;               /*  196    8  Maximum voxel value         */
   if (m_IsCompressed)
     {
-    ::gzread( m_GzFile,(char*)&max,sizeof(double));   
+    ::gzread( m_Internal->m_GzFile,(char*)&max,sizeof(double));   
     }
   else
     {
@@ -495,7 +506,7 @@ void GiplImageIO::ReadImageInformation()
     {
     if (m_IsCompressed)
       {
-        ::gzread( m_GzFile,(char*)&origin[i],sizeof(double));   
+        ::gzread( m_Internal->m_GzFile,(char*)&origin[i],sizeof(double));   
       }
     else
       {
@@ -506,7 +517,7 @@ void GiplImageIO::ReadImageInformation()
   float   pixval_offset;     /*  236    4                              */
   if (m_IsCompressed)
     {
-    ::gzread( m_GzFile,(char*)&pixval_offset,sizeof(float));   
+    ::gzread( m_Internal->m_GzFile,(char*)&pixval_offset,sizeof(float));   
     }
   else
     {
@@ -525,7 +536,7 @@ void GiplImageIO::ReadImageInformation()
   float   pixval_cal;        /*  240    4                              */
   if (m_IsCompressed)
     {
-    ::gzread( m_GzFile,(char*)&pixval_cal,sizeof(float));   
+    ::gzread( m_Internal->m_GzFile,(char*)&pixval_cal,sizeof(float));   
     }
   else
     {
@@ -544,7 +555,7 @@ void GiplImageIO::ReadImageInformation()
   float   user_def1;         /*  244    4  Inter-slice Gap             */
   if (m_IsCompressed)
     {
-    ::gzread( m_GzFile,(char*)&user_def1,sizeof(float));   
+    ::gzread( m_Internal->m_GzFile,(char*)&user_def1,sizeof(float));   
     }
   else
     {
@@ -564,7 +575,7 @@ void GiplImageIO::ReadImageInformation()
   float   user_def2;         /*  248    4  User defined field          */
   if (m_IsCompressed)
     {
-    ::gzread( m_GzFile,(char*)&user_def2,sizeof(float));   
+    ::gzread( m_Internal->m_GzFile,(char*)&user_def2,sizeof(float));   
     }
   else
     {
@@ -583,7 +594,7 @@ void GiplImageIO::ReadImageInformation()
   unsigned int magic_number; /*  252    4 Magic Number                 */
   if (m_IsCompressed)
     {
-    ::gzread( m_GzFile,(char*)&magic_number,sizeof(unsigned int));   
+    ::gzread( m_Internal->m_GzFile,(char*)&magic_number,sizeof(unsigned int));   
     }
   else
     {
@@ -697,8 +708,8 @@ GiplImageIO
 
   if (m_IsCompressed)
     {
-    m_GzFile = ::gzopen( m_FileName.c_str(), "wb" );
-    if( m_GzFile == NULL )
+    m_Internal->m_GzFile = ::gzopen( m_FileName.c_str(), "wb" );
+    if( m_Internal->m_GzFile == NULL )
        {
        ExceptionObject exception(__FILE__, __LINE__);
        exception.SetDescription("File cannot be write");
@@ -735,7 +746,7 @@ GiplImageIO
  
       if (m_IsCompressed)
         {
-       ::gzwrite( m_GzFile,(char*)&(value),sizeof(unsigned short));
+       ::gzwrite( m_Internal->m_GzFile,(char*)&(value),sizeof(unsigned short));
         }
       else
         {
@@ -755,7 +766,7 @@ GiplImageIO
         }
        if (m_IsCompressed)
         {
-        ::gzwrite( m_GzFile,(char*)&(value),sizeof(unsigned short));
+        ::gzwrite( m_Internal->m_GzFile,(char*)&(value),sizeof(unsigned short));
         }
       else
         {
@@ -791,7 +802,7 @@ GiplImageIO
  
   if (m_IsCompressed)
     {
-   ::gzwrite( m_GzFile,(char*)&image_type,sizeof(unsigned short));
+   ::gzwrite( m_Internal->m_GzFile,(char*)&image_type,sizeof(unsigned short));
     }
   else
     {
@@ -814,7 +825,7 @@ GiplImageIO
         }
       if (m_IsCompressed)
         {
-        ::gzwrite( m_GzFile,(char*)&value,sizeof(float));
+        ::gzwrite( m_Internal->m_GzFile,(char*)&value,sizeof(float));
         }
       else
         {
@@ -834,7 +845,7 @@ GiplImageIO
         }
       if (m_IsCompressed)
         {
-        ::gzwrite( m_GzFile,(char*)&value,sizeof(float));
+        ::gzwrite( m_Internal->m_GzFile,(char*)&value,sizeof(float));
         }
       else
         {
@@ -855,7 +866,7 @@ GiplImageIO
     {
     if (m_IsCompressed)
       {
-      ::gzwrite( m_GzFile,(char*)&line1[i],sizeof(char));
+      ::gzwrite( m_Internal->m_GzFile,(char*)&line1[i],sizeof(char));
       }
     else
       {
@@ -869,7 +880,7 @@ GiplImageIO
     matrix[i]=0; //write zeros
     if (m_IsCompressed)
       {
-      ::gzwrite( m_GzFile,(char*)&matrix[i],sizeof(float));
+      ::gzwrite( m_Internal->m_GzFile,(char*)&matrix[i],sizeof(float));
       }
     else
       {
@@ -880,7 +891,7 @@ GiplImageIO
   char    flag1=0;             /*  186    1  Orientation flag (below)    */
   if (m_IsCompressed)
     {
-    ::gzwrite( m_GzFile,(char*)&flag1,sizeof(char));
+    ::gzwrite( m_Internal->m_GzFile,(char*)&flag1,sizeof(char));
     }
   else
     {
@@ -890,7 +901,7 @@ GiplImageIO
   char    flag2=0;             /*  187    1                              */
   if (m_IsCompressed)
     {
-   ::gzwrite( m_GzFile,(char*)&flag2,sizeof(char));
+   ::gzwrite( m_Internal->m_GzFile,(char*)&flag2,sizeof(char));
     }
   else
     {
@@ -900,7 +911,7 @@ GiplImageIO
   double  min=0;               /*  188    8  Minimum voxel value         */
   if (m_IsCompressed)
     {
-    ::gzwrite( m_GzFile,(char*)&min,sizeof(double));
+    ::gzwrite( m_Internal->m_GzFile,(char*)&min,sizeof(double));
     }
   else
     {
@@ -910,7 +921,7 @@ GiplImageIO
   double  max=0;               /*  196    8  Maximum voxel value         */
   if (m_IsCompressed)
     {
-    ::gzwrite( m_GzFile,(char*)&max,sizeof(double));
+    ::gzwrite( m_Internal->m_GzFile,(char*)&max,sizeof(double));
     }
   else
     {
@@ -923,7 +934,7 @@ GiplImageIO
     origin[i]=0;
     if (m_IsCompressed)
       {
-      ::gzwrite( m_GzFile,(char*)&origin[i],sizeof(double));
+      ::gzwrite( m_Internal->m_GzFile,(char*)&origin[i],sizeof(double));
       }
     else
       {
@@ -934,7 +945,7 @@ GiplImageIO
   float   pixval_offset=0;     /*  236    4                            */
   if (m_IsCompressed)
     {
-    ::gzwrite( m_GzFile,(char*)&pixval_offset,sizeof(float));
+    ::gzwrite( m_Internal->m_GzFile,(char*)&pixval_offset,sizeof(float));
     }
   else
     {
@@ -944,7 +955,7 @@ GiplImageIO
   float   pixval_cal=0;        /*  240    4                              */
   if (m_IsCompressed)
     {
-    ::gzwrite( m_GzFile,(char*)&pixval_cal,sizeof(float));
+    ::gzwrite( m_Internal->m_GzFile,(char*)&pixval_cal,sizeof(float));
     }
   else
     {
@@ -954,7 +965,7 @@ GiplImageIO
   float   user_def1=0;         /*  244    4  Inter-slice Gap             */
   if (m_IsCompressed)
     {
-    ::gzwrite( m_GzFile,(char*)&user_def1,sizeof(float));
+    ::gzwrite( m_Internal->m_GzFile,(char*)&user_def1,sizeof(float));
     }
   else
     {
@@ -964,7 +975,7 @@ GiplImageIO
   float   user_def2=0;         /*  248    4  User defined field          */
   if (m_IsCompressed)
     {
-    ::gzwrite( m_GzFile,(char*)&user_def2,sizeof(float));
+    ::gzwrite( m_Internal->m_GzFile,(char*)&user_def2,sizeof(float));
     }
   else
     {
@@ -983,7 +994,7 @@ GiplImageIO
 
   if (m_IsCompressed)
     {
-    ::gzwrite( m_GzFile,(char*)&magic_number,sizeof(unsigned int));
+    ::gzwrite( m_Internal->m_GzFile,(char*)&magic_number,sizeof(unsigned int));
     }
   else
     {
@@ -1012,7 +1023,7 @@ GiplImageIO
       SwapBytesIfNecessary(tempBuffer, numberOfComponents );
       if (m_IsCompressed)
         {
-        ::gzwrite( m_GzFile,tempBuffer, numberOfBytes );
+        ::gzwrite( m_Internal->m_GzFile,tempBuffer, numberOfBytes );
         }
       else
         {
@@ -1027,7 +1038,7 @@ GiplImageIO
       SwapBytesIfNecessary(tempBuffer, numberOfComponents );
       if (m_IsCompressed)
         {
-        ::gzwrite( m_GzFile,tempBuffer,numberOfBytes);
+        ::gzwrite( m_Internal->m_GzFile,tempBuffer,numberOfBytes);
         }
       else
         {
@@ -1039,7 +1050,7 @@ GiplImageIO
       {
       if (m_IsCompressed)
         {
-        ::gzwrite( m_GzFile,(char*)(buffer), numberOfBytes);
+        ::gzwrite( m_Internal->m_GzFile,(char*)(buffer), numberOfBytes);
         }
       else
         {
@@ -1050,8 +1061,8 @@ GiplImageIO
 
   if (m_IsCompressed)
     {
-    ::gzclose(m_GzFile);
-    m_GzFile = NULL;
+    ::gzclose(m_Internal->m_GzFile);
+    m_Internal->m_GzFile = NULL;
     }
   else
     {
