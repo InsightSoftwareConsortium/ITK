@@ -25,17 +25,21 @@ namespace itk
 {
 
 /** \class ImageConstIteratorWithIndex
- * \brief Multi-dimensional image iterator.
- * 
+ * \brief A base class for multi-dimensional iterators templated over image
+ * type that are designed to efficiently keep track of the iterator
+ * position.
+ *
  * ImageConstIteratorWithIndex is a templated class to represent a
  * multi-dimensional iterator. ImageConstIteratorWithIndex is templated
  * over the dimension of the image and the data type of the image.
  *
- * ImageConstIteratorWithIndex is a base class for image iterators. It
- * provides the basic construction and comparison operations.
- * However, it does not provide mechanisms for moving the iterator.  A
- * subclass of ImageConstIteratorWithIndex must be used to move the
- * iterator.
+ * ImageConstIteratorWithIndex is a base class for the "WithIndex" family of
+ * ITK image iterators, which are designed to effeciently keep track of the
+ * image index position of the iterator during increment and decrement
+ * operations.  This iterator is a base class and provides only the basic
+ * construction and comparison operations. It does not provide mechanisms for
+ * moving the iterator.  A subclass of ImageConstIteratorWithIndex must be used
+ * to move the iterator.
  * 
  * ImageConstIteratorWithIndex is a multi-dimensional iterator, requiring
  * more information be specified before the iterator can be used than
@@ -51,6 +55,35 @@ namespace itk
  * data. In particular, the data is arranged in a 1D array as if it
  * were [][][][slice][row][col] with Index[0] = col, Index[1] = row,
  * Index[2] = slice, etc.
+ *
+ * \par MORE INFORMATION
+ * For a complete description of the ITK Image Iterators and their API, please
+ * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
+ * is available in print and as a free .pdf download from http://www.itk.org.
+ *
+ * \ingroup ImageIterators
+ *
+ * \sa ImageConstIterator \sa ConditionalConstIterator
+ * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
+ * \sa FloodFilledFunctionConditionalConstIterator 
+ * \sa FloodFilledImageFunctionConditionalConstIterator 
+ * \sa FloodFilledImageFunctionConditionalIterator 
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator 
+ * \sa FloodFilledSpatialFunctionConditionalIterator 
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ImageIterator \sa ImageIteratorWithIndex
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
+ * \sa ImageRegionExclusionConstIteratorWithIndex 
+ * \sa ImageRegionExclusionIteratorWithIndex 
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
  *
  * \ingroup ImageIterators
  */

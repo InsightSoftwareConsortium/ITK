@@ -28,22 +28,47 @@ namespace itk
  * \class PathConstIterator
  * \brief PathConstIterator iterates (traces) over a path through an image.
  *
- * This iterator visits only those indices of the image which are overlapped by
- * the path.  All indicies are visited in path order.  If a path crosses itself
- * at an index, that index of the image will be visited twice.  An exception to
- * this rule is that if the path is closed (more specifically, if its starting
- * and ending indicies are coincident), then GoToBegin() will go to the second
- * index, since the "first" index will be visited later as the "last" index. 
- * This is so that paths (especially parametric paths) can be properly closed,
- * without double-visiting the starting/ending point.  This behavior can be
- * overridden by calling VisitStartIndexAsLastIndexIfClosed(false) before
- * calling GoToBegin().  This class is the const version of the PathIterator,
- * and for this reason it doesn't support the Set() method.
- * 
- * \ingroup ImageIterators
- * \ingroup PathObjects
+ * This iterator visits only those indices of the image that are overlapped by
+ * a specified 1D path.  All indicies are visited in path order.  If a path
+ * crosses itself at an index, that index of the image will be visited twice.
+ * An exception to this rule is that if the path is closed, i.e. its starting
+ * and ending indicies are coincident.  When starting and ending indicies are
+ * coincident, GoToBegin() will go to the second index, since the "first" index
+ * will be visited later as the "last" index.  This is so that paths
+ * (especially parametric paths) can be properly closed, without
+ * double-visiting the starting/ending point.  This behavior can be overridden
+ * by calling VisitStartIndexAsLastIndexIfClosed(false) before calling
+ * GoToBegin().  This class is the const version of the PathIterator, and for
+ * this reason it doesn't support the Set() method.
  *
- */
+ * \par MORE INFORMATION
+ * For a complete description of the ITK Image Iterators and their API, please
+ * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
+ * is available in print and as a free .pdf download from http://www.itk.org.
+ *
+ * \ingroup PathObjects \ingroup ImageIterators
+ *
+ * \sa ImageConstIterator \sa ConditionalConstIterator
+ * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
+ * \sa FloodFilledFunctionConditionalConstIterator 
+ * \sa FloodFilledImageFunctionConditionalConstIterator 
+ * \sa FloodFilledImageFunctionConditionalIterator 
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator 
+ * \sa FloodFilledSpatialFunctionConditionalIterator 
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ImageIterator \sa ImageIteratorWithIndex
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
+ * \sa ImageRegionExclusionConstIteratorWithIndex 
+ * \sa ImageRegionExclusionIteratorWithIndex 
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
+ * \sa NeighborhoodIterator \sa PathIterator \sa ShapedNeighborhoodIterator
+ * \sa SliceIterator \sa ImageConstIteratorWithIndex */
 template<class TImage, class TPath>
 class ITK_EXPORT PathConstIterator
 {

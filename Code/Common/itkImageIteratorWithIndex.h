@@ -24,18 +24,42 @@ namespace itk
 
 /**
  * \class ImageIteratorWithIndex
- * \brief Multi-dimensional image iterator.
- * 
- * ImageIteratorWithIndex is a templated class to represent a
- * multi-dimensional iterator. ImageIteratorWithIndex is templated
- * over the dimension of the image and the data type of the image.
+ * \brief A base class for multi-dimensional iterators templated over image
+ * type that are designed to efficiently keep track of the iterator
+ * position.
  *
- * Most of the ImageIteratorWithIndex functionality is inherited from 
- * its superclass the ImageConstIteratorWithIndex. This iterator
- * only adds read/write access to image pixels.
+ * This class inherits from ImageConstIteratorWithIndex and only adds
+ * write-access functionality.  See ImageConstIteratorWithIndex for more
+ * information.
+ *
+ * \par MORE INFORMATION
+ * For a complete description of the ITK Image Iterators and their API, please
+ * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
+ * is available in print and as a free .pdf download from http://www.itk.org.
  *
  * \ingroup ImageIterators
  *
+ * \sa ImageConstIterator \sa ConditionalConstIterator
+ * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
+ * \sa FloodFilledFunctionConditionalConstIterator 
+ * \sa FloodFilledImageFunctionConditionalConstIterator 
+ * \sa FloodFilledImageFunctionConditionalIterator 
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator 
+ * \sa FloodFilledSpatialFunctionConditionalIterator 
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ImageIterator \sa ImageIteratorWithIndex
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
+ * \sa ImageRegionExclusionConstIteratorWithIndex 
+ * \sa ImageRegionExclusionIteratorWithIndex 
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
  * \sa ImageConstIteratorWithIndex
  *
  *  */

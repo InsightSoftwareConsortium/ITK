@@ -24,19 +24,20 @@ namespace itk
 {
 
 /** \class ImageRegionConstIterator
- * \brief Multi-dimensional image iterator which walks a region.
- * 
- * \sa ImageRegionIterator
+ * \brief A multi-dimensional iterator templated over image type that walks a
+ * region of pixels.
  *
- * ImageRegionConstIterator is a templated class to represent a
- * multi-dimensional iterator. ImageRegionConstIterator is templated
- * over the image type, and is constrained to walk only within the
- * specified region.  To walk the entire image, specify the region to
- * be \c image->GetLargestPossibleRegion().
+ * The itk::ImageRegionConstIterator is optimized for iteration speed and is the
+ * first choice for iterative, pixel-wise operations on an image.
+ * ImageRegionIterator is the least specialized of the ITK image iterator
+ * classes.  ImageRegionConstIterator is templated over the image type, and is
+ * constrained to walk only within the specified region and along a line
+ * parallel to one of the coordinate axes, "wrapping" to the next line as it
+ * reaches the boundary of the image.  To walk the entire image, specify the
+ * region to be \c image->GetRequestedRegion().
  *
- * ImageRegionConstIterator provides read-only access to image data. Its behavior
- * is similar to the one of ImageRegionIterator with the exception of lacking a 
- * Set() method.
+ * ImageRegionConstIterator provides read-only access to image data.  It is the
+ * base class for the read/write access ImageRegionIterator.
  *
  * ImageRegionConstIterator is a multi-dimensional iterator, requiring more
  * information be specified before the iterator can be used than conventional
@@ -68,8 +69,37 @@ namespace itk
  *
  * \endcode
  *
+ *
+ * \par MORE INFORMATION
+ * For a complete description of the ITK Image Iterators and their API, please
+ * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
+ * is available in print and as a free .pdf download from http://www.itk.org.
+ *
  * \ingroup ImageIterators
- */
+ * \example Iterators/ImageRegionIterator.cxx
+ *
+ * \sa ImageConstIterator \sa ConditionalConstIterator
+ * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
+ * \sa FloodFilledFunctionConditionalConstIterator 
+ * \sa FloodFilledImageFunctionConditionalConstIterator 
+ * \sa FloodFilledImageFunctionConditionalIterator 
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator 
+ * \sa FloodFilledSpatialFunctionConditionalIterator 
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ImageIterator \sa ImageIteratorWithIndex
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
+ * \sa ImageRegionExclusionConstIteratorWithIndex 
+ * \sa ImageRegionExclusionIteratorWithIndex 
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
+ * \sa ImageConstIteratorWithIndex */
 template<typename TImage>
 class ITK_EXPORT ImageRegionConstIterator : public ImageConstIterator<TImage>
 {

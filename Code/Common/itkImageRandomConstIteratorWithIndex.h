@@ -23,31 +23,22 @@ namespace itk
 {
 
 /** \class ImageRandomConstIteratorWithIndex
- * \brief Multi-dimensional image iterator which walks randomly within a region.
+ * \brief A multi-dimensional image iterator that visits a random set of pixels
+ * within an image region.
  * 
- * ImageRandomConstIteratorWithIndex is a templated class to represent a multi-dimensional
- * iterator. ImageRandomConstIteratorWithIndex is templated over the image type
- * ImageRandomConstIteratorWithIndex is constrained to walk only within the 
- * specified region. It samples random pixel positions at each increment.
- *
- * ImageRandomConstIteratorWithIndex is a multi-dimensional iterator, requiring more
- * information be specified before the iterator can be used than conventional
- * iterators. Whereas the std::vector::iterator from the STL only needs to be
- * passed a pointer to establish the iterator, the multi-dimensional image
- * iterator needs a pointer, the size of the buffer, the size of the region,
- * the start index of the buffer, and the start index of the region. To gain
- * access to this information, ImageRandomConstIteratorWithIndex holds a reference to the
- * image over which it is traversing.
+ * ImageRandomConstIteratorWithIndex is a multi-dimensional iterator class that
+ * is templated over image type.  ImageRandomConstIteratorWithIndex is
+ * constrained to walk  only within the specified region. It samples random
+ * pixel positions at each increment or decrement.
  *
  * ImageRandomConstIteratorWithIndex assumes a particular layout of the image data. The
  * is arranged in a 1D array as if it were [][][][slice][row][col] with
  * Index[0] = col, Index[1] = row, Index[2] = slice, etc.
  *
- * operator++ provides a simple syntax for walking around a region of
- * a multidimensional image. operator++ performs a jump to a random
- * position within the specified image region. 
- * This is designed to facilitate the extraction
- * of random samples from the image.
+ * The operator++ method provides a simple syntax for walking around a region
+ * of a multidimensional image. operator++ performs a jump to a random position
+ * within the specified image region.  This is designed to facilitate the
+ * extraction of random samples from the image.
  *
  * This is the typical use of this iterator in a loop:
  *
@@ -84,11 +75,37 @@ namespace itk
  * \warning Incrementing the iterator (++it) followed by a decrement (--it)
  * or vice versa does not in general return the iterator to the same position.
  *
- * \example  Common/itkImageRandomConstIteratorWithIndexTest.cxx
+ * \example  Examples/itkImageRandomConstIteratorWithIndex.cxx
  *
+ * \par MORE INFORMATION
+ * For a complete description of the ITK Image Iterators and their API, please
+ * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
+ * is available in print and as a free .pdf download from http://www.itk.org.
  *
  * \ingroup ImageIterators
  *
+ * \sa ImageConstIterator \sa ConditionalConstIterator
+ * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
+ * \sa FloodFilledFunctionConditionalConstIterator 
+ * \sa FloodFilledImageFunctionConditionalConstIterator 
+ * \sa FloodFilledImageFunctionConditionalIterator 
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator 
+ * \sa FloodFilledSpatialFunctionConditionalIterator 
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ImageIterator \sa ImageIteratorWithIndex
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
+ * \sa ImageRegionExclusionConstIteratorWithIndex 
+ * \sa ImageRegionExclusionIteratorWithIndex 
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
+ * \sa ImageConstIteratorWithIndex
  *
  */
 template<typename TImage>

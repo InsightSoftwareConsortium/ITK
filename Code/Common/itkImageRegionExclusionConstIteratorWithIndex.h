@@ -23,37 +23,39 @@ namespace itk
 {
 
 /** \class ImageRegionExclusionConstIteratorWithIndex
- * \brief Multi-dimensional image iterator which walks a region 
- * excluding a second region completly contained in the first.
+ *
+ *  \brief Multi-dimensional image iterator that walks an image region,
+ *  excluding a second region contained within the first.
  * 
- * ImageRegionExclusionConstIteratorWithIndex is a templated class to represent a
- * multi-dimensional iterator. ImageRegionExclusionConstIteratorWithIndex is templated
- * over the image type.  ImageRegionExclusionConstIteratorWithIndex is constrained to
- * walk only within the specified region. The exclusion regions has to be set
- * after construction. By default the exclusion region is empty and the 
- * iterator will behave as the itk::ImageRegionIteratorWithIndex with a penalty
- * in performace due to internal extra checking.
+ * ImageRegionExclusionConstIteratorWithIndex is a templated class to represent
+ * a multi-dimensional iterator. ImageRegionExclusionConstIteratorWithIndex is
+ * templated over the image type.  ImageRegionExclusionConstIteratorWithIndex
+ * is constrained to walk only within the specified region. The exclusion
+ * region is set after construction. By default the exclusion region is empty
+ * and the iterator will behave as the itk::ImageRegionIteratorWithIndex with a
+ * penalty in performance due to internal bounds checking.
  *
- * ImageRegionExclusionConstIteratorWithIndex is a multi-dimensional iterator,
- * requiring more information be specified before the iterator can be
- * used than conventional iterators. Whereas the std::vector::iterator
- * from the STL only needs to be passed a pointer to establish the
- * iterator, the multi-dimensional image iterator needs a pointer, the
- * size of the buffer, the size of the region, the start index of the
- * buffer, and the start index of the region. To gain access to this
- * information, ImageRegionExclusionConstIteratorWithIndex holds a reference to the
- * image over which it is traversing.
+ * As with other ITK image iterators,
+ * ImageRegionExclusionConstIteratorWithIndex requires more information be
+ * specified before the iterator can be used than conventional
+ * iterators. Whereas the std::vector::iterator from the STL only needs to be
+ * passed a pointer to establish the iterator, the multi-dimensional image
+ * iterator needs a pointer, the size of the buffer, the size of the region,
+ * the start index of the buffer, and the start index of the region. To gain
+ * access to this information, ImageRegionExclusionConstIteratorWithIndex holds
+ * a reference to the image over which it is traversing.
  *
- * ImageRegionExclusionConstIteratorWithIndex assumes a particular layout of the image data. The
- * is arranged in a 1D array as if it were [][][][slice][row][col] with
- * Index[0] = col, Index[1] = row, Index[2] = slice, etc.
+ * ImageRegionExclusionConstIteratorWithIndex assumes a particular layout of
+ * the image data. The is arranged in a 1D array as if it were
+ * [][][][slice][row][col] with Index[0] = col, Index[1] = row, Index[2] =
+ * slice, etc.
  *
- * operator++ provides a simple syntax for walking around a region of
- * a multidimensional image. operator++ iterates across a row, constraining
- * the movement to within a region of image. When the iterator reaches
- * the boundary of the region along a row, the iterator automatically
- * wraps to the next row, starting at the first pixel in the row that is
- * part of the region. This allows for simple processing loops of the form:
+ * The operator++ method provides a simple syntax for walking around a region
+ * of a multidimensional image. operator++ iterates across a row, constraining
+ * the movement to within a region of image. When the iterator reaches the
+ * boundary of the region along a row, the iterator automatically wraps to the
+ * next row, starting at the first pixel in the row that is part of the
+ * region. This allows for simple processing loops of the form:
  *
  * \example itkImageRegionExclusionConstIteratorWithIndex
  *
@@ -90,8 +92,35 @@ namespace itk
  *
  * \endcode
  *
+ * \par MORE INFORMATION
+ * For a complete description of the ITK Image Iterators and their API, please
+ * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
+ * is available in print and as a free .pdf download from http://www.itk.org.
+ *
  * \ingroup ImageIterators
- */
+ *
+ * \sa ImageConstIterator \sa ConditionalConstIterator
+ * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
+ * \sa FloodFilledFunctionConditionalConstIterator 
+ * \sa FloodFilledImageFunctionConditionalConstIterator 
+ * \sa FloodFilledImageFunctionConditionalIterator 
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator 
+ * \sa FloodFilledSpatialFunctionConditionalIterator 
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ImageIterator \sa ImageIteratorWithIndex
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
+ * \sa ImageRegionExclusionConstIteratorWithIndex 
+ * \sa ImageRegionExclusionIteratorWithIndex 
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
+ * \sa ImageConstIteratorWithIndex */
 template<typename TImage>
 class ITK_EXPORT ImageRegionExclusionConstIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
 {

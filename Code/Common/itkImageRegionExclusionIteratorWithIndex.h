@@ -24,23 +24,42 @@ namespace itk
 {
 
 /** \class ImageRegionExclusionIteratorWithIndex
- * \brief Multi-dimensional image iterator which only walks a region.
- * 
- * ImageRegionExclusionIteratorWithIndex is a templated class to represent a multi-dimensional
- * iterator. ImageRegionExclusionIteratorWithIndex is templated over the image type
- * ImageRegionExclusionIteratorWithIndex is constrained to walk only within the 
- * specified region and along a line parallel to one of the coordinate axis.
+ *  \brief Multi-dimensional image iterator that walks an image region,
+ *  excluding a second region contained within the first.
  *
- * Most of the functionality is inherited from the ImageRegionExclusionConstIteratorWithIndex.
- * The current class only adds write access to image pixels.
+ * Most of the functionality of this iterator is inherited from the
+ * ImageRegionExclusionConstIteratorWithIndex, which should be consulted for
+ * details.  This class only adds write access to the iterator.
  *
- * 
- * \sa ImageRegionExclusionConstIteratorWithIndex
+ * \par MORE INFORMATION
+ * For a complete description of the ITK Image Iterators and their API, please
+ * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
+ * is available in print and as a free .pdf download from http://www.itk.org.
  *
  * \ingroup ImageIterators
  *
- *
- */
+ * \sa ImageConstIterator \sa ConditionalConstIterator
+ * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
+ * \sa FloodFilledFunctionConditionalConstIterator 
+ * \sa FloodFilledImageFunctionConditionalConstIterator 
+ * \sa FloodFilledImageFunctionConditionalIterator 
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator 
+ * \sa FloodFilledSpatialFunctionConditionalIterator 
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ImageIterator \sa ImageIteratorWithIndex
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
+ * \sa ImageRegionExclusionConstIteratorWithIndex 
+ * \sa ImageRegionExclusionIteratorWithIndex 
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
+ * \sa ImageConstIteratorWithIndex */
 template<typename TImage>
 class ITK_EXPORT ImageRegionExclusionIteratorWithIndex : public ImageRegionExclusionConstIteratorWithIndex<TImage>
 {
