@@ -106,10 +106,22 @@ int main()
 
   RegistrationType::Pointer registrationMethod = RegistrationType::New();
 
+  // connect the images
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(imgTarget);
 
-  registrationMethod->SetNumberOfIterations( 500 );
+  // set the transformation centers
+  RegistrationType::PointType transCenter;
+  for( unsigned int j = 0; j < 2; j++ )
+    {
+    transCenter[j] = double(size[j]) / 2;
+    }
+
+  registrationMethod->SetTargetTransformationCenter( transCenter );
+  registrationMethod->SetReferenceTransformationCenter( transCenter );
+
+  // set optimization related parameters
+  registrationMethod->SetNumberOfIterations( 250 );
   registrationMethod->SetLearningRate( 0.1 );
   registrationMethod->ScreenDumpOn();
   
@@ -117,20 +129,20 @@ int main()
   // only allow translation - since the metric will allow any
   // rotation without penalty as image is circular
   //
-  RegistrationType::ScalingWeightsPointer weights =
-   RegistrationType::ScalingWeightsType::New();
+  RegistrationType::ScalingWeightsType weights;
 
-  weights->Reserve( RegistrationType::TransformationType::ParametersDimension );
-  for( int j = 0; j < 4; j++ )
+  for( unsigned int j = 0; j < 4; j++ )
     {
-    weights->SetElement(j,0.0);
+    weights[j] = 0.0;
     }
-  for( int j=4; j < 6; j++ )
+  for( unsigned int j=4; j < 6; j++ )
     {
-    weights->SetElement(j,1.0);
+    weights[j] = 1.0;
     }
   registrationMethod->SetScalingWeights( weights );
 
+
+  // set metric related parameters
   registrationMethod->GetMetric()->SetTargetStandardDeviation( 20.0 );
   registrationMethod->GetMetric()->SetReferenceStandardDeviation( 20.0 );
   registrationMethod->GetMetric()->SetNumberOfSpatialSamples( 50 );
@@ -142,14 +154,14 @@ int main()
   //
   bool pass = true;
   double trueParameters[6] = { 1, 0, 0, 1, -5, 0 };
-  for( int j = 0; j < 4; j++ )
+  for( unsigned int j = 0; j < 4; j++ )
     {
-    if( vnl_math_abs( registrationMethod->GetParameters()->GetElement(j) - trueParameters[j] ) > 0.01 ) 
+    if( vnl_math_abs( registrationMethod->GetParameters()[j] - trueParameters[j] ) > 0.01 ) 
       pass = false;
     }
-  for( int j = 4; j < 6; j++ )
+  for( unsigned int j = 4; j < 6; j++ )
     {
-    if( vnl_math_abs( registrationMethod->GetParameters()->GetElement(j) - trueParameters[j] ) > 0.5 ) 
+    if( vnl_math_abs( registrationMethod->GetParameters()[j] - trueParameters[j] ) > 0.5 ) 
       pass = false;
     }
 

@@ -111,10 +111,13 @@ int main()
 //-----------------------------------------------------------
 // Set up a transformer
 //-----------------------------------------------------------
-  typedef itk::AffineRegistrationTransform< double, ImageDimension > 
+  enum{ ParametersDimension = ImageDimension * ( ImageDimension + 1 ) };
+  typedef itk::Vector<double,ParametersDimension> ParametersType;
+  typedef itk::AffineRegistrationTransform< double, ImageDimension, ParametersType > 
     TransformationType;
 
   TransformationType::Pointer transformer = TransformationType::New();
+
 
 //------------------------------------------------------------
 // Set up a mapper
@@ -154,26 +157,20 @@ int main()
 //------------------------------------------------------------
 // Set up a affine transform parameters
 //------------------------------------------------------------
-  typedef TransformationType::ParametersType ParametersType;
-  typedef TransformationType::ParametersPointer ParametersPointer;
+  ParametersType parameters;
 
-  ParametersPointer parameters = ParametersType::New();
+  // set the parameters to the identity 
+  ParametersType::Iterator it = parameters.Begin(); 
 
-  // allocate some memory for the parameters
-  parameters->Reserve( TransformationType::ParametersDimension );
-
-  // set the parameters to the identity
-  ParametersType::Iterator it = parameters->Begin();
-  
      // initialize the linear/matrix part
   for( unsigned int row = 0; row < ImageDimension; row++ )
     {
     for( unsigned int col = 0; col < ImageDimension; col++ )
       {
-      it.Value() = 0;
+      *it = 0;
       if( row == col )
         {
-        it.Value() = 1;
+        *it = 1;
         }
       ++it;
       }
@@ -182,9 +179,10 @@ int main()
      // initialize the offset/vector part
   for( unsigned int k = 0; k < ImageDimension; k++ )
     {
-    it.Value() = 0;
+    *it = 0;
     ++it;
     }
+
 
 //---------------------------------------------------------
 // Print out mutual information values 
@@ -192,24 +190,25 @@ int main()
 //---------------------------------------------------------
 
   MetricType::MeasureType measure;
-  MetricType::DerivativeType::Pointer derivative;
+  MetricType::DerivativeType derivative;
 
   printf("%s\t%s\t%s\n", "param[4]", "MI", "dMI/dparam[4]" ); 
 
-  for( double trans = -10; trans <= 10; trans += 0.2 )
+  for( double trans = -10; trans <= 5; trans += 0.5 )
     {
-    parameters->SetElement( 4, trans );
+    parameters[4] = trans;
     metric->SetParameters( parameters );
     metric->GetValueAndDerivative( measure, derivative );
     
     printf( "%f\t%f\t%f\n", trans, measure, 
-      derivative->GetElement( 4 ) );
+      derivative[4] );
 
     // exercise the other functions
     metric->GetValue();
     metric->GetDerivative();
 
     }
+
 
   return EXIT_SUCCESS;
 
