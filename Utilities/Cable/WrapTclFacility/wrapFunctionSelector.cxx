@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "wrapConstructor.h"
 #include "wrapMethod.h"
 #include "wrapStaticMethod.h"
-#include "wrapWrapperBase.h"
+#include "wrapWrapperFacility.h"
 
 #include <iostream>
 
@@ -55,10 +55,10 @@ namespace _wrap_
 /**
  *
  */
-FunctionSelector::FunctionSelector(const WrapperBase* wrapper,
+FunctionSelector::FunctionSelector(const WrapperFacility* facility,
                                    int objc, Tcl_Obj*CONST objv[],
                                    unsigned int argumentCount):
-  m_Wrapper(wrapper),
+  m_WrapperFacility(facility),
   m_Objc(objc),
   m_Objv(objv),
   m_ArgumentCount(argumentCount)
@@ -110,7 +110,7 @@ void FunctionSelector::SetImplicitArgument(bool staticOnly)
     {
     // Determine the type of the object.  This should be the wrapped
     // type or a subclass of it, but possibly with cv-qualifiers added.
-    Argument argument = m_Wrapper->GetObjectArgument(m_Objv[0]);
+    Argument argument = m_WrapperFacility->GetObjectArgument(m_Objv[0]);
     CvQualifiedType objectType = argument.GetType();
     if(objectType.IsPointerType())
       {
@@ -131,7 +131,7 @@ void FunctionSelector::GuessArguments()
 {
   for(int i=2; i < m_Objc; ++i)
     {
-    m_Arguments.push_back(m_Wrapper->GetObjectArgument(m_Objv[i]));
+    m_Arguments.push_back(m_WrapperFacility->GetObjectArgument(m_Objv[i]));
     }  
 }
 
@@ -245,7 +245,7 @@ bool FunctionSelector::CxxConversionPossible(const CvQualifiedType& from,
     const ReferenceType* toRef = ReferenceType::SafeDownCast(to);
     if(Conversions::ReferenceCanBindAsIdentity(from, toRef)
        || Conversions::ReferenceCanBindAsDerivedToBase(from, toRef)
-       || (m_Wrapper->GetConversionFunction(from, to) != NULL))
+       || (m_WrapperFacility->GetConversionFunction(from, to) != NULL))
       {
       return true;
       }
@@ -254,7 +254,7 @@ bool FunctionSelector::CxxConversionPossible(const CvQualifiedType& from,
     // the referenced type is available.
     CvQualifiedType toCvType = toRef->GetReferencedType();
     if(toCvType.IsConst() && !toCvType.IsVolatile()
-       && m_Wrapper->GetConversionFunction(from, toCvType.GetType()))
+       && m_WrapperFacility->GetConversionFunction(from, toCvType.GetType()))
       {
       return true;
       }
@@ -286,7 +286,7 @@ bool FunctionSelector::CxxConversionPossible(const CvQualifiedType& from,
     {
     return true;
     }
-  else if(m_Wrapper->GetConversionFunction(from, to) != NULL)
+  else if(m_WrapperFacility->GetConversionFunction(from, to) != NULL)
     {
     return true;
     }
@@ -296,9 +296,9 @@ bool FunctionSelector::CxxConversionPossible(const CvQualifiedType& from,
 /**
  *
  */
-ConstructorSelector::ConstructorSelector(const WrapperBase* wrapper,
+ConstructorSelector::ConstructorSelector(const WrapperFacility* facility,
                                          int objc, Tcl_Obj*CONST objv[]):
-  FunctionSelector(wrapper, objc, objv, objc-2)
+  FunctionSelector(facility, objc, objv, objc-2)
 {
 }
 
@@ -317,17 +317,32 @@ void ConstructorSelector::AddCandidate(Constructor* candidate)
 
 Constructor* ConstructorSelector::Select()
 {
+  // Guess the argument types and try to do C++ overload resolution.
+  // This should be successful most of the time.
   this->GuessArguments();
-  return dynamic_cast<Constructor*>(this->ResolveOverload());
+  FunctionBase* constructor = this->ResolveOverload();
+  // If a method was selected, return it.
+  if(constructor)
+    {
+    return dynamic_cast<Constructor*>(constructor);
+    }
+  // No methods matched.  Try some magic.
+  for(unsigned int candidateIndex = 0;
+      candidateIndex != m_Candidates.size(); ++candidateIndex)
+    {
+    m_CandidateArguments.push_back(m_Arguments);
+    this->TryMagic(candidateIndex);
+    }
+  return dynamic_cast<Constructor*>(this->ResolveOverloadWithSeparateArguments());
 }
 
 
 /**
  *
  */
-MethodSelector::MethodSelector(const WrapperBase* wrapper,
+MethodSelector::MethodSelector(const WrapperFacility* facility,
                                int objc, Tcl_Obj*CONST objv[]):
-  FunctionSelector(wrapper, objc, objv, objc-1)
+  FunctionSelector(facility, objc, objv, objc-1)
 {
 }
 
@@ -368,7 +383,7 @@ Method* MethodSelector::Select(bool staticOnly)
   return dynamic_cast<Method*>(this->ResolveOverloadWithSeparateArguments());
 }
 
-bool MethodSelector::TryMagic(int candidateIndex)
+bool FunctionSelector::TryMagic(int candidateIndex)
 {
   for(unsigned int parameterIndex = 0;
       parameterIndex != m_Arguments.size(); ++parameterIndex)
@@ -384,7 +399,7 @@ bool MethodSelector::TryMagic(int candidateIndex)
   return true;
 }
 
-bool MethodSelector::TryMagic(int candidateIndex, int parameterIndex)
+bool FunctionSelector::TryMagic(int candidateIndex, int parameterIndex)
 {
   const FunctionBase::ParameterTypes&
     parameterTypes = m_Candidates[candidateIndex]->GetParameterTypes();
@@ -416,14 +431,14 @@ bool MethodSelector::TryMagic(int candidateIndex, int parameterIndex)
       Tcl_Obj* obj = m_Objv[parameterIndex+(m_Objc-m_ArgumentCount)];
       int length=0;
       Tcl_Obj** elementObjs;
-      if((TCL_OK == Tcl_ListObjGetElements(m_Wrapper->GetInterpreter(),
+      if((TCL_OK == Tcl_ListObjGetElements(m_WrapperFacility->GetInterpreter(),
                                            obj, &length, &elementObjs))
          && (length > 0))
         {
         Argument* elements = new Argument[length];
         for(int i=0; i < length; ++i)
           {
-          elements[i] = m_Wrapper->GetObjectArgument(elementObjs[i]);
+          elements[i] = m_WrapperFacility->GetObjectArgument(elementObjs[i]);
           if(!this->CxxConversionPossible(elements[i].GetType(),
                                           pointedToType.GetType()))
             {

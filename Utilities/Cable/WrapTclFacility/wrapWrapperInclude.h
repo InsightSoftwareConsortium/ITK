@@ -180,7 +180,7 @@ void
 Wrapper< _wrap_WRAPPED_TYPE >
 ::InitializeForInterpreter()
 {
-  m_WrapperTable->SetWrapper(m_WrappedTypeRepresentation, this);
+  m_WrapperFacility->SetWrapper(m_WrappedTypeRepresentation, this);
   Tcl_CreateObjCommand(m_Interpreter,
                        const_cast<char*>(m_WrappedTypeName.c_str()),
                        this->GetClassWrapperFunction(),

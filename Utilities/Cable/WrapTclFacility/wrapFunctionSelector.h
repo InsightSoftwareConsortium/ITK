@@ -53,6 +53,7 @@ class FunctionBase;
 class Constructor;
 class Method;
 class StaticMethod;
+class WrapperFacility;
 
 /**
  * 
@@ -60,8 +61,7 @@ class StaticMethod;
 class _wrap_EXPORT FunctionSelector
 {
 public:
-  FunctionSelector(const WrapperBase* wrapper, int objc, Tcl_Obj*CONST objv[],
-                   unsigned int argumentCount);
+  FunctionSelector(const WrapperFacility*, int, Tcl_Obj*CONST[], unsigned int);
   virtual ~FunctionSelector();
   
   CvQualifiedTypes GetArgumentTypes() const;
@@ -78,8 +78,10 @@ protected:
                          const Arguments& arguments);
   bool CxxConversionPossible(const CvQualifiedType& from,
                              const Type* to) const;
+  bool TryMagic(int candidateIndex);
+  bool TryMagic(int candidateIndex, int parameterIndex);  
   
-  const WrapperBase* m_Wrapper;  
+  const WrapperFacility* m_WrapperFacility;
   int m_Objc;
   Tcl_Obj*CONST* m_Objv;
   unsigned int m_ArgumentCount;
@@ -95,7 +97,7 @@ protected:
 class _wrap_EXPORT ConstructorSelector: public FunctionSelector
 {
 public:
-  ConstructorSelector(const WrapperBase* wrapper, int objc, Tcl_Obj*CONST objv[]);
+  ConstructorSelector(const WrapperFacility*, int, Tcl_Obj*CONST[]);
   ~ConstructorSelector();
   
   void AddCandidate(Constructor*);
@@ -105,14 +107,11 @@ public:
 class _wrap_EXPORT MethodSelector: public FunctionSelector
 {
 public:
-  MethodSelector(const WrapperBase* wrapper, int objc, Tcl_Obj*CONST objv[]);
+  MethodSelector(const WrapperFacility*, int, Tcl_Obj*CONST[]);
   ~MethodSelector();
   
   void AddCandidate(Method*);
   Method* Select(bool);
-private:
-  bool TryMagic(int candidateIndex);
-  bool TryMagic(int candidateIndex, int parameterIndex);  
 };
 
 

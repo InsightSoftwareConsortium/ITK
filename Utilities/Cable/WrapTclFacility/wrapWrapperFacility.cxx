@@ -90,10 +90,6 @@ InstanceTable* WrapperFacility::GetInstanceTable() const
   return m_InstanceTable;
 }
 
-WrapperTable* WrapperFacility::GetWrapperTable() const
-{
-  return m_WrapperTable;
-}
 
 
 WrapperFacility::WrapperFacility(Tcl_Interp* interp):
@@ -135,10 +131,11 @@ void WrapperFacility::InitializeForInterpreter()
 {
   m_ConversionTable = new ConversionTable();
   m_InstanceTable = new InstanceTable(m_Interpreter);
-  m_WrapperTable = new WrapperTable(m_Interpreter);
   
   Tcl_CreateObjCommand(m_Interpreter, "wrap::ListMethods",
                        &ListMethodsCommandFunction, 0, 0);
+  Tcl_CreateObjCommand(m_Interpreter, "wrap::TypeOf",
+                       &TypeOfCommandFunction, 0, 0);
   
   Tcl_PkgProvide(m_Interpreter, "Wrap", "1.0");
 }
@@ -148,7 +145,7 @@ int WrapperFacility::ListMethodsCommand(int objc, Tcl_Obj* CONST objv[]) const
 {
   static const char usage[] =
     "Usage: ListMethods <id>\n"
-    "  Where <id> is an object name, pointer, reference.";
+    "  Where <id> is an object name, pointer, or reference.";
   
   const Type* type = NULL;
   
@@ -209,7 +206,7 @@ int WrapperFacility::ListMethodsCommand(int objc, Tcl_Obj* CONST objv[]) const
     const ClassType* curClass = classQueue.front(); classQueue.pop();
       
     // If the class has a wrapper, list its methods.
-    const WrapperBase* wrapper = m_WrapperTable->GetWrapper(curClass);
+    const WrapperBase* wrapper = this->GetWrapper(curClass);
     if(wrapper)
       {
       wrapper->ListMethods();
@@ -230,6 +227,32 @@ int WrapperFacility::ListMethodsCommand(int objc, Tcl_Obj* CONST objv[]) const
   return TCL_OK;
 }
 
+int WrapperFacility::TypeOfCommand(int objc, Tcl_Obj* CONST objv[]) const
+{
+  static const char usage[] =
+    "Usage: TypeOf <expr>\n"
+    "  Where <expr> is any Tcl expression.";
+  
+  CvQualifiedType cvType;
+  
+  if(objc > 1)
+    {
+    cvType = this->GetObjectType(objv[1]);
+    }
+  
+  Tcl_ResetResult(m_Interpreter);
+  if(!cvType.GetType())
+    {
+    Tcl_AppendResult(m_Interpreter, usage, NULL);
+    return TCL_ERROR;
+    }
+  
+  String typeName = cvType.GetName();
+  Tcl_AppendResult(m_Interpreter, const_cast<char*>(typeName.c_str()), NULL);
+  
+  return TCL_OK;
+}
+
 
 int WrapperFacility
 ::ListMethodsCommandFunction(ClientData clientData, Tcl_Interp* interp,
@@ -240,6 +263,247 @@ int WrapperFacility
   return wrapperFacility->ListMethodsCommand(objc, objv);
 }
 
+int WrapperFacility
+::TypeOfCommandFunction(ClientData clientData, Tcl_Interp* interp,
+                         int objc, Tcl_Obj* CONST objv[])
+{
+  WrapperFacility* wrapperFacility =
+    WrapperFacility::GetForInterpreter(interp);
+  return wrapperFacility->TypeOfCommand(objc, objv);
+}
+
+
+
+/**
+ * Try to figure out the name of the type of the given Tcl object.
+ * If the type cannot be determined, a default of "char*" is returned.
+ * Used for type-based overload resolution.
+ */
+CvQualifiedType WrapperFacility::GetObjectType(Tcl_Obj* obj) const
+{
+  // First try to use type information from Tcl.
+  if(TclObjectTypeIsPointer(obj))
+    {
+    Pointer p;
+    Tcl_GetPointerFromObj(m_Interpreter, obj, &p);
+    return TypeInfo::GetPointerType(p.GetPointedToType(), false, false);
+    }
+  else if(TclObjectTypeIsReference(obj))
+    {
+    Reference r;
+    Tcl_GetReferenceFromObj(m_Interpreter, obj, &r);
+    return TypeInfo::GetReferenceType(r.GetReferencedType());
+    }
+  else if(TclObjectTypeIsBoolean(obj))
+    {
+    return CvPredefinedType<bool>::type;
+    }
+  else if(TclObjectTypeIsInt(obj))
+    {
+    return CvPredefinedType<int>::type;
+    }
+  else if(TclObjectTypeIsLong(obj))
+    {
+    return CvPredefinedType<long>::type;
+    }
+  else if(TclObjectTypeIsDouble(obj))
+    {
+    return CvPredefinedType<double>::type;
+    }
+  // No Tcl type information.  Try converting from string representation.
+  else
+    {
+    String objectName = Tcl_GetStringFromObj(obj, NULL);
+    if(m_InstanceTable->Exists(objectName))
+      {
+      return m_InstanceTable->GetType(objectName);
+      }
+    else if(StringRepIsPointer(objectName))
+      {
+      Pointer p;
+      if(Tcl_GetPointerFromObj(m_Interpreter, obj, &p) == TCL_OK)
+        {
+        return TypeInfo::GetPointerType(p.GetPointedToType(), false, false);
+        }
+      }
+    else if(StringRepIsReference(objectName))
+      {
+      Reference r;
+      if(Tcl_GetReferenceFromObj(m_Interpreter, obj, &r) == TCL_OK)
+        {
+        return TypeInfo::GetReferenceType(r.GetReferencedType());
+        }
+      }
+    else
+      {
+      // No wrapping type information available.  Try to convert to
+      // some basic types.
+      long l;
+      double d;
+      if(Tcl_GetLongFromObj(m_Interpreter, obj, &l) == TCL_OK)
+        {
+        return CvPredefinedType<long>::type;
+        }
+      else if(Tcl_GetDoubleFromObj(m_Interpreter, obj, &d) == TCL_OK)
+        {
+        return CvPredefinedType<double>::type;
+        }
+      }
+    }
+  
+  // Could not determine the type.  Default to char*.
+  return CvPredefinedType<char*>::type;
+}
+
+
+/**
+ * Try to figure out how to extract a C++ object from the given Tcl
+ * object.  If the object type cannot be determined, char* is assumed.
+ * In either case, an Argument which refers to the object is returned.
+ */
+Argument WrapperFacility::GetObjectArgument(Tcl_Obj* obj) const
+{
+  // Need a location to hold the Argument until returned.
+  Argument argument;
+  
+  // First, see if Tcl has given us the type information.
+  if(TclObjectTypeIsPointer(obj))
+    {
+    Pointer p;
+    Tcl_GetPointerFromObj(m_Interpreter, obj, &p);
+    argument.SetToPointer(p.GetObject(),
+                          TypeInfo::GetPointerType(p.GetPointedToType(),
+                                                   false, false));
+    }
+  else if(TclObjectTypeIsReference(obj))
+    {
+    Reference r;
+    Tcl_GetReferenceFromObj(m_Interpreter, obj, &r);
+    argument.SetToObject(r.GetObject(), r.GetReferencedType());
+    }
+  else if(TclObjectTypeIsBoolean(obj))
+    {
+    int i;
+    Tcl_GetBooleanFromObj(m_Interpreter, obj, &i);
+    bool b = (i!=0);
+    argument.SetToBool(b);
+    }
+  else if(TclObjectTypeIsInt(obj))
+    {
+    int i;
+    Tcl_GetIntFromObj(m_Interpreter, obj, &i);
+    argument.SetToInt(i);
+    }
+  else if(TclObjectTypeIsLong(obj))
+    {
+    long l;
+    Tcl_GetLongFromObj(m_Interpreter, obj, &l);
+    argument.SetToLong(l);
+    }
+  else if(TclObjectTypeIsDouble(obj))
+    {
+    double d;
+    Tcl_GetDoubleFromObj(m_Interpreter, obj, &d);
+    argument.SetToDouble(d);
+    }
+  else
+    {
+    // Tcl has not given us the type information.  Try converting from
+    // string representation.
+    Pointer p;
+    Reference r;
+
+    // See if it the name of an instance.
+    String objectName = Tcl_GetStringFromObj(obj, NULL);
+    if(m_InstanceTable->Exists(objectName))
+      {        
+      argument.SetToObject(m_InstanceTable->GetObject(objectName),
+                           m_InstanceTable->GetType(objectName));
+      }
+    else if(StringRepIsPointer(objectName)
+            && (Tcl_GetPointerFromObj(m_Interpreter, obj, &p) == TCL_OK))
+      {
+      argument.SetToPointer(p.GetObject(),
+                            TypeInfo::GetPointerType(p.GetPointedToType(),
+                                                     false, false));
+      }
+    else if(StringRepIsReference(objectName)
+            && (Tcl_GetReferenceFromObj(m_Interpreter, obj, &r) == TCL_OK))
+      {
+      argument.SetToObject(r.GetObject(), r.GetReferencedType());
+      }
+    else
+      {
+      // No type information available from string representation.
+      // Try to convert to some basic Tcl types.
+      long l;
+      double d;
+      if(Tcl_GetLongFromObj(m_Interpreter, obj, &l) == TCL_OK)
+        {
+        argument.SetToLong(l);
+        }
+      else if(Tcl_GetDoubleFromObj(m_Interpreter, obj, &d) == TCL_OK)
+        {
+        argument.SetToDouble(d);
+        }
+      else
+        {
+        // Can't identify the object type.  We will have to assume char*.
+        argument.SetToPointer(Tcl_GetStringFromObj(obj, NULL),
+                              CvPredefinedType<char*>::type);
+        }
+      }
+    }
+  
+  // Return the result.
+  return argument;
+}
+
+/**
+ * Get the conversion function from the wrapper's ConversionTable for
+ * the specified conversion.  The table will automatically try to add
+ * cv-qualifiers to the "from" type to find a conversion.
+ */
+ConversionFunction
+WrapperFacility::GetConversionFunction(const CvQualifiedType& from,
+                                       const Type* to) const
+{
+  return m_ConversionTable->GetConversion(from, to);
+}
+
+
+/**
+ * Return whether a wrapper for the given type exists.
+ */
+bool WrapperFacility::WrapperExists(const Type* type) const
+{
+  return (m_WrapperMap.count(type) > 0);
+}
+  
+
+/**
+ * Register a wrapper for the given type.
+ */
+void WrapperFacility::SetWrapper(const Type* type, WrapperBase* wrapper)
+{
+  m_WrapperMap[type] = wrapper;
+}
+  
+ 
+/**
+ * Retrieve the wrapper for the given type.  If none exists, NULL is
+ * returned.
+ */
+WrapperBase*
+WrapperFacility::GetWrapper(const Type* type) const
+{
+  WrapperMap::const_iterator i = m_WrapperMap.find(type);
+  if(i != m_WrapperMap.end())
+    {
+    return i->second;
+    }
+  return NULL;
+}
 
 } // namespace _wrap_
 

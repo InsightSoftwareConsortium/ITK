@@ -49,7 +49,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "wrapReference.h"
 #include "wrapConversionTable.h"
 #include "wrapInstanceTable.h"
-#include "wrapWrapperTable.h"
 #include "wrapWrapperFacility.h"
 #include "wrapConverters.h"
 #include "wrapException.h"

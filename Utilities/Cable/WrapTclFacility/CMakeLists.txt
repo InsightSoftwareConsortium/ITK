@@ -15,7 +15,6 @@ wrapTypeInfo
 wrapUtils
 wrapWrapperBase
 wrapWrapperFacility
-wrapWrapperTable
 )
 
 ADD_LIBRARY(WrapTclFacility WrapTclFacility_SRCS)

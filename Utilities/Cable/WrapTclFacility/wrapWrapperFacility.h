@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _wrapWrapperFacility_h
 
 #include "wrapUtils.h"
+#include "wrapArgument.h"
 
 namespace _wrap_
 {
@@ -49,6 +50,7 @@ namespace _wrap_
 class ConversionTable;
 class InstanceTable;
 class WrapperTable;
+class WrapperBase;
 
 /**
  *
@@ -61,8 +63,15 @@ public:
   Tcl_Interp* GetInterpreter() const;
   ConversionTable* GetConversionTable() const;
   InstanceTable* GetInstanceTable() const;
-  WrapperTable* GetWrapperTable() const;
   
+  bool WrapperExists(const Type* type) const;
+  void SetWrapper(const Type*, WrapperBase*);
+  WrapperBase* GetWrapper(const Type*) const;
+  
+  CvQualifiedType GetObjectType(Tcl_Obj* obj) const;
+  Argument GetObjectArgument(Tcl_Obj* obj) const;
+  ConversionFunction GetConversionFunction(const CvQualifiedType& from,
+                                           const Type* to) const;
 private:
   WrapperFacility(Tcl_Interp*);
   ~WrapperFacility();
@@ -70,13 +79,20 @@ private:
   void Initialize();
   void InitializeForInterpreter();
   int ListMethodsCommand(int, Tcl_Obj*CONST[]) const ;
+  int TypeOfCommand(int, Tcl_Obj*CONST[]) const ;
   static int ListMethodsCommandFunction(ClientData, Tcl_Interp*,
                                         int, Tcl_Obj*CONST[]);
+  static int TypeOfCommandFunction(ClientData, Tcl_Interp*,
+                                   int, Tcl_Obj*CONST[]);
 
+  typedef std::map<const Type*, WrapperBase*>  WrapperMap;
+  /**
+   * Map from type to wrapper function.
+   */
+  WrapperMap m_WrapperMap;
   Tcl_Interp* m_Interpreter;
   ConversionTable* m_ConversionTable;
   InstanceTable* m_InstanceTable;
-  WrapperTable* m_WrapperTable;
 };
 
 

@@ -54,9 +54,8 @@ class FunctionBase;
 class Constructor;
 class Method;
 class StaticMethod;
-class ConversionTable;
-class WrapperTable;
 class InstanceTable;
+class WrapperFacility;
 
 /**
  * An individual wrapper class is a specialization of this template.
@@ -82,12 +81,9 @@ public:
   
   void CreateResultCommand(const String& name, const Type* type) const;
   void AddInstance(const String& name, void* object) const;
-  String CreateTemporary(void* object, const CvQualifiedType&) const;
-  
-  CvQualifiedType GetObjectType(Tcl_Obj* obj) const;
-  Argument GetObjectArgument(Tcl_Obj* obj) const;
   ConversionFunction GetConversionFunction(const CvQualifiedType& from,
                                            const Type* to) const;
+  String CreateTemporary(void* object, const CvQualifiedType&) const;  
   
   /**
    * The type of a wrapper function for a Tcl interpreter call-back.
@@ -143,19 +139,14 @@ protected:
   const String   m_WrappedTypeName;
   
   /**
-   * The table of conversion functions for this wrapper's interpreter.
+   * The wrapper facility for this wrapper's interpreter.
    */
-  ConversionTable* m_ConversionTable;
+  WrapperFacility* m_WrapperFacility;
   
   /**
    * The table of object instances for this wrapper's interpreter.
    */
-  InstanceTable* m_InstanceTable;
-  
-  /**
-   * The table of registered wrappers for this wrapper's interpreter.
-   */
-  WrapperTable*  m_WrapperTable;
+  InstanceTable* m_InstanceTable;  
   
   /**
    * The TypeSystem's representation for this wrapped type.
