@@ -24,6 +24,16 @@
 namespace itk
 {
 
+template< class TInputImage, class TOutputImage >
+void
+LaplacianImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream& os, Indent indent) const  
+{
+  Superclass::PrintSelf(os,indent);
+  os << indent << "UseImageSpacing = " << m_UseImageSpacing << std::endl;
+}
+
+
 template <class TInputImage, class TOutputImage>
 void 
 LaplacianImageFilter<TInputImage,TOutputImage>

@@ -119,11 +119,7 @@ protected:
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
    * multithreaded by default.   */
   void GenerateData();
-  void PrintSelf(std::ostream& os, Indent indent) const
-  {
-    Superclass::PrintSelf(os,indent);
-    os << indent << "UseImageSpacing = " << m_UseImageSpacing << std::endl;
-  }
+  void PrintSelf(std::ostream&, Indent) const;
 
 private:
   LaplacianImageFilter(const Self&); //purposely not implemented
