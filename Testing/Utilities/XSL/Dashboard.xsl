@@ -59,35 +59,6 @@
       <br/>
      
     </h3>
-    <table cellspacing="0" border="0">
-      <tr>
-        <td>Reported Builds</td>
-        <td><xsl:value-of select="count(BuildStamp/Build/BuildStamp)"/></td>
-      </tr>
-      <tr>
-        <td>Reported Errors</td>
-        <td><xsl:value-of select="sum(/Dashboard/BuildStamp/Build/ErrorCount)"/></td>
-      </tr>
-      <tr>
-        <td>Reported Warnings</td>
-        <td><xsl:value-of select="sum(/Dashboard/BuildStamp/Build/WarningCount)"/></td>
-      </tr>
-      <tr>
-        <td>Passed Tests</td>
-        <td><xsl:value-of select="sum(/Dashboard/BuildStamp/Testing/PassedCount)"/></td>
-      </tr>
-      <tr>
-        <td>Failed Tests</td>
-        <td><xsl:value-of select="sum(/Dashboard/BuildStamp/Testing/FailedCount)"/></td>
-      </tr>
-      <tr>
-        <td>Tests Not Run</td>
-        <td><xsl:value-of select="sum(/Dashboard/BuildStamp/Testing/NotRunCount)"/></td>
-      </tr>
-    </table>
-    
-      
-    
             
     <table border="2" width="100%">
     <xsl:choose>
@@ -124,6 +95,79 @@
         <tr><td colspan="9"><h3>No Experimental Builds</h3></td></tr>
       </xsl:otherwise>
     </xsl:choose>
+    <xsl:if test="count(BuildStamp/Build/BuildStamp)">
+      <tr><td colspan="9"><h3>Totals</h3></td></tr>
+      <tr>
+        <td>
+          <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
+        </td>
+        <td align="center">
+          <xsl:value-of select="count(BuildStamp/Build/BuildStamp)"/> Builds
+        </td>
+        <td align="right">
+          <xsl:choose>
+            <xsl:when test="sum(/Dashboard/BuildStamp/Build/ErrorCount) &gt; 0">
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$Green"/></xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:value-of select="sum(/Dashboard/BuildStamp/Build/ErrorCount)"/>
+          <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
+        </td>
+        <td align="right">
+          <xsl:choose>
+            <xsl:when test="sum(/Dashboard/BuildStamp/Build/WarningCount) &gt; 0">
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$Green"/></xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:value-of select="sum(/Dashboard/BuildStamp/Build/WarningCount)"/>
+          <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
+        </td>
+        <td align="right">
+          <xsl:choose>
+            <xsl:when test="sum(/Dashboard/BuildStamp/Testing/PassedCount) &gt; 0">
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$Green"/></xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:value-of select="sum(/Dashboard/BuildStamp/Testing/PassedCount)"/>
+          <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
+        </td>
+        <td align="right">
+          <xsl:choose>
+            <xsl:when test="sum(/Dashboard/BuildStamp/Testing/FailedCount) &gt; 0">
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$Green"/></xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:value-of select="sum(/Dashboard/BuildStamp/Testing/FailedCount)"/>
+          <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
+        </td>
+        <td align="right">
+          <xsl:choose>
+            <xsl:when test="sum(/Dashboard/BuildStamp/Testing/NotRunCount) &gt; 0">
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$Green"/></xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:value-of select="sum(/Dashboard/BuildStamp/Testing/NotRunCount)"/>
+          <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
+        </td>
+        <td/><td/><td/>
+      </tr>
+    </xsl:if>
+
         </table>
             
               <xsl:choose>
