@@ -61,6 +61,8 @@ SampleMeanShiftClusteringFilter< TSample >
   SearchResultVectorType queryPoints ;
   SearchResultVectorType queryPoints2 ;
   MeasurementVectorType tempQueryPoint ;
+  MeasurementVectorType tempPreviousQueryPoint ;
+  bool searchLoopBegin ;
   SearchResultVectorType tempSearchResult ;
   SearchResultVectorType* currentQueryPoints ;
   SearchResultVectorType* nextQueryPoints ;
@@ -82,6 +84,8 @@ SampleMeanShiftClusteringFilter< TSample >
       currentQueryPoints->clear() ;
       nextQueryPoints->clear() ;
       currentQueryPoints->push_back( iter.GetInstanceIdentifier() ) ;
+      searchLoopBegin = true ;
+      tempPreviousQueryPoint.Fill(0) ;
       while ( currentQueryPoints->size() > 0 )
         {
         cp_iter = currentQueryPoints->begin() ;
@@ -89,9 +93,22 @@ SampleMeanShiftClusteringFilter< TSample >
         while ( cp_iter != cp_end )
           {
           tempQueryPoint = inputSample->GetMeasurementVector( ( *cp_iter) ) ;
+
+          if ( !searchLoopBegin && tempQueryPoint == tempPreviousQueryPoint )
+            {
+            break ;
+            }
+
           tempSearchResult.clear() ;
           inputSample->Search( tempQueryPoint, m_Threshold,
                                tempSearchResult ) ;
+
+          tempPreviousQueryPoint = tempQueryPoint ;
+          if ( searchLoopBegin )
+            {
+            searchLoopBegin = false ;
+            }
+
           sr_iter = tempSearchResult.begin() ;
           sr_end = tempSearchResult.end() ;
           while ( sr_iter != sr_end )
@@ -117,12 +134,8 @@ SampleMeanShiftClusteringFilter< TSample >
         }
       else
         {
-        if ( this->GetDebug() )
-          {
-          std::cout << "DEBUG: cluster label = " << currentLabel 
-                    << " cluster size = " << currentClusterSize 
-                    << std::endl ;
-          }
+        itkDebugMacro(<< "cluster label = " << currentLabel
+                      << " cluster size = " << currentClusterSize) ;
         ++currentLabel ;
         }
       } // end of if
