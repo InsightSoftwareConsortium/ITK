@@ -94,6 +94,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkResampleImageFilter.h"
 #include "itkScalarAnisotropicDiffusionFunction.h"
 #include "itkSecondDerivativeRecursiveGaussianImageFilter.h"
+#include "itkShiftScaleImageFilter.h"
 #include "itkShrinkImageFilter.h"
 #include "itkSinImageFilter.h"
 #include "itkSobelEdgeDetectionImageFilter.h"

@@ -88,6 +88,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkGaussianSpatialFunction.h"
 #include "itkGreenPixelAccessor.h"
 #include "itkHexahedronCell.h"
+#include "itkIdentityTransform.h"
 #include "itkImage.h"
 #include "itkImageAdaptor.h"
 #include "itkImageBase.h"
