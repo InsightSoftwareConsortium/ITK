@@ -17,7 +17,6 @@
 #ifndef __itkFEMUtility_h
 #define __itkFEMUtility_h
 
-#include "itkFEMNodeBase.h"
 #include <string>
 #include <iostream>
 

@@ -25,7 +25,6 @@
 #include "itkVisitorDispatcher.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
-#include <iostream>
 
 namespace itk {
 namespace fem {
