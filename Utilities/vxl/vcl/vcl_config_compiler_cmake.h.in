@@ -589,7 +589,6 @@ text { return ret; }
 // Set to true if the compiler needs namespace std:: for the standard library.
 #define VCL_NEEDS_NAMESPACE_STD @VCL_NEEDS_NAMESPACE_STD@
 
-
 //----------------------------------------------------------------------
 // infinity issues
 
@@ -604,7 +603,13 @@ text { return ret; }
 #define VCL_PROCESSOR_HAS_INFINITY @VCL_PROCESSOR_HAS_INFINITY@
 
 //----------------------------------------------------------------------
+// signedness of char
 
+//: VCL_CHAR_IS_SIGNED
+// Set to true if the type "char" is signed.
+#define VCL_CHAR_IS_SIGNED @VCL_CHAR_IS_SIGNED@
+
+//----------------------------------------------------------------------
 // architecture macros removed -- they're not in the C++ standard
 
 #endif // vcl_config_compiler_h_

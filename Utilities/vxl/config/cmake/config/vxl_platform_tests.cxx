@@ -971,3 +971,16 @@ int main()
 #endif // VXL_HAS_TYPE_OF_SIZE
 
 //-------------------------------------
+
+#ifdef VCL_CHAR_IS_SIGNED
+
+// Return 0 for char signed and 1 for char unsigned.
+int main()
+{
+  unsigned char uc = 255;
+  return (*reinterpret_cast<char*>(&uc) < 0)?0:1;
+}
+
+#endif // VCL_CHAR_IS_SIGNED
+
+//-------------------------------------
