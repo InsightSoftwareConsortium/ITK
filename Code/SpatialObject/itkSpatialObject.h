@@ -71,7 +71,7 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   typedef SpatialObjectProperty< float > PropertyType; 
-  typedef PropertyType::Pointer  PropertyPointer; 
+  typedef typename PropertyType::Pointer  PropertyPointer; 
   
   typedef Point < ScalarType, NDimensions > PointType; 
   typedef PointType * PointPointer; 
@@ -82,14 +82,15 @@ public:
   typedef CovariantVector< OutputType, NDimensions > OutputVectorType; 
   typedef OutputVectorType * OutputVectorPointer;
 
-  typedef typename TransformType::Pointer  TransformPointer; 
+  typedef typename TransformType::Pointer  TransformPointer;
+  
   typedef std::list<TransformPointer> TransformListType;
   typedef TransformListType * TransformListPointer;
   
   typedef VectorContainer< unsigned long int, PointType > VectorContainerType;
   
   typedef BoundingBox< unsigned long int, NDimensions, ScalarType, VectorContainerType > BoundingBoxType; 
-  typedef BoundingBoxType::Pointer BoundingBoxPointer; 
+  typedef typename BoundingBoxType::Pointer BoundingBoxPointer; 
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -121,7 +122,7 @@ public:
   /** 
   * Returns the dimension of the object. 
   */ 
-  unsigned int GetDimension( void ) const;
+  unsigned int GetDimension( void );
 
   void SetLocalToGlobalTransform( TransformPointer transform ); 
   const TransformPointer GetLocalToGlobalTransform( void ); 

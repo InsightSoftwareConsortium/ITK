@@ -48,9 +48,9 @@ public:
   typedef SmartPointer < Self > Pointer;
   typedef SmartPointer < const Self > ConstPointer;
   typedef CompositeSpatialObject< 3, AffineTransform< double, 3 >, bool > Superclass;
-  typedef Superclass::Pointer SuperclassPointer;
+  typedef SmartPointer<Superclass> SuperclassPointer;
   typedef SpatialObject< 3, AffineTransform< double, 3 >, bool > ChildrenType;
-  typedef ChildrenType::Pointer ChildrenPointer;
+  typedef SmartPointer<ChildrenType> ChildrenPointer;
   typedef std::list< ChildrenPointer > ChildrenListType;
 
   itkNewMacro( Self );

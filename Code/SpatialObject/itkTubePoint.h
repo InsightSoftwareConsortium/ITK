@@ -170,7 +170,7 @@ public:
   unsigned short int GetNumDimensions( void ) const;
 
   /** Print info about this tubepoint */
-  friend std::ostream & operator << (std::ostream & os, TubePoint & tubePoint);
+  //std::ostream & operator << (std::ostream & os, TubePoint & tubePoint);
 
   /** Copy one tubepoint to another */
   TubePoint & operator = (const TubePoint & rhs);

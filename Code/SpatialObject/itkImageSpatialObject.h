@@ -53,15 +53,15 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   typedef Image< PixelType, NDimensions > ImageType;
-  typedef ImageType::Pointer ImagePointer;
-  typedef ImageType::IndexType IndexType;
-  typedef ImageType::RegionType RegionType;
+  typedef typename ImageType::Pointer ImagePointer;
+  typedef typename ImageType::IndexType IndexType;
+  typedef typename ImageType::RegionType RegionType;
 
-  typedef Superclass::PointType PointType;
-  typedef Superclass::BoundingBoxType BoundingBoxType;
+  typedef typename Superclass::PointType PointType;
+  typedef typename Superclass::BoundingBoxType BoundingBoxType;
 
   typedef VectorContainer< unsigned long, PointType> PointContainerType;
-  typedef PointContainerType::Pointer PointContainerPointer;
+  typedef typename PointContainerType::Pointer PointContainerPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );

@@ -19,7 +19,6 @@
 #define __itkTubeSpatialObject_h
 
 #include <list>
-#include <math.h>
 
 #include "itkSpatialObject.h"
 #include "itkTubePoint.h"
@@ -53,9 +52,9 @@ public:
     typedef bool OutputType;
     typedef unsigned int IdentifierType;
     typedef std::list < itk::TubePoint * > PointListType;
-    typedef PointListType* PointListPointer;
+    typedef PointListType * PointListPointer;
     typedef VectorContainer<unsigned long,PointType> PointContainerType;
-    typedef PointContainerType::Pointer PointContainerPointer;
+    typedef SmartPointer<PointContainerType> PointContainerPointer;
 
     /** 
     * Method for creation through the object factory. 

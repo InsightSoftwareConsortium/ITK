@@ -49,7 +49,7 @@ public:
 
   typedef CompositeSpatialObject< NDimensions, TransformType, OutputType > Self; 
   typedef SpatialObject< NDimensions, TransformType, OutputType > Superclass; 
-  typedef Superclass::Pointer SuperclassPointer; 
+  typedef typename Superclass::Pointer SuperclassPointer; 
   typedef SmartPointer< Self > Pointer; 
   typedef SmartPointer< const Self > ConstPointer; 
   typedef std::list< SuperclassPointer > ChildrenListType; 

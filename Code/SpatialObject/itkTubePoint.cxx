@@ -354,6 +354,7 @@ namespace itk
     m_Alpha3 = newAlpha;
   }
 
+  /*
   std::ostream & 
   operator <<( std::ostream & os, TubePoint & tubePoint ) 
   {
@@ -368,6 +369,7 @@ namespace itk
 
     return os;
   }
+  */
 
   TubePoint::Self & 
   TubePoint

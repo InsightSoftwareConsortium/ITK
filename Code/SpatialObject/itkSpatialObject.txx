@@ -25,7 +25,7 @@ namespace itk
   template< unsigned short NDimensions, class TransformType, class OutputType >
   unsigned int 
   SpatialObject< NDimensions, TransformType, OutputType >
-  ::GetDimension( void ) const
+  ::GetDimension( void )
   { 
     return NDimensions; 
   }
@@ -58,7 +58,6 @@ namespace itk
       OutputVectorType::Iterator it = value.Begin();
       OutputVectorType::Iterator it_v1 = v1.Begin();
       OutputVectorType::Iterator it_v2 = v2.Begin();
-      OutputVectorType::Iterator end = value.End();      
 
       for( unsigned short i=0; i<NDimensions; i++, it++, it_v1++, it_v2++ )
         {

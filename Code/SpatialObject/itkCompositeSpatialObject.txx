@@ -153,8 +153,6 @@ namespace itk
     BoundingBoxType::PointsContainerIterator childrenPointsIt;
     BoundingBoxType::PointsContainerIterator childrenPointsEnd;
 
-    unsigned int n = NDimensions/2;
-
     if( this->GetMTime() > m_BoundsMTime )
       {
 
