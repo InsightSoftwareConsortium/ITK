@@ -17,6 +17,8 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef __itkMultivariateLegendrePolynomial_h
 #define __itkMultivariateLegendrePolynomial_h
 
+#include "itkIndent.h"
+#include <vector>
 #include "itkArray.h"
 
 namespace itk {
@@ -68,19 +70,16 @@ namespace itk {
 class MultivariateLegendrePolynomial
 {
 public:
-  //   /** Legendre polynomial coefficients type. */
-  //   typedef Array<double>             CoefficientVectorType;
-
-  typedef Array< double > DoubleArrayType ;
-  typedef Array< unsigned long > ULongArrayType ;
-  typedef Array< long > LongArrayType ;
+  typedef std::vector< double > DoubleArrayType ;
+  typedef std::vector< unsigned long > ULongArrayType ;
+  typedef std::vector< long > LongArrayType ;
 
   /** Internal coefficient storage type. */
   typedef DoubleArrayType CoefficientArrayType ;
 
   /** Same as CoefficientArray
    * This type definition will be used by EnergyFunction object. */
-  typedef DoubleArrayType ParametersType ;
+  typedef Array< double > ParametersType ;
 
   /** The size of the domain. */
   typedef ULongArrayType DomainSizeType ;
@@ -134,12 +133,15 @@ public:
   void SetCoefficients(const CoefficientArrayType& coef) 
     throw (CoefficientVectorSizeMismatch) ;
 
+  void SetCoefficients(const ParametersType& coef) 
+    throw (CoefficientVectorSizeMismatch) ;
+
   /** Gets Legendre polynomials' coefficients. */
-  const CoefficientArrayType* GetCoefficients(void) const;
+  const CoefficientArrayType& GetCoefficients(void) const;
  
   /** In the case which the bias field is 2D, it returns bias value at
    * the point which is specified by the index */
-  double operator() (IndexType index) 
+  double Evaluate(IndexType& index) 
   {
     if (m_Dimension == 2)
       {
@@ -148,7 +150,7 @@ public:
         // normalized y [-1, 1]
         double norm_y =  m_NormFactor[1] *
           static_cast<double>( index[1] - 1 );
-        CalculateXCoef(norm_y, m_CoefficientArray) ;
+        this->CalculateXCoef(norm_y, m_CoefficientArray) ;
         m_PrevY = index[1] ;
         }
         
@@ -160,34 +162,34 @@ public:
       }
     else if (m_Dimension == 3)
       {
-      if (m_PrevZ != index[2])
+      if (index[2] != m_PrevZ)
         {
         // normalized z [-1, 1]  
         double norm_z =  m_NormFactor[2] *
           static_cast<double>( index[2] - 1 );
-        CalculateYCoef(norm_z, m_CoefficientArray) ;
+        this->CalculateYCoef(norm_z, m_CoefficientArray) ;
         m_PrevZ = index[2] ;
         }
         
-      if (m_PrevY != index[1])
+      if (index[1] != m_PrevY)
         {
         // normalized y [-1, 1]
         double norm_y =  m_NormFactor[1] *
           static_cast<double>( index[1] - 1 ); 
-        CalculateXCoef(norm_y, m_CachedYCoef) ;
+        this->CalculateXCoef(norm_y, m_CachedYCoef) ;
         m_PrevY = index[1] ;
         }
         
       // normalized x [-1, 1]
       double norm_x =  m_NormFactor[0] *
         static_cast<double>( index[0] - 1 ); 
-      return LegendreSum(norm_x, m_Degree, m_CachedXCoef) ;
+      return this->LegendreSum(norm_x, m_Degree, m_CachedXCoef) ;
       }
     return 0 ;
   }
 
   /** Gets the number of coefficients. */
-  unsigned int GetNumberOfCoefficients(void);
+  unsigned int GetNumberOfCoefficients();
 
   /** Gets the number of coefficients. */
   unsigned int GetNumberOfCoefficients(unsigned int dimension, unsigned int degree) ;
@@ -200,14 +202,14 @@ public:
     SimpleForwardIterator (MultivariateLegendrePolynomial* polynomial) 
     {
       m_MultivariateLegendrePolynomial = polynomial ;
-      m_Dimension   = m_MultivariateLegendrePolynomial->GetDimension();
-      m_DomainSize  = m_MultivariateLegendrePolynomial->GetDomainSize();
-      m_Index       = IndexType(m_Dimension);
+      m_Dimension   = m_MultivariateLegendrePolynomial->GetDimension() ;
+      m_DomainSize  = m_MultivariateLegendrePolynomial->GetDomainSize() ;
+      m_Index.resize(m_Dimension) ;
+      std::fill(m_Index.begin(), m_Index.end(), 0) ;
     }
     
     void Begin( void ) 
     { 
-      m_Index.Fill( 0 ) ;
       m_IsAtEnd = false ;
     }
     
@@ -240,7 +242,7 @@ public:
     }
     
     double Get()
-    { return (*m_MultivariateLegendrePolynomial)(m_Index); }
+    { return m_MultivariateLegendrePolynomial->Evaluate(m_Index); }
     
   private:
     MultivariateLegendrePolynomial* m_MultivariateLegendrePolynomial;
@@ -250,6 +252,8 @@ public:
     bool              m_IsAtEnd;
   } ; // end of class Iterator 
   
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
 protected:
   double LegendreSum(const double x, int n, const CoefficientArrayType& coef,
                      int offset = 0); 
@@ -263,15 +267,10 @@ private:
   unsigned int m_NumberOfCoefficients;
   bool m_MultiplicativeBias; 
   
-  //   CoefficientVectorType   m_CoefficientVector;
   CoefficientArrayType m_CoefficientArray;
   CoefficientArrayType m_CachedXCoef;
   CoefficientArrayType m_CachedYCoef;
   CoefficientArrayType m_CachedZCoef;
-//   CoefficientArrayType* m_CoefficientArray;
-//   CoefficientArrayType* m_CachedXCoef;
-//   CoefficientArrayType* m_CachedYCoef;
-//   CoefficientArrayType* m_CachedZCoef;
   DoubleArrayType m_NormFactor;
   long m_PrevY ;
   long m_PrevZ ;
