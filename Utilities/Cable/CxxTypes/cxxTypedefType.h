@@ -46,11 +46,6 @@ private:
    * The type to which the typedef refers, including optional cv-qualifiers.
    */
   CvQualifiedType m_CvQualifiedType;
-  
-  /**
-   * Let the CvQualifiedType class call CanConvertTo.
-   */
-  friend CvQualifiedType;
 };
 
 

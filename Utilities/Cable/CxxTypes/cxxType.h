@@ -54,11 +54,6 @@ protected:
 
   Type() {}
   virtual ~Type() {}
-  
-  /**
-   * Let the CvQualifiedType class call CanConvertTo.
-   */
-  friend CvQualifiedType;
 };
 
 
