@@ -111,10 +111,16 @@ public:
     return m_MembershipFunctions;
     }
 
-  /** Method to get mean */
+  /** Method to number of membership functions */
   unsigned int GetNumberOfMembershipFunctions() 
     {
     return m_MembershipFunctions.size();
+    }
+
+  /** Method to reset the membership fucntion mean */
+  void DeleteAllMembershipFunctions() 
+    {
+    m_MembershipFunctions.resize(0);
     }
 
   /** Stores a MembershipCalculator of a class in its internal vector */

@@ -42,6 +42,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkHybridFilter.txx"
 #include "itkImageClassifierBase.txx"
 #include "itkImageGaussianModelEstimator.txx"
+#include "itkImageKmeansModelEstimator.txx"
 #include "itkImageMapper.txx"
 #include "itkImageModelEstimatorBase.txx"
 #include "itkImageMomentsCalculator.txx"
