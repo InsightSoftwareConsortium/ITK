@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkBloxBoundaryPointImage_h
 #define __itkBloxBoundaryPointImage_h
 
-#include "vnl/vnl_vector_fixed.h"
+#include "itkPoint.h"
 #include "itkBloxPixel.h"
 #include "itkBloxBoundaryPointItem.h"
 #include "itkBloxImage.h"
@@ -108,13 +108,7 @@ public:
   /**
    * The type of vector used to convert between physical and blox space
    */
-  typedef vnl_vector_fixed<double, NDimensions> TVectorType;
-
-  /** 
-   * Note: Unlike "normal" images BloxBoundaryPointImages support neither Scalar nor
-   * Vector calls!!! Scalar and vector traits are not defined and do not
-   * make sense for linked lists (at the present time).
-   */
+  typedef Point<double, NDimensions> TPositionType;
 
   /**
    * The ImageTraits for this image.
@@ -169,7 +163,7 @@ public:
    * Returns TRUE if the specified location lies within the image,
    * otherwise FALSE. If FALSE, the index value is unmodified
    */
-  bool ConvertPhysicalToDataCoords(TVectorType physicalCoords,
+  bool ConvertPhysicalToDataCoords(TPositionType physicalCoords,
                                    IndexType& dataCoords);
 
   /**

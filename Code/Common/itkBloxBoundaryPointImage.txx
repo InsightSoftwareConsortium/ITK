@@ -42,10 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkBloxBoundaryPointImage_txx
 
 #include <iostream>
-#include "vnl/vnl_vector_fixed.h"
-#include "itkScalarVector.h"
-#include "itkBloxBoundaryPointImage.h"
 #include "itkImageRegionIterator.h"
+#include "itkBloxBoundaryPointImage.h"
 
 namespace itk
 {
@@ -87,8 +85,8 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
   // Make sure we're getting everything
   m_SourceImage->SetRequestedRegionToLargestPossibleRegion();
 
-  // Vector to figure out pixel location
-  TVectorType sourceVector;
+  // Position to figure out pixel location
+  TPositionType sourcePosition;
 
   // Create an iterator to walk the source image
   typedef ImageRegionIterator<TSourceImage> sourceIterator;
@@ -106,8 +104,19 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
   
   for ( sourceIt.Begin(); !sourceIt.IsAtEnd(); ++sourceIt)
     {
+    // Figure out the magnitude of the gradient
+    double mag = 0;
+
+    for(int i = 0; i < NDimensions; i++)
+      {
+      mag += sourceIt.Get()[i]
+        * sourceIt.Get()[i];
+      }
+
+    mag = sqrt(mag);
+
     // If the pixel meets threshold requirements, add it to the image
-    if( (double)(sourceIt.Get().GetScalar() ) >= m_Threshold)
+    if( mag >= m_Threshold)
       {
       numBP++;
 
@@ -118,15 +127,15 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
       // For an origin of 0 along any axis, and a spacing of 1.0, pixel 0 spans
       // the distance from 0 to 1.0 along that axis, and has a center of 0.5
       for (int ii = 0; ii < NDimensions; ++ii)
-        sourceVector[ii] = sourceIndex[ii] * m_SourceSpacing[ii] + m_SourceOrigin[ii] - (m_SourceSpacing[ii]/2);
+        sourcePosition[ii] = sourceIndex[ii] * m_SourceSpacing[ii] + m_SourceOrigin[ii] - (m_SourceSpacing[ii]/2);
 
       // Figure out which blox it belongs in
-      if( this->ConvertPhysicalToDataCoords(sourceVector, bloxIndex) )
+      if( this->ConvertPhysicalToDataCoords(sourcePosition, bloxIndex) )
         {
         // Create a new boundary point item and set its parameters
         BloxBoundaryPointItem<NDimensions>* pItem = new BloxBoundaryPointItem<NDimensions>;
-        pItem->SetPhysicalPosition(sourceVector);
-        pItem->SetGradient( sourceIt.Get().GetVector() );
+        pItem->SetPhysicalPosition(sourcePosition);
+        pItem->SetGradient( sourceIt.Get() );
 
         this->GetPixel(bloxIndex).push_back(pItem);
         numBPadded++;
@@ -142,7 +151,7 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
 template<class TSourceImage, class TImageTraits>
 bool
 BloxBoundaryPointImage<TSourceImage, TImageTraits>
-::ConvertPhysicalToDataCoords(TVectorType physicalCoords, IndexType& dataCoords)
+::ConvertPhysicalToDataCoords(TPositionType physicalCoords, IndexType& dataCoords)
 {
   // How big is this blox image in pixels?
   SizeType bloxSizeObject = this->GetLargestPossibleRegion().GetSize();

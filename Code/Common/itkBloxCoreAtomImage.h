@@ -115,9 +115,9 @@ public:
   typedef DefaultPixelAccessor< PixelType > AccessorType;
 
   /**
-   * The type of vector used to convert between physical and blox space
+   * The type of Point used to convert between physical and blox space
    */
-  typedef vnl_vector_fixed<double, NDimensions> TVectorType;
+  typedef Point<double, NDimensions> TPositionType;
 
   /**
    * The ImageTraits for this image.
@@ -175,7 +175,7 @@ public:
    * Returns TRUE if the specified location lies within the image,
    * otherwise FALSE. If FALSE, the index value is unmodified
    */
-  bool ConvertPhysicalToDataCoords(TVectorType physicalCoords,
+  bool ConvertPhysicalToDataCoords(TPositionType physicalCoords,
                                    IndexType& dataCoords);
 
   /*@{

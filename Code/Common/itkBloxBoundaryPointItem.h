@@ -41,7 +41,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkBloxBoundaryPointItem_h
 #define __itkBloxBoundaryPointItem_h
 
-#include "vnl/vnl_vector_fixed.h"
+#include "itkCovariantVector.h"
+#include "itkPoint.h"
 #include "itkBloxItem.h"
 
 namespace itk
@@ -62,12 +63,12 @@ public:
   /**
    * The type of vector used to store the position of the BoundaryPointItem
    * */
-  typedef vnl_vector_fixed<double, VImageDimension> TPositionType;
+  typedef Point<double, VImageDimension> TPositionType;
   
   /**
    * The type of vector used to store the gradient of the BoundaryPointItem
    * */
-  typedef vnl_vector_fixed<double, VImageDimension> TGradientType;
+  typedef CovariantVector<double, VImageDimension> TGradientType;
 
   /**
    * Set the position of the boundary point in physical space
@@ -77,17 +78,17 @@ public:
   /**
    * Get the position of the boundary point in physical space
    * */
-  void GetPhysicalPosition(TPositionType& physPos){physPos = m_PhysicalPosition;};
+  TPositionType GetPhysicalPosition(){return m_PhysicalPosition;};
 
   /**
    * Set the gradient of the boundary point
    * */
-  void SetGradient(TPositionType grad){m_Gradient = grad;};
+  void SetGradient(TGradientType grad){m_Gradient = grad;};
 
   /**
    * Get the gradient of the boundary point
    * */
-  void GetGradient(TPositionType& grad){grad = m_Gradient;};
+  TGradientType GetGradient(){return m_Gradient;};
   
   BloxBoundaryPointItem();
   ~BloxBoundaryPointItem();

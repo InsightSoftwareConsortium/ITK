@@ -96,13 +96,13 @@ BloxCoreAtomAnalyzer<NDimensions>
     
     // Get the physical positions of the two boundary points
     TVectorType P1;
-    pBPOne->GetPhysicalPosition(P1);
+    P1 = pBPOne->GetPhysicalPosition().Get_vnl_vector();
     
     TVectorType P2;
-    pBPTwo->GetPhysicalPosition(P2);
+    P2 = pBPTwo->GetPhysicalPosition().Get_vnl_vector();
 
     // Figure out the "C" vector of the core atom
-    TVectorType cVector = P2-P1;
+    TVectorType cVector = P2 - P1;
     cVector.normalize();
 
     // Now, add to the cMatrix

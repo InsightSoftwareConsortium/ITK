@@ -43,6 +43,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/algo/vnl_generalized_eigensystem.h"
+#include "itkPoint.h"
+#include "itkCovariantVector.h"
 
 #include "itkBloxPixel.h"
 #include "itkBloxBoundaryPointItem.h"
@@ -73,8 +75,18 @@ public:
   typedef BloxBoundaryPointItem<NDimensions> TBPItemType;
 
   /**
-   * The type of vector used to represent position, gradient, etc.
-   */
+   * The type used to store the position of the BoundaryPointItem
+   * */
+  typedef Point<double, NDimensions> TPositionType;
+  
+  /**
+   * The type of vector used to store the gradient of the BoundaryPointItem
+   * */
+  typedef CovariantVector<double, NDimensions> TGradientType;
+
+  /**
+   * VNL type used in eigenanalysis
+   * */
   typedef vnl_vector_fixed<double, NDimensions> TVectorType;
 
   /**

@@ -42,8 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkBloxCoreAtomImage_txx
 
 #include <iostream>
-#include "vnl/vnl_vector_fixed.h"
-#include "itkScalarVector.h"
+#include "itkPoint.h"
 #include "itkImageRegionIterator.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
@@ -126,9 +125,11 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
 
   // std::cout << "Finding core atoms at boundary point\n";
 
+  typedef vnl_vector_fixed<double, NDimensions> TVectorType;
+
   //---------Create and initialize a conic shell spatial function-----------
   typedef itk::ConicShellInteriorExteriorSpatialFunction<NDimensions> TFunctionType;
-  typedef TFunctionType::TVectorType TFunctionVectorType;
+  typedef TFunctionType::TGradientType TFunctionGradientType;
 
   TFunctionType::Pointer spatialFunc = TFunctionType::New();
 
@@ -139,37 +140,51 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
   spatialFunc->SetPolarity(m_Polarity);
 
   // Set the origin of the conic shell to the current boundary point location
-  TFunctionVectorType spatialFunctionOrigin;
-  pBPOne->GetPhysicalPosition(spatialFunctionOrigin);
+  TPositionType spatialFunctionOrigin = pBPOne->GetPhysicalPosition();
   spatialFunc->SetOrigin(spatialFunctionOrigin);
 
+  // Covert the origin position to a vector
+  TVectorType spatialFunctionOriginVector;
+  for(int i = 0; i < NDimensions; i++)
+  {
+    spatialFunctionOriginVector[i] = spatialFunctionOrigin[i];
+  }
+
   // Set the gradient of the conic shell to the current boundary point gradient
-  TFunctionVectorType spatialFunctionGradient;
-  pBPOne->GetGradient(spatialFunctionGradient);
+  TFunctionGradientType spatialFunctionGradient = pBPOne->GetGradient();
   spatialFunc->SetOriginGradient(spatialFunctionGradient);
 
   // Create a seed position for the spatial function iterator we'll use shortly
-  typename TBoundaryPointImage::IndexType seedPos;
+  typename TBoundaryPointImage::IndexType seedIndex;
+
   // Normalize the origin gradient
-  TFunctionVectorType seedVec = spatialFunctionGradient.normalize();
+  TVectorType seedVector = spatialFunctionGradient.Get_vnl_vector();
+  seedVector.normalize();
   
   // If the polarity is 1, the seed position is in the direction
   // opposite the gradient
   if(m_Polarity == 1)
-    seedVec = seedVec * -1;
+    seedVector = seedVector * -1;
   
   // A "safe" seed position is the closest point in the conical region
   // along the axis of the cone
-  seedVec = spatialFunctionOrigin + (seedVec * m_DistanceMin);
+  seedVector = spatialFunctionOriginVector + (seedVector * m_DistanceMin);
+
+  // Convert to a position
+  TPositionType seedPos;
+  for(int i = 0; i < NDimensions; i++)
+  {
+    seedPos[i] = seedVector[i];
+  }
 
   // If the seed position is inside the image, go ahead and process it
-  if( this->ConvertPhysicalToDataCoords(seedVec, seedPos) )
+  if( this->ConvertPhysicalToDataCoords(seedPos, seedIndex) )
     {
     // std::cout << "Successfully created a conical iterator\n";
 
     // Create and initialize a spatial function iterator
     typedef itk::FloodFilledSpatialFunctionConditionalIterator<TBoundaryPointImage, TFunctionType> TSphereItType;
-    TSphereItType sfi = TSphereItType(m_BoundaryPointImage, spatialFunc, seedPos);
+    TSphereItType sfi = TSphereItType(m_BoundaryPointImage, spatialFunc, seedIndex);
 
     // Walk the spatial function
     for( ; !( sfi.IsAtEnd() ); ++sfi)
@@ -184,10 +199,8 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
         TBPItemType* pBPTwo = (TBPItemType*&)(*bpiterator);
 
         // Get the physical positions of the two boundary points
-        TVectorType P1;
-        pBPOne->GetPhysicalPosition(P1);
-        TVectorType P2;
-        pBPTwo->GetPhysicalPosition(P2);
+        TVectorType P1 = pBPOne->GetPhysicalPosition().Get_vnl_vector();
+        TVectorType P2 = pBPTwo->GetPhysicalPosition().Get_vnl_vector();
 
         // Form the two vectors between them
         TVectorType C12 = P2 - P1;
@@ -202,11 +215,8 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
         C21.normalize();
 
         // Get the gradients of the two boundary points
-        TVectorType G1;
-        TVectorType G2;
-
-        pBPOne->GetGradient(G1);
-        pBPTwo->GetGradient(G2);
+        TVectorType G1 = pBPOne->GetGradient().Get_vnl_vector();
+        TVectorType G2 = pBPTwo->GetGradient().Get_vnl_vector();;
 
         G1.normalize();
         G2.normalize();
@@ -236,7 +246,14 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
 
           // Figure out the data space coordinates of the center
           IndexType coreAtomPos;
-          this->ConvertPhysicalToDataCoords(coreAtomCenter, coreAtomPos);
+          
+          // Convert core atom center to a position type
+          TPositionType coreAtomCenterPosition;
+          for(int i = 0; i < NDimensions; i++)
+          {
+            coreAtomCenterPosition[i] = coreAtomCenter[i];
+          }
+          this->ConvertPhysicalToDataCoords(coreAtomCenterPosition, coreAtomPos);
          
           // Store the new core atom in the correct spot
           this->GetPixel(coreAtomPos).push_back(pCoreAtom);
@@ -256,7 +273,7 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
 template<class TBoundaryPointImage, class TImageTraits>
 bool
 BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
-::ConvertPhysicalToDataCoords(TVectorType physicalCoords, IndexType& dataCoords)
+::ConvertPhysicalToDataCoords(TPositionType physicalCoords, IndexType& dataCoords)
 {
   // How big is this blox image in pixels?
   SizeType bloxSizeObject = this->GetLargestPossibleRegion().GetSize();
