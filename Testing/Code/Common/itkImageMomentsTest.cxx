@@ -64,11 +64,13 @@ main(
     itk::Image<unsigned short, 3>::Pointer
 	image = itk::Image<unsigned short,3>::New();
     image->SetImageSize(size);
+    image->SetBufferSize(size);
 
     /* Set origin and spacing of physical coordinates */
     image->SetOrigin(origin);
     image->SetSpacing(spacing);
-
+    image->Allocate();
+    
     /* Set a few mass points within the image */
     /* FIXME: The method used here to set the points is klutzy,
        but appears to be the only method currently supported. */
