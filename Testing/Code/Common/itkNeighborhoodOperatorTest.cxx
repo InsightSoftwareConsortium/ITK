@@ -60,12 +60,59 @@ int itkNeighborhoodOperatorTest(int, char* [] )
   b.CreateDirectional();
   b.Print(std::cout);
 
-  println("Testing LaplacianOperator");
-  itk::LaplacianOperator<float, 2, vnl_vector<float> > a;
-  a.CreateOperator();
-  a.Print(std::cout);
-
   unsigned int i;
+  
+  double scales[3] = {1.0/ 2.0, 1.0 / 4.0, 1.0 / 5.0};
+  println("Testing 1D LaplacianOperator");
+  itk::LaplacianOperator<float, 1, vnl_vector<float> > a1;
+  a1.SetDerivativeScalings (scales);
+  a1.CreateOperator();
+  a1.Print(std::cout);
+
+  std::cout << "    Operator = [ ";
+  for (i=0; i < a1.Size(); ++i)
+    {
+    std::cout << a1[i];
+    if (i < a1.Size() - 1)
+      {
+      std::cout << ", ";
+      }
+    }
+  std::cout << "]" << std::endl << std::endl;
+
+  println("Testing 2D LaplacianOperator");
+  itk::LaplacianOperator<float, 2, vnl_vector<float> > a2;
+  a2.SetDerivativeScalings (scales);
+  a2.CreateOperator();
+  a2.Print(std::cout);
+
+  std::cout << "    Operator = [ ";
+  for (i=0; i < a2.Size(); ++i)
+    {
+    std::cout << a2[i];
+    if (i < a2.Size() - 1)
+      {
+      std::cout << ", ";
+      }
+    }
+  std::cout << "]" << std::endl << std::endl;
+
+  println("Testing 3D LaplacianOperator");
+  itk::LaplacianOperator<float, 3, vnl_vector<float> > a3;
+  a3.SetDerivativeScalings (scales);
+  a3.CreateOperator();
+  a3.Print(std::cout);
+
+  std::cout << "    Operator = [ ";
+  for (i=0; i < a3.Size(); ++i)
+    {
+    std::cout << a3[i];
+    if (i < a3.Size() - 1)
+      {
+      std::cout << ", ";
+      }
+    }
+  std::cout << "]" << std::endl << std::endl;
   
   println("Testing SobelOperator2D");
   itk::SobelOperator<float, 2, vnl_vector<float> > c;
