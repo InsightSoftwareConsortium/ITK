@@ -308,17 +308,15 @@ void MetaImageIO::Read(void* buffer)
     numberOfPixels *= m_Dimensions[ dim ];
     }
 
-  unsigned int pixelSize =  this->GetComponentSize();
-
   char * p = static_cast<char *>(buffer);
-  for( unsigned int pixelnumber = 0; pixelnumber< numberOfPixels; pixelnumber++)
-  {
-    for(unsigned int bytes=0; bytes<pixelSize; bytes++)
+  m_Ifstream.read( p, this->GetImageSizeInBytes() );
+  bool success = !m_Ifstream.bad();
+  m_Ifstream.close();
+  if( !success )
     {
-      *p = m_Ifstream.get();
-      p++;
+    itkExceptionMacro("Error reading image data.");
     }
-  }
+
 
   SwapBytesIfNecessary( buffer, numberOfPixels );
 
@@ -508,22 +506,25 @@ void MetaImageIO::ReadImageInformation()
     m_Ifstream.getline( restOfTheLine, maxLineLength );
     if( strcmp( key, "LOCAL" ) != 0 ) 
       {
-      size_t endOfPath = m_FileName.find_last_of( "\\/" );
-      if( endOfPath > m_FileName.max_size() )
-        {
-        endOfPath = 0; // there is no path
-        }
       m_Ifstream.close();        // Close the header
       std::string dataFileName;
-      dataFileName = m_FileName.substr( 0, endOfPath+1 );     
-      dataFileName += key;
+      size_t endOfPath = m_FileName.find_last_of( "\\/" );
+      if( endOfPath == std::string::npos )
+        {
+        dataFileName = key;     // there is no path
+        }
+      else
+        {
+        dataFileName = m_FileName.substr( 0, endOfPath+1 );
+        dataFileName += key;
+        }
+
       m_FileName = dataFileName;    // Compose the data filename
       m_Ifstream.open( m_FileName.c_str(), std::ios::in | std::ios::binary );
-      return;
-      }
-    else 
-      {
-      // That is the end of the header
+      if( !m_Ifstream )
+        {
+        itkExceptionMacro("Error opening image data file.");
+        }
       return;
       }
     }
