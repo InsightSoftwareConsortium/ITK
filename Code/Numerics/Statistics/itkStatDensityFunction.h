@@ -1,32 +1,36 @@
+/*=========================================================================
+  
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkStatDensityFunction.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
+
+  See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
 
 #ifndef __itkStatDensityFunction_h
 #define __itkStatDensityFunction_h
 
-//#include "itkStatLib.h"
-//#include "itkStatSample.h"
-//#include "itkStatSample.txx"
-//#include "itkStatDensityEstimate.h"
-//#include "itkStatDensityEstimate.txx"
+
 #include <vector>
 
-#include "itkStatHistogram.h"
-#include "itkStatDensityEstimate.h"
-#include "itkStatDenseHistogram.h"
-#include "itkStatSparseHistogram.h"
+
 #include "itkObject.h"
 
 namespace itk{
 
 /** \class DensityFunction
- * \brief
- *
- * DensityFunction provides a base class to model
- * statistical functions. It provides a common Test
- * and Train interface
+ * \brief DensityFunction provides a base class to model
+ * statistical functions. 
  */
 
-template <class THistogram>
-class DensityFunction : public Object
+template <unsigned int FeatureDimension, class TFeature = double>
+class ITK_EXPORT DensityFunction : public Object
 {
 public:
  /**
@@ -39,49 +43,26 @@ public:
   */
   typedef SmartPointer<Self> Pointer;
 
-  typedef typename THistogram::BinType BinType;
-  typedef typename THistogram::FeatureType FeatureType;
-
-  
- /**
-  *
-  */
-  typedef DenseHistogram<BinType, THistogram::Dimension, FeatureType> DenseType;
-               
- /**
-  * Interface into object factory
-  */
-  itkNewMacro(Self);
-
  /**
   * Run-time type information 
   */
   itkTypeMacro(DensityFunction,Object);
 
  /**
-  * add a sample to the density function
+  * Method to get probability of an instance. The return value is the
+  * value of the density function, not probability
   */
-   void SetHistogram(typename THistogram::Pointer h)
-  {  m_Histogram = h; } 
+  virtual double GetProbability(vnl_vector<TFeature> feature) = 0;
 
- /**
-  * purely virtual Train/Test functions
-  */
-		virtual void Train() = 0;
-  virtual typename DensityEstimate<THistogram>::Pointer Test(typename THistogram::Pointer h) = 0;
- 
- virtual vector<FeatureType> GenerateInstances(int num){};
 protected:		
   DensityFunction() {};
-  ~DensityFunction(){};
+		virtual ~DensityFunction(){};
 
-  typename THistogram::Pointer m_Histogram;  //histogram
+		
 };
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStatDensityFunction.txx"
-#endif
+
 
 #endif

@@ -32,14 +32,14 @@ HistogramCovariance<TCovariance, THistogram>
 
   m_Covariance.resize(dimension, dimension);
 
-  std::vector<TCovariance> meanVec;
+  vnl_vector<TCovariance> meanVec;
   meanVec.resize(dimension);
   typedef HistogramMean<TCovariance, THistogram> HistogramMeanType;
   HistogramMeanType::Pointer mean =  HistogramMeanType::New();
  
   mean->SetHistogram(m_Histogram);
   mean->Execute();
-  meanVec = mean->GetMean();
+  meanVec = mean->GetMeans();
 
   // frequency 
   float frequency = 0;

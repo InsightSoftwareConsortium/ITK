@@ -16,7 +16,7 @@
 #ifndef __itkStatHistogramCovariance_h
 #define __itkStatHistogramCovariance_h
 
-#include <vector>
+#include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <itkLightObject.h>
 

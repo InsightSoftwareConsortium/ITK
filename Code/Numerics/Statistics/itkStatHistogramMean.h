@@ -16,7 +16,7 @@
 #ifndef __itkStatHistogramMean_h
 #define __itkStatHistogramMean_h
 
-#include <vector>
+#include <vnl/vnl_vector.h>
 #include <itkLightObject.h>
 
 namespace itk{
@@ -54,12 +54,12 @@ public:
  /**
   * Method to get mean
   */
-  double GetMean(int i) { return m_Mean[i]; };
+  double GetMean(int i) { return m_Means[i]; };
 
  /**
   * Method to get mean
   */
-  std::vector<TMean> GetMean() { return m_Mean; };
+  vnl_vector<TMean> GetMeans() { return m_Means; };
 
  /**
   * Calculate the mean of a histogram
@@ -68,7 +68,7 @@ public:
 
 private:
   typename THistogram::Pointer m_Histogram;
-  std::vector<TMean> m_Mean;
+  vnl_vector<TMean> m_Means;
 
 };
 

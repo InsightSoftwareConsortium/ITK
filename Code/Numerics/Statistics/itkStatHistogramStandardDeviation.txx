@@ -29,10 +29,10 @@ HistogramStandardDeviation<TStd, THistogram>
 {
   unsigned int dimension = THistogram::Dimension;
 
-  std::vector< TStd > meanVec; 
+  vnl_vector< TStd > meanVec; 
   
   // allocate m_Std vector
-  m_Std.resize(dimension);
+  m_Stds.resize(dimension);
   meanVec.resize(dimension);
 
   int i = 0;
@@ -40,7 +40,7 @@ HistogramStandardDeviation<TStd, THistogram>
   // initialize m_Std vector
   for ( i=0; i < dimension; i++ )
     {
-    m_Std[i]  = 0;
+    m_Stds[i]  = 0;
     meanVec[i] = 0;
     }
 
@@ -54,7 +54,7 @@ HistogramStandardDeviation<TStd, THistogram>
   HistogramMeanType::Pointer mean = HistogramMeanType::New();
   mean->SetHistogram(m_Histogram);
   mean->Execute();
-  meanVec = mean->GetMean();
+  meanVec = mean->GetMeans();
  
   typename THistogram::Iterator it(m_Histogram);
  
@@ -65,15 +65,15 @@ HistogramStandardDeviation<TStd, THistogram>
     sum = sum + frequency;
     for ( i=0; i < dimension; i++)
       {
-      m_Std[i] = m_Std[i] + frequency*pow(it.GetFeature(i) - meanVec[i],2);
+      m_Stds[i] = m_Stds[i] + frequency*pow(it.GetFeature(i) - meanVec[i],2);
       }
     ++it;
     }
  
   for ( i=0; i < dimension; i++)
     {
-    m_Std[i] = m_Std[i]/sum;
-    m_Std[i] = sqrt(m_Std[i]);
+    m_Stds[i] = m_Stds[i]/sum;
+    m_Stds[i] = sqrt(m_Stds[i]);
     }
 };
 

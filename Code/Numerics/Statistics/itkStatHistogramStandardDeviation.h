@@ -16,7 +16,7 @@
 #ifndef __itkStatHistogramStandardDeviation_h
 #define __itkStatHistogramStandardDeviation_h
 
-#include <vector>
+#include <vnl/vnl_vector.h>
 #include <itkLightObject.h>
 
 namespace itk{
@@ -54,12 +54,12 @@ public:
  /**
   * Method to get mean
   */
-  double GetStandardDeviation(int i) { return m_Std[i]; };
+  double GetStandardDeviation(int i) { return m_Stds[i]; };
 
  /**
   * Method to get mean
   */
-  std::vector<TStd> GetStandardDeviation() { return m_Std; };
+  vnl_vector<TStd> GetStandardDeviations() { return m_Stds; };
 
  /**
   * Calculate the mean of a histogram
@@ -68,7 +68,7 @@ public:
 
 private:
   typename THistogram::Pointer m_Histogram;
-  std::vector<double> m_Std;
+  vnl_vector<double> m_Stds;
 
 };
 
