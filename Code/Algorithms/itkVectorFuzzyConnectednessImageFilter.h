@@ -249,6 +249,10 @@ private:
   void Compute_Filter();
   void Compute_Affinity();
   void FastTracking(int);
+  
+private:
+  VectorFuzzyConnectednessImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented  
 };
 
 
