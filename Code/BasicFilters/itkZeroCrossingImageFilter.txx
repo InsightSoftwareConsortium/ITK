@@ -135,22 +135,22 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   InputImagePixelType zero = NumericTraits<InputImagePixelType>::Zero;
 
   unsigned long center;
-  Array<unsigned long, 2 * ImageDimension> offset;
+  Array<long, 2 * ImageDimension> offset;
 
   //Set the offset of the neighbors to the center pixel.
   for ( i = 0 ; i < 2 * ImageDimension; i+= 2)
     {
-      offset[i] = - nit.GetStride(i/2);
-      offset[i+1] = nit.GetStride(i/2);
+    offset[i] = -nit.GetStride(i/2);
+    offset[i+1] = nit.GetStride(i/2);
     }
-  
+
   // Now Process the non-boundary region.
   center = nit.Size()/2;
   while( ! nit.IsAtEnd() )
     {
       if ( threadId == 0 && !(ii % updateVisits ) )
         {
-          this->UpdateProgress((float)ii++ / (float)totalPixels);
+        this->UpdateProgress((float)ii++ / (float)totalPixels);
         }
       
       this_one = nit.GetPixel(center);
