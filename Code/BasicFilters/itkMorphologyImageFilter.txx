@@ -124,8 +124,8 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     o_iter = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);
     b_iter.OverrideBoundaryCondition(&BC);
     b_iter.GoToBegin();
-    
-    while ( ! b_iter.IsAtEnd() )
+
+    while ( ! o_iter.IsAtEnd() )
       {
       o_iter.Set( this->Evaluate(b_iter, kernelBegin, kernelEnd) );
       ++b_iter;
