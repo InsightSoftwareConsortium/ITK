@@ -338,6 +338,7 @@ private:
         TargetPointValue = rhs.TargetPointValue;
         TargetValue = rhs.TargetValue;
         ReferenceValue = rhs.ReferenceValue;
+        return *this;
       }
 
     TargetPointType                  TargetPointValue;
