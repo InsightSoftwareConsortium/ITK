@@ -18,13 +18,14 @@
 #define _itkFilterWatcher_h
 
 #include "itkCommand.h"
+#include <time.h>
 // The following class supports callbacks
 // on the filter in the pipeline that follows later
 class FilterWatcher
 {
 public:
   FilterWatcher(itk::ProcessObject* o)
-    {m_Process = o;
+    {m_Start = 0; m_End = 0; m_Process = o;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer startFilterCommand;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer endFilterCommand;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer progressFilterCommand;
@@ -49,15 +50,20 @@ public:
     }
   virtual void StartFilter()
     {
+    m_Start = ::clock();
     std::cout << "-------- Start Filter " << m_Process->GetNameOfClass()
               << m_Process
               << "Progress ";
     }
   virtual void EndFilter()
     {
-      std::cout << std::endl << std::endl << "-------- End Filter " << m_Process->GetNameOfClass()
+    m_End = ::clock();
+    std::cout << std::endl << "Filter took " << static_cast<double>(m_End - m_Start) / CLOCKS_PER_SEC << " seconds.";
+    std::cout << std::endl << std::endl << "-------- End Filter " << m_Process->GetNameOfClass()
               << m_Process;
     }
+  clock_t m_Start;
+  clock_t m_End;
   itk::ProcessObject::Pointer m_Process;
 };
 
