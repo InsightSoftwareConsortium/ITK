@@ -271,5 +271,5 @@ int itkFixedCenterOfRotationAffineTransformTest(int, char *[])
 
     std::cout << "DONE!" << std::endl;
 
-    return 0;
+    return any;
 }
