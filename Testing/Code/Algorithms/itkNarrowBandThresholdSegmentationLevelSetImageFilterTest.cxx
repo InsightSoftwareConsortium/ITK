@@ -148,6 +148,7 @@ int itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
     filter = itk::NarrowBandThresholdSegmentationLevelSetImageFilter< ::NBTS::SeedImageType, ::NBTS::ImageType>::New();
   filter->SetInput(seedImage);
   filter->SetFeatureImage(inputImage);
+  filter->SetNumberOfThreads(2);
 
   filter->SetUpperThreshold(63);
   filter->SetLowerThreshold(50);
