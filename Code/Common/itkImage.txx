@@ -354,7 +354,7 @@ Image<TPixel, VImageDimension>
   else
     {
     // pointer could not be cast back down
-    itkWarningMacro(<< "itk::Image::CopyInformation() cannot cast "
+    itkExceptionMacro(<< "itk::Image::CopyInformation() cannot cast "
               << typeid(data).name() << " to "
               << typeid(ImageBase<VImageDimension>*).name() );
     }
