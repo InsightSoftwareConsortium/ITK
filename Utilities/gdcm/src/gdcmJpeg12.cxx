@@ -20,6 +20,8 @@
 extern "C" {
 #include "itkjpeg/12/jconfig.h"
 #include "itkjpeg/12/jpeglib.h"
+#include "itkjpeg/12/jinclude.h"
+#include "itkjpeg/12/jerror.h"
 }
 
 #define gdcm_write_JPEG_file gdcm_write_JPEG_file12
