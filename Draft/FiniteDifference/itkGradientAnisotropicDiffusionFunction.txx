@@ -52,12 +52,12 @@ GradientAnisotropicDiffusionFunction<TImage>
   r[1] = 1;
   this->SetRadius(r);
 
-  std::slice  x_slice = std::slice(6,3,1);
-  std::slice  y_slice = std::slice(2,3,5);
-  std::slice xa_slice = std::slice(7,3,1);
-  std::slice ya_slice = std::slice(3,3,5);
-  std::slice xd_slice = std::slice(5,3,1);
-  std::slice yd_slice = std::slice(1,3,5);
+  x_slice = std::slice(6,3,1);
+  y_slice = std::slice(2,3,5);
+  xa_slice = std::slice(7,3,1);
+  ya_slice = std::slice(3,3,5);
+  xd_slice = std::slice(5,3,1);
+  yd_slice = std::slice(1,3,5);
   
   dx_op.SetDirection(0);
   dx_op.SetOrder(1);
