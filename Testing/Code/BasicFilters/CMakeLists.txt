@@ -43,6 +43,8 @@ ADD_TEST(itkCannyEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS} itkCannyEdg
 ADD_TEST(itkChainCodeToFourierSeriesPathFilterTest ${BASIC_FILTERS_TESTS} itkChainCodeToFourierSeriesPathFilterTest)
 ADD_TEST(itkChangeInformationImageFilterTest ${BASIC_FILTERS_TESTS} itkChangeInformationImageFilterTest)
 ADD_TEST(itkComposeRGBImageFilterTest ${BASIC_FILTERS_TESTS} itkComposeRGBImageFilterTest)
+ADD_TEST(itkCompose2DVectorImageFilterTest ${BASIC_FILTERS_TESTS} itkCompose2DVectorImageFilterTest)
+ADD_TEST(itkCompose3DVectorImageFilterTest ${BASIC_FILTERS_TESTS} itkCompose3DVectorImageFilterTest)
 ADD_TEST(itkConstantPadImageTest ${BASIC_FILTERS_TESTS} itkConstantPadImageTest)
 ADD_TEST(itkCosImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkCosImageFilterAndAdaptorTest)
 ADD_TEST(itkCropImageFilterTest ${BASIC_FILTERS_TESTS} itkCropImageFilterTest)
@@ -425,6 +427,8 @@ itkCannyEdgeDetectionImageFilterTest.cxx
 itkChainCodeToFourierSeriesPathFilterTest.cxx
 itkChangeInformationImageFilterTest.cxx
 itkComposeRGBImageFilterTest.cxx
+itkCompose2DVectorImageFilterTest.cxx
+itkCompose3DVectorImageFilterTest.cxx
 itkConfidenceConnectedImageFilterTest.cxx
 itkConnectedComponentImageFilterTest.cxx
 itkConnectedThresholdImageFilterTest.cxx
