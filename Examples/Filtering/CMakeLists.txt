@@ -1,6 +1,9 @@
 PROJECT(FilteringExamples)
 INCLUDE_REGULAR_EXPRESSION("^.*$")
 
+ADD_EXECUTABLE(AntiAliasBinaryImageFilter AntiAliasBinaryImageFilter.cxx )
+TARGET_LINK_LIBRARIES(AntiAliasBinaryImageFilter ITKCommon ITKIO)
+
 ADD_EXECUTABLE(FlipImageFilter FlipImageFilter.cxx )
 TARGET_LINK_LIBRARIES(FlipImageFilter ITKCommon ITKIO)
 
