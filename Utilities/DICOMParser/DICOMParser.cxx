@@ -62,40 +62,14 @@ DICOMParser::~DICOMParser() {
 
 bool DICOMParser::ReadHeader() {
 
-  DataFile->SkipToStart();
-  DataFile->Read(Header.magic_num,4);
-
-  if (!CheckMagic(Header.magic_num)) 
+  bool dicom = this->IsDICOMFile(this->DataFile);
+  if (!dicom)
     {
-    DataFile->SkipToPos(OPTIONAL_SKIP);
-    DataFile->Read((void*)Header.magic_num,4);
-    if (!CheckMagic(Header.magic_num)) 
-      {
-      std::cerr << "Error, DICOMParser magic number is incorrect: "
-                << Header.magic_num << std::endl;
-#ifndef DICOMPARSER_IGNORE_MAGIC_NUMBER
-      return false;
-#else
-    //
-    // Try it anyways...
-    //
-    std::cerr << "Ignoring bad magic number and restarting";
-    std::cerr << " parsing at start of file." << std::endl;
-    DataFile->SkipToPos(0);
-#endif
-      }
+    return false;
     }
 
   doublebyte group = 0;
   doublebyte element = 0;
-
-  // unsigned int startHeaderPos = DataFile->Tell();
-  // unsigned int endHeaderPos = 0;
-
-  //
-  // Now, really parse the header.
-  //
-  // DataFile->SkipToPos(startHeaderPos);
   
   do 
     {
@@ -125,11 +99,37 @@ bool DICOMParser::IsDICOMFile(DICOMFile* file) {
     file->Read((void*)magic_number,4);
     if (CheckMagic(magic_number)) 
       {
-      return(true);
+      return true;
       }
-    else 
+    else
       {
-      return(false);
+      std::cerr << "DICOMParser magic number is incorrect." << std::endl;
+
+#ifndef DICOMPARSER_IGNORE_MAGIC_NUMBER
+      return false;
+#else
+      //
+      // Try it anyways...
+      //
+      std::cerr << "Ignoring bad magic number and restarting";
+      std::cerr << " parsing at start of file." << std::endl;
+
+      file->SkipToStart();
+
+      doublebyte group = file->ReadDoubleByte();
+      bool dicom = false;
+      if (group == 0x0002 || group == 0x0008)
+        {
+        dicom = true;
+        }
+      else
+        {
+        dicom = false;
+        }
+      file->SkipToStart();
+
+      return dicom;
+#endif
       }
     }
 }
