@@ -89,6 +89,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkGrayscaleFillholeImageFilter.txx"
 #include "itkGrayscaleFunctionDilateImageFilter.txx"
 #include "itkGrayscaleFunctionErodeImageFilter.txx"
+#include "itkGrayscaleGeodesicDilateImageFilter.txx"
 #include "itkGrayscaleGeodesicErodeImageFilter.txx"
 #include "itkHardConnectedComponentImageFilter.txx"
 #include "itkHausdorffDistanceImageFilter.txx"
