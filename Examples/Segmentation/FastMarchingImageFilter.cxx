@@ -17,27 +17,27 @@
 
 // Software Guide : BeginLatex
 //
-// \piccaption[Sigmoid Function Plot]{Plot of the Sigmoid function.\label{fig:SigmoidBase}}
-// \parpic(8cm,6cm)[r]{\includegraphics[width=7cm]{SigmoidBase.eps}}
-
-//
 // The following example illustrates the use of the
 // \doxygen{FastMarchingImageFilter}. This filter implements a Level Set
 // approach to segmentation.  In this case, the the speed term used in the
 // differential equation is expected to be provided by the user in the form of
 // an image.  This image is typically computed as a function of the gradient
-// magnitude.  Several mappings are popular in the literature. In the current
-// example we decided to use a Sigmoid function as illustrated in
-// Figure~\ref{fig:SigmoidBase}.  This choice makes that the propagation speed
-// of the front will be very low close to high gradients while it will move
+// magnitude.  Several mappings are popular in the literature, for example the
+// negative exponential $exp(-x)$ and the reciprocal $1/(1+x)$. In the current
+// example we decided to use a Sigmoid function since it offers a good deal of
+// control parameters that can be customized for shaping a nice speed image.
+//
+// The mapping should be done in such a way that the propagation speed of the
+// front will be very low close to high image gradients while it will move
 // rather fast in low gradient areas. This arrangement will make the contour
 // propagate until it reaches the edges of anatomical structures in the image
-// and then slow down in front of those edges.  The output of this filter is a
-// \emph{time-crossing map} that indicates for each pixel, how much time would
-// take for the front to arrive to the pixel location.
+// and then slow down in front of those edges.  The output of the
+// \doxygen{FastMarchingImageFilter} is a \emph{time-crossing map} that
+// indicates for each pixel, how much time would take for the front to arrive
+// to the pixel location.
 //
 // \begin{figure} \center
-// \includegraphics[width=14cm]{FastMarchingCollaborationDiagram1.eps}
+// \includegraphics[width=15cm]{FastMarchingCollaborationDiagram1.eps}
 // \caption[FastMarchingImageFilter collaboration diagram]{Collaboration
 // diagram of the FastMarchingImageFilter applied to a segmentation task.}
 // \label{fig:FastMarchingCollaborationDiagram}
@@ -55,8 +55,7 @@
 // involved in the application of the \doxygen{FastMarchingImageFilter} to a
 // segmentation task. It involves a first stage of smoothing using the
 // \doxygen{CurvatureAnisotropicDiffusionImageFilter}. The smoothed image is
-// passed as the input for the \doxygen{FastMarchingImageFilter} and it is also
-// used to produce the image potential by passing it to the
+// passed as the input for the
 // \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} and then to the
 // \doxygen{SigmoidImageFilter}.  Finally the output of the
 // \doxygen{FastMarchingImageFilter} is passed to a
@@ -64,11 +63,11 @@
 // representing the segmented object.
 //
 // The code in the following example illustrates the typical setup of a
-// pipeline for performing segmentation. First, the input image is smoothed
-// using an edge-preserving filter. Then the magnitude of its gradient is
-// computed and passed to a sigmoid filter. The result of the
-// sigmoid filter is the image potential that will be used to affect the
-// speed term of the differential equation. 
+// pipeline for performing segmentation with FastMarching. First, the input
+// image is smoothed using an edge-preserving filter. Then the magnitude of its
+// gradient is computed and passed to a sigmoid filter. The result of the
+// sigmoid filter is the image potential that will be used to affect the speed
+// term of the differential equation. 
 //
 // Let's start by including the following headers. First we include the header
 // of the \doxygen{CurvatureAnisotropicDiffusionImageFilter} that will be used
@@ -220,16 +219,18 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //
   //  The upper threshold passed to the \doxygen{BinaryThresholdImageFilter}
-  //  will define the time snap-shot that we are taking from the time-crossing
+  //  will define the time snapshot that we are taking from the time-crossing
   //  map. In an ideal application the user should be able to select this
   //  threshold interactively using visual feedback. Here, since it is a
   //  minimal example, the value is taken from the command line arguments.
   //
   //  Software Guide : EndLatex 
 
+  const InternalPixelType  timeThreshold = atof( argv[8] );
+  
   // Software Guide : BeginCodeSnippet
-  thresholder->SetLowerThreshold( 0.0 );
-  thresholder->SetUpperThreshold( atof( argv[8] ) );
+  thresholder->SetLowerThreshold(           0.0  );
+  thresholder->SetUpperThreshold( timeThreshold  );
 
   thresholder->SetOutsideValue(  0  );
   thresholder->SetInsideValue(  255 );
@@ -330,6 +331,23 @@ int main( int argc, char **argv )
   // Software Guide : EndCodeSnippet
 
 
+  //  Software Guide : BeginLatex
+  //
+  //  The minimum and maximum values of the \doxygen{SigmoidImageFilter} output
+  //  are defined with the methods \code{SetOutputMinimum()} and
+  //  \code{SetOutputMaximum()}. In our case, we want these two values to be
+  //  $0.0$ and $1.0$ respectively in order to get a nice speed image to feed
+  //  the \code{FastMarchingImageFilter}. Additional details on the user of the
+  //  \doxygen{SigmoidImageFilter} are presented in
+  //  section~\ref{sec:IntensityNonLinearMapping}.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  sigmoid->SetOutputMinimum(  0.0  );
+  sigmoid->SetOutputMaximum(  1.0  );
+  // Software Guide : EndCodeSnippet
+
 
 
 
@@ -394,7 +412,8 @@ int main( int argc, char **argv )
   //  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} requires a couple
   //  of parameter to be defined. The following are typical values for $2D$
   //  images. However they may have to be adjusted depending on the amount of
-  //  noise present in the input image.
+  //  noise present in the input image. This filter has been discussed in
+  //  section~\ref{sec:GradientAnisotropicDiffusionImageFilter}.
   //
   //  Software Guide : EndLatex 
 
@@ -412,7 +431,8 @@ int main( int argc, char **argv )
   //  The \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} performs the
   //  equivalent of a convolution with a Gaussian kernel, followed by a
   //  derivative operator. The sigma of this Gaussian can be used to control
-  //  the range of influence of the image edges.
+  //  the range of influence of the image edges. This filter has been discussed
+  //  in section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}
   //
   //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!SetSigma()}
   //
@@ -444,17 +464,20 @@ int main( int argc, char **argv )
   //  the speed image.  We want the sigmoid to map $K1$ to $0.0$ and $K2$ to
   //  $1.0$. This mapping will produce a speed image such that the level set
   //  will march rapidly on the homogeneous region and will definitely stop on
-  //  the contour. The suggested value for beta is minus the average of $K1$
-  //  and $K2$, while the suggested value for alpha is $(K1-K2)/10$.  In our
-  //  simple example the values are provided by the user from the command line
-  //  arguments. The user can estimate these values by observing the gradient
-  //  magnitude image. 
+  //  the contour. The suggested value for beta is $(K1+K2)/2$ while the
+  //  suggested value for alpha is $(K1-K2)/6$.  In our simple example the
+  //  values are provided by the user from the command line arguments. The user
+  //  can estimate these values by observing the gradient magnitude image. 
   //
   //  Software Guide : EndLatex 
 
+  const double alpha =  atof( argv[6] );
+  const double beta  =  atof( argv[7] );
+
+
   // Software Guide : BeginCodeSnippet
-  sigmoid->SetAlpha( atof( argv[6] ) );
-  sigmoid->SetBeta(  atof( argv[7] ) );
+  sigmoid->SetAlpha( alpha );
+  sigmoid->SetBeta(  beta  );
   // Software Guide : EndCodeSnippet
 
 
@@ -465,8 +488,22 @@ int main( int argc, char **argv )
   //  The \doxygen{FastMarchingImageFilter} requires the user to provide a seed
   //  point from which the level set will be generated. The user can actually
   //  pass not only one seed point but a set of them. A good set of seed points
-  //  increase the changes of segmenting a complex object without missing
-  //  parts. The seeds are passed stored in a container. The type of this
+  //  increases the changes of segmenting a complex object without missing
+  //  parts. The use of multiple seed also helps to reduce the amount of time
+  //  needed by the front to visit a whole object and hence reduce the risks of
+  //  leaks on the edges of regions visited early. For example, when segmenting
+  //  an elongated object it is undesirable to place a single seed in one
+  //  extreme of the object since the front will need a long time to propagate
+  //  to the other end of the object. Placing several seeds along the axis of
+  //  the object will probably be the best strategy to ensure that all the
+  //  object is captured early in the expansion of the front. One of the
+  //  important properties of Level Sets is their natural hability for fusing
+  //  several front without producing topological dissorders. The use of
+  //  multiple seeds takes good advantage of such property.
+  //
+  //  \index{itk::FastMarchingImageFilter!Multiple seeds}
+  //
+  //  The seeds are passed stored in a container. The type of this
   //  container is defined as \code{NodeContainer} among the
   //  \doxygen{FastMarchingImageFilter} traits.
   //
@@ -493,7 +530,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //
   //  Nodes are created as stack variables and initialized with a value and an
-  //  index position.
+  //  \doxygen{Index} position.
   //
   //  \index{itk::FastMarchingImageFilter!Seed initialization}
   //
@@ -625,8 +662,10 @@ int main( int argc, char **argv )
   //
   //  Software Guide : EndLatex 
 
+  const double stoppingTime = atof( argv[9] );
+
   // Software Guide : BeginCodeSnippet
-  fastMarching->SetStoppingValue( atof( argv[9] ) );
+  fastMarching->SetStoppingValue(  stoppingTime  );
   // Software Guide : EndCodeSnippet
 
 
@@ -716,12 +755,16 @@ int main( int argc, char **argv )
   //  \doxygen{FastMarchingImageFilter}.
   //
   // \begin{figure} \center
-  // \includegraphics[width=4cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=4cm]{FastMarchingImageFilterOutput1.eps}
-  // \includegraphics[width=4cm]{FastMarchingImageFilterOutput2.eps}
-  // \includegraphics[width=4cm]{FastMarchingImageFilterOutput3.eps}
-  // \caption[FastMarchingImageFilter output images]{Images generated by the
-  // segmentation process based on the FastMarchingImageFilter}
+  // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=6cm]{FastMarchingImageFilterOutput1.eps}
+  // \includegraphics[width=6cm]{FastMarchingImageFilterOutput2.eps}
+  // \includegraphics[width=6cm]{FastMarchingImageFilterOutput3.eps}
+  // \caption[FastMarchingImageFilter intermediate output]{Images generated by
+  // the segmentation process based on the FastMarchingImageFilter. From left
+  // to right and top to bottom: Input image to be segmented, image smoothed with an
+  // edge-preserving smoothing filter, gradient magnitude of the smoothed
+  // image, sigmoid of the gradient magnitude. This last image, the sigmoid, is
+  // used to compute the speed term for the front propagation }
   // \label{fig:FastMarchingImageFilterOutput}
   // \end{figure}
   //
@@ -730,11 +773,10 @@ int main( int argc, char **argv )
   //  anatomical structures to be segmented do not occupy extended regions of
   //  the image. In particular when the width of the structure is comparable to
   //  the size of the attenuation bands generated by the gradient filter. A
-  //  possible work around of this limitation is to use multiple seed distributed
-  //  along the elongated object.  Level sets have the nice topological
-  //  property of being able to implicitly merge contours when they come together. 
-  //  The segmentation resulting from multiple seeds grow naturally in this 
-  //  segmentation paradigm.
+  //  possible work around of this limitation is to use multiple seed
+  //  distributed along the elongated object. However, note that white matter
+  //  vs gray matter segmentation is not a trivial task and may require a more
+  //  elaborate approach than the one used in this basic example.
   //
   // \begin{figure} \center
   // \includegraphics[width=4cm]{FastMarchingImageFilterOutput5.eps}
@@ -742,7 +784,10 @@ int main( int argc, char **argv )
   // \includegraphics[width=4cm]{FastMarchingImageFilterOutput7.eps}
   // \includegraphics[width=4cm]{FastMarchingImageFilterOutput8.eps}
   // \caption[FastMarchingImageFilter segmentations]{Images generated by the
-  // segmentation process based on the FastMarchingImageFilter}
+  // segmentation process based on the FastMarchingImageFilter. From left to
+  // right: Segmentation of the left ventricle, segmentation of the right
+  // ventricle, segmentation of the white matter, attempt of segmentation of
+  // the gray matter.}
   // \label{fig:FastMarchingImageFilterOutput2}
   // \end{figure}
   //
