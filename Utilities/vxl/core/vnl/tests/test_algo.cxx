@@ -40,9 +40,12 @@
 #include <vnl/algo/vnl_svd_economy.h>
 #include <vnl/vnl_sparse_matrix_linear_system.h>
 #include <vnl/vnl_least_squares_function.h>
+#include <vnl/vnl_sample.h>
 
 void test_algo()
 {
+  vnl_sample_reseed(0x1234abcd);
+  
   {
     int data[] = { 1, -1, 1, -1,  1, 1, -1, -1,  1, 1, 1, 1,  1, -1, -1, 1 };
     vnl_matrix<int> m(data,4,4);
