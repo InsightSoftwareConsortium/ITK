@@ -28,6 +28,7 @@ template <class TScalarType>
 Euler2DTransform<TScalarType>
 ::Euler2DTransform()
 {
+  m_Parameters.resize(ParametersDimension);
 }
 
 // Copy Constructor
