@@ -53,6 +53,14 @@ namespace itk
  * 
  * Perform the segmentation of 2D images (single channel) by Voronoi Diagram.
  * Used as a node of the segmentation toolkits.
+ * The homogeneity operator here is the testing of mean and variance value.
+ * By setting the tolerance level, the "internal" region was defined as those
+ * that is closed to the gold-standard value in the sense that the difference
+ * is within the tolerance value.
+ *
+ * See VoronoiSegmentationImageFilterBase for detail description of voronoi
+ * segmenation principles.
+ * 
  * The parameters here are: 
  * 1. the estimation of the statistics of the object. (mean and std.)
  * 2. the tolerance for the classification. (around the mean ans std. estimated value).
