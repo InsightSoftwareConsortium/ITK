@@ -160,7 +160,7 @@ TetrahedronCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(int i=0; i < Self::NumberOfPoints ; ++i)
+  for(unsigned int i=0; i < Self::NumberOfPoints ; ++i)
     {
     m_PointIds[i] = *ii++;
     }
@@ -344,7 +344,7 @@ TetrahedronCell< TCellInterface >
 ::GetFace(CellFeatureIdentifier faceId, FaceAutoPointer & facePointer )
 {
   FaceType * face = new FaceType;
-  for(int i=0; i < FaceType::NumberOfPoints; ++i)
+  for(unsigned int i=0; i < FaceType::NumberOfPoints; ++i)
     {
     face->SetPointId(i, m_PointIds[ m_Faces[faceId][i] ]);
     }

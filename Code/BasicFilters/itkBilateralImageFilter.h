@@ -161,7 +161,7 @@ protected:
    * RangeSigma is 50. */
   BilateralImageFilter()
     {
-    int i;
+    unsigned int i;
     for (i = 0; i < ImageDimension; i++)
       {
       m_DomainSigma[i] = 4.0f;

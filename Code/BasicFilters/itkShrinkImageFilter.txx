@@ -35,7 +35,7 @@ template <class TInputImage, class TOutputImage>
 ShrinkImageFilter<TInputImage,TOutputImage>
 ::ShrinkImageFilter()
 {
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     m_ShrinkFactors[j] = 1;
     }
@@ -53,7 +53,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   Superclass::PrintSelf(os,indent);
   
   os << indent << "Shrink Factor: ";
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     os << m_ShrinkFactors[j] << " ";
     } 
@@ -97,7 +97,7 @@ void
 ShrinkImageFilter<TInputImage,TOutputImage>
 ::SetShrinkFactors(unsigned int factor)
 {
-  int j = 0;
+  unsigned int j = 0;
   for( j = 0; j < ImageDimension; j++ )
     {
     if( factor != m_ShrinkFactors[j] ) break;
@@ -195,7 +195,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
     }
   
   // we need to compute the input requested region (size and start index)
-  int i;
+  unsigned int i;
   const typename TOutputImage::SizeType& outputRequestedRegionSize
     = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
@@ -241,7 +241,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   
   // we need to compute the output spacing, the output image size, and the
   // output image start index
-  int i;
+  unsigned int i;
   const double             *inputSpacing = inputPtr->GetSpacing();
   const typename TInputImage::SizeType&   inputSize
     = inputPtr->GetLargestPossibleRegion().GetSize();

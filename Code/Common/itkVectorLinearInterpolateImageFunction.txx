@@ -121,7 +121,7 @@ const ContinuousIndexType& index) const
     if( overlap )
       {
       input = m_Image->GetPixel( neighIndex );
-      for( int k = 0; k < VectorDimension; k++ )
+      for(unsigned int k = 0; k < VectorDimension; k++ )
         {
         output[k] += overlap * static_cast<RealType>( input[k] );
         }

@@ -96,7 +96,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
 
   //this->SetPoles();
   m_MaxNumberInterpolationPoints = 1;
-  for (int n=0; n < ImageDimension; n++)
+  for (unsigned int n=0; n < ImageDimension; n++)
     {
     m_MaxNumberInterpolationPoints *= ( m_SplineOrder + 1);
     } 
@@ -236,7 +236,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
   switch (splineOrder)
     {
     case 3:
-      for (int n = 0; n < ImageDimension; n++)
+      for (unsigned int n = 0; n < ImageDimension; n++)
         {
         w = x[n] - (double) EvaluateIndex[n][1];
         weights[n][3] = (1.0 / 6.0) * w * w * w;
@@ -246,13 +246,13 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
         }
       break;
     case 0:
-      for (int n = 0; n < ImageDimension; n++)
+      for (unsigned int n = 0; n < ImageDimension; n++)
         {
         weights[n][0] = 1; // implements nearest neighbor
         }
       break;
     case 1:
-      for (int n = 0; n < ImageDimension; n++)
+      for (unsigned int n = 0; n < ImageDimension; n++)
         {
         w = x[n] - (double) EvaluateIndex[n][0];
         weights[n][1] = w;
@@ -260,7 +260,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
         }
       break;
     case 2:
-      for (int n = 0; n < ImageDimension; n++)
+      for (unsigned int n = 0; n < ImageDimension; n++)
         {
         /* x */
         w = x[n] - (double)EvaluateIndex[n][1];
@@ -270,7 +270,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
         }
       break;
     case 4:
-      for (int n = 0; n < ImageDimension; n++)
+      for (unsigned int n = 0; n < ImageDimension; n++)
         {
         /* x */
         w = x[n] - (double)EvaluateIndex[n][2];
@@ -288,7 +288,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
         }
       break;
     case 5:
-      for (int n = 0; n < ImageDimension; n++)
+      for (unsigned int n = 0; n < ImageDimension; n++)
         {
         /* x */
         w = x[n] - (double)EvaluateIndex[n][2];
@@ -340,20 +340,20 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
     // Calculates B(splineOrder) ( (x + 1/2) - xi) - B(splineOrder -1) ( (x - 1/2) - xi)
     case -1:
       // Why would we want to do this?
-      for (int n = 0; n < ImageDimension; n++)
+      for (unsigned int n = 0; n < ImageDimension; n++)
         {
         weights[n][0] = 0.0;
         }
       break;
     case 0:
-      for (int n = 0; n < ImageDimension; n++)
+      for (unsigned int n = 0; n < ImageDimension; n++)
         {
         weights[n][0] = -1.0;
         weights[n][1] =  1.0;
         }
     break;
     case 1:
-      for (int n = 0; n < ImageDimension; n++)
+      for (unsigned int n = 0; n < ImageDimension; n++)
         {
         w = x[n] + 0.5 - (double)EvaluateIndex[n][1];
         // w2 = w;
@@ -366,7 +366,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
       break;
     case 2:
       
-      for (int n = 0; n < ImageDimension; n++)
+      for (unsigned int n = 0; n < ImageDimension; n++)
         {
         w = x[n] + .5 - (double)EvaluateIndex[n][2];
         w2 = 0.75 - w * w;
@@ -381,7 +381,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
       break;
     case 3:
       
-      for (int n = 0; n < ImageDimension; n++)
+      for (unsigned int n = 0; n < ImageDimension; n++)
         {
         w = x[n] + 0.5 - (double)EvaluateIndex[n][2];
         w4 = (1.0 / 6.0) * w * w * w;
@@ -397,7 +397,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
         }
       break;
       case 4:
-      for (int n = 0; n < ImageDimension; n++)
+      for (unsigned int n = 0; n < ImageDimension; n++)
         {
         w = x[n] + .5 - (double)EvaluateIndex[n][3];
         t2 = w * w;
@@ -447,11 +447,11 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
       int pp = p;
     unsigned long indexFactor[ImageDimension];
     indexFactor[0] = 1;
-    for (int j=1; j< ImageDimension; j++)
+    for (int j=1; j< static_cast<int>(ImageDimension); j++)
       {
       indexFactor[j] = indexFactor[j-1] * ( m_SplineOrder + 1 );
       }
-    for (int j = (ImageDimension - 1); j >= 0; j--)
+    for (int j = (static_cast<int>(ImageDimension) - 1); j >= 0; j--)
       {
       m_PointsToIndex[p][j] = pp / indexFactor[j];
       pp = pp % indexFactor[j];
@@ -469,7 +469,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
   long indx;
 
 // compute the interpolation indexes 
-  for (int n = 0; n< ImageDimension; n++)
+  for (unsigned int n = 0; n< ImageDimension; n++)
     {
     if (splineOrder & 1)     // Use this index calculation for odd splineOrder
       {
@@ -496,7 +496,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::ApplyMirrorBoundaryConditions(vnl_matrix<long> & evaluateIndex, 
                                 unsigned int splineOrder) const
 {
-  for (int n = 0; n < ImageDimension; n++)
+  for (unsigned int n = 0; n < ImageDimension; n++)
     {
     long dataLength2 = 2 * m_DataLength[n] - 2;
 

@@ -142,7 +142,7 @@ public:
     {
     OutputType output;
     PixelType input = m_Image->GetPixel( index );
-    for( int k = 0; k < VectorDimension; k++ )
+    for( unsigned int k = 0; k < VectorDimension; k++ )
       {
       output[k] = static_cast<double>( input[k] );
       }

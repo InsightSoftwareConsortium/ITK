@@ -128,7 +128,7 @@ public:
 protected:
   DiscreteGaussianImageFilter()
     {
-    int i;
+    unsigned int i;
     for (i = 0; i < ImageDimension; i++)
       {
       m_Variance[i] = 0.0f;

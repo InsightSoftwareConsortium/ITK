@@ -150,7 +150,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
     m_FoundUncheckedNeighbor = false;
 
     // i loop runs through all possible dimensions
-    for(int i=0; i<NDimensions; i++)
+    for(unsigned int i=0; i<NDimensions; i++)
       {
       IndexType tempIndex;
       m_IsValidIndex = true;
@@ -159,7 +159,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
       for(int j=-1; j<=1; j+=2)
         {
         // build the index of a neighbor
-        for(int k=0; k<NDimensions; k++)
+        for(unsigned int k=0; k<NDimensions; k++)
           {
           if( i!=k )
             tempIndex.m_Index[k] = m_IndexStack.top().m_Index[k];

@@ -145,7 +145,7 @@ QuadraticTriangleCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(int i=0; i < Self::NumberOfPoints ; ++i)
+  for(unsigned int i=0; i < Self::NumberOfPoints ; ++i)
     {
     m_PointIds[i] = *ii++;
     }
@@ -293,7 +293,7 @@ QuadraticTriangleCell< TCellInterface >
 ::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoPointer & edgePointer )
 {
   EdgeType * edge = new EdgeType;
-  for(int i=0; i < EdgeType::NumberOfPoints; ++i)
+  for(unsigned int i=0; i < EdgeType::NumberOfPoints; ++i)
     {
     edge->SetPointId(i, m_PointIds[ m_Edges[edgeId][i] ]);
     }

@@ -67,7 +67,7 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
   m_NumberOfInstances = num ;
 
   // adjust the sizes of min max value containers 
-  int dim;
+  unsigned int dim;
   m_Min.resize(MeasurementVectorSize);
   for ( dim = 0; dim < MeasurementVectorSize; dim++)
     {
@@ -95,7 +95,7 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
   this->Initialize(size) ;
 
   float interval ;
-  for ( int i = 0 ; i < MeasurementVectorSize ; i++)
+  for ( unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
     {
       interval = (float) (upperBound[i] - lowerBound[i]) / 
         static_cast< MeasurementType >(size[i]) ;
@@ -120,7 +120,7 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 {
   // now using somthing similar to binary search to find
   // index.
-  int dim ;
+  unsigned int dim ;
   
   int begin, mid, end ;
   MeasurementType median ;
@@ -200,7 +200,7 @@ inline bool
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::IsIndexOutOfBound(const IndexType &index) const
 {
-  for (int dim = 0 ; dim < MeasurementVectorSize ; dim++)
+  for (unsigned int dim = 0 ; dim < MeasurementVectorSize ; dim++)
     {
     if (index[dim] < 0 || index[dim] >= static_cast<IndexValueType>(m_Size[dim]))
       {
@@ -364,7 +364,7 @@ inline typename Histogram< TMeasurement, VMeasurementVectorSize,
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetMeasurementVector(const IndexType &index) 
 {
-  for ( int i = 0; i < MeasurementVectorSize; i++)
+  for ( unsigned int i = 0; i < MeasurementVectorSize; i++)
     {
       m_TempMeasurementVector[i] =  (m_Min[i][index[i]] + m_Max[i][index[i]])/2;
     }

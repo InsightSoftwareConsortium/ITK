@@ -327,7 +327,7 @@ HexahedronCell< TCellInterface >
 ::GetFace(CellFeatureIdentifier faceId, FaceAutoPointer & facePointer )
 {
   FaceType * face = new FaceType;
-  for(int i=0; i < FaceType::NumberOfPoints; ++i)
+  for(unsigned int i=0; i < FaceType::NumberOfPoints; ++i)
     {
     face->SetPointId(i, m_PointIds[ m_Faces[faceId][i] ]);
     }

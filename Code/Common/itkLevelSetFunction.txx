@@ -103,7 +103,7 @@ LevelSetFunction< TImageType>
   m_Center =  it.Size() / 2;
 
   // Get the stride length for each axis.
-  for(int i = 0; i < ImageDimension; i++)
+  for(unsigned int i = 0; i < ImageDimension; i++)
     {  m_xStride[i] = it.GetStride(i); }
 }
   
@@ -118,7 +118,7 @@ LevelSetFunction< TImageType >
     1. Implement vanishing viscosity for curvature term (replace epsilon)?
     2. Add in max_curvature term to calculation of dt.
   */
-  int i;  
+  unsigned int i;  
   const ScalarValueType ZERO = NumericTraits<ScalarValueType>::Zero;
   const ScalarValueType MIN_NORM = 1.0e-6;
   
@@ -160,7 +160,7 @@ LevelSetFunction< TImageType >
       dxx[i] = it.GetPixel(m_Center + m_xStride[i])
         + it.GetPixel(m_Center - m_xStride[i]) - 2.0 * temp_value;
       
-      for(int j = i+1; j < ImageDimension; j++)
+      for(unsigned int j = i+1; j < ImageDimension; j++)
         {
           dxy[k] = 0.25 *( it.GetPixel(m_Center - m_xStride[i] - m_xStride[j])
             - it.GetPixel(m_Center - m_xStride[i]+ m_xStride[j])
@@ -176,7 +176,7 @@ LevelSetFunction< TImageType >
   for (i = 0; i < ImageDimension; i++)
     {
       
-      for(int j = 0; j < ImageDimension; j++)
+      for(unsigned int j = 0; j < ImageDimension; j++)
         {
           
           if(j != i)
@@ -220,7 +220,7 @@ LevelSetFunction< TImageType >
 
       PixelType totalEnergy = ZERO;
       
-      for(int i = 0; i < ImageDimension; i++)
+      for(unsigned int i = 0; i < ImageDimension; i++)
         totalEnergy += vnl_math_abs(x_energy[i]);
       
       globalData->m_MaxAdvectionChange
@@ -283,7 +283,7 @@ LevelSetFunction< TImageType >
     1. Implement vanishing viscosity for curvature term (replace epsilon)?
     2. Add in max_curvature term to calculation of dt.
   */
-  int i;  
+  unsigned int i;  
   const ScalarValueType ZERO = NumericTraits<ScalarValueType>::Zero;
   const ScalarValueType MIN_NORM = 1.0e-6;
   
@@ -325,7 +325,7 @@ LevelSetFunction< TImageType >
       dxx[i] = it.GetPixel(m_Center + m_xStride[i])
         + it.GetPixel(m_Center - m_xStride[i]) - 2.0 * temp_value;
       
-      for(int j = i+1; j < ImageDimension; j++)
+      for(unsigned int j = i+1; j < ImageDimension; j++)
         {
           dxy[k] = 0.25 *( it.GetPixel(m_Center - m_xStride[i] - m_xStride[j])
             - it.GetPixel(m_Center - m_xStride[i]+ m_xStride[j])
@@ -341,7 +341,7 @@ LevelSetFunction< TImageType >
   for (i = 0; i < ImageDimension; i++)
     {
       
-      for(int j = 0; j < ImageDimension; j++)
+      for(unsigned int j = 0; j < ImageDimension; j++)
         {
           
           if(j != i)
@@ -385,7 +385,7 @@ LevelSetFunction< TImageType >
 
       PixelType totalEnergy = ZERO;
       
-      for(int i = 0; i < ImageDimension; i++)
+      for(unsigned int i = 0; i < ImageDimension; i++)
         totalEnergy += vnl_math_abs(x_energy[i]);
       
       globalData->m_MaxAdvectionChange

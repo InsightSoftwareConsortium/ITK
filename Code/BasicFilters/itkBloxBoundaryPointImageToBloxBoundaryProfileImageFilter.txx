@@ -170,7 +170,7 @@ public:
   void GetDerivative( const ParametersType & parameters,
                             DerivativeType  & derivative ) const
   {
-    double a = parameters[0];
+    // double a = parameters[0];  not used
     double b = parameters[1];
     double c = parameters[2];
     double d = parameters[3];

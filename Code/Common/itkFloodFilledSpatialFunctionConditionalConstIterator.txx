@@ -70,7 +70,7 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
       // along each dimension
       ContinuousIndex<double, TImage::ImageDimension> contIndex;
 
-      for(int i = 0; i < TImage::ImageDimension; i ++ )
+      for(unsigned int i = 0; i < TImage::ImageDimension; i ++ )
         {
         contIndex[i] = (double)index[i] + 0.5;
         }

@@ -100,7 +100,7 @@ SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
   typedef NaryAddImageFilter<OutputImageType, OutputImageType> AddFilter;
   typedef SqrtImageFilter<OutputImageType, OutputImageType> SqrtFilter;
   
-  int i;  
+  unsigned int i;  
   
   typename TOutputImage::Pointer output = this->GetOutput();  
   output->SetBufferedRegion(output->GetRequestedRegion());

@@ -95,7 +95,7 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
 ::IsInsideBuffer(
 const IndexType& index ) const
 {
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     if( index[j] < m_BufferStart[j] ||
         index[j] > m_BufferEnd[j] )
@@ -116,7 +116,7 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
 ::IsInsideBuffer(
 const ContinuousIndexType& index ) const
 {
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     if( index[j] < (double) m_BufferStart[j] ||
         index[j] > (double) m_BufferEnd[j] )
@@ -137,7 +137,7 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
 ::IsInsideBuffer(
 const PointType& point ) const
 {
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     if( point[j] < m_GeometricStart[j] ||
         point[j] > m_GeometricEnd[j] )
@@ -159,7 +159,7 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
 const PointType& point,
 ContinuousIndexType& index ) const
 {
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     index[j] = ( point[j] - m_Origin[j] ) / m_Spacing[j];
     }
@@ -176,7 +176,7 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
 const ContinuousIndexType& index,
 PointType& point ) const
 {
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     point[j] = index[j] * m_Spacing[j] + m_Origin[j];
     }
@@ -193,7 +193,7 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
 const IndexType& index,
 PointType& point ) const
 {
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     point[j] = (double) index[j] * m_Spacing[j] + m_Origin[j];
     }
@@ -210,7 +210,7 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
 const PointType& point,
 IndexType& index ) const
 {
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     index[j] = vnl_math_rnd(( point[j] - m_Origin[j] ) / m_Spacing[j]);
     }
@@ -227,7 +227,7 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
 const ContinuousIndexType& cindex,
 IndexType& index ) const
 {
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     index[j] = vnl_math_rnd( cindex[j] );
     }

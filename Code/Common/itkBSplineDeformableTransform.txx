@@ -56,7 +56,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   m_InputParametersPointer = NULL;
 
   // Initialize coeffient images
-  for ( int j = 0; j < SpaceDimension; j++ )
+  for ( unsigned int j = 0; j < SpaceDimension; j++ )
     {
     m_CoefficientImage[j] = ImageType::New();
     m_CoefficientImage[j]->SetRegions( m_GridRegion );
@@ -69,7 +69,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   m_ValidRegion = m_GridRegion;
 
   // Initialize jacobian images
-  for ( int j = 0; j < SpaceDimension; j++ )
+  for ( unsigned int j = 0; j < SpaceDimension; j++ )
     {
     m_JacobianImage[j] = ImageType::New();
     m_JacobianImage[j]->SetRegions( m_GridRegion );
@@ -118,7 +118,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     m_GridRegion = region;
 
     // set regions for each coefficient and jacobian image
-    for ( int j = 0; j < SpaceDimension; j++ )
+    for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
       m_CoefficientImage[j]->SetRegions( m_GridRegion );
       m_JacobianImage[j]->SetRegions( m_GridRegion );
@@ -127,7 +127,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     // Set the valid region
     typename RegionType::SizeType size = m_GridRegion.GetSize();
     typename RegionType::IndexType index = m_GridRegion.GetIndex();
-    for ( int j = 0; j < SpaceDimension; j++ )
+    for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
       index[j] += 
         static_cast< typename RegionType::IndexValueType >( m_Offset );
@@ -154,7 +154,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     m_GridSpacing = spacing;
 
     // set spacing for each coefficient and jacobian image
-    for ( int j = 0; j < SpaceDimension; j++ )
+    for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
       m_CoefficientImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
       m_JacobianImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
@@ -177,7 +177,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     m_GridOrigin = origin;
 
     // set spacing for each coefficient and jacobianimage
-    for ( int j = 0; j < SpaceDimension; j++ )
+    for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
       m_CoefficientImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
       m_JacobianImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
@@ -214,7 +214,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   PixelType * dataPointer = (PixelType *)( parameters.data_block() );
   unsigned int numberOfPixels = m_GridRegion.GetNumberOfPixels();
 
-  for ( int j = 0; j < SpaceDimension; j++ )
+  for ( unsigned int j = 0; j < SpaceDimension; j++ )
     {
     m_CoefficientImage[j]->GetPixelContainer()->
       SetImportPointer( dataPointer, numberOfPixels );
@@ -230,7 +230,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   m_LastJacobianIndex = m_ValidRegion.GetIndex();
   JacobianPixelType * jacobianDataPointer = m_Jacobian.data_block();
 
-  for ( int j = 0; j < SpaceDimension; j++ )
+  for ( unsigned int j = 0; j < SpaceDimension; j++ )
     {
     m_JacobianImage[j]->GetPixelContainer()->
       SetImportPointer( jacobianDataPointer, numberOfPixels );

@@ -29,7 +29,7 @@ ZeroFluxNeumannBoundaryCondition<TImage>
   // Return the value of the pixel at the closest boundary point.
   int index[ImageDimension];
 
-  for (int i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       index[i] = point_index[i] + boundary_offset[i];
       linear_index += index[i] * data->GetStride(i);

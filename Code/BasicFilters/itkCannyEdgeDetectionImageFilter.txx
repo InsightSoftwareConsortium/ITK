@@ -518,7 +518,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
           gradMag = 0.0001;
 
-          for ( int i = 0; i < ImageDimension; i++)
+          for ( unsigned int i = 0; i < ImageDimension; i++)
             {
               dx[i] = IP(m_ComputeCannyEdgeSlice[i], bit,
                          m_ComputeCannyEdge1stDerivativeOper);
@@ -530,7 +530,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
           gradMag = vnl_math_sqrt(gradMag);          
           derivPos = zero;
-          for ( int i = 0; i < ImageDimension; i++)
+          for ( unsigned int i = 0; i < ImageDimension; i++)
             {
               
               //First calculate the directional derivative

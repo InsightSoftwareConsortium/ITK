@@ -56,7 +56,7 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>
 
   while ( !iterator.IsAtEnd() )
     {
-    for( int j = 0; j < SpaceDimension; j++ )
+    for(unsigned  int j = 0; j < SpaceDimension; j++ )
       {
       m_OffsetToIndexTable[counter][j] = iterator.GetIndex()[j];
       }
