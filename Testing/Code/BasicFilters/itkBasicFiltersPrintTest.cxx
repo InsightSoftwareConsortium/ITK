@@ -358,8 +358,8 @@ int itkBasicFiltersPrintTest(int , char* [])
     itk::DerivativeImageFilter<InputType,OutputType>::New();
   std::cout << "-------------DerivativeImageFilter" << DerivativeImageFilterObj;
 
-  itk::DifferenceOfGaussiansGradientImageFilter<InputType,VectorType>::Pointer DifferenceOfGaussiansGradientImageFilterObj =
-    itk::DifferenceOfGaussiansGradientImageFilter<InputType,VectorType>::New();
+  itk::DifferenceOfGaussiansGradientImageFilter<InputType,float>::Pointer DifferenceOfGaussiansGradientImageFilterObj =
+    itk::DifferenceOfGaussiansGradientImageFilter<InputType,float>::New();
   std::cout << "-------------DifferenceOfGaussiansGradientImageFilter" << DifferenceOfGaussiansGradientImageFilterObj;
 
   itk::DilateObjectMorphologyImageFilter<InputType,OutputType,KernelType>::Pointer DilateObjectMorphologyImageFilterObj =
