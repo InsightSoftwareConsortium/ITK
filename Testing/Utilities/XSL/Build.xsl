@@ -99,7 +99,6 @@ Found <xsl:value-of select="count(Site/Build/Error)"/> Errors<br/>
 
 <xsl:template name="Summary">
   <redirect:write select="concat(string('{$TestDocDir}'), '/BuildSummary.xml' )">
-
     <Build>
       <SiteName><xsl:value-of select="Site/@Name"/></SiteName>
       <BuildName><xsl:value-of select="Site/@BuildName"/></BuildName>

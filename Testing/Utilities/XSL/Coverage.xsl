@@ -9,22 +9,22 @@
        Use DashboardStamp as a parameter, default to most recent
        The proper flags to Xalan are in the form -PARAM DashboardStamp "string('foo')"
        -->
- <xsl:output method="html"/>
  <xsl:param name="DashboardPath"/> 
  <xsl:param name="DashboardStamp" select="string('MostRecentResults-Nightly')"/>
  <xsl:param name="TestDocDir">.</xsl:param>
  <xsl:variable name="DashboardDir" select="concat('../../../../Dashboard/', $DashboardStamp)"/>
+ <xsl:variable name="IconDir">../../../../Icons</xsl:variable>
  <xsl:include href="Insight.xsl"/>
 
 
   <xsl:template match="/">
+    <xsl:call-template name="Summary"/>
     <xsl:call-template name="CoverageByName"/>
     <xsl:call-template name="CoverageByCount"/>
  </xsl:template>
 
  <xsl:template name="CoverageByName">
-  <redirect:write select="concat(string('{$DashboardPath}'), '/CoverageByName.html' )" file="dan.html">
-    <xsl:call-template name="Summary"/>
+  <redirect:write select="concat(string('{$TestDocDir}'), '/CoverageByName.html' )" file="dan.html">
     <xsl:call-template name="InsightHeader">
       <xsl:with-param name="Title">Coverage Log</xsl:with-param>
       <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
@@ -37,7 +37,7 @@
   <table>
       <tr>
         <th>Filename <img border="0"><xsl:attribute name="src"><xsl:value-of select="$IconDir"/>/DownBlack.gif</xsl:attribute></img></th>
-        <th>Percentage ( <a href="TestOverviewByCount.html">sort by</a> )</th>
+        <th>Percentage ( <a href="CoverageByCount.html">sort by</a> )</th>
       </tr>
       <xsl:for-each select="Site/Coverage/File">
         <xsl:sort select="@Covered" order="descending"/>
@@ -50,8 +50,7 @@
  </xsl:template>
 
  <xsl:template name="CoverageByCount">
-  <redirect:write select="concat(string('{$DashboardPath}'), '/CoverageByCount.html' )" file="dan.html">
-    <xsl:call-template name="Summary"/>
+  <redirect:write select="concat(string('{$TestDocDir}'), '/CoverageByCount.html' )" file="dan.html">
     <xsl:call-template name="InsightHeader">
       <xsl:with-param name="Title">Coverage Log</xsl:with-param>
       <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
@@ -76,31 +75,32 @@
  </xsl:template>
 
   <xsl:template name="File">
-    <xsl:choose>
-      <xsl:when test="@Covered='true'">
-        <tr>
-          <xsl:choose>
-            <xsl:when test="PercentCoverage &gt;= 70.0">
-              <xsl:attribute name="bgcolor">#00AA00</xsl:attribute>
-            </xsl:when>
-            <xsl:when test="PercentCoverage &lt;= 50.0">
-              <xsl:attribute name="bgcolor">#ff6666</xsl:attribute>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:attribute name="bgcolor">#ffcc66</xsl:attribute>
-            </xsl:otherwise>
-          </xsl:choose>
+    <tr>
+      <xsl:if test="position() mod 2 = 0">
+        <xsl:attribute name="bgcolor"><xsl:value-of select="$LightBlue"/></xsl:attribute>
+      </xsl:if>
+      
+      <xsl:choose>
+        <xsl:when test="@Covered='true'">
           <td align="left"><xsl:value-of select="@FullPath"/></td>
-          <td align="center"><xsl:value-of select="PercentCoverage"/>%</td>
-        </tr>
-      </xsl:when>
-      <xsl:when test="@Covered='false'">
-        <tr bgcolor="#FF6666">
+          <td align="center">
+            <xsl:choose>
+              <xsl:when test="PercentCoverage &gt;= 70.0">
+                <xsl:attribute name="bgcolor"><xsl:value-of select="$NormalColor"/></xsl:attribute>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
+              </xsl:otherwise>
+            </xsl:choose>
+            <xsl:value-of select="PercentCoverage"/>%
+          </td>
+        </xsl:when>
+        <xsl:when test="@Covered='false'">
           <td align="left"><xsl:value-of select="@FullPath"/></td>
           <td align="center">UNTESTED</td>
-        </tr>
-      </xsl:when>
-    </xsl:choose>
+        </xsl:when>
+      </xsl:choose>
+    </tr>
   </xsl:template>
 
     <xsl:template name="SummaryTable">
@@ -114,13 +114,13 @@
         <td align="center">
         <xsl:choose>
             <xsl:when test="Site/Coverage/PercentCoverage &lt; 50">
-              <xsl:attribute name="bgcolor">#ff6666</xsl:attribute>
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$ErrorColor"/></xsl:attribute>
             </xsl:when> 
             <xsl:when test="Site/Coverage/PercentCoverage &gt;= 70.0">
-              <xsl:attribute name="bgcolor">#00AA00</xsl:attribute>
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$NormalColor"/></xsl:attribute>
             </xsl:when>
             <xsl:otherwise>
-              <xsl:attribute name="bgcolor">#ff6666</xsl:attribute>
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
             </xsl:otherwise>
           </xsl:choose>
           <xsl:value-of select="Site/Coverage/PercentCoverage"/>%
@@ -152,23 +152,28 @@
    <b>Legend</b>
    <table border="1" cellspacing="0" width="150" >
    <tr>
-      <td width="20" bgcolor="#00aa00"></td>
-      <td align="center">&gt; 70%</td>
+      <td align="center">
+        <xsl:attribute name="bgcolor"><xsl:value-of select="$NormalColor"/></xsl:attribute>
+        &gt; 70%
+      </td>
    </tr> 
    <tr>
-      <td width="20" bgcolor="#ffcc66"></td>
-      <td align="center"> 50% &lt; x &lt; 70%</td>
+     <td align="center">
+       <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
+       50% &lt; x &lt; 70%
+     </td>
   </tr> 
   <tr>
-      <td width="20" bgcolor="#ff6666"></td>
-      <td align="center">&lt; 50%</td>
+      <td align="center">
+        <xsl:attribute name="bgcolor"><xsl:value-of select="$ErrorColor"/></xsl:attribute>
+        &lt; 50%
+      </td>
    </tr></table>
    </td></tr></table>
  </xsl:template>
 
 <xsl:template name="Summary">
   <redirect:write select="concat(string('{$TestDocDir}'), '/CoverageSummary.xml' )">
-
     <Coverage>
       <SiteName><xsl:value-of select="Site/@Name"/></SiteName>
       <BuildName><xsl:value-of select="Site/@BuildName"/></BuildName>
