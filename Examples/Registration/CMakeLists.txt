@@ -188,9 +188,11 @@ ADD_TEST(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration10Test.png
             ${TEMP}/ImageRegistration10Test.png
   ImageRegistration10Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration10Test.png 
+        ${ITK_SOURCE_DIR}/Testing/Data/Baseline/Segmentation/WatershedSegmentation1Test1.png
+        ${ITK_SOURCE_DIR}/Testing/Data/Baseline/Segmentation/WatershedSegmentation1Test2.png
+        ${TEMP}/ImageRegistration10Test.png
+        ${TEMP}/ImageRegistration10DifferenceTest.png
+        -11 -13
 )
 
 IF( NOT BORLAND )
@@ -228,7 +230,7 @@ ADD_TEST(ImageRegistration16Test ${REGISTRATION_EXAMPLES8}
   ImageRegistration16Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration16Test.png 11.0 14.0
+        ${TEMP}/ImageRegistration16Test.png 0.0 0.0
 )
 
 
