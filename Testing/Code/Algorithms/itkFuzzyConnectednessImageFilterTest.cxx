@@ -14,7 +14,7 @@
 
 =========================================================================*/
 #include "itkFuzzyConnectednessImageFilter.h"
-#include "itkImageRegionSimpleIterator.h"
+#include "itkSimpleImageRegionIterator.h"
 #include <cstdlib>
 
 const int WIDTH = 20;
@@ -44,7 +44,7 @@ int main(){
 
 
 	/* background: uniform distributed random number ~(300-350) */
-   itk::ImageRegionSimpleIterator <UShortImage2D> it(inputimg, region);
+   itk::SimpleImageRegionIterator <UShortImage2D> it(inputimg, region);
    it.Begin();
    while( !it.IsAtEnd())
    {    
@@ -90,7 +90,7 @@ int main(){
  
 	/* printout the segmentation result */
    printf("\n\n Segmentation Result:\n");
-   itk::ImageRegionSimpleIterator <BinaryImage2D> ot(testFuzzy->GetOutput(), region);
+   itk::SimpleImageRegionIterator <BinaryImage2D> ot(testFuzzy->GetOutput(), region);
 
    ot.Begin();
    for(int i = 0;i < HEIGHT; i++){
