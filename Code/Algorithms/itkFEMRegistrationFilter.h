@@ -373,7 +373,11 @@ protected :
    * Easy access to the FEMObjectFactory. We create a new class
    * whose name is shorter and it's not templated...
    */
-  class FEMOF : public FEMObjectFactory<FEMLightObject>{};
+  class FEMOF : public FEMObjectFactory<FEMLightObject>{
+  protected:
+    FEMOF();
+    ~FEMOF();
+    };
 
  
   /** This function generates a regular mesh of ElementsPerSide^D size */
