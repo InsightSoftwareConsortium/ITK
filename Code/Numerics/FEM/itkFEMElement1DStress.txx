@@ -123,7 +123,7 @@ Element1DStress<TBaseClass>
     /*
      * Read and set the material pointer
      */
-    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
     m_mat=dynamic_cast<const MaterialLinearElasticity*>( &*mats->Find(n));
 
   }

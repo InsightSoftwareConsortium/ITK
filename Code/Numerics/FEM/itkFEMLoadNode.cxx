@@ -44,7 +44,7 @@ void LoadNode::Read( std::istream& f, void* info )
   Superclass::Read(f,info);
 
   /** read and set pointer to node that we're applying the load to */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
   try
   {
     this->m_element=dynamic_cast<const Element*>( &*elements->Find(n));
@@ -55,15 +55,15 @@ void LoadNode::Read( std::istream& f, void* info )
   }
 
   /* read and set the point number */
-  SkipWhiteSpace(f); f>>this->m_pt; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>this->m_pt; if(!f) goto out;
 
     
   /** read and set the number of elements inside a force vector */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
   this->F.set_size(n);  
 
   /** read the force vector itself */
-  SkipWhiteSpace(f); f>>this->F; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>this->F; if(!f) goto out;
 
 out:
 

@@ -38,7 +38,7 @@ void FEMLightObject::Read( std::istream& f, void* )
   int n;
 
   /** Read and set the global object number */
-  SkipWhiteSpace(f); f>>n; if(!f) { goto out; }
+  this->SkipWhiteSpace(f); f>>n; if(!f) { goto out; }
   this->GN=n;
 
 out:
@@ -99,7 +99,7 @@ start:
 #ifndef __sgi
   l=f.tellg();    // remember the stream position
 #endif
-  SkipWhiteSpace(f);      // skip comments and whitespaces
+  this->SkipWhiteSpace(f);      // skip comments and whitespaces
   if ( f.eof() ) return 0; // end of stream. all was good
 
   if ( f.get()!='<' ) goto out; // we expect a token
@@ -179,7 +179,7 @@ out:
 // Helper function to skip all whitespaces and comments in input stream
 void
 FEMLightObject::
-SkipWhiteSpace(std::istream& f)
+this->SkipWhiteSpace(std::istream& f)
 {
   while(f && !f.eof() && (std::ws(f).peek())=='%' )
   {

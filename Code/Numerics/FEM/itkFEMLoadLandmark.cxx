@@ -38,20 +38,20 @@ void LoadLandmark::Read( std::istream& f, void*)
   //Superclass::Read(f,info);
 
   // read the dimensions of the undeformed point and set the size of the point accordingly
-  SkipWhiteSpace(f); f>>n1; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>n1; if(!f) goto out;
   pu.set_size(n1);
   this->m_pt.set_size(n1);
 
   // read the undeformed point in global coordinates
-  SkipWhiteSpace(f); f>>pu; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>pu; if(!f) goto out;
 
   // Read the dimensions of the deformed point and set the size of the point accordingly
-  SkipWhiteSpace(f); f>>n2; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>n2; if(!f) goto out;
   pd.set_size(n2);
   m_force.set_size(n2);
 
   // read the deformed point in global coordinates
-  SkipWhiteSpace(f); f>>pd; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>pd; if(!f) goto out;
 
   m_source = pd;
   m_pt = pd;
@@ -61,7 +61,7 @@ void LoadLandmark::Read( std::istream& f, void*)
   //std::cout << m_source << std::endl << m_pt << std::endl << m_target << std::endl << m_force << std::endl;
 
   // read the square root of the variance associated with this landmark
-  SkipWhiteSpace(f); f>>eta; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>eta; if(!f) goto out;
 
   // Verify that the undeformed and deformed points are of the same size.
   if (n1 != n2) { goto out; }

@@ -101,7 +101,7 @@ public:
   {
     int clid=-1;
     Instance().m_MutexLock.Lock();
-    Instance().cofs_.push_back( COF_Array::value_type(f,str) );
+    Instance().cofs_.push_back( typename COF_Array::value_type(f,str) );
     clid = static_cast<int>( Instance().cofs_.size()-1 );
     Instance().m_MutexLock.Unlock();
     return clid;

@@ -58,13 +58,13 @@ void LoadBCMFC::Read( std::istream& f, void* info )
   Superclass::Read(f,info);
 
   /** read number of terms in lhs of MFC equation */
-  SkipWhiteSpace(f); f>>nlhs; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>nlhs; if(!f) goto out;
   
   lhs.clear();
   for(int i=0; i<nlhs; i++) 
   {
     /** read and set pointer to element that we're applying the load to */
-    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
     Element::ConstPointer element;
     try
     {
@@ -76,19 +76,19 @@ void LoadBCMFC::Read( std::istream& f, void* info )
     }
 
     /** read the number of dof within that element */
-    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
 
     /** read weight */
-    SkipWhiteSpace(f); f>>d; if(!f) goto out;
+    this->SkipWhiteSpace(f); f>>d; if(!f) goto out;
 
     /** add a new MFCTerm to the lhs */
     lhs.push_back( MFCTerm(element, n, d) );
   }
 
   /** read the rhs */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
   rhs.set_size(n);
-  SkipWhiteSpace(f); f>>rhs; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>rhs; if(!f) goto out;
 
 out:
 

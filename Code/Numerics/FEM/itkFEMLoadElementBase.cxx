@@ -49,7 +49,7 @@ void LoadElement::Read( std::istream& f, void* info )
    */
 
   /** first we read number of pointers in a list */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
   if (n<=0)
   {
     /** if this is <= 0, the load applies on all elements in a system */
@@ -63,7 +63,7 @@ void LoadElement::Read( std::istream& f, void* info )
      */
     for(int i=0;i<n;i++) {
       int m;
-      SkipWhiteSpace(f); f>>m; if(!f) goto out;
+      this->SkipWhiteSpace(f); f>>m; if(!f) goto out;
       Element::ConstPointer e;
       try
       {

@@ -39,21 +39,21 @@ void LoadEdge::Read( std::istream& f, void* info )
   Superclass::Read(f,info);
 
   /** ... edge number */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
   m_Edge=n;
   /** ... # of rows */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
   /** ... # of cols */
-  SkipWhiteSpace(f); f>>m; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>m; if(!f) goto out;
   m_Force.set_size(n,m);
   for(int i=0; i<n; i++)
   {
-    SkipWhiteSpace(f);
+    this->SkipWhiteSpace(f);
     for(int j=0; j<m; j++)
     {
       f>>m_Force[i][j];
     }
-    SkipWhiteSpace(f);
+    this->SkipWhiteSpace(f);
   }
 
 

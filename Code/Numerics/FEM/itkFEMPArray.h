@@ -74,7 +74,7 @@ public:
    */
   ClassTypePointer operator() (int i) 
   {
-    return &(*operator[](i));
+    return &(*this->operator[](i));
   }
 
   /**
@@ -83,7 +83,7 @@ public:
    */
   ClassTypeConstPointer operator() (int i) const 
   {  
-    return &(*operator[](i));
+    return &(*this->operator[](i));
   }
 
 
@@ -183,7 +183,7 @@ int FEMPArray<T>::Renumber()
   typename Superclass::iterator i;
   int j=0;
 
-  for(i=begin(); i!=end(); i++)
+  for(i=this->begin(); i!=this->end(); i++)
   {
     (*i)->GN=j;
     j++;

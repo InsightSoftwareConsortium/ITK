@@ -209,7 +209,7 @@ public:
     typedef TVisitorClass VisitorClass;
     bool status;
     Instance().m_MutexLock.Lock();
-    status=Instance().visitors.insert(VisitorsArrayType::value_type(VisitorClass::CLID(),visitor_function)).second;
+    status=Instance().visitors.insert(typename VisitorsArrayType::value_type(VisitorClass::CLID(),visitor_function)).second;
     Instance().m_MutexLock.Unlock();
     if ( status )
     {

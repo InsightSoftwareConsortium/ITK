@@ -43,10 +43,10 @@ void LoadGravConst::Read( std::istream& f, void* info )
    */
 
   /** first read and set the size of the vector */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
   Fg_value.set_size(n);
   /** then the actual values */
-  SkipWhiteSpace(f); f>>Fg_value; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>Fg_value; if(!f) goto out;
   
 out:
 

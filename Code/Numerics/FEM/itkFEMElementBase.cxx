@@ -96,9 +96,9 @@ void Element::Node::Read(  std::istream& f, void* info )
   /*
    * Read and set node coordinates
    */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
   this->m_coordinates.set_size(n);
-  SkipWhiteSpace(f); f>>this->m_coordinates; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>this->m_coordinates; if(!f) goto out;
 
 out:
 

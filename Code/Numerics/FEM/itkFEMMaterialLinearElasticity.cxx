@@ -65,7 +65,7 @@ std::string::size_type b,e;
 #ifndef __sgi
     l=f.tellg();            // remember the stream position
 #endif
-    SkipWhiteSpace(f);      // skip comments and whitespaces
+    this->SkipWhiteSpace(f);      // skip comments and whitespaces
 
     /*
      * All Constants are in the following format:
@@ -99,25 +99,25 @@ std::string::size_type b,e;
     }
 
     if (s=="I") {
-      SkipWhiteSpace(f); f>>d; if(!f) goto out;
+      this->SkipWhiteSpace(f); f>>d; if(!f) goto out;
       I=d;
       continue;
     }
 
     if (s=="nu") {
-      SkipWhiteSpace(f); f>>d; if(!f) goto out;
+      this->SkipWhiteSpace(f); f>>d; if(!f) goto out;
       nu=d;
       continue;
     }
 
     if (s=="h") {
-      SkipWhiteSpace(f); f>>d; if(!f) goto out;
+      this->SkipWhiteSpace(f); f>>d; if(!f) goto out;
       h=d;
       continue;
     }
 
     if (s=="RhoC") {
-      SkipWhiteSpace(f); f>>d; if(!f) goto out;
+      this->SkipWhiteSpace(f); f>>d; if(!f) goto out;
       RhoC=d;
       continue;
     }

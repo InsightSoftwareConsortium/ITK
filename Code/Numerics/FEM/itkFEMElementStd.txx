@@ -55,7 +55,7 @@ ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
     // Read and set each of the expected global node numbers
     for(unsigned int p=0; p<NumberOfNodes; p++)
     {
-      SkipWhiteSpace(f); f>>n; if(!f) goto out;
+      this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
       m_node[p]=dynamic_cast<const Element::Node*>( &*nodes->Find(n));
     }
 

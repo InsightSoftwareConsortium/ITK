@@ -42,7 +42,7 @@ void LoadBC::Read( std::istream& f, void* info )
   Superclass::Read(f,info);
 
   /* read and set pointer to element that we're applying the load to */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
   try
   {
     this->m_element=dynamic_cast<const Element*>( &*elements->Find(n) );
@@ -53,12 +53,12 @@ void LoadBC::Read( std::istream& f, void* info )
   }
 
   /* read the local DOF number within that element */
-  SkipWhiteSpace(f); f>>this->m_dof; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>this->m_dof; if(!f) goto out;
 
   /* read the value to which the DOF is fixed */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
   this->m_value.set_size(n);
-  SkipWhiteSpace(f); f>>this->m_value; if(!f) goto out;
+  this->SkipWhiteSpace(f); f>>this->m_value; if(!f) goto out;
 
 out:
 
