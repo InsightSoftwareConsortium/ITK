@@ -119,6 +119,8 @@ public:
   typedef typename CellTraits::CoordRepType            CoordRepType;
   typedef typename CellTraits::InterpolationWeightType InterpolationWeightType;
   typedef typename CellTraits::PointIdentifier         PointIdentifier;
+  typedef typename CellTraits::PointIdIterator         PointIdIterator;
+  typedef typename CellTraits::PointIdConstIterator    PointIdConstIterator;
   typedef typename CellTraits::CellIdentifier          CellIdentifier;
   typedef typename CellTraits::CellFeatureIdentifier   CellFeatureIdentifier;
   typedef typename CellTraits::PointType               PointType;
@@ -141,16 +143,6 @@ public:
    */
   typedef CellFeatureIdentifier  CellFeatureCount;
 
-  /**
-   * Allow iteration over the point ID list.
-   */
-  typedef PointIdentifier*  PointIdIterator;
-  
-  /**
-   * Allow const iteration over the point ID list.
-   */
-  typedef const PointIdentifier*  PointIdConstIterator;
-  
   /** 
    *  Cell Visitor interfaces
    */
@@ -469,9 +461,9 @@ protected:
  typedef MakeCellTraitsMacro  CellTraits;
  \endverbatim
  *
- * MakeCellTraitsMacro is a macro front-end to automatically fill in the template
- * parameters for the CellTraitsInfo structure inside a mesh type structure
- * definition.
+ * MakeCellTraitsMacro is a macro front-end to automatically fill in the 
+ * template parameters for the CellTraitsInfo structure inside a mesh 
+ * type structure definition.
  */
 template <int VPointDimension, typename TCoordRep,
   typename TInterpolationWeight, typename TPointIdentifier,
@@ -490,6 +482,8 @@ public:
   typedef TPoint                  PointType;
   typedef TPointsContainer        PointsContainer;
   typedef TUsingCellsContainer    UsingCellsContainer;
+  typedef PointIdentifier*        PointIdIterator;
+  typedef const PointIdentifier*  PointIdConstIterator;  
 };
 
 #define MakeCellTraitsMacro \
