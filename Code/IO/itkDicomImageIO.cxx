@@ -24,6 +24,9 @@
 #include <string.h>
 #include <math.h>
 
+// Note: Balise is a French word used in this case to refer to half of
+// a tag.
+
 namespace itk
 {
 
@@ -130,10 +133,10 @@ bool DicomImageIO::GoToTheEndOfHeader(std::ifstream & inputStream,
   return (true);
 }
 
-/** This function put the cursor of the given Stream on the first byte
- *  after the balise (baliseref1,balsieref2). i is the number of bytes allready red
- *  in the Stream. return true >> balise found
- *                 return flase >> else
+/** This function put the cursor of the given stream on the first byte
+ *  after the tag (baliseref1, baliseref2). i is the number of bytes
+ *  already read in the Stream.  Return true if tag is found, false
+ *  otherwise.
  */
 bool DicomImageIO::GoToTag(std::ifstream & inputStream,int baliseref1,
                            int baliseref2,long int& i,long int& max,
@@ -205,7 +208,7 @@ bool DicomImageIO::GoToTag(std::ifstream & inputStream,int baliseref1,
   return (true);
 }
 
-/** This function try to build a list of Tag for all required balises
+/** This function try to build a list of Tags for all required balises
  *  return true >> all balises are found 
  *  return flase >> else
  */
@@ -457,9 +460,11 @@ void DicomImageIO::ReadImageInformation()
       for(i=0;i<2;i++)
       {
         inFile >> c;
-        rows=rows+c*(unsigned int)pow((double)256,(double)i);
+        // rows=rows+c*(unsigned int)pow((double)256,(double)i);
+        rows += c << (i * 8);
       }
       m_Dimensions[1]=rows;
+      std::cout << m_Dimensions[1] << endl;
     }
     else
     {
@@ -488,7 +493,8 @@ void DicomImageIO::ReadImageInformation()
       for(i=0;i<2;i++)
       {
         inFile >> c;
-        columns=columns+c*(unsigned int)pow((double)256,(double)i);
+        // columns=columns+c*(unsigned int)pow((double)256,(double)i);
+        columns += c << (i * 8);
       }
       m_Dimensions[0]=columns;
     }

@@ -92,7 +92,7 @@ private:
 
   void SwapBytesIfNecessary(void* buffer, unsigned long numberOfPixels);
  
-  /** This function build a list of tags required to read data in a dicom file*/
+  /** This function builds a list of tags required to read data in a dicom file*/
   bool CheckTagTable(std::ifstream & inputStream, std::list <Tag> &TableOfTags) const;
   /** This function put the cursor of the stream on the first byte after the last balise
    *  at the end of the header */
