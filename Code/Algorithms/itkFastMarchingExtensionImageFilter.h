@@ -121,7 +121,7 @@ public:
    * Get the container of auxiliary values at the initial alive points.
    */
   typename AuxValueContainer::Pointer GetAuxiliaryAliveValues()
-    { return m_AuxAliceValues; }
+    { return m_AuxAliveValues; }
 
   /**
    * Set the container of auxiliary values at the initial trial points.
