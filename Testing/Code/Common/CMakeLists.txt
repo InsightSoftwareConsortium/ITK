@@ -1,5 +1,6 @@
 EXECUTABLES = \
 itkBasicArchitectureTest \
+itkScalarTest \
 itkShrinkImageTest \
 itkNeighborhoodOperatorTest \
 itkTraitsTest \
