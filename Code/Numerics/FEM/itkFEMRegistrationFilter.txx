@@ -365,9 +365,9 @@ int FEMRegistrationFilter<TReference,TTarget>::WriteDisplacementField(unsigned i
   //   itk::ImageRegionIteratorWithIndex<FloatImageType> it( fieldImage, fieldImage->GetLargestPossibleRegion() );
   //   for (; !it.IsAtEnd(); ++it) { std::cout << it.Get() << "\t"; }
   typedef typename FloatImageType::PixelType FType;
-  typedef typename itk::RawImageIO<FType,ImageDimension> IOType;
+  typedef RawImageIO<FType,ImageDimension> IOType;
   IOType::Pointer io = IOType::New();
-  typedef typename itk::ImageFileWriter<FloatImageType> WriterType;
+  typedef ImageFileWriter<FloatImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(fieldImage);
   writer->SetImageIO(io);
@@ -548,7 +548,7 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
   }*/
   
   //Pin  corners of one element 
-  unsigned int CornerCounter=0;
+  unsigned int CornerCounter=0,ii=0;
   Node::ArrayType* nodes = &(mySolver.node);
   Element::VectorType coord;
   Node::ArrayType::iterator node=nodes->begin();
@@ -557,26 +557,35 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
   {
     coord=(*node)->GetCoordinates();
     CornerCounter=0;
-    for (unsigned int ii=0; ii < ImageDimension; ii++)
-  { 
+    for (ii=0; ii < ImageDimension; ii++)
+    { 
       if (coord[ii] == m_ImageOrigin[ii] || coord[ii] == ImgSz[ii]-1 ) CornerCounter++;
-  }
+    }
     if (CornerCounter == ImageDimension) // the node is located at a true corner
-  {
-      CornerFound=true;
+    {
       unsigned int ndofpernode=(*((*node)->m_elements.begin()))->GetNumberOfDegreesOfFreedomPerNode();
       unsigned int numnodesperelt=(*((*node)->m_elements.begin()))->GetNumberOfNodes();
       unsigned int whichnode=0;
-      std::cout << " corner coord " << coord << std::endl;
-    
-    unsigned int maxnode;
-    if (ImageDimension == 2) maxnode=2; 
-    if (ImageDimension == 3) maxnode=4; 
-    for (unsigned int whichnode=0; whichnode<=maxnode; whichnode++)
+     
+      unsigned int maxnode;
+      if (ImageDimension == 2) maxnode=3; 
+      if (ImageDimension == 3) maxnode=4; 
+      for (unsigned int whichnode=0; whichnode<=maxnode; whichnode++)
     {
-        std::cout << " which node " << whichnode << std::endl;
+    Node::ConstPointer tnode=( *((*node)->m_elements.begin()))->GetNode(whichnode); 
+    coord=(tnode)->GetCoordinates();
+        CornerCounter=0;
+        for (ii=0; ii < ImageDimension; ii++)
+        { 
+          if (coord[ii] == m_ImageOrigin[ii] || coord[ii] == ImgSz[ii]-1 ) CornerCounter++;
+        }
+        if (CornerCounter == ImageDimension - 1) CornerFound=false; else CornerFound=true;
+    if (!CornerFound){
         for (unsigned int jj=0; jj<ndofpernode; jj++)
-    {
+        {
+          std::cout << " which node " << whichnode << std::endl; 
+      std::cout << " edge coord " << coord << std::endl;
+    
           l1=LoadBC::New();
           // now we get the element from the node -- we assume we need fix the dof only once
           // even if more than one element shares it.
@@ -585,8 +594,9 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
           l1->m_dof=localdof; // FIXME should be correct for each element
           l1->m_value=vnl_vector<double>(1,0.0);
           mySolver.load.push_back( FEMP<Load>(&*l1) );
-    }
-    }
+    }}
+      }
+      CornerFound=true;
   }
     node++;
   }//
@@ -662,18 +672,18 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
   
   
    Float mint=1.0,ImageSimilarity=0.0;
-   if (m_DoLineSearchOnImageEnergy && iters > 0  && (iters % 2) == 0) 
+   if (m_DoLineSearchOnImageEnergy && iters > 0  /*&& (iters % 2) == 0*/) 
    {
      std::cout << " line search ";
 //     mySolver.GoldenSection(1.e-1);
-     mySolver.BrentsMethod(1.e-1,100);
+     mySolver.BrentsMethod(1.e-1,1000);
      std::cout << " line search done " << std::endl;
-   } else if (m_DoLineSearchOnImageEnergy && iters == 0) mint=0.5;
+   } else if (m_DoLineSearchOnImageEnergy && iters == 0) mint=0.05;
 
    ImageSimilarity=0.0;//m_Load->EvaluateMetricGivenSolution(&(mySolver.el), mint);
    LastE=mySolver.EvaluateResidual(mint);
    deltE=fabs(LastE-m_MinE);
-   if ((LastE <= 1.e-8 || deltE < 1.e-7 /*|| ImageSimilarity > LastISim*/) && iters > 3) 
+   if ((LastE <= 1.e-15 || deltE < 1.e-15 /*|| ImageSimilarity > LastISim*/) && iters > 3) 
    {
      iters=m_Maxiters;
      minct=NumMins;
