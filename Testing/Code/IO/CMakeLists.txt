@@ -4,6 +4,7 @@ SET(IO_HEADER_TEST ${CXX_TEST_PATH}/itkIOHeaderTest)
 SET(IOTest_SRCS
 itkIOPrintTest.cxx
 itkAnalyzeImageIOTest.cxx
+itkBrains2MaskImageIOTest.cxx
 itkConvertBufferTest.cxx
 itkDicomImageIOTest.cxx
 itkDICOMImageIO2Test.cxx
@@ -169,6 +170,8 @@ ADD_TEST(itkNumericSeriesFileNamesTest ${IO_TESTS}
 
 ADD_TEST(itkGiplImageIOTest2 ${IO_TESTS} itkGiplImageIOTest
          ${ITK_DATA_ROOT}/Input/ramp.gipl ${TEMP}/ramp.gipl)
+
+  ADD_TEST(itkBrains2MaskTest ${IO_TESTS} itkBrains2MaskTest  ${ITK_TEST_OUTPUT_DIR} )
 
 ENDIF(ITK_DATA_ROOT)
 

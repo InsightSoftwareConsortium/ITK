@@ -1,0 +1,163 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkBrains2MaskImageIOTest.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#include <string>
+#include "itkImage.h"
+#include "itkExceptionObject.h"
+#include "itkNumericTraits.h"
+#include "itkImageRegionIterator.h"
+#include "itkBrains2MaskImageIO.h"
+#include "stdlib.h"
+#include <itksys/SystemTools.hxx>
+#include "itkImageFileWriter.h"
+#include "itkImageFileReader.h"
+#include "itkFlipImageFilter.h"
+
+int itkBrains2MaskTest(int ac, char *av[])
+{
+  typedef itk::Image<unsigned int,3> ImageType;
+  typedef itk::ImageFileReader<ImageType> ImageReaderType;
+  typedef itk::ImageFileWriter<ImageType> ImageWriterType;
+
+  //
+  // create a random image to write out.
+  const ImageType::SizeType imageSize = {{4,4,4}};
+  const ImageType::IndexType imageIndex = {{0,0,0}};
+
+  ImageType::RegionType region;
+  region.SetSize(imageSize);
+  region.SetIndex(imageIndex);
+  ImageType::Pointer img = ImageType::New();
+  ImageType::Pointer flipped;
+  img->SetLargestPossibleRegion(region);
+  img->SetBufferedRegion(region);
+  img->SetRequestedRegion(region);
+  img->Allocate();
+  srand( (unsigned)time( NULL) );
+  itk::ImageRegionIterator<ImageType> ri(img,region);
+  try
+    {
+    unsigned int counter = 0;
+    while(!ri.IsAtEnd())
+      {
+      unsigned int val = rand() % 16384;
+      val = val > 8192 ? 255 : 0;
+      if(counter && counter % 8 == 0)
+        std::cerr << val << std::endl;
+      else
+        std::cerr << val << " ";
+      counter++;
+      ri.Set(val);
+      ++ri;
+      }
+    std::cerr << std::endl << std::endl;
+    }
+  catch(itk::ExceptionObject & ex)
+    {
+    ex.Print(std::cerr);
+    return -1;
+    }
+  //
+  // images in brains2 format are flipped in the y axis
+  itk::FlipImageFilter<ImageType>::Pointer flipper =
+    itk::FlipImageFilter<ImageType>::New();
+  itk::FlipImageFilter<ImageType>::FlipAxesArrayType axesFlip;
+  axesFlip[0] = false;
+  axesFlip[1] = true;
+  axesFlip[2] = false;
+  flipper->SetFlipAxes(axesFlip);
+
+  flipper->SetInput(img);
+  flipper->Update();
+  flipped = flipper->GetOutput();
+
+  itk::ImageIOBase::Pointer io;
+  io = itk::Brains2MaskImageIO::New();
+
+  std::string fileName(av[1]);
+  fileName = fileName + "/Brains2Test.mask";
+
+  ImageWriterType::Pointer imageWriter = ImageWriterType::New();
+  imageWriter->SetImageIO(io);
+  imageWriter->SetFileName(fileName.c_str());
+  imageWriter->SetInput(flipped);
+  try 
+    {
+    imageWriter->Write();
+    }
+  catch (itk::ExceptionObject &ex)
+    {
+      std::string message;
+      message = "Problem found while writing image ";
+      message += fileName;
+      message += "\n";
+      message += ex.GetLocation();
+      message += "\n";
+      message += ex.GetDescription();
+      std::cerr << message << std::endl;
+      itksys::SystemTools::RemoveFile(fileName.c_str());
+      return -1;
+    }
+  ImageType::Pointer readImage;
+  try
+    {
+    ImageReaderType::Pointer imageReader = ImageReaderType::New();
+    imageReader->SetImageIO(io);
+    imageReader->SetFileName(fileName.c_str());
+    imageReader->Update();
+    readImage = imageReader->GetOutput();
+    }
+  catch (itk::ExceptionObject &ex)
+    {
+    return -1;
+    }
+  ri.GoToBegin();
+  itk::ImageRegionIterator<ImageType> ri2(readImage,region);
+  try
+    {
+    unsigned int counter = 0;
+    while(!ri.IsAtEnd() && !ri2.IsAtEnd())
+      {
+      unsigned int x = ri.Get();
+      unsigned int y = ri2.Get();
+      if(counter && counter % 8 == 0)
+        std::cerr << y << std::endl;
+      else
+        std::cerr << y << " "; 
+      if(x != y)
+        {
+        std::cerr << 
+          "Error comparing Input Image and File Image of Brains2 Mask" << 
+          std::endl;
+        return -1;
+        }
+      counter++;
+      ++ri;
+      ++ri2;
+      }
+    if(!ri.IsAtEnd() || !ri2.IsAtEnd())
+      {
+      std::cerr << "Error, inconsistent image sizes " << std::endl;
+      return -1;
+      }
+    }
+  catch(itk::ExceptionObject & ex)
+    {
+    ex.Print(std::cerr);
+    return -1;
+    }
+  return 0;
+}

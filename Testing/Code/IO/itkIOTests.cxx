@@ -60,4 +60,5 @@ void RegisterTests()
   REGISTER_TEST(testMetaSurface);
   REGISTER_TEST(testMetaTube);
   REGISTER_TEST(testMetaGroup);
+  REGISTER_TEST(itkBrains2MaskTest);
 }
