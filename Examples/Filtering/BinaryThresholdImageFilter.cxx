@@ -46,7 +46,6 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkPNGImageIO.h"
 
 int main( int argc, char ** argv )
 {
@@ -135,9 +134,6 @@ int main( int argc, char ** argv )
 
   WriterType::Pointer writer = WriterType::New();
 
-  itk::PNGImageIO::Pointer pngIO  = itk::PNGImageIO::New();
-
-  writer->SetImageIO( pngIO );
   writer->SetInput( filter->GetOutput() );
 
   reader->SetFileName( argv[1] );
