@@ -667,7 +667,9 @@ Clear(void)
   for(fieldIter=m_Fields.begin(); fieldIter!=m_Fields.end(); fieldIter++)
     {
     if(META_DEBUG) std::cout << "field = " << (*fieldIter)->name << std::endl;
-    delete * fieldIter;
+    MET_FieldRecordType* field = *fieldIter;
+    fieldIter++;
+    delete field;
     if(META_DEBUG) std::cout << " has been deleted." << std::endl;
     }
   m_Fields.clear();
