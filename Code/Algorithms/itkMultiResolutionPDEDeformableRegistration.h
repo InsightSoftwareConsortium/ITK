@@ -275,10 +275,8 @@ public:
   /**
    * Get number of iterations per multi-resolution elvels
    */
-  virtual const unsigned int * GetNumberOfIterations( ) const
-    {
-    return m_NumberOfIterations.begin();
-    }
+  virtual const unsigned int * GetNumberOfIterations() const
+    { return &(m_NumberOfIterations[0]); }
 
 protected:
   MultiResolutionPDEDeformableRegistration();
