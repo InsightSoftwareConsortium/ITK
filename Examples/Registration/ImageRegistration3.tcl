@@ -19,6 +19,7 @@
 package require InsightToolkit
 package require itkinteraction
 
+
 set registration       [ itkImageRegistrationMethodF2F2_New ]
 set imageMetric        [ itkMeanSquaresImageToImageMetricF2F2_New ]
 set transform          [ itkTranslationTransform2_New ]
@@ -63,10 +64,10 @@ $optimizer  SetNumberOfIterations  200
 
 set command [itkTclCommand_New]
 $command SetInterpreter [GetInterp]
-$command SetCommandString {  puts [$transform GetParameters]}
-#  set currentParameters [$transform GetParameters]
-#  puts "X= [$currentParameters () 0]   Y=[$currentParameters () 1]"
-#}
+$command SetCommandString {
+set currentParameter [$transform GetParameters]
+puts "M: [$optimizer GetValue]  P: [$currentParameter GetElement 0 ] [$currentParameter GetElement 1 ] "}
+
 $optimizer AddObserver [itkIterationEvent] [$command GetPointer]
 
 
@@ -79,16 +80,13 @@ set finalParameters [$registration GetLastTransformParameters]
 
 # Print them out
 puts "Final Registration Parameters "
-puts $finalParameters
-#puts "Translation X =  [$finalParameters () 0]"
-#puts "Translation Y =  [$finalParameters () 1]"
-
+puts "Translation X =  [$finalParameters GetElement 0] "
+puts "Translation Y =  [$finalParameters GetElement 1] "
 
 # Now, 
 # we use the final transform for resampling the
 # moving image.
 set resampler [itkResampleImageFilterF2F2_New ]
-puts $transform
 $resampler SetTransform [$transform GetPointer]
 $resampler SetInput     $movingImage
 
@@ -100,11 +98,20 @@ $resampler SetOutputSpacing [ $fixedImage GetSpacing ]
 $resampler SetOutputOrigin  [ $fixedImage GetOrigin  ]
 $resampler SetDefaultPixelValue 100
 
-set writer [ itkImageFileWriterF2_New ]
+set outputCast  [itkRescaleIntensityImageFilterF2US2_New]
+$outputCast SetOutputMinimum  0 
+$outputCast SetOutputMaximum 65535
+$outputCast SetInput [$resampler GetOutput]
 
+
+#
+#  Write the resampled image
+#
+set writer [itkImageFileWriterUS2_New]
 
 $writer SetFileName [lindex $argv 2]
-$writer SetInput [ $resampler GetOutput ]
+$writer SetInput [ $outputCast GetOutput ]
 $writer Update
 
-
+wm withdraw .
+exit
