@@ -419,7 +419,7 @@ IndexType& index )
     {
       neighIndex[j] = index[j] + s;
 
-      if( neighIndex[j] < 0 || neighIndex[j] > m_OutputSize[j] - 1 )
+      if( neighIndex[j] > m_OutputSize[j] - 1 )
       {
         continue;
       }
