@@ -581,7 +581,7 @@ void LinearSystemWrapperItpack::Solve(void)
   }
   else 
   {
-    NCG = 2 * m_IPARM[1];
+    NCG = 2 * m_IPARM[0];
   }
   switch ( m_Method ) {
   case 0:
