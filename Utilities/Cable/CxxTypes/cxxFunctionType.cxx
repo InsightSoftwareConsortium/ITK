@@ -102,7 +102,11 @@ String FunctionType::GenerateDeclaration(const String& name,
     }
   else
     {
+#ifndef _MSC_VER
     outerString = "(("+arguments+"))"+this->GetRightCvString(isConst, false);
+#else
+    outerString = "__cdecl("+arguments+")"+this->GetRightCvString(isConst, false);
+#endif
     }
   return m_ReturnType.GenerateName(outerString);
 }
