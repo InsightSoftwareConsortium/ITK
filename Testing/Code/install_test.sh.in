@@ -1,0 +1,19 @@
+#!/bin/sh
+
+ITK_BINARY_DIR="@ITK_BINARY_DIR@"
+CMAKE_INSTALL_PREFIX="@CMAKE_INSTALL_PREFIX@"
+CMAKE_MAKE_PROGRAM="@CMAKE_MAKE_PROGRAM@"
+
+install()
+{
+    echo "Erasing ${CMAKE_INSTALL_PREFIX}" &&
+    ([ ! -d "${CMAKE_INSTALL_PREFIX}" ] || rm -rf "${CMAKE_INSTALL_PREFIX}") &&
+    mkdir -p "${CMAKE_INSTALL_PREFIX}" &&
+    echo "Running make install" &&
+    (
+        cd "${ITK_BINARY_DIR}" &&
+        "${CMAKE_MAKE_PROGRAM}" install
+    ) && touch "${CMAKE_INSTALL_PREFIX}/install_succeeded"
+}
+
+install
