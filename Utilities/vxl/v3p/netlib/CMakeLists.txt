@@ -112,6 +112,9 @@ SET( netlib_sources
   tred1.c
   tred2.c
 
+  # ITPACK
+  dsrc2c.c
+
   # MINPACK
   enorm.c
   fdjac2.c
