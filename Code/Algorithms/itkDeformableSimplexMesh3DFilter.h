@@ -276,7 +276,7 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     /**
      *
      */
-    GradientIndexType Bresenham_Line(GradientIndexType a,GradientIndexType b);
+    GradientIndexType BresenhamLine(GradientIndexType a,GradientIndexType b);
 
     /**
     *  Method computes the barycentric coordinates of the passed point 

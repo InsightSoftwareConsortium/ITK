@@ -371,7 +371,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
       
       GradientIndexType index;
   
-      index  = Bresenham_Line(coord, coord2);
+      index  = this->BresenhamLine(coord, coord2);
 
       vec_for[0] = m_Gradient->GetPixel(index)[0];
       vec_for[1] = m_Gradient->GetPixel(index)[1];
@@ -559,67 +559,66 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 template <typename TInputMesh, typename TOutputMesh>
 typename DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::GradientIndexType
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
-::Bresenham_Line(GradientIndexType a,GradientIndexType b)
+::BresenhamLine(GradientIndexType a,GradientIndexType b)
 {
-  int dx =0, dy=0, dz=0;
-  int xchange = 1 , ychange = 1, zchange = 1;
-  int i = 0, e1 = 0, e2 = 0, length;
-  double mag=0;
+  int xchange = 1;
+  int ychange = 1;
+  int zchange = 1;
+  int i = 0;
+  int e1 = 0;
+  int e2 = 0;
+  int length;
   double magnitude = 0;
   GradientIndexType c;
-  dx = b[0] - a[0];
-  dy = b[1] - a[1];
-  dz = b[2] - a[2];
+  int dx = b[0] - a[0];
+  int dy = b[1] - a[1];
+  int dz = b[2] - a[2];
 
   if( dx < 0 ) 
     {
-     xchange = -1;
-     dx = - dx;
+    xchange = -1;
+    dx = - dx;
     }
   if( dy < 0 ) 
     {
-     ychange = -1;
-     dy = -dy;
+    ychange = -1;
+    dy = -dy;
     }
   if( dz < 0 ) 
     {
-     zchange = -1;
-     dz = -dz;
+    zchange = -1;
+    dz = -dz;
     }
 
   if( dz >= dy && dz >= dx ) 
     {
-     length = dz;
-     while( i < length) 
-       
-       {
-          a[2] += zchange;
-          e1 += dx;
-          e2 += dy;
-          if( e1 > dz ) 
+    length = dz;
+    while( i < length) 
       {
-             a[0] += xchange;
-             e1 -= dz;
-             }
-          if( e2 > dz ) 
-      {
-             a[1] += ychange;
-             e2 -= dz;
-             }
-    mag = sqrt(m_Gradient->GetPixel(a)[0] * m_Gradient->GetPixel(a)[0] +
+      a[2] += zchange;
+      e1 += dx;
+      e2 += dy;
+      if( e1 > dz ) 
+        {
+        a[0] += xchange;
+        e1 -= dz;
+        }
+      if( e2 > dz ) 
+        {
+        a[1] += ychange;
+        e2 -= dz;
+        }
+      mag = sqrt(m_Gradient->GetPixel(a)[0] * m_Gradient->GetPixel(a)[0] +
          m_Gradient->GetPixel(a)[1] * m_Gradient->GetPixel(a)[1] +
          m_Gradient->GetPixel(a)[2] * m_Gradient->GetPixel(a)[2]);
-    if (mag > magnitude)
-      {
-        
+      if (mag > magnitude)
+        {
         magnitude = mag;
         c[0]=a[0];
         c[1]=a[1];
         c[2]=a[2];
-        
-      }
-    
-          ++i;
+        }
+       ++i;
        }  
      return c;
     }
@@ -628,32 +627,30 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
      length = dy;
      while( i < length) 
        {
-          a[1] += ychange;
-          e1 += dz;
-          e2 += dx;
-          if( e1 > dy ) 
-      {
-             a[2] += zchange;
-             e1 -= dy;
-             }
-          if( e2 > dy ) 
-      {
-             a[0] += xchange;
-             e2 -= dy;
-             }
-    mag = sqrt(m_Gradient->GetPixel(a)[0] * m_Gradient->GetPixel(a)[0] +
+       a[1] += ychange;
+       e1 += dz;
+       e2 += dx;
+       if( e1 > dy ) 
+         {
+         a[2] += zchange;
+         e1 -= dy;
+         }
+       if( e2 > dy ) 
+         {
+         a[0] += xchange;
+         e2 -= dy;
+         }
+       mag = sqrt(m_Gradient->GetPixel(a)[0] * m_Gradient->GetPixel(a)[0] +
          m_Gradient->GetPixel(a)[1] * m_Gradient->GetPixel(a)[1] +
          m_Gradient->GetPixel(a)[2] * m_Gradient->GetPixel(a)[2]);
-    if (mag > magnitude)
-      {
-        
-        magnitude = mag;
-        c[0]=a[0];
-        c[1]=a[1];
-        c[2]=a[2];
-        
-      }
-          ++i;
+       if (mag > magnitude)
+         {
+         magnitude = mag;
+         c[0]=a[0];
+         c[1]=a[1];
+         c[2]=a[2];
+         }
+       ++i;
        }
      return c;
     }
@@ -662,45 +659,42 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
      length = dx;
      while( i < length) 
        {
-          a[0] += xchange;
-          e1 += dz;
-          e2 += dy;
-          if( e1 > dx ) 
-      {
-               a[2] += zchange;
-               e1 -= dx;
-            }
-          if( e2 > dx ) 
-      {
-               a[1] += ychange;
-               e2 -= dx;
-            }
-    mag = sqrt(m_Gradient->GetPixel(a)[0] * m_Gradient->GetPixel(a)[0] +
+       a[0] += xchange;
+       e1 += dz;
+       e2 += dy;
+       if( e1 > dx ) 
+         {
+         a[2] += zchange;
+         e1 -= dx;
+         }
+       if( e2 > dx ) 
+         {
+         a[1] += ychange;
+         e2 -= dx;
+         }
+       mag = sqrt(m_Gradient->GetPixel(a)[0] * m_Gradient->GetPixel(a)[0] +
          m_Gradient->GetPixel(a)[1] * m_Gradient->GetPixel(a)[1] +
          m_Gradient->GetPixel(a)[2] * m_Gradient->GetPixel(a)[2]);
-    if (mag > magnitude)
-      {
-        
-        magnitude = mag;
-        c[0]=a[0];
-        c[1]=a[1];
-        c[2]=a[2];
-        
-      }
+       if (mag > magnitude)
+         {
+         magnitude = mag;
+         c[0]=a[0];
+         c[1]=a[1];
+         c[2]=a[2];
+         }
     
-          ++i;
+       ++i;
        }
      return c;
     }
   else
     {
-      // draw one point only        
+    // draw one point only        
    
-      c[0]=a[0];
-      c[1]=a[1];
-      c[2]=a[2];
-       
-      return c;
+    c[0]=a[0];
+    c[1]=a[1];
+    c[2]=a[2];
+    return c;
     }
   }
 } /* end namespace itk. */
