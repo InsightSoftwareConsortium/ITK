@@ -103,6 +103,7 @@ SingleValuedVnlCostFunctionAdaptor
                                              ParametersType         & output )
 {
   const unsigned int size = input.size();
+  output = ParametersType(size);
   for( unsigned int i=0; i<size; i++ )
     {
     output[i] = input[i]; 
@@ -133,6 +134,7 @@ SingleValuedVnlCostFunctionAdaptor
                                            InternalDerivativeType & output )
 {
   const unsigned int size = input.size();
+  output = InternalDerivativeType(size);
   for( unsigned int i=0; i<size; i++ ) 
     {
     output[i] = input[i];
