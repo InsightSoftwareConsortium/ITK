@@ -152,8 +152,6 @@ protected:
    * output of several classes. 
    */
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
-  virtual void PrintHeader(std::ostream& os, Indent indent) const;
-  virtual void PrintTrailer(std::ostream& os, Indent indent) const;
 
 private:
   /**

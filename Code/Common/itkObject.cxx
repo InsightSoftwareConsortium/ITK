@@ -135,14 +135,11 @@ void
 Object
 ::Register() const
 {
-  m_ReferenceCount++;
   itkDebugMacro(<< "Registered, "
-                << "ReferenceCount = " << m_ReferenceCount);
+                << "ReferenceCount = " << (m_ReferenceCount+1));
 
-  if(m_ReferenceCount <= 0)
-    {
-    delete this;
-    }
+  // call the parent
+  Superclass::Register();
 }
 
 
@@ -154,8 +151,8 @@ Object
 ::UnRegister() const
 {
   itkDebugMacro(<< this << "UnRegistered, "
-  << "ReferenceCount = " << (m_ReferenceCount-1));
-// call the parent
+                << "ReferenceCount = " << (m_ReferenceCount-1));
+  // call the parent
   Superclass::UnRegister();
 }
 
@@ -228,28 +225,6 @@ Object
   os << indent << "Modified Time: " << this->GetMTime() << std::endl;
   os << indent << "m_Debug: " << (m_Debug ? "On\n" : "Off\n");
 }
-
-/**
- * Define a default print header for all objects.
- */
-void 
-Object
-::PrintHeader(std::ostream& os, Indent indent) const
-{
-  os << indent << this->GetNameOfClass() << " (" << this << ")\n";
-}
-
-
-/**
- * Define a default print trailer for all objects.
- */
-void 
-Object
-::PrintTrailer(std::ostream& os, Indent indent) const
-{
-  os << indent << std::endl;
-}
-
 
 /**
  * Initialize static member that controls warning display.

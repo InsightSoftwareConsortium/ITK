@@ -325,9 +325,6 @@ LightObject
     }
 }
 
-
-
-
 /**
  * Create an object with a reference count of 1.
  */
