@@ -165,10 +165,20 @@ puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
 
 puts $Out "</Testing>"
 puts $Out "</Site>"
+set total [expr double($ReportPassed + $ReportFailed + $ReportNotRun)]
 puts "\tTesting completed"
-puts "\t$ReportNotRun Tests Not Run"
-puts "\t$ReportFailed Tests Failed"
-puts "\t$ReportPassed Tests Passed"
+if { $total != 0.0 } \
+{
+  set Percent [format "%.2f" [expr 100.0 * $ReportNotRun / $total]]
+  puts "\t$ReportNotRun Tests Not Run -- $Percent%"
+  set Percent [format "%.2f" [expr 100.0 * $ReportFailed / $total]]
+  puts "\t$ReportFailed Tests Failed -- $Percent%"
+  set Percent [format "%.2f" [expr 100.0 * $ReportPassed / $total]]
+  puts "\t$ReportPassed Tests Passed -- $Percent%"
+}
+
+
+
 
 close $Out
 exit

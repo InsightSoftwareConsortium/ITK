@@ -86,7 +86,9 @@ set ErrorList(Append) ""
 set ErrorList(Buffer) ""
 set PostContextCount 5
 set BufferLength 5
-
+set Report(Error) 0
+set Report(Warning) 0
+set Report(FileMatched) 0
 
   # First match is GNU compiler
   # Second match is IRIX compiler
@@ -106,6 +108,7 @@ set WarningMatches [list \
 		 ]
 set WarningExceptions [list ]
 
+puts "\tParsing Build Log"
 set Line 1
 while { ![eof $Build] } \
 {
@@ -125,10 +128,12 @@ while { ![eof $Build] } \
   if { $hasError } \
   {
     set Type Error
+    incr Report(Error)
   }
   if { $hasWarning } \
   {
     set Type Warning
+    incr Report(Warning)
   }
   if { $hasError || $hasWarning } \
   {
@@ -181,7 +186,7 @@ while { ![eof $Build] } \
       set ErrorList($i,SourceLineNumber) $LineNumber
       set Found 1
     }
-    
+    incr Report(FileMatched) $Found
     lappend ErrorList(Append) $i
   }
   
@@ -220,7 +225,15 @@ while { ![eof $Build] } \
 
   
 # Write all the errors out to the Out file
-puts "\tFinished parsing build log"  
+puts "\t\t$Report(Error) Compiler Errors"
+puts "\t\t$Report(Warning) Compiler Warnings"
+set total [expr $Report(Error) + $Report(Warning)]
+if { $total != 0 } \
+{
+  set percent [format "%.2f" [expr 100.0 * $Report(FileMatched) / double($Report(Error) + $Report(Warning))]]
+  puts "\t\tParsed $Report(FileMatched) filenames from [expr $Report(Error) + $Report(Warning)] opportunities for $percent%"
+}
+puts "\tWriting XML"
 for { set i 0 } { $i < $ErrorList(Counter) } { incr i } \
 {
   puts $Out "\t<$ErrorList($i,Type)>"

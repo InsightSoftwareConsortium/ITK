@@ -92,7 +92,7 @@ foreach Command $Commands \
   {
     Start \
     {
-      puts "Starting $Model Build"
+      puts "Starting $Model Build [file tail $BuildStampDir]"
       file mkdir $BuildStampDir $XMLDir
     }
     Build - \
@@ -130,6 +130,7 @@ foreach Command $Commands \
       if { ![info exists [file join $DashboardDir Doxygen.xml]] } \
       {
 	# Sorry, actually create the Doxygen.xml file...
+	puts "\tBuilding Doxygen.xml"
 	puts [exec $TclshCommand [file join $UtilitiesDir Doxygen.tcl] > [file join $Dir $DashboardDir Doxygen.xml]]
 	# 	set f [open [file join $Dir $DashboardDir Doxygen.xml] w]
 	# 	puts $f $XMLHeader
@@ -156,9 +157,11 @@ foreach Command $Commands \
 	  # latest sources
 	  # If the Model is Nightly, will update to the previous day's
 	  # 23:00 repository snapshot
+	  puts "\tBuilding Update.xml"
 	  puts [exec $TclshCommand [file join $UtilitiesDir Update.tcl] $Model $NightlyDateStamp > [file join $Dir $DashboardDir Update.xml]]
 	}
       }
+      puts "\tCompleted"
       cd $Dir
     }
     DashboardEnd \
@@ -224,6 +227,8 @@ foreach Command $Commands \
 	  # Get both the nightlies and the experimentals...
 	  foreach f [glob -nocomplain -- [file join $TestingBaseDir Sites * * *]] \
 	  {
+	    # Ignore the coverage special directory...
+	    if { [file tail $f] == "Coverage" } { continue }
 	    if { [IsBuildStampInDay $NightlyDateStamp-Nightly [file tail $f]] } \
 	    {
 	      lappend NightlyBuilds $f
@@ -242,12 +247,17 @@ foreach Command $Commands \
       set DashboardStamp [file tail $DashboardDir]
 
       puts "Dashboard [file tail $DashboardDir]"
-      puts -nonewline "\tBuilding Update.html "
+      if { [NeedToRemake Update] } \
+      {
+	puts -nonewline "\tBuilding Update.html "
       
-      puts [catch { exec $JavaCommand -jar $Xalan -Q -IN Update.xml -OUT Update.html -XSL [file join $XSLDir Update.xsl] -PARAM TestDocDir [pwd] -PARAM DashboardDate $DashboardDate -PARAM DashboardStamp $DashboardStamp }]
-      
-      puts -nonewline "\tBuilding Doxygen.html "
-      puts [catch { exec $JavaCommand -jar $Xalan -Q -IN Doxygen.xml -OUT Doxygen.html -XSL [file join $XSLDir Doxygen.xsl] -PARAM DashboardDate $DashboardDate -PARAM TestDocDir [pwd] -PARAM DashboardStamp $DashboardStamp }]
+	puts [catch { exec $JavaCommand -jar $Xalan -Q -IN Update.xml -OUT Update.html -XSL [file join $XSLDir Update.xsl] -PARAM TestDocDir [pwd] -PARAM DashboardDate $DashboardDate -PARAM DashboardStamp $DashboardStamp }]
+      }
+      if { [NeedToRemake Doxygen] } \
+      {
+	puts -nonewline "\tBuilding Doxygen.html "
+	puts [catch { exec $JavaCommand -jar $Xalan -Q -IN Doxygen.xml -OUT Doxygen.html -XSL [file join $XSLDir Doxygen.xsl] -PARAM DashboardDate $DashboardDate -PARAM TestDocDir [pwd] -PARAM DashboardStamp $DashboardStamp }]
+      }
 
       
       set DashboardTargets [open DashboardTargets.txt w]
@@ -285,7 +295,7 @@ foreach Command $Commands \
 
 	puts $DashboardFile "<BuildStamp>"
 	
-	foreach XML [list Build Test Coverage] \
+	foreach XML [list Build Test Coverage CoverageLog] \
 	{
 	  if { ![file exists [file join XML $XML.xml]] } \
 	  {
@@ -296,7 +306,7 @@ foreach Command $Commands \
 	  if { [NeedToRemake $XML] } \
 	  {
 	    puts -nonewline "\t\tBuilding $XML.html "
-	    puts [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/]   -PARAM DashboardStamp $DashboardStamp -PARAM DashboardDate $DashboardDate }]
+	    puts [catch { exec $JavaCommand -Xmx128m -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/]   -PARAM DashboardStamp $DashboardStamp -PARAM DashboardDate $DashboardDate }]
 	  }
 	}
 	

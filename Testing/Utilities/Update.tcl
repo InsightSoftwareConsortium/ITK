@@ -23,6 +23,20 @@
 # Cheat, source in some utilities.  No actual substitutions happen.
 source [file join Testing Utilities Utility.tcl.in]
 
+# Read in the user list
+set f [open [file join Documents UserList.txt]]
+while { ![eof $f] } \
+{
+  set l [gets $f]
+  set l [split $l ":"]
+  if { [llength $l] == 3 } \
+  {
+    set Users([lindex $l 0]) [lindex $l 2]
+  }
+}
+close $f
+
+
 set Model Experimental
 set DateStamp ""
 if { $argc >= 1 } \
@@ -121,6 +135,17 @@ proc LoadCVSInformation { File } \
 
 
     regexp "date: (\[^;\]+);  author: (\[^;\]+);" [lindex $SplitLog 1] dummy FileStatus($File,RevisionLog,$i,Date) FileStatus($File,RevisionLog,$i,Author)
+
+    if { [info exists Users($FileStatus($File,$RevisionLog,$i,Author))] } \
+    {
+      set FileStatus($File,RevisionLog,$i,Email) $Users($FileStatus,RevisionLog,$i,Email)
+    } \
+    else \
+    {
+      set FileStatus($File,RevisionLog,$i,Email) ""
+    }
+    
+
     foreach l [lrange $SplitLog 2 end] \
     {
       if { $l != {} } \
@@ -237,6 +262,7 @@ foreach Dir [array names DirectoryList] \
     
     puts $Out "\t\t<CheckinDate>[XMLSafeString $FileStatus($File,RevisionLog,0,Date)]</CheckinDate>"
     puts $Out "\t\t<Author>[XMLSafeString $FileStatus($File,RevisionLog,0,Author)]</Author>"
+    puts $Out "\t\t<Email>[XMLSafeString $FileStatus($File,RevisionLog,0,Email)]</Email>"
   
   
     puts $Out "\t\t<Log>[XMLSafeString $FileStatus($File,RevisionLog,0,Comment)]</Log>"
@@ -246,7 +272,7 @@ foreach Dir [array names DirectoryList] \
     for { set i 0 } { $i < $FileStatus($File,SelectedRevisions) } { incr i } \
     {
       puts $Out "\t\t<Revisions>"
-      foreach Field [list Revision PreviousRevision Author Date Comment] \
+      foreach Field [list Revision PreviousRevision Author Date Comment Email] \
       {
 	puts $Out "\t\t\t<$Field>[XMLSafeString $FileStatus($File,RevisionLog,$i,$Field)]</$Field>"
       }    

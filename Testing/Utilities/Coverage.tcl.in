@@ -47,6 +47,7 @@ file mkdir $HTMLDir $SiteDir $BuildNameDir $BuildStampDir $TempDir $XMLDir
 
 
 set Out [open [file join $XMLDir Coverage.xml] w]
+set GCovOut [open [file join $XMLDir CoverageLog.xml] w]
 
 catch { unset Coverage }
 
@@ -66,11 +67,11 @@ set Counter 0
 
 proc GCov { file } \
 {
-  puts "Running gcov on $file"
+  # puts "Running gcov on $file"
   set dir [pwd]
   cd [file dir $file]
   catch { exec gcov -l [file tail $file] } Result
-  puts $Result
+  # puts $Result
   cd $dir
 }
 
@@ -98,12 +99,13 @@ proc PercentCoverage { t ut } \
 
 proc LOC { file } \
 {
-  global Coverage GCovFiles
+  global Coverage GCovFiles GCovOut
   
   set Untested 0
   set Tested 0
   set Covered false
   set pattern [file join *[file tail $file].gcov]
+  set LineCounter 0
   
   foreach name [array names GCovFiles $pattern] \
   {
@@ -115,21 +117,34 @@ proc LOC { file } \
     {
       if { ![info exists Line($LineCounter)] } \
       {
-	set Line($LineCounter) ""
+	set Line($LineCounter) "-1"
       }
       set l [gets $f]
       if { [regexp "\#\#\#\#\#" $l] } \
       {
-	if { $Line($LineCounter) == "" } \
+	if { $Line($LineCounter) == "-1" } \
 	{
 	  set Line($LineCounter) 0
 	}
       }
-      if { [regexp {^[ ]*[0-9][0-9]*} $l] } \
+      if { [regexp {^[ ]*[0-9][0-9]*} $l n] } \
       {
-	if { $Line($LineCounter) == "" } \
+	
+	if { $Line($LineCounter) == "-1" } \
 	{
-	  set Line($LineCounter) 1
+	  set Line($LineCounter) 0
+	}
+	incr Line($LineCounter) [string trimleft $n "0"]
+      }
+      if { ![info exists LineOut($LineCounter)] } \
+      {
+	if { [string first "\t\t" $l] == 0 } \
+	{
+	  set LineOut($LineCounter) [string range $l 2 end]
+	} \
+	else \
+	{
+	  set LineOut($LineCounter) [string range $l 15 end]
 	}
       }
       incr LineCounter
@@ -153,7 +168,17 @@ proc LOC { file } \
   }
   incr Coverage(UnCovered) $Coverage($file,UnCovered)
   incr Coverage(Covered) $Coverage($file,Covered)
-  
+
+
+  # Fill in the Coverage Log
+  puts $GCovOut "\t<File Name=\"[XMLSafeString [file tail $file]]\" FullPath=\"[XMLSafeString $file]\">"
+  puts $GCovOut "\t\t<Report>"
+  for { set i 0 } { $i < $LineCounter } { incr i } \
+  {
+    puts $GCovOut "\t\t<Line Number=\"$i\" Count=\"$Line($i)\">[XMLSafeString $LineOut($i)]</Line>"
+  }
+  puts $GCovOut "\t\t</Report>"
+  puts $GCovOut "\t</File>"
   
 }
 
@@ -207,11 +232,15 @@ cd $SourceDirectory
 FileMap [glob *] [list *.h *.cxx *.c *.txx] AddSourceFile
 
 
-puts $Out {<?xml version="1.0" encoding="UTF-8"?>}
+puts $Out $XMLHeader
 puts $Out "<Site BuildName=\"$BuildName\" BuildStamp=\"$BuildStamp\" Name=\"$Site\">"
 puts $Out {<Coverage>}
 puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
 
+puts $GCovOut $XMLHeader
+puts $GCovOut "<Site BuildName=\"$BuildName\" BuildStamp=\"$BuildStamp\" Name=\"$Site\">"
+puts $GCovOut "<CoverageLog>"
+puts $GCovOut "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
 
 cd $BuildRoot
 foreach file $Source \
@@ -230,103 +259,20 @@ foreach file $Source \
 puts $Out "\t<LOCTested>$Coverage(Covered)</LOCTested>"
 puts $Out "\t<LOCUntested>$Coverage(UnCovered)</LOCUntested>"
 puts $Out "\t<LOC>[expr $Coverage(UnCovered) + $Coverage(Covered)]</LOC>"
-
-
 puts $Out "\t<PercentCoverage>[PercentCoverage $Coverage(Covered) $Coverage(UnCovered)]</PercentCoverage>"
-
-
 puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
-
 puts $Out "</Coverage>"
 puts $Out "</Site>"
 
+puts $GCovOut "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
+puts $GCovOut "</CoverageLog>"
+puts $GCovOut "</Site>"
+
 
 close $Out
+close $GCovOut
 puts "File is $XMLDir/Coverage.xml"
 
-exit
-cd $BuildRoot
-RollUpCoverage $TopLevelID
-
-# parray Coverage
-
-proc Indent { i } \
-{
-  set r ""
-  for { set j 0 } { $j < $i } { incr j } \
-  {
-    set r "\t$r"
-  }
-  return $r
-}
-
-proc EmitXML { id Out indent } \
-{
-  global Coverage
-
-  if { $Coverage($id,FileCount) == 0 } \
-  {
-    return;
-  }
-  puts $Out "[Indent $indent]<Directory Name=\"$Coverage($id,Name)\" FullPath=\"$Coverage($id,FullPath)\">"
-  incr indent
-  puts $Out "[Indent $indent]<LOCTested>$Coverage($id,Tested)</LOCTested>"
-  puts $Out "[Indent $indent]<LOCUntested>$Coverage($id,Untested)</LOCUntested>"
-  puts $Out "[Indent $indent]<PercentCoverage>[PercentCoverage $Coverage($id,Tested) $Coverage($id,Untested)]</PercentCoverage>"
-  puts $Out "[Indent $indent]<LOC>[expr $Coverage($id,Untested) + $Coverage($id,Tested)]</LOC>"
-  
-  foreach File $Coverage($id,FileList) \
-  {
-    set Covered false
-    if { ( $Coverage($File,Untested) + $Coverage($File,Tested) ) > 0 } \
-    {
-      set Covered true
-    }
-    puts $Out "[Indent $indent]<File Name=\"$Coverage($File,Name)\"  FullPath=\"$Coverage($id,FullPath)\" Covered=\"$Covered\">"
-    
-    incr indent
-    puts $Out "[Indent $indent]<LOCTested>$Coverage($File,Tested)</LOCTested>"
-    puts $Out "[Indent $indent]<LOCUntested>$Coverage($File,Untested)</LOCUntested>"
-    puts $Out "[Indent $indent]<PercentCoverage>[PercentCoverage $Coverage($File,Tested) $Coverage($File,Untested)]</PercentCoverage>"
-    if { $Coverage($File,GCovFullPath) != "" } \
-    {
-      puts $Out "[Indent $indent]<GCovFile>$Coverage($File,GCovFullPath)</GCovFile>"
-    }
-    incr indent -1
-    puts $Out "[Indent $indent]</File>"
-  }
-  foreach Dir $Coverage($id,DirList) \
-  {
-    EmitXML $Dir $Out $indent
-  }
-
-  incr indent -1
-  puts $Out "[Indent $indent]</Directory>"
-  return
-}
-
-
-puts $Out {<?xml version="1.0" encoding="UTF-8"?>}
-puts $Out "<Site BuildName=\"$BuildName\" BuildStamp=\"$BuildStamp\" Name=\"$Site\">"
-puts $Out {<Coverage>}
-puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
-puts $Out "\t<LOCTested>$Coverage(Covered)</LOCTested>"
-puts $Out "\t<LOCUntested>$Coverage(UnCovered)</LOCUntested>"
-puts $Out "\t<LOC>[expr $Coverage(UnCovered) + $Coverage(Covered)]</LOC>"
-
-
-puts $Out "\t<PercentCoverage>[PercentCoverage $Coverage($TopLevelID,Tested) $Coverage($TopLevelID,Untested)]</PercentCoverage>"
-
-foreach file 
-
-puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
-
-puts $Out "</Coverage>"
-puts $Out "</Site>"
-
-
-close $Out
-exit
 
 
 
@@ -343,46 +289,3 @@ exit
 
 
 
-
-# Clean out the build directory files
-# set Queue [glob [file join Code *]]
-# while { [llength $Queue] != 0 } \
-# {
-#   set Filename [lindex $Queue 0]
-#   set Queue [lrange $Queue 1 end]
-
-#   if { [file isdirectory $Filename] } \
-#   {
-#     catch { set Queue [concat $Queue [glob $Filename/*]] }
-#     continue;
-#   }
-#   switch { [file tail $Filename] } \
-#   {
-#     .bb -
-#     .bbg -
-#     .gcov -
-#     .da \
-#     {
-#       file remove $Filename
-#     }
-#   }
-# }
-
-# set Queue [glob [file join Testing *]]
-# while { [llength $Queue] != 0 } \
-# {
-#   # pop off first item
-#   set Filename [lindex $Queue 0]
-#   set Queue [lrange $Queue 1 end]
-
-#   if { [file isdirectory $Filename] } \
-#   {
-#     catch { set Queue [concat $Queue [glob $Filename/*]] }
-#     continue;
-#   }
-#   if { [file executable $Filename] } \
-#   {
-#     # We don't care about the exit status of this test
-#     catch { exec $Filename }
-#   }
-# }
