@@ -23,11 +23,11 @@
 //  sources and data sinks.  For practical purposes you may think of them as
 //  being yet another filter.
 //
-//  Image reading is managed by the class \code{itk::ImageFileReader} while
-//  writing is done by the class \code{itk::ImageFileWriter}. These two classes
+//  Image reading is managed by the class \doxygen{ImageFileReader} while
+//  writing is done by the class \doxygen{ImageFileWriter}. These two classes
 //  are totally independent of any particular file format. The actual low level
 //  task of reading and writing specific file formats will be done behind the
-//  scenes by a family of objects called \code{ImageIO}. 
+//  scenes by a family of objects called \doxygen{ImageIO}. 
 //
 //  The first step for performing reading and writing is to include the
 //  following headers.
@@ -123,7 +123,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Then, we create one object of each type using the \code{New()} method and
-  //  assigning the result to a \code{SmartPointer}.
+  //  assigning the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}
@@ -218,7 +218,7 @@ int main( int argc, char ** argv )
   //  the specific file format used to read or write the images. By default,
   //  file formats are choosen based on the extension of the filenames. This
   //  behavior can be overriden by providing the reader or writer with specific
-  //  \code{ImageIO} objects.
+  //  \doxygen{ImageIO} objects.
   //
   //  Software Guide : EndLatex 
 

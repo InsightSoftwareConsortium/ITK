@@ -18,34 +18,31 @@
 
 //  Software Guide : BeginLatex
 //
-//  The classes responsible for reading and writing images are typically set at
-//  the ends of the data processing pipeline. These classes can be seen as data
-//  sources and data sinks.  For practical purposes you may think of them as
-//  being yet another filter.
-//
-//  Image reading is managed by the class \code{itk::ImageFileReader} while
-//  writing is done by the class \code{itk::ImageFileWriter}. These two classes
-//  are totally independent of any particular file format. The actual low level
-//  task of reading and writing specific file formats will be done behind the
-//  scenes by a family of objects called \code{ImageIO}. 
+//  Given that \href{http://www.itk.org}{ITK} is based on a Generic Programming
+//  paradigm, most of the types are defined at comipilation time. It is
+//  sometimes important to anticipate conversion from different types of
+//  images. The following example illustres the common case of reading an image
+//  of one pixel type and writing it on a different pixel type. This process
+//  not only involve casting but also rescaling the image intensity since the
+//  dynamic range of the input and output pixel types can be quite different.
+//  The \doxygen{RescaleIntensityImageFilter} is used here to linearly rescale
+//  the image values.
 //
 //  The first step for performing reading and writing is to include the
 //  following headers.
 //
-//  \index{itk::ImageFileReader|textbf}
 //  \index{itk::ImageFileReader!header}
-//
-//  \index{itk::ImageFileWriter|textbf}
 //  \index{itk::ImageFileWriter!header}
+//  \index{itk::RescaleIntensityImageFilter!header}
 //
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkRescaleIntensityImageFilter.h"
 // Software Guide : EndCodeSnippet
 
-#include "itkRescaleIntensityImageFilter.h"
 
 
 #include "itkImage.h"
@@ -71,20 +68,7 @@ int main( int argc, char ** argv )
   //  represent the images. Note that, when reading and image, this pixel type
   //  \textbf{is not necessarily} the pixel type of the image stored in the file.
   //  Instead, it is the type that will be used to store the image as soon as
-  //  it is read into memory. Your choice of the pixel type should be driven
-  //  mainly by two considerations
-  //
-  //  \begin{itemize}
-  //  \item It should be possible to cast the file pixel type  to the pixel
-  //  type you select. This casting will be performed using the standard
-  //  C-language rules, so you will have to make sure that the conversion does
-  //  not result in information being lost.
-  //  \item The pixel type in memory should be appropriate for the type of
-  //  processing you intended to apply on the images. 
-  //  \end{itemize}
-  //
-  //  A typical selection for medical images could be the one illustrated in
-  //  the following lines.
+  //  it is read into memory. 
   //
   //  Software Guide : EndLatex 
 
@@ -121,18 +105,46 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::RescaleIntensityImageFilter< InputImageType, OutputImageType > FilterType;
 
+  //  Software Guide : BeginLatex
+  //  
+  //  Below we instantiate the type of the
+  //  \doxygen{RescaleIntensityImageFilter} that will linearly scale the image
+  //  intensities.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::RescaleIntensityImageFilter< 
+                                  InputImageType, 
+                                  OutputImageType >    FilterType;
+  // Software Guide : EndCodeSnippet
+
+  
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  A filter object is constructed and the minimum and maximum values of the
+  //  output are selected using the \code{SetOutputMinimum()} and
+  //  \code{SetOutputMaximum()} methods.
+  //
+  //  \index{itk::RescaleIntensityImageFilter!SetOutputMinimum()}
+  //  \index{itk::RescaleIntensityImageFilter!SetOutputMaximum()}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetOutputMinimum(   0 );
   filter->SetOutputMaximum( 255 );
+  // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  Then, we create one object of each type using the \code{New()} method and
-  //  assigning the result to a \code{SmartPointer}.
+  //  Then, we create the reader and writer and connect the pipeline.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}
@@ -144,6 +156,9 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
+
+  filter->SetInput( reader->GetOutput() );
+  writer->SetInput( filter->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
@@ -160,7 +175,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The name of the file to be read or written is passed with the
+  //  The name of the files to be read and written are passed with the
   //  \code{SetFileName()} method. 
   //
   //  \index{itk::ImageFileReader!SetFileName()}
@@ -176,30 +191,12 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
-  //
-  //  We can now connect these source and sink objects to filters in a
-  //  pipeline. For example, we can create the shortest pipeline by passing the
-  //  output of the reader directly to the input of the writer. 
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
-  filter->SetInput( reader->GetOutput() );
-
-  writer->SetInput( filter->GetOutput() );
-  // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //
-  //  At first view, this may seem as a quite useless program, but it is
-  //  actually implementing a powerful file format conversion tool !. The
-  //  execution of the pipeline is triggered by the invokation of the
-  //  \code{Update()} methods in one of the final objects. In this case, the
-  //  final data pipeline object is the writer. It is a wise practice of
-  //  defensive programming to insert any \code{Update()} call inside a
-  //  \code{try/catch} block in case exceptions are thrown during the execution
-  //  of the pipeline. 
+  //  Finally we trigger the execution of the pipeline with the \code{Update()}
+  //  method on the writer. The output image will then be the scaled and casted
+  //  version of the input image.
   //
   //  Software Guide : EndLatex 
 
@@ -217,21 +214,6 @@ int main( int argc, char ** argv )
     } 
   // Software Guide : EndCodeSnippet
 
-
-  //  Software Guide : BeginLatex
-  //
-  //  Note that exceptions should only be caught by pieces of code that know
-  //  what to do with them. In a typical application this catch block should
-  //  probably reside on the GUI code. The action on the catch block could show
-  //  a message to inform the user that the IO operation have failed.
-  //
-  //  The IO architecture of the toolkit makes possible to avoid any mention of
-  //  the specific file format used to read or write the images. By default,
-  //  file formats are choosen based on the extension of the filenames. This
-  //  behavior can be overriden by providing the reader or writer with specific
-  //  \code{ImageIO} objects.
-  //
-  //  Software Guide : EndLatex 
 
 
   return 0;

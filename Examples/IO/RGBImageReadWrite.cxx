@@ -39,7 +39,6 @@
 #include "itkImageFileWriter.h"
 // Software Guide : EndCodeSnippet
 
-#include "itkMetaImageIO.h"
 
 
 int main( int argc, char ** argv )
@@ -57,8 +56,8 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginLatex
   //
-  // The RGB pixel class is templated over the type used to represent each
-  // one of the Red, Green and Blue components. A typical instantiation of 
+  // The \doxygen{RGBPixel} class is templated over the type used to represent
+  // each one of the Red, Green and Blue components. A typical instantiation of
   // the RGB image class could be as follows.
   //
   //  \index{itk::RGBPixel!Instantiation}

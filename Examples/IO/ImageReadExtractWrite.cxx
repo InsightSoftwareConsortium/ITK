@@ -32,7 +32,21 @@
 #include "itkImageFileWriter.h"
 // Software Guide : EndCodeSnippet
 
+
+
+//  Software Guide : BeginLatex
+//  
+//  The filter used to extract a region from an image is the
+//  \doxygen{ExtractImageFilter}. It header is included below.
+//
+//  \index{itk::ExtractImageFilter!header}
+//
+//  Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
 #include "itkExtractImageFilter.h"
+// Software Guide : EndCodeSnippet
+
 
 
 #include "itkImage.h"
@@ -70,6 +84,12 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
+  //  Software Guide : BeginLatex
+  //  
+  //  The types for the \doxygen{ImageFileReader} and \doxygen{ImageFileWriter}
+  //  are instantiated using the image types.
+  //
+  //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
@@ -77,10 +97,33 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The \doxygen{ExtractImageFilter} type is instantiated using the input and
+  //  output image types. A filter object is created with the \code{New()}
+  //  method and assigned to a \doxygen{SmartPointer}.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   typedef itk::ExtractImageFilter< InputImageType, OutputImageType > FilterType;
 
   FilterType::Pointer filter = FilterType::New();
+  // Software Guide : EndCodeSnippet
 
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The \doxygen{ExtractImageFilter} requires a region to be defined by the
+  //  user. The region is specified by an \doxygen{Index} indicating the pixel
+  //  where the region starts and an \doxygen{Size} indication how many pixels
+  //  the region has along each dimension. In this example, the specification
+  //  of the region is taken from the command line arguments.
+  //
+  //  Software Guide : EndLatex 
+
+  
   // Software Guide : BeginCodeSnippet
   OutputImageType::IndexType start;
 
@@ -96,6 +139,12 @@ int main( int argc, char ** argv )
   size[1] = atoi( argv[6] );
   // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
+  //  
+  //  An \doxygen{ImageRegion} object is created and initialized with start and
+  //  size obtained from the command line.
+  //
+  //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   OutputImageType::RegionType wantedRegion;
@@ -104,6 +153,17 @@ int main( int argc, char ** argv )
   wantedRegion.SetIndex( start );
   // Software Guide : EndCodeSnippet
 
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Then the region is passed to the filter using the
+  //  \code{SetExtractionRegion()} method.
+  //
+  //  \index{itk::ExtractImageFilter!SetExtractionRegion()}
+  //
+  //  Software Guide : EndLatex 
+
+
   // Software Guide : BeginCodeSnippet
   filter->SetExtractionRegion( wantedRegion );
   // Software Guide : EndCodeSnippet
@@ -111,8 +171,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Then, we create one object of each type using the \code{New()} method and
-  //  assigning the result to a \code{SmartPointer}.
+  //  Below, we create the reader and writer  using the \code{New()} method and
+  //  assigning the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}
@@ -169,6 +229,16 @@ int main( int argc, char ** argv )
   writer->SetInput( filter->GetOutput() );
   // Software Guide : EndCodeSnippet
 
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Finally we execute the pipeline by invoking \code{Update()} on the
+  //  writer. The call is placed in a \code{try/catch} block in case exceptions
+  //  are thrown.
+  //
+  //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   try 
