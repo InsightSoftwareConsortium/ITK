@@ -46,7 +46,6 @@ void
 ShiftScaleImageFilter<TInputImage, TOutputImage>
 ::BeforeThreadedGenerateData ()
 {
-  unsigned int i;
   int numberOfThreads = this->GetNumberOfThreads();
 
   //  Allocate and initialize the thread temporaries
