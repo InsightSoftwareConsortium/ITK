@@ -204,5 +204,41 @@ ADD_TEST(GeodesicActiveContourGrayMatterTest ${SEGMENTATION_EXAMPLES}
         40 90 5.0 0.5 -0.3 2.0 10.0
 )
 
+ADD_TEST(ShapeDetectionLevelSetLeftVentricleTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/ShapeDetectionLevelSetLeftVentricleTest.png
+            ${TEMP}/ShapeDetectionLevelSetLeftVentricleTest.png
+  ShapeDetectionLevelSetFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ShapeDetectionLevelSetLeftVentricleTest.png
+        81 114 5.0 1.0 -0.5 3.0 0.05
+)
+
+ADD_TEST(ShapeDetectionLevelSetRightVentricleTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/ShapeDetectionLevelSetRightVentricleTest.png
+            ${TEMP}/ShapeDetectionLevelSetRightVentricleTest.png
+  ShapeDetectionLevelSetFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ShapeDetectionLevelSetRightVentricleTest.png
+        99 114 5.0 1.0 -0.5 3.0 0.05
+)
+
+ADD_TEST(ShapeDetectionLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/ShapeDetectionLevelSetWhiteMatterTest.png
+            ${TEMP}/ShapeDetectionLevelSetWhiteMatterTest.png
+  ShapeDetectionLevelSetFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ShapeDetectionLevelSetWhiteMatterTest.png
+        56 92 5.0 1.0 -0.3 2.0 0.05
+)
+
+ADD_TEST(ShapeDetectionLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/ShapeDetectionLevelSetGrayMatterTest.png
+            ${TEMP}/ShapeDetectionLevelSetGrayMatterTest.png
+  ShapeDetectionLevelSetFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ShapeDetectionLevelSetGrayMatterTest.png
+        40 90 5.0 0.5 -0.3 2.0 0.05
+)
+
 ADD_EXECUTABLE(SegmentationExamples SegmentationExamples.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
