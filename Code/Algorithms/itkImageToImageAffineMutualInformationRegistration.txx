@@ -28,22 +28,22 @@ namespace itk
 template <class TReference, class TTarget>
 ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
 ::ImageToImageAffineMutualInformationRegistration()
-{ 
+{
   m_Metric = MetricType::New();
-  m_Mapper = MapperType::New(); 
+  m_Mapper = MapperType::New();
   m_Transformation = TransformationType::New();
 
   // initialize the parameter to be the identity transform
   typename ParametersType::Iterator pit = m_Parameters.Begin();
   typename ScalingWeightsType::Iterator sit = m_ScalingWeights.Begin();
 
-  // initialize the linear part 
+  // initialize the linear part
   for (unsigned int i=0; i<TReference::ImageDimension; i++)
     {
     for (unsigned int j=0; j<TReference::ImageDimension; j++)
       {
       *pit = 0;
-      if(i == j) 
+      if(i == j)
 	      {
 	      *pit = 1;
         }
@@ -56,7 +56,7 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
 
   // initialize the offset part
   for (unsigned int i=0; i<TReference::ImageDimension; i++)
-  { 
+  {
     *pit = 0;
     ++pit;
 
@@ -114,7 +114,7 @@ ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
 
 
 /**
- * Set Reference 
+ * Set Reference
  */
 
 
@@ -129,7 +129,7 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
 
 
 /**
- * Set Target 
+ * Set Target
  */
 template <class TReference, class TTarget>
 void
@@ -140,8 +140,9 @@ ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
   m_Metric->SetTarget( m_Target );
 }
 
+
 /**
- * Set Target transformation center 
+ * Set Target transformation center
  */
 template <class TReference, class TTarget>
 void
@@ -149,12 +150,14 @@ ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
 ::SetTargetTransformationCenter( const PointType& center )
 {
   m_TargetTransformationCenter = center;
-  m_Transformation->SetDomainTransformationCenter( m_TargetTransformationCenter );
+  m_Transformation->SetDomainTransformationCenter(
+   m_TargetTransformationCenter );
 
 }
 
+
 /**
- * Set Reference transformation center 
+ * Set Reference transformation center
  */
 template <class TReference, class TTarget>
 void
@@ -162,7 +165,8 @@ ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
 ::SetReferenceTransformationCenter( const PointType& center )
 {
   m_ReferenceTransformationCenter = center;
-  m_Transformation->SetRangeTransformationCenter( m_ReferenceTransformationCenter );
+  m_Transformation->SetRangeTransformationCenter(
+   m_ReferenceTransformationCenter );
 
 }
 
@@ -174,14 +178,14 @@ template <class TReference, class TTarget>
 int
 ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
 ::StartRegistration( void )
-{ 
+{
 
   m_Mapper->SetTransformation(m_Transformation);
   m_Metric->SetMapper(m_Mapper);
 
   //
   // Maximize the mutual information using a stochastic ascent method
-  // 
+  //
   // FIXME: should separate this part out into an itkOptimizer
   //
   double MIValue;
@@ -192,7 +196,6 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
 
   for( unsigned int k = 0; k < m_NumberOfIterations; k++ )
     {
-    
     // set the affine parameters
     m_Metric->SetParameters( m_Parameters );
 
@@ -200,7 +203,7 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
     m_Metric->GetValueAndDerivative( MIValue, MIDerivatives );
 
     // compute the next set of parameters to visit
-    increment = m_LearningRate * element_product<double>( 
+    increment = m_LearningRate * element_product<double>(
         m_ScalingWeights.Get_vnl_vector(), MIDerivatives.Get_vnl_vector() );
 
     for( unsigned int j = 0; j < ParametersDimension; j++ )
@@ -208,30 +211,19 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
       m_Parameters[j] += increment[j];
       }
 
-
     if( m_ScreenDump )
       {
       std::cout << k << " " << MIValue << std::endl;
       }
 
-/*
-  if( m_ScreenDump )
-    {
-    for( pit = m_Parameters->Begin(); pit != pend; ++pit )
-      {
-      std::cout << pit.Value() << " ";
-      }
-    std::cout << std::endl;
-    }
-*/
-
     }
 
   if( m_ScreenDump )
     {
-    std::cout << "Last set of parameter visited: " << m_Parameters << std::endl;
+    std::cout << "Last set of parameter visited: ";
+    std::cout  << m_Parameters << std::endl;
     }
-    
+
   return 0;
 
 }

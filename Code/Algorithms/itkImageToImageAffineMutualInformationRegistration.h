@@ -29,34 +29,42 @@ namespace itk
 
 /**
  * \class ImageToImageAffineMutualInformationRegistration
- * \brief Register two images using mutual information
+ * \brief Register two images using mutual information.
  *
- * ImageToImageAffineMutualInformationRegistration performs an affine registration
- * between a target and reference image using mutual information. Specially,
- * it uses the optimization method of Viola and Wells to find the
+ * ImageToImageAffineMutualInformationRegistration performs an
+ * affine registration
+ * between a target and reference image using mutual information.
+ * It uses the optimization method of Viola and Wells to find the
  * best affine transform to register the reference image onto the target
- * image. The two images are defined via methods SetTarget() and SetReference().
+ * image. The two images are defined via methods SetTarget()
+ * and SetReference().
  *
- * The mutual information value and derivatives are computed in the
- * MutualInformationImagetoImageMetric class.
+ * The mutual information value and its derivatives are computed
+ * using the MutualInformationImagetoImageMetric class.
  *
- * This class uses a simple stochastic gradient ascent scheme. Steps
+ * The registration uses a simple stochastic gradient ascent scheme. Steps
  * are taken repeatedly taken that are proportional to the approximate
  * deriviative of the mutual information with respect to the affine
  * transform parameters. The stepsize is governed by the LearningRate
  * parameter. The default is 1.0. The LearningRate is set via the method
  * SetLearningRate(). Typically, the learning rate should be annealed
- * (decreased over time). In our experiments, we have found that a 
+ * (decreased over time). In our experiments, we have found that a
  * LearningRate of 1.0 works well for images normalized between 0 and 1.
  *
  * Since the parameters of the linear part is different in magnitude
  * to the parameters in the offset part, scaling is required
  * to improve convergence. Scaling weights of the parameter derivatives
  * can be set via SetScalingWeights(). Default is 0.001 for the parameters
- * in the linear part and 1.0 for parameters in the offset part.
+ * in the linear part and 1.0 for parameters for the offset part.
+ *
+ * Optimization performance can be improve by setting the transformation
+ * centers to center of mass of the image. The transformation centers
+ * can be specify via methods SetTargetTransformationCenter() and
+ * SetReferenceTransformationCenter(). The default is the origin for
+ * both centers.
  *
  * Implementaton of this class is based on:
- * Viola, P. and Wells III, W. (1997). 
+ * Viola, P. and Wells III, W. (1997).
  * "Alignment by Maximization of Mutual Information"
  * International Journal of Computer Vision, 24(2):137-154
  *
@@ -67,7 +75,8 @@ namespace itk
  *
  */
 template <class TReference, class TTarget>
-class ITK_EXPORT ImageToImageAffineMutualInformationRegistration : public Object 
+class ITK_EXPORT ImageToImageAffineMutualInformationRegistration :
+  public Object
 {
 public:
   /**
@@ -80,8 +89,8 @@ public:
    */
    typedef Object  Superclass;
 
-  /** 
-   * Smart pointer typedef support 
+  /**
+   * Smart pointer typedef support
    */
    typedef SmartPointer<Self>   Pointer;
    typedef SmartPointer<const Self>  ConstPointer;
@@ -114,14 +123,14 @@ public:
   /**
    *  Type of the Transformation
    */
-   typedef CenteredAffineRegistrationTransform<double,ImageDimension,ParametersType>  
-      TransformationType;
+   typedef CenteredAffineRegistrationTransform<
+     double, ImageDimension, ParametersType >  TransformationType;
 
   /**
    * Point Type
    */
   typedef typename TransformationType::PointType  PointType;
-	  
+
   /**
    *  Type of the Mapper
    */
@@ -134,12 +143,12 @@ public:
     TargetType, MapperType, double, double>    MetricType;
 
   /**
-   *  Pointer type for the Reference 
+   *  Pointer type for the Reference
    */
    typedef typename ReferenceType::Pointer ReferencePointer;
-  
+
   /**
-   *  Pointer type for the Target 
+   *  Pointer type for the Target
    */
    typedef typename TargetType::Pointer TargetPointer;
 
@@ -163,30 +172,26 @@ public:
    */
    typedef Vector<double,ParametersDimension> ScalingWeightsType;
 
-  /** 
+  /**
    * Run-time type information (and related methods).
    */
    itkTypeMacro(ImageToImageAffineMutualInformationRegistration, Object);
-
 
   /**
    * Method for creation through the object factory.
    */
    itkNewMacro(Self);
-  
 
   /**
    * Method that initiates the registration.
    */
    int StartRegistration( void );
 
-
   /**
    * Set the Target
    */
    void SetTarget( TargetType * );
 
-   
   /**
    * Set the Reference
    */
@@ -196,7 +201,7 @@ public:
    * Get the Reference
    */
    itkGetMacro( Reference, ReferencePointer );
-   
+
   /**
    * Get the Target
    */
@@ -221,7 +226,7 @@ public:
   /**
    * Get the transform parameters
    */
-  const ParametersType& GetParameters( void ) const 
+  const ParametersType& GetParameters( void ) const
     { return m_Parameters; }
 
   /**
@@ -245,8 +250,8 @@ public:
    */
    PointType& GetReferenceTransformationCenter( void ) const
     { return m_ReferenceTransformationCenter; }
-   
- 
+
+
   // -------------------------------
   // Optimization related methods
   // -------------------------------
@@ -262,7 +267,7 @@ public:
   const ScalingWeightsType& GetScalingWeights( void ) const
    { return m_ScalingWegihts; }
 
-  /** 
+  /**
    * Set the learning rate. This is used in the optimization scheme.
    * Typically, the learning rate needs to be annealed (decreased over
    * time). Default is 1.0.
@@ -275,7 +280,7 @@ public:
    */
   itkGetMacro( LearningRate, double );
 
-  /** 
+  /**
    * Set the number of iterations. This determines the number of
    * iterations performed in the steepest descent optimization.
    * Default is 1000.
@@ -293,27 +298,25 @@ public:
   itkSetMacro( ScreenDump, bool );
   itkBooleanMacro( ScreenDump );
 
-
 protected:
 
   ImageToImageAffineMutualInformationRegistration();
   virtual ~ImageToImageAffineMutualInformationRegistration();
   ImageToImageAffineMutualInformationRegistration(const Self&);
   const Self & operator=(const Self&);
- 
 
 private:
 
   TargetPointer              m_Target;
   ReferencePointer           m_Reference;
   TransformationPointer      m_Transformation;
-  MapperPointer              m_Mapper;  
+  MapperPointer              m_Mapper;
   MetricPointer              m_Metric;
   ParametersType             m_Parameters;
 
   PointType                  m_TargetTransformationCenter;
   PointType                  m_ReferenceTransformationCenter;
-  
+
   // -------------------------------
   // Optimization related variables
   // -------------------------------
@@ -324,7 +327,6 @@ private:
 
 };
 
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
@@ -332,6 +334,5 @@ private:
 #endif
 
 #endif
-
 
 
