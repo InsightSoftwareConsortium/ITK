@@ -5,7 +5,6 @@ avants
 aylward:Stephen Stephen:aylward@unc.edu
 blezek:Dan Blezek:blezek@crd.ge.com
 blue:Rusty Blue:blue@crd.ge.com
-bruno
 burgiss
 cates:Josh Cates:cates@cs.utah.edu
 celina
@@ -29,7 +28,7 @@ martink:Ken Martin:ken.martin@kitware.com
 millerjv:Jim Miller:millerjv@crd.ge.com
 parks
 ratiu:Peter Ratiu:ratiu@bwh.harvard.edu
-rondot
+rondot:Pascale Rondot:rondot@crd.ge.com
 Rystrom
 shelton:Damion Shelton:dmsst59@pitt.edu
 siqueira
@@ -37,12 +36,9 @@ sisler
 spathak:Sayan Pathak:spathak@insightful.com
 stetten:George Stetten:george@stetten.com
 tamburo:Robert Tamburo:rjtst21@pitt.edu
-tpan
 turek:Matt Turek:turek@crd.ge.com
 vikram:Vikram Chalana:vikram@insightful.com
-volpe:Chris Volpe:volpecr@crd.ge.com
 whitaker
 will:Will Schroeder:will.schroeder@kitware.com
-yamrom:Boris Yamrom:yamrom@crd.ge.com
 ying
 yoo:Terry S. Yoo:yoo@nlm.nih.gov
