@@ -103,7 +103,7 @@ Path<TInput, TOutput, VDimension>
 template <class TInput, class TOutput, unsigned int VDimension>
 void
 Path<TInput, TOutput, VDimension>
-::CopyInformation(const DataObject *data)
+::CopyInformation(const DataObject *itkNotUsed(data))
 {
   /* For the time being, always use the largest possible region
 
@@ -129,7 +129,7 @@ Path<TInput, TOutput, VDimension>
 template <class TInput, class TOutput, unsigned int VDimension>
 void
 Path<TInput, TOutput, VDimension>
-::SetRequestedRegion(DataObject *data)
+::SetRequestedRegion(DataObject *itkNotUsed(data))
 {
   /* For the time being, always use the largest possible region
      THEREFORE, DO NOTHING.  THIS IS INCORRECT!!!
