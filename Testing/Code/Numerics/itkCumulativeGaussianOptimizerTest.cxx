@@ -77,8 +77,11 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
   // Print results after each iteration.
   optimizer->SetVerbose(1);
 
+  // Set the data array.
+  optimizer->SetDataArray(cumGaussianArray);
+
   // Start optimization;
-  optimizer->StartOptimization(cumGaussianArray);
+  optimizer->StartOptimization();
  
   // The test passes if the difference between the given parameters and estimated parameters
   // is less than or equal to 0.1.

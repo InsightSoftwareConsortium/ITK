@@ -186,8 +186,11 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   // Print results after each iteration.
   optimizer->SetVerbose(0);
  
+  // Set the data array.
+  optimizer->SetDataArray(normalizedAccumulator);
+
   // Start optimization.
-  optimizer->StartOptimization(normalizedAccumulator);
+  optimizer->StartOptimization();
 
   if(optimizer->GetFitError() < 1e-3)
   {
