@@ -52,7 +52,6 @@
 #include "itkSelectiveSubsampleGenerator.h"
 #include "itkSparseFrequencyContainer.h"
 #include "itkSubsample.h"
-#include "itkTableLookupSampleClassifier.h"
 #include "itkWeightedCenteroidKdTreeGenerator.h"
 #include "itkWeightedCovarianceCalculator.h"
 #include "itkWeightedMeanCalculator.h"
