@@ -75,9 +75,9 @@ namespace itk
  * \ingroup Transforms
  *
  */
-template <class TScalarType=double,  // Only float and double make sense
-          int NDimensions = 3,
-          class TParameters, class TJacobianType>       // Number of dimensions
+template <class TScalarType, // probably only float and double make sense here
+          int NDimensions,   // Number of dimensions
+          class TParameters, class TJacobianType>       
 class ITK_EXPORT KernelTransform : public Transform<TScalarType, 
           NDimensions,NDimensions,TParameters,TJacobianType>
 {
