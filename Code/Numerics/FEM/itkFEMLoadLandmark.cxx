@@ -28,7 +28,7 @@ namespace fem {
 /**
  * Read a LoadLandmark object from the input stream
  */
-void LoadLandmark::Read( std::istream& f, void* info )
+void LoadLandmark::Read( std::istream& f, void*)
 {
   int n1, n2;
   vnl_vector<Float> pu;
