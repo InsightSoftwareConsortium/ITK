@@ -887,7 +887,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   for(CellsContainerIterator i = m_CellsContainer->Begin();
       i != m_CellsContainer->End(); ++i)
     {
-    if(i->Value().GetPointer())
+//    if(i->Value().GetPointer())
+    if( i->Value() )
       {
       i->Value()->Accept(i->Index(), mv);
       }
