@@ -95,22 +95,29 @@ namespace itk {
  *   \sa SegmentationLevelSetImageFilter
  *   \sa LaplacianSegmentationLevelSetFunction,
  *   \sa SparseFieldLevelSetImageFilter */
-template <class TInputImage, class TOutputImage>
+template <class TInputImage,
+          class TFeatureImage,
+          class TOutputPixelType = float>
 class ITK_EXPORT LaplacianSegmentationLevelSetImageFilter
-  : public SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
+  : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 {
 public:
    /** Standard class typedefs */
   typedef LaplacianSegmentationLevelSetImageFilter Self;
-  typedef SegmentationLevelSetImageFilter<TInputImage, TOutputImage> Superclass;
+  typedef SegmentationLevelSetImageFilter<TInputImage, TFeatureImage,
+                                          TOutputPixelType> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Inherited typedef from the superclass. */
   typedef typename Superclass::ValueType ValueType;
+  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::FeatureImageType FeatureImageType;
 
+  
   /** Type of the segmentation function */
-  typedef LaplacianSegmentationLevelSetFunction<TOutputImage> LaplacianFunctionType;
+  typedef LaplacianSegmentationLevelSetFunction<OutputImageType,
+                                                FeatureImageType> LaplacianFunctionType;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(LaplacianSegmenationLevelSetImageFilter, SegmentationLevelSetImageFilter);

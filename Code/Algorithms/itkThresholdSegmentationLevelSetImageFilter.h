@@ -77,22 +77,28 @@ namespace itk {
  *   \sa SegmentationLevelSetImageFilter
  *   \sa ThresholdSegmentationLevelSetFunction,
  *   \sa SparseFieldLevelSetImageFilter */
-template <class TInputImage, class TOutputImage>
+template <class TInputImage,
+          class TFeatureImage,
+          class TOutputPixelType = float >
 class ITK_EXPORT ThresholdSegmentationLevelSetImageFilter
-  : public SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
+  : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 {
 public:
    /** Standard class typedefs */
   typedef ThresholdSegmentationLevelSetImageFilter Self;
-  typedef SegmentationLevelSetImageFilter<TInputImage, TOutputImage> Superclass;
+  typedef SegmentationLevelSetImageFilter<TInputImage, TFeatureImage,
+                                          TOutputPixelType>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Inherited typedef from the superclass. */
   typedef typename Superclass::ValueType ValueType;
-
+  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::FeatureImageType FeatureImageType;
+  
   /** Type of the segmentation function */
-  typedef ThresholdSegmentationLevelSetFunction<TOutputImage> ThresholdFunctionType;
+  typedef ThresholdSegmentationLevelSetFunction<OutputImageType,
+                                                FeatureImageType> ThresholdFunctionType;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ThresholdSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);

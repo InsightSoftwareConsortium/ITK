@@ -19,6 +19,7 @@
 
 #include "itkLaplacianSegmentationLevelSetFunction.h"
 #include "itkLaplacianImageFilter.h"
+#include "itkCastImageFilter.h"
 
 namespace itk {
 
@@ -27,10 +28,14 @@ void LaplacianSegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::CalculateSpeedImage()
 {
 
-  typename LaplacianImageFilter<FeatureImageType, ImageType>::Pointer
-    filter = LaplacianImageFilter<FeatureImageType, ImageType>::New();
+  typename LaplacianImageFilter<ImageType, ImageType>::Pointer
+    filter = LaplacianImageFilter<ImageType, ImageType>::New();
 
-  filter->SetInput(this->GetFeatureImage());
+  typename CastImageFilter<FeatureImageType, ImageType>::Pointer
+    caster = CastImageFilter<FeatureImageType, ImageType>::New();
+
+  caster->SetInput(this->GetFeatureImage());
+  filter->SetInput(caster->GetOutput());
   filter->GraftOutput(this->GetSpeedImage());
   filter->Update();
 }

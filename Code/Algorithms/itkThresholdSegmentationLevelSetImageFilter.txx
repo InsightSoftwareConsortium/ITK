@@ -22,8 +22,8 @@
 namespace itk {
 
 
-template <class TInputImage, class TOutputImage>
-ThresholdSegmentationLevelSetImageFilter<TInputImage, TOutputImage>
+template <class TInputImage, class TFeatureImage, class TOutputType>
+ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
 ::ThresholdSegmentationLevelSetImageFilter()
 {
   m_ThresholdFunction = ThresholdFunctionType::New();
@@ -31,13 +31,11 @@ ThresholdSegmentationLevelSetImageFilter<TInputImage, TOutputImage>
   m_ThresholdFunction->SetLowerThreshold(0);
 
   this->SetSegmentationFunction(m_ThresholdFunction.GetPointer());
-
-
 }
   
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TFeatureImage, class TOutputType>
 void
-ThresholdSegmentationLevelSetImageFilter<TInputImage, TOutputImage>
+ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   //   Superclass::PrintSelf(os, indent);

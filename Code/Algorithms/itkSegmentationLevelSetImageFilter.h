@@ -89,14 +89,12 @@ namespace itk {
  controlling the relative effect of curvature in the calculation.  Default
  value is 1.0.
  
- \todo Use a second input image for the feature image instead of keeping the
- feature image as a parameter.  This may be tricky because the feature image
- may be of a different type as the first input (seed image) and so the default
- pipeline mechanism will have to be modified.  When this is done, however, it
- will allow the feature image to be properly updated in a unified pipeline with
- the seed image.
  */  
-template <class TInputImage, class TOutputImage>
+template <class TInputImage,
+          class TFeatureImage,
+          class TOutputPixelType = float,
+          class TOutputImage = Image<TOutputPixelType,
+                 ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 class ITK_EXPORT SegmentationLevelSetImageFilter
   : public SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 {
@@ -107,18 +105,19 @@ public:
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
- /** Inherited typedef from the superclass. */
+  /** Inherited typedef from the superclass. */
   typedef typename Superclass::ValueType ValueType;
   typedef typename Superclass::IndexType IndexType;
   typedef typename Superclass::TimeStepType TimeStepType;
-  typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename Superclass::InputImageType  InputImageType;
 
-  /** The generic level set function type */
-  typedef SegmentationLevelSetFunction<TOutputImage> SegmentationFunctionType;
+  /** Local image typedefs */
+  typedef TOutputImage   OutputImageType;
+  typedef TFeatureImage FeatureImageType;
 
-  /** Feature image type */
-  typedef typename SegmentationFunctionType::FeatureImageType FeatureImageType;
+  /** The generic level set function type */
+  typedef SegmentationLevelSetFunction<OutputImageType, FeatureImageType>
+      SegmentationFunctionType;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(SegmentationLevelSetImageFilter, SparseFieldLevelSetImageFilter);
@@ -134,19 +133,25 @@ public:
   itkGetMacro(MaximumIterations, unsigned int); 
 
   /** Set/Get the feature image to be used for speed function of the level set
-   *  equation */
+   *  equation.  Equivalent to calling Set/GetInput(1, ..) */
   virtual void SetFeatureImage(FeatureImageType *f)
   {
+    this->ProcessObject::SetNthInput( 1, const_cast< FeatureImageType * >(f) );
     m_SegmentationFunction->SetFeatureImage(f);
-    this->Modified();
   }
-  virtual FeatureImageType * GetFeatureImage() const
-  { return m_SegmentationFunction->GetFeatureImage(); }
+  virtual FeatureImageType * GetFeatureImage()
+  { return ( static_cast< FeatureImageType *>(this->ProcessObject::GetInput(1)) ); }
 
+  /** Set/Get the initial level set model.  Equivalent to calling SetInput(..)
+   */
+  virtual void SetInitialImage(InputImageType *f)
+  {
+    this->SetInput(f);
+  }
+  
   virtual typename SegmentationFunctionType::ImageType *GetSpeedImage() const
   { return m_SegmentationFunction->GetSpeedImage(); }
 
-  
   /** This method reverses the speed function direction, effectively changing
    *  inside feature values to outside feature values and vice versa */
   void SetUseNegativeFeaturesOn()

@@ -21,8 +21,9 @@
 
 namespace itk {
 
-template <class TInputImage, class TOutputImage>
-LaplacianSegmentationLevelSetImageFilter<TInputImage, TOutputImage>
+template <class TInputImage, class TFeatureImage, class TOutputPixelType>
+LaplacianSegmentationLevelSetImageFilter<TInputImage, TFeatureImage,
+                                         TOutputPixelType>
 ::LaplacianSegmentationLevelSetImageFilter()
 {
   m_LaplacianFunction = LaplacianFunctionType::New();
@@ -30,9 +31,10 @@ LaplacianSegmentationLevelSetImageFilter<TInputImage, TOutputImage>
   this->SetSegmentationFunction(m_LaplacianFunction.GetPointer());
 }
   
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TFeatureImage, class TOutputPixelType>
 void
-LaplacianSegmentationLevelSetImageFilter<TInputImage, TOutputImage>
+LaplacianSegmentationLevelSetImageFilter<TInputImage, TFeatureImage,
+                                         TOutputPixelType>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   //   Superclass::PrintSelf(os, indent);

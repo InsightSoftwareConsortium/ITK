@@ -21,9 +21,9 @@
 
 namespace itk {
 
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
 void
-SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -34,10 +34,11 @@ SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
   os << indent << "m_CurvatureScaling = "   << m_CurvatureScaling  << std::endl;  
 }
 
-template <class TInputImage, class TOutputImage>
-SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
+template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
 ::SegmentationLevelSetImageFilter()
 {
+  this->SetNumberOfRequiredInputs(2);
   this->SetNumberOfLayers(ImageDimension);
   m_SegmentationFunction = 0;
   m_FeatureScaling = NumericTraits<ValueType>::One;
@@ -51,9 +52,9 @@ SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
   m_UseNegativeFeatures = false;
 }
 
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
 void
-SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
 ::SetSegmentationFunction(SegmentationFunctionType *s)
 {
   unsigned int i;
@@ -68,9 +69,9 @@ SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
   this->Modified();
 }
 
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
 void
-SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
 ::GenerateData()
 {
   if (m_SegmentationFunction == 0)
@@ -100,9 +101,9 @@ SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
   Superclass::GenerateData();
 }
 
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>
 bool
-SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
 ::Halt()
 {
   if (this->GetElapsedIterations() >= m_MaximumIterations)
