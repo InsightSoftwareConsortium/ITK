@@ -26,7 +26,6 @@
 
 #include "itkAntiAliasBinaryImageFilter.h"
 #include "itkBalloonForceFilter.h"
-#include "itkBalloonForce3DFilter.h"
 #include "itkBinaryMask3DMeshSource.h"
 #include "itkBinaryMinMaxCurvatureFlowFunction.h"
 #include "itkBinaryMinMaxCurvatureFlowImageFilter.h"
@@ -36,9 +35,6 @@
 #include "itkCurvatureFlowFunction.h"
 #include "itkCurvatureFlowImageFilter.h"
 #include "itkDeformableMesh3DFilter.h"
-#if 0
-#include "itkDeformableMeshFilter.h"
-#endif
 #include "itkDemonsRegistrationFilter.h"
 #include "itkDemonsRegistrationFunction.h"
 #include "itkExtensionVelocitiesImageFilter.h"
@@ -115,10 +111,6 @@ int itkAlgorithmsPrintTest(int , char* [])
     itk::BalloonForceFilter<MeshType,MeshType>::New();
   std:: cout << "-------------BalloonForceFilter " << BalloonForceFilterObj;
 
-  itk::BalloonForce3DFilter<MeshType,MeshType>::Pointer BalloonForce3DFilterObj =
-    itk::BalloonForce3DFilter<MeshType,MeshType>::New();
-  std:: cout << "-------------BalloonForce3DFilter " << BalloonForce3DFilterObj;
-
   itk::BinaryMask3DMeshSource<MeshType>::Pointer BinaryMask3DMeshSourceObj =
     itk::BinaryMask3DMeshSource<MeshType>::New();
   std:: cout << "-------------BinaryMask3DMeshSource " << BinaryMask3DMeshSourceObj;
@@ -154,11 +146,7 @@ int itkAlgorithmsPrintTest(int , char* [])
   itk::DeformableMesh3DFilter<MeshType,MeshType>::Pointer DeformableMesh3DFilterObj =
     itk::DeformableMesh3DFilter<MeshType,MeshType>::New();
   std:: cout << "-------------DeformableMesh3DFilter " << DeformableMesh3DFilterObj;
-#if 0
-  itk::DeformableMeshFilter<MeshType,MeshType>::Pointer DeformableMeshFilterObj =
-    itk::DeformableMeshFilter<MeshType,MeshType>::New();
-  std:: cout << "-------------DeformableMeshFilter " << DeformableMeshFilterObj;
-#endif
+
   itk::DemonsRegistrationFilter<InputType,OutputType,VectorImageType>::Pointer DemonsRegistrationFilterObj =
     itk::DemonsRegistrationFilter<InputType,OutputType,VectorImageType>::New();
   std:: cout << "-------------DemonsRegistrationFilter " << DemonsRegistrationFilterObj;
