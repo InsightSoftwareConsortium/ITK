@@ -73,10 +73,11 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
   OutputPointsContainerPointer outPoints = outputMesh->GetPoints();
 
   outPoints->Reserve( inputMesh->GetNumberOfPoints() );
-  outPoints->Squeeze();
+  outPoints->Squeeze();  // in case the previous mesh had 
+                         // allocated a larger memory
 
   typename InputPointsContainer::ConstIterator  inputPoint  = inPoints->Begin();
-  typename OutputPointsContainer::Iterator outputPoint = outPoints->Begin();
+  typename OutputPointsContainer::Iterator      outputPoint = outPoints->Begin();
 
   while( inputPoint != inPoints->End() ) 
   {
@@ -88,6 +89,20 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
     ++outputPoint;
   }
 
+
+  // Create duplicate references to the rest of data on the mesh
+
+  outputMesh->SetPointData(  inputMesh->GetPointData() );
+  
+  outputMesh->SetCellLinks(  inputMesh->GetCellLinks() );
+  
+  outputMesh->SetCells(  inputMesh->GetCells() );
+  outputMesh->SetCellData(  inputMesh->GetCellData() );
+  
+  outputMesh->SetBoundaries(  inputMesh->GetBoundaries() );
+  outputMesh->SetBoundarieData(  inputMesh->GetBoundarieData() );
+
+  
 }
 
 
