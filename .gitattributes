@@ -1,5 +1,6 @@
 .git*            export-ignore
 
+*.pdf           -crlf
 Configure.tcl.in  crlf=input
 configure        crlf=input
 install-sh       crlf=input
