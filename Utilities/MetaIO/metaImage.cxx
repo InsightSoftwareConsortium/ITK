@@ -503,7 +503,7 @@ ConvertElementDataTo(MET_ValueEnumType _elementType,
     }
 
   if(m_AutoFreeElementData)
-    delete [] m_ElementData;
+    delete [] (char *)m_ElementData;
   m_ElementData = newElementData;
   m_ElementType = _elementType;
   m_ElementMinMaxValid = true;

@@ -530,7 +530,7 @@ M_Read(void)
  
     if(posID >= 0 && posID < pntDim)
     {
-      pnt->m_ID = v[posID];
+      pnt->m_ID = (int)v[posID];
     }
  
     m_PointList.push_back(pnt);
