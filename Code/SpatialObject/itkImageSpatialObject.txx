@@ -170,8 +170,7 @@ ImageSpatialObject< TDimension,  PixelType >
 }
 
 /** Get the image inside the spatial object */
-template< unsigned int TDimension, class PixelType, 
-          unsigned int SpaceDimension >
+template< unsigned int TDimension, class PixelType >
 typename ImageSpatialObject< TDimension,  PixelType >::ImageType *
 ImageSpatialObject< TDimension,  PixelType >
 ::GetImage( void )

@@ -482,7 +482,7 @@ SpatialObject< TDimension >
 
   if(m_Parent)
   {
-    m_Transform->Compose(dynamic_cast<const SpatialObject<TDimension, SpaceDimension>*>(m_Parent)->GetGlobalTransform()->Inverse(),true);
+    m_Transform->Compose(dynamic_cast<const SpatialObject<TDimension>*>(m_Parent)->GetGlobalTransform()->Inverse(),true);
   }
 }
 
