@@ -213,7 +213,7 @@ public:
    * A depth of 0 returns the immediate childred. A depth of 1 returns the
    * children and those children's children. */ 
   virtual ChildrenListType * GetChildren( unsigned int depth=0,
-                                          char * name = NULL);
+                                          char * name = NULL) const;
 
   /** Returns the number of children currently assigned to the object. */ 
   unsigned int GetNumberOfChildren( unsigned int depth=0,

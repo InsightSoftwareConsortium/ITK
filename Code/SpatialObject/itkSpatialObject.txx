@@ -656,7 +656,7 @@ template< unsigned int NDimensions, unsigned int SpaceDimension >
 typename SpatialObject< NDimensions, SpaceDimension>::ChildrenListType *
 SpatialObject< NDimensions, SpaceDimension>
 ::GetChildren( unsigned int depth, 
-               char * name)
+               char * name) const
 {
   ChildrenListType * children = new ChildrenListType;
 
