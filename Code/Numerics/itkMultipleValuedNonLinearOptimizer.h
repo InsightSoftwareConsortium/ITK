@@ -52,9 +52,19 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   /**
-   * VectorType typedef.
+   * VectorType typedef. This type is used to represent
+   * the input parameters of the function, as well as
+   * the output vales.
    */
   typedef   vnl_vector<double>     VectorType;
+
+  /**
+   * MatrixType typedef. This type is used to represent
+   * the derivatives of the output values with respect
+   * to the input parameters of the function
+   */
+  typedef   vnl_matrix<double>     MatrixType;
+
 
  /** 
    * Run-time type information (and related methods).
@@ -102,7 +112,7 @@ public:
        *  Delegate computation of the gradient to the CostFunction
        */
       virtual void gradf(const VectorType & parameters,
-                               VectorType & gradient ) {
+                               MatrixType & gradient ) {
         if( !m_CostFunction )
         {
           throw ExceptionObject();
@@ -114,7 +124,7 @@ public:
        */
       virtual void compute(const VectorType & x,
                                  VectorType * f, 
-                                 VectorType * g ) {
+                                 MatrixType * g ) {
         // delegate the computation to the CostFunction
         m_CostFunction->GetValue( x, *f );
       }
