@@ -16,8 +16,10 @@
 #ifndef __itkMeanSquaresImageToImageMetric_h
 #define __itkMeanSquaresImageToImageMetric_h
 
-#include "itkObject.h"
-#include "itkVectorContainer.h"
+#include "itkSimilarityRegistrationMetric.h"
+#include "itkCovariantVector.h"
+#include "itkPoint.h"
+
 
 namespace itk
 {
@@ -32,14 +34,13 @@ namespace itk
  * class computes a value(s) that measures the similarity of the target
  * against the reference object once the transformation is applied to it.
  *
- * The class is templated over the kind of value that can be produced as
- * measure of similarity. That allows to cover methods that produce residuals
- * as well as methods that produces just one double as result.
  */
 
-template < class TTarget, class TMapper,class TMeasure,
-          class TDerivative > 
-class ITK_EXPORT MeanSquaresImageToImageMetric : public Object 
+template < class TTarget, class TMapper > 
+class ITK_EXPORT MeanSquaresImageToImageMetric : 
+public SimilarityRegistrationMetric< typename TMapper::DomainType,
+                                     TTarget, TMapper, double,
+                                     CovariantVector<double, TMapper::SpaceDimension > >
 
 {
 public:
@@ -49,9 +50,32 @@ public:
   typedef MeanSquaresImageToImageMetric  Self;
 
   /**
+   * Space dimension is the dimension of parameters space
+   */
+  enum { ParametersDimension = TMapper::SpaceDimension };
+  enum { RangeDimension = 9};
+
+
+  /**
+   *  Type of the match measure
+   */
+  typedef double			        MeasureType;
+ 
+
+  /**
+   *  Type of the derivative of the match measure
+   */
+  typedef CovariantVector<MeasureType,
+                          ParametersDimension >  DerivativeType;
+
+
+  /**
    * Standard "Superclass" typedef.
    */
-  typedef Object  Superclass;
+  typedef SimilarityRegistrationMetric< 
+                       typename TMapper::DomainType,
+                       TTarget, TMapper,
+                       MeasureType,DerivativeType >  Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -83,56 +107,27 @@ public:
  
 
   /**
-   *  Type of the match measure
-   */
-  typedef TMeasure			 MeasureType;
- 
-
-  /**
-   *  Type of the derivative of the match measure
-   */
-  typedef VectorContainer<unsigned int,TDerivative>  DerivativeType;
-
-
-  /**
-   *  Pointer to the derivative of the match measure
-   */
-  typedef  typename DerivativeType::Pointer       DerivativePointer;
-
-
-
-  typedef itk::VectorContainer<unsigned int,TMeasure> VectorMeasureType;
-
-  typedef typename VectorMeasureType::Pointer      VectorMeasurePointer;
-
-  /**
    *  Pointer type for the Reference 
    */
-  typedef typename ReferenceType::Pointer ReferencePointer;
+  typedef typename ReferenceType::Pointer         ReferencePointer;
 
 
   /**
    *  Pointer type for the Target 
    */
-  typedef typename TargetType::Pointer TargetPointer;
+  typedef typename TargetType::Pointer            TargetPointer;
 
 
   /**
    *  Pointer type for the Mapper
    */
-  typedef typename MapperType::Pointer MapperPointer;
+  typedef typename MapperType::Pointer            MapperPointer;
 
 
   /**
    *  Parameters type
    */
-  typedef itk::VectorContainer<unsigned int,double> ParametersType;
-
-
-  /**
-   *  Pointer to Parameters type
-   */
-  typedef typename ParametersType::Pointer    ParametersPointer;
+  typedef typename  TMapper::ParametersType       ParametersType;
 
 
   /** 
@@ -147,60 +142,30 @@ public:
   itkNewMacro(Self);
  
   /**
-   * Connect the Target 
-   */
-  void SetTarget( TargetType * );
-
-  /**
-   * Connect the Mapper
-   */
-  void SetMapper( MapperType * );
-
-  /**
    * Get the Derivatives of the Match Measure
    */
-  DerivativePointer GetDerivative( void );
+  const DerivativeType & GetDerivative( const ParametersType & parameters );
 
   /**
    *  Get the Value for SingleValue Optimizers
    */
-  MeasureType    GetValue( void );
+  MeasureType    GetValue( const ParametersType & parameters );
 
-  /**
-   *  Get the Value for MultipleValuedOptimizers
-   */
-   void  GetValue(VectorMeasureType::Pointer &);
 
   /**
    *  Get Value and Derivatives for MultipleValuedOptimizers
    */
-   void GetValueAndDerivative(MeasureType & Value, DerivativeType  & Derivative );
+   void GetValueAndDerivative( const ParametersType & parameters,
+       MeasureType & Value, DerivativeType  & Derivative );
 
-  /**
-   * Get Parameters
-   */
-   const ParametersType::Pointer & GetParameters( void ) const {return m_Parameters;}
-  
-  /**
-   * Space dimension is the dimension of parameters space
-   */
-   enum { SpaceDimension = TMapper::SpaceDimension };    
-   enum { RangeDimension = 9};
-
+ 
 protected:
-
-  ReferencePointer            m_Reference;
-  TargetPointer               m_Target;
-  MapperPointer               m_Mapper;
-  MeasureType                 m_MatchMeasure;
-  VectorMeasurePointer        m_VectorMatchMeasure;        
-  DerivativePointer           m_MatchMeasureDerivatives;
-  ParametersPointer           m_Parameters;
 
   MeanSquaresImageToImageMetric();
   virtual ~MeanSquaresImageToImageMetric() {};
   MeanSquaresImageToImageMetric(const Self&) {}
   void operator=(const Self&) {}
+
 };
 
 } // end namespace itk
