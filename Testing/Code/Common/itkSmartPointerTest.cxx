@@ -45,6 +45,12 @@ public:
     return os;
     }
   
+  std::ostream Print(std::ostream& os) const
+    {
+    os << "itkTestObject " << (void*)this << " " << this->m_ReferenceCount; 
+    return os;
+    }   
+
 protected:
   itkTestObject() 
     {
@@ -85,7 +91,7 @@ int main()
   o4 = o1;
   if ( o1 < o2 )
     {
-    std::cout << "o1 is < o2 " << &o1 << " " << &o2 << std::endl;
+    std::cout << "o1 is < o2 " << o1 << " " << o2 << std::endl;
     }
   else
     {

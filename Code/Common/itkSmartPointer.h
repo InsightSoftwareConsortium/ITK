@@ -137,7 +137,20 @@ public:
     return *this;
     }
 
+  /** 
+   * Function to print object pointed to 
+   */
+  T *Print (std::ostream& os) const 
+    { 
+    // This prints the object pointed to by the pointer  
+    (*m_Pointer).Print(os);  
+        return m_Pointer;
+    } 
+
 private:
+  /* The pointer to the object referrred to by this smart pointer. */
+  T* m_Pointer;
+
   void Register()
     { 
     if (m_Pointer)
@@ -154,8 +167,11 @@ private:
       }
     }
   
-private:
-  T* m_Pointer;
+  inline friend std::ostream& operator<< (std::ostream& os, itkSmartPointer p) 
+    {
+    p.Print(os); 
+    return os;
+    }
 };
 
 #endif
