@@ -217,9 +217,6 @@ int main()
   vnlOptimizer.set_epsilon_function( Epsilon_Function );
   vnlOptimizer.set_max_function_evals( Max_Iterations );
 
-  vnlOptimizer.set_trace( true );
-  vnlOptimizer.set_verbose( true );
-    
   // We start not so far from the solution 
   typedef CostFunction::ParametersType ParametersType;
   ParametersType initialValue;
