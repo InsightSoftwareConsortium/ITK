@@ -41,41 +41,6 @@
 #include "vcl_hashtable.h"
 #include <functional>
 
-# if defined(xxxVCL_SUNPRO_CC) || defined (_MSC_VER)
-template <class T>
-struct vcl_identity : public vcl_unary_function<T, T> {
-  public:
-    const T& operator()(const T& x) const { return x; }
-};
-
-template <class _Pair>
-struct vcl_Select1st : public vcl_unary_function<_Pair, typename _Pair::first_type> {
-  typename _Pair::first_type const & operator()(_Pair const & __x) const {
-    return __x.first;
-  }
-};
- 
-template <class _Pair>
-struct vcl_Select2nd : public vcl_unary_function<_Pair, typename _Pair::second_type> {
-  typename _Pair::second_type const & operator()(_Pair const & __x) const {
-    return __x.second;
-  }
-};
-
-// Add select* to std.
-namespace std {
-  template <class _Pair>
-  struct select1st : public vcl_Select1st<_Pair> { };
-  template <class _Pair> struct select2nd : public vcl_Select2nd<_Pair> { };
-};
-
-#else
-// added for itk compatability
-#ifndef vcl_identity
-#define vcl_identity std::identity
-#endif
-#endif
-
 // The following are added for itk compatability:
 #define __WORKAROUND_RENAME(X) X
 #define __FULL_NAME(X) __WORKAROUND_RENAME(X)

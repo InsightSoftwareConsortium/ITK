@@ -1060,4 +1060,45 @@ void vcl_hashtable_base<Value, Alloc>::copy_from(const vcl_hashtable_base<Value,
 # undef __key_type__        
 # undef __node__            
 
+// the following is added for itk compatability:
+#include <functional>
+// --
+
+// A few compatability fixes.  Placed here for automatic include in
+// both the vcl_hash_set and the vcl_hash_map sources.
+# if defined(xxxVCL_SUNPRO_CC) || defined (_MSC_VER)
+template <class T>
+struct vcl_identity : public vcl_unary_function<T, T> {
+  public:
+    const T& operator()(const T& x) const { return x; }
+};
+
+template <class _Pair>
+struct vcl_Select1st : public vcl_unary_function<_Pair, typename _Pair::first_type> {
+  typename _Pair::first_type const & operator()(_Pair const & __x) const {
+    return __x.first;
+  }
+};
+ 
+template <class _Pair>
+struct vcl_Select2nd : public vcl_unary_function<_Pair, typename _Pair::second_type> {
+  typename _Pair::second_type const & operator()(_Pair const & __x) const {
+    return __x.second;
+  }
+};
+
+// Add select* to std.
+namespace std {
+  template <class _Pair>
+  struct select1st : public vcl_Select1st<_Pair> { };
+  template <class _Pair> struct select2nd : public vcl_Select2nd<_Pair> { };
+};
+
+#else
+// added for itk compatability
+#ifndef vcl_identity
+#define vcl_identity std::identity
+#endif
+#endif
+
 #endif // vcl_emulation_hashtable_h

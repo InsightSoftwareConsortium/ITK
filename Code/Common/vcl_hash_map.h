@@ -40,11 +40,6 @@
 
 #include <vcl_functional.h>
 
-// the following is added for itk compatability:
-#include <functional>
-// --
-
-//#include <vcl_alloc.h>
 #include "vcl_hashtable.h"
 //#include "vcl_alloc.h" --> #include "alloc.h", itk compatability
 #include "vcl_alloc.h"
