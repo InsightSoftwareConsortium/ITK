@@ -58,7 +58,10 @@ SpatialObjectWriter<NDimensions,PixelType>
     if(m_SpatialObject.IsNotNull())
       {
       typename SceneType::Pointer tScene = SceneType::New();
-      tScene->AddSpatialObject(m_SpatialObject);
+      tScene->AddSpatialObject(m_SpatialObject);   
+      // Check if IDs are valid because IDs are used to determine parent-child hierarchy
+      tScene->FixIdValidity();
+
       m_MetaToSpatialConverter.WriteMeta(tScene,
                                          m_FullFileName.c_str());
       m_SpatialObject = 0;

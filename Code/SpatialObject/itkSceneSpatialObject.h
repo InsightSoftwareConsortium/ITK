@@ -92,6 +92,9 @@ public:
   SpatialObject<SpaceDimension> * GetObjectById(int Id);
 
   bool FixHierarchy(void);
+  bool CheckIdValidity(void);
+  void FixIdValidity(void);
+  int GetNextAvailableId();
 
 protected: 
 

@@ -298,6 +298,108 @@ SceneSpatialObject<SpaceDimension>
   return ret;
 }
 
+
+
+/** Check if the parent objects have a defined ID */
+template <unsigned int SpaceDimension>
+bool
+SceneSpatialObject<SpaceDimension>
+::CheckIdValidity(void)
+{
+  typename ObjectListType::iterator it = m_Objects.begin();
+  typename ObjectListType::iterator itEnd = m_Objects.end();
+
+  bool ret = true;
+  while( it != itEnd)
+    {
+    // For every object in the scene we check the ID validity
+    typename ObjectType::ChildrenListType* children = (*it)->GetChildren();
+    typename ObjectType::ChildrenListType::const_iterator itChild = children->begin();
+    
+    while( itChild != children->end())
+      {
+      if( (*itChild)->HasParent())
+        {
+        if((*itChild)->GetParent()->GetId()<0)
+          {
+          delete children;
+          return false;
+          }
+        }
+      itChild++;
+      }
+    delete children;
+    it++;
+    }
+  return ret;
+}
+
+template <unsigned int SpaceDimension>
+void
+SceneSpatialObject<SpaceDimension>
+::FixIdValidity(void)
+{
+  typename ObjectListType::iterator it = m_Objects.begin();
+  typename ObjectListType::iterator itEnd = m_Objects.end();
+
+  bool ret = true;
+  while( it != itEnd)
+    {
+    // For every object in the scene we check the ID validity
+    typename ObjectType::ChildrenListType* children = (*it)->GetChildren();
+    typename ObjectType::ChildrenListType::iterator itChild = children->begin();
+    
+    while( itChild != children->end())
+      {
+      if( (*itChild)->HasParent())
+        {
+        if((*itChild)->GetParent()->GetId()<0)
+          {
+          (*itChild)->GetParent()->SetId(this->GetNextAvailableId());
+          }
+        }
+      itChild++;
+      }
+    delete children;
+    it++;
+    }
+}
+
+
+/** Return the next available Id. For speed reason the MaxID+1 is returned*/
+template <unsigned int SpaceDimension>
+int
+SceneSpatialObject<SpaceDimension>
+::GetNextAvailableId()
+{
+  int Id = 0;
+
+  typename ObjectListType::iterator it = m_Objects.begin();
+  typename ObjectListType::iterator itEnd = m_Objects.end();
+
+  bool ret = true;
+  while( it != itEnd)
+    {
+    typename ObjectType::ChildrenListType* children = (*it)->GetChildren();
+    typename ObjectType::ChildrenListType::iterator itChild = children->begin();
+    
+    while( itChild != children->end())
+      {
+      if((*itChild)->GetId() >= Id)
+        {
+        Id = (*itChild)->GetId()+1;
+        }
+      itChild++;
+      }
+    delete children;
+    it++;
+    }
+
+  return Id;
+
+}
+
+
 } // end of namespace itk 
 
 #endif
