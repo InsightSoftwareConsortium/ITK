@@ -650,9 +650,9 @@ int main( int argc, char *argv[] )
   //  \doxygen{SpatialObject} type. The spatial object in this case is the
   //  group of spatial objects.
   //
-  //  \index{itk::ImageToSpatialObjectRegistrationMethod!Instantiation}
-  //  \index{itk::ImageToSpatialObjectRegistrationMethod!New()}
-  //  \index{itk::ImageToSpatialObjectRegistrationMethod!Pointer}
+  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!Instantiation}
+  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!New()}
+  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -697,7 +697,7 @@ int main( int argc, char *argv[] )
   //
   //  The following lines instantiate the evolutionary optimizer.
   //
-  //  \index{itk::OnePlusOneEvolutionaryOptimizer!Instantiation}
+  //  \index{itk::One\-Plus\-One\-Evolutionary\-Optimizer!Instantiation}
   // 
   //  Software Guide : EndLatex 
 
@@ -817,12 +817,12 @@ int main( int argc, char *argv[] )
   //  As input image we provide the blurred version of the synthetic binary
   //  image created originally. 
   //
-  //  \index{itk::ImageToSpatialObjectRegistrationMethod!SetFixedImage()}
-  //  \index{itk::ImageToSpatialObjectRegistrationMethod!SetMovingSpatialObject()}
-  //  \index{itk::ImageToSpatialObjectRegistrationMethod!SetTransform()}
-  //  \index{itk::ImageToSpatialObjectRegistrationMethod!SetInterpolator()}
-  //  \index{itk::ImageToSpatialObjectRegistrationMethod!SetOptimizer()}
-  //  \index{itk::ImageToSpatialObjectRegistrationMethod!SetMetric()}
+  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!SetFixedImage()}
+  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!SetMovingSpatialObject()}
+  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!SetTransform()}
+  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!SetInterpolator()}
+  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!SetOptimizer()}
+  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!SetMetric()}
   //
   //  Software Guide : EndLatex 
 
@@ -885,7 +885,7 @@ int main( int argc, char *argv[] )
   //  \code{try/catch} block in case any exception is thrown during the
   //  process.
   //
-  //  \index{itk::ImageToSpatialObjectRegistrationMethod!StartRegistration()}
+  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!StartRegistration()}
   //
   //  Software Guide : EndLatex 
 
@@ -912,7 +912,7 @@ int main( int argc, char *argv[] )
   //  current example, the \doxygen{Euler2DTransform} has three parameters:
   //  the rotation angle, the translation in $x$ and the translation in $y$.
   //
-  //  \index{itk::ImageToSpatialObjectRegistrationMethod!StartRegistration()}
+  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!StartRegistration()}
   //
   //  Software Guide : EndLatex 
 
