@@ -27,7 +27,6 @@ int itkCropImageFilterTest(int, char**)
   itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);
 
-  int nextVal;
 
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   SimpleImage;
@@ -45,7 +44,7 @@ int itkCropImageFilterTest(int, char**)
   ShortImage::IndexType  index = {{0, 0}};
   ShortImage::SizeType   size = {{8, 12}};
   ShortImage::RegionType region;
-  int row, column;
+
   region.SetSize( size );
   region.SetIndex( index );
   if2->SetLargestPossibleRegion( region );
@@ -68,7 +67,7 @@ int itkCropImageFilterTest(int, char**)
   extract->SetInput( if2 );
   
   ShortImage::RegionType requestedRegion;
-  bool passed;
+  
   ShortImage::SizeType   extractSize = {{8, 12}};  
   extractSize[0] = 1; extractSize[1] = 1;
   extract->SetUpperBoundaryCropSize(extractSize);
