@@ -83,14 +83,17 @@ ImageMapper<TImage,TTransformation>
     
     if( index[i] < m_Start[i] )
     { 
-
-      throw MapperException();
-	}
+      MapperException outOfImage;
+      outOfImage.SetLocation("Evaluate()");
+      throw outOfImage;
+    }
     
     if( index[i] >= m_Start[i] + m_Size[i] ) 
     {
-      throw MapperException();
-	}
+      MapperException outOfImage;
+      outOfImage.SetLocation("Evaluate()");
+      throw outOfImage;
+    }
   }
 
   const double value = m_Interpolator->Evaluate( index );
