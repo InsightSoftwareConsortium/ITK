@@ -252,8 +252,12 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   Superclass::PrintSelf(os, indent);
   os << indent << "Weight: " << m_Weight << std::endl;
   os << indent << "Threshold: " << m_Threshold << std::endl;
-  os << indent << "Inside  value: " << m_InsideValue  << std::endl;
-  os << indent << "Outside value: " << m_OutsideValue << std::endl;
+  os << indent << "Inside  value: " 
+     << NumericTraits<OutputPixelType>::PrintType(m_InsideValue)
+     << std::endl;
+  os << indent << "Outside value: "
+     << NumericTraits<OutputPixelType>::PrintType(m_OutsideValue)
+     << std::endl;
   os << indent << "Object seed : " << m_ObjectSeed << std::endl;
 }
 

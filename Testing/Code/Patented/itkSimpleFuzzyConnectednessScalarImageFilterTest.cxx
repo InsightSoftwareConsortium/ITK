@@ -133,25 +133,29 @@ int itkSimpleFuzzyConnectednessScalarImageFilterTest(int, char* [] ){
 /* printout the segmentation result */
   std::cout<<"Segmentation Result"<<std::endl;
   itk::ImageRegionIteratorWithIndex <BinaryImage2D> ot(testFuzzy->GetOutput(), region);
-  for(i = 0;i < HEIGHT; i++){
-    for (j = 0; j < WIDTH; j++){
-      std::cout<<ot.Get();
+  for(i = 0;i < HEIGHT; i++)
+    {
+    for (j = 0; j < WIDTH; j++)
+      {
+      std::cout <<itk::NumericTraits<BinaryImage2D::PixelType>::PrintType(ot.Get()) << " ";
       ++ot;
-    }
+      }
     std::cout<<std::endl;
-  }
+    }
 
 
   testFuzzy->UpdateThreshold(0.8);
   std::cout<<std::endl<<"Update threshold"<<std::endl;
   ot.GoToBegin();
-  for(i = 0;i < HEIGHT; i++){
-    for (j = 0; j < WIDTH; j++){
-      std::cout<<ot.Get();
+  for(i = 0;i < HEIGHT; i++)
+    {
+    for (j = 0; j < WIDTH; j++)
+      {
+      std::cout <<itk::NumericTraits<BinaryImage2D::PixelType>::PrintType(ot.Get()) << " ";
       ++ot;
-    }
+      }
     std::cout<<std::endl;
-  }
+    }
 
   return EXIT_SUCCESS;
 }
