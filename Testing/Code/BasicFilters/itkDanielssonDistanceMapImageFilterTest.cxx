@@ -40,8 +40,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 
 #include <itkImage.h>
-#include <itkSimpleImageRegionIterator.h>
-#include <itkImageSliceConstIterator.h>
+#include <itkImageRegionIteratorWithIndex.h>
+#include <itkImageSliceConstIteratorWithIndex.h>
 #include <itkDanielssonDistanceMapImageFilter.h>
 
 
@@ -78,8 +78,8 @@ int main()
    * The ClosestPoints computation is based on the value of the pixel.
    */
 
-  typedef  itk::SimpleImageRegionIterator<myImageType2D1> myIteratorType2D1;
-  typedef  itk::SimpleImageRegionIterator<myImageType2D2> myIteratorType2D2;
+  typedef  itk::ImageRegionIteratorWithIndex<myImageType2D1> myIteratorType2D1;
+  typedef  itk::ImageRegionIteratorWithIndex<myImageType2D2> myIteratorType2D2;
 
   myIteratorType2D1 it2D1(inputImage2D,region2D);
 
