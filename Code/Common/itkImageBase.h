@@ -334,13 +334,15 @@ protected:
   void ComputeOffsetTable();
 
 protected:
+  /** Origin and spacing of physical coordinates. This variables are
+   * protected for efficiency.  They are referenced frequently by
+   * inner loop calculations. */
+  SpacingType  m_Spacing;
+  PointType   m_Origin;
+
 private:
   ImageBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  /** Origin and spacing of physical coordinates. */
-  SpacingType  m_Spacing;
-  PointType   m_Origin;
 
   OffsetValueType  m_OffsetTable[VImageDimension+1];
 
