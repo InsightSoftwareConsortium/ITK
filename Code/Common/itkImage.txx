@@ -186,6 +186,8 @@ Image<TPixel, VImageDimension>
 {
   Superclass::PrintSelf(os,indent);
   
+  os << indent << "Origin: " << m_Origin << std::endl;
+  os << indent << "Spacing: " << m_Spacing << std::endl;
   os << indent << "PixelContainer: " << m_Buffer << std::endl;
 }
 
