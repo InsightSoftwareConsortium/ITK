@@ -192,7 +192,8 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
   
   // variable used to keep track of propagation
   m_RegionNumber = 0;
-  unsigned long maxCellsInRegion=0, largestRegionId;
+  unsigned long maxCellsInRegion=0;
+  unsigned long largestRegionId;
 
   int tenth = numCells/10 + 1;
   int cellId=0;
@@ -361,7 +362,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
     {
     for (cell=inCells->Begin(); cell != inCells->End(); ++cell, ++cellId)
       {
-      if ( m_Visited[cellId] == largestRegionId )
+      if ( m_Visited[cellId] == static_cast<long>(largestRegionId) )
         {
         outCells->InsertElement(cellId,cell->Value());
         outCellData->InsertElement(cellId,cellData->Value());
