@@ -218,8 +218,8 @@ public:
     { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
   
   /** Return a pointer to the container. */
-  PixelContainerPointer GetPixelContainer()
-    { return m_Buffer; }
+  PixelContainer* GetPixelContainer()
+    { return m_Buffer.GetPointer(); }
 
   /** Set the container to use. Note that this does not cause the
    * DataObject to be modified. */
