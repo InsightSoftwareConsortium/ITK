@@ -30,10 +30,6 @@ namespace _cable_
                      itkCurvatureAnisotropicDiffusionImageFilterF2F2);
     ITK_WRAP_OBJECT2(CurvatureAnisotropicDiffusionImageFilter, image::F3, image::F3,
                      itkCurvatureAnisotropicDiffusionImageFilterF3F3);
-    ITK_WRAP_OBJECT2(CurvatureAnisotropicDiffusionImageFilter, image::US2, image::US2,
-                     itkCurvatureAnisotropicDiffusionImageFilterUS2US2);
-    ITK_WRAP_OBJECT2(CurvatureAnisotropicDiffusionImageFilter, image::US3, image::US3,
-                     itkCurvatureAnisotropicDiffusionImageFilterUS3US3);
   }
 }
 

@@ -30,10 +30,6 @@ namespace _cable_
                                      itkGradientAnisotropicDiffusionImageFilterF2F2);
     ITK_WRAP_OBJECT2(GradientAnisotropicDiffusionImageFilter, image::F3, image::F3, 
                                      itkGradientAnisotropicDiffusionImageFilterF3F3);
-    ITK_WRAP_OBJECT2(GradientAnisotropicDiffusionImageFilter, image::US2, image::US2, 
-                                     itkGradientAnisotropicDiffusionImageFilterUS2US2);
-    ITK_WRAP_OBJECT2(GradientAnisotropicDiffusionImageFilter, image::US3, image::US3, 
-                                     itkGradientAnisotropicDiffusionImageFilterUS3US3);
     
   }
 }
