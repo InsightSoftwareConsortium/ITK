@@ -48,6 +48,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLightObject.cxx
   itkFEMException.cxx
   itkFEMUtility.cxx
+  itkFEMInitialization.cxx
 
 )
 
@@ -102,6 +103,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMMacro.h
   itkFEMUtility.h
   itkFEMException.h
+  itkFEMInitialization.h
 
   itkVisitorDispatcher.h
 

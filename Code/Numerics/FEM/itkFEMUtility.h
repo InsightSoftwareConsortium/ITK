@@ -75,14 +75,6 @@ public:
 
 
 
-/**
- * \brief Register all Load implementations of all Element classes.
- *
- * \note This function must be called before FEM library can be used!
- */
-extern void LoadImplementationsRegister(void);
-
-
 
 }} /* end namespace itk */
 

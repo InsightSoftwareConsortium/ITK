@@ -1,7 +1,7 @@
 #ifndef __VisitorDispatcher_h
 #define __VisitorDispatcher_h
 
-#include <typeinfo.h>
+#include <typeinfo>
 #include <map>
 
 
@@ -62,8 +62,7 @@
  *      };
  *
  *    Since this code is the same for all derived element classes, you should
- *    probably put it in the macro. For basic visitors you can use the
- *    macro provided with the definition of the VisitorDispatcher class.
+ *    probably put it in the macro.
  *
  * 3. Register each visitor class with the VisitorDispatcher class before it
  *    is called. This is done by calling the member function RegisterVisitor
@@ -175,7 +174,7 @@ public:
    *            VisitorDispatcher<...>::Add<MyVisitorClass>(...),
    *            but MS C compiler crashes if we do this. This is
    *            a work around. You should pass null pointer casted
-   *            to the TVisitorClass.
+   *            to the TVisitorClass when calling this function.
    *
    * \param visitor_function Pointer to a visitor function.
    *
@@ -188,7 +187,7 @@ public:
     if ( Instance().visitors.insert(VisitorsArrayType::value_type(&typeid(VisitorClass),visitor_function)).second )
     {
       // Visitor class was successfully registered
-      std::cout<<"Visitor "<<typeid(VisitorClass).name()<<" that operates on objects of "<<typeid(VisitedClass).name()<<" was sucessfully registered\n";
+//      std::cout<<"Visitor "<<typeid(VisitorClass).name()<<" ("<<typeid(VisitedClass).name()<<") registered.\n";
 //      std::cout<<"Debug info: "<<typeid(TVisitedClass).name()<<", "<<typeid(TVisitorBase).name()<<", "<<typeid(TReturnType).name()<<"\n";
       return;
     }
@@ -262,55 +261,6 @@ VisitorDispatcher<TVisitedClass, TVisitorBase, TReturnType>::ReturnType VisitorD
   }
   return (i->second)(e,l);
 }
-
-
-
-
-
-/**
- * \def ACCEPT_VISITOR(VisitorBase,ReturnType)
- * \brief Defines a AcceptVisitor member function.
- *
- * This function is needed for the class to be able to accept visitor.
- *
- * \note Use this macro in derived classes only! For base class use
- *       ACCEPT_VISITOR_BASE(VisitorBase,ReturnType)
- *
- * \param VisitorBase Base class of a acceptable visitor objects.
- * \param ReturnType Return type of the implementation of the visitor
- *        function.
- * \param FunctionName Name of the member function that will be declared.
- *        This allows you to change the name of the AcceptVisitor function
- *        above into anything meaningful.
- *
- * \sa ACCEPT_VISITOR_BASE(VisitorBase,ReturnType)
- */
-#define ACCEPT_VISITOR(VisitorBase,ReturnType,FunctionName) \
-  virtual ReturnType FunctionName( VisitorBase* l ) \
-  { return VisitorDispatcher<Self,VisitorBase,ReturnType>::Visit(this,l); }
-
-
-
-/**
- * \def ACCEPT_VISITOR_BASE(VisitorBase,ReturnType)
- * \brief Defines a AcceptVisitor member function in base class.
- *
- * This function is needed for the class to be able to accept visitor.
- *
- * \note Use this macro in base class only! For derived classes use
- *       ACCEPT_VISITOR(VisitorBase,ReturnType)
- *
- * \param VisitorBase Base class of a acceptable visitor objects.
- * \param ReturnType Return type of the implementation of the visitor
- *        function.
- * \param FunctionName Name of the member function that will be declared.
- *        This allows you to change the name of the AcceptVisitor function
- *        above into anything meaningful.
- *
- * \sa ACCEPT_VISITOR(VisitorBase,ReturnType)
- */
-#define ACCEPT_VISITOR_BASE(VisitorBase,ReturnType,FunctionName) \
-virtual ReturnType FunctionName( VisitorBase* l ) {return ReturnType();};
 
 
 
