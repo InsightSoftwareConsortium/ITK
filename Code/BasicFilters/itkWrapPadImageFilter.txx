@@ -378,6 +378,8 @@ WrapPadImageFilter<TInputImage,TOutputImage>
 {
   int dimCtr, regCtr, i;
   int numRegions=1; // Actual number of regions in our decomposed space.
+  int goodInput, goodOutput;
+                    // Are the regions non-empty?
   
   itkDebugMacro(<<"Actually executing");
   
@@ -515,30 +517,31 @@ WrapPadImageFilter<TInputImage,TOutputImage>
     {
       // If both a valid output and input region are defined for the particular
       // defined region, then copy the input values to the output values.
-      if (this->GenerateNextOutputRegion
-	  (outRegIndices,outRegLimit,outputRegionStart,outputRegionSizes,outputRegion))
-	{
-	  if (this->GenerateNextInputRegion
-	      (inRegIndices,inRegLimit,inputRegionStart,inputRegionSizes,inputRegion))
-	    {
-	      outIt = OutputIterator(outputPtr, outputRegion);
-	      inIt = OutputIterator(inputPtr, inputRegion);
-	      
-	      // Do the actual copy of the input pixels to the output
-              // pixels here.
-	      for (; !outIt.IsAtEnd(); ++outIt, i++, ++inIt )
-		{
-		  if ( threadId == 0 && !(i % updateVisits ) )
-		    {
-		      this->UpdateProgress((float)i / (float)totalPixels);
-		    }
-		  
-		  // copy the input pixel to the output
-		  outIt.Set( inIt.Get() );
-		}
-	      
-	    } 
-	}
+      goodOutput = this->GenerateNextOutputRegion
+        (outRegIndices,outRegLimit,outputRegionStart,
+         outputRegionSizes,outputRegion);
+      goodInput = this->GenerateNextInputRegion
+        (inRegIndices,inRegLimit,inputRegionStart,
+         inputRegionSizes,inputRegion);
+      if (goodInput && goodOutput)
+        {
+          outIt = OutputIterator(outputPtr, outputRegion);
+          inIt = OutputIterator(inputPtr, inputRegion);
+          
+          // Do the actual copy of the input pixels to the output
+          // pixels here.
+          for (; !outIt.IsAtEnd(); ++outIt, i++, ++inIt )
+            {
+              if ( threadId == 0 && !(i % updateVisits ) )
+                {
+                  this->UpdateProgress((float)i / (float)totalPixels);
+                }
+              
+              // copy the input pixel to the output
+              outIt.Set( inIt.Get() );
+            }
+          
+        } 
     }
 }
 
