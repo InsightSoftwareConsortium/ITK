@@ -714,7 +714,7 @@ fi
 rm -f CMake/Source/CMakeBuildTargets
 rm -f CMake/Source/CMakeBuildTargets.exe
 # build the CMakeBuildTargets program
-(cd CMake/Source; make CMakeBuildTargets)
+(cd CMake/Source; $MAKECOMMAND CMakeBuildTargets)
 # if there is no cache file then create one
 if test ! -f $CMAKE_CONFIG_DIR/CMakeCache.txt; then
         echo  CMake/Source/CMakeBuildTargets ${fullSrcDir}/CMakeLists.txt -MakeCache -S${fullSrcDir} -O${CMAKE_CONFIG_DIR} -H${fullSrcDir} -B${CMAKE_CONFIG_DIR}
