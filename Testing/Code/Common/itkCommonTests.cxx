@@ -35,6 +35,7 @@ REGISTER_TEST(itkEuler3DTransformTest );
 REGISTER_TEST(itkExceptionObjectTest );
 REGISTER_TEST(itkFixedArrayTest );
 REGISTER_TEST(itkFixedCenterOfRotationAffineTransformTest );
+REGISTER_TEST(itkFloodFilledSpatialFunctionTest );
 REGISTER_TEST(itkHashTableTest );
 REGISTER_TEST(itkImageAdaptorTest );
 REGISTER_TEST(itkImageIteratorTest );

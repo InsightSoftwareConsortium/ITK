@@ -36,6 +36,7 @@ ADD_TEST(itkDynamicMeshTest ${COMMON_TESTS} itkDynamicMeshTest)
 ADD_TEST(itkEuler2DTransformTest ${COMMON_TESTS} itkEuler2DTransformTest)
 ADD_TEST(itkEuler3DTransformTest ${COMMON_TESTS} itkEuler3DTransformTest)
 ADD_TEST(itkExceptionObjectTest ${COMMON_TESTS} itkExceptionObjectTest)
+ADD_TEST(itkFloodFilledSpatialFunctionTest ${COMMON_TESTS} itkFloodFilledSpatialFunctionTest)
 ADD_TEST(itkCommonHeaderTest ${COMMON_HEADER_TEST})
 ADD_TEST(itkHashTableTest ${COMMON_TESTS} itkHashTableTest)
 ADD_TEST(itkImageAdaptorTest ${COMMON_TESTS} itkImageAdaptorTest)
@@ -166,6 +167,7 @@ itkEuler3DTransformTest.cxx
 itkExceptionObjectTest.cxx
 itkFixedArrayTest.cxx
 itkFixedCenterOfRotationAffineTransformTest.cxx
+itkFloodFilledSpatialFunctionTest.cxx
 itkHashTableTest.cxx
 itkImageAdaptorTest.cxx
 itkImageIteratorTest.cxx
