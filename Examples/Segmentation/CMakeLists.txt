@@ -120,7 +120,7 @@ ADD_TEST(ConnectedThresholdGrayTest ${SEGMENTATION_EXAMPLES}
         107 69 180 210
 )
 
-ADD_TEST(NeighborhoodConnectedWhiteTest ${SEGMENTATION_EXAMPLES}
+ADD_TEST(NeighborhoodConnectedWhiteTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/NeighborhoodConnectedWhiteTest.png
             ${TEMP}/NeighborhoodConnectedWhiteTest.png
   NeighborhoodConnectedImageFilterTest
@@ -129,7 +129,7 @@ ADD_TEST(NeighborhoodConnectedWhiteTest ${SEGMENTATION_EXAMPLES}
         60 116 150 180
 )
 
-ADD_TEST(NeighborhoodConnectedVentricleTest ${SEGMENTATION_EXAMPLES}
+ADD_TEST(NeighborhoodConnectedVentricleTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/NeighborhoodConnectedVentricleTest.png
             ${TEMP}/NeighborhoodConnectedVentricleTest.png
   NeighborhoodConnectedImageFilterTest
@@ -138,7 +138,7 @@ ADD_TEST(NeighborhoodConnectedVentricleTest ${SEGMENTATION_EXAMPLES}
         81 112 210 250
 )
 
-ADD_TEST(NeighborhoodConnectedGrayTest ${SEGMENTATION_EXAMPLES}
+ADD_TEST(NeighborhoodConnectedGrayTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/NeighborhoodConnectedGrayTest.png
             ${TEMP}/NeighborhoodConnectedGrayTest.png
   NeighborhoodConnectedImageFilterTest
@@ -147,7 +147,7 @@ ADD_TEST(NeighborhoodConnectedGrayTest ${SEGMENTATION_EXAMPLES}
         107 69 180 210
 )
 
-ADD_TEST(IsolatedConnectedTest ${SEGMENTATION_EXAMPLES}
+ADD_TEST(IsolatedConnectedTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/IsolatedConnectedTest.png
             ${TEMP}/IsolatedConnectedTest.png
   IsolatedConnectedImageFilterTest
