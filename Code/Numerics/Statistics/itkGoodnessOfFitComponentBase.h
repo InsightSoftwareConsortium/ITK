@@ -90,103 +90,145 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(GoodnessOfFitComponentBase, Object) ;
   
+  /** TInputSample type alias */
   typedef TInputSample InputSampleType ;
+
+  /** Vector length constant */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TInputSample::MeasurementVectorSize) ;
+
+  /** Typedefs from the TInputSample */
   typedef typename TInputSample::MeasurementType MeasurementType ;
   typedef typename TInputSample::MeasurementVectorType MeasurementVectorType ;
 
   /** Resample() output type */
   typedef Subsample< TInputSample > ResampledSampleType ;
 
-
   /** Histogram type that will be used for observed and expected histogram*/
   typedef Histogram< float, 1 > HistogramType ;
   typedef typename HistogramType::Pointer HistogramPointer ;
 
+  /** Type of the array of component parameters */
   typedef Array< double > ParametersType ;
 
+  /** Type of the center position for the hyperspherical neighborhood
+   *  sampling */
   typedef FixedArray< double, 
-                      itkGetStaticConstMacro(MeasurementVectorSize) > CenterType ;
-  typedef Vector< double, itkGetStaticConstMacro(MeasurementVectorSize) > MeanType ;
+                      itkGetStaticConstMacro(MeasurementVectorSize) > 
+  CenterType ;
+
+  /** Type of the radius of the hyperspherical neighborhood sampling */
   typedef double RadiusType ;
+
+  /** Type of the mean of the distribution */
+  typedef Vector< double, itkGetStaticConstMacro(MeasurementVectorSize) > 
+  MeanType ;
+
+  /** Type of standard deviation of the distribution */
   typedef double StandardDeviationType ;
 
+  /** Set/Gets the input sample */
   virtual void SetInputSample(TInputSample* sample) ;
-
   TInputSample* GetInputSample() ;
 
+  /** Gets the total number of parameters for this component */
   virtual unsigned int GetNumberOfParameters() const = 0 ;
 
+  /** Set/Gets the component parameters */
   virtual void SetParameters(const ParametersType &parameters) ;
-
   ParametersType* GetParameters()
   { return m_Parameters ; }
 
+  /** Sets the flag that indicates this component uses the histogram
+   * generated with expected distribution from the parameters.*/
   void SetUseExpectedHistogram(bool flag) ;
 
+  /** Set/Gets the nubmer of bins of histograms (expected and observed) */
   void SetHistogramNumberOfBins(int numberOfBins) ;
-
   int GetHistogramNumberOfBins()
   { return m_HistogramNumberOfBins ; }
 
+  /** Set/Gets the flag that indicates the probability of each bins in the
+   * histograms should be equal. This can be achieved by varying the
+   * interval of bins. */
   void SetHistogramUseEquiProbableBins(bool flag) ;
-
   bool GetHistogramUseEquiProbableBins()
   { return m_HistogramUseEquiProbableBins ; }
 
+  /** Set/Get the overlapping effects extent. */
   void SetHistogramBinOverlap(double overlap) ;
-
   double GetHistogramBinOverlap()
   { return m_HistogramBinOverlap ; }
 
+  /** Set/Gets the extent of histogram from the mean in terms of
+   * standard deivation */
   void SetHistogramExtent(double extent) ;
-
   double GetHistogramExtent()
   { return m_HistogramExtent ; }
 
+  /** Gets the center position for the neighborhood sampling */
   virtual CenterType* GetCenter() = 0 ;
   
+  /** Gets the radius for the neighborhood sampling */
   virtual RadiusType* GetRadius() = 0 ;
 
+  /** Gets the mean of the distribution */
   virtual MeanType* GetMean() = 0 ;
 
+  /** Gets the standard deviation of the distribution */
   virtual RadiusType* GetStandardDeviation() = 0 ;
 
+  /** Generates the histogram (expected and observed) */
   virtual void CreateHistograms() ;
 
+  /** Samples measurement vectors using the center and radius */
   virtual void Resample() ;
 
+  /** Gets the sampled data set */
   ResampledSampleType* GetResampledSample()
   { return m_Resampler->GetOutput() ; }
 
+  /** Gest the size of the sampled data set */
   virtual unsigned int GetResampledSampleSize() ;
 
+  /** Calculates the longest axis based on eigen analysis */
   virtual void CalculateProjectionAxes() = 0 ;
 
+  /** Projects measurement vectors onto the projection axis calculated
+   * by the CalculateProjectionAxes method. */
   virtual void Project(int projectionAxisIndex) ;
 
+  /** Fills up the expected histogram based on the distribution
+   *  parameters */
   virtual void UpdateExpectedHistogram() ;
 
+  /** Gets the total scale of the observed histogram */
   double* GetTotalObservedScale()
   { return &m_TotalObservedScale ; } 
 
+  /** Gets the probability of x. univariate function */
   virtual double GetCumulativeProbability(double x) 
     const = 0 ;
 
+  /** Gets the probability density of measurements. multivariate
+   * function */
   virtual double GetProbabilityDensity(MeasurementVectorType &measurements) 
     const = 0 ;
 
+  /** Gets the proportion of this component among multiple components. */
   virtual double GetProportion() const
   { return m_Proportion ; }
 
-  /** accessing methods for the projected sample */
+  /** Gets the observed historm */
   HistogramPointer GetObservedHistogram() ;
   
+  /** Gets the expected historm */
   HistogramPointer GetExpectedHistogram() ;
 
+  /** Prints component parameters. For debugging */
   virtual void PrintParameters(std::ostream &os) const = 0 ;
 
+  /** Gest the parameters of this component */
   virtual ParametersType GetFullParameters() const = 0 ;
 
 protected:
@@ -214,7 +256,11 @@ protected:
   ProjectionAxisArrayType* GetProjectionAxes()
   { return &m_ProjectionAxes ; }
 
+  /** Creates an empty histogram with bins having same interval */
   virtual void CreateEquiRangeBins() ;
+
+  /** Creates an empty histogram with bins having same probability
+   * based on the distribution parameters */
   virtual void CreateEquiProbableBins() ;
 
 private:
