@@ -57,7 +57,7 @@ SET(ITKCommon_SRCS
   itkMetaDataObjectBase.cxx
   itkMetaDataDictionary.cxx
   itkOctreeNode.cxx
-  itkImage.cxx
+  itkExplicitInstantiations.cxx
 )
 
 IF (WIN32)
