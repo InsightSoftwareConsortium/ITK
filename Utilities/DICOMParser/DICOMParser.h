@@ -42,7 +42,7 @@ class DICOMParser
   //
   // Opens a file and initializes the parser.
   //
-  bool OpenFile(const char * filename);
+  bool OpenFile(char* filename);
 
   //
   // This method kicks off the parser.
@@ -132,6 +132,10 @@ class DICOMParser
                                             unsigned char* val,
                                             quadbyte) ;
 
+  void GetGroupsElementsDatatypes(std::vector<doublebyte>& groups,
+                                  std::vector<doublebyte>& elements,
+                                  std::vector<VRTypes>& datatypes);
+
  protected:
 
   bool ParseExplicitRecord(doublebyte group, doublebyte element, 
@@ -168,7 +172,7 @@ class DICOMParser
   //
   // Reads a record.
   //
-  void ReadNextRecord(doublebyte& group, doublebyte& element);
+  void ReadNextRecord(doublebyte& group, doublebyte& element, DICOMParser::VRTypes& mytype);
 
   //
   // Sets up the type map.
@@ -207,6 +211,10 @@ class DICOMParser
   DICOMFile* DataFile;
 
   bool ToggleByteSwapImageData;
+
+  std::vector<doublebyte> Groups;
+  std::vector<doublebyte> Elements;
+  std::vector<VRTypes> Datatypes;
 
 };
 
