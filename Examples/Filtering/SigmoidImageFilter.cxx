@@ -20,7 +20,7 @@
 //  The \doxygen{SigmoidImageFilter} is commonly used as an intensity
 //  transform.  It maps a specifig range of intensity values into a new
 //  intensity range by making a very smooth and continuous transition in the
-//  borders of he range.  Sigmoids are widely use as a mechanism for focusing
+//  borders of the range.  Sigmoids are widely use as a mechanism for focusing
 //  attention in a particular set of values and progressively attenuate the
 //  values outside that range. In order to extend the flexibility of this
 //  filter, its implementation in ITK includes four parameters that can be
@@ -41,15 +41,15 @@
 //
 // \begin{figure}
 // \center
-// \includegraphics[width=6cm]{SigmoidParameterAlpha.eps}
-// \includegraphics[width=6cm]{SigmoidParameterBeta.eps}
+// \includegraphics[width=8cm]{SigmoidParameterAlpha.eps}
+// \includegraphics[width=8cm]{SigmoidParameterBeta.eps}
 // \caption[Sigmoid Parameters]{Effect of various parameters in the Sigmoid.}
 // \label{fig:SigmoidParameters}
 // \end{figure}
 //
 //
 //  This filter will work on images of any dimension and will take advantage of
-//  multiple processor when available. 
+//  multiple processors when available. 
 //
 //  \index{itk::SigmoidImageFilter }
 //
@@ -66,7 +66,7 @@
 //
 //  The header file corresponding to this filter should be included first.
 //
-//  \index{itk::SigmoidImageFilter!header|textbf}
+//  \index{itk::SigmoidImageFilter!header}
 //
 //  Software Guide : EndLatex 
 
