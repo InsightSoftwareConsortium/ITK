@@ -17,7 +17,7 @@
 #define __itkImportImageFilter_h
 
 #include "itkImageSource.h"
-#include "itkImportImageFilterContainer.h"
+#include "itkImportImageContainer.h"
 
 
 namespace itk
@@ -36,7 +36,7 @@ namespace itk
  */
 
 template <typename TPixel, unsigned int VImageDimension=2>
-class ITK_EXPORT ImportImageFilter : public ImageSource<Image<TPixel, VImageDimension, ImportImageFilterContainer<unsigned long, TPixel> > >
+class ITK_EXPORT ImportImageFilter : public ImageSource<Image<TPixel, VImageDimension, ImportImageContainer<unsigned long, TPixel> > >
 {
 public:
   /**
@@ -47,7 +47,7 @@ public:
   /**
    * Typedef for the output image.  
    */
-  typedef Image<TPixel, VImageDimension, ImportImageFilterContainer<unsigned long, TPixel> > OutputImageType;
+  typedef Image<TPixel, VImageDimension, ImportImageContainer<unsigned long, TPixel> > OutputImageType;
   
   /** 
    * Index typedef support. An index is used to access pixel values.
