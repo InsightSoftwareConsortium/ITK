@@ -117,7 +117,7 @@ ADD_TEST(itkScalarImageKmeansImageFilterTest ${ALGORITHMS_TESTS3}
              ${ITK_TEST_OUTPUT_DIR}/itkScalarImageKmeansImageFilterTestOutput.png 
     itkScalarImageKmeansImageFilterTest
     ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png 
-    ${ITK_TEST_OUTPUT_DIR}/itkScalarImageKmeansImageFilterTestOutput.png 
+    ${ITK_TEST_OUTPUT_DIR}/itkScalarImageKmeansImageFilterTestOutput.png 1
     4 0.0 40.0 90.0 150.0 )
 ADD_TEST(itkRegularSphereMeshSourceTest ${ALGORITHMS_TESTS2} itkRegularSphereMeshSourceTest)
 ADD_TEST(itkRayCastInterpolateImageFunctionTest ${ALGORITHMS_TESTS2} itkRayCastInterpolateImageFunctionTest)

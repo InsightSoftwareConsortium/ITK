@@ -63,9 +63,12 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
 
   kmeansFilter->SetInput( reader->GetOutput() );
 
-  const unsigned int numberOfInitialClasses = atoi( argv[3] );
+  kmeansFilter->SetUseNonContiguousLabels( argv[3] );
 
-  if( argc < numberOfInitialClasses + 4 )
+  const unsigned int numberOfInitialClasses = atoi( argv[4] );
+
+  const unsigned int numberOfArgumentsBeforeMeans = 5;
+  if( argc < numberOfInitialClasses + numberOfArgumentsBeforeMeans )
     {
     std::cerr << "Error: " << std::endl;
     std::cerr << numberOfInitialClasses << " classes has been specified ";
@@ -76,8 +79,9 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
 
   for(unsigned k=0; k<numberOfInitialClasses; k++)
     {
-    kmeansFilter->AddClassWithInitialMean( atof( argv[k+4] ) );
+    kmeansFilter->AddClassWithInitialMean( atof( argv[k+numberOfArgumentsBeforeMeans] ) );
     }
+
 
   try
     {
