@@ -80,7 +80,7 @@ public:
   virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
   
   /** Visitor interface */
-  itkCellVisitMacro(LINE_CELL);
+  itkCellVisitMacro(Superclass::LINE_CELL);
 
   LineCell() {}
   ~LineCell() {}

@@ -94,7 +94,7 @@ public:
   virtual bool  GetFace(CellFeatureIdentifier, FaceAutoPointer &);  
   
   /** Visitor interface. */
-  itkCellVisitMacro(TETRAHEDRON_CELL);
+  itkCellVisitMacro(Superclass::TETRAHEDRON_CELL);
   
   virtual bool EvaluatePosition(CoordRepType [PointDimension],
                                 PointsContainer* ,

@@ -94,7 +94,7 @@ public:
   virtual bool GetFace(CellFeatureIdentifier, FaceAutoPointer &);  
   
   /** Visitor interface */
-  itkCellVisitMacro(HEXAHEDRON_CELL);
+  itkCellVisitMacro(Superclass::HEXAHEDRON_CELL);
 
 protected:
   /** Store the number of points needed for a hexahedron. */

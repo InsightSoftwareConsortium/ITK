@@ -88,7 +88,7 @@ public:
   virtual bool GetEdge(CellFeatureIdentifier,EdgeAutoPointer &);
   
   /** Visitor interface */
-  itkCellVisitMacro(QUADRILATERAL_CELL);
+  itkCellVisitMacro(Superclass::QUADRILATERAL_CELL);
 
   /** Constructor and destructor */
   QuadrilateralCell() {};

@@ -69,7 +69,7 @@ public:
   typedef std::deque<EdgeInfo> EdgeInfoDQ;
   
  /** Need to add POLYGON_CELL into CellInterface. */
-  itkCellVisitMacro(POLYGON_CELL);
+  itkCellVisitMacro(Superclass::POLYGON_CELL);
 
   /** Implement the standard CellInterface. */
   virtual CellGeometry GetType(void) const 

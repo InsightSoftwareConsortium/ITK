@@ -95,7 +95,7 @@ public:
                                 InterpolationWeightType*);
 
   /** Cell visitor interface. */
-  itkCellVisitMacro(TRIANGLE_CELL);
+  itkCellVisitMacro(Superclass::TRIANGLE_CELL);
 
  public:
   TriangleCell() {}

@@ -215,7 +215,7 @@ public:
           }
         else
           {
-          m_UserDefined.insert(std::map<int, VisitorPointer>::value_type(id,v));
+          m_UserDefined.insert(typename std::map<int, VisitorPointer>::value_type(id,v));
           }
       }
     virtual ~MultiVisitor() {}

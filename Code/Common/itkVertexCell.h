@@ -74,7 +74,7 @@ public:
   virtual PointIdentifier GetPointId(void);
   
   /** Cell visitor interface */
-  itkCellVisitMacro(VERTEX_CELL);
+  itkCellVisitMacro(Superclass::VERTEX_CELL);
 
   /** Evaluate the position of a given point */
   virtual bool EvaluatePosition(CoordRepType [PointDimension],

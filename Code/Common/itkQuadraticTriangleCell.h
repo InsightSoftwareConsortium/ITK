@@ -88,7 +88,7 @@ public:
   virtual bool  GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
   
   /** Cell visitor interface. */
-  itkCellVisitMacro(QUADRATIC_TRIANGLE_CELL);
+  itkCellVisitMacro(Superclass::QUADRATIC_TRIANGLE_CELL);
 
 
   /** Given the parametric coordinates of a point in the cell

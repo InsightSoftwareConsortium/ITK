@@ -80,7 +80,7 @@ public:
   virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
   
   /** Visitor interface */
-  itkCellVisitMacro(QUADRATIC_EDGE_CELL);
+  itkCellVisitMacro(Superclass::QUADRATIC_EDGE_CELL);
 
   QuadraticEdgeCell() {}
   ~QuadraticEdgeCell() {}
