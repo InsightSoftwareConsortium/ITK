@@ -113,6 +113,7 @@
 #include "itkRigid2DTransform.h"
 #include "itkRigid3DPerspectiveTransform.h"
 #include "itkRigid3DTransform.h"
+#include "itkScaleSkewVersor3DTransform.h"
 #include "itkScaleTransform.h"
 #include "itkSegmentationBorder.h"
 #include "itkSegmentationRegion.h"
@@ -582,6 +583,10 @@ int itkCommonPrintTest(int , char* [])
   itk::Version::Pointer VersionObj =
     itk::Version::New();
   std::cout << "------------Version" << VersionObj;
+  
+  itk::ScaleSkewVersor3DTransform<double>::Pointer ScaleSkewVersor3DTransformObj =
+    itk::ScaleSkewVersor3DTransform<double>::New();
+  std::cout << "------------ScaleSkewVersor3DTransform" << ScaleSkewVersor3DTransformObj;
   
   itk::VersorRigid3DTransform<double>::Pointer VersorRigid3DTransformObj =
     itk::VersorRigid3DTransform<double>::New();
