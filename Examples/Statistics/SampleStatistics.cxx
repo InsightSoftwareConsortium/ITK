@@ -24,6 +24,7 @@
 //
 // We include the header file for the \doxygen{Vector} class that will
 // be our measurement vector template in this example. 
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -51,9 +52,11 @@
 int main()
 {
   // Software Guide : BeginLatex
-  // The following code snippet will create a \code{ListSample} object
+  //
+  // The following code snippet will create a ListSample object
   // with three-component float measurement vectors and put five
-  // measurement vectors in the \code{ListSample} object.
+  // measurement vectors in the ListSample object.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -92,10 +95,11 @@ int main()
   //
   // To calculate the mean (vector) of a sample, we instantiate the
   // \subdoxygen{Statistics}{MeanCalculator} class that implements the mean
-  // algorithm and plug in the sample using the \code{SetInputSample(sample*)}
-  // method.  By calling the \code{Update()} method, we run the algorithm. We
-  // get the mean vector using the \code{GetOutput()} method. The output from
-  // the \code{GetOutput()} method is the pointer to the mean vector.
+  // algorithm and plug in the sample using the
+  // \code{SetInputSample(sample*)} method.  By calling the \code{Update()}
+  // method, we run the algorithm. We get the mean vector using the
+  // \code{GetOutput()} method. The output from the \code{GetOutput()} method
+  // is the pointer to the mean vector.
   //
   // Software Guide : EndLatex
 
@@ -112,25 +116,23 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // To use the covariance calculation algorithm, we have two options.
-  // Since we already have the mean calculated by the
-  // \code{meanAlgorithm}, we can plug-in the output from the
-  // \code{meanAlogrithm} to the \code{covarianceAlgorithm} using the
-  // \code{SetMean} method. The other option is not to set the mean at
-  // all and just call the \code{Update()} method. The covariance
-  // calculation algorithm will compute the mean and covariance
-  // together in one pass. If you have already set the mean as
-  // in this example and you want to run one pass algorithm, simply
-  // pass a null pointer as the mean vector.
+  // To use the covariance calculation algorithm, we have two options.  Since
+  // we already have the mean calculated by the MeanCalculator, we can
+  // plug-in its output to an instance of
+  // \subdoxygen{Statistics}{CovarianceCalculator} using the \code{SetMean()}
+  // method. The other option is not to set the mean at all and just call the
+  // \code{Update()} method. The covariance calculation algorithm will
+  // compute the mean and covariance together in one pass. If you have
+  // already set the mean as in this example and you want to run one pass
+  // algorithm, simply pass a null pointer as the mean vector.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::CovarianceCalculator< SampleType 
-                                                     > CovarianceAlgorithmType;
-  
+  typedef itk::Statistics::CovarianceCalculator< SampleType > 
+    CovarianceAlgorithmType;
   CovarianceAlgorithmType::Pointer covarianceAlgorithm = 
-                                                CovarianceAlgorithmType::New();
+    CovarianceAlgorithmType::New();
 
   covarianceAlgorithm->SetInputSample( sample );
   covarianceAlgorithm->SetMean( meanAlgorithm->GetOutput() );

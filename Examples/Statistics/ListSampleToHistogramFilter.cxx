@@ -20,7 +20,7 @@
 // \index{Statistics!Importing ListSample to Histogram|textbf}
 // \index{itk::Statistics::ListSampleToHistogramFilter|textbf}
 //
-// Sometimes, we want to work with a histogram instead of a list of
+// Sometimes we want to work with a histogram instead of a list of
 // measurement vectors (e.g. \subdoxygen{Statistics}{ListSample},
 // \subdoxygen{Statistics}{ImageToListAdaptor}, or
 // \subdoxygen{Statistics}{PointSetToListSample}) because of less
@@ -29,9 +29,9 @@
 // object using the
 // \subdoxygen{Statistics}{ListSampleToHistogramFilter}.
 //
-// We use a \subdoxygen{Statistics}{ListSample} object as the input for the
-// filter. We include the header files for the \subdoxygen{Statistics}{ListSample}
-// and \subdoxygen{Statistics}{Histogram} classes, as well as the filter.
+// We use a ListSample object as the input for the filter. We include the
+// header files for the ListSample and Histogram classes, as well as the
+// filter.
 //
 // Software Guide : EndLatex 
 
@@ -43,9 +43,9 @@
 
 // Software Guide : BeginLatex
 //
-// We need another header for the type of the measurement vectors. We are going
-// to use the \doxygen{Vector} class which is a subclass of the
-// \doxygen{FixedArray} in this example. 
+// We need another header for the type of the measurement vectors. We are
+// going to use the \doxygen{Vector} class which is a subclass of the
+// \doxygen{FixedArray} in this example.
 //
 // Software Guide : EndLatex
 
@@ -57,10 +57,10 @@ int main()
 {
   // Software Guide : BeginLatex
   //
-  // The following code snippet will create a \code{ListSample} object
-  // with two-component int measurement vectors and put the measurement
-  // vectors: [1,1] - 1 time, [2,2] - 2 times, [3,3] - 3 times, [4,4] -
-  // 4 times, [5,5] - 5 times into the \code{listSample}.
+  // The following code snippet will create a ListSample object with
+  // two-component \code{int} measurement vectors and put the measurement
+  // vectors: [1,1] - 1 time, [2,2] - 2 times, [3,3] - 3 times, [4,4] - 4
+  // times, [5,5] - 5 times into the \code{listSample}.
   //
   // Software Guide : EndLatex
 
@@ -68,7 +68,6 @@ int main()
   typedef int MeasurementType;
   typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > ListSampleType;
-
   ListSampleType::Pointer listSample = ListSampleType::New();
 
   MeasurementVectorType mv;
@@ -89,18 +88,15 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // Here, we create a \code{Histogram} object with equal interval bins
-  // using the \code{Initalize(n-dimensional size, n-dimensional lower
-  // bound, n-dimensional upper bound)} method.
+  // Here, we create a Histogram object with equal interval bins using the
+  // \code{Initalize()} method.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef float HistogramMeasurementType;
-  typedef itk::Statistics::Histogram< 
-                             HistogramMeasurementType, 2 
-                                              >  HistogramType;
-
+  typedef itk::Statistics::Histogram< HistogramMeasurementType, 2 >  
+    HistogramType;
   HistogramType::Pointer histogram = HistogramType::New();
 
   HistogramType::SizeType size;
@@ -119,7 +115,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   // Software Guide : BeginLatex
   //
   // The \code{Size()} and \code{GetTotalFrequency()} methods return the same
@@ -128,11 +123,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ListSampleToHistogramFilter< 
-                                                  ListSampleType, 
-                                                  HistogramType 
-                                                            > FilterType;
-
+  typedef itk::Statistics::ListSampleToHistogramFilter< ListSampleType, 
+                           HistogramType > FilterType;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetListSample( listSample );

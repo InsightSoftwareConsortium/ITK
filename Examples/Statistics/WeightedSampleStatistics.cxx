@@ -24,6 +24,7 @@
 //
 // We include the header file for the \doxygen{Vector} class that will
 // be our measurement vector template in this example. 
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -31,8 +32,10 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // We will use the \subdoxygen{Statistics}{ListSample} as our sample
 // template. We include the header for the class too.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -40,7 +43,9 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // The following headers are for the weighted covariance algorithms.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -72,16 +77,16 @@ public:
 
   /**Evaluate at the specified input position */
   OutputType Evaluate( const InputType& input ) const 
-  {
-    if ( input[0] < 3.0 )
-      {
-      return 0.5;
-      }
-    else
-      {
-      return 0.01;
-      }
-  }
+    {
+      if ( input[0] < 3.0 )
+        {
+        return 0.5;
+        }
+      else
+        {
+        return 0.01;
+        }
+    }
 
 protected:
   ExampleWeightFunction() {}
@@ -91,9 +96,11 @@ protected:
 int main()
 {
   // Software Guide : BeginLatex
-  // The following code snippet will create a \code{ListSample} object
+  //
+  // The following code snippet will create a ListSample instance
   // with three-component float measurement vectors and put five
-  // measurement vectors in tht \code{ListSample} object.
+  // measurement vectors in the ListSample object.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -128,7 +135,8 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // The robust version of covariance algorithms require
+  //
+  // Robust versions of covariance algorithms require
   // weight values for measurement vectors. We have two ways of
   // providing weight values for the weighted mean and weighted
   // covariance algorithms.
@@ -136,12 +144,13 @@ int main()
   // The first method is to plug in an array of weight values. The
   // size of the weight value array should be equal to that of the
   // measurement vectors. In both algorithms, we use the
-  // \code{SetWeights(weight value array*)}.
+  // \code{SetWeights(weights*)}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::WeightedMeanCalculator< SampleType >
-                                                    WeightedMeanAlgorithmType;
+    WeightedMeanAlgorithmType;
 
   WeightedMeanAlgorithmType::WeightArrayType weightArray( sample->Size() );
   weightArray.Fill( 0.5 );
@@ -178,15 +187,14 @@ int main()
   // The second method for computing weighted statistics is to plug-in a
   // function that returns a weight value that is usually a function of each
   // measurement vector. Since the \code{weightedMeanAlgorithm} and
-  // \code{weightedCovarianceAlgorithm} already have the input sample
-  // plugged in, we only need to call the \code{SetWeightFunction(weight
-  // function*)} method. For the \code{weightedCovarianceAlgorithm},
-  // we replace the mean vector input with the output from the
-  // \code{weightedMeanAlgorithm}. If we do not provide the mean
-  // vector using the \code{SetMean()} method or if we pass a null
-  // pointer as the mean vector as in this example, the
-  // \code{weightedCovarianceAlgorithm} will perform the one pass
-  // algorithm to generate the mean vector and the covariance matrix.
+  // \code{weightedCovarianceAlgorithm} already have the input sample plugged
+  // in, we only need to call the \code{SetWeightFunction(weights*)}
+  // method. For the \code{weightedCovarianceAlgorithm}, we replace the mean
+  // vector input with the output from the \code{weightedMeanAlgorithm}. If
+  // we do not provide the mean vector using the \code{SetMean()} method or
+  // if we pass a null pointer as the mean vector as in this example, the
+  // \code{weightedCovarianceAlgorithm} will perform the one pass algorithm
+  // to generate the mean vector and the covariance matrix.
   //
   // Software Guide : EndLatex
 
@@ -217,5 +225,6 @@ int main()
   std::cout << "Sample weighted mean = " 
             << *(weightedCovarianceAlgorithm->GetMean()) << std::endl;
   // Software Guide : EndCodeSnippet
+
   return 0;
 }
