@@ -480,25 +480,25 @@ int main( int argc, char **argv )
   //  This output illustrates how counter intuitive could be the mix of center
   //  of rotation and translations. Figure
   //  \ref{fig:TranslationAndRotationCenter} will clarify this situation. The
-  //  figures shows at left an original image. A rotation of $10\deg$ around
+  //  figures shows at left an original image. A rotation of $10^{\circ}$ around
   //  the center of the image is shown in the middle. The same rotation
   //  performed around the origin of coordinates is shown at right. It can be
   //  seen here that changing the center of rotation introduced additional
   //  translations.
   //
   //  Let's analyze what happens to the center of the image that we just
-  //  registered. Under the point of view of rotating $10\deg$ around the
+  //  registered. Under the point of view of rotating $10^{\circ}$ around the
   //  center and then applying a translation of $(13mm,17mm)$. The image has a
-  //  size of $(221x257)$ pixels and unit spacing. Hence its center has
+  //  size of $(221 \times 257)$ pixels and unit spacing. Hence its center has
   //  coordinates $(110.5,128.5)$. Since the rotation is done around this
   //  point, the center behaves as the fixed point of the transformation and
   //  passed unchanged. Then with the  $(13mm,17mm)$ translation it is mapped
   //  to $(123.5,145.5)$ which becomes its final position.
   //
   //  The matrix and offset that we obtained at the end of the registration say
-  //  that this should be equivalent to a rotation of $10\deg$ around the
+  //  that this should be equivalent to a rotation of $10^{\circ}$ around the
   //  origin, followed by a translations of $(36.98,-1.22)$. Let's compute this
-  //  in detail. First the rotation of the image center by $10\deg$ around the
+  //  in detail. First the rotation of the image center by $10^{\circ}$ around the
   //  origin will move the point to $(86.52,147.97)$. Now, applying a
   //  translation of $(36.98,-1.22)$ maps this point to $(123.5,146.75)$. Which
   //  is pretty close to the result of our previous computation.
