@@ -45,6 +45,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkNumericTraits.h"
 #include "itkObjectFactory.h"
 
+#include <set>
+
 namespace itk
 {
 
