@@ -14,6 +14,9 @@ nm libitkzlib.a |grep " T "
 
 */
 
+#define deflate_copyright itk_deflate_copyright
+#define _length_code itk__length_code
+#define _dist_code itk__dist_code
 #define _tr_align itk__tr_align
 #define _tr_flush_block itk__tr_flush_block
 #define _tr_init itk__tr_init
