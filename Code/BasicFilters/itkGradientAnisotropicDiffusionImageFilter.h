@@ -33,6 +33,10 @@ namespace itk {
  * \par Inputs and Outputs
  * The input to this filter should be a scalar itk::Image of any
  * dimensionality.  The output image will be a diffused copy of the input.
+
+ * \par Parameters
+ * Please see the description of parameters given in
+ * itkAnisotropicDiffusionImageFilter.
  *
  * \sa AnisotropicDiffusionImageFilter
  * \sa AnisotropicDiffusionFunction
