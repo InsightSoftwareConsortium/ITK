@@ -44,7 +44,7 @@ public:
   typedef TFunction FunctionType;
 
   /** Type of vector used to store location info in the spatial function */
-  typedef TFunction::FunctionInputType FunctionInputType;
+  typedef typename TFunction::FunctionInputType FunctionInputType;
 
   /** Index typedef support. */
   typedef typename Superclass::IndexType  IndexType;
