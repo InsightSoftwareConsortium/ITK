@@ -141,7 +141,7 @@ ITK_THREAD_RETURN_TYPE Runner(void* infoIn)
     itkSTLThreadTestImpl::Thread(tnum);
     }
 #ifndef ITK_USE_SPROC
-  return 0;
+  return ;
 #endif
 }
 
