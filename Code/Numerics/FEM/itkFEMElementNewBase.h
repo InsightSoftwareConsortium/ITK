@@ -88,10 +88,10 @@ public:
   virtual unsigned int GetNumberOfPoints(void) const { return 0; }
   virtual PointIDType GetPoint(unsigned int pt) const { return PointIDType(); }
   virtual void SetPoint(unsigned int pt, PointIDType node) {}
-  virtual DegreeOfFreedomIDType GetDegreeOfFreedom( unsigned int dof ) const
+  virtual DegreeOfFreedomIDType GetDegreeOfFreedom( unsigned int local_dof ) const
   {
-    if(dof>this->GetNumberOfDegreesOfFreedom()) { return InvalidDegreeOfFreedomID; }
-    return this->GetNode(dof/this->GetNumberOfDegreesOfFreedomPerNode())->GetDegreeOfFreedom(dof%this->GetNumberOfDegreesOfFreedomPerNode());
+    if(local_dof>this->GetNumberOfDegreesOfFreedom()) { return InvalidDegreeOfFreedomID; }
+    return this->GetNode(local_dof/this->GetNumberOfDegreesOfFreedomPerNode())->GetDegreeOfFreedom(local_dof%this->GetNumberOfDegreesOfFreedomPerNode());
   }
   virtual void SetDegreeOfFreedom( unsigned int local_dof, DegreeOfFreedomIDType global_dof) {}
   virtual void ClearDegreesOfFreedom( void )

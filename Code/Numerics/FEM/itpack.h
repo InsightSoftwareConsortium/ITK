@@ -365,7 +365,7 @@ extern logical chgsme_(doublereal *oldnrm, integer *icnt);
  *  \param dx array of dx values
  *  \param incx increment size for dx array
  *  \param dy array of dy values
- *  \param incd increment size for dy array
+ *  \param incy increment size for dy array
  */
 extern int daxpy_(integer *n, doublereal *da, doublereal *dx, integer *incx, doublereal *dy, integer *incy);
 
@@ -376,7 +376,7 @@ extern int daxpy_(integer *n, doublereal *da, doublereal *dx, integer *incx, dou
  * \param dx array of values
  * \param incx increment size for dx array
  * \param dy array of values
- * \param incd increment size for dy array
+ * \param incy increment size for dy array
  */
 extern int dcopy_(integer *n, doublereal *dx, integer *incx, doublereal *dy, integer *incy);
 
@@ -387,7 +387,7 @@ extern int dcopy_(integer *n, doublereal *dx, integer *incx, doublereal *dy, int
  * \param dx array of values
  * \param incx increment size for dx array
  * \param dy array of values
- * \param incd increment size for dy array
+ * \param incy increment size for dy array
  */
 extern doublereal ddot_(integer *n, doublereal *dx, integer *incx, doublereal *dy, integer *incy);
 
@@ -461,6 +461,7 @@ extern doublereal eigvns_(integer *n, doublereal *tri, doublereal *d__, doublere
  * \param tri symmetric tridiagonal matrix of order n
  * \param start initial lower bound of interval containing root
  * \param zeta stopping criteria
+ * \param itmax maximum number of iterations
  * \param ier error flag (0 = success)
  */
 extern doublereal eigvss_(integer *n, doublereal *tri, doublereal *start, doublereal *zeta, integer *itmax, integer *ier);
@@ -471,10 +472,10 @@ extern doublereal eigvss_(integer *n, doublereal *tri, doublereal *start, double
  * \param d__ input vector of lenght n, contains diagonal elements of matrix
  *            the computed eigenvalues replace the first m components
  * \param e2 input vector of lenght n containing the squares of the off-diagonal elements of the matrix
- * \param n order of the matrix
+ * \param nn order of the matrix
  * \param m number of smallest eigenvalues desired
  * \param isw positive definite flag (0 = not pd, 1 = pd)
- * \param ier error flag (601 = interates not monotone increasing, 602 = not really pd)
+ * \param ierr error flag (601 = interates not monotone increasing, 602 = not really pd)
  */
 extern int eqrt1s_(doublereal *d__, doublereal *e2, integer *nn, integer *m, integer *isw, integer *ierr);
 
@@ -494,7 +495,7 @@ extern integer ipstr_(doublereal *omega);
  * \param a iteration matrix
  * \param u solution estimate
  * \param wk work array of length nn
- * \param imthd indicator of method
+ * \param imthdd indicator of method
  *        1 = jcg
  *        2 = jsi
  *        3 = sor

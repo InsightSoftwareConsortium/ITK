@@ -208,7 +208,7 @@ public:
    * \param i row of the element
    * \param j column of the element
    * \param value new value of the element
-   * \param matrixValue index of matrix to set value in
+   * \param matrixIndex index of matrix to set value in
    */
   virtual void SetMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex = 0) = 0;
 
@@ -272,7 +272,7 @@ public:
    * vector.
    * \param i element Index in solution vector
    * \param value new value of the element
-   * \param SolutionIndex index of solution vector to add value to
+   * \param solutionIndex index of solution vector to add value to
    */
   virtual void AddSolutionValue(unsigned int i, Float value, unsigned int solutionIndex = 0) = 0;
 
@@ -326,7 +326,7 @@ public:
   /**
    * Multiplies all elements of a solution by a scalar
    * \param scale scalar to multiply all solution values by
-   * \param matrixIndex index of solution to modify
+   * \param solutionIndex index of solution to modify
    */
   void ScaleSolution(Float scale, unsigned int solutionIndex = 0);
 

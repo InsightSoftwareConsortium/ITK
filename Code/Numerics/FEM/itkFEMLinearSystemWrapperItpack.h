@@ -412,60 +412,60 @@ public:
 
 
   /* memory management routines */
-  virtual void  InitializeMatrix(unsigned int MatrixIndex);  
+  virtual void  InitializeMatrix(unsigned int matrixIndex);  
 
   virtual bool  IsMatrixInitialized(unsigned int matrixIndex);
 
-  virtual void  DestroyMatrix(unsigned int MatrixIndex);
+  virtual void  DestroyMatrix(unsigned int matrixIndex);
 
-  virtual void  InitializeVector(unsigned int VectorIndex);
+  virtual void  InitializeVector(unsigned int vectorIndex);
 
   virtual bool  IsVectorInitialized(unsigned int vectorIndex);
 
-  virtual void  DestroyVector(unsigned int MatrixIndex);
+  virtual void  DestroyVector(unsigned int vectorIndex);
 
-  virtual void  InitializeSolution(unsigned int SolutionIndex);
+  virtual void  InitializeSolution(unsigned int solutionIndex);
 
   virtual bool  IsSolutionInitialized(unsigned int solutionIndex);
 
-  virtual void  DestroySolution(unsigned int SolutionIndex);
+  virtual void  DestroySolution(unsigned int solutionIndex);
 
   /* assembly & solving routines */
-  virtual Float GetMatrixValue(unsigned int i, unsigned int j, unsigned int MatrixIndex) const;
+  virtual Float GetMatrixValue(unsigned int i, unsigned int j, unsigned int matrixIndex) const;
 
-  virtual void  SetMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int MatrixIndex);
+  virtual void  SetMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex);
 
-  virtual void  AddMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int MatrixIndex);
+  virtual void  AddMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex);
 
   virtual void GetColumnsOfNonZeroMatrixElementsInRow( unsigned int row, ColumnArray& cols, unsigned int matrixIndex );
 
-  virtual Float GetVectorValue(unsigned int i, unsigned int VectorIndex) const;
+  virtual Float GetVectorValue(unsigned int i, unsigned int vectorIndex) const;
 
-  virtual void  SetVectorValue(unsigned int i, Float value, unsigned int VectorIndex);
+  virtual void  SetVectorValue(unsigned int i, Float value, unsigned int vectorIndex);
 
-  virtual void  AddVectorValue(unsigned int i, Float value, unsigned int VectorIndex);
+  virtual void  AddVectorValue(unsigned int i, Float value, unsigned int vectorIndex);
 
-  virtual Float GetSolutionValue(unsigned int i, unsigned int SolutionIndex) const;
+  virtual Float GetSolutionValue(unsigned int i, unsigned int solutionIndex) const;
 
-  virtual void  SetSolutionValue(unsigned int i, Float value, unsigned int SolutionIndex);
+  virtual void  SetSolutionValue(unsigned int i, Float value, unsigned int solutionIndex);
 
-  virtual void  AddSolutionValue(unsigned int i, Float value, unsigned int SolutionIndex);
+  virtual void  AddSolutionValue(unsigned int i, Float value, unsigned int solutionIndex);
 
   virtual void  Solve(void);
 
 
   /* matrix & vector manipulation routines */
-  virtual void  SwapMatrices(unsigned int MatrixIndex1, unsigned int MatrixIndex2);
+  virtual void  SwapMatrices(unsigned int matrixIndex1, unsigned int matrixIndex2);
 
-  virtual void  SwapVectors(unsigned int VectorIndex1, unsigned int VectorIndex2);
+  virtual void  SwapVectors(unsigned int vectorIndex1, unsigned int vectorIndex2);
 
-  virtual void  SwapSolutions(unsigned int SolutionIndex1, unsigned int SolutionIndex2);
+  virtual void  SwapSolutions(unsigned int solutionIndex1, unsigned int solutionIndex2);
 
-  virtual void  CopySolution2Vector(unsigned SolutionIndex, unsigned int VectorIndex);
+  virtual void  CopySolution2Vector(unsigned solutionIndex, unsigned int vectorIndex);
 
-  virtual void  MultiplyMatrixMatrix(unsigned int ResultMatrixIndex, unsigned int LeftMatrixIndex, unsigned int RightMatrixIndex);
+  virtual void  MultiplyMatrixMatrix(unsigned int resultMatrixIndex, unsigned int leftMatrixIndex, unsigned int rightMatrixIndex);
 
-  virtual void  MultiplyMatrixVector(unsigned int ResultVectorIndex, unsigned int MatrixIndex, unsigned int VectorIndex);
+  virtual void  MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex);
 
 private:
 

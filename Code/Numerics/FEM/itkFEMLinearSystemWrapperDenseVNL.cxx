@@ -142,12 +142,12 @@ void LinearSystemWrapperDenseVNL::DestroySolution(unsigned int solutionIndex)
 }
 
 
-LinearSystemWrapperDenseVNL::Float LinearSystemWrapperDenseVNL::GetSolutionValue(unsigned int i, unsigned int SolutionIndex) const
+LinearSystemWrapperDenseVNL::Float LinearSystemWrapperDenseVNL::GetSolutionValue(unsigned int i, unsigned int solutionIndex) const
 {
   
   if ( m_Solutions==0 ) return 0.0;
-  if ( ((*m_Solutions)[SolutionIndex])->size() <= i) return 0.0;
-  else return (*((*m_Solutions)[SolutionIndex]))(i);
+  if ( ((*m_Solutions)[solutionIndex])->size() <= i) return 0.0;
+  else return (*((*m_Solutions)[solutionIndex]))(i);
 }
 
 
