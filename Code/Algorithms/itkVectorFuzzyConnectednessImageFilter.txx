@@ -1269,7 +1269,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
 
-  int pslices,prow,pcol;
+  int prow,pcol;
 
   ScalePrepare();
 
@@ -1283,7 +1283,6 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
   m_Size = m_InputImage->GetLargestPossibleRegion().GetSize();
 
-  pslices = m_Size[2];
   prow = m_Size[1];
   pcol = m_Size[0];
 
