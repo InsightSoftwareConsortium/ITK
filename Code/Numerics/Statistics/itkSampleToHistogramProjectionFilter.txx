@@ -29,9 +29,12 @@ template< class TInputSample, class THistogramMeasurement >
 SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 ::SampleToHistogramProjectionFilter()
 {
+  m_Mean = 0 ;
+  m_StandardDeviation = 0 ;
+  m_Histogram = 0 ;
   m_ProjectionAxis = 0 ;
   m_HistogramBinOverlap = 0.0 ;
-  m_MinimumFrequency = NumericTraits< FrequencyType >::NonpositiveMin() ;
+  m_MinimumFrequency = NumericTraits< FrequencyType >::Zero ;
 }
 
 template< class TInputSample, class THistogramMeasurement >
@@ -41,12 +44,48 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 {
   Superclass::PrintSelf(os,indent) ;
 
-  os << indent << "Histogram           " << m_Histogram << std::endl;
-  os << indent << "Mean                " << (*m_Mean) << std::endl;
-  os << indent << "Standard Deviation  " << (*m_StandardDeviation) << std::endl;
-  os << indent << "ProjectionAxis      " << (*m_ProjectionAxis) << std::endl;
-  os << indent << "Minimum Frequency   " << m_MinimumFrequency << std::endl;
+  os << indent << "Histogram: " ;
+  if ( m_Histogram != 0 )
+    {
+    os << m_Histogram << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
 
+  os << indent << "Mean: " ;
+  if ( m_Mean != 0 )
+    {
+    os << (*m_Mean) << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
+  os << indent << "Standard Deviation: " ;
+  if ( m_StandardDeviation != 0 )
+    {
+    os << (*m_StandardDeviation) << std::endl;
+    }
+  else
+    {
+    os << "not set" << std::endl ;
+    }
+
+  os << indent << "ProjectionAxis: " ;
+  if ( m_ProjectionAxis != 0 )
+    { 
+    os << (*m_ProjectionAxis) << std::endl ;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
+  os << indent << "HistogramBinOverlap: "  << m_HistogramBinOverlap << std::endl ;
+  os << indent << "Minimum Frequency   " << m_MinimumFrequency << std::endl;
 }
 
 template< class TInputSample, class THistogramMeasurement >
