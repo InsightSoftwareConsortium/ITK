@@ -74,11 +74,11 @@ namespace itk
  * \ingroup GeometricTransform
  */
 template <
-  class TInputImage, 
-  class TOutputImage 
-  >
+class TInputImage, 
+class TOutputImage 
+>
 class ITK_EXPORT VectorExpandImageFilter:
-    public ImageToImageFilter<TInputImage,TOutputImage>
+  public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -115,13 +115,16 @@ public:
   /** Determine the vector dimension. */
   enum { VectorDimension = InputPixelType::Dimension };
 
+  /** The type of the expand factors representation */
+  typedef float  ExpandFactorsType;
+
   /** Typedef support for the interpolation function */
   typedef double CoordRepType;
   typedef VectorInterpolateImageFunction<InputImageType,CoordRepType> 
-  InterpolatorType;
+    InterpolatorType;
   typedef typename InterpolatorType::Pointer InterpolatorPointer;
   typedef VectorLinearInterpolateImageFunction<InputImageType,CoordRepType> 
-  DefaultInterpolatorType;
+    DefaultInterpolatorType;
 
   /** Set the interpolator function. */
   itkSetObjectMacro( Interpolator, InterpolatorType );
@@ -131,19 +134,21 @@ public:
 
   /** Set the expand factors. Values are clamped to 
    * a minimum value of 1. Default is 1 for all dimensions. */
+  virtual void SetExpandFactors( const ExpandFactorsType factors[] );
+  virtual void SetExpandFactors( const ExpandFactorsType factor );
   virtual void SetExpandFactors( const unsigned int factors[] );
   virtual void SetExpandFactors( const unsigned int factor );
 
   /** Get the expand factors. */
-  const unsigned int * GetExpandFactors() const
-  { return m_ExpandFactors; }
+  const ExpandFactorsType * GetExpandFactors() const
+    { return m_ExpandFactors; }
 
   /** Set the edge padding value. The default is a vector of zero. */
   virtual void SetEdgePaddingValue( const OutputPixelType& value );
 
   /** Get the edge padding value. */
   virtual const OutputPixelType& GetEdgePaddingValue()
-  { return m_EdgePaddingValue; }
+    { return m_EdgePaddingValue; }
 
   /** VectorExpandImageFilter produces an image which is a different
    * resolution and with a different pixel spacing than its input image.  As
@@ -186,7 +191,7 @@ private:
   VectorExpandImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  unsigned int           m_ExpandFactors[ImageDimension];
+  ExpandFactorsType      m_ExpandFactors[ImageDimension];
   InterpolatorPointer    m_Interpolator;
   OutputPixelType        m_EdgePaddingValue;
  

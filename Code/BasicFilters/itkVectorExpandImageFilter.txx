@@ -46,7 +46,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
     DefaultInterpolatorType::New();
 
   m_Interpolator = 
-    static_cast<InterpolatorType*>( interp.GetPointer() );
+        static_cast<InterpolatorType*>( interp.GetPointer() );
 
   // Set default padding value to zero
   for( unsigned int k = 0; k < VectorDimension; k++ )
@@ -91,7 +91,7 @@ template <class TInputImage, class TOutputImage>
 void
 VectorExpandImageFilter<TInputImage,TOutputImage>
 ::SetExpandFactors(
-  const unsigned int factors[] )
+const ExpandFactorsType factors[] )
 {
 
   unsigned int j;
@@ -119,7 +119,7 @@ template <class TInputImage, class TOutputImage>
 void
 VectorExpandImageFilter<TInputImage,TOutputImage>
 ::SetExpandFactors(
-  const unsigned int factor )
+const ExpandFactorsType factor )
 {
 
   unsigned int j;
@@ -139,6 +139,61 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 
 }
 
+/**
+ * Set expand factors from an array of unsigned int.
+ */
+template <class TInputImage, class TOutputImage>
+void
+VectorExpandImageFilter<TInputImage,TOutputImage>
+::SetExpandFactors(
+const unsigned int factors[] )
+{
+
+  unsigned int j;
+  for( j = 0; j < ImageDimension; j++ )
+    {
+    if( factors[j] != m_ExpandFactors[j] ) break;
+    }
+  if( j < ImageDimension )
+    {
+    this->Modified();
+    for( j = 0; j < ImageDimension; j++ )
+      {
+      m_ExpandFactors[j] = (ExpandFactorsType) factors[j];
+      if( m_ExpandFactors[j] < 1 ) m_ExpandFactors[j] = 1;
+      }
+    }
+
+}
+
+
+/**
+ * Set expand factors from a single unsigned int
+ */
+template <class TInputImage, class TOutputImage>
+void
+VectorExpandImageFilter<TInputImage,TOutputImage>
+::SetExpandFactors(
+const unsigned int factor )
+{
+
+  unsigned int j;
+  for( j = 0; j < ImageDimension; j++ )
+    {
+    if( factor != m_ExpandFactors[j] ) break;
+    }
+  if( j < ImageDimension )
+    {
+    this->Modified();
+    for( j = 0; j < ImageDimension; j++ )
+      {
+      m_ExpandFactors[j] = (ExpandFactorsType)factor;
+      if( m_ExpandFactors[j] < 1 ) m_ExpandFactors[j] = 1;
+      }
+    }
+
+}
+
 
 /**
  * Set the edge padding value
@@ -147,7 +202,7 @@ template <class TInputImage, class TOutputImage>
 void
 VectorExpandImageFilter<TInputImage,TOutputImage>
 ::SetEdgePaddingValue(
-  const OutputPixelType& value )
+const OutputPixelType& value )
 {
   unsigned int i;
   for( i = 0; i < OutputPixelType::Dimension; i++ )
@@ -192,7 +247,7 @@ template <class TInputImage, class TOutputImage>
 void
 VectorExpandImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                       int threadId)
+                         int threadId)
 {
   // Get the input and output pointers
   OutputImagePointer outputPtr = this->GetOutput();
@@ -272,7 +327,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 
   // Get pointers to the input and output
   InputImagePointer inputPtr = 
-    const_cast< TInputImage * >( this->GetInput() );
+      const_cast< TInputImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
@@ -298,11 +353,11 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
     {
     inputRequestedRegionSize[i]
       = (long) ceil( (double)outputRequestedRegionSize[i] / 
-                     (double) m_ExpandFactors[i] ) + 1;
+          (double) m_ExpandFactors[i] ) + 1;
 
     inputRequestedRegionStartIndex[i]
       = (long) floor( (double)outputRequestedRegionStartIndex[i] / 
-                      (double)m_ExpandFactors[i] );
+          (double)m_ExpandFactors[i] );
     }
 
 
@@ -333,7 +388,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 
   // Get pointers to the input and output
   InputImagePointer inputPtr = 
-    const_cast< TInputImage * >( this->GetInput() );
+      const_cast< TInputImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
@@ -356,8 +411,12 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
     {
     outputSpacing[i] = inputSpacing[i] / (float) m_ExpandFactors[i];
-    outputSize[i] = inputSize[i] * (unsigned long) m_ExpandFactors[i];
-    outputStartIndex[i] = inputStartIndex[i] * (long) m_ExpandFactors[i];
+    outputSize[i] = (unsigned long)
+      ((ExpandFactorsType)inputSize[i] * m_ExpandFactors[i]+
+       (ExpandFactorsType)0.5);
+    outputStartIndex[i] = (long)
+      ((ExpandFactorsType)inputStartIndex[i] * m_ExpandFactors[i]+
+       (ExpandFactorsType)0.5);
     }
 
   outputPtr->SetSpacing( outputSpacing );
