@@ -12,6 +12,7 @@ SET(FEM_SRCS
 itkFEMElementTest.cxx
 itkFEMExceptionTest.cxx
 itkFEMGenerateMeshTest.cxx
+itkFEMLandmarkLoadImplementationTest.cxx
 itkFEMLinearSystemWrapperItpackTest.cxx
 itkFEMLinearSystemWrapperVNLTest.cxx
 itkFEMLinearSystemWrapperDenseVNLTest.cxx
