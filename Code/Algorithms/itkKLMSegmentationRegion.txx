@@ -148,6 +148,55 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 //----------------------------------------------------------------------
 
 template<class TInputImage, class TOutputImage>
+void
+KLMSegmentationRegion<TInputImage,TOutputImage>
+::SetRegionBorder3d( KLMSegmentationBorder<TInputImage,TOutputImage> *pnewRegionBorder )
+{
+
+
+  // If this is the first border being added to the region. This 
+  // possibility should never be encountered. But the assertion will
+  // catch it if it does.
+
+  if( m_RegionBorderVec.empty() )
+  {
+
+    throw ExceptionObject(__FILE__, __LINE__); 
+  
+  }
+  // 
+  // The new region belongs at the head of the list 
+  // else if(newBorderRegion1Label < firstBorderRegion1Label)
+
+  else if(
+           ( pnewRegionBorder->GetRegion1()->GetRegionLabel() ) <
+           ( this->GetFirstRegionBorder()->GetRegion1()->GetRegionLabel() )
+         )
+    {
+
+    // Iterator set to the first element of the region border element
+
+    RegionBorderVecType::iterator RegionBorderVecIt = m_RegionBorderVec.begin();
+    m_RegionBorderVec.insert( RegionBorderVecIt, pnewRegionBorder );
+
+    }// end else if
+
+  // The new border should be going at the end of the list,
+  // see internal documentation of calling function 
+  else 
+    {  
+
+    // Iterator set to the first element of the region border element
+    RegionBorderVecType::iterator RegionBorderVecIt = m_RegionBorderVec.begin();
+    m_RegionBorderVec.push_back( pnewRegionBorder );
+    
+    }//end else
+
+}//end SetRegionBorder3d
+
+//----------------------------------------------------------------------
+
+template<class TInputImage, class TOutputImage>
 KLMSegmentationBorder<TInputImage,TOutputImage> *
 KLMSegmentationRegion<TInputImage,TOutputImage>
 ::GetFirstRegionBorder()
@@ -239,14 +288,19 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
   {
     while( ( regionBorderVecIt + index ) != regionBorderVecItEnd )
     {
+
+      int tmp1 = pBorderCandidate->GetRegion1()->GetRegionLabel();
+      int tmp2 = (* ( regionBorderVecIt + index ))->GetRegion1()->GetRegionLabel(); 
+
       //The region border should be inserted
       if( ( pBorderCandidate->GetRegion1()->GetRegionLabel() <
-            ( *regionBorderVecIt )->GetRegion1()->GetRegionLabel() ) ||
+            ( *(regionBorderVecIt + index) )->GetRegion1()->GetRegionLabel() ) ||
           ( pBorderCandidate->GetRegion1()->GetRegionLabel() ==
-            (*regionBorderVecIt)->GetRegion1()->GetRegionLabel() &&
+            ( *(regionBorderVecIt + index) )->GetRegion1()->GetRegionLabel() &&
             pBorderCandidate->GetRegion2()->GetRegionLabel() ==
-            (*regionBorderVecIt)->GetRegion2()->GetRegionLabel() ) )
+            ( *(regionBorderVecIt + index) )->GetRegion2()->GetRegionLabel() ) )
       {
+        
         //Insert region border at the head of the list
         if(index == 0)
         {
@@ -266,7 +320,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 
       index++;
     }// end of while
-
+    
     // It should always be inserted at the end
     if( pBorderCandidate != NULL )
     m_RegionBorderVec.push_back( pBorderCandidate );
@@ -361,7 +415,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
   for( int k = 0; k < m_RegionBorderVec.size(); k++ )
   {      
     region1label = (*tempVecIt)->GetRegion1()->GetRegionLabel();
-	region2label = (*tempVecIt)->GetRegion2()->GetRegionLabel(); 
+	  region2label = (*tempVecIt)->GetRegion2()->GetRegionLabel(); 
 
     std::cout << "Border Ptr :" << (*tempVecIt) << "( " << 
 	  region1label << " - " << region2label << " )" << std::endl;

@@ -293,7 +293,6 @@ unsigned int test_regiongrowKLM2D()
   return 0;
 } // End test_regiongrow2D()
 
-
 /*
 unsigned int test_regiongrowKLM3D()
 {
@@ -568,4 +567,5 @@ unsigned int test_regiongrowKLM3D()
 
   return 0;
 } // End test_regiongrow3D()
+
 */

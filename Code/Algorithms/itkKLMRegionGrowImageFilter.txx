@@ -706,15 +706,36 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     m_TotalBorderLength -= 
       (m_pBordersCandidateDynPtr->m_Pointer->GetBorderLength());
 
-    MergeRegions();
-
     /*
-	for( unsigned int k = 0; k < m_NumRegions; k++ )
+
+    std::cout << "-------------------" << std::endl;
+    std::cout << "    Before merge   " << std::endl;
+    std::cout << "-------------------" << std::endl;
+
+    for( unsigned int k = 0; k < m_NumRegions; k++ )
       {
       m_pRegions[k]->PrintRegionInfo(); 
       }
-	*/
+    */
 
+    MergeRegions();
+
+    /*
+    std::cout << "-------------------" << std::endl;
+    std::cout << "    After merge    " << std::endl;
+    std::cout << "-------------------" << std::endl;
+   
+   
+	  for( unsigned int k = 0; k < m_NumRegions; k++ )
+      {
+      m_pRegions[k]->PrintRegionInfo(); 
+      }
+
+    std::cout << "-------------------" << std::endl;
+    std::cout << "    +++++++++++    " << std::endl;
+    std::cout << "-------------------" << std::endl;	
+    */
+   
     // since the number of borders decreases or increases, possibly
     // many times with each iteration, it is reasonable to check
     // for an invalid value 
@@ -1339,10 +1360,10 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
         // Initialize the border in the region objects
         // attach the (c) region border to the left region          
-        pneighborRegion1->SetRegionBorder( pcurrentBorder );
+        pneighborRegion1->SetRegionBorder3d( pcurrentBorder );
 
         // Attach the (d) region border to the right region 
-        pneighborRegion2->SetRegionBorder( pcurrentBorder );
+        pneighborRegion2->SetRegionBorder3d( pcurrentBorder );
 
         // Compute the scale parameter dlambda 
         pcurrentBorder->EvaluateLambda();
@@ -1606,22 +1627,13 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //---------------------------------------------------------------
   // Remove the common region border from region 1
   //---------------------------------------------------------------
+
   pRegion1->DeleteRegionBorder( m_pBordersCandidateDynPtr->m_Pointer ); 
 
   //---------------------------------------------------------------
   // Remove the common region border from region 2
   //---------------------------------------------------------------
   pRegion2->DeleteRegionBorder( m_pBordersCandidateDynPtr->m_Pointer ); 
-
-  // For DEBUG purposes
-#if DEBUG
-
-  std::cout << "First Region " << std::endl;
-  pRegion1->PrintRegionInfo();
-  std::cout << "Second Region " << std::endl;
-  pRegion2->PrintRegionInfo();
-
-#endif
 
   //---------------------------------------------------------------
   // Clear old pointers associated with the region
@@ -1643,6 +1655,16 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   // Merge the borders and region borders of two regions 
   union_borders( pRegion1, pRegion2 );
+
+  // For DEBUG purposes
+#if DEBUG
+  //COME BACK
+  std::cout << "First Region " << std::endl;
+  pRegion1->PrintRegionInfo();
+  std::cout << "Second Region " << std::endl;
+  pRegion2->PrintRegionInfo();
+
+#endif
 
   // Recompute the lambda's for all the borders of region1
   pRegion1->UpdateRegionBorderLambda();
@@ -1683,6 +1705,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
                         KLMSegmentationRegion<TInputImage,TOutputImage> *poldRegion)
 {
 
+
+
   KLMSegmentationRegion<TInputImage,TOutputImage> *ptmpRegion;  
 
   typedef 
@@ -1699,6 +1723,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   //Assign smaller label to region 2
   poldRegion->SetRegionLabel( pnewRegion->GetRegionLabel() );
+
+
 
   // Ensure that all borders associated with the old region
   // are in the correct order 
@@ -1763,6 +1789,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
               ( *oldRegionBordersIt )->GetRegion2() != pnewRegion &&
               ( *oldRegionBordersIt )->GetRegion1() == poldRegion )
     {
+
       // make the border's region 1 point to the new region 
       (*oldRegionBordersIt)->SetRegion1(pnewRegion);
 
@@ -1770,6 +1797,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       ( *oldRegionBordersIt )
         ->GetRegion2()
            ->ReorderRegionBorders( *oldRegionBordersIt );
+
     }// end else if (the border's region2 is the neighbor)
 
     else
@@ -1781,6 +1809,19 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     ++oldRegionBordersIt;
 
   }// end while
+
+  // For DEBUG purposes
+
+
+    // For DEBUG purposes
+#ifdef _DEBUG
+
+  std::cout << "New Region " << std::endl;
+  pnewRegion->PrintRegionInfo();
+  std::cout << "Old Region " << std::endl;
+  poldRegion->PrintRegionInfo();
+
+#endif
 
   // Do the actual union of the borders
   // Point the new region iterators to the appropriate region border to the 
@@ -1796,8 +1837,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   endOfOldRegionBorders = poldRegion->GetRegionBorderItEnd();
 
   //Merge the two sets of region borders into the newly merged region
+
   //For DEBUG purposes
-#ifdef DEBUG
+#ifdef _DEBUG
   std::cout << "The actual merge goes on here"<<std::endl;
   std::cout << "+++++++++++++++++++++++++++++"<<std::endl;
 #endif

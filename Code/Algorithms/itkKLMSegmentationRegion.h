@@ -201,6 +201,11 @@ public:
    */
   void SetRegionBorder(KLMSegmentationBorder<TInputImage,TOutputImage> *pNewRegionBorder);
 
+    /**
+   * Set the border associated with a region.
+   */
+  void SetRegionBorder3d(KLMSegmentationBorder<TInputImage,TOutputImage> *pNewRegionBorder);
+
   /**
    * get the first border associated with a region.
    */
