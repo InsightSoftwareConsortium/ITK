@@ -117,7 +117,7 @@ public:
   /** Finds the optimum value between the last two solutions 
     * and sets the current solution to that value.  Uses Evaluate Residual;
     */
-  void GoldenSection();
+  void GoldenSection(Float tol=0.01);
   Float EvaluateResidual(Float t=1.0);
   inline Float GSSign(Float a,Float b) { return (b > 0.0 ? fabs(a) : -1.*fabs(a)); }
   inline Float GSMax(Float a,Float b) { return (a > b ? a : b); }

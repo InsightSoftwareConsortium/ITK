@@ -155,7 +155,7 @@ std::cout << "Begin Assembly." << std::endl;
 void SolverCrankNicolson::AssembleFforTimeStep(int dim) {
 /* if no DOFs exist in a system, we have nothing to do */
   if (NGFN<=0) return;
- 
+  std::cout << " begin assemble f ";
   AssembleF(dim); // assuming assemblef uses index 0 in vector!
 
   typedef std::map<Element::DegreeOfFreedomIDType,Float> BCTermType;
@@ -190,6 +190,7 @@ void SolverCrankNicolson::AssembleFforTimeStep(int dim) {
   }
 
 
+  std::cout << " end assemble f " << std::endl;
 }
 
 
@@ -217,11 +218,12 @@ void SolverCrankNicolson::Solve()
   /* FIXME Initialize the solution vector */
   m_ls->InitializeSolution(SolutionTIndex);
   m_ls->Solve();  
+  std::cout << " end solve " << std::endl;
 // call this externally    AddToDisplacements(); 
 }
 
 
-void SolverCrankNicolson::GoldenSection()
+void SolverCrankNicolson::GoldenSection(Float tol)
 {
  // in 1-D domain, we want to find a < b < c , s.t.  f(b) < f(a) && f(b) < f(c)
  //  see Numerical Recipes
@@ -302,7 +304,6 @@ void SolverCrankNicolson::GoldenSection()
 
   Float R=0.6180339;
   Float C=(1.0-R);
-  Float tol=1.e-6;
 
   x0=ax;
   x3=cx;
