@@ -27,7 +27,7 @@ namespace itk
 {
 
 /** 
-* \class itkLineSpatialObject
+* \class LineSpatialObject
 * \brief Representation of a Line based on the spatial object classes.
 *
 * The Line is basically defined by a set of points. 

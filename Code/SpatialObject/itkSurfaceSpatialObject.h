@@ -27,7 +27,7 @@ namespace itk
 {
 
 /** 
-* \class itkSurfaceSpatialObject
+* \class SurfaceSpatialObject
 * \brief Representation of a Surface based on the spatial object classes.
 *
 * The Surface is basically defined by a set of points. 

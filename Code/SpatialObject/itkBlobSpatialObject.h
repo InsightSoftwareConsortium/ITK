@@ -27,7 +27,7 @@ namespace itk
 {
 
 /** 
-* \class itkBlobSpatialObject
+* \class BlobSpatialObject
 * \brief Representation of a Blob based on the spatial object classes.
 *
 * The Blob is basically defined by a set of points which are inside this blob

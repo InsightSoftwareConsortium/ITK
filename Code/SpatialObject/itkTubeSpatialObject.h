@@ -27,7 +27,7 @@ namespace itk
 {
 
 /** 
-* \class itkTubeSpatialObject
+* \class TubeSpatialObject
 * \brief Representation of a tube based on the spatial object classes.
 *
 * The tube is basically defined by a set of points. Each tube can
