@@ -226,7 +226,7 @@ SetAzimuthElevationToCartesianParameters(const double sampleSize,
                   const long maxAzimuth, 
                   const long maxElevation )
 {
-  SetAzimuthElevationToCartesianParameters(sampleSize, firstSampleDistance, maxAzimuth, maxElevation, 1, 1);
+  SetAzimuthElevationToCartesianParameters(sampleSize, firstSampleDistance, maxAzimuth, maxElevation, 1.0, 1.0);
 }
 
 
