@@ -186,6 +186,7 @@ void
 LightObject
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
+  os << indent << "RTTI typeinfo:   " << typeid( *this ).name() << std::endl;
   os << indent << "Reference Count: " << m_ReferenceCount << std::endl;
 }
 
