@@ -110,7 +110,7 @@ public:
    * Pass-through constructor to the Point base class.
    */
   ContinuousIndex(const Self& r): Superclass(r) {}
-  ContinuousIndex(const Superclass& r) : Superclass(r) {}
+//  ContinuousIndex(const Superclass& r) : Superclass(r) {}
   ContinuousIndex(const typename BaseArray::Reference& r): Superclass(r) {}
   ContinuousIndex(const typename BaseArray::ConstReference& r): Superclass(r) {}
   ContinuousIndex(const ValueType r[IndexDimension]): Superclass(r) {}  
