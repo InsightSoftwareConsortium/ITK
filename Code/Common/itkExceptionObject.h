@@ -47,6 +47,7 @@ namespace itk
 class ITK_EXPORT ExceptionObject : public std::exception
 {
 public:
+  typedef std::exception Superclass;
   /** Various types of constructors.  Note that these functions will be
    * called when children are instantiated. */
   ExceptionObject(const char *file="Unknown", unsigned int lineNumber=0,
@@ -66,7 +67,7 @@ public:
     m_File = file;
     m_Line = lineNumber;
   };
-  ExceptionObject( const ExceptionObject &orig )
+  ExceptionObject( const ExceptionObject &orig ): Superclass()
   {
     m_Location    = orig.m_Location;
     m_Description = orig.m_Description;
