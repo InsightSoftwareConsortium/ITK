@@ -222,14 +222,15 @@ proc RollUpCoverage { id } \
 # First run gcov on each *.da file
 # Next index all *.cxx, *.h, *.txx, *.c
 cd $BuildRoot
-FileMap [list Code CMake Testing] [list *.da] GCov
-FileMap [list Code CMake Testing] [list *.gcov] AddFile
+set CoverageDirs [list Testing Code]
+FileMap $CoverageDirs [list *.da] GCov
+FileMap $CoverageDirs [list *.gcov] AddFile
 
 set Coverage(UnCovered) 0
 set Coverage(Covered) 0
 
 cd $SourceDirectory
-FileMap [glob *] [list *.h *.cxx *.c *.txx] AddSourceFile
+FileMap $CoverageDirs [list *.h *.cxx *.c *.txx] AddSourceFile
 
 
 puts $Out $XMLHeader
