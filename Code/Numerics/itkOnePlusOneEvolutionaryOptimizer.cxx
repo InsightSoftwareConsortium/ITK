@@ -18,7 +18,7 @@
 #define _itkOnePlusOneEvolutionaryOptimizer_cxx
 
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
-#include "vcl/vcl_cmath.h"
+#include "vcl_cmath.h"
 #include "vnl/vnl_matrix.h"
 
 namespace itk

@@ -76,7 +76,7 @@ namespace itk
 
 // The following is required for CodeWarrior
 #if defined(__MWERKS__)
-#include "../Numerics/vxl/vcl/vcl_functional.h"
+#include "vcl_functional.h"
 #endif
 
 
