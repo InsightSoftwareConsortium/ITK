@@ -2,7 +2,7 @@
 
 if {$tcl_platform(platform) == "windows" && [regexp cygtclsh [info nameofexecutable]] == 0} {
   source [file join Testing Utilities WindowsUtility.conf]
-}
+} 
 
 
 proc SetConfiguration { variable { value INSIGHTINVALIDVALUE } } \
@@ -19,10 +19,10 @@ proc SetConfiguration { variable { value INSIGHTINVALIDVALUE } } \
       set value [set $value]
     }
   }
-  
+
   if { ![info exists TestingUtility(Valid)] } \
   {
-    set TestingUtility(Valid) 0
+    set TestingUtility(Valid) 1
   }
   
   if { $value == "INSIGHTINVALIDVALUE" } \
@@ -31,6 +31,12 @@ proc SetConfiguration { variable { value INSIGHTINVALIDVALUE } } \
   } \
   else \
   {
+    # if running in a cygwin configuration, convert paths for cygtclsh80
+    # whose source command does not understand /cygdrive/...
+    if { [regexp cygtclsh [info nameofexecutable]] == 1} {
+      set value [exec cygpath -w $value]
+    }
+  
     set TestingUtility($variable) $value
     set myvariable $value
   }
@@ -53,8 +59,8 @@ SetConfiguration Site [list @SITE@ ]
 SetConfiguration BuildName [list @BUILDNAME@ ]
 
 SetConfiguration Xalan [list [file join @fullSrcDir@ Code Insight3DParty xalan xalan.jar]]
-SetConfiguration XMLHeader {<?xml version="1.0" encoding="UTF-8"?>}
 
+set XMLHeader {<?xml version="1.0" encoding="UTF-8"?>}
 set HTMLDir [file join Testing HTML]
 set TempDir [file join Testing Temporary]
 
