@@ -197,27 +197,27 @@ ADD_TEST(itkPromoteDimensionImageTest ${BASIC_FILTERS_TESTS}
             ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd)
 
 ADD_TEST(itkVectorGradientMagnitudeImageFilterTest1a ${BASIC_FILTERS_TESTS}
-  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest1a.png
-            ${ITK_TEST_OUTPUT_DIR}/itkVectorGradientMagnitudeImageFilterTest1a.png
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorGradientMagnitudeImageFilterTest1a.png
+            ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest1a.png
   itkVectorGradientMagnitudeImageFilterTest1
             ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
-            ${ITK_TEST_OUTPUT_DIR}/itkVectorGradientMagnitudeImageFilterTest1a.png 
+            ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest1a.png 
             0)
 
 ADD_TEST(itkVectorGradientMagnitudeImageFilterTest1b ${BASIC_FILTERS_TESTS}
-  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest1b.png
-            ${ITK_TEST_OUTPUT_DIR}/itkVectorGradientMagnitudeImageFilterTest1b.png
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorGradientMagnitudeImageFilterTest1b.png
+            ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest1b.png
   itkVectorGradientMagnitudeImageFilterTest1
             ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
-            ${ITK_TEST_OUTPUT_DIR}/itkVectorGradientMagnitudeImageFilterTest1b.png
+            ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest1b.png
             1)
 
 ADD_TEST(itkVectorGradientMagnitudeImageFilterTest2 ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest2.png
-            ${ITK_TEST_OUTPUT_DIR}/itkVectorGradientMagnitudeImageFilterTest2.png
+            ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2.png
   itkVectorGradientMagnitudeImageFilterTest2
             ${ITK_DATA_ROOT}/Input/VHFColor.mhd
-            ${ITK_TEST_OUTPUT_DIR}/itkVectorGradientMagnitudeImageFilterTest2.png
+            ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2.png
             1)
 
 ENDIF(ITK_DATA_ROOT)
