@@ -180,6 +180,10 @@ GaussianMixtureModelComponent< TSample >
       }
     this->AreParametersModified(true) ;
     }
+  else
+    {
+    paramIndex = MeasurementVectorSize ;
+    }
 
   m_CovarianceEstimator->Update() ;
   CovarianceType covEstimate = *(m_CovarianceEstimator->GetOutput()) ;
