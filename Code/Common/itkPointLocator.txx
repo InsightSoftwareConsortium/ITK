@@ -200,7 +200,8 @@ PointLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-
+  os << indent << "Divisions: " << m_Divisions << "\n";
+  os << indent << "NumberOfPointsPerBucket: " << m_NumberOfPointsPerBucket << "\n";
 }
 
 } // end namespace itk
