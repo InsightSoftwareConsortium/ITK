@@ -340,9 +340,12 @@ Point<T, TPointDimension>
  * Set the point to the barycentric combination of N points in a Container
  */
 template< class TPointContainer, class TWeightContainer >
-typename TPointContainer::Element 
 BarycentricCombination<TPointContainer,TWeightContainer>
-::Evaluate( const typename TPointContainer::Pointer & points, const TWeightContainer & weights ) 
+::PointType 
+BarycentricCombination<TPointContainer,TWeightContainer>
+::Evaluate( 
+const PointContainerPointer & points, 
+const WeightContainerType & weights ) 
 {
   
   typedef typename TPointContainer::Element   PointType;

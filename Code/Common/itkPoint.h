@@ -339,11 +339,18 @@ ITK_EXPORT class BarycentricCombination
 {
 
 public:
+
+  typedef TPointContainer PointContainerType;
+  typedef typename PointContainerType::Pointer PointContainerPointer;
+  typedef typename PointContainerType::Element PointType;
+  typedef TWeightContainer WeightContainerType;
+
   BarycentricCombination() {}; 
   ~BarycentricCombination() {};
-  static typename TPointContainer::Element Evaluate( 
-                      const typename TPointContainer::Pointer & points, 
-                      const TWeightContainer & weights );
+
+  static PointType Evaluate( 
+    const PointContainerPointer & points, 
+    const WeightContainerType & weights );
 };
   
 };  // end namespace itk
