@@ -68,18 +68,18 @@ public:
   
   Maximum1() {}
   ~Maximum1() {}
-  inline TOutput operator()( const TOutput & A, const TInput & B)
-  {
-    const OutputValueType queryValue = static_cast<OutputValueType>(B);
-    if(A < queryValue)
+  inline TOutput operator()( const Array< TInput > & B)
     {
-      return queryValue; 
+    OutputValueType A = NumericTraits< TOutput >::NonpositiveMin();
+    for( int i=0; i< B.size(); i++ )
+      {
+      if( A < static_cast<OutputValueType>(B[i]) )
+        {
+        A = static_cast< OutputValueType > (B[i]);
+        }
+      }
+      return A;
     }
-  else
-    {
-    return A;
-    }
-  }
   
   bool operator != (const Maximum1&) const
   {
@@ -93,14 +93,14 @@ class ITK_EXPORT NaryMaximumImageFilter :
     public
 NaryFunctorImageFilter<TInputImage,TOutputImage, 
                        Functor::Maximum1<  typename TInputImage::PixelType, 
-                                       typename TOutputImage::PixelType>   >
+                           typename TInputImage::PixelType > > 
 {
 public:
   /** Standard class typedefs. */
   typedef NaryMaximumImageFilter  Self;
   typedef NaryFunctorImageFilter<TInputImage,TOutputImage, 
                                  Functor::Maximum1< typename TInputImage::PixelType, 
-                                                typename TOutputImage::PixelType> >  Superclass;
+                                   typename TInputImage::PixelType > >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

@@ -62,10 +62,16 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
     outputIt.Set( itk::NumericTraits< OutputImagePixelType >::Zero );
     ++outputIt;
     }
-   
+  
+  typedef ImageRegionConstIterator<TInputImage> ImageRegionConstIteratorType;
+  std::vector< ImageRegionConstIteratorType * > inputItrVector;
+  inputItrVector.reserve(numberOfInputImages);
+  //Array< ImageRegionConstIteratorType > inputItrVector(numberOfInputImages);
+  
   // support progress methods/callbacks.
   // count the number of inputs that are non-null
   unsigned int numberOfValidInputImages = 0;
+  unsigned int lastValidImage = 0;
   for (unsigned int i=0; i < numberOfInputImages; ++i)
     {
     InputImagePointer inputPtr =
@@ -73,33 +79,49 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
 
     if (inputPtr)
       {
-      numberOfValidInputImages++;
+      ImageRegionConstIteratorType *inputIt = new ImageRegionConstIteratorType(inputPtr,outputRegionForThread);
+      lastValidImage = i;
+      inputItrVector[i] = reinterpret_cast< ImageRegionConstIteratorType * >( inputIt );
+      inputItrVector[i]->GoToBegin();
+      }
+    else
+      {
+      inputItrVector[i] = reinterpret_cast< ImageRegionConstIteratorType * >(NULL);
       }
     }
   ProgressReporter progress(this, threadId,
                             numberOfValidInputImages
                             *outputRegionForThread.GetNumberOfPixels());
-      
-  for(unsigned int inputNumber=0;
-      inputNumber < numberOfInputImages; inputNumber++ )
+     
+  if( !inputItrVector[lastValidImage] )
+    { 
+    //No valid regions in the thread
+    return;
+    }
+  
+    
+  NaryArrayType naryInputArray; 
+  naryInputArray.SetSize( numberOfInputImages );
+    
+  outputIt.GoToBegin();
+  
+  while( !inputItrVector[lastValidImage]->IsAtEnd())  
     {
-    // We use dynamic_cast since inputs are stored as DataObjects.  
-    InputImagePointer inputPtr = 
-      dynamic_cast<TInputImage*>( ProcessObject::GetInput( inputNumber ) );
-
-    if (inputPtr)
+    for (unsigned int inputNumber=0; inputNumber < numberOfInputImages; inputNumber++)
       {
-      ImageRegionIterator<TInputImage> inputIt(inputPtr,outputRegionForThread);
-      
-      inputIt.GoToBegin();
-      outputIt.GoToBegin();
-      while( !inputIt.IsAtEnd() ) 
-        {
-        outputIt.Set( m_Functor( outputIt.Get(), inputIt.Get() ) );
-        ++inputIt;
-        ++outputIt;
-        progress.CompletedPixel();
-        }
+      naryInputArray[ inputNumber ] = inputItrVector[inputNumber]->Get();
+      ++(*inputItrVector[inputNumber]);
+      }
+    outputIt.Set( m_Functor( naryInputArray ) );
+    ++outputIt;
+    progress.CompletedPixel();
+    }
+  
+  for (unsigned int i=0; i < numberOfInputImages; ++i)
+    {
+    if (inputItrVector[i])
+      {
+      delete inputItrVector[i];
       }
     }
 }

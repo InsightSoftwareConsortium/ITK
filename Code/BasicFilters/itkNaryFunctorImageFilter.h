@@ -19,6 +19,7 @@
 
 #include "itkInPlaceImageFilter.h"
 #include "itkImageIterator.h"
+#include "itkArray.h"
 
 namespace itk
 {
@@ -47,7 +48,6 @@ public:
   typedef InPlaceImageFilter<TInputImage,TOutputImage>  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
@@ -64,7 +64,7 @@ public:
   typedef typename OutputImageType::Pointer     OutputImagePointer;
   typedef typename OutputImageType::RegionType  OutputImageRegionType;
   typedef typename OutputImageType::PixelType   OutputImagePixelType;
-
+  typedef Array< InputImagePixelType >         NaryArrayType; 
 
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do

@@ -62,10 +62,14 @@ public:
   typedef typename NumericTraits< TInput >::AccumulateType AccumulatorType;
   Add1() {}
   ~Add1() {}
-  inline TOutput operator()( const TOutput & A, const TInput & B)
+  inline TOutput operator()( const Array< TInput > & B)
   {
-    const AccumulatorType sum = A;
-    return static_cast<TOutput>( sum + B );
+    AccumulatorType sum = NumericTraits< TOutput >::Zero;
+    for( int i=0; i< B.size(); i++ )
+      {
+      sum += static_cast< TOutput >(B[i]);
+      }       
+    return static_cast<TOutput>( sum );
   }
   bool operator != (const Add1&) const
   {
@@ -77,15 +81,14 @@ template <class TInputImage, class TOutputImage>
 class ITK_EXPORT NaryAddImageFilter :
     public
 NaryFunctorImageFilter<TInputImage,TOutputImage, 
-                       Functor::Add1<  typename TInputImage::PixelType, 
-                                       typename TOutputImage::PixelType>   >
+                       Functor::Add1<typename TInputImage::PixelType,  typename TInputImage::PixelType > > 
 {
 public:
   /** Standard class typedefs. */
   typedef NaryAddImageFilter  Self;
   typedef NaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                 Functor::Add1< typename TInputImage::PixelType, 
-                                                typename TOutputImage::PixelType> >  Superclass;
+                                 Functor::Add1<typename TInputImage::PixelType,  
+                                 typename TInputImage::PixelType  > >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
