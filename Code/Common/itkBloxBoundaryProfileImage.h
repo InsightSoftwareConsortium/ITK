@@ -51,10 +51,10 @@ public:
   /** Standard image class typedefs. */
   typedef BloxBoundaryProfileImage  Self;
   typedef BloxImage<BloxBoundaryProfilePixel<VImageDimension>,
-                   VImageDimension>  Superclass;
+                    VImageDimension >  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
+  
   itkNewMacro(Self);
 
   itkTypeMacro(BloxBoundaryProfileImage, BloxImage);
@@ -75,7 +75,7 @@ public:
   typedef typename Superclass::IndexType IndexType;
   typedef typename Superclass::OffsetType OffsetType;
   typedef typename Superclass::RegionType RegionType;
-
+  
   typedef typename PixelContainer::Pointer PixelContainerPointer;
   
 protected:
