@@ -316,7 +316,6 @@ MetaImageIO
 
   std::string dataName;
   dataName = m_FileName + ".raw";
-  std::cout << "dataName = " << dataName << std::endl;
   m_MetaImage.Write(m_FileName.c_str(), dataName.c_str());
 
   delete dSize;
