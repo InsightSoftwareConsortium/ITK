@@ -272,6 +272,12 @@ int main( int argc, char * argv[] )
   //  of $6.0$.  The figure shows how homogeneous regions are smoothed and
   //  edges are preserved.
   //
+  //  \relatedClasses
+  //  \begin{itemize}
+  //  \item \doxygen{GradientAnisotropicDiffusionImageFilter}
+  //  \item \doxygen{CurvatureAnisotropicDiffusionImageFilter}
+  //  \item \doxygen{CurvatureFlowImageFilter}
+  //  \end{itemize}
   //
   //  Software Guide : EndLatex 
 
