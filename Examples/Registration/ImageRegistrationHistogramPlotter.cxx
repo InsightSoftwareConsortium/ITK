@@ -15,18 +15,33 @@
 
 =========================================================================*/
 
-// The example shows how to use the \doxygen{HistogramToImageFilter} class.
+// The example shows how to use the \doxygen{HistogramToEntropyImageFilter} class.
 // The example registers two images using the gradient descent optimizer.
 // The transform used here is a simple translation transform. The metric
 // is a MutualInformationHistogramImageToImageMetric. 
 //
 // The jointHistogramWriter is invoked after every iteration of the optimizer.
 // the writer here writes the joint histogram after every iteration as 
-// JointHistogramXXX.mhd
-//
-// Note: This may not work for some VNL optimizers like Amoeba which do not throw
-// events.
+// JointHistogramXXX.mhd. The output image contains the joint entropy histogram
+// given by 
+// \begin{equation}
+// f(I) = -p \log_2 p
+// \end{equation}
 // 
+// where 
+// \begin{equation}
+// p = \frac{q_I}{\sum_{i \in I} q_I}
+// \end{equation}
+//  and $q_I$ is the frequency of measurement vector, I.
+//
+// p is the probability of the occurance of the measurement vector, \f$q_I\f$.
+// 
+// The output image is of type double. 
+//
+// You may similarly instantiate \doxygen{HistogramToIntensityImageFilter} 
+// or \doxygen{HistogramToProbabilityImageFilter} or 
+// \doxygen{HistogramToLogProbabilityImageFilter}. 
+// \TODO: Put SoftwareGuide comments.
 
 
 #if defined(_MSC_VER)
@@ -45,7 +60,7 @@
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
-#include "itkHistogramToImageFilter.h"
+#include "itkHistogramToEntropyImageFilter.h"
 #include "itkCommand.h"
 
 
@@ -62,15 +77,15 @@ public:
                                           InternalImageType >    MetricType;
   typedef MetricType::Pointer   MetricPointer;
   typedef MetricType::HistogramType   HistogramType;
-  typedef itk::HistogramToImageFilter< HistogramType > HistogramToImageFilterType;
-  typedef HistogramToImageFilterType::Pointer   HistogramToImageFilterPointer;
-  typedef itk::ImageFileWriter<  HistogramToImageFilterType::OutputImageType  > HistogramWriterType;
+  typedef itk::HistogramToEntropyImageFilter< HistogramType > HistogramToEntropyImageFilterType;
+  typedef HistogramToEntropyImageFilterType::Pointer   HistogramToImageFilterPointer;
+  typedef itk::ImageFileWriter<  HistogramToEntropyImageFilterType::OutputImageType  > HistogramWriterType;
   typedef HistogramWriterType::Pointer   HistogramWriterPointer;
   
   HistogramWriter():
     m_Metric(0)
     {
-    this->m_Filter = HistogramToImageFilterType::New();
+    this->m_Filter = HistogramToEntropyImageFilterType::New();
     this->histogramWriter = HistogramWriterType::New();
     this->histogramWriter->SetInput( this->m_Filter->GetOutput() );
 
@@ -171,7 +186,7 @@ public:
 
 int main( int argc, char *argv[] )
 {
-  if( argc < 4 )
+  if( argc < 3 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
@@ -179,7 +194,7 @@ int main( int argc, char *argv[] )
     std::cerr << "outputImagefile ";
     std::cerr << "Number of histogram bins for writing the MutualInformationHistogramMetric";
     std::cerr <<  std::endl;
-    std::cerr << "Example: ImageRegistrationHistogramPlotter BrainT1Slice.png BrainProtonDensitySliceShifted13x17y.png Output.png 32" << std::endl; 
+    
     return 1;
     }
  
