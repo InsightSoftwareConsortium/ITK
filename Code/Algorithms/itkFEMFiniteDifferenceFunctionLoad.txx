@@ -210,7 +210,7 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::Fe
   
   typename TMoving::IndexType oindex;
 
-  unsigned int k=0;
+  unsigned int k;
   bool inimage=true;
   for(k = 0; k < ImageDimension; k++ ) 
   {

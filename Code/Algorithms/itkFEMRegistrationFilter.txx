@@ -914,11 +914,17 @@ template<class TMovingImage,class TFixedImage>
 void FEMRegistrationFilter<TMovingImage,TFixedImage>::IterativeSolve(SolverType& mySolver)
 {
   m_MinE=10.e99;
-  Float LastE =m_MinE, deltE=0, lastdeltE=0;
+  Float LastE, deltE=0, lastdeltE;
 
   unsigned int iters=0;
   bool Done=false;
   unsigned int DLS=m_DoLineSearchOnImageEnergy;
+  
+  if (!m_Load)
+  {  
+    std::cout << " m_Load not initialized " << std::endl;
+    return;
+  }
 
   while ( !Done && iters < m_Maxiters[m_CurrentLevel] )
   {
@@ -1058,7 +1064,7 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::InterpolateVectorField(SolverTy
   std::cout << " interpolating vector field of size " << m_FieldSize;
     
   
-  Float rstep=1.0,sstep=1.0,tstep=1.0;
+  Float rstep,sstep,tstep;
 
   vnl_vector<double> Pos;  // solution at the point
   vnl_vector<double> Sol;  // solution at the local point
@@ -1169,7 +1175,7 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::InterpolateVectorField(SolverTy
           Gpt[f]=posval;
 
           Float x=Gpt[f];
-          long int temp=0;
+          long int temp;
           if (x !=0) temp=(long int) ((x)+0.5); else temp=0;// round 
           rindex[f]=temp;
           disp[f] =(Float) 1.0*Sol[f];
@@ -1270,10 +1276,9 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::GetMetricImage(FieldType* Field
 template<class TMovingImage,class TFixedImage>
 void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sign, FieldType* field)
 {
-  unsigned int row=0; 
-  unsigned int col=0;
+  unsigned int row; 
+  unsigned int col;
   bool jproduct=true;
-  bool firstiter=false;
   typename FloatImageType::RegionType m_JacobianRegion;
 
   if (!field) 
@@ -1301,7 +1306,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sig
   ImageRegionIteratorWithIndex<FloatImageType> wimIter( m_FloatImage, m_FloatImage->GetLargestPossibleRegion()  );
   wimIter.GoToBegin();  
   for( ; !wimIter.IsAtEnd(); ++wimIter ) wimIter.Set(1.0);
-  firstiter=true;
+  
   }
   
  
@@ -1318,12 +1323,11 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sig
   
   std:: cout << " get jacobian " << std::endl;
 
-  double det=0.0;
+  double det;
   unsigned int posoff=1;
-  float difspace=0.5;
+
   float space=1.0;
-  if (posoff == 0) difspace=1.0;
-  
+
     typename FieldType::PixelType dPix;
     typename FieldType::PixelType lpix;
     typename FieldType::PixelType llpix;
@@ -1336,7 +1340,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sig
     rindex=m_FieldIter.GetIndex();
     float mindist=3.0;
     bool oktosample=true;
-    float dist=100.0;
+    float dist;
     for (row=0; row<ImageDimension; row++)
     {
       dist=fabs((float)rindex[row]);      
@@ -1344,7 +1348,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sig
       dist = fabs((float)s[row]-(float)rindex[row]);
       if (dist < mindist) oktosample=false;
     }
-    typename ImageType::IndexType temp=rindex;
+
     cpix=field->GetPixel(rindex);
     Float dV;
     for(row=0; row< ImageDimension;row++)
@@ -1829,7 +1833,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::MultiResSolve()
 
       CreateMesh(MeshResolution,SSS,m_CurrentLevelImageSize); 
       ApplyLoads(SSS,m_CurrentLevelImageSize,scaling);
-//      ApplyImageLoads(SSS,MovingCaster2->GetOutput(),FixedCaster2->GetOutput());
+      ApplyImageLoads(SSS,MovingCaster2->GetOutput(),FixedCaster2->GetOutput());
 
       unsigned int ndofpernode=(m_Element)->GetNumberOfDegreesOfFreedomPerNode();
       unsigned int numnodesperelt=(m_Element)->GetNumberOfNodes()+1;
@@ -1872,11 +1876,11 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::MultiResSolve()
 
         // expand the field to full size
         ExpandFactorsType expandFactors[ImageDimension];
-         bool NeedToExpand=false;
+//         bool NeedToExpand=false;
         for (unsigned int ef=0; ef<ImageDimension; ef++)
         { 
           expandFactors[ef]= (ExpandFactorsType)((float)m_FullImageSize[ef]/(float)m_FieldSize[ef]);
-          if (expandFactors[ef]!=1) NeedToExpand=true;
+//          if (expandFactors[ef]!=1) NeedToExpand=true;
         }
  
       } 

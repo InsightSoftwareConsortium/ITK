@@ -220,7 +220,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
 
   unsigned int movingLevel, fixedLevel;
   unsigned int idim;
-  unsigned int lastShrinkFactors[ImageDimension];
+  float lastShrinkFactors[ImageDimension];
   float expandFactors[ImageDimension];
 
   DeformationFieldPointer tempField = DeformationFieldType::New();

@@ -66,10 +66,10 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
 NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PrintSelf(std::ostream& os, Indent indent) const
-{/*
+{
   
   Superclass::PrintSelf(os, indent);
-
+/*
   os << indent << "MovingImageIterpolator: ";
   os << m_MovingImageInterpolator.GetPointer() << std::endl;
   os << indent << "FixedImageGradientCalculator: ";
@@ -156,7 +156,7 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     derivativeM[j]=0;
   }
 
-  unsigned int indct=0;
+  unsigned int indct;
   unsigned int hoodlen=hoodIt.Size();
 
   for(indct=0; indct<hoodlen-1; indct++)
@@ -176,7 +176,7 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
 
         // Get fixed image related information
-      fixedValue=0.0;
+      
       CovariantVectorType fixedGradient;
       double fixedGradientSquaredMagnitude = 0;
 
@@ -191,11 +191,9 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       } 
 
       // Get moving image related information
-      movingValue=0.0;
+      
       PointType mappedPoint;
 
-
-      unsigned int itsize = it.Size();
       typename TDeformationField::PixelType vec = m_DeformationField->GetPixel(index);
 
       for( j = 0; j < ImageDimension; j++ )

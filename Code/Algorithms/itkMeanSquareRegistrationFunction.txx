@@ -68,8 +68,8 @@ void
 MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-/*  Superclass::PrintSelf(os, indent);
-
+  Superclass::PrintSelf(os, indent);
+/*
   os << indent << "MovingImageIterpolator: ";
   os << m_MovingImageInterpolator.GetPointer() << std::endl;
   os << indent << "FixedImageGradientCalculator: ";

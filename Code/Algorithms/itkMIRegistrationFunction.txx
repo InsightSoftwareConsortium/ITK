@@ -82,10 +82,10 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
 MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PrintSelf(std::ostream& os, Indent indent) const
-{/*
+{
   
   Superclass::PrintSelf(os, indent);
-
+/*
   os << indent << "MovingImageIterpolator: ";
   os << m_MovingImageInterpolator.GetPointer() << std::endl;
   os << indent << "FixedImageGradientCalculator: ";
@@ -172,11 +172,11 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   PixelType update;
   PixelType derivative;
-  unsigned int j=0;
+  unsigned int j;
 
   IndexType oindex = it.GetIndex();
 
-  unsigned int indct=0;
+  unsigned int indct;
   unsigned int hoodlen=it.Size();
 
   for (indct=0;indct<ImageDimension;indct++)
@@ -197,7 +197,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   typename FixedImageType::SizeType imagesize=img->GetLargestPossibleRegion().GetSize();
   
 
-  bool inimage=false; 
+  bool inimage; 
 
 // now collect the samples 
   sampleContainerType fixedSamplesA;
@@ -494,8 +494,8 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   double m_MinProbability = 0.0001;
   double dLogSumFixed=0.,dLogSumMoving=0.,dLogSumJoint=0.0;
-  unsigned int bsamples=0;
-  unsigned int asamples=0;
+  unsigned int bsamples;
+  unsigned int asamples;
 
   // the B samples estimate the entropy
   for(bsamples=0; bsamples<(unsigned int)numsamplesB; bsamples++)
@@ -613,7 +613,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   { 
     PixelType invderivative = ComputeInverseUpdate( it, globalData, offset);
 
-    float idmag=0.0;
+//    float idmag=0.0;
     for (j=0; j<ImageDimension; j++)
     {
       derivative[j]+=invderivative[j];
@@ -669,7 +669,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   IndexType oindex = it.GetIndex();
 
-  unsigned int indct=0;
+  unsigned int indct;
   unsigned int hoodlen=it.Size();
 
   for (indct=0;indct<ImageDimension;indct++)
@@ -689,7 +689,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   typename FixedImageType::SizeType imagesize=img->GetLargestPossibleRegion().GetSize();
   
 
-  bool inimage=false; 
+  bool inimage; 
 
 // now collect the samples 
   sampleContainerType fixedSamplesA;
@@ -1050,7 +1050,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   IndexType oindex = it.GetIndex();
 
-  unsigned int indct=0;
+  unsigned int indct;
   unsigned int hoodlen=it.Size();
 
   for (indct=0;indct<ImageDimension;indct++)
@@ -1071,7 +1071,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   typename FixedImageType::SizeType imagesize=img->GetLargestPossibleRegion().GetSize();
   
 
-  bool inimage=false; 
+  bool inimage; 
 
 // now collect the samples 
   sampleContainerType fixedSamplesA;
@@ -1279,8 +1279,8 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   double m_MinProbability = 0.0001;
   double dLogSumFixed=0.,dLogSumMoving=0.,dLogSumJoint=0.0;
-  unsigned int bsamples=0;
-  unsigned int asamples=0;
+  unsigned int bsamples;
+  unsigned int asamples;
 
   // the B samples estimate the entropy
   for(bsamples=0; bsamples<(unsigned int)numsamplesB; bsamples++)
