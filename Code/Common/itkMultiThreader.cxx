@@ -714,7 +714,7 @@ void MultiThreader::TerminateThread( int ThreadID )
 }
 
 // Print method for the multithreader
-void MultiThreader::PrintSelf(std::ostream& os, Indent indent)
+void MultiThreader::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent); 
 

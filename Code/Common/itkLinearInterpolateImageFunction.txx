@@ -73,7 +73,7 @@ LinearInterpolateImageFunction<TInputImage>
 template<class TInputImage>
 void
 LinearInterpolateImageFunction<TInputImage>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
   os << indent << "linearly interpolate image." << std::endl;

@@ -208,7 +208,7 @@ DataObject
 //----------------------------------------------------------------------------
 void 
 DataObject
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Object::PrintSelf(os,indent);
 

@@ -72,7 +72,7 @@ ostream& operator << (ostream& os, string& s)
  */
 void 
 Directory
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 { 
   Superclass::PrintSelf(os, indent);
   os << indent << "Directory for: " << m_Path << "\n";

@@ -372,7 +372,7 @@ template<class TScalarType, int NDimensions>
 inline
 std::ostream&
 operator<< (std::ostream &s,
-            KernelTransform<TScalarType, NDimensions>& transform)
+            const KernelTransform<TScalarType, NDimensions>& transform)
 {
     return transform.PrintSelf(s);
 }

@@ -115,7 +115,7 @@ void SimpleMutexLock::Unlock()
 #endif
 }
 
-void MutexLock::PrintSelf(std::ostream& os, Indent indent)
+void MutexLock::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

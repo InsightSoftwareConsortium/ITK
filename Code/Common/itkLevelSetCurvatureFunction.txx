@@ -93,7 +93,7 @@ LevelSetCurvatureFunction<TInputImage>
 template<class TInputImage>
 void
 LevelSetCurvatureFunction<TInputImage>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
   os << indent << "calculate mean curvature" << std::endl;

@@ -292,7 +292,7 @@ ImageBase<VImageDimension>
 template<unsigned int VImageDimension>
 void 
 ImageBase<VImageDimension>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 

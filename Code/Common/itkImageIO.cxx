@@ -43,7 +43,7 @@ void ImageIO::Print(std::ostream& os)
   ImageIO::PrintSelf(os, newIndent);
 }
 
-void ImageIO::PrintSelf(std::ostream& os, Indent indent)
+void ImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   indent = indent.GetNextIndent();
