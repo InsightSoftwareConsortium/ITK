@@ -20,9 +20,6 @@
 #include "itkImageFileWriter.h" 
 #include "itkRawImageIO.h"
 
-//#include "itkImageFileWriter.h"
-//#include "itkRawImageWriter.h"
-
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
 
@@ -30,8 +27,10 @@
 
 //  Software Guide : BeginLatex
 //
-// The first step in implementing a FEM-Based registration method is to include
-// the following header files. 
+// The finite element (FEM) library within the Insight Toolkit can be
+// used to solve image registration problems.  The first step in
+// implementing a FEM-based registration is to include the following
+// header files:
 //
 //  Software Guide : EndLatex 
 
@@ -44,43 +43,86 @@
 
 //  Software Guide : BeginLatex
 //
-//  Below, we have typedefs that instantiate all necessary classes.
-//  Here, we instantiate the image type, load type and 
-//  explicitly template the load implementation type.
+//  Next, we use typedefs to instantiate all necessary classes.  We
+//  define the image and element types we plan to use to solve a
+//  two-dimensional registration problem.  We define multiple element
+//  types so that they can be used in meshes without recompiling this
+//  code.
 //
 //  Software Guide : EndLatex 
 
-#define TWOD
-//#define THREED
 
-#ifdef TWOD
+//  Software Guide : BeginCodeSnippet
 typedef itk::Image< unsigned char, 2 >                     fileImageType;
-typedef itk::Image< float, 2 >                     ImageType;
 
-// We now declare an element type and load implementation pointer for the visitor class.
-typedef itk::fem::Element2DC0LinearTriangularMembrane   ElementType2;
+typedef itk::Image< float, 2 >                             ImageType;
+
 typedef itk::fem::Element2DC0LinearQuadrilateralMembrane   ElementType;
-#endif 
 
-#ifdef THREED
-typedef itk::Image< unsigned char, 3 >                     fileImageType;
-typedef itk::Image< float, 3 >                     ImageType;
+typedef itk::fem::Element2DC0LinearTriangularMembrane      ElementType2;
+//  Software Guide : EndCodeSnippet
+
+
+//  Software Guide : BeginLatex
+//
+//  Note that in order to solve a three-dimensional registration
+//  problem, we would simply define 3D image and element types in lieu
+//  of those above.  These declarations could be used for a 3D
+//  problem:
+//
+//  SoftwareGuide : EndLatex
+
+
+//  SoftwareGuide : BeginCodeSnippet
+typedef itk::Image< unsigned char, 3 >                  fileImageType;
+
+typedef itk::Image< float, 3 >                          ImageType;
+
 typedef itk::fem::Element3DC0LinearHexahedronMembrane   ElementType;
-typedef itk::fem::Element3DC0LinearTetrahedronMembrane   ElementType2;
-#endif
 
+typedef itk::fem::Element3DC0LinearTetrahedronMembrane  ElementType2;
+//  Software Guide : EndCodeSnippet
+
+
+//  Software Guide : BeginLatex
+//  
+//  Here, we instantiate the load types and explicitly template the
+//  load implementation type.  We also define visitors that allow the
+//  elements and loads to communicate with one another.  
+//
+//  Software Guide : EndLatex
+
+
+//  Software Guide : BeginCodeSnippet
 typedef itk::fem::ImageMetricLoad<ImageType,ImageType>     ImageLoadType;
+
 template class itk::fem::ImageMetricLoadImplementation<ImageLoadType>;
+
 typedef ElementType::LoadImplementationFunctionPointer     LoadImpFP;
 typedef ElementType::LoadType                              ElementLoadType;
-typedef ElementType2::LoadImplementationFunctionPointer     LoadImpFP2;
-typedef ElementType2::LoadType                              ElementLoadType2;
-typedef itk::fem::VisitorDispatcher<ElementType,ElementLoadType, LoadImpFP>   
-                                                          DispatcherType;
-typedef itk::fem::VisitorDispatcher<ElementType2,ElementLoadType2, LoadImpFP2>   
-                                                          DispatcherType2;
 
+typedef ElementType2::LoadImplementationFunctionPointer    LoadImpFP2;
+typedef ElementType2::LoadType                             ElementLoadType2;
+
+typedef itk::fem::VisitorDispatcher<ElementType,ElementLoadType, LoadImpFP>   
+                                                           DispatcherType;
+
+typedef itk::fem::VisitorDispatcher<ElementType2,ElementLoadType2, LoadImpFP2>   
+                                                           DispatcherType2;
+//  Software Guide : EndCodeSnippet
+
+
+//  Software Guide : BeginLatex
+//
+//  Once all the other components have been instantianted, we can
+//  instantiate the FEM registration filter as follows:
+//
+//  Software Guide : EndLatex
+
+
+//  Software Guide : BeginCodeSnippet
 typedef itk::fem::FEMRegistrationFilter<ImageType,ImageType> RegistrationType;
+//  Software Guide : EndCodeSnippet
 
 int main(int argc, char *argv[])
 {
@@ -218,9 +260,10 @@ int main(int argc, char *argv[])
   if (X->GetWriteDisplacements()) {
     X->WriteDisplacementField(0);
     X->WriteDisplacementField(1);
-#ifdef THREE
-    X->WriteDisplacementField(2);
-#endif
+
+    // If this were a 3D example, you might also want to call this line:
+    
+    // X->WriteDisplacementField(2);
   }
 
   // Clean up and exit
