@@ -48,8 +48,7 @@ namespace itk {
 
 /**
  * \class LaplacianOperator
- * \brief A NeighborhoodOperator for calculate the laplacian 
- * at a pixel
+ * \brief A NeighborhoodOperator for calculating the laplacian at a pixel
  * 
  * LaplacianOperator's coefficients are a tightest-fitting convolution
  * kernel for calculating the laplacian value at a pixel.
@@ -64,8 +63,6 @@ namespace itk {
  *
  * \sa NeighborhoodOperator
  * \sa Neighborhood
- * \sa ForwardDifferenceOperator
- * \sa BackwardDifferenceOperator
  * 
  * \ingroup Operators
  */

@@ -48,18 +48,21 @@ namespace itk
 {
 /**
  * \class LaplacianImageFilter
- * \brief Computes the laplacian  of an image, the zero-crossing of which can
- * tell where the edges are. Thus this fillter is usually applied before the
- * the application of ZeroCrossingImageFilter.
+ * \brief Computes the laplacian of an image, The Laplacian is an isotropic measure of the 2nd 
+ * spatial derivative of an image. The Laplacian of an image highlights regions of rapid 
+ * intensity change and is therefore often used for edge detection.  The Laplacian is often 
+ * applied to an image that has first been smoothed with  a Gaussian filter in order to
+ * reduce its sensitivity to noise. The operator takes a single grey-scale image as input and 
+ * produces another grey-scale image as output. 
  *
- * The laplacian value at each pixel location is computed by convolution
- * with a laplacian operator.
+ * The Laplacian at each pixel location is computed by convolution with a LaplacianOperator.
  *
  * \sa Image
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
- * 
+ * \sa LaplacianOperator
+ *
  * \ingroup ImageFeatureExtraction 
  *
  */

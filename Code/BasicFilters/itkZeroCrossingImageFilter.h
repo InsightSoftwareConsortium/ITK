@@ -51,9 +51,22 @@ namespace itk
 {
 
 /** \class ZeroCrossingImageFilter
- * \brief Do the zero-crossing in the the input image.
-
- */
+ * \brief Detect the zero-crossing of the input image, which is usually 
+ *  preprocessed by the LaplacianImageFilter.
+ *  
+ *  If the value of a pixel and its neighbor has different sign, then there
+ *  must be zero-crossing between these two pixels. In this implemention, only
+ *  the nearest neighbors are compared.(e.g. for 2D image, a pixel has 4 nearesst 
+ *  neighbors). The pixel nearest to the zero-crossing position is set to 
+ *  represent the place of zero-crossing. 
+ *  
+ *  \sa Image
+ *  \sa Neighborhood
+ *  \sa NeighborhoodOperator
+ *  \sa NeighborhoodIterator
+ *  
+ *  \ingroup ImageFeatureExtraction
+ */ 
 
 template<class TInputImage, class TOutputImage>
   class ITK_EXPORT ZeroCrossingImageFilter: public ImageToImageFilter<TInputImage, TOutputImage>

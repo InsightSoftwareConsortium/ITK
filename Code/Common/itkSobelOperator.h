@@ -57,16 +57,19 @@ namespace itk {
  * SobelOperator is a directional NeighborhoodOperator that should be
  * applied to a Neighborhood or NeighborhoodPointer using the inner product
  * method. To create the operator, you need:
- *  call CreateOperator() 
- * For example, here the Sobel Operator in vertical direction is
+ * 
+ * 1) Set the direction  2) call CreateOperator() 
+ * For example, the Sobel Operator in vertical direction is
  *             -1  -2  -1  
  *             0    0   0 
  *             1    2   1
- * Here the Sobel Operator in horizonal direction is
+ * while  the Sobel Operator in horizonal direction is
  *             -1   0   1      
  *             -2   0   2 
  *             -1   0   1
+ *
  * The Sobel Operator in the Nth dimension can be calculated accordingly.
+ *
  * \sa NeighborhoodOperator
  * \sa Neighborhood
  * \sa ForwardDifferenceOperator

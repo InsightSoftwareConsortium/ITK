@@ -51,14 +51,26 @@ namespace itk
 {
 
 /** \class ZeroCrossingBasedEdgeDetectionImageFilter
- * \brief Provides a zero-crossing based edge detecor. 
+ * \brief Provides a zero-crossing based edge detecor. The zero crossing based edge detector 
+ * looks for places in the Laplacian of an image where the value of the Laplacian passes through 
+ * zero --- i.e. points where the Laplacian changes sign. Such points often occur at `edges' in 
+ * images --- i.e. points where the intensity of the image changes rapidly, but they also occur 
+ * at places that are not as easy to associate with edges. It is best to think of the zero 
+ * crossing detector as some sort of feature detector rather than as a specific edge detector. 
+ * Zero crossings always lie on closed contours and so the output from the zero crossing detector 
+ * is usually a binary image with single pixel thickness lines showing the positions of the zero 
+ * crossing points. 
  *
- * The input image is first * smoothed with a gauussian filter, then the 
- * LaplacianImageFilter is applied. Finally the zero-crossing of the 
- * laplaican of the image is  calculated. 
+ * In this implementation, the input image is first smoothed with a gauussian filter, then the 
+ * LaplacianImageFilter is applied to smoothed image. Finally the zero-crossing of the 
+ * laplaican of the smoothed image is detected. Output is a binary image. 
  *
- * To use this filter, the parameters--variance and maximum error parameter
- * needed by the DiscreteGaussianImageFilter.
+ * To use this filter, first set the parameters (variance and maximum error) 
+ * needed by the embedded DiscreteGaussianImageFilter, i.e.
+ * 1) Create the filter 
+ * 2) Call SetVariance()
+ * 3) Call SetMsximumError()
+ * 4) Call Update()
 
  * \sa DiscreteGaussianImageFilter
  * \sa LaplacianImageFilter
@@ -127,12 +139,20 @@ template<class TInputImage, class TOutputImage>
   itkGetVectorMacro(Variance, const float, ImageDimension);
   itkSetVectorMacro(MaximumError, float, ImageDimension);
   itkGetVectorMacro(MaximumError, const float, ImageDimension);
+
+  /**
+   * Set the variance parameter needed by the embedded gaussiand filter
+   */ 
   void SetVariance(const float v)
     {
       float vArray[ImageDimension];
       for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
       this->SetVariance(vArray);
     }
+
+  /**
+   * Set the MaximumError parameter needed by the embedded gaussiand filter
+   */ 
   void SetMaximumError(const float v)
     {
       float vArray[ImageDimension];

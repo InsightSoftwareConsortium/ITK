@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkDivideImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -51,8 +52,8 @@ namespace itk
  *
  * This class is parametrized over the types of the two 
  * input images and the type of the output image. When the divisor is zero,
- * the division result is set to zero by default to avoid exception.
- * Numeric conversions (castings) are done by the C++ defaults.
+ * the division result is set to the maximum number that can be represneted  by default to 
+ * avoid exception. Numeric conversions (castings) are done by the C++ defaults.
  * 
  * \ingroup IntensityImageFilters  Multithreaded
  */
@@ -70,7 +71,7 @@ namespace Function {
       if(B != (TInput2) 0)
         return (TOutput)(A / B);
       else
-        return (TOutput)0;
+        return NumericTraits<TOutput>::max();
     }
   }; 
 }

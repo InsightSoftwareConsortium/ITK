@@ -60,9 +60,15 @@ namespace itk
  *  1) First smoothe the image by the Gaussian filter.
  *  2) Calculate the directional derivative normals.
  *  3) Aplly nonmaxima suppression(find local edges):calculate 2nd derivative
- *     of the smoothed image, and apply ZeroCrossingImageFilter to get edges.   *  4) Thesholding the resulting image to eliminate bogus edges. Here only
+ *     of the smoothed image, and apply ZeroCrossingImageFilter to get edges.   
+ *  4) Thesholding the resulting image to eliminate bogus edges. Here only
  *     single thresholding is implemented, edge-linking not done due to the
  *     the lack of connected-component labeling algorithms
+ *
+ *  Usage: Before use this filter, 
+ *  1) Set variance and maximum error parameter needed for the DiscreteGaussianImageFilter 
+ *  2) Set the single threshold used by the ThresholdImageFilter.
+ *
  *
  * \sa DiscreteGaussianImageFilter
  * \sa ZeroCrossingImageFilter
