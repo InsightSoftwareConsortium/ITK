@@ -81,8 +81,14 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   if (m_Touched || ((this->GetElapsedIterations() >0)
                     && (this->m_Step == m_ReinitializationFrequency )))
     {
+    // Do we need to call ClearNarrowBand?
+    
     //Reinitialize the narrowband properly
     CreateNarrowBand();
+
+    // Rebuild the narrow band splits used in multithreading
+    m_RegionList=m_NarrowBand->SplitBand(this->GetNumberOfThreads());
+    
     m_Step=0;
     m_Touched = false;
     }
