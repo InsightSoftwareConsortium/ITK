@@ -1,260 +1,144 @@
-IF (TCL_TCLSH)
-ADD_TEST(PrintSelf-BasicFilters ${TCL_TCLSH}
-         ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
-         ${ITK_SOURCE_DIR}/Code/BasicFilters)
-ENDIF (TCL_TCLSH)
-
-IF( CXX_TEST_PATH )
-  SET(BASIC_FILTERS_TESTS ${CXX_TEST_PATH}/itkBasicFiltersTests)
-  SET(BASIC_FILTERS_HEADER_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderTest)
-ELSE( CXX_TEST_PATH )
-  SET(BASIC_FILTERS_TESTS itkBasicFiltersTests)
-  SET(BASIC_FILTERS_HEADER_TEST itkBasicFiltersHeaderTest)
-ENDIF( CXX_TEST_PATH )
-
-ADD_TEST(itkAsinImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAsinImageFilterAndAdaptorTest)
-ADD_TEST(itkAcosImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAcosImageFilterAndAdaptorTest)
-ADD_TEST(itkAtanImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAtanImageFilterAndAdaptorTest)
-ADD_TEST(itkAdaptImageFilterTest ${BASIC_FILTERS_TESTS} itkAdaptImageFilterTest)
-ADD_TEST(itkAdaptImageFilterTest2 ${BASIC_FILTERS_TESTS} itkAdaptImageFilterTest2)
-ADD_TEST(itkBasicArchitectureTest ${BASIC_FILTERS_TESTS} itkBasicArchitectureTest)
-ADD_TEST(itkBilateralImageFilterTest ${BASIC_FILTERS_TESTS} itkBilateralImageFilterTest)
-ADD_TEST(itkBilateralImageFilterTest2 ${BASIC_FILTERS_TESTS} itkBilateralImageFilterTest2 ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest2.png)
-ADD_TEST(itkBilateralImageFilterTest3 ${BASIC_FILTERS_TESTS} itkBilateralImageFilterTest3 ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest3.png)
-ADD_TEST(itkBinaryDilateImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryDilateImageFilterTest)
-ADD_TEST(itkBinaryMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryMagnitudeImageFilterTest)
-ADD_TEST(itkBinaryMedianImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryMedianImageFilterTest)
-ADD_TEST(itkBinaryThresholdImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryThresholdImageFilterTest)
-ADD_TEST(itkBSplineDecompositionImageFilterTest ${BASIC_FILTERS_TESTS} itkBSplineDecompositionImageFilterTest)
-ADD_TEST(itkBSplineInterpolateImageFunctionTest ${BASIC_FILTERS_TESTS} itkBSplineInterpolateImageFunctionTest)
-ADD_TEST(itkBSplineResampleImageFilterTest ${BASIC_FILTERS_TESTS} itkBSplineResampleImageFilterTest)
-ADD_TEST(itkBSplineResampleImageFunctionTest ${BASIC_FILTERS_TESTS} itkBSplineResampleImageFunctionTest)
-ADD_TEST(itkBloxBoundaryPointImageTest ${BASIC_FILTERS_TESTS} itkBloxBoundaryPointImageTest)
-ADD_TEST(itkBloxCoreAtomTest ${BASIC_FILTERS_TESTS} itkBloxCoreAtomTest)
-ADD_TEST(itkChangeInformationImageFilterTest ${BASIC_FILTERS_TESTS} itkChangeInformationImageFilterTest)
-ADD_TEST(itkConfidenceConnectedImageFilterTest ${BASIC_FILTERS_TESTS} itkConfidenceConnectedImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConfidenceConnectedImageFilterTest.png)
-ADD_TEST(itkConnectedThresholdImageFilterTest ${BASIC_FILTERS_TESTS} itkConnectedThresholdImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedThresholdImageFilterTest.png)
-ADD_TEST(itkCosImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkCosImageFilterAndAdaptorTest)
-ADD_TEST(itkCurvatureAnisotropicDiffusionImageFilterTest ${BASIC_FILTERS_TESTS} itkCurvatureAnisotropicDiffusionImageFilterTest)
-ADD_TEST(itkCyclicReferences ${BASIC_FILTERS_TESTS} itkCyclicReferences)
-ADD_TEST(itkDanielssonDistanceMapImageFilterTest ${BASIC_FILTERS_TESTS} itkDanielssonDistanceMapImageFilterTest)
-ADD_TEST(itkDifferenceOfGaussiansGradientTest ${BASIC_FILTERS_TESTS} itkDifferenceOfGaussiansGradientTest)
-ADD_TEST(itkEdgePotentialImageFilterTest ${BASIC_FILTERS_TESTS} itkEdgePotentialImageFilterTest)
-ADD_TEST(itkEigenAnalysis2DImageFilterTest ${BASIC_FILTERS_TESTS} itkEigenAnalysis2DImageFilterTest)
-ADD_TEST(itkIsolatedConnectedImageFilterTest ${BASIC_FILTERS_TESTS} itkIsolatedConnectedImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/IsolatedConnectedImageFilterTest.png)
-ADD_TEST(itkExpImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkExpImageFilterAndAdaptorTest)
-ADD_TEST(itkExpNegativeImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkExpNegativeImageFilterAndAdaptorTest)
-ADD_TEST(itkExpandImageFilterTest ${BASIC_FILTERS_TESTS} itkExpandImageFilterTest)
-ADD_TEST(itkVectorExpandImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorExpandImageFilterTest)
-ADD_TEST(itkFilterDispatchTest ${BASIC_FILTERS_TESTS} itkFilterDispatchTest)
-ADD_TEST(itkAddImageFilterTest ${BASIC_FILTERS_TESTS} itkAddImageFilterTest)
-ADD_TEST(itkFlipImageFilterTest ${BASIC_FILTERS_TESTS} itkFlipImageFilterTest)
-ADD_TEST(itkFloodFillIteratorTest ${BASIC_FILTERS_TESTS} itkFloodFillIteratorTest)
-ADD_TEST(itkGaussianImageSourceTest ${BASIC_FILTERS_TESTS} itkGaussianImageSourceTest)
-ADD_TEST(itkHausdorffDistanceImageFilterTest ${BASIC_FILTERS_TESTS} itkHausdorffDistanceImageFilterTest)
-ADD_TEST(itkImageAdaptorNthElementTest ${BASIC_FILTERS_TESTS} itkImageAdaptorNthElementTest)
-ADD_TEST(itkImageAdaptorPipeLineTest ${BASIC_FILTERS_TESTS} itkImageAdaptorPipeLineTest)
-ADD_TEST(itkImageToParametricSpaceFilterTest ${BASIC_FILTERS_TESTS} itkImageToParametricSpaceFilterTest)
-ADD_TEST(itkImportImageTest ${BASIC_FILTERS_TESTS} itkImportImageTest)
-ADD_TEST(itkInteriorExteriorMeshFilterTest ${BASIC_FILTERS_TESTS} itkInteriorExteriorMeshFilterTest )
-ADD_TEST(itkInterpolateImageFilterTest ${BASIC_FILTERS_TESTS} itkInterpolateImageFilterTest )
-ADD_TEST(itkInterpolateImagePointsFilterTest ${BASIC_FILTERS_TESTS} itkInterpolateImagePointsFilterTest }
-ADD_TEST(itkJoinImageFilterTest ${BASIC_FILTERS_TESTS} itkJoinImageFilterTest)
-ADD_TEST(itkLog10ImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkLog10ImageFilterAndAdaptorTest)
-ADD_TEST(itkLogImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkLogImageFilterAndAdaptorTest)
-ADD_TEST(itkMaskImageFilterTest ${BASIC_FILTERS_TESTS} itkMaskImageFilterTest)
-ADD_TEST(itkMathematicalMorphologyImageFilterTest ${BASIC_FILTERS_TESTS} itkMathematicalMorphologyImageFilterTest)
-ADD_TEST(itkMaximumImageFilterTest ${BASIC_FILTERS_TESTS} itkMaximumImageFilterTest)
-ADD_TEST(itkMinimumImageFilterTest ${BASIC_FILTERS_TESTS} itkMinimumImageFilterTest)
-ADD_TEST(itkMeanImageFilterTest ${BASIC_FILTERS_TESTS} itkMeanImageFilterTest)
-ADD_TEST(itkMedianImageFilterTest ${BASIC_FILTERS_TESTS} itkMedianImageFilterTest)
-ADD_TEST(itkMultiplyImageFilterTest ${BASIC_FILTERS_TESTS} itkMultiplyImageFilterTest)
-ADD_TEST(itkMinimumMaximumImageFilterTest ${BASIC_FILTERS_TESTS} itkMinimumMaximumImageFilterTest)
-ADD_TEST(itkMinimumMaximumImageCalculatorTest ${BASIC_FILTERS_TESTS} itkMinimumMaximumImageCalculatorTest)
-ADD_TEST(itkNeighborhoodConnectedImageFilterTest ${BASIC_FILTERS_TESTS} itkNeighborhoodConnectedImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/NeighborhoodConnectedImageFilterTest.png)
-ADD_TEST(itkNormalizeImageFilterTest ${BASIC_FILTERS_TESTS} itkNormalizeImageFilterTest)
-ADD_TEST(itkPermuteAxesImageFilterTest ${BASIC_FILTERS_TESTS} itkPermuteAxesImageFilterTest)
-ADD_TEST(itkPlaheImageFilterTest ${BASIC_FILTERS_TESTS} itkPlaheImageFilterTest)
-ADD_TEST(itkRecursiveGaussianImageFiltersTest ${BASIC_FILTERS_TESTS} itkRecursiveGaussianImageFiltersTest)
-ADD_TEST(itkReflectiveImageRegionIteratorTest ${BASIC_FILTERS_TESTS}  itkReflectiveImageRegionIteratorTest )
-ADD_TEST(itkReflectImageFilterTest ${BASIC_FILTERS_TESTS} itkReflectImageFilterTest)
-ADD_TEST(itkResampleImageTest ${BASIC_FILTERS_TESTS} itkResampleImageTest)
-ADD_TEST(itkRescaleIntensityImageFilterTest ${BASIC_FILTERS_TESTS} itkRescaleIntensityImageFilterTest)
-ADD_TEST(itkRGBToVectorAdaptImageFilterTest.cxx ${BASIC_FILTERS_TESTS} itkRGBToVectorAdaptImageFilterTest)
-ADD_TEST(itkSimilarityIndexImageFilterTest ${BASIC_FILTERS_TESTS} itkSimilarityIndexImageFilterTest)
-ADD_TEST(itkSigmoidImageFilterTest ${BASIC_FILTERS_TESTS} itkSigmoidImageFilterTest)
-ADD_TEST(itkShiftScaleImageFilterTest ${BASIC_FILTERS_TESTS} itkShiftScaleImageFilterTest)
-ADD_TEST(itkShrinkImageTest ${BASIC_FILTERS_TESTS} itkShrinkImageTest)
-ADD_TEST(itkStatisticsImageFilterTest ${BASIC_FILTERS_TESTS} itkStatisticsImageFilterTest)
-ADD_TEST(itkConstantPadImageTest ${BASIC_FILTERS_TESTS} itkConstantPadImageTest)
-ADD_TEST(itkWrapPadImageTest ${BASIC_FILTERS_TESTS} itkWrapPadImageTest)
-ADD_TEST(itkMirrorPadImageTest ${BASIC_FILTERS_TESTS} itkMirrorPadImageTest)
-ADD_TEST(itkExtractImageTest ${BASIC_FILTERS_TESTS} itkExtractImageTest)
-ADD_TEST(itkCropImageFilterTest ${BASIC_FILTERS_TESTS} itkCropImageFilterTest)
-ADD_TEST(itkSinImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkSinImageFilterAndAdaptorTest)
-ADD_TEST(itkSparseFieldLayerTest ${BASIC_FILTERS_TESTS} itkSparseFieldLayerTest)
-ADD_TEST(itkSpatialFunctionImageEvaluatorFilterTest ${BASIC_FILTERS_TESTS} itkSpatialFunctionImageEvaluatorFilterTest)
-ADD_TEST(itkSqrtImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkSqrtImageFilterAndAdaptorTest)
-ADD_TEST(itkSquaredDifferenceImageFilterTest ${BASIC_FILTERS_TESTS} itkSquaredDifferenceImageFilterTest)
-ADD_TEST(itkStreamingImageFilterTest ${BASIC_FILTERS_TESTS} itkStreamingImageFilterTest)
-ADD_TEST(itkStreamingImageFilterTest2 ${BASIC_FILTERS_TESTS} itkStreamingImageFilterTest2)
-ADD_TEST(itkSubtractImageFilterTest ${BASIC_FILTERS_TESTS} itkSubtractImageFilterTest)
-ADD_TEST(itkTanImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkTanImageFilterAndAdaptorTest)
-ADD_TEST(itkTernaryMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkTernaryMagnitudeImageFilterTest)
-ADD_TEST(itkThresholdImageFilterTest ${BASIC_FILTERS_TESTS} itkThresholdImageFilterTest)
-ADD_TEST(itkTransformMeshFilterTest ${BASIC_FILTERS_TESTS} itkTransformMeshFilterTest)
-ADD_TEST(itkVectorAnisotropicDiffusionImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorAnisotropicDiffusionImageFilterTest)
-ADD_TEST(itkGradientAnisotropicDiffusionImageFilterTest ${BASIC_FILTERS_TESTS} itkGradientAnisotropicDiffusionImageFilterTest)
-ADD_TEST(itkGradientAnisotropicDiffusionImageFilterTest2 ${BASIC_FILTERS_TESTS} itkGradientAnisotropicDiffusionImageFilterTest2 ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/GradientAnisotropicDiffusionImageFilterTest2.png)
-ADD_TEST(itkGradientMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkGradientMagnitudeImageFilterTest)
-ADD_TEST(itkGradientToMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkGradientToMagnitudeImageFilterTest)
-ADD_TEST(itkGradientImageFilterTest ${BASIC_FILTERS_TESTS} itkGradientImageFilterTest)
-ADD_TEST(itkGradientMagnitudeRecursiveGaussianFilterTest ${BASIC_FILTERS_TESTS} itkGradientMagnitudeRecursiveGaussianFilterTest)
-ADD_TEST(itkGradientRecursiveGaussianFilterTest ${BASIC_FILTERS_TESTS} itkGradientRecursiveGaussianFilterTest)
-ADD_TEST(itkNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS} itkNeighborhoodOperatorImageFilterTest)
-ADD_TEST(itkVectorNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorNeighborhoodOperatorImageFilterTest)
-ADD_TEST(itkNaryAddImageFilterTest ${BASIC_FILTERS_TESTS} itkNaryAddImageFilterTest)
-ADD_TEST(itkDerivativeImageFilterTest ${BASIC_FILTERS_TESTS} itkDerivativeImageFilterTest)
-ADD_TEST(itkDiscreteGaussianImageFilterTest ${BASIC_FILTERS_TESTS} itkDiscreteGaussianImageFilterTest)
-ADD_TEST(itkWarpImageFilterTest ${BASIC_FILTERS_TESTS} itkWarpImageFilterTest)
-ADD_TEST(itkZeroCrossingImageFilterTest ${BASIC_FILTERS_TESTS} itkZeroCrossingImageFilterTest)
-ADD_TEST(itkLaplacianImageFilterTest ${BASIC_FILTERS_TESTS} itkLaplacianImageFilterTest)
-ADD_TEST(itkDivideImageFilterTest ${BASIC_FILTERS_TESTS} itkDivideImageFilterTest)
-ADD_TEST(itkSobelEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS} itkSobelEdgeDetectionImageFilterTest)
-ADD_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS} itkZeroCrossingBasedEdgeDetectionImageFilterTest)
-ADD_TEST(itkCannyEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS} itkCannyEdgeDetectionImageFilterTest)
-ADD_TEST(itkHardConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS} itkHardConnectedComponentImageFilterTest)
-ADD_TEST(itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest ${BASIC_FILTERS_TESTS} itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest)
-ADD_TEST(itkTobogganImageFilterTest ${BASIC_FILTERS_TESTS} itkTobogganImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/TobogganImageFilterTest.png)
-ADD_TEST(itkObjectMorphologyImageFilterTest ${BASIC_FILTERS_TESTS} itkObjectMorphologyImageFilterTest)
-ADD_TEST(itkVectorGradientMagnitudeImageFilterTest1 ${BASIC_FILTERS_TESTS} itkVectorGradientMagnitudeImageFilterTest1 ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest1.mha)
-ADD_TEST(itkVectorGradientMagnitudeImageFilterTest2 ${BASIC_FILTERS_TESTS} itkVectorGradientMagnitudeImageFilterTest2 ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest2.mha)
-
-SET(BasicFilters_SRCS
-itkChangeInformationImageFilterTest.cxx
-itkCannyEdgeDetectionImageFilterTest.cxx
-itkZeroCrossingBasedEdgeDetectionImageFilterTest.cxx
-itkSobelEdgeDetectionImageFilterTest.cxx
-itkDivideImageFilterTest.cxx
-itkLaplacianImageFilterTest.cxx
-itkZeroCrossingImageFilterTest.cxx
-itkAsinImageFilterAndAdaptorTest.cxx
-itkAcosImageFilterAndAdaptorTest.cxx
-itkAtanImageFilterAndAdaptorTest.cxx
-itkAdaptImageFilterTest.cxx
-itkAdaptImageFilterTest2.cxx
-itkBasicArchitectureTest.cxx
-itkBilateralImageFilterTest.cxx
-itkBilateralImageFilterTest2.cxx
-itkBilateralImageFilterTest3.cxx
-itkBinaryDilateImageFilterTest.cxx
-itkBinaryMagnitudeImageFilterTest.cxx
-itkBinaryMedianImageFilterTest.cxx
-itkBinaryThresholdImageFilterTest.cxx
-itkBSplineDecompositionImageFilterTest.cxx
-itkBSplineInterpolateImageFunctionTest.cxx
-itkBSplineResampleImageFilterTest.cxx
-itkBSplineResampleImageFunctionTest.cxx
-itkBloxBoundaryPointImageTest.cxx
-itkBloxCoreAtomTest.cxx
-itkConfidenceConnectedImageFilterTest.cxx
-itkConnectedThresholdImageFilterTest.cxx
-itkCosImageFilterAndAdaptorTest.cxx
-itkCurvatureAnisotropicDiffusionImageFilterTest.cxx
-itkCyclicReferences.cxx
-itkDanielssonDistanceMapImageFilterTest.cxx
-itkDifferenceOfGaussiansGradientTest.cxx
-itkEdgePotentialImageFilterTest.cxx
-itkEigenAnalysis2DImageFilterTest.cxx
-itkIsolatedConnectedImageFilterTest.cxx
-itkExpImageFilterAndAdaptorTest.cxx
-itkExpNegativeImageFilterAndAdaptorTest.cxx
-itkExpandImageFilterTest.cxx
-itkVectorExpandImageFilterTest.cxx
-itkFilterDispatchTest.cxx
-itkAddImageFilterTest.cxx
-itkFlipImageFilterTest.cxx
-itkFloodFillIteratorTest.cxx
-itkGaussianImageSourceTest.cxx
-itkHausdorffDistanceImageFilterTest.cxx
-itkImageAdaptorNthElementTest.cxx
-itkImageAdaptorPipeLineTest.cxx
-itkImageToParametricSpaceFilterTest.cxx
-itkImportImageTest.cxx
-itkInteriorExteriorMeshFilterTest.cxx
-itkInterpolateImageFilterTest.cxx
-itkInterpolateImagePointsFilterTest.cxx
-itkJoinImageFilterTest.cxx
-itkLog10ImageFilterAndAdaptorTest.cxx
-itkLogImageFilterAndAdaptorTest.cxx
-itkMaskImageFilterTest.cxx
-itkMathematicalMorphologyImageFilterTest.cxx
-itkMaximumImageFilterTest.cxx
-itkMinimumImageFilterTest.cxx
-itkMeanImageFilterTest.cxx
-itkMedianImageFilterTest.cxx
-itkMultiplyImageFilterTest.cxx
-itkMinimumMaximumImageFilterTest.cxx
-itkMinimumMaximumImageCalculatorTest.cxx
-itkNeighborhoodConnectedImageFilterTest.cxx
-itkNormalizeImageFilterTest.cxx
-itkPermuteAxesImageFilterTest.cxx
-itkPlaheImageFilterTest.cxx
-itkRecursiveGaussianImageFiltersTest.cxx
-itkReflectImageFilterTest.cxx
-itkReflectiveImageRegionIteratorTest.cxx
-itkResampleImageTest.cxx
-itkRescaleIntensityImageFilterTest.cxx
-itkRGBToVectorAdaptImageFilterTest.cxx
-itkSimilarityIndexImageFilterTest.cxx
-itkSigmoidImageFilterTest.cxx
-itkShiftScaleImageFilterTest.cxx
-itkShrinkImageTest.cxx
-itkSparseFieldLayerTest.cxx
-itkStatisticsImageFilterTest.cxx
-itkConstantPadImageTest.cxx
-itkWrapPadImageTest.cxx
-itkMirrorPadImageTest.cxx
-itkExtractImageTest.cxx
-itkCropImageFilterTest.cxx
-itkSpatialFunctionImageEvaluatorFilterTest.cxx
-itkStreamingImageFilterTest.cxx
-itkStreamingImageFilterTest2.cxx
-itkSinImageFilterAndAdaptorTest.cxx
-itkSqrtImageFilterAndAdaptorTest.cxx
-itkSquaredDifferenceImageFilterTest.cxx
-itkSubtractImageFilterTest.cxx
-itkTanImageFilterAndAdaptorTest.cxx
-itkTernaryMagnitudeImageFilterTest.cxx
-itkThresholdImageFilterTest.cxx
-itkTransformMeshFilterTest.cxx
-itkTwoOutputExampleImageFilterTest.cxx
-itkVectorAnisotropicDiffusionImageFilterTest.cxx
-itkGradientAnisotropicDiffusionImageFilterTest.cxx
-itkGradientAnisotropicDiffusionImageFilterTest2.cxx
-itkGradientMagnitudeImageFilterTest.cxx
-itkGradientToMagnitudeImageFilterTest.cxx
-itkGradientImageFilterTest.cxx
-itkGradientRecursiveGaussianFilterTest.cxx
-itkGradientMagnitudeRecursiveGaussianFilterTest.cxx
-itkNeighborhoodOperatorImageFilterTest.cxx
-itkVectorNeighborhoodOperatorImageFilterTest.cxx
-itkNaryAddImageFilterTest.cxx
-itkDerivativeImageFilterTest.cxx
-itkDiscreteGaussianImageFilterTest.cxx
-itkWarpImageFilterTest.cxx
-itkHardConnectedComponentImageFilterTest.cxx
-itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest.cxx
-itkTobogganImageFilterTest.cxx
-itkObjectMorphologyImageFilterTest.cxx
-itkVectorGradientMagnitudeImageFilterTest1.cxx
-itkVectorGradientMagnitudeImageFilterTest2.cxx
+SET(KIT BasicFilters)
+CREATE_TEST_SOURCELIST(Tests itk${KIT}Tests.cxx 
+  itkChangeInformationImageFilterTest.cxx
+  itkCannyEdgeDetectionImageFilterTest.cxx
+  itkZeroCrossingBasedEdgeDetectionImageFilterTest.cxx
+  itkSobelEdgeDetectionImageFilterTest.cxx
+  itkDivideImageFilterTest.cxx
+  itkLaplacianImageFilterTest.cxx
+  itkZeroCrossingImageFilterTest.cxx
+  itkAsinImageFilterAndAdaptorTest.cxx
+  itkAcosImageFilterAndAdaptorTest.cxx
+  itkAtanImageFilterAndAdaptorTest.cxx
+  itkAdaptImageFilterTest.cxx
+  itkAdaptImageFilterTest2.cxx
+  itkBasicArchitectureTest.cxx
+  itkBilateralImageFilterTest.cxx
+  itkBilateralImageFilterTest2.cxx
+  itkBilateralImageFilterTest3.cxx
+  itkBinaryDilateImageFilterTest.cxx
+  itkBinaryMagnitudeImageFilterTest.cxx
+  itkBinaryMedianImageFilterTest.cxx
+  itkBinaryThresholdImageFilterTest.cxx
+  itkBSplineDecompositionImageFilterTest.cxx
+  itkBSplineInterpolateImageFunctionTest.cxx
+  itkBSplineResampleImageFilterTest.cxx
+  itkBSplineResampleImageFunctionTest.cxx
+  itkBloxBoundaryPointImageTest.cxx
+  itkBloxCoreAtomTest.cxx
+  itkConfidenceConnectedImageFilterTest.cxx
+  itkConnectedThresholdImageFilterTest.cxx
+  itkCosImageFilterAndAdaptorTest.cxx
+  itkCurvatureAnisotropicDiffusionImageFilterTest.cxx
+  itkCyclicReferences.cxx
+  itkDanielssonDistanceMapImageFilterTest.cxx
+  itkDifferenceOfGaussiansGradientTest.cxx
+  itkEdgePotentialImageFilterTest.cxx
+  itkEigenAnalysis2DImageFilterTest.cxx
+  itkIsolatedConnectedImageFilterTest.cxx
+  itkExpImageFilterAndAdaptorTest.cxx
+  itkExpNegativeImageFilterAndAdaptorTest.cxx
+  itkExpandImageFilterTest.cxx
+  itkVectorExpandImageFilterTest.cxx
+  itkFilterDispatchTest.cxx
+  itkAddImageFilterTest.cxx
+  itkFlipImageFilterTest.cxx
+  itkFloodFillIteratorTest.cxx
+  itkGaussianImageSourceTest.cxx
+  itkHausdorffDistanceImageFilterTest.cxx
+  itkImageAdaptorNthElementTest.cxx
+  itkImageAdaptorPipeLineTest.cxx
+  itkImageToParametricSpaceFilterTest.cxx
+  itkImportImageTest.cxx
+  itkInteriorExteriorMeshFilterTest.cxx
+  itkInterpolateImageFilterTest.cxx
+  itkInterpolateImagePointsFilterTest.cxx
+  itkJoinImageFilterTest.cxx
+  itkLog10ImageFilterAndAdaptorTest.cxx
+  itkLogImageFilterAndAdaptorTest.cxx
+  itkMaskImageFilterTest.cxx
+  itkMathematicalMorphologyImageFilterTest.cxx
+  itkMaximumImageFilterTest.cxx
+  itkMinimumImageFilterTest.cxx
+  itkMeanImageFilterTest.cxx
+  itkMedianImageFilterTest.cxx
+  itkMultiplyImageFilterTest.cxx
+  itkMinimumMaximumImageFilterTest.cxx
+  itkMinimumMaximumImageCalculatorTest.cxx
+  itkNeighborhoodConnectedImageFilterTest.cxx
+  itkNormalizeImageFilterTest.cxx
+  itkPermuteAxesImageFilterTest.cxx
+  itkPlaheImageFilterTest.cxx
+  itkRecursiveGaussianImageFiltersTest.cxx
+  itkReflectImageFilterTest.cxx
+  itkReflectiveImageRegionIteratorTest.cxx
+  itkResampleImageTest.cxx
+  itkRescaleIntensityImageFilterTest.cxx
+  itkRGBToVectorAdaptImageFilterTest.cxx
+  itkSimilarityIndexImageFilterTest.cxx
+  itkSigmoidImageFilterTest.cxx
+  itkShiftScaleImageFilterTest.cxx
+  itkShrinkImageTest.cxx
+  itkSparseFieldLayerTest.cxx
+  itkStatisticsImageFilterTest.cxx
+  itkConstantPadImageTest.cxx
+  itkWrapPadImageTest.cxx
+  itkMirrorPadImageTest.cxx
+  itkExtractImageTest.cxx
+  itkCropImageFilterTest.cxx
+  itkSpatialFunctionImageEvaluatorFilterTest.cxx
+  itkStreamingImageFilterTest.cxx
+  itkStreamingImageFilterTest2.cxx
+  itkSinImageFilterAndAdaptorTest.cxx
+  itkSqrtImageFilterAndAdaptorTest.cxx
+  itkSquaredDifferenceImageFilterTest.cxx
+  itkSubtractImageFilterTest.cxx
+  itkTanImageFilterAndAdaptorTest.cxx
+  itkTernaryMagnitudeImageFilterTest.cxx
+  itkThresholdImageFilterTest.cxx
+  itkTransformMeshFilterTest.cxx
+  itkTwoOutputExampleImageFilterTest.cxx
+  itkVectorAnisotropicDiffusionImageFilterTest.cxx
+  itkGradientAnisotropicDiffusionImageFilterTest.cxx
+  itkGradientAnisotropicDiffusionImageFilterTest2.cxx
+  itkGradientMagnitudeImageFilterTest.cxx
+  itkGradientToMagnitudeImageFilterTest.cxx
+  itkGradientImageFilterTest.cxx
+  itkGradientRecursiveGaussianFilterTest.cxx
+  itkGradientMagnitudeRecursiveGaussianFilterTest.cxx
+  itkNeighborhoodOperatorImageFilterTest.cxx
+  itkVectorNeighborhoodOperatorImageFilterTest.cxx
+  itkNaryAddImageFilterTest.cxx
+  itkDerivativeImageFilterTest.cxx
+  itkDiscreteGaussianImageFilterTest.cxx
+  itkWarpImageFilterTest.cxx
+  itkHardConnectedComponentImageFilterTest.cxx
+  itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest.cxx
+  itkTobogganImageFilterTest.cxx
+  itkObjectMorphologyImageFilterTest.cxx
+  itkVectorGradientMagnitudeImageFilterTest1.cxx
+  itkVectorGradientMagnitudeImageFilterTest2.cxx
 )
 
+ADD_EXECUTABLE(itk${KIT}Tests ${Tests})
+TARGET_LINK_LIBRARIES(itk${KIT}Tests ITKIO ITKNumerics ITKBasicFilters)
 
-ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})
-ADD_EXECUTABLE(itkBasicFiltersHeaderTest itkBasicFiltersHeaderTest.cxx)
-TARGET_LINK_LIBRARIES(itkBasicFiltersHeaderTest ITKIO ITKNumerics ITKBasicFilters)
-ADD_EXECUTABLE(itkBasicFiltersTests itkBasicFiltersTests.cxx ${BasicFilters_SRCS})
-TARGET_LINK_LIBRARIES(itkBasicFiltersTests ITKIO ITKNumerics ITKBasicFilters)
+SET (TestsToRun ${Tests})
+REMOVE (TestsToRun itk${KIT}Tests.cxx)
 
+FOREACH (test ${TestsToRun})
+  GET_FILENAME_COMPONENT(TName ${test} NAME_WE)
+  ADD_TEST(${TName} ${CXX_TEST_PATH}/itk${KIT}Tests ${TName}) 
+ENDFOREACH (test)
+
+# Add PrintSelf test.
+IF (TCL_TCLSH)
+  ADD_TEST(PrintSelf-${KIT} ${TCL_TCLSH}
+           ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+           ${ITK_SOURCE_DIR}/Code/${KIT})
+ENDIF (TCL_TCLSH)
+
+# Add header test.
+ADD_EXECUTABLE(itk${KIT}HeaderTest itk${KIT}HeaderTest.cxx)
+TARGET_LINK_LIBRARIES(itk${KIT}HeaderTest ITKIO ITKNumerics ITKBasicFilters)
+ADD_TEST(itk${KIT}HeaderTest ${CXX_TEST_PATH}/itk${KIT}HeaderTest)

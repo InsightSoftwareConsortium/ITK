@@ -1,8 +1,12 @@
 # This is the root ITK CMakeLists file.
-CMAKE_MINIMUM_REQUIRED(VERSION 1.4)
+CMAKE_MINIMUM_REQUIRED(VERSION 1.6)
 PROJECT(ITK)
 INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c|ce).*$")
 SOURCE_GROUP("XML Files" "[.]xml$")
+
+# Don't build anything unless the version of CMake is high enough.
+# The matching ELSE/ENDIF should be the last lines in the file.
+IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 1.5)
 
 #-----------------------------------------------------------------------------
 # ITK version number.  An even minor number corresponds to releases.
@@ -15,11 +19,13 @@ SET(ITK_VERSION_PATCH "0")
 SET(ITK_VERSION_STRING "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
 
 #-----------------------------------------------------------------------------
+# Load some macros.
+INCLUDE(${ITK_SOURCE_DIR}/Utilities/itkThirdParty.cmake)
+
+#-----------------------------------------------------------------------------
 # Test for some required system information.
-IF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
-  INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityC.cmake)
-  INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityCXX.cmake)
-ENDIF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
+INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityC.cmake)
+INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityCXX.cmake)
 
 #-----------------------------------------------------------------------------
 # Output directories.
@@ -28,15 +34,61 @@ SET (EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE PATH "Single output dire
 MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
 SET(ITK_LIBRARY_PATH "${LIBRARY_OUTPUT_PATH}")
 SET(ITK_EXECUTABLE_PATH "${EXECUTABLE_OUTPUT_PATH}")
+SET(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
+
+# Put "." in the rpath of all ITK shared libraries.
+LINK_DIRECTORIES(.)
 
 #-----------------------------------------------------------------------------
 # ITK build configuration options.
 IF(NOT WIN32)
   OPTION(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
 ENDIF(NOT WIN32)
+OPTION(ITK_WRAP_TCL "Build Tcl wrapper support (requires CABLE/GCC-XML)." OFF)
+OPTION(BUILD_EXAMPLES "Build the Examples directory." ON)
+OPTION(ITK_USE_SYSTEM_STDLIB
+       "Use the system's version of the standard C++ library (STL and streams).  If 'OFF', ITK will build against a supplied version of the standard library from SGI.  On SGI systems, this should be set to 'OFF'." ON)
+OPTION(VXL_FROM_UTILITIES "Use new vxl from utilities." OFF)
+MARK_AS_ADVANCED(VXL_FROM_UTILITIES)
+
+# Provide options to use system versions of third-party libraries.
+ITK_THIRD_PARTY_OPTION(ZLIB zlib)
+ITK_THIRD_PARTY_OPTION(PNG  png)
+
+IF(CMAKE_SYSTEM MATCHES "IRIX.*")
+ELSE(CMAKE_SYSTEM MATCHES "IRIX.*")
+  MARK_AS_ADVANCED(ITK_USE_SYSTEM_STDLIB)
+ENDIF(CMAKE_SYSTEM MATCHES "IRIX.*")
 
 #-----------------------------------------------------------------------------
-# VTK requires special compiler flags on some platforms.
+# Configure Dart testing support.
+INCLUDE(${CMAKE_ROOT}/Modules/Dart.cmake)
+MARK_AS_ADVANCED(TCL_TCLSH)
+IF(BUILD_TESTING)
+  ENABLE_TESTING()
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/InsightLogo.gif
+                 ${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Icons/Logo.gif
+                 COPYONLY IMMEDIATE)
+ENDIF(BUILD_TESTING)
+
+#-----------------------------------------------------------------------------
+# Dispatch the build into the proper subdirectories.
+SUBDIRS(Utilities Code)
+
+IF(ITK_WRAP_TCL)
+  SUBDIRS(Wrapping)
+ENDIF(ITK_WRAP_TCL)
+
+IF (BUILD_TESTING)
+  SUBDIRS(Testing)
+ENDIF (BUILD_TESTING)
+
+IF(BUILD_EXAMPLES)
+  SUBDIRS(Examples)
+ENDIF(BUILD_EXAMPLES)
+
+#-----------------------------------------------------------------------------
+# ITK requires special compiler flags on some platforms.
 IF(CMAKE_COMPILER_IS_GNUCXX)
   SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -ftemplate-depth-50")
   IF(APPLE)
@@ -70,55 +122,60 @@ IF(NOT ITK_USE_SYSTEM_STDLIB)
 ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
 
 #-----------------------------------------------------------------------------
-# Include the include and link libraries
-INCLUDE (${ITK_SOURCE_DIR}/itkCMakeOptions.cmake)
+# Configure the default ITK_DATA_ROOT for the location of ITK Data.
+FIND_PATH(ITK_DATA_ROOT ITKData.readme ${ITK_SOURCE_DIR}/Testing/Data $ENV{ITK_DATA_ROOT})
 
-# where will executable tests be written ?
-SET (CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
-
-# Walk into these directories before Testing or Auxiliary
-SUBDIRS(Utilities Code)
-
-# Optionally add Tcl wrappers.  They should be built before Testing so
-# that that Tcl tests can run when Tcl is available.
-OPTION(ITK_WRAP_TCL "Build Tcl wrapper support." OFF)
+#-----------------------------------------------------------------------------
+# Configure Tcl support.
 IF(ITK_WRAP_TCL)
-  SUBDIRS(Wrapping)
+  INCLUDE(${CMAKE_ROOT}/Modules/FindTCL.cmake)
+
+  # Hide useless settings provided by FindTCL.
+  FOREACH(entry TCL_LIBRARY_DEBUG
+                TK_LIBRARY_DEBUG
+                TCL_STUB_LIBRARY
+                TCL_STUB_LIBRARY_DEBUG
+                TK_STUB_LIBRARY
+                TK_STUB_LIBRARY_DEBUG
+                TK_WISH)
+    SET(${entry} "${${entry}}" CACHE INTERNAL "This value is not used by ITK.")
+  ENDFOREACH(entry)
 ENDIF(ITK_WRAP_TCL)
 
-# Include the standard Dart testing module
-INCLUDE (${CMAKE_ROOT}/Modules/Dart.cmake)
-IF (BUILD_TESTING)
-  SUBDIRS(Testing)
-  CONFIGURE_FILE(${ITK_SOURCE_DIR}/InsightLogo.gif ${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Icons/Logo.gif COPYONLY)
-FIND_PATH (ITK_DATA_ROOT ITKData.readme ${ITK_SOURCE_DIR}/Testing/Data $ENV{ITK_DATA_ROOT})
-ENDIF (BUILD_TESTING)
+#-----------------------------------------------------------------------------
+# Configure files with settings for use by the build.
+CONFIGURE_FILE(${ITK_SOURCE_DIR}/itkConfigure.h.in 
+               ${ITK_BINARY_DIR}/itkConfigure.h)
+CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
+               ${ITK_BINARY_DIR}/doxygen.config)
+CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
+               ${ITK_BINARY_DIR}/itkdoxygen.pl)
 
-# Add an option to build or not build the Examples
-OPTION(BUILD_EXAMPLES "Build the Examples directory" 1)
-IF(BUILD_EXAMPLES)
-  SUBDIRS(Examples)
-ENDIF(BUILD_EXAMPLES)
+#-----------------------------------------------------------------------------
+# The entire ITK tree should use the same include path, except for the
+# Wrapping directory.
 
+# Create the list of include directories needed for ITK header files.
+INCLUDE(${ITK_SOURCE_DIR}/itkIncludeDirectories.cmake)
 
-# Configure files
-CONFIGURE_FILE(
-${ITK_SOURCE_DIR}/itkConfigure.h.in 
-${ITK_BINARY_DIR}/itkConfigure.h)
+# This should be the only INCLUDE_DIRECTORIES command in the entire
+# tree, except for the Utilities and Wrapping directories.  We need to
+# do this in one place to make sure the order is correct.
+INCLUDE_DIRECTORIES(
+  ${ITK_INCLUDE_DIRS_BUILD_TREE}
+  ${ITK_INCLUDE_DIRS_SOURCE_TREE}
+  ${ITK_INCLUDE_DIRS_BUILD_TREE_CXX}
+  ${ITK_INCLUDE_DIRS_SYSTEM}
+)
 
-CONFIGURE_FILE(
-${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
-${ITK_BINARY_DIR}/doxygen.config)
+#-----------------------------------------------------------------------------
+# Setup third-party components.
 
-CONFIGURE_FILE(
-${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
-${ITK_BINARY_DIR}/itkdoxygen.pl)
-
-# make directories in the binary tree
+# Make directories in the binary tree.
 MAKE_DIRECTORY(${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl)
 MAKE_DIRECTORY(${ITK_BINARY_DIR}/Documentation/Doxygen)
 
-# run VXL configure scripts
+# Run VXL configure scripts.
 IF(RUN_CONFIGURE)
  IF(NOT VXL_FROM_UTILITIES)
   IF(UNIX)
@@ -130,7 +187,7 @@ IF(RUN_CONFIGURE)
  ENDIF(NOT VXL_FROM_UTILITIES)
 ENDIF(RUN_CONFIGURE)
 
-# for win32 vc60, just copy files
+# For win32 vc60, just copy files with predefined configurations.
 IF(NOT UNIX)
  IF(NOT VXL_FROM_UTILITIES)
   IF(WIN32)
@@ -150,19 +207,20 @@ IF(NOT UNIX)
  ENDIF(NOT VXL_FROM_UTILITIES)
 ENDIF(NOT UNIX)
 
+#-----------------------------------------------------------------------------
+# Help other projects use ITK.
+
 # Copy the UseITK.cmake file to the binary tree for backward compatability.
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/UseITK.cmake.in
                ${ITK_BINARY_DIR}/UseITK.cmake COPYONLY IMMEDIATE)
 
-#-----------------------------------------------------------------------------
-# Help other projects use ITK.
-
 # Save the compiler settings so another project can import them.
-IF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
-  INCLUDE(${CMAKE_ROOT}/Modules/CMakeExportBuildSettings.cmake)
-  CMAKE_EXPORT_BUILD_SETTINGS(${ITK_BINARY_DIR}/ITKBuildSettings.cmake)
-  INSTALL_FILES(/lib/InsightToolkit .cmake ITKBuildSettings)
-ENDIF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
+INCLUDE(${CMAKE_ROOT}/Modules/CMakeExportBuildSettings.cmake)
+CMAKE_EXPORT_BUILD_SETTINGS(${ITK_BINARY_DIR}/ITKBuildSettings.cmake)
+INSTALL_FILES(/lib/InsightToolkit .cmake ITKBuildSettings)
+
+# Save library dependencies.
+EXPORT_LIBRARY_DEPENDENCIES(${ITK_BINARY_DIR}/ITKLibraryDepends.cmake)
 
 # Create the ITKConfig.cmake file containing the ITK configuration.
 INCLUDE (${ITK_SOURCE_DIR}/itkGenerateITKConfig.cmake)
@@ -178,4 +236,10 @@ INSTALL_FILES(/lib/InsightToolkit .cmake UseITK ITKLibraryDepends)
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")
 
-MARK_AS_ADVANCED(VW_RAW_DATA_PATH)
+# If the version of CMake was too old, complain and build nothing.
+# These should be the last lines in this file.
+ELSE("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 1.5)
+  MESSAGE(SEND_ERROR
+          "This version of CMake is too old to build ITK.  "
+          "Please upgrade to CMake 1.6.")
+ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 1.5)

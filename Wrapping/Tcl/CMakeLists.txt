@@ -1,5 +1,3 @@
-INCLUDE(${CMAKE_ROOT}/Modules/FindTCL.cmake)
-
 INCLUDE_DIRECTORIES(${TCL_INCLUDE_PATH}
                     ${TK_INCLUDE_PATH}
                     ${CABLE_INCLUDE_DIRS}

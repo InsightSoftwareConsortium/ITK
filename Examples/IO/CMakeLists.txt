@@ -1,25 +1,22 @@
-
 PROJECT(IOExamples)
 
 ADD_EXECUTABLE(ImageReadWrite ImageReadWrite.cxx )
-TARGET_LINK_LIBRARIES(ImageReadWrite ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(ImageReadWrite ITKCommon ITKIO)
 
 ADD_EXECUTABLE(ImageReadCastWrite ImageReadCastWrite.cxx )
-TARGET_LINK_LIBRARIES(ImageReadCastWrite ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(ImageReadCastWrite ITKCommon ITKIO)
 
 ADD_EXECUTABLE(ImageReadExtractWrite ImageReadExtractWrite.cxx )
-TARGET_LINK_LIBRARIES(ImageReadExtractWrite ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(ImageReadExtractWrite ITKCommon ITKIO)
 
 ADD_EXECUTABLE(RGBImageReadWrite RGBImageReadWrite.cxx )
-TARGET_LINK_LIBRARIES(RGBImageReadWrite ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(RGBImageReadWrite ITKCommon ITKIO)
 
 ADD_EXECUTABLE(CovariantVectorImageWrite CovariantVectorImageWrite.cxx )
-TARGET_LINK_LIBRARIES(CovariantVectorImageWrite ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(CovariantVectorImageWrite ITKCommon ITKIO)
 
 ADD_EXECUTABLE(CovariantVectorImageRead CovariantVectorImageRead.cxx )
-TARGET_LINK_LIBRARIES(CovariantVectorImageRead ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+TARGET_LINK_LIBRARIES(CovariantVectorImageRead ITKCommon ITKIO)
 
 ADD_EXECUTABLE(CovariantVectorImageExtractComponent CovariantVectorImageExtractComponent.cxx )
-TARGET_LINK_LIBRARIES(CovariantVectorImageExtractComponent ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
-
-
+TARGET_LINK_LIBRARIES(CovariantVectorImageExtractComponent ITKCommon ITKIO)

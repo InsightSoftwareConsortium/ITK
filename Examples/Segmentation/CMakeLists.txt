@@ -5,35 +5,35 @@
 PROJECT(ImageSegmentation)
 
 ADD_EXECUTABLE(ConfidenceConnected ConfidenceConnected.cxx )
-TARGET_LINK_LIBRARIES(ConfidenceConnected ITKCommon ITKNumerics VXLNumerics ITKIO)
+TARGET_LINK_LIBRARIES(ConfidenceConnected ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(NeighborhoodConnectedImageFilter NeighborhoodConnectedImageFilter.cxx )
-TARGET_LINK_LIBRARIES(NeighborhoodConnectedImageFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
+TARGET_LINK_LIBRARIES(NeighborhoodConnectedImageFilter ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(IsolatedConnectedImageFilter IsolatedConnectedImageFilter.cxx )
-TARGET_LINK_LIBRARIES(IsolatedConnectedImageFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
+TARGET_LINK_LIBRARIES(IsolatedConnectedImageFilter ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(ConnectedThresholdImageFilter ConnectedThresholdImageFilter.cxx )
-TARGET_LINK_LIBRARIES(ConnectedThresholdImageFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
+TARGET_LINK_LIBRARIES(ConnectedThresholdImageFilter ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(HybridSegmentationFuzzyVoronoi HybridSegmentationFuzzyVoronoi.cxx )
-TARGET_LINK_LIBRARIES(HybridSegmentationFuzzyVoronoi ITKCommon ITKNumerics VXLNumerics ITKIO)
+TARGET_LINK_LIBRARIES(HybridSegmentationFuzzyVoronoi ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(FastMarchingImageFilter FastMarchingImageFilter.cxx )
-TARGET_LINK_LIBRARIES(FastMarchingImageFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
+TARGET_LINK_LIBRARIES(FastMarchingImageFilter ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(ShapeDetectionLevelSetFilter ShapeDetectionLevelSetFilter.cxx )
-TARGET_LINK_LIBRARIES(ShapeDetectionLevelSetFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
+TARGET_LINK_LIBRARIES(ShapeDetectionLevelSetFilter ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(GeodesicActiveContourImageFilter GeodesicActiveContourImageFilter.cxx )
-TARGET_LINK_LIBRARIES(GeodesicActiveContourImageFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
+TARGET_LINK_LIBRARIES(GeodesicActiveContourImageFilter ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(WatershedSegmentation1 WatershedSegmentation1.cxx )
-TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKCommon ITKNumerics VXLNumerics ITKIO)
+TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(DeformableModel1 DeformableModel1.cxx )
-TARGET_LINK_LIBRARIES(DeformableModel1 ITKAlgorithms ITKCommon ITKNumerics VXLNumerics ITKIO)
+TARGET_LINK_LIBRARIES(DeformableModel1 ITKAlgorithms ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(GibbsPriorImageFilter1 GibbsPriorImageFilter1.cxx )
-TARGET_LINK_LIBRARIES(GibbsPriorImageFilter1 ITKAlgorithms ITKCommon ITKNumerics VXLNumerics ITKIO)
+TARGET_LINK_LIBRARIES(GibbsPriorImageFilter1 ITKAlgorithms ITKNumerics ITKIO)
 

@@ -1,5 +1,4 @@
 INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Wrapping/Tcl/BasicFilters)
-INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/BasicFilters)
 
 ADD_LIBRARY(ITKBasicFiltersTcl)
 

@@ -1,4 +1,3 @@
-
 PROJECT(MeshExamples)
 
 ADD_EXECUTABLE(PointSet1 PointSet1.cxx )

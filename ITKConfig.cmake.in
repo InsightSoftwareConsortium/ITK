@@ -36,8 +36,7 @@ SET(ITK_BUILD_SHARED "@BUILD_SHARED_LIBS@")
 # automatically pull in their dependencies.
 SET(ITK_LIBRARIES ITKAlgorithms ITKStatistics ITKFEM)
 
-# Load library dependencies used by CMake for automatic chainging of
-# dependent libraries.
-IF(EXISTS "@ITK_LIBRARY_DEPENDS_FILE@")
+# The ITK library dependencies.
+IF(NOT ITK_NO_LIBRARY_DEPENDS)
   INCLUDE("@ITK_LIBRARY_DEPENDS_FILE@")
-ENDIF(EXISTS "@ITK_LIBRARY_DEPENDS_FILE@")
+ENDIF(NOT ITK_NO_LIBRARY_DEPENDS)
