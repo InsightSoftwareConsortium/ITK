@@ -132,7 +132,7 @@ public:
    * Type that holds class IDs. Pointer to type_info object provides a
    * unique identifier for each class.
    */
-  typedef const type_info* ClassIDType;
+  typedef const std::type_info* ClassIDType;
 
   /**
    * Type that holds array of pairs or class IDs and pointers to visitor
@@ -142,7 +142,7 @@ public:
    *        pointers. Change this to some other array if necessary. Maybe try
    *        keeping the class IDs within classes.
    */
-  typedef typename std::map<ClassIDType, VisitFunctionPointerType> VisitorsArrayType;
+  typedef std::map<ClassIDType, VisitFunctionPointerType> VisitorsArrayType;
 
   /**
    * Choose the appropriate function that will be applied to object pointed
