@@ -48,7 +48,7 @@ ImageRegion<VImageDimension>
 {
   int numPixels=1;
 
-  for (int i=0; i<VImageDimension; i++)
+  for (unsigned int i=0; i<VImageDimension; i++)
     {
     numPixels *= m_Size[i];
     }

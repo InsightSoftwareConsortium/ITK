@@ -26,7 +26,7 @@ template <class TPixel, unsigned int VImageDimension>
 ImportImage<TPixel, VImageDimension>
 ::ImportImage()
 {
-  int idx;
+  unsigned int idx;
   
   for (idx = 0; idx < VImageDimension; ++idx)
     {
