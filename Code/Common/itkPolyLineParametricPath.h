@@ -98,6 +98,7 @@ public:
   inline void AddVertex( const ContinuousIndexType & vertex )
     {
     m_VertexList->InsertElement( m_VertexList->Size(), vertex );
+    this->Modified();
     }
   
   /** Where does the path end?  This value is necessary for IncrementInput() to

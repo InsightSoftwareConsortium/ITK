@@ -101,7 +101,6 @@ ChainCodePath<VDimension>
 ::ChainCodePath()
 {
   m_Start = m_ZeroIndex;
-  this->Modified();
 }
 
 

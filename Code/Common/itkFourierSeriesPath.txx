@@ -94,6 +94,7 @@ FourierSeriesPath<VDimension>
   
   m_CosCoefficients->InsertElement(numHarmonics, CosCoefficients);
   m_SinCoefficients->InsertElement(numHarmonics, SinCoefficients);
+  this->Modified();
 }
 
 
@@ -108,7 +109,6 @@ FourierSeriesPath<VDimension>
   m_DefaultInputStepSize = 1.0/50.0;
   m_CosCoefficients = CoefficientsType::New();
   m_SinCoefficients = CoefficientsType::New();
-  this->Modified();
 }
 
 

@@ -143,8 +143,6 @@ ChainCodePath2D
   offset[1]=1;
   m_FreemanCode[ offset[0] + 1 ][ offset[1] + 1 ] = 8;
   m_ReverseFreemanCode[ 8 ] = offset;
-  
-  this->Modified();
 }
 
 
