@@ -207,9 +207,9 @@ public:
    * children, down to a specified depth.  After computation, the
    * resulting bounding box is stored in this->m_Bounds.  
    *
-   * By default, the bounding box children depth is 0, meaning that only
-   * the bounding box for the object itself is computed.  This depth can
-   * be set (before calling ComputeBoundingBox) using
+   * By default, the bounding box children depth is maximum, meaning that
+   * the bounding box for the object and all its recursive children is computed. 
+   * This depth can be set (before calling ComputeBoundingBox) using
    * SetBoundingBoxChildrenDepth().
    *
    * By calling SetBoundingBoxChildrenName(), it is possible to
@@ -434,7 +434,7 @@ public:
 
   /** Set/Get the depth at which the bounding box is computed */
   itkSetMacro(BoundingBoxChildrenDepth, unsigned int);
-  itkGetMacro(BoundingBoxChildrenDepth, unsigned int);
+  itkGetConstMacro(BoundingBoxChildrenDepth, unsigned int);
 
   /** Set/Get the name of the children to consider when computing the
    *  bounding box */
