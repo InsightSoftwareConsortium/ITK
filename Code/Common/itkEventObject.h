@@ -200,7 +200,7 @@ inline std::ostream& operator<<(std::ostream& os, EventObject &e)
       return "classname"; } \
      virtual EventObject * New(void) const { \
         return new classname; } \
- };  
+ }
 
 
 
