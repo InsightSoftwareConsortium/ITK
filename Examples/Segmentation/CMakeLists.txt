@@ -63,7 +63,7 @@ ADD_TEST(CannySegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${BASELINE}/ThresholdSegmentationLevelSetVentricleTest.png
         ${TEMP}/CannySegmentationLevelSetImageFilterTest.png
-        7 0.1 10.0 127.5 10000
+        7 0.1 -10.0 127.5 10000
 )
 
 ADD_TEST(ConfidenceConnectedWhiteTest ${SEGMENTATION_EXAMPLES}

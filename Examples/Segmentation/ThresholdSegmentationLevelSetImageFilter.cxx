@@ -224,7 +224,6 @@ int main( int argc, char *argv[] )
   thresholdSegmentation->SetUpperThreshold( ::atof(argv[7]) );
   thresholdSegmentation->SetLowerThreshold( ::atof(argv[6]) );
   thresholdSegmentation->SetIsoSurfaceValue(0.0);
-  thresholdSegmentation->SetUseNegativeFeaturesOn();
   // Software Guide : EndCodeSnippet
   
   //  Software Guide : BeginLatex
