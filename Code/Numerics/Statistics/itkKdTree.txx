@@ -19,19 +19,7 @@
 
 
 namespace itk{ 
-  namespace Statistics{
-
-template< class TSample >
-inline void 
-KdTree< TSample >
-::DumpVector(MeasurementVectorType &vec)
-{
-  for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
-    {
-      std::cout << vec[i] << "\t" ;
-    }
-  std::cout << std::endl ;
-}
+namespace Statistics{
 
 template< class TSample >
 KdTreeNonterminalNode< TSample >
@@ -73,7 +61,7 @@ KdTreeWeightedCenteroidNonterminalNode< TSample >
 
   for (unsigned int i = 0 ; i < TSample::MeasurementVectorSize ; i++)
     {
-      m_Centeroid[i] = m_WeightedCenteroid[i] / double(size) ;
+    m_Centeroid[i] = m_WeightedCenteroid[i] / double(size) ;
     }
 
   m_Size = size ;
@@ -148,8 +136,8 @@ KdTree< TSample >
 
   for (unsigned int d = 0 ; d < MeasurementVectorSize ; d++)
     {
-      lowerBound[d] = NumericTraits< MeasurementType >::NonpositiveMin() ;
-      upperBound[d] = NumericTraits< MeasurementType >::max() ;
+    lowerBound[d] = NumericTraits< MeasurementType >::NonpositiveMin() ;
+    upperBound[d] = NumericTraits< MeasurementType >::max() ;
     }
 
   m_NumberOfVisits = 0 ;
@@ -170,32 +158,32 @@ KdTree< TSample >
 
   if ( node->IsTerminal() )
     {
-      // terminal node
-      if (node == m_EmptyTerminalNode)
-        {
-          // empty node
-          return 0 ;
-        }
+    // terminal node
+    if (node == m_EmptyTerminalNode)
+      {
+      // empty node
+      return 0 ;
+      }
 
-      for (i = 0 ; i < node->Size() ; i++)
+    for (i = 0 ; i < node->Size() ; i++)
+      {
+      tempId = node->GetInstanceIdentifier(i) ;
+      tempDistance = 
+        m_DistanceMetric->
+        Evaluate(query, m_Sample->GetMeasurementVector(tempId)) ;
+      m_NumberOfVisits++ ;
+      if (tempDistance < m_Neighbors.GetLargestDistance() )
         {
-          tempId = node->GetInstanceIdentifier(i) ;
-          tempDistance = 
-            m_DistanceMetric->
-            Evaluate(query, m_Sample->GetMeasurementVector(tempId)) ;
-          m_NumberOfVisits++ ;
-          if (tempDistance < m_Neighbors.GetLargestDistance() )
-            {
-              m_Neighbors.ReplaceFarthestNeighbor(tempId, tempDistance) ;
-            }
+        m_Neighbors.ReplaceFarthestNeighbor(tempId, tempDistance) ;
         }
+      }
 
-      if(BallWithinBounds(query, lowerBound, upperBound))
-        {
-          return 1 ;
-        }
+    if(BallWithinBounds(query, lowerBound, upperBound))
+      {
+      return 1 ;
+      }
 
-      return 0;
+    return 0;
     }
 
 
@@ -206,50 +194,50 @@ KdTree< TSample >
 
   if (query[partitionDimension] <= partitionValue)
     {
-      // search the closer child node
-      tempValue = upperBound[partitionDimension] ;
-      upperBound[partitionDimension] = partitionValue ;
-      if (SearchLoop(node->Left(), query, lowerBound, upperBound))
-        {
-          return 1 ;
-        }
-      upperBound[partitionDimension] = tempValue ;
+    // search the closer child node
+    tempValue = upperBound[partitionDimension] ;
+    upperBound[partitionDimension] = partitionValue ;
+    if (SearchLoop(node->Left(), query, lowerBound, upperBound))
+      {
+      return 1 ;
+      }
+    upperBound[partitionDimension] = tempValue ;
 
-      // search the other node, if necessary
-      tempValue = lowerBound[partitionDimension] ;
-      lowerBound[partitionDimension] = partitionValue ;
-      if (BoundsOverlapBall(query, lowerBound, upperBound))
-        {
-          SearchLoop(node->Right(), query, lowerBound, upperBound) ;
-        }
-      lowerBound[partitionDimension] = tempValue ;
+    // search the other node, if necessary
+    tempValue = lowerBound[partitionDimension] ;
+    lowerBound[partitionDimension] = partitionValue ;
+    if (BoundsOverlapBall(query, lowerBound, upperBound))
+      {
+      SearchLoop(node->Right(), query, lowerBound, upperBound) ;
+      }
+    lowerBound[partitionDimension] = tempValue ;
     }
   else
     {
-      // search the closer child node
-      tempValue = lowerBound[partitionDimension] ;
-      lowerBound[partitionDimension] = partitionValue ;
-      if (SearchLoop(node->Right(), query, lowerBound, upperBound))
-        {
-          return 1 ;
-        }
-      lowerBound[partitionDimension] = tempValue ;
+    // search the closer child node
+    tempValue = lowerBound[partitionDimension] ;
+    lowerBound[partitionDimension] = partitionValue ;
+    if (SearchLoop(node->Right(), query, lowerBound, upperBound))
+      {
+      return 1 ;
+      }
+    lowerBound[partitionDimension] = tempValue ;
 
-      // search the other node, if necessary
-      tempValue = upperBound[partitionDimension] ;
-      upperBound[partitionDimension] = partitionValue ;
-      if (BoundsOverlapBall(query, lowerBound, upperBound))
-        {
-          std::cout << "Left child overlaps." << std::endl ;
-          SearchLoop(node->Left(), query, lowerBound, upperBound) ;
-        }
-      upperBound[partitionDimension] = tempValue ;
+    // search the other node, if necessary
+    tempValue = upperBound[partitionDimension] ;
+    upperBound[partitionDimension] = partitionValue ;
+    if (BoundsOverlapBall(query, lowerBound, upperBound))
+      {
+      std::cout << "Left child overlaps." << std::endl ;
+      SearchLoop(node->Left(), query, lowerBound, upperBound) ;
+      }
+    upperBound[partitionDimension] = tempValue ;
     }
 
   // stop or continue search
   if (BallWithinBounds(query, lowerBound, upperBound))
     {
-      return 1 ;
+    return 1 ;
     }  
 
   return 0 ;
@@ -266,15 +254,15 @@ KdTree< TSample >
   unsigned int dimension ;
   for (dimension = 0 ; dimension < MeasurementVectorSize ; dimension++)
     {
-      if ((m_DistanceMetric->Evaluate(query[dimension] ,
-                                      lowerBound[dimension]) <= 
-           m_Neighbors.GetLargestDistance()) ||
-          (m_DistanceMetric->Evaluate(query[dimension] ,
-                                      upperBound[dimension]) <= 
-           m_Neighbors.GetLargestDistance()))
-        {
-          return false ;
-        }
+    if ((m_DistanceMetric->Evaluate(query[dimension] ,
+                                    lowerBound[dimension]) <= 
+         m_Neighbors.GetLargestDistance()) ||
+        (m_DistanceMetric->Evaluate(query[dimension] ,
+                                    upperBound[dimension]) <= 
+         m_Neighbors.GetLargestDistance()))
+      {
+      return false ;
+      }
     }
   return true ;
 }
@@ -294,26 +282,26 @@ KdTree< TSample >
   for (dimension = 0  ; dimension < MeasurementVectorSize ; dimension++)
     {
 
-      if (query[dimension] <= lowerBound[dimension])
+    if (query[dimension] <= lowerBound[dimension])
+      {
+      temp = m_DistanceMetric->Evaluate(query[dimension], 
+                                        lowerBound[dimension]) ;
+      sum += temp * temp ;
+      if (sum < squaredSearchRadius)
         {
-          temp = m_DistanceMetric->Evaluate(query[dimension], 
-                                            lowerBound[dimension]) ;
-          sum += temp * temp ;
-          if (sum < squaredSearchRadius)
-            {
-              return true ;
-            }
+        return true ;
         }
-      else if (query[dimension] >= upperBound[dimension])
+      }
+    else if (query[dimension] >= upperBound[dimension])
+      {
+      temp = m_DistanceMetric->Evaluate(query[dimension], 
+                                        upperBound[dimension]) ;
+      sum += temp * temp ;
+      if (sum < squaredSearchRadius)
         {
-          temp = m_DistanceMetric->Evaluate(query[dimension], 
-                                            upperBound[dimension]) ;
-          sum += temp * temp ;
-          if (sum < squaredSearchRadius)
-            {
-              return true ;
-            }
+        return true ;
         }
+      }
     }
   return false ;
 }
@@ -326,14 +314,14 @@ KdTree< TSample >
 {
   if ( node->IsTerminal() )
     {
-      // terminal node
-      if (node == m_EmptyTerminalNode)
-        {
-          // empty node
-          return ;
-        }
-      delete node ;
+    // terminal node
+    if (node == m_EmptyTerminalNode)
+      {
+      // empty node
       return ;
+      }
+    delete node ;
+    return ;
     }
 
   // non-terminal node
@@ -350,24 +338,24 @@ KdTree< TSample >
   level++ ;
   if ( node->IsTerminal() )
     {
-      // terminal node
-      if (node == m_EmptyTerminalNode)
-        {
-          // empty node
-          std::cout << "Empty node: level = " << level << std::endl ;
-          return ;
-        }
-
-      std::cout << "Terminal: level = " << level 
-                << " dim = " << activeDimension<< std::endl ;
-      std::cout << "          " ;
-      for (unsigned int i = 0 ; i < node->Size() ; i++)
-        {
-          std::cout << "[" << node->GetInstanceIdentifier(i) << "] "
-                    << m_Sample->GetMeasurementVector(node->GetInstanceIdentifier(i))[activeDimension] << ", " ;
-        }
-      std::cout << std::endl ;
+    // terminal node
+    if (node == m_EmptyTerminalNode)
+      {
+      // empty node
+      std::cout << "Empty node: level = " << level << std::endl ;
       return ;
+      }
+
+    std::cout << "Terminal: level = " << level 
+              << " dim = " << activeDimension<< std::endl ;
+    std::cout << "          " ;
+    for (unsigned int i = 0 ; i < node->Size() ; i++)
+      {
+      std::cout << "[" << node->GetInstanceIdentifier(i) << "] "
+                << m_Sample->GetMeasurementVector(node->GetInstanceIdentifier(i))[activeDimension] << ", " ;
+      }
+    std::cout << std::endl ;
+    return ;
     }
   
   unsigned int partitionDimension ;
@@ -388,7 +376,7 @@ KdTree< TSample >
 }
 
 
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk
 
 #endif
