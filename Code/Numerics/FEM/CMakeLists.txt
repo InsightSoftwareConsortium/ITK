@@ -65,7 +65,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLinearSystemWrapper.cxx
   itkFEMLinearSystemWrapperVNL.cxx
   itkFEMLinearSystemWrapperDenseVNL.cxx
-  itkFEMItpackLinearSystemWrapper.cxx
+  itkFEMLinearSystemWrapperItpack.cxx
   itkFEMItpackSparseMatrix.cxx
 
   itkFEMLightObject.cxx
@@ -124,7 +124,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLinearSystemWrapper.h
   itkFEMLinearSystemWrapperVNL.h
   itkFEMLinearSystemWrapperDenseVNL.h
-  itkFEMItpackLinearSystemWrapper.h
+  itkFEMLinearSystemWrapperItpack.h
   itkFEMItpackSparseMatrix.h
   
   itkFEM.h
@@ -161,6 +161,7 @@ SOURCE_GROUP("Elements" itkFEMElement*)
 SOURCE_GROUP("Nodes" itkFEMNode*)
 SOURCE_GROUP("Loads" itkFEMLoad*)
 SOURCE_GROUP("Materials" itkFEMMaterial*)
+SOURCE_GROUP("Linear Systems" itkFEMLinearSystem*)
 SOURCE_GROUP("Source Files Template" ./*.txx)
 
 
