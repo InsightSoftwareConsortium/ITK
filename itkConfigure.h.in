@@ -1,10 +1,10 @@
 /* what byte order */
-#undef ITK_WORDS_BIGENDIAN
+#undef CMAKE_WORDS_BIGENDIAN
 
 /* what threading system are we using */
-#undef ITK_USE_PTHREADS
-#undef ITK_USE_SPROC
-#undef ITK_HP_PTHREADS
+#undef CMAKE_USE_PTHREADS
+#undef CMAKE_USE_SPROC
+#undef CMAKE_HP_PTHREADS
 
 /* Define if you have the <sys/prctl.h> header file.  */
 #undef HAVE_SYS_PRCTL_H
