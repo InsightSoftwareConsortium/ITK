@@ -44,6 +44,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkMultiResolutionImagePyramid.h"
 #include "itkShrinkImageFilter.h"
+#include "itkRecursiveGaussianImageFilter.h"
+#include "itkVector.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
@@ -150,19 +152,81 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
 ::GenerateData()
 {
 
-  // Set up a mini-pipeline.
+  // Set up a mini-pipeline of smoother/downsampler pairs
   typedef ShrinkImageFilter<TInputImage,TOutputImage> 
 		DownSamplerType;
-  typename DownSamplerType::Pointer downsampler = DownSamplerType::New();
 
-  downsampler->SetInput( this->GetInput() );
-  downsampler->SetShrinkFactors( m_Schedule[m_CurrentLevel] );
+  typedef RecursiveGaussianImageFilter<TInputImage,TOutputImage,double>
+    SmootherType;
+ 
+  typename DownSamplerType::Pointer downsampler[ImageDimension];
+  typename SmootherType::Pointer smoother[ImageDimension];
+
+  int lastValidFilter = -1;
+  Vector<unsigned int,ImageDimension> factors;
+
+  for( int j = 0; j < ImageDimension; j++ )
+    {
+
+    factors.Fill( 1 );
+ 
+    factors[j] = m_Schedule[m_CurrentLevel][j];
+    double stddev = 0.5 * factors[j];
+
+    if( factors[j] > 1 )
+     {
+      // smooth and downsample only if factor > 1
+      downsampler[j] = DownSamplerType::New();
+      smoother[j] = SmootherType::New();
+
+      downsampler[j]->SetShrinkFactors( factors.Begin() );
+      smoother[j]->SetSigma( stddev );
+      smoother[j]->SetDirection( j );
+
+      if( lastValidFilter == -1 )
+        {
+        smoother[j]->SetInput( this->GetInput() );
+        }
+      else
+        {
+        smoother[j]->SetInput( downsampler[lastValidFilter]->GetOutput() );
+        }
+
+      downsampler[j]->SetInput( smoother[j]->GetOutput() );
+
+      lastValidFilter = j;
+
+      }
+    }
+
+  if( lastValidFilter == -1 )
+    {
+    // all factors are 1 - copy the image to the output
+    factors.Fill( 1 );
+    downsampler[0] = DownSamplerType::New();
+    downsampler[0]->SetShrinkFactors( factors.Begin() );
+    downsampler[0]->SetInput( this->GetInput() );
+    lastValidFilter = 0;
+    }
 
   // update the pipeline
-  downsampler->Update();
+  downsampler[lastValidFilter]->Update();
+
+  // make sure the output has the same origin as the input
+  downsampler[lastValidFilter]->GetOutput()->SetOrigin(
+    this->GetInput()->GetOrigin() );
+
+  // update the spacing
+  double newSpacing[ImageDimension];
+  for( int j = 0; j < ImageDimension; j++ )
+    {
+    newSpacing[j] = this->GetInput()->GetSpacing()[j] * 
+      m_Schedule[m_CurrentLevel][j];
+    }
+  downsampler[lastValidFilter]->GetOutput()->SetSpacing( newSpacing );
 
   // connect it to the output of this filter
-  this->SetOutput( downsampler->GetOutput() );
+  this->SetOutput( downsampler[lastValidFilter]->GetOutput() );
 
 }
 
