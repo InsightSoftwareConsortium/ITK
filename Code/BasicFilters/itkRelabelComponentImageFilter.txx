@@ -72,41 +72,6 @@ public:
     }
 };
 
-class SizeInPhysicalUnitsComparator
-{
-public:
-  bool operator()(const ObjectType &a, const ObjectType&b)
-    {
-      if (a.m_SizeInPhysicalUnits > b.m_SizeInPhysicalUnits)
-        {
-        return true;
-        }
-      else if (a.m_SizeInPhysicalUnits < b.m_SizeInPhysicalUnits)
-        {
-        return false;
-        }
-      // size in pixels are the same, sort base on size in physical units
-      else if (a.m_SizeInPixels > b.m_SizeInPixels)
-        {
-        return true;
-        }
-      else if (a.m_SizeInPixels < b.m_SizeInPixels)
-        {
-        return false;
-        }
-      // size in pixels and physical units are the same, sort based on
-      // original object number
-      else if (a.m_ObjectNumber < b.m_ObjectNumber)
-        {
-        return true;
-        }
-      else
-        {
-        return false;
-        }
-    }
-};
-
 }
 
 
@@ -220,18 +185,8 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
     sizeVector.push_back( (*mapIt).second );
     }
 
-  // sort the objects and define the map to use to relabel the image
-  if (m_ObjectSortingOrder == SortBySizeInPixels)
-    {
-    // sort objects by number of pixels
-    std::sort(sizeVector.begin(), sizeVector.end(), SizeInPixelsComparator() );
-    }
-  else
-    {
-    // sort object by their size in physical units
-    std::sort(sizeVector.begin(), sizeVector.end(),
-              SizeInPhysicalUnitsComparator() );
-    }
+  // sort the objects by size and define the map to use to relabel the image
+  std::sort(sizeVector.begin(), sizeVector.end(), SizeInPixelsComparator() );
 
   // create a lookup table to map the input label to the output label.
   // cache the object sizes for later access by the user

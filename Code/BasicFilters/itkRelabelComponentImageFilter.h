@@ -31,10 +31,13 @@ namespace itk
  * RelabelComponentImageFilter remaps the labels associated with the
  * objects in an image (as from the output of
  * ConnectedComponentImageFilter) such that the label numbers are
- * consecutive with no gaps between the label number used.  By
+ * consecutive with no gaps between the label numbers used.  By
  * default, the relabling will also sort the labels based on the size
  * of the object: the largest object will have label #1, the second
  * largest will have label #2, etc.
+ *
+ * Label #0 is assumed to be background is left unaltered by the
+ * relabeling. 
  *
  * RelabelComponentImageFilter is typically used on the output of the
  * ConnectedComponentImageFilter for those applications that want to
@@ -44,8 +47,11 @@ namespace itk
  * from the relabled output using a ThresholdImageFilter.
  *
  * Once all the objects are relabeled, the application can query the
- * number of objects and the size of each object.
- *
+ * number of objects and the size of each object. Object sizes are
+ * returned in a vector. The size of the background is not
+ * calculated. So the size of object #1 is
+ * GetSizeOfObjectsInPixels()[0], the size of object #2 is
+ * GetSizeOfObjectsInPixels()[1], etc.
  *
  * \sa ConnectedComponentImageFilter, BinaryThresholdImageFilter, ThresholdImageFilter
  */
@@ -101,35 +107,25 @@ public:
    * valid after the filter has executed. */
   itkGetMacro(NumberOfObjects, unsigned long);
 
-  /** Get the size of each object in pixel. This information is only
-   * valid after the filter has executed.  If the sorting order was
-   * SortBySizeInPixels, this vector will be sorted in decreasing
-   * order. If the sorting order was SortBySizeInPhysicalUnits, this
-   * vector will not necessarily be sorted. */
+  /** Get the size of each object in pixels. This information is only
+   * valid after the filter has executed.  Size of the background is
+   * not calculated.  Size of object #1 is
+   * GetSizeOfObjectsInPixels()[0]. Size of object #2 is
+   * GetSizeOfObjectsInPixels()[1]. Etc. */
   const std::vector<unsigned long>& GetSizeOfObjectsInPixels() const
     { return m_SizeOfObjectsInPixels; }
 
   /** Get the size of each object in physical space (in units of pixel
    * size). This information is only valid after the filter has
-   * executed. If the sorting order was SortBySizeInPhysicalUnits,
-   * this vector will be sorted in decreasing order. If the sorting
-   * order was SortBySizeInPixels, this vector will not necessarily be
-   * sorted. */
+   * executed. Size of the background is not calculated.  Size of
+   * object #1 is GetSizeOfObjectsInPhysicalUnits()[0]. Size of object
+   * #2 is GetSizeOfObjectsInPhysicalUnits()[1]. Etc. */
   const std::vector<unsigned long>& GetSizeOfObjectsInPhysicalUnits() const
     { return m_SizeOfObjectsInPhysicalUnits; }
 
-  /** Set/Get how object size is determined.  Object size can be
-   * calculated in pixels or in physical units. This mode determines
-   * the sorting of objects to define labels. Default is sorting by
-   * size in physical units. */
-  typedef enum {SortBySizeInPixels, SortBySizeInPhysicalUnits} ObjectSortingOrderType;
-  itkSetMacro(ObjectSortingOrder, ObjectSortingOrderType);
-  itkGetMacro(ObjectSortingOrder, ObjectSortingOrderType);
-  
 protected:
   RelabelComponentImageFilter()
-    : m_NumberOfObjects(0),
-      m_ObjectSortingOrder(SortBySizeInPhysicalUnits)
+    : m_NumberOfObjects(0)
     {}
   virtual ~RelabelComponentImageFilter() {}
   RelabelComponentImageFilter(const Self&) {}
@@ -151,7 +147,6 @@ private:
   unsigned long m_NumberOfObjects;
   std::vector<unsigned long> m_SizeOfObjectsInPixels;
   std::vector<float> m_SizeOfObjectsInPhysicalUnits;
-  ObjectSortingOrderType m_ObjectSortingOrder;
 
 };
   
