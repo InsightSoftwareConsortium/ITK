@@ -4,16 +4,14 @@ from os             import path
 from shutil         import *
 from os             import environ
 
-name = path.basename( argv[0] );
+basename = path.basename( argv[0] )
+name = path.splitext( basename )[0]
 dir  = "Algorithms"
 
 testInput  = environ['ITK_TEST_INPUT']
 testOutput = environ['ITK_TEST_OUTPUT']
 baseLine   = environ['ITK_TEST_BASELINE']
 
-
-print name
-print dir
 
 
 reader = itkImageFileReaderF2_New()
@@ -42,7 +40,7 @@ diff.SetTestInput(  cfss.GetOutput() )
 diff.SetToleranceRadius( 1 )
 diff.SetDifferenceThreshold( 0 )
 
-diff.Update
+diff.Update()
 
 
 meanDiff  = diff.GetMeanDifference()
@@ -51,11 +49,6 @@ totalDiff = diff.GetTotalDifference()
 
 print "MeanDifference  = ", meanDiff
 print "TotalDifference = ", totalDiff
-
-
-
-
-
 
 
 print "<DartMeasurement name=\"MeanDifference\" type=\"numeric/double\">",meanDiff,"</DartMeasurement>"
@@ -73,7 +66,7 @@ if ( meanDiff > 0.1 ) :
   io.SetCompressionLevel( 9 )
 
   writer = itkImageFileWriterUC2_New()
-  writer.SetImageIO( io )
+  writer.SetImageIO( io.GetPointer() )
   writer.SetInput(  convert.GetOutput() )
 
   writer.SetFileName( testOutput+"/"+name+".test.png" )
@@ -84,13 +77,13 @@ if ( meanDiff > 0.1 ) :
   writer.SetInput( rescale.GetOutput() )
   writer.Write()
 
-  shutil.copyfile( baseLine+"/"+dir+"/"+name+".png", testOutput+"/"+name+".valid.png" )
+  copyfile( baseLine+"/"+dir+"/"+name+".png", testOutput+"/"+name+".valid.png" )
 
-  print "<DartMeasurementFile name=\"TestImage\" type=\"image/png\">${ITK_TEST_OUTPUT}/$name.test.png</DartMeasurementFile>"
-  print "<DartMeasurementFile name=\"DifferenceImage\" type=\"image/png\">${ITK_TEST_OUTPUT}/$name.diff.png</DartMeasurementFile>"
-  print "<DartMeasurementFile name=\"ValidImage\" type=\"image/png\">${ITK_TEST_OUTPUT}/$name.valid.png</DartMeasurementFile>"
-  print "<DartMeasurement name=\"DifferenceShift\" type=\"numeric/double\">[$rescale GetShift]</DartMeasurement>"
-  print "<DartMeasurement name=\"DifferenceScale\" type=\"numeric/double\">[$rescale GetScale]</DartMeasurement>"
+  print "<DartMeasurementFile name=\"TestImage\" type=\"image/png\">"+testOutput+"/"+name+".test.png</DartMeasurementFile>"
+  print "<DartMeasurementFile name=\"DifferenceImage\" type=\"image/png\">"+testOutput+"/"+name+".diff.png</DartMeasurementFile>"
+  print "<DartMeasurementFile name=\"ValidImage\" type=\"image/png\">"+testOutput+"/"+name+".valid.png</DartMeasurementFile>"
+  print "<DartMeasurement name=\"DifferenceShift\" type=\"numeric/double\">",rescale.GetShift(),"</DartMeasurement>"
+  print "<DartMeasurement name=\"DifferenceScale\" type=\"numeric/double\">",rescale.GetScale(),"</DartMeasurement>"
 
 #  return 1
 
