@@ -23,6 +23,7 @@ vnl_nonlinear_minimizer::vnl_nonlinear_minimizer()
   trace = false;
   verbose_ = false;
   check_derivatives_=0;
+  failure_code_=ERROR_FAILURE;
   reset();
 }
 
