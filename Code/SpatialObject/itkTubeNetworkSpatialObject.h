@@ -37,24 +37,38 @@ namespace itk
 * \also TubeSpatialObject TubePoint
 */
 
-class ITK_EXPORT TubeNetworkSpatialObject 
-: public CompositeSpatialObject< 3, AffineTransform< double, 3 >, bool >
+template < unsigned int TDimension , unsigned int PipelineDimension = 3 >
+class TubeNetworkSpatialObject 
+: public CompositeSpatialObject<  TDimension, 
+                                  AffineTransform< double, TDimension >,
+                                  double,
+                                  PipelineDimension
+                               >
 {
 
 public:
 
-  typedef TubeNetworkSpatialObject Self;
-  typedef double ScalarType;
-  typedef SmartPointer < Self > Pointer;
-  typedef SmartPointer < const Self > ConstPointer;
-  typedef CompositeSpatialObject< 3, AffineTransform< double, 3 >, bool > Superclass;
-  typedef SmartPointer<Superclass> SuperclassPointer;
-  typedef SpatialObject< 3, AffineTransform< double, 3 >, bool > ChildrenType;
-  typedef SmartPointer<ChildrenType> ChildrenPointer;
-  typedef std::list< ChildrenType * > ChildrenListType;
-  typedef std::list< TubeSpatialObject * > TubeListType;
+  typedef TubeNetworkSpatialObject             Self;
+  typedef double                               ScalarType;
+  typedef SmartPointer < Self >                Pointer;
+  typedef SmartPointer < const Self >          ConstPointer;
+  typedef CompositeSpatialObject< TDimension, 
+                                  AffineTransform< double, TDimension >,
+                                  double,
+                                  PipelineDimension
+                                >             Superclass;
+  typedef SmartPointer<Superclass>            SuperclassPointer;
+  typedef SpatialObject<  TDimension, 
+                          AffineTransform< double, TDimension > ,
+                          PipelineDimension
+                       >                      ChildrenType;
+  typedef SmartPointer<ChildrenType>          ChildrenPointer;
+  typedef std::list< ChildrenType * >         ChildrenListType;
+  typedef TubeSpatialObject<TDimension>       TubeType;
+  typedef std::list< TubeType * >    TubeListType;
 
   itkNewMacro( Self );
+
   itkTypeMacro( Self, Superclass );
 
   /**
@@ -70,10 +84,15 @@ public:
 protected:
 
   TubeNetworkSpatialObject( void );
+  
   ~TubeNetworkSpatialObject( void );
 
 };
 
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION 
+  #include "itkTubeNetworkSpatialObject.txx" 
+#endif 
 
 #endif // __itkTubeNetworkSpatialObject_h

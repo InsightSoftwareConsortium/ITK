@@ -14,7 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
- 
+#ifndef __itkTubeNetworkSpatialObject_txx
+#define __itkTubeNetworkSpatialObject_txx
+
 #include "itkTubeNetworkSpatialObject.h" 
 
 namespace itk 
@@ -22,50 +24,55 @@ namespace itk
   /**
    * Constructor
    */
-  TubeNetworkSpatialObject 
+  template< unsigned int TDimension, unsigned int PipelineDimension >
+  TubeNetworkSpatialObject< TDimension , PipelineDimension > 
   ::TubeNetworkSpatialObject()
   {
+    m_Dimension = TDimension;
+    strcpy(m_TypeName,"TubeNetworkSpatialObject");
     m_ParentId=-1;
   } 
 
   /**
    * Destructor
    */
-  TubeNetworkSpatialObject 
+  template< unsigned int TDimension, unsigned int PipelineDimension >
+  TubeNetworkSpatialObject< TDimension , PipelineDimension >  
   ::~TubeNetworkSpatialObject()  
   {
+
   } 
- 
  
   /** 
    * call the CalcTangent() method for each Tube contained in this  
    * composite object... 
    */ 
+  template< unsigned int TDimension, unsigned int PipelineDimension > 
   void  
-  TubeNetworkSpatialObject 
+  TubeNetworkSpatialObject< TDimension , PipelineDimension >  
   ::CalcTangent( void )  
   { 
     ChildrenListType::iterator it = m_Children.begin(); 
     ChildrenListType::iterator end = m_Children.end();
    
-    TubeSpatialObject * tubePointer;
-    TubeNetworkSpatialObject * tubeNetPointer; 
+    TubeSpatialObject<TDimension> * tubePointer;
+    TubeNetworkSpatialObject<TDimension> * tubeNetPointer; 
 
     for( ; it != end; it++ ) 
-      { 
-      if( (tubePointer = dynamic_cast< TubeSpatialObject * >(*it)) != 0 ) 
-        {
+    { 
+      if( (tubePointer = dynamic_cast< TubeSpatialObject<TDimension> * >(*it)) != 0 ) 
+      {
         tubePointer->CalcTangent(); 
-        }
-      else if( (tubeNetPointer = dynamic_cast< TubeNetworkSpatialObject* >(*it)) != 0 )
-        {
+      }
+      else if( (tubeNetPointer = dynamic_cast< TubeNetworkSpatialObject<TDimension>* >(*it)) != 0 )
+      {
         tubeNetPointer->CalcTangent();
-        }
+      }
       else
-        {
+      {
         std::cout<<"unable to cast ("<< &it <<") iterator to tube !!!"<<std::endl;
-        }
-      } 
+      }
+    }
   } 
  
   /**
@@ -74,8 +81,9 @@ namespace itk
    * maximumDepth = 1 returns tubes children.
    * currentDepth variable doesn't have to be changed/provided.
    */
-  TubeNetworkSpatialObject::TubeListType *
-  TubeNetworkSpatialObject
+  template< unsigned int TDimension, unsigned int PipelineDimension >
+  TubeNetworkSpatialObject< TDimension , PipelineDimension > ::TubeListType *
+  TubeNetworkSpatialObject< TDimension , PipelineDimension > 
   ::GetTubes( unsigned int maximumDepth , unsigned int currentDepth ) const
   {
     TubeListType * tubes = new TubeListType;
@@ -83,14 +91,20 @@ namespace itk
     ChildrenListType::const_iterator childrenListIt = m_Children.begin();
     while(childrenListIt != m_Children.end())
     {    
-      if(typeid(*this) != typeid(**childrenListIt))
+      // Check if the child is really a tube or a tube network
+      if( (!strncmp(typeid(**childrenListIt).name(),"class itk::TubeSpatialObject",26))
+         || (!strncmp(typeid(**childrenListIt).name(),"class itk::TubeNetworkSpatialObject",28))
+        )
       {
-        tubes->push_back(dynamic_cast<TubeSpatialObject*>(*childrenListIt));
-      }
-      else if( (currentDepth < maximumDepth-1) || (maximumDepth == 0) )
-      {
-        currentDepth++;
-        tubes->merge(*dynamic_cast<TubeNetworkSpatialObject*>((*childrenListIt))->GetTubes(maximumDepth,currentDepth));
+        if(typeid(*this) != typeid(**childrenListIt))
+        {
+          tubes->push_back(dynamic_cast<TubeSpatialObject<TDimension>*>(*childrenListIt));
+        }
+        else if( (currentDepth < maximumDepth-1) || (maximumDepth == 0) )
+        {
+          currentDepth++;
+          tubes->merge(*dynamic_cast<TubeNetworkSpatialObject<TDimension>*>((*childrenListIt))->GetTubes(maximumDepth,currentDepth));
+        }
       }
       childrenListIt++;
     }
@@ -100,3 +114,6 @@ namespace itk
 
 
 } // end namespace itk
+
+#endif
+

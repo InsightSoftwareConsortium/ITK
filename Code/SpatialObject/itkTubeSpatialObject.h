@@ -38,22 +38,26 @@ namespace itk
 * \also TubePoint TubeNetworkSpatialObject 
 */
 
-class ITK_EXPORT TubeSpatialObject 
-:public SpatialObject< 3, AffineTransform<double, 3>, bool >
+template < unsigned int TDimension = 3 , unsigned int PipelineDimension = 3 >
+class TubeSpatialObject 
+:public SpatialObject<  TDimension, 
+                        AffineTransform<double, TDimension>, 
+                        PipelineDimension
+                     >
 {
 
 public:
 
     typedef TubeSpatialObject                           Self;
-    typedef SpatialObject<  3, 
-                            AffineTransform<double, 3>, 
-                            bool >                      Superclass;
+    typedef SpatialObject< TDimension, 
+                           AffineTransform< double, TDimension>,
+                           PipelineDimension
+                           >                            Superclass;
     typedef SmartPointer < Self >                       Pointer;
     typedef SmartPointer < const Self >                 ConstPointer;
     typedef double                                      ScalarType;
-    typedef bool                                        OutputType;
     typedef unsigned int                                IdentifierType;
-    typedef TubePoint<3>                                TubePointType;
+    typedef TubePoint< TDimension >                     TubePointType;
     typedef std::list < TubePointType::Pointer >        PointListType;
     typedef PointListType *                             PointListPointer;
     typedef VectorContainer<unsigned long,PointType>    PointContainerType;
@@ -106,7 +110,7 @@ public:
     * but it might want to return a degree of membership
     * in case of fuzzy tubes.
     */
-    void ValueAt( const PointType & point, OutputType & value );
+    void ValueAt( const PointType & point, double & value );
 
     /**
     * Returns true if the point is inside the tube, false otherwise.
@@ -125,9 +129,9 @@ public:
 
 protected:
 
-    unsigned int m_Id;
-    PointListPointer m_Points;
-    TimeStamp m_BoundsMTime; 
+    unsigned int      m_Id;
+    PointListPointer  m_Points;
+    TimeStamp         m_BoundsMTime; 
 
     TubeSpatialObject();
     virtual ~TubeSpatialObject();
@@ -139,5 +143,9 @@ protected:
 };
 
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION 
+  #include "itkTubeSpatialObject.txx" 
+#endif 
 
 #endif // __itkTubeSpatialObject_h

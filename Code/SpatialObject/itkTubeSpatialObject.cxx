@@ -18,6 +18,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#ifndef __itkTubeSpatialObject_txx
+#define __itkTubeSpatialObject_txx
+
 #include "itkTubeSpatialObject.h" 
 
 /* 
@@ -28,10 +31,13 @@
 
 namespace itk  
 { 
- 
-  TubeSpatialObject 
+
+  template< unsigned int TDimension , unsigned int PipelineDimension >
+  TubeSpatialObject< TDimension, PipelineDimension > 
   ::TubeSpatialObject()  
   { 
+    m_Dimension = TDimension;
+    strcpy(m_TypeName,"TubeSpatialObject");
     m_Id = 0; 
     m_Property->SetRed(1); 
     m_Property->SetGreen(0); 
@@ -41,14 +47,16 @@ namespace itk
     ComputeBounds();
   } 
  
-  TubeSpatialObject 
+  template< unsigned int TDimension , unsigned int PipelineDimension >
+  TubeSpatialObject< TDimension, PipelineDimension >  
   ::~TubeSpatialObject()
   { 
     delete m_Points;
   } 
  
-  TubeSpatialObject::PointListPointer  
-  TubeSpatialObject
+  template< unsigned int TDimension , unsigned int PipelineDimension >
+  TubeSpatialObject< TDimension, PipelineDimension > ::PointListPointer  
+  TubeSpatialObject< TDimension, PipelineDimension > 
   ::GetPoints() const 
   { 
     itkDebugMacro( "Getting TubePoint list" );
@@ -56,8 +64,9 @@ namespace itk
     return m_Points;
   } 
  
+  template< unsigned int TDimension , unsigned int PipelineDimension >
   void  
-  TubeSpatialObject 
+  TubeSpatialObject< TDimension, PipelineDimension >  
   ::SetPoints( PointListPointer points )  
   {
     // in this function, passing a null pointer as argument will
@@ -82,24 +91,27 @@ namespace itk
     this->Modified();
   } 
  
+  template< unsigned int TDimension , unsigned int PipelineDimension >
   unsigned int  
-  TubeSpatialObject 
+  TubeSpatialObject< TDimension, PipelineDimension >  
   ::GetId( void ) const  
   { 
     itkDebugMacro( "Getting tube ID" );
     return m_Id; 
   } 
  
+  template< unsigned int TDimension , unsigned int PipelineDimension >
   void  
-  TubeSpatialObject 
+  TubeSpatialObject< TDimension, PipelineDimension >  
   ::SetId( const unsigned int id )  
   { 
     itkDebugMacro( "Setting tube ID to " << id );
     m_Id = id; 
   } 
  
+  template< unsigned int TDimension , unsigned int PipelineDimension >
   void  
-  TubeSpatialObject 
+  TubeSpatialObject< TDimension, PipelineDimension >  
   ::PrintSelf( std::ostream& os, Indent indent ) const 
   { 
     os << indent << "TubeSpatialObject(" << this << ")" << std::endl; 
@@ -109,8 +121,9 @@ namespace itk
     Superclass::PrintSelf( os, indent ); 
   } 
    
+  template< unsigned int TDimension , unsigned int PipelineDimension >
   void 
-  TubeSpatialObject 
+  TubeSpatialObject< TDimension, PipelineDimension >  
   ::ComputeBounds( void ) 
   { 
     itkDebugMacro( "Computing tube bounding box" );
@@ -136,8 +149,9 @@ namespace itk
     }
   } 
 
+  template< unsigned int TDimension , unsigned int PipelineDimension >
   bool 
-  TubeSpatialObject 
+  TubeSpatialObject< TDimension, PipelineDimension >  
   ::IsInside( const PointType & point )  
   {
     itkDebugMacro( "Checking the point [" << point << "is inside the tube" );
@@ -184,8 +198,9 @@ namespace itk
       }
   } 
  
+  template< unsigned int TDimension , unsigned int PipelineDimension >
   bool  
-  TubeSpatialObject 
+  TubeSpatialObject< TDimension, PipelineDimension >  
   ::CalcTangent( void ) 
   { 
     itkDebugMacro( "Computing the tangent vectors of the tube" );
@@ -237,8 +252,9 @@ namespace itk
     return true; 
   } 
 
+  template< unsigned int TDimension , unsigned int PipelineDimension >
   bool
-  TubeSpatialObject
+  TubeSpatialObject< TDimension, PipelineDimension > 
   ::IsEvaluableAt( const PointType & point )
   {
     itkDebugMacro( "Checking if the tube is evaluable at " << point );
@@ -246,16 +262,17 @@ namespace itk
     return IsInside(point);
   }
 
+  template< unsigned int TDimension , unsigned int PipelineDimension >
   void
-  TubeSpatialObject
-  ::ValueAt( const PointType & point, OutputType & value )
+  TubeSpatialObject< TDimension, PipelineDimension > 
+  ::ValueAt( const PointType & point, double & value )
   {
     itkDebugMacro( "Getting the value of the tube at " << point );
 
     if( !IsEvaluableAt(point) )
       {
       value = 0;
-      itk::ExceptionObject e("TubeSpatialObject.cxx");
+      itk::ExceptionObject e("TubeSpatialObject.txx");
       e.SetLocation("TubeSpatialObject::ValueAt( const PointType & )");
       e.SetDescription("this object cannot provide a value at the requested point");
       throw e;
@@ -264,8 +281,9 @@ namespace itk
     value = 1;
   }
 
+  template< unsigned int TDimension , unsigned int PipelineDimension >
   unsigned long
-  TubeSpatialObject
+  TubeSpatialObject< TDimension, PipelineDimension > 
   ::GetMTime( void ) const
   {
     unsigned long latestMTime = Object::GetMTime();
@@ -279,3 +297,5 @@ namespace itk
   }
 
 } // end namespace itk 
+
+#endif
