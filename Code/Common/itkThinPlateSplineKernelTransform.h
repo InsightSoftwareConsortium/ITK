@@ -113,6 +113,11 @@ protected:
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
    * I = identity matrix. */
   GMatrixType ComputeG(const InputVectorType & x) const;
+
+ private:
+  ThinPlateSplineTransform(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
 
 } // namespace itk

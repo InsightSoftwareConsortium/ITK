@@ -140,8 +140,15 @@ public:
   itkCellVisitMacro(LINE_CELL);
 
 protected:
+  LineCell() {}
+  ~LineCell() {}
+
   /** Store number of points needed for a line segment. */
   PointIdentifier m_PointIds[NumberOfPoints];
+
+ private:
+  LineCell(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 
