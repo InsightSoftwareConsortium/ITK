@@ -4,7 +4,7 @@
 <xsl:template match="/Dashboard">
 <html>
 <head>
-  <title>Build log</title>
+  <title>Insight Dashboard - Most Recent Results</title>
 </head>
 <body bgcolor="#ffffff">
 
