@@ -265,7 +265,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
         }
 
       } 
-    catch( ProcessAborted & excp )
+    catch( ProcessAborted & )
       {
       break; // interrupt the iterations loop
       }
