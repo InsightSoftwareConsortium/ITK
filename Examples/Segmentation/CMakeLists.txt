@@ -232,7 +232,7 @@ ADD_TEST(GeodesicActiveContourRightVentricleTest ${SEGMENTATION_EXAMPLES}
         99 114 5.0 1.0 -0.5 3.0 2.0
 )
 
-ADD_TEST(CurvesLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES}
+ADD_TEST(CurvesLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES4}
   --compare ${BASELINE}/CurvesLevelSetImageFilterTest.png
             ${TEMP}/CurvesLevelSetImageFilterTest.png
   CurvesLevelSetImageFilterTest
