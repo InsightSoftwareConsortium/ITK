@@ -193,6 +193,7 @@ ADD_TEST( DerivativeImageFilterTest ${FILTERING_EXAMPLES}
   DerivativeImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/DerivativeImageFilter.mha
+        ${TEMP}/DerivativeImageFilter.png
         1 1
 )
 ADD_TEST( LaplacianImageFilterTest ${FILTERING_EXAMPLES}
