@@ -69,12 +69,12 @@ public:
    * considered to be inside the SpatialObject.  All points with
    * z-score less than the radius are in the object.  */
   itkSetMacro(Radius,ScalarType);
-  itkGetConstMacro(Radius,ScalarType);
+  itkGetConstReferenceMacro(Radius,ScalarType);
 
   /** The maximum value of the Gaussian (its value at the origin of
    * the spatial object coordinate system). */
   itkSetMacro(Maximum,ScalarType);
-  itkGetConstMacro(Maximum,ScalarType);
+  itkGetConstReferenceMacro(Maximum,ScalarType);
 
   /** If the matrix S is returned by
    * this->GetIndexToObjectTransform()->GetMatrix(), then SquaredZScore(x)

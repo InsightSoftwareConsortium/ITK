@@ -113,7 +113,7 @@ public:
 
   /** Setting the starting point, believed to be inside the object. */
   itkSetMacro(      ObjectSeed, IndexType );
-  itkGetConstMacro( ObjectSeed, IndexType );
+  itkGetConstReferenceMacro( ObjectSeed, IndexType );
   
   /** Update the binary result (needed after an update the threshold). */
   void MakeSegmentObject();

@@ -132,7 +132,7 @@ public:
   virtual double EvaluateDistanceAtIndex( const IndexType & index ) const;
 
   /** Get the lower threshold value. */
-  itkGetConstMacro(Threshold,double);
+  itkGetConstReferenceMacro(Threshold,double);
   itkSetMacro(Threshold,double);
 
   /** Method to set mean */

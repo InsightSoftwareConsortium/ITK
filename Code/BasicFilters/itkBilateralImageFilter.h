@@ -152,7 +152,7 @@ public:
    * is used only when AutomaticNeighborhoodSize is "off". */
   void SetRadius(const unsigned long);
   itkSetMacro(Radius, SizeType);
-  itkGetConstMacro(Radius, SizeType);
+  itkGetConstReferenceMacro(Radius, SizeType);
   
   
   /** Set/Get the number of samples in the approximation to the Gaussian

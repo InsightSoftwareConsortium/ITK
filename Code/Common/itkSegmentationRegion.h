@@ -68,11 +68,11 @@ public:
   /** Set/Get the region with parameter values
    * defining the region. */
   itkSetMacro(RegionLabel, RegionLabelType);
-  itkGetConstMacro(RegionLabel, RegionLabelType);
+  itkGetConstReferenceMacro(RegionLabel, RegionLabelType);
 
   /** Set/Get the area of the region. */
   itkSetMacro(RegionArea, double);
-  itkGetConstMacro(RegionArea, double);
+  itkGetConstReferenceMacro(RegionArea, double);
 
 protected:
   SegmentationRegion();

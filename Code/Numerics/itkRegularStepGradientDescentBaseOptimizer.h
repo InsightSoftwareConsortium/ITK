@@ -56,7 +56,7 @@ public:
 
   /** Specify whether to minimize or maximize the cost function. */
   itkSetMacro( Maximize, bool );
-  itkGetConstMacro( Maximize, bool );
+  itkGetConstReferenceMacro( Maximize, bool );
   itkBooleanMacro( Maximize );
   bool GetMinimize( ) const
   { return !m_Maximize; }
@@ -83,14 +83,14 @@ public:
   itkSetMacro( MinimumStepLength, double );
   itkSetMacro( NumberOfIterations, unsigned long );
   itkSetMacro( GradientMagnitudeTolerance, double );
-  itkGetConstMacro( CurrentStepLength, double);
-  itkGetConstMacro( MaximumStepLength, double );
-  itkGetConstMacro( MinimumStepLength, double );
-  itkGetConstMacro( NumberOfIterations, unsigned long );
-  itkGetConstMacro( GradientMagnitudeTolerance, double );
+  itkGetConstReferenceMacro( CurrentStepLength, double);
+  itkGetConstReferenceMacro( MaximumStepLength, double );
+  itkGetConstReferenceMacro( MinimumStepLength, double );
+  itkGetConstReferenceMacro( NumberOfIterations, unsigned long );
+  itkGetConstReferenceMacro( GradientMagnitudeTolerance, double );
   itkGetConstMacro( CurrentIteration, unsigned int );
-  itkGetConstMacro( StopCondition, StopConditionType );
-  itkGetConstMacro( Value, MeasureType );
+  itkGetConstReferenceMacro( StopCondition, StopConditionType );
+  itkGetConstReferenceMacro( Value, MeasureType );
   itkGetConstReferenceMacro( Gradient, DerivativeType );
   
   

@@ -310,7 +310,7 @@ public:
   unsigned int GetNumberOfParametersPerDimension(void) const;
 
   /** Return the region of the grid wholly within the support region */
-  itkGetConstMacro( ValidRegion, RegionType );
+  itkGetConstReferenceMacro( ValidRegion, RegionType );
 
 protected:
   /** Print contents of an BSplineDeformableTransform. */

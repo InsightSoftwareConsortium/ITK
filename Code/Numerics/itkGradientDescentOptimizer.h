@@ -69,7 +69,7 @@ public:
   } StopConditionType;
 
   /** Methods to configure the cost function. */
-  itkGetConstMacro( Maximize, bool );
+  itkGetConstReferenceMacro( Maximize, bool );
   itkSetMacro( Maximize, bool );
   itkBooleanMacro( Maximize );
   bool GetMinimize( ) const
@@ -99,22 +99,22 @@ public:
   itkSetMacro( LearningRate, double );
 
   /** Get the learning rate. */
-  itkGetConstMacro( LearningRate, double);
+  itkGetConstReferenceMacro( LearningRate, double);
 
   /** Set the number of iterations. */
   itkSetMacro( NumberOfIterations, unsigned long );
 
   /** Get the number of iterations. */
-  itkGetConstMacro( NumberOfIterations, unsigned long );
+  itkGetConstReferenceMacro( NumberOfIterations, unsigned long );
 
   /** Get the current iteration number. */
   itkGetConstMacro( CurrentIteration, unsigned int );
 
   /** Get the current value. */
-  itkGetConstMacro( Value, double );
+  itkGetConstReferenceMacro( Value, double );
 
   /** Get Stop condition. */
-  itkGetConstMacro( StopCondition, StopConditionType );
+  itkGetConstReferenceMacro( StopCondition, StopConditionType );
 
   /** Get Stop condition. */
   itkGetConstReferenceMacro( Gradient, DerivativeType );

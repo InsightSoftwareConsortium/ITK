@@ -116,7 +116,7 @@ public:
   virtual void Read(void* buffer);
 
   /** Set/Get the Data mask. */
-  itkGetConstMacro(ImageMask,unsigned short);
+  itkGetConstReferenceMacro(ImageMask,unsigned short);
   void SetImageMask(unsigned long val) 
   {
     if (val == m_ImageMask) { return; }

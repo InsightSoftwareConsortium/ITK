@@ -148,7 +148,7 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationFie
  * Get the metric value from the difference function
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
-double
+const double &
 SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GetRMSChange() const
 {

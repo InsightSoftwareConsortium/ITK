@@ -115,7 +115,7 @@ public:
    * computed over the the overlapping region between the two images. 
    * This value is calculated for the current iteration */
   virtual double GetMetric() const;
-  virtual double GetRMSChange() const;
+  virtual const double &GetRMSChange() const;
 
   /** Set/Get the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a

@@ -117,7 +117,7 @@ public CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>
   itkSetMacro( Epsilon, double );
 
   /** Get epsilon, the histogram frequency to use if the frequency is 0 */
-  itkGetConstMacro( Epsilon, double );
+  itkGetConstReferenceMacro( Epsilon, double );
 
   /** Return the number of parameters required by the Transform */
   unsigned int GetNumberOfParameters(void) const 

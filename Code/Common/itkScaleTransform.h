@@ -155,11 +155,11 @@ public:
 
   /** Set/Get the center used as fixed point for the scaling */
   itkSetMacro( Center, InputPointType );
-  itkGetConstMacro( Center, InputPointType );
+  itkGetConstReferenceMacro( Center, InputPointType );
 
 
   /** Get access to scale values */
-  itkGetConstMacro( Scale, ScaleType );
+  itkGetConstReferenceMacro( Scale, ScaleType );
 
 
 protected:

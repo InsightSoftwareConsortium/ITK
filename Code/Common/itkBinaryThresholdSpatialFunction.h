@@ -72,11 +72,11 @@ public:
 
   /** Set/Get the lower threshold. */
   itkSetMacro( LowerThreshold, FunctionOutputType );
-  itkGetConstMacro( LowerThreshold, FunctionOutputType );
+  itkGetConstReferenceMacro( LowerThreshold, FunctionOutputType );
 
   /** Set/Get the upper threshold. */
   itkSetMacro( UpperThreshold, FunctionOutputType );
-  itkGetConstMacro( UpperThreshold, FunctionOutputType );
+  itkGetConstReferenceMacro( UpperThreshold, FunctionOutputType );
 
   /** Set/Get the underlying function. */
   itkSetObjectMacro( Function, FunctionType );

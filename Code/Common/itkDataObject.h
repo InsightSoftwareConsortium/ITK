@@ -301,7 +301,7 @@ public:
   /** Turn on/off a flag to control whether this object's data is released
    * after being used by a filter.  */
   itkSetMacro(ReleaseDataFlag,bool);
-  itkGetConstMacro(ReleaseDataFlag,bool);
+  itkGetConstReferenceMacro(ReleaseDataFlag,bool);
   itkBooleanMacro(ReleaseDataFlag);
   
   /** Turn on/off a flag to control whether every object releases its data
@@ -365,7 +365,7 @@ public:
    * This does not include the MTime of this data object. */
   void SetPipelineMTime(unsigned long time) 
     {m_PipelineMTime = time;}
-  itkGetConstMacro(PipelineMTime,unsigned long);
+  itkGetConstReferenceMacro(PipelineMTime,unsigned long);
 
   /** MTime for the last time this DataObject was generated. */
   virtual unsigned long GetUpdateMTime() const;

@@ -57,7 +57,7 @@ public:
 
   /** Set/Get the length of a border object. */
   itkSetMacro(BorderLength, double);
-  itkGetConstMacro(BorderLength, double);
+  itkGetConstReferenceMacro(BorderLength, double);
 
   /** Define a virtual SegmentationBorder function. This function allows
    * access to specific instantiations of other border representations. This

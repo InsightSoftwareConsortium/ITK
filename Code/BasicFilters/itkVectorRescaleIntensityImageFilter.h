@@ -98,17 +98,17 @@ public:
   itkNewMacro(Self);
   
   itkSetMacro( OutputMaximumMagnitude, OutputRealType );
-  itkGetConstMacro( OutputMaximumMagnitude, OutputRealType );
+  itkGetConstReferenceMacro( OutputMaximumMagnitude, OutputRealType );
 
   /** Get the Scale and Shift used for the linear transformation
       of magnitude values. 
    \warning These Values are only valid after the filter has been updated */
-  itkGetConstMacro( Scale, InputRealType );
-  itkGetConstMacro( Shift, InputRealType );
+  itkGetConstReferenceMacro( Scale, InputRealType );
+  itkGetConstReferenceMacro( Shift, InputRealType );
 
   /** Get the Maximum value of the input image magnitudes.
    \warning These Values are only valid after the filter has been updated */
-  itkGetConstMacro( InputMaximumMagnitude, InputRealType );
+  itkGetConstReferenceMacro( InputMaximumMagnitude, InputRealType );
 
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData(void);

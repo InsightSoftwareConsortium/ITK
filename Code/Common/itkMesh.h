@@ -439,7 +439,7 @@ public:
       and/or segmentation faults because the cell memory will not be erased or
       will be erased with an improper method.  */
   itkSetMacro( CellsAllocationMethod, CellsAllocationMethodType );  
-  itkGetConstMacro( CellsAllocationMethod, CellsAllocationMethodType );  
+  itkGetConstReferenceMacro( CellsAllocationMethod, CellsAllocationMethodType );  
 
 protected:
   /** Constructor for use by New() method. */

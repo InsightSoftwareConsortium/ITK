@@ -265,7 +265,7 @@ public:
    * of bulk data during a pipeline update to control peak memory
    * utilization. Default value is on. */
   itkSetMacro(ReleaseDataBeforeUpdateFlag, bool);
-  itkGetConstMacro(ReleaseDataBeforeUpdateFlag, bool);
+  itkGetConstReferenceMacro(ReleaseDataBeforeUpdateFlag, bool);
   itkBooleanMacro(ReleaseDataBeforeUpdateFlag);
    
   

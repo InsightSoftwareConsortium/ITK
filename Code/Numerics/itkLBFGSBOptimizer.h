@@ -134,14 +134,14 @@ public:
     }
 
   /** Get the current iteration number. */
-  itkGetConstMacro( CurrentIteration, unsigned int );
+  itkGetConstReferenceMacro( CurrentIteration, unsigned int );
 
   /** Get the current cost function value. */
-  itkGetConstMacro( Value, MeasureType );
+  itkGetConstReferenceMacro( Value, MeasureType );
 
   /** Get the current infinity norm of the project gradient of the cost
    * function. */
-  itkGetConstMacro( InfinityNormOfProjectedGradient, double );
+  itkGetConstReferenceMacro( InfinityNormOfProjectedGradient, double );
 
 protected:
   LBFGSBOptimizer();

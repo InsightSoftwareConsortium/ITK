@@ -160,7 +160,7 @@ public:
     { return m_Metric; }
 
   /** Get the rms change in deformation field. */
-  virtual double GetRMSChange() const
+  virtual const double &GetRMSChange() const
     { return m_RMSChange; }
 
   /** Set/Get the threshold below which the absolute difference of

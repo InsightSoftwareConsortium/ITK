@@ -159,7 +159,7 @@ public:
     { return m_ShapePriorSegmentationFunction; }
 
   /** Get the current parameters. */
-  itkGetConstMacro( CurrentParameters, ParametersType );
+  itkGetConstReferenceMacro( CurrentParameters, ParametersType );
 
 protected:
   virtual ~ShapePriorSegmentationLevelSetImageFilter() {}

@@ -143,7 +143,7 @@ public:
   itkGetObjectMacro( Interpolator, InterpolatorType );
 
   /** Get the number of pixels considered in the computation. */
-  itkGetConstMacro( NumberOfPixelsCounted, unsigned long );
+  itkGetConstReferenceMacro( NumberOfPixelsCounted, unsigned long );
 
   /** Set the parameters defining the Transform. */
   void SetTransformParameters( const ParametersType & parameters ) const;
@@ -156,7 +156,7 @@ public:
    *  memory footprint at the price of large computation time
    */
   itkSetMacro(      ComputeGradient, bool );
-  itkGetConstMacro( ComputeGradient, bool );
+  itkGetConstReferenceMacro( ComputeGradient, bool );
 
   /** Return the number of parameters required by the Transform */
   unsigned int GetNumberOfParameters(void) const 

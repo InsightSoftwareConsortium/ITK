@@ -284,11 +284,11 @@ public:
    * itkSegmentationBorder documentation for details regarding this
    * parameter.  */
   itkSetMacro(MaximumLambda, double);
-  itkGetConstMacro(MaximumLambda, double);
+  itkGetConstReferenceMacro(MaximumLambda, double);
 
   /** Set/Get the desired number of regions. */
   itkSetMacro(NumberOfRegions, unsigned int);
-  itkGetConstMacro(NumberOfRegions, unsigned int);
+  itkGetConstReferenceMacro(NumberOfRegions, unsigned int);
 
   /** Generate labelled image. */
   LabelImagePointer GetLabelledImage(void);

@@ -115,15 +115,15 @@ public:
    *  intensities of the outputimage */
   itkSetMacro( OutputMinimum, OutputPixelType );
   itkSetMacro( OutputMaximum, OutputPixelType );
-  itkGetConstMacro( OutputMinimum, OutputPixelType );
-  itkGetConstMacro( OutputMaximum, OutputPixelType );
+  itkGetConstReferenceMacro( OutputMinimum, OutputPixelType );
+  itkGetConstReferenceMacro( OutputMaximum, OutputPixelType );
 
   /** Set/Get the values of the maximum and minimum 
    *  intensities of the input intensity window */
   itkSetMacro( WindowMinimum, InputPixelType );
   itkSetMacro( WindowMaximum, InputPixelType );
-  itkGetConstMacro( WindowMinimum, InputPixelType );
-  itkGetConstMacro( WindowMaximum, InputPixelType );
+  itkGetConstReferenceMacro( WindowMinimum, InputPixelType );
+  itkGetConstReferenceMacro( WindowMaximum, InputPixelType );
 
   /** Set/Get the window width and level.  This is an alternative API
    * to using the SetWindowMinimum()/SetWindowMaximum(). The window
@@ -137,8 +137,8 @@ public:
   /** Get the Scale and Shift used for the linear transformation
       of gray level values. 
    \warning These Values are only valid after the filter has been updated */
-  itkGetConstMacro( Scale, RealType );
-  itkGetConstMacro( Shift, RealType );
+  itkGetConstReferenceMacro( Scale, RealType );
+  itkGetConstReferenceMacro( Shift, RealType );
 
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData(void);

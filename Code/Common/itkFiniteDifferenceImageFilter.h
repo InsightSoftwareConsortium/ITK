@@ -152,7 +152,7 @@ public:
   typedef enum { UNINITIALIZED = 0, INITIALIZED = 1 } FilterStateType;
   
   /** Get the number of elapsed iterations of the filter. */
-  itkGetConstMacro(ElapsedIterations, unsigned int);
+  itkGetConstReferenceMacro(ElapsedIterations, unsigned int);
 
   /** This method returns a pointer to a FiniteDifferenceFunction object that
    * will be used by the filter to calculate updates at image pixels.
@@ -168,23 +168,23 @@ public:
 
  /** Set/Get the number of iterations that the filter will run. */
   itkSetMacro(NumberOfIterations, unsigned int);
-  itkGetConstMacro(NumberOfIterations, unsigned int);
+  itkGetConstReferenceMacro(NumberOfIterations, unsigned int);
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOff. */
   itkSetMacro(UseImageSpacing,bool);
   itkBooleanMacro(UseImageSpacing);
-  itkGetConstMacro(UseImageSpacing, bool);
+  itkGetConstReferenceMacro(UseImageSpacing, bool);
 
   /** Set/Get the maximum error allowed in the solution.  This may not be
       defined for all solvers and its meaning may change with the application. */
   itkSetMacro(MaximumRMSError, double);
-  itkGetConstMacro(MaximumRMSError, double);
+  itkGetConstReferenceMacro(MaximumRMSError, double);
 
   /** Set/Get the root mean squared change of the previous iteration. May not
       be used by all solvers. */
   itkSetMacro(RMSChange, double);
-  itkGetConstMacro(RMSChange, double);
+  itkGetConstReferenceMacro(RMSChange, double);
 
   /** Set the state of the filter to INITIALIZED */
   void SetStateToInitialized()
@@ -200,12 +200,12 @@ public:
   
   /** Set/Get the state of the filter. */
   itkSetMacro(State, FilterStateType);
-  itkGetConstMacro(State, FilterStateType);
+  itkGetConstReferenceMacro(State, FilterStateType);
 
   /** Require the filter to be manually reinitialized (by calling
       SetStateToUninitialized() */
   itkSetMacro(ManualReinitialization, bool);
-  itkGetConstMacro(ManualReinitialization, bool);
+  itkGetConstReferenceMacro(ManualReinitialization, bool);
   itkBooleanMacro(ManualReinitialization);
   
 protected:

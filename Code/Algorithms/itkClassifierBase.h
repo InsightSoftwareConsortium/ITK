@@ -97,7 +97,7 @@ public:
   itkSetMacro(NumberOfClasses, unsigned int);
 
   /** Gets the number of classes. */
-  itkGetConstMacro(NumberOfClasses, unsigned int);
+  itkGetConstReferenceMacro(NumberOfClasses, unsigned int);
 
   /**Sets the decision rule */
   typedef typename TDataContainer::ValueType MeasurementVectorType ;

@@ -37,8 +37,8 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  typedef itk::FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>  TransformType;
-  typedef itk::BoundingBox<unsigned long, NDimensions, TScalarType> BoundingBoxType;
+  typedef FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>  TransformType;
+  typedef BoundingBox<unsigned long, NDimensions, TScalarType> BoundingBoxType;
   typedef typename BoundingBoxType::BoundsArrayType BoundsArrayType;
   typedef typename BoundingBoxType::Pointer BoundingBoxPointer;
 

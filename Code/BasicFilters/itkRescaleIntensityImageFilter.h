@@ -107,19 +107,19 @@ public:
   
   itkSetMacro( OutputMinimum, OutputPixelType );
   itkSetMacro( OutputMaximum, OutputPixelType );
-  itkGetConstMacro( OutputMinimum, OutputPixelType );
-  itkGetConstMacro( OutputMaximum, OutputPixelType );
+  itkGetConstReferenceMacro( OutputMinimum, OutputPixelType );
+  itkGetConstReferenceMacro( OutputMaximum, OutputPixelType );
 
   /** Get the Scale and Shift used for the linear transformation
       of gray level values. 
    \warning These Values are only valid after the filter has been updated */
-  itkGetConstMacro( Scale, RealType );
-  itkGetConstMacro( Shift, RealType );
+  itkGetConstReferenceMacro( Scale, RealType );
+  itkGetConstReferenceMacro( Shift, RealType );
 
   /** Get the Minimum and Maximum values of the input image.
    \warning These Values are only valid after the filter has been updated */
-  itkGetConstMacro( InputMinimum, InputPixelType );
-  itkGetConstMacro( InputMaximum, InputPixelType );
+  itkGetConstReferenceMacro( InputMinimum, InputPixelType );
+  itkGetConstReferenceMacro( InputMaximum, InputPixelType );
 
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData(void);

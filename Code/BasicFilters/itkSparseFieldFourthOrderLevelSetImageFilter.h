@@ -203,22 +203,22 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
   typedef LevelSetFunctionWithRefitTerm <OutputImageType,
                                          SparseImageType> LevelSetFunctionType; 
   
-  itkGetConstMacro(MaxRefitIteration,unsigned int);
+  itkGetConstReferenceMacro(MaxRefitIteration,unsigned int);
   itkSetMacro(MaxRefitIteration,unsigned int);
-  itkGetConstMacro(MaxNormalIteration,unsigned int);
+  itkGetConstReferenceMacro(MaxNormalIteration,unsigned int);
   itkSetMacro(MaxNormalIteration,unsigned int);
-  itkGetConstMacro(CurvatureBandWidth,ValueType);
+  itkGetConstReferenceMacro(CurvatureBandWidth,ValueType);
   itkSetMacro(CurvatureBandWidth,ValueType);
-  itkGetConstMacro(RMSChangeNormalProcessTrigger, ValueType);
+  itkGetConstReferenceMacro(RMSChangeNormalProcessTrigger, ValueType);
   itkSetMacro(RMSChangeNormalProcessTrigger, ValueType);
-  itkGetConstMacro(NormalProcessType, int);
+  itkGetConstReferenceMacro(NormalProcessType, int);
   itkSetMacro(NormalProcessType, int);
-  itkGetConstMacro(NormalProcessConductance, ValueType);
+  itkGetConstReferenceMacro(NormalProcessConductance, ValueType);
   itkSetMacro(NormalProcessConductance, ValueType);
   itkSetMacro(NormalProcessUnsharpFlag, bool);
-  itkGetConstMacro(NormalProcessUnsharpFlag, bool);
+  itkGetConstReferenceMacro(NormalProcessUnsharpFlag, bool);
   itkSetMacro(NormalProcessUnsharpWeight, ValueType);
-  itkGetConstMacro(NormalProcessUnsharpWeight, ValueType);
+  itkGetConstReferenceMacro(NormalProcessUnsharpWeight, ValueType);
 
   /** Set the level set function. Must LevelSetFunctionWithRefitTerm or a
       subclass. */

@@ -121,7 +121,7 @@ public:
   /** Get/Set the number of objects enumerated and described when the
    * filter is printed. */
   itkSetMacro(NumberOfObjectsToPrint, unsigned long);
-  itkGetConstMacro(NumberOfObjectsToPrint, unsigned long);
+  itkGetConstReferenceMacro(NumberOfObjectsToPrint, unsigned long);
   
   /** Get the size of each object in pixels. This information is only
    * valid after the filter has executed.  Size of the background is

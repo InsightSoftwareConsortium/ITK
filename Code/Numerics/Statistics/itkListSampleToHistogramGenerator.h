@@ -105,7 +105,7 @@ public:
   { this->GenerateData() ; }
 
   itkSetMacro(AutoMinMax,bool);
-  itkGetConstMacro(AutoMinMax,bool);
+  itkGetConstReferenceMacro(AutoMinMax,bool);
 
   void SetHistogramMin(const MeasurementVectorType & histogramMin)
     {

@@ -90,7 +90,7 @@ public:
    * This method returns the value of the offset of the
    * Rigid2DTransform.
    **/
-   itkGetConstMacro( Offset, OffsetType );
+   itkGetConstReferenceMacro( Offset, OffsetType );
 
   /**
    * Get rotation Matrix from an Rigid2DTransform
@@ -98,7 +98,7 @@ public:
    * This method returns the value of the rotation of the
    * Rigid2DTransform.
    **/
-   itkGetConstMacro( RotationMatrix, MatrixType );
+   itkGetConstReferenceMacro( RotationMatrix, MatrixType );
 
 
   /**

@@ -124,7 +124,7 @@ public:
   /** Specify the region to write. If left NULL, then the whole image
    * is written. */
   void SetIORegion(const ImageIORegion & region);
-  itkGetConstMacro( IORegion, ImageIORegion );
+  itkGetConstReferenceMacro( IORegion, ImageIORegion );
 
   /** Aliased to the Write() method to be consistent with the rest of the
    * pipeline. */
@@ -133,7 +133,7 @@ public:
 
   /** Set the compression On or Off */
   itkSetMacro(UseCompression,bool);
-  itkGetConstMacro(UseCompression,bool);
+  itkGetConstReferenceMacro(UseCompression,bool);
   itkBooleanMacro(UseCompression);
 
   /** By default the MetaDataDictionary is taken from the input image and 
@@ -143,7 +143,7 @@ public:
    *  to use will be the one from the input image or the one already set in
    *  the ImageIO object. */
   itkSetMacro(UseInputMetaDataDictionary,bool);
-  itkGetConstMacro(UseInputMetaDataDictionary,bool);
+  itkGetConstReferenceMacro(UseInputMetaDataDictionary,bool);
   itkBooleanMacro(UseInputMetaDataDictionary);
 
 

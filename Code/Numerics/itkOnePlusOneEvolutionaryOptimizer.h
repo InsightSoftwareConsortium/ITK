@@ -94,25 +94,25 @@ public:
 
   /** Set/Get maximum iteration limit. */
   itkSetMacro( MaximumIteration, unsigned int );
-  itkGetConstMacro( MaximumIteration, unsigned int );
+  itkGetConstReferenceMacro( MaximumIteration, unsigned int );
 
   /** Set/Get the search radius grow factor in parameter space. */
   itkSetMacro( GrowthFactor, double );
-  itkGetConstMacro( GrowthFactor, double );
+  itkGetConstReferenceMacro( GrowthFactor, double );
 
   /** Set/Get the search radius shrink factor. */
   itkSetMacro( ShrinkFactor, double );
-  itkGetConstMacro( ShrinkFactor, double );
+  itkGetConstReferenceMacro( ShrinkFactor, double );
 
   /** Set/Get initial search radius in parameter space */
   itkSetMacro( InitialRadius, double ) ;
-  itkGetConstMacro( InitialRadius, double );
+  itkGetConstReferenceMacro( InitialRadius, double );
 
 
   /** Set/Get the minimal size of search radius 
    * (frobenius_norm of covariance matrix). */
   itkSetMacro( Epsilon, double );   
-  itkGetConstMacro( Epsilon, double );   
+  itkGetConstReferenceMacro( Epsilon, double );   
 
   void SetNormalVariateGenerator(NormalVariateGeneratorType* generator) ;
 
@@ -125,11 +125,11 @@ public:
   void Initialize(double initialRadius, double grow = -1, double shrink = -1) ;
 
   /** Return Current Value */
-  itkGetConstMacro( CurrentCost, MeasureType );
+  itkGetConstReferenceMacro( CurrentCost, MeasureType );
   MeasureType GetValue() const { return this->GetCurrentCost(); }
 
   /** Return Current Iteration */
-  itkGetConstMacro( CurrentIteration, unsigned int) ;
+  itkGetConstReferenceMacro( CurrentIteration, unsigned int) ;
 
   /** Start optimization.
    * Optimization will stop when it meets either of two termination conditions,

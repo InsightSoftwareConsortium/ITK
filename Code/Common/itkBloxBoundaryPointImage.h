@@ -77,7 +77,7 @@ public:
   itkSetMacro(NumBoundaryPoints, unsigned long int);
 
   /** Get the number of boundary points in the image */
-  itkGetConstMacro(NumBoundaryPoints, unsigned long int);
+  itkGetConstReferenceMacro(NumBoundaryPoints, unsigned long int);
 
 protected:
   BloxBoundaryPointImage();

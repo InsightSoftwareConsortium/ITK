@@ -65,7 +65,7 @@ public:
   virtual void SetInitialPosition( const ParametersType & param );
 
   /** Get the position to initialize the optimization. */
-  itkGetConstMacro(InitialPosition, ParametersType);
+  itkGetConstReferenceMacro(InitialPosition, ParametersType);
 
   /** Set current parameters scaling. */
   void SetScales(const ScalesType & scales);

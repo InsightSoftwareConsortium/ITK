@@ -123,7 +123,7 @@ public:
    * the PIXELTYPE is SCALAR, then the NumberOfComponents should be 1.
    * Anyother of PIXELTYPE will have more than one component.*/
   itkSetMacro(PixelType, IOPixelType);
-  itkGetConstMacro(PixelType, IOPixelType);
+  itkGetConstReferenceMacro(PixelType, IOPixelType);
 
   /** SetPixelTypeInfo is used by writers to convert from an ITK
    * strongly typed pixel to a ImageIO (weaker) typed pixel. This
@@ -136,7 +136,7 @@ public:
   /** Set/Get the component type of the image. This is always a native
    * type. */
   itkSetMacro(ComponentType,IOComponentType);
-  itkGetConstMacro(ComponentType,IOComponentType);
+  itkGetConstReferenceMacro(ComponentType,IOComponentType);
   virtual const std::type_info& GetComponentTypeInfo() const;
   
   /** Set/Get the number of components per pixel in the image. This may
@@ -144,11 +144,11 @@ public:
    * NumberOfComponents will be 1.  For other pixel types,
    * NumberOfComponents will be greater than or equal to one. */
   itkSetMacro(NumberOfComponents,unsigned int);
-  itkGetConstMacro(NumberOfComponents,unsigned int);
+  itkGetConstReferenceMacro(NumberOfComponents,unsigned int);
 
   /** Set/Get a boolean to use the compression or not. */
   itkSetMacro(UseCompression,bool);
-  itkGetConstMacro(UseCompression,bool);
+  itkGetConstReferenceMacro(UseCompression,bool);
 
   /** Convenience method returns the IOComponentType as a string. This can be
    * used for writing output files. */
@@ -169,7 +169,7 @@ public:
   /** These methods control whether the file is written binary or ASCII.
    * Many file formats (i.e., subclasses) ignore this flag. */
   itkSetMacro(FileType,FileType);
-  itkGetConstMacro(FileType,FileType);
+  itkGetConstReferenceMacro(FileType,FileType);
   void SetFileTypeToASCII()
   { this->SetFileType(ASCII); }
   void SetFileTypeToBinary()
@@ -187,7 +187,7 @@ public:
    * SetByteOrderToBigEndian().  Some ImageIOBase subclasses
    * ignore these methods. */
   itkSetMacro(ByteOrder,ByteOrder);
-  itkGetConstMacro(ByteOrder,ByteOrder);
+  itkGetConstReferenceMacro(ByteOrder,ByteOrder);
   void SetByteOrderToBigEndian()
   { this->SetByteOrder(BigEndian); }
   void SetByteOrderToLittleEndian()

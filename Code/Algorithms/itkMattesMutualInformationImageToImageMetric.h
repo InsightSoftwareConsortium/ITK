@@ -176,12 +176,12 @@ public:
   /** Number of spatial samples to used to compute metric */
   itkSetClampMacro( NumberOfSpatialSamples, unsigned long,
                     1, NumericTraits<unsigned long>::max() );
-  itkGetConstMacro( NumberOfSpatialSamples, unsigned long); 
+  itkGetConstReferenceMacro( NumberOfSpatialSamples, unsigned long); 
 
   /** Number of bins to used in the histogram. Typical value is 50. */
   itkSetClampMacro( NumberOfHistogramBins, unsigned long,
                     1, NumericTraits<unsigned long>::max() );
-  itkGetConstMacro( NumberOfHistogramBins, unsigned long);   
+  itkGetConstReferenceMacro( NumberOfHistogramBins, unsigned long);   
   
 protected:
 

@@ -147,7 +147,7 @@ public:
   void SetNumberOfSpatialSamples( unsigned int num );
 
   /** Get the number of spatial samples. */
-  itkGetConstMacro( NumberOfSpatialSamples, unsigned int );
+  itkGetConstReferenceMacro( NumberOfSpatialSamples, unsigned int );
 
   /** Set/Get the moving image intensitiy standard deviation. This defines
    * the kernel bandwidth used in the joint probability distribution
@@ -156,7 +156,7 @@ public:
    * Value is clamped to be always greater than zero. */
   itkSetClampMacro( MovingImageStandardDeviation, double, 
                     NumericTraits<double>::NonpositiveMin(), NumericTraits<double>::max() );
-  itkGetConstMacro( MovingImageStandardDeviation, double );
+  itkGetConstReferenceMacro( MovingImageStandardDeviation, double );
 
   /** Set/Get the fixed image intensitiy standard deviation. This defines
    * the kernel bandwidth used in the joint probability distribution

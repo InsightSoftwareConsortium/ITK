@@ -98,12 +98,12 @@ public:
 
   /** Set/Get maximum iteration limit. */
   itkSetMacro( MaximumIteration, int );
-  itkGetConstMacro( MaximumIteration, int ); 
+  itkGetConstReferenceMacro( MaximumIteration, int ); 
  
   /** Set/Get the termination threshold for the squared sum
    * of changes in centroid postions after one iteration */
   itkSetMacro( CentroidPositionChangesThreshold, double );   
-  itkGetConstMacro( CentroidPositionChangesThreshold, double );   
+  itkGetConstReferenceMacro( CentroidPositionChangesThreshold, double );   
   
   /** Set/Get the pointer to the KdTree */
   void SetKdTree(TKdTree* tree) 
@@ -112,8 +112,8 @@ public:
   TKdTree* GetKdTree() 
   { return m_KdTree.GetPointer() ; }
 
-  itkGetConstMacro( CurrentIteration, int) ;
-  itkGetConstMacro( CentroidPositionChanges, double) ;
+  itkGetConstReferenceMacro( CurrentIteration, int) ;
+  itkGetConstReferenceMacro( CentroidPositionChanges, double) ;
 
   /** Start optimization
    * Optimization will stop when it meets either of two termination conditions,

@@ -99,20 +99,20 @@ public:
 
   /** Set/Get the number of minimum intensity pixels per slice. */
   itkSetMacro(NumberOfSamples, unsigned int);
-  itkGetConstMacro(NumberOfSamples, unsigned int);
+  itkGetConstReferenceMacro(NumberOfSamples, unsigned int);
 
   /** Set/Get the minimum threshold value for the background pixels */
   itkSetMacro(BackgroundMinimumThreshold, ImagePixelType);
-  itkGetConstMacro(BackgroundMinimumThreshold, ImagePixelType);
+  itkGetConstReferenceMacro(BackgroundMinimumThreshold, ImagePixelType);
 
   /** Set/Get the tolerance value. */
   itkSetMacro(Tolerance, double);
-  itkGetConstMacro(Tolerance, double);
+  itkGetConstReferenceMacro(Tolerance, double);
 
   /** Set/Get the direction of slicing/
    * 0 - x axis, 1 - y axis, 2 - z axis */
   itkSetMacro(SlicingDirection,int);
-  itkGetConstMacro(SlicingDirection,int);
+  itkGetConstReferenceMacro(SlicingDirection,int);
 
   /** Compute the average values of miminum intensity pixels for each slice and
    * compare the average values with overall averages. */

@@ -375,7 +375,7 @@ public:
   void SetProperty( const PropertyType * property ); 
 
   /** Get/Set the ID */
-  itkGetConstMacro(Id,int);
+  itkGetConstReferenceMacro(Id,int);
   itkSetMacro(Id,int);
   
   /** Set/Get the parent Identification number*/
@@ -497,12 +497,12 @@ public:
 
   /** Set/Get the depth at which the bounding box is computed */
   itkSetMacro(BoundingBoxChildrenDepth, unsigned int);
-  itkGetConstMacro(BoundingBoxChildrenDepth, unsigned int);
+  itkGetConstReferenceMacro(BoundingBoxChildrenDepth, unsigned int);
 
   /** Set/Get the name of the children to consider when computing the
    *  bounding box */
   itkSetMacro(BoundingBoxChildrenName, std::string);
-  itkGetConstMacro(BoundingBoxChildrenName, std::string);
+  itkGetConstReferenceMacro(BoundingBoxChildrenName, std::string);
 
   /** Set the pointer to the parent object in the tree hierarchy
    *  used for the spatial object patter. */
@@ -531,7 +531,7 @@ protected:
   void ComputeOffsetTable();
 
   itkSetMacro(Dimension,unsigned int);
-  itkGetConstMacro(Dimension,unsigned int)
+  itkGetConstReferenceMacro(Dimension,unsigned int)
   itkSetMacro(TypeName,std::string);
   itkGetConstObjectMacro(Bounds,BoundingBoxType);
   itkGetConstObjectMacro(InternalInverseTransform,TransformType);

@@ -78,7 +78,7 @@ public:
   itkSetMacro(NumberOfModels, unsigned int);
 
   /** Get the number of classes. */
-  itkGetConstMacro(NumberOfModels, unsigned int);
+  itkGetConstReferenceMacro(NumberOfModels, unsigned int);
 
   /** Type definitions for the membership function . */
   typedef typename TMembershipFunction::Pointer MembershipFunctionPointer ;

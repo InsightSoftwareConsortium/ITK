@@ -102,7 +102,7 @@ public HistogramImageToImageMetric<TFixedImage, TMovingImage>
   itkSetMacro( TrainingHistogram, HistogramPointerType );
 
   /** Get the histogram to be used in the metric calculation */
-  itkGetConstMacro( TrainingHistogram, HistogramPointerType );
+  itkGetConstReferenceMacro( TrainingHistogram, HistogramPointerType );
 
   /** Set the Training Fixed Image.  */
   itkSetConstObjectMacro( TrainingFixedImage, FixedImageType );
@@ -132,7 +132,7 @@ public HistogramImageToImageMetric<TFixedImage, TMovingImage>
   itkSetMacro( TrainingFixedImageRegion, FixedImageRegionType );
 
   /** Get the region over which the training histogram will be computed */
-  itkGetConstMacro( TrainingFixedImageRegion, FixedImageRegionType );
+  itkGetConstReferenceMacro( TrainingFixedImageRegion, FixedImageRegionType );
 
   /** Return the number of parameters required by the Transform */
   unsigned int GetNumberOfParameters(void) const 

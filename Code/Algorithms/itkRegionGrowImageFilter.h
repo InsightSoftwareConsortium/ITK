@@ -116,7 +116,7 @@ public:
 
   /** Set/Get the number of regions desired. */
   itkSetMacro(MaximumNumberOfRegions, unsigned int);
-  itkGetConstMacro(MaximumNumberOfRegions, unsigned int);
+  itkGetConstReferenceMacro(MaximumNumberOfRegions, unsigned int);
 
   /** Define a virtual RegionGrowImageFilter function. */
   virtual void ApplyRegionGrowImageFilter(){};

@@ -154,12 +154,12 @@ public:
   virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
   
   /** Set a fixed offset: this allow to center the object to be transformed */
-  itkGetConstMacro(FixedOffset,OffsetType);
+  itkGetConstReferenceMacro(FixedOffset,OffsetType);
   itkSetMacro(FixedOffset,OffsetType);
 
   /** Set the center of Rotation */
   itkSetMacro(CenterOfRotation,InputPointType);
-  itkGetConstMacro(CenterOfRotation,InputPointType);
+  itkGetConstReferenceMacro(CenterOfRotation,InputPointType);
 
 
 protected:

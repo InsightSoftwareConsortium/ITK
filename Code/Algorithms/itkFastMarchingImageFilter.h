@@ -200,7 +200,7 @@ public:
   }
 
   /** Get the Speed Constant. */
-  itkGetConstMacro( SpeedConstant, double );
+  itkGetConstReferenceMacro( SpeedConstant, double );
 
   /** Set/Get the Normalization Factor for the Speed Image.
       The values in the Speed Image is divided by this
@@ -215,7 +215,7 @@ public:
   itkSetMacro( StoppingValue, double );
 
   /** Get the Fast Marching algorithm Stopping Value. */
-  itkGetConstMacro( StoppingValue, double );
+  itkGetConstReferenceMacro( StoppingValue, double );
 
   /** Set the Collect Points flag. Instrument the algorithm to collect
    * a container of all nodes which it has visited. Useful for
@@ -224,7 +224,7 @@ public:
   itkSetMacro( CollectPoints, bool );
 
   /** Get thConste Collect Points flag. */
-  itkGetConstMacro( CollectPoints, bool );
+  itkGetConstReferenceMacro( CollectPoints, bool );
   itkBooleanMacro( CollectPoints );
 
   /** Get the container of Processed Points. If the CollectPoints flag
@@ -246,13 +246,13 @@ public:
   virtual OutputSizeType GetOutputSize() const
   { return m_OutputRegion.GetSize(); }
   itkSetMacro( OutputRegion, OutputRegionType );
-  itkGetConstMacro( OutputRegion, OutputRegionType );
+  itkGetConstReferenceMacro( OutputRegion, OutputRegionType );
   itkSetMacro( OutputSpacing, OutputSpacingType );
-  itkGetConstMacro( OutputSpacing, OutputSpacingType );
+  itkGetConstReferenceMacro( OutputSpacing, OutputSpacingType );
   itkSetMacro( OutputOrigin, OutputPointType );
-  itkGetConstMacro( OutputOrigin, OutputPointType );
+  itkGetConstReferenceMacro( OutputOrigin, OutputPointType );
   itkSetMacro( OverrideOutputInformation, bool );
-  itkGetConstMacro( OverrideOutputInformation, bool );
+  itkGetConstReferenceMacro( OverrideOutputInformation, bool );
   itkBooleanMacro( OverrideOutputInformation );
 
 protected:
@@ -280,7 +280,7 @@ protected:
       represent the concept of infinity for the time assigned to pixels that
       have not been visited. This value is set by default to half the 
       max() of the pixel type used to represent the time-crossing map. */
-  itkGetConstMacro( LargeValue, PixelType );
+  itkGetConstReferenceMacro( LargeValue, PixelType );
 
   OutputRegionType                              m_BufferedRegion;
   typename LevelSetImageType::IndexType         m_StartIndex;

@@ -163,7 +163,7 @@ public:
   /** Set/Get the Lambda parameter associate with the borders
    * in the KLM algorithm */
   itkSetMacro(Lambda, double);
-  itkGetConstMacro(Lambda, double);
+  itkGetConstReferenceMacro(Lambda, double);
 
   /** Evaluate the Lambda for a given border. */
   void EvaluateLambda();

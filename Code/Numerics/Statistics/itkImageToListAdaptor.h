@@ -278,10 +278,10 @@ protected:
   virtual ~ImageToListAdaptor() {}
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
-  itkGetConstMacro(PixelContainer,PixelContainerConstPointer);
-  itkGetConstMacro(UseBuffer,bool);
-  itkGetConstMacro(ImageBeginIndex,IndexType);
-  itkGetConstMacro(ImageEndIndex,IndexType);
+  itkGetConstReferenceMacro(PixelContainer,PixelContainerConstPointer);
+  itkGetConstReferenceMacro(UseBuffer,bool);
+  itkGetConstReferenceMacro(ImageBeginIndex,IndexType);
+  itkGetConstReferenceMacro(ImageEndIndex,IndexType);
 
 
 private:

@@ -99,7 +99,7 @@ public:
    * This method returns the value of the offset of the
    * Rigid3DTransform.
    **/
-   itkGetConstMacro( Offset, OffsetType );
+   itkGetConstReferenceMacro( Offset, OffsetType );
 
   /**
    * Get rotation MAtrix from an Rigid3DTransform
@@ -107,7 +107,7 @@ public:
    * This method returns the value of the rotation of the
    * Rigid3DTransform.
    **/
-   itkGetConstMacro( RotationMatrix, MatrixType );
+   itkGetConstReferenceMacro( RotationMatrix, MatrixType );
 
 
   /**

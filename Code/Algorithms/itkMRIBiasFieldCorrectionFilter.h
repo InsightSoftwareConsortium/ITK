@@ -287,7 +287,7 @@ public:
    * intensity correction will be applied before bias field
    * correction. default - true (3D input image), false (2D input image). */
   itkSetMacro( UsingInterSliceIntensityCorrection, bool );
-  itkGetConstMacro( UsingInterSliceIntensityCorrection, bool );
+  itkGetConstReferenceMacro( UsingInterSliceIntensityCorrection, bool );
 
   /** Set/Gets the slab correction flag. If the flag is true, inter-slice
    * intensity correction and bias field correction will be performed slab by
@@ -295,16 +295,16 @@ public:
    * NOTE: if users want to slab identification, all the input image data
    * should be buffered. */
   itkSetMacro( UsingSlabIdentification, bool );
-  itkGetConstMacro( UsingSlabIdentification, bool );
+  itkGetConstReferenceMacro( UsingSlabIdentification, bool );
 
   itkSetMacro( SlabBackgroundMinimumThreshold, InputImagePixelType );
-  itkGetConstMacro( SlabBackgroundMinimumThreshold, InputImagePixelType );
+  itkGetConstReferenceMacro( SlabBackgroundMinimumThreshold, InputImagePixelType );
 
   itkSetMacro( SlabNumberOfSamples, unsigned int );
-  itkGetConstMacro( SlabNumberOfSamples, unsigned int );
+  itkGetConstReferenceMacro( SlabNumberOfSamples, unsigned int );
 
   itkSetMacro( SlabTolerance, double );
-  itkGetConstMacro( SlabTolerance, double );
+  itkGetConstReferenceMacro( SlabTolerance, double );
 
   /** Set/Gets the bias correction flag. If the flag is true, bias field
    * correction runs.  This flag sounds odd. But if users want to use only
@@ -312,12 +312,12 @@ public:
    * disabling bias field correction would be an useful option. default -
    * true. */
   itkSetMacro( UsingBiasFieldCorrection, bool );
-  itkGetConstMacro( UsingBiasFieldCorrection, bool );
+  itkGetConstReferenceMacro( UsingBiasFieldCorrection, bool );
 
   /** Set/Gets the flag, If the flag is true, the output image (corrected image)
    * will be created when this filter is updated. default - true */
   itkSetMacro( GeneratingOutput, bool );
-  itkGetConstMacro( GeneratingOutput, bool );
+  itkGetConstReferenceMacro( GeneratingOutput, bool );
 
   /** Sets the direction of slicing.
    * 0 - x axis, 1 - y axis, 2 - z axis */

@@ -134,7 +134,7 @@ public:
 
   /** Set/Get the mean pixel intensity in the region. */
   itkSetMacro(MeanRegionIntensity, MeanRegionIntensityType)
-  itkGetConstMacro(MeanRegionIntensity, MeanRegionIntensityType);
+  itkGetConstReferenceMacro(MeanRegionIntensity, MeanRegionIntensityType);
 
   /** Set the region with parameter values
    * defining the region. */

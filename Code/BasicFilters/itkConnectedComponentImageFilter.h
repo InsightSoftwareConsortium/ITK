@@ -105,7 +105,7 @@ public:
    * FullyConnectedOn.
    */
   itkSetMacro(FullyConnected, bool);
-  itkGetConstMacro(FullyConnected, bool);
+  itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
 
 protected:
