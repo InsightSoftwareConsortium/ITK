@@ -90,10 +90,11 @@ BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>
 
   // support progress methods/callbacks
   unsigned long updateVisits = 0, i=0;
+  const float   numberOfUpdates = 100.0f;
   if ( threadId == 0 )
     {
-    updateVisits = 
-      outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
+    updateVisits = static_cast<unsigned long>(
+      outputPtr->GetRequestedRegion().GetNumberOfPixels() / numberOfUpdates );
     if ( updateVisits < 1 ) updateVisits = 1;
     }
         
@@ -105,7 +106,8 @@ BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>
     {
     if ( threadId == 0 && !(i % updateVisits ) )
       {
-      this->UpdateProgress((float)i/(float(updateVisits)*10.0));
+      this->UpdateProgress( static_cast<float>( i ) / 
+                            static_cast<float>(updateVisits)*numberOfUpdates );
       }
 
     outputIt.Set( m_Functor( inputIt1.Get(), inputIt2.Get() ) );
