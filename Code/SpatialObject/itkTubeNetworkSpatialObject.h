@@ -20,7 +20,6 @@
 
 #include "itkAffineTransform.h"
 #include "itkTubeSpatialObject.h"
-#include "itkCompositeSpatialObject.h"
 
 namespace itk
 {
@@ -28,22 +27,20 @@ namespace itk
 /** \class TubeNetworkSpatialObject
 * \brief Network of tubes as spatial object
 *
-* This class allow to create a network of tubes. It derives from
-* a composite spatial object, and have extra functionnalities specific
-* to tubes. Any spatial object can be plug to this network, but the 
+* This class allow to create a network of tubes. 
+* Any spatial object can be plug to this network, but the 
 * specifics functions will only be runned on the tubes, or tubes network
 * objects.
 *
-* \also TubeSpatialObject TubePoint
+* \also TubeSpatialObject TubeSpatialObjectPoint
 */
 
 template < unsigned int TDimension , unsigned int PipelineDimension = 3 >
 class TubeNetworkSpatialObject 
-: public CompositeSpatialObject<  TDimension, 
-                                  AffineTransform< double, TDimension >,
-                                  double,
-                                  PipelineDimension
-                               >
+: public SpatialObject<  TDimension, 
+                         AffineTransform< double, TDimension >,
+                         PipelineDimension
+                      >
 {
 
 public:
@@ -52,9 +49,8 @@ public:
   typedef double                               ScalarType;
   typedef SmartPointer < Self >                Pointer;
   typedef SmartPointer < const Self >          ConstPointer;
-  typedef CompositeSpatialObject< TDimension, 
+  typedef SpatialObject< TDimension, 
                                   AffineTransform< double, TDimension >,
-                                  double,
                                   PipelineDimension
                                 >             Superclass;
   typedef SmartPointer<Superclass>            SuperclassPointer;
@@ -65,26 +61,21 @@ public:
   typedef SmartPointer<ChildrenType>          ChildrenPointer;
   typedef std::list< ChildrenType * >         ChildrenListType;
   typedef TubeSpatialObject<TDimension>       TubeType;
-  typedef std::list< TubeType * >    TubeListType;
+  typedef std::list< TubeType * >             TubeListType;
 
   itkNewMacro( Self );
 
   itkTypeMacro( Self, Superclass );
 
-  /**
-   * Compute Tangents
-   */
+  /** Compute Tangents */
   void CalcTangent( void );
 
-  /**
-   * Get Tubes in the tree given a certain depth
-   */
+  /** Get Tubes in the tree given a certain depth */
   TubeListType * GetTubes( unsigned int maximumDepth=0 , unsigned int currentDepth=0 ) const;
 
 protected:
 
   TubeNetworkSpatialObject( void );
-  
   ~TubeNetworkSpatialObject( void );
 
 };

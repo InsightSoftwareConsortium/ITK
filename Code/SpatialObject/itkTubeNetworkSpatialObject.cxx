@@ -21,96 +21,88 @@
 
 namespace itk 
 { 
-  /**
-   * Constructor
-   */
-  template< unsigned int TDimension, unsigned int PipelineDimension >
-  TubeNetworkSpatialObject< TDimension , PipelineDimension > 
-  ::TubeNetworkSpatialObject()
-  {
-    m_Dimension = TDimension;
-    strcpy(m_TypeName,"TubeNetworkSpatialObject");
-    m_ParentId=-1;
-  } 
 
-  /**
-   * Destructor
-   */
-  template< unsigned int TDimension, unsigned int PipelineDimension >
-  TubeNetworkSpatialObject< TDimension , PipelineDimension >  
-  ::~TubeNetworkSpatialObject()  
-  {
+/** Constructor */
+template< unsigned int TDimension, unsigned int PipelineDimension >
+TubeNetworkSpatialObject< TDimension , PipelineDimension > 
+::TubeNetworkSpatialObject()
+{
+  m_Dimension = TDimension;
+  strcpy(m_TypeName,"TubeNetworkSpatialObject");
+  m_ParentId=-1;
+} 
 
-  } 
+/** Destructor */
+template< unsigned int TDimension, unsigned int PipelineDimension >
+TubeNetworkSpatialObject< TDimension , PipelineDimension >  
+::~TubeNetworkSpatialObject()  
+{
+} 
  
-  /** 
-   * call the CalcTangent() method for each Tube contained in this  
-   * composite object... 
-   */ 
-  template< unsigned int TDimension, unsigned int PipelineDimension > 
-  void  
-  TubeNetworkSpatialObject< TDimension , PipelineDimension >  
-  ::CalcTangent( void )  
+/** call the CalcTangent() method for each Tube contained in this  
+ *  object... */ 
+template< unsigned int TDimension, unsigned int PipelineDimension > 
+void  
+TubeNetworkSpatialObject< TDimension , PipelineDimension >  
+::CalcTangent( void )  
+{ 
+  ChildrenListType::iterator it = m_Children.begin(); 
+  ChildrenListType::iterator end = m_Children.end();
+  
+  TubeSpatialObject<TDimension> * tubePointer;
+  TubeNetworkSpatialObject<TDimension> * tubeNetPointer; 
+
+  for( ; it != end; it++ ) 
   { 
-    ChildrenListType::iterator it = m_Children.begin(); 
-    ChildrenListType::iterator end = m_Children.end();
-   
-    TubeSpatialObject<TDimension> * tubePointer;
-    TubeNetworkSpatialObject<TDimension> * tubeNetPointer; 
-
-    for( ; it != end; it++ ) 
-    { 
-      if( (tubePointer = dynamic_cast< TubeSpatialObject<TDimension> * >(*it)) != 0 ) 
-      {
-        tubePointer->CalcTangent(); 
-      }
-      else if( (tubeNetPointer = dynamic_cast< TubeNetworkSpatialObject<TDimension>* >(*it)) != 0 )
-      {
-        tubeNetPointer->CalcTangent();
-      }
-      else
-      {
-        std::cout<<"unable to cast ("<< &it <<") iterator to tube !!!"<<std::endl;
-      }
+    if( (tubePointer = dynamic_cast< TubeSpatialObject<TDimension> * >(*it)) != 0 ) 
+    {
+      tubePointer->CalcTangent(); 
     }
-  } 
- 
-  /**
-   * Return a list of tubes given a certain depth.
-   * maximumDepth = 0 corresponds to an infinite depth.
-   * maximumDepth = 1 returns tubes children.
-   * currentDepth variable doesn't have to be changed/provided.
-   */
-  template< unsigned int TDimension, unsigned int PipelineDimension >
-  TubeNetworkSpatialObject< TDimension , PipelineDimension > ::TubeListType *
-  TubeNetworkSpatialObject< TDimension , PipelineDimension > 
-  ::GetTubes( unsigned int maximumDepth , unsigned int currentDepth ) const
-  {
-    TubeListType * tubes = new TubeListType;
-
-    ChildrenListType::const_iterator childrenListIt = m_Children.begin();
-    while(childrenListIt != m_Children.end())
-    {    
-      // Check if the child is really a tube or a tube network
-      if( (!strncmp(typeid(**childrenListIt).name(),"class itk::TubeSpatialObject",26))
-         || (!strncmp(typeid(**childrenListIt).name(),"class itk::TubeNetworkSpatialObject",28))
-        )
-      {
-        if(typeid(*this) != typeid(**childrenListIt))
-        {
-          tubes->push_back(dynamic_cast<TubeSpatialObject<TDimension>*>(*childrenListIt));
-        }
-        else if( (currentDepth < maximumDepth-1) || (maximumDepth == 0) )
-        {
-          currentDepth++;
-          tubes->merge(*dynamic_cast<TubeNetworkSpatialObject<TDimension>*>((*childrenListIt))->GetTubes(maximumDepth,currentDepth));
-        }
-      }
-      childrenListIt++;
+    else if( (tubeNetPointer = dynamic_cast< TubeNetworkSpatialObject<TDimension>* >(*it)) != 0 )
+    {
+      tubeNetPointer->CalcTangent();
     }
-    
-    return tubes;
+    else
+    {
+      std::cout<<"unable to cast ("<< &it <<") iterator to tube !!!"<<std::endl;
+    }
   }
+} 
+ 
+/** Return a list of tubes given a certain depth.
+ *  maximumDepth = 0 corresponds to an infinite depth.
+ *  maximumDepth = 1 returns tubes children.
+ *  currentDepth variable doesn't have to be changed/provided. */
+template< unsigned int TDimension, unsigned int PipelineDimension >
+TubeNetworkSpatialObject< TDimension , PipelineDimension > ::TubeListType *
+TubeNetworkSpatialObject< TDimension , PipelineDimension > 
+::GetTubes( unsigned int maximumDepth , unsigned int currentDepth ) const
+{
+  TubeListType * tubes = new TubeListType;
+
+  ChildrenListType::const_iterator childrenListIt = m_Children.begin();
+  while(childrenListIt != m_Children.end())
+  {    
+    // Check if the child is really a tube or a tube network
+    if( (!strncmp(typeid(**childrenListIt).name(),"class itk::TubeSpatialObject",26))
+       || (!strncmp(typeid(**childrenListIt).name(),"class itk::TubeNetworkSpatialObject",28))
+      )
+    {
+      if(typeid(*this) != typeid(**childrenListIt))
+      {
+        tubes->push_back(dynamic_cast<TubeSpatialObject<TDimension>*>(*childrenListIt));
+      }
+      else if( (currentDepth < maximumDepth-1) || (maximumDepth == 0) )
+      {
+        currentDepth++;
+        tubes->merge(*dynamic_cast<TubeNetworkSpatialObject<TDimension>*>((*childrenListIt))->GetTubes(maximumDepth,currentDepth));
+      }
+    }
+    childrenListIt++;
+  }
+    
+  return tubes;
+}
 
 
 } // end namespace itk
