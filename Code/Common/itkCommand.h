@@ -170,7 +170,7 @@ public:
     }
 
   /**  Invoke the member function. */
-  virtual void Execute(Object *caller, const EventObject & event )
+  virtual void Execute(Object *, const EventObject & event )
     { 
       if( m_MemberFunction ) 
       {
@@ -179,7 +179,7 @@ public:
     }
 
   /**  Invoke the member function with a const object */
-  virtual void Execute( const Object *caller, const EventObject & event )
+  virtual void Execute( const Object *, const EventObject & event )
     { 
       if( m_MemberFunction ) 
       {
