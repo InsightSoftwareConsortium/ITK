@@ -30,15 +30,16 @@ namespace itk
  * \brief Decomposes an image into directions along basis components.
  * 
  * This calculator computes the projection of an image into a subspace specified
- * by some orthonormal basis.
- * Typically, this basis will be the principal components of an image data set,
- * as calculated by an ImagePCAShapeModelEstimator. The output of the calculator
- * is a vnl_vector containing the coefficients along each dimension of the
- * provided basis set.
- * To use this calculator, first set each basis image with the SetBasisImage 
- * method. In the PCA case, the basis images are the outputs of the 
- * ImagePCAShapeModelEstimator (except the zeroth output, which is the average 
- * image).
+ * by some basis set of images, and, optionally, a mean image (e.g a translation
+ * to a new origin).
+ * Typically, this basis/mean image will be the mean and principal components of
+ * an image data set, as calculated by an ImagePCAShapeModelEstimator. The output
+ * of the calculator is a vnl_vector containing the coefficients along each 
+ * dimension of the provided basis set.
+ * To use this calculator, set the basis images with the SetBasisImage method, and
+ * optionally set the mean image with the SetMeanImage method.
+ * In the PCA case, the zeroth output of the ImagePCAShapeModelEstimator is the
+ * mean image and subsequent outputs are the basis images.
  * SetBasisFromModel is a convenience method to set all of this information from
  * a given ImagePCAShapeModelEstimator instance.
  *  
@@ -48,7 +49,7 @@ namespace itk
  * \warning This method assumes that the input image consists of scalar pixel
  * types.
  *
- * \warning All images (input and basis) must be the same size.
+ * \warning All images (input, basis, and mean) must be the same size.
  *
  * \author Zachary Pincus
  *
@@ -81,7 +82,8 @@ public:
   
   /** Const Pointer type for the image. */
   typedef typename TInputImage::ConstPointer InputImageConstPointer;
-  
+  typedef typename TBasisImage::ConstPointer BasisImageConstPointer;
+
   /** Basis image pixel type: this is also the type of the optput vector */
   typedef typename TBasisImage::PixelType BasisPixelType;
   /** Input Image dimension */
@@ -100,15 +102,18 @@ public:
   typedef vnl_matrix<BasisPixelType> BasisMatrixType;
   typedef vnl_vector<BasisPixelType> BasisVectorType;
   
-  /** Set the input image. */
-  itkSetConstObjectMacro(Image,InputImageType);
+  /** Set and get the input image. */
+  itkSetConstObjectMacro(Image, InputImageType);
+  itkGetConstObjectMacro(Image, InputImageType);
   
-  /** Set the basis images. */
-  void SetBasisImages(const BasisImagePointerVector _arg); 
+  /** Set and get the mean image. */
+  itkSetConstObjectMacro(MeanImage, BasisImageType);
+  itkGetConstObjectMacro(MeanImage, BasisImageType);
   
-  /** Get the basis images. */
-  BasisImagePointerVector& GetBasisImages(void) {return m_BasisImages;}
-  
+  /** Set and get the basis images. */
+  void SetBasisImages(const BasisImagePointerVector &);
+  BasisImagePointerVector GetBasisImages() { return m_BasisImages; }
+
   /** Type definition of a compatible ImagePCAShapeModelEstimator */
   typedef typename ImagePCAShapeModelEstimator<TInputImage,
     TBasisImage>::Pointer ModelPointerType;
@@ -127,7 +132,7 @@ protected:
   virtual ~ImagePCADecompositionCalculator() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   void CalculateBasisMatrix(void);
-  void CalculateImageAsVector(void);
+  void CalculateRecenteredImageAsVector(void);
   
 private:
   typedef typename BasisImageType::SizeType BasisSizeType;
@@ -138,6 +143,7 @@ private:
   BasisVectorType m_Projection;
   BasisVectorType m_ImageAsVector;
   BasisImagePointerVector  m_BasisImages;
+  BasisImageConstPointer m_MeanImage;
   BasisSizeType m_Size;
   InputImageConstPointer  m_Image;
   BasisMatrixType  m_BasisMatrix;

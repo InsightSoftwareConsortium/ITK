@@ -33,27 +33,25 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
 ::ImagePCADecompositionCalculator()
 {
   m_Image = NULL;
+  m_MeanImage = NULL;
   m_BasisMatrixCalculated = false;
 }
 
 template<class TInputImage, class TBasisImage>
 void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>
-::SetBasisImages(const BasisImagePointerVector _arg)
+::SetBasisImages(const BasisImagePointerVector &v)
 { 
-  //itkDebugMacro("setting BasisImages to " << _arg); // Doesn't seem to work!
-  if (m_BasisImages.size() != _arg.size() ||
-      !std::equal(m_BasisImages.begin(), m_BasisImages.end(), _arg.begin()))
-    { 
-    this->m_BasisImages = _arg; 
-    this->Modified();
-    this->m_BasisMatrixCalculated = false;
-    // We need this modified setter function so that the calculator
-    // can cache the basis set between calculations. Note that computing the
-    // basis matrix from the input images is rather expensive, and the basis
-    // images are likely to be changed less often than the input images. So
-    // it makes sense to try to cache the pre-computed matrix.
-    } 
+  itkDebugMacro(<< "setting BasisImages");
+  this->m_BasisMatrixCalculated = false;
+  // We need this modified setter function so that the calculator
+  // can cache the basis set between calculations. Note that computing the
+  // basis matrix from the input images is rather expensive, and the basis
+  // images are likely to be changed less often than the input images. So
+  // it makes sense to try to cache the pre-computed matrix.
+  
+  this->m_BasisImages = v; 
+  this->Modified();
 } 
 
 /*
@@ -68,7 +66,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
     {
     this->CalculateBasisMatrix();
     }
-  this->CalculateImageAsVector();
+  this->CalculateRecenteredImageAsVector();
   m_Projection = m_BasisMatrix * m_ImageAsVector;
 }
 
@@ -118,19 +116,30 @@ m_ImageAsVector.set_size(m_NumPixels);
 template<class TInputImage, class TBasisImage>
 void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>
-::CalculateImageAsVector(void) {
+::CalculateRecenteredImageAsVector(void) {
   if ( m_Image->GetRequestedRegion().GetSize() != m_Size) 
     {
     itkExceptionMacro("Input image must be the same size as the basis images!");
     }
   
   ImageRegionConstIterator<InputImageType> image_it(m_Image,
-                                                    m_Image->GetRequestedRegion());
+                                                  m_Image->GetRequestedRegion());
   typename BasisVectorType::iterator vector_it;
   for (image_it.GoToBegin(), vector_it = m_ImageAsVector.begin();
        !image_it.IsAtEnd(); ++image_it, ++vector_it)
     {
       *vector_it = static_cast<BasisPixelType> (image_it.Get());
+    }
+  
+  if (m_MeanImage != NULL) 
+    {
+    ImageRegionConstIterator<BasisImageType> mimage_it(m_MeanImage,
+                                              m_MeanImage->GetRequestedRegion());
+    for (mimage_it.GoToBegin(), vector_it = m_ImageAsVector.begin();
+         !mimage_it.IsAtEnd(); ++mimage_it, ++vector_it)
+      {
+      *vector_it -= (mimage_it.Get());
+      } 
     }
 }
 
@@ -140,7 +149,6 @@ void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>
 ::SetBasisFromModel(ModelPointerType model) {
   BasisImagePointerVector images;
-  model->Update(); // Is this a good idea?
   unsigned int nImages = model->GetNumberOfPrincipalComponentsRequired();
   images.reserve(nImages);
   for(int i = 1; i <= nImages; i++)
@@ -148,6 +156,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
     images.push_back(model->GetOutput(i));
     }
   this->SetBasisImages(images);
+  this->SetMeanImage(model->GetOutput(0));
 }
 
 template<class TInputImage, class TBasisImage>
@@ -158,6 +167,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
   Superclass::PrintSelf(os,indent);
   os << indent << "Projection: " << m_Projection << std::endl;
   os << indent << "Image: " << m_Image.GetPointer() << std::endl;
+  os << indent << "Mean Image: " << m_MeanImage.GetPointer() << std::endl;
 }
 
 } // end namespace itk

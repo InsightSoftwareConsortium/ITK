@@ -74,6 +74,8 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   
   InputImageType::Pointer image7 = InputImageType::New();
   
+  InputImageType::Pointer image8 = InputImageType::New();
+
   InputImageType::SizeType inputImageSize = {{ IMGWIDTH, IMGHEIGHT }};
 
   InputImageType::IndexType index;
@@ -153,6 +155,16 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   // setup the iterators
   InputImageIterator image7It( image7, image7->GetBufferedRegion() );
   
+  //--------------------------------------------------------------------------
+  // Set up Image 8 first
+  //--------------------------------------------------------------------------
+  
+  image8->SetRegions( region );
+  image8->Allocate();
+  
+  // setup the iterators
+  InputImageIterator image8It( image8, image8->GetBufferedRegion() );
+  
   
   //--------------------------------------------------------------------------
   //Manually create and store each vector
@@ -161,8 +173,9 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   // [1 1 1 1] , [2 0 0 2], [0 3 3 0]
   // The second two vectors are some of those data, which we will project down
   // to the PC-space
-  // The last three vectors are a new basis set to projet down into, so we can
+  // The next three vectors are a new basis set to project down into, so we can
   // test changing bases mid-stream.
+  // The last image is the "mean image," here set to zero.
   
   //Image no. 1
   image1It.Set( -0.3853 ); ++image1It;
@@ -205,6 +218,12 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   image7It.Set( 0 ); ++image7It;
   image7It.Set( 1 ); ++image7It;
   image7It.Set( 0 ); ++image7It;
+  
+  //Image no. 8
+  image8It.Set( 0 ); ++image8It;
+  image8It.Set( 0 ); ++image8It;
+  image8It.Set( 0 ); ++image8It;
+  image8It.Set( 0 ); ++image8It;
   
   //----------------------------------------------------------------------
   // Test code for the Decomposition Calculator
@@ -257,6 +276,19 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   decomposer->SetImage(image3);
   decomposer->Compute();
   proj3_2 = decomposer->GetProjection();
+  
+  ImagePCAShapeModelEstimatorType::BasisVectorType proj3_3, proj4_3;
+  // now test it with a mean image set
+  decomposer->SetMeanImage(image8);
+  
+  decomposer->SetImage(image3);
+  decomposer->Compute();
+  proj3_3 = decomposer->GetProjection();  
+  
+  decomposer->SetImage(image4);
+  decomposer->Compute();
+  proj4_3 = decomposer->GetProjection();
+  
   
   // get the basis images
   ImagePCAShapeModelEstimatorType::BasisImagePointerVector basis_check_2;
@@ -312,13 +344,19 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   std::cout << "The projection of [0 3 3 0] is [" << proj4_2 << "]" << std::endl;
   std::cout << "this should be approx [2.1213 2.1213 3.000]" << std::endl;
   
+  std::cout << "The projection of [0 2 2 0] is (mean of zero set) [" << proj3_3 << "]" << std::endl;
+  std::cout << "this should be approx [1.4142 -1.4142 0]" << std::endl;
+  
+  std::cout << "The projection of [0 3 3 0] is (mean of zero set) [" << proj4_3 << "]" << std::endl;
+  std::cout << "this should be approx [2.1213 2.1213 3.000]" << std::endl;
   
   
   
   //Test for the eigen values for the test case precomputed using Matlab
   std::cout << "" << std::endl;
   if( proj3[0] < -1.54 && proj3[0] > -1.55 && proj4[1] < -2.31 && proj4[1] > -2.32 &&
-      proj3_2[1] < -1.414 && proj3_2[1] > -1.415 && proj4_2[2] < 3.01 && proj4_2[2] > 2.99 )
+      proj3_2[1] < -1.414 && proj3_2[1] > -1.415 && proj4_2[2] < 3.01 && proj4_2[2] > 2.99 &&
+      proj3_3 == proj3_2 && proj4_3 == proj4_2)
     {
     std::cerr << "Test Passed" << std::endl;
     return EXIT_SUCCESS;
