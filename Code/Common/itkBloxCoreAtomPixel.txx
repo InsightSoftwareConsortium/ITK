@@ -26,11 +26,16 @@ template <unsigned int NDimensions>
 BloxCoreAtomPixel<NDimensions>
 ::BloxCoreAtomPixel()
 {
+  m_RawCMatrix.fill(0);
   m_Eigenvalues.fill(0.0);
   m_Eigenvectors.fill(0.0);
-  m_RawCMatrix.fill(0);
+
+  m_VotedCMatrix.fill(0);
+  m_VotedEigenvalues.fill(0.0);
+  m_VotedEigenvectors.fill(0.0);
   
   m_MeanCoreAtomDiameter = 0;
+  m_ConstituencySize = 0;
 }
 
 template <unsigned int NDimensions>
@@ -156,6 +161,56 @@ BloxCoreAtomPixel<NDimensions>
 
   delete pEigenSys;
   return true;
+}
+
+template <unsigned int NDimensions>
+void
+BloxCoreAtomPixel<NDimensions>
+::CollectVote(MatrixType* pMatrix, double strength, double count)
+{
+  m_VotedCMatrix = m_VotedCMatrix + (*pMatrix)*strength;
+  m_ConstituencySize += count;
+}
+
+template <unsigned int NDimensions>
+void
+BloxCoreAtomPixel<NDimensions>
+::NormalizeVotedCMatrix()
+{
+  if(this->size() != 0)
+    m_VotedCMatrix /= m_ConstituencySize;
+}
+
+template <unsigned int NDimensions>
+void
+BloxCoreAtomPixel<NDimensions>
+::DoVotedEigenanalysis()
+{
+  // Create an identity matrix of size n
+  vnl_matrix_fixed<double, NDimensions, NDimensions> identMatrix;
+  identMatrix.fill(0);
+
+  // Set the diagonal to 1
+  for(unsigned int n = 0; n < NDimensions; n++) // row loop
+    {
+    identMatrix(n,n) = 1.0;
+    } // end row loop
+
+  // Do eigen analysis
+  vnl_generalized_eigensystem* pEigenSys = new vnl_generalized_eigensystem(m_VotedCMatrix, identMatrix);
+
+  // Now, store the results
+  
+  // First the eigenvectors
+  m_VotedEigenvectors = pEigenSys->V;
+
+  // Now the eigenvalues (stored as a vector to save space)
+  for(unsigned int i = 0; i < NDimensions; i++)
+    {
+    m_VotedEigenvalues[i] = pEigenSys->D(i,i);
+    }
+
+  delete pEigenSys;
 }
 
 } // end namespace itk

@@ -63,11 +63,17 @@ public:
   /** Matrix type used to store eigenvectors. */
   typedef vnl_matrix_fixed<double, NDimensions, NDimensions> TEigenvectorType;
 
+  /** Generalized matrix type used for several different tasks*/
+  typedef vnl_matrix_fixed<double, NDimensions, NDimensions> MatrixType;
+
   /** Calculate and store the mean of core atom diameters. */
   double CalcMeanCoreAtomDiameter();
 
   /** Perform eigenanalysis on the population of core atoms stored in this pixel. */
   bool DoCoreAtomEigenanalysis();
+
+  /** Perform eigenanalysis on the voted CMatrix */
+  void DoVotedEigenanalysis();
 
   /** Get the mean core atom diameter. */
   double GetMeanCoreAtomDiameter(void)
@@ -81,29 +87,55 @@ public:
   TEigenvectorType GetEigenvectors(void)
     { return m_Eigenvectors; }
 
+  /** Get eigenvalues after voting. */
+  TEigenvalueType GetVotedEigenvalues(void)
+    { return m_VotedEigenvalues; }
+
+  /** Get eigenvectors after voting. */
+  TEigenvectorType GetVotedEigenvectors(void)
+    { return m_VotedEigenvectors; }
+
+  /** Get the raw CMatrix (prior to voting) */
+  MatrixType* GetRawCMatrixPointer() {return &m_RawCMatrix;}
+
+  /** Collect a vote and update m_VotedCMatrix */
+  void CollectVote(MatrixType* pMatrix, double strength, double count);
+
+  /** Re-normalizes the voted CMatrix after all votes are cast */
+  void NormalizeVotedCMatrix();
+
   BloxCoreAtomPixel();
   ~BloxCoreAtomPixel();
 
 private:
+
+  /** Average (arithmetic mean) of core atom diameters stored in this pixel. */
+  double m_MeanCoreAtomDiameter;
+
+  /** The raw CMatrix - this is the matrix that we do eigen analysis on. */
+  MatrixType m_RawCMatrix;
+
   /** The eigenvalues of the core atom population in this pixel
    * These are stored in increasing order of value (not absolute value) from
    * indices 0 to n, where n is the number of dimensions in the source image */
   TEigenvalueType m_Eigenvalues;
 
   /** The eigenvectors of the core atom population in this pixel
-   * Each eigenvector is a row? of this matrix */
+   * Each eigenvector is a column of this matrix */
   TEigenvectorType m_Eigenvectors;
-
-  /** Average (arithmetic mean) of core atom diameters stored in this pixel. */
-  double m_MeanCoreAtomDiameter;
-
-  typedef vnl_matrix_fixed<double, NDimensions, NDimensions> MatrixType;
-
-  /** The raw CMatrix - this is the matrix that we do eigen analysis on. */
-  MatrixType m_RawCMatrix;
 
   /** The CMatrix that collects votes cast by other blox. */
   MatrixType m_VotedCMatrix;
+
+  /** Same as above, but calculated from the voted CMatrix */
+  TEigenvalueType m_VotedEigenvalues;
+
+  /** Same as above, but calculated from the voted CMatrix */
+  TEigenvectorType m_VotedEigenvectors;
+
+  /** The number of core atoms in all of the blox's that have voted for
+   * this blox (its constituency) */
+  double m_ConstituencySize;
 };
 
 

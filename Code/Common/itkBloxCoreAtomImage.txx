@@ -170,8 +170,6 @@ BloxCoreAtomImage<dim>
     // Iterate through the ellipsoid and cast votes
     for( sfi.GoToBegin(); !( sfi.IsAtEnd() ); ++sfi)
       {
-      voteeCount ++;
-
       // The voting process and variables are explained in
       // IEEE TRANSACTIONS ON MEDICAL IMAGING, VOL. 18, NO. 10, OCTOBER 1999
       // page 1029 
@@ -179,6 +177,8 @@ BloxCoreAtomImage<dim>
       // The votee does not get voted for if it's empty
       if( sfi.Get().GetSize() == 0 )
         continue;
+
+      voteeCount ++;
 
       // get the position of the current votee (the dereferenced sfi)
       TPosition voteePosition;
@@ -202,9 +202,22 @@ BloxCoreAtomImage<dim>
       printf("De = %f\n", de);
 
       // vote strength
-      }
+      double voteStrength = pPixel->size()*exp(-1.0*de*de);
+      printf("Vote strength = %f\n", voteStrength);
+
+      // cast the vote
+      sfi.Get().CollectVote(pPixel->GetRawCMatrixPointer(), de, pPixel->size() );
+      } // end cast votes from this pixel
 
     printf("Blox voted for %i other pixels\n", voteeCount);
+    } // end cast votes from all pixels
+
+  // The final task is to normalize all of the voted blox
+  // and recompute the eigenanalysis on the new matrix
+  for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
+    {
+    (&bloxIt.Value())->NormalizeVotedCMatrix();
+    (&bloxIt.Value())->DoVotedEigenanalysis();
     }
 }
 
