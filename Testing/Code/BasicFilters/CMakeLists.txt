@@ -190,6 +190,13 @@ ADD_TEST(itkPasteImageFilterTest ${BASIC_FILTERS_TESTS}
             ${ITK_DATA_ROOT}/Input/cake_easy.png
             ${ITK_TEST_OUTPUT_DIR}/PasteImageFilterTest.png)
 
+ADD_TEST(itkPromoteDimensionImageTest ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/PromoteDimensionImageTest.mhd
+            ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd
+  itkPromoteDimensionImageTest
+            ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
+            ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd)
+
 ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
@@ -278,6 +285,7 @@ itkNeighborhoodOperatorImageFilterTest.cxx
 itkNormalizeImageFilterTest.cxx
 itkObjectMorphologyImageFilterTest.cxx
 itkPasteImageFilterTest.cxx
+itkPromoteDimensionImageTest.cxx
 itkPermuteAxesImageFilterTest.cxx
 itkPlaheImageFilterTest.cxx
 itkRGBToVectorAdaptImageFilterTest.cxx

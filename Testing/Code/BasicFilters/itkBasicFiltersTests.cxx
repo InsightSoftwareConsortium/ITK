@@ -92,6 +92,7 @@ void RegisterTests()
   REGISTER_TEST(itkObjectMorphologyImageFilterTest );
   REGISTER_TEST(itkPasteImageFilterTest );
   REGISTER_TEST(itkPermuteAxesImageFilterTest );
+  REGISTER_TEST(itkPromoteDimensionImageTest);
   REGISTER_TEST(itkPlaheImageFilterTest );
   REGISTER_TEST(itkRGBToVectorAdaptImageFilterTest );
   REGISTER_TEST(itkRecursiveGaussianImageFiltersTest );
