@@ -25,6 +25,7 @@ ADD_TEST( itkLineSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkLineSpatialObjectT
 ADD_TEST( itkPolygonGroupSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkPolygonGroupSpatialObjectTest )
 ADD_TEST( itkPlaneSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkPlaneSpatialObjectTest )
 ADD_TEST( itkSceneSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkSceneSpatialObjectTest )
+ADD_TEST( itkAffineGeometryFrameTest ${SPATIAL_OBJECT_TESTS} itkAffineGeometryFrameTest )
 ADD_TEST(itkSpatialObjectHeaderTest ${SPATIAL_OBJECT_HEADER_TEST})
 
 SET(SpatialObject_SRCS
@@ -42,6 +43,7 @@ SET(SpatialObject_SRCS
   itkPolygonGroupSpatialObjectTest.cxx
   itkPlaneSpatialObjectTest.cxx
   itkSceneSpatialObjectTest.cxx
+  itkAffineGeometryFrameTest.cxx
 )
 
 ADD_EXECUTABLE(itkSpatialObjectTests itkSpatialObjectTests.cxx ${SpatialObject_SRCS})
