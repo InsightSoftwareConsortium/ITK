@@ -57,24 +57,28 @@ int main()
   PointsContainerPointer  points = inputMesh->GetPoints();
 
   // Fill a cube with points , just to get some data
-  unsigned int n = 1;  // let's start with a few of them
+  int n = 1;  // let's start with a few of them
   PointsContainerType::ElementIdentifier  count = 0; // count them
 
-  for(unsigned int x= -n; x<n; x++)
+  for(int x= -n; x <= n; x++)
   {
-    for(unsigned int y= -n; y<n; y++)
+    for(int y= -n; y <= n; y++)
     {
-      for(unsigned int z= -n; z<n; z++)
+      for(int z= -n; z <= n; z++)
       {
         PointType p;
         p = (float)x,(float)y,(float)z;
+        std::cout << "Inserting point # ";
+        std::cout.width( 3); std::cout << count << "  = ";
+        std::cout.width( 4); std::cout << p[0] << ", ";
+        std::cout.width( 4); std::cout << p[1] << ", ";
+        std::cout.width( 4); std::cout << p[2] << std::endl;
         points->InsertElement( count, p );
         count++;
       }
     }
   }
       
-  inputMesh->SetPoints( points );
   
   std::cout << "Input Mesh has " << inputMesh->GetNumberOfPoints();
   std::cout << "   points " << std::endl;
@@ -94,6 +98,13 @@ int main()
   // (it doesn't use smart pointers)
   FilterType::AffineTransformType   affineTransform;
 
+  affineTransform.Scale( 3.5 );
+
+  FilterType::AffineTransformType::VectorType   translation;
+
+  translation = 100.0, 200.0, 300.0;
+
+  affineTransform.Translate( translation );
 
   // Connect the inputs
   filter->SetInput( inputMesh ); 
@@ -120,9 +131,9 @@ int main()
   while( it != transformedPoints->End() )
   {
     PointType p = it.Value();
-    std::cout << p[0] << ", ";
-    std::cout << p[1] << ", ";
-    std::cout << p[2] << std::endl;
+    std::cout.width( 5 ); std::cout << p[0] << ", ";
+    std::cout.width( 5 ); std::cout << p[1] << ", ";
+    std::cout.width( 5 ); std::cout << p[2] << std::endl;
     ++it;
   }
   
