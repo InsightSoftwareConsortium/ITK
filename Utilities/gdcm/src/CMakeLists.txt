@@ -58,9 +58,15 @@ TARGET_LINK_LIBRARIES(itkgdcm
 )
 IF(WIN32)
   IF(NOT BORLAND)
-    TARGET_LINK_LIBRARIES(itkgdcm Wsock32)
+    TARGET_LINK_LIBRARIES(itkgdcm Wsock32 Snmpapi)
   ENDIF(NOT BORLAND)
 ENDIF(WIN32)
+
+# Need nsl to resolve gethostbyname on SunOS-5.8
+IF(CMAKE_SYSTEM MATCHES "SunOS.*")
+  TARGET_LINK_LIBRARIES(gdcm nsl)
+ENDIF(CMAKE_SYSTEM MATCHES "SunOS.*")
+
 
 INSTALL_FILES(/include/InsightToolkit/gdcm/src "\\.h$")
 INSTALL_TARGETS(/lib/InsightToolkit itkgdcm)
