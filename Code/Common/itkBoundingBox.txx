@@ -62,9 +62,7 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
     }
 }
 
-/**
- * Access routine to get the points container.
- */
+/** Access routine to get the points container. */
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 const typename BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >::PointsContainer *
@@ -74,6 +72,36 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
   itkDebugMacro("returning Points container of " << m_PointsContainer );
 
   return m_PointsContainer.GetPointer();
+}
+
+/** Compute and get the corners of the bounding box */
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+const typename BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >::PointsContainer *
+BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
+::GetCorners(void)
+{
+  m_CornersContainer->clear();
+
+  PointType center = this->GetCenter();
+  PointType radius;
+
+  for (unsigned int i=0; i<VPointDimension; i++)
+    {
+    radius[i] = m_Bounds[2*i+1]-center[i];
+    }
+    
+  for(unsigned int j=0;j<pow(2,VPointDimension);j++)
+    {       
+    PointType pnt;
+    for(unsigned int i=0; i<VPointDimension;i++)
+      {
+      pnt[i]=center[i]+pow(-1,j/(int(pow(2,i))))*radius[i];
+      }
+    m_CornersContainer->push_back(pnt);   
+    }
+
+  return m_CornersContainer.GetPointer();
 }
 
 /******************************************************************************
@@ -86,6 +114,7 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
   m_PointsContainer(NULL)
 {
   m_Bounds.Fill( NumericTraits< CoordRepType >::Zero );
+  m_CornersContainer = PointsContainer::New();
 }
 
 template <typename TPointIdentifier, int VPointDimension,
@@ -286,6 +315,8 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 
 
 
+
+
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 bool
@@ -308,11 +339,6 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
     }
   return true;
 }
-
-
-
-
-
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>

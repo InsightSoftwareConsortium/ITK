@@ -101,6 +101,9 @@ public:
   void SetPoints(const PointsContainer *);
   const PointsContainer * GetPoints(void) const;
   
+  /** Compute and return the corners of the bounding box */
+  const PointsContainer * GetCorners(void);
+
   /** Method that actually computes bounding box. */
   bool ComputeBoundingBox(void) const;
 
@@ -185,6 +188,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   PointsContainerConstPointer m_PointsContainer;
+  PointsContainerPointer      m_CornersContainer;
   mutable  BoundsArrayType    m_Bounds;
   mutable  TimeStamp          m_BoundsMTime; //The last time the bounds were computed.
 
