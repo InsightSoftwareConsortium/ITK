@@ -32,6 +32,9 @@ TARGET_LINK_LIBRARIES(ShapeDetectionLevelSetFilter ITKNumerics ITKIO)
 ADD_EXECUTABLE(GeodesicActiveContourImageFilter GeodesicActiveContourImageFilter.cxx )
 TARGET_LINK_LIBRARIES(GeodesicActiveContourImageFilter ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(CurvesLevelSetImageFilter CurvesLevelSetImageFilter.cxx )
+TARGET_LINK_LIBRARIES(CurvesLevelSetImageFilter ITKNumerics ITKIO)
+
 ADD_EXECUTABLE(LaplacianSegmentationLevelSetImageFilter LaplacianSegmentationLevelSetImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianSegmentationLevelSetImageFilter ITKNumerics ITKIO)
 
@@ -227,6 +230,15 @@ ADD_TEST(GeodesicActiveContourRightVentricleTest ${SEGMENTATION_EXAMPLES}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/GeodesicActiveContourRightVentricleTest.png
         99 114 5.0 1.0 -0.5 3.0 2.0
+)
+
+ADD_TEST(CurvesLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/CurvesLevelSetImageFilterTest.png
+            ${TEMP}/CurvesLevelSetImageFilterTest.png
+  CurvesLevelSetImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/CurvesLevelSetImageFilterTest.png
+        81 114 5.0 1.0 -0.5 3.0 2.0
 )
 
 ADD_TEST(GeodesicActiveContourWhiteMatterTest ${SEGMENTATION_EXAMPLES}

@@ -10,9 +10,14 @@
 void RegisterTests()
 {
 REGISTER_TEST(CellularSegmentation1Test);
+REGISTER_TEST(CurvesLevelSetImageFilterTest);
 }
 
 #undef main
 #define main CellularSegmentation1Test
 #include "CellularSegmentation1.cxx"
+
+#undef main
+#define main CurvesLevelSetImageFilterTest
+#include "CurvesLevelSetImageFilter.cxx"
 
