@@ -1,27 +1,43 @@
-#
-# This module add the ITK include paths to a project
-# It should be included after the FindITK module
-#
+# This module adds the ITK include and library paths to a project.  It
+# should be included after the FindITK module
 
 # We must support both the FindITK.cmake module in CMake 1.4.x, and
-# the new configuration form based on ITKConfig.cmake.
-
+# the new configuration form based on ITKConfig.cmake.  If
+# ITK_BINARY_PATH is set, we are being included from the old CMake 1.4
+# module.  Load settings from the build tree's config file.
+# Otherwise, we are being included from the ITK_USE_FILE setting
+# configured int ITKConfig.cmake.  The settings have already been
+# loaded.  This is the preferred style because it supports using ITK
+# from an installation.
 IF (ITK_BINARY_PATH)
-
-  # ITK_BINARY_PATH is set, so we are being included from the old
-  # CMake 1.4 module.  Load settings from the build tree's config file.
   INCLUDE (${ITK_BINARY_PATH}/ITKConfig.cmake)
-  INCLUDE_DIRECTORIES(${ITK_INCLUDE_DIRS})
-  LINK_DIRECTORIES(${ITK_LIBRARY_DIRS})
-  ADD_DEFINITIONS(${ITK_DEFINITIONS})
-
-ELSE (ITK_BINARY_PATH)
-
-  # We are being included from the ITK_USE_FILE set in ITKConfig.cmake.
-  # The settings have already been loaded.  This is the preferred style
-  # because it supports using ITK from an installation.
-  INCLUDE_DIRECTORIES(${ITK_INCLUDE_DIRS})
-  LINK_DIRECTORIES(${ITK_LIBRARY_DIRS})
-  ADD_DEFINITIONS(${ITK_DEFINITIONS})
-
 ENDIF (ITK_BINARY_PATH)
+
+# Setup the include directories for ITK headers.
+INCLUDE_DIRECTORIES(${ITK_INCLUDE_DIRS})
+
+# Setup the library directories for ITK libraries.
+LINK_DIRECTORIES(${ITK_LIBRARY_DIRS})
+
+# Setup preprocessor definitions to match those used to build ITK.
+ADD_DEFINITIONS(${ITK_DEFINITIONS})
+
+# Make sure the compiler settings match those used to build ITK.
+IF(NOT ITK_NO_ENFORCE_CXX_COMPILER)
+  IF(ITK_CXX_COMPILER_MISMATCH)
+    MESSAGE(SEND_ERROR
+            "The selected ITK was built with "
+            "\"${ITK_CXX_COMPILER}\""
+            ", but the current compiler is \"${CMAKE_CXX_COMPILER}\".  "
+            "Please set CMAKE_CXX_COMPILER to \"${ITK_CXX_COMPILER}\".")
+  ENDIF(ITK_CXX_COMPILER_MISMATCH)
+  IF(NOT ITK_NO_ENFORCE_CXX_FLAGS)
+    IF(ITK_CXX_FLAGS_MISMATCH)
+      MESSAGE(SEND_ERROR
+              "The selected ITK was built with C++ compiler flags "
+              "\"${ITK_CXX_FLAGS}\""
+              ", but the current flags are \"${CMAKE_CXX_FLAGS}\".  "
+              "Please set CMAKE_CXX_FLAGS to \"${ITK_CXX_FLAGS}\".")
+    ENDIF(ITK_CXX_FLAGS_MISMATCH)
+  ENDIF(NOT ITK_NO_ENFORCE_CXX_FLAGS)
+ENDIF(NOT ITK_NO_ENFORCE_CXX_COMPILER)
