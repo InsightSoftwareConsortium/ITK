@@ -19,7 +19,7 @@
 #define __itkFEMElement3DC0LinearHexahedron_h
 
 #include "itkFEMElementStd.h"
-#include "itkFEMNodeXY.h"
+#include "itkFEMNodeXYZ.h"
 
 namespace itk {
 namespace fem {
