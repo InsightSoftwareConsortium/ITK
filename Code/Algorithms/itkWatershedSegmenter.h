@@ -130,7 +130,13 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
   itkTypeMacro(Segmenter, ProcessObject);
-  
+
+  /** Typedefs necessary on microsoft VC++ to avoid internal compiler errors */
+  typedef typename InputImageType::Pointer InputImageTypePointer;
+  typedef typename OutputImageType::Pointer OutputImageTypePointer;
+  typedef typename SegmentTableType::Pointer SegmentTableTypePointer;
+  typedef typename BoundaryType::Pointer BoundaryTypePointer;
+    
   /** A constant used in the labeling algorithm.  */
   static unsigned long NULL_LABEL;
 
@@ -138,7 +144,7 @@ public:
   static short NULL_FLOW;
  
   /** Get/Set the input image.   */
-  typename InputImageType::Pointer GetInputImage()
+  InputImageTypePointer GetInputImage()
     { return static_cast<InputImageType *>
         (this->ProcessObject::GetInput(0).GetPointer());    }
   void SetInputImage(InputImageType *img)
@@ -146,7 +152,7 @@ public:
 
   /** Get/Set the labeled output image.  The output image is always of
     unsigned long integers. */
-  typename OutputImageType::Pointer GetOutputImage()
+  OutputImageTypePointer GetOutputImage()
     { return static_cast<OutputImageType *>
         (this->ProcessObject::GetOutput(0).GetPointer()); }
   void SetOutputImage(OutputImageType *img)
@@ -154,7 +160,7 @@ public:
   
   /** Get/Set the segment table.  The segment table is a table of segmentation
    * information identifying each region produced by the labeling algorithm. */ 
-  typename SegmentTableType::Pointer GetSegmentTable()
+  SegmentTableTypePointer GetSegmentTable()
     { return static_cast<SegmentTableType *>
         (this->ProcessObject::GetOutput(1).GetPointer()); }
   void SetSegmentTable(SegmentTableType *s)
@@ -162,7 +168,7 @@ public:
   
   /** Returns the boundary information data necessary only for data streaming
     applications.  */
-  typename BoundaryType::Pointer GetBoundary()
+  BoundaryTypePointer GetBoundary()
     { return static_cast<BoundaryType *>
         (this->ProcessObject::GetOutput(2).GetPointer()); }
   void SetBoundary(BoundaryType *b)
@@ -187,7 +193,7 @@ public:
 
   /** Helper function.  Other classes may have occasion to use this. Relabels
       an image according to a table of equivalencies. */
-  static void RelabelImage(typename OutputImageType::Pointer,
+  static void RelabelImage(OutputImageTypePointer,
                            ImageRegionType,
                            EquivalencyTable::Pointer);
   
@@ -294,27 +300,26 @@ protected:
   /** Performs a gradient descent connected component analysis
    * at the boundaries of the images that border other
    * image chunks.  Useful only in data streaming applications.   */
-  void AnalyzeBoundaryFlow(typename InputImageType::Pointer,
+  void AnalyzeBoundaryFlow(InputImageTypePointer,
                            flat_region_table_t &,
                            InputPixelType);
 
   /** Fills boundary pixels with a specified value.  Used by labeling
    * methods to build a very high ``wall'' around the image so that
    * gradient descent does not need to watch boundaries.   */
-  void BuildRetainingWall(typename InputImageType::Pointer,
+  void BuildRetainingWall(InputImageTypePointer,
                           ImageRegionType, InputPixelType);
 
   /** Labels all the local minima in the image.  Also identifies and labels
    * connected  ``flat'' regions.   */
-  void LabelMinima(typename InputImageType::Pointer,
+  void LabelMinima(InputImageTypePointer,
                    ImageRegionType, flat_region_table_t &,
                    InputPixelType);
 
   /** Follows each unlabeled pixel in the image down its path of steepest
    * descent.  Each pixel along that path is identified with the local minima
    * already labeled at the end of the path.   */
-  void GradientDescent(typename InputImageType::Pointer,
-                       ImageRegionType);
+  void GradientDescent(InputImageTypePointer, ImageRegionType);
 
   /** Associates each flat region with a local minimum and relabels
     accordingly.  */ 
@@ -322,7 +327,7 @@ protected:
 
   /** Adds entries to the output segment table for all labeled segments in the
    * image.  */
-  void UpdateSegmentTable(typename InputImageType::Pointer, ImageRegionType);
+  void UpdateSegmentTable(InputImageTypePointer, ImageRegionType);
 
   /** Traverses each boundary and fills in the data needed for joining
    * streamed chunks of an image volume.  Only necessary for streaming
@@ -332,14 +337,14 @@ protected:
   /** Helper function.  Thresholds low values and copies values from one image
    * into another. The source and destination regions must match in size (not
    * enforced).   */
-  static void Threshold(typename InputImageType::Pointer destination,
-                        typename InputImageType::Pointer source,
+  static void Threshold(InputImageTypePointer destination,
+                        InputImageTypePointer source,
                         const ImageRegionType source_region,
                         const ImageRegionType destination_region,
                         InputPixelType threshold);
 
   /** Helper function.  Finds the minimum and maximum values in an image. */
-  static void MinMax(typename InputImageType::Pointer img,
+  static void MinMax(InputImageTypePointer img,
                      ImageRegionType region,
                      InputPixelType &min,
                      InputPixelType &max);
@@ -348,11 +353,11 @@ protected:
   static void MergeFlatRegions(flat_region_table_t &, EquivalencyTable::Pointer);
     
   /** Helper functions for filling in regions with values   */
-  static void SetImageValues(typename InputImageType::Pointer img,
+  static void SetImageValues(InputImageTypePointer img,
                              const ImageRegionType region,
                              InputPixelType value);
 
-  static void SetImageValues(typename OutputImageType::Pointer img,
+  static void SetImageValues(OutputImageTypePointer img,
                              const ImageRegionType region,
                              unsigned long value);
 

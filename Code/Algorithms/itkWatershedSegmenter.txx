@@ -400,7 +400,7 @@ void Segmenter<TInputImage>
   
 template <class TInputImage>
 void Segmenter<TInputImage>
-::AnalyzeBoundaryFlow(typename InputImageType::Pointer thresholdImage,
+::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage,
                       flat_region_table_t &flatRegions,
                       InputPixelType max)
 {
@@ -639,7 +639,7 @@ void Segmenter<TInputImage>
   
 template <class TInputImage>
 void Segmenter<TInputImage>
-::LabelMinima(typename InputImageType::Pointer img, ImageRegionType region,
+::LabelMinima(InputImageTypePointer img, ImageRegionType region,
               Self::flat_region_table_t &flatRegions, InputPixelType Max)
 {
   unsigned int i, nSize, nCenter, nPos;
@@ -783,7 +783,7 @@ void Segmenter<TInputImage>
 
 template <class TInputImage>
 void Segmenter<TInputImage>
-::GradientDescent(typename InputImageType::Pointer img,
+::GradientDescent(InputImageTypePointer img,
                      ImageRegionType region)
 {
   typename OutputImageType::Pointer output = this->GetOutputImage();
@@ -882,7 +882,7 @@ void Segmenter<TInputImage>
 
 template <class TInputImage>
 void Segmenter<TInputImage>
-::UpdateSegmentTable(typename InputImageType::Pointer input, ImageRegionType region)
+::UpdateSegmentTable(InputImageTypePointer input, ImageRegionType region)
 {
   edge_table_hash_t edgeHash;
   edge_table_t tempEdgeTable;
@@ -1009,7 +1009,7 @@ void Segmenter<TInputImage>
 
 template <class TInputImage>
 void Segmenter<TInputImage>
-::BuildRetainingWall(typename InputImageType::Pointer img,
+::BuildRetainingWall(InputImageTypePointer img,
                      ImageRegionType region,
                      InputPixelType value)
 {
@@ -1040,7 +1040,7 @@ void Segmenter<TInputImage>
 */
 template <class TInputImage>
 void Segmenter<TInputImage>
-::SetImageValues(typename InputImageType::Pointer img,
+::SetImageValues(InputImageTypePointer img,
                  ImageRegionType region,
                  InputPixelType value)
 {
@@ -1055,7 +1055,7 @@ void Segmenter<TInputImage>
 
 template <class TInputImage>
 void Segmenter<TInputImage>
-::SetImageValues(typename OutputImageType::Pointer img,
+::SetImageValues(OutputImageTypePointer img,
                  ImageRegionType region,
                  unsigned long value)
 {
@@ -1070,7 +1070,7 @@ void Segmenter<TInputImage>
 
 template <class TInputImage>
 void Segmenter<TInputImage>
-::MinMax(typename InputImageType::Pointer img, ImageRegionType region,
+::MinMax(InputImageTypePointer img, ImageRegionType region,
          InputPixelType &min, InputPixelType &max)
 {
   ImageRegionIterator<InputImageType> it(img, region);
@@ -1124,7 +1124,7 @@ void Segmenter<TInputImage>
 
 template <class TInputImage>
 void Segmenter<TInputImage>
-::RelabelImage(typename OutputImageType::Pointer img,
+::RelabelImage(OutputImageTypePointer img,
                ImageRegionType region, 
                EquivalencyTable::Pointer eqTable)
 {
@@ -1143,8 +1143,8 @@ void Segmenter<TInputImage>
 
 template <class TInputImage>
 void Segmenter<TInputImage>::
-Threshold(typename InputImageType::Pointer destination,
-          typename InputImageType::Pointer source,
+Threshold(InputImageTypePointer destination,
+          InputImageTypePointer source,
           const ImageRegionType source_region,
           const ImageRegionType destination_region,
           InputPixelType threshold)
@@ -1450,8 +1450,14 @@ Segmenter<TInputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+  os << indent << "SortEdgeLists: " << m_SortEdgeLists << std::endl;
+  os << indent << "DoBoundaryAnalysis: " << m_DoBoundaryAnalysis << std::endl;
+  os << indent << "Threshold: " << m_Threshold << std::endl;
+  os << indent << "MaximumFloodLevel: " << m_MaximumFloodLevel << std::endl;
+  os << indent << "Minimum: " << m_Minimum << std::endl;
+  os << indent << "Maximum: " << m_Maximum << std::endl;
+  os << indent << "CurrentLabel: " << m_CurrentLabel << std::endl;  
 }
-
 
 }// end namespace watershed
 }// end namespace itk
