@@ -82,7 +82,7 @@ const ReferenceType* ReferenceType::SafeDownCast(const Type* t)
 // Can't have cv qualifiers.
 String ReferenceType::GenerateName(const String& outerType, bool, bool) const
 {
-  String outerString = "& "+outerType;
+  String outerString = "&"+this->PrepareOuterStringForPostfix(outerType);
   return m_ReferencedType.GenerateName(outerString);
 }
 
