@@ -110,7 +110,7 @@ public:
   virtual Edge::Pointer GetCellEdge(CellFeatureIdentifier);
 
   /**
-   * Standard part of Object class.
+   * Standard part of every itk Object.
    */
   itkTypeMacro(TriangleCell, CellInterface);
   
@@ -151,7 +151,7 @@ public:
   itkNewMacro(Self);
   
   /**
-   * Standard part of Object class.
+   * Standard part of every itk Object.
    */
   itkTypeMacro(TriangleBoundary, CellBoundary);
 };

@@ -171,6 +171,11 @@ public:
   void DeleteIndex(ElementIdentifier);
   ConstIterator Begin(void) const;
   ConstIterator End(void) const;  
+  
+  /**
+   * Standard part of every itk Object.
+   */
+  itkTypeMacro(VectorContainer, Object);
 };
 
 } // namespace itk

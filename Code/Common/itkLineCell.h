@@ -101,7 +101,7 @@ public:
   virtual Vertex::Pointer GetCellVertex(CellFeatureIdentifier);
 
   /**
-   * Standard part of Object class.
+   * Standard part of every itk Object.
    */
   itkTypeMacro(LineCell, CellInterface);
 
@@ -137,7 +137,7 @@ public:
   itkNewMacro(Self);
   
   /**
-   * Standard part of Object class.
+   * Standard part of every itk Object.
    */
   itkTypeMacro(LineBoundary, CellBoundary);
 };

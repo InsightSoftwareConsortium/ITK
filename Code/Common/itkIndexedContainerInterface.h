@@ -166,6 +166,11 @@ public:
    * Get an end const iterator for the container.
    */
   ConstIterator End()=0;
+  
+  /**
+   * Standard part of every itk Object.
+   */
+  itkTypeMacro(IndexedContainerInterface, Object);
 };
 
 } // namespace itk

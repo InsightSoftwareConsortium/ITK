@@ -403,7 +403,7 @@ public:
   void BuildCellLinks(void);
   
   /**
-   * Standard part of Object class.  Used for debugging output.
+   * Standard part of every itk Object.
    */
   itkTypeMacro(Mesh, Object);
 

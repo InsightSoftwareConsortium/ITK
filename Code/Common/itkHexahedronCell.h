@@ -118,7 +118,7 @@ public:
   virtual Face::Pointer GetCellFace(CellFeatureIdentifier);  
 
   /**
-   * Standard part of Object class.
+   * Standard part of every itk Object.
    */
   itkTypeMacro(HexahedronCell, CellInterface);
 
@@ -160,7 +160,7 @@ public:
   itkNewMacro(Self);
 
   /**
-   * Standard part of Object class.
+   * Standard part of every itk Object.
    */
   itkTypeMacro(HexahedronBoundary, CellBoundary);
 };

@@ -93,7 +93,7 @@ public:
   virtual PointIdentifier GetCellPoint(void);
 
   /**
-   * Standard part of Object class.
+   * Standard part of every itk Object.
    */
   itkTypeMacro(VertexCell, CellInterface);
 
@@ -129,7 +129,7 @@ public:
   itkNewMacro(Self);  
   
   /**
-   * Standard part of Object class.
+   * Standard part of every itk Object.
    */
   itkTypeMacro(VertexBoundary, CellBoundary);
 };

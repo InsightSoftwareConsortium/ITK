@@ -177,7 +177,7 @@ public:
   virtual UsingCellsContainerIterator UsingCellsEnd(void);
   
   /**
-   * Standard part of Object class.
+   * Standard part of every itk Object.
    */
   itkTypeMacro(CellInterface, LightObject);
 
