@@ -47,12 +47,74 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkLinearInterpolateImageFunction.h"
 
+#include "vnl/vnl_math.h"
+
 
 typedef itk::Size<3>                               SizeType;
 typedef itk::PhysicalImage<unsigned short, 3>              ImageType;
 typedef itk::LinearInterpolateImageFunction<ImageType>  InterpolatorType;
 typedef InterpolatorType::IndexType                 IndexType;
 typedef InterpolatorType::PointType                 PointType;
+
+/* Define the image size and physical coordinates */
+SizeType size = {{20, 40, 80}};
+double origin [3] = { 0.5,   0.5,   0.5};
+double spacing[3] = { 0.1,   0.05 , 0.025};
+
+/**
+ * This function convert points from Image space to
+ * geometric space
+ */ 
+PointType ConvertImageToGeometricPoint( PointType& ipoint )
+{
+	PointType opoint;
+  for( int j = 0; j < PointType::PointDimension; j++ )
+		{
+		opoint[j] = ipoint[j] * spacing[j] + origin[j];
+		}
+
+  return opoint;
+}
+
+/**
+ * Test a geometric point. Returns true if test has passed,
+ * returns false otherwise
+ */
+bool TestGeometricPoint(
+InterpolatorType * interp,
+PointType& point,
+bool isInside,
+double trueValue )
+{
+
+  std::cout << " Point: " << point;
+
+  bool bvalue = interp->IsInsideBuffer( point );
+  std::cout << " Inside: " << bvalue;
+
+  if( bvalue != isInside )
+		{
+    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    return false;
+    }
+
+  if( isInside )
+		{
+		double value = interp->Evaluate( point );
+    std::cout << " Value: " << value;
+
+    if( vnl_math_abs( value - trueValue ) > 1e-9 )
+			{
+			std::cout << "*** Error: value should be " << trueValue << std::endl;
+      return false;
+			}
+		}
+
+  std::cout << std::endl;
+  return true;
+
+}
+
 
 int
 main(
@@ -62,11 +124,6 @@ main(
     int flag = 0;           /* Did this test program work? */
 
     std::cout << "Testing image interpolation methods:\n";
-
-    /* Define the image size and physical coordinates */
-    SizeType size = {{20, 40, 80}};
-    double origin [3] = { 0.5,   0.5,   0.5};
-    double spacing[3] = { 0.1,   0.05 , 0.025};
 
     /* Allocate a simple test image */
     ImageType::Pointer image = ImageType::New();
@@ -97,58 +154,58 @@ main(
     InterpolatorType::Pointer interp = InterpolatorType::New();
     interp->SetInputImage(image);
 
-    // FIXME: Add trial evaluations near the border and outside the image
-
-    /* Test evaluation at integer coordinates */
-    std::cout << "Evaluate at integer coordinates: " << std::endl;
-    IndexType idx = {{10, 20,40}};
-    double value1 = interp->Evaluate(idx);
-    std::cout << idx << value1 << std::endl;
-    if (value1 != 70)  {
-        std::cout << "*** Error: correct value is 70" << std::endl;
-        flag = 1;
-    }
-
-    /* Test evaluation at image border */
-    idx[0] = 0;
-    value1 = interp->Evaluate(idx);
-    std::cout << idx << value1 << std::endl;
-    if (value1 != 60)
-      {
-      std::cout << "*** Error: correct value is 60" << std::endl;
-      flag = 1;
-      }
-
-    idx[0] = 19;
-    value1 = interp->Evaluate(idx);
-    std::cout << idx << value1 << std::endl;
-    if (value1 != 79)
-      {
-      std::cout << "*** Error: correct value is 79" << std::endl;
-      flag = 1;
-      }
-
-    /* Test evaluation outside the image */
-    idx[0] = 20;
-    value1 = interp->Evaluate(idx);
-    std::cout << idx << value1 << std::endl;
-    if (value1 != 0)
-      {
-      std::cout << "*** Error: correct value is 0" << std::endl;
-      flag = 1;
-      }
+    //
+    // FIXME: remove these when GetSpacing/GetOrigin has been
+    // added to itk::Image
+    interp->SetImageSpacing( image->GetSpacing() );
+    interp->SetImageOrigin( image->GetOrigin() );
 
 
-    /* Test evaluation at non-integer coordinates */
-    std::cout << "Evaluate at non-integer coordinates: ";
-    double darray[3] = {5.25, 12.5, 42.0};
-    PointType point(darray);
-    double value2 = interp->Evaluate(point);
-    std::cout << value2 << std::endl;
-    if (value2 != 59.75) {
-        std::cout << "*** Error: correct value is 59.75" << std::endl;
-        flag = 1;
-    }
+    /* Test evaluation at geometric points */
+    std::cout << "Evaluate at geometric points: " << std::endl;
+    PointType point;
+    bool passed;
+
+    // an integer position inside the image
+    double darray1[3] = { 10, 20, 40};
+    point = ConvertImageToGeometricPoint( PointType(darray1) );
+    passed = TestGeometricPoint( interp, point, true, 70 );
+
+    if( !passed ) flag = 1;
+    
+    // position at the image border
+    double darray2[3] = {0, 20, 40};
+    point = ConvertImageToGeometricPoint( PointType(darray2) );
+    passed = TestGeometricPoint( interp, point, true, 60 );
+
+    if( !passed ) flag = 1;
+
+    // position near image border
+    double darray3[3] = {19, 20, 40};
+    point = ConvertImageToGeometricPoint( PointType(darray3) );
+    passed = TestGeometricPoint( interp, point, true, 79 );
+
+    if( !passed ) flag = 1;
+
+    // position outside the image
+    double darray4[3] = {20, 20, 40};
+    point = ConvertImageToGeometricPoint( PointType(darray4) );
+    passed = TestGeometricPoint( interp, point, false, 0 );
+
+    if( !passed ) flag = 1;
+
+    // at non-integer position 
+    double darray5[3] = {5.25, 12.5, 42.0};
+    point = ConvertImageToGeometricPoint( PointType(darray5) );
+    passed = TestGeometricPoint( interp, point, true, 59.75 );
+
+    if( !passed ) flag = 1;
+
+
+    //
+    // FIXME: added test for image point
+    // after it has been implemented
+    ///
 
     /* Return results of test */
     if (flag != 0) {
@@ -157,6 +214,7 @@ main(
     else {
         std::cout << "All tests successfully passed" << std::endl;
         return 0; }
+
 }
 
 
