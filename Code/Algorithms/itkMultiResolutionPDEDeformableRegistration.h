@@ -78,7 +78,7 @@ namespace itk
  * SetInitialDeformationField or SetInput. If no initial field is set
  * a zero field is used as the initial condition.
  *
- * MultiResolutionImagePyramids are used to downsample the target
+ * MultiResolutionPyramidImageFilters are used to downsample the target
  * and reference images. A VectorExpandImageFilter is used to upsample
  * the deformation as we move from a coarse to fine solution.
  *
@@ -90,7 +90,7 @@ namespace itk
  *
  * \sa PDEDeformableRegistrationFilter
  * \sa DemonsRegistrationFilter
- * \sa MultiResolutionImagePyramid
+ * \sa MultiResolutionPyramidImageFilter
  * \sa VectorExpandImageFilter
  *
  * The current implementation of this class does not support streaming.

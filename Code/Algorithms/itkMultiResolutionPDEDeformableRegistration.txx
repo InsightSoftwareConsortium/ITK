@@ -251,8 +251,6 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
   for( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels; 
        m_CurrentLevel++ )
     {
-    this->UpdateProgress( (float) m_CurrentLevel / 
-      (float) m_NumberOfLevels );
    
     refLevel = vnl_math_min( (int) m_CurrentLevel, 
       (int) m_ReferencePyramid->GetNumberOfLevels() );
@@ -263,7 +261,7 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
       {
        /**
          * \todo What to do if there is an input deformation field?
-         * Will need a VectorMultiResolutionImagePyramid to downsample it.
+         * Will need a VectorMultiResolutionPyramidImageFilter to downsample it.
          */
         //DeformationFieldPointer initialField = this->GetInput();
       m_RegistrationFilter->SetInitialDeformationField( NULL );
@@ -295,6 +293,9 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
       m_RegistrationFilter->SetInitialDeformationField( tempField );
 
       }
+
+    this->UpdateProgress( (float) m_CurrentLevel / 
+      (float) m_NumberOfLevels );
 
     // setup registration filter and pyramids 
     m_RegistrationFilter->SetReference( m_ReferencePyramid->GetOutput(refLevel) );

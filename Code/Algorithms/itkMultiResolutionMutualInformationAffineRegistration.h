@@ -101,7 +101,7 @@ public:
  * and SetReference().  The number of resolution levels is specified by
  * SetNumberOfLevels().  GetReferencePyramid() and GetTargetPyramid() 
  * respectively return pointers to the reference and target pyramids.
- * Refer to the documentation of MultiResolutionImagePyramid for details on
+ * Refer to the documentation of MultiResolutionPyramidImageFilter for details on
  * how to set the multi-resolution downsampling schedule.
  *
  * For each resolution level, the user must define the number of iterations
@@ -128,7 +128,7 @@ public:
  *
  * \sa MultiResolutionMutualInformationRigidRegistration
  * \sa ImageToImageAffineMutualInformationGradientDescentRegistration
- * \sa MultiResolutionImagePyramid
+ * \sa MultiResolutionPyramidImageFilter
  *
  * \ingroup AffineImageRegistration 
  */

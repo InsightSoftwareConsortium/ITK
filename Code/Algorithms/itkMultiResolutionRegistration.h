@@ -64,7 +64,7 @@ namespace itk
  *    which is used to evoke the registration at each resolution level.
  *    For example, see class RegistrationMethod.
  * d) the target image pyramid type. For example, see class
- *    MultiResolutionImagePyramid.
+ *    MultiResolutionPyramidImageFilter.
  * e) the reference image pyramid type
  *
  * \ingroup RegistrationFilters
