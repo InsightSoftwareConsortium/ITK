@@ -19,6 +19,7 @@ SET(WRAP_SOURCES
     wrap_itkGeodesicActiveContourLevelSetImageFilter
     wrap_itkShapeDetectionLevelSetImageFilter
     wrap_itkCurvesLevelSetImageFilter
+    wrap_itkNarrowBandLevelSetImageFilter
     wrap_itkNarrowBandCurvesLevelSetImageFilter
     wrap_itkWatershedImageFilter
 )

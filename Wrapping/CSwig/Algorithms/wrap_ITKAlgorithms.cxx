@@ -38,6 +38,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkGeodesicActiveContourLevelSetImageFilter),
     ITK_WRAP_GROUP(itkShapeDetectionLevelSetImageFilter),
     ITK_WRAP_GROUP(itkCurvesLevelSetImageFilter),
+    ITK_WRAP_GROUP(itkNarrowBandLevelSetImageFilter),     
     ITK_WRAP_GROUP(itkNarrowBandCurvesLevelSetImageFilter),
     ITK_WRAP_GROUP(itkMattesMutualInformationImageToImageMetric),
     ITK_WRAP_GROUP(itkRecursiveMultiResolutionPyramidImageFilter),
