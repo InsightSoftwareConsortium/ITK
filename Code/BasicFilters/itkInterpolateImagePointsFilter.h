@@ -92,6 +92,7 @@ public:
 
   /** Typedefs to describe and access input image */
   typedef typename Superclass::InputImageType InputImageType;
+  typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename Superclass::InputImagePointer InputImagePointer;
 
   /** Typedefs to describe and access output image. */
