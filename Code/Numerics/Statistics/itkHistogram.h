@@ -19,8 +19,8 @@
 
 #include <vector>
 
-#include "itkSize.h"
 #include "itkIndex.h"
+#include "itkSize.h"
 #include "itkSample.h"
 #include "itkDenseFrequencyContainer.h"
 #include "itkSparseFrequencyContainer.h"
@@ -99,7 +99,7 @@ public:
   typedef typename IndexType::IndexValueType  IndexValueType;
 
   /** size array type */
-  typedef Size< MeasurementVectorSize > SizeType ;
+  typedef Size< VMeasurementVectorSize > SizeType ;
   typedef typename SizeType::SizeValueType SizeValueType ;
 
   /** bin min max value storage types */
