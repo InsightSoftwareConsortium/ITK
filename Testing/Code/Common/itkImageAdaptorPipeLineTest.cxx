@@ -199,13 +199,7 @@ int main()
   //-------------------------------------------------------------
 
   myFloatImageType::Pointer myFloatOutputImage = filter->GetOutput();
-
-  myFloatOutputImage->SetLargestPossibleRegion( region );
-  myFloatOutputImage->SetRequestedRegion( region );
-  myFloatOutputImage->SetBufferedRegion( region );
-  myFloatOutputImage->Allocate();
   myFloatOutputImage->SetSpacing( spacing );
-  
 
   std::cout << "Float Output Image Initializaed" << std::endl;
 
