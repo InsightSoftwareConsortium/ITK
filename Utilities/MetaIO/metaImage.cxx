@@ -904,6 +904,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
         writeStreamTemp->write( (char *)m_ElementData, 
                                 m_Quantity * elementNumberOfBytes );
         writeStreamTemp->close();
+        delete writeStreamTemp; 
         return true;
         }
       delete writeStreamTemp; 
@@ -1018,7 +1019,7 @@ M_Destroy(void)
   {
   if(m_AutoFreeElementData && m_ElementData != NULL)
     {
-    delete [] (char *)m_ElementData;
+    delete (char *)m_ElementData;
     }
 
   m_ElementData = NULL;
