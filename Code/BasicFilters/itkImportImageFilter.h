@@ -168,6 +168,7 @@ public:
    * \sa GetSpacing()
    */
   itkSetVectorMacro(Spacing, const double, VImageDimension);
+  itkSetVectorMacro(Spacing, const float, VImageDimension);
 
   /** 
    * Get the spacing (size of a pixel) of the image.
@@ -180,13 +181,13 @@ public:
    * \sa GetOrigin()
    */
   itkSetVectorMacro(Origin, const double, VImageDimension);
+  itkSetVectorMacro(Origin, const float, VImageDimension);
 
   /** 
    * Get the origin of the image.
    * \sa SetOrigin()
    */
   itkGetVectorMacro(Origin, const double, VImageDimension);
-
 
 protected:
  ImportImageFilter();
