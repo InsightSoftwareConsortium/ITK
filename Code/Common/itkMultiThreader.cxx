@@ -332,7 +332,7 @@ void MultiThreader::SingleMethodExecute()
   // Now, the parent thread calls this->SingleMethod() itself
   m_ThreadInfoArray[0].UserData = m_SingleData;
   m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
-  this->SingleMethod((void *)(&m_ThreadInfoArray[0]) );
+  this->m_SingleMethod((void *)(&m_ThreadInfoArray[0]) );
 
   // The parent thread has finished this->SingleMethod() - so now it
   // waits for each of the other processes to exit
@@ -348,7 +348,7 @@ void MultiThreader::SingleMethodExecute()
   // There is no multi threading, so there is only one thread.
   m_ThreadInfoArray[0].UserData    = m_SingleData;
   m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
-  this->SingleMethod( (void *)(&m_ThreadInfoArray[0]) );
+  this->m_SingleMethod( (void *)(&m_ThreadInfoArray[0]) );
 #endif
 #endif
 #endif
