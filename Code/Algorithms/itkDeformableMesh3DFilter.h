@@ -165,7 +165,7 @@ private:
 
   void Initialize();
   void SetDefaultStiffnessMatrix();
-  void SetMeshStiffness();;
+  void SetMeshStiffness();
   void Advance();     // update data for next iteration
   void ComputeDt();   // compute point positions
   void ComputeOutput();
