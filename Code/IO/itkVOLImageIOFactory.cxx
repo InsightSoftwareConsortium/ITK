@@ -58,7 +58,7 @@ VOLImageIOFactory::VOLImageIOFactory()
                          "itkVOLImageIO",
                          "VOL Image IO",
                          1,
-                         new CreateObjectFunction<VOLImageIO>);
+                         CreateObjectFunction<VOLImageIO>::New());
                          
 }
 VOLImageIOFactory::~VOLImageIOFactory()

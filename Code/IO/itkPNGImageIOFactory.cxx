@@ -67,7 +67,7 @@ PNGImageIOFactory::PNGImageIOFactory()
                          "itkPNGImageIO",
                          "PNG Image IO",
                          1,
-                         new CreateObjectFunction<PNGImageIO>);
+                         CreateObjectFunction<PNGImageIO>::New());
 }
   
 PNGImageIOFactory::~PNGImageIOFactory()

@@ -63,6 +63,10 @@ public:
   /** Create an object and return a pointer to it as an
    * itk::LightObject. */
   virtual SmartPointer<LightObject> CreateObject() = 0;
+
+protected:
+  CreateObjectFunctionBase() {}
+  ~CreateObjectFunctionBase() {}
   
 private:
   CreateObjectFunctionBase(const Self&); //purposely not implemented
@@ -85,8 +89,12 @@ public:
   typedef SmartPointer<Self>    Pointer;
     
   /** Methods from itk:LightObject. */
-  static Pointer New() { return new Self;}
-  LightObject::Pointer CreateObject() { return T::New(); }
+  static Pointer New() { return new Self; }
+  LightObject::Pointer CreateObject() { return T::New().GetPointer(); }
+  
+protected:
+  CreateObjectFunction() {}
+  ~CreateObjectFunction() {}
   
 private:
   CreateObjectFunction(const Self&); //purposely not implemented

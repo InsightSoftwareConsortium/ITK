@@ -59,7 +59,7 @@ VTKImageIOFactory::VTKImageIOFactory()
                          "itkVTKImageIO",
                          "VTK Image IO",
                          1,
-                         new CreateObjectFunction<VTKImageIO>);
+                         CreateObjectFunction<VTKImageIO>::New());
 }
   
 VTKImageIOFactory::~VTKImageIOFactory()

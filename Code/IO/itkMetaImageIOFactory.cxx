@@ -58,7 +58,7 @@ MetaImageIOFactory::MetaImageIOFactory()
                          "itkMetaImageIO",
                          "Meta Image IO",
                          1,
-                         new CreateObjectFunction<MetaImageIO>);
+                         CreateObjectFunction<MetaImageIO>::New());
 }
   
 MetaImageIOFactory::~MetaImageIOFactory()
