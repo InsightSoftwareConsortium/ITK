@@ -67,24 +67,9 @@ int itkCropImageFilterTest(int, char**)
   extract = itk::CropImageFilter< ShortImage, ShortImage >::New();
   extract->SetInput( if2 );
   
-  // fill in an image
-  ShortImage::SizeType   extractSize = {{8, 12}};
-
-  extract->SetUpperBoundaryCropSize(extractSize);
-  extract->SetLowerBoundaryCropSize(extractSize);
-  extract->UpdateLargestPossibleRegion();
-
-  std::cout << extract << std::endl;
-  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", "
-            << if2->GetSpacing()[1] << std::endl;
-  std::cout << "Output spacing: " << extract->GetOutput()->GetSpacing()[0]
-            << ", "
-            << extract->GetOutput()->GetSpacing()[1] << std::endl;
-  
-  
   ShortImage::RegionType requestedRegion;
   bool passed;
-  
+  ShortImage::SizeType   extractSize = {{8, 12}};  
   extractSize[0] = 1; extractSize[1] = 1;
   extract->SetUpperBoundaryCropSize(extractSize);
   extract->SetLowerBoundaryCropSize(extractSize);
