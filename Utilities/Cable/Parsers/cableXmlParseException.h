@@ -1,7 +1,7 @@
 #ifndef _xmlParseException_h
 #define _xmlParseException_h
 
-#pragma warning (disable: 4786)
+#include "win32Header.h"
 
 #include "xmlparse.h"
 
@@ -20,7 +20,8 @@ class ParseException
 {
 public:
   ParseException() {}
-
+  virtual ~ParseException() {}
+  
   virtual void Print(std::ostream& os) const
     {
       os << "Unknown exceptions during parse." << std::endl;
@@ -33,7 +34,7 @@ public:
       os << "Error at line " << XML_GetCurrentLineNumber(parser)
          << ", column " << XML_GetCurrentColumnNumber(parser)
          << std::endl;
-    }
+    }  
 };
 
 
@@ -45,6 +46,7 @@ class UnknownElementTagException: public ParseException
 public:
   UnknownElementTagException(const char* unknown):
     ParseException(), m_Unknown(unknown) {}
+  virtual ~UnknownElementTagException() {}
 
   void Print(std::ostream& os) const
     {

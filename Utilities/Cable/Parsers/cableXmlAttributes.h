@@ -37,6 +37,7 @@ class MissingAttributeException: public ParseException
 public:
   MissingAttributeException(const char* missing):
     ParseException(), m_Missing(missing) {}
+  virtual ~MissingAttributeException() {}
   
   void Print(std::ostream& os) const
     {

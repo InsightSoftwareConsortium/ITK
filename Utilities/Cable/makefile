@@ -1,5 +1,5 @@
 CC = gcc
-CXX = g++
+CXX = g++ -ansi -pedantic -Wall
 EXPAT = expat
 DEBUG = -g
 INCLUDES = -I$(EXPAT)/xmlparse -I$(EXPAT)/xmltok

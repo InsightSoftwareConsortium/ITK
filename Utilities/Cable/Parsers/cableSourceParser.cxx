@@ -177,6 +177,7 @@ class ElementStackTypeException: public ParseException
 public:
   ElementStackTypeException(const char* e, const char* t):
     ParseException(), m_Expected(e), m_Got(t) {}
+  virtual ~ElementStackTypeException() {}
   void Print(std::ostream& os) const
     {
       os << "Expected \"" << m_Expected.c_str()

@@ -63,7 +63,7 @@ String GetValid_C_Identifier(const String& in_name)
  */
 Location::Pointer
 Location
-::New(const String& file, unsigned long line)
+::New(const String& file, unsigned int line)
 {
   return new Location(file, line);
 }
@@ -841,9 +841,9 @@ ArrayType
 /**
  * Print "indent" spaces to file "file".
  */
-static void PrintIndent(FILE* file, unsigned long indent)
+static void PrintIndent(FILE* file, unsigned int indent)
 {
-  unsigned long count = indent;
+  unsigned int count = indent;
   while(count >= 10)
     {
     fprintf(file, "          ");
@@ -881,7 +881,7 @@ Context
  */
 void
 Location
-::Print(FILE* file, unsigned long indent) const
+::Print(FILE* file, unsigned int indent) const
 {
   PrintIndent(file, indent);
   fprintf(file, "<Location file=\"%s\" line=\"%d\"/>\n",
@@ -894,7 +894,7 @@ Location
  */
 void
 Context
-::PrintClasses(FILE* file, unsigned long indent) const
+::PrintClasses(FILE* file, unsigned int indent) const
 {
   for(ClassesIterator c = m_Classes.begin() ; c != m_Classes.end() ; ++c)
     {
@@ -908,7 +908,7 @@ Context
  */
 void
 Namespace
-::Print(FILE* file, unsigned long indent) const
+::Print(FILE* file, unsigned int indent) const
 {
   String name = this->GetName();
   String context = "";
@@ -936,7 +936,7 @@ Namespace
  */
 void
 Class
-::PrintBaseClasses(FILE* file, unsigned long indent) const
+::PrintBaseClasses(FILE* file, unsigned int indent) const
 {
   for(BaseClassesIterator bc = m_BaseClasses.begin();
       bc != m_BaseClasses.end(); ++bc)
@@ -951,7 +951,7 @@ Class
  */
 void
 Class
-::Print(FILE* file, unsigned long indent) const
+::Print(FILE* file, unsigned int indent) const
 {
   String name = this->GetName();
   String context = "";
@@ -982,7 +982,7 @@ Class
  */
 void
 Class
-::PrintMethods(FILE* file, unsigned long indent) const
+::PrintMethods(FILE* file, unsigned int indent) const
 {
   for(MethodsIterator m = m_Methods.begin() ; m != m_Methods.end() ; ++m)
     {
@@ -996,7 +996,7 @@ Class
  */
 void
 Struct
-::Print(FILE* file, unsigned long indent) const
+::Print(FILE* file, unsigned int indent) const
 {
   String name = this->GetName();
   String context = "";
@@ -1027,7 +1027,7 @@ Struct
  */
 void
 Union
-::Print(FILE* file, unsigned long indent) const
+::Print(FILE* file, unsigned int indent) const
 {
   String name = this->GetName();
   String context = "";
@@ -1056,7 +1056,7 @@ Union
 /**
  * Print the CV qualifiers.
  */
-void CvQualifiers::Print(FILE* file, unsigned long indent) const
+void CvQualifiers::Print(FILE* file, unsigned int indent) const
 {
   int is_const = m_Const? 1:0;
   int is_volatile = m_Volatile? 1:0;
@@ -1072,7 +1072,7 @@ void CvQualifiers::Print(FILE* file, unsigned long indent) const
 /**
  * Print the CV qualifiers for this type.
  */
-void Type::PrintCvQualifiers(FILE* file, unsigned long indent) const
+void Type::PrintCvQualifiers(FILE* file, unsigned int indent) const
 {
   if(m_CvQualifiers)
     {
@@ -1084,7 +1084,7 @@ void Type::PrintCvQualifiers(FILE* file, unsigned long indent) const
 /**
  * Print the name of this type.
  */
-void Type::PrintName(FILE* file, unsigned long indent) const
+void Type::PrintName(FILE* file, unsigned int indent) const
 {
   PrintIndent(file, indent);
   fprintf(file, "%s\n", this->GetName().c_str());
@@ -1094,7 +1094,7 @@ void Type::PrintName(FILE* file, unsigned long indent) const
 /**
  * Print out this NamedType.
  */
-void NamedType::Print(FILE* file, unsigned long indent) const
+void NamedType::Print(FILE* file, unsigned int indent) const
 {
   this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
@@ -1110,7 +1110,7 @@ void NamedType::Print(FILE* file, unsigned long indent) const
 /**
  * Print out this PointerType.
  */
-void PointerType::Print(FILE* file, unsigned long indent) const
+void PointerType::Print(FILE* file, unsigned int indent) const
 {
   this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
@@ -1125,7 +1125,7 @@ void PointerType::Print(FILE* file, unsigned long indent) const
 /**
  * Print out this ReferenceType.
  */
-void ReferenceType::Print(FILE* file, unsigned long indent) const
+void ReferenceType::Print(FILE* file, unsigned int indent) const
 {
   this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
@@ -1140,7 +1140,7 @@ void ReferenceType::Print(FILE* file, unsigned long indent) const
 /**
  * Print out this FunctionType.
  */
-void FunctionType::Print(FILE* file, unsigned long indent) const
+void FunctionType::Print(FILE* file, unsigned int indent) const
 {
   this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
@@ -1169,7 +1169,7 @@ void FunctionType::Print(FILE* file, unsigned long indent) const
 /**
  * Print out this MethodType.
  */
-void MethodType::Print(FILE* file, unsigned long indent) const
+void MethodType::Print(FILE* file, unsigned int indent) const
 {
   this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
@@ -1197,7 +1197,7 @@ void MethodType::Print(FILE* file, unsigned long indent) const
 /**
  * Print out this OffsetType.
  */
-void OffsetType::Print(FILE* file, unsigned long indent) const
+void OffsetType::Print(FILE* file, unsigned int indent) const
 {
   this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
@@ -1212,7 +1212,7 @@ void OffsetType::Print(FILE* file, unsigned long indent) const
 /**
  * Print out this ArrayType.
  */
-void ArrayType::Print(FILE* file, unsigned long indent) const
+void ArrayType::Print(FILE* file, unsigned int indent) const
 {
   this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
@@ -1227,7 +1227,7 @@ void ArrayType::Print(FILE* file, unsigned long indent) const
 /**
  * Print the information for an argument.
  */
-void Argument::Print(FILE* file, unsigned long indent) const
+void Argument::Print(FILE* file, unsigned int indent) const
 {
   this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
@@ -1241,7 +1241,7 @@ void Argument::Print(FILE* file, unsigned long indent) const
 /**
  * Print the information for a function return type.
  */
-void Returns::Print(FILE* file, unsigned long indent) const
+void Returns::Print(FILE* file, unsigned int indent) const
 {
   this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
@@ -1258,7 +1258,7 @@ void Returns::Print(FILE* file, unsigned long indent) const
  */
 void
 Function
-::PrintFunctionPrototypeInfo(FILE* file, unsigned long indent) const
+::PrintFunctionPrototypeInfo(FILE* file, unsigned int indent) const
 {
   if(m_Returns)
     {
@@ -1279,7 +1279,7 @@ Function
 /**
  * Print the function.
  */
-void Function::Print(FILE* file, unsigned long indent) const
+void Function::Print(FILE* file, unsigned int indent) const
 {
   String name = this->GetName();
   
@@ -1302,7 +1302,7 @@ void Function::Print(FILE* file, unsigned long indent) const
  */
 void
 Method
-::Print(FILE* file, unsigned long indent) const
+::Print(FILE* file, unsigned int indent) const
 {
   String name = this->GetName();
   
@@ -1325,7 +1325,7 @@ Method
  */
 void
 Constructor
-::Print(FILE* file, unsigned long indent) const
+::Print(FILE* file, unsigned int indent) const
 {
   String name = this->GetName();
   
@@ -1347,7 +1347,7 @@ Constructor
  */
 void
 Destructor
-::Print(FILE* file, unsigned long indent) const
+::Print(FILE* file, unsigned int indent) const
 {
   String name = this->GetName();
   
@@ -1369,7 +1369,7 @@ Destructor
  */
 void
 Converter
-::Print(FILE* file, unsigned long indent) const
+::Print(FILE* file, unsigned int indent) const
 {
   String name = this->GetName();
   
@@ -1391,7 +1391,7 @@ Converter
  */
 void
 OperatorMethod
-::Print(FILE* file, unsigned long indent) const
+::Print(FILE* file, unsigned int indent) const
 {
   String name = this->GetName();
   
@@ -1414,7 +1414,7 @@ OperatorMethod
  */
 void
 OperatorFunction
-::Print(FILE* file, unsigned long indent) const
+::Print(FILE* file, unsigned int indent) const
 {
   String name = this->GetName();
   
@@ -1437,7 +1437,7 @@ OperatorFunction
  */
 void
 BaseClass
-::Print(FILE* file, unsigned long indent) const
+::Print(FILE* file, unsigned int indent) const
 {
   String access;
   

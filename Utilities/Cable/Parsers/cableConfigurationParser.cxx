@@ -224,6 +224,7 @@ class InvalidIdentifierException: public ParseException
 public:
   InvalidIdentifierException(const String& invalid):
     ParseException(), m_Invalid(invalid) {}
+  virtual ~InvalidIdentifierException() {}
   void Print(std::ostream& os) const
     {
       os << "Invalid identifier \"" << m_Invalid.c_str() << "\""
@@ -242,6 +243,7 @@ class UnknownSetException: public ParseException
 public:
   UnknownSetException(const String& unknown):
     ParseException(), m_Unknown(unknown) {}
+  virtual ~UnknownSetException() {}
   void Print(std::ostream& os) const
     {
       os << "Unknown Set \"" << m_Unknown.c_str() << "\""
@@ -260,6 +262,7 @@ class NameExistsException: public ParseException
 public:
   NameExistsException(const String& name):
     ParseException(), m_Name(name) {}
+  virtual ~NameExistsException() {}
   void Print(std::ostream& os) const
     {
       os << "Name \"" << m_Name.c_str()
@@ -279,6 +282,7 @@ class SetSelfReferenceException: public ParseException
 public:
   SetSelfReferenceException(const String& set_name):
     ParseException(), m_SetName(set_name) {}
+  virtual ~SetSelfReferenceException() {}
   void Print(std::ostream& os) const
     {
       os << "Set \"" << m_SetName.c_str() << "\" cannot reference itself."
@@ -297,6 +301,7 @@ class ElementStackTypeException: public ParseException
 public:
   ElementStackTypeException(const char* e, const char* t):
     ParseException(), m_Expected(e), m_Got(t) {}
+  virtual ~ElementStackTypeException() {}
   void Print(std::ostream& os) const
     {
       os << "Expected \"" << m_Expected.c_str()

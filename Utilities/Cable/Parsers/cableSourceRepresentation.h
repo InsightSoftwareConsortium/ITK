@@ -151,7 +151,7 @@ protected:
    * Called to ensure that the object pointed to by "this" considers
    * itself complete accodring to CheckComplete().
    */
-  void AssertComplete(const char* source_file, unsigned long source_line) const
+  void AssertComplete(const char* source_file, unsigned int source_line) const
     {
       if(this->CheckComplete()) return;
       std::strstream e;
@@ -181,22 +181,22 @@ public:
   virtual TypeOfObject GetTypeOfObject() const { return Location_id; }
   virtual const char* GetClassName() const { return "Location"; }
   
-  static Pointer New(const String& file, unsigned long line);
+  static Pointer New(const String& file, unsigned int line);
 
   String GetFile() const { return m_File; }
-  unsigned long GetLine() const { return m_Line; }
+  unsigned int GetLine() const { return m_Line; }
   
-  void Print(FILE*, unsigned long) const;
+  void Print(FILE*, unsigned int) const;
   
 protected:
-  Location(const String& file, unsigned long line):
+  Location(const String& file, unsigned int line):
     m_File(file), m_Line(line) {}
   Location(const Self&) {}
   void operator=(const Self&) {}
   virtual ~Location() {}
 private:
   String m_File;
-  unsigned long m_Line;
+  unsigned int m_Line;
 };
 
 
@@ -293,7 +293,7 @@ public:
   bool IsVolatile() const { return m_Volatile; }
   bool IsRestrict() const { return m_Restrict; }
 
-  void Print(FILE*, unsigned long) const;
+  void Print(FILE*, unsigned int) const;
   
 protected:
   CvQualifiers(bool is_const, bool is_volatile, bool is_restrict):
@@ -381,9 +381,9 @@ public:
   bool IsVolatile() const { return (m_CvQualifiers && m_CvQualifiers->IsVolatile()); }
   bool IsRestrict() const { return (m_CvQualifiers && m_CvQualifiers->IsRestrict()); }
 
-  virtual void Print(FILE*, unsigned long) const =0;
-  void PrintCvQualifiers(FILE*, unsigned long) const;  
-  void PrintName(FILE*, unsigned long) const;  
+  virtual void Print(FILE*, unsigned int) const =0;
+  void PrintCvQualifiers(FILE*, unsigned int) const;  
+  void PrintName(FILE*, unsigned int) const;  
   
 protected:
   Type() {}
@@ -423,7 +423,7 @@ public:
   String GetStringWithCV() const;
   String GetStringWithoutCV() const;
 
-  void Print(FILE*, unsigned long) const;
+  void Print(FILE*, unsigned int) const;
   
   virtual bool CheckComplete() const { return (m_Type != NULL); }
   
@@ -462,7 +462,7 @@ public:
   String GetStringWithCV() const;
   String GetStringWithoutCV() const;
 
-  void Print(FILE*, unsigned long) const;
+  void Print(FILE*, unsigned int) const;
   
   virtual bool CheckComplete() const { return (m_Type != NULL); }
   
@@ -506,9 +506,9 @@ public:
   
   void AddArgument(Argument* a) { m_Arguments.insert(m_Arguments.end(), a); }
   const ArgumentContainer& GetArguments() const { return m_Arguments; }
-  Argument::Pointer GetArgument(unsigned long a) { return m_Arguments[a]; }
-  Argument::ConstPointer GetArgument(unsigned long a) const { return m_Arguments[a].RealPointer(); }
-  unsigned long GetArgumentCount() const { return m_Arguments.size(); }  
+  Argument::Pointer GetArgument(unsigned int a) { return m_Arguments[a]; }
+  Argument::ConstPointer GetArgument(unsigned int a) const { return m_Arguments[a].RealPointer(); }
+  unsigned int GetArgumentCount() const { return m_Arguments.size(); }  
   
   void SetContext(Context* context) { m_Context = context; }
   ContextPointer GetContext() { return m_Context.RealPointer(); }
@@ -519,8 +519,8 @@ public:
 
   virtual String GetCallName() const { return this->GetName(); }
   
-  virtual void Print(FILE*, unsigned long) const;
-  void PrintFunctionPrototypeInfo(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
+  void PrintFunctionPrototypeInfo(FILE*, unsigned int) const;
   
 protected:
   Function(const String& name): Named(name) {}
@@ -561,9 +561,9 @@ public:
   Pointer GetContext() { return m_Context.RealPointer(); }
   ConstPointer GetContext() const { return m_Context.RealPointer(); }
   
-  virtual void Print(FILE*, unsigned long) const =0;
+  virtual void Print(FILE*, unsigned int) const =0;
 
-  void PrintClasses(FILE*, unsigned long) const;
+  void PrintClasses(FILE*, unsigned int) const;
   
   String GetQualifiedName() const;
   
@@ -599,7 +599,7 @@ public:
   virtual String GetNameWithCV(const Type* =NULL) const;
   virtual String GetNameWithoutCV(const Type* =NULL) const;
   
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
   
   virtual bool CheckComplete() const { return (m_QualifiedName != NULL); }
   
@@ -641,7 +641,7 @@ public:
   Type::ConstPointer GetPointedToType() const
     { return m_PointedToType.RealPointer(); }
   
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
 
   virtual bool CheckComplete() const { return (m_PointedToType != NULL); }
 
@@ -683,7 +683,7 @@ public:
   Type::ConstPointer GetReferencedType() const
     { return m_ReferencedType.RealPointer(); }
   
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
 
   virtual bool CheckComplete() const { return (m_ReferencedType != NULL); }
   
@@ -723,14 +723,14 @@ class FunctionType: public Type
   
   void AddArgument(Argument* a) { m_Arguments.insert(m_Arguments.end(), a); }
   const ArgumentContainer& GetArguments() const { return m_Arguments; }
-  Argument::Pointer GetArgument(unsigned long a) { return m_Arguments[a]; }
-  Argument::ConstPointer GetArgument(unsigned long a) const { return m_Arguments[a].RealPointer(); }
-  unsigned long GetArgumentCount() const { return m_Arguments.size(); }
+  Argument::Pointer GetArgument(unsigned int a) { return m_Arguments[a]; }
+  Argument::ConstPointer GetArgument(unsigned int a) const { return m_Arguments[a].RealPointer(); }
+  unsigned int GetArgumentCount() const { return m_Arguments.size(); }
 
   void SetEllipsis(bool e) { m_Ellipsis = e; }
   bool GetEllipsis() const { return m_Ellipsis; }
   
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
 
 protected:
   FunctionType() {}
@@ -768,7 +768,7 @@ class MethodType: public FunctionType
   BaseTypePointer GetBaseType() { return m_BaseType; }
   BaseTypeConstPointer GetBaseType() const { return m_BaseType.RealPointer(); }
   
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
 
   virtual bool CheckComplete() const { return (m_BaseType != NULL); }
   
@@ -812,7 +812,7 @@ class OffsetType: public Type
   void SetMemberType(Type* t)       { m_MemberType = t; }
   Type::Pointer GetMemberType() { return m_MemberType; }
 
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
 
   virtual bool CheckComplete() const
     { return ((m_BaseType != NULL) && (m_MemberType != NULL)); }
@@ -853,7 +853,7 @@ public:
   void SetElementType(Type* t)       { m_ElementType = t; }
   Type::Pointer GetElementType() { return m_ElementType; }
   
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
 
   virtual bool CheckComplete() const { return (m_ElementType != NULL); }
   
@@ -893,7 +893,7 @@ public:
     { function->SetContext(this); m_Functions.insert(function); }
   const FunctionContainer& GetFunctions() const { return m_Functions; }
   
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
   
 protected:
   Namespace(const String& name): Context(name) {}
@@ -925,7 +925,7 @@ public:
   bool IsStatic() const { return m_Static; }
   Access GetAccess() const  { return m_Access; }
 
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
   
 protected:
   Method(const String& in_name, Access access, bool is_static):
@@ -955,7 +955,7 @@ public:
   virtual TypeOfObject GetTypeOfObject() const { return Constructor_id; }
   virtual const char* GetClassName() const { return "Constructor"; }
   
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
   
 protected:
   Constructor(Access access):
@@ -981,7 +981,7 @@ public:
   virtual TypeOfObject GetTypeOfObject() const { return Destructor_id; }
   virtual const char* GetClassName() const { return "Destructor"; }
   
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
   
 protected:
   Destructor(Access access):
@@ -1008,7 +1008,7 @@ public:
   virtual TypeOfObject GetTypeOfObject() const { return Converter_id; }
   virtual const char* GetClassName() const { return "Converter"; }
   
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
   
 protected:
   Converter(Access access):
@@ -1036,7 +1036,7 @@ public:
   
   virtual String GetCallName() const { return "operator"+this->GetName(); }
   
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
   
 protected:
   OperatorMethod(const String& name, Access access):
@@ -1064,7 +1064,7 @@ public:
   
   virtual String GetCallName() const { return "operator"+this->GetName(); }
   
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
   
 protected:
   OperatorFunction(const String& name): Function(name) {}
@@ -1102,9 +1102,9 @@ public:
   bool IsProtected() const { return (m_Access == Protected); }
   bool IsPrivate() const   { return (m_Access == Private);   }
   
-  virtual void Print(FILE*, unsigned long) const;
-  void PrintMethods(FILE*, unsigned long) const;
-  void PrintBaseClasses(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
+  void PrintMethods(FILE*, unsigned int) const;
+  void PrintBaseClasses(FILE*, unsigned int) const;
   
 protected:  
   Class(const String& name, Access access): Context(name), m_Access(access) {}
@@ -1135,7 +1135,7 @@ public:
   virtual TypeOfObject GetTypeOfObject() const { return Struct_id; }
   virtual const char* GetClassName() const { return "Struct"; }
   
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
   
 protected:
   Struct(const String& name, Access access): Class(name, access) {}
@@ -1161,7 +1161,7 @@ public:
   virtual TypeOfObject GetTypeOfObject() const { return Union_id; }
   virtual const char* GetClassName() const { return "Union"; }
   
-  virtual void Print(FILE*, unsigned long) const;
+  virtual void Print(FILE*, unsigned int) const;
   
 protected:
   Union(const String& name, Access access): Class(name, access) {}
@@ -1254,7 +1254,7 @@ public:
 
   Access GetAccess() const { return m_Access; }
   
-  void Print(FILE*, unsigned long) const;
+  void Print(FILE*, unsigned int) const;
   
   virtual bool CheckComplete() const { return (m_QualifiedName != NULL); }
   

@@ -1,7 +1,7 @@
 #ifndef _referenceCount_h
 #define _referenceCount_h
 
-#pragma warning (disable: 4786)
+#include "win32Header.h"
 
 class Object;
 
