@@ -93,7 +93,7 @@ public:
   /** Initialize some accumulators before the threads run. */
   void BeforeThreadedGenerateData ();
   
-  /** Do final mean and variance computation from data accumulated in threads. */
+  /** Tally accumulated in threads. */
   void AfterThreadedGenerateData ();
   
   /** Multi-thread version GenerateData. */
