@@ -92,9 +92,10 @@ template<class TMoving,class TFixed>
 typename FiniteDifferenceFunctionLoad<TMoving , TFixed>::Float 
 FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Element::ArrayType* el,Float step)
 {
-  Float energy=0.0,defe=0.0; 
-
   return 10.0;  //FIXME
+#if __DEFINED__FIXME__THIS_IS_NEVER_REACHED_BECAUSE_OF_OVERRIDING_RETURN_STATEMENT__
+  Float energy=0.0,defe=0.0;
+
 
   vnl_vector_fixed<Float,2*ImageDimension> InVec(0.0);
    
@@ -166,7 +167,7 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Ele
    
   //std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
   return fabs((double)energy*(double)m_Gamma-(double)defe);
-
+#endif
 }
 
 
