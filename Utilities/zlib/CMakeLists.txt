@@ -1,4 +1,4 @@
-PROJECT(VTKZLIB)
+PROJECT(ITKZLIB)
 
 # source files for zlib
 SOURCE_FILES(ZLIB_SRCS
@@ -10,8 +10,8 @@ inflate.c   trees.c
 )
 
 CONFIGURE_FILE(
-${VTKZLIB_SOURCE_DIR}/.NoDartCoverage 
-${VTKZLIB_BINARY_DIR}/.NoDartCoverage)
+${ITKZLIB_SOURCE_DIR}/.NoDartCoverage 
+${UTKZLIB_BINARY_DIR}/.NoDartCoverage)
 
 # for windows add the .def and .rc files to the source list
 IF(WIN32)
@@ -26,6 +26,6 @@ IF(WIN32)
     
 ENDIF(WIN32)
 
-ADD_LIBRARY(vtkzlib ZLIB_SRCS)
+ADD_LIBRARY(itkzlib ZLIB_SRCS)
 
-INSTALL_TARGETS(/lib/vtk vtkzlib)
+INSTALL_TARGETS(/lib/insight itkzlib)

@@ -1,4 +1,4 @@
-PROJECT(VTKPNG)
+PROJECT(ITKPNG)
 
 # source files for png
 SOURCE_FILES(PNG_SRCS
@@ -9,8 +9,8 @@ pnggccrd.c  pngread.c   pngset.c   pngwio.c
 )
 
 CONFIGURE_FILE(
-${VTKPNG_SOURCE_DIR}/.NoDartCoverage 
-${VTKPNG_BINARY_DIR}/.NoDartCoverage)
+${ITKPNG_SOURCE_DIR}/.NoDartCoverage 
+${ITKPNG_BINARY_DIR}/.NoDartCoverage)
 
 IF(WIN32)
   IF(BUILD_SHARED_LIBS)
@@ -20,7 +20,7 @@ IF(WIN32)
   ENDIF(BUILD_SHARED_LIBS)
 ENDIF(WIN32)
 
-ADD_LIBRARY(vtkpng PNG_SRCS)
-TARGET_LINK_LIBRARIES(vtkpng vtkzlib)
+ADD_LIBRARY(itkpng PNG_SRCS)
+TARGET_LINK_LIBRARIES(itkpng itkzlib)
 
-INSTALL_TARGETS(/lib/vtk vtkpng)
+INSTALL_TARGETS(/lib/insight itkpng)
