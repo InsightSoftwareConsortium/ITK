@@ -142,6 +142,18 @@ unsigned int PNGImageIO::GetComponentSize() const
       return sizeof(unsigned char);
     case USHORT:
       return sizeof(unsigned short);
+    case CHAR:
+    case SHORT:
+    case UINT:
+    case INT:
+    case ULONG:
+    case LONG:
+    case FLOAT:
+    case DOUBLE:
+      {
+      itkErrorMacro ("Invalid type: " << m_PNGPixelType << ", only unsigned char and unsigned short are allowed.");
+      return 0;
+      }
     }
   return 1;
 }
