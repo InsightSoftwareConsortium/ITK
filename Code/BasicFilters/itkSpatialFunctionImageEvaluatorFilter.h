@@ -57,7 +57,7 @@ namespace itk
  * SpatialFunctionImageEvaluatorFilter walks an input image and evaluates
  * the function at every pixel location. Since implicit functions exist
  * in "real" space, rather than index space, the source image must be a
- * PhysicalImage.
+ * Image.
  *
  * Like its parent ImageToImageFilter, this class functions in the filtering
  * pipeline and produces a unique output image.
