@@ -154,7 +154,6 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
     innerEnd_it = nit.End();
     for (inner_it = nit.Begin(); inner_it != innerEnd_it; ++inner_it)
       {
-      unsigned int count = 0;
       if( **inner_it == m_ForegroundValue )
         {
         count++;
@@ -196,7 +195,6 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
       innerEnd_it = nit.End();
       for (inner_it = nit.Begin(); inner_it != innerEnd_it; ++inner_it)
         {
-        unsigned int count = 0;
         if( **inner_it == m_ForegroundValue )
           {
           count++;
