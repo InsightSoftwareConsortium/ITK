@@ -532,11 +532,13 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(double ElementsPerSid
 
   vnl_vector<double> MeshOriginV; MeshOriginV.resize(ImageDimension); 
   vnl_vector<double> MeshSizeV;   MeshSizeV.resize(ImageDimension); 
+  vnl_vector<double> ImageSizeV;   ImageSizeV.resize(ImageDimension); 
   vnl_vector<double> ElementsPerDimension;  ElementsPerDimension.resize(ImageDimension); 
   for (unsigned int i=0; i<ImageDimension; i++)
   { 
     MeshSizeV[i]=(double)m_ImageSize[i]/(double)m_ImageScaling[i]; // FIX ME  make more general
     MeshOriginV[i]=(double)m_ImageOrigin[i];// FIX ME make more general
+    ImageSizeV[i]=(double) m_ImageSize[i];
     ElementsPerDimension[i]=(double)ElementsPerSide;
   }
 
@@ -588,6 +590,9 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(double ElementsPerSid
   {  
     throw FEMException(__FILE__, __LINE__, "CreateMesh - wrong image or element type ");
   }
+  
+  mySolver.InitializeInterpolationGrid(ImageSizeV,MeshOriginV,MeshSizeV);
+
 }
 
 
@@ -821,40 +826,28 @@ void FEMRegistrationFilter<TReference,TTarget>::GetVectorField(SolverType& mySol
   FieldIterator m_FieldIter( m_Field, m_FieldRegion );
   m_FieldIter.GoToBegin();
   typename ImageType::IndexType rindex = m_FieldIter.GetIndex();
-  
-  Element::Pointer eltp;
 
-  m_FieldIter.GoToBegin();
+  if (ImageDimension == 2){
+  Element::ConstPointer eltp;
+
+
   for( ; !m_FieldIter.IsAtEnd(); ++m_FieldIter )
   {
     VectorType disp;  
 // get element pointer from the solver elt pointer image
     
     rindex = m_FieldIter.GetIndex();
-//    eltp=GetElementAtPoint(VectorType pt)
-    
+    for(unsigned int d=0; d<ImageDimension; d++)
+    {
+      Gpt[d]=(double)rindex[d]/(double)m_ImageScaling[d];
+    }
+    eltp=mySolver.GetElementAtPoint(Gpt);
+    eltp->GetLocalFromGlobalCoordinates(Gpt, Pos);
+   
     unsigned int Nnodes= eltp->GetNumberOfNodes();
     typename Element::VectorType shapef(Nnodes);
-
-    if (ImageDimension == 3) {
-Float r,s,t;
-#define FASTHEX
-#ifdef FASTHEX
-//FIXME temporarily using hexahedron shape f for speed
-  shapef[0] = (1 - r) * (1 - s) * (1 - t) * 0.125;
-  shapef[1] = (1 + r) * (1 - s) * (1 - t) * 0.125;
-  shapef[2] = (1 + r) * (1 + s) * (1 - t) * 0.125;
-  shapef[3] = (1 - r) * (1 + s) * (1 - t) * 0.125;
-  shapef[4] = (1 - r) * (1 - s) * (1 + t) * 0.125;
-  shapef[5] = (1 + r) * (1 - s) * (1 + t) * 0.125;
-  shapef[6] = (1 + r) * (1 + s) * (1 + t) * 0.125;
-  shapef[7] = (1 - r) * (1 + s) * (1 + t) * 0.125;
-#else
-        shapef = eltp->ShapeFunctions(Pos);
-#endif
-    } else shapef = eltp->ShapeFunctions(Pos);
+    shapef = eltp->ShapeFunctions(Pos);
     Float solval;
-    bool inimage=true;
     for(unsigned int f=0; f<ImageDimension; f++)
     {
       solval=0.0;
@@ -863,56 +856,15 @@ Float r,s,t;
         solval+=shapef[n] * mySolver.GetLS()->GetSolutionValue( eltp->GetNode(n)->GetDegreeOfFreedom(f) , mySolver.TotalSolutionIndex);
       }
       Sol[f]=solval;
-
-      Float x=(Float) rindex[f];
-      long int temp;
-      if (x !=0) temp=(long int) ((x)*(Float)m_ImageScaling[f]+0.5); else temp=0;// round after scaling
-      rindex[f]=temp;
       disp[f] =(Float) 1.0*Sol[f]*((Float)m_ImageScaling[f]); 
-      if ( temp < 0 || temp > m_FieldSize[f]-1)  inimage=false;
     }
-    if (inimage) m_Field->SetPixel(rindex, disp );
+    m_Field->SetPixel(rindex, disp );
   }
+  } else if (ImageDimension==3){
 
-
-/*  
   for(  Element::ArrayType::iterator elt=el->begin(); elt!=el->end(); elt++) 
   {
   
-// this code works only for 2 and 3 dimensions !!
-  if (ImageDimension == 2) 
-  {
-    for (double r=-1.0; r <= 1.; r=r+ 2./(1.0* (double)m_ImageSize[0]/(double)m_MeshElementsPerDimensionAtEachResolution[m_CurrentLevel]) ){
-    for (double s=-1.0; s <= 1.; s=s+ 2./(1.0* (double)m_ImageSize[1]/(double)m_MeshElementsPerDimensionAtEachResolution[m_CurrentLevel]) )
-    {
-      Pos[0]=r; 
-      Pos[1]=s;
-
-//      for(  Element::ArrayType::iterator elt=el->begin(); elt!=el->end(); elt++) 
-//      {
-        VectorType disp; 
-        unsigned int Nnodes= (*elt)->GetNumberOfNodes();
-        typename Element::VectorType shapef(Nnodes);
-
-        Gpt=(*elt)->GetGlobalFromLocalCoordinates(Pos);
-        Sol=(*elt)->InterpolateSolution(Pos,*(mySolver.GetLS()),mySolver.TotalSolutionIndex); // for total solution index
-         
-        bool inimage=true;
-        for (unsigned int ii=0; ii < ImageDimension; ii++)
-        { 
-          Float x=Gpt[ii];
-          long int temp;
-          if (x !=0.0) temp=(long int) ((x)*(Float)m_ImageScaling[ii]+0.5);// BUG FIX ME
-          else temp=0;
-          rindex[ii]=temp;
-          disp[ii] =(Float) 1.0*Sol[ii]*((Float)m_ImageScaling[ii]);
-          if ( temp < 0 || temp > m_FieldSize[ii]-1)  inimage=false;
-        }
-     
-        if (inimage) m_Field->SetPixel(rindex, disp );
-    //} //other elt for
-    }} // end for r,s loop
-  } else if (ImageDimension==3){
     Float rstep=2.0*(double)m_MeshElementsPerDimensionAtEachResolution[m_CurrentLevel]/(double)m_ImageSize[0];
     Float sstep=2.0*(double)m_MeshElementsPerDimensionAtEachResolution[m_CurrentLevel]/(double)m_ImageSize[1];
     Float tstep=2.0*(double)m_MeshElementsPerDimensionAtEachResolution[m_CurrentLevel]/(double)m_ImageSize[2];
@@ -970,7 +922,6 @@ Float r,s,t;
 
 //  }//end of other elt loop
   }}}//end of for loops
-  } // end of if image dim
   } // end of elt array loop
   // Insure that the values are exact at the nodes. They won't necessarily be unless we use this code.
   /*Node::ArrayType* nodes = &(mySolver.node);
@@ -989,6 +940,7 @@ Float r,s,t;
     }
     m_Field->SetPixel(rindex, SolutionAtNode );
   }*/
+  }
 }
 
 
