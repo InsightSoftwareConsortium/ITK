@@ -74,12 +74,12 @@ FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::GenerateData( void )
 {
 
-  ImageRegion region = m_OutputImage->GetRequestedRegion();
+  ImageRegion region = this->m_OutputImage->GetRequestedRegion();
 
-  Image1Iterator it1(m_Image1, region );
-  Image2Iterator it2(m_Image2, region );
+  Image1Iterator it1( this->m_Image1, region );
+  Image2Iterator it2( this->m_Image2, region );
 
-  ImageOutputIterator ot(m_OutputImage, region );
+  ImageOutputIterator ot( this->m_OutputImage, region );
 
   it1.Begin();
   it2.Begin();
