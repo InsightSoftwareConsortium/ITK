@@ -60,7 +60,7 @@ int main( int argc, char * argv [] )
   
 // Software Guide : BeginCodeSnippet
   typedef signed short       PixelType;
-  const unsigned int          Dimension = 3;
+  const unsigned int          Dimension = 2;
 
   typedef itk::Image<PixelType, Dimension > ImageType;
 
