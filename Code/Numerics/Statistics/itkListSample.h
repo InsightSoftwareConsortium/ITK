@@ -61,6 +61,7 @@ public:
   typedef typename Superclass::MeasurementType MeasurementType;
   typedef typename Superclass::FrequencyType FrequencyType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
+
   typedef MeasurementVectorType ValueType ;
 
   /** VMeasurementVectorSize template argument alias */
@@ -77,8 +78,12 @@ public:
   void Resize( unsigned int n ) 
   { m_InternalContainer.resize(n) ; }
 
+  /** Removes all the elements */
+  void Clear() 
+  { m_InternalContainer.clear() ; }
+
   /** inserts a new element at the end */
-  void PushBack( MeasurementVectorType &mv )
+  void PushBack( MeasurementVectorType mv )
   { m_InternalContainer.push_back( mv ) ; }
 
   /** returns the number of measurement vectors in this container*/
@@ -164,11 +169,11 @@ public:
     bool operator==(const Iterator &it)
     { return (m_Iter == it.m_Iter) ;}
     
-    Iterator& operator = (const Iterator &iter)
+    Iterator& operator = (const Iterator iter)
     { 
       m_Iter = iter.m_Iter; 
       m_InstanceIdentifier = iter.m_InstanceIdentifier ;
-      return iter ;
+      return *this ;
     }
 
     Iterator(const Iterator &iter)
