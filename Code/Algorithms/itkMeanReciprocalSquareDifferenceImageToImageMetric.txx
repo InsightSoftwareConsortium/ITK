@@ -31,6 +31,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 ::MeanReciprocalSquareDifferenceImageToImageMetric()
 {
   m_Lambda = 1.0;
+  m_Delta  = 0.00011;
 }
 
 
@@ -44,6 +45,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 {
   Superclass::PrintSelf( os, indent );
   os << "Lambda factor = " << m_Lambda << std::endl;
+  os << "Delta  value  = " << m_Delta  << std::endl;
 }
 
 /*
@@ -133,7 +135,6 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
                  DerivativeType & derivative           ) const
 {
 
-  const double delta = 0.00011;
   TransformParametersType testPoint;
   testPoint = parameters;
 
@@ -142,11 +143,11 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
   for( unsigned int i=0; i<numberOfParameters; i++) 
     {
-    testPoint[i] -= delta;
+    testPoint[i] -= m_Delta;
     const MeasureType valuep0 = this->GetValue( testPoint );
-    testPoint[i] += 2*delta;
+    testPoint[i] += 2 * m_Delta;
     const MeasureType valuep1 = this->GetValue( testPoint );
-    derivative[i] = (valuep1 - valuep0 ) / ( 2 * delta );
+    derivative[i] = (valuep1 - valuep0 ) / ( 2 * m_Delta );
     testPoint[i] = parameters[i];
     }
 

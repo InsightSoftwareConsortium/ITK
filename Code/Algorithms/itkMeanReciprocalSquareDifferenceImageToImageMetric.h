@@ -92,6 +92,11 @@ public:
   itkGetMacro( Lambda, double );
   itkSetMacro( Lambda, double );
 
+  /** Set/Get Delta value. This value is used as the differential in the
+   * computation of the metric derivative using the finite differences method. */
+  itkGetMacro( Delta, double );
+  itkSetMacro( Delta, double );
+
 
 protected:
   MeanReciprocalSquareDifferenceImageToImageMetric();
@@ -104,6 +109,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   double m_Lambda;
+  double m_Delta;
 };
 
 } // end namespace itk
