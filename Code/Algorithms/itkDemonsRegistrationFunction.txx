@@ -163,7 +163,11 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     }
   else
     {
-    movingValue = 0.0;
+    for( j = 0; j < ImageDimension; j++ )
+      {
+      update[j] = 0.0;
+      }
+    return update;
     }
 
   /**
