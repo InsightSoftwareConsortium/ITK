@@ -66,7 +66,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Transformation<TScalarType,NDimensions> Superclass;
+  typedef Object Superclass;
 
   /**
    * Smart pointer typedef support
@@ -92,7 +92,7 @@ public:
   /**
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(CenteredAffineRegistrationTransform, Transform);
+  itkTypeMacro(CenteredAffineRegistrationTransform, Object);
 
   /**
    * Type of the Jacobian matrix
