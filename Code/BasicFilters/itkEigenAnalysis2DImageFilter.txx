@@ -176,6 +176,8 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 
 
 
+
+
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage>
 void
 EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
@@ -198,17 +200,9 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
   EigenValueImagePointer   outputPtr2 = this->GetMinEigenValue();
   EigenVectorImagePointer  outputPtr3 = this->GetMaxEigenVector();
 
-  outputPtr1->SetLargestPossibleRegion( inputPtr1->GetLargestPossibleRegion() );
-  outputPtr2->SetLargestPossibleRegion( inputPtr1->GetLargestPossibleRegion() );
-  outputPtr3->SetLargestPossibleRegion( inputPtr1->GetLargestPossibleRegion() );
-      
   outputPtr1->SetBufferedRegion( inputPtr1->GetBufferedRegion() );
   outputPtr2->SetBufferedRegion( inputPtr1->GetBufferedRegion() );
   outputPtr3->SetBufferedRegion( inputPtr1->GetBufferedRegion() );
-      
-  outputPtr1->SetRequestedRegion( inputPtr1->GetRequestedRegion() );
-  outputPtr2->SetRequestedRegion( inputPtr1->GetRequestedRegion() );
-  outputPtr3->SetRequestedRegion( inputPtr1->GetRequestedRegion() );
       
   outputPtr1->Allocate();
   outputPtr2->Allocate();
