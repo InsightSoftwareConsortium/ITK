@@ -24,7 +24,7 @@
 #include "itkVector.h"
 #include "itkTriangleCell.h"
 #include "itkImage.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIterator.h"
 
 namespace itk
 {
@@ -93,14 +93,14 @@ public:
       OutputPointsContainerIterator;
 
   /** Image types. */
-  typedef Image<unsigned short, 3>  ImageType;
-  typedef typename InputMeshType::Pointer  InputMeshPointer;
-  typedef typename OutputMeshType::Pointer  OutputMeshPointer;
-  typedef typename ImageType::Pointer   ImagePointer;
-  typedef typename ImageType::IndexType   IndexType;
-  typedef SimpleImageRegionIterator<ImageType> ImageIterator;
-  typedef Vector<float, 3>       FloatVector;
-  typedef Vector<int, 3>       IntVector;
+  typedef Image<unsigned short, 3>            ImageType;
+  typedef typename InputMeshType::Pointer     InputMeshPointer;
+  typedef typename OutputMeshType::Pointer    OutputMeshPointer;
+  typedef typename ImageType::Pointer         ImagePointer;
+  typedef typename ImageType::IndexType       IndexType;
+  typedef ImageRegionIterator<ImageType>      ImageIterator;
+  typedef Vector<float, 3>                    FloatVector;
+  typedef Vector<int, 3>                      IntVector;
 
   /** Cell related types. */
   typedef typename InputMeshType::Cell        Cell;

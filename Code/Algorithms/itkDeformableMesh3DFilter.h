@@ -24,7 +24,7 @@
 #include "itkVector.h"
 #include "itkTriangleCell.h"
 #include "itkImage.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIterator.h"
 #include <itkCovariantVector.h>
 
 namespace itk
@@ -102,7 +102,7 @@ public:
   /** Image and Image iterator definition. */
   typedef CovariantVector<PixelType, 3>                GradientType;
   typedef Image<GradientType, 3>                       GradientImageType;
-  typedef SimpleImageRegionIterator<GradientImageType> GradientIterator;
+  typedef ImageRegionIterator<GradientImageType>       GradientIterator;
   typedef typename GradientImageType::SizeType         ImageSizeType;
   typedef typename GradientImageType::IndexType        ImageIndexType;
   typedef CovariantVector<int, 3>                      int3DVector;
