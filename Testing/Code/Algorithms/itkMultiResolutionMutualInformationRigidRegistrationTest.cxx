@@ -44,8 +44,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <iostream>
 
+#include "itkMultiThreader.h"
+
 int main()
 {
+
+std::cout << "GlobalDefault: ";
+std::cout << itk::MultiThreader::GetGlobalDefaultNumberOfThreads();
+std::cout << std::endl;
 
 //------------------------------------------------------------
 // Create two simple images
