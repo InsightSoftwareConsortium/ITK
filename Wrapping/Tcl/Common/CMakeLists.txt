@@ -1,4 +1,4 @@
-INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Wrapping/Tcl/Numerics)
+INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Wrapping/Tcl/Common)
 
 ADD_LIBRARY(ITKCommonTcl
   itkTclCommand.cxx
