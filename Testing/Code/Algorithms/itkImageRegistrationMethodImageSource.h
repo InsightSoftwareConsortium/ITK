@@ -57,18 +57,18 @@ public:
 
 
 
-MovingImageType::ConstPointer GetMovingImage(void) const
+typename MovingImageType::ConstPointer GetMovingImage(void) const
   {
   return m_MovingImage.GetPointer();
   }
 
-FixedImageType::ConstPointer GetFixedImage(void) const
+typename FixedImageType::ConstPointer GetFixedImage(void) const
   {
   return m_FixedImage.GetPointer();
   }
 
 
-void GenerateImages( const MovingImageType::SizeType & size )
+void GenerateImages( const typename MovingImageType::SizeType & size )
 {
   MovingImageType::IndexType index = MovingImageType::IndexType::ZeroIndex;
   MovingImageType::RegionType region;
@@ -149,8 +149,8 @@ ImageRegistrationMethodImageSource()
 
 private:
   
-  FixedImageType::Pointer     m_FixedImage;
-  MovingImageType::Pointer    m_MovingImage;
+  typename FixedImageType::Pointer     m_FixedImage;
+  typename MovingImageType::Pointer    m_MovingImage;
 
 };
 
