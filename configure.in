@@ -446,7 +446,6 @@ if test $ac_cv_prog_gxx = no; then
     echo "$ac_t""no" 1>&6
   fi
 fi
-
 # check to see if stl is in the std namespace
 if test $ac_cv_prog_gxx = no; then
   echo "******"
@@ -463,6 +462,9 @@ void foo() { std::list<int> l; }
     echo "$ac_t""no" 1>&6
   fi
 fi
+fullSrcDir=`cd $srcdir; pwd`
+CMAKE_ROOT_DIR=$fullSrcDir/CMake
+AC_SUBST(CMAKE_ROOT_DIR)
 
 
 if test "$CC" = "gcc" -o `$CC -v 2>&1 | grep -c gcc` != "0" ; then
