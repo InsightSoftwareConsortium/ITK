@@ -31,8 +31,8 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   unsigned int i;
   int p,q,m;
 
-  unsigned short eq_tab[65535];
-  unsigned char flags[65535];
+  unsigned short *eq_tab = new unsigned short[NumericTraits<unsigned short>::max()];
+  unsigned char *flags = new unsigned char[NumericTraits<unsigned short>::max()];
   OutputPixelType    label,max_label = 0;
   IndexType          index,current;
   SizeType           size;
@@ -142,6 +142,8 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
     for(;!ot.IsAtEnd(); ++ot)
       ot.Set(flags[ot.Get()]);
 
+  delete [] eq_tab;
+  delete [] flags;
 }
 
 } // end namespace itk
