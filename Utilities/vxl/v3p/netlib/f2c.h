@@ -185,17 +185,17 @@ typedef shortlogical (*K_fp)(...);
 typedef /* Character */ VOID (*H_fp)(...);
 typedef /* Subroutine */ int (*S_fp)(...);
 #else
-typedef int /* Unknown procedure type */ (*U_fp)();
-typedef shortint (*J_fp)();
-typedef integer (*I_fp)();
-typedef real (*R_fp)();
-typedef doublereal (*D_fp)(), (*E_fp)();
-typedef /* Complex */ VOID (*C_fp)();
-typedef /* Double Complex */ VOID (*Z_fp)();
-typedef logical (*L_fp)();
-typedef shortlogical (*K_fp)();
-typedef /* Character */ VOID (*H_fp)();
-typedef /* Subroutine */ int (*S_fp)();
+typedef int /* Unknown procedure type */ (*U_fp)(void);
+typedef shortint (*J_fp)(void);
+typedef integer (*I_fp)(void);
+typedef real (*R_fp)(void);
+typedef doublereal (*D_fp)(void), (*E_fp)(void);
+typedef /* Complex */ VOID (*C_fp)(void);
+typedef /* Double Complex */ VOID (*Z_fp)(void);
+typedef logical (*L_fp)(void);
+typedef shortlogical (*K_fp)(void);
+typedef /* Character */ VOID (*H_fp)(void);
+typedef /* Subroutine */ int (*S_fp)(void);
 #endif
 /* E_fp is for real functions when -R is not specified */
 typedef VOID C_f;       /* complex function */
