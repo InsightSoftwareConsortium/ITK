@@ -88,6 +88,8 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
   // Assign region label
   this->SetRegionLabel( label );
 
+  //Indicate that the region has been modified
+  this->Modified();
 
 }//end Set Region
 
@@ -143,6 +145,9 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
       }//end else
     }//end else
 
+    //Indicate that the region border has been modified
+    this->Modified();
+
 }//end SetRegionBorder
 
 //----------------------------------------------------------------------
@@ -191,6 +196,9 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
     m_RegionBorderVec.push_back( pnewRegionBorder );
 
     }//end else
+
+  //Indicate that the region border has been modified
+  this->Modified();
 
 }//end SetRegionBorder3d
 
