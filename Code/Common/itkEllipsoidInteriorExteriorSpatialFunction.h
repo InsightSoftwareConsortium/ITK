@@ -115,7 +115,7 @@ private:
   InputType m_Axes;
 
   /** The orientation vectors (must be orthogonal) of the ellipsoid axes. */  
-  VectorType ** m_orientations;
+  VectorType ** m_Orientations;
 };
 
 } // end namespace itk
