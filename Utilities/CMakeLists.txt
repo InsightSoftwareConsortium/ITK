@@ -14,6 +14,7 @@ ITK_THIRD_PARTY_SUBDIR(TIFF tiff)
 #------------------------------------------------------------------------------
 # Other utilities libraries
 SUBDIRS(MetaIO)
+SUBDIRS(NrrdIO)
 SUBDIRS(expat)
 
 #------------------------------------------------------------------------------
