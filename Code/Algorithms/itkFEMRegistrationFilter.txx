@@ -2159,13 +2159,13 @@ PrintSelf(std::ostream& os, Indent indent) const
     {
     os << indent << "Load = " << "(None)" << std::endl;
     }
-  if (m_Iterpolator)
+  if (m_Interpolator)
     {
-    os << indent << "Iterpolator = " << m_Iterpolator;
+    os << indent << "Interpolator = " << m_Interpolator;
     }
   else
     {
-    os << indent << "Iterpolator = " << "(None)" << std::endl;
+    os << indent << "Interpolator = " << "(None)" << std::endl;
     }
 }
 
