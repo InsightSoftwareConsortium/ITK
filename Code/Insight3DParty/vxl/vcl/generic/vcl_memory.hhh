@@ -1,0 +1,9 @@
+// [20.4] lib.memory
+@allocator
+@raw_storage_iterator
+@get_temporary_buffer
+@return_temporary_buffer
+@uninitialized_copy
+@uninitialized_fill
+@uninitialized_fill_n
+@auto_ptr

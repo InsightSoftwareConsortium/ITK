@@ -1,0 +1,5 @@
+#setenv CC 'gcc'
+#setenv CXX 'KCC'
+setenv CXXFLAGS '-KPIC -g'
+setenv TXXFLAGS '-KPIC -g'
+$IUEROOT/vcl/configure --cache-file=/dev/null

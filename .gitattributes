@@ -1,6 +1,10 @@
 .git*            export-ignore
 
+*.dsp           -crlf
 *.pdf           -crlf
+*.sh             crlf=input
 Configure.tcl.in  crlf=input
 configure        crlf=input
 install-sh       crlf=input
+time_fastops.mk  crlf=input
+zap.pl           crlf=input

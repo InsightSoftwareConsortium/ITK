@@ -1,0 +1,5 @@
+
+This library contains various routines grabbed from netlib and other places.  In
+general the C files are direct translations of the FORTRAN, so the .f should be
+edited if improvements are required or mods are to be made.
+

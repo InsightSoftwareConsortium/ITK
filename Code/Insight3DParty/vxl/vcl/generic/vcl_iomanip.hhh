@@ -1,0 +1,6 @@
+@resetiosflags
+@setiosflags
+@setbase
+@setfill
+@setprecision
+@setw

@@ -1,0 +1,22 @@
+@cin
+@cout
+@cerr
+@clog
+// the following are not actually in the
+// <iostream> synopsis:
+@ios
+@ios::in
+@ios::out
+@ios::ate
+@ios::app
+@ios::trunc
+@ios::binary
+@hex
+@dec
+@ws
+@setprecision
+@endl
+@flush
+@streampos
+@streambuf
+@streamsize
