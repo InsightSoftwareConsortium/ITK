@@ -102,11 +102,12 @@ optimizer.SetNumberOfIterations( 200 )
 #
 def iterationUpdate():
     currentParameter = transform.GetParameters()
-    print "%f %f %f %f %f " % ( currentParameter.GetElement(0),
-                                currentParameter.GetElement(1),
-                                currentParameter.GetElement(2),
-                                currentParameter.GetElement(3),
-                                currentParameter.GetElement(4) )
+    print "M: %f   P: %f %f %f %f %f " % ( optimizer.GetValue(),
+                                 currentParameter.GetElement(0),
+                                 currentParameter.GetElement(1),
+                                 currentParameter.GetElement(2),
+                                 currentParameter.GetElement(3),
+                                 currentParameter.GetElement(4) )
  
 iterationCommand = itkPyCommand_New()
 iterationCommand.SetCommandCallable( iterationUpdate )
