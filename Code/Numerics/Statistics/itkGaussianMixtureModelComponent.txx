@@ -29,6 +29,7 @@ template< class TSample >
 GaussianMixtureModelComponent< TSample >
 ::GaussianMixtureModelComponent()
 {
+  m_Mean.Fill(NumericTraits< double >::min()) ;
   m_MeanEstimator = MeanEstimatorType::New() ;
   m_CovarianceEstimator = CovarianceEstimatorType::New() ;
   m_CovarianceEstimator->SetMean(&m_Mean) ;

@@ -29,6 +29,7 @@ WeightedCovarianceCalculator< TSample >
   m_Output = new OutputType() ;
   m_WeightFunction = 0 ;
   m_Weights = 0 ;
+  m_Mean = 0 ;
 }
 
 template< class TSample >

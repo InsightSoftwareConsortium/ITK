@@ -26,6 +26,7 @@ template < class TMeasurementVector >
 GaussianDensityFunction< TMeasurementVector >
 ::GaussianDensityFunction()
 {
+  m_Mean = 0 ;
 }
 
 template < class TMeasurementVector >
