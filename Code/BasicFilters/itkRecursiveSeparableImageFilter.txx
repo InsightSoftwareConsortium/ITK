@@ -328,7 +328,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
       this->UpdateProgress( progress );
       if( this->GetAbortGenerateData() )
         {
-        throw ProcessAborted();
+        throw ProcessAborted(__FILE__,__LINE__);
         }
       }
     }

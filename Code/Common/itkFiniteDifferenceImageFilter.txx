@@ -79,6 +79,10 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
     // Invoke the iteration event.
     this->InvokeEvent( IterationEvent() );
     this->InvokeEvent( ProgressEvent() );
+    if( this->GetAbortGenerateData() )
+      {
+      throw ProcessAborted(__FILE__,__LINE__);
+      }
     }
 
   // Any further processing of the solution can be done here.
