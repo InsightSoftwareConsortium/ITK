@@ -189,7 +189,7 @@ ImageRegion<VImageDimension>
       }
     }
 
-  return ImageRegion<SliceDimension>(sliceIndex, sliceRegion);
+  return ImageRegion<SliceDimension>(sliceIndex, sliceSize);
 }
 
 
