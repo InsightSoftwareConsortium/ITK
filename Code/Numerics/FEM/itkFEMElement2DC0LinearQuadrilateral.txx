@@ -33,8 +33,8 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 {
   // FIXME: range checking
 
-  // default integration order=2
-  if (order==0) { order=2; }
+  // default integration order
+  if (order==0) { order=DefaultIntegrationOrder; }
 
   pt.resize(2);
 
@@ -55,8 +55,8 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 {
   // FIXME: range checking
 
-  // default integration order=2
-  if (order==0) { order=2; }
+  // default integration order
+  if (order==0) { order=DefaultIntegrationOrder; }
 
   return order*order;
 }

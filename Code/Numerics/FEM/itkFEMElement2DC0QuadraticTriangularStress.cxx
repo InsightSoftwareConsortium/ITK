@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement2DC0LinearQuadrilateralStress.cxx
+  Module:    itkFEMElement2DC0QuadraticTriangularStress.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -20,26 +20,23 @@
 #pragma warning(disable: 4786)
 #endif
 
-#include "itkFEMElement2DC0LinearQuadrilateralStress.h"
-#include "itkFEMUtility.h"
+#include "itkFEMElement2DC0QuadraticTriangularStress.h"
 
 namespace itk {
 namespace fem {
 
 
+Element2DC0QuadraticTriangularStress
+::Element2DC0QuadraticTriangularStress() : Superclass() {}
 
-
-Element2DC0LinearQuadrilateralStress
-::Element2DC0LinearQuadrilateralStress() : Superclass()
-{
-}
-
-Element2DC0LinearQuadrilateralStress
-::Element2DC0LinearQuadrilateralStress(
+Element2DC0QuadraticTriangularStress
+::Element2DC0QuadraticTriangularStress(
       NodeIDType n1_,
       NodeIDType n2_,
       NodeIDType n3_,
       NodeIDType n4_,
+      NodeIDType n5_,
+      NodeIDType n6_,
       Material::ConstPointer m_) : Superclass()
 {
   // Set the geometrical points
@@ -47,6 +44,8 @@ Element2DC0LinearQuadrilateralStress
   this->SetNode( 1, n2_ );
   this->SetNode( 2, n3_ );
   this->SetNode( 3, n4_ );
+  this->SetNode( 4, n5_ );
+  this->SetNode( 5, n6_ );
 
   /*
    * Initialize the pointer to material object and check that
@@ -55,14 +54,14 @@ Element2DC0LinearQuadrilateralStress
    */
   if( (m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*m_)) == 0 )
   {
-    throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element2DC0LinearQuadrilateralStress::Element2DC0LinearQuadrilateralStress()");
+    throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element2DC0QuadraticTriangularStress::Element2DC0QuadraticTriangularStress()");
   }
 }
 
 
 
 
-FEM_CLASS_REGISTER(Element2DC0LinearQuadrilateralStress)
+FEM_CLASS_REGISTER(Element2DC0QuadraticTriangularStress)
 
 
 

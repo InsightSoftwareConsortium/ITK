@@ -36,6 +36,7 @@
 #include "itkFEMElementHexahedronC03D.h"
 #include "itkFEMElementTetrahedronC03D.h"
 
+#include "itkFEMElement2DC0LinearTriangularStress.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStress.h"
 #include "itkFEMElement3DC0LinearTetrahedronStrain.h"
 #include "itkFEMElement3DC0LinearHexahedronStrain.h"
@@ -129,6 +130,9 @@ void LoadImplementationsRegister(void)
 
   // Loads acting on QuadrilateralStress element
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,LoadGravConst,GenericBodyLoad<Element2DC0LinearQuadrilateralStress>::HandleBodyLoad);
+
+  // Loads acting on TriangularStress element
+  REGISTER_LOAD_EX(Element2DC0LinearTriangularStress,LoadGravConst,GenericBodyLoad<Element2DC0LinearTriangularStress>::HandleBodyLoad);
 
   // Loads acting on HexahedronStrain element
   REGISTER_LOAD_EX(Element3DC0LinearHexahedronStrain,LoadGravConst,GenericBodyLoad<Element3DC0LinearHexahedronStrain>::HandleBodyLoad);

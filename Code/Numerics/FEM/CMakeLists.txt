@@ -30,12 +30,10 @@ SOURCE_FILES(FEM_SRCS
   itkFEMElementHexahedronC03D.cxx
   itkFEMElementC1IsoCurve2D.cxx
 
-  itkFEMElementStd.txx
-  itkFEMElement2DC0LinearQuadrilateral.txx
   itkFEMElement2DC0LinearQuadrilateralStress.cxx
-  itkFEMElement3DC0LinearHexahedron.txx
+  itkFEMElement2DC0LinearTriangularStress.cxx
+  itkFEMElement2DC0QuadraticTriangularStress.cxx
   itkFEMElement3DC0LinearHexahedronStrain.cxx  
-  itkFEMElement3DC0LinearTetrahedron.txx
   itkFEMElement3DC0LinearTetrahedronStrain.cxx  
 
   itkFEMMaterialBase.cxx
@@ -50,8 +48,6 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadGrav.cxx
   itkFEMLoadEdge.cxx
   itkFEMLoadPoint.cxx
-  itkFEMLoadImagePairBase.txx
-  itkFEMLoadImageMetric.txx
  
   itkFEMLoadImplementationsRegister.cxx
   itkFEMLoadImplementationGravBar2D.cxx
@@ -116,12 +112,26 @@ SOURCE_FILES(FEM_SRCS
   itkFEMElementHexahedronC03D.h
   itkFEMElementC1IsoCurve2D.h
 
+  itkFEMElement2DStress.h
   itkFEMElement2DC0LinearQuadrilateral.h
   itkFEMElement2DC0LinearQuadrilateralStress.h
+  itkFEMElement2DC0LinearTriangular.h
+  itkFEMElement2DC0LinearTriangularStress.h
+  itkFEMElement2DC0QuadraticTriangular.h
+  itkFEMElement2DC0QuadraticTriangularStress.h
   itkFEMElement3DC0LinearHexahedron.h
   itkFEMElement3DC0LinearHexahedronStrain.h  
   itkFEMElement3DC0LinearTetrahedron.h
   itkFEMElement3DC0LinearTetrahedronStrain.h  
+
+  itkFEMElementStd.txx
+  itkFEMElement2DStress.txx
+  itkFEMElement2DC0LinearQuadrilateral.txx
+  itkFEMElement2DC0LinearTriangular.txx
+  itkFEMElement2DC0QuadraticTriangular.txx
+  itkFEMElement3DC0LinearHexahedron.txx
+  itkFEMElement3DC0LinearTetrahedron.txx
+
 
   itkFEMMaterials.h
   itkFEMMaterialBase.h
@@ -166,6 +176,9 @@ SOURCE_FILES(FEM_SRCS
   itkFEMInitialization.h
 
   itkVisitorDispatcher.h
+
+  itkFEMLoadImagePairBase.txx
+  itkFEMLoadImageMetric.txx
 
   ReadMe.txt
   ToDo.txt

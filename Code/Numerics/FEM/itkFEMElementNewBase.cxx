@@ -298,7 +298,7 @@ ElementNew::Jacobian( const VectorType& pt, MatrixType& J, const MatrixType* psh
   }
 
   const unsigned int Nn=pshapeD->columns();
-  const unsigned int Ndims=pshapeD->rows();
+  const unsigned int Ndims=this->GetNumberOfSpatialDimensions();
 
   MatrixType coords(Nn, Ndims);
 

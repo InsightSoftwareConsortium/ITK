@@ -31,5 +31,7 @@
 #include "itkFEMElementHexahedronC03D.h"
 #include "itkFEMElementTetrahedronC03D.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStress.h"
+#include "itkFEMElement2DC0LinearTriangularStress.h"
 #include "itkFEMElement3DC0LinearHexahedronStrain.h"
 #include "itkFEMElement3DC0LinearTetrahedronStrain.h"
+#include "itkFEMElement2DC0QuadraticTriangularStress.h"

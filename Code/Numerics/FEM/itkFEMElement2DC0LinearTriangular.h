@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement2DC0LinearQuadrilateral.h
+  Module:    itkFEMElement2DC0LinearTriangular.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __itkFEMElement2DC0LinearQuadrilateral_h
-#define __itkFEMElement2DC0LinearQuadrilateral_h
+#ifndef __itkFEMElement2DC0LinearTriangular_h
+#define __itkFEMElement2DC0LinearTriangular_h
 
 #include "itkFEMElementStd.h"
 
@@ -27,18 +27,18 @@ namespace fem {
 
 
 /**
- * \class Element2DC0LinearQuadrilateral
- * \brief 4-noded, linear, C0 continuous finite element in 2D space.
+ * \class Element2DC0LinearTriangular
+ * \brief 3-noded, linear, C0 continuous finite element in 2D space.
  *
  * This class is templated over number of unknowns per point. This
  * constant must be defined in derived classes, when the physics of
  * the problem is known.
  */
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-class Element2DC0LinearQuadrilateral : public ElementStd<4,VNumberOfDegreesOfFreedomPerNode,2>
+class Element2DC0LinearTriangular : public ElementStd<3,VNumberOfDegreesOfFreedomPerNode,2>
 {
-typedef ElementStd<4,VNumberOfDegreesOfFreedomPerNode,2> TemplatedParentClass;
-FEM_ABSTRACT_CLASS( Element2DC0LinearQuadrilateral, TemplatedParentClass )
+typedef ElementStd<3,VNumberOfDegreesOfFreedomPerNode,2> TemplatedParentClass;
+FEM_ABSTRACT_CLASS( Element2DC0LinearTriangular, TemplatedParentClass )
 public:
 
 
@@ -61,7 +61,7 @@ public:
    * Methods related to numeric integration
    */
 
-  enum { DefaultIntegrationOrder = 2 };
+  enum { DefaultIntegrationOrder = 1 };
 
   virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const;
 
@@ -78,7 +78,13 @@ public:
 
   virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
 
-  virtual VectorType GetLocalFromGlobalCoordinates( const VectorType& pt ) const;
+  // FIXME: Write a proper implementation
+  virtual VectorType GetLocalFromGlobalCoordinates( const VectorType& pt ) const { throw; return VectorType(); }
+
+  // Since the Jacobian is not quadratic, we need to provide our
+  // own implementation of calculating the determinant and inverse.
+  virtual Float JacobianDeterminant( const VectorType& pt, const MatrixType* pJ = 0 ) const;
+  virtual void JacobianInverse( const VectorType& pt, MatrixType& invJ, const MatrixType* pJ = 0 ) const;
 
   /**
    * Draw the element on the specified device context
@@ -87,6 +93,17 @@ public:
   void Draw(CDC* pDC, Solution::ConstPointer sol) const;
 #endif
 
+private:
+  /**
+   * Constants for integration rules.
+   */
+  static const Float trigGaussRuleInfo[6][7][4];
+
+  /**
+   * Array that holds number of integration point for each order
+   * of numerical integration.
+   */
+  static const unsigned int Nip[6];
 
 };
 
@@ -104,7 +121,7 @@ static void Dummy( void );
 }} // end namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMElement2DC0LinearQuadrilateral.txx"
+#include "itkFEMElement2DC0LinearTriangular.txx"
 #endif
 
-#endif  // #ifndef __itkFEMElement2DC0LinearQuadrilateral_h
+#endif  // #ifndef __itkFEMElement2DC0LinearTriangular_h
