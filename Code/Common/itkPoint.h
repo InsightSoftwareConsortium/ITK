@@ -13,17 +13,20 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * Point simply represents the geometric coordinates of one point in
- * N-dimensional space.
- */
-
 #ifndef __itkPoint_h
 #define __itkPoint_h
 
 #include "itkMacro.h"
 
 ITK_NAMESPACE_BEGIN
+
+/** \class Point
+ * \brief Represent the coordinates of a point in n-dimensional space.
+ *
+ * Point simply represents the geometric coordinates of one point in
+ * N-dimensional space. Point is used by various types of containers
+ * (e.g., VectorContainer) to represent the points in a mesh or cell.
+ */
 
 /**
  * Template parameters for Point:
@@ -36,7 +39,7 @@ ITK_NAMESPACE_BEGIN
 
 template <
   int VPointDimension,
-  typename TCoordRep = double
+  typename TCoordRep = float
   >
 class Point
 {
@@ -55,13 +58,12 @@ public:
   Point();
   Point(CoordRep coords[PointDimension]);
   
-  
   /**
    * Allow run-time point dimension access.
    */
   int GetPointDimension(void) const
     {
-      return PointDimension;
+    return PointDimension;
     }
   
   /**
@@ -69,7 +71,9 @@ public:
    */
   void SetCoords(CoordRep coords[PointDimension]);
   void GetCoords(CoordRep coords[PointDimension]) const;
-  const CoordRep* GetCoords() const { return m_Coords;} ;
+  const CoordRep* GetCoords() const 
+    { return m_Coords;} ;
+
 protected:
   /**
    * Actually store the point's geometrical information.

@@ -40,7 +40,7 @@ ITK_NAMESPACE_BEGIN
  *    Max topological dimension of a cell that can be inserted into this mesh.
  *
  * TCoordRep =
- *    Numerical type to store each coordinate value.
+ *    Numerical type with which to represent each coordinate value.
  *
  * TInterpolationWeight =
  *    Numerical type to store interpolation weights.

@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-// #include "itkPoint.h"
+#include "itkPoint.h"
 
 ITK_NAMESPACE_BEGIN
 
@@ -32,7 +32,7 @@ Point< VPointDimension , TCoordRep >
 
 
 /**
- * Constructor which takes coordinate set.
+ * Constructor which takes a coordinate set.
  */
 template <int VPointDimension, typename TCoordRep>
 Point< VPointDimension , TCoordRep >
@@ -46,7 +46,7 @@ Point< VPointDimension , TCoordRep >
 
 
 /**
- * Set coordinates of point.
+ * Set coordinates of the point.
  */
 template <int VPointDimension, typename TCoordRep>
 void
@@ -61,7 +61,7 @@ Point< VPointDimension , TCoordRep >
 
 
 /**
- * Get coordinates of point.
+ * Get coordinates of the point.
  */
 template <int VPointDimension, typename TCoordRep>
 void

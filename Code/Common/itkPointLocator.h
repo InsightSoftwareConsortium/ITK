@@ -30,6 +30,17 @@ ITK_NAMESPACE_BEGIN
  * grid, 3D volume, etc.) into which points are inserted. Each hypercube
  * (also called a bucket) contains a list of points that are contained within
  * it.
+ *
+ * Template parameters for PointLocator:
+ *
+ * TPointIdentifier =
+ *     The type used to access a particular point (i.e., a point's id)
+ *
+ * TCoordRep =
+ *     Numerical type with which to represent each coordinate value.
+ *
+ * VPointDimension =
+ *    Geometric dimension of space.
  * */
 
 template <
@@ -193,8 +204,8 @@ public:
 protected:
   PointLocator();
   ~PointLocator();
-  PointLocator(const PointLocator&) {};
-  void operator=(const PointLocator&) {};
+  PointLocator(const Self&) {}
+  void operator=(const Self&) {}
 
 #if 0
   // place points in appropriate buckets
