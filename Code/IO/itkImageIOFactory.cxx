@@ -21,6 +21,7 @@
 #include "itkPNGImageIOFactory.h"
 #include "itkVTKImageIOFactory.h"
 #include "itkMutexLock.h"
+#include "itkMutexLockHolder.h"
 
 namespace itk
 {
@@ -71,18 +72,19 @@ ImageIOFactory::RegisterBuiltInFactories()
   static bool firstTime = true;
 
   static SimpleMutexLock mutex;
-  mutex.Lock();
-
-  if( firstTime )
-    {
-    ObjectFactoryBase::RegisterFactory( DicomImageIOFactory::New() ); 
-    ObjectFactoryBase::RegisterFactory( MetaImageIOFactory::New() ); 
-    ObjectFactoryBase::RegisterFactory( PNGImageIOFactory::New() ); 
-    ObjectFactoryBase::RegisterFactory( VTKImageIOFactory::New() ); 
-    firstTime = false;
-    }
-
-  mutex.Unlock();
+  {
+    // This helper class makes sure the Mutex is unlocked 
+    // in the event an exception is thrown.
+    MutexLockHolder<SimpleMutexLock> mutexHolder( mutex );
+    if( firstTime )
+      {
+      ObjectFactoryBase::RegisterFactory( DicomImageIOFactory::New() ); 
+      ObjectFactoryBase::RegisterFactory( MetaImageIOFactory::New() ); 
+      ObjectFactoryBase::RegisterFactory( PNGImageIOFactory::New() ); 
+      ObjectFactoryBase::RegisterFactory( VTKImageIOFactory::New() ); 
+      firstTime = false;
+      }
+  }
 
 }
 
