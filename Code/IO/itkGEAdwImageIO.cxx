@@ -50,7 +50,7 @@ namespace itk
 
   bool GEAdwImageIO::CanReadFile( const char* FileNameToRead )
   {
-    std::size_t imageSize;
+    size_t imageSize;
     short matrixX;
     short matrixY;
     int varHdrSize;

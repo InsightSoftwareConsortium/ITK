@@ -17,9 +17,7 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef _itkGEImageHeader_H_
 #define _itkGEImageHeader_H_
 
-#ifndef MAXPATHLEN
-#include <sys/param.h>
-#endif
+#define MAXPATHLEN 1024
 
 #include "idbm_hdr_def.h"
 enum GE_PANE_STRUCT {

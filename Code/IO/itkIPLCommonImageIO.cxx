@@ -26,7 +26,6 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <vector>
-#include <string>
 
 //From uiig library "The University of Iowa Imaging Group-UIIG"
 
@@ -133,11 +132,11 @@ namespace itk
     char *lastslash = strrchr(imagePath,'/');
     if(lastslash == NULL)
       {
-  strcpy(imagePath,".");
+      strcpy(imagePath,".");
       }
     else
       {
-  *lastslash = '\0';
+      *lastslash = '\0';
       }
     itk::Directory::Pointer dir = itk::Directory::New();
     if(dir->Load(imagePath) == 0)
@@ -239,7 +238,7 @@ namespace itk
   ::GetStringAt(std::ifstream &f,
        std::streamoff Offset,
        char *buf,
-       std::size_t amount,bool throw_exception)
+       size_t amount,bool throw_exception)
   {
     f.seekg(Offset,std::ios::beg);
     if(f.fail()) 
@@ -350,7 +349,7 @@ namespace itk
     fnList->Info[fnList->numImageInfoStructs].SliceLocation = sliceLocation;
     fnList->Info[fnList->numImageInfoStructs].echoNumber = 0;
     fnList->Info[fnList->numImageInfoStructs].SliceOffset = offset;
-    std::strncpy ( fnList->Info[fnList->numImageInfoStructs].imageFileName,filename, MAXPATHLEN+1);
+    strncpy ( fnList->Info[fnList->numImageInfoStructs].imageFileName,filename, MAXPATHLEN+1);
     fnList->numImageInfoStructs++;
     assert(fnList->numImageInfoStructs< MAX_FILENAMELIST_SIZE);
     return 1;
@@ -457,7 +456,7 @@ namespace itk
     asciiTime = ctime ((time_t *) (clock));
 #endif
 
-    std::strncpy (timeString, asciiTime, 64);
+    strncpy (timeString, asciiTime, 64);
 
     for (i = 0; i < 26; i++)
       {

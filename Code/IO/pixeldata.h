@@ -7,7 +7,7 @@
  *      Include File Name:  PixelData.h
 \author WR Edens, JL Agle, MJ Benson
  * Source
- * $Revision$  $Date: 2003-03-12 22:03:50 $
+ * $Revision$  $Date: 2003-03-13 14:50:51 $
  */
 /*@Synopsis Description of the PixelData header
 */
@@ -262,7 +262,7 @@ extern "C"
     int img_bot_offset;         /* number of blank lines at image bottom */
     short img_version;          /* version of the header structure */
     /* and a word to maintain 32 bit alignment */
-    u_short img_checksum;       /* 16 bit end_around_carry sum of pixels */
+    unsigned short img_checksum; /* 16 bit end_around_carry sum of pixels */
     int img_p_id;               /* a byte disp to unique image identifier */
     int img_l_id;               /* byte length of unique image identifier */
     int img_p_unpack;           /* a byte disp to 'unpack control' */
@@ -357,7 +357,7 @@ extern "C"
  *      Include File Name:      phonebook
 \author David Carleton
  * Source
- * $Revision$  $Date: 2003-03-12 22:03:50 $
+ * $Revision$  $Date: 2003-03-13 14:50:51 $
  */
 /*@Synopsis     Contains defaults and strings for the Phone Book feature.
 */

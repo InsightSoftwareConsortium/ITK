@@ -21,15 +21,10 @@
 #include "idbm_hdr_def.h"
 #include "itkMvtSunf.h"
 #include "itkDirectory.h"
-#include <cstdio>
+#include <string>
 #include <iostream>
 #include <fstream>
-#include <string.h>
-#include <limits.h>
-#include <stdlib.h>
 #include <vector>
-#include <string>
-
 //From uiig library "The University of Iowa Imaging Group-UIIG"
 
 namespace itk 
@@ -109,7 +104,7 @@ namespace itk
 
     this->GetStringAt(f, STHDR_START * 2 + STHDR_DATE * 2,tmpStr,10);
     tmpStr[10] = '\0';
-    std::strcpy(hdr->date, tmpStr);
+    strcpy(hdr->date, tmpStr);
 
     RGEDEBUG(std::sprintf (debugbuf, "Date = %s\n", tmpStr); cerr << debugbuf;)
       // Get Patient-Name from the STUDY Header 
@@ -356,7 +351,7 @@ namespace itk
       }
     dg_mantissa = dg_mantissa << 1;
     sun_num = dg_sign | (sun_exp << smantlen) | ((dg_mantissa >> 9) & smantissa);
-    std::memcpy ((void *) &x, (void *) &sun_num, sizeof(x));
+    memcpy ((void *) &x, (void *) &sun_num, sizeof(x));
     return (x);
   }
 

@@ -32,7 +32,6 @@ PURPOSE.  See the above copyright notices for more information.
 #define __itkIPLCommonImageIO_h
 
 #include <fstream>
-#include <cstdlib>
 #include "itkImageIOBase.h"
 #include "itkGEImageHeader.h"
 #include "idbm_hdr_def.h"
@@ -56,8 +55,8 @@ namespace itk
       typedef signed short S16;
       typedef unsigned int U32;
       typedef signed int S32;
-      typedef unsigned long long U64;
-      typedef signed long long S64;
+      typedef unsigned long U64;
+      typedef signed long S64;
       typedef float F32;
       typedef double F64;
 
@@ -125,13 +124,13 @@ namespace itk
   void * data;
       };
       typedef struct FILESORTINFOSTRUCT FILESORTINFO;
+      enum { MAX_FILENAMELIST_SIZE = 512 };
     protected:
       IPLCommonImageIO();
       ~IPLCommonImageIO();
       void PrintSelf(std::ostream& os, Indent indent) const;
 
 
-      enum { MAX_FILENAMELIST_SIZE = 512 };
 
       struct FILENAMELISTSTRUCT
       {
@@ -159,7 +158,7 @@ namespace itk
       //
       // return 0 on success, -1 on failure
       int GetStringAt(std::ifstream &f,std::streamoff Offset,char *buf,
-          std::size_t amount, bool throw_exception = true);
+          size_t amount, bool throw_exception = true);
       int GetIntAt(std::ifstream &f,std::streamoff Offset,int *ip,
        bool throw_exception = true);
       int GetShortAt(std::ifstream &f,std::streamoff Offset,short *ip,
