@@ -1,13 +1,4 @@
 
-//
-//
-// NEW APP ARCHITECTURE
-// Make a helper class that is instantiated and then told to setup 
-// the parser before the parsing begins.  The helper class would 
-// register all the callbacks it cares about on the indicated 
-// parser.
-//
-//
 
 #ifdef WIN32
 #pragma warning(disable:4786)
@@ -20,13 +11,20 @@
 #include "DICOMCallback.h"
 #include "DICOMAppHelper.h"
 
-// #include <stdio.h>
+#include "itkImage.h"
+#include "itkDICOMImageIO2.h"
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
+#include "itkDICOMImageIO2Factory.h"
+#include "itkPNGImageIO.h"
+#include "itkExceptionObject.h"
+#include "itkRawImageWriter.h"
+
 #include <stdlib.h>
 
 
 int main(int argc, char* argv[])
 {
-
     
   if (argc < 2)
     {
@@ -34,38 +32,67 @@ int main(int argc, char* argv[])
     std::cout << "Usage: DICOMApp file1 file2..." << std::endl;
     std::cout << std::endl;
     std::cout << "==================================================================" << std::endl;
-    std::cout << "Image data will be written to file1.raw file2.raw" << std::endl;
-    std::cout << "Header values will be written to file1.header.txt file2.header.txt" << std::endl;
+    std::cout << "Image data will be written to file1.raw file2.raw and file1.png file2.png" << std::endl;
+    std::cout << "WARNING (to be fixed) - PNG images will not be correct for little endian data." << std::endl;
+    std::cout << "Some header values will be written to file1.header.txt file2.header.txt" << std::endl;
     std::cout << "==================================================================" << std::endl;
     std::cout << std::endl;
     std::cout.flush();
     return EXIT_FAILURE;
     }
   
-  DICOMParser parser;
+  itk::ObjectFactoryBase::RegisterFactory(itk::DICOMImageIO2Factory::New());
   
-  DICOMAppHelper* myObj = new DICOMAppHelper;
+  itk::DICOMImageIO2::Pointer DICOMImage = 
+    itk::DICOMImageIO2::New();
+
+  typedef itk::Image<unsigned short, 2 > imgType;
+
+  itk::PNGImageIO::Pointer pngThing = itk::PNGImageIO::New();
   
-  myObj->RegisterCallbacks(parser);
+  itk::ImageFileReader<imgType>::Pointer fileReader  = itk::ImageFileReader<imgType>::New();
+
+  itk::ImageFileWriter<imgType>::Pointer pngWriter = itk::ImageFileWriter<imgType>::New();
+  pngWriter->SetImageIO(pngThing);
+  pngWriter->SetInput(fileReader->GetOutput());
   
+  itk::RawImageWriter<imgType>::Pointer rawWriter = itk::RawImageWriter<imgType>::New();
+  rawWriter->SetInput(fileReader->GetOutput());
+
+  try {
   for (int i = 1; i < argc; i++)
     {
     const char* filename = argv[i];
     
     std::cout << std::endl;
-    std::cout << "========== Parsing " << filename << " ===========" << std::endl;
+    std::cout << "========== Reading " << filename << " ===========" << std::endl;
     std::cout << std::endl;
-    myObj->SetFileName(filename);
-    if (!parser.OpenFile((char*) filename))
-      {
-      std::cerr << "Couldn't open: " << filename << std::endl;
-      continue;
-      }
-    myObj->SetDICOMDataFile(parser.GetDICOMFile());
-    parser.ReadHeader();
+
+    fileReader->SetFileName(filename);
+    fileReader->UpdateLargestPossibleRegion();
+    
+    std::string rawFilename = std::string(filename) + ".raw";
+    rawWriter->SetFileName(rawFilename.c_str());
+    rawWriter->SetFileTypeToBinary();
+    rawWriter->SetByteOrderToLittleEndian();
+    std::cout << std::endl;
+    std::cout << "Writing: " << rawFilename << std::endl;
+    rawWriter->Write();
+    std::cout << std::endl;
+
+    std::string outputFilename = std::string(filename) + ".png";
+    pngWriter->SetFileName(outputFilename.c_str());
+    std::cout << std::endl;
+    std::cout << "Writing: " << outputFilename << std::endl;
+
+    pngWriter->Write();
     }
-  
-  myObj->OutputSeries();
-  
+  }  
+  catch (itk::ExceptionObject e)
+  {
+    std::cerr << e << std::endl;
+  }
   return EXIT_SUCCESS;
 }
+
+
