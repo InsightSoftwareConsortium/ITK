@@ -129,7 +129,7 @@ public:
   
   /** The information needed for a cell type is now defined, so we can
    * define the cell type. We use a macro defined in itkCellInterface. */
-  typedef MakeCellTraitsMacro                     CellTraits;
+  typedef itkMakeCellTraitsMacro                     CellTraits;
   
   /** The interface to cells to be used by the mesh.
    * This should not be changed. */

@@ -365,10 +365,10 @@ protected:
  * During a mesh type definition, after the appropriate types and values
  * have been defined, just have the line:
  \verbatim
- typedef MakeCellTraitsMacro  CellTraits;
+ typedef itkMakeCellTraitsMacro  CellTraits;
  \endverbatim
  *
- * MakeCellTraitsMacro is a macro front-end to automatically fill in the 
+ * itkMakeCellTraitsMacro is a macro front-end to automatically fill in the 
  * template parameters for the CellTraitsInfo structure inside a mesh 
  * type structure definition.
  *
@@ -395,7 +395,7 @@ public:
   typedef const PointIdentifier*  PointIdConstIterator;  
 };
 
-#define MakeCellTraitsMacro \
+#define itkMakeCellTraitsMacro \
   CellTraitsInfo<PointDimension, CoordRepType, InterpolationWeightType,  \
                PointIdentifier, CellIdentifier, CellFeatureIdentifier, \
                PointType, PointsContainer, UsingCellsContainer>
