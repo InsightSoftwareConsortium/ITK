@@ -637,7 +637,7 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 typename MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::ComputeInverseUpdate(const NeighborhoodType &it, void * globalData,
+::ComputeInverseUpdate(const NeighborhoodType &it, void * itkNotUsed(globalData),
                 const FloatOffsetType& itkNotUsed(offset)) const
 {
 // we compute the derivative of MI w.r.t. the infinitesimal 
@@ -1017,7 +1017,7 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 typename MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::ComputeForwardAndInverseUpdate(const NeighborhoodType &it, void * globalData,
+::ComputeForwardAndInverseUpdate(const NeighborhoodType &it, void * itkNotUsed(globalData),
                 const FloatOffsetType& itkNotUsed(offset)) const
 {
 // we compute the derivative of MI w.r.t. the infinitesimal 
