@@ -15,7 +15,8 @@
 =========================================================================*/
 
 #include <itkGradientDescentOptimizer.h>
-#include <itkVectorContainer.h>
+#include <itkPoint.h>
+#include <itkCovariantVector.h>
 
 
 /** 
@@ -23,9 +24,7 @@
  *
  *  1/2 x^T A x - b^T x
  *
- *  Where A is represented as an itkMatrix and 
- *  b is represented as a itkVector
- *
+ *  Where A is a matrix and b is a vector
  *  The system in this example is:
  *
  *     | 3  2 ||x|   | 2|   |0|
@@ -46,79 +45,68 @@ public:
   itkNewMacro( Self );
 
   enum { SpaceDimension=2 };
-  typedef itk::VectorContainer<unsigned int,double> ParametersType;
-  typedef itk::VectorContainer<unsigned int,double> DerivativeType;
+  
+  typedef itk::Point<  double, SpaceDimension >          ParametersType;
+  
+  typedef itk::CovariantVector< double, SpaceDimension > DerivativeType;
+
   typedef double MeasureType ;
 
 
   CostFunction() 
   {
-    m_Parameters = ParametersType::New(); 
-    m_Parameters->Reserve(2);
   }
 
-  const ParametersType::Pointer & GetParameters(void) const 
+  const ParametersType & GetParameters(void) const 
   { 
     return m_Parameters;
   }
 
-  double GetValue( void ) 
+  const MeasureType & GetValue( const ParametersType & parameters ) const
   { 
-    std::cout << "GetValue ( " ;
-
-    ParametersType::ConstIterator it = m_Parameters->Begin();
     
-    double x = it.Value();
-    it++;
-    double y = it.Value();
+    m_Parameters = parameters;
 
-    it = m_Parameters->Begin();
-    while ( it != m_Parameters->End() )
-    { 
-      std::cout << it.Value() << " ";
-      it++;
-    }
-    std::cout << ") = ";
+    double x = m_Parameters[0];
+    double y = m_Parameters[1];
+
+    std::cout << "GetValue( " ;
+    std::cout << x << " ";
+    std::cout << y << ") = ";
 
     double val = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
 
     std::cout << val << std::endl; 
-    return val;
+    return m_Measure;
+
   }
 
-  DerivativeType::Pointer GetDerivative( void ) 
+  const DerivativeType & GetDerivative( 
+             const ParametersType & parameters ) const
   {
-    std::cout << "GetDerivative ( " ;
-    ParametersType::ConstIterator it;
 
-    it = m_Parameters->Begin();
-    double x = it.Value();
-    it++;
-    double y = it.Value();
-    it = m_Parameters->Begin();
-    while ( it != m_Parameters->End() )
-    { 
-      std::cout << it.Value() << " ";
-      it++;
-    }
-    std::cout << ") = ";
+    m_Parameters = parameters;
 
-    DerivativeType::Pointer grad = DerivativeType::New();
-    grad->Reserve(2);
-    DerivativeType::Iterator dit;
-    std::cout << "(" ; 
-    dit = grad->Begin();
-    dit.Value() = 3*x + 2*y -2;
-    std::cout << dit.Value() <<" ";
-    dit++;
-    dit.Value() = 2*x + 6*y +8;
-    std::cout << dit.Value() << ")" << std::endl;
-    return grad;
+    double x = m_Parameters[0];
+    double y = m_Parameters[1];
+
+    std::cout << "GetDerivative( " ;
+    std::cout << x << " ";
+    std::cout << y << ") = ";
+
+    m_Derivative[0] = 3*x + 2*y -2;
+    m_Derivative[1] = 2*x + 6*y +8;
+
+    std::cout << m_Derivative << std::endl;
+
+    return m_Derivative;
   }
 
 private:
 
-  ParametersType::Pointer   m_Parameters;
+  mutable ParametersType  m_Parameters;
+  mutable MeasureType     m_Measure;
+  mutable DerivativeType  m_Derivative;
 
 };
 
@@ -126,7 +114,8 @@ private:
 
 int main() 
 {
-  std::cout << "Conjugate Gradient Optimizer Test \n \n";
+  std::cout << "Conjugate Gradient Optimizer Test ";
+  std::cout << std::endl << std::endl;
 
   typedef  itk::GradientDescentOptimizer< 
                                 CostFunction >  OptimizerType;
@@ -153,25 +142,21 @@ int main()
 
   itkOptimizer->SetMaximumNumberOfIterations( Max_Iterations );
 
-  typedef itk::VectorContainer<unsigned int,double> ParametersType ;
-  typedef ParametersType::Pointer ParametersPointer;
-  ParametersPointer initialValue = ParametersType::New();
-  initialValue->Reserve(2);
+  typedef CostFunction::ParametersType    ParametersType;
 
-  ParametersType::Iterator it;
   // We start not so far from  | 2 -2 |
-  it = initialValue->Begin();
-  it.Value() = 100;
-  it++;     
-  it.Value() = -100;
+  ParametersType  initialPosition;
+  initialPosition =  100;
+  initialPosition = -100;
 
-  itkOptimizer->StartOptimization( initialValue );
+  itkOptimizer->SetInitialPosition( initialPosition );
+  itkOptimizer->StartOptimization();
 
-
-  it = costFunction.GetParameters()->Begin();
-  std::cout << "Solution        = (" << it.Value() << "," ;
-  it++;
-  std::cout << it.Value() << ")" << std::endl;  
+  ParametersType finalPosition;
+  finalPosition = costFunction.GetParameters();
+  std::cout << "Solution        = (";
+  std::cout << finalPosition[0] << "," ;
+  std::cout << finalPosition[1] << ")" << std::endl;  
 
   return 0;
 

@@ -17,7 +17,7 @@
 #include <itkLevenbergMarquardtOptimizer.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
-#include <itkVectorContainer.h>
+#include <itkPoint.h>
 
 
 typedef vnl_matrix<double> MatrixType;
@@ -26,12 +26,21 @@ typedef vnl_vector<double> VectorType;
 
 
 /** 
- *   TODO: Comment this example with the initial equation we have to solve
+ *
+ *   This example solves the equation:
+ *
+ *     (a-3) x^2  + (b-2) y^2
+ *
+ *   for the (a,b) parameters
  *
  *   the solution is the vector | 3 2 |
  *
+ *   (x,y) values are sampled over a rectangular domain
+ *   whose size is defined by XRange and YRange
+ *
  */ 
-class CostFunction : public itk::LightObject{
+class CostFunction : public itk::LightObject
+{
 public:
   typedef CostFunction Self;
   typedef itk::LightObject  Superclass;
@@ -39,63 +48,69 @@ public:
   typedef itk::SmartPointer<const Self> ConstPointer;
   itkNewMacro( Self );
 
+  enum { XRange = 1,
+         YRange = 1 };   // size of the domain to sample the cost function
+         
   enum { SpaceDimension =  2 };
-  enum { RangeDimension =  9 };
-  typedef itk::VectorContainer<unsigned int,double> ParametersType;
-  typedef itk::VectorContainer<unsigned int,double> DerivativeType;
-  typedef itk::VectorContainer<unsigned int,double> VectorMeasureType;
+  enum { RangeDimension =  ( 2*XRange+1 ) * ( 2*YRange+1 ) };
 
-  CostFunction() {
-    m_Parameters = ParametersType::New(); 
-    m_Parameters->Reserve(2);
+  typedef itk::Point<double,SpaceDimension>    ParametersType;
+  typedef VectorType                           MeasureType;
+  typedef MatrixType                           DerivativeType;
+
+  CostFunction() 
+  {
+    m_Measure.resize(RangeDimension);
+    m_Derivative.resize(RangeDimension,SpaceDimension);
   }
 
-  const ParametersType::Pointer & GetParameters(void) const 
+  const ParametersType  & GetParameters(void) const 
   { 
     return m_Parameters;
   }
 
-  void GetValue( VectorMeasureType::Pointer & values ) 
+  const MeasureType & GetValue( const ParametersType & parameters ) 
   {
-    std::cout << "GetValue( ";
-    ParametersType::Iterator it = m_Parameters->Begin();
+
+    m_Parameters = parameters;
     
-    double a = it.Value();
-    it++;
-    double b = it.Value();
+    std::cout << "GetValue( ";
+    double a = m_Parameters[0];
+    double b = m_Parameters[1];
 
-    it = m_Parameters->Begin();
-    while ( it != m_Parameters->End() )
-    { 
-      std::cout << it.Value() << " ";
-      it++;
-    }
-    std::cout << ") = ";
+    std::cout << a << " , ";
+    std::cout << b << ") = ";
 
-    it = values->Begin();
-    for(int y = -1; y<=1; y++) 
+    // Compute points of the function over a square domain
+    unsigned valueindex = 0;
+    for( int y = -YRange; y<=YRange; y++ ) 
     {
       const double yp = y*y*b;
-      for(int x = -1; x<=1; x++) 
+      for( int x = -XRange; x<=XRange; x++ ) 
       {
-        it.Value() = a * x*x + yp - (3.0 * x*x + 2 * y*y );
-        std::cout << it.Value() << " ";
-        it++;
+        m_Measure[valueindex] = a * x*x + yp - (3.0 * x*x + 2 * y*y );
+        std::cout << m_Measure[valueindex] << "  ";
+        valueindex++;
       }
     }
 
     std::cout << std::endl;
- 
+
+    return m_Measure; 
  }
 
-DerivativeType::Pointer GetDerivative(void) 
+  const DerivativeType &  GetDerivative( 
+                 const ParametersType & parameters ) const
   {
    
- }
+    return m_Derivative;
+  }
 
 private:
 
-  ParametersType::Pointer   m_Parameters;
+  mutable ParametersType    m_Parameters;
+  mutable MeasureType       m_Measure;
+  mutable DerivativeType    m_Derivative;
 
 };
 
@@ -143,29 +158,25 @@ int main()
 
   vnlOptimizer.set_check_derivatives( 3 );
     
-  typedef itk::VectorContainer<unsigned int,double> ParametersType ;
-  typedef ParametersType::Pointer ParametersPointer;
-  ParametersPointer initialValue = ParametersType::New();
-  initialValue->Reserve(2);
-
-  ParametersType::Iterator it;
   // We start not so far from  | 3 2 |
-  it = initialValue->Begin();
-  it.Value() = 2;
-  it++;     
-  it.Value() = 1;
+  typedef CostFunction::ParametersType ParametersType;
+  ParametersType initialValue;
+  initialValue = 20,10;
 
-  itkOptimizer->StartOptimization( initialValue );
+  itkOptimizer->SetInitialPosition( initialValue );
+
+  itkOptimizer->StartOptimization();
 
   std::cout << "End condition   = " << vnlOptimizer.get_failure_code() << std::endl;
   std::cout << "Number of iters = " << vnlOptimizer.get_num_iterations() << std::endl;
   std::cout << "Number of evals = " << vnlOptimizer.get_num_evaluations() << std::endl;    
   std::cout << std::endl;
 
-  it = costFunction.GetParameters()->Begin();
-  std::cout << "Solution        = (" << it.Value() << "," ;
-  it++;
-  std::cout << it.Value() << ")" << std::endl;  
+  ParametersType finalPosition;
+  finalPosition = costFunction.GetParameters();
+  std::cout << "Solution        = (";
+  std::cout << finalPosition[0] << "," ;
+  std::cout << finalPosition[1] << ")" << std::endl;  
 
   return 0;
 
