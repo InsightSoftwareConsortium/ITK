@@ -72,6 +72,7 @@ ADD_LIBRARY(itkvnl_inst
   vnl_matrix_fixed_ref+double.2.2-.cxx
   vnl_matrix_fixed_ref+double.3.12-.cxx
   vnl_matrix_fixed+double.3.12-.cxx
+  vnl_vector+unsigned_char-.cxx
   )
 
 ADD_LIBRARY(ITKCommon ${ITK_COMMON_BUILD_TYPE} ${ITKCommon_SRCS})
