@@ -42,7 +42,7 @@ public:
     std::cout << "Metric: "   << m_Process->GetMetric()   << "   ";
     std::cout << "RMSChange: " << m_Process->GetRMSChange() << "    ";
     std::cout << std::endl;}
-  TRegistration::Pointer m_Process;
+  typename TRegistration::Pointer m_Process;
 };
 }
 
