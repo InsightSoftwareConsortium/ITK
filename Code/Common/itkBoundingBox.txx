@@ -257,10 +257,13 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::GetMTime( void ) const
 {
   unsigned long latestTime = Object::GetMTime(); 
-  if( latestTime < m_PointsContainer->GetMTime() )
-     {
-     latestTime = m_PointsContainer->GetMTime();
-     }
+  if( m_PointsContainer )
+    {
+    if( latestTime < m_PointsContainer->GetMTime() )
+      {
+      latestTime = m_PointsContainer->GetMTime();
+      }
+    }
   return latestTime;
 }
 
