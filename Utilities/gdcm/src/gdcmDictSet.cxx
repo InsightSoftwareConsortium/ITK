@@ -201,8 +201,7 @@ DictEntry *DictSet::NewVirtualDictEntry( uint16_t group,
 std::string DictSet::BuildDictPath() 
 {
    std::string resultPath;
-   const char *envPath = 0;
-   envPath = getenv("GDCM_DICT_PATH");
+   const char *envPath = getenv("GDCM_DICT_PATH");
 
    if (envPath && (strlen(envPath) != 0)) 
    {

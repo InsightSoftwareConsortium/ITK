@@ -58,15 +58,12 @@ void DocEntry::Print(std::ostream& os)
    PrintLevel = 2; // FIXME
    
    size_t o;
-   unsigned short int g, e;
    std::string st;
    TSKey v;
    std::string d2, vr;
    itksys_ios::ostringstream s;
    uint32_t lgth;
 
-   g  = GetGroup();
-   e  = GetElement();
    o  = GetOffset();
    vr = GetVR();
 

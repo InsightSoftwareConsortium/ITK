@@ -261,7 +261,7 @@ private:
    void BuildFlatHashTableRecurse( TagDocEntryHT& builtHT,
                                    DocEntrySet* set );
 
-   void HandleBrokenEndian(uint16_t group, uint16_t elem);
+   void HandleBrokenEndian(uint16_t &group, uint16_t &elem);
 public:
 // Accessors:
    /// Accessor to \ref PrintLevel

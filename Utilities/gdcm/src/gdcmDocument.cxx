@@ -537,7 +537,7 @@ ValEntry* Document::ReplaceOrCreateByNumber(
                                          uint16_t elem,
                                          TagName const & vr )
 {
-   ValEntry* valEntry = 0;
+   ValEntry* valEntry;
    DocEntry* currentEntry = GetDocEntryByNumber( group, elem);
    
    if (!currentEntry)
@@ -622,7 +622,7 @@ BinEntry* Document::ReplaceOrCreateByNumber(
                                          uint16_t elem,
                                          TagName const & vr )
 {
-   BinEntry* binEntry = 0;
+   BinEntry* binEntry;
    DocEntry* currentEntry = GetDocEntryByNumber( group, elem);
    if (!currentEntry)
    {
@@ -1304,7 +1304,7 @@ uint16_t Document::UnswapShort(uint16_t a)
 void Document::ParseDES(DocEntrySet *set, long offset, 
                         long l_max, bool delim_mode)
 {
-   DocEntry *newDocEntry = 0;
+   DocEntry *newDocEntry;
    
    while (true)
    { 
@@ -2628,7 +2628,7 @@ void Document::SetMaxSizePrintEntry(long newSize)
  *          apparent reason
  * @return  no return
  */
-void Document::HandleBrokenEndian(uint16_t group, uint16_t elem)
+void Document::HandleBrokenEndian(uint16_t &group, uint16_t &elem)
 {
    // Endian reversion. Some files contain groups of tags with reversed endianess.
    static int reversedEndian = 0;

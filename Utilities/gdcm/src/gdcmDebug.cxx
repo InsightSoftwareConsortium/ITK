@@ -113,12 +113,7 @@ void Debug::Assert(int level, bool test, const char * msg1,
  */
 void Debug::Exit(int a) 
 {
-#ifdef __GNUC__
-   std::exit(a);
-#endif
-#ifdef _MSC_VER
    exit(a);    // Found in #include <stdlib.h>
-#endif
 }
 
 } // end namespace gdcm
