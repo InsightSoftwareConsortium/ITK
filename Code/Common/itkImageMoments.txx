@@ -20,7 +20,10 @@
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 
 namespace itk
-{
+{ 
+  template<class TPixel, int VRank> const char* 
+  ImageMoments<TPixel, VRank>::notvalid
+  = "No valid image moments are available.";
 
     /** 
      * Construct an ImageMoments object.

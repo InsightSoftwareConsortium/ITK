@@ -71,7 +71,7 @@ public:
     /// Standard matrix type within this class.
     typedef vnl_matrix_fixed<double,VRank,VRank>   MatrixT;
     /// Standard image type within this class.
-    typedef Image<TPixel, VRank>::Pointer          ImageT;
+    typedef typename Image<TPixel, VRank>::Pointer ImageT;
 
     
     // Compute moments for a new or modified image
@@ -116,8 +116,7 @@ private:
     VectorT m_pm;                   // Principal moments (physical)
     MatrixT m_pa;                   // Principal axes (physical)
 
-    static const char               // Error message when m_valid == 0
-	notvalid[] = "No valid image moments are available.";
+    static const char* notvalid;     // Error message when m_valid == 0
 
     void Error(const char *message);  // Report an error message and abort
 
