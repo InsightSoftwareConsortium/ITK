@@ -24,8 +24,8 @@
 #include <functional>
 namespace itk
 {
-class IPLFileSortInfo_ascend_compare :
-  public std::binary_function<IPLFileSortInfo *,IPLFileSortInfo *,bool>
+struct IPLFileSortInfo_ascend_compare :
+    public std::greater<IPLFileSortInfo *>
 {
 private:
   int qsort_IPLFileSortInfo_ascend_compar (IPLFileSortInfo *item1,IPLFileSortInfo *item2)
@@ -66,8 +66,8 @@ public:
   }
  };
 
-class IPLFileSortInfo_descend_compare :
-  public std::binary_function<IPLFileSortInfo *,IPLFileSortInfo *,bool>
+struct IPLFileSortInfo_descend_compare :
+    public std::greater<IPLFileSortInfo *>
 {
 private:
   int qsort_IPLFileSortInfo_descend_compar (IPLFileSortInfo *item1,  IPLFileSortInfo *item2)
