@@ -1,12 +1,16 @@
 BEGIN MAKE VERBATIM
 
-# Ugly.  Again, this will make your head hurt.  Look away before it starts...
-# For each instance, pick off the last build stamp, and return all of the latest build stamps as a list.
-# The function $(words) counts the number of white space separated words in a list, similar to llength.
-# The function $(word) picks the 1-index'd word from the white space separated words in a list, similar to lindex.
+# Ugly.  Again, this will make your head hurt.  Look away before it
+# starts...  For each instance, pick off the last build stamp, and
+# return all of the latest build stamps as a list.  The function
+# $(words) counts the number of white space separated words in a list,
+# similar to llength.  The function $(wordlist) picks the 1-index'd
+# words from the white space separated words in a list, similar to
+# lindex.
 
 Instances = $(wildcard ../Sites/*/*/)
-LatestBuildStamps = $(foreach Instance, $(Instances), $(word $(words $(wildcard $(Instance)*)),$(sort $(wildcard $(Instance)*))))
+LatestBuildStamps = $(foreach Instance, $(Instances), \
+$(wordlist $(words $(wildcard $(Instance)*)), $(words $(wildcard $(Instance)*)),$(sort $(wildcard $(Instance)*))))
 
 MAKEFILES = $(CMAKE_CONFIG_DIR)/CMake/CMakeVariables.make $(CMAKE_CONFIG_DIR)/Testing/Utilities/CMakeTestingRules.make 
 XALAN = $(topdir)/Code/Insight3DParty/xalan/xalan.jar
