@@ -47,7 +47,7 @@ BinaryCrossStructuringElement<TPixel, VDimension, TAllocator>
   // Set the face connected neighbors
   //
   unsigned int d;
-  int i;
+  OffsetValueType i;
   OffsetType offset;
   offset.Fill(0);
   (*this)[offset] = NumericTraits<TPixel>::One;

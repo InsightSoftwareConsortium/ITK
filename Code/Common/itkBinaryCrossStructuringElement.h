@@ -66,6 +66,10 @@ public:
   /** Size and value typedef support. */
   typedef typename Superclass::SizeType SizeType;
   typedef typename Superclass::SizeValueType SizeValueType;
+
+  /** Offset and value typedef support. */
+  typedef typename Superclass::OffsetType OffsetType;
+  typedef typename OffsetType::OffsetValueType OffsetValueType;
   
   /** Radius typedef support. */
   typedef typename Superclass::RadiusType RadiusType;
