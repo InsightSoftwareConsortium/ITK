@@ -236,7 +236,6 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
 
   double TemporaryDistance;
   double result1, result2;
-  bool BasePairAdded = false;
 
   // Initializing objects to write-out a PNG image of correspondance matrix.
   typedef unsigned char CorrespondencePixelType;  
@@ -286,7 +285,7 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
           }
 
         //reset pairAdded to false, as we have just started on a new base pair
-        BasePairAdded = false;
+        bool BasePairAdded = false;
 
         //create a new CorresponsingPairList
         typename DataStructureType::CorrespondingListType * CorrespondingPairListPointer = new typename DataStructureType::CorrespondingListType();
@@ -360,11 +359,13 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
                     {
                     pixelIndex[0] = i;
                     pixelIndex[1] = a;
-                    CorrespondenceImage->SetPixel(pixelIndex, 100*m_CorrespondenceMatrix->get(i,a) );
+                    CorrespondenceImage->SetPixel(pixelIndex, 
+                        static_cast<CorrespondencePixelType>(100*m_CorrespondenceMatrix->get(i,a)) );
 
                     pixelIndex[0] = j;
                     pixelIndex[1] = b;
-                    CorrespondenceImage->SetPixel(pixelIndex, 100*m_CorrespondenceMatrix->get(j,b) );
+                    CorrespondenceImage->SetPixel(pixelIndex, 
+                      static_cast<CorrespondencePixelType>(100*m_CorrespondenceMatrix->get(j,b)) );
                     }
 
                   // If it isnt already there, add i-j to pair correspondence structure 
@@ -465,11 +466,13 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
                   {
                   pixelIndex[0] = i;
                   pixelIndex[1] = b;
-                  CorrespondenceImage->SetPixel(pixelIndex, 100*m_CorrespondenceMatrix->get(i,b) );
+                  CorrespondenceImage->SetPixel(pixelIndex,
+                        static_cast<CorrespondencePixelType>(100*m_CorrespondenceMatrix->get(i,b)) );
 
                   pixelIndex[0] = j;
                   pixelIndex[1] = a;
-                  CorrespondenceImage->SetPixel(pixelIndex, 100*m_CorrespondenceMatrix->get(j,a) );
+                  CorrespondenceImage->SetPixel(pixelIndex, 
+                      static_cast<CorrespondencePixelType>(100*m_CorrespondenceMatrix->get(j,a)) );
                   }
 
                 // If this is true, pair i-j matches pair a-b.
