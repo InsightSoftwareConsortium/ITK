@@ -121,7 +121,7 @@ private:
   double m_MeanPercentError;
   double m_STDPercentError;
 
-  virtual bool TestHomogeneity(IndexList Plist);
+  virtual bool TestHomogeneity(IndexList &Plist);
 
 private:
   VoronoiSegmentationImageFilter(const Self&); //purposely not implemented

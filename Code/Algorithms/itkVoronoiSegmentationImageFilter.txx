@@ -64,7 +64,7 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 bool
 VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
-::TestHomogeneity(IndexList Plist)
+::TestHomogeneity(IndexList &Plist)
 {
   int num=Plist.size();
   int i;
@@ -90,6 +90,12 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
     saveSTD = -1;
     }
 
+//   // jvm - Mahalanobis distance
+//   if (savevar > 0 && fabs(savemean - m_Mean) / m_Var < 2.5)
+//     return true;
+//   else
+//     return false;
+  
   savemean -= m_Mean;
   saveSTD -= m_STD;
   if( (savemean>-m_MeanTolerance) && (savemean<m_MeanTolerance) 
