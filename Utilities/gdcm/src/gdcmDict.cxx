@@ -126,7 +126,7 @@ void Dict::PrintByKey(std::ostream &os)
  */
 void Dict::PrintByName(std::ostream& os)
 {
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
 
    for (TagNameHT::iterator tag = NameHt.begin(); tag != NameHt.end(); ++tag)
    {
