@@ -233,10 +233,10 @@ ImageSource<TOutputImage>
   ThreadStruct *str;
   int total, threadId, threadCount;
 
-  threadId = ((ThreadInfoStruct *)(arg))->ThreadID;
-  threadCount = ((ThreadInfoStruct *)(arg))->NumberOfThreads;
+  threadId = ((MultiThreader::ThreadInfoStruct *)(arg))->ThreadID;
+  threadCount = ((MultiThreader::ThreadInfoStruct *)(arg))->NumberOfThreads;
 
-  str = (ThreadStruct *)(((ThreadInfoStruct *)(arg))->UserData);
+  str = (ThreadStruct *)(((MultiThreader::ThreadInfoStruct *)(arg))->UserData);
 
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.

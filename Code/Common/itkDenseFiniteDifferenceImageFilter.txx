@@ -85,10 +85,10 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   DenseFDThreadStruct * str;
   int total, threadId, threadCount;
 
-  threadId = ((ThreadInfoStruct *)(arg))->ThreadID;
-  threadCount = ((ThreadInfoStruct *)(arg))->NumberOfThreads;
+  threadId = ((MultiThreader::ThreadInfoStruct *)(arg))->ThreadID;
+  threadCount = ((MultiThreader::ThreadInfoStruct *)(arg))->NumberOfThreads;
 
-  str = (DenseFDThreadStruct *)(((ThreadInfoStruct *)(arg))->UserData);
+  str = (DenseFDThreadStruct *)(((MultiThreader::ThreadInfoStruct *)(arg))->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -151,10 +151,10 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   DenseFDThreadStruct * str;
   int total, threadId, threadCount;
 
-  threadId = ((ThreadInfoStruct *)(arg))->ThreadID;
-  threadCount = ((ThreadInfoStruct *)(arg))->NumberOfThreads;
+  threadId = ((MultiThreader::ThreadInfoStruct *)(arg))->ThreadID;
+  threadCount = ((MultiThreader::ThreadInfoStruct *)(arg))->NumberOfThreads;
 
-  str = (DenseFDThreadStruct *)(((ThreadInfoStruct *)(arg))->UserData);
+  str = (DenseFDThreadStruct *)(((MultiThreader::ThreadInfoStruct *)(arg))->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
