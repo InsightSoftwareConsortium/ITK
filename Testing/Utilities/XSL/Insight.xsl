@@ -63,25 +63,11 @@
                 &lt;/tr>
                 &lt;tr>
                   &lt;td halign="center" valign="left">
-                    &lt;a>&lt;img src="</xsl:text>
-      <xsl:value-of select="$IconDir"/>
-      <xsl:text disable-output-escaping="yes">/Errors.gif" border="0">&lt;/img>&lt;/a>
-                  &lt;/td>
-                &lt;/tr>
-                &lt;tr>
-                  &lt;td>
-                    &lt;a>&lt;img src="</xsl:text>
-      <xsl:value-of select="$IconDir"/>
-    <xsl:text disable-output-escaping="yes">/Warnings.gif" border="0">&lt;/img>&lt;/a>
-                  &lt;/td>
-                &lt;/tr>
-                &lt;tr>
-                  &lt;td>
-                    &lt;a>&lt;img src="
-    </xsl:text>
+                    &lt;a href="</xsl:text>
+    <xsl:value-of select="$DashboardDir"/>
+    <xsl:text disable-output-escaping="yes">Test.html">&lt;img src="</xsl:text>
     <xsl:value-of select="$IconDir"/>
-    <xsl:text disable-output-escaping="yes">
-/Tests.gif" border="0">&lt;/img>&lt;/a>
+    <xsl:text disable-output-escaping="yes">/Tests.gif" border="0">&lt;/img>&lt;/a>
                   &lt;/td>
                 &lt;/tr>
                 &lt;tr>
@@ -93,6 +79,31 @@
 /Coverage.gif" border="0">&lt;/img>&lt;/a>
                   &lt;/td>
                 &lt;/tr>
+		&lt;tr>
+		&lt;td>
+                    &lt;a href="http://public.kitware.com/cgi-bin/itkcvsweb.cgi/Insight/">
+    &lt;img src="</xsl:text>
+    <xsl:value-of select="$IconDir"/>
+    <xsl:text disable-output-escaping="yes">/CVS.gif" border="0">&lt;/img>&lt;/a>
+                  &lt;/td>
+&lt;/tr>
+		&lt;tr>
+		&lt;td>
+                    &lt;a href="http://public.kitware.com/Insight/Doxygen/html/">&lt;img src="</xsl:text>
+    <xsl:value-of select="$IconDir"/>
+    <xsl:text disable-output-escaping="yes">/Doxygen.gif" border="0">&lt;/img>&lt;/a>
+                  &lt;/td>
+&lt;/tr>
+		&lt;tr>
+		&lt;td>
+                    &lt;a href="</xsl:text>
+    <xsl:value-of select="$DashboardDir"/>
+    <xsl:text disable-output-escaping="yes">Dashboard.html">
+&lt;img src="</xsl:text>
+    <xsl:value-of select="$IconDir"/>
+    <xsl:text disable-output-escaping="yes">/Home.gif" border="0">&lt;/img>&lt;/a>
+
+                  &lt;/td>
               &lt;/table>
             &lt;/td>		    
             &lt;td valign="top">
