@@ -117,7 +117,7 @@ public:
   /**
    * Default constructor. Needed since we provide a cast constructor.
    */
-  ImageRegionIterator() : ImageIterator<TPixel, VImageDimension, TPixelContainer>() {}
+  ImageRegionIterator() : ImageIterator<TPixel, VImageDimension, TPixelContainer>() { m_SpanOffset = 0; }
   
   /**
    * Constructor establishes an iterator to walk a particular image and a
@@ -125,7 +125,8 @@ public:
    */
   ImageRegionIterator(Image *ptr,
                       const Region &region)
-    : ImageIterator<TPixel, VImageDimension, TPixelContainer>(ptr, region) {}
+    : ImageIterator<TPixel, VImageDimension, TPixelContainer>(ptr, region)
+  { m_SpanOffset = 0; }
 
   /**
    * Constructor that can be used to cast from an ImageIterator to an
@@ -136,9 +137,22 @@ public:
    * ImageIterator to a ImageRegionIterator.
    */
   ImageRegionIterator( const ImageIterator<TPixel, VImageDimension, TPixelContainer> &it)
-    { this->ImageIterator<TPixel, VImageDimension, TPixelContainer>::operator=(it); }
+  {
+    this->ImageIterator<TPixel,VImageDimension,TPixelContainer>::operator=(it);
+    Index ind = m_Image->ComputeIndex( m_Offset );
+    m_SpanOffset = ind[0] - m_Region.GetIndex()[0];
+  }
 
-  
+
+  /**
+   * Set the index. No bounds checking is performed. This is overridden
+   * from the parent because we have an extra ivar.
+   * \sa GetIndex
+   */
+  void SetIndex(const Index &ind)
+  { Superclass::SetIndex(ind);
+    m_SpanOffset = ind[0] - m_Region.GetIndex()[0]; }
+
   /**
    * Increment (prefix) the fastest moving dimension of the iterator's index.
    * This operator will constrain the iterator within the region (i.e. the
@@ -151,53 +165,60 @@ public:
   Self &
   operator++()
   {
-    // I think we can make this routine a lot faster by operating strictly
-    // on m_Offset and using the offset table to determine when to wrap.
-    
-#if 1
-    // Make sure that index is up to date.  This is expensive.  Can we do
-    // the same thing by operating strictly on m_Offset?
-    ImageIterator<TPixel, VImageDimension, TPixelContainer>::Index
-      ind = m_Image->ComputeIndex( m_Offset );
-
-    const ImageIterator<TPixel, VImageDimension, TPixelContainer>::Index&
-      startIndex = m_Region.GetIndex();
     const ImageIterator<TPixel, VImageDimension, TPixelContainer>::Size&
       size = m_Region.GetSize();
-      
-    // increment along a row, then wrap at the end of the region row.
-    int done;
-    int dim;
-    ind[0]++;
 
-    // check to see if we are past the last pixel in the region
-    done = (ind[0] == startIndex[0] + size[0]);
-    for (unsigned int i=1; done && i < VImageDimension; i++)
+    if (++m_SpanOffset >= size[0])
       {
-      done = (ind[i] == startIndex[i] + size[i] - 1);
+      // we have reached the end of the span (row), need to wrap around
+      m_SpanOffset = 0;
+      
+      // Get the index of the pixel that is past the end of the row.
+      ImageIterator<TPixel, VImageDimension, TPixelContainer>::Index
+        ind = m_Image->ComputeIndex( m_Offset );
+
+      const ImageIterator<TPixel, VImageDimension, TPixelContainer>::Index&
+        startIndex = m_Region.GetIndex();
+      
+      // increment along a row, then wrap at the end of the region row.
+      int done;
+      int dim;
+
+      // check to see if we are past the last pixel in the region
+      done = (++ind[0] == startIndex[0] + size[0]);
+      for (unsigned int i=1; done && i < VImageDimension; i++)
+        {
+        done = (ind[i] == startIndex[i] + size[i] - 1);
+        }
+      
+      // if the iterator is outside the region (but not past region end) then
+      // we need to wrap around the region
+      dim = 0;
+      if (!done)
+        {
+        while ( (dim < VImageDimension - 1)
+                && (ind[dim] > startIndex[dim] + size[dim] - 1) )
+          {
+          ind[dim] = startIndex[dim];
+          ind[++dim]++;
+          }
+        }
+      m_Offset = m_Image->ComputeOffset( ind );
       }
-    
-    // if the iterator is outside the region (but not past region end) then
-    // we need to wrap around the region
-    dim = 0;
-    while (!done)
+    else
       {
-      done = 1;
-      if (dim < VImageDimension-1)
-	{
-	if (ind[dim] > startIndex[dim] + size[dim] - 1)
-	  {
-	  ind[dim] = startIndex[dim];
-	  ind[++dim]++;
-	  done = 0;
-	  }
-	}
+      // no need to wrap, so just increment the offset to the next pixel
+      m_Offset++;
       }
-    m_Offset = m_Image->ComputeOffset( ind );
     return *this;
-#else
-#endif
   }
+
+
+  
+ protected:
+  unsigned long m_SpanOffset;  // position within the region along the
+                               // direction we are walking
+       
 };
 
 } // end namespace itk
