@@ -30,8 +30,9 @@ namespace itk
  */
 template<class T>
 SimpleDataObjectDecorator<T>
-::SimpleDataObjectDecorator() : m_Component()
+::SimpleDataObjectDecorator() 
 {
+  m_Component = ComponentType(); // initialize here to avoid Purify UMR
 }
 
 
