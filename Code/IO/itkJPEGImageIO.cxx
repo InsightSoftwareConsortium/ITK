@@ -72,7 +72,7 @@ bool JPEGImageIO::CanReadFile(const char* file)
     return false;
     }
 
-  bool extensionFound;
+  bool extensionFound = false;
   std::string::size_type JPEGPos = filename.rfind(".jpeg");
   if ((JPEGPos != std::string::npos)
       && (JPEGPos == filename.length() - 5))
@@ -282,7 +282,7 @@ void JPEGImageIO::Read(void* buffer)
     }
 
   // read the bulk data
-  unsigned int remainingRows = cinfo.output_height;
+  unsigned int remainingRows;
   while (cinfo.output_scanline < cinfo.output_height)
     {
     remainingRows = cinfo.output_height - cinfo.output_scanline;
