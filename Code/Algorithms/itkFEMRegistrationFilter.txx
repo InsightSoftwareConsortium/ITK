@@ -205,7 +205,7 @@ void FEMRegistrationFilter<TReference,TTarget>::ChooseMetric(float which)
 
   typedef itk::MeanSquaresImageToImageMetric<ImageType,TargetImageType> MetricType0;
   typedef itk::NormalizedCorrelationImageToImageMetric<ImageType,TargetImageType> MetricType1;
-  typedef itk::PatternIntensityImageToImageMetric<ImageType,TargetImageType> MetricType2;
+  typedef itk::MeanReciprocalSquareDifferenceImageToImageMetric<ImageType,TargetImageType> MetricType2;
   typedef itk::MutualInformationImageToImageMetric<ImageType,TargetImageType> MetricType3;
 
   m_WhichMetric=(unsigned int) which;
