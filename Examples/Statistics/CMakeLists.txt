@@ -82,3 +82,6 @@ TARGET_LINK_LIBRARIES(ImageHistogram3 ITKIO ITKCommon )
 ADD_EXECUTABLE(ImageEntropy1 ImageEntropy1.cxx )
 TARGET_LINK_LIBRARIES(ImageEntropy1 ITKIO ITKCommon )
 
+ADD_EXECUTABLE(ImageMutualInformation1 ImageMutualInformation1.cxx )
+TARGET_LINK_LIBRARIES(ImageMutualInformation1 ITKIO ITKCommon )
+
