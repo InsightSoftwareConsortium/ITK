@@ -11,6 +11,7 @@ itkExceptionObject.cxx
 itkFastMutexLock.cxx  
 itkFileOutputWindow.cxx 
 itkGaussianKernelFunction.cxx 
+itkHexahedronCellTopology.cxx
 itkImageIOCommon.cxx 
 itkImageIO.cxx 
 itkIndent.cxx  
@@ -27,13 +28,17 @@ itkObject.cxx
 itkObjectFactoryBase.cxx  
 itkOutputWindow.cxx  
 itkProcessObject.cxx  
+itkQuadraticTriangleCellTopology.cxx
+itkQuadrilateralCellTopology.cxx
 itkRegion.cxx 
 itkSegmentationBorder.cxx 
 itkSegmentationRegion.cxx  
 itkSimpleFastMutexLock.cxx 
+itkTetrahedronCellTopology.cxx
 itkTimeStamp.cxx 
 itkTimeProbe.cxx 
 itkTimeProbesCollectorBase.cxx 
+itkTriangleCellTopology.cxx
 itkVersion.cxx 
 itkVector.cxx 
 itkXMLFileOutputWindow.cxx 

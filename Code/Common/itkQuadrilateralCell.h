@@ -20,6 +20,7 @@
 #include "itkCellInterface.h"
 #include "itkCellBoundary.h"
 #include "itkLineCell.h"
+#include "itkQuadrilateralCellTopology.h"
 
 namespace itk
 {
@@ -42,7 +43,7 @@ namespace itk
  */
 
 template < typename TCellInterface >
-class QuadrilateralCell: public TCellInterface
+class QuadrilateralCell: public TCellInterface, private QuadrilateralCellTopology
 {
 public:
   /** Standard class typedefs. */
@@ -100,8 +101,6 @@ protected:
   /** Store the number of points needed for a quadrilateral. */
   PointIdentifier m_PointIds[NumberOfPoints];
 
-  /** Quadrilateral topology data. */
-  static const int m_Edges[4][2];
 private:
   QuadrilateralCell(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

@@ -20,6 +20,7 @@
 #include "itkCellInterface.h"
 #include "itkCellBoundary.h"
 #include "itkQuadraticEdgeCell.h"
+#include "itkQuadraticTriangleCellTopology.h"
 
 namespace itk
 {
@@ -42,7 +43,7 @@ namespace itk
  */
 
 template < typename TCellInterface >
-class QuadraticTriangleCell: public TCellInterface
+class QuadraticTriangleCell: public TCellInterface, private QuadraticTriangleCellTopology
 {
 public:
   /** Standard class typedefs. */
@@ -109,9 +110,6 @@ public:
  protected:
   /** Store the number of points needed for a triangle. */
   PointIdentifier m_PointIds[NumberOfPoints];
-
-  /** Triangle topology data. */
-  static const int m_Edges[3][3]; // 3 quadratic edges with 3 points each
 
  private:
   QuadraticTriangleCell(const Self&); //purposely not implemented

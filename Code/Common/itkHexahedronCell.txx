@@ -335,27 +335,6 @@ HexahedronCell< TCellInterface >
   return true;
 }
 
-/**
- * The hexahedron's topology data: Edges.
- */
-template <typename TCellInterface>
-const int
-HexahedronCell< TCellInterface >
-::m_Edges[12][2] = { {0,1}, {1,2}, {3,2}, {0,3}, 
-                     {4,5}, {5,6}, {7,6}, {4,7},
-                     {0,4}, {1,5}, {3,7}, {2,6} };
-
-/**
- * The hexahedron's topology data: Faces.
- */
-template <typename TCellInterface>
-const int
-HexahedronCell< TCellInterface >
-::m_Faces[6][4] = { {0,4,7,3}, {1,2,6,5},
-                    {0,1,5,4}, {3,7,6,2},
-                    {0,3,2,1}, {4,5,6,7} };
-
-
 } // end namespace itk
 
 #endif

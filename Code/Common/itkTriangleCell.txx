@@ -301,14 +301,6 @@ TriangleCell< TCellInterface >
   return true;
 }
 
-/**
- * The triangle's topology data: Edges
- */
-template <typename TCellInterface>
-const int
-TriangleCell< TCellInterface >
-::m_Edges[3][2] = { {0,1}, {1,2}, {2,0} };
-
 } // end namespace itk
 
 #endif

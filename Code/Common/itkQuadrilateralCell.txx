@@ -297,14 +297,6 @@ QuadrilateralCell< TCellInterface >
 }
 
 
-/**
- * The quadrilateral's topology data: Edges.
- */
-template <typename TCellInterface>
-const int
-QuadrilateralCell< TCellInterface >
-::m_Edges[4][2] = { {0,1}, {1,2}, {2,3}, {3,0} };
-
 } // end namespace itk
 
 #endif

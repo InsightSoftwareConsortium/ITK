@@ -20,6 +20,7 @@
 #include "itkCellInterface.h"
 #include "itkCellBoundary.h"
 #include "itkTriangleCell.h"
+#include "itkTetrahedronCellTopology.h"
 
 namespace itk
 {
@@ -40,7 +41,7 @@ namespace itk
  * \ingroup MeshObjects
  */
 template < typename TCellInterface >
-class TetrahedronCell: public TCellInterface
+class TetrahedronCell: public TCellInterface, private TetrahedronCellTopology
 {
 public:
   /** Standard class typedefa. */
@@ -105,10 +106,6 @@ public:
   /** Store the number of points needed for a tetrahedron. */
   PointIdentifier m_PointIds[NumberOfPoints];
   
-  /** Tetrahedron topology data. */
-  static const int m_Edges[6][2];
-  static const int m_Faces[4][3];
-
  private:
   TetrahedronCell(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

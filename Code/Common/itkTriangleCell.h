@@ -20,6 +20,7 @@
 #include "itkCellInterface.h"
 #include "itkCellBoundary.h"
 #include "itkLineCell.h"
+#include "itkTriangleCellTopology.h"
 
 namespace itk
 {
@@ -42,7 +43,7 @@ namespace itk
  */
 
 template < typename TCellInterface >
-class TriangleCell: public TCellInterface
+class TriangleCell: public TCellInterface, private TriangleCellTopology
 {
 public:
   /** Standard class typedefs. */
@@ -99,9 +100,6 @@ public:
  protected:
   /** Store the number of points needed for a triangle. */
   PointIdentifier m_PointIds[NumberOfPoints];
-
-  /** Triangle topology data. */
-  static const int m_Edges[3][2];
 
  private:
   TriangleCell(const Self&); //purposely not implemented

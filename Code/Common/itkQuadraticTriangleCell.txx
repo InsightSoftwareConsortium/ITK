@@ -301,14 +301,6 @@ QuadraticTriangleCell< TCellInterface >
   return true;
 }
 
-/**
- * The triangle's topology data: Edges
- */
-template <typename TCellInterface>
-const int
-QuadraticTriangleCell< TCellInterface >
-::m_Edges[3][3] = { {0,4,1}, {1,5,2}, {2,3,0} };
-
 
 /** Given the parametric coordinates of a point in the cell
  *  determine the value of its Shape Functions

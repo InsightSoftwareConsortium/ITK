@@ -20,6 +20,7 @@
 #include "itkCellInterface.h"
 #include "itkCellBoundary.h"
 #include "itkQuadrilateralCell.h"
+#include "itkHexahedronCellTopology.h"
 
 namespace itk
 {
@@ -42,7 +43,7 @@ namespace itk
  */
 
 template < typename TCellInterface >
-class HexahedronCell: public TCellInterface
+class HexahedronCell: public TCellInterface, private HexahedronCellTopology
 {
 public:
   /** Standard class typedefs. */
@@ -102,10 +103,6 @@ protected:
   /** Store the number of points needed for a hexahedron. */
   PointIdentifier m_PointIds[NumberOfPoints];
   
-  /** Hexahedron topology data. */
-  static const int m_Edges[12][2];
-  static const int m_Faces[6][4];
-    
 public:
   HexahedronCell() {}
   ~HexahedronCell() {}
