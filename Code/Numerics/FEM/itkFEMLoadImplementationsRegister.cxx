@@ -25,6 +25,7 @@
 #include "itkFEMLoadPoint.h"
 #include "itkFEMLoadGrav.h"
 #include "itkFEMLoadEdge.h"
+#include "itkFEMLoadLandmark.h"
 
 #include "itkFEMElement2DC0LinearLineStress.h"
 #include "itkFEMElement2DC1Beam.h"
@@ -51,6 +52,7 @@ namespace fem {
  * \sa LoadImplementationGenericBodyLoad()
  */
 extern Element::VectorType LoadImplementationGenericBodyLoad(Element::ConstPointer, LoadGrav::Pointer);
+
 namespace {
 template<class TElementClass>
 class GenericBodyLoad
@@ -71,8 +73,6 @@ public:
 
 };
 } // end namespace
-
-
 
 /* This macro makes registering Load implementations easier. */
 #define REGISTER_LOAD_EX(ElementClass,LoadClass,FunctionName) \
@@ -101,6 +101,9 @@ void LoadImplementationsRegister(void)
 
   // Loads acting on QuadrilateralStress element
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,LoadGravConst,GenericBodyLoad<Element2DC0LinearQuadrilateralStress>::HandleBodyLoad);
+
+  // Landmark loads acting on QuadrilateralStress elements
+  REGISTER_LOAD(Element2DC0LinearQuadrilateralStress,LoadLandmark,LoadImplementationLandmarkLoadOnElement2DC0LinearQuadrilateralStress);
 
   // Loads acting on TriangularStress element
   REGISTER_LOAD_EX(Element2DC0LinearTriangularStress,LoadGravConst,GenericBodyLoad<Element2DC0LinearTriangularStress>::HandleBodyLoad);
