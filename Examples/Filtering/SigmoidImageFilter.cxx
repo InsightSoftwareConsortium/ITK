@@ -20,35 +20,32 @@
 //  The \doxygen{SigmoidImageFilter} is commonly used as an intensity
 //  transform.  It maps a specific range of intensity values into a new
 //  intensity range by making a very smooth and continuous transition in the
-//  borders of the range.  Sigmoids are widely use as a mechanism for focusing
-//  attention in a particular set of values and progressively attenuate the
-//  values outside that range. In order to extend the flexibility of this
-//  filter, its implementation in ITK includes four parameters that can be
-//  tunned to select the input intensity range and the output intensity range
-//  of the filter. The following equation represents the intensity
-//  transformation applied pixel-wise by this filter.  
+//  borders of the range.  Sigmoids are widely used as a mechanism for focusing
+//  attention on a particular set of values and progressively attenuating the
+//  values outside that range. In order to extend the flexibility of the
+//  Sigmoid filter, its implementation in ITK includes four parameters that can
+//  be tuned to select its input and output intensity ranges. The following
+//  equation represents the Sigmoid intensity transformation, applied
+//  pixel-wise.
 //
 //  \begin{equation}
 //  I' = (Max-Min)\cdot \frac{1}{\left(1+e^{-\left(\frac{ I - \beta }{\alpha } \right)} \right)} + Min
 //  \end{equation}
 //  
-//  Where $I$ is the intensity of the input pixel, $I'$ the intensity of the
-//  output pixel, $Min,Max$ are the minimum and maximum values of the output
-//  image, $\alpha$ defines the width of the intensity range to be accepted at
-//  the input and $\beta$ defines the intensity around which the range is
-//  centered. The significance of each one of these parameters can be
-//  better appreciated in Figure~\ref{fig:SigmoidParameters}
+//  In the equation above, $I$ is the intensity of the input pixel, $I'$ the
+//  intensity of the output pixel, $Min,Max$ are the minimum and maximum values
+//  of the output image, $\alpha$ defines the width of the input intensity
+//  range, and $\beta$ defines the intensity around which the range is
+//  centered. Figure~\ref{fig:SigmoidParameters} illustrates the significance
+//  of each parameter.
 //
-// \begin{figure}
-// \center
+// \begin{figure} \center
 // \includegraphics[width=0.44\textwidth]{SigmoidParameterAlpha.eps}
-// \includegraphics[width=0.44\textwidth]{SigmoidParameterBeta.eps} 
-// \itkcaption[Sigmoid Parameters]{Effect of various parameters in the Sigmoid.
-// The alpha parameter is associated with the width of intensity window while
-// the beta parameter is associated with the center of such intensity window.}
-// \label{fig:SigmoidParameters}
-// \end{figure}
-//
+// \includegraphics[width=0.44\textwidth]{SigmoidParameterBeta.eps}
+// \itkcaption[Sigmoid Parameters]{Effects of the various parameters in the
+// SigmoidImageFilter.  The alpha parameter defines the width of the intensity
+// window.  The beta parameter defines the center of the intensity window.}
+// \label{fig:SigmoidParameters} \end{figure}
 //
 //  This filter will work on images of any dimension and will take advantage of
 //  multiple processors when available. 
@@ -90,8 +87,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Then the pixel types for input and output image must be defined and with
-  //  them the image types can be instantiated.
+  //  Then pixel and image types for the filter input and output must be
+  //  defined.
   //
   //  Software Guide : EndLatex 
 
@@ -133,7 +130,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The minimum and maximum values desired at the output are defined with the
+  //  The minimum and maximum values desired in the output are defined using the
   //  methods \code{SetOutputMinimum()} and \code{SetOutputMaximum()}. 
   //
   //  \index{itk::SigmoidImageFilter!SetOutputMaximum()}
@@ -152,16 +149,16 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The coefficients $\alpha$ and $\beta$ are passed with the methods
-  //  \code{SetAlpha()} and \code{SetBeta()}.  Note that $\alpha$ is not
-  //  exactly the width of the input intensity window but it is proportional to
-  //  it. As a rule of thumb we may say that the actual window is the interval
-  //  $[-3\alpha, 3\alpha]$, with the remark that the intensity window ends are
-  //  not crisp but rather have a continuous fading as shown in
+  //  The coefficients $\alpha$ and $\beta$ are set with the methods
+  //  \code{SetAlpha()} and \code{SetBeta()}.  Note that $\alpha$ is
+  //  proportional to the width of the input intensity window.  As rule of
+  //  thumb, we may say that the window is the interval $[-3\alpha, 3\alpha]$.
+  //  The boundaries of the intensity window are not sharp.  The $\alpha$ curve
+  //  approaches its extrema smoothly, as shown in
   //  Figure~\ref{fig:SigmoidParameters}.  You may want to think about this in
-  //  the same terms you do when you take a range in a population of measures
-  //  by defining and interval of $[-3 \sigma, +3 \sigma]$ around the mean of
-  //  the population.
+  //  the same terms as when taking a range in a population of measures by
+  //  defining an interval of $[-3 \sigma, +3 \sigma]$ around the population
+  //  mean.
   //
   //  \index{itk::SigmoidImageFilter!SetAlpha()}
   //  \index{itk::SigmoidImageFilter!SetBeta()}
@@ -179,10 +176,10 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The input to the filter can be taken from any other filter, for example a
-  //  reader. The output can be passed down the pipeline to other filters, for
-  //  example a writer. An update call on any downstream filter will trigger
-  //  the execution of the Sigmoid filter.
+  //  The input to the SigmoidImageFilter can be taken from any other filter,
+  //  such as an image file reader, for example. The output can be passed down the
+  //  pipeline to other filters, like an image file writer. An update call on
+  //  any downstream filter will trigger the execution of the Sigmoid filter.
   //
   //  \index{itk::SigmoidImageFilter!SetInput()}
   //  \index{itk::SigmoidImageFilter!GetOutput()}
@@ -203,13 +200,13 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{SigmoidImageFilterOutput.eps}
-  // \itkcaption[Effect of the Sigmoid filter]{Effect of the Sigmoid filter on a
-  // slice from a MRI proton density brain image.}
+  // \itkcaption[Effect of the Sigmoid filter.]{Effect of the Sigmoid filter on a
+  // slice from an MRI proton density brain image.}
   // \label{fig:SigmoidImageFilterOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:SigmoidImageFilterOutput} illustrate the effect of this
-  //  filter on a slice of MRI brain image using the following parameters
+  //  Figure~\ref{fig:SigmoidImageFilterOutput} illustrates the effect of this
+  //  filter on a slice of MRI brain image using the following parameters.
   //
   //  \begin{itemize}
   //  \item Minimum =  10
@@ -218,22 +215,22 @@ int main( int argc, char * argv[] )
   //  \item $\beta$ = 170
   //  \end{itemize}
   //
-  //  As can be seen from the figure, the intensities on the white matter
-  //  became expanded in their dynamic range, while intensity values lower than
+  //  As can be seen from the figure, the intensities of the white matter
+  //  were expanded in their dynamic range, while intensity values lower than
   //  $\beta - 3 \alpha$ and higher than $\beta + 3\alpha$ became progressively
   //  mapped to the minimum and maximum output values. This is the way in which
   //  a Sigmoid can be used for performing smooth intensity windowing.
   // 
   //  Note that both $\alpha$ and $\beta$ can be positive and negative. A
   //  negative $\alpha$ will have the effect of \emph{negating} the image. This
-  //  is illustrated on the left side of Figure\ref{fig:SigmoidParameters}. An
-  //  application of this filter as pre-processing for segmentation is
-  //  presented in section~\ref{sec:FastMarchingImageFilter}.
+  //  is illustrated on the left side of Figure~\ref{fig:SigmoidParameters}. An
+  //  application of the Sigmoid filter as preprocessing for segmentation is
+  //  presented in Section~\ref{sec:FastMarchingImageFilter}.
   //
-  //  Sigmoid are ubiquitous in nature. They represent the curve of sensitivity
-  //  to any stimulus. They are also the integral curve of the Gaussian and
-  //  henceforth appear naturally as the response to signals whose distribution
-  //  is Gaussian.
+  //  Sigmoid curves are common in the natural world.  They represent the
+  //  plot of sensitivity to a stimulus. They are also the integral curve of
+  //  the Gaussian and, therefore, appear naturally as the response to signals
+  //  whose distribution is Gaussian.
   //
   //  Software Guide : EndLatex 
 
