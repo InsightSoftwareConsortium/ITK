@@ -72,7 +72,7 @@ public:
     m_TotalFrequency = n;
     }
   
-  unsigned long GetTotalFrequency(  ) 
+  unsigned long GetTotalFrequency( ) const 
     {
     return m_TotalFrequency;
     }

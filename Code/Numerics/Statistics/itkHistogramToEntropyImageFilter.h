@@ -82,12 +82,12 @@ public:
       }
   }
 
-  void SetTotalFrequency( unsigned long n ) 
+  void SetTotalFrequency( const unsigned long n ) 
     {
     m_TotalFrequency = n;
     }
   
-  unsigned long GetTotalFrequency(  ) 
+  unsigned long GetTotalFrequency() const
     {
     return m_TotalFrequency;
     }
