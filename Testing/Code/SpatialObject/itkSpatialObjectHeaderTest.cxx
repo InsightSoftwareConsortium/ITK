@@ -35,7 +35,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSpatialObjectProperty.txx"
 #include "itkSurfaceSpatialObject.txx"
 #include "itkSurfaceSpatialObjectPoint.txx"
-#include "itkTubeNetworkSpatialObject.txx"
 #include "itkTubeSpatialObject.txx"
 #include "itkTubeSpatialObjectPoint.txx"
 
