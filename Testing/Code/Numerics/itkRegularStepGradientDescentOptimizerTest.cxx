@@ -14,7 +14,7 @@
 
 =========================================================================*/
 
-#include <itkGradientDescentOptimizer.h>
+#include <itkRegularStepGradientDescentOptimizer.h>
 #include <itkPoint.h>
 #include <itkCovariantVector.h>
 
@@ -117,7 +117,7 @@ int main()
   std::cout << "Conjugate Gradient Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::GradientDescentOptimizer< 
+  typedef  itk::RegularStepGradientDescentOptimizer< 
                                 CostFunction >  OptimizerType;
 
   
