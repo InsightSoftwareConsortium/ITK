@@ -444,9 +444,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   int labelValue         = 0;
 
   for( int r = 0; r < nRowSquareBlocks; r++ )
-  {
-    for( int c = 0; c < nColSquareBlocks; c++, labelValue++ )
     {
+    for( int c = 0; c < nColSquareBlocks; c++, labelValue++ )
+      {
       CalculateInitRegionStats(r * rowGridSize,
                                c * colGridSize,
                                rowGridSize,
@@ -467,7 +467,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //----------------------------------------------------------------------
   m_nBorders = ( nColSquareBlocks - 1 ) * nRowSquareBlocks +
                ( nRowSquareBlocks - 1 ) * nColSquareBlocks;
-  m_pBorders = new SegmentationBorder<TInputImage,TOutputImage> [m_nBorders];
+  m_pBorders = new KLMSegmentationBorder<TInputImage,TOutputImage> [m_nBorders];
 
   /* 
   the following initialization of the horizontal and vertical
@@ -509,13 +509,13 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   // horizontal border initialization 
 
-  SegmentationBorder<TInputImage,TOutputImage> *pcurrentBorder;
+  KLMSegmentationBorder<TInputImage,TOutputImage> *pcurrentBorder;
 
   pcurrentBorder      = m_pBorders;
   m_TotalBorderLength = 0;
   int borderCounter   = 0;
 
-  for ( int r = nRowSquareBlocks - 1; r >= 1; r-- ) 
+  for ( int r = nRowSquareBlocks - 1; r >= 1; r-- )
   {
     for ( int c = 0; c < nColSquareBlocks; c++ ) 
     {
@@ -875,7 +875,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   KLMSegmentationRegion<TInputImage,TOutputImage> *ptmpRegion;  
 
   typedef 
-    std::vector< SegmentationBorder<TInputImage,TOutputImage>* > RegionBorderVecT;
+    std::vector< KLMSegmentationBorder<TInputImage,TOutputImage>* > RegionBorderVecT;
   typedef RegionBorderVecT::iterator RegionBorderVecIt;
 
   //Point the old region iterators to the appropriate region border to the 

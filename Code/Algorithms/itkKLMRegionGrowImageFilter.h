@@ -252,7 +252,7 @@ public:
   /**
    * Type definition for the smart border type.
    */
-  typedef SegmentationBorder<TInputImage,TOutputImage>    BorderType;
+  typedef KLMSegmentationBorder<TInputImage,TOutputImage>    BorderType;
 
   /**
    * Type definition for the smart border pointers object.
@@ -376,7 +376,7 @@ private:
   unsigned int     m_InitRegionArea;
 
   KLMSegmentationRegion<TInputImage,TOutputImage> *m_pRegions;   
-  SegmentationBorder<TInputImage,TOutputImage> *m_pBorders;
+  KLMSegmentationBorder<TInputImage,TOutputImage> *m_pBorders;
 
   SegmentationBorderPtr                        *m_pBordersDynPtrs;
   SegmentationBorderPtr                        *m_pBordersCandidateDynPtr;

@@ -148,8 +148,7 @@ int main()
   // Set the Region Grow Algorithm classifier/segmentor
   //---------------------------------------------------------------------
 
-  typedef itk::KLMRegionGrowImageFilter<ImageType,ImageType> RegionGrowImageFilterKLMT;
-
+  typedef itk::KLMRegionGrowImageFilter<ImageType,ImageType> KLMRegionGrowImageFilterT;
   KLMRegionGrowImageFilterT::Pointer applyRegionGrowImageFilterKLM = KLMRegionGrowImageFilterT::New();
   
   //----------------------------------------------------------------------
