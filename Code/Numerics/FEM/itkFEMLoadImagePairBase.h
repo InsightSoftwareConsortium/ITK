@@ -94,8 +94,8 @@ public:
   typedef TTarget       TargetType;
   /** Inherit some enums and typedefs from template */
   enum{ ImageDimension = TReference::ImageDimension };
-  typedef itk::ImageRegionIteratorWithIndex<TReference> RefRegionIteratorType; 
-  typedef itk::ImageRegionIteratorWithIndex<TTarget>    TarRegionIteratorType; 
+  typedef itk::ImageRegionIteratorWithIndex<ReferenceType> RefRegionIteratorType; 
+  typedef itk::ImageRegionIteratorWithIndex<TargetType>    TarRegionIteratorType; 
   
   typedef itk::SmartNeighborhoodIterator<ReferenceType> 
                                      ReferenceNeighborhoodIteratorType; 
