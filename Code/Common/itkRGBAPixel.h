@@ -69,9 +69,9 @@ public:
   typedef TComponent ComponentType;
 
   /** Default constructor has nothing to do. */
-  RGBAPixel() {Fill(0);}
+  RGBAPixel() {this->Fill(0);}
   RGBAPixel (const ComponentType& r)
-  { Fill(r) ;}
+  { this->Fill(r) ;}
   
   /** Pass-through constructor for the Array base class. */
   RGBAPixel(const Self& r): BaseArray(r) {}
