@@ -19,6 +19,7 @@
 
 #include "itkImageFileWriter.h"
 #include "itkDataObject.h"
+#include "itkObjectFactoryBase.h"
 #include "itkImageIOFactory.h"
 #include "itkCommand.h"
 
@@ -141,7 +142,24 @@ ImageFileWriter<TInputImage>
 
   if ( m_ImageIO.IsNull() )
     {
-    itkExceptionMacro(<<"No ImageIO set, or none could be created.");
+    ImageFileWriterException e(__FILE__, __LINE__);
+    OStringStream msg;
+    msg << " Could not create IO object for file "
+        << m_FileName.c_str() << std::endl;
+    msg << "  Tried to create one of the following:" << std::endl;
+    std::list<LightObject::Pointer> allobjects = 
+      ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
+    for(std::list<LightObject::Pointer>::iterator i = allobjects.begin();
+        i != allobjects.end(); ++i)
+      {
+      ImageIOBase* io = dynamic_cast<ImageIOBase*>(i->GetPointer());
+      msg << "    " << io->GetNameOfClass() << std::endl; 
+      }
+    msg << "  You probably failed to set a file suffix, or" << std::endl;
+    msg << "    set the suffix to an unsupported type." << std::endl;
+    e.SetDescription(msg.str().c_str());
+    throw e;
+    return;
     }
 
   // NOTE: this const_cast<> is due to the lack of const-correctness
