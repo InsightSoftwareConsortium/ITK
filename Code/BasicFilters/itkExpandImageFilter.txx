@@ -22,6 +22,7 @@
 #include "itkExceptionObject.h"
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -188,46 +189,34 @@ ExpandImageFilter<TInputImage,TOutputImage>
   typedef typename TOutputImage::PixelType OutputPixelType;
 
   // Support progress methods/callbacks
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
-    }
-
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  
   // Walk the output region, and interpolate the input image
   for( i = 0; !outIt.IsAtEnd(); ++outIt, i++ )
     {
-      // Update progress
-      if ( threadId == 0 && !(i % updateVisits ) )
-        {
-        this->UpdateProgress((float)i / (float)totalPixels);
-        }
+    // Determine the index of the output pixel
+    outputIndex = outIt.GetIndex();
 
-      // Determine the index of the output pixel
-      outputIndex = outIt.GetIndex();
-
-      // Determine the input pixel location associated with this output pixel.
-      // Don't need to check for division by zero because the factors are
-      // clamped to be minimum for 1.
-      for( int j = 0; j < ImageDimension; j++ )
-        {
-        inputIndex[j] = (double) outputIndex[j] /
-          (double) m_ExpandFactors[j];
-        }
-      
-      // interpolate value and write to output
-      if( m_Interpolator->IsInsideBuffer( inputIndex ) )
-        {
-        outIt.Set( static_cast<OutputPixelType>( 
-          m_Interpolator->EvaluateAtContinuousIndex( inputIndex ) ) );
-        }
-      else
-        {
-        outIt.Set( m_EdgePaddingValue );
-        }
+    // Determine the input pixel location associated with this output pixel.
+    // Don't need to check for division by zero because the factors are
+    // clamped to be minimum for 1.
+    for( int j = 0; j < ImageDimension; j++ )
+      {
+      inputIndex[j] = (double) outputIndex[j] /
+        (double) m_ExpandFactors[j];
+      }
+    
+    // interpolate value and write to output
+    if( m_Interpolator->IsInsideBuffer( inputIndex ) )
+      {
+      outIt.Set( static_cast<OutputPixelType>( 
+        m_Interpolator->EvaluateAtContinuousIndex( inputIndex ) ) );
+      }
+    else
+      {
+      outIt.Set( m_EdgePaddingValue );
+      }
+    progress.CompletedPixel();
     } 
  
 }

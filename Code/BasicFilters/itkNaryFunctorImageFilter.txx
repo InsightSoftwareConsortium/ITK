@@ -18,7 +18,8 @@
 #define _itkNaryFunctorImageFilter_txx
 
 #include "itkNaryFunctorImageFilter.h"
-#include <itkImageRegionIterator.h>
+#include "itkImageRegionIterator.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -61,20 +62,8 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
     }
  
   // support progress methods/callbacks
-  unsigned long updateVisits = 0;
-  unsigned long i=0;
-  float progressBase = 0.0;
-  if ( threadId == 0 )
-    {
-    updateVisits = outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
-    if ( updateVisits < 1 )
-      {
-      updateVisits = 1;
-      }
-    updateVisits *= numberOfInputImages;
-    progressBase = static_cast<float>(updateVisits) * 10.0;
-    }
-  
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+    
   for(unsigned int inputNumber=0;
       inputNumber < numberOfInputImages; inputNumber++ )
     {
@@ -88,15 +77,10 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
     outputIt.GoToBegin();
     while( !inputIt.IsAtEnd() ) 
       {
-      if ( threadId == 0 && !(i % updateVisits ) )
-        {
-        this->UpdateProgress((float)i/progressBase);
-        }
-      
       outputIt.Set( m_Functor( outputIt.Get(), inputIt.Get() ) );
       ++inputIt;
       ++outputIt;
-      ++i;
+      progress.CompletedPixel();
       }
     }
 }

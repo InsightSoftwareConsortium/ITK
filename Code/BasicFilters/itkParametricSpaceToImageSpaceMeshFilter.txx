@@ -111,28 +111,14 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
   typename OutputPointDataContainer::Iterator      outputData  = outData->Begin();
 
   // support progress methods/callbacks
-  unsigned long updateVisits = 0;
-  unsigned long visitNumber  = 0;
-  const float numberOfUpdates = 100.0f;
-  updateVisits = static_cast<unsigned long>( inPoints->Size()/numberOfUpdates );
-  if ( updateVisits < 1 ) 
-    {
-    updateVisits = 1;
-    }
-  
+  ProgressReporter progress(this, 0, inPoints->Size());
+    
   const unsigned long OutputDimension = TOutputMesh::PointDimension;
     
+  typename TOutputMesh::PointType point;
+
   while( inputPoint != inPoints->End() ) 
     {
-    if ( !(visitNumber % updateVisits ) )
-      {
-      const float progress = 
-                    static_cast<float>(visitNumber) /
-                      ( updateVisits * numberOfUpdates );
-      this->UpdateProgress( progress );
-      }
-    
-    typename TOutputMesh::PointType point;
     for(unsigned int i=0; i<OutputDimension; i++)
       {
       // Conver Index coordinates to MeshSpace
@@ -146,7 +132,7 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
     ++inputPoint;
     ++outputPoint;
     ++outputData;
-    ++visitNumber;
+    progress.CompletedPixel();
     }
 
 }

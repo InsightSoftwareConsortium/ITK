@@ -25,6 +25,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkOffset.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -98,11 +99,8 @@ MeanImageFilter< TInputImage, TOutputImage>
   unsigned int i;
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
-  ConstNeighborhoodIterator<InputImageType> nit;
   ConstSmartNeighborhoodIterator<InputImageType> bit;
   ImageRegionIterator<OutputImageType> it;
-  typename ConstNeighborhoodIterator<InputImageType>::ConstIterator inner_it;
-  typename ConstNeighborhoodIterator<InputImageType>::ConstIterator innerEnd_it;
   
   // Allocate output
   typename OutputImageType::Pointer output = this->GetOutput();
@@ -114,67 +112,25 @@ MeanImageFilter< TInputImage, TOutputImage>
   faceList = bC(input, outputRegionForThread, m_Radius);
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
-  fit = faceList.begin();
 
   // support progress methods/callbacks
-  unsigned long ii = 0;
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
-    }
-
-  // Process non-boundary face
-  nit = ConstNeighborhoodIterator<InputImageType>(m_Radius, input, *fit);
-  it  = ImageRegionIterator<OutputImageType>(output, *fit);
-
-  nit.GoToBegin();
-  it.GoToBegin();
-
-  unsigned int neighborhoodSize = nit.Size();
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  
   InputRealType sum;
-  
-  while( ! nit.IsAtEnd() )
-    {
-    if ( threadId == 0 && !(++ii % updateVisits ) )
-      {
-      this->UpdateProgress((float)ii / (float)totalPixels);
-      }
 
-    sum = NumericTraits<InputRealType>::Zero;
-    innerEnd_it = nit.End();
-    for (inner_it = nit.Begin(); inner_it != innerEnd_it; ++inner_it)
-      {
-      sum += static_cast<InputRealType>(**inner_it);
-      }
-
-    // get the mean value
-    it.Set( static_cast<OutputPixelType>(sum / double(neighborhoodSize)) );
-
-    ++nit;
-    ++it;
-    }
-  
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for (++fit; fit != faceList.end(); ++fit)
+  for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
     bit = ConstSmartNeighborhoodIterator<InputImageType>(m_Radius,
                                                          input, *fit);
+    unsigned int neighborhoodSize = bit.Size();
     it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
-    
+
     while ( ! bit.IsAtEnd() )
       {
-      if ( threadId == 0 && !(++ii % updateVisits ) )
-        {
-        this->UpdateProgress((float)ii / (float)totalPixels);
-        }
-
       sum = NumericTraits<InputRealType>::Zero;
       for (i = 0; i < neighborhoodSize; ++i)
         {
@@ -186,6 +142,7 @@ MeanImageFilter< TInputImage, TOutputImage>
       
       ++bit;
       ++it;
+      progress.CompletedPixel();
       }
     }
 }

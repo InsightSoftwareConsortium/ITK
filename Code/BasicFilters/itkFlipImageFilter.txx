@@ -20,6 +20,7 @@
 #include "itkFlipImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkExceptionObject.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -180,15 +181,8 @@ FlipImageFilter<TImage>
   typename TImage::IndexType inputIndex;
 
   // support progress methods/callbacks
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
-    }
-  
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+    
   const typename TImage::SizeType & outputLargestPossibleSize =
     outputPtr->GetLargestPossibleRegion().GetSize();
   const typename TImage::IndexType& outputLargestPossibleIndex =
@@ -207,11 +201,6 @@ FlipImageFilter<TImage>
   // walk the output region, and sample the input image
   for ( i = 0; !outIt.IsAtEnd(); ++outIt, i++ )
     {
-    if ( threadId == 0 && !(i % updateVisits ) )
-        {
-        this->UpdateProgress((float)i / (float)totalPixels);
-        }
-    
     // determine the index of the output pixel
     outputIndex = outIt.GetIndex();
     
@@ -230,6 +219,7 @@ FlipImageFilter<TImage>
     
     // copy the input pixel to the output
     outIt.Set( inputPtr->GetPixel(inputIndex) );
+    progress.CompletedPixel();
     }
 
 }

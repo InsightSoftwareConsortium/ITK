@@ -202,9 +202,9 @@ private:
   unsigned int     m_Iterations;
   unsigned int     m_ConductanceScalingUpdateInterval;
   double           m_FixedAverageGradientMagnitude;
-  
 
   TimeStepType     m_TimeStep;
+  
 };
 
 } // end namspace itk

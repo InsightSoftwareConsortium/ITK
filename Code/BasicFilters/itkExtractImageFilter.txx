@@ -22,6 +22,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"
 #include "itkExtractImageFilterRegionCopier.h"
+#include "itkProgressReporter.h"
 
 
 namespace itk
@@ -210,8 +211,6 @@ ExtractImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-  int i;
-
   itkDebugMacro(<<"Actually executing");
 
   // Get the input and output pointers
@@ -219,16 +218,8 @@ ExtractImageFilter<TInputImage,TOutputImage>
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   // support progress methods/callbacks
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = 
-      outputPtr->GetRequestedRegion().GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
-    }
-
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
   this->CallCopyRegion(inputRegionForThread, outputRegionForThread);
@@ -241,15 +232,13 @@ ExtractImageFilter<TInputImage,TOutputImage>
   InputIterator inIt(inputPtr, inputRegionForThread);
 
   // walk the output region, and sample the input image
-  for (i=0; !outIt.IsAtEnd(); ++outIt, ++inIt, i++ )
+  while( !outIt.IsAtEnd() )
     {
-      if ( threadId == 0 && !(i % updateVisits ) )
-        {
-          this->UpdateProgress((float)i / (float)totalPixels);
-        }
-      
-      // copy the input pixel to the output
-      outIt.Set( inIt.Get());
+    // copy the input pixel to the output
+    outIt.Set( inIt.Get());
+    ++outIt; 
+    ++inIt; 
+    progress.CompletedPixel();
     }
 }
 

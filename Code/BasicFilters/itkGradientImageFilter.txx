@@ -26,6 +26,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkOffset.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -104,8 +105,6 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   ConstSmartNeighborhoodIterator<InputImageType> bit;
   ImageRegionIterator<OutputImageType> it;
 
-  NeighborhoodInnerProduct<InputImageType, OperatorValueType,
-    OutputValueType> IP;
   SmartNeighborhoodInnerProduct<InputImageType, OperatorValueType,
     OutputValueType> SIP;
 
@@ -139,19 +138,10 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   fit = faceList.begin();
 
   // support progress methods/callbacks
-  unsigned long ii = 0;
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
-    }
-
-  // Process non-boundary face
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  
+  // Only use to initialize the x_slice array
   nit = ConstNeighborhoodIterator<InputImageType>(radius, input, *fit);
-  it  = ImageRegionIterator<OutputImageType>(output, *fit);
 
   std::slice x_slice[InputImageDimension];
   const unsigned long center = nit.Size() / 2;
@@ -161,28 +151,10 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
                                op.GetSize()[0], nit.GetStride(i));
     }
 
-  nit.GoToBegin();
-  it.GoToBegin();
 
-  while( ! nit.IsAtEnd() )
-    {
-    if ( threadId == 0 && !(++ii % updateVisits ) )
-      {
-      this->UpdateProgress((float)ii / (float)totalPixels);
-      }
-
-    for (i = 0; i < InputImageDimension; ++i)
-      {
-      a[i] = IP(x_slice[i], nit, op);
-      }
-    it.Value() = a;
-    ++nit;
-    ++it;
-    }
-  
-  // Process each of the boundary faces.  These are N-d regions which border
-  // the edge of the buffer.
-  for (++fit; fit != faceList.end(); ++fit)
+  // Process non-boundary face and then each of the boundary faces.  
+  // These are N-d regions which border the edge of the buffer.
+  for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
     bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
                                                          input, *fit);
@@ -192,11 +164,6 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
     
     while ( ! bit.IsAtEnd() )
       {
-      if ( threadId == 0 && !(++ii % updateVisits ) )
-        {
-        this->UpdateProgress((float)ii / (float)totalPixels);
-        }
-
       for (i = 0; i < InputImageDimension; ++i)
         {
         a[i] = SIP(x_slice[i], bit, op);
@@ -204,6 +171,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
       it.Value() = a;          
       ++bit;
       ++it;
+      progress.CompletedPixel();
       }
     }
 }

@@ -22,6 +22,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
 #include "itkObjectFactory.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -132,7 +133,6 @@ TwoOutputExampleImageFilter<TImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-  unsigned long i;
   itkDebugMacro(<<"Actually executing");
 
   // Get the input and output pointers
@@ -150,22 +150,14 @@ TwoOutputExampleImageFilter<TImage>
   OutputIterator outInverseIt(outputInversePtr, outputRegionForThread);
 
   // support progress methods/callbacks
-  unsigned long updateVisits = 0;
-  if ( threadId == 0 )
-    {
-    updateVisits = outputRegionForThread.GetNumberOfPixels()/10;
-    if ( updateVisits < 1 ) updateVisits = 1;
-    }
-        
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+          
   // walk the regions, threshold each pixel
-  for (i=0; !outIt.IsAtEnd(); ++inIt, ++outIt, ++outInverseIt, i++ )
+  while( !outIt.IsAtEnd() )
     {
-    if ( threadId == 0 && !(i % updateVisits ) )
-      {
-      this->UpdateProgress((float)i/(float(updateVisits)*10.0));
-      }
-
-    if (m_Lower <= inIt.Get() && inIt.Get() <= m_Upper)
+    typedef typename TImage::PixelType PixelType;
+    const PixelType value = inIt.Get();
+    if (m_Lower <= value && value <= m_Upper)
       {
       // pixel passes to output unchanged and is replaced by m_OutsideValue in
       // the inverse output image
@@ -177,6 +169,10 @@ TwoOutputExampleImageFilter<TImage>
       outIt.Set( m_OutsideValue );
       outInverseIt.Set( inIt.Get() );
       }
+    ++inIt;
+    ++outIt;
+    ++outInverseIt;
+    progress.CompletedPixel();
     }
   
 }

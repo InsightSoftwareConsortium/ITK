@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
+#include "itkProgressReporter.h"
 
 namespace itk {
 
@@ -126,19 +127,14 @@ StatisticsImageFilter<TInputImage>
 template<class TInputImage>
 void
 StatisticsImageFilter<TInputImage>
-::ThreadedGenerateData(const RegionType& regionForThread,
+::ThreadedGenerateData(const RegionType& outputRegionForThread,
                        int threadId) 
 {
   RealType value;
-  ImageRegionConstIterator<TInputImage> it (this->GetInput(), regionForThread);
+  ImageRegionConstIterator<TInputImage> it (this->GetInput(), outputRegionForThread);
   
   // support progress methods/callbacks
-  unsigned long updateVisits = 0, i=0;
-  if ( threadId == 0 )
-    {
-    updateVisits = regionForThread.GetNumberOfPixels()/10;
-    if ( updateVisits < 1 ) updateVisits = 1;
-    }
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
 
   // do the work
   while (!it.IsAtEnd())
@@ -157,13 +153,7 @@ StatisticsImageFilter<TInputImage>
     m_SumOfSquares[threadId] += (value * value);
     m_Count[threadId]++;
     ++it;
-
-    if ( threadId == 0 && !(i % updateVisits ) )
-      {
-      this->UpdateProgress( static_cast<float>(i) / 
-                            static_cast<float>(updateVisits * 10.0) );
-      }
-    ++i;
+    progress.CompletedPixel();
     }
 }
 

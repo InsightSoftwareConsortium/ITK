@@ -22,6 +22,7 @@
 #include "itkExceptionObject.h"
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -35,7 +36,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 {
 
   // Set default factors to 1
-  for( int j = 0; j < ImageDimension; j++ )
+  for(unsigned int j = 0; j < ImageDimension; j++ )
     {
     m_ExpandFactors[j] = 1;
     }
@@ -66,7 +67,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 {
   Superclass::PrintSelf( os, indent );
 
-  int j;
+  unsigned int j;
   os << indent << "ExpandFactors: [" ;
   for( j = 0; j < ImageDimension - 1; j++ )
     {
@@ -93,7 +94,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 const unsigned int factors[] )
 {
 
-  int j;
+  unsigned int j;
   for( j = 0; j < ImageDimension; j++ )
     {
     if( factors[j] != m_ExpandFactors[j] ) break;
@@ -121,7 +122,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 const unsigned int factor )
 {
 
-  int j;
+  unsigned int j;
   for( j = 0; j < ImageDimension; j++ )
     {
     if( factor != m_ExpandFactors[j] ) break;
@@ -148,7 +149,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 ::SetEdgePaddingValue(
 const OutputPixelType& value )
 {
-  int i;
+  unsigned int i;
   for( i = 0; i < OutputPixelType::VectorDimension; i++ )
     {
     if( value[i] != m_EdgePaddingValue[i] ) { break; };
@@ -193,8 +194,6 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                          int threadId)
 {
-  int i;
-
   // Get the input and output pointers
   OutputImagePointer outputPtr = this->GetOutput();
 
@@ -216,57 +215,46 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
   InterpolatedType interpolatedValue;
 
   // Support progress methods/callbacks
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
-    }
-
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  
   // Walk the output region, and interpolate the input image
-  for( i = 0; !outIt.IsAtEnd(); ++outIt, i++ )
+  while( !outIt.IsAtEnd())
     {
-      // Update progress
-      if ( threadId == 0 && !(i % updateVisits ) )
+    // Determine the index of the output pixel
+    outputIndex = outIt.GetIndex();
+
+    // Determine the input pixel location associated with this output pixel.
+    // Don't need to check for division by zero because the factors are
+    // clamped to be minimum for 1.
+    for(unsigned int j = 0; j < ImageDimension; j++ )
+      {
+      inputIndex[j] = (double) outputIndex[j] /
+        (double) m_ExpandFactors[j];
+      }
+    
+    // interpolate value and write to output
+    if( m_Interpolator->IsInsideBuffer( inputIndex ) )
+      {
+
+      interpolatedValue = 
+        m_Interpolator->EvaluateAtContinuousIndex( inputIndex );
+
+      for( int k = 0; k < VectorDimension; k++ )
         {
-        this->UpdateProgress((float)i / (float)totalPixels);
+        outputValue[k] = static_cast<OutputValueType>(
+          interpolatedValue[k] );
         }
 
-      // Determine the index of the output pixel
-      outputIndex = outIt.GetIndex();
+      outIt.Set( outputValue );
 
-      // Determine the input pixel location associated with this output pixel.
-      // Don't need to check for division by zero because the factors are
-      // clamped to be minimum for 1.
-      for( int j = 0; j < ImageDimension; j++ )
-        {
-        inputIndex[j] = (double) outputIndex[j] /
-          (double) m_ExpandFactors[j];
-        }
-      
-      // interpolate value and write to output
-      if( m_Interpolator->IsInsideBuffer( inputIndex ) )
-        {
-
-        interpolatedValue = 
-          m_Interpolator->EvaluateAtContinuousIndex( inputIndex );
-
-        for( int k = 0; k < VectorDimension; k++ )
-          {
-          outputValue[k] = static_cast<OutputValueType>(
-            interpolatedValue[k] );
-          }
-
-        outIt.Set( outputValue );
-
-        }
-      else
-        {
-        outIt.Set( m_EdgePaddingValue );
-        }
-    } 
+      }
+    else
+      {
+      outIt.Set( m_EdgePaddingValue );
+      }
+    ++outIt;
+    progress.CompletedPixel();
+    }
  
 }
 

@@ -23,6 +23,7 @@
 #include "itkObjectFactory.h"
 #include "itkAffineTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -205,27 +206,12 @@ ResampleImageFilter<TInputImage,TOutputImage>
   PointType outputPoint;         // Coordinates of current output pixel
   PointType inputPoint;          // Coordinates of current input pixel
 
-  // Estimate total work for progress methods/callbacks
-  unsigned long updateVisits = 0;
-  const unsigned long totalVisits = 100L;
-  if ( threadId == 0 )
-    {
-    updateVisits = static_cast<unsigned long>( 
-      outputPtr->GetRequestedRegion().GetNumberOfPixels() /
-                                static_cast<float>( totalVisits ) );
-    }
+  // Support for progress methods/callbacks
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
         
   // Walk the output region
   for (i=0; !outIt.IsAtEnd(); ++outIt, i++ )
-
-    // Update progress
     {
-    if ( threadId == 0 && !(i % updateVisits ) )
-      {
-      this->UpdateProgress( static_cast<float>( i ) /
-                            static_cast<float>( updateVisits * totalVisits ) );
-      }
-    
     // Determine the index of the current output pixel
     outputIndex = outIt.GetIndex();
     for (int ii = 0; ii < ImageDimension; ++ii)
@@ -239,16 +225,18 @@ ResampleImageFilter<TInputImage,TOutputImage>
 
     // Evaluate input at right position and copy to the output
     if( m_Interpolator->IsInsideBuffer(inputPoint) )
-    {
+      {
       const PixelType pixval = 
         static_cast<PixelType>( m_Interpolator->Evaluate(inputPoint));
       outIt.Set( pixval );      
-    }
+      }
     else
-    {
+      {
       outIt.Set(m_DefaultPixelValue); // default background value
+      }
+
+    progress.CompletedPixel();
     }
-  }
 
   return;
 }

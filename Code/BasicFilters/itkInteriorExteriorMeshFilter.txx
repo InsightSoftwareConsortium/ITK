@@ -20,6 +20,7 @@
 #include "itkInteriorExteriorMeshFilter.h"
 #include "itkExceptionObject.h"
 #include "itkNumericTraits.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -104,14 +105,8 @@ InteriorExteriorMeshFilter<TInputMesh,TOutputMesh,TSpatialFunction>
   }
   
   // support progress methods/callbacks
-  unsigned long updateVisits = 0;
-  unsigned long visitNumber  = 0;
-  updateVisits = inPoints->Size()/10;
-  if ( updateVisits < 1 ) 
-    {
-    updateVisits = 1;
-    }
-
+  ProgressReporter progress(this, 0, inPoints->Size());
+  
   typedef typename TSpatialFunction::OutputType ValueType;
   
   typedef typename TOutputMesh::PointIdentifier   PointIdType;
@@ -119,14 +114,6 @@ InteriorExteriorMeshFilter<TInputMesh,TOutputMesh,TSpatialFunction>
     
   while( inputPoint != inPoints->End() ) 
     {
-    if ( !(visitNumber % updateVisits ) )
-      {
-      const float progress = 
-                   static_cast<float>(visitNumber) /
-                  (static_cast<float>(updateVisits)*10.0);
-      this->UpdateProgress( progress );
-      }
-
     ValueType value = m_SpatialFunction->Evaluate( inputPoint.Value() );
     
     if( value ) // Assumes return type is "bool"
@@ -144,7 +131,7 @@ InteriorExteriorMeshFilter<TInputMesh,TOutputMesh,TSpatialFunction>
       {
       ++inputData;
       }
-    visitNumber++;
+    progress.CompletedPixel();
     }
 
   // Create duplicate references to the rest of data in the mesh

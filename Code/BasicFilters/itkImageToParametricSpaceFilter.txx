@@ -21,6 +21,7 @@
 #include "itkImageToParametricSpaceFilter.h"
 #include "itkNumericTraits.h"
 #include "itkImageIterator.h"
+#include "itkProgressReporter.h"
 
 
 namespace itk
@@ -112,10 +113,8 @@ ImageToParametricSpaceFilter<TInputImage,TOutputMesh>
   mesh->SetPointData( pointData.GetPointer() );
 
   // support progress methods/callbacks
-  unsigned long visitPeriod  = 100;
-  unsigned long updateVisits = numberOfPixels / visitPeriod;
-  unsigned long visitCounter = 0;
- 
+  ProgressReporter progress(this, 0, numberOfPixels);
+   
   for( unsigned int component=0; component<PointDimension; component++)
     {
 
@@ -127,17 +126,11 @@ ImageToParametricSpaceFilter<TInputImage,TOutputMesh>
     it.GoToBegin();
     while( !it.IsAtEnd() ) 
       {
-      if( visitCounter == updateVisits )
-        {
-        visitCounter = 0;
-        this->UpdateProgress( static_cast<float>( visitCounter ) /
-                              static_cast<float>( updateVisits * visitPeriod ) );
-        }
       (point.Value())[ component ] = it.Get();
       it.GetIndex();
       ++it;
       ++point;
-      ++visitCounter;
+      progress.CompletedPixel();
       }
     }
 

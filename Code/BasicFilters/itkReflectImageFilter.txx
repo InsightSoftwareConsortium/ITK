@@ -20,6 +20,7 @@
 #include "itkReflectImageFilter.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -59,19 +60,13 @@ ReflectImageFilter<TInputImage,TOutputImage>
   OutputIterator outputIt( outputPtr, outputPtr->GetRequestedRegion() );
 
   // support progress methods/callbacks
-  unsigned long updateVisits = 0;
-  unsigned long visitInterval = 1000;
-  updateVisits = 
-      outputPtr->GetRequestedRegion().GetNumberOfPixels()/visitInterval;
-
-  if ( updateVisits < 1 ) updateVisits = 1;
-        
+  ProgressReporter progress(this, 0,  inputPtr->GetRequestedRegion().GetNumberOfPixels() );
+       
   inputIt.SetDirection( m_Direction );
   outputIt.SetDirection( m_Direction );
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();
-  unsigned long visitCounter = 0;
 
   while( !inputIt.IsAtEnd() ) 
     {
@@ -80,16 +75,10 @@ ReflectImageFilter<TInputImage,TOutputImage>
     --outputIt;
     while( !inputIt.IsAtEndOfLine() ) 
       {
-      if ( !(visitCounter % updateVisits ) )
-        {
-        this->UpdateProgress( static_cast<float>(visitCounter) / 
-              static_cast<float>(updateVisits * visitInterval) );
-        }
-
       outputIt.Set( inputIt.Get() );
       ++inputIt;
       --outputIt;
-      ++visitCounter;
+      progress.CompletedPixel();
       }
 
      inputIt.NextLine();

@@ -22,6 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkConstSmartNeighborhoodIterator.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -89,7 +90,6 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
     BFC;
   typedef typename BFC::FaceListType FaceListType;
 
-  NeighborhoodInnerProduct<InputImageType>      innerProduct;
   SmartNeighborhoodInnerProduct<InputImageType> smartInnerProduct;
   BFC faceCalculator;
   FaceListType faceList;
@@ -106,42 +106,17 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
   // pixels that correspond to output pixels.
   faceList = faceCalculator(input, outputRegionForThread,
                             m_Operator.GetRadius());
-  typename FaceListType::iterator fit = faceList.begin();
+
+  typename FaceListType::iterator fit;
+  ImageRegionIterator<OutputImageType> it;
 
   // support progress methods/callbacks
-  unsigned long i = 0;
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
-    }
-  
-  // Process non-boundary region
-  ConstNeighborhoodIterator<InputImageType>
-    nit(m_Operator.GetRadius(), input, *fit);
-  ImageRegionIterator<OutputImageType> it(output, *fit);
-  nit.GoToBegin();
-  it.GoToBegin();
-  
-  while( ! nit.IsAtEnd() )
-    {
-    if ( threadId == 0 && !(i % updateVisits ) )
-      {
-      this->UpdateProgress((float)i++ / (float)totalPixels);
-      }
-
-    it.Value() = innerProduct(nit, m_Operator);
-    ++nit;
-    ++it;
-    }
-
-  // Process each of the boundary faces.  These are N-d regions which border
-  // the edge of the buffer.
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+    
+  // Process non-boundary region and each of the boundary faces.
+  // These are N-d regions which border the edge of the buffer.
   ConstSmartNeighborhoodIterator<InputImageType> bit;
-  for (++fit; fit != faceList.end(); ++fit)
+  for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
     bit =
       ConstSmartNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(),
@@ -150,14 +125,10 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
     bit.GoToBegin();
     while ( ! bit.IsAtEnd() )
       {
-      if ( threadId == 0 && !(i % updateVisits ) )
-        {
-        this->UpdateProgress((float)i++ / (float)totalPixels);
-        }
-      
       it.Value() = smartInnerProduct(bit, m_Operator);
       ++bit;
       ++it;
+      progress.CompletedPixel();
       }
    }
 }

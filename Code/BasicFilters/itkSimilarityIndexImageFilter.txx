@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
+#include "itkProgressReporter.h"
 
 namespace itk {
 
@@ -166,21 +167,16 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>
 template<class TInputImage1, class TInputImage2>
 void
 SimilarityIndexImageFilter<TInputImage1, TInputImage2>
-::ThreadedGenerateData(const RegionType& regionForThread,
+::ThreadedGenerateData(const RegionType& outputRegionForThread,
                        int threadId) 
 {
 
-  ImageRegionConstIterator<TInputImage1> it1 (this->GetInput1(), regionForThread);
-  ImageRegionConstIterator<TInputImage2> it2 (this->GetInput2(), regionForThread);
+  ImageRegionConstIterator<TInputImage1> it1 (this->GetInput1(), outputRegionForThread);
+  ImageRegionConstIterator<TInputImage2> it2 (this->GetInput2(), outputRegionForThread);
   
   // support progress methods/callbacks
-  unsigned long updateVisits = 0, i=0;
-  if ( threadId == 0 )
-    {
-    updateVisits = regionForThread.GetNumberOfPixels()/10;
-    if ( updateVisits < 1 ) updateVisits = 1;
-    }
-
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  
   // do the work
   while (!it1.IsAtEnd())
     {
@@ -202,12 +198,7 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>
     ++it1;
     ++it2;
 
-    if ( threadId == 0 && !(i % updateVisits ) )
-      {
-      this->UpdateProgress( static_cast<float>(i) / 
-                            static_cast<float>(updateVisits * 10.0) );
-      }
-    ++i;
+    progress.CompletedPixel();
     }
 }
 

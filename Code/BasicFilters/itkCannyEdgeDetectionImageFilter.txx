@@ -24,6 +24,7 @@
 #include "itkZeroCrossingImageFilter.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkNumericTraits.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -180,44 +181,13 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
     FaceListType::iterator fit;
-  fit = faceList.begin();
 
   // support progress methods/callbacks
-  unsigned long ii = 0;
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
-    }
-
-  // Process non-boundary face
-  NeighborhoodType nit(radius, input, *fit);
-
-  it  = ImageRegionIterator<TOutputImage>(output, *fit);
-
-  nit.GoToBegin();
-  it.GoToBegin();
-
-
-  // Now Process the non-boundary region.
-  while( ! nit.IsAtEnd() )
-    {
-      if ( threadId == 0 && !(ii % updateVisits ) )
-        {
-          this->UpdateProgress((float)ii++ / (float)totalPixels);
-        }
-      
-      it.Value() = ComputeCannyEdge(nit, globalData);
-      ++nit;
-      ++it;
-    }
-
-  // Process each of the boundary faces.  These are N-d regions which border
-  // the edge of the buffer.
-  for (++fit; fit != faceList.end(); ++fit)
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  
+  // Process the non-boundady region and then each of the boundary faces.
+  // These are N-d regions which border the edge of the buffer.
+  for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
       BoundaryNeighborhoodType bit(radius, input, *fit);
       
@@ -227,15 +197,10 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
     
       while ( ! bit.IsAtEnd() )
         {
-          if ( threadId == 0 && !(ii % updateVisits ) )
-            {
-              this->UpdateProgress((float)ii++ / (float)totalPixels);
-            }
-          
-          it.Value() = ComputeCannyEdge(bit, globalData);
-          
-          ++bit;
-          ++it;
+        it.Value() = ComputeCannyEdge(bit, globalData);
+        ++bit;
+        ++it;
+        progress.CompletedPixel();
         }
       
     }
@@ -518,19 +483,10 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
     FaceListType::iterator fit;
-  fit = faceList.begin();
 
   // support progress methods/callbacks
-  unsigned long ii = 0;
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
-    }
-
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  
   // Process non-boundary face
   nit = ConstNeighborhoodIterator<TInputImage>(radius, input, *fit);
   nit1 = ConstNeighborhoodIterator<TInputImage>(radius, input1, *fit);
@@ -551,57 +507,12 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   OutputImagePixelType gradMag;
 
-  NeighborhoodInnerProduct<OutputImageType>  innerProduct;
-
-  // Now Process the non-boundary region.
-  while( ! nit.IsAtEnd() )
-    {
-
-      gradMag = 0.0001;
-
-      if ( threadId == 0 && !(ii % updateVisits ) )
-        {
-          this->UpdateProgress((float)ii++ / (float)totalPixels);
-        }
-      
-      //First calculate the directional derivatives
-
-      for ( int i = 0; i < ImageDimension; i++)
-        {
-          dx[i] = innerProduct(m_ComputeCannyEdgeSlice[i], nit,
-                               m_ComputeCannyEdge1stDerivativeOper);
-          gradMag += dx[i] * dx[i];
-          dx1[i] = innerProduct(m_ComputeCannyEdgeSlice[i], nit1,
-                                m_ComputeCannyEdge1stDerivativeOper);
-        }
-
-      gradMag = vnl_math_sqrt(gradMag);
-      derivPos = zero;
-      for ( int i = 0; i < ImageDimension; i++)
-        {
-
-          //First calculate the directional derivative
-
-          directional[i] = dx[i]/gradMag;
-
-          //calculate gradient of 2nd derivative
-
-          derivPos += dx1[i] * directional[i];
-        }
-      
-      it.Value() = ((derivPos <= zero) && (gradMag > m_Threshold)) ;
-      
-      ++nit;
-      ++nit1;
-      ++it;
-    }
-  
-  // Process each of the boundary faces.  These are N-d regions which border
-  // the edge of the buffer.
+  // Process the non-boundary region and then each of the boundary faces.
+  // These are N-d regions which border the edge of the buffer.
 
   SmartNeighborhoodInnerProduct<OutputImageType>  IP;
 
-  for (++fit; fit != faceList.end(); ++fit)
+  for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     {   
       bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
                                                            input, *fit);
@@ -620,11 +531,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
           gradMag = 0.0001;
 
-          if ( threadId == 0 && !(ii % updateVisits ) )
-            {
-              this->UpdateProgress((float)ii++ / (float)totalPixels);
-            }
-          
           for ( int i = 0; i < ImageDimension; i++)
             {
               dx[i] = IP(m_ComputeCannyEdgeSlice[i], bit,
@@ -654,6 +560,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
           ++bit;
           ++bit1;
           ++it;
+          progress.CompletedPixel();
         }
       
     }  

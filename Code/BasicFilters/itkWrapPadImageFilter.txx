@@ -22,6 +22,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"
 #include "itkFastMutexLock.h"
+#include "itkProgressReporter.h"
 #include <vector>
 
 namespace itk
@@ -533,7 +534,7 @@ WrapPadImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-  int dimCtr, regCtr, i;
+  int dimCtr, regCtr;
   int numRegions=1; // Actual number of regions in our decomposed space.
   int goodInput, goodOutput;
                     // Are the regions non-empty?
@@ -649,25 +650,12 @@ WrapPadImageFilter<TInputImage,TOutputImage>
     }
   
   // support progress methods/callbacks
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = 
-      outputPtr->GetRequestedRegion().GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 )
-      {
-      updateVisits = 1;
-      }
-    }
-  
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+    
   // Define/declare iterators that will walk the input and output regions
   // for this thread.  
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
   typedef ImageRegionConstIterator<TInputImage> InputIterator;
-  
-  i = 0;
   
   // Now walk the regions.
   for (regCtr=0; regCtr<numRegions; 
@@ -688,17 +676,14 @@ WrapPadImageFilter<TInputImage,TOutputImage>
           
       // Do the actual copy of the input pixels to the output
       // pixels here.
-      for (; !outIt.IsAtEnd(); ++outIt, i++, ++inIt )
+      while (!outIt.IsAtEnd() )
         {
-        if ( threadId == 0 && !(i % updateVisits ) )
-          {
-          this->UpdateProgress((float)i / (float)totalPixels);
-          }
-              
         // copy the input pixel to the output
         outIt.Set( inIt.Get() );
+        ++outIt;
+        ++inIt;
+        progress.CompletedPixel();
         }
-      
       } 
     }
 }

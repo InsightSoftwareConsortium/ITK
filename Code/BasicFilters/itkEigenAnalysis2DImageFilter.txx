@@ -20,6 +20,7 @@
 #include "itkEigenAnalysis2DImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkProgressReporter.h"
 
 
 namespace itk
@@ -212,12 +213,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
   nullVector.Fill( 0.0 );
 
   // support progress methods/callbacks
-  unsigned long updateVisits = 0, i=0;
-  updateVisits = region.GetNumberOfPixels()/10;
-  if ( updateVisits < 1 ) 
-    {
-    updateVisits = 1;
-    }
+  ProgressReporter progress(this, 0, region.GetNumberOfPixels());
         
   inputIt1.GoToBegin();
   inputIt2.GoToBegin();
@@ -229,14 +225,8 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 
   EigenVectorType eigenVector;
 
-  i = 0;
   while( !inputIt1.IsAtEnd() ) 
     {
-    if ( !(i % updateVisits ) )
-      {
-      this->UpdateProgress((float)i/(float(updateVisits)*10.0));
-      }
-
     const double xx = static_cast<double>( inputIt1.Get() );
     const double xy = static_cast<double>( inputIt2.Get() );
     const double yy = static_cast<double>( inputIt3.Get() );
@@ -276,8 +266,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
     ++outputIt2;
     ++outputIt3;
     
-    ++i;
-
+    progress.CompletedPixel();
     }
 }
 } // end namespace itk

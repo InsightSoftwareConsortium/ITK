@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNumericTraits.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -218,15 +219,8 @@ int threadId )
   DeformationFieldPointer fieldPtr = this->GetDeformationField();
 
   // support progress methods/callbacks
-  unsigned long updateVisits = 0, totalVisits = 0, i=0;
-  if ( threadId == 0 )
-    {
-    totalVisits = 
-     outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalVisits / 10;
-    if ( updateVisits < 1 ) updateVisits = 1;
-    }
-
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  
   // iterator for the output image
   ImageRegionIteratorWithIndex<OutputImageType> outputIt(
     outputPtr, outputRegionForThread );
@@ -235,20 +229,12 @@ int threadId )
   ImageRegionIterator<DeformationFieldType> fieldIt(
     fieldPtr, outputRegionForThread );
   
-  int j;
   IndexType index;
   PointType point;
   DisplacementType displacement;
 
-  for( i = 0; !outputIt.IsAtEnd() ; ++outputIt, ++fieldIt, ++i )
+  while( !outputIt.IsAtEnd() )
     {
-
-    // update progress
-    if ( threadId == 0 && !(i % updateVisits ) )
-      {
-      this->UpdateProgress((float)i/(float)totalVisits);
-      }
-
     // get the output image index
     index = outputIt.GetIndex();
 
@@ -256,7 +242,7 @@ int threadId )
     displacement = fieldIt.Get();
 
     // compute the required input image point
-    for( j = 0; j < ImageDimension; j++ )
+    for(unsigned int j = 0; j < ImageDimension; j++ )
       {
       point[j] = (double) index[j] * m_OutputSpacing[j] + m_OutputOrigin[j];
       point[j] += displacement[j];
@@ -265,15 +251,17 @@ int threadId )
     // get the interpolated value
     if( m_Interpolator->IsInsideBuffer( point ) )
       {
-        PixelType value = static_cast<PixelType>( 
+      PixelType value = static_cast<PixelType>( 
           m_Interpolator->Evaluate( point ) );
-        outputIt.Set( value );
+      outputIt.Set( value );
       }
     else
       {
-        outputIt.Set( m_EdgePaddingValue );
+      outputIt.Set( m_EdgePaddingValue );
       }   
-
+    ++outputIt;
+    ++fieldIt; 
+    progress.CompletedPixel();
     }
 
 }

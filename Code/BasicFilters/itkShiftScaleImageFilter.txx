@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
+#include "itkProgressReporter.h"
 
 namespace itk {
 
@@ -77,22 +78,17 @@ ShiftScaleImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 ShiftScaleImageFilter<TInputImage, TOutputImage>
-::ThreadedGenerateData(const OutputImageRegionType& regionForThread,
+::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId) 
 {
 
   RealType value;
-  ImageRegionConstIterator<TInputImage>  it (this->GetInput(), regionForThread);
-  ImageRegionIterator<TOutputImage> ot (this->GetOutput(), regionForThread);
+  ImageRegionConstIterator<TInputImage>  it (this->GetInput(), outputRegionForThread);
+  ImageRegionIterator<TOutputImage> ot (this->GetOutput(), outputRegionForThread);
   
   // support progress methods/callbacks
-  unsigned long updateVisits = 0, i=0;
-  if ( threadId == 0 )
-    {
-    updateVisits = regionForThread.GetNumberOfPixels()/10;
-    if ( updateVisits < 1 ) updateVisits = 1;
-    }
-        
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+          
   // shift and scale the input pixels
   while (!it.IsAtEnd())
     {
@@ -114,12 +110,7 @@ ShiftScaleImageFilter<TInputImage, TOutputImage>
     ++it;
     ++ot;
 
-    if ( threadId == 0 && !(i % updateVisits ) )
-      {
-      this->UpdateProgress( static_cast<float>(i) / 
-                            static_cast<float>(updateVisits * 10.0) );
-      }
-    ++i;
+    progress.CompletedPixel();
     }
 }
 

@@ -25,6 +25,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkOffset.h"
+#include "itkProgressReporter.h"
 
 #include <vector>
 #include <algorithm>
@@ -103,11 +104,8 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
   
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
-  ConstNeighborhoodIterator<InputImageType> nit;
   ConstSmartNeighborhoodIterator<InputImageType> bit;
   ImageRegionIterator<OutputImageType> it;
-  typename ConstNeighborhoodIterator<InputImageType>::ConstIterator inner_it;
-  typename ConstNeighborhoodIterator<InputImageType>::ConstIterator innerEnd_it;
   
   // Allocate output
   typename OutputImageType::Pointer output = this->GetOutput();
@@ -119,65 +117,12 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
   faceList = bC(input, outputRegionForThread, m_Radius);
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
-  fit = faceList.begin();
 
-  // support progress methods/callbacks
-  unsigned long ii = 0;
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
-    }
-
-  // Process non-boundary face
-  nit = ConstNeighborhoodIterator<InputImageType>(m_Radius, input, *fit);
-  it  = ImageRegionIterator<OutputImageType>(output, *fit);
-
-  nit.GoToBegin();
-  it.GoToBegin();
-
-  // All of our neighborhoods have an odd number of pixels, so there is
-  // always a median index (if there where an even number of pixels
-  // in the neighborhood we have to average the middle two values).
-  unsigned int medianPosition = nit.Size() / 2;
-
-  while( ! nit.IsAtEnd() )
-    {
-    if ( threadId == 0 && !(++ii % updateVisits ) )
-      {
-      this->UpdateProgress((float)ii / (float)totalPixels);
-      }
-
-    // count the pixels in the neighborhood
-    unsigned int count = 0;
-    innerEnd_it = nit.End();
-    for (inner_it = nit.Begin(); inner_it != innerEnd_it; ++inner_it)
-      {
-      if( **inner_it == m_ForegroundValue )
-        {
-        count++;
-        }
-      }
-
-    if( count > medianPosition )
-      {
-      it.Set( static_cast<OutputPixelType>( m_ForegroundValue ) );
-      }
-    else 
-      {
-      it.Set( static_cast<OutputPixelType>( m_BackgroundValue ) );
-      }
-
-    ++nit;
-    ++it;
-    }
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
   
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for (++fit; fit != faceList.end(); ++fit)
+  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
     bit = ConstSmartNeighborhoodIterator<InputImageType>(m_Radius, input, *fit);
     it  = ImageRegionIterator<OutputImageType>(output, *fit);
@@ -186,13 +131,13 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
     
     unsigned int neighborhoodSize = bit.Size();
 
+    // All of our neighborhoods have an odd number of pixels, so there is
+    // always a median index (if there where an even number of pixels
+    // in the neighborhood we have to average the middle two values).
+    unsigned int medianPosition = neighborhoodSize / 2;
+
     while ( ! bit.IsAtEnd() )
       {
-      if ( threadId == 0 && !(++ii % updateVisits ) )
-        {
-        this->UpdateProgress((float)ii / (float)totalPixels);
-        }
-
        // count the pixels in the neighborhood
       unsigned int count = 0;
       for (unsigned int i = 0; i < neighborhoodSize; ++i)
@@ -215,6 +160,7 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
        
       ++bit;
       ++it;
+      progress.CompletedPixel();
       }
     }
 }

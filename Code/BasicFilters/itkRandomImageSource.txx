@@ -23,6 +23,7 @@
 #include "itkRandomImageSource.h"
 #include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
+#include "itkProgressReporter.h"
 #include "vnl/vnl_sample.h"
 
  
@@ -131,13 +132,8 @@ RandomImageSource<TOutputImage>
   itkDebugMacro(<<"Generating a random image of scalars");
 
   // Support progress methods/callbacks
-  unsigned long updateVisits = 0, i=0;
-  if ( threadId == 0 )
-    {
-    updateVisits = outputRegionForThread.GetNumberOfPixels()/10;
-    if ( updateVisits < 1 ) updateVisits = 1;
-    }
-        
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+       
   typedef typename TOutputImage::PixelType scalarType;
   typename TOutputImage::Pointer image=this->GetOutput(0);
 
@@ -159,12 +155,7 @@ RandomImageSource<TOutputImage>
     rnd = (1.0 - u)*dMin + u*dMax;
 
     it.Set( (scalarType) rnd);
-    if ( threadId == 0 && !(i % updateVisits ) )
-      {
-      this->UpdateProgress( static_cast<float>(i) / 
-                            static_cast<float>(updateVisits * 10.0) );
-      }
-    ++i;
+    progress.CompletedPixel();
     }
 }
 

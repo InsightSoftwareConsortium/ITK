@@ -21,6 +21,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"
+#include "itkProgressReporter.h"
 #include <vector>
 
 namespace itk
@@ -750,16 +751,8 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
     }
   
   // support progress methods/callbacks
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-      totalPixels = 
-  outputPtr->GetRequestedRegion().GetNumberOfPixels();
-      updateVisits = totalPixels / 10;
-      if( updateVisits < 1 ) updateVisits = 1;
-    }
-  
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+    
   // Define/declare iterators that will walk the input and output regions
   // for this thread.  
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
@@ -800,20 +793,16 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
           // pixels here.
           for (; !outIt.IsAtEnd(); ++outIt, i++, ++inIt )
             {
-              if ( threadId == 0 && !(i % updateVisits ) )
-                {
-                  this->UpdateProgress((float)i / (float)totalPixels);
-                }
-              
-              currentOutputIndex = outIt.GetIndex();
-              this->ConvertOutputIndexToInputIndex(currentOutputIndex, 
-                                                   currentInputIndex, 
-                                                   outputRegion,
-                                                   inputRegion,
-                                                   oddRegionArray);
-              inIt.SetIndex(currentInputIndex);
-              // copy the input pixel to the output
-              outIt.Set( inIt.Get() );
+            currentOutputIndex = outIt.GetIndex();
+            this->ConvertOutputIndexToInputIndex(currentOutputIndex, 
+                                                 currentInputIndex, 
+                                                 outputRegion,
+                                                 inputRegion,
+                                                 oddRegionArray);
+            inIt.SetIndex(currentInputIndex);
+            // copy the input pixel to the output
+            outIt.Set( inIt.Get() );
+            progress.CompletedPixel();
             }
           
         } 

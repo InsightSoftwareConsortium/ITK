@@ -24,6 +24,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkFixedArray.h"
+#include "itkProgressReporter.h"
 
 
 namespace itk
@@ -115,123 +116,63 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
     FaceListType::iterator fit;
-  fit = faceList.begin();
   
   // support progress methods/callbacks
-  unsigned long ii = 0;
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-      totalPixels = outputRegionForThread.GetNumberOfPixels();
-      updateVisits = totalPixels / 10;
-      if( updateVisits < 1 ) updateVisits = 1;
-    }
-  
-  // Process non-boundary face
-  nit = ConstNeighborhoodIterator<TInputImage>(radius, input, *fit);
-  it  = ImageRegionIterator<TOutputImage>(output, *fit);
-  
-  nit.GoToBegin();
-  it.GoToBegin();
-  
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+    
   InputImagePixelType this_one, that, abs_this_one, abs_that;
   InputImagePixelType zero = NumericTraits<InputImagePixelType>::Zero;
 
-  unsigned long center;
   FixedArray<long, 2 * ImageDimension> offset;
 
   //Set the offset of the neighbors to the center pixel.
   for ( i = 0 ; i < ImageDimension; i++)
     {
-      offset[i] = -1 * static_cast<long>( nit.GetStride(i));
-      offset[i+ImageDimension] =  nit.GetStride(i);
+    offset[i] = -1 * static_cast<long>( nit.GetStride(i));
+    offset[i+ImageDimension] =  nit.GetStride(i);
     }
 
-  // Now Process the non-boundary region.
-  center = nit.Size()/2;
-  while( ! nit.IsAtEnd() )
-    {
-      if ( threadId == 0 && !(ii % updateVisits ) )
-        {
-        this->UpdateProgress((float)ii++ / (float)totalPixels);
-        }
-      
-      this_one = nit.GetPixel(center);
-      
-      for( i = 0; i< ImageDimension * 2; i++)
-        {
-          that = nit.GetPixel(center + offset[i]);
-          it.Set(m_BackgroundValue);
-          if( ((this_one < zero) && (that > zero))
-              || ((this_one > zero) && (that < zero)) 
-              || ((this_one == zero) && (that != zero))
-              || ((this_one != zero) && (that == zero))  )
-            {
-              abs_this_one = vnl_math_abs(this_one);
-              abs_that = vnl_math_abs(that);
-              if(abs_this_one < abs_that)
-                {
-                  it.Set(m_ForegroundValue);
-                  break;
-                }
-              else if(abs_this_one == abs_that && i >= ImageDimension)
-                {
-                  it.Set(m_ForegroundValue);
-                  break;
-                }
-
-            }
-        }
-      ++nit;
-      ++it;
-    }
-  
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for (++fit; fit != faceList.end(); ++fit)
+  for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
-      if ( threadId == 0 && !(ii % updateVisits ) )
+    bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
+                                                         input, *fit);
+    it = ImageRegionIterator<OutputImageType>(output, *fit);
+    bit.OverrideBoundaryCondition(&nbc);
+    bit.GoToBegin();
+    
+    const unsigned long center = bit.Size()/2;
+    while ( ! bit.IsAtEnd() )
+      {
+      this_one = bit.GetPixel(center);
+      it.Set(m_BackgroundValue);
+      for( i = 0; i< ImageDimension * 2; i++)
         {
-          this->UpdateProgress((float)ii++ / (float)totalPixels);
-        }
-      
-      bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
-                                                           input, *fit);
-      it = ImageRegionIterator<OutputImageType>(output, *fit);
-      bit.OverrideBoundaryCondition(&nbc);
-      bit.GoToBegin();
-      
-      center = bit.Size()/2;
-      while ( ! bit.IsAtEnd() )
-        {
-          this_one = bit.GetPixel(center);
-          it.Set(m_BackgroundValue);
-          for( i = 0; i< ImageDimension * 2; i++)
+        that = bit.GetPixel(center + offset[i]);
+        if( ((this_one < zero) && (that > zero))
+            || ((this_one > zero) && (that < zero)) 
+            || ((this_one == zero) && (that != zero))
+            || ((this_one != zero) && (that == zero))  )
+          {
+          abs_this_one =  vnl_math_abs(this_one);
+          abs_that = vnl_math_abs(that);
+          if(abs_this_one < abs_that)
             {
-              that = bit.GetPixel(center + offset[i]);
-              if( ((this_one < zero) && (that > zero))
-                  || ((this_one > zero) && (that < zero)) 
-                  || ((this_one == zero) && (that != zero))
-                  || ((this_one != zero) && (that == zero))  )
-                {
-                  abs_this_one =  vnl_math_abs(this_one);
-                  abs_that = vnl_math_abs(that);
-                  if(abs_this_one < abs_that)
-                    {
-                      it.Set(m_ForegroundValue);
-                      break;
-                    }
-                  else if(abs_this_one == abs_that && i >= ImageDimension)
-                    {
-                      it.Set(m_ForegroundValue);
-                      break;
-                    }
-                }
+            it.Set(m_ForegroundValue);
+            break;
             }
-          ++bit;
-          ++it;
-        }    
+          else if(abs_this_one == abs_that && i >= ImageDimension)
+            {
+            it.Set(m_ForegroundValue);
+            break;
+            }
+          }
+        }
+      ++bit;
+      ++it;
+      progress.CompletedPixel();
+      }    
     }
 }
 

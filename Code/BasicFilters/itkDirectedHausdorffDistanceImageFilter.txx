@@ -22,6 +22,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
 #include "itkDanielssonDistanceMapImageFilter.h"
+#include "itkProgressReporter.h"
 
 namespace itk {
 
@@ -175,13 +176,8 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
   ImageRegionConstIterator<DistanceMapType> it2 (m_DistanceMap, regionForThread);
   
   // support progress methods/callbacks
-  unsigned long updateVisits = 0, i=0;
-  if ( threadId == 0 )
-    {
-    updateVisits = regionForThread.GetNumberOfPixels()/10;
-    if ( updateVisits < 1 ) updateVisits = 1;
-    }
-
+  ProgressReporter progress(this, threadId, regionForThread.GetNumberOfPixels());
+  
   // do the work
   while (!it1.IsAtEnd())
     {
@@ -197,12 +193,8 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
     ++it1;
     ++it2;
 
-    if ( threadId == 0 && !(i % updateVisits ) )
-      {
-      this->UpdateProgress( static_cast<float>(i) / 
-                            static_cast<float>(updateVisits * 10.0) );
-      }
-    ++i;
+    progress.CompletedPixel();
+
     }
 }
 

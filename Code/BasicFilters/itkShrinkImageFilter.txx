@@ -23,6 +23,7 @@
 #include "itkShrinkImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -125,7 +126,6 @@ ShrinkImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-  int i;
   
   itkDebugMacro(<<"Actually executing");
   
@@ -146,29 +146,17 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   typename TInputImage::IndexType inputIndex;
   typename TOutputImage::SizeType factorSize;
   
-  for (i=0; i < TInputImage::ImageDimension; i++)
+  for (unsigned int i=0; i < TInputImage::ImageDimension; i++)
     {
     factorSize[i] = m_ShrinkFactors[i];
     }
   
   // support progress methods/callbacks
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
-    }
-  
-  // walk the output region, and sample the input image
-  for (i=0; !outIt.IsAtEnd(); ++outIt, i++ )
-    {
-    if ( threadId == 0 && !(i % updateVisits ) )
-        {
-        this->UpdateProgress((float)i / (float)totalPixels);
-        }
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
     
+  // walk the output region, and sample the input image
+  while ( !outIt.IsAtEnd() ) 
+    {
     // determine the index of the output pixel
     outputIndex = outIt.GetIndex();
     
@@ -177,6 +165,9 @@ ShrinkImageFilter<TInputImage,TOutputImage>
     
     // copy the input pixel to the output
     outIt.Set( inputPtr->GetPixel(inputIndex) );
+    ++outIt;
+
+    progress.CompletedPixel();
     }
 }
 

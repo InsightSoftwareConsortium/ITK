@@ -26,6 +26,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkOffset.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -103,7 +104,6 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
   ConstSmartNeighborhoodIterator<TInputImage> bit;
   ImageRegionIterator<TOutputImage> it;
 
-  NeighborhoodInnerProduct<TInputImage> IP;
   SmartNeighborhoodInnerProduct<TInputImage> SIP;
 
   // Allocate output
@@ -131,19 +131,10 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
   fit = faceList.begin();
 
   // support progress methods/callbacks
-  unsigned long ii = 0;
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
-    }
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
 
   // Process non-boundary face
   nit = ConstNeighborhoodIterator<TInputImage>(radius, input, *fit);
-  it  = ImageRegionIterator<TOutputImage>(output, *fit);
 
   std::slice x_slice[ImageDimension];
   const unsigned long center = nit.Size() / 2;
@@ -153,36 +144,11 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
                                op.GetSize()[0], nit.GetStride(i));
     }
 
-  nit.GoToBegin();
-  it.GoToBegin();
-
-  while( ! nit.IsAtEnd() )
-    {
-    if ( threadId == 0 && !(ii % updateVisits ) )
-      {
-      this->UpdateProgress((float)ii++ / (float)totalPixels);
-      }
-
-    RealType a = NumericTraits<RealType>::Zero;
-    for (i = 0; i < ImageDimension; ++i)
-      {
-      const RealType g = IP(x_slice[i], nit, op);
-      a += g * g;
-      }
-    it.Value() = static_cast<OutputPixelType>(::sqrt(a));
-    ++nit;
-    ++it;
-    }
   
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for (++fit; fit != faceList.end(); ++fit)
+  for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    if ( threadId == 0 && !(ii % updateVisits ) )
-      {
-      this->UpdateProgress((float)ii++ / (float)totalPixels);
-      }
-
     bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
                                                          input, *fit);
     it = ImageRegionIterator<OutputImageType>(output, *fit);
@@ -200,7 +166,9 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
       it.Value() = static_cast<OutputPixelType>(::sqrt(a));
       ++bit;
       ++it;
+      progress.CompletedPixel();
       }
+
     }
 }
 
