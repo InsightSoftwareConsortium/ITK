@@ -119,7 +119,7 @@ int main()
 
   // get the results
   RegistrationType::ParametersType solution = 
-    registrationMethod->GetParameters();
+    registrationMethod->GetOptimizer()->GetCurrentPosition();
 
   std::cout << "Solution is: " << solution << std::endl;
 
