@@ -25,6 +25,7 @@
 #include "itkHexahedronCell.h"
 #include "itkQuadraticEdgeCell.h"
 #include "itkQuadraticTriangleCell.h"
+#include <list>
 
 namespace itk  
 {
@@ -268,34 +269,35 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
     cell->m_Id=(*it_cells)->Index();
     
     typename MeshType::MeshTraits::CellType::CellGeometry geom = (*it_cells)->Value()->GetType();
+    typedef typename MeshType::MeshTraits::CellType CellType;
 
     switch(geom)
       {
-      case MeshType::MeshTraits::CellType::VERTEX_CELL:
+      case CellType::VERTEX_CELL:
         metamesh->GetCells(MET_VERTEX_CELL).push_back(cell);
         break;
-      case MeshType::MeshTraits::CellType::LINE_CELL:
+      case CellType::LINE_CELL:
         metamesh->GetCells(MET_LINE_CELL).push_back(cell);
         break;
-      case MeshType::MeshTraits::CellType::TRIANGLE_CELL:
+      case CellType::TRIANGLE_CELL:
         metamesh->GetCells(MET_TRIANGLE_CELL).push_back(cell);
         break;
-      case MeshType::MeshTraits::CellType::QUADRILATERAL_CELL:
+      case CellType::QUADRILATERAL_CELL:
         metamesh->GetCells(MET_QUADRILATERAL_CELL).push_back(cell);
         break;
-      case MeshType::MeshTraits::CellType::POLYGON_CELL:
+      case CellType::POLYGON_CELL:
         metamesh->GetCells(MET_POLYGON_CELL).push_back(cell);
         break;
-      case MeshType::MeshTraits::CellType::TETRAHEDRON_CELL:
+      case CellType::TETRAHEDRON_CELL:
         metamesh->GetCells(MET_TETRAHEDRON_CELL).push_back(cell);
         break;
-      case MeshType::MeshTraits::CellType::HEXAHEDRON_CELL:
+      case CellType::HEXAHEDRON_CELL:
         metamesh->GetCells(MET_HEXAHEDRON_CELL).push_back(cell);
         break;
-      case MeshType::MeshTraits::CellType::QUADRATIC_EDGE_CELL:
+      case CellType::QUADRATIC_EDGE_CELL:
         metamesh->GetCells(MET_QUADRATIC_EDGE_CELL).push_back(cell);
         break;
-      case MeshType::MeshTraits::CellType::QUADRATIC_TRIANGLE_CELL:
+      case CellType::QUADRATIC_TRIANGLE_CELL:
         metamesh->GetCells(MET_QUADRATIC_TRIANGLE_CELL).push_back(cell);
         break;
       default:
