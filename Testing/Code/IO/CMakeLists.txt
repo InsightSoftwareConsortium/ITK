@@ -59,7 +59,7 @@ ADD_TEST(itkRawImageIOTest4 ${IO_TESTS} itkRawImageIOTest4
 )
 
 ADD_TEST(itkIOHeaderTest ${IO_HEADER_TEST})
-ADD_TEST(itkPolygonGroupSpatialObjectXMLFileTest ${IO_TESTS})
+ADD_TEST(itkPolygonGroupSpatialObjectXMLFileTest ${IO_TESTS} itkPolygonGroupSpatialObjectXMLFileTest)
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
 ADD_EXECUTABLE(itkIOTests itkIOTests.cxx ${IOTest_SRCS})
 TARGET_LINK_LIBRARIES(itkIOHeaderTest ITKIO)

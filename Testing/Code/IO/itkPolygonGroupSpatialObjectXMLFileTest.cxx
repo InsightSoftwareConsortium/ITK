@@ -136,6 +136,13 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
 }
 int itkPolygonGroupSpatialObjectXMLFileTest(int ac, char *av[])
 {
+    return EXIT_FAILURE;
+  if(ac < 2)
+    {
+    std::cerr << "Usage: " << av[0] << " XMLfile\n";
+    return EXIT_FAILURE;
+    }
+
   PolygonGroup3DPointer PolygonGroup = PolygonGroup3DType::New();
   PolygonGroup3DPointer PGroupFromFile;
   if(buildPolygonGroup(PolygonGroup) != 0 || PolygonGroup.IsNull())
