@@ -22,9 +22,11 @@ See COPYRIGHT.txt for copyright details.
 #include "itkLBFGSOptimizer.h"
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "itkMultipleValuedNonLinearOptimizer.h"
+#include "itkMultipleValuedNonLinearVnlOptimizer.h"
 #include "itkNonLinearOptimizer.h"
 #include "itkOptimizer.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
+#include "itkSingleValuedNonLinearVnlOptimizer.h"
 
 int main ( int argc, char* argv )
 {
