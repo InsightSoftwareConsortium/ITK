@@ -9,6 +9,8 @@ INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/doc
                     ${ITK_SOURCE_DIR}/Code/BasicFilters 
                     ${ITK_SOURCE_DIR}/Code/Numerics/Statistics)
 
+LINK_DIRECTORIES(${ITK_BINARY_DIR}/Code/Numerics/Statistics)
+
 ADD_TEST(itkStatisticsAlgorithmTest itkStatisticsTests itkStatisticsAlgorithmTest)
 ADD_TEST(itkCovarianceCalculatorTest itkStatisticsTests itkCovarianceCalculatorTest)
 ADD_TEST(itkMeanCalculatorTest itkStatisticsTests itkMeanCalculatorTest)
