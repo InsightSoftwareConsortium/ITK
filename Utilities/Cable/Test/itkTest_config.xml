@@ -1,5 +1,17 @@
 <?xml version="1.0"?>
-<WrapperConfiguration source="itkDirectory.xml" dest="itkDirectory_wrap">
+<WrapperConfiguration source="itkTest.xml" dest="itkTest_wrap">
+  <WrapType name="itk::LightObject">
+  <Delete>
+   <![CDATA[ static_cast<itk::LightObject*>(object)->Delete(); ]]>
+  </Delete>
+  <Create>
+   <![CDATA[ 
+            itk::LightObject::Pointer ret = itk::LightObject::New();
+            ret->Register();
+	    return ret.GetPointer();
+	     ]]>
+  </Create>
+  </WrapType>
   <WrapType name="itk::Object">
   <Delete>
    <![CDATA[ static_cast<itk::Object*>(object)->Delete(); ]]>
