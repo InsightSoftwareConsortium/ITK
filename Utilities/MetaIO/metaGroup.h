@@ -42,7 +42,7 @@ class MetaGroup : public MetaObject
 
     MetaGroup(const char *_headerName);   
 
-    MetaGroup(const MetaGroup *_ellipse);    
+    MetaGroup(const MetaGroup *_group);    
 
     MetaGroup(unsigned int dim);
 
@@ -50,7 +50,7 @@ class MetaGroup : public MetaObject
 
     void PrintInfo(void) const;
 
-    void CopyInfo(const MetaGroup * _ellipse);
+    void CopyInfo(const MetaGroup * _group);
 
     void  Clear(void);
     

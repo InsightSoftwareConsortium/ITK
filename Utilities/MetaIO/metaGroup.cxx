@@ -32,12 +32,12 @@ MetaGroup(const char *_headerName)
 
 //
 MetaGroup::
-MetaGroup(const MetaGroup *_ellipse)
+MetaGroup(const MetaGroup *_group)
 :MetaObject()
 {
   if(META_DEBUG)  std::cout << "MetaGroup()" << std::endl;
   Clear();
-  CopyInfo(_ellipse);
+  CopyInfo(_group);
 }
 
 MetaGroup::
@@ -63,12 +63,12 @@ PrintInfo() const
 }
 
 void MetaGroup::
-CopyInfo(const MetaGroup * _ellipse)
+CopyInfo(const MetaGroup * _group)
 {
-  MetaObject::CopyInfo(_ellipse);
+  MetaObject::CopyInfo(_group);
 }
 
-/** Clear ellipse information */
+/** Clear group information */
 void MetaGroup::
 Clear(void)
 {
@@ -76,7 +76,7 @@ Clear(void)
   MetaObject::Clear();
 }
         
-/** Destroy ellipse information */
+/** Destroy group information */
 void MetaGroup::
 M_Destroy(void)
 {
