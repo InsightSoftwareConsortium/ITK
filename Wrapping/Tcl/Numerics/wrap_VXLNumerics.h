@@ -2,6 +2,7 @@
 #define _wrap_VXLNumerics_h
 
 #define ITK_WRAP_PACKAGE "VXLNumericsTcl"
+#define ITK_WRAP_PACKAGE_VERSION "0.7"
 #define ITK_WRAP_GROUP(x) ITK_WRAP_PACKAGE #x
 
 #define ITK_WRAP_VNL_TYPEDEF(type) \
