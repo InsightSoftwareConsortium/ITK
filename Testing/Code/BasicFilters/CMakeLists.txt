@@ -207,7 +207,7 @@ ADD_TEST(itkGrayscaleConnectedOpeningImageFilterTest ${BASIC_FILTERS_TESTS}
                ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedOpeningImageFilterTest.png 174 41)
 
 ADD_TEST(itkGrayscaleConnectedOpeningImageFilterTest2 ${BASIC_FILTERS_TESTS} 
-     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleConnectedOpeningImageFilterTes2t.png 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleConnectedOpeningImageFilterTest2.png 
                ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedOpeningImageFilterTest2.png itkGrayscaleConnectedOpeningImageFilterTest 
                ${ITK_DATA_ROOT}/Input/cthead1.png 
                ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedOpeningImageFilterTest2.png 150 86)
