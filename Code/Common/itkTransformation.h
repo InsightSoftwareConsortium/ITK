@@ -102,29 +102,32 @@ public:
   /**
    *  Method to transform a Point
    */
-  virtual PointType     Transform(const PointType  &point ) const=0;
+  virtual PointType     Transform(const PointType  &point ) const
+                                                { return point; }
 
   /**
    *  Method to transform a vector
    */
-  virtual VectorType    Transform(const VectorType &vector) const=0;
+  virtual VectorType    Transform(const VectorType &vector) const
+                                                { return vector; }
 
   /**
    *  Method to transform a vnl_vector
    */
-  virtual VnlVectorType Transform(const VnlVectorType &vector) const=0;
+  virtual VnlVectorType Transform(const VnlVectorType &vector) const
+                                                { return vector; }
 
   /**
    *  Method to transform a CovariantVector
    */
   virtual CovariantVectorType Transform(
-                           const CovariantVectorType &vector) const =0;
-  
+                           const CovariantVectorType &vector) const
+                                                { return vector; }
 
 protected:
   
-   Transformation();
-   virtual ~Transformation() {};
+  Transformation();
+  virtual ~Transformation() {};
   Transformation(const Self&);
   const Self & operator=(const Self&);
 
