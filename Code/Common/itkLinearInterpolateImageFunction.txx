@@ -72,13 +72,28 @@ LinearInterpolateImageFunction<TInputImage>
 
 
 /**
- * Evaluate
+ * Evaluate at geometric point position
  */
 template<class TInputImage>
 double
 LinearInterpolateImageFunction<TInputImage>
 ::Evaluate(
 const PointType& point) const
+{
+  ContinuousIndexType index;
+  this->ConvertPointToContinuousIndex( point, index );
+  return ( this->Evaluate( index ) );
+}
+
+
+/**
+ * Evaluate at image index position
+ */
+template<class TInputImage>
+double
+LinearInterpolateImageFunction<TInputImage>
+::Evaluate(
+const ContinuousIndexType& index) const
 {
   unsigned int dim;  // index over dimension
 
@@ -90,10 +105,8 @@ const PointType& point) const
   VectorType distance;
   for( dim = 0; dim < ImageDimension; dim++ )
     {
-    double coord = ( point[dim] - m_ImageOrigin[dim] ) / m_ImageSpacing[dim];
-    baseIndex[dim] = (long) floor( coord );
-
-    distance[dim] = coord - double( baseIndex[dim] );
+    baseIndex[dim] = (long) floor( index[dim] );
+    distance[dim] = index[dim] - double( baseIndex[dim] );
     }
   
   /**

@@ -103,6 +103,11 @@ public:
   typedef typename Superclass::PointType  PointType;
 
   /**
+   * ContinuousIndex typedef support.
+   */
+  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+
+  /**
    * Evaluate the function at a Point position
    *
    * Returns the linearly interpolated image intensity at a 
@@ -113,6 +118,7 @@ public:
    * calling the method.
    */
   virtual double Evaluate( const PointType & point ) const;
+  virtual double Evaluate( const ContinuousIndexType & index ) const;
 
 protected:
   LinearInterpolateImageFunction();
