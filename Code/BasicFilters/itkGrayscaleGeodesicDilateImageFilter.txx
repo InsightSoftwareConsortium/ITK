@@ -215,8 +215,6 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
     guess += vnl_math_sqr(static_cast<double>(this->GetOutput()->GetRequestedRegion().GetSize()[i]));
     }
   unsigned int maxSize = static_cast<unsigned int>(::sqrt(guess));
-  std::cout << "GUESS: " << maxSize << std::endl;
-
   ProgressReporter progress(this, 0, maxSize, maxSize);
 
   // run until convergence
