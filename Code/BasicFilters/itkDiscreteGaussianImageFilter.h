@@ -168,10 +168,10 @@ protected:
     unsigned int i;
     for (i = 0; i < ImageDimension; i++)
       {
-      m_Variance[i] = 0.0f;
-      m_MaximumError[i] = 0.01f;
-      m_MaximumKernelWidth = 32;
+      m_Variance[i] = 0.0;
+      m_MaximumError[i] = 0.01;
       }
+    m_MaximumKernelWidth = 32;
     m_UseImageSpacing = true;
     m_FilterDimensionality = ImageDimension;
   }
