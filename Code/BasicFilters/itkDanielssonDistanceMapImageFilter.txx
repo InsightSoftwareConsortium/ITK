@@ -117,7 +117,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 {
   
   itkDebugMacro(<< "PrepareData Start");
-  OutputImagePointer voronoiMap = GetVoronoiMap();
+  OutputImagePointer voronoiMap = this->GetVoronoiMap();
 
   InputImagePointer  inputImage  = 
     dynamic_cast<const TInputImage  *>( ProcessObject::GetInput(0) );
@@ -133,7 +133,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   voronoiMap->Allocate();
 
-  OutputImagePointer distanceMap = GetDistanceMap();
+  OutputImagePointer distanceMap = this->GetDistanceMap();
 
   distanceMap->SetLargestPossibleRegion( 
     inputImage->GetLargestPossibleRegion() );
@@ -254,9 +254,9 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 {
 
   itkDebugMacro( << "ComputeVoronoiMap Start");
-  OutputImagePointer    voronoiMap          =  GetVoronoiMap();
-  OutputImagePointer    distanceMap         =  GetDistanceMap();
-  VectorImagePointer    distanceComponents  =  GetVectorDistanceMap();
+  OutputImagePointer    voronoiMap          =  this->GetVoronoiMap();
+  OutputImagePointer    distanceMap         =  this->GetDistanceMap();
+  VectorImagePointer    distanceComponents  =  this->GetVectorDistanceMap();
 
   typename OutputImageType::RegionType region  = voronoiMap->GetRequestedRegion();
 
@@ -359,8 +359,8 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   // Specify images and regions.
   
-  OutputImagePointer    voronoiMap             =  GetVoronoiMap();
-  VectorImagePointer    distanceComponents     =  GetVectorDistanceMap();
+  OutputImagePointer    voronoiMap             =  this->GetVoronoiMap();
+  VectorImagePointer    distanceComponents     =  this->GetVectorDistanceMap();
   
   typename InputImageType::RegionType region  = voronoiMap->GetRequestedRegion();
   
