@@ -32,6 +32,11 @@ namespace itk
 
 /**
  *  Traits class that defines the different types to be
+ *
+ * \deprecated This class was intended to be used with the 
+ * Registration framework. It is now longer in use after 
+ * the remotion of most of the template parameters in this framework.
+ * This class will be removed soon.
  *  used by this registration method
  */
 template <class TReference, class TTarget>
@@ -70,6 +75,12 @@ public:
 /** \class ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration
  * \brief Base class for registration methods
  *
+ *
+ * \deprecated This class was intended to be used with the 
+ * Registration framework. It is now longer in use after 
+ * the remotion of most of the template parameters in this framework.
+ * This class will be removed soon.
+ 
  * This Class define the generic interface for a registration method.
  * The basic elements of a registration method are:
  *   - Metric to compare the reference and the target

@@ -33,6 +33,12 @@ namespace itk
 /**
  *  Traits class that defines the different types to be
  *  used by this registration method
+ *
+ * \deprecated This class was intended to be used with the 
+ * Registration framework. It is now longer in use after 
+ * the remotion of most of the template parameters in this framework.
+ * This class will be removed soon.
+ *
  */
 template <class TReference, class TTarget>
 class ITK_EXPORT ImageToImageAffineNormalizedCorrelationRegularStepGradientDescentRegistrationTraits 
@@ -69,6 +75,11 @@ public:
 /**
  * \class ImageToImageAffineNormalizedCorrelationRegularStepGradientDescentRegistration
  * \brief Base class for registration methods
+ *
+ * \deprecated This class was intended to be used with the 
+ * Registration framework. It is now longer in use after 
+ * the remotion of most of the template parameters in this framework.
+ * This class will be removed soon.
  *
  * This Class define the generic interface for a registration method.
  * The basic elements of a registration method are:

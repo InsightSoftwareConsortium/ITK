@@ -29,6 +29,11 @@ namespace itk
 /** \class ImageMapper
  * \brief Maps values from the image using a transformation
  *
+ * \deprecated This class was intended to be used with the 
+ * Registration framework. It is now longer in use after 
+ * the remotion of most of the template parameters in this framework.
+ * This class will be removed soon.
+ * 
  * This Class is templated over the image type and the 
  * transformation type. Using a point in space, it transforms
  * the point and gets the value of the image at that new point 

@@ -30,6 +30,11 @@ namespace itk
 /**
  *  Traits class that defines the different types to be
  *  used by this registration method
+ *
+ * \deprecated This class was intended to be used with the 
+ * Registration framework. It is now longer in use after 
+ * the remotion of most of the template parameters in this framework.
+ * This class will be removed soon.
  */
 template <class TReference, class TTarget>
 class ITK_EXPORT 
@@ -67,6 +72,11 @@ public:
 
 /** \class ImageToImageRigidMutualInformationGradientDescentRegistration
  * \brief Rigidly register two 3D images using mutual information.
+ *
+ * \deprecated This class was intended to be used with the 
+ * Registration framework. It is now longer in use after 
+ * the remotion of most of the template parameters in this framework.
+ * This class will be removed soon.
  *
  * ImageToImageRigidMutualInformationGradientDescentRegistration performs an
  * rigid registration
