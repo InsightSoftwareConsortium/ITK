@@ -906,21 +906,21 @@ namespace itk
       itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
 
       strncpy(temp,this->m_hdr.hk.data_type,10);//Note this is necessary because the array is not necessarily null terminated.
-      temp[10]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_OnDiskStorageTypeName",temp);
+      temp[10]='\0'; //NOTE: Need to encapsulate for string because the Borland compiler can't figure it out.
+      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_OnDiskStorageTypeName",std::string(temp));
 
       strncpy(temp,this->m_hdr.hk.db_name,18);//Note this is necessary because the array is not necessarily null terminated.
       temp[18]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_ImageFileBaseName",temp);
+      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_ImageFileBaseName",std::string(temp));
 
       //Important dime fields
       strncpy(temp,this->m_hdr.dime.vox_units,4);//Note this is necessary because the array is not necessarily null terminated.
       temp[4]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_VoxelUnits",temp);
+      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_VoxelUnits",std::string(temp));
 
       strncpy(temp,this->m_hdr.dime.cal_units,8);//Note this is necessary because the array is not necessarily null terminated.
       temp[8]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"Analyze_CalibrationUnits",temp);
+      itk::EncapsulateMetaData<std::string>(thisDic,"Analyze_CalibrationUnits",std::string(temp));
 
       itk::EncapsulateMetaData<short int>(thisDic,"ITK_OnDiskBitPerPixel",this->m_hdr.dime.bitpix);
       itk::EncapsulateMetaData<float>(thisDic,"SPM_ROI_SCALE",this->m_hdr.dime.roi_scale);
@@ -932,11 +932,11 @@ namespace itk
       //Important hist fields
       strncpy(temp,this->m_hdr.hist.descrip,80);//Note this is necessary because the array is not necessarily null terminated.
       temp[80]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_FileNotes",temp);
+      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_FileNotes",std::string(temp));
 
       strncpy(temp,this->m_hdr.hist.aux_file,24);//Note this is necessary because the array is not necessarily null terminated.
       temp[24]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_AUX_FILE_NAME",temp);
+      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_AUX_FILE_NAME",std::string(temp));
 
       {
         itk::IOCommon::ValidOrientationFlags temporient= static_cast<itk::IOCommon::ValidOrientationFlags>(this->m_hdr.hist.orient);
@@ -945,27 +945,27 @@ namespace itk
 
       strncpy(temp,this->m_hdr.hist.originator,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_FileOriginator",temp);
+      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_FileOriginator",std::string(temp));
 
       strncpy(temp,this->m_hdr.hist.generated,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_OriginationDate",temp);
+      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_OriginationDate",std::string(temp));
 
       strncpy(temp,this->m_hdr.hist.scannum,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_ScanNumber",temp);
+      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_ScanNumber",std::string(temp));
 
       strncpy(temp,this->m_hdr.hist.patient_id,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_PatientID",temp);
+      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_PatientID",std::string(temp));
 
       strncpy(temp,this->m_hdr.hist.exp_date,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_ExperimentDate",temp);
+      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_ExperimentDate",std::string(temp));
 
       strncpy(temp,this->m_hdr.hist.exp_date,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_ExperimentTime",temp);
+      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_ExperimentTime",std::string(temp));
 
       itk::EncapsulateMetaData<int>(thisDic,"ANALYZE_O_MAX",this->m_hdr.hist.omax);
       itk::EncapsulateMetaData<int>(thisDic,"ANALYZE_O_MIN",this->m_hdr.hist.omin);
