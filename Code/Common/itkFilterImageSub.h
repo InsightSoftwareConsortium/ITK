@@ -51,9 +51,9 @@ class ITK_EXPORT FilterImageSub :
     public
     FilterImageBinary<TInputImage1,TInputImage2,TOutputImage, 
     function::Sub2< 
-              typename TInputImage1::PixelType::ValueType, 
-              typename TInputImage2::PixelType::ValueType,
-              typename TOutputImage::PixelType::ValueType >   >
+              typename TInputImage1::PixelType, 
+              typename TInputImage2::PixelType,
+              typename TOutputImage::PixelType>   >
 
 
 {
@@ -68,9 +68,9 @@ public:
    */
   typedef FilterImageBinary<TInputImage1,TInputImage2,TOutputImage, 
     function::Sub2< 
-              typename TInputImage1::PixelType::ValueType, 
-              typename TInputImage2::PixelType::ValueType,
-              typename TOutputImage::PixelType::ValueType >   
+              typename TInputImage1::PixelType, 
+              typename TInputImage2::PixelType,
+              typename TOutputImage::PixelType>   
                 >  Superclass;
 
   /** 
