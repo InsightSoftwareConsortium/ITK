@@ -247,6 +247,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     m_Layers.push_back( LayerType::New() );
     }
   
+  m_SplitAxis  = m_OutputImage->GetImageDimension() - 1; // always the "Z" dimension
+  
   typename OutputImageType::SizeType requestedRegionSize
     = m_OutputImage->GetRequestedRegion().GetSize();
   m_ZSize = requestedRegionSize[m_SplitAxis];
@@ -282,8 +284,6 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   this->InitializeBackgroundPixels();
   
   m_NumOfThreads = this->GetNumberOfThreads();
-  
-  m_SplitAxis  = m_OutputImage->GetImageDimension() - 1; // always the "Z" dimension
 
   if (m_SplitAxis < 0)
     {
@@ -2280,7 +2280,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // compute the size of the region
   typename TOutputImage::SizeType threadRegionSize = ThreadRegion.GetSize();
   threadRegionSize[m_SplitAxis] = (ThreadId == 0
-                                   ? m_Boundary[0]
+                                   ? (m_Boundary[0] + 1)
                                    : m_Boundary[ThreadId] - m_Boundary[ThreadId-1]);
   ThreadRegion.SetSize(threadRegionSize);
 }
