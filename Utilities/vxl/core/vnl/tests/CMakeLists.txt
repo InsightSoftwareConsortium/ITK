@@ -1,5 +1,7 @@
 # This is core/vnl/tests/CMakeLists.txt
 
+SET(EXECUTABLE_OUTPUT_PATH ${vxl_BINARY_DIR}/core/vnl/tests)
+
 INCLUDE( ${MODULE_PATH}/FindNetlib.cmake )
 
 # MESSAGE( NETLIB_FOUND " is " ${NETLIB_FOUND} )
