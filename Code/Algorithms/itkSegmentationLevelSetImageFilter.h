@@ -22,8 +22,70 @@
 
 namespace itk {
 
+/**
+ *
+ \class SegmentationLevelSetImageFilter
+ 
+ \brief A base class which defines the API for implementing a special class of
+ image segmentation filters using level set methods.
+
+ \par OVERVIEW
+ This object defines the framework for a class of segmentation filters which
+ use level set methods.  These filters work by constructing a ``feature image''
+ onto which the evolving level set locks as it moves.  In the feature image,
+ values that are close to zero are associated with object boundaries.  An
+ original (or preprocessed) image is given to the filter as the feature image
+ and a seed for the level set is given as the input of the filter.  The seed is
+ converted into a level set embedding which propagates according to the features
+ calculated from the original image.
+
+ \par INPUTS
+ The input to any subclass of this filter is the seed image for the initial
+ level set embedding.  As with other subclasses of the
+ SparseLevelSetImageFilter, the type of the input image is is not important.
+ The (RequestedRegion) size of the seed image must, however, match the
+ (RequestedRegion) size of the feature image.
+
+ \par
+ Depending on the particular application and filter that you are using, the
+ feature image should be preprocessed with some type of noise reduction
+ filtering.  The feature image should be of a floating point type (floats or
+ doubles).  You may need to cast your image to this type before attaching it to
+ this filter.
+
+ \par OUTPUTS
+ The output of any subclass of this filter is a level set embedding as
+ described in SparseFieldLevelSetImageFilter.  The zero crossings of the output
+ image give the pixels closest to the level set boundary.  By ITK convention,
+ positive values are pixels inside the segmented region and negative values are
+ pixels outside the segmented region.
+
+ \par PARAMETERS
+ The MaximumRMSChange parameter is used to determine when the solution has
+ converged.  A lower value will result in a tighter-fitting solution, but
+ will require more computations.  Too low a value could put the solver into
+ an infinite loop unless a reasonable MaximumIterations parameter is set.
+ Values should always be greater than 0.0 and less than 1.0.
+ 
+ \par
+ The MaximumIterations parameter can be used to halt the solution after a
+ specified number of iterations, overriding the MaximumRMSChange halting
+ criteria.
+
+ \par
+ The UseNegativeFeatures parameter tells the function object to reverse the
+ sign of the feature image, which also reverses the INSIDE OUTSIDE sign
+ convention.
+ 
+ \todo Use a second input image for the feature image instead of keeping the
+ feature image as a parameter.  This may be tricky because the feature image
+ may be of a different type as the first input (seed image) and so the default
+ pipeline mechanism will have to be modified.  When this is done, however, it
+ will allow the feature image to be properly updated in a unified pipeline with
+ the seed image.
+ */  
 template <class TInputImage, class TOutputImage>
-class SegmentationLevelSetImageFilter
+class ITK_EXPORT SegmentationLevelSetImageFilter
   : public SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 {
 public:
@@ -71,6 +133,35 @@ public:
 
   virtual typename SegmentationFunctionType::ImageType *GetSpeedImage() const
   { return m_SegmentationFunction->GetSpeedImage(); }
+
+  
+  /** This method reverses the speed function direction, effectively changing
+   *  inside feature values to outside feature values and vice versa */
+  void SetUseNegativeFeaturesOn()
+  {
+    this->SetUseNegativeFeatures(true);
+  }
+  void SetUseNegativeFeaturesOff()
+  {
+    this->SetUseNegativeFeatures(false);
+  }
+
+  /** Set/Get the value of the UseNegativeFeatures flag.  This flag controls
+   * whether (true) or not (false) the direction of the speed function is
+   * reversed.  By default, level set segmentation filters take ``inside''
+   * values as positive, and ``outside'' values as negative.*/
+  itkSetMacro(UseNegativeFeatures, bool);
+  itkGetMacro(UseNegativeFeatures, bool);
+
+  /** Set/Get the scaling of the propagation speed. */
+  itkSetMacro(FeatureScaling, ValueType);
+  itkGetMacro(FeatureScaling, ValueType);
+
+  /** Set the segmentation function.  In general, this should only be called by a subclass
+   *  of this object. It is made public to allow itk::Command objects access. */
+  virtual void SetSegmentationFunction(SegmentationFunctionType *s);
+  virtual SegmentationFunctionType *GetSegmentationFunction()
+  { return m_SegmentationFunction; }
   
 protected:
   virtual ~SegmentationLevelSetImageFilter() {}
@@ -78,11 +169,15 @@ protected:
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** Set the segmentation function.  This should only be called by a subclass
-   *  of this object. */
-  virtual void SetSegmentationFunction(SegmentationFunctionType *s);
-  virtual SegmentationFunctionType *GetSegmentationFunction()
-  { return m_SegmentationFunction; }
+  /** Overrides parent implementation */
+  virtual void InitializeIteration()
+  {
+    Superclass::InitializeIteration();
+    // Estimate the progress of the filter
+    this->SetProgress( (float) ((float)this->GetElapsedIterations()
+                                / (float)this->GetMaximumIterations()) );
+  }
+  
   
   /** Overridden from ProcessObject to set certain values before starting the
    * finite difference solver and then create an appropriate output */
@@ -92,6 +187,12 @@ protected:
    * parameters. */
   bool Halt();
 
+  /** Flag which sets the inward/outward direction of positive propagation speed.*/
+  bool m_UseNegativeFeatures;
+
+  /** Scalar parameter for propagation speed.*/
+  ValueType m_FeatureScaling;
+  
 private:
   unsigned int m_MaximumIterations;
   SegmentationFunctionType *m_SegmentationFunction;
