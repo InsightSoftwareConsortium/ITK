@@ -51,10 +51,12 @@
 int main( int argc, char ** argv )
 {
 
-  if( argc < 3 )
+  if( argc < 7 )
     {
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImageFile outputImageFile" << std::endl;  
+    std::cerr << " inputImageFile outputImageFile ";  
+    std::cerr << " lowerThreshold upperThreshold ";  
+    std::cerr << " insideValue    outsideValue   "  << std::endl;  
     return 1;
     }
   
@@ -81,8 +83,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< InputPixelType,  3 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 3 >   OutputImageType;
+  typedef itk::Image< InputPixelType,  2 >   InputImageType;
+  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
   // Software Guide : EndCodeSnippet
 
 
@@ -183,9 +185,12 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex 
 
+  const OutputPixelType outsideValue = atoi( argv[5] );
+  const OutputPixelType insideValue  = atoi( argv[6] );
+
   // Software Guide : BeginCodeSnippet
-  filter->SetOutsideValue( 0 );
-  filter->SetInsideValue( 255 );
+  filter->SetOutsideValue( outsideValue );
+  filter->SetInsideValue(  insideValue  );
   // Software Guide : EndCodeSnippet
 
 
@@ -201,9 +206,12 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex 
 
+  const InputPixelType lowerThreshold = atoi( argv[3] );
+  const InputPixelType upperThreshold = atoi( argv[4] );
+
   // Software Guide : BeginCodeSnippet
-  filter->SetLowerThreshold( 150 );
-  filter->SetUpperThreshold( 180 );
+  filter->SetLowerThreshold( lowerThreshold );
+  filter->SetUpperThreshold( upperThreshold );
   // Software Guide : EndCodeSnippet
 
 
