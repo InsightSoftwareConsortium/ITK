@@ -197,7 +197,7 @@ RegularStepGradientDescentBaseOptimizer
   if( gradientMagnitude < m_GradientMagnitudeTolerance ) 
     {
     m_StopCondition = GradientMagnitudeTolerance;
-    StopOptimization();
+    this->StopOptimization();
     return;
     }
     
@@ -219,7 +219,7 @@ RegularStepGradientDescentBaseOptimizer
   if( m_CurrentStepLength < m_MinimumStepLength )
     {
     m_StopCondition = StepTooSmall;
-    StopOptimization();
+    this->StopOptimization();
     return;
     }
 
