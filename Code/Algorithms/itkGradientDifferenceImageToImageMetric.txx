@@ -25,7 +25,7 @@
 
 
 
-#define DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
+//#define DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
 //#define DEEP_DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
   
 #ifdef DEEP_DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
@@ -395,12 +395,12 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
     
 #ifdef DEEP_DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-        std::cout << setw(8) << "Dim " << iDimension << ": " 
-             << setw(8) << diff << " = " 
-             << setw(8) << fixedGradient << " - " 
-             << setw(8) << subtractionFactor[iDimension] << "*" 
-             << setw(8) << movedGradient << "; Measure = "
-             << setw(8) << measure << std::endl; 
+        std::cout << std::setw(8) << "Dim " << iDimension << ": " 
+             << std::setw(8) << diff << " = " 
+             << std::setw(8) << fixedGradient << " - " 
+             << std::setw(8) << subtractionFactor[iDimension] << "*" 
+             << std::setw(8) << movedGradient << "; Measure = "
+             << std::setw(8) << measure << std::endl; 
 #endif
 
         ++fixedIterator;
@@ -408,9 +408,9 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
       }
 
 #ifdef DEEP_DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-        std::cout << setw(8) << "Dim " << iDimension 
-             << ", Subtraction factor: " << setw(8) << subtractionFactor[iDimension]
-             << " Measure = " << setw(8) << measure << std::endl; 
+        std::cout << std::setw(8) << "Dim " << iDimension 
+             << ", Subtraction factor: " << std::setw(8) << subtractionFactor[iDimension]
+             << " Measure = " << std::setw(8) << measure << std::endl; 
 #endif
     }
   
