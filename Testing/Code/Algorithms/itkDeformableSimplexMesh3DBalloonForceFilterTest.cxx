@@ -35,7 +35,7 @@
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkTimeProbe.h"
 
-int itkDeformableSimplexMesh3DBalloonForceFilterTest(int argc, char ** argv)
+int itkDeformableSimplexMesh3DBalloonForceFilterTest(int argc, char * argv[] )
 {
   
   // Declare the type of the input and output mesh

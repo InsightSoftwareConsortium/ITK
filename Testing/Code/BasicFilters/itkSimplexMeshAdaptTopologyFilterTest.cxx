@@ -25,7 +25,7 @@
 #include "itkSimplexMeshAdaptTopologyFilter.h"
 #include "itkDefaultDynamicMeshTraits.h"
 
-int itkSimplexMeshAdaptTopologyFilterTest( int argc, char ** argv )
+int itkSimplexMeshAdaptTopologyFilterTest( int argc, char * argv[] )
 { 
 
    // Declare the type of the input and output mesh
