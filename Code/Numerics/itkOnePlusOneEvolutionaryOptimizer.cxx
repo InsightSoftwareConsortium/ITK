@@ -77,6 +77,7 @@ OnePlusOneEvolutionaryOptimizer
       return ;
     }
 
+  m_Stop = false ;
   double pvalue, cvalue, adjust ;
   double fro_norm ;
 
@@ -105,9 +106,15 @@ OnePlusOneEvolutionaryOptimizer
   pvalue = m_CostFunction->GetValue(parentPosition);
   this->SetCurrentPosition(parentPosition) ;
   ScalesType scales = this->GetScales() ;
+  m_CurrentIteration = 0 ;
   for (unsigned int iter = 0 ; iter < m_MaximumIteration ; iter++) 
     {
-      m_CurrentIteration = iter ;
+      if ( m_Stop )
+        {
+          break ;
+        }
+
+      ++m_CurrentIteration ;
 
       for (unsigned int i=0 ; i < spaceDimension ; i++) 
         {
@@ -155,8 +162,6 @@ OnePlusOneEvolutionaryOptimizer
       if (fro_norm <= m_Epsilon) 
         {
           itkDebugMacro(<< "converges at iteration = " << iter) ;
-          std::cout << "DEBUG: converges at iteration = " << iter 
-                    << std::endl ;
           break ;
         }
       
@@ -187,15 +192,15 @@ OnePlusOneEvolutionaryOptimizer
 
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Random Generator " << m_RandomGenerator  << std::endl;
-  os << indent << "MaximumIteration " << m_MaximumIteration << std::endl;
-  os << indent << "Epsilon          " << m_Epsilon          << std::endl;
-  os << indent << "Initial Radius   " << m_InitialRadius    << std::endl;
-  os << indent << "Growth Fractor   " << m_GrowthFactor     << std::endl;
-  os << indent << "Shrink Fractor   " << m_ShrinkFactor     << std::endl;
-  os << indent << "Initialized      " << m_Initialized      << std::endl;
-  os << indent << "Measure          " << m_CurrentCost << std::endl;
-  os << indent << "Iteration        " << m_CurrentIteration << std::endl;
+  os << indent << "Random Generator  " << m_RandomGenerator  << std::endl;
+  os << indent << "Maximum Iteration " << m_MaximumIteration << std::endl;
+  os << indent << "Epsilon           " << m_Epsilon          << std::endl;
+  os << indent << "Initial Radius    " << m_InitialRadius    << std::endl;
+  os << indent << "Growth Fractor    " << m_GrowthFactor     << std::endl;
+  os << indent << "Shrink Fractor    " << m_ShrinkFactor     << std::endl;
+  os << indent << "Initialized       " << m_Initialized      << std::endl;
+  os << indent << "Current Cost      " << m_CurrentCost << std::endl;
+  os << indent << "Current Iteration " << m_CurrentIteration << std::endl;
 
 }
 
