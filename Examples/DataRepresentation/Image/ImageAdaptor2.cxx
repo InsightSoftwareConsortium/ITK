@@ -22,68 +22,59 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of ImageAdaptors and PixelAccessors.  We
-// show here how an ImageAdaptor can be used to cast the pixel type of an
-// image.  In particular, an image of pixel type \code{unsigned char} is
-// \emph{adapted} to make it look as and image of pixel type \code{float}.  The
-// adaptor prevents the use of redundant memory allocation for representing the
-// same information already available in the input image. This is done at the
-// expense of some computational time. However, the only case in which
-// \code{ImageAdaptors} are disadvantageous with respect to the
-// \doxygen{CastImageFilter} is when the filter downstream in the pipeline is
-// executed multiple times. In such situation a \code{CastImageFilter} will
-// cache its output after the first execution and will not rexecute when the
-// filter downstream is updated. The ImageAdaptor, on the other hand, will
-// compute the casting every time the filter downstream is updated.
-//
-// ImageAdators are especially interesting in cases when spare access to pixels
-// is performed, since the actual conversion is only occurring on the fly
-// during pixel access.
+// This example illustrates how to use ImageAdaptors and PixelAccessors for
+// getting access to the individual channels of RGB images. In this case we
+// create an ImageAdaptor that will accept an RGB image as input and will
+// present it as being a scalar image. The pixel data will be taken directly
+// from the Red channel of the adapted image.
 // 
 // \index{itk::ImageAdaptor!Instantiation}
 // \index{itk::ImageAdaptor!Header}
-// \index{itk::RGBPixel!Instantiation}
-// \index{itk::RGBPixel!Header}
-// \index{itk::RedPixelAccessor!Instantiation}
-// \index{itk::RedPixelAccessor!Header}
-//
-// First, the header file of the \doxygen{ImageAdaptor} class must be included,
-// along with the headerfor the \doxygen{RGBPixel} and the
-// \doxygen{RedPixelAccessor}.
 //
 // Software Guide : EndLatex 
 
-// Software Guide : BeginCodeSnippet
+#include "itkImage.h"
 #include "itkImageAdaptor.h"
-#include "itkRGBPixel.h"
-#include "itkRedPixelAccessor.h"
-// Software Guide : EndCodeSnippet
-
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
+
 
 //  Software Guide : BeginLatex
 //
-//  
+//  The bulk of the effort in creating an ImageAdaptor is associated with the
+//  definition of the PixelAccessor class. Here we need to define how pixel
+//  values are going to be read from the RGB image. Note that we intentionally
+//  omit the \code{Set()} method, since we only expect this adaptor to be used
+//  for reading data from the image. We define the input image as having pixel
+//  type \doxygen{RGBPixel}.
 //
 //  Software Guide : EndLatex 
 
 
-
 // Software Guide : BeginCodeSnippet
-typedef itk::RGBPixel< float >         InputPixelType;
-const unsigned int Dimension = 2;
+    class RedChannelPixelAccessor  
+    {
+    public:
+      typedef itk::RGBPixel<unsigned char>   InternalType;
+      typedef               unsigned char    ExternalType;
 
-typedef itk::Image< InputPixelType, Dimension >   ImageType;
-
-typedef itk::RedPixelAccessor<float>      RedAccessorType;
-
-typedef itk::ImageAdaptor< ImageType, RedAccessorType > RedAdaptorType;
+      static ExternalType Get( const InternalType & input ) 
+        {
+        return static_cast<ExternalType>( input.GetRed() );
+        }
+    };
 // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginCodeSnippet
-typedef itk::ImageRegionIteratorWithIndex< ImageType >       IteratorType;
 
-typedef itk::ImageRegionIteratorWithIndex< RedAdaptorType >  RedIteratorType;
+
+//  Software Guide : BeginLatex
+//
+//  The \code{Get()} method is simply calling the \code{GetRed()} method
+//  defined in the \doxygen{RGBPixel} class.
+//
+//  Software Guide : EndLatex 
+
 
 
 
@@ -92,87 +83,123 @@ typedef itk::ImageRegionIteratorWithIndex< RedAdaptorType >  RedIteratorType;
 //   Main code
 //
 //-------------------------
-int main() {
+
+int main( int argc, char *argv[] ) 
+{
 
 
-  ImageType::SizeType size;
-  size[0] = 2;
-  size[1] = 2;
-
-  ImageType::IndexType index;
-  index[0] = 0;
-  index[1] = 0;
-
-  ImageType::RegionType region;
-  region.SetIndex( index );
-  region.SetSize(  size  );
-
-  ImageType::Pointer image = ImageType::New();
-
-
-  image->SetLargestPossibleRegion( region );
-  image->SetBufferedRegion( region );
-  image->SetRequestedRegion( region );
-  image->Allocate();
-  
-  IteratorType  it1( image, image->GetRequestedRegion() );
-  
-  // Value to initialize the pixels
-  ImageType::PixelType::ComponentType colorInit[3] = {1.0f, 0.5f, 0.5f};
-  ImageType::PixelType color = colorInit;
-  
-  // Initializing all the pixel in the image
-  it1.GoToBegin();
-  while( !it1.IsAtEnd() )
-  {
-    it1.Set(color);
-    ++it1;
-  }
-
-  // Reading the values to verify the image content
-  std::cout << "--- Before --- " << std::endl;
-  it1.GoToBegin();
-  while( !it1.IsAtEnd() )
-  {
-    const ImageType::PixelType c( it1.Get() );
-    std::cout << c.GetRed()   << "  ";
-    std::cout << c.GetGreen() << "  ";
-    std::cout << c.GetBlue()  << std::endl;
-    ++it1;
-  }
+  if( argc < 3 )
+    {
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << "ImageAdaptor1   inputRGBFileName outputRedChannelFileName" << std::endl;
+    return -1;
+    }
 
 
 
-  RedAdaptorType::Pointer adaptor = RedAdaptorType::New();
-  adaptor->SetImage( image );
+//  Software Guide : BeginLatex
+//
+//  Now we use the internal pixel type of the pixel accessor for defining the
+//  input image type, and then proceed to instantiate the \code{ImageAdaptor}
+//  type.
+//
+//  Software Guide : EndLatex 
+
+
+// Software Guide : BeginCodeSnippet
+  typedef RedChannelPixelAccessor::InternalType  InputPixelType;
+  const   unsigned int   Dimension = 2;
+  typedef itk::Image< InputPixelType, Dimension >   ImageType;
+
+  typedef itk::ImageAdaptor<  ImageType, 
+                              RedChannelPixelAccessor 
+                                               > ImageAdaptorType;
+
+  ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
+// Software Guide : EndCodeSnippet
+
+
+
+
+//  Software Guide : BeginLatex
+//
+//  We create a reader whose output will have the appropiate type for the
+//  \emph{adapted} image type.
+//
+//  Software Guide : EndLatex 
+
+
+// Software Guide : BeginCodeSnippet
+  typedef itk::ImageFileReader< ImageType >   ReaderType;
+  ReaderType::Pointer reader = ReaderType::New();  
+// Software Guide : EndCodeSnippet
+
+
+  reader->SetFileName( argv[1] );
+  reader->Update();
+
+
+
+//  Software Guide : BeginLatex
+//
+//  and now connect the output of the reader as input of the image adaptor.
+//
+//  Software Guide : EndLatex 
+
+
+// Software Guide : BeginCodeSnippet
+  adaptor->SetImage( reader->GetOutput() );
+// Software Guide : EndCodeSnippet
 
  
-  RedIteratorType  it2( adaptor, adaptor->GetRequestedRegion() );
 
-  // Set the values of the Red component of image, using adaptor
-  it2.GoToBegin();
-  while( !it2.IsAtEnd() )
-  {
-    it2.Set( 0.4 );
-    ++it2;
-  }
-
-
-  std::cout << "--- After --- " << std::endl;
-
-  it1.GoToBegin();
-  while( !it1.IsAtEnd() )
-  {
-    const ImageType::PixelType c( it1.Get() );
-    std::cout << c.GetRed()   << "  ";
-    std::cout << c.GetGreen() << "  ";
-    std::cout << c.GetBlue()  << std::endl;
-    ++it1;
-  }
+//  Software Guide : BeginLatex
+//
+//  We instantiate a writer that will send the extracted channel to an image
+//  file. Note that the image type used for the writer is the
+//  \code{ImageAdaptorType} itself.
+//
+//  Software Guide : EndLatex 
 
 
+// Software Guide : BeginCodeSnippet
+  typedef itk::ImageFileWriter< ImageAdaptorType >   WriterType;
+  
+  WriterType::Pointer writer = WriterType::New();
 // Software Guide : EndCodeSnippet
+
+
+  writer->SetFileName( argv[2] );
+
+
+
+
+//  Software Guide : BeginLatex
+//
+//  Finally, we connect the adaptor as the input to the writer and invoke the
+//  \code{Update()} method.
+//
+//  Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  writer->SetInput( adaptor );
+  writer->Update();
+// Software Guide : EndCodeSnippet
+
+
+
+//  Software Guide : BeginLatex
+//
+//  Note that the adaptor is used as an image would have been used, not as a
+//  filter. The \doxygen{ImageAdaptor} conforms to the API of the
+//  \doxygen{Image}.
+//
+//  Software Guide : EndLatex 
+
+
+
   return 0;
+
 }
 
 
