@@ -153,7 +153,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType( ParametersDimension );
-  derivative.Fill( NumericTraits<typename DerivativeType::ValueType>::Zero );
+  derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
   typename MovingImageType::TransformPointer movingImageTransform = 
                                  m_MovingImage->GetPhysicalToIndexTransform();
@@ -277,7 +277,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType( ParametersDimension );
-  derivative.Fill( NumericTraits<typename DerivativeType::ValueType>::Zero );
+  derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
   typename MovingImageType::TransformPointer movingImageTransform = 
                                  m_MovingImage->GetPhysicalToIndexTransform();
