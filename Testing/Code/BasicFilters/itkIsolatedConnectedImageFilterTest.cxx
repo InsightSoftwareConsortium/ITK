@@ -28,9 +28,9 @@
 
 int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
 {
-  if(ac < 7)
+  if(ac < 8)
     {
-    std::cerr << "Usage: " << av[0] << " InputImage OutputImage seed1_x seed1_y seed2_x seed2_y\n";
+    std::cerr << "Usage: " << av[0] << " InputImage OutputImage FindUpper(true,false) seed1_x seed1_y seed2_x seed2_y [seed1_x2 seed1_y2 seed2_x2 seed2_y2]*\n";
     return -1;
     }
 
@@ -50,19 +50,38 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   
   FilterType::IndexType seed1;
   
-  seed1[0] = atoi(av[3]); seed1[1] = atoi(av[4]);
-  filter->SetSeed1(seed1);
+  seed1[0] = atoi(av[4]); seed1[1] = atoi(av[5]);
+  filter->SetSeed1(seed1); // deprecated method
   
-  seed1[0] = atoi(av[5]); seed1[1] = atoi(av[6]);
-  filter->SetSeed2(seed1);
+  seed1[0] = atoi(av[6]); seed1[1] = atoi(av[7]);
+  filter->SetSeed2(seed1); // deprecated method
+
+  // Add additional seeds
+  for (int i=8; i<ac; i+=4)
+    {
+    seed1[0] = atoi(av[i]); seed1[1] = atoi(av[i+1]);
+    filter->AddSeed1(seed1);
   
+    seed1[0] = atoi(av[i+2]); seed1[1] = atoi(av[i+3]);
+    filter->AddSeed2(seed1);
+    }
+
+  // The min and max values for a .png image
   filter->SetLower(0);
+  filter->SetUpperValueLimit(255); //deprecated method
+  filter->SetUpper(255);
   filter->SetReplaceValue(255);
-  filter->SetUpperValueLimit(250);
     
   // Test SetMacro
   filter->SetIsolatedValueTolerance(1);
   
+  // Test SetMacro
+  std::string findUpper = av[3];
+  if (findUpper == "true")
+    { filter->FindUpperThresholdOn(); }
+  else
+    { filter->FindUpperThresholdOff(); }    
+
   // Test GetMacros
   PixelType lower = filter->GetLower();
   std::cout << "filter->GetLower(): "
@@ -75,6 +94,10 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   PixelType upperValueLimit = filter->GetUpperValueLimit();
   std::cout << "filter->GetUpperValueLimit(): "
             << static_cast<itk::NumericTraits<PixelType>::PrintType>(upperValueLimit)
+            << std::endl;
+  PixelType upper = filter->GetUpper();
+  std::cout << "filter->GetUpper(): "
+            << static_cast<itk::NumericTraits<PixelType>::PrintType>(upper)
             << std::endl;
   PixelType replaceValue = filter->GetReplaceValue();
   std::cout << "filter->GetReplaceValue(): "
@@ -93,12 +116,52 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
     return -1;
     }
 
+  bool thresholdingFailed = filter->GetThresholdingFailed();
+
+  if (thresholdingFailed)
+    {
+    std::cout << "Selection of isolating threshold failed" << std::endl;
+    }
+  else
+    {
+    std::cout << "Selection of isolating threshold succeeded" << std::endl;
+    }
+    
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
-    writer = itk::ImageFileWriter<myImage>::New();
-    writer->SetInput( filter->GetOutput() );
-    writer->SetFileName( av[2] );
-    writer->Update();
+  writer = itk::ImageFileWriter<myImage>::New();
+  writer->SetInput( filter->GetOutput() );
+  writer->SetFileName( av[2] );
+  writer->Update();
+
+
+  // Now flip the mode to test whether it fails 
+  if (findUpper == "true")
+    { filter->FindUpperThresholdOff(); }
+  else
+    { filter->FindUpperThresholdOn(); }    
+  
+  try
+    {
+    filter->Update();
+    }
+  catch (itk::ExceptionObject& e)
+    {
+    std::cerr << "Exception detected: "  << e.GetDescription();
+    return -1;
+    }
+
+  thresholdingFailed = filter->GetThresholdingFailed();
+
+  if (thresholdingFailed)
+    {
+    std::cout << "When mode flipped: Selection of isolating threshold failed" << std::endl;
+    }
+  else
+    {
+    std::cout << "When mode flipped: Selection of isolating threshold succeeded" << std::endl;
+    }
+
 
   return 0;
 }
