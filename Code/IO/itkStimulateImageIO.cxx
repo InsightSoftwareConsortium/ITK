@@ -63,7 +63,6 @@ bool StimulateImageIO::OpenStimulateFileForReading(std::ifstream& os,
 
   if ( os.fail() )
     {
-    itkExceptionMacro(<< "Could not open file for reading: " << filename);
     return false;
     }
 
