@@ -52,7 +52,7 @@ itkSampleClassifierTest.cxx
 )
 
 ADD_EXECUTABLE(itkStatisticsTests itkStatisticsTests.cxx ${Statistics_SRCS})
-TARGET_LINK_LIBRARIES(itkStatisticsTests ITKCommon ITKNumerics ITKStatistics)
+TARGET_LINK_LIBRARIES(itkStatisticsTests ITKIO ITKCommon ITKNumerics ITKStatistics)
 
 
 
