@@ -68,8 +68,9 @@ public:
   typedef typename Superclass::VectorType VectorType;
 
   /** Define an image type for the advection field. */
-  typedef Image<VectorType, GetImageDimension<TImageType>::ImageDimension >
-    VectorImageType;
+  typedef Image<VectorType, 
+                ::itk::GetImageDimension<TImageType>::ImageDimension > VectorImageType;
+
 
   /** Define a scalar interpolator */
   typedef LinearInterpolateImageFunction<FeatureImageType>  InterpolatorType;
