@@ -108,8 +108,9 @@ int main( int argc, char *argv[] )
   typedef RedChannelPixelAccessor::InternalType  InputPixelType;
   const   unsigned int   Dimension = 2;
   typedef itk::Image< InputPixelType, Dimension >   ImageType;
-  typedef itk::ImageAdaptor<  ImageType, RedChannelPixelAccessor > 
-    ImageAdaptorType;
+
+  typedef itk::ImageAdaptor<  ImageType, 
+                              RedChannelPixelAccessor > ImageAdaptorType;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 // Software Guide : EndCodeSnippet
@@ -149,8 +150,9 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginCodeSnippet
   typedef itk::Image< unsigned char, Dimension >   OutputImageType;
-  typedef itk::RescaleIntensityImageFilter< ImageAdaptorType, OutputImageType >
-    RescalerType;
+  typedef itk::RescaleIntensityImageFilter< ImageAdaptorType, 
+                                            OutputImageType 
+                                               >   RescalerType;
 
   RescalerType::Pointer rescaler = RescalerType::New();
   typedef itk::ImageFileWriter< OutputImageType >   WriterType;
