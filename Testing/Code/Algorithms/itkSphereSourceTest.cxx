@@ -32,7 +32,8 @@ int main(){
   typedef itk::SphereSource<itk::Mesh<float> >  fSphereSourceType;
   fSphereSourceType::Pointer  mySphereSource = fSphereSourceType::New();
   fPointType center; center.Fill(0);
-  fPointType scale; scale = 1,1,1;
+  fPointType::ValueType scaleInit[3] = {1,1,1};
+  fPointType scale = scaleInit;
   
   mySphereSource->SetCenter(center);
   mySphereSource->SetResolutionX(1);

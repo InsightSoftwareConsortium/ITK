@@ -65,15 +65,6 @@ CovariantVector<T, TCovariantVectorDimension>
 }
 
 
-template<class T, unsigned int TCovariantVectorDimension>
-typename CovariantVector<T, TCovariantVectorDimension>::ArrayCommaListCopier
-CovariantVector<T, TCovariantVectorDimension>
-::operator= (const ValueType& r)
-{
-  return BaseArray::operator=(r);
-}
-
-
 /**
  *
  */

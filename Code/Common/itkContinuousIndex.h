@@ -62,7 +62,6 @@ public:
 
   /** The Array type from which this Vector is derived. */
   typedef typename Superclass::BaseArray            BaseArray;
-  typedef typename BaseArray::ArrayCommaListCopier  ArrayCommaListCopier;
   typedef typename BaseArray::Iterator              Iterator;
   typedef typename BaseArray::ConstIterator         ConstIterator;
   

@@ -166,18 +166,6 @@ Array<TValueType, VLength>
 
 
 /**
- * Assignment operator to allow assignment via a comma-separated list.
- * It is assumed that the list is of the appropriate length.
- */
-template <typename TValueType, unsigned long VLength>
-typename Array<TValueType, VLength>::ArrayCommaListCopier
-Array<TValueType, VLength>
-::operator= (const ValueType& r)
-{
-  return ArrayCommaListCopier(this->Begin(), r);
-}
-
-/**
  * Operator != compares different types of arrays.
  */
 template <typename TValueType, unsigned long VLength>

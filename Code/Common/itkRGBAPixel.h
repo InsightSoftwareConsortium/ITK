@@ -58,7 +58,6 @@ public:
     
   /** Convenience typedefs. */
   typedef Array<TComponent, 4> BaseArray;
-  typedef typename BaseArray::ArrayCommaListCopier  ArrayCommaListCopier;
   
   /**  Define the component type. */
   typedef TComponent ComponentType;
@@ -78,7 +77,6 @@ public:
   RGBAPixel& operator= (const typename BaseArray::Reference& r);
   RGBAPixel& operator= (const typename BaseArray::ConstReference& r);
   RGBAPixel& operator= (const ComponentType r[4]);
-  ArrayCommaListCopier operator= (const ComponentType& r);
   
   /** Return the number of componentsxquery-rep. */
   static int GetNumberOfComponents(){ return 4;}

@@ -73,8 +73,8 @@ int main(void)
   Set_ArrayReference(c_Array2);
   Print_Array(c_Array2, std::cout);
   
-  itk::Array<int, 3> array3;
-  array3 = 4,4,4;
+  int array3Init[3] = {4,4,4};
+  itk::Array<int, 3> array3 = array3Init;
   Print_Array(array3, std::cout);
   Print_ArrayConstReference(array3, std::cout);
   Print_c_ArrayConst(array3.GetDataPointer(), std::cout);
@@ -87,14 +87,16 @@ int main(void)
   Print_Array(array4, std::cout);
   
   itk::Array<int, 3>::Reference ref1 = array4;
-  ref1 = 5,5,5;
+  int arrayRefWrite[3] = {5,5,5};
+  ref1 = arrayRefWrite;
   Print_Array(ref1, std::cout);
   Print_ArrayConstReference(ref1.GetDataPointer(), std::cout);
   Print_c_ArrayConst(ref1.GetDataPointer(), std::cout);
   Print_Array(array4, std::cout);
   
   itk::Array<int, 3>::Reference ref2 = c_Array1;
-  ref2 = 6,6,6;
+  int arrayRefWrite2[3] = {6,6,6};
+  ref2 = arrayRefWrite2;
   Print_Array(c_Array1, std::cout);
   
   itk::Array<int, 3>::ConstReference cref3 = c_Array2;

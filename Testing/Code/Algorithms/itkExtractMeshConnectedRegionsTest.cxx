@@ -42,7 +42,8 @@ int main(void)
   
   // Pass the mesh through the filter in a variety of ways.
   //
-  Point p; p = 1,2,3;
+  Point::ValueType pInit[3] = {1,2,3};
+  Point p = pInit;
   Connect::Pointer connect(Connect::New());
   connect->SetInput(inMesh);
   connect->SetClosestPoint(p);

@@ -114,10 +114,10 @@ int main()
   // Test the MeanPoint
   {
     PointType midpoint;
-    PointType A;
-    PointType B;
-    A = 2.0,4.0,7.0;
-    B = 6.0,2.0,9.0;
+    PointType::ValueType aInit[3] = {2.0,4.0,7.0};
+    PointType::ValueType bInit[3] = {6.0,2.0,9.0};
+    PointType A = aInit;
+    PointType B = bInit;
     midpoint.SetToMidPoint( A, B );
     std::cout << "Test for MidPoint " << std::endl;
     std::cout << "PA = " << A << std::endl;
@@ -139,10 +139,10 @@ int main()
   {
     const double tolerance = 1e-10;
     PointType combination;
-    PointType A;
-    PointType B;
-    A = 2.0,4.0,7.0;
-    B = 6.0,2.0,9.0;
+    PointType::ValueType aInit[3] = {2.0,4.0,7.0};
+    PointType::ValueType bInit[3] = {6.0,2.0,9.0};
+    PointType A = aInit;
+    PointType B = bInit;
     double alpha = 0.5;
     combination.SetToBarycentricCombination( A, B, alpha );
     std::cout << "Test for Barycentric combination" << std::endl;
@@ -168,12 +168,12 @@ int main()
   {
     const double tolerance = 1e-10;
     PointType combination;
-    PointType A;
-    PointType B;
-    PointType C;
-    A = 12.0,  0.0,  0.0;
-    B =  0.0,  0.0, 12.0;
-    C =  0.0, 12.0,  0.0; 
+    PointType::ValueType aInit[3] = {12.0,  0.0,  0.0};
+    PointType::ValueType bInit[3] = { 0.0,  0.0, 12.0};
+    PointType::ValueType cInit[3] = { 0.0, 12.0,  0.0};
+    PointType A = aInit;
+    PointType B = bInit;
+    PointType C = cInit;
     double alpha = 1.0/3.0;
     double beta  = 1.0/3.0;
     combination.SetToBarycentricCombination( A, B, C, alpha, beta );
@@ -204,9 +204,12 @@ int main()
     PointType A[NP];
     double     w[NP-1];
     const double K = 12.0;
-    A[0] =    K,  0.0,  0.0;
-    A[1] =  0.0,    K,  0.0;
-    A[2] =  0.0,  0.0,    K;
+    PointType::ValueType aInit0[3] = {   K,  0.0, 0.0};
+    PointType::ValueType aInit1[3] = { 0.0,    K, 0.0};
+    PointType::ValueType aInit2[3] = { 0.0,  0.0,   K};
+    A[0] =  aInit0;
+    A[1] =  aInit1;
+    A[2] =  aInit2;
     w[0] = 1/3.0;
     w[1] = 1/3.0;
     combination.SetToBarycentricCombination( A, w, N );
@@ -234,11 +237,14 @@ int main()
     const double K = 12.0;
     
     VectorOfPoints::Iterator point = points->Begin();
-    point->Value() =  K,  0.0,  0.0;
+    PointType::ValueType vInit0[3] = {   K,  0.0, 0.0};
+    PointType::ValueType vInit1[3] = { 0.0,    K, 0.0};
+    PointType::ValueType vInit2[3] = { 0.0,  0.0,   K};
+    point->Value() =  vInit0;
     point++;
-    point->Value() =  0.0,    K,  0.0;
+    point->Value() =  vInit2;
     point++;
-    point->Value() =  0.0,  0.0,    K;
+    point->Value() =  vInit2;
 
     double     w[NP-1];
     w[0] = 1/3.0;

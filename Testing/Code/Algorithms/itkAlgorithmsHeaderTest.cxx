@@ -33,8 +33,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkExtensionVelocitiesImageFilter.h"
 #include "itkFastMarchingExtensionImageFilter.h"
 #include "itkFastMarchingImageFilter.h"
-#include "itkFuzzyConnectednessImageFilter.h"
-#include "itkFuzzyConnectednessRGBImageFilter.h"
 #include "itkGaussianSupervisedClassifier.h"
 #include "itkGeodesicActiveContourImageFilter.h"
 #include "itkGibbsPriorFilter.h"

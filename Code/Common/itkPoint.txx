@@ -78,18 +78,6 @@ Point<T, TPointDimension>
 
 
 /*
- * Assignment from a const scalar value
- */
-template<class T, unsigned int TPointDimension>
-typename Point<T, TPointDimension>::ArrayCommaListCopier
-Point<T, TPointDimension>
-::operator= (const ValueType& r)
-{
-  return BaseArray::operator=(r);
-}
-
-
-/*
  * In place increment by a vector
  */
 template<class T, unsigned int TPointDimension>

@@ -58,7 +58,9 @@ int main()
       for(int z= -n; z <= n; z++)
         {
         PointType p;
-        p = (float)x,(float)y,(float)z;
+        p[0] = x;
+        p[1] = y;
+        p[2] = z;
         points->InsertElement( count, p );
         count++;
         }

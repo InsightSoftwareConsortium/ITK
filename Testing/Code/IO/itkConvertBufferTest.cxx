@@ -24,15 +24,20 @@
 int main()
 { 
   unsigned int k;
-  itk::RGBPixel<int> pi; pi = 3, 1, 4;
-  itk::RGBAPixel<int> pia; pia = 3, 1, 4, 1;
+  int piInit[3] = {3,1,4};
+  itk::RGBPixel<int> pi = piInit;
+  int piaInit[4] = {3,1,4,1};
+  itk::RGBAPixel<int> pia = piaInit;
   std::cerr << "RGBPixel<int>: " <<  pi << "\n";
   std::cerr << "RGBAPixel<int>: " << pia << "\n";
 
+  int paInit0[4] = {1,1,1,0};
+  int paInit1[4] = {2,2,2,2};
+  int paInit2[4] = {3,3,3,4};
   itk::RGBAPixel<int> pa[3];
-  pa[0] = 1,1,1,0;
-  pa[1] = 2,2,2,2;
-  pa[2] = 3,3,3,4;
+  pa[0] = paInit0;
+  pa[1] = paInit1;
+  pa[2] = paInit2;
   int ipa[] = {1, 2, 3};
   itk::RGBPixel<int> p[3];
   // convert from int to RGB<int>

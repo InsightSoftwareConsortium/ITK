@@ -116,33 +116,6 @@ public:
   typedef const ValueType&  const_reference;
   
   typedef unsigned long   SizeType;
-
-protected:
-  friend class Reference;
-  /** \class ArrayCommaListCopier
-   * Allows an Array to be assigned to a comma-separated list.
-   * Array<int, 5> a;
-   * a = 1, 2, 3, 4, 5;
-   *
-   * Note: Never directly used.  Only used internally by Array class.
-   */
-  class ArrayCommaListCopier
-  {
-  public:
-    /** Constructor takes an Iterator to beginning of array being assigned
-     * and the first element in the list of assignments.   */
-    ArrayCommaListCopier(Iterator iter, const ValueType& elt): m_Iterator(iter)
-      { *m_Iterator++ = elt; }
-
-    /** Each comma encountered increments the Iterator, and the next element
-     * is assigned to the value after the comma.   */
-    ArrayCommaListCopier& operator,(const ValueType& elt)
-      { *m_Iterator++ = elt; return *this; }
-    
-  private:
-    /** Stores current position in the array being assigned.   */
-    Iterator m_Iterator;
-  };
   
 public:
   Array();
@@ -160,7 +133,6 @@ public:
   Array& operator= (const Reference& r);
   Array& operator= (const ConstReference& r);
   Array& operator= (const ValueType r[Length]);
-  ArrayCommaListCopier operator= (const ValueType& r);
     
   /** Operators == and != are used to compare whether two arrays are equal.
    * Note that arrays are equal when the number of components (size) is the
@@ -275,12 +247,7 @@ public:
       ConstIterator input = r;
       for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
       return *this;
-      }
-    
-    /** Assignment operator to allow assignment via a comma-separated list.
-     * It is assumed that the list is of the appropriate length.   */
-    ArrayCommaListCopier operator= (const ValueType& r) 
-      { return ArrayCommaListCopier(this->Begin(), r); }
+      }    
     
     /** Allow the Array to be indexed normally.
      * No bounds checking is done.

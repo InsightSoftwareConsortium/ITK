@@ -64,8 +64,8 @@ int main(int argc,char *argv[])
   /* Create a Rigid 3D transform with translation */
   {
     TransformType::Pointer  translation = TransformType::New();
-    TransformType::OffsetType ioffset;
-    ioffset = 1,4,9;
+    TransformType::OffsetType::ValueType ioffsetInit[3] = {1,4,9};
+    TransformType::OffsetType ioffset = ioffsetInit;
 
     translation->SetOffset( ioffset );
 
@@ -93,8 +93,8 @@ int main(int argc,char *argv[])
 
     {
       // Translate an itk::Point
-      TransformType::InputPointType p;
-      p = 10,10,10;
+      TransformType::InputPointType::ValueType pInit[3] = {10,10,10};
+      TransformType::InputPointType p = pInit;
       TransformType::InputPointType q;
       q = p + ioffset;
       TransformType::OutputPointType r;
@@ -122,8 +122,8 @@ int main(int argc,char *argv[])
 
     {
       // Translate an itk::Vector
-      TransformType::InputVectorType p;
-      p = 10,10,10;
+      TransformType::InputVectorType::ValueType pInit[3] = {10,10,10};
+      TransformType::InputVectorType p = pInit;
       TransformType::OutputVectorType q;
       q = translation->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
@@ -148,8 +148,8 @@ int main(int argc,char *argv[])
 
     {
       // Translate an itk::CovariantVector
-      TransformType::InputCovariantVectorType p;
-      p = 10,10,10;
+      TransformType::InputCovariantVectorType::ValueType pInit[3] = {10,10,10};
+      TransformType::InputCovariantVectorType p = pInit;
       TransformType::OutputCovariantVectorType q;
       q = translation->TransformCovariantVector( p );
       for(unsigned int i=0; i<N; i++)
@@ -280,8 +280,8 @@ int main(int argc,char *argv[])
 
     {
       // Rotate an itk::Point
-      TransformType::InputPointType p;
-      p = 10,10,10;
+      TransformType::InputPointType::ValueType pInit[3] = {10,10,10};
+      TransformType::InputPointType p = pInit;
       TransformType::InputPointType q;
 
       q[0] =  p[0] * costh + p[1] * sinth;
@@ -313,8 +313,8 @@ int main(int argc,char *argv[])
 
     {
       // Rotate an itk::Vector
-      TransformType::InputVectorType p;
-      p = 10,10,10;
+      TransformType::InputVectorType::ValueType pInit[3] = {10,10,10};
+      TransformType::InputVectorType p = pInit;
 
       TransformType::InputPointType q;
       q[0] =  p[0] * costh + p[1] * sinth;
@@ -346,8 +346,8 @@ int main(int argc,char *argv[])
 
     {
       // Rotate an itk::CovariantVector
-      TransformType::InputCovariantVectorType p;
-      p = 10,10,10;
+      TransformType::InputCovariantVectorType::ValueType pInit[3] = {10,10,10};
+      TransformType::InputCovariantVectorType p = pInit;
       TransformType::OutputCovariantVectorType q;
 
       q[0] =  p[0] * costh + p[1] * sinth;

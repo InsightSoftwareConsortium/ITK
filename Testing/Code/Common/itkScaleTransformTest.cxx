@@ -69,8 +69,8 @@ int main(int argc,char *argv[])
   {
     TransformType::Pointer    scaleTransform = TransformType::New();
 
-    TransformType::ScaleType  iscale;
-    iscale = 1,4,9;
+    TransformType::ScaleType::ValueType iscaleInit[3] = {1,4,9};
+    TransformType::ScaleType  iscale = iscaleInit;
 
     scaleTransform->SetScale( iscale );
 
@@ -98,8 +98,8 @@ int main(int argc,char *argv[])
 
     {
       // scale an itk::Point
-      TransformType::InputPointType p;
-      p = 10,10,10;
+      TransformType::InputPointType::ValueType pInit[3] = {10,10,10};
+      TransformType::InputPointType p = pInit;
       TransformType::InputPointType q;
       for(unsigned int j=0; j<N; j++)
       {
@@ -130,8 +130,8 @@ int main(int argc,char *argv[])
 
     {
       // Scale an itk::Vector
-      TransformType::InputVectorType p;
-      p = 10,10,10;
+      TransformType::InputVectorType::ValueType pInit[3] = {10,10,10};
+      TransformType::InputVectorType p = pInit;
       TransformType::OutputVectorType q;
       for(unsigned int j=0; j<N; j++)
       {
@@ -161,8 +161,8 @@ int main(int argc,char *argv[])
 
     {
       // Scale an itk::CovariantVector
-      TransformType::InputCovariantVectorType p;
-      p = 10,10,10;
+      TransformType::InputCovariantVectorType::ValueType pInit[3] = {10,10,10};
+      TransformType::InputCovariantVectorType p = pInit;
       TransformType::OutputCovariantVectorType q;
       for(unsigned int j=0; j<N; j++)
       {

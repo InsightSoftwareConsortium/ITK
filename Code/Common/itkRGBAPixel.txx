@@ -74,17 +74,6 @@ RGBAPixel<T>
 }
 
 
-/*
- * Assignment from a const scalar value
- */
-template<class T>
-typename RGBAPixel<T>::ArrayCommaListCopier
-RGBAPixel<T>
-::operator= (const ComponentType& r)
-{
-  return BaseArray::operator=(r);
-}
-
 /**
  * Print content to an ostream
  */

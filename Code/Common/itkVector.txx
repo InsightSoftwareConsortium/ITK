@@ -85,15 +85,6 @@ Vector<T, TVectorDimension>
 }
 
 
-template<class T, unsigned int TVectorDimension>
-typename Vector<T, TVectorDimension>::ArrayCommaListCopier
-Vector<T, TVectorDimension>
-::operator= (const ValueType& r)
-{
-  return BaseArray::operator=(r);
-}
-
-
 /**
  *
  */

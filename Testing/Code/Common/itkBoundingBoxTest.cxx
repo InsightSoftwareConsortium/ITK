@@ -118,11 +118,12 @@ int main ( int argc, char* argv[] )
 
   CC::PointsContainerPointer Points3D = CC::PointsContainer::New();
 
-  CC::PointType Q;
-  Q = -1.0f, -1.0f, -1.0f;
+  CC::PointType::ValueType qval1[3] = {-1.0f, -1.0f, -1.0f};
+  CC::PointType Q = qval1;
   Points3D->InsertElement( 0, Q );
 
-  Q =  1.0f,  1.0f,  1.0f;
+  CC::PointType::ValueType qval2[3] = {1.0f, 1.0f, 1.0f};
+  Q =  qval2;
   Points3D->InsertElement( 1, Q );
   std::cout << "Insert points passed" <<std::endl;
 
@@ -133,14 +134,16 @@ int main ( int argc, char* argv[] )
     }
   std::cout << "Compute Bounding Box passed" <<std::endl;
 
-  Q = 0.0f, 0.0f, 0.0f;
+  CC::PointType::ValueType qval3[3] = {0.0f, 0.0f, 0.0f};
+  Q = qval3;
   if( !my3DBox->IsInside( Q ) )
     {
     std::cerr << "Point " << Q << " Should be repoted inside " << std::endl;
     return EXIT_FAILURE;
     }
 
-  Q = 2.0f, 0.0f, 0.0f;
+  CC::PointType::ValueType qval4[3] = {2.0f, 0.0f, 0.0f};
+  Q = qval4;
   if( my3DBox->IsInside( Q ) )
     {
     std::cerr << "Point " << Q << " Should be repoted outside " << std::endl;

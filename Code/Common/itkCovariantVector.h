@@ -79,7 +79,6 @@ class CovariantVector : public Array<T,TCovariantVectorDimension> {
   
   /** The Array type from which this CovariantVector is derived. */
   typedef Array<T, TCovariantVectorDimension>                BaseArray;
-  typedef typename BaseArray::ArrayCommaListCopier  ArrayCommaListCopier;
     
   /** Get the dimension (size) of the vector. */
   static unsigned int GetCovariantVectorDimension() 
@@ -108,7 +107,6 @@ class CovariantVector : public Array<T,TCovariantVectorDimension> {
   CovariantVector& operator= (const typename BaseArray::Reference& r);
   CovariantVector& operator= (const typename BaseArray::ConstReference& r);
   CovariantVector& operator= (const ValueType r[CovariantVectorDimension]);
-  ArrayCommaListCopier operator= (const ValueType& r);
     
   /** Scalar operator*=.  Scales elements by a scalar. */
   const Self& operator*=(const ValueType &value);

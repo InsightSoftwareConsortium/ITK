@@ -220,8 +220,7 @@ int main()
 
   // We start not so far from the solution 
   typedef CostFunction::ParametersType ParametersType;
-  ParametersType initialValue;
-  initialValue = 100,200,150;
+  ParametersType::ValueType initialValue[3] = {100, 200, 150};
 
   itkOptimizer->SetInitialPosition( initialValue );
 

@@ -219,8 +219,8 @@ int main()
     
     qa.Set( xa, angle );
         
-    VectorType xb;
-    xb = 3.0, 7.0, 9.0;
+    VectorType::ValueType xbInit[3] = {3.0, 7.0, 9.0};
+    VectorType xb = xbInit;
 
     VectorType xc;
 
@@ -257,8 +257,8 @@ int main()
     
     qa.Set( xa, angle );
         
-    PointType xb;
-    xb = 3.0, 7.0, 9.0;
+    PointType::ValueType xbInit[3] = {3.0, 7.0, 9.0};
+    PointType xb = xbInit;
 
     PointType xc;
 
@@ -296,8 +296,8 @@ int main()
     
     qa.Set( xa, angle );
         
-    CovariantVectorType xb;
-    xb = 3.0, 7.0, 9.0;
+    CovariantVectorType::ValueType xbInit[3] = {3.0, 7.0, 9.0};
+    CovariantVectorType xb = xbInit;
 
     CovariantVectorType xc;
 
@@ -372,8 +372,8 @@ int main()
     // First, create a known versor
     VersorType v1;
 
-    VectorType x1;
-    x1 = 2.5f, 1.5f, 3.5f;
+    VectorType::ValueType x1Init[3] = {2.5f, 1.5f, 3.5f};
+    VectorType x1 = x1Init;
 
     ValueType angle1 = atan(1.0)/3.0; // 15 degrees in radians
     
@@ -437,13 +437,13 @@ int main()
     VersorType  v1;
     VersorType  v2;
 
-    VectorType x1;
-    x1 = 2.5f, 1.5f, 0.5f;
+    VectorType::ValueType x1Init[3] = {2.5f, 1.5f, 0.5f};
+    VectorType x1 = x1Init;
 
     ValueType angle1 = atan(1.0)/3.0; // 15 degrees in radians
     
-    VectorType x2;
-    x2 = 1.5f, 0.5f, 0.5f;
+    VectorType::ValueType x2Init[3] = {1.5f, 0.5f, 0.5f};
+    VectorType x2 = x1Init;
 
     ValueType angle2 = atan(1.0)/1.0; // 45 degrees in radians
     

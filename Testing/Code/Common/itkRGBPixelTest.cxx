@@ -26,9 +26,11 @@ int main(void)
   
   float val[3] = {1, 0, .5};
   itk::RGBPixel<float> pixel(val);
+  char pixelInit0[3] = {255, 255, 255};
+  char pixelInit1[3] = {255, 255, 244};
   itk::RGBPixel<char> pixelArray[2];
-  pixelArray[0] = 255, 255, 255;
-  pixelArray[1] = 255, 255, 244;
+  pixelArray[0] = pixelInit0;
+  pixelArray[1] = pixelInit1;
   
   std::cout << "sizeof(pixel) = " << sizeof (pixel) << std::endl;
   if (sizeof(pixel) != 3 * sizeof(itk::RGBPixel<float>::ComponentType))
@@ -55,7 +57,7 @@ int main(void)
   
   std::cout << "pixel[0] = 111; pixel[1] = 222; pixel[2] = 333;" << std::endl;
   
-  pixel[0] = 111; pixel[1] = 222; pixel = 333;
+  pixel[0] = 111; pixel[1] = 222; pixel[2] = 333;
   for (i = 0; i < pixel.GetNumberOfComponents(); i++)
     {
     std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;

@@ -54,16 +54,16 @@ int main()
   std::cout << resultVector[1] << ", ";
   std::cout << resultVector[2] << std::endl;
 
-  PointType p1;
-  p1 = 3,4,5;
+  PointType::ValueType p1Init[3] = {3,4,5};
+  PointType p1 = p1Init;
   
   PointType resultPoint = matrix * p1;
   std::cout << resultPoint[0] << ", ";
   std::cout << resultPoint[1] << ", ";
   std::cout << resultPoint[2] << std::endl;
 
-  CovariantVectorType cv1;
-  cv1 = 3,4,5;
+  CovariantVectorType::ValueType cv1Init[3] = {3,4,5};
+  CovariantVectorType cv1 = cv1Init;
   
   CovariantVectorType resultCovariantVector = matrix * cv1;
   std::cout << resultCovariantVector[0] << ", ";

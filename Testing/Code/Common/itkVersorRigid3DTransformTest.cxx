@@ -144,8 +144,8 @@ int main()
     
     {
       // Rotate an itk::Point
-      TransformType::InputPointType p;
-      p = 1,4,9;
+      TransformType::InputPointType::ValueType pInit[3] = {1,4,9};
+      TransformType::InputPointType p = pInit;
       TransformType::OutputPointType q;
       q = versor.Transform( p );
 
@@ -174,8 +174,8 @@ int main()
 
     {
       // Translate an itk::Vector
-      TransformType::InputVectorType p;
-      p = 1,4,9;
+      TransformType::InputVectorType::ValueType pInit[3] = {1,4,9};
+      TransformType::InputVectorType p = pInit;
       TransformType::OutputVectorType q;
       q = versor.Transform( p );
 
@@ -205,8 +205,8 @@ int main()
 
     {
       // Translate an itk::CovariantVector
-      TransformType::InputCovariantVectorType p;
-      p = 1,4,9;
+      TransformType::InputCovariantVectorType::ValueType pInit[3] = {1,4,9};
+      TransformType::InputCovariantVectorType p = pInit;
       TransformType::OutputCovariantVectorType q;
       q = versor.Transform( p );
 

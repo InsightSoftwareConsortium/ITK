@@ -56,7 +56,6 @@ public:
 
   /** The Array type from which this Vector is derived. */
   typedef Array<TCoordRep, TPointDimension>         BaseArray;
-  typedef typename BaseArray::ArrayCommaListCopier  ArrayCommaListCopier;
   typedef typename BaseArray::Iterator              Iterator;
   typedef typename BaseArray::ConstIterator         ConstIterator;
     
@@ -81,7 +80,6 @@ public:
   Point& operator= (const typename BaseArray::Reference& r);
   Point& operator= (const typename BaseArray::ConstReference& r);
   Point& operator= (const ValueType r[PointDimension]);
-  ArrayCommaListCopier operator= (const ValueType& r);
     
   /** Compare two points for equality. */
   bool

@@ -58,7 +58,9 @@ int main()
       for(int z= -n; z <= n; z++)
         {
         PointType p;
-        p = (float)x,(float)y,(float)z;
+        p[0] = x;
+        p[1] = y;
+        p[2] = z;
         std::cout << "Inserting point # ";
         std::cout.width( 3); std::cout << count << "  = ";
         std::cout.width( 4); std::cout << p[0] << ", ";
@@ -92,8 +94,8 @@ int main()
   // (it doesn't use smart pointers)
   TransformType::Pointer   affineTransform = TransformType::New();
   affineTransform->Scale( 3.5 );
-  TransformType::OffsetType   translation;
-  translation = 100.0, 200.0, 300.0;
+  TransformType::OffsetType::ValueType tInit[3] = {100,200,300};
+  TransformType::OffsetType   translation = tInit;
   affineTransform->Translate( translation );
 
   // Connect the inputs

@@ -72,7 +72,6 @@ public:
   
   /** The Array type from which this vector is derived. */
   typedef Array<T, TVectorDimension>                BaseArray;
-  typedef typename BaseArray::ArrayCommaListCopier  ArrayCommaListCopier;
     
   /** Get the dimension (size) of the vector. */
   static unsigned int GetVectorDimension() 
@@ -102,7 +101,6 @@ public:
   Vector& operator= (const typename BaseArray::Reference& r);
   Vector& operator= (const typename BaseArray::ConstReference& r);
   Vector& operator= (const ValueType r[VectorDimension]);
-  ArrayCommaListCopier operator= (const ValueType& r);
     
   /** Scalar operator*=.  Scales elements by a scalar. */
   const Self& operator*=(const ValueType &value);
