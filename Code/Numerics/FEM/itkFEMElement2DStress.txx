@@ -85,7 +85,7 @@ Element2DStress<TBaseClass>
 
   D[2][0] = 0.0;
   D[2][1] = 0.0;
-  D[2][2] = disot * (1.0 - m_mat->nu)/2.0;
+  D[2][2] = disot * (1.- m_mat->nu)/2.0;
 }
 
 
