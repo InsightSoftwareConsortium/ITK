@@ -35,6 +35,9 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   m_MovingImage  = 0; // has to be provided by the user.
   m_Transform    = 0; // has to be provided by the user.
   m_Interpolator = 0; // has to be provided by the user.
+  m_MatchMeasure = NumericTraits< MeasureType >::Zero;
+  m_MatchMeasureDerivatives = DerivativeType(1);
+  m_MatchMeasureDerivatives.Fill( NumericTraits< MeasureType >::Zero );
 }
 
 

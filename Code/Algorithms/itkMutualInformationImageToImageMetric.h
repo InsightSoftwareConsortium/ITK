@@ -129,8 +129,9 @@ public:
   enum { MovingImageDimension = MovingImageType::ImageDimension };
 
   /** Get the derivatives of the match measure. */
-  DerivativeType GetDerivative( 
-    const ParametersType& parameters );
+  void GetDerivative( 
+    const ParametersType& parameters,
+    DerivativeType & Derivative );
 
   /**  Get the value. */
   MeasureType GetValue( const ParametersType& parameters );

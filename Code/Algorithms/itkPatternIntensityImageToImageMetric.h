@@ -77,15 +77,15 @@ public:
 
 
   /** Get the derivatives of the match measure. */
-  DerivativeType GetDerivative( 
-                              const TransformParametersType & parameters );
+  void GetDerivative( const TransformParametersType & parameters,
+                            DerivativeType  & derivative );
 
   /**  Get the value for single valued optimizers. */
   MeasureType GetValue( const TransformParametersType & parameters );
 
   /**  Get value and derivatives for multiple valued optimizers. */
   void GetValueAndDerivative( const TransformParametersType & parameters,
-                              MeasureType& Value, DerivativeType& Derivative );
+                              MeasureType& Value, DerivativeType& derivative );
 
 protected:
   PatternIntensityImageToImageMetric();

@@ -124,9 +124,10 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
  * Get the Derivative Measure
  */
 template < class TFixedImage, class TMovingImage> 
-NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>::DerivativeType
+void
 NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
-::GetDerivative( const TransformParametersType & parameters )
+::GetDerivative( const TransformParametersType & parameters,
+                       DerivativeType & derivative )
 {
 
   const double delta = 0.00011;
@@ -144,7 +145,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     testPoint[i] = parameters[i];
     }
 
-  return m_MatchMeasureDerivatives;
+  derivative = m_MatchMeasureDerivatives;
 
 }
 
@@ -159,7 +160,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
                         MeasureType & Value, DerivativeType  & Derivative)
 {
   Value      = this->GetValue( parameters );
-  Derivative = this->GetDerivative( parameters );
+  this->GetDerivative( parameters, Derivative );
 }
 
 } // end namespace itk

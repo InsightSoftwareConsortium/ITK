@@ -409,17 +409,13 @@ DerivativeType& derivative)
  * Get the match measure derivative
  */
 template < class TFixedImage, class TMovingImage  >
+void
 MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::DerivativeType
-MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::GetDerivative( const ParametersType& parameters )
+::GetDerivative( const ParametersType& parameters, DerivativeType & derivative )
 {
   MeasureType value;
-  DerivativeType deriv;
   // call the combined version
-  this->GetValueAndDerivative( parameters, value, deriv );
-
-  return m_MatchMeasureDerivatives;
+  this->GetValueAndDerivative( parameters, value, derivative );
 }
 
 

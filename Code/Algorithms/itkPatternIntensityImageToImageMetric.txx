@@ -108,9 +108,10 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
  * Get the Derivative Measure
  */
 template < class TFixedImage, class TMovingImage> 
-PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>::DerivativeType
+void
 PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
-::GetDerivative( const TransformParametersType & parameters )
+::GetDerivative( const TransformParametersType & parameters, 
+                       DerivativeType & derivative           )
 {
 
   const double delta = 0.00011;
@@ -128,7 +129,7 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
     testPoint[i] = parameters[i];
     }
 
-  return m_MatchMeasureDerivatives;
+  derivative = m_MatchMeasureDerivatives;
 
 }
 
@@ -143,7 +144,7 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
                         MeasureType & Value, DerivativeType  & Derivative)
 {
   Value      = this->GetValue( parameters );
-  Derivative = this->GetDerivative( parameters );
+  this->GetDerivative( parameters, Derivative );
 }
 
 } // end namespace itk

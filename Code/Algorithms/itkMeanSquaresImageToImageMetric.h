@@ -74,8 +74,8 @@ public:
 
 
   /** Get the derivatives of the match measure. */
-  DerivativeType GetDerivative( 
-                              const TransformParametersType & parameters );
+  void GetDerivative( const TransformParametersType & parameters,
+                            DerivativeType & derivative );
 
   /**  Get the value for single valued optimizers. */
   MeasureType GetValue( const TransformParametersType & parameters );
