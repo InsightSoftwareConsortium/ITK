@@ -116,9 +116,6 @@ MultiResolutionMutualInformationAffineRegistration<TReference,TTarget>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-
-  os << indent << "Multi-resolution mutual information registration" << std::endl;
-
 }
 
 

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMultiResolutionImagePyramidTest.cxx
+  Module:    itkMultiResolutionPyramidImageFilterTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,7 +38,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "itkMultiResolutionImagePyramid.h"
+#include "itkMultiResolutionPyramidImageFilter.h"
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkImageRegionIterator.h"
@@ -152,7 +152,7 @@ int main()
  /**
   * Setup a multi-resolution pyramid
   */
-  typedef itk::MultiResolutionImagePyramid<InputImageType,OutputImageType>
+  typedef itk::MultiResolutionPyramidImageFilter<InputImageType,OutputImageType>
     PyramidType;
   typedef PyramidType::ScheduleType ScheduleType;
   PyramidType::Pointer pyramid = PyramidType::New();
@@ -225,8 +225,33 @@ int main()
     std::cout << pyramid->GetSchedule();
     }
 
+  // test start factors
+  const unsigned int * ss = pyramid->GetStartingShrinkFactors();
+  for( j = 0; j < ImageDimension; j++ )
+    {
+    if( ss[j] != factors[j] )
+      {
+      pass = false;
+      std::cout << "Returned starting factors incorrect" << std::endl;
+      break;
+      }
+    }
+
+  // test divisibility
+  if( !PyramidType::IsScheduleDownwardDivisible( pyramid->GetSchedule() ) )
+    {
+    pass = false;
+    std::cout << "Schedule should be downward divisible" << std::endl;
+    }
+
+  if( !PyramidType::IsScheduleUpwardDivisible( pyramid->GetSchedule() ) )
+    {
+    pass = false;
+    std::cout << "Schedule should be upward divisible" << std::endl;
+    }
+
   // generate output at a level with progress
-  std::cout << "Run MultiResolutionImagePyramid in standalone mode with progress";
+  std::cout << "Run MultiResolutionPyramidImageFilter in standalone mode with progress";
   std::cout << std::endl;
 
   ShowProgressObject progressWatch(pyramid);
@@ -236,12 +261,14 @@ int main()
                                &ShowProgressObject::ShowProgress);
   pyramid->AddObserver(itk::Command::ProgressEvent, command);
 
-  unsigned int currentLevel = 1;
-  pyramid->SetCurrentLevel( currentLevel );
-  pyramid->Update();
-
-
   pyramid->Print( std::cout );
+
+//  update pyramid at a particular level
+  unsigned int testLevel = 2;
+  pyramid->GetOutput( testLevel )->Update();
+
+// test output at another level
+  testLevel = 2;
 
   // check the output image information
   InputImageType::SizeType inputSize =
@@ -252,11 +279,11 @@ int main()
     pyramid->GetInput()->GetSpacing();
 
   OutputImageType::SizeType outputSize =
-    pyramid->GetOutput()->GetLargestPossibleRegion().GetSize();
+    pyramid->GetOutput( testLevel )->GetLargestPossibleRegion().GetSize();
   const double * outputOrigin =
-    pyramid->GetOutput()->GetOrigin();
+    pyramid->GetOutput( testLevel )->GetOrigin();
   const double * outputSpacing =
-    pyramid->GetOutput()->GetSpacing();
+    pyramid->GetOutput( testLevel )->GetSpacing();
 
   for( j = 0; j < ImageDimension; j++ )
     {
@@ -265,11 +292,11 @@ int main()
       break;
       }
     if( outputSpacing[j] !=
-      inputSpacing[j] * (double) schedule[currentLevel][j] )
+      inputSpacing[j] * (double) schedule[testLevel][j] )
       {
       break;
       }
-    unsigned int size = inputSize[j] / schedule[currentLevel][j];
+    unsigned int size = inputSize[j] / schedule[testLevel][j];
     if( size == 0 ) size = 1;
     if( outputSize[j] != size )
       {
@@ -281,7 +308,7 @@ int main()
     {
     pass = false;
     pyramid->GetInput()->Print(std::cout);
-    pyramid->GetOutput()->Print(std::cout);
+    pyramid->GetOutput( testLevel )->Print(std::cout);
     }
 
 
@@ -298,19 +325,18 @@ int main()
   pyramid2->SetInput( caster->GetOutput() );
   pyramid2->SetNumberOfLevels( pyramid->GetNumberOfLevels() );
   pyramid2->SetSchedule( pyramid->GetSchedule() );
-  pyramid2->SetCurrentLevel( pyramid->GetCurrentLevel() );
 
   typedef itk::StreamingImageFilter<OutputImageType,OutputImageType>
     StreamerType;
   StreamerType::Pointer streamer = StreamerType::New();
-  streamer->SetInput( pyramid2->GetOutput() );
+  streamer->SetInput( pyramid2->GetOutput( testLevel ) );
   streamer->SetNumberOfStreamDivisions( 3 );
   streamer->Update();
 
   std::cout << "Compare standalone and streamed outputs" << std::endl;
   typedef itk::ImageRegionIterator<OutputImageType> OutputIterator;
-  OutputIterator iter1( pyramid->GetOutput(),
-    pyramid->GetOutput()->GetBufferedRegion() );
+  OutputIterator iter1( pyramid->GetOutput( testLevel ),
+    pyramid->GetOutput( testLevel )->GetBufferedRegion() );
   OutputIterator iter2( streamer->GetOutput(),
     streamer->GetOutput()->GetBufferedRegion() );
 

@@ -151,6 +151,11 @@ void
 MultiResolutionRegistration<TRegistrationMethod>
 ::StartRegistration()
 {
+  // construct the image pyramids
+  itkDebugMacro( << "Building image pyramids" );
+  m_TargetPyramid->UpdateLargestPossibleRegion();
+  m_ReferencePyramid->UpdateLargestPossibleRegion();
+
   for( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels; 
     m_CurrentLevel++ )
     {
@@ -175,21 +180,19 @@ MultiResolutionRegistration<TRegistrationMethod>
 unsigned int level )
 {
 
-  std::cout << "Registering level: " << level << std::endl;
+  itkDebugMacro( << "Registering level " << level  );
 
-  m_TargetPyramid->SetCurrentLevel( level );
-  m_TargetPyramid->UpdateOutputInformation();
-  m_TargetPyramid->GetOutput()->SetRequestedRegionToLargestPossibleRegion();
-  m_TargetPyramid->Update();
+  unsigned int targetLevel = vnl_math_min( 
+    level, m_TargetPyramid->GetNumberOfLevels() );
 
-  m_InternalRegistrationMethod->SetTarget( m_TargetPyramid->GetOutput() );
+  unsigned int referenceLevel = vnl_math_min(
+    level, m_ReferencePyramid->GetNumberOfLevels() );
 
-  m_ReferencePyramid->SetCurrentLevel( level );
-  m_ReferencePyramid->UpdateOutputInformation();
-  m_ReferencePyramid->GetOutput()->SetRequestedRegionToLargestPossibleRegion();
-  m_ReferencePyramid->Update();
+  m_InternalRegistrationMethod->SetTarget( 
+    m_TargetPyramid->GetOutput(targetLevel) );
 
-  m_InternalRegistrationMethod->SetReference( m_ReferencePyramid->GetOutput() );
+  m_InternalRegistrationMethod->SetReference( 
+    m_ReferencePyramid->GetOutput(referenceLevel) );
 
   m_InternalRegistrationMethod->StartRegistration();
 
@@ -207,6 +210,8 @@ MultiResolutionRegistration<TRegistrationMethod>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "No. levels: " << m_NumberOfLevels << std::endl;
+  os << indent << "Target pyramid: " << m_TargetPyramid << std::endl;
+  os << indent << "Reference pyramid: " << m_ReferencePyramid << std::endl;
 
 }
 

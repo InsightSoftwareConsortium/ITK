@@ -193,12 +193,6 @@ std::cout << std::endl;
   method->GetMetric()->SetReferenceStandardDeviation( 5.0 );
   method->GetMetric()->SetNumberOfSpatialSamples( 50 );
 
-  std::cout << "Target schedule: " << std::endl;
-  std::cout << registrator->GetTargetPyramid()->GetSchedule() << std::endl;
-
-  std::cout << "Reference schedule: " << std::endl;
-  std::cout << registrator->GetReferencePyramid()->GetSchedule() << std::endl;
-
   // set optimizer related parameters
   typedef InternalRegistrationType::OptimizerType OptimizerType;
   typedef OptimizerType::TransformType::ParametersType ScaleType;
@@ -214,14 +208,10 @@ std::cout << std::endl;
 
 
   /**
-   * Output some debugging information
-   */
-  registrator->GetTargetPyramid()->DebugOn();
-  registrator->GetReferencePyramid()->DebugOn();
-
-  /**
    * Do the registration
    */
+  registrator->DebugOn();
+  registrator->Print( std::cout );
   registrator->StartRegistration();
 
 

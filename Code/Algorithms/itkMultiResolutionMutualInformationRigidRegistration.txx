@@ -117,8 +117,6 @@ MultiResolutionMutualInformationRigidRegistration<TReference,TTarget>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Multi-resolution mutual information registration" << std::endl;
-
 }
 
 

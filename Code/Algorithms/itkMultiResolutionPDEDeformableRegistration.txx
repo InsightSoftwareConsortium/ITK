@@ -230,18 +230,11 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
     itkErrorMacro( << "Registration filter not set" );
     }
   
+  // setup the filters
   m_ReferencePyramid->SetInput( reference );
   m_TargetPyramid->SetInput( target );
-  m_RegistrationFilter->SetReference( m_ReferencePyramid->GetOutput() );
-  m_RegistrationFilter->SetTarget( m_TargetPyramid->GetOutput() );
-  m_RegistrationFilter->SetInitialDeformationField( NULL );
   m_FieldExpander->SetInput( m_RegistrationFilter->GetOutput() );
 
- /**
-   * \todo What to do if there is an input deformation field?
-   * Will need a VectorMultiResolutionImagePyramid to downsample it.
-   */
-  //DeformationFieldPointer initialField = this->GetInput();
 
   unsigned int ilevel, refLevel, targetLevel;
   int idim;
@@ -259,7 +252,16 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
     targetLevel = vnl_math_min( (int) ilevel, 
       (int) m_TargetPyramid->GetNumberOfLevels() );
 
-    if( ilevel > 0 )
+    if( ilevel == 0 )
+      {
+       /**
+         * \todo What to do if there is an input deformation field?
+         * Will need a VectorMultiResolutionImagePyramid to downsample it.
+         */
+        //DeformationFieldPointer initialField = this->GetInput();
+      m_RegistrationFilter->SetInitialDeformationField( NULL );
+      }
+    else
       {
 
       // compute the expand factors for upsampling the deformation field
@@ -288,8 +290,8 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
       }
 
     // setup registration filter and pyramids 
-    m_ReferencePyramid->SetCurrentLevel( refLevel );
-    m_TargetPyramid->SetCurrentLevel( targetLevel );
+    m_RegistrationFilter->SetReference( m_ReferencePyramid->GetOutput(refLevel) );
+    m_RegistrationFilter->SetTarget( m_TargetPyramid->GetOutput(targetLevel) );
 
     m_RegistrationFilter->SetNumberOfIterations(
       m_NumberOfIterations[ilevel] );

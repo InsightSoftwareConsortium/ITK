@@ -42,8 +42,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImageRegionIterator.h"
 #include "itkMultiResolutionMutualInformationAffineRegistration.h"
 #include "itkCommandIterationUpdate.h"
+#include "itkOutputWindow.h"
 
 #include <iostream>
+
+// this class is used to send output to stdout and not the itk window
+class TextOutput : public itk::OutputWindow
+{
+public:
+  typedef TextOutput              Self;
+  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<const Self>  ConstPointer;
+  itkNewMacro(TextOutput);
+  virtual void DisplayText(const char* s)
+    {
+      std::cout << s << std::endl;
+    }
+};
+
 
 /**
  * This function defines the test image pattern.
@@ -74,6 +90,8 @@ double F( double x, double y, double z )
 
 int main()
 {
+
+  itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
 
 //------------------------------------------------------------
 // Create two simple images
@@ -214,12 +232,6 @@ int main()
   method->GetMetric()->SetReferenceStandardDeviation( 5.0 );
   method->GetMetric()->SetNumberOfSpatialSamples( 50 );
 
-  std::cout << "Target schedule: " << std::endl;
-  std::cout << registrator->GetTargetPyramid()->GetSchedule() << std::endl;
-
-  std::cout << "Reference schedule: " << std::endl;
-  std::cout << registrator->GetReferencePyramid()->GetSchedule() << std::endl;
-
   // set optimizer related parameters
   typedef InternalRegistrationType::OptimizerType OptimizerType;
   typedef OptimizerType::TransformType::ParametersType ScaleType;
@@ -236,6 +248,8 @@ int main()
   /**
    * Do the registration
    */
+  registrator->DebugOn();
+  registrator->Print( std::cout );
   registrator->StartRegistration();
 
 
