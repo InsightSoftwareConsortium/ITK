@@ -109,7 +109,7 @@ public:
   /**
    * Transform typedef
    *
-   * FIXME: Check that input and output images have the same number of 
+   * \todo Check that input and output images have the same number of 
    * dimensions; this is required by the current implementation of 
    * AffineTransform.
    */
