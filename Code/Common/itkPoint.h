@@ -259,7 +259,7 @@ public:
  * 
  */
 template <typename TPointA, typename TPointB >
-void PointCast( const TPointA & pa, TPointB & pb  ) 
+ITK_EXPORT void PointCast( const TPointA & pa, TPointB & pb  ) 
   {
   for(unsigned int i=0; i<TPointA::PointDimension; i++)
     {
