@@ -40,14 +40,39 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     m_GibbsPriorWeight(1),
     m_StartRadius(10),
     m_RecursiveNum(0),
+    m_LabelStatus(0),
+    m_MediumImage(0),
+    m_Temp(0),
+    m_ImageWidth(0),
+    m_ImageHeight(0),
+    m_ImageDepth(0),
+    m_ClusterSize(10),
+    m_ObjectLabel(1),
+    m_VecDim(0),
+    m_LowPoint(),
+    m_Region(NULL),
+    m_RegionCount(NULL),
+    m_CliqueWeight_1(0.0),
     m_CliqueWeight_2(-1.2),
-    m_LabelStatus(0)
+    m_CliqueWeight_3(0.0),
+    m_CliqueWeight_4(0.0)
 {
-  m_StartPoint[0] = 0;
-  m_StartPoint[1] = 0;
-  m_StartPoint[2] = 0;
+  m_StartPoint[0] = m_StartPoint[1] = m_StartPoint[2] = 0;
 }
 
+template <typename TInputImage, typename TClassifiedImage>
+RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
+::~RGBGibbsPriorFilter()
+{
+  if (m_Region)
+    {
+    delete [] m_Region;
+    }
+  if (m_RegionCount)
+    {
+    delete [] m_RegionCount;
+    }
+}
 /** Set the labelled image. */
 template<typename TInputImage, typename TClassifiedImage>
 void
@@ -562,10 +587,19 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::RegionEraser()
 {
   int i, j, k, size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
-  m_Region = (unsigned short*) malloc(sizeof(unsigned short)*size);
-  m_RegionCount = (unsigned short*) malloc(sizeof(unsigned short)*size);
-  unsigned short *valid_region_counter;
-  valid_region_counter = (unsigned short*) malloc(sizeof(unsigned short)*size/100);
+  if (m_Region)
+    {
+    delete [] m_Region;
+    }
+  m_Region = new unsigned short[size];
+
+  if (m_RegionCount)
+    {
+    delete [] m_RegionCount;
+    }
+  m_RegionCount = new unsigned short[size];
+
+  unsigned short *valid_region_counter = new unsigned short[size/100];
 
   LabelledImageIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
@@ -614,7 +648,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     ++labelledImageIt;
   }
 
-  delete valid_region_counter;
+  delete []valid_region_counter;
 
 }
 
