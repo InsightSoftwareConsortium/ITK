@@ -10,7 +10,6 @@ cates:Josh Cates:cates@cs.utah.edu
 celina:Celina  Imielinska:ci42@columbia.edu
 chandra:Parag Chandra:chandra@cs.unc.edu
 chenting:Ting Chen:chenting@graphics.cis.upenn.edu
-danny
 gash
 gee:Jim Gee:gee@grasp.cis.upenn.edu
 hoffman:Bill Hoffman:bill.hoffman@kitware.com
