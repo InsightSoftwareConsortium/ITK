@@ -37,6 +37,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
 ::ConnectedRegionsMeshFilter()
 {
   m_ExtractionMode = Self::LargestRegion;
+  m_ClosestPoint.Fill(0);
 }
 
 /**
