@@ -36,7 +36,8 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
 {
   unsigned int i;
   PixelType min = NumericTraits<PixelType>::max();
-
+  PixelType nitValue = NumericTraits<PixelType>::min();
+  
   bool erode = false;               // do some sort of erosion
   bool completelyBackground = true; // structuring element is completely
                                     // over background pixels
@@ -53,16 +54,17 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
       // if the image pixel is not the erode value, note we use GetPixel()
       // on the SmartNeighborhoodIterator in order to respect boundary
       // conditions
-      if (nit.GetPixel(i) != m_ErodeValue)
+      nitValue = nit.GetPixel(i);
+      if (nitValue != m_ErodeValue)
         {
         erode = true;
         
         // if the image pixel is less than current min,  note we use GetPixel()
         // on the NeighborhoodIterator in order to respect boundary
         // conditions
-        if (min > nit.GetPixel(i))
+        if (min > nitValue)
           {
-          min = nit.GetPixel(i);
+          min = nitValue;
           }
         }
       else
