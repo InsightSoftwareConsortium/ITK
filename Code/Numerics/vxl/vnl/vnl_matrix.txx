@@ -1080,6 +1080,7 @@ void vnl_matrix<T>::assert_size(unsigned rs,unsigned cs) const
 template <class T>
 bool vnl_matrix<T>::read_ascii(vcl_istream& s)
 {
+  vcl_vector<T*> row_vals;
   if (!s.good()) {
     vcl_cerr << "vnl_matrix<T>::read_ascii: Called with bad stream\n";
     return false;
@@ -1137,7 +1138,6 @@ bool vnl_matrix<T>::read_ascii(vcl_istream& s)
 
   // need to be careful with resizing here as will often be reading humungous files
   // So let's just build an array of row pointers
-  vcl_vector<T*> row_vals;
   row_vals.reserve(1000);
   {
     // Copy first row.  Can't use first_row_vals, as may be a vector of bool...
@@ -1146,7 +1146,6 @@ bool vnl_matrix<T>::read_ascii(vcl_istream& s)
       row[k] = first_row_vals[k];
     row_vals.push_back(row);
   }
-
   while (1) {
     T* row = vnl_c_vector<T>::allocate_T(colz);
     if (row == 0) {
@@ -1183,7 +1182,6 @@ bool vnl_matrix<T>::read_ascii(vcl_istream& s)
       *p++ = row_vals[i][j];
     if (i > 0) vnl_c_vector<T>::deallocate(row_vals[i], colz);
   }
-
   return true;
 }
 
