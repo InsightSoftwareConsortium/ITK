@@ -9,7 +9,7 @@ Prefix=wrap_itk
 Postfix=.cxx
 
 
-MAKE_ALL_FILTER_TYPES="MedianImageFilter NeighborhoodConnectedImageFilter IsolatedConnectedImageFilter GradientMagnitudeImageFilter FastMarchingImageFilter AnisotropicDiffusionImageFilter"
+MAKE_ALL_FILTER_TYPES="MedianImageFilter NeighborhoodConnectedImageFilter IsolatedConnectedImageFilter GradientMagnitudeImageFilter FastMarchingImageFilter AnisotropicDiffusionImageFilter RegionOfInterestImageFilter"
 
 MAKE_ONLY_FLOAT_TYPES=""
 
@@ -22,8 +22,8 @@ cat > ${CURRFILE} << FILE_EOF
   Program:   Insight Segmentation & Registration Toolkit
   Module:    \MakeConsistentWrappedClasses.sh{WRAP_OBJECT2_TARGET}.cxx,v \$
   Language:  C++
-  Date:      \$Date: 2003-11-26 22:06:07 $
-  Version:   \$Revision: 1.3 $
+  Date:      \$Date: 2003-12-04 14:05:30 $
+  Version:   \$Revision: 1.4 $
 
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
@@ -33,8 +33,8 @@ cat > ${CURRFILE} << FILE_EOF
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itk${WRAP_OBJECT2_TARGET}.h"
 #include "itkImage.h"
+#include "itk${WRAP_OBJECT2_TARGET}.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
@@ -83,8 +83,8 @@ cat > ${CURRFILE} << FILE_EOF
   Program:   Insight Segmentation & Registration Toolkit
   Module:    \MakeConsistentWrappedClasses.sh{WRAP_OBJECT2_TARGET}.cxx,v \$
   Language:  C++
-  Date:      \$Date: 2003-11-26 22:06:07 $
-  Version:   \$Revision: 1.3 $
+  Date:      \$Date: 2003-12-04 14:05:30 $
+  Version:   \$Revision: 1.4 $
 
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
