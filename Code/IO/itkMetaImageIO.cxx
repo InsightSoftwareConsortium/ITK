@@ -15,6 +15,7 @@
 
 =========================================================================*/
 
+#include <string>
 #include "itkMetaImageIO.h"
 #include "itkExceptionObject.h"
 
@@ -102,6 +103,21 @@ bool MetaImageIO::CanReadFile( const char* filename )
     return true;
     }
   if( strcmp(key,"BinaryData")==0 ) 
+    {
+    inputStream.close();
+    return true;
+    }
+  if( strcmp(key,"Comment")==0 ) 
+    {
+    inputStream.close();
+    return true;
+    }
+  if( strcmp(key,"AcquisitionDate")==0 ) 
+    {
+    inputStream.close();
+    return true;
+    }
+  if( strcmp(key,"Modality")==0 ) 
     {
     inputStream.close();
     return true;
@@ -298,7 +314,10 @@ MetaImageIO
   m_MetaImage.Position(eOrigin);
   m_MetaImage.BinaryData(binaryData);
 
-  m_MetaImage.Write(m_FileName.c_str());
+  std::string dataName;
+  dataName = m_FileName + ".raw";
+  std::cout << "dataName = " << dataName << std::endl;
+  m_MetaImage.Write(m_FileName.c_str(), dataName.c_str());
 
   delete dSize;
   delete eSpacing;
