@@ -57,7 +57,7 @@ FilterImageTernary<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction
 ::SetInput2( Image2Pointer image2 ) 
 {
   this->m_Image2 = image2;
-  SetNthInput(0, image2.GetPointer());
+  SetNthInput(1, image2.GetPointer());
 }
 
 
@@ -72,7 +72,7 @@ FilterImageTernary<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction
 ::SetInput3( Image3Pointer image3 ) 
 {
   this->m_Image3 = image3;
-  SetNthInput(0, image3.GetPointer());
+  SetNthInput(2, image3.GetPointer());
 }
 
 

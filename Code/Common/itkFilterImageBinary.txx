@@ -57,7 +57,7 @@ FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::SetInput2( TInputImage2 * image2 ) 
 {
   this->m_Image2 = image2;
-  SetNthInput(0, image2 );
+  SetNthInput(1, image2 );
 }
 
 
