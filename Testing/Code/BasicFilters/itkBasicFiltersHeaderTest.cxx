@@ -134,6 +134,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkScalarAnisotropicDiffusionFunction.txx"
 #include "itkScalarToArrayCastImageFilter.h"
 #include "itkShiftScaleImageFilter.txx"
+#include "itkShiftScaleInPlaceImageFilter.txx"
 #include "itkShrinkImageFilter.txx"
 #include "itkSigmoidImageFilter.h"
 #include "itkSimilarityIndexImageFilter.txx"
