@@ -18,6 +18,8 @@ SET(ITKIO_SRCS
   itkGE5ImageIOFactory.cxx
   itkGEAdwImageIO.cxx
   itkGEAdwImageIOFactory.cxx
+  itkJPEGImageIO.cxx
+  itkJPEGImageIOFactory.cxx
   itkRegularExpressionSeriesFileNames.cxx
   itkSiemensVisionImageIO.cxx
   itkSiemensVisionImageIOFactory.cxx
@@ -42,7 +44,7 @@ SET(ITKIO_SRCS
 
 # Add ITKIO library
 ADD_LIBRARY(ITKIO ${ITKIO_SRCS})
-TARGET_LINK_LIBRARIES(ITKIO ITKCommon ${ITK_PNG_LIBRARIES}
+TARGET_LINK_LIBRARIES(ITKIO ITKCommon ${ITK_PNG_LIBRARIES} ${ITK_JPEG_LIBRARIES}
                       ${ITK_ZLIB_LIBRARIES} ITKMetaIO ITKDICOMParser ITKEXPAT)
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKIO)
