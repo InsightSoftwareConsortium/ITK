@@ -148,11 +148,10 @@ private:
 };
 
 
-/**
- * Asignment operator
- */
+
+
 template<class T>
-const FEMP<T>& FEMP<T>::operator=(const FEMP &rhs) 
+const FEMP<T>& FEMP<T>::operator=(const FEMP &rhs)
 {
 
   /** Self assignments don't make sense. */
