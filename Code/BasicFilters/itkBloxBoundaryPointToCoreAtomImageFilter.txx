@@ -72,18 +72,18 @@ void
 BloxBoundaryPointToCoreAtomImageFilter< dim >
 ::FindCoreAtoms()
 {
-  /*
+  
   // Create an iterator to walk the source image
   typedef ImageRegionConstIterator<TInputImage> TImageIteratorType;
 
-  TImageIteratorType imageIt = TImageIteratorType(m_InputPtr,
-                                                  m_InputPtr->GetRequestedRegion() );
+  TImageIteratorType imageIt ( m_InputPtr,
+                               m_InputPtr->GetRequestedRegion() );
 
   // Iterate through the entire image (all pixels) and look for core atoms
   for ( imageIt.GoToBegin(); !imageIt.IsAtEnd(); ++imageIt)
     {
     // The iterator for accessing linked list info
-    itk::BloxBoundaryPointPixel<dim>::iterator bpiterator;
+    itk::BloxBoundaryPointPixel<dim>::const_iterator bpiterator;
 
     // Walk through all of the elements at the pixel
     for (bpiterator = imageIt.Value().begin(); bpiterator != imageIt.Value().end(); ++bpiterator)
@@ -103,7 +103,7 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
 
   itkDebugMacro(<< "Finished looking for core atoms\n"
                 << "I found " << m_NumCoreAtoms << " core atoms\n");
-  */
+  
 }
 
 template< unsigned int dim >
@@ -111,7 +111,7 @@ void
 BloxBoundaryPointToCoreAtomImageFilter< dim >
 ::FindCoreAtomsAtBoundaryPoint(BloxBoundaryPointItem<NDimensions>* pBPOne)
 {
-/*
+
   // When looking for core atoms at a boundary point, we want to examine
   // all of the boundary points within blox that are part of a conical
   // region extending out in the direction of the gradient of the boundary
@@ -143,6 +143,7 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
   TFunctionGradientType spatialFunctionGradient = pBPOne->GetGradient();
   spatialFunc->SetOriginGradient(spatialFunctionGradient);
 
+/*
   // Create a seed position for the spatial function iterator we'll use shortly
   typename TBoundaryPointImage::IndexType seedIndex;
 
