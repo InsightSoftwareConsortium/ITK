@@ -391,75 +391,70 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   // Set correctCorrespondenceMatrix to test against.
   DistanceMatrixPointer correctCorrespondenceMatrix = MatrixType::New();
   correctCorrespondenceMatrix->resize(numberNodes1, numberNodes2);
-  correctCorrespondenceMatrix->put(0,0,0.999977);
-  correctCorrespondenceMatrix->put(0,1,0.988233);
-  correctCorrespondenceMatrix->put(0,2,0.988233);
-  correctCorrespondenceMatrix->put(0,3,0.979701);
-  correctCorrespondenceMatrix->put(0,4,0.988233);
-  correctCorrespondenceMatrix->put(0,5,0.979701);
-  correctCorrespondenceMatrix->put(0,6,0.979701);
+  correctCorrespondenceMatrix->put(0,0,0.99678);
+  correctCorrespondenceMatrix->put(0,1,0.982923);
+  correctCorrespondenceMatrix->put(0,2,0.982923);
+  correctCorrespondenceMatrix->put(0,3,0.969779);
+  correctCorrespondenceMatrix->put(0,4,0.982923);
+  correctCorrespondenceMatrix->put(0,5,0.969779);
+  correctCorrespondenceMatrix->put(0,6,0.969779);
 
-  correctCorrespondenceMatrix->put(1,0,0.978981);
-  correctCorrespondenceMatrix->put(1,1,0.995991);
-  correctCorrespondenceMatrix->put(1,2,0.995991);
-  correctCorrespondenceMatrix->put(1,3,0.975749);
-  correctCorrespondenceMatrix->put(1,4,0.995991);
-  correctCorrespondenceMatrix->put(1,5,0.975749);
-  correctCorrespondenceMatrix->put(1,6,0.975749);
+  correctCorrespondenceMatrix->put(1,0,0.978068);
+  correctCorrespondenceMatrix->put(1,1,0.992896);
+  correctCorrespondenceMatrix->put(1,2,0.992896);
+  correctCorrespondenceMatrix->put(1,3,0.968077);
+  correctCorrespondenceMatrix->put(1,4,0.992896);
+  correctCorrespondenceMatrix->put(1,5,0.968077);
+  correctCorrespondenceMatrix->put(1,6,0.968077);
 
-  correctCorrespondenceMatrix->put(2,0,0.978981);
-  correctCorrespondenceMatrix->put(2,1,0.995991);
-  correctCorrespondenceMatrix->put(2,2,0.995991);
-  correctCorrespondenceMatrix->put(2,3,0.975749);
-  correctCorrespondenceMatrix->put(2,4,0.995991);
-  correctCorrespondenceMatrix->put(2,5,0.975749);
-  correctCorrespondenceMatrix->put(2,6,0.975749);
+  correctCorrespondenceMatrix->put(2,0,0.978068);
+  correctCorrespondenceMatrix->put(2,1,0.992896);
+  correctCorrespondenceMatrix->put(2,2,0.992896);
+  correctCorrespondenceMatrix->put(2,3,0.968077);
+  correctCorrespondenceMatrix->put(2,4,0.992896);
+  correctCorrespondenceMatrix->put(2,5,0.968077);
+  correctCorrespondenceMatrix->put(2,6,0.968077);
 
-  correctCorrespondenceMatrix->put(3,0,0.950089);
-  correctCorrespondenceMatrix->put(3,1,0.96741);
-  correctCorrespondenceMatrix->put(3,2,0.96741);
-  correctCorrespondenceMatrix->put(3,3,0.991872);
-  correctCorrespondenceMatrix->put(3,4,0.96741);
-  correctCorrespondenceMatrix->put(3,5,0.991872);
-  correctCorrespondenceMatrix->put(3,6,0.991872);
+  correctCorrespondenceMatrix->put(3,0,0.918658);
+  correctCorrespondenceMatrix->put(3,1,0.933304);
+  correctCorrespondenceMatrix->put(3,2,0.933304);
+  correctCorrespondenceMatrix->put(3,3,0.952194);
+  correctCorrespondenceMatrix->put(3,4,0.933304);
+  correctCorrespondenceMatrix->put(3,5,0.952194);
+  correctCorrespondenceMatrix->put(3,6,0.952194);
 
-  correctCorrespondenceMatrix->put(4,0,0.978981);
-  correctCorrespondenceMatrix->put(4,1,0.995991);
-  correctCorrespondenceMatrix->put(4,2,0.995991);
-  correctCorrespondenceMatrix->put(4,3,0.975749);
-  correctCorrespondenceMatrix->put(4,4,0.995991);
-  correctCorrespondenceMatrix->put(4,5,0.975749);
-  correctCorrespondenceMatrix->put(4,6,0.975749);
+  correctCorrespondenceMatrix->put(4,0,0.978068);
+  correctCorrespondenceMatrix->put(4,1,0.992896);
+  correctCorrespondenceMatrix->put(4,2,0.992896);
+  correctCorrespondenceMatrix->put(4,3,0.968077);
+  correctCorrespondenceMatrix->put(4,4,0.992896);
+  correctCorrespondenceMatrix->put(4,5,0.968077);
+  correctCorrespondenceMatrix->put(4,6,0.968077);
 
-  correctCorrespondenceMatrix->put(5,0,0.950089);
-  correctCorrespondenceMatrix->put(5,1,0.96741);
-  correctCorrespondenceMatrix->put(5,2,0.96741);
-  correctCorrespondenceMatrix->put(5,3,0.991872);
-  correctCorrespondenceMatrix->put(5,4,0.96741);
-  correctCorrespondenceMatrix->put(5,5,0.991872);
-  correctCorrespondenceMatrix->put(5,6,0.991872);
+  correctCorrespondenceMatrix->put(5,0,0.918658);
+  correctCorrespondenceMatrix->put(5,1,0.933304);
+  correctCorrespondenceMatrix->put(5,2,0.933304);
+  correctCorrespondenceMatrix->put(5,3,0.952194);
+  correctCorrespondenceMatrix->put(5,4,0.933304);
+  correctCorrespondenceMatrix->put(5,5,0.952194);
+  correctCorrespondenceMatrix->put(5,6,0.952194);
 
-  correctCorrespondenceMatrix->put(6,0,0.950089);
-  correctCorrespondenceMatrix->put(6,1,0.96741);
-  correctCorrespondenceMatrix->put(6,2,0.96741);
-  correctCorrespondenceMatrix->put(6,3,0.991872);
-  correctCorrespondenceMatrix->put(6,4,0.96741);
-  correctCorrespondenceMatrix->put(6,5,0.991872);
-  correctCorrespondenceMatrix->put(6,6,0.991872);
+  correctCorrespondenceMatrix->put(6,0,0.918658);
+  correctCorrespondenceMatrix->put(6,1,0.933304);
+  correctCorrespondenceMatrix->put(6,2,0.933304);
+  correctCorrespondenceMatrix->put(6,3,0.952194);
+  correctCorrespondenceMatrix->put(6,4,0.933304);
+  correctCorrespondenceMatrix->put(6,5,0.952194);
+  correctCorrespondenceMatrix->put(6,6,0.952194);
 
-  // Print the contents of the correspondence matrix
+  // Print the contents of the correspondence matrix.
   std::cerr << "\nCorrespondence Matrix: " << std::endl;
   for(int m=0;m<numberNodes1;++m)
-  {
-    for(int n=0;n<numberNodes2;++n)
     {
+    for(int n=0;n<numberNodes2;++n)
       std::cerr << correspondenceMatrix->get(m,n) << " ";
-      //std::cerr << "correctCorrespondenceMatrix->put(" <<m<< "," <<n<<","<<correspondenceMatrix->get(m,n) <<");"<< std::endl;
-    }
     std::cerr << std::endl;
-  }
-
-
+    }
 
   // Compare the test results with the correct results. 
   int indexK = 0;
