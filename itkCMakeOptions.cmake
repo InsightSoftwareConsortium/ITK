@@ -15,12 +15,14 @@ ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl
 ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl 
 ${ITK_SOURCE_DIR}/Utilities/png
 ${ITK_SOURCE_DIR}/Utilities/zlib
+${ITK_SOURCE_DIR}/Utilities/MetaIO
 )
 
 # set link libraries
 LINK_DIRECTORIES(
 ${ITK_BINARY_DIR}/Utilities/zlib
 ${ITK_BINARY_DIR}/Utilities/png
+${ITK_BINARY_DIR}/Utilities/MetaIO
 ${ITK_BINARY_DIR}/Code/Common 
 ${ITK_BINARY_DIR}/Code/IO
 ${ITK_BINARY_DIR}/Code/Numerics/vxl )
