@@ -7,8 +7,12 @@ SET (DROP_SITE "www.itk.org")
 SET (DROP_LOCATION "/incoming")
 SET (DROP_SITE_USER "ftpuser")
 SET (DROP_SITE_PASSWORD "public")
+SET (DROP_METHOD "ftp")
 SET (TRIGGER_SITE 
        "http://${DROP_SITE}/cgi-bin/Submit-Insight-TestingResults.pl")
+
+# Project Home Page
+SET (PROJECT_URL "http://www.itk.org/")
 
 # Dart server configuration 
 SET (CVS_WEB_URL "http://${DROP_SITE}/cgi-bin/cvsweb.cgi/Insight/")
@@ -27,3 +31,4 @@ SET (CONTINUOUS_FROM "lorensen@crd.ge.com")
 SET (SMTP_MAILHOST "public.kitware.com")
 SET (CONTINUOUS_MONITOR_LIST "lorensen@crd.ge.com millerjv@crd.ge.com")
 SET (CONTINUOUS_BASE_URL "http://www.itk.org/Testing")
+
