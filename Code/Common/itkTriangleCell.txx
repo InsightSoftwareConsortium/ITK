@@ -319,7 +319,7 @@ TriangleCell< TCellInterface >
   //
   //   Determine appropriate vectors
   // 
-  int i;
+  unsigned int i;
   for(i=0;i<PointDimension;i++)
     {
     p21[i] = p2[i] - p1[i];
@@ -403,12 +403,12 @@ TriangleCell< TCellInterface >
     }
 
 
-  int i, j;
+  unsigned int i, j;
   double fabsn;
   double rhs[2], c1[2], c2[2], n[3];
   double det;
   double maxComponent;
-  int idx=0, indices[2];
+  unsigned int idx=0, indices[2];
   double dist2Point, dist2Line1, dist2Line2;
   PointType closest; 
   PointType closestPoint1, closestPoint2, cp;
