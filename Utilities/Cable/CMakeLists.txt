@@ -1,0 +1,13 @@
+PROJECT(CABLE)
+
+SUBDIRS(Expat Parsers Generators)
+
+INCLUDE_DIRECTORIES(
+${CABLE_SOURCE_DIR}/Expat/xmlparse
+)
+
+LINK_DIRECTORIES(
+${CABLE_BINARY_DIR}/Expat
+${CABLE_BINARY_DIR}/Parsers
+${CABLE_BINARY_DIR}/Generators
+)
