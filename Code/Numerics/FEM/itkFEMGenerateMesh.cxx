@@ -46,15 +46,15 @@ void Generate2DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver& S, vn
   // Number of nodes in each dimension
   Nel[0]=floor(Nel[0]);
   Nel[1]=floor(Nel[1]);
-  unsigned int Ni=static_cast<unsigned int>(Nel[0]);
-  unsigned int Nj=static_cast<unsigned int>(Nel[1]);
+  double Ni=static_cast<double>(Nel[0]);
+  double Nj=static_cast<double>(Nel[1]);
 
   // Create nodes
   Node::Pointer n;
   int gn=0; // number of node
-  for(unsigned int j=0; j<=Nj; j++)
+  for(double j=0; j<=Nj; j++)
   {
-    for(unsigned int i=0; i<=Ni; i++)  
+    for(double i=0; i<=Ni; i++)  
     {
       n=new Node(orig[0]+i*size[0]/Nel[0], orig[1]+j*size[1]/Nel[1]);
       n->GN=gn;
