@@ -68,6 +68,7 @@ VOLImageIO::VOLImageIO()
   this->SetNumberOfComponents(1);
   this->SetNumberOfDimensions(4);
   m_Skinoffset = -1;
+  m_Blanking = -1;
 }
 
 VOLImageIO::~VOLImageIO()
@@ -172,6 +173,14 @@ double VOLImageIO::GetSkinoffset()
   return m_Skinoffset;
 }
 
+double VOLImageIO::GetBlanking()
+{
+  if (m_Blanking != -1 && m_Skinoffset == -1)
+    m_Blanking = m_SampleSize/m_Skinoffset;
+  return m_Blanking;
+}
+
+
 void VOLImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -203,7 +212,7 @@ void VOLImageIO::ReadImageInformation()
 
   this->m_Dimensions[0] = m_Az_lines * 4;
   this->m_Dimensions[1] = m_El_lines * 4;
-  this->m_Dimensions[2] = m_EchoLPF;
+  this->m_Dimensions[2] = m_Samples;
   this->m_Dimensions[3] = m_NumEchoFrames;
 
   this->m_Spacing[0] = m_Az_angular_separation/4.0;
@@ -272,6 +281,7 @@ void VOLImageIO::ReadVersion1_0(FILE * fp){
   ReadData(fp, &m_Maxradius, sizeof(m_Maxradius), 642);
   ReadData(fp, &m_Anglescale , sizeof(m_Anglescale), 646);
   ReadData(fp, &m_Skinoffset, sizeof(m_Skinoffset), 654);
+  m_Samples = (short)m_Maxradius;
 }//ReadVersion1_0
 
 
@@ -328,6 +338,7 @@ void VOLImageIO::ReadVersion1_1(FILE * fp){
   ReadData(fp, &m_Skinoffset, sizeof(m_Skinoffset), 858);
   ReadData(fp, &m_ScanDepthCount, sizeof(m_ScanDepthCount), 866); 
   ReadData(fp, &m_ScanDepth, sizeof(m_ScanDepth), 868); 
+  m_Samples = (short)m_Maxradius;
 }//ReadVersion1_1
 
 
@@ -390,8 +401,10 @@ void VOLImageIO::ReadVersion2_1(FILE * fp){
 
   //file_control_timing_type stuff
   ReadData(fp, &m_Blanking, sizeof(m_Blanking), 596); 
-  ReadData(fp, &m_Samples, sizeof(m_Samples), 604); 
+//  ReadData(fp, &m_Samples, sizeof(m_Samples), 604); 
+  ReadData(fp, &m_Samples, sizeof(m_Samples), 706); 
 
+  m_Maxradius = (unsigned long)m_Samples;
 }//ReadVersion2_1
 
 
@@ -481,8 +494,10 @@ void VOLImageIO::ReadVersion2_3(FILE * fp){
 
   //file_control_timing_type stuff
   ReadData(fp, &m_Blanking, sizeof(m_Blanking), 596); 
-  ReadData(fp, &m_Samples, sizeof(m_Samples), 604); 
+//  ReadData(fp, &m_Samples, sizeof(m_Samples), 604); 
+  ReadData(fp, &m_Samples, sizeof(m_Samples), 706); 
 
+  m_Maxradius = (unsigned long)m_Samples;
 }//ReadVersion2_3
 
 void VOLImageIO::ReadData(FILE * fp, char * buffer, size_t size, long pos)

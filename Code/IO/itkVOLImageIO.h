@@ -199,7 +199,7 @@ public:
   itkGetMacro(Heart_rate, double);					
   itkGetMacro(Stage_timer_value, long);						
   itkGetMacro(Ecg_display_on, unsigned long);		
-  itkGetMacro(Blanking, double);
+  double GetBlanking();
   itkGetMacro(Samples, short);
 
   //VOL file format version 1.0 specific
