@@ -2231,8 +2231,11 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //--------------------------------------------------------------------- 
   unsigned int nRowSquareBlocks = m_ImgWidth/( this->GetRowGridSize() );
   unsigned int nColSquareBlocks = m_ImgHeight/( this->GetColGridSize() ); 
+  unsigned int nSliceSquareBlocks = m_ImgDepth/(this->GetSliceGridSize() );
 
-  unsigned int numBlocks = nRowSquareBlocks * nColSquareBlocks;
+  unsigned int numBlocks = nRowSquareBlocks * 
+                           nColSquareBlocks *
+                           nSliceSquareBlocks;
 
   // Scan through the region labels to establish the correspondence
   // between the final region( and label ) and the initial regions.
@@ -2294,15 +2297,15 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   ShortIntVectorType                  uniqueLabelsVec;
   ShortIntVectorType::iterator        uniqueLabelsVecIterator;
 
-  numBlocks =  nRowSquareBlocks * nColSquareBlocks;
-
+  numBlocks = nRowSquareBlocks * 
+              nColSquareBlocks *
+              nSliceSquareBlocks;
   // Scan through the region labels to identify the resolved region labels.
   // Resolve region labels to contain only unique labels
  
   int labelvalue = m_RegionsPointer[ 0 ]->GetRegionLabel(); //Get the first region value
   uniqueLabelsVec.push_back( labelvalue );
   uniqueLabelsVecIterator = uniqueLabelsVec.begin();  
-
 
   for ( unsigned int i = 1; i < numBlocks; i++ )
     {

@@ -58,10 +58,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define   NUM_BYTES_PER_PIXEL 1
 
 #define   REGIONGROW_NUMREGIONS      4
-#define   REGIONGROW_NUMREGIONS3D    17
+#define   REGIONGROW_NUMREGIONS3D    4
 #define   REGIONGROW_LAMBDA       1000
 #define   REGIONGROW_ROW_GRIDSIZE    2
 #define   REGIONGROW_COL_GRIDSIZE    2
+#define   REGIONGROW_ROW_GRIDSIZE_3D 3
+#define   REGIONGROW_COL_GRIDSIZE_3D 3
 #define   REGIONGROW_SLICE_GRIDSIZE  1
 
 static unsigned int test_regiongrowKLM2D();
@@ -89,7 +91,7 @@ int main()
 {
 
 
-  //test_regiongrowKLM3D();
+  test_regiongrowKLM3D();
 
   test_regiongrowKLM2D();
   
@@ -307,7 +309,6 @@ unsigned int test_regiongrowKLM2D()
 } // End test_regiongrow2D()
 
 
-/*
 unsigned int test_regiongrowKLM3D()
 {
 
@@ -348,19 +349,19 @@ unsigned int test_regiongrowKLM3D()
   //Manually create and store each pixel. ) (In image slice 1)
   //The slice is a 6 x 6 matrix with 9 regions.
   //-------------------------------------------------------------------------- 
-  //  03 | 03 | 30 | 30 | 20 | 20 |
-  //  03 | 03 | 30 | 30 | 20 | 20 | 
-  //  04 | 04 | 40 | 40 | 40 | 40 |
-  //  04 | 04 | 40 | 40 | 40 | 40 |
-  //  03 | 03 | 02 | 02 | 04 | 04 |
-  //  03 | 03 | 02 | 02 | 04 | 04 |
+  //  03 | 03 | 03 | 20 | 20 | 20 |
+  //  03 | 03 | 03 | 20 | 20 | 20 | 
+  //  03 | 03 | 03 | 20 | 20 | 20 |
+  //  40 | 40 | 40 | 40 | 40 | 40 |
+  //  40 | 40 | 40 | 40 | 40 | 40 |
+  //  40 | 40 | 40 | 40 | 40 | 40 |
   //--------------------------------------------------------------------------
   // Fill the row no. 1
   //--------------------------------------------------------------------------
   inIt.Set( 03 ); ++inIt; 
   inIt.Set( 03 ); ++inIt;
-  inIt.Set( 30 ); ++inIt; 
-  inIt.Set( 30 ); ++inIt; 
+  inIt.Set( 03 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
   inIt.Set( 20 ); ++inIt; 
   inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
@@ -368,24 +369,24 @@ unsigned int test_regiongrowKLM3D()
   //--------------------------------------------------------------------------
   inIt.Set( 03 ); ++inIt; 
   inIt.Set( 03 ); ++inIt;
-  inIt.Set( 30 ); ++inIt; 
-  inIt.Set( 30 ); ++inIt; 
+  inIt.Set( 03 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
   inIt.Set( 20 ); ++inIt; 
   inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 3
   //--------------------------------------------------------------------------
-  inIt.Set( 04 ); ++inIt; 
-  inIt.Set( 04 ); ++inIt;
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 03 ); ++inIt; 
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 03 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 4
   //--------------------------------------------------------------------------
-  inIt.Set( 04 ); ++inIt; 
-  inIt.Set( 04 ); ++inIt;
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt;
   inIt.Set( 40 ); ++inIt; 
   inIt.Set( 40 ); ++inIt; 
   inIt.Set( 40 ); ++inIt; 
@@ -393,86 +394,85 @@ unsigned int test_regiongrowKLM3D()
   //--------------------------------------------------------------------------
   // Fill the row no. 5
   //--------------------------------------------------------------------------
-  inIt.Set( 03 ); ++inIt; 
-  inIt.Set( 03 ); ++inIt;
-  inIt.Set( 02 ); ++inIt; 
-  inIt.Set( 02 ); ++inIt; 
-  inIt.Set( 04 ); ++inIt; 
-  inIt.Set( 04 ); ++inIt;
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 6
   //--------------------------------------------------------------------------
-  inIt.Set( 03 ); ++inIt; 
-  inIt.Set( 03 ); ++inIt;
-  inIt.Set( 02 ); ++inIt; 
-  inIt.Set( 02 ); ++inIt; 
-  inIt.Set( 04 ); ++inIt; 
-  inIt.Set( 04 ); ++inIt;
-
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt;
   //--------------------------------------------------------------------------
   //Manually create and store each pixel. ) (In image slice 2)
   //The slice is a 6 x 6 matrix with 9 regions.
   //-------------------------------------------------------------------------- 
-  //  30 | 30 | 30 | 30 | 20 | 20 |
-  //  30 | 30 | 30 | 30 | 20 | 20 | 
-  //  40 | 40 | 40 | 40 | 40 | 40 |
-  //  40 | 40 | 40 | 40 | 40 | 40 |
-  //  03 | 03 | 02 | 02 | 04 | 04 |
-  //  03 | 03 | 02 | 02 | 04 | 04 |
+  //  10 | 10 | 10 | 20 | 20 | 20 |
+  //  10 | 10 | 10 | 20 | 20 | 20 | 
+  //  10 | 10 | 10 | 20 | 20 | 20 |
+  //  30 | 30 | 30 | 20 | 20 | 20 |
+  //  30 | 30 | 30 | 20 | 20 | 20 |
+  //  30 | 30 | 30 | 20 | 20 | 20 |
   //--------------------------------------------------------------------------
   // Fill the row no. 1
   //--------------------------------------------------------------------------
-  inIt.Set( 30 ); ++inIt; 
-  inIt.Set( 30 ); ++inIt;
-  inIt.Set( 30 ); ++inIt; 
-  inIt.Set( 30 ); ++inIt; 
+  inIt.Set( 10 ); ++inIt; 
+  inIt.Set( 10 ); ++inIt;
+  inIt.Set( 10 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
   inIt.Set( 20 ); ++inIt; 
   inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 2
   //--------------------------------------------------------------------------
-  inIt.Set( 30 ); ++inIt; 
-  inIt.Set( 30 ); ++inIt;
-  inIt.Set( 30 ); ++inIt; 
-  inIt.Set( 30 ); ++inIt; 
+  inIt.Set( 10 ); ++inIt; 
+  inIt.Set( 10 ); ++inIt;
+  inIt.Set( 10 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
   inIt.Set( 20 ); ++inIt; 
   inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 3
   //--------------------------------------------------------------------------
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt;
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 10 ); ++inIt; 
+  inIt.Set( 10 ); ++inIt;
+  inIt.Set( 10 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 4
   //--------------------------------------------------------------------------
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt;
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 30 ); ++inIt; 
+  inIt.Set( 30 ); ++inIt;
+  inIt.Set( 30 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 5
   //--------------------------------------------------------------------------
-  inIt.Set( 03 ); ++inIt; 
-  inIt.Set( 03 ); ++inIt;
-  inIt.Set( 02 ); ++inIt; 
-  inIt.Set( 02 ); ++inIt; 
-  inIt.Set( 04 ); ++inIt; 
-  inIt.Set( 04 ); ++inIt;
+  inIt.Set( 30 ); ++inIt; 
+  inIt.Set( 30 ); ++inIt;
+  inIt.Set( 30 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 6
   //--------------------------------------------------------------------------
-  inIt.Set( 03 ); ++inIt; 
-  inIt.Set( 03 ); ++inIt;
-  inIt.Set( 02 ); ++inIt; 
-  inIt.Set( 02 ); ++inIt; 
-  inIt.Set( 04 ); ++inIt; 
-  inIt.Set( 04 ); ++inIt;
+  inIt.Set( 30 ); ++inIt; 
+  inIt.Set( 30 ); ++inIt;
+  inIt.Set( 30 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt;
 
   //--------------------------------------------------------------------------
   // Test code for the Region Grow algorithm
@@ -491,8 +491,8 @@ unsigned int test_regiongrowKLM3D()
   applyRegionGrowImageFilterKLM->SetInput(image);
   applyRegionGrowImageFilterKLM->SetMaximumNumberOfRegions( REGIONGROW_NUMREGIONS3D );
   applyRegionGrowImageFilterKLM->SetMaxLambda( REGIONGROW_LAMBDA );
-  applyRegionGrowImageFilterKLM->SetRowGridSize( REGIONGROW_ROW_GRIDSIZE );
-  applyRegionGrowImageFilterKLM->SetColGridSize( REGIONGROW_COL_GRIDSIZE );
+  applyRegionGrowImageFilterKLM->SetRowGridSize( REGIONGROW_ROW_GRIDSIZE_3D );
+  applyRegionGrowImageFilterKLM->SetColGridSize( REGIONGROW_COL_GRIDSIZE_3D );
   applyRegionGrowImageFilterKLM->SetSliceGridSize( REGIONGROW_SLICE_GRIDSIZE );
 
 
@@ -587,4 +587,3 @@ unsigned int test_regiongrowKLM3D()
   return 0;
 } // End test_regiongrow3D()
 
-*/
