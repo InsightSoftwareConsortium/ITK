@@ -86,7 +86,7 @@ int main( int argc, char * argv[] )
   
   //  Software Guide : BeginLatex
   //
-  //  Types should be choosen for the pixels of the input and output images and
+  //  Types should be chosen for the pixels of the input and output images and
   //  with them the image types are instantiated.
   //
   //  Software Guide : EndLatex 

@@ -299,7 +299,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   // 
   //  The \emph{resolution} of the Voronoi diagram classification can be
-  //  choosen with the method \code{SetMinRegion()}.
+  //  chosen with the method \code{SetMinRegion()}.
   //
   //  \index{itk::VoronoiSegmentationImageFilter!SetMinRegion()}
   //

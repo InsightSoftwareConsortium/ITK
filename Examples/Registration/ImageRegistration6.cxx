@@ -456,7 +456,7 @@ int main( int argc, char *argv[] )
   //  this point to $(123.5,146.75)$. Which is close to the result of our
   //  previous computation.
   //
-  //  It is unlikely that we could have choosen such tranlations as the
+  //  It is unlikely that we could have chosen such tranlations as the
   //  initial guess, since we tend to think about image in a coordinate
   //  system whose origin is in the center of the image.
   // 

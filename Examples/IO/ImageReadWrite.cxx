@@ -206,7 +206,7 @@ int main( int argc, char ** argv )
   //  program can be used as a general file conversion utility.}  The object
   //  factory mechanism enables the ImageFileReader and ImageFileWriter to
   //  determine (at run-time) with which file format it is working
-  //  with. Typically, file formats are choosen based on the filename
+  //  with. Typically, file formats are chosen based on the filename
   //  extension, but the architecture supports arbitrarily complex processes
   //  to determine whether a file can be read or written. Alternatively, the
   //  user can specify the data file format by explicit instantiation and
