@@ -29,6 +29,7 @@ REGISTER_TEST(itkByteSwapTest );
 REGISTER_TEST(itkCenteredRigid2DTransformTest );
 REGISTER_TEST(itkCenteredAffineTransformTest );
 REGISTER_TEST(itkCentralDifferenceImageFunctionTest );
+REGISTER_TEST(itkCenteredEuler3DTransformTest );
 REGISTER_TEST(itkCenteredTransformInitializerTest   );
 REGISTER_TEST(itkCenteredVersorTransformInitializerTest   );
 REGISTER_TEST(itkChainCodePath2DTest );

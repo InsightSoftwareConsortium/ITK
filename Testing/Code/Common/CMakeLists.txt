@@ -51,6 +51,7 @@ ADD_TEST(itkCenteredAffineTransformTest ${COMMON_TESTS} itkCenteredAffineTransfo
 ADD_TEST(itkCenteredTransformInitializerTest ${COMMON_TESTS} itkCenteredTransformInitializerTest)
 ADD_TEST(itkCenteredVersorTransformInitializerTest ${COMMON_TESTS} itkCenteredVersorTransformInitializerTest)
 ADD_TEST(itkCentralDifferenceImageFunctionTest ${COMMON_TESTS} itkCentralDifferenceImageFunctionTest)
+ADD_TEST(itkCenteredEuler3DTransformTest ${COMMON_TESTS} itkCenteredEuler3DTransformTest)
 ADD_TEST(itkConstNeighborhoodIteratorTest ${COMMON_TESTS} itkConstNeighborhoodIteratorTest)
 ADD_TEST(itkConstShapedNeighborhoodIteratorTest ${COMMON_TESTS} itkConstShapedNeighborhoodIteratorTest)
 ADD_TEST(itkCovariantVectorGeometryTest ${COMMON_TESTS} itkCovariantVectorGeometryTest)
@@ -216,6 +217,7 @@ itkByteSwapTest.cxx
 itkCenteredRigid2DTransformTest.cxx
 itkCenteredAffineTransformTest.cxx
 itkCentralDifferenceImageFunctionTest.cxx
+itkCenteredEuler3DTransformTest.cxx
 itkCenteredTransformInitializerTest.cxx
 itkCenteredVersorTransformInitializerTest.cxx
 itkChainCodePath2DTest.cxx
