@@ -31,7 +31,7 @@
 #include "itkSurfaceSpatialObjectPoint.h"
 // Software Guide : EndCodeSnippet
 
-int main( int argc, char *argv[] )
+int main( int , char *[] )
 {
 // Software Guide : BeginLatex
 //

@@ -211,9 +211,6 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
   m_OutputDataStructure = dynamic_cast<OutputDataStructureType*>(ProcessObject::GetOutput(0));
 
   int counter = 0;
-  int numTriplets = 0;
-  bool found = false;
-  bool FoundCorrespondingTriplet = false;
   int counter2 = 0;
   int counter3 = 0;
 
@@ -238,7 +235,6 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
   typename InputDataStructureType::CorrespondingListType::iterator CorrespondingListIterator2;
 
   bool BaseTripAdded = false;
-  bool DuplicateCorrespondingTriplet = false;
 
   while( NodeListIterator != m_InputDataStructure->m_NodeList->end() )//iterate through NodeList in pair structure
     {
@@ -280,7 +276,7 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
           typename OutputDataStructureType::CorrespondingListType * CorrespondingTripletListPointer = new typename OutputDataStructureType::CorrespondingListType();
           typename OutputDataStructureType::CorrespondingListType::iterator CorrespondingTripletListIterator;
 
-          FoundCorrespondingTriplet = false;
+          bool FoundCorrespondingTriplet = false;
 
           // Iterate through the two corresponding pair lists simultaneously
           // finding every possible pair, and testing for triplet correspondence.
@@ -297,7 +293,7 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
                    CorrespondingListIterator1->GetNodeIndex(0) != CorrespondingListIterator2->GetNodeIndex(1) && 
                    CorrespondingListIterator1->GetNodeIndex(1) != CorrespondingListIterator2->GetNodeIndex(1))
                   {
-                  DuplicateCorrespondingTriplet = false;
+                  bool DuplicateCorrespondingTriplet = false;
 
                   if(BaseTripAdded == true)
                     {
@@ -335,6 +331,7 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
                     TemporaryDistanceA = m_DistanceMatrixA->get(SecondaryListIterator1->GetIndex(0), SecondaryListIterator2->GetIndex(0));
                     TemporaryDistanceB = m_DistanceMatrixB->get(CorrespondingListIterator1->GetNodeIndex(1),CorrespondingListIterator2->GetNodeIndex(1));
 
+                    int numTriplets = 0;
                     if( TemporaryDistanceA <= (TemporaryDistanceB+0.1) && TemporaryDistanceA >= (TemporaryDistanceB-0.1) )
                       {
                       // If this comes out true, we have found a corresponding triplet.

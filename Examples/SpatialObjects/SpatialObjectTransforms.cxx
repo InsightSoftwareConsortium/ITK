@@ -24,7 +24,7 @@
 
 #include "itkSpatialObject.h"
 
-int main( int argc, char *argv[] )
+int main( int , char *[] )
 {
 
 // Software Guide : BeginLatex

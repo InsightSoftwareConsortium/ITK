@@ -32,7 +32,7 @@
 #include "itkSpatialObjectReader.h"
 // Software Guide : EndCodeSnippet
 
-int main( int argc, char *argv[] )
+int main( int , char *[] )
 {
  
 // Software Guide : BeginLatex
@@ -109,7 +109,11 @@ int main( int argc, char *argv[] )
   std::cout << "Number of objects in the scene: ";
   std::cout << scene->GetNumberOfObjects() << std::endl;
   ReaderType::GroupType * group = reader->GetGroup();
+  std::cout << "Number of objects in the group: ";
+  std::cout << group->GetNumberOfChildren() << std::endl;
 // Software Guide : EndCodeSnippet
+
+
 
   return 0;
 }
