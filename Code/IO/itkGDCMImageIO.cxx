@@ -512,6 +512,36 @@ void GDCMImageIO::Write(const void* buffer)
     ++itr;
     }
 
+  // Handle the dimension of image:
+  std::ostringstream str;
+  str << m_Dimensions[0];
+  header->InsertValEntry( str.str(), 0x0028,0x0011); // Columns
+
+  str.str("");
+  str << m_Dimensions[1];
+  header->InsertValEntry( str.str(), 0x0028,0x0010); // Rows
+
+  if(m_Dimensions[2]>1)
+  {
+     str.str("");
+     str << m_Dimensions[2];
+     //header->Insert(str.str(),0x0028,0x0012); // Planes
+     header->InsertValEntry(str.str(),0x0028,0x0008); // Number of Frames
+  }
+
+  // Handle pixel spacing:
+  str.str("");
+  str << m_Spacing[0] << "\\" << m_Spacing[1];
+  header->InsertValEntry(str.str(),0x0028,0x0030); // Pixel Spacing
+  str.str("");
+  str << m_Spacing[2];
+  header->InsertValEntry(str.str(),0x0018,0x0088); // Spacing Between Slices
+ 
+  // Handle Origin = Image Position Patient
+  str.str("");
+  str << m_Origin[0] << "\\" << m_Origin[1] << "\\" << m_Origin[2];
+  header->InsertValEntry(str.str(),0x0020,0x0032); // Image Position Patient
+
   // Handle the bitDepth:
   std::string bitsAllocated;
   std::string bitsStored;
@@ -528,28 +558,28 @@ void GDCMImageIO::Write(const void* buffer)
         bitsAllocated = "8"; // Bits Allocated
         bitsStored    = "8"; // Bits Stored
         highBit       = "7"; // High Bit
-        pixelRep      = "1"; //Pixel Representation
+        pixelRep      = "1"; // Pixel Representation
         break;
 
       case UCHAR:
         bitsAllocated = "8"; // Bits Allocated
         bitsStored    = "8"; // Bits Stored
         highBit       = "7"; // High Bit
-        pixelRep      = "0"; //Pixel Representation
+        pixelRep      = "0"; // Pixel Representation
         break;
 
       case SHORT:
         bitsAllocated = "16"; // Bits Allocated
         bitsStored    = "16"; // Bits Stored
         highBit       = "15"; // High Bit
-        pixelRep      = "1";  //Pixel Representation
+        pixelRep      = "1";  // Pixel Representation
         break;    
 
       case USHORT:
         bitsAllocated = "16"; // Bits Allocated
         bitsStored    = "16"; // Bits Stored
         highBit       = "15"; // High Bit
-        pixelRep      = "1";  //Pixel Representation
+        pixelRep      = "0";  // Pixel Representation
         break;
 
       default:

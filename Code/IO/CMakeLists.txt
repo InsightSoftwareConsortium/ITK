@@ -27,6 +27,7 @@ SET(ITKIO_SRCS
   itkSiemensVisionImageIO.cxx
   itkSiemensVisionImageIOFactory.cxx
   itkGDCMImageIO.cxx
+  itkGDCMImageIOFactory.cxx
   itkGDCMSeriesFileNames.cxx
   itkGiplImageIO.cxx
   itkGiplImageIOFactory.cxx
