@@ -30,9 +30,46 @@
 namespace itk{
 
 /** \class VectorFuzzyConnectednessImageFilter
+ *
+ * The basic concepts in our program are fuzzy affinity, fuzzy connectedness, 
+ * scale and relative fuzzy connectedness.
+ *
+ * Fuzzy affinity is a local fuzzy relation which is defined on the whole image domain. 
+ * It assigns to every pair of nearby voxels a strength of local hanging togetherness. 
+ * A global fuzzy relation called fuzzy connectedness is defined on the whole image domain 
+ * which assigns to every pair of voxels a strength of global hanging togetherness. 
+ * The strength of hanging togetherness (connectedness) between two voxels is the largest 
+ * of the strengths of all paths between them. Scale-based fuzzy affinity and fuzzy connectedness
+ * can make our algorithms more robust and less sensitive to noise. "Scale" is a number assigned
+ * to every voxel in the image. It represents the radius of the largest ball centered at the 
+ * voxel, within which the intensity is homogeneous. In determining affinity between two voxels,
+ * all voxels within the ball associated with both voxels are considered.
+ *
+ * In our program, fuzzy affinity, fuzzy connectedness and scale computation are done in vector
+ * space comprised of R-, G-, B- components of a color image.
+ *
+ * The other important concept is relative fuzzy connectedness. An object gets defined in an 
+ * image because of the presence of other co-objects. All co-objects of importance that are 
+ * present in an image are let to compete among themselves in having voxels as their members. 
+ * In this competition, every pair of voxels in the image will have a strength of connectedness
+ * in each object. The object in which this strength is highest will claim membership of the 
+ * voxels. 
  * 
- * 
+ * Usage:
+ *
+ *1.	Use SetInput to import the input image.
+ *2.	Use SetObjects to set the number of objects of importance in the image.
+ *3.	Use SetSelectedObject to specify the particular object to be segmented.
+ *4.	Use Initialization to allocate memory in terms of the number of objects.
+ *5.	Use SetObjectsSeed to specify seed points of objects.
+ *6.	Use SetObjectsMean to specify the mean value of objects.
+ *7.	Use SetObjectsMatrix to specify the covariance matrix of objects.
+ *      Note: parameters of function 6 and 7 can be computed via specified training region.
+ *8.	Run DoFuzzySegment to perform the segmentation.
+ *9.	Use GetOutput to obtain the resulting binary image.
+ *
  */
+
 template <class TInputImage, class TOutputImage>
 class VectorFuzzyConnectednessImageFilter:
   public ImageToImageFilter<TInputImage,TOutputImage>
