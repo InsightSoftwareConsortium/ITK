@@ -52,6 +52,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkRecursiveSeparableImageFilter.h"
 #include "itkReflectiveImageRegionIterator.h"
+#include "itkResampleImageFilter.h"
 #include "itkSecondDerivativeRecursiveGaussianImageFilter.h"
 #include "itkShrinkImageFilter.h"
 #include "itkSinImageFilter.h"
