@@ -399,7 +399,7 @@ private:
 
 
 /**
- * \briefA simple utility class to define the cell type inside a mesh type
+ * \brief A simple utility class to define the cell type inside a mesh type
  * structure definition.  This just makes a copy of existing type information
  * that is needed for a cell type template parameter.
  *

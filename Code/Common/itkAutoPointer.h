@@ -138,9 +138,9 @@ public:
       AutoPointer<Cow> onecow = new Cow;
       AutoPointer<Mammal> onemammal = onecow.ReleaseOwnership(); 
 
-      Note that the AutoPointer is still pointing to the 
-      object after the ReleaseOwnership operation but it doesn't 
-      owns the object anymore.
+      Note that the AutoPointer still points to the object after the
+      ReleaseOwnership operation, but it doesn't own the object any
+      more.
 
     */
   ObjectType * ReleaseOwnership( void ) 
