@@ -19,7 +19,7 @@ Insight/Documentation/InsightStart.pdf is highly recommended.
 
    You may also obtain CVS access. (This requires the CVS executable and
    access to ITK's source code through your repository.) To check out the ITK
-   version 1,0 release, use the following procedure:
+   version 1.2 release, use the following procedure:
 
      cvs -d :pserver:anonymous@www.itk.org:/cvsroot/Insight login
          (respond with password "insight")
