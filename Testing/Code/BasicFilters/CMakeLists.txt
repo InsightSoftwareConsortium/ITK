@@ -847,6 +847,9 @@ ENDIF(ITK_CSWIG_PYTHON)
 
 IF(ITK_CSWIG_JAVA AND ITK_SOURCE_DIR)
   SET(JAVACLASSPATH ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit.jar)
+  FOREACH(cfgtype ${CMAKE_CONFIGURATION_TYPES})
+    SET(JAVACLASSPATH "${JAVACLASSPATH}\\;${ITK_BINARY_DIR}/Wrapping/CSwig/Java/${cfgtype}/InsightToolkit.jar")
+  ENDFOREACH(cfgtype)
 
   FOREACH( javatestfile 
      BinaryThresholdImageFilter
