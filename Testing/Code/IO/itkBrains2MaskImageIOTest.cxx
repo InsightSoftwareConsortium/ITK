@@ -111,16 +111,16 @@ int itkBrains2MaskTest(int ac, char *av[])
     }
   catch (itk::ExceptionObject &ex)
     {
-      std::string message;
-      message = "Problem found while writing image ";
-      message += fileName;
-      message += "\n";
-      message += ex.GetLocation();
-      message += "\n";
-      message += ex.GetDescription();
-      std::cerr << message << std::endl;
-      itksys::SystemTools::RemoveFile(fileName.c_str());
-      return -1;
+    std::string message;
+    message = "Problem found while writing image ";
+    message += fileName;
+    message += "\n";
+    message += ex.GetLocation();
+    message += "\n";
+    message += ex.GetDescription();
+    std::cerr << message << std::endl;
+    itksys::SystemTools::RemoveFile(fileName.c_str());
+    return -1;
     }
   ImageType::Pointer readImage;
   try
@@ -131,8 +131,17 @@ int itkBrains2MaskTest(int ac, char *av[])
     imageReader->Update();
     readImage = imageReader->GetOutput();
     }
-  catch (itk::ExceptionObject &)
+  catch (itk::ExceptionObject& ex)
     {
+    std::string message;
+    message = "Problem found while reading image ";
+    message += fileName;
+    message += "\n";
+    message += ex.GetLocation();
+    message += "\n";
+    message += ex.GetDescription();
+    std::cerr << message << std::endl;
+    itksys::SystemTools::RemoveFile(fileName.c_str());
     return -1;
     }
   ri.GoToBegin();
