@@ -87,8 +87,11 @@ int main( int argc, char *argv[] )
   typedef float InternalPixelType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
 
-  typedef itk::CastImageFilter< FixedImageType, InternalImageType > FixedImageCasterType;
-  typedef itk::CastImageFilter< MovingImageType, InternalImageType > MovingImageCasterType;
+  typedef itk::CastImageFilter< FixedImageType, 
+                                InternalImageType > FixedImageCasterType;
+
+  typedef itk::CastImageFilter< MovingImageType, 
+                                InternalImageType > MovingImageCasterType;
 
   FixedImageCasterType::Pointer fixedImageCaster   = FixedImageCasterType::New();
   MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
