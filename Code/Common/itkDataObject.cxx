@@ -152,7 +152,6 @@ DataObject() : m_UpdateTime()
   m_DataReleased = false;
 
   m_PipelineMTime = 0;
-  m_EstimatedWholeMemorySize = 0;  
 
   m_RequestedRegionInitialized = false;
   m_LastRequestedRegionWasOutsideOfTheBufferedRegion = false;
@@ -414,59 +413,6 @@ DataObject
   m_UpdateTime.Modified();
 }
 
-//----------------------------------------------------------------------------
-void 
-DataObject
-::ComputeEstimatedPipelineMemorySize(unsigned long sizes[3])
-{
-  if ( m_Source )
-    {
-    m_Source->ComputeEstimatedPipelineMemorySize( this, sizes );
-    } 
-  else
-    {
-    unsigned long size = this->GetActualMemorySize();
-    sizes[0] = size;
-    sizes[1] = size;
-    sizes[2] = size;
-    }
-}
-
-//----------------------------------------------------------------------------
-unsigned long 
-DataObject
-::GetEstimatedPipelineMemorySize()
-{
-  unsigned long sizes[3];
-  unsigned long memorySize = 0;
-
-  if ( m_Source )
-    {
-    m_Source->ComputeEstimatedPipelineMemorySize( this, sizes );
-    memorySize = sizes[2];
-    } 
-
-  return memorySize;
-}
-
-
-//----------------------------------------------------------------------------
-unsigned long 
-DataObject
-::GetEstimatedMemorySize()
-{
-  // This should be implemented in a subclass. If not, default to
-  // estimating that no memory is used.
-  return 0;
-}
-
-//----------------------------------------------------------------------------
-unsigned long 
-DataObject
-::GetActualMemorySize()
-{
-  return 0;
-}
 
 
 } // end namespace itk

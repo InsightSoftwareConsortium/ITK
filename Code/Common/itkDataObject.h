@@ -255,13 +255,6 @@ public:
    * marks the DataObject as being updated and ready for use. */
   void DataHasBeenGenerated();
 
-  /** Methods used to estimate how much memory is used during a
-   * pipeline execution. These methods could be used to control
-   * the data streaming mechanism. */
-  void ComputeEstimatedPipelineMemorySize(unsigned long sizes[3]);
-  unsigned long GetEstimatedPipelineMemorySize();
-  virtual unsigned long GetEstimatedMemorySize();
-  virtual unsigned long GetActualMemorySize();
   
   /** Set the RequestedRegion to the LargestPossibleRegion.  This
    * forces a filter to produce all of the output in one execution
@@ -339,10 +332,6 @@ private:
   /** The Maximum MTime of all upstream filters and data objects.
    * This does not include the MTime of this data object. */
   unsigned long m_PipelineMTime;
-
-  /** A guess at how much memory would be consumed by the data object
-   * if the LargestPossibleRegion were updated. */
-  unsigned long m_EstimatedWholeMemorySize;
 
   /** Static member that controls global data release after use by filter. */
   static bool m_GlobalReleaseDataFlag;

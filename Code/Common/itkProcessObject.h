@@ -187,23 +187,6 @@ public:
   /** Actually generate new output  */
   virtual void UpdateOutputData(DataObject *output);
 
-  /** Propagate the computation of the size of the pipeline. The first
-   * size is the size of the pipeline after this source has finished
-   * executing (and potentially freeing some input data). The second
-   * size is the size of the specified output. The third size is the
-   * maximum pipeline size encountered so far during this propagation.
-   * All sizes are in kilobytes.  */
-  void ComputeEstimatedPipelineMemorySize( DataObject *output,
-             unsigned long size[3] );
-
-  /** The estimated size of the specified output after execution of
-   * this source is stored in the first size entry. The second size
-   * is the sum of all estimated output memory. The size of all inputs
-   * is given to help this filter in the estimation.
-   * All sizes are in kilobytes. */
-  virtual void ComputeEstimatedOutputMemorySize( DataObject *output,
-             unsigned long *inputSize,
-             unsigned long size[2] );
 
   /** Give the process object a chance to indictate that it will produce more
    * output than it was requested to produce. For example, many imaging
