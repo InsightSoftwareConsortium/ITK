@@ -71,7 +71,7 @@ public:
 
     /// Dimension of parameters
     enum { SpaceDimension = 3, 
-           ParametersDimension = 7 };
+           ParametersDimension = 6 };
 
     /**
      * Standard "Superclass" typedef.
@@ -163,7 +163,7 @@ public:
      * Set the transformation from a container of parameters
      * This is typically used by optimizers.
      *
-     * There are 7 parameters. The first four represent the
+     * There are 6 parameters. The first three represent the
      * versor and the last three represents the offset.
      *
      **/
