@@ -69,7 +69,10 @@ public:
 
   /** I am a vector type. */
   typedef Self VectorType;
-  
+
+  /** Component value type */
+  typedef T ComponentType;
+
   /** The Array type from which this vector is derived. */
   typedef FixedArray<T, NVectorDimension>                BaseArray;
     
@@ -147,9 +150,15 @@ public:
   /** Returns vector's Squared Euclidean Norm  */
   ValueType GetSquaredNorm( void ) const; 
 
+  /** Returns the number of components in this vector type */
+  static int GetNumberOfComponents(){ return NVectorDimension;}
+  
   /** Divides the vector componets by the vector norm */
   void Normalize(void);
 
+  void SetNthComponent(int c, const ComponentType& v)  
+    {  this->operator[](c) = v; }
+  
   /** Copy from another Vector with a different representation type. 
    *  Casting is done with C-Like rules  */
   template < typename TCoordRepB >
