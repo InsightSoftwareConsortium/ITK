@@ -2,7 +2,9 @@ CABLE_CLASS_SET(Float float)
 CABLE_CLASS_SET(Double double)
 CABLE_CLASS_SET(ULong "unsigned long")
 CABLE_CLASS_SET(Dimension 2)
+CABLE_CLASS_SET(Dimension3 3)
 CABLE_CLASS_SET(Image "itk::Image<$Float,$Dimension>")
+CABLE_CLASS_SET(Image3D "itk::Image<$Float,$Dimension3>")
 CABLE_CLASS_SET(Mesh "itk::Mesh<$Float>")
 CABLE_CLASS_SET(RGBPix "itk::RGBPixel<$Float>")
 CABLE_CLASS_SET(RGBImage "itk::Image<$RGBPix,$Dimension>")
@@ -79,7 +81,7 @@ CABLE_WRAP_TCL(ITKCommonTestTcl
   "itk::FileOutputWindow"
   "itk::FiniteDifferenceFunction<$Image>"
   "itk::FiniteDifferenceImageFilter<$Image, $Image>"
-  "itk::FloodFilledSpatialFunctionConditionalIterator<$Image, $EllipsoidFunc>"
+  "itk::FloodFilledSpatialFunctionConditionalIterator<$Image3D, $EllipsoidFunc>"
   "itk::ForwardDifferenceOperator<$Float>"
   "itk::FrustumSpatialFunction<>"
   "itk::FunctionBase<$Float, $Float>"
