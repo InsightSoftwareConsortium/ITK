@@ -115,6 +115,8 @@ public:
    */
   virtual double Evaluate( const IndexType& index ) const
     { return ( this->Evaluate( index, 0 ) ); }
+  virtual double Evaluate( const PointType& point ) const
+    { return ( this->Superclass::Evaluate( point ) ); }
 
   virtual double Evaluate( const IndexType& index, unsigned int dim ) const;
 

@@ -96,6 +96,11 @@ public:
   typedef typename Superclass::IndexType IndexType;
 
   /**
+   * Point typedef support.
+   */
+  typedef typename Superclass::PointType PointType;
+
+  /**
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self> Pointer;
@@ -130,6 +135,8 @@ public:
    * Evaluate the function at specified index
    */
   virtual double Evaluate( const IndexType& index ) const;
+  virtual double Evaluate( const PointType& point ) const
+    { return this->Superclass::Evaluate( point ); }
 
   /**
    * Get the curvature from last evaluation

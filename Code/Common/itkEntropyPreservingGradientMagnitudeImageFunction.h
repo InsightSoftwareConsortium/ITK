@@ -117,6 +117,11 @@ public:
   typedef typename Superclass::IndexType IndexType;
 
   /**
+   * Point typedef support.
+   */
+  typedef typename Superclass::PointType PointType;
+
+  /**
    * Set the input image.
    */
   virtual void SetInputImage( InputImageType * ptr );
@@ -137,6 +142,8 @@ public:
    * Evalulate the function at specified index
    */
   virtual double Evaluate( const IndexType& index ) const;
+  virtual double Evaluate( const PointType& point ) const
+    { return this->Superclass::Evaluate( point ); }
 
   /**
    * Get the magnitude from last evaluation

@@ -106,6 +106,11 @@ public:
    * Index typedef support.
    */
   typedef typename Superclass::IndexType IndexType;
+
+  /**
+   * Point typedef support.
+   */
+  typedef typename Superclass::PointType PointType;
  
   /**
    * Set the input image.
@@ -128,9 +133,9 @@ public:
    * Evalulate the function at specified index
    */
   virtual double Evaluate( const IndexType& index ) const
-  {
-    return ( this->Evaluate( index, 0 ) );
-  }
+    { return ( this->Evaluate( index, 0 ) ); }
+  virtual double Evaluate( const PointType& point ) const
+    { return ( this->Superclass::Evaluate( point ) ); }
 
   /**
    * Evalulate the function at specified index
