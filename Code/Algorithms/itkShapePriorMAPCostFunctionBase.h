@@ -53,9 +53,6 @@ public:
   typedef SingleValuedCostFunction     Superclass;
   typedef SmartPointer<Self>           Pointer;
   typedef SmartPointer<const Self>     ConstPointer;
-
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
    
   /** Run-time type information (and related methods). */
   itkTypeMacro( ShapePriorMAPCostFunctionBase, SingleValuedCostFunction );
@@ -123,23 +120,19 @@ public:
 
   /** Compute the inside term component of the MAP cost function. 
    * Subclasses should override this function */
-  virtual MeasureType ComputeLogInsideTerm( const ParametersType & ) const
-    { return 0.0; }
+  virtual MeasureType ComputeLogInsideTerm( const ParametersType & ) const = 0;
 
   /** Compute the gradient term component of the MAP cost function.
    * Subclasses should override this function */
-  virtual MeasureType ComputeLogGradientTerm( const ParametersType & ) const
-    { return 0.0; }
+  virtual MeasureType ComputeLogGradientTerm( const ParametersType & ) const = 0;
 
   /** Compute the shape prior component of the MAP cost function.
    * Subclasses should override this function */
-  virtual MeasureType ComputeLogShapePriorTerm( const ParametersType & ) const
-    { return 0.0; }
+  virtual MeasureType ComputeLogShapePriorTerm( const ParametersType & ) const = 0;
 
   /** Compute the pose prior component of the MAP cost function.
    * Subclasses should override this function */
-  virtual MeasureType ComputeLogPosePriorTerm( const ParametersType & ) const
-    { return 0.0; }
+  virtual MeasureType ComputeLogPosePriorTerm( const ParametersType & ) const = 0;
 
   /** Initialize the cost function by making sure that all the components
    *  are present. */

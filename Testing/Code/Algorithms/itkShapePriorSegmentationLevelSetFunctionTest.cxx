@@ -225,6 +225,9 @@ int itkShapePriorSegmentationLevelSetFunctionTest( int, char *[])
     return EXIT_FAILURE;
     }
 
+  // Exercise other methods for coverage
+  filter->GetDifferenceFunction()->Print( std::cout );
+  
   std::cout << "Test passed. " << std::endl;
   return EXIT_SUCCESS;
 

@@ -164,6 +164,19 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
   costFunction->Print( std::cout );
 
   // exercise Get methods
+  std::cout << "ShapeParameterMeans: ";
+  std::cout << costFunction->GetShapeParameterMeans() << std::endl;
+  std::cout << "ShapeStandardDeviations: ";
+  std::cout << costFunction->GetShapeParameterStandardDeviations() << std::endl;
+  std::cout << "ShapeFunction: ";
+  std::cout << costFunction->GetShapeFunction() << std::endl;
+  std::cout << "ActiveRegion: ";
+  std::cout << costFunction->GetActiveRegion() << std::endl;
+  std::cout << "FeatureImage: ";
+  std::cout << costFunction->GetFeatureImage() << std::endl;
+
+  typedef CostFunctionType::Superclass GenericCostFunctionType;
+  std::cout << costFunction->GenericCostFunctionType::GetNameOfClass() << std::endl;
 
   /**
    * Attempt to plug the cost function into an optimizer
@@ -201,6 +214,39 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
     }
   
   // excercise error testing
+
+  bool pass;
+
+#define TEST_INITIALIZATION_ERROR( ComponentName, badComponent, goodComponent ) \
+  costFunction->Set##ComponentName( badComponent ); \
+  try \
+    { \
+    pass = false; \
+    costFunction->Initialize(); \
+    } \
+  catch( itk::ExceptionObject& err ) \
+    { \
+    std::cout << "Caught expected ExceptionObject" << std::endl; \
+    std::cout << err << std::endl; \
+    pass = true; \
+    } \
+  costFunction->Set##ComponentName( goodComponent ); \
+  \
+  if( !pass ) \
+    { \
+    std::cout << "Test failed." << std::endl; \
+    return EXIT_FAILURE; \
+    } 
+
+  TEST_INITIALIZATION_ERROR( ShapeFunction, NULL, shape );
+  TEST_INITIALIZATION_ERROR( ActiveRegion, NULL, activeRegion );
+  TEST_INITIALIZATION_ERROR( FeatureImage, NULL, edgeMap );
+
+  CostFunctionType::ArrayType badParameters( shape->GetNumberOfShapeParameters() - 1 );
+  badParameters.Fill( 2.0 );
+  
+  TEST_INITIALIZATION_ERROR( ShapeParameterMeans, badParameters, shapeMean );
+  TEST_INITIALIZATION_ERROR( ShapeParameterStandardDeviations, badParameters, shapeStdDev );  
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

@@ -154,7 +154,7 @@ public:
   /** Set the shape prior segmentation function. In general, this should only be called
    * by a subclass of this object. It is made public to allow itk::Command objects access. */
   virtual void SetShapePriorSegmentationFunction( ShapePriorSegmentationFunctionType * s );
-  virtual ShapePriorSegmentationFunctionType * GetShapePriorSegementationFunction()
+  virtual ShapePriorSegmentationFunctionType * GetShapePriorSegmentationFunction()
     { return m_ShapePriorSegmentationFunction; }
 
   /** Get the current parameters. */

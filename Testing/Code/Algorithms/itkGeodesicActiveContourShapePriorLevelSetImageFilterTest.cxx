@@ -242,8 +242,8 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest( int, char *[])
 
   // Set up the scaling between the level set terms
   filter->SetPropagationScaling( 1.0 );
-  filter->SetAdvectionScaling( 0.0 );
-  filter->SetCurvatureScaling( 0.0 );
+  filter->SetAdvectionScaling( 0.01 );
+  filter->SetCurvatureScaling( 0.01 );
   filter->SetShapePriorScaling( 1.0 );
 
   // Hook up components to the filter
@@ -356,6 +356,68 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest( int, char *[])
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
+
+  /**
+   * Exercise other methods for coverage
+   */
+  filter->Print( std::cout );
+  filter->GetSegmentationFunction()->Print( std::cout );
+
+  typedef FilterType::Superclass GenericFilterType;
+  std::cout << filter->GenericFilterType::GetNameOfClass() << std::endl;
+
+  std::cout << "ShapeFunction: ";
+  std::cout << filter->GetShapeFunction() << std::endl;
+  std::cout << "CostFunction: ";
+  std::cout << filter->GetCostFunction() << std::endl;
+  std::cout << "Optimizer: ";
+  std::cout << filter->GetOptimizer() << std::endl;
+  std::cout << "InitialParameters: ";
+  std::cout << filter->GetInitialParameters() << std::endl;
+  std::cout << "ShapePriorSegmentationFunction: ";
+  std::cout << filter->GetShapePriorSegmentationFunction() << std::endl;
+
+  // Repeat Update for zero propagation weight
+  filter->SetPropagationScaling( 0.0 );
+  filter->SetShapePriorScaling( 1.1 );
+  filter->SetMaximumIterations( 5 );
+  filter->Update();
+
+  /**
+   * Excercise error handling testing
+   */
+  bool pass;
+
+#define TEST_INITIALIZATION_ERROR( ComponentName, badComponent, goodComponent ) \
+  filter->Set##ComponentName( badComponent ); \
+  try \
+    { \
+    pass = false; \
+    filter->Update(); \
+    } \
+  catch( itk::ExceptionObject& err ) \
+    { \
+    std::cout << "Caught expected ExceptionObject" << std::endl; \
+    std::cout << err << std::endl; \
+    pass = true; \
+    filter->ResetPipeline(); \
+    } \
+  filter->Set##ComponentName( goodComponent ); \
+  \
+  if( !pass ) \
+    { \
+    std::cout << "Test failed." << std::endl; \
+    return EXIT_FAILURE; \
+    } 
+
+  TEST_INITIALIZATION_ERROR( ShapeFunction, NULL, shape );
+  TEST_INITIALIZATION_ERROR( CostFunction, NULL, costFunction );
+  TEST_INITIALIZATION_ERROR( Optimizer, NULL, optimizer );
+
+  CostFunctionType::ArrayType badParameters( shape->GetNumberOfShapeParameters() - 1 );
+  badParameters.Fill( 2.0 );
+  
+  TEST_INITIALIZATION_ERROR( InitialParameters, badParameters, parameters );
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

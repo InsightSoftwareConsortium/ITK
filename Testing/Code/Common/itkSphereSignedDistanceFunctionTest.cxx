@@ -59,6 +59,7 @@ int itkSphereSignedDistanceFunctionTest( int, char *[])
 
   PointType point;
   function->Print( std::cout );
+  std::cout << function->FunctionType::GetNameOfClass() << std::endl;
 
   for ( double p = 0.0; p < 10.0; p += 1.0 )
     {
