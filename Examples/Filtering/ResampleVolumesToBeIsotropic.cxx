@@ -131,7 +131,7 @@ int main( int argc, char * argv[] )
 
   resampler->SetInterpolator( interpolator );
 
-  resampler->SetDefaultPixelValue( 1000 ); // highlight regions without source
+  resampler->SetDefaultPixelValue( 255 ); // highlight regions without source
 
 
   double spacing[ Dimension ];
@@ -147,11 +147,15 @@ int main( int argc, char * argv[] )
 
 
   InputImageType::SizeType   inputSize = inputImage->GetLargestPossibleRegion().GetSize();
+  typedef InputImageType::SizeType::SizeValueType SizeValueType;
   InputImageType::SizeType   size;
 
-  size[0] =   inputSize[0]       * inputSpacing[0] / isoSpacing;
-  size[1] =   inputSize[1]       * inputSpacing[1] / isoSpacing;
-  size[2] = ( inputSize[2] - 1 ) * inputSpacing[2] / isoSpacing;
+  size[0] =
+    static_cast<SizeValueType>(inputSize[0] * inputSpacing[0] / isoSpacing);
+  size[1] =
+    static_cast<SizeValueType>(inputSize[1] * inputSpacing[1] / isoSpacing);
+  size[2] =
+    static_cast<SizeValueType>((inputSize[2] - 1 ) * inputSpacing[2] / isoSpacing);
 
   resampler->SetSize( size );
 
