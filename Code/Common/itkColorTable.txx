@@ -159,7 +159,7 @@ ColorTable<TPixel>
     m_NumberOfColors = n;
     m_Color = new RGBPixel<TPixel>[m_NumberOfColors];
     m_ColorName = new char * [m_NumberOfColors];
-    for(i=0; i<m_NumberOfColorsumberOfColors; i++)
+    for(i=0; i<m_NumberOfColors; i++)
         m_ColorName[i] = new char [80];
 
     for(i=0; i<n/2.0; i++) {
