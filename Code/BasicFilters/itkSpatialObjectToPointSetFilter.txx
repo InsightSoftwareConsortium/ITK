@@ -121,14 +121,14 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
   outputPointSet->GetPoints()->Reserve( numberOfPoints );
   outputPointSet->GetPointData()->Reserve( numberOfPoints );
 
-  OutputPointSetType::PointIdentifier  pointId = 0;
-  OutputPointSetType::PointType  point;
+  typename OutputPointSetType::PointIdentifier  pointId = 0;
+  typename OutputPointSetType::PointType  point;
 
   // add the object it itself
   unsigned long n = static_cast<const PointBasedSpatialObjectType*>(inputObject)->GetNumberOfPoints();
   for(unsigned int i=0;i<n;i++)
     {
-    InputSpatialObjectType::PointType transformedPoint
+    typename InputSpatialObjectType::PointType transformedPoint
       =  inputObject->GetIndexToWorldTransform()->TransformPoint(inputObject->GetPoint(i)->GetPosition());
 
     for(unsigned int j=0;j< itkGetStaticConstMacro(ObjectDimension) ;j++)
@@ -146,7 +146,7 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
     unsigned long n = static_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetNumberOfPoints();
     for(unsigned int i=0;i<n;i++)
       {
-      InputSpatialObjectType::PointType transformedPoint
+      typename InputSpatialObjectType::PointType transformedPoint
       =  inputObject->GetIndexToWorldTransform()->TransformPoint(static_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetPoint(i)->GetPosition());
 
       for(unsigned int j=0;j< itkGetStaticConstMacro(ObjectDimension) ;j++)
