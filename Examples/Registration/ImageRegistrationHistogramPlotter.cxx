@@ -63,6 +63,7 @@
 #include "itkHistogramToEntropyImageFilter.h"
 #include "itkCommand.h"
 
+#include <stdio.h>
 
 const    unsigned int    Dimension = 2;
 
