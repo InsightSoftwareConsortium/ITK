@@ -619,7 +619,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
                    BiasFieldType::DomainSizeType& biasSize)
 {
   InputImageSizeType size = region.GetSize() ;
-  unsigned int dim = 0 ;
+  unsigned int dim;
   int biasDim = 0 ;
 
   for(dim = 0 ; dim < ImageDimension ; dim++)

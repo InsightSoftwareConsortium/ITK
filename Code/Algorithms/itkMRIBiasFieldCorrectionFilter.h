@@ -111,8 +111,8 @@ public:
 
   /** Dummy implementation to confirm to the SingleValuedCostFunction 
    * interfaces. It is pure virtual in the superclass */
-  void GetDerivative( const ParametersType & parameters,
-                      DerivativeType & derivative ) const 
+  void GetDerivative( const ParametersType & itkNotUsed(parameters),
+                      DerivativeType & itkNotUsed(derivative) ) const 
   {  }
 
   /** Set Mean and Sigma for the normal distributions 
