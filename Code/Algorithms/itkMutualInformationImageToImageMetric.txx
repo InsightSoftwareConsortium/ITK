@@ -120,9 +120,6 @@ SpatialSampleContainer& samples ) const
   for( iter = samples.begin(); iter != end; ++iter )
     {
 
-    // jump to random position
-    ++randIter;
-
     // get sampled index
     FixedImageIndexType index = randIter.GetIndex();
 
@@ -145,6 +142,9 @@ SpatialSampleContainer& samples ) const
       {
       (*iter).MovingImageValue = 0;
       }
+
+    // jump to random position
+    ++randIter;
 
     }
 

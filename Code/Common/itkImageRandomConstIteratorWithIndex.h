@@ -132,7 +132,7 @@ public:
 
   /** Is the iterator at the end of the region? */
   bool IsAtEnd(void) const
-    { return (m_NumberOfSamplesDone == m_NumberOfSamplesRequested);  }
+    { return (m_NumberOfSamplesDone > m_NumberOfSamplesRequested);  }
  
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator-- */

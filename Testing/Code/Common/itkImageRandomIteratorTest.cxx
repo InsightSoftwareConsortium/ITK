@@ -43,6 +43,8 @@ int itkImageRandomIteratorTest(int, char**)
   size[1] = 100;
   size[2] = 100;
 
+  unsigned long numberOfSamples = 10;
+
   ImageType::IndexType start;
   start = ImageType::IndexType::ZeroIndex;
 
@@ -80,7 +82,7 @@ int itkImageRandomIteratorTest(int, char**)
   RandomIteratorType ot( myImage, region );
 
   ot.GoToBegin();
-  ot.SetNumberOfSamples( 100 ); 
+  ot.SetNumberOfSamples( numberOfSamples ); 
  
   std::cout << "Verifying non-const iterator... ";
   std::cout << "Random walk of the Iterator over the image " << std::endl;
@@ -105,7 +107,7 @@ int itkImageRandomIteratorTest(int, char**)
   RandomConstIteratorType cot( myConstImage, region );
 
   cot.GoToBegin();
-  cot.SetNumberOfSamples( 100 ); 
+  cot.SetNumberOfSamples( numberOfSamples ); 
  
   std::cout << "Verifying const iterator... ";
   std::cout << "Random walk of the Iterator over the image " << std::endl;
@@ -135,7 +137,7 @@ int itkImageRandomIteratorTest(int, char**)
   RandomIteratorType ior( myImage, region );
 
   ior.GoToEnd();
-  ior.SetNumberOfSamples( 100 ); 
+  ior.SetNumberOfSamples( numberOfSamples ); 
  
 
   while( !ior.IsAtBegin() )
@@ -162,7 +164,7 @@ int itkImageRandomIteratorTest(int, char**)
   RandomConstIteratorType cor( myImage, region );
 
   cor.GoToEnd();
-  cor.SetNumberOfSamples( 100 ); // 0=x, 1=y, 2=z
+  cor.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
  
 
   while( !cor.IsAtBegin() )
@@ -203,7 +205,7 @@ int itkImageRandomIteratorTest(int, char**)
 
     RandomIteratorType cbot( myImage, region );
 
-    cbot.SetNumberOfSamples( 100 ); // 0=x, 1=y, 2=z
+    cbot.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
     cbot.GoToBegin();
 
     while( !cbot.IsAtEnd() )
@@ -253,7 +255,7 @@ int itkImageRandomIteratorTest(int, char**)
 
     RandomConstIteratorType cbot( myImage, region );
 
-    cbot.SetNumberOfSamples( 100 ); 
+    cbot.SetNumberOfSamples( numberOfSamples ); 
     cbot.GoToBegin();
 
     while( !cbot.IsAtEnd() )

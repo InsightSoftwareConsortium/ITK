@@ -59,6 +59,7 @@ ImageRandomIteratorWithIndex<TImage>
 ::GoToBegin(void)
 {
   m_NumberOfSamplesDone = 0L;
+  this->operator++();
 }
 
 
