@@ -1,8 +1,8 @@
 #ifndef __itkdeformablemesh_h
 #define __itkdeformablemesh_h
 
-#include <vnl_matrix_fixed.h>
-#include "itkmesh.h"
+#include "vnl/vnl_matrix_fixed.h"
+#include "itkMesh.h"
 #include "itkVector.h"
 #include "itkTriangleCell.h"
 
