@@ -120,7 +120,6 @@ void Segmenter<TInputImage>::GenerateData()
         = (regionToProcess.GetIndex()[i]+regionToProcess.GetSize()[i]) - 1;
       reg.SetSize(sz);
       reg.SetIndex(idx);
-
       if ( (reg.GetIndex()[i] + reg.GetSize()[i])
            == (largestPossibleRegion.GetIndex()[i]
                + largestPossibleRegion.GetSize()[i]) )
