@@ -67,7 +67,7 @@ CovarianceCalculator< TSample >
 } 
 
 template< class TSample >
-void
+inline void
 CovarianceCalculator< TSample >
 ::GenerateData() 
 {
@@ -81,11 +81,12 @@ CovarianceCalculator< TSample >
   unsigned int row, col ;
   unsigned int i ;
   typename TSample::Iterator iter = m_Sample->Begin() ;
+  typename TSample::Iterator end = m_Sample->End() ;
   vnl_vector< double > diff ;
   diff.resize(Dimension) ;
   typename TSample::MeasurementVectorType measurements ;
   // fills the lower triangle and the diagonal cells in the covariance matrix
-  while (iter != m_Sample->End())
+  while (iter != end)
     {
       frequency = iter.GetFrequency() ;
       totalFrequency += frequency ;
