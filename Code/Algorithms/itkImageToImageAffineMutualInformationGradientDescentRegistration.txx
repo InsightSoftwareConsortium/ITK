@@ -111,7 +111,7 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
   optimizer->SetCostFunction( this->GetMetric() );
 
   // setup the optimizer
-  optimizer->SetMaximize();
+  optimizer->MaximizeOn();
   optimizer->SetLearningRate( m_LearningRate );
   optimizer->SetNumberOfIterations( m_NumberOfIterations );
   optimizer->SetInitialPosition( m_Parameters );

@@ -94,7 +94,7 @@ ImageToImageTranslationMeanSquaresRegularStepGradientDescentRegistration<TRefere
   optimizer = this->GetOptimizer();
 
   optimizer->SetCostFunction( this->GetMetric() );
-  optimizer->SetMinimize();
+  optimizer->MinimizeOn();
   optimizer->GetTransform()->SetScale( parametersScale );
 
   optimizer->SetInitialPosition( m_Parameters );

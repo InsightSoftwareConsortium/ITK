@@ -88,7 +88,7 @@ PointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistr
   parametersScale.Fill( 1.0 );
 
   optimizer->SetCostFunction( this->GetMetric() );
-  optimizer->SetMinimize();
+  optimizer->MinimizeOn();
   optimizer->GetTransform()->SetScale( parametersScale );
   optimizer->SetGradientMagnitudeTolerance( 1e-6 );
   optimizer->SetMaximumStepLength( 30.0 );

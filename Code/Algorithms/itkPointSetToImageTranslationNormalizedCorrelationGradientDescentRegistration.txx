@@ -89,7 +89,7 @@ PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration<TRefe
   parametersScale.Fill( 1.0 );
 
   optimizer->SetCostFunction( this->GetMetric() );
-  optimizer->SetMinimize();
+  optimizer->MinimizeOn();
   optimizer->GetTransform()->SetScale( parametersScale );
 
   optimizer->SetInitialPosition( m_Parameters );
