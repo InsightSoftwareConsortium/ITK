@@ -29,7 +29,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkSimplexMeshGeometry.h"
 #include "itkMeshToMeshFilter.h"
 #include "itkVectorContainer.h"
-#include <vnl/vnl_numeric_limits.h>
 
 
 namespace itk
@@ -113,9 +112,9 @@ class SimplexMeshAdaptTopologyFilter : public MeshToMeshFilter<TInputMesh, TOutp
           curvatureMap = DoubleValueMapType::New();
           totalArea = 0;
           totalCurvature = 0;
-          minCellSize = vnl_numeric_limits<double>::max();
+          minCellSize = NumericTraits<double>::max();
           maxCellSize = 0;
-          minCurvature = vnl_numeric_limits<double>::max();
+          minCurvature = NumericTraits<double>::max();
           maxCurvature = 0;
           }
 
