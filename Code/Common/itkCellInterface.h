@@ -146,8 +146,8 @@ public:
   /** 
    *  Cell Visitor interfaces
    */
-  enum CellType {HEXAHEDRON_CELL=0, QUADRILATERAL_CELL, 
-        TRIANGLE_CELL, LINE_CELL, TETRAHEDRON_CELL, VERTEX_CELL, POLYGON_CELL,
+  enum CellType {VERTEX_CELL=0, LINE_CELL, TRIANGLE_CELL, QUADRILATERAL_CELL, 
+        POLYGON_CELL, TETRAHEDRON_CELL, HEXAHEDRON_CELL, 
         LAST_ITK_CELL, MAX_ITK_CELLS=255};
   static int GetNextUserCellId(); // never return > MAX_INTERFACE
 
@@ -197,31 +197,31 @@ public:
     VisitorPointer GetVisitor(int id)
       {
         if(id <= LAST_ITK_CELL)
-	  {
-	  return m_Visitors[id];
-	  }
-	else
-	  {
-	  std::map<int, VisitorType::Pointer>:: iterator pos = m_UserDefined.find(id);
-	  if(pos != m_UserDefined.end())
-	    {
-	    return (*pos).second;
-	    }
-	  }
+          {
+          return m_Visitors[id];
+          }
+        else
+          {
+          std::map<int, VisitorType::Pointer>:: iterator pos = m_UserDefined.find(id);
+          if(pos != m_UserDefined.end())
+            {
+            return (*pos).second;
+            }
+          }
         return 0;
       }
     void AddVisitor(VisitorType* v)
       {
         int id = v->GetCellTopologyId();
-	if(id <= LAST_ITK_CELL)
-	  {
-	  m_Visitors[id] = v;
-	  }
-	else
-	  {
-	  m_UserDefined.insert(std::map<int, VisitorPointer>::value_type(id,
-								   v));
-	  }
+        if(id <= LAST_ITK_CELL)
+          {
+          m_Visitors[id] = v;
+          }
+        else
+          {
+          m_UserDefined.insert(std::map<int, VisitorPointer>::value_type(id,
+                                                                   v));
+          }
       }
     ~MultiVisitor()
       {
@@ -297,7 +297,7 @@ public:
    * be one beyond the end of an array or other container.
    */
   virtual void SetPointIds(PointIdConstIterator first,
-			   PointIdConstIterator last)=0;
+                           PointIdConstIterator last)=0;
   
   /**
    * Set the point identifier for a given spot in the point list for the cell.
@@ -354,10 +354,10 @@ public:
    *     (Returns through pointer to array: weights[NumberOfPoints]).
    */
   virtual bool EvaluatePosition(CoordRepType coords[PointDimension],
-				CoordRepType closestPoint[PointDimension],
-				CoordRepType pCoords[],
-				CoordRepType* dist2,
-				InterpolationWeightType weights[]) 
+                                CoordRepType closestPoint[PointDimension],
+                                CoordRepType pCoords[],
+                                CoordRepType* dist2,
+                                InterpolationWeightType weights[]) 
     {return bool();}
   
   /**
@@ -368,8 +368,8 @@ public:
    * (returned through pointer to array: weights[NumberOfPoints]).
    */
   virtual void EvaluateLocation(CoordRepType pCoords[],
-				CoordRepType coords[PointDimension],
-				InterpolationWeightType weights[]) {}
+                                CoordRepType coords[PointDimension],
+                                InterpolationWeightType weights[]) {}
 
   /**
    * Intersect the cell with a line given by an origin (origin[PointDimension])
@@ -389,11 +389,11 @@ public:
    * Returns whether an intersection exists within the given tolerance.
    */
   virtual bool IntersectWithLine(CoordRepType origin[PointDimension],
-				 CoordRepType direction[PointDimension],
-				 CoordRepType tolerance,
-				 CoordRepType coords[PointDimension],
-				 CoordRepType* t,
-				 CoordRepType pCoords[]) {return bool();}
+                                 CoordRepType direction[PointDimension],
+                                 CoordRepType tolerance,
+                                 CoordRepType coords[PointDimension],
+                                 CoordRepType* t,
+                                 CoordRepType pCoords[]) {return bool();}
   
   /**
    * Compute cell bounding box and store in the user-provided array.
@@ -423,10 +423,10 @@ public:
    * Returns whether an intersection exists.
    */
   virtual bool IntersectBoundingBoxWithLine(CoordRepType bounds[PointDimension*2],
-					    CoordRepType origin[PointDimension],
-					    CoordRepType direction[PointDimension],
-					    CoordRepType coords[PointDimension],
-					    CoordRepType* t) {return bool();}
+                                            CoordRepType origin[PointDimension],
+                                            CoordRepType direction[PointDimension],
+                                            CoordRepType coords[PointDimension],
+                                            CoordRepType* t) {return bool();}
   
   /**
    * Interface to the boundary form of the cell to set/get UsingCells.
@@ -483,8 +483,8 @@ public:
   enum { PointDimension = VPointDimension };
   typedef TCoordRep               CoordRepType;
   typedef TInterpolationWeight    InterpolationWeightType;
-  typedef TPointIdentifier  	  PointIdentifier;
-  typedef TCellIdentifier   	  CellIdentifier;
+  typedef TPointIdentifier        PointIdentifier;
+  typedef TCellIdentifier         CellIdentifier;
   typedef TCellFeatureIdentifier  CellFeatureIdentifier;
   typedef TPoint                  PointType;
   typedef TPointsContainer        PointsContainer;

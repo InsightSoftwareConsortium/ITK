@@ -151,7 +151,7 @@ public:
   virtual CellPointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
   virtual void SetPointIds(PointIdConstIterator first);
   virtual void SetPointIds(PointIdConstIterator first,
-			   PointIdConstIterator last);
+                           PointIdConstIterator last);
   virtual void SetPointId(int localId, PointIdentifier);
   virtual PointIdIterator      PointIdsBegin(void);
   virtual PointIdConstIterator PointIdsBegin(void) const;

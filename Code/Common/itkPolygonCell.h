@@ -162,7 +162,7 @@ public:
   
   virtual void SetPointIds(PointIdConstIterator first); 
   virtual void SetPointIds(PointIdConstIterator first,
-			   PointIdConstIterator last);
+                           PointIdConstIterator last);
 
   void AddPointId(PointIdentifier);
   void SetPointIds(int dummy, int num, PointIdConstIterator first);
