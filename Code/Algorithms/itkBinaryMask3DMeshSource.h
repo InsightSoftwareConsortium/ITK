@@ -144,7 +144,7 @@ private:
   typedef typename InputImageType::SizeType InputImageSizeType;
 
   void CreateMesh();
-  void XFlip ( unsigned char *tp );  // 7 kinds of transfermation
+  void XFlip ( unsigned char *tp );  // 7 kinds of transformation
   void YFlip ( unsigned char *tp );
   void ZFlip ( unsigned char *tp );
   void XRotation ( unsigned char *tp );
