@@ -38,7 +38,7 @@ namespace itk
   * the barycentric coordinates of the point related to its three neighbor vertices, simplex angle
   * circumsphere and circumcirlce radius and center.
   */
-  class SimplexMeshGeometry
+  class ITKCommon_EXPORT SimplexMeshGeometry
     {
 
     public:
