@@ -50,6 +50,7 @@ public:
   typedef LineSpatialObjectPoint< TDimension >        LinePointType;
   typedef std::list < LinePointType >                 PointListType;
   typedef typename Superclass::PointType              PointType;
+  typedef typename Superclass::TransformType          TransformType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
   typedef SmartPointer<PointContainerType>            PointContainerPointer;
 
