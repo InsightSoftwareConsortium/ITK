@@ -145,6 +145,7 @@ PointSetToImageMetric<TFixedPointSet,TMovingImage>
   os << indent << "Transform:    " << m_Transform.GetPointer()    << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
   os << indent << "Number of Pixels Counted: " << m_NumberOfPixelsCounted << std::endl;
+  os << indent << "Compute Gradient: " << m_ComputeGradient << std::endl;
 
 }
 
