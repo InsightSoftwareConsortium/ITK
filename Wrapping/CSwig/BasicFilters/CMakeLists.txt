@@ -20,6 +20,8 @@ SET(WRAP_SOURCES
   wrap_itkGradientRecursiveGaussianImageFilter
   wrap_itkGradientMagnitudeImageFilter
   wrap_itkGradientMagnitudeRecursiveGaussianImageFilter
+  wrap_itkGrayscaleDilateImageFilter
+  wrap_itkGrayscaleErodeImageFilter
   wrap_itkDanielssonDistanceMapImageFilter
   wrap_itkIsolatedConnectedImageFilter
   wrap_itkLaplacianImageFilter
