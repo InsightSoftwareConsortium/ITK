@@ -41,6 +41,9 @@ namespace itk
  *
  * \author Hideaki Hiraki
  *
+ * Contributed in the users list
+ * http://public.kitware.com/pipermail/insight-users/2004-February/006542.html
+ *
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT JoinSeriesImageFilter:
