@@ -14,15 +14,15 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 /*
 * itkTubeSpatialObject, and itkTubeNetworkSpatialObject test file.
 * This test file test also the basic functions of the CompositeSpatialObject class,
 * like Add/RemoveSpatialObjecT(...), Get/SetChildren(...), etc...
 */
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
 
 #include "itkPoint.h"
 #include "itkVector.h"
@@ -42,19 +42,19 @@ int itkTubeSpatialObjectTest(int, char **)
   typedef itk::Vector< OutputType, 3>                 OutputVector;
   typedef itk::Point< ScalarType, 3>                  Point;
   typedef itk::Matrix< ScalarType, 3, 3>              Matrix;
-  typedef itk::TubeSpatialObject                      TubeType;
+  typedef itk::TubeSpatialObject<3>                   TubeType;
   typedef itk::SmartPointer< TubeType >               TubePointer;
   typedef TubeType::TubePointType                         TubePointType;
   typedef TubePointType::Pointer                      TubePointPointer;
-  typedef itk::TubeNetworkSpatialObject               TubeNetType;
+  typedef itk::TubeNetworkSpatialObject<3>            TubeNetType;
   typedef itk::SmartPointer< TubeNetType >            TubeNetPointer;
   typedef TubeType::PointListType                     TubePointListType;
   typedef itk::AffineTransform< ScalarType, 3 >       AffineTransformType;
   typedef itk::SmartPointer<AffineTransformType>      AffineTransformPointer;
   typedef std::list< itk::SpatialObject<  
                       3, 
-                      AffineTransformType, 
-                      OutputType> * >                 ChildrenListType;
+                      AffineTransformType
+                     > * >                            ChildrenListType;
 
   Vector axis, translation;
   Point in, out;
@@ -106,7 +106,7 @@ int itkTubeSpatialObjectTest(int, char **)
     std::cout<<"[PASSED]"<<std::endl;
     }
 
-  itk::TubeSpatialObject::OutputVectorType derivative;
+  TubeType::OutputVectorType derivative;
 
   std::cout<<"DerivativeAt()...";
   try
@@ -119,7 +119,7 @@ int itkTubeSpatialObjectTest(int, char **)
     return EXIT_FAILURE;
     }
 
-  itk::TubeSpatialObject::OutputVectorType expectedDerivative;
+  TubeType::OutputVectorType expectedDerivative;
   expectedDerivative.Fill(0);
 
   if( expectedDerivative != derivative )
@@ -152,19 +152,19 @@ int itkTubeSpatialObjectTest(int, char **)
   ChildrenListType childrenList, returnedList;
   unsigned int nbChildren;
 
-  TubePointer tube2 = itk::TubeSpatialObject::New();
+  TubePointer tube2 = TubeType::New();
   tube2->GetProperty()->SetName("Tube 2");
   tube2->SetId(2);
   tube2->SetPoints(list);
   tube2->ComputeBounds();
   
-  TubePointer tube3 = itk::TubeSpatialObject::New();
+  TubePointer tube3 = TubeType::New();
   tube3->GetProperty()->SetName("Tube 3");
   tube3->SetId(3);
   tube3->SetPoints(list);
   tube3->ComputeBounds();
 
-  TubeNetPointer tubeNet1 = itk::TubeNetworkSpatialObject::New();
+  TubeNetPointer tubeNet1 = TubeNetType::New();
   tubeNet1->GetProperty()->SetName("tube network 1");
   
  
