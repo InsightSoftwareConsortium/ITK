@@ -345,7 +345,7 @@ IndexType& index)
     return m_LargeValue;
     }
 
-  distance = vnl_math_sqrt( 1.0 / distance );
+  distance = vcl_sqrt( 1.0 / distance );
   centerNode.SetValue( distance );
 
   if( inside )

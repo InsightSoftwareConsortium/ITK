@@ -46,7 +46,7 @@ MinMaxCurvatureFlowFunction<TImage>
 {
   if ( m_StencilRadius == value ) { return; }
 
-  m_StencilRadius = vnl_math_max( value, 1 );
+  m_StencilRadius = vnl_math_max( value, RadiusValueType(1) );
   RadiusType radius;
   unsigned int j;
 
@@ -165,7 +165,7 @@ MinMaxCurvatureFlowFunction<TImage>
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
-  gradMagnitude = vnl_math_sqrt( gradMagnitude );
+  gradMagnitude = vcl_sqrt( gradMagnitude );
 
   // Search for all position in the neighborhood perpendicular to 
   // the gradient and at a distance of StencilRadius from center.
@@ -200,7 +200,7 @@ MinMaxCurvatureFlowFunction<TImage>
 
       }
 
-    vectorMagnitude = vnl_math_sqrt( vectorMagnitude );
+    vectorMagnitude = vcl_sqrt( vectorMagnitude );
 
     if ( vectorMagnitude != 0.0 )
       {
@@ -273,7 +273,7 @@ MinMaxCurvatureFlowFunction<TImage>
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
-  gradMagnitude = vnl_math_sqrt( gradMagnitude ) /
+  gradMagnitude = vcl_sqrt( gradMagnitude ) /
    static_cast<PixelType>( m_StencilRadius );
 
   for ( j = 0; j < imageDimension; j++ )
@@ -341,7 +341,7 @@ MinMaxCurvatureFlowFunction<TImage>
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
-  gradMagnitude = vnl_math_sqrt( gradMagnitude ) /
+  gradMagnitude = vcl_sqrt( gradMagnitude ) /
    static_cast<PixelType>( m_StencilRadius );
 
   for ( j = 0; j < imageDimension; j++ )

@@ -493,7 +493,7 @@ LevelSetImageType * output )
         throw err;
       }
     
-      solution = ( vnl_math_sqrt( discrim ) + bb ) / aa;
+      solution = ( vcl_sqrt( discrim ) + bb ) / aa;
     }
     else
     {

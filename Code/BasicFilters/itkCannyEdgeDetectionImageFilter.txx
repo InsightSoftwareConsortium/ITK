@@ -469,7 +469,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
                           m_ComputeCannyEdge1stDerivativeOper);
             }
 
-          gradMag = vnl_math_sqrt(gradMag);          
+          gradMag = vcl_sqrt(gradMag);          
           derivPos = zero;
           for ( unsigned int i = 0; i < ImageDimension; i++)
             {

@@ -173,7 +173,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
   ot.GoToBegin();
   while( !it.IsAtEnd() )
     {
-    ot.Set( static_cast<OutputPixelType>( vnl_math_sqrt( it.Get() ) ) );
+    ot.Set( static_cast<OutputPixelType>( vcl_sqrt( it.Get() ) ) );
     ++it;
     ++ot;
     }

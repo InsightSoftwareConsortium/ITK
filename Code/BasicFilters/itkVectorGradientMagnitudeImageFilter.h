@@ -270,7 +270,7 @@ protected:
           }
         accum += sum;
       }
-    return ::vnl_math_sqrt(accum);
+    return vcl_sqrt(accum);
   }
 
   // Function is defined here because the templating confuses gcc 2.96 when defined
