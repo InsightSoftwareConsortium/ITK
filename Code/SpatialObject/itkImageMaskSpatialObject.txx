@@ -47,10 +47,10 @@ ImageMaskSpatialObject< TDimension>
 {
   if( name == NULL || strstr(typeid(Self).name(), name) )
     {
-    const TransformType * giT = this->GetWorldToIndexTransform();
-    PointType p = giT->TransformPoint(point);
-    if(m_Bounds->IsInside( p))
+    if(m_Bounds->IsInside(point))
       {
+      const TransformType * giT = this->GetWorldToIndexTransform();
+      PointType p = giT->TransformPoint(point);
       IndexType index;
       for(unsigned int i=0; i<TDimension; i++)
         {
