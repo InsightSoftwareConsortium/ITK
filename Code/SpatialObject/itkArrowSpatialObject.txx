@@ -203,7 +203,7 @@ ArrowSpatialObject< TDimension >
     typedef itk::Euler3DTransform<double> EulerTransformType;
     EulerTransformType::Pointer euler = EulerTransformType::New();
 
-    double angley = 0;
+    double angley;
     double anglez = 0;
     
     #ifndef PI    
