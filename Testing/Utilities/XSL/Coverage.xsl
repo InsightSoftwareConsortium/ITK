@@ -87,7 +87,7 @@
             <a>
               <xsl:attribute name="href">
                 <xsl:call-template name="TranslateTestName">
-                  <xsl:with-param name="Prefix"><xsl:value-of select="$TestDocDir"/>/../Coverage/</xsl:with-param>
+                  <xsl:with-param name="Prefix">../Coverage/</xsl:with-param>
                   <xsl:with-param name="TestName" select="@FullPath"/>
                   <xsl:with-param name="Postfix">.html</xsl:with-param>
                 </xsl:call-template>
