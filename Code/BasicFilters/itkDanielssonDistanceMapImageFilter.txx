@@ -332,57 +332,41 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 {
 
   this->PrepareData();
+
+  // Specify images and regions.
   
   OutputImagePointer    voronoiMap             =  GetVoronoiMap();
   VectorImagePointer    distanceComponents     =  GetVectorDistanceMap();
   
   typename InputImageType::RegionType region  = voronoiMap->GetRequestedRegion();
-
-  IndexType   start   = region.GetIndex();
-  SizeType    size    = region.GetSize();
-  OffsetType  offset;
-
-  // We now can process border pixels since the iterator has a
-  // separate Begin and End Offset.
-  // [Was: Pixels on the border should not be processed because they lack
-  // neighbors.  Prepare an output region 1 pixel narrower than the
-  // input region.]  Also, each pixel is visited 2^InputImageDimension
-  // times, so the number of visits per pixel needs to be computed for
-  // progress reporting.
-  unsigned long visitsPerPixel = 1;
-  {  // Restrict 'dim' to this block.
-  for(unsigned int dim=0; dim<InputImageDimension; dim++)
-    {
-#if 0
-    start [ dim ] += 1;
-    size  [ dim ] -= 2;
-#endif
-    offset[ dim ] = 0;
-    visitsPerPixel *= 2;
-    }
-  }
   
-  typename InputImageType::RegionType internalRegion;  
-  internalRegion.SetIndex( start );
-  internalRegion.SetSize ( size  );
+  itkDebugMacro (<< "Region to process: " << region);
 
-  itkDebugMacro (<< "Region to process: " << internalRegion);
+  // Instantiate reflective iterator
 
   ReflectiveImageRegionConstIterator< VectorImageType > 
-    it( distanceComponents, internalRegion );
+    it( distanceComponents, region );
   it.FillOffsets(1);
 
   it.GoToBegin();
 
   // Support progress methods/callbacks.
+
+  // Each pixel is visited 2^InputImageDimension times, and the number
+  // of visits per pixel needs to be computed for progress reporting.
+  unsigned long visitsPerPixel = (1 << InputImageDimension);
   unsigned long updateVisits, i=0;
-  updateVisits = internalRegion.GetNumberOfPixels() * visitsPerPixel / 10;
+  updateVisits = region.GetNumberOfPixels() * visitsPerPixel / 10;
   if ( updateVisits < 1 ) 
     {
     updateVisits = 1;
     }
- 
   const float updatePeriod = static_cast<float>(updateVisits) * 10.0;
+
+  // Process image.
+
+  OffsetType  offset;
+  offset.Fill( 0 );
 
   itkDebugMacro(<< "GenerateData: Computing distance transform");
   while( !it.IsAtEnd() )
@@ -414,19 +398,6 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
     }
   
   itkDebugMacro(<< "GenerateData: ComputeVoronoiMap");
-
-  OffsetType zeroOffset;
-  zeroOffset.Fill( 0 );
-
-  ImageRegionExclusionIteratorWithIndex< VectorImageType >
-    eit( distanceComponents, region );
-  eit.SetExclusionRegion( internalRegion );
-  eit.GoToBegin();
-  while( !eit.IsAtEnd() )
-    {
-    eit.Set( zeroOffset );
-    ++eit;
-    }
   
   this->ComputeVoronoiMap();
 

@@ -150,7 +150,7 @@ ReflectiveImageRegionConstIterator<TImage>
       }
     else 
       {
-      m_PositionIndex[ in  ]--;
+      m_PositionIndex[ in ]--;
       if( m_PositionIndex[ in ] >= m_BeginIndex[ in ] )
         {
         m_Position -= m_OffsetTable[in];

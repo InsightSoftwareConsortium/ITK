@@ -60,7 +60,7 @@ class ITK_EXPORT DanielssonDistanceMapImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef   DanielssonDistanceMapImageFilter    Self;
+  typedef DanielssonDistanceMapImageFilter    Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
@@ -95,7 +95,8 @@ public:
                       InputImageType::ImageDimension);
 
   /** Pointer Type for the vector distance image */
-  typedef Image< OffsetType, itkGetStaticConstMacro(InputImageDimension)> VectorImageType;
+  typedef Image< OffsetType,
+                 itkGetStaticConstMacro(InputImageDimension)> VectorImageType;
 
   /** Pointer Type for input image. */
   typedef typename InputImageType::ConstPointer InputImagePointer;
@@ -119,7 +120,7 @@ public:
    * nonzero pixel in the input image will be given a unique numeric
    * code to be used by the Voronoi partition.  If the image is binary
    * but you are not interested in the Voronoi regions of the
-   * different white pixels, then you need not set this.  */
+   * different nonzero pixels, then you need not set this.  */
    itkSetMacro( InputIsBinary, bool );
 
   /** Get if the input is binary.  See SetInputIsBinary(). */
@@ -129,7 +130,7 @@ public:
   itkBooleanMacro( InputIsBinary );
 
   /** Get Voronoi Map
-   * This Map shows for each pixel what object is closest to it. 
+   * This map shows for each pixel what object is closest to it. 
    * Each object should be labeled by a number (larger than 0), 
    * so the map has a value for each pixel corresponding to the label 
    * of the closest object.  */

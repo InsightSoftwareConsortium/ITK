@@ -103,11 +103,12 @@ public:
    
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ReflectiveImageRegionConstIterator. Many routines return an ImageIterator but
-   * for a particular task, you may want an ReflectiveImageRegionConstIterator.
-   * Rather than provide overloaded APIs that return different types of
-   * Iterators, itk returns ImageIterators and uses constructors to cast 
-   * from * an ImageIterator to a ReflectiveImageRegionConstIterator.  */
+   * ReflectiveImageRegionConstIterator. Many routines return an
+   * ImageIterator but for a particular task, you may want an
+   * ReflectiveImageRegionConstIterator.  Rather than provide
+   * overloaded APIs that return different types of Iterators, itk
+   * returns ImageIterators and uses constructors to cast from * an
+   * ImageIterator to a ReflectiveImageRegionConstIterator.  */
   ReflectiveImageRegionConstIterator(const ImageConstIteratorWithIndex<TImage> &it);
 
   /** operator= is provided to make sure the handle to the image is properly
@@ -115,6 +116,7 @@ public:
   Self &operator=(const Self& it);
 
   bool IsReflected(unsigned int) const;
+
   /** Increment (prefix) the fastest moving dimension of the iterator's index.
    * This operator will constrain the iterator within the region (i.e. the
    * iterator will automatically wrap from the end of the row of the region
