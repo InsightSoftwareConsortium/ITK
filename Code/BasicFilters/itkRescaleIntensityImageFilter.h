@@ -111,10 +111,6 @@ public:
   itkGetConstMacro( InputMinimum, InputPixelType );
   itkGetConstMacro( InputMaximum, InputPixelType );
 
-  /** Set the Minimum and Maximum values of the input image */
-  itkSetMacro( InputMaximum, InputPixelType );
-  itkSetMacro( InputMinimum, InputPixelType );
-
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData(void);
 
