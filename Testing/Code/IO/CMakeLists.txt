@@ -109,6 +109,12 @@ ADD_TEST(itkDICOMImageIO2Test ${IO_TESTS}
   itkDICOMImageIO2Test
             ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
             ${ITK_TEST_OUTPUT_DIR}/itkDICOMImageIO2Test.png)
+ADD_TEST(itkStimulateImageIOTest2 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/BigEndian.spr
+            ${ITK_TEST_OUTPUT_DIR}/BigEndian.spr
+  itkStimulateImageIOTest2
+            ${ITK_DATA_ROOT}/Input/BigEndian.spr
+            ${ITK_TEST_OUTPUT_DIR}/BigEndian.spr)
 
 ADD_TEST(itkDICOMImageSeriesTest ${IO_TESTS} 
   itkDICOMImageSeriesTest
