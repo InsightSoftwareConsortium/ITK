@@ -63,6 +63,26 @@ EuclideanDistance< TVector >
   return sqrt(temp * temp) ;
 }
 
+template< class TVector >
+inline bool
+EuclideanDistance< TVector >
+::IsWithinRange(const TVector &x, const double radius) const 
+{
+  double squaredRadius = radius * radius ;
+  double sum = NumericTraits< double >::Zero ;
+  double temp ;
+  for ( unsigned int i = VectorLength ; i > 0 ; --i )
+    {
+    temp = this->Evaluate( m_Origin[i-1], x[i-1] ) ;
+    sum += temp * temp ;
+    if (sum > squaredRadius)
+      {
+      return false ;
+      }
+    }
+  return true ;
+}
+
 } // end of namespace Statistics 
 } // end of namespace itk
 

@@ -47,6 +47,7 @@ public:
   double Evaluate(const TVector &x) const ;
   double Evaluate(const TVector &x1, const TVector &x2) const ;
   double Evaluate(const ValueType &a, const ValueType &b) const ;
+  bool IsWithinRange(const TVector &x, const double radius) const ;
 
 protected:
   EuclideanDistance() {}
