@@ -67,9 +67,21 @@ int main()
   // Declare the type of the Region
   typedef itk::ImageRegion<myDimension>        myRegionType;
 
+  // Declare the type for the ADD filter
+  typedef itk::AddImageFilter<
+                                myImageType1,
+                                myImageType2,
+                                myImageType3  >       myFilterType;
+ 
+  // Declare the pointers to images
+  typedef myImageType1::Pointer   myImageType1Pointer;
+  typedef myImageType2::Pointer   myImageType2Pointer;
+  typedef myImageType3::Pointer   myImageType3Pointer;
+  typedef myFilterType::Pointer   myFilterTypePointer;
+
   // Create two images
-  myImageType1::Pointer inputImageA  = myImageType1::New();
-  myImageType2::Pointer inputImageB  = myImageType2::New();
+  myImageType1Pointer inputImageA  = myImageType1::New();
+  myImageType2Pointer inputImageB  = myImageType2::New();
   
   // Define their size, and start index
   mySizeType size;
@@ -127,16 +139,10 @@ int main()
     std::cout << it2.Get() << std::endl;
     ++it2;
   }
-
-  // Declare the type for the ADD filter
-  typedef itk::AddImageFilter<
-                                myImageType1,
-                                myImageType2,
-                                myImageType3  >       myFilterType;
-            
+           
 
   // Create an ADD Filter                                
-  myFilterType::Pointer filter = myFilterType::New();
+  myFilterTypePointer filter = myFilterType::New();
 
 
   // Connect the input images
@@ -144,7 +150,7 @@ int main()
   filter->SetInput2( inputImageB );
 
   // Get the Smart Pointer to the Filter Output 
-  myImageType3::Pointer outputImage = filter->GetOutput();
+  myImageType3Pointer outputImage = filter->GetOutput();
 
   
   // Execute the filter
