@@ -117,19 +117,19 @@ CalculatorType * ptr )
   m_MutualInformationCalculator = ptr;
 
   // set inputs for the new calculator
-  if( !m_RefImage )
+  if( m_RefImage )
     {
       m_MutualInformationCalculator->SetReferenceImage( m_RefImage );
     }
 
-  if( !m_TestImage )
+  if( m_TestImage )
     {
       m_MutualInformationCalculator->SetTestImage( m_TestImage );
     }
 
   for( int j = 0; j < ImageDimension; j++ )
     {
-      if( !m_DerivImages[j] )
+      if( m_DerivImages[j] )
         {
           m_MutualInformationCalculator->SetTestImageDerivative(
             m_DerivImages[j], j );
