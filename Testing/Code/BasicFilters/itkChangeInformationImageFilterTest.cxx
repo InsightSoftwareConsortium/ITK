@@ -79,9 +79,8 @@ int itkChangeInformationImageFilterTest(int, char**)
 
   double referenceOrigin[ImageDimension] = {-1000, -2000, -3000};
   double referenceSpacing[ImageDimension] = {1000, 2000, 3000};
-  long referenceOffset[ImageDimension] = {100, 200, 300};
   referenceImage->SetOrigin(referenceOrigin);
-  referenceImage->SetSpacing(referenceOrigin);  
+  referenceImage->SetSpacing(referenceSpacing);  
 
   referenceImage->SetRegions(size);
   referenceImage->Allocate();
