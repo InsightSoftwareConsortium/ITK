@@ -81,10 +81,10 @@ public:
    */
   virtual WrapperFunction GetObjectWrapperFunction() const =0;
   
-protected:
   class MethodBase;
   typedef std::vector<MethodBase*> CandidateMethods;
   
+protected:
   void AddMethod(MethodBase*);
   MethodBase* ResolveOverload(const CvQualifiedType& objectType,
                               const CvQualifiedTypes& argumentTypes,
@@ -150,7 +150,7 @@ protected:
  * define a subclass of this to define a method wrapper corresponding
  * to the type it wraps.
  */
-class WrapperBase::MethodBase
+class _wrap_EXPORT WrapperBase::MethodBase
 {
 public:
   typedef std::vector<const Type*> ArgumentTypes;
