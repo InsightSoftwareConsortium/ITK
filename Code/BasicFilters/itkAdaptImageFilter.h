@@ -66,7 +66,7 @@ namespace Functor {
     typedef TAccessor AccessorType;
 
     /** Constructor and destructor. */
-    AccessorFunctor() {}
+    AccessorFunctor(): m_Accessor() {}
     ~AccessorFunctor() {}
 
     /** operator().  This is the "call" method of the functor. */
