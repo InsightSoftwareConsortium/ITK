@@ -146,7 +146,7 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
       {
       // one of measurement is above the maximum
       m_TempIndex[dim] = (long) m_Size[dim] ;
-      itkExceptionMacro(<<"One of the measurement components is below the minimum");
+      itkExceptionMacro(<<"One of the measurement components is above the maximum");
       }
 
     mid = (end + 1) / 2 ;
