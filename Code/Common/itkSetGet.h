@@ -13,16 +13,15 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-///standard system-wide macros for setting/getting instance variables,
-///and defining other important ITK variables.
 /**
- * The SetGet macros are used to interface to instance variables
- * in a standard fashion. This includes properly treating modified time
- * and printing out debug information.
- * 
- * Macros are available for built-in types; for character strings; 
- * vector arrays of built-in types size 2,3,4; for setting objects; and
- * debug, warning, and error printout information. */
+ * itkSetGet.h defines standard system-wide macros, constants, and other
+ * parameters. One of its most important functions is to define macros used
+ * to interface to instance variables in a standard fashion. For example,
+ * these macros manage modified time, debugging information, and provide a
+ * standard interface to set and get instance variables.  SetGet macros are
+ * available for built-in types; for string classe; vector arrays;
+ * object pointers; and debug, warning, and error printout information. 
+ */
 
 #ifndef __itkSetGet_h
 #define __itkSetGet_h
@@ -72,44 +71,27 @@ See COPYRIGHT.txt for copyright details.
 #define ITK_DOUBLE_MIN -1.0e+99L
 #define ITK_DOUBLE_MAX  1.0e+99L
 
-// Set pointer to object; uses itkObject reference counting methodology.
-// Creates method Set"name"() (e.g., SetPoints()).
-//
-#define itkSetObjectMacro(name,type) \
-virtual void Set##name (type* _arg) \
-  { \
-  if (this->name != _arg) \
-    { \
-    if (this->name != NULL) { this->name->UnRegister(this); }\
-    this->name = _arg; \
-    if (this->name != NULL) { this->name->Register(this); } \
-    this->Modified(); \
-    } \
-  } 
-
-// Get pointer to object.  Creates member Get"name" (e.g., GetPoints()).
-//
-#define itkGetObjectMacro(name,type) \
-virtual type *Get##name () \
-  { \
-  return this->name; \
-  } 
-
 // Use a global function which actually calls:
 // itkOutputWindow::GetInstance()->DisplayText();
 // This is to avoid itkObject #include of itkOutputWindow
 // while itkOutputWindow #includes itkObject
 extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
 
-// This macro is used for  debug statements in instance methods
+// This macro is used to print debug (or other information). They are
+// also used to catch errors, etc. Example usage looks like:
 // itkDebugMacro(<< "this is debug info" << this->SomeVariable);
 //
 #define itkDebugMacro(x)
+
 #define itkWarningMacro(x)
+
 #define itkErrorMacro(x)
 
+// A convenience macro marks variables as not being used by a method,
+// avoiding compile-time errors.
 #define itkNotUsed(x)
 
+// Use this method to set instance variable values.
 #define itkSetMacro(ivarValue,value) \
 {if ( ivarValue != value ) \
   {\
@@ -118,20 +100,13 @@ extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
   }\
 }
 
+// Use this method to get instance variable values.
 #define itkGetMacro(ivarValue) \
-{
-  return ivarValue;
-}
-
-#define itkGetObjectMacro(ivarObjectPtr) \
-{
-  return ivarObjectPtr;
+{\
+  return ivarValue;\
 }
 
 // Set built-in type where value is constrained between min/max limits.
-// Create member Set"name"() (e.q., SetRadius()). #defines are 
-// convienience for clamping open-ended values.
-//
 #define itkSetClampMacro(ivarValue,value,min,max) \
 {\
   value = (value < min ? min : (value > max ? max : value));\
@@ -140,6 +115,13 @@ extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
     this->Modified();\
     ivarValue = value;\
     }\
+}
+
+// Use this method to get a pointer to an object, where the pointer
+// is a member of a class.
+#define itkGetObjectMacro(ivarObjectPtr) \
+{\
+  return ivarObjectPtr;\
 }
 
 #endif

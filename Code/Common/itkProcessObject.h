@@ -119,7 +119,7 @@ public:
    *  may handle premature termination of execution in different ways. 
    */
   void SetAbortExecute(bool flag) {itkSetMacro(m_AbortExecute,flag);}
-  bool GetAbortExecute(bool flag) {itkGteMacro;}
+  bool GetAbortExecute(bool flag) {itkGetMacro(flag);}
   void AbortExecuteOn() {this->SetAbortExecute(true);}
   void AbortExecuteOff() {this->SetAbortExecute(false);}
   
