@@ -278,6 +278,34 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
 
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The values of the final mean vector and covariance matrix used for the
+  //  last iteration can be queried using the methods \code{GetMean()} and
+  //  \code{GetCovariance()}.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef ConnectedFilterType::MeanVectorType   MeanVectorType; 
+    
+  const MeanVectorType & mean = confidenceConnected->GetMean();
+
+  std::cout << "Mean vector = " << std::endl;
+  std::cout << mean << std::endl;
+
+  typedef ConnectedFilterType::CovarianceMatrixType   CovarianceMatrixType; 
+    
+  const CovarianceMatrixType & covariance = confidenceConnected->GetCovariance();
+
+  std::cout << "Covariance matrix = " << std::endl;
+  std::cout << covariance << std::endl;
+  // Software Guide : EndCodeSnippet
+
+  
   return 0;
 }
 
