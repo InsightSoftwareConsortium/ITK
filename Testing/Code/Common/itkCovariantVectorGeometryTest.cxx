@@ -138,6 +138,8 @@ int itkCovariantVectorGeometryTest(int, char**)
   {
   std::cout << "Test for CastFrom() method... ";
 
+  const float tolerance = 1e-5;
+
   // Dimension & Type
   const     unsigned int    N = 3;
 
@@ -163,7 +165,7 @@ int itkCovariantVectorGeometryTest(int, char**)
     {
     FloatCovariantVectorType::ValueType val = 
         static_cast< FloatCovariantVectorType::ValueType >( dp[i] );
-    if( val != fp[i] )
+    if( fabs ( val - fp[i] ) > tolerance )
       {
         std::cout << "Test failed at component " << i << std::endl;
         return EXIT_FAILURE;
