@@ -47,7 +47,77 @@ namespace itk {
 
 /**
  * \class SmartNeighborhoodIterator
- */
+ *
+ * \brief An extension of NeighborhoodIterator that automatically performs
+ * bounds checking on the image and returns user-supplied boundary conditions
+ * for out-of-bounds pixels.
+ *
+ * SmartNeighborhoodIterator checks boundary conditions when it is dereferenced
+ * (i.e., when GetNeighborhood() or GetPixel() is called).  A boundary
+ * condition is supplied either as a template parameter or through the
+ * OverrideBoundaryCondition() method. The iterator returns a value accoding to
+ * the boundary condition for each out-of-bounds pixel.
+ *
+ * An out out-of-bounds pixel is a pixel that lies outside of
+ * Image::BufferedRegion (regardless of the region over which the iterator is
+ * defined).
+ * 
+ * Here is an example of how SmartNeighborhoodIterator can be used. This is the
+ * same example given for NeighborhoodIterator, extended to automatically
+ * detect and handle out-of-bounds pixel references.  (See
+ * NeighborhoodIteratorfor a more complete explanation of the code.)
+ *
+ * \code
+ * itk::NeighborhoodInnerProduct<ImageType> IP;
+ *
+ * itk::ConstantBoundaryCondition<ImageType> BC;
+ * BC->SetConstant(0);
+ *
+ * itk::DerivativeOperator<ImageType> operator;
+ *  operator->SetOrder(1);
+ *  operator->SetDirection(0);
+ *  operator->CreateDirectional();
+ *
+ * itk::SmartNeighborhoodIterator<ImageType>
+ *   iterator(operator->GetRadius(), myImage, myImage->GetRequestedRegion());
+ *
+ * iterator->OverrideBoundaryCondition(&BC);
+ *
+ * iterator.SetToBegin();
+ * while ( ! iterator.IsAtEnd() )
+ * {
+ *   std::cout << "Derivative at index " << iterator.GetIndex() << is <<
+ *     IP(iterator, operator) << std::endl;
+ *   ++iterator;
+ * } 
+ * \endcode
+ *
+ * In the code above, the iterator will replace all references to out-of-bound
+ * values with the value zero.  Other boundary conditions exist and can be
+ * created by the user.  See ImageBoundaryCondition for more information.
+ *
+ * Care should be taken to ensure that the overriding boundary condition is a
+ * persistent object during the time it is referenced.  The overriding
+ * condition can be of a different type than the default type as long as it is
+ * a subclass of ImageBoundaryCondition.  A default type can be supplied as an
+ * optional template parameter.
+ *
+ * Bounds checking introduces considerable penalties during processing.  A more
+ * efficient approach is to only use the SmartNeighborhoodIterator on regions
+ * known to contain out-of-bounds pixels, then use NeighborhoodIterator on the
+ * remaining in-bounds regions.  See
+ * NeighborhoodAlgorithm::ImageBoundaryFacesCalculator.
+ *
+ * Attempting to Set an out-of-bounds pixel will result in a thrown
+ * exception. 
+ *
+ * The default template boundary condition type for SmartNeighborhoodIterator
+ * is ZeroFluxNeumanBoundaryCondition.
+ *
+ * \sa NeighborhoodIterator \sa ImageBoundaryCondition
+ * \sa NeighborhoodAlgorithm
+ *
+ **/
 template<class TImage,  class TBoundaryCondition
                        = ZeroFluxNeumannBoundaryCondition<TImage>  >
 class ITK_EXPORT SmartNeighborhoodIterator
