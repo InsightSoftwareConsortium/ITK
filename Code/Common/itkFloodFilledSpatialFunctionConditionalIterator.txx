@@ -133,7 +133,8 @@ FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
           else
             {
             tempIndex.m_Index[k] = m_IndexStack.top().m_Index[k] + j;
-            if( (tempIndex.m_Index[k] < 0) || (tempIndex.m_Index[k] >= m_ImageSize[k]) )
+            if( (tempIndex.m_Index[k] < 0) || 
+                (tempIndex.m_Index[k] >= static_cast<long int>(m_ImageSize[k])) )
               {
               m_IsValidIndex = false;
               continue;
