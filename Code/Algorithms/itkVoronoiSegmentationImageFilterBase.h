@@ -55,7 +55,7 @@ namespace itk
  *
  * \ingroup HybridSegmentation 
  */
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage,class TBinaryPriorImage=Image<unsigned char,2> >
 class ITK_EXPORT VoronoiSegmentationImageFilterBase:
     public ImageToImageFilter<TInputImage,TOutputImage>
 {
@@ -100,7 +100,7 @@ public:
   typedef typename VoronoiDiagram::VoronoiEdge EdgeInfo;
   typedef std::vector<PointType> PointTypeVector;
   typedef std::deque<PointType> PointTypeDeque;
-  typedef Image<bool,2>  BinaryObjectImage;
+  typedef TBinaryPriorImage     BinaryObjectImage;
   typedef typename BinaryObjectImage::Pointer  BinaryObjectImagePointer;
   typedef std::vector<IndexType> IndexList;
 
@@ -147,7 +147,7 @@ public:
 
   /** Take a prior from other segmentation node. This should be a
    * binary object. */
-  virtual void TakeAPrior(BinaryObjectImage*){};
+  virtual void TakeAPrior(const BinaryObjectImage*){};
   
   /** Perform the segmentation. */
   void RunSegment(void);

@@ -51,9 +51,9 @@ namespace itk
  *
  * \ingroup HybridSegmentation 
  */
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TBinaryPriorImage=Image<unsigned char,2> >
 class ITK_EXPORT VoronoiSegmentationImageFilter:
-    public VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage>
+    public VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage, TBinaryPriorImage>
 {
 public:
   /** Standard class typedefs. */
@@ -106,7 +106,7 @@ public:
 
   /** Take a prior from other segmentation node, should be an
    * binary object. */
-  void TakeAPrior(BinaryObjectImage* aprior);
+  void TakeAPrior(const BinaryObjectImage* aprior);
   
   
 protected:

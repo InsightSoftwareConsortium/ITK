@@ -117,7 +117,7 @@ public:
   void GetTestSTD(unsigned int x[3]){
     x[0]=m_TestSTD[0];x[1]=m_TestSTD[1];x[2]=m_TestSTD[2];
   }
-  void TakeAPrior(BinaryObjectImage* aprior);
+  void TakeAPrior(const BinaryObjectImage* aprior);
 
   void SetInput(const InputImageType *input); 
 

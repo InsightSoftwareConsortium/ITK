@@ -214,7 +214,7 @@ TestHomogeneity(IndexList &Plist)
 template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
-TakeAPrior(BinaryObjectImage* aprior)
+TakeAPrior(const BinaryObjectImage* aprior)
 {
 
   RegionType region = this->GetInput()->GetRequestedRegion();
