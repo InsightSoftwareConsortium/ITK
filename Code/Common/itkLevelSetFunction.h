@@ -145,19 +145,19 @@ public:
     { return NumericTraits<ScalarValueType>::One; }
 
   /** Alpha.  Scales all advection term values.*/ 
-  void SetAdvectionWeight(const ScalarValueType a)
+  virtual void SetAdvectionWeight(const ScalarValueType a)
     { m_AdvectionWeight = a; }
   ScalarValueType GetAdvectionWeight() const
     { return m_AdvectionWeight; }
   
   /** Beta.  Scales all propagation term values. */
-  void SetPropagationWeight(const ScalarValueType p)
+  virtual void SetPropagationWeight(const ScalarValueType p)
     { m_PropagationWeight = p; }
   ScalarValueType GetPropagationWeight() const
     { return m_PropagationWeight; }
   
   /** Gamma. Scales all curvature weight values */
-  void SetCurvatureWeight(const ScalarValueType c)
+  virtual void SetCurvatureWeight(const ScalarValueType c)
     { m_CurvatureWeight = c; }
   ScalarValueType GetCurvatureWeight() const
     { return m_CurvatureWeight; }
