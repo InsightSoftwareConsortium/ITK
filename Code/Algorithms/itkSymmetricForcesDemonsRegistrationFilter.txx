@@ -72,6 +72,77 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationFie
 }
 
 
+/*
+ * Get the metric value from the difference function
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+double
+SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::GetMetric() const
+{
+ 
+  DemonsRegistrationFunctionType *drfp = 
+    dynamic_cast<DemonsRegistrationFunctionType *>
+      (this->GetDifferenceFunction().GetPointer());
+ 
+  if( !drfp )
+   {
+   itkExceptionMacro( << 
+     "Could not cast difference function to SymmetricForcesDemonsRegistrationFunction" );
+   }
+   
+  return drfp->GetMetric();
+
+}
+
+/*
+ * Get the metric value from the difference function
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+double
+SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::GetRMSChange() const
+{
+ 
+  DemonsRegistrationFunctionType *drfp = 
+    dynamic_cast<DemonsRegistrationFunctionType *>
+      (this->GetDifferenceFunction().GetPointer());
+ 
+  if( !drfp )
+   {
+   itkExceptionMacro( << 
+     "Could not cast difference function to SymmetricForcesDemonsRegistrationFunction" );
+   }
+   
+  return drfp->GetRMSChange();
+
+}
+
+
+/*
+ * Get the metric value from the difference function
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+void
+SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::ApplyUpdate(TimeStepType dt)
+{
+  this->Superclass::ApplyUpdate(dt);
+
+  DemonsRegistrationFunctionType *drfp = 
+    dynamic_cast<DemonsRegistrationFunctionType *>
+      (this->GetDifferenceFunction().GetPointer());
+ 
+  if( !drfp )
+   {
+   itkExceptionMacro( << 
+     "Could not cast difference function to DemonsRegistrationFunction" );
+   }
+
+  this->SetRMSChange( drfp->GetRMSChange() );
+   
+}
+
 } // end namespace itk
 
 #endif
