@@ -48,9 +48,16 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream& 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "m_ImageIO: " << m_ImageIO << "\n";
+  if (m_ImageIO)
+    {       
+    os << indent << "m_ImageIO: " << m_ImageIO << "\n";
+    }
+  else
+    {
+    os << indent << "m_ImageIO: (null)" << "\n";
+    }
   os << indent << "m_UserSpecified m_ImageIO flag: " << m_UserSpecified << "\n";
-  os << indent << "m_FileName: " << m_ImageIO << "\n";
+  os << indent << "m_FileName: " << m_FileName << "\n";
   os << indent << "m_FilePrefix: " << m_FilePrefix << "\n";
   os << indent << "m_FilePattern: " << m_FilePattern << "\n";
   
@@ -68,7 +75,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   //
   if ( m_FileName == "" && m_FilePrefix == "" )
     {
-    throw ImageFileReaderException(__FILE__, __LINE__, "One of FilePath or FileName must be non-empty");
+    throw ImageFileReaderException(__FILE__, __LINE__, "One of FileName or FilePrefix must be non-empty");
     }
 
   if ( m_ImageIO == 0 ) //try creating via factory
