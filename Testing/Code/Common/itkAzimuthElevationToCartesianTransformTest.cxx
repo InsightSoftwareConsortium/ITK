@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <iostream>
 
-#include "itkRT3DTransform.h"
+#include "itkAzimuthElevationToCartesianTransform.h"
 
 typedef  itk::Point<double,3>   PointType;
 
@@ -75,7 +75,7 @@ int main(
     std::cout<< "original values of (theta,phi,r) p = "<<std::endl;
     PrintPoint(p);
 
-    transform->SetForwardIsIndexToPhysical();
+    transform->SetForwardAzimuthElevationToCartesian();
 
     PointType answer = transform->TransformPoint(p);
     PrintPoint(answer);
@@ -83,14 +83,13 @@ int main(
     PointType answerBackwards = transform->BackTransformPoint(answer);
     PrintPoint(answerBackwards);
 
-    transform->SetForwardIsPhysicalToIndex();
+    transform->SetForwardCartesianToAzimuthElevation();
     PointType reverseDirectionAnswer = transform->BackTransformPoint(answerBackwards);
     PrintPoint(reverseDirectionAnswer);
 
     PointType reverseDirectionAnswerBackwards = transform->TransformPoint(reverseDirectionAnswer);
     PrintPoint(reverseDirectionAnswerBackwards);
-
-    
+    transform->Print(std::cout);
 
     bool same=true;
     for (unsigned int i=0; i < p.PointDimension && same; i++)
