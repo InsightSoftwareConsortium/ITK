@@ -64,7 +64,7 @@ ImageAndPathToImageFilter<TInputImage,TInputPath,TOutputImage>
     }
   
   return static_cast<const TInputImage * >
-    (this->ProcessObject::GetInput(1) );
+    (this->ProcessObject::GetInput(0) );
 }
   
 template <class TInputImage, class TInputPath, class TOutputImage>
@@ -87,7 +87,7 @@ const typename ImageAndPathToImageFilter<TInputImage,TInputPath,TOutputImage>::I
 ImageAndPathToImageFilter<TInputImage,TInputPath,TOutputImage>
 ::GetPathInput(void) 
 {
-  if (this->GetNumberOfInputs() < 1)
+  if (this->GetNumberOfInputs() < 2)
     {
     return 0;
     }
