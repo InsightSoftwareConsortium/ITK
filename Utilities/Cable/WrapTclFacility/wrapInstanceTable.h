@@ -94,34 +94,6 @@ private:
 
 
 /**
- * A function to create an object of any type.
- * Specializations can be created for any object that requires something
- * fancy to create.
- */
-template <typename T>
-struct NewObjectOf
-{
-  /**
-   * Method to create a new object.
-   */
-  static T* Create(void)
-    {
-    // Use default constructor by default.
-    return new T;
-    }
-  
-  /**
-   * Method to create a copy of the given object.
-   */
-  static T* CreateCopy(const T* obj)
-    {
-    // Use copy constructor by default.
-    return new T(*obj);
-    }
-};
-
-
-/**
  * A function to delete an object of any type.
  * Specializations can be created for any object that requires something
  * fancy to delete.
@@ -138,6 +110,7 @@ struct OldObjectOf
     delete const_cast<T*>(static_cast<const T*>(object));
     }
 };
+
 
 } // namespace _wrap_
 

@@ -35,8 +35,7 @@ struct Return
     Tcl_Interp* interp = wrapper->GetInterpreter();
     
     // Create a temporary instance, and set its value to the result object.
-    String name = wrapper->CreateTemporary(NewObjectOf<T>::CreateCopy(&result),
-                                           CvType<T>::type);
+    String name = wrapper->CreateTemporary(new T(result), CvType<T>::type);
 
     // The return object to the Tcl interpreter is just a string which
     // refers to an instance.
