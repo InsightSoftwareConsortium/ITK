@@ -22,9 +22,9 @@
 int itkHausdorffDistanceImageFilterTest(int, char**)
 {
 
-  typedef unsigned char Pixel1Type;
+  typedef unsigned int Pixel1Type;
   typedef float Pixel2Type;
-  enum { ImageDimension = 2 };
+  enum { ImageDimension = 3 };
 
   typedef itk::Image<Pixel1Type,ImageDimension> Image1Type;
   typedef itk::Image<Pixel2Type,ImageDimension> Image2Type;
@@ -62,9 +62,10 @@ int itkHausdorffDistanceImageFilterTest(int, char**)
   region2.SetIndex( index );
 
   itk::ImageRegionIterator<Image1Type> it1( image1, region1 );
+  Pixel1Type count = itk::NumericTraits<Pixel1Type>::Zero;
   while ( !it1.IsAtEnd() )
     {
-    it1.Set( 5 );
+    it1.Set( ++count );
     ++it1;
     }
 
@@ -89,7 +90,8 @@ int itkHausdorffDistanceImageFilterTest(int, char**)
 
   // check results
   
-  FilterType::RealType trueDistance = 10 * vnl_math_sqrt( 2.0 );
+  FilterType::RealType trueDistance = 10 * 
+    vnl_math_sqrt( static_cast<double>(ImageDimension) );
   FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
 
   std::cout << " True distance: " << trueDistance << std::endl;
@@ -113,7 +115,8 @@ int itkHausdorffDistanceImageFilterTest(int, char**)
 
 
   // check results
-  FilterType::RealType trueDistance = 5 * vnl_math_sqrt( 2.0 );
+  FilterType::RealType trueDistance = 5 *
+    vnl_math_sqrt( static_cast<double>(ImageDimension) );
   FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
 
   std::cout << " True distance: " << trueDistance << std::endl;
@@ -138,7 +141,8 @@ int itkHausdorffDistanceImageFilterTest(int, char**)
 
 
   // check results
-  FilterType::RealType trueDistance = 10 * vnl_math_sqrt( 2.0 );
+  FilterType::RealType trueDistance = 10 * 
+    vnl_math_sqrt( static_cast<double>(ImageDimension) );
   FilterType::RealType distance = filter->GetHausdorffDistance();
 
   std::cout << " True distance: " << trueDistance << std::endl;
@@ -162,7 +166,8 @@ int itkHausdorffDistanceImageFilterTest(int, char**)
 
 
   // check results
-  FilterType::RealType trueDistance = 10 * vnl_math_sqrt( 2.0 );
+  FilterType::RealType trueDistance = 10 *
+    vnl_math_sqrt( static_cast<double>(ImageDimension) );
   FilterType::RealType distance = filter->GetHausdorffDistance();
 
   std::cout << " True distance: " << trueDistance << std::endl;

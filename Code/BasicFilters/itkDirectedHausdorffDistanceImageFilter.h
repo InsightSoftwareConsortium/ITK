@@ -34,7 +34,8 @@ namespace itk {
  * where \f$A\f$ and \f$B\f$ are respectively the set of non-zero pixels
  * in the first and second input images. It identifies the point \f$ a \in A \f$
  * that is farthest from any point of \f$B\f$ and measures the distance from \f$a\f$
- * to the nearest neighbor in \f$B\f$. 
+ * to the nearest neighbor in \f$B\f$. Note that this function is not
+ * is not symmetric and hence is not a true distance.
  *
  * In particular, this filter uses the DanielssonDistanceMapImageFilter inside to 
  * compute distance map from all non-zero pixels in the second image. It then
