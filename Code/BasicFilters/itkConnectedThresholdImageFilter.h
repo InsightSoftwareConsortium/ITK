@@ -64,7 +64,13 @@ public:
   
   void PrintSelf ( std::ostream& os, Indent indent ) const;
 
+  
   /** Set seed point. */
+  void SetSeed ( const IndexType & seed )
+  {
+    this->ClearSeeds();
+    this->AddSeed ( seed );
+  }
   void AddSeed(const IndexType & seed)
   {
     m_SeedList.push_back ( seed );
