@@ -74,8 +74,12 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os,indent );
-
   os << indent << "Unsupervised Classifier / Clusterer" << std::endl;
+  os << indent << "Offset value for addition:" << m_OffsetAdd << std::endl;
+  os << indent << "Offset value for multiplication:" << m_OffsetMultiply << std::endl;
+  os << indent << "Maximum number of attempts to split a cluster: " << m_MaxSplitAttempts << std::endl; 
+  os << indent << "Codebook : " << m_Codebook << std::endl;
+  os << indent << "Threshold value :" << m_Threshold << std::endl;
 
 }// end PrintSelf
 
