@@ -2,77 +2,18 @@
 #
 # ITKConfig.cmake - ITK CMake configuration file for external projects.
 #
-# The following variables are defined to help external projects use ITK:
-#
-# ITK_VERSION_MAJOR     - The ITK major version number.
-# ITK_VERSION_MINOR     - The ITK minor version number.
-# ITK_VERSION_PATCH     - The ITK patch level.
-#
-# ITK_USE_FILE          - A CMake source file that can be included
-#                         to set the include directories, library
-#                         directories, and preprocessor macros.
-#
-# ITK_INCLUDE_DIRS      - Include directories for ITK headers.
-# ITK_LIBRARY_DIRS      - Link directories for ITK libraries.
-# ITK_DEFINITIONS       - Preprocessor macros needed for including ITK headers.
-# ITK_LIBRARIES         - Link libraries for all of ITK.
-#
-# ITK_C_COMPILER        - The C compiler used to build ITK.
-# ITK_C_FLAGS           - The C compiler flags used to build ITK.
-# ITK_CXX_COMPILER      - The C++ compiler used to build ITK.
-# ITK_CXX_FLAGS         - The C++ compiler flags used to build ITK.
-# ITK_BUILD_SHARED      - True if ITK libraries were built as shared libraries.
-#
-# Since ITK is written in C++, the same compiler and settings that
-# were used to build ITK should be used to build the external project.
-# The following variables are set if the current C++ compiler settings
-# differ from those used to build ITK.  The project including this
-# file should complain if either of these variables are set, as it is
-# unlikely that the build will succeed:
-#
-# ITK_CXX_FLAGS_MISMATCH    - True if CMAKE_CXX_FLAGS do not match ITK's.
-# ITK_CXX_COMPILER_MISMATCH - True if CMAKE_CXX_COMPILER does not match ITK's.
-#
-# Only the variables listed above should be used by a third-party
-# project.  Others may be removed or replaced in the future.
-#
-# This file can be included by a project using ITK like this:
-#
-# INCLUDE(${ITK_DIR}/ITKConfig.cmake)
-#
-# Then, in order to use ITK classes, use these lines:
-#
-# INCLUDE_DIRECTORIES(${ITK_INCLUDE_DIRS})
-# LINK_DIRECTORIES(${ITK_LIBRARY_DIRS})
-# ADD_DEFINITIONS(${ITK_DEFINITIONS})
-#
-# To link an executable that uses ITK components, use
-#
-# TARGET_LINK_LIBRARIES(MyExecutable ${ITK_LIBRARIES})
-#
-# Advanced users can fine-tune the libraries that are linked by
-# specifying their name directly.  The supported libraries are:
-#
-#   ITKCommon       - Common components, used by everything.
-#   ITKBasicFilters - Basic image/mesh processing filters.
-#   ITKNumerics     - Optimizer implementations (wrap VNL optimizers).
-#   ITKStatistics   - Statistics support classes.
-#   ITKAlgorithms   - Primary segmentation/registration algorithms.
-#   ITKIO           - Image reader/writer filters.
-#   ITKFEM          - Finite Element Methods and related classes.
-#
-# While others are shown below, they should not be used directly
-# by applications.
-#-----------------------------------------------------------------------------
+# This file is configured by ITK and used by the UseITK.cmake module
+# to load ITK's settings for an external project.
 
 # The ITK include file directories.
-SET(ITK_INCLUDE_DIRS "@ITK_INCLUDE_DIRS@")
+SET(ITK_INCLUDE_DIRS "@ITK_INCLUDE_DIRS_CONFIG@")
 
 # The ITK library directories.
-SET(ITK_LIBRARY_DIRS "@ITK_LIBRARY_DIRS@")
+SET(ITK_LIBRARY_DIRS "@ITK_LIBRARY_DIRS_CONFIG@")
 
-# The command-line preprocessor definitions used to build ITK.
-SET(ITK_DEFINITIONS "@ITK_DEFINITIONS@")
+# The C and C++ flags added by ITK to the cmake-configured flags.
+SET(ITK_REQUIRED_C_FLAGS "@ITK_REQUIRED_C_FLAGS@")
+SET(ITK_REQUIRED_CXX_FLAGS "@ITK_REQUIRED_CXX_FLAGS@")
 
 # The ITK version number
 SET(ITK_VERSION_MAJOR "@ITK_VERSION_MAJOR@")
@@ -82,17 +23,8 @@ SET(ITK_VERSION_PATCH "@ITK_VERSION_PATCH@")
 # The location of the UseITK.cmake file.
 SET(ITK_USE_FILE "@ITK_USE_FILE@")
 
-# The C compiler used to build ITK.
-SET(ITK_C_COMPILER "@CMAKE_C_COMPILER@")
-
-# The C compiler flags used to build ITK.
-SET(ITK_C_FLAGS "@CMAKE_C_FLAGS@")
-
-# The C++ compiler used to build ITK.
-SET(ITK_CXX_COMPILER "@CMAKE_CXX_COMPILER@")
-
-# The C++ compiler flags used to build ITK.
-SET(ITK_CXX_FLAGS "@CMAKE_CXX_FLAGS@")
+# The build settings file.
+SET(ITK_BUILD_SETTINGS_FILE "@ITK_BUILD_SETTINGS_FILE@")
 
 # Whether ITK was built with the system's native stdlib.
 SET(ITK_USE_SYSTEM_STDLIB "@ITK_USE_SYSTEM_STDLIB@")
@@ -100,54 +32,12 @@ SET(ITK_USE_SYSTEM_STDLIB "@ITK_USE_SYSTEM_STDLIB@")
 # Whether ITK was built with shared libraries.
 SET(ITK_BUILD_SHARED "@BUILD_SHARED_LIBS@")
 
-# The list of library dependencies used by CMake for automatic
-# chainging of dependent libraries.
-SET(ITKAlgorithms_LIB_DEPENDS "@ITKAlgorithms_LIB_DEPENDS@")
-SET(ITKBasicFilters_LIB_DEPENDS "@ITKBasicFilters_LIB_DEPENDS@")
-SET(ITKCommon_LIB_DEPENDS "@ITKCommon_LIB_DEPENDS@")
-SET(ITKFEM_LIB_DEPENDS "@ITKFEM_LIB_DEPENDS@")
-SET(ITKIO_LIB_DEPENDS "@ITKIO_LIB_DEPENDS@")
-SET(ITKNumerics_LIB_DEPENDS "@ITKNumerics_LIB_DEPENDS@")
-SET(ITKStatistics_LIB_DEPENDS "@ITKStatistics_LIB_DEPENDS@")
-SET(ITKMetaIO_LIB_DEPENDS "@ITKMetaIO_LIB_DEPENDS@")
-SET(VXLNumerics_LIB_DEPENDS "@VXLNumerics_LIB_DEPENDS@")
-SET(itkpng_LIB_DEPENDS "@itkpng_LIB_DEPENDS@")
-SET(itkzlib_LIB_DEPENDS "@itkzlib_LIB_DEPENDS@")
-SET(Cio_LIB_DEPENDS "@Cio_LIB_DEPENDS@")
-
 # A list of all libraries for ITK.  Those listed here should
 # automatically pull in their dependencies.
 SET(ITK_LIBRARIES ITKAlgorithms ITKStatistics ITKFEM)
 
-# Check if the compiler matches the one used to build ITK.
-IF(CMAKE_CXX_COMPILER STRLESS ITK_CXX_COMPILER)
-  SET(ITK_CXX_COMPILER_MISMATCH 1)
-ELSE(CMAKE_CXX_COMPILER STRLESS ITK_CXX_COMPILER)
-  IF(CMAKE_CXX_COMPILER STRGREATER ITK_CXX_COMPILER)
-    SET(ITK_CXX_COMPILER_MISMATCH 1)
-  ENDIF(CMAKE_CXX_COMPILER STRGREATER ITK_CXX_COMPILER)
-ENDIF(CMAKE_CXX_COMPILER STRLESS ITK_CXX_COMPILER)
-
-# Check if the compiler flags matches those used to build ITK.
-# This comparison is nasty to work around a CMake 1.4 bug that
-# segfaults when STRLESS operates with empty input.
-IF(CMAKE_CXX_FLAGS)
-  IF(ITK_CXX_FLAGS)
-    # Both are set, safe to compare.
-    IF(CMAKE_CXX_FLAGS STRLESS ITK_CXX_FLAGS)
-      SET(ITK_CXX_FLAGS_MISMATCH 1)
-    ELSE(CMAKE_CXX_FLAGS STRLESS ITK_CXX_FLAGS)
-      IF(CMAKE_CXX_FLAGS STRGREATER ITK_CXX_FLAGS)
-        SET(ITK_CXX_FLAGS_MISMATCH 1)
-      ENDIF(CMAKE_CXX_FLAGS STRGREATER ITK_CXX_FLAGS)
-    ENDIF(CMAKE_CXX_FLAGS STRLESS ITK_CXX_FLAGS)
-  ELSE(ITK_CXX_FLAGS)
-    # Only one is set, we have a mismatch.
-    SET(ITK_CXX_FLAGS_MISMATCH 1)
-  ENDIF(ITK_CXX_FLAGS)
-ELSE(CMAKE_CXX_FLAGS)
-  IF(ITK_CXX_FLAGS)
-    # Only one is set, we have a mismatch.
-    SET(ITK_CXX_FLAGS_MISMATCH 1)
-  ENDIF(ITK_CXX_FLAGS)
-ENDIF(CMAKE_CXX_FLAGS)
+# Load library dependencies used by CMake for automatic chainging of
+# dependent libraries.
+IF(EXISTS "@ITK_LIBRARY_DEPENDS_FILE@")
+  INCLUDE("@ITK_LIBRARY_DEPENDS_FILE@")
+ENDIF(EXISTS "@ITK_LIBRARY_DEPENDS_FILE@")

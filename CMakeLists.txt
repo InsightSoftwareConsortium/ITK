@@ -1,15 +1,11 @@
 # This is the root ITK CMakeLists file.
 CMAKE_MINIMUM_REQUIRED(VERSION 1.4)
 PROJECT(ITK)
-
-IF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
-  # test for some required system info
-  INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityC.cmake)
-  INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityCXX.cmake)
-ENDIF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
-
 INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c|ce).*$")
+SOURCE_GROUP("XML Files" "[.]xml$")
 
+#-----------------------------------------------------------------------------
+# ITK version number.  An even minor number corresponds to releases.
 SET(ITK_VERSION_MAJOR "1")
 SET(ITK_VERSION_MINOR "1")
 SET(ITK_VERSION_PATCH "0")
@@ -18,22 +14,64 @@ SET(ITK_VERSION_PATCH "0")
 # enough to distinguish available features of the toolkit.
 SET(ITK_VERSION_STRING "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
 
+#-----------------------------------------------------------------------------
+# Test for some required system information.
+IF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
+  INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityC.cmake)
+  INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityCXX.cmake)
+ENDIF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
+
+#-----------------------------------------------------------------------------
+# Output directories.
+SET (LIBRARY_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE PATH "Single output directory for building all libraries.")
+SET (EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE PATH "Single output directory for building all executables.")
+MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
+SET(ITK_LIBRARY_PATH "${LIBRARY_OUTPUT_PATH}")
+SET(ITK_EXECUTABLE_PATH "${EXECUTABLE_OUTPUT_PATH}")
+
+#-----------------------------------------------------------------------------
+# ITK build configuration options.
 IF(NOT WIN32)
-  OPTION(BUILD_SHARED_LIBS "Build with shared libraries." OFF)
+  OPTION(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
 ENDIF(NOT WIN32)
 
-SOURCE_GROUP("XML Files" "[.]xml$")
+#-----------------------------------------------------------------------------
+# VTK requires special compiler flags on some platforms.
+IF(CMAKE_COMPILER_IS_GNUCXX)
+  SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -ftemplate-depth-50")
+  IF(APPLE)
+    SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -Wno-long-double")
+  ENDIF(APPLE)
+ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
+# Force the use of ansi cxx flags (i.e. -LANG:std on sgi )
+IF("x${CMAKE_ANSI_CXXFLAGS}" MATCHES "^x.*[^ ]")
+  SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} ${CMAKE_ANSI_CXXFLAGS}")
+ENDIF("x${CMAKE_ANSI_CXXFLAGS}" MATCHES "^x.*[^ ]")
+IF("x${CMAKE_ANSI_CFLAGS}" MATCHES "^x.*[^ ]")
+  SET(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} ${CMAKE_ANSI_CFLAGS}")
+ENDIF("x${CMAKE_ANSI_CFLAGS}" MATCHES "^x.*[^ ]")
+
+IF("x${CMAKE_TEMPLATE_FLAGS}" MATCHES "^x.*[^ ]")
+  SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} ${CMAKE_TEMPLATE_FLAGS}")
+ENDIF("x${CMAKE_TEMPLATE_FLAGS}" MATCHES "^x.*[^ ]")
+
+IF(CMAKE_USE_PTHREADS)
+  SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -D_PTHREADS")
+ENDIF(CMAKE_USE_PTHREADS)
+IF(WIN32)
+  SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -DNOMINMAX")
+ENDIF(WIN32)
+
+IF(NOT ITK_USE_SYSTEM_STDLIB)
+  IF(CMAKE_COMPILER_IS_GNUCXX)
+    SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -D__STL_USE_NEW_IOSTREAMS")
+  ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
+
+#-----------------------------------------------------------------------------
 # Include the include and link libraries
 INCLUDE (${ITK_SOURCE_DIR}/itkCMakeOptions.cmake)
-
-SET (LIBRARY_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all libraries.")
-SET (EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
-MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
-
-SET (ITK_LIBRARY_PATH ${LIBRARY_OUTPUT_PATH} CACHE INTERNAL "Where ITK libraries are. Used by projects which depend on ITK. Do not remove.")
-
-SET (ITK_EXECUTABLE_PATH ${EXECUTABLE_OUTPUT_PATH} CACHE INTERNAL "Where ITK executables are. Used by projects which depend on ITK. Do not remove.")
 
 # where will executable tests be written ?
 SET (CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
@@ -122,7 +160,7 @@ ENDIF(NOT UNIX)
 # Add an option to use or not use VTK
 OPTION(USE_VTK "Use VTK (The Visualization Toolkit) (some applications need this)" 0)
 IF(USE_VTK)
-  INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindVTK.cmake)
+  INCLUDE (${CMAKE_ROOT}/Modules/FindVTK.cmake)
   IF (USE_VTK_FILE)
     INCLUDE (${USE_VTK_FILE})
       SET(HAS_VTK 1)
@@ -150,14 +188,13 @@ ENDIF(USE_VTK)
 
 # Look for OpenGL
 INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindOpenGL.cmake)
-  
+
 # Add an option to use or not use GLUT
 OPTION(USE_GLUT "Use GLUT, this enables a very simple image viewer" 0)
 IF(USE_GLUT)
   # Look for GLUT and if found build the simple image viewer
   INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindGLUT.cmake)
 ENDIF(USE_GLUT)
-
 
 # Add an option to use or not use FLTK (http://www.fltk.org)
 OPTION(USE_FLTK "Use FLTK (The Fast Light Toolkit) for GUI (some applications need this)" 0)
@@ -174,97 +211,26 @@ ENDIF(USE_FLTK)
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/UseITK.cmake.in
                ${ITK_BINARY_DIR}/UseITK.cmake COPYONLY IMMEDIATE)
 
-INSTALL_FILES(/include/InsightToolkit ".h" "itkConfigure")
-INSTALL_FILES(/lib/InsightToolkit ".cmake" "UseITK")
+#-----------------------------------------------------------------------------
+# Help other projects use ITK.
+
+# Save the compiler settings so another project can import them.
+IF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
+  INCLUDE(${CMAKE_ROOT}/Modules/CMakeExportBuildSettings.cmake)
+  CMAKE_EXPORT_BUILD_SETTINGS(${ITK_BINARY_DIR}/ITKBuildSettings.cmake)
+  INSTALL_FILES(/lib/InsightToolkit .cmake ITKBuildSettings)
+ENDIF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
+
+# Create the ITKConfig.cmake file containing the ITK configuration.
+INCLUDE (${ITK_SOURCE_DIR}/itkGenerateITKConfig.cmake)
+
+# Install some files.
+INSTALL_FILES(/include/InsightToolkit .h itkConfigure)
+INSTALL_FILES(/lib/InsightToolkit .cmake UseITK ITKLibraryDepends)
 
 #-----------------------------------------------------------------------------
-# Some common settings for ITKConfig.cmake file configuration.
+# Add compiler flags ITK needs to work on this platform.  This must be
+# done AFTER the call to CMAKE_EXPORT_BUILD_SETTINGS.
 
-# The preprocessor definitions.
-IF(CMAKE_USE_PTHREADS)
-  SET(ITK_DEFINITIONS ${ITK_DEFINITIONS} "-D_PTHREADS")
-ENDIF(CMAKE_USE_PTHREADS)
-IF(WIN32)
-  SET(ITK_DEFINITIONS ${ITK_DEFINITIONS} "-DNOMINMAX")
-ENDIF(WIN32)
-IF(NOT ITK_USE_SYSTEM_STDLIB)
-  IF(CMAKE_COMPILER_IS_GNUCXX)
-    SET(ITK_DEFINITIONS ${ITK_DEFINITIONS} "-D__STL_USE_NEW_IOSTREAMS")
-  ENDIF(CMAKE_COMPILER_IS_GNUCXX)
-ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
-
-#-----------------------------------------------------------------------------
-# Configure ITKConfig.cmake for the build tree.
-
-# The include directories.
-SET(ITK_INCLUDE_DIRS
-  "${ITK_BINARY_DIR}"
-  "${ITK_BINARY_DIR}/Code/Numerics/vxl"
-  "${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl"
-  "${ITK_SOURCE_DIR}/Code/Algorithms"
-  "${ITK_SOURCE_DIR}/Code/BasicFilters"
-  "${ITK_SOURCE_DIR}/Code/Common"
-  "${ITK_SOURCE_DIR}/Code/IO"
-  "${ITK_SOURCE_DIR}/Code/Numerics/FEM"
-  "${ITK_SOURCE_DIR}/Code/Numerics"
-  "${ITK_SOURCE_DIR}/Code/Numerics/Statistics"
-  "${ITK_SOURCE_DIR}/Code/Numerics/vxl"
-  "${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl"
-  "${ITK_SOURCE_DIR}/Code/SpatialObject"
-  "${ITK_SOURCE_DIR}/Utilities/GlutMaster"
-  "${ITK_SOURCE_DIR}/Utilities/MetaIO"
-  "${ITK_SOURCE_DIR}/Utilities/MetaIO/SpatialObject"
-  "${ITK_SOURCE_DIR}/Utilities/DICOMParser"
-  "${ITK_SOURCE_DIR}/Utilities/png"
-  "${ITK_SOURCE_DIR}/Utilities/zlib"
-  "${ITK_SOURCE_DIR}/Auxiliary/FltkImageViewer"
-  "${ITK_BINARY_DIR}/Auxiliary/FltkImageViewer"
-  "${ITK_SOURCE_DIR}/Auxiliary/VtkFltk"
-  "${ITK_BINARY_DIR}/Auxiliary/VtkFltk"
-  "${ITK_SOURCE_DIR}/Auxiliary/vtk"
-)
-IF(NOT ITK_USE_SYSTEM_STDLIB)
-  SET(ITK_INCLUDE_DIRS ${ITK_INCLUDE_DIRS} "${ITK_SOURCE_DIR}/Utilities/stdlib")
-ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
-
-SET(ITK_LIBRARY_DIRS "${ITK_LIBRARY_PATH}")
-SET(ITK_USE_FILE "${ITK_BINARY_DIR}/UseITK.cmake")
-CONFIGURE_FILE("${ITK_SOURCE_DIR}/ITKConfig.cmake.in"
-               "${ITK_BINARY_DIR}/ITKConfig.cmake" IMMEDIATE @ONLY)
-
-#-----------------------------------------------------------------------------
-# Configure ITKConfig.cmake for the install tree.
-
-SET(ITK_INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include/InsightToolkit")
-SET(ITK_INCLUDE_DIRS
-  "${ITK_INSTALL_INCLUDE_DIR}"
-  "${ITK_INSTALL_INCLUDE_DIR}/Numerics/vxl"
-  "${ITK_INSTALL_INCLUDE_DIR}/Numerics/vxl/vcl"
-  "${ITK_INSTALL_INCLUDE_DIR}/Algorithms"
-  "${ITK_INSTALL_INCLUDE_DIR}/BasicFilters"
-  "${ITK_INSTALL_INCLUDE_DIR}/Common"
-  "${ITK_INSTALL_INCLUDE_DIR}/IO"
-  "${ITK_INSTALL_INCLUDE_DIR}/Numerics/FEM"
-  "${ITK_INSTALL_INCLUDE_DIR}/Numerics"
-  "${ITK_INSTALL_INCLUDE_DIR}/Numerics/Statistics"
-  "${ITK_INSTALL_INCLUDE_DIR}/Numerics/vxl"
-  "${ITK_INSTALL_INCLUDE_DIR}/Numerics/vxl/vcl"
-  "${ITK_INSTALL_INCLUDE_DIR}/SpatialObject"
-  "${ITK_INSTALL_INCLUDE_DIR}/Utilities/GlutMaster"
-  "${ITK_INSTALL_INCLUDE_DIR}/Utilities/MetaIO"
-  "${ITK_INSTALL_INCLUDE_DIR}/Utilities/MetaIO/SpatialObject"
-  "${ITK_INSTALL_INCLUDE_DIR}/Utilities/DICOMParser"
-  "${ITK_INSTALL_INCLUDE_DIR}/Utilities/png"
-  "${ITK_INSTALL_INCLUDE_DIR}/Utilities/zlib"
-  "${ITK_INSTALL_INCLUDE_DIR}/Auxiliary/FltkImageViewer"
-  "${ITK_INSTALL_INCLUDE_DIR}/Auxiliary/VtkFltk"
-  "${ITK_INSTALL_INCLUDE_DIR}/Auxiliary/vtk"
-)
-IF(NOT ITK_USE_SYSTEM_STDLIB)
-  SET(ITK_INCLUDE_DIRS ${ITK_INCLUDE_DIRS} "${ITK_INSTALL_INCLUDE_DIR}/Utilities/stdlib")
-ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
-
-SET(ITK_LIBRARY_DIRS "${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit")
-SET(ITK_USE_FILE "${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit/UseITK.cmake")
-CONFIGURE_FILE("${ITK_SOURCE_DIR}/ITKConfig.cmake.in"
-               "${ITK_BINARY_DIR}/Utilities/ITKConfig.cmake" IMMEDIATE @ONLY)
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")

@@ -1,5 +1,9 @@
-# This module adds the ITK include and library paths to a project.  It
-# should be included after the FindITK module
+#
+# This file sets up include directories, link directories, and
+# compiler settings for a project to use ITK.  It should not be
+# included directly, but rather through the ITK_USE_FILE setting
+# obtained from ITKConfig.cmake.
+#
 
 # We must support both the FindITK.cmake module in CMake 1.4.x, and
 # the new configuration form based on ITKConfig.cmake.  If
@@ -13,31 +17,118 @@ IF (ITK_BINARY_PATH)
   INCLUDE (${ITK_BINARY_PATH}/ITKConfig.cmake)
 ENDIF (ITK_BINARY_PATH)
 
-# Setup the include directories for ITK headers.
+# Load the compiler settings used for ITK.
+IF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
+  IF(ITK_BUILD_SETTINGS_FILE)
+    INCLUDE(${CMAKE_ROOT}/Modules/CMakeImportBuildSettings.cmake)
+    CMAKE_IMPORT_BUILD_SETTINGS(${ITK_BUILD_SETTINGS_FILE})
+  ENDIF(ITK_BUILD_SETTINGS_FILE)
+ELSE(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
+  # We have only CMake 1.4.  Fall back to LOAD_CACHE to get the
+  # compiler settings.
+  SET(ITK_CACHE_DIR "${ITK_BINARY_PATH}")
+  IF(ITK_CACHE_DIR)
+    # Save the current compiler setting.
+    SET(ITK_PRE_LOAD_CACHE_CXX_COMPILER ${CMAKE_CXX_COMPILER})
+
+    # Load the cache, but exclude everything that is not a CMake build
+    # variable.
+    LOAD_CACHE(${ITK_CACHE_DIR} EXCLUDE
+      BUILDNAME
+      BUILD_APPLICATIONS
+      BUILD_DOXYGEN
+      BUILD_ERROR_REPORT_LIMIT
+      BUILD_EXAMPLES
+      BUILD_SHARED_LIBS
+      BUILD_TESTING
+      BUILD_WARNING_REPORT_LIMIT
+      COMPRESSIONCOMMAND
+      CVSCOMMAND
+      CVS_UPDATE_OPTIONS
+      DART_ROOT
+      DART_TESTING_TIMEOUT
+      DELIVER_CONTINUOUS_EMAIL
+      DICOMParser_BINARY_DIR
+      DICOMParser_LIB_DEPENDS
+      DICOMParser_SOURCE_DIR
+      FilteringExamples_BINARY_DIR
+      FilteringExamples_SOURCE_DIR
+      GUNZIPCOMMAND
+      IOExamples_BINARY_DIR
+      IOExamples_SOURCE_DIR
+      ITKAlgorithms_LIB_DEPENDS
+      ITKBasicFilters_LIB_DEPENDS
+      ITKCommon_LIB_DEPENDS
+      ITKFEM_LIB_DEPENDS
+      ITKIO_LIB_DEPENDS
+      ITKMetaIO_LIB_DEPENDS
+      ITKNumerics_LIB_DEPENDS
+      ITKPNG_BINARY_DIR
+      ITKPNG_SOURCE_DIR
+      ITKStatistics_LIB_DEPENDS
+      ITKZLIB_BINARY_DIR
+      ITKZLIB_SOURCE_DIR
+      ITK_BINARY_DIR
+      ITK_DATA_ROOT
+      ITK_SOURCE_DIR
+      ITK_USE_SYSTEM_STDLIB
+      ITK_WRAP_TCL
+      ImageExamples_BINARY_DIR
+      ImageExamples_SOURCE_DIR
+      ImageRegistration_BINARY_DIR
+      ImageRegistration_SOURCE_DIR
+      ImageSegmentation_BINARY_DIR
+      ImageSegmentation_SOURCE_DIR
+      JAVACOMMAND
+      MAKECOMMAND
+      MeshExamples_BINARY_DIR
+      MeshExamples_SOURCE_DIR
+      OPENGL_INCLUDE_DIR
+      OPENGL_gl_LIBRARY
+      OPENGL_glu_LIBRARY
+      OPENGL_xmesa_INCLUDE_DIR
+      PURIFYCOMMAND
+      SCPCOMMAND
+      SITE
+      TCL_TCLSH
+      USE_FLTK
+      USE_GLUT
+      USE_VTK
+      VERBOSE_BUILD
+      VW_RAW_DATA_PATH
+      VXLNumerics_LIB_DEPENDS
+      X11_X11_INCLUDE_PATH
+      X11_X11_LIB
+      X11_Xext_LIB
+      X11_Xlib_INCLUDE_PATH
+      X11_Xutil_INCLUDE_PATH
+      itkpng_LIB_DEPENDS
+      itkzlib_LIB_DEPENDS
+    )
+
+    # Check if the compiler changed and warn the user.
+    SET(ITK_CXX_COMPILER_CHANGED 0)  
+    IF(ITK_PRE_LOAD_CACHE_CXX_COMPILER STRLESS CMAKE_CXX_COMPILER)
+      SET(ITK_CXX_COMPILER_CHANGED 1)
+    ENDIF(ITK_PRE_LOAD_CACHE_CXX_COMPILER STRLESS CMAKE_CXX_COMPILER)
+    IF(ITK_PRE_LOAD_CACHE_CXX_COMPILER STRGREATER CMAKE_CXX_COMPILER)
+      SET(ITK_CXX_COMPILER_CHANGED 1)
+    ENDIF(ITK_PRE_LOAD_CACHE_CXX_COMPILER STRGREATER CMAKE_CXX_COMPILER)
+    IF(ITK_CXX_COMPILER_CHANGED)
+      MESSAGE("Warning: CMake is forcing CMAKE_CXX_COMPILER to "
+              "\"${CMAKE_CXX_COMPILER}\" to match that imported from ITK.  "
+              "This is required because C++ projects must use the same "
+              "compiler.")
+    ENDIF(ITK_CXX_COMPILER_CHANGED)
+  ENDIF(ITK_CACHE_DIR)
+ENDIF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
+
+# Add compiler flags needed to use ITK.
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")
+
+# Add include directories needed to use ITK.
 INCLUDE_DIRECTORIES(${ITK_INCLUDE_DIRS})
 
-# Setup the library directories for ITK libraries.
+# Add link directories needed to use ITK.
 LINK_DIRECTORIES(${ITK_LIBRARY_DIRS})
-
-# Setup preprocessor definitions to match those used to build ITK.
-ADD_DEFINITIONS(${ITK_DEFINITIONS})
-
-# Make sure the compiler settings match those used to build ITK.
-IF(NOT ITK_NO_ENFORCE_CXX_COMPILER)
-  IF(ITK_CXX_COMPILER_MISMATCH)
-    MESSAGE(SEND_WARNING
-            "The selected ITK was built with "
-            "\"${ITK_CXX_COMPILER}\""
-            ", but the current compiler is \"${CMAKE_CXX_COMPILER}\".  "
-            "Please set CMAKE_CXX_COMPILER to \"${ITK_CXX_COMPILER}\".")
-  ENDIF(ITK_CXX_COMPILER_MISMATCH)
-  IF(NOT ITK_NO_ENFORCE_CXX_FLAGS)
-    IF(ITK_CXX_FLAGS_MISMATCH)
-      MESSAGE(SEND_WARNING
-              "The selected ITK was built with C++ compiler flags "
-              "\"${ITK_CXX_FLAGS}\""
-              ", but the current flags are \"${CMAKE_CXX_FLAGS}\".  "
-              "Please set CMAKE_CXX_FLAGS to \"${ITK_CXX_FLAGS}\".")
-    ENDIF(ITK_CXX_FLAGS_MISMATCH)
-  ENDIF(NOT ITK_NO_ENFORCE_CXX_FLAGS)
-ENDIF(NOT ITK_NO_ENFORCE_CXX_COMPILER)
