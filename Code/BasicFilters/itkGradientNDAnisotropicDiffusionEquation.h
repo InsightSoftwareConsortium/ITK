@@ -162,7 +162,7 @@ protected:
   /**
    * Derivative operator
    */
-  DerivativeOperator<PixelType, 2> dx_op;
+  DerivativeOperator<PixelType, ImageDimension> dx_op;
 
   /**
    * Modified global average gradient magnitude term.
