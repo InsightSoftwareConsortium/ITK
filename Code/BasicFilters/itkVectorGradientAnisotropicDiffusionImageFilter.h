@@ -92,7 +92,7 @@ protected:
   VectorGradientAnisotropicDiffusionImageFilter(const Self&) {}
   
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent)
+  void PrintSelf(std::ostream& os, Indent indent) const
     {
       os << indent << "VectorGradientAnisotropicDiffusionImageFilter";
       Superclass::PrintSelf(os, indent.GetNextIndent());
