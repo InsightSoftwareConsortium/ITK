@@ -1,0 +1,110 @@
+/**
+
+\page RegistrationPage Registration Techniques
+ 
+\section RegistrationIntroduction Introduction 
+
+\b Registration is a technique aimed to align two objects using a 
+particular transformation.
+
+A typical example of registration is to have two medical images
+from the same patient taken at different dates. It is very likely
+that the patient assume a different position during each acquisition.
+A registration procedure would allow to take both images and find
+a spatial transformation to find the corresponding pixel from one
+image into the other.
+
+Another typical example of registration is to have a geometrical model
+of an organ, let's say a bone. This model can be used to find the 
+corresponding structure in a medical image. In this case, a spatial
+transformation is needed to find the correct location of the structure
+in the image.
+
+
+\section RegistrationFramework ITK Registration Framework
+
+The Insight Toolkit takes full advantage of the power provided by 
+generic programming. Thanks to that, it have been possible to create
+an abstraction of the particular problems that the toolkit is intended
+to solve.
+
+The registration problem have been decomposed in a set of basic
+elements. They are:
+
+\li \b Target: the object that is assumed to be static.
+\li \b Reference: the object that will be transformed in order to be superimpossed to the \e Target
+\li \b Transform: the mapping that will conver one point from the \e Reference object space to the \e Target object space.
+\li \b Metric: a measure that indicates how well the \e Target object matches the \e Reference object after transformation.
+\li \b Mapper: the particular technique used for interpolating values when objects are resampled through the \e Transform.
+\li \b Optimizer: the method used to find the \e Transform parameters that optimize the \e Metric.
+
+A particular registration method is defined by selecting specific implemementations of each one of these basic elements.
+In order to determine the registration method appropriated for a particular problem, is will be useful to answer the following questions:
+
+
+
+
+\subsection TargetReference Target and Reference Objects
+
+Currently the Target an Reference objects can be of type \b itkImage and \b itkPointSet. Methods have been instantiated for a variety of <em> Image to Image </em> and <em> PointSet to Image </em> registration cases.
+
+
+
+
+\subsection Transforms Transforms
+This is a rapid description of the transforms implemented in the toolkit
+
+\li \b Affine: The affine transform is N-Dimensional. It is composed of a NxN matrix and a translation vector. The affine transform is a linear transformation that can manage rotations, translations, shearing and scaling.
+
+\li \b Rigid3D: This transform is specific for 3D, it supports only rotations and translations. Rotations are represented using \e Quaternions.
+
+\li \b Rigid3DPerspective: A composition of a \e Rigid3D transform followed by a perpective projection. This transformation is intended to be used in applications like X-Rays projections.
+
+\li \b Translation: A N-Dimensional translation internally represented as a vector.
+
+\li \b Spline: A kernel based spline is used to interpolate a mapping from a pair of point sets.
+
+
+
+
+\subsection RegistrationMetrics Similarity Metrics
+Metrics are probably the most critical element of a registration problem. The metric defines what the goal of the process is, they measure how well the Target object is matched by the Reference object after the transform has been applied to it. The Metric should be selected in function of the types of objects to be registered and the expected kind of missalignment. Some metrics has a rather large capture region, which means that the optimizer will be able to find his way to a maximum even if the missalignment is high. Typicaly large capture regions are associated with low precision for the maximum. Other metrics can provide high precision for the final registration, but usually require to be initialized quite close to the optimal value.
+
+Unfortunately there are no clear rules about how to select a metric, other that trying some of them in different conditions. In some cases could be and advantage to use a particular metric to get an initial approximation of the transformation, and then switch to another more sensitive metric to achieve better precision in the final result.
+
+Metrics are depend on the objects they compare. The toolkit currently offers <em> Image To Image </em> and <em> PointSet to Image </em> metrics as follows:
+
+\li <b> Mean Squares </b> Sum of squared differences between intensity values. It requires the two objects to have intensity values in the same range.
+\li <b> Normalized Correlation </b> Correlation between intensity values divided by the square rooted autocorrelation of both target and reference objects: \f$ \frac{\sum_i^n{a_i * b_i }}{\sum_i^n{a_i^2}\sum_i^n{b_i^2}} \f$. This metric allows to register objects whose intensity values are related by a linear transformation.
+\li <b> Pattern Intensity </b> Squared differences between intensity values transformed by a function of type  \f$ \frac{1}{1+x} \f$  and summed them up. This metric has the advantage of increase simultaneously when more samples are available and when intensity values are close.
+\li <b> Mutual Information </b> Mutual information is based in an information theory concept. Mutual information between two sets measures how much can be known from one set if only the other set is known. Given a set of values \f$ A=\{a_i\} \f$. Its entropy \f$ H(A) \f$  is defined by \f$ H(A) = \sum_i^n{- p(a_i) \log({p(a_i)})} \f$ where \f$ p(a_i) \f$ are the probabilities of the values in the set.  Entropy can be interpreted as a measure of the mean uncertainty reduction that is obtained when one of the particular values is found during sampling. Given two sets \f$ A=\{a_i\} \f$ and \f$ B=\{b_i\} \f$ its joint entropy is given by the joint probabilities \f$ p_(a_i,b_i) \f$ as \f$ H(A,B) = \sum_i^n{-p(a_i,b_i) * log( p(a_i, b_i) )} \f$. Mutual information is obtained by subtracting the entropy of both sets from the joint entropy, as : \f$ H(A,B)-H(A)-H(B) \f$, and indicates how much uncertainty about one set is reduced by the knowledge of the second set. Mutual information is the metric of choice when image from different modalities need to be registered.
+
+
+\subsection RegistrationOptimizers Optimizers
+The following optimization methods are available:
+
+\li <b> Gradient Descent </b>: Advance following the direction and magnitud of the gradient scaled by a learning rate.
+
+\li <b> Regular Step Gradient Descent </b>: Advances following the direction of the gradient and use a bipartition scheme to compute the step length.
+
+\li <b> Conjugate Gradient </b>: Nonlinear Minimization that optimize search directions using a second order approximation of the cost function.
+
+\li <b> Levenberg Marquardt </b>: Nonlinear Least Squares Minimization
+
+\li <b> LBFGS </b>: Limited Memory Broyden, Fletcher, Goldfarb and Shannon minimization.
+
+\li <b> Amoeba </b>: Nelder Meade Downhill Simplex.
+
+\li <b> One Plus One Evolutionary </b>: Stategy that simulates the biological evolution of a set of samples in the search space.
+
+
+
+\section MultiResolutionRegistration Multiresolution
+
+The evaluation of a metric can be very expensive in computing time. An approach often used to improve performance is to register first reduced resolution versions of the target and reference objects. The resulting transform is used as the starting point for a second registration process performed in progresively higher resolution objects.
+
+It is usual to create first a sequence of reduced resolution version of the objects, this set of objects is called a <em> pryramid representation </em>. A Multiresolution method is basically a set of consecutive registration process, each one performed at a particular level of the pyramid, and using as initial transform the resulting transform of the previous process.
+
+Multiresolution offers the double advantage of increasing performance and at the same time improving the stability of the optimization by smoothing out local minima and increasing the capture region of the process. 
+
+ */

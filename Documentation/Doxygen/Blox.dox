@@ -1,0 +1,27 @@
+/**
+
+\page BloxPage Blox Framework
+ 
+\section BloxIntroduction Introduction 
+
+The itk::BloxImage object is a regular, rectilinear lattice of ``blocks''
+in n-dimensional space.  The word ``blox'' was chosen to bring to mind a
+set of ``city blocks'' in 2D or ``building blocks'' in 3D.  Being a
+regular lattice, itk::BloxImage logically derives from itkImage.  In an
+itk::BloxImage, each pixel represents an isometric space-filling block of
+geometric space, called an itk::BloxPixel.  Each itk::BloxPixel generally
+covers many pixels in the underlying image and is used to store a
+variable number of image primitives (such as boundary points) or
+features (such as medial nodes) gathered within that region of geometric
+space.  To do this, each itk::BloxPixel contains a linked list.
+
+The itk::BloxImage object facilitates certain forms of analysis by
+providing geometric hashing.  For example, if boundary points are stored
+in an itk::BloxImage, pairs of boundary points that face each other
+(called ``core atoms'') can be found by searching relatively small
+regions of geometric space that face each boundary point for appropriate
+mates.  Because an itk::BloxImage is rectilinear in geometric space (even
+though the underlying image may not be) subsequent analysis can be
+invariant to rotation and translation.
+
+*/

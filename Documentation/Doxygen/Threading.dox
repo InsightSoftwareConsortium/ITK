@@ -1,0 +1,96 @@
+/**
+   \page ThreadingPage Threading
+
+   \section ThreadingIntroduction Introduction
+   
+   ITK is designed to run in multiprocessor environments.  Many of
+   ITK's filters are multithreaded.  When a multithreading filter
+   executes, it automatically divides the work amongst multiprocessors
+   in a shared memory configuration. We call this "Filter Level
+   Multithreading".  Applications built with ITK can also manage their
+   own execution threads.  For instance, an application might use one
+   thread for processing data and another thread for a user
+   interface. We call this "Application Level Multithreading".
+
+   \image html Threading.gif "Filters may process their data in multiple threads in a shared memory configuration."
+
+   \section FilterThreadSafety Filter Level Multithreading
+        
+   A multithreaded filter provides an implementation of the
+   ThreadedGenerateData() method (see
+   itk::ImageSource::ThreadedGenerateData()) as opposed to the
+   normal single threaded GenerateData() method (see
+   itk::ImageSource::GenerateData()).  A superclass of the filter will
+   spawn several threads (usually matching the number of processors in
+   the system) and call ThreadedGenerateData() in each thread
+   specifying the portion of the output that a given thread is
+   responsible for generating.  For instance, on a dual processor
+   computer, an image processing filter will spawn two threads, each
+   processing thread will generate one half of the output image, and
+   each thread is restricted to writing to separate portions of the
+   output image. Note that the "entire" input and "entire" output
+   images (i.e. what would be available normally to the GenerateData()
+   method, see the discussion on Streaming) are available to each
+   call of ThreadedGenerateData().  Each thread is allowed to read
+   from anywhere in the input image but each thread can only write to
+   its designated portion of the output image.
+
+   The output image is a single contiguous block on memory that is
+   used for all processing threads.  Each thread is informed which
+   pixels they are responsible for producing the output values.  All
+   the threads write to this same block of memory but a given thread
+   is only allowed to set specific pixels.
+
+   \subsection FilterMemoryAllocation Memory Management 
+
+   The GenerateData() method is responsible for allocation the output
+   bulk data.  For an image processing filter, this corresponds to
+   calling Allocate() on the output image object.  If a filter is
+   multithreaded, then it does not provide a GenerateData() method but
+   provides a ThreadedGenerateData() method.  In this case, a
+   superclass' GenerateData() method will allocate the output bulk
+   data and call ThreadedGenerateData() for each thread.  If a filter
+   is not multithreaded, then it must provided its own GenerateData()
+   method and allocate the bulk output data (for instance, calling
+   Allocate() on an output image) itself.
+
+
+   \section ApplicationThreadSafety Application Level Multithreading
+
+   ITK applications can be written to have multiple execution threads.
+   This is distinct from a given filter dividing its labor across
+   multiple execution threads.  If the former, the application is
+   responsible for spawning the separate execution threads,
+   terminating threads, and handling all events
+   mechanisms. (itk::MultiThreader can be used to spawn threads and
+   terminate threads in a platform independent manner.)  In the latter
+   case, an individual filter will automatically spawn threads, execute
+   an algorithm, and terminate the processing threads.
+
+   Care must in taken in setting up an application to have separate
+   application level (as opposed to filter level) execution threads.
+   Individual ITK objects are not guarenteed to be thread safe. By this
+   we mean that a single instance of an object should only be modified
+   by a single execution thread.  You should not try to modify a single
+   instance of an object in multiple execution threads.
+
+   ITK is designed so that different instances of the same class can be
+   accessed in different execution threads.  But multiple threads should
+   not attempt to modify a single instance.  This granularity of thread 
+   safety was chosen as a compromise between performance and flexibility.
+   If we allow ITK objects to be modified in multiple threads then ITK
+   would have to mutex every access to every instance variable of a 
+   class.  This would severly affect performance.
+
+   \section NumericsThreadSafety Thread Safety in the Numerics Library
+
+   ITK uses a C++ wrapper around the standard NETLIB distributions
+   (http://www.netlib.org).  These NETLIB distributions were converted
+   from FORTRAN to C using the standard f2c converter
+   (http://www.netlib.org/f2c/).  A cursory glance at the f2c
+   generated NETLIB C code yields the impression that the NETLIB code
+   is not thread safe (due to COMMON blocks being translated to
+   function scope statics).  We are still investigating this matter.
+
+
+*/

@@ -1,0 +1,251 @@
+/**
+\page NeighborhoodIteratorsPage Neighborhood Iterators
+
+\section IntroductionSection Introduction
+This document provides a general overview of the intended use of the
+NeighborhoodIterator classes and their associated objects for low-level image
+processing in Itk.  For a more detailed description of the API, please refer to
+the inline Itk documentation and manual.  
+
+\par
+Neighborhood iterators are the abstraction of the concept of \em locality in
+image processing. They are designed to be used in algorithms that perform
+calculations on a neighborhood of pixel values around a point in an image. For
+example, a classic neighborhood-based operation is to compute the mean of a set
+of pixels in order to reduce noise in an image. This is typically done by
+taking a region of 3x3 pixels and computing the average of their values. A new
+image with fewer narrow high frequency spikes (noise) is produced using the
+resulting means.
+
+\par
+This code in classical \em texbook notation can look like:
+
+\code
+
+  int nx = 512;
+  int ny = 512;
+  ImageType image(nx,ny);
+  for(int x=1; x<nx-1; x++) 
+  {
+    float sum = 0;
+    for(int y=1; y<ny-1; y++) 
+    {
+      sum += image(x-1,y-1) + image(x  ,y-1) + image(x+1,y-1);
+      sum += image(x-1,y  ) + image(x  ,y  ) + image(x+1,y  );
+      sum += image(x-1,y+1) + image(x  ,y+1) + image(x+1,y+1);
+    }
+  }  
+\endcode
+
+\par
+The code above is readable and straightforward to implement.  But its
+efficiency is limited to the speed of random access into the image.  It also
+assumes a two dimensional image.  We can eliminate the random access bottleneck
+by using iterators to dereference pixels, and for a two-dimensional image,
+code-readability may not suffer much.  But what if we want code for three
+or more dimensions?  Before long, the code size and complexity will increase to
+unmanageable levels.  In Itk, we have encapsulated this functionality for
+efficiency, readability, and reusability. 
+
+\section NeighborhoodIteratorsSection Neighborhood iterators
+itk::Image neighborhood iteration and dereferencing is encapsulated in the
+itk::NeighborhoodIterator classes. ITK NeighborhoodIterators allow for code
+that is closer to the algorithmic abstraction,
+
+\code
+  ForAllTheIndicies i in Image
+     GetTheNeighbors n in a 3x3 region around i
+       Compute the mean of all pixels n
+         Write the value to the output at i
+\endcode
+
+Here is how the pseudocode above can be rewritten in ITK using neighborhood
+iterators: ( In the code examples that follow, some template parameters may
+have been omitted for clarity. )
+
+
+\code
+1   typedef itk::Image<float, 2> ImageType;
+2   typedef itk::SmartNeighborhoodIterator<ImageType> NeighborhoodIterator;
+3   typedef itk::ImageRegionIterator<ImageType>       ImageIterator;
+4
+5   ImageType::Pointer input_image  = GetImageSomehow();
+6   ImageType::Pointer output_image = GetImageSomehow();
+7
+8   // A radius of 1 in all axial directions gives a 3x3x3x3x... neighborhood.
+9   NeighborhoodIterator::RadiusType radius;
+10  for (unsigned int i = 0; i < ImageType::ImageDimension; ++i) radius[i] = 1;
+11
+12  // Initializes the iterators on the input & output image regions
+13  NeighborhoodIterator it(radius, input_image, 
+14                                  output_image->GetRequestedRegion());
+15  ImageIterator out(output_image, output_image->GetRequestedRegion());
+16
+17  // Iterates over the input and output
+18  for (it.SetToBegin(), out = out.Begin(); ! it.IsAtEnd(); ++it, ++out )
+19    {
+20      float accum = 0.0;
+21      for (unsigned int i = 0; i < it.Size(); ++i)
+22        {    
+23          accum += it.GetPixel(i);  
+24        }
+25      out.Set(accum/(float)(it.Size()));
+26    }
+\endcode
+
+\par        
+Note that the computational work is confined to lines 18-26. The code is also
+completely generalized for multiple dimensions.  For example, changing line 1
+to:
+\code
+1   typedef itk::Image<float, 5> ImageType;
+\endcode
+produces an averaging filter for five-dimensional images. 
+
+\par
+The values in the neighborhood are dereferenced through the GetPixel(n) method
+of the iterator.  Think of the iterator as a C array, storing  neighborhood 
+values in the same order that they are stored in the image, with the lowest
+dimension as the fastest increasing dimension.
+
+\section OperatorsOperationsSection Neighborhood operators and operations
+NeighborhoodOperators are container classes for generating and storing
+computational kernels such as LaPlacian, Gaussian, derivative, and
+morphological operators.  They provide a generalized interface for creation and 
+access of the operator coefficients.
+
+\par
+Applying a NeighborhoodOperator to a NeighborhoodIterator requires defining
+some sort of operation.  One common case is that of convolution with a kernel
+of coefficients.  In Itk, convolution filtering of an image can be done in just
+a few lines of code using an inner product operation between a neighborhood
+iterator and an operator.  The following convolution with a LaPlacian kernel
+demonstrates this concept.
+
+\code
+1  LaPlacianOperator<double, 3> OP;
+2  ImageIterator out( outputImage, regionToProcess );
+3  NeighborhoodIterator it ( OP.GetRadius(), inputImage, regionToProcess );
+4  NeighborhoodInnerProduct IP;
+5
+6  out = out.Begin();
+7  for (it.SetToBegin(); it != it.End(); ++it, ++out) 
+8  {
+9    out.Set( IP( it, OP) );
+10 }
+\endcode
+
+\par
+Sometimes it may be more appropriate and efficient to work outside of the
+operator/operation model.  The mean calculation above is one example.  A
+``half'' directional derivative, shown below, is another example.
+
+\code
+1  NeighborhoodIterator::RadiusType radius = {1, 0, 0};
+2  NeighborhoodIterator it(radius, inputImage, regionToProcess)
+3  ImageRegionIterator out( outputImage, regionToProcess );
+4  for (it.SetToBegin(); it != it.End(); ++it, ++out) 
+5  {
+6    out.Set( it.GetPixel(3) - it.GetPixel(2) );
+7  }
+\endcode
+
+\par
+In this example the neighborhood is defined as a three pixel strip
+with width along only the first axis.  Mapping
+the spatial orientation of neighborhood pixels to the array location is the
+responsibility of the code writer.  Some methods such as GetStride(n), which
+returns the stride length in pixels along an axis n, have been provided to help 
+in coding algorithms for arbitrary dimensionality.  The index of the center
+pixel in a neighborhood is always Size()/2.
+
+\section ImageBoundariesSection Calculations at image boundaries
+  For any neighborhood operation, conditions at data set boundaries become
+important.  SmartNeighborhoodIterator defines a special class of neighborhood
+iterators that transparently handle boundary conditions.  These iterators store
+a boundary condition object that is used to calculate a value of requested
+pixel indicies that lie outside the data set boundary.  New boundary condition
+objects can be defined by a user and plugged into SmartNeighboroodIterators as
+is appropriate for their algorithm.
+
+\par
+A SmartNeighborhoodIterator can be used in place of NeighborhoodIterator to
+iterate over an entire image region, but it will incur a penalty on
+performance.  For this reason, it is desirable to process the image differently 
+over distinct boundary and non-boundary regions.  Itk's definition of image regions
+makes this easy to manage.  The process is as follows: first apply the
+algorithm over all neighborhoods not on the image boundary using the fast
+NeighborhoodIterator, then process each region on the boundary using the
+SmartNeighborhoodIterator.  The size of the boundary regions are defined by the 
+radius of the neighborhood that you are using.
+
+\par
+Rewriting the inner product code using this approach looks like the following.
+(Here we are using the default SmartNeighborhoodIterator boundary condition and 
+omitting some template parameters for simplicity.)
+
+\code
+typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator RegionFinderType;
+
+LaPlacianOperator<double, InputImageType::ImageDimension> OP;
+
+RegionFinderType regionCalculator;
+RegionFinderType::FaceListType regions;
+RegionFinderType::FaceListType::iterator regions_iterator;
+
+regions = regionCalculator( inputImage, regionToProcess, it.GetRadius() );
+regions_iterator = regions.begin();
+
+ImageIterator out;
+
+//
+// Process non-boundary regions normally.
+//
+out = ImageIterator(outputImage, *regions_iterator);
+NeighborhoodIterator it (OP.GetRadius(), inputImage, *regions_iterator);
+NeighborhoodInnerProduct IP;
+out = out.Begin();
+for (it.SetToBegin(); it != it.End(); ++it, ++out) 
+{
+  out.Set( IP( it, OP) );
+}
+
+//
+// Process each boundary region with boundary conditions.
+//
+SmartNeighborhoodInnerProduct SIP;
+SmartNeighborhoodIterator sit;
+for (regions_iterator++ ; regions_iterator != regions.end(); regions_iterator++)
+{
+  out = ImageIterator(outputImage, *regions_iterator);
+  sit = SmartNeighborhoodIterator(OP.GetRadius(), inputImage, *regions_iterator);
+  for (sit.SetToBegin(); sit != sit.End(); ++sit, ++out) 
+  {
+    out.Set( SIP( sit, OP) );
+  }
+}
+\endcode
+
+\par
+The NeighborhoodAlgorithm::ImageBoundaryFacesCalculator is a special function
+object that returns a list of sub-regions, or faces, of an image region.  The
+first region in the list corresponds to all the non-boundary pixels in the
+input image region.  Subseqent regions in the list represent all of the boundary
+faces of the image (because an image region is defined only by a single index
+and size, no single composite boundary region is possible).  The list is
+traversed with an iterator.
+
+\section FurtherInformationSection Further information
+Many filters in Itk use the neighborhood iterators and operators.  Some
+canonical examples of their use include the class of
+AnisotropicDiffusionFunctions and the morphological image filters.
+itk::WatershedSegmenter also makes extensive use of the neighborhood
+iterators.
+
+\par 
+The best documentation of the API for these objects is are the class
+definitions themselves, since the API is subject to change as the tookit
+matures and is refined.
+
+
+*/

@@ -1,0 +1,552 @@
+/** 
+ \defgroup DataRepresentation Data Representation Objects
+ The Insight Toolkit includes several data representation objects such as 
+ Image, Mesh, Pixel, Points, etc. 
+*/
+
+/**
+  \defgroup ImageObjects Image Representation Objects
+  \ingroup DataRepresentation
+  This category includes the objects required to represent images in ITK. 
+*/
+
+/**
+  \defgroup MeshObjects Mesh Representation Objects
+  \ingroup DataRepresentation
+  This category includes the objects required to represent meshes in ITK.
+*/
+
+/**
+  \defgroup Geometry Geometry Representation Objects
+  \ingroup DataRepresentation
+
+  This category include the objects required to represent geometrical entities
+  like positions, vectors and space mappings.
+   
+  A detailed description of the rationale for these classes can be found in
+  \ref GeometryPage  
+*/
+ 
+
+/** 
+ \defgroup DataAccess Data Access Objects
+
+ The Insight Toolkit includes several ways to access data through the user of 
+ iterators, pointers, indexes, etc.
+*/
+
+/**
+\defgroup ImageAccess Image Access Objects
+\ingroup DataAccess
+*/
+
+
+/**
+\defgroup MeshAccess Mesh Access Objects
+\ingroup DataAccess
+*/
+
+
+/**
+\defgroup Iterators Iterators
+\ingroup DataAccess
+Iterators are the mechanism used to walk over the content of a particular data object.
+They allow to define paths and directions along which the data should be walked through.
+*/
+
+/**
+\defgroup ImageIterators Image Iterators
+\ingroup Iterators
+Image Iterators allow to go through the content of an image in a predefined way.
+For a detailed description of iterators rationale see \ref ImageIteratorsPage
+*/
+
+
+
+
+/** 
+ \defgroup DataProcessing Data Processing Objects
+
+ The Insight Toolkit includes several ways to process the data using objects such as adaptors, functions, filters, and
+ transforms.  
+*/
+
+
+/**
+  \defgroup Filters Filters
+  \ingroup DataProcessing
+  Filters implement the operations on the pipeline architecture.
+*/
+
+/**
+  \defgroup ImageFilters Image Filters
+  \ingroup Filters
+
+  Image filters process input images and produce output images. Inputs are
+  unmodified. The pipeline architecture makes provisions for supporting
+  streaming by using packets of data defined by regions
+  \sa Image
+  \sa PhysicalImage
+  \sa ImageRegion
+*/
+
+/**
+  \defgroup MeshFilters Mesh Filters
+  \ingroup Filters
+
+  Mesh filters process input meshes and produce output meshes. Inputs are
+  unmodified. 
+  \sa Mesh
+*/
+
+/**
+  \defgroup IntensityImageFilters Intensity Image Filters 
+  \ingroup ImageFilters
+
+  Intensity Image filters only alter the values stored in image pixels.
+  \sa Image
+  \sa PhysicalImage
+  \sa ImageRegion
+*/
+
+/**
+  \defgroup MathematicalMorphologyImageFilters Mathematical Morphology Image Filters 
+  \ingroup IntensityImageFilters
+
+  Mathematical morphology filters are a particular class of cellular automata.
+  They modify the value of a pixel based on the values of a neighborhood. 
+  The neighborhood is now as the structured element.
+
+  \sa Image
+  \sa PhysicalImage
+  \sa ImageRegion
+  \sa BinaryMorphologicalFilterBase
+*/
+
+
+/**
+ \defgroup ImageEnhancement Image Enhancement Filters
+ \ingroup ImageFilters
+ Image enhancement filters process an image to enhance the appearance 
+ of an image either for visualization purposes or for further processing.
+ Examples of image enhancement filters available in ITK are: anisotropic diffusion,
+ Gaussian filter, and histogram equalization.
+*/  
+
+/**
+ \defgroup ImageFeatureExtraction Image Feature Extraction Filters
+ \ingroup ImageFilters
+ Image feature extraction filters process an image to extract features of interest
+ such as gradients, edges, distances, etc. 
+ Examples of image feature extraction algorithms available in ITK are: image gradients, 
+ first and second derivatives, and Danielson distance.
+*/  
+
+/**
+ \defgroup GradientFilters Image Gradient Filters
+ \ingroup ImageFeatureExtraction
+ These filters compute local gradients of images. 
+*/  
+
+
+/**
+ \defgroup GeometricTransforms Geometric Transformation Filters
+ \ingroup Filters
+ Geometric transformation Filters transform the coordinates of an image in various ways. 
+ Examples of geometric transformation Filters available in ITK are: image shrinking, and 
+ affine transformation.
+*/ 
+
+/**
+ \defgroup PyramidImageFilter Image Pyramid Filters
+ \ingroup GeometricTransforms
+ Image pyramid filters generate a set of downsampled versions of an image according
+ to a user defined multi-resolution schedule.
+*/ 
+
+/**
+ \defgroup ImageSegmentation Image Segmentation Filters
+ \ingroup ImageFilters
+ Image segmentation filters process an image to 
+ partition it into meaningful regions. Various types of image segmentation algorithms 
+ are available in ITK - some examples are, unsupervised pixel classification methods, region-growing methods, 
+ watershed-based methods, deformable-model based methods, and level-set based methods. 
+*/  
+
+/**
+ \defgroup IntensityImageSegmentation Intensity-Based Image Segmentation Filters
+ \ingroup ImageSegmentation
+ Intensity based image segmentation filters use intensity values  
+ of image pixels to segment an image. Typically, spatial contiguity is not considered in 
+ intensity-based segmentation filters. 
+ Examples of intensity-based algorithms in ITK are supervised and unsupervised pixel classification algorithms.
+*/  
+
+/**
+ \defgroup ClassificationFilters Pixel Classification Filters
+ \ingroup IntensityImageSegmentation
+  Pixel classification filters use statistical classification algorithms to assign a label to 
+a given image pixel. Classification algorithms can be supervised when training data is available 
+or unsupervised when no training data is available. 
+*/  
+
+/**
+ \defgroup SupervisedClassificationFilters Supervised Classification Filters
+ \ingroup ClassificationFilters
+ Supervised classification filters rely on the existence of training data to classify 
+ pixels into different types. An example of supervised classification algorithm in ITK is
+ the Gaussian classifier that uses the training data to build Gaussian models of intensity distributions.
+*/  
+
+/**
+ \defgroup UnSupervisedClassificationFilters Unsupervised Classification Filters
+ \ingroup ClassificationFilters
+ Unsupervised classification filters typically cluster the image intensity data into different groups. 
+ An example of unsupervised classification algorithm in ITK is the K-Means clustering algorithm. 
+*/
+
+
+/**
+ \defgroup WatershedSegmentation Watershed-based Segmentation Filters
+ \ingroup IntensityImageSegmentation
+ These filters segment an image based on intensity values using the watershed algorithm.  
+*/  
+
+/**
+ \defgroup RegionBasedSegmentation Region-Based Segmentation Filters
+ \ingroup ImageSegmentation
+ These filters segment an image based on similarity of intensity values between spatially adjacent 
+ pixels. Examples of region-based segmentation filters in ITK include fuzzy connectedness, region growing, and 
+ Markov Random Fields.
+*/
+
+/**
+ \defgroup FuzzyConnectednessSegmentation  Fuzzy Connectedness-based Segmentation Filters
+ \ingroup RegionBasedSegmentation
+ These filters segment an image based on fuzzy connectedness principles. Here you typically 
+start with one or more seed points and grow regions around these seed points based on fuzzy affinity.
+*/  
+
+/**
+ \defgroup RegionGrowingSegmentation Region Growing Filters
+ \ingroup RegionBasedSegmentation
+Typically region growing involves starting several small regions on an image and merging them iteratively based on some 
+pixel intensity similarity criterion. ITK provides an intensity and edge-based region-growing algorithm for segmentation.
+*/
+
+/**
+ \defgroup MRFFilters Markov Random Field-based Filters
+ \ingroup RegionBasedSegmentation
+Markov Random Field (MRF)-based Filters assume that the segmented image is Markovian in nature, i.e., adjacent 
+pixels are likely to be of the same class. These methods typically combine intensity-based Filters with MRF prior 
+models also known as Gibbs prior models.
+*/
+
+
+/**
+ \defgroup ModelImageSegmentation Model-Based Image Segmentation Filters
+ \ingroup ImageSegmentation
+ These filters segment an image by starting with a model and then updating the model based on 
+image features and the updates are typically constrained by a-priori knowledge about the models. 
+Examples of these types of algorithms in ITK include: deformable model (snakes)-based algorithms and level set-based algorithms.
+*/  
+
+/**
+ \defgroup MeshSegmentation Mesh Segmentation Filters
+ \ingroup ModelImageSegmentation
+These algorithms represent models using a mesh and update the models based on image features. 
+Examples of this type of filter in ITK include: balloon force filter and the deformable mesh filter.
+*/  
+
+/**
+ \defgroup LevelSetSegmentation Level Set-Based Segmentation Filters
+ \ingroup ModelImageSegmentation
+ These algorithms represent models implicitly using level-sets and update the models based on image features. 
+Examples of these types of segmentation methods in ITK include: curvature flow-based filters, 
+  fast marching filters, and shape-detection filters.
+*/  
+
+/**
+ \defgroup HybridSegmentation Hybrid Segmentation Filters
+ \ingroup ImageSegmentation
+ These filters are hybrid between intensity-based, region-based, or model-based image
+ segmentation filters. 
+*/  
+
+
+/**
+ \defgroup RegistrationFilters Registration Filters
+ \ingroup Filters
+*/  
+
+/**
+ \defgroup RegistrationComponents Components of Registration Methods
+ Registration methods are implemented by combining basic components. This framework allows
+ great flexibility in the construction of registration methods, and maximize code reuse.
+ The basic components of a registration method are described in \ref RegistrationPage
+ \ingroup RegistrationFilters
+*/  
+
+/**
+ \defgroup RegistrationMetrics Similarity Metrics of Registration Methods
+ Similarity metrics are the objects that evaluate how similar two objects are. They are
+ used in registration to quantify how well a transform is mapping the reference object 
+ on top of the target object.
+ \ingroup RegistrationComponents
+
+*/  
+
+
+/**
+ \defgroup ImageRegistration Image Registration Methods
+ \ingroup RegistrationFilters
+*/  
+
+/**
+ \defgroup RigidImageRegistration Rigid Registration Methods
+ \ingroup ImageRegistration
+*/  
+
+/**
+ \defgroup AffineImageRegistration Affine Registration Methods
+ \ingroup ImageRegistration
+*/  
+
+
+/**
+ \defgroup DeformableImageRegistration Deformable Registration Methods
+ \ingroup ImageRegistration
+*/  
+
+/**
+ \defgroup ModelImageRegistration Model - Image Registration Methods
+ \ingroup RegistrationFilters
+*/  
+
+/**
+ \defgroup PointSetToImageRegistration PointSet to Image Registration Methods
+ \ingroup ModelImageRegistration
+*/  
+
+
+/**
+\defgroup IOFilters Input and Output Filters
+\ingroup Filters
+*/
+
+
+
+/**
+\defgroup DataSources Data Sources
+\ingroup DataProcessing
+*/
+
+
+
+/**
+\defgroup Transforms Transforms 
+\ingroup DataProcessing
+*/
+
+
+/**
+\defgroup ImageAdaptors Image Adaptors 
+\ingroup DataProcessing
+
+Image Adaptors are an implementation of the <EM>Adaptor Design Pattern</EM>. They are 
+designed to present an image of a particular type as being an image of a different type.
+Adaptors perform simple operations on pixel values for which is not easy to justify the
+use of an image filter.
+
+One of the principal tasks of ImageAdaptors is to perform casting. 
+
+For example: you have an image whose pixels are of type <TT>unsigned char</TT> and you 
+need to feed this image in a process that expects pixels of type <TT>double</TT>. 
+You have the option of using and ImageFilter (see \ref ImageFiltersPage) that convert the input <TT>unsigned char </TT> image into another of pixel type <TT>double</TT>. 
+However this filter will allocate memory for this second image and will need to be executed. 
+Image Adaptors allow to simulate that you have made the conversion but will avoid the overhead in memory. 
+There is however a penalty in performance. 
+
+The mechanism used by image adaptors is to provide a simple function that will be used by ImageIterator (see \ref ImageIteratorsPage) to convert the value of a pixel, in a pixel-by-pixel basis.
+*/
+
+
+/**
+\defgroup Functions Functions
+\ingroup DataProcessing
+Functions provide an efficient mechanism for computing values
+*/
+
+/**
+\defgroup ImageFunctions Image Functions
+\ingroup Functions
+Image functions compute single values using data from a previously
+specified Image. A value can be computed at an image index,
+continuous index or point.
+
+\sa Image
+\sa Index
+\sa ImageFunction
+*/
+
+/**
+\defgroup SpatialFunctions Spatial Functions
+\ingroup Functions
+*/
+
+/**
+\defgroup FiniteDifferenceFunctions Finite Difference Functions
+\ingroup Functions
+Finite difference functions are used in the finite difference solver (FDS)
+framework for solving partial differential equations on images using
+an iterative, finite difference update scheme.
+
+\sa FiniteDifferenceImageFilter
+\sa FiniteDifferenceFunction 
+*/
+
+/**
+\defgroup Operators Operators
+\ingroup DataProcessing
+Operators implements the abstraction of performing an operation using data
+from a neighborhood of a pixel. ITK Operators work in conjunction with
+Neighborhood iterators in order to walk over an image.
+*/
+
+
+
+/**
+  \defgroup Numerics Numerics
+ 
+  Insight provides support for numerical operations at two levels. First, 
+  Insight uses an external library called VNL, which is one component of
+  the VXL toolkit. This library provides linear algebra, optimization, 
+  and FFTs. Second, Insight provides numerical optimizers
+  designed for the registration framework and statistical
+  classes designed to be used for classification and segmentation.
+ */
+
+
+/**
+  \defgroup Optimizers Optimizers
+  \ingroup Numerics RegistrationComponents
+  \sa RegistrationComponents
+ 
+  Set of Optimization methods. Some of these methods are adaptors for 
+  classes already defined in the VNL library. These methods have been
+  particularly tailored to be used as modular components in the 
+  registration framework.
+ */
+
+/**
+\defgroup SystemObjects System Objects
+*/
+
+/**
+\defgroup ITKSystemObjects ITK System Objects
+\ingroup SystemObjects
+These objects are the basic system objects used in building ITK.
+*/
+
+/**
+\defgroup OSSystemObjects OS System Objects
+\ingroup SystemObjects
+ These objects are the basic operating system related system objects in ITK.
+*/
+
+
+
+/**
+  \defgroup ThreadSafetyGroup  Thread Safety
+  This groups catalog classes according to its compliance with thread safety.
+  ITK is designed to be thread-safe, but in some particular cases this
+  capability cannot be supported and for this reason a classification is
+  needed.
+*/  
+
+/**
+ \defgroup ThreadSafe Thread Safe classes
+ \ingroup ThreadSafetyGroup
+*/  
+
+/**
+ \defgroup ThreadUnSafe Thread Unsafe classes
+ \ingroup ThreadSafetyGroup
+*/  
+
+/**
+ \defgroup ThreadSafetyUnknown Thread Safety Unknown
+ \ingroup ThreadSafetyGroup
+*/
+
+
+
+/**
+  \defgroup MultithreadingGroup   Support for Multithreading
+  This category classifies filters according to their support 
+  for performing processing in multiple threadS
+*/
+
+
+/**
+  \defgroup Multithreaded   Multithreaded Filters
+  \ingroup MultithreadingGroup
+  Filters on this category divide processing across several threads.
+*/
+
+
+/**
+  \defgroup Singlethreaded  Singlethreaded Filters 
+  \ingroup MultithreadingGroup
+  Filter on this category perform all its processing in a single thread
+*/
+
+
+/**
+  \defgroup ShouldBeThreaded Filters that can potentialy be modified to be Threaded 
+  \ingroup MultithreadingGroup
+  Filter on this category could be implemented to use several processing threads
+*/
+
+
+/** 
+  \defgroup StreamingGroup     Processing images region by region 
+  This category classifies filters according to their capatity for supporting
+  Streaming. 
+*/
+
+/** 
+  \defgroup Streamed      Filters supporting Streaming    
+  \ingroup StreamingGroup
+  Filter can respond to a request for a portion of the output using 
+  only a portion of the input.
+*/
+
+
+/**
+  \defgroup CannotBeStreamed  Filters that cannot be streamed      
+  \ingroup StreamingGroup
+  Filter requires either all the input or produces all the output.
+*/
+
+
+/**
+  \defgroup ShouldBeStreamed  Filters that could be implemented to be streamed 
+  \ingroup StreamingGroup
+  Filters that can potentially be modified to support streaming but currently 
+  are not supporting it.
+*/
+
+
+
+
+/**
+  \defgroup Deprecated Deprecated classes that are scheduled to be removed from the Toolkit
+  The classes on this group will be removed soon. Their funcionality is now provided 
+  by other classes or changes in the toolkit have made them useless. Please report to
+  their documentation and look in to their "Deprecated" section. This section should
+  indicate what to do to replace this class in your code.
+*/
+
+
+
