@@ -177,10 +177,10 @@ private:
   OutputMeshPointer m_Output;
 
   /** Three different kinds of stiffness matrix. */
-  vnl_matrix_fixed<double, 4, 4> NStiffness;
-  vnl_matrix_fixed<double, 4, 4> SStiffness;
-  vnl_matrix_fixed<double, 4, 4> CStiffness;
-  vnl_matrix_fixed<double, 4, 4> **K;
+  vnl_matrix_fixed<double, 4, 4> m_NStiffness;
+  vnl_matrix_fixed<double, 4, 4> m_SStiffness;
+  vnl_matrix_fixed<double, 4, 4> m_CStiffness;
+  vnl_matrix_fixed<double, 4, 4> **m_K;
   
   Double2Vector  m_Stiffness;
   double  m_TimeStep;       // the time step of each iteration

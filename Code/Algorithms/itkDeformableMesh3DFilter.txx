@@ -32,14 +32,16 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::DeformableMesh3DFilter()
 {
   m_Step = 0;
+  m_StepThreshold = 0;
   m_PotentialOn = 0;
-  K = 0;
+  m_K = 0;
   m_Scale.Fill( 1.0 );
   m_Center.Fill( 0.0 );
   m_Resolution.Fill( 1.0 );
   m_Stiffness.Fill( 0.1 );
   m_TimeStep = 0.01;
-  m_PotentialMagnitude = 1.0;
+  m_PotentialMagnitude = NumericTraits<PixelType>::One;
+  m_GradientMagnitude = NumericTraits<PixelType>::One;
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
@@ -49,9 +51,9 @@ template <typename TInputMesh, typename TOutputMesh>
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::~DeformableMesh3DFilter()
 {
-  if (K)
+  if (m_K)
     {
-    delete [] K;
+    free(m_K);
     }
 }
 
@@ -146,10 +148,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   m_ModelZUpLimit = 0;
   m_ModelZDownLimit = m_ImageDepth;
 
-  InputPointType d;
-  d[0] = 0.0;
-  d[1] = 0.0;
-  d[2] = 0.0; 
+  InputPointType d; d.Fill(0.0);
 
   int j = 0;
   while( points != myPoints->End() ) {
@@ -205,22 +204,22 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   k12 = area * m_Stiffness[0] * 0.5; 
   k22 = area * (m_Stiffness[1]/b + m_Stiffness[0]);  
 
-  Stiffness[0][0][0] = k00; 
-  Stiffness[0][0][1] = k01; 
-  Stiffness[0][0][2] = k02; 
-  Stiffness[0][0][3] = 0.0; 
-  Stiffness[0][1][0] = k01; 
-  Stiffness[0][1][1] = k11; 
-  Stiffness[0][1][2] = k12; 
-  Stiffness[0][1][3] = 0.0; 
-  Stiffness[0][2][0] = k02; 
-  Stiffness[0][2][1] = k12; 
-  Stiffness[0][2][2] = k22; 
-  Stiffness[0][2][3] = 0.0; 
-  Stiffness[0][3][0] = 0.0; 
-  Stiffness[0][3][1] = 0.0; 
-  Stiffness[0][3][2] = 0.0; 
-  Stiffness[0][3][3] = 1.0; 
+  m_StiffnessMatrix[0][0][0] = k00; 
+  m_StiffnessMatrix[0][0][1] = k01; 
+  m_StiffnessMatrix[0][0][2] = k02; 
+  m_StiffnessMatrix[0][0][3] = 0.0; 
+  m_StiffnessMatrix[0][1][0] = k01; 
+  m_StiffnessMatrix[0][1][1] = k11; 
+  m_StiffnessMatrix[0][1][2] = k12; 
+  m_StiffnessMatrix[0][1][3] = 0.0; 
+  m_StiffnessMatrix[0][2][0] = k02; 
+  m_StiffnessMatrix[0][2][1] = k12; 
+  m_StiffnessMatrix[0][2][2] = k22; 
+  m_StiffnessMatrix[0][2][3] = 0.0; 
+  m_StiffnessMatrix[0][3][0] = 0.0; 
+  m_StiffnessMatrix[0][3][1] = 0.0; 
+  m_StiffnessMatrix[0][3][2] = 0.0; 
+  m_StiffnessMatrix[0][3][3] = 1.0; 
 
 } 
 
@@ -235,22 +234,22 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
   double x;
  
-  Stiffness[i][0][0] = stiff[0][0]; 
-  Stiffness[i][0][1] = stiff[0][1]; 
-  Stiffness[i][0][2] = stiff[0][2]; 
-  Stiffness[i][0][3] = stiff[0][3]; 
-  Stiffness[i][1][0] = stiff[1][0]; 
-  Stiffness[i][1][1] = stiff[1][1]; 
-  Stiffness[i][1][2] = stiff[1][2]; 
-  Stiffness[i][1][3] = stiff[1][3]; 
-  Stiffness[i][2][0] = stiff[2][0]; 
-  Stiffness[i][2][1] = stiff[2][1]; 
-  Stiffness[i][2][2] = stiff[2][2]; 
-  Stiffness[i][2][3] = stiff[2][3]; 
-  Stiffness[i][3][0] = stiff[3][0]; 
-  Stiffness[i][3][1] = stiff[3][1]; 
-  Stiffness[i][3][2] = stiff[3][2]; 
-  Stiffness[i][3][3] = stiff[3][3]; 
+  m_StiffnessMatrix[i][0][0] = stiff[0][0]; 
+  m_StiffnessMatrix[i][0][1] = stiff[0][1]; 
+  m_StiffnessMatrix[i][0][2] = stiff[0][2]; 
+  m_StiffnessMatrix[i][0][3] = stiff[0][3]; 
+  m_StiffnessMatrix[i][1][0] = stiff[1][0]; 
+  m_StiffnessMatrix[i][1][1] = stiff[1][1]; 
+  m_StiffnessMatrix[i][1][2] = stiff[1][2]; 
+  m_StiffnessMatrix[i][1][3] = stiff[1][3]; 
+  m_StiffnessMatrix[i][2][0] = stiff[2][0]; 
+  m_StiffnessMatrix[i][2][1] = stiff[2][1]; 
+  m_StiffnessMatrix[i][2][2] = stiff[2][2]; 
+  m_StiffnessMatrix[i][2][3] = stiff[2][3]; 
+  m_StiffnessMatrix[i][3][0] = stiff[3][0]; 
+  m_StiffnessMatrix[i][3][1] = stiff[3][1]; 
+  m_StiffnessMatrix[i][3][2] = stiff[3][2]; 
+  m_StiffnessMatrix[i][3][3] = stiff[3][3]; 
 } 
 
 /** Set the stiffness matrix. */
@@ -262,13 +261,13 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputCellDataContainerPointer    myCellData = this->GetInput(0)->GetCellData();
   InputCellDataContainerIterator   celldata = myCellData->Begin();
 
-  K = (vnl_matrix_fixed<double,4,4>**) malloc(sizeof(vnl_matrix_fixed<double,4,4>*)*m_NumberOfCells);
+  m_K = (vnl_matrix_fixed<double,4,4>**) malloc(sizeof(vnl_matrix_fixed<double,4,4>*)*m_NumberOfCells);
   double x;
 
   int j = 0;
   while (celldata != myCellData->End()){
     x = celldata.Value();
-    K[j] = Stiffness+((int) x);
+    m_K[j] = m_StiffnessMatrix+((int) x);
     ++celldata; 
     j++;
   }
@@ -309,15 +308,15 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     m_Displacements->GetPoint (tp[0], v1_pt); 
     m_Displacements->GetPoint (tp[1], v2_pt); 
     m_Displacements->GetPoint (tp[2], v3_pt); 
-    v1[0] *= K[i]->get(0, 0)*p; 
-    v1[1] *= K[i]->get(0, 0)*p; 
-    v1[2] *= K[i]->get(0, 0)*p; 
-    v2[0] *= K[i]->get(0, 1)*p; 
-    v2[1] *= K[i]->get(0, 1)*p; 
-    v2[2] *= K[i]->get(0, 1)*p; 
-    v3[0] *= K[i]->get(0, 2)*p; 
-    v3[1] *= K[i]->get(0, 2)*p; 
-    v3[2] *= K[i]->get(0, 2)*p; 
+    v1[0] *= m_K[i]->get(0, 0)*p; 
+    v1[1] *= m_K[i]->get(0, 0)*p; 
+    v1[2] *= m_K[i]->get(0, 0)*p; 
+    v2[0] *= m_K[i]->get(0, 1)*p; 
+    v2[1] *= m_K[i]->get(0, 1)*p; 
+    v2[2] *= m_K[i]->get(0, 1)*p; 
+    v3[0] *= m_K[i]->get(0, 2)*p; 
+    v3[1] *= m_K[i]->get(0, 2)*p; 
+    v3[2] *= m_K[i]->get(0, 2)*p; 
     v1[0] += v2[0]+v3[0]; 
     v1[1] += v2[1]+v3[1]; 
     v1[2] += v2[2]+v3[2]; 
@@ -332,15 +331,15 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     m_Displacements->GetPoint (tp[0], v1_pt); 
     m_Displacements->GetPoint (tp[1], v2_pt); 
     m_Displacements->GetPoint (tp[2], v3_pt); 
-    v1[0] *= K[i]->get(1, 0)*p; 
-    v1[1] *= K[i]->get(1, 0)*p; 
-    v1[2] *= K[i]->get(1, 0)*p; 
-    v2[0] *= K[i]->get(1, 1)*p; 
-    v2[1] *= K[i]->get(1, 1)*p; 
-    v2[2] *= K[i]->get(1, 1)*p; 
-    v3[0] *= K[i]->get(1, 2)*p; 
-    v3[1] *= K[i]->get(1, 2)*p; 
-    v3[2] *= K[i]->get(1, 2)*p; 
+    v1[0] *= m_K[i]->get(1, 0)*p; 
+    v1[1] *= m_K[i]->get(1, 0)*p; 
+    v1[2] *= m_K[i]->get(1, 0)*p; 
+    v2[0] *= m_K[i]->get(1, 1)*p; 
+    v2[1] *= m_K[i]->get(1, 1)*p; 
+    v2[2] *= m_K[i]->get(1, 1)*p; 
+    v3[0] *= m_K[i]->get(1, 2)*p; 
+    v3[1] *= m_K[i]->get(1, 2)*p; 
+    v3[2] *= m_K[i]->get(1, 2)*p; 
     v1[0] += v2[0]+v3[0]; 
     v1[1] += v2[1]+v3[1]; 
     v1[2] += v2[2]+v3[2]; 
@@ -355,15 +354,15 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     m_Displacements->GetPoint (tp[0], v1_pt); 
     m_Displacements->GetPoint (tp[1], v2_pt); 
     m_Displacements->GetPoint (tp[2], v3_pt); 
-    v1[0] *= K[i]->get(2, 0)*p; 
-    v1[1] *= K[i]->get(2, 0)*p; 
-    v1[2] *= K[i]->get(2, 0)*p; 
-    v2[0] *= K[i]->get(2, 1)*p; 
-    v2[1] *= K[i]->get(2, 1)*p; 
-    v2[2] *= K[i]->get(2, 1)*p; 
-    v3[0] *= K[i]->get(2, 2)*p; 
-    v3[1] *= K[i]->get(2, 2)*p; 
-    v3[2] *= K[i]->get(2, 2)*p; 
+    v1[0] *= m_K[i]->get(2, 0)*p; 
+    v1[1] *= m_K[i]->get(2, 0)*p; 
+    v1[2] *= m_K[i]->get(2, 0)*p; 
+    v2[0] *= m_K[i]->get(2, 1)*p; 
+    v2[1] *= m_K[i]->get(2, 1)*p; 
+    v2[2] *= m_K[i]->get(2, 1)*p; 
+    v3[0] *= m_K[i]->get(2, 2)*p; 
+    v3[1] *= m_K[i]->get(2, 2)*p; 
+    v3[2] *= m_K[i]->get(2, 2)*p; 
     v1[0] += v2[0]+v3[0]; 
     v1[1] += v2[1]+v3[1]; 
     v1[2] += v2[2]+v3[2]; 

@@ -181,8 +181,8 @@ private:
   void PotentialFit();
 
   /** Three different kinds of stiffness matrix. */
-  vnl_matrix_fixed<double, 4, 4> Stiffness[10];
-  vnl_matrix_fixed<double, 4, 4> **K;
+  vnl_matrix_fixed<double, 4, 4> m_StiffnessMatrix[10];
+  vnl_matrix_fixed<double, 4, 4> **m_K;
   
   /** Parameters definitions. */
   double2DVector    m_Stiffness;
