@@ -44,7 +44,7 @@ void
 Scene<PipelineDimension>
 ::AddSpatialObject( NDimensionalSpatialObject<> * pointer )
 {
-  m_Children.push_back( pointer );
+  m_Objects.push_back( pointer );
 }
 
 /** Remove a spatial object from the scene */
@@ -53,14 +53,14 @@ void
 Scene<PipelineDimension>
 ::RemoveSpatialObject( NDimensionalSpatialObject<> * pointer )
 {
-  ChildrenListType::iterator it;    
-  it = std::find(m_Children.begin(),m_Children.end(),pointer);
+  ObjectListType::iterator it;    
+  it = std::find(m_Objects.begin(),m_Objects.end(),pointer);
 
-  if( it != m_Children.end() )
+  if( it != m_Objects.end() )
   {
     if( *it == pointer )
     {
-      m_Children.erase( it );
+      m_Objects.erase( it );
     }
   }
   else
@@ -77,8 +77,8 @@ unsigned long
 Scene<PipelineDimension>
 ::GetMTime( void ) const
 {
-  ChildrenListType::const_iterator it = m_Children.begin();
-  ChildrenListType::const_iterator end = m_Children.end();
+  ObjectListType::const_iterator it = m_Objects.begin();
+  ObjectListType::const_iterator end = m_Objects.end();
  
   unsigned long latestTime = Superclass::GetMTime();
   unsigned long localTime;
@@ -95,29 +95,29 @@ Scene<PipelineDimension>
 
 /** Return the children list */
 template <unsigned int PipelineDimension>
-Scene<PipelineDimension>::ChildrenListType &
+Scene<PipelineDimension>::ObjectListType &
 Scene<PipelineDimension>
-::GetChildren( void )
+::GetObjects( void )
 {
-  return m_Children;
+  return m_Objects;
 }
 
 /** Set the children list */
 template <unsigned int PipelineDimension>
 void
 Scene<PipelineDimension>
-::SetChildren( ChildrenListType & children )
+::SetObjects( ObjectListType & children )
 { 
-  m_Children = children;
+  m_Objects = children;
 }
 
 /** Return the number of objects in the scene */
 template <unsigned int PipelineDimension>
 unsigned int
 Scene<PipelineDimension>
-::GetNumberOfChildren( void )
+::GetNumberOfObjects( void )
 {
-  return m_Children.size();
+  return m_Objects.size();
 } 
 
 /** Print the object */
@@ -126,12 +126,12 @@ void
 Scene<PipelineDimension>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
-  os << indent << "Number of children: " 
-     << m_Children.size() << std::endl;
-  os << indent << "List of children: ";
+  os << indent << "Number of objects: " 
+     << m_Objects.size() << std::endl;
+  os << indent << "List of objects: ";
 
-  ChildrenListType::const_iterator it = m_Children.begin();
-  ChildrenListType::const_iterator end = m_Children.end();
+  ObjectListType::const_iterator it = m_Objects.begin();
+  ObjectListType::const_iterator end = m_Objects.end();
 
   for(; it != end; it++ )
   {
@@ -149,9 +149,9 @@ NDimensionalSpatialObject<> *
 Scene<PipelineDimension>
 ::GetObjectById(int Id)
 {
-  ChildrenListType::iterator it = m_Children.begin();
+  ObjectListType::iterator it = m_Objects.begin();
     
-  while( it != m_Children.end() )
+  while( it != m_Objects.end() )
   {
     if( (*it)->GetId() == Id )
     { 

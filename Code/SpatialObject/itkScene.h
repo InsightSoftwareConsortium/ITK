@@ -47,7 +47,7 @@ public:
   typedef SmartPointer< Self > Pointer; 
   typedef SmartPointer< const Self > ConstPointer; 
 
-  typedef std::list< NDimensionalSpatialObject<> * > ChildrenListType; 
+  typedef std::list< NDimensionalSpatialObject<> * > ObjectListType; 
      
   /** Method for creation through the object factory */ 
   itkNewMacro(Self); 
@@ -63,13 +63,13 @@ public:
   void RemoveSpatialObject( NDimensionalSpatialObject<> * object ); 
 
   /** Returns a list of pointer to the children affiliated to this object.*/ 
-  ChildrenListType & GetChildren( void );
+  ObjectListType & GetObjects( void );
 
   /** Returns the number of children currently assigned to the Scene object.*/ 
-  unsigned int GetNumberOfChildren( void ); 
+  unsigned int GetNumberOfObjects( void ); 
 
   /** Set the list of pointers to children to the list passed as argument.*/ 
-  void SetChildren( ChildrenListType & children ); 
+  void SetObjects( ObjectListType & children ); 
 
   /** Returns the latest modified time of all the objects contained in this Scene
    *  object. */
@@ -85,7 +85,7 @@ public:
 protected: 
 
   /** List of the children object plug to the Scene spatial object. */
-  ChildrenListType m_Children; 
+  ObjectListType m_Objects; 
 
   /** constructor */ 
   Scene(); 
