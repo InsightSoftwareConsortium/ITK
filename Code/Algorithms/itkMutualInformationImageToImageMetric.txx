@@ -138,7 +138,7 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 
   std::cout << "GetValue( " << parameters << " ) = ";
 
-  typename TargetType::Pointer target = GetTarget();
+  typename TargetConstPointer target = GetTarget();
   typename MapperType::Pointer mapper = GetMapper();
 
   if( !target || !mapper )
@@ -230,7 +230,7 @@ DerivativeType& derivative)
   m_MatchMeasure = 0;
 
   typename MapperType::Pointer mapper = GetMapper();
-  typename TargetType::ConstPointer target = GetTarget();
+  typename TargetConstPointer target = GetTarget();
 
   // check if target and mapper are valid
   if( !target || !mapper )
