@@ -757,7 +757,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
      * The number of neighboring cells is the number of cells using the
      * boundary less one for the cell through which the request was made.
      */
-    return (boundary->GetNumUsingCells()-1);
+    return (boundary->GetNumberOfUsingCells()-1);
     }
   
   /**
