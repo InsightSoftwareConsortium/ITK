@@ -90,26 +90,28 @@ public:
   typedef Element::Float Float;
 
   typedef TReference ReferenceType;
+  typedef typename ReferenceType::Pointer  ReferencePointer;
   typedef TTarget       TargetType;
+  typedef typename TargetType::Pointer  TargetPointer;
   /** Inherit some enums and typedefs from template */
   enum{ ImageDimension = TReference::ImageDimension };
-  typedef itk::ImageRegionIteratorWithIndex<ReferenceType> RefRegionIteratorType; 
-  typedef itk::ImageRegionIteratorWithIndex<TargetType>    TarRegionIteratorType; 
+  typedef ImageRegionIteratorWithIndex<ReferenceType> RefRegionIteratorType; 
+  typedef ImageRegionIteratorWithIndex<TargetType>    TarRegionIteratorType; 
   
-  typedef itk::SmartNeighborhoodIterator<ReferenceType> 
+  typedef SmartNeighborhoodIterator<ReferenceType> 
                                      ReferenceNeighborhoodIteratorType; 
   typedef typename ReferenceNeighborhoodIteratorType::IndexType  
                                      ReferenceNeighborhoodIndexType;
   typedef typename ReferenceNeighborhoodIteratorType::RadiusType 
                                      ReferenceRadiusType;
-  typedef itk::SmartNeighborhoodIterator<TargetType> 
+  typedef SmartNeighborhoodIterator<TargetType> 
                                      TargetNeighborhoodIteratorType; 
   typedef typename TargetNeighborhoodIteratorType::IndexType  
                                      TargetNeighborhoodIndexType;
   typedef typename TargetNeighborhoodIteratorType::RadiusType 
                                      TargetRadiusType;
 
-  typedef   itk::Array<Float>  ParametersType;
+  typedef   Array<Float>  ParametersType;
   
 
 // IMAGE DATA
@@ -117,29 +119,28 @@ public:
   typedef   typename  TargetType::PixelType    TarPixelType;
   typedef   Float PixelType;
   typedef   Float ComputationType;
-  typedef   itk::CovariantVector< PixelType, ImageDimension >  CovariantVectorType;
-  typedef   itk::Image< CovariantVectorType, ImageDimension >  CovariantVectorImageType;
-  typedef   itk::Image< RefPixelType, ImageDimension >       RefImageType;
-  typedef   itk::Image< TarPixelType, ImageDimension >       TarImageType;
-  typedef   itk::Image< PixelType, ImageDimension >            ImageType;
+  typedef   CovariantVector< PixelType, ImageDimension >  CovariantVectorType;
+  typedef   Image< CovariantVectorType, ImageDimension >  CovariantVectorImageType;
+  typedef   Image< RefPixelType, ImageDimension >       RefImageType;
+  typedef   Image< TarPixelType, ImageDimension >       TarImageType;
+  typedef   Image< PixelType, ImageDimension >            ImageType;
   typedef   vnl_vector<Float>                                   VectorType;
-
-
-  // Transform Type
-  typedef itk::TranslationTransform< PixelType,ImageDimension >  TransformType;
-
   
-
 // FUNCTIONS
  /** Implements the LoadGrav Fg using the given images. */
   VectorType Fg(VectorType);
 
   LoadImagePairBase(); 
- // LoadImagePairBase(const char * rfn,const char * tfn, Float sigma);
-
   
-  void SetReferenceImage(ReferenceType*);
-  void SetTargetImage(TargetType*);
+  void SetReferenceImage(ReferenceType*); /** Define the reference (moving) image. */
+  void SetTargetImage(TargetType*);       /** Define the target (fixed) image. */ 
+  ReferencePointer GetReferenceImage() { return m_RefImage; };
+  TargetPointer GetTargetImage() { return m_TarImage; };
+
+  void SetReferenceRadius(ReferenceRadiusType R) {m_RefRadius  = R; }; 
+  /** Define the reference (moving) image region size. */
+  void SetTargetRadius(TargetRadiusType T) {m_TarRadius  = T; };       
+  /** Define the target (fixed) image region size. */ 
 
 protected:
  
@@ -147,11 +148,11 @@ protected:
   
   typename RefImageType::Pointer                      m_RefImage;
   typename TarImageType::Pointer                      m_TarImage;
-  typename TransformType::Pointer                    m_transform;
-  ReferenceRadiusType                       m_RefRadius; // used by the neighborhood iterator 
-  TargetRadiusType                          m_TarRadius; // used by the neighborhood iterator 
-  typename ReferenceType::SizeType                     m_RefSize;
-  typename TargetType::SizeType                        m_TarSize;
+  ReferenceRadiusType                                 m_RefRadius; /** used by the neighborhood iterator */
+  TargetRadiusType                                    m_TarRadius; /** used by the metric to set region size for fixed image*/ 
+  typename ReferenceType::SizeType                    m_RefSize;
+  typename TargetType::SizeType                       m_TarSize;
+
 private:
 
   LoadImagePairBase(const Self&);     //purposely not implemented
