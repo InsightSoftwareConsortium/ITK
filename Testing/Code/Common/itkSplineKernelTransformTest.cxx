@@ -8,10 +8,10 @@
 #include "itkThinPlateSplineKernelTransform.h"
 
 using namespace itk;
-//using namespace std;
 
 int main(int argc, char* argv[])
 {
+	int pointNumber;
 
 	// 2-D case
 	int i, j;
@@ -20,27 +20,27 @@ int main(int argc, char* argv[])
 	EBSTransform2DType* ebs2D;
   TPSTransform2DType* tps2D;
 	typedef EBSTransform2DType::PointType PointType2D;
-	PointType2D* sourcePoint2D;
-	PointType2D* targetPoint2D;
+	PointType2D sourcePoint2D;
+	PointType2D targetPoint2D;
 
 	ebs2D = new EBSTransform2DType();
   tps2D = new TPSTransform2DType();
 
 	// Create landmark sets
+  pointNumber = 0;
 	for (i = 0; i < 2; i++)
 	{
 		for (j = 0; j < 2; j++)
 		{
-			sourcePoint2D = new PointType2D;
-			(*sourcePoint2D)[0] = j;
-			(*sourcePoint2D)[1] = i;
-			ebs2D->Getp()->push_back(sourcePoint2D);
-      tps2D->Getp()->push_back(sourcePoint2D);
-			targetPoint2D = new PointType2D;
-			(*targetPoint2D)[0] = 3*j;
-			(*targetPoint2D)[1] = 3*i;
-			ebs2D->Getq()->push_back(targetPoint2D);
-      tps2D->Getq()->push_back(targetPoint2D);
+			sourcePoint2D[0] = j;
+			sourcePoint2D[1] = i;
+			ebs2D->Getp()->SetPoint(pointNumber, sourcePoint2D);
+			tps2D->Getp()->SetPoint(pointNumber, sourcePoint2D);
+			targetPoint2D[0] = 3*j;
+			targetPoint2D[1] = 3*i;
+			ebs2D->Getq()->SetPoint(pointNumber, targetPoint2D);
+			tps2D->Getq()->SetPoint(pointNumber, targetPoint2D);
+      pointNumber++;
 		}
 	}
 	std::cout << "EBS 2D Test:" << std::endl;
@@ -48,8 +48,10 @@ int main(int argc, char* argv[])
 	ebs2D->ComputeW();
 	for (i = 0; i < 4; i++)
 	{
-		std::cout << *((*ebs2D->Getp())[i]) << " warps to: " << 
-						ebs2D->Transform(*((*ebs2D->Getp())[i])) << std::endl;
+    ebs2D->Getp()->GetPoint(i, &sourcePoint2D);
+    targetPoint2D = ebs2D->Transform(sourcePoint2D);
+		std::cout << sourcePoint2D << " warps to: " << 
+                 targetPoint2D << std::endl;
 	}
 	std::cout << std::endl;
 
@@ -57,8 +59,10 @@ int main(int argc, char* argv[])
 	tps2D->ComputeW();
 	for (i = 0; i < 4; i++)
 	{
-		std::cout << *((*tps2D->Getp())[i]) << " warps to: " << 
-						tps2D->Transform(*((*tps2D->Getp())[i])) << std::endl;
+    tps2D->Getp()->GetPoint(i, &sourcePoint2D);
+    targetPoint2D = tps2D->Transform(sourcePoint2D);
+		std::cout << sourcePoint2D << " warps to: " << 
+                 targetPoint2D << std::endl;
 	}
 	std::cout << std::endl;
 	delete ebs2D;
@@ -71,30 +75,30 @@ int main(int argc, char* argv[])
 	EBSTransform3DType* ebs3D;
   TPSTransform3DType* tps3D;
 	typedef EBSTransform3DType::PointType PointType3D;
-	PointType3D* sourcePoint3D;
-	PointType3D* targetPoint3D;
+	PointType3D sourcePoint3D;
+	PointType3D targetPoint3D;
 
 	ebs3D = new EBSTransform3DType();
   tps3D = new TPSTransform3DType();
 	// Create landmark sets
+  pointNumber = 0;
 	for (i = 0; i < 2; i++)
 	{
 		for (j = 0; j < 2; j++)
 		{
 			for (k = 0; k < 2; k++)
 			{
-				sourcePoint3D = new PointType3D;
-				(*sourcePoint3D)[0] = k;
-				(*sourcePoint3D)[1] = j;
-				(*sourcePoint3D)[2] = i;
-				ebs3D->Getp()->push_back(sourcePoint3D);
-        tps3D->Getp()->push_back(sourcePoint3D);
-				targetPoint3D = new PointType3D;
-				(*targetPoint3D)[0] = 3*k;
-				(*targetPoint3D)[1] = 3*j;
-				(*targetPoint3D)[2] = 3*i;
-				ebs3D->Getq()->push_back(targetPoint3D);
-				tps3D->Getq()->push_back(targetPoint3D);
+				sourcePoint3D[0] = k;
+				sourcePoint3D[1] = j;
+				sourcePoint3D[2] = i;
+			  ebs3D->Getp()->SetPoint(pointNumber, sourcePoint3D);
+			  tps3D->Getp()->SetPoint(pointNumber, sourcePoint3D);
+				targetPoint3D[0] = 3*k;
+				targetPoint3D[1] = 3*j;
+				targetPoint3D[2] = 3*i;
+			  ebs3D->Getq()->SetPoint(pointNumber, targetPoint3D);
+			  tps3D->Getq()->SetPoint(pointNumber, targetPoint3D);
+        pointNumber++;
 			}
 		}
 	}
@@ -103,8 +107,10 @@ int main(int argc, char* argv[])
 	ebs3D->ComputeW();
 	for (i = 0; i < 8; i++)
 	{
-		std::cout << *((*ebs3D->Getp())[i]) << " warps to: " << 
-						ebs3D->Transform(*((*ebs3D->Getp())[i])) << std::endl;
+    ebs3D->Getp()->GetPoint(i, &sourcePoint3D);
+    targetPoint3D = ebs3D->Transform(sourcePoint3D);
+		std::cout << sourcePoint3D << " warps to: " << 
+                 targetPoint3D << std::endl;
 	}
 	std::cout << std::endl;
 
@@ -112,8 +118,10 @@ int main(int argc, char* argv[])
 	tps3D->ComputeW();
 	for (i = 0; i < 8; i++)
 	{
-		std::cout << *((*tps3D->Getp())[i]) << " warps to: " << 
-						tps3D->Transform(*((*tps3D->Getp())[i])) << std::endl;
+    tps3D->Getp()->GetPoint(i, &sourcePoint3D);
+    targetPoint3D = tps3D->Transform(sourcePoint3D);
+		std::cout << sourcePoint3D << " warps to: " << 
+                 targetPoint3D << std::endl;
 	}
 	std::cout << std::endl;
 	delete ebs3D;
@@ -126,12 +134,13 @@ int main(int argc, char* argv[])
 	EBSTransform4DType* ebs4D;
 	TPSTransform4DType* tps4D;
 	typedef EBSTransform4DType::PointType PointType4D;
-	PointType4D* sourcePoint4D;
-	PointType4D* targetPoint4D;
+	PointType4D sourcePoint4D;
+	PointType4D targetPoint4D;
 
 	ebs4D = new EBSTransform4DType();
   tps4D = new TPSTransform4DType();
 	// Create landmark sets
+  pointNumber = 0;
 	for (i = 0; i < 2; i++)
 	{
 		for (j = 0; j < 2; j++)
@@ -140,20 +149,19 @@ int main(int argc, char* argv[])
 			{
 				for (l = 0; l < 2; l++)
 				{
-					sourcePoint4D = new PointType4D;
-					(*sourcePoint4D)[0] = l;
-					(*sourcePoint4D)[1] = k;
-					(*sourcePoint4D)[2] = j;
-					(*sourcePoint4D)[3] = i;
-					ebs4D->Getp()->push_back(sourcePoint4D);
-					tps4D->Getp()->push_back(sourcePoint4D);
-					targetPoint4D = new PointType4D;
-					(*targetPoint4D)[0] = 3*l;
-					(*targetPoint4D)[1] = 3*k;
-					(*targetPoint4D)[2] = 3*j;
-					(*targetPoint4D)[3] = 3*i;
-					ebs4D->Getq()->push_back(targetPoint4D);
-					tps4D->Getq()->push_back(targetPoint4D);
+					sourcePoint4D[0] = l;
+					sourcePoint4D[1] = k;
+					sourcePoint4D[2] = j;
+					sourcePoint4D[3] = i;
+					ebs4D->Getp()->SetPoint(pointNumber, sourcePoint4D);
+					tps4D->Getp()->SetPoint(pointNumber, sourcePoint4D);
+					targetPoint4D[0] = 3*l;
+					targetPoint4D[1] = 3*k;
+					targetPoint4D[2] = 3*j;
+					targetPoint4D[3] = 3*i;
+					ebs4D->Getq()->SetPoint(pointNumber, targetPoint4D);
+					tps4D->Getq()->SetPoint(pointNumber, targetPoint4D);
+          pointNumber++;
 				}
 			}
 		}
@@ -163,8 +171,10 @@ int main(int argc, char* argv[])
 	ebs4D->ComputeW();
 	for (i = 0; i < 16; i++)
 	{
-		std::cout << *((*ebs4D->Getp())[i]) << " warps to: " << 
-						ebs4D->Transform(*((*ebs4D->Getp())[i])) << std::endl;
+    ebs4D->Getp()->GetPoint(i, &sourcePoint4D);
+    targetPoint4D = ebs4D->Transform(sourcePoint4D);
+		std::cout << sourcePoint4D << " warps to: " << 
+                 targetPoint4D << std::endl;
 	}
 	std::cout << std::endl;
 
@@ -172,8 +182,10 @@ int main(int argc, char* argv[])
 	tps4D->ComputeW();
 	for (i = 0; i < 16; i++)
 	{
-		std::cout << *((*tps4D->Getp())[i]) << " warps to: " << 
-						tps4D->Transform(*((*tps4D->Getp())[i])) << std::endl;
+    tps4D->Getp()->GetPoint(i, &sourcePoint4D);
+    targetPoint4D = tps4D->Transform(sourcePoint4D);
+		std::cout << sourcePoint4D << " warps to: " << 
+                 targetPoint4D << std::endl;
 	}
 	std::cout << std::endl;
 	delete ebs4D;
