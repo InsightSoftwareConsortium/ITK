@@ -102,17 +102,27 @@ public:
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** What is the input requested region that is required to produce the
-   * output requested region? The base assumption for image processing
-   * filters is that the input requested region can be set to match the
-   * output requested region.  If a filter requires more input (for instance
-   * a filter that uses neighborhoods needs more input than output to avoid
-   * introducing artificial boundary conditions) or less input (for instance 
-   * a magnify filter) will have to override this method.  In doing so, it
-   * should call its superclass' implementation as its first step. Note that
-   * this imaging filters operate differently than the classes to this
-   * point in the class hierachy.  Up till now, the base assumption has been
-   * that the largest possible region will be requested of the input.
+  /** What is the input requested region that is required to produce
+   * the output requested region? The base assumption for image
+   * processing filters is that the input requested region can be set
+   * to match the output requested region.  If a filter requires more
+   * input (for instance a filter that uses neighborhoods needs more
+   * input than output to avoid introducing artificial boundary
+   * conditions) or less input (for instance a magnify filter) will
+   * have to override this method.  In doing so, it should call its
+   * superclass' implementation as its first step. Note that imaging
+   * filters operate differently than the classes to this point in the
+   * class hierachy.  Up till now, the base assumption has been that
+   * the largest possible region will be requested of the input.
+   *
+   * This implementation of GenerateInputRequestedRegion() only
+   * processes the inputs that are a subclass of the
+   * ImageBase<InputImageDimension>.  If an input is another type of
+   * DataObject (including an Image of a different dimension), they
+   * are skipped by this method. The subclasses of ImageToImageFilter
+   * are responsible for providing an implementation of
+   * GenerateInputRequestedRegion() when there are multiple inputs of
+   * different types.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion(),
    *     ImageSource::GenerateInputRequestedRegion() */
