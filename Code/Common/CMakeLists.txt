@@ -23,7 +23,9 @@ itkObject
 itkObjectFactoryBase 
 itkOutputWindow 
 itkProcessObject 
-itkRegion 
+itkRegion
+itkSegmentationBorder
+itkSegmentationRegion 
 itkSimpleFastMutexLock
 itkTimeStamp 
 itkVersion 
