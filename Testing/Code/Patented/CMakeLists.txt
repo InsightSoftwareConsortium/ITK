@@ -1,0 +1,52 @@
+IF(ITK_BINARY_DIR)
+  IF(TCL_TCLSH)
+    ADD_TEST(PrintSelf-Patented ${TCL_TCLSH}
+             ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+             ${ITK_SOURCE_DIR}/Code/Patented)
+  ENDIF(TCL_TCLSH)
+ENDIF(ITK_BINARY_DIR)
+
+IF( NOT ITK_DISABLE_CXX_TESTING )
+
+SET(PATENTED_TESTS ${CXX_TEST_PATH}/itkPatentedTests)
+
+SET(PATENTED_PRINT_TEST ${CXX_TEST_PATH}/itkPatentedPrintTest)
+
+SET(PATENTED_HEADER_TESTS ${CXX_TEST_PATH}/itkPatentedHeaderTest)
+
+ADD_TEST(itkPatentedPrintTest ${PATENTED_PRINT_TEST})
+
+ADD_TEST(itkSimpleFuzzyConnectednessScalarImageFilterTest ${PATENTED_TESTS} itkSimpleFuzzyConnectednessScalarImageFilterTest)
+ADD_TEST(itkVectorFuzzyConnectednessImageFilterTest ${PATENTED_TESTS} itkVectorFuzzyConnectednessImageFilterTest)
+
+SET(PatentedTest_SRCS
+itkActiveShapeModelCalculatorTest
+itkSimpleFuzzyConnectednessScalarImageFilterTest.cxx
+itkVectorFuzzyConnectednessImageFilterTest.cxx
+)
+
+ADD_EXECUTABLE(itkPatentedPrintTest itkPatentedPrintTest.cxx)
+TARGET_LINK_LIBRARIES(itkPatentedPrintTest ITKAlgorithms ITKIO 
+                                              ITKBasicFilters ITKFEM)
+ADD_EXECUTABLE(itkPatentedHeaderTest itkPatentedHeaderTest.cxx)
+TARGET_LINK_LIBRARIES(itkPatentedHeaderTest ITKAlgorithms ITKIO 
+                                              ITKBasicFilters ITKFEM)
+
+ADD_TEST(itkPatentedHeaderTest ${PATENTED_HEADER_TESTS})
+
+ADD_EXECUTABLE(itkPatentedTests itkPatentedTests.cxx 
+                                  ${PatentedTest_SRCS})
+TARGET_LINK_LIBRARIES(itkPatentedTests 
+                      ITKAlgorithms ITKIO 
+                      ITKBasicFilters ITKFEM ITKStatistics)
+
+IF(ITK_DATA_ROOT)
+ADD_TEST(itkActiveShapeModelCalculatorTest ${PATENTED_TESTS}
+  itkActiveShapeModelCalculatorTest
+             ${ITK_DATA_ROOT}/Input/model.mha
+             ${ITK_DATA_ROOT}/Input/foot.mha
+             )
+ENDIF(ITK_DATA_ROOT)
+
+ENDIF( NOT ITK_DISABLE_CXX_TESTING )
+

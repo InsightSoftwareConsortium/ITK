@@ -49,7 +49,6 @@ ADD_TEST(itkGeodesicActiveContourShapePriorLevelSetImageFilterTest ${ALGORITHMS_
 ADD_TEST(itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2 ${ALGORITHMS_TESTS} itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2)
 ADD_TEST(itkGradientVectorFlowImageFilterTest ${ALGORITHMS_TESTS} itkGradientVectorFlowImageFilterTest)
 ADD_TEST(itkGradientDifferenceImageToImageMetricTest ${ALGORITHMS_TESTS2} itkGradientDifferenceImageToImageMetricTest)
-ADD_TEST(itkSimpleFuzzyConnectednessScalarImageFilterTest ${ALGORITHMS_TESTS} itkSimpleFuzzyConnectednessScalarImageFilterTest)
 ADD_TEST(itkHistogramMatchingImageFilterTest ${ALGORITHMS_TESTS} itkHistogramMatchingImageFilterTest)
 ADD_TEST(itkHistogramImageToImageMetricTest ${ALGORITHMS_TESTS} itkHistogramImageToImageMetricTest)
 ADD_TEST(itkImageMomentsTest ${ALGORITHMS_TESTS} itkImageMomentsTest)
@@ -140,7 +139,6 @@ ENDIF(USE_SCSL)
 
 ADD_TEST(itkMIRegistrationFunctionTest ${ALGORITHMS_TESTS2} itkMIRegistrationFunctionTest)
 ADD_TEST(itkSymmetricForcesDemonsRegistrationFilterTest ${ALGORITHMS_TESTS2} itkSymmetricForcesDemonsRegistrationFilterTest)
-ADD_TEST(itkVectorFuzzyConnectednessImageFilterTest ${ALGORITHMS_TESTS2} itkVectorFuzzyConnectednessImageFilterTest)
 ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS2} itkVoronoiDiagram2DTest)
 ADD_TEST(itkVoronoiSegmentationImageFilterTest ${ALGORITHMS_TESTS2} itkVoronoiSegmentationImageFilterTest)
 ADD_TEST(itkWatershedImageFilterTest ${ALGORITHMS_TESTS2} itkWatershedImageFilterTest)
@@ -174,7 +172,6 @@ itkGeodesicActiveContourLevelSetImageFilterTest.cxx
 itkGeodesicActiveContourShapePriorLevelSetImageFilterTest.cxx
 itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2.cxx
 itkGradientVectorFlowImageFilterTest.cxx
-itkSimpleFuzzyConnectednessScalarImageFilterTest.cxx
 itkHistogramMatchingImageFilterTest.cxx
 itkHistogramImageToImageMetricTest.cxx
 itkImageMomentsTest.cxx
@@ -249,7 +246,6 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest.cxx
 )
 
 SET(AlgorithmsTest2_SRCS
-itkActiveShapeModelCalculatorTest.cxx
 itkCompareHistogramImageToImageMetricTest.cxx
 itkGradientDifferenceImageToImageMetricTest.cxx
 itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
@@ -266,7 +262,6 @@ itkRegularSphereMeshSourceTest.cxx
 itkRayCastInterpolateImageFunctionTest.cxx
 itkSymmetricForcesDemonsRegistrationFilterTest.cxx
 itkSTAPLEImageFilterTest.cxx
-itkVectorFuzzyConnectednessImageFilterTest.cxx
 itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
 itkVoronoiDiagram2DTest.cxx
 itkVoronoiPartitioningImageFilterTest.cxx
@@ -310,11 +305,6 @@ IF(USE_SCSL)
 ENDIF(USE_SCSL)
 
 IF(ITK_DATA_ROOT)
-ADD_TEST(itkActiveShapeModelCalculatorTest ${ALGORITHMS_TESTS2}
-  itkActiveShapeModelCalculatorTest
-             ${ITK_DATA_ROOT}/Input/model.mha
-             ${ITK_DATA_ROOT}/Input/foot.mha
-             )
 
 ADD_TEST(itkIsolatedWatershedImageFilterTest ${ALGORITHMS_TESTS2}
    --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/IsolatedWatershedImageFilterTest.png

@@ -1,5 +1,9 @@
 SUBDIRS( Numerics Common BasicFilters Algorithms IO SpatialObject )
 
+IF(ITK_USE_PATENTED)
+  SUBDIRS(Patented)
+ENDIF(ITK_USE_PATENTED)
+
 IF(ITK_BINARY_DIR)
   SET(ITK_TEST_OUTPUT_DIR "${ITK_BINARY_DIR}/Testing/Temporary")
   IF(UNIX)

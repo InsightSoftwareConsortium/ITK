@@ -29,13 +29,9 @@
 #include "itkMRIBiasFieldCorrectionFilter.h"
 #include "itkShapeDetectionLevelSetFunction.h"
 #include "itkShapeDetectionLevelSetImageFilter.h"
-#include "itkSimpleFuzzyConnectednessImageFilterBase.h"
-#include "itkSimpleFuzzyConnectednessRGBImageFilter.h"
-#include "itkSimpleFuzzyConnectednessScalarImageFilter.h"
 #include "itkSphereMeshSource.h"
 #include "itkThresholdSegmentationLevelSetFunction.h"
 #include "itkThresholdSegmentationLevelSetImageFilter.h"
-#include "itkVectorFuzzyConnectednessImageFilter.h"
 #include "itkVoronoiDiagram2D.h"
 #include "itkVoronoiDiagram2DGenerator.h"
 #include "itkVoronoiPartitioningImageFilter.h"
@@ -97,18 +93,6 @@ int main(int , char* [])
     itk::ShapeDetectionLevelSetImageFilter<InputType,InputType,float>::New();
   std:: cout << "-------------ShapeDetectionLevelSetImageFilter " << ShapeDetectionLevelSetImageFilterObj;
 
-  itk::SimpleFuzzyConnectednessImageFilterBase<InputType,OutputType>::Pointer SimpleFuzzyConnectednessImageFilterBaseObj =
-    itk::SimpleFuzzyConnectednessImageFilterBase<InputType,OutputType>::New();
-  std:: cout << "-------------SimpleFuzzyConnectednessImageFilterBase " << SimpleFuzzyConnectednessImageFilterBaseObj;
-
-  itk::SimpleFuzzyConnectednessRGBImageFilter<VectorImageType,CharType>::Pointer SimpleFuzzyConnectednessRGBImageFilterObj =
-    itk::SimpleFuzzyConnectednessRGBImageFilter<VectorImageType,CharType>::New();
-  std:: cout << "-------------SimpleFuzzyConnectednessRGBImageFilter " << SimpleFuzzyConnectednessRGBImageFilterObj;
-
-  itk::SimpleFuzzyConnectednessScalarImageFilter<UShortImageType,CharType>::Pointer SimpleFuzzyConnectednessScalarImageFilterObj =
-    itk::SimpleFuzzyConnectednessScalarImageFilter<UShortImageType,CharType>::New();
-  std:: cout << "-------------SimpleFuzzyConnectednessScalarImageFilter " << SimpleFuzzyConnectednessScalarImageFilterObj;
-
   itk::SphereMeshSource<MeshType>::Pointer SphereMeshSourceObj =
     itk::SphereMeshSource<MeshType>::New();
   std:: cout << "-------------SphereMeshSource " << SphereMeshSourceObj;
@@ -120,10 +104,6 @@ int main(int , char* [])
   itk::ThresholdSegmentationLevelSetImageFilter<InputType,InputType,float>::Pointer ThresholdSegmentationLevelSetImageFilterObj =
     itk::ThresholdSegmentationLevelSetImageFilter<InputType,InputType,float>::New();
   std:: cout << "-------------ThresholdSegmentationLevelSetImageFilter " << ThresholdSegmentationLevelSetImageFilterObj;
-
-  itk::VectorFuzzyConnectednessImageFilter<VectorImageType,CharType>::Pointer VectorFuzzyConnectednessImageFilterObj =
-    itk::VectorFuzzyConnectednessImageFilter<VectorImageType,CharType>::New();
-  std:: cout << "-------------VectorFuzzyConnectednessImageFilter " << VectorFuzzyConnectednessImageFilterObj;
 
   itk::VoronoiDiagram2D<double>::Pointer VoronoiDiagram2DObj =
     itk::VoronoiDiagram2D<double>::New();

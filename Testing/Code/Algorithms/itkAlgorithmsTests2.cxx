@@ -26,7 +26,6 @@ void RegisterTests()
   REGISTER_TEST(itkSTAPLEImageFilterTest );
   REGISTER_TEST(itkSymmetricForcesDemonsRegistrationFilterTest );
   REGISTER_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest );
-  REGISTER_TEST(itkVectorFuzzyConnectednessImageFilterTest );
   REGISTER_TEST(itkVoronoiDiagram2DTest );
   REGISTER_TEST(itkVoronoiSegmentationImageFilterTest );
   REGISTER_TEST(itkVoronoiPartitioningImageFilterTest );
