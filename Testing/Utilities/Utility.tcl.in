@@ -11,9 +11,30 @@ proc MakeDateStamp {} \
   return [clock format [clock seconds] -format %Y%m%d -gmt 1]
 }
 
+proc NeedToRemake { File } \
+{
+  set XML [file join XML $File.xml]
+  if { ![file exists $File.html] } \
+  {
+    return 1
+  }
+  
+  if { [file exists $XML] } \
+  {
+    puts "Remake: [expr [file mtime $File.html] <= [file mtime $XML]]"
+    return [expr [file mtime $File.html] <= [file mtime $XML]]
+  }
+
+  if { [file exists $File.xml] } \
+  {
+    puts "Remake: [expr [file mtime $File.html] <= [file mtime $File.xml]]"
+    return [expr [file mtime $File.html] <= [file mtime $File.xml]]
+  }
+  return 1
+}
+
 proc IsBuildStampInDay { NightlyDateStamp BuildStamp } \
 {
-
   if { [string match *-Nightly $BuildStamp] } \
   {
     if { $NightlyDateStamp == $BuildStamp } \
@@ -95,7 +116,7 @@ proc FileMap { Queue PatternList Map } \
       {
 	continue
       }
-      catch { set Queue [concat $Queue [glob [file join $Filename *]]] }
+      set Queue [concat $Queue [glob -nocomplain -- [file join $Filename *]]]
       continue;
     }
     foreach Pattern $PatternList \
@@ -122,7 +143,7 @@ proc GetLastBuildDirectory { {Model Experimental} } \
     set GlobString *-Nightly
   }
   set BuildStampDirs ""
-  catch { set BuildStampDirs [glob [file join $BuildNameDir $GlobString]] }
+  set BuildStampDirs [glob -nocomplain -- [file join $BuildNameDir $GlobString]]
   return [lindex [lsort $BuildStampDirs] end]
 }  
 
@@ -136,7 +157,7 @@ proc GetLastDashboardDirectory { {Model Experimental} } \
     set GlobString 20*-Nightly
   }
   set DashboardDirs ""
-  catch { set DashboardDirs [glob [file join Testing HTML TestingResults Dashboard $GlobString]] }
+  set DashboardDirs [glob -nocomplain -- [file join Testing HTML TestingResults Dashboard $GlobString]]
   return [lindex [lsort $DashboardDirs] end]
 }  
 
@@ -235,7 +256,7 @@ proc XMLSafeString { string } \
 proc GetDirectories { dir } \
 {
   set result ""
-  foreach f [glob $dir]
+  foreach f [glob -nocomplain -- $dir]
   {
     if { [file isdirectory $f] } \
     {

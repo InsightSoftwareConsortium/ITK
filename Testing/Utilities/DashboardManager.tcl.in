@@ -116,8 +116,11 @@ foreach Command $Commands \
 	  puts stderr "Could not find file [file join $BuildStampDir XML $XML.xml]"
 	  continue
 	}
-	puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir $BuildStampDir } Result]"
-	puts $Result
+	if { [NeedToRemake $XML] } \
+	{
+	  puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir $BuildStampDir } Result]"
+	  puts $Result
+	}
       }
     }
     DashboardStart \
@@ -176,7 +179,6 @@ foreach Command $Commands \
     DashboardEnd \
     {
       # Collect all the latest BuildStamps, and any from today's Nightlies
-      # Find latest dashboard
 
       # Make the images directory and copy things over
       # Icons need to go in BuildDir/Testing/HTML/TestingResults/Icons
@@ -207,6 +209,7 @@ foreach Command $Commands \
       else \
       {
 	set DashboardDir [GetLastDashboardDirectory $Model]
+	set NightlyDateStamp [string range [file tail $DashboardDir] 0 7]
       }
       
       if { $DashboardDir == "" } \
@@ -290,9 +293,11 @@ foreach Command $Commands \
 	  }
 	  puts $DashboardFile "\t<${XML}SubmissionDateTime>[clock format [file mtime [file join XML $XML.xml]]]</${XML}SubmissionDateTime>"
 
-	  puts "Running  $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/ ]"
-	  puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/] } Result]"
-
+	  if { [NeedToRemake $XML] } \
+	  {
+	    puts "Running  $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/ ]"
+	    puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/] } Result]"
+	  }
 	}
 	
 	cd $CurrentDir
@@ -312,8 +317,11 @@ foreach Command $Commands \
       # Now run xalan to build the dashboard
       foreach XML [list Dashboard Update Doxygen] \
       {
- 	catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] } Result
-	puts $Result
+	if { [NeedToRemake $XML] } \
+	{
+	  catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] } Result
+	  puts $Result
+	}
       }
 
       # Add the softlink from MostRecentResults to latest.
