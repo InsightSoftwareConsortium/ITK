@@ -131,7 +131,7 @@ public:
   typedef Point<CoordRepType,itkGetStaticConstMacro(ImageDimension)> PointType;
 
   /** Set the deformation field. */
-  void SetDeformationField( DeformationFieldType * field );
+  void SetDeformationField( const DeformationFieldType * field );
 
   /** Get a pointer the deformation field. */
   DeformationFieldType * GetDeformationField(void);

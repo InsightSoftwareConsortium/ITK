@@ -111,9 +111,12 @@ template <class TInputImage,class TOutputImage,class TDeformationField>
 void
 WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 ::SetDeformationField(
-  DeformationFieldType * field )
+  const DeformationFieldType * field )
 {
-  this->ProcessObject::SetNthInput( 1, field );
+  // const cast is needed because the pipeline is not const-correct.
+  DeformationFieldType * input =  
+       const_cast< DeformationFieldType * >( field );
+  this->ProcessObject::SetNthInput( 1, input );
 }
 
 
