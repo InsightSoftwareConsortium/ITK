@@ -59,22 +59,22 @@ int WriteTestFiles()
   std::ofstream little_hdr("LittleEndian.hdr", std::ofstream::binary);
   if(!little_hdr.is_open())
     return -1;
-  little_hdr.write(LittleEndian_hdr,sizeof(LittleEndian_hdr));
+  little_hdr.write((const char *)LittleEndian_hdr,sizeof(LittleEndian_hdr));
   little_hdr.close();
   std::ofstream little_img("LittleEndian.img", std::ofstream::binary);
   if(!little_img.is_open())
     return -1;
-  little_img.write(LittleEndian_img,sizeof(LittleEndian_img));
+  little_img.write((const char *)LittleEndian_img,sizeof(LittleEndian_img));
   little_img.close();
   std::ofstream big_hdr("BigEndian.hdr", std::ofstream::binary);
   if(!big_hdr.is_open())
     return -1;
-  big_hdr.write(BigEndian_hdr,sizeof(BigEndian_hdr));
+  big_hdr.write((const char *)BigEndian_hdr,sizeof(BigEndian_hdr));
   big_hdr.close();
   std::ofstream big_img("BigEndian.img", std::ofstream::binary);
   if(!big_img.is_open())
     return -1;
-  big_img.write(BigEndian_img,sizeof(BigEndian_img));
+  big_img.write((const char *)BigEndian_img,sizeof(BigEndian_img));
   big_img.close();
   return 0;
 }
