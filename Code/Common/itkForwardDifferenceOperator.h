@@ -45,6 +45,8 @@ public:
   typedef ForwardDifferenceOperator Self;
   typedef NeighborhoodOperator<TPixel, VDimension, TAllocator> Superclass;
   
+  typedef typename Superclass::PixelType PixelType;
+
   /** Constructor. */
   ForwardDifferenceOperator() {}
 

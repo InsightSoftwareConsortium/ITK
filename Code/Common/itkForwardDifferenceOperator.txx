@@ -31,9 +31,9 @@ ForwardDifferenceOperator<TPixel, VDimension, TAllocator>
 {
   CoefficientVector coeff(3);
 
-  coeff[0] = NumericTraits<Superclass::PixelType>::Zero;
-  coeff[1] = -1.0f *  NumericTraits<Superclass::PixelType>::One;
-  coeff[2] =  NumericTraits<Superclass::PixelType>::One;
+  coeff[0] = NumericTraits<PixelType>::Zero;
+  coeff[1] = -1.0f *  NumericTraits<PixelType>::One;
+  coeff[2] =  NumericTraits<PixelType>::One;
 
   return coeff;
 }

@@ -46,6 +46,9 @@ public:
   typedef BackwardDifferenceOperator Self;
   typedef NeighborhoodOperator<TPixel, VDimension, TAllocator> Superclass;
     
+  /** From Superclass */
+  typedef typename Superclass::PixelType PixelType;
+
   /** Constructor. */
   BackwardDifferenceOperator() {}
 

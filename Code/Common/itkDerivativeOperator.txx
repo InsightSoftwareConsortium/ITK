@@ -29,10 +29,10 @@ DerivativeOperator<TPixel, VDimension, TAllocator>
 {
   unsigned int i;
   unsigned int j;
-  typename Superclass::PixelType previous;
-  typename Superclass::PixelType next;
+  PixelType previous;
+  PixelType next;
   const unsigned int w = 2*((m_Order + 1)/2) + 1;
-  std::vector<Superclass::PixelType> coeff(w);
+  std::vector<PixelType> coeff(w);
   CoefficientVector coeffP(w);
 
   coeff[w/2] = 1.0;
