@@ -1,0 +1,113 @@
+###############################################################
+#
+#    Program:   Insight Segmentation & Registration Toolkit
+#   
+#    Copyright (c) 2000 National Library of Medicine
+#    All rights reserved.
+#
+#    See COPYRIGHT.txt for copyright details.
+#
+#############################################################
+
+
+VPATH = $(INSIGHT_HOME)/Code/Common
+
+RESULT = $(HOME_LIB)/libInsight.a
+
+
+
+#################################################
+#
+#	Suffixes used 
+#
+#################################################
+
+.SUFFIXES: .o .cxx .h
+
+
+#################################################
+#
+#	Include Directories
+#
+#################################################
+
+INCLUDES = -I.  -I$(INSIGHT_HOME)/Code/Common -I$(INSIGHT_HOME)/Code/Insight3DParty/vxl
+
+
+#################################################
+#
+#	Compiler Options
+#
+#################################################
+
+COPTIONS =   -Wall   -O3  -DITK_MANUAL_INSTANTIATION \
+             -fno-implicit-templates -DVCL_USE_NATIVE_STL \
+             -fguiding-decls
+
+COMPOPTIONS =   $(COPTIONS)   $(MACHINEOPT)
+
+
+
+################################################
+#
+#	Implicit Rules
+#
+################################################
+
+.cxx.o:
+	$(CXX) -c  $<   $(INCLUDES) $(COMPOPTIONS)
+
+
+################################################
+#
+#	Object Files
+#
+################################################
+
+OBJS =  itkDataObject.o itkDirectory.o itkDynamicLoader.o \
+        itkFilterImageToImage.o itkImage.o itkImageBase.o \
+        itkImageIterator.o itkImageSource.o itkIndent.o \
+        itkMeshBase.o itkObject.o itkObjectFactoryBase.o \
+        itkOutputWindow.o itkProcessObject.o itkRandomImageSource.o \
+        itkReadVTKImage.o itkShrinkImage.o itkTimeStamp.o \
+        itkVersion.o itkWriteImage.o itkWriteVTKImage.o itkWriter.o  \
+        itkRegistrator3D2D.o itkRegistrator3D2DBatch.o \
+        itkRegistrator3D2DRecursive.o 
+
+#       itkWin32OutputWindow.o
+
+
+#######################################################
+#
+#	Main target : create the library
+#
+#######################################################
+
+all:	$(RESULT)
+
+
+
+#######################################################
+#
+#	Remove all targets
+#
+#######################################################
+
+clean: 
+	rm *.o
+	rm $(RESULT)
+
+
+
+
+
+########################################################
+#
+#	Librarian commands
+#
+########################################################
+
+$(RESULT):	$(OBJS)
+	ar -uvr $(RESULT)  $(OBJS) 
+
+
