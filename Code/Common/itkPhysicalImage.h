@@ -160,7 +160,7 @@ public:
    * transformation from index coordinates to physical coordinates
    * determined by the origin and spacing of this image.
    */
-  AffineTransformType GetIndexToPhysicalTransform();
+  AffineTransformType GetIndexToPhysicalTransform(void) const;
 
   /** 
    * Get the physical-to-index coordinate transformation
@@ -169,7 +169,7 @@ public:
    * transformation from physical coordinates to index coordinates
    * determined by the origin and spacing of this image.
    */
-  AffineTransformType GetPhysicalToIndexTransform();
+  AffineTransformType GetPhysicalToIndexTransform(void) const;
 
 protected:
   PhysicalImage();
