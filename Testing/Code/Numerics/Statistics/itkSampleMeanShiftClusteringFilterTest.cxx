@@ -114,16 +114,17 @@ int itkSampleMeanShiftClusteringFilterTest(int argc, char* argv[] )
   ListSampleType::Pointer listSample2 = ListSampleType::New() ;
   listSample2->SetImage( outputImage ) ;
 
-  treeGenerator->SetSample( listSample2 ) ;
-  treeGenerator->SetBucketSize( 500 ) ;
-  treeGenerator->Update() ;
+  TreeGeneratorType::Pointer treeGenerator2 = TreeGeneratorType::New() ;
+  treeGenerator2->SetSample( listSample2 ) ;
+  treeGenerator2->SetBucketSize( 500 ) ;
+  treeGenerator2->Update() ;
 
   typedef itk::Statistics::SampleMeanShiftClusteringFilter< TreeType >
     ClusteringMethodType ;
 
   ClusteringMethodType::Pointer clusteringMethod =
     ClusteringMethodType::New() ;
-  clusteringMethod->SetInputSample( treeGenerator->GetOutput() ) ;
+  clusteringMethod->SetInputSample( treeGenerator2->GetOutput() ) ;
   clusteringMethod->SetThreshold( 0.5 ) ;
   clusteringMethod->SetMinimumClusterSize( 16 ) ;
   try 
