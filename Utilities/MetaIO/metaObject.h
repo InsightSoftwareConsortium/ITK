@@ -234,6 +234,8 @@ class MetaObject
         MET_FieldRecordType* mFr = new MET_FieldRecordType;
         MET_InitReadField(mFr,_fieldName, _type, _required,_dependsOn,_length);
         m_UserDefinedReadFields.push_back(mFr);
+
+        return true;
       }
 
       // Clear UserFields

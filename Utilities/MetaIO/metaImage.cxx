@@ -797,8 +797,10 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
     FileName(_headName);
     }
 
+  bool userDataFileName = true;
   if(_dataName == NULL && strlen(m_ElementDataFileName)==0)
     {
+    userDataFileName = false;
     int sPtr = 0;
     MET_GetFileSuffixPtr(m_FileName, &sPtr);
     if(!strcmp(&m_FileName[sPtr], "mha"))
@@ -814,6 +816,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
     }
   else if(_dataName != NULL)
     {
+    userDataFileName = false;
     ElementDataFileName(_dataName);
     }
 
@@ -936,6 +939,11 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
         }
       delete writeStreamTemp; 
       }
+    }
+
+  if(!userDataFileName)
+    {
+    ElementDataFileName("");
     }
       
   return true;
