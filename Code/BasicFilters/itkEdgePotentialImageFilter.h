@@ -75,7 +75,7 @@ protected:
   virtual ~EdgePotentialImageFilter() {}
 
 private:
-  EdgePotentialmageFilter(const Self&); //purposely not implemented
+  EdgePotentialImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };
