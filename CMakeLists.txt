@@ -1,6 +1,6 @@
 PROJECT(ITK)
 
-SUBDIRS(Code )
+SUBDIRS(Code Examples Testing)
 
 INCLUDE_DIRECTORIES(
 ${CMAKE_BINARY_DIR} 
@@ -13,11 +13,11 @@ ${CMAKE_SOURCE_DIR}/Code/Numerics/vxl/vcl
 
 LINK_DIRECTORIES(
 ${CMAKE_BINARY_DIR}/Code/Common 
-${CMAKE_BINARY_DIR}/Code/Numerics )
+${CMAKE_BINARY_DIR}/Code/Numerics/vxl )
 
 LINK_LIBRARIES (
 ITKCommon 
-ITKNumerics
+VXLNumerics
 )
 
 UNIX_LIBRARIES(
