@@ -141,6 +141,13 @@ namespace ImageToImageFilterDetail
       ExtractImageFilterCopyRegion<D1, D2>(BinaryUnsignedIntDispatch<D1, D2>::ComparisonType(),
                                           destRegion, srcRegion, totalInputExtractionRegion);
     }
+
+    /** Duplicate the superclass method to avoid warnings. */
+    virtual void operator() (ImageRegion<D1> &destRegion,
+                            const ImageRegion<D2> &srcRegion) const
+    {
+      ImageRegionCopier<D1,D2>::operator()(destRegion, srcRegion);
+    }
   };
 
 

@@ -126,7 +126,7 @@ public:
   itkSetVectorMacro(DomainSigma, float, ImageDimension);
   itkGetVectorMacro(DomainSigma, const double, ImageDimension);
   itkSetMacro(RangeSigma, double);
-  itkGetMacro(RangeSigma, const double);
+  itkGetMacro(RangeSigma, double);
   itkGetMacro(FilterDimensionality, unsigned int);
   itkSetMacro(FilterDimensionality, unsigned int);
   

@@ -134,7 +134,7 @@ PolygonCell< TCellInterface >
       return false;
       }
     }
-
+  return false;
 }
 
 

@@ -99,6 +99,7 @@ int itkVoronoiSegmentationImageFilterTest(int, char**){
   k=0;
   while( !ot.IsAtEnd()){
     TestImg[k]=ot.Get();
+    TestImg[k] = TestImg[k];  // dummy line to eliminate warning
     k++;
     ++ot;
   }

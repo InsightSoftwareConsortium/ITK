@@ -128,6 +128,7 @@ QuadrilateralCell< TCellInterface >
       return false;
       }
     }
+  return false;
 }
 
 
