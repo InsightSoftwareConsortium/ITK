@@ -191,6 +191,9 @@ protected:
   Rigid2DTransform();
   ~Rigid2DTransform();
 
+  Rigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
+
+
   // matrix representation of the rotation
   // Should be protected in order to be modified 
   // by derived classes that instantiate an interface

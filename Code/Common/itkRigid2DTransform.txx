@@ -34,6 +34,19 @@ Rigid2DTransform():Superclass(OutputSpaceDimension,ParametersDimension)
 }
  
 
+// Constructor with arguments
+template<class TScalarType>
+Rigid2DTransform<TScalarType>::
+Rigid2DTransform( unsigned int spaceDimension, 
+                  unsigned int parametersDimension):
+Superclass(spaceDimension,parametersDimension)
+{
+  m_Offset.Fill( 0 );
+  m_RotationMatrix.SetIdentity();
+  m_InverseMatrix.SetIdentity();
+}
+ 
+
 // Destructor
 template<class TScalarType>
 Rigid2DTransform<TScalarType>::
