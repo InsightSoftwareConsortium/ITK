@@ -37,7 +37,7 @@ cd Code
 set Log Doxygen.log
 
 # Do the build
-set DoxygenStatus [catch { exec doxygen doxygen.config >& $Log } Result ]
+set DoxygenStatus [catch { exec doxygen doxygen.config 2> $Log } Result ]
 
 set Doxygen [open $Log r]
 
