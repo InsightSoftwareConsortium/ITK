@@ -337,6 +337,7 @@ PlaheImageFilter<TImageType>
   os << "Radius: " << m_Radius << std::endl;
   os << "Alpha: " << m_Alpha << std::endl;
   os << "Beta: " << m_Beta << std::endl;
+  os << "UseLookupTable: " << (m_UseLookupTable ? "On" : "Off") << std::endl;
 }
 } // end namespace
 
