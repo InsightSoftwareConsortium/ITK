@@ -22,7 +22,18 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSpatialObjectProperty.txx"
 #include "itkTubeNetworkSpatialObject.h"
 #include "itkTubeSpatialObjectPoint.h"
-#include "itkTubeSpatialObject.h"
+#include "itkTubeSpatialObject.txx"
+#include "itkEllipseSpatialObject.txx"
+#include "itkBlobSpatialObject.txx"
+#include "itkLineSpatialObject.txx"
+#include "itkLineSpatialObjectPoint.txx"
+#include "itkNDimensionalSpatialObject.txx"
+#include "itkScene.txx"
+#include "itkSpatialObjectPoint.txx"
+#include "itkSurfaceSpatialObject.txx"
+#include "itkSurfaceSpatialObjectPoint.txx"
+#include "itkTubeSpatialObject.txx"
+#include "itkTubeSpatialObjectPoint.txx"
 
 int main ( int argc, char* argv )
 {
