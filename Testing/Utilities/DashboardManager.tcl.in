@@ -211,6 +211,10 @@ foreach Command $Commands \
 	set DashboardDir [GetLastDashboardDirectory $Model]
 	set NightlyDateStamp [string range [file tail $DashboardDir] 0 7]
       }
+
+      set YesterdayDateStamp [GetYesterdayDateStamp $NightlyDateStamp]
+      set DashboardTimeStamp [ExpandStamp $NightlyDateStamp-Nightly]
+      set DashboardDate [clock format $DashboardTimeStamp -format "%A, %B %d %Y" -gmt 1]
       
       if { $DashboardDir == "" } \
       {
@@ -246,9 +250,9 @@ foreach Command $Commands \
       cd $DashboardDir
 
       # Build the UpdateSummary
-      catch { exec $JavaCommand -jar $Xalan -Q -IN Update.xml -OUT UpdateSummary.xml -XSL [file join $XSLDir UpdateSummary.xsl] } Result
+      catch { exec $JavaCommand -jar $Xalan -Q -IN Update.xml -OUT Update.html -XSL [file join $XSLDir Update.xsl] -PARAM DashboardDate $DashboardDate -PARAM TestDocDir $DashboardDir} Result
       # Build the DoxygenSummary
-      catch { exec $JavaCommand -jar $Xalan -Q -IN Doxygen.xml -OUT DoxygenSummary.xml -XSL [file join $XSLDir DoxygenSummary.xsl] } Result
+      catch { exec $JavaCommand -jar $Xalan -Q -IN Doxygen.xml -OUT DoxygenSummary.xml -XSL [file join $XSLDir DoxygenSummary.xsl] -PARAM DashboardDate $DashboardDate -PARAM TestDocDir $DashboardDir} Result
 
       set DashboardTargets [open DashboardTargets.txt w]
       set DashboardFile [open Dashboard.xml w]
@@ -261,8 +265,9 @@ foreach Command $Commands \
       puts $DashboardFile "\t<DashboardStamp>[file tail $DashboardDir]</DashboardStamp>"
       set Time [ExpandStamp [file tail $DashboardDir]]
       puts $DashboardFile "\t<Model>$Model</Model>"
-      puts $DashboardFile "\t<GMT>[lindex $Time 0]</GMT>"
-      puts $DashboardFile "\t<LocalTime>[lindex $Time 1]</LocalTime>"
+      puts $DashboardFile "\t<GMT></GMT>"
+      puts $DashboardFile "\t<LocalTime>[clock format [clock seconds]]</LocalTime>"
+      puts $DashboardFile "\t<Yesterday>$YesterdayDateStamp-Nightly</Yesterday>"
       puts $DashboardFile "</Information>"
 
       XMLConcat $DashboardFile UpdateSummary.xml
@@ -295,8 +300,8 @@ foreach Command $Commands \
 
 	  if { [NeedToRemake $XML] } \
 	  {
-	    puts "Running  $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/ ]"
-	    puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/] } Result]"
+	    puts "Running  $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/ ]  -PARAM DashboardDate $DashboardDate"
+	    puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/]  -PARAM DashboardDate $DashboardDate} Result]"
 	  }
 	}
 	
@@ -319,9 +324,11 @@ foreach Command $Commands \
       {
 	if { [NeedToRemake $XML] } \
 	{
-	  catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] } Result
+	  catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM DashboardDate $DashboardDate } Result
 	  puts $Result
 	}
+	  catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl]  -PARAM DashboardDate $DashboardDate } Result
+	  puts $Result
       }
 
       # Add the softlink from MostRecentResults to latest.

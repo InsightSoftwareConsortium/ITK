@@ -119,16 +119,13 @@ if { $Model == "Nightly" } \
 {
   # For the moment, just get latest source
   # set UpdateCommand "$UpdateCommand -D \"$Year-$Month-$Day 23:00 GMT\""
-  set Today [clock format [expr [clock seconds]] -format "%Y-%m-%d 3:00:00 EST"]
 
-  set Yesterday [clock format [expr [clock seconds] - 24 * 60 * 60] -format "%Y-%m-%d 3:00:00"]
+  set t [GetNightlySeconds]
 
-  set YesterdayTS [clock scan [clock format [expr [clock seconds] - 24 * 60 * 60] -format "3:00:00 %m/%d/%Y"]]
-
+  set Date [clock format $t -format "-D %Y-%m-%d 3:00:00 EST"]
+  puts $Date
+  set UpdateCommand "$UpdateCommand $Date"
   
-  # puts "Today $Today, Yesterday $Yesterday"
-  # set UpdateCommand "$UpdateCommand -D $Today"
-  set UseDates 0
 }
   
 set UpdateStatus [catch { eval exec $UpdateCommand >& update.tmp } result]
@@ -170,33 +167,8 @@ foreach File $Files \
 {
   LoadCVSInformation $File
   # parray FileStatus "*$File*"
-  puts $Out "\t<$FileStatus($File,Status)>"
-  puts $Out "\t\t<File Directory=\"[file dir $File]\">[file tail $File]</File>"
-  puts $Out "\t\t<FullName>$File</FullName>"
-
-  lappend DirectoryList([file dir $File]) [file tail $File]
+  lappend DirectoryList([file dir $File]) $File
   lappend AuthorList($FileStatus($File,RevisionLog,0,Author)) $File
-  
-  
-  puts $Out "\t\t<CheckinDate>[XMLSafeString $FileStatus($File,RevisionLog,0,Date)]</CheckinDate>"
-  puts $Out "\t\t<Author>[XMLSafeString $FileStatus($File,RevisionLog,0,Author)]</Author>"
-  
-  
-  puts $Out "\t\t<Log>[XMLSafeString $FileStatus($File,RevisionLog,0,Comment)]</Log>"
-  puts $Out "\t\t<Revision>$FileStatus($File,Head)</Revision>"
-  puts $Out "\t\t<PriorRevision>$FileStatus($File,LastReportedRevision)</PriorRevision>"
-
-  for { set i 0 } { $i < $FileStatus($File,SelectedRevisions) } { incr i } \
-  {
-    puts $Out "\t\t<Revisions>"
-    foreach Field [list Revision PreviousRevision Author Date Comment] \
-    {
-      puts $Out "\t\t\t<$Field>[XMLSafeString $FileStatus($File,RevisionLog,$i,$Field)]</$Field>"
-    }    
-    puts $Out "\t</Revisions>"
-  }
-  puts $Out "\t</$FileStatus($File,Status)>"
-
 }
 
 foreach Dir [array names DirectoryList] \
@@ -205,7 +177,29 @@ foreach Dir [array names DirectoryList] \
   puts $Out "\t\t<Name>[XMLSafeString $Dir]</Name>"
   foreach File $DirectoryList($Dir) \
   {
-    puts $Out "\t\t<File Directory=\"$Dir\">$File</File>"
+    puts $Out "\t<$FileStatus($File,Status)>"
+    puts $Out "\t\t<File Directory=\"[file dir $File]\">[file tail $File]</File>"
+    puts $Out "\t\t<Directory>[file dir $File]</Directory>"
+    puts $Out "\t\t<FullName>$File</FullName>"
+    
+    puts $Out "\t\t<CheckinDate>[XMLSafeString $FileStatus($File,RevisionLog,0,Date)]</CheckinDate>"
+    puts $Out "\t\t<Author>[XMLSafeString $FileStatus($File,RevisionLog,0,Author)]</Author>"
+  
+  
+    puts $Out "\t\t<Log>[XMLSafeString $FileStatus($File,RevisionLog,0,Comment)]</Log>"
+    puts $Out "\t\t<Revision>$FileStatus($File,Head)</Revision>"
+    puts $Out "\t\t<PriorRevision>$FileStatus($File,LastReportedRevision)</PriorRevision>"
+
+    for { set i 0 } { $i < $FileStatus($File,SelectedRevisions) } { incr i } \
+    {
+      puts $Out "\t\t<Revisions>"
+      foreach Field [list Revision PreviousRevision Author Date Comment] \
+      {
+	puts $Out "\t\t\t<$Field>[XMLSafeString $FileStatus($File,RevisionLog,$i,$Field)]</$Field>"
+      }    
+      puts $Out "\t\t</Revisions>"
+    }
+    puts $Out "\t</$FileStatus($File,Status)>"
   }
   puts $Out "\t</Directory>"
 }

@@ -5,6 +5,7 @@
        Use DashboardStamp as a parameter, default to most recent
        The proper flags to Xalan are in the form -PARAM DashboardStamp "string('foo')"
        -->
+  <xsl:output method="html"/>
   <xsl:param name="DashboardStamp" select="string('MostRecentResults-Nightly')"/>
   <xsl:param name="PreviousDashboardStamp" select="string('')"/>
   <xsl:variable name="DashboardDir" select="concat('../../../../Dashboard/', $DashboardStamp)"/>
@@ -23,6 +24,7 @@
           <a href="Update.html">
             <xsl:value-of select="Update/ChangedFileCount"/> Files Changed
             by <xsl:value-of select="Update/AuthorCount"/> Authors
+            as of <xsl:value-of select="Update/StartDateTime"/>
           </a>
         </xsl:when>
         <xsl:otherwise>
@@ -48,7 +50,7 @@
     
     <h2>Nightly Builds</h2>
             
-    <table border="2">
+    <table border="2" width="100%">
               
       <xsl:call-template name="BuildTableHeader"/>
       <xsl:for-each select="BuildStamp">
@@ -62,7 +64,7 @@
     <xsl:choose>
       <xsl:when test="count(BuildStamp/Build/BuildStamp[not(contains(node(),'Nightly'))])">
         <h2>Experimental Builds</h2>
-        <table border="2">
+        <table border="2" width="100%">
           <xsl:call-template name="BuildTableHeader"/>
           <xsl:for-each select="BuildStamp">
             <xsl:if test="not ( contains(Build/BuildStamp,'Nightly') )">
@@ -129,10 +131,13 @@
                   <h3>No coverage information</h3><br/>
                 </xsl:otherwise>
               </xsl:choose>
-              <xsl:if test="$PreviousDashboardStamp != ''">
+              <xsl:if test="Information/Yesterday != ''">
                 <h3>
-                  <a href="../{$PreviousDashboardStamp}/Dashboard.html">
-                    Previous dashboard
+                  <a>
+                    <xsl:attribute name="href">
+                      ../<xsl:value-of select="Information/Yesterday"/>/Dashboard.html
+                    </xsl:attribute>
+                    Yesterday's dashboard
                   </a>
                 </h3>
                 <br/>
@@ -154,57 +159,62 @@
       <td align="right">
         <xsl:choose>
           <xsl:when test="Build/ErrorCount > 0">
-            <xsl:attribute name="bgcolor">#FF7F50</xsl:attribute>
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:attribute name="bgcolor">#00ff7f</xsl:attribute>
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$Green"/></xsl:attribute>
           </xsl:otherwise>
         </xsl:choose>
-        <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/BuildError.html</xsl:attribute><xsl:value-of select="Build/ErrorCount"/></a>
+        <b><a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/BuildError.html</xsl:attribute><xsl:value-of select="Build/ErrorCount"/></a></b>
+        <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;</xsl:text>
       </td>
       <td align="right">
         <xsl:choose>
           <xsl:when test="Build/WarningCount > 0">
-            <xsl:attribute name="bgcolor">#FF7F50</xsl:attribute>
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:attribute name="bgcolor">#00ff7f</xsl:attribute>
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$Green"/></xsl:attribute>
           </xsl:otherwise>
         </xsl:choose>
-        <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/BuildWarning.html</xsl:attribute><xsl:value-of select="Build/WarningCount"/></a>
+        <b><a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/BuildWarning.html</xsl:attribute><xsl:value-of select="Build/WarningCount"/></a></b>
+        <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
       </td>
 
-      <xsl:variable name="BGColor">#FF7F50</xsl:variable>
+      <xsl:variable name="BGColor"><xsl:value-of select="$Red"/></xsl:variable>
       <xsl:choose>
         <xsl:when test="Testing/FailedCount + Testing/NotRunCount > 0">
-          <xsl:variable name="BGColor">#00FF7F</xsl:variable>
+          <xsl:variable name="BGColor"><xsl:value-of select="$Green"/></xsl:variable>
         </xsl:when>
       </xsl:choose>
-      <td align="center">
+      <td align="right">
         <xsl:attribute name="bgcolor"><xsl:value-of select="$BGColor"/></xsl:attribute>
-        <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute><xsl:value-of select="Testing/PassedCount"/></a>
+        <b><a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute><xsl:value-of select="Testing/PassedCount"/></a></b>
+        <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
       </td>
-      <td align="center">
+      <td align="right">
         <xsl:choose>
           <xsl:when test="Testing/FailedCount > 0">
-            <xsl:attribute name="bgcolor">#ff7f50</xsl:attribute>
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:attribute name="bgcolor">#007f50</xsl:attribute>
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$Green"/></xsl:attribute>
           </xsl:otherwise>
         </xsl:choose>
-        <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute><xsl:value-of select="Testing/FailedCount"/></a>
+        <b><a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute><xsl:value-of select="Testing/FailedCount"/></a></b>
+        <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
       </td>
-      <td align="center">
+      <td align="right">
         <xsl:choose>
           <xsl:when test="Testing/NotRunCount > 0">
-            <xsl:attribute name="bgcolor">#ff7f50</xsl:attribute>
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:attribute name="bgcolor">#007f50</xsl:attribute>
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$Green"/></xsl:attribute>
           </xsl:otherwise>
         </xsl:choose>
-        <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute><xsl:value-of select="Testing/NotRunCount"/></a>
+        <b><a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute><xsl:value-of select="Testing/NotRunCount"/></a></b>
+        <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
       </td>
       <td><xsl:value-of select="Testing/StartDateTime"/></td>
       <td><xsl:value-of select="TestSubmissionDateTime"/></td>
@@ -214,16 +224,20 @@
   </xsl:template>
   
   <xsl:template name="BuildTableHeader">
-    <tr>
-      <th align="left">Site</th>
-      <th align="left">Build Name</th>
-      <th align="left">Build Errors</th>
-      <th align="left">Build Warnings</th>
+    <tr bgcolor="#eeeeee">
+      <th align="center" rowspan="2">Site</th>
+      <th align="center" rowspan="2">Build Name</th>
+      <th align="center" colspan="2">Build</th>
+      <th align="center" colspan="3">Test</th>
+      <th align="center" rowspan="2">Build Date</th>
+      <th align="center" rowspan="2">Submission Date</th>
+    </tr>
+    <tr bgcolor="#eeeeee">
+      <th align="left">Errors</th>
+      <th align="left">Warnings</th>
       <th align="left">Passed</th>
       <th align="left">Failed</th>
       <th align="left">NotRun</th>
-      <th align="left">Build Date</th>
-      <th align="left">Submission Date</th>
     </tr>
   </xsl:template>
   

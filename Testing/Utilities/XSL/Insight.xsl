@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
+  <xsl:param name="DashboardDate" select="string('')"/>
+
+  <xsl:variable name="Red">#ffcc66</xsl:variable>
+  <xsl:variable name="Green">#00ff7f</xsl:variable>
+  <xsl:variable name="Yellow">#ffff99</xsl:variable>
+
   <xsl:template name="InsightFooter">
     <xsl:text disable-output-escaping="yes">
             &lt;/td>
           &lt;/tr>
         &lt;/table>
+      &lt;/font>
       &lt;/body>
     &lt;/html>
     </xsl:text>
@@ -22,11 +29,12 @@
       &lt;head>
         &lt;title>
     </xsl:text>
-    <xsl:value-of select="$Title"/>
+    <xsl:value-of select="$Title"/> -- <xsl:value-of select="$DashboardDate"/>
     <xsl:text disable-output-escaping="yes">
         &lt;/title>
       &lt;/head>
       &lt;body bgcolor="#ffffff">
+        &lt;font face="Arial,Helvetica">
         &lt;table border="4" cellpading="0" cellspacing="2" width="100%">
           &lt;tr>
             &lt;td width="140">
@@ -35,7 +43,7 @@
     <xsl:text disable-output-escaping="yes">/Logo.gif" border="0">&lt;/img>
             &lt;/td>
             &lt;td>
-              &lt;h1>Insight testing dashboard&lt;/h1>
+    &lt;h1></xsl:text><xsl:value-of select="$Title"/> -- <xsl:value-of select="$DashboardDate"/><xsl:text disable-output-escaping="yes">&lt;/h1>
             &lt;/td>
           &lt;/tr>
           &lt;tr>
@@ -84,7 +92,7 @@
                 &lt;/tr>
               &lt;/table>
             &lt;/td>		    
-            &lt;td>
+            &lt;td valign="top">
             </xsl:text>
             </xsl:template>
 
@@ -121,14 +129,15 @@ function getCurrState() {
 }
 
 // Add an entry to the database
-function dbAdd(mother,display,URL,indent,top,image) {
+function dbAdd(mother,display,URL,indent,top,open) {
   db[total] = new Object;
   db[total].mother = mother
   db[total].display = display
   db[total].URL = URL
   db[total].indent = indent
   db[total].top = top
-  db[total].image = image
+  db[total].open = open
+  db[total].image = ""
   total++
   }
 
@@ -225,24 +234,24 @@ function tree_close() {
 			Outline += pad(currIndent)
 
 		// Insert the appropriate GIF and HREF
-		 image = "";
+		 image = "Blank";
 		 if (db[i].image==1) { image="_bullet"; }
 		 if (db[i].image==2) { image="_search"; }
 		 if (db[i].image==3) { image="_cal"; }
 		 if (db[i].image==4) { image="_upd"; }
 		 if (db[i].image==5) { image="_admin"; }
 		 if (!(db[i].mother)) {
-    Outline += "<IMG SRC=\"" + Icons + "Blank.gif\" WIDTH=16 HEIGHT=16 BORDER=0><IMG SRC=\"" + Icons + image + ".gif\" WIDTH=16 HEIGHT=16 BORDER=0>"
+    Outline += ""
 		  } 
 		 else { 
 		  if (current.substring(i-1,i) == 1) {
 			Outline += "<A HREF=\"javascript:history.go(0)\" onMouseOver=\"window.parent.status=\'Click to collapse\';return true;\" onClick=\"toggle(" + i + ")\">"
-			Outline += "<IMG SRC=\"" + Icons + "Minus.gif\" WIDTH=16 HEIGHT=16 BORDER=0><IMG SRC=\"" + Icons + image + ".gif\" WIDTH=16 HEIGHT=16 BORDER=0>"
+			Outline += "<IMG SRC=\"" + Icons + "Minus.gif\" WIDTH=16 HEIGHT=16 BORDER=0><IMG SRC=\"" + Icons + "Open.gif\" WIDTH=16 HEIGHT=16 BORDER=0>"
 			Outline += "</A>"
 			}
 		  else {
 			Outline += "<A HREF=\"javascript:history.go(0)\" onMouseOver=\"window.parent.status=\'Click to expand\';return true;\" onClick=\"toggle(" + i + ")\">"
-			Outline += "<IMG SRC=\"" + Icons + "Plus.gif\" WIDTH=16 HEIGHT=16 BORDER=0><IMG SRC=\"" + Icons + image + ".gif\" WIDTH=16 HEIGHT=16 BORDER=0>"
+			Outline += "<IMG SRC=\"" + Icons + "Plus.gif\" WIDTH=16 HEIGHT=16 BORDER=0><IMG SRC=\"" + Icons + "Closed.gif\" WIDTH=16 HEIGHT=16 BORDER=0>"
 			Outline += "</A>"
 			}
 		  }

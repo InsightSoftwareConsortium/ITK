@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    version="1.0"
+    xmlns:lxslt="http://xml.apache.org/xslt"
+    xmlns:redirect="org.apache.xalan.lib.Redirect"
+    extension-element-prefixes="redirect">
 
   <!--
        Use DashboardStamp as a parameter, default to most recent
@@ -7,9 +11,11 @@
        -->
   <xsl:param name="DashboardStamp" select="string('MostRecentResults-Nightly')"/>
   <xsl:variable name="DashboardDir" select="concat('../../Dashboard/', $DashboardStamp)"/>
+  <xsl:param name="TestDocDir">.</xsl:param>
   <xsl:include href="Insight.xsl"/>
 
   <xsl:template match="/">
+    <xsl:call-template name="Summary" select="Doxygen"/>
     <xsl:call-template name="InsightHeader">
       <xsl:with-param name="Title">Doxygen log</xsl:with-param>
       <xsl:with-param name="IconDir">../../Icons</xsl:with-param>
@@ -67,6 +73,16 @@
       <b><xsl:value-of select="Text"/></b>
       <xsl:value-of select="PostContext"/>
     </pre>
+  </xsl:template>
+
+  <xsl:template name="Summary">
+    <redirect:write select="concat(string('{$TestDocDir}'), '/DoxygenSummary.xml' )">
+      <Doxygen>
+        <StartDateTime><xsl:value-of select="/Doxygen/StartDateTime"/></StartDateTime>
+        <ErrorCount><xsl:value-of select="count(/Doxygen/Error)"/></ErrorCount>
+        <WarningCount><xsl:value-of select="count(/Doxygen/Warning)"/></WarningCount>
+      </Doxygen>
+    </redirect:write>
   </xsl:template>
 
 </xsl:stylesheet>

@@ -16,6 +16,7 @@ proc NeedToRemake { File } \
   set XML [file join XML $File.xml]
   if { ![file exists $File.html] } \
   {
+    puts "Remake 1"
     return 1
   }
   
@@ -63,8 +64,7 @@ proc IsBuildStampInDay { NightlyDateStamp BuildStamp } \
   }
 }
 
-
-proc MakeNightlyDateStamp {} \
+proc GetNightlySeconds {} \
 {
   set ts [clock seconds]
 
@@ -81,8 +81,13 @@ proc MakeNightlyDateStamp {} \
     # so subtract a day
     set t [expr 60 * 60 * 24]
   }
-  
-  return [clock format [expr [clock seconds] - $t] -format %Y%m%d -gmt 1]
+  return [expr [clock seconds] - $t]
+}
+
+proc MakeNightlyDateStamp {} \
+{
+  set t [GetNightlySeconds]
+  return [clock format $t -format %Y%m%d -gmt 1]
 }
 
 proc ExpandStamp { Stamp } \
@@ -129,6 +134,11 @@ proc FileMap { Queue PatternList Map } \
   }
 }
 
+proc GetYesterdayDateStamp { NightlyDateStamp } \
+{
+  set ts [ExpandStamp $NightlyDateStamp-Nightly]
+  return [clock format [expr $ts - 24 * 60 * 60] -format %Y%m%d -gmt 1]
+}
 
 proc GetLastBuildDirectory { {Model Experimental} } \
 {
@@ -161,6 +171,44 @@ proc GetLastDashboardDirectory { {Model Experimental} } \
   return [lindex [lsort $DashboardDirs] end]
 }  
 
+
+proc ExtractBuildLog { Filename } \
+{
+  global GunzipCommand Buffer
+
+  set File [open $Filename r]
+  set Found 0
+  set Buffer ""
+  
+  while { ![eof $File] } \
+  {
+    set Line [gets $File]
+    if { [string match "*</Log*" $Line] } \
+    {
+      puts "Found $Line"
+      set Found 0
+    }
+    if { $Found } \
+    {
+      append Buffer "$Line\n"
+    }
+    if { [string match "*<Log*>*" $Line] } \
+    {
+      puts "Found $Line"
+      set Found 1
+    }
+  }
+  
+  if { $Buffer != "" } \
+  {
+    set Log [open Log.txt.gz w]
+    puts -nonewline $Log [base64::decode $Buffer]
+    close $Log
+    exec gunzip Log.txt.gz
+  }
+  close $File
+}
+  
 proc TransformBuildLog { Filename } \
 {
   global GunzipCommand
