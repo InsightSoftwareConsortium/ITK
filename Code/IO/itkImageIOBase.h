@@ -175,6 +175,10 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  ///! Utility methods for working with ComponentType.
+  const std::type_info& ConvertToTypeInfo(ComponentType ) const;
+  unsigned int GetSizeOfType(ComponentType ) const;
+  
   /**
    * Set the number of components per pixel in the image. This may
    * be set by the reading process.

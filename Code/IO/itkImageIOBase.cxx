@@ -178,6 +178,64 @@ void ImageIOBase::SetNumberOfDimensions(unsigned int dim)
     }
 }
 
+const std::type_info& 
+ImageIOBase::ConvertToTypeInfo(ComponentType t ) const
+{
+  switch(t)
+    {
+    case UCHAR:
+      return typeid(unsigned char);
+    case CHAR:
+      return typeid(char);
+    case USHORT:
+      return typeid(unsigned short);
+    case SHORT:
+      return typeid(short);
+    case UINT:
+      return typeid(unsigned int);
+    case INT:
+      return typeid(int);
+    case ULONG:
+      return typeid(unsigned long);
+    case LONG:
+      return typeid(long);
+    case FLOAT:
+      return typeid(float);
+    case DOUBLE:
+      return typeid(double);
+    }
+  return typeid(char);
+}
+
+unsigned int 
+ImageIOBase::GetSizeOfType(ComponentType t) const
+{
+  switch(t)
+    {
+    case UCHAR:
+      return sizeof(unsigned char);
+    case CHAR:
+      return sizeof(char);
+    case USHORT:
+      return sizeof(unsigned short);
+    case SHORT:
+      return sizeof(short);
+    case UINT:
+      return sizeof(unsigned int);
+    case INT:
+      return sizeof(int);
+    case ULONG:
+      return sizeof(unsigned long);
+    case LONG:
+      return sizeof(long);
+    case FLOAT:
+      return sizeof(float);
+    case DOUBLE:
+      return sizeof(double);
+    }
+  return 1;
+
+}
 
 
 
