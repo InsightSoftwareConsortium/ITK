@@ -45,6 +45,8 @@ ADD_TEST(itkBoundaryConditionTest ${COMMON_TESTS} itkBoundaryConditionTest)
 ADD_TEST(itkByteSwapTest ${COMMON_TESTS} itkByteSwapTest)
 ADD_TEST(itkCenteredRigid2DTransformTest ${COMMON_TESTS} itkCenteredRigid2DTransformTest)
 ADD_TEST(itkCenteredAffineTransformTest ${COMMON_TESTS} itkCenteredAffineTransformTest)
+ADD_TEST(itkCenteredTransformInitializerTest ${COMMON_TESTS} itkCenteredTransformInitializerTest)
+ADD_TEST(itkCenteredVersorTransformInitializerTest ${COMMON_TESTS} itkCenteredVersorTransformInitializerTest)
 ADD_TEST(itkCentralDifferenceImageFunctionTest ${COMMON_TESTS} itkCentralDifferenceImageFunctionTest)
 ADD_TEST(itkConstNeighborhoodIteratorTest ${COMMON_TESTS} itkConstNeighborhoodIteratorTest)
 ADD_TEST(itkConstShapedNeighborhoodIteratorTest ${COMMON_TESTS} itkConstShapedNeighborhoodIteratorTest)
@@ -203,6 +205,8 @@ itkByteSwapTest.cxx
 itkCenteredRigid2DTransformTest.cxx
 itkCenteredAffineTransformTest.cxx
 itkCentralDifferenceImageFunctionTest.cxx
+itkCenteredTransformInitializerTest.cxx
+itkCenteredVersorTransformInitializerTest.cxx
 itkChainCodePath2DTest.cxx
 itkChainCodePathTest.cxx
 itkConstNeighborhoodIteratorTest.cxx
