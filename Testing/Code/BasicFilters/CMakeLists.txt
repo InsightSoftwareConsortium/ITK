@@ -724,7 +724,7 @@ IF(ITK_CSWIG_JAVA)
   ADD_TEST(CurvatureFlowImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            CurvatureFlowImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterJavaTest.png )  
+           ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterJavaTest.png 5 0.125 )  
 
 ENDIF(ITK_CSWIG_JAVA)
 
