@@ -30,6 +30,7 @@ template <class TFixedImage, class TMovingImage>
 MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 ::MeanSquaresImageToImageMetric()
 {
+  itkDebugMacro("Constructor");
 }
 
 /*
@@ -40,6 +41,8 @@ typename MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
 MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValue( const TransformParametersType & parameters ) const
 {
+
+  itkDebugMacro("GetValue( " << parameters << " ) ");
 
   FixedImageConstPointer fixedImage = this->GetFixedImage();
 
@@ -110,6 +113,8 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
                        DerivativeType & derivative  ) const
 {
 
+  itkDebugMacro("GetDerivative( " << parameters << " ) ");
+  
   if( !m_GradientImage )
     {
     itkExceptionMacro(<<"The gradient image is null, maybe you forgot to call Initialize()");
@@ -223,6 +228,8 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueAndDerivative(const TransformParametersType & parameters, 
                         MeasureType & value, DerivativeType  & derivative) const
 {
+
+  itkDebugMacro("GetValueAndDerivative( " << parameters << " ) ");
 
   if( !m_GradientImage )
     {
