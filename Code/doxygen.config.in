@@ -255,11 +255,10 @@ RECURSIVE             = YES
 # excluded from the INPUT source files. This way you can easily exclude a 
 # subdirectory from a directory tree whose root is specified with the INPUT tag. 
 
-EXCLUDE               = "tools" \
-                        "Insight3DParty/vxl/vcl" \
-                        "Insight3DParty/vxl/v3p" \
-                        "Insight3DParty/vxl/vnl" \
-                        "Insight3DParty/vxl"
+EXCLUDE               = "@fullSrcDir@/Code/Insight3DParty/vxl/vcl" \
+                        "@fullSrcDir@/Code/Insight3DParty/vxl/v3p" \
+                        "@fullSrcDir@/Code/Insight3DParty/vxl/vnl" \
+                        "@fullSrcDir@/Code/Insight3DParty/vxl"
               
 
 # If the value of the INPUT tag contains directories, you can use the 
