@@ -226,7 +226,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->MaximizeOn();
+  optimizer->MaximizeOff();
 
   optimizer->SetNormalVariateGenerator( generator );
   optimizer->Initialize( 10 );
