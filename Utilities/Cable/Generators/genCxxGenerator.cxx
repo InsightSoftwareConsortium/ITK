@@ -100,6 +100,10 @@ CxxGenerator
   std::ofstream instantiationStream(instantiationFile.c_str());
   if(!instantiationStream) { return; }
   
+  // Make sure the instantiation file includes the wrapper header.
+  instantiationStream << "#include \"" << package->GetName().c_str() << "_cxx.h\""
+                      << std::endl;
+  
   // Write the standard #ifndef/#define pair in the header file.
   wrapperStream << "#ifndef _" << package->GetName() << "_cxx_h" << std::endl;
   wrapperStream << "#define _" << package->GetName() << "_cxx_h" << std::endl;
@@ -143,8 +147,6 @@ CxxGenerator
       {
       wrapperStream << "#include \"" << header->name.c_str() << "\""
                     << std::endl;
-      instantiationStream << "#include \"" << header->name.c_str() << "\""
-                          << std::endl;
       }
     else if(header->purpose == "instantiate")
       {
@@ -255,15 +257,27 @@ CxxGenerator
 ::GenerateWrapperSet(std::ostream& wrapperStream, const Indent& indent,
                      const WrapperSet* wrapperSet)
 {
+  bool hasName = (wrapperSet->GetName().length() > 0);
+  String extra = "";
+  if(hasName)
+    {
+    wrapperStream << indent << "struct " << wrapperSet->GetName() << std::endl
+                  << indent << "{" << std::endl;
+    extra = "  ";
+    }
   for(WrapperSet::ConstIterator wrapper = wrapperSet->Begin();
       wrapper != wrapperSet->End(); ++wrapper)
     {
     // Only display the wrapper's typedef if the names are different.
-    if((wrapper->first != "") && (wrapper->first != wrapper->second))
+    if((wrapper->first != "") && (hasName || (wrapper->first != wrapper->second)))
       {
-      wrapperStream << indent << "typedef " << wrapper->second << " "
+      wrapperStream << indent << extra << "typedef " << wrapper->second << " "
                     << wrapper->first << ";" << std::endl;
       }
+    }
+  if(hasName)
+    {
+    wrapperStream << indent << "}; // struct " << wrapperSet->GetName() << std::endl;
     }
 }
 
