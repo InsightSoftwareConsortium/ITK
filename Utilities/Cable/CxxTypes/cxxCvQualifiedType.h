@@ -42,12 +42,27 @@ public:
   
   String GetName() const { return this->GenerateName(""); }
   const Type* GetType() const { return m_Type; }
+  CvQualifiedType GetMoreQualifiedType(bool isConst, bool isVolatile) const;
   String GenerateName(const String& indirection,
                       bool isConst = false, bool isVolatile = false) const;
   
   bool operator== (const Self&) const;
   bool operator< (const Self&) const;
   
+  RepresentationType GetRepresentationType() const;
+  
+  /*@{
+   * Quick type representation test.
+   */     
+  bool IsArrayType() const           { return m_Type->IsArrayType(); }
+  bool IsClassType() const           { return m_Type->IsClassType(); }
+  bool IsFunctionType() const        { return m_Type->IsFunctionType(); }
+  bool IsFundamentalType() const     { return m_Type->IsFundamentalType(); }
+  bool IsPointerType() const         { return m_Type->IsPointerType(); }
+  bool IsPointerToMemberType() const { return m_Type->IsPointerToMemberType(); }
+  bool IsReferenceType() const       { return m_Type->IsReferenceType(); }
+  //@}
+
 private:
   /**
    * The type to which these cv-qualifiers apply.

@@ -23,8 +23,7 @@ namespace _cxx_
  * Default constructor.  This only exists to allow CvQualifiedType instances
  * to be stored in STL containers.
  */
-CvQualifiedType
-::CvQualifiedType():
+CvQualifiedType::CvQualifiedType():
   m_Type(NULL),
   m_Const(false),
   m_Volatile(false)
@@ -38,8 +37,7 @@ CvQualifiedType
  * Constructor takes a pointer to the type to which these qualifiers
  * refer.  It defaults all qualifier flags to false.
  */
-CvQualifiedType
-::CvQualifiedType(const Type* in_type):
+CvQualifiedType::CvQualifiedType(const Type* in_type):
   m_Type(in_type),
   m_Const(false),
   m_Volatile(false)
@@ -53,8 +51,8 @@ CvQualifiedType
  * This constructor takes a pointer to the type to which these qualifiers
  * refer, and settings for the const and volatile cv-qualifier flags.
  */
-CvQualifiedType
-::CvQualifiedType(const Type* in_type, bool in_const, bool in_volatile):
+CvQualifiedType::CvQualifiedType(const Type* in_type,
+                                 bool in_const, bool in_volatile):
   m_Type(in_type),
   m_Const(in_const),
   m_Volatile(in_volatile)
@@ -65,12 +63,21 @@ CvQualifiedType
 /**
  * Copy constructor.
  */
-CvQualifiedType
-::CvQualifiedType(const Self& r):
+CvQualifiedType::CvQualifiedType(const Self& r):
   m_Type(r.m_Type),
   m_Const(r.m_Const),
   m_Volatile(r.m_Volatile)
 {
+}
+
+
+/**
+ * Construct a CvQualifiedType with the given cv-qualifiers added.
+ */
+CvQualifiedType CvQualifiedType::GetMoreQualifiedType(bool isConst,
+                                                      bool isVolatile) const
+{
+  return CvQualifiedType(m_Type, m_Const || isConst, m_Volatile || isVolatile);
 }
 
 
@@ -91,9 +98,7 @@ String CvQualifiedType::GenerateName(const String& indirection,
  * CvQualifiedTypes compare equal iff they refer to the same Type, and
  * have the same cv-qualifiers.
  */
-bool
-CvQualifiedType
-::operator== (const Self& r) const
+bool CvQualifiedType::operator== (const Self& r) const
 {
   return ((m_Type->Id() == r.m_Type->Id())
           && (m_Const == r.m_Const)
@@ -105,9 +110,7 @@ CvQualifiedType
  * Uniquely orders CvQualifiedType instances.  Useful for using them as
  * map keys.
  */
-bool
-CvQualifiedType
-::operator< (const Self& r) const
+bool CvQualifiedType::operator< (const Self& r) const
 {
   // First, compare the Type pointers.  Here we take advantage of the
   // fact that types are generated uniquely from the TypeSystem's factory,
@@ -128,6 +131,16 @@ CvQualifiedType
     return (lhs < rhs);
     }
 }
+
+
+/**
+ * Retrieve the kind of Type to which the cv-qualifiers are applied.
+ */
+RepresentationType CvQualifiedType::GetRepresentationType() const
+{
+  return m_Type->GetRepresentationType();
+}
+
 
 
 } // namespace _cxx_
