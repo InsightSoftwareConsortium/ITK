@@ -49,8 +49,8 @@ int itkCenteredRigid2DTransformTest(int argc,char **argv)
   CenteredRigidTransformType::InputPointType p = pInit;
   CenteredRigidTransformType::InputPointType q;
 
-  q[0] =  p[0] * costh + p[1] * sinth;
-  q[1] = -p[0] * sinth + p[1] * costh;
+  q[0] =  p[0] * costh - p[1] * sinth;
+  q[1] =  p[0] * sinth + p[1] * costh;
 
   CenteredRigidTransformType::OutputPointType r;
   r = transform->TransformPoint( p );
