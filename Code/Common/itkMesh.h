@@ -54,6 +54,7 @@ namespace itk
 /** \class Mesh
  * \brief Implements the N-dimensional mesh structure.
  *
+ * \par Overview
  * Mesh implements the N-dimensional mesh structure for ITK.  It provides
  * an API to perform operations on points, cells, boundaries, etc., but
  * does not tie down the underlying implementation and storage.  A
@@ -63,6 +64,7 @@ namespace itk
  * in the "MeshTraits" structure will have duplicate typedefs in the resulting
  * mesh itself.
  *
+ * \par Usage
  * Mesh has two template parameters.  The first is the pixel type, or the
  * type of data stored (optionally) with points, cells, and/or boundaries.
  * The second is the "MeshTraits" structure controlling type information for
@@ -86,6 +88,9 @@ namespace itk
  * TMeshTraits =
  *     Type information structure for the mesh.
  *
+ * \par References
+ * No reference information is available.
+ *
  * \ingroup MeshObjects
  */
   
@@ -97,42 +102,27 @@ template <
 class Mesh : public PointSet<TPixelType, VDimension, TMeshTraits>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  //@{
+  /** Standard typedefs. */
   typedef Mesh                Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef PointSet<TPixelType, VDimension, TMeshTraits>  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  //@}
   
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Standard part of every itk Object.
-   */
+  /** Standard part of every itk Object. */
   itkTypeMacro(Mesh, PointSet);
 
-  /** 
-   * Hold on to the type information specified by the template parameters.
-   */
+  /** Hold on to the type information specified by the template parameters. */
   typedef TMeshTraits   MeshTraits;
   typedef typename MeshTraits::PixelType                PixelType;  
   typedef typename MeshTraits::CellPixelType            CellPixelType;  
 
-  /** 
-   * Convenient typedefs obtained from TMeshTraits template parameter.
-   */
+  //@{
+  /** Convenient typedefs obtained from TMeshTraits template parameter. */
   enum {PointDimension = MeshTraits::PointDimension};
   enum {MaxTopologicalDimension = MeshTraits::MaxTopologicalDimension};
   typedef typename MeshTraits::CoordRepType             CoordRepType;  
@@ -151,18 +141,18 @@ public:
   typedef typename MeshTraits::CellDataContainer        CellDataContainer;  
   typedef typename MeshTraits::BoundariesContainer      BoundariesContainer;
   typedef typename MeshTraits::BoundaryDataContainer    BoundaryDataContainer;
+  //@}
 
-  /**
-   * Used to support geometric operations on the toolkit.
-   */
+  //@{
+  /** Used to support geometric operations on the toolkit. */
   typedef PointLocator<PointIdentifier,PointDimension,
                        CoordRepType,PointsContainer>  PointLocatorType;
   typedef BoundingBox<PointIdentifier,PointDimension,
                       CoordRepType,PointsContainer>   BoundingBoxType;
+  //@}
 
-  /**
-   * Create types that are pointers to each of the container types.
-   */
+  //@{
+  /** Create types that are pointers to each of the container types. */
   typedef typename PointsContainer::Pointer        PointsContainerPointer;
   typedef typename CellsContainer::Pointer         CellsContainerPointer;
   typedef typename CellLinksContainer::Pointer     CellLinksContainerPointer;
@@ -172,10 +162,10 @@ public:
   typedef typename BoundaryDataContainer::Pointer  BoundaryDataContainerPointer;  
   typedef typename PointLocatorType::Pointer       PointLocatorPointer;
   typedef typename BoundingBoxType::Pointer        BoundingBoxPointer;
+  //@}
 
-  /**
-   * Create types that are iterators for each of the container types.
-   */
+  //@{
+  /** Create types that are iterators for each of the container types. */
   typedef typename
           PointsContainer::ConstIterator        PointsContainerConstIterator;
   typedef typename
@@ -196,27 +186,24 @@ public:
           BoundaryDataContainer::ConstIterator  BoundaryDataContainerIterator;
   typedef typename
      PointCellLinksContainer::const_iterator  PointCellLinksContainerIterator;
+  //@}
   
-  /**
-   * A useful rename.
-   */
+  /** A useful rename. */
   typedef CellFeatureIdentifier  CellFeatureCount;
   
-  /**
-   * The base cell type for cells in this mesh.
-   */
+  //@{
+  /** The base cell type for cells in this mesh. */
   typedef CellInterface<CellPixelType,CellTraits>  Cell;
   typedef typename    Cell::Pointer      CellPointer;
+  //@}
 
-  /**
-   * It happens that boundaries are also cells.
-   */
+  //@{
+  /** It happens that boundaries are also cells. */
   typedef Cell BoundaryType;
   typedef CellPointer BoundaryPointer;
+  //@}
   
-  /**
-   * Visiting cells.
-   */
+  /** Visiting cells. */
   typedef typename Cell::MultiVisitor CellMultiVisitorType;
 
 protected:
@@ -232,9 +219,7 @@ protected:
   class BoundaryAssignmentIdentifier
   {
   public:
-    /**
-     * Create an alias to BoundaryAssignmentIdentifier.
-     */
+    /** Create an alias to BoundaryAssignmentIdentifier. */
     typedef BoundaryAssignmentIdentifier Self;
 
     /**
@@ -246,14 +231,10 @@ protected:
                                  CellFeatureIdentifier featureId):
       m_CellId(cellId), m_FeatureId(featureId) {}    
     
-    /**
-     * The Cell's identification.
-     */
+    /** The Cell's identification. */
     CellIdentifier m_CellId;
-  
-    /**
-     * The identification of the feature within the cell.
-     */
+    
+    /** The identification of the feature within the cell. */
     CellFeatureIdentifier  m_FeatureId;
   
     /**
@@ -297,6 +278,7 @@ protected:
    */
   CellLinksContainerPointer  m_CellLinksContainer;
   
+  //@{
   /**
    * Since multiple cells can be assigned the same boundary (when they are
    * neighbors, for example), the boundaries themselves are stored by
@@ -309,7 +291,9 @@ protected:
   typedef std::vector< BoundariesContainerPointer >
         BoundariesContainerVector;
   BoundariesContainerVector  m_BoundariesContainers;
+  //@}
 
+  //@{
   /**
    * If any information is to be stored with boundaries, it is placed in
    * a container in this vector.  The vector is indexed by the topological
@@ -320,11 +304,13 @@ protected:
   typedef std::vector< BoundaryDataContainerPointer >
         BoundaryDataContainerVector;
   BoundaryDataContainerVector  m_BoundaryDataContainers;
-
   typedef MapContainer< BoundaryAssignmentIdentifier , BoundaryIdentifier >
         BoundaryAssignmentsContainer;
   typedef typename BoundaryAssignmentsContainer::Pointer
         BoundaryAssignmentsContainerPointer;
+  //@}
+
+  //@{
   /**
    * A vector of objects containing explicit cell boundary assignments.
    * The vector is indexed by the topological dimension of the cell boundary.
@@ -339,16 +325,16 @@ protected:
   typedef std::vector< BoundaryAssignmentsContainerPointer >
         BoundaryAssignmentsContainerVector;
   BoundaryAssignmentsContainerVector  m_BoundaryAssignmentsContainers;
+  //@}
   
 public:
-  /**
-   * Mesh-level operation interface.
-   */
+  /** Mesh-level operation interface. */
   void PassStructure(Self* inputMesh);
   virtual void Initialize(void);
 
   unsigned long GetNumberOfCells(void);
 
+  //@{
   /**
    * Define Set/Get access routines for each internal container.
    * Methods also exist to add points, cells, etc. one at a time
@@ -373,21 +359,27 @@ public:
                               BoundaryAssignmentsContainer*);
   BoundaryAssignmentsContainerPointer
   GetBoundaryAssignments(int dimension);
+  //@}
   
+  //@{
   /**
    * Access routines to fill the Cells container, and get information
    * from it.
    */
   void SetCell(CellIdentifier, Cell*);
   bool GetCell(CellIdentifier, CellPointer*) const;
+  //@}
 
+  //@{
   /**
    * Access routines to fill the CellData container, and get information
    * from it.
    */
   void SetCellData(CellIdentifier, CellPixelType);
   bool GetCellData(CellIdentifier, CellPixelType*) const;
+  //@}
   
+  //@{
   /**
    * Access routines to fill the Boundaries container, and get information
    * from it.
@@ -395,14 +387,18 @@ public:
   void SetBoundary(int dimension, BoundaryIdentifier, BoundaryType*);
   bool GetBoundary(int dimension, BoundaryIdentifier, BoundaryPointer*)
     const;
+  //@}
   
+  //@{
   /**
    * Access routines to fill the BoundaryData container, and get information
    * from it.
    */
   void SetBoundaryData(int dimension, BoundaryIdentifier, CellPixelType);
   bool GetBoundaryData(int dimension, BoundaryIdentifier, CellPixelType*) const;
+  //@}
 
+  //@{
   /**
    * Access routines to fill the BoundaryAssignments container, and get
    * information from it.
@@ -415,7 +411,9 @@ public:
                              BoundaryIdentifier*) const;
   bool RemoveBoundaryAssignment(int dimension, CellIdentifier cellId,
                                 CellFeatureIdentifier featureId);
+  //@}
 
+  //@{
   /**
    * Interface to cells.
    */
@@ -431,6 +429,7 @@ public:
                                           CellFeatureIdentifier,
                                           BoundaryPointer*) const;
   void BuildCellLinks(void);
+  //@}
   
   /**
    * Get the bounding box of a cell in the mesh. The user
@@ -447,11 +446,14 @@ public:
    */
   void Accept(CellMultiVisitorType* mv);
 
+  //@{
+  /** Methods that support streaming. */
   virtual void UpdateOutputInformation();
   virtual void SetRequestedRegionToLargestPossibleRegion();
   virtual void CopyInformation(DataObject *data);
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
   virtual bool VerifyRequestedRegion();
+  //@}
 
   /**
    * Get the maximum number of regions that this data can be
@@ -469,14 +471,14 @@ public:
   virtual void SetRequestedRegion(DataObject *data);
 
 protected:
-  /**
-   * Constructor for use by New() method.
-   */
+  /** Constructor for use by New() method. */
   Mesh();
   ~Mesh() {}
-  Mesh(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
+  
+private:
+  Mesh(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   
 }; // End Class: Mesh
 
