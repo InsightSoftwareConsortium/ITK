@@ -216,13 +216,26 @@ Inverse( void ) const
   
 // Compute the Jacobian in one position 
 template<class TScalarType >
+void
+Rigid3DTransform< TScalarType >::
+SetIdentity( void ) 
+{
+  m_Offset.Fill( NumericTraits< TScalarType >::Zero );
+  m_RotationMatrix.SetIdentity();
+  m_InverseMatrix.SetIdentity();
+}
+
+
+  
+// Compute the Jacobian in one position 
+template<class TScalarType >
 const Rigid3DTransform<TScalarType>::JacobianType & 
 Rigid3DTransform< TScalarType >::
 GetJacobian( const InputPointType & p ) const
 {
   
 
-  m_Jacobian.Fill( 0.0 );
+  m_Jacobian.Fill( NumericTraits< typename JacobianType::ValueType >::Zero );
 
   // TODO
 
