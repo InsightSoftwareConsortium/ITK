@@ -57,7 +57,7 @@ typedef Cell        Boundary;
  * with defaults (itkMeshTypeDefault), the point dimension is 3 and
  * the coordinate representation is float.
  */
-typedef Mesh::Point  Point;
+typedef Mesh::PointType  PointType;
 
 /**
  * The mesh that is created consists of a single hexahedron and a single
@@ -69,7 +69,7 @@ int main(void)
   /**
    * Define the 3d geometric positions for 8 points in a cube.
    */
-  Mesh::CoordRep testPointCoords[8][3]
+  Mesh::CoordRepType testPointCoords[8][3]
     = { {0,0,0}, {9,0,0}, {9,0,9}, {0,0,9},
         {0,9,0}, {9,9,0}, {9,9,9}, {0,9,9} };
   
@@ -97,7 +97,7 @@ int main(void)
    */
   for(int i=0; i < 8 ; ++i)
     {
-    mesh->SetPoint(i, Point(testPointCoords[i]));
+    mesh->SetPoint(i, PointType(testPointCoords[i]));
     }
 
   /**
@@ -232,7 +232,7 @@ int main(void)
    * Perform some geometric operations (coordinate transformations)
    * to see if they are working.
    */
-  Mesh::CoordRep coords[Mesh::PointDimension];
+  Mesh::CoordRepType coords[Mesh::PointDimension];
   Mesh::PointIdentifier pointId;
   mesh->FindClosestPoint(coords,&pointId);
 
@@ -240,7 +240,7 @@ int main(void)
    * Compute the bounding box of the mesh
    */
   typedef itk::BoundingBox<Mesh::PointIdentifier,Mesh::PointDimension,
-    Mesh::CoordRep,Mesh::PointsContainer> BoundingBox;
+    Mesh::CoordRepType,Mesh::PointsContainer> BoundingBox;
 
   BoundingBox::Pointer bbox(BoundingBox::New());
   bbox->SetPoints(mesh->GetPoints());

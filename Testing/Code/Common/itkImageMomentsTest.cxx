@@ -64,7 +64,7 @@ main(
     /* Allocate a simple test image */
     itk::Image<unsigned short, 3>::Pointer
       image = itk::Image<unsigned short,3>::New();
-    itk::Image<unsigned short, 3>::Region region;
+    itk::Image<unsigned short, 3>::RegionType region;
     region.SetSize(size);
     image->SetLargestPossibleRegion(region);
     image->SetBufferedRegion(region);

@@ -28,9 +28,9 @@ void main()
   ShortImage::Pointer if2 = ShortImage::New();
 
   // fill in an image
-  ShortImage::Index  index = {0, 0};
-  ShortImage::Size   size = {8, 12};
-  ShortImage::Region region;
+  ShortImage::IndexType  index = {0, 0};
+  ShortImage::SizeType   size = {8, 12};
+  ShortImage::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
   if2->SetLargestPossibleRegion( region );
@@ -56,7 +56,7 @@ void main()
   // The rest of this code determines whether the shrink code produced
   // the image we expected.
   //
-  ShortImage::Region requestedRegion;
+  ShortImage::RegionType requestedRegion;
   requestedRegion = shrink->GetOutput()->GetRequestedRegion();
   
   itk::ImageRegionIterator<itk::Scalar<short>, 2>

@@ -38,8 +38,8 @@ void main()
   import = ImportImage::New();
 
   itk::ImageRegion<2>         region;
-  itk::ImageRegion<2>::Index  index = {0, 0};
-  itk::ImageRegion<2>::Size   size = {8, 12};
+  itk::ImageRegion<2>::IndexType  index = {0, 0};
+  itk::ImageRegion<2>::SizeType   size = {8, 12};
 
   region.SetSize( size );
   region.SetIndex( index );
@@ -58,7 +58,7 @@ void main()
   // The rest of this code determines whether the shrink code produced
   // the image we expected.
   //
-  ShortImage::Region requestedRegion;
+  ShortImage::RegionType requestedRegion;
   requestedRegion = shrink->GetOutput()->GetRequestedRegion();
   
   itk::ImageRegionIterator<itk::Scalar<short>, 2>

@@ -26,8 +26,8 @@ template <class T, unsigned int VImageDimension>
 void TestConstPixelAccess(const itk::Image<T, VImageDimension> &in,
                           itk::Image<T, VImageDimension> &out)
 {
-  itk::Image<T, VImageDimension>::Index regionStartIndex3D = {5, 10, 15};
-  itk::Image<T, VImageDimension>::Index regionEndIndex3D = {8, 15, 17};
+  itk::Image<T, VImageDimension>::IndexType regionStartIndex3D = {5, 10, 15};
+  itk::Image<T, VImageDimension>::IndexType regionEndIndex3D = {8, 15, 17};
 
   T vec;
   unsigned short uvec[5] = {5, 4, 3, 2, 1};
@@ -46,16 +46,16 @@ int main()
   float origin3D[3] = { 5, 2.1, 8.1};
   float spacing3D[3] = { 1.5, 2.1, 1};
 
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::Size imageSize3D = { 20, 40, 60 };
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::Size bufferSize3D = { 8, 20, 14 };
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::Size regionSize3D = { 4,  6,  6 };
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType imageSize3D = { 20, 40, 60 };
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType bufferSize3D = { 8, 20, 14 };
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType regionSize3D = { 4,  6,  6 };
 
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::Index startIndex3D = {-5, 4, -1};
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::Index bufferStartIndex3D = {2, 3, 5};
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::Index regionStartIndex3D = {5, 10, 12};
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::Index regionEndIndex3D = {8, 15, 17};
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType startIndex3D = {-5, 4, -1};
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType bufferStartIndex3D = {2, 3, 5};
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType regionStartIndex3D = {5, 10, 12};
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType regionEndIndex3D = {8, 15, 17};
 
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::Region region;
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::RegionType region;
   region.SetSize(imageSize3D);
   region.SetIndex(startIndex3D);
   o3->SetLargestPossibleRegion( region );
