@@ -150,12 +150,13 @@ ImageToImageAffinePatternIntensityRegistration<TReference, TTarget>
   */
 
   /*Tolerances for Levenberg Marquardt  optimizer */
+  /*
   const double F_Tolerance      = 1e-10;  // Function value tolerance
   const double G_Tolerance      = 1e-10;  // Gradient magnitude tolerance 
   const double X_Tolerance      = 1e-10;  // Search space tolerance
   const double Epsilon_Function = 1e-3;  // Step 
   const int    Max_Iterations   =   100; // Maximum number of iterations
-
+  */
 
 /*
   vnlOptimizerType & vnlOptimizer = m_Optimizer->GetOptimizer();
