@@ -210,7 +210,6 @@ PSquareQuantile< TData >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   unsigned int i ;
-  Superclass::PrintSelf(os,indent);
 
   os << indent << "Data: " << m_Data << std::endl;
   os << indent << "Dimension: " << m_Dimension << std::endl;

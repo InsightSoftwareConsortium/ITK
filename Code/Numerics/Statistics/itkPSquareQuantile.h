@@ -69,7 +69,7 @@ class PSquareQuantile
 public:
   typedef TData DataContainerType ;
   typedef typename DataContainerType::Pointer DataContainerPointer ;
-  typedef typename DataContainerType::FeatureElementType ValueType ;
+  typedef typename DataContainerType::MeasurementType ValueType ;
   typedef typename DataContainerType::InstanceIdentifier InstanceIdentifier ;
 
   /**
@@ -84,7 +84,7 @@ protected:
    */
   ValueType GetValue(InstanceIdentifier id) const
   {
-    return m_Data->GetFeatureElement(m_Dimension, id) ;
+    return m_Data->GetMeasurement(m_Dimension, id) ;
   }
   
   /**
@@ -92,7 +92,7 @@ protected:
    */
   void SetValue(InstanceIdentifier id, ValueType value) 
   {
-    m_Data->SetFeatureElement(m_Dimension, id, value) ;
+    m_Data->SetMeasurement(m_Dimension, id, value) ;
   }
 
   /**

@@ -80,6 +80,13 @@ DenseFrequencyContainer< TFrequencyValue >
   this->SetFrequency(id, frequency);
 }
 
+template< class TFrequencyValue >
+void
+DenseFrequencyContainer< TFrequencyValue >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+}
 
   } // end of namespace Statistics
 } // end of namespace itk 

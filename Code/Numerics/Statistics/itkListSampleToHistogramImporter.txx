@@ -59,7 +59,7 @@ ListSampleToHistogramImporter< TListSample, THistogram >
   typename TListSample::Iterator last = m_List->End() ;
   while (iter != last)
     {
-      m_Histogram->IncreaseFrequency(iter.GetFeature(), 1) ;
+      m_Histogram->IncreaseFrequency(iter.GetMeasurementVector(), 1) ;
       ++iter ;
     }
 }
