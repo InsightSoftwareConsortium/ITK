@@ -58,19 +58,27 @@ int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )
       io->SetByteOrderToLittleEndian();
       }
 
-
     for( unsigned int j = 0; j < TImageType::ImageDimension; j++ )
       {
       io->SetDimensions( j, dims[j] );
       }
 
-
-    
     typename ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName( filename );
     reader->SetImageIO( io );
-    reader->Update();
 
+    try
+      {
+      reader->Update();
+      }
+    catch( itk::ExceptionObject & excp )
+      {
+      std::cerr << "Exception while reading file " << filename << std::endl;
+      std::cerr << excp << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    std::cout << "Reading file " << filename << " succeeded " << std::endl;
 
     typedef itk::ImageLinearIteratorWithIndex<TImageType> Iterator;
     Iterator it( reader->GetOutput(), reader->GetOutput()->GetBufferedRegion() );
