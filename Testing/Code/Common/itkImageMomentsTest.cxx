@@ -32,7 +32,7 @@ main(
     double maxerr = 1.0e-15;
 
     /* Define the image size and physical coordinates */
-    itk::Size<3> size = {20, 40, 80};
+    itk::Size<3> size = {{20, 40, 80}};
     double origin [3] = { 0.5,   0.5,   0.5};
     double spacing[3] = { 0.1,   0.05 , 0.025};
 
