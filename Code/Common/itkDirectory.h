@@ -24,6 +24,8 @@
 #define __itkDirectory_h
 
 #include "itkObject.h"
+#include <string>
+#include <vector>
 
 class ITK_EXPORT itkDirectory : public itkObject
 {
@@ -49,7 +51,7 @@ public:
   /**
    * Return the number of files in the current directory.
    */
-  itkGetMacro(NumberOfFiles,int);
+  int GetNumberOfFiles() { return m_Files.size();}
 
   /**
    * Return the file at the given index, the indexing is 0 based
@@ -64,10 +66,8 @@ protected:
   virtual void PrintSelf(std::ostream& os, itkIndent indent);
 
 private:
-  const char* m_Path;           // Path to Open'ed directory
-  char** m_Files;               // Array of Files
-  int m_NumberOfFiles;          // Number if files in open directory
-  
+  std::vector<std::string> m_Files; // Array of Files
+  std::string m_Path;               // Path to Open'ed directory
 };
 
 #endif

@@ -19,20 +19,12 @@
 itkDirectory
 ::itkDirectory() 
 {
-  m_NumberOfFiles = 0;
-  m_Files = 0;
-  m_Path = 0;
 }
 
 //----------------------------------------------------------------------------
 itkDirectory
 ::~itkDirectory() 
 {
-  for ( int i =0; i < m_NumberOfFiles; i++ )
-    {
-    delete [] m_Files[i];
-    }
-  delete [] m_Files;
 }
 
 //----------------------------------------------------------------------------
@@ -41,18 +33,13 @@ itkDirectory
 ::PrintSelf(std::ostream& os, itkIndent indent)
 { 
   itkObject::PrintSelf(os, indent);
-  if ( !m_Path )
-    {
-    os << indent << "Directory not open\n";
-    return;
-    }
-  
   os << indent << "Directory for: " <<  m_Path << "\n";
   os << indent << "Contains the following files:\n";
   indent = indent.GetNextIndent();
-  for ( int i =0; i < m_NumberOfFiles; i++ )
+  for(std::vector<std::string>::iterator i = m_Files.begin();
+      i != m_Files.end(); ++i)
     {
-    os << indent << m_Files[i] << "\n";
+    os << indent << *i << "\n";
     }
 }
 
@@ -88,41 +75,22 @@ itkDirectory
     }
   struct _finddata_t data;	// data of current file
   
-  // First count the number of files in the directory
-  long srchHandle = _findfirst(buf, &data);
-  if ( srchHandle == -1 )
-    {
-    std::cerr << "can't open directory " << buf << std::endl;
-    m_NumberOfFiles = 0;
-    return 0;
-    }
-  
-  m_NumberOfFiles = 1;
-  while ( _findnext(srchHandle, &data) != -1 )
-    {
-    m_NumberOfFiles++;
-    }
-  m_Files = new char*[m_NumberOfFiles];
-
   // Now put them into the file array
-  srchHandle = _findfirst(buf, &data);
+  long srchHandle = _findfirst(buf, &data);
   delete [] buf;
   
   if ( srchHandle == -1 )
     {
-    m_NumberOfFiles = 0;
     return 0;
     }
   
   // Loop through names
-  int i = 0;
   do 
     {
-    m_Files[i] = strcpy(new char[strlen(data.name)+1], data.name);
-    i++;
+    m_Files.push_back(data.name);
     } 
   while ( _findnext(srchHandle, &data) != -1 );
-  m_Path = strcpy(new char[strlen(name)+1], name);
+  m_Path = name;
   return _findclose(srchHandle) != -1;
 }
 
@@ -144,24 +112,14 @@ itkDirectory
     return 0;
     }
   
-  m_NumberOfFiles = 0;
   dirent* d =0;
-  
-  for ( d = readdir(dir); d; d = readdir(dir) )
-    {
-    m_NumberOfFiles++;
-    }
-  m_Files = new char*[m_NumberOfFiles];
-  closedir(dir);
-  
   dir = opendir(name);
-  int i = 0;
   for ( d = readdir(dir); d; d = readdir(dir) )
     {
-    m_Files[i] = strcpy(new char[strlen(d->d_name)+1], d->d_name);
-    i++;
+    m_Files.push_back(d->d_name);
     }
-  m_Path = strcpy(new char[strlen(name)+1], name);
+  m_Path = name;
+  closedir(dir);
   return 1;
 }
 
@@ -173,11 +131,11 @@ const char*
 itkDirectory
 ::GetFile(int index)
 {
-  if ( index >= m_NumberOfFiles || index < 0 )
+  if ( index >= m_Files.size() || index < 0 )
     {
     itkErrorMacro( << "Bad index for GetFile on itkDirectory\n");
     return 0;
     }
   
-  return m_Files[index];
+  return m_Files[index].c_str();
 }
