@@ -38,7 +38,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 
   m_Interpolator = 
       NearestNeighborInterpolateImageFunction<
-                                     TFixedImage>::New();
+                                     TMovingImage>::New();
 }
 
 
