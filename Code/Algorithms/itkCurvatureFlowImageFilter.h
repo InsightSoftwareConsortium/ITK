@@ -202,7 +202,7 @@ protected:
   /**
    * Standard PrintSelf method.
    */
-  void PrintSelf(std::ostream& os, Indent indent)
+  void PrintSelf(std::ostream& os, Indent indent) const
     {
       Superclass::PrintSelf(os, indent);
       os << indent << "CurvatureFlowImageFilter";
