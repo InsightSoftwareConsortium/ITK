@@ -31,10 +31,11 @@ int itkSparseFieldLayerTest(int argc, char **argv)
 {
   unsigned int i, j;
   node_type *store = new node_type[4000];
-
+  itk::SparseFieldLayer<node_type>::RegionListType rlist;
+  
   itk::SparseFieldLayer<node_type>::Pointer layer
     = itk::SparseFieldLayer<node_type>::New();
-  
+
   for (j = 0 ; j < 2 ; j++)
     {
       std::cout << "---------------" << std::endl;
@@ -54,6 +55,14 @@ int itkSparseFieldLayerTest(int argc, char **argv)
       layer->Print(std::cout);
       std::cout << layer->Size() << std::endl;
         
+      rlist=layer->SplitRegions(5);
+      for (int k=0;k<5;k++) 
+        {
+          itk::SparseFieldLayer<node_type>::ConstIterator ptr=rlist[k].last;
+          std::cout<<"Region begin:"<<(rlist[k].first)->value<<std::endl;
+        }
+      
+
       itk::SparseFieldLayer<node_type>::ConstIterator cit
         = layer->Begin();
       i = 3999;
@@ -94,7 +103,7 @@ int itkSparseFieldLayerTest(int argc, char **argv)
       layer->Print(std::cout);
       std::cout << layer->Size() << std::endl;
     }
-
+  
   delete[] store;
   
   return EXIT_SUCCESS;
