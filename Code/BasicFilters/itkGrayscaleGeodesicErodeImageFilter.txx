@@ -300,7 +300,8 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
   
   // Set up the progress reporter
   ProgressReporter progress(this, threadId,
-                            outputRegionForThread.GetNumberOfPixels());
+                            outputRegionForThread.GetNumberOfPixels(),
+                            10);
 
   // Set up the boundary condition to have no upwind derivatives
   ZeroFluxNeumannBoundaryCondition<TInputImage> BC;
