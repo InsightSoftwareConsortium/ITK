@@ -34,6 +34,9 @@ TARGET_LINK_LIBRARIES(MeshTraits ITKCommon)
 ADD_EXECUTABLE(MeshKComplex MeshKComplex.cxx )
 TARGET_LINK_LIBRARIES(MeshKComplex ITKCommon)
 
+ADD_EXECUTABLE(MeshCellsIteration MeshCellsIteration.cxx )
+TARGET_LINK_LIBRARIES(MeshCellsIteration ITKCommon)
+
 ADD_EXECUTABLE(MeshCellVisitor MeshCellVisitor.cxx )
 TARGET_LINK_LIBRARIES(MeshCellVisitor ITKCommon)
 
