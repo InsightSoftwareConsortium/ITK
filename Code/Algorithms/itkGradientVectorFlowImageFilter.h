@@ -7,7 +7,8 @@
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkLaplacianImageFilter.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {
@@ -50,15 +51,16 @@ public:
   typedef typename OutputImageType::RegionType RegionType;
 
   /** Image and Image iterator definition. */
-  typedef SimpleImageRegionIterator<InputImageType> InputImageIterator;
-  typedef SimpleImageRegionIterator<OutputImageType> OutputImageIterator;
+  typedef ImageRegionConstIterator<InputImageType> InputImageConstIterator;
+  typedef ImageRegionIterator<InputImageType>      InputImageIterator;
+  typedef ImageRegionIterator<OutputImageType>     OutputImageIterator;
 
   /** Image dimension. */
   enum { ImageDimension = TInputImage::ImageDimension };
 
   typedef itk::Image<double, ImageDimension>  InternalImageType;
   typedef typename InternalImageType::Pointer InternalImagePointer;
-  typedef SimpleImageRegionIterator<InternalImageType> InternalImageIterator;
+  typedef ImageRegionIterator<InternalImageType> InternalImageIterator;
 
   typedef LaplacianImageFilter<InternalImageType, InternalImageType> LaplacianFilterType;
   typedef typename LaplacianFilterType::Pointer LaplacianFilterPointer;

@@ -75,10 +75,10 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
     m_InternalImages[i]->Allocate();
   }
 
-  InputImageIterator  inputIt(this->GetInput(), 
+  InputImageConstIterator  inputIt(this->GetInput(), 
                                    this->GetInput()->GetBufferedRegion() );
 
-  InputImageIterator  interIt(m_IntermediateImage, 
+  InputImageIterator        interIt(m_IntermediateImage, 
                                     m_IntermediateImage->GetBufferedRegion() );
 
   for (i=0; i<ImageDimension; i++) {
@@ -109,7 +109,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
   OutputImageIterator  outputIt(this->GetOutput(), 
                                    this->GetOutput()->GetBufferedRegion() );
 
-  InputImageIterator  interIt(m_IntermediateImage, 
+  InputImageIterator    interIt(m_IntermediateImage, 
                                     m_IntermediateImage->GetBufferedRegion() );
 
   for (i=0; i<ImageDimension; i++) {
@@ -139,10 +139,10 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
   OutputImageIterator  outputIt(this->GetOutput(), 
                                    this->GetOutput()->GetBufferedRegion() );
 
-  InputImageIterator  interIt(m_IntermediateImage, 
+  InputImageConstIterator  interIt(m_IntermediateImage, 
                                     m_IntermediateImage->GetBufferedRegion() );
 
-  InputImageIterator  inputIt(this->GetInput(), 
+  InputImageConstIterator  inputIt(this->GetInput(), 
                                     this->GetInput()->GetBufferedRegion() );
   
   PixelType m_vec;
