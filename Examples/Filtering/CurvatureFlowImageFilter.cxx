@@ -14,6 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {CurvatureFlowImageFilterOutput.png}
+//    10 0.25
+//  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginLatex
 //
