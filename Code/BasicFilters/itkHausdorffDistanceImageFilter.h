@@ -29,7 +29,7 @@ namespace itk {
  *
  * HausdorffDistanceImageFilter computes the distance between the set
  * non-zero pixels of two images using the following formula:
- * \f[ H(A,B) = \max(h(A,B),h(B,A))
+ * \f[ H(A,B) = \max(h(A,B),h(B,A)) \f]
  * where
  * \f[ h(A,B) = \max_{a \in A} \min_{b \in B} \| a - b\| \f] is the directed
  * Hausdorff distance
