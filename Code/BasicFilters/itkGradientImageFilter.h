@@ -36,7 +36,6 @@ namespace itk
  * float).  The output image is defined as a covariant vector image
  * whose value type is specified as this third template parameter.
  *
- * \todo Take into account the Spacing of the pixels
  *
  * \sa Image
  * \sa Neighborhood
