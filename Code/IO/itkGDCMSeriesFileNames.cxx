@@ -29,6 +29,7 @@ namespace itk
 
 const std::vector<std::string> &GDCMSeriesFileNames::GetInputFileNames() 
 {
+  m_InputFileNames.clear();
   // Get the DICOM filenames from the directory
 #if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   gdcmSerieHeader *helper = new gdcmSerieHeader();
