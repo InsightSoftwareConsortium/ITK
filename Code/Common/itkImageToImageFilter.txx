@@ -128,8 +128,9 @@ ImageToImageFilter<TInputImage,TOutputImage>
       // method since it returns the input as a pointer to a
       // DataObject as opposed to the subclass version which
       // static_casts the input to an TInputImage).
-      ImageBase<InputImageDimension>::ConstPointer constInput
-        = dynamic_cast< ImageBase<InputImageDimension> const *>( this->ProcessObject::GetInput(idx) );
+      typedef ImageBase<InputImageDimension> ImageBaseType;
+      typename ImageBaseType::ConstPointer constInput
+        = dynamic_cast< ImageBaseType const *>( this->ProcessObject::GetInput(idx) );
 
       // If not an image, skip it, and let a subclass of
       // ImageToImageFilter handle this input.
