@@ -197,12 +197,12 @@ void DICOMAppHelper::OutputSeries()
     
 void DICOMAppHelper::WriteImageData(doublebyte group,
                                     doublebyte element,
-                                    DICOMParser::VRTypes type,
+                                    DICOMParser::VRTypes,
                                     unsigned char* val,
                                     quadbyte len)
 {
-
-  std::cout << "Image data length: 0x" << std::hex << unsigned long(len) << std::endl; 
+#if 0 
+  std::cout << "Image data length: 0x" << std::hex << static_cast<unsigned long>(len) << std::endl; 
   std::cout << std::dec;
 
   FILE* fptr = fopen(this->GetOutputFilename(), "wb");
@@ -224,7 +224,7 @@ void DICOMAppHelper::WriteImageData(doublebyte group,
   fwrite(val,len, 1,fptr);
   fclose(fptr);
   std::cout << "Wrote raw data to: " << this->GetOutputFilename() << std::endl;
-
+#endif
 }
 
 void DICOMAppHelper::SetFileName(const char* filename)
