@@ -67,7 +67,7 @@ bool PNGImageIO::CanReadFile(const char* file)
   return this->ReadHeader(file);
 }
   
-const type_info& PNGImageIO::GetPixelType() const
+const std::type_info& PNGImageIO::GetPixelType() const
 {
   switch(m_PNGPixelType)
     {

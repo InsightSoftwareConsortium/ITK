@@ -79,7 +79,7 @@ public:
   /**
    * Get the type of the pixel. 
    */
-  virtual const type_info& GetPixelType() const;
+  virtual const std::type_info& GetPixelType() const;
 
   /**
    * Loads the data from disk into the memory buffer provided.

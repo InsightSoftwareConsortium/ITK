@@ -98,7 +98,7 @@ public:
   /**
    * Get the type of the pixel. 
    */
-  virtual const type_info& GetPixelType() const = 0;
+  virtual const std::type_info& GetPixelType() const = 0;
 
   /**
    * Specify the region of the data to load.
