@@ -27,7 +27,6 @@ template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
 ::SpatialObjectWriter()
 {
-  m_FullFileName = "";
   m_FileName = "";
   m_SpatialObject = 0;
   m_Scene = 0;
@@ -65,16 +64,11 @@ void
 SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
 ::Update()
 { 
-  if(m_FileName != "")
-    {
-    m_FullFileName = m_FileName;
-    }
-
   m_MetaToSpatialConverter.SetBinaryPoints(m_BinaryPoints);
 
   if(m_Scene != 0)
     {   
-    m_MetaToSpatialConverter.WriteMeta(m_Scene,m_FullFileName.c_str());
+    m_MetaToSpatialConverter.WriteMeta(m_Scene,m_FileName.c_str());
     m_Scene = 0;
     }
   else
@@ -86,7 +80,7 @@ SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
       tScene->FixIdValidity();
      
       m_MetaToSpatialConverter.WriteMeta(tScene,
-                                         m_FullFileName.c_str());
+                                         m_FileName.c_str());
       m_SpatialObject = 0;
       }
 }

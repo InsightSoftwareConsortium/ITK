@@ -54,11 +54,9 @@ public:
 
   /** Set the filename  */
   itkSetStringMacro(FileName);
-  itkSetStringMacro(FullFileName);
 
   /** Get the filename */
   itkGetStringMacro(FileName);
-  itkGetStringMacro(FullFileName);
 
   /** Set the Input  */
   void SetInput(SpatialObjectType * input){m_SpatialObject=input;}
@@ -72,7 +70,7 @@ public:
   unsigned int GetTransformPrecision();
 
 protected:
-  std::string m_FullFileName;
+
   std::string m_FileName;
   bool        m_BinaryPoints;
 

@@ -28,7 +28,6 @@ template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 SpatialObjectReader<NDimensions,PixelType,TMeshTraits>
 ::SpatialObjectReader()
 {
-  m_FullFileName = "";
   m_FileName = "";
   m_Scene = 0;
   m_Group = 0;
@@ -46,11 +45,7 @@ void
 SpatialObjectReader<NDimensions,PixelType,TMeshTraits>
 ::Update()
 { 
-  if(m_FullFileName == "")
-    {
-    m_FullFileName = m_FileName;
-    }
-  m_Scene = m_MetaToSpatialConverter.ReadMeta(m_FullFileName.c_str());
+  m_Scene = m_MetaToSpatialConverter.ReadMeta(m_FileName.c_str());
 
   if(m_Scene->GetNumberOfObjects(0) == 1)
     {
