@@ -59,6 +59,23 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
 }
 
 template< class TInputSample, class TClassMaskSample >
+void
+MembershipSampleGenerator< TInputSample, TClassMaskSample >
+::SetNumberOfClasses(size_t numberOfClasses)
+{
+  m_NumberOfClasses = numberOfClasses ;
+}
+
+template< class TInputSample, class TClassMaskSample >
+size_t
+MembershipSampleGenerator< TInputSample, TClassMaskSample >
+::GetNumberOfClasses() 
+{
+  return m_NumberOfClasses ;
+}
+
+
+template< class TInputSample, class TClassMaskSample >
 MembershipSampleGenerator< TInputSample, TClassMaskSample >::OutputPointer
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
 ::GetOutput()
@@ -74,6 +91,7 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
   unsigned int classLabel ;
   m_Output = OutputType::New() ;
   m_Output->SetSample(m_Input) ;
+  m_Output->SetNumberOfClasses(m_NumberOfClasses) ;
   typename TClassMaskSample::Iterator iter = m_ClassMask->Begin() ;
   while (iter != m_ClassMask->End())
     {
