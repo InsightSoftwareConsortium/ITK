@@ -171,8 +171,8 @@ int main( int argc, char *argv[] )
   //  are detailed, it may be necessary to use a much higher proportion,
   //  say $20$ percent.
   //
-  //  \index{itk::MattesMutualInformationImageToImageMetric!SetNumberOfHistogramBins()}
-  //  \index{itk::MattesMutualInformationImageToImageMetric!SetNumberOfSpatialSamples()}
+  //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfHistogramBins()}
+  //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
   //
   //  Software Guide : EndLatex 
 
