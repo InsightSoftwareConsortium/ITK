@@ -80,8 +80,8 @@ int itkMeanSquaresImageMetricTest(int, char**)
   fixedImageSource->SetNormalized( true );
   fixedImageSource->SetScale( 1.0f );
 
-  movingImageSource->Update();
-  fixedImageSource->Update();
+  movingImageSource->Update(); // Force the filter to run
+  fixedImageSource->Update();  // Force the filter to run
 
   MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
   FixedImageType::Pointer  fixedImage  = fixedImageSource->GetOutput();

@@ -80,6 +80,8 @@ int itkPatternIntensityImageMetricTest(int, char**)
   movingImageSource->SetNormalized( true );
   movingImageSource->SetScale( 1.0f );
 
+  movingImageSource->Update();  // Force the filter to run
+  fixedImageSource->Update();   // Force the filter to run
 
   MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
   FixedImageType::Pointer  fixedImage  = fixedImageSource->GetOutput();
