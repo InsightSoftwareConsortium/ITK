@@ -26,24 +26,32 @@ inline double
 EuclideanDistance< TVector >
 ::Evaluate(const TVector &x1, const TVector &x2) const
 {
- double temp, distance = NumericTraits< double >::Zero ;
-
- for(int i = 0 ; i < VectorLength ; i++ )
- {
-   temp = x1[i] - x2[i] ;
-   distance += temp * temp ;
- }
-
- return sqrt(distance) ;
+  double temp, distance = NumericTraits< double >::Zero ;
+  
+  for(int i = 0 ; i < VectorLength ; i++ )
+    {
+      temp = x1[i] - x2[i] ;
+      distance += temp * temp ;
+    }
+  
+  return sqrt(distance) ;
 }
 
-    
+
 template< class TVector >
 inline double
 EuclideanDistance< TVector >
 ::Evaluate(const TVector &x) const
 {
-  return this->Evaluate(m_Origin, x) ;
+  double temp, distance = NumericTraits< double >::Zero ;
+  
+  for(int i = 0 ; i < VectorLength ; i++ )
+    {
+      temp = m_Origin[i] - x[i] ;
+      distance += temp * temp ;
+    }
+  
+  return sqrt(distance) ;
 }
 
 template< class TVector >
