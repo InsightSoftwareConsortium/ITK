@@ -98,7 +98,7 @@ public:
   itkSetObjectMacro(DistanceMap,DistanceMapType);
   itkGetConstObjectMacro(DistanceMap,DistanceMapType);
 
-  /** Set/Get if the distance should be squared. Default is not for computation speed */
+  /** Set/Get if the distance should be squared. Default is true for computation speed */
   itkSetMacro(ComputeSquaredDistance,bool);
   itkGetMacro(ComputeSquaredDistance,bool);
 
