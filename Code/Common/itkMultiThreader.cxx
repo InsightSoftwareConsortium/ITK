@@ -637,10 +637,6 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
 {
   int id;
   
-  // avoid a warning
-  ThreadFunctionType tf;
-  tf = f; tf= tf;
-  
 #ifdef ITK_USE_WIN32_THREADS
   DWORD              threadId;
 #endif
