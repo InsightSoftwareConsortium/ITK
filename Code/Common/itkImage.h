@@ -44,7 +44,6 @@ public:
    * Pixel value typedef support. The pixel value is the type that
    * pixels are composed of; usually something like float, int, etc.
    */
-//  typedef typename T::ValueType PixelValueType;
   typedef typename itkPixelTraits<T>::ValueType PixelValueType;
 
   /** 
