@@ -445,7 +445,7 @@ int GetMacAddrSys ( unsigned char *addr )
       {
          j++;
          dtmp = varBind[0].value.asnValue.number;
-         std::cerr << "Interface #" << j << " type : " << dtmp << std::endl;
+         //std::cerr << "Interface #" << j << " type : " << dtmp << std::endl;
 
          // Type 6 describes ethernet interfaces
          if (dtmp == 6)
@@ -542,7 +542,7 @@ int GetMacAddrSys ( unsigned char *addr )
    char buf[1024];
    int      n, i;
    unsigned char    *a;
-#ifdef AF_LINK
+#if defined(AF_LINK) && (!defined(SIOCGIFHWADDR) && !defined(SIOCGENADDR))
    struct sockaddr_dl *sdlp;
 #endif
 
@@ -618,6 +618,9 @@ int GetMacAddrSys ( unsigned char *addr )
    }
    close(sd);
 #endif
+   // Not implemented platforms
+   perror("There was a configuration problem on your plateform");
+   memset(addr,0,6);
    return -1;
 #endif //__sun
 }
