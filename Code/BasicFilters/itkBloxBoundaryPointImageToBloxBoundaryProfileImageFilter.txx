@@ -172,9 +172,11 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   CostFunctionType::MeasureType * normalizedAccumulator = new CostFunctionType::MeasureType();
   normalizedAccumulator->resize(m_NumberOfBins);
 
-  for(int i = 0; i < m_NumberOfBins; i++)
+  for(int i = 0; i < (int)(m_NumberOfBins); i++)
+    {
     normalizedAccumulator->put(i, m_NormalizedAccumulator[i]);
-  
+    }
+
   costFunction->SetOriginalDataArray(normalizedAccumulator);
 
   // Set the cost function.
