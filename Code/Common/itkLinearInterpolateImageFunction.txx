@@ -73,7 +73,7 @@ const ContinuousIndexType& index) const
    */
   signed long baseIndex[ImageDimension];
   double distance[ImageDimension];
-  long tIndex = 0;
+  long tIndex;
 
   for( dim = 0; dim < ImageDimension; dim++ )
     {
