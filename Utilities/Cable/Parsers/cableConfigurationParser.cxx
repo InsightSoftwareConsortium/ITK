@@ -1281,6 +1281,7 @@ private:
 private:
   void Generate(Set*, Substitutions::const_iterator);
   void ParseInputString();
+  String ParseSetName(String::const_iterator&, String::const_iterator) const;
 };
 
 
@@ -1412,27 +1413,11 @@ ElementCombinationGenerator
         m_Portions.push_back(new StringPortion(currentPortion));
         currentPortion = "";
         }
-      // Get element set name token.
-      String setName = "";
+      // Skip over the '$' character.
       ++c;
-      // Look for all characters that can be part of a qualified C++
-      // identifier.
-      while(c != in_string.end())
-        {
-        char ch = *c;
-        if(((ch >= 'a') && (ch <= 'z'))
-           || ((ch >= 'A') && (ch <= 'Z'))
-           || ((ch >= '0') && (ch <= '9'))
-           || (ch == '_') || (ch == ':'))
-          {
-          setName.insert(setName.end(), ch);
-          ++c;
-          }
-        else
-          {
-          break;
-          }
-        }
+      // Get element set name token.
+      String setName = this->ParseSetName(c, in_string.end());
+
       // We have a complete set name.  Look it up in the current scope.
       String qualifierString = m_Namespace->GetQualifierString(setName);
       Set* set = m_Namespace->LookupSet(setName);
@@ -1470,6 +1455,61 @@ ElementCombinationGenerator
     {
     m_Portions.push_back(new StringPortion(currentPortion));
     }
+}
+
+
+/**
+ * Parse out the name of a Set specified after a $ in the element's string.
+ * This is called with "c" pointing to the first character after the $,
+ * and "end" equal to the string's end iterator.
+ *
+ * Returns the set name after parsing.  "c" will point to the first
+ * character after the end of the set name.
+ */
+String
+ElementCombinationGenerator
+::ParseSetName(String::const_iterator& c, String::const_iterator end) const
+{
+  String setName = "";
+  
+  // Check for the $(setName) syntax.
+  // If the first character after the '$' is a left paren, we scan for the
+  // matching paren, and take everything in-between as the set name.
+  if((c != end) && (*c == '('))
+    {
+    unsigned int depth = 1;
+    ++c;
+    while(c != end)
+      {
+      char ch = *c++;
+      if(ch == '(') { ++depth; }
+      else if(ch == ')') { --depth; }
+      if(depth == 0) { break; }
+      setName.insert(setName.end(), ch);
+      }
+    return setName;
+    }
+  
+  // The $(setName) syntax was not used.
+  // Look for all characters that can be part of a qualified C++
+  // identifier.
+  while(c != end)
+    {
+    char ch = *c;
+    if(((ch >= 'a') && (ch <= 'z'))
+       || ((ch >= 'A') && (ch <= 'Z'))
+       || ((ch >= '0') && (ch <= '9'))
+       || (ch == '_') || (ch == ':'))
+      {
+      setName.insert(setName.end(), ch);
+      ++c;
+      }
+    else
+      {
+      break;
+      }
+    }
+  return setName;
 }
 
 
