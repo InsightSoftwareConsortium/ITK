@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkSpatialFunction_h
 
 #include "itkObject.h"
+#include "itkObjectFactory.h"
 #include "itkPoint.h"
 
 namespace itk

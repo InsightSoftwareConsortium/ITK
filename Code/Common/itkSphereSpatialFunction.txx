@@ -41,7 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkSphereSpatialFunction_txx
 #define __itkSphereSpatialFunction_txx
 
-#include "vnl/vnl_vector_fixed.h"
 #include "itkSphereSpatialFunction.h"
 
 namespace itk
