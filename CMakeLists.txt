@@ -3,8 +3,6 @@
 PROJECT(ITK)
 INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c).*$")
 
-BUILD_SHARED_LIBRARIES()
-
 SOURCE_GROUP("XML Files" "\.xml$")
 
 # Include the include and link libraries
