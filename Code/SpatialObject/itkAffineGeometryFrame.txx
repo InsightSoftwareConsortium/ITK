@@ -123,9 +123,12 @@ void AffineGeometryFrame<TScalarType, NDimensions>::InitializeGeometry(AffineGeo
   objectToNodeTransform->SetParameters(m_ObjectToNodeTransform->GetParameters());
   newGeometry->SetObjectToNodeTransform(objectToNodeTransform);
 
-  typename TransformType::Pointer indexToWorldTransform = TransformType::New();
-  indexToWorldTransform->SetParameters(m_IndexToWorldTransform->GetParameters());
-  newGeometry->SetIndexToWorldTransform(indexToWorldTransform);
+  if(m_IndexToWorldTransform)
+    {
+    typename TransformType::Pointer indexToWorldTransform = TransformType::New();
+    indexToWorldTransform->SetParameters(m_IndexToWorldTransform->GetParameters());
+    newGeometry->SetIndexToWorldTransform(indexToWorldTransform);
+    }
 }
 
 
