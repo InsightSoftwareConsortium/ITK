@@ -119,7 +119,7 @@ ADD_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkElli
 ADD_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest)
 ADD_TEST(itkMetaDataDictionaryTest ${COMMON_TESTS} itkMetaDataDictionaryTest)
 ADD_TEST(itkSTLThreadTest ${COMMON_TESTS} itkSTLThreadTest)
-#ADD_TEST(itkOctreeTest ${COMMON_TESTS} itkOctreeTest)
+ADD_TEST(itkOctreeTest ${COMMON_TESTS} itkOctreeTest)
 
 #-----------------------------------------------------------------------------
 # Setup the system information test.  Write out some basic failsafe
@@ -230,6 +230,7 @@ itkNeighborhoodOperatorImageFunctionTest.cxx
 itkNeighborhoodOperatorTest.cxx
 itkNumericTraitsTest.cxx
 itkObjectStoreTest.cxx
+itkOctreeTest.cxx
 itkPathFunctionsTest.cxx
 itkPathIteratorTest.cxx
 itkPCAShapeSignedDistanceFunctionTest.cxx

@@ -77,6 +77,7 @@ REGISTER_TEST(itkNeighborhoodOperatorImageFunctionTest);
 REGISTER_TEST(itkNeighborhoodOperatorTest );
 REGISTER_TEST(itkNumericTraitsTest );
 REGISTER_TEST(itkObjectStoreTest );
+REGISTER_TEST(itkOctreeTest );
 REGISTER_TEST(itkPathFunctionsTest );
 REGISTER_TEST(itkPathIteratorTest );
 REGISTER_TEST(itkPCAShapeSignedDistanceFunctionTest );
