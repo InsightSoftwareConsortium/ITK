@@ -89,7 +89,8 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
     {
     if ( threadId == 0 && !(i % updateVisits ) )
       {
-      this->UpdateProgress((float)i/(float(updateVisits)*10.0));
+      this->UpdateProgress( static_cast<float>(i) / 
+                            static_cast<float>(updateVisits * 10.0) );
       }
 
     outputIt.Set( m_Functor( inputIt.Get() ) );
