@@ -42,6 +42,7 @@ ADD_TEST(itkVectorGeometryTest itkVectorGeometryTest)
 ADD_TEST(itkVectorTest itkVectorTest)
 ADD_TEST(itkScaleTransformTest itkScaleTransformTest)
 ADD_TEST(itkSplineKernelTransformTest itkSplineKernelTransformTest)
+ADD_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest itkEllipsoidInteriorExteriorSpatialFunctionTest)
 
 
 ADD_EXECUTABLE(itkAdaptorComparisonTest itkAdaptorComparisonTest)
@@ -85,3 +86,4 @@ ADD_EXECUTABLE(itkTransformTest itkTransformTest)
 ADD_EXECUTABLE(itkTranslationTransformTest itkTranslationTransformTest)
 ADD_EXECUTABLE(itkVectorGeometryTest itkVectorGeometryTest)
 ADD_EXECUTABLE(itkVectorTest itkVectorTest)
+ADD_EXECUTABLE(itkEllipsoidInteriorExteriorSpatialFunctionTest itkEllipsoidInteriorExteriorSpatialFunctionTest)
