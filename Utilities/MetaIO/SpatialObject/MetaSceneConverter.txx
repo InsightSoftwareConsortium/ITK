@@ -269,7 +269,7 @@ MetaSceneConverter<NDimensions,PixelType>
           dynamic_cast<itk::LandmarkSpatialObject<NDimensions>*>((*it)));
       landmark->ParentID((*it)->GetParentId());
       landmark->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(*it, (*it)->GetTransform()) ;
+      this->SetTransform(landmark, (*it)->GetTransform()) ;
       metaScene->AddObject(landmark);
       }
   
@@ -280,7 +280,7 @@ MetaSceneConverter<NDimensions,PixelType>
           dynamic_cast<itk::GroupSpatialObject<NDimensions>*>((*it)));
       group->ParentID((*it)->GetParentId());
       group->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(*it, (*it)->GetTransform()) ;
+      this->SetTransform(group, (*it)->GetTransform()) ;
       metaScene->AddObject(group);
       }
   
@@ -291,7 +291,7 @@ MetaSceneConverter<NDimensions,PixelType>
           dynamic_cast<itk::TubeSpatialObject<NDimensions>*>((*it)));
       tube->ParentID((*it)->GetParentId());
       tube->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(*it, (*it)->GetTransform()) ;
+      this->SetTransform(tube, (*it)->GetTransform()) ;
       metaScene->AddObject(tube);
       }
   
@@ -302,7 +302,7 @@ MetaSceneConverter<NDimensions,PixelType>
           dynamic_cast<itk::EllipseSpatialObject<NDimensions>*>((*it)));
       ellipse->ParentID((*it)->GetParentId());
       ellipse->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(*it, (*it)->GetTransform()) ;
+      this->SetTransform(ellipse, (*it)->GetTransform()) ;
       metaScene->AddObject(ellipse);
       }
   
@@ -314,7 +314,7 @@ MetaSceneConverter<NDimensions,PixelType>
             (*it)));
       image->ParentID((*it)->GetParentId());
       image->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(*it, (*it)->GetTransform()) ;
+      this->SetTransform(image, (*it)->GetTransform()) ;
       metaScene->AddObject(image);
       }
   
@@ -327,7 +327,7 @@ MetaSceneConverter<NDimensions,PixelType>
       blob->ParentID((*it)->GetParentId());
       blob->BinaryData(true);
       blob->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(*it, (*it)->GetTransform()) ;
+      this->SetTransform(blob, (*it)->GetTransform()) ;
       metaScene->AddObject(blob);
       }
   
@@ -338,7 +338,7 @@ MetaSceneConverter<NDimensions,PixelType>
           dynamic_cast<itk::SurfaceSpatialObject<NDimensions>*>((*it)));
       surface->ParentID((*it)->GetParentId());
       surface->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(*it, (*it)->GetTransform()) ;
+      this->SetTransform(surface, (*it)->GetTransform()) ;
       metaScene->AddObject(surface);
       }
   
@@ -349,7 +349,7 @@ MetaSceneConverter<NDimensions,PixelType>
           dynamic_cast<itk::LineSpatialObject<NDimensions>*>((*it)));
       line->ParentID((*it)->GetParentId());
       line->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(*it, (*it)->GetTransform()) ;
+      this->SetTransform(line, (*it)->GetTransform()) ;
       metaScene->AddObject(line);
       }
 
