@@ -209,8 +209,8 @@ SetAzimuthElevationToCartesianParameters(const double sampleSize,
                   const double azimuthAngleSeparation,
                   const double elevationAngleSeparation)
 {
-  m_MaxAzimuth = maxAzimuth * azimuthAngleSeparation;
-  m_MaxElevation = maxElevation * elevationAngleSeparation;
+  m_MaxAzimuth = static_cast<long>(static_cast<double>(maxAzimuth) * azimuthAngleSeparation);
+  m_MaxElevation = static_cast<long>(static_cast<double>(maxElevation) * elevationAngleSeparation);
   m_RadiusSampleSize = sampleSize;
   m_AzimuthAngularSeparation = azimuthAngleSeparation;
   m_ElevationAngularSeparation = elevationAngleSeparation;
