@@ -46,7 +46,18 @@ public:
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  /**
+   * Abstract method that defines the action to be taken by the command.
+   */
   virtual void Execute(LightObject *caller, unsigned long event) = 0;
+
+  /**
+   * Abstract method that defines the action to be taken by the command.
+   * This variant is expected to be used when requests comes from a 
+   * const LightObject
+   */
+  virtual void Execute(const LightObject *caller, unsigned long event) = 0;
+
 
   /**
    * All the currently defined events are enumerated here.  developers
@@ -172,6 +183,15 @@ public:
       ((*m_This).*(m_MemberFunction))(caller, event);
     }
 
+  /**
+   *  Invoke the member function with a const object
+   */
+  virtual void Execute( const LightObject *caller, unsigned long event)
+    { 
+      ((*m_This).*(m_memberfunction))(caller, event);
+    }
+
+
 protected:
   T* m_This;
   TMemberFunctionPointer m_MemberFunction;
@@ -227,6 +247,12 @@ public:
       ((*m_This).*(m_MemberFunction))();
     }
 
+  virtual void Execute(const LightObject *, unsigned long)
+    { 
+      ((*m_This).*(m_MemberFunction))();
+    }
+
+
 protected:
   T* m_This;
   TMemberFunctionPointer m_MemberFunction;
@@ -250,6 +276,7 @@ class CStyleCommand : public Command
 {
 public:
   typedef  void (*FunctionPointer)(LightObject*, unsigned long, void*);
+  typedef  void (*FunctionPointer2)(const LightObject*, unsigned long, void*);
   typedef  void (*DeleteDataFunctionPointer)(void*);
    /**
    * Standard "Self" typedef.
@@ -286,6 +313,10 @@ public:
   void SetCallback(FunctionPointer f)
     {m_Callback = f;}
 
+  void SetCallback2(FunctionPointer2 f)
+    {m_Callback2 = f;}
+
+
   /**
    * Set the callback to delete the client data.
    */
@@ -303,6 +334,18 @@ public:
       }
     };
 
+  /**
+   * Execute the callback function with a const LightObject
+   */
+  void Execute(const LightObject *caller, unsigned long event)
+    {
+    if (m_Callback2)
+      {
+      m_Callback2(caller, event, m_ClientData );
+      }
+    };
+
+
 protected:
   CStyleCommand()
     { 
@@ -319,6 +362,7 @@ protected:
     };
   void *m_ClientData;
   FunctionPointer m_Callback;
+  FunctionPointer2 m_Callback2;
   DeleteDataFunctionPointer m_ClientDataDeleteCallback;
 };
 
