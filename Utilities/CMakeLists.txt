@@ -4,25 +4,35 @@
 # Experimental testing targets for main ITK and nested projects.
 SET(DART_EXPERIMENTAL_USE_PROJECT_NAME 1)
 
+#------------------------------------------------------------------------------
 # Build third-party utilities.
 ITK_THIRD_PARTY_SUBDIR(ZLIB zlib)
 ITK_THIRD_PARTY_SUBDIR(PNG  png)
 ITK_THIRD_PARTY_SUBDIR(JPEG jpeg)
 ITK_THIRD_PARTY_SUBDIR(TIFF tiff)
 
-SUBDIRS(MetaIO DICOMParser)
+#------------------------------------------------------------------------------
+# Other utilities libraries
+SUBDIRS(MetaIO)
+SUBDIRS(expat)
 
+#------------------------------------------------------------------------------
+# Create the DICOMParse library for ITK
+SET(DICOMPARSER_NAMESPACE itkdicomparser)
+SET(DICOMPARSER_LIBRARY ITKDICOMParser)
+SUBDIRS(DICOMParser)
+
+#------------------------------------------------------------------------------
+# Configure vxl/vnl as needed
 IF(NOT ITK_USE_SYSTEM_VXL)
   SUBDIRS(vxl)
 ENDIF(NOT ITK_USE_SYSTEM_VXL)
 
-SUBDIRS(expat)
+#------------------------------------------------------------------------------
+# Build testing as needed
 IF (BUILD_TESTING)
 SUBDIRS(Dart)
 ENDIF (BUILD_TESTING)
-
-# Install the UseITK.cmake file configured from the top-level.
-INSTALL_FILES(/lib/InsightToolkit ".cmake" "ITKConfig")
 
 #-----------------------------------------------------------------------------
 # Create the kwsys library for ITK.
@@ -35,7 +45,14 @@ SET(KWSYS_LIBRARY_INSTALL_DIR /lib/InsightToolkit)
 SET(KWSYS_HEADER_INSTALL_DIR /include/InsightToolkit/Utilities)
 SUBDIRS(kwsys)
 
+#-----------------------------------------------------------------------------
 # Build CableSwig if necessary.
 IF(ITK_BUILD_CABLESWIG)
   SUBDIRS(CableSwig)
 ENDIF(ITK_BUILD_CABLESWIG)
+
+
+#-----------------------------------------------------------------------------
+# Install the UseITK.cmake file configured from the top-level.
+INSTALL_FILES(/lib/InsightToolkit ".cmake" "ITKConfig")
+

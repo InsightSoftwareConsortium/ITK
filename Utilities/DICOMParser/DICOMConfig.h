@@ -38,9 +38,6 @@
 //
 // END toolkit (ITK, VTK, etc) specific
 //
-#ifndef DICOMPARSER_NAMESPACE
-  #define DICOMPARSER_NAMESPACE dicom
-#endif
 
 #ifdef DICOM_NO_STD_NAMESPACE
   #define dicom_stl
