@@ -45,7 +45,8 @@ namespace _cable_
     ITK_WRAP_GROUP(itkVoronoiSegmentationImageFilter),
     ITK_WRAP_GROUP(itkWatershedImageFilter),
     ITK_WRAP_GROUP(itkSegmentationLevelSetImageFilter),
-    ITK_WRAP_GROUP(itkTreeNodeSO)
+    ITK_WRAP_GROUP(itkTreeNodeSO),
+    ITK_WRAP_GROUP(itkSparseFieldLevelSetImageFilter)
   };
 }
 #endif
