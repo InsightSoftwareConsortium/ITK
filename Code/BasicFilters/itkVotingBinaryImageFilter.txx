@@ -132,10 +132,10 @@ VotingBinaryImageFilter< TInputImage, TOutputImage>
     
     unsigned int neighborhoodSize = bit.Size();
 
-    InputPixelType inpixel = bit.GetCenterPixel();
-
     while ( ! bit.IsAtEnd() )
       {
+      const InputPixelType inpixel = bit.GetCenterPixel();
+
       // count the pixels ON in the neighborhood
       unsigned int count = 0;
       for (unsigned int i = 0; i < neighborhoodSize; ++i)
