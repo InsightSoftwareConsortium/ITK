@@ -208,6 +208,14 @@ int itkCenteredEuler3DTransformTest(int,char *[] )
   std::cout << " [ PASSED ] " << std::endl;
 
   // Really test the Jacobian
+  EulerTransformType::InputPointType center;
+  center[0] = 0.2;
+  center[1] = 7.0;
+  center[2] = 4.0;
+  eulerTransform->SetCenter( center );
+
+  eulerTransform->Print( std::cout );
+
   for( unsigned int p = 0; p < 2; p++ )
     {
     std::cout << "Testing Jacobian when ComputeZYX is ";
