@@ -40,13 +40,15 @@ namespace itk {
  *
  *
  *  \par
- *  Image $f$ is thresholded pixel by pixel using threshold $T$
+ *  Image \f$ f(x) \f$ is thresholded pixel by pixel using threshold \f$T\f$
  *  according to the following formula.
  *
- * \par
- *  \f$  f(x) = T - MahalanobisDistance(x)
+ *  \par
+ *  \f[
+ *           f(x) = T - MahalanobisDistance(x)
+ *  \f]
  *
- * \sa SegmentationLevelSetImageFunction
+ *  \sa SegmentationLevelSetImageFunction
  *  \sa ThresholdSegmentationLevelSetImageFilter
  *  \sa MahalanobisDistanceMembershipFunction*/
 template <class TImageType, class TFeatureImageType>
