@@ -33,23 +33,21 @@
 //  of the points are considered to be independent functions and each one is
 //  decomposed in a Fourier Series. In this section we will use $t$ as the
 //  parameter of the curve, and will assume that it goes from $0$ to $1$ and
-//  cycles as we go around the closed curve. For the sake of simplicity we
-//  describe here a $2D$ case, however the same analysis can be applied to a
-//  curve in N-dimensional space.
-//
+//  cycles as we go around the closed curve. //
 //  \begin{equation}
 //  \textbf{V(t)} = \left( X(t), Y(t) \rigth)
 //  \end{equation}
 //  
-//  We take now each one of the functions $X(t)$, $Y(t)$ and compute their
-//  discrete fourier series in the form
+//  We take now the functions $X(t)$, $Y(t)$ and interpret them as the
+//  components of a complex number for wich we compute its discrete fourier
+//  series in the form
 //
 //  \begin{equation}
-//  X(t) = \sum_{k=0}^{N} \exp(-\frac{2 k \pi \textbf{i}}{N}) X_k
+//  V(t) = \sum_{k=0}^{N} \exp(-\frac{2 k \pi \textbf{i}}{N}) F_k
 //  \end{equation}
 //  
-//  Where the set of coefficients $X_k$ is the discrete spectrum of the
-//  function $X(t)$. These coefficients are in general complex numbers and both
+//  Where the set of coefficients $F_k$ is the discrete spectrum of the complex
+//  function $V(t)$. These coefficients are in general complex numbers and both
 //  their magnitude and phase must be considered in any further analysis of the
 //  spectrum.
 //
@@ -58,30 +56,13 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \code{FFTRealToComplexConjugateImageFilter} is the class in ITK that
-//  computes such transform. In order to use it, we should include its header
-//  file first. Three different implementations of this class are available.
-//
-//  \begin{itemize}
-//  \item itkVnlFFTRealToComplexConjugateImageFilter
-//  \item itkFFTWRealToComplexConjugateImageFilter
-//  \item itkSCSLRealToComplexConjugateImageFilter
-//  \end{itemize}
-//
-//  The first one uses functions from the VNL numerics library, the second uses
-//  functions from the \texttt{fftw} library and the last one uses functions
-//  from the SCSL library. The VNL implementation is the only one that is
-//  self-contained in ITK. However it is not the most efficient when it comes
-//  to computation time. If you have performance concerns you should consider
-//  installing the additional libraries required for any of the two other
-//  implementations.
-//
+//  The class \code{vnl_fft_1D} is the VNL class that computes such transform.
+//  In order to use it, we should include its header file first. 
+//  
 //  Software Guide : EndLatex 
 
 
 // Software Guide : BeginCodeSnippet
-#include "itkFFTRealToComplexConjugateImageFilter.h"
-#include "itkVnlFFTRealToComplexConjugateImageFilter.h"
 #include "vnl/algo/vnl_fft_1d.h"
 // Software Guide : EndCodeSnippet
 
@@ -168,7 +149,6 @@ int main(int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The Fourier Transform type can now be used for constructing one of such
@@ -217,7 +197,7 @@ int main(int argc, char * argv[] )
   pointItr = points->Begin();
   for(unsigned int p=0; p<numberOfPoints; p++)
     {
-    signal[p] = (pointItr.Value())[0];   // X coordinate
+    signal[p] = FFTCoefficientType( pointItr.Value()[0], pointItr.Value()[1] );
     ++pointItr;
     }
   // Software Guide : EndCodeSnippet
