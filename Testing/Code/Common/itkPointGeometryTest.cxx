@@ -94,7 +94,94 @@ int main()
   }
 
 
-  return 0;
+  // Test the MeanPoint
+  {
+    PointType median;
+    PointType A;
+    PointType B;
+    A = 2.0,4.0,7.0;
+    B = 6.0,2.0,9.0;
+    median.SetToMedian( A, B );
+    std::cout << "Test for median point " << std::endl;
+    std::cout << "PA = " << A << std::endl;
+    std::cout << "PB = " << B << std::endl;
+    std::cout << "Median = " << median << std::endl;
+    for(unsigned int i=0; i<N; i++ )
+    {
+      if( median[i] != (A[i]+B[i])/2.0 )
+      {
+        std::cerr << "Failure to compute Median Point" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+    std::cout << "Test for median point PASSED" << std::endl;
+  }
+
+
+  // Test the Barycentric combination
+  {
+    const double tolerance = 1e-10;
+    PointType combination;
+    PointType A;
+    PointType B;
+    A = 2.0,4.0,7.0;
+    B = 6.0,2.0,9.0;
+    double alpha = 0.5;
+    combination.SetToBarycentricCombination( A, B, alpha );
+    std::cout << "Test for Barycentric combination" << std::endl;
+    std::cout << "PA = " << A << std::endl;
+    std::cout << "PB = " << B << std::endl;
+    std::cout << "Alpha = " << alpha << std::endl;
+    std::cout << "Combination = " << combination << std::endl;
+    for(unsigned int i=0; i<N; i++ )
+    {
+      const double value = (alpha*A[i]+(1.0-alpha)*B[i]);
+      if( fabs(combination[i] - value ) > tolerance )
+      {
+        std::cerr << "Failure to compute Barycentric combination" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+    std::cout << "Test for Barycentric combination PASSED" << std::endl;
+  }
+
+
+
+  // Test the Barycentric combination
+  {
+    const double tolerance = 1e-10;
+    PointType combination;
+    PointType A;
+    PointType B;
+    PointType C;
+    A = 12.0,  0.0,  0.0;
+    B =  0.0,  0.0, 12.0;
+    C =  0.0, 12.0,  0.0; 
+    double alpha = 1.0/3.0;
+    double beta  = 1.0/3.0;
+    combination.SetToBarycentricCombination( A, B, C, alpha, beta );
+    std::cout << "Test for Barycentric combination" << std::endl;
+    std::cout << "PA = " << A << std::endl;
+    std::cout << "PB = " << B << std::endl;
+    std::cout << "PC = " << C << std::endl;
+    std::cout << "Alpha = " << alpha << std::endl;
+    std::cout << "Beta  = " << beta  << std::endl;
+    std::cout << "Combination = " << combination << std::endl;
+    for(unsigned int i=0; i<N; i++ )
+    {
+      const double value = alpha*A[i]+beta*B[i]+(1.0-alpha-beta)*C[i];
+      if( fabs( combination[i] - value ) > tolerance )
+      {
+        std::cerr << "Failure to compute Barycentric combination" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+    std::cout << "Test for Barycentric combination PASSED" << std::endl;
+  }
+
+
+
+  return EXIT_SUCCESS;
 }
 
 
