@@ -62,6 +62,9 @@ IF(NOT BORLAND)
   ADD_EXECUTABLE(ImageRegistration16 ImageRegistration16.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistration16 ITKStatistics ITKNumerics ITKIO)
 
+  ADD_EXECUTABLE(ImageRegistration17 ImageRegistration17.cxx )
+  TARGET_LINK_LIBRARIES(ImageRegistration17 ITKStatistics ITKNumerics ITKIO)
+
   ADD_EXECUTABLE(DeformableRegistration6 DeformableRegistration6.cxx )
   TARGET_LINK_LIBRARIES(DeformableRegistration6 ITKNumerics ITKIO)
 
@@ -236,6 +239,16 @@ ADD_TEST(ImageRegistration16Test ${REGISTRATION_EXAMPLES8}
 
 
 ENDIF( NOT BORLAND )
+
+
+ADD_TEST(ImageRegistration17Test ${REGISTRATION_EXAMPLES8}
+  --compare ${BASELINE}/ImageRegistration17Test.png
+            ${TEMP}/ImageRegistration17Test.png
+  ImageRegistration17Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+        ${TEMP}/ImageRegistration17Test.png 0.0 0.0
+)
 
 
 ADD_TEST(MultiResImageRegistration1Test ${REGISTRATION_EXAMPLES2}
