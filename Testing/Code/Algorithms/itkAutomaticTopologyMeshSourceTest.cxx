@@ -19,14 +19,16 @@
 #endif
 
 #include <math.h>
-#include <iostream>
 #include <time.h>
+
+#include <iostream>
+#include <set>
 
 #include "itkMesh.h"
 #include "itkAutomaticTopologyMeshSource.h"
 
-itk::Mesh<double>* TheMesh;
-int itkAutomaticTopologyMeshSourceTest(int, char* [] )
+int
+itkAutomaticTopologyMeshSourceTest(int, char* [] )
 {
 
   // Declare the type of the Mesh
@@ -34,100 +36,196 @@ int itkAutomaticTopologyMeshSourceTest(int, char* [] )
   typedef MeshType::PointType                       PointType;
 
   typedef itk::AutomaticTopologyMeshSource< MeshType >   MeshSourceType;
-  typedef MeshSourceType::CellArrayType                  CellArrayType;
+  typedef MeshSourceType::IdentifierType                 IdentifierType;
+  typedef MeshSourceType::IdentifierArrayType            IdentifierArrayType;
 
   MeshSourceType::Pointer meshSource = MeshSourceType::New();
 
-  // The number distinct points added is known at compile time, but
-  // this should help keep track as the test is modified.
-  int numPointsAdded = 0;
-  int numCellsAdded = 0;
+  // Begin using various AddPoint functions to add the vertices of a
+  // cube.
 
-  // Add some points expressed as itk::Points.
+  // Point expressed as an itk::Point.
 
   PointType p;
 
-  p[ 0 ] = 1;
+  p[ 0 ] = 0;
   p[ 1 ] = 0;
   p[ 2 ] = 0;
   meshSource->AddPoint( p );
-  numPointsAdded++;
-  std::cout << meshSource->GetOutput()->GetNumberOfPoints() << std::endl;
 
-  TheMesh = meshSource->GetOutput();
-  p[ 0 ] = 2;
-  p[ 1 ] = 0;
-  p[ 2 ] = 0;
-  meshSource->AddPoint( p );
-  numPointsAdded++;
-  std::cout << meshSource->GetOutput()->GetNumberOfPoints() << std::endl;
-
-  // Make sure it catches if the same point is added twice.
-  p[ 0 ] = 1;
-  p[ 1 ] = 0;
-  p[ 2 ] = 0;
-  meshSource->AddPoint( p );
-  // Don't incr numPointsAdded.
-  std::cout << meshSource->GetOutput()->GetNumberOfPoints() << std::endl;
-
-  // Now add a point expressed as a C array.
+  // Point expressed as a C array.
 
   float a[3];
-
-  a[ 0 ] = 3;
+  a[ 0 ] = 1;
   a[ 1 ] = 0;
   a[ 2 ] = 0;
   meshSource->AddPoint( a );
-  numPointsAdded++;
-  std::cout << meshSource->GetOutput()->GetNumberOfPoints() << std::endl;
 
-  // Now add a vertex for each existing point.
+  // Points expressed using their coordinates.
+  meshSource->AddPoint( 0, 1, 0 );
+  meshSource->AddPoint( 1, 1, 0 );
+  meshSource->AddPoint( 0, 0, 1 );
+  meshSource->AddPoint( 1, 0, 1 );
+  meshSource->AddPoint( 0, 1, 1 );
+  meshSource->AddPoint( 1, 1, 1 );
 
-  unsigned int i;
-  for( i = 0; i < meshSource->GetOutput()->GetNumberOfPoints(); i++ )
+  // Done adding vertices of a cube.
+
+  // Add a cell of each type using an Array of point IDs.  Here we use
+  // the fact that the IDs are assigned in order, and the fact that
+  // the Add[Cell] methods only use the first N entries of the array.
+
+  IdentifierArrayType idArray( 8 );
+  {
+  for( IdentifierType i = 0; i < 8; i++ )
     {
-    meshSource->AddVertex( i );
-    numCellsAdded++;
+    idArray[ i ] = i;
     }
-  std::cout << meshSource->GetOutput()->GetNumberOfPoints() << std::endl;
-
-  // Try to add a Vertex with a point that's already added (this
-  // shouldn't work)
-  meshSource->AddVertex( a );
-  // Don't incr either counter
-  std::cout << meshSource->GetOutput()->GetNumberOfPoints() << std::endl;
-
-  // Add a vertex specified by a new point.
-
-  p[ 0 ] = 4;
-  p[ 1 ] = 0;
-  p[ 2 ] = 0;
-  meshSource->AddVertex( p );
-  numPointsAdded++;
-  numCellsAdded++;
-  std::cout << meshSource->GetOutput()->GetNumberOfPoints() << std::endl;
-
-  // Add a vertex specified by a C array of coords.
-
-  a[ 0 ] = 5;
-  a[ 1 ] = 0;
-  a[ 2 ] = 0;
-  meshSource->AddVertex( a );
-  numPointsAdded++;
-  numCellsAdded++;
-  std::cout << meshSource->GetOutput()->GetNumberOfPoints() << std::endl;
-
-  // Add lines specified by the ID's of already specified points.
-  CellArrayType lineCell( 2 );
-  lineCell[ 0 ] = 0;
-  lineCell[ 1 ] = 1;
-  meshSource->AddLine( lineCell );
-  numCellsAdded++;
-
-  unsigned long lineArray[] = { 1, 2 };
-  meshSource->AddLine( lineArray );
-  numCellsAdded++;
+  }
   
+  meshSource->AddVertex( idArray );
+  meshSource->AddLine( idArray );
+  meshSource->AddTriangle( idArray );
+  meshSource->AddQuadrilateral( idArray );
+  meshSource->AddTetrahedron( idArray );   // Degenerate; that's OK.
+  meshSource->AddHexahedron( idArray );
+
+  // Now add a new cube of points.  It overlaps along one face.
+
+  IdentifierArrayType idArray1( 8 );
+  idArray1[ 0 ] = meshSource->AddPoint( 1, 0, 0 );
+  idArray1[ 1 ] = meshSource->AddPoint( 2, 0, 0 );
+  idArray1[ 2 ] = meshSource->AddPoint( 1, 1, 0 );
+  idArray1[ 3 ] = meshSource->AddPoint( 2, 1, 0 );
+  idArray1[ 4 ] = meshSource->AddPoint( 1, 0, 1 );
+  idArray1[ 5 ] = meshSource->AddPoint( 2, 0, 1 );
+  idArray1[ 6 ] = meshSource->AddPoint( 1, 1, 1 );
+  idArray1[ 7 ] = meshSource->AddPoint( 2, 1, 1 );
+
+  // Add cells using parameter lists of IDs.
+
+  meshSource->AddVertex( idArray[7] );
+
+  meshSource->AddLine( idArray[6], idArray[7] );
+
+  meshSource->AddTriangle( idArray[5], idArray[6], idArray[7] );
+
+  meshSource->AddQuadrilateral( idArray[4], idArray[5],
+                                idArray[6], idArray[7] );
+
+  meshSource->AddTetrahedron( idArray[0], idArray[2],
+                              idArray[4], idArray[6] );
+
+  meshSource->AddHexahedron( idArray[0], idArray[1],
+                             idArray[2], idArray[3],
+                             idArray[4], idArray[5],
+                             idArray[6], idArray[7] );
+
+  // Add cells using new point identifiers.
+
+  meshSource->AddVertex( meshSource->AddPoint( 3, 1, 1 ) );
+
+  meshSource->AddLine(
+    meshSource->AddPoint( 2, 1, 1 ),
+    meshSource->AddPoint( 3, 1, 1 )
+    );
+
+  meshSource->AddTriangle(
+    meshSource->AddPoint( 3, 0, 1 ),
+    meshSource->AddPoint( 2, 1, 1 ),
+    meshSource->AddPoint( 3, 1, 1 )
+    );
+
+  meshSource->AddQuadrilateral(
+    meshSource->AddPoint( 2, 0, 1 ),
+    meshSource->AddPoint( 3, 0, 1 ),
+    meshSource->AddPoint( 2, 1, 1 ),
+    meshSource->AddPoint( 3, 1, 1 )
+    );
+
+  meshSource->AddTetrahedron(
+    meshSource->AddPoint( 2, 0, 1 ),
+    meshSource->AddPoint( 3, 0, 1 ),
+    meshSource->AddPoint( 2, 1, 1 ),
+    meshSource->AddPoint( 3, 1, 1 )
+    );
+
+  meshSource->AddHexahedron(
+    meshSource->AddPoint( 2, 0, 0 ),
+    meshSource->AddPoint( 3, 0, 0 ),
+    meshSource->AddPoint( 2, 1, 0 ),
+    meshSource->AddPoint( 3, 1, 0 ),
+    meshSource->AddPoint( 2, 0, 1 ),
+    meshSource->AddPoint( 3, 0, 1 ),
+    meshSource->AddPoint( 2, 1, 1 ),
+    meshSource->AddPoint( 3, 1, 1 )
+    );
+
+  // Add cells using C arrays of point coordinates.
+  MeshSourceType::CoordinateType points[8][3] =
+    {
+      {3, 0, 0},
+      {4, 0, 0},
+      {3, 1, 0},
+      {4, 1, 0},
+      {3, 0, 1},
+      {4, 0, 1},
+      {3, 1, 1},
+      {4, 1, 1}
+    };
+
+  meshSource->AddVertex( points[7] );
+  meshSource->AddLine( points[6], points[7] );
+  meshSource->AddTriangle( points[5], points[6], points[7] );
+  meshSource->AddQuadrilateral( points[4], points[5], points[6], points[7] );
+  meshSource->AddTetrahedron( points[3], points[5], points[6], points[7] );
+  meshSource->AddHexahedron( points[0], points[1], points[2], points[3],
+                             points[4], points[5], points[6], points[7] );
+
+  // Print out the resulting mesh data.
+  std::cout << MeshType::Pointer(meshSource->GetOutput()) << std::endl;
+
+  // Now do a sanity check.  Create a mesh consisting of a pair of
+  // tetrahedra sharing a face and a pair of cubes sharing a face, and
+  // then check properties.
+  meshSource = MeshSourceType::New();
+
+  meshSource->AddTetrahedron(
+    meshSource->AddPoint( 0, 0, 0 ),
+    meshSource->AddPoint( 1, 0, 0 ),
+    meshSource->AddPoint( 0, 1, 0 ),
+    meshSource->AddPoint( 0, 0, 1 )
+    );
+
+  meshSource->AddTetrahedron(
+    meshSource->AddPoint( 1, 1, 1 ),
+    meshSource->AddPoint( 1, 0, 0 ),
+    meshSource->AddPoint( 0, 1, 0 ),
+    meshSource->AddPoint( 0, 0, 1 )
+    );
+
+  meshSource->AddHexahedron(
+    meshSource->AddPoint( 2, 0, 0 ),
+    meshSource->AddPoint( 3, 0, 0 ),
+    meshSource->AddPoint( 2, 1, 0 ),
+    meshSource->AddPoint( 3, 1, 0 ),
+    meshSource->AddPoint( 2, 0, 1 ),
+    meshSource->AddPoint( 3, 0, 1 ),
+    meshSource->AddPoint( 2, 1, 1 ),
+    meshSource->AddPoint( 3, 1, 1 )
+    );
+
+  meshSource->AddHexahedron(
+    meshSource->AddPoint( 3, 0, 0 ),
+    meshSource->AddPoint( 4, 0, 0 ),
+    meshSource->AddPoint( 3, 1, 0 ),
+    meshSource->AddPoint( 4, 1, 0 ),
+    meshSource->AddPoint( 3, 0, 1 ),
+    meshSource->AddPoint( 4, 0, 1 ),
+    meshSource->AddPoint( 3, 1, 1 ),
+    meshSource->AddPoint( 4, 1, 1 )
+    );
+
   try
     {
     meshSource->Update();
@@ -139,27 +237,29 @@ int itkAutomaticTopologyMeshSourceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  // Print out the resulting mesh data.
+  std::cout << MeshType::Pointer(meshSource->GetOutput()) << std::endl;
+
   // Check that the right number of points has been added.
 
   int numPoints = meshSource->GetOutput()->GetNumberOfPoints();
-  if( numPoints != numPointsAdded )
+  if( numPoints != 17 )
     {
-    std::cerr << "Mesh shows " << numPoints << " points, but "
-              << numPointsAdded << " were added." << std::endl;
+    std::cerr << "Mesh shows " << numPoints
+              << " points, but 17 were added." << std::endl;
     return EXIT_FAILURE;
     }
 
   // Check that the right number of cells has been added.
 
   int numCells = meshSource->GetOutput()->GetNumberOfCells();
-  if( numCells != numCellsAdded )
+  if( numCells != 64 )
     {
-    std::cerr << "Mesh shows " << numCells << " cells, but " << numCellsAdded
-              << " were added." << std::endl;
+    std::cerr << "Mesh shows "
+              << numCells
+              << " cells, but 64 were added." << std::endl;
     return EXIT_FAILURE;
     }
-
-  std::cout << MeshType::Pointer(meshSource->GetOutput()) << std::endl;
 
   return EXIT_SUCCESS;
 
