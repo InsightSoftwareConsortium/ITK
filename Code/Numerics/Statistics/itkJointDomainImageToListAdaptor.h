@@ -43,12 +43,13 @@ struct ImageJointDomainTraits
   typedef PixelTraits< typename TImage::PixelType > PixelTraitsType ;
   typedef typename PixelTraitsType::ValueType RangeDomainMeasurementType ;
   typedef typename TImage::IndexType::IndexValueType IndexValueType ;
+  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension) ;
   itkStaticConstMacro(Dimension, 
                       unsigned int, 
                       TImage::ImageDimension +
                       PixelTraitsType::Dimension ) ;
   typedef float CoordinateRepType ;
-  typedef Point< CoordinateRepType, TImage::ImageDimension > PointType ;
+  typedef Point< CoordinateRepType, ImageDimension > PointType ;
   typedef JoinTraits< RangeDomainMeasurementType, CoordinateRepType > 
   JoinTraitsType ;
   typedef typename JoinTraitsType::ValueType MeasurementType ;
