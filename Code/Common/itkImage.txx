@@ -47,6 +47,19 @@ Image<TPixel, VImageDimension>
 
 /**
  *
+ */ 
+template<class TPixel, unsigned int VImageDimension> 
+void 
+Image<TPixel, VImageDimension> 
+::SetSize(unsigned long *size)
+{
+  ImageBase::SetSize(size);
+  Allocate();
+}
+
+
+/**
+ *
  */
 template<class TPixel, unsigned int VImageDimension>
 void 
@@ -80,7 +93,7 @@ void
 Image<TPixel, VImageDimension>
 ::SetPixel(const Index &ind, const TPixel& value)
 {
-  // add bounds checking for the region/image
+  // FIXME: add bounds checking for the region/image
   unsigned long offset=0;
   unsigned long prod=1;
 
