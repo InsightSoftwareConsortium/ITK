@@ -16,6 +16,7 @@ ITK_WRAP_TCL(ITKCommonTcl
   wrap_itkArray.cxx
   wrap_itkContinuousIndex.cxx
   wrap_itkDenseFiniteDifferenceImageFilter.cxx
+  wrap_itkDifferenceImageFilter.cxx
   wrap_itkEventObject.cxx
   wrap_itkFiniteDifferenceImageFilter.cxx
   wrap_itkFixedArray.cxx

@@ -30,6 +30,7 @@ namespace _cable_
     ITK_WRAP_GROUP(ITKUtils),
     ITK_WRAP_GROUP(itkArray),
     ITK_WRAP_GROUP(itkContinuousIndex),
+    ITK_WRAP_GROUP(itkDifferenceImageFilter),
     ITK_WRAP_GROUP(itkDenseFiniteDifferenceImageFilter),
     ITK_WRAP_GROUP(itkEventObject),
     ITK_WRAP_GROUP(itkFiniteDifferenceImageFilter),
