@@ -63,6 +63,12 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
+
+  os << indent << "Threshold: " << m_Threshold << std::endl;
+  os << indent << "Transform: " << m_Transform << std::endl;
+  os << indent << "FocalPoint: " << m_FocalPoint << std::endl;
+  os << indent << "Interpolator: " << m_Interpolator << std::endl;
+  
 }
 
 
