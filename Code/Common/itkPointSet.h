@@ -202,7 +202,7 @@ public:
   void PassStructure(Self* inputPointSet);
   void ReInitialize(void);
 
-  unsigned long GetNumberOfPoints(void);
+  unsigned long GetNumberOfPoints(void) const;
 
   /**
    * Define Set/Get access routines for each internal container.

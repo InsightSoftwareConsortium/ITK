@@ -286,7 +286,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 unsigned long
 PointSet<TPixelType, VDimension, TMeshTraits>
-::GetNumberOfPoints(void)
+::GetNumberOfPoints(void) const
 {  
   return m_PointsContainer->Size();
 }
