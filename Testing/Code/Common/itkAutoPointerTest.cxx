@@ -34,11 +34,12 @@ int itkAutoPointerTest(int, char**)
 {
 
   TestObject * obj = new TestObject;
-  TestObject::AutoPointer ptr1 =  obj;
+  TestObject::AutoPointer ptr1;
+  ptr1 = obj;
 
   std::cout << ptr1->GetClassName() << std::endl;
 
-  TestObject::AutoPointer ptr2 = ptr1;
+  TestObject::AutoPointer ptr2( ptr1 );
 
   ptr2.Reset();
 
@@ -63,7 +64,7 @@ int itkAutoPointerTest(int, char**)
   TestObject::ConstAutoPointer cptr1( new TestObject );
 
   
-  TestObject::ConstAutoPointer cptr2 = cptr1;
+  TestObject::ConstAutoPointer cptr2( cptr1 );
 
 
   return EXIT_SUCCESS;
