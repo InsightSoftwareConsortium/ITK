@@ -241,7 +241,7 @@ int itkFFTTest(int, char *[])
 {
   unsigned int dims1[] = { 4,4,4 };
   unsigned int dims2[] = { 3,5,4 };
-  int rval = 0;
+  int rval;
   std::cerr << "float,1" << std::endl;
   if((rval = test_fft<float,1>(dims1)) != 0)
     return -1;
