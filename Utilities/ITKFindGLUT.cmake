@@ -29,6 +29,12 @@ IF (WIN32)
 
   ELSE(CYGWIN)
 
+    # - Avoid the glutCreateMenu_ATEXIT_HACK pb.
+    # - Sort-of a hack to avoid the bug in glut.h to avoid
+    #   ambiguity between 'std::exit(int)' and 'std::exit(int)' in function
+    ADD_DEFINITIONS (-DGLUT_DISABLE_ATEXIT_HACK)
+    ADD_DEFINITIONS (-DGLUT_BUILDING_LIB)
+
     FIND_PATH( GLUT_INCLUDE_DIR GL/glut.h
       ${GLUT_ROOT_PATH}/include
     )
