@@ -27,7 +27,13 @@ CONFIGURE_FILE(${ITKPNG_SOURCE_DIR}/pngDllConfig.h.in
                ${ITKPNG_BINARY_DIR}/pngDllConfig.h)
 
 ADD_LIBRARY(itkpng ${PNG_SRCS})
+
+
+IF(UNIX)
+TARGET_LINK_LIBRARIES(itkpng ${ITK_ZLIB_LIBRARIES} -lm)
+ELSE(UNIX)
 TARGET_LINK_LIBRARIES(itkpng ${ITK_ZLIB_LIBRARIES})
+ENDIF(UNIX)
 
 INSTALL_TARGETS(/lib/InsightToolkit itkpng)
 INSTALL_FILES(/include/InsightToolkit/Utilities/png .h
