@@ -215,6 +215,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkScalarVector.h"
 #include "itkScaleTransform.txx"
 #include "itkSegmentationBorder.h"
+#include "itkSegmentationLevelSetFunction.txx"
 #include "itkSegmentationRegion.h"
 #include "itkSimilarity2DTransform.txx"
 #include "itkSimpleFastMutexLock.h"
