@@ -265,6 +265,8 @@ void PNGImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "PixelType " << m_PixelType << "\n";
+  os << indent << "Use Compression : " << m_UseCompression << "\n";
+  os << indent << "Compression Level : " << m_CompressionLevel << "\n";
 }
 
   
