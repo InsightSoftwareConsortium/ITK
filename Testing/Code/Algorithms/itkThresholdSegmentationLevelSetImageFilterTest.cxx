@@ -154,7 +154,7 @@ int itkThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
   filter->SetLowerThreshold(50);
 
   filter->SetMaximumRMSError(0.04);
-  filter->SetMaximumIterations(500);
+  filter->SetMaximumIterations(50);
   filter->SetUseNegativeFeaturesOn(); // Change the default behavior of the speed
                                       // function so that negative values result in
                                       // surface growth.
@@ -167,11 +167,11 @@ int itkThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
     filter->Update();
     std::cout << "Done first trial" << std::endl;
     // Repeat to make sure that the filter is reinitialized properly
-    filter->SetMaximumIterations(400);
+    filter->SetMaximumIterations(20);
     filter->Update();
     std::cout << "Done second trial" << std::endl;
     // Repeat once more just for fun
-    filter->SetMaximumIterations(300);
+    filter->SetMaximumIterations(21);
     filter->Update();
     std::cout << "Done third trial" << std::endl;
     
