@@ -111,7 +111,7 @@ void PrintSlice(TContainer s)
 }
 
 
-main()
+int main()
 {
 
   try {
