@@ -7,6 +7,7 @@ ADD_LIBRARY(ITKNumerics
   itkConjugateGradientOptimizer.cxx
   itkCostFunction.cxx
   itkGradientDescentOptimizer.cxx
+  itkFRPROptimizer.cxx
   itkLBFGSOptimizer.cxx
   itkLBFGSBOptimizer.cxx
   lbfgsb.c
