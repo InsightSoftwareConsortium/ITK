@@ -86,9 +86,14 @@ public:
   itkGetConstReferenceMacro(ForegroundValue, InputPixelType);
  
   /** Born threshold. Pixels that are OFF will turn ON when the number of
-   * neighbors ON is larger thatn the value defined in this threshold. */
+   * neighbors ON is larger than the value defined in this threshold. */
   itkGetConstReferenceMacro(BornThreshold, InputPixelType);
   itkSetMacro(BornThreshold, InputPixelType);
+
+  /** Survival threshold. Pixels that are ON will turn OFF when the number of
+   * neighbors ON is smaller than the value defined in this survival threshold. */
+  itkGetConstReferenceMacro(SurvivalThreshold, InputPixelType);
+  itkSetMacro(SurvivalThreshold, InputPixelType);
 
   /** VotingBinaryImageFilter needs a larger input requested region than
    * the output requested region.  As such, VotingBinaryImageFilter needs
@@ -126,6 +131,7 @@ private:
   InputPixelType     m_BackgroundValue;
 
   InputPixelType     m_BornThreshold;
+  InputPixelType     m_SurvivalThreshold;
 };
   
 } // end namespace itk

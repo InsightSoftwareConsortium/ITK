@@ -39,6 +39,8 @@ VotingBinaryImageFilter<TInputImage, TOutputImage>
   m_Radius.Fill(1);
   m_ForegroundValue = NumericTraits<InputPixelType>::max();
   m_BackgroundValue = NumericTraits<InputPixelType>::Zero;
+  m_BornThreshold = 1;
+  m_SurvivalThreshold = 1;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -130,7 +132,9 @@ VotingBinaryImageFilter< TInputImage, TOutputImage>
     
     unsigned int neighborhoodSize = bit.Size();
 
-    if( it.Get() == m_BackgroundValue )
+    InputPixelType inpixel = bit.GetCenterPixel();
+
+    if( inpixel == m_BackgroundValue )
       {
       while ( ! bit.IsAtEnd() )
         {
@@ -146,6 +150,35 @@ VotingBinaryImageFilter< TInputImage, TOutputImage>
           }
 
         if( count >= m_BornThreshold )
+          {
+          it.Set( static_cast<OutputPixelType>( m_ForegroundValue ) );
+          }
+        else 
+          {
+          it.Set( static_cast<OutputPixelType>( m_BackgroundValue ) );
+          }
+         
+        ++bit;
+        ++it;
+        progress.CompletedPixel();
+        }
+      }
+    else 
+      {
+      while ( ! bit.IsAtEnd() )
+        {
+        // count the pixels ON in the neighborhood
+        unsigned int count = 0;
+        for (unsigned int i = 0; i < neighborhoodSize; ++i)
+          {
+          InputPixelType value = bit.GetPixel(i);
+          if( value == m_ForegroundValue )
+            {
+            count++;
+            }
+          }
+
+        if( count >= m_SurvivalThreshold )
           {
           it.Set( static_cast<OutputPixelType>( m_ForegroundValue ) );
           }
@@ -177,6 +210,7 @@ VotingBinaryImageFilter<TInputImage, TOutput>
   os << indent << "Foreground value : " << m_ForegroundValue << std::endl;
   os << indent << "Background value : " << m_BackgroundValue << std::endl;
   os << indent << "Born Threshold   : " << m_BornThreshold << std::endl;
+  os << indent << "Survival Threshold   : " << m_SurvivalThreshold << std::endl;
 
 }
 
