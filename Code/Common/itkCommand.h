@@ -17,6 +17,7 @@
 #define __itkCommand_h
 
 #include "itkLightObject.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {
