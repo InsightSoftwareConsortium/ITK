@@ -71,11 +71,11 @@ public:
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MRASlabIdentifier, Object);
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(Self, Object);
 
   /** Type definition for the input image. */
   typedef TInputImage  ImageType;
@@ -93,19 +93,26 @@ public:
   typedef typename TInputImage::RegionType ImageRegionType ;
   typedef std::vector<ImageRegionType> SlabRegionVectorType ; 
 
-  /** Set the input image. */
+  /** Set/Get the input image. */
   itkSetConstObjectMacro( Image, ImageType );
+  itkGetConstObjectMacro( Image, ImageType );
 
-  /** Set the number of minimum intensity pixels per slice. */
-  itkSetMacro(NumberOfMinimumsPerSlice,int);
+  /** Set/Get the number of minimum intensity pixels per slice. */
+  itkSetMacro(NumberOfSamples, unsigned int);
+  itkGetConstMacro(NumberOfSamples, unsigned int);
 
-  /** Get the number of minimum intensity pixels per slice. */
-  itkGetMacro(NumberOfMinimumsPerSlice,int);
+  /** Set/Get the minimum threshold value for the background pixels */
+  itkSetMacro(BackgroundMinimumThreshold, ImagePixelType);
+  itkGetConstMacro(BackgroundMinimumThreshold, ImagePixelType);
+
+  /** Set/Get the tolerance value. */
+  itkSetMacro(Tolerance, double);
+  itkGetConstMacro(Tolerance, double);
 
   /** Set/Get the direction of slicing/
    * 0 - x axis, 1 - y axis, 2 - z axis */
   itkSetMacro(SlicingDirection,int);
-  itkGetMacro(SlicingDirection,int);
+  itkGetConstMacro(SlicingDirection,int);
 
   /** Compute the average values of miminum intensity pixels for each slice and
    * compare the average values with overall averages. */
@@ -128,10 +135,11 @@ private:
 
   /** The number of pixels per slice which will be included 
    * for average calculation. In a sense, it's sampling size per slice. */
-  int m_NumberOfMinimumsPerSlice ;
+  int m_NumberOfSamples ;
   
   int m_SlicingDirection ;
-
+  ImagePixelType m_BackgroundMinimumThreshold ;
+  double m_Tolerance ;
   SlabRegionVectorType m_Slabs ;
 };
 
