@@ -295,7 +295,7 @@ int main( int argc, char * argv[] )
   //  values. When you think about transformation it is always useful to
   //  analyze things from the output image towards the input image.
   //
-  //  Let's take the pixel with index $I=(1,2)$ from the ouptut image. The
+  //  Let's take the pixel with index $I=(1,2)$ from the output image. The
   //  physical coordinates of this point in the output image reference system
   //  are $P=( 1 \times 40.0 + 50.0, 2 \times 30.0 + 130.0 ) = (90.0,190.0)$
   //  millimeters.

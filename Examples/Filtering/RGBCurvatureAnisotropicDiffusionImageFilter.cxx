@@ -217,7 +217,7 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.32\textwidth]{RGBGradientAnisotropicDiffusionImageFilterOutput2.eps}
   // \includegraphics[width=0.32\textwidth]{RGBCurvatureAnisotropicDiffusionImageFilterOutput2.eps}
   // \itkcaption[Various Anisotropic Diffusion compared] {Comparison between
-  // the gradient (center) and curvature (right) Anistropic Diffusion filters.
+  // the gradient (center) and curvature (right) Anisotropic Diffusion filters.
   // Original image at left.}
   // \label{fig:ComparisionGradientCurvatureRGBAnisotropicDiffusion}
   // \end{figure}

@@ -359,9 +359,9 @@ int main( int argc, char * argv[] )
   //  and output images take the spacing into account and use it to
   //  appropriately scale the images on the screen. Please note that images in
   //  formats like PNG are not capable of representing origin and spacing. The
-  //  tookit assume trivial default values for them. Figure
+  //  toolkit assume trivial default values for them. Figure
   //  \ref{fig:ResampleImageFilterOutput7} (center) illustrates the effect of
-  //  using a naive viewer that does not take pixel spacing into accout. A
+  //  using a naive viewer that does not take pixel spacing into account. A
   //  correct display is presented at the right in the same figure\footnote{A
   //  viewer is provided with ITK under the name of
   //  \texttt{MetaImageViewer}. This viewer takes into account pixel spacing}.

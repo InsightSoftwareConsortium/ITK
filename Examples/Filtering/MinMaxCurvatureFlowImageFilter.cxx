@@ -165,7 +165,7 @@ int main( int argc, char * argv[] )
   //  evolution. In addition to them, the radius of the neighborhood is also
   //  required. This last parameter is passed using the
   //  \code{SetStencilRadius()} method. Note that the radius is provided as an
-  //  integer number since it is refering to a number of pixels from the center
+  //  integer number since it is referring to a number of pixels from the center
   //  to the border of the neighborhood. Then the filter can be executed by
   //  invoking \code{Update()}.
   //
@@ -203,7 +203,7 @@ int main( int argc, char * argv[] )
   //  If the output of this filter has been connected to other filters down
   //  the pipeline, updating any of the downstream filters would have
   //  triggered the execution of this one. For example, a writer filter could
-  //  have been used after the curvatur flow filter.
+  //  have been used after the curvature flow filter.
   //
   //  Software Guide : EndLatex 
 

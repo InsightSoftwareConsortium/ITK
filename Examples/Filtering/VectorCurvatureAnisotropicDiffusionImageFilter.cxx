@@ -171,7 +171,7 @@ int main( int argc, char * argv[] )
   //  If the output of this filter has been connected to other filters down the
   //  pipeline, updating any of the downstream filters would have triggered the
   //  execution of this one. For example, a writer filter could have been used
-  //  after the curvatur flow filter.
+  //  after the curvature flow filter.
   //
   typedef    float    OutputPixelType;
   typedef itk::Image< OutputPixelType,  2 >   OutputImageType;

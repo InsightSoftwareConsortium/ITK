@@ -32,7 +32,7 @@
 //  where $ \kappa $ is the curvature.
 //
 //  Areas of high curvature will diffuse faster than areas of low curvature.
-//  Hence, small jaggered noise artifacts will disappear quickly, while large
+//  Hence, small jagged noise artifacts will disappear quickly, while large
 //  scale interfaces will be slow to evolve, thereby preserving sharp
 //  boundaries between objects. However, it should be noted that although the
 //  evolution at the boundary is slow, some diffusion still occur. Thus,
@@ -190,7 +190,7 @@ int main( int argc, char * argv[] )
   //  If the output of this filter has been connected to other filters down
   //  the pipeline, updating any of the downstream filters will
   //  triggered the execution of this one. For example, a writer filter could
-  //  have been used after the curvatur flow filter.
+  //  have been used after the curvature flow filter.
   //
   //  Software Guide : EndLatex 
 
