@@ -276,9 +276,9 @@ int main( int argc, char *argv[] )
   //  \begin{tabular}{|l|c|c|c|c|}
   //  \hline
   //  Structure & Seed Index & Multiplier & Iterations & Output Image \\ \hline \\ \hline
-  //  Rectum & $(70,120)$ & 50 & 10 & Second from left in Figure \ref{fig:VectorConfidenceConnectedOutput} \\ \hline
-  //  Rectum & $(23, 93)$ & 45 & 10 & Third  from left in Figure \ref{fig:VectorConfidenceConnectedOutput} \\ \hline
-  //  Vitreo & $(66, 66)$ & 15 & 20 & Fourth from left in Figure \ref{fig:VectorConfidenceConnectedOutput} \\ \hline
+  //  Rectum & $(70,120)$ & 7 & 1 & Second from left in Figure \ref{fig:VectorConfidenceConnectedOutput} \\ \hline
+  //  Rectum & $(23, 93)$ & 7 & 1 & Third  from left in Figure \ref{fig:VectorConfidenceConnectedOutput} \\ \hline
+  //  Vitreo & $(66, 66)$ & 3 & 1 & Fourth from left in Figure \ref{fig:VectorConfidenceConnectedOutput} \\ \hline
   //  \end{tabular}
   //  \end{center}
   //
@@ -293,8 +293,9 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   // The coloration of muscular tissue makes it easy to distinguish from the
-  // surrounding anatomical strucures. The optic nerf on the other hand has
-  // similar coloration to neighborhor structures.
+  // surrounding anatomical strucures. The optic vitrea on the other hand has
+  // a coloration that is not very homogeneous inside the eyeball and does not
+  // allow to generate a full segmentation based only on color.
   //
   //  Software Guide : EndLatex 
 
