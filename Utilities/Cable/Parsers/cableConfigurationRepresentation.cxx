@@ -176,7 +176,7 @@ void
 Set
 ::Add(const String& tag, const String& code)
 {
-  m_Elements[tag] = code;
+  m_Elements.insert(ElementContainer::value_type(tag, code));
 }
 
 

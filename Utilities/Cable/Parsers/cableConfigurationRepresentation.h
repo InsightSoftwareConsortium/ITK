@@ -261,7 +261,7 @@ public:
   
   void Add(const String&, const String&);
   
-  typedef std::map<String, String> ElementContainer;
+  typedef std::multimap<String, String> ElementContainer;
   typedef ElementContainer::iterator  Iterator;
   typedef ElementContainer::const_iterator ConstIterator;
   
@@ -279,9 +279,8 @@ protected:
   
 private:
   /**
-   * Store the elements as a mapping from the tag to the code.
-   * This is not a multi-map because we don't want two different arguments
-   * to have the same tag.
+   * Store the elements as a mapping from the tag to the code.  Two elements
+   * can have the same tag, so this must be a multi-map.
    */
   ElementContainer  m_Elements;
 };
