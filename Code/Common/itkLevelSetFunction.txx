@@ -258,8 +258,9 @@ LevelSetFunction<TImageType>
     }
   
   // reset the values  
-  d->m_MaxAdvectionChange  = 0;
-  d->m_MaxPropagationChange= 0;
+  d->m_MaxAdvectionChange   = NumericTraits<ScalarValueType>::Zero;
+  d->m_MaxPropagationChange = NumericTraits<ScalarValueType>::Zero;
+  d->m_MaxCurvatureChange   = NumericTraits<ScalarValueType>::Zero;
   
   return dt;
 }
