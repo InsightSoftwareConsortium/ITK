@@ -82,8 +82,7 @@ public:
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
 
   typedef MixtureModelComponentBase< TSample > ComponentType ;
-  typedef typename ComponentType::Pointer ComponentPointer ;
-  typedef std::vector< ComponentPointer > ComponentVectorType ;
+  typedef std::vector< ComponentType* > ComponentVectorType ;
   typedef MembershipFunctionBase< MeasurementVectorType > ComponentMembershipFunctionType ;
   typedef typename ComponentMembershipFunctionType::Pointer ComponentMembershipFunctionPointer ;
 
@@ -108,7 +107,7 @@ public:
   int GetCurrentIteration() 
   { return m_CurrentIteration ; }
 
-  int AddComponent(ComponentPointer component) ;
+  int AddComponent(ComponentType* component) ;
 
   int GetNumberOfComponents() ;
 
