@@ -2,7 +2,7 @@
 
   \page  ImageIterators Image Iterators
  
-  \section Introduction Introduction
+  \section IteratorsIntroduction Introduction
 
   ImageIterators are the mechanism used in ITK for walking through the image
   data. 
@@ -159,7 +159,7 @@
   \endcode
 
 
-  \subsection Regions Regions
+  \subsection IteratorsRegions Regions
   Iterators are typically defined to walk a region of an image. ImageRegions
   are defined to be rectangular prisms. (Insight also has a number of
   iterators that can walk a region defined by a spatial function.)
@@ -168,7 +168,7 @@
   region that is within the image. Iterator methods Begin() and End()
   are defined relative to the region.  See below.
 
-  \subsection Positioning Position
+  \subsection IteratorsPositioning Position
 
   \subsection Intervals Half Open Intervals - Begin/End
   Like most iterator implementations, ImageIterators walk a half-open
@@ -177,28 +177,30 @@
   past in the same row). So Begin points a valid pixel in the region
   and End points to a pixel that is outside the region.
 
-  \subsection Dereferencing Dereferencing
+  \subsection IteratorsDereferencing Dereferencing
 
   \section IteratorAPI Iterator API
-  \subsection OperatorPlusPlus operator++
-  \subsection OperatorMinusMinus operator--
+  \subsection IteratorsOperatorPlusPlus operator++
+  \subsection IteratorsOperatorMinusMinus operator--
 
-  \subsection Begin Begin()
+  \subsection IteratorsIteratorsBegin Begin()
   Begin() returns an iterator for the same image and region as the current
-  iterator but positioned at the first pixel in the region. 
+  iterator but positioned at the first pixel in the region. The current iterator
+  is not modified.
 
-  \subsection End End()
+  \subsection IteratorsIteratorsEnd End()
   End() returns an iterator for the same image and region as the current
   iterator but positioned one pixel past the last pixel in the region.
+  The current iterator is not modified.
 
-  \subsection GotoBegin GotoBegin()
+  \subsection IteratorsIteratorsGotoBegin GotoBegin()
   GotoBegin() repositions the iterator to the first pixel in the region.
 
-  \subsection GotoEnd GotoEnd()
+  \subsection IteratorsGotoEnd GotoEnd()
   GotoEnd() repositions the iterator to one pixel past (in the same
   row) the last pixel in the region.
 
-  \subsection IsAtBegin IsAtBegin()
+  \subsection IteratorsIsAtBegin IsAtBegin()
   IsAtBegin() returns true if the iterator is positioned at the first
   pixel in the region, returns false otherwise. IsAtBegin() is faster than
   comparing an iterator for equivalence to the iterator returned by Begion().
@@ -209,7 +211,7 @@
   if (it == it.Begin()) {} // Slow
   \endcode
 
-  \subsection IsAtEnd IsAtEnd()
+  \subsection IteratorsIsAtEnd IsAtEnd()
   IsAtEnd() returns true if the iterator is positioned one pixel past
   the last pixel in the region, returns false otherwise. IsAtEnd()
   is faster than comparing an iterator for equivalence to the iterator
