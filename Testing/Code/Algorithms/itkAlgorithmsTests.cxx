@@ -36,7 +36,6 @@ REGISTER_TEST(itkSimpleFuzzyConnectednessScalarImageFilterTest );
 REGISTER_TEST(itkHistogramMatchingImageFilterTest );
 REGISTER_TEST(itkHistogramImageToImageMetricTest );
 REGISTER_TEST(itkImageMomentsTest );
-REGISTER_TEST(itkImagePCAShapeModelEstimatorTest);
 REGISTER_TEST(itkImageRegistrationMethodTest     );
 REGISTER_TEST(itkImageRegistrationMethodTest_1 );
 REGISTER_TEST(itkImageRegistrationMethodTest_2 );

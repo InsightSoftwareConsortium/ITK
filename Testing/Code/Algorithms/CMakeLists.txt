@@ -41,7 +41,8 @@ ADD_TEST(itkSimpleFuzzyConnectednessScalarImageFilterTest ${ALGORITHMS_TESTS} it
 ADD_TEST(itkHistogramMatchingImageFilterTest ${ALGORITHMS_TESTS} itkHistogramMatchingImageFilterTest)
 ADD_TEST(itkHistogramImageToImageMetricTest ${ALGORITHMS_TESTS} itkHistogramImageToImageMetricTest)
 ADD_TEST(itkImageMomentsTest ${ALGORITHMS_TESTS} itkImageMomentsTest)
-ADD_TEST(itkImagePCAShapeModelEstimatorTest ${ALGORITHMS_TESTS} itkImagePCAShapeModelEstimatorTest)
+ADD_TEST(itkImagePCAShapeModelEstimatorTest ${ALGORITHMS_TESTS2} itkImagePCAShapeModelEstimatorTest)
+ADD_TEST(itkImagePCADecompositionCalculatorTest ${ALGORITHMS_TESTS2} itkImagePCADecompositionCalculatorTest)
 ADD_TEST(itkImageRegistrationMethodTest ${ALGORITHMS_TESTS}   itkImageRegistrationMethodTest  )
 ADD_TEST(itkImageRegistrationMethodTest_1 ${ALGORITHMS_TESTS} itkImageRegistrationMethodTest_1)
 ADD_TEST(itkImageRegistrationMethodTest_2 ${ALGORITHMS_TESTS} itkImageRegistrationMethodTest_2)
@@ -163,7 +164,6 @@ itkHistogramImageToImageMetricTest.cxx
 itkImageMomentsTest.cxx
 itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
 itkSphereMeshSourceTest.cxx
-itkImagePCAShapeModelEstimatorTest.cxx
 itkImageRegistrationMethodTest.cxx
 itkImageRegistrationMethodTest_1.cxx
 itkImageRegistrationMethodTest_2.cxx
@@ -237,6 +237,8 @@ itkAlgorithmsPrintTest2.cxx
 itkAlgorithmsPrintTest3.cxx
 itkCompareHistogramImageToImageMetricTest.cxx
 itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
+itkImagePCAShapeModelEstimatorTest.cxx
+itkImagePCADecompositionCalculatorTest.cxx
 itkMIRegistrationFunctionTest.cxx
 itkOtsuMultipleThresholdsCalculatorTest.cxx
 itkPointSetToPointSetRegistrationTest.cxx
