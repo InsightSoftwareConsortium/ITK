@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkKalmanFilter.h
+  Module:    itkKalmanLinearEstimator.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,8 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkKalmanFilter_h
-#define __itkKalmanFilter_h
+#ifndef __itkKalmanLinearEstimator_h
+#define __itkKalmanLinearEstimator_h
 
 #include "itkMacro.h"
 
@@ -24,17 +24,17 @@
 namespace itk
 {
 
-/** \class KalmanFilter
+/** \class KalmanLinearEstimator
  * \brief Implement a linear recursive estimator.
  *
- * KalmanFilter class implements a linear recursive estimator.  The class is
+ * KalmanLinearEstimator class implements a linear recursive estimator.  The class is
  * templated over the type of the parameters to be estimated and over the
  * number of parameters. Recursive estimation is a fast mechanism for getting
  * information about a system for which we only have access to measures that
  * are linearly related with the parameters we want to estimate.  
  */
 template <class T, unsigned int VEstimatorDimension>
-class KalmanFilter 
+class KalmanLinearEstimator 
 {
 public:
 
@@ -192,7 +192,7 @@ private:
  */
 template <class T, unsigned int VEstimatorDimension>
 void
-KalmanFilter<T,VEstimatorDimension>
+KalmanLinearEstimator<T,VEstimatorDimension>
 ::UpdateWithNewMeasure(const T & newMeasure, const Vector & newPredictor )
 {
   T measurePrediction      = dot_product( newPredictor , m_Estimator );
@@ -215,7 +215,7 @@ KalmanFilter<T,VEstimatorDimension>
  */
 template <class T, unsigned int VEstimatorDimension>
 void
-KalmanFilter<T,VEstimatorDimension>
+KalmanLinearEstimator<T,VEstimatorDimension>
 ::UpdateVariance( const Vector & newPredictor )
 {  
   Vector aux =  m_Variance * newPredictor;
