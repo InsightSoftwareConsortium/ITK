@@ -96,14 +96,17 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
     function->SetInputImage ( inputImage );
 
   InputImagePixelType lower = m_Lower;
-  InputImagePixelType upper = 255;
+  InputImagePixelType upper = NumericTraits<InputImagePixelType>::max();
   InputImagePixelType guess = upper;
   IteratorType it = IteratorType ( outputImage, function, m_Seed1 );
 
   // do a binary search to find an upper threshold that separates the
   // two seeds.
+  itkDebugMacro (<< "GetPixel(m_Seed1): " << inputImage->GetPixel(m_Seed1));
+  itkDebugMacro (<< "GetPixel(m_Seed2): " << inputImage->GetPixel(m_Seed2));
   while (lower < guess)
     {
+    itkDebugMacro( << "lower, upper, guess: " << lower << ", " << upper << ", " << guess);
     outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
     function->ThresholdBetween ( m_Lower, guess );
     it.GoToBegin();
