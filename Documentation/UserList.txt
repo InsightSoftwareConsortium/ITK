@@ -34,8 +34,8 @@ Rystrom
 siqueira
 sisler
 spathak:Sayan Pathak:spathak@insightful.com
-stetten
-tamburo
+stetten:George Stetten:george@stetten.com
+tamburo:Robert Tamburo:rjtst21@pitt.edu
 tpan
 turek
 vikram:Vikram Chalana:vikram@insightful.com
