@@ -5,6 +5,7 @@ SET(IOTest_SRCS
 itkIOPrintTest.cxx
 itkAnalyzeImageIOTest.cxx
 itkBrains2MaskImageIOTest.cxx
+itkBMPImageIOTest.cxx
 itkConvertBufferTest.cxx
 itkConvertBufferTest2.cxx
 itkDicomImageIOTest.cxx
@@ -102,6 +103,12 @@ ADD_TEST(itkGiplImageIOTest ${IO_TESTS}
   itkGiplImageIOTest 
             ${ITK_DATA_ROOT}/Input/ramp.gipl
             ${ITK_TEST_OUTPUT_DIR}/ramp.mhd)
+ADD_TEST(itkBMPImageIOTest ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.bmp
+            ${ITK_TEST_OUTPUT_DIR}/cthead1.bmp
+  itkBMPImageIOTest 
+            ${ITK_DATA_ROOT}/Input/cthead1.bmp
+            ${ITK_TEST_OUTPUT_DIR}/cthead1.bmp)
 ADD_TEST(itkJPEGImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.png
             ${ITK_TEST_OUTPUT_DIR}/cthead1.png
