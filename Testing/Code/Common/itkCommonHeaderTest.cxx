@@ -24,6 +24,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkAtanImageAdaptor.h"
 #include "itkAzimuthElevationToCartesianTransform.h"
 #include "itkBackwardDifferenceOperator.h"
+#include "itkBinaryBallStructuringElement.h"
 #include "itkBloxBoundaryPointImage.h"
 #include "itkBloxBoundaryPointItem.h"
 #include "itkBloxBoundaryPointPixel.h"
