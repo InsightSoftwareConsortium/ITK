@@ -515,6 +515,14 @@ public:
   TransformType * GetNodeToParentNodeTransform( void );
   const TransformType * GetNodeToParentNodeTransform( void ) const;
 
+  /** Set/Get the default inside value (ValueAt()) of the object. Default is 1.0 */
+  itkSetMacro(DefaultInsideValue,double);
+  itkGetConstMacro(DefaultInsideValue,double);
+
+  /** Set/Get the default outside value (ValueAt()) of the object. Default is 0.0 */
+  itkSetMacro(DefaultOutsideValue,double);
+  itkGetConstMacro(DefaultOutsideValue,double);
+
 protected: 
  
   /** Constructor. */ 
@@ -577,6 +585,12 @@ private:
   /** We create an inverse transform pointer since it take time to create
    *  it each time to get the inverse transform in the IsInside() method */
   TransformPointer m_InternalInverseTransform;
+
+  /** Default inside value for the ValueAt() */
+  double m_DefaultInsideValue;
+
+  /** Default outside value for the ValueAt() */
+  double m_DefaultOutsideValue;
 }; 
 
 } // end of namespace itk

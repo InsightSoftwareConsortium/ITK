@@ -53,6 +53,8 @@ SpatialObject< TDimension >
   m_TreeNode = SpatialObjectTreeNode<TDimension>::New();
   m_TreeNode->Set(this);
   m_InternalInverseTransform = TransformType::New();
+  m_DefaultInsideValue = 1.0;
+  m_DefaultOutsideValue  = 0.0;
 }
 
 /** Destructor */
